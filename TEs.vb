@@ -61,6 +61,7 @@ Public Class TEs
 
     Private Sub TesGit()
         MessageBox.Show("Tes Git 1")
+        MessageBox.Show("Tes Git from other device")
     End Sub
 
 End Class
