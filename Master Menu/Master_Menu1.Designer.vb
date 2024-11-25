@@ -1,0 +1,618 @@
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+Partial Class Master_Menu1
+    Inherits System.Windows.Forms.Form
+
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()>
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()>
+    Private Sub InitializeComponent()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Tb_MenuForm = New System.Windows.Forms.TextBox()
+        Me.Tb_Var3 = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Tb_ImagePath = New System.Windows.Forms.TextBox()
+        Me.Tb_MenuOrder = New System.Windows.Forms.TextBox()
+        Me.Tb_MenuName = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Tb_Var2 = New System.Windows.Forms.TextBox()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Tb_IsiVariabel3 = New System.Windows.Forms.TextBox()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Tb_IsiVariabel2 = New System.Windows.Forms.TextBox()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.Tb_IsiVariabel1 = New System.Windows.Forms.TextBox()
+        Me.Tb_Var1 = New System.Windows.Forms.TextBox()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.Cb_SubMenuLv3 = New System.Windows.Forms.ComboBox()
+        Me.Btn_Delete = New System.Windows.Forms.Button()
+        Me.Btn_Refresh = New System.Windows.Forms.Button()
+        Me.Btn_Simpan = New System.Windows.Forms.Button()
+        Me.Cb_SubMenu = New System.Windows.Forms.ComboBox()
+        Me.Cb_SubMenuLv2 = New System.Windows.Forms.ComboBox()
+        Me.Cb_MainMenu = New System.Windows.Forms.ComboBox()
+        Me.Cb_Menu = New System.Windows.Forms.ComboBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Cb_SubMenuLv1 = New System.Windows.Forms.ComboBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Lbl_Judul = New System.Windows.Forms.Label()
+        Me.Lv_hierarki = New System.Windows.Forms.ListView()
+        Me.GroupBox1.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        Me.Panel1.SuspendLayout()
+        Me.SuspendLayout()
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.GroupBox2)
+        Me.GroupBox1.Controls.Add(Me.Cb_SubMenuLv3)
+        Me.GroupBox1.Controls.Add(Me.Btn_Delete)
+        Me.GroupBox1.Controls.Add(Me.Btn_Refresh)
+        Me.GroupBox1.Controls.Add(Me.Btn_Simpan)
+        Me.GroupBox1.Controls.Add(Me.Cb_SubMenu)
+        Me.GroupBox1.Controls.Add(Me.Cb_SubMenuLv2)
+        Me.GroupBox1.Controls.Add(Me.Cb_MainMenu)
+        Me.GroupBox1.Controls.Add(Me.Cb_Menu)
+        Me.GroupBox1.Controls.Add(Me.Label2)
+        Me.GroupBox1.Controls.Add(Me.Cb_SubMenuLv1)
+        Me.GroupBox1.Controls.Add(Me.Label7)
+        Me.GroupBox1.Controls.Add(Me.Label6)
+        Me.GroupBox1.Controls.Add(Me.Label5)
+        Me.GroupBox1.Controls.Add(Me.Label4)
+        Me.GroupBox1.Controls.Add(Me.Label3)
+        Me.GroupBox1.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox1.Location = New System.Drawing.Point(14, 71)
+        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
+        Me.GroupBox1.Size = New System.Drawing.Size(680, 378)
+        Me.GroupBox1.TabIndex = 1
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Menus"
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.Tb_MenuForm)
+        Me.GroupBox2.Controls.Add(Me.Tb_Var3)
+        Me.GroupBox2.Controls.Add(Me.Label8)
+        Me.GroupBox2.Controls.Add(Me.Tb_ImagePath)
+        Me.GroupBox2.Controls.Add(Me.Tb_MenuOrder)
+        Me.GroupBox2.Controls.Add(Me.Tb_MenuName)
+        Me.GroupBox2.Controls.Add(Me.Label1)
+        Me.GroupBox2.Controls.Add(Me.Label16)
+        Me.GroupBox2.Controls.Add(Me.Tb_Var2)
+        Me.GroupBox2.Controls.Add(Me.Label13)
+        Me.GroupBox2.Controls.Add(Me.Label9)
+        Me.GroupBox2.Controls.Add(Me.Tb_IsiVariabel3)
+        Me.GroupBox2.Controls.Add(Me.Label11)
+        Me.GroupBox2.Controls.Add(Me.Label10)
+        Me.GroupBox2.Controls.Add(Me.Tb_IsiVariabel2)
+        Me.GroupBox2.Controls.Add(Me.Label12)
+        Me.GroupBox2.Controls.Add(Me.Label14)
+        Me.GroupBox2.Controls.Add(Me.Tb_IsiVariabel1)
+        Me.GroupBox2.Controls.Add(Me.Tb_Var1)
+        Me.GroupBox2.Controls.Add(Me.Label15)
+        Me.GroupBox2.Location = New System.Drawing.Point(13, 130)
+        Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4)
+        Me.GroupBox2.Size = New System.Drawing.Size(652, 190)
+        Me.GroupBox2.TabIndex = 5
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Detail Menu"
+        '
+        'Tb_MenuForm
+        '
+        Me.Tb_MenuForm.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_MenuForm.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb_MenuForm.Location = New System.Drawing.Point(428, 52)
+        Me.Tb_MenuForm.Margin = New System.Windows.Forms.Padding(4)
+        Me.Tb_MenuForm.Name = "Tb_MenuForm"
+        Me.Tb_MenuForm.Size = New System.Drawing.Size(204, 23)
+        Me.Tb_MenuForm.TabIndex = 4
+        '
+        'Tb_Var3
+        '
+        Me.Tb_Var3.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_Var3.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb_Var3.Location = New System.Drawing.Point(109, 145)
+        Me.Tb_Var3.Margin = New System.Windows.Forms.Padding(4)
+        Me.Tb_Var3.Name = "Tb_Var3"
+        Me.Tb_Var3.Size = New System.Drawing.Size(204, 23)
+        Me.Tb_Var3.TabIndex = 4
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.Location = New System.Drawing.Point(354, 55)
+        Me.Label8.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(40, 18)
+        Me.Label8.TabIndex = 1
+        Me.Label8.Text = "Form"
+        '
+        'Tb_ImagePath
+        '
+        Me.Tb_ImagePath.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_ImagePath.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb_ImagePath.Location = New System.Drawing.Point(109, 24)
+        Me.Tb_ImagePath.Margin = New System.Windows.Forms.Padding(4)
+        Me.Tb_ImagePath.Name = "Tb_ImagePath"
+        Me.Tb_ImagePath.Size = New System.Drawing.Size(204, 23)
+        Me.Tb_ImagePath.TabIndex = 4
+        '
+        'Tb_MenuOrder
+        '
+        Me.Tb_MenuOrder.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_MenuOrder.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb_MenuOrder.Location = New System.Drawing.Point(109, 55)
+        Me.Tb_MenuOrder.Margin = New System.Windows.Forms.Padding(4)
+        Me.Tb_MenuOrder.Name = "Tb_MenuOrder"
+        Me.Tb_MenuOrder.Size = New System.Drawing.Size(204, 23)
+        Me.Tb_MenuOrder.TabIndex = 4
+        '
+        'Tb_MenuName
+        '
+        Me.Tb_MenuName.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_MenuName.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb_MenuName.Location = New System.Drawing.Point(428, 25)
+        Me.Tb_MenuName.Margin = New System.Windows.Forms.Padding(4)
+        Me.Tb_MenuName.Name = "Tb_MenuName"
+        Me.Tb_MenuName.Size = New System.Drawing.Size(204, 23)
+        Me.Tb_MenuName.TabIndex = 4
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(14, 28)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(78, 18)
+        Me.Label1.TabIndex = 1
+        Me.Label1.Text = "Image Path"
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label16.Location = New System.Drawing.Point(14, 58)
+        Me.Label16.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(83, 18)
+        Me.Label16.TabIndex = 1
+        Me.Label16.Text = "Menu Order"
+        '
+        'Tb_Var2
+        '
+        Me.Tb_Var2.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_Var2.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb_Var2.Location = New System.Drawing.Point(109, 114)
+        Me.Tb_Var2.Margin = New System.Windows.Forms.Padding(4)
+        Me.Tb_Var2.Name = "Tb_Var2"
+        Me.Tb_Var2.Size = New System.Drawing.Size(204, 23)
+        Me.Tb_Var2.TabIndex = 4
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label13.Location = New System.Drawing.Point(333, 28)
+        Me.Label13.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(84, 18)
+        Me.Label13.TabIndex = 1
+        Me.Label13.Text = "Menu Name"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.Location = New System.Drawing.Point(14, 86)
+        Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(66, 18)
+        Me.Label9.TabIndex = 1
+        Me.Label9.Text = "Variabel 1"
+        '
+        'Tb_IsiVariabel3
+        '
+        Me.Tb_IsiVariabel3.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_IsiVariabel3.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb_IsiVariabel3.Location = New System.Drawing.Point(428, 145)
+        Me.Tb_IsiVariabel3.Margin = New System.Windows.Forms.Padding(4)
+        Me.Tb_IsiVariabel3.Name = "Tb_IsiVariabel3"
+        Me.Tb_IsiVariabel3.Size = New System.Drawing.Size(204, 23)
+        Me.Tb_IsiVariabel3.TabIndex = 4
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label11.Location = New System.Drawing.Point(330, 86)
+        Me.Label11.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(84, 18)
+        Me.Label11.TabIndex = 1
+        Me.Label11.Text = "Isi Variabel 1"
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label10.Location = New System.Drawing.Point(14, 117)
+        Me.Label10.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(69, 18)
+        Me.Label10.TabIndex = 1
+        Me.Label10.Text = "Variabel 2"
+        '
+        'Tb_IsiVariabel2
+        '
+        Me.Tb_IsiVariabel2.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_IsiVariabel2.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb_IsiVariabel2.Location = New System.Drawing.Point(428, 114)
+        Me.Tb_IsiVariabel2.Margin = New System.Windows.Forms.Padding(4)
+        Me.Tb_IsiVariabel2.Name = "Tb_IsiVariabel2"
+        Me.Tb_IsiVariabel2.Size = New System.Drawing.Size(204, 23)
+        Me.Tb_IsiVariabel2.TabIndex = 4
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label12.Location = New System.Drawing.Point(330, 117)
+        Me.Label12.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(87, 18)
+        Me.Label12.TabIndex = 1
+        Me.Label12.Text = "Isi Variabel 2"
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label14.Location = New System.Drawing.Point(14, 148)
+        Me.Label14.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(69, 18)
+        Me.Label14.TabIndex = 1
+        Me.Label14.Text = "Variabel 3"
+        '
+        'Tb_IsiVariabel1
+        '
+        Me.Tb_IsiVariabel1.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_IsiVariabel1.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb_IsiVariabel1.Location = New System.Drawing.Point(428, 83)
+        Me.Tb_IsiVariabel1.Margin = New System.Windows.Forms.Padding(4)
+        Me.Tb_IsiVariabel1.Name = "Tb_IsiVariabel1"
+        Me.Tb_IsiVariabel1.Size = New System.Drawing.Size(204, 23)
+        Me.Tb_IsiVariabel1.TabIndex = 4
+        '
+        'Tb_Var1
+        '
+        Me.Tb_Var1.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_Var1.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb_Var1.Location = New System.Drawing.Point(109, 83)
+        Me.Tb_Var1.Margin = New System.Windows.Forms.Padding(4)
+        Me.Tb_Var1.Name = "Tb_Var1"
+        Me.Tb_Var1.Size = New System.Drawing.Size(204, 23)
+        Me.Tb_Var1.TabIndex = 4
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label15.Location = New System.Drawing.Point(330, 148)
+        Me.Label15.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(87, 18)
+        Me.Label15.TabIndex = 1
+        Me.Label15.Text = "Isi Variabel 3"
+        '
+        'Cb_SubMenuLv3
+        '
+        Me.Cb_SubMenuLv3.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cb_SubMenuLv3.FormattingEnabled = True
+        Me.Cb_SubMenuLv3.Location = New System.Drawing.Point(389, 89)
+        Me.Cb_SubMenuLv3.Margin = New System.Windows.Forms.Padding(4)
+        Me.Cb_SubMenuLv3.Name = "Cb_SubMenuLv3"
+        Me.Cb_SubMenuLv3.Size = New System.Drawing.Size(164, 26)
+        Me.Cb_SubMenuLv3.TabIndex = 4
+        '
+        'Btn_Delete
+        '
+        Me.Btn_Delete.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Delete.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Delete.ForeColor = System.Drawing.Color.White
+        Me.Btn_Delete.Location = New System.Drawing.Point(397, 328)
+        Me.Btn_Delete.Margin = New System.Windows.Forms.Padding(4)
+        Me.Btn_Delete.Name = "Btn_Delete"
+        Me.Btn_Delete.Size = New System.Drawing.Size(140, 31)
+        Me.Btn_Delete.TabIndex = 3
+        Me.Btn_Delete.Text = "Delete"
+        Me.Btn_Delete.UseVisualStyleBackColor = False
+        '
+        'Btn_Refresh
+        '
+        Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
+        Me.Btn_Refresh.Location = New System.Drawing.Point(257, 328)
+        Me.Btn_Refresh.Margin = New System.Windows.Forms.Padding(4)
+        Me.Btn_Refresh.Name = "Btn_Refresh"
+        Me.Btn_Refresh.Size = New System.Drawing.Size(140, 31)
+        Me.Btn_Refresh.TabIndex = 3
+        Me.Btn_Refresh.Text = "Refresh"
+        Me.Btn_Refresh.UseVisualStyleBackColor = False
+        '
+        'Btn_Simpan
+        '
+        Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Simpan.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
+        Me.Btn_Simpan.Location = New System.Drawing.Point(116, 328)
+        Me.Btn_Simpan.Margin = New System.Windows.Forms.Padding(4)
+        Me.Btn_Simpan.Name = "Btn_Simpan"
+        Me.Btn_Simpan.Size = New System.Drawing.Size(140, 31)
+        Me.Btn_Simpan.TabIndex = 3
+        Me.Btn_Simpan.Text = "Save"
+        Me.Btn_Simpan.UseVisualStyleBackColor = False
+        '
+        'Cb_SubMenu
+        '
+        Me.Cb_SubMenu.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cb_SubMenu.FormattingEnabled = True
+        Me.Cb_SubMenu.Location = New System.Drawing.Point(97, 89)
+        Me.Cb_SubMenu.Margin = New System.Windows.Forms.Padding(4)
+        Me.Cb_SubMenu.Name = "Cb_SubMenu"
+        Me.Cb_SubMenu.Size = New System.Drawing.Size(164, 26)
+        Me.Cb_SubMenu.TabIndex = 4
+        '
+        'Cb_SubMenuLv2
+        '
+        Me.Cb_SubMenuLv2.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cb_SubMenuLv2.FormattingEnabled = True
+        Me.Cb_SubMenuLv2.Location = New System.Drawing.Point(389, 58)
+        Me.Cb_SubMenuLv2.Margin = New System.Windows.Forms.Padding(4)
+        Me.Cb_SubMenuLv2.Name = "Cb_SubMenuLv2"
+        Me.Cb_SubMenuLv2.Size = New System.Drawing.Size(164, 26)
+        Me.Cb_SubMenuLv2.TabIndex = 4
+        '
+        'Cb_MainMenu
+        '
+        Me.Cb_MainMenu.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cb_MainMenu.FormattingEnabled = True
+        Me.Cb_MainMenu.Location = New System.Drawing.Point(97, 27)
+        Me.Cb_MainMenu.Margin = New System.Windows.Forms.Padding(4)
+        Me.Cb_MainMenu.Name = "Cb_MainMenu"
+        Me.Cb_MainMenu.Size = New System.Drawing.Size(164, 26)
+        Me.Cb_MainMenu.TabIndex = 4
+        '
+        'Cb_Menu
+        '
+        Me.Cb_Menu.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cb_Menu.FormattingEnabled = True
+        Me.Cb_Menu.Location = New System.Drawing.Point(97, 59)
+        Me.Cb_Menu.Margin = New System.Windows.Forms.Padding(4)
+        Me.Cb_Menu.Name = "Cb_Menu"
+        Me.Cb_Menu.Size = New System.Drawing.Size(164, 26)
+        Me.Cb_Menu.TabIndex = 4
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(12, 30)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(79, 18)
+        Me.Label2.TabIndex = 1
+        Me.Label2.Text = "MainMenus"
+        '
+        'Cb_SubMenuLv1
+        '
+        Me.Cb_SubMenuLv1.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cb_SubMenuLv1.FormattingEnabled = True
+        Me.Cb_SubMenuLv1.Location = New System.Drawing.Point(389, 27)
+        Me.Cb_SubMenuLv1.Margin = New System.Windows.Forms.Padding(4)
+        Me.Cb_SubMenuLv1.Name = "Cb_SubMenuLv1"
+        Me.Cb_SubMenuLv1.Size = New System.Drawing.Size(164, 26)
+        Me.Cb_SubMenuLv1.TabIndex = 4
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(280, 95)
+        Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(104, 18)
+        Me.Label7.TabIndex = 1
+        Me.Label7.Text = "SubMenus Lv 3"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(280, 63)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(104, 18)
+        Me.Label6.TabIndex = 1
+        Me.Label6.Text = "SubMenus Lv 2"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(280, 30)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(101, 18)
+        Me.Label5.TabIndex = 1
+        Me.Label5.Text = "SubMenus Lv 1"
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Location = New System.Drawing.Point(12, 97)
+        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(74, 18)
+        Me.Label4.TabIndex = 1
+        Me.Label4.Text = "SubMenus"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(12, 63)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(50, 18)
+        Me.Label3.TabIndex = 1
+        Me.Label3.Text = "Menus"
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.PanelGradient1)
+        Me.Panel1.Controls.Add(Me.Lbl_Judul)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Panel1.Location = New System.Drawing.Point(0, 0)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(5)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(1264, 68)
+        Me.Panel1.TabIndex = 23
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 66)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1264, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
+        'Lbl_Judul
+        '
+        Me.Lbl_Judul.AutoSize = True
+        Me.Lbl_Judul.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_Judul.Location = New System.Drawing.Point(18, 14)
+        Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
+        Me.Lbl_Judul.Name = "Lbl_Judul"
+        Me.Lbl_Judul.Size = New System.Drawing.Size(219, 30)
+        Me.Lbl_Judul.TabIndex = 0
+        Me.Lbl_Judul.Text = "Master Data - Menu"
+        '
+        'Lv_hierarki
+        '
+        Me.Lv_hierarki.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Lv_hierarki.FullRowSelect = True
+        Me.Lv_hierarki.GridLines = True
+        Me.Lv_hierarki.HideSelection = False
+        Me.Lv_hierarki.Location = New System.Drawing.Point(701, 76)
+        Me.Lv_hierarki.Name = "Lv_hierarki"
+        Me.Lv_hierarki.Size = New System.Drawing.Size(551, 373)
+        Me.Lv_hierarki.TabIndex = 24
+        Me.Lv_hierarki.UseCompatibleStateImageBehavior = False
+        '
+        'Master_Menu1
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.Color.White
+        Me.ClientSize = New System.Drawing.Size(1264, 474)
+        Me.Controls.Add(Me.Lv_hierarki)
+        Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.GroupBox1)
+        Me.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.Margin = New System.Windows.Forms.Padding(4)
+        Me.MaximizeBox = False
+        Me.Name = "Master_Menu1"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "MasterMenu"
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
+        Me.ResumeLayout(False)
+
+    End Sub
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Label7 As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Btn_Simpan As Button
+    Friend WithEvents Cb_SubMenu As ComboBox
+    Friend WithEvents Cb_Menu As ComboBox
+    Friend WithEvents Cb_SubMenuLv1 As ComboBox
+    Friend WithEvents Cb_SubMenuLv3 As ComboBox
+    Friend WithEvents Cb_SubMenuLv2 As ComboBox
+    Friend WithEvents Label13 As Label
+    Friend WithEvents Tb_MenuName As TextBox
+    Friend WithEvents Tb_Var2 As TextBox
+    Friend WithEvents Tb_Var1 As TextBox
+    Friend WithEvents Label10 As Label
+    Friend WithEvents Tb_MenuForm As TextBox
+    Friend WithEvents Label9 As Label
+    Friend WithEvents Label8 As Label
+    Friend WithEvents Tb_IsiVariabel1 As TextBox
+    Friend WithEvents Label11 As Label
+    Friend WithEvents Tb_Var3 As TextBox
+    Friend WithEvents Tb_IsiVariabel3 As TextBox
+    Friend WithEvents Tb_IsiVariabel2 As TextBox
+    Friend WithEvents Label15 As Label
+    Friend WithEvents Label14 As Label
+    Friend WithEvents Label12 As Label
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents PanelGradient1 As CustomControl.PanelGradient
+    Friend WithEvents Lbl_Judul As Label
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents Tb_ImagePath As TextBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Btn_Refresh As Button
+    Friend WithEvents Btn_Delete As Button
+    Friend WithEvents Lv_hierarki As ListView
+    Friend WithEvents Cb_MainMenu As ComboBox
+    Friend WithEvents Tb_MenuOrder As TextBox
+    Friend WithEvents Label16 As Label
+End Class

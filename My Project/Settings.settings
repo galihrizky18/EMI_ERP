@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="Port_Timbangan" Type="System.String" Scope="User">
+      <Value Profile="(Default)">COM1</Value>
+    </Setting>
+    <Setting Name="Lokasi" Type="System.String" Scope="User">
+      <Value Profile="(Default)">HEAD OFFICE</Value>
+    </Setting>
+    <Setting Name="Punya" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MS</Value>
+    </Setting>
+    <Setting Name="Prt_Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>
