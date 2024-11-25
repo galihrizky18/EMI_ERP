@@ -643,7 +643,6 @@ Partial Class EMI_Transaksi_MaterialRequisition
         'ComboBox2
         '
         Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBox2.Enabled = False
         Me.ComboBox2.FormattingEnabled = True
         Me.ComboBox2.Location = New System.Drawing.Point(917, 98)
         Me.ComboBox2.Name = "ComboBox2"

@@ -33,6 +33,8 @@ Partial Class FormDevleopment
         Me.TransaksiToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.QualityControlToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.QualityControlToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MasterQCToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PurchaseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TransaksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PembelianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -55,10 +57,8 @@ Partial Class FormDevleopment
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
-        Me.HCToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MaterRecrutmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MasterQCToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.HCToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -68,7 +68,7 @@ Partial Class FormDevleopment
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalesToolStripMenuItem, Me.RequestMaterialToolStripMenuItem, Me.PurchaseToolStripMenuItem, Me.WarehouseToolStripMenuItem, Me.HCToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(944, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1088, 24)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -130,6 +130,19 @@ Partial Class FormDevleopment
         Me.QualityControlToolStripMenuItem1.Name = "QualityControlToolStripMenuItem1"
         Me.QualityControlToolStripMenuItem1.Size = New System.Drawing.Size(155, 22)
         Me.QualityControlToolStripMenuItem1.Text = "Quality Control"
+        '
+        'MasterToolStripMenuItem
+        '
+        Me.MasterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterQCToolStripMenuItem})
+        Me.MasterToolStripMenuItem.Name = "MasterToolStripMenuItem"
+        Me.MasterToolStripMenuItem.Size = New System.Drawing.Size(179, 22)
+        Me.MasterToolStripMenuItem.Text = "Master"
+        '
+        'MasterQCToolStripMenuItem
+        '
+        Me.MasterQCToolStripMenuItem.Name = "MasterQCToolStripMenuItem"
+        Me.MasterQCToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
+        Me.MasterQCToolStripMenuItem.Text = "Master QC"
         '
         'PurchaseToolStripMenuItem
         '
@@ -231,9 +244,9 @@ Partial Class FormDevleopment
         'StatusStrip1
         '
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel4, Me.ToolStripStatusLabel2, Me.ToolStripStatusLabel3})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 596)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 605)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(944, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(1088, 22)
         Me.StatusStrip1.TabIndex = 4
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -274,37 +287,26 @@ Partial Class FormDevleopment
         Me.Timer2.Enabled = True
         Me.Timer2.Interval = 1800000
         '
-        'HCToolStripMenuItem
-        '
-        Me.HCToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MaterRecrutmentToolStripMenuItem})
-        Me.HCToolStripMenuItem.Name = "HCToolStripMenuItem"
-        Me.HCToolStripMenuItem.Size = New System.Drawing.Size(36, 20)
-        Me.HCToolStripMenuItem.Text = "HC"
-        '
         'MaterRecrutmentToolStripMenuItem
         '
         Me.MaterRecrutmentToolStripMenuItem.Name = "MaterRecrutmentToolStripMenuItem"
         Me.MaterRecrutmentToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.MaterRecrutmentToolStripMenuItem.Text = "Mater Recrutment"
         '
-        'MasterToolStripMenuItem
+        'HCToolStripMenuItem
         '
-        Me.MasterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterQCToolStripMenuItem})
-        Me.MasterToolStripMenuItem.Name = "MasterToolStripMenuItem"
-        Me.MasterToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.MasterToolStripMenuItem.Text = "Master"
-        '
-        'MasterQCToolStripMenuItem
-        '
-        Me.MasterQCToolStripMenuItem.Name = "MasterQCToolStripMenuItem"
-        Me.MasterQCToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.MasterQCToolStripMenuItem.Text = "Master QC"
+        Me.HCToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MaterRecrutmentToolStripMenuItem})
+        Me.HCToolStripMenuItem.Enabled = False
+        Me.HCToolStripMenuItem.Name = "HCToolStripMenuItem"
+        Me.HCToolStripMenuItem.ShowShortcutKeys = False
+        Me.HCToolStripMenuItem.Size = New System.Drawing.Size(36, 20)
+        Me.HCToolStripMenuItem.Text = "HC"
         '
         'FormDevleopment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(944, 618)
+        Me.ClientSize = New System.Drawing.Size(1088, 627)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.MenuStrip1)
         Me.IsMdiContainer = True
@@ -354,8 +356,8 @@ Partial Class FormDevleopment
     Friend WithEvents QualityControlToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents PalletMasukToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents TimbangFloorScaleToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HCToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MaterRecrutmentToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MasterToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MasterQCToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents HCToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MaterRecrutmentToolStripMenuItem As ToolStripMenuItem
 End Class

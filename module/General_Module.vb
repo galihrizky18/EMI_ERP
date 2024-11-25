@@ -75,17 +75,17 @@ Module General_Module
 
     Public Tanggal_Sekarang As DateTime
 
-    'Public CServer As String = "team311.dyndns.info"
-    'Public Const CDatabase As String = "emi_tm_demo"
-    ''Public Const CDatabase As String = "grahaweb_tm"
-    'Public Const CUserId As String = "sqlserver"
-    'Public Const CPassword As String = "**H0L4H0L4hola**"
+    Public CServer As String = "team311.dyndns.info"
+    Public Const CDatabase As String = "emi_tm_demo"
+    'Public Const CDatabase As String = "grahaweb_tm"
+    Public Const CUserId As String = "sqlserver"
+    Public Const CPassword As String = "**H0L4H0L4hola**"
 
-    Public CServer As String = "35.240.215.51,59114\team"
-    'Public Const CDatabaseSQL As String = "tes_absen"
-    Public Const CDatabase As String = "grahaweb_tm"
-    Public Const CUserId As String = "sa2"
-    Public Const CPassword As String = "P@ssword99000"
+    'Public CServer As String = "35.240.215.51,59114\team"
+    ''Public Const CDatabaseSQL As String = "tes_absen"
+    'Public Const CDatabase As String = "grahaweb_tm"
+    'Public Const CUserId As String = "sa2"
+    'Public Const CPassword As String = "P@ssword99000"
 
     Public UserID As String = "Art Di"
     'Public UserID As String = "BAYA"

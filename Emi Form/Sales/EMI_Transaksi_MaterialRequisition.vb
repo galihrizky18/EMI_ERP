@@ -719,8 +719,8 @@ Public Class EMI_Transaksi_MaterialRequisition
                 Using Ds2 = BindingTrans(SQL)
                     With Ds2.Tables("MyTable")
                         If .Rows.Count <> 0 Then
-                            DataGridView1.Rows(ind).Cells(CellNBom_1).Value = .Rows(0).Item("Nilai_Bom")
-                            DataGridView1.Rows(ind).Cells(CellNPPIC_1).Value = .Rows(0).Item("Nilai_PPIC")
+                            DataGridView1.Rows(ind).Cells(CellNBom_1).Value = Format(.Rows(0).Item("Nilai_Bom"), "N2")
+                            DataGridView1.Rows(ind).Cells(CellNPPIC_1).Value = Format(.Rows(0).Item("Nilai_PPIC"), "N2")
                             DataGridView1.Rows(ind).Cells(CellUrut_1).Value = .Rows(0).Item("Urut")
                             DataGridView1.Rows(ind).Cells(CellKosong_1).Value = ""
                             ada_data = "T"
@@ -964,8 +964,8 @@ Public Class EMI_Transaksi_MaterialRequisition
                     With Ds2.Tables("MyTable")
 
                         If .Rows.Count <> 0 Then
-                            DataGridView1.Rows(ind).Cells(CellNBom_2).Value = .Rows(0).Item("Nilai_Bom")
-                            DataGridView1.Rows(ind).Cells(CellNPPIC_2).Value = .Rows(0).Item("Nilai_PPIC")
+                            DataGridView1.Rows(ind).Cells(CellNBom_2).Value = Format(.Rows(0).Item("Nilai_Bom"), "N2")
+                            DataGridView1.Rows(ind).Cells(CellNPPIC_2).Value = Format(.Rows(0).Item("Nilai_PPIC"), "N2")
                             DataGridView1.Rows(ind).Cells(CellUrut_2).Value = .Rows(0).Item("Urut")
                             DataGridView1.Rows(ind).Cells(CellKosong_2).Value = ""
                             ada_data = "T"
@@ -1202,8 +1202,8 @@ Public Class EMI_Transaksi_MaterialRequisition
                 Using Ds2 = BindingTrans(SQL)
                     With Ds2.Tables("MyTable")
                         If .Rows.Count <> 0 Then
-                            DataGridView1.Rows(ind).Cells(CellNBom_3).Value = .Rows(0).Item("Nilai_Bom")
-                            DataGridView1.Rows(ind).Cells(CellNPPIC_3).Value = .Rows(0).Item("Nilai_PPIC")
+                            DataGridView1.Rows(ind).Cells(CellNBom_3).Value = Format(.Rows(0).Item("Nilai_Bom"), "N2")
+                            DataGridView1.Rows(ind).Cells(CellNPPIC_3).Value = Format(.Rows(0).Item("Nilai_PPIC"), "N2")
                             DataGridView1.Rows(ind).Cells(CellUrut_3).Value = .Rows(0).Item("Urut")
                             DataGridView1.Rows(ind).Cells(CellKosong_3).Value = ""
                             ada_data = "T"
@@ -1439,8 +1439,8 @@ Public Class EMI_Transaksi_MaterialRequisition
                 Using Ds2 = BindingTrans(SQL)
                     With Ds2.Tables("MyTable")
                         If .Rows.Count <> 0 Then
-                            DataGridView1.Rows(ind).Cells(CellNBom_4).Value = .Rows(0).Item("Nilai_Bom")
-                            DataGridView1.Rows(ind).Cells(CellNPPIC_4).Value = .Rows(0).Item("Nilai_PPIC")
+                            DataGridView1.Rows(ind).Cells(CellNBom_4).Value = Format(.Rows(0).Item("Nilai_Bom"), "N2")
+                            DataGridView1.Rows(ind).Cells(CellNPPIC_4).Value = Format(.Rows(0).Item("Nilai_PPIC"), "N2")
                             DataGridView1.Rows(ind).Cells(CellUrut_4).Value = .Rows(0).Item("Urut")
                             DataGridView1.Rows(ind).Cells(CellKosong_4).Value = ""
                             ada_data = "T"
@@ -1675,8 +1675,8 @@ Public Class EMI_Transaksi_MaterialRequisition
                 Using Ds2 = BindingTrans(SQL)
                     With Ds2.Tables("MyTable")
                         If .Rows.Count <> 0 Then
-                            DataGridView1.Rows(ind).Cells(CellNBom_5).Value = .Rows(0).Item("Nilai_Bom")
-                            DataGridView1.Rows(ind).Cells(CellNPPIC_5).Value = .Rows(0).Item("Nilai_PPIC")
+                            DataGridView1.Rows(ind).Cells(CellNBom_5).Value = Format(.Rows(0).Item("Nilai_Bom"), "N2")
+                            DataGridView1.Rows(ind).Cells(CellNPPIC_5).Value = Format(.Rows(0).Item("Nilai_PPIC"), "N2")
                             DataGridView1.Rows(ind).Cells(CellUrut_5).Value = .Rows(0).Item("Urut")
                             DataGridView1.Rows(ind).Cells(CellKosong_5).Value = ""
                             ada_data = "T"
@@ -1912,8 +1912,8 @@ Public Class EMI_Transaksi_MaterialRequisition
                 Using Ds2 = BindingTrans(SQL)
                     With Ds2.Tables("MyTable")
                         If .Rows.Count <> 0 Then
-                            DataGridView1.Rows(ind).Cells(CellNBom_6).Value = .Rows(0).Item("Nilai_Bom")
-                            DataGridView1.Rows(ind).Cells(CellNPPIC_6).Value = .Rows(0).Item("Nilai_PPIC")
+                            DataGridView1.Rows(ind).Cells(CellNBom_6).Value = Format(.Rows(0).Item("Nilai_Bom"), "N2")
+                            DataGridView1.Rows(ind).Cells(CellNPPIC_6).Value = Format(.Rows(0).Item("Nilai_PPIC"), "N2")
                             DataGridView1.Rows(ind).Cells(CellUrut_6).Value = .Rows(0).Item("Urut")
                             DataGridView1.Rows(ind).Cells(CellKosong_6).Value = ""
                             ada_data = "T"
@@ -2137,7 +2137,8 @@ Public Class EMI_Transaksi_MaterialRequisition
             ComboBox2.Items.Add(a)
         Next
         ComboBox2.SelectedIndex = -1
-        ComboBox2.Enabled = True
+        'ComboBox2.Enabled = True
+        ComboBox2.Enabled = False
         Btn_Refresh.Tag = "&Simpan"
 
         get_jam()
@@ -2399,7 +2400,17 @@ Public Class EMI_Transaksi_MaterialRequisition
         TextBox2.Text = ""
         TextBox2.Enabled = True
         DateTimePicker1.Enabled = True
+
+        DateTimePicker1.Value = tgl_skg
         DataGridView1.Rows.Clear()
+
+        Dim selectedDate As Date = DateTimePicker1.Value
+        Dim selectedMonthName As String = selectedDate.ToString("MMMM", New Globalization.CultureInfo("id-ID"))
+        Dim selectedYear As Integer = selectedDate.Year
+
+        ComboBox1.SelectedItem = selectedMonthName
+        ComboBox2.SelectedItem = selectedYear
+
 
     End Sub
     Private Sub get_no_faktur()
@@ -2557,6 +2568,8 @@ Public Class EMI_Transaksi_MaterialRequisition
         If ComboBox1.SelectedIndex = -1 Then
             Exit Sub
         ElseIf ComboBox2.SelectedIndex = -1 Then
+            Exit Sub
+        ElseIf ComboBox3.SelectedIndex = -1 Then
             Exit Sub
         End If
 
@@ -3379,7 +3392,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 
             If cellKuantity.Contains(",") Then
                 MessageBox.Show("Kuantity Tidak Boleh Koma, Ganti dengan Titik", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                DataGridView1.CurrentCell.Value = 0
+                DataGridView1.CurrentCell.Value = Format(0, "N2")
                 Exit Sub
             End If
 
@@ -3440,6 +3453,8 @@ Public Class EMI_Transaksi_MaterialRequisition
         If ComboBox1.SelectedIndex = -1 Then
             Exit Sub
         ElseIf ComboBox2.SelectedIndex = -1 Then
+            Exit Sub
+        ElseIf ComboBox3.SelectedIndex = -1 Then
             Exit Sub
         End If
 
@@ -4228,7 +4243,7 @@ Public Class EMI_Transaksi_MaterialRequisition
                 If dr.Read Then
                     ada_data = True
                     TextBox2.Text = dr("Keterangan")
-                    DateTimePicker1.Value = Format(dr("Tanggal"), "dd-MMMM-yyyy")
+                    'DateTimePicker1.Value = Format(dr("Tanggal"), "dd-MMMM-yyyy")
                     ComboBox3.Text = dr("Lokasi")
                     For index = 0 To arrBulanMM.Count - 1
                         If arrBulanMM.Item(index) = dr("Bulan") Then
@@ -4258,7 +4273,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 
                     ComboBox1.Text = dr("Bulan")
                     ComboBox2.Text = dr("Tahun")
-                    DateTimePicker1.Enabled = False
+                    'DateTimePicker1.Enabled = False
                     ComboBox1.Enabled = False
                     ComboBox2.Enabled = False
                     ComboBox3.Enabled = True
@@ -4271,7 +4286,7 @@ Public Class EMI_Transaksi_MaterialRequisition
                     ComboBox3.SelectedIndex = -1
                     ComboBox1.SelectedIndex = -1
                     ComboBox2.SelectedIndex = -1
-                    DateTimePicker1.Enabled = True
+                    'DateTimePicker1.Enabled = True
                     TextBox2.Enabled = True
                     ComboBox1.Enabled = False
                     ComboBox2.Enabled = False
@@ -4328,7 +4343,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 
     Private Sub DateTimePicker1_CloseUp(sender As Object, e As EventArgs) Handles DateTimePicker1.CloseUp
         If DateTimePicker1.Value = Nothing Then Exit Sub
-        If ComboBox3.SelectedIndex = -1 Then Exit Sub
+        'If ComboBox3.SelectedIndex = -1 Then Exit Sub
 
 
         Dim selectedDate As Date = DateTimePicker1.Value

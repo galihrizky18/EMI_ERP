@@ -142,7 +142,7 @@ Public Class EMI_Transaksi_ForecastOrder
             a = 1
             fthn = fthn + 1
         Else
-            'a = a + 1
+            a = a + 1
         End If
 
         Dim b As String = ""
@@ -1424,7 +1424,16 @@ Public Class EMI_Transaksi_ForecastOrder
         Txt_Keterangan.Text = ""
         Txt_Keterangan.Enabled = True
         DateTimePicker1.Enabled = True
+
+        DateTimePicker1.Value = tgl_skg
         DataGridView1.Rows.Clear()
+
+        Dim selectedDate As Date = DateTimePicker1.Value
+        Dim selectedMonthName As String = selectedDate.ToString("MMMM", New Globalization.CultureInfo("id-ID"))
+        Dim selectedYear As Integer = selectedDate.Year
+
+        Cmb_Bulan.SelectedItem = selectedMonthName
+        Cmb_Tahun.SelectedItem = selectedYear
 
         If isRefresh = "REFRESH" Then
 
@@ -1615,6 +1624,8 @@ Public Class EMI_Transaksi_ForecastOrder
         If Cmb_Bulan.SelectedIndex = -1 Then
             Exit Sub
         ElseIf Cmb_Tahun.SelectedIndex = -1 Then
+            Exit Sub
+        ElseIf Cmb_Lokasi.SelectedIndex = -1 Then
             Exit Sub
         End If
 
@@ -2519,6 +2530,8 @@ Public Class EMI_Transaksi_ForecastOrder
         If Cmb_Bulan.SelectedIndex = -1 Then
             Exit Sub
         ElseIf Cmb_Tahun.SelectedIndex = -1 Then
+            Exit Sub
+        ElseIf Cmb_Lokasi.SelectedIndex = -1 Then
             Exit Sub
         End If
 
@@ -3566,7 +3579,7 @@ Public Class EMI_Transaksi_ForecastOrder
 
     Private Sub DateTimePicker1_CloseUp(sender As Object, e As EventArgs) Handles DateTimePicker1.CloseUp
         If DateTimePicker1.Value = Nothing Then Exit Sub
-        If Cmb_Lokasi.SelectedIndex = -1 Then Exit Sub
+        'If Cmb_Lokasi.SelectedIndex = -1 Then Exit Sub
 
 
         Dim selectedDate As Date = DateTimePicker1.Value
