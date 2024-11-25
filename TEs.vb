@@ -60,7 +60,7 @@ Public Class TEs
     End Sub
 
     Private Sub TesGit()
-        MessageBox.Show("Tes Git")
+        MessageBox.Show("Tes Git 1")
     End Sub
 
 End Class
