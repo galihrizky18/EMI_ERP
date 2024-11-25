@@ -59,4 +59,8 @@ Public Class TEs
         End If
     End Sub
 
+    Private Sub TesGit()
+        MessageBox.Show("Tes Git")
+    End Sub
+
 End Class
