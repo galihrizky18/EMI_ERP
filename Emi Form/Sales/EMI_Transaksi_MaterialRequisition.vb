@@ -1,4 +1,5 @@
-﻿Imports System.Security.Policy
+﻿Imports System.Reflection
+Imports System.Security.Policy
 Imports System.Web.UI.WebControls
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
@@ -2710,68 +2711,68 @@ Public Class EMI_Transaksi_MaterialRequisition
                 ' If DataGridView1.Rows.Item(c).Cells(Cell0).Value = True Then
                 Get_Isi_Listview(c)
 
-                    Dim fSO As String = ""
-                    SQL = "select Top(1)a.Lokasi_Gudang from EMI_Kategori_Gudang_PerLokasi a,Barang b where a.Kode_Perusahaan = b.Kode_Perusahaan "
-                    SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.ID_Kategori_Gudang = b.Id_Kategori_Gudang and "
-                    SQL = SQL & "a.Kode_Stock_Owner = '" & ComboBox3.Text & "' and b.Kode_Barang = '" & LVKd_Barang & "'"
-                    Using Ds = BindingTrans(SQL)
-                        With Ds.Tables("MyTable")
-                            If .Rows.Count <> 0 Then
-                                For i As Integer = 0 To .Rows.Count - 1
-                                    fSO = .Rows(i).Item("Lokasi_Gudang")
-                                Next
-                            Else
-                                CloseTrans()
-                                CloseConn()
-                                MessageBox.Show("Data Tidak ada . . ! !")
-                                Exit Sub
-                            End If
-                        End With
-                    End Using
-
-                    Dim a As Integer = arrBulan.Item(ComboBox1.SelectedIndex)
-                    Dim fthn As Integer = Val(ComboBox2.Text)
-                    Dim b As String = ""
-                    Dim x_no_urut_det As String = 0
-                    Dim NBom_Lama As Double = 0
-                    Dim NPPIC_Lama As Double = 0
-
-                    For index = 0 To arrBulan.Count - 1
-                        If arrBulan.Item(index) = a Then
-                            'ComboBox1.SelectedIndex = index
-                            b = arrBulanMM.Item(index)
-                        End If
-                    Next
-
-                    'BULAN YANG DIPILIH
-                    SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & b & "' and tahun ='" & fthn & "' "
-                    SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
-                    Using dr = OpenTrans(SQL)
-                        If dr.Read Then
-                            TxtBarangMasuk_NoFaktur.Text = dr("no_faktur")
+                Dim fSO As String = ""
+                SQL = "select Top(1)a.Lokasi_Gudang from EMI_Kategori_Gudang_PerLokasi a,Barang b where a.Kode_Perusahaan = b.Kode_Perusahaan "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.ID_Kategori_Gudang = b.Id_Kategori_Gudang and "
+                SQL = SQL & "a.Kode_Stock_Owner = '" & ComboBox3.Text & "' and b.Kode_Barang = '" & LVKd_Barang & "'"
+                Using Ds = BindingTrans(SQL)
+                    With Ds.Tables("MyTable")
+                        If .Rows.Count <> 0 Then
+                            For i As Integer = 0 To .Rows.Count - 1
+                                fSO = .Rows(i).Item("Lokasi_Gudang")
+                            Next
                         Else
-                            dr.Close()
-                            get_no_faktur()
-
-                            SQL = "INSERT INTO EMI_Transaksi_Material_Requsition(Kode_Perusahaan,No_Faktur,Tanggal,Jam,Keterangan,Lokasi,Bulan,Tahun,flag_Referensi) VALUES("
-                            SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "',"
-                            SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & TextBox2.Text & "','" & ComboBox3.Text & "',"
-                            SQL = SQL & "'" & b & "','" & fthn & "'"
-                            If CheckBox1.Checked = True Then
-                                SQL = SQL & ",'Y')"
-                            Else
-                                SQL = SQL & ",NULL)"
-                            End If
-                            ExecuteTrans(SQL)
-
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Data Tidak ada . . ! !")
+                            Exit Sub
                         End If
-                    End Using
+                    End With
+                End Using
 
-                    SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition_detail a where no_faktur='" & TxtBarangMasuk_NoFaktur.Text & "' "
-                    SQL = SQL & "And a.kode_barang='" & LVKd_Barang & "' and kode_stock_owner='" & fSO & "'  And kode_perusahaan='" & KodePerusahaan & "' "
-                    Using dr4 = OpenTrans(SQL)
-                        If Not dr4.Read Then
-                            dr4.Close()
+                Dim a As Integer = arrBulan.Item(ComboBox1.SelectedIndex)
+                Dim fthn As Integer = Val(ComboBox2.Text)
+                Dim b As String = ""
+                Dim x_no_urut_det As String = 0
+                Dim NBom_Lama As Double = 0
+                Dim NPPIC_Lama As Double = 0
+
+                For index = 0 To arrBulan.Count - 1
+                    If arrBulan.Item(index) = a Then
+                        'ComboBox1.SelectedIndex = index
+                        b = arrBulanMM.Item(index)
+                    End If
+                Next
+
+                'BULAN YANG DIPILIH
+                SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & b & "' and tahun ='" & fthn & "' "
+                SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+                        TxtBarangMasuk_NoFaktur.Text = dr("no_faktur")
+                    Else
+                        dr.Close()
+                        get_no_faktur()
+
+                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition(Kode_Perusahaan,No_Faktur,Tanggal,Jam,Keterangan,Lokasi,Bulan,Tahun,flag_Referensi) VALUES("
+                        SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "',"
+                        SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & TextBox2.Text & "','" & ComboBox3.Text & "',"
+                        SQL = SQL & "'" & b & "','" & fthn & "'"
+                        If CheckBox1.Checked = True Then
+                            SQL = SQL & ",'Y')"
+                        Else
+                            SQL = SQL & ",NULL)"
+                        End If
+                        ExecuteTrans(SQL)
+
+                    End If
+                End Using
+
+                SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition_detail a where no_faktur='" & TxtBarangMasuk_NoFaktur.Text & "' "
+                SQL = SQL & "And a.kode_barang='" & LVKd_Barang & "' and kode_stock_owner='" & fSO & "'  And kode_perusahaan='" & KodePerusahaan & "' "
+                Using dr4 = OpenTrans(SQL)
+                    If Not dr4.Read Then
+                        dr4.Close()
                         SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Detail(Kode_Perusahaan,No_Faktur,Bulan,Tahun,Kode_Stock_Owner,Kode_Barang,Nilai_Bom,Nilai_PPIC, satuan "
                         SQL = SQL & ") VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & b & "','" & fthn & "',"
                         SQL = SQL & "'" & fSO & "','" & LVKd_Barang & "','" & 0 & "','" & 0 & "', '" & LvSatuanBarang & "')"
@@ -2782,59 +2783,59 @@ Public Class EMI_Transaksi_MaterialRequisition
                         'End If
                         ExecuteTrans(SQL)
 
-                            SQL = "select IDENT_CURRENT('EMI_Transaksi_Material_Requsition_Detail') as urutan"
-                            Using Dr = OpenTrans(SQL)
-                                If Dr.Read Then
-                                    x_no_urut_det = "" & Dr("urutan") & ""
-                                End If
-                            End Using
-
-                            SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
-                            SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & x_no_urut_det & "',0,0,'INSERT',"
-                            SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
-                            ExecuteTrans(SQL)
-
-                        End If
-                    End Using
-                    'BULAN KE 1
-                    If a = 12 Then
-                        a = 1
-                        fthn = fthn + 1
-                    Else
-                        a = a + 1
-                    End If
-
-                    For index = 0 To arrBulan.Count - 1
-                        If arrBulan.Item(index) = a Then
-                            'ComboBox1.SelectedIndex = index
-                            b = arrBulanMM.Item(index)
-                        End If
-                    Next
-
-                    SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & b & "' and tahun ='" & fthn & "' "
-                    SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
-                    Using dr = OpenTrans(SQL)
-                        If dr.Read Then
-                            TxtBarangMasuk_NoFaktur.Text = dr("no_faktur")
-                        Else
-                            dr.Close()
-                            get_no_faktur()
-
-                            SQL = "INSERT INTO EMI_Transaksi_Material_Requsition(Kode_Perusahaan,No_Faktur,Tanggal,Jam,Keterangan,Lokasi,Bulan,Tahun,flag_Referensi) VALUES("
-                            SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "',"
-                            SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & TextBox2.Text & "','" & ComboBox3.Text & "',"
-                            SQL = SQL & "'" & b & "','" & fthn & "'"
-                            If CheckBox1.Checked = True Then
-                                SQL = SQL & ",'Y')"
-                            Else
-                                SQL = SQL & ",NULL)"
+                        SQL = "select IDENT_CURRENT('EMI_Transaksi_Material_Requsition_Detail') as urutan"
+                        Using Dr = OpenTrans(SQL)
+                            If Dr.Read Then
+                                x_no_urut_det = "" & Dr("urutan") & ""
                             End If
-                            ExecuteTrans(SQL)
+                        End Using
 
+                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
+                        SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & x_no_urut_det & "',0,0,'INSERT',"
+                        SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
+                        ExecuteTrans(SQL)
+
+                    End If
+                End Using
+                'BULAN KE 1
+                If a = 12 Then
+                    a = 1
+                    fthn = fthn + 1
+                Else
+                    a = a + 1
+                End If
+
+                For index = 0 To arrBulan.Count - 1
+                    If arrBulan.Item(index) = a Then
+                        'ComboBox1.SelectedIndex = index
+                        b = arrBulanMM.Item(index)
+                    End If
+                Next
+
+                SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & b & "' and tahun ='" & fthn & "' "
+                SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+                        TxtBarangMasuk_NoFaktur.Text = dr("no_faktur")
+                    Else
+                        dr.Close()
+                        get_no_faktur()
+
+                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition(Kode_Perusahaan,No_Faktur,Tanggal,Jam,Keterangan,Lokasi,Bulan,Tahun,flag_Referensi) VALUES("
+                        SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "',"
+                        SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & TextBox2.Text & "','" & ComboBox3.Text & "',"
+                        SQL = SQL & "'" & b & "','" & fthn & "'"
+                        If CheckBox1.Checked = True Then
+                            SQL = SQL & ",'Y')"
+                        Else
+                            SQL = SQL & ",NULL)"
                         End If
-                    End Using
+                        ExecuteTrans(SQL)
 
-                    If LvUrut_1 = "" Then
+                    End If
+                End Using
+
+                If LvUrut_1 = "" Then
                     SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Detail(Kode_Perusahaan,No_Faktur,Bulan,Tahun,Kode_Stock_Owner,Kode_Barang,Nilai_Bom,Nilai_PPIC,satuan "
                     SQL = SQL & ") VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & b & "','" & fthn & "',"
                     SQL = SQL & "'" & fSO & "','" & LVKd_Barang & "','" & HilangkanTanda(LvNBom_1) & "','" & HilangkanTanda(LvNPPIC_1) & "' , '" & LvSatuanBarang & "' )"
@@ -2845,87 +2846,87 @@ Public Class EMI_Transaksi_MaterialRequisition
                     'End If
                     ExecuteTrans(SQL)
 
-                        SQL = "select IDENT_CURRENT('EMI_Transaksi_Material_Requsition_Detail') as urutan"
-                        Using Dr = OpenTrans(SQL)
-                            If Dr.Read Then
-                                x_no_urut_det = "" & Dr("urutan") & ""
-                            End If
-                        End Using
-
-                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
-                        SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & x_no_urut_det & "',0,0,'INSERT',"
-                        SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
-                        ExecuteTrans(SQL)
-
-                    Else
-                        NBom_Lama = 0
-                        NPPIC_Lama = 0
-                        SQL = "select Nilai_Bom,Nilai_PPIC,Urut from EMI_Transaksi_Material_Requsition_Detail where Urut = '" & LvUrut_1 & "' "
-                        Using dr = OpenTrans(SQL)
-                            If dr.Read Then
-                                NBom_Lama = dr("Nilai_Bom")
-                                NPPIC_Lama = dr("Nilai_PPIC")
-                            End If
-                        End Using
-
-                        If NBom_Lama <> HilangkanTanda(LvNBom_1) Or NPPIC_Lama <> HilangkanTanda(LvNPPIC_1) Then
-                            SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
-                            SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & LvUrut_1 & "',"
-                            SQL = SQL & "'" & NPPIC_Lama & "','" & NBom_Lama & "','UPDATE',"
-                            SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
-                            ExecuteTrans(SQL)
-                        End If
-
-                        SQL = "UPDATE EMI_Transaksi_Material_Requsition_Detail SET Nilai_Bom = '" & HilangkanTanda(LvNBom_1) & "' "
-                        SQL = SQL & ",Nilai_PPIC = '" & HilangkanTanda(LvNPPIC_1) & "' "
-                        'If DataGridView1.Rows.Item(c).Cells(CellReferensi).Value = True Then
-                        '    SQL = SQL & ",Flag_Referensi = 'Y' "
-                        'Else
-                        '    SQL = SQL & ",Flag_Referensi = NULL "
-                        'End If
-                        SQL = SQL & "WHERE Urut = '" & LvUrut_1 & "'"
-                        ExecuteTrans(SQL)
-                    End If
-
-                    'BULAN KE 2
-                    If a = 12 Then
-                        a = 1
-                        fthn = fthn + 1
-                    Else
-                        a = a + 1
-                    End If
-
-                    For index = 0 To arrBulan.Count - 1
-                        If arrBulan.Item(index) = a Then
-                            'ComboBox1.SelectedIndex = index
-                            b = arrBulanMM.Item(index)
-                        End If
-                    Next
-
-                    SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & b & "' and tahun ='" & fthn & "' "
-                    SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
-                    Using dr = OpenTrans(SQL)
-                        If dr.Read Then
-                            TxtBarangMasuk_NoFaktur.Text = dr("no_faktur")
-                        Else
-                            dr.Close()
-                            get_no_faktur()
-
-                            SQL = "INSERT INTO EMI_Transaksi_Material_Requsition(Kode_Perusahaan,No_Faktur,Tanggal,Jam,Keterangan,Lokasi,Bulan,Tahun,flag_Referensi) VALUES("
-                            SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "',"
-                            SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & TextBox2.Text & "','" & ComboBox3.Text & "',"
-                            SQL = SQL & "'" & b & "','" & fthn & "'"
-                            If CheckBox1.Checked = True Then
-                                SQL = SQL & ",'Y')"
-                            Else
-                                SQL = SQL & ",NULL)"
-                            End If
-                            ExecuteTrans(SQL)
-
+                    SQL = "select IDENT_CURRENT('EMI_Transaksi_Material_Requsition_Detail') as urutan"
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            x_no_urut_det = "" & Dr("urutan") & ""
                         End If
                     End Using
 
-                    If LvUrut_2 = "" Then
+                    SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
+                    SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & x_no_urut_det & "',0,0,'INSERT',"
+                    SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
+                    ExecuteTrans(SQL)
+
+                Else
+                    NBom_Lama = 0
+                    NPPIC_Lama = 0
+                    SQL = "select Nilai_Bom,Nilai_PPIC,Urut from EMI_Transaksi_Material_Requsition_Detail where Urut = '" & LvUrut_1 & "' "
+                    Using dr = OpenTrans(SQL)
+                        If dr.Read Then
+                            NBom_Lama = dr("Nilai_Bom")
+                            NPPIC_Lama = dr("Nilai_PPIC")
+                        End If
+                    End Using
+
+                    If NBom_Lama <> HilangkanTanda(LvNBom_1) Or NPPIC_Lama <> HilangkanTanda(LvNPPIC_1) Then
+                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
+                        SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & LvUrut_1 & "',"
+                        SQL = SQL & "'" & NPPIC_Lama & "','" & NBom_Lama & "','UPDATE',"
+                        SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
+                        ExecuteTrans(SQL)
+                    End If
+
+                    SQL = "UPDATE EMI_Transaksi_Material_Requsition_Detail SET Nilai_Bom = '" & HilangkanTanda(LvNBom_1) & "' "
+                    SQL = SQL & ",Nilai_PPIC = '" & HilangkanTanda(LvNPPIC_1) & "' "
+                    'If DataGridView1.Rows.Item(c).Cells(CellReferensi).Value = True Then
+                    '    SQL = SQL & ",Flag_Referensi = 'Y' "
+                    'Else
+                    '    SQL = SQL & ",Flag_Referensi = NULL "
+                    'End If
+                    SQL = SQL & "WHERE Urut = '" & LvUrut_1 & "'"
+                    ExecuteTrans(SQL)
+                End If
+
+                'BULAN KE 2
+                If a = 12 Then
+                    a = 1
+                    fthn = fthn + 1
+                Else
+                    a = a + 1
+                End If
+
+                For index = 0 To arrBulan.Count - 1
+                    If arrBulan.Item(index) = a Then
+                        'ComboBox1.SelectedIndex = index
+                        b = arrBulanMM.Item(index)
+                    End If
+                Next
+
+                SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & b & "' and tahun ='" & fthn & "' "
+                SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+                        TxtBarangMasuk_NoFaktur.Text = dr("no_faktur")
+                    Else
+                        dr.Close()
+                        get_no_faktur()
+
+                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition(Kode_Perusahaan,No_Faktur,Tanggal,Jam,Keterangan,Lokasi,Bulan,Tahun,flag_Referensi) VALUES("
+                        SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "',"
+                        SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & TextBox2.Text & "','" & ComboBox3.Text & "',"
+                        SQL = SQL & "'" & b & "','" & fthn & "'"
+                        If CheckBox1.Checked = True Then
+                            SQL = SQL & ",'Y')"
+                        Else
+                            SQL = SQL & ",NULL)"
+                        End If
+                        ExecuteTrans(SQL)
+
+                    End If
+                End Using
+
+                If LvUrut_2 = "" Then
                     SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Detail(Kode_Perusahaan,No_Faktur,Bulan,Tahun,Kode_Stock_Owner,Kode_Barang,Nilai_Bom,Nilai_PPIC, satuan) "
                     SQL = SQL & "VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & b & "','" & fthn & "',"
                     SQL = SQL & "'" & fSO & "','" & LVKd_Barang & "','" & HilangkanTanda(LvNBom_2) & "','" & HilangkanTanda(LvNPPIC_2) & "' , '" & LvSatuanBarang & "' )"
@@ -2936,87 +2937,87 @@ Public Class EMI_Transaksi_MaterialRequisition
                     'End If
                     ExecuteTrans(SQL)
 
-                        SQL = "select IDENT_CURRENT('EMI_Transaksi_Material_Requsition_Detail') as urutan"
-                        Using Dr = OpenTrans(SQL)
-                            If Dr.Read Then
-                                x_no_urut_det = "" & Dr("urutan") & ""
-                            End If
-                        End Using
-
-                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
-                        SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & x_no_urut_det & "',0,0,'INSERT',"
-                        SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
-                        ExecuteTrans(SQL)
-
-                    Else
-                        NBom_Lama = 0
-                        NPPIC_Lama = 0
-                        SQL = "select Nilai_Bom,Nilai_PPIC,Urut from EMI_Transaksi_Material_Requsition_Detail where Urut = '" & LvUrut_2 & "' "
-                        Using dr = OpenTrans(SQL)
-                            If dr.Read Then
-                                NBom_Lama = dr("Nilai_Bom")
-                                NPPIC_Lama = dr("Nilai_PPIC")
-                            End If
-                        End Using
-
-                        If NBom_Lama <> HilangkanTanda(LvNBom_2) Or NPPIC_Lama <> HilangkanTanda(LvNPPIC_2) Then
-                            SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
-                            SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & LvUrut_2 & "',"
-                            SQL = SQL & "'" & NPPIC_Lama & "','" & NBom_Lama & "','UPDATE',"
-                            SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
-                            ExecuteTrans(SQL)
-                        End If
-
-                        SQL = "UPDATE EMI_Transaksi_Material_Requsition_Detail SET Nilai_Bom = '" & HilangkanTanda(LvNBom_2) & "' "
-                        SQL = SQL & ",Nilai_PPIC = '" & HilangkanTanda(LvNPPIC_2) & "' "
-                        'If DataGridView1.Rows.Item(c).Cells(CellReferensi).Value = True Then
-                        '    SQL = SQL & ",Flag_Referensi = 'Y' "
-                        'Else
-                        '    SQL = SQL & ",Flag_Referensi = NULL "
-                        'End If
-                        SQL = SQL & "WHERE Urut = '" & LvUrut_2 & "'"
-                        ExecuteTrans(SQL)
-                    End If
-
-                    'BULAN KE 3
-                    If a = 12 Then
-                        a = 1
-                        fthn = fthn + 1
-                    Else
-                        a = a + 1
-                    End If
-
-                    For index = 0 To arrBulan.Count - 1
-                        If arrBulan.Item(index) = a Then
-                            'ComboBox1.SelectedIndex = index
-                            b = arrBulanMM.Item(index)
-                        End If
-                    Next
-
-                    SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & b & "' and tahun ='" & fthn & "' "
-                    SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
-                    Using dr = OpenTrans(SQL)
-                        If dr.Read Then
-                            TxtBarangMasuk_NoFaktur.Text = dr("no_faktur")
-                        Else
-                            dr.Close()
-                            get_no_faktur()
-
-                            SQL = "INSERT INTO EMI_Transaksi_Material_Requsition(Kode_Perusahaan,No_Faktur,Tanggal,Jam,Keterangan,Lokasi,Bulan,Tahun,flag_Referensi) VALUES("
-                            SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "',"
-                            SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & TextBox2.Text & "','" & ComboBox3.Text & "',"
-                            SQL = SQL & "'" & b & "','" & fthn & "'"
-                            If CheckBox1.Checked = True Then
-                                SQL = SQL & ",'Y')"
-                            Else
-                                SQL = SQL & ",NULL)"
-                            End If
-                            ExecuteTrans(SQL)
-
+                    SQL = "select IDENT_CURRENT('EMI_Transaksi_Material_Requsition_Detail') as urutan"
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            x_no_urut_det = "" & Dr("urutan") & ""
                         End If
                     End Using
 
-                    If LvUrut_3 = "" Then
+                    SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
+                    SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & x_no_urut_det & "',0,0,'INSERT',"
+                    SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
+                    ExecuteTrans(SQL)
+
+                Else
+                    NBom_Lama = 0
+                    NPPIC_Lama = 0
+                    SQL = "select Nilai_Bom,Nilai_PPIC,Urut from EMI_Transaksi_Material_Requsition_Detail where Urut = '" & LvUrut_2 & "' "
+                    Using dr = OpenTrans(SQL)
+                        If dr.Read Then
+                            NBom_Lama = dr("Nilai_Bom")
+                            NPPIC_Lama = dr("Nilai_PPIC")
+                        End If
+                    End Using
+
+                    If NBom_Lama <> HilangkanTanda(LvNBom_2) Or NPPIC_Lama <> HilangkanTanda(LvNPPIC_2) Then
+                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
+                        SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & LvUrut_2 & "',"
+                        SQL = SQL & "'" & NPPIC_Lama & "','" & NBom_Lama & "','UPDATE',"
+                        SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
+                        ExecuteTrans(SQL)
+                    End If
+
+                    SQL = "UPDATE EMI_Transaksi_Material_Requsition_Detail SET Nilai_Bom = '" & HilangkanTanda(LvNBom_2) & "' "
+                    SQL = SQL & ",Nilai_PPIC = '" & HilangkanTanda(LvNPPIC_2) & "' "
+                    'If DataGridView1.Rows.Item(c).Cells(CellReferensi).Value = True Then
+                    '    SQL = SQL & ",Flag_Referensi = 'Y' "
+                    'Else
+                    '    SQL = SQL & ",Flag_Referensi = NULL "
+                    'End If
+                    SQL = SQL & "WHERE Urut = '" & LvUrut_2 & "'"
+                    ExecuteTrans(SQL)
+                End If
+
+                'BULAN KE 3
+                If a = 12 Then
+                    a = 1
+                    fthn = fthn + 1
+                Else
+                    a = a + 1
+                End If
+
+                For index = 0 To arrBulan.Count - 1
+                    If arrBulan.Item(index) = a Then
+                        'ComboBox1.SelectedIndex = index
+                        b = arrBulanMM.Item(index)
+                    End If
+                Next
+
+                SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & b & "' and tahun ='" & fthn & "' "
+                SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+                        TxtBarangMasuk_NoFaktur.Text = dr("no_faktur")
+                    Else
+                        dr.Close()
+                        get_no_faktur()
+
+                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition(Kode_Perusahaan,No_Faktur,Tanggal,Jam,Keterangan,Lokasi,Bulan,Tahun,flag_Referensi) VALUES("
+                        SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "',"
+                        SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & TextBox2.Text & "','" & ComboBox3.Text & "',"
+                        SQL = SQL & "'" & b & "','" & fthn & "'"
+                        If CheckBox1.Checked = True Then
+                            SQL = SQL & ",'Y')"
+                        Else
+                            SQL = SQL & ",NULL)"
+                        End If
+                        ExecuteTrans(SQL)
+
+                    End If
+                End Using
+
+                If LvUrut_3 = "" Then
                     SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Detail(Kode_Perusahaan,No_Faktur,Bulan,Tahun,Kode_Stock_Owner,Kode_Barang,Nilai_Bom,Nilai_PPIC,satuan) "
                     SQL = SQL & "VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & b & "','" & fthn & "',"
                     SQL = SQL & "'" & fSO & "','" & LVKd_Barang & "','" & HilangkanTanda(LvNBom_3) & "','" & HilangkanTanda(LvNPPIC_3) & "', '" & LvSatuanBarang & "') "
@@ -3027,87 +3028,87 @@ Public Class EMI_Transaksi_MaterialRequisition
                     'End If
                     ExecuteTrans(SQL)
 
-                        SQL = "select IDENT_CURRENT('EMI_Transaksi_Material_Requsition_Detail') as urutan"
-                        Using Dr = OpenTrans(SQL)
-                            If Dr.Read Then
-                                x_no_urut_det = "" & Dr("urutan") & ""
-                            End If
-                        End Using
-
-                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
-                        SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & x_no_urut_det & "',0,0,'INSERT',"
-                        SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
-                        ExecuteTrans(SQL)
-
-                    Else
-                        NBom_Lama = 0
-                        NPPIC_Lama = 0
-                        SQL = "select Nilai_Bom,Nilai_PPIC,Urut from EMI_Transaksi_Material_Requsition_Detail where Urut = '" & LvUrut_3 & "' "
-                        Using dr = OpenTrans(SQL)
-                            If dr.Read Then
-                                NBom_Lama = dr("Nilai_Bom")
-                                NPPIC_Lama = dr("Nilai_PPIC")
-                            End If
-                        End Using
-
-                        If NBom_Lama <> HilangkanTanda(LvNBom_3) Or NPPIC_Lama <> HilangkanTanda(LvNPPIC_3) Then
-                            SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
-                            SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & LvUrut_3 & "',"
-                            SQL = SQL & "'" & NPPIC_Lama & "','" & NBom_Lama & "','UPDATE',"
-                            SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
-                            ExecuteTrans(SQL)
-                        End If
-
-                        SQL = "UPDATE EMI_Transaksi_Material_Requsition_Detail SET Nilai_Bom = '" & HilangkanTanda(LvNBom_3) & "' "
-                        SQL = SQL & ",Nilai_PPIC = '" & HilangkanTanda(LvNPPIC_3) & "' "
-                        'If DataGridView1.Rows.Item(c).Cells(CellReferensi).Value = True Then
-                        '    SQL = SQL & ",Flag_Referensi = 'Y' "
-                        'Else
-                        '    SQL = SQL & ",Flag_Referensi = NULL "
-                        'End If
-                        SQL = SQL & "WHERE Urut = '" & LvUrut_3 & "'"
-                        ExecuteTrans(SQL)
-                    End If
-
-                    'BULAN KE 4
-                    If a = 12 Then
-                        a = 1
-                        fthn = fthn + 1
-                    Else
-                        a = a + 1
-                    End If
-
-                    For index = 0 To arrBulan.Count - 1
-                        If arrBulan.Item(index) = a Then
-                            'ComboBox1.SelectedIndex = index
-                            b = arrBulanMM.Item(index)
-                        End If
-                    Next
-
-                    SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & b & "' and tahun ='" & fthn & "' "
-                    SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
-                    Using dr = OpenTrans(SQL)
-                        If dr.Read Then
-                            TxtBarangMasuk_NoFaktur.Text = dr("no_faktur")
-                        Else
-                            dr.Close()
-                            get_no_faktur()
-
-                            SQL = "INSERT INTO EMI_Transaksi_Material_Requsition(Kode_Perusahaan,No_Faktur,Tanggal,Jam,Keterangan,Lokasi,Bulan,Tahun,flag_Referensi) VALUES("
-                            SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "',"
-                            SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & TextBox2.Text & "','" & ComboBox3.Text & "',"
-                            SQL = SQL & "'" & b & "','" & fthn & "'"
-                            If CheckBox1.Checked = True Then
-                                SQL = SQL & ",'Y')"
-                            Else
-                                SQL = SQL & ",NULL)"
-                            End If
-                            ExecuteTrans(SQL)
-
+                    SQL = "select IDENT_CURRENT('EMI_Transaksi_Material_Requsition_Detail') as urutan"
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            x_no_urut_det = "" & Dr("urutan") & ""
                         End If
                     End Using
 
-                    If LvUrut_4 = "" Then
+                    SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
+                    SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & x_no_urut_det & "',0,0,'INSERT',"
+                    SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
+                    ExecuteTrans(SQL)
+
+                Else
+                    NBom_Lama = 0
+                    NPPIC_Lama = 0
+                    SQL = "select Nilai_Bom,Nilai_PPIC,Urut from EMI_Transaksi_Material_Requsition_Detail where Urut = '" & LvUrut_3 & "' "
+                    Using dr = OpenTrans(SQL)
+                        If dr.Read Then
+                            NBom_Lama = dr("Nilai_Bom")
+                            NPPIC_Lama = dr("Nilai_PPIC")
+                        End If
+                    End Using
+
+                    If NBom_Lama <> HilangkanTanda(LvNBom_3) Or NPPIC_Lama <> HilangkanTanda(LvNPPIC_3) Then
+                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
+                        SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & LvUrut_3 & "',"
+                        SQL = SQL & "'" & NPPIC_Lama & "','" & NBom_Lama & "','UPDATE',"
+                        SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
+                        ExecuteTrans(SQL)
+                    End If
+
+                    SQL = "UPDATE EMI_Transaksi_Material_Requsition_Detail SET Nilai_Bom = '" & HilangkanTanda(LvNBom_3) & "' "
+                    SQL = SQL & ",Nilai_PPIC = '" & HilangkanTanda(LvNPPIC_3) & "' "
+                    'If DataGridView1.Rows.Item(c).Cells(CellReferensi).Value = True Then
+                    '    SQL = SQL & ",Flag_Referensi = 'Y' "
+                    'Else
+                    '    SQL = SQL & ",Flag_Referensi = NULL "
+                    'End If
+                    SQL = SQL & "WHERE Urut = '" & LvUrut_3 & "'"
+                    ExecuteTrans(SQL)
+                End If
+
+                'BULAN KE 4
+                If a = 12 Then
+                    a = 1
+                    fthn = fthn + 1
+                Else
+                    a = a + 1
+                End If
+
+                For index = 0 To arrBulan.Count - 1
+                    If arrBulan.Item(index) = a Then
+                        'ComboBox1.SelectedIndex = index
+                        b = arrBulanMM.Item(index)
+                    End If
+                Next
+
+                SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & b & "' and tahun ='" & fthn & "' "
+                SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+                        TxtBarangMasuk_NoFaktur.Text = dr("no_faktur")
+                    Else
+                        dr.Close()
+                        get_no_faktur()
+
+                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition(Kode_Perusahaan,No_Faktur,Tanggal,Jam,Keterangan,Lokasi,Bulan,Tahun,flag_Referensi) VALUES("
+                        SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "',"
+                        SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & TextBox2.Text & "','" & ComboBox3.Text & "',"
+                        SQL = SQL & "'" & b & "','" & fthn & "'"
+                        If CheckBox1.Checked = True Then
+                            SQL = SQL & ",'Y')"
+                        Else
+                            SQL = SQL & ",NULL)"
+                        End If
+                        ExecuteTrans(SQL)
+
+                    End If
+                End Using
+
+                If LvUrut_4 = "" Then
                     SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Detail(Kode_Perusahaan,No_Faktur,Bulan,Tahun,Kode_Stock_Owner,Kode_Barang,Nilai_Bom,Nilai_PPIC,satuan) "
                     SQL = SQL & "VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & b & "','" & fthn & "',"
                     SQL = SQL & "'" & fSO & "','" & LVKd_Barang & "','" & HilangkanTanda(LvNBom_4) & "','" & HilangkanTanda(LvNPPIC_4) & "', '" & LvSatuanBarang & "')"
@@ -3118,87 +3119,87 @@ Public Class EMI_Transaksi_MaterialRequisition
                     'End If
                     ExecuteTrans(SQL)
 
-                        SQL = "select IDENT_CURRENT('EMI_Transaksi_Material_Requsition_Detail') as urutan"
-                        Using Dr = OpenTrans(SQL)
-                            If Dr.Read Then
-                                x_no_urut_det = "" & Dr("urutan") & ""
-                            End If
-                        End Using
-
-                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
-                        SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & x_no_urut_det & "',0,0,'INSERT',"
-                        SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
-                        ExecuteTrans(SQL)
-
-                    Else
-                        NBom_Lama = 0
-                        NPPIC_Lama = 0
-                        SQL = "select Nilai_Bom,Nilai_PPIC,Urut from EMI_Transaksi_Material_Requsition_Detail where Urut = '" & LvUrut_4 & "' "
-                        Using dr = OpenTrans(SQL)
-                            If dr.Read Then
-                                NBom_Lama = dr("Nilai_Bom")
-                                NPPIC_Lama = dr("Nilai_PPIC")
-                            End If
-                        End Using
-
-                        If NBom_Lama <> HilangkanTanda(LvNBom_4) Or NPPIC_Lama <> HilangkanTanda(LvNPPIC_4) Then
-                            SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
-                            SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & LvUrut_4 & "',"
-                            SQL = SQL & "'" & NPPIC_Lama & "','" & NBom_Lama & "','UPDATE',"
-                            SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
-                            ExecuteTrans(SQL)
-                        End If
-
-                        SQL = "UPDATE EMI_Transaksi_Material_Requsition_Detail SET Nilai_Bom = '" & HilangkanTanda(LvNBom_4) & "' "
-                        SQL = SQL & ",Nilai_PPIC = '" & HilangkanTanda(LvNPPIC_4) & "' "
-                        'If DataGridView1.Rows.Item(c).Cells(CellReferensi).Value = True Then
-                        '    SQL = SQL & ",Flag_Referensi = 'Y' "
-                        'Else
-                        '    SQL = SQL & ",Flag_Referensi = NULL "
-                        'End If
-                        SQL = SQL & "WHERE Urut = '" & LvUrut_4 & "'"
-                        ExecuteTrans(SQL)
-                    End If
-
-                    'BULAN KE 5
-                    If a = 12 Then
-                        a = 1
-                        fthn = fthn + 1
-                    Else
-                        a = a + 1
-                    End If
-
-                    For index = 0 To arrBulan.Count - 1
-                        If arrBulan.Item(index) = a Then
-                            'ComboBox1.SelectedIndex = index
-                            b = arrBulanMM.Item(index)
-                        End If
-                    Next
-
-                    SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & b & "' and tahun ='" & fthn & "' "
-                    SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
-                    Using dr = OpenTrans(SQL)
-                        If dr.Read Then
-                            TxtBarangMasuk_NoFaktur.Text = dr("no_faktur")
-                        Else
-                            dr.Close()
-                            get_no_faktur()
-
-                            SQL = "INSERT INTO EMI_Transaksi_Material_Requsition(Kode_Perusahaan,No_Faktur,Tanggal,Jam,Keterangan,Lokasi,Bulan,Tahun,flag_Referensi) VALUES("
-                            SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "',"
-                            SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & TextBox2.Text & "','" & ComboBox3.Text & "',"
-                            SQL = SQL & "'" & b & "','" & fthn & "'"
-                            If CheckBox1.Checked = True Then
-                                SQL = SQL & ",'Y')"
-                            Else
-                                SQL = SQL & ",NULL)"
-                            End If
-                            ExecuteTrans(SQL)
-
+                    SQL = "select IDENT_CURRENT('EMI_Transaksi_Material_Requsition_Detail') as urutan"
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            x_no_urut_det = "" & Dr("urutan") & ""
                         End If
                     End Using
 
-                    If LvUrut_5 = "" Then
+                    SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
+                    SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & x_no_urut_det & "',0,0,'INSERT',"
+                    SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
+                    ExecuteTrans(SQL)
+
+                Else
+                    NBom_Lama = 0
+                    NPPIC_Lama = 0
+                    SQL = "select Nilai_Bom,Nilai_PPIC,Urut from EMI_Transaksi_Material_Requsition_Detail where Urut = '" & LvUrut_4 & "' "
+                    Using dr = OpenTrans(SQL)
+                        If dr.Read Then
+                            NBom_Lama = dr("Nilai_Bom")
+                            NPPIC_Lama = dr("Nilai_PPIC")
+                        End If
+                    End Using
+
+                    If NBom_Lama <> HilangkanTanda(LvNBom_4) Or NPPIC_Lama <> HilangkanTanda(LvNPPIC_4) Then
+                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
+                        SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & LvUrut_4 & "',"
+                        SQL = SQL & "'" & NPPIC_Lama & "','" & NBom_Lama & "','UPDATE',"
+                        SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
+                        ExecuteTrans(SQL)
+                    End If
+
+                    SQL = "UPDATE EMI_Transaksi_Material_Requsition_Detail SET Nilai_Bom = '" & HilangkanTanda(LvNBom_4) & "' "
+                    SQL = SQL & ",Nilai_PPIC = '" & HilangkanTanda(LvNPPIC_4) & "' "
+                    'If DataGridView1.Rows.Item(c).Cells(CellReferensi).Value = True Then
+                    '    SQL = SQL & ",Flag_Referensi = 'Y' "
+                    'Else
+                    '    SQL = SQL & ",Flag_Referensi = NULL "
+                    'End If
+                    SQL = SQL & "WHERE Urut = '" & LvUrut_4 & "'"
+                    ExecuteTrans(SQL)
+                End If
+
+                'BULAN KE 5
+                If a = 12 Then
+                    a = 1
+                    fthn = fthn + 1
+                Else
+                    a = a + 1
+                End If
+
+                For index = 0 To arrBulan.Count - 1
+                    If arrBulan.Item(index) = a Then
+                        'ComboBox1.SelectedIndex = index
+                        b = arrBulanMM.Item(index)
+                    End If
+                Next
+
+                SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & b & "' and tahun ='" & fthn & "' "
+                SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+                        TxtBarangMasuk_NoFaktur.Text = dr("no_faktur")
+                    Else
+                        dr.Close()
+                        get_no_faktur()
+
+                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition(Kode_Perusahaan,No_Faktur,Tanggal,Jam,Keterangan,Lokasi,Bulan,Tahun,flag_Referensi) VALUES("
+                        SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "',"
+                        SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & TextBox2.Text & "','" & ComboBox3.Text & "',"
+                        SQL = SQL & "'" & b & "','" & fthn & "'"
+                        If CheckBox1.Checked = True Then
+                            SQL = SQL & ",'Y')"
+                        Else
+                            SQL = SQL & ",NULL)"
+                        End If
+                        ExecuteTrans(SQL)
+
+                    End If
+                End Using
+
+                If LvUrut_5 = "" Then
                     SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Detail(Kode_Perusahaan,No_Faktur,Bulan,Tahun,Kode_Stock_Owner,Kode_Barang,Nilai_Bom,Nilai_PPIC,satuan) "
                     SQL = SQL & "VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & b & "','" & fthn & "',"
                     SQL = SQL & "'" & fSO & "','" & LVKd_Barang & "','" & HilangkanTanda(LvNBom_5) & "','" & HilangkanTanda(LvNPPIC_5) & "', '" & LvSatuanBarang & "') "
@@ -3209,86 +3210,86 @@ Public Class EMI_Transaksi_MaterialRequisition
                     'End If
                     ExecuteTrans(SQL)
 
-                        SQL = "select IDENT_CURRENT('EMI_Transaksi_Material_Requsition_Detail') as urutan"
-                        Using Dr = OpenTrans(SQL)
-                            If Dr.Read Then
-                                x_no_urut_det = "" & Dr("urutan") & ""
-                            End If
-                        End Using
-
-                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
-                        SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & x_no_urut_det & "',0,0,'INSERT',"
-                        SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
-                        ExecuteTrans(SQL)
-
-                    Else
-                        NBom_Lama = 0
-                        NPPIC_Lama = 0
-                        SQL = "select Nilai_Bom,Nilai_PPIC,Urut from EMI_Transaksi_Material_Requsition_Detail where Urut = '" & LvUrut_5 & "' "
-                        Using dr = OpenTrans(SQL)
-                            If dr.Read Then
-                                NBom_Lama = dr("Nilai_Bom")
-                                NPPIC_Lama = dr("Nilai_PPIC")
-                            End If
-                        End Using
-
-                        If NBom_Lama <> HilangkanTanda(LvNBom_5) Or NPPIC_Lama <> HilangkanTanda(LvNPPIC_5) Then
-                            SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
-                            SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & LvUrut_5 & "',"
-                            SQL = SQL & "'" & NPPIC_Lama & "','" & NBom_Lama & "','UPDATE',"
-                            SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
-                            ExecuteTrans(SQL)
-                        End If
-
-                        SQL = "UPDATE EMI_Transaksi_Material_Requsition_Detail SET Nilai_Bom = '" & HilangkanTanda(LvNBom_5) & "' "
-                        SQL = SQL & ",Nilai_PPIC = '" & HilangkanTanda(LvNPPIC_5) & "' "
-                        'If DataGridView1.Rows.Item(c).Cells(CellReferensi).Value = True Then
-                        '    SQL = SQL & ",Flag_Referensi = 'Y' "
-                        'Else
-                        '    SQL = SQL & ",Flag_Referensi = NULL "
-                        'End If
-                        SQL = SQL & "WHERE Urut = '" & LvUrut_5 & "'"
-                        ExecuteTrans(SQL)
-                    End If
-
-                    'BULAN KE 6
-                    If a = 12 Then
-                        a = 1
-                        fthn = fthn + 1
-                    Else
-                        a = a + 1
-                    End If
-
-                    For index = 0 To arrBulan.Count - 1
-                        If arrBulan.Item(index) = a Then
-                            'ComboBox1.SelectedIndex = index
-                            b = arrBulanMM.Item(index)
-                        End If
-                    Next
-
-                    SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & b & "' and tahun ='" & fthn & "' "
-                    SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
-                    Using dr = OpenTrans(SQL)
-                        If dr.Read Then
-                            TxtBarangMasuk_NoFaktur.Text = dr("no_faktur")
-                        Else
-                            dr.Close()
-                            get_no_faktur()
-
-                            SQL = "INSERT INTO EMI_Transaksi_Material_Requsition(Kode_Perusahaan,No_Faktur,Tanggal,Jam,Keterangan,Lokasi,Bulan,Tahun,flag_Referensi) VALUES("
-                            SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "',"
-                            SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & TextBox2.Text & "','" & ComboBox3.Text & "',"
-                            SQL = SQL & "'" & b & "','" & fthn & "'"
-                            If CheckBox1.Checked = True Then
-                                SQL = SQL & ",'Y')"
-                            Else
-                                SQL = SQL & ",NULL)"
-                            End If
-                            ExecuteTrans(SQL)
-
+                    SQL = "select IDENT_CURRENT('EMI_Transaksi_Material_Requsition_Detail') as urutan"
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            x_no_urut_det = "" & Dr("urutan") & ""
                         End If
                     End Using
-                    If LvUrut_6 = "" Then
+
+                    SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
+                    SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & x_no_urut_det & "',0,0,'INSERT',"
+                    SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
+                    ExecuteTrans(SQL)
+
+                Else
+                    NBom_Lama = 0
+                    NPPIC_Lama = 0
+                    SQL = "select Nilai_Bom,Nilai_PPIC,Urut from EMI_Transaksi_Material_Requsition_Detail where Urut = '" & LvUrut_5 & "' "
+                    Using dr = OpenTrans(SQL)
+                        If dr.Read Then
+                            NBom_Lama = dr("Nilai_Bom")
+                            NPPIC_Lama = dr("Nilai_PPIC")
+                        End If
+                    End Using
+
+                    If NBom_Lama <> HilangkanTanda(LvNBom_5) Or NPPIC_Lama <> HilangkanTanda(LvNPPIC_5) Then
+                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
+                        SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & LvUrut_5 & "',"
+                        SQL = SQL & "'" & NPPIC_Lama & "','" & NBom_Lama & "','UPDATE',"
+                        SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
+                        ExecuteTrans(SQL)
+                    End If
+
+                    SQL = "UPDATE EMI_Transaksi_Material_Requsition_Detail SET Nilai_Bom = '" & HilangkanTanda(LvNBom_5) & "' "
+                    SQL = SQL & ",Nilai_PPIC = '" & HilangkanTanda(LvNPPIC_5) & "' "
+                    'If DataGridView1.Rows.Item(c).Cells(CellReferensi).Value = True Then
+                    '    SQL = SQL & ",Flag_Referensi = 'Y' "
+                    'Else
+                    '    SQL = SQL & ",Flag_Referensi = NULL "
+                    'End If
+                    SQL = SQL & "WHERE Urut = '" & LvUrut_5 & "'"
+                    ExecuteTrans(SQL)
+                End If
+
+                'BULAN KE 6
+                If a = 12 Then
+                    a = 1
+                    fthn = fthn + 1
+                Else
+                    a = a + 1
+                End If
+
+                For index = 0 To arrBulan.Count - 1
+                    If arrBulan.Item(index) = a Then
+                        'ComboBox1.SelectedIndex = index
+                        b = arrBulanMM.Item(index)
+                    End If
+                Next
+
+                SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & b & "' and tahun ='" & fthn & "' "
+                SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+                        TxtBarangMasuk_NoFaktur.Text = dr("no_faktur")
+                    Else
+                        dr.Close()
+                        get_no_faktur()
+
+                        SQL = "INSERT INTO EMI_Transaksi_Material_Requsition(Kode_Perusahaan,No_Faktur,Tanggal,Jam,Keterangan,Lokasi,Bulan,Tahun,flag_Referensi) VALUES("
+                        SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "',"
+                        SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & TextBox2.Text & "','" & ComboBox3.Text & "',"
+                        SQL = SQL & "'" & b & "','" & fthn & "'"
+                        If CheckBox1.Checked = True Then
+                            SQL = SQL & ",'Y')"
+                        Else
+                            SQL = SQL & ",NULL)"
+                        End If
+                        ExecuteTrans(SQL)
+
+                    End If
+                End Using
+                If LvUrut_6 = "" Then
                     SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Detail(Kode_Perusahaan,No_Faktur,Bulan,Tahun,Kode_Stock_Owner,Kode_Barang,Nilai_Bom,Nilai_PPIC,satuan) "
                     SQL = SQL & "VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & b & "','" & fthn & "',"
                     SQL = SQL & "'" & fSO & "','" & LVKd_Barang & "','" & HilangkanTanda(LvNBom_6) & "','" & HilangkanTanda(LvNPPIC_6) & "', '" & LvSatuanBarang & "')"
@@ -3299,41 +3300,41 @@ Public Class EMI_Transaksi_MaterialRequisition
                     'End If
                     ExecuteTrans(SQL)
 
-                        SQL = "select IDENT_CURRENT('EMI_Transaksi_Material_Requsition_Detail') as urutan"
-                        Using Dr = OpenTrans(SQL)
-                            If Dr.Read Then
-                                x_no_urut_det = "" & Dr("urutan") & ""
-                            End If
-                        End Using
+                    SQL = "select IDENT_CURRENT('EMI_Transaksi_Material_Requsition_Detail') as urutan"
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            x_no_urut_det = "" & Dr("urutan") & ""
+                        End If
+                    End Using
 
+                    SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
+                    SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & x_no_urut_det & "',0,0,'INSERT',"
+                    SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
+                    ExecuteTrans(SQL)
+
+                Else
+                    NBom_Lama = 0
+                    NPPIC_Lama = 0
+                    SQL = "select Nilai_Bom,Nilai_PPIC,Urut from EMI_Transaksi_Material_Requsition_Detail where Urut = '" & LvUrut_6 & "' "
+                    Using dr = OpenTrans(SQL)
+                        If dr.Read Then
+                            NBom_Lama = dr("Nilai_Bom")
+                            NPPIC_Lama = dr("Nilai_PPIC")
+                        End If
+                    End Using
+
+                    If NBom_Lama <> HilangkanTanda(LvNBom_6) Or NPPIC_Lama <> HilangkanTanda(LvNPPIC_6) Then
                         SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
-                        SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & x_no_urut_det & "',0,0,'INSERT',"
+                        SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & LvUrut_6 & "',"
+                        SQL = SQL & "'" & NPPIC_Lama & "','" & NBom_Lama & "','UPDATE',"
                         SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
                         ExecuteTrans(SQL)
-
-                    Else
-                        NBom_Lama = 0
-                        NPPIC_Lama = 0
-                        SQL = "select Nilai_Bom,Nilai_PPIC,Urut from EMI_Transaksi_Material_Requsition_Detail where Urut = '" & LvUrut_6 & "' "
-                        Using dr = OpenTrans(SQL)
-                            If dr.Read Then
-                                NBom_Lama = dr("Nilai_Bom")
-                                NPPIC_Lama = dr("Nilai_PPIC")
-                            End If
-                        End Using
-
-                        If NBom_Lama <> HilangkanTanda(LvNBom_6) Or NPPIC_Lama <> HilangkanTanda(LvNPPIC_6) Then
-                            SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_BOM,Jenis,UserID,"
-                            SQL = SQL & "Tanggal,Jam) VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & LvUrut_6 & "',"
-                            SQL = SQL & "'" & NPPIC_Lama & "','" & NBom_Lama & "','UPDATE',"
-                            SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "')"
-                            ExecuteTrans(SQL)
-                        End If
-
-                        SQL = "UPDATE EMI_Transaksi_Material_Requsition_Detail SET Nilai_Bom = '" & HilangkanTanda(LvNBom_6) & "' "
-                        SQL = SQL & ",Nilai_PPIC = '" & HilangkanTanda(LvNPPIC_6) & "' WHERE Urut = '" & LvUrut_6 & "'"
-                        ExecuteTrans(SQL)
                     End If
+
+                    SQL = "UPDATE EMI_Transaksi_Material_Requsition_Detail SET Nilai_Bom = '" & HilangkanTanda(LvNBom_6) & "' "
+                    SQL = SQL & ",Nilai_PPIC = '" & HilangkanTanda(LvNPPIC_6) & "' WHERE Urut = '" & LvUrut_6 & "'"
+                    ExecuteTrans(SQL)
+                End If
 
                 'End If
             Next
@@ -3540,9 +3541,9 @@ Public Class EMI_Transaksi_MaterialRequisition
 
 
                     no_faktur = dr("no_faktur")
-                    Else
+                Else
 
-                        dr.Close()
+                    dr.Close()
                     CloseConn()
                     MessageBox.Show("Terdapat Data Tidak Lengkap . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
@@ -5049,6 +5050,7 @@ Public Class EMI_Transaksi_MaterialRequisition
                         Next
                     Else
                         DataGridView1.Rows(RowIndex).Cells(CellNBom).Value = 0
+
 
                     End If
 
