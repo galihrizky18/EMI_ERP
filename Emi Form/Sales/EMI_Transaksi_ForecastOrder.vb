@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
+Imports Jose
 
 Public Class EMI_Transaksi_ForecastOrder
     Public arrBulan, arrBulanMM As New ArrayList
@@ -154,6 +155,7 @@ Public Class EMI_Transaksi_ForecastOrder
         Next
 
         panggil_datatahun = fthn
+
         DataGridView1.Columns(CellSalesForecastBln1).HeaderText = "Sales - Forecast " & b & " - " & fthn
         DataGridView1.Columns(CellPPICForecastBln1).HeaderText = "PPIC - Forecast " & b & " - " & fthn
         DataGridView1.Columns(CellUrut_1).HeaderText = "1"
@@ -1001,6 +1003,7 @@ Public Class EMI_Transaksi_ForecastOrder
         End Try
     End Sub
 
+
     Public Sub Get_Isi_Listview(ByVal No_Index As Integer)
         'lvChkBox = DataGridView1.Rows(No_Index).Cells(CellChkBox).Value
         lvKdBrg = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKdBrg).Value)
@@ -1166,6 +1169,16 @@ Public Class EMI_Transaksi_ForecastOrder
             get_jam()
 
             If Not isRefresh = "REFRESH" Then
+
+                DateTimePicker1.Value = tgl_skg
+
+                Dim selectedDate As Date = DateTimePicker1.Value
+                Dim selectedMonthName As String = selectedDate.ToString("MMMM", New Globalization.CultureInfo("id-ID"))
+                Dim selectedYear As Integer = selectedDate.Year
+
+
+
+
                 Cmb_Bulan.Items.Clear() : arrBulan.Clear() : arrBulanMM.Clear()
                 Cmb_Bulan.Items.Add("Januari") : arrBulan.Add("1") : arrBulanMM.Add("01")
                 Cmb_Bulan.Items.Add("Februari") : arrBulan.Add("2") : arrBulanMM.Add("02")
@@ -1179,7 +1192,7 @@ Public Class EMI_Transaksi_ForecastOrder
                 Cmb_Bulan.Items.Add("Oktober") : arrBulan.Add("10") : arrBulanMM.Add("10")
                 Cmb_Bulan.Items.Add("November") : arrBulan.Add("11") : arrBulanMM.Add("11")
                 Cmb_Bulan.Items.Add("Desember") : arrBulan.Add("12") : arrBulanMM.Add("12")
-                Cmb_Bulan.SelectedIndex = -1
+
                 Cmb_Bulan.Enabled = False
 
                 Cmb_Tahun.Items.Clear()
@@ -1189,9 +1202,12 @@ Public Class EMI_Transaksi_ForecastOrder
                     Cmb_Tahun.Items.Add(a)
                 Next
 
-                Cmb_Tahun.SelectedIndex = -1
+
                 Cmb_Tahun.Enabled = False
                 CB_PilihSeluruh.Checked = False
+
+                Cmb_Bulan.SelectedItem = selectedMonthName
+                Cmb_Tahun.SelectedItem = selectedYear
 
                 Cmb_Lokasi.Items.Clear()
                 SQL = "select Kode_Stock_Owner from Stock_Owner where Kode_Perusahaan = '" & KodePerusahaan & "' order by Kode_Stock_Owner"
@@ -1424,16 +1440,7 @@ Public Class EMI_Transaksi_ForecastOrder
         Txt_Keterangan.Text = ""
         Txt_Keterangan.Enabled = True
         DateTimePicker1.Enabled = True
-
-        DateTimePicker1.Value = tgl_skg
         DataGridView1.Rows.Clear()
-
-        Dim selectedDate As Date = DateTimePicker1.Value
-        Dim selectedMonthName As String = selectedDate.ToString("MMMM", New Globalization.CultureInfo("id-ID"))
-        Dim selectedYear As Integer = selectedDate.Year
-
-        Cmb_Bulan.SelectedItem = selectedMonthName
-        Cmb_Tahun.SelectedItem = selectedYear
 
         If isRefresh = "REFRESH" Then
 
@@ -1633,7 +1640,8 @@ Public Class EMI_Transaksi_ForecastOrder
         Txt_Keterangan.Enabled = True
 
         Start_Loading(Me)
-        get_data()
+        'get_data()
+        Get_Data_Rix()
         End_Loading(Me)
 
     End Sub
@@ -1736,7 +1744,8 @@ Public Class EMI_Transaksi_ForecastOrder
         End Try
 
         If ada_data = True Then
-            Get_Barang()
+            'Get_Barang()
+            Get_Barang_Rix()
         End If
 
     End Sub
@@ -2539,7 +2548,8 @@ Public Class EMI_Transaksi_ForecastOrder
         Txt_Keterangan.Enabled = True
 
         Start_Loading(Me)
-        get_data()
+        'get_data()
+        Get_Data_Rix()
         End_Loading(Me)
     End Sub
 
@@ -3565,13 +3575,16 @@ Public Class EMI_Transaksi_ForecastOrder
             Exit Sub
         ElseIf Cmb_Tahun.SelectedIndex = -1 Then
             Exit Sub
+        ElseIf Cmb_Lokasi.SelectedIndex = -1 Then
+            Exit Sub
         End If
 
         DateTimePicker1.Enabled = True
         Txt_Keterangan.Enabled = True
 
         Start_Loading(Me)
-        get_data()
+        'get_data()
+        Get_Data_Rix()
         End_Loading(Me)
     End Sub
 
@@ -3606,6 +3619,375 @@ Public Class EMI_Transaksi_ForecastOrder
     '======================================================================================================
     '======================================================================================================
 
+
+    Private Sub Get_Data_Rix()
+
+        DataGridView1.Columns(CellChkBox).HeaderText = "#"
+        DataGridView1.Columns(CellKdBrg).HeaderText = "Kode Barang"
+        DataGridView1.Columns(CellNmBrg).HeaderText = "Nama Barang"
+        DataGridView1.Columns(CellAvg3Bulan).HeaderText = "Avg 3 Bulan (Pcs)"
+        DataGridView1.Columns(CellForecastCurrentMonth).HeaderText = "Forecast Current Month"
+        DataGridView1.Columns(CellActualCurrentMonth).HeaderText = "Actual Current Month"
+        DataGridView1.Columns(CellPersenCurrentMonth).HeaderText = "% Current Month"
+        Dim a As Integer = arrBulan.Item(Cmb_Bulan.SelectedIndex)
+        Dim fthn As Integer = Val(Cmb_Tahun.Text)
+        Dim panggil_databulan As String = ""
+        Dim panggil_datatahun As String = ""
+
+        For i As Integer = 1 To 6
+            ' Perbarui nilai bulan dan tahun
+            If a = 12 Then
+                a = 1
+                fthn = fthn + 1
+            Else
+                a = a + 1
+            End If
+
+            Dim b As String = ""
+
+            ' Temukan nama bulan yang sesuai
+            For index = 0 To arrBulan.Count - 1
+                If arrBulan.Item(index) = a Then
+                    b = Cmb_Bulan.Items(index)
+                    If i = 1 Then ' Hanya sekali untuk panggil_databulan di iterasi pertama
+                        panggil_databulan = arrBulanMM.Item(index)
+                        panggil_datatahun = fthn
+                    End If
+                End If
+            Next
+
+
+            Dim CellSalesForecastBln As Integer = CType(Me.GetType().GetField("CellSalesForecastBln" & i, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Public Or Reflection.BindingFlags.Instance).GetValue(Me), Integer)
+            Dim CellPPICForecastBln As Integer = CType(Me.GetType().GetField("CellPPICForecastBln" & i, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Public Or Reflection.BindingFlags.Instance).GetValue(Me), Integer)
+            Dim CellUrut As Integer = CType(Me.GetType().GetField("CellUrut_" & i, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Public Or Reflection.BindingFlags.Instance).GetValue(Me), Integer)
+            Dim CellRV As Integer = CType(Me.GetType().GetField("CellRV_" & i, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Public Or Reflection.BindingFlags.Instance).GetValue(Me), Integer)
+            Dim CellSpace As Integer = CType(Me.GetType().GetField("CellSpace" & i, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Public Or Reflection.BindingFlags.Instance).GetValue(Me), Integer)
+
+
+
+
+            DataGridView1.Columns(CellSalesForecastBln).HeaderText = "Sales - Forecast " & b & " - " & fthn
+            DataGridView1.Columns(CellPPICForecastBln).HeaderText = "PPIC - Forecast " & b & " - " & fthn
+            DataGridView1.Columns(CellUrut).HeaderText = i
+            DataGridView1.Columns(CellSpace).HeaderText = ""
+        Next
+
+        DataGridView1.Columns(CellStatus).HeaderText = "Status"
+
+        Dim fLoad As Boolean = False
+        Dim aksesUbahSales As String = ""
+
+        Try
+            OpenConn()
+
+            If CekButtonRole("EMI_Transaksi_ForecastOrder_Sales") = "Y" Then
+                aksesUbahSales = "Y"
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Try
+            OpenConn()
+
+            SQL = "select No_Faktur from EMI_Transaksi_Sales_Forecasting where Kode_Perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "Lokasi = '" & Cmb_Lokasi.Text & "' and Bulan = '" & arrBulanMM.Item(Cmb_Bulan.SelectedIndex) & "' and Tahun = '" & Cmb_Tahun.Text & "'"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Txt_NoFaktur.Text = Dr("No_Faktur")
+                    fLoad = True
+                Else
+                    fLoad = False
+                End If
+            End Using
+
+            SQL = "select Flag_Validasi from EMI_Transaksi_Sales_Forecasting where Kode_Perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "Lokasi = '" & Cmb_Lokasi.Text & "' and Bulan = '" & panggil_databulan & "' and Tahun = '" & panggil_datatahun & "'"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If fStatus = "Transaksi_ForecastOrder_Sales" Then
+                        If aksesUbahSales = "Y" Then
+                            If General_Class.CekNULL(Dr("Flag_Validasi")) = "Y" Then
+                                btn_TambahBarang.Enabled = False
+                            Else
+                                btn_TambahBarang.Enabled = True
+                            End If
+                        Else
+                            btn_TambahBarang.Enabled = False
+                        End If
+                    Else
+                        btn_TambahBarang.Enabled = False
+                    End If
+                Else
+                    If fStatus = "Transaksi_ForecastOrder_Sales" Then
+                        If aksesUbahSales = "Y" Then
+                            btn_TambahBarang.Enabled = True
+                        Else
+                            btn_TambahBarang.Enabled = False
+                        End If
+                    Else
+                        btn_TambahBarang.Enabled = False
+                    End If
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        If fLoad = True Then
+            Txt_NoFaktur_Leave(Cmb_Tahun, Nothing)
+        Else
+            DataGridView1.Rows.Clear()
+        End If
+
+
+    End Sub
+
+    Public Sub Get_Barang_Rix()
+        Dim aksesUbahSales As String = ""
+        Dim aksesUbahPPIC As String = ""
+
+
+
+        Try
+            OpenConn()
+
+            If CekButtonRole("EMI_Transaksi_ForecastOrder_PPIC") = "Y" Then
+                aksesUbahPPIC = "Y"
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Try
+            OpenConn()
+
+            If CekButtonRole("EMI_Transaksi_ForecastOrder_Sales") = "Y" Then
+                aksesUbahSales = "Y"
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Try
+            OpenConn()
+
+            For i = 0 To Arrbarang.Count - 1
+
+
+                DataGridView1.Rows.Add(1)
+                Dim ind As Integer = DataGridView1.Rows.Count - 1
+                DataGridView1.Rows(ind).Cells(CellSalesForecastBln1).Style.BackColor = Color.LightYellow
+                DataGridView1.Rows(ind).Cells(CellPPICForecastBln1).Style.BackColor = Color.LightCyan
+                DataGridView1.Rows(ind).Cells(CellSpace1).Style.BackColor = Color.LightGray
+                DataGridView1.Rows(ind).Cells(CellSalesForecastBln2).Style.BackColor = Color.LightYellow
+                DataGridView1.Rows(ind).Cells(CellPPICForecastBln2).Style.BackColor = Color.LightCyan
+                DataGridView1.Rows(ind).Cells(CellSpace2).Style.BackColor = Color.LightGray
+                DataGridView1.Rows(ind).Cells(CellSalesForecastBln3).Style.BackColor = Color.LightYellow
+                DataGridView1.Rows(ind).Cells(CellPPICForecastBln3).Style.BackColor = Color.LightCyan
+                DataGridView1.Rows(ind).Cells(CellSpace3).Style.BackColor = Color.LightGray
+                DataGridView1.Rows(ind).Cells(CellSalesForecastBln4).Style.BackColor = Color.LightYellow
+                DataGridView1.Rows(ind).Cells(CellPPICForecastBln4).Style.BackColor = Color.LightCyan
+                DataGridView1.Rows(ind).Cells(CellSpace4).Style.BackColor = Color.LightGray
+                DataGridView1.Rows(ind).Cells(CellSalesForecastBln5).Style.BackColor = Color.LightYellow
+                DataGridView1.Rows(ind).Cells(CellPPICForecastBln5).Style.BackColor = Color.LightCyan
+                DataGridView1.Rows(ind).Cells(CellSpace5).Style.BackColor = Color.LightGray
+                DataGridView1.Rows(ind).Cells(CellSalesForecastBln6).Style.BackColor = Color.LightYellow
+                DataGridView1.Rows(ind).Cells(CellPPICForecastBln6).Style.BackColor = Color.LightCyan
+                DataGridView1.Rows(ind).Cells(CellSpace6).Style.BackColor = Color.LightGray
+                DataGridView1.Rows(ind).Cells(CellStatus).Style.BackColor = Color.Yellow
+
+                DataGridView1.Rows(ind).Cells(CellKdBrg).Value = Arrbarang.Item(i)
+                DataGridView1.Rows(ind).Cells(CellNmBrg).Value = ArrNama.Item(i)
+                DataGridView1.Rows(ind).Cells(CellAvg3Bulan).Value = Format(0, "N2")
+
+
+                SQL = "Select top(1) satuan from barang a where kode_barang='" & Arrbarang.Item(i) & "' "
+                Using dr2 = OpenTrans(SQL)
+                    If dr2.Read Then
+                        DataGridView1.Rows(ind).Cells(CellSatuan).Value = dr2("satuan")
+                    Else
+                        dr2.Close()
+                        CloseConn()
+                        MessageBox.Show("barang tidak ditemukan")
+                        Exit Sub
+                    End If
+                End Using
+
+                Dim a As Integer = arrBulan.Item(Cmb_Bulan.SelectedIndex)
+                Dim fthn As Integer = Val(Cmb_Tahun.Text)
+                Dim b As String = ""
+                Dim FValidasi = "Y"
+                For index = 0 To arrBulan.Count - 1
+                    If arrBulan.Item(index) = a Then
+                        'ComboBox1.SelectedIndex = index
+                        b = arrBulanMM.Item(index)
+                    End If
+                Next
+
+                'Current Month
+                SQL = "select Bulan,Tahun,Kode_Barang,Nilai_PPIC,Nilai_Sales,Urut, cast(rv as bigint) as rvx from EMI_Transaksi_Sales_Forecasting_Detail where "
+                SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and Bulan = '" & b & "' and tahun = '" & fthn & "' and "
+                SQL = SQL & "Kode_Stock_Owner = '" & Arrlokasi.Item(i) & "' and Kode_Barang = '" & Arrbarang.Item(i) & "'"
+                Using Ds2 = BindingTrans(SQL)
+                    With Ds2.Tables("MyTable")
+                        If .Rows.Count <> 0 Then
+                            DataGridView1.Rows(ind).Cells(CellForecastCurrentMonth).Value = Format(.Rows(0).Item("Nilai_PPIC"), "N2")
+                            DataGridView1.Rows(ind).Cells(CellActualCurrentMonth).Value = Format(0, "N2")
+                            DataGridView1.Rows(ind).Cells(CellPersenCurrentMonth).Value = Format(0, "N2")
+                        Else
+                            DataGridView1.Rows(ind).Cells(CellForecastCurrentMonth).Value = Format(0, "N2")
+                            DataGridView1.Rows(ind).Cells(CellActualCurrentMonth).Value = Format(0, "N2")
+                            DataGridView1.Rows(ind).Cells(CellPersenCurrentMonth).Value = Format(0, "N2")
+                        End If
+                    End With
+                End Using
+
+
+                For j As Integer = 1 To 6
+                    ' Perbarui nilai bulan dan tahun
+                    If a = 12 Then
+                        a = 1
+                        fthn = fthn + 1
+                    Else
+                        a = a + 1
+                    End If
+
+                    ' Temukan nama bulan yang sesuai
+                    For index = 0 To arrBulan.Count - 1
+                        If arrBulan.Item(index) = a Then
+                            b = arrBulanMM.Item(index)
+
+                            Load_Data_Perbulan(b, fthn, aksesUbahPPIC, aksesUbahSales, ind, j, i)
+                        End If
+                    Next
+
+                Next
+            Next
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+    End Sub
+
+    Private Sub Load_Data_Perbulan(ByVal Bln As String, ByVal Thn As String, ByVal aksesUbahPPIC As String, ByVal aksesUbahSales As String, ByVal RowIndex As Integer, ByVal bulanke As Integer, ByVal indexBarang As Integer)
+
+
+        Dim CellPPICForecastBln As Integer = CType(Me.GetType().GetField("CellPPICForecastBln" & bulanke, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Public Or Reflection.BindingFlags.Instance).GetValue(Me), String)
+        Dim CellSalesForecastBln As Integer = CType(Me.GetType().GetField("CellSalesForecastBln" & bulanke, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Public Or Reflection.BindingFlags.Instance).GetValue(Me), String)
+        Dim CellUrut As Integer = CType(Me.GetType().GetField("CellUrut_" & bulanke, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Public Or Reflection.BindingFlags.Instance).GetValue(Me), String)
+        Dim CellRV As Integer = CType(Me.GetType().GetField("CellRV_" & bulanke, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Public Or Reflection.BindingFlags.Instance).GetValue(Me), String)
+        Dim CellSpace As Integer = CType(Me.GetType().GetField("CellSpace" & bulanke, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Public Or Reflection.BindingFlags.Instance).GetValue(Me), String)
+
+
+        SQL = "Select Status_Data from EMI_Transaksi_Sales_Forecasting a where bulan='" & Bln & "' and tahun ='" & Thn & "' "
+        SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
+        Using dr = OpenTrans(SQL)
+            If dr.Read Then
+                DataGridView1.Rows(RowIndex).Cells(CellStatus).Value = dr("Status_Data")
+            Else
+                DataGridView1.Rows(RowIndex).Cells(CellStatus).Value = "NEW"
+            End If
+        End Using
+
+        If fStatus = "Transaksi_ForecastOrder_PPIC" Then
+
+            If aksesUbahPPIC = "Y" Then
+                SQL = "Select no_faktur from EMI_Transaksi_Sales_Forecasting a where bulan='" & Bln & "' and tahun ='" & Thn & "' "
+                SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' and Flag_validasi_PPIC='Y' "
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+                        fValidasi = "Y"
+                        DataGridView1.Rows(RowIndex).Cells(CellPPICForecastBln).ReadOnly = True
+                        DataGridView1.Rows(RowIndex).Cells(CellPPICForecastBln).Style.BackColor = Color.DarkCyan
+                    Else
+
+                        dr.Close()
+                        SQL = "Select no_faktur from EMI_Transaksi_Sales_Forecasting a where bulan='" & Bln & "' and tahun ='" & Thn & "' "
+                        SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' and Flag_validasi='Y' "
+                        Using dr2 = OpenTrans(SQL)
+                            If dr2.Read Then
+                                fValidasi = ""
+                                DataGridView1.Rows(RowIndex).Cells(CellPPICForecastBln).ReadOnly = False
+                                DataGridView1.Rows(RowIndex).Cells(CellPPICForecastBln).Style.BackColor = Color.LightCyan
+                            Else
+                                fValidasi = "Y"
+                                DataGridView1.Rows(RowIndex).Cells(CellPPICForecastBln).ReadOnly = True
+                                DataGridView1.Rows(RowIndex).Cells(CellPPICForecastBln).Style.BackColor = Color.DarkCyan
+                            End If
+                        End Using
+                    End If
+                End Using
+            Else
+                fValidasi = ""
+                DataGridView1.Rows(RowIndex).Cells(CellPPICForecastBln).ReadOnly = True
+                DataGridView1.Rows(RowIndex).Cells(CellPPICForecastBln).Style.BackColor = Color.DarkCyan
+            End If
+
+        ElseIf fStatus = "Transaksi_ForecastOrder_Sales" Then
+            If aksesUbahSales = "Y" Then
+                SQL = "Select no_faktur from EMI_Transaksi_Sales_Forecasting a where bulan='" & Bln & "' and tahun ='" & Thn & "' "
+                SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' and Flag_validasi='Y' "
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+                        fValidasi = "Y"
+                        DataGridView1.Rows(RowIndex).Cells(CellSalesForecastBln).ReadOnly = True
+                        DataGridView1.Rows(RowIndex).Cells(CellSalesForecastBln).Style.BackColor = Color.DarkGoldenrod
+                    Else
+                        fValidasi = ""
+                        DataGridView1.Rows(RowIndex).Cells(CellSalesForecastBln).ReadOnly = False
+                        DataGridView1.Rows(RowIndex).Cells(CellSalesForecastBln).Style.BackColor = Color.LightYellow
+                    End If
+                End Using
+            Else
+                fValidasi = ""
+                DataGridView1.Rows(RowIndex).Cells(CellSalesForecastBln).ReadOnly = True
+                DataGridView1.Rows(RowIndex).Cells(CellSalesForecastBln).Style.BackColor = Color.DarkGoldenrod
+            End If
+        End If
+
+        SQL = "select Bulan,Tahun,Kode_Barang,Nilai_PPIC,Nilai_Sales,Urut, cast(rv as bigint) as rvx from EMI_Transaksi_Sales_Forecasting_Detail where "
+        SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and Bulan = '" & Bln & "' and tahun = '" & Thn & "' and "
+        SQL = SQL & "Kode_Stock_Owner = '" & Arrlokasi.Item(indexBarang) & "' and Kode_Barang = '" & Arrbarang.Item(indexBarang) & "'"
+        Using Ds2 = BindingTrans(SQL)
+            With Ds2.Tables("MyTable")
+                If .Rows.Count <> 0 Then
+                    DataGridView1.Rows(RowIndex).Cells(CellSalesForecastBln).Value = Format(.Rows(0).Item("Nilai_Sales"), "N2")
+                    DataGridView1.Rows(RowIndex).Cells(CellPPICForecastBln).Value = Format(.Rows(0).Item("Nilai_PPIC"), "N2")
+                    DataGridView1.Rows(RowIndex).Cells(CellUrut).Value = .Rows(0).Item("Urut")
+                    DataGridView1.Rows(RowIndex).Cells(CellRV).Value = .Rows(0).Item("rvx")
+                    DataGridView1.Rows(RowIndex).Cells(CellSpace).Value = ""
+                Else
+                    DataGridView1.Rows(RowIndex).Cells(CellSalesForecastBln).Value = Format(0, "N2")
+                    DataGridView1.Rows(RowIndex).Cells(CellPPICForecastBln).Value = Format(0, "N2")
+                    DataGridView1.Rows(RowIndex).Cells(CellUrut).Value = ""
+                    DataGridView1.Rows(RowIndex).Cells(CellRV).Value = ""
+                    DataGridView1.Rows(RowIndex).Cells(CellSpace).Value = ""
+                End If
+            End With
+        End Using
+    End Sub
 
 
 

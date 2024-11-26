@@ -348,7 +348,6 @@ Public Class EMI_Transaksi_MaterialRequisition
 
         End If
     End Sub
-
     Public Sub get_barang()
 
         Dim akses_ubah As String = ""
@@ -371,7 +370,6 @@ Public Class EMI_Transaksi_MaterialRequisition
             OpenConn()
             For indexxx = 0 To Arrbarang.Count - 1
                 DataGridView1.Rows.Add(1)
-
 
                 Dim ind As Integer = DataGridView1.Rows.Count - 1
 
@@ -2089,6 +2087,8 @@ Public Class EMI_Transaksi_MaterialRequisition
         End Try
 
     End Sub
+
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If ComboBox1.Text.Trim.Length = 0 Then
             MessageBox.Show("Bulan Harus diisi....!!", Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -2574,7 +2574,8 @@ Public Class EMI_Transaksi_MaterialRequisition
         End If
 
         Start_Loading(Me)
-        getdata()
+        'getdata()
+        GetDataRix()
         End_Loading(Me)
 
 
@@ -3459,7 +3460,8 @@ Public Class EMI_Transaksi_MaterialRequisition
         End If
 
         Start_Loading(Me)
-        getdata()
+        'getdata()
+        GetDataRix()
         End_Loading(Me)
     End Sub
 
@@ -4335,7 +4337,8 @@ Public Class EMI_Transaksi_MaterialRequisition
         End If
 
         Start_Loading(Me)
-        getdata()
+        'getdata()
+        GetDataRix()
         End_Loading(Me)
     End Sub
 
@@ -4359,6 +4362,702 @@ Public Class EMI_Transaksi_MaterialRequisition
         ComboBox2.SelectedItem = selectedYear
     End Sub
 
+
+
+
+
+    '==============================================================================================================
+    '==============================================================================================================
+    '==============================================================================================================
+    Private Sub GetDataRix()
+        DataGridView1.Rows.Clear()
+        TextBox2.Clear()
+
+        DataGridView1.Columns(Cell0).HeaderText = "#"
+        DataGridView1.Columns(CellKd_Barang).HeaderText = "Kode Barang"
+        DataGridView1.Columns(CellNm_Barang).HeaderText = "Nama Barang"
+        DataGridView1.Columns(CellAvg_3Bln).HeaderText = "Avg 3 Bulan (Pcs)"
+        DataGridView1.Columns(CellStock_BB).HeaderText = "Stok Bahan Baku"
+        DataGridView1.Columns(CellOPRequesition).HeaderText = "Open Purchase Requsition"
+        DataGridView1.Columns(CellOPOrder).HeaderText = "Open Purchase Order"
+        DataGridView1.Columns(CellTotal).HeaderText = "Total Stock + Open PR + Open PO"
+
+        Dim a As Integer = arrBulan.Item(ComboBox1.SelectedIndex)
+        Dim fthn As Integer = Val(ComboBox2.Text)
+        Dim panggil_databulan As String = ""
+        Dim panggil_datatahun As String = ""
+
+        Dim b As String = ""
+
+        For i As Integer = 1 To 6
+            ' Perbarui nilai bulan dan tahun
+            If a = 12 Then
+                a = 1
+                fthn = fthn + 1
+            Else
+                a = a + 1
+            End If
+
+            ' Temukan nama bulan yang sesuai
+            For index = 0 To arrBulan.Count - 1
+                If arrBulan.Item(index) = a Then
+                    b = ComboBox1.Items(index)
+                    If i = 1 Then ' Hanya sekali untuk panggil_databulan di iterasi pertama
+                        panggil_databulan = arrBulanMM.Item(index)
+                        panggil_datatahun = fthn
+                    End If
+                End If
+            Next
+
+
+            Dim cellNBom As Integer = CType(Me.GetType().GetField("CellNBom_" & i, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Instance).GetValue(Me), String)
+            Dim CellNPPIC As Integer = CType(Me.GetType().GetField("CellNPPIC_" & i, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Instance).GetValue(Me), String)
+            Dim CellUrut As Integer = CType(Me.GetType().GetField("CellUrut_" & i, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Instance).GetValue(Me), String)
+            Dim CellKosong As Integer = CType(Me.GetType().GetField("CellKosong_" & i, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Instance).GetValue(Me), String)
+
+            ' Set header kolom DataGridView
+            DataGridView1.Columns(cellNBom).HeaderText = "BoM - Forecast " & b & " - " & fthn
+            DataGridView1.Columns(CellNPPIC).HeaderText = "PPIC - Forecast " & b & " - " & fthn
+            DataGridView1.Columns(CellUrut).HeaderText = i
+            DataGridView1.Columns(CellKosong).HeaderText = ""
+
+
+        Next
+
+
+        DataGridView1.Columns(CellStatus).HeaderText = "Status"
+
+        Dim fLoad As Boolean = False
+
+        Try
+            OpenConn()
+
+            SQL = "select No_Faktur from EMI_Transaksi_Material_Requsition where Kode_Perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "Lokasi = '" & ComboBox3.Text & "' and Bulan = '" & arrBulanMM.Item(ComboBox1.SelectedIndex) & "' and Tahun = '" & ComboBox2.Text & "'"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    TxtBarangMasuk_NoFaktur.Text = Dr("No_Faktur")
+                    fLoad = True
+                Else
+                    fLoad = False
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        If fLoad = True Then
+            TxtBarangMasuk_NoFaktur_Leave(ComboBox2, Nothing)
+        Else
+
+            Try
+                OpenConn()
+
+                get_no_faktur()
+
+                Arrbarang.Clear()
+                Arrlokasi.Clear()
+                ArrNama.Clear()
+                SQL = "select  e.Kode_Stock_Owner,e.Kode_Barang,c.Nama from EMI_Transaksi_Sales_Forecasting a,  "
+                SQL = SQL & "EMI_Transaksi_Sales_Forecasting_Detail b,barang c, Emi_Transaksi_Formulator d, EMI_Transaksi_Formulator_Detail_Bahan e "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur  "
+                SQL = SQL & "and e.Kode_Perusahaan = c.Kode_Perusahaan and e.Kode_Stock_Owner = c.Kode_Stock_Owner and e.Kode_Barang = c.Kode_Barang "
+                SQL = SQL & "and b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Formula = d.No_Faktur "
+                SQL = SQL & "and d.Kode_Perusahaan = e.Kode_Perusahaan and d.No_Faktur = e.No_Faktur "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "'  "
+                SQL = SQL & "and a.lokasi = '" & ComboBox3.Text & "' "
+                SQL = SQL & "and b.bulan = '" & panggil_databulan & "' and b.Tahun = '" & panggil_datatahun & "' "
+                SQL = SQL & "and a.Flag_Validasi = 'Y' and Flag_Validasi_PPIC = 'Y'  "
+                SQL = SQL & "group by e.Kode_Stock_Owner,e.Kode_Barang,c.Nama "
+
+                SQL = SQL & "Union all "
+
+                SQL = SQL & "Select d.Kode_Stock_Owner,c.Kode_Bahan As Kode_Barang,d.Nama from "
+                SQL = SQL & "EMI_Transaksi_Sales_Forecasting a, EMI_Transaksi_Sales_Forecasting_Detail b, barang_detail_bahan_penolong c, barang d, barang e "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Faktur = b.No_Faktur And b.Kode_Perusahaan = c.Kode_Perusahaan "
+                SQL = SQL & "And b.Kode_Perusahaan=e.Kode_Perusahaan And b.Kode_barang=e.Kode_Barang And b.kode_stock_owner=e.kode_stock_owner "
+                SQL = SQL & "And e.Kode_Barang_inq = c.Kode_Barang And c.Kode_Perusahaan = d.Kode_Perusahaan "
+                SQL = SQL & " And c.Kode_Bahan = d.Kode_Barang And b.Kode_Stock_Owner = d.Kode_Stock_Owner And a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "And a.lokasi = '" & ComboBox3.Text & "' and b.bulan = '" & panggil_databulan & "' and b.Tahun = '" & panggil_datatahun & "' "
+                SQL = SQL & "and a.Flag_Validasi = 'Y' and Flag_Validasi_PPIC = 'Y'  "
+                SQL = SQL & "group by d.Kode_Stock_Owner, c.Kode_Bahan, d.Nama "
+
+                SQL = SQL & "order by nama "
+                Using Ds = BindingTrans(SQL)
+                    With Ds.Tables("MyTable")
+                        If .Rows().Count <> 0 Then
+                            For i As Integer = 0 To .Rows.Count - 1
+                                Arrbarang.Add(.Rows(i).Item("kode_barang"))
+                                Arrlokasi.Add(.Rows(i).Item("kode_stock_owner"))
+                                ArrNama.Add(.Rows(i).Item("nama"))
+                            Next
+                        Else
+                            CloseConn()
+                            MessageBox.Show("Tidak ada data forecasting pada bulan " & ComboBox1.Text & " " & ComboBox2.Text)
+                            Exit Sub
+                        End If
+                    End With
+                End Using
+
+                CloseConn()
+            Catch ex As Exception
+                CloseConn()
+                MessageBox.Show(ex.Message)
+                Exit Sub
+            End Try
+
+            Get_Barang_Rix()
+
+        End If
+
+    End Sub
+
+    Public Sub Get_Barang_Rix()
+
+        Dim akses_ubah As String = ""
+
+        Try
+            OpenConn()
+
+            If CekButtonRole("MRP_PPIC") = "Y" Then
+                akses_ubah = "Y"
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
+        Try
+            OpenConn()
+
+            For indexxx = 0 To Arrbarang.Count - 1
+                Dim ind As Integer = DataGridView1.Rows.Count - 1
+
+                DataGridView1.Rows(ind).Cells(CellNBom_1).Style.BackColor = Color.LightYellow
+                DataGridView1.Rows(ind).Cells(CellNPPIC_1).Style.BackColor = Color.LightCyan
+                DataGridView1.Rows(ind).Cells(CellKosong_1).Style.BackColor = Color.LightGray
+                DataGridView1.Rows(ind).Cells(CellNBom_2).Style.BackColor = Color.LightYellow
+                DataGridView1.Rows(ind).Cells(CellNPPIC_2).Style.BackColor = Color.LightCyan
+                DataGridView1.Rows(ind).Cells(CellKosong_2).Style.BackColor = Color.LightGray
+                DataGridView1.Rows(ind).Cells(CellNBom_3).Style.BackColor = Color.LightYellow
+                DataGridView1.Rows(ind).Cells(CellNPPIC_3).Style.BackColor = Color.LightCyan
+                DataGridView1.Rows(ind).Cells(CellKosong_3).Style.BackColor = Color.LightGray
+                DataGridView1.Rows(ind).Cells(CellNBom_4).Style.BackColor = Color.LightYellow
+                DataGridView1.Rows(ind).Cells(CellNPPIC_4).Style.BackColor = Color.LightCyan
+                DataGridView1.Rows(ind).Cells(CellKosong_4).Style.BackColor = Color.LightGray
+                DataGridView1.Rows(ind).Cells(CellNBom_5).Style.BackColor = Color.LightYellow
+                DataGridView1.Rows(ind).Cells(CellNPPIC_5).Style.BackColor = Color.LightCyan
+                DataGridView1.Rows(ind).Cells(CellKosong_5).Style.BackColor = Color.LightGray
+                DataGridView1.Rows(ind).Cells(CellNBom_6).Style.BackColor = Color.LightYellow
+                DataGridView1.Rows(ind).Cells(CellNPPIC_6).Style.BackColor = Color.LightCyan
+                DataGridView1.Rows(ind).Cells(CellKosong_6).Style.BackColor = Color.LightGray
+                DataGridView1.Rows(ind).Cells(CellStatus).Style.BackColor = Color.Yellow
+
+                DataGridView1.Rows(ind).Cells(CellNBom_1).ReadOnly = True
+                DataGridView1.Rows(ind).Cells(CellNBom_2).ReadOnly = True
+                DataGridView1.Rows(ind).Cells(CellNBom_3).ReadOnly = True
+                DataGridView1.Rows(ind).Cells(CellNBom_4).ReadOnly = True
+                DataGridView1.Rows(ind).Cells(CellNBom_5).ReadOnly = True
+                DataGridView1.Rows(ind).Cells(CellNBom_6).ReadOnly = True
+
+                DataGridView1.Rows(ind).Cells(CellNPPIC_1).ReadOnly = True
+                DataGridView1.Rows(ind).Cells(CellNPPIC_2).ReadOnly = True
+                DataGridView1.Rows(ind).Cells(CellNPPIC_3).ReadOnly = True
+                DataGridView1.Rows(ind).Cells(CellNPPIC_4).ReadOnly = True
+                DataGridView1.Rows(ind).Cells(CellNPPIC_5).ReadOnly = True
+                DataGridView1.Rows(ind).Cells(CellNPPIC_6).ReadOnly = True
+
+                Dim satuan_barang As String = ""
+                Dim good_stock As Double = 0
+                Dim Flag_Packaging As String = ""
+                Dim Flag_Raw_Material As String = ""
+
+                Dim ada_data As String = ""
+                Dim FValidasi As String = ""
+
+
+                SQL = "select a.satuan, a.good_stock, b.Flag_raw_material, b.flag_packaging from barang a, emi_group_jenis b "
+                SQL = SQL & "where a.kode_Barang='" & Arrbarang.Item(indexxx) & "' and kode_stock_owner='" & Arrlokasi.Item(indexxx) & "' "
+                SQL = SQL & "And a.kode_Perusahaan ='" & KodePerusahaan & "' and a.id_group_jenis=b.id_group_jenis and a.Kode_Perusahaan=b.kode_perusahaan "
+                Using dr5 = OpenTrans(SQL)
+                    If dr5.Read Then
+                        satuan_barang = dr5("satuan")
+                        good_stock = dr5("good_stock")
+                        Flag_Packaging = dr5("flag_packaging")
+                        Flag_Raw_Material = dr5("Flag_raw_material")
+                    Else
+                        dr5.Close()
+                        CloseConn()
+                        MessageBox.Show("data tidak ada")
+                        Exit Sub
+                    End If
+                End Using
+
+                'sedang di edit
+                Dim convertKesatuanDisplay As String = ""
+                Dim good_stock_tampil_display As Double = 0
+
+                SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & Arrbarang.Item(indexxx) & "' "
+                SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
+                Using Dr3 = OpenTrans(SQL)
+                    If Dr3.Read Then
+                        convertKesatuanDisplay = Dr3("satuan")
+                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Arrbarang.Item(indexxx) & "',"
+                        SQL = SQL & "'" & satuan_barang & "','" & Dr3("satuan") & "',"
+                        SQL = SQL & "" & good_stock & ") as Hasil "
+                        Dr3.Close()
+
+                        Using dr4 = OpenTrans(SQL)
+                            If dr4.Read Then
+                                If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+                                    If dr4("Hasil") = 0 Then
+                                        good_stock_tampil_display = 0
+                                    Else
+                                        good_stock_tampil_display = dr4("hasil")
+
+                                    End If
+                                Else
+                                    dr4.Close()
+                                    CloseConn()
+                                    MessageBox.Show("Satuan " & satuan_barang & " Ke " & convertKesatuanDisplay & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    kosong()
+                                    Exit Sub
+                                End If
+                            End If
+                        End Using
+                    Else
+                        Dr3.Close()
+                        CloseConn()
+                        MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        kosong()
+                        Exit Sub
+                    End If
+                End Using
+
+                DataGridView1.Rows(ind).Cells(CellKd_Barang).Value = Arrbarang.Item(indexxx)
+                DataGridView1.Rows(ind).Cells(CellNm_Barang).Value = ArrNama.Item(indexxx)
+                DataGridView1.Rows(ind).Cells(CellAvg_3Bln).Value = "0"
+                DataGridView1.Rows(ind).Cells(CellStock_BB).Value = Format(good_stock_tampil_display, "N2")
+                DataGridView1.Rows(ind).Cells(CellSatuanBarang).Value = convertKesatuanDisplay
+
+
+                '=============================== tampil data PR belum PO ==============================='
+
+                Dim totalPrBelumPOPerbarang As Double = 0
+                Dim convertSatuanDisplayPr As String = ""
+
+
+
+                '---------select ke data pr berdasarkan kode_barang
+                SQL = "select b.Kode_Stock_Owner, b.Kode_Barang, b.Satuan, "
+
+                SQL = SQL & "b.jumlah-isnull((Select sum(y.Jumlah) from EMI_Pembelian_PO x, EMI_Pembelian_PO_Det y "
+                SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan And x.No_Faktur = y.No_Faktur "
+                SQL = SQL & "And y.Kode_Perusahaan = b.Kode_Perusahaan And y.no_urut_pr = b.No_Urut And x.status Is null), "
+                SQL = SQL & "0) As jumlah "
+
+                SQL = SQL & "from EMI_Purchase_Requisition a, EMI_Purchase_Requisition_Detail b "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+                SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.Status is null  "
+                SQL = SQL & "and b.kode_stock_owner = '" & Arrlokasi.Item(indexxx) & "' "
+                SQL = SQL & "and b.kode_barang = '" & Arrbarang.Item(indexxx) & "' "
+                'SQL = SQL & "and MONTH(b.tanggal_delivery) = '" & b & "' "
+                'SQL = SQL & "and YEAR(b.tanggal_delivery) = '" & fthn & "' "
+                Using Ds2 = BindingTrans(SQL)
+                    With Ds2.Tables("MyTable")
+                        If .Rows.Count <> 0 Then
+                            For indexPR As Integer = 0 To .Rows.Count - 1
+
+                                'ambil satuan barang yang akan ditampilkan ke display
+                                SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(indexPR).Item("kode_barang") & "' "
+                                SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
+                                OpenConn()
+
+                                Using Dr3 = OpenTrans(SQL)
+                                    If Dr3.Read Then
+                                        convertSatuanDisplayPr = Dr3("satuan")
+                                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(indexPR).Item("kode_barang") & "',"
+                                        SQL = SQL & "'" & .Rows(indexPR).Item("satuan") & "','" & Dr3("satuan") & "',"
+                                        SQL = SQL & "" & .Rows(indexPR).Item("jumlah") & ") as Hasil "
+                                        Dr3.Close()
+
+                                        Using dr4 = OpenTrans(SQL)
+                                            If dr4.Read Then
+                                                If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+                                                    'If dr4("Hasil") = 0 Then
+                                                    '    MessageBox.Show("Satuan " & .Rows(indexPR).Item("satuan") & " Ke " & convertSatuanDisplayPr & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                    '    kosong()
+                                                    '    Exit Sub
+                                                    'Else
+                                                    totalPrBelumPOPerbarang = totalPrBelumPOPerbarang + dr4("hasil")
+                                                    DataGridView1.Rows(ind).Cells(CellOPRequesition).Value = Format(totalPrBelumPOPerbarang, "N2")
+                                                    'End If
+                                                Else
+                                                    dr4.Close()
+                                                    CloseConn()
+                                                    MessageBox.Show("Satuan " & .Rows(indexPR).Item("satuan") & " Ke " & convertSatuanDisplayPr & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                    kosong()
+                                                    Exit Sub
+                                                End If
+                                            End If
+                                        End Using
+                                    Else
+                                        Dr3.Close()
+                                        CloseConn()
+                                        MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        kosong()
+                                        Exit Sub
+                                    End If
+                                End Using
+
+
+                            Next
+                        Else
+                            'jika belum  ada pr maka 0
+                            DataGridView1.Rows(ind).Cells(CellOPRequesition).Value = 0
+                        End If
+                    End With
+                End Using
+
+
+                '=========================================== tampil PR sudah po =========================================='
+                Dim totalPRSudahPO As Double = 0
+                Dim convertSatuanPRSudahPO As String = ""
+                '---------select ke data pr berdasarkan kode_barang
+                SQL = "select b.Kode_Stock_Owner,b.Kode_Barang,b.Satuan,b.jumlah "
+                SQL = SQL & "from EMI_Pembelian_PO a, EMI_Pembelian_PO_Detail b "
+                SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+                SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.Status is null  "
+                SQL = SQL & "and b.kode_stock_owner = '" & Arrlokasi.Item(indexxx) & "' "
+                SQL = SQL & "and b.kode_barang = '" & Arrbarang.Item(indexxx) & "' "
+                Using Ds2 = BindingTrans(SQL)
+                    With Ds2.Tables("MyTable")
+                        If .Rows.Count <> 0 Then
+                            For indexPR As Integer = 0 To .Rows.Count - 1
+
+                                'ambil satuan barang yang akan ditampilkan ke display
+                                SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(indexPR).Item("kode_barang") & "' "
+                                SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
+                                OpenConn()
+
+                                Using Dr3 = OpenTrans(SQL)
+                                    If Dr3.Read Then
+                                        convertSatuanPRSudahPO = Dr3("satuan")
+                                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(indexPR).Item("kode_barang") & "',"
+                                        SQL = SQL & "'" & .Rows(indexPR).Item("satuan") & "','" & Dr3("satuan") & "',"
+                                        SQL = SQL & "" & .Rows(indexPR).Item("jumlah") & ") as Hasil "
+                                        Dr3.Close()
+
+                                        Using dr4 = OpenTrans(SQL)
+                                            If dr4.Read Then
+                                                If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+                                                    'If dr4("Hasil") = 0 Then
+                                                    '    MessageBox.Show("Satuan " & .Rows(indexPR).Item("satuan") & " Ke " & convertSatuanDisplayPr & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                    '    kosong()
+                                                    '    Exit Sub
+                                                    'Else
+                                                    totalPRSudahPO = totalPRSudahPO + dr4("hasil")
+                                                    DataGridView1.Rows(ind).Cells(CellOPOrder).Value = Format(totalPRSudahPO, "N2")
+                                                    'End If
+                                                Else
+                                                    dr4.Close()
+                                                    CloseConn()
+                                                    MessageBox.Show("Satuan " & .Rows(indexPR).Item("satuan") & " Ke " & convertSatuanDisplayPr & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                    kosong()
+                                                    Exit Sub
+                                                End If
+                                            End If
+                                        End Using
+                                    Else
+                                        Dr3.Close()
+                                        CloseConn()
+                                        MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        kosong()
+                                        Exit Sub
+                                    End If
+                                End Using
+
+
+                            Next
+                        Else
+                            'jika belum  ada pr maka 0
+                            DataGridView1.Rows(ind).Cells(CellOPOrder).Value = 0
+                        End If
+                    End With
+                End Using
+
+                DataGridView1.Rows(ind).Cells(CellTotal).Value = Format(totalPrBelumPOPerbarang + totalPRSudahPO + good_stock_tampil_display, "N2")
+
+                'Load Data PerBulan
+                Dim a As Integer = arrBulan.Item(ComboBox1.SelectedIndex)
+                Dim fthn As Integer = Val(ComboBox2.Text)
+                Dim b As String = ""
+
+                For i As Integer = 1 To 6
+                    ' Perbarui nilai bulan dan tahun
+                    If a = 12 Then
+                        a = 1
+                        fthn = fthn + 1
+                    Else
+                        a = a + 1
+                    End If
+
+                    ' Temukan nama bulan yang sesuai
+                    For index = 0 To arrBulan.Count - 1
+                        If arrBulan.Item(index) = a Then
+                            b = arrBulanMM.Item(index)
+
+                            Load_Data_Perbulan(Flag_Raw_Material, Flag_Packaging, indexxx, b, fthn, ind, akses_ubah, FValidasi, i)
+                        End If
+                    Next
+
+                Next
+
+            Next
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
+    End Sub
+
+    Public Sub Load_Data_Perbulan(ByVal Flag_Raw_Material As String, ByVal Flag_Packaging As String, ByVal barangIndex As Integer, ByVal Bln As String, ByVal Thn As String, ByVal RowIndex As Integer, ByVal aksesUbah As String, ByVal FValidasi As String, ByVal bulanke As Integer)
+
+        Dim ada_data As String = ""
+
+
+        Dim CellNPPIC As Integer = CType(Me.GetType().GetField("CellNPPIC_" & bulanke, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Instance).GetValue(Me), String)
+        Dim CellNBom As Integer = CType(Me.GetType().GetField("CellNBom_" & bulanke, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Instance).GetValue(Me), String)
+        Dim CellUrut As Integer = CType(Me.GetType().GetField("CellUrut_" & bulanke, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Instance).GetValue(Me), String)
+        Dim CellKosong As Integer = CType(Me.GetType().GetField("CellKosong_" & bulanke, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Instance).GetValue(Me), String)
+
+
+        If fstatus = "MRP_PPIC" Then
+
+            If aksesUbah = "Y" Then
+                SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & Bln & "' and tahun ='" & Thn & "' "
+                SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' and  Flag_validasi_PPIC='Y' "
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+                        FValidasi = "Y"
+                        DataGridView1.Rows(RowIndex).Cells(CellNPPIC).ReadOnly = True
+                        DataGridView1.Rows(RowIndex).Cells(CellNPPIC).Style.BackColor = Color.DarkCyan
+                    Else
+
+                        dr.Close()
+
+                        FValidasi = ""
+                        DataGridView1.Rows(RowIndex).Cells(CellNPPIC).ReadOnly = False
+                        DataGridView1.Rows(RowIndex).Cells(CellNPPIC).Style.BackColor = Color.LightCyan
+
+                    End If
+                End Using
+            Else
+                FValidasi = ""
+                DataGridView1.Rows(RowIndex).Cells(CellNPPIC).ReadOnly = True
+                DataGridView1.Rows(RowIndex).Cells(CellNPPIC).Style.BackColor = Color.DarkCyan
+            End If
+
+        ElseIf fstatus = "MRP_Formulator" Then
+            SQL = "Select no_faktur from EMI_Transaksi_Material_Requsition a where bulan='" & Bln & "' and tahun ='" & Thn & "' "
+            SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' and  Flag_validasi='Y' "
+            Using dr = OpenTrans(SQL)
+                If dr.Read Then
+                    FValidasi = "Y"
+
+                    DataGridView1.Rows(RowIndex).Cells(CellNBom).Style.BackColor = Color.DarkGoldenrod
+                Else
+                    FValidasi = ""
+
+                    DataGridView1.Rows(RowIndex).Cells(CellNBom).Style.BackColor = Color.LightYellow
+                End If
+            End Using
+        End If
+
+        ada_data = ""
+        SQL = "select Bulan,Tahun,Kode_Barang,Nilai_PPIC,Nilai_Bom,Urut from EMI_Transaksi_Material_Requsition_Detail where "
+        SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and Bulan = '" & Bln & "' and tahun = '" & Thn & "' and "
+        SQL = SQL & "Kode_Stock_Owner = '" & Arrlokasi.Item(barangIndex) & "' and Kode_Barang = '" & Arrbarang.Item(barangIndex) & "'"
+        Using Ds2 = BindingTrans(SQL)
+            With Ds2.Tables("MyTable")
+                If .Rows.Count <> 0 Then
+                    DataGridView1.Rows(RowIndex).Cells(CellNBom).Value = Format(.Rows(0).Item("Nilai_Bom"), "N2")
+                    DataGridView1.Rows(RowIndex).Cells(CellNPPIC).Value = Format(.Rows(0).Item("Nilai_PPIC"), "N2")
+                    DataGridView1.Rows(RowIndex).Cells(CellUrut).Value = .Rows(0).Item("Urut")
+                    DataGridView1.Rows(RowIndex).Cells(CellKosong).Value = ""
+                    ada_data = "T"
+                Else
+                    DataGridView1.Rows(RowIndex).Cells(CellNBom).Value = 0
+                    DataGridView1.Rows(RowIndex).Cells(CellNPPIC).Value = 0
+                    DataGridView1.Rows(RowIndex).Cells(CellUrut).Value = ""
+                    DataGridView1.Rows(RowIndex).Cells(CellKosong).Value = ""
+                    ada_data = "T"
+                End If
+            End With
+        End Using
+
+        If ada_data = "T" Then
+
+
+            If Flag_Raw_Material = "Y" Then
+                SQL = ";with cte as ( "
+                SQL = SQL & "select b.kode_Barang, e.satuan_berat,  "
+                SQL = SQL & "dbo.Ubah_Satuan(a.kode_perusahaan,'MASA',b.kode_Barang,b.satuan,e.satuan_berat,b.nilai_ppic ) as nilai_ppic, "
+                SQL = SQL & "dbo.Ubah_Satuan(a.kode_perusahaan,'MASA',b.kode_Barang,c.satuan_hasil,e.satuan_berat,c.hasil ) as nilai_Formula, "
+                SQL = SQL & "d.kode_barang as Kode_Bahan, d.Nilai_Barang, d.satuan_barang "
+                SQL = SQL & "from "
+                SQL = SQL & "emi_transaksi_sales_forecasting a, emi_transaksi_sales_forecasting_detail b, "
+                SQL = SQL & "emi_transaksi_formulator c, emi_transaksi_formulator_detail_Bahan d, init e "
+                SQL = SQL & "where a.Kode_Perusahaan =b.kode_Perusahaan and a.no_faktur=b.no_faktur and a.status is null "
+                SQL = SQL & "and b.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Bulan = '" & Bln & "' and a.tahun = '" & Thn & "' "
+                SQL = SQL & "and a.flag_validasi='Y' and a.flag_validasi_PPIC='Y'  "
+                SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.KOde_Formula=c.No_faktur and c.status is null "
+                SQL = SQL & "and c.Kode_Perusahaan=d.Kode_Perusahaan and c.no_faktur=d.no_faktur "
+                SQL = SQL & "and d.kode_Barang ='" & Arrbarang.Item(barangIndex) & "' and a.kode_Perusahaan=e.kode_Perusahaan "
+                SQL = SQL & ") "
+                SQL = SQL & "select Kode_Bahan, satuan_barang,sum(round(nilai_barang*(nilai_ppic/nilai_Formula),2)) as Nilai from cte "
+                SQL = SQL & "group by Kode_Bahan, satuan_barang "
+                Using ds3 = BindingTrans(SQL)
+
+                    If ds3.Tables("MyTable").Rows.Count <> 0 Then
+                        For indexFormulator As Integer = 0 To ds3.Tables("MyTable").Rows.Count - 1
+
+                            Dim jumlah As Double = 0
+
+                            jumlah = ds3.Tables("MyTable").Rows(indexFormulator).Item("Nilai")
+
+                            Dim convertKeSatuanAsli As String = ""
+                            Dim jumlahBarangDibutuhkan As Double = 0
+
+                            SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & ds3.Tables("MyTable").Rows(indexFormulator).Item("kode_bahan") & "' "
+                            SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
+                            Using Dr3 = OpenTrans(SQL)
+                                If Dr3.Read Then
+                                    convertKeSatuanAsli = Dr3("satuan")
+                                    SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & ds3.Tables("MyTable").Rows(indexFormulator).Item("Kode_Bahan") & "',"
+                                    SQL = SQL & "'" & ds3.Tables("MyTable").Rows(indexFormulator).Item("satuan_barang") & "','" & Dr3("satuan") & "',"
+                                    SQL = SQL & "" & jumlah & ") as Hasil "
+                                    Dr3.Close()
+
+                                    Using dr4 = OpenTrans(SQL)
+                                        If dr4.Read Then
+                                            If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+
+
+                                                If dr4("hasil") = 0 Then
+                                                    DataGridView1.Rows(RowIndex).Cells(CellNBom).Value = 0
+                                                Else
+                                                    DataGridView1.Rows(RowIndex).Cells(CellNBom).Value = Format(dr4("hasil"), "N2")
+                                                End If
+
+                                            Else
+                                                dr4.Close()
+                                                CloseConn()
+                                                MessageBox.Show("Satuan " & ds3.Tables("MyTable").Rows(indexFormulator).Item("satuan_barang") & " Ke " & convertKeSatuanAsli & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                Exit Sub
+                                            End If
+                                        End If
+                                    End Using
+                                Else
+                                    Dr3.Close()
+                                    CloseConn()
+                                    MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End Using
+                        Next
+                    Else
+                        DataGridView1.Rows(RowIndex).Cells(CellNBom).Value = 0
+
+                    End If
+
+                End Using
+
+            ElseIf Flag_Packaging = "Y" Then
+                SQL = ";with cte as ( "
+                SQL = SQL & "Select b.kode_Barang, b.nilai_ppic As nilai_ppic, c.jumlah_barang As nilai_Formula, "
+                SQL = SQL & "c.Kode_Bahan, c.Jumlah_Bahan As Nilai_Barang, b.satuan As satuan_barang from emi_transaksi_sales_forecasting a, "
+                SQL = SQL & "emi_transaksi_sales_forecasting_detail b, barang_detail_bahan_penolong c, barang d "
+                SQL = SQL & "where a.Kode_Perusahaan = b.kode_Perusahaan And a.no_faktur = b.no_faktur And a.status Is null And b.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "And b.Kode_Perusahaan=d.Kode_Perusahaan And b.Kode_barang=d.Kode_Barang And b.kode_stock_owner=d.kode_stock_owner "
+                SQL = SQL & "And a.Bulan = '" & Bln & "' and a.tahun = '" & Thn & "' and a.flag_validasi='Y' and a.flag_validasi_PPIC='Y' and "
+                SQL = SQL & "d.Kode_Perusahaan = c.Kode_Perusahaan And d.kode_barang_inq = c.kode_barang "
+                SQL = SQL & "And c.kode_bahan ='" & Arrbarang.Item(barangIndex) & "' "
+                SQL = SQL & ") "
+                SQL = SQL & "Select Kode_Bahan, satuan_barang,sum(round(nilai_barang*(nilai_ppic/nilai_Formula),2)) As Nilai "
+                SQL = SQL & "From cte Group By Kode_Bahan, satuan_barang "
+                Using ds3 = BindingTrans(SQL)
+
+                    If ds3.Tables("MyTable").Rows.Count <> 0 Then
+                        For indexFormulator As Integer = 0 To ds3.Tables("MyTable").Rows.Count - 1
+
+                            Dim jumlah As Double = 0
+
+                            jumlah = ds3.Tables("MyTable").Rows(indexFormulator).Item("Nilai")
+
+                            Dim convertKeSatuanAsli As String = ""
+                            Dim jumlahBarangDibutuhkan As Double = 0
+
+                            SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & ds3.Tables("MyTable").Rows(indexFormulator).Item("kode_bahan") & "' "
+                            SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
+                            Using Dr3 = OpenTrans(SQL)
+                                If Dr3.Read Then
+                                    convertKeSatuanAsli = Dr3("satuan")
+                                    SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & ds3.Tables("MyTable").Rows(indexFormulator).Item("Kode_Bahan") & "',"
+                                    SQL = SQL & "'" & ds3.Tables("MyTable").Rows(indexFormulator).Item("satuan_barang") & "','" & Dr3("satuan") & "',"
+                                    SQL = SQL & "" & jumlah & ") as Hasil "
+                                    Dr3.Close()
+
+                                    Using dr4 = OpenTrans(SQL)
+                                        If dr4.Read Then
+                                            If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+
+
+                                                If dr4("hasil") = 0 Then
+                                                    DataGridView1.Rows(RowIndex).Cells(CellNBom).Value = 0
+                                                Else
+                                                    DataGridView1.Rows(RowIndex).Cells(CellNBom).Value = Format(dr4("hasil"), "N2")
+                                                End If
+
+                                            Else
+                                                dr4.Close()
+                                                CloseConn()
+                                                MessageBox.Show("Satuan " & ds3.Tables("MyTable").Rows(indexFormulator).Item("satuan_barang") & " Ke " & convertKeSatuanAsli & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                Exit Sub
+                                            End If
+                                        End If
+                                    End Using
+                                Else
+                                    Dr3.Close()
+                                    CloseConn()
+                                    MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End Using
+                        Next
+                    Else
+                        DataGridView1.Rows(RowIndex).Cells(CellNBom).Value = 0
+
+                    End If
+
+                End Using
+            End If
+
+        End If
+
+    End Sub
 
 
 End Class
