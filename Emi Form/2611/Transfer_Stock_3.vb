@@ -625,13 +625,109 @@ Public Class Transfer_Stock_3
             End If
 
             SQL = "insert into Tf_Stock (Kode_Perusahaan, Kode_Transfer, SO_Awal, SO_Tujuan ,Kode_Barang, "
-            SQL = SQL & "Tanggal, Jam, Jenis_Transfer, Total, Satuan, Keterangan, Total_Barang, Satuan_Barang, userid, Total_Transfer_Bags) values "
+            SQL = SQL & "Tanggal, Jam, Jenis_Transfer, Total, Satuan, Keterangan, Total_Barang, Satuan_Barang, userid, Total_Transfer_Bags, urut_material_requisition_convert) values "
             SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & arrSO(CmbSO_Asal.SelectedIndex) & "', "
             SQL = SQL & "'" & lokasi_tujuan & "', "
             SQL = SQL & "'" & kd_barang & "', '" & tgl_skg & "', '" & tgl_skg.ToString("HH:mm:ss") & "', '" & CmbJnsTransfer.SelectedItem & "', "
             SQL = SQL & "'" & HilangkanTanda(TxtTotalTransfer.Text.ToString) & "', '" & TxtSatuan.Text & "', '" & TxtKeterangan.Text.ToString & "', "
-            SQL = SQL & " '" & nilai_kecil & "', '" & TxtSatuanKecil.Text.ToString & "', '" & UserID & "', '" & HilangkanTanda(TxtTotalTransferBags.Text.ToString) & "')"
+            SQL = SQL & " '" & nilai_kecil & "', '" & TxtSatuanKecil.Text.ToString & "', '" & UserID & "', '" & HilangkanTanda(TxtTotalTransferBags.Text.ToString) & "', '" & Txt_OtoMaterial_req.Text & "')"
             ExecuteTrans(SQL)
+
+
+            Dim isCheck As Boolean = False
+
+            For row As Integer = 0 To DGV_Data_TF.RowCount - 1
+
+                get_grid_view(row)
+
+                If dgv_CheckBox = False Then
+                    Continue For
+                End If
+
+                If dgv_Jumlah = "" Or dgv_JmlhBags = "" Then
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Jumlah harus diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                ElseIf CType(DGV_Data_TF.Rows(row).Cells(itemDgvRakTujuan), DataGridViewComboBoxCell).Value = "" Then
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Rak Tujuan harus diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+
+                isCheck = True
+
+                Dim comboBoxCell As DataGridViewComboBoxCell = CType(DGV_Data_TF.Rows(row).Cells(itemDgvRakTujuan), DataGridViewComboBoxCell)
+                Dim selectedIndex As Integer = comboBoxCell.Items.IndexOf(comboBoxCell.Value)
+
+                Dim nilai_kecildetail As Double = 0
+                SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & TxtKd_Barang.Text & "', '" & TxtSatuan.Text & "',"
+                SQL = SQL & "'" & TxtSatuanKecil.Text & "', '" & HilangkanTanda(dgv_Jumlah.ToString) & "' ) as hasil"
+                Using Dr1 = OpenTrans(SQL)
+                    If Dr1.Read Then
+                        If General_Class.CekNULL(Dr1("hasil")) = "" Then
+                            Dr1.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("data konversi satuan kirim tidak ada ")
+                            Exit Sub
+                        End If
+
+                        nilai_kecildetail = Dr1("hasil")
+                    Else
+                        Dr1.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("data konversi satuan kirim tidak ada ")
+                        Exit Sub
+                    End If
+                End Using
+
+                Dim palletTujuan As Double = 0
+                SQL = "Select Top(1) nomor_urut from view_warehouse_position_detail where "
+                SQL = SQL & "kode_Perusahaan ='" & KodePerusahaan & "' and kode_barang is null and "
+                SQL = SQL & "id_wms_warehouse_position = '" & arr2RakTujuan(row)(selectedIndex) & "' "
+                SQL = SQL & "order by nomor_urut "
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+                        palletTujuan = dr("nomor_urut")
+                    Else
+                        dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("data Rak Sudah Penuh . . ! ! ")
+                        Exit Sub
+                    End If
+                End Using
+
+
+                Dim flag_pot_stock As String = "NULL"
+                Dim jumlah_pot_stock As String = "0"
+                Dim sn As String = "NULL"
+
+                If dgv_JenisKemasan.ToUpper = "ORIGINAL BAGS" Then
+                    flag_pot_stock = "T"
+                End If
+
+                jumlah_pot_stock = nilai_kecildetail
+
+                SQL = "insert into Tf_Stock_det (Kode_Perusahaan, No_Faktur, Serial_Number_Awal, Serial_Number_Akhir, "
+                SQL = SQL & "Id_Wms_Awal, Id_Wms_Tujuan, Jumlah, Jumlah_Bags, Satuan ,No_Pallet_Awal, No_Pallet_Tujuan, "
+                SQL = SQL & "Flag_Pot_Stock, jumlah_pot_Stock, warna) values "
+                SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', "
+                SQL = SQL & "'" & dgv_SerialNumber & "', " & sn & ", " & dgv_IDWareHouse & ", " & arr2RakTujuan(row)(selectedIndex) & ", '" & nilai_kecildetail & "', " & dgv_JmlhBags & ", "
+                SQL = SQL & "'" & TxtSatuanKecil.Text & "','" & dgv_IDPallet & "', " & palletTujuan & ", "
+                SQL = SQL & "" & flag_pot_stock & "," & jumlah_pot_stock & ", "
+                SQL = SQL & "'" & dgv_Warna & "')"
+                ExecuteTrans(SQL)
+
+
+            Next
+
+
+
+#Region "Potong Stock dan Jurnal"
 
             Dim Jenis_Berat As String = ""
             SQL = "Select isnull(flag_tampil_berat,'T') as flag_tampil_berat from emi_satuan where "
@@ -648,10 +744,8 @@ Public Class Transfer_Stock_3
                 End If
             End Using
 
-            Dim isCheck As Boolean = False
+            'Dim isCheck As Boolean = False
             Dim nilai_persediaan_min As Double = 0
-
-#Region "Potong Stock dan Jurnal"
 
             For row As Integer = 0 To DGV_Data_TF.RowCount - 1
 
