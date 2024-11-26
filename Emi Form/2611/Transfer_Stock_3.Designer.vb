@@ -38,6 +38,7 @@ Partial Class Transfer_Stock_3
         Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -55,22 +56,6 @@ Partial Class Transfer_Stock_3
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.DGV_Data_TF = New System.Windows.Forms.DataGridView()
-        Me.lokasi = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.kode_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.barang_sn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.nama_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.id_warehouse = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.kode_rak = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.id_pallet = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.good_stock = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.satuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.bags_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Chk_TF = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.jumlah_transfer = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.transfer_bags = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.rak_tujuan = New System.Windows.Forms.DataGridViewComboBoxColumn()
-        Me.id_warehouse_tujuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColumnWarna = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Lv_DetBarang = New System.Windows.Forms.ListView()
         Me.Panel7 = New System.Windows.Forms.Panel()
@@ -104,7 +89,22 @@ Partial Class Transfer_Stock_3
         Me.Txt_SatuanPermintaan = New System.Windows.Forms.TextBox()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.Txt_OtoMaterial_req = New System.Windows.Forms.TextBox()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.lokasi = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.kode_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.barang_sn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.nama_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.id_warehouse = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.kode_rak = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.id_pallet = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.good_stock = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.satuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.bags_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Chk_TF = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.jumlah_transfer = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.transfer_bags = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.rak_tujuan = New System.Windows.Forms.DataGridViewComboBoxColumn()
+        Me.id_warehouse_tujuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColumnWarna = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         CType(Me.DGV_Data_TF, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -119,6 +119,19 @@ Partial Class Transfer_Stock_3
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1081, 51)
         Me.Panel1.TabIndex = 24
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1081, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -325,142 +338,6 @@ Partial Class Transfer_Stock_3
         Me.DGV_Data_TF.Size = New System.Drawing.Size(1040, 375)
         Me.DGV_Data_TF.TabIndex = 461
         '
-        'lokasi
-        '
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft
-        Me.lokasi.DefaultCellStyle = DataGridViewCellStyle3
-        Me.lokasi.HeaderText = "Lokasi"
-        Me.lokasi.Name = "lokasi"
-        Me.lokasi.ReadOnly = True
-        Me.lokasi.Visible = False
-        Me.lokasi.Width = 150
-        '
-        'kode_barang
-        '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.kode_barang.DefaultCellStyle = DataGridViewCellStyle4
-        Me.kode_barang.HeaderText = "kode Barang"
-        Me.kode_barang.Name = "kode_barang"
-        Me.kode_barang.ReadOnly = True
-        Me.kode_barang.Visible = False
-        Me.kode_barang.Width = 150
-        '
-        'barang_sn
-        '
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.barang_sn.DefaultCellStyle = DataGridViewCellStyle5
-        Me.barang_sn.HeaderText = "Serial Number"
-        Me.barang_sn.Name = "barang_sn"
-        Me.barang_sn.ReadOnly = True
-        Me.barang_sn.Visible = False
-        Me.barang_sn.Width = 250
-        '
-        'nama_barang
-        '
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.nama_barang.DefaultCellStyle = DataGridViewCellStyle6
-        Me.nama_barang.HeaderText = "Nama"
-        Me.nama_barang.Name = "nama_barang"
-        Me.nama_barang.ReadOnly = True
-        Me.nama_barang.Visible = False
-        Me.nama_barang.Width = 150
-        '
-        'id_warehouse
-        '
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.id_warehouse.DefaultCellStyle = DataGridViewCellStyle7
-        Me.id_warehouse.HeaderText = "ID Warehouse"
-        Me.id_warehouse.Name = "id_warehouse"
-        Me.id_warehouse.ReadOnly = True
-        Me.id_warehouse.Visible = False
-        Me.id_warehouse.Width = 150
-        '
-        'kode_rak
-        '
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.kode_rak.DefaultCellStyle = DataGridViewCellStyle8
-        Me.kode_rak.HeaderText = "Kode Rak"
-        Me.kode_rak.Name = "kode_rak"
-        Me.kode_rak.ReadOnly = True
-        Me.kode_rak.Width = 265
-        '
-        'id_pallet
-        '
-        Me.id_pallet.HeaderText = "ID Pallet"
-        Me.id_pallet.Name = "id_pallet"
-        Me.id_pallet.ReadOnly = True
-        Me.id_pallet.Visible = False
-        Me.id_pallet.Width = 150
-        '
-        'good_stock
-        '
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.good_stock.DefaultCellStyle = DataGridViewCellStyle9
-        Me.good_stock.HeaderText = "Stock"
-        Me.good_stock.Name = "good_stock"
-        Me.good_stock.ReadOnly = True
-        '
-        'satuan
-        '
-        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.satuan.DefaultCellStyle = DataGridViewCellStyle10
-        Me.satuan.HeaderText = "Satuan"
-        Me.satuan.Name = "satuan"
-        Me.satuan.ReadOnly = True
-        Me.satuan.Width = 60
-        '
-        'bags_barang
-        '
-        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.bags_barang.DefaultCellStyle = DataGridViewCellStyle11
-        Me.bags_barang.HeaderText = "Stock Bags"
-        Me.bags_barang.Name = "bags_barang"
-        Me.bags_barang.ReadOnly = True
-        Me.bags_barang.Width = 90
-        '
-        'Chk_TF
-        '
-        Me.Chk_TF.HeaderText = ""
-        Me.Chk_TF.Name = "Chk_TF"
-        Me.Chk_TF.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Chk_TF.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        Me.Chk_TF.Width = 30
-        '
-        'jumlah_transfer
-        '
-        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle12.Format = "N2"
-        DataGridViewCellStyle12.NullValue = Nothing
-        Me.jumlah_transfer.DefaultCellStyle = DataGridViewCellStyle12
-        Me.jumlah_transfer.HeaderText = "Jumlah"
-        Me.jumlah_transfer.Name = "jumlah_transfer"
-        Me.jumlah_transfer.Width = 90
-        '
-        'transfer_bags
-        '
-        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.transfer_bags.DefaultCellStyle = DataGridViewCellStyle13
-        Me.transfer_bags.HeaderText = "Bags"
-        Me.transfer_bags.Name = "transfer_bags"
-        Me.transfer_bags.Width = 90
-        '
-        'rak_tujuan
-        '
-        Me.rak_tujuan.HeaderText = "Rak Tujuan"
-        Me.rak_tujuan.Name = "rak_tujuan"
-        Me.rak_tujuan.Width = 190
-        '
-        'id_warehouse_tujuan
-        '
-        Me.id_warehouse_tujuan.HeaderText = "ID Warehose Tujuan"
-        Me.id_warehouse_tujuan.Name = "id_warehouse_tujuan"
-        Me.id_warehouse_tujuan.Visible = False
-        '
-        'ColumnWarna
-        '
-        Me.ColumnWarna.HeaderText = "Warna"
-        Me.ColumnWarna.Name = "ColumnWarna"
-        '
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
@@ -515,6 +392,7 @@ Partial Class Transfer_Stock_3
         Me.TxtTotalTransfer.Name = "TxtTotalTransfer"
         Me.TxtTotalTransfer.Size = New System.Drawing.Size(114, 21)
         Me.TxtTotalTransfer.TabIndex = 464
+        Me.TxtTotalTransfer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Btn_Refresh
         '
@@ -621,7 +499,7 @@ Partial Class Transfer_Stock_3
         Me.TxtStock.Name = "TxtStock"
         Me.TxtStock.Size = New System.Drawing.Size(92, 21)
         Me.TxtStock.TabIndex = 470
-        Me.TxtStock.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.TxtStock.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Label9
         '
@@ -667,7 +545,7 @@ Partial Class Transfer_Stock_3
         Me.TxtBags.Name = "TxtBags"
         Me.TxtBags.Size = New System.Drawing.Size(92, 21)
         Me.TxtBags.TabIndex = 470
-        Me.TxtBags.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.TxtBags.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'TxtTotalTransferBags
         '
@@ -680,6 +558,7 @@ Partial Class Transfer_Stock_3
         Me.TxtTotalTransferBags.Name = "TxtTotalTransferBags"
         Me.TxtTotalTransferBags.Size = New System.Drawing.Size(114, 21)
         Me.TxtTotalTransferBags.TabIndex = 464
+        Me.TxtTotalTransferBags.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Label12
         '
@@ -791,7 +670,7 @@ Partial Class Transfer_Stock_3
         Me.Txt_JumlahPermintaan.ReadOnly = True
         Me.Txt_JumlahPermintaan.Size = New System.Drawing.Size(144, 21)
         Me.Txt_JumlahPermintaan.TabIndex = 438
-        Me.Txt_JumlahPermintaan.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Txt_JumlahPermintaan.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Label16
         '
@@ -843,18 +722,141 @@ Partial Class Transfer_Stock_3
         Me.Txt_OtoMaterial_req.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.Txt_OtoMaterial_req.Visible = False
         '
-        'PanelGradient1
+        'lokasi
         '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1081, 2)
-        Me.PanelGradient1.TabIndex = 22
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft
+        Me.lokasi.DefaultCellStyle = DataGridViewCellStyle3
+        Me.lokasi.HeaderText = "Lokasi"
+        Me.lokasi.Name = "lokasi"
+        Me.lokasi.ReadOnly = True
+        Me.lokasi.Visible = False
+        Me.lokasi.Width = 150
+        '
+        'kode_barang
+        '
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.kode_barang.DefaultCellStyle = DataGridViewCellStyle4
+        Me.kode_barang.HeaderText = "kode Barang"
+        Me.kode_barang.Name = "kode_barang"
+        Me.kode_barang.ReadOnly = True
+        Me.kode_barang.Visible = False
+        Me.kode_barang.Width = 150
+        '
+        'barang_sn
+        '
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.barang_sn.DefaultCellStyle = DataGridViewCellStyle5
+        Me.barang_sn.HeaderText = "Serial Number"
+        Me.barang_sn.Name = "barang_sn"
+        Me.barang_sn.ReadOnly = True
+        Me.barang_sn.Visible = False
+        Me.barang_sn.Width = 250
+        '
+        'nama_barang
+        '
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.nama_barang.DefaultCellStyle = DataGridViewCellStyle6
+        Me.nama_barang.HeaderText = "Nama"
+        Me.nama_barang.Name = "nama_barang"
+        Me.nama_barang.ReadOnly = True
+        Me.nama_barang.Visible = False
+        Me.nama_barang.Width = 150
+        '
+        'id_warehouse
+        '
+        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.id_warehouse.DefaultCellStyle = DataGridViewCellStyle7
+        Me.id_warehouse.HeaderText = "ID Warehouse"
+        Me.id_warehouse.Name = "id_warehouse"
+        Me.id_warehouse.ReadOnly = True
+        Me.id_warehouse.Visible = False
+        Me.id_warehouse.Width = 150
+        '
+        'kode_rak
+        '
+        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.kode_rak.DefaultCellStyle = DataGridViewCellStyle8
+        Me.kode_rak.HeaderText = "Kode Rak"
+        Me.kode_rak.Name = "kode_rak"
+        Me.kode_rak.ReadOnly = True
+        Me.kode_rak.Width = 265
+        '
+        'id_pallet
+        '
+        Me.id_pallet.HeaderText = "ID Pallet"
+        Me.id_pallet.Name = "id_pallet"
+        Me.id_pallet.ReadOnly = True
+        Me.id_pallet.Visible = False
+        Me.id_pallet.Width = 150
+        '
+        'good_stock
+        '
+        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.good_stock.DefaultCellStyle = DataGridViewCellStyle9
+        Me.good_stock.HeaderText = "Stock"
+        Me.good_stock.Name = "good_stock"
+        Me.good_stock.ReadOnly = True
+        '
+        'satuan
+        '
+        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.satuan.DefaultCellStyle = DataGridViewCellStyle10
+        Me.satuan.HeaderText = "Satuan"
+        Me.satuan.Name = "satuan"
+        Me.satuan.ReadOnly = True
+        Me.satuan.Width = 60
+        '
+        'bags_barang
+        '
+        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.bags_barang.DefaultCellStyle = DataGridViewCellStyle11
+        Me.bags_barang.HeaderText = "Stock Bags"
+        Me.bags_barang.Name = "bags_barang"
+        Me.bags_barang.ReadOnly = True
+        Me.bags_barang.Width = 90
+        '
+        'Chk_TF
+        '
+        Me.Chk_TF.HeaderText = ""
+        Me.Chk_TF.Name = "Chk_TF"
+        Me.Chk_TF.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Chk_TF.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.Chk_TF.Width = 30
+        '
+        'jumlah_transfer
+        '
+        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle12.Format = "N2"
+        DataGridViewCellStyle12.NullValue = Nothing
+        Me.jumlah_transfer.DefaultCellStyle = DataGridViewCellStyle12
+        Me.jumlah_transfer.HeaderText = "Jumlah"
+        Me.jumlah_transfer.Name = "jumlah_transfer"
+        Me.jumlah_transfer.Width = 90
+        '
+        'transfer_bags
+        '
+        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.transfer_bags.DefaultCellStyle = DataGridViewCellStyle13
+        Me.transfer_bags.HeaderText = "Bags"
+        Me.transfer_bags.Name = "transfer_bags"
+        Me.transfer_bags.Width = 90
+        '
+        'rak_tujuan
+        '
+        Me.rak_tujuan.HeaderText = "Rak Tujuan"
+        Me.rak_tujuan.Name = "rak_tujuan"
+        Me.rak_tujuan.Width = 190
+        '
+        'id_warehouse_tujuan
+        '
+        Me.id_warehouse_tujuan.HeaderText = "ID Warehose Tujuan"
+        Me.id_warehouse_tujuan.Name = "id_warehouse_tujuan"
+        Me.id_warehouse_tujuan.Visible = False
+        '
+        'ColumnWarna
+        '
+        Me.ColumnWarna.HeaderText = "Warna"
+        Me.ColumnWarna.Name = "ColumnWarna"
         '
         'Transfer_Stock_3
         '
@@ -969,6 +971,12 @@ Partial Class Transfer_Stock_3
     Friend WithEvents Label13 As Label
     Friend WithEvents Label14 As Label
     Friend WithEvents Cmb_Warna As ComboBox
+    Friend WithEvents Label15 As Label
+    Friend WithEvents Txt_JumlahPermintaan As TextBox
+    Friend WithEvents Label16 As Label
+    Friend WithEvents Txt_SatuanPermintaan As TextBox
+    Friend WithEvents Label17 As Label
+    Friend WithEvents Txt_OtoMaterial_req As TextBox
     Friend WithEvents lokasi As DataGridViewTextBoxColumn
     Friend WithEvents kode_barang As DataGridViewTextBoxColumn
     Friend WithEvents barang_sn As DataGridViewTextBoxColumn
@@ -985,10 +993,4 @@ Partial Class Transfer_Stock_3
     Friend WithEvents rak_tujuan As DataGridViewComboBoxColumn
     Friend WithEvents id_warehouse_tujuan As DataGridViewTextBoxColumn
     Friend WithEvents ColumnWarna As DataGridViewTextBoxColumn
-    Friend WithEvents Label15 As Label
-    Friend WithEvents Txt_JumlahPermintaan As TextBox
-    Friend WithEvents Label16 As Label
-    Friend WithEvents Txt_SatuanPermintaan As TextBox
-    Friend WithEvents Label17 As Label
-    Friend WithEvents Txt_OtoMaterial_req As TextBox
 End Class

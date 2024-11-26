@@ -227,7 +227,7 @@ Public Class EMI_Timbang_Floor_Scale
                 ExecuteTrans(SQL)
 
 
-                cetak()
+
 
             ElseIf CmbJenisTimbang.Text.Trim.ToUpper = "TRANSFER STOCK" Then
 
@@ -522,7 +522,7 @@ Public Class EMI_Timbang_Floor_Scale
                 SQL = SQL & "userid_pot_stock = '" & UserID & "', "
                 SQL = SQL & "serial_number_akhir='" & SN_Baru & "' "
                 SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
-                SQL = SQL & "and no_faktur = '" & txtKodeTransfer.Text & "' "
+                SQL = SQL & "and urut_oto = '" & txtUrutOto.Text & "' "
                 ExecuteTrans(SQL)
 
 
@@ -736,6 +736,13 @@ Public Class EMI_Timbang_Floor_Scale
                 ExecuteTrans(SQL)
 
 
+                SQL = "update Tf_Stock_det set  "
+                SQL = SQL & "Flag_sudah_cetak = 'Y' "
+                SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and urut_oto = '" & txtUrutOto.Text & "' "
+                ExecuteTrans(SQL)
+
+
                 'Cmd.Transaction.Commit()
                 'CloseTrans()
                 'CloseConn()
@@ -796,6 +803,7 @@ Public Class EMI_Timbang_Floor_Scale
         End Try
 
         If CmbJenisTimbang.Text.Trim.ToUpper = "BARANG MASUK" Then
+            cetak()
             EMI_Display_Pallet_Masuk.kosong()
             Me.Close()
         ElseIf CmbJenisTimbang.Text.Trim.ToUpper = "TRANSFER STOCK" Then
@@ -1103,35 +1111,35 @@ Public Class EMI_Timbang_Floor_Scale
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
 
 
-                    Dim CrDoc As New BM_PerPallet
+                    'Dim CrDoc As New BM_PerPallet
 
-                    CrDoc.SetDataSource(Ds)
-                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & txtKodeTransfer.Text & "'"
+                    'CrDoc.SetDataSource(Ds)
+                    'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    'CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & txtKodeTransfer.Text & "'"
 
-                    CrDoc.PrintOptions.PrinterName = "ZDesigner ZD230-203dpi ZPL"
+                    'CrDoc.PrintOptions.PrinterName = "ZDesigner ZD230-203dpi ZPL"
 
-                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                    doctoprint.PrinterSettings.PrinterName = "ZDesigner ZD230-203dpi ZPL"
+                    'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    'doctoprint.PrinterSettings.PrinterName = "ZDesigner ZD230-203dpi ZPL"
 
-                    CrDoc.PrintToPrinter(1, False, 1, 2500)
-
-
+                    'CrDoc.PrintToPrinter(1, False, 1, 2500)
 
 
-                    'KODE LAMA
-                    'CrDoc = New BM_PerPallet
-                    'With A_Place_For_Printing2
-                    '    CrDoc.SetDataSource(Ds)
-                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    '    CrDoc.PrintOptions.PrinterName = ""
-                    '    CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & Lv_BM_PerPallet.FocusedItem.Text & "'" 'and IsNull({EMI_Barang_Masuk_Perpallet.Sdh_Cetak}) "
-                    '    CrDoc.SummaryInfo.ReportTitle = "Barang Masuk Per Pallet"
-                    '    .Text = "Barang Masuk Per Pallet"
-                    '    .CrystalReportViewer1.ReportSource = CrDoc
-                    '    .Refresh()
-                    '    .Show()
-                    'End With
+
+
+                    ' KODE LAMA
+                    Dim CrDoc = New BM_PerPallet
+                    With A_Place_For_Printing2
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        CrDoc.PrintOptions.PrinterName = ""
+                        CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & txtKodeTransfer.Text & "'" 'and IsNull({EMI_Barang_Masuk_Perpallet.Sdh_Cetak}) "
+                        CrDoc.SummaryInfo.ReportTitle = "Barang Masuk Per Pallet"
+                        .Text = "Barang Masuk Per Pallet"
+                        .CrystalReportViewer1.ReportSource = CrDoc
+                        .Refresh()
+                        .Show()
+                    End With
 
                     '''CrDoc.SetDataSource(Ds)
                     '''CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)

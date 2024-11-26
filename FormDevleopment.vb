@@ -196,4 +196,12 @@
         Master_Quality_Control.Show()
         Master_Quality_Control.Focus()
     End Sub
+
+    Private Sub QCToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QCToolStripMenuItem.Click
+        EMI_Display_QC_Produksi.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Display_QC_Produksi.MdiParent = Me
+        EMI_Display_QC_Produksi.Show()
+        EMI_Display_QC_Produksi.Focus()
+    End Sub
 End Class

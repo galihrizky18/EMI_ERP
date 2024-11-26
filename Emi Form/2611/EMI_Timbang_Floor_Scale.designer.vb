@@ -52,6 +52,7 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.Btn_Simpan = New System.Windows.Forms.Button()
         Me.Btn_Refresh = New System.Windows.Forms.Button()
         Me.Barcode = New System.Windows.Forms.PictureBox()
+        Me.txtUrutOto = New System.Windows.Forms.TextBox()
         GroupBox1 = New System.Windows.Forms.GroupBox()
         GroupBox1.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -60,6 +61,7 @@ Partial Class EMI_Timbang_Floor_Scale
         '
         'GroupBox1
         '
+        GroupBox1.Controls.Add(Me.txtUrutOto)
         GroupBox1.Controls.Add(Me.txt_Barang_SN)
         GroupBox1.Controls.Add(Me.TxtKdBarang)
         GroupBox1.Controls.Add(Me.LblSatuan)
@@ -419,6 +421,20 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.Barcode.TabStop = False
         Me.Barcode.Visible = False
         '
+        'txtUrutOto
+        '
+        Me.txtUrutOto.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.txtUrutOto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtUrutOto.Enabled = False
+        Me.txtUrutOto.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.txtUrutOto.Location = New System.Drawing.Point(700, 5)
+        Me.txtUrutOto.MaxLength = 50
+        Me.txtUrutOto.Name = "txtUrutOto"
+        Me.txtUrutOto.ReadOnly = True
+        Me.txtUrutOto.Size = New System.Drawing.Size(62, 21)
+        Me.txtUrutOto.TabIndex = 482
+        Me.txtUrutOto.Visible = False
+        '
         'EMI_Timbang_Floor_Scale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -477,6 +493,7 @@ Partial Class EMI_Timbang_Floor_Scale
     Friend WithEvents txt_Barang_SN As TextBox
     Friend WithEvents Txt_SatuanKecil As TextBox
     Friend WithEvents Barcode As PictureBox
+    Friend WithEvents txtUrutOto As TextBox
     '''Friend WithEvents StreamPlayerControl1 As WebEye.Controls.WinForms.StreamPlayerControl.StreamPlayerControl
     '''Friend WithEvents StreamPlayerControl2 As WebEye.Controls.WinForms.StreamPlayerControl.StreamPlayerControl
 End Class

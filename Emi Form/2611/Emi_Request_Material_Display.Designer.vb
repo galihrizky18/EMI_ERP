@@ -64,7 +64,7 @@ Partial Class Emi_Request_Material_Display
         Me.Label1.Location = New System.Drawing.Point(15, 11)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(286, 30)
+        Me.Label1.Size = New System.Drawing.Size(285, 30)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Display - Request Material"
         '
@@ -121,7 +121,7 @@ Partial Class Emi_Request_Material_Display
         Me.Panel5.TabIndex = 38
         Me.Panel5.Visible = False
         '
-        'Emi_Request_Material_Display_vb
+        'Emi_Request_Material_Display
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -136,8 +136,9 @@ Partial Class Emi_Request_Material_Display
         Me.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "Emi_Request_Material_Display_vb"
+        Me.Name = "Emi_Request_Material_Display"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "99999999999999999999999999"
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)

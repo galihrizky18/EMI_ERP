@@ -31,15 +31,15 @@
         Lv_Data.Columns.Add("Jenis", 130, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("Tanggal Permintaan", 130, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("Jam Permintaan", 0, HorizontalAlignment.Center) 'HIDE
-        Lv_Data.Columns.Add("Jumlah", 100, HorizontalAlignment.Center)
-        Lv_Data.Columns.Add("Satuan", 100, HorizontalAlignment.Center)
+        Lv_Data.Columns.Add("Jumlah", 100, HorizontalAlignment.Right)
+        Lv_Data.Columns.Add("Satuan", 0, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("User Input", 0, HorizontalAlignment.Center) 'HIDE
         Lv_Data.Columns.Add("Warna", 130, HorizontalAlignment.Center)
-        Lv_Data.Columns.Add("Stock", 0, HorizontalAlignment.Center) 'HIDE
+        Lv_Data.Columns.Add("Stock", 0, HorizontalAlignment.Right) 'HIDE
         Lv_Data.Columns.Add("Satuan Besar", 0, HorizontalAlignment.Center) 'HIDE
-        Lv_Data.Columns.Add("Satuan Display", 0, HorizontalAlignment.Center) 'HIDE
-        Lv_Data.Columns.Add("Jumlah Bags", 130, HorizontalAlignment.Center)
-        Lv_Data.Columns.Add("Satuan Bags", 130, HorizontalAlignment.Center)
+        Lv_Data.Columns.Add("Satuan Display", 100, HorizontalAlignment.Center) 'HIDE
+        Lv_Data.Columns.Add("Jumlah Bags", 0, HorizontalAlignment.Right)
+        Lv_Data.Columns.Add("Satuan Bags", 0, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("Urut Oto", 0, HorizontalAlignment.Center) 'HIDE
         Lv_Data.View = View.Details
 
@@ -51,7 +51,7 @@
             OpenConn()
 
             Lv_Data.Items.Clear()
-            SQL = "select c.Kode_Stock_Owner, c.Kode_Barang, d.Nama, b.Kode_Group_Jenis, a.Tanggal, a.Jam, c.Jumlah, c.Satuan, a.UserId, c.warna, "
+            SQL = "select c.Kode_Stock_Owner, c.Kode_Barang, d.Nama, b.Kode_Group_Jenis, a.Tanggal, a.Jam, c.Jumlah,  a.UserId, c.warna, "
             SQL = SQL & "dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, d.satuan, c.satuan, d.good_stock) as Good_Stock, d.Satuan, c.Satuan as Satuan_Display, "
             SQL = SQL & "ISNULL(d.Jumlah_Bags, 0) as Jumlah_Bags, d.Satuan_Isi_Bags, c.Urut_Oto "
             SQL = SQL & "from Emi_Material_Requisition a, EMI_Group_Jenis b, Emi_Material_Requisition_Det_Convert c, barang d  "
@@ -59,7 +59,7 @@
             SQL = SQL & "and a.Id_Group_Jenis = b.Id_Group_Jenis "
             SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' and a.No_Faktur = c.No_Faktur "
             SQL = SQL & "and c.kode_barang = d.kode_barang and d.kode_stock_owner='" & lokasi_kirim & "' "
-            SQL = SQL & "and a.Flag_Process = 'Y' and a.status is null "
+            SQL = SQL & "and a.Flag_Process = 'Y' and a.status is null and c.jumlah<>0 "
             SQL = SQL & "and c.Flag_Transfer is null "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
@@ -122,15 +122,15 @@
         Transfer_Stock_3.TxtKd_Barang.Text = lv_KdBrg
         Transfer_Stock_3.TxtNm_Barang.Text = lv_NmBrg
         Transfer_Stock_3.Txt_SO.Text = lv_kodeSO
-        Transfer_Stock_3.TxtSatuanKecil.Text = lv_SatuanDisplay
+        Transfer_Stock_3.TxtSatuanKecil.Text = lv_Satuan
         Transfer_Stock_3.Txt_Warna.Text = lv_Warna
         Transfer_Stock_3.TxtStock.Text = lv_GoodStock
-        Transfer_Stock_3.TxtSatuan.Text = lv_SatuanBesar
+        Transfer_Stock_3.TxtSatuan.Text = lv_SatuanDisplay
         Transfer_Stock_3.TxtBags.Text = lv_JmlBags
         Transfer_Stock_3.Cmb_Warna.SelectedItem = lv_Warna
 
         Transfer_Stock_3.Txt_JumlahPermintaan.Text = lv_Jumlah
-        Transfer_Stock_3.Txt_SatuanPermintaan.Text = lv_Satuan
+        Transfer_Stock_3.Txt_SatuanPermintaan.Text = lv_SatuanDisplay
         Transfer_Stock_3.Txt_OtoMaterial_req.Text = Lv_Oto
         'Transfer_Stock_3.Btn_Insert_Click(Lv_Data, e)
         Transfer_Stock_3.DGV_Data_TF.Rows.Clear()

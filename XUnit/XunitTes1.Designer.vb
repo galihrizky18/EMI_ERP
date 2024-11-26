@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class TesUnit
+Partial Class XunitTes1
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -28,9 +28,9 @@ Partial Class TesUnit
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(231, 169)
+        Me.Button1.Location = New System.Drawing.Point(221, 181)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(269, 91)
+        Me.Button1.Size = New System.Drawing.Size(233, 110)
         Me.Button1.TabIndex = 0
         Me.Button1.Text = "Button1"
         Me.Button1.UseVisualStyleBackColor = True
@@ -38,22 +38,22 @@ Partial Class TesUnit
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(274, 51)
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(254, 58)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(131, 42)
+        Me.Label1.Size = New System.Drawing.Size(57, 20)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "Label1"
         '
-        'TesUnit
+        'XunitTes1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Button1)
-        Me.Name = "TesUnit"
-        Me.Text = "TesUnit"
+        Me.Name = "XunitTes1"
+        Me.Text = "XunitTes1"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

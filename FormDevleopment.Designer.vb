@@ -50,6 +50,8 @@ Partial Class FormDevleopment
         Me.RefraksiToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.PalletMasukToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TimbangFloorScaleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.HCToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MaterRecrutmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel4 = New System.Windows.Forms.ToolStripStatusLabel()
@@ -57,15 +59,17 @@ Partial Class FormDevleopment
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
-        Me.MaterRecrutmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.HCToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ProductionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TransaksiToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ProduksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.QCToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalesToolStripMenuItem, Me.RequestMaterialToolStripMenuItem, Me.PurchaseToolStripMenuItem, Me.WarehouseToolStripMenuItem, Me.HCToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalesToolStripMenuItem, Me.RequestMaterialToolStripMenuItem, Me.PurchaseToolStripMenuItem, Me.WarehouseToolStripMenuItem, Me.ProductionToolStripMenuItem, Me.HCToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(1088, 24)
@@ -241,6 +245,21 @@ Partial Class FormDevleopment
         Me.TimbangFloorScaleToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
         Me.TimbangFloorScaleToolStripMenuItem.Text = "Timbang Floor Scale"
         '
+        'HCToolStripMenuItem
+        '
+        Me.HCToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MaterRecrutmentToolStripMenuItem})
+        Me.HCToolStripMenuItem.Enabled = False
+        Me.HCToolStripMenuItem.Name = "HCToolStripMenuItem"
+        Me.HCToolStripMenuItem.ShowShortcutKeys = False
+        Me.HCToolStripMenuItem.Size = New System.Drawing.Size(36, 20)
+        Me.HCToolStripMenuItem.Text = "HC"
+        '
+        'MaterRecrutmentToolStripMenuItem
+        '
+        Me.MaterRecrutmentToolStripMenuItem.Name = "MaterRecrutmentToolStripMenuItem"
+        Me.MaterRecrutmentToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
+        Me.MaterRecrutmentToolStripMenuItem.Text = "Mater Recrutment"
+        '
         'StatusStrip1
         '
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel4, Me.ToolStripStatusLabel2, Me.ToolStripStatusLabel3})
@@ -287,20 +306,32 @@ Partial Class FormDevleopment
         Me.Timer2.Enabled = True
         Me.Timer2.Interval = 1800000
         '
-        'MaterRecrutmentToolStripMenuItem
+        'ProductionToolStripMenuItem
         '
-        Me.MaterRecrutmentToolStripMenuItem.Name = "MaterRecrutmentToolStripMenuItem"
-        Me.MaterRecrutmentToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.MaterRecrutmentToolStripMenuItem.Text = "Mater Recrutment"
+        Me.ProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TransaksiToolStripMenuItem3})
+        Me.ProductionToolStripMenuItem.Name = "ProductionToolStripMenuItem"
+        Me.ProductionToolStripMenuItem.Size = New System.Drawing.Size(78, 20)
+        Me.ProductionToolStripMenuItem.Text = "Production"
         '
-        'HCToolStripMenuItem
+        'TransaksiToolStripMenuItem3
         '
-        Me.HCToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MaterRecrutmentToolStripMenuItem})
-        Me.HCToolStripMenuItem.Enabled = False
-        Me.HCToolStripMenuItem.Name = "HCToolStripMenuItem"
-        Me.HCToolStripMenuItem.ShowShortcutKeys = False
-        Me.HCToolStripMenuItem.Size = New System.Drawing.Size(36, 20)
-        Me.HCToolStripMenuItem.Text = "HC"
+        Me.TransaksiToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProduksiToolStripMenuItem})
+        Me.TransaksiToolStripMenuItem3.Name = "TransaksiToolStripMenuItem3"
+        Me.TransaksiToolStripMenuItem3.Size = New System.Drawing.Size(180, 22)
+        Me.TransaksiToolStripMenuItem3.Text = "Transaksi"
+        '
+        'ProduksiToolStripMenuItem
+        '
+        Me.ProduksiToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.QCToolStripMenuItem})
+        Me.ProduksiToolStripMenuItem.Name = "ProduksiToolStripMenuItem"
+        Me.ProduksiToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ProduksiToolStripMenuItem.Text = "Produksi"
+        '
+        'QCToolStripMenuItem
+        '
+        Me.QCToolStripMenuItem.Name = "QCToolStripMenuItem"
+        Me.QCToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.QCToolStripMenuItem.Text = "QC"
         '
         'FormDevleopment
         '
@@ -360,4 +391,8 @@ Partial Class FormDevleopment
     Friend WithEvents MasterQCToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents HCToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MaterRecrutmentToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ProductionToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TransaksiToolStripMenuItem3 As ToolStripMenuItem
+    Friend WithEvents ProduksiToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents QCToolStripMenuItem As ToolStripMenuItem
 End Class
