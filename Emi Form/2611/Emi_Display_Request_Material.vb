@@ -1,7 +1,7 @@
 ﻿Public Class Emi_Display_Request_Material
     Dim Jenis = "Emi_Display_Request_Material"
     Public lokasi_kirim As String
-    Dim lv_kodeSO, lv_KdBrg, lv_NmBrg, lv_Jenis, lv_TglPermintaan, lv_JamPermintaan, lv_Jumlah, lv_Satuan, lv_UserInput, lv_Warna, lv_GoodStock, lv_SatuanBesar, lv_SatuanDisplay, lv_JmlBags, lv_SatuanBags, Lv_Oto As String
+    Dim lv_kodeSO, lv_KdBrg, lv_NmBrg, lv_Jenis, lv_TglPermintaan, lv_JamPermintaan, lv_Jumlah, lv_Satuan, lv_UserInput, lv_Warna, lv_GoodStock, lv_SatuanBesar, lv_SatuanDisplay, lv_JmlBags, lv_SatuanBags, Lv_Oto, lv_JumlahTF As String
 
     Private Sub Get_Isi_ListView(ByVal NoIndex As Integer)
         lv_kodeSO = Lv_Data.Items(NoIndex).Text
@@ -11,30 +11,32 @@
         lv_TglPermintaan = Lv_Data.Items(NoIndex).SubItems(4).Text
         lv_JamPermintaan = Lv_Data.Items(NoIndex).SubItems(5).Text
         lv_Jumlah = Lv_Data.Items(NoIndex).SubItems(6).Text
-        lv_Satuan = Lv_Data.Items(NoIndex).SubItems(7).Text
-        lv_UserInput = Lv_Data.Items(NoIndex).SubItems(8).Text
-        lv_Warna = Lv_Data.Items(NoIndex).SubItems(9).Text
-        lv_GoodStock = Lv_Data.Items(NoIndex).SubItems(10).Text
-        lv_SatuanBesar = Lv_Data.Items(NoIndex).SubItems(11).Text
-        lv_SatuanDisplay = Lv_Data.Items(NoIndex).SubItems(12).Text
-        lv_JmlBags = Lv_Data.Items(NoIndex).SubItems(13).Text
-        lv_SatuanBags = Lv_Data.Items(NoIndex).SubItems(14).Text
-        Lv_Oto = Lv_Data.Items(NoIndex).SubItems(15).Text
+        lv_JumlahTF = Lv_Data.Items(NoIndex).SubItems(7).Text
+        lv_Satuan = Lv_Data.Items(NoIndex).SubItems(8).Text
+        lv_UserInput = Lv_Data.Items(NoIndex).SubItems(9).Text
+        lv_Warna = Lv_Data.Items(NoIndex).SubItems(10).Text
+        lv_GoodStock = Lv_Data.Items(NoIndex).SubItems(11).Text
+        lv_SatuanBesar = Lv_Data.Items(NoIndex).SubItems(12).Text
+        lv_SatuanDisplay = Lv_Data.Items(NoIndex).SubItems(13).Text
+        lv_JmlBags = Lv_Data.Items(NoIndex).SubItems(14).Text
+        lv_SatuanBags = Lv_Data.Items(NoIndex).SubItems(15).Text
+        Lv_Oto = Lv_Data.Items(NoIndex).SubItems(16).Text
     End Sub
 
     Private Sub Emi_Display_Request_Material_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         Lv_Data.Columns.Clear()
         Lv_Data.Columns.Add("Kode Stock Owner", 130, HorizontalAlignment.Center)
-        Lv_Data.Columns.Add("Kode Barang", 130, HorizontalAlignment.Center)
-        Lv_Data.Columns.Add("Nama Barang", 250, HorizontalAlignment.Center)
-        Lv_Data.Columns.Add("Jenis", 130, HorizontalAlignment.Center)
+        Lv_Data.Columns.Add("Kode Barang", 150, HorizontalAlignment.Center)
+        Lv_Data.Columns.Add("Nama Barang", 300, HorizontalAlignment.Left)
+        Lv_Data.Columns.Add("Jenis", 150, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("Tanggal Permintaan", 130, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("Jam Permintaan", 0, HorizontalAlignment.Center) 'HIDE
-        Lv_Data.Columns.Add("Jumlah", 100, HorizontalAlignment.Right)
+        Lv_Data.Columns.Add("Jumlah", 110, HorizontalAlignment.Right)
+        Lv_Data.Columns.Add("Jumlah Transfer", 110, HorizontalAlignment.Right)
         Lv_Data.Columns.Add("Satuan", 0, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("User Input", 0, HorizontalAlignment.Center) 'HIDE
-        Lv_Data.Columns.Add("Warna", 130, HorizontalAlignment.Center)
+        Lv_Data.Columns.Add("Warna", 0, HorizontalAlignment.Center) 'HIDE
         Lv_Data.Columns.Add("Stock", 0, HorizontalAlignment.Right) 'HIDE
         Lv_Data.Columns.Add("Satuan Besar", 0, HorizontalAlignment.Center) 'HIDE
         Lv_Data.Columns.Add("Satuan Display", 100, HorizontalAlignment.Center) 'HIDE
@@ -51,7 +53,7 @@
             OpenConn()
 
             Lv_Data.Items.Clear()
-            SQL = "select c.Kode_Stock_Owner, c.Kode_Barang, d.Nama, b.Kode_Group_Jenis, a.Tanggal, a.Jam, c.Jumlah,  a.UserId, c.warna, "
+            SQL = "select c.Kode_Stock_Owner, c.Kode_Barang, d.Nama, b.Kode_Group_Jenis, a.Tanggal, a.Jam, c.Jumlah,  a.UserId, c.warna, Jumlah_Tf, "
             SQL = SQL & "dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, d.satuan, c.satuan, d.good_stock) as Good_Stock, d.Satuan, c.Satuan as Satuan_Display, "
             SQL = SQL & "ISNULL(d.Jumlah_Bags, 0) as Jumlah_Bags, d.Satuan_Isi_Bags, c.Urut_Oto "
             SQL = SQL & "from Emi_Material_Requisition a, EMI_Group_Jenis b, Emi_Material_Requisition_Det_Convert c, barang d  "
@@ -68,9 +70,14 @@
                     lv.SubItems.Add(Dr("Kode_Barang"))
                     lv.SubItems.Add(Dr("Nama"))
                     lv.SubItems.Add(Dr("Kode_Group_Jenis"))
-                    lv.SubItems.Add(Dr("Tanggal"))
+                    lv.SubItems.Add(Format(Dr("Tanggal"), "dd MMM yyyy"))
                     lv.SubItems.Add(Dr("Jam"))
                     lv.SubItems.Add(Dr("Jumlah"))
+                    If General_Class.CekNULL(Dr("Jumlah_Tf")) = "" Then
+                        lv.SubItems.Add(0)
+                    Else
+                        lv.SubItems.Add(Dr("Jumlah_Tf"))
+                    End If
                     lv.SubItems.Add(Dr("Satuan"))
                     lv.SubItems.Add(Dr("UserId"))
                     lv.SubItems.Add(Dr("warna"))
@@ -95,9 +102,6 @@
         End Try
     End Sub
 
-    Private Sub Lv_Data_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lv_Data.SelectedIndexChanged
-
-    End Sub
 
     Private Sub Lv_Data_DoubleClick(sender As Object, e As EventArgs) Handles Lv_Data.DoubleClick
         If Lv_Data.Items.Count = 0 Or Lv_Data.SelectedItems.Count = 0 Then
@@ -135,5 +139,34 @@
         'Transfer_Stock_3.Btn_Insert_Click(Lv_Data, e)
         Transfer_Stock_3.DGV_Data_TF.Rows.Clear()
         Me.Close()
+
+
+    End Sub
+
+    Private Sub SelesaiToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SelesaiToolStripMenuItem.Click
+
+        Try
+            OpenConn()
+
+            Dim Hapus1 As String = MessageBox.Show("Anda yakin ingin selesaikan data", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If Hapus1 = vbYes Then
+                '==============================
+                '=     UPDATE FLAG TAMPIL     =
+                ''=============================
+                Get_Isi_ListView(Lv_Data.FocusedItem.Index)
+
+                SQL = "update Emi_Material_Requisition_Det_Convert set Flag_Transfer = 'Y' where Urut_Oto = '" & Lv_Oto & "' "
+                ExecuteTrans(SQL)
+            End If
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Kosong()
     End Sub
 End Class

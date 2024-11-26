@@ -22,6 +22,7 @@ Partial Class Emi_Display_Request_Material
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Title = New System.Windows.Forms.Label()
@@ -30,7 +31,10 @@ Partial Class Emi_Display_Request_Material
         Me.Lv_Data = New System.Windows.Forms.ListView()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SelesaiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1.SuspendLayout()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -90,6 +94,7 @@ Partial Class Emi_Display_Request_Material
         '
         'Lv_Data
         '
+        Me.Lv_Data.ContextMenuStrip = Me.ContextMenuStrip1
         Me.Lv_Data.Font = New System.Drawing.Font("Work Sans", 9.0!)
         Me.Lv_Data.FullRowSelect = True
         Me.Lv_Data.GridLines = True
@@ -122,6 +127,18 @@ Partial Class Emi_Display_Request_Material
         Me.Panel5.TabIndex = 35
         Me.Panel5.Visible = False
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelesaiToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 48)
+        '
+        'SelesaiToolStripMenuItem
+        '
+        Me.SelesaiToolStripMenuItem.Name = "SelesaiToolStripMenuItem"
+        Me.SelesaiToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SelesaiToolStripMenuItem.Text = "Selesai"
+        '
         'Emi_Display_Request_Material
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
@@ -141,6 +158,7 @@ Partial Class Emi_Display_Request_Material
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -153,4 +171,6 @@ Partial Class Emi_Display_Request_Material
     Friend WithEvents Lv_Data As ListView
     Friend WithEvents Panel4 As Panel
     Friend WithEvents Panel5 As Panel
+    Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
+    Friend WithEvents SelesaiToolStripMenuItem As ToolStripMenuItem
 End Class

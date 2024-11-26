@@ -38,7 +38,6 @@ Partial Class Transfer_Stock_3
         Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -105,6 +104,10 @@ Partial Class Transfer_Stock_3
         Me.rak_tujuan = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.id_warehouse_tujuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColumnWarna = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.jenis_kemasan = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.isi_perbags = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.satuan_isiBags = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         CType(Me.DGV_Data_TF, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -117,21 +120,8 @@ Partial Class Transfer_Stock_3
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1081, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1085, 51)
         Me.Panel1.TabIndex = 24
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1081, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -319,7 +309,7 @@ Partial Class Transfer_Stock_3
         DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DGV_Data_TF.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.DGV_Data_TF.ColumnHeadersHeight = 35
-        Me.DGV_Data_TF.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.lokasi, Me.kode_barang, Me.barang_sn, Me.nama_barang, Me.id_warehouse, Me.kode_rak, Me.id_pallet, Me.good_stock, Me.satuan, Me.bags_barang, Me.Chk_TF, Me.jumlah_transfer, Me.transfer_bags, Me.rak_tujuan, Me.id_warehouse_tujuan, Me.ColumnWarna})
+        Me.DGV_Data_TF.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.lokasi, Me.kode_barang, Me.barang_sn, Me.nama_barang, Me.id_warehouse, Me.kode_rak, Me.id_pallet, Me.good_stock, Me.satuan, Me.bags_barang, Me.Chk_TF, Me.jumlah_transfer, Me.transfer_bags, Me.rak_tujuan, Me.id_warehouse_tujuan, Me.ColumnWarna, Me.jenis_kemasan, Me.isi_perbags, Me.satuan_isiBags})
         DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window
         DataGridViewCellStyle14.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
@@ -836,6 +826,8 @@ Partial Class Transfer_Stock_3
         'transfer_bags
         '
         DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle13.Format = "N2"
+        DataGridViewCellStyle13.NullValue = Nothing
         Me.transfer_bags.DefaultCellStyle = DataGridViewCellStyle13
         Me.transfer_bags.HeaderText = "Bags"
         Me.transfer_bags.Name = "transfer_bags"
@@ -858,12 +850,43 @@ Partial Class Transfer_Stock_3
         Me.ColumnWarna.HeaderText = "Warna"
         Me.ColumnWarna.Name = "ColumnWarna"
         '
+        'jenis_kemasan
+        '
+        Me.jenis_kemasan.HeaderText = "Jenis Kemasan"
+        Me.jenis_kemasan.Name = "jenis_kemasan"
+        Me.jenis_kemasan.Visible = False
+        '
+        'isi_perbags
+        '
+        Me.isi_perbags.HeaderText = "Isi PerBags"
+        Me.isi_perbags.Name = "isi_perbags"
+        Me.isi_perbags.Visible = False
+        '
+        'satuan_isiBags
+        '
+        Me.satuan_isiBags.HeaderText = "Satuan Isi Bags"
+        Me.satuan_isiBags.Name = "satuan_isiBags"
+        Me.satuan_isiBags.Visible = False
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1085, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'Transfer_Stock_3
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1081, 702)
+        Me.ClientSize = New System.Drawing.Size(1085, 702)
         Me.Controls.Add(Me.Cmb_Warna)
         Me.Controls.Add(Me.Label14)
         Me.Controls.Add(Me.Txt_Warna)
@@ -993,4 +1016,7 @@ Partial Class Transfer_Stock_3
     Friend WithEvents rak_tujuan As DataGridViewComboBoxColumn
     Friend WithEvents id_warehouse_tujuan As DataGridViewTextBoxColumn
     Friend WithEvents ColumnWarna As DataGridViewTextBoxColumn
+    Friend WithEvents jenis_kemasan As DataGridViewTextBoxColumn
+    Friend WithEvents isi_perbags As DataGridViewTextBoxColumn
+    Friend WithEvents satuan_isiBags As DataGridViewTextBoxColumn
 End Class

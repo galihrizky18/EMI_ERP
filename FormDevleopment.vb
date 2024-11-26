@@ -204,4 +204,28 @@
         EMI_Display_QC_Produksi.Show()
         EMI_Display_QC_Produksi.Focus()
     End Sub
+
+    Private Sub TransferStockToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TransferStockToolStripMenuItem.Click
+        Transfer_Stock_3.StartPosition = FormStartPosition.CenterScreen
+
+        Transfer_Stock_3.MdiParent = Me
+        Transfer_Stock_3.Show()
+        Transfer_Stock_3.Focus()
+    End Sub
+
+    Private Sub DisplayTransferToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayTransferToolStripMenuItem.Click
+        Emi_Display_Transfer.StartPosition = FormStartPosition.CenterScreen
+
+        Emi_Display_Transfer.MdiParent = Me
+        Emi_Display_Transfer.Show()
+        Emi_Display_Transfer.Focus()
+    End Sub
+
+    Private Sub DisplayTransferTidakTimbangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayTransferTidakTimbangToolStripMenuItem.Click
+        EMI_Display_Transfer_Tidak_Timbang.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Display_Transfer_Tidak_Timbang.MdiParent = Me
+        EMI_Display_Transfer_Tidak_Timbang.Show()
+        EMI_Display_Transfer_Tidak_Timbang.Focus()
+    End Sub
 End Class
