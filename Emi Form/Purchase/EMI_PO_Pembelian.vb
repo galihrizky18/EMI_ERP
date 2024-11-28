@@ -337,7 +337,7 @@ Public Class EMI_PO_Pembelian
                 Loop
             End Using
 
-            CmbPO_MataUang.Items.Add("-- Mata Uang --") : arrMUA.Add("")
+            CmbPO_MataUang.Items.Add("-- Mata Uang --") : arrMUA.Add("") : CmbPO_MataUang.Enabled = True
             CmbPO_MataUang.SelectedIndex = 0
             SQL = "select kode_mata_uang from mata_uang where kode_perusahaan = '" & KodePerusahaan & "' order by kode_mata_uang"
             Using Dr = OpenTrans(SQL)
@@ -345,7 +345,10 @@ Public Class EMI_PO_Pembelian
                     CmbPO_MataUang.Items.Add(Dr("kode_mata_uang")) : arrMUA.Add(Dr("kode_mata_uang"))
                 Loop
             End Using
+
             CmbPO_MataUang.Text = "RP"
+
+
 
             If CmbPO_MataUang.Text.Trim = "" Then
                 CloseConn()
@@ -493,6 +496,15 @@ Public Class EMI_PO_Pembelian
         CmbPO_Harga.Items.Clear()
         cmb_pr.Items.Clear()
 
+        LblPO_TotalBiaya.Text = Format(0, "N2")
+        TxtPO_Berat.Text = Format(0, "N2")
+        TxtPO_TotalSblmPPN.Text = Format(0, "N2")
+        TxtPO_PersenPPN.Text = 0
+        TxtPO_NilaiPPN.Text = Format(0, "N2")
+        TxtPO_GrandTotal.Text = Format(0, "N2")
+        TxtPO_Total.Text = Format(0, "N2")
+
+
     End Sub
 
     Public Sub TxtPO_KdBrg_Leave(sender As Object, e As EventArgs) Handles TxtPO_KdBrg.Leave
@@ -558,21 +570,25 @@ Public Class EMI_PO_Pembelian
                     CmbPO_Satuan.Enabled = False
 
                     CmbPO_Harga.Items.Clear() : arrNoPenawaran.Clear() : arrSatuanPenawaran.Clear() : arrHargaPenawaran.Clear()
-                    SQL = "select a.No_Faktur,a.no_penawaran,a.Kode_Supplier, c.Nama, b.Nilai_Barang, b.satuan_Barang from EMI_Master_Penawaran a, EMI_Master_Penawaran_Detail b, Suppliers c "
+                    SQL = "select a.No_Faktur,a.no_penawaran,a.Kode_Supplier, c.Nama,b.satuan, b.Nilai_Barang,b.harga_satuan, b.satuan_Barang from EMI_Master_Penawaran a, EMI_Master_Penawaran_Detail b, Suppliers c "
                     SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
                     SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Supplier = c.Kode_Supplier "
-                    SQL = SQL & "and b.kode_barang = '" & TxtPO_KdBrg.Text & "' and a.Kode_Supplier='" & TxtPO_KdSupplier.Text & "'"
+                    SQL = SQL & "and b.kode_barang = '" & TxtPO_KdBrg.Text & "' and a.Kode_Supplier='" & TxtPO_KdSupplier.Text & "' "
+                    SQL = SQL & "and flag_release = 'Y' and status is null and b.mata_uang = '" & CmbPO_MataUang.Text & "' "
                     Using dr2 = OpenTrans(SQL)
                         Do While dr2.Read
-                            CmbPO_Harga.Items.Add(dr2("Nilai_Barang") & " / " & dr2("satuan_Barang") & " - " & dr2("Nama")) : arrNoPenawaran.Add(dr2("no_penawaran"))
+                            CmbPO_Harga.Items.Add(Format(dr2("harga_satuan")) & "/" & dr2("satuan").ToString.Trim & "-" & dr2("nama"))
+                            arrNoPenawaran.Add(dr2("no_penawaran"))
                             arrSatuanPenawaran.Add(dr2("satuan_Barang")) : arrHargaPenawaran.Add(dr2("Nilai_Barang"))
                         Loop
                     End Using
 
+
+
                     cmb_pr.Items.Clear() : arrNoUrutPr.Clear()
                     SQL = "select a.No_Faktur, b.no_Urut,b.tanggal_delivery  From EMI_Purchase_Requisition a, EMI_Purchase_Requisition_Detail b "
                     SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-                    SQL = SQL & "and a.Status is null and flag_release = 'Y' and b.Kode_Barang = '" & TxtPO_KdBrg.Text & "' "
+                    SQL = SQL & "and a.Status is null and flag_release = 'Y' and b.Kode_Barang = '" & TxtPO_KdBrg.Text & "' and b.flag_sudah_po is null "
                     '   SQL = SQL & "group by a.no_faktur"
                     Using dr3 = OpenTrans(SQL)
                         Do While dr3.Read
@@ -907,6 +923,8 @@ Public Class EMI_PO_Pembelian
                             flag_kategori_Supplier = General_Class.CekNULL(Dr("flag_jenis_import"))
                         Else
                             Dr.Close()
+                            CloseTrans()
+                            CloseConn()
                             MessageBox.Show(Base_Language.Lang_GLOBAL_Kategori_Supplier & " " & Base_Language.Lang_GLOBAL_Tidak_Ditemukan & ". . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
@@ -1282,7 +1300,32 @@ Public Class EMI_PO_Pembelian
 
                     End If
 
+                    SQL = "select a.Jumlah - isnull((select sum(y.Jumlah) from EMI_Pembelian_PO x, EMI_Pembelian_PO_Det y    "
+                    SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and y.Kode_Perusahaan = a.Kode_Perusahaan "
+                    SQL = SQL & "and y.no_urut_pr = a.No_Urut ), 0) as sisa, a.satuan from  EMI_Purchase_Requisition_Detail a,EMI_Purchase_Requisition b where a.kode_perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and a.Kode_Perusahaan= b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and b.status is null and b.Flag_Release = 'Y' and a.no_urut = '" & lvPO_PR & "'"
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+
+                            If Dr("sisa") = 0 Then
+                                Dr.Close()
+
+                                SQL = "update EMI_Purchase_Requisition_Detail set flag_sudah_po = 'Y' where kode_perusahaan = '" & KodePerusahaan & "' and no_urut = '" & lvPO_PR & "'"
+                                ExecuteTrans(SQL)
+                            End If
+                        Else
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("No PR tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
+
                 Next
+
+
+
                 Dim flag_kategori_Supplier_submit_po As String = ""
 
                 SQL = "select b.Flag_Jenis_Import From Suppliers a, Suppliers_Kategori b "
@@ -1294,6 +1337,8 @@ Public Class EMI_PO_Pembelian
                         flag_kategori_Supplier_submit_po = General_Class.CekNULL(Dr("flag_jenis_import"))
                     Else
                         Dr.Close()
+                        CloseTrans()
+                        CloseConn()
                         MessageBox.Show(Base_Language.Lang_GLOBAL_Kategori_Supplier & " " & Base_Language.Lang_GLOBAL_Tidak_Ditemukan & ". . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
@@ -1307,6 +1352,7 @@ Public Class EMI_PO_Pembelian
                         arrInisialFakturSubmitPO = dr("inisial_faktur")
                     Else
                         dr.Close()
+                        CloseTrans()
                         CloseConn()
                         MessageBox.Show("Inisial Faktur Tidak ditemukan")
                         Exit Sub
@@ -1325,6 +1371,7 @@ Public Class EMI_PO_Pembelian
 
                             Mata_Uang_Declare = dr("Mata_Uang_Declare")
                         Else
+                            CloseTrans()
                             CloseConn()
                             MessageBox.Show("Mata Uang Declare/Rekening Tidak ada", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Exit Sub
@@ -1509,9 +1556,7 @@ Public Class EMI_PO_Pembelian
         kosong()
     End Sub
 
-    Private Sub LvPO_DataPO_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LvPO_DataPO.SelectedIndexChanged
 
-    End Sub
 
     Private Sub CmbPO_Harga_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbPO_Harga.SelectedIndexChanged
 
@@ -1741,6 +1786,9 @@ Public Class EMI_PO_Pembelian
             lvw.SubItems.Add(Format(Jumlah_satuan_Kecil * Val(arrHargaPenawaran.Item(CmbPO_Harga.SelectedIndex)), "N2"))
             lvw.SubItems.Add("")
             lvw.SubItems.Add(arrNoUrutPr.Item(cmb_pr.SelectedIndex))
+
+            CmbPO_MataUang.Enabled = False
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -1767,7 +1815,16 @@ Public Class EMI_PO_Pembelian
 
         If canDeleteLv = True Then
             LvPO_DataPO.FocusedItem.Remove()
+
+
+            If LvPO_DataPO.Items.Count = 0 Then
+                CmbPO_MataUang.Enabled = True
+            End If
+
         End If
+
+
+
 
         HitungGrandTotal()
     End Sub
@@ -1814,8 +1871,9 @@ Public Class EMI_PO_Pembelian
             SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur "
             SQL = SQL & "and y.Kode_Perusahaan = a.Kode_Perusahaan and y.no_urut_pr = a.No_Urut "
             SQL = SQL & "), 0) as sisa, a.satuan "
-            SQL = SQL & "from  EMI_Purchase_Requisition_Detail a "
+            SQL = SQL & "from  EMI_Purchase_Requisition_Detail a,EMI_Purchase_Requisition b "
             SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.Kode_Perusahaan= b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and b.status is null and b.Flag_Release = 'Y' "
             SQL = SQL & "and a.no_urut = '" & arrNoUrutPr.Item(cmb_pr.SelectedIndex) & "'"
             Using dr = OpenTrans(SQL)
                 If dr.Read Then
@@ -2008,7 +2066,7 @@ Public Class EMI_PO_Pembelian
     End Sub
 
     Private Sub TxtPO_KdSupplier_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtPO_KdSupplier.KeyPress
-        If e.KeyChar = Chr(13) Then TxtPO_KdBrg.Focus()
+        If e.KeyChar = Chr(13) Then CmbPO_MataUang.Focus()
     End Sub
 
     Private Sub TxtPO_NmSupplier_TextChanged(sender As Object, e As EventArgs) Handles TxtPO_NmSupplier.TextChanged
@@ -2061,7 +2119,7 @@ Public Class EMI_PO_Pembelian
     End Sub
 
     Private Sub TxtPO_NmSupplier_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtPO_NmSupplier.KeyPress
-        If e.KeyChar = Chr(13) Then TxtPO_KdBrg.Focus()
+        If e.KeyChar = Chr(13) Then CmbPO_MataUang.Focus()
     End Sub
 
     Private Sub LvSupplier_DoubleClick(sender As Object, e As EventArgs) Handles LvSupplier.DoubleClick
@@ -2092,10 +2150,35 @@ Public Class EMI_PO_Pembelian
         If TxtPO_KdSupplier.Text.Trim.Length = 0 Then
             MessageBox.Show("Supplier belum dipilih!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
+        ElseIf CmbPO_MataUang.Text.Trim.Length = 0 Then
+            MessageBox.Show("Mata Uang belum dipilih!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
         End If
         EMI_PO_Pembelian_Display_User.LokasiPO = CmbPO_Lokasi.Text
         EMI_PO_Pembelian_Display_User.KdSupp = TxtPO_KdSupplier.Text
+        EMI_PO_Pembelian_Display_User.MataUang = CmbPO_MataUang.Text
         EMI_PO_Pembelian_Display_User.ShowDialog()
+    End Sub
+
+    Private Sub CmbPO_MataUang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbPO_MataUang.KeyPress
+        If e.KeyChar = Chr(13) Then
+            CmbPO_CaraBayar.Focus()
+        End If
+    End Sub
+
+    Private Sub CmbPO_JnsBayar_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbPO_JnsBayar.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If CmbPO_JnsBayar.SelectedIndex = -1 Then
+                TxtPO_KdBrg.Focus()
+            Else
+                CmbPO_RangeBayar.Focus()
+            End If
+        End If
+    End Sub
+
+    Private Sub CmbPO_MataUang_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbPO_MataUang.SelectedIndexChanged
+        bersihsebagian()
+        LvPO_DataPO.Items.Clear()
     End Sub
 
     Private Sub CmbPO_CaraBayar_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbPO_CaraBayar.KeyPress

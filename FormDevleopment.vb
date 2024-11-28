@@ -261,4 +261,12 @@
         Purchase_Requisition.Show()
         Purchase_Requisition.Focus()
     End Sub
+
+    Private Sub PenawaranToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PenawaranToolStripMenuItem.Click
+        Transaksi_Penawaran.StartPosition = FormStartPosition.CenterScreen
+
+        Transaksi_Penawaran.MdiParent = Me
+        Transaksi_Penawaran.Show()
+        Transaksi_Penawaran.Focus()
+    End Sub
 End Class

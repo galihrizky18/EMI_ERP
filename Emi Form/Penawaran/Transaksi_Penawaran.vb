@@ -955,10 +955,11 @@ Public Class Transaksi_Penawaran
 
                 'Save Master Penawaran
                 SQL = "Insert into EMI_Master_Penawaran "
-                SQL = SQL & "(Kode_Perusahaan, No_Faktur, No_Penawaran, Tgl_Penawaran_Hrg, Periode_Akhir_Penawaran, Kode_Supplier) "
+                SQL = SQL & "(Kode_Perusahaan, No_Faktur, No_Penawaran, Tgl_Penawaran_Hrg, Periode_Akhir_Penawaran, Kode_Supplier,lokasi, tanggal,jam,iduser) "
                 SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & saveNoPenawaran & "', "
                 SQL = SQL & "'" & Format(Dtp_Tgl.Value, "yyyy-MM-dd") & "', '" & Format(Dtp_PeriodAkhir.Value, "yyyy-MM-dd") & "', "
-                SQL = SQL & "'" & saveSupplier & "') "
+                SQL = SQL & "'" & saveSupplier & "', '" & Lokasi & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "' "
+                SQL = SQL & ")"
                 ExecuteTrans(SQL)
 
 
@@ -1648,7 +1649,10 @@ Public Class Transaksi_Penawaran
 
             'UPDATE FLAG RELEASE
             SQL = "update EMI_Master_Penawaran set "
-            SQL = SQL & "flag_release = 'Y' "
+            SQL = SQL & "flag_release = 'Y', "
+            SQL = SQL & "Tanggal_Release = '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
+            SQL = SQL & "jam_release = '" & Format(tgl_skg, "HH:mm:ss") & "' , "
+            SQL = SQL & "iduser_release = '" & UserID & "' "
             SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and No_Faktur='" & saveFaktur & "' "
             SQL = SQL & "and no_penawaran='" & saveNoPenawaran & "' "
             ExecuteTrans(SQL)
@@ -2340,6 +2344,14 @@ Public Class Transaksi_Penawaran
 
     Private Sub DgvMaster_Penawaran_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles DgvMaster_Penawaran.CellEndEdit
         Get_Isi_Listview(DgvMaster_Penawaran.CurrentRow.Index)
+
+        If lvKdBrg = "" Then
+            DgvMaster_Penawaran.CurrentRow.Cells(cellMinOrder).Value = ""
+            DgvMaster_Penawaran.CurrentRow.Cells(cellMUA).Value = ""
+            DgvMaster_Penawaran.CurrentRow.Cells(cellHrgSatuan).Value = ""
+            Exit Sub
+        End If
+
         If IsNumeric(lvMinOrder) = False Or Val(lvMinOrder) < 0 Then
             DgvMaster_Penawaran.CurrentRow.Cells(cellMinOrder).Value = 0
             DgvMaster_Penawaran.CurrentRow.Cells(cellMUA).Value = ""

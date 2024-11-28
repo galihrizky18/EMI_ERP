@@ -9,6 +9,7 @@ Public Class SD_Pilih_Harga_PO
     Public kodeSupplier As String
     Public kodeBarang As String
     Public rowDgv As Integer
+    Public MataUang As String
     Public cellDgv, cellNoPenawaran, cellSatuanHarga, cellHargaID As Integer
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -46,7 +47,8 @@ Public Class SD_Pilih_Harga_PO
             SQL = "select a.No_Faktur,a.no_penawaran,a.Kode_Supplier, c.Nama, b.harga_satuan,b.satuan_barang,b.nilai_barang, b.satuan from EMI_Master_Penawaran a, EMI_Master_Penawaran_Detail b, Suppliers c "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
             SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Supplier = c.Kode_Supplier "
-            SQL = SQL & "and b.kode_barang = '" & kodeBarang & "' and a.Kode_Supplier='" & kodeSupplier & "'"
+            SQL = SQL & "and b.kode_barang = '" & kodeBarang & "' and a.Kode_Supplier='" & kodeSupplier & "' "
+            SQL = SQL & "and a.status is null and a.flag_release = 'Y' and b.mata_uang = '" & MataUang & "' "
             Using dr2 = OpenTrans(SQL)
                 Do While dr2.Read
 

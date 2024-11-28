@@ -10,6 +10,7 @@ Public Class EMI_PO_Pembelian_Display_User
     Dim Jenis As String = "Master_Jenis_Hewan"
     Public KdSupp As String = ""
     Public LokasiPO As String = ""
+    Public MataUang As String = ""
 
     Dim jumlahCheckedItem = 0
 
@@ -174,7 +175,7 @@ Public Class EMI_PO_Pembelian_Display_User
             SQL = "select a.No_Faktur,b.Kode_Stock_Owner,b.Kode_Barang,c.Nama,c.satuan as satuan_kecil_barang,b.Satuan,b.tanggal_delivery,b.no_urut, "
             SQL = SQL & "b.Jumlah - isnull((select  sum(y.Jumlah) from  EMI_Pembelian_PO x, EMI_Pembelian_PO_Det y "
             SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur "
-            SQL = SQL & "and y.Kode_Perusahaan = a.Kode_Perusahaan and y.no_urut_pr = b.No_Urut  "
+            SQL = SQL & "and y.Kode_Perusahaan = a.Kode_Perusahaan and y.no_urut_pr = b.No_Urut and x.status is null "
             SQL = SQL & "),0) as jumlah "
             SQL = SQL & "From EMI_Purchase_Requisition a, EMI_Purchase_Requisition_Detail b ,barang c, Emi_Role_Kategori_PO d "
             SQL = SQL & " where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
@@ -184,6 +185,7 @@ Public Class EMI_PO_Pembelian_Display_User
             SQL = SQL & "and a.Status is null and flag_release = 'Y' and "
             SQL = SQL & "c.kode_Perusahaan=d.kode_Perusahaan and c.id_kategori_PO=d.kategori_po "
             SQL = SQL & "and d.userid = '" & UserID & "' "
+            SQL = SQL & "and b.flag_sudah_po is null "
             If CmbPO_JnsBayar.SelectedIndex = -1 Then
                 SQL = SQL & "order by no_faktur"
             Else
@@ -294,6 +296,7 @@ Public Class EMI_PO_Pembelian_Display_User
             SD_Pilih_Harga_PO.cellNoPenawaran = cellNoPenawaran
             SD_Pilih_Harga_PO.cellSatuanHarga = cellSatuanHarga
             SD_Pilih_Harga_PO.cellHargaID = cellHargaId
+            SD_Pilih_Harga_PO.MataUang = MataUang
             SD_Pilih_Harga_PO.rowDgv = currentRow
             SD_Pilih_Harga_PO.ShowDialog()
         End If
@@ -384,12 +387,14 @@ Public Class EMI_PO_Pembelian_Display_User
                             If General_Class.CekNULL(dr("Hasil")) <> "" Then
                                 If dr("Hasil") = 0 Then
                                     MessageBox.Show("Satuan " & LvSatuanHarga & " Ke " & lvSatuanPo & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    CloseConn()
                                     Exit Sub
                                 Else
                                     harga_satuan_besar = dr("hasil")
                                 End If
                             Else
                                 MessageBox.Show("Satuan " & LvSatuanHarga & " Ke " & lvSatuanPo & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                CloseConn()
                                 Exit Sub
                             End If
                         End If
@@ -405,12 +410,14 @@ Public Class EMI_PO_Pembelian_Display_User
                             If General_Class.CekNULL(dr("Hasil")) <> "" Then
                                 If dr("Hasil") = 0 Then
                                     MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    CloseConn()
                                     Exit Sub
                                 Else
                                     Jumlah_satuan_Kecil = dr("hasil")
                                 End If
                             Else
                                 MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                CloseConn()
                                 Exit Sub
                             End If
                         End If
@@ -426,12 +433,14 @@ Public Class EMI_PO_Pembelian_Display_User
                             If General_Class.CekNULL(dr("Hasil")) <> "" Then
                                 If dr("Hasil") = 0 Then
                                     MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    CloseConn()
                                     Exit Sub
                                 Else
                                     jumlah_sisa_satuan_kecil = dr("hasil")
                                 End If
                             Else
                                 MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                CloseConn()
                                 Exit Sub
                             End If
                         End If
@@ -455,10 +464,10 @@ Public Class EMI_PO_Pembelian_Display_User
                         End If
                     End Using
 
-                    If jumlah_sisa_satuan_kecil < Jumlah_satuan_Kecil Then
-                        MessageBox.Show("Jumlah po tidak boleh lebih besar dari jumlah PR!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
+                    'If jumlah_sisa_satuan_kecil < Jumlah_satuan_Kecil Then
+                    '    MessageBox.Show("Jumlah po tidak boleh lebih besar dari jumlah PR!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    '    Exit Sub
+                    'End If
 
 
                     Dim lvw As ListViewItem
@@ -593,9 +602,71 @@ Public Class EMI_PO_Pembelian_Display_User
 
         If Dgv_Pr.CurrentCell.ColumnIndex = cellHarga Or Dgv_Pr.CurrentCell.ColumnIndex = cellJumlah Then
             If Not IsNumeric(Dgv_Pr.CurrentCell.Value) Then
-                Dgv_Pr.CurrentCell.Value = 0
+                Dgv_Pr.CurrentCell.Value = Format(0, "N2")
             End If
         End If
+
+        Try
+            OpenConn()
+
+            Get_Isi_Listview(Dgv_Pr.CurrentRow.Index)
+
+            Dim Jumlah_satuan_Kecil As Double = 0
+            SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & lvKdBarang & "',"
+            SQL = SQL & "'" & lvSatuanPo & "','" & LvSKBrg & "',"
+            SQL = SQL & "" & lvJumlah & ") as Hasil "
+            Using dr = OpenTrans(SQL)
+                If dr.Read Then
+
+                    If General_Class.CekNULL(dr("Hasil")) <> "" Then
+                        If dr("Hasil") = 0 Then
+                            MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        Else
+                            Jumlah_satuan_Kecil = dr("hasil")
+                        End If
+                    Else
+                        MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End If
+            End Using
+
+            Dim jumlah_sisa_satuan_kecil As Double = 0
+            SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & lvKdBarang & "',"
+            SQL = SQL & "'" & lvSatuan & "','" & LvSKBrg & "',"
+            SQL = SQL & "" & HilangkanTanda(LvSisa) & ") as Hasil "
+            Using dr = OpenTrans(SQL)
+                If dr.Read Then
+
+                    If General_Class.CekNULL(dr("Hasil")) <> "" Then
+                        If dr("Hasil") = 0 Then
+                            MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        Else
+                            jumlah_sisa_satuan_kecil = dr("hasil")
+                        End If
+                    Else
+                        MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End If
+            End Using
+
+
+            If jumlah_sisa_satuan_kecil < Jumlah_satuan_Kecil Then
+                MessageBox.Show("Jumlah po tidak boleh lebih besar dari jumlah PR!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Dgv_Pr.CurrentCell.Value = Format(0, "N2")
+                CloseConn()
+                Exit Sub
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
 
 
         '======================
