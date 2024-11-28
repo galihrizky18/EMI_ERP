@@ -228,4 +228,37 @@
         EMI_Display_Transfer_Tidak_Timbang.Show()
         EMI_Display_Transfer_Tidak_Timbang.Focus()
     End Sub
+
+    Private Sub FormulaToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles FormulaToolStripMenuItem1.Click
+        Transaksi_Formula.StartPosition = FormStartPosition.CenterScreen
+
+        Transaksi_Formula.MdiParent = Me
+        Transaksi_Formula.Show()
+        Transaksi_Formula.Focus()
+    End Sub
+
+    Private Sub FormulaToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles FormulaToolStripMenuItem2.Click
+
+        Display_Formula.StartPosition = FormStartPosition.CenterScreen
+
+        Display_Formula.MdiParent = Me
+        Display_Formula.Show()
+        Display_Formula.Focus()
+    End Sub
+
+    Private Sub BindingFormulaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BindingFormulaToolStripMenuItem.Click
+        Display_Formula_Binding.StartPosition = FormStartPosition.CenterScreen
+
+        Display_Formula_Binding.MdiParent = Me
+        Display_Formula_Binding.Show()
+        Display_Formula_Binding.Focus()
+    End Sub
+
+    Private Sub PurchaseRequisitionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PurchaseRequisitionToolStripMenuItem.Click
+        Purchase_Requisition.StartPosition = FormStartPosition.CenterScreen
+
+        Purchase_Requisition.MdiParent = Me
+        Purchase_Requisition.Show()
+        Purchase_Requisition.Focus()
+    End Sub
 End Class

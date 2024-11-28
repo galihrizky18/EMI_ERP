@@ -4928,7 +4928,7 @@ Public Class EMI_Transaksi_MaterialRequisition
                 SQL = SQL & "and c.Kode_Perusahaan=d.Kode_Perusahaan and c.no_faktur=d.no_faktur "
                 SQL = SQL & "and d.kode_Barang ='" & Arrbarang.Item(barangIndex) & "' and a.kode_Perusahaan=e.kode_Perusahaan "
                 SQL = SQL & ") "
-                SQL = SQL & "select Kode_Bahan, satuan_barang,sum(round(nilai_barang*(nilai_ppic/nilai_Formula),2)) as Nilai from cte "
+                SQL = SQL & "select Kode_Bahan, satuan_barang, sum(round(nilai_barang*(nilai_ppic/nilai_Formula),2)) as Nilai from cte "
                 SQL = SQL & "group by Kode_Bahan, satuan_barang "
                 Using ds3 = BindingTrans(SQL)
 

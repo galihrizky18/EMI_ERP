@@ -50,11 +50,6 @@ Public Class Transaksi_Formula
     Public cell2Hasil As Integer = 3
 
 
-    Private Sub Transaksi_Formula_Activated(sender As Object, e As EventArgs) Handles Me.Activated
-        My.Application.ChangeCulture("en-us")
-        My.Application.ChangeUICulture("en-us")
-    End Sub
-
     Private Sub get_no_faktur()
         TxtFormulator_NoFaktur.Text = fTransFormula & Format(tgl_skg, "MMyy") & "-" &
                              General_Class.Get_Last_Number2("Emi_Transaksi_Formulator", "no_Faktur", 5,
@@ -170,7 +165,6 @@ Public Class Transaksi_Formula
     Private Sub Transaksi_Formulator_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
-
         Try
             OpenConn()
 
@@ -447,17 +441,16 @@ Public Class Transaksi_Formula
         End If
 
 
-        If DgvFormulator_StepFormulator.CurrentCell.ColumnIndex = cellQty Then
+        Dim kuantity As String = DgvFormulator_StepFormulator.CurrentRow.Cells(3).Value
 
-            Dim kuantity As String = DgvFormulator_StepFormulator.CurrentRow.Cells(3).Value
-
-            Dim nilai As Decimal = Decimal.Parse(kuantity)
-            Dim formattedValue As String = nilai.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
+        Dim nilai As Decimal = Decimal.Parse(kuantity)
+        Dim formattedValue As String = nilai.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
 
 
-            DgvFormulator_StepFormulator.CurrentRow.Cells(3).Value = formattedValue
+        DgvFormulator_StepFormulator.CurrentRow.Cells(3).Value = formattedValue
 
-        End If
+
+
 
 
 
@@ -548,6 +541,7 @@ Public Class Transaksi_Formula
 
             sample = "NULL"
 
+
             If Val(TxtFormulator_TotalPersen.Text) <> 100 Then
                 CloseTrans()
                 CloseConn()
@@ -577,11 +571,15 @@ Public Class Transaksi_Formula
             SQL = SQL & "'" & Format(DtpFormulator_Tanggal.Value, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', " & sample & ", "
             SQL = SQL & "'" & kd_barangINq & "', "
             SQL = SQL & "'" & arrIdPenanggungJawab.Item(CmbFormulator_PenanggungJawab.SelectedIndex) & "', '" & CmbFormulator_LokasiInquiry.Text & "', '" & CmbFormulator_LokasiBarang.Text & "', "
-            SQL = SQL & "'" & TxtFormulator_Hasil.Text & "', '" & CmbFormulator_SatuanHasil.Text & "') "
+            SQL = SQL & "'" & HilangkanTanda(TxtFormulator_Hasil.Text) & "', '" & CmbFormulator_SatuanHasil.Text & "') "
             ExecuteTrans(SQL)
 
             For index = 0 To DgvFormulator_StepFormulator.Rows.Count - 2 'Karna data terakhir itu default dgv
                 Get_Isi_Listview(index)
+
+                lvQty = Val(HilangkanTanda(lvQty))
+                lvPersentase = Val(HilangkanTanda(lvPersentase))
+
                 SQL = "INSERT INTO EMI_Transaksi_Formulator_Detail_Step "
                 SQL = SQL & "(Kode_Perusahaan, No_Faktur, No_Step, Tipe, Kode "
                 SQL = SQL & ",Deskripsi,Jumlah, Satuan, Persentase, Nilai_Pengali, Satuan_barang, Nilai_Barang) VALUES( "
@@ -645,7 +643,7 @@ Public Class Transaksi_Formula
             '===============================
             ''Binding 
             SQL = "update EMI_Transaksi_Formulator_Binding set aktif='T' "
-            SQL = SQL & "where Kode_Barang='" & TxtFormulator_KodeBarang.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' and aktif='Y' "
+            SQL = SQL & "where Kode_Barang='" & kd_barangINq & "' and Kode_Perusahaan='" & KodePerusahaan & "' and aktif='Y' "
             ExecuteTrans(SQL)
 
             SQL = "Insert into EMI_Transaksi_Formulator_Binding ("
@@ -655,7 +653,7 @@ Public Class Transaksi_Formula
             SQL = SQL & "Values('" & KodePerusahaan & "', '" & Txt_No_Faktur_Binding.Text & "', "
             SQL = SQL & "NULL, NULL, "
             SQL = SQL & "'" & Format(DtpFormulator_Tanggal.Value, "yyyy-MM-dd") & "', '" & Format(CDate(tgl_skg), "HH:mm:ss") & "', "
-            SQL = SQL & "'" & UserID & "','" & TxtFormulator_KodeBarang.Text & "', '" & TxtFormulator_NoFaktur.Text & "','Y')"
+            SQL = SQL & "'" & UserID & "','" & kd_barangINq & "', '" & TxtFormulator_NoFaktur.Text & "','Y')"
             ExecuteTrans(SQL)
 
 
@@ -677,6 +675,9 @@ Public Class Transaksi_Formula
     End Sub
 
     Private Sub TxtFormulator_Hasil_TextChanged(sender As Object, e As EventArgs) Handles TxtFormulator_Hasil.TextChanged
+
+        DgvFormulator_StepFormulator.Rows.Clear()
+        DgvFormulator_StepFormulator.Rows.Add(1)
 
     End Sub
 
@@ -836,26 +837,8 @@ Public Class Transaksi_Formula
         DgvFormulator_StepFormulator.Rows.Add(1)
     End Sub
 
+    Private Sub DgvFormulator_StepFormulator_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DgvFormulator_StepFormulator.CellClick
 
-    Private Sub DgvFormulator_StepFormulator_CellLeave(sender As Object, e As DataGridViewCellEventArgs) Handles DgvFormulator_StepFormulator.CellLeave
-
-        If DgvFormulator_StepFormulator.CurrentCell.ColumnIndex = cellQty Then
-            Dim cellKuantity As String = DgvFormulator_StepFormulator.CurrentCell.Value
-
-            If cellKuantity = "" Then
-                Exit Sub
-            End If
-
-            Dim nilai As Decimal = Decimal.Parse(cellKuantity)
-            Dim formattedValue As String = nilai.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
-
-            DgvFormulator_StepFormulator.CurrentCell.Value = formattedValue
-
-        End If
-
-    End Sub
-
-    Private Sub DgvFormulator_StepFormulator_CellEnter(sender As Object, e As DataGridViewCellEventArgs) Handles DgvFormulator_StepFormulator.CellEnter
 
         If DgvFormulator_StepFormulator.CurrentCell.ColumnIndex = cellQty Then
             Dim cellKuantity As String = DgvFormulator_StepFormulator.CurrentCell.Value
@@ -869,11 +852,36 @@ Public Class Transaksi_Formula
 
             DgvFormulator_StepFormulator.CurrentCell.Value = nilai
         End If
+
+    End Sub
+
+    Private Sub DgvFormulator_StepFormulator_CellLeave(sender As Object, e As DataGridViewCellEventArgs) Handles DgvFormulator_StepFormulator.CellLeave
+
+        If DgvFormulator_StepFormulator.CurrentCell.ColumnIndex = cellQty Then
+            Dim cellKuantity As String = DgvFormulator_StepFormulator.CurrentCell.Value
+
+            If Not String.IsNullOrEmpty(cellKuantity) Then
+
+                Dim nilai As Decimal = Decimal.Parse(cellKuantity)
+                Dim formattedValue As String = nilai.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
+
+
+                DgvFormulator_StepFormulator.CurrentCell.Value = formattedValue
+            End If
+        End If
+
+    End Sub
+
+    Private Sub DgvFormulator_StepFormulator_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DgvFormulator_StepFormulator.CellContentClick
+
     End Sub
 
     Private Sub CmbFormulator_SatuanHasil_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbFormulator_SatuanHasil.KeyPress
         If e.KeyChar = Chr(13) Then BtnFormulator_Simpan.Focus()
     End Sub
 
-
+    Private Sub Transaksi_Formula_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        My.Application.ChangeCulture("en-us")
+        My.Application.ChangeUICulture("en-us")
+    End Sub
 End Class

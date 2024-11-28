@@ -176,122 +176,6 @@
         Txt_Kd.Focus()
     End Sub
 
-    Private Sub Lv_MasterBiaya_DoubleClick(sender As Object, e As EventArgs) Handles Lv_PR.DoubleClick
-        Txt_Kd.Text = Lv_PR.FocusedItem.SubItems(1).Text
-        Txt_Kd_Leave(Lv_PR, e)
-    End Sub
-
-    Private Sub Btn_Cari_Click(sender As Object, e As EventArgs) Handles Btn_Cari.Click
-
-        If Cmb_Kolom.SelectedIndex = -1 Then
-            MessageBox.Show(Base_Language.Lang_Global_Kolom & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Cmb_Kolom.Focus() : Exit Sub
-        ElseIf Txt_Value.Text.Trim.Length = 0 Then
-            MessageBox.Show("Value" & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Txt_Value.Focus() : Exit Sub
-        End If
-
-        Cari("T")
-    End Sub
-
-    Private Sub Cari(ByVal semua As String)
-        Try
-
-            OpenConn()
-
-            Lv_PR.Items.Clear()
-            SQL = "select Id_Biaya, Kode_Biaya, Keterangan "
-            SQL = SQL & "From EMI_Biaya where "
-            SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' "
-            If semua = "T" Then
-                SQL = SQL & "and " & arrCari.Item(Cmb_Kolom.SelectedIndex) & " like '%" & Txt_Value.Text & "%' "
-                SQL = SQL & "order by " & arrCari.Item(Cmb_Kolom.SelectedIndex) & " "
-            Else
-                SQL = SQL & "order by Id_Biaya"
-            End If
-            Using Dr = OpenTrans(SQL)
-                Do While Dr.Read
-                    Dim lvw As ListViewItem
-                    lvw = Lv_PR.Items.Add(Dr("Id_Biaya"))
-                    lvw.SubItems.Add(Dr("Kode_Biaya"))
-                    lvw.SubItems.Add(Dr("Keterangan"))
-                Loop
-            End Using
-
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MessageBox.Show(ex.Message)
-            Exit Sub
-        End Try
-    End Sub
-
-    Private Sub Txt_Kd_Leave(sender As Object, e As EventArgs) Handles Txt_Kd.Leave
-        If Txt_Kd.Text.Trim.Length = 0 Then Exit Sub
-        Lbl_IDBiaya.Enabled = False
-        Txt_Kd.Enabled = False
-
-        Try
-            OpenConn()
-
-            SQL = "Select Id_Biaya, Kode_Biaya, Keterangan "
-            SQL = SQL & "From EMI_Biaya Where "
-            SQL = SQL & "Kode_Biaya = '" & Txt_Kd.Text.Trim & "' "
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    Lbl_IDBiaya.Text = Dr("Id_Biaya")
-                    Txt_Kd.Text = Dr("Kode_Biaya")
-                    Txt_Keterangan.Text = Dr("Keterangan")
-                    Btn_Simpan.Text = Base_Language.Lang_Global_Update : Btn_Hapus.Enabled = True
-                    Btn_Simpan.Tag = "&Update"
-                Else
-                    Lbl_IDBiaya.Text = ""
-                    Txt_Keterangan.Text = ""
-                    Btn_Simpan.Text = Base_Language.Lang_Global_Simpan : Btn_Hapus.Enabled = False
-                    Txt_Kd.Enabled = True
-                    Btn_Simpan.Tag = "&Simpan"
-                End If
-            End Using
-
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MessageBox.Show(ex.Message)
-            Exit Sub
-        End Try
-
-    End Sub
-
-    Private Sub Btn_Hapus_Click(sender As Object, e As EventArgs) Handles Btn_Hapus.Click
-        Dim Hapus1 As String = MessageBox.Show(Base_Language.Lang_Global_Tanya_Hapus, Base_Language.Lang_Global_Perhatian, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-
-        If Hapus1 = vbYes Then
-
-            Try
-
-                OpenConn()
-                Cmd.Transaction = Cn.BeginTransaction
-
-                SQL = "Delete From EMI_Biaya where Kode_Perusahaan = '" & KodePerusahaan & "' "
-                SQL = SQL & "and Id_Biaya = '" & Lbl_IDBiaya.Text.Trim & "' "
-                ExecuteTrans(SQL)
-
-                Cmd.Transaction.Commit()
-                MessageBox.Show(Base_Language.Lang_Global_Sukses_Hapus, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                CloseConn()
-            Catch ex As Exception
-                CloseTrans()
-                CloseConn()
-                MessageBox.Show(ex.Message)
-                Exit Sub
-            End Try
-        Else
-            MessageBox.Show(Base_Language.Lang_Global_Hapus_No, Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        End If
-
-        kosong()
-        Txt_Kd.Focus()
-    End Sub
 
     Private Sub Txt_Kd_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Kd.KeyPress
         If e.KeyChar = Chr(13) Then Txt_Keterangan.Focus()
@@ -302,24 +186,8 @@
     End Sub
 
     Private Sub BtnFormulator_Simpan_Click(sender As Object, e As EventArgs) Handles BtnFormulator_Simpan.Click
-
-        Dim hasDataToInsert As Boolean = False
-
-        If Dgv_DataBarang.Rows.Count <> 0 Then
-            For i As Integer = 0 To Dgv_DataBarang.RowCount - 1
-                If String.IsNullOrWhiteSpace(Dgv_DataBarang.Rows(i).Cells(0).Value) Then
-                    Continue For
-                End If
-                hasDataToInsert = True
-                Exit For
-            Next
-        Else
-            MessageBox.Show("Barang PR harus di isi minimal 1!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Exit Sub
-        End If
-
-        If hasDataToInsert = False Then
-            MessageBox.Show("Barang PR harus di isi minimal 1!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        If Dgv_DataBarang.Rows.Count = 0 Then
+            MessageBox.Show("Tidak ada Data yang bisa di simpan !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         End If
 
@@ -340,13 +208,14 @@
                 SQL = SQL & "'" & UserID & "', '" & TextBox2.Text.Trim & "' )"
                 ExecuteTrans(SQL)
 
-                For i As Integer = 0 To Dgv_DataBarang.Rows.Count - 1
+                For i As Integer = 0 To Dgv_DataBarang.Rows.Count - 2
+                    Get_Isi_Listview(i)
                     SQL = "insert into emi_purchase_requisition_detail(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Tanggal_Delivery,keterangan ) values("
                     SQL = SQL & "'" & KodePerusahaan & "', '" & Txt_NoFaktur.Text.Trim & "' ,"
-                    SQL = SQL & "'" & Dgv_DataBarang.Rows(i).Cells(0).Value & "', '" & Dgv_DataBarang.Rows(i).Cells(1).Value & "' ,"
-                    SQL = SQL & "'" & Dgv_DataBarang.Rows(i).Cells(3).Value & "',"
-                    SQL = SQL & "'" & Dgv_DataBarang.Rows(i).Cells(4).Value & "', '" & Dgv_DataBarang.Rows(i).Cells(5).Value & "', "
-                    SQL = SQL & "'" & Dgv_DataBarang.Rows(i).Cells(6).Value & "' )"
+                    SQL = SQL & "'" & LvLokasi & "', '" & LvKdBrg & "' ,"
+                    SQL = SQL & "'" & HilangkanTanda(LvQty) & "',"
+                    SQL = SQL & "'" & LvSatuan & "', '" & Format(CDate(LvTglDeli), "yyyy-MM-dd") & "', "
+                    SQL = SQL & "'" & LvKet & "' )"
                     ExecuteTrans(SQL)
                 Next
             Else
@@ -404,13 +273,14 @@
                 SQL = "delete EMI_Purchase_Requisition_Detail where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text & "'"
                 ExecuteTrans(SQL)
 
-                For i As Integer = 0 To Dgv_DataBarang.Rows.Count - 1
+                For i As Integer = 0 To Dgv_DataBarang.Rows.Count - 2
+                    Get_Isi_Listview(i)
                     SQL = "insert into emi_purchase_requisition_detail(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Tanggal_Delivery,keterangan) values("
                     SQL = SQL & "'" & KodePerusahaan & "', '" & Txt_NoFaktur.Text.Trim & "' ,"
-                    SQL = SQL & "'" & Dgv_DataBarang.Rows(i).Cells(0).Value & "', '" & Dgv_DataBarang.Rows(i).Cells(1).Value & "' ,"
-                    SQL = SQL & "'" & Dgv_DataBarang.Rows(i).Cells(3).Value & "',"
-                    SQL = SQL & "'" & Dgv_DataBarang.Rows(i).Cells(4).Value & "', '" & Dgv_DataBarang.Rows(i).Cells(5).Value & "', "
-                    SQL = SQL & "'" & Dgv_DataBarang.Rows(i).Cells(6).Value & "') "
+                    SQL = SQL & "'" & LvLokasi & "', '" & LvKdBrg & "' ,"
+                    SQL = SQL & "'" & HilangkanTanda(LvQty) & "',"
+                    SQL = SQL & "'" & LvSatuan & "', '" & Format(CDate(LvTglDeli), "yyyy-MM-dd") & "', "
+                    SQL = SQL & "'" & LvKet & "') "
                     ExecuteTrans(SQL)
                 Next
 
@@ -537,36 +407,36 @@
                         If .Rows.Count <> 0 Then
                             For i As Integer = 0 To .Rows.Count - 1
                                 Dgv_DataBarang.Rows.Add(1)
-                                Dgv_DataBarang.Rows(i).Cells(0).Value = .Rows(i).Item("kode_stock_owner")
-                                Dgv_DataBarang.Rows(i).Cells(1).Value = .Rows(i).Item("kode_barang")
-                                Dgv_DataBarang.Rows(i).Cells(2).Value = .Rows(i).Item("nama")
-                                Dgv_DataBarang.Rows(i).Cells(3).Value = .Rows(i).Item("jumlah")
-                                Dgv_DataBarang.Rows(i).Cells(4).Value = .Rows(i).Item("satuan")
-                                Dgv_DataBarang.Rows(i).Cells(5).Value = Format(.Rows(i).Item("tanggal_delivery"), "dd MMM yyyy")
+                                Dgv_DataBarang.Rows(i).Cells(CellLokasi).Value = .Rows(i).Item("kode_stock_owner")
+                                Dgv_DataBarang.Rows(i).Cells(CellKdBrg).Value = .Rows(i).Item("kode_barang")
+                                Dgv_DataBarang.Rows(i).Cells(CellNmBrg).Value = .Rows(i).Item("nama")
+                                Dgv_DataBarang.Rows(i).Cells(CellQty).Value = Format(.Rows(i).Item("jumlah"), "N2")
+                                Dgv_DataBarang.Rows(i).Cells(CellSatuan).Value = .Rows(i).Item("satuan")
+                                Dgv_DataBarang.Rows(i).Cells(CellTglDeli).Value = Format(.Rows(i).Item("tanggal_delivery"), "dd MMM yyyy")
 
                                 If General_Class.CekNULL(.Rows(i).Item("keterangan")) = "" Then
-                                    Dgv_DataBarang.Rows(i).Cells(6).Value = ""
+                                    Dgv_DataBarang.Rows(i).Cells(CellKet).Value = ""
                                 Else
-                                    Dgv_DataBarang.Rows(i).Cells(6).Value = .Rows(i).Item("keterangan")
+                                    Dgv_DataBarang.Rows(i).Cells(CellKet).Value = .Rows(i).Item("keterangan")
                                 End If
 
                                 If publicFlagRelease = "T" Then
-                                    Dgv_DataBarang.Rows(i).Cells(0).ReadOnly = True
-                                    Dgv_DataBarang.Rows(i).Cells(1).ReadOnly = True
-                                    Dgv_DataBarang.Rows(i).Cells(2).ReadOnly = True
-                                    Dgv_DataBarang.Rows(i).Cells(3).ReadOnly = False
+                                    Dgv_DataBarang.Rows(i).Cells(CellLokasi).ReadOnly = True
+                                    Dgv_DataBarang.Rows(i).Cells(CellKdBrg).ReadOnly = True
+                                    Dgv_DataBarang.Rows(i).Cells(CellNmBrg).ReadOnly = True
+                                    Dgv_DataBarang.Rows(i).Cells(CellQty).ReadOnly = False
 
-                                    Dgv_DataBarang.Rows(i).Cells(4).ReadOnly = True
-                                    Dgv_DataBarang.Rows(i).Cells(5).ReadOnly = True
-                                    Dgv_DataBarang.Rows(i).Cells(6).ReadOnly = False
+                                    Dgv_DataBarang.Rows(i).Cells(CellSatuan).ReadOnly = True
+                                    Dgv_DataBarang.Rows(i).Cells(CellTglDeli).ReadOnly = True
+                                    Dgv_DataBarang.Rows(i).Cells(CellKet).ReadOnly = False
                                 Else
-                                    Dgv_DataBarang.Rows(i).Cells(0).ReadOnly = True
-                                    Dgv_DataBarang.Rows(i).Cells(1).ReadOnly = True
-                                    Dgv_DataBarang.Rows(i).Cells(2).ReadOnly = True
-                                    Dgv_DataBarang.Rows(i).Cells(3).ReadOnly = True
-                                    Dgv_DataBarang.Rows(i).Cells(4).ReadOnly = True
-                                    Dgv_DataBarang.Rows(i).Cells(5).ReadOnly = True
-                                    Dgv_DataBarang.Rows(i).Cells(6).ReadOnly = True
+                                    Dgv_DataBarang.Rows(i).Cells(CellLokasi).ReadOnly = True
+                                    Dgv_DataBarang.Rows(i).Cells(CellKdBrg).ReadOnly = True
+                                    Dgv_DataBarang.Rows(i).Cells(CellNmBrg).ReadOnly = True
+                                    Dgv_DataBarang.Rows(i).Cells(CellQty).ReadOnly = True
+                                    Dgv_DataBarang.Rows(i).Cells(CellSatuan).ReadOnly = True
+                                    Dgv_DataBarang.Rows(i).Cells(CellTglDeli).ReadOnly = True
+                                    Dgv_DataBarang.Rows(i).Cells(CellKet).ReadOnly = True
 
                                 End If
 
@@ -613,6 +483,27 @@
             OpenConn()
 
             no_Faktur_Sementara = String.Empty
+
+            Dim hasDataToInsert As Boolean = False
+
+            '===============================
+            '=     CEK APAKAH ADA DATA     =
+            '===============================
+            For i As Integer = 0 To Dgv_DataBarang.RowCount - 1
+
+                If Dgv_DataBarang.Rows(i).Cells(1).Value = "" Then
+                    Continue For
+                End If
+
+                hasDataToInsert = True
+
+            Next
+
+            If hasDataToInsert = False Then
+                CloseConn()
+                MessageBox.Show("Tidak Ada Data yang Di Simpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
 
             SQL = "select status, flag_po, flag_release from EMI_Purchase_Requisition "
             SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
@@ -748,7 +639,7 @@
 
 
 
-            If Not Dgv_DataBarang.CurrentRow.Cells(0).Value = "" Then
+            If Not Dgv_DataBarang.CurrentRow.Cells(CellLokasi).Value = "" Then
                 If Not publicFlagRelease = "Y" Then
                     Dim Hapus1 As String = MessageBox.Show(Base_Language.Lang_Global_Tanya_Hapus, Base_Language.Lang_Global_Perhatian, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                     If Hapus1 = vbYes Then
@@ -763,11 +654,18 @@
     End Sub
 
     Private Sub Dgv_DataBarang_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles Dgv_DataBarang.CellDoubleClick
+        If Dgv_DataBarang.Rows.Count = 0 Then
+            Exit Sub
+        End If
+
 
         If publicFlagRelease = "T" Then
             Dim currentRow = Dgv_DataBarang.CurrentRow.Index
             Dim currentCell = Dgv_DataBarang.CurrentCell.ColumnIndex
 
+            If currentRow = Dgv_DataBarang.Rows.Count - 1 Then
+                Exit Sub
+            End If
             If currentCell = 5 Then
 
                 SD_Ubah_Tanggal_PR.DTP_Delivery.Value = Dgv_DataBarang.Rows(currentRow).Cells(currentCell).Value
@@ -802,7 +700,7 @@
             Dim cellKuantity As String = Dgv_DataBarang.CurrentRow.Cells(CellQty).Value
 
             If cellKuantity.Contains(",") Then
-                MessageBox.Show("Kuantity Tidak Boleh Koma, Ganti dengan Titik", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                'MessageBox.Show("Kuantity Tidak Boleh Koma, Ganti dengan Titik", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Dgv_DataBarang.CurrentRow.Cells(CellQty).Value = 0
                 Exit Sub
             End If
@@ -823,6 +721,8 @@
                 Exit Sub
             End If
 
+
+
             Dim cleanedStr As String = HilangkanTanda(cellKuantity) ' Menghapus titik
             Dim nilai As Decimal = Decimal.Parse(cleanedStr)
 
@@ -838,6 +738,7 @@
             If cellKuantity = "" Then
                 Exit Sub
             End If
+
 
 
             Dim nilai As Decimal = Decimal.Parse(cellKuantity)

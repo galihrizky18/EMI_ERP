@@ -63,16 +63,16 @@ Public Class SD_Data_PR
 
     Private Sub Get_Isi_Listview2(ByVal No_Index As Integer)
         'Lv2Cb = DataGridView1.Rows(No_Index).Cells(CellChkBox).Value.ToString
-        Lv2Lokasi = CekNothing(DataGridView1.Rows(No_Index).Cells(CellLokasi).Value.ToString)
-        Lv2KdBrg = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKdBrg).Value.ToString)
-        Lv2NmBrg = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNmBrg).Value.ToString)
-        Lv2JmlOrder = CekNothing(DataGridView1.Rows(No_Index).Cells(CellJmlOrder).Value.ToString)
-        Lv2JmlPR = CekNothing(DataGridView1.Rows(No_Index).Cells(CellJmlPR).Value.ToString)
-        Lv2Sisa = CekNothing(DataGridView1.Rows(No_Index).Cells(CellSisa).Value.ToString)
+        Lv2Lokasi = CekNothing(DataGridView1.Rows(No_Index).Cells(CellLokasi).Value)
+        Lv2KdBrg = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKdBrg).Value)
+        Lv2NmBrg = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNmBrg).Value)
+        Lv2JmlOrder = CekNothing(DataGridView1.Rows(No_Index).Cells(CellJmlOrder).Value)
+        Lv2JmlPR = CekNothing(DataGridView1.Rows(No_Index).Cells(CellJmlPR).Value)
+        Lv2Sisa = CekNothing(DataGridView1.Rows(No_Index).Cells(CellSisa).Value)
         Lv2JmlInput = CekNothing(DataGridView1.Rows(No_Index).Cells(CellJmlInput).Value)
-        Lv2Satuan = CekNothing(DataGridView1.Rows(No_Index).Cells(CellSatuan).Value.ToString)
-        Lv2TglDelivery = CekNothing(DataGridView1.Rows(No_Index).Cells(CellTglDelivery).Value.ToString)
-        Lv2Keterangan = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKeterangan).Value.ToString)
+        Lv2Satuan = CekNothing(DataGridView1.Rows(No_Index).Cells(CellSatuan).Value)
+        Lv2TglDelivery = CekNothing(DataGridView1.Rows(No_Index).Cells(CellTglDelivery).Value)
+        Lv2Keterangan = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKeterangan).Value)
 
     End Sub
 
@@ -917,9 +917,11 @@ Public Class SD_Data_PR
             SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur "
             SQL = SQL & "and y.Kode_Perusahaan = a.Kode_Perusahaan and y.Kode_Stock_Owner = a.Kode_Stock_Owner and  "
             SQL = SQL & "y.Kode_Barang = a.Kode_Barang and x.Status is null and "
-            SQL = SQL & "a.No_Faktur = x.no_fak_material_requisition ),0) as jumlah_pr "
-            SQL = SQL & "from EMI_Transaksi_Material_Requsition_detail a, barang b "
+            SQL = SQL & "a.No_Faktur = x.no_fak_material_requisition ),0) as jumlah_pr, c.satuan as Satuan_Display "
+            SQL = SQL & "from EMI_Transaksi_Material_Requsition_detail a, barang b, barang_detail_satuan c "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner "
+            SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Barang = c.Kode_Barang and c.flag_tampil_display='Y' "
+
             SQL = SQL & "and a.Kode_Barang = b.Kode_Barang "
             SQL = SQL & "and a.no_faktur = '" & ListView1.FocusedItem.Text & "'"
             SQL = SQL & "and a.bulan  = '" & ListView1.FocusedItem.SubItems(4).Text & "' "
@@ -935,7 +937,7 @@ Public Class SD_Data_PR
                     DataGridView1.Rows.Item(no).Cells(CellSisa).Value = Format(Dr("nilai_ppic") - Dr("jumlah_pr"), "N2")
 
                     DataGridView1.Rows.Item(no).Cells(CellJmlInput).Value = 0
-                    DataGridView1.Rows.Item(no).Cells(CellSatuan).Value = ""
+                    DataGridView1.Rows.Item(no).Cells(CellSatuan).Value = Dr("Satuan_Display")
                     DataGridView1.Rows.Item(no).Cells(CellTglDelivery).Value = ""
                     DataGridView1.Rows.Item(no).Cells(CellKeterangan).Value = ""
 
@@ -1013,7 +1015,7 @@ Public Class SD_Data_PR
 
             SD_Tambah_PR.TxtPilihBarang_KodeBarang.Text = sendKdBrg
             SD_Tambah_PR.TxtPilihBarang_NamaBarang.Text = sendNmBrg
-            SD_Tambah_PR.TxtPilihBarang_Satuan.Text = "-"
+     
             SD_Tambah_PR.Txt_PR.Text = PR
             SD_Tambah_PR.Txt_Order.Text = Order
             SD_Tambah_PR.Txt_Sisa.Text = sisa
@@ -1025,6 +1027,7 @@ Public Class SD_Data_PR
             Dim index As Integer = 0
 
             OpenConn()
+            SD_Tambah_PR.CmbPilihBarang_Satuan.Items.Clear()
             SQL = "select Satuan,Flag_Tampil_Display from barang_Detail_Satuan where Kode_Barang= '" & sendKdBrg & "' "
             SQL = SQL & "and flag_tampil_display = 'Y' "
             Using dr = OpenTrans(SQL)
@@ -1092,8 +1095,9 @@ Public Class SD_Data_PR
 
 
         If TextBox2.Text.Trim.Length = 0 Then
-            MessageBox.Show("Keterangan Harus diisi....!!", Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            TextBox2.Focus() : Exit Sub
+            TextBox2.Text = ""
+            'MessageBox.Show("Keterangan Harus diisi....!!", Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            'TextBox2.Focus() : Exit Sub
         End If
 
         get_jam()

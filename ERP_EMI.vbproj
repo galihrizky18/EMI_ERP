@@ -333,6 +333,18 @@
     <Compile Include="Emi Form\EMI_Independent_Order.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Formula\Display\Display_Formula.designer.vb">
+      <DependentUpon>Display_Formula.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Formula\Display\Display_Formula.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Formula\Display\Display_Formula_Binding.designer.vb">
+      <DependentUpon>Display_Formula_Binding.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Formula\Display\Display_Formula_Binding.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\Formula\SD_Pilih_Barang.designer.vb">
       <DependentUpon>SD_Pilih_Barang.vb</DependentUpon>
     </Compile>
@@ -1260,6 +1272,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\EMI_Independent_Order.resx">
       <DependentUpon>EMI_Independent_Order.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Formula\Display\Display_Formula.resx">
+      <DependentUpon>Display_Formula.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Formula\Display\Display_Formula_Binding.resx">
+      <DependentUpon>Display_Formula_Binding.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Formula\SD_Pilih_Barang.resx">
       <DependentUpon>SD_Pilih_Barang.vb</DependentUpon>
