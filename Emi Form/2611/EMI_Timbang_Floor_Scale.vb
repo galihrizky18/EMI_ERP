@@ -8,6 +8,7 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar
 Imports Azure.Storage.Blobs
 Imports Azure.Storage.Blobs.Models
+'Imports Microsoft.SqlServer.Server
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports WebEye.Controls.WinForms.StreamPlayerControl
 Imports ZXing.QrCode
@@ -27,7 +28,7 @@ Public Class EMI_Timbang_Floor_Scale
     Private rawData1() As Byte
     Private fs1 As FileStream
 
-    Dim arrIdJenisMuatan, arrMetodeTruckScale As New ArrayList
+    Dim arrIdJenisMuatan, arrMetodeTruckScale, arrid_Jenis_alas As New ArrayList
     Dim arrNamaBarang, arrKodeBarang, arrUrutPO As New ArrayList
     Dim selectedBarang, selectedUrutPO As New ArrayList
 
@@ -100,7 +101,6 @@ Public Class EMI_Timbang_Floor_Scale
 
         Txt_Timbangan.Text = "99999"
 
-
         txt_lokasi.Text = ""
         txt_barang.Text = ""
         'Txt_Ekspedisi.Text = ""
@@ -132,6 +132,14 @@ Public Class EMI_Timbang_Floor_Scale
                 If dr.Read Then
                     satuan_timbang = dr("Satuan_Timbang")
                 End If
+            End Using
+
+            ComboBox1.Items.Clear() : arrid_Jenis_alas.Clear()
+            SQL = "select Id,Kode_Jenis_Alas,Keterangan,Berat,Satuan from Emi_Master_Jenis_Alas where Kode_Perusahaan = '" & KodePerusahaan & "' order by Keterangan "
+            Using dr = OpenTrans(SQL)
+                Do While dr.Read
+                    ComboBox1.Items.Add(dr("Keterangan")) : arrid_Jenis_alas.Add(dr("ID"))
+                Loop
             End Using
 
             CmbSatuan.Text = satuan_timbang
@@ -203,7 +211,7 @@ Public Class EMI_Timbang_Floor_Scale
                 'UBAH KE SATUAN PO
                 SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & TxtKdBarang.Text & "',"
                 SQL = SQL & "'" & CmbSatuan.Text & "','" & Satuan_Barang & "',"
-                SQL = SQL & "" & HilangkanTanda(txt_Jumlah_Timbang.Text) & ") as Hasil "
+                SQL = SQL & "" & HilangkanTanda(TextBox3.Text) & ") as Hasil "
                 Using dr3 = OpenTrans(SQL)
                     If dr3.Read Then
                         If General_Class.CekNULL(dr3("Hasil")) <> "" Then
@@ -217,11 +225,16 @@ Public Class EMI_Timbang_Floor_Scale
 
                 SQL = "update EMI_Barang_Masuk_Perpallet set  "
                 SQL = SQL & "Flag_Timbang = 'Y', "
-                SQL = SQL & "jumlah = '" & HilangkanTanda(txt_Jumlah_Timbang.Text) & "', "
+                SQL = SQL & "jumlah = '" & HilangkanTanda(TextBox3.Text) & "', "
                 SQL = SQL & "Nilai_Barang = '" & jumlah_masuk_Barang & "', "
                 SQL = SQL & "tanggal_Timbang = '" & Format(CDate(tgl_skg), "yyyy-MM-dd") & "', "
                 SQL = SQL & "jam_Timbang = '" & Format(CDate(tgl_skg), "HH:mm:ss") & "', "
-                SQL = SQL & "user_Timbang = '" & UserID & "' "
+                SQL = SQL & "user_Timbang = '" & UserID & "', "
+                SQL = SQL & "Id_Jenis_Alas = '" & arrid_Jenis_alas(ComboBox1.SelectedIndex) & "', "
+                SQL = SQL & "Jumlah_Gross = '" & HilangkanTanda(txt_Jumlah_Timbang.Text) & "', "
+                SQL = SQL & "Satuan_Gross = '" & CmbSatuan.Text & "', "
+                SQL = SQL & "Jumlah_Alas = '" & HilangkanTanda(TextBox2.Text) & "', "
+                SQL = SQL & "Satuan_Alas= '" & CmbSatuan.Text & "' "
                 SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
                 SQL = SQL & "and no_faktur = '" & txtKodeTransfer.Text & "' "
                 ExecuteTrans(SQL)
@@ -289,7 +302,7 @@ Public Class EMI_Timbang_Floor_Scale
                 '====================================
                 Dim nilai_kecildetail As Double = 0
                 SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & TxtKdBarang.Text & "', '" & CmbSatuan.SelectedItem.ToString & "',"
-                SQL = SQL & "'" & Txt_SatuanKecil.Text & "', '" & txt_Jumlah_Timbang.Text.ToString & "' ) as hasil"
+                SQL = SQL & "'" & Txt_SatuanKecil.Text & "', '" & HilangkanTanda(TextBox3.Text) & "' ) as hasil"
                 Using Dr1 = OpenTrans(SQL)
                     If Dr1.Read Then
                         If General_Class.CekNULL(Dr1("hasil")) = "" Then
@@ -461,7 +474,6 @@ Public Class EMI_Timbang_Floor_Scale
                 Dim str As String = Format(Random.Next(0, 999), "000") & Format(tgl_skg, "HHmmss")
                 Dim Kode_Unik As String = str.Substring(0, 5) & "BB" & Chr(64 + str.Substring(6, 1)) & str.Substring(6, Len(str) - 6)
                 Dim SN_Baru As String = Kode_Unik & Tanda_SN & "01" & Tanda_SN & hargaIsn & Tanda_SN & "02" & Tanda_SN & Format(tgl_skg, "yyyy-MM-dd")
-
                 Dim newKodeUnikBerjalan As String = Generate_Random_Kode(10)
 
                 'INSERT BARANG SN BARU  
@@ -516,7 +528,7 @@ Public Class EMI_Timbang_Floor_Scale
 
                 SQL = "update Tf_Stock_det set  "
                 SQL = SQL & "Flag_Pot_Stock = 'Y', "
-                SQL = SQL & "jumlah_pot_Stock = '" & HilangkanTanda(txt_Jumlah_Timbang.Text) & "', "
+                SQL = SQL & "jumlah_pot_Stock = '" & HilangkanTanda(TextBox3.Text) & "', "
                 SQL = SQL & "tanggal_pot_stock = '" & Format(CDate(tgl_skg), "yyyy-MM-dd") & "', "
                 SQL = SQL & "jam_pot_stock = '" & Format(CDate(tgl_skg), "HH:mm:ss") & "', "
                 SQL = SQL & "userid_pot_stock = '" & UserID & "', "
@@ -694,11 +706,12 @@ Public Class EMI_Timbang_Floor_Scale
                 End Using
 
 
-
-                SQL = "update Tf_Stock set kode_voucher = '" & Kode_voucher & "' "
+                SQL = "update Tf_Stock_det set kode_voucher = '" & Kode_voucher & "' "
                 SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
-                SQL = SQL & "and Kode_Transfer = '" & txtKodeTransfer.Text & "' "
+                SQL = SQL & "and No_faktur = '" & txtKodeTransfer.Text & "' "
+                SQL = SQL & "and urut_oto = '" & txtUrutOto.Text & "' "
                 ExecuteTrans(SQL)
+
 
                 '=====================================
                 '=       GENERATE BARCODE BARU       =
@@ -1180,6 +1193,69 @@ Public Class EMI_Timbang_Floor_Scale
         kosong()
     End Sub
 
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+        'If ComboBox1.SelectedItem = -1 Then
+        '    TextBox2.Text = ""
+        '    TextBox3.Text = ""
+        '    Exit Sub
+        'End If
 
+        Try
+            OpenConn()
 
+            Dim nberat As Double = 0
+            Dim convertKeSatuanAsli_bhn As String = ""
+            SQL = "select Id,Kode_Jenis_Alas,Keterangan,Berat,Satuan from Emi_Master_Jenis_Alas where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and Id = '" & arrid_Jenis_alas.Item(ComboBox1.SelectedIndex) & "' "
+            Using dr = OpenTrans(SQL)
+                If dr.Read Then
+                    convertKeSatuanAsli_bhn = dr("Satuan")
+                    SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & TxtKdBarang.Text & "',"
+                    SQL = SQL & "'" & dr("satuan") & "','" & CmbSatuan.Text & "',"
+                    SQL = SQL & "" & HilangkanTanda(dr("Berat")) & ") as Hasil "
+                    dr.Close()
+                    Using dr4 = OpenTrans(SQL)
+                        If dr4.Read Then
+                            If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+                                If dr4("Hasil") = 0 Then
+                                    dr4.Close()
+                                    CloseTrans()
+                                    CloseConn()
+                                    MessageBox.Show("Satuan " & convertKeSatuanAsli_bhn & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                Else
+                                    nberat = dr4("hasil")
+                                    TextBox2.Text = Format(nberat, "N0")
+                                End If
+                            Else
+                                dr4.Close()
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("Satuan " & convertKeSatuanAsli_bhn & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+                        End If
+                    End Using
+                Else
+                    dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub txt_Jumlah_Timbang_TextChanged(sender As Object, e As EventArgs) Handles txt_Jumlah_Timbang.TextChanged
+        Dim berat_net As Double = 0
+        berat_net = Val(HilangkanTanda(txt_Jumlah_Timbang.Text)) - Val(HilangkanTanda(TextBox2.Text))
+        TextBox3.Text = Format(berat_net, "N0")
+    End Sub
 End Class

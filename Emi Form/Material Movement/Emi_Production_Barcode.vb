@@ -265,8 +265,11 @@ Public Class Emi_Production_Barcode
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
 
-            Dim newBatch As String = Generate_Batch_New(Lv_TglSelesaiProduksi, Lv_PrefixCode, Lv_TglExpired)
-            Dim newQrCode As String = Generate_QR(Txt_KdBarang.Text, newBatch)
+            'Dim newBatch As String = Generate_Batch_Bahan(Lv_TglSelesaiProduksi, Lv_PrefixCode, Lv_TglExpired)
+            'Dim newQrCode As String = Generate_QR(Txt_KdBarang.Text)
+
+            Dim newBatch As String = ""
+            Dim newQrCode As String = ""
             Dim Kode_Berjalan As String = Generate_Random_Kode(10)
             Dim Kode_Asal As String = Generate_Random_Kode(10)
 
@@ -358,71 +361,7 @@ Public Class Emi_Production_Barcode
 
     End Sub
 
-    Private Function Generate_QR(ByVal isi As String)
-        Dim options As New QrCodeEncodingOptions
 
-        options.DisableECI = True
-        options.CharacterSet = "UTF-8"
-        'options.Width = 80
-        'options.Height = 80
-
-        Dim qr As New ZXing.BarcodeWriter()
-        'qr.Options = options
-        qr.Options.Width = 80
-        qr.Options.Height = 80
-
-        qr.Format = ZXing.BarcodeFormat.QR_CODE
-
-        Dim result As New Bitmap(qr.Write(isi))
-        'result.SetResolution(50, 50)
-
-        Return result
-    End Function
-
-    Private Function Generate_Random_Kode(ByVal length As Integer) As String
-        Dim chars As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        Dim result As New StringBuilder()
-
-        For i As Integer = 1 To length
-            Dim index As Integer = random.Next(0, chars.Length)
-            result.Append(chars(index))
-        Next
-
-        Return result.ToString()
-    End Function
-
-    Private Function Generate_Batch_New(ByVal productionDate As String, ByVal lineCode As String, ByVal expDate As String) As String
-
-        Dim productionTime As Date = Date.Parse(productionDate)
-        Dim Produksi_Tanggal As String = productionTime.Day.ToString
-        Dim Produksi_Bulan As String = productionTime.Month.ToString
-        Dim Produksi_Tahun As String = If((productionTime.Year - Tahun_MulaiProduksi) Mod 9 = 0, 1, (productionTime.Year - Tahun_MulaiProduksi) Mod 9)
-        Dim exp_date As String = Format(Date.Parse(expDate), "ddMMyy")
-
-        Dim NumberToChar As New ArrayList From {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
-                                        "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
-        Dim finalBatch As String = ""
-        finalBatch = Produksi_Tanggal & NumberToChar(Produksi_Bulan - 1) & Produksi_Tahun & lineCode & exp_date
-
-        Return finalBatch
-
-    End Function
-
-    Private Function Generate_QR(ByVal MaterialCode As String, ByVal BatchCode As String) As String
-
-        'Dim chars As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        'Dim UnixCode As New StringBuilder()
-
-        'For i As Integer = 1 To 10
-        '    Dim index As Integer = random.Next(0, chars.Length)
-        '    UnixCode.Append(chars(index))
-        'Next
-
-        Dim Qr As String = ""
-        Qr = MaterialCode & "-" & BatchCode
-
-        Return Qr
-    End Function
 
     Private Sub Txt_Jumlah_Leave(sender As Object, e As EventArgs) Handles Txt_Jumlah.Leave
         If Not IsNumeric(Txt_Jumlah.Text) Then Txt_Jumlah.Text = String.Empty : Exit Sub

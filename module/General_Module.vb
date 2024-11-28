@@ -1464,7 +1464,7 @@ Module General_Module
         Dim exp_date As String = Format(Date.Parse(expDate), "ddMMyy")
 
         Dim NumberToChar As New ArrayList From {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
-                                        "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
+                                     "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
         Dim finalBatch As String = ""
         finalBatch = Produksi_Tanggal & NumberToChar(Produksi_Bulan - 1) & Produksi_Tahun & lineCode & exp_date
 
@@ -1513,14 +1513,14 @@ Module General_Module
     End Function
 
     Public Function Generate_Batch_Bahan(ByVal SupCode As String, ByVal tgl_kedatangan As Integer, ByVal BulanKedatangan As Integer, ByVal tahunKedatangan As Integer,
-    ByVal supplierBatchOrder As Integer, ByVal exp As String) As String
+ ByVal supplierBatchOrder As Integer, ByVal exp As String) As String
 
         BulanKedatangan = BulanKedatangan + 1
         supplierBatchOrder = supplierBatchOrder + 1
 
 
         Dim NumberToChar As New ArrayList From {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
-                                        "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
+                                     "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
 
         Dim finalBatch As String = ""
         finalBatch = SupCode & tgl_kedatangan & NumberToChar((BulanKedatangan - 1) Mod 26) & tahunKedatangan & NumberToChar((supplierBatchOrder - 1) Mod 26) & exp

@@ -38,6 +38,7 @@ Partial Class Transfer_Stock_3
         Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -107,7 +108,6 @@ Partial Class Transfer_Stock_3
         Me.jenis_kemasan = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.isi_perbags = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.satuan_isiBags = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         CType(Me.DGV_Data_TF, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -122,6 +122,19 @@ Partial Class Transfer_Stock_3
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1085, 51)
         Me.Panel1.TabIndex = 24
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1085, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -860,26 +873,12 @@ Partial Class Transfer_Stock_3
         '
         Me.isi_perbags.HeaderText = "Isi PerBags"
         Me.isi_perbags.Name = "isi_perbags"
-        Me.isi_perbags.Visible = False
         '
         'satuan_isiBags
         '
         Me.satuan_isiBags.HeaderText = "Satuan Isi Bags"
         Me.satuan_isiBags.Name = "satuan_isiBags"
         Me.satuan_isiBags.Visible = False
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1085, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Transfer_Stock_3
         '
