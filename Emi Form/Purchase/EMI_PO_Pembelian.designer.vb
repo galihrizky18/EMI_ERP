@@ -471,6 +471,7 @@ Partial Class EMI_PO_Pembelian
         '
         Me.CmbPO_MataUang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CmbPO_MataUang.DropDownWidth = 150
+        Me.CmbPO_MataUang.Enabled = False
         Me.CmbPO_MataUang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
         Me.CmbPO_MataUang.FormattingEnabled = True
         Me.CmbPO_MataUang.Location = New System.Drawing.Point(163, 92)

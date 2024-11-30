@@ -411,6 +411,7 @@ Partial Class EMI_PO_Pembelian_Display_View
         Me.Column16.DefaultCellStyle = DataGridViewCellStyle10
         Me.Column16.HeaderText = "Tanggal Delivery"
         Me.Column16.Name = "Column16"
+        Me.Column16.ReadOnly = True
         Me.Column16.Width = 120
         '
         'EMI_PO_Pembelian_Display_View

@@ -62,6 +62,8 @@
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Txt_Faktur_MaterialReq = New System.Windows.Forms.TextBox()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -70,6 +72,8 @@
         Me.Satuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TglDelivery = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.sisa = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.QtyByForecast = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         CType(Me.Dgv_DataBarang, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -322,7 +326,7 @@
         Me.DtpFormulator_Tanggal.Enabled = False
         Me.DtpFormulator_Tanggal.Location = New System.Drawing.Point(227, 65)
         Me.DtpFormulator_Tanggal.Name = "DtpFormulator_Tanggal"
-        Me.DtpFormulator_Tanggal.Size = New System.Drawing.Size(201, 20)
+        Me.DtpFormulator_Tanggal.Size = New System.Drawing.Size(261, 20)
         Me.DtpFormulator_Tanggal.TabIndex = 376
         '
         'TextBox2
@@ -396,7 +400,7 @@
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.Dgv_DataBarang.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.Dgv_DataBarang.ColumnHeadersHeight = 45
-        Me.Dgv_DataBarang.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.Satuan, Me.TglDelivery, Me.Column2})
+        Me.Dgv_DataBarang.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.Satuan, Me.TglDelivery, Me.Column2, Me.sisa, Me.QtyByForecast})
         Me.Dgv_DataBarang.Location = New System.Drawing.Point(20, 158)
         Me.Dgv_DataBarang.Name = "Dgv_DataBarang"
         Me.Dgv_DataBarang.RowHeadersWidth = 21
@@ -448,6 +452,28 @@
         Me.Label7.Size = New System.Drawing.Size(119, 18)
         Me.Label7.TabIndex = 424
         Me.Label7.Text = "Del : Delete Data"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label2.Location = New System.Drawing.Point(20, 93)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(176, 17)
+        Me.Label2.TabIndex = 379
+        Me.Label2.Text = "Faktur Material Requisition"
+        '
+        'Txt_Faktur_MaterialReq
+        '
+        Me.Txt_Faktur_MaterialReq.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_Faktur_MaterialReq.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_Faktur_MaterialReq.Enabled = False
+        Me.Txt_Faktur_MaterialReq.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.Txt_Faktur_MaterialReq.Location = New System.Drawing.Point(227, 91)
+        Me.Txt_Faktur_MaterialReq.MaxLength = 50
+        Me.Txt_Faktur_MaterialReq.Name = "Txt_Faktur_MaterialReq"
+        Me.Txt_Faktur_MaterialReq.Size = New System.Drawing.Size(261, 21)
+        Me.Txt_Faktur_MaterialReq.TabIndex = 380
         '
         'PanelGradient1
         '
@@ -526,6 +552,20 @@
         Me.Column2.Name = "Column2"
         Me.Column2.Width = 200
         '
+        'sisa
+        '
+        Me.sisa.HeaderText = "Sisa"
+        Me.sisa.Name = "sisa"
+        Me.sisa.ReadOnly = True
+        Me.sisa.Visible = False
+        '
+        'QtyByForecast
+        '
+        Me.QtyByForecast.HeaderText = "QtyByForecast"
+        Me.QtyByForecast.Name = "QtyByForecast"
+        Me.QtyByForecast.ReadOnly = True
+        Me.QtyByForecast.Visible = False
+        '
         'Purchase_Requisition
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -540,6 +580,8 @@
         Me.Controls.Add(Me.BtnFormulator_Refresh)
         Me.Controls.Add(Me.BtnFormulator_Simpan)
         Me.Controls.Add(Me.cmb_lokasi)
+        Me.Controls.Add(Me.Txt_Faktur_MaterialReq)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Txt_NoFaktur)
@@ -609,6 +651,8 @@
     Friend WithEvents Button3 As Button
     Friend WithEvents Label5 As Label
     Friend WithEvents Label7 As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Txt_Faktur_MaterialReq As TextBox
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
@@ -616,4 +660,6 @@
     Friend WithEvents Satuan As DataGridViewTextBoxColumn
     Friend WithEvents TglDelivery As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
+    Friend WithEvents sisa As DataGridViewTextBoxColumn
+    Friend WithEvents QtyByForecast As DataGridViewTextBoxColumn
 End Class

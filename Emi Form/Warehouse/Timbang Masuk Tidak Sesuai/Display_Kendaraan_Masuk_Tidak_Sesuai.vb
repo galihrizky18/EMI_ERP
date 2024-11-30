@@ -38,6 +38,11 @@ Public Class Display_Kendaraan_Masuk_Tidak_Sesuai
         Tb_NoPlat.Text = String.Empty
         Tb_Driver.Text = String.Empty
 
+        Lv_Kendaraan.Text = String.Empty
+
+        Txt_Lokasi.Text = String.Empty
+        Txt_Supplier.Text = String.Empty
+
         Tb_NoSJ.Enabled = False
         Tb_NoPlat.Enabled = False
         Tb_Driver.Enabled = False
@@ -62,16 +67,16 @@ Public Class Display_Kendaraan_Masuk_Tidak_Sesuai
 
     Private Sub Initial_ListView()
 
-        Lv_Kendaraan.Columns.Add("No Faktur", 180, HorizontalAlignment.Center)
-        Lv_Kendaraan.Columns.Add("Supplier", 180, HorizontalAlignment.Center)
-        Lv_Kendaraan.Columns.Add("Lokasi", 150, HorizontalAlignment.Center)
+        Lv_Kendaraan.Columns.Add("No Faktur", 130, HorizontalAlignment.Center)
+        Lv_Kendaraan.Columns.Add("Supplier", 0, HorizontalAlignment.Center)
+        Lv_Kendaraan.Columns.Add("Lokasi", 0, HorizontalAlignment.Center)
         Lv_Kendaraan.Columns.Add("No Surat Jalan", 130, HorizontalAlignment.Center)
         Lv_Kendaraan.Columns.Add("No Plat Kendaraan", 130, HorizontalAlignment.Center)
-        Lv_Kendaraan.Columns.Add("Driver", 140, HorizontalAlignment.Center)
-        Lv_Kendaraan.Columns.Add("Tanggal Berangkat", 140, HorizontalAlignment.Center)
+        Lv_Kendaraan.Columns.Add("Driver", 130, HorizontalAlignment.Center)
+        Lv_Kendaraan.Columns.Add("Tanggal Berangkat", 0, HorizontalAlignment.Center)
         Lv_Kendaraan.Columns.Add("Tanggal Masuk", 140, HorizontalAlignment.Center)
         Lv_Kendaraan.Columns.Add("Jam Masuk", 130, HorizontalAlignment.Center)
-        Lv_Kendaraan.Columns.Add("User Penerima", 150, HorizontalAlignment.Center)
+        Lv_Kendaraan.Columns.Add("User Penerima", 0, HorizontalAlignment.Center)
 
         'Hideen
         Lv_Kendaraan.Columns.Add("kdSupplier", 0, HorizontalAlignment.Center)
@@ -99,6 +104,7 @@ Public Class Display_Kendaraan_Masuk_Tidak_Sesuai
     Private Sub Load_Kendaraan(ByVal Optional filter As String = "")
 
         Lv_Kendaraan.Items.Clear()
+        FlowLayoutPanel1.Controls.Clear()
 
         Try
             OpenConn()
@@ -108,7 +114,7 @@ Public Class Display_Kendaraan_Masuk_Tidak_Sesuai
             SQL = SQL & "from emi_pembelian_loading a, Suppliers b "
             SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan "
             SQL = SQL & "and a.Kode_Supplier=b.Kode_Supplier "
-            SQL = SQL & "and a.Kode_Perusahaan='001' and a.Flag_Dkmn_Tdk_Sesuai = 'Y' "
+            SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' and a.Flag_Dkmn_Tdk_Sesuai = 'Y' "
             If Not filter.Trim.Length = 0 Then
                 SQL = SQL & "and " & filter & " "
             End If
@@ -141,6 +147,7 @@ Public Class Display_Kendaraan_Masuk_Tidak_Sesuai
 
     End Sub
 
+
     'HANDLE FUNCTION
     Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
         Kosong()
@@ -157,9 +164,12 @@ Public Class Display_Kendaraan_Masuk_Tidak_Sesuai
             Load_Kendaraan()
         End If
 
+
         Tb_NoSJ.Text = String.Empty
         Tb_NoPlat.Text = String.Empty
         Tb_Driver.Text = String.Empty
+        Txt_Lokasi.Text = String.Empty
+        Txt_Supplier.Text = String.Empty
 
     End Sub
 
@@ -201,6 +211,8 @@ Public Class Display_Kendaraan_Masuk_Tidak_Sesuai
         Tb_NoSJ.Text = lv_NoSJ.ToString
         Tb_NoPlat.Text = lv_NoPlat.ToString
         Tb_Driver.Text = lv_Driver.ToString
+        Txt_Lokasi.Text = lv_Lokasi.ToString
+        Txt_Supplier.Text = lv_Supplier.ToString
 
         selected_NoFaktur = lv_NoFaktur.ToString
         selected_NoSJ = lv_NoSJ.ToString
@@ -212,6 +224,7 @@ Public Class Display_Kendaraan_Masuk_Tidak_Sesuai
         Tb_NoSJ.Enabled = True
         Tb_NoPlat.Enabled = True
         Tb_Driver.Enabled = True
+
 
         'REQUEST GAMBAR DARI API
         Try
@@ -262,6 +275,7 @@ Public Class Display_Kendaraan_Masuk_Tidak_Sesuai
 
                 Loop
             End Using
+
 
             CloseConn()
         Catch ex As Exception
@@ -345,24 +359,26 @@ Public Class Display_Kendaraan_Masuk_Tidak_Sesuai
 
     End Sub
 
-    Private Sub Tb_NoSJ_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_NoSJ.KeyPress
+    Private Sub Tb_NoSJ_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_NoSJ.KeyPress, Txt_Supplier.KeyPress, Txt_Lokasi.KeyPress
         If e.KeyChar = Chr(13) Then Tb_NoPlat.Focus()
     End Sub
 
     Private Sub Tb_NoPlat_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_NoPlat.KeyPress
         If e.KeyChar = Chr(13) Then Tb_Driver.Focus()
     End Sub
-
     Private Sub Tb_Driver_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_Driver.KeyPress
         If e.KeyChar = Chr(13) Then Btn_Update.Focus()
     End Sub
-
     Private Sub Cmb_Filter_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Filter.KeyPress
         If e.KeyChar = Chr(13) Then Cmb_Filter_Value.Focus()
     End Sub
-
     Private Sub Cmb_Filter_Value_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Filter_Value.KeyPress
         If e.KeyChar = Chr(13) Then Btn_Cari.Focus()
     End Sub
+
+
+
+
+
 
 End Class

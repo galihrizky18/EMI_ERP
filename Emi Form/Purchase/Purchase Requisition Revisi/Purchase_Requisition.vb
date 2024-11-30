@@ -1,4 +1,6 @@
-﻿Public Class Purchase_Requisition
+﻿Imports System.CodeDom.Compiler
+
+Public Class Purchase_Requisition
 
     Dim arrCari, arrKd_biaya, arrKeterangan As New ArrayList
 
@@ -29,6 +31,8 @@
     Dim LvSatuan As String
     Dim LvTglDeli As String
     Dim LvKet As String
+    Dim LvSisa As String
+    Dim LvQtyByForecast As String
 
     Dim CellLokasi As Integer = 0
     Dim CellKdBrg As Integer = 1
@@ -37,6 +41,8 @@
     Dim CellSatuan As Integer = 4
     Dim CellTglDeli As Integer = 5
     Dim CellKet As Integer = 6
+    Dim CellSisa As Integer = 7
+    Dim CellQtyByForecast As Integer = 8
 
     Private Sub Get_Isi_Listview(ByVal No_Index As Integer)
 
@@ -47,6 +53,8 @@
         LvSatuan = Dgv_DataBarang.Rows(No_Index).Cells(CellSatuan).Value
         LvTglDeli = Dgv_DataBarang.Rows(No_Index).Cells(CellTglDeli).Value
         LvKet = Dgv_DataBarang.Rows(No_Index).Cells(CellKet).Value
+        LvSisa = Dgv_DataBarang.Rows(No_Index).Cells(CellSisa).Value
+        LvQtyByForecast = Dgv_DataBarang.Rows(No_Index).Cells(CellQtyByForecast).Value
 
     End Sub
 
@@ -83,7 +91,7 @@
 
     End Sub
 
-    Private Sub kosong()
+    Public Sub kosong()
         Dgv_DataBarang.Enabled = True
         publicFlagRelease = "T"
         get_jam()
@@ -108,12 +116,16 @@
             Exit Sub
         End Try
 
+        Txt_Faktur_MaterialReq.Visible = False
+        Label2.Visible = False
+
         Lbl_IDBiaya.Text = ""
         Txt_Kd.Text = ""
         Txt_Keterangan.Text = ""
         Cmb_Kolom.SelectedIndex = -1
         Txt_Value.Text = ""
         TextBox2.Text = ""
+        Txt_Faktur_MaterialReq.Text = ""
         TextBox2.ReadOnly = False
 
         BtnFormulator_Simpan.Enabled = True
@@ -315,7 +327,7 @@
             Button3.Visible = True
             Dim ada_data As String = ""
             Dim flag_release_fix As String = ""
-            SQL = "select no_faktur, lokasi ,tanggal, jam, userId, keterangan, flag_release,status from EMI_Purchase_Requisition where "
+            SQL = "select no_faktur, lokasi ,tanggal, jam, userId, keterangan, flag_release,status, No_Fak_Material_Requisition from EMI_Purchase_Requisition where "
             SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text & "' "
             SQL = SQL & "and status is null"
             Using Ds = BindingTrans(SQL)
@@ -330,6 +342,16 @@
                             cmb_lokasi.Text = .Rows(i).Item("lokasi")
                             TextBox2.Text = .Rows(i).Item("keterangan")
                             DtpFormulator_Tanggal.Value = .Rows(i).Item("tanggal")
+
+                            If General_Class.CekNULL(.Rows(i).Item("No_Fak_Material_Requisition")) = "" Then
+                                Txt_Faktur_MaterialReq.Text = ""
+                                Txt_Faktur_MaterialReq.Visible = False
+                                Label2.Visible = False
+                            Else
+                                Txt_Faktur_MaterialReq.Visible = True
+                                Label2.Visible = True
+                                Txt_Faktur_MaterialReq.Text = .Rows(i).Item("No_Fak_Material_Requisition")
+                            End If
 
                             If General_Class.CekNULL(.Rows(i).Item("status")) = "Y" Then
                                 ada_data = "T"
@@ -396,11 +418,36 @@
             Dgv_DataBarang.Rows.Clear()
             If ada_data = "Y" Then
 
-                SQL = "select a.kode_perusahaan,a.kode_stock_owner,a.kode_barang,b.nama,a.jumlah,a.satuan,a.tanggal_delivery,keterangan  "
+                SQL = "select a.kode_perusahaan, a.kode_stock_owner, a.kode_barang, b.nama, a.jumlah, a.satuan, a.tanggal_delivery, keterangan, "
+
+                SQL = SQL & "ISNULL((select sum(x.Nilai_PPIC) from EMI_Transaksi_Material_Requsition_detail x "
+                SQL = SQL & "where x.Kode_Perusahaan = a.Kode_Perusahaan and x.Kode_Stock_Owner = a.Kode_Stock_Owner and x.Kode_Barang = a.Kode_Barang "
+                SQL = SQL & "and x.No_Faktur = '" & Txt_Faktur_MaterialReq.Text & "' "
+                SQL = SQL & "), 0) as Nilai_PPIC, "
+
+                'SQL = SQL & "ISNULL(( select (SUM(z.jumlah) - a.jumlah) from EMI_Purchase_Requisition_Detail z where z.Kode_Perusahaan = a.Kode_Perusahaan "
+                'SQL = SQL & "and z.Kode_Stock_Owner = a.Kode_Stock_Owner and z.Kode_Barang = a.Kode_Barang"
+                'SQL = SQL & "), 0) as jumlahPR "
+
+                SQL = SQL & "isnull((select "
+
+                If Txt_Faktur_MaterialReq.Visible = True And Not Txt_Faktur_MaterialReq.Text.Trim.Length = 0 Then
+                    SQL = SQL & "sum(y.jumlah) - a.jumlah "
+                Else
+                    SQL = SQL & "sum(y.jumlah) "
+                End If
+
+                SQL = SQL & "from EMI_Purchase_Requisition x, EMI_Purchase_Requisition_Detail y "
+                SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and y.Kode_Perusahaan = a.Kode_Perusahaan "
+                SQL = SQL & "and y.Kode_Stock_Owner = a.Kode_Stock_Owner "
+                SQL = SQL & "and y.Kode_Barang = a.Kode_Barang and x.Status is null "
+                SQL = SQL & "and x.no_fak_material_requisition  = '" & Txt_Faktur_MaterialReq.Text & "' "
+                SQL = SQL & "), 0) as jumlahPR "
+
                 SQL = SQL & "from EMI_Purchase_Requisition_Detail a, barang b where "
                 SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.kode_stock_owner = b.kode_stock_owner "
                 SQL = SQL & "and a.kode_barang = b.kode_barang "
-                SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "'"
+                SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
                 SQL = SQL & "and a.no_faktur = '" & Txt_NoFaktur.Text & "'  "
                 Using Ds = BindingTrans(SQL)
                     With Ds.Tables("MyTable")
@@ -411,14 +458,18 @@
                                 Dgv_DataBarang.Rows(i).Cells(CellKdBrg).Value = .Rows(i).Item("kode_barang")
                                 Dgv_DataBarang.Rows(i).Cells(CellNmBrg).Value = .Rows(i).Item("nama")
                                 Dgv_DataBarang.Rows(i).Cells(CellQty).Value = Format(.Rows(i).Item("jumlah"), "N2")
+                                Dgv_DataBarang.Rows(i).Cells(CellQtyByForecast).Value = .Rows(i).Item("jumlah")
                                 Dgv_DataBarang.Rows(i).Cells(CellSatuan).Value = .Rows(i).Item("satuan")
                                 Dgv_DataBarang.Rows(i).Cells(CellTglDeli).Value = Format(.Rows(i).Item("tanggal_delivery"), "dd MMM yyyy")
+                                Dgv_DataBarang.Rows(i).Cells(CellSisa).Value = (.Rows(i).Item("Nilai_PPIC") - .Rows(i).Item("jumlahPR"))
+
 
                                 If General_Class.CekNULL(.Rows(i).Item("keterangan")) = "" Then
                                     Dgv_DataBarang.Rows(i).Cells(CellKet).Value = ""
                                 Else
                                     Dgv_DataBarang.Rows(i).Cells(CellKet).Value = .Rows(i).Item("keterangan")
                                 End If
+
 
                                 If publicFlagRelease = "T" Then
                                     Dgv_DataBarang.Rows(i).Cells(CellLokasi).ReadOnly = True
@@ -483,27 +534,6 @@
             OpenConn()
 
             no_Faktur_Sementara = String.Empty
-
-            Dim hasDataToInsert As Boolean = False
-
-            '===============================
-            '=     CEK APAKAH ADA DATA     =
-            '===============================
-            For i As Integer = 0 To Dgv_DataBarang.RowCount - 1
-
-                If Dgv_DataBarang.Rows(i).Cells(1).Value = "" Then
-                    Continue For
-                End If
-
-                hasDataToInsert = True
-
-            Next
-
-            If hasDataToInsert = False Then
-                CloseConn()
-                MessageBox.Show("Tidak Ada Data yang Di Simpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Exit Sub
-            End If
 
             SQL = "select status, flag_po, flag_release from EMI_Purchase_Requisition "
             SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
@@ -615,6 +645,7 @@
                 'SD_Tambah_PR.asal = cmb_lokasi.Text
                 SD_Tambah_PR.asal = Jenis
                 SD_Tambah_PR.asal = Jenis
+                SD_Tambah_PR.faktur_MR = Txt_Faktur_MaterialReq.Text
                 SD_Tambah_PR.TxtPilihBarang_KodeBarang.Visible = True
                 SD_Tambah_PR.TxtPilihBarang_Satuan.Visible = True
                 SD_Tambah_PR.TxtPilihBarang_NamaBarang.Visible = True
@@ -688,8 +719,24 @@
         End If
 
         If Val(LvQty) < 0 Or IsNumeric(LvQty) = False Then
-            Dgv_DataBarang.CurrentRow.Cells(CellQty).Value = 0
+            If LvQtyByForecast Is Nothing Then
+                LvQtyByForecast = 0
+            End If
+            Dgv_DataBarang.CurrentRow.Cells(CellQty).Value = Format(Val(LvQtyByForecast), "N2")
         End If
+
+
+        '===========================================
+        '=     CEK APAKAH JUMLAH MELEBIHI SISA     =
+        '===========================================
+        If Val(LvSisa) <> 0 Then
+            If Val(LvQty) > Val(LvSisa) Then
+                MessageBox.Show("Jumlah Tidak Boleh Lebih dari Sisa", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Dgv_DataBarang.CurrentRow.Cells(CellQty).Value = Format(Val(LvQtyByForecast), "N2")
+                Exit Sub
+            End If
+        End If
+
 
 
         '======================
@@ -748,6 +795,7 @@
 
         End If
     End Sub
+
 
     Private Sub Txt_Value_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Value.KeyPress
         If e.KeyChar = Chr(13) Then Btn_Cari.Focus()

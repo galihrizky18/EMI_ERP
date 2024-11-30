@@ -955,7 +955,7 @@ Public Class Transaksi_Penawaran
 
                 'Save Master Penawaran
                 SQL = "Insert into EMI_Master_Penawaran "
-                SQL = SQL & "(Kode_Perusahaan, No_Faktur, No_Penawaran, Tgl_Penawaran_Hrg, Periode_Akhir_Penawaran, Kode_Supplier,lokasi, tanggal,jam,iduser) "
+                SQL = SQL & "(Kode_Perusahaan, No_Faktur, No_Penawaran, Tgl_Penawaran_Hrg, Periode_Akhir_Penawaran, Kode_Supplier, lokasi, tanggal,jam,iduser) "
                 SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & saveNoPenawaran & "', "
                 SQL = SQL & "'" & Format(Dtp_Tgl.Value, "yyyy-MM-dd") & "', '" & Format(Dtp_PeriodAkhir.Value, "yyyy-MM-dd") & "', "
                 SQL = SQL & "'" & saveSupplier & "', '" & Lokasi & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "' "

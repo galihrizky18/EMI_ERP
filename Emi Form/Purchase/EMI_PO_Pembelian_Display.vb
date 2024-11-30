@@ -448,12 +448,11 @@ Public Class EMI_PO_Pembelian_Display
         Dim currentRow = DgvPO_DataLocal.CurrentRow.Index
         Get_Isi_ListviewLocal(currentRow)
 
-
+        EMI_PO_Pembelian.Asal = "edit"
         EMI_PO_Pembelian.kosong()
         EMI_PO_Pembelian.TxtPO_NoFaktur.Text = LvNo_PoLocal
         EMI_PO_Pembelian.CmbPO_Lokasi.Text = LvLokasiLocal
         EMI_PO_Pembelian.TxtPO_NoFaktur_Leave(Me, e)
-        EMI_PO_Pembelian.Asal = "edit"
         EMI_PO_Pembelian.ShowDialog()
 
 

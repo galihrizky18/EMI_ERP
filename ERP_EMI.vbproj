@@ -273,12 +273,6 @@
     <Compile Include="Emi Form\Bahan\Emi_Request_Material.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Barang\Display_Kendaraan_Masuk_Tidak_Sesuai.Designer.vb">
-      <DependentUpon>Display_Kendaraan_Masuk_Tidak_Sesuai.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Barang\Display_Kendaraan_Masuk_Tidak_Sesuai.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Barang\EMI_Display_Barang_Masuk_Per_Pallet.designer.vb">
       <DependentUpon>EMI_Display_Barang_Masuk_Per_Pallet.vb</DependentUpon>
     </Compile>
@@ -499,6 +493,12 @@
     <Compile Include="Emi Form\Material Movement\SD_Pilih_Split_Produksi.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Purchase\Display\EMI_Penawaran_Harga_Summary_Data.designer.vb">
+      <DependentUpon>EMI_Penawaran_Harga_Summary_Data.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Purchase\Display\EMI_Penawaran_Harga_Summary_Data.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\Penawaran\Display_Penawaran_SD_Ongkir.designer.vb">
       <DependentUpon>Display_Penawaran_SD_Ongkir.vb</DependentUpon>
     </Compile>
@@ -601,10 +601,16 @@
     <Compile Include="Emi Form\Purchase\Tracking_Kamar_Timbang.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\QC\EMI_Display_QC_Produksi.designer.vb">
+    <Compile Include="Emi Form\QC\EMI_Display_QC_Produksi.Designer.vb">
       <DependentUpon>EMI_Display_QC_Produksi.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\QC\EMI_Display_QC_Produksi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\QC\Emi_Display_QI.Designer.vb">
+      <DependentUpon>Emi_Display_QI.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\QC\Emi_Display_QI.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\QC\Emi_Display_Quality_Control.designer.vb">
@@ -617,12 +623,6 @@
       <DependentUpon>EMI_Kendaraan_QC_Display.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\QC\EMI_Kendaraan_QC_Display.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\QC\EMI_Transaksi_QC_Finish_Good2.designer.vb">
-      <DependentUpon>EMI_Transaksi_QC_Finish_Good2.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\QC\EMI_Transaksi_QC_Finish_Good2.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\QC\EMI_Transaksi_QC_Finish_Good.designer.vb">
@@ -791,6 +791,12 @@
       <DependentUpon>Emi_Display_Timbang_FloorScale.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Timbang\Emi_Display_Timbang_FloorScale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Timbang Masuk Tidak Sesuai\Display_Kendaraan_Masuk_Tidak_Sesuai.Designer.vb">
+      <DependentUpon>Display_Kendaraan_Masuk_Tidak_Sesuai.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Timbang Masuk Tidak Sesuai\Display_Kendaraan_Masuk_Tidak_Sesuai.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Work Center\Biaya_Work_Center.Designer.vb">
@@ -1241,9 +1247,6 @@
     <EmbeddedResource Include="Emi Form\Bahan\Emi_Request_Material.resx">
       <DependentUpon>Emi_Request_Material.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Barang\Display_Kendaraan_Masuk_Tidak_Sesuai.resx">
-      <DependentUpon>Display_Kendaraan_Masuk_Tidak_Sesuai.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Barang\EMI_Display_Barang_Masuk_Per_Pallet.resx">
       <DependentUpon>EMI_Display_Barang_Masuk_Per_Pallet.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -1357,6 +1360,9 @@
     <EmbeddedResource Include="Emi Form\Material Movement\SD_Pilih_Split_Produksi.resx">
       <DependentUpon>SD_Pilih_Split_Produksi.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Purchase\Display\EMI_Penawaran_Harga_Summary_Data.resx">
+      <DependentUpon>EMI_Penawaran_Harga_Summary_Data.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Penawaran\Display_Penawaran_SD_Ongkir.resx">
       <DependentUpon>Display_Penawaran_SD_Ongkir.vb</DependentUpon>
     </EmbeddedResource>
@@ -1411,14 +1417,14 @@
     <EmbeddedResource Include="Emi Form\QC\EMI_Display_QC_Produksi.resx">
       <DependentUpon>EMI_Display_QC_Produksi.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\QC\Emi_Display_QI.resx">
+      <DependentUpon>Emi_Display_QI.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\QC\Emi_Display_Quality_Control.resx">
       <DependentUpon>Emi_Display_Quality_Control.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\QC\EMI_Kendaraan_QC_Display.resx">
       <DependentUpon>EMI_Kendaraan_QC_Display.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\QC\EMI_Transaksi_QC_Finish_Good2.resx">
-      <DependentUpon>EMI_Transaksi_QC_Finish_Good2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\QC\EMI_Transaksi_QC_Finish_Good.resx">
       <DependentUpon>EMI_Transaksi_QC_Finish_Good.vb</DependentUpon>
@@ -1504,6 +1510,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Timbang\Emi_Display_Timbang_FloorScale.resx">
       <DependentUpon>Emi_Display_Timbang_FloorScale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Timbang Masuk Tidak Sesuai\Display_Kendaraan_Masuk_Tidak_Sesuai.resx">
+      <DependentUpon>Display_Kendaraan_Masuk_Tidak_Sesuai.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Work Center\Biaya_Work_Center.resx">
       <DependentUpon>Biaya_Work_Center.vb</DependentUpon>

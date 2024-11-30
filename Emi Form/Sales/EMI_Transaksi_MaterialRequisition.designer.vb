@@ -53,7 +53,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Panel6 = New System.Windows.Forms.Panel()
-        Me.Btn_Refresh = New System.Windows.Forms.Button()
+        Me.Btn_Simpan = New System.Windows.Forms.Button()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.Column13 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -195,17 +195,17 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Panel6.TabIndex = 36
         Me.Panel6.Visible = False
         '
-        'Btn_Refresh
+        'Btn_Simpan
         '
-        Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(27, 580)
-        Me.Btn_Refresh.Name = "Btn_Refresh"
-        Me.Btn_Refresh.Size = New System.Drawing.Size(84, 36)
-        Me.Btn_Refresh.TabIndex = 362
-        Me.Btn_Refresh.Text = "&Simpan"
-        Me.Btn_Refresh.UseVisualStyleBackColor = False
+        Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
+        Me.Btn_Simpan.Location = New System.Drawing.Point(27, 580)
+        Me.Btn_Simpan.Name = "Btn_Simpan"
+        Me.Btn_Simpan.Size = New System.Drawing.Size(84, 36)
+        Me.Btn_Simpan.TabIndex = 362
+        Me.Btn_Simpan.Text = "&Simpan"
+        Me.Btn_Simpan.UseVisualStyleBackColor = False
         '
         'DataGridView1
         '
@@ -751,7 +751,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
-        Me.Controls.Add(Me.Btn_Refresh)
+        Me.Controls.Add(Me.Btn_Simpan)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
@@ -772,7 +772,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
     Friend WithEvents Panel3 As Panel
     Friend WithEvents Panel5 As Panel
     Friend WithEvents Panel4 As Panel
-    Friend WithEvents Btn_Refresh As Button
+    Friend WithEvents Btn_Simpan As Button
     Friend WithEvents Panel6 As Panel
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents TextBox2 As TextBox

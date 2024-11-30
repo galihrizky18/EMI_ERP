@@ -94,42 +94,54 @@ Public Class EMI_Transaksi_MaterialRequisition
     Public ArrNama As New ArrayList
     ' Public ArrJenis As New ArrayList
 
+    Private Function CekNothing(ByVal str As String) As String
+        Dim hasil As String = ""
+
+        If str Is Nothing Then
+            hasil = ""
+        Else
+            hasil = str
+        End If
+
+        Return hasil
+    End Function
+
     Public Sub Get_Isi_Listview(ByVal No_Index As Integer)
         'Lv0 = DataGridView1.Rows(No_Index).Cells(Cell0).Value.ToString
-        LVKd_Barang = DataGridView1.Rows(No_Index).Cells(CellKd_Barang).Value.ToString
-        LvNm_Barang = DataGridView1.Rows(No_Index).Cells(CellNm_Barang).Value.ToString
-        LvAvg_3Bln = DataGridView1.Rows(No_Index).Cells(CellAvg_3Bln).Value.ToString
-        LvStock_BB = DataGridView1.Rows(No_Index).Cells(CellStock_BB).Value.ToString
-        LvOPRequesition = DataGridView1.Rows(No_Index).Cells(CellOPRequesition).Value.ToString
-        LvOPOrder = DataGridView1.Rows(No_Index).Cells(CellOPOrder).Value.ToString
-        LvTotal = DataGridView1.Rows(No_Index).Cells(CellTotal).Value.ToString
-        LvNBom_1 = DataGridView1.Rows(No_Index).Cells(CellNBom_1).Value.ToString
-        LvNPPIC_1 = DataGridView1.Rows(No_Index).Cells(CellNPPIC_1).Value.ToString
-        LvUrut_1 = DataGridView1.Rows(No_Index).Cells(CellUrut_1).Value.ToString
-        LvKosong_1 = DataGridView1.Rows(No_Index).Cells(CellKosong_1).Value.ToString
-        LvNBom_2 = DataGridView1.Rows(No_Index).Cells(CellNBom_2).Value.ToString
-        LvNPPIC_2 = DataGridView1.Rows(No_Index).Cells(CellNPPIC_2).Value.ToString
-        LvUrut_2 = DataGridView1.Rows(No_Index).Cells(CellUrut_2).Value.ToString
-        LvKosong_2 = DataGridView1.Rows(No_Index).Cells(CellKosong_2).Value.ToString
-        LvNBom_3 = DataGridView1.Rows(No_Index).Cells(CellNBom_3).Value.ToString
-        LvNPPIC_3 = DataGridView1.Rows(No_Index).Cells(CellNPPIC_3).Value.ToString
-        LvUrut_3 = DataGridView1.Rows(No_Index).Cells(CellUrut_3).Value.ToString
-        LvKosong_3 = DataGridView1.Rows(No_Index).Cells(CellKosong_3).Value.ToString
-        LvNBom_4 = DataGridView1.Rows(No_Index).Cells(CellNBom_4).Value.ToString
-        LvNPPIC_4 = DataGridView1.Rows(No_Index).Cells(CellNPPIC_4).Value.ToString
-        LvUrut_4 = DataGridView1.Rows(No_Index).Cells(CellUrut_4).Value.ToString
-        LvKosong_4 = DataGridView1.Rows(No_Index).Cells(CellKosong_4).Value.ToString
-        LvNBom_5 = DataGridView1.Rows(No_Index).Cells(CellNBom_5).Value.ToString
-        LvNPPIC_5 = DataGridView1.Rows(No_Index).Cells(CellNPPIC_5).Value.ToString
-        LvUrut_5 = DataGridView1.Rows(No_Index).Cells(CellUrut_5).Value.ToString
-        LvKosong_5 = DataGridView1.Rows(No_Index).Cells(CellKosong_5).Value.ToString
-        LvNBom_6 = DataGridView1.Rows(No_Index).Cells(CellNBom_6).Value.ToString
-        LvNPPIC_6 = DataGridView1.Rows(No_Index).Cells(CellNPPIC_6).Value.ToString
-        LvUrut_6 = DataGridView1.Rows(No_Index).Cells(CellUrut_6).Value.ToString
-        LvKosong_6 = DataGridView1.Rows(No_Index).Cells(CellKosong_6).Value.ToString
+        LVKd_Barang = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKd_Barang).Value)
+        LvNm_Barang = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNm_Barang).Value)
+        LvAvg_3Bln = CekNothing(DataGridView1.Rows(No_Index).Cells(CellAvg_3Bln).Value)
+        LvStock_BB = CekNothing(DataGridView1.Rows(No_Index).Cells(CellStock_BB).Value)
+        LvOPRequesition = CekNothing(DataGridView1.Rows(No_Index).Cells(CellOPRequesition).Value)
+        LvOPOrder = CekNothing(DataGridView1.Rows(No_Index).Cells(CellOPOrder).Value)
+        LvTotal = CekNothing(DataGridView1.Rows(No_Index).Cells(CellTotal).Value)
+        LvNBom_1 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNBom_1).Value)
+        LvNPPIC_1 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNPPIC_1).Value)
+        LvUrut_1 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellUrut_1).Value)
+        LvKosong_1 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKosong_1).Value)
+        LvNBom_2 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNBom_2).Value)
+        LvNPPIC_2 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNPPIC_2).Value)
+        LvUrut_2 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellUrut_2).Value)
+        LvKosong_2 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKosong_2).Value)
+        LvNBom_3 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNBom_3).Value)
+        LvNPPIC_3 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNPPIC_3).Value)
+        LvUrut_3 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellUrut_3).Value)
+        LvKosong_3 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKosong_3).Value)
+        LvNBom_4 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNBom_4).Value)
+        LvNPPIC_4 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNPPIC_4).Value)
+        LvUrut_4 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellUrut_4).Value)
+        LvKosong_4 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKosong_4).Value)
+        LvNBom_5 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNBom_5).Value)
+        LvNPPIC_5 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNPPIC_5).Value)
+        LvUrut_5 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellUrut_5).Value)
+        LvKosong_5 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKosong_5).Value)
+        LvNBom_6 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNBom_6).Value)
+        LvNPPIC_6 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNPPIC_6).Value)
+        LvUrut_6 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellUrut_6).Value)
+        LvKosong_6 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKosong_6).Value)
         'LvReferensi = DataGridView1.Rows(No_Index).Cells(CellReferensi).Value.ToString
-        LvStatus = DataGridView1.Rows(No_Index).Cells(CellStatus).Value.ToString
-        LvSatuanBarang = DataGridView1.Rows(No_Index).Cells(CellSatuanBarang).Value.ToString
+        LvStatus = CekNothing(DataGridView1.Rows(No_Index).Cells(CellStatus).Value)
+        LvSatuanBarang = CekNothing(DataGridView1.Rows(No_Index).Cells(CellSatuanBarang).Value)
     End Sub
 
     Private Sub getdata()
@@ -712,7 +724,7 @@ Public Class EMI_Transaksi_MaterialRequisition
                 End If
 
                 ada_data = ""
-                SQL = "select Bulan,Tahun,Kode_Barang,Nilai_PPIC,Nilai_Bom,Urut from EMI_Transaksi_Material_Requsition_Detail where "
+                SQL = "select Bulan,Tahun,Kode_Barang,Nilai_PPIC, Nilai_Bom, Urut from EMI_Transaksi_Material_Requsition_Detail where "
                 SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and Bulan = '" & b & "' and tahun = '" & fthn & "' and "
                 SQL = SQL & "Kode_Stock_Owner = '" & Arrlokasi.Item(indexxx) & "' and Kode_Barang = '" & Arrbarang.Item(indexxx) & "'"
                 Using Ds2 = BindingTrans(SQL)
@@ -2140,7 +2152,7 @@ Public Class EMI_Transaksi_MaterialRequisition
         ComboBox2.SelectedIndex = -1
         'ComboBox2.Enabled = True
         ComboBox2.Enabled = False
-        Btn_Refresh.Tag = "&Simpan"
+        Btn_Simpan.Tag = "&Simpan"
 
         get_jam()
 
@@ -2247,8 +2259,8 @@ Public Class EMI_Transaksi_MaterialRequisition
                     DataGridView1.Columns(CellSatuanBarang).DisplayIndex = 3
                     CheckBox1.Enabled = False
                     Button1.Enabled = False
-                    Btn_Refresh.Enabled = True
-                    Btn_Refresh.Tag = "&Simpan"
+                    Btn_Simpan.Enabled = True
+                    Btn_Simpan.Tag = "&Simpan"
 
                 Else
                     DataGridView1.Columns(Cell0).ReadOnly = False
@@ -2290,7 +2302,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 
                     CheckBox1.Enabled = False
                     Button1.Enabled = False
-                    Btn_Refresh.Enabled = False
+                    Btn_Simpan.Enabled = False
                 End If
 
                 If akses_realease = "Y" Then
@@ -2513,7 +2525,7 @@ Public Class EMI_Transaksi_MaterialRequisition
                             DataGridView1.Rows(i).Cells(30).Value = "0"
                             DataGridView1.Rows(i).Cells(31).Value = ""
                             DataGridView1.Rows(i).Cells(32).Value = "NEW"
-                            Btn_Refresh.Tag = "&Simpan"
+                            Btn_Simpan.Tag = "&Simpan"
                         Next
                     End With
                 End Using
@@ -2583,7 +2595,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 
     End Sub
 
-    Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
+    Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
         If TxtBarangMasuk_NoFaktur.Text.Trim.Length = 0 Then
             MessageBox.Show(Base_Language.Lang_Global_Error_No_Transaksi, Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TxtBarangMasuk_NoFaktur.Focus() : Exit Sub
@@ -2797,6 +2809,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 
                     End If
                 End Using
+
                 'BULAN KE 1
                 If a = 12 Then
                     a = 1
@@ -2836,7 +2849,7 @@ Public Class EMI_Transaksi_MaterialRequisition
                 End Using
 
                 If LvUrut_1 = "" Then
-                    SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Detail(Kode_Perusahaan,No_Faktur,Bulan,Tahun,Kode_Stock_Owner,Kode_Barang,Nilai_Bom,Nilai_PPIC,satuan "
+                    SQL = "INSERT INTO EMI_Transaksi_Material_Requsition_Detail (Kode_Perusahaan,No_Faktur,Bulan,Tahun,Kode_Stock_Owner,Kode_Barang,Nilai_Bom,Nilai_PPIC,satuan "
                     SQL = SQL & ") VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & b & "','" & fthn & "',"
                     SQL = SQL & "'" & fSO & "','" & LVKd_Barang & "','" & HilangkanTanda(LvNBom_1) & "','" & HilangkanTanda(LvNPPIC_1) & "' , '" & LvSatuanBarang & "' )"
                     'If DataGridView1.Rows.Item(c).Cells(CellReferensi).Value = True Then
@@ -4280,7 +4293,7 @@ Public Class EMI_Transaksi_MaterialRequisition
                     ComboBox1.Enabled = False
                     ComboBox2.Enabled = False
                     ComboBox3.Enabled = True
-                    Btn_Refresh.Tag = "&Refresh"
+                    Btn_Simpan.Tag = "&Refresh"
                 Else
                     dr.Close()
                     get_no_faktur()
@@ -4295,7 +4308,7 @@ Public Class EMI_Transaksi_MaterialRequisition
                     ComboBox2.Enabled = False
                     ComboBox3.Enabled = True
                     CheckBox1.Checked = False
-                    Btn_Refresh.Tag = "&Simpan"
+                    Btn_Simpan.Tag = "&Simpan"
                 End If
             End Using
 
@@ -4451,11 +4464,11 @@ Public Class EMI_Transaksi_MaterialRequisition
             Exit Sub
         End Try
 
-        If fLoad = True Then
-            TxtBarangMasuk_NoFaktur_Leave(ComboBox2, Nothing)
-        Else
+        'If fLoad = True Then
+        '    TxtBarangMasuk_NoFaktur_Leave(ComboBox2, Nothing)
+        'Else
 
-            Try
+        Try
                 OpenConn()
 
                 get_no_faktur()
@@ -4513,7 +4526,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 
             Get_Barang_Rix()
 
-        End If
+        'End If
 
     End Sub
 
@@ -4540,6 +4553,7 @@ Public Class EMI_Transaksi_MaterialRequisition
             OpenConn()
 
             For indexxx = 0 To Arrbarang.Count - 1
+                DataGridView1.Rows.Add(1)
                 Dim ind As Integer = DataGridView1.Rows.Count - 1
 
                 DataGridView1.Rows(ind).Cells(CellNBom_1).Style.BackColor = Color.LightYellow
@@ -4816,6 +4830,8 @@ Public Class EMI_Transaksi_MaterialRequisition
                         If arrBulan.Item(index) = a Then
                             b = arrBulanMM.Item(index)
 
+                            Dim asdasdas As String = Arrbarang.Item(indexxx)
+
                             Load_Data_Perbulan(Flag_Raw_Material, Flag_Packaging, indexxx, b, fthn, ind, akses_ubah, FValidasi, i)
                         End If
                     Next
@@ -4889,8 +4905,9 @@ Public Class EMI_Transaksi_MaterialRequisition
 
         ada_data = ""
         SQL = "select Bulan,Tahun,Kode_Barang,Nilai_PPIC,Nilai_Bom,Urut from EMI_Transaksi_Material_Requsition_Detail where "
-        SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and Bulan = '" & Bln & "' and tahun = '" & Thn & "' and "
-        SQL = SQL & "Kode_Stock_Owner = '" & Arrlokasi.Item(barangIndex) & "' and Kode_Barang = '" & Arrbarang.Item(barangIndex) & "'"
+        SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and Bulan = '" & Bln & "' and tahun = '" & Thn & "' "
+        'SQL = SQL & "Kode_Stock_Owner = '" & Arrlokasi.Item(barangIndex) & "' "
+        SQL = SQL & "and Kode_Barang = '" & Arrbarang.Item(barangIndex) & "'"
         Using Ds2 = BindingTrans(SQL)
             With Ds2.Tables("MyTable")
                 If .Rows.Count <> 0 Then

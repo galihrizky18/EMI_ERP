@@ -269,4 +269,76 @@
         Transaksi_Penawaran.Show()
         Transaksi_Penawaran.Focus()
     End Sub
+
+    Private Sub SalesForecastringByPPICToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SalesForecastringByPPICToolStripMenuItem.Click
+        EMI_Transaksi_ForecastOrder.StartPosition = FormStartPosition.CenterScreen
+        EMI_Transaksi_ForecastOrder.fStatus = "Transaksi_ForecastOrder_PPIC"
+
+        EMI_Transaksi_ForecastOrder.MdiParent = Me
+        EMI_Transaksi_ForecastOrder.Show()
+        EMI_Transaksi_ForecastOrder.Focus()
+    End Sub
+
+    Private Sub MaterialRequisitionByPPICToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MaterialRequisitionByPPICToolStripMenuItem.Click
+        EMI_Transaksi_MaterialRequisition.StartPosition = FormStartPosition.CenterScreen
+        EMI_Transaksi_MaterialRequisition.fstatus = "MRP_PPIC"
+
+        EMI_Transaksi_MaterialRequisition.MdiParent = Me
+        EMI_Transaksi_MaterialRequisition.Show()
+        EMI_Transaksi_MaterialRequisition.Focus()
+    End Sub
+
+    Private Sub PenawaranToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles PenawaranToolStripMenuItem1.Click
+        EMI_Penawaran_Harga_Summary_Data.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Penawaran_Harga_Summary_Data.MdiParent = Me
+        EMI_Penawaran_Harga_Summary_Data.Show()
+        EMI_Penawaran_Harga_Summary_Data.Focus()
+    End Sub
+
+    Private Sub KendaraanTidakSesuaiToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles KendaraanTidakSesuaiToolStripMenuItem.Click
+        Display_Kendaraan_Masuk_Tidak_Sesuai.StartPosition = FormStartPosition.CenterScreen
+
+        Display_Kendaraan_Masuk_Tidak_Sesuai.MdiParent = Me
+        Display_Kendaraan_Masuk_Tidak_Sesuai.Show()
+        Display_Kendaraan_Masuk_Tidak_Sesuai.Focus()
+    End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Private Sub AsyncToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AsyncToolStripMenuItem.Click
+        TesAsync.StartPosition = FormStartPosition.CenterScreen
+
+        TesAsync.MdiParent = Me
+        TesAsync.Show()
+        TesAsync.Focus()
+    End Sub
 End Class

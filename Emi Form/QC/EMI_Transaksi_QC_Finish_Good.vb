@@ -14,6 +14,8 @@ Public Class EMI_Transaksi_QC_Finish_Good
     'Array 2 dimensi menggunakan list
     Dim arr2Switch, arrSwitch As New List(Of List(Of String))
 
+    Public SN_Baru_For_Update As String = ""
+
     Dim LvIDKategori As String
     Dim LvNmKategori As String
     Dim LvIDUji As String
@@ -29,6 +31,7 @@ Public Class EMI_Transaksi_QC_Finish_Good
     Dim LvWarna As String
     Dim LvUrut As String
     Dim LvIDWarna As String
+    Dim LvKeterangan As String
 
     Dim CellIDKategori As Integer = 0
     Dim CellNmKategori As Integer = 1
@@ -45,6 +48,24 @@ Public Class EMI_Transaksi_QC_Finish_Good
     Dim CellWarna As Integer = 12
     Dim CellID As Integer = 13
     Dim CellIDWarna As Integer = 14
+    Dim CellKeterangan As Integer = 15
+
+
+
+    'from emi_qc_hasil_produksi
+    Dim Lv_NoTrans, Lv_Nama, Lv_Rak, Lv_Tgl, Lv_Jam, Lv_Jumlah, Lv_Satuan, Lv_SnBaru, Lv_KdBarang, LvKso, Lv_UrutOto As String
+
+    Dim item_NoTrans As Integer = 0
+    Dim item_Nama As Integer = 1
+    Dim item_Rak As Integer = 2
+    Dim item_Tanggal As Integer = 3
+    Dim item_Jam As Integer = 4
+    Dim item_Jumlah As Integer = 5
+    Dim item_Satuan As Integer = 6
+    Dim item_SNBaru As Integer = 7
+    Dim item_KDBrg As Integer = 8
+    Dim item_Kso As Integer = 9
+    Dim item_Urut_Oto As Integer = 10
 
 
     Private Sub Master_Jenis_Hewan_Activated(sender As Object, e As EventArgs) Handles Me.Activated
@@ -61,26 +82,44 @@ Public Class EMI_Transaksi_QC_Finish_Good
 
     Public Sub Get_Isi_Listview(ByVal No_Index As Integer)
 
-        LvIDKategori = Dgv_QC_Lab.Rows(No_Index).Cells(CellIDKategori).Value.ToString
-        LvNmKategori = Dgv_QC_Lab.Rows(No_Index).Cells(CellNmKategori).Value.ToString
-        LvIDUji = Dgv_QC_Lab.Rows(No_Index).Cells(CellIDUji).Value.ToString
-        LvKodeUji = Dgv_QC_Lab.Rows(No_Index).Cells(CellKodeUji).Value.ToString
-        LvNmUji = Dgv_QC_Lab.Rows(No_Index).Cells(CellNmUji).Value.ToString
-        LvSatuan = Dgv_QC_Lab.Rows(No_Index).Cells(CellSatuan).Value.ToString
-        LvValue = Dgv_QC_Lab.Rows(No_Index).Cells(CellValue).Value.ToString
+        LvIDKategori = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellIDKategori).Value)
+        LvNmKategori = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellNmKategori).Value)
+        LvIDUji = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellIDUji).Value)
+        LvKodeUji = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellKodeUji).Value)
+        LvNmUji = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellNmUji).Value)
+        LvSatuan = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellSatuan).Value)
+        LvValue = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellValue).Value)
         If Dgv_QC_Lab.Rows(No_Index).Cells(CellCmbValue).Value IsNot Nothing Then
 
-            LvCmbValue = Dgv_QC_Lab.Rows(No_Index).Cells(CellCmbValue).Value.ToString
+            LvCmbValue = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellCmbValue).Value)
         Else
             LvCmbValue = ""
         End If
-        LvMinAwal = Dgv_QC_Lab.Rows(No_Index).Cells(CellMinAwal).Value.ToString
-        LvMaxAwal = Dgv_QC_Lab.Rows(No_Index).Cells(CellMaxAwal).Value.ToString
-        LvMinHasil = Dgv_QC_Lab.Rows(No_Index).Cells(CellMinHasil).Value.ToString
-        LvMaxHasil = Dgv_QC_Lab.Rows(No_Index).Cells(CellMaxHasil).Value.ToString
-        LvWarna = Dgv_QC_Lab.Rows(No_Index).Cells(CellWarna).Value.ToString
-        LvUrut = Dgv_QC_Lab.Rows(No_Index).Cells(CellID).Value.ToString
-        LvIDWarna = Dgv_QC_Lab.Rows(No_Index).Cells(CellIDWarna).Value.ToString
+        LvMinAwal = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellMinAwal).Value)
+        LvMaxAwal = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellMaxAwal).Value)
+        LvMinHasil = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellMinHasil).Value)
+        LvMaxHasil = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellMaxHasil).Value)
+        LvWarna = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellWarna).Value)
+        LvUrut = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellID).Value)
+        LvIDWarna = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellIDWarna).Value)
+        LvKeterangan = CekNothing(Dgv_QC_Lab.Rows(No_Index).Cells(CellKeterangan).Value)
+
+    End Sub
+
+
+    Private Sub Get_Data_Lv(ByVal index As Integer)
+
+        Lv_NoTrans = EMI_Display_QC_Produksi.Lv_Data.Items(index).SubItems(item_NoTrans).Text
+        Lv_Nama = EMI_Display_QC_Produksi.Lv_Data.Items(index).SubItems(item_Nama).Text
+        Lv_Rak = EMI_Display_QC_Produksi.Lv_Data.Items(index).SubItems(item_Rak).Text
+        Lv_Tgl = EMI_Display_QC_Produksi.Lv_Data.Items(index).SubItems(item_Tanggal).Text
+        Lv_Jam = EMI_Display_QC_Produksi.Lv_Data.Items(index).SubItems(item_Jam).Text
+        Lv_Jumlah = EMI_Display_QC_Produksi.Lv_Data.Items(index).SubItems(item_Jumlah).Text
+        Lv_Satuan = EMI_Display_QC_Produksi.Lv_Data.Items(index).SubItems(item_Satuan).Text
+        Lv_SnBaru = EMI_Display_QC_Produksi.Lv_Data.Items(index).SubItems(item_SNBaru).Text
+        Lv_KdBarang = EMI_Display_QC_Produksi.Lv_Data.Items(index).SubItems(item_KDBrg).Text
+        LvKso = EMI_Display_QC_Produksi.Lv_Data.Items(index).SubItems(item_Kso).Text
+        Lv_UrutOto = EMI_Display_QC_Produksi.Lv_Data.Items(index).SubItems(item_Urut_Oto).Text
 
     End Sub
 
@@ -330,7 +369,8 @@ Public Class EMI_Transaksi_QC_Finish_Good
         If warna = "HIJAU" Then
             Hasil = "DITERIMA"
         ElseIf warna = "KUNING" Then
-            Hasil = "TOLAK SEBAGIAN"
+            warna = "MERAH"
+            Hasil = "TOLAK"
         End If
 
         Try
@@ -350,7 +390,7 @@ Public Class EMI_Transaksi_QC_Finish_Good
 
 
             SQL = "insert into EMI_Hasil_QC_Produksi(Kode_Perusahaan,No_Faktur,No_Fak_Produksi_Order,Tanggal,Jam,UserId,Kode_Stock_Owner, "
-            SQL = SQL & "Kode_Barang,	Keterangan,Warna, Step)  values( "
+            SQL = SQL & "Kode_Barang,Keterangan, Warna, Step)  values( "
             SQL = SQL & "'" & KodePerusahaan & "', '" & txtNoFaktur.Text.Trim & "', '" & TxtNoProduksi.Text.Trim & "', "
             SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', "
             SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', "
@@ -381,20 +421,62 @@ Public Class EMI_Transaksi_QC_Finish_Good
 
                     'simpan
 
-                    SQL = "insert into EMI_Hasil_QC_produksi_detail_switch(Kode_Perusahaan,No_Faktur,Id_Quality_Control,Value_Kode_Uji) values ("
+                    SQL = "insert into EMI_Hasil_QC_produksi_detail_switch(Kode_Perusahaan, No_Faktur, Id_Quality_Control, Value_Kode_Uji, Keterangan_QC) values ("
                     SQL = SQL & "'" & KodePerusahaan & "', '" & txtNoFaktur.Text & "', '" & Dgv_QC_Lab.Rows(i).Cells(CellIDUji).Value & "',"
-                    SQL = SQL & "'" & valuekodeuji & "' )"
+                    SQL = SQL & "'" & valuekodeuji & "', '" & LvKeterangan & "' )"
                     ExecuteTrans(SQL)
                 Else
                     'update di EMI_Hasil_Detail_Quality_Control
-                    SQL = "insert into emi_hasil_QC_produksi_detail(Kode_Perusahaan,No_Faktur,Id_Quality_Control,Value_Kode_Uji) values ("
+                    SQL = "insert into emi_hasil_QC_produksi_detail(Kode_Perusahaan, No_Faktur, Id_Quality_Control, Value_Kode_Uji, Keterangan_QC) values ("
                     SQL = SQL & "'" & KodePerusahaan & "', '" & txtNoFaktur.Text & "', '" & Dgv_QC_Lab.Rows(i).Cells(CellIDUji).Value & "',"
-                    SQL = SQL & " '" & Dgv_QC_Lab.Rows(i).Cells(CellValue).Value & "' )"
+                    SQL = SQL & " '" & Dgv_QC_Lab.Rows(i).Cells(CellValue).Value & "', '" & LvKeterangan & "' )"
                     ExecuteTrans(SQL)
                 End If
 
 
             Next
+
+
+            For i As Integer = 0 To EMI_Display_QC_Produksi.Lv_Data.Items.Count - 1
+                Get_Data_Lv(i)
+
+                '====================================
+                ' cek udh pernah ke update atau belum
+                '=====================================
+                SQL = "select serial_number from barang_sn where kode_perusahaan = '" & KodePerusahaan & "'  "
+                SQL = SQL & "and flag_qi = 'Y' and serial_number = '" & Lv_SnBaru & "'  "
+                Using Dr = OpenTrans(SQL)
+                    If Not Dr.Read Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Terjadi kesalahan, ada perubahan data pada barang!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
+
+
+                SQL = "update barang_sn set "
+                SQL = SQL & "warna = '" & warna & "', "
+                SQL = SQL & "flag_qi = null "
+                SQL = SQL & "where kode_perusahaan  = '" & KodePerusahaan & "' "
+                SQL = SQL & "and serial_number = '" & Lv_SnBaru & "' "
+                ExecuteTrans(SQL)
+
+
+                SQL = "update Emi_Production_Results_Detail_Pallet set "
+                SQL = SQL & "warna_qi = '" & warna & "', "
+                SQL = SQL & "no_faktur_qc = '" & txtNoFaktur.Text & "', "
+                SQL = SQL & "flag_sudah_qi = 'Y' "
+                SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and urut_oto = '" & Lv_UrutOto & "' "
+                ExecuteTrans(SQL)
+
+
+            Next
+
+
 
 
             Cmd.Transaction.Commit()
@@ -409,7 +491,7 @@ Public Class EMI_Transaksi_QC_Finish_Good
 
 
         kosong()
-        EMI_Display_Hasil_Produksi.Button1_Click(Btn_Simpan, Nothing)
+        EMI_Display_QC_Produksi.Kosong()
         'EMI_Display_Quality_Control.Btn_Refresh_Click(Btn_Simpan, e)
         Me.Close()
     End Sub
@@ -478,7 +560,7 @@ Public Class EMI_Transaksi_QC_Finish_Good
                     Exit Sub
                 End If
 
-                If Val(HilangkanTanda(LvValue)) > Val(HilangkanTanda(LvMinHasil)) And Val(HilangkanTanda(LvValue)) < Val(HilangkanTanda(LvMaxHasil)) Then
+                If Val(HilangkanTanda(LvValue)) >= Val(HilangkanTanda(LvMinHasil)) And Val(HilangkanTanda(LvValue)) <= Val(HilangkanTanda(LvMaxHasil)) Then
                     Dgv_QC_Lab.CurrentRow.Cells(CellWarna).Style.BackColor = Color.FromArgb(144, 238, 144)
                     Dgv_QC_Lab.CurrentRow.Cells(CellIDWarna).Value = "HIJAU"
                 Else
@@ -569,6 +651,19 @@ Public Class EMI_Transaksi_QC_Finish_Good
 
 
     End Sub
+
+
+    Private Function CekNothing(ByVal str As String) As String
+        Dim hasil As String = ""
+
+        If str Is Nothing Then
+            hasil = ""
+        Else
+            hasil = str
+        End If
+
+        Return hasil
+    End Function
 
 
 

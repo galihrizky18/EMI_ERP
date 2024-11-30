@@ -31,6 +31,7 @@ Public Class EMI_Transaksi_Quality_Control
     Dim LvWarna As String
     Dim LvUrut As String
     Dim LvIDWarna As String
+    Dim LvKeterangan As String
 
     Dim CellIDKategori As Integer = 0
     Dim CellNmKategori As Integer = 1
@@ -47,6 +48,7 @@ Public Class EMI_Transaksi_Quality_Control
     Dim CellWarna As Integer = 12
     Dim CellUrut As Integer = 13
     Dim CellIDWarna As Integer = 14
+    Dim CellKeterangan As Integer = 15
 
 
 
@@ -214,8 +216,8 @@ Public Class EMI_Transaksi_Quality_Control
             SQL = SQL & ",isnull(d.min_range,0) as min_range, isnull(d.Max_Range,0) as Max_Range, "
             SQL = SQL & "isnull(d.Min_Nilai_Seharusnya, 0) Min_Nilai_Seharusnya, isnull(d.Max_Nilai_Seharusnya,0) Max_Nilai_Seharusnya "
             SQL = SQL & "From EMI_Hasil_Detail_Quality_Control a, EMI_Quality_Control b, "
-            SQL = SQL & "EMI_Kategori_Komponen c, EMI_Quality_Control_PerBarang d Where "
-            SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan And a.Id_Quality_Control = b.Id_QC_Formula "
+            SQL = SQL & "EMI_Kategori_Komponen c, EMI_Quality_Control_PerBarang d "
+            SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.Id_Quality_Control = b.Id_QC_Formula "
             SQL = SQL & "And b.Kode_Perusahaan=c.Kode_Perusahaan And b.Id_Kategori_Komponen=c.Id_Kategori_Komponen "
             SQL = SQL & "And a.Kode_Perusahaan=d.Kode_Perusahaan And a.Id_Quality_Control=d.Id_QC_Formula "
             SQL = SQL & "And no_faktur='" & txtNoFaktur.Text & "' and d.Kode_barang='" & TxtKdBarang.Text & "' "
@@ -667,14 +669,16 @@ Public Class EMI_Transaksi_Quality_Control
         Try
             OpenConn()
 
-            SQL = "select Kode_Perusahaan from View_Laporan_Hasil_QC where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Fak_Loading_Barang = '" & TxtNoLoading.Text & "'"
+            SQL = "select Kode_Perusahaan from View_Laporan_Hasil_QC where "
+            SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "No_Fak_Loading_Barang = '" & TxtNoLoading.Text & "' and no_hsl_qc = '" & noQc & "' "
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
                     Dim CrDoc As New Rpt_Laporah_Hasil_QC
                     With A_Place_For_Printing2
                         CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.RecordSelectionFormula = "{View_Laporan_Hasil_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Hasil_QC.No_Fak_Loading_Barang} = '" & TxtNoLoading.Text & "'"
+                        CrDoc.RecordSelectionFormula = "{View_Laporan_Hasil_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Hasil_QC.No_Fak_Loading_Barang} = '" & TxtNoLoading.Text & "' and {View_Laporan_Hasil_QC.no_hsl_qc} = '" & noQc & "' "
                         .Text = "Bukti Hasil Quality Control"
                         .CrystalReportViewer1.ReportSource = CrDoc
                         .Refresh()
@@ -691,6 +695,11 @@ Public Class EMI_Transaksi_Quality_Control
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+
+
+
+
 
 
 
@@ -798,7 +807,7 @@ Public Class EMI_Transaksi_Quality_Control
                     Exit Sub
                 End If
 
-                If Val(HilangkanTanda(LvValue)) > Val(HilangkanTanda(LvMinHasil)) And Val(HilangkanTanda(LvValue)) < Val(HilangkanTanda(LvMaxHasil)) Then
+                If Val(HilangkanTanda(LvValue)) >= Val(HilangkanTanda(LvMinHasil)) And Val(HilangkanTanda(LvValue)) <= Val(HilangkanTanda(LvMaxHasil)) Then
                     Dgv_QC_Lab.CurrentRow.Cells(CellWarna).Style.BackColor = Color.FromArgb(144, 238, 144)
                     Dgv_QC_Lab.CurrentRow.Cells(CellIDWarna).Value = "HIJAU"
                 Else

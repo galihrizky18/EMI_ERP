@@ -1,5 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class EMI_Display_QC_Produksi
+
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,38 +23,164 @@ Partial Class EMI_Display_QC_Produksi
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.Panel5 = New System.Windows.Forms.Panel()
-        Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.btnSummaryDataQI = New System.Windows.Forms.Button()
+        Me.Btn_Mulai_QC = New System.Windows.Forms.Button()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.ComboBox3 = New System.Windows.Forms.ComboBox()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Btn_Cari = New System.Windows.Forms.Button()
-        Me.ListView1 = New System.Windows.Forms.ListView()
-        Me.Label3 = New System.Windows.Forms.Label()
+        Me.TxtQRCode = New System.Windows.Forms.TextBox()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.Lv_Data = New System.Windows.Forms.ListView()
+        Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.SelesaiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
-        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
         '
         Me.Panel1.Controls.Add(Me.PanelGradient1)
-        Me.Panel1.Controls.Add(Me.Label1)
+        Me.Panel1.Controls.Add(Me.Lbl_Judul)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(965, 51)
-        Me.Panel1.TabIndex = 22
+        Me.Panel1.Size = New System.Drawing.Size(1056, 51)
+        Me.Panel1.TabIndex = 27
+        '
+        'Lbl_Judul
+        '
+        Me.Lbl_Judul.AutoSize = True
+        Me.Lbl_Judul.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_Judul.Location = New System.Drawing.Point(15, 11)
+        Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
+        Me.Lbl_Judul.Name = "Lbl_Judul"
+        Me.Lbl_Judul.Size = New System.Drawing.Size(326, 25)
+        Me.Lbl_Judul.TabIndex = 0
+        Me.Lbl_Judul.Text = "Transaksi - Quality Inspection"
+        '
+        'Panel3
+        '
+        Me.Panel3.BackColor = System.Drawing.Color.Red
+        Me.Panel3.Location = New System.Drawing.Point(0, 64)
+        Me.Panel3.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel3.Name = "Panel3"
+        Me.Panel3.Size = New System.Drawing.Size(19, 601)
+        Me.Panel3.TabIndex = 40
+        Me.Panel3.Visible = False
+        '
+        'Panel2
+        '
+        Me.Panel2.BackColor = System.Drawing.Color.Red
+        Me.Panel2.Location = New System.Drawing.Point(0, 51)
+        Me.Panel2.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(942, 12)
+        Me.Panel2.TabIndex = 39
+        Me.Panel2.Visible = False
+        '
+        'btnSummaryDataQI
+        '
+        Me.btnSummaryDataQI.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.btnSummaryDataQI.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSummaryDataQI.ForeColor = System.Drawing.Color.White
+        Me.btnSummaryDataQI.Location = New System.Drawing.Point(421, 62)
+        Me.btnSummaryDataQI.Name = "btnSummaryDataQI"
+        Me.btnSummaryDataQI.Size = New System.Drawing.Size(147, 28)
+        Me.btnSummaryDataQI.TabIndex = 387
+        Me.btnSummaryDataQI.Text = "Summary Data QI"
+        Me.btnSummaryDataQI.UseVisualStyleBackColor = False
+        '
+        'Btn_Mulai_QC
+        '
+        Me.Btn_Mulai_QC.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Mulai_QC.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Mulai_QC.ForeColor = System.Drawing.Color.White
+        Me.Btn_Mulai_QC.Location = New System.Drawing.Point(20, 475)
+        Me.Btn_Mulai_QC.Name = "Btn_Mulai_QC"
+        Me.Btn_Mulai_QC.Size = New System.Drawing.Size(99, 38)
+        Me.Btn_Mulai_QC.TabIndex = 385
+        Me.Btn_Mulai_QC.Text = "Mulai QC"
+        Me.Btn_Mulai_QC.UseVisualStyleBackColor = False
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label5.Location = New System.Drawing.Point(19, 66)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(66, 17)
+        Me.Label5.TabIndex = 383
+        Me.Label5.Text = "QR Code"
+        '
+        'TxtQRCode
+        '
+        Me.TxtQRCode.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtQRCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtQRCode.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtQRCode.Location = New System.Drawing.Point(92, 64)
+        Me.TxtQRCode.MaxLength = 50
+        Me.TxtQRCode.Name = "TxtQRCode"
+        Me.TxtQRCode.Size = New System.Drawing.Size(232, 22)
+        Me.TxtQRCode.TabIndex = 382
+        '
+        'Panel4
+        '
+        Me.Panel4.BackColor = System.Drawing.Color.Red
+        Me.Panel4.Location = New System.Drawing.Point(22, 99)
+        Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel4.Name = "Panel4"
+        Me.Panel4.Size = New System.Drawing.Size(942, 12)
+        Me.Panel4.TabIndex = 39
+        Me.Panel4.Visible = False
+        '
+        'Lv_Data
+        '
+        Me.Lv_Data.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lv_Data.FullRowSelect = True
+        Me.Lv_Data.GridLines = True
+        Me.Lv_Data.HideSelection = False
+        Me.Lv_Data.Location = New System.Drawing.Point(20, 112)
+        Me.Lv_Data.Name = "Lv_Data"
+        Me.Lv_Data.Size = New System.Drawing.Size(1013, 357)
+        Me.Lv_Data.TabIndex = 0
+        Me.Lv_Data.UseCompatibleStateImageBehavior = False
+        Me.Lv_Data.View = System.Windows.Forms.View.Details
+        '
+        'Panel5
+        '
+        Me.Panel5.BackColor = System.Drawing.Color.Red
+        Me.Panel5.Location = New System.Drawing.Point(1035, 85)
+        Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel5.Name = "Panel5"
+        Me.Panel5.Size = New System.Drawing.Size(19, 601)
+        Me.Panel5.TabIndex = 40
+        Me.Panel5.Visible = False
+        '
+        'Panel6
+        '
+        Me.Panel6.BackColor = System.Drawing.Color.Red
+        Me.Panel6.Location = New System.Drawing.Point(23, 513)
+        Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel6.Name = "Panel6"
+        Me.Panel6.Size = New System.Drawing.Size(942, 12)
+        Me.Panel6.TabIndex = 39
+        Me.Panel6.Visible = False
+        '
+        'Button1
+        '
+        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.ForeColor = System.Drawing.Color.White
+        Me.Button1.Location = New System.Drawing.Point(331, 62)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(84, 28)
+        Me.Button1.TabIndex = 388
+        Me.Button1.Text = "Refresh"
+        Me.Button1.UseVisualStyleBackColor = False
         '
         'PanelGradient1
         '
@@ -65,186 +192,34 @@ Partial Class EMI_Display_QC_Produksi
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(965, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1056, 2)
         Me.PanelGradient1.TabIndex = 22
         '
-        'Label1
+        'Emi_QC_Hasil_Produksi
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(15, 11)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(335, 30)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Display Finish Good Production"
-        '
-        'Panel2
-        '
-        Me.Panel2.BackColor = System.Drawing.Color.Red
-        Me.Panel2.Location = New System.Drawing.Point(0, 51)
-        Me.Panel2.Margin = New System.Windows.Forms.Padding(4)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(942, 12)
-        Me.Panel2.TabIndex = 34
-        Me.Panel2.Visible = False
-        '
-        'Panel3
-        '
-        Me.Panel3.BackColor = System.Drawing.Color.Red
-        Me.Panel3.Location = New System.Drawing.Point(1, 63)
-        Me.Panel3.Margin = New System.Windows.Forms.Padding(4)
-        Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(19, 470)
-        Me.Panel3.TabIndex = 35
-        Me.Panel3.Visible = False
-        '
-        'Panel5
-        '
-        Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(943, 59)
-        Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
-        Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(19, 456)
-        Me.Panel5.TabIndex = 37
-        Me.Panel5.Visible = False
-        '
-        'Panel4
-        '
-        Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(28, 500)
-        Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
-        Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(1436, 15)
-        Me.Panel4.TabIndex = 38
-        Me.Panel4.Visible = False
-        '
-        'TextBox3
-        '
-        Me.TextBox3.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TextBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBox3.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TextBox3.Location = New System.Drawing.Point(101, 103)
-        Me.TextBox3.MaxLength = 50
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(232, 22)
-        Me.TextBox3.TabIndex = 235
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label5.Location = New System.Drawing.Point(21, 103)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(46, 20)
-        Me.Label5.TabIndex = 337
-        Me.Label5.Text = "Value"
-        '
-        'ComboBox3
-        '
-        Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBox3.FormattingEnabled = True
-        Me.ComboBox3.Location = New System.Drawing.Point(101, 71)
-        Me.ComboBox3.Name = "ComboBox3"
-        Me.ComboBox3.Size = New System.Drawing.Size(232, 24)
-        Me.ComboBox3.TabIndex = 355
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label2.Location = New System.Drawing.Point(21, 72)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(0, 20)
-        Me.Label2.TabIndex = 356
-        '
-        'Btn_Cari
-        '
-        Me.Btn_Cari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_Cari.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.Btn_Cari.ForeColor = System.Drawing.Color.White
-        Me.Btn_Cari.Location = New System.Drawing.Point(339, 102)
-        Me.Btn_Cari.Name = "Btn_Cari"
-        Me.Btn_Cari.Size = New System.Drawing.Size(80, 28)
-        Me.Btn_Cari.TabIndex = 372
-        Me.Btn_Cari.Text = "Cari"
-        Me.Btn_Cari.UseVisualStyleBackColor = False
-        '
-        'ListView1
-        '
-        Me.ListView1.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.ListView1.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        Me.ListView1.FullRowSelect = True
-        Me.ListView1.GridLines = True
-        Me.ListView1.HideSelection = False
-        Me.ListView1.Location = New System.Drawing.Point(22, 136)
-        Me.ListView1.Name = "ListView1"
-        Me.ListView1.Size = New System.Drawing.Size(920, 357)
-        Me.ListView1.TabIndex = 234
-        Me.ListView1.UseCompatibleStateImageBehavior = False
-        Me.ListView1.View = System.Windows.Forms.View.Details
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label3.Location = New System.Drawing.Point(21, 72)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(45, 20)
-        Me.Label3.TabIndex = 373
-        Me.Label3.Text = "Jenis"
-        '
-        'Button1
-        '
-        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Button1.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(339, 71)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(80, 28)
-        Me.Button1.TabIndex = 375
-        Me.Button1.Text = "Refresh"
-        Me.Button1.UseVisualStyleBackColor = False
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelesaiToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 48)
-        '
-        'SelesaiToolStripMenuItem
-        '
-        Me.SelesaiToolStripMenuItem.Name = "SelesaiToolStripMenuItem"
-        Me.SelesaiToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.SelesaiToolStripMenuItem.Text = "Selesai"
-        '
-        'EMI_Display_QC_Produksi
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(965, 518)
+        Me.ClientSize = New System.Drawing.Size(1056, 524)
         Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.Btn_Cari)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.ComboBox3)
-        Me.Controls.Add(Me.Panel4)
+        Me.Controls.Add(Me.Lv_Data)
+        Me.Controls.Add(Me.btnSummaryDataQI)
+        Me.Controls.Add(Me.Btn_Mulai_QC)
         Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.TextBox3)
-        Me.Controls.Add(Me.ListView1)
+        Me.Controls.Add(Me.TxtQRCode)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel3)
+        Me.Controls.Add(Me.Panel6)
+        Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
-        Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "EMI_Display_QC_Produksi"
+        Me.Name = "Emi_QC_Hasil_Produksi"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -252,19 +227,16 @@ Partial Class EMI_Display_QC_Produksi
 
     Friend WithEvents Panel1 As Panel
     Friend WithEvents PanelGradient1 As CustomControl.PanelGradient
-    Friend WithEvents Label1 As Label
-    Friend WithEvents Panel2 As Panel
+    Friend WithEvents Lbl_Judul As Label
     Friend WithEvents Panel3 As Panel
-    Friend WithEvents Panel5 As Panel
-    Friend WithEvents Panel4 As Panel
-    Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents btnSummaryDataQI As Button
+    Friend WithEvents Btn_Mulai_QC As Button
     Friend WithEvents Label5 As Label
-    Friend WithEvents ComboBox3 As ComboBox
-    Friend WithEvents Label2 As Label
-    Friend WithEvents Btn_Cari As Button
-    Friend WithEvents ListView1 As ListView
-    Friend WithEvents Label3 As Label
+    Friend WithEvents TxtQRCode As TextBox
+    Friend WithEvents Panel4 As Panel
+    Friend WithEvents Lv_Data As ListView
+    Friend WithEvents Panel5 As Panel
+    Friend WithEvents Panel6 As Panel
     Friend WithEvents Button1 As Button
-    Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
-    Friend WithEvents SelesaiToolStripMenuItem As ToolStripMenuItem
 End Class

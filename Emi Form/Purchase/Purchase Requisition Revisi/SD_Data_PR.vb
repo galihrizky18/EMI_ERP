@@ -63,16 +63,16 @@ Public Class SD_Data_PR
 
     Private Sub Get_Isi_Listview2(ByVal No_Index As Integer)
         'Lv2Cb = DataGridView1.Rows(No_Index).Cells(CellChkBox).Value.ToString
-        Lv2Lokasi = CekNothing(DataGridView1.Rows(No_Index).Cells(CellLokasi).Value)
-        Lv2KdBrg = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKdBrg).Value)
-        Lv2NmBrg = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNmBrg).Value)
-        Lv2JmlOrder = CekNothing(DataGridView1.Rows(No_Index).Cells(CellJmlOrder).Value)
-        Lv2JmlPR = CekNothing(DataGridView1.Rows(No_Index).Cells(CellJmlPR).Value)
-        Lv2Sisa = CekNothing(DataGridView1.Rows(No_Index).Cells(CellSisa).Value)
+        Lv2Lokasi = CekNothing(DataGridView1.Rows(No_Index).Cells(CellLokasi).Value.ToString)
+        Lv2KdBrg = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKdBrg).Value.ToString)
+        Lv2NmBrg = CekNothing(DataGridView1.Rows(No_Index).Cells(CellNmBrg).Value.ToString)
+        Lv2JmlOrder = CekNothing(DataGridView1.Rows(No_Index).Cells(CellJmlOrder).Value.ToString)
+        Lv2JmlPR = CekNothing(DataGridView1.Rows(No_Index).Cells(CellJmlPR).Value.ToString)
+        Lv2Sisa = CekNothing(DataGridView1.Rows(No_Index).Cells(CellSisa).Value.ToString)
         Lv2JmlInput = CekNothing(DataGridView1.Rows(No_Index).Cells(CellJmlInput).Value)
-        Lv2Satuan = CekNothing(DataGridView1.Rows(No_Index).Cells(CellSatuan).Value)
-        Lv2TglDelivery = CekNothing(DataGridView1.Rows(No_Index).Cells(CellTglDelivery).Value)
-        Lv2Keterangan = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKeterangan).Value)
+        Lv2Satuan = CekNothing(DataGridView1.Rows(No_Index).Cells(CellSatuan).Value.ToString)
+        Lv2TglDelivery = CekNothing(DataGridView1.Rows(No_Index).Cells(CellTglDelivery).Value.ToString)
+        Lv2Keterangan = CekNothing(DataGridView1.Rows(No_Index).Cells(CellKeterangan).Value.ToString)
 
     End Sub
 
@@ -912,12 +912,14 @@ Public Class SD_Data_PR
             DataGridView1.Rows.Clear()
             TxtNoFak_MR.Text = ""
             Dim no As Integer = 0
-            SQL = "select a.no_faktur,a.Kode_Stock_Owner, a.Kode_Barang,b.nama,Nilai_PPIC, "
+            SQL = "select a.no_faktur,a.Kode_Stock_Owner, a.Kode_Barang, b.nama, Nilai_PPIC, "
+
             SQL = SQL & "isnull((select sum(y.jumlah) from EMI_Purchase_Requisition x, EMI_Purchase_Requisition_Detail y "
             SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur "
             SQL = SQL & "and y.Kode_Perusahaan = a.Kode_Perusahaan and y.Kode_Stock_Owner = a.Kode_Stock_Owner and  "
             SQL = SQL & "y.Kode_Barang = a.Kode_Barang and x.Status is null and "
             SQL = SQL & "a.No_Faktur = x.no_fak_material_requisition ),0) as jumlah_pr, c.satuan as Satuan_Display "
+
             SQL = SQL & "from EMI_Transaksi_Material_Requsition_detail a, barang b, barang_detail_satuan c "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner "
             SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Barang = c.Kode_Barang and c.flag_tampil_display='Y' "
@@ -1062,6 +1064,8 @@ Public Class SD_Data_PR
         kosong()
     End Sub
 
+
+
     Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
         Dim fSimpan As Boolean = False
         '
@@ -1095,9 +1099,8 @@ Public Class SD_Data_PR
 
 
         If TextBox2.Text.Trim.Length = 0 Then
-            TextBox2.Text = ""
-            'MessageBox.Show("Keterangan Harus diisi....!!", Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            'TextBox2.Focus() : Exit Sub
+            MessageBox.Show("Keterangan Harus diisi....!!", Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox2.Focus() : Exit Sub
         End If
 
         get_jam()
@@ -1108,7 +1111,7 @@ Public Class SD_Data_PR
 
             get_no_faktur()
             '
-            SQL = "insert into EMI_Purchase_Requisition(Kode_Perusahaan,No_Faktur,Lokasi,Tanggal,Jam,UserId,Keterangan,Flag_Forecast,No_Fak_Material_Requisition) values("
+            SQL = "insert into EMI_Purchase_Requisition( Kode_Perusahaan, No_Faktur, Lokasi, Tanggal, Jam, UserId, Keterangan, Flag_Forecast, No_Fak_Material_Requisition) values("
             SQL = SQL & "'" & KodePerusahaan & "','" & Txt_NoFaktur.Text & "', '" & ComboBox6.Text & "', "
             SQL = SQL & "'" & Format(DtpFormulator_Tanggal.Value, "yyyy-MM-dd") & "', '" & Format(DtpFormulator_Tanggal.Value, "HH:MM:ss") & "',"
             SQL = SQL & "'" & UserID & "', '" & TextBox2.Text.Trim & "', 'Y', '" & TxtNoFak_MR.Text & "')"
@@ -1172,5 +1175,10 @@ Public Class SD_Data_PR
     'Private Sub SD_Data_PR_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
     '    Purchase_Requisition.BtnFormulator_Refresh_Click("", e)
     'End Sub
+
+
+    Private Sub SD_Data_PR_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
+        Purchase_Requisition.kosong()
+    End Sub
 
 End Class

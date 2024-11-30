@@ -44,8 +44,11 @@ Partial Class Display_Kendaraan_Masuk_Tidak_Sesuai
         Me.Btn_Update = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Txt_Supplier = New System.Windows.Forms.TextBox()
+        Me.Txt_Lokasi = New System.Windows.Forms.TextBox()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -144,14 +147,14 @@ Partial Class Display_Kendaraan_Masuk_Tidak_Sesuai
         Me.Lv_Kendaraan.HideSelection = False
         Me.Lv_Kendaraan.Location = New System.Drawing.Point(22, 113)
         Me.Lv_Kendaraan.Name = "Lv_Kendaraan"
-        Me.Lv_Kendaraan.Size = New System.Drawing.Size(656, 509)
+        Me.Lv_Kendaraan.Size = New System.Drawing.Size(656, 561)
         Me.Lv_Kendaraan.TabIndex = 340
         Me.Lv_Kendaraan.UseCompatibleStateImageBehavior = False
         '
         'Panel2
         '
         Me.Panel2.BackColor = System.Drawing.Color.Red
-        Me.Panel2.Location = New System.Drawing.Point(22, 622)
+        Me.Panel2.Location = New System.Drawing.Point(22, 673)
         Me.Panel2.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(1082, 12)
@@ -204,14 +207,17 @@ Partial Class Display_Kendaraan_Masuk_Tidak_Sesuai
         '
         Me.GroupBox1.Controls.Add(Me.Tb_Driver)
         Me.GroupBox1.Controls.Add(Me.Tb_NoPlat)
+        Me.GroupBox1.Controls.Add(Me.Txt_Lokasi)
+        Me.GroupBox1.Controls.Add(Me.Txt_Supplier)
         Me.GroupBox1.Controls.Add(Me.Tb_NoSJ)
         Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.Btn_Update)
+        Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Location = New System.Drawing.Point(693, 460)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(560, 162)
+        Me.GroupBox1.Size = New System.Drawing.Size(560, 214)
         Me.GroupBox1.TabIndex = 341
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Detail"
@@ -219,32 +225,32 @@ Partial Class Display_Kendaraan_Masuk_Tidak_Sesuai
         'Tb_Driver
         '
         Me.Tb_Driver.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_Driver.Location = New System.Drawing.Point(134, 85)
+        Me.Tb_Driver.Location = New System.Drawing.Point(131, 141)
         Me.Tb_Driver.Name = "Tb_Driver"
-        Me.Tb_Driver.Size = New System.Drawing.Size(208, 23)
+        Me.Tb_Driver.Size = New System.Drawing.Size(231, 23)
         Me.Tb_Driver.TabIndex = 2
         '
         'Tb_NoPlat
         '
         Me.Tb_NoPlat.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_NoPlat.Location = New System.Drawing.Point(134, 56)
+        Me.Tb_NoPlat.Location = New System.Drawing.Point(131, 112)
         Me.Tb_NoPlat.Name = "Tb_NoPlat"
-        Me.Tb_NoPlat.Size = New System.Drawing.Size(208, 23)
+        Me.Tb_NoPlat.Size = New System.Drawing.Size(231, 23)
         Me.Tb_NoPlat.TabIndex = 1
         '
         'Tb_NoSJ
         '
         Me.Tb_NoSJ.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_NoSJ.Location = New System.Drawing.Point(134, 27)
+        Me.Tb_NoSJ.Location = New System.Drawing.Point(131, 83)
         Me.Tb_NoSJ.Name = "Tb_NoSJ"
-        Me.Tb_NoSJ.Size = New System.Drawing.Size(208, 23)
+        Me.Tb_NoSJ.Size = New System.Drawing.Size(231, 23)
         Me.Tb_NoSJ.TabIndex = 0
         '
         'Label4
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(16, 88)
+        Me.Label4.Location = New System.Drawing.Point(13, 144)
         Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(45, 18)
@@ -256,7 +262,7 @@ Partial Class Display_Kendaraan_Masuk_Tidak_Sesuai
         Me.Btn_Update.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Update.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Update.ForeColor = System.Drawing.Color.White
-        Me.Btn_Update.Location = New System.Drawing.Point(130, 117)
+        Me.Btn_Update.Location = New System.Drawing.Point(131, 170)
         Me.Btn_Update.Name = "Btn_Update"
         Me.Btn_Update.Size = New System.Drawing.Size(128, 29)
         Me.Btn_Update.TabIndex = 3
@@ -267,7 +273,7 @@ Partial Class Display_Kendaraan_Masuk_Tidak_Sesuai
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(16, 59)
+        Me.Label3.Location = New System.Drawing.Point(13, 115)
         Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(54, 18)
@@ -278,12 +284,52 @@ Partial Class Display_Kendaraan_Masuk_Tidak_Sesuai
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(16, 30)
+        Me.Label2.Location = New System.Drawing.Point(14, 86)
         Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(100, 18)
         Me.Label2.TabIndex = 41
         Me.Label2.Text = "No Surat Jalan"
+        '
+        'FlowLayoutPanel1
+        '
+        Me.FlowLayoutPanel1.AutoScroll = True
+        Me.FlowLayoutPanel1.BackColor = System.Drawing.Color.LightGray
+        Me.FlowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(693, 113)
+        Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
+        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(560, 341)
+        Me.FlowLayoutPanel1.TabIndex = 342
+        Me.FlowLayoutPanel1.WrapContents = False
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(13, 57)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(60, 18)
+        Me.Label5.TabIndex = 41
+        Me.Label5.Text = "Supplier"
+        '
+        'Txt_Supplier
+        '
+        Me.Txt_Supplier.Enabled = False
+        Me.Txt_Supplier.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_Supplier.Location = New System.Drawing.Point(131, 54)
+        Me.Txt_Supplier.Name = "Txt_Supplier"
+        Me.Txt_Supplier.Size = New System.Drawing.Size(231, 23)
+        Me.Txt_Supplier.TabIndex = 0
+        '
+        'Txt_Lokasi
+        '
+        Me.Txt_Lokasi.Enabled = False
+        Me.Txt_Lokasi.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_Lokasi.Location = New System.Drawing.Point(20, 19)
+        Me.Txt_Lokasi.Name = "Txt_Lokasi"
+        Me.Txt_Lokasi.Size = New System.Drawing.Size(229, 23)
+        Me.Txt_Lokasi.TabIndex = 0
         '
         'PanelGradient1
         '
@@ -298,23 +344,12 @@ Partial Class Display_Kendaraan_Masuk_Tidak_Sesuai
         Me.PanelGradient1.Size = New System.Drawing.Size(1275, 2)
         Me.PanelGradient1.TabIndex = 22
         '
-        'FlowLayoutPanel1
-        '
-        Me.FlowLayoutPanel1.AutoScroll = True
-        Me.FlowLayoutPanel1.BackColor = System.Drawing.Color.LightGray
-        Me.FlowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(693, 113)
-        Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(560, 341)
-        Me.FlowLayoutPanel1.TabIndex = 342
-        Me.FlowLayoutPanel1.WrapContents = False
-        '
         'Display_Kendaraan_Masuk_Tidak_Sesuai
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1275, 639)
+        Me.ClientSize = New System.Drawing.Size(1275, 686)
         Me.Controls.Add(Me.FlowLayoutPanel1)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Btn_Refresh)
@@ -367,4 +402,7 @@ Partial Class Display_Kendaraan_Masuk_Tidak_Sesuai
     Friend WithEvents Label3 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
+    Friend WithEvents Txt_Supplier As TextBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Txt_Lokasi As TextBox
 End Class

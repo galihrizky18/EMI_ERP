@@ -5,7 +5,7 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
 
 Public Class SD_Tambah_PR
     Public filter_tambahan, filter_kdSupplier As String
-    Public asal As String
+    Public asal, faktur_MR As String
     Dim arrcari As New ArrayList
     Dim Jenis = "Tampil_Barang"
 
@@ -133,6 +133,7 @@ Public Class SD_Tambah_PR
                 DateTimePicker1.ResetText()
                 txtJumlah.Text = ""
                 txtKeterangan.Text = ""
+                Txt_KDSo.Text = ""
                 CmbPilihBarang_Satuan.Items.Clear()
                 TxtPilihBarang_KodeBarang.Focus()
                 TxtPilihBarang_KodeBarang.Enabled = True
@@ -353,6 +354,8 @@ Public Class SD_Tambah_PR
 
         ElseIf asal = "Purchase_Requisition" Then
 
+            Dim Sisa As Double = 0
+
             If TxtPilihBarang_KodeBarang.Text.Trim.Length = 0 Then
                 MessageBox.Show(Base_Language.Lang_Global_KodeBarang & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 TxtPilihBarang_KodeBarang.Focus()
@@ -375,6 +378,58 @@ Public Class SD_Tambah_PR
                 '    Exit Sub
             End If
 
+            If Not faktur_MR = "" Then
+
+                '=======================================
+                '=     CEK APAKAH BARANG ADA DI MR     =
+                '=======================================
+                Try
+                    OpenConn()
+
+                    SQL = "select Kode_Barang from EMI_Transaksi_Material_Requsition_detail where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and Kode_Barang = '" & TxtPilihBarang_KodeBarang.Text & "' and No_Faktur = '" & faktur_MR & "'"
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+
+                        Else
+                            CloseConn()
+                            MessageBox.Show("Barang Tidak Ada Dalam Material Requisition", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
+
+                    '=======================
+                    '=     HITUNG SISA     =
+                    '=======================
+                    SQL = "select a.Nilai_PPIC, "
+                    SQL = SQL & "isnull((select sum(y.jumlah) from EMI_Purchase_Requisition x, EMI_Purchase_Requisition_Detail y "
+                    SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and y.Kode_Perusahaan = a.Kode_Perusahaan "
+                    SQL = SQL & "and y.Kode_Stock_Owner = a.Kode_Stock_Owner and y.Kode_Barang = a.Kode_Barang and x.Status is null and a.No_Faktur = x.no_fak_material_requisition "
+                    SQL = SQL & "), 0) as jumlah_pr "
+                    SQL = SQL & "from EMI_Transaksi_Material_Requsition_detail a "
+                    SQL = SQL & "where a.Kode_Perusahaan = '001' "
+                    SQL = SQL & "and a.Kode_Barang= '" & TxtPilihBarang_KodeBarang.Text & "' "
+                    SQL = SQL & "and a.No_Faktur = '" & faktur_MR & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            Sisa = Val(Dr("Nilai_PPIC")) - Val(Dr("jumlah_pr"))
+                        Else
+                            CloseConn()
+                            MessageBox.Show("Ada Masalah Pada Sisa", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
+
+                    CloseConn()
+                Catch ex As Exception
+                    CloseConn()
+                    MessageBox.Show(ex.Message)
+                    Exit Sub
+                End Try
+
+            End If
+
+
 
             For i As Integer = 0 To Purchase_Requisition.Dgv_DataBarang.Rows.Count - 1
                 If TxtPilihBarang_KodeBarang.Text.Trim = Purchase_Requisition.Dgv_DataBarang.Rows(i).Cells(1).Value Then
@@ -394,8 +449,6 @@ Public Class SD_Tambah_PR
 
             Dim jumlahIndexDGv As Integer
 
-
-
             Purchase_Requisition.Dgv_DataBarang.Rows.Add(1)
 
             'buat ambil jumlah dgv nya
@@ -410,6 +463,7 @@ Public Class SD_Tambah_PR
             Purchase_Requisition.Dgv_DataBarang.Rows(index).Cells(4).Value = CmbPilihBarang_Satuan.Text
             Purchase_Requisition.Dgv_DataBarang.Rows(index).Cells(5).Value = Format(DateTimePicker1.Value, "dd MMM yyyy")
             Purchase_Requisition.Dgv_DataBarang.Rows(index).Cells(6).Value = txtKeterangan.Text.Trim
+            Purchase_Requisition.Dgv_DataBarang.Rows(index).Cells(7).Value = Sisa
 
             Purchase_Requisition.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(0).ReadOnly = True
             Purchase_Requisition.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(1).ReadOnly = True
@@ -510,18 +564,6 @@ Public Class SD_Tambah_PR
         kosong()
     End Sub
 
-    Private Sub LvPilihBarang_DataBarang_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LvPilihBarang_DataBarang.SelectedIndexChanged
-
-    End Sub
-
-    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
-
-    End Sub
-
-    Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged
-
-    End Sub
-
     Private Sub txtJumlah_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtJumlah.KeyPress
         If e.KeyChar = Chr(13) Then
             CmbPilihBarang_Satuan.Focus()
@@ -533,7 +575,7 @@ Public Class SD_Tambah_PR
 
     End Sub
 
-    Private Sub txtKeterangan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtKeterangan.KeyPress
+    Private Sub txtKeterangan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtKeterangan.KeyPress, Txt_KDSo.KeyPress
 
     End Sub
 

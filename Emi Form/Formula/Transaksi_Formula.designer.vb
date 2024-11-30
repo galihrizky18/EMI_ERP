@@ -99,7 +99,7 @@ Partial Class Transaksi_Formula
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1142, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1143, 51)
         Me.Panel1.TabIndex = 22
         '
         'PanelGradient1
@@ -112,7 +112,7 @@ Partial Class Transaksi_Formula
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1142, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1143, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Panel5
@@ -132,7 +132,7 @@ Partial Class Transaksi_Formula
         Me.LblFormulator_Judul.Location = New System.Drawing.Point(15, 11)
         Me.LblFormulator_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.LblFormulator_Judul.Name = "LblFormulator_Judul"
-        Me.LblFormulator_Judul.Size = New System.Drawing.Size(264, 30)
+        Me.LblFormulator_Judul.Size = New System.Drawing.Size(265, 30)
         Me.LblFormulator_Judul.TabIndex = 0
         Me.LblFormulator_Judul.Text = "Transaksi - FormulatorX"
         '
@@ -647,7 +647,7 @@ Partial Class Transaksi_Formula
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1142, 646)
+        Me.ClientSize = New System.Drawing.Size(1143, 646)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.LblFormulator_TotalPersen)

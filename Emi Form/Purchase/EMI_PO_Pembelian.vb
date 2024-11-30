@@ -259,6 +259,10 @@ Public Class EMI_PO_Pembelian
         CmbPO_RangeBayar.Visible = False
         CmbPO_CaraBayar.Enabled = True
 
+        If Asal = "" Then
+            CmbPO_MataUang.Enabled = True
+        End If
+
         TxtPO_NoPO.Text = ""
         TxtPO_KdSupplier.Text = ""
         TxtPO_NmSupplier.Text = ""
@@ -337,7 +341,8 @@ Public Class EMI_PO_Pembelian
                 Loop
             End Using
 
-            CmbPO_MataUang.Items.Add("-- Mata Uang --") : arrMUA.Add("") : CmbPO_MataUang.Enabled = True
+            CmbPO_MataUang.Items.Add("-- Mata Uang --") : arrMUA.Add("")
+            'CmbPO_MataUang.Enabled = True
             CmbPO_MataUang.SelectedIndex = 0
             SQL = "select kode_mata_uang from mata_uang where kode_perusahaan = '" & KodePerusahaan & "' order by kode_mata_uang"
             Using Dr = OpenTrans(SQL)
@@ -574,7 +579,7 @@ Public Class EMI_PO_Pembelian
                     SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
                     SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Supplier = c.Kode_Supplier "
                     SQL = SQL & "and b.kode_barang = '" & TxtPO_KdBrg.Text & "' and a.Kode_Supplier='" & TxtPO_KdSupplier.Text & "' "
-                    SQL = SQL & "and flag_release = 'Y' and status is null and b.mata_uang = '" & CmbPO_MataUang.Text & "' "
+                    SQL = SQL & "and flag_release = 'Y' and status is null and b.mata_uang = '" & CmbPO_MataUang.Text & "' and a.Selesai is null and '" & Format(tgl_skg, "yyyy-MM-dd") & "' between a.Tgl_Penawaran_Hrg and a.Periode_Akhir_Penawaran  "
                     Using dr2 = OpenTrans(SQL)
                         Do While dr2.Read
                             CmbPO_Harga.Items.Add(Format(dr2("harga_satuan")) & "/" & dr2("satuan").ToString.Trim & "-" & dr2("nama"))
@@ -1895,9 +1900,6 @@ Public Class EMI_PO_Pembelian
         End Try
     End Sub
 
-    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
-
-    End Sub
 
     Private Sub disableSebagian()
         TxtPO_NoNota.Enabled = False

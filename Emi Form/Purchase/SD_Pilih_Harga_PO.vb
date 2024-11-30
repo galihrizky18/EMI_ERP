@@ -37,6 +37,8 @@ Public Class SD_Pilih_Harga_PO
 
     Private Sub kosong()
 
+        get_jam()
+
         Try
             OpenConn()
 
@@ -48,7 +50,7 @@ Public Class SD_Pilih_Harga_PO
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
             SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Supplier = c.Kode_Supplier "
             SQL = SQL & "and b.kode_barang = '" & kodeBarang & "' and a.Kode_Supplier='" & kodeSupplier & "' "
-            SQL = SQL & "and a.status is null and a.flag_release = 'Y' and b.mata_uang = '" & MataUang & "' "
+            SQL = SQL & "and a.status is null and a.flag_release = 'Y' and b.mata_uang = '" & MataUang & "' and a.Selesai is null and '" & Format(tgl_skg, "yyyy-MM-dd") & "' between a.Tgl_Penawaran_Hrg and a.Periode_Akhir_Penawaran "
             Using dr2 = OpenTrans(SQL)
                 Do While dr2.Read
 
