@@ -862,6 +862,7 @@ Partial Class Transfer_Stock_3
         '
         Me.ColumnWarna.HeaderText = "Warna"
         Me.ColumnWarna.Name = "ColumnWarna"
+        Me.ColumnWarna.ReadOnly = True
         '
         'jenis_kemasan
         '

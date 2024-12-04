@@ -59,8 +59,6 @@ Public Class Transfer_Stock_3
     End Sub
 
 
-
-
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If CmbJnsTransfer.SelectedIndex = 0 Then
             If CmbSO_Asal.Items.Count = 0 Or CmbSO_Asal.SelectedIndex = -1 Then Exit Sub

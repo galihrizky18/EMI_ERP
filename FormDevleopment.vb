@@ -161,7 +161,7 @@
         Emi_Display_Timbang_FloorScale.Focus()
     End Sub
 
-    Private Sub MaterRecrutmentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MaterRecrutmentToolStripMenuItem.Click
+    Private Sub MaterRecrutmentToolStripMenuItem_Click(sender As Object, e As EventArgs) 
         Jf_Master_Rekrutmen_Display.StartPosition = FormStartPosition.CenterScreen
 
         Jf_Master_Rekrutmen_Display.MdiParent = Me
@@ -304,6 +304,14 @@
         EMI_Display_Timbang.Focus()
     End Sub
 
+    Private Sub OrderProduksiToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OrderProduksiToolStripMenuItem.Click
+
+        Emi_Request_Material_Display.StartPosition = FormStartPosition.CenterScreen
+
+        Emi_Request_Material_Display.MdiParent = Me
+        Emi_Request_Material_Display.Show()
+        Emi_Request_Material_Display.Focus()
+    End Sub
 
 
 
@@ -337,5 +345,6 @@
         TesAsync.Show()
         TesAsync.Focus()
     End Sub
+
 
 End Class

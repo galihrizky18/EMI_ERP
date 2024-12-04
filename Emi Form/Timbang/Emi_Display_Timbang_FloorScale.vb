@@ -37,7 +37,7 @@
 
 
 
-    Private Sub kosong()
+    Public Sub kosong()
 
         Try
             OpenConn()

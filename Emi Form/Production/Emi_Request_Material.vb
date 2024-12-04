@@ -8,23 +8,29 @@ Public Class Emi_Request_Material
 
     Public No_faktur As String = ""
 
-    Dim Dgv_NoFak, Dgv_KdBarang, Dgv_Nama, Dgv_JmlhOrder, Dgv_SatuanBesar, Dgv_JmlhInput, Dgv_SatuanKecil, Dgv_Tipe, Dgv_KdSo, Dgv_Sisa As String
+    'Dim Dgv_NoFak, Dgv_KdBarang, Dgv_Nama, Dgv_JmlhOrder, Dgv_SatuanBesar, Dgv_JmlhInput, Dgv_SatuanKecil, Dgv_Tipe, Dgv_KdSo, Dgv_Sisa, Dgv_Warna As String
+    Dim Dgv_NoFak, Dgv_KdBarang, Dgv_JmlhOrder, Dgv_SatuanBesar, Dgv_JmlhInput, Dgv_SatuanKecil, Dgv_Tipe, Dgv_KdSo, Dgv_Sisa, Dgv_Warna As String
+
 
     Dim cell_NoFak As Integer = 0
     Dim cell_Kd_SO As Integer = 1
     Dim cell_Kd_Barang As Integer = 2
-    Dim cell_Nama As Integer = 3
-    Dim cell_JumlahOrder As Integer = 4
-    Dim cell_sisa As Integer = 5
-    Dim cell_SatuanBesar As Integer = 6
-    Dim cell_JumlahInput As Integer = 7
-    Dim cell_SatuanKecil As Integer = 8
-    Dim cell_Tipe As Integer = 9
+    'Dim cell_Nama As Integer = 3
+    Dim cell_JumlahOrder As Integer = 3
+    Dim cell_sisa As Integer = 4
+    Dim cell_SatuanBesar As Integer = 5
+    Dim cell_JumlahInput As Integer = 6
+    Dim cell_SatuanKecil As Integer = 7
 
+    Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
+
+    End Sub
+
+    Dim cell_Tipe As Integer = 8
+    Dim cell_warna As Integer = 9
 
     Private Sub Emi_Request_Material_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         kosong()
-
     End Sub
 
     Private Sub get_no_faktur()
@@ -71,12 +77,13 @@ Public Class Emi_Request_Material
                             Dgv_Data.Rows(i).Cells(cell_NoFak).Value = .Rows(i).Item("No_Faktur")
                             Dgv_Data.Rows(i).Cells(cell_Kd_SO).Value = .Rows(i).Item("Kode_Stock_Owner")
                             Dgv_Data.Rows(i).Cells(cell_Kd_Barang).Value = .Rows(i).Item("Kode_Barang")
-                            Dgv_Data.Rows(i).Cells(cell_Nama).Value = .Rows(i).Item("Nama")
+                            'Dgv_Data.Rows(i).Cells(cell_Nama).Value = .Rows(i).Item("Nama")
                             Dgv_Data.Rows(i).Cells(cell_JumlahOrder).Value = .Rows(i).Item("Jumlah")
                             Dgv_Data.Rows(i).Cells(cell_sisa).Value = .Rows(i).Item("Sisa")
                             Dgv_Data.Rows(i).Cells(cell_SatuanBesar).Value = .Rows(i).Item("Satuan")
                             Dgv_Data.Rows(i).Cells(cell_SatuanKecil).Value = .Rows(i).Item("Satuan_Barang")
                             Dgv_Data.Rows(i).Cells(cell_Tipe).Value = .Rows(i).Item("tipe")
+                            Dgv_Data.Rows(i).Cells(cell_warna).Value = "Hijau"
 
                             Dgv_Data.Rows(i).Cells(cell_JumlahInput).Style.BackColor = Color.LightGray
                         Next
@@ -93,15 +100,13 @@ Public Class Emi_Request_Material
             Exit Sub
         End Try
 
-
-
     End Sub
 
     Private Sub Get_DGV_Items(ByVal index As Integer)
 
         Dgv_NoFak = Dgv_Data.Rows(index).Cells(cell_NoFak).Value
         Dgv_KdBarang = Dgv_Data.Rows(index).Cells(cell_Kd_Barang).Value
-        Dgv_Nama = Dgv_Data.Rows(index).Cells(cell_Nama).Value
+        'Dgv_Nama = Dgv_Data.Rows(index).Cells(cell_Nama).Value
         Dgv_JmlhOrder = Dgv_Data.Rows(index).Cells(cell_JumlahOrder).Value
         Dgv_SatuanBesar = Dgv_Data.Rows(index).Cells(cell_SatuanBesar).Value
         Dgv_JmlhInput = Dgv_Data.Rows(index).Cells(cell_JumlahInput).Value
@@ -109,7 +114,7 @@ Public Class Emi_Request_Material
         Dgv_Tipe = Dgv_Data.Rows(index).Cells(cell_Tipe).Value
         Dgv_KdSo = Dgv_Data.Rows(index).Cells(cell_Kd_SO).Value
         Dgv_Sisa = Dgv_Data.Rows(index).Cells(cell_sisa).Value
-
+        Dgv_Warna = Dgv_Data.Rows(index).Cells(cell_warna).Value
     End Sub
 
     Private Sub Dgv_Data_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles Dgv_Data.CellEndEdit
@@ -136,8 +141,6 @@ Public Class Emi_Request_Material
         If Dgv_Data.RowCount = 0 Then Exit Sub
         If Txt_So.Text = "" Or Txt_KdBarang.Text = "" Then Exit Sub
 
-        get_jam()
-
 
         '============================
         '=     CEK DATAGRIDVIEW     =
@@ -156,11 +159,14 @@ Public Class Emi_Request_Material
         Next
 
 
+        get_jam()
         Try
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
 
             Dim Id_Group_Jennis As String = ""
+
+            get_no_faktur()
 
             '=============================
             '=     GET ID GROUP JENIS    =
@@ -183,9 +189,10 @@ Public Class Emi_Request_Material
             '=     INSERT TABEL INDUK     =
             '==============================
 
-            SQL = "insert into Emi_Material_Requisition (Kode_Perusahaan, No_Faktur, No_Faktur_Order, Kode_Stock_Owner, Kode_Barang, Nama, Id_Group_Jenis, Tanggal, Jam, Flag_Process, UserId, Status) values "
+            SQL = "insert into Emi_Material_Requisition (Kode_Perusahaan, No_Faktur, No_Faktur_Order, Kode_Stock_Owner, Kode_Barang, Id_Group_Jenis, Tanggal, Jam, Flag_Process, UserId, Status) values "
             SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_NoFaktur_ReqMaterial.Text & "', '" & Txt_NoFaktur.Text & "', "
-            SQL = SQL & "'" & Txt_So.Text & "', '" & Txt_KdBarang.Text & "', '" & Txt_NamaBarang.Text & "', '" & Id_Group_Jennis & "', "
+            '''SQL = SQL & "'" & Txt_So.Text & "', '" & Txt_KdBarang.Text & "', '" & Txt_NamaBarang.Text & "', '" & Id_Group_Jennis & "', "
+            SQL = SQL & "'" & Txt_So.Text & "', '" & Txt_KdBarang.Text & "', '" & Id_Group_Jennis & "', "
             SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', 'Y', '" & UserID & "', NULL)"
             ExecuteTrans(SQL)
 
@@ -234,6 +241,27 @@ Public Class Emi_Request_Material
 
                 SQL = SQL & "'" & Dgv_SatuanBesar & "', '" & nilai_kecil & "', '" & Dgv_SatuanKecil & "', '" & Dgv_Tipe & "')"
                 ExecuteTrans(SQL)
+
+
+                Dim x_ident_currentPackaging As Integer = 0
+                SQL = "select IDENT_CURRENT('Emi_Material_Requisition_det') as urutan"
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        x_ident_currentPackaging = Dr("urutan")
+                    End If
+                End Using
+
+
+                SQL = "insert into Emi_Material_Requisition_det_convert(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Jumlah_Barang,Satuan_Barang,Warna,No_Urut_Det)"
+                SQL = SQL & "values("
+                SQL = SQL & "'" & KodePerusahaan & "', '" & Txt_NoFaktur_ReqMaterial.Text & "', '" & Dgv_KdSo & "', '" & Dgv_KdBarang & "', "
+                If Dgv_JmlhInput = "" Then
+                    SQL = SQL & "'0', "
+                Else
+                    SQL = SQL & "'" & Dgv_JmlhInput & "', "
+                End If
+                SQL = SQL & "'" & Dgv_SatuanBesar & "', '" & nilai_kecil & "', '" & Dgv_SatuanKecil & "', '" & Dgv_Warna & "', '" & x_ident_currentPackaging & "')"
+                ExecuteTrans(SQL)
             Next
 
 
@@ -249,17 +277,7 @@ Public Class Emi_Request_Material
             Exit Sub
         End Try
 
-
-
-
     End Sub
-
-
-
-
-
-
-
 
     Private Sub Get_Total_Request()
         If Dgv_Data.RowCount = 0 Then Exit Sub
@@ -279,13 +297,5 @@ Public Class Emi_Request_Material
 
         TxtTotalRequest.Text = total
     End Sub
-
-
-
-
-
-
-
-
 
 End Class

@@ -219,10 +219,16 @@
     <Compile Include="Emi Form\2611\EMI_Display_Transfer_Tidak_Timbang.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\2611\Emi_Request_Material_Display.Designer.vb">
+    <Compile Include="Emi Form\Production\Emi_Request_Material.Designer.vb">
+      <DependentUpon>Emi_Request_Material.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Production\Emi_Request_Material.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Production\Emi_Request_Material_Display.Designer.vb">
       <DependentUpon>Emi_Request_Material_Display.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\2611\Emi_Request_Material_Display.vb">
+    <Compile Include="Emi Form\Production\Emi_Request_Material_Display.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\2611\EMI_Timbang_Floor_Scale.designer.vb">
@@ -265,12 +271,6 @@
       <DependentUpon>Master_Klasifikasi_Bahan2.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Bahan\Master_Klasifikasi_Bahan2.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Bahan\Emi_Request_Material.Designer.vb">
-      <DependentUpon>Emi_Request_Material.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Bahan\Emi_Request_Material.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Barang\EMI_Display_Barang_Masuk_Per_Pallet.designer.vb">
@@ -1220,7 +1220,10 @@
     <EmbeddedResource Include="Emi Form\2611\EMI_Display_Transfer_Tidak_Timbang.resx">
       <DependentUpon>EMI_Display_Transfer_Tidak_Timbang.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\2611\Emi_Request_Material_Display.resx">
+    <EmbeddedResource Include="Emi Form\Production\Emi_Request_Material.resx">
+      <DependentUpon>Emi_Request_Material.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Production\Emi_Request_Material_Display.resx">
       <DependentUpon>Emi_Request_Material_Display.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\2611\EMI_Timbang_Floor_Scale.resx">
@@ -1243,9 +1246,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Bahan\Master_Klasifikasi_Bahan2.resx">
       <DependentUpon>Master_Klasifikasi_Bahan2.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Bahan\Emi_Request_Material.resx">
-      <DependentUpon>Emi_Request_Material.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Barang\EMI_Display_Barang_Masuk_Per_Pallet.resx">
       <DependentUpon>EMI_Display_Barang_Masuk_Per_Pallet.vb</DependentUpon>

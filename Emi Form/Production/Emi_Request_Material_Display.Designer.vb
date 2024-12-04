@@ -41,7 +41,7 @@ Partial Class Emi_Request_Material_Display
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1124, 51)
+        Me.Panel1.Size = New System.Drawing.Size(971, 51)
         Me.Panel1.TabIndex = 24
         '
         'PanelGradient1
@@ -54,7 +54,7 @@ Partial Class Emi_Request_Material_Display
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1124, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(971, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
@@ -64,7 +64,7 @@ Partial Class Emi_Request_Material_Display
         Me.Label1.Location = New System.Drawing.Point(15, 11)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(285, 30)
+        Me.Label1.Size = New System.Drawing.Size(286, 30)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Display - Request Material"
         '
@@ -96,7 +96,7 @@ Partial Class Emi_Request_Material_Display
         Me.Lv_Data.HideSelection = False
         Me.Lv_Data.Location = New System.Drawing.Point(22, 66)
         Me.Lv_Data.Name = "Lv_Data"
-        Me.Lv_Data.Size = New System.Drawing.Size(1082, 471)
+        Me.Lv_Data.Size = New System.Drawing.Size(926, 471)
         Me.Lv_Data.TabIndex = 40
         Me.Lv_Data.UseCompatibleStateImageBehavior = False
         Me.Lv_Data.View = System.Windows.Forms.View.Details
@@ -104,7 +104,7 @@ Partial Class Emi_Request_Material_Display
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(1105, 59)
+        Me.Panel4.Location = New System.Drawing.Point(951, 59)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(19, 416)
@@ -126,7 +126,7 @@ Partial Class Emi_Request_Material_Display
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1124, 549)
+        Me.ClientSize = New System.Drawing.Size(971, 549)
         Me.Controls.Add(Me.Lv_Data)
         Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.Panel3)
@@ -138,7 +138,6 @@ Partial Class Emi_Request_Material_Display
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "Emi_Request_Material_Display"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "99999999999999999999999999"
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)
