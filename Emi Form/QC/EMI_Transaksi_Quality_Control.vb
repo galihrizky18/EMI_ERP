@@ -69,6 +69,7 @@ Public Class EMI_Transaksi_Quality_Control
         LvWarna = dgv.Rows(No_Index).Cells(CellWarna).Value.ToString
         LvUrut = dgv.Rows(No_Index).Cells(CellUrut).Value.ToString
         LvIDWarna = dgv.Rows(No_Index).Cells(CellIDWarna).Value.ToString
+        LvKeterangan = dgv.Rows(No_Index).Cells(CellKeterangan).Value.ToString
 
     End Sub
 
@@ -214,7 +215,8 @@ Public Class EMI_Transaksi_Quality_Control
             SQL = SQL & "isnull(c.Flag_Slider,'T') as Flag_Slider, a.id_quality_control,b.Kode_Uji, b.Keterangan, b.satuan, "
             SQL = SQL & "b.Flag_Tampil_Android, b.Flag_Tampil_Dekstop, value_kode_uji, no_urut, a.Warna "
             SQL = SQL & ",isnull(d.min_range,0) as min_range, isnull(d.Max_Range,0) as Max_Range, "
-            SQL = SQL & "isnull(d.Min_Nilai_Seharusnya, 0) Min_Nilai_Seharusnya, isnull(d.Max_Nilai_Seharusnya,0) Max_Nilai_Seharusnya "
+            SQL = SQL & "isnull(d.Min_Nilai_Seharusnya, 0) Min_Nilai_Seharusnya, isnull(d.Max_Nilai_Seharusnya,0) Max_Nilai_Seharusnya, "
+            SQL = SQL & "a.keterangan as Keterangan_QC "
             SQL = SQL & "From EMI_Hasil_Detail_Quality_Control a, EMI_Quality_Control b, "
             SQL = SQL & "EMI_Kategori_Komponen c, EMI_Quality_Control_PerBarang d "
             SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.Id_Quality_Control = b.Id_QC_Formula "
@@ -224,25 +226,22 @@ Public Class EMI_Transaksi_Quality_Control
 
             SQL = SQL & "union all "
 
-            SQL = SQL & "Select  a.kode_perusahaan, a.no_faktur, b.Id_Kategori_Komponen, c.Keterangan As Kategori_Komponen, "
+            SQL = SQL & "Select a.kode_perusahaan, a.no_faktur, b.Id_Kategori_Komponen, c.Keterangan As Kategori_Komponen, "
             SQL = SQL & "isnull(c.Flag_Input,'T') as Flag_Input, isnull(c.Flag_Option,'T') as Flag_Option, "
             SQL = SQL & "isnull(c.Flag_Slider,'T') as Flag_Slider, a.id_quality_control,b.Kode_Uji, b.Keterangan, b.satuan, "
             SQL = SQL & "b.Flag_Tampil_Android, b.Flag_Tampil_Dekstop, value_kode_uji, no_urut, a.Warna "
             SQL = SQL & ",isnull(d.min_range,0) as min_range, isnull(d.Max_Range,0) as Max_Range, "
-            SQL = SQL & "isnull(d.Min_Nilai_Seharusnya, 0) Min_Nilai_Seharusnya, isnull(d.Max_Nilai_Seharusnya,0) Max_Nilai_Seharusnya "
+            SQL = SQL & "isnull(d.Min_Nilai_Seharusnya, 0) Min_Nilai_Seharusnya, isnull(d.Max_Nilai_Seharusnya,0) Max_Nilai_Seharusnya, "
+            SQL = SQL & "a.keterangan as Keterangan_QC "
             SQL = SQL & "From EMI_Hasil_Detail_Switch_QC a, EMI_Quality_Control b, "
-            SQL = SQL & "EMI_Kategori_Komponen c, EMI_Quality_Control_PerBarang d Where "
-            SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan And a.Id_Quality_Control = b.Id_QC_Formula "
+            SQL = SQL & "EMI_Kategori_Komponen c, EMI_Quality_Control_PerBarang d  "
+            SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.Id_Quality_Control = b.Id_QC_Formula "
             SQL = SQL & "And b.Kode_Perusahaan=c.Kode_Perusahaan And b.Id_Kategori_Komponen=c.Id_Kategori_Komponen "
             SQL = SQL & "And a.Kode_Perusahaan=d.Kode_Perusahaan And a.Id_Quality_Control=d.Id_QC_Formula "
             SQL = SQL & "And no_faktur ='" & txtNoFaktur.Text & "' and d.Kode_barang='" & TxtKdBarang.Text & "' "
 
             SQL = SQL & ") select * from cte "
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & " "
-
-            'JANGAN LUPA DI UNCOMMENT
-            'SQL = SQL & "and flag_sudah_qc_dekstop is null "
 
             If filter = "lapangan" Then
                 SQL = SQL & "And flag_tampil_android = 'Y' "
@@ -341,6 +340,9 @@ Public Class EMI_Transaksi_Quality_Control
                                 DGV_Data_QC.Rows(i).Cells(CellUrut).Value = .Rows(i).Item("no_urut")
 
 
+                                DGV_Data_QC.Rows(i).Cells(CellKeterangan).Value = .Rows(i).Item("Keterangan_QC")
+
+
                             Next
 
                         Else
@@ -422,11 +424,10 @@ Public Class EMI_Transaksi_Quality_Control
                                 Dgv_QC_Lab.Rows(i).Cells(CellWarna).Value = ""
                                 Dgv_QC_Lab.Rows(i).Cells(CellIDWarna).Value = .Rows(i).Item("Warna")
                                 Dgv_QC_Lab.Rows(i).Cells(CellUrut).Value = .Rows(i).Item("no_urut")
-
+                                Dgv_QC_Lab.Rows(i).Cells(CellKeterangan).Value = ""
 
                             Next
                         End If
-
 
                     End If
                 End With
@@ -526,8 +527,7 @@ Public Class EMI_Transaksi_Quality_Control
                         Exit Sub
                     End If
 
-                    SQL = "update EMI_Hasil_Detail_Quality_Control set value_kode_uji = '" & LvValue & "', "
-                    SQL = SQL & "Warna = '" & LvIDWarna & "'"
+                    SQL = "update EMI_Hasil_Detail_Quality_Control set value_kode_uji = '" & LvValue & "', Warna = '" & LvIDWarna & "', Keterangan = '" & LvKeterangan & "' "
                     SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
                     SQL = SQL & "and no_urut = '" & LvUrut & "' "
                     ExecuteTrans(SQL)
@@ -546,7 +546,7 @@ Public Class EMI_Transaksi_Quality_Control
 
                     Dim valuekodeuji As String = arr2Switch(i)(index).ToString
 
-                    SQL = "update EMI_Hasil_Detail_Switch_QC set value_kode_uji = '" & valuekodeuji & "', Warna = '" & LvIDWarna & "' "
+                    SQL = "update EMI_Hasil_Detail_Switch_QC set value_kode_uji = '" & valuekodeuji & "', Warna = '" & LvIDWarna & "', Keterangan = '" & LvKeterangan & "' "
                     SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
                     SQL = SQL & "and no_urut = '" & LvUrut & "' "
                     ExecuteTrans(SQL)
@@ -646,9 +646,6 @@ Public Class EMI_Transaksi_Quality_Control
 
                     End If
                 End Using
-
-
-
             End If
 
 
@@ -674,7 +671,7 @@ Public Class EMI_Transaksi_Quality_Control
             SQL = SQL & "No_Fak_Loading_Barang = '" & TxtNoLoading.Text & "' and no_hsl_qc = '" & noQc & "' "
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                    Dim CrDoc As New Rpt_Laporah_Hasil_QC
+                    Dim CrDoc As New Rpt_Laporan_Hasil_QC
                     With A_Place_For_Printing2
                         CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)

@@ -4,7 +4,7 @@ Imports System.Windows
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
 
-Public Class EMI_PO_Pembelian
+Public Class Emi_PO_Pembelian
     Public FlagSelisihPO As String
     Public Asal As String = ""
 
@@ -725,7 +725,7 @@ Public Class EMI_PO_Pembelian
         '    TxtPO_NoPO.Focus() : Exit Sub
         'Else
         If TxtPO_NoNota.Text.Trim.Length = 0 Then
-            MessageBox.Show(Base_Language.Lang_Global_NoNota & " " & Base_Language.Lang_Global_Belum_Diisi & ". . .! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show("Keterangan" & " " & Base_Language.Lang_Global_Belum_Diisi & ". . .! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TxtPO_NoNota.Focus() : Exit Sub
         ElseIf TxtPO_KdSupplier.Text.Trim.Length = 0 Then
             MessageBox.Show(Base_Language.Lang_Global_Supplier & " " & Base_Language.Lang_Global_Belum_Diisi & ". . .! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

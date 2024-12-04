@@ -242,7 +242,6 @@ Public Class EMI_Transaksi_QC_Finish_Good
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
 
-
                         '===========================
                         arr2Switch.Clear()
                         For i As Integer = 0 To .Rows.Count - 1
@@ -323,10 +322,10 @@ Public Class EMI_Transaksi_QC_Finish_Good
                             Dgv_QC_Lab.Rows(i).Cells(CellWarna).Value = ""
                             Dgv_QC_Lab.Rows(i).Cells(CellIDWarna).Value = ""
                             Dgv_QC_Lab.Rows(i).Cells(CellID).Value = .Rows(i).Item("id")
+                            Dgv_QC_Lab.Rows(i).Cells(CellKeterangan).Value = ""
 
 
                         Next
-
 
                     End If
                 End With
@@ -371,7 +370,11 @@ Public Class EMI_Transaksi_QC_Finish_Good
         ElseIf warna = "KUNING" Then
             warna = "MERAH"
             Hasil = "TOLAK"
+        Else
+            Hasil = "TOLAK"
         End If
+
+        get_jam()
 
         Try
             OpenConn()
@@ -389,14 +392,14 @@ Public Class EMI_Transaksi_QC_Finish_Good
             End Using
 
 
-            SQL = "insert into EMI_Hasil_QC_Produksi(Kode_Perusahaan,No_Faktur,No_Fak_Produksi_Order,Tanggal,Jam,UserId,Kode_Stock_Owner, "
-            SQL = SQL & "Kode_Barang,Keterangan, Warna, Step)  values( "
+            SQL = "insert into EMI_Hasil_QC_Produksi(Kode_Perusahaan, No_Faktur, No_Fak_Produksi_Order, Tanggal, Jam, UserId, Kode_Stock_Owner, "
+            SQL = SQL & "Kode_Barang, Keterangan, Warna, Step, Hasil)  values( "
             SQL = SQL & "'" & KodePerusahaan & "', '" & txtNoFaktur.Text.Trim & "', '" & TxtNoProduksi.Text.Trim & "', "
             SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', "
             SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', "
             SQL = SQL & "'" & UserID & "', "
             SQL = SQL & "'" & txtKso.Text.Trim & "', '" & TxtKdBarang.Text.Trim & "', '" & txtKeterangan.Text & "',"
-            SQL = SQL & "'" & warna & "', " & jumlah & ")"
+            SQL = SQL & "'" & warna & "', " & jumlah & ", '" & Hasil & "')"
             ExecuteTrans(SQL)
 
             For i As Integer = 0 To Dgv_QC_Lab.Rows.Count - 1
@@ -421,15 +424,15 @@ Public Class EMI_Transaksi_QC_Finish_Good
 
                     'simpan
 
-                    SQL = "insert into EMI_Hasil_QC_produksi_detail_switch(Kode_Perusahaan, No_Faktur, Id_Quality_Control, Value_Kode_Uji, Keterangan_QC) values ("
+                    SQL = "insert into EMI_Hasil_QC_produksi_detail_switch(Kode_Perusahaan, No_Faktur, Id_Quality_Control, Value_Kode_Uji, Keterangan, Warna) values ("
                     SQL = SQL & "'" & KodePerusahaan & "', '" & txtNoFaktur.Text & "', '" & Dgv_QC_Lab.Rows(i).Cells(CellIDUji).Value & "',"
-                    SQL = SQL & "'" & valuekodeuji & "', '" & LvKeterangan & "' )"
+                    SQL = SQL & "'" & valuekodeuji & "', '" & LvKeterangan & "', '" & LvIDWarna & "' )"
                     ExecuteTrans(SQL)
                 Else
                     'update di EMI_Hasil_Detail_Quality_Control
-                    SQL = "insert into emi_hasil_QC_produksi_detail(Kode_Perusahaan, No_Faktur, Id_Quality_Control, Value_Kode_Uji, Keterangan_QC) values ("
+                    SQL = "insert into emi_hasil_QC_produksi_detail(Kode_Perusahaan, No_Faktur, Id_Quality_Control, Value_Kode_Uji, Keterangan, Warna) values ("
                     SQL = SQL & "'" & KodePerusahaan & "', '" & txtNoFaktur.Text & "', '" & Dgv_QC_Lab.Rows(i).Cells(CellIDUji).Value & "',"
-                    SQL = SQL & " '" & Dgv_QC_Lab.Rows(i).Cells(CellValue).Value & "', '" & LvKeterangan & "' )"
+                    SQL = SQL & " '" & Dgv_QC_Lab.Rows(i).Cells(CellValue).Value & "', '" & LvKeterangan & "', '" & LvIDWarna & "' )"
                     ExecuteTrans(SQL)
                 End If
 
@@ -454,7 +457,6 @@ Public Class EMI_Transaksi_QC_Finish_Good
                         Exit Sub
                     End If
                 End Using
-
 
 
                 SQL = "update barang_sn set "
@@ -488,6 +490,42 @@ Public Class EMI_Transaksi_QC_Finish_Good
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+
+        '=================
+        '=     CETAK     =
+        '=================
+        Try
+            OpenConn()
+
+            SQL = "select Kode_Perusahaan from View_Laporan_Hasil_QC_FG where "
+            SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "No_Faktur = '" & txtNoFaktur.Text & "' and No_Produksi_Order = '" & TxtNoProduksi.Text & "' "
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+                    Dim CrDoc As New Rpt_Laporan_Hasil_QC_FG
+                    With A_Place_For_Printing2
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        CrDoc.RecordSelectionFormula = "{View_Laporan_Hasil_QC_FG.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Hasil_QC_FG.No_Faktur} = '" & txtNoFaktur.Text & "' and {View_Laporan_Hasil_QC_FG.No_Produksi_Order} = '" & TxtNoProduksi.Text & "' "
+                        .Text = "Bukti Hasil Quality Control Produksi"
+                        .CrystalReportViewer1.ReportSource = CrDoc
+                        .Refresh()
+                        .Show()
+                    End With
+                Else
+                    MessageBox.Show("Tidak ada data yang dapat dicetak!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
 
 
         kosong()

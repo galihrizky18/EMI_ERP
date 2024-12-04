@@ -102,26 +102,6 @@
         EMI_Transaksi_MaterialRequisition.Focus()
     End Sub
 
-    Private Sub TImbangUnloadingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TImbangUnloadingToolStripMenuItem.Click
-        EMI_Display_Timbang.StartPosition = FormStartPosition.CenterScreen
-        EMI_Display_Timbang.asal = "Unloading_Barang"
-        EMI_Display_Timbang.filter_tambahan = "timbang_masuk='Y'"
-
-        EMI_Display_Timbang.MdiParent = Me
-        EMI_Display_Timbang.Show()
-        EMI_Display_Timbang.Focus()
-    End Sub
-
-    Private Sub TimbangKeluarToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TimbangKeluarToolStripMenuItem.Click
-        EMI_Display_Timbang.StartPosition = FormStartPosition.CenterScreen
-        EMI_Display_Timbang.asal = "Unloading_Barang"
-        EMI_Display_Timbang.filter_tambahan = "timbang_keluar='Y'"
-
-        EMI_Display_Timbang.MdiParent = Me
-        EMI_Display_Timbang.Show()
-        EMI_Display_Timbang.Focus()
-    End Sub
-
     Private Sub PuchaseOrderToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PuchaseOrderToolStripMenuItem.Click
         EMI_PO_Pembelian_Display.StartPosition = FormStartPosition.CenterScreen
         EMI_PO_Pembelian_Display.asal = "PO_Bahan"
@@ -304,9 +284,25 @@
         Display_Kendaraan_Masuk_Tidak_Sesuai.Focus()
     End Sub
 
+    Private Sub TimbangMasukToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TimbangMasukToolStripMenuItem.Click
+        EMI_Display_Timbang.StartPosition = FormStartPosition.CenterScreen
+        EMI_Display_Timbang.asal = "Unloading_Barang"
+        EMI_Display_Timbang.filter_tambahan = "timbang_masuk='Y'"
 
+        EMI_Display_Timbang.MdiParent = Me
+        EMI_Display_Timbang.Show()
+        EMI_Display_Timbang.Focus()
+    End Sub
 
+    Private Sub TimbangKeluarToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TimbangKeluarToolStripMenuItem.Click
+        EMI_Display_Timbang.StartPosition = FormStartPosition.CenterScreen
+        EMI_Display_Timbang.asal = "Unloading_Barang"
+        EMI_Display_Timbang.filter_tambahan = "timbang_keluar='Y'"
 
+        EMI_Display_Timbang.MdiParent = Me
+        EMI_Display_Timbang.Show()
+        EMI_Display_Timbang.Focus()
+    End Sub
 
 
 
@@ -341,4 +337,5 @@
         TesAsync.Show()
         TesAsync.Focus()
     End Sub
+
 End Class

@@ -873,6 +873,7 @@ Partial Class Transfer_Stock_3
         '
         Me.isi_perbags.HeaderText = "Isi PerBags"
         Me.isi_perbags.Name = "isi_perbags"
+        Me.isi_perbags.Visible = False
         '
         'satuan_isiBags
         '

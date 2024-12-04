@@ -65,6 +65,34 @@ Public Class Display_Kendaraan_Masuk_Tidak_Sesuai
         Lv_Kendaraan.Items.Clear()
     End Sub
 
+    Private Sub Kosong_Sebagian()
+
+        Tb_NoSJ.Text = String.Empty
+        Tb_NoPlat.Text = String.Empty
+        Tb_Driver.Text = String.Empty
+
+        Lv_Kendaraan.Text = String.Empty
+
+        Txt_Lokasi.Text = String.Empty
+        Txt_Supplier.Text = String.Empty
+
+        Tb_NoSJ.Enabled = False
+        Tb_NoPlat.Enabled = False
+        Tb_Driver.Enabled = False
+
+        selected_NoFaktur = String.Empty
+        selected_NoSJ = String.Empty
+        selected_PlatNomor = String.Empty
+        selected_Driver = String.Empty
+        selected_KdSupplier = String.Empty
+        selected_Lokasi = String.Empty
+
+        FlowLayoutPanel1.Controls.Clear()
+        FlowLayoutPanel1.BackColor = Color.LightGray
+
+        Lv_Kendaraan.Items.Clear()
+    End Sub
+
     Private Sub Initial_ListView()
 
         Lv_Kendaraan.Columns.Add("No Faktur", 130, HorizontalAlignment.Center)
@@ -157,6 +185,8 @@ Public Class Display_Kendaraan_Masuk_Tidak_Sesuai
     Private Sub Btn_Cari_Click(sender As Object, e As EventArgs) Handles Btn_Cari.Click
         If Cmb_Filter_Value.Items.Count = 0 Or Cmb_Filter_Value.SelectedIndex = -1 Or arrSupplier.Count = 0 Then Exit Sub
 
+        Kosong_Sebagian()
+
         If Cmb_Filter_Value.SelectedIndex <> 0 Then
             Dim filter As String = "a.Kode_Supplier='" & arrSupplier(Cmb_Filter_Value.SelectedIndex) & "'"
             Load_Kendaraan(filter)
@@ -165,11 +195,15 @@ Public Class Display_Kendaraan_Masuk_Tidak_Sesuai
         End If
 
 
-        Tb_NoSJ.Text = String.Empty
-        Tb_NoPlat.Text = String.Empty
-        Tb_Driver.Text = String.Empty
-        Txt_Lokasi.Text = String.Empty
-        Txt_Supplier.Text = String.Empty
+        'Tb_NoSJ.Text = String.Empty
+        'Tb_NoPlat.Text = String.Empty
+        'Tb_Driver.Text = String.Empty
+        'Txt_Lokasi.Text = String.Empty
+        'Txt_Supplier.Text = String.Empty
+
+        'Tb_NoSJ.Enabled = False
+        'Tb_NoPlat.Enabled = False
+        'Tb_Driver.Enabled = False
 
     End Sub
 
@@ -313,8 +347,11 @@ Public Class Display_Kendaraan_Masuk_Tidak_Sesuai
 
         If selected_NoFaktur = "" Or selected_NoSJ = "" Or selected_PlatNomor = "" Or selected_Driver = "" Then Exit Sub
 
-        If Tb_NoSJ.Text.Trim.Length = 0 Then
-            MessageBox.Show("NO Sj Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        If Txt_Supplier.Text.Trim.Length = 0 Then
+            MessageBox.Show("Tidak Ada Data yang Diupdate", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        ElseIf Tb_NoSJ.Text.Trim.Length = 0 Then
+        MessageBox.Show("NO Sj Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         ElseIf Tb_NoPlat.Text.Trim.Length = 0 Then
             MessageBox.Show("Plat Kendaraan Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -322,6 +359,7 @@ Public Class Display_Kendaraan_Masuk_Tidak_Sesuai
         ElseIf Tb_Driver.Text.Trim.Length = 0 Then
             MessageBox.Show("Driver Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
+
         End If
 
         get_jam()

@@ -64,11 +64,6 @@ Public Class EMI_Display_Timbang
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
 
-        If String.IsNullOrWhiteSpace(asal) Or String.IsNullOrWhiteSpace(filter_tambahan) Then
-            MessageBox.Show("Ada yang salah dengan Database", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Me.Close()
-        End If
-
         Try
             OpenConn()
 
@@ -130,7 +125,6 @@ Public Class EMI_Display_Timbang
             SQL = SQL & "isnull((select top(1) 'Y' from EMI_Pembelian_Loading_detail x where x.no_faktur=a.no_faktur and "
             SQL = SQL & "x.flag_sudah_bongkar_android ='Y' and a.Flag_timbang_keluar is null and a.Flag_Proses_Loading='Y' ORDER BY x.no_faktur),'-') as Timbang_Keluar, "
 
-
             SQL = SQL & "isnull((select top(1) No_Faktur from emi_timbang_unloading x where x.no_loading=a.no_faktur and "
             SQL = SQL & "x.flag_selesai is null ORDER BY x.no_loading),'-') as No_Timbangan "
             SQL = SQL & "FROM EMI_Pembelian_Loading a, Suppliers b WHERE "
@@ -139,6 +133,7 @@ Public Class EMI_Display_Timbang
             SQL = SQL & "and flag_security='Y' and Flag_Qc_Pertama='Y') "
             SQL = SQL & "select * from cte "
             SQL = SQL & "where " & filter_tambahan & " "
+
             SQL = SQL & "ORDER BY ETA DESC; "
 
             Using dr = OpenTrans(SQL)

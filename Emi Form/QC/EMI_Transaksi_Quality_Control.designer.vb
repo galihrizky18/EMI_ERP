@@ -599,6 +599,7 @@ Partial Class EMI_Transaksi_Quality_Control
         Me.DataGridViewTextBoxColumn1.HeaderText = "ID Kode Uji"
         Me.DataGridViewTextBoxColumn1.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
+        Me.DataGridViewTextBoxColumn1.ReadOnly = True
         Me.DataGridViewTextBoxColumn1.Visible = False
         Me.DataGridViewTextBoxColumn1.Width = 90
         '
@@ -609,6 +610,7 @@ Partial Class EMI_Transaksi_Quality_Control
         Me.DataGridViewTextBoxColumn2.HeaderText = "Kode Uji"
         Me.DataGridViewTextBoxColumn2.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
+        Me.DataGridViewTextBoxColumn2.ReadOnly = True
         Me.DataGridViewTextBoxColumn2.Width = 150
         '
         'DataGridViewTextBoxColumn3
@@ -618,7 +620,8 @@ Partial Class EMI_Transaksi_Quality_Control
         Me.DataGridViewTextBoxColumn3.HeaderText = "Nama Uji"
         Me.DataGridViewTextBoxColumn3.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
-        Me.DataGridViewTextBoxColumn3.Width = 300
+        Me.DataGridViewTextBoxColumn3.ReadOnly = True
+        Me.DataGridViewTextBoxColumn3.Width = 250
         '
         'DataGridViewTextBoxColumn4
         '
@@ -627,6 +630,7 @@ Partial Class EMI_Transaksi_Quality_Control
         Me.DataGridViewTextBoxColumn4.HeaderText = "Satuan"
         Me.DataGridViewTextBoxColumn4.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
+        Me.DataGridViewTextBoxColumn4.ReadOnly = True
         '
         'DataGridViewTextBoxColumn5
         '
@@ -644,7 +648,7 @@ Partial Class EMI_Transaksi_Quality_Control
         Me.DataGridViewComboBoxColumn1.Name = "DataGridViewComboBoxColumn1"
         Me.DataGridViewComboBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DataGridViewComboBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        Me.DataGridViewComboBoxColumn1.Width = 250
+        Me.DataGridViewComboBoxColumn1.Width = 150
         '
         'min_range
         '
@@ -707,7 +711,7 @@ Partial Class EMI_Transaksi_Quality_Control
         '
         'keterangan
         '
-        Me.keterangan.HeaderText = "keterangan"
+        Me.keterangan.HeaderText = "Keterangan"
         Me.keterangan.MaxInputLength = 100
         Me.keterangan.Name = "keterangan"
         Me.keterangan.Width = 300
@@ -734,6 +738,7 @@ Partial Class EMI_Transaksi_Quality_Control
         Me.DataGridViewTextBoxColumn8.HeaderText = "ID Kode Uji"
         Me.DataGridViewTextBoxColumn8.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn8.Name = "DataGridViewTextBoxColumn8"
+        Me.DataGridViewTextBoxColumn8.ReadOnly = True
         Me.DataGridViewTextBoxColumn8.Visible = False
         Me.DataGridViewTextBoxColumn8.Width = 90
         '
@@ -744,6 +749,7 @@ Partial Class EMI_Transaksi_Quality_Control
         Me.DataGridViewTextBoxColumn10.HeaderText = "Kode Uji"
         Me.DataGridViewTextBoxColumn10.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn10.Name = "DataGridViewTextBoxColumn10"
+        Me.DataGridViewTextBoxColumn10.ReadOnly = True
         Me.DataGridViewTextBoxColumn10.Width = 150
         '
         'DataGridViewTextBoxColumn11
@@ -753,6 +759,7 @@ Partial Class EMI_Transaksi_Quality_Control
         Me.DataGridViewTextBoxColumn11.HeaderText = "Nama Uji"
         Me.DataGridViewTextBoxColumn11.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn11.Name = "DataGridViewTextBoxColumn11"
+        Me.DataGridViewTextBoxColumn11.ReadOnly = True
         Me.DataGridViewTextBoxColumn11.Width = 300
         '
         'DataGridViewTextBoxColumn12
@@ -762,6 +769,7 @@ Partial Class EMI_Transaksi_Quality_Control
         Me.DataGridViewTextBoxColumn12.HeaderText = "Satuan"
         Me.DataGridViewTextBoxColumn12.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn12.Name = "DataGridViewTextBoxColumn12"
+        Me.DataGridViewTextBoxColumn12.ReadOnly = True
         '
         'DataGridViewTextBoxColumn13
         '
@@ -770,6 +778,7 @@ Partial Class EMI_Transaksi_Quality_Control
         Me.DataGridViewTextBoxColumn13.HeaderText = "Value"
         Me.DataGridViewTextBoxColumn13.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn13.Name = "DataGridViewTextBoxColumn13"
+        Me.DataGridViewTextBoxColumn13.ReadOnly = True
         Me.DataGridViewTextBoxColumn13.Width = 120
         '
         'DataGridViewComboBoxColumn2
@@ -777,9 +786,10 @@ Partial Class EMI_Transaksi_Quality_Control
         Me.DataGridViewComboBoxColumn2.HeaderText = "Value Combo"
         Me.DataGridViewComboBoxColumn2.MinimumWidth = 6
         Me.DataGridViewComboBoxColumn2.Name = "DataGridViewComboBoxColumn2"
+        Me.DataGridViewComboBoxColumn2.ReadOnly = True
         Me.DataGridViewComboBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DataGridViewComboBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        Me.DataGridViewComboBoxColumn2.Width = 250
+        Me.DataGridViewComboBoxColumn2.Width = 150
         '
         'DataGridViewTextBoxColumn14
         '
@@ -843,9 +853,10 @@ Partial Class EMI_Transaksi_Quality_Control
         '
         'keteranganLap
         '
-        Me.keteranganLap.HeaderText = "keterangan"
+        Me.keteranganLap.HeaderText = "Keterangan"
         Me.keteranganLap.MaxInputLength = 100
         Me.keteranganLap.Name = "keteranganLap"
+        Me.keteranganLap.ReadOnly = True
         Me.keteranganLap.Width = 300
         '
         'EMI_Transaksi_Quality_Control

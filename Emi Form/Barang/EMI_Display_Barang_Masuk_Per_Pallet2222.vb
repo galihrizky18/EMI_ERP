@@ -232,7 +232,7 @@ Public Class EMI_Display_Barang_Masuk_Per_Pallet2222
             SQL = SQL & "and a.No_Faktur = b.No_Faktur and a.Kode_Supplier = c.Kode_Supplier "
             SQL = SQL & "and b.Kode_Barang = d.Kode_Barang and b.Kode_Stock_Owner = d.Kode_Stock_Owner "
             SQL = SQL & "and a.flag_angkut is null "
-            'SQL = SQL & "and a.sdh_cetak is null "
+            SQL = SQL & "and a.sdh_cetak is null "
             SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.lokasi = '" & Lokasi & "' "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read

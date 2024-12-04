@@ -18,7 +18,7 @@ Imports System
 Imports System.ComponentModel
 
 
-Public Class Rpt_Laporah_Hasil_QC
+Public Class Rpt_Laporan_Hasil_QC
     Inherits ReportClass
     
     Public Sub New()
@@ -27,7 +27,7 @@ Public Class Rpt_Laporah_Hasil_QC
     
     Public Overrides Property ResourceName() As String
         Get
-            Return "Rpt_Laporah_Hasil_QC.rpt"
+            Return "Rpt_Laporan_Hasil_QC.rpt"
         End Get
         Set
             'Do nothing
@@ -45,7 +45,7 @@ Public Class Rpt_Laporah_Hasil_QC
     
     Public Overrides Property FullResourceName() As String
         Get
-            Return "ERP_EMI.Rpt_Laporah_Hasil_QC.rpt"
+            Return "ERP_EMI.Rpt_Laporan_Hasil_QC.rpt"
         End Get
         Set
             'Do nothing
@@ -94,7 +94,7 @@ Public Class Rpt_Laporah_Hasil_QC
 End Class
 
 <System.Drawing.ToolboxBitmapAttribute(GetType(CrystalDecisions.[Shared].ExportOptions), "report.bmp")>  _
-Public Class CachedRpt_Laporah_Hasil_QC
+Public Class CachedRpt_Laporan_Hasil_QC
     Inherits Component
     Implements ICachedReport
     
@@ -136,7 +136,7 @@ Public Class CachedRpt_Laporah_Hasil_QC
     End Property
     
     Public Overridable Function CreateReport() As CrystalDecisions.CrystalReports.Engine.ReportDocument Implements CrystalDecisions.ReportSource.ICachedReport.CreateReport
-        Dim rpt As Rpt_Laporah_Hasil_QC = New Rpt_Laporah_Hasil_QC()
+        Dim rpt As Rpt_Laporan_Hasil_QC = New Rpt_Laporan_Hasil_QC()
         rpt.Site = Me.Site
         Return rpt
     End Function

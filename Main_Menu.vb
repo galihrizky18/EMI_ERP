@@ -25,7 +25,7 @@ Public Class Main_Menu
 
             SQL = "select MainMenu.ImagePath, MainMenu.Title, RoleMainMenus.UserID, RoleMainMenus.MainMenuID from RoleMainMenus left join MainMenu "
             SQL = SQL & "On RoleMainMenus.MainMenuID = MainMenu.MainMenuID where RoleMainMenus.UserID ='" & UserID & "' "
-            SQL = SQL & "order by MainMenuID"
+            SQL = SQL & "order by TItle"
 
             Using dr = OpenTrans(Sql)
                 If dr.HasRows Then

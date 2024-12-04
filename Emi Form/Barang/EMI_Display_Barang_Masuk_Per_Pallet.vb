@@ -290,7 +290,7 @@ Public Class EMI_Display_Barang_Masuk_Per_Pallet
             SQL = SQL & "and a.No_Faktur = b.No_Faktur and a.Kode_Supplier = c.Kode_Supplier "
             SQL = SQL & "and b.Kode_Barang = d.Kode_Barang and b.Kode_Stock_Owner = d.Kode_Stock_Owner "
             SQL = SQL & "and a.flag_angkut is null "
-            'SQL = SQL & "and a.sdh_cetak is null "
+            SQL = SQL & "and a.sdh_cetak is null "
             SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.userid = '" & UserID & "' and a.lokasi = '" & Lokasi & "' "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
@@ -873,7 +873,7 @@ Public Class EMI_Display_Barang_Masuk_Per_Pallet
             Exit Sub
         End Try
 
-        'kosong()
+        kosong()
     End Sub
 
     Private Sub DisplayRakToolStripMenuItem_Click(sender As Object, e As EventArgs)
