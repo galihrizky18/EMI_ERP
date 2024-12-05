@@ -583,9 +583,10 @@ Public Class EMI_Timbang_Floor_Scale
                 Dim QrLama As String = ""
                 Dim namaBarang As String = "" '
                 Dim expDate As String = ""
+                Dim warnaLama As String = ""
 
                 'Ambil Data Lama
-                SQL = "select a.Serial_Number, a.Qr_Code, a.Kode_Unik_Berjalan, b.Nama, a.Batch_Number, a.Tgl_Expired "
+                SQL = "select a.Serial_Number, a.Qr_Code, a.Kode_Unik_Berjalan, b.Nama, a.Batch_Number, a.Tgl_Expired, a.warna "
                 SQL = SQL & "from barang_sn a, barang b "
                 SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
                 SQL = SQL & "and a.Kode_Stock_Owner = b.Kode_Stock_Owner "
@@ -601,6 +602,7 @@ Public Class EMI_Timbang_Floor_Scale
                         batchLama = General_Class.CekNULL(Dr("Batch_Number"))
                         namaBarang = General_Class.CekNULL(Dr("Nama"))
                         expDate = General_Class.CekNULL(Dr("Tgl_Expired"))
+                        warnaLama = General_Class.CekNULL(Dr("warna"))
                     Loop
                 End Using
 
@@ -613,10 +615,10 @@ Public Class EMI_Timbang_Floor_Scale
 
                 'INSERT BARANG SN BARU  
                 SQL = "insert into Barang_SN (Kode_Perusahaan, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah,  Jumlah_Bags, "
-                SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, id_Susunan, Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number) "
+                SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, id_Susunan, Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number, Warna) "
                 SQL = SQL & "select Kode_Perusahaan, '" & SoTujuan & "', Kode_Barang, '" & SN_Baru & "', '" & nilai_kecildetail & "', " & jumlahBags & ", "
                 SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, '" & idWarehousTujuan & "', id_Susunan , Qr_Code, '" & newKodeUnikBerjalan & "', "
-                SQL = SQL & "Kode_Unik_Asal, '" & noPalletTujaun & "', batch_number "
+                SQL = SQL & "Kode_Unik_Asal, '" & noPalletTujaun & "', batch_number, '" & warnaLama & "' "
                 SQL = SQL & "from Barang_SN "
                 SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' "
                 SQL = SQL & "and Kode_Stock_Owner='" & txt_lokasi.Text & "' "

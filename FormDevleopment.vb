@@ -304,7 +304,7 @@
         EMI_Display_Timbang.Focus()
     End Sub
 
-    Private Sub OrderProduksiToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OrderProduksiToolStripMenuItem.Click
+    Private Sub OrderProduksiToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles OrderProduksiToolStripMenuItem1.Click
 
         Emi_Request_Material_Display.StartPosition = FormStartPosition.CenterScreen
 
@@ -312,7 +312,6 @@
         Emi_Request_Material_Display.Show()
         Emi_Request_Material_Display.Focus()
     End Sub
-
 
 
 

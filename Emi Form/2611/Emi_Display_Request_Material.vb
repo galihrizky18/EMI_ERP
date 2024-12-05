@@ -56,7 +56,7 @@
             SQL = "select c.Kode_Stock_Owner, c.Kode_Barang, d.Nama, b.Kode_Group_Jenis, a.Tanggal, a.Jam, c.Jumlah,  a.UserId, c.warna, "
             SQL = SQL & "dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, d.satuan, c.satuan, d.good_stock) as Good_Stock, d.Satuan, c.Satuan as Satuan_Display, "
             SQL = SQL & "ISNULL(d.Jumlah_Bags, 0) as Jumlah_Bags, d.Satuan_Isi_Bags, c.Urut_Oto, "
-            SQL = SQL & "ISNULL((select z.total from Tf_Stock z where c.Kode_Perusahaan = z.Kode_Perusahaan and c.Urut_Oto = z.urut_material_requisition_convert), '0') as Total_TF "
+            SQL = SQL & "ISNULL((select sum(z.total) from Tf_Stock z where c.Kode_Perusahaan = z.Kode_Perusahaan and c.Urut_Oto = z.urut_material_requisition_convert and z.SO_Tujuan = c.Kode_Stock_Owner and z.Kode_Barang = c.Kode_Barang), '0') as Total_TF "
             SQL = SQL & "from Emi_Material_Requisition a, EMI_Group_Jenis b, Emi_Material_Requisition_Det_Convert c, barang d  "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan "
             SQL = SQL & "and a.Id_Group_Jenis = b.Id_Group_Jenis "

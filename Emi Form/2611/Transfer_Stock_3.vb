@@ -464,7 +464,7 @@ Public Class Transfer_Stock_3
             arrIdWMSWarehouse.Clear()
             WarehosePosition.Clear()
 
-            SQL = "Select a.Id_WMS_Warehouse_Position, a.Keterangan  from "
+            SQL = "Select a.Id_WMS_Warehouse_Position, a.Keterangan from "
             SQL = SQL & "view_warehouse_position a, view_warehouse_position_detail b "
             SQL = SQL & "where a.id_wms_warehouse_position = b.id_wms_warehouse_position "
             SQL = SQL & "And a.KOde_Perusahaan = b.KOde_Perusahaan "
@@ -488,13 +488,14 @@ Public Class Transfer_Stock_3
             SQL = SQL & " a.Id_Nametag_pallet, dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, b.satuan, "
             SQL = SQL & "'" & TxtSatuan.Text & "', a.jumlah) as jumlah, b.satuan, a.nomor_pallet, ISNULL(a.Jumlah_Bags, 0) as stock_bags, a.warna, b.Jenis_Kemasan, "
             SQL = SQL & "b.Isi_Per_Bags, b.Satuan_Isi_Bags "
-            SQL = SQL & "from barang_sn a, barang b, View_Warehouse_Position c "
+            SQL = SQL & "from barang_sn a, barang b, View_Warehouse_Position c, View_Warehouse_Position_Detail d "
             SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan and a.Kode_Barang=b.Kode_Barang and a.Kode_Stock_Owner=b.Kode_Stock_Owner "
-            SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Stock_Owner=c.Kode_Stock_Owner "
+            SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Stock_Owner = d.Kode_Stock_Owner and a.Nomor_Pallet = d.nomor_urut "
             SQL = SQL & "and a.Id_Warehouse=c.Id_WMS_Warehouse_Position "
             SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' "
             SQL = SQL & "and b.Kode_Stock_Owner='" & arrSO(CmbSO_Asal.SelectedIndex) & "' and b.Kode_Barang='" & TxtKd_Barang.Text & "' "
             SQL = SQL & "and a.warna = '" & Cmb_Warna.SelectedItem.ToString & "' "
+            SQL = SQL & "and a.Jumlah <> 0 "
             SQL = SQL & "order by a.Kode_Barang "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read

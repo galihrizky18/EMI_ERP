@@ -81,6 +81,12 @@ Public Class Modul_Pembantu
         Return (available_Id_Warehouse, available_NoPallet)
     End Function
 
+
+    '======================================================================================================================================================================================================
+    'My.Application.ChangeCulture("en-us")
+    'My.Application.ChangeUICulture("en-us")
+    '======================================================================================================================================================================================================
+
     Private Sub CellEndEdit()
         ''======================
         ''=     SET FORMAT     =
@@ -88,7 +94,7 @@ Public Class Modul_Pembantu
 
         'If Dgv_DataBarang.CurrentCell.ColumnIndex = CellQty Then
 
-        '    Dim cellKuantity As String = Dgv_DataBarang.CurrentRow.Cells(CellQty).Value
+        '    Dim cellKuantity As String = Dgv_Data.CurrentCell.Value
 
         '    If cellKuantity.Contains(",") Then
         '        MessageBox.Show("Kuantity Tidak Boleh Koma, Ganti dengan Titik", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
