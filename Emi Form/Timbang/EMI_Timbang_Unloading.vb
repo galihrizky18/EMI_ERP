@@ -863,8 +863,8 @@ Public Class EMI_Timbang_Unloading
         'Dim Nama_File_1 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FormDevleopment.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_A.jpg"
         'Dim Nama_File_2 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FormDevleopment.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_B.jpg"
 
-        Dim Nama_File_1 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FormDevleopment.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_A.jpg"
-        Dim Nama_File_2 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FormDevleopment.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_B.jpg"
+        Dim Nama_File_1 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_A.jpg"
+        Dim Nama_File_2 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_B.jpg"
 
 
         Try
@@ -1431,7 +1431,7 @@ Public Class EMI_Timbang_Unloading
                                 total_hpp += (harga * .Rows(index).Item("jumlah"))
 
                                 Dim Random As New Random()
-                                Dim str As String = Format(Random.Next(0, 999), "000") & Format(CDate(FormDevleopment.ToolStripStatusLabel3.Text), "HHmmss")
+                                Dim str As String = Format(Random.Next(0, 999), "000") & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HHmmss")
                                 Dim Kode_Unik As String = str.Substring(0, 5) & "BB" & Chr(64 + str.Substring(6, 1)) & str.Substring(6, Len(str) - 6)
                                 Dim SN_Baru As String = Kode_Unik & Tanda_SN & "01" & Tanda_SN & harga & Tanda_SN & "02" & Tanda_SN & Format(DateTime.Now, "yyyy-MM-dd")
 

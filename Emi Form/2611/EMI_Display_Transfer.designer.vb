@@ -24,6 +24,7 @@ Partial Class Emi_Display_Transfer
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel4 = New System.Windows.Forms.Panel()
@@ -36,7 +37,7 @@ Partial Class Emi_Display_Transfer
         Me.Btn_TimbangFloorScale = New System.Windows.Forms.Button()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Lbl_GetSerialNumber = New System.Windows.Forms.Label()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -50,6 +51,19 @@ Partial Class Emi_Display_Transfer
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1132, 51)
         Me.Panel1.TabIndex = 22
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1132, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -97,7 +111,7 @@ Partial Class Emi_Display_Transfer
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(27, 546)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(22, 546)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(155, 36)
         Me.Btn_Refresh.TabIndex = 406
@@ -139,11 +153,11 @@ Partial Class Emi_Display_Transfer
         '
         Me.Txt_ScanBarcode.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_ScanBarcode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_ScanBarcode.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_ScanBarcode.Location = New System.Drawing.Point(27, 69)
+        Me.Txt_ScanBarcode.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_ScanBarcode.Location = New System.Drawing.Point(125, 67)
         Me.Txt_ScanBarcode.MaxLength = 50
         Me.Txt_ScanBarcode.Name = "Txt_ScanBarcode"
-        Me.Txt_ScanBarcode.Size = New System.Drawing.Size(317, 21)
+        Me.Txt_ScanBarcode.Size = New System.Drawing.Size(387, 26)
         Me.Txt_ScanBarcode.TabIndex = 475
         '
         'Btn_TimbangFloorScale
@@ -151,7 +165,7 @@ Partial Class Emi_Display_Transfer
         Me.Btn_TimbangFloorScale.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_TimbangFloorScale.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_TimbangFloorScale.ForeColor = System.Drawing.Color.White
-        Me.Btn_TimbangFloorScale.Location = New System.Drawing.Point(350, 63)
+        Me.Btn_TimbangFloorScale.Location = New System.Drawing.Point(957, 63)
         Me.Btn_TimbangFloorScale.Name = "Btn_TimbangFloorScale"
         Me.Btn_TimbangFloorScale.Size = New System.Drawing.Size(154, 32)
         Me.Btn_TimbangFloorScale.TabIndex = 476
@@ -181,18 +195,15 @@ Partial Class Emi_Display_Transfer
         Me.Lbl_GetSerialNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Lbl_GetSerialNumber.Visible = False
         '
-        'PanelGradient1
+        'Label2
         '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1132, 2)
-        Me.PanelGradient1.TabIndex = 22
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Work Sans SemiBold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(27, 67)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(78, 23)
+        Me.Label2.TabIndex = 481
+        Me.Label2.Text = "QR Code"
         '
         'Emi_Display_Transfer
         '
@@ -200,6 +211,7 @@ Partial Class Emi_Display_Transfer
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1132, 597)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Lbl_GetSerialNumber)
         Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.Btn_TimbangFloorScale)
@@ -238,4 +250,5 @@ Partial Class Emi_Display_Transfer
     Friend WithEvents Btn_TimbangFloorScale As Button
     Friend WithEvents Panel7 As Panel
     Friend WithEvents Lbl_GetSerialNumber As Label
+    Friend WithEvents Label2 As Label
 End Class

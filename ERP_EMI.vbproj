@@ -219,6 +219,12 @@
     <Compile Include="Emi Form\2611\EMI_Display_Transfer_Tidak_Timbang.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Penawaran\Transaksi_Penawaran.designer.vb">
+      <DependentUpon>Transaksi_Penawaran.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Penawaran\Transaksi_Penawaran.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\Production\Emi_Request_Material.Designer.vb">
       <DependentUpon>Emi_Request_Material.vb</DependentUpon>
     </Compile>
@@ -481,12 +487,6 @@
     <Compile Include="Emi Form\Material Movement\Emi_Transfer_Quality_Production.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Material Movement\Master_Flever.Designer.vb">
-      <DependentUpon>Master_Flever.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Material Movement\Master_Flever.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Material Movement\SD_Pilih_Split_Produksi.designer.vb">
       <DependentUpon>SD_Pilih_Split_Produksi.vb</DependentUpon>
     </Compile>
@@ -515,12 +515,6 @@
       <DependentUpon>Master_Penawaran_SD_Barang.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Penawaran\Master_Penawaran_SD_Barang.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Penawaran\Transaksi_Penawaran.designer.vb">
-      <DependentUpon>Transaksi_Penawaran.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Penawaran\Transaksi_Penawaran.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Purchase\Emi_PO_Pembelian.designer.vb">
@@ -785,6 +779,24 @@
       <DependentUpon>EMI_Timbang_Unloading.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Timbang\EMI_Timbang_Unloading.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Flever\EMI_Display_Flever_Tidak_Timbang.designer.vb">
+      <DependentUpon>EMI_Display_Flever_Tidak_Timbang.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Flever\EMI_Display_Flever_Tidak_Timbang.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Flever\EMI_Flever3.designer.vb">
+      <DependentUpon>EMI_Flever3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Flever\EMI_Flever3.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Flever\Master_Flever.Designer.vb">
+      <DependentUpon>Master_Flever.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Flever\Master_Flever.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Warehouse\Timbang Masuk Tidak Sesuai\Display_Kendaraan_Masuk_Tidak_Sesuai.Designer.vb">
@@ -1220,6 +1232,9 @@
     <EmbeddedResource Include="Emi Form\2611\EMI_Display_Transfer_Tidak_Timbang.resx">
       <DependentUpon>EMI_Display_Transfer_Tidak_Timbang.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Penawaran\Transaksi_Penawaran.resx">
+      <DependentUpon>Transaksi_Penawaran.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Production\Emi_Request_Material.resx">
       <DependentUpon>Emi_Request_Material.vb</DependentUpon>
     </EmbeddedResource>
@@ -1354,9 +1369,6 @@
     <EmbeddedResource Include="Emi Form\Material Movement\Emi_Transfer_Quality_Production.resx">
       <DependentUpon>Emi_Transfer_Quality_Production.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Material Movement\Master_Flever.resx">
-      <DependentUpon>Master_Flever.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Material Movement\SD_Pilih_Split_Produksi.resx">
       <DependentUpon>SD_Pilih_Split_Produksi.vb</DependentUpon>
     </EmbeddedResource>
@@ -1371,9 +1383,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Penawaran\Master_Penawaran_SD_Barang.resx">
       <DependentUpon>Master_Penawaran_SD_Barang.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Penawaran\Transaksi_Penawaran.resx">
-      <DependentUpon>Transaksi_Penawaran.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Purchase\Emi_PO_Pembelian.resx">
       <DependentUpon>Emi_PO_Pembelian.vb</DependentUpon>
@@ -1507,6 +1516,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Timbang\EMI_Timbang_Unloading.resx">
       <DependentUpon>EMI_Timbang_Unloading.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Flever\EMI_Display_Flever_Tidak_Timbang.resx">
+      <DependentUpon>EMI_Display_Flever_Tidak_Timbang.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Flever\EMI_Flever3.resx">
+      <DependentUpon>EMI_Flever3.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Flever\Master_Flever.resx">
+      <DependentUpon>Master_Flever.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Timbang Masuk Tidak Sesuai\Display_Kendaraan_Masuk_Tidak_Sesuai.resx">
       <DependentUpon>Display_Kendaraan_Masuk_Tidak_Sesuai.vb</DependentUpon>

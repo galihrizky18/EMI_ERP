@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class EMI_Display_Transfer_Tidak_Timbang
+Partial Class EMI_Display_Flever_Tidak_Timbang
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -37,7 +37,6 @@ Partial Class EMI_Display_Transfer_Tidak_Timbang
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Lbl_GetSerialNumber = New System.Windows.Forms.Label()
         Me.Barcode = New System.Windows.Forms.PictureBox()
-        Me.Label2 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         CType(Me.Barcode, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -154,11 +153,11 @@ Partial Class EMI_Display_Transfer_Tidak_Timbang
         '
         Me.Txt_ScanBarcode.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_ScanBarcode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_ScanBarcode.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_ScanBarcode.Location = New System.Drawing.Point(124, 66)
+        Me.Txt_ScanBarcode.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.Txt_ScanBarcode.Location = New System.Drawing.Point(27, 69)
         Me.Txt_ScanBarcode.MaxLength = 50
         Me.Txt_ScanBarcode.Name = "Txt_ScanBarcode"
-        Me.Txt_ScanBarcode.Size = New System.Drawing.Size(387, 26)
+        Me.Txt_ScanBarcode.Size = New System.Drawing.Size(317, 21)
         Me.Txt_ScanBarcode.TabIndex = 475
         '
         'Btn_TimbangFloorScale
@@ -166,7 +165,7 @@ Partial Class EMI_Display_Transfer_Tidak_Timbang
         Me.Btn_TimbangFloorScale.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_TimbangFloorScale.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_TimbangFloorScale.ForeColor = System.Drawing.Color.White
-        Me.Btn_TimbangFloorScale.Location = New System.Drawing.Point(871, 63)
+        Me.Btn_TimbangFloorScale.Location = New System.Drawing.Point(350, 63)
         Me.Btn_TimbangFloorScale.Name = "Btn_TimbangFloorScale"
         Me.Btn_TimbangFloorScale.Size = New System.Drawing.Size(154, 32)
         Me.Btn_TimbangFloorScale.TabIndex = 476
@@ -198,22 +197,12 @@ Partial Class EMI_Display_Transfer_Tidak_Timbang
         '
         'Barcode
         '
-        Me.Barcode.Location = New System.Drawing.Point(1031, 63)
+        Me.Barcode.Location = New System.Drawing.Point(594, 63)
         Me.Barcode.Name = "Barcode"
         Me.Barcode.Size = New System.Drawing.Size(79, 32)
         Me.Barcode.TabIndex = 479
         Me.Barcode.TabStop = False
         Me.Barcode.Visible = False
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Work Sans SemiBold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(27, 67)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(78, 23)
-        Me.Label2.TabIndex = 480
-        Me.Label2.Text = "QR Code"
         '
         'EMI_Display_Transfer_Tidak_Timbang
         '
@@ -221,7 +210,6 @@ Partial Class EMI_Display_Transfer_Tidak_Timbang
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1132, 597)
-        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Barcode)
         Me.Controls.Add(Me.Lbl_GetSerialNumber)
         Me.Controls.Add(Me.Panel7)
@@ -263,5 +251,4 @@ Partial Class EMI_Display_Transfer_Tidak_Timbang
     Friend WithEvents Panel7 As Panel
     Friend WithEvents Lbl_GetSerialNumber As Label
     Friend WithEvents Barcode As PictureBox
-    Friend WithEvents Label2 As Label
 End Class

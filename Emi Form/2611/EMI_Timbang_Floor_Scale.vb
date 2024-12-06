@@ -430,6 +430,7 @@ Public Class EMI_Timbang_Floor_Scale
 
 
 
+
                 '====================================
                 '=       CONVERT SATUAN KECIL       =
                 '====================================

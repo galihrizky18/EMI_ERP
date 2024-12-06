@@ -313,37 +313,60 @@
         Emi_Request_Material_Display.Focus()
     End Sub
 
+    Private Sub TransferMaterialToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TransferMaterialToolStripMenuItem.Click
+        Master_Flever.StartPosition = FormStartPosition.CenterScreen
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    Private Sub AsyncToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AsyncToolStripMenuItem.Click
-        TesAsync.StartPosition = FormStartPosition.CenterScreen
-
-        TesAsync.MdiParent = Me
-        TesAsync.Show()
-        TesAsync.Focus()
+        Master_Flever.MdiParent = Me
+        Master_Flever.Show()
+        Master_Flever.Focus()
     End Sub
+
+    Private Sub TransferMaterialToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles TransferMaterialToolStripMenuItem1.Click
+        EMI_Flever3.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Flever3.MdiParent = Me
+        EMI_Flever3.Show()
+        EMI_Flever3.Focus()
+    End Sub
+
+    Private Sub DisplayMaterialTidakTimbangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayMaterialTidakTimbangToolStripMenuItem.Click
+        EMI_Display_Flever_Tidak_Timbang.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Display_Flever_Tidak_Timbang.MdiParent = Me
+        EMI_Display_Flever_Tidak_Timbang.Show()
+        EMI_Display_Flever_Tidak_Timbang.Focus()
+    End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    'Private Sub AsyncToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AsyncToolStripMenuItem.Click
+    '    TesAsync.StartPosition = FormStartPosition.CenterScreen
+
+    '    TesAsync.MdiParent = Me
+    '    TesAsync.Show()
+    '    TesAsync.Focus()
+    'End Sub
 
 
 End Class

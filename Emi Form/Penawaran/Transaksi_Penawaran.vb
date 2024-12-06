@@ -1,5 +1,4 @@
-﻿
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
 Imports ZXing.QrCode.Internal
 
@@ -20,9 +19,9 @@ Public Class Transaksi_Penawaran
 
     Dim lvKdBrg, lvNmBrg, lvMinOrder, lvSatuan, lvHrgSatuan, lvsisahari, lvMUA As String
 
-
     'Public cellCheckbox As Integer = 0
     Public cellKdBrg As Integer = 0
+
     Public cellNmBrg As Integer = 1
     Public cellPPN As Integer = 2
     Public cellMinOrder As Integer = 3
@@ -30,7 +29,6 @@ Public Class Transaksi_Penawaran
     Public cellMUA As Integer = 5
     Public cellHrgSatuan As Integer = 6
     Public cellSisaHari As Integer = 7
-
 
     Private Sub get_no_faktur()
         TxtPenawaran_NoFaktur.Text = fMasterPenawaran & Format(tgl_skg, "MMyy") & "-" &
@@ -48,10 +46,6 @@ Public Class Transaksi_Penawaran
         'lvCheckbox = CekNothing(DgvMaster_Penawaran.Rows(No_Index).Cells(cellCheckbox).Value)
         lvMUA = CekNothing(DgvMaster_Penawaran.Rows(No_Index).Cells(cellMUA).Value)
     End Sub
-
-
-
-
 
     Private Function CekNothing(ByVal str As String) As String
         Dim hasil As String = ""
@@ -120,7 +114,6 @@ Public Class Transaksi_Penawaran
             Btn_Simpan.Text = Base_Language.Lang_Global_Simpan
             Btn_Refresh.Text = Base_Language.Lang_Global_Refresh
 
-
             LvAutoCompleteSupplier.Location = New Point(685, 90)
 
             LvAutoCompleteSupplier.Hide()
@@ -129,8 +122,6 @@ Public Class Transaksi_Penawaran
             LvAutoCompleteSupplier.Columns.Add(Base_Language.Lang_Global_Supplier, 130, HorizontalAlignment.Left)
             LvAutoCompleteSupplier.Columns.Add(Base_Language.Lang_Global_Nama, 175, HorizontalAlignment.Left)
             'LvAutoCompleteSupplier.View = View.Details
-
-
 
             'SECTION - ONGKIR
             Lv_AutoCompleteNmEkspedisi.Location = New Point(213, 70)
@@ -168,7 +159,6 @@ Public Class Transaksi_Penawaran
             Lbl_Berat.Text = Base_Language.Lang_Global_Berat
             'Lbl_SatuanBerat.Text = Base_Language.Lang_Global_SatuanBerat
             lblOngkir_uk.Text = Base_Language.Lang_Global_Ukuran
-
 
             CloseConn()
         Catch ex As Exception
@@ -236,7 +226,6 @@ Public Class Transaksi_Penawaran
         End If
         Hitung_Volume()
     End Sub
-
 
     Private Sub Hitung_Volume()
         Dim getVolume As Double = 0
@@ -335,7 +324,6 @@ Public Class Transaksi_Penawaran
         End Try
     End Sub
 
-
     Public Sub LoadDataPenawaran()
 
         Dim index As Integer = DgvMaster_Penawaran.Rows.Count - 1
@@ -361,20 +349,14 @@ Public Class Transaksi_Penawaran
             index = index + 1
         Next
 
-
     End Sub
 
-
-
     Private Sub tampil_bahan_baku()
-
-#Region "KODE LAMA"
 
         'get_jam()
 
         'Try
         '    OpenConn()
-
 
         '    Dim IndexTambahan As Integer = DgvMaster_Penawaran.Rows.Count
 
@@ -395,7 +377,6 @@ Public Class Transaksi_Penawaran
         '        With ds.Tables("MyTable")
         '            If .Rows.Count <> 0 Then
         '                For i As Integer = 0 To .Rows.Count - 1
-
 
         '                    DgvMaster_Penawaran.Rows.Add(1)
         '                    DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellKdBrg).Value = .Rows(i).Item("kode_barang")
@@ -425,12 +406,10 @@ Public Class Transaksi_Penawaran
         '                    '    Do While dr2.Read
         '                    '        dgvcc.Items.Add(dr2("satuan"))
 
-
         '                    '    Loop
         '                    'End Using
 
         '                    dgvcc.Value = dgvcc.Items(indexTampilDisplay)
-
 
         '                    DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan).ReadOnly = True
 
@@ -453,13 +432,9 @@ Public Class Transaksi_Penawaran
         '    Exit Sub
         'End Try
 
-#End Region
-
     End Sub
 
     Private Sub tampil_packaging()
-
-#Region "KODE LAMA"
 
         'Try
         '    OpenConn()
@@ -483,7 +458,6 @@ Public Class Transaksi_Penawaran
         '            If .Rows.Count <> 0 Then
         '                For i As Integer = 0 To .Rows.Count - 1
 
-
         '                    DgvMaster_Penawaran.Rows.Add(1)
         '                    DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellKdBrg).Value = .Rows(i).Item("kode_barang")
         '                    DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellNmBrg).Value = .Rows(i).Item("nama")
@@ -491,7 +465,6 @@ Public Class Transaksi_Penawaran
         '                    Dim dgvcc As DataGridViewComboBoxCell
         '                    dgvcc = DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan)
         '                    dgvcc.Items.Clear()
-
 
         '                    SQL = "select satuan from barang_detail_Satuan where Kode_Barang ='" & .Rows(i).Item("kode_barang") & "'  and Kode_Perusahaan='" & KodePerusahaan & "' "
         '                    Using dr2 = OpenTrans(SQL)
@@ -501,7 +474,6 @@ Public Class Transaksi_Penawaran
         '                    End Using
 
         '                    DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan).ReadOnly = True
-
 
         '                    DgvMaster_Penawaran.Rows(IndexTambahan).DefaultCellStyle.BackColor = Color.LightYellow
 
@@ -515,15 +487,12 @@ Public Class Transaksi_Penawaran
         '        End With
         '    End Using
 
-
         '    CloseConn()
         'Catch ex As Exception
         '    CloseConn()
         '    MessageBox.Show(ex.Message)
         '    Exit Sub
         'End Try
-
-#End Region
 
     End Sub
 
@@ -796,14 +765,17 @@ Public Class Transaksi_Penawaran
         get_jam()
         DgvMaster_Penawaran.Rows.Clear()
 
-
         'Get_Satuan()
         Get_Binding_Lokasi_Gudang()
 
         TxtPO_KdSupplier.Text = ""
         TxtPO_NmSupplier.Text = ""
         Txt_NoPenawaran.Text = ""
+        Txt_NoUrut.Text = ""
         publicFlagRelease = "T"
+
+        Dtp_Tgl.Value = tgl_skg
+        Dtp_PeriodAkhir.Value = tgl_skg
 
         Txt_NoPenawaran.ReadOnly = False
         TxtPO_KdSupplier.ReadOnly = False
@@ -817,7 +789,6 @@ Public Class Transaksi_Penawaran
         Txt_NoPenawaran.ReadOnly = False
         Dtp_Tgl.Enabled = True
         Dtp_PeriodAkhir.Enabled = True
-
 
         Btn_Release.Visible = False
         Btn_Simpan.Tag = "&Simpan"
@@ -845,8 +816,6 @@ Public Class Transaksi_Penawaran
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-
-
 
         arrKdBarangPilihBarang.Clear()
         arrNamaBarangPilihBarang.Clear()
@@ -881,7 +850,6 @@ Public Class Transaksi_Penawaran
         Txt_Berat.Text = ""
         Cmb_SatuanBerat.SelectedIndex = -1
 
-
         DgvMaster_Penawaran.Rows.Clear()
         DgvMaster_Penawaran.Rows.Add(1)
         LoadDataPenawaran()
@@ -894,10 +862,8 @@ Public Class Transaksi_Penawaran
         Get_Satuan_Pengiriman()
         'Get_Ukuran_Kontainer()
 
-
         Get_Satuan_Panjang()
         Get_Satuan_Berat()
-
 
         Txt_Berat.Enabled = True
         Cmb_SatuanBerat.Enabled = True
@@ -909,7 +875,6 @@ Public Class Transaksi_Penawaran
     Private Sub Txt_Supplier_KeyDown(sender As Object, e As KeyEventArgs)
         If e.KeyCode = Keys.Down Then LvAutoCompleteSupplier.Focus()
     End Sub
-
 
     Private Sub Btn_Simpan_Click_1(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
 
@@ -942,26 +907,26 @@ Public Class Transaksi_Penawaran
 
         get_jam()
 
-
         Try
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
 
-            get_no_faktur()
+
 
             Dim hasDataToInsert As Boolean = False
 
             If Btn_Simpan.Tag = "&Simpan" Then
 
+                get_no_faktur()
+
                 'Save Master Penawaran
                 SQL = "Insert into EMI_Master_Penawaran "
-                SQL = SQL & "(Kode_Perusahaan, No_Faktur, No_Penawaran, Tgl_Penawaran_Hrg, Periode_Akhir_Penawaran, Kode_Supplier, lokasi, tanggal,jam,iduser) "
+                SQL = SQL & "(Kode_Perusahaan, No_Faktur, No_Penawaran, Tgl_Penawaran_Hrg, Periode_Akhir_Penawaran, Kode_Supplier, lokasi, tanggal, jam, iduser) "
                 SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & saveNoPenawaran & "', "
                 SQL = SQL & "'" & Format(Dtp_Tgl.Value, "yyyy-MM-dd") & "', '" & Format(Dtp_PeriodAkhir.Value, "yyyy-MM-dd") & "', "
                 SQL = SQL & "'" & saveSupplier & "', '" & Lokasi & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "' "
                 SQL = SQL & ")"
                 ExecuteTrans(SQL)
-
 
                 '=================================
                 '=     PINDAHIN SAAT RELEASE     =
@@ -983,8 +948,6 @@ Public Class Transaksi_Penawaran
                 '        Exit Sub
                 '    End If
                 'End Using
-
-
 
                 'Save Master Penawaran Detail
                 For index = 0 To DgvMaster_Penawaran.Rows.Count - 1
@@ -1059,6 +1022,8 @@ Public Class Transaksi_Penawaran
                         SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & lvKdBrg & "', "
                         SQL = SQL & "'" & lvMinOrder & "', '" & lvSatuan & "', '" & lvHrgSatuan & "','" & harga_satuan_kecil & "','" & Satuan_Barang & "', '" & lvMUA & "') "
                         ExecuteTrans(SQL)
+
+#Region "KODE LAMA"
 
                         '=================================
                         '=     PINDAHIN SAAT RELEASE     =
@@ -1135,8 +1100,6 @@ Public Class Transaksi_Penawaran
                         '                    SQL = SQL & "'" & KodePerusahaan & "', '" & lvKdBrg & "', "
                         '                    SQL = SQL & "'" & lvKdBrg & "', '1')"
                         '                    ExecuteTrans(SQL)
-
-
 
                         '                    SQL = "select kode_stock_owner_import from stock_owner_import where kode_perusahaan = '" & KodePerusahaan & "' "
                         '                    SQL = SQL & "order by kode_stock_owner_import"
@@ -1249,6 +1212,9 @@ Public Class Transaksi_Penawaran
                         '    End Using
 
                         'End If
+
+#End Region
+
                     End If
 
                 Next
@@ -1263,6 +1229,14 @@ Public Class Transaksi_Penawaran
                     With Ds.Tables("MyTable")
                         If .Rows.Count <> 0 Then
 
+                            '=================================
+                            '=    UPDATE DATA INDUK LAMA     =
+                            '=================================
+                            SQL = "update EMI_Master_Penawaran set Tgl_Penawaran_Hrg = '" & Format(Dtp_Tgl.Value, "yyyy-MM-dd") & "', Periode_Akhir_Penawaran = '" & Format(Dtp_PeriodAkhir.Value, "yyyy-MM-dd") & "', "
+                            SQL = SQL & "No_Penawaran = '" & Txt_NoPenawaran.Text & "', Kode_Supplier = '" & TxtPO_KdSupplier.Text & "' "
+                            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & TxtPenawaran_NoFaktur.Text & "' and NoUrut = '" & Txt_NoUrut.Text & "' "
+                            ExecuteTrans(SQL)
+
                             For i As Integer = 0 To .Rows.Count - 1
 
                                 '==================================
@@ -1270,7 +1244,6 @@ Public Class Transaksi_Penawaran
                                 '==================================
                                 SQL = "delete from EMI_Master_Penawaran_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & saveFaktur & "' "
                                 ExecuteTrans(SQL)
-
 
                                 For index = 0 To DgvMaster_Penawaran.Rows.Count - 1
                                     Get_Isi_Listview(index)
@@ -1378,7 +1351,6 @@ Public Class Transaksi_Penawaran
         kosong()
     End Sub
 
-
     Private Sub Btn_Release_Click(sender As Object, e As EventArgs) Handles Btn_Release.Click
 
         If DgvMaster_Penawaran.Rows.Count = 0 Then
@@ -1404,7 +1376,6 @@ Public Class Transaksi_Penawaran
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     flag_kategori_Supplier = General_Class.CekNULL(Dr("flag_jenis_import"))
-
                 Else
                     Dr.Close()
                     CloseTrans()
@@ -1416,13 +1387,11 @@ Public Class Transaksi_Penawaran
 
             For index = 0 To DgvMaster_Penawaran.Rows.Count - 1
 
-
                 Get_Isi_Listview(index)
 
                 If DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value = 0 Or DgvMaster_Penawaran.Rows(index).Cells(cellHrgSatuan).Value = 0 Then
                     Continue For
                 End If
-
 
                 If lvMUA = "" Then
                     CloseTrans()
@@ -1455,7 +1424,6 @@ Public Class Transaksi_Penawaran
                     MessageBox.Show(Base_Language.Lang_Global_HargaSatuan + " " + Base_Language.Lang_Global_Belum_Diisi, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
-
 
                 If flag_kategori_Supplier = "Y" Then
                     Dim kode_kontainer As String = ""
@@ -1529,8 +1497,6 @@ Public Class Transaksi_Penawaran
                                     SQL = SQL & "'" & KodePerusahaan & "', '" & lvKdBrg & "', "
                                     SQL = SQL & "'" & lvKdBrg & "', '1')"
                                     ExecuteTrans(SQL)
-
-
 
                                     SQL = "select kode_stock_owner_import from stock_owner_import where kode_perusahaan = '" & KodePerusahaan & "' "
                                     SQL = SQL & "order by kode_stock_owner_import"
@@ -1646,7 +1612,6 @@ Public Class Transaksi_Penawaran
 
             Next
 
-
             'UPDATE FLAG RELEASE
             SQL = "update EMI_Master_Penawaran set "
             SQL = SQL & "flag_release = 'Y', "
@@ -1656,8 +1621,6 @@ Public Class Transaksi_Penawaran
             SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and No_Faktur='" & saveFaktur & "' "
             SQL = SQL & "and no_penawaran='" & saveNoPenawaran & "' "
             ExecuteTrans(SQL)
-
-
 
             Cmd.Transaction.Commit()
             CloseTrans()
@@ -1674,10 +1637,10 @@ Public Class Transaksi_Penawaran
 
     End Sub
 
-
     Private Sub Cmb_ProvAsal_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_ProvAsal.SelectedIndexChanged
         Get_KabupatenKota_Asal()
     End Sub
+
     Private Sub Cmb_ProvTujuan_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_ProvTujuan.SelectedIndexChanged
         Get_KabupatenKota_Tujuan()
     End Sub
@@ -1888,9 +1851,6 @@ Public Class Transaksi_Penawaran
         End Try
     End Sub
 
-
-
-
     Private Sub LvAutoCompleteSupplier_DoubleClick(sender As Object, e As EventArgs) Handles LvAutoCompleteSupplier.DoubleClick
         If LvAutoCompleteSupplier.Items.Count = 0 Then Exit Sub
         Dim Kode As String = LvAutoCompleteSupplier.FocusedItem.Text
@@ -1913,8 +1873,6 @@ Public Class Transaksi_Penawaran
         Get_Kecamatan_Asal()
     End Sub
 
-
-
     Private Sub Cmb_KabKotaTujuan_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_KabKotaTujuan.SelectedIndexChanged
         Get_Kecamatan_Tujuan()
     End Sub
@@ -1934,7 +1892,6 @@ Public Class Transaksi_Penawaran
         If e.KeyChar = Chr(13) Then TxtOngkir_NoPenawaran.Focus()
     End Sub
 
-
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Display_Penawaran_SD_Ongkir.ShowDialog()
     End Sub
@@ -1948,7 +1905,6 @@ Public Class Transaksi_Penawaran
 
         LvAutoCompleteSupplier.Items.Clear()
         Dim lv As New ListViewItem
-
 
         Try
 
@@ -2007,7 +1963,7 @@ Public Class Transaksi_Penawaran
             '=======================
             '=     IS RELEASE?     =
             '=======================
-            SQL = "select a.No_Faktur, a.No_Penawaran, a.Kode_Supplier, b.nama as nama_supplier, a.flag_release "
+            SQL = "select a.No_Faktur, a.No_Penawaran, a.Kode_Supplier, b.nama as nama_supplier, a.flag_release, a.NoUrut, a.Tgl_Penawaran_Hrg, a.Periode_Akhir_Penawaran "
             SQL = SQL & "from EMI_Master_Penawaran a, Suppliers b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
             SQL = SQL & "and a.Kode_Supplier = b.Kode_Supplier "
@@ -2021,8 +1977,15 @@ Public Class Transaksi_Penawaran
                     TxtPenawaran_NoFaktur.Text = Dr("No_Faktur")
                     Txt_NoPenawaran.Text = Dr("No_Penawaran")
                     TxtPO_KdSupplier.Text = Dr("Kode_Supplier")
-                    'TxtPO_NmSupplier.Text = Dr("nama_supplier")
+                    Txt_NoUrut.Text = Dr("NoUrut")
 
+                    Dim tglPeriodeAwal As DateTime = Dr("Tgl_Penawaran_Hrg")
+                    Dim tglPeriodeAkhir As DateTime = Dr("Periode_Akhir_Penawaran")
+
+                    Dtp_Tgl.Value = tglPeriodeAwal
+                    Dtp_PeriodAkhir.Value = tglPeriodeAkhir
+
+                    'TxtPO_NmSupplier.Text = Dr("nama_supplier")
                     'Lbl_KdSupplier.Text = Dr("Kode_Supplier")
                     'Lbl_NmSupplier.Text = Dr("nama_supplier")
 
@@ -2033,7 +1996,6 @@ Public Class Transaksi_Penawaran
                     End If
 
                     TxtPO_KdSupplier_Leave(sender, e)
-
                 Else
                     CloseConn()
                     MessageBox.Show("Data Penawaran Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -2105,7 +2067,6 @@ Public Class Transaksi_Penawaran
                                     DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellPPN).Value = "No PPN"
                                 End If
 
-
                                 SQL = "select satuan, flag_tampil_display from barang_detail_Satuan where Kode_Barang ='" & .Rows(i).Item("kode_barang") & "'  and Kode_Perusahaan='" & KodePerusahaan & "' "
                                 SQL = SQL & "and Flag_Tampil_Display = 'Y'"
                                 Using Ds2 = BindingTrans(SQL)
@@ -2120,8 +2081,6 @@ Public Class Transaksi_Penawaran
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellMUA).Value = .Rows(i).Item("Mata_Uang")
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellHrgSatuan).Value = Format(.Rows(i).Item("Harga_Satuan"), "N2")
 
-
-
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellKdBrg).ReadOnly = True
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellNmBrg).ReadOnly = True
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan).ReadOnly = True
@@ -2135,7 +2094,6 @@ Public Class Transaksi_Penawaran
                         End If
                     End With
                 End Using
-
 
                 '==========================
                 '=     LOAD PACKAGING     =
@@ -2167,7 +2125,6 @@ Public Class Transaksi_Penawaran
                                     DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellPPN).Value = "No PPN"
                                 End If
 
-
                                 SQL = "select satuan, flag_tampil_display from barang_detail_Satuan where Kode_Barang ='" & .Rows(i).Item("kode_barang") & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
                                 SQL = SQL & "and Flag_Tampil_Display = 'Y' "
                                 Using Ds2 = BindingTrans(SQL)
@@ -2182,7 +2139,6 @@ Public Class Transaksi_Penawaran
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellMinOrder).Value = .Rows(i).Item("Min_Order")
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellMUA).Value = .Rows(i).Item("Mata_Uang")
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellHrgSatuan).Value = .Rows(i).Item("Harga_Satuan")
-
 
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellKdBrg).ReadOnly = True
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellNmBrg).ReadOnly = True
@@ -2208,7 +2164,6 @@ Public Class Transaksi_Penawaran
             Btn_Simpan.Tag = "&Update"
             Btn_Simpan.Text = "&Update"
 
-
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -2216,9 +2171,7 @@ Public Class Transaksi_Penawaran
             Exit Sub
         End Try
 
-
     End Sub
-
 
     Private Sub Lv_AutoCompleteNmEkspedisi_DoubleClick(sender As Object, e As EventArgs) Handles Lv_AutoCompleteNmEkspedisi.DoubleClick
         If Lv_AutoCompleteNmEkspedisi.Items.Count = 0 Then Exit Sub
@@ -2252,7 +2205,6 @@ Public Class Transaksi_Penawaran
     Private Sub DtpOngkir_TglPenawaranHrg_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DtpOngkir_TglPenawaranHrg.KeyPress
         If e.KeyChar = Chr(13) Then DtpOngkir_PeriodeAkhirPenawaran.Focus()
     End Sub
-
 
     Private Sub Cmb_ProvAsal_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_ProvAsal.KeyPress
         If e.KeyChar = Chr(13) Then Cmb_KabKotaAwal.Focus()
@@ -2387,8 +2339,6 @@ Public Class Transaksi_Penawaran
             End If
         End If
 
-
-
         Dim value1 As String = DgvMaster_Penawaran.CurrentRow.Cells(cellMinOrder).Value
         Dim value2 As String = DgvMaster_Penawaran.CurrentRow.Cells(cellHrgSatuan).Value
 
@@ -2428,7 +2378,6 @@ Public Class Transaksi_Penawaran
 
             If Not String.IsNullOrEmpty(value1) Then
 
-
                 Dim nilai1 As Decimal = Decimal.Parse(value1)
                 Dim formattedValue1 As String = nilai1.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
 
@@ -2445,8 +2394,6 @@ Public Class Transaksi_Penawaran
         End If
     End Sub
 
-
-
     Private Sub DgvMaster_Penawaran_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DgvMaster_Penawaran.EditingControlShowing
         Dim comboBox As System.Windows.Forms.ComboBox = TryCast(e.Control, System.Windows.Forms.ComboBox)
         If comboBox IsNot Nothing Then
@@ -2461,7 +2408,6 @@ Public Class Transaksi_Penawaran
         End If
     End Sub
 
-
     Private Sub DgvMaster_Penawaran_CellValidating(sender As Object, e As DataGridViewCellValidatingEventArgs) Handles DgvMaster_Penawaran.CellValidating
         'If e.ColumnIndex = cellMinOrder Then
         '    If DgvMaster_Penawaran.IsCurrentCellDirty Then
@@ -2472,7 +2418,6 @@ Public Class Transaksi_Penawaran
         '    End If
         'End If
     End Sub
-
 
     Private Sub DgvMaster_Penawaran_KeyDown(sender As Object, e As KeyEventArgs) Handles DgvMaster_Penawaran.KeyDown
 
@@ -2506,13 +2451,7 @@ Public Class Transaksi_Penawaran
             End If
         End If
 
-
-
-
-
-
     End Sub
-
 
     Private Sub Cmb_KecAsal_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_KecAsal.KeyPress
         If e.KeyChar = Chr(13) Then Cmb_KelAsal.Focus()
@@ -2624,7 +2563,6 @@ Public Class Transaksi_Penawaran
         End If
         If LvAutoCompleteSupplier.Focused = True Then Exit Sub
 
-
         Try
             OpenConn()
 
@@ -2683,8 +2621,6 @@ Public Class Transaksi_Penawaran
         If e.KeyChar = Chr(13) Then Txt_NoPenawaran.Focus()
     End Sub
 
-
-
     'Private Sub DgvMaster_Penawaran_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DgvMaster_Penawaran.CellClick
     '    If DgvMaster_Penawaran.Rows.Count = 0 Then
     '        Exit Sub
@@ -2719,7 +2655,5 @@ Public Class Transaksi_Penawaran
     '        Exit Sub
     '    End Try
     'End Sub
-
-
 
 End Class

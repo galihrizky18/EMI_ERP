@@ -14,7 +14,7 @@ Public Class Transfer_Stock_3
 
     Dim dgv_Lokasi, dgv_KodeBarang, dgv_SerialNumber, dgv_Nama, dgv_IDWareHouse, dgv_KodeRak As String
     Dim dgv_IDPallet, dgv_GoodStock, dgv_Satuan, dgv_Jumlah, dgv_RakTujuan, dgv_IDWarehouseTujuan, dgv_JmlhBags, dgv_Warna, dgv_JenisKemasan As String
-    Dim dgv_IsiPerBags, dgv_SatuanIsiBags As String
+    Dim dgv_IsiPerBags, dgv_SatuanIsiBags, dgv_KdWarna As String
     Dim dgv_CheckBox As Boolean
 
     Dim kd_barang As String
@@ -49,6 +49,7 @@ Public Class Transfer_Stock_3
     Dim itemJenisKemasan As Integer = 16
     Dim itemDGVIsiPerBags As Integer = 17
     Dim itemDGVSatuanIsiBags As Integer = 18
+    Dim itemDGVKdWarna As Integer = 19
 
 
     'Dim itemDgvIDWareHouseTujuan As Integer = 10
@@ -122,6 +123,7 @@ Public Class Transfer_Stock_3
         dgv_RakTujuan = DGV_Data_TF.Rows(index).Cells(itemDgvRakTujuan).Value
         dgv_JmlhBags = DGV_Data_TF.Rows(index).Cells(itemDgvBags).Value
         dgv_Warna = DGV_Data_TF.Rows(index).Cells(itemDgvWarna).Value
+        dgv_KdWarna = DGV_Data_TF.Rows(index).Cells(itemDGVKdWarna).Value
         dgv_JenisKemasan = DGV_Data_TF.Rows(index).Cells(itemJenisKemasan).Value
         dgv_IsiPerBags = If(General_Class.CekNULL(DGV_Data_TF.Rows(index).Cells(itemDGVIsiPerBags).Value) = "", "0", DGV_Data_TF.Rows(index).Cells(itemDGVIsiPerBags).Value)
         dgv_SatuanIsiBags = DGV_Data_TF.Rows(index).Cells(itemDGVSatuanIsiBags).Value
@@ -194,13 +196,13 @@ Public Class Transfer_Stock_3
         Txt_Warna.Text = ""
         TxtSatuan.Text = ""
         TxtStock.Text = ""
-        TxtKeterangan.Text = String.Empty
-        TxtKd_Barang.Text = String.Empty
-        Txt_SO.Text = String.Empty
-        TxtNm_Barang.Text = String.Empty
-        TxtBags.Text = String.Empty
+        TxtKeterangan.Text = ""
+        TxtKd_Barang.Text = ""
+        Txt_SO.Text = ""
+        TxtNm_Barang.Text = ""
+        TxtBags.Text = ""
         'TxtSatuanBags.Text = String.Empty
-        TxtTotalTransferBags.Text = String.Empty
+        TxtTotalTransferBags.Text = ""
 
         CmbJnsTransfer.Enabled = True
         CmbSO_Asal.Enabled = False
@@ -336,7 +338,14 @@ Public Class Transfer_Stock_3
     'FUNCTION HANDLE
     Private Sub TxtKd_Barang_TextChanged(sender As Object, e As EventArgs) Handles TxtKd_Barang.TextChanged, Txt_SO.TextChanged, Txt_SatuanPermintaan.TextChanged, Txt_JumlahPermintaan.TextChanged, Txt_OtoMaterial_req.TextChanged
         If asal <> "Emi_Display_Request_Material" Then
-            If CmbSO_Asal.Items.Count = 0 Or CmbSO_Asal.SelectedIndex = -1 Then Exit Sub
+            If TxtKd_Barang.Text.Trim.Length = 0 Then Exit Sub
+            If CmbJnsTransfer.SelectedIndex = 0 Then
+                If CmbSO_Asal.SelectedIndex = -1 Then Exit Sub
+
+            ElseIf CmbJnsTransfer.SelectedIndex = 1 Then
+                If CmbSO_Asal.SelectedIndex = -1 Then Exit Sub
+                If CmbSo_Tujuan.SelectedIndex = -1 Then Exit Sub
+            End If
 
             If Not TxtKd_Barang.Text.Trim.Count = 0 Then
                 Lv_DetBarang.Location = New Point(22, 256)
@@ -426,6 +435,8 @@ Public Class Transfer_Stock_3
             CmbSo_Tujuan.Enabled = True
         End If
 
+        Lv_DetBarang.Visible = False
+        TxtKd_Barang.Text = ""
         DGV_Data_TF.Rows.Clear()
         TxtTotalTransfer.Text = String.Empty
 
@@ -486,8 +497,9 @@ Public Class Transfer_Stock_3
 
             SQL = "select a.Kode_Stock_Owner, a.Kode_Barang, a.Serial_Number, b.Nama, a.Id_Warehouse, c.Keterangan as kode_rak, "
             SQL = SQL & " a.Id_Nametag_pallet, dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, b.satuan, "
-            SQL = SQL & "'" & TxtSatuan.Text & "', a.jumlah) as jumlah, b.satuan, a.nomor_pallet, ISNULL(a.Jumlah_Bags, 0) as stock_bags, a.warna, b.Jenis_Kemasan, "
-            SQL = SQL & "b.Isi_Per_Bags, b.Satuan_Isi_Bags "
+            SQL = SQL & "'" & TxtSatuan.Text & "', a.jumlah) as jumlah, b.satuan, a.nomor_pallet, ISNULL(a.Jumlah_Bags, 0) as stock_bags, b.Jenis_Kemasan, "
+            SQL = SQL & "ISNULL((select z.Keterangan from EMI_Master_Warna z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Kode_Warna = a.Warna ), '-') as ket_warna, "
+            SQL = SQL & "a.Warna, b.Isi_Per_Bags, b.Satuan_Isi_Bags "
             SQL = SQL & "from barang_sn a, barang b, View_Warehouse_Position c, View_Warehouse_Position_Detail d "
             SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan and a.Kode_Barang=b.Kode_Barang and a.Kode_Stock_Owner=b.Kode_Stock_Owner "
             SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Stock_Owner = d.Kode_Stock_Owner and a.Nomor_Pallet = d.nomor_urut "
@@ -512,10 +524,11 @@ Public Class Transfer_Stock_3
                     DGV_Data_TF.Rows(rows).Cells(itemDgvIDPallet).Value = Dr("nomor_pallet")
                     DGV_Data_TF.Rows(rows).Cells(itemDgvGoodStock).Value = Format(Dr("jumlah"), "N2")
                     DGV_Data_TF.Rows(rows).Cells(itemDgvStockBags).Value = Format(Dr("stock_bags"), "N0")
-                    DGV_Data_TF.Rows(rows).Cells(itemDgvWarna).Value = Dr("warna")
+                    DGV_Data_TF.Rows(rows).Cells(itemDgvWarna).Value = Dr("ket_warna")
                     DGV_Data_TF.Rows(rows).Cells(itemJenisKemasan).Value = Dr("Jenis_Kemasan")
                     DGV_Data_TF.Rows(rows).Cells(itemDGVIsiPerBags).Value = Dr("Isi_Per_Bags")
                     DGV_Data_TF.Rows(rows).Cells(itemDGVSatuanIsiBags).Value = Dr("Satuan_Isi_Bags")
+                    DGV_Data_TF.Rows(rows).Cells(itemDGVKdWarna).Value = Dr("warna")
                     DGV_Data_TF.Rows(rows).Cells(itemDgvSatuan).Value = TxtSatuan.Text
 
                     Dim dgvCmbValueRak As DataGridViewComboBoxCell
@@ -654,6 +667,22 @@ Public Class Transfer_Stock_3
 
                 get_grid_view(row)
 
+                '======================================
+                '=       CEK APAKAH SUDAH CETAK       =
+                '======================================
+                SQL = "select Kode_Perusahaan from tf_Stock_det where Serial_Number_Awal = '" & dgv_SerialNumber & "' and Flag_Sudah_Cetak is null "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Barang pada Rak " & dgv_KodeRak & " belum melalui proses pencetakan barcode.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    Else
+                        Dr.Close()
+                    End If
+                End Using
+
                 If dgv_CheckBox = False Then
                     Continue For
                 End If
@@ -733,7 +762,7 @@ Public Class Transfer_Stock_3
                 SQL = SQL & "'" & dgv_SerialNumber & "', " & sn & ", " & dgv_IDWareHouse & ", " & arr2RakTujuan(row)(selectedIndex) & ", '" & nilai_kecildetail & "', " & dgv_JmlhBags & ", "
                 SQL = SQL & "'" & TxtSatuanKecil.Text & "','" & dgv_IDPallet & "', " & palletTujuan & ", "
                 SQL = SQL & "" & flag_pot_stock & ", " & jumlah_pot_stock & ", "
-                SQL = SQL & "'" & dgv_Warna & "')"
+                SQL = SQL & "'" & dgv_KdWarna & "')"
                 ExecuteTrans(SQL)
 
 
