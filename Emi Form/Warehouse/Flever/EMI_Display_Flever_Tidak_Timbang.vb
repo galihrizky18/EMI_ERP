@@ -109,6 +109,7 @@ Public Class EMI_Display_Flever_Tidak_Timbang
             Dim GetDataJmlBagAkhir As Integer = 0
             Dim GetDataSatuanBarangAkhir As String = ""
             Dim GetDataUrut As String = ""
+            Dim GetWarna As String = ""
 
             'Ambil Data Lama
             SQL = "select a.Serial_Number, a.Qr_Code, a.Kode_Unik_Berjalan, b.Nama, a.Batch_Number, a.Tgl_Expired, "
@@ -138,7 +139,7 @@ Public Class EMI_Display_Flever_Tidak_Timbang
 
             SQL = "select a.Kode_Adjustment,a.Kode_Stock_Owner,a.Kode_Barang,c.Nama as Brg_Asal,b.Serial_Number,"
             SQL = SQL & "b.Jumlah,b.Jumlah_Bags,a.Satuan_Barang,b.Kode_Stock_Owner_Tujuan,b.Kode_Barang_Tujuan,"
-            SQL = SQL & "d.Nama as Brg_Tujuan,b.Jumlah_Tujuan,b.Jumlah_Bags_Tujuan,a.Satuan_Barang as Satuan_Tujuan,b.No_Urut "
+            SQL = SQL & "d.Nama as Brg_Tujuan,b.Jumlah_Tujuan,b.Jumlah_Bags_Tujuan,a.Satuan_Barang as Satuan_Tujuan,b.No_Urut, b.warna "
             SQL = SQL & "From EMI_Adjustment a, EMI_Det_Adj b, Barang c, Barang d  "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and  a.Kode_Adjustment = b.No_Faktur "
             SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
@@ -163,6 +164,7 @@ Public Class EMI_Display_Flever_Tidak_Timbang
                     GetDataJmlBagAkhir = Dr("Jumlah_Bags_Tujuan")
                     GetDataSatuanBarangAkhir = Dr("Satuan_Tujuan")
                     GetDataUrut = Dr("No_Urut")
+                    GetWarna = Dr("warna")
                 Else
                     CloseTrans()
                     CloseConn()

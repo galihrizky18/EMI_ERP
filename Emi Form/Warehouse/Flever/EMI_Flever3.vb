@@ -638,10 +638,14 @@ Public Class EMI_Flever3
             MessageBox.Show("SO asal harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             CmbSO_Asal.Focus() : Exit Sub
         End If
+        If Cmb_Warna.SelectedIndex = -1 Then
+            MessageBox.Show("Kualitas Tidak Boleh Kosong!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Cmb_Warna.Focus() : Exit Sub
+        End If
 
-        '================================================
-        '=     CE APAKAH ADA DATA YG AKAN DI INSERT     =
-        '================================================
+        '=================================================
+        '=     CEK APAKAH ADA DATA YG AKAN DI INSERT     =
+        '=================================================
         Dim hasDataToInsert As Boolean = False
         For i As Integer = 0 To DGV_Data_TF.Rows.Count - 1
             get_grid_view(i)
@@ -810,7 +814,7 @@ Public Class EMI_Flever3
                     SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
                     SQL = SQL & "kode_stock_owner = '" & arrSO(CmbSO_Asal.SelectedIndex) & "' and "
                     SQL = SQL & "kode_barang = '" & dgv_KodeBarang & "' and serial_number='" & dgv_SerialNumber & "' "
-                    'SQL = SQL & "and Warna = '" & arrWarna(Cmb_Warna.SelectedIndex) & "' "
+                    SQL = SQL & "and Warna = '" & arrWarna(Cmb_Warna.SelectedIndex) & "' "
                     SQL = SQL & "order by " & SN_Tanggal("serial_number") '& Metode
                     Using Ds = BindingTrans(SQL)
                         With Ds.Tables("MyTable")
@@ -901,7 +905,7 @@ Public Class EMI_Flever3
                                         SQL = SQL & "kode_stock_owner, kode_barang, serial_number, "
                                         SQL = SQL & "jumlah, Jumlah_Bags,kode_stock_owner_tujuan,kode_barang_tujuan,"
                                         SQL = SQL & "serial_number_tujuan,"
-                                        SQL = SQL & "jumlah_tujuan,jumlah_bags_tujuan) values('" & KodePerusahaan & "', "
+                                        SQL = SQL & "jumlah_tujuan,jumlah_bags_tujuan, Warna) values('" & KodePerusahaan & "', "
                                         SQL = SQL & "'" & Trim(TxtNo_Transaksi.Text) & "', "
                                         SQL = SQL & "'" & .Rows(h).Item("kode_Stock_owner") & "', "
                                         SQL = SQL & "'" & .Rows(h).Item("kode_barang") & "', "
@@ -910,7 +914,7 @@ Public Class EMI_Flever3
                                         SQL = SQL & "'" & arrSO(CmbSO_Asal.SelectedIndex) & "', "
                                         SQL = SQL & "'" & kodeBrg & "', "
                                         SQL = SQL & "'" & SNBrgTujuan & "', "
-                                        SQL = SQL & "'" & jumlahAkhir & "','" & jumlahBags & "' "
+                                        SQL = SQL & "'" & jumlahAkhir & "','" & jumlahBags & "', '" & arrWarna(Cmb_Warna.SelectedIndex) & "' "
                                         SQL = SQL & ")"
                                         ExecuteTrans(SQL)
 
@@ -1166,6 +1170,15 @@ Public Class EMI_Flever3
         TxtKd_Barang.Text = ""
         Txt_SO.Text = ""
         TxtNm_Barang.Text = ""
+        TxtStock.Text = ""
+        TxtSatuan.Text = ""
+        TxtBags.Text = ""
+        Cmb_Warna.Text = ""
+        Cmb_Warna.SelectedIndex = -1
+        Txt_Warna_Transfer.Text = ""
+        Cmb_Brg_Tujuan.Text = ""
+        Cmb_Brg_Tujuan.SelectedIndex = -1
+
 
         Try
             OpenConn()

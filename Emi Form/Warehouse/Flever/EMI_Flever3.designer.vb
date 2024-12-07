@@ -40,6 +40,7 @@ Partial Class EMI_Flever3
         Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel6 = New System.Windows.Forms.Panel()
@@ -101,7 +102,6 @@ Partial Class EMI_Flever3
         Me.Cmb_Warna = New System.Windows.Forms.ComboBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Txt_Warna_Transfer = New System.Windows.Forms.TextBox()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         CType(Me.DGV_Data_TF, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -118,6 +118,19 @@ Partial Class EMI_Flever3
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1065, 51)
         Me.Panel1.TabIndex = 24
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1065, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -187,7 +200,7 @@ Partial Class EMI_Flever3
         Me.CmbSO_Asal.FormattingEnabled = True
         Me.CmbSO_Asal.Location = New System.Drawing.Point(147, 120)
         Me.CmbSO_Asal.Name = "CmbSO_Asal"
-        Me.CmbSO_Asal.Size = New System.Drawing.Size(163, 21)
+        Me.CmbSO_Asal.Size = New System.Drawing.Size(189, 21)
         Me.CmbSO_Asal.TabIndex = 429
         '
         'TxtKeterangan
@@ -772,19 +785,6 @@ Partial Class EMI_Flever3
         Me.Txt_Warna_Transfer.Size = New System.Drawing.Size(110, 21)
         Me.Txt_Warna_Transfer.TabIndex = 471
         Me.Txt_Warna_Transfer.Visible = False
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1065, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'EMI_Flever3
         '
