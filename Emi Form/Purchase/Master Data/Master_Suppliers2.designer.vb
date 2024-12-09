@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Master_Suppliers
+Partial Class Master_Suppliers2
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,7 +22,7 @@ Partial Class Master_Suppliers
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Master_Suppliers))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Master_Suppliers2))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.CmbKategori = New System.Windows.Forms.ComboBox()
         Me.TextBox15 = New System.Windows.Forms.TextBox()

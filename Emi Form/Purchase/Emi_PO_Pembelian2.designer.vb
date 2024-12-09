@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class EMI_PO_Pembelian
+Partial Class Emi_PO_Pembelian2
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,7 +22,7 @@ Partial Class EMI_PO_Pembelian
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(EMI_PO_Pembelian))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Emi_PO_Pembelian2))
         Me.LblPO_TotalBiaya = New System.Windows.Forms.Label()
         Me.ket = New System.Windows.Forms.TextBox()
         Me.CmbPO_Lokasi = New System.Windows.Forms.ComboBox()

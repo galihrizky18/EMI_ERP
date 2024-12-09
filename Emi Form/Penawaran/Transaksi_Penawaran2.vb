@@ -2,7 +2,7 @@
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
 Imports ZXing.QrCode.Internal
 
-Public Class Transaksi_Penawaran
+Public Class Transaksi_Penawaran2
     Dim arrcari As New ArrayList
     Public MinHari As Integer = 300
 
@@ -348,6 +348,151 @@ Public Class Transaksi_Penawaran
 
             index = index + 1
         Next
+
+    End Sub
+
+    Private Sub tampil_bahan_baku()
+
+        'get_jam()
+
+        'Try
+        '    OpenConn()
+
+        '    Dim IndexTambahan As Integer = DgvMaster_Penawaran.Rows.Count
+
+        '    SQL = ";with cte as( "
+        '    SQL = SQL & "select a.kode_perusahaan,a.kode_barang,a.Nama, a.Kode_Kategori_Besar, a.Kode_Kategori_Kecil, "
+        '    SQL = SQL & "ISNULL((Select top(1)'Y' from EMI_Master_Penawaran x, EMI_Master_Penawaran_Detail y where "
+        '    SQL = SQL & "x.Kode_Perusahaan = y.Kode_Perusahaan And x.No_Faktur = y.No_Faktur And x.Selesai Is null And '" & Format(tgl_skg, "yyyy-MM-dd") & "' between "
+        '    SQL = SQL & "x.Tgl_Penawaran_Hrg And Periode_Akhir_Penawaran And y.Kode_Perusahaan = a.Kode_Perusahaan And y.Kode_Barang = a.Kode_Barang),null) As ada_data "
+        '    SQL = SQL & "from barang a,EMI_Group_Jenis b "
+        '    SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Group_Jenis = b.Id_Group_Jenis  "
+        '    SQL = SQL & "and b.flag_raw_material = 'Y'  group by a.kode_perusahaan,a.kode_barang,a.Nama, a.Kode_Kategori_Besar, a.Kode_Kategori_Kecil "
+        '    SQL = SQL & ") SELECT * FROM CTE WHERE ada_data is null "
+        '    If ComboBox3.SelectedIndex <> -1 Then
+        '        If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+        '        SQL = SQL & arrcari.Item(ComboBox3.SelectedIndex) & "  like  '%" & Trim(TextBox3.Text) & "%' "
+        '    End If
+        '    Using ds = BindingTrans(SQL)
+        '        With ds.Tables("MyTable")
+        '            If .Rows.Count <> 0 Then
+        '                For i As Integer = 0 To .Rows.Count - 1
+
+        '                    DgvMaster_Penawaran.Rows.Add(1)
+        '                    DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellKdBrg).Value = .Rows(i).Item("kode_barang")
+        '                    DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellNmBrg).Value = .Rows(i).Item("nama")
+
+        '                    Dim dgvcc As DataGridViewComboBoxCell
+        '                    dgvcc = DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan)
+        '                    dgvcc.Items.Clear()
+
+        '                    Dim flagTampilDisplay As String = ""
+        '                    Dim indexTampilDisplay As Integer
+
+        '                    SQL = "select satuan,flag_tampil_display from barang_detail_Satuan where Kode_Barang ='" & .Rows(i).Item("kode_barang") & "'  and Kode_Perusahaan='" & KodePerusahaan & "' "
+        '                    Using Ds2 = BindingTrans(SQL)
+
+        '                        For indexBaru As Integer = 0 To Ds2.Tables("MyTable").Rows.Count - 1
+        '                            dgvcc.Items.Add(Ds2.Tables("MyTable").Rows(indexBaru).Item("satuan"))
+
+        '                            If General_Class.CekNULL(Ds2.Tables("MyTable").Rows(indexBaru).Item("flag_tampil_display")) = "Y" Then
+        '                                indexTampilDisplay = indexBaru
+        '                            End If
+
+        '                        Next
+
+        '                    End Using
+        '                    'Using dr2 = OpenTrans(SQL)
+        '                    '    Do While dr2.Read
+        '                    '        dgvcc.Items.Add(dr2("satuan"))
+
+        '                    '    Loop
+        '                    'End Using
+
+        '                    dgvcc.Value = dgvcc.Items(indexTampilDisplay)
+
+        '                    DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan).ReadOnly = True
+
+        '                    DgvMaster_Penawaran.Rows(IndexTambahan).DefaultCellStyle.BackColor = Color.LightYellow
+
+        '                    IndexTambahan = IndexTambahan + 1
+
+        '                Next
+        '            Else
+        '                CloseConn()
+        '                Exit Sub
+        '            End If
+        '        End With
+        '    End Using
+
+        '    CloseConn()
+        'Catch ex As Exception
+        '    CloseConn()
+        '    MessageBox.Show(ex.Message)
+        '    Exit Sub
+        'End Try
+
+    End Sub
+
+    Private Sub tampil_packaging()
+
+        'Try
+        '    OpenConn()
+        '    Dim IndexTambahan As Integer = DgvMaster_Penawaran.Rows.Count
+
+        '    SQL = ";with cte as( "
+        '    SQL = SQL & "select a.kode_perusahaan,a.kode_barang,a.Nama, a.Kode_Kategori_Besar, a.Kode_Kategori_Kecil, "
+        '    SQL = SQL & "ISNULL((Select top(1)'Y' from EMI_Master_Penawaran x, EMI_Master_Penawaran_Detail y where "
+        '    SQL = SQL & "x.Kode_Perusahaan = y.Kode_Perusahaan And x.No_Faktur = y.No_Faktur And x.Selesai Is null And '" & Format(tgl_skg, "yyyy-MM-dd") & "' between "
+        '    SQL = SQL & "x.Tgl_Penawaran_Hrg And Periode_Akhir_Penawaran And y.Kode_Perusahaan = a.Kode_Perusahaan And y.Kode_Barang = a.Kode_Barang),null) As ada_data "
+        '    SQL = SQL & "from barang a,EMI_Group_Jenis b "
+        '    SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Group_Jenis = b.Id_Group_Jenis  "
+        '    SQL = SQL & "and b.flag_packaging = 'Y'  group by a.kode_perusahaan,a.kode_barang,a.Nama, a.Kode_Kategori_Besar, a.Kode_Kategori_Kecil "
+        '    SQL = SQL & ") SELECT * FROM CTE WHERE ada_data is null "
+        '    If ComboBox3.SelectedIndex <> -1 Then
+        '        If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+        '        SQL = SQL & arrcari.Item(ComboBox3.SelectedIndex) & "  like  '%" & Trim(TextBox3.Text) & "%' "
+        '    End If
+        '    Using ds = BindingTrans(SQL)
+        '        With ds.Tables("MyTable")
+        '            If .Rows.Count <> 0 Then
+        '                For i As Integer = 0 To .Rows.Count - 1
+
+        '                    DgvMaster_Penawaran.Rows.Add(1)
+        '                    DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellKdBrg).Value = .Rows(i).Item("kode_barang")
+        '                    DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellNmBrg).Value = .Rows(i).Item("nama")
+
+        '                    Dim dgvcc As DataGridViewComboBoxCell
+        '                    dgvcc = DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan)
+        '                    dgvcc.Items.Clear()
+
+        '                    SQL = "select satuan from barang_detail_Satuan where Kode_Barang ='" & .Rows(i).Item("kode_barang") & "'  and Kode_Perusahaan='" & KodePerusahaan & "' "
+        '                    Using dr2 = OpenTrans(SQL)
+        '                        Do While dr2.Read
+        '                            dgvcc.Items.Add(dr2("satuan"))
+        '                        Loop
+        '                    End Using
+
+        '                    DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan).ReadOnly = True
+
+        '                    DgvMaster_Penawaran.Rows(IndexTambahan).DefaultCellStyle.BackColor = Color.LightYellow
+
+        '                    IndexTambahan = IndexTambahan + 1
+
+        '                Next
+        '            Else
+        '                CloseConn()
+        '                Exit Sub
+        '            End If
+        '        End With
+        '    End Using
+
+        '    CloseConn()
+        'Catch ex As Exception
+        '    CloseConn()
+        '    MessageBox.Show(ex.Message)
+        '    Exit Sub
+        'End Try
 
     End Sub
 
@@ -766,6 +911,8 @@ Public Class Transaksi_Penawaran
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
 
+
+
             Dim hasDataToInsert As Boolean = False
 
             If Btn_Simpan.Tag = "&Simpan" Then
@@ -780,6 +927,27 @@ Public Class Transaksi_Penawaran
                 SQL = SQL & "'" & saveSupplier & "', '" & Lokasi & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "' "
                 SQL = SQL & ")"
                 ExecuteTrans(SQL)
+
+                '=================================
+                '=     PINDAHIN SAAT RELEASE     =
+                '=================================
+                'Dim flag_kategori_Supplier As String = ""
+                'Dim kode_supplier As String = saveSupplier
+
+                'SQL = "select b.kode_supplier, b.ID_Kategori_Suppliers, c.flag_jenis_import  from  Suppliers b, Suppliers_Kategori c "
+                'SQL = SQL & "where "
+                'SQL = SQL & "b.kode_perusahaan = c.kode_perusahaan and b.id_kategori_suppliers = c.id_kategori_suppliers "
+                'SQL = SQL & "and b.kode_perusahaan = '" & KodePerusahaan & "'  and b.Kode_Supplier = '" & saveSupplier & "' "
+                'Using Dr = OpenTrans(SQL)
+                '    If Dr.Read Then
+                '        flag_kategori_Supplier = General_Class.CekNULL(Dr("flag_jenis_import"))
+
+                '    Else
+                '        Dr.Close()
+                '        MessageBox.Show(Base_Language.Lang_GLOBAL_Kategori_Supplier & " " & Base_Language.Lang_GLOBAL_Tidak_Ditemukan & ". . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '        Exit Sub
+                '    End If
+                'End Using
 
                 'Save Master Penawaran Detail
                 For index = 0 To DgvMaster_Penawaran.Rows.Count - 1
@@ -834,23 +1002,218 @@ Public Class Transaksi_Penawaran
                             End If
                         End Using
 
+                        'Ubah Format Angka
+                        lvHrgSatuan = lvHrgSatuan.Replace(",", "")
+                        'lvHrgSatuan = lvHrgSatuan.Replace(",", ".")
                         Dim harga_satuan_kecil As Double = 0
                         SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','UANG','" & lvKdBrg & "',"
                         SQL = SQL & "'" & lvSatuan & "','" & Satuan_Barang & "', "
-                        SQL = SQL & "'" & HilangkanTanda(lvHrgSatuan) & "') as Hasil "
+                        SQL = SQL & "'" & lvHrgSatuan & "') as Hasil "
                         Using dr = OpenTrans(SQL)
                             If dr.Read Then
                                 harga_satuan_kecil = dr("hasil")
                             End If
                         End Using
 
+                        lvMinOrder = lvMinOrder.Replace(",", "")
                         SQL = "Insert into EMI_Master_Penawaran_Detail "
                         SQL = SQL & "(Kode_Perusahaan, No_Faktur, Kode_Barang, "
                         SQL = SQL & "Min_Order, Satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang) "
                         SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & lvKdBrg & "', "
-                        SQL = SQL & "'" & HilangkanTanda(lvMinOrder) & "', '" & lvSatuan & "', '" & HilangkanTanda(lvHrgSatuan) & "', "
-                        SQL = SQL & " '" & harga_satuan_kecil & "','" & Satuan_Barang & "', '" & lvMUA & "') "
+                        SQL = SQL & "'" & lvMinOrder & "', '" & lvSatuan & "', '" & lvHrgSatuan & "','" & harga_satuan_kecil & "','" & Satuan_Barang & "', '" & lvMUA & "') "
                         ExecuteTrans(SQL)
+
+#Region "KODE LAMA"
+
+                        '=================================
+                        '=     PINDAHIN SAAT RELEASE     =
+                        '=================================
+                        'If flag_kategori_Supplier = "Y" Then
+                        '    Dim kode_kontainer As String = ""
+                        '    Dim Qty_Kontainer As Integer = 0
+
+                        '    SQL = "select kode_barang,kode_kontainer,qty from barang_per_kontainer "
+                        '    SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_barang = '" & lvKdBrg & "' "
+                        '    Using Dr = OpenTrans(SQL)
+                        '        If Dr.Read Then
+                        '            kode_kontainer = Dr("kode_kontainer")
+                        '            Qty_Kontainer = Val(Dr("qty"))
+                        '        Else
+                        '            Dr.Close()
+                        '            CloseTrans()
+                        '            CloseConn()
+                        '            MessageBox.Show(Base_Language.Lang_GLOBAL_Data_Kontainer & " " & Base_Language.Lang_GLOBAL_Tidak_Ditemukan & ". . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        '            Exit Sub
+                        '        End If
+                        '    End Using
+
+                        '    Dim satuan_kirim As String = ""
+                        '    Dim nilai_kirim As Double = 0
+                        '    SQL = "select satuan from barang_detail_satuan where kode_barang='" & lvKdBrg & "' "
+                        '    SQL = SQL & "and kode_Perusahaan='" & KodePerusahaan & "' and flag_kirim='Y' "
+                        '    Using dr3 = OpenTrans(SQL)
+                        '        If dr3.Read Then
+                        '            satuan_kirim = dr3("satuan")
+                        '        Else
+                        '            dr3.Close()
+                        '            CloseTrans()
+                        '            CloseConn()
+                        '            MessageBox.Show("data satuan kirim tidak ada ")
+                        '            Exit Sub
+                        '        End If
+                        '    End Using
+
+                        '    Dim nama As String = ""
+                        '    SQL = "select top(1) nama from barang where kode_barang ='" & lvKdBrg & "' "
+                        '    Using Dr1 = OpenTrans(SQL)
+                        '        If Dr1.Read Then
+                        '            nama = Dr1("nama")
+                        '        End If
+                        '    End Using
+
+                        '    SQL = "select top(1) id_rencana from rencana_order where "
+                        '    SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & " ' and kode_supplier = '" & kode_supplier & "' "
+                        '    SQL = SQL & "and  kode_kontainer = '" & kode_kontainer & "' "
+                        '    Using Drk = OpenTrans(SQL)
+                        '        If Drk.Read Then
+                        '            Drk.Close()
+
+                        '            'SQL = "Select distinct b.kode_barang, b.no_faktur, b.Harga_Satuan, b.Mata_Uang from emi_master_penawaran a, emi_master_penawaran_detail b  "
+                        '            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan And a.no_faktur = b.no_faktur And flag_baru Is null And a.kode_supplier ='" & kode_supplier & "' "
+                        '            'Using dss = BindingTrans(SQL)
+                        '            '    For indexx = 0 To dss.Tables("MyTable").Rows.Count - 1
+                        '            SQL = "select top(1) a.kode_Perusahaan from rencana_order a, detail_rencana_order b where "
+                        '            SQL = SQL & "a.Kode_Perusahaan=b.Kode_Perusahaan and a.ID_Rencana=b.ID_Rencana and "
+                        '            SQL = SQL & "a.Kode_Supplier='" & kode_supplier & "' and b.Kode_barang='" & lvKdBrg & "' " 'and b.id_rencana <> '" & x_urut_rencana_order & "'"
+                        '            Using drr = OpenTrans(SQL)
+                        '                If Not drr.Read Then
+                        '                    drr.Close()
+
+                        '                    SQL = "insert into komposisi_barang_jadi(kode_perusahaan, "
+                        '                    SQL = SQL & "kode_barang, Qty) Values ("
+                        '                    SQL = SQL & " '" & KodePerusahaan & "', '" & lvKdBrg & "', "
+                        '                    SQL = SQL & "'1')"
+                        '                    ExecuteTrans(SQL)
+
+                        '                    SQL = "insert into detail_komposisi_barang_jadi(kode_perusahaan, "
+                        '                    SQL = SQL & "kode_barang, Kode_Bahan, Qty_Bahan) Values("
+                        '                    SQL = SQL & "'" & KodePerusahaan & "', '" & lvKdBrg & "', "
+                        '                    SQL = SQL & "'" & lvKdBrg & "', '1')"
+                        '                    ExecuteTrans(SQL)
+
+                        '                    SQL = "select kode_stock_owner_import from stock_owner_import where kode_perusahaan = '" & KodePerusahaan & "' "
+                        '                    SQL = SQL & "order by kode_stock_owner_import"
+                        '                    Using Dsm = BindingTrans(SQL)
+
+                        '                        If Dsm.Tables("MyTable").Rows.Count <> 0 Then
+                        '                            For iii As Integer = 0 To Dsm.Tables("MyTable").Rows.Count - 1
+                        '                                SQL = "Insert Into bahan_import(Kode_Perusahaan, Kode_STock_Owner_Import, kode_bahan,Kode_supplier,nama_bahan,kategori,mata_uang,harga,satuan, Flag_Potong_Stock) Values("
+                        '                                SQL = SQL & "'" & KodePerusahaan & "', '" & Dsm.Tables("MyTable").Rows(iii).Item("kode_stock_owner_import") & "', '" & lvKdBrg & "','" & kode_supplier & "',"
+                        '                                SQL = SQL & "'" & nama & "',"
+                        '                                SQL = SQL & "'" & "Utama" & "',"
+                        '                                SQL = SQL & "'" & lvMUA & "',"
+                        '                                SQL = SQL & "'" & lvHrgSatuan & "',"
+                        '                                SQL = SQL & "'" & satuan_kirim & "', '" & "T" & "')"
+                        '                                ExecuteTrans(SQL)
+                        '                            Next
+                        '                        Else
+                        '                            CloseTrans()
+                        '                            CloseConn()
+                        '                            MessageBox.Show("Data lokasi import tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        '                            Exit Sub
+                        '                        End If
+
+                        '                    End Using
+
+                        '                    SQL = "insert into detail_rencana_order(id_rencana, kode_Perusahaan,kode_Barang,jumlah_po, isi_satuan_besar, jumlah_minimal, kode_stock_owner, jumlah_per_konte) "
+                        '                    SQL = SQL & "select c.id_rencana, c.kode_perusahaan,b.kode_barang,0 as jumlah_po, 1 as isi_satuan_besar, 0 as jumlah_minimal, "
+
+                        '                    SQL = SQL & "isnull((select top(1) z.lokasi_gudang from EMI_Kategori_Gudang x, barang y, EMI_Kategori_Gudang_PerLokasi z  "
+                        '                    SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.Id_Kategori_Gudang = y.Id_Kategori_Gudang "
+                        '                    SQL = SQL & "and  x.Id_Kategori_Gudang = z.ID_Kategori_Gudang and x.Kode_Perusahaan = z.Kode_Perusahaan "
+                        '                    SQL = SQL & "and x.kode_perusahaan = c.kode_perusahaan and z.Kode_stock_Owner = '" & "HEAD OFFICE" & "' and y.kode_barang = b.kode_barang ),NULL) as Kode_Stock_Owner, "
+
+                        '                    SQL = SQL & "isnull((select x.qty from barang_per_kontainer x where x.kode_perusahaan = c.kode_perusahaan and x.kode_barang = b.kode_barang),NULL) as Qty_Konte "
+
+                        '                    SQL = SQL & "from emi_master_penawaran a, emi_master_penawaran_detail b, rencana_order c "
+                        '                    SQL = SQL & "where a.No_faktur=b.no_faktur and a.kode_supplier = c.kode_supplier and a.kode_perusahaan=c.kode_Perusahaan " 'and c.id_rencana<>" & x_urut_rencana_order & " "
+                        '                    SQL = SQL & "and b.Kode_barang='" & lvKdBrg & "' "
+                        '                    SQL = SQL & "group by c.kode_perusahaan, c.id_rencana,kode_barang "
+                        '                    ExecuteTrans(SQL)
+
+                        '                End If
+                        '            End Using
+
+                        '            SQL = "update emi_master_penawaran_detail set "
+                        '            SQL = SQL & "flag_baru = 'Y' "
+                        '            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and Kode_barang='" & lvKdBrg & "' "
+                        '            SQL = SQL & "and no_faktur='" & TxtPenawaran_NoFaktur.Text & "' "
+                        '            ExecuteTrans(SQL)
+                        '            '    Next
+                        '            'End Using
+                        '        Else
+                        '            Drk.Close()
+                        '            SQL = "select kode_Perusahaan from komposisi_barang_jadi where kode_barang='" & lvKdBrg & "' "
+                        '            SQL = SQL & "and kode_Perusahaan='" & KodePerusahaan & "' "
+                        '            Using dr33 = OpenTrans(SQL)
+                        '                If Not dr33.Read Then
+                        '                    dr33.Close()
+                        '                    SQL = "insert into komposisi_barang_jadi(kode_perusahaan, "
+                        '                    SQL = SQL & "kode_barang, Qty) Values ("
+                        '                    SQL = SQL & " '" & KodePerusahaan & "', '" & lvKdBrg & "', "
+                        '                    SQL = SQL & "'1')"
+                        '                    ExecuteTrans(SQL)
+
+                        '                    SQL = "insert into detail_komposisi_barang_jadi(kode_perusahaan, "
+                        '                    SQL = SQL & "kode_barang, Kode_Bahan, Qty_Bahan) Values("
+                        '                    SQL = SQL & "'" & KodePerusahaan & "', '" & lvKdBrg & "', "
+                        '                    SQL = SQL & "'" & lvKdBrg & "', '1')"
+                        '                    ExecuteTrans(SQL)
+                        '                End If
+                        '            End Using
+
+                        '            SQL = "select kode_Perusahaan from bahan_import where kode_bahan='" & lvKdBrg & "' "
+                        '            SQL = SQL & "and kode_Perusahaan='" & KodePerusahaan & "' "
+                        '            Using dr33 = OpenTrans(SQL)
+                        '                If Not dr33.Read Then
+                        '                    dr33.Close()
+                        '                    SQL = "select kode_stock_owner_import from stock_owner_import where kode_perusahaan = '" & KodePerusahaan & "' "
+                        '                    SQL = SQL & "order by kode_stock_owner_import"
+                        '                    Using Dsm = BindingTrans(SQL)
+
+                        '                        If Dsm.Tables("MyTable").Rows.Count <> 0 Then
+                        '                            For iii As Integer = 0 To Dsm.Tables("MyTable").Rows.Count - 1
+                        '                                SQL = "Insert Into bahan_import(Kode_Perusahaan, Kode_STock_Owner_Import, kode_bahan,Kode_supplier,nama_bahan,kategori,mata_uang,harga,satuan, Flag_Potong_Stock) Values("
+                        '                                SQL = SQL & "'" & KodePerusahaan & "', '" & Dsm.Tables("MyTable").Rows(iii).Item("kode_stock_owner_import") & "', '" & lvKdBrg & "','" & kode_supplier & "',"
+                        '                                SQL = SQL & "'" & nama & "',"
+                        '                                SQL = SQL & "'" & "Utama" & "',"
+                        '                                SQL = SQL & "'" & lvMUA & "',"
+                        '                                SQL = SQL & "'" & lvHrgSatuan & "',"
+                        '                                SQL = SQL & "'" & satuan_kirim & "', '" & "T" & "')"
+                        '                                ExecuteTrans(SQL)
+                        '                            Next
+                        '                        Else
+                        '                            CloseTrans()
+                        '                            CloseConn()
+                        '                            MessageBox.Show("Data lokasi import tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        '                            Exit Sub
+                        '                        End If
+
+                        '                    End Using
+                        '                End If
+                        '            End Using
+
+                        '            SQL = "update emi_master_penawaran_detail set "
+                        '            SQL = SQL & "flag_baru = 'Y' "
+                        '            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and Kode_barang='" & lvKdBrg & "' "
+                        '            SQL = SQL & "and no_faktur='" & TxtPenawaran_NoFaktur.Text & "' "
+                        '            ExecuteTrans(SQL)
+                        '        End If
+                        '    End Using
+
+                        'End If
+
+#End Region
 
                     End If
 
@@ -879,7 +1242,6 @@ Public Class Transaksi_Penawaran
                                 '==================================
                                 '=     DELETE DATA SEBELUMNYA     =
                                 '==================================
-
                                 SQL = "delete from EMI_Master_Penawaran_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & saveFaktur & "' "
                                 ExecuteTrans(SQL)
 
@@ -932,15 +1294,22 @@ Public Class Transaksi_Penawaran
                                         End If
                                     End Using
 
+                                    'Ubah Format Angka
+                                    lvHrgSatuan = lvHrgSatuan.Replace(",", "")
+                                    'lvHrgSatuan = lvHrgSatuan.Replace(",", ".")
                                     Dim harga_satuan_kecil As Double = 0
                                     SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','UANG','" & lvKdBrg & "',"
                                     SQL = SQL & "'" & lvSatuan & "','" & Satuan_Barang & "', "
-                                    SQL = SQL & "'" & HilangkanTanda(lvHrgSatuan) & "') as Hasil "
+                                    SQL = SQL & "'" & lvHrgSatuan & "') as Hasil "
                                     Using dr = OpenTrans(SQL)
                                         If dr.Read Then
                                             harga_satuan_kecil = dr("hasil")
                                         End If
                                     End Using
+
+                                    'Ubah koma jadi titik
+                                    'Dim harga_satuan_kecil_String As String = harga_satuan_kecil.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture)
+                                    lvMinOrder = lvMinOrder.Replace(",", "")
 
                                     '============================
                                     '=     INSERT DATA BARU     =
@@ -949,8 +1318,7 @@ Public Class Transaksi_Penawaran
                                     SQL = SQL & "(Kode_Perusahaan, No_Faktur, Kode_Barang, "
                                     SQL = SQL & "Min_Order, Satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang) "
                                     SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & lvKdBrg & "', "
-                                    SQL = SQL & "'" & HilangkanTanda(lvMinOrder) & "', '" & lvSatuan & "', '" & HilangkanTanda(lvHrgSatuan) & "', "
-                                    SQL = SQL & " '" & harga_satuan_kecil & "', '" & Satuan_Barang & "', '" & lvMUA & "') "
+                                    SQL = SQL & "'" & lvMinOrder & "', '" & lvSatuan & "', '" & lvHrgSatuan & "', '" & harga_satuan_kecil & "', '" & Satuan_Barang & "', '" & lvMUA & "') "
                                     ExecuteTrans(SQL)
 
                                 Next
@@ -1058,6 +1426,23 @@ Public Class Transaksi_Penawaran
                 End If
 
                 If flag_kategori_Supplier = "Y" Then
+                    Dim kode_kontainer As String = ""
+                    Dim Qty_Kontainer As Integer = 0
+
+                    SQL = "select kode_barang,kode_kontainer,qty from barang_per_kontainer "
+                    SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_barang = '" & lvKdBrg & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            kode_kontainer = Dr("kode_kontainer")
+                            Qty_Kontainer = Val(Dr("qty"))
+                        Else
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show(Base_Language.Lang_GLOBAL_Data_Kontainer & " " & Base_Language.Lang_GLOBAL_Tidak_Ditemukan & ". . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
 
                     Dim satuan_kirim As String = ""
                     Dim nilai_kirim As Double = 0
@@ -1083,62 +1468,146 @@ Public Class Transaksi_Penawaran
                         End If
                     End Using
 
-                    SQL = "select kode_Perusahaan from komposisi_barang_jadi where kode_barang='" & lvKdBrg & "' "
-                    SQL = SQL & "and kode_Perusahaan='" & KodePerusahaan & "' "
-                    Using dr33 = OpenTrans(SQL)
-                        If Not dr33.Read Then
-                            dr33.Close()
-                            SQL = "insert into komposisi_barang_jadi(kode_perusahaan, "
-                            SQL = SQL & "kode_barang, Qty) Values ("
-                            SQL = SQL & " '" & KodePerusahaan & "', '" & lvKdBrg & "', "
-                            SQL = SQL & "'1')"
-                            ExecuteTrans(SQL)
+                    SQL = "select top(1) id_rencana from rencana_order where "
+                    SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & " ' and kode_supplier = '" & kode_supplier & "' "
+                    SQL = SQL & "and  kode_kontainer = '" & kode_kontainer & "' "
+                    Using Drk = OpenTrans(SQL)
+                        If Drk.Read Then
+                            Drk.Close()
 
-                            SQL = "insert into detail_komposisi_barang_jadi(kode_perusahaan, "
-                            SQL = SQL & "kode_barang, Kode_Bahan, Qty_Bahan) Values("
-                            SQL = SQL & "'" & KodePerusahaan & "', '" & lvKdBrg & "', "
-                            SQL = SQL & "'" & lvKdBrg & "', '1')"
-                            ExecuteTrans(SQL)
-                        End If
-                    End Using
+                            'SQL = "Select distinct b.kode_barang, b.no_faktur, b.Harga_Satuan, b.Mata_Uang from emi_master_penawaran a, emi_master_penawaran_detail b  "
+                            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan And a.no_faktur = b.no_faktur And flag_baru Is null And a.kode_supplier ='" & kode_supplier & "' "
+                            'Using dss = BindingTrans(SQL)
+                            '    For indexx = 0 To dss.Tables("MyTable").Rows.Count - 1
+                            SQL = "select top(1) a.kode_Perusahaan from rencana_order a, detail_rencana_order b where "
+                            SQL = SQL & "a.Kode_Perusahaan=b.Kode_Perusahaan and a.ID_Rencana=b.ID_Rencana and "
+                            SQL = SQL & "a.Kode_Supplier='" & kode_supplier & "' and b.Kode_barang='" & lvKdBrg & "' " 'and b.id_rencana <> '" & x_urut_rencana_order & "'"
+                            Using drr = OpenTrans(SQL)
+                                If Not drr.Read Then
+                                    drr.Close()
 
-                    SQL = "select kode_Perusahaan from bahan_import where kode_bahan='" & lvKdBrg & "' "
-                    SQL = SQL & "and kode_Perusahaan='" & KodePerusahaan & "' "
-                    Using dr33 = OpenTrans(SQL)
-                        If Not dr33.Read Then
-                            dr33.Close()
-                            SQL = "select kode_stock_owner_import from stock_owner_import where kode_perusahaan = '" & KodePerusahaan & "' "
-                            SQL = SQL & "order by kode_stock_owner_import"
-                            Using Dsm = BindingTrans(SQL)
+                                    SQL = "insert into komposisi_barang_jadi(kode_perusahaan, "
+                                    SQL = SQL & "kode_barang, Qty) Values ("
+                                    SQL = SQL & " '" & KodePerusahaan & "', '" & lvKdBrg & "', "
+                                    SQL = SQL & "'1')"
+                                    ExecuteTrans(SQL)
 
-                                If Dsm.Tables("MyTable").Rows.Count <> 0 Then
+                                    SQL = "insert into detail_komposisi_barang_jadi(kode_perusahaan, "
+                                    SQL = SQL & "kode_barang, Kode_Bahan, Qty_Bahan) Values("
+                                    SQL = SQL & "'" & KodePerusahaan & "', '" & lvKdBrg & "', "
+                                    SQL = SQL & "'" & lvKdBrg & "', '1')"
+                                    ExecuteTrans(SQL)
 
+                                    SQL = "select kode_stock_owner_import from stock_owner_import where kode_perusahaan = '" & KodePerusahaan & "' "
+                                    SQL = SQL & "order by kode_stock_owner_import"
+                                    Using Dsm = BindingTrans(SQL)
 
-                                    For iii As Integer = 0 To Dsm.Tables("MyTable").Rows.Count - 1
-                                        SQL = "Insert Into bahan_import(Kode_Perusahaan, Kode_STock_Owner_Import, kode_bahan,Kode_supplier, "
-                                        SQL = SQL & "nama_bahan,kategori,mata_uang,harga,satuan, Flag_Potong_Stock) Values("
-                                        SQL = SQL & "'" & KodePerusahaan & "', '" & Dsm.Tables("MyTable").Rows(iii).Item("kode_stock_owner_import") & "', "
-                                        SQL = SQL & "'" & lvKdBrg & "','" & kode_supplier & "',"
-                                        SQL = SQL & "'" & nama & "', '" & "Utama" & "', '" & lvMUA & "', "
-                                        SQL = SQL & "'" & Val(HilangkanTanda(lvHrgSatuan)) & "','" & satuan_kirim & "', '" & "T" & "')"
-                                        ExecuteTrans(SQL)
-                                    Next
-                                Else
-                                    CloseTrans()
-                                    CloseConn()
-                                    MessageBox.Show("Data lokasi import tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                    Exit Sub
+                                        If Dsm.Tables("MyTable").Rows.Count <> 0 Then
+                                            For iii As Integer = 0 To Dsm.Tables("MyTable").Rows.Count - 1
+                                                SQL = "Insert Into bahan_import(Kode_Perusahaan, Kode_STock_Owner_Import, kode_bahan,Kode_supplier,nama_bahan,kategori,mata_uang,harga,satuan, Flag_Potong_Stock) Values("
+                                                SQL = SQL & "'" & KodePerusahaan & "', '" & Dsm.Tables("MyTable").Rows(iii).Item("kode_stock_owner_import") & "', '" & lvKdBrg & "','" & kode_supplier & "',"
+                                                SQL = SQL & "'" & nama & "',"
+                                                SQL = SQL & "'" & "Utama" & "',"
+                                                SQL = SQL & "'" & lvMUA & "',"
+                                                SQL = SQL & "'" & lvHrgSatuan & "',"
+                                                SQL = SQL & "'" & satuan_kirim & "', '" & "T" & "')"
+                                                ExecuteTrans(SQL)
+                                            Next
+                                        Else
+                                            CloseTrans()
+                                            CloseConn()
+                                            MessageBox.Show("Data lokasi import tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            Exit Sub
+                                        End If
+
+                                    End Using
+
+                                    SQL = "insert into detail_rencana_order(id_rencana, kode_Perusahaan,kode_Barang,jumlah_po, isi_satuan_besar, jumlah_minimal, kode_stock_owner, jumlah_per_konte) "
+                                    SQL = SQL & "select c.id_rencana, c.kode_perusahaan,b.kode_barang,0 as jumlah_po, 1 as isi_satuan_besar, 0 as jumlah_minimal, "
+
+                                    SQL = SQL & "isnull((select top(1) z.lokasi_gudang from EMI_Kategori_Gudang x, barang y, EMI_Kategori_Gudang_PerLokasi z  "
+                                    SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.Id_Kategori_Gudang = y.Id_Kategori_Gudang "
+                                    SQL = SQL & "and  x.Id_Kategori_Gudang = z.ID_Kategori_Gudang and x.Kode_Perusahaan = z.Kode_Perusahaan "
+                                    SQL = SQL & "and x.kode_perusahaan = c.kode_perusahaan and z.Kode_stock_Owner = '" & "HEAD OFFICE" & "' and y.kode_barang = b.kode_barang ),NULL) as Kode_Stock_Owner, "
+
+                                    SQL = SQL & "isnull((select x.qty from barang_per_kontainer x where x.kode_perusahaan = c.kode_perusahaan and x.kode_barang = b.kode_barang),NULL) as Qty_Konte "
+
+                                    SQL = SQL & "from emi_master_penawaran a, emi_master_penawaran_detail b, rencana_order c "
+                                    SQL = SQL & "where a.No_faktur=b.no_faktur and a.kode_supplier = c.kode_supplier and a.kode_perusahaan=c.kode_Perusahaan " 'and c.id_rencana<>" & x_urut_rencana_order & " "
+                                    SQL = SQL & "and b.Kode_barang='" & lvKdBrg & "' "
+                                    SQL = SQL & "group by c.kode_perusahaan, c.id_rencana,kode_barang "
+                                    ExecuteTrans(SQL)
+
                                 End If
-
                             End Using
+
+                            SQL = "update emi_master_penawaran_detail set "
+                            SQL = SQL & "flag_baru = 'Y' "
+                            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and Kode_barang='" & lvKdBrg & "' "
+                            SQL = SQL & "and no_faktur='" & TxtPenawaran_NoFaktur.Text & "' "
+                            ExecuteTrans(SQL)
+                            '    Next
+                            'End Using
+                        Else
+                            Drk.Close()
+                            SQL = "select kode_Perusahaan from komposisi_barang_jadi where kode_barang='" & lvKdBrg & "' "
+                            SQL = SQL & "and kode_Perusahaan='" & KodePerusahaan & "' "
+                            Using dr33 = OpenTrans(SQL)
+                                If Not dr33.Read Then
+                                    dr33.Close()
+                                    SQL = "insert into komposisi_barang_jadi(kode_perusahaan, "
+                                    SQL = SQL & "kode_barang, Qty) Values ("
+                                    SQL = SQL & " '" & KodePerusahaan & "', '" & lvKdBrg & "', "
+                                    SQL = SQL & "'1')"
+                                    ExecuteTrans(SQL)
+
+                                    SQL = "insert into detail_komposisi_barang_jadi(kode_perusahaan, "
+                                    SQL = SQL & "kode_barang, Kode_Bahan, Qty_Bahan) Values("
+                                    SQL = SQL & "'" & KodePerusahaan & "', '" & lvKdBrg & "', "
+                                    SQL = SQL & "'" & lvKdBrg & "', '1')"
+                                    ExecuteTrans(SQL)
+                                End If
+                            End Using
+
+                            SQL = "select kode_Perusahaan from bahan_import where kode_bahan='" & lvKdBrg & "' "
+                            SQL = SQL & "and kode_Perusahaan='" & KodePerusahaan & "' "
+                            Using dr33 = OpenTrans(SQL)
+                                If Not dr33.Read Then
+                                    dr33.Close()
+                                    SQL = "select kode_stock_owner_import from stock_owner_import where kode_perusahaan = '" & KodePerusahaan & "' "
+                                    SQL = SQL & "order by kode_stock_owner_import"
+                                    Using Dsm = BindingTrans(SQL)
+
+                                        If Dsm.Tables("MyTable").Rows.Count <> 0 Then
+                                            For iii As Integer = 0 To Dsm.Tables("MyTable").Rows.Count - 1
+                                                SQL = "Insert Into bahan_import(Kode_Perusahaan, Kode_STock_Owner_Import, kode_bahan,Kode_supplier,nama_bahan,kategori,mata_uang,harga,satuan, Flag_Potong_Stock) Values("
+                                                SQL = SQL & "'" & KodePerusahaan & "', '" & Dsm.Tables("MyTable").Rows(iii).Item("kode_stock_owner_import") & "', '" & lvKdBrg & "','" & kode_supplier & "',"
+                                                SQL = SQL & "'" & nama & "',"
+                                                SQL = SQL & "'" & "Utama" & "',"
+                                                SQL = SQL & "'" & lvMUA & "',"
+                                                SQL = SQL & "'" & lvHrgSatuan & "',"
+                                                SQL = SQL & "'" & satuan_kirim & "', '" & "T" & "')"
+                                                ExecuteTrans(SQL)
+                                            Next
+                                        Else
+                                            CloseTrans()
+                                            CloseConn()
+                                            MessageBox.Show("Data lokasi import tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            Exit Sub
+                                        End If
+
+                                    End Using
+                                End If
+                            End Using
+
+                            SQL = "update emi_master_penawaran_detail set "
+                            SQL = SQL & "flag_baru = 'Y' "
+                            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and Kode_barang='" & lvKdBrg & "' "
+                            SQL = SQL & "and no_faktur='" & TxtPenawaran_NoFaktur.Text & "' "
+                            ExecuteTrans(SQL)
                         End If
                     End Using
 
-                    SQL = "update emi_master_penawaran_detail set "
-                    SQL = SQL & "flag_baru = 'Y' "
-                    SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and Kode_barang='" & lvKdBrg & "' "
-                    SQL = SQL & "and no_faktur='" & TxtPenawaran_NoFaktur.Text & "' "
-                    ExecuteTrans(SQL)
                 End If
 
             Next

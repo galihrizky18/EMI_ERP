@@ -1,4 +1,7 @@
-﻿Public Class Master_Suppliers
+﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
+
+Public Class Master_Suppliers
     Dim arrkolom, arrkategori, arrkategoriImport, arrPerhitunganTempo, arrKatBaru As New ArrayList
 
     Private Sub Perusahaan_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -111,8 +114,20 @@
                     ComboBox4.Items.Add(dr("Kode_Mata_Uang")) : ComboBox5.Items.Add(dr("Kode_Mata_Uang")) : ComboBox6.Items.Add(dr("Kode_Mata_Uang"))
                 Loop
             End Using
-            CloseConn()
 
+            ComboBox7.Items.Clear() : arrPerhitunganTempo.Clear()
+            SQL = "select Kode_Jenis_Perhitungan_JT,Keterangan from Emi_Master_Perhitungan_Jatuh_Tempo "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' order by Keterangan "
+            Using dr = OpenTrans(SQL)
+                Do While dr.Read
+                    ComboBox7.Items.Add(dr("Keterangan"))
+                    arrPerhitunganTempo.Add(dr("Kode_Jenis_Perhitungan_JT"))
+                Loop
+            End Using
+            'ComboBox7.Items.Add("ETA") : arrPerhitunganTempo.Add("ETA")
+            'ComboBox7.Items.Add("ETD") : arrPerhitunganTempo.Add("ETD")
+
+            CloseConn()
         Catch ex As Exception
             CloseConn()
             MessageBox.Show(ex.Message)
@@ -156,9 +171,6 @@
         ComboBox4.SelectedIndex = -1 : ComboBox5.SelectedIndex = -1 : ComboBox6.SelectedIndex = -1
         Button1.Text = "&Simpan" : Button2.Enabled = False
 
-        ComboBox7.Items.Clear() : arrPerhitunganTempo.Clear()
-        ComboBox7.Items.Add("ETA") : arrPerhitunganTempo.Add("ETA")
-        ComboBox7.Items.Add("ETD") : arrPerhitunganTempo.Add("ETD")
     End Sub
 
 
@@ -172,7 +184,7 @@
 
             OpenConn()
 
-            SQL = "Select kode_supplier, nama, alamat, pemilik, telepon, fax, contact_person, "
+            SQL = "Select kode_supplier, nama, alamat, pemilik, telepon, fax, contact_person,ID_Kategori_Suppliers, "
             SQL = SQL & "hp_cp, kode_kategori, Kategori_Import, Nama_Supplier, Negara, Kota, Port, "
             SQL = SQL & "PIC, Mata_Uang_Rek, Mata_Uang_Declare, Mata_Uang_Bayar, Perhitungan_Jatuh_Tempo, "
             SQL = SQL & "Ket_Perhitungan_Jatuh_Tempo From suppliers Where "
@@ -204,10 +216,21 @@
                     TextBox12.Text = General_Class.CekNULL(Dr("Port"))
                     TextBox13.Text = General_Class.CekNULL(Dr("Nama"))
                     TextBox14.Text = General_Class.CekNULL(Dr("PIC"))
+                    For i As Integer = 0 To CmbKategori.Items.Count - 1
+                        If arrKatBaru.Item(i) = General_Class.CekNULL(Dr("ID_Kategori_Suppliers")) Then
+                            CmbKategori.SelectedIndex = i
+                        End If
+                    Next
+                    'CmbKategori.Text = Dr("Kategori_Import")
                     ComboBox4.Text = General_Class.CekNULL(Dr("Mata_Uang_Rek"))
                     ComboBox5.Text = General_Class.CekNULL(Dr("Mata_Uang_Declare"))
                     ComboBox6.Text = General_Class.CekNULL(Dr("Mata_Uang_Bayar"))
-                    ComboBox7.Text = General_Class.CekNULL(Dr("Perhitungan_Jatuh_Tempo"))
+                    For i As Integer = 0 To ComboBox7.Items.Count - 1
+                        If arrPerhitunganTempo.Item(i) = General_Class.CekNULL(Dr("Perhitungan_Jatuh_Tempo")) Then
+                            ComboBox7.SelectedIndex = i
+                        End If
+                    Next
+                    'ComboBox7.Text = General_Class.CekNULL(Dr("Perhitungan_Jatuh_Tempo"))
                     TextBox15.Text = General_Class.CekNULL(Dr("Ket_Perhitungan_Jatuh_Tempo"))
                     Button1.Text = "&Update" : Button2.Enabled = True
                 Else
@@ -298,12 +321,32 @@
         End If
 
         Try
-
             OpenConn()
-
             Cmd.Transaction = Cn.BeginTransaction
 
             If Button1.Text = "&Simpan" Then
+
+                '=================================
+                '=     CEK KATEGORI SUPPLIER     =
+                '=================================
+                Dim jenisKategori As String = ""
+                SQL = "select Flag_Jenis_Import from Suppliers_Kategori where ID_Kategori_Suppliers = '" & arrKatBaru(CmbKategori.SelectedIndex) & "'"
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        If General_Class.CekNULL(Dr("Flag_Jenis_Import")) = "" Then
+                            jenisKategori = "T"
+                        Else
+                            jenisKategori = "Y"
+                        End If
+                    Else
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Kategori Supplier Tidak Ditemukan di Sistem", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
                 SQL = "Insert Into suppliers(Kode_Perusahaan, kode_kategori, kode_supplier, nama, "
                 SQL = SQL & "alamat, pemilik, telepon, fax, contact_person, hp_cp, hutang, Kategori_Import,"
                 SQL = SQL & " Nama_Supplier, Negara, Kota, Port, PIC, Mata_Uang_Rek, Mata_Uang_Declare, Mata_Uang_Bayar, "
@@ -318,8 +361,8 @@
                 SQL = SQL & "'" & TextBox8.Text & "', 0, '" & arrkategoriImport.Item(ComboBox3.SelectedIndex) & "', "
                 SQL = SQL & "'" & TextBox2.Text.Trim & "', '" & TextBox10.Text.Trim & "', '" & TextBox11.Text.Trim & "', "
                 SQL = SQL & "'" & TextBox12.Text.Trim & "', '" & TextBox14.Text.Trim & "', '" & ComboBox4.Text & "', "
-                SQL = SQL & "'" & ComboBox5.Text & "', '" & ComboBox6.Text & "','" & ComboBox7.Text & "','" & TextBox15.Text & "','" & arrKatBaru.Item(CmbKategori.SelectedIndex) & "', "
-                SQL = SQL & "'','T','T',NULL, 'A', 0)"
+                SQL = SQL & "'" & ComboBox5.Text & "', '" & ComboBox6.Text & "','" & arrPerhitunganTempo.Item(ComboBox7.SelectedIndex) & "',"
+                SQL = SQL & "'" & TextBox15.Text & "','" & arrKatBaru.Item(CmbKategori.SelectedIndex) & "', '','" & jenisKategori & "','T',NULL, 'A', 0)"
                 ExecuteTrans(SQL)
             Else
                 SQL = "Update suppliers Set nama = '" & TextBox13.Text.Trim & "', "
@@ -339,7 +382,7 @@
                 SQL = SQL & "Mata_Uang_Rek = '" & ComboBox4.Text & "', "
                 SQL = SQL & "Mata_Uang_Declare = '" & ComboBox5.Text & "', "
                 SQL = SQL & "Mata_Uang_Bayar = '" & ComboBox6.Text & "', "
-                SQL = SQL & "Perhitungan_Jatuh_Tempo = '" & ComboBox7.Text & "',"
+                SQL = SQL & "Perhitungan_Jatuh_Tempo = '" & arrPerhitunganTempo.Item(ComboBox7.SelectedIndex) & "',"
                 SQL = SQL & "Ket_Perhitungan_Jatuh_Tempo = '" & TextBox15.Text & "',"
                 SQL = SQL & "ID_Kategori_Suppliers = '" & arrKatBaru.Item(CmbKategori.SelectedIndex) & "', "
                 SQL = SQL & "inisial_sup = '', "
@@ -353,9 +396,7 @@
             End If
 
             Cmd.Transaction.Commit()
-
             CloseConn()
-
         Catch ex As Exception
             CloseConn()
             MessageBox.Show(ex.Message)
@@ -373,7 +414,6 @@
             Try
 
                 OpenConn()
-
                 Cmd.Transaction = Cn.BeginTransaction
 
                 'Penjualan
@@ -392,7 +432,6 @@
                 ExecuteTrans(SQL)
 
                 Cmd.Transaction.Commit()
-
                 CloseConn()
             Catch ex As Exception
                 CloseTrans()
@@ -412,7 +451,8 @@
     'GENERATE KODE SUPPLIER
     Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
 
-        If TextBox2.Text.Trim.Length > 1 Then Exit Sub
+        'If TextBox2.Text.Trim.Length > 1 Then Exit Sub
+        If Button1.Text = "&Update" Then Exit Sub
         If TextBox2.Text.Trim = "" Then TextBox1.Text = "" : Exit Sub
 
         Dim Supplier_Kode As String = ""
@@ -478,6 +518,7 @@
         '    End If
         'Next
         TextBox1.Text = ListView1.Items(ListView1.FocusedItem.Index).SubItems(1).Text
+        Button1.Text = "&Update"
         TextBox1_Leave(ListView1, e)
     End Sub
 

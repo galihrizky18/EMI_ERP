@@ -194,7 +194,7 @@ Public Class EMI_PO_Pembelian_Display
 
             SQL = SQL & "from EMI_Pembelian_PO a, Suppliers c, Suppliers_Kategori d where Selesai is null and Status is null and "
             SQL = SQL & "a.Kode_Perusahaan=c.Kode_Perusahaan and a.Kode_Supplier=c.Kode_Supplier and a.Kode_Perusahaan='" & KodePerusahaan & "' and "
-            SQL = SQL & "c.ID_Kategori_Suppliers=d.ID_Kategori_Suppliers and d.Flag_Jenis_Lokal='Y' "
+            SQL = SQL & "c.ID_Kategori_Suppliers=d.ID_Kategori_Suppliers and (d.Flag_Jenis_Lokal='Y' or(d.Flag_Jenis_import='Y' and a.Flag_Release is null)) "
             If semua = "T" Then
                 SQL = SQL & " and " & arrcariLocal.Item(ComboBox1.SelectedIndex) & " like '%" & TextBox3.Text & "%' "
             Else
@@ -341,7 +341,7 @@ Public Class EMI_PO_Pembelian_Display
                             SQL = SQL & " case when b.nhi <> '' then '| NHI | Tanggal : ' + format(b.Tanggal_NHI,'dd MMM yyyy' )  Else '' End +"
                             SQL = SQL & " case when b.hico <> '' then ' | HICO - Tanggal : ' + format(b.Tanggal_HICO,'dd MMM yyyy' )  Else '' End +"
                             SQL = SQL & " ' )'  "
-                            SQL = SQL & " ) as Status , 'SPPB' as status from  rencana_order a ,sppb_import b "
+                            SQL = SQL & " ) as Keterangan , 'SPPB' as status from  rencana_order a ,sppb_import b "
                             SQL = SQL & " where a.kode_perusahaan = b.kode_perusahaan and a.id_rencana = b.id_rencana and "
                             SQL = SQL & " a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.ID_Rencana = '" & .Rows(index).Item("id_rencana") & "' "
 
@@ -413,6 +413,7 @@ Public Class EMI_PO_Pembelian_Display
     End Sub
 
 
+
     Public Sub BtnRefresh_Click(sender As Object, e As EventArgs) Handles BtnRefresh.Click
         ComboBox1.SelectedIndex = -1
         TextBox3.Text = ""
@@ -440,19 +441,16 @@ Public Class EMI_PO_Pembelian_Display
         EMI_PO_Pembelian_Display_View.ShowDialog()
     End Sub
 
-    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
-
-    End Sub
-
     Private Sub DgvPO_DataLocal_DoubleClick(sender As Object, e As EventArgs) Handles DgvPO_DataLocal.DoubleClick
         Dim currentRow = DgvPO_DataLocal.CurrentRow.Index
         Get_Isi_ListviewLocal(currentRow)
 
-        EMI_PO_Pembelian.Asal = "edit"
+
         EMI_PO_Pembelian.kosong()
         EMI_PO_Pembelian.TxtPO_NoFaktur.Text = LvNo_PoLocal
         EMI_PO_Pembelian.CmbPO_Lokasi.Text = LvLokasiLocal
         EMI_PO_Pembelian.TxtPO_NoFaktur_Leave(Me, e)
+        EMI_PO_Pembelian.Asal = "edit"
         EMI_PO_Pembelian.ShowDialog()
 
 

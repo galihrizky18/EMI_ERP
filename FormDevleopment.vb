@@ -337,6 +337,22 @@
         EMI_Display_Flever_Tidak_Timbang.Focus()
     End Sub
 
+    Private Sub SuppliersToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SuppliersToolStripMenuItem.Click
+        Master_Suppliers.StartPosition = FormStartPosition.CenterScreen
+
+        Master_Suppliers.MdiParent = Me
+        Master_Suppliers.Show()
+        Master_Suppliers.Focus()
+    End Sub
+
+    Private Sub LoadingBarangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LoadingBarangToolStripMenuItem.Click
+        Loading_Barang_Import.StartPosition = FormStartPosition.CenterScreen
+
+        Loading_Barang_Import.MdiParent = Me
+        Loading_Barang_Import.Show()
+        Loading_Barang_Import.Focus()
+    End Sub
+
 
 
 

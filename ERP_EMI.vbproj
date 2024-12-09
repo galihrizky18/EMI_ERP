@@ -219,10 +219,40 @@
     <Compile Include="Emi Form\2611\EMI_Display_Transfer_Tidak_Timbang.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\IMPORT\Transaksi\Loading Barang\Display_Kontainer_Masuk.designer.vb">
+      <DependentUpon>Display_Kontainer_Masuk.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\IMPORT\Transaksi\Loading Barang\Display_Kontainer_Masuk.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\IMPORT\Transaksi\Loading Barang\Display_PO_Loading_Barang.designer.vb">
+      <DependentUpon>Display_PO_Loading_Barang.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\IMPORT\Transaksi\Loading Barang\Display_PO_Loading_Barang.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\IMPORT\Transaksi\Loading Barang\Input_Data Kontainer_Loading_Barang.designer.vb">
+      <DependentUpon>Input_Data Kontainer_Loading_Barang.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\IMPORT\Transaksi\Loading Barang\Input_Data Kontainer_Loading_Barang.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\IMPORT\Transaksi\Loading Barang\Loading_Barang_Import.designer.vb">
+      <DependentUpon>Loading_Barang_Import.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\IMPORT\Transaksi\Loading Barang\Loading_Barang_Import.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\Penawaran\Transaksi_Penawaran.designer.vb">
       <DependentUpon>Transaksi_Penawaran.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Penawaran\Transaksi_Penawaran.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Penawaran\Transaksi_Penawaran2.designer.vb">
+      <DependentUpon>Transaksi_Penawaran2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Penawaran\Transaksi_Penawaran2.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Production\Emi_Request_Material.Designer.vb">
@@ -517,10 +547,16 @@
     <Compile Include="Emi Form\Penawaran\Master_Penawaran_SD_Barang.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Purchase\Emi_PO_Pembelian.designer.vb">
-      <DependentUpon>Emi_PO_Pembelian.vb</DependentUpon>
+    <Compile Include="Emi Form\Purchase\EMI_PO_Pembelian.designer.vb">
+      <DependentUpon>EMI_PO_Pembelian.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\Purchase\Emi_PO_Pembelian.vb">
+    <Compile Include="Emi Form\Purchase\EMI_PO_Pembelian.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Purchase\Emi_PO_Pembelian2.designer.vb">
+      <DependentUpon>Emi_PO_Pembelian2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Purchase\Emi_PO_Pembelian2.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Purchase\EMI_PO_Pembelian_Display.designer.vb">
@@ -545,6 +581,18 @@
       <DependentUpon>Laporan_Purchase_Requisition.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Purchase\Laporan\Laporan_Purchase_Requisition.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Purchase\Master Data\Master_Suppliers.designer.vb">
+      <DependentUpon>Master_Suppliers.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Purchase\Master Data\Master_Suppliers.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Purchase\Master Data\Master_Suppliers2.designer.vb">
+      <DependentUpon>Master_Suppliers2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Purchase\Master Data\Master_Suppliers2.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Purchase\Purchase Requisition Revisi\Purchase_Requisition.Designer.vb">
@@ -749,12 +797,6 @@
       <DependentUpon>Transfer_Stock_4.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Stock\Transfer_Stock_4.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Supplier\Master_Suppliers.designer.vb">
-      <DependentUpon>Master_Suppliers.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Supplier\Master_Suppliers.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Barang\Display\EMI_Display_Pallet_Masuk.designer.vb">
@@ -1232,8 +1274,23 @@
     <EmbeddedResource Include="Emi Form\2611\EMI_Display_Transfer_Tidak_Timbang.resx">
       <DependentUpon>EMI_Display_Transfer_Tidak_Timbang.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\IMPORT\Transaksi\Loading Barang\Display_Kontainer_Masuk.resx">
+      <DependentUpon>Display_Kontainer_Masuk.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\IMPORT\Transaksi\Loading Barang\Display_PO_Loading_Barang.resx">
+      <DependentUpon>Display_PO_Loading_Barang.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\IMPORT\Transaksi\Loading Barang\Input_Data Kontainer_Loading_Barang.resx">
+      <DependentUpon>Input_Data Kontainer_Loading_Barang.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\IMPORT\Transaksi\Loading Barang\Loading_Barang_Import.resx">
+      <DependentUpon>Loading_Barang_Import.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Penawaran\Transaksi_Penawaran.resx">
       <DependentUpon>Transaksi_Penawaran.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Penawaran\Transaksi_Penawaran2.resx">
+      <DependentUpon>Transaksi_Penawaran2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Production\Emi_Request_Material.resx">
       <DependentUpon>Emi_Request_Material.vb</DependentUpon>
@@ -1384,8 +1441,11 @@
     <EmbeddedResource Include="Emi Form\Penawaran\Master_Penawaran_SD_Barang.resx">
       <DependentUpon>Master_Penawaran_SD_Barang.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Purchase\Emi_PO_Pembelian.resx">
-      <DependentUpon>Emi_PO_Pembelian.vb</DependentUpon>
+    <EmbeddedResource Include="Emi Form\Purchase\EMI_PO_Pembelian.resx">
+      <DependentUpon>EMI_PO_Pembelian.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Purchase\Emi_PO_Pembelian2.resx">
+      <DependentUpon>Emi_PO_Pembelian2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Purchase\EMI_PO_Pembelian_Display.resx">
       <DependentUpon>EMI_PO_Pembelian_Display.vb</DependentUpon>
@@ -1398,6 +1458,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Purchase\Laporan\Laporan_Purchase_Requisition.resx">
       <DependentUpon>Laporan_Purchase_Requisition.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Purchase\Master Data\Master_Suppliers.resx">
+      <DependentUpon>Master_Suppliers.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Purchase\Master Data\Master_Suppliers2.resx">
+      <DependentUpon>Master_Suppliers2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Purchase\Purchase Requisition Revisi\Purchase_Requisition.resx">
       <DependentUpon>Purchase_Requisition.vb</DependentUpon>
@@ -1501,9 +1567,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Stock\Transfer_Stock_4.resx">
       <DependentUpon>Transfer_Stock_4.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Supplier\Master_Suppliers.resx">
-      <DependentUpon>Master_Suppliers.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Barang\Display\EMI_Display_Pallet_Masuk.resx">
       <DependentUpon>EMI_Display_Pallet_Masuk.vb</DependentUpon>
@@ -1722,6 +1785,7 @@
   <ItemGroup>
     <Folder Include="Emi Form\Bahan\Display\" />
     <Folder Include="Emi Form\Pallet Masuk\" />
+    <Folder Include="Emi Form\Supplier\" />
     <Folder Include="Laporan\" />
   </ItemGroup>
   <ItemGroup>

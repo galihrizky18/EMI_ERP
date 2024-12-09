@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Transaksi_Penawaran
+Partial Class Transaksi_Penawaran2
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,16 +22,15 @@ Partial Class Transaksi_Penawaran
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle36 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle37 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle41 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle42 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle38 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle39 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle40 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.TabControl = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.Txt_NoUrut = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.LvAutoCompleteSupplier = New System.Windows.Forms.ListView()
@@ -138,8 +137,9 @@ Partial Class Transaksi_Penawaran
         Me.Panel14 = New System.Windows.Forms.Panel()
         Me.BtnOngkir_Refresh = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Txt_NoUrut = New System.Windows.Forms.TextBox()
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.DgvMaster_Penawaran, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -190,14 +190,6 @@ Partial Class Transaksi_Penawaran
         Me.TabPage1.Text = "Master Penawaran"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
-        'Txt_NoUrut
-        '
-        Me.Txt_NoUrut.Location = New System.Drawing.Point(1077, 49)
-        Me.Txt_NoUrut.Name = "Txt_NoUrut"
-        Me.Txt_NoUrut.Size = New System.Drawing.Size(46, 20)
-        Me.Txt_NoUrut.TabIndex = 381
-        Me.Txt_NoUrut.Visible = False
-        '
         'Label7
         '
         Me.Label7.AutoSize = True
@@ -236,7 +228,7 @@ Partial Class Transaksi_Penawaran
         Me.Btn_Release.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Release.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Release.ForeColor = System.Drawing.Color.White
-        Me.Btn_Release.Location = New System.Drawing.Point(192, 596)
+        Me.Btn_Release.Location = New System.Drawing.Point(192, 695)
         Me.Btn_Release.Name = "Btn_Release"
         Me.Btn_Release.Size = New System.Drawing.Size(84, 36)
         Me.Btn_Release.TabIndex = 421
@@ -335,7 +327,7 @@ Partial Class Transaksi_Penawaran
         'Panel8
         '
         Me.Panel8.BackColor = System.Drawing.Color.Red
-        Me.Panel8.Location = New System.Drawing.Point(21, 584)
+        Me.Panel8.Location = New System.Drawing.Point(21, 683)
         Me.Panel8.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel8.Name = "Panel8"
         Me.Panel8.Size = New System.Drawing.Size(344, 12)
@@ -347,37 +339,37 @@ Partial Class Transaksi_Penawaran
         Me.DgvMaster_Penawaran.AllowUserToAddRows = False
         Me.DgvMaster_Penawaran.AllowUserToResizeColumns = False
         Me.DgvMaster_Penawaran.AllowUserToResizeRows = False
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvMaster_Penawaran.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle36.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DgvMaster_Penawaran.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle36
         Me.DgvMaster_Penawaran.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.DgvMaster_Penawaran.BackgroundColor = System.Drawing.Color.White
         Me.DgvMaster_Penawaran.BorderStyle = System.Windows.Forms.BorderStyle.None
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvMaster_Penawaran.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle37.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle37.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        DataGridViewCellStyle37.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle37.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle37.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle37.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DgvMaster_Penawaran.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle37
         Me.DgvMaster_Penawaran.ColumnHeadersHeight = 45
         Me.DgvMaster_Penawaran.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Col_KdBrg, Me.Col_NmBrg, Me.ppn, Me.Col_MinOrder, Me.Col_Satuan, Me.Column3, Me.Col_HrgSatuan, Me.Column2})
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvMaster_Penawaran.DefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle41.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle41.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        DataGridViewCellStyle41.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle41.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle41.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle41.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DgvMaster_Penawaran.DefaultCellStyle = DataGridViewCellStyle41
         Me.DgvMaster_Penawaran.Location = New System.Drawing.Point(21, 170)
         Me.DgvMaster_Penawaran.MultiSelect = False
         Me.DgvMaster_Penawaran.Name = "DgvMaster_Penawaran"
         Me.DgvMaster_Penawaran.RowHeadersWidth = 21
-        DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvMaster_Penawaran.RowsDefaultCellStyle = DataGridViewCellStyle7
+        DataGridViewCellStyle42.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DgvMaster_Penawaran.RowsDefaultCellStyle = DataGridViewCellStyle42
         Me.DgvMaster_Penawaran.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DgvMaster_Penawaran.Size = New System.Drawing.Size(1026, 407)
+        Me.DgvMaster_Penawaran.Size = New System.Drawing.Size(1026, 506)
         Me.DgvMaster_Penawaran.TabIndex = 409
         '
         'Col_KdBrg
@@ -403,16 +395,16 @@ Partial Class Transaksi_Penawaran
         '
         'Col_MinOrder
         '
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        DataGridViewCellStyle3.NullValue = Nothing
-        Me.Col_MinOrder.DefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle38.NullValue = Nothing
+        Me.Col_MinOrder.DefaultCellStyle = DataGridViewCellStyle38
         Me.Col_MinOrder.HeaderText = "Minimal Order"
         Me.Col_MinOrder.Name = "Col_MinOrder"
         '
         'Col_Satuan
         '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Col_Satuan.DefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Col_Satuan.DefaultCellStyle = DataGridViewCellStyle39
         Me.Col_Satuan.HeaderText = "Satuan"
         Me.Col_Satuan.Name = "Col_Satuan"
         Me.Col_Satuan.ReadOnly = True
@@ -425,9 +417,9 @@ Partial Class Transaksi_Penawaran
         '
         'Col_HrgSatuan
         '
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        DataGridViewCellStyle5.NullValue = Nothing
-        Me.Col_HrgSatuan.DefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle40.NullValue = Nothing
+        Me.Col_HrgSatuan.DefaultCellStyle = DataGridViewCellStyle40
         Me.Col_HrgSatuan.HeaderText = "Harga Satuan"
         Me.Col_HrgSatuan.Name = "Col_HrgSatuan"
         Me.Col_HrgSatuan.Width = 150
@@ -572,7 +564,7 @@ Partial Class Transaksi_Penawaran
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(21, 632)
+        Me.Panel4.Location = New System.Drawing.Point(21, 732)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1436, 15)
@@ -584,7 +576,7 @@ Partial Class Transaksi_Penawaran
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Simpan.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(20, 597)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(20, 696)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(84, 36)
         Me.Btn_Simpan.TabIndex = 400
@@ -616,7 +608,7 @@ Partial Class Transaksi_Penawaran
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(106, 597)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(106, 696)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(84, 36)
         Me.Btn_Refresh.TabIndex = 402
@@ -1377,6 +1369,17 @@ Partial Class Transaksi_Penawaran
         Me.Panel1.Size = New System.Drawing.Size(1073, 49)
         Me.Panel1.TabIndex = 392
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(15, 11)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(277, 30)
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "Master Data - Penawaran"
+        '
         'PanelGradient1
         '
         Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
@@ -1390,23 +1393,20 @@ Partial Class Transaksi_Penawaran
         Me.PanelGradient1.Size = New System.Drawing.Size(1073, 2)
         Me.PanelGradient1.TabIndex = 22
         '
-        'Label1
+        'Txt_NoUrut
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(15, 11)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(277, 30)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Master Data - Penawaran"
+        Me.Txt_NoUrut.Location = New System.Drawing.Point(1077, 49)
+        Me.Txt_NoUrut.Name = "Txt_NoUrut"
+        Me.Txt_NoUrut.Size = New System.Drawing.Size(46, 20)
+        Me.Txt_NoUrut.TabIndex = 381
+        Me.Txt_NoUrut.Visible = False
         '
         'Transaksi_Penawaran
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1073, 723)
+        Me.ClientSize = New System.Drawing.Size(1073, 826)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.TabControl)
         Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
