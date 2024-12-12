@@ -503,7 +503,7 @@ Public Class Transfer_Stock_3
             SQL = SQL & "from barang_sn a, barang b, View_Warehouse_Position c, View_Warehouse_Position_Detail d "
             SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan and a.Kode_Barang=b.Kode_Barang and a.Kode_Stock_Owner=b.Kode_Stock_Owner "
             SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Stock_Owner = d.Kode_Stock_Owner and a.Nomor_Pallet = d.nomor_urut "
-            SQL = SQL & "and a.Id_Warehouse=c.Id_WMS_Warehouse_Position "
+            SQL = SQL & "and a.Id_Warehouse=c.Id_WMS_Warehouse_Position and c.Id_WMS_Warehouse_Position = d.Id_WMS_Warehouse_Position "
             SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' "
             SQL = SQL & "and b.Kode_Stock_Owner='" & arrSO(CmbSO_Asal.SelectedIndex) & "' and b.Kode_Barang='" & TxtKd_Barang.Text & "' "
             SQL = SQL & "and a.warna = '" & Cmb_Warna.SelectedItem.ToString & "' "
@@ -667,6 +667,10 @@ Public Class Transfer_Stock_3
 
                 get_grid_view(row)
 
+                If dgv_CheckBox = False Then
+                    Continue For
+                End If
+
                 '======================================
                 '=       CEK APAKAH SUDAH CETAK       =
                 '======================================
@@ -683,9 +687,7 @@ Public Class Transfer_Stock_3
                     End If
                 End Using
 
-                If dgv_CheckBox = False Then
-                    Continue For
-                End If
+
 
                 If dgv_Jumlah = "" Or dgv_JmlhBags = "" Then
                     CloseTrans()

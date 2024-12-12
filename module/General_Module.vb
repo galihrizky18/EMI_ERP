@@ -62,6 +62,7 @@ Module General_Module
     Public fPOChina = ""
     Public FLB As String = "LB-"
     Public setN As String = "N5"
+
     Public FSubmitPO As String = "SP"
 
     Public CRQuery, CRSF, CRRT, CRName As String
@@ -87,8 +88,8 @@ Module General_Module
     'Public Const CUserId As String = "sa2"
     'Public Const CPassword As String = "P@ssword99000"
 
-    Public UserID As String = "Art Di"
-    'Public UserID As String = "BAYA"
+    'Public UserID As String = "Art Di"
+    Public UserID As String = "BAYA"
     'Public UserID As String = "garix"
     'Public UserID As String = "emi"
     Public Lokasi As String = "HEAD OFFICE"

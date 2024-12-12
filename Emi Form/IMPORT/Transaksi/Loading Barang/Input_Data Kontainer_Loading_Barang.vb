@@ -189,12 +189,67 @@
                     End If
                 End Using
 
+                '=======================
+                '=     GET URUT PO     =
+                '=======================
+                Dim urut_PO As String = ""
+                Dim NoPO As String = ""
+                SQL = "select No_PO, c.No_Urut "
+                SQL = SQL & "from submit_PO a, Rencana_Order b, EMI_Pembelian_PO_detail c "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan "
+                SQL = SQL & "and a.ID_Rencana = b.ID_Rencana "
+                SQL = SQL & "and b.No_PO = c.No_Faktur "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.no_faktur = '" & faktur.Text & "' "
+                SQL = SQL & "and c.kode_barang = '" & kode.Text & "'"
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+
+                        urut_PO = dr("No_Urut")
+                        NoPO = dr("No_PO")
+
+                    Else
+                        dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Urut PO Tidak diTemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                End Using
+
+
+                Dim satuanBarang As String = ""
+                Dim isi_Per_Bags As Double = 0
+                Dim Satuan_Isi_Bags As String = ""
+                SQL = "select satuan, isnull(Isi_Per_Bags,0) as Isi_Per_Bags, isnull(Satuan_Isi_Bags,'') as Satuan_Isi_Bags from barang where kode_perusahaan = '" & KodePerusahaan & "'  "
+                SQL = SQL & "and kode_stock_owner = '" & Lokasi.Text & "' "
+                SQL = SQL & "and kode_barang = '" & kode.Text & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        satuanBarang = Dr("satuan")
+                        isi_Per_Bags = Dr("isi_Per_Bags")
+                        Satuan_Isi_Bags = Dr("Satuan_Isi_Bags")
+                    Else
+                        CloseTrans()
+                        CloseTransSQL()
+                        CloseConn()
+                        CloseConnSQL()
+                        MessageBox.Show("error insert purchase order, satuan barang tidak ditemukan")
+                        Exit Sub
+                    End If
+                End Using
+
+
                 SQL = "insert into EMI_Pembelian_Loading_Detail(Kode_Perusahaan,No_Faktur,No_PO,Urut_PO,Kode_Stock_Owner,Kode_Barang,Tanggal_Produksi,Tanggal_Expired,"
-                SQL = SQL & "Jumlah,Satuan,Jumlah_Barang,Jumlah_Masuk,Satuan_Barang) values( "
-                SQL = SQL & "'" & KodePerusahaan & "', '" & fakturStr & "', '" & faktur.Text & "', '" & x_no_urutkontainer_masuk & "', '" & Lokasi.Text & "', '" & kode.Text & "',  "
+                SQL = SQL & "Jumlah,Satuan,Jumlah_Barang,Jumlah_Masuk,Satuan_Barang, No_Urut_B2B, jumlah_per_bag, No_Batch, Satuan_Per_Bag, harga_barang) values( "
+                SQL = SQL & "'" & KodePerusahaan & "', '" & fakturStr & "', '" & faktur.Text & "', '" & urut_PO & "', '" & Lokasi.Text & "', '" & kode.Text & "',  "
                 SQL = SQL & "'" & Format(DTP_TglProduksi.Value, "yyyy-MM-dd") & "','" & Format(DTP_TglExpired.Value, "yyyy-MM-dd") & "', '" & Qty.Text & "', '" & sat & "',"
-                SQL = SQL & "'" & jml_brg & "','" & jml_brg & "','" & sat_brg & "')"
+                SQL = SQL & "'" & jml_brg & "','" & jml_brg & "','" & sat_brg & "', NULL, '" & isi_Per_Bags & "', '-', '" & Satuan_Isi_Bags & "', NULL)"
                 ExecuteTrans(SQL)
+
+
+
             Else
                 SQL = "Update Kontainer_Masuk set Qty = '" & Qty.Text & "' Where No_Faktur = '" & faktur.Text & "' and No_Container = '" & Kontainer.Text & "' "
                 SQL = SQL & "and Kode_Barang = '" & kode.Text & "' and Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Stock_Owner = '" & Lokasi.Text & "' "
@@ -209,14 +264,69 @@
                     End If
                 End Using
 
+                '=======================
+                '=     GET URUT PO     =
+                '=======================
+                Dim urut_PO As String = ""
+                Dim NoPO As String = ""
+                SQL = "select No_PO, c.No_Urut "
+                SQL = SQL & "from submit_PO a, Rencana_Order b, EMI_Pembelian_PO_detail c "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan "
+                SQL = SQL & "and a.ID_Rencana = b.ID_Rencana "
+                SQL = SQL & "and b.No_PO = c.No_Faktur "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.no_faktur = '" & faktur.Text & "' "
+                SQL = SQL & "and c.kode_barang = '" & kode.Text & "'"
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+
+                        urut_PO = dr("No_Urut")
+                        NoPO = dr("No_PO")
+
+                    Else
+                        dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Urut PO Tidak diTemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                End Using
+
+                Dim satuanBarang As String = ""
+                Dim isi_Per_Bags As Double = 0
+                Dim Satuan_Isi_Bags As String = ""
+                SQL = "select satuan, isnull(Isi_Per_Bags,0) as Isi_Per_Bags, isnull(Satuan_Isi_Bags,'') as Satuan_Isi_Bags from barang where kode_perusahaan = '" & KodePerusahaan & "'  "
+                SQL = SQL & "and kode_stock_owner = '" & Lokasi.Text & "' "
+                SQL = SQL & "and kode_barang = '" & kode.Text & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        satuanBarang = Dr("satuan")
+                        isi_Per_Bags = Dr("isi_Per_Bags")
+                        Satuan_Isi_Bags = Dr("Satuan_Isi_Bags")
+                    Else
+                        CloseTrans()
+                        CloseTransSQL()
+                        CloseConn()
+                        CloseConnSQL()
+                        MessageBox.Show("error insert purchase order, satuan barang tidak ditemukan")
+                        Exit Sub
+                    End If
+                End Using
+
                 SQL = "update EMI_Pembelian_Loading_Detail set EMI_Pembelian_Loading_Detail.Jumlah = '" & Qty.Text & "',EMI_Pembelian_Loading_Detail.Satuan = '" & sat & "',"
                 SQL = SQL & "EMI_Pembelian_Loading_Detail.Jumlah_Barang = '" & jml_brg & "',EMI_Pembelian_Loading_Detail.Jumlah_Masuk = '" & jml_brg & "',EMI_Pembelian_Loading_Detail.Satuan_Barang = '" & sat_brg & "',"
                 SQL = SQL & "EMI_Pembelian_Loading_Detail.Tanggal_Produksi = '" & Format(DTP_TglProduksi.Value, "yyyy-MM-dd") & "',"
-                SQL = SQL & "EMI_Pembelian_Loading_Detail.Tanggal_Expired = '" & Format(DTP_TglExpired.Value, "yyyy-MM-dd") & "' from EMI_Pembelian_Loading_Detail "
+                SQL = SQL & "EMI_Pembelian_Loading_Detail.Tanggal_Expired = '" & Format(DTP_TglExpired.Value, "yyyy-MM-dd") & "', "
+                SQL = SQL & "EMI_Pembelian_Loading_Detail.Jumlah_Per_Bag = '" & isi_Per_Bags & "', "
+                SQL = SQL & "EMI_Pembelian_Loading_Detail.Satuan_Per_Bag = '" & Satuan_Isi_Bags & "' "
+
+                SQL = SQL & "from EMI_Pembelian_Loading_Detail "
                 SQL = SQL & "INNER JOIN EMI_Pembelian_Loading on EMI_Pembelian_Loading.Kode_Perusahaan = EMI_Pembelian_Loading_Detail.Kode_Perusahaan  and "
                 SQL = SQL & "EMI_Pembelian_Loading.No_Faktur = EMI_Pembelian_Loading_Detail.No_Faktur "
+
                 SQL = SQL & "where EMI_Pembelian_Loading_Detail.Kode_Perusahaan = '" & KodePerusahaan & "' and EMI_Pembelian_Loading.no_plat = '" & Kontainer.Text & "' and "
-                SQL = SQL & "EMI_Pembelian_Loading_Detail.Urut_PO = '" & urt & "' and EMI_Pembelian_Loading_Detail.No_PO = '" & faktur.Text & "'  and "
+                SQL = SQL & "EMI_Pembelian_Loading_Detail.Urut_PO = '" & urut_PO & "' and EMI_Pembelian_Loading_Detail.No_PO = '" & faktur.Text & "'  and "
                 SQL = SQL & "EMI_Pembelian_Loading_Detail.Kode_Barang = '" & kode.Text & "' and EMI_Pembelian_Loading_Detail.Kode_Stock_Owner = '" & Lokasi.Text & "'"
                 ExecuteTrans(SQL)
             End If

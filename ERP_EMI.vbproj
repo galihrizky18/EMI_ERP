@@ -219,6 +219,30 @@
     <Compile Include="Emi Form\2611\EMI_Display_Transfer_Tidak_Timbang.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\IMPORT\Display_Selisih_Biaya.designer.vb">
+      <DependentUpon>Display_Selisih_Biaya.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\IMPORT\Display_Selisih_Biaya.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\IMPORT\Display_Selisih_PO.designer.vb">
+      <DependentUpon>Display_Selisih_PO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\IMPORT\Display_Selisih_PO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\IMPORT\Transaksi\Hitung HPP\Display_Rencana_Order_Lain_Lain.designer.vb">
+      <DependentUpon>Display_Rencana_Order_Lain_Lain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\IMPORT\Transaksi\Hitung HPP\Display_Rencana_Order_Lain_Lain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\IMPORT\Transaksi\Hitung HPP\Hitung_HPP_Import.designer.vb">
+      <DependentUpon>Hitung_HPP_Import.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\IMPORT\Transaksi\Hitung HPP\Hitung_HPP_Import.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\IMPORT\Transaksi\Loading Barang\Display_Kontainer_Masuk.designer.vb">
       <DependentUpon>Display_Kontainer_Masuk.vb</DependentUpon>
     </Compile>
@@ -895,10 +919,10 @@
     <Compile Include="Form Dummy\EMI_Produksi.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormDevleopment.Designer.vb">
-      <DependentUpon>FormDevleopment.vb</DependentUpon>
+    <Compile Include="FMenuDev.Designer.vb">
+      <DependentUpon>FMenuDev.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormDevleopment.vb">
+    <Compile Include="FMenuDev.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FR_Login.Designer.vb">
@@ -935,6 +959,12 @@
       <DependentUpon>Main_Menu.vb</DependentUpon>
     </Compile>
     <Compile Include="Main_Menu.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main_MenuDev.Designer.vb">
+      <DependentUpon>Main_MenuDev.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Main_MenuDev.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Master Menu\Master_Menu.Designer.vb">
@@ -1273,6 +1303,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\2611\EMI_Display_Transfer_Tidak_Timbang.resx">
       <DependentUpon>EMI_Display_Transfer_Tidak_Timbang.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\IMPORT\Display_Selisih_Biaya.resx">
+      <DependentUpon>Display_Selisih_Biaya.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\IMPORT\Display_Selisih_PO.resx">
+      <DependentUpon>Display_Selisih_PO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\IMPORT\Transaksi\Hitung HPP\Display_Rencana_Order_Lain_Lain.resx">
+      <DependentUpon>Display_Rencana_Order_Lain_Lain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\IMPORT\Transaksi\Hitung HPP\Hitung_HPP_Import.resx">
+      <DependentUpon>Hitung_HPP_Import.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\IMPORT\Transaksi\Loading Barang\Display_Kontainer_Masuk.resx">
       <DependentUpon>Display_Kontainer_Masuk.vb</DependentUpon>
@@ -1616,8 +1658,8 @@
     <EmbeddedResource Include="Form Dummy\EMI_Produksi.resx">
       <DependentUpon>EMI_Produksi.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormDevleopment.resx">
-      <DependentUpon>FormDevleopment.vb</DependentUpon>
+    <EmbeddedResource Include="FMenuDev.resx">
+      <DependentUpon>FMenuDev.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FR_Login.resx">
       <DependentUpon>FR_Login.vb</DependentUpon>
@@ -1636,6 +1678,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main_Menu.resx">
       <DependentUpon>Main_Menu.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main_MenuDev.resx">
+      <DependentUpon>Main_MenuDev.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Master Menu\Master_Menu.resx">
       <DependentUpon>Master_Menu.vb</DependentUpon>

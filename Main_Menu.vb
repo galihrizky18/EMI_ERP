@@ -9,10 +9,7 @@ Public Class Main_Menu
 
         DataMenu = GetLoadMenuFromDB(UserID)
 
-        If DataMenu IsNot Nothing AndAlso DataMenu.Rows.Count > 0 Then
-            LoadMenu(DataMenu)
-        End If
-
+        LoadMenu(DataMenu)
 
     End Sub
 
@@ -23,29 +20,25 @@ Public Class Main_Menu
         Try
             OpenConn()
 
-            SQL = "select MainMenu.ImagePath, MainMenu.Title, RoleMainMenus.UserID, RoleMainMenus.MainMenuID from RoleMainMenus left join MainMenu "
-            SQL = SQL & "On RoleMainMenus.MainMenuID = MainMenu.MainMenuID where RoleMainMenus.UserID ='" & UserID & "' "
-            SQL = SQL & "order by TItle"
+            'SQL = "select MainMenu.ImagePath, MainMenu.Title, RoleMainMenus.UserID, RoleMainMenus.MainMenuID from RoleMainMenus left join MainMenu "
+            'SQL = SQL & "On RoleMainMenus.MainMenuID = MainMenu.MainMenuID where RoleMainMenus.UserID ='" & UserID & "' order by urut"
 
+            SQL = "select a.MainMenuID, a.ImagePath, a.Title, "
+            SQL = SQL & "ISNULL((select 'Y' from RoleMainMenus z where a.MainMenuID = z.MainMenuID and z.UserID = '" & UserID & "'), 'T') as Akses "
+            SQL = SQL & "from mainmenu a "
+            SQL = SQL & "order by akses desc, urut "
             Using dr = OpenTrans(Sql)
                 If dr.HasRows Then
                     data.Load(dr)
                 Else
-                    dr.Close()
-                    CloseTrans()
-                    CloseConn()
                     MessageBox.Show("Menu Tidak Ditemukan", "Failed Get Menu", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Function
                 End If
             End Using
 
-            CloseTrans()
             CloseConn()
         Catch ex As Exception
-            CloseTrans()
             CloseConn()
             MessageBox.Show(ex.Message)
-            Exit Function
         End Try
 
         Return data
@@ -59,21 +52,37 @@ Public Class Main_Menu
 
             For Each data As DataRow In DataMenu.Rows
 
-                CreateNewPanelMenu(ParentPanel, data("ImagePath").ToString(), data("Title"), data("UserID").ToString(), data("MainMenuID").ToString())
+                Dim MainMenuId As String = data("MainMenuID")
+
+                '=======================================
+                '=     CEK APAKAH USER BOLEH AKSES     =
+                '=======================================
+                Dim isAccess As Boolean = False
+                If data("Akses") = "Y" Then
+                    isAccess = True
+                Else
+                    isAccess = False
+                End If
+
+                'Dim appDirectory As String = AppDomain.CurrentDomain.BaseDirectory
+                'Dim imagePath As String = Path.Combine(appDirectory, "Assets", data("ImagePath"))
+
+                'CreateNewPanelMenu(ParentPanel, data("ImagePath").ToString(), data("Title"), data("UserID").ToString(), data("MainMenuID").ToString(), isAccess)
+                CreateNewPanelMenu(ParentPanel, data("ImagePath").ToString(), data("Title"), UserID, data("MainMenuID").ToString(), isAccess)
             Next
 
         End If
 
     End Sub
 
-    Private Sub CreateNewPanelMenu(ByVal ParentPanel As Panel, ByVal ImagePath As String, ByVal Title As String, ByVal UserID As String, ByVal MainMenuID As String)
+    Private Sub CreateNewPanelMenu(ByVal ParentPanel As Panel, ByVal ImagePath As String, ByVal Title As String, ByVal UserID As String, ByVal MainMenuID As String, ByVal isAccess As Boolean)
 
         Dim newPanel As New Panel()
         newPanel.BorderStyle = BorderStyle.None
         newPanel.Width = 100
         newPanel.Height = 110
         newPanel.Margin = New Padding(7)
-        newPanel.Cursor = Cursors.Hand
+
 
         Dim picBox As New PictureBox()
         Dim imageUrl = ImagePath
@@ -125,11 +134,24 @@ Public Class Main_Menu
         newPanel.Controls.Add(picBox)
         newPanel.Controls.Add(titleLabel)
 
-        'AddHandler picBox.Click, Sub(sender, e) ShowForm(IsFormExist(GetType(FMenu), UserID, MainMenuID))
-        'AddHandler titleLabel.Click, Sub(sender, e) ShowForm(IsFormExist(GetType(FMenu), UserID, MainMenuID))
+        If isAccess Then
 
-        AddHandler picBox.Click, Sub(sender, e) ShowForm(IsFormExist(FMenu, UserID, MainMenuID))
-        AddHandler titleLabel.Click, Sub(sender, e) ShowForm(IsFormExist(FMenu, UserID, MainMenuID))
+            newPanel.Cursor = Cursors.Hand
+
+            AddHandler picBox.Click, Sub(sender, e) ShowForm(IsFormExist(FMenu, UserID, MainMenuID))
+            AddHandler titleLabel.Click, Sub(sender, e) ShowForm(IsFormExist(FMenu, UserID, MainMenuID))
+
+            AddHandler newPanel.MouseEnter, AddressOf MouseEntered_Panel
+            AddHandler newPanel.MouseLeave, AddressOf MouseLeft_Panel
+            AddHandler picBox.MouseEnter, AddressOf MouseEntered_Panel
+            AddHandler picBox.MouseLeave, AddressOf MouseLeft_Panel
+            AddHandler titleLabel.MouseEnter, AddressOf MouseEntered_Panel
+            AddHandler titleLabel.MouseLeave, AddressOf MouseLeft_Panel
+        Else
+            newPanel.BackColor = Color.FromArgb(231, 231, 231)
+
+        End If
+
 
 
         ParentPanel.Controls.Add(newPanel)
@@ -137,98 +159,92 @@ Public Class Main_Menu
     End Sub
 
     Private Function IsFormExist(ByVal formCheck As Form, ByVal _UserID As String, ByVal _MainMenuID As String) As Form
+        ' Cek apakah DiscusForm sudah ada
+        'Dim existingForm As Form = Nothing
 
-        Try
-            OpenConn()
+        '' Loop untuk mencari form yang sudah terbuka
+        'For Each form As Form In Application.OpenForms
+        '    If form.GetType() Is formCheck Then
+        '        existingForm = form
+        '        Exit For
+        '    End If
+        'Next
+        UserID = _UserID
+        MainMenuID = _MainMenuID
 
-            SQL = "select * from menus a, RoleMenus b "
-            SQL = SQL & "where a.MenuID=b.MenuID "
-            SQL = SQL & "and b.UserID='" & _UserID & "' "
-            SQL = SQL & "and a.MainMenuID='" & _MainMenuID & "' "
-            Using Dr = OpenTrans(SQL)
-                If Dr.HasRows Then
-                    UserID = _UserID
-                    MainMenuID = _MainMenuID
+        Return formCheck
 
-                    Return formCheck
-                Else
-                    Return Nothing
-                End If
-            End Using
 
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MessageBox.Show(ex.Message)
-            Return Nothing
-        End Try
+        '' Jika form tidak ditemukan, buat instance baru dengan konstruktor yang memiliki parameter
+        'If existingForm Is Nothing Then
+        '    'Dim newForm As Form = CType(Activator.CreateInstance(formCheck, Role, MainMenuID), Form) 'convert object baru ke form
 
+        '    UserID = _UserID
+        '    MainMenuID = _MainMenuID
+
+        '    Dim newForm As New FMenu()
+        '    newForm.Show()
+        '    Return newForm
+        'Else
+        '    ' Jika form sudah ada buka formnya
+        '    existingForm.BringToFront()
+        '    existingForm.Focus()
+        '    Return existingForm
+        'End If
     End Function
 
 
     Private Sub ShowForm(ByVal form As Form)
 
-        If form Is Nothing Then Exit Sub
-
-        Me.Hide()
         form.StartPosition = FormStartPosition.CenterScreen
         form.Show()
         form.Focus()
-
+        Me.Hide()
     End Sub
 
-    'Private Sub ShowForm(ByVal form As Form, ByVal a As String, ByVal b As String)
+    Private Sub MouseEntered_Panel(sender As Object, e As EventArgs)
+        Dim panel As Panel
 
-    '    Me.Hide()
+        ' Cek apakah sender adalah Panel, jika iya, langsung cast
+        If TypeOf sender Is Panel Then
+            panel = CType(sender, Panel)
+        ElseIf TypeOf sender Is PictureBox OrElse TypeOf sender Is Label Then
+            ' Jika sender adalah PictureBox atau Label, gunakan Parent untuk mengakses Panel
+            panel = CType(CType(sender, Control).Parent, Panel)
+        End If
 
-    '    If Not String.IsNullOrWhiteSpace(a) AndAlso Not String.IsNullOrWhiteSpace(b) Then
-    '        Dim propertyInfo = form.GetType().GetProperty(a)
-    '        If propertyInfo IsNot Nothing AndAlso propertyInfo.CanWrite Then
-    '            propertyInfo.SetValue(form, b)
-    '        End If
-    '    End If
+        ' Ubah warna background panel jika panel ditemukan
+        If panel IsNot Nothing Then
+            panel.BackColor = Color.FromArgb(231, 231, 231)
+        End If
+    End Sub
 
-    '    form.StartPosition = FormStartPosition.CenterScreen
-    '    form.Show()
-    '    form.Focus()
-    'End Sub
+    Private Sub MouseLeft_Panel(sender As Object, e As EventArgs)
+        Dim panel As Panel
 
-    'Private Sub MouseEntered_Panel(sender As Object, e As EventArgs)
-    '    Dim panel As Panel
+        ' Cek apakah sender adalah Panel, jika iya, langsung cast
+        If TypeOf sender Is Panel Then
+            panel = CType(sender, Panel)
+        ElseIf TypeOf sender Is PictureBox OrElse TypeOf sender Is Label Then
+            ' Jika sender adalah PictureBox atau Label, gunakan Parent untuk mengakses Panel
+            panel = CType(CType(sender, Control).Parent, Panel)
+        End If
 
-    '    ' Cek apakah sender adalah Panel, jika iya, langsung cast
-    '    If TypeOf sender Is Panel Then
-    '        panel = CType(sender, Panel)
-    '    ElseIf TypeOf sender Is PictureBox OrElse TypeOf sender Is Label Then
-    '        ' Jika sender adalah PictureBox atau Label, gunakan Parent untuk mengakses Panel
-    '        panel = CType(CType(sender, Control).Parent, Panel)
-    '    End If
-
-    '    ' Ubah warna background panel jika panel ditemukan
-    '    If panel IsNot Nothing Then
-    '        panel.BackColor = Color.FromArgb(231, 231, 231)
-    '    End If
-    'End Sub
-
-    'Private Sub MouseLeft_Panel(sender As Object, e As EventArgs)
-    '    Dim panel As Panel
-
-    '    ' Cek apakah sender adalah Panel, jika iya, langsung cast
-    '    If TypeOf sender Is Panel Then
-    '        panel = CType(sender, Panel)
-    '    ElseIf TypeOf sender Is PictureBox OrElse TypeOf sender Is Label Then
-    '        ' Jika sender adalah PictureBox atau Label, gunakan Parent untuk mengakses Panel
-    '        panel = CType(CType(sender, Control).Parent, Panel)
-    '    End If
-
-    '    ' Kembalikan warna background panel ke warna asli jika panel ditemukan
-    '    If panel IsNot Nothing Then
-    '        panel.BackColor = SystemColors.Control
-    '    End If
-    'End Sub
+        ' Kembalikan warna background panel ke warna asli jika panel ditemukan
+        If panel IsNot Nothing Then
+            panel.BackColor = SystemColors.Control
+        End If
+    End Sub
 
 
     Private Sub Main_Menu_Disposed(sender As Object, e As EventArgs) Handles Me.Disposed
         End
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs)
+
+        FMenu.Show()
+        FMenu.Focus()
+        Me.Hide()
     End Sub
 End Class

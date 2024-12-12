@@ -1,13 +1,13 @@
-﻿Public Class FormDevleopment
+﻿Public Class FMenuDev
 
 #Region "INITIAL FUNCTION"
 
-    Private Sub FormDevleopment_AutoSizeChanged(sender As Object, e As EventArgs) Handles Me.AutoSizeChanged
+    Private Sub FMenu_AutoSizeChanged(sender As Object, e As EventArgs) Handles Me.AutoSizeChanged
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
     End Sub
 
-    Private Sub FormDevleopment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub FMenu_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
 
@@ -161,7 +161,7 @@
         Emi_Display_Timbang_FloorScale.Focus()
     End Sub
 
-    Private Sub MaterRecrutmentToolStripMenuItem_Click(sender As Object, e As EventArgs) 
+    Private Sub MaterRecrutmentToolStripMenuItem_Click(sender As Object, e As EventArgs)
         Jf_Master_Rekrutmen_Display.StartPosition = FormStartPosition.CenterScreen
 
         Jf_Master_Rekrutmen_Display.MdiParent = Me
@@ -351,6 +351,14 @@
         Loading_Barang_Import.MdiParent = Me
         Loading_Barang_Import.Show()
         Loading_Barang_Import.Focus()
+    End Sub
+
+    Private Sub HitungHPPToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HitungHPPToolStripMenuItem.Click
+        Hitung_HPP_Import.StartPosition = FormStartPosition.CenterScreen
+
+        Hitung_HPP_Import.MdiParent = Me
+        Hitung_HPP_Import.Show()
+        Hitung_HPP_Import.Focus()
     End Sub
 
 

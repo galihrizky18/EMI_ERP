@@ -237,8 +237,8 @@ Public Class Jf_Master_Rekrutmen_Display
         'Tgl1.Enabled = False : Tgl1.Value = CDate(FMenu.ToolStripStatusLabel3.Text)
         'Tgl2.Enabled = False : Tgl2.Value = CDate(FMenu.ToolStripStatusLabel3.Text)
 
-        Tgl1.Enabled = False : Tgl1.Value = CDate(FormDevleopment.ToolStripStatusLabel3.Text)
-        Tgl2.Enabled = False : Tgl2.Value = CDate(FormDevleopment.ToolStripStatusLabel3.Text)
+        Tgl1.Enabled = False : Tgl1.Value = CDate(FMenu.ToolStripStatusLabel3.Text)
+        Tgl2.Enabled = False : Tgl2.Value = CDate(FMenu.ToolStripStatusLabel3.Text)
 
         CmbTanggal.Items.Clear() : LTanggal.Clear()
         CmbTanggal.Items.Add("Tgl Faktur") : LTanggal.Add("Tanggal")
@@ -260,7 +260,7 @@ Public Class Jf_Master_Rekrutmen_Display
         '=    JNAGN LUPA DI UNCOMMENT
         '===================
         'TglFaktur.Value = CDate(FMenu.ToolStripStatusLabel3.Text)
-        TglFaktur.Value = CDate(FormDevleopment.ToolStripStatusLabel3.Text)
+        TglFaktur.Value = CDate(FMenu.ToolStripStatusLabel3.Text)
 
         TxtNoFaktur.Text = ""
         TxtKodeKaryawan.Text = "" : TxtNamaKaryawan.Text = "" : TxtAlamat.Text = "" : TxtTelepon.Text = "" : TxtHp.Text = ""
@@ -268,7 +268,7 @@ Public Class Jf_Master_Rekrutmen_Display
         '=    JNAGN LUPA DI UNCOMMENT
         '===================
         'TglLahir.Value = CDate(FMenu.ToolStripStatusLabel3.Text)
-        TglLahir.Value = CDate(FormDevleopment.ToolStripStatusLabel3.Text)
+        TglLahir.Value = CDate(FMenu.ToolStripStatusLabel3.Text)
 
 
         TxtEmail.Text = ""

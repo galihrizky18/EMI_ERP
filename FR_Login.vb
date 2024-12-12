@@ -78,7 +78,7 @@ Public Class FR_Login
 
         If userCheck.Rows.Count > 0 Then
             Me.Hide()
-            Dim MenuForm As New Main_Menu()
+            Dim MenuForm As New Main_MenuDev()
             MenuForm.Show()
             MenuForm.Focus()
         Else

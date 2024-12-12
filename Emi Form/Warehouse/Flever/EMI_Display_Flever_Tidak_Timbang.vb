@@ -318,10 +318,10 @@ Public Class EMI_Display_Flever_Tidak_Timbang
             Dim Hpp_baru As Double = Math.Round(totalharga / GetDataJmlAkhir, 0)
 
             'GENERATE SN BARU
-            'JANGAN LUPA DI BALIKIN MENJADI FormDevleopment
-            Dim str As String = Format(Random.Next(0, 999), "000") & Format(CDate(FormDevleopment.ToolStripStatusLabel3.Text), "HHmmss")
+            'JANGAN LUPA DI BALIKIN MENJADI FMenu
+            Dim str As String = Format(Random.Next(0, 999), "000") & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HHmmss")
 
-            'Dim str As String = Format(Random.Next(0, 999), "000") & Format(CDate(FormDevleopment.ToolStripStatusLabel3.Text), "HHmmss")
+            'Dim str As String = Format(Random.Next(0, 999), "000") & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HHmmss")
             Dim Kode_Unik As String = str.Substring(0, 5) & "BB" & Chr(64 + str.Substring(6, 1)) & str.Substring(6, Len(str) - 6)
             Dim SN_Baru As String = Kode_Unik & Tanda_SN & "01" & Tanda_SN & Hpp_baru & Tanda_SN & "02" & Tanda_SN & Format(DateTime.Now, "yyyy-MM-dd")
 

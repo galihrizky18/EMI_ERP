@@ -344,8 +344,8 @@
         ComboBox1.SelectedIndex = -1
         ComboBox2.SelectedIndex = -1
         ComboBox3.SelectedIndex = -1
-        DtTanggal_Po.Value = FormDevleopment.ToolStripStatusLabel3.Text
-        DateTimePicker1.Value = FormDevleopment.ToolStripStatusLabel3.Text
+        DtTanggal_Po.Value = FMenu.ToolStripStatusLabel3.Text
+        DateTimePicker1.Value = FMenu.ToolStripStatusLabel3.Text
 
         DataGridView1.Rows.Clear()
         ListView2.Clear()
@@ -1421,7 +1421,7 @@
 
         TextBox3.Text = ""
         TextBox4.Text = ""
-        DateTimePicker1.Value = FormDevleopment.ToolStripStatusLabel3.Text
+        DateTimePicker1.Value = FMenu.ToolStripStatusLabel3.Text
     End Sub
 
     Private Sub ListView3_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ListView3.Click
