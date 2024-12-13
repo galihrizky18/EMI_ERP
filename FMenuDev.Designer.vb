@@ -80,6 +80,7 @@ Partial Class FMenuDev
         Me.ImportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TransaksiToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem()
         Me.LoadingBarangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.HitungHPPToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel4 = New System.Windows.Forms.ToolStripStatusLabel()
@@ -87,7 +88,9 @@ Partial Class FMenuDev
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
-        Me.HitungHPPToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BiayaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.WorkCenterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CompareWorkCenterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -417,16 +420,16 @@ Partial Class FMenuDev
         '
         'TransaksiToolStripMenuItem3
         '
-        Me.TransaksiToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProduksiToolStripMenuItem, Me.OrderProduksiToolStripMenuItem1})
+        Me.TransaksiToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProduksiToolStripMenuItem, Me.OrderProduksiToolStripMenuItem1, Me.BiayaToolStripMenuItem})
         Me.TransaksiToolStripMenuItem3.Name = "TransaksiToolStripMenuItem3"
-        Me.TransaksiToolStripMenuItem3.Size = New System.Drawing.Size(122, 22)
+        Me.TransaksiToolStripMenuItem3.Size = New System.Drawing.Size(180, 22)
         Me.TransaksiToolStripMenuItem3.Text = "Transaksi"
         '
         'ProduksiToolStripMenuItem
         '
         Me.ProduksiToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.QCToolStripMenuItem})
         Me.ProduksiToolStripMenuItem.Name = "ProduksiToolStripMenuItem"
-        Me.ProduksiToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.ProduksiToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ProduksiToolStripMenuItem.Text = "Produksi"
         '
         'QCToolStripMenuItem
@@ -438,7 +441,7 @@ Partial Class FMenuDev
         'OrderProduksiToolStripMenuItem1
         '
         Me.OrderProduksiToolStripMenuItem1.Name = "OrderProduksiToolStripMenuItem1"
-        Me.OrderProduksiToolStripMenuItem1.Size = New System.Drawing.Size(153, 22)
+        Me.OrderProduksiToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.OrderProduksiToolStripMenuItem1.Text = "Order Produksi"
         '
         'ImportToolStripMenuItem
@@ -452,14 +455,20 @@ Partial Class FMenuDev
         '
         Me.TransaksiToolStripMenuItem4.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadingBarangToolStripMenuItem, Me.HitungHPPToolStripMenuItem})
         Me.TransaksiToolStripMenuItem4.Name = "TransaksiToolStripMenuItem4"
-        Me.TransaksiToolStripMenuItem4.Size = New System.Drawing.Size(180, 22)
+        Me.TransaksiToolStripMenuItem4.Size = New System.Drawing.Size(122, 22)
         Me.TransaksiToolStripMenuItem4.Text = "Transaksi"
         '
         'LoadingBarangToolStripMenuItem
         '
         Me.LoadingBarangToolStripMenuItem.Name = "LoadingBarangToolStripMenuItem"
-        Me.LoadingBarangToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.LoadingBarangToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.LoadingBarangToolStripMenuItem.Text = "Loading Barang"
+        '
+        'HitungHPPToolStripMenuItem
+        '
+        Me.HitungHPPToolStripMenuItem.Name = "HitungHPPToolStripMenuItem"
+        Me.HitungHPPToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.HitungHPPToolStripMenuItem.Text = "Hitung HPP"
         '
         'StatusStrip1
         '
@@ -507,13 +516,26 @@ Partial Class FMenuDev
         Me.Timer2.Enabled = True
         Me.Timer2.Interval = 1800000
         '
-        'HitungHPPToolStripMenuItem
+        'BiayaToolStripMenuItem
         '
-        Me.HitungHPPToolStripMenuItem.Name = "HitungHPPToolStripMenuItem"
-        Me.HitungHPPToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.HitungHPPToolStripMenuItem.Text = "Hitung HPP"
+        Me.BiayaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WorkCenterToolStripMenuItem, Me.CompareWorkCenterToolStripMenuItem})
+        Me.BiayaToolStripMenuItem.Name = "BiayaToolStripMenuItem"
+        Me.BiayaToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.BiayaToolStripMenuItem.Text = "Biaya"
         '
-        'FormDevleopment
+        'WorkCenterToolStripMenuItem
+        '
+        Me.WorkCenterToolStripMenuItem.Name = "WorkCenterToolStripMenuItem"
+        Me.WorkCenterToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.WorkCenterToolStripMenuItem.Text = "Work Center"
+        '
+        'CompareWorkCenterToolStripMenuItem
+        '
+        Me.CompareWorkCenterToolStripMenuItem.Name = "CompareWorkCenterToolStripMenuItem"
+        Me.CompareWorkCenterToolStripMenuItem.Size = New System.Drawing.Size(192, 22)
+        Me.CompareWorkCenterToolStripMenuItem.Text = "Compare Work Center"
+        '
+        'FMenuDev
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -522,7 +544,7 @@ Partial Class FMenuDev
         Me.Controls.Add(Me.MenuStrip1)
         Me.IsMdiContainer = True
         Me.MainMenuStrip = Me.MenuStrip1
-        Me.Name = "FormDevleopment"
+        Me.Name = "FMenuDev"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "FormDevleopment"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
@@ -600,4 +622,7 @@ Partial Class FMenuDev
     Friend WithEvents TransaksiToolStripMenuItem4 As ToolStripMenuItem
     Friend WithEvents LoadingBarangToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents HitungHPPToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents BiayaToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents WorkCenterToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CompareWorkCenterToolStripMenuItem As ToolStripMenuItem
 End Class

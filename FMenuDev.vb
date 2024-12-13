@@ -361,6 +361,22 @@
         Hitung_HPP_Import.Focus()
     End Sub
 
+    Private Sub WorkCenterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles WorkCenterToolStripMenuItem.Click
+        EMI_Transaksi_Work_Center.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Transaksi_Work_Center.MdiParent = Me
+        EMI_Transaksi_Work_Center.Show()
+        EMI_Transaksi_Work_Center.Focus()
+    End Sub
+
+    Private Sub CompareWorkCenterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CompareWorkCenterToolStripMenuItem.Click
+        EMI_Compare_Work_Center.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Compare_Work_Center.MdiParent = Me
+        EMI_Compare_Work_Center.Show()
+        EMI_Compare_Work_Center.Focus()
+    End Sub
+
 
 
 

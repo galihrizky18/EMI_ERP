@@ -889,6 +889,12 @@
     <Compile Include="Emi Form\Cost Center\Master_Cost_Center.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Work Center\EMI_Compare_Work_Center.Designer.vb">
+      <DependentUpon>EMI_Compare_Work_Center.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Work Center\EMI_Compare_Work_Center.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\Work Center\EMI_Transaksi_Work_Center.designer.vb">
       <DependentUpon>EMI_Transaksi_Work_Center.vb</DependentUpon>
     </Compile>
@@ -1026,6 +1032,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BM_PerPallet.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Rpt\Faktur_DO_Reseller.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Faktur_DO_Reseller.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Rpt\Faktur_DO_Reseller2.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Faktur_DO_Reseller2.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Rpt\Faktur_Flever.vb">
@@ -1643,6 +1661,9 @@
     <EmbeddedResource Include="Emi Form\Cost Center\Master_Cost_Center.resx">
       <DependentUpon>Master_Cost_Center.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Work Center\EMI_Compare_Work_Center.resx">
+      <DependentUpon>EMI_Compare_Work_Center.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Work Center\EMI_Transaksi_Work_Center.resx">
       <DependentUpon>EMI_Transaksi_Work_Center.vb</DependentUpon>
     </EmbeddedResource>
@@ -1709,6 +1730,14 @@
     <EmbeddedResource Include="Rpt\BM_PerPallet.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BM_PerPallet.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\Faktur_DO_Reseller.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Faktur_DO_Reseller.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\Faktur_DO_Reseller2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Faktur_DO_Reseller2.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Rpt\Faktur_Flever.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

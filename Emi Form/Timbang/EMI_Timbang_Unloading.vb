@@ -967,7 +967,6 @@ Public Class EMI_Timbang_Unloading
 
 
 
-
                 kosong()
                 EMI_Display_Timbang.kosong()
                 Me.Close()
