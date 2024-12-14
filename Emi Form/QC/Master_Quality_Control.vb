@@ -471,7 +471,7 @@ Public Class Master_Quality_Control
             F_Dekstop = "NULL"
         Else
             F_Android = "NULL"
-            F_Dekstop = "Y"
+            F_Dekstop = "'Y'"
         End If
 
         Dim Range_Awal As String = ""
@@ -521,12 +521,12 @@ Public Class Master_Quality_Control
             If Btn_Simpan.Tag = "&Simpan" Then
 
                 SQL = "Insert Into EMI_Quality_Control(Kode_Perusahaan,Kode_Uji,Keterangan,"
-                SQL = SQL & "Satuan,Target,Id_Kategori_Komponen,flag_tampil_dekstop,flag_tampil_android,range_awal,range_akhir) Values("
+                SQL = SQL & "Satuan,Target,Id_Kategori_Komponen,flag_tampil_dekstop,flag_tampil_android,range_awal,range_akhir, Flag_Tampil_Formula, Flag_Tampil_Bahan) Values("
                 SQL = SQL & "'" & KodePerusahaan & "','" & Txt_Kode.Text & "',"
                 SQL = SQL & "'" & Txt_Keterangan.Text & "','" & Cmb_Satuan.Text & "',"
                 SQL = SQL & "NULL,'" & arrJenisQC.Item(Cmb_Jenis.SelectedIndex) & "', "
                 SQL = SQL & "" & F_Dekstop & ", " & F_Android & ", "
-                SQL = SQL & "" & Range_Awal & ", " & Range_Akhir & " )"
+                SQL = SQL & "" & Range_Awal & ", " & Range_Akhir & ", 'Y', 'Y' )"
                 ExecuteTrans(SQL)
 
                 If arrFlg_Option.Item(Cmb_Jenis.SelectedIndex) = "Y" Then
@@ -765,26 +765,36 @@ Public Class Master_Quality_Control
         End If
     End Sub
 
-    Private Sub Txt_RangeAwal_TextChanged(sender As Object, e As EventArgs) Handles Txt_RangeAwal.TextChanged
-
-    End Sub
 
     Private Sub Txt_RangeAwal_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_RangeAwal.KeyPress
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
-            e.Handled = True
-        End If
+        'If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+        '    e.Handled = True
+        'End If
+
+
+
     End Sub
 
-    Private Sub Txt_RangeAkhir_TextChanged(sender As Object, e As EventArgs) Handles Txt_RangeAkhir.TextChanged
-
-    End Sub
 
     Private Sub Txt_RangeAkhir_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_RangeAkhir.KeyPress
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
-            e.Handled = True
+        'If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+        '    e.Handled = True
+        'End If
+
+
+    End Sub
+
+    Private Sub Txt_RangeAwal_Leave(sender As Object, e As EventArgs) Handles Txt_RangeAwal.Leave
+        If Not IsNumeric(Txt_RangeAwal.Text) Then
+            Txt_RangeAwal.Text = ""
         End If
     End Sub
 
+    Private Sub Txt_RangeAkhir_Leave(sender As Object, e As EventArgs) Handles Txt_RangeAkhir.Leave
+        If Not IsNumeric(Txt_RangeAkhir.Text) Then
+            Txt_RangeAkhir.Text = ""
+        End If
+    End Sub
 
     Private Sub CmbJenis_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Jenis.SelectedIndexChanged
         If Cmb_Jenis.Text.Trim.ToUpper = "SWITCH" Then

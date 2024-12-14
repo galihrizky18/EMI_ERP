@@ -655,6 +655,24 @@
     <Compile Include="Emi Form\Purchase\Tracking_Kamar_Timbang.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\QC\Master_Quality_Control.designer.vb">
+      <DependentUpon>Master_Quality_Control.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\QC\Master_Quality_Control.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\QC\Master_Quality_Control_Barang.designer.vb">
+      <DependentUpon>Master_Quality_Control_Barang.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\QC\Master_Quality_Control_Barang.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\QC\Master_Quality_Control_Kategori_Detail.designer.vb">
+      <DependentUpon>Master_Quality_Control_Kategori_Detail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\QC\Master_Quality_Control_Kategori_Detail.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\QC\Quality Inspection\EMI_Display_QC_Produksi.Designer.vb">
       <DependentUpon>EMI_Display_QC_Produksi.vb</DependentUpon>
     </Compile>
@@ -683,12 +701,6 @@
       <DependentUpon>EMI_Transaksi_Quality_Control.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\QC\EMI_Transaksi_Quality_Control.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\QC\Master_Quality_Control.designer.vb">
-      <DependentUpon>Master_Quality_Control.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\QC\Master_Quality_Control.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\QC\Quality Inspection\Emi_Display_QI.Designer.vb">
@@ -899,6 +911,18 @@
       <DependentUpon>EMI_Transaksi_Work_Center.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Work Center\EMI_Transaksi_Work_Center.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Work Center\EMI_Transaksi_Work_Center_By_Automation.designer.vb">
+      <DependentUpon>EMI_Transaksi_Work_Center_By_Automation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Work Center\EMI_Transaksi_Work_Center_By_Automation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Work Center\EMI_Transaksi_Work_Center_PerBulan.designer.vb">
+      <DependentUpon>EMI_Transaksi_Work_Center_PerBulan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Work Center\EMI_Transaksi_Work_Center_PerBulan.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Work Center\Master_Work_Center.Designer.vb">
@@ -1543,6 +1567,15 @@
     <EmbeddedResource Include="Emi Form\Purchase\Tracking_Kamar_Timbang.resx">
       <DependentUpon>Tracking_Kamar_Timbang.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\QC\Master_Quality_Control.resx">
+      <DependentUpon>Master_Quality_Control.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\QC\Master_Quality_Control_Barang.resx">
+      <DependentUpon>Master_Quality_Control_Barang.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\QC\Master_Quality_Control_Kategori_Detail.resx">
+      <DependentUpon>Master_Quality_Control_Kategori_Detail.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\QC\Quality Inspection\EMI_Display_QC_Produksi.resx">
       <DependentUpon>EMI_Display_QC_Produksi.vb</DependentUpon>
     </EmbeddedResource>
@@ -1557,9 +1590,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\QC\EMI_Transaksi_Quality_Control.resx">
       <DependentUpon>EMI_Transaksi_Quality_Control.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\QC\Master_Quality_Control.resx">
-      <DependentUpon>Master_Quality_Control.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\QC\Quality Inspection\Emi_Display_QI.resx">
       <DependentUpon>Emi_Display_QI.vb</DependentUpon>
@@ -1666,6 +1696,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Work Center\EMI_Transaksi_Work_Center.resx">
       <DependentUpon>EMI_Transaksi_Work_Center.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Work Center\EMI_Transaksi_Work_Center_By_Automation.resx">
+      <DependentUpon>EMI_Transaksi_Work_Center_By_Automation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Work Center\EMI_Transaksi_Work_Center_PerBulan.resx">
+      <DependentUpon>EMI_Transaksi_Work_Center_PerBulan.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Work Center\Master_Work_Center.resx">
       <DependentUpon>Master_Work_Center.vb</DependentUpon>

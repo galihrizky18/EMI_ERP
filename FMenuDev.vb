@@ -377,6 +377,30 @@
         EMI_Compare_Work_Center.Focus()
     End Sub
 
+    Private Sub QualityControlBarangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QualityControlBarangToolStripMenuItem.Click
+        Master_Quality_Control_Barang.StartPosition = FormStartPosition.CenterScreen
+
+        Master_Quality_Control_Barang.MdiParent = Me
+        Master_Quality_Control_Barang.Show()
+        Master_Quality_Control_Barang.Focus()
+    End Sub
+
+    Private Sub DetailKategoriQCToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DetailKategoriQCToolStripMenuItem.Click
+        Master_Quality_Control_Kategori_Detail.StartPosition = FormStartPosition.CenterScreen
+
+        Master_Quality_Control_Kategori_Detail.MdiParent = Me
+        Master_Quality_Control_Kategori_Detail.Show()
+        Master_Quality_Control_Kategori_Detail.Focus()
+    End Sub
+
+    Private Sub WorkCenterAutomationToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles WorkCenterAutomationToolStripMenuItem.Click
+        EMI_Transaksi_Work_Center_By_Automation.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Transaksi_Work_Center_By_Automation.MdiParent = Me
+        EMI_Transaksi_Work_Center_By_Automation.Show()
+        EMI_Transaksi_Work_Center_By_Automation.Focus()
+    End Sub
+
 
 
 

@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class EMI_Transaksi_Work_Center
+Partial Class EMI_Transaksi_Work_Center_By_Automation
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -43,13 +43,13 @@ Partial Class EMI_Transaksi_Work_Center
         Me.BtnRefresh = New System.Windows.Forms.Button()
         Me.CmbLokasi = New System.Windows.Forms.ComboBox()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.BtnCari = New System.Windows.Forms.Button()
         Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.BtnCari = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -85,9 +85,9 @@ Partial Class EMI_Transaksi_Work_Center
         Me.Lbl_Judul.Location = New System.Drawing.Point(18, 14)
         Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
         Me.Lbl_Judul.Name = "Lbl_Judul"
-        Me.Lbl_Judul.Size = New System.Drawing.Size(248, 30)
+        Me.Lbl_Judul.Size = New System.Drawing.Size(406, 30)
         Me.Lbl_Judul.TabIndex = 0
-        Me.Lbl_Judul.Text = "Transaksi Work Center"
+        Me.Lbl_Judul.Text = "Transaksi Work Center By Automation"
         '
         'Panel2
         '
@@ -252,19 +252,6 @@ Partial Class EMI_Transaksi_Work_Center
         Me.DataGridView1.Size = New System.Drawing.Size(1132, 391)
         Me.DataGridView1.TabIndex = 398
         '
-        'BtnCari
-        '
-        Me.BtnCari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.BtnCari.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.BtnCari.ForeColor = System.Drawing.Color.White
-        Me.BtnCari.Location = New System.Drawing.Point(451, 101)
-        Me.BtnCari.Margin = New System.Windows.Forms.Padding(4)
-        Me.BtnCari.Name = "BtnCari"
-        Me.BtnCari.Size = New System.Drawing.Size(98, 32)
-        Me.BtnCari.TabIndex = 402
-        Me.BtnCari.Text = "&Cari"
-        Me.BtnCari.UseVisualStyleBackColor = False
-        '
         'Column7
         '
         Me.Column7.Frozen = True
@@ -305,7 +292,7 @@ Partial Class EMI_Transaksi_Work_Center
         DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         Me.Column2.DefaultCellStyle = DataGridViewCellStyle3
         Me.Column2.Frozen = True
-        Me.Column2.HeaderText = "Mesin"
+        Me.Column2.HeaderText = "Nama "
         Me.Column2.MinimumWidth = 6
         Me.Column2.Name = "Column2"
         Me.Column2.ReadOnly = True
@@ -320,7 +307,20 @@ Partial Class EMI_Transaksi_Work_Center
         Me.Column3.Name = "Column3"
         Me.Column3.Width = 150
         '
-        'EMI_Transaksi_Work_Center
+        'BtnCari
+        '
+        Me.BtnCari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnCari.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnCari.ForeColor = System.Drawing.Color.White
+        Me.BtnCari.Location = New System.Drawing.Point(451, 101)
+        Me.BtnCari.Margin = New System.Windows.Forms.Padding(4)
+        Me.BtnCari.Name = "BtnCari"
+        Me.BtnCari.Size = New System.Drawing.Size(98, 32)
+        Me.BtnCari.TabIndex = 402
+        Me.BtnCari.Text = "&Cari"
+        Me.BtnCari.UseVisualStyleBackColor = False
+        '
+        'EMI_Transaksi_Work_Center_By_Automation
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -345,7 +345,7 @@ Partial Class EMI_Transaksi_Work_Center
         Me.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "EMI_Transaksi_Work_Center"
+        Me.Name = "EMI_Transaksi_Work_Center_By_Automation"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
@@ -372,11 +372,11 @@ Partial Class EMI_Transaksi_Work_Center
     Friend WithEvents BtnRefresh As Button
     Friend WithEvents CmbLokasi As ComboBox
     Friend WithEvents DataGridView1 As DataGridView
-    Friend WithEvents BtnCari As Button
     Friend WithEvents Column7 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
     Friend WithEvents Column6 As DataGridViewTextBoxColumn
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
+    Friend WithEvents BtnCari As Button
 End Class

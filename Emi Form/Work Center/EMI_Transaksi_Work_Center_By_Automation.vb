@@ -1,4 +1,4 @@
-﻿Public Class EMI_Transaksi_Work_Center
+﻿Public Class EMI_Transaksi_Work_Center_By_Automation
     Dim arrBulan, arrBulanMM As New ArrayList
 
     Dim LvSO As String
@@ -98,7 +98,7 @@
             DataGridView1.Columns(3).Width = 0
             DataGridView1.Columns(3).Visible = False
 
-            DataGridView1.Columns.Add("Nama", "Mesin")
+            DataGridView1.Columns.Add("Nama", "Nama")
             DataGridView1.Columns(4).Width = 200
 
             For i As Integer = 0 To 4
@@ -118,9 +118,9 @@
     End Sub
 
     Private Sub get_no_faktur(ByVal BulanTahun As String)
-        Dim FPro_Results As String = "TCC"
+        Dim FPro_Results As String = "TCCA"
         TxtBarangMasuk_NoFaktur.Text = FPro_Results & BulanTahun & "-" &
-                             General_Class.Get_Last_Number2("Emi_Transaksi_work_Center", "No_Faktur", 5,
+                             General_Class.Get_Last_Number2("Emi_Transaksi_Work_Center_Automation", "No_Faktur", 5,
                              "Kode_perusahaan", KodePerusahaan,
                              "And", "substring(No_Faktur, 1, " & Len(FPro_Results) + 4 & ")", FPro_Results & BulanTahun)
     End Sub
@@ -141,41 +141,42 @@
         '============================================================================================================================
         ' TAMBAH KOLOM SESUAI JENIS BIAYA
         '============================================================================================================================
-
         Dim ColNum As Integer = 5
-        If Not isTambahKolomKdJnsBiayaProduksi Then
-            Try
-                OpenConn()
+        Try
+            OpenConn()
 
-                SQL = "Select kode_jenis_biaya_produksi from emi_jenis_biaya_produksi where kode_perusahaan = '" & KodePerusahaan & "'"
-                Using dr = OpenTrans(SQL)
-                    Do While dr.Read
-                        DataGridView1.Columns.Add(dr("kode_jenis_biaya_produksi"), dr("kode_jenis_biaya_produksi"))
-                        DataGridView1.Columns(ColNum).Width = 130
-                        DataGridView1.Columns(ColNum).ReadOnly = False
-                        DataGridView1.Columns(ColNum).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-                        ColNum += 1
-                    Loop
-                End Using
+            '=================================================
+            '=     MENGHAPUS KOLOM MULAI DARI INDEX KE 5     =
+            '=================================================
 
-                CloseConn()
-            Catch ex As Exception
-                CloseConn()
-                MessageBox.Show(ex.Message)
-                Exit Sub
-            End Try
-            isTambahKolomKdJnsBiayaProduksi = True
-        End If
+            For i As Integer = DataGridView1.Columns.Count - 1 To ColNum Step -1
+                DataGridView1.Columns.RemoveAt(i)
+            Next
 
+            SQL = "Select kode_jenis_biaya_produksi from emi_jenis_biaya_produksi where kode_perusahaan = '" & KodePerusahaan & "'"
+            Using dr = OpenTrans(SQL)
+                Do While dr.Read
+                    DataGridView1.Columns.Add(dr("kode_jenis_biaya_produksi"), dr("kode_jenis_biaya_produksi"))
+                    DataGridView1.Columns(ColNum).Width = 130
+                    DataGridView1.Columns(ColNum).ReadOnly = False
+                    DataGridView1.Columns(ColNum).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+                    ColNum += 1
+                Loop
+            End Using
 
-
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
         '============================================================================================================================
 
         Try
             OpenConn()
 
             SQL = "select a.No_Faktur,b.Kode_Stock_Owner,b.Kode_Barang,d.Nama,b.Id_Work_Center,c.Keterangan,b.Total,b.Nilai_Per_pcs "
-            SQL = SQL & "from Emi_Transaksi_Work_Center a,Emi_Transaksi_Work_Center_Detail b,EMI_Master_Work_Center c,Barang d "
+            SQL = SQL & "from Emi_Transaksi_Work_Center_Automation a,Emi_Transaksi_Work_Center_Detail_Automation b,EMI_Master_Work_Center c,Barang d "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and a.Status is null "
             SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Work_Center = c.Id_Work_Center "
             SQL = SQL & "and b.Kode_Perusahaan = d.Kode_Perusahaan and b.kode_Stock_Owner = d.Kode_Stock_Owner and b.Kode_Barang = d.Kode_Barang "
@@ -200,22 +201,22 @@
                             '========================================================================================================================================================================================
                             ColNum = 5
 
-                            SQL = "SELECT  dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin.Jenis_Biaya, dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin.Total "
+                            SQL = "SELECT  dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin_Automation.Jenis_Biaya, dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin_Automation.Total "
 
-                            SQL = SQL & "FROM dbo.Emi_Transaksi_Work_Center INNER JOIN "
-                            SQL = SQL & "dbo.Emi_Transaksi_Work_Center_Detail ON dbo.Emi_Transaksi_Work_Center.Kode_Perusahaan = dbo.Emi_Transaksi_Work_Center_Detail.Kode_Perusahaan AND "
-                            SQL = SQL & "dbo.Emi_Transaksi_Work_Center.No_Faktur = dbo.Emi_Transaksi_Work_Center_Detail.No_Faktur INNER JOIN "
-                            SQL = SQL & "dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin ON dbo.Emi_Transaksi_Work_Center_Detail.Kode_Perusahaan = dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin.Kode_Perusahaan AND "
-                            SQL = SQL & "dbo.Emi_Transaksi_Work_Center_Detail.No_Faktur = dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin.No_Faktur AND "
-                            SQL = SQL & "dbo.Emi_Transaksi_Work_Center_Detail.Kode_Stock_Owner = dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin.Kode_Stock_Owner AND "
-                            SQL = SQL & "dbo.Emi_Transaksi_Work_Center_Detail.Kode_Barang = dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin.Kode_Barang AND "
-                            SQL = SQL & "dbo.Emi_Transaksi_Work_Center_Detail.Id_Work_Center = dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin.Id_Work_Center "
+                            SQL = SQL & "FROM dbo.Emi_Transaksi_Work_Center_Automation INNER JOIN "
+                            SQL = SQL & "dbo.Emi_Transaksi_Work_Center_Detail_Automation ON dbo.Emi_Transaksi_Work_Center_Automation.Kode_Perusahaan = dbo.Emi_Transaksi_Work_Center_Detail_Automation.Kode_Perusahaan AND "
+                            SQL = SQL & "dbo.Emi_Transaksi_Work_Center_Automation.No_Faktur = dbo.Emi_Transaksi_Work_Center_Detail_Automation.No_Faktur INNER JOIN "
+                            SQL = SQL & "dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin_Automation ON dbo.Emi_Transaksi_Work_Center_Detail_Automation.Kode_Perusahaan = dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin_Automation.Kode_Perusahaan AND "
+                            SQL = SQL & "dbo.Emi_Transaksi_Work_Center_Detail_Automation.No_Faktur = dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin_Automation.No_Faktur AND "
+                            SQL = SQL & "dbo.Emi_Transaksi_Work_Center_Detail_Automation.Kode_Stock_Owner = dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin_Automation.Kode_Stock_Owner AND "
+                            SQL = SQL & "dbo.Emi_Transaksi_Work_Center_Detail_Automation.Kode_Barang = dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin_Automation.Kode_Barang AND "
+                            SQL = SQL & "dbo.Emi_Transaksi_Work_Center_Detail_Automation.Id_Work_Center = dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin_Automation.Id_Work_Center "
 
-                            SQL = SQL & "WHERE dbo.Emi_Transaksi_Work_Center.Bulan = '" & arrBulanMM.Item(CmbBulan.SelectedIndex) & "' AND dbo.Emi_Transaksi_Work_Center.Tahun = '" & CmbTahun.Text & "' "
+                            SQL = SQL & "WHERE dbo.Emi_Transaksi_Work_Center_Automation.Bulan = '" & arrBulanMM.Item(CmbBulan.SelectedIndex) & "' AND dbo.Emi_Transaksi_Work_Center_Automation.Tahun = '" & CmbTahun.Text & "' "
 
-                            SQL = SQL & "and dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin.Kode_Stock_Owner = '" & .Rows(i).Item("Kode_Stock_Owner") & "' "
-                            SQL = SQL & "and dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin.Kode_Barang = '" & .Rows(i).Item("Kode_Barang") & "' "
-                            SQL = SQL & "and dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin.Id_Work_Center = '" & .Rows(i).Item("Id_Work_Center") & "' "
+                            SQL = SQL & "and dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin_Automation.Kode_Stock_Owner = '" & .Rows(i).Item("Kode_Stock_Owner") & "' "
+                            SQL = SQL & "and dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin_Automation.Kode_Barang = '" & .Rows(i).Item("Kode_Barang") & "' "
+                            SQL = SQL & "and dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin_Automation.Id_Work_Center = '" & .Rows(i).Item("Id_Work_Center") & "' "
 
                             Using DS1 = BindingTrans(SQL)
                                 If DS1.Tables("MyTable").Rows.Count <> 0 Then
@@ -350,7 +351,7 @@
 
             Cmd.Transaction = Cn.BeginTransaction
 
-            SQL = "INSERT INTO Emi_Transaksi_Work_Center(Kode_Perusahaan,No_Faktur,Bulan,Tahun,UserID,Tanggal,Jam) VALUES("
+            SQL = "INSERT INTO Emi_Transaksi_Work_Center_Automation(Kode_Perusahaan,No_Faktur,Bulan,Tahun,UserID,Tanggal,Jam) VALUES("
             SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & arrBulanMM.Item(CmbBulan.SelectedIndex) & "',"
             SQL = SQL & "'" & CmbTahun.Text & "','" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "') "
             ExecuteTrans(SQL)
@@ -364,7 +365,7 @@
 
                 Get_Isi_Listview(i)
 
-                SQL = "INSERT INTO Emi_Transaksi_Work_Center_Detail (kode_perusahaan,no_faktur,kode_stock_owner,kode_barang,id_work_center,total,nilai_per_pcs)"
+                SQL = "INSERT INTO Emi_Transaksi_Work_Center_Detail_Automation (kode_perusahaan,no_faktur,kode_stock_owner,kode_barang,id_work_center,total,nilai_per_pcs)"
                 SQL = SQL & "Values('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & LvSO & "','"
                 SQL = SQL & LvKd_Brg & "','" & LvId & "','" & Total & "','" & Total & "')"
                 ExecuteTrans(SQL)
@@ -376,7 +377,7 @@
                 Get_Isi_Listview(i)
 
                 For j As Integer = 5 To DataGridView1.Columns.Count - 1
-                    SQL = "INSERT INTO Emi_Transaksi_Work_Center_Detail_Per_Mesin(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Id_Work_Center,Jenis_Biaya,Total,Nilai_Per_Pcs) "
+                    SQL = "INSERT INTO Emi_Transaksi_Work_Center_Detail_Per_Mesin_Automation(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Id_Work_Center,Jenis_Biaya,Total,Nilai_Per_Pcs) "
                     SQL = SQL & "VALUES('" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & LvSO & "','" & LvKd_Brg & "','" & LvId & "','"
                     SQL = SQL & DataGridView1.Columns(j).HeaderText & "','" & DataGridView1.Rows(i).Cells(j).Value & "','" & DataGridView1.Rows(i).Cells(j).Value & "')"
                     ExecuteTrans(SQL)

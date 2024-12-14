@@ -26,17 +26,21 @@ Partial Class Main_Menu
         Me.FlowLayoutMenu_Main = New System.Windows.Forms.FlowLayoutPanel()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
         '
         'FlowLayoutMenu_Main
         '
         Me.FlowLayoutMenu_Main.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
         Me.FlowLayoutMenu_Main.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.FlowLayoutMenu_Main.Location = New System.Drawing.Point(163, 67)
+        Me.FlowLayoutMenu_Main.Location = New System.Drawing.Point(190, 82)
+        Me.FlowLayoutMenu_Main.Margin = New System.Windows.Forms.Padding(4)
         Me.FlowLayoutMenu_Main.Name = "FlowLayoutMenu_Main"
-        Me.FlowLayoutMenu_Main.Size = New System.Drawing.Size(708, 360)
+        Me.FlowLayoutMenu_Main.Size = New System.Drawing.Size(826, 469)
         Me.FlowLayoutMenu_Main.TabIndex = 0
         '
         'Panel1
@@ -44,38 +48,70 @@ Partial Class Main_Menu
         Me.Panel1.Controls.Add(Me.PictureBox1)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(963, 61)
+        Me.Panel1.Size = New System.Drawing.Size(1124, 75)
         Me.Panel1.TabIndex = 1
         '
         'PictureBox1
         '
         Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
         Me.PictureBox1.InitialImage = CType(resources.GetObject("PictureBox1.InitialImage"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(18, 0)
+        Me.PictureBox1.Location = New System.Drawing.Point(21, 0)
+        Me.PictureBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(123, 58)
+        Me.PictureBox1.Size = New System.Drawing.Size(144, 71)
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PictureBox1.TabIndex = 0
         Me.PictureBox1.TabStop = False
         '
+        'Panel2
+        '
+        Me.Panel2.Controls.Add(Me.Button1)
+        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.Panel2.Location = New System.Drawing.Point(0, 587)
+        Me.Panel2.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(1124, 65)
+        Me.Panel2.TabIndex = 2
+        '
+        'Button1
+        '
+        Me.Button1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Button1.ForeColor = System.Drawing.Color.White
+        Me.Button1.Image = CType(resources.GetObject("Button1.Image"), System.Drawing.Image)
+        Me.Button1.Location = New System.Drawing.Point(965, 14)
+        Me.Button1.Name = "Button1"
+        Me.Button1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.Button1.Size = New System.Drawing.Size(134, 39)
+        Me.Button1.TabIndex = 0
+        Me.Button1.Text = "      Exit"
+        Me.Button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.Button1.UseVisualStyleBackColor = False
+        '
         'Main_Menu
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.ClientSize = New System.Drawing.Size(963, 457)
+        Me.ClientSize = New System.Drawing.Size(1124, 652)
+        Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.FlowLayoutMenu_Main)
         Me.DoubleBuffered = True
+        Me.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "Main_Menu"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = ".:: Menu Utama ::. "
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.Panel1.ResumeLayout(False)
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel2.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -83,4 +119,6 @@ Partial Class Main_Menu
     Friend WithEvents FlowLayoutMenu_Main As FlowLayoutPanel
     Friend WithEvents Panel1 As Panel
     Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents Button1 As Button
 End Class

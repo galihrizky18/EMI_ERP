@@ -23,28 +23,34 @@ Partial Class EMI_Compare_Work_Center
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.dgv_biaya = New System.Windows.Forms.DataGridView()
-        Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.dgv_workcenter = New System.Windows.Forms.DataGridView()
-        Me.Panel5 = New System.Windows.Forms.Panel()
-        Me.Panel6 = New System.Windows.Forms.Panel()
         Me.kode_biaya = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.biaya = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.checklist = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.dgv_workcenter = New System.Windows.Forms.DataGridView()
         Me.kd_so = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.kd_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.nm_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.mesin = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.Panel6 = New System.Windows.Forms.Panel()
+        Me.BtnCari = New System.Windows.Forms.Button()
+        Me.CmbTahun = New System.Windows.Forms.ComboBox()
+        Me.CmbBulan = New System.Windows.Forms.ComboBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Panel7 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         CType(Me.dgv_biaya, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgv_workcenter, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -58,21 +64,8 @@ Partial Class EMI_Compare_Work_Center
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1201, 63)
+        Me.Panel1.Size = New System.Drawing.Size(1240, 63)
         Me.Panel1.TabIndex = 24
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 61)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1201, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -111,7 +104,7 @@ Partial Class EMI_Compare_Work_Center
         Me.dgv_biaya.BackgroundColor = System.Drawing.Color.White
         DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
         DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
         DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
@@ -119,65 +112,13 @@ Partial Class EMI_Compare_Work_Center
         Me.dgv_biaya.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.dgv_biaya.ColumnHeadersHeight = 40
         Me.dgv_biaya.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.kode_biaya, Me.biaya, Me.checklist})
-        Me.dgv_biaya.Location = New System.Drawing.Point(13, 78)
+        Me.dgv_biaya.Location = New System.Drawing.Point(13, 120)
         Me.dgv_biaya.Margin = New System.Windows.Forms.Padding(4)
         Me.dgv_biaya.Name = "dgv_biaya"
         Me.dgv_biaya.RowHeadersWidth = 10
         Me.dgv_biaya.RowTemplate.Height = 21
         Me.dgv_biaya.Size = New System.Drawing.Size(208, 463)
         Me.dgv_biaya.TabIndex = 399
-        '
-        'Panel4
-        '
-        Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(221, 79)
-        Me.Panel4.Margin = New System.Windows.Forms.Padding(5)
-        Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(15, 515)
-        Me.Panel4.TabIndex = 37
-        Me.Panel4.Visible = False
-        '
-        'dgv_workcenter
-        '
-        Me.dgv_workcenter.AllowUserToAddRows = False
-        Me.dgv_workcenter.BackgroundColor = System.Drawing.Color.White
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv_workcenter.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
-        Me.dgv_workcenter.ColumnHeadersHeight = 40
-        Me.dgv_workcenter.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.kd_so, Me.kd_barang, Me.nm_barang, Me.mesin})
-        Me.dgv_workcenter.Location = New System.Drawing.Point(238, 78)
-        Me.dgv_workcenter.Margin = New System.Windows.Forms.Padding(4)
-        Me.dgv_workcenter.Name = "dgv_workcenter"
-        Me.dgv_workcenter.RowHeadersWidth = 10
-        Me.dgv_workcenter.RowTemplate.Height = 21
-        Me.dgv_workcenter.Size = New System.Drawing.Size(950, 463)
-        Me.dgv_workcenter.TabIndex = 400
-        '
-        'Panel5
-        '
-        Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(1188, 87)
-        Me.Panel5.Margin = New System.Windows.Forms.Padding(5)
-        Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(15, 515)
-        Me.Panel5.TabIndex = 37
-        Me.Panel5.Visible = False
-        '
-        'Panel6
-        '
-        Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(23, 539)
-        Me.Panel6.Margin = New System.Windows.Forms.Padding(5)
-        Me.Panel6.Name = "Panel6"
-        Me.Panel6.Size = New System.Drawing.Size(1179, 15)
-        Me.Panel6.TabIndex = 36
-        Me.Panel6.Visible = False
         '
         'kode_biaya
         '
@@ -202,6 +143,38 @@ Partial Class EMI_Compare_Work_Center
         Me.checklist.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
         Me.checklist.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
         Me.checklist.Width = 70
+        '
+        'Panel4
+        '
+        Me.Panel4.BackColor = System.Drawing.Color.Red
+        Me.Panel4.Location = New System.Drawing.Point(221, 121)
+        Me.Panel4.Margin = New System.Windows.Forms.Padding(5)
+        Me.Panel4.Name = "Panel4"
+        Me.Panel4.Size = New System.Drawing.Size(15, 515)
+        Me.Panel4.TabIndex = 37
+        Me.Panel4.Visible = False
+        '
+        'dgv_workcenter
+        '
+        Me.dgv_workcenter.AllowUserToAddRows = False
+        Me.dgv_workcenter.BackgroundColor = System.Drawing.Color.White
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv_workcenter.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        Me.dgv_workcenter.ColumnHeadersHeight = 60
+        Me.dgv_workcenter.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.kd_so, Me.kd_barang, Me.nm_barang, Me.mesin})
+        Me.dgv_workcenter.Location = New System.Drawing.Point(238, 120)
+        Me.dgv_workcenter.Margin = New System.Windows.Forms.Padding(4)
+        Me.dgv_workcenter.Name = "dgv_workcenter"
+        Me.dgv_workcenter.RowHeadersWidth = 10
+        Me.dgv_workcenter.RowTemplate.Height = 21
+        Me.dgv_workcenter.Size = New System.Drawing.Size(989, 463)
+        Me.dgv_workcenter.TabIndex = 400
         '
         'kd_so
         '
@@ -241,12 +214,116 @@ Partial Class EMI_Compare_Work_Center
         Me.mesin.ReadOnly = True
         Me.mesin.Width = 120
         '
+        'Panel5
+        '
+        Me.Panel5.BackColor = System.Drawing.Color.Red
+        Me.Panel5.Location = New System.Drawing.Point(1225, 79)
+        Me.Panel5.Margin = New System.Windows.Forms.Padding(5)
+        Me.Panel5.Name = "Panel5"
+        Me.Panel5.Size = New System.Drawing.Size(15, 515)
+        Me.Panel5.TabIndex = 37
+        Me.Panel5.Visible = False
+        '
+        'Panel6
+        '
+        Me.Panel6.BackColor = System.Drawing.Color.Red
+        Me.Panel6.Location = New System.Drawing.Point(23, 581)
+        Me.Panel6.Margin = New System.Windows.Forms.Padding(5)
+        Me.Panel6.Name = "Panel6"
+        Me.Panel6.Size = New System.Drawing.Size(1179, 15)
+        Me.Panel6.TabIndex = 36
+        Me.Panel6.Visible = False
+        '
+        'BtnCari
+        '
+        Me.BtnCari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnCari.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnCari.ForeColor = System.Drawing.Color.White
+        Me.BtnCari.Location = New System.Drawing.Point(441, 77)
+        Me.BtnCari.Margin = New System.Windows.Forms.Padding(4)
+        Me.BtnCari.Name = "BtnCari"
+        Me.BtnCari.Size = New System.Drawing.Size(98, 32)
+        Me.BtnCari.TabIndex = 407
+        Me.BtnCari.Text = "&Cari"
+        Me.BtnCari.UseVisualStyleBackColor = False
+        '
+        'CmbTahun
+        '
+        Me.CmbTahun.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CmbTahun.FormattingEnabled = True
+        Me.CmbTahun.Location = New System.Drawing.Point(287, 80)
+        Me.CmbTahun.Margin = New System.Windows.Forms.Padding(4)
+        Me.CmbTahun.Name = "CmbTahun"
+        Me.CmbTahun.Size = New System.Drawing.Size(146, 24)
+        Me.CmbTahun.TabIndex = 406
+        '
+        'CmbBulan
+        '
+        Me.CmbBulan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CmbBulan.FormattingEnabled = True
+        Me.CmbBulan.Location = New System.Drawing.Point(65, 80)
+        Me.CmbBulan.Margin = New System.Windows.Forms.Padding(4)
+        Me.CmbBulan.Name = "CmbBulan"
+        Me.CmbBulan.Size = New System.Drawing.Size(146, 24)
+        Me.CmbBulan.TabIndex = 405
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label6.Location = New System.Drawing.Point(229, 82)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(49, 17)
+        Me.Label6.TabIndex = 404
+        Me.Label6.Text = "Tahun"
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label4.Location = New System.Drawing.Point(13, 82)
+        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(44, 17)
+        Me.Label4.TabIndex = 403
+        Me.Label4.Text = "Bulan"
+        '
+        'Panel7
+        '
+        Me.Panel7.BackColor = System.Drawing.Color.Red
+        Me.Panel7.Location = New System.Drawing.Point(16, 104)
+        Me.Panel7.Margin = New System.Windows.Forms.Padding(5)
+        Me.Panel7.Name = "Panel7"
+        Me.Panel7.Size = New System.Drawing.Size(1179, 15)
+        Me.Panel7.TabIndex = 37
+        Me.Panel7.Visible = False
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 61)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1240, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'EMI_Compare_Work_Center
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1201, 554)
+        Me.ClientSize = New System.Drawing.Size(1240, 595)
+        Me.Controls.Add(Me.Panel7)
+        Me.Controls.Add(Me.BtnCari)
+        Me.Controls.Add(Me.CmbTahun)
+        Me.Controls.Add(Me.CmbBulan)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.dgv_workcenter)
         Me.Controls.Add(Me.dgv_biaya)
         Me.Controls.Add(Me.Panel5)
@@ -257,7 +334,7 @@ Partial Class EMI_Compare_Work_Center
         Me.Controls.Add(Me.Panel1)
         Me.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "EMI_Compare_Work_Center"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
@@ -265,6 +342,7 @@ Partial Class EMI_Compare_Work_Center
         CType(Me.dgv_biaya, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dgv_workcenter, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -285,4 +363,10 @@ Partial Class EMI_Compare_Work_Center
     Friend WithEvents kd_barang As DataGridViewTextBoxColumn
     Friend WithEvents nm_barang As DataGridViewTextBoxColumn
     Friend WithEvents mesin As DataGridViewTextBoxColumn
+    Friend WithEvents BtnCari As Button
+    Friend WithEvents CmbTahun As ComboBox
+    Friend WithEvents CmbBulan As ComboBox
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Panel7 As Panel
 End Class
