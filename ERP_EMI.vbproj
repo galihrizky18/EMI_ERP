@@ -1027,6 +1027,7 @@
     <Compile Include="Master Menu\TesForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="module\FormDictionary.vb" />
     <Compile Include="module\General_Class.vb" />
     <Compile Include="module\General_Module.vb" />
     <Compile Include="module\Modul_Pembantu.vb" />

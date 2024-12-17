@@ -581,6 +581,8 @@ Public Class FMenu
     Private Function convertStringToForm(ByVal formToOpen As String) As Form
 
 
+#Region "Kode Benar"
+
         Select Case formToOpen
 
             Case "Purchase_Requisition"
@@ -1015,7 +1017,7 @@ Public Class FMenu
 
 
             Case "EMI_Display_Quality_Control"
-                Return EMI_Display_Quality_Control
+                Return Emi_Display_Quality_Control
 
 
             Case "Master_Menu"
@@ -1094,10 +1096,10 @@ Public Class FMenu
             'Case "Master_IP_Cam" : Return Master_IP_Cam
             'Case "Master_Jenis_Muatan" : Return Master_Jenis_Muatan
             Case "Transfer_Stock_3" : Return Transfer_Stock_3
-            Case "Emi_Display_Transfer" : Return EMI_Display_Transfer
+            Case "Emi_Display_Transfer" : Return Emi_Display_Transfer
             Case "Display_Kendaraan_Masuk_Tidak_Sesuai" : Return Display_Kendaraan_Masuk_Tidak_Sesuai
             Case "Emi_Display_Timbang" : Return EMI_Display_Timbang
-            Case "Emi_Display_Quality_Control" : Return EMI_Display_Quality_Control
+            Case "Emi_Display_Quality_Control" : Return Emi_Display_Quality_Control
             Case "Emi_Display_Timbang" : Return EMI_Display_Timbang
             Case "Emi_Display_Pallet_Masuk" : Return EMI_Display_Pallet_Masuk
             'Case "Display_Hasil_Quality_Control" : Return Display_Hasil_Quality_Control
@@ -1123,20 +1125,55 @@ Public Class FMenu
             Case "Display_Formula_Binding" : Return Display_Formula_Binding
             'Case "Emi_Display_Log_MaterialRequisition" : Return Emi_Display_Log_MaterialRequisition
             'Case "Display_Hasil_Quality_Control" : Return Display_Hasil_Quality_Control
-            Case "Emi_Display_Quality_Control" : Return EMI_Display_Quality_Control
+            Case "Emi_Display_Quality_Control" : Return Emi_Display_Quality_Control
             Case "Emi_Transaksi_MaterialRequisition" : Return EMI_Transaksi_MaterialRequisition
             Case "Transaksi_Formula" : Return Transaksi_Formula
             Case "Transaksi_Formula_Binding" : Return Transaksi_Formula_Binding
                 'Case "Master_Kategori_Supplier" : Return Master_Kategori_Supplier
                 'Case "Master_Perhitungan_Jatuh_Tempo" : Return Master_Perhitungan_Jatuh_Tempo
 
+
+
+
+                'Case "Jf_Pengajuan_Biaya" : Return Jf_Pengajuan_Biaya
+                'Case "Jf_Display_Validasi_Pengajuan_Biaya" : Return Jf_Display_Validasi_Pengajuan_Biaya
+                'Case "Jf_Uang_Masuk_Global" : Return Jf_Uang_Masuk_Global
+                'Case "Pengajuan_Cheque_Backup" : Return Pengajuan_Cheque_Backup
+                'Case "Jf_Laba_Rugi_Lama" : Return Jf_Laba_Rugi_Lama
+                'Case "Jf_Master_Bank" : Return Jf_Master_Bank
+                'Case "Jf_Master_Rekening" : Return Jf_Master_Rekening
+                'Case "Jf_Display_Validasi_Pengajuan_Cheque" : Return Jf_Display_Validasi_Pengajuan_Cheque
+                'Case "Rekon_Saldo_New" : Return Rekon_Saldo_New
+                'Case "Jf_Master_Cheque" : Return Jf_Master_Cheque
+                'Case "Jf_Master_Bank_Tujuan" : Return Jf_Master_Bank_Tujuan
+                'Case "Master_Bank_Di_Pengajuan" : Return Master_Bank_Di_Pengajuan
+                'Case "Display_Print_Cheque_Slip" : Return Display_Print_Cheque_Slip
+                'Case "Master_Jenis_Slip" : Return Master_Jenis_Slip
+                'Case "Master_Rekening_Tujuan" : Return Master_Rekening_Tujuan
+                'Case "Display_Print_Slip" : Return Display_Print_Slip
+                'Case "Display_Jurnal_Pengajuan" : Return Display_Jurnal_Pengajuan
+                'Case "Account_Jurnal_Pengajuan" : Return Account_Jurnal_Pengajuan
+                'Case "Display_Validasi_Selesai_Cheque" : Return Display_Validasi_Selesai_Cheque
+                'Case "Master_Rekening_Pengirim" : Return Master_Rekening_Pengirim
+                'Case "Display_History_Validasi_Selesai_Cheque" : Return Display_History_Validasi_Selesai_Cheque
+                'Case "Display_History_Jurnal_Pengajuan" : Return Display_History_Jurnal_Pengajuan
+                'Case "Jf_Pengajuan_Token" : Return Jf_Pengajuan_Token
+                'Case "Jf_Display_Validasi_Pengajuan_Token" : Return Jf_Display_Validasi_Pengajuan_Token
+                'Case "Display_Cheque" : Return Display_Cheque
+                'Case "Display_Validasi_Slip_New" : Return Display_Validasi_Slip_New
+                'Case "Display_Jurnal_Pengajuan_token" : Return Display_Jurnal_Pengajuan_token
+                'Case "Display_History_Jurnal_Token" : Return Display_History_Jurnal_Token
+                'Case "Jf_Pengajuan_Biaya_Sementara" : Return Jf_Pengajuan_Biaya_Sementara
+                'Case "Master_Penanda_Tangan" : Return Master_Penanda_Tangan
+                'Case "Display_Validasi_Slip" : Return Display_Validasi_Slip
+                'Case "Jf_Validasi_Buku_Bank_Pengajuan" : Return Jf_Validasi_Buku_Bank_Pengajuan
+                'Case "Laporan_Rekon_Saldo" : Return Laporan_Rekon_Saldo
+
+
+
         End Select
 
-
-        'formToOpen.MdiParent = Me
-        'formToOpen.StartPosition = FormStartPosition.CenterScreen
-        'formToOpen.Show()
-        'formToOpen.Focus()
+#End Region
 
     End Function
 
