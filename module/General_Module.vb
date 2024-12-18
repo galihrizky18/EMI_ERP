@@ -205,8 +205,8 @@ Module General_Module
     Public No_Fak As String = ""
     Public Jenis As String = ""
     Public Field As String = ""
-    Public PrinterName As String = "EPSON LX-300+II ESC/P" '"EPSON LX-300+II ESC/P"
-    Public PrinterNameTS As String = "EPSON PLQ-20 ESC/P2"
+    Public PrinterName As String = "EPSON LX-310 ESC/P" '"EPSON LX-300+II ESC/P"
+    Public PrinterNameTS As String = "EPSON LX-310 ESC/P"
     Public JmlBrg As Integer = 11
     Public JmlBrgReturBeli As Integer = 16
     Public JmlBrgPO As Integer = 16

@@ -580,599 +580,599 @@ Public Class FMenu
 
     Private Function convertStringToForm(ByVal formToOpen As String) As Form
 
-        If Forms.ContainsKey(formToOpen) Then
-            Return Forms(formToOpen)
-        Else
-            'MessageBox.Show("Form tidak ditemukan: " & formToOpen, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return Nothing
-        End If
+        'If Forms.ContainsKey(formToOpen) Then
+        '    Return Forms(formToOpen)
+        'Else
+        '    'MessageBox.Show("Form tidak ditemukan: " & formToOpen, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '    Return Nothing
+        'End If
 
 
 #Region "Kode Benar"
 
-        'Select Case formToOpen
+        Select Case formToOpen
 
-        '    Case "Purchase_Requisition"
-        '        Return Purchase_Requisition
+            Case "Purchase_Requisition"
+                Return Purchase_Requisition
 
-        '    'Case "EMI_Display_Log_ForecastOrder"
-        '    '    Return EMI_Display_Log_ForecastOrder
+            'Case "EMI_Display_Log_ForecastOrder"
+            '    Return EMI_Display_Log_ForecastOrder
 
-        '    'Case "Acc_Bongkar"
-        '    '    Return Acc_Bongkar
+            'Case "Acc_Bongkar"
+            '    Return Acc_Bongkar
 
-        '    'Case "Acc_Ke_PO"
-        '    '    Return Acc_Ke_PO
+            'Case "Acc_Ke_PO"
+            '    Return Acc_Ke_PO
 
-        '    'Case "Account_Master_Kategori_Biaya_Import"
-        '    '    Return Account_Master_Kategori_Biaya_Import
+            'Case "Account_Master_Kategori_Biaya_Import"
+            '    Return Account_Master_Kategori_Biaya_Import
 
-        '    'Case "Barang_Masuk_New"
-        '    '    Return Barang_Masuk_New
+            'Case "Barang_Masuk_New"
+            '    Return Barang_Masuk_New
 
-        '    'Case "Biaya_Import_Per_PO"
-        '    '    Return Biaya_Import_Per_PO
+            'Case "Biaya_Import_Per_PO"
+            '    Return Biaya_Import_Per_PO
 
-        '    'Case "Biaya_Import_Per_PO_Validasi"
-        '    '    Return Biaya_Import_Per_PO_Validasi
+            'Case "Biaya_Import_Per_PO_Validasi"
+            '    Return Biaya_Import_Per_PO_Validasi
 
-        '    Case "Display_Barang"
-        '        Return Display_Barang
+            Case "Display_Barang"
+                Return Display_Barang
 
-        '    'Case "Display_Data_Penawaran"
-        '    '    Return Display_Data_Penawaran
+            'Case "Display_Data_Penawaran"
+            '    Return Display_Data_Penawaran
 
-        '    'Case "Display_HPP_Barang_Masuk"
-        '    '    Return Display_HPP_Barang_Masuk
+            'Case "Display_HPP_Barang_Masuk"
+            '    Return Display_HPP_Barang_Masuk
 
-        '    'Case "Display_Inquiry"
-        '    '    Return Display_Inquiry
+            'Case "Display_Inquiry"
+            '    Return Display_Inquiry
 
-        '    'Case "Display_Kurs"
-        '    '    Return Display_Kurs
+            'Case "Display_Kurs"
+            '    Return Display_Kurs
 
-        '    'Case "Display_selisih_Barang_Masuk"
-        '    '    Return Display_selisih_Barang_Masuk
+            'Case "Display_selisih_Barang_Masuk"
+            '    Return Display_selisih_Barang_Masuk
 
-        '    Case "Display_Transaksi_MaterialRequsition"
-        '        Return Display_Transaksi_MaterialRequsition
+            Case "Display_Transaksi_MaterialRequsition"
+                Return Display_Transaksi_MaterialRequsition
 
-        '    Case "Display_Validasi_Detail_Biaya_Import"
-        '    '    Return Display_Validasi_Detail_Biaya_Import
+            Case "Display_Validasi_Detail_Biaya_Import"
+            '    Return Display_Validasi_Detail_Biaya_Import
 
-        '    'Case "Display_Validasi_Selisih_Barang_Masuk"
-        '    '    Return Display_Validasi_Selisih_Barang_Masuk
+            'Case "Display_Validasi_Selisih_Barang_Masuk"
+            '    Return Display_Validasi_Selisih_Barang_Masuk
 
-        '    'Case "DO_Reseller_New"
-        '    '    Return DO_Reseller_New
+            'Case "DO_Reseller_New"
+            '    Return DO_Reseller_New
 
-        '    'Case "EMI_Barang_Masuk_Display_data"
-        '    '    Return EMI_Barang_Masuk_Display_data
+            'Case "EMI_Barang_Masuk_Display_data"
+            '    Return EMI_Barang_Masuk_Display_data
 
-        '    'Case "EMI_Barang_Masuk_Validasi"
-        '    '    Return EMI_Barang_Masuk_Validasi
+            'Case "EMI_Barang_Masuk_Validasi"
+            '    Return EMI_Barang_Masuk_Validasi
 
-        '    'Case "EMI_Display_Log_MaterialRequisition"
-        '    '    Return EMI_Display_Log_MaterialRequisition
+            'Case "EMI_Display_Log_MaterialRequisition"
+            '    Return EMI_Display_Log_MaterialRequisition
 
-        '    Case "EMI_Display_Timbang"
-        '        Return EMI_Display_Timbang
+            Case "EMI_Display_Timbang"
+                Return EMI_Display_Timbang
 
-        '    Case "EMI_Pembelian_PO_Summary_Data"
-        '        Return EMI_Pembelian_PO_Summary_Data
+            Case "EMI_Pembelian_PO_Summary_Data"
+                Return EMI_Pembelian_PO_Summary_Data
 
-        '    Case "EMI_PO_Pembelian_Display"
-        '        Return EMI_PO_Pembelian_Display
+            Case "EMI_PO_Pembelian_Display"
+                Return EMI_PO_Pembelian_Display
 
-        '    Case "EMI_PO_Pembelian_Display2"
-        '    '    Return EMI_PO_Pembelian_Display2
+            Case "EMI_PO_Pembelian_Display2"
+            '    Return EMI_PO_Pembelian_Display2
 
-        '    'Case "EMI_Production_Order"
-        '    '    Return EMI_Production_Order
+            'Case "EMI_Production_Order"
+            '    Return EMI_Production_Order
 
-        '    'Case "EMI_Production_Order_Summary_Data"
-        '    '    Return EMI_Production_Order_Summary_Data
+            'Case "EMI_Production_Order_Summary_Data"
+            '    Return EMI_Production_Order_Summary_Data
 
-        '    'Case "EMI_Schedule"
-        '    '    Return EMI_Schedule
+            'Case "EMI_Schedule"
+            '    Return EMI_Schedule
 
-        '    Case "EMI_Selisih_Barang_Masuk_Validasi"
-        '        Return EMI_Selisih_Barang_Masuk_Validasi
+            Case "EMI_Selisih_Barang_Masuk_Validasi"
+                Return EMI_Selisih_Barang_Masuk_Validasi
 
-        '    Case "EMI_Technical_Complete"
-        '        'Return EMI_Technical_Complete
+            Case "EMI_Technical_Complete"
+                'Return EMI_Technical_Complete
 
-        '    Case "EMI_Transaksi_ForecastOrder"
-        '        Return EMI_Transaksi_ForecastOrder
+            Case "EMI_Transaksi_ForecastOrder"
+                Return EMI_Transaksi_ForecastOrder
 
-        '    'Case "EMI_Transaksi_MaterialRequsition"
-        '    '    Return EMI_Transaksi_MaterialRequsition
+            'Case "EMI_Transaksi_MaterialRequsition"
+            '    Return EMI_Transaksi_MaterialRequsition
 
-        '    Case "Form_Input_Barang_Per_Kontainer"
-        '        'Return Form_Input_Barang_Per_Kontainer
+            Case "Form_Input_Barang_Per_Kontainer"
+                'Return Form_Input_Barang_Per_Kontainer
 
-        '    Case "Hitung_HPP_Import"
-        '        Return Hitung_HPP_Import
+            Case "Hitung_HPP_Import"
+                Return Hitung_HPP_Import
 
-        '    Case "Hitung_Total_billing"
-        '    '    Return Hitung_Total_billing
+            Case "Hitung_Total_billing"
+            '    Return Hitung_Total_billing
 
-        '    'Case "HPP_Simulasi_Display"
-        '    '    Return HPP_Simulasi_Display
+            'Case "HPP_Simulasi_Display"
+            '    Return HPP_Simulasi_Display
 
-        '    'Case "HPP_Simulasi_Pilih_Barang"
-        '    '    Return HPP_Simulasi_Pilih_Barang
+            'Case "HPP_Simulasi_Pilih_Barang"
+            '    Return HPP_Simulasi_Pilih_Barang
 
-        '    'Case "HR_Validasi_Biaya_DO"
-        '    '    Return HR_Validasi_Biaya_DO
+            'Case "HR_Validasi_Biaya_DO"
+            '    Return HR_Validasi_Biaya_DO
 
-        '    'Case "Jf_BarangPerKontainer"
-        '    '    Return Jf_BarangPerKontainer
+            'Case "Jf_BarangPerKontainer"
+            '    Return Jf_BarangPerKontainer
 
-        '    'Case "Jf_Display_Rencana_Order1"
-        '    '    Return Jf_Display_Rencana_Order1
+            'Case "Jf_Display_Rencana_Order1"
+            '    Return Jf_Display_Rencana_Order1
 
-        '    'Case "Jf_Insentif_Kasbon_Kerajinan"
-        '    '    Return Jf_Insentif_Kasbon_Kerajinan
+            'Case "Jf_Insentif_Kasbon_Kerajinan"
+            '    Return Jf_Insentif_Kasbon_Kerajinan
 
-        '    'Case "Jf_Master_Asuransi"
-        '    '    Return Jf_Master_Asuransi
+            'Case "Jf_Master_Asuransi"
+            '    Return Jf_Master_Asuransi
 
-        '    'Case "Jf_Master_Attendance"
-        '    '    Return Jf_Master_Attendance
+            'Case "Jf_Master_Attendance"
+            '    Return Jf_Master_Attendance
 
-        '    'Case "Jf_Master_Attendance_Laporan"
-        '    '    Return Jf_Master_Attendance_Laporan
+            'Case "Jf_Master_Attendance_Laporan"
+            '    Return Jf_Master_Attendance_Laporan
 
-        '    'Case "Jf_Master_Attendance_Update"
-        '    '    Return Jf_Master_Attendance_Update
+            'Case "Jf_Master_Attendance_Update"
+            '    Return Jf_Master_Attendance_Update
 
-        '    'Case "Jf_Master_Divisi"
-        '    '    Return Jf_Master_Divisi
+            'Case "Jf_Master_Divisi"
+            '    Return Jf_Master_Divisi
 
-        '    'Case "Jf_Master_Golongan_Level_Jabatan"
-        '    '    Return Jf_Master_Golongan_Level_Jabatan
+            'Case "Jf_Master_Golongan_Level_Jabatan"
+            '    Return Jf_Master_Golongan_Level_Jabatan
 
-        '    'Case "Jf_Master_Grouping_Penggajian"
-        '    '    Return Jf_Master_Grouping_Penggajian
+            'Case "Jf_Master_Grouping_Penggajian"
+            '    Return Jf_Master_Grouping_Penggajian
 
-        '    'Case "Jf_Master_Karyawan2"
-        '    '    Return Jf_Master_Karyawan2
+            'Case "Jf_Master_Karyawan2"
+            '    Return Jf_Master_Karyawan2
 
-        '    Case "Jf_Master_Karyawan2_Display"
-        '        Return Jf_Master_Karyawan2_Display
+            Case "Jf_Master_Karyawan2_Display"
+                Return Jf_Master_Karyawan2_Display
 
-        '    Case "Jf_Master_Komponen_Gaji"
-        '    '    Return Jf_Master_Komponen_Gaji
+            Case "Jf_Master_Komponen_Gaji"
+            '    Return Jf_Master_Komponen_Gaji
 
-        '    'Case "Jf_Master_Uang_Makan"
-        '    '    Return Jf_Master_Uang_Makan
+            'Case "Jf_Master_Uang_Makan"
+            '    Return Jf_Master_Uang_Makan
 
-        '    'Case "Jf_Pengecekan_Absen"
-        '    '    Return Jf_Pengecekan_Absen
+            'Case "Jf_Pengecekan_Absen"
+            '    Return Jf_Pengecekan_Absen
 
-        '    'Case "Jf_Penggajian"
-        '    '    Return Jf_Penggajian
+            'Case "Jf_Penggajian"
+            '    Return Jf_Penggajian
 
-        '    'Case "Jf_PO_Pembelian_import"
-        '    '    Return Jf_PO_Pembelian_import
+            'Case "Jf_PO_Pembelian_import"
+            '    Return Jf_PO_Pembelian_import
 
-        '    'Case "Jf_Simulasi_Gaji"
-        '    '    Return Jf_Simulasi_Gaji
+            'Case "Jf_Simulasi_Gaji"
+            '    Return Jf_Simulasi_Gaji
 
-        '    'Case "Jf_Transaksi_Approval_Dialog"
-        '    '    Return Jf_Transaksi_Approval_Dialog
+            'Case "Jf_Transaksi_Approval_Dialog"
+            '    Return Jf_Transaksi_Approval_Dialog
 
-        '    'Case "Jf_Transaksi_Approval_Final"
-        '    '    Return Jf_Transaksi_Approval_Final
+            'Case "Jf_Transaksi_Approval_Final"
+            '    Return Jf_Transaksi_Approval_Final
 
-        '    'Case "Jf_Transaksi_Asuransi"
-        '    '    Return Jf_Transaksi_Asuransi
+            'Case "Jf_Transaksi_Asuransi"
+            '    Return Jf_Transaksi_Asuransi
 
-        '    'Case "Jf_Transaksi_Divisi"
-        '    '    Return Jf_Transaksi_Divisi
+            'Case "Jf_Transaksi_Divisi"
+            '    Return Jf_Transaksi_Divisi
 
-        '    'Case "Jf_Transaksi_Gaji"
-        '    '    Return Jf_Transaksi_Gaji
+            'Case "Jf_Transaksi_Gaji"
+            '    Return Jf_Transaksi_Gaji
 
-        '    'Case "Jf_Transaksi_Jabatan"
-        '    '    Return Jf_Transaksi_Jabatan
+            'Case "Jf_Transaksi_Jabatan"
+            '    Return Jf_Transaksi_Jabatan
 
-        '    'Case "Jf_Transaksi_Roles_Approval"
-        '    '    Return Jf_Transaksi_Roles_Approval
+            'Case "Jf_Transaksi_Roles_Approval"
+            '    Return Jf_Transaksi_Roles_Approval
 
-        '    'Case "Jf_Transaksi_Status"
-        '    '    Return Jf_Transaksi_Status
+            'Case "Jf_Transaksi_Status"
+            '    Return Jf_Transaksi_Status
 
-        '    'Case "Kategori_Biaya_Import"
-        '    '    Return Kategori_Biaya_Import
+            'Case "Kategori_Biaya_Import"
+            '    Return Kategori_Biaya_Import
 
-        '    'Case "Kategori_Perusahaan_Biaya_Import"
-        '    '    Return Kategori_Perusahaan_Biaya_Import
+            'Case "Kategori_Perusahaan_Biaya_Import"
+            '    Return Kategori_Perusahaan_Biaya_Import
 
-        '    Case "Loading_Barang_Import"
-        '        Return Loading_Barang_Import
+            Case "Loading_Barang_Import"
+                Return Loading_Barang_Import
 
-        '    Case "Lokasi_Tujuan_Per_Container"
-        '    '    Return Lokasi_Tujuan_Per_Container
+            Case "Lokasi_Tujuan_Per_Container"
+            '    Return Lokasi_Tujuan_Per_Container
 
-        '    'Case "Master_Bahan"
-        '    '    Return Master_Bahan
+            'Case "Master_Bahan"
+            '    Return Master_Bahan
 
-        '    'Case "Master_Barang_Import"
-        '    '    Return Master_Barang_Import
+            'Case "Master_Barang_Import"
+            '    Return Master_Barang_Import
 
-        '    'Case "Master_Barang_New"
-        '    '    Return Master_Barang_New
+            'Case "Master_Barang_New"
+            '    Return Master_Barang_New
 
-        '    Case "Master_Barang_Susunan"
-        '        Return Master_Barang_Susunan
+            Case "Master_Barang_Susunan"
+                Return Master_Barang_Susunan
 
-        '    Case "Master_Biaya"
-        '    '    Return Master_Biaya
+            Case "Master_Biaya"
+            '    Return Master_Biaya
 
-        '    'Case "Master_Biaya_Import"
-        '    '    Return Master_Biaya_Import
+            'Case "Master_Biaya_Import"
+            '    Return Master_Biaya_Import
 
-        '    'Case "Master_Bundling_Promo"
-        '    '    Return Master_Bundling_Promo
+            'Case "Master_Bundling_Promo"
+            '    Return Master_Bundling_Promo
 
-        '    'Case "Master_Customer"
-        '    '    Return Master_Customer
+            'Case "Master_Customer"
+            '    Return Master_Customer
 
-        '    'Case "Master_Detail_Biaya_Import"
-        '    '    Return Master_Detail_Biaya_Import
+            'Case "Master_Detail_Biaya_Import"
+            '    Return Master_Detail_Biaya_Import
 
-        '    'Case "Master_Detail_Biaya_Import2"
-        '    '    Return Master_Detail_Biaya_Import2
+            'Case "Master_Detail_Biaya_Import2"
+            '    Return Master_Detail_Biaya_Import2
 
-        '    'Case "Master_Detail_Biaya_Import3"
-        '    '    Return Master_Detail_Biaya_Import3
+            'Case "Master_Detail_Biaya_Import3"
+            '    Return Master_Detail_Biaya_Import3
 
-        '    'Case "Master_Ekspedisi"
-        '    '    Return Master_Ekspedisi
+            'Case "Master_Ekspedisi"
+            '    Return Master_Ekspedisi
 
-        '    'Case "Master_Freight_Suppliers"
-        '    '    Return Master_Freight_Suppliers
+            'Case "Master_Freight_Suppliers"
+            '    Return Master_Freight_Suppliers
 
-        '    'Case "Master_Gudang"
-        '    '    Return Master_Gudang
+            'Case "Master_Gudang"
+            '    Return Master_Gudang
 
-        '    'Case "Master_Hewan"
-        '    '    Return Master_Hewan
+            'Case "Master_Hewan"
+            '    Return Master_Hewan
 
-        '    'Case "Master_HS_Code"
-        '    '    Return Master_HS_Code
+            'Case "Master_HS_Code"
+            '    Return Master_HS_Code
 
-        '    'Case "Master_Kategori_Harga_Detail"
-        '    '    Return Master_Kategori_Harga_Detail
+            'Case "Master_Kategori_Harga_Detail"
+            '    Return Master_Kategori_Harga_Detail
 
-        '    'Case "Master_Kategori_Harga"
-        '    '    Return Master_Kategori_Harga
+            'Case "Master_Kategori_Harga"
+            '    Return Master_Kategori_Harga
 
-        '    'Case "Master_Karyawan"
-        '    '    Return Master_Karyawan
+            'Case "Master_Karyawan"
+            '    Return Master_Karyawan
 
-        '    'Case "Master_Kategori_Biaya_Import_New"
-        '    '    Return Master_Kategori_Biaya_Import_New
+            'Case "Master_Kategori_Biaya_Import_New"
+            '    Return Master_Kategori_Biaya_Import_New
 
-        '    'Case "Master_Gudang_Kategori"
-        '    '    Return Master_Gudang_Kategori
+            'Case "Master_Gudang_Kategori"
+            '    Return Master_Gudang_Kategori
 
-        '    'Case "Master_Kategori_PO"
-        '    '    Return Master_Kategori_PO
+            'Case "Master_Kategori_PO"
+            '    Return Master_Kategori_PO
 
-        '    'Case "Master_Quality_Control_Kategori"
-        '    '    Return Master_Quality_Control_Kategori
+            'Case "Master_Quality_Control_Kategori"
+            '    Return Master_Quality_Control_Kategori
 
-        '    'Case "Master_Kemasan"
-        '    '    Return Master_Kemasan
+            'Case "Master_Kemasan"
+            '    Return Master_Kemasan
 
-        '    Case "Master_Klasifikasi_Bahan"
-        '        Return Master_Klasifikasi_Bahan
+            Case "Master_Klasifikasi_Bahan"
+                Return Master_Klasifikasi_Bahan
 
-        '    Case "Master_Komposisi_Barang_Jadi"
-        '    '    Return Master_Komposisi_Barang_Jadi
+            Case "Master_Komposisi_Barang_Jadi"
+            '    Return Master_Komposisi_Barang_Jadi
 
-        '    'Case "Master_Mata_Uang"
-        '    '    Return Master_Mata_Uang
+            'Case "Master_Mata_Uang"
+            '    Return Master_Mata_Uang
 
-        '    'Case "Master_Media_Kirim"
-        '    '    Return Master_Media_Kirim
+            'Case "Master_Media_Kirim"
+            '    Return Master_Media_Kirim
 
-        '    Case "Master_Mesin"
-        '        Return Master_Mesin
+            Case "Master_Mesin"
+                Return Master_Mesin
 
-        '    Case "Master_Pelabuhan"
-        '    '    Return Master_Pelabuhan
+            Case "Master_Pelabuhan"
+            '    Return Master_Pelabuhan
 
-        '    'Case "Master_Pelabuhan_Supplier"
-        '    '    Return Master_Pelabuhan_Supplier
+            'Case "Master_Pelabuhan_Supplier"
+            '    Return Master_Pelabuhan_Supplier
 
-        '    'Case "Master_Pelayaran"
-        '    '    Return Master_Pelayaran
+            'Case "Master_Pelayaran"
+            '    Return Master_Pelayaran
 
-        '    Case "Transaksi_Penawaran"
-        '        Return Transaksi_Penawaran
+            Case "Transaksi_Penawaran"
+                Return Transaksi_Penawaran
 
-        '    'Case "Master_Persentase_Rencana_Order"
-        '    '    Return Master_Persentase_Rencana_Order
+            'Case "Master_Persentase_Rencana_Order"
+            '    Return Master_Persentase_Rencana_Order
 
-        '    'Case "Master_Perusahaan_Biaya_Import"
-        '    '    Return Master_Perusahaan_Biaya_Import
+            'Case "Master_Perusahaan_Biaya_Import"
+            '    Return Master_Perusahaan_Biaya_Import
 
-        '    'Case "Master_Produk"
-        '    '    Return Master_Produk
+            'Case "Master_Produk"
+            '    Return Master_Produk
 
-        '    Case "Master_Quality_Control"
-        '        Return Master_Quality_Control
+            Case "Master_Quality_Control"
+                Return Master_Quality_Control
 
-        '    'Case "Master_Quality_Control_Barang"
-        '    '    Return Master_Quality_Control_Barang
+            'Case "Master_Quality_Control_Barang"
+            '    Return Master_Quality_Control_Barang
 
-        '    'Case "Master_Quality_Control_Kategori_Detail"
-        '    '    Return Master_Quality_Control_Kategori_Detail
+            'Case "Master_Quality_Control_Kategori_Detail"
+            '    Return Master_Quality_Control_Kategori_Detail
 
-        '    'Case "Master_Quality_Control_Kendaraan"
-        '    '    Return Master_Quality_Control_Kendaraan
+            'Case "Master_Quality_Control_Kendaraan"
+            '    Return Master_Quality_Control_Kendaraan
 
-        '    'Case "Master_Rekening_Perusahaan_Biaya_Import"
-        '    '    Return Master_Rekening_Perusahaan_Biaya_Import
+            'Case "Master_Rekening_Perusahaan_Biaya_Import"
+            '    Return Master_Rekening_Perusahaan_Biaya_Import
 
-        '    'Case "Master_Rekening_Suppliers"
-        '    '    Return Master_Rekening_Suppliers
+            'Case "Master_Rekening_Suppliers"
+            '    Return Master_Rekening_Suppliers
 
-        '    'Case "Master_Kategori_PO_Role"
-        '    '    Return Master_Kategori_PO_Role
+            'Case "Master_Kategori_PO_Role"
+            '    Return Master_Kategori_PO_Role
 
-        '    'Case "Master_Routing"
-        '    '    Return Master_Routing
+            'Case "Master_Routing"
+            '    Return Master_Routing
 
-        '    'Case "Master_Satuan"
-        '    '    Return Master_Satuan
+            'Case "Master_Satuan"
+            '    Return Master_Satuan
 
-        '    'Case "Master_Satuan_Perhitungan"
-        '    '    Return Master_Satuan_Perhitungan
+            'Case "Master_Satuan_Perhitungan"
+            '    Return Master_Satuan_Perhitungan
 
-        '    'Case "Master_Shipper"
-        '    '    Return Master_Shipper
+            'Case "Master_Shipper"
+            '    Return Master_Shipper
 
-        '    'Case "Master_Storage"
-        '    '    Return Master_Storage
+            'Case "Master_Storage"
+            '    Return Master_Storage
 
-        '    Case "Master_Suppliers"
-        '        Return Master_Suppliers
+            Case "Master_Suppliers"
+                Return Master_Suppliers
 
-        '    Case "Master_Work_Center"
-        '        Return Master_Work_Center
+            Case "Master_Work_Center"
+                Return Master_Work_Center
 
-        '    Case "Master_Cost_Center"
-        '        Return Master_Cost_Center
+            Case "Master_Cost_Center"
+                Return Master_Cost_Center
 
-        '    'Case "Pelayaran"
-        '    '    Return Pelayaran
+            'Case "Pelayaran"
+            '    Return Pelayaran
 
-        '    'Case "Pembelian_Import"
-        '    '    Return Pembelian_Import
+            'Case "Pembelian_Import"
+            '    Return Pembelian_Import
 
-        '    'Case "Pembelian_New3"
-        '    '    Return Pembelian_New3
+            'Case "Pembelian_New3"
+            '    Return Pembelian_New3
 
-        '    'Case "Penjualan_New"
-        '    '    Return Penjualan_New
+            'Case "Penjualan_New"
+            '    Return Penjualan_New
 
-        '    'Case "PO_Import_Grouping"
-        '    '    Return PO_Import_Grouping
+            'Case "PO_Import_Grouping"
+            '    Return PO_Import_Grouping
 
-        '    'Case "PO_Import_Grouping_dinamis"
-        '    '    Return PO_Import_Grouping_dinamis
+            'Case "PO_Import_Grouping_dinamis"
+            '    Return PO_Import_Grouping_dinamis
 
-        '    'Case "Rencana_Order_Gabungan"
-        '    '    Return Rencana_Order_Gabungan
+            'Case "Rencana_Order_Gabungan"
+            '    Return Rencana_Order_Gabungan
 
-        '    'Case "EMI_Display_Barcode"
-        '    '    Return EMI_Display_Barcode
+            'Case "EMI_Display_Barcode"
+            '    Return EMI_Display_Barcode
 
-        '    Case "EMI_Independent_Order"
-        '        Return EMI_Independent_Order
+            Case "EMI_Independent_Order"
+                Return EMI_Independent_Order
 
-        '    'Case "Submit_PO_Import"
-        '    '    Return Submit_PO_Import
+            'Case "Submit_PO_Import"
+            '    Return Submit_PO_Import
 
-        '    'Case "Transaksi_Biaya_import"
-        '    '    Return Transaksi_Biaya_import
+            'Case "Transaksi_Biaya_import"
+            '    Return Transaksi_Biaya_import
 
-        '    'Case "Transaksi_Biaya_import3"
-        '    '    Return Transaksi_Biaya_import3
+            'Case "Transaksi_Biaya_import3"
+            '    Return Transaksi_Biaya_import3
 
-        '    'Case "Display_Penawaran_Berakhir"
-        '    '    Return Display_Penawaran_Berakhir
+            'Case "Display_Penawaran_Berakhir"
+            '    Return Display_Penawaran_Berakhir
 
-        '    Case "Transaksi_Formula"
-        '        Return Transaksi_Formula
+            Case "Transaksi_Formula"
+                Return Transaksi_Formula
 
-        '    Case "Transaksi_Formula_Binding"
-        '        Return Transaksi_Formula_Binding
+            Case "Transaksi_Formula_Binding"
+                Return Transaksi_Formula_Binding
 
-        '    Case "Display_Formula"
-        '        Return Display_Formula
+            Case "Display_Formula"
+                Return Display_Formula
 
-        '    Case "EMI_Transaksi_MaterialRequisition"
-        '        Return EMI_Transaksi_MaterialRequisition
+            Case "EMI_Transaksi_MaterialRequisition"
+                Return EMI_Transaksi_MaterialRequisition
 
-        '    Case "Display_Formula_Binding"
-        '        Return Display_Formula_Binding
+            Case "Display_Formula_Binding"
+                Return Display_Formula_Binding
 
-        '    Case "EMI_Transfer_Stock"
-        '        Return EMI_Transfer_Stock
+            Case "EMI_Transfer_Stock"
+                Return EMI_Transfer_Stock
 
-        '    Case "EMI_Display_Data_Terima_Transfer"
-        '        Return EMI_Display_Data_Terima_Transfer
+            Case "EMI_Display_Data_Terima_Transfer"
+                Return EMI_Display_Data_Terima_Transfer
 
-        '    Case "EMI_Adjustment_Dist"
-        '        Return EMI_Adjustment_Dist
+            Case "EMI_Adjustment_Dist"
+                Return EMI_Adjustment_Dist
 
-        '    'Case "Emi_Transaksi_Cost_Center"
-        '    '    Return EMI_Transaksi_Cost_Center
+            'Case "Emi_Transaksi_Cost_Center"
+            '    Return EMI_Transaksi_Cost_Center
 
 
-        '    Case "Emi_Transaksi_Work_Center"
-        '        Return EMI_Transaksi_Work_Center
+            Case "Emi_Transaksi_Work_Center"
+                Return EMI_Transaksi_Work_Center
 
 
-        '    Case "EMI_Display_Quality_Control"
-        '        Return Emi_Display_Quality_Control
+            Case "EMI_Display_Quality_Control"
+                Return Emi_Display_Quality_Control
 
 
-        '    Case "Master_Menu"
-        '        Return Master_Menu
+            Case "Master_Menu"
+                Return Master_Menu
 
-        '    Case "Master_Role"
-        '        Return Master_Role
+            Case "Master_Role"
+                Return Master_Role
 
-        '    'Case "Master_Jenis_Muatan"
-        '    '    Return Master_Jenis_Muatan
+            'Case "Master_Jenis_Muatan"
+            '    Return Master_Jenis_Muatan
 
-        '    'Case "Master_Packing"
-        '    '    Return Master_Packing
+            'Case "Master_Packing"
+            '    Return Master_Packing
 
-        '    Case "EMI_Display_Hasil_Produksi"
-        '        Return EMI_Display_Hasil_Produksi
+            Case "EMI_Display_Hasil_Produksi"
+                Return EMI_Display_Hasil_Produksi
 
-        '    'Case "EMI_Split_Production"
-        '    '    Return EMI_Split_Production
+            'Case "EMI_Split_Production"
+            '    Return EMI_Split_Production
 
-        '    Case "Laporan_Purchase_Requisition"
-        '        Return Laporan_Purchase_Requisition
+            Case "Laporan_Purchase_Requisition"
+                Return Laporan_Purchase_Requisition
 
-        '    'Case "Laporan_Purchase_Order"
-        '    '    Return Laporan_Purchase_Order
+            'Case "Laporan_Purchase_Order"
+            '    Return Laporan_Purchase_Order
 
-        '    Case "EMI_Transfer_Stock2"
-        '        Return EMI_Transfer_Stock2
+            Case "EMI_Transfer_Stock2"
+                Return EMI_Transfer_Stock2
 
-        '    Case "EMI_Display_Pallet_Masuk"
-        '        Return EMI_Display_Pallet_Masuk
+            Case "EMI_Display_Pallet_Masuk"
+                Return EMI_Display_Pallet_Masuk
 
-        '    'Case "Server_Sinkronasi_B2B"
-        '    '    Return Server_Sinkronasi_B2B
+            'Case "Server_Sinkronasi_B2B"
+            '    Return Server_Sinkronasi_B2B
 
-        '    Case "Transfer_Stock_3"
-        '        Return Transfer_Stock_3
+            Case "Transfer_Stock_3"
+                Return Transfer_Stock_3
 
-        '    'Case "EMI_Pembelian_PR_Summary_Data"
-        '    '    Return EMI_Pembelian_PR_Summary_Data
+            'Case "EMI_Pembelian_PR_Summary_Data"
+            '    Return EMI_Pembelian_PR_Summary_Data
 
-        '    Case "Master_Klasifikasi_Bahan2"
-        '        Return Master_Klasifikasi_Bahan2
+            Case "Master_Klasifikasi_Bahan2"
+                Return Master_Klasifikasi_Bahan2
 
-        '    Case "Display_Kendaraan_Masuk_Tidak_Sesuai" : Return Display_Kendaraan_Masuk_Tidak_Sesuai
+            Case "Display_Kendaraan_Masuk_Tidak_Sesuai" : Return Display_Kendaraan_Masuk_Tidak_Sesuai
 
-        '        'Case = "EMI_Transfer_Stock_Display"
-        '        '    Return EMI_Transfer_Stock_Display
+                'Case = "EMI_Transfer_Stock_Display"
+                '    Return EMI_Transfer_Stock_Display
 
-        '        'Case = "SD_Pilih_Produk_New"
-        '        '    Return SD_Pilih_Produk_New
+                'Case = "SD_Pilih_Produk_New"
+                '    Return SD_Pilih_Produk_New
 
-        '    Case "Master_Cost_Center" : Return Master_Cost_Center
-        '    Case "Master_Work_Center" : Return Master_Work_Center
-        '    'Case "Master_Routing" : Return Master_Routing
-        '    Case "Master_Mesin" : Return Master_Mesin
-        '    'Case "EMI_Production_Order_Summary_Data" : Return EMI_Production_Order_Summary_Data
-        '    'Case "EMI_Display_Split_Production_Order" : Return EMI_Display_Split_Production_Order
-        '    'Case "EMI_Production_Order" : Return EMI_Production_Order
-        '    Case "EMI_Independent_Order" : Return EMI_Independent_Order
-        '    'Case "EMI_Schedule" : Return EMI_Schedule
-        '    'Case "EMI_Split_Production" : Return EMI_Split_Production
-        '    'Case "EMI_Display_Mulai_Produksi" : Return EMI_Display_Mulai_Produksi
-        '    'Case "EMI_Display_Selesai_Produksi" : Return EMI_Display_Selesai_Produksi
-        '    Case "Emi_Production_Barcode" : Return Emi_Production_Barcode
-        '    Case "EMI_Display_Hasil_Produksi" : Return EMI_Display_Hasil_Produksi
-        '    'Case "EMI_Display_Hasil_HPP" : Return EMI_Display_Hasil_HPP
-        '    'Case "EMI_Transaksi_Cost_Center" : Return EMI_Transaksi_Cost_Center
-        '    Case "EMI_Transaksi_Work_Center" : Return EMI_Transaksi_Work_Center
+            Case "Master_Cost_Center" : Return Master_Cost_Center
+            Case "Master_Work_Center" : Return Master_Work_Center
+            'Case "Master_Routing" : Return Master_Routing
+            Case "Master_Mesin" : Return Master_Mesin
+            'Case "EMI_Production_Order_Summary_Data" : Return EMI_Production_Order_Summary_Data
+            'Case "EMI_Display_Split_Production_Order" : Return EMI_Display_Split_Production_Order
+            'Case "EMI_Production_Order" : Return EMI_Production_Order
+            Case "EMI_Independent_Order" : Return EMI_Independent_Order
+            'Case "EMI_Schedule" : Return EMI_Schedule
+            'Case "EMI_Split_Production" : Return EMI_Split_Production
+            'Case "EMI_Display_Mulai_Produksi" : Return EMI_Display_Mulai_Produksi
+            'Case "EMI_Display_Selesai_Produksi" : Return EMI_Display_Selesai_Produksi
+            Case "Emi_Production_Barcode" : Return Emi_Production_Barcode
+            Case "EMI_Display_Hasil_Produksi" : Return EMI_Display_Hasil_Produksi
+            'Case "EMI_Display_Hasil_HPP" : Return EMI_Display_Hasil_HPP
+            'Case "EMI_Transaksi_Cost_Center" : Return EMI_Transaksi_Cost_Center
+            Case "EMI_Transaksi_Work_Center" : Return EMI_Transaksi_Work_Center
 
-        '    'Case "Master_Gudang" : Return Master_Gudang
-        '    'Case "Master_Gudang_Kategori" : Return Master_Gudang_Kategori
-        '    'Case "Master_IP_Cam" : Return Master_IP_Cam
-        '    'Case "Master_Jenis_Muatan" : Return Master_Jenis_Muatan
-        '    Case "Transfer_Stock_3" : Return Transfer_Stock_3
-        '    Case "Emi_Display_Transfer" : Return Emi_Display_Transfer
-        '    Case "Display_Kendaraan_Masuk_Tidak_Sesuai" : Return Display_Kendaraan_Masuk_Tidak_Sesuai
-        '    Case "Emi_Display_Timbang" : Return EMI_Display_Timbang
-        '    Case "Emi_Display_Quality_Control" : Return Emi_Display_Quality_Control
-        '    Case "Emi_Display_Timbang" : Return EMI_Display_Timbang
-        '    Case "Emi_Display_Pallet_Masuk" : Return EMI_Display_Pallet_Masuk
-        '    'Case "Display_Hasil_Quality_Control" : Return Display_Hasil_Quality_Control
-        '    'Case "Display_Tracking_Kendaraan" : Return Display_Tracking_Kendaraan
-        '    'Case "Emi_Display_Pallet_Masuk_Data" : Return EMI_Display_Pallet_Masuk_Data
+            'Case "Master_Gudang" : Return Master_Gudang
+            'Case "Master_Gudang_Kategori" : Return Master_Gudang_Kategori
+            'Case "Master_IP_Cam" : Return Master_IP_Cam
+            'Case "Master_Jenis_Muatan" : Return Master_Jenis_Muatan
+            Case "Transfer_Stock_3" : Return Transfer_Stock_3
+            Case "Emi_Display_Transfer" : Return Emi_Display_Transfer
+            Case "Display_Kendaraan_Masuk_Tidak_Sesuai" : Return Display_Kendaraan_Masuk_Tidak_Sesuai
+            Case "Emi_Display_Timbang" : Return EMI_Display_Timbang
+            Case "Emi_Display_Quality_Control" : Return Emi_Display_Quality_Control
+            Case "Emi_Display_Timbang" : Return EMI_Display_Timbang
+            Case "Emi_Display_Pallet_Masuk" : Return EMI_Display_Pallet_Masuk
+            'Case "Display_Hasil_Quality_Control" : Return Display_Hasil_Quality_Control
+            'Case "Display_Tracking_Kendaraan" : Return Display_Tracking_Kendaraan
+            'Case "Emi_Display_Pallet_Masuk_Data" : Return EMI_Display_Pallet_Masuk_Data
 
-        '    'Case "Display_Data_Penawaran" : Return Display_Data_Penawaran
-        '    'Case "Display_Penawaran_Berakhir" : Return Display_Penawaran_Berakhir
-        '    Case "Emi_Pembelian_PO_Summary_Data" : Return EMI_Pembelian_PO_Summary_Data
-        '    'Case "Emi_Pembelian_PR_Summary_Data" : Return EMI_Pembelian_PR_Summary_Data
-        '    'Case "Laporan_Purchase_Order" : Return Laporan_Purchase_Order
-        '    Case "Laporan_Purchase_Requisition" : Return Laporan_Purchase_Requisition
-        '    Case "Transaksi_Penawaran" : Return Transaksi_Penawaran
-        '    Case "Emi_PO_Pembelian_Display" : Return EMI_PO_Pembelian_Display
-        '    Case "Purchase_Requisition" : Return Purchase_Requisition
+            'Case "Display_Data_Penawaran" : Return Display_Data_Penawaran
+            'Case "Display_Penawaran_Berakhir" : Return Display_Penawaran_Berakhir
+            Case "Emi_Pembelian_PO_Summary_Data" : Return EMI_Pembelian_PO_Summary_Data
+            'Case "Emi_Pembelian_PR_Summary_Data" : Return EMI_Pembelian_PR_Summary_Data
+            'Case "Laporan_Purchase_Order" : Return Laporan_Purchase_Order
+            Case "Laporan_Purchase_Requisition" : Return Laporan_Purchase_Requisition
+            Case "Transaksi_Penawaran" : Return Transaksi_Penawaran
+            Case "Emi_PO_Pembelian_Display" : Return EMI_PO_Pembelian_Display
+            Case "Purchase_Requisition" : Return Purchase_Requisition
 
-        '    Case "Master_Quality_Control" : Return Master_Quality_Control
-        '    'Case "Master_Quality_Control_Kategori" : Return Master_Quality_Control_Kategori
-        '    'Case "Master_Quality_Control_Kategori_Detail" : Return Master_Quality_Control_Kategori_Detail
-        '    'Case "Master_Quality_Control_Barang" : Return Master_Quality_Control_Barang
-        '    'Case "Master_Quality_Control_Kendaraan" : Return Master_Quality_Control_Kendaraan
-        '    Case "Display_Formula" : Return Display_Formula
-        '    Case "Display_Formula_Binding" : Return Display_Formula_Binding
-        '    'Case "Emi_Display_Log_MaterialRequisition" : Return Emi_Display_Log_MaterialRequisition
-        '    'Case "Display_Hasil_Quality_Control" : Return Display_Hasil_Quality_Control
-        '    Case "Emi_Display_Quality_Control" : Return Emi_Display_Quality_Control
-        '    Case "Emi_Transaksi_MaterialRequisition" : Return EMI_Transaksi_MaterialRequisition
-        '    Case "Transaksi_Formula" : Return Transaksi_Formula
-        '    Case "Transaksi_Formula_Binding" : Return Transaksi_Formula_Binding
-        '        'Case "Master_Kategori_Supplier" : Return Master_Kategori_Supplier
-        '        'Case "Master_Perhitungan_Jatuh_Tempo" : Return Master_Perhitungan_Jatuh_Tempo
+            Case "Master_Quality_Control" : Return Master_Quality_Control
+            'Case "Master_Quality_Control_Kategori" : Return Master_Quality_Control_Kategori
+            'Case "Master_Quality_Control_Kategori_Detail" : Return Master_Quality_Control_Kategori_Detail
+            'Case "Master_Quality_Control_Barang" : Return Master_Quality_Control_Barang
+            'Case "Master_Quality_Control_Kendaraan" : Return Master_Quality_Control_Kendaraan
+            Case "Display_Formula" : Return Display_Formula
+            Case "Display_Formula_Binding" : Return Display_Formula_Binding
+            'Case "Emi_Display_Log_MaterialRequisition" : Return Emi_Display_Log_MaterialRequisition
+            'Case "Display_Hasil_Quality_Control" : Return Display_Hasil_Quality_Control
+            Case "Emi_Display_Quality_Control" : Return Emi_Display_Quality_Control
+            Case "Emi_Transaksi_MaterialRequisition" : Return EMI_Transaksi_MaterialRequisition
+            Case "Transaksi_Formula" : Return Transaksi_Formula
+            Case "Transaksi_Formula_Binding" : Return Transaksi_Formula_Binding
+                'Case "Master_Kategori_Supplier" : Return Master_Kategori_Supplier
+                'Case "Master_Perhitungan_Jatuh_Tempo" : Return Master_Perhitungan_Jatuh_Tempo
 
 
 
 
-        '        'Case "Jf_Pengajuan_Biaya" : Return Jf_Pengajuan_Biaya
-        '        'Case "Jf_Display_Validasi_Pengajuan_Biaya" : Return Jf_Display_Validasi_Pengajuan_Biaya
-        '        'Case "Jf_Uang_Masuk_Global" : Return Jf_Uang_Masuk_Global
-        '        'Case "Pengajuan_Cheque_Backup" : Return Pengajuan_Cheque_Backup
-        '        'Case "Jf_Laba_Rugi_Lama" : Return Jf_Laba_Rugi_Lama
-        '        'Case "Jf_Master_Bank" : Return Jf_Master_Bank
-        '        'Case "Jf_Master_Rekening" : Return Jf_Master_Rekening
-        '        'Case "Jf_Display_Validasi_Pengajuan_Cheque" : Return Jf_Display_Validasi_Pengajuan_Cheque
-        '        'Case "Rekon_Saldo_New" : Return Rekon_Saldo_New
-        '        'Case "Jf_Master_Cheque" : Return Jf_Master_Cheque
-        '        'Case "Jf_Master_Bank_Tujuan" : Return Jf_Master_Bank_Tujuan
-        '        'Case "Master_Bank_Di_Pengajuan" : Return Master_Bank_Di_Pengajuan
-        '        'Case "Display_Print_Cheque_Slip" : Return Display_Print_Cheque_Slip
-        '        'Case "Master_Jenis_Slip" : Return Master_Jenis_Slip
-        '        'Case "Master_Rekening_Tujuan" : Return Master_Rekening_Tujuan
-        '        'Case "Display_Print_Slip" : Return Display_Print_Slip
-        '        'Case "Display_Jurnal_Pengajuan" : Return Display_Jurnal_Pengajuan
-        '        'Case "Account_Jurnal_Pengajuan" : Return Account_Jurnal_Pengajuan
-        '        'Case "Display_Validasi_Selesai_Cheque" : Return Display_Validasi_Selesai_Cheque
-        '        'Case "Master_Rekening_Pengirim" : Return Master_Rekening_Pengirim
-        '        'Case "Display_History_Validasi_Selesai_Cheque" : Return Display_History_Validasi_Selesai_Cheque
-        '        'Case "Display_History_Jurnal_Pengajuan" : Return Display_History_Jurnal_Pengajuan
-        '        'Case "Jf_Pengajuan_Token" : Return Jf_Pengajuan_Token
-        '        'Case "Jf_Display_Validasi_Pengajuan_Token" : Return Jf_Display_Validasi_Pengajuan_Token
-        '        'Case "Display_Cheque" : Return Display_Cheque
-        '        'Case "Display_Validasi_Slip_New" : Return Display_Validasi_Slip_New
-        '        'Case "Display_Jurnal_Pengajuan_token" : Return Display_Jurnal_Pengajuan_token
-        '        'Case "Display_History_Jurnal_Token" : Return Display_History_Jurnal_Token
-        '        'Case "Jf_Pengajuan_Biaya_Sementara" : Return Jf_Pengajuan_Biaya_Sementara
-        '        'Case "Master_Penanda_Tangan" : Return Master_Penanda_Tangan
-        '        'Case "Display_Validasi_Slip" : Return Display_Validasi_Slip
-        '        'Case "Jf_Validasi_Buku_Bank_Pengajuan" : Return Jf_Validasi_Buku_Bank_Pengajuan
-        '        'Case "Laporan_Rekon_Saldo" : Return Laporan_Rekon_Saldo
+                'Case "Jf_Pengajuan_Biaya" : Return Jf_Pengajuan_Biaya
+                'Case "Jf_Display_Validasi_Pengajuan_Biaya" : Return Jf_Display_Validasi_Pengajuan_Biaya
+                'Case "Jf_Uang_Masuk_Global" : Return Jf_Uang_Masuk_Global
+                'Case "Pengajuan_Cheque_Backup" : Return Pengajuan_Cheque_Backup
+                'Case "Jf_Laba_Rugi_Lama" : Return Jf_Laba_Rugi_Lama
+                'Case "Jf_Master_Bank" : Return Jf_Master_Bank
+                'Case "Jf_Master_Rekening" : Return Jf_Master_Rekening
+                'Case "Jf_Display_Validasi_Pengajuan_Cheque" : Return Jf_Display_Validasi_Pengajuan_Cheque
+                'Case "Rekon_Saldo_New" : Return Rekon_Saldo_New
+                'Case "Jf_Master_Cheque" : Return Jf_Master_Cheque
+                'Case "Jf_Master_Bank_Tujuan" : Return Jf_Master_Bank_Tujuan
+                'Case "Master_Bank_Di_Pengajuan" : Return Master_Bank_Di_Pengajuan
+                'Case "Display_Print_Cheque_Slip" : Return Display_Print_Cheque_Slip
+                'Case "Master_Jenis_Slip" : Return Master_Jenis_Slip
+                'Case "Master_Rekening_Tujuan" : Return Master_Rekening_Tujuan
+                'Case "Display_Print_Slip" : Return Display_Print_Slip
+                'Case "Display_Jurnal_Pengajuan" : Return Display_Jurnal_Pengajuan
+                'Case "Account_Jurnal_Pengajuan" : Return Account_Jurnal_Pengajuan
+                'Case "Display_Validasi_Selesai_Cheque" : Return Display_Validasi_Selesai_Cheque
+                'Case "Master_Rekening_Pengirim" : Return Master_Rekening_Pengirim
+                'Case "Display_History_Validasi_Selesai_Cheque" : Return Display_History_Validasi_Selesai_Cheque
+                'Case "Display_History_Jurnal_Pengajuan" : Return Display_History_Jurnal_Pengajuan
+                'Case "Jf_Pengajuan_Token" : Return Jf_Pengajuan_Token
+                'Case "Jf_Display_Validasi_Pengajuan_Token" : Return Jf_Display_Validasi_Pengajuan_Token
+                'Case "Display_Cheque" : Return Display_Cheque
+                'Case "Display_Validasi_Slip_New" : Return Display_Validasi_Slip_New
+                'Case "Display_Jurnal_Pengajuan_token" : Return Display_Jurnal_Pengajuan_token
+                'Case "Display_History_Jurnal_Token" : Return Display_History_Jurnal_Token
+                'Case "Jf_Pengajuan_Biaya_Sementara" : Return Jf_Pengajuan_Biaya_Sementara
+                'Case "Master_Penanda_Tangan" : Return Master_Penanda_Tangan
+                'Case "Display_Validasi_Slip" : Return Display_Validasi_Slip
+                'Case "Jf_Validasi_Buku_Bank_Pengajuan" : Return Jf_Validasi_Buku_Bank_Pengajuan
+                'Case "Laporan_Rekon_Saldo" : Return Laporan_Rekon_Saldo
 
 
 
-        'End Select
+        End Select
 
 #End Region
 

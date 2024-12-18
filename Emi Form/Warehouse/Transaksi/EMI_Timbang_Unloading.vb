@@ -921,9 +921,9 @@ Public Class EMI_Timbang_Unloading
                     End If
 
                     SQL = "Insert into EMI_Timbang_Unloading_PO_Det ("
-                    SQL = SQL & "Kode_Perusahaan, No_Faktur, No_PO, Urut_Loading, Kode_Barang)"
+                    SQL = SQL & "Kode_Perusahaan, No_Faktur, No_PO, Urut_Loading, Kode_Barang, Kode_Stock_owner)"
                     SQL = SQL & "Values('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', "
-                    SQL = SQL & "'" & LvNoPO & "', '" & LvUrutLoading & "', '" & LvKdBarang & "') "
+                    SQL = SQL & "'" & LvNoPO & "', '" & LvUrutLoading & "', '" & LvKdBarang & "', 'UNLOADING') "
                     ExecuteTrans(SQL)
 
                     SQL = "update EMI_Pembelian_Loading_Detail set flag_timbang_masuk='Y' where No_Faktur='" & TxtNo_Loading.Text & "' "
@@ -1210,10 +1210,6 @@ Public Class EMI_Timbang_Unloading
                 Next
 
 
-
-
-
-
                 Dim jumlah_masuk_BarangTimbang As Double = 0
                 If metodeTruckScale = "TRUCK SCALE" Then
 
@@ -1483,6 +1479,9 @@ Public Class EMI_Timbang_Unloading
                 End If
 
                 If isError = False Then
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Ada Masalah pada Jurnal", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
 
@@ -1497,6 +1496,7 @@ Public Class EMI_Timbang_Unloading
             End If
 
         Catch ex As Exception
+            CloseTrans()
             CloseConn()
             MessageBox.Show(ex.Message)
             Exit Sub
@@ -1517,6 +1517,8 @@ Public Class EMI_Timbang_Unloading
 
             If jenisMasuk = "MASUK" Then
 
+
+
                 SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='" & No_Faktur & "'"
                 Using Ds = BindingTrans(SQL)
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
@@ -1533,17 +1535,53 @@ Public Class EMI_Timbang_Unloading
                         '    .Show()
                         'End With
 
+                        'CrDoc = New Rpt_Surat_Perintah_Bongkar
+                        'kertas = "Faktur"
+
+                        'CrDoc.SetDataSource(Ds)
+                        'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        ''CrDoc.PrintOptions.PrinterName = "EPSON LX-310 ESC/P"
+
+                        'Dim printDialog As New PrintDialog()
+                        'If printDialog.ShowDialog() = DialogResult.OK Then
+                        '    CrDoc.PrintOptions.PrinterName = printDialog.PrinterSettings.PrinterName
+                        '    CrDoc.PrintToPrinter(1, False, 0, 0)
+                        'End If
+
+                        'CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
+                        ''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+                        'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                        'doctoprint.PrinterSettings.PrinterName = PrinterName
+                        'Dim rawKind As Integer
+                        'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        'For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                        '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                        '        CrDoc.PrintOptions.PaperSize = rawKind
+                        '        Exit For
+                        '    End If
+                        'Next
+
+                        'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                        'CrDoc.PrintToPrinter(1, False, 1, 99)
+
+
+                        '================================================================================================================================================================================================================================
+                        '================================================================================================================================================================================================================================
+
+
                         CrDoc = New Rpt_Surat_Perintah_Bongkar
                         kertas = "Faktur"
 
                         CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.PrintOptions.PrinterName = PrinterName
+                        CrDoc.PrintOptions.PrinterName = "EPSON LX-310 ESC/P"
                         CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
                         'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
                         Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        doctoprint.PrinterSettings.PrinterName = PrinterName
+                        doctoprint.PrinterSettings.PrinterName = "EPSON LX-310 ESC/P"
                         Dim rawKind As Integer
                         CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
                         For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
@@ -1584,12 +1622,12 @@ Public Class EMI_Timbang_Unloading
 
                         CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.PrintOptions.PrinterName = PrinterName
+                        CrDoc.PrintOptions.PrinterName = "EPSON LX-310 ESC/P"
                         CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
                         'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
                         Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        doctoprint.PrinterSettings.PrinterName = PrinterName
+                        doctoprint.PrinterSettings.PrinterName = "EPSON LX-310 ESC/P"
                         Dim rawKind As Integer
                         CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
                         For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
@@ -1626,12 +1664,12 @@ Public Class EMI_Timbang_Unloading
 
                         CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.PrintOptions.PrinterName = PrinterName
+                        CrDoc.PrintOptions.PrinterName = "EPSON LX-310 ESC/P"
                         CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading.No_Faktur}='" & No_Faktur & "' "
                         'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
                         Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        doctoprint.PrinterSettings.PrinterName = PrinterName
+                        doctoprint.PrinterSettings.PrinterName = "EPSON LX-310 ESC/P"
                         Dim rawKind As Integer
                         CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
                         For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
