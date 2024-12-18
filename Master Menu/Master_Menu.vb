@@ -292,6 +292,12 @@
         End If
     End Sub
 
+    Private Sub Tb_MenuOrder_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_MenuOrder.KeyPress
+        If Not Char.IsDigit(e.KeyChar) And Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
     Private Sub Cb_SubMenuLv1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cb_SubMenuLv1.SelectedIndexChanged
         Cb_SubMenuLv2.Items.Clear()
         arrSubMenuLv2.Clear()
@@ -382,6 +388,14 @@
 
     'HANDLE BUTTON
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
+
+        If Tb_MenuName.Text.Trim.Length = 0 Then
+            MessageBox.Show("Menu Name Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        ElseIf Tb_MenuOrder.Text.Trim.Length = 0 Then
+            MessageBox.Show("Menu Order Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
 
         Dim newMenuName = Tb_MenuName.Text.Trim
         Dim newMenuOrder = Tb_MenuOrder.Text.Trim

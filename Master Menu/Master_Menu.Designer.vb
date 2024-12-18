@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Master_Menu
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class Master_Menu
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.Cb_MainMenu = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -60,6 +60,7 @@ Partial Class Master_Menu
         '
         'Cb_MainMenu
         '
+        Me.Cb_MainMenu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_MainMenu.FormattingEnabled = True
         Me.Cb_MainMenu.Location = New System.Drawing.Point(70, 70)
         Me.Cb_MainMenu.Name = "Cb_MainMenu"
@@ -77,6 +78,7 @@ Partial Class Master_Menu
         '
         'Cb_Menu
         '
+        Me.Cb_Menu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_Menu.FormattingEnabled = True
         Me.Cb_Menu.Location = New System.Drawing.Point(70, 110)
         Me.Cb_Menu.Name = "Cb_Menu"
@@ -94,6 +96,7 @@ Partial Class Master_Menu
         '
         'Cb_SubMenu
         '
+        Me.Cb_SubMenu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_SubMenu.FormattingEnabled = True
         Me.Cb_SubMenu.Location = New System.Drawing.Point(70, 150)
         Me.Cb_SubMenu.Name = "Cb_SubMenu"
@@ -111,6 +114,7 @@ Partial Class Master_Menu
         '
         'Cb_SubMenuLv1
         '
+        Me.Cb_SubMenuLv1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_SubMenuLv1.FormattingEnabled = True
         Me.Cb_SubMenuLv1.Location = New System.Drawing.Point(224, 70)
         Me.Cb_SubMenuLv1.Name = "Cb_SubMenuLv1"
@@ -128,6 +132,7 @@ Partial Class Master_Menu
         '
         'Cb_SubMenuLv2
         '
+        Me.Cb_SubMenuLv2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_SubMenuLv2.FormattingEnabled = True
         Me.Cb_SubMenuLv2.Location = New System.Drawing.Point(224, 110)
         Me.Cb_SubMenuLv2.Name = "Cb_SubMenuLv2"
@@ -145,6 +150,7 @@ Partial Class Master_Menu
         '
         'Cb_SubMenuLv3
         '
+        Me.Cb_SubMenuLv3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_SubMenuLv3.FormattingEnabled = True
         Me.Cb_SubMenuLv3.Location = New System.Drawing.Point(224, 150)
         Me.Cb_SubMenuLv3.Name = "Cb_SubMenuLv3"
@@ -258,7 +264,7 @@ Partial Class Master_Menu
         '
         'Btn_Save
         '
-        Me.Btn_Save.Location = New System.Drawing.Point(273, 283)
+        Me.Btn_Save.Location = New System.Drawing.Point(306, 288)
         Me.Btn_Save.Name = "Btn_Save"
         Me.Btn_Save.Size = New System.Drawing.Size(157, 33)
         Me.Btn_Save.TabIndex = 16
@@ -331,7 +337,7 @@ Partial Class Master_Menu
         '
         'Btn_Delete
         '
-        Me.Btn_Delete.Location = New System.Drawing.Point(512, 293)
+        Me.Btn_Delete.Location = New System.Drawing.Point(637, 293)
         Me.Btn_Delete.Name = "Btn_Delete"
         Me.Btn_Delete.Size = New System.Drawing.Size(88, 23)
         Me.Btn_Delete.TabIndex = 17

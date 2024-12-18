@@ -31,6 +31,7 @@ Module General_Module
     Public fLokasi_PO As String = "LP"
     Public Jumlah_Digit As Integer = 4
 
+
     Public Cn As SqlConnection
     Public Cn1 As SqlClient.SqlConnection
     Public Cn2 As SqlClient.SqlConnection
@@ -56,6 +57,7 @@ Module General_Module
     Public FPaket As String = "PKT"
     Public Kd_Jurnal As String = "JE01"
     Public fMasterPenawaran As String = "PNW"
+    Public FPembelian As String = "PM"
 
     Public FBMSementara As String = ""
     Public FReturMTSementara As String = "RMT"
@@ -92,7 +94,7 @@ Module General_Module
     'Public UserID As String = "BAYA"
     'Public UserID As String = "garix"
     'Public UserID As String = "emi"
-    Public Lokasi As String = "HEAD OFFICE"
+    'Public Lokasi As String = "HEAD OFFICE"
     Public MainMenuID As String = ""
 
     Public UserName As String '= "devi"
@@ -203,7 +205,7 @@ Module General_Module
     Public No_Fak As String = ""
     Public Jenis As String = ""
     Public Field As String = ""
-    Public PrinterName As String = "EPSON LX-300+II ESC/P" '"EPSON LX-300+II ESC/P"
+    Public PrinterName As String = "EPSON LX-300+II ESC/P" '"EPSON LX-300+II ESC/P"
     Public PrinterNameTS As String = "EPSON PLQ-20 ESC/P2"
     Public JmlBrg As Integer = 11
     Public JmlBrgReturBeli As Integer = 16

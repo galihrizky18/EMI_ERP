@@ -837,14 +837,14 @@ Public Class EMI_Display_Barang_Masuk_Per_Pallet
                         .Show()
                     End With
 
-                    '''CrDoc.SetDataSource(Ds)
-                    '''CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    '''CrDoc.PrintOptions.PrinterName = ""
-                    '''Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                    '''doctoprint.PrinterSettings.PrinterName = ""
-                    '''A_Place_For_Printing2.CrystalReportViewer1.ReportSource = CrDoc
-                    '''A_Place_For_Printing2.Refresh()
-                    '''A_Place_For_Printing2.Show()
+                    ''''''CrDoc.SetDataSource(Ds)
+                    ''''''CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    ''''''CrDoc.PrintOptions.PrinterName = ""
+                    ''''''Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    ''''''doctoprint.PrinterSettings.PrinterName = ""
+                    ''''''A_Place_For_Printing2.CrystalReportViewer1.ReportSource = CrDoc
+                    ''''''A_Place_For_Printing2.Refresh()
+                    ''''''A_Place_For_Printing2.Show()
                 End If
             End Using
 
