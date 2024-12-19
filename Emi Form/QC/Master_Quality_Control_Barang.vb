@@ -45,6 +45,7 @@ Public Class Master_Quality_Control_Barang
     Dim cellData_satuan As Integer = 2
     Dim cellData_ID As Integer = 3
 
+    Dim LokasiDefault As String = ""
 
     Public Sub Get_Isi_Listview(ByVal No_Index As Integer)
 
@@ -94,6 +95,30 @@ Public Class Master_Quality_Control_Barang
         Btn_Hapus.Enabled = False
 
         ListView2.Location = New Point(128, 89)
+
+        Try
+            OpenConn()
+
+            SQL = "Select kode_stock_owner_gudang From "
+            SQL = SQL & "binding_lokasi_gudang Where gudang_default ='Y' "
+            SQL = SQL & "and kode_stock_owner='" & Lokasi & "'"
+            Using dr = OpenTrans(SQL)
+                If dr.Read Then
+                    LokasiDefault = dr("kode_stock_owner_gudang")
+                Else
+                    dr.Close()
+                    CloseConn()
+                    MessageBox.Show("Gudang Default Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
 
         Cari("Y")
     End Sub
@@ -224,7 +249,7 @@ Public Class Master_Quality_Control_Barang
             OpenConn()
 
             SQL = "select a.id_qc_formula, a.Kode_uji, a.Keterangan, satuan, a.Id_Kategori_Komponen, b.Keterangan as Jenis_input, "
-            SQL = SQL & "isnull(flag_option,'T') as flag_option, isnull(flag_input,'T') as flag_input, isnull(Flag_Slider,'T') as Flag_Slider, a.range_awal, a.range_akhir"
+            SQL = SQL & "isnull(flag_option,'T') as flag_option, isnull(flag_input,'T') as flag_input, isnull(Flag_Slider,'T') as Flag_Slider, a.range_awal, a.range_akhir "
             SQL = SQL & "from EMI_Quality_Control a, emi_kategori_komponen b "
             SQL = SQL & "where a.id_kategori_komponen=b.id_kategori_komponen and a.kode_perusahaan = '" & KodePerusahaan & "' and a.Id_QC_Formula = '" & LvData_ID & "' "
             Using Dr = OpenTrans(SQL)
@@ -375,7 +400,7 @@ Public Class Master_Quality_Control_Barang
                     SQL = SQL & "and a.Kode_Perusahaan = e.Kode_Perusahaan and a.ID_Kategori_QC = e.ID_Kategori_QC "
                     SQL = SQL & "and e.Kode_Perusahaan = c.Kode_Perusahaan and e.ID_QC_Formula = c.ID_QC_Formula "
                     SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Kategori_Komponen = d.Id_Kategori_Komponen "
-                    SQL = SQL & "and b.Kode_Perusahaan='" & KodePerusahaan & "' and b.Kode_Barang='" & TextBox1.Text & "' "
+                    SQL = SQL & "and b.Kode_Perusahaan='" & KodePerusahaan & "' and b.Kode_Barang='" & TextBox1.Text & "' and b.kode_stock_owner = '" & LokasiDefault & "' "
                     SQL = SQL & "group by a.ID_Kategori_QC,a.Keterangan ,c.Kode_Uji, c.Keterangan, c.Satuan, c.Id_Kategori_Komponen, d.keterangan,e.Kode_Perusahaan,"
                     SQL = SQL & "e.ID_QC_Formula,b.Kode_Barang,d.Flag_Option,d.Flag_Input,d.Flag_Slider,c.range_awal, c.range_akhir"
                     Using Ds = BindingTrans(SQL)

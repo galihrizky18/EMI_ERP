@@ -176,7 +176,7 @@
 
 
                 'simpan ke emi pembelian loading pabrik
-                SQL = "select kode_perusahaan from EMI_Pembelian_Loading where Kode_Perusahaan = '" & KodePerusahaan & "' and no_fak_submit_po = '" & faktur.Text & "' and "
+                SQL = "select kode_perusahaan, no_faktur from EMI_Pembelian_Loading where Kode_Perusahaan = '" & KodePerusahaan & "' and no_fak_submit_po = '" & faktur.Text & "' and "
                 SQL = SQL & "no_plat = '" & Kontainer.Text & "'"
                 Using Dr = OpenTrans(SQL)
                     If Not Dr.Read Then
@@ -186,6 +186,9 @@
                         SQL = SQL & "'" & KodePerusahaan & "', '" & fakturStr & "', '" & TxtSupplier.Text & "', '" & Lokasi_utama.Text & "','-', '" & Kontainer.Text & "' , '-',  "
                         SQL = SQL & " '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "','" & UserID & "', 'Y', '" & faktur.Text & "', '" & Seal.Text & "' ) "
                         ExecuteTrans(SQL)
+                    Else
+                        fakturStr = Dr("no_faktur")
+                        Dr.Close()
                     End If
                 End Using
 

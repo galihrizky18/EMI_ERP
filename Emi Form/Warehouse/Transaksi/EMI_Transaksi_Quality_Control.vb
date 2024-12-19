@@ -632,7 +632,7 @@ Public Class EMI_Transaksi_Quality_Control
 
             If TxtJenisQC.Text.Trim = "1" Then
 
-                SQL = "update EMI_Pembelian_Loading_detail set flag_qc_pertama ='Y' "
+                SQL = "update EMI_Pembelian_Loading_detail set flag_qc_pertama ='Y', No_Qc1 = '" & txtNoFaktur.Text & "' "
                 SQL = SQL & "where No_faktur='" & TxtNoLoading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
                 SQL = SQL & "and kode_barang='" & TxtKdBarang.Text & "'"
                 ExecuteTrans(SQL)
@@ -672,49 +672,58 @@ Public Class EMI_Transaksi_Quality_Control
             Dim CrDoc As New Object
             Dim kertas As String = ""
 
-            SQL = "select Kode_Perusahaan from View_Laporan_Hasil_QC where "
-            SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and "
-            SQL = SQL & "No_Fak_Loading_Barang = '" & TxtNoLoading.Text & "' "
-            Using Ds = BindingTrans(SQL)
-                If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                    'Dim CrDoc As New Rpt_Laporan_Hasil_QC
-                    'With A_Place_For_Printing2
-                    '    CrDoc.SetDataSource(Ds)
-                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    '    CrDoc.RecordSelectionFormula = "{View_Laporan_Hasil_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Hasil_QC.No_Fak_Loading_Barang} = '" & TxtNoLoading.Text & "' and {View_Laporan_Hasil_QC.no_hsl_qc} = '" & noQc & "' "
-                    '    .Text = "Bukti Hasil Quality Control"
-                    '    .CrystalReportViewer1.ReportSource = CrDoc
-                    '    .Refresh()
-                    '    .Show()
-                    'End With
+            If TxtJenisQC.Text = "2" Then
 
-                    CrDoc = New Rpt_Laporan_Hasil_QC
-                    kertas = "A4"
 
-                    CrDoc.SetDataSource(Ds)
-                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    CrDoc.PrintOptions.PrinterName = PrinterName
-                    CrDoc.RecordSelectionFormula = "{View_Laporan_Hasil_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Hasil_QC.No_Fak_Loading_Barang} = '" & TxtNoLoading.Text & "' and {View_Laporan_Hasil_QC.no_hsl_qc} = '" & noQc & "' "
-                    'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
-                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                    doctoprint.PrinterSettings.PrinterName = PrinterName
-                    Dim rawKind As Integer
-                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
-                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                            CrDoc.PrintOptions.PaperSize = rawKind
-                            Exit For
-                        End If
-                    Next
+                SQL = "select Kode_Perusahaan from View_Laporan_Hasil_QC where "
+                SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and "
+                SQL = SQL & "No_Fak_Loading_Barang = '" & TxtNoLoading.Text & "' "
+                Using Ds = BindingTrans(SQL)
+                    If Ds.Tables("MyTable").Rows.Count <> 0 Then
+                        'Dim CrDoc As New Rpt_Laporan_Hasil_QC
+                        'With A_Place_For_Printing2
+                        '    CrDoc.SetDataSource(Ds)
+                        '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        '    CrDoc.RecordSelectionFormula = "{View_Laporan_Hasil_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Hasil_QC.No_Fak_Loading_Barang} = '" & TxtNoLoading.Text & "' and {View_Laporan_Hasil_QC.no_hsl_qc} = '" & noQc & "' "
+                        '    .Text = "Bukti Hasil Quality Control"
+                        '    .CrystalReportViewer1.ReportSource = CrDoc
+                        '    .Refresh()
+                        '    .Show()
+                        'End With
 
-                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                    CrDoc.PrintToPrinter(1, False, 1, 99)
-                Else
-                    MessageBox.Show("Tidak ada data yang dapat dicetak!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                End If
-            End Using
+                        '===============================================================================================================
+                        '===============================================================================================================
+
+                        CrDoc = New Rpt_Laporan_Hasil_QC
+                        kertas = "A4"
+
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        CrDoc.PrintOptions.PrinterName = "EPSON LX-310 ESC/P"
+                        CrDoc.RecordSelectionFormula = "{View_Laporan_Hasil_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Hasil_QC.No_Fak_Loading_Barang} = '" & TxtNoLoading.Text & "' and {View_Laporan_Hasil_QC.no_hsl_qc} = '" & noQc & "' "
+                        'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+                        Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                        doctoprint.PrinterSettings.PrinterName = "EPSON LX-310 ESC/P"
+                        Dim rawKind As Integer
+                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                            If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                                CrDoc.PrintOptions.PaperSize = rawKind
+                                Exit For
+                            End If
+                        Next
+
+                        CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                        CrDoc.PrintToPrinter(1, False, 1, 99)
+                    Else
+                        MessageBox.Show("Tidak ada data yang dapat dicetak!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    End If
+                End Using
+
+            End If
 
             CloseConn()
         Catch ex As Exception

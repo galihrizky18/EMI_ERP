@@ -210,6 +210,12 @@
     <Compile Include="Emi Form\2611\Emi_Display_Request_Material.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\B2B Sinkronasi\Server_Sinkronasi_B2B.designer.vb">
+      <DependentUpon>Server_Sinkronasi_B2B.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\B2B Sinkronasi\Server_Sinkronasi_B2B.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\IMPORT\Display_Selisih_Biaya.designer.vb">
       <DependentUpon>Display_Selisih_Biaya.vb</DependentUpon>
     </Compile>
@@ -1129,6 +1135,7 @@
     <Compile Include="module\FormDictionary.vb" />
     <Compile Include="module\General_Class.vb" />
     <Compile Include="module\General_Module.vb" />
+    <Compile Include="module\General_Module_B2B.vb" />
     <Compile Include="module\Module1.vb" />
     <Compile Include="module\Modul_Pembantu.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -1431,6 +1438,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\2611\Emi_Display_Request_Material.resx">
       <DependentUpon>Emi_Display_Request_Material.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\B2B Sinkronasi\Server_Sinkronasi_B2B.resx">
+      <DependentUpon>Server_Sinkronasi_B2B.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\IMPORT\Display_Selisih_Biaya.resx">
       <DependentUpon>Display_Selisih_Biaya.vb</DependentUpon>

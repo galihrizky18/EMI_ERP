@@ -62,6 +62,7 @@ Public Class EMI_Timbang_Unloading
     Public filterDetailBarang As String = ""
 
     Private isError As Boolean = False
+    Dim LokasiGudangUnloading As String = ""
 
     Private Function CekNothing(ByVal str As String) As String
         Dim hasil As String = ""
@@ -244,6 +245,24 @@ Public Class EMI_Timbang_Unloading
                 Exit Sub
             End If
 
+
+            '================================
+            '=     GET GUDANG UNLOADING     =
+            '================================
+            SQL = "select b.Kode_Stock_Owner from binding_lokasi_gudang a, stock_owner_gudang b "
+            SQL = SQL & "where a.kode_stock_owner='HEAD OFFICE' and b.Kode_Stock_Owner=a.Kode_Stock_Owner_gudang "
+            SQL = SQL & "and flag_unloading='Y' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    LokasiGudangUnloading = Dr("Kode_Stock_Owner")
+                Else
+                    Dr.Close()
+                    MessageBox.Show("Lokasi Gudang Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+
             loadJenisMuatan()
             Btn_Simpan.Text = Base_Language.Lang_Global_Simpan
             Btn_Refresh.Text = Base_Language.Lang_Global_Refresh
@@ -268,6 +287,8 @@ Public Class EMI_Timbang_Unloading
             Exit Sub
 
         End Try
+
+
         If jenisMasuk = "MASUK" Then
             Get_DGVMasuk()
         ElseIf jenisMasuk = "KELUAR" Then
@@ -923,7 +944,7 @@ Public Class EMI_Timbang_Unloading
                     SQL = "Insert into EMI_Timbang_Unloading_PO_Det ("
                     SQL = SQL & "Kode_Perusahaan, No_Faktur, No_PO, Urut_Loading, Kode_Barang, Kode_Stock_owner)"
                     SQL = SQL & "Values('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', "
-                    SQL = SQL & "'" & LvNoPO & "', '" & LvUrutLoading & "', '" & LvKdBarang & "', 'UNLOADING') "
+                    SQL = SQL & "'" & LvNoPO & "', '" & LvUrutLoading & "', '" & LvKdBarang & "', '" & LokasiGudangUnloading & "') "
                     ExecuteTrans(SQL)
 
                     SQL = "update EMI_Pembelian_Loading_Detail set flag_timbang_masuk='Y' where No_Faktur='" & TxtNo_Loading.Text & "' "
@@ -1114,8 +1135,8 @@ Public Class EMI_Timbang_Unloading
                                     PPN = dr("PPN")
                                 End If
                             Else
-                                Harga = dr("Harga")
-                                PPN = dr("PPN")
+                                Harga = If(General_Class.CekNULL(dr("Harga")) = "", 0, General_Class.CekNULL(dr("Harga")))
+                                PPN = General_Class.CekNULL(dr("PPN"))
                             End If
 
 
@@ -1517,8 +1538,6 @@ Public Class EMI_Timbang_Unloading
 
             If jenisMasuk = "MASUK" Then
 
-
-
                 SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='" & No_Faktur & "'"
                 Using Ds = BindingTrans(SQL)
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
@@ -1595,7 +1614,7 @@ Public Class EMI_Timbang_Unloading
                         CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
                         CrDoc.PrintToPrinter(1, False, 1, 99)
 
-
+                        MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     End If
                 End Using
 
@@ -1643,7 +1662,7 @@ Public Class EMI_Timbang_Unloading
                     End If
                 End Using
 
-                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading where no_Faktur='" & No_Faktur & "'"
+                SQL = "select Kode_Jenis_Muatan from Vw_Bukti_Timbang where No_Faktur = '" & No_Faktur & "'"
                 Using Ds = BindingTrans(SQL)
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
                         'CrDoc = New Rpt_Bukti_Timbang
@@ -1665,7 +1684,7 @@ Public Class EMI_Timbang_Unloading
                         CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                         CrDoc.PrintOptions.PrinterName = "EPSON LX-310 ESC/P"
-                        CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading.No_Faktur}='" & No_Faktur & "' "
+                        CrDoc.RecordSelectionFormula = "{Vw_Bukti_Timbang.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Bukti_Timbang.No_Faktur}='" & No_Faktur & "' "
                         'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
                         Dim doctoprint As New System.Drawing.Printing.PrintDocument()
@@ -1682,9 +1701,12 @@ Public Class EMI_Timbang_Unloading
 
                         CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
                         CrDoc.PrintToPrinter(1, False, 1, 99)
+
+
                     End If
                 End Using
 
+                MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
 
             kosong()

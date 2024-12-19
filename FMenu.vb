@@ -907,8 +907,8 @@ Public Class FMenu
             Case "Master_Quality_Control"
                 Return Master_Quality_Control
 
-            'Case "Master_Quality_Control_Barang"
-            '    Return Master_Quality_Control_Barang
+            Case "Master_Quality_Control_Barang"
+                Return Master_Quality_Control_Barang
 
             'Case "Master_Quality_Control_Kategori_Detail"
             '    Return Master_Quality_Control_Kategori_Detail
@@ -1054,8 +1054,8 @@ Public Class FMenu
             Case "EMI_Display_Pallet_Masuk"
                 Return EMI_Display_Pallet_Masuk
 
-            'Case "Server_Sinkronasi_B2B"
-            '    Return Server_Sinkronasi_B2B
+            Case "Server_Sinkronasi_B2B"
+                Return Server_Sinkronasi_B2B
 
             Case "Transfer_Stock_3"
                 Return Transfer_Stock_3
