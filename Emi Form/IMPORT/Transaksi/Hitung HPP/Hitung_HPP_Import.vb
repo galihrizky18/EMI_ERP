@@ -1274,15 +1274,17 @@ Public Class Hitung_HPP_Import
             IsError = False
             If hasData = True Then
                 Jurnal_Import_Pertimbangan()
+
+                If IsError = False Then
+                    MessageBox.Show("Terdapat Masalah Saat Simpan Jurnal", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    Exit Sub
+                End If
             End If
 
-            If IsError = False Then
-                MessageBox.Show("Terdapat Masalah Saat Simpan Jurnal", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Dr.Close()
-                CloseTrans()
-                CloseConn()
-                Exit Sub
-            End If
+
 
 
             For index As Integer = 0 To ListView1.Items.Count - 1
