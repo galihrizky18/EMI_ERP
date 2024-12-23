@@ -42,42 +42,9 @@
 
             Lv_WorkCenter.Columns.Clear()
             Lv_WorkCenter.Columns.Add("ID", 0, HorizontalAlignment.Left)
-            Lv_WorkCenter.Columns.Add(Base_Language.Lang_Global_Kode, 180, HorizontalAlignment.Left)
-            Lv_WorkCenter.Columns.Add(Base_Language.lang_global_keterangan, 220, HorizontalAlignment.Left)
+            Lv_WorkCenter.Columns.Add(Base_Language.Lang_Global_Kode, 280, HorizontalAlignment.Left)
+            Lv_WorkCenter.Columns.Add(Base_Language.lang_global_keterangan, 350, HorizontalAlignment.Left)
             Lv_WorkCenter.View = View.Details
-
-            Lv_DetailAkun.Columns.Add("", 25, HorizontalAlignment.Center)
-            Lv_DetailAkun.Columns.Add("Kode Akun", 240, HorizontalAlignment.Center)
-            Lv_DetailAkun.Columns.Add("Nama Akun", 260, HorizontalAlignment.Left)
-            Lv_DetailAkun.View = View.Details
-
-            Lv_Detail.Columns.Add("Kode Akun", 220, HorizontalAlignment.Center)
-            Lv_Detail.Columns.Add("Nama Akun", 250, HorizontalAlignment.Left)
-            Lv_Detail.View = View.Details
-
-
-            'ISI DATA 1
-            Dim LV As ListViewItem = Lv_DetailAkun.Items.Add("")
-            LV.SubItems.Add("2315")
-            LV.SubItems.Add("Akun Listrik")
-
-            LV = Lv_DetailAkun.Items.Add("")
-            LV.SubItems.Add("2316")
-            LV.SubItems.Add("Akun Air")
-
-            LV = Lv_DetailAkun.Items.Add("")
-            LV.SubItems.Add("2317")
-            LV.SubItems.Add("Akun Bahan")
-
-            'ISI DATA 2
-            Dim LV2 As ListViewItem = Lv_Detail.Items.Add("2315")
-            LV2.SubItems.Add("Akun Listrik")
-
-            LV2 = Lv_Detail.Items.Add("2316")
-            LV2.SubItems.Add("Akun Air")
-
-            LV2 = Lv_Detail.Items.Add("2317")
-            LV2.SubItems.Add("Akun Bahan")
 
             kosong()
             CloseConn()
@@ -306,7 +273,6 @@
         Txt_Kd.Focus()
     End Sub
 
-
     Private Sub Txt_Value_TextChanged(sender As Object, e As EventArgs) Handles Txt_Value.TextChanged
 
     End Sub
@@ -321,59 +287,6 @@
 
     Private Sub Txt_Value_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Value.KeyPress
         If e.KeyChar = Chr(13) Then Btn_Cari.Focus()
-    End Sub
-
-    Private Sub GroupBox2_Enter(sender As Object, e As EventArgs) Handles GroupBox2.Enter
-
-    End Sub
-
-    Private Sub Lv_DetailAkun_DrawColumnHeader(sender As Object, e As DrawListViewColumnHeaderEventArgs) Handles Lv_DetailAkun.DrawColumnHeader
-        If e.ColumnIndex = 0 Then
-            e.DrawBackground()
-
-            Dim value As Boolean = False
-
-            Try
-                value = Convert.ToBoolean(e.Header.Tag)
-            Catch ex As Exception
-
-            End Try
-
-            CheckBoxRenderer.DrawCheckBox(e.Graphics, New Point(e.Bounds.Left + 4, e.Bounds.Top + 4),
-                                      If(value, System.Windows.Forms.VisualStyles.CheckBoxState.CheckedNormal,
-                                         System.Windows.Forms.VisualStyles.CheckBoxState.UncheckedNormal))
-        Else
-
-            e.DrawDefault = True
-        End If
-    End Sub
-
-    Private Sub Lv_DetailAkun_DrawItem(sender As Object, e As DrawListViewItemEventArgs) Handles Lv_DetailAkun.DrawItem
-        e.DrawDefault = True
-    End Sub
-
-    Private Sub Lv_DetailAkun_DrawSubItem(sender As Object, e As DrawListViewSubItemEventArgs) Handles Lv_DetailAkun.DrawSubItem
-        e.DrawDefault = True
-    End Sub
-
-    Private Sub Lv_DetailAkun_ColumnClick(sender As Object, e As ColumnClickEventArgs) Handles Lv_DetailAkun.ColumnClick
-        If e.Column = 0 Then
-            Dim value As Boolean = False
-
-            Try
-                value = Convert.ToBoolean(Lv_DetailAkun.Columns(e.Column).Tag)
-            Catch ex As Exception
-            End Try
-
-            Dim newValue As Boolean = Not value
-            Lv_DetailAkun.Columns(e.Column).Tag = newValue
-
-            For Each item As ListViewItem In Lv_DetailAkun.Items
-                item.Checked = newValue
-            Next
-
-            Lv_DetailAkun.Invalidate()
-        End If
     End Sub
 
 End Class

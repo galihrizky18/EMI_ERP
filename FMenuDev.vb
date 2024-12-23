@@ -401,6 +401,54 @@
         EMI_Transaksi_Work_Center_By_Automation.Focus()
     End Sub
 
+    Private Sub AdjustmentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AdjustmentToolStripMenuItem.Click
+        EMI_Adjustment_Dist.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Adjustment_Dist.MdiParent = Me
+        EMI_Adjustment_Dist.Show()
+        EMI_Adjustment_Dist.Focus()
+    End Sub
+
+    Private Sub RestockToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RestockToolStripMenuItem.Click
+        EMI_Restock.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Restock.MdiParent = Me
+        EMI_Restock.Show()
+        EMI_Restock.Focus()
+    End Sub
+
+    Private Sub RestockToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles RestockToolStripMenuItem1.Click
+        EMI_Display_Restock.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Display_Restock.MdiParent = Me
+        EMI_Display_Restock.Show()
+        EMI_Display_Restock.Focus()
+    End Sub
+
+    Private Sub MasterRoutingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterRoutingToolStripMenuItem.Click
+        Master_Routing.StartPosition = FormStartPosition.CenterScreen
+
+        Master_Routing.MdiParent = Me
+        Master_Routing.Show()
+        Master_Routing.Focus()
+    End Sub
+
+    Private Sub MasterWorkCenterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterWorkCenterToolStripMenuItem.Click
+        Master_Work_Center.StartPosition = FormStartPosition.CenterScreen
+
+        Master_Work_Center.MdiParent = Me
+        Master_Work_Center.Show()
+        Master_Work_Center.Focus()
+    End Sub
+
+    Private Sub WorkCenter2ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles WorkCenter2ToolStripMenuItem.Click
+        EMI_Transaksi_Work_Center2.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Transaksi_Work_Center2.MdiParent = Me
+        EMI_Transaksi_Work_Center2.Show()
+        EMI_Transaksi_Work_Center2.Focus()
+    End Sub
+
 
 
 

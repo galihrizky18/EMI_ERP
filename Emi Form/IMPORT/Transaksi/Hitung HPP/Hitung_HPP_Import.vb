@@ -1160,13 +1160,34 @@ Public Class Hitung_HPP_Import
                     SQL = SQL & "from EMI_Barang_Masuk_Perpallet a "
                     SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
                     SQL = SQL & "and a.No_Pembelian_Loading = '" & No_Fak_Pembelian_Loading(j) & "' "
-                    SQL = SQL & "and Flag_angkut = 'Y'"
+                    'SQL = SQL & "and Flag_angkut = 'Y' "
                     SQL = SQL & "and kode_barang = '" & Lv2KdBarang & "'"
                     Using Ds = BindingTrans(SQL)
                         With Ds.Tables("MyTable")
                             If .Rows.Count <> 0 Then
 
                                 For k As Integer = 0 To Ds.Tables("MyTable").Rows.Count - 1
+
+                                    '========================================
+                                    '=     CEK DATA APAKAH SUDAH ANGKUT     =
+                                    '========================================
+                                    SQL = "select kode_perusahaan "
+                                    SQL = SQL & "from EMI_Barang_Masuk_Perpallet "
+                                    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                    SQL = SQL & "and no_faktur = '" & Ds.Tables("MyTable").Rows(k).Item("No_Faktur") & "' "
+                                    SQL = SQL & "and Flag_angkut = 'Y' "
+                                    Using Dr = OpenTrans(SQL)
+                                        If Dr.Read Then
+                                            Dr.Close()
+
+                                        Else
+                                            Dr.Close()
+                                            CloseTrans()
+                                            CloseConn()
+                                            MessageBox.Show("Barang Belum Masuk Gudang", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            Exit Sub
+                                        End If
+                                    End Using
 
                                     hasData = True
                                     '==========================
@@ -1286,153 +1307,152 @@ Public Class Hitung_HPP_Import
 
 
 
-
             For index As Integer = 0 To ListView1.Items.Count - 1
-                SQL = "insert into Kurs_HPP_Import(kode_perusahaan, no_faktur, Mata_Uang, Jenis, Nilai) Values( "
-                SQL = SQL & "'" & KodePerusahaan & "','" & faktur & "','" & ListView1.Items(index).SubItems(0).Text & "', "
-                SQL = SQL & "'" & ListView1.Items(index).SubItems(1).Text & "', '" & ListView1.Items(index).SubItems(2).Text & "')"
-                ExecuteTrans(SQL)
-            Next
+                    SQL = "insert into Kurs_HPP_Import(kode_perusahaan, no_faktur, Mata_Uang, Jenis, Nilai) Values( "
+                    SQL = SQL & "'" & KodePerusahaan & "','" & faktur & "','" & ListView1.Items(index).SubItems(0).Text & "', "
+                    SQL = SQL & "'" & ListView1.Items(index).SubItems(1).Text & "', '" & ListView1.Items(index).SubItems(2).Text & "')"
+                    ExecuteTrans(SQL)
+                Next
 
-            Dim metode_Hitung_Konte As String = ""
-            SQL = "select Metode_Hitung_Konte from Stock_Owner where Kode_Stock_Owner ='" & CmbLokasi.Text & "'"
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    metode_Hitung_Konte = Dr("Metode_Hitung_Konte")
+                Dim metode_Hitung_Konte As String = ""
+                SQL = "select Metode_Hitung_Konte from Stock_Owner where Kode_Stock_Owner ='" & CmbLokasi.Text & "'"
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        metode_Hitung_Konte = Dr("Metode_Hitung_Konte")
+                    Else
+                        MessageBox.Show("Lokasi tidak ada !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        Exit Sub
+                    End If
+                End Using
+
+                SQL = ";with "
+                If metode_Hitung_Konte = "A" Then
+                    SQL = SQL & "cte_Kontainer as( "
+                    SQL = SQL & "select a.Kode_Perusahaan, a.id_rencana, a.ETA, c.Lokasi, b.kode_pelabuhan, c.free_storage, d.No_Container, "
+                    SQL = SQL & "d.Tgl_Tarik ,datediff(day,format(DATEADD(dd, c.free_storage, a.ETA), 'yyyy-MM-dd'), format(d.Tgl_Tarik, 'yyyy-MM-dd')) as jumlah_hari "
+                    SQL = SQL & "from ubah_status_otw a, "
+                    SQL = SQL & "kapal_tiba_import b, pelabuhan c, Tarik_Kontainer d  where a.Kode_Perusahaan = b.Kode_Perusahaan "
+                    SQL = SQL & "and a.id_rencana = b.id_rencana and b.Kode_Perusahaan = c.Kode_Perusahaan and b.kode_pelabuhan = "
+                    SQL = SQL & "c.Kode_Pelabuhan and a.Kode_Perusahaan = d.Kode_perusahaan and a.Id_rencana = d.id_rencana and "
+                    SQL = SQL & "a.id_rencana in (" & id_rencana_group & ") "
+                    SQL = SQL & ") "
+                    SQL = SQL & ",cte_total_Kontainer as ( "
+                    SQL = SQL & "select a.*,b.id_rencana, isnull(( "
+                    SQL = SQL & "select count(X.no_container) from cte_Kontainer X where jumlah_hari+1 >= dari "
+                    SQL = SQL & "and X.Id_rencana = d.id_rencana ), 0) as Jumlah_Kontainer, Harga*isnull(( "
+                    SQL = SQL & "select count(X.no_container) from cte_Kontainer X where jumlah_hari+1 >= dari "
+                    SQL = SQL & "and X.Id_rencana = d.id_rencana ), 0) as Biaya "
+                    SQL = SQL & "from storage a, Kapal_Tiba_import b, Pelabuhan c, rencana_order d where "
+                    SQL = SQL & "b.Kode_Pelabuhan = c.Kode_Pelabuhan and B.Kode_Perusahaan = C.Kode_Perusahaan and "
+                    SQL = SQL & "a.kode_stock_owner = c.Lokasi And a.kode_pelabuhan = b.Kode_Pelabuhan and "
+                    SQL = SQL & "b.Kode_Perusahaan = d.Kode_Perusahaan  and b.Id_Rencana = d.Id_rencana and "
+                    SQL = SQL & "a.Kode_Kontainer = d.Kode_Kontainer "
+                    SQL = SQL & "and d.id_rencana in (" & id_rencana_group & ") ) "
+                ElseIf metode_Hitung_Konte = "B" Then
+                    SQL = SQL & "cte_total_Kontainer as ( "
+                    SQL = SQL & "select a.Kode_Perusahaan, c.Lokasi as Kode_stock_Owner, a.id_rencana,e.Kode_Kontainer, a.ETA,b.kode_pelabuhan, c.free_storage, "
+                    SQL = SQL & "d.No_Container, d.Tgl_Tarik ,datediff(day,format(DATEADD(dd, c.free_storage, a.ETA), 'yyyy-MM-dd'), "
+                    SQL = SQL & "format(d.Tgl_Tarik, 'yyyy-MM-dd')) as jumlah_hari, isnull((select X.Harga from storage X "
+                    SQL = SQL & "where datediff(day,format(DATEADD(dd, c.free_storage, a.ETA), 'yyyy-MM-dd'), "
+                    SQL = SQL & "format(d.Tgl_Tarik, 'yyyy-MM-dd'))= sampai and X.Kode_Perusahaan = c.Kode_Perusahaan and "
+                    SQL = SQL & "X.Kode_Stock_Owner = c.Lokasi and X.Kode_Pelabuhan = c.Kode_Pelabuhan and X.Kode_Kontainer = "
+                    SQL = SQL & "e.Kode_Kontainer),0) as biaya from ubah_status_otw a, kapal_tiba_import b, pelabuhan c, "
+                    SQL = SQL & "Tarik_Kontainer d, rencana_order e  where a.Kode_Perusahaan = b.Kode_Perusahaan and a.id_rencana = "
+                    SQL = SQL & "b.id_rencana and b.Kode_Perusahaan = c.Kode_Perusahaan and b.kode_pelabuhan = c.Kode_Pelabuhan and "
+                    SQL = SQL & "a.Kode_Perusahaan = d.Kode_perusahaan and a.Id_rencana = d.id_rencana and a.kode_perusahaan = "
+                    SQL = SQL & "e.Kode_Perusahaan and a.Id_rencana = e.Id_rencana and a.id_rencana in (" & id_rencana_group & ") "
+                    SQL = SQL & ") "
                 Else
-                    MessageBox.Show("Lokasi tidak ada !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Dr.Close()
+                    MessageBox.Show("Metode Perhitungan Konte tidak ada !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                     CloseTrans()
                     CloseConn()
                     Exit Sub
                 End If
-            End Using
+                SQL = SQL & "select* from "
+                SQL = SQL & "cte_Total_kontainer a where biaya<>0 "
+                Using Ds = BindingTrans(SQL)
+                    With Ds.Tables("MyTable")
+                        For index As Integer = 0 To .Rows.Count - 1
 
-            SQL = ";with "
-            If metode_Hitung_Konte = "A" Then
-                SQL = SQL & "cte_Kontainer as( "
-                SQL = SQL & "select a.Kode_Perusahaan, a.id_rencana, a.ETA, c.Lokasi, b.kode_pelabuhan, c.free_storage, d.No_Container, "
-                SQL = SQL & "d.Tgl_Tarik ,datediff(day,format(DATEADD(dd, c.free_storage, a.ETA), 'yyyy-MM-dd'), format(d.Tgl_Tarik, 'yyyy-MM-dd')) as jumlah_hari "
-                SQL = SQL & "from ubah_status_otw a, "
-                SQL = SQL & "kapal_tiba_import b, pelabuhan c, Tarik_Kontainer d  where a.Kode_Perusahaan = b.Kode_Perusahaan "
-                SQL = SQL & "and a.id_rencana = b.id_rencana and b.Kode_Perusahaan = c.Kode_Perusahaan and b.kode_pelabuhan = "
-                SQL = SQL & "c.Kode_Pelabuhan and a.Kode_Perusahaan = d.Kode_perusahaan and a.Id_rencana = d.id_rencana and "
-                SQL = SQL & "a.id_rencana in (" & id_rencana_group & ") "
-                SQL = SQL & ") "
-                SQL = SQL & ",cte_total_Kontainer as ( "
-                SQL = SQL & "select a.*,b.id_rencana, isnull(( "
-                SQL = SQL & "select count(X.no_container) from cte_Kontainer X where jumlah_hari+1 >= dari "
-                SQL = SQL & "and X.Id_rencana = d.id_rencana ), 0) as Jumlah_Kontainer, Harga*isnull(( "
-                SQL = SQL & "select count(X.no_container) from cte_Kontainer X where jumlah_hari+1 >= dari "
-                SQL = SQL & "and X.Id_rencana = d.id_rencana ), 0) as Biaya "
-                SQL = SQL & "from storage a, Kapal_Tiba_import b, Pelabuhan c, rencana_order d where "
-                SQL = SQL & "b.Kode_Pelabuhan = c.Kode_Pelabuhan and B.Kode_Perusahaan = C.Kode_Perusahaan and "
-                SQL = SQL & "a.kode_stock_owner = c.Lokasi And a.kode_pelabuhan = b.Kode_Pelabuhan and "
-                SQL = SQL & "b.Kode_Perusahaan = d.Kode_Perusahaan  and b.Id_Rencana = d.Id_rencana and "
-                SQL = SQL & "a.Kode_Kontainer = d.Kode_Kontainer "
-                SQL = SQL & "and d.id_rencana in (" & id_rencana_group & ") ) "
-            ElseIf metode_Hitung_Konte = "B" Then
-                SQL = SQL & "cte_total_Kontainer as ( "
-                SQL = SQL & "select a.Kode_Perusahaan, c.Lokasi as Kode_stock_Owner, a.id_rencana,e.Kode_Kontainer, a.ETA,b.kode_pelabuhan, c.free_storage, "
-                SQL = SQL & "d.No_Container, d.Tgl_Tarik ,datediff(day,format(DATEADD(dd, c.free_storage, a.ETA), 'yyyy-MM-dd'), "
-                SQL = SQL & "format(d.Tgl_Tarik, 'yyyy-MM-dd')) as jumlah_hari, isnull((select X.Harga from storage X "
-                SQL = SQL & "where datediff(day,format(DATEADD(dd, c.free_storage, a.ETA), 'yyyy-MM-dd'), "
-                SQL = SQL & "format(d.Tgl_Tarik, 'yyyy-MM-dd'))= sampai and X.Kode_Perusahaan = c.Kode_Perusahaan and "
-                SQL = SQL & "X.Kode_Stock_Owner = c.Lokasi and X.Kode_Pelabuhan = c.Kode_Pelabuhan and X.Kode_Kontainer = "
-                SQL = SQL & "e.Kode_Kontainer),0) as biaya from ubah_status_otw a, kapal_tiba_import b, pelabuhan c, "
-                SQL = SQL & "Tarik_Kontainer d, rencana_order e  where a.Kode_Perusahaan = b.Kode_Perusahaan and a.id_rencana = "
-                SQL = SQL & "b.id_rencana and b.Kode_Perusahaan = c.Kode_Perusahaan and b.kode_pelabuhan = c.Kode_Pelabuhan and "
-                SQL = SQL & "a.Kode_Perusahaan = d.Kode_perusahaan and a.Id_rencana = d.id_rencana and a.kode_perusahaan = "
-                SQL = SQL & "e.Kode_Perusahaan and a.Id_rencana = e.Id_rencana and a.id_rencana in (" & id_rencana_group & ") "
-                SQL = SQL & ") "
-            Else
-                MessageBox.Show("Metode Perhitungan Konte tidak ada !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                CloseTrans()
-                CloseConn()
-                Exit Sub
-            End If
-            SQL = SQL & "select* from "
-            SQL = SQL & "cte_Total_kontainer a where biaya<>0 "
-            Using Ds = BindingTrans(SQL)
-                With Ds.Tables("MyTable")
-                    For index As Integer = 0 To .Rows.Count - 1
+                            If metode_Hitung_Konte = "A" Then
+                                SQL = "Insert Into Detail_Storage_HPP_A(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Kontainer, Kode_Pelabuhan, Dari, Sampai, Harga, Jumlah_Kontainer, Biaya) "
+                                SQL = SQL & "Values('" & KodePerusahaan & "', '" & faktur & "', '" & .Rows(index).Item("Kode_Stock_Owner") & "', '" & .Rows(index).Item("Kode_Kontainer") & "', "
+                                SQL = SQL & "'" & .Rows(index).Item("Kode_Pelabuhan") & "', '" & .Rows(index).Item("Dari") & "', '" & .Rows(index).Item("Sampai") & "', '" & .Rows(index).Item("Harga") & "', "
+                                SQL = SQL & "'" & .Rows(index).Item("Jumlah_Kontainer") & "', '" & .Rows(index).Item("Biaya") & "')"
+                                ExecuteTrans(SQL)
 
-                        If metode_Hitung_Konte = "A" Then
-                            SQL = "Insert Into Detail_Storage_HPP_A(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Kontainer, Kode_Pelabuhan, Dari, Sampai, Harga, Jumlah_Kontainer, Biaya) "
-                            SQL = SQL & "Values('" & KodePerusahaan & "', '" & faktur & "', '" & .Rows(index).Item("Kode_Stock_Owner") & "', '" & .Rows(index).Item("Kode_Kontainer") & "', "
-                            SQL = SQL & "'" & .Rows(index).Item("Kode_Pelabuhan") & "', '" & .Rows(index).Item("Dari") & "', '" & .Rows(index).Item("Sampai") & "', '" & .Rows(index).Item("Harga") & "', "
-                            SQL = SQL & "'" & .Rows(index).Item("Jumlah_Kontainer") & "', '" & .Rows(index).Item("Biaya") & "')"
-                            ExecuteTrans(SQL)
+                            ElseIf metode_Hitung_Konte = "B" Then
+                                SQL = "Insert Into Detail_Storage_HPP_B(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Kontainer, Kode_Pelabuhan, No_Kontainer, Jumlah_Hari, Biaya) "
+                                SQL = SQL & "Values('" & KodePerusahaan & "', '" & faktur & "', '" & .Rows(index).Item("Kode_Stock_Owner") & "', '" & .Rows(index).Item("Kode_Kontainer") & "', "
+                                SQL = SQL & "'" & .Rows(index).Item("Kode_Pelabuhan") & "', '" & .Rows(index).Item("No_Container") & "', "
+                                SQL = SQL & "'" & .Rows(index).Item("Jumlah_Hari") & "', '" & .Rows(index).Item("Biaya") & "')"
+                                ExecuteTrans(SQL)
+                            Else
+                                MessageBox.Show("Metode Perhitungan Konte tidak ada !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                CloseTrans()
+                                CloseConn()
+                                Exit Sub
 
-                        ElseIf metode_Hitung_Konte = "B" Then
-                            SQL = "Insert Into Detail_Storage_HPP_B(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Kontainer, Kode_Pelabuhan, No_Kontainer, Jumlah_Hari, Biaya) "
-                            SQL = SQL & "Values('" & KodePerusahaan & "', '" & faktur & "', '" & .Rows(index).Item("Kode_Stock_Owner") & "', '" & .Rows(index).Item("Kode_Kontainer") & "', "
-                            SQL = SQL & "'" & .Rows(index).Item("Kode_Pelabuhan") & "', '" & .Rows(index).Item("No_Container") & "', "
-                            SQL = SQL & "'" & .Rows(index).Item("Jumlah_Hari") & "', '" & .Rows(index).Item("Biaya") & "')"
-                            ExecuteTrans(SQL)
+                            End If
+
+                        Next
+                    End With
+                End Using
+
+
+                SQL = "Delete From HPP_Temp "
+                ExecuteTrans(SQL)
+
+                SQL = "select Flag_Gabungan from rencana_order where "
+                SQL = SQL & "Id_rencana = '" & TxtId_Rencana.Text & "'"
+                Using Dr2 = OpenTrans(SQL)
+                    If Dr2.Read Then
+                        If General_Class.CekNULL(Dr2("Flag_Gabungan")) = "Y" Then
+                            Dr2.Close()
+                            SQL = "select a.id_rencana from rencana_order a, rencana_order_gabungan b where "
+                            SQL = SQL & "a.id_rencana = b.Id_rencana and b.Id_rencana_induk = '" & TxtId_Rencana.Text & "'"
+                            Using Ds = BindingTrans(SQL)
+                                With Ds.Tables("MyTable")
+                                    If .Rows.Count <> 0 Then
+                                        For i As Integer = 0 To .Rows.Count - 1
+                                            SQL = "update rencana_Order set flag_HPP = 'Y' "
+                                            SQL = SQL & " where Id_Rencana = '" & .Rows(i).Item("id_rencana") & "'"
+                                            ExecuteTrans(SQL)
+                                        Next
+                                    Else
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Data lokasi tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+                                End With
+                            End Using
                         Else
-                            MessageBox.Show("Metode Perhitungan Konte tidak ada !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            CloseTrans()
-                            CloseConn()
-                            Exit Sub
-
+                            Dr2.Close()
+                            SQL = "update rencana_Order set flag_HPP = 'Y' "
+                            SQL = SQL & " where Id_Rencana = '" & TxtId_Rencana.Text.Trim & "'"
+                            ExecuteTrans(SQL)
                         End If
-
-                    Next
-                End With
-            End Using
-
-
-            SQL = "Delete From HPP_Temp "
-            ExecuteTrans(SQL)
-
-            SQL = "select Flag_Gabungan from rencana_order where "
-            SQL = SQL & "Id_rencana = '" & TxtId_Rencana.Text & "'"
-            Using Dr2 = OpenTrans(SQL)
-                If Dr2.Read Then
-                    If General_Class.CekNULL(Dr2("Flag_Gabungan")) = "Y" Then
-                        Dr2.Close()
-                        SQL = "select a.id_rencana from rencana_order a, rencana_order_gabungan b where "
-                        SQL = SQL & "a.id_rencana = b.Id_rencana and b.Id_rencana_induk = '" & TxtId_Rencana.Text & "'"
-                        Using Ds = BindingTrans(SQL)
-                            With Ds.Tables("MyTable")
-                                If .Rows.Count <> 0 Then
-                                    For i As Integer = 0 To .Rows.Count - 1
-                                        SQL = "update rencana_Order set flag_HPP = 'Y' "
-                                        SQL = SQL & " where Id_Rencana = '" & .Rows(i).Item("id_rencana") & "'"
-                                        ExecuteTrans(SQL)
-                                    Next
-                                Else
-                                    CloseTrans()
-                                    CloseConn()
-                                    MessageBox.Show("Data lokasi tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                    Exit Sub
-                                End If
-                            End With
-                        End Using
                     Else
                         Dr2.Close()
-                        SQL = "update rencana_Order set flag_HPP = 'Y' "
-                        SQL = SQL & " where Id_Rencana = '" & TxtId_Rencana.Text.Trim & "'"
-                        ExecuteTrans(SQL)
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Id Rencana tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
                     End If
-                Else
-                    Dr2.Close()
-                    CloseTrans()
-                    CloseConn()
-                    MessageBox.Show("Id Rencana tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
-            End Using
+                End Using
 
-            ' cek
-            SQL = Simpan_Status_Rencana_Order(TxtId_Rencana.Text, "HITUNG_HPP", faktur)
-            ExecuteTrans(SQL)
+                ' cek
+                SQL = Simpan_Status_Rencana_Order(TxtId_Rencana.Text, "HITUNG_HPP", faktur)
+                ExecuteTrans(SQL)
 
-            Cmd.Transaction.Commit()
-            CloseTrans()
-            CloseConn()
-            MessageBox.Show("Data Tersimpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Cmd.Transaction.Commit()
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("Data Tersimpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
             CloseTrans()
             CloseConn()

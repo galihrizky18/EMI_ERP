@@ -15,8 +15,6 @@
     Dim CellId As Integer = 3
     Dim CellKeterangan As Integer = 4
 
-    Dim isTambahKolomKdJnsBiayaProduksi As Boolean = False
-
     Private Sub Emi_Transaksi_Work_Center_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
@@ -98,7 +96,7 @@
             DataGridView1.Columns(3).Width = 0
             DataGridView1.Columns(3).Visible = False
 
-            DataGridView1.Columns.Add("Nama", "Mesin")
+            DataGridView1.Columns.Add("Nama", "Nama")
             DataGridView1.Columns(4).Width = 200
 
             For i As Integer = 0 To 4
@@ -141,34 +139,27 @@
         '============================================================================================================================
         ' TAMBAH KOLOM SESUAI JENIS BIAYA
         '============================================================================================================================
-
         Dim ColNum As Integer = 5
-        If Not isTambahKolomKdJnsBiayaProduksi Then
-            Try
-                OpenConn()
+        Try
+            OpenConn()
 
-                SQL = "Select kode_jenis_biaya_produksi from emi_jenis_biaya_produksi where kode_perusahaan = '" & KodePerusahaan & "'"
-                Using dr = OpenTrans(SQL)
-                    Do While dr.Read
-                        DataGridView1.Columns.Add(dr("kode_jenis_biaya_produksi"), dr("kode_jenis_biaya_produksi"))
-                        DataGridView1.Columns(ColNum).Width = 130
-                        DataGridView1.Columns(ColNum).ReadOnly = False
-                        DataGridView1.Columns(ColNum).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-                        ColNum += 1
-                    Loop
-                End Using
+            SQL = "Select kode_jenis_biaya_produksi from emi_jenis_biaya_produksi where kode_perusahaan = '" & KodePerusahaan & "'"
+            Using dr = OpenTrans(SQL)
+                Do While dr.Read
+                    DataGridView1.Columns.Add(dr("kode_jenis_biaya_produksi"), dr("kode_jenis_biaya_produksi"))
+                    DataGridView1.Columns(ColNum).Width = 130
+                    DataGridView1.Columns(ColNum).ReadOnly = False
+                    DataGridView1.Columns(ColNum).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+                    ColNum += 1
+                Loop
+            End Using
 
-                CloseConn()
-            Catch ex As Exception
-                CloseConn()
-                MessageBox.Show(ex.Message)
-                Exit Sub
-            End Try
-            isTambahKolomKdJnsBiayaProduksi = True
-        End If
-
-
-
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
         '============================================================================================================================
 
         Try
@@ -201,7 +192,6 @@
                             ColNum = 5
 
                             SQL = "SELECT  dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin.Jenis_Biaya, dbo.Emi_Transaksi_Work_Center_Detail_Per_Mesin.Total "
-
                             SQL = SQL & "FROM dbo.Emi_Transaksi_Work_Center INNER JOIN "
                             SQL = SQL & "dbo.Emi_Transaksi_Work_Center_Detail ON dbo.Emi_Transaksi_Work_Center.Kode_Perusahaan = dbo.Emi_Transaksi_Work_Center_Detail.Kode_Perusahaan AND "
                             SQL = SQL & "dbo.Emi_Transaksi_Work_Center.No_Faktur = dbo.Emi_Transaksi_Work_Center_Detail.No_Faktur INNER JOIN "

@@ -216,6 +216,12 @@
     <Compile Include="Emi Form\B2B Sinkronasi\Server_Sinkronasi_B2B.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Binding_ColumnDB.Designer.vb">
+      <DependentUpon>Binding_ColumnDB.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Binding_ColumnDB.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\IMPORT\Display_Selisih_Biaya.designer.vb">
       <DependentUpon>Display_Selisih_Biaya.vb</DependentUpon>
     </Compile>
@@ -262,6 +268,24 @@
       <DependentUpon>Loading_Barang_Import.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\IMPORT\Transaksi\Loading Barang\Loading_Barang_Import.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Inventory\EMI_Adjustment_Dist.Designer.vb">
+      <DependentUpon>EMI_Adjustment_Dist.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Inventory\EMI_Adjustment_Dist.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Inventory\EMI_Display_Restock.Designer.vb">
+      <DependentUpon>EMI_Display_Restock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Inventory\EMI_Display_Restock.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Inventory\EMI_Restock.Designer.vb">
+      <DependentUpon>EMI_Restock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Inventory\EMI_Restock.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Penawaran\Transaksi_Penawaran.designer.vb">
@@ -482,6 +506,30 @@
       <DependentUpon>SD_Pilih_Split_Produksi.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Material Movement\SD_Pilih_Split_Produksi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Production\Work Center\EMI_Transaksi_Work_Center.designer.vb">
+      <DependentUpon>EMI_Transaksi_Work_Center.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Production\Work Center\EMI_Transaksi_Work_Center.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Production\Work Center\EMI_Transaksi_Work_Center2.Designer.vb">
+      <DependentUpon>EMI_Transaksi_Work_Center2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Production\Work Center\EMI_Transaksi_Work_Center2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Production\Work Center\Master\Master_Routing.Designer.vb">
+      <DependentUpon>Master_Routing.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Production\Work Center\Master\Master_Routing.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Production\Work Center\Master\Master_Work_Center.Designer.vb">
+      <DependentUpon>Master_Work_Center.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Production\Work Center\Master\Master_Work_Center.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Purchase\Display\EMI_Penawaran_Harga_Summary_Data.designer.vb">
@@ -844,12 +892,6 @@
     <Compile Include="Emi Form\Warehouse\Show Dialog\SD_Pilih_PO2.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Warehouse\Temp\EMI_Adjustment_Dist.Designer.vb">
-      <DependentUpon>EMI_Adjustment_Dist.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Warehouse\Temp\EMI_Adjustment_Dist.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Warehouse\Temp\Emi_Adjustment_Dist2.Designer.vb">
       <DependentUpon>Emi_Adjustment_Dist2.vb</DependentUpon>
     </Compile>
@@ -988,16 +1030,16 @@
     <Compile Include="Emi Form\Warehouse\Transaksi\Transfer_Stock_3.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Work Center\Biaya_Work_Center.Designer.vb">
+    <Compile Include="Emi Form\Production\Work Center\Biaya_Work_Center.Designer.vb">
       <DependentUpon>Biaya_Work_Center.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\Work Center\Biaya_Work_Center.vb">
+    <Compile Include="Emi Form\Production\Work Center\Biaya_Work_Center.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Work Center\Binding_Akun_WorkCenter.Designer.vb">
+    <Compile Include="Emi Form\Production\Work Center\Binding_Akun_WorkCenter.Designer.vb">
       <DependentUpon>Binding_Akun_WorkCenter.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\Work Center\Binding_Akun_WorkCenter.vb">
+    <Compile Include="Emi Form\Production\Work Center\Binding_Akun_WorkCenter.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Cost Center\Master_Cost_Center.Designer.vb">
@@ -1006,34 +1048,22 @@
     <Compile Include="Emi Form\Cost Center\Master_Cost_Center.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Work Center\EMI_Compare_Work_Center.Designer.vb">
+    <Compile Include="Emi Form\Production\Work Center\EMI_Compare_Work_Center.Designer.vb">
       <DependentUpon>EMI_Compare_Work_Center.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\Work Center\EMI_Compare_Work_Center.vb">
+    <Compile Include="Emi Form\Production\Work Center\EMI_Compare_Work_Center.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Work Center\EMI_Transaksi_Work_Center.designer.vb">
-      <DependentUpon>EMI_Transaksi_Work_Center.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Work Center\EMI_Transaksi_Work_Center.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Work Center\EMI_Transaksi_Work_Center_By_Automation.designer.vb">
+    <Compile Include="Emi Form\Production\Work Center\EMI_Transaksi_Work_Center_By_Automation.designer.vb">
       <DependentUpon>EMI_Transaksi_Work_Center_By_Automation.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\Work Center\EMI_Transaksi_Work_Center_By_Automation.vb">
+    <Compile Include="Emi Form\Production\Work Center\EMI_Transaksi_Work_Center_By_Automation.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Work Center\EMI_Transaksi_Work_Center_PerBulan.designer.vb">
+    <Compile Include="Emi Form\Production\Work Center\EMI_Transaksi_Work_Center_PerBulan.designer.vb">
       <DependentUpon>EMI_Transaksi_Work_Center_PerBulan.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\Work Center\EMI_Transaksi_Work_Center_PerBulan.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Work Center\Master_Work_Center.Designer.vb">
-      <DependentUpon>Master_Work_Center.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Work Center\Master_Work_Center.vb">
+    <Compile Include="Emi Form\Production\Work Center\EMI_Transaksi_Work_Center_PerBulan.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FMenu.Designer.vb">
@@ -1442,6 +1472,9 @@
     <EmbeddedResource Include="Emi Form\B2B Sinkronasi\Server_Sinkronasi_B2B.resx">
       <DependentUpon>Server_Sinkronasi_B2B.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Binding_ColumnDB.resx">
+      <DependentUpon>Binding_ColumnDB.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\IMPORT\Display_Selisih_Biaya.resx">
       <DependentUpon>Display_Selisih_Biaya.vb</DependentUpon>
     </EmbeddedResource>
@@ -1465,6 +1498,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\IMPORT\Transaksi\Loading Barang\Loading_Barang_Import.resx">
       <DependentUpon>Loading_Barang_Import.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Inventory\EMI_Adjustment_Dist.resx">
+      <DependentUpon>EMI_Adjustment_Dist.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Inventory\EMI_Display_Restock.resx">
+      <DependentUpon>EMI_Display_Restock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Inventory\EMI_Restock.resx">
+      <DependentUpon>EMI_Restock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Penawaran\Transaksi_Penawaran.resx">
       <DependentUpon>Transaksi_Penawaran.vb</DependentUpon>
@@ -1578,6 +1620,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Material Movement\SD_Pilih_Split_Produksi.resx">
       <DependentUpon>SD_Pilih_Split_Produksi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Production\Work Center\EMI_Transaksi_Work_Center.resx">
+      <DependentUpon>EMI_Transaksi_Work_Center.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Production\Work Center\EMI_Transaksi_Work_Center2.resx">
+      <DependentUpon>EMI_Transaksi_Work_Center2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Production\Work Center\Master\Master_Routing.resx">
+      <DependentUpon>Master_Routing.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Production\Work Center\Master\Master_Work_Center.resx">
+      <DependentUpon>Master_Work_Center.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Purchase\Display\EMI_Penawaran_Harga_Summary_Data.resx">
       <DependentUpon>EMI_Penawaran_Harga_Summary_Data.vb</DependentUpon>
@@ -1759,9 +1813,6 @@
     <EmbeddedResource Include="Emi Form\Warehouse\Show Dialog\SD_Pilih_PO2.resx">
       <DependentUpon>SD_Pilih_PO2.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Warehouse\Temp\EMI_Adjustment_Dist.resx">
-      <DependentUpon>EMI_Adjustment_Dist.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Temp\Emi_Adjustment_Dist2.resx">
       <DependentUpon>Emi_Adjustment_Dist2.vb</DependentUpon>
     </EmbeddedResource>
@@ -1831,29 +1882,23 @@
     <EmbeddedResource Include="Emi Form\Warehouse\Transaksi\Transfer_Stock_3.resx">
       <DependentUpon>Transfer_Stock_3.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Work Center\Biaya_Work_Center.resx">
+    <EmbeddedResource Include="Emi Form\Production\Work Center\Biaya_Work_Center.resx">
       <DependentUpon>Biaya_Work_Center.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Work Center\Binding_Akun_WorkCenter.resx">
+    <EmbeddedResource Include="Emi Form\Production\Work Center\Binding_Akun_WorkCenter.resx">
       <DependentUpon>Binding_Akun_WorkCenter.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Cost Center\Master_Cost_Center.resx">
       <DependentUpon>Master_Cost_Center.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Work Center\EMI_Compare_Work_Center.resx">
+    <EmbeddedResource Include="Emi Form\Production\Work Center\EMI_Compare_Work_Center.resx">
       <DependentUpon>EMI_Compare_Work_Center.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Work Center\EMI_Transaksi_Work_Center.resx">
-      <DependentUpon>EMI_Transaksi_Work_Center.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Work Center\EMI_Transaksi_Work_Center_By_Automation.resx">
+    <EmbeddedResource Include="Emi Form\Production\Work Center\EMI_Transaksi_Work_Center_By_Automation.resx">
       <DependentUpon>EMI_Transaksi_Work_Center_By_Automation.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Work Center\EMI_Transaksi_Work_Center_PerBulan.resx">
+    <EmbeddedResource Include="Emi Form\Production\Work Center\EMI_Transaksi_Work_Center_PerBulan.resx">
       <DependentUpon>EMI_Transaksi_Work_Center_PerBulan.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Work Center\Master_Work_Center.resx">
-      <DependentUpon>Master_Work_Center.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FMenu.resx">
       <DependentUpon>FMenu.vb</DependentUpon>
