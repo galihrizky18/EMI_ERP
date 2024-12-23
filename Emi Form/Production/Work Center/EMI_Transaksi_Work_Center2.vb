@@ -275,7 +275,7 @@ Public Class EMI_Transaksi_Work_Center2
 
                                         For k As Integer = ColDinamis To dgv_workcenter.Columns.Count - 1
                                             If Ds1.Tables("MyTable").Rows(j).Item("Jenis_Biaya") = dgv_workcenter.Columns(k).HeaderText Then
-                                                dgv_workcenter.Rows(i).Cells(j).Value = Ds1.Tables("MyTable").Rows(j).Item("Total")
+                                                dgv_workcenter.Rows(i).Cells(k).Value = Ds1.Tables("MyTable").Rows(j).Item("Total")
                                                 Exit For
                                             End If
                                         Next
