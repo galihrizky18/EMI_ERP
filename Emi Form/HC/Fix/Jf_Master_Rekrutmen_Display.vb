@@ -669,7 +669,7 @@ Public Class Jf_Master_Rekrutmen_Display
         '    Cmd.Transaction = Cn.BeginTransaction
         '    CmdSQL.Transaction = CnSQL.BeginTransaction
 
-        '    Dim hasil As Integer = Approval_Hierarchy("Approval Rekrutmen", idlevel.Item(CmbLevel.SelectedIndex), iddivisi.Item(CmbDivisi.SelectedIndex))
+        'Dim hasil As Integer = Approval_Hierarchy("Approval Rekrutmen", idlevel.Item(CmbLevel.SelectedIndex), iddivisi.Item(CmbDivisi.SelectedIndex))
 
         '    If hasil = 0 Then
         '        CloseTrans()

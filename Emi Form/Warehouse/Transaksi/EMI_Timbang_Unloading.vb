@@ -986,9 +986,6 @@ Public Class EMI_Timbang_Unloading
                 MessageBox.Show(Base_Language.Lang_Global_Sukses_Simpan, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
 
-
-
-
                 kosong()
                 EMI_Display_Timbang.kosong()
                 Me.Close()

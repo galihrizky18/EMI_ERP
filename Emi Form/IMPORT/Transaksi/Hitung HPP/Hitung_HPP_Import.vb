@@ -1160,13 +1160,34 @@ Public Class Hitung_HPP_Import
                     SQL = SQL & "from EMI_Barang_Masuk_Perpallet a "
                     SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
                     SQL = SQL & "and a.No_Pembelian_Loading = '" & No_Fak_Pembelian_Loading(j) & "' "
-                    SQL = SQL & "and Flag_angkut = 'Y'"
+                    'SQL = SQL & "and Flag_angkut = 'Y' "
                     SQL = SQL & "and kode_barang = '" & Lv2KdBarang & "'"
                     Using Ds = BindingTrans(SQL)
                         With Ds.Tables("MyTable")
                             If .Rows.Count <> 0 Then
 
                                 For k As Integer = 0 To Ds.Tables("MyTable").Rows.Count - 1
+
+                                    '========================================
+                                    '=     CEK DATA APAKAH SUDAH ANGKUT     =
+                                    '========================================
+                                    SQL = "select kode_perusahaan "
+                                    SQL = SQL & "from EMI_Barang_Masuk_Perpallet "
+                                    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                    SQL = SQL & "and no_faktur = '" & Ds.Tables("MyTable").Rows(k).Item("No_Faktur") & "' "
+                                    SQL = SQL & "and Flag_angkut = 'Y' "
+                                    Using Dr = OpenTrans(SQL)
+                                        If Dr.Read Then
+                                            Dr.Close()
+
+                                        Else
+                                            Dr.Close()
+                                            CloseTrans()
+                                            CloseConn()
+                                            MessageBox.Show("Barang Belum Masuk Gudang", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            Exit Sub
+                                        End If
+                                    End Using
 
                                     hasData = True
                                     '==========================
@@ -1274,15 +1295,16 @@ Public Class Hitung_HPP_Import
             IsError = False
             If hasData = True Then
                 Jurnal_Import_Pertimbangan()
+
+                If IsError = False Then
+                    MessageBox.Show("Terdapat Masalah Saat Simpan Jurnal", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    Exit Sub
+                End If
             End If
 
-            If IsError = False Then
-                MessageBox.Show("Terdapat Masalah Saat Simpan Jurnal", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Dr.Close()
-                CloseTrans()
-                CloseConn()
-                Exit Sub
-            End If
 
 
             For index As Integer = 0 To ListView1.Items.Count - 1

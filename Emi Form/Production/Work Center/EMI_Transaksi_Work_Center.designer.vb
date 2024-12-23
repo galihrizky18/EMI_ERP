@@ -27,7 +27,6 @@ Partial Class EMI_Transaksi_Work_Center
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -43,13 +42,14 @@ Partial Class EMI_Transaksi_Work_Center
         Me.BtnRefresh = New System.Windows.Forms.Button()
         Me.CmbLokasi = New System.Windows.Forms.ComboBox()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.BtnCari = New System.Windows.Forms.Button()
         Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.BtnCari = New System.Windows.Forms.Button()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -62,21 +62,8 @@ Partial Class EMI_Transaksi_Work_Center
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1183, 63)
+        Me.Panel1.Size = New System.Drawing.Size(1180, 63)
         Me.Panel1.TabIndex = 23
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 61)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1183, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -252,19 +239,6 @@ Partial Class EMI_Transaksi_Work_Center
         Me.DataGridView1.Size = New System.Drawing.Size(1132, 391)
         Me.DataGridView1.TabIndex = 398
         '
-        'BtnCari
-        '
-        Me.BtnCari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.BtnCari.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.BtnCari.ForeColor = System.Drawing.Color.White
-        Me.BtnCari.Location = New System.Drawing.Point(451, 101)
-        Me.BtnCari.Margin = New System.Windows.Forms.Padding(4)
-        Me.BtnCari.Name = "BtnCari"
-        Me.BtnCari.Size = New System.Drawing.Size(98, 32)
-        Me.BtnCari.TabIndex = 402
-        Me.BtnCari.Text = "&Cari"
-        Me.BtnCari.UseVisualStyleBackColor = False
-        '
         'Column7
         '
         Me.Column7.Frozen = True
@@ -305,7 +279,7 @@ Partial Class EMI_Transaksi_Work_Center
         DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         Me.Column2.DefaultCellStyle = DataGridViewCellStyle3
         Me.Column2.Frozen = True
-        Me.Column2.HeaderText = "Mesin"
+        Me.Column2.HeaderText = "Nama "
         Me.Column2.MinimumWidth = 6
         Me.Column2.Name = "Column2"
         Me.Column2.ReadOnly = True
@@ -320,12 +294,38 @@ Partial Class EMI_Transaksi_Work_Center
         Me.Column3.Name = "Column3"
         Me.Column3.Width = 150
         '
+        'BtnCari
+        '
+        Me.BtnCari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnCari.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnCari.ForeColor = System.Drawing.Color.White
+        Me.BtnCari.Location = New System.Drawing.Point(451, 101)
+        Me.BtnCari.Margin = New System.Windows.Forms.Padding(4)
+        Me.BtnCari.Name = "BtnCari"
+        Me.BtnCari.Size = New System.Drawing.Size(98, 32)
+        Me.BtnCari.TabIndex = 402
+        Me.BtnCari.Text = "&Cari"
+        Me.BtnCari.UseVisualStyleBackColor = False
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 61)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1180, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'EMI_Transaksi_Work_Center
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1183, 609)
+        Me.ClientSize = New System.Drawing.Size(1180, 609)
         Me.Controls.Add(Me.BtnCari)
         Me.Controls.Add(Me.CmbLokasi)
         Me.Controls.Add(Me.BtnRefresh)
@@ -372,11 +372,11 @@ Partial Class EMI_Transaksi_Work_Center
     Friend WithEvents BtnRefresh As Button
     Friend WithEvents CmbLokasi As ComboBox
     Friend WithEvents DataGridView1 As DataGridView
-    Friend WithEvents BtnCari As Button
     Friend WithEvents Column7 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
     Friend WithEvents Column6 As DataGridViewTextBoxColumn
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
+    Friend WithEvents BtnCari As Button
 End Class
