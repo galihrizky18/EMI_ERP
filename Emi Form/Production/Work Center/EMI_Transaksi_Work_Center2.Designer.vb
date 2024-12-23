@@ -40,23 +40,24 @@ Partial Class EMI_Transaksi_Work_Center2
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.dgv_routing = New System.Windows.Forms.DataGridView()
-        Me.Panel5 = New System.Windows.Forms.Panel()
         Me.id_routing = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.routing = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.checklist = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.kode_routing = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.prefix_code = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.id_jenis_produk = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Panel5 = New System.Windows.Forms.Panel()
         Me.dgv_workcenter = New System.Windows.Forms.DataGridView()
+        Me.id_routingWork = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.id_routing_workcenter = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.routing_workcenter = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.mesin = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.BtnSimpan = New System.Windows.Forms.Button()
         Me.Panel8 = New System.Windows.Forms.Panel()
         Me.BtnRefresh = New System.Windows.Forms.Button()
-        Me.id_routingWork = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.id_routing_workcenter = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.routing_workcenter = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.mesin = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Btn_release = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         CType(Me.dgv_routing, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgv_workcenter, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -70,7 +71,7 @@ Partial Class EMI_Transaksi_Work_Center2
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1285, 63)
+        Me.Panel1.Size = New System.Drawing.Size(1213, 63)
         Me.Panel1.TabIndex = 24
         '
         'PanelGradient1
@@ -83,17 +84,17 @@ Partial Class EMI_Transaksi_Work_Center2
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 61)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1285, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1213, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
         Me.Lbl_Judul.AutoSize = True
-        Me.Lbl_Judul.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_Judul.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lbl_Judul.Location = New System.Drawing.Point(18, 14)
         Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
         Me.Lbl_Judul.Name = "Lbl_Judul"
-        Me.Lbl_Judul.Size = New System.Drawing.Size(248, 30)
+        Me.Lbl_Judul.Size = New System.Drawing.Size(253, 25)
         Me.Lbl_Judul.TabIndex = 0
         Me.Lbl_Judul.Text = "Transaksi Work Center"
         '
@@ -134,10 +135,10 @@ Partial Class EMI_Transaksi_Work_Center2
         '
         Me.CmbLokasi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CmbLokasi.FormattingEnabled = True
-        Me.CmbLokasi.Location = New System.Drawing.Point(1093, 77)
+        Me.CmbLokasi.Location = New System.Drawing.Point(1020, 82)
         Me.CmbLokasi.Margin = New System.Windows.Forms.Padding(4)
         Me.CmbLokasi.Name = "CmbLokasi"
-        Me.CmbLokasi.Size = New System.Drawing.Size(176, 24)
+        Me.CmbLokasi.Size = New System.Drawing.Size(176, 21)
         Me.CmbLokasi.TabIndex = 408
         '
         'TxtBarangMasuk_NoFaktur
@@ -160,7 +161,7 @@ Partial Class EMI_Transaksi_Work_Center2
         Me.CmbTahun.Location = New System.Drawing.Point(291, 106)
         Me.CmbTahun.Margin = New System.Windows.Forms.Padding(4)
         Me.CmbTahun.Name = "CmbTahun"
-        Me.CmbTahun.Size = New System.Drawing.Size(146, 24)
+        Me.CmbTahun.Size = New System.Drawing.Size(146, 21)
         Me.CmbTahun.TabIndex = 406
         '
         'CmbBulan
@@ -170,7 +171,7 @@ Partial Class EMI_Transaksi_Work_Center2
         Me.CmbBulan.Location = New System.Drawing.Point(69, 106)
         Me.CmbBulan.Margin = New System.Windows.Forms.Padding(4)
         Me.CmbBulan.Name = "CmbBulan"
-        Me.CmbBulan.Size = New System.Drawing.Size(146, 24)
+        Me.CmbBulan.Size = New System.Drawing.Size(146, 21)
         Me.CmbBulan.TabIndex = 405
         '
         'Label6
@@ -211,7 +212,7 @@ Partial Class EMI_Transaksi_Work_Center2
         Me.dgv_routing.BackgroundColor = System.Drawing.Color.White
         DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
         DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
         DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
@@ -226,16 +227,6 @@ Partial Class EMI_Transaksi_Work_Center2
         Me.dgv_routing.RowTemplate.Height = 21
         Me.dgv_routing.Size = New System.Drawing.Size(208, 424)
         Me.dgv_routing.TabIndex = 400
-        '
-        'Panel5
-        '
-        Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(224, 147)
-        Me.Panel5.Margin = New System.Windows.Forms.Padding(5)
-        Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(15, 515)
-        Me.Panel5.TabIndex = 410
-        Me.Panel5.Visible = False
         '
         'id_routing
         '
@@ -282,13 +273,23 @@ Partial Class EMI_Transaksi_Work_Center2
         Me.id_jenis_produk.ReadOnly = True
         Me.id_jenis_produk.Visible = False
         '
+        'Panel5
+        '
+        Me.Panel5.BackColor = System.Drawing.Color.Red
+        Me.Panel5.Location = New System.Drawing.Point(224, 147)
+        Me.Panel5.Margin = New System.Windows.Forms.Padding(5)
+        Me.Panel5.Name = "Panel5"
+        Me.Panel5.Size = New System.Drawing.Size(15, 515)
+        Me.Panel5.TabIndex = 410
+        Me.Panel5.Visible = False
+        '
         'dgv_workcenter
         '
         Me.dgv_workcenter.AllowUserToAddRows = False
         Me.dgv_workcenter.BackgroundColor = System.Drawing.Color.White
         DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
         DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
         DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
@@ -301,13 +302,47 @@ Partial Class EMI_Transaksi_Work_Center2
         Me.dgv_workcenter.Name = "dgv_workcenter"
         Me.dgv_workcenter.RowHeadersWidth = 10
         Me.dgv_workcenter.RowTemplate.Height = 21
-        Me.dgv_workcenter.Size = New System.Drawing.Size(1034, 424)
+        Me.dgv_workcenter.Size = New System.Drawing.Size(960, 424)
         Me.dgv_workcenter.TabIndex = 411
+        '
+        'id_routingWork
+        '
+        Me.id_routingWork.Frozen = True
+        Me.id_routingWork.HeaderText = "ID Routing"
+        Me.id_routingWork.Name = "id_routingWork"
+        Me.id_routingWork.ReadOnly = True
+        Me.id_routingWork.Visible = False
+        '
+        'id_routing_workcenter
+        '
+        Me.id_routing_workcenter.Frozen = True
+        Me.id_routing_workcenter.HeaderText = "ID_WorkCenter"
+        Me.id_routing_workcenter.Name = "id_routing_workcenter"
+        Me.id_routing_workcenter.ReadOnly = True
+        Me.id_routing_workcenter.Visible = False
+        '
+        'routing_workcenter
+        '
+        Me.routing_workcenter.Frozen = True
+        Me.routing_workcenter.HeaderText = "Routing"
+        Me.routing_workcenter.Name = "routing_workcenter"
+        Me.routing_workcenter.ReadOnly = True
+        Me.routing_workcenter.Width = 180
+        '
+        'mesin
+        '
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.mesin.DefaultCellStyle = DataGridViewCellStyle4
+        Me.mesin.Frozen = True
+        Me.mesin.HeaderText = "Mesin"
+        Me.mesin.Name = "mesin"
+        Me.mesin.ReadOnly = True
+        Me.mesin.Width = 180
         '
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(1270, 63)
+        Me.Panel6.Location = New System.Drawing.Point(1197, 147)
         Me.Panel6.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(15, 515)
@@ -360,46 +395,26 @@ Partial Class EMI_Transaksi_Work_Center2
         Me.BtnRefresh.Text = "&Refresh"
         Me.BtnRefresh.UseVisualStyleBackColor = False
         '
-        'id_routingWork
+        'Btn_release
         '
-        Me.id_routingWork.Frozen = True
-        Me.id_routingWork.HeaderText = "ID Routing"
-        Me.id_routingWork.Name = "id_routingWork"
-        Me.id_routingWork.ReadOnly = True
-        Me.id_routingWork.Visible = False
-        '
-        'id_routing_workcenter
-        '
-        Me.id_routing_workcenter.Frozen = True
-        Me.id_routing_workcenter.HeaderText = "ID_WorkCenter"
-        Me.id_routing_workcenter.Name = "id_routing_workcenter"
-        Me.id_routing_workcenter.ReadOnly = True
-        Me.id_routing_workcenter.Visible = False
-        '
-        'routing_workcenter
-        '
-        Me.routing_workcenter.Frozen = True
-        Me.routing_workcenter.HeaderText = "Routing"
-        Me.routing_workcenter.Name = "routing_workcenter"
-        Me.routing_workcenter.ReadOnly = True
-        Me.routing_workcenter.Width = 180
-        '
-        'mesin
-        '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.mesin.DefaultCellStyle = DataGridViewCellStyle4
-        Me.mesin.Frozen = True
-        Me.mesin.HeaderText = "Mesin"
-        Me.mesin.Name = "mesin"
-        Me.mesin.ReadOnly = True
-        Me.mesin.Width = 180
+        Me.Btn_release.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_release.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_release.ForeColor = System.Drawing.Color.White
+        Me.Btn_release.Location = New System.Drawing.Point(457, 578)
+        Me.Btn_release.Margin = New System.Windows.Forms.Padding(4)
+        Me.Btn_release.Name = "Btn_release"
+        Me.Btn_release.Size = New System.Drawing.Size(98, 32)
+        Me.Btn_release.TabIndex = 413
+        Me.Btn_release.Text = "&Release"
+        Me.Btn_release.UseVisualStyleBackColor = False
         '
         'EMI_Transaksi_Work_Center2
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1285, 626)
+        Me.ClientSize = New System.Drawing.Size(1213, 626)
+        Me.Controls.Add(Me.Btn_release)
         Me.Controls.Add(Me.BtnRefresh)
         Me.Controls.Add(Me.BtnSimpan)
         Me.Controls.Add(Me.dgv_workcenter)
@@ -419,9 +434,9 @@ Partial Class EMI_Transaksi_Work_Center2
         Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
-        Me.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "EMI_Transaksi_Work_Center2"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
@@ -464,4 +479,5 @@ Partial Class EMI_Transaksi_Work_Center2
     Friend WithEvents id_routing_workcenter As DataGridViewTextBoxColumn
     Friend WithEvents routing_workcenter As DataGridViewTextBoxColumn
     Friend WithEvents mesin As DataGridViewTextBoxColumn
+    Friend WithEvents Btn_release As Button
 End Class
