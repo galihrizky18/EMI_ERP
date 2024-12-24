@@ -1,5 +1,7 @@
 ﻿
 
+Imports System.Reflection
+
 Public Class EMI_Restock
 
     Dim JumlahOld As Double
@@ -25,8 +27,8 @@ Public Class EMI_Restock
 
     Private Sub Kosong()
 
-        'JANGAN LUIPA UBAH MENJADI FMenu
-        DateTimePicker1.Value = CDate(FMenu.ToolStripStatusLabel3.Text)
+        'JANGAN LUIPA UBAH MENJADI FMenuDev
+        DateTimePicker1.Value = CDate(FMenuDev.ToolStripStatusLabel3.Text)
         urutan.Text = ""
 
         Try
@@ -37,8 +39,10 @@ Public Class EMI_Restock
 
             SQL = "select kode_stock_owner, inisial_faktur, persediaan, "
             'SQL = SQL & "adjustment_stock_tambah, adjustment_stock_kurang from stock_owner where "
-            SQL = SQL & "adjustment_stock_tambah, adjustment_stock_kurang from stock_owner_gudang where "
-            SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' order by kode_stock_owner"
+            SQL = SQL & "adjustment_stock_tambah, adjustment_stock_kurang from stock_owner_gudang "
+            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and aktif = 'Y' and (flag_produksi='Y' or Flag_Penyimpanan='Y') "
+            SQL = SQL & "order by kode_stock_owner"
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Cmb_Lokasi.Items.Add(Dr("kode_stock_owner")) : arrInisialFaktur.Add(Dr("inisial_faktur"))
@@ -49,6 +53,10 @@ Public Class EMI_Restock
             End Using
             'Cmb_Lokasi.Text = Lokasi
             Cmb_Lokasi.Text = "RAW MATERIAL"
+
+
+
+
 
             TextBox1.Text = FAdj & arrInisialFaktur.Item(Cmb_Lokasi.SelectedIndex) & "-" & Format(DateTimePicker1.Value, "MM/yy") & "-" &
                       General_Class.Get_Last_Number2("EMI_Adjustment", "kode_adjustment", JumlahDigit,
@@ -82,7 +90,7 @@ Public Class EMI_Restock
         MetodePengeluaranStock.Text = String.Empty
 
         Cmb_Lokasi.Enabled = True : TextBox2.Enabled = True
-        Btn_Simpan.Text = "&Simpan" : Btn_Hapus.Enabled = False
+        Btn_Simpan.Text = "&Simpan"
     End Sub
 
     Private Sub Adjustment_Dist_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
@@ -96,9 +104,6 @@ Public Class EMI_Restock
     ''    Label13.Size = New Point(Me.Width, 33)
     ''End Sub
 
-    Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Btn_Exit.Click
-        Me.Close()
-    End Sub
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Btn_Refresh.Click
         Kosong()
@@ -171,7 +176,7 @@ Public Class EMI_Restock
         ElseIf TextBox6.Text.Trim.Length = 0 Then
             MessageBox.Show("Keterangan harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TextBox6.Focus() : Exit Sub
-        ElseIf Format(DateTimePicker1.Value, "yyyyMM") <> Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyyMM") Then
+        ElseIf Format(DateTimePicker1.Value, "yyyyMM") <> Format(CDate(FMenuDev.ToolStripStatusLabel3.Text), "yyyyMM") Then
             MessageBox.Show("Adjustment tidak boleh dibulan mundur!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             DateTimePicker1.Focus()
             Exit Sub
@@ -362,8 +367,10 @@ Public Class EMI_Restock
 
                 Else ' kalo nambahin stock
 
+
+
                     Dim Rand As New Random
-                    Dim str As String = Format(Rand.Next(0, 999), "000") & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HHmmss")
+                    Dim str As String = Format(Rand.Next(0, 999), "000") & Format(CDate(FMenuDev.ToolStripStatusLabel3.Text), "HHmmss")
                     Dim Kode_Unik As String = str.Substring(0, 5) & "BB" & Chr(64 + str.Substring(6, 1)) & str.Substring(6, Len(str) - 6)
 
                     Dim SN As String = Kode_Unik & Tanda_SN & "01" & Tanda_SN & TextBox7.Text & Tanda_SN & "02" & Tanda_SN & Format(DateTimePicker1.Value, "yyyy-MM-dd")
@@ -381,19 +388,70 @@ Public Class EMI_Restock
                             SQL = SQL & "serial_number = '" & SN & "'"
                             ExecuteTrans(SQL)
                         Else
-                            SQL = "insert into barang_sn(kode_perusahaan, kode_stock_owner, kode_barang, "
-                            SQL = SQL & "serial_number, jumlah, rr, Tgl_Produksi, Tgl_Expired) values('" & KodePerusahaan & "', "
-                            SQL = SQL & "'" & Cmb_Lokasi.Text & "', '" & TextBox2.Text.Trim & "', "
-                            SQL = SQL & "'" & SN & "', " & TextBox5.Text & ", 'X', '" & Format(Dtp_TglProd.Value, "yyyy-MM-dd") & "', '" & Format(Dtp_TglEx.Value, "yyyy-MM-dd") & "')"
+                            'SQL = "insert into barang_sn(kode_perusahaan, kode_stock_owner, kode_barang, "
+                            'SQL = SQL & "serial_number, jumlah, rr, Tgl_Produksi, Tgl_Expired) values('" & KodePerusahaan & "', "
+                            'SQL = SQL & "'" & Cmb_Lokasi.Text & "', '" & TextBox2.Text.Trim & "', "
+                            'SQL = SQL & "'" & SN & "', " & TextBox5.Text & ", 'X', '" & Format(Dtp_TglProd.Value, "yyyy-MM-dd") & "', '" & Format(Dtp_TglEx.Value, "yyyy-MM-dd") & "')"
+                            'Dr.Close()
+                            'ExecuteTrans(SQL)
+
                             Dr.Close()
+
+                            Dim newKodeUnikBerjalan As String = Generate_Random_Kode(10)
+                            Dim newKodeUnikAsal As String = Generate_Random_Kode(10)
+
+                            ''GET ID_WAREHOUSE YG KOSONG
+                            Dim available_Id_Warehouse As String = ""
+                            Dim available_NoPallet As String = ""
+
+                            SQL = "select top(1) a.id_wms_warehouse_position, b.nomor_urut from "
+                            SQL = SQL & "view_warehouse_position a, view_warehouse_position_detail b "
+                            SQL = SQL & "where a.Id_WMS_Warehouse_Position=b.Id_WMS_Warehouse_Position "
+                            SQL = SQL & " And a.kode_Perusahaan = b.kode_Perusahaan And a.kode_Perusahaan ='" & KodePerusahaan & "' "
+                            SQL = SQL & "and a.Kode_Stock_Owner='" & Cmb_Lokasi.Text & "' and b.Kode_Barang is null"
+                            Using Dr2 = OpenTrans(SQL)
+                                Do While Dr2.Read
+                                    available_Id_Warehouse = Dr2("id_wms_warehouse_position")
+                                    available_NoPallet = Dr2("nomor_urut")
+                                Loop
+                            End Using
+
+
+                            Dim IDSusunan_Barang As String = ""
+                            SQL = "Select urut from barang_detail_susunan where Kode_Barang = '" & TextBox2.Text.Trim & "' "
+                            SQL = SQL & "and Kode_Perusahaan='" & KodePerusahaan & "' and flag_default='Y' "
+                            Using Dr2 = OpenTrans(SQL)
+                                If Dr2.Read Then
+                                    IDSusunan_Barang = Dr2("urut")
+                                Else
+                                    Dr2.Close()
+                                    CloseConn()
+                                    CloseTrans()
+                                    MessageBox.Show("Susunan tidak ditemukan")
+                                    Exit Sub
+                                End If
+                            End Using
+
+                            SQL = "insert into Barang_SN(kode_perusahaan, kode_stock_owner, kode_barang, "
+                            SQL = SQL & "serial_number, jumlah, Tgl_Produksi, Tgl_Expired, Id_Warehouse, "
+                            SQL = SQL & "id_Susunan, Nomor_Pallet, Kode_Unik_Asal, Kode_Unik_Berjalan, "
+                            SQL = SQL & "Jumlah_Bags, Qr_Code, Batch_Number, warna) "
+                            SQL = SQL & "Values( "
+                            SQL = SQL & "'" & KodePerusahaan & "','" & Cmb_Lokasi.Text & "', "
+                            SQL = SQL & "'" & TextBox2.Text.Trim & "','" & SN & "', "
+                            SQL = SQL & "'" & TextBox5.Text & "','" & Format(Dtp_TglProd.Value, "yyyy-MM-dd") & "', "
+                            SQL = SQL & "'" & Format(Dtp_TglEx.Value, "yyyy-MM-dd") & "','" & available_Id_Warehouse & "', "
+                            SQL = SQL & "'" & IDSusunan_Barang & "','" & available_NoPallet & "', "
+                            SQL = SQL & "'" & newKodeUnikAsal & "','" & newKodeUnikBerjalan & "', "
+                            SQL = SQL & "'0', '-', "
+                            SQL = SQL & "'X', 'HIJAU') "
                             ExecuteTrans(SQL)
                         End If
                     End Using
-
                     SQL = "Insert Into EMI_Restock_Barang (kode_perusahaan, No_Faktur, tanggal, jam, kode_stock_owner, kode_barang, jumlah, "
                     SQL = SQL & "keterangan, userid, kode_voucher, harga_beli, Tgl_Produksi, Tgl_Expired, Satuan, Satuan_Barang, serial_number) "
                     SQL = SQL & "Values('" & KodePerusahaan & "', '" & TextBox1.Text.Trim & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                    SQL = SQL & "'" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', '"
+                    SQL = SQL & "'" & Format(CDate(FMenuDev.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', '"
                     SQL = SQL & Cmb_Lokasi.Text & "', '" & TextBox2.Text.Trim & "', " & HilangkanTanda(TextBox5.Text) & ", "
                     SQL = SQL & "'" & TextBox6.Text.Trim & "', '" & UserID & "', '" & Kode_Voucher & "', '" & TextBox7.Text & "', "
                     SQL = SQL & "'" & Format(Dtp_TglProd.Value, "yyyy-MM-dd") & "', '" & Format(Dtp_TglEx.Value, "yyyy-MM-dd") & "', '" & SatuanBesar.Text & "', "
@@ -421,7 +479,7 @@ Public Class EMI_Restock
                 SQL = SQL & "Keterangan, JudulBank, KetDK, userid, lokasi) values("
                 SQL = SQL & "'" & Kode_Voucher & "', "
                 SQL = SQL & "'" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                SQL = SQL & "'" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
+                SQL = SQL & "'" & Format(CDate(FMenuDev.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
                 SQL = SQL & "'" & KodeProyek & "', 'Adjustment Stock " & TextBox1.Text.Trim & "', '', "
                 SQL = SQL & "'-', '" & UserID & "', '" & Cmb_Lokasi.Text & "')"
                 ExecuteTrans(SQL)
@@ -604,73 +662,6 @@ Public Class EMI_Restock
         DateTimePicker1.Focus()
     End Sub
 
-    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Btn_Hapus.Click
-        Dim AskFirst As String = MessageBox.Show("Anda yakin akan hapus data ini . . ? ?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-        If AskFirst = vbNo Then Exit Sub
-
-        If Format(DateTimePicker1.Value, "yyyyMM") <> Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyyMM") Then
-            MessageBox.Show("Adjustment tidak boleh dibulan mundur!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            DateTimePicker1.Focus()
-            Exit Sub
-        End If
-
-        Try
-            OpenConn()
-
-            Cmd.Transaction = Cn.BeginTransaction
-
-            If CekButtonRole("hapus_adjustment") = "T" Then
-                CloseTrans()
-                CloseConn()
-                MessageBox.Show("Anda tidak memiliki akses untuk memproses transaksi ini!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Exit Sub
-            End If
-
-            'Dim tanda As String
-            'If Strings.Left(JumlahOld, 1) = "-" Then 'JumlahOld = +JumlahOld Else JumlahOld = -JumlahOld
-            '    tanda = "-"
-            'Else
-            '    tanda = "+"
-            'End If
-            ''==========================================================
-            ''Cek apakah update stock akan membuat stock menjadi negatif
-            ''==========================================================
-            'SQL = "select * from barang where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & ComboBox1.Text & "' "
-            'SQL = SQL & "and kode_barang = '" & TextBox2.Text.Trim & "'"
-            'Using Dr = OpenTrans(SQL)
-            '    If Dr.Read Then
-            '        If Dr("good_stock") - JumlahOld < 0 Then
-            '            MessageBox.Show("Proses adjustment stock akan membuat stock menjadi negatif, proses tidak dapat dilanjutkan.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            '            TextBox2.Focus()
-            '            Dr.Close()
-            '            CloseTrans()
-            '            CloseConn()
-            '            Exit Sub
-            '        End If
-            '    End If
-            'End Using
-            ''==========================================================
-
-            'SQL = "Update barang set good_stock = good_stock -(" & JumlahOld & ") where kode_perusahaan = '" & KodePerusahaan & "' and "
-            'SQL = SQL & "kode_stock_owner = '" & ComboBox1.Text & "' and kode_Barang = '" & TextBox2.Text.Trim & "'"
-            'ExecuteTrans(SQL)
-
-            'ExecuteTrans("Delete from adjustment where kode_perusahaan = '" & KodePerusahaan & "' and kode_adjustment = '" & TextBox1.Text.Trim & "'")
-
-            Cmd.Transaction.Commit()
-
-            CloseConn()
-
-        Catch ex As Exception
-            CloseTrans()
-            CloseConn()
-            MessageBox.Show(ex.Message)
-            Exit Sub
-        End Try
-
-        Kosong()
-        DateTimePicker1.Focus()
-    End Sub
 
 
     Private Sub TextBox2_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBox2.Leave
@@ -691,8 +682,8 @@ Public Class EMI_Restock
             SQL = SQL & "select top(1) 'Y' from role_button a where a.kode_perusahaan = x.kode_perusahaan and "
             SQL = SQL & "a.userid = '" & UserID & "' and buttonname = 'LIHAT_STOCK'"
             SQL = SQL & "), 'T') AS boleh_lihat_stock "
-            SQL = SQL & " from stock_owner x where x.kode_perusahaan = '" & KodePerusahaan & "' and "
-            SQL = SQL & "x.kode_stock_owner = '" & Cmb_Lokasi.Text & "'"
+            SQL = SQL & " from stock_owner x where x.kode_perusahaan = '" & KodePerusahaan & "'  "
+            'SQL = SQL & "and x.kode_stock_owner = '" & Cmb_Lokasi.Text & "'"
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     If Dr("flag_hide_stock") = "Y" Then
@@ -758,8 +749,8 @@ Public Class EMI_Restock
 
 
                     urutan.Text = "0"
-                    Else
-                        Dr.Close()
+                Else
+                    Dr.Close()
                     CloseTrans()
                     CloseConn()
                     MessageBox.Show("Kode barang tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -954,7 +945,7 @@ Public Class EMI_Restock
                     TextBox6.Text = Dr("keterangan")
                     TextBox2.Enabled = False : Cmb_Lokasi.Enabled = False
                     DateTimePicker1.Enabled = False
-                    Btn_Simpan.Text = "&Update" : Btn_Hapus.Enabled = True
+                    Btn_Simpan.Text = "&Update"
                 Else
                     Dr.Close()
                     TextBox1.Text = FAdj & arrInisialFaktur.Item(Cmb_Lokasi.SelectedIndex) & "-" & Format(DateTimePicker1.Value, "MM/yy") & "-" &
@@ -966,7 +957,7 @@ Public Class EMI_Restock
                     TextBox2.Text = "" : TextBox3.Text = "" : Txt_SisaStock.Text = "" : TextBox5.Text = "" : TextBox6.Text = ""
                     TextBox2.Enabled = True : Cmb_Lokasi.Enabled = True : DateTimePicker1.Enabled = True
                     TextBox7.Text = ""
-                    Btn_Simpan.Text = "&Simpan" : Btn_Hapus.Enabled = False
+                    Btn_Simpan.Text = "&Simpan"
                 End If
             End Using
             ListView3.Visible = False

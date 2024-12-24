@@ -449,6 +449,14 @@
         EMI_Transaksi_Work_Center2.Focus()
     End Sub
 
+    Private Sub MasterBarangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterBarangToolStripMenuItem.Click
+        Master_Barang_New.StartPosition = FormStartPosition.CenterScreen
+
+        Master_Barang_New.MdiParent = Me
+        Master_Barang_New.Show()
+        Master_Barang_New.Focus()
+    End Sub
+
 
 
 

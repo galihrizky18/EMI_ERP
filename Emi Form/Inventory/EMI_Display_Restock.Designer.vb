@@ -28,15 +28,23 @@ Partial Class EMI_Display_Restock
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Lv_Data = New System.Windows.Forms.ListView()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.Cmb_Filter = New System.Windows.Forms.ComboBox()
-        Me.Txt_Filter_Value = New System.Windows.Forms.TextBox()
-        Me.Btn_Cari = New System.Windows.Forms.Button()
-        Me.Btn_Refresh = New System.Windows.Forms.Button()
-        Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel6 = New System.Windows.Forms.Panel()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Txt_Filter_Value = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Cmb_Filter = New System.Windows.Forms.ComboBox()
+        Me.DateTimePicker2 = New System.Windows.Forms.DateTimePicker()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Panel1.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -96,81 +104,16 @@ Partial Class EMI_Display_Restock
         '
         'Lv_Data
         '
-        Me.Lv_Data.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lv_Data.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lv_Data.FullRowSelect = True
         Me.Lv_Data.GridLines = True
         Me.Lv_Data.HideSelection = False
-        Me.Lv_Data.Location = New System.Drawing.Point(20, 105)
+        Me.Lv_Data.Location = New System.Drawing.Point(20, 63)
         Me.Lv_Data.Name = "Lv_Data"
-        Me.Lv_Data.Size = New System.Drawing.Size(1098, 480)
+        Me.Lv_Data.Size = New System.Drawing.Size(1098, 410)
         Me.Lv_Data.TabIndex = 322
         Me.Lv_Data.UseCompatibleStateImageBehavior = False
         Me.Lv_Data.View = System.Windows.Forms.View.Details
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label3.Location = New System.Drawing.Point(22, 68)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(46, 20)
-        Me.Label3.TabIndex = 381
-        Me.Label3.Text = "Filter"
-        '
-        'Cmb_Filter
-        '
-        Me.Cmb_Filter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Cmb_Filter.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmb_Filter.FormattingEnabled = True
-        Me.Cmb_Filter.Location = New System.Drawing.Point(73, 65)
-        Me.Cmb_Filter.Name = "Cmb_Filter"
-        Me.Cmb_Filter.Size = New System.Drawing.Size(155, 26)
-        Me.Cmb_Filter.TabIndex = 382
-        '
-        'Txt_Filter_Value
-        '
-        Me.Txt_Filter_Value.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.Txt_Filter_Value.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_Filter_Value.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_Filter_Value.Location = New System.Drawing.Point(233, 65)
-        Me.Txt_Filter_Value.MaxLength = 50
-        Me.Txt_Filter_Value.Name = "Txt_Filter_Value"
-        Me.Txt_Filter_Value.Size = New System.Drawing.Size(272, 23)
-        Me.Txt_Filter_Value.TabIndex = 383
-        '
-        'Btn_Cari
-        '
-        Me.Btn_Cari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_Cari.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Cari.ForeColor = System.Drawing.Color.White
-        Me.Btn_Cari.Location = New System.Drawing.Point(511, 63)
-        Me.Btn_Cari.Name = "Btn_Cari"
-        Me.Btn_Cari.Size = New System.Drawing.Size(102, 28)
-        Me.Btn_Cari.TabIndex = 384
-        Me.Btn_Cari.Text = "Cari"
-        Me.Btn_Cari.UseVisualStyleBackColor = False
-        '
-        'Btn_Refresh
-        '
-        Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(617, 63)
-        Me.Btn_Refresh.Name = "Btn_Refresh"
-        Me.Btn_Refresh.Size = New System.Drawing.Size(102, 28)
-        Me.Btn_Refresh.TabIndex = 384
-        Me.Btn_Refresh.Text = "Refresh"
-        Me.Btn_Refresh.UseVisualStyleBackColor = False
-        '
-        'Panel4
-        '
-        Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(22, 91)
-        Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
-        Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(1334, 12)
-        Me.Panel4.TabIndex = 321
-        Me.Panel4.Visible = False
         '
         'Panel5
         '
@@ -185,25 +128,164 @@ Partial Class EMI_Display_Restock
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(22, 586)
+        Me.Panel6.Location = New System.Drawing.Point(22, 597)
         Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(1334, 12)
         Me.Panel6.TabIndex = 320
         Me.Panel6.Visible = False
         '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.Button2)
+        Me.GroupBox3.Controls.Add(Me.Button1)
+        Me.GroupBox3.Controls.Add(Me.Txt_Filter_Value)
+        Me.GroupBox3.Controls.Add(Me.Label2)
+        Me.GroupBox3.Controls.Add(Me.Cmb_Filter)
+        Me.GroupBox3.Controls.Add(Me.DateTimePicker2)
+        Me.GroupBox3.Controls.Add(Me.Label1)
+        Me.GroupBox3.Controls.Add(Me.DateTimePicker1)
+        Me.GroupBox3.Controls.Add(Me.CheckBox3)
+        Me.GroupBox3.Controls.Add(Me.CheckBox2)
+        Me.GroupBox3.Controls.Add(Me.CheckBox1)
+        Me.GroupBox3.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox3.Location = New System.Drawing.Point(21, 488)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(779, 106)
+        Me.GroupBox3.TabIndex = 385
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Filter Data"
+        '
+        'Button2
+        '
+        Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Button2.ForeColor = System.Drawing.Color.White
+        Me.Button2.Location = New System.Drawing.Point(669, 63)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(92, 36)
+        Me.Button2.TabIndex = 463
+        Me.Button2.Text = "&Refresh"
+        Me.Button2.UseVisualStyleBackColor = False
+        '
+        'Button1
+        '
+        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Button1.ForeColor = System.Drawing.Color.White
+        Me.Button1.Location = New System.Drawing.Point(585, 63)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(84, 36)
+        Me.Button1.TabIndex = 463
+        Me.Button1.Text = "&Cari"
+        Me.Button1.UseVisualStyleBackColor = False
+        '
+        'Txt_Filter_Value
+        '
+        Me.Txt_Filter_Value.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_Filter_Value.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_Filter_Value.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.Txt_Filter_Value.Location = New System.Drawing.Point(379, 75)
+        Me.Txt_Filter_Value.MaxLength = 50
+        Me.Txt_Filter_Value.Name = "Txt_Filter_Value"
+        Me.Txt_Filter_Value.Size = New System.Drawing.Size(200, 21)
+        Me.Txt_Filter_Value.TabIndex = 440
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label2.Location = New System.Drawing.Point(329, 77)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(44, 17)
+        Me.Label2.TabIndex = 438
+        Me.Label2.Text = "Value"
+        '
+        'Cmb_Filter
+        '
+        Me.Cmb_Filter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Filter.FormattingEnabled = True
+        Me.Cmb_Filter.Location = New System.Drawing.Point(154, 72)
+        Me.Cmb_Filter.Name = "Cmb_Filter"
+        Me.Cmb_Filter.Size = New System.Drawing.Size(168, 25)
+        Me.Cmb_Filter.TabIndex = 437
+        '
+        'DateTimePicker2
+        '
+        Me.DateTimePicker2.CustomFormat = "dd MMMM yyyy"
+        Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DateTimePicker2.Location = New System.Drawing.Point(379, 47)
+        Me.DateTimePicker2.Name = "DateTimePicker2"
+        Me.DateTimePicker2.Size = New System.Drawing.Size(168, 22)
+        Me.DateTimePicker2.TabIndex = 436
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label1.Location = New System.Drawing.Point(335, 51)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(27, 17)
+        Me.Label1.TabIndex = 435
+        Me.Label1.Text = "s/d"
+        '
+        'DateTimePicker1
+        '
+        Me.DateTimePicker1.CustomFormat = "dd MMMM yyyy"
+        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DateTimePicker1.Location = New System.Drawing.Point(154, 48)
+        Me.DateTimePicker1.Name = "DateTimePicker1"
+        Me.DateTimePicker1.Size = New System.Drawing.Size(168, 22)
+        Me.DateTimePicker1.TabIndex = 434
+        '
+        'CheckBox3
+        '
+        Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Location = New System.Drawing.Point(6, 74)
+        Me.CheckBox3.Name = "CheckBox3"
+        Me.CheckBox3.Size = New System.Drawing.Size(136, 21)
+        Me.CheckBox3.TabIndex = 433
+        Me.CheckBox3.Text = "Paramater Lainnya"
+        Me.CheckBox3.UseVisualStyleBackColor = True
+        '
+        'CheckBox2
+        '
+        Me.CheckBox2.AutoSize = True
+        Me.CheckBox2.Location = New System.Drawing.Point(6, 48)
+        Me.CheckBox2.Name = "CheckBox2"
+        Me.CheckBox2.Size = New System.Drawing.Size(135, 21)
+        Me.CheckBox2.TabIndex = 432
+        Me.CheckBox2.Text = "Paramater Tanggal"
+        Me.CheckBox2.UseVisualStyleBackColor = True
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Location = New System.Drawing.Point(6, 22)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(115, 21)
+        Me.CheckBox1.TabIndex = 431
+        Me.CheckBox1.Text = "Tanggal Hari ini"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
+        'Panel7
+        '
+        Me.Panel7.BackColor = System.Drawing.Color.Red
+        Me.Panel7.Location = New System.Drawing.Point(26, 476)
+        Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel7.Name = "Panel7"
+        Me.Panel7.Size = New System.Drawing.Size(1334, 12)
+        Me.Panel7.TabIndex = 321
+        Me.Panel7.Visible = False
+        '
         'EMI_Display_Restock
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1138, 600)
-        Me.Controls.Add(Me.Panel4)
-        Me.Controls.Add(Me.Btn_Refresh)
-        Me.Controls.Add(Me.Btn_Cari)
-        Me.Controls.Add(Me.Txt_Filter_Value)
-        Me.Controls.Add(Me.Cmb_Filter)
-        Me.Controls.Add(Me.Label3)
+        Me.ClientSize = New System.Drawing.Size(1138, 608)
+        Me.Controls.Add(Me.GroupBox3)
+        Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.Lv_Data)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel3)
@@ -212,13 +294,14 @@ Partial Class EMI_Display_Restock
         Me.Controls.Add(Me.Panel1)
         Me.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "EMI_Display_Restock"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
 
@@ -228,12 +311,19 @@ Partial Class EMI_Display_Restock
     Friend WithEvents Panel2 As Panel
     Friend WithEvents Panel3 As Panel
     Friend WithEvents Lv_Data As ListView
-    Friend WithEvents Label3 As Label
-    Friend WithEvents Cmb_Filter As ComboBox
-    Friend WithEvents Txt_Filter_Value As TextBox
-    Friend WithEvents Btn_Cari As Button
-    Friend WithEvents Btn_Refresh As Button
-    Friend WithEvents Panel4 As Panel
     Friend WithEvents Panel5 As Panel
     Friend WithEvents Panel6 As Panel
+    Friend WithEvents GroupBox3 As GroupBox
+    Friend WithEvents Button1 As Button
+    Friend WithEvents Txt_Filter_Value As TextBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Cmb_Filter As ComboBox
+    Friend WithEvents DateTimePicker2 As DateTimePicker
+    Friend WithEvents Label1 As Label
+    Friend WithEvents DateTimePicker1 As DateTimePicker
+    Friend WithEvents CheckBox3 As CheckBox
+    Friend WithEvents CheckBox2 As CheckBox
+    Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents Panel7 As Panel
+    Friend WithEvents Button2 As Button
 End Class

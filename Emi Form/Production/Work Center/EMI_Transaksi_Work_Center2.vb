@@ -23,7 +23,6 @@ Public Class EMI_Transaksi_Work_Center2
     Dim item_DGVWork_Routing As Integer = 2
     Dim item_DGVWork_Mesin As Integer = 3
 
-
     Private Sub EMI_Transaksi_Work_Center2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         Kosong()
@@ -38,7 +37,6 @@ Public Class EMI_Transaksi_Work_Center2
 
         If dgv_workcenter.Rows.Count = 0 Then Exit Sub
 
-
         If Not IsNumeric(dgv_workcenter.CurrentCell.Value) Then
             dgv_workcenter.CurrentCell.Value = 0
         End If
@@ -47,7 +45,7 @@ Public Class EMI_Transaksi_Work_Center2
 
     Private Sub Btn_release_Click(sender As Object, e As EventArgs) Handles Btn_release.Click
 
-        If TxtBarangMasuk_NoFaktur.Text.Trim.Length = 0 Then Exit Sub
+        If TxtBarangMasuk_NoFaktur.Text.Trim.Length = 0 Or dgv_workcenter.Rows.Count = 0 Then Exit Sub
 
         Try
             OpenConn()
@@ -66,26 +64,30 @@ Public Class EMI_Transaksi_Work_Center2
                             ExecuteTrans(SQL)
 
                         Next
+                    Else
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Data Belum Disimpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
                     End If
                 End With
             End Using
 
-
-
             Cmd.Transaction.Commit()
             CloseTrans()
             CloseConn()
-            MessageBox.Show("Data Berhasil DiRelease", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("Data Berhasil di release", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Kosong()
             Exit Sub
         Catch ex As Exception
             CloseTrans()
             CloseConn()
             MessageBox.Show(ex.Message)
+            Kosong()
             Exit Sub
         End Try
 
     End Sub
-
 
     Private Sub Kosong()
 
@@ -102,6 +104,7 @@ Public Class EMI_Transaksi_Work_Center2
             TxtBarangMasuk_NoFaktur.Text = ""
             isDataRelease = False
             Btn_release.Enabled = True
+            Btn_release.Visible = False
             BtnSimpan.Enabled = True
 
             '======================
@@ -149,9 +152,6 @@ Public Class EMI_Transaksi_Work_Center2
             Next
             CmbTahun.Text = Format(Now.Date, "yyyy")
             CmbTahun.Enabled = True
-
-
-
 
             Get_Data_Routing()
 
@@ -244,6 +244,9 @@ Public Class EMI_Transaksi_Work_Center2
 
         arrSelectedRouting.Clear()
         Kosong_DGVWorkCenter()
+        dgv_workcenter.Rows.Clear()
+        Btn_release.Enabled = False
+        Btn_release.Visible = False
 
         For i As Integer = 0 To dgv_routing.RowCount - 1
             Get_Data_DGVRouting(i)
@@ -254,7 +257,6 @@ Public Class EMI_Transaksi_Work_Center2
 
         Next
 
-        dgv_workcenter.Rows.Clear()
     End Sub
 
     Private Sub LoadData()
@@ -270,7 +272,6 @@ Public Class EMI_Transaksi_Work_Center2
             Kosong_DGVWorkCenter()
             dgv_workcenter.Rows.Clear()
 
-
             '============================================
             '=     CEK APAKAH FAKTUR SUDAH RELEASE      =
             '============================================
@@ -283,24 +284,24 @@ Public Class EMI_Transaksi_Work_Center2
                     If General_Class.CekNULL(Dr("Flag_Release")) = "Y" Then
                         isDataRelease = True
                         Btn_release.Enabled = False
+                        Btn_release.Visible = True
                         BtnSimpan.Enabled = False
                     Else
                         isDataRelease = False
                         Btn_release.Enabled = True
+                        Btn_release.Visible = True
                         BtnSimpan.Enabled = True
                     End If
-
                 Else
                     Dr.Close()
                     get_no_faktur(arrBulanMM(CmbBulan.SelectedIndex) & Strings.Right(CmbTahun.Text, 2))
 
                     isDataRelease = False
-                    Btn_release.Enabled = True
+                    Btn_release.Enabled = False
+                    Btn_release.Visible = False
                     BtnSimpan.Enabled = True
                 End If
             End Using
-
-
 
             '=========================================
             '=     GET JENIS BIAYA (ADD COLUMN)      =
@@ -320,7 +321,6 @@ Public Class EMI_Transaksi_Work_Center2
             '========================================================================================================================================================================================
 
             Dim formatIdRouting As String = "'" & String.Join("', '", arrSelectedRouting.ToArray()) & "'"
-
 
             For a As Integer = 0 To arrSelectedRouting.Count - 1
 
@@ -354,7 +354,6 @@ Public Class EMI_Transaksi_Work_Center2
                                 dgv_workcenter.Rows(row).Cells(item_DGVWork_Routing).Value = .Rows(i).Item("Routing")
                                 dgv_workcenter.Rows(row).Cells(item_DGVWork_Mesin).Value = .Rows(i).Item("Mesin")
 
-
                                 '======================================
                                 '=     GET DATA DETAIL PER-MESIN      =
                                 '======================================
@@ -385,9 +384,7 @@ Public Class EMI_Transaksi_Work_Center2
                                                 End If
                                             Next
 
-
                                         Next
-
                                     Else
 
                                     End If
@@ -396,8 +393,6 @@ Public Class EMI_Transaksi_Work_Center2
                                 row += 1
                             Next
                         Else
-
-
 
                             Dim row As Integer = dgv_workcenter.Rows.Count
                             SQL = "select a.Id_Routing, b.Id_Work_Center, a.Keterangan as Routing, c.Keterangan as Mesin "
@@ -419,6 +414,11 @@ Public Class EMI_Transaksi_Work_Center2
 
                                         For k As Integer = ColDinamis To dgv_workcenter.Columns.Count - 1
                                             dgv_workcenter.Rows(row).Cells(k).Value = "0"
+                                            If isDataRelease Then
+                                                dgv_workcenter.Rows(row).Cells(k).ReadOnly = True
+                                            Else
+                                                dgv_workcenter.Rows(row).Cells(k).ReadOnly = False
+                                            End If
                                         Next
 
                                         row += 1
@@ -426,15 +426,11 @@ Public Class EMI_Transaksi_Work_Center2
                                 End If
                             End Using
 
-
                         End If
                     End With
                 End Using
 
             Next
-
-
-
 
             Cmd.Transaction.Commit()
             CloseTrans()
@@ -469,29 +465,44 @@ Public Class EMI_Transaksi_Work_Center2
             '===============================
             '=     CEK APAKAH ADA DATA     =
             '===============================
+            Dim hasData As Boolean = False
             SQL = "select No_Faktur from Emi_Transaksi_Work_Center where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & TxtBarangMasuk_NoFaktur.Text & "'"
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
-                        For i As Integer = 0 To .Rows.Count - 1
-
-                            'DELETE Table Emi_Transaksi_Work_Center_Detail_Per_Mesin
-                            SQL = "delete Emi_Transaksi_Work_Center_Detail_Per_Mesin where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & .Rows(i).Item("No_Faktur") & "'"
-                            ExecuteTrans(SQL)
-
-                            'DELETE Table Emi_Transaksi_Work_Center_Detail
-                            SQL = "delete Emi_Transaksi_Work_Center_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & .Rows(i).Item("No_Faktur") & "'"
-                            ExecuteTrans(SQL)
-
-                            'DELETE Table Emi_Transaksi_Work_Center
-                            SQL = "delete Emi_Transaksi_Work_Center where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & .Rows(i).Item("No_Faktur") & "'"
-                            ExecuteTrans(SQL)
-
+                        For j As Integer = 0 To .Rows.Count - 1
+                            hasData = True
                         Next
                     End If
                 End With
             End Using
 
+            '=======================
+            '=     DELETE DATA     =
+            '=======================
+            If hasData Then
+                For i As Integer = 0 To arrSelectedRouting.Count - 1
+
+                    'DELETE Table Emi_Transaksi_Work_Center_Detail_Per_Mesin
+                    SQL = "delete Emi_Transaksi_Work_Center_Detail_Per_Mesin where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & TxtBarangMasuk_NoFaktur.Text & "' "
+                    SQL = SQL & "and Id_Routing = '" & arrSelectedRouting(i) & "' "
+                    ExecuteTrans(SQL)
+
+                    'DELETE Table Emi_Transaksi_Work_Center_Detail
+                    SQL = "delete Emi_Transaksi_Work_Center_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & TxtBarangMasuk_NoFaktur.Text & "' "
+                    SQL = SQL & "and Id_Routing = '" & arrSelectedRouting(i) & "' "
+                    ExecuteTrans(SQL)
+
+                Next
+
+                'DELETE Table Emi_Transaksi_Work_Center
+                SQL = "delete Emi_Transaksi_Work_Center where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & TxtBarangMasuk_NoFaktur.Text & "'"
+                ExecuteTrans(SQL)
+            End If
+
+            '=======================
+            '=     INSERT DATA     =
+            '=======================
             SQL = "INSERT INTO Emi_Transaksi_Work_Center(Kode_Perusahaan,No_Faktur,Bulan,Tahun,UserID,Tanggal,Jam) VALUES("
             SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & arrBulanMM.Item(CmbBulan.SelectedIndex) & "',"
             SQL = SQL & "'" & CmbTahun.Text & "','" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "') "
@@ -536,14 +547,24 @@ Public Class EMI_Transaksi_Work_Center2
         Kosong()
     End Sub
 
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
 
+        If CheckBox1.Checked = True Then
+            For i As Integer = 0 To dgv_routing.Rows.Count - 1
+                Get_Data_DGVRouting(i)
 
+                dgv_routing.Rows(i).Cells(item_DgvRouting_CheckBox).Value = True
+                arrSelectedRouting.Add(DgvRouting_IDRouting)
+            Next
+        Else
 
-
-
-
-
-
-
+            arrSelectedRouting.Clear()
+            For i As Integer = 0 To dgv_routing.Rows.Count - 1
+                dgv_routing.Rows(i).Cells(item_DgvRouting_CheckBox).Value = False
+            Next
+            Kosong_DGVWorkCenter()
+            dgv_workcenter.Rows.Clear()
+        End If
+    End Sub
 
 End Class

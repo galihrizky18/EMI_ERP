@@ -1074,6 +1074,8 @@ Public Class Base_Language
     Public Shared Lang_Barang_Err_Lokasi_Sudah_Ada As String
     Public Shared Lang_Barang_Err_Kode_Barang_Sudah_Ada As String
     Public Shared Lang_Barang_Err_Lokasi_Tidak_Ditemukan As String
+    Public Shared Lang_Barang_Err_Pilih_Jenis_Barang As String
+
     'isi pl 
     Public Shared Lang_Isi_PL_Judul As String
 
@@ -2253,6 +2255,8 @@ Public Class Base_Language
                     Lang_Barang_Err_Lokasi_Sudah_Ada = dr("Lang_Barang_Err_Lokasi_Sudah_Ada")
                     Lang_Barang_Err_Kode_Barang_Sudah_Ada = dr("Lang_Barang_Err_Kode_Barang_Sudah_Ada")
                     Lang_Barang_Err_Lokasi_Tidak_Ditemukan = dr("Lang_Barang_Err_Lokasi_Tidak_Ditemukan")
+                    Lang_Barang_Err_Pilih_Jenis_Barang = dr("Lang_Barang_Err_Pilih_Jenis_Barang")
+
                 ElseIf jenis = "Ras" Then
                     Lang_Ras_Judul = dr("Lang_Ras_Judul")
                     Lang_Ras_Kode = dr("Lang_Ras_Kode")

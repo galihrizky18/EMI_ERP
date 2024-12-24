@@ -24,7 +24,6 @@ Partial Class EMI_Restock
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(EMI_Restock))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.SatuanBesar = New System.Windows.Forms.ComboBox()
         Me.ListView3 = New System.Windows.Forms.ListView()
         Me.TextBox7 = New System.Windows.Forms.TextBox()
         Me.Label10 = New System.Windows.Forms.Label()
@@ -44,11 +43,10 @@ Partial Class EMI_Restock
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Dtp_TglEx = New System.Windows.Forms.DateTimePicker()
         Me.Dtp_TglProd = New System.Windows.Forms.DateTimePicker()
+        Me.SatuanBesar = New System.Windows.Forms.ComboBox()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.Btn_Exit = New System.Windows.Forms.Button()
         Me.Btn_Refresh = New System.Windows.Forms.Button()
-        Me.Btn_Hapus = New System.Windows.Forms.Button()
         Me.Btn_Simpan = New System.Windows.Forms.Button()
         Me.ListView1 = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -60,7 +58,6 @@ Partial Class EMI_Restock
         Me.Button5 = New System.Windows.Forms.Button()
         Me.Button6 = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -71,6 +68,7 @@ Partial Class EMI_Restock
         Me.MetodePengeluaranStock = New System.Windows.Forms.TextBox()
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Txt_SatuanKecil = New System.Windows.Forms.TextBox()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -105,16 +103,6 @@ Partial Class EMI_Restock
         Me.GroupBox1.Size = New System.Drawing.Size(693, 291)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Data Adjustment"
-        '
-        'SatuanBesar
-        '
-        Me.SatuanBesar.Enabled = False
-        Me.SatuanBesar.FormattingEnabled = True
-        Me.SatuanBesar.Location = New System.Drawing.Point(448, 139)
-        Me.SatuanBesar.Name = "SatuanBesar"
-        Me.SatuanBesar.Size = New System.Drawing.Size(52, 24)
-        Me.SatuanBesar.TabIndex = 276
         '
         'ListView3
         '
@@ -199,9 +187,9 @@ Partial Class EMI_Restock
         Me.Label4.Location = New System.Drawing.Point(36, 26)
         Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(136, 20)
+        Me.Label4.Size = New System.Drawing.Size(109, 20)
         Me.Label4.TabIndex = 4
-        Me.Label4.Text = "Kode Stock Owner"
+        Me.Label4.Text = "Lokasi Gudang"
         '
         'Label9
         '
@@ -321,6 +309,15 @@ Partial Class EMI_Restock
         Me.Dtp_TglProd.Size = New System.Drawing.Size(256, 20)
         Me.Dtp_TglProd.TabIndex = 272
         '
+        'SatuanBesar
+        '
+        Me.SatuanBesar.Enabled = False
+        Me.SatuanBesar.FormattingEnabled = True
+        Me.SatuanBesar.Location = New System.Drawing.Point(448, 139)
+        Me.SatuanBesar.Name = "SatuanBesar"
+        Me.SatuanBesar.Size = New System.Drawing.Size(70, 24)
+        Me.SatuanBesar.TabIndex = 276
+        '
         'TextBox1
         '
         Me.TextBox1.BackColor = System.Drawing.Color.Goldenrod
@@ -334,9 +331,7 @@ Partial Class EMI_Restock
         '
         'GroupBox2
         '
-        Me.GroupBox2.Controls.Add(Me.Btn_Exit)
         Me.GroupBox2.Controls.Add(Me.Btn_Refresh)
-        Me.GroupBox2.Controls.Add(Me.Btn_Hapus)
         Me.GroupBox2.Controls.Add(Me.Btn_Simpan)
         Me.GroupBox2.Location = New System.Drawing.Point(20, 389)
         Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4)
@@ -346,44 +341,18 @@ Partial Class EMI_Restock
         Me.GroupBox2.TabIndex = 4
         Me.GroupBox2.TabStop = False
         '
-        'Btn_Exit
-        '
-        Me.Btn_Exit.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_Exit.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Btn_Exit.ForeColor = System.Drawing.Color.White
-        Me.Btn_Exit.Location = New System.Drawing.Point(523, 18)
-        Me.Btn_Exit.Margin = New System.Windows.Forms.Padding(4)
-        Me.Btn_Exit.Name = "Btn_Exit"
-        Me.Btn_Exit.Size = New System.Drawing.Size(162, 38)
-        Me.Btn_Exit.TabIndex = 10
-        Me.Btn_Exit.Text = "E&xit"
-        Me.Btn_Exit.UseVisualStyleBackColor = False
-        '
         'Btn_Refresh
         '
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(353, 18)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(173, 18)
         Me.Btn_Refresh.Margin = New System.Windows.Forms.Padding(4)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(162, 38)
         Me.Btn_Refresh.TabIndex = 9
         Me.Btn_Refresh.Text = "Re&fresh"
         Me.Btn_Refresh.UseVisualStyleBackColor = False
-        '
-        'Btn_Hapus
-        '
-        Me.Btn_Hapus.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_Hapus.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Btn_Hapus.ForeColor = System.Drawing.Color.White
-        Me.Btn_Hapus.Location = New System.Drawing.Point(180, 18)
-        Me.Btn_Hapus.Margin = New System.Windows.Forms.Padding(4)
-        Me.Btn_Hapus.Name = "Btn_Hapus"
-        Me.Btn_Hapus.Size = New System.Drawing.Size(162, 38)
-        Me.Btn_Hapus.TabIndex = 8
-        Me.Btn_Hapus.Text = "&Hapus"
-        Me.Btn_Hapus.UseVisualStyleBackColor = False
         '
         'Btn_Simpan
         '
@@ -481,19 +450,6 @@ Partial Class EMI_Restock
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(733, 51)
         Me.Panel1.TabIndex = 318
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(733, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Label13
         '
@@ -601,6 +557,19 @@ Partial Class EMI_Restock
         Me.Txt_SatuanKecil.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.Txt_SatuanKecil.Visible = False
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(733, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'EMI_Restock
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
@@ -655,9 +624,7 @@ Partial Class EMI_Restock
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents Btn_Simpan As System.Windows.Forms.Button
-    Friend WithEvents Btn_Exit As System.Windows.Forms.Button
     Friend WithEvents Btn_Refresh As System.Windows.Forms.Button
-    Friend WithEvents Btn_Hapus As System.Windows.Forms.Button
     Friend WithEvents ListView3 As System.Windows.Forms.ListView
     Friend WithEvents TextBox7 As System.Windows.Forms.TextBox
     Friend WithEvents Label10 As System.Windows.Forms.Label

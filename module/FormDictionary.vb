@@ -5,7 +5,6 @@
 {"Display_Barang", Display_Barang},
 {"EMI_Transaksi_ForecastOrder", EMI_Transaksi_ForecastOrder},
 {"Jf_Master_Karyawan2_Display", Jf_Master_Karyawan2_Display},
-{"Master_Barang_New_Proyek", Master_Barang_New_Proyek},
 {"Master_Barang_Susunan", Master_Barang_Susunan},
 {"Master_Klasifikasi_Bahan", Master_Klasifikasi_Bahan},
 {"Emi_Display_Transfer_Stock", Emi_Display_Transfer_Stock},

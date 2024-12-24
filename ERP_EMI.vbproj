@@ -216,6 +216,18 @@
     <Compile Include="Emi Form\B2B Sinkronasi\Server_Sinkronasi_B2B.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Barang\Master_Barang_New.designer.vb">
+      <DependentUpon>Master_Barang_New.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Barang\Master_Barang_New.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Barang\SD_Pilih_Satuan_Turunan.designer.vb">
+      <DependentUpon>SD_Pilih_Satuan_Turunan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Barang\SD_Pilih_Satuan_Turunan.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\Binding_ColumnDB.Designer.vb">
       <DependentUpon>Binding_ColumnDB.vb</DependentUpon>
     </Compile>
@@ -358,12 +370,6 @@
       <DependentUpon>EMI_Transfer_Stock_Display.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Barang\EMI_Transfer_Stock_Display.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Barang\Master_Barang_New.designer.vb">
-      <DependentUpon>Master_Barang_New.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Barang\Master_Barang_New.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Barang\Master_Barang_Susunan.designer.vb">
@@ -1472,6 +1478,12 @@
     <EmbeddedResource Include="Emi Form\B2B Sinkronasi\Server_Sinkronasi_B2B.resx">
       <DependentUpon>Server_Sinkronasi_B2B.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Barang\Master_Barang_New.resx">
+      <DependentUpon>Master_Barang_New.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Barang\SD_Pilih_Satuan_Turunan.resx">
+      <DependentUpon>SD_Pilih_Satuan_Turunan.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Binding_ColumnDB.resx">
       <DependentUpon>Binding_ColumnDB.vb</DependentUpon>
     </EmbeddedResource>
@@ -1545,9 +1557,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Barang\EMI_Transfer_Stock_Display.resx">
       <DependentUpon>EMI_Transfer_Stock_Display.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Barang\Master_Barang_New.resx">
-      <DependentUpon>Master_Barang_New.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Barang\Master_Barang_Susunan.resx">
       <DependentUpon>Master_Barang_Susunan.vb</DependentUpon>
