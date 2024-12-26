@@ -24,6 +24,15 @@ Partial Class EMI_Timbang_Unloading
     Private Sub InitializeComponent()
         Dim GroupBox1 As System.Windows.Forms.GroupBox
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -34,14 +43,6 @@ Partial Class EMI_Timbang_Unloading
         Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.TxtNo_Loading = New System.Windows.Forms.TextBox()
         Me.TxtNoSJ = New System.Windows.Forms.TextBox()
@@ -70,7 +71,6 @@ Partial Class EMI_Timbang_Unloading
         Me.Txt_NoFaktur = New System.Windows.Forms.TextBox()
         Me.ListView2 = New System.Windows.Forms.ListView()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel4 = New System.Windows.Forms.Panel()
@@ -86,16 +86,6 @@ Partial Class EMI_Timbang_Unloading
         Me.Label1 = New System.Windows.Forms.Label()
         Me.CmbBarang = New System.Windows.Forms.ComboBox()
         Me.DgvPO = New System.Windows.Forms.DataGridView()
-        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column9 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.DgvTimbang = New System.Windows.Forms.DataGridView()
@@ -112,6 +102,18 @@ Partial Class EMI_Timbang_Unloading
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Tot_Bags = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.jmlh_bags = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column9 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         GroupBox1 = New System.Windows.Forms.GroupBox()
         GroupBox1.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -463,19 +465,6 @@ Partial Class EMI_Timbang_Unloading
         Me.Panel1.Size = New System.Drawing.Size(1280, 51)
         Me.Panel1.TabIndex = 22
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1280, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
         'Lbl_Judul
         '
         Me.Lbl_Judul.AutoSize = True
@@ -638,7 +627,7 @@ Partial Class EMI_Timbang_Unloading
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DgvPO.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DgvPO.ColumnHeadersHeight = 35
-        Me.DgvPO.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4, Me.Column5, Me.Column7, Me.Column10, Me.Column6, Me.Column8, Me.Column9})
+        Me.DgvPO.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4, Me.Column5, Me.Column7, Me.Column10, Me.Column6, Me.Column8, Me.jmlh_bags, Me.Column9})
         Me.DgvPO.Location = New System.Drawing.Point(0, 0)
         Me.DgvPO.MultiSelect = False
         Me.DgvPO.Name = "DgvPO"
@@ -646,6 +635,193 @@ Partial Class EMI_Timbang_Unloading
         Me.DgvPO.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DgvPO.Size = New System.Drawing.Size(783, 252)
         Me.DgvPO.TabIndex = 475
+        '
+        'TabControl1
+        '
+        Me.TabControl1.Controls.Add(Me.TabPage1)
+        Me.TabControl1.Controls.Add(Me.TabPage2)
+        Me.TabControl1.Location = New System.Drawing.Point(21, 337)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(788, 278)
+        Me.TabControl1.TabIndex = 476
+        '
+        'TabPage1
+        '
+        Me.TabPage1.Controls.Add(Me.DgvTimbang)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage1.Size = New System.Drawing.Size(780, 252)
+        Me.TabPage1.TabIndex = 0
+        Me.TabPage1.Text = "Data Timbang"
+        Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'DgvTimbang
+        '
+        Me.DgvTimbang.AllowUserToAddRows = False
+        Me.DgvTimbang.AllowUserToDeleteRows = False
+        Me.DgvTimbang.AllowUserToResizeColumns = False
+        Me.DgvTimbang.AllowUserToResizeRows = False
+        Me.DgvTimbang.BackgroundColor = System.Drawing.Color.LightGray
+        Me.DgvTimbang.BorderStyle = System.Windows.Forms.BorderStyle.None
+        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle12.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        DataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DgvTimbang.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle12
+        Me.DgvTimbang.ColumnHeadersHeight = 35
+        Me.DgvTimbang.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.Column15, Me.Column11, Me.Column12, Me.Column13, Me.Column16, Me.Column14})
+        Me.DgvTimbang.Location = New System.Drawing.Point(1, 0)
+        Me.DgvTimbang.MultiSelect = False
+        Me.DgvTimbang.Name = "DgvTimbang"
+        Me.DgvTimbang.RowHeadersWidth = 21
+        Me.DgvTimbang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.DgvTimbang.Size = New System.Drawing.Size(783, 252)
+        Me.DgvTimbang.TabIndex = 476
+        '
+        'DataGridViewTextBoxColumn2
+        '
+        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle13
+        Me.DataGridViewTextBoxColumn2.HeaderText = "Kode Barang"
+        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
+        Me.DataGridViewTextBoxColumn2.ReadOnly = True
+        '
+        'DataGridViewTextBoxColumn3
+        '
+        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle14
+        Me.DataGridViewTextBoxColumn3.HeaderText = "Nama"
+        Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
+        Me.DataGridViewTextBoxColumn3.ReadOnly = True
+        Me.DataGridViewTextBoxColumn3.Width = 200
+        '
+        'Column15
+        '
+        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column15.DefaultCellStyle = DataGridViewCellStyle15
+        Me.Column15.HeaderText = "Satuan"
+        Me.Column15.Name = "Column15"
+        Me.Column15.ReadOnly = True
+        Me.Column15.Width = 80
+        '
+        'Column11
+        '
+        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column11.DefaultCellStyle = DataGridViewCellStyle16
+        Me.Column11.HeaderText = "Jumlah Bags"
+        Me.Column11.Name = "Column11"
+        Me.Column11.ReadOnly = True
+        Me.Column11.Width = 90
+        '
+        'Column12
+        '
+        DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column12.DefaultCellStyle = DataGridViewCellStyle17
+        Me.Column12.HeaderText = "Berat Bags"
+        Me.Column12.Name = "Column12"
+        Me.Column12.ReadOnly = True
+        '
+        'Column13
+        '
+        DataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column13.DefaultCellStyle = DataGridViewCellStyle18
+        Me.Column13.HeaderText = "Jumlah Pallet"
+        Me.Column13.Name = "Column13"
+        Me.Column13.ReadOnly = True
+        Me.Column13.Width = 90
+        '
+        'Column16
+        '
+        DataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column16.DefaultCellStyle = DataGridViewCellStyle19
+        Me.Column16.HeaderText = "Jumlah Barang"
+        Me.Column16.Name = "Column16"
+        Me.Column16.ReadOnly = True
+        Me.Column16.Width = 90
+        '
+        'Column14
+        '
+        DataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column14.DefaultCellStyle = DataGridViewCellStyle20
+        Me.Column14.HeaderText = "Berat Barang"
+        Me.Column14.Name = "Column14"
+        Me.Column14.ReadOnly = True
+        Me.Column14.Width = 90
+        '
+        'TabPage2
+        '
+        Me.TabPage2.Controls.Add(Me.DgvPO)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage2.Size = New System.Drawing.Size(780, 252)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "Data PO"
+        Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'TxtTotalBeratBarang
+        '
+        Me.TxtTotalBeratBarang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtTotalBeratBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtTotalBeratBarang.Enabled = False
+        Me.TxtTotalBeratBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtTotalBeratBarang.Location = New System.Drawing.Point(655, 618)
+        Me.TxtTotalBeratBarang.MaxLength = 50
+        Me.TxtTotalBeratBarang.Name = "TxtTotalBeratBarang"
+        Me.TxtTotalBeratBarang.Size = New System.Drawing.Size(154, 26)
+        Me.TxtTotalBeratBarang.TabIndex = 479
+        Me.TxtTotalBeratBarang.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label4.Location = New System.Drawing.Point(521, 623)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(128, 17)
+        Me.Label4.TabIndex = 479
+        Me.Label4.Text = "Total Berat Barang"
+        '
+        'Tot_Bags
+        '
+        Me.Tot_Bags.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tot_Bags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Tot_Bags.Enabled = False
+        Me.Tot_Bags.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tot_Bags.Location = New System.Drawing.Point(655, 648)
+        Me.Tot_Bags.MaxLength = 50
+        Me.Tot_Bags.Name = "Tot_Bags"
+        Me.Tot_Bags.Size = New System.Drawing.Size(154, 26)
+        Me.Tot_Bags.TabIndex = 479
+        Me.Tot_Bags.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label5.Location = New System.Drawing.Point(521, 653)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(76, 17)
+        Me.Label5.TabIndex = 479
+        Me.Label5.Text = "Total Bags"
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1280, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Column1
         '
@@ -719,185 +895,20 @@ Partial Class EMI_Timbang_Unloading
         Me.Column8.Name = "Column8"
         Me.Column8.ReadOnly = True
         '
+        'jmlh_bags
+        '
+        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.jmlh_bags.DefaultCellStyle = DataGridViewCellStyle11
+        Me.jmlh_bags.HeaderText = "Jumlah Bags"
+        Me.jmlh_bags.Name = "jmlh_bags"
+        Me.jmlh_bags.ReadOnly = True
+        Me.jmlh_bags.Visible = False
+        '
         'Column9
         '
         Me.Column9.HeaderText = "Urut Loading"
         Me.Column9.Name = "Column9"
         Me.Column9.ReadOnly = True
-        '
-        'TabControl1
-        '
-        Me.TabControl1.Controls.Add(Me.TabPage1)
-        Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Location = New System.Drawing.Point(21, 337)
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(788, 278)
-        Me.TabControl1.TabIndex = 476
-        '
-        'TabPage1
-        '
-        Me.TabPage1.Controls.Add(Me.DgvTimbang)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(780, 252)
-        Me.TabPage1.TabIndex = 0
-        Me.TabPage1.Text = "Data Timbang"
-        Me.TabPage1.UseVisualStyleBackColor = True
-        '
-        'DgvTimbang
-        '
-        Me.DgvTimbang.AllowUserToAddRows = False
-        Me.DgvTimbang.AllowUserToDeleteRows = False
-        Me.DgvTimbang.AllowUserToResizeColumns = False
-        Me.DgvTimbang.AllowUserToResizeRows = False
-        Me.DgvTimbang.BackgroundColor = System.Drawing.Color.LightGray
-        Me.DgvTimbang.BorderStyle = System.Windows.Forms.BorderStyle.None
-        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle11.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        DataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvTimbang.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle11
-        Me.DgvTimbang.ColumnHeadersHeight = 35
-        Me.DgvTimbang.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.Column15, Me.Column11, Me.Column12, Me.Column13, Me.Column16, Me.Column14})
-        Me.DgvTimbang.Location = New System.Drawing.Point(1, 0)
-        Me.DgvTimbang.MultiSelect = False
-        Me.DgvTimbang.Name = "DgvTimbang"
-        Me.DgvTimbang.RowHeadersWidth = 21
-        Me.DgvTimbang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DgvTimbang.Size = New System.Drawing.Size(783, 252)
-        Me.DgvTimbang.TabIndex = 476
-        '
-        'DataGridViewTextBoxColumn2
-        '
-        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle12
-        Me.DataGridViewTextBoxColumn2.HeaderText = "Kode Barang"
-        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
-        Me.DataGridViewTextBoxColumn2.ReadOnly = True
-        '
-        'DataGridViewTextBoxColumn3
-        '
-        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle13
-        Me.DataGridViewTextBoxColumn3.HeaderText = "Nama"
-        Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
-        Me.DataGridViewTextBoxColumn3.ReadOnly = True
-        Me.DataGridViewTextBoxColumn3.Width = 200
-        '
-        'Column15
-        '
-        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column15.DefaultCellStyle = DataGridViewCellStyle14
-        Me.Column15.HeaderText = "Satuan"
-        Me.Column15.Name = "Column15"
-        Me.Column15.ReadOnly = True
-        Me.Column15.Width = 80
-        '
-        'Column11
-        '
-        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column11.DefaultCellStyle = DataGridViewCellStyle15
-        Me.Column11.HeaderText = "Jumlah Bags"
-        Me.Column11.Name = "Column11"
-        Me.Column11.ReadOnly = True
-        Me.Column11.Width = 90
-        '
-        'Column12
-        '
-        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column12.DefaultCellStyle = DataGridViewCellStyle16
-        Me.Column12.HeaderText = "Berat Bags"
-        Me.Column12.Name = "Column12"
-        Me.Column12.ReadOnly = True
-        '
-        'Column13
-        '
-        DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column13.DefaultCellStyle = DataGridViewCellStyle17
-        Me.Column13.HeaderText = "Jumlah Pallet"
-        Me.Column13.Name = "Column13"
-        Me.Column13.ReadOnly = True
-        Me.Column13.Width = 90
-        '
-        'Column16
-        '
-        DataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column16.DefaultCellStyle = DataGridViewCellStyle18
-        Me.Column16.HeaderText = "Jumlah Barang"
-        Me.Column16.Name = "Column16"
-        Me.Column16.ReadOnly = True
-        Me.Column16.Width = 90
-        '
-        'Column14
-        '
-        DataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column14.DefaultCellStyle = DataGridViewCellStyle19
-        Me.Column14.HeaderText = "Berat Barang"
-        Me.Column14.Name = "Column14"
-        Me.Column14.ReadOnly = True
-        Me.Column14.Width = 90
-        '
-        'TabPage2
-        '
-        Me.TabPage2.Controls.Add(Me.DgvPO)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(780, 252)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Data PO"
-        Me.TabPage2.UseVisualStyleBackColor = True
-        '
-        'TxtTotalBeratBarang
-        '
-        Me.TxtTotalBeratBarang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtTotalBeratBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtTotalBeratBarang.Enabled = False
-        Me.TxtTotalBeratBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtTotalBeratBarang.Location = New System.Drawing.Point(655, 618)
-        Me.TxtTotalBeratBarang.MaxLength = 50
-        Me.TxtTotalBeratBarang.Name = "TxtTotalBeratBarang"
-        Me.TxtTotalBeratBarang.Size = New System.Drawing.Size(154, 26)
-        Me.TxtTotalBeratBarang.TabIndex = 479
-        Me.TxtTotalBeratBarang.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label4.Location = New System.Drawing.Point(521, 623)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(128, 17)
-        Me.Label4.TabIndex = 479
-        Me.Label4.Text = "Total Berat Barang"
-        '
-        'Tot_Bags
-        '
-        Me.Tot_Bags.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.Tot_Bags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Tot_Bags.Enabled = False
-        Me.Tot_Bags.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tot_Bags.Location = New System.Drawing.Point(655, 648)
-        Me.Tot_Bags.MaxLength = 50
-        Me.Tot_Bags.Name = "Tot_Bags"
-        Me.Tot_Bags.Size = New System.Drawing.Size(154, 26)
-        Me.Tot_Bags.TabIndex = 479
-        Me.Tot_Bags.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label5.Location = New System.Drawing.Point(521, 653)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(76, 17)
-        Me.Label5.TabIndex = 479
-        Me.Label5.Text = "Total Bags"
         '
         'EMI_Timbang_Unloading
         '
@@ -1001,6 +1012,10 @@ Partial Class EMI_Timbang_Unloading
     Friend WithEvents Column13 As DataGridViewTextBoxColumn
     Friend WithEvents Column16 As DataGridViewTextBoxColumn
     Friend WithEvents Column14 As DataGridViewTextBoxColumn
+    Friend WithEvents TxtTotalBeratBarang As TextBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Tot_Bags As TextBox
+    Friend WithEvents Label5 As Label
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
@@ -1010,11 +1025,8 @@ Partial Class EMI_Timbang_Unloading
     Friend WithEvents Column10 As DataGridViewTextBoxColumn
     Friend WithEvents Column6 As DataGridViewTextBoxColumn
     Friend WithEvents Column8 As DataGridViewTextBoxColumn
+    Friend WithEvents jmlh_bags As DataGridViewTextBoxColumn
     Friend WithEvents Column9 As DataGridViewTextBoxColumn
-    Friend WithEvents TxtTotalBeratBarang As TextBox
-    Friend WithEvents Label4 As Label
-    Friend WithEvents Tot_Bags As TextBox
-    Friend WithEvents Label5 As Label
     '''Friend WithEvents StreamPlayerControl1 As WebEye.Controls.WinForms.StreamPlayerControl.StreamPlayerControl
     '''Friend WithEvents StreamPlayerControl2 As WebEye.Controls.WinForms.StreamPlayerControl.StreamPlayerControl
 End Class

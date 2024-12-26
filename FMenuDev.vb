@@ -482,6 +482,22 @@
         TesPrint.Focus()
     End Sub
 
+    Private Sub SummaryBarangMasukToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SummaryBarangMasukToolStripMenuItem.Click
+        EMI_Barang_Masuk_Summary_Data.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Barang_Masuk_Summary_Data.MdiParent = Me
+        EMI_Barang_Masuk_Summary_Data.Show()
+        EMI_Barang_Masuk_Summary_Data.Focus()
+    End Sub
+
+    Private Sub PrinterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrinterToolStripMenuItem.Click
+        Global_Setting.StartPosition = FormStartPosition.CenterScreen
+
+        Global_Setting.MdiParent = Me
+        Global_Setting.Show()
+        Global_Setting.Focus()
+    End Sub
+
 
 
 

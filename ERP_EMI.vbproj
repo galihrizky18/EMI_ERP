@@ -958,6 +958,12 @@
     <Compile Include="Emi Form\Warehouse\Temp\Transfer_Quality_Stock2.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Warehouse\TEs\EMI_Barang_Masuk_Display_Rak.Designer.vb">
+      <DependentUpon>EMI_Barang_Masuk_Display_Rak.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\TEs\EMI_Barang_Masuk_Display_Rak.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\Warehouse\Transaksi\Display_Kendaraan_Masuk_Tidak_Sesuai.Designer.vb">
       <DependentUpon>Display_Kendaraan_Masuk_Tidak_Sesuai.vb</DependentUpon>
     </Compile>
@@ -1184,6 +1190,12 @@
     <Compile Include="module\General_Class.vb" />
     <Compile Include="module\General_Module.vb" />
     <Compile Include="module\General_Module_B2B.vb" />
+    <Compile Include="module\Global_Setting.Designer.vb">
+      <DependentUpon>Global_Setting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="module\Global_Setting.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="module\Module1.vb" />
     <Compile Include="module\Modul_Pembantu.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -1867,6 +1879,9 @@
     <EmbeddedResource Include="Emi Form\Warehouse\Temp\Transfer_Quality_Stock2.resx">
       <DependentUpon>Transfer_Quality_Stock2.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\TEs\EMI_Barang_Masuk_Display_Rak.resx">
+      <DependentUpon>EMI_Barang_Masuk_Display_Rak.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Transaksi\Display_Kendaraan_Masuk_Tidak_Sesuai.resx">
       <DependentUpon>Display_Kendaraan_Masuk_Tidak_Sesuai.vb</DependentUpon>
     </EmbeddedResource>
@@ -1977,6 +1992,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Master Menu\TesForm.resx">
       <DependentUpon>TesForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="module\Global_Setting.resx">
+      <DependentUpon>Global_Setting.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

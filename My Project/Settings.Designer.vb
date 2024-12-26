@@ -92,13 +92,73 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("XXX")>  _
         Public Property Prt_Name() As String
             Get
                 Return CType(Me("Prt_Name"),String)
             End Get
             Set
                 Me("Prt_Name") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("XXX")>  _
+        Public Property Prt_Name_TS() As String
+            Get
+                Return CType(Me("Prt_Name_TS"),String)
+            End Get
+            Set
+                Me("Prt_Name_TS") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("XXX")>  _
+        Public Property Prt_Name_SPB() As String
+            Get
+                Return CType(Me("Prt_Name_SPB"),String)
+            End Get
+            Set
+                Me("Prt_Name_SPB") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("XXX")>  _
+        Public Property Prt_Name_BPB() As String
+            Get
+                Return CType(Me("Prt_Name_BPB"),String)
+            End Get
+            Set
+                Me("Prt_Name_BPB") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("XXX")>  _
+        Public Property Prt_Name_Bukti_Timbang() As String
+            Get
+                Return CType(Me("Prt_Name_Bukti_Timbang"),String)
+            End Get
+            Set
+                Me("Prt_Name_Bukti_Timbang") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("XXX")>  _
+        Public Property Prt_Name_2() As String
+            Get
+                Return CType(Me("Prt_Name_2"),String)
+            End Get
+            Set
+                Me("Prt_Name_2") = value
             End Set
         End Property
     End Class

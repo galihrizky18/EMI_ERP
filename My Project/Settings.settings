@@ -12,7 +12,22 @@
       <Value Profile="(Default)">MS</Value>
     </Setting>
     <Setting Name="Prt_Name" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">XXX</Value>
+    </Setting>
+    <Setting Name="Prt_Name_TS" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XXX</Value>
+    </Setting>
+    <Setting Name="Prt_Name_SPB" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XXX</Value>
+    </Setting>
+    <Setting Name="Prt_Name_BPB" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XXX</Value>
+    </Setting>
+    <Setting Name="Prt_Name_Bukti_Timbang" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XXX</Value>
+    </Setting>
+    <Setting Name="Prt_Name_2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XXX</Value>
     </Setting>
   </Settings>
 </SettingsFile>

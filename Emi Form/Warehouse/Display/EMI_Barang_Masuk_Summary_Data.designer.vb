@@ -22,6 +22,7 @@ Partial Class EMI_Barang_Masuk_Summary_Data
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -50,11 +51,16 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.ListView1 = New System.Windows.Forms.ListView()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.CetakPerintahBongkarToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CetakPenerimaanBarangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CetakBuktiTimbangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -88,7 +94,7 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.Label1.Location = New System.Drawing.Point(5, 9)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(422, 30)
+        Me.Label1.Size = New System.Drawing.Size(423, 30)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Summary Data - Loading Barang Masuk"
         '
@@ -134,6 +140,7 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         '
         'LV_PembelianLoading
         '
+        Me.LV_PembelianLoading.ContextMenuStrip = Me.ContextMenuStrip1
         Me.LV_PembelianLoading.Font = New System.Drawing.Font("Work Sans", 9.0!)
         Me.LV_PembelianLoading.FullRowSelect = True
         Me.LV_PembelianLoading.GridLines = True
@@ -369,6 +376,30 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.ListView1.UseCompatibleStateImageBehavior = False
         Me.ListView1.View = System.Windows.Forms.View.Details
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakPerintahBongkarToolStripMenuItem, Me.CetakPenerimaanBarangToolStripMenuItem, Me.CetakBuktiTimbangToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(211, 92)
+        '
+        'CetakPerintahBongkarToolStripMenuItem
+        '
+        Me.CetakPerintahBongkarToolStripMenuItem.Name = "CetakPerintahBongkarToolStripMenuItem"
+        Me.CetakPerintahBongkarToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.CetakPerintahBongkarToolStripMenuItem.Text = "Cetak Perintah Bongkar"
+        '
+        'CetakPenerimaanBarangToolStripMenuItem
+        '
+        Me.CetakPenerimaanBarangToolStripMenuItem.Name = "CetakPenerimaanBarangToolStripMenuItem"
+        Me.CetakPenerimaanBarangToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.CetakPenerimaanBarangToolStripMenuItem.Text = "Cetak Penerimaan Barang"
+        '
+        'CetakBuktiTimbangToolStripMenuItem
+        '
+        Me.CetakBuktiTimbangToolStripMenuItem.Name = "CetakBuktiTimbangToolStripMenuItem"
+        Me.CetakBuktiTimbangToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.CetakBuktiTimbangToolStripMenuItem.Text = "Cetak Bukti Timbang"
+        '
         'EMI_Barang_Masuk_Summary_Data
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
@@ -397,6 +428,7 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -429,4 +461,8 @@ Partial Class EMI_Barang_Masuk_Summary_Data
     Friend WithEvents TabPage1 As TabPage
     Friend WithEvents TabPage2 As TabPage
     Friend WithEvents ListView1 As ListView
+    Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
+    Friend WithEvents CetakPerintahBongkarToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CetakPenerimaanBarangToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CetakBuktiTimbangToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -32,6 +32,15 @@ Module General_Module
     Public Jumlah_Digit As Integer = 4
 
 
+    '=====================
+    '=    PRINTER NAME   =
+    '=====================
+    Public PrinterNameSPB As String = "EPSON LX-310 ESC/P"
+    Public PrinterNameBPB As String = "EPSON LX-310 ESC/P"
+    Public PrinterNameBuktiTimbang As String = "EPSON LX-310 ESC/P"
+    Public PrinterName2 As String = "EPSON LX-310 ESC/P"
+
+
     Public Cn As SqlConnection
     Public Cn1 As SqlClient.SqlConnection
     Public Cn2 As SqlClient.SqlConnection

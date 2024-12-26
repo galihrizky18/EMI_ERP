@@ -1,4 +1,5 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+﻿Imports System.Runtime.InteropServices.ComTypes
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
 
 
@@ -10,6 +11,8 @@ Public Class EMI_Barang_Masuk_Summary_Data
     Dim KT As Color = Color.Red
     Dim KY As Color = Color.Green
     Dim Batal As Color = Color.Black
+
+    Dim item_PembelianPONoFaktur As Integer = 0
 
     Private Sub Display_Pembelian_Barang_Masuk_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         kosong()
@@ -212,9 +215,6 @@ Public Class EMI_Barang_Masuk_Summary_Data
         End Try
     End Sub
 
-    Private Sub ValidasiInquiryToolStripMenuItem_Click(sender As Object, e As EventArgs)
-
-    End Sub
 
     Private Sub BtnBarangMasuk_Cari_Click(sender As Object, e As EventArgs) Handles BtnBarangMasuk_Cari.Click
         Try
@@ -332,13 +332,17 @@ Public Class EMI_Barang_Masuk_Summary_Data
         End Try
     End Sub
 
+
+
     Private Sub DisplayRakToolStripMenuItem_Click(sender As Object, e As EventArgs)
         If LV_PembelianLoading.Items.Count = 0 Or LV_PembelianLoading.SelectedItems.Count = 0 Then
             Exit Sub
         End If
-        'EMI_Barang_Masuk_Display_Rak.TxtNoBM.Text = LV_PembelianLoading.FocusedItem.Text
-        'EMI_Barang_Masuk_Display_Rak.ShowDialog()
+        EMI_Barang_Masuk_Display_Rak.TxtNoBM.Text = LV_PembelianLoading.FocusedItem.Text
+        EMI_Barang_Masuk_Display_Rak.ShowDialog()
     End Sub
+
+
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
         If CheckBox1.Checked Then
@@ -349,6 +353,8 @@ Public Class EMI_Barang_Masuk_Summary_Data
             ComboBox3.SelectedIndex = -1 : DateTimePicker1.Value = Now.Date : DateTimePicker2.Value = Now.Date
         End If
     End Sub
+
+
 
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
         If CheckBox2.Checked Then
@@ -586,4 +592,321 @@ Public Class EMI_Barang_Masuk_Summary_Data
     ''Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs)
 
     ''End Sub
+
+
+
+    Private Sub CetakPerintahBongkarToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CetakPerintahBongkarToolStripMenuItem.Click
+        If LV_PembelianLoading.Items.Count = 0 Then Exit Sub
+
+        Try
+            OpenConn()
+
+            Dim rows As Integer = LV_PembelianLoading.FocusedItem.Index
+            Dim no_faktur As String = LV_PembelianLoading.Items(rows).SubItems(item_PembelianPONoFaktur).Text
+
+            Dim isAvailable As Boolean = False
+
+            Dim No_PO As String = ""
+            '====================================
+            '=     CEK APAKAH DATA TERSEDIA     =
+            '====================================
+            SQL = "select top 1 a.flag_timbang, a.Flag_Timbang_Keluar, b.No_PO from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_detail b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan  "
+            SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+            SQL = SQL & "and a.flag_timbang = 'Y' and a.No_Faktur = '" & no_faktur & "' "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("flag_timbang")) = "" Or General_Class.CekNULL(Dr("flag_timbang")) <> "Y" Then
+                        isAvailable = False
+                    Else
+                        isAvailable = True
+                        No_PO = Dr("No_PO")
+                    End If
+
+                Else
+                    Dr.Close()
+                    CloseConn()
+                    MessageBox.Show("Data Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            If isAvailable And Not No_PO = "" Then
+
+                Dim CrDoc As New Object
+                Dim kertas As String = ""
+
+                Dim no_fak As String = ""
+                '=========================
+                '=     GET NO FAKTUR     =
+                '=========================
+                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where No_PO = '" & No_PO & "' and Kode_Perusahaan = '" & KodePerusahaan & "'"
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        no_fak = Dr("No_Faktur")
+                    Else
+                        Dr.Close()
+                        CloseConn()
+                        MessageBox.Show("Data Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                End Using
+
+                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='" & no_fak & "'"
+                Using Ds = BindingTrans(SQL)
+                    If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+
+                        CrDoc = New Rpt_Surat_Perintah_Bongkar
+                        kertas = "Faktur"
+
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        'CrDoc.PrintOptions.PrinterName = ""
+                        CrDoc.PrintOptions.PrinterName = PrinterNameSPB
+                        CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & no_fak & "' "
+                        'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+                        Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                        doctoprint.PrinterSettings.PrinterName = PrinterNameSPB
+                        Dim rawKind As Integer
+                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                            If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                                CrDoc.PrintOptions.PaperSize = rawKind
+                                Exit For
+                            End If
+                        Next
+
+                        CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                        CrDoc.PrintToPrinter(1, False, 1, 99)
+
+                        MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+
+                    End If
+                End Using
+
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+    End Sub
+
+    Private Sub CetakPenerimaanBarangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CetakPenerimaanBarangToolStripMenuItem.Click
+        If LV_PembelianLoading.Items.Count = 0 Then Exit Sub
+
+        Try
+            OpenConn()
+
+            Dim rows As Integer = LV_PembelianLoading.FocusedItem.Index
+            Dim no_faktur As String = LV_PembelianLoading.Items(rows).SubItems(item_PembelianPONoFaktur).Text
+
+            Dim isAvailable As Boolean = False
+            Dim No_PO As String = ""
+
+            '====================================
+            '=     CEK APAKAH DATA TERSEDIA     =
+            '====================================
+            SQL = "select top 1 a.flag_timbang, a.Flag_Timbang_Keluar, b.No_PO from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_detail b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan  "
+            SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+            SQL = SQL & "and a.flag_timbang = 'Y' and a.No_Faktur = '" & no_faktur & "' "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Flag_Timbang_Keluar")) = "" Or General_Class.CekNULL(Dr("Flag_Timbang_Keluar")) <> "Y" Then
+                        isAvailable = False
+                    Else
+                        isAvailable = True
+                        No_PO = Dr("No_PO")
+                    End If
+
+                Else
+                    Dr.Close()
+                    CloseConn()
+                    MessageBox.Show("Data Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            If isAvailable Then
+
+                Dim CrDoc As New Object
+                Dim kertas As String = ""
+
+                Dim no_fak As String = ""
+                '=========================
+                '=     GET NO FAKTUR     =
+                '=========================
+                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where No_PO = '" & No_PO & "' and Kode_Perusahaan = '" & KodePerusahaan & "'"
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        no_fak = Dr("No_Faktur")
+                    Else
+                        Dr.Close()
+                        CloseConn()
+                        MessageBox.Show("Data Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                End Using
+
+                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='" & no_fak & "'"
+                Using Ds = BindingTrans(SQL)
+                    If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+
+                        CrDoc = New Rpt_Bukti_Penerimaan_Barang
+                        kertas = "Faktur"
+
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        'CrDoc.PrintOptions.PrinterName = ""
+                        CrDoc.PrintOptions.PrinterName = PrinterNameBPB
+                        CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & no_fak & "' "
+                        'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+                        Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                        doctoprint.PrinterSettings.PrinterName = PrinterNameBPB
+                        Dim rawKind As Integer
+                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                            If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                                CrDoc.PrintOptions.PaperSize = rawKind
+                                Exit For
+                            End If
+                        Next
+
+                        CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                        CrDoc.PrintToPrinter(1, False, 1, 99)
+
+                        MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+                    End If
+                End Using
+
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+    End Sub
+
+    Private Sub CetakBuktiTimbangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CetakBuktiTimbangToolStripMenuItem.Click
+        If LV_PembelianLoading.Items.Count = 0 Then Exit Sub
+
+        Try
+            OpenConn()
+
+            Dim rows As Integer = LV_PembelianLoading.FocusedItem.Index
+            Dim no_faktur As String = LV_PembelianLoading.Items(rows).SubItems(item_PembelianPONoFaktur).Text
+
+            Dim isAvailable As Boolean = False
+            Dim No_PO As String = ""
+
+            '====================================
+            '=     CEK APAKAH DATA TERSEDIA     =
+            '====================================
+            SQL = "select top 1 a.flag_timbang, a.Flag_Timbang_Keluar, b.No_PO from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_detail b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan  "
+            SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+            SQL = SQL & "and a.flag_timbang = 'Y' and a.No_Faktur = '" & no_faktur & "' "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Flag_Timbang_Keluar")) = "" Or General_Class.CekNULL(Dr("Flag_Timbang_Keluar")) <> "Y" Then
+                        isAvailable = False
+                    Else
+                        isAvailable = True
+                        No_PO = Dr("No_PO")
+                    End If
+
+                Else
+                    Dr.Close()
+                    CloseConn()
+                    MessageBox.Show("Data Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            If isAvailable Then
+
+                Dim CrDoc As New Object
+                Dim kertas As String = ""
+
+                Dim no_fak As String = ""
+                '=========================
+                '=     GET NO FAKTUR     =
+                '=========================
+                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where No_PO = '" & No_PO & "' and Kode_Perusahaan = '" & KodePerusahaan & "'"
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        no_fak = Dr("No_Faktur")
+                    Else
+                        Dr.Close()
+                        CloseConn()
+                        MessageBox.Show("Data Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                End Using
+
+                SQL = "select Kode_Jenis_Muatan from Vw_Bukti_Timbang where No_Faktur = '" & no_fak & "'"
+                Using Ds = BindingTrans(SQL)
+                    If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+
+                        CrDoc = New Rpt_Bukti_Timbang
+                        kertas = "Faktur"
+
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        'CrDoc.PrintOptions.PrinterName = ""
+                        CrDoc.PrintOptions.PrinterName = PrinterNameBuktiTimbang
+                        CrDoc.RecordSelectionFormula = "{Vw_Bukti_Timbang.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Bukti_Timbang.No_Faktur}='" & no_fak & "' "
+                        'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+                        Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                        doctoprint.PrinterSettings.PrinterName = PrinterNameBuktiTimbang
+                        Dim rawKind As Integer
+                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                            If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                                CrDoc.PrintOptions.PaperSize = rawKind
+                                Exit For
+                            End If
+                        Next
+
+                        CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                        CrDoc.PrintToPrinter(1, False, 1, 99)
+
+                        MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+                    End If
+                End Using
+
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
 End Class

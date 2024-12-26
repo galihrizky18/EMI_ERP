@@ -29,6 +29,7 @@ Public Class EMI_Timbang_Unloading
     Dim LvJumlah As String
     Dim LvJumlahMasuk As String
     Dim LvUrutLoading As String
+    Dim LvJumlahBagMasuk As String
 
     Dim ItemNoPO As Integer = 0
     Dim ItemKdBarang As Integer = 1
@@ -39,7 +40,8 @@ Public Class EMI_Timbang_Unloading
     Dim ItemSatuan As Integer = 6
     Dim ItemJumlah As Integer = 7
     Dim ItemJumlahMasuk As Integer = 8
-    Dim ItemUrutLoading As Integer = 9
+    Dim ItemJumlahBags As Integer = 9
+    Dim ItemUrutLoading As Integer = 10
 
     Dim LvTimbangKdBarang As String
     Dim LvTimbangNmBarang As String
@@ -76,8 +78,6 @@ Public Class EMI_Timbang_Unloading
         Return hasil
     End Function
 
-
-
     Private Sub Get_Isi_DataGridViewTimbang(ByVal NoIndex As Integer)
         LvTimbangKdBarang = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangKdBarang).Value
         LvTimbangNmBarang = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangNmBarang).Value
@@ -99,6 +99,7 @@ Public Class EMI_Timbang_Unloading
         LvSatuan = DgvPO.Rows(NoIndex).Cells(ItemSatuan).Value
         LvJumlah = DgvPO.Rows(NoIndex).Cells(ItemJumlah).Value
         LvJumlahMasuk = DgvPO.Rows(NoIndex).Cells(ItemJumlahMasuk).Value
+        LvJumlahBagMasuk = DgvPO.Rows(NoIndex).Cells(ItemJumlahBags).Value
         LvUrutLoading = DgvPO.Rows(NoIndex).Cells(ItemUrutLoading).Value
     End Sub
 
@@ -181,7 +182,6 @@ Public Class EMI_Timbang_Unloading
 
             StreamPlayerControl1.StartPlay((New Uri("rtsp://" & user1 & ":" & pass1 & "@" & ipaddr1 & "/Streaming/channels/102/")))
             StreamPlayerControl2.StartPlay((New Uri("rtsp://" & user2 & ":" & pass2 & "@" & ipaddr2 & "/Streaming/channels/102/")))
-
         Catch ex As Exception
             MessageBox.Show(ex.Message)
             Exit Sub
@@ -196,7 +196,6 @@ Public Class EMI_Timbang_Unloading
     Private Sub Transaksi_Timbang_Unloading_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
-
 
         Try
             OpenConn()
@@ -228,7 +227,6 @@ Public Class EMI_Timbang_Unloading
                 Txt_Timbang2.Text = Txt_Timbangan.Text
                 Txt_Timbang1.Enabled = False
 
-
                 SQL = "select No_Faktur from EMI_Timbang_Unloading a where "
                 SQL = SQL & "kode_Perusahaan='" & KodePerusahaan & "' and no_loading='" & TxtNo_Loading.Text & "' "
                 SQL = SQL & "and status is null and flag_selesai is null  "
@@ -238,13 +236,11 @@ Public Class EMI_Timbang_Unloading
                     End If
                 End Using
 
-
                 DTP_Tara.Value = DateTime.Now
             Else
                 MessageBox.Show("Terjadi Kesalahan  . .  !")
                 Exit Sub
             End If
-
 
             '================================
             '=     GET GUDANG UNLOADING     =
@@ -262,7 +258,6 @@ Public Class EMI_Timbang_Unloading
                 End If
             End Using
 
-
             loadJenisMuatan()
             Btn_Simpan.Text = Base_Language.Lang_Global_Simpan
             Btn_Refresh.Text = Base_Language.Lang_Global_Refresh
@@ -278,8 +273,6 @@ Public Class EMI_Timbang_Unloading
             ListView2.Columns.Add("No PO", 160, HorizontalAlignment.Left)
             ListView2.View = View.Details
 
-
-
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -287,7 +280,6 @@ Public Class EMI_Timbang_Unloading
             Exit Sub
 
         End Try
-
 
         If jenisMasuk = "MASUK" Then
             Get_DGVMasuk()
@@ -344,9 +336,7 @@ Public Class EMI_Timbang_Unloading
 
             End If
 
-
             If jenisMasuk = "MASUK" Then
-
 
                 '===================================
                 '=     CEK APAKAH TIMBANG KE 2     =
@@ -367,7 +357,6 @@ Public Class EMI_Timbang_Unloading
                     End If
                 End Using
             End If
-
 
             Dim nama_barang As String = ""
             Dim id As Integer = 0
@@ -393,7 +382,6 @@ Public Class EMI_Timbang_Unloading
                         Txt_Supplier.Text = dr("nama")
                         Lbl_KodeSupplier.Text = dr("kode_supplier")
                     End If
-
 
                     arrNamaBarang.Add(dr("Nama_Barang")) : arrKodeBarang.Add(dr("Kode_Barang"))
                     CmbBarang.Items.Add(dr("Nama_Barang"))
@@ -428,7 +416,6 @@ Public Class EMI_Timbang_Unloading
         Txt_Netto.Enabled = False
         CmbBarang.Text = ""
         CmbJenisMuatan.Text = ""
-
 
         Btn_Simpan.Tag = "&SimpanBruto"
         Btn_Simpan.Text = "&Simpan Bruto"
@@ -505,8 +492,6 @@ Public Class EMI_Timbang_Unloading
                     DgvPO.Rows(id).Cells(ItemJumlah).Value = Format(dr("Jumlah"), "N2")
                     DgvPO.Rows(id).Cells(ItemJumlahMasuk).Value = 0
                     DgvPO.Rows(id).Cells(ItemUrutLoading).Value = dr("Urut_Loading")
-
-
 
                     id += 1
                 Loop
@@ -631,9 +616,8 @@ Public Class EMI_Timbang_Unloading
                     DgvPO.Rows(id).Cells(ItemSatuan).Value = dr("Satuan")
                     DgvPO.Rows(id).Cells(ItemJumlah).Value = Format(dr("Jumlah"), "N2")
                     DgvPO.Rows(id).Cells(ItemJumlahMasuk).Value = 0
+                    DgvPO.Rows(id).Cells(ItemJumlahBags).Value = 0
                     DgvPO.Rows(id).Cells(ItemUrutLoading).Value = dr("Urut_Loading")
-
-
 
                     id += 1
                 Loop
@@ -660,7 +644,6 @@ Public Class EMI_Timbang_Unloading
             SQL = SQL & "a.No_Faktur=b.No_Faktur and a.Kode_Perusahaan=b.Kode_Perusahaan and a.status is null "
             SQL = SQL & "and b.Kode_Perusahaan=c.Kode_Perusahaan and b.Kode_Barang=c.Kode_Barang and b.Kode_Stock_Owner=c.Kode_Stock_Owner "
             SQL = SQL & "and a.kode_Perusahaan ='" & KodePerusahaan & "' and a.No_faktur='" & TxtNo_Loading.Text & "' "
-
 
             SQL = SQL & "and b.kode_Barang in( "
 
@@ -732,12 +715,9 @@ Public Class EMI_Timbang_Unloading
         getSumOfBerat()
     End Sub
 
-
     Public Sub Hitung_Netto()
 
-
         If Txt_Timbang2.Text.Trim <> "" Then
-
 
             Txt_Netto.Text = Format(Math.Max(0, Val(HilangkanTanda(Txt_Timbang1.Text)) - Val(HilangkanTanda(Txt_Timbang2.Text))), "N0")
 
@@ -752,7 +732,6 @@ Public Class EMI_Timbang_Unloading
 
                 getSumOfBerat()
             End If
-
 
         End If
     End Sub
@@ -774,8 +753,6 @@ Public Class EMI_Timbang_Unloading
 
     End Sub
 
-
-
     Private Sub Txt_Timbang2_TextChanged(sender As Object, e As EventArgs) Handles Txt_Timbang2.TextChanged
         Hitung_Netto()
     End Sub
@@ -784,6 +761,42 @@ Public Class EMI_Timbang_Unloading
         If IsNumeric(DgvPO.CurrentRow.Cells(ItemJumlahMasuk).Value) = False Then
             DgvPO.CurrentRow.Cells(ItemJumlahMasuk).Value = ""
         End If
+
+        Dim curentKodeBarang As String = DgvPO.CurrentRow.Cells(ItemKdBarang).Value
+        Dim curentJumlahMasuk As String = DgvPO.CurrentRow.Cells(ItemJumlahMasuk).Value
+
+        If Not curentJumlahMasuk = "" Or Not curentJumlahMasuk.Trim.Length = 0 Then
+
+            Dim JumlahBagsTimbang As Double = 0
+            Dim JumlahBarangPO As Double = 0
+
+            Dim BeratPerBags As Double = 0
+
+            For i As Integer = 0 To DgvTimbang.Rows.Count - 1
+                Get_Isi_DataGridViewTimbang(i)
+
+                If LvTimbangKdBarang = curentKodeBarang Then
+                    JumlahBagsTimbang = Val(HilangkanTanda(LvTimbangJmlBags))
+                    JumlahBarangPO = Val(HilangkanTanda(LvTimbangjmlBarang))
+                    Exit For
+                End If
+
+            Next
+
+            If JumlahBagsTimbang <> 0 And JumlahBarangPO <> 0 Then
+
+                Dim JumlahFinalBags As Double = 0
+
+                BeratPerBags = JumlahBarangPO / JumlahBagsTimbang
+
+                JumlahFinalBags = curentJumlahMasuk / BeratPerBags
+
+                DgvPO.CurrentRow.Cells(ItemJumlahBags).Value = Math.Round(JumlahFinalBags)
+
+            End If
+
+        End If
+
     End Sub
 
     Private Sub LblSatuan_Click(sender As Object, e As EventArgs) Handles LblSatuan.Click
@@ -814,8 +827,6 @@ Public Class EMI_Timbang_Unloading
         CmbBarang.SelectedIndex = -1
         If metodeTruckScale = "TRUCK SCALE" Then
             CmbBarang.Enabled = True
-
-
         Else
             CmbBarang.Enabled = False
 
@@ -850,9 +861,6 @@ Public Class EMI_Timbang_Unloading
         Dim indexSelected As Integer = CmbJenisMuatan.SelectedIndex
         Dim metodeTruckScale As String = arrMetodeTruckScale(indexSelected).ToString.ToUpper.Trim
 
-
-
-
         Dim Init_Akhir As String = ""
         If jenisMasuk = "MASUK" Then
             Init_Akhir = "_BR"
@@ -880,16 +888,12 @@ Public Class EMI_Timbang_Unloading
         '''ImageCompress_1.Save(FilePath_1) 'simpan ke lokal
         '''ImageCompress_2.Save(FilePath_2) 'simpan ke lokal
 
-
-
-
         'JANGAN LUPA DI UNCOMMENT
         'Dim Nama_File_1 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FormDevleopment.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_A.jpg"
         'Dim Nama_File_2 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FormDevleopment.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_B.jpg"
 
         Dim Nama_File_1 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_A.jpg"
         Dim Nama_File_2 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_B.jpg"
-
 
         Try
 
@@ -902,7 +906,6 @@ Public Class EMI_Timbang_Unloading
                         Exit Sub
                     End If
                 End If
-
 
                 OpenConn()
 
@@ -928,7 +931,6 @@ Public Class EMI_Timbang_Unloading
                 'For i As Integer = 0 To ListView2.Items.Count - 1
                 For i As Integer = 0 To DgvPO.RowCount - 1
                     Get_Isi_DataGridView(i)
-
 
                     If LvNoPO <> noPO Then
                         SQL = "Insert into EMI_Timbang_Unloading_PO ("
@@ -960,7 +962,6 @@ Public Class EMI_Timbang_Unloading
                 SQL = SQL & "where No_faktur='" & TxtNo_Loading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
                 ExecuteTrans(SQL)
 
-
                 SQL = "select Kode_Perusahaan from EMI_Pembelian_Loading_detail where "
                 SQL = SQL & "No_faktur='" & TxtNo_Loading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
                 SQL = SQL & "and Flag_Timbang_masuk is null "
@@ -974,7 +975,6 @@ Public Class EMI_Timbang_Unloading
                     End If
                 End Using
 
-
                 '''Dim Blob_1 As BlobClient = Container.GetBlobClient(BlobName_1)
                 '''Blob_1.Upload(FilePath_1, New BlobHttpHeaders With {.ContentType = "image/jpeg"})
 
@@ -984,7 +984,6 @@ Public Class EMI_Timbang_Unloading
                 Cmd.Transaction.Commit()
                 CloseConn()
                 MessageBox.Show(Base_Language.Lang_Global_Sukses_Simpan, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-
 
                 kosong()
                 EMI_Display_Timbang.kosong()
@@ -1020,7 +1019,6 @@ Public Class EMI_Timbang_Unloading
                     End If
                 Next
 
-
                 OpenConn()
                 Cmd.Transaction = Cn.BeginTransaction
 
@@ -1050,7 +1048,6 @@ Public Class EMI_Timbang_Unloading
                     If Dr.Read Then
                         'akun_persediaan_dari = Dr("persediaan")
                         inisial_faktur_dari = Dr("inisial_faktur")
-
                     Else
                         Dr.Close()
                         CloseTrans()
@@ -1083,7 +1080,6 @@ Public Class EMI_Timbang_Unloading
 
                         flag_HPP = General_Class.CekNULL(Dr("Flag_Import_HPP"))
                         flag_import = General_Class.CekNULL(Dr("Flag_Import"))
-
                     Else
                         Dr.Close()
                         CloseTrans()
@@ -1135,8 +1131,6 @@ Public Class EMI_Timbang_Unloading
                                 Harga = If(General_Class.CekNULL(dr("Harga")) = "", 0, General_Class.CekNULL(dr("Harga")))
                                 PPN = General_Class.CekNULL(dr("PPN"))
                             End If
-
-
                         Else
                             dr.Close()
                             CloseTrans()
@@ -1202,7 +1196,6 @@ Public Class EMI_Timbang_Unloading
                         End Using
                     End If
 
-
                     Dim TotalHPP As Double = Math.Round(jumlah_masuk_Barang * Harga)
                     Dim Nilai_PPN As Double = Math.Round(TotalHPP * PPN / 100)
                     Total_HPP_PO += TotalHPP
@@ -1214,19 +1207,17 @@ Public Class EMI_Timbang_Unloading
                     SQL = SQL & "where No_Faktur='" & TxtNo_Loading.Text & "' and Urut_Oto='" & LvUrutLoading & "'"
                     ExecuteTrans(SQL)
 
-
                     SQL = "update EMI_Timbang_Unloading_PO_Det set "
                     SQL = SQL & "jumlah ='" & jmlhMasuk & "', satuan ='" & Satuan & "', "
                     SQL = SQL & "nilai_barang ='" & jumlah_masuk_Barang & "', "
                     SQL = SQL & "Satuan_Barang ='" & Satuan_Barang & "', "
+                    SQL = SQL & "Jumlah_Bag = '" & LvJumlahBagMasuk & "', "
                     SQL = SQL & "Harga='" & Harga & "' "
                     SQL = SQL & "where No_Faktur='" & Txt_NoFaktur.Text & "' "
                     SQL = SQL & "and Urut_Loading='" & LvUrutLoading & "' "
                     ExecuteTrans(SQL)
 
-
                 Next
-
 
                 Dim jumlah_masuk_BarangTimbang As Double = 0
                 If metodeTruckScale = "TRUCK SCALE" Then
@@ -1264,7 +1255,7 @@ Public Class EMI_Timbang_Unloading
 
                 Dim total_hpp As Double = 0
 
-                SQL = "select Flag_angkut, Selesai, Sdh_Cetak, no_faktur, "
+                SQL = "select No_Pembelian_Loading, No_SJ, Flag_angkut, Selesai, Sdh_Cetak, no_faktur, "
                 SQL = SQL & "kode_perusahaan, kode_stock_owner, kode_barang, "
                 SQL = SQL & "serial_number, Nilai_Barang as jumlah, Tgl_Produksi_Real as Tgl_Produksi, "
                 SQL = SQL & "Tgl_Expired_Real as Tgl_Expired, Id_Warehouse, "
@@ -1284,7 +1275,6 @@ Public Class EMI_Timbang_Unloading
                                     Exit Sub
                                 End If
 
-
                                 Dim harga As Double = 0
                                 SQL = "Select Top(1)(case when "
                                 SQL = SQL & "a.flag_refraksi Is null then a.hpp_satuan_display else a.Harga_Refraksi end) As harga "
@@ -1300,7 +1290,6 @@ Public Class EMI_Timbang_Unloading
 
                                             If flag_HPP = "" Then
                                                 harga = 0
-
                                             Else
                                                 harga = dr("Harga")
 
@@ -1309,7 +1298,6 @@ Public Class EMI_Timbang_Unloading
                                             harga = dr("Harga")
 
                                         End If
-
                                     Else
                                         dr.Close()
                                         CloseTrans()
@@ -1336,7 +1324,6 @@ Public Class EMI_Timbang_Unloading
                                     End If
                                 End Using
 
-
                                 'UBAH KE SATUAN PO
                                 SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','UANG','" & LvKdBarang & "',"
                                 SQL = SQL & "'" & Satuan & "','" & Satuan_Barang & "',"
@@ -1354,14 +1341,12 @@ Public Class EMI_Timbang_Unloading
                                     End If
                                 End Using
 
-
                                 total_hpp += (harga * .Rows(index).Item("jumlah"))
 
                                 Dim Random As New Random()
                                 Dim str As String = Format(Random.Next(0, 999), "000") & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HHmmss")
                                 Dim Kode_Unik As String = str.Substring(0, 5) & "BB" & Chr(64 + str.Substring(6, 1)) & str.Substring(6, Len(str) - 6)
                                 Dim SN_Baru As String = Kode_Unik & Tanda_SN & "01" & Tanda_SN & harga & Tanda_SN & "02" & Tanda_SN & Format(DateTime.Now, "yyyy-MM-dd")
-
 
                                 SQL = "Update barang Set "
                                 SQL = SQL & "good_stock = good_stock + " & .Rows(index).Item("jumlah") & ", "
@@ -1387,11 +1372,29 @@ Public Class EMI_Timbang_Unloading
                                     Loop
                                 End Using
 
+                                '=========================
+                                '=     GET TGL MASUK     =
+                                '=========================
+                                Dim TglMasuk As String = ""
+                                SQL = "select Tanggal_Masuk from EMI_Pembelian_Loading where No_Faktur = '" & .Rows(index).Item("No_Pembelian_Loading") & "' and No_SJ = '" & .Rows(index).Item("No_SJ") & "' "
+                                SQL = SQL & "and Flag_Timbang_Keluar is null and status is null "
+                                Using Dr2 = OpenTrans(SQL)
+                                    If Dr2.Read Then
+
+                                        TglMasuk = Format(Dr2("Tanggal_Masuk"), "yyyy-MM-dd")
+                                    Else
+                                        Dr2.Close()
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Tanggal Masuk Tidak DiTemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+                                End Using
 
                                 SQL = "insert into Barang_SN(kode_perusahaan, kode_stock_owner, kode_barang, "
                                 SQL = SQL & "serial_number, jumlah, Tgl_Produksi, Tgl_Expired, Id_Warehouse, "
                                 SQL = SQL & "id_Susunan, Nomor_Pallet, Kode_Unik_Asal, Kode_Unik_Berjalan, "
-                                SQL = SQL & "Jumlah_Bags, Qr_Code, Batch_Number, warna) "
+                                SQL = SQL & "Jumlah_Bags, Qr_Code, Batch_Number, warna, Tgl_masuk) "
                                 SQL = SQL & "Values( "
                                 SQL = SQL & "'" & KodePerusahaan & "','" & .Rows(index).Item("kode_stock_owner") & "', "
                                 SQL = SQL & "'" & .Rows(index).Item("kode_barang") & "','" & SN_Baru & "', "
@@ -1400,7 +1403,8 @@ Public Class EMI_Timbang_Unloading
                                 SQL = SQL & "'" & .Rows(index).Item("id_Susunan") & "','" & available_NoPallet & "', "
                                 SQL = SQL & "'" & .Rows(index).Item("Kode_Unik_Asal") & "','" & .Rows(index).Item("Kode_Unik_Berjalan") & "', "
                                 SQL = SQL & "'" & .Rows(index).Item("Jumlah_Bags") & "','" & .Rows(index).Item("Qr_Code") & "', "
-                                SQL = SQL & "'" & .Rows(index).Item("Batch_Number") & "','" & .Rows(index).Item("warna") & "') "
+                                SQL = SQL & "'" & .Rows(index).Item("Batch_Number") & "','" & .Rows(index).Item("warna") & "', "
+                                SQL = SQL & "'" & TglMasuk & "')"
                                 ExecuteTrans(SQL)
 
                                 SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_sn x "
@@ -1449,13 +1453,12 @@ Public Class EMI_Timbang_Unloading
                     End With
                 End Using
 
-                If total_hpp <> Total_HPP_PO Then
-                    CloseTrans()
-                    CloseConn()
-                    MessageBox.Show("Data Tidak Sinkron")
-                    Exit Sub
-                End If
-
+                '''If total_hpp <> Total_HPP_PO Then
+                '''    CloseTrans()
+                '''    CloseConn()
+                '''    MessageBox.Show("Data Tidak Sinkron")
+                '''    Exit Sub
+                '''End If
 
                 SQL = "Update EMI_Pembelian_Loading "
                 SQL = SQL & "Set Flag_Proses_loading = null "
@@ -1491,7 +1494,6 @@ Public Class EMI_Timbang_Unloading
                     If flag_HPP = "Y" Then
                         Jurnal_Import()
                     End If
-
                 Else
                     Jurnal_Lokal()
                 End If
@@ -1508,18 +1510,15 @@ Public Class EMI_Timbang_Unloading
 
                 MessageBox.Show(Base_Language.Lang_Global_Sukses_Simpan, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
-
                 'Exit Sub
 
             End If
-
         Catch ex As Exception
             CloseTrans()
             CloseConn()
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-
 
         '=====================
         '=       CETAK       =
@@ -1529,7 +1528,6 @@ Public Class EMI_Timbang_Unloading
 
             Dim CrDoc As New Object
             Dim kertas As String = ""
-
 
             ''REPORT
 
@@ -1556,7 +1554,7 @@ Public Class EMI_Timbang_Unloading
 
                         'CrDoc.SetDataSource(Ds)
                         'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        ''CrDoc.PrintOptions.PrinterName = "EPSON LX-310 ESC/P"
+                        ''CrDoc.PrintOptions.PrinterName = "EPSON LX-310 ESC/P ESC/P"
 
                         'Dim printDialog As New PrintDialog()
                         'If printDialog.ShowDialog() = DialogResult.OK Then
@@ -1582,22 +1580,20 @@ Public Class EMI_Timbang_Unloading
                         'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
                         'CrDoc.PrintToPrinter(1, False, 1, 99)
 
-
                         '================================================================================================================================================================================================================================
                         '================================================================================================================================================================================================================================
-
 
                         CrDoc = New Rpt_Surat_Perintah_Bongkar
                         kertas = "Faktur"
 
                         CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.PrintOptions.PrinterName = "EPSON LX-310 ESC/P"
+                        CrDoc.PrintOptions.PrinterName = PrinterNameSPB
                         CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
                         'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
                         Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        doctoprint.PrinterSettings.PrinterName = "EPSON LX-310 ESC/P"
+                        doctoprint.PrinterSettings.PrinterName = PrinterNameSPB
                         Dim rawKind As Integer
                         CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
                         For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
@@ -1638,12 +1634,12 @@ Public Class EMI_Timbang_Unloading
 
                         CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.PrintOptions.PrinterName = "EPSON LX-310 ESC/P"
+                        CrDoc.PrintOptions.PrinterName = PrinterNameBPB
                         CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
                         'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
                         Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        doctoprint.PrinterSettings.PrinterName = "EPSON LX-310 ESC/P"
+                        doctoprint.PrinterSettings.PrinterName = PrinterNameBPB
                         Dim rawKind As Integer
                         CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
                         For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
@@ -1680,12 +1676,12 @@ Public Class EMI_Timbang_Unloading
 
                         CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.PrintOptions.PrinterName = "EPSON LX-310 ESC/P"
+                        CrDoc.PrintOptions.PrinterName = PrinterNameBuktiTimbang
                         CrDoc.RecordSelectionFormula = "{Vw_Bukti_Timbang.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Bukti_Timbang.No_Faktur}='" & No_Faktur & "' "
                         'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
                         Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        doctoprint.PrinterSettings.PrinterName = "EPSON LX-310 ESC/P"
+                        doctoprint.PrinterSettings.PrinterName = PrinterNameBuktiTimbang
                         Dim rawKind As Integer
                         CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
                         For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
@@ -1698,7 +1694,6 @@ Public Class EMI_Timbang_Unloading
 
                         CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
                         CrDoc.PrintToPrinter(1, False, 1, 99)
-
 
                     End If
                 End Using
@@ -1750,14 +1745,12 @@ Public Class EMI_Timbang_Unloading
             Exit Sub
         End If
 
-
         'If getSumOfJumlah() > Val(HilangkanTanda(Txt_Netto.Text)) Then
 
         '    MessageBox.Show("Jumlah Berlebih dari berat Netto", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         '    DgvPO.CurrentRow.Cells(ItemJumlahMasuk).Value = 0
         '    Exit Sub
         'End If
-
 
     End Sub
 
@@ -1786,8 +1779,8 @@ Public Class EMI_Timbang_Unloading
             End If
         Next
 
-
     End Sub
+
     Private Sub getSumOfBerat()
         Dim totalJumlah As Double = 0
         Dim totalBags As Double = 0
@@ -1868,8 +1861,6 @@ Public Class EMI_Timbang_Unloading
                             i += 1
                         Loop
                     End Using
-
-
                 Else
                     id_rencana_group = "'" & id_rencana & "'"
                 End If
@@ -1908,7 +1899,6 @@ Public Class EMI_Timbang_Unloading
             If Dr.Read Then
                 'akun_persediaan_dari = Dr("persediaan")
                 inisial_faktur_dari = Dr("inisial_faktur")
-
             Else
                 Dr.Close()
                 CloseTrans()
@@ -2014,7 +2004,6 @@ Public Class EMI_Timbang_Unloading
 
         Dim ket As String = Strings.Left(Txt_NoFaktur.Text & "; " & PO_Induk & "; " & Konte_group & "; " & Kategori_Group & "; " & Lokasi_Group, 180)
 
-
         'inser jurnal ard
         Dim coa_Hutang_Dalam_Proses As String = ""
         Dim coa_Selisih_Hutang_Import As String = ""
@@ -2035,7 +2024,6 @@ Public Class EMI_Timbang_Unloading
         Dim coa_Selisih_PO_Biaya As String = ""
         Dim coa_selisih_new
         Dim Metode_Hitung_Konte As String = ""
-
 
         SQL = "select hutang_pph_billing, pph_billing, Metode_Hitung_Konte, Hutang_Dalam_Proses, Selisih_Hutang_Import, Hutang_Billing_Import, "
         SQL = SQL & "Hutang_Storage_Import, Hutang_Freight_Import, Akun_Tot_Pot_Stock, "
@@ -2101,10 +2089,6 @@ Public Class EMI_Timbang_Unloading
                 Exit Sub
             End If
         End Using
-
-
-
-
 
         Dim Arr_Biaya_Import_Master As New ArrayList
         Dim Arr_Biaya_Import As New ArrayList
@@ -2230,9 +2214,7 @@ Public Class EMI_Timbang_Unloading
                         Using dr = OpenTrans(SQL)
                             If dr.Read Then
 
-
                                 For index1 As Integer = 0 To Arr_Biaya_Import_Kategori.Count - 1
-
 
                                     If Arr_Biaya_Import_Kategori.Item(index1) = .Rows(index3).Item("Kode_kategori_biaya_import") Then
 
@@ -2259,7 +2241,6 @@ Public Class EMI_Timbang_Unloading
                             End If
                         End Using
 
-
                         ' ''SQL = "select a.No_Faktur, b.Kode_Stock_Owner, b.Kode_Barang, b.Jumlah, "
                         ' ''SQL = SQL & "c.Kode_Kategori_Biaya_Import, c.Biaya2/Jumlah as Biaya2, c.Biaya_AVG2/Jumlah as Biaya_AVG2, "
                         ' ''SQL = SQL & "c.Biayawetdry/Jumlah as Biayawetdry, c.Biayawetdry_AVG/Jumlah as Biayawetdry_AVG, c.Flag_Average "
@@ -2270,9 +2251,7 @@ Public Class EMI_Timbang_Unloading
                         ' ''Using dr = OpenTrans(SQL)
                         ' ''    If dr.Read Then
 
-
                         ' ''        For index1 As Integer = 0 To Arr_Biaya_Import_Kategori.Count - 1
-
 
                         ' ''            If Arr_Biaya_Import_Kategori.Item(index1) = .Rows(index3).Item("Kode_kategori_biaya_import") Then
 
@@ -2299,13 +2278,10 @@ Public Class EMI_Timbang_Unloading
                         ' ''    End If
                         ' ''End Using
 
-
                     Next
                 End With
 
-
             End Using
-
 
             SQL = "select b.Kode_Master_Kategori_Biaya_Import, b.kode_kategori_biaya_import, c.Flag_Masuk_Jurnal, B.Kode_Stock_Owner, "
             SQL = SQL & "round(sum(b.total), 0) as Biaya, "
@@ -2345,9 +2321,7 @@ Public Class EMI_Timbang_Unloading
                         Using dr = OpenTrans(SQL)
                             If dr.Read Then
 
-
                                 For index1 As Integer = 0 To Arr_Biaya_Bongkar_Import.Count - 1
-
 
                                     If Arr_Biaya_Bongkar_Import_Kategori.Item(index1) = .Rows(index3).Item("Kode_kategori_biaya_import") Then
 
@@ -2376,14 +2350,10 @@ Public Class EMI_Timbang_Unloading
                             End If
                         End Using
 
-
                     Next
                 End With
 
-
             End Using
-
-
 
             SQL = "select b.Kode_Master_Kategori_Biaya_Import, b.kode_kategori_biaya_import, c.Flag_Masuk_Jurnal "
 
@@ -2413,14 +2383,11 @@ Public Class EMI_Timbang_Unloading
                             End If
                         End Using
 
-
                     Next
                 End With
 
-
             End Using
         Next
-
 
         pib = Val(HilangkanTanda(Format(pib, "N0")))
 
@@ -2458,9 +2425,6 @@ Public Class EMI_Timbang_Unloading
             End If
         End Using
 
-
-
-
         For index As Integer = 0 To Arr_Biaya_Import_Master.Count - 1
 
             SQL = "select* from Detail_Account_Master where "
@@ -2495,13 +2459,9 @@ Public Class EMI_Timbang_Unloading
 
         Next
 
-
-
         If PPN <> 0 Then
             Biaya_PPN = HilangkanTanda(Format(Hutang_Dalam_Proses * PPN / 100, "N0"))
         End If
-
-
 
         If Flag_Average_Sup = "Y" Then
             Selisih_Import_AVG = Biaya_Import_AVG - (Biaya_Import_Total + freigt)
@@ -2510,17 +2470,13 @@ Public Class EMI_Timbang_Unloading
         Selisih_Hutang = (Hutang_Dalam_Proses + Biaya_PPN + pph_billing) - (Biaya_Import_Total + Selisih_Import_AVG + Billing + Storage + freigt + pph_pakai_persentase + Tot_Pot_Stock_IDR + Tdk_Pot_Stock_IDR + Tdk_Pot_Stock_Hutang_IDR_Utama + Tdk_Pot_Stock_Hutang_IDR_Penolong + pib + (Biaya_PPN - pib) + pph_billing + Selisih_PO + Selisih_PO_Biaya)
         Selisih_Hutang = Val(HilangkanTanda(Format(Selisih_Hutang, "N0")))
 
-
-
         Dim Kode_voucher As String = ""
         Kode_voucher = GetLastNumberJurnal(Format(tgl_skg, "yyyyMM"), "JS" & inisial_faktur_dari, KodePerusahaan)
 
         Dim kode_voucher2_ As String = "NULL"
         Dim Kode_Voucher2 As String = ""
 
-
         Dim sudah_jurnal As Boolean = False
-
 
         Dim pagenumber As Integer = 1
         Dim pagenumber2 As Integer = 1
@@ -2533,7 +2489,6 @@ Public Class EMI_Timbang_Unloading
         SQL = SQL & "'" & KodeProyek & "', 'Pembelian " & Txt_NoFaktur.Text & "', '', "
         SQL = SQL & "'-', '" & UserID & "')"
         ExecuteTrans(SQL)
-
 
         SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Hutang_Dalam_Proses, 1),
                     Strings.Mid(coa_Hutang_Dalam_Proses, 2, 1),
@@ -2845,7 +2800,6 @@ Public Class EMI_Timbang_Unloading
                         KodePerusahaan, KodeProyek, ket, Math.Abs(Selisih_PO), "0", pagenumber, "BELUM")
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
-
             Else
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Selisih_PO, 1),
                         Strings.Mid(coa_Selisih_PO, 2, 1),
@@ -2870,7 +2824,6 @@ Public Class EMI_Timbang_Unloading
                         KodePerusahaan, KodeProyek, ket, Math.Abs(Selisih_PO_Biaya), "0", pagenumber, "BELUM")
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
-
             Else
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Selisih_PO_Biaya, 1),
                         Strings.Mid(coa_Selisih_PO_Biaya, 2, 1),
@@ -2896,7 +2849,6 @@ Public Class EMI_Timbang_Unloading
                         KodePerusahaan, KodeProyek, ket, Math.Abs(Selisih_Hutang), "0", pagenumber, "BELUM")
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
-
             Else
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Selisih_Hutang_Import, 1),
                         Strings.Mid(coa_Selisih_Hutang_Import, 2, 1),
@@ -2964,7 +2916,6 @@ Public Class EMI_Timbang_Unloading
                 SQL = SQL & "'Selisih PIB', '" & -(Biaya_PPN - pib) & "', "
                 SQL = SQL & "'" & coa_selisih_pib & "')"
                 ExecuteTrans(SQL)
-
             Else
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_selisih_pib, 1),
                     Strings.Mid(coa_selisih_pib, 2, 1),
@@ -3058,7 +3009,6 @@ Public Class EMI_Timbang_Unloading
                 sudah_jurnal = True
             End If
 
-
             'voucher selisih sebelum
             Dim total_selish As Double = Selisih_PO + Selisih_PO_Biaya
             If total_selish > 0 Then
@@ -3068,7 +3018,7 @@ Public Class EMI_Timbang_Unloading
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
                         Dr.Close()
-                        'update 
+                        'update
 
                         SQL = "update detail_jurnal set kredit = kredit+ " & total_selish & " where "
                         SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
@@ -3093,7 +3043,7 @@ Public Class EMI_Timbang_Unloading
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
                         Dr.Close()
-                        'update 
+                        'update
 
                         SQL = "update detail_jurnal set debit = debit+ " & Math.Abs(total_selish) & " where "
                         SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
@@ -3118,7 +3068,7 @@ Public Class EMI_Timbang_Unloading
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
                         Dr.Close()
-                        'update 
+                        'update
 
                         SQL = "update detail_jurnal set debit = debit+ " & Math.Abs(total_selish) & " where "
                         SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
@@ -3143,7 +3093,7 @@ Public Class EMI_Timbang_Unloading
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
                         Dr.Close()
-                        'update 
+                        'update
 
                         SQL = "update detail_jurnal set kredit = kredit+ " & Math.Abs(total_selish) & " where "
                         SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
@@ -3188,7 +3138,6 @@ Public Class EMI_Timbang_Unloading
             End Using
         End If
 
-
         SQL = "Update EMI_Timbang_Unloading "
         SQL = SQL & "Set Kode_Voucher = '" & Kode_voucher & "' "
         SQL = SQL & "Where Kode_Perusahaan = '" & KodePerusahaan & "' "
@@ -3224,7 +3173,6 @@ Public Class EMI_Timbang_Unloading
             If Dr.Read Then
                 'akun_persediaan_dari = Dr("persediaan")
                 inisial_faktur_dari = Dr("inisial_faktur")
-
             Else
                 Dr.Close()
                 CloseTrans()
@@ -3243,7 +3191,6 @@ Public Class EMI_Timbang_Unloading
 
                 flag_HPP = General_Class.CekNULL(Dr("Flag_Import_HPP"))
                 flag_import = General_Class.CekNULL(Dr("Flag_Import"))
-
             Else
                 Dr.Close()
                 CloseTrans()
@@ -3327,7 +3274,6 @@ Public Class EMI_Timbang_Unloading
 
                     akun_hutang = Dr("hutang")
                     akun_ppn = Dr("PPN_Pembelian")
-
                 Else
                     Dr.Close()
                     CloseTrans()
@@ -3404,7 +3350,6 @@ Public Class EMI_Timbang_Unloading
                 End If
             End Using
 
-
             'UBAH KE SATUAN PO
             SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & LvKdBarang & "',"
             SQL = SQL & "'" & Satuan & "','" & Satuan_Barang & "',"
@@ -3431,7 +3376,7 @@ Public Class EMI_Timbang_Unloading
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     Dr.Close()
-                    'update 
+                    'update
 
                     SQL = "update detail_jurnal set debit = debit+ " & TotalHPP & " where "
                     SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
@@ -3458,7 +3403,7 @@ Public Class EMI_Timbang_Unloading
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     Dr.Close()
-                    'update 
+                    'update
 
                     SQL = "update detail_jurnal set debit = debit+ " & Nilai_PPN & " where "
                     SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
@@ -3485,7 +3430,7 @@ Public Class EMI_Timbang_Unloading
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     Dr.Close()
-                    'update 
+                    'update
 
                     SQL = "update detail_jurnal set kredit = kredit+ " & Nilai_PPN + TotalHPP & " where "
                     SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
@@ -3536,8 +3481,5 @@ Public Class EMI_Timbang_Unloading
 
         isError = True
     End Sub
-
-
-
 
 End Class
