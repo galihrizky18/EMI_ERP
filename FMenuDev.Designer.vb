@@ -97,6 +97,8 @@ Partial Class FMenuDev
         Me.RestockToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DisplayToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.RestockToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MasterDataToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MasterBarangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel4 = New System.Windows.Forms.ToolStripStatusLabel()
@@ -104,15 +106,18 @@ Partial Class FMenuDev
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
-        Me.MasterDataToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MasterBarangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TesToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.HCToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MasterRekrutmentDisplayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TesPrintToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalesToolStripMenuItem, Me.RequestMaterialToolStripMenuItem, Me.PurchaseToolStripMenuItem, Me.WarehouseToolStripMenuItem, Me.ProductionToolStripMenuItem, Me.ImportToolStripMenuItem, Me.InventoryToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalesToolStripMenuItem, Me.RequestMaterialToolStripMenuItem, Me.PurchaseToolStripMenuItem, Me.WarehouseToolStripMenuItem, Me.ProductionToolStripMenuItem, Me.ImportToolStripMenuItem, Me.InventoryToolStripMenuItem, Me.HCToolStripMenuItem, Me.TesToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(1088, 24)
@@ -558,7 +563,7 @@ Partial Class FMenuDev
         '
         Me.TransasksiToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AdjustmentToolStripMenuItem, Me.RestockToolStripMenuItem})
         Me.TransasksiToolStripMenuItem.Name = "TransasksiToolStripMenuItem"
-        Me.TransasksiToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.TransasksiToolStripMenuItem.Size = New System.Drawing.Size(137, 22)
         Me.TransasksiToolStripMenuItem.Text = "Transasksi"
         '
         'AdjustmentToolStripMenuItem
@@ -577,7 +582,7 @@ Partial Class FMenuDev
         '
         Me.DisplayToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RestockToolStripMenuItem1})
         Me.DisplayToolStripMenuItem2.Name = "DisplayToolStripMenuItem2"
-        Me.DisplayToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
+        Me.DisplayToolStripMenuItem2.Size = New System.Drawing.Size(137, 22)
         Me.DisplayToolStripMenuItem2.Text = "Display"
         '
         'RestockToolStripMenuItem1
@@ -585,6 +590,19 @@ Partial Class FMenuDev
         Me.RestockToolStripMenuItem1.Name = "RestockToolStripMenuItem1"
         Me.RestockToolStripMenuItem1.Size = New System.Drawing.Size(115, 22)
         Me.RestockToolStripMenuItem1.Text = "Restock"
+        '
+        'MasterDataToolStripMenuItem2
+        '
+        Me.MasterDataToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterBarangToolStripMenuItem})
+        Me.MasterDataToolStripMenuItem2.Name = "MasterDataToolStripMenuItem2"
+        Me.MasterDataToolStripMenuItem2.Size = New System.Drawing.Size(137, 22)
+        Me.MasterDataToolStripMenuItem2.Text = "Master Data"
+        '
+        'MasterBarangToolStripMenuItem
+        '
+        Me.MasterBarangToolStripMenuItem.Name = "MasterBarangToolStripMenuItem"
+        Me.MasterBarangToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.MasterBarangToolStripMenuItem.Text = "Master Barang"
         '
         'StatusStrip1
         '
@@ -632,18 +650,37 @@ Partial Class FMenuDev
         Me.Timer2.Enabled = True
         Me.Timer2.Interval = 1800000
         '
-        'MasterDataToolStripMenuItem2
+        'TesToolStripMenuItem
         '
-        Me.MasterDataToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterBarangToolStripMenuItem})
-        Me.MasterDataToolStripMenuItem2.Name = "MasterDataToolStripMenuItem2"
-        Me.MasterDataToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
-        Me.MasterDataToolStripMenuItem2.Text = "Master Data"
+        Me.TesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TesToolStripMenuItem1, Me.TesPrintToolStripMenuItem})
+        Me.TesToolStripMenuItem.Name = "TesToolStripMenuItem"
+        Me.TesToolStripMenuItem.Size = New System.Drawing.Size(36, 20)
+        Me.TesToolStripMenuItem.Text = "Tes"
         '
-        'MasterBarangToolStripMenuItem
+        'TesToolStripMenuItem1
         '
-        Me.MasterBarangToolStripMenuItem.Name = "MasterBarangToolStripMenuItem"
-        Me.MasterBarangToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.MasterBarangToolStripMenuItem.Text = "Master Barang"
+        Me.TesToolStripMenuItem1.Name = "TesToolStripMenuItem1"
+        Me.TesToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.TesToolStripMenuItem1.Text = "Tes"
+        '
+        'HCToolStripMenuItem
+        '
+        Me.HCToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterRekrutmentDisplayToolStripMenuItem})
+        Me.HCToolStripMenuItem.Name = "HCToolStripMenuItem"
+        Me.HCToolStripMenuItem.Size = New System.Drawing.Size(36, 20)
+        Me.HCToolStripMenuItem.Text = "HC"
+        '
+        'MasterRekrutmentDisplayToolStripMenuItem
+        '
+        Me.MasterRekrutmentDisplayToolStripMenuItem.Name = "MasterRekrutmentDisplayToolStripMenuItem"
+        Me.MasterRekrutmentDisplayToolStripMenuItem.Size = New System.Drawing.Size(216, 22)
+        Me.MasterRekrutmentDisplayToolStripMenuItem.Text = "Master Rekrutment Display"
+        '
+        'TesPrintToolStripMenuItem
+        '
+        Me.TesPrintToolStripMenuItem.Name = "TesPrintToolStripMenuItem"
+        Me.TesPrintToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.TesPrintToolStripMenuItem.Text = "Tes Print"
         '
         'FMenuDev
         '
@@ -750,4 +787,9 @@ Partial Class FMenuDev
     Friend WithEvents WorkCenter2ToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MasterDataToolStripMenuItem2 As ToolStripMenuItem
     Friend WithEvents MasterBarangToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TesToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TesToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents HCToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MasterRekrutmentDisplayToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TesPrintToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -457,6 +457,31 @@
         Master_Barang_New.Focus()
     End Sub
 
+    Private Sub TesToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles TesToolStripMenuItem1.Click
+        Tes.StartPosition = FormStartPosition.CenterScreen
+
+        Tes.MdiParent = Me
+        Tes.Show()
+        Tes.Focus()
+    End Sub
+
+    Private Sub MasterRekrutmentDisplayToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterRekrutmentDisplayToolStripMenuItem.Click
+        Jf_Master_Rekrutmen_Display_Input.StartPosition = FormStartPosition.CenterScreen
+
+        Jf_Master_Rekrutmen_Display_Input.MdiParent = Me
+        Jf_Master_Rekrutmen_Display_Input.Show()
+        Jf_Master_Rekrutmen_Display_Input.Focus()
+    End Sub
+
+    Private Sub TesPrintToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TesPrintToolStripMenuItem.Click
+
+        TesPrint.StartPosition = FormStartPosition.CenterScreen
+
+        TesPrint.MdiParent = Me
+        TesPrint.Show()
+        TesPrint.Focus()
+    End Sub
+
 
 
 

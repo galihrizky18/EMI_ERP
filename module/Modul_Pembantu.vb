@@ -1,4 +1,5 @@
-﻿Imports System.Text
+﻿Imports System.Globalization
+Imports System.Text
 
 Public Class Modul_Pembantu
 
@@ -88,9 +89,12 @@ Public Class Modul_Pembantu
     '======================================================================================================================================================================================================
 
     Private Sub CellEndEdit()
+
+        'If Not DataGridView1.Rows.Count = 0 Then
         ''======================
         ''=     SET FORMAT     =
         ''======================
+        'Dim culture As CultureInfo = CultureInfo.CurrentCulture
 
         'If Dgv_DataBarang.CurrentCell.ColumnIndex = CellQty Then
 
@@ -98,18 +102,21 @@ Public Class Modul_Pembantu
 
         '    If cellKuantity.Contains(",") Then
         '        MessageBox.Show("Kuantity Tidak Boleh Koma, Ganti dengan Titik", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        '        Dgv_DataBarang.CurrentRow.Cells(CellQty).Value = Format(0, "N2")
+        '        Dgv_Data.CurrentCell.Value = Format(0, "N2")
         '        Exit Sub
         '    End If
 
         '    Dim nilai As Decimal = Decimal.Parse(cellKuantity)
-        '    Dim formattedValue As String = nilai.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
+        '    Dim formattedValue As String = nilai.ToString("N2", culture)
 
         '    Dgv_DataBarang.CurrentRow.Cells(CellQty).Value = formattedValue
+        'End If
         'End If
     End Sub
 
     Private Sub CellEnter()
+
+        'If Not DataGridView1.Rows.Count = 0 Then
         ''======================
         ''=     SET FORMAT     =
         ''======================
@@ -126,12 +133,16 @@ Public Class Modul_Pembantu
 
         '    Dgv_DataBarang.CurrentCell.Value = nilai
         'End If
+        'End If
     End Sub
 
     Private Sub CellLeave()
+        'If Not DataGridView1.Rows.Count = 0 Then
+
         ''======================
         ''=     SET FORMAT     =
         ''======================
+        'Dim culture As CultureInfo = CultureInfo.CurrentCulture
 
         'If Dgv_DataBarang.CurrentCell.ColumnIndex = CellQty Then
         '    Dim cellKuantity As String = Dgv_DataBarang.CurrentCell.Value
@@ -142,13 +153,71 @@ Public Class Modul_Pembantu
 
 
         '    Dim nilai As Decimal = Decimal.Parse(cellKuantity)
-        '    Dim formattedValue As String = nilai.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
+        '    Dim formattedValue As String = nilai.ToString("N2", culture)
 
         '    Dgv_DataBarang.CurrentCell.Value = formattedValue
 
         'End If
+        'End If
     End Sub
 
+
+    Private Sub Format_Currency_Leave()
+        'If Not Txt_Fix.Text.Length = 0 Then
+        '    Try
+
+
+        '        Dim culture As CultureInfo = CultureInfo.CurrentCulture
+        '        'Dim input As String = Txt_Fix.Text.Replace(culture.NumberFormat.CurrencySymbol, "").Replace(",", "").Trim()
+        '        Dim input As String = HilangkanTanda(Txt_Fix.Text)
+
+        '        If Txt_Fix.Text.Contains(",") Then
+        '            MessageBox.Show("Kuantity Tidak Boleh Koma, Ganti dengan Titik", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '            Txt_Fix.Text = ""
+        '            Exit Sub
+        '        End If
+
+        '        If IsNumeric(input) Then
+        '            If input.Length > Decimal.MaxValue Then
+        '                MessageBox.Show("Angka Terlalu Panjang", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '                Txt_Fix.Text = ""
+        '                Exit Sub
+        '            End If
+
+        '            Dim value As Decimal = Convert.ToDecimal(input)
+        '            'Txt_Fix.Text = culture.NumberFormat.CurrencySymbol & " " & value.ToString("N2", culture) ' Jika Dengan Simbol Mata Uang
+        '            Txt_Fix.Text = value.ToString("N2", culture) ' Jika Dengan Simbol Mata Uang
+        '        Else
+        '            MessageBox.Show("Kuantity Harus Berupa Angka!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        '            Txt_Fix.Text = ""
+        '        End If
+
+        '    Catch ex As Exception
+        '        MessageBox.Show("Terjadi Kesalahan saat Convert", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        Txt_Fix.Text = ""
+        '        Exit Sub
+        '    End Try
+        'End If
+    End Sub
+
+    Private Sub Format_Currency_Enter()
+        'If Not Txt_Fix.Text.Length = 0 Then
+        '    Try
+
+        '        Dim culture As CultureInfo = CultureInfo.CurrentCulture
+        '        'Txt_Fix.Text = Txt_Fix.Text.Replace(culture.NumberFormat.CurrencySymbol, "").Trim() ' Jika Dengan Simbol Mata Uang
+
+        '        Dim cleanedStr As String = HilangkanTanda(Txt_Fix.Text).Trim() ' Menghapus titik
+        '        Dim nilai As Decimal = Decimal.Parse(Val(cleanedStr))
+        '        Txt_Fix.Text = nilai
+
+        '    Catch ex As Exception
+        '        MessageBox.Show("Terjadi Kesalahan saat Convert", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        Txt_Fix.Text = ""
+        '        Exit Sub
+        '    End Try
+        'End If
+    End Sub
 
 
 

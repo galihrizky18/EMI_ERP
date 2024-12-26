@@ -1,68 +1,112 @@
-﻿Imports Newtonsoft.Json.Linq
+﻿Imports System.Globalization
+Imports System.Text.RegularExpressions
 
-Public Class TEs
+Public Class Tes
 
-    Private Sub TEs_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+
+    Private Sub Tes_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
     End Sub
 
-    Private Sub TEs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Tes_Load(sender As Object, e As EventArgs) Handles Me.Load
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
     End Sub
 
-    Private Sub DataGridView1_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellEndEdit
 
-        Dim value1 As String = DataGridView1.CurrentRow.Cells(0).Value
-        Dim value2 As String = DataGridView1.CurrentRow.Cells(1).Value
+    Private Sub TextBox2_Leave(sender As Object, e As EventArgs) Handles TextBox2.Leave
+        If Not TextBox2.Text.Length = 0 Then
+            Try
 
-        Dim nilai As Decimal = Decimal.Parse(value1)
-        Dim formattedValue As String = nilai.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
+                Dim culture As CultureInfo = CultureInfo.CurrentCulture
+                Dim input As String = TextBox2.Text.Replace(culture.NumberFormat.CurrencySymbol, "").Replace(",", "").Trim()
 
-        DataGridView1.CurrentRow.Cells(0).Value = formattedValue
+                If IsNumeric(input) Then
+                    Dim value As Decimal = Convert.ToDouble(input)
+                    TextBox2.Text = culture.NumberFormat.CurrencySymbol & " " & value.ToString("N2", culture) ' Tambahkan jarak dengan format
+                Else
+                    MessageBox.Show("Invalid input!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    TextBox2.Text = ""
+                End If
 
-    End Sub
-
-    Private Sub DataGridView1_CellLeave(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellLeave
-
-        If DataGridView1.CurrentCell.ColumnIndex = 0 Then
-            Dim value1 As String = DataGridView1.CurrentRow.Cells(0).Value
-
-            If Not String.IsNullOrEmpty(value1) Then
-
-                Dim nilai As Decimal = Decimal.Parse(value1)
-                Dim formattedValue As String = nilai.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
-
-                DataGridView1.CurrentRow.Cells(0).Value = formattedValue
-            End If
-        End If
-
-
-
-    End Sub
-
-    Private Sub DataGridView1_CellEnter(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellEnter
-
-        If DataGridView1.CurrentCell.ColumnIndex = 0 Then
-
-            Dim asdada As String = DataGridView1.CurrentCell.Value
-
-            If asdada = "" Then
+            Catch ex As Exception
+                MessageBox.Show("Terjadi Kesalahan saat Convert", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                TextBox2.Text = ""
                 Exit Sub
-            End If
-
-            Dim cleanedStr As String = asdada.Replace(",", "") ' Menghapus titik
-            Dim nilai As Decimal = Decimal.Parse(cleanedStr)
-
-            DataGridView1.CurrentCell.Value = nilai
+            End Try
         End If
     End Sub
 
-    Private Sub TesGit()
-        MessageBox.Show("Tes Git 1")
-        MessageBox.Show("Tes Git from other device")
-        MessageBox.Show("Tes Git from other device 2")
+    Private Sub TextBox2_Enter(sender As Object, e As EventArgs) Handles TextBox2.Enter
+        If Not TextBox2.Text.Length = 0 Then
+            Try
+                Dim culture As CultureInfo = CultureInfo.CurrentCulture
+                TextBox2.Text = TextBox2.Text.Replace(culture.NumberFormat.CurrencySymbol, "").Trim()
+
+                Dim cleanedStr As String = HilangkanTanda(TextBox2.Text) ' Menghapus titik
+                Dim nilai As Decimal = Decimal.Parse(Val(cleanedStr))
+                TextBox2.Text = nilai
+            Catch ex As Exception
+                MessageBox.Show("Terjadi Kesalahan saat Convert", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                TextBox2.Text = ""
+                Exit Sub
+            End Try
+        End If
+    End Sub
+
+
+    '=========================================
+    Private Sub Txt_Fix_Leave(sender As Object, e As EventArgs) Handles Txt_Fix.Leave
+        If Not Txt_Fix.Text.Length = 0 Then
+
+            Try
+
+                Dim culture As CultureInfo = CultureInfo.CurrentCulture
+                'Dim input As String = Txt_Fix.Text.Replace(culture.NumberFormat.CurrencySymbol, "").Replace(",", "").Trim()
+                Dim input As String = HilangkanTanda(Txt_Fix.Text)
+
+                If Txt_Fix.Text.Contains(",") Then
+                    MessageBox.Show("Kuantity Tidak Boleh Koma, Ganti dengan Titik", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Txt_Fix.Text = ""
+                    Exit Sub
+                End If
+
+                If IsNumeric(input) Then
+
+                    Dim value As Decimal = Convert.ToDouble(input)
+                    'Txt_Fix.Text = culture.NumberFormat.CurrencySymbol & " " & value.ToString("N2", culture) ' Jika Dengan Simbol Mata Uang
+                    Txt_Fix.Text = value.ToString("N2", culture) ' Jika Dengan Simbol Mata Uang
+                Else
+                    MessageBox.Show("Kuantity Harus Berupa Angka!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Txt_Fix.Text = ""
+                End If
+
+            Catch ex As Exception
+                MessageBox.Show("Terjadi Kesalahan saat Convert", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Txt_Fix.Text = ""
+                Exit Sub
+            End Try
+        End If
+    End Sub
+
+    Private Sub Txt_Fix_Enter(sender As Object, e As EventArgs) Handles Txt_Fix.Enter
+        If Not Txt_Fix.Text.Length = 0 Then
+            Try
+
+                Dim culture As CultureInfo = CultureInfo.CurrentCulture
+                'Txt_Fix.Text = Txt_Fix.Text.Replace(culture.NumberFormat.CurrencySymbol, "").Trim() ' Jika Dengan Simbol Mata Uang
+
+                Dim cleanedStr As String = HilangkanTanda(Txt_Fix.Text).Trim() ' Menghapus titik
+                Dim nilai As Decimal = Decimal.Parse(Val(cleanedStr))
+                Txt_Fix.Text = nilai
+
+            Catch ex As Exception
+                MessageBox.Show("Terjadi Kesalahan saat Convert", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Txt_Fix.Text = ""
+                Exit Sub
+            End Try
+        End If
     End Sub
 
 End Class
