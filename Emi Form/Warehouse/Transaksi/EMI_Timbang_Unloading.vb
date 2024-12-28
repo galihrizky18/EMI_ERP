@@ -210,7 +210,7 @@ Public Class EMI_Timbang_Unloading
                 Lbl_Judul.Text = "Transaksi - Timbang 1 " 'Base_Language.Lang_TransUnloading_Judul + " | " + Base_Language.Lang_Global_Bruto
                 DgvPO.Columns(ItemJumlahMasuk).Visible = False
                 DgvPO.Columns(ItemJumlahMasuk).ReadOnly = True
-                DgvPO.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+                'DgvPO.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
 
                 Txt_Timbang1.Text = Txt_Timbangan.Text
                 Txt_Timbang2.Enabled = False
@@ -222,7 +222,7 @@ Public Class EMI_Timbang_Unloading
                 Lbl_Judul.Text = "Transaksi - Timbang 2 " 'Base_Language.Lang_TransUnloading_Judul + " | " + Base_Language.Lang_Global_Tara
                 DgvPO.Columns(ItemJumlahMasuk).Visible = True
                 DgvPO.Columns(ItemJumlahMasuk).ReadOnly = False
-                DgvPO.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+                'DgvPO.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
 
                 Txt_Timbang2.Text = Txt_Timbangan.Text
                 Txt_Timbang1.Enabled = False

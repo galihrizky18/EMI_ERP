@@ -7,6 +7,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
     Dim arrcari As New ArrayList
     Dim Jenis = "ETA"
 
+    Dim ValueBarcode As String = ""
     Public Property filter_tambahan As String
     Public Property asal As String
 
@@ -79,12 +80,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
     Dim itemNoLoading As Integer = 6
     Dim itemKdSupplier As Integer = 7
 
-    Private Sub Txt_ScanBarcode_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_ScanBarcode.KeyDown
 
-        If e.KeyCode = Keys.Enter Then
-            Btn_TimbangFloorScale_Click(Me, Nothing)
-        End If
-    End Sub
 
     Private Sub Txt_ScanBarcode_TextChanged(sender As Object, e As EventArgs) Handles Txt_ScanBarcode.TextChanged
         '''Btn_TimbangFloorScale.PerformClick()
@@ -109,6 +105,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
         Dim expDate As String = ""
         Dim batchLama As String = ""
         Dim kode_unik_print As String
+
         Try
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
@@ -155,7 +152,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                     GetDataKdBrg = Dr("Kode_Barang")
                     GetDataNmBrg = Dr("Nama")
                     GetDataBrgSN = Dr("Serial_Number_Awal")
-                    GetDataJmlEstimasi = Format(Dr("Total"), "N2")
+                    GetDataJmlEstimasi = HilangkanTanda(Format(Dr("Total"), "N2"))
                     GetDataSatuanKecil = Dr("Satuan_Barang")
                     GetDataSatuanBesar = Dr("Satuan")
                     GetDataUrutOto = Dr("urut_oto")
@@ -685,6 +682,8 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
 
     End Sub
 
+
+
     Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
         kosong()
     End Sub
@@ -755,6 +754,9 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
 
             Lv_List_Barang.View = View.Details
 
+            'Menangkap semua inputan dari keyboard
+            Me.KeyPreview = True
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -765,6 +767,33 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
         kosong()
         '''Txt_ScanBarcode.Text = "1825003-0118L9B301124-T1X7VBQWEH"
     End Sub
+
+    Private Sub EMI_Display_Transfer_Tidak_Timbang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles MyBase.KeyPress
+
+        If e.KeyChar = Chr(13) Then
+            If ValueBarcode <> "" Then
+                Txt_ScanBarcode.Text = ValueBarcode.ToUpper
+                ValueBarcode = ""
+
+                If Txt_ScanBarcode.Text.Trim.Length <> 0 Then
+                    Btn_TimbangFloorScale_Click(Me, Nothing)
+                End If
+            Else
+                Txt_ScanBarcode.Text = ""
+            End If
+        Else
+            If Char.IsLetterOrDigit(e.KeyChar) OrElse Char.IsSymbol(e.KeyChar) OrElse e.KeyChar = "-"c Then
+                ValueBarcode &= e.KeyChar.ToString.Trim
+            End If
+
+        End If
+    End Sub
+
+    'Private Sub Txt_ScanBarcode_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_ScanBarcode.KeyDown
+    '    If e.KeyCode = Keys.Enter Then
+    '        Btn_TimbangFloorScale_Click(Me, Nothing)
+    '    End If
+    'End Sub
 
     Public Sub kosong()
         Txt_ScanBarcode.Text = ""

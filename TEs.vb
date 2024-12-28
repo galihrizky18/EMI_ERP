@@ -109,4 +109,14 @@ Public Class Tes
         End If
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
+        'Dim formType As Type = Type.GetType("ERP_EMI.TesLoading")
+        'Dim instanceDefault As Form = CType(Activator.CreateInstance(formType), Form)
+
+        'instanceDefault.Show()
+
+        TesLoading.Show()
+
+    End Sub
 End Class

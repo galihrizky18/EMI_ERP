@@ -498,6 +498,30 @@
         Global_Setting.Focus()
     End Sub
 
+    Private Sub MasterMenuToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterMenuToolStripMenuItem.Click
+        Master_Menu2.StartPosition = FormStartPosition.CenterScreen
+
+        Master_Menu2.MdiParent = Me
+        Master_Menu2.Show()
+        Master_Menu2.Focus()
+    End Sub
+
+    Private Sub MasterJenisBiayaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterJenisBiayaToolStripMenuItem.Click
+        Master_Jenis_Biaya_Produksi.StartPosition = FormStartPosition.CenterScreen
+
+        Master_Jenis_Biaya_Produksi.MdiParent = Me
+        Master_Jenis_Biaya_Produksi.Show()
+        Master_Jenis_Biaya_Produksi.Focus()
+    End Sub
+
+    Private Sub AktualBiayaProduksiToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AktualBiayaProduksiToolStripMenuItem.Click
+        EMI_Transaksi_Actual_Biaya_Produksi.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Transaksi_Actual_Biaya_Produksi.MdiParent = Me
+        EMI_Transaksi_Actual_Biaya_Produksi.Show()
+        EMI_Transaksi_Actual_Biaya_Produksi.Focus()
+    End Sub
+
 
 
 

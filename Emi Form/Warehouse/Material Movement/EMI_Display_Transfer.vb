@@ -1,10 +1,13 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+﻿
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
 
 Public Class Emi_Display_Transfer
 
     Dim arrcari As New ArrayList
     Dim Jenis = "ETA"
+
+    Dim ValueBarcode As String = ""
 
     Public Property filter_tambahan As String
     Public Property asal As String
@@ -74,12 +77,92 @@ Public Class Emi_Display_Transfer
     Dim itemNoLoading As Integer = 6
     Dim itemKdSupplier As Integer = 7
 
-    Private Sub Txt_ScanBarcode_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_ScanBarcode.KeyDown
-
-        If e.KeyCode = Keys.Enter Then
-            Btn_TimbangFloorScale_Click(Me, Nothing)
-        End If
+    Private Sub Popup_Timbang_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        My.Application.ChangeCulture("en-us")
+        My.Application.ChangeUICulture("en-us")
     End Sub
+
+    Private Sub Popup_Timbang_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        My.Application.ChangeCulture("en-us")
+        My.Application.ChangeUICulture("en-us")
+
+        Try
+            OpenConn()
+
+            Base_Language.Get_Languages(Bahasa_Pilihan, "GLOBAL")
+            Base_Language.Get_Languages(Bahasa_Pilihan, Jenis)
+
+
+            ValueBarcode = ""
+
+            Btn_Refresh.Text = Base_Language.Lang_Global_Refresh
+            Label1.Text = "Display - List Transfer Stock"
+
+
+            'If filter_tambahan = " timbang_masuk='Y'" Then
+            '    Label1.Text = "Display - Kendaraan Masuk"
+            'Else
+            '    Label1.Text = "Display - Kendaraan Keluar"
+            'End If
+
+            Lv_List_Barang.Columns.Clear()
+
+            Lv_List_Barang.Columns.Add("Kode Transfer", 120, HorizontalAlignment.Left).DisplayIndex = 0 '0
+            '  Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_Lokasi, 130, HorizontalAlignment.Left) '1
+            Lv_List_Barang.Columns.Add("SO Awal", 130, HorizontalAlignment.Left) '1
+            Lv_List_Barang.Columns.Add("SO Akhir", 130, HorizontalAlignment.Left) '2
+            Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_KodeBarang, 120, HorizontalAlignment.Left) '3
+            Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_NamaBarang, 180, HorizontalAlignment.Left) '4
+            Lv_List_Barang.Columns.Add("Total", 130, HorizontalAlignment.Center) '5
+            Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_Satuan, 120, HorizontalAlignment.Center) '6
+            Lv_List_Barang.Columns.Add("Lokasi RAK", 150, HorizontalAlignment.Left) '7
+            Lv_List_Barang.Columns.Add("barangSn", 0, HorizontalAlignment.Left) '8
+
+            Lv_List_Barang.View = View.Details
+
+
+            'Menangkap semua inputan dari keyboard
+            Me.KeyPreview = True
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        kosong()
+        '''Txt_ScanBarcode.Text = "1825003-0118L9B301124-T1X7VBQWEH"
+    End Sub
+
+    Private Sub Emi_Display_Transfer_KeyPress(sender As Object, e As KeyPressEventArgs) Handles MyBase.KeyPress
+
+        If e.KeyChar = Chr(13) Then
+            If ValueBarcode <> "" Then
+                Txt_ScanBarcode.Text = ValueBarcode.ToUpper
+                ValueBarcode = ""
+
+                If Txt_ScanBarcode.Text.Trim.Length <> 0 Then
+                    Btn_TimbangFloorScale_Click(Me, Nothing)
+                End If
+            Else
+                Txt_ScanBarcode.Text = ""
+            End If
+        Else
+            If Char.IsLetterOrDigit(e.KeyChar) OrElse Char.IsSymbol(e.KeyChar) OrElse e.KeyChar = "-"c Then
+                ValueBarcode &= e.KeyChar.ToString.Trim
+            End If
+
+        End If
+
+    End Sub
+
+    'Private Sub Txt_ScanBarcode_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_ScanBarcode.KeyDown
+
+    '    If e.KeyCode = Keys.Enter Then
+    '        Btn_TimbangFloorScale_Click(Me, Nothing)
+    '    End If
+    'End Sub
 
     Private Sub Txt_ScanBarcode_TextChanged(sender As Object, e As EventArgs) Handles Txt_ScanBarcode.TextChanged
         '''Btn_TimbangFloorScale.PerformClick()
@@ -98,6 +181,7 @@ Public Class Emi_Display_Transfer
             Txt_ScanBarcode.Focus()
             Exit Sub
         End If
+
 
         Try
             OpenConn()
@@ -206,57 +290,8 @@ Public Class Emi_Display_Transfer
 
     End Sub
 
-    Private Sub Popup_Timbang_Activated(sender As Object, e As EventArgs) Handles Me.Activated
-        My.Application.ChangeCulture("en-us")
-        My.Application.ChangeUICulture("en-us")
-    End Sub
-
-    Private Sub Popup_Timbang_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        My.Application.ChangeCulture("en-us")
-        My.Application.ChangeUICulture("en-us")
-
-        Try
-            OpenConn()
-
-            Base_Language.Get_Languages(Bahasa_Pilihan, "GLOBAL")
-            Base_Language.Get_Languages(Bahasa_Pilihan, Jenis)
-
-            Btn_Refresh.Text = Base_Language.Lang_Global_Refresh
-            Label1.Text = "Display - List Transfer Stock"
 
 
-            'If filter_tambahan = " timbang_masuk='Y'" Then
-            '    Label1.Text = "Display - Kendaraan Masuk"
-            'Else
-            '    Label1.Text = "Display - Kendaraan Keluar"
-            'End If
-
-            Lv_List_Barang.Columns.Clear()
-
-            Lv_List_Barang.Columns.Add("Kode Transfer", 120, HorizontalAlignment.Left).DisplayIndex = 0 '0
-            '  Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_Lokasi, 130, HorizontalAlignment.Left) '1
-            Lv_List_Barang.Columns.Add("SO Awal", 130, HorizontalAlignment.Left) '1
-            Lv_List_Barang.Columns.Add("SO Akhir", 130, HorizontalAlignment.Left) '2
-            Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_KodeBarang, 120, HorizontalAlignment.Left) '3
-            Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_NamaBarang, 180, HorizontalAlignment.Left) '4
-            Lv_List_Barang.Columns.Add("Total", 130, HorizontalAlignment.Center) '5
-            Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_Satuan, 120, HorizontalAlignment.Center) '6
-            Lv_List_Barang.Columns.Add("Lokasi RAK", 150, HorizontalAlignment.Left) '7
-            Lv_List_Barang.Columns.Add("barangSn", 0, HorizontalAlignment.Left) '8
-
-
-            Lv_List_Barang.View = View.Details
-
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MessageBox.Show(ex.Message)
-            Exit Sub
-        End Try
-
-        kosong()
-        '''Txt_ScanBarcode.Text = "1825003-0118L9B301124-T1X7VBQWEH"
-    End Sub
 
     Public Sub kosong()
         Txt_ScanBarcode.Text = ""

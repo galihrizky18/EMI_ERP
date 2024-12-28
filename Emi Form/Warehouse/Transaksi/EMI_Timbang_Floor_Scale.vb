@@ -317,6 +317,8 @@ Public Class EMI_Timbang_Floor_Scale
         Dim kode_unik_print As String = ""
         Dim batchLama As String = ""
 
+
+
         Try
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction

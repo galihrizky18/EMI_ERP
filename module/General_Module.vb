@@ -16,6 +16,7 @@ Module General_Module
     Public FRefraksi As String = "FR"
     Public fRequestMaterial As String = "RM"
     Public fsb As String = "SB"
+    Public fab As String = "FAB"
     Public fTransTimbanganKosong As String = ""
     Public IPPORT_IPCAM_1 As String = ""
     Public IPPORT_IPCAM_2 As String = ""

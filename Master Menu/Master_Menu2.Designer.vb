@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Master_Menu1
+Partial Class Master_Menu2
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -548,8 +548,9 @@ Partial Class Master_Menu1
         Me.Lv_hierarki.Size = New System.Drawing.Size(551, 373)
         Me.Lv_hierarki.TabIndex = 24
         Me.Lv_hierarki.UseCompatibleStateImageBehavior = False
+        Me.Lv_hierarki.View = System.Windows.Forms.View.Details
         '
-        'Master_Menu1
+        'Master_Menu2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -562,7 +563,7 @@ Partial Class Master_Menu1
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.MaximizeBox = False
-        Me.Name = "Master_Menu1"
+        Me.Name = "Master_Menu2"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "MasterMenu"
         Me.GroupBox1.ResumeLayout(False)
