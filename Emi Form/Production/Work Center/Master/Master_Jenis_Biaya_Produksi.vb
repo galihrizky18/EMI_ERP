@@ -56,17 +56,15 @@
 
 
             'Lv_KdBarang
-            Lv_KdBarang.Columns.Clear()
-            Lv_KdBarang.Columns.Add("Kode Barang", 150, HorizontalAlignment.Left)
-            Lv_KdBarang.Columns.Add("Nama Barang", 300, HorizontalAlignment.Left)
-            Lv_KdBarang.Columns.Add("Satuan", 150, HorizontalAlignment.Left)
-            Lv_KdBarang.View = View.Details
+            Lv_BarangPotStock.Columns.Clear()
+            Lv_BarangPotStock.Columns.Add("Kode Barang", 130, HorizontalAlignment.Left)
+            Lv_BarangPotStock.Columns.Add("Nama Barang", 300, HorizontalAlignment.Left)
+            Lv_BarangPotStock.Columns.Add("Satuan", 150, HorizontalAlignment.Left)
+            Lv_BarangPotStock.View = View.Details
 
 
             Txt_KdBarang.Enabled = False
             Txt_NamaBarang.Enabled = False
-
-            Lv_KdBarang.Visible = False
 
             kosong()
             CloseConn()
@@ -132,9 +130,9 @@
 
     Private Sub Get_Data_LvKdBarang(ByVal index As Integer)
 
-        LvKdBrg_KodeBarang = Lv_KdBarang.Items(index).SubItems(itemKdBrg_KodeBarang).Text
-        LvKdBrg_NamaBarang = Lv_KdBarang.Items(index).SubItems(itemKdBrg_NamaBarang).Text
-        LvKdBrg_Satuan = Lv_KdBarang.Items(index).SubItems(itemKdBrg_Satuan).Text
+        LvKdBrg_KodeBarang = Lv_BarangPotStock.Items(index).SubItems(itemKdBrg_KodeBarang).Text
+        LvKdBrg_NamaBarang = Lv_BarangPotStock.Items(index).SubItems(itemKdBrg_NamaBarang).Text
+        LvKdBrg_Satuan = Lv_BarangPotStock.Items(index).SubItems(itemKdBrg_Satuan).Text
 
     End Sub
 
@@ -166,7 +164,7 @@
                 SQL = SQL & " '" & Txt_Keterangan.Text.Trim & "', '" & Cmbsatuan.Text & "', "
 
                 If Chk_PotongStock.Checked Then
-                    SQL = SQL & "Y, '" & Txt_KdBarang.Text & "', '" & Txt_NamaBarang.Text & "')"
+                    SQL = SQL & "'Y', '" & Txt_KdBarang.Text & "', '" & Txt_NamaBarang.Text & "')"
                 Else
                     SQL = SQL & "NULL, NULL, NULL)"
                 End If
@@ -269,9 +267,9 @@
     Private Sub Txt_KdBarang_TextChanged(sender As Object, e As EventArgs) Handles Txt_KdBarang.TextChanged
 
         If Txt_KdBarang.Text.Trim.Length = 0 Then
-            Lv_KdBarang.Items.Clear()
-            Lv_KdBarang.Visible = False
-            Lv_KdBarang.Location = New Point(695, 226)
+            Lv_BarangPotStock.Items.Clear()
+            Lv_BarangPotStock.Visible = False
+            Lv_BarangPotStock.Location = New Point(695, 226)
 
             Txt_NamaBarang.Text = ""
             Exit Sub
@@ -280,21 +278,21 @@
         Try
             OpenConn()
 
-            Lv_KdBarang.Items.Clear()
+            Lv_BarangPotStock.Items.Clear()
             SQL = "select Kode_Barang, Nama, Satuan from barang "
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and (Kode_Barang LIKE '" & Txt_KdBarang.Text & "%' OR nama LIKE '" & Txt_KdBarang.Text & "%') "
             SQL = SQL & "group by Kode_Barang, Nama, Satuan "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Dim Lv As New ListViewItem
-                    Lv = Lv_KdBarang.Items.Add(Dr("Kode_Barang"))
+                    Lv = Lv_BarangPotStock.Items.Add(Dr("Kode_Barang"))
                     Lv.SubItems.Add(Dr("Nama"))
                     Lv.SubItems.Add(Dr("Satuan"))
                 Loop
             End Using
 
-            Lv_KdBarang.Visible = True
-            Lv_KdBarang.Location = New Point(141, 226)
+            Lv_BarangPotStock.Visible = True
+            Lv_BarangPotStock.Location = New Point(141, 226)
 
             CloseConn()
         Catch ex As Exception
@@ -305,20 +303,20 @@
 
     End Sub
 
-    Private Sub Lv_KdBarang_DoubleClick(sender As Object, e As EventArgs) Handles Lv_KdBarang.DoubleClick
-        If Lv_KdBarang.Items.Count = 0 Then Exit Sub
+    Private Sub Lv_BarangPotStock_DoubleClick(sender As Object, e As EventArgs) Handles Lv_BarangPotStock.DoubleClick
+        If Lv_BarangPotStock.Items.Count = 0 Then Exit Sub
 
-        Get_Data_LvKdBarang(Lv_KdBarang.FocusedItem.Index)
+        Get_Data_LvKdBarang(Lv_BarangPotStock.FocusedItem.Index)
 
         Txt_KdBarang.Text = LvKdBrg_KodeBarang
         Txt_NamaBarang.Text = LvKdBrg_NamaBarang
 
-        Lv_KdBarang.Items.Clear()
-        Lv_KdBarang.Visible = False
-        Lv_KdBarang.Location = New Point(695, 226)
-
+        Lv_BarangPotStock.Items.Clear()
+        Lv_BarangPotStock.Location = New Point(695, 226)
+        Lv_BarangPotStock.Visible = False
 
     End Sub
+
 
 
 
