@@ -48,7 +48,10 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
         Me.btnKosong = New System.Windows.Forms.Button()
         Me.cmbStockOwner = New System.Windows.Forms.ComboBox()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.Txt_KdBarang = New System.Windows.Forms.TextBox()
+        Me.Txt_NmBarang = New System.Windows.Forms.TextBox()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Cmb_Lokasi = New System.Windows.Forms.ComboBox()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.Panel4.SuspendLayout()
@@ -63,7 +66,7 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(594, 51)
+        Me.Panel1.Size = New System.Drawing.Size(595, 51)
         Me.Panel1.TabIndex = 22
         '
         'PanelGradient1
@@ -76,7 +79,7 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(594, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(595, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Panel5
@@ -92,11 +95,11 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.Location = New System.Drawing.Point(15, 11)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(359, 30)
+        Me.Label1.Size = New System.Drawing.Size(368, 25)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Transaksi - Actual Biaya Produksi"
         '
@@ -135,7 +138,7 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
         Me.Panel4.Controls.Add(Me.Panel8)
-        Me.Panel4.Location = New System.Drawing.Point(20, 339)
+        Me.Panel4.Location = New System.Drawing.Point(28, 333)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1779, 15)
@@ -166,30 +169,30 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
         '
         Me.TxtFaktur.BackColor = System.Drawing.Color.Goldenrod
         Me.TxtFaktur.Enabled = False
-        Me.TxtFaktur.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtFaktur.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtFaktur.ForeColor = System.Drawing.SystemColors.Window
         Me.TxtFaktur.Location = New System.Drawing.Point(175, 70)
         Me.TxtFaktur.MaxLength = 30
         Me.TxtFaktur.Name = "TxtFaktur"
-        Me.TxtFaktur.Size = New System.Drawing.Size(200, 22)
+        Me.TxtFaktur.Size = New System.Drawing.Size(200, 21)
         Me.TxtFaktur.TabIndex = 402
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
         Me.Label2.Location = New System.Drawing.Point(34, 72)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(100, 20)
+        Me.Label2.Size = New System.Drawing.Size(96, 17)
         Me.Label2.TabIndex = 398
         Me.Label2.Text = "No. Transaksi"
         '
         'Btn_Simpan
         '
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_Simpan.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(175, 284)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(175, 299)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(101, 36)
         Me.Btn_Simpan.TabIndex = 416
@@ -199,10 +202,10 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label4.Location = New System.Drawing.Point(34, 223)
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label4.Location = New System.Drawing.Point(34, 243)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(60, 20)
+        Me.Label4.Size = New System.Drawing.Size(53, 17)
         Me.Label4.TabIndex = 417
         Me.Label4.Text = "Jumlah"
         '
@@ -210,11 +213,11 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
         '
         Me.txtJumlah.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.txtJumlah.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtJumlah.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.txtJumlah.Location = New System.Drawing.Point(175, 221)
+        Me.txtJumlah.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.txtJumlah.Location = New System.Drawing.Point(175, 241)
         Me.txtJumlah.MaxLength = 50
         Me.txtJumlah.Name = "txtJumlah"
-        Me.txtJumlah.Size = New System.Drawing.Size(240, 22)
+        Me.txtJumlah.Size = New System.Drawing.Size(240, 21)
         Me.txtJumlah.TabIndex = 418
         Me.txtJumlah.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -222,21 +225,21 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
         '
         Me.txtSatuan.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.txtSatuan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtSatuan.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.txtSatuan.Location = New System.Drawing.Point(175, 253)
+        Me.txtSatuan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.txtSatuan.Location = New System.Drawing.Point(175, 270)
         Me.txtSatuan.MaxLength = 50
         Me.txtSatuan.Name = "txtSatuan"
         Me.txtSatuan.ReadOnly = True
-        Me.txtSatuan.Size = New System.Drawing.Size(240, 22)
+        Me.txtSatuan.Size = New System.Drawing.Size(240, 21)
         Me.txtSatuan.TabIndex = 420
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label5.Location = New System.Drawing.Point(34, 254)
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label5.Location = New System.Drawing.Point(34, 271)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(58, 20)
+        Me.Label5.Size = New System.Drawing.Size(53, 17)
         Me.Label5.TabIndex = 419
         Me.Label5.Text = "Satuan"
         '
@@ -250,10 +253,10 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
         Me.Label3.Location = New System.Drawing.Point(34, 101)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(59, 20)
+        Me.Label3.Size = New System.Drawing.Size(60, 17)
         Me.Label3.TabIndex = 424
         Me.Label3.Text = "Tanggal"
         '
@@ -261,18 +264,18 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
         '
         Me.cmbJenisBiaya.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbJenisBiaya.FormattingEnabled = True
-        Me.cmbJenisBiaya.Location = New System.Drawing.Point(175, 131)
+        Me.cmbJenisBiaya.Location = New System.Drawing.Point(175, 129)
         Me.cmbJenisBiaya.Name = "cmbJenisBiaya"
-        Me.cmbJenisBiaya.Size = New System.Drawing.Size(240, 24)
+        Me.cmbJenisBiaya.Size = New System.Drawing.Size(240, 21)
         Me.cmbJenisBiaya.TabIndex = 427
         '
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label8.Location = New System.Drawing.Point(34, 132)
+        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label8.Location = New System.Drawing.Point(34, 130)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(86, 20)
+        Me.Label8.Size = New System.Drawing.Size(80, 17)
         Me.Label8.TabIndex = 426
         Me.Label8.Text = "Jenis Biaya"
         '
@@ -280,27 +283,27 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
         '
         Me.cmbMesin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbMesin.FormattingEnabled = True
-        Me.cmbMesin.Location = New System.Drawing.Point(175, 163)
+        Me.cmbMesin.Location = New System.Drawing.Point(175, 212)
         Me.cmbMesin.Name = "cmbMesin"
-        Me.cmbMesin.Size = New System.Drawing.Size(240, 24)
+        Me.cmbMesin.Size = New System.Drawing.Size(240, 21)
         Me.cmbMesin.TabIndex = 429
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label6.Location = New System.Drawing.Point(34, 164)
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label6.Location = New System.Drawing.Point(34, 213)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(96, 20)
+        Me.Label6.Size = New System.Drawing.Size(87, 17)
         Me.Label6.TabIndex = 428
         Me.Label6.Text = "Work Center"
         '
         'btnKosong
         '
         Me.btnKosong.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.btnKosong.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.btnKosong.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.btnKosong.ForeColor = System.Drawing.Color.White
-        Me.btnKosong.Location = New System.Drawing.Point(282, 284)
+        Me.btnKosong.Location = New System.Drawing.Point(282, 299)
         Me.btnKosong.Name = "btnKosong"
         Me.btnKosong.Size = New System.Drawing.Size(101, 36)
         Me.btnKosong.TabIndex = 430
@@ -314,41 +317,77 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
         Me.cmbStockOwner.FormattingEnabled = True
         Me.cmbStockOwner.Location = New System.Drawing.Point(381, 70)
         Me.cmbStockOwner.Name = "cmbStockOwner"
-        Me.cmbStockOwner.Size = New System.Drawing.Size(161, 24)
+        Me.cmbStockOwner.Size = New System.Drawing.Size(161, 21)
         Me.cmbStockOwner.TabIndex = 431
         Me.cmbStockOwner.Visible = False
         '
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label7.Location = New System.Drawing.Point(34, 195)
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label7.Location = New System.Drawing.Point(34, 158)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(94, 20)
+        Me.Label7.Size = New System.Drawing.Size(91, 17)
         Me.Label7.TabIndex = 417
         Me.Label7.Text = "Kode Barang"
         '
-        'TextBox1
+        'Txt_KdBarang
         '
-        Me.TextBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBox1.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TextBox1.Location = New System.Drawing.Point(175, 193)
-        Me.TextBox1.MaxLength = 50
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(240, 22)
-        Me.TextBox1.TabIndex = 418
-        Me.TextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.Txt_KdBarang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_KdBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_KdBarang.Enabled = False
+        Me.Txt_KdBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.Txt_KdBarang.Location = New System.Drawing.Point(175, 156)
+        Me.Txt_KdBarang.MaxLength = 50
+        Me.Txt_KdBarang.Name = "Txt_KdBarang"
+        Me.Txt_KdBarang.Size = New System.Drawing.Size(101, 21)
+        Me.Txt_KdBarang.TabIndex = 418
+        Me.Txt_KdBarang.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Txt_NmBarang
+        '
+        Me.Txt_NmBarang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_NmBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_NmBarang.Enabled = False
+        Me.Txt_NmBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.Txt_NmBarang.Location = New System.Drawing.Point(282, 156)
+        Me.Txt_NmBarang.MaxLength = 50
+        Me.Txt_NmBarang.Name = "Txt_NmBarang"
+        Me.Txt_NmBarang.Size = New System.Drawing.Size(240, 21)
+        Me.Txt_NmBarang.TabIndex = 418
+        Me.Txt_NmBarang.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label9.Location = New System.Drawing.Point(34, 186)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(49, 17)
+        Me.Label9.TabIndex = 428
+        Me.Label9.Text = "Lokasi"
+        '
+        'Cmb_Lokasi
+        '
+        Me.Cmb_Lokasi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Lokasi.Enabled = False
+        Me.Cmb_Lokasi.FormattingEnabled = True
+        Me.Cmb_Lokasi.Location = New System.Drawing.Point(175, 185)
+        Me.Cmb_Lokasi.Name = "Cmb_Lokasi"
+        Me.Cmb_Lokasi.Size = New System.Drawing.Size(240, 21)
+        Me.Cmb_Lokasi.TabIndex = 429
         '
         'EMI_Transaksi_Actual_Biaya_Produksi
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(594, 396)
+        Me.ClientSize = New System.Drawing.Size(595, 348)
         Me.Controls.Add(Me.cmbStockOwner)
         Me.Controls.Add(Me.btnKosong)
         Me.Controls.Add(Me.Panel4)
+        Me.Controls.Add(Me.Cmb_Lokasi)
+        Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.cmbMesin)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.cmbJenisBiaya)
@@ -358,8 +397,9 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
         Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.txtSatuan)
         Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.TextBox1)
+        Me.Controls.Add(Me.Txt_KdBarang)
         Me.Controls.Add(Me.Label7)
+        Me.Controls.Add(Me.Txt_NmBarang)
         Me.Controls.Add(Me.txtJumlah)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Btn_Simpan)
@@ -368,7 +408,7 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
-        Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "EMI_Transaksi_Actual_Biaya_Produksi"
@@ -408,5 +448,8 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi
     Friend WithEvents btnKosong As Button
     Friend WithEvents cmbStockOwner As ComboBox
     Friend WithEvents Label7 As Label
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents Txt_KdBarang As TextBox
+    Friend WithEvents Txt_NmBarang As TextBox
+    Friend WithEvents Label9 As Label
+    Friend WithEvents Cmb_Lokasi As ComboBox
 End Class

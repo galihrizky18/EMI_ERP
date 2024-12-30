@@ -8,7 +8,7 @@ Public Class EMI_Transaksi_Actual_Biaya_Produksi
     Public urut As Integer
     Dim Kd_Brg_Sampel As String
 
-    Dim arrJenisBiaya, arrSatuan, arrMesin As New ArrayList
+    Dim arrJenisBiaya, arrSatuan, arrMesin, arrLokasi As New ArrayList
 
 
     Private Sub Transaksi_Binding_Barcode_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -58,9 +58,17 @@ Public Class EMI_Transaksi_Actual_Biaya_Produksi
 
             get_no_faktur()
 
+            arrLokasi.Clear()
+
             DtpTanggal.ResetText()
             txtJumlah.Text = ""
             txtSatuan.Text = ""
+            Txt_KdBarang.Text = ""
+            Txt_NmBarang.Text = ""
+
+
+            Cmb_Lokasi.Text = ""
+            Cmb_Lokasi.Items.Clear()
 
             cmbJenisBiaya.Items.Clear() : arrJenisBiaya.Clear() : arrSatuan.Clear()
             SQL = "select id_jenis_biaya_produksi,keterangan,satuan from Emi_Jenis_Biaya_Produksi where "
@@ -93,6 +101,7 @@ Public Class EMI_Transaksi_Actual_Biaya_Produksi
             For i As Integer = 0 To xSplit.Count - 1
                 SQL = SQL & "'" & xSplit(i).Trim & "', "
             Next
+
             SQL = Strings.Left(SQL, Len(SQL) - 2)
 
             SQL = SQL & ") "
@@ -114,8 +123,6 @@ Public Class EMI_Transaksi_Actual_Biaya_Produksi
         End Try
 
 
-
-
     End Sub
 
     Private Sub cmbJenisBiaya_KeyPress(sender As Object, e As KeyPressEventArgs) Handles cmbJenisBiaya.KeyPress
@@ -132,23 +139,75 @@ Public Class EMI_Transaksi_Actual_Biaya_Produksi
 
     Private Sub cmbJenisBiaya_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbJenisBiaya.SelectedIndexChanged
         txtSatuan.Text = arrSatuan.Item(cmbJenisBiaya.SelectedIndex)
+
+        Try
+            OpenConn()
+
+            SQL = "select Id_Jenis_Biaya_Produksi, Flag_Potong_Stock, Kode_Barang, Nama_Barang "
+            SQL = SQL & "from Emi_Jenis_Biaya_Produksi where kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and flag_potong_stock = 'Y' and Id_Jenis_Biaya_Produksi = '" & arrJenisBiaya(cmbJenisBiaya.SelectedIndex) & "' "
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
+
+                            Txt_KdBarang.Enabled = True
+                            Txt_NmBarang.Enabled = True
+
+                            Txt_KdBarang.Enabled = .Rows(i).Item("Kode_Barang")
+                            Txt_NmBarang.Enabled = .Rows(i).Item("Nama_Barang")
+
+                            Cmb_Lokasi.Enabled = True
+                            Cmb_Lokasi.Items.Clear()
+                            arrLokasi.Clear()
+                            '======================
+                            '=     GET LOKASI     =
+                            '======================
+                            SQL = "select Kode_Stock_Owner, Keterangan from Stock_Owner_Gudang where Kode_Perusahaan = '" & KodePerusahaan & "'"
+                            Using Dr = OpenTrans(SQL)
+                                Do While Dr.Read
+                                    Cmb_Lokasi.Items.Add(Dr("Keterangan")) : arrLokasi.Add(Dr("Kode_Stock_Owner"))
+                                Loop
+                            End Using
+
+                        Next
+
+                    Else
+
+                        Txt_KdBarang.Text = ""
+                        Txt_NmBarang.Text = ""
+
+                        Txt_KdBarang.Enabled = False
+                        Txt_NmBarang.Enabled = False
+
+                        Cmb_Lokasi.Enabled = False
+                        Cmb_Lokasi.Items.Clear()
+                    End If
+                End With
+            End Using
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
     End Sub
 
     Private Sub btnKosong_Click(sender As Object, e As EventArgs) Handles btnKosong.Click
         kosong()
     End Sub
 
-    Private Sub txtJumlah_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtJumlah.KeyPress, TextBox1.KeyPress
+    Private Sub txtJumlah_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtJumlah.KeyPress
         If e.KeyChar = Chr(13) Then
             Btn_Simpan.Focus()
         End If
         If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
     End Sub
 
-
-
     Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
-
 
         If cmbJenisBiaya.Text.Trim.Length = 0 Then
             MessageBox.Show("Jenis Biaya harus di isi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -170,13 +229,69 @@ Public Class EMI_Transaksi_Actual_Biaya_Produksi
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
 
-            SQL = "insert into emi_actual_biaya_produksi(kode_perusahaan,no_faktur,tanggal,jam,iduser,id_jenis_biaya,id_work_center,jumlah,satuan,lokasi) values ( "
+            Dim isPotongStock = False
+
+            '==================================================
+            '=     CEK APAKAH JENIS BAIAYA = POTONG STOCK     =
+            '==================================================
+            SQL = "select Id_Jenis_Biaya_Produksi, Flag_Potong_Stock, Kode_Barang, Nama_Barang "
+            SQL = SQL & "from Emi_Jenis_Biaya_Produksi "
+            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and Id_Jenis_Biaya_Produksi = '" & arrJenisBiaya(cmbJenisBiaya.SelectedIndex) & "'"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+
+                    If General_Class.CekNULL(Dr("Flag_Potong_Stock")) = "Y" Then
+                        If Cmb_Lokasi.SelectedIndex = -1 Then
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Lokasi Harus di Isi Terlebih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+
+                        isPotongStock = True
+                    Else
+                        isPotongStock = False
+                    End If
+
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Jenis Biaya tidak diTemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            '========================
+            '=     POTONG STOCK     =
+            '========================
+
+            If isPotongStock Then
+
+
+            End If
+
+
+
+
+
+
+            SQL = "insert into emi_actual_biaya_produksi(kode_perusahaan,no_faktur,tanggal,jam,iduser,id_jenis_biaya,id_work_center,jumlah,satuan,lokasi, Flag_Potong_Stock, Kode_Stock_Owner, Kode_Barang) values ( "
             SQL = SQL & "'" & KodePerusahaan & "', '" & TxtFaktur.Text.Trim & "',"
             SQL = SQL & " '" & Format(DtpTanggal.Value, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "' ,"
             SQL = SQL & "'" & UserID & "', '" & arrJenisBiaya.Item(cmbJenisBiaya.SelectedIndex) & "',   "
             SQL = SQL & "'" & arrMesin.Item(cmbMesin.SelectedIndex) & "',"
             SQL = SQL & " '" & txtJumlah.Text.Trim & "',  '" & txtSatuan.Text.Trim & "',"
-            SQL = SQL & "'" & cmbStockOwner.Text & "'"
+            SQL = SQL & "'" & cmbStockOwner.Text & "', "
+
+            If isPotongStock Then
+                SQL = SQL & "'Y', '" & arrLokasi(Cmb_Lokasi.SelectedIndex) & "', '" & Txt_KdBarang.Text & "'"
+            Else
+                SQL = SQL & "NULL, NULL, NULL"
+            End If
+
             SQL = SQL & ")"
             ExecuteTrans(SQL)
 
