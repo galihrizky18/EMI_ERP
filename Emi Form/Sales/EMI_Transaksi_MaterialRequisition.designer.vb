@@ -46,7 +46,6 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Dim DataGridViewCellStyle21 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle22 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -55,6 +54,25 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Btn_Simpan = New System.Windows.Forms.Button()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.TxtBarangMasuk_NoFaktur = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
+        Me.ComboBox2 = New System.Windows.Forms.ComboBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.ComboBox3 = New System.Windows.Forms.ComboBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Btn_Realese = New System.Windows.Forms.Button()
+        Me.btnUnRelease = New System.Windows.Forms.Button()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Column13 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -89,23 +107,6 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Column38 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column39 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column25 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TextBox2 = New System.Windows.Forms.TextBox()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.TxtBarangMasuk_NoFaktur = New System.Windows.Forms.TextBox()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
-        Me.ComboBox2 = New System.Windows.Forms.ComboBox()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.ComboBox3 = New System.Windows.Forms.ComboBox()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.Btn_Realese = New System.Windows.Forms.Button()
-        Me.btnUnRelease = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -118,21 +119,8 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1485, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1278, 51)
         Me.Panel1.TabIndex = 22
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1485, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -178,7 +166,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(14, 620)
+        Me.Panel4.Location = New System.Drawing.Point(10, 584)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1460, 12)
@@ -188,7 +176,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(22, 566)
+        Me.Panel6.Location = New System.Drawing.Point(18, 530)
         Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(1438, 12)
@@ -200,7 +188,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(27, 580)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(23, 544)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(84, 36)
         Me.Btn_Simpan.TabIndex = 362
@@ -224,318 +212,8 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.DataGridView1.Location = New System.Drawing.Point(22, 141)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RowHeadersWidth = 51
-        Me.DataGridView1.Size = New System.Drawing.Size(1430, 418)
+        Me.DataGridView1.Size = New System.Drawing.Size(1235, 397)
         Me.DataGridView1.TabIndex = 379
-        '
-        'Column13
-        '
-        Me.Column13.Frozen = True
-        Me.Column13.HeaderText = "#"
-        Me.Column13.MinimumWidth = 6
-        Me.Column13.Name = "Column13"
-        Me.Column13.Visible = False
-        Me.Column13.Width = 50
-        '
-        'Column1
-        '
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column1.DefaultCellStyle = DataGridViewCellStyle2
-        Me.Column1.Frozen = True
-        Me.Column1.HeaderText = "Kode Barang"
-        Me.Column1.MinimumWidth = 6
-        Me.Column1.Name = "Column1"
-        Me.Column1.ReadOnly = True
-        Me.Column1.Width = 150
-        '
-        'Column2
-        '
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column2.DefaultCellStyle = DataGridViewCellStyle3
-        Me.Column2.Frozen = True
-        Me.Column2.HeaderText = "Nama Barang"
-        Me.Column2.MinimumWidth = 6
-        Me.Column2.Name = "Column2"
-        Me.Column2.ReadOnly = True
-        Me.Column2.Width = 200
-        '
-        'Column3
-        '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column3.DefaultCellStyle = DataGridViewCellStyle4
-        Me.Column3.HeaderText = "Avg 3 Bulan (Pcs)"
-        Me.Column3.MinimumWidth = 6
-        Me.Column3.Name = "Column3"
-        Me.Column3.ReadOnly = True
-        Me.Column3.Width = 120
-        '
-        'Column4
-        '
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column4.DefaultCellStyle = DataGridViewCellStyle5
-        Me.Column4.HeaderText = "Stok Bahan Baku"
-        Me.Column4.MinimumWidth = 6
-        Me.Column4.Name = "Column4"
-        Me.Column4.ReadOnly = True
-        Me.Column4.Width = 120
-        '
-        'Column5
-        '
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column5.DefaultCellStyle = DataGridViewCellStyle6
-        Me.Column5.HeaderText = "Open Purchase Requsition"
-        Me.Column5.MinimumWidth = 6
-        Me.Column5.Name = "Column5"
-        Me.Column5.ReadOnly = True
-        Me.Column5.Width = 120
-        '
-        'Column6
-        '
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column6.DefaultCellStyle = DataGridViewCellStyle7
-        Me.Column6.HeaderText = "Open Purchase Order"
-        Me.Column6.MinimumWidth = 6
-        Me.Column6.Name = "Column6"
-        Me.Column6.ReadOnly = True
-        Me.Column6.Width = 120
-        '
-        'Column7
-        '
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column7.DefaultCellStyle = DataGridViewCellStyle8
-        Me.Column7.HeaderText = "Total Stock + Open PR + Open PO"
-        Me.Column7.MinimumWidth = 6
-        Me.Column7.Name = "Column7"
-        Me.Column7.ReadOnly = True
-        Me.Column7.Width = 130
-        '
-        'Column8
-        '
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column8.DefaultCellStyle = DataGridViewCellStyle9
-        Me.Column8.HeaderText = "BoM - Forecast Sep-24"
-        Me.Column8.MinimumWidth = 6
-        Me.Column8.Name = "Column8"
-        Me.Column8.Width = 120
-        '
-        'Column11
-        '
-        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column11.DefaultCellStyle = DataGridViewCellStyle10
-        Me.Column11.HeaderText = "PPIC - Forecast Sep-24"
-        Me.Column11.MinimumWidth = 6
-        Me.Column11.Name = "Column11"
-        Me.Column11.Width = 120
-        '
-        'Column9
-        '
-        Me.Column9.HeaderText = "Urut1"
-        Me.Column9.MinimumWidth = 6
-        Me.Column9.Name = "Column9"
-        Me.Column9.ReadOnly = True
-        Me.Column9.Visible = False
-        Me.Column9.Width = 50
-        '
-        'Column12
-        '
-        Me.Column12.HeaderText = ""
-        Me.Column12.MinimumWidth = 6
-        Me.Column12.Name = "Column12"
-        Me.Column12.ReadOnly = True
-        Me.Column12.Width = 15
-        '
-        'Column14
-        '
-        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column14.DefaultCellStyle = DataGridViewCellStyle11
-        Me.Column14.HeaderText = "BoM - Forecast Oct-24"
-        Me.Column14.MinimumWidth = 6
-        Me.Column14.Name = "Column14"
-        Me.Column14.Width = 120
-        '
-        'Column17
-        '
-        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column17.DefaultCellStyle = DataGridViewCellStyle12
-        Me.Column17.HeaderText = "PPIC - Forecast Oct-24"
-        Me.Column17.MinimumWidth = 6
-        Me.Column17.Name = "Column17"
-        Me.Column17.Width = 120
-        '
-        'Column10
-        '
-        Me.Column10.HeaderText = "Urut2"
-        Me.Column10.MinimumWidth = 6
-        Me.Column10.Name = "Column10"
-        Me.Column10.ReadOnly = True
-        Me.Column10.Visible = False
-        Me.Column10.Width = 125
-        '
-        'Column18
-        '
-        Me.Column18.HeaderText = ""
-        Me.Column18.MinimumWidth = 6
-        Me.Column18.Name = "Column18"
-        Me.Column18.ReadOnly = True
-        Me.Column18.Width = 15
-        '
-        'Column19
-        '
-        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column19.DefaultCellStyle = DataGridViewCellStyle13
-        Me.Column19.HeaderText = "BoM - Forecast Nov-24"
-        Me.Column19.MinimumWidth = 6
-        Me.Column19.Name = "Column19"
-        Me.Column19.Width = 120
-        '
-        'Column22
-        '
-        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column22.DefaultCellStyle = DataGridViewCellStyle14
-        Me.Column22.HeaderText = "PPIC - Forecast Nov-24"
-        Me.Column22.MinimumWidth = 6
-        Me.Column22.Name = "Column22"
-        Me.Column22.Width = 120
-        '
-        'Column15
-        '
-        Me.Column15.HeaderText = "Urut3"
-        Me.Column15.MinimumWidth = 6
-        Me.Column15.Name = "Column15"
-        Me.Column15.ReadOnly = True
-        Me.Column15.Visible = False
-        Me.Column15.Width = 125
-        '
-        'Column23
-        '
-        Me.Column23.HeaderText = ""
-        Me.Column23.MinimumWidth = 6
-        Me.Column23.Name = "Column23"
-        Me.Column23.ReadOnly = True
-        Me.Column23.Width = 20
-        '
-        'Column24
-        '
-        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column24.DefaultCellStyle = DataGridViewCellStyle15
-        Me.Column24.HeaderText = "BoM - Forecast Dec-24"
-        Me.Column24.MinimumWidth = 6
-        Me.Column24.Name = "Column24"
-        Me.Column24.Width = 120
-        '
-        'Column27
-        '
-        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column27.DefaultCellStyle = DataGridViewCellStyle16
-        Me.Column27.HeaderText = "PPIC - Forecast Dec-24"
-        Me.Column27.MinimumWidth = 6
-        Me.Column27.Name = "Column27"
-        Me.Column27.Width = 120
-        '
-        'Column16
-        '
-        Me.Column16.HeaderText = "Urut4"
-        Me.Column16.MinimumWidth = 6
-        Me.Column16.Name = "Column16"
-        Me.Column16.ReadOnly = True
-        Me.Column16.Visible = False
-        Me.Column16.Width = 125
-        '
-        'Column28
-        '
-        Me.Column28.HeaderText = ""
-        Me.Column28.MinimumWidth = 6
-        Me.Column28.Name = "Column28"
-        Me.Column28.ReadOnly = True
-        Me.Column28.Width = 15
-        '
-        'Column29
-        '
-        DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column29.DefaultCellStyle = DataGridViewCellStyle17
-        Me.Column29.HeaderText = "BoM - Forecast Jan-25"
-        Me.Column29.MinimumWidth = 6
-        Me.Column29.Name = "Column29"
-        Me.Column29.Width = 120
-        '
-        'Column32
-        '
-        DataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column32.DefaultCellStyle = DataGridViewCellStyle18
-        Me.Column32.HeaderText = "PPIC - Forecast Jan-25"
-        Me.Column32.MinimumWidth = 6
-        Me.Column32.Name = "Column32"
-        Me.Column32.Width = 120
-        '
-        'Column20
-        '
-        Me.Column20.HeaderText = "Urut5"
-        Me.Column20.MinimumWidth = 6
-        Me.Column20.Name = "Column20"
-        Me.Column20.ReadOnly = True
-        Me.Column20.Visible = False
-        Me.Column20.Width = 125
-        '
-        'Column33
-        '
-        Me.Column33.HeaderText = ""
-        Me.Column33.MinimumWidth = 6
-        Me.Column33.Name = "Column33"
-        Me.Column33.ReadOnly = True
-        Me.Column33.Width = 15
-        '
-        'Column34
-        '
-        DataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column34.DefaultCellStyle = DataGridViewCellStyle19
-        Me.Column34.HeaderText = "BoM - Forecast Feb-25"
-        Me.Column34.MinimumWidth = 6
-        Me.Column34.Name = "Column34"
-        Me.Column34.Width = 120
-        '
-        'Column37
-        '
-        DataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column37.DefaultCellStyle = DataGridViewCellStyle20
-        Me.Column37.HeaderText = "PPIC - Forecast Feb-25"
-        Me.Column37.MinimumWidth = 6
-        Me.Column37.Name = "Column37"
-        Me.Column37.Width = 120
-        '
-        'Column21
-        '
-        Me.Column21.HeaderText = "Urut6"
-        Me.Column21.MinimumWidth = 6
-        Me.Column21.Name = "Column21"
-        Me.Column21.ReadOnly = True
-        Me.Column21.Visible = False
-        Me.Column21.Width = 125
-        '
-        'Column38
-        '
-        Me.Column38.HeaderText = ""
-        Me.Column38.MinimumWidth = 6
-        Me.Column38.Name = "Column38"
-        Me.Column38.ReadOnly = True
-        Me.Column38.Width = 15
-        '
-        'Column39
-        '
-        DataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column39.DefaultCellStyle = DataGridViewCellStyle21
-        Me.Column39.HeaderText = "Status"
-        Me.Column39.MinimumWidth = 6
-        Me.Column39.Name = "Column39"
-        Me.Column39.ReadOnly = True
-        Me.Column39.Width = 125
-        '
-        'Column25
-        '
-        DataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column25.DefaultCellStyle = DataGridViewCellStyle22
-        Me.Column25.HeaderText = "Satuan"
-        Me.Column25.MinimumWidth = 6
-        Me.Column25.Name = "Column25"
-        Me.Column25.Width = 80
         '
         'TextBox2
         '
@@ -688,7 +366,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(117, 580)
+        Me.Button2.Location = New System.Drawing.Point(113, 544)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(106, 36)
         Me.Button2.TabIndex = 401
@@ -701,7 +379,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Btn_Realese.Enabled = False
         Me.Btn_Realese.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Realese.ForeColor = System.Drawing.Color.White
-        Me.Btn_Realese.Location = New System.Drawing.Point(229, 580)
+        Me.Btn_Realese.Location = New System.Drawing.Point(225, 544)
         Me.Btn_Realese.Name = "Btn_Realese"
         Me.Btn_Realese.Size = New System.Drawing.Size(106, 36)
         Me.Btn_Realese.TabIndex = 400
@@ -714,19 +392,352 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.btnUnRelease.Enabled = False
         Me.btnUnRelease.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.btnUnRelease.ForeColor = System.Drawing.Color.White
-        Me.btnUnRelease.Location = New System.Drawing.Point(341, 580)
+        Me.btnUnRelease.Location = New System.Drawing.Point(337, 544)
         Me.btnUnRelease.Name = "btnUnRelease"
         Me.btnUnRelease.Size = New System.Drawing.Size(106, 36)
         Me.btnUnRelease.TabIndex = 402
         Me.btnUnRelease.Text = "&Unrelease"
         Me.btnUnRelease.UseVisualStyleBackColor = False
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1278, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
+        'Panel7
+        '
+        Me.Panel7.BackColor = System.Drawing.Color.Red
+        Me.Panel7.Location = New System.Drawing.Point(1258, 71)
+        Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel7.Name = "Panel7"
+        Me.Panel7.Size = New System.Drawing.Size(19, 565)
+        Me.Panel7.TabIndex = 35
+        Me.Panel7.Visible = False
+        '
+        'Column13
+        '
+        Me.Column13.Frozen = True
+        Me.Column13.HeaderText = "#"
+        Me.Column13.MinimumWidth = 6
+        Me.Column13.Name = "Column13"
+        Me.Column13.Visible = False
+        Me.Column13.Width = 50
+        '
+        'Column1
+        '
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column1.DefaultCellStyle = DataGridViewCellStyle2
+        Me.Column1.Frozen = True
+        Me.Column1.HeaderText = "Kode Barang"
+        Me.Column1.MinimumWidth = 6
+        Me.Column1.Name = "Column1"
+        Me.Column1.ReadOnly = True
+        Me.Column1.Width = 150
+        '
+        'Column2
+        '
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column2.DefaultCellStyle = DataGridViewCellStyle3
+        Me.Column2.Frozen = True
+        Me.Column2.HeaderText = "Nama Barang"
+        Me.Column2.MinimumWidth = 6
+        Me.Column2.Name = "Column2"
+        Me.Column2.ReadOnly = True
+        Me.Column2.Width = 200
+        '
+        'Column3
+        '
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column3.DefaultCellStyle = DataGridViewCellStyle4
+        Me.Column3.HeaderText = "Avg 3 Bulan (Pcs)"
+        Me.Column3.MinimumWidth = 6
+        Me.Column3.Name = "Column3"
+        Me.Column3.ReadOnly = True
+        Me.Column3.Width = 110
+        '
+        'Column4
+        '
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column4.DefaultCellStyle = DataGridViewCellStyle5
+        Me.Column4.HeaderText = "Stok Bahan Baku"
+        Me.Column4.MinimumWidth = 6
+        Me.Column4.Name = "Column4"
+        Me.Column4.ReadOnly = True
+        Me.Column4.Width = 110
+        '
+        'Column5
+        '
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column5.DefaultCellStyle = DataGridViewCellStyle6
+        Me.Column5.HeaderText = "Open Purchase Requsition"
+        Me.Column5.MinimumWidth = 6
+        Me.Column5.Name = "Column5"
+        Me.Column5.ReadOnly = True
+        Me.Column5.Width = 110
+        '
+        'Column6
+        '
+        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column6.DefaultCellStyle = DataGridViewCellStyle7
+        Me.Column6.HeaderText = "Open Purchase Order"
+        Me.Column6.MinimumWidth = 6
+        Me.Column6.Name = "Column6"
+        Me.Column6.ReadOnly = True
+        Me.Column6.Width = 110
+        '
+        'Column7
+        '
+        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column7.DefaultCellStyle = DataGridViewCellStyle8
+        Me.Column7.HeaderText = "Total Stock + Open PR + Open PO"
+        Me.Column7.MinimumWidth = 6
+        Me.Column7.Name = "Column7"
+        Me.Column7.ReadOnly = True
+        Me.Column7.Width = 110
+        '
+        'Column8
+        '
+        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column8.DefaultCellStyle = DataGridViewCellStyle9
+        Me.Column8.HeaderText = "BoM - Forecast Sep-24"
+        Me.Column8.MinimumWidth = 6
+        Me.Column8.Name = "Column8"
+        Me.Column8.Width = 110
+        '
+        'Column11
+        '
+        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column11.DefaultCellStyle = DataGridViewCellStyle10
+        Me.Column11.HeaderText = "PPIC - Forecast Sep-24"
+        Me.Column11.MinimumWidth = 6
+        Me.Column11.Name = "Column11"
+        Me.Column11.Width = 110
+        '
+        'Column9
+        '
+        Me.Column9.HeaderText = "Urut1"
+        Me.Column9.MinimumWidth = 6
+        Me.Column9.Name = "Column9"
+        Me.Column9.ReadOnly = True
+        Me.Column9.Visible = False
+        Me.Column9.Width = 50
+        '
+        'Column12
+        '
+        Me.Column12.HeaderText = ""
+        Me.Column12.MinimumWidth = 6
+        Me.Column12.Name = "Column12"
+        Me.Column12.ReadOnly = True
+        Me.Column12.Width = 15
+        '
+        'Column14
+        '
+        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column14.DefaultCellStyle = DataGridViewCellStyle11
+        Me.Column14.HeaderText = "BoM - Forecast Oct-24"
+        Me.Column14.MinimumWidth = 6
+        Me.Column14.Name = "Column14"
+        Me.Column14.Width = 110
+        '
+        'Column17
+        '
+        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column17.DefaultCellStyle = DataGridViewCellStyle12
+        Me.Column17.HeaderText = "PPIC - Forecast Oct-24"
+        Me.Column17.MinimumWidth = 6
+        Me.Column17.Name = "Column17"
+        Me.Column17.Width = 110
+        '
+        'Column10
+        '
+        Me.Column10.HeaderText = "Urut2"
+        Me.Column10.MinimumWidth = 6
+        Me.Column10.Name = "Column10"
+        Me.Column10.ReadOnly = True
+        Me.Column10.Visible = False
+        Me.Column10.Width = 125
+        '
+        'Column18
+        '
+        Me.Column18.HeaderText = ""
+        Me.Column18.MinimumWidth = 6
+        Me.Column18.Name = "Column18"
+        Me.Column18.ReadOnly = True
+        Me.Column18.Width = 15
+        '
+        'Column19
+        '
+        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column19.DefaultCellStyle = DataGridViewCellStyle13
+        Me.Column19.HeaderText = "BoM - Forecast Nov-24"
+        Me.Column19.MinimumWidth = 6
+        Me.Column19.Name = "Column19"
+        Me.Column19.Width = 110
+        '
+        'Column22
+        '
+        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column22.DefaultCellStyle = DataGridViewCellStyle14
+        Me.Column22.HeaderText = "PPIC - Forecast Nov-24"
+        Me.Column22.MinimumWidth = 6
+        Me.Column22.Name = "Column22"
+        Me.Column22.Width = 110
+        '
+        'Column15
+        '
+        Me.Column15.HeaderText = "Urut3"
+        Me.Column15.MinimumWidth = 6
+        Me.Column15.Name = "Column15"
+        Me.Column15.ReadOnly = True
+        Me.Column15.Visible = False
+        Me.Column15.Width = 125
+        '
+        'Column23
+        '
+        Me.Column23.HeaderText = ""
+        Me.Column23.MinimumWidth = 6
+        Me.Column23.Name = "Column23"
+        Me.Column23.ReadOnly = True
+        Me.Column23.Width = 20
+        '
+        'Column24
+        '
+        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column24.DefaultCellStyle = DataGridViewCellStyle15
+        Me.Column24.HeaderText = "BoM - Forecast Dec-24"
+        Me.Column24.MinimumWidth = 6
+        Me.Column24.Name = "Column24"
+        Me.Column24.Width = 110
+        '
+        'Column27
+        '
+        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column27.DefaultCellStyle = DataGridViewCellStyle16
+        Me.Column27.HeaderText = "PPIC - Forecast Dec-24"
+        Me.Column27.MinimumWidth = 6
+        Me.Column27.Name = "Column27"
+        Me.Column27.Width = 110
+        '
+        'Column16
+        '
+        Me.Column16.HeaderText = "Urut4"
+        Me.Column16.MinimumWidth = 6
+        Me.Column16.Name = "Column16"
+        Me.Column16.ReadOnly = True
+        Me.Column16.Visible = False
+        Me.Column16.Width = 125
+        '
+        'Column28
+        '
+        Me.Column28.HeaderText = ""
+        Me.Column28.MinimumWidth = 6
+        Me.Column28.Name = "Column28"
+        Me.Column28.ReadOnly = True
+        Me.Column28.Width = 15
+        '
+        'Column29
+        '
+        DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column29.DefaultCellStyle = DataGridViewCellStyle17
+        Me.Column29.HeaderText = "BoM - Forecast Jan-25"
+        Me.Column29.MinimumWidth = 6
+        Me.Column29.Name = "Column29"
+        Me.Column29.Width = 110
+        '
+        'Column32
+        '
+        DataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column32.DefaultCellStyle = DataGridViewCellStyle18
+        Me.Column32.HeaderText = "PPIC - Forecast Jan-25"
+        Me.Column32.MinimumWidth = 6
+        Me.Column32.Name = "Column32"
+        Me.Column32.Width = 110
+        '
+        'Column20
+        '
+        Me.Column20.HeaderText = "Urut5"
+        Me.Column20.MinimumWidth = 6
+        Me.Column20.Name = "Column20"
+        Me.Column20.ReadOnly = True
+        Me.Column20.Visible = False
+        Me.Column20.Width = 125
+        '
+        'Column33
+        '
+        Me.Column33.HeaderText = ""
+        Me.Column33.MinimumWidth = 6
+        Me.Column33.Name = "Column33"
+        Me.Column33.ReadOnly = True
+        Me.Column33.Width = 15
+        '
+        'Column34
+        '
+        DataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column34.DefaultCellStyle = DataGridViewCellStyle19
+        Me.Column34.HeaderText = "BoM - Forecast Feb-25"
+        Me.Column34.MinimumWidth = 6
+        Me.Column34.Name = "Column34"
+        Me.Column34.Width = 110
+        '
+        'Column37
+        '
+        DataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column37.DefaultCellStyle = DataGridViewCellStyle20
+        Me.Column37.HeaderText = "PPIC - Forecast Feb-25"
+        Me.Column37.MinimumWidth = 6
+        Me.Column37.Name = "Column37"
+        Me.Column37.Width = 110
+        '
+        'Column21
+        '
+        Me.Column21.HeaderText = "Urut6"
+        Me.Column21.MinimumWidth = 6
+        Me.Column21.Name = "Column21"
+        Me.Column21.ReadOnly = True
+        Me.Column21.Visible = False
+        Me.Column21.Width = 125
+        '
+        'Column38
+        '
+        Me.Column38.HeaderText = ""
+        Me.Column38.MinimumWidth = 6
+        Me.Column38.Name = "Column38"
+        Me.Column38.ReadOnly = True
+        Me.Column38.Width = 15
+        '
+        'Column39
+        '
+        DataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column39.DefaultCellStyle = DataGridViewCellStyle21
+        Me.Column39.HeaderText = "Status"
+        Me.Column39.MinimumWidth = 6
+        Me.Column39.Name = "Column39"
+        Me.Column39.ReadOnly = True
+        Me.Column39.Width = 125
+        '
+        'Column25
+        '
+        DataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column25.DefaultCellStyle = DataGridViewCellStyle22
+        Me.Column25.HeaderText = "Satuan"
+        Me.Column25.MinimumWidth = 6
+        Me.Column25.Name = "Column25"
+        Me.Column25.Width = 80
+        '
         'EMI_Transaksi_MaterialRequisition
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1485, 632)
+        Me.ClientSize = New System.Drawing.Size(1278, 594)
         Me.Controls.Add(Me.btnUnRelease)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Btn_Realese)
@@ -748,6 +759,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.Panel4)
+        Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
@@ -826,4 +838,5 @@ Partial Class EMI_Transaksi_MaterialRequisition
     Friend WithEvents Column38 As DataGridViewTextBoxColumn
     Friend WithEvents Column39 As DataGridViewTextBoxColumn
     Friend WithEvents Column25 As DataGridViewTextBoxColumn
+    Friend WithEvents Panel7 As Panel
 End Class

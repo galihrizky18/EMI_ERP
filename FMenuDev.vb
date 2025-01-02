@@ -522,6 +522,47 @@
         EMI_Transaksi_Actual_Biaya_Produksi.Focus()
     End Sub
 
+    Private Sub KategoriBiayaImportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles KategoriBiayaImportToolStripMenuItem.Click
+        Kategori_Biaya_Import.StartPosition = FormStartPosition.CenterScreen
+
+        Kategori_Biaya_Import.MdiParent = Me
+        Kategori_Biaya_Import.Show()
+        Kategori_Biaya_Import.Focus()
+    End Sub
+
+    Private Sub HasilProduksiToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HasilProduksiToolStripMenuItem.Click
+        EMI_Display_Production_Result.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Display_Production_Result.MdiParent = Me
+        EMI_Display_Production_Result.Show()
+        EMI_Display_Production_Result.Focus()
+    End Sub
+
+    Private Sub DetailAccoung1ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DetailAccoung1ToolStripMenuItem.Click
+        Detail_Account_New2.StartPosition = FormStartPosition.CenterScreen
+
+        Detail_Account_New2.MdiParent = Me
+        Detail_Account_New2.Show()
+        Detail_Account_New2.Focus()
+    End Sub
+
+    Private Sub DetailAccount2ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DetailAccount2ToolStripMenuItem.Click
+        Detail_Account_New.StartPosition = FormStartPosition.CenterScreen
+
+        Detail_Account_New.MdiParent = Me
+        Detail_Account_New.Show()
+        Detail_Account_New.Focus()
+    End Sub
+
+    Private Sub DetailAccount3ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DetailAccount3ToolStripMenuItem.Click
+        Detail_Account_New3.StartPosition = FormStartPosition.CenterScreen
+
+        Detail_Account_New3.MdiParent = Me
+        Detail_Account_New3.Show()
+        Detail_Account_New3.Focus()
+    End Sub
+
+
 
 
 

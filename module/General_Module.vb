@@ -31,6 +31,14 @@ Module General_Module
     Public fPO_EMI As String = "PO"
     Public fLokasi_PO As String = "LP"
     Public Jumlah_Digit As Integer = 4
+    Public fCHPP As String = "CP"
+
+    Public fHProduksi As String = "HP"
+    Public fPBB As String = "PBB"
+    Public fProduksi As String = "PRD"
+    Public fbb As String = "BB"
+    Public fbs As String = "BRG"
+    Public FRencanaProduksiBarang As String = "FRP"
 
 
     '=====================
@@ -1073,7 +1081,8 @@ Module General_Module
 
         Dim hasil As String = "SUBSTRING(Serial_Number, CHARINDEX('#02#', " & kolom & ") + 4, LEN(" & kolom & "))"
 
-        Return hasil & sortby
+        'Return hasil & sortby
+        Return hasil
     End Function
 
     Public Function SN_Disassembly(ByVal data As String, ByVal nomor As Integer, ByVal ke As String) As String

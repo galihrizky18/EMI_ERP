@@ -28,7 +28,7 @@ Public Class EMI_Restock
     Private Sub Kosong()
 
         'JANGAN LUIPA UBAH MENJADI FMenuDev
-        DateTimePicker1.Value = CDate(FMenuDev.ToolStripStatusLabel3.Text)
+        DateTimePicker1.Value = CDate(FMenu.ToolStripStatusLabel3.Text)
         urutan.Text = ""
 
         Try
@@ -176,7 +176,7 @@ Public Class EMI_Restock
         ElseIf TextBox6.Text.Trim.Length = 0 Then
             MessageBox.Show("Keterangan harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TextBox6.Focus() : Exit Sub
-        ElseIf Format(DateTimePicker1.Value, "yyyyMM") <> Format(CDate(FMenuDev.ToolStripStatusLabel3.Text), "yyyyMM") Then
+        ElseIf Format(DateTimePicker1.Value, "yyyyMM") <> Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyyMM") Then
             MessageBox.Show("Adjustment tidak boleh dibulan mundur!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             DateTimePicker1.Focus()
             Exit Sub
@@ -203,12 +203,73 @@ Public Class EMI_Restock
                 '==========================================================
                 'Cek apakah update stock akan membuat stock menjadi negatif
                 '==========================================================
+                Dim satuan_kecil As String = ""
+                SQL = "select top(1) satuan from barang where kode_Perusahaan='" & KodePerusahaan & "' "
+                SQL = SQL & "and kode_Barang='" & TextBox2.Text & "' "
+                Using Dr1 = OpenTrans(SQL)
+                    If Dr1.Read Then
+                        satuan_kecil = Dr1("satuan")
+                    Else
+                        Dr1.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("data tidak ada ")
+                        Exit Sub
+                    End If
+                End Using
+
+                Dim nilai_kecildetail As Double = 0
+                Dim hpp_kecildetail As Double = 0
+                SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & TextBox2.Text & "', '" & SatuanBesar.Text & "',"
+                SQL = SQL & "'" & satuan_kecil & "', '" & HilangkanTanda(TextBox5.Text) & "' ) as hasil"
+                Using Dr1 = OpenTrans(SQL)
+                    If Dr1.Read Then
+                        If General_Class.CekNULL(Dr1("hasil")) = "" Then
+                            Dr1.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("data konversi satuan kirim tidak ada ")
+                            Exit Sub
+                        End If
+
+                        nilai_kecildetail = Dr1("hasil")
+                    Else
+                        Dr1.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("data konversi satuan kirim tidak ada ")
+                        Exit Sub
+                    End If
+                End Using
+
+                SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'UANG','" & TextBox2.Text & "', '" & SatuanBesar.Text & "',"
+                SQL = SQL & "'" & satuan_kecil & "', '" & HilangkanTanda(TextBox7.Text) & "' ) as hasil"
+                Using Dr1 = OpenTrans(SQL)
+                    If Dr1.Read Then
+                        If General_Class.CekNULL(Dr1("hasil")) = "" Then
+                            Dr1.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("data konversi satuan kirim tidak ada ")
+                            Exit Sub
+                        End If
+
+                        hpp_kecildetail = Dr1("hasil")
+                    Else
+                        Dr1.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("data konversi satuan kirim tidak ada ")
+                        Exit Sub
+                    End If
+                End Using
+
 
                 SQL = "select good_stock from barang where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & Cmb_Lokasi.Text & "' "
                 SQL = SQL & "and kode_barang = '" & TextBox2.Text.Trim & "'"
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
-                        If Dr("good_stock") + HilangkanTanda(Val(TextBox5.Text)) < 0 Then
+                        If Dr("good_stock") + nilai_kecildetail < 0 Then
                             MessageBox.Show("Proses adjustment akan membuat stock menjadi negatif, proses tidak dapat dilanjutkan.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             TextBox2.Focus()
                             Dr.Close()
@@ -225,46 +286,7 @@ Public Class EMI_Restock
                     End If
                 End Using
 
-                Dim flag_opm As String = ""
 
-                SQL = "select flag_opname, buka_adjustment from Stock_Owner_Gudang "
-                SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
-                SQL = SQL & "kode_stock_owner = '" & Cmb_Lokasi.Text & "'" '
-                Using Dr = OpenTrans(SQL)
-                    If Dr.Read Then
-                        If Dr("flag_opname") = "Y" Then
-                            If Dr("buka_adjustment") = 0 Then
-                                Dr.Close()
-                                CloseTrans()
-                                CloseConn()
-                                MessageBox.Show(err_msg_opname, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                Exit Sub
-                            ElseIf Dr("buka_adjustment") > 0 Then
-                                Dr.Close()
-                                SQL = "update Stock_Owner_Gudang set buka_adjustment = buka_adjustment - 1 "
-                                SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
-                                SQL = SQL & "kode_stock_owner = '" & Cmb_Lokasi.Text & "'"
-                                ExecuteTrans(SQL)
-
-                                flag_opm = "'Y'"
-                            Else
-                                Dr.Close()
-                                CloseTrans()
-                                CloseConn()
-                                MessageBox.Show("Terjadi kesalahan!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                Exit Sub
-                            End If
-                        Else
-                            flag_opm = "NULL"
-                        End If
-                    Else
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Data Tidak Ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
-                End Using
 
                 TextBox1.Text = FAdj & arrInisialFaktur.Item(Cmb_Lokasi.SelectedIndex) & "-" & Format(DateTimePicker1.Value, "MM/yy") & "-" &
                           General_Class.Get_Last_Number2("EMI_Restock_Barang", "No_Faktur", JumlahDigit,
@@ -278,102 +300,16 @@ Public Class EMI_Restock
 
                 If Val(TextBox5.Text) < 0 Then 'minus 
 
-                    'Dim JumlahKurang As Double = 0
-
-                    'SQL = "select kode_stock_owner, kode_barang, serial_number, jumlah from barang_sn where "
-                    'SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
-                    'SQL = SQL & "kode_stock_owner = '" & Cmb_Lokasi.Text & "' and "
-                    'SQL = SQL & "kode_barang = '" & TextBox2.Text.Trim & "' and jumlah <> 0 "
-                    'SQL = SQL & "order by " & SN_Tanggal("serial_number") & Metode
-                    'Using Ds = BindingTrans(SQL)
-                    '    With Ds.Tables("MyTable")
-                    '        If .Rows.Count <> 0 Then
-                    '            JumlahKurang = -Val(HilangkanTanda(TextBox5.Text))
-
-                    '            For h As Integer = 0 To .Rows.Count - 1
-                    '                If JumlahKurang = 0 Then
-                    '                    Exit For
-                    '                ElseIf JumlahKurang < 0 Then
-                    '                    CloseTrans()
-                    '                    CloseConn()
-                    '                    MessageBox.Show("Sisa < 0", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    '                    Exit Sub
-                    '                End If
-
-                    '                If JumlahKurang < .Rows(h).Item("jumlah") Or JumlahKurang = .Rows(h).Item("jumlah") Then
-                    '                    SQL = "Update barang_sn set jumlah = jumlah - " & JumlahKurang & " where "
-                    '                    SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
-                    '                    SQL = SQL & "kode_stock_owner = '" & .Rows(h).Item("kode_stock_owner") & "' and "
-                    '                    SQL = SQL & "kode_barang = '" & .Rows(h).Item("kode_barang") & "' and "
-                    '                    SQL = SQL & "serial_number = '" & .Rows(h).Item("serial_number") & "'"
-                    '                    ExecuteTrans(SQL)
-
-                    '                    SQL = "insert into EMI_Det_Adj(kode_perusahaan, no_faktur, "
-                    '                    SQL = SQL & "kode_stock_owner, kode_barang, serial_number, "
-                    '                    SQL = SQL & "jumlah) values('" & KodePerusahaan & "', "
-                    '                    SQL = SQL & "'" & TextBox1.Text.Trim & "', "
-                    '                    SQL = SQL & "'" & .Rows(h).Item("kode_stock_owner") & "', "
-                    '                    SQL = SQL & "'" & .Rows(h).Item("kode_barang") & "', "
-                    '                    SQL = SQL & "'" & .Rows(h).Item("serial_number") & "', "
-                    '                    SQL = SQL & "'" & JumlahKurang & "')"
-                    '                    ExecuteTrans(SQL)
-
-                    '                    total_hpp = total_hpp + (JumlahKurang * Get_Harga_SN(.Rows(h).Item("serial_number")))
-
-                    '                    JumlahKurang = 0
-                    '                ElseIf JumlahKurang > .Rows(h).Item("jumlah") Then
-                    '                    SQL = "insert into EMI_Det_Adj(kode_perusahaan, no_faktur, "
-                    '                    SQL = SQL & "kode_stock_owner, kode_barang, serial_number, "
-                    '                    SQL = SQL & "jumlah) values('" & KodePerusahaan & "', "
-                    '                    SQL = SQL & "'" & TextBox1.Text.Trim & "', "
-                    '                    SQL = SQL & "'" & .Rows(h).Item("kode_stock_owner") & "', "
-                    '                    SQL = SQL & "'" & .Rows(h).Item("kode_barang") & "', "
-                    '                    SQL = SQL & "'" & .Rows(h).Item("serial_number") & "', "
-                    '                    SQL = SQL & "'" & .Rows(h).Item("jumlah") & "')"
-                    '                    ExecuteTrans(SQL)
-
-                    '                    SQL = "Update barang_sn set jumlah = jumlah - jumlah where "
-                    '                    SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
-                    '                    SQL = SQL & "kode_stock_owner = '" & .Rows(h).Item("kode_stock_owner") & "' and "
-                    '                    SQL = SQL & "kode_barang = '" & .Rows(h).Item("kode_barang") & "' and "
-                    '                    SQL = SQL & "serial_number = '" & .Rows(h).Item("serial_number") & "'"
-                    '                    ExecuteTrans(SQL)
-
-                    '                    total_hpp = total_hpp + (.Rows(h).Item("jumlah") * Get_Harga_SN(.Rows(h).Item("serial_number")))
-
-                    '                    JumlahKurang = JumlahKurang - .Rows(h).Item("jumlah")
-                    '                Else
-                    '                    CloseTrans()
-                    '                    CloseConn()
-                    '                    MessageBox.Show("Barang SN terjadi kesalahan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    '                    Exit Sub
-                    '                End If
-
-                    '                If JumlahKurang <> 0 And h = .Rows.Count - 1 Then
-                    '                    CloseTrans()
-                    '                    CloseConn()
-                    '                    MessageBox.Show("Jumlah stock tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    '                    Exit Sub
-                    '                End If
-                    '            Next
-                    '        Else
-                    '            CloseTrans()
-                    '            CloseConn()
-                    '            MessageBox.Show("SN untuk barang ini tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    '            Exit Sub
-                    '        End If
-                    '    End With
-                    'End Using
 
                 Else ' kalo nambahin stock
 
 
 
                     Dim Rand As New Random
-                    Dim str As String = Format(Rand.Next(0, 999), "000") & Format(CDate(FMenuDev.ToolStripStatusLabel3.Text), "HHmmss")
+                    Dim str As String = Format(Rand.Next(0, 999), "000") & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HHmmss")
                     Dim Kode_Unik As String = str.Substring(0, 5) & "BB" & Chr(64 + str.Substring(6, 1)) & str.Substring(6, Len(str) - 6)
 
-                    Dim SN As String = Kode_Unik & Tanda_SN & "01" & Tanda_SN & TextBox7.Text & Tanda_SN & "02" & Tanda_SN & Format(DateTimePicker1.Value, "yyyy-MM-dd")
+                    Dim SN As String = Kode_Unik & Tanda_SN & "01" & Tanda_SN & hpp_kecildetail & Tanda_SN & "02" & Tanda_SN & Format(DateTimePicker1.Value, "yyyy-MM-dd")
 
                     SQL = "select kode_barang from barang_sn where "
                     SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
@@ -382,7 +318,7 @@ Public Class EMI_Restock
                     Using Dr = OpenTrans(SQL)
                         If Dr.Read Then
                             Dr.Close()
-                            SQL = "Update barang_sn set jumlah = jumlah + " & TextBox5.Text & ", rr = 'X' where "
+                            SQL = "Update barang_sn set jumlah = jumlah + " & nilai_kecildetail & ", rr = 'X' where "
                             SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
                             SQL = SQL & "kode_stock_owner = '" & Cmb_Lokasi.Text & "' and kode_barang = '" & TextBox2.Text.Trim & "' and "
                             SQL = SQL & "serial_number = '" & SN & "'"
@@ -439,7 +375,7 @@ Public Class EMI_Restock
                             SQL = SQL & "Values( "
                             SQL = SQL & "'" & KodePerusahaan & "','" & Cmb_Lokasi.Text & "', "
                             SQL = SQL & "'" & TextBox2.Text.Trim & "','" & SN & "', "
-                            SQL = SQL & "'" & TextBox5.Text & "','" & Format(Dtp_TglProd.Value, "yyyy-MM-dd") & "', "
+                            SQL = SQL & "'" & nilai_kecildetail & "','" & Format(Dtp_TglProd.Value, "yyyy-MM-dd") & "', "
                             SQL = SQL & "'" & Format(Dtp_TglEx.Value, "yyyy-MM-dd") & "','" & available_Id_Warehouse & "', "
                             SQL = SQL & "'" & IDSusunan_Barang & "','" & available_NoPallet & "', "
                             SQL = SQL & "'" & newKodeUnikAsal & "','" & newKodeUnikBerjalan & "', "
@@ -451,7 +387,7 @@ Public Class EMI_Restock
                     SQL = "Insert Into EMI_Restock_Barang (kode_perusahaan, No_Faktur, tanggal, jam, kode_stock_owner, kode_barang, jumlah, "
                     SQL = SQL & "keterangan, userid, kode_voucher, harga_beli, Tgl_Produksi, Tgl_Expired, Satuan, Satuan_Barang, serial_number) "
                     SQL = SQL & "Values('" & KodePerusahaan & "', '" & TextBox1.Text.Trim & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                    SQL = SQL & "'" & Format(CDate(FMenuDev.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', '"
+                    SQL = SQL & "'" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', '"
                     SQL = SQL & Cmb_Lokasi.Text & "', '" & TextBox2.Text.Trim & "', " & HilangkanTanda(TextBox5.Text) & ", "
                     SQL = SQL & "'" & TextBox6.Text.Trim & "', '" & UserID & "', '" & Kode_Voucher & "', '" & TextBox7.Text & "', "
                     SQL = SQL & "'" & Format(Dtp_TglProd.Value, "yyyy-MM-dd") & "', '" & Format(Dtp_TglEx.Value, "yyyy-MM-dd") & "', '" & SatuanBesar.Text & "', "
@@ -462,7 +398,7 @@ Public Class EMI_Restock
 
                 '==========================================================
 
-                SQL = "Update barang set good_stock = good_stock + " & HilangkanTanda(TextBox5.Text) & " where kode_perusahaan = '" & KodePerusahaan & "' and "
+                SQL = "Update barang set good_stock = good_stock + " & nilai_kecildetail & " where kode_perusahaan = '" & KodePerusahaan & "' and "
                 SQL = SQL & "kode_stock_owner = '" & Cmb_Lokasi.Text & "' and kode_Barang = '" & TextBox2.Text.Trim & "'"
                 ExecuteTrans(SQL)
 
@@ -479,7 +415,7 @@ Public Class EMI_Restock
                 SQL = SQL & "Keterangan, JudulBank, KetDK, userid, lokasi) values("
                 SQL = SQL & "'" & Kode_Voucher & "', "
                 SQL = SQL & "'" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                SQL = SQL & "'" & Format(CDate(FMenuDev.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
+                SQL = SQL & "'" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
                 SQL = SQL & "'" & KodeProyek & "', 'Adjustment Stock " & TextBox1.Text.Trim & "', '', "
                 SQL = SQL & "'-', '" & UserID & "', '" & Cmb_Lokasi.Text & "')"
                 ExecuteTrans(SQL)
@@ -531,16 +467,12 @@ Public Class EMI_Restock
 
                     '==============================
 
-                    SQL = "update EMI_Adjustment set grand = " & tot_adj & " where kode_perusahaan = '" & KodePerusahaan & "' and "
-                    SQL = SQL & "kode_adjustment = '" & TextBox1.Text.Trim & "'"
-                    ExecuteTrans(SQL)
+                    'SQL = "update EMI_Adjustment set grand = " & tot_adj & " where kode_perusahaan = '" & KodePerusahaan & "' and "
+                    'SQL = SQL & "kode_adjustment = '" & TextBox1.Text.Trim & "'"
+                    'ExecuteTrans(SQL)
 
                     '===============================
                 End If
-
-
-                SQL = "update EMI_Brg_Lampung set sudah_dist = 'Y' where urut = '" & urutan.Text.Trim & "'"
-                ExecuteTrans(SQL)
 
                 '========= 
 

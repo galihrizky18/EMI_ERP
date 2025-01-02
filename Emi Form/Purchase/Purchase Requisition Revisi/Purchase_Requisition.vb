@@ -128,9 +128,9 @@ Public Class Purchase_Requisition
         Txt_Faktur_MaterialReq.Text = ""
         TextBox2.ReadOnly = False
 
-        BtnFormulator_Simpan.Enabled = True
-        Button3.Visible = True
-        Button3.Enabled = True
+        BtnPR_Simpan.Enabled = True
+        BtnPR_Release.Visible = True
+        BtnPR_Release.Enabled = True
         Button2.Enabled = True
 
         Dgv_DataBarang.Rows.Clear()
@@ -143,7 +143,50 @@ Public Class Purchase_Requisition
         Txt_Kd.Enabled = True
         Btn_Simpan.Tag = "&Simpan"
         Btn_Hapus.Enabled = False
-        Button3.Visible = False
+        BtnPR_Release.Visible = False
+
+        Dim AksesSimpanPR As String = ""
+        Dim AksesReleasePR As String = ""
+        Try
+            OpenConn()
+
+            If CekButtonRole("Simpan_Purchase_Requisition") = "Y" Then
+                AksesSimpanPR = "Y"
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Try
+            OpenConn()
+
+            If CekButtonRole("Release_Purchase_Requisition") = "Y" Then
+                AksesReleasePR = "Y"
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        If AksesSimpanPR = "Y" Then
+            BtnPR_Simpan.Enabled = True
+        Else
+            BtnPR_Simpan.Enabled = False
+        End If
+
+        If AksesReleasePR = "Y" Then
+            BtnPR_Release.Enabled = True
+        Else
+            BtnPR_Release.Enabled = False
+        End If
+
     End Sub
 
     Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
@@ -197,7 +240,7 @@ Public Class Purchase_Requisition
         SD_Data_PR.ShowDialog()
     End Sub
 
-    Private Sub BtnFormulator_Simpan_Click(sender As Object, e As EventArgs) Handles BtnFormulator_Simpan.Click
+    Private Sub BtnFormulator_Simpan_Click(sender As Object, e As EventArgs) Handles BtnPR_Simpan.Click
         If Dgv_DataBarang.Rows.Count = 0 Then
             MessageBox.Show("Tidak ada Data yang bisa di simpan !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
@@ -210,6 +253,13 @@ Public Class Purchase_Requisition
 
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
+
+            If CekButtonRole("Simpan_Purchase_Requisition") = "T" Then
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("anda tidak memiliki akses ! !")
+                Exit Sub
+            End If
 
             If Btn_Simpan.Tag = "&Simpan" Then
                 get_no_faktur()
@@ -318,13 +368,55 @@ Public Class Purchase_Requisition
     Private Sub Txt_NoFaktur_Leave(sender As Object, e As EventArgs) Handles Txt_NoFaktur.Leave
         get_jam()
 
+        Dim AksesSimpanPR As String = ""
+        Dim AksesReleasePR As String = ""
+        Try
+            OpenConn()
+
+            If CekButtonRole("Simpan_Purchase_Requisition") = "Y" Then
+                AksesSimpanPR = "Y"
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Try
+            OpenConn()
+
+            If CekButtonRole("Release_Purchase_Requisition") = "Y" Then
+                AksesReleasePR = "Y"
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        If AksesSimpanPR = "Y" Then
+            BtnPR_Simpan.Enabled = True
+        Else
+            BtnPR_Simpan.Enabled = False
+        End If
+
+        If AksesReleasePR = "Y" Then
+            BtnPR_Release.Enabled = True
+        Else
+            BtnPR_Release.Enabled = False
+        End If
+
         Try
             OpenConn()
             publicFlagRelease = "T"
 
             TextBox2.Text = ""
 
-            Button3.Visible = True
+            BtnPR_Release.Visible = True
             Dim ada_data As String = ""
             Dim flag_release_fix As String = ""
             SQL = "select no_faktur, lokasi ,tanggal, jam, userId, keterangan, flag_release,status, No_Fak_Material_Requisition from EMI_Purchase_Requisition where "
@@ -363,16 +455,28 @@ Public Class Purchase_Requisition
 
                             If General_Class.CekNULL(.Rows(i).Item("flag_release")) = "Y" Then
                                 publicFlagRelease = "Y"
-                                BtnFormulator_Simpan.Enabled = False
-                                Button3.Visible = False
-                                Button3.Enabled = False
+                                BtnPR_Simpan.Enabled = False
+                                BtnPR_Release.Visible = False
+                                BtnPR_Release.Enabled = False
                                 Button2.Enabled = False
                                 TextBox2.ReadOnly = True
                             Else
                                 publicFlagRelease = "T"
-                                BtnFormulator_Simpan.Enabled = True
-                                Button3.Visible = True
-                                Button3.Enabled = True
+
+                                If AksesSimpanPR = "Y" Then
+                                    BtnPR_Simpan.Enabled = True
+                                Else
+                                    BtnPR_Simpan.Enabled = False
+                                End If
+
+                                If AksesReleasePR = "Y" Then
+                                    BtnPR_Release.Enabled = True
+                                Else
+                                    BtnPR_Release.Enabled = False
+                                End If
+
+                                BtnPR_Release.Visible = True
+
                                 Button2.Enabled = True
                                 TextBox2.ReadOnly = False
                             End If
@@ -418,7 +522,7 @@ Public Class Purchase_Requisition
             Dgv_DataBarang.Rows.Clear()
             If ada_data = "Y" Then
 
-                SQL = "select a.kode_perusahaan, a.kode_stock_owner, a.kode_barang, b.nama, a.jumlah, a.satuan, a.tanggal_delivery, keterangan, "
+                SQL = "select a.kode_perusahaan, a.kode_stock_owner, a.kode_barang, b.nama, a.jumlah, a.satuan, a.tanggal_delivery, a.keterangan, "
 
                 SQL = SQL & "ISNULL((select sum(x.Nilai_PPIC) from EMI_Transaksi_Material_Requsition_detail x "
                 SQL = SQL & "where x.Kode_Perusahaan = a.Kode_Perusahaan and x.Kode_Stock_Owner = a.Kode_Stock_Owner and x.Kode_Barang = a.Kode_Barang "
@@ -449,6 +553,7 @@ Public Class Purchase_Requisition
                 SQL = SQL & "and a.kode_barang = b.kode_barang "
                 SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
                 SQL = SQL & "and a.no_faktur = '" & Txt_NoFaktur.Text & "'  "
+
                 Using Ds = BindingTrans(SQL)
                     With Ds.Tables("MyTable")
                         If .Rows.Count <> 0 Then
@@ -529,9 +634,15 @@ Public Class Purchase_Requisition
 
     End Sub
 
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles BtnPR_Release.Click
         Try
             OpenConn()
+
+            If CekButtonRole("Release_Purchase_Requisition") = "T" Then
+                CloseConn()
+                MessageBox.Show("anda tidak memiliki akses ! !")
+                Exit Sub
+            End If
 
             no_Faktur_Sementara = String.Empty
 

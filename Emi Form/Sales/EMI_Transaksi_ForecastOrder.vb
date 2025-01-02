@@ -1206,8 +1206,6 @@ Public Class EMI_Transaksi_ForecastOrder
                 Cmb_Tahun.Enabled = False
                 CB_PilihSeluruh.Checked = False
 
-                Cmb_Bulan.SelectedItem = selectedMonthName
-                Cmb_Tahun.SelectedItem = selectedYear
 
                 Cmb_Lokasi.Items.Clear()
                 SQL = "select Kode_Stock_Owner from Stock_Owner where Kode_Perusahaan = '" & KodePerusahaan & "' order by Kode_Stock_Owner"
@@ -1218,6 +1216,11 @@ Public Class EMI_Transaksi_ForecastOrder
                 End Using
                 Cmb_Lokasi.SelectedIndex = -1
                 Cmb_Lokasi.Enabled = True
+
+
+                Cmb_Bulan.SelectedItem = selectedMonthName
+                Cmb_Tahun.SelectedItem = selectedYear
+
             End If
 
             Btn_Simpan.Tag = "&Simpan"
@@ -1798,7 +1801,7 @@ Public Class EMI_Transaksi_ForecastOrder
                 End If
 
             ElseIf fStatus = "Transaksi_ForecastOrder_Sales" Then
-                If CekButtonRole("EMI_Transaksi_ForecastOrder_PPIC") = "T" Then
+                If CekButtonRole("EMI_Transaksi_ForecastOrder_Sales") = "T" Then
                     CloseTrans()
                     CloseConn()
                     MessageBox.Show("anda tidak memiliki akses ! !")
@@ -3079,7 +3082,7 @@ Public Class EMI_Transaksi_ForecastOrder
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-        kosong()
+        kosong("REFRESH")
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
@@ -3567,7 +3570,7 @@ Public Class EMI_Transaksi_ForecastOrder
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-        kosong()
+        kosong("REFRESH")
     End Sub
 
     Private Sub Cmb_Lokasi_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Lokasi.SelectedIndexChanged

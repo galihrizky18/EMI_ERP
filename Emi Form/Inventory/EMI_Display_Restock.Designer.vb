@@ -78,9 +78,9 @@ Partial Class EMI_Display_Restock
         Me.Lbl_Judul.Location = New System.Drawing.Point(15, 11)
         Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Lbl_Judul.Name = "Lbl_Judul"
-        Me.Lbl_Judul.Size = New System.Drawing.Size(197, 25)
+        Me.Lbl_Judul.Size = New System.Drawing.Size(397, 25)
         Me.Lbl_Judul.TabIndex = 0
-        Me.Lbl_Judul.Text = "Display - Restock"
+        Me.Lbl_Judul.Text = "Display - Penambahan Stock Barang"
         '
         'Panel2
         '
@@ -161,11 +161,12 @@ Partial Class EMI_Display_Restock
         Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(669, 63)
+        Me.Button2.Location = New System.Drawing.Point(669, 72)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(92, 36)
+        Me.Button2.Size = New System.Drawing.Size(92, 27)
         Me.Button2.TabIndex = 463
         Me.Button2.Text = "&Refresh"
+        Me.Button2.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.Button2.UseVisualStyleBackColor = False
         '
         'Button1
@@ -173,11 +174,12 @@ Partial Class EMI_Display_Restock
         Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(585, 63)
+        Me.Button1.Location = New System.Drawing.Point(585, 72)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(84, 36)
+        Me.Button1.Size = New System.Drawing.Size(84, 27)
         Me.Button1.TabIndex = 463
         Me.Button1.Text = "&Cari"
+        Me.Button1.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.Button1.UseVisualStyleBackColor = False
         '
         'Txt_Filter_Value

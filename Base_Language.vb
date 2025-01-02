@@ -3,6 +3,12 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class Base_Language
     'Global 
+    Public Shared Lang_Global_Kode_Unik_Asal As String
+    Public Shared Lang_Global_Kode_Unik_Berjalan As String
+    Public Shared Lang_Global_Nilai_Formula As String
+    Public Shared Lang_Global_Nilai_Produksi As String
+    Public Shared Lang_Global_Qty_Hasil_Produksi As String
+
     Public Shared Lang_Global_Simpan As String
     Public Shared Lang_Global_Hapus As String
     Public Shared Lang_Global_Update As String
@@ -1216,6 +1222,12 @@ Public Class Base_Language
         Using dr = OpenTrans(SQL)
             If dr.Read Then
                 If jenis = "GLOBAL" Then
+
+                    Lang_Global_Simpan = dr("Lang_Global_Kode_Unik_Asal")
+                    Lang_Global_Simpan = dr("Lang_Global_Kode_Unik_Berjalan")
+                    Lang_Global_Simpan = dr("Lang_Global_Nilai_Formula")
+                    Lang_Global_Simpan = dr("Lang_Global_Nilai_Produksi")
+                    Lang_Global_Simpan = dr("Lang_Global_Qty_Hasil_Produksi")
                     Lang_Global_Simpan = dr("Lang_Global_Simpan")
                     Lang_Global_Hapus = dr("Lang_Global_Hapus")
                     Lang_Global_Update = dr("Lang_Global_Update")

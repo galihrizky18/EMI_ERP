@@ -30,6 +30,7 @@
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -56,15 +57,8 @@
         Me.Label1 = New System.Windows.Forms.Label()
         Me.cmb_lokasi = New System.Windows.Forms.ComboBox()
         Me.BtnFormulator_Refresh = New System.Windows.Forms.Button()
-        Me.BtnFormulator_Simpan = New System.Windows.Forms.Button()
+        Me.BtnPR_Simpan = New System.Windows.Forms.Button()
         Me.Dgv_DataBarang = New System.Windows.Forms.DataGridView()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.Button3 = New System.Windows.Forms.Button()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Txt_Faktur_MaterialReq = New System.Windows.Forms.TextBox()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -74,6 +68,12 @@
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.sisa = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.QtyByForecast = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.BtnPR_Release = New System.Windows.Forms.Button()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Txt_Faktur_MaterialReq = New System.Windows.Forms.TextBox()
         Me.Panel1.SuspendLayout()
         CType(Me.Dgv_DataBarang, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -88,6 +88,19 @@
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(963, 51)
         Me.Panel1.TabIndex = 23
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(963, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -372,17 +385,17 @@
         Me.BtnFormulator_Refresh.Text = "&Refresh"
         Me.BtnFormulator_Refresh.UseVisualStyleBackColor = False
         '
-        'BtnFormulator_Simpan
+        'BtnPR_Simpan
         '
-        Me.BtnFormulator_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.BtnFormulator_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.BtnFormulator_Simpan.ForeColor = System.Drawing.Color.White
-        Me.BtnFormulator_Simpan.Location = New System.Drawing.Point(20, 595)
-        Me.BtnFormulator_Simpan.Name = "BtnFormulator_Simpan"
-        Me.BtnFormulator_Simpan.Size = New System.Drawing.Size(84, 36)
-        Me.BtnFormulator_Simpan.TabIndex = 391
-        Me.BtnFormulator_Simpan.Text = "&Simpan"
-        Me.BtnFormulator_Simpan.UseVisualStyleBackColor = False
+        Me.BtnPR_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnPR_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnPR_Simpan.ForeColor = System.Drawing.Color.White
+        Me.BtnPR_Simpan.Location = New System.Drawing.Point(20, 595)
+        Me.BtnPR_Simpan.Name = "BtnPR_Simpan"
+        Me.BtnPR_Simpan.Size = New System.Drawing.Size(84, 36)
+        Me.BtnPR_Simpan.TabIndex = 391
+        Me.BtnPR_Simpan.Text = "&Simpan"
+        Me.BtnPR_Simpan.UseVisualStyleBackColor = False
         '
         'Dgv_DataBarang
         '
@@ -407,86 +420,6 @@
         Me.Dgv_DataBarang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.Dgv_DataBarang.Size = New System.Drawing.Size(923, 399)
         Me.Dgv_DataBarang.TabIndex = 393
-        '
-        'Button2
-        '
-        Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(795, 121)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(148, 32)
-        Me.Button2.TabIndex = 395
-        Me.Button2.Text = "Data Forecast"
-        Me.Button2.UseVisualStyleBackColor = False
-        '
-        'Button3
-        '
-        Me.Button3.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Button3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.Button3.ForeColor = System.Drawing.Color.White
-        Me.Button3.Location = New System.Drawing.Point(200, 595)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(84, 36)
-        Me.Button3.TabIndex = 396
-        Me.Button3.Text = "Realease"
-        Me.Button3.UseVisualStyleBackColor = False
-        Me.Button3.Visible = False
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(27, 129)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(143, 18)
-        Me.Label5.TabIndex = 423
-        Me.Label5.Text = "F1   : Tambah Barang"
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Label7.Location = New System.Drawing.Point(197, 130)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(119, 18)
-        Me.Label7.TabIndex = 424
-        Me.Label7.Text = "Del : Delete Data"
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label2.Location = New System.Drawing.Point(20, 93)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(176, 17)
-        Me.Label2.TabIndex = 379
-        Me.Label2.Text = "Faktur Material Requisition"
-        '
-        'Txt_Faktur_MaterialReq
-        '
-        Me.Txt_Faktur_MaterialReq.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.Txt_Faktur_MaterialReq.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_Faktur_MaterialReq.Enabled = False
-        Me.Txt_Faktur_MaterialReq.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_Faktur_MaterialReq.Location = New System.Drawing.Point(227, 91)
-        Me.Txt_Faktur_MaterialReq.MaxLength = 50
-        Me.Txt_Faktur_MaterialReq.Name = "Txt_Faktur_MaterialReq"
-        Me.Txt_Faktur_MaterialReq.Size = New System.Drawing.Size(261, 21)
-        Me.Txt_Faktur_MaterialReq.TabIndex = 380
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(963, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Column1
         '
@@ -566,6 +499,73 @@
         Me.QtyByForecast.ReadOnly = True
         Me.QtyByForecast.Visible = False
         '
+        'Button2
+        '
+        Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Button2.ForeColor = System.Drawing.Color.White
+        Me.Button2.Location = New System.Drawing.Point(795, 121)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(148, 32)
+        Me.Button2.TabIndex = 395
+        Me.Button2.Text = "Data Forecast"
+        Me.Button2.UseVisualStyleBackColor = False
+        '
+        'BtnPR_Release
+        '
+        Me.BtnPR_Release.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnPR_Release.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnPR_Release.ForeColor = System.Drawing.Color.White
+        Me.BtnPR_Release.Location = New System.Drawing.Point(200, 595)
+        Me.BtnPR_Release.Name = "BtnPR_Release"
+        Me.BtnPR_Release.Size = New System.Drawing.Size(84, 36)
+        Me.BtnPR_Release.TabIndex = 396
+        Me.BtnPR_Release.Text = "Release"
+        Me.BtnPR_Release.UseVisualStyleBackColor = False
+        Me.BtnPR_Release.Visible = False
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(27, 129)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(143, 18)
+        Me.Label5.TabIndex = 423
+        Me.Label5.Text = "F1   : Tambah Barang"
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.Label7.Location = New System.Drawing.Point(197, 130)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(119, 18)
+        Me.Label7.TabIndex = 424
+        Me.Label7.Text = "Del : Delete Data"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label2.Location = New System.Drawing.Point(20, 93)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(176, 17)
+        Me.Label2.TabIndex = 379
+        Me.Label2.Text = "Faktur Material Requisition"
+        '
+        'Txt_Faktur_MaterialReq
+        '
+        Me.Txt_Faktur_MaterialReq.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_Faktur_MaterialReq.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_Faktur_MaterialReq.Enabled = False
+        Me.Txt_Faktur_MaterialReq.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.Txt_Faktur_MaterialReq.Location = New System.Drawing.Point(227, 91)
+        Me.Txt_Faktur_MaterialReq.MaxLength = 50
+        Me.Txt_Faktur_MaterialReq.Name = "Txt_Faktur_MaterialReq"
+        Me.Txt_Faktur_MaterialReq.Size = New System.Drawing.Size(261, 21)
+        Me.Txt_Faktur_MaterialReq.TabIndex = 380
+        '
         'Purchase_Requisition
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -574,11 +574,11 @@
         Me.ClientSize = New System.Drawing.Size(963, 648)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.Button3)
+        Me.Controls.Add(Me.BtnPR_Release)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Dgv_DataBarang)
         Me.Controls.Add(Me.BtnFormulator_Refresh)
-        Me.Controls.Add(Me.BtnFormulator_Simpan)
+        Me.Controls.Add(Me.BtnPR_Simpan)
         Me.Controls.Add(Me.cmb_lokasi)
         Me.Controls.Add(Me.Txt_Faktur_MaterialReq)
         Me.Controls.Add(Me.Label2)
@@ -645,10 +645,10 @@
         Friend WithEvents Label1 As Label
         Friend WithEvents cmb_lokasi As ComboBox
         Friend WithEvents BtnFormulator_Refresh As Button
-        Friend WithEvents BtnFormulator_Simpan As Button
+        Friend WithEvents BtnPR_Simpan As Button
         Public WithEvents Dgv_DataBarang As DataGridView
     Friend WithEvents Button2 As Button
-    Friend WithEvents Button3 As Button
+    Friend WithEvents BtnPR_Release As Button
     Friend WithEvents Label5 As Label
     Friend WithEvents Label7 As Label
     Friend WithEvents Label2 As Label
