@@ -8,11 +8,12 @@ Public Class Detail_Account_New3
 
     Dim valueKodeAccount() As String
 
-    Dim ColDinamis As Integer = 3
+    Dim ColDinamis As Integer = 4
 
     Dim itemBinding_KdAccount As Integer = 0
-    Dim itemBinding_KdDetailAccount As Integer = 1
-    Dim itemBinding_KeteranganAccount As Integer = 2
+    Dim itemBinding_Formula As Integer = 1
+    Dim itemBinding_KdDetailAccount As Integer = 2
+    Dim itemBinding_KeteranganAccount As Integer = 3
 
     Private Sub Detail_Account_New3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Kosong_All()
@@ -890,6 +891,13 @@ Public Class Detail_Account_New3
         Try
             OpenConn()
 
+            '=================================================
+            '=     MENGHAPUS KOLOM MULAI DARI INDEX KE 4     =
+            '=================================================
+            For i As Integer = Dgv_Binding.Columns.Count - 1 To ColDinamis Step -1
+                Dgv_Binding.Columns.RemoveAt(i)
+            Next
+
             '===========================================
             '=     LOAD DINAMIS COLUMN COST CENTER     =
             '===========================================
@@ -901,7 +909,7 @@ Public Class Detail_Account_New3
 
                     checkBoxColumn.HeaderText = Dr("Keterangan")
                     checkBoxColumn.Name = Dr("Id_Cost_Center")
-                    checkBoxColumn.Width = 110
+                    checkBoxColumn.Width = 100
                     checkBoxColumn.ReadOnly = False
 
                     Dgv_Binding.Columns.Add(checkBoxColumn)
@@ -915,6 +923,7 @@ Public Class Detail_Account_New3
             '=     LOAD DATA ACCOUNT     =
             '=============================
             Dgv_Binding.Rows.Clear()
+            Dim formulaTemp As String = ""
             SQL = "select Kode_Account, Kode_Detail_Acc, Keterangan "
             SQL = SQL & "from Detail_Account "
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "'"
@@ -925,6 +934,7 @@ Public Class Detail_Account_New3
                         Dim Row As Integer = 0
 
                         For i As Integer = 0 To .Rows.Count - 1
+                            formulaTemp = ""
                             Dgv_Binding.Rows.Add(1)
                             Dgv_Binding.Rows(Row).Cells(itemBinding_KdAccount).Value = .Rows(i).Item("Kode_Account")
                             Dgv_Binding.Rows(Row).Cells(itemBinding_KdDetailAccount).Value = .Rows(i).Item("Kode_Detail_Acc")
@@ -940,26 +950,31 @@ Public Class Detail_Account_New3
                             SQL = SQL & "order by Kode_Account, Id_Cost_Center"
                             Using Ds1 = BindingTrans(SQL)
                                 If Ds1.Tables("MyTable").Rows.Count <> 0 Then
+
                                     For j As Integer = 0 To Ds1.Tables("MyTable").Rows.Count - 1
-
                                         For k As Integer = ColDinamis To Dgv_Binding.Columns.Count - 1
-
                                             If Ds1.Tables("MyTable").Rows(j).Item("Id_Cost_Center") = Dgv_Binding.Columns(k).Name Then
-
                                                 Dgv_Binding.Rows(Row).Cells(k).Value = True
-
-
-                                            Else
-                                                Dgv_Binding.Rows(Row).Cells(k).Value = False
-
+                                                Exit For
                                             End If
-
-
                                         Next
-
                                     Next
                                 End If
                             End Using
+
+                            '=============================
+                            '=     PERUMUSAN FORMULA     =
+                            '=============================
+
+                            For k As Integer = ColDinamis To Dgv_Binding.Columns.Count - 1
+                                If Dgv_Binding.Rows(Row).Cells(k).Value = True Then
+                                    formulaTemp &= "1"
+                                Else
+                                    formulaTemp &= "0"
+                                End If
+                            Next
+
+                            Dgv_Binding.Rows(Row).Cells(itemBinding_Formula).Value = formulaTemp
 
                             Row += 1
 
@@ -976,6 +991,78 @@ Public Class Detail_Account_New3
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Load_DGV_Tab3()
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        If Dgv_Binding.Rows.Count = 0 Then Exit Sub
+
+        Try
+            OpenConn()
+            Cmd.Transaction = Cn.BeginTransaction
+
+
+            For i As Integer = 0 To Dgv_Binding.Rows.Count - 1
+
+                '=============================
+                '=     PERUMUSAN FORMULA     =
+                '=============================
+                Dim formulaTemp As String = ""
+                For k As Integer = ColDinamis To Dgv_Binding.Columns.Count - 1
+                    If Dgv_Binding.Rows(i).Cells(k).Value = True Then
+                        formulaTemp &= "1"
+                    Else
+                        formulaTemp &= "0"
+                    End If
+                Next
+
+                If Not Dgv_Binding.Rows(i).Cells(itemBinding_Formula).Value = formulaTemp Then
+
+                    '===========================================================
+                    '=     DELETE ACCOUNT PER COSTCENTER BY KODE_ACCOUNT       =
+                    '===========================================================
+                    SQL = "delete Account_Per_Cost_Center where Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Account = '" & Dgv_Binding.Rows(i).Cells(itemBinding_KdAccount).Value & "'"
+                    ExecuteTrans(SQL)
+
+
+
+                    '==============================
+                    '=     INSERT COST CENTER     =
+                    '==============================
+                    For j As Integer = ColDinamis To Dgv_Binding.Columns.Count - 1
+
+                        If Dgv_Binding.Rows(i).Cells(j).Value = "true" Then
+
+                            SQL = "insert into Account_Per_Cost_Center (Kode_Perusahaan, Kode_Account, Id_Cost_Center) values "
+                            SQL = SQL & "('" & KodePerusahaan & "', '" & Dgv_Binding.Rows(i).Cells(itemBinding_KdAccount).Value & "', '" & Dgv_Binding.Columns(j).Name & "')"
+                            ExecuteTrans(SQL)
+
+                        End If
+
+                    Next
+
+                End If
+
+            Next
+
+
+            Cmd.Transaction.Commit()
+            CloseTrans()
+            CloseConn()
+
+            MessageBox.Show("Detail Account Berhasil DiSimpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Load_DGV_Tab3()
+        Catch ex As Exception
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
 
     End Sub
 
