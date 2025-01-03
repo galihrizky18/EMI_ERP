@@ -554,7 +554,7 @@ Public Class FMenuDev
 
         Detail_Account_New2.MdiParent = Me
         Detail_Account_New2.Show()
-        Detail_Account_New2.Focus()
+        Detail_Account_New.Focus()
     End Sub
 
 

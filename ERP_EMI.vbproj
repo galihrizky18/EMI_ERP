@@ -586,23 +586,11 @@
     <Compile Include="Emi Form\Production\EMI_Transaksi_OrderPlan.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Production\Laporan\Laporan_GI_GR.Designer.vb">
-      <DependentUpon>Laporan_GI_GR.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Production\Laporan\Laporan_GI_GR.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Production\Laporan\Laporan_Hasil_Produksi_Per_Pallet_Per_Split_PO.designer.vb">
       <DependentUpon>Laporan_Hasil_Produksi_Per_Pallet_Per_Split_PO.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Production\Laporan\Laporan_Hasil_Produksi_Per_Pallet_Per_Split_PO.vb">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Production\Report\Laporan_GI_GR_Rpt.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Laporan_GI_GR_Rpt.rpt</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Emi Form\Production\Report\Laporan_Hasil_Produksi_Per_Pallet_Per_Split_PO_Rpt.vb">
       <AutoGen>True</AutoGen>
@@ -1622,6 +1610,18 @@
       <DependentUpon>Faktur_Purchase_Requisition2.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Rpt\Laporan_GI_GR_Rpt.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Laporan_GI_GR_Rpt.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Rpt\Laporan_Perfaktur_GI_GR.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Laporan_Perfaktur_GI_GR.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Rpt\Laporan_Purchase_Order_Rpt.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -2026,15 +2026,8 @@
     <EmbeddedResource Include="Emi Form\Production\EMI_Transaksi_OrderPlan.resx">
       <DependentUpon>EMI_Transaksi_OrderPlan.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Production\Laporan\Laporan_GI_GR.resx">
-      <DependentUpon>Laporan_GI_GR.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Production\Laporan\Laporan_Hasil_Produksi_Per_Pallet_Per_Split_PO.resx">
       <DependentUpon>Laporan_Hasil_Produksi_Per_Pallet_Per_Split_PO.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Production\Report\Laporan_GI_GR_Rpt.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>Laporan_GI_GR_Rpt.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Production\Report\Laporan_Hasil_Produksi_Per_Pallet_Per_Split_PO_Rpt.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -2552,6 +2545,14 @@
     <EmbeddedResource Include="Rpt\Faktur_Purchase_Requisition2.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Faktur_Purchase_Requisition2.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\Laporan_GI_GR_Rpt.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Laporan_GI_GR_Rpt.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\Laporan_Perfaktur_GI_GR.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Laporan_Perfaktur_GI_GR.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Rpt\Laporan_Purchase_Order_Rpt.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
