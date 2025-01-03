@@ -210,16 +210,16 @@
     <Compile Include="Display\EMI_Pembelian_PO_Summary_Data.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Accounting\Master Data\Detail_Account_New.designer.vb">
+    <Compile Include="Emi Form\Accounting\Master Data\Detail_Account_New2.designer.vb">
+      <DependentUpon>Detail_Account_New2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Accounting\Master Data\Detail_Account_New2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Accounting\Master Data\Detail_Account_New.Designer.vb">
       <DependentUpon>Detail_Account_New.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Accounting\Master Data\Detail_Account_New.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Accounting\Master Data\Detail_Account_New3.Designer.vb">
-      <DependentUpon>Detail_Account_New3.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Accounting\Master Data\Detail_Account_New3.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\B2B Sinkronasi\Server_Sinkronasi_B2B.designer.vb">
@@ -442,12 +442,6 @@
       <DependentUpon>Account.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Accounting\Account\Account.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Accounting\Master Data\Detail_Account_New2.Designer.vb">
-      <DependentUpon>Detail_Account_New2.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Accounting\Master Data\Detail_Account_New2.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Accounting\Account\Display_Account.Designer.vb">
@@ -1844,11 +1838,11 @@
     <EmbeddedResource Include="Display\EMI_Pembelian_PO_Summary_Data.resx">
       <DependentUpon>EMI_Pembelian_PO_Summary_Data.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Accounting\Master Data\Detail_Account_New2.resx">
+      <DependentUpon>Detail_Account_New2.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Accounting\Master Data\Detail_Account_New.resx">
       <DependentUpon>Detail_Account_New.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Accounting\Master Data\Detail_Account_New3.resx">
-      <DependentUpon>Detail_Account_New3.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\B2B Sinkronasi\Server_Sinkronasi_B2B.resx">
       <DependentUpon>Server_Sinkronasi_B2B.vb</DependentUpon>
@@ -1957,9 +1951,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Accounting\Account\Account.resx">
       <DependentUpon>Account.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Accounting\Master Data\Detail_Account_New2.resx">
-      <DependentUpon>Detail_Account_New2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Accounting\Account\Display_Account.resx">
       <DependentUpon>Display_Account.vb</DependentUpon>

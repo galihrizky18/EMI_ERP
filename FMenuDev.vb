@@ -1,4 +1,6 @@
-﻿Public Class FMenuDev
+﻿Imports ZXing.Aztec.Internal
+
+Public Class FMenuDev
 
 #Region "INITIAL FUNCTION"
 
@@ -538,15 +540,7 @@
         EMI_Display_Production_Result.Focus()
     End Sub
 
-    Private Sub DetailAccoung1ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DetailAccoung1ToolStripMenuItem.Click
-        Detail_Account_New2.StartPosition = FormStartPosition.CenterScreen
-
-        Detail_Account_New2.MdiParent = Me
-        Detail_Account_New2.Show()
-        Detail_Account_New2.Focus()
-    End Sub
-
-    Private Sub DetailAccount2ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DetailAccount2ToolStripMenuItem.Click
+    Private Sub DetailAccount3ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DetailAccount3ToolStripMenuItem.Click
         Detail_Account_New.StartPosition = FormStartPosition.CenterScreen
 
         Detail_Account_New.MdiParent = Me
@@ -554,13 +548,16 @@
         Detail_Account_New.Focus()
     End Sub
 
-    Private Sub DetailAccount3ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DetailAccount3ToolStripMenuItem.Click
-        Detail_Account_New3.StartPosition = FormStartPosition.CenterScreen
+    Private Sub DetailAccount2ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DetailAccount2ToolStripMenuItem.Click
 
-        Detail_Account_New3.MdiParent = Me
-        Detail_Account_New3.Show()
-        Detail_Account_New3.Focus()
+        Detail_Account_New2.StartPosition = FormStartPosition.CenterScreen
+
+        Detail_Account_New2.MdiParent = Me
+        Detail_Account_New2.Show()
+        Detail_Account_New2.Focus()
     End Sub
+
+
 
 
 

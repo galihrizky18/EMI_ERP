@@ -28,6 +28,9 @@ Partial Class FMenuDev
         Me.MasterMenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AccountingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DetailAccoung1ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DetailAccount2ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DetailAccount3ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SalesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ForecasetingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SalesToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
@@ -126,9 +129,6 @@ Partial Class FMenuDev
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
-        Me.DetailAccoung1ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DetailAccount2ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DetailAccount3ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -168,6 +168,24 @@ Partial Class FMenuDev
         Me.MToolStripMenuItem.Name = "MToolStripMenuItem"
         Me.MToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.MToolStripMenuItem.Text = "Master Data"
+        '
+        'DetailAccoung1ToolStripMenuItem
+        '
+        Me.DetailAccoung1ToolStripMenuItem.Name = "DetailAccoung1ToolStripMenuItem"
+        Me.DetailAccoung1ToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.DetailAccoung1ToolStripMenuItem.Text = "Detail Account 1 (Lama)"
+        '
+        'DetailAccount2ToolStripMenuItem
+        '
+        Me.DetailAccount2ToolStripMenuItem.Name = "DetailAccount2ToolStripMenuItem"
+        Me.DetailAccount2ToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.DetailAccount2ToolStripMenuItem.Text = "Detail Account 2"
+        '
+        'DetailAccount3ToolStripMenuItem
+        '
+        Me.DetailAccount3ToolStripMenuItem.Name = "DetailAccount3ToolStripMenuItem"
+        Me.DetailAccount3ToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.DetailAccount3ToolStripMenuItem.Text = "Detail Account Fix"
         '
         'SalesToolStripMenuItem
         '
@@ -796,24 +814,6 @@ Partial Class FMenuDev
         '
         Me.Timer2.Enabled = True
         Me.Timer2.Interval = 1800000
-        '
-        'DetailAccoung1ToolStripMenuItem
-        '
-        Me.DetailAccoung1ToolStripMenuItem.Name = "DetailAccoung1ToolStripMenuItem"
-        Me.DetailAccoung1ToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
-        Me.DetailAccoung1ToolStripMenuItem.Text = "Detail Account 1 (Lama)"
-        '
-        'DetailAccount2ToolStripMenuItem
-        '
-        Me.DetailAccount2ToolStripMenuItem.Name = "DetailAccount2ToolStripMenuItem"
-        Me.DetailAccount2ToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
-        Me.DetailAccount2ToolStripMenuItem.Text = "Detail Account 2"
-        '
-        'DetailAccount3ToolStripMenuItem
-        '
-        Me.DetailAccount3ToolStripMenuItem.Name = "DetailAccount3ToolStripMenuItem"
-        Me.DetailAccount3ToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
-        Me.DetailAccount3ToolStripMenuItem.Text = "Detail Account 3"
         '
         'FMenuDev
         '
