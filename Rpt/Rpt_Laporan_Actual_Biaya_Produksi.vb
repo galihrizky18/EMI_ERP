@@ -18,7 +18,7 @@ Imports System
 Imports System.ComponentModel
 
 
-Public Class Laporan_Perfaktur_GI_GR
+Public Class Rpt_Laporan_Actual_Biaya_Produksi
     Inherits ReportClass
     
     Public Sub New()
@@ -27,7 +27,7 @@ Public Class Laporan_Perfaktur_GI_GR
     
     Public Overrides Property ResourceName() As String
         Get
-            Return "Laporan_Perfaktur_GI_GR.rpt"
+            Return "Rpt_Laporan_Actual_Biaya_Produksi.rpt"
         End Get
         Set
             'Do nothing
@@ -45,7 +45,7 @@ Public Class Laporan_Perfaktur_GI_GR
     
     Public Overrides Property FullResourceName() As String
         Get
-            Return "ERP_EMI.Laporan_Perfaktur_GI_GR.rpt"
+            Return "ERP_EMI.Rpt_Laporan_Actual_Biaya_Produksi.rpt"
         End Get
         Set
             'Do nothing
@@ -70,7 +70,7 @@ Public Class Laporan_Perfaktur_GI_GR
     
     <Browsable(false),  _
      DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)>  _
-    Public ReadOnly Property DetailSection2() As CrystalDecisions.CrystalReports.Engine.Section
+    Public ReadOnly Property Section3() As CrystalDecisions.CrystalReports.Engine.Section
         Get
             Return Me.ReportDefinition.Sections(2)
         End Get
@@ -94,7 +94,7 @@ Public Class Laporan_Perfaktur_GI_GR
 End Class
 
 <System.Drawing.ToolboxBitmapAttribute(GetType(CrystalDecisions.[Shared].ExportOptions), "report.bmp")>  _
-Public Class CachedLaporan_Perfaktur_GI_GR
+Public Class CachedRpt_Laporan_Actual_Biaya_Produksi
     Inherits Component
     Implements ICachedReport
     
@@ -136,7 +136,7 @@ Public Class CachedLaporan_Perfaktur_GI_GR
     End Property
     
     Public Overridable Function CreateReport() As CrystalDecisions.CrystalReports.Engine.ReportDocument Implements CrystalDecisions.ReportSource.ICachedReport.CreateReport
-        Dim rpt As Laporan_Perfaktur_GI_GR = New Laporan_Perfaktur_GI_GR()
+        Dim rpt As Rpt_Laporan_Actual_Biaya_Produksi = New Rpt_Laporan_Actual_Biaya_Produksi()
         rpt.Site = Me.Site
         Return rpt
     End Function
