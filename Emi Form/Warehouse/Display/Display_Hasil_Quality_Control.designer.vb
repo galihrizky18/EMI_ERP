@@ -352,15 +352,15 @@ Partial Class Display_Hasil_Quality_Control
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakHasilToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 48)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(134, 26)
         '
         'CetakHasilToolStripMenuItem
         '
         Me.CetakHasilToolStripMenuItem.Name = "CetakHasilToolStripMenuItem"
-        Me.CetakHasilToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CetakHasilToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
         Me.CetakHasilToolStripMenuItem.Text = "Cetak Hasil"
         '
-        'Display_Hasil_QC
+        'Display_Hasil_Quality_Control
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -381,7 +381,7 @@ Partial Class Display_Hasil_Quality_Control
         Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "Display_Hasil_QC"
+        Me.Name = "Display_Hasil_Quality_Control"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()

@@ -105,17 +105,19 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
         Dim expDate As String = ""
         Dim batchLama As String = ""
         Dim kode_unik_print As String
+        Dim GetDataKodeTransfer, GetDataLokasi, GetDataKdBrg, GetDataNmBrg, GetDataBrgSN, GetDataJmlEstimasi, GetDataSatuanBesar, GetDataSatuanKecil, GetDataUrutOto As String
+        Dim GetJumlahBags, GetSoAwal, GetSoTujuan, GetSnAwal, GetRakTujuan, GetPalletTujuan, GetWarna As String
+        Dim SN As String = ""
 
         Try
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
 
-            Dim SN As String = ""
-            Dim GetDataKodeTransfer, GetDataLokasi, GetDataKdBrg, GetDataNmBrg, GetDataBrgSN, GetDataJmlEstimasi, GetDataSatuanBesar, GetDataSatuanKecil, GetDataUrutOto As String
-            Dim GetJumlahBags, GetSoAwal, GetSoTujuan, GetSnAwal, GetRakTujuan, GetPalletTujuan, GetWarna As String
+
+
 
             'Ambil Data Lama
-            SQL = "select a.Serial_Number, a.Qr_Code, a.Kode_Unik_Berjalan, b.Nama, a.Batch_Number, a.Tgl_Expired "
+            SQL = "select a.Serial_Number, a.Qr_Code, a.Kode_Unik_Berjalan, b.Nama, a.Batch_Number, a.Tgl_Expired, a.Warna "
             SQL = SQL & "from barang_sn a, barang b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
             SQL = SQL & "and a.Kode_Stock_Owner = b.Kode_Stock_Owner "
@@ -126,11 +128,22 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
 
+                    'Cek Warna Barang
+                    If General_Class.CekNULL(Dr("warna")) = "" Or General_Class.CekNULL(Dr("warna")) <> "HIJAU" Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Ada Masalah dengan Kualitas Barang", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        kosong()
+                        Exit Sub
+                    End If
+
                     QrLama = General_Class.CekNULL(Dr("Qr_Code"))
                     batchLama = General_Class.CekNULL(Dr("Batch_Number"))
                     SN = Dr("serial_number")
                     expDate = General_Class.CekNULL(Dr("Tgl_Expired"))
-                End If
+
+                    End If
             End Using
 
             SQL = "select a.Kode_Transfer,a.lokasi, a.SO_Awal, a.SO_Tujuan,b.urut_oto, a.Kode_Barang, c.Nama, a.Total, a.Satuan, a.Satuan_Barang, b.Serial_Number_Awal, "
@@ -650,22 +663,100 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
         Try
             OpenConn()
 
+            '=================================
+            '=     CETAK FAKTUR TF STOCK     =
+            '=================================
+            Dim CrDoc As New Object
+            Dim kertas As String = ""
+
+
+            SQL = "select a.Kode_Perusahaan "
+            SQL = SQL & "from Tf_Stock a, barang b, Tf_Stock_det c, View_Warehouse_Position d, View_Warehouse_Position e "
+            SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Kode_Perusahaan = e.Kode_Perusahaan "
+            SQL = SQL & "and a.Kode_Barang = b.Kode_Barang and a.SO_Awal = b.Kode_Stock_Owner "
+            SQL = SQL & "and a.Kode_Transfer  = c.No_Faktur "
+            SQL = SQL & "and c.Id_Wms_Awal = d.Id_WMS_Warehouse_Position "
+            SQL = SQL & "and c.Id_Wms_Tujuan = e.Id_WMS_Warehouse_Position "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.Kode_Transfer = '" & GetDataKodeTransfer & "' "
+            SQL = SQL & "and c.Urut_Oto = " & GetDataUrutOto & ""
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                    CrDoc = New Rpt_EMI_Faktur_Transfer_Stock_Detail
+                    kertas = "Faktur"
+
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = "{Tf_Stock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Tf_Stock.Kode_Transfer}='" & GetDataKodeTransfer & "' "
+                    '    CrDoc.SummaryInfo.ReportTitle = "TF"
+                    '    .Text = "TF"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
+
+                    '============================================================================================================================================
+                    '============================================================================================================================================
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.PrintOptions.PrinterName = PrinterNameTS
+                    CrDoc.RecordSelectionFormula = "{Tf_Stock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Tf_Stock.Kode_Transfer}='" & GetDataKodeTransfer & "' and {Tf_Stock_det.Urut_Oto}=" & GetDataUrutOto & " "
+                    'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    doctoprint.PrinterSettings.PrinterName = PrinterNameTS
+                    doctoprint.DefaultPageSettings.Landscape = True
+                    Dim rawKind As Integer
+                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                            CrDoc.PrintOptions.PaperSize = rawKind
+                            Exit For
+                        End If
+                    Next
+
+                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    CrDoc.PrintToPrinter(1, False, 1, 99)
+
+                    MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+
+                End If
+            End Using
+
+            '=========================
+            '=     CETAK BARCODE     =
+            '=========================
             SQL = "select Kode_Perusahaan from Cetak_TransferStock where Kode_Perusahaan='" & KodePerusahaan & "' and kode_unik_print='" & kode_unik_print & "'"
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                    Dim CrDoc As New Object
                     CrDoc = New NewBarcodeTransferStock
-                    With A_Place_For_Printing2
-                        CrDoc.SetDataSource(Ds)
-                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.PrintOptions.PrinterName = ""
-                        CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_TransferStock.kode_unik_print} = '" & kode_unik_print & "' and {Cetak_TransferStock.batch} = '" & batchLama & "' "
-                        CrDoc.SummaryInfo.ReportTitle = "New Barcode Transfer Stock"
-                        .Text = "New Barcode Transfer Stock"
-                        .CrystalReportViewer1.ReportSource = CrDoc
-                        .Refresh()
-                        .Show()
-                    End With
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_TransferStock.kode_unik_print} = '" & kode_unik_print & "' and {Cetak_TransferStock.batch} = '" & batchLama & "' "
+                    '    CrDoc.SummaryInfo.ReportTitle = "New Barcode Transfer Stock"
+                    '    .Text = "New Barcode Transfer Stock"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
+
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_TransferStock.kode_unik_print} = '" & kode_unik_print & "' and {Cetak_TransferStock.batch} = '" & batchLama & "' "
+
+                    CrDoc.PrintOptions.PrinterName = PrinterBarcode
+
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+
+                    CrDoc.PrintToPrinter(1, False, 1, 2500)
 
                 End If
             End Using

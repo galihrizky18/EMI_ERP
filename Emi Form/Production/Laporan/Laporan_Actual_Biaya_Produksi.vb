@@ -9,9 +9,6 @@ Public Class Laporan_Actual_Biaya_Produksi
 
         Tgl1.Value = Now.Date : Tgl2.Value = Now.Date
 
-
-
-
         Try
             OpenConn()
 

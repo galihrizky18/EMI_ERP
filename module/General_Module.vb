@@ -48,6 +48,11 @@ Module General_Module
     Public PrinterNameBPB As String = "EPSON LX-310 ESC/P"
     Public PrinterNameBuktiTimbang As String = "EPSON LX-310 ESC/P"
     Public PrinterName2 As String = "EPSON LX-310 ESC/P"
+    Public PrinterName As String = "EPSON LX-310 ESC/P"
+    Public PrinterNameTS As String = "EPSON LX-310 ESC/P"
+
+    Public PrinterBarcode As String = ""
+    Public PrinterQC As String = ""
 
 
     Public Cn As SqlConnection
@@ -223,8 +228,7 @@ Module General_Module
     Public No_Fak As String = ""
     Public Jenis As String = ""
     Public Field As String = ""
-    Public PrinterName As String = "EPSON LX-310 ESC/P" '"EPSON LX-300+II ESC/P"
-    Public PrinterNameTS As String = "EPSON LX-310 ESC/P"
+
     Public JmlBrg As Integer = 11
     Public JmlBrgReturBeli As Integer = 16
     Public JmlBrgPO As Integer = 16

@@ -590,6 +590,130 @@ Public Class EMI_Restock
             Exit Sub
         End Try
 
+#Region "Cetak Lama"
+
+
+        '=================
+        '=     CETAK     =
+        '=================
+        'Try
+        '    OpenConn()
+        '    Dim kertas As String = ""
+        '    SQL = "select Kode_Perusahaan from View_Laporan_Actual_Biaya_Produksi where "
+        '    SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and "
+        '    ' SQL = SQL & "no_faktur = '" & TxtFaktur.Text & "' "
+        '    SQL = SQL & "no_faktur = 'FAB1224-00002' "
+        '    Using Ds = BindingTrans(SQL)
+        '        If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+
+        '            Dim CrDoc = New Rpt_Laporan_Penambahan_Stock_Barang
+        '            kertas = "A4"
+
+        '            CrDoc.SetDataSource(Ds)
+        '            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+        '            CrDoc.PrintOptions.PrinterName = PrinterNameSPB
+        '            CrDoc.RecordSelectionFormula = "{View_Laporan_Penambahan_Stock_Barang.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Penambahan_Stock_Barang.no_faktur} = '" & TextBox1.Text.Trim & "' "
+        '            'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+        '            Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+        '            doctoprint.PrinterSettings.PrinterName = PrinterNameSPB
+        '            Dim rawKind As Integer
+        '            CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+        '            For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+        '                If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+        '                    rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+        '                    CrDoc.PrintOptions.PaperSize = rawKind
+        '                    Exit For
+        '                End If
+        '            Next
+
+        '            CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+        '            CrDoc.PrintToPrinter(1, False, 1, 99)
+
+        '            MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        Else
+        '            MessageBox.Show("Tidak ada data yang dapat dicetak!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        End If
+        '    End Using
+
+        '    CloseConn()
+        'Catch ex As Exception
+        '    CloseConn()
+        '    MessageBox.Show(ex.Message)
+        '    Exit Sub
+        'End Try
+
+#End Region
+
+        '=================================
+        '=     CETAK FAKTUR RESTOCK     =
+        '=================================
+        Try
+            OpenConn()
+
+            Dim CrDoc As New Object
+            Dim kertas As String = ""
+
+            SQL = "select Kode_Perusahaan from view_laporan_penambahan_stock_barang "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & TextBox1.Text.Trim & "' "
+
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                    CrDoc = New Rpt_Laporan_Penambahan_Stock_Barang
+                    kertas = "Faktur"
+
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = "{view_laporan_penambahan_stock_barang.Kode_Perusahaan} = '" & KodePerusahaan & "' and {view_laporan_penambahan_stock_barang.no_faktur}='" & TextBox1.Text.Trim & "' "
+                    '    CrDoc.SummaryInfo.ReportTitle = "TF"
+                    '    .Text = "TF"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
+
+                    '============================================================================================================================================
+                    '============================================================================================================================================
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.PrintOptions.PrinterName = PrinterNameTS
+                    CrDoc.RecordSelectionFormula = "{view_laporan_penambahan_stock_barang.Kode_Perusahaan} = '" & KodePerusahaan & "' and {view_laporan_penambahan_stock_barang.no_faktur}='" & TextBox1.Text.Trim & "' "
+                    'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    doctoprint.PrinterSettings.PrinterName = PrinterNameTS
+                    Dim rawKind As Integer
+                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                            CrDoc.PrintOptions.PaperSize = rawKind
+                            Exit For
+                        End If
+                    Next
+
+                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    CrDoc.PrintToPrinter(1, False, 1, 99)
+
+                    MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+
+                End If
+            End Using
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
         Kosong()
         DateTimePicker1.Focus()
     End Sub

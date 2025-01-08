@@ -45,7 +45,7 @@ Public Class EMI_Display_Hasil_Produksi
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_PO = b.No_Faktur and b.Selesai is null and b.flag_release='Y' "
             SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Stock_Owner = c.Kode_Stock_Owner and a.Kode_Barang = c.Kode_Barang "
             SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.Flag_Produksi = 'Y'  "
-            SQL = SQL & "and b.Id_Routing = d.Id_Routing and a.Flag_Hasil_Produksi is null "
+            SQL = SQL & " and b.Id_Routing = d.Id_Routing  "
             If ComboBox3.SelectedIndex <> -1 Then
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
                 SQL = SQL & arrcari.Item(ComboBox3.SelectedIndex) & "  like  '%" & Trim(TextBox3.Text) & "%' "
@@ -141,8 +141,5 @@ Public Class EMI_Display_Hasil_Produksi
         End If
     End Sub
 
-    Private Sub ListView1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListView1.SelectedIndexChanged
-
-    End Sub
 
 End Class

@@ -82,6 +82,7 @@ Public Class Emi_Display_Transfer
         My.Application.ChangeUICulture("en-us")
     End Sub
 
+
     Private Sub Popup_Timbang_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
@@ -190,7 +191,7 @@ Public Class Emi_Display_Transfer
 
             SQL = "select * from barang_sn "
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and Qr_Code+'-'+Kode_Unik_Berjalan = '" & Txt_ScanBarcode.Text & "' "
+            SQL = SQL & "and Qr_Code+'-'+Kode_Unik_Berjalan = '" & Txt_ScanBarcode.Text & "' and jumlah <> 0 "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     SN = Dr("serial_number")

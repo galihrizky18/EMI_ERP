@@ -557,6 +557,15 @@ Public Class FMenuDev
         Detail_Account_New.Focus()
     End Sub
 
+    Private Sub SummaryUsageRMToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SummaryUsageRMToolStripMenuItem.Click
+
+        Laporan_Summary_Usage_RM.StartPosition = FormStartPosition.CenterScreen
+
+        Laporan_Summary_Usage_RM.MdiParent = Me
+        Laporan_Summary_Usage_RM.Show()
+        Laporan_Summary_Usage_RM.Focus()
+    End Sub
+
 
 
 

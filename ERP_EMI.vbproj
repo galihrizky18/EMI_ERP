@@ -336,12 +336,6 @@
     <Compile Include="Emi Form\Inventory\EMI_Display_Restock.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Inventory\EMI_Restock.Designer.vb">
-      <DependentUpon>EMI_Restock.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Inventory\EMI_Restock.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Penawaran\Transaksi_Penawaran.designer.vb">
       <DependentUpon>Transaksi_Penawaran.vb</DependentUpon>
     </Compile>
@@ -589,11 +583,19 @@
     <Compile Include="Emi Form\Production\Laporan\Laporan_Actual_Biaya_Produksi.Designer.vb">
       <DependentUpon>Laporan_Actual_Biaya_Produksi.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\Production\Laporan\Laporan_Actual_Biaya_Produksi.vb" />
+    <Compile Include="Emi Form\Production\Laporan\Laporan_Actual_Biaya_Produksi.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\Production\Laporan\Laporan_Hasil_Produksi_Per_Pallet_Per_Split_PO.designer.vb">
       <DependentUpon>Laporan_Hasil_Produksi_Per_Pallet_Per_Split_PO.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Production\Laporan\Laporan_Hasil_Produksi_Per_Pallet_Per_Split_PO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Production\Laporan\Laporan_Summary_Usage_RM.Designer.vb">
+      <DependentUpon>Laporan_Summary_Usage_RM.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Production\Laporan\Laporan_Summary_Usage_RM.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Production\Report\Laporan_Hasil_Produksi_Per_Pallet_Per_Split_PO_Rpt.vb">
@@ -1208,6 +1210,18 @@
     <Compile Include="Emi Form\Warehouse\Material Movement\EMI_Display_Transfer_Tidak_Timbang.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\EMI_Restock.Designer.vb">
+      <DependentUpon>EMI_Restock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\EMI_Restock.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\EMI_Timbang_Floor_Scale.designer.vb">
+      <DependentUpon>EMI_Timbang_Floor_Scale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\EMI_Timbang_Floor_Scale.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\Warehouse\Material Movement\Transfer_Stock_3.Designer.vb">
       <DependentUpon>Transfer_Stock_3.vb</DependentUpon>
     </Compile>
@@ -1382,12 +1396,6 @@
     <Compile Include="Emi Form\Warehouse\Transaksi\EMI_Selisih_Barang_Masuk_Validasi.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Warehouse\Transaksi\EMI_Timbang_Floor_Scale.designer.vb">
-      <DependentUpon>EMI_Timbang_Floor_Scale.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Warehouse\Transaksi\EMI_Timbang_Floor_Scale.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Warehouse\Transaksi\EMI_Timbang_Unloading.designer.vb">
       <DependentUpon>EMI_Timbang_Unloading.vb</DependentUpon>
     </Compile>
@@ -1452,6 +1460,12 @@
       <DependentUpon>FMenuDev.vb</DependentUpon>
     </Compile>
     <Compile Include="FMenuDev.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Login.Designer.vb">
+      <DependentUpon>Form_Login.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Login.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FR_Login.Designer.vb">
@@ -1618,11 +1632,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Laporan_Actual_Biaya_Produksi_Summary_Rpt.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Rpt\Laporan_GI_GR_Summary.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Laporan_GI_GR_Summary.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Rpt\Laporan_GI_GR_Rpt.vb">
       <AutoGen>True</AutoGen>
@@ -1636,10 +1652,10 @@
       <DependentUpon>Laporan_Perfaktur_GI_GR.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Rpt\Laporan_Production_Lost.vb">
+    <Compile Include="Rpt\Laporan_Production_Loss.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Laporan_Production_Lost.rpt</DependentUpon>
+      <DependentUpon>Laporan_Production_Loss.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Rpt\Laporan_Purchase_Order_Rpt.vb">
@@ -1652,6 +1668,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Laporan_Purchase_Requsition_Rpt.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Rpt\Laporan_RM_Usage_Summary.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Laporan_RM_Usage_Summary.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Rpt\Laporan_Transfer_Stock_Rpt.vb">
@@ -1676,6 +1698,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Bukti_Timbang.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Rpt\Rpt_EMI_Faktur_Transfer_Stock.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_EMI_Faktur_Transfer_Stock.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Rpt\Rpt_EMI_Faktur_Transfer_Stock_Detail.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_EMI_Faktur_Transfer_Stock_Detail.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Rpt\Rpt_Faktur_Adjustment.vb">
@@ -1709,6 +1743,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Laporan_Actual_Biaya_Produksi.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Rpt\Rpt_Laporan_Bahan_Import.vb">
       <AutoGen>True</AutoGen>
@@ -1716,10 +1751,22 @@
       <DependentUpon>Rpt_Laporan_Bahan_Import.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Rpt\Rpt_Laporan_Hasil_Production.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Laporan_Hasil_Production.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Rpt\Rpt_Laporan_Hasil_QC.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Laporan_Hasil_QC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Rpt\Rpt_Laporan_Penambahan_Stock_Barang.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Laporan_Penambahan_Stock_Barang.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Rpt\Rpt_Surat_Perintah_Bongkar.vb">
@@ -1926,9 +1973,6 @@
     <EmbeddedResource Include="Emi Form\Inventory\EMI_Display_Restock.resx">
       <DependentUpon>EMI_Display_Restock.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Inventory\EMI_Restock.resx">
-      <DependentUpon>EMI_Restock.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Penawaran\Transaksi_Penawaran.resx">
       <DependentUpon>Transaksi_Penawaran.vb</DependentUpon>
     </EmbeddedResource>
@@ -2056,6 +2100,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Production\Laporan\Laporan_Hasil_Produksi_Per_Pallet_Per_Split_PO.resx">
       <DependentUpon>Laporan_Hasil_Produksi_Per_Pallet_Per_Split_PO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Production\Laporan\Laporan_Summary_Usage_RM.resx">
+      <DependentUpon>Laporan_Summary_Usage_RM.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Production\Report\Laporan_Hasil_Produksi_Per_Pallet_Per_Split_PO_Rpt.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -2367,6 +2414,12 @@
     <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\EMI_Display_Transfer_Tidak_Timbang.resx">
       <DependentUpon>EMI_Display_Transfer_Tidak_Timbang.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\EMI_Restock.resx">
+      <DependentUpon>EMI_Restock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\EMI_Timbang_Floor_Scale.resx">
+      <DependentUpon>EMI_Timbang_Floor_Scale.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\Transfer_Stock_3.resx">
       <DependentUpon>Transfer_Stock_3.vb</DependentUpon>
     </EmbeddedResource>
@@ -2454,9 +2507,6 @@
     <EmbeddedResource Include="Emi Form\Warehouse\Transaksi\EMI_Selisih_Barang_Masuk_Validasi.resx">
       <DependentUpon>EMI_Selisih_Barang_Masuk_Validasi.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Warehouse\Transaksi\EMI_Timbang_Floor_Scale.resx">
-      <DependentUpon>EMI_Timbang_Floor_Scale.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Transaksi\EMI_Timbang_Unloading.resx">
       <DependentUpon>EMI_Timbang_Unloading.vb</DependentUpon>
     </EmbeddedResource>
@@ -2489,6 +2539,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FMenuDev.resx">
       <DependentUpon>FMenuDev.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Login.resx">
+      <DependentUpon>Form_Login.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FR_Login.resx">
       <DependentUpon>FR_Login.vb</DependentUpon>
@@ -2590,9 +2643,9 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Laporan_Perfaktur_GI_GR.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Rpt\Laporan_Production_Lost.rpt">
+    <EmbeddedResource Include="Rpt\Laporan_Production_Loss.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>Laporan_Production_Lost.vb</LastGenOutput>
+      <LastGenOutput>Laporan_Production_Loss.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Rpt\Laporan_Purchase_Order_Rpt.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -2601,6 +2654,10 @@
     <EmbeddedResource Include="Rpt\Laporan_Purchase_Requsition_Rpt.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Laporan_Purchase_Requsition_Rpt.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\Laporan_RM_Usage_Summary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Laporan_RM_Usage_Summary.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Rpt\Laporan_Transfer_Stock_Rpt.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -2617,6 +2674,14 @@
     <EmbeddedResource Include="Rpt\Rpt_Bukti_Timbang.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Bukti_Timbang.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\Rpt_EMI_Faktur_Transfer_Stock.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_EMI_Faktur_Transfer_Stock.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\Rpt_EMI_Faktur_Transfer_Stock_Detail.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_EMI_Faktur_Transfer_Stock_Detail.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Rpt\Rpt_Faktur_Adjustment.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -2642,9 +2707,17 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Laporan_Bahan_Import.vb</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\Rpt_Laporan_Hasil_Production.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Laporan_Hasil_Production.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Rpt\Rpt_Laporan_Hasil_QC.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Laporan_Hasil_QC.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\Rpt_Laporan_Penambahan_Stock_Barang.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Laporan_Penambahan_Stock_Barang.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Rpt\Rpt_Surat_Perintah_Bongkar.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

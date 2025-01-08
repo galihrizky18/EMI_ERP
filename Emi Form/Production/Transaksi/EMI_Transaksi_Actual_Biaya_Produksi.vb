@@ -1,4 +1,5 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+﻿Imports System.Web.UI.WebControls
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
 
 
@@ -351,9 +352,9 @@ Public Class EMI_Transaksi_Actual_Biaya_Produksi
                 End Using
 
 
-                '========================
+                '=================================
                 '=     POTONG STOCK barang sn    =
-                '========================
+                '=================================
 
                 Dim sisa As Double = 0
                 SQL = "select kode_stock_owner, kode_barang, serial_number, round(jumlah,2) as jumlah from barang_sn where "
@@ -466,6 +467,8 @@ Public Class EMI_Transaksi_Actual_Biaya_Produksi
         End Try
 
 
+#Region "Cetak Lama"
+
         '=================
         '=     CETAK     =
         '=================
@@ -516,6 +519,85 @@ Public Class EMI_Transaksi_Actual_Biaya_Produksi
         '    MessageBox.Show(ex.Message)
         '    Exit Sub
         'End Try
+#End Region
+
+        '==============================================
+        '=     CETAK FAKTUR ACTUAL BIAYA PRODUKSI     =
+        '==============================================
+        Try
+            OpenConn()
+
+            Dim CrDoc As New Object
+            Dim kertas As String = ""
+
+            SQL = "select Kode_Perusahaan from View_Laporan_Actual_Biaya_Produksi "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & TxtFaktur.Text & "' "
+
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                    CrDoc = New Rpt_Laporan_Actual_Biaya_Produksi
+                    kertas = "Faktur"
+
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = "{View_Laporan_Actual_Biaya_Produksi.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Actual_Biaya_Produksi.No_Faktur}='" & TxtFaktur.Text & "' "
+                    '    CrDoc.SummaryInfo.ReportTitle = "TF"
+                    '    .Text = "TF"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
+
+                    '============================================================================================================================================
+                    '============================================================================================================================================
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.PrintOptions.PrinterName = PrinterNameTS
+                    CrDoc.RecordSelectionFormula = "{View_Laporan_Actual_Biaya_Produksi.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Actual_Biaya_Produksi.No_Faktur}='" & TxtFaktur.Text & "' "
+                    'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    doctoprint.PrinterSettings.PrinterName = PrinterNameTS
+                    doctoprint.DefaultPageSettings.Landscape = True
+                    Dim rawKind As Integer
+                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                            CrDoc.PrintOptions.PaperSize = rawKind
+                            Exit For
+                        End If
+                    Next
+
+                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    CrDoc.PrintToPrinter(1, False, 1, 99)
+
+                    MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
+
+
+
+
+
+
+
+
+
         kosong()
 
     End Sub

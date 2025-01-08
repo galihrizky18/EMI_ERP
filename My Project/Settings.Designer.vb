@@ -161,6 +161,30 @@ Namespace My
                 Me("Prt_Name_2") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("XXX")>  _
+        Public Property Prt_QC() As String
+            Get
+                Return CType(Me("Prt_QC"),String)
+            End Get
+            Set
+                Me("Prt_QC") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("XXX")>  _
+        Public Property Prt_Barcode() As String
+            Get
+                Return CType(Me("Prt_Barcode"),String)
+            End Get
+            Set
+                Me("Prt_Barcode") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

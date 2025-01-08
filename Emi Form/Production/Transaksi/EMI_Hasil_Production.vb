@@ -3,6 +3,7 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
 
 Public Class EMI_Hasil_Production
+    Dim CrDoc As Object
     Dim Jenis = "Display_Production_Order"
     Public fno_po As String
 
@@ -297,8 +298,92 @@ Public Class EMI_Hasil_Production
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-        EMI_Display_Hasil_Produksi.Button1_Click(Btn_Simpan, e)
-        Me.Close()
+
+        Dim Nanya As String = MessageBox.Show("Anda akan lakukan pencetakan laporan ini . . ? ?", "Perhatian", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If Nanya = vbYes Then
+            cetak()
+            EMI_Display_Hasil_Produksi.Button1_Click(Btn_Simpan, e)
+            Me.Close()
+        Else
+            EMI_Display_Hasil_Produksi.Button1_Click(Btn_Simpan, e)
+            Me.Close()
+        End If
+
+
+    End Sub
+
+    Private Sub cetak()
+        Try
+            OpenConn()
+
+            Dim SF As String = ""
+            Dim SF2 As String = ""
+            Dim SF3 As String = ""
+            SQL = "select a.Kode_Perusahaan from VW_Laporan_Hasil_Production a where "
+            SQL = SQL & "a.Kode_Perusahaan = '" & KodePerusahaan & "' and "
+            SF = "{VW_Laporan_Hasil_Production.Kode_Perusahaan} = '" & KodePerusahaan & "' and "
+            SQL = SQL & "a.No_Transaksi = '" & TextBox4.Text & "' "
+            SF = SF & "{VW_Laporan_Hasil_Production.No_Transaksi} = '" & TextBox4.Text & "' "
+
+
+            SF2 = "{Vw_Laporan_Production_Lost_GI_GR.Kode_Perusahaan} = '" & KodePerusahaan & "' and "
+            SF2 = SF2 & "{Vw_Laporan_Production_Lost_GI_GR.No_Production_Order} = '" & TextBox4.Text & "' "
+
+
+
+            SF3 = "{Vw_Laporan_Perfaktur_GI_GR.Kode_Perusahaan} = '" & KodePerusahaan & "' and "
+            SF3 = SF3 & "{Vw_Laporan_Perfaktur_GI_GR.No_Transaksi} = '" & TextBox4.Text & "' "
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                    CrDoc = New Rpt_Laporan_Hasil_Production
+                    With A_Place_For_Printing2
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        CrDoc.RecordSelectionFormula = SF
+                        .Text = "Laporan Material Usage"
+                        .CrystalReportViewer1.ReportSource = CrDoc
+                        .CrystalReportViewer1.DisplayGroupTree = False
+                        .Refresh()
+                        .Show()
+                    End With
+
+                    CrDoc = New Laporan_Production_Loss
+                    With A_Place_For_Printing3
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        CrDoc.RecordSelectionFormula = SF2
+                        .Text = "Laporan Production lost"
+                        .CrystalReportViewer1.ReportSource = CrDoc
+                        .CrystalReportViewer1.DisplayGroupTree = False
+                        .Refresh()
+                        .Show()
+                    End With
+
+                    CrDoc = New Laporan_Perfaktur_GI_GR
+                    With A_Place_For_Printing2
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        CrDoc.RecordSelectionFormula = SF3
+                        .Text = "Laporan GI GR"
+                        .CrystalReportViewer1.ReportSource = CrDoc
+                        .CrystalReportViewer1.DisplayGroupTree = False
+                        .Refresh()
+                        .Show()
+                    End With
+                Else
+                    MessageBox.Show("Data tidak ditemukan . . ! !", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+
+        End Try
     End Sub
 
     Private Sub Transaksi_Produksi_Activated(sender As Object, e As EventArgs) Handles Me.Activated

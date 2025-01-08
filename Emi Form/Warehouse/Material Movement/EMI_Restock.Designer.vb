@@ -448,7 +448,7 @@ Partial Class EMI_Restock
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(733, 51)
+        Me.Panel1.Size = New System.Drawing.Size(732, 51)
         Me.Panel1.TabIndex = 318
         '
         'PanelGradient1
@@ -461,7 +461,7 @@ Partial Class EMI_Restock
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(733, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(732, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label13
@@ -575,7 +575,7 @@ Partial Class EMI_Restock
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(733, 465)
+        Me.ClientSize = New System.Drawing.Size(732, 465)
         Me.Controls.Add(Me.ListView1)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Panel5)

@@ -24,8 +24,9 @@ Partial Class Laporan_Actual_Biaya_Produksi
     Private Sub InitializeComponent()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.CmbJenisBiaya = New System.Windows.Forms.ComboBox()
+        Me.Label4 = New System.Windows.Forms.Label()
         Me.CmbWorkCenter = New System.Windows.Forms.ComboBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Tgl2 = New System.Windows.Forms.DateTimePicker()
@@ -37,8 +38,7 @@ Partial Class Laporan_Actual_Biaya_Produksi
         Me.LvSupp = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.CmbJenisBiaya = New System.Windows.Forms.ComboBox()
-        Me.Label4 = New System.Windows.Forms.Label()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -65,19 +65,6 @@ Partial Class Laporan_Actual_Biaya_Produksi
         Me.Panel1.Size = New System.Drawing.Size(591, 51)
         Me.Panel1.TabIndex = 23
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(591, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.CmbJenisBiaya)
@@ -94,6 +81,24 @@ Partial Class Laporan_Actual_Biaya_Produksi
         Me.GroupBox1.TabIndex = 24
         Me.GroupBox1.TabStop = False
         '
+        'CmbJenisBiaya
+        '
+        Me.CmbJenisBiaya.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CmbJenisBiaya.FormattingEnabled = True
+        Me.CmbJenisBiaya.Location = New System.Drawing.Point(121, 84)
+        Me.CmbJenisBiaya.Name = "CmbJenisBiaya"
+        Me.CmbJenisBiaya.Size = New System.Drawing.Size(365, 26)
+        Me.CmbJenisBiaya.TabIndex = 7
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(17, 87)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(77, 18)
+        Me.Label4.TabIndex = 8
+        Me.Label4.Text = "Jenis Biaya"
+        '
         'CmbWorkCenter
         '
         Me.CmbWorkCenter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
@@ -106,7 +111,7 @@ Partial Class Laporan_Actual_Biaya_Produksi
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(17, 55)
+        Me.Label5.Location = New System.Drawing.Point(17, 69)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(87, 18)
         Me.Label5.TabIndex = 6
@@ -195,23 +200,18 @@ Partial Class Laporan_Actual_Biaya_Produksi
         Me.ColumnHeader2.Text = "Nama"
         Me.ColumnHeader2.Width = 311
         '
-        'CmbJenisBiaya
+        'PanelGradient1
         '
-        Me.CmbJenisBiaya.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CmbJenisBiaya.FormattingEnabled = True
-        Me.CmbJenisBiaya.Location = New System.Drawing.Point(121, 84)
-        Me.CmbJenisBiaya.Name = "CmbJenisBiaya"
-        Me.CmbJenisBiaya.Size = New System.Drawing.Size(365, 26)
-        Me.CmbJenisBiaya.TabIndex = 7
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(17, 87)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(77, 18)
-        Me.Label4.TabIndex = 8
-        Me.Label4.Text = "Jenis Biaya"
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(591, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Laporan_Actual_Biaya_Produksi
         '
