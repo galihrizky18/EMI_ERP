@@ -63,11 +63,6 @@ Public Class Laporan_Actual_Biaya_Produksi
 
 
 
-
-
-
-
-
     Private Sub LvSupp_DoubleClick(sender As Object, e As EventArgs) Handles LvSupp.DoubleClick
         Dim Kode As String = LvSupp.FocusedItem.Text
         Dim Nama As String = LvSupp.FocusedItem.SubItems(1).Text

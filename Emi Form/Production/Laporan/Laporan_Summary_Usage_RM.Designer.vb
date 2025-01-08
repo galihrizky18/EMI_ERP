@@ -26,14 +26,16 @@ Partial Class Laporan_Summary_Usage_RM
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.CmbJenis = New System.Windows.Forms.ComboBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Txt_KdBarang = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Tgl2 = New System.Windows.Forms.DateTimePicker()
+        Me.Tgl1 = New System.Windows.Forms.DateTimePicker()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.BtnExit = New System.Windows.Forms.Button()
         Me.BtnCetak = New System.Windows.Forms.Button()
-        Me.Tgl2 = New System.Windows.Forms.DateTimePicker()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.Tgl1 = New System.Windows.Forms.DateTimePicker()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Txt_KdBarang = New System.Windows.Forms.TextBox()
         Me.Lv_Barang = New System.Windows.Forms.ListView()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -47,7 +49,7 @@ Partial Class Laporan_Summary_Usage_RM
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(805, 51)
+        Me.Panel1.Size = New System.Drawing.Size(681, 51)
         Me.Panel1.TabIndex = 24
         '
         'PanelGradient1
@@ -60,39 +62,111 @@ Partial Class Laporan_Summary_Usage_RM
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(805, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(681, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.Location = New System.Drawing.Point(15, 11)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(308, 30)
+        Me.Label1.Size = New System.Drawing.Size(316, 25)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Laporan Usage Raw Material"
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.CmbJenis)
+        Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Txt_KdBarang)
         Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.Tgl2)
         Me.GroupBox1.Controls.Add(Me.Tgl1)
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.Label2)
-        Me.GroupBox1.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(12, 58)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(659, 116)
         Me.GroupBox1.TabIndex = 25
         Me.GroupBox1.TabStop = False
         '
+        'CmbJenis
+        '
+        Me.CmbJenis.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CmbJenis.FormattingEnabled = True
+        Me.CmbJenis.Location = New System.Drawing.Point(115, 79)
+        Me.CmbJenis.Name = "CmbJenis"
+        Me.CmbJenis.Size = New System.Drawing.Size(365, 24)
+        Me.CmbJenis.TabIndex = 35
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(11, 82)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(39, 16)
+        Me.Label5.TabIndex = 36
+        Me.Label5.Text = "Jenis"
+        '
+        'Txt_KdBarang
+        '
+        Me.Txt_KdBarang.Location = New System.Drawing.Point(115, 51)
+        Me.Txt_KdBarang.Name = "Txt_KdBarang"
+        Me.Txt_KdBarang.Size = New System.Drawing.Size(365, 22)
+        Me.Txt_KdBarang.TabIndex = 34
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(11, 51)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(86, 16)
+        Me.Label4.TabIndex = 33
+        Me.Label4.Text = "Kode Barang"
+        '
+        'Tgl2
+        '
+        Me.Tgl2.CustomFormat = "dd MMMM yyyy"
+        Me.Tgl2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.Tgl2.Location = New System.Drawing.Point(317, 19)
+        Me.Tgl2.Name = "Tgl2"
+        Me.Tgl2.Size = New System.Drawing.Size(163, 22)
+        Me.Tgl2.TabIndex = 30
+        '
+        'Tgl1
+        '
+        Me.Tgl1.CustomFormat = "dd MMMM yyyy"
+        Me.Tgl1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.Tgl1.Location = New System.Drawing.Point(115, 19)
+        Me.Tgl1.Name = "Tgl1"
+        Me.Tgl1.Size = New System.Drawing.Size(163, 22)
+        Me.Tgl1.TabIndex = 29
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(284, 21)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(26, 16)
+        Me.Label3.TabIndex = 31
+        Me.Label3.Text = "s/d"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(11, 21)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(55, 16)
+        Me.Label2.TabIndex = 28
+        Me.Label2.Text = "Periode"
+        '
         'BtnExit
         '
         Me.BtnExit.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.BtnExit.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnExit.ForeColor = System.Drawing.Color.White
         Me.BtnExit.Location = New System.Drawing.Point(587, 178)
         Me.BtnExit.Name = "BtnExit"
@@ -104,7 +178,7 @@ Partial Class Laporan_Summary_Usage_RM
         'BtnCetak
         '
         Me.BtnCetak.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.BtnCetak.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnCetak.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnCetak.ForeColor = System.Drawing.Color.White
         Me.BtnCetak.Location = New System.Drawing.Point(504, 178)
         Me.BtnCetak.Name = "BtnCetak"
@@ -112,58 +186,6 @@ Partial Class Laporan_Summary_Usage_RM
         Me.BtnCetak.TabIndex = 26
         Me.BtnCetak.Text = "&Cetak"
         Me.BtnCetak.UseVisualStyleBackColor = False
-        '
-        'Tgl2
-        '
-        Me.Tgl2.CustomFormat = "dd MMMM yyyy"
-        Me.Tgl2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.Tgl2.Location = New System.Drawing.Point(317, 19)
-        Me.Tgl2.Name = "Tgl2"
-        Me.Tgl2.Size = New System.Drawing.Size(163, 23)
-        Me.Tgl2.TabIndex = 30
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(284, 21)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(28, 18)
-        Me.Label3.TabIndex = 31
-        Me.Label3.Text = "s/d"
-        '
-        'Tgl1
-        '
-        Me.Tgl1.CustomFormat = "dd MMMM yyyy"
-        Me.Tgl1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.Tgl1.Location = New System.Drawing.Point(115, 19)
-        Me.Tgl1.Name = "Tgl1"
-        Me.Tgl1.Size = New System.Drawing.Size(163, 23)
-        Me.Tgl1.TabIndex = 29
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(11, 21)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(56, 18)
-        Me.Label2.TabIndex = 28
-        Me.Label2.Text = "Periode"
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(11, 51)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(86, 18)
-        Me.Label4.TabIndex = 33
-        Me.Label4.Text = "Kode Barang"
-        '
-        'Txt_KdBarang
-        '
-        Me.Txt_KdBarang.Location = New System.Drawing.Point(115, 51)
-        Me.Txt_KdBarang.Name = "Txt_KdBarang"
-        Me.Txt_KdBarang.Size = New System.Drawing.Size(365, 23)
-        Me.Txt_KdBarang.TabIndex = 34
         '
         'Lv_Barang
         '
@@ -180,16 +202,16 @@ Partial Class Laporan_Summary_Usage_RM
         '
         'Laporan_Summary_Usage_RM
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(805, 338)
+        Me.ClientSize = New System.Drawing.Size(681, 216)
         Me.Controls.Add(Me.Lv_Barang)
         Me.Controls.Add(Me.BtnExit)
         Me.Controls.Add(Me.BtnCetak)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Panel1)
-        Me.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "Laporan_Summary_Usage_RM"
@@ -215,4 +237,6 @@ Partial Class Laporan_Summary_Usage_RM
     Friend WithEvents Txt_KdBarang As TextBox
     Friend WithEvents Label4 As Label
     Friend WithEvents Lv_Barang As ListView
+    Friend WithEvents CmbJenis As ComboBox
+    Friend WithEvents Label5 As Label
 End Class
