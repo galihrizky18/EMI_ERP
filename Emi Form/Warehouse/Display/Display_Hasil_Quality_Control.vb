@@ -65,8 +65,16 @@ Public Class Display_Hasil_Quality_Control
                     Lvw.SubItems.Add(dr("no_sj"))
                     Lvw.SubItems.Add(dr("No_Plat"))
                     Lvw.SubItems.Add(dr("driver"))
-                    Lvw.SubItems.Add(Format(dr("tanggal_masuk"), "dd-MM-yyyy"))
-                    Lvw.SubItems.Add(dr("Jam_Masuk"))
+                    If General_Class.CekNULL(dr("tanggal_masuk")) = "" Then
+                        Lvw.SubItems.Add("")
+                    Else
+                        Lvw.SubItems.Add(Format(dr("tanggal_masuk"), "dd-MM-yyyy"))
+                    End If
+                    If General_Class.CekNULL(dr("Jam_Masuk")) = "" Then
+                        Lvw.SubItems.Add("")
+                    Else
+                        Lvw.SubItems.Add(dr("Jam_Masuk"))
+                    End If
                 Loop
             End Using
 
@@ -222,6 +230,12 @@ Public Class Display_Hasil_Quality_Control
             End If
 
             If CheckBox2.Checked Then
+                If ComboBox2.SelectedIndex = -1 Then
+                    CloseConn()
+                    MessageBox.Show("Parameter Tidak Boleh Kosong", "Display Hasil Quality Control", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+
                 'Pasang And
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
 
@@ -238,8 +252,16 @@ Public Class Display_Hasil_Quality_Control
                     Lvw.SubItems.Add(dr("no_sj"))
                     Lvw.SubItems.Add(dr("No_Plat"))
                     Lvw.SubItems.Add(dr("driver"))
-                    Lvw.SubItems.Add(Format(dr("tanggal_masuk"), "dd-MM-yyyy"))
-                    Lvw.SubItems.Add(dr("Jam_Masuk"))
+                    If General_Class.CekNULL(dr("tanggal_masuk")) = "" Then
+                        Lvw.SubItems.Add("")
+                    Else
+                        Lvw.SubItems.Add(Format(dr("tanggal_masuk"), "dd-MM-yyyy"))
+                    End If
+                    If General_Class.CekNULL(dr("Jam_Masuk")) = "" Then
+                        Lvw.SubItems.Add("")
+                    Else
+                        Lvw.SubItems.Add(dr("Jam_Masuk"))
+                    End If
                 Loop
             End Using
 
@@ -263,7 +285,9 @@ Public Class Display_Hasil_Quality_Control
         End If
     End Sub
 
-    Private Sub ListView1_DoubleClick(sender As Object, e As EventArgs) Handles ListView1.DoubleClick
+
+
+    Private Sub ListView1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListView1.SelectedIndexChanged
         If ListView1.Items.Count = 0 Then Exit Sub
         Try
             OpenConn()
@@ -292,9 +316,9 @@ Public Class Display_Hasil_Quality_Control
     End Sub
 
     Private Sub CetakHasilToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CetakHasilToolStripMenuItem.Click
-        If ListView3.Items.Count = 0 Then Exit Sub
+        If ListView2.Items.Count = 0 Then Exit Sub
 
-        If ListView3.Items.Count = 0 Or ListView3.SelectedItems.Count = 0 Then
+        If ListView2.Items.Count = 0 Or ListView2.SelectedItems.Count = 0 Then
             MessageBox.Show("Pilih dahulu data yang akan dicetak!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         End If
@@ -302,27 +326,66 @@ Public Class Display_Hasil_Quality_Control
         Try
             OpenConn()
 
+            Dim CrDoc As New Object
+            Dim kertas As String = ""
+
             Dim SF As String = ""
             SQL = "select Kode_Perusahaan from View_Laporan_Hasil_QC where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-            SQL = SQL & "no_hsl_qc = '" & ListView3.FocusedItem.SubItems(7).Text & "' "
+            SQL = SQL & "No_Fak_Loading_Barang = '" & ListView1.FocusedItem.Text & "' "
 
-            SF = "{View_Laporan_Hasil_QC.no_hsl_qc} = '" & ListView3.FocusedItem.SubItems(7).Text & "' "
+            SF = "{View_Laporan_Hasil_QC.No_Fak_Loading_Barang} = '" & ListView1.FocusedItem.Text & "' "
             SF = SF & "and {View_Laporan_Hasil_QC.kode_perusahaan} = '" & KodePerusahaan & "' "
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
                     CrDoc = New Rpt_Laporan_Hasil_QC
-                    With A_Place_For_Printing2
-                        CrDoc.SetDataSource(Ds)
-                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.PrintOptions.PrinterName = ""
-                        CrDoc.RecordSelectionFormula = SF
-                        'CrDoc.SummaryInfo.ReportTitle = "Barang Masuk Per Pallet"
-                        .Text = "Laporan Hasil QC"
-                        .CrystalReportViewer1.ReportSource = CrDoc
-                        '.CrystalReportViewer1.DisplayGroupTree = False
-                        .Refresh()
-                        .Show()
-                    End With
+
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = SF
+                    '    'CrDoc.SummaryInfo.ReportTitle = "Barang Masuk Per Pallet"
+                    '    .Text = "Laporan Hasil QC"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    '.CrystalReportViewer1.DisplayGroupTree = False
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
+
+
+                    '============================================================================================================================================
+                    '============================================================================================================================================
+
+                    kertas = "A4"
+
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.PrintOptions.PrinterName = PrinterQC
+                    CrDoc.RecordSelectionFormula = SF
+                    'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    doctoprint.PrinterSettings.PrinterName = PrinterQC
+                    'doctoprint.DefaultPageSettings.Landscape = True
+                    Dim rawKind As Integer
+                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                            CrDoc.PrintOptions.PaperSize = rawKind
+                            Exit For
+                        End If
+                    Next
+
+                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    CrDoc.PrintToPrinter(1, False, 1, 99)
+
+                    MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+                    CloseConn()
+                    MessageBox.Show("Data Tidak diTemukan", "Cetak Ulang", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+
                 End If
             End Using
 
@@ -346,14 +409,15 @@ Public Class Display_Hasil_Quality_Control
             SQL = "select a.tanggal,a.jam,a.userid,a.keterangan,a.warna,a.jenis_qc,a.step,a.no_faktur "
             SQL = SQL & "from emi_hasil_quality_control a where  a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.no_fak_loading_barang = '" & ListView1.FocusedItem.Text & "' "
-            SQL = SQL & "and a.Kode_stock_owner = '" & lvKd_SO & "' and a.Kode_Barang = '" & lvKd_Brg & "' order by a.step "
+            'SQL = SQL & "and a.Kode_stock_owner = '" & lvKd_SO & "' "
+            SQL = SQL & "and a.Kode_Barang = '" & lvKd_Brg & "' order by a.step"
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
                     Dim Lvw As ListViewItem
                     Lvw = ListView3.Items.Add(Format(dr("tanggal"), "dd-MM-yyyy"))
                     Lvw.SubItems.Add(dr("jam"))
                     Lvw.SubItems.Add(dr("userid"))
-                    Lvw.SubItems.Add(dr("keterangan"))
+                    Lvw.SubItems.Add(If(General_Class.CekNULL(dr("keterangan")) = "", "", dr("keterangan")))
                     Lvw.SubItems.Add(dr("warna"))
                     Lvw.SubItems.Add(dr("jenis_qc"))
                     Lvw.SubItems.Add(dr("step"))

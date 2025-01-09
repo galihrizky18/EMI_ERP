@@ -1,7 +1,7 @@
 ﻿Public Class Emi_Display_Request_Material
     Dim Jenis = "Emi_Display_Request_Material"
     Public lokasi_kirim As String
-    Dim lv_kodeSO, Lv_MetPotStok, lv_KdBrg, lv_NmBrg, lv_Jenis, lv_TglPermintaan, lv_JamPermintaan, lv_Jumlah, lv_Satuan, lv_UserInput, lv_Warna, lv_GoodStock, lv_SatuanBesar, lv_SatuanDisplay, lv_JmlBags, lv_SatuanBags, Lv_Oto, lv_JumlahTF As String
+    Dim lv_kodeSO, Lv_MetPotStok, lv_KdBrg, lv_NmBrg, lv_Jenis, lv_TglPermintaan, lv_JamPermintaan, lv_Jumlah, lv_Satuan, lv_UserInput, lv_Warna, lv_GoodStock, lv_SatuanBesar, lv_SatuanDisplay, lv_JmlBags, lv_SatuanBags, Lv_Oto, lv_JumlahTF, LvJenisKemasan As String
 
     Private Sub Get_Isi_ListView(ByVal NoIndex As Integer)
         lv_kodeSO = Lv_Data.Items(NoIndex).Text
@@ -22,6 +22,7 @@
         lv_SatuanBags = Lv_Data.Items(NoIndex).SubItems(15).Text
         Lv_Oto = Lv_Data.Items(NoIndex).SubItems(16).Text
         Lv_MetPotStok = Lv_Data.Items(NoIndex).SubItems(17).Text
+        LvJenisKemasan = Lv_Data.Items(NoIndex).SubItems(18).Text
     End Sub
 
     Private Sub Emi_Display_Request_Material_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -45,6 +46,7 @@
         Lv_Data.Columns.Add("Satuan Bags", 0, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("Urut Oto", 0, HorizontalAlignment.Center) 'HIDE
         Lv_Data.Columns.Add("Metode Stock", 0, HorizontalAlignment.Center)
+        Lv_Data.Columns.Add("Jenis Kemasan", 0, HorizontalAlignment.Center)
         Lv_Data.View = View.Details
 
         Kosong()
@@ -55,7 +57,7 @@
             OpenConn()
 
             Lv_Data.Items.Clear()
-            SQL = "select d.Metode_Pengeluaran_Stok, c.Kode_Stock_Owner, c.Kode_Barang, d.Nama, b.Kode_Group_Jenis, a.Tanggal, a.Jam, c.Jumlah,  a.UserId, c.warna, "
+            SQL = "select d.Metode_Pengeluaran_Stok, d.jenis_kemasan, c.Kode_Stock_Owner, c.Kode_Barang, d.Nama, b.Kode_Group_Jenis, a.Tanggal, a.Jam, c.Jumlah,  a.UserId, c.warna, "
             SQL = SQL & "dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, d.satuan, c.satuan, d.good_stock) as Good_Stock, d.Satuan, c.Satuan as Satuan_Display, "
             SQL = SQL & "ISNULL(d.Jumlah_Bags, 0) as Jumlah_Bags, d.Satuan_Isi_Bags, c.Urut_Oto, "
             SQL = SQL & "ISNULL((select z.total from Tf_Stock z where c.Kode_Perusahaan = z.Kode_Perusahaan and c.Urut_Oto = z.urut_material_requisition_convert), '0') as Total_TF "
@@ -92,6 +94,7 @@
 
                     lv.SubItems.Add(Dr("Urut_Oto"))
                     lv.SubItems.Add(Dr("Metode_Pengeluaran_Stok"))
+                    lv.SubItems.Add(Dr("jenis_kemasan"))
                 Loop
             End Using
 
@@ -133,12 +136,15 @@
         Transfer_Stock_3.TxtSatuan.Text = lv_SatuanDisplay
         Transfer_Stock_3.TxtBags.Text = Format(Val(HilangkanTanda(lv_JmlBags)), "N2")
         Transfer_Stock_3.TxtMetPotStok.Text = Lv_MetPotStok
+        Transfer_Stock_3.TxtJenisBags.Text = LvJenisKemasan
+
         Transfer_Stock_3.Cmb_Warna.SelectedItem = lv_Warna
 
         Transfer_Stock_3.TxtStockDisplay.Text = Format(Val(HilangkanTanda(lv_GoodStock)), "N2") + " " + lv_SatuanDisplay
         Transfer_Stock_3.Txt_JumlahPermintaan.Text = lv_Jumlah
         Transfer_Stock_3.Txt_SatuanPermintaan.Text = lv_SatuanDisplay
         Transfer_Stock_3.TxtjmlPermintaanDisplay.Text = Format(Val(HilangkanTanda(lv_Jumlah)), "N2") + " " + lv_SatuanDisplay
+        Transfer_Stock_3.TxtjmlPermintaanBersih.Text = Format(Val(HilangkanTanda(lv_Jumlah)), "N2")
         Transfer_Stock_3.Txt_OtoMaterial_req.Text = Lv_Oto
         Transfer_Stock_3.Btn_Insert_Click(Lv_Data, e)
         'Transfer_Stock_3.DGV_Data_TF.Rows.Clear()

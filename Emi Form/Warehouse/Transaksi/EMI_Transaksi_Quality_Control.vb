@@ -1,6 +1,10 @@
-﻿Imports System.Reflection
+﻿Imports System.IO
+Imports System.Net
+Imports System.Reflection
+Imports System.Text
 Imports System.Windows.Forms.VisualStyles
 Imports System.Xml
+Imports Azure
 
 
 Public Class EMI_Transaksi_Quality_Control
@@ -10,6 +14,10 @@ Public Class EMI_Transaksi_Quality_Control
     Dim id_qc As String
     Dim warna As String
     Dim SudahLoadWarna As Boolean = False
+
+    ' tambahan buat fcm
+    Dim arrListTokenFcm As New ArrayList
+    'akhir tambahan fcm
 
     Public noQc As String
 
@@ -50,7 +58,17 @@ Public Class EMI_Transaksi_Quality_Control
     Dim CellIDWarna As Integer = 14
     Dim CellKeterangan As Integer = 15
 
+    Private Function CekNothing(ByVal str As String) As String
+        Dim hasil As String = ""
 
+        If str Is Nothing Then
+            hasil = ""
+        Else
+            hasil = str
+        End If
+
+        Return hasil
+    End Function
 
     Public Sub Get_Isi_Listview(ByVal No_Index As Integer, dgv As DataGridView)
 
@@ -201,6 +219,8 @@ Public Class EMI_Transaksi_Quality_Control
 
     End Sub
     Private Sub Load_QC(ByVal filter As String)
+
+
         Try
             OpenConn()
 
@@ -229,7 +249,7 @@ Public Class EMI_Transaksi_Quality_Control
             SQL = SQL & "Select a.kode_perusahaan, a.no_faktur, b.Id_Kategori_Komponen, c.Keterangan As Kategori_Komponen, "
             SQL = SQL & "isnull(c.Flag_Input,'T') as Flag_Input, isnull(c.Flag_Option,'T') as Flag_Option, "
             SQL = SQL & "isnull(c.Flag_Slider,'T') as Flag_Slider, a.id_quality_control,b.Kode_Uji, b.Keterangan, b.satuan, "
-            SQL = SQL & "b.Flag_Tampil_Android, b.Flag_Tampil_Dekstop, value_kode_uji, no_urut, a.Warna "
+            SQL = SQL & "b.Flag_Tampil_Android, b.Flag_Tampil_Dekstop, cast(value_kode_uji as varchar(20)) as value_kode_uji, no_urut, a.Warna "
             SQL = SQL & ",isnull(d.min_range,0) as min_range, isnull(d.Max_Range,0) as Max_Range, "
             SQL = SQL & "isnull(d.Min_Nilai_Seharusnya, 0) Min_Nilai_Seharusnya, isnull(d.Max_Nilai_Seharusnya,0) Max_Nilai_Seharusnya, "
             SQL = SQL & "a.keterangan as Keterangan_QC "
@@ -468,9 +488,9 @@ Public Class EMI_Transaksi_Quality_Control
             MessageBox.Show(Base_Language.Lang_Quality_Control_Error_Kode, Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             txtNoFaktur.Focus() : Exit Sub
 
-        ElseIf Dgv_QC_Lab.Rows.Count = 0 Then
-            MessageBox.Show(Base_Language.Lang_Global_Data_Tdk_Ditemukan, Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Dgv_QC_Lab.Focus() : Exit Sub
+            'ElseIf Dgv_QC_Lab.Rows.Count = 0 Then
+            '    MessageBox.Show(Base_Language.Lang_Global_Data_Tdk_Ditemukan, Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '    Dgv_QC_Lab.Focus() : Exit Sub
         End If
 
         If warna = "PUTIH" Then
@@ -489,6 +509,8 @@ Public Class EMI_Transaksi_Quality_Control
         ElseIf warna = "KUNING" Then
             Hasil = Cmb_tidaksesuai.Text
         End If
+
+        Dim flag_berhasil_masuk As Boolean = False
 
         Try
             OpenConn()
@@ -509,7 +531,7 @@ Public Class EMI_Transaksi_Quality_Control
                 SQL = SQL & "and Id_Kategori_Komponen='" & LvIDKategori & "' "
                 Using dr = OpenTrans(SQL)
                     If dr.Read Then
-                        Flag_slider = dr("Flag_Slider")
+                        Flag_Slider = dr("Flag_Slider")
                         Flag_Input = dr("Flag_Input")
                         Flag_Option = dr("Flag_Option")
                     Else
@@ -632,7 +654,7 @@ Public Class EMI_Transaksi_Quality_Control
 
             If TxtJenisQC.Text.Trim = "1" Then
 
-                SQL = "update EMI_Pembelian_Loading_detail set flag_qc_pertama ='Y', No_Qc1 = '" & txtNoFaktur.Text & "' "
+                SQL = "update EMI_Pembelian_Loading_detail set flag_qc_pertama ='Y' "
                 SQL = SQL & "where No_faktur='" & TxtNoLoading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
                 SQL = SQL & "and kode_barang='" & TxtKdBarang.Text & "'"
                 ExecuteTrans(SQL)
@@ -652,6 +674,21 @@ Public Class EMI_Transaksi_Quality_Control
             End If
 
 
+            'SQL = "select b.Token_FCM_Android From EMI_Hasil_Quality_Control a, Emi_Users b where  "
+            'SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan and a.UserId = b.username and a.kode_perusahaan = '" & KodePerusahaan & "'  "
+            'SQL = SQL & " and a.No_Faktur = '" & noQc & "'"
+            arrListTokenFcm.Clear()
+            SQL = "select b.token_fcm From EMI_Hasil_Quality_Control a, Emi_Daftar_HP b  "
+            SQL = SQL & "where  a.UserId = b.id_user and No_Faktur  = '" & noQc & "' and status is null "
+            SQL = SQL & "and b.status_aktif = 'Y' "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    arrListTokenFcm.Add(Dr("token_fcm"))
+                Loop
+            End Using
+
+            flag_berhasil_masuk = True
+
             Cmd.Transaction.Commit()
             MessageBox.Show("Data berhasil disimpan ", Judul, MessageBoxButtons.OK)
             CloseConn()
@@ -662,20 +699,14 @@ Public Class EMI_Transaksi_Quality_Control
             Exit Sub
         End Try
 
+        If TxtJenisQC.Text.Trim = "2" Then
 
-        '=================
-        '=     CETAK     =
-        '=================
-        Try
-            OpenConn()
-
-            Dim CrDoc As New Object
-            Dim kertas As String = ""
-
-            If TxtJenisQC.Text = "2" Then
-
-
-
+            '=================
+            '=     CETAK     =
+            '=================
+            Try
+                OpenConn()
+                Dim kertas As String = ""
                 SQL = "select Kode_Perusahaan from View_Laporan_Hasil_QC where "
                 SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and "
                 SQL = SQL & "No_Fak_Loading_Barang = '" & TxtNoLoading.Text & "' "
@@ -685,27 +716,25 @@ Public Class EMI_Transaksi_Quality_Control
                         'With A_Place_For_Printing2
                         '    CrDoc.SetDataSource(Ds)
                         '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        '    CrDoc.RecordSelectionFormula = "{View_Laporan_Hasil_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Hasil_QC.No_Fak_Loading_Barang} = '" & TxtNoLoading.Text & "' and {View_Laporan_Hasil_QC.no_hsl_qc} = '" & noQc & "' "
+                        '    CrDoc.RecordSelectionFormula = "{View_Laporan_Hasil_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Hasil_QC.No_Fak_Loading_Barang} = '" & TxtNoLoading.Text & "' "
                         '    .Text = "Bukti Hasil Quality Control"
                         '    .CrystalReportViewer1.ReportSource = CrDoc
                         '    .Refresh()
                         '    .Show()
                         'End With
 
-                        '===============================================================================================================
-                        '===============================================================================================================
-
-                        CrDoc = New Rpt_Laporan_Hasil_QC
+                        Dim CrDoc = New Rpt_Laporan_Hasil_QC
                         kertas = "A4"
+
 
                         CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.PrintOptions.PrinterName = "EPSON LX-310 ESC/P"
-                        CrDoc.RecordSelectionFormula = "{View_Laporan_Hasil_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Hasil_QC.No_Fak_Loading_Barang} = '" & TxtNoLoading.Text & "' and {View_Laporan_Hasil_QC.no_hsl_qc} = '" & noQc & "' "
+                        CrDoc.PrintOptions.PrinterName = PrinterQC
+                        CrDoc.RecordSelectionFormula = "{View_Laporan_Hasil_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Hasil_QC.No_Fak_Loading_Barang} = '" & TxtNoLoading.Text & "' "
                         'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
                         Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        doctoprint.PrinterSettings.PrinterName = "EPSON LX-310 ESC/P"
+                        doctoprint.PrinterSettings.PrinterName = PrinterQC
                         Dim rawKind As Integer
                         CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
                         For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
@@ -718,22 +747,105 @@ Public Class EMI_Transaksi_Quality_Control
 
                         CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
                         CrDoc.PrintToPrinter(1, False, 1, 99)
+
+                        MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Else
                         MessageBox.Show("Tidak ada data yang dapat dicetak!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     End If
                 End Using
 
+                CloseConn()
+            Catch ex As Exception
+                CloseConn()
+                MessageBox.Show(ex.Message)
+                Exit Sub
+            End Try
+
+        End If
+
+
+        '======================
+        ' awal fcm 
+        '======================
+
+        If flag_berhasil_masuk = True Then
+            Dim token = GetAccessToken().Result
+            If String.IsNullOrEmpty(token) Then
+
+                If flag_berhasil_masuk = True Then
+                    MessageBox.Show("Data berhasil disimpan !!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+                    Console.WriteLine("Failed to get access token.")
+                End If
+
             End If
 
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MessageBox.Show(ex.Message)
-            Exit Sub
-        End Try
+            Dim fcmUrl As String = "https://fcm.googleapis.com/v1/projects/emi-erp-468cd/messages:send"
+
+            ' Membuat request ke FCM
+
+
+            ' Dim tokenAndroid As String = "frEOuJCvTIeQD-f-hoLVsR:APA91bEHXDmGGMH9ZpVJxRA6aARRobbfESnhSmWUeohSSxVAYhp9dfq0w7TpQvXvGCe36njxpxdvPZ1gYrpIviVAPkexpy1O9CHLZV0p35e_YCOsE7vmGLk"
+
+
+            For i As Integer = 0 To arrListTokenFcm.Count - 1
+
+                Dim request As HttpWebRequest = CType(WebRequest.Create(fcmUrl), HttpWebRequest)
+                request.Method = "POST"
+                request.ContentType = "application/json"
+                request.Headers.Add($"Authorization: Bearer {token}")
+
+
+                ' Membuat payload JSON
+                Dim payload As String = "{
+             ""message"": {
+                    ""token"": """ & arrListTokenFcm.Item(i) & """,
+                    ""notification"": {
+                        ""title"": """ & TxtNoLoading.Text & " berhasil divalidasi "",
+                        ""body"": ""Loading Barang dengan no faktur " & TxtNoLoading.Text & " sudah selesai di Quality Control ""
+                    }
+                }
+            }"
+
+                ' Mengirimkan payload ke FCM
+                Dim byteArray As Byte() = Encoding.UTF8.GetBytes(payload)
+                request.ContentLength = byteArray.Length
+                Using dataStream As Stream = request.GetRequestStream()
+                    dataStream.Write(byteArray, 0, byteArray.Length)
+                End Using
+
+
+                Try
+                    Dim response As WebResponse = request.GetResponse()
+                    Using dataStream As Stream = response.GetResponseStream()
+                        Using reader As New StreamReader(dataStream)
+                            Dim responseFromServer As String = reader.ReadToEnd()
+                            Console.WriteLine(responseFromServer)
+                        End Using
+                    End Using
+                    response.Close()
+                Catch ex As WebException
+                    Using stream As Stream = ex.Response.GetResponseStream()
+                        Using reader As New StreamReader(stream)
+                            Dim errorMessage As String = reader.ReadToEnd()
+                            MessageBox.Show("Data berhasil disimpan!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            MessageBox.Show(errorMessage)
+                            Console.WriteLine("Error: " & errorMessage)
+                        End Using
+                    End Using
+
+                End Try
+
+
+            Next
 
 
 
+        End If
+
+        '======================
+        'akhir fcm
+        '=====================
 
 
 
@@ -893,6 +1005,9 @@ Public Class EMI_Transaksi_Quality_Control
 
                 Dim comboBoxCell As DataGridViewComboBoxCell = CType(Dgv_QC_Lab.Rows(currentRow).Cells(CellCmbValue), DataGridViewComboBoxCell)
                 Dim index As Integer = comboBoxCell.Items.IndexOf(comboBoxCell.Value)
+
+
+                If CekNothing(comboBoxCell.Value) = "" Then Exit Sub
 
                 Dim data_default As String = ""
                 Try

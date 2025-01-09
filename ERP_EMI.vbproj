@@ -2760,7 +2760,6 @@
     <Folder Include="Emi Form\2611\" />
     <Folder Include="Emi Form\Bahan\Display\" />
     <Folder Include="Emi Form\Barang\Display\" />
-    <Folder Include="Emi Form\Hasil Production\" />
     <Folder Include="Emi Form\Material Movement\Display\" />
     <Folder Include="Emi Form\QC\Quality Inspection\" />
     <Folder Include="Emi Form\Selisih Barang\New\" />

@@ -56,6 +56,12 @@ Public Class Global_Setting
         Get_Printer_List(ComboBox8)
         SyncComboBoxWithSettings(ComboBox8, My.Settings.Prt_Name_2)
 
+        Get_Printer_List(cmbBarcode)
+        SyncComboBoxWithSettings(cmbBarcode, My.Settings.Prt_Barcode)
+
+        Get_Printer_List(cmbQC)
+        SyncComboBoxWithSettings(cmbQC, My.Settings.Prt_QC)
+
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
@@ -83,15 +89,24 @@ Public Class Global_Setting
             MessageBox.Show("Printer 2 harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             ComboBox8.Focus()
             Exit Sub
+        ElseIf cmbBarcode.SelectedIndex = -1 Then
+            MessageBox.Show("Printer Barcode harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            ComboBox8.Focus()
+            Exit Sub
+        ElseIf cmbQC.SelectedIndex = -1 Then
+            MessageBox.Show("Printer QC harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            ComboBox8.Focus()
+            Exit Sub
         End If
 
-        My.Settings.Lokasi = "HEAD OFFICE"
         My.Settings.Prt_Name = ComboBox3.Text.Trim
         My.Settings.Prt_Name_TS = ComboBox4.Text
         My.Settings.Prt_Name_SPB = ComboBox5.Text
         My.Settings.Prt_Name_BPB = ComboBox6.Text
         My.Settings.Prt_Name_Bukti_Timbang = ComboBox7.Text
         My.Settings.Prt_Name_2 = ComboBox8.Text
+        My.Settings.Prt_Barcode = cmbBarcode.Text
+        My.Settings.Prt_QC = cmbQC.Text
 
 
         PrinterName = My.Settings.Prt_Name
@@ -100,16 +115,18 @@ Public Class Global_Setting
         PrinterNameBPB = My.Settings.Prt_Name_BPB
         PrinterNameBuktiTimbang = My.Settings.Prt_Name_Bukti_Timbang
         PrinterName2 = My.Settings.Prt_Name_2
+        PrinterBarcode = My.Settings.Prt_Barcode
+        PrinterQC = My.Settings.Prt_QC
 
         My.Settings.Save()
 
         MessageBox.Show("Berhasil disimpan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        End
+
     End Sub
 
-    Private Sub Printer_Setting_SizeChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.SizeChanged
-        Label2.Size = New Point(Me.Width, 33)
-    End Sub
+    'Private Sub Printer_Setting_SizeChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.SizeChanged
+    '    Label2.Size = New Point(Me.Width, 33)
+    'End Sub
 
     Private Sub ComboBox3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox3.SelectedIndexChanged
 

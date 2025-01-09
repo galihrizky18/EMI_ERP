@@ -566,6 +566,24 @@ Public Class FMenuDev
         Laporan_Summary_Usage_RM.Focus()
     End Sub
 
+    Private Sub DisplayHasilQCToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayHasilQCToolStripMenuItem.Click
+
+        Display_Hasil_Quality_Control.StartPosition = FormStartPosition.CenterScreen
+
+        Display_Hasil_Quality_Control.MdiParent = Me
+        Display_Hasil_Quality_Control.Show()
+        Display_Hasil_Quality_Control.Focus()
+    End Sub
+
+    Private Sub HasilQCToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HasilQCToolStripMenuItem.Click
+
+        Emi_Display_Quality_Control.StartPosition = FormStartPosition.CenterScreen
+
+        Emi_Display_Quality_Control.MdiParent = Me
+        Emi_Display_Quality_Control.Show()
+        Emi_Display_Quality_Control.Focus()
+    End Sub
+
 
 
 

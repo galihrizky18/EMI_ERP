@@ -100,6 +100,21 @@
         Try
             OpenConn()
 
+            If Txt_KdBarang.Text.Trim.Length <> 0 Then
+                If Not Txt_KdBarang.Text = "--- SELURUH ---" Then
+                    SQL = "select Kode_Perusahaan from Emi_Production_Results_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Barang = '" & Txt_KdBarang.Text & "'"
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+
+                        Else
+                            CloseConn()
+                            MessageBox.Show("Data tidak Ditemukan atau Belum Lengkap", "Laporan Usage Raw Material", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
+                End If
+            End If
+
             Dim Filter As String = ""
             Dim CrDoc As New Object
             Dim kertas As String = ""

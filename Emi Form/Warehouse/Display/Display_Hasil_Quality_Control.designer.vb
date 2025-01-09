@@ -313,6 +313,7 @@ Partial Class Display_Hasil_Quality_Control
         '
         'ListView2
         '
+        Me.ListView2.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ListView2.Font = New System.Drawing.Font("Work Sans", 9.0!)
         Me.ListView2.FullRowSelect = True
         Me.ListView2.GridLines = True
@@ -336,7 +337,6 @@ Partial Class Display_Hasil_Quality_Control
         '
         'ListView3
         '
-        Me.ListView3.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ListView3.Font = New System.Drawing.Font("Work Sans", 9.0!)
         Me.ListView3.FullRowSelect = True
         Me.ListView3.GridLines = True
@@ -352,12 +352,12 @@ Partial Class Display_Hasil_Quality_Control
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakHasilToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(134, 26)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 48)
         '
         'CetakHasilToolStripMenuItem
         '
         Me.CetakHasilToolStripMenuItem.Name = "CetakHasilToolStripMenuItem"
-        Me.CetakHasilToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
+        Me.CetakHasilToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CetakHasilToolStripMenuItem.Text = "Cetak Hasil"
         '
         'Display_Hasil_Quality_Control

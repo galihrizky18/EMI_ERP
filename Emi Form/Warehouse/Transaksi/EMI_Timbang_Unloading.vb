@@ -259,14 +259,21 @@ Public Class EMI_Timbang_Unloading
             End Using
 
             loadJenisMuatan()
-            Btn_Simpan.Text = Base_Language.Lang_Global_Simpan
-            Btn_Refresh.Text = Base_Language.Lang_Global_Refresh
-            Lbl_Supplier.Text = Base_Language.Lang_Global_Supplier
-            Lbl_Supir.Text = Base_Language.Lang_Global_Supir
-            Lbl_PlatNomor.Text = Base_Language.Lang_Global_PlatNomor
+            'Btn_Simpan.Text = Base_Language.Lang_Global_Simpan
+            'Btn_Refresh.Text = Base_Language.Lang_Global_Refresh
+            'Lbl_Supplier.Text = Base_Language.Lang_Global_Supplier
+            'Lbl_Supir.Text = Base_Language.Lang_Global_Supir
+            'Lbl_PlatNomor.Text = Base_Language.Lang_Global_PlatNomor
+            Btn_Simpan.Text = "Simpan"
+            Btn_Refresh.Text = "Refresh"
+            Lbl_Supplier.Text = "Supplier"
+            Lbl_Supir.Text = "Supir"
+            Lbl_PlatNomor.Text = "Plat"
+
             Lbl_Timbang1.Text = "Timbang 1"
             Lbl_Timbang2.Text = "Timbang 2"
-            Lbl_FotoKendaraan.Text = Base_Language.Lang_Global_FotoKendaraan
+            'Lbl_FotoKendaraan.Text = Base_Language.Lang_Global_FotoKendaraan
+            Lbl_FotoKendaraan.Text = "Foto"
 
             ListView2.Columns.Clear()
             ListView2.Columns.Add("No SJ", 160, HorizontalAlignment.Left)
@@ -892,103 +899,103 @@ Public Class EMI_Timbang_Unloading
         'Dim Nama_File_1 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FormDevleopment.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_A.jpg"
         'Dim Nama_File_2 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FormDevleopment.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_B.jpg"
 
-        Dim Nama_File_1 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_A.jpg"
-        Dim Nama_File_2 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_B.jpg"
+        Dim Nama_File_1 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FMenuDev.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_A.jpg"
+        Dim Nama_File_2 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FMenuDev.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_B.jpg"
 
         Try
 
             If jenisMasuk = "MASUK" Then
 
-                If metodeTruckScale = "TRUCK SCALE" Then
-                    If CmbBarang.SelectedIndex = -1 Then
-                        MessageBox.Show("Barang Harus di isi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        CmbBarang.Focus()
-                        Exit Sub
-                    End If
-                End If
+                'If metodeTruckScale = "TRUCK SCALE" Then
+                '    If CmbBarang.SelectedIndex = -1 Then
+                '        MessageBox.Show("Barang Harus di isi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                '        CmbBarang.Focus()
+                '        Exit Sub
+                '    End If
+                'End If
 
-                OpenConn()
+                'OpenConn()
 
-                get_no_faktur()
-                get_jam()
+                'get_no_faktur()
+                'get_jam()
 
-                No_Faktur = Txt_NoFaktur.Text
+                'No_Faktur = Txt_NoFaktur.Text
 
-                Cmd.Transaction = Cn.BeginTransaction
+                'Cmd.Transaction = Cn.BeginTransaction
 
-                SQL = "Insert into EMI_Timbang_Unloading (Kode_Perusahaan, "
-                SQL = SQL & "No_Faktur, No_Loading, Timbang_Masuk, Tgl_Timbang_Masuk, Jam_Timbang_Masuk, Foto_Timbang_Masuk_1, "
-                SQL = SQL & "Foto_Timbang_Masuk_2, id_jenis_muatan, Satuan) values('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "','" & TxtNo_Loading.Text & "', "
-                SQL = SQL & "'" & HilangkanTanda(Txt_Timbang1.Text) & "', '" & Format(DTP_1.Value, "yyyy-MM-dd") & "', "
-                SQL = SQL & "'" & Format(CDate(DTP_Bruto.Value), "HH:mm:ss") & "', '" & Nama_File_1 & "', '" & Nama_File_2 & "', '" & arrIdJenisMuatan.Item(CmbJenisMuatan.SelectedIndex) & "', '" & CmbSatuan.Text & "')"
-                ExecuteTrans(SQL)
+                'SQL = "Insert into EMI_Timbang_Unloading (Kode_Perusahaan, "
+                'SQL = SQL & "No_Faktur, No_Loading, Timbang_Masuk, Tgl_Timbang_Masuk, Jam_Timbang_Masuk, Foto_Timbang_Masuk_1, "
+                'SQL = SQL & "Foto_Timbang_Masuk_2, id_jenis_muatan, Satuan) values('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "','" & TxtNo_Loading.Text & "', "
+                'SQL = SQL & "'" & HilangkanTanda(Txt_Timbang1.Text) & "', '" & Format(DTP_1.Value, "yyyy-MM-dd") & "', "
+                'SQL = SQL & "'" & Format(CDate(DTP_Bruto.Value), "HH:mm:ss") & "', '" & Nama_File_1 & "', '" & Nama_File_2 & "', '" & arrIdJenisMuatan.Item(CmbJenisMuatan.SelectedIndex) & "', '" & CmbSatuan.Text & "')"
+                'ExecuteTrans(SQL)
 
-                '''SIMPAN Unloading PO
-                Dim noFaktur As String = ""
-                Dim noSuratJalan As String = ""
-                Dim noPO As String = ""
+                ''''SIMPAN Unloading PO
+                'Dim noFaktur As String = ""
+                'Dim noSuratJalan As String = ""
+                'Dim noPO As String = ""
 
-                'For i As Integer = 0 To ListView2.Items.Count - 1
-                For i As Integer = 0 To DgvPO.RowCount - 1
-                    Get_Isi_DataGridView(i)
+                ''For i As Integer = 0 To ListView2.Items.Count - 1
+                'For i As Integer = 0 To DgvPO.RowCount - 1
+                '    Get_Isi_DataGridView(i)
 
-                    If LvNoPO <> noPO Then
-                        SQL = "Insert into EMI_Timbang_Unloading_PO ("
-                        SQL = SQL & "Kode_Perusahaan, No_Faktur, No_PO)"
-                        SQL = SQL & "Values('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', "
-                        SQL = SQL & "'" & LvNoPO & "') "
-                        ExecuteTrans(SQL)
+                '    If LvNoPO <> noPO Then
+                '        SQL = "Insert into EMI_Timbang_Unloading_PO ("
+                '        SQL = SQL & "Kode_Perusahaan, No_Faktur, No_PO)"
+                '        SQL = SQL & "Values('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', "
+                '        SQL = SQL & "'" & LvNoPO & "') "
+                '        ExecuteTrans(SQL)
 
-                        noPO = LvNoPO
+                '        noPO = LvNoPO
 
-                    End If
+                '    End If
 
-                    SQL = "Insert into EMI_Timbang_Unloading_PO_Det ("
-                    SQL = SQL & "Kode_Perusahaan, No_Faktur, No_PO, Urut_Loading, Kode_Barang, Kode_Stock_owner)"
-                    SQL = SQL & "Values('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', "
-                    SQL = SQL & "'" & LvNoPO & "', '" & LvUrutLoading & "', '" & LvKdBarang & "', '" & LokasiGudangUnloading & "') "
-                    ExecuteTrans(SQL)
+                '    SQL = "Insert into EMI_Timbang_Unloading_PO_Det ("
+                '    SQL = SQL & "Kode_Perusahaan, No_Faktur, No_PO, Urut_Loading, Kode_Barang, Kode_Stock_owner)"
+                '    SQL = SQL & "Values('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', "
+                '    SQL = SQL & "'" & LvNoPO & "', '" & LvUrutLoading & "', '" & LvKdBarang & "', '" & LokasiGudangUnloading & "') "
+                '    ExecuteTrans(SQL)
 
-                    SQL = "update EMI_Pembelian_Loading_Detail set flag_timbang_masuk='Y' where No_Faktur='" & TxtNo_Loading.Text & "' "
-                    SQL = SQL & "and urut_oto='" & LvUrutLoading & "' and kode_barang='" & LvKdBarang & "'"
-                    ExecuteTrans(SQL)
+                '    SQL = "update EMI_Pembelian_Loading_Detail set flag_timbang_masuk='Y' where No_Faktur='" & TxtNo_Loading.Text & "' "
+                '    SQL = SQL & "and urut_oto='" & LvUrutLoading & "' and kode_barang='" & LvKdBarang & "'"
+                '    ExecuteTrans(SQL)
 
-                Next
+                'Next
 
-                'FLAGING BRUTO
-                SQL = "update EMI_Pembelian_Loading set "
-                SQL = SQL & "ID_Jenis_Muatan=" & arrIdJenisMuatan.Item(CmbJenisMuatan.SelectedIndex) & ", "
-                SQL = SQL & "flag_proses_loading = 'Y' "
-                SQL = SQL & "where No_faktur='" & TxtNo_Loading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
-                ExecuteTrans(SQL)
+                ''FLAGING BRUTO
+                'SQL = "update EMI_Pembelian_Loading set "
+                'SQL = SQL & "ID_Jenis_Muatan=" & arrIdJenisMuatan.Item(CmbJenisMuatan.SelectedIndex) & ", "
+                'SQL = SQL & "flag_proses_loading = 'Y' "
+                'SQL = SQL & "where No_faktur='" & TxtNo_Loading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
+                'ExecuteTrans(SQL)
 
-                SQL = "select Kode_Perusahaan from EMI_Pembelian_Loading_detail where "
-                SQL = SQL & "No_faktur='" & TxtNo_Loading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
-                SQL = SQL & "and Flag_Timbang_masuk is null "
-                Using dr = OpenTrans(SQL)
-                    If Not dr.Read Then
-                        dr.Close()
-                        SQL = "update EMI_Pembelian_Loading set Flag_Timbang ='Y' "
-                        SQL = SQL & "where No_faktur='" & TxtNo_Loading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
-                        ExecuteTrans(SQL)
+                'SQL = "select Kode_Perusahaan from EMI_Pembelian_Loading_detail where "
+                'SQL = SQL & "No_faktur='" & TxtNo_Loading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
+                'SQL = SQL & "and Flag_Timbang_masuk is null "
+                'Using dr = OpenTrans(SQL)
+                '    If Not dr.Read Then
+                '        dr.Close()
+                '        SQL = "update EMI_Pembelian_Loading set Flag_Timbang ='Y' "
+                '        SQL = SQL & "where No_faktur='" & TxtNo_Loading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
+                '        ExecuteTrans(SQL)
 
-                    End If
-                End Using
+                '    End If
+                'End Using
 
-                '''Dim Blob_1 As BlobClient = Container.GetBlobClient(BlobName_1)
-                '''Blob_1.Upload(FilePath_1, New BlobHttpHeaders With {.ContentType = "image/jpeg"})
+                ''''Dim Blob_1 As BlobClient = Container.GetBlobClient(BlobName_1)
+                ''''Blob_1.Upload(FilePath_1, New BlobHttpHeaders With {.ContentType = "image/jpeg"})
 
-                '''Dim Blob_2 As BlobClient = Container.GetBlobClient(BlobName_2)
-                '''Blob_2.Upload(FilePath_2, New BlobHttpHeaders With {.ContentType = "image/jpeg"})
+                ''''Dim Blob_2 As BlobClient = Container.GetBlobClient(BlobName_2)
+                ''''Blob_2.Upload(FilePath_2, New BlobHttpHeaders With {.ContentType = "image/jpeg"})
 
-                Cmd.Transaction.Commit()
-                CloseConn()
-                MessageBox.Show(Base_Language.Lang_Global_Sukses_Simpan, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                'Cmd.Transaction.Commit()
+                'CloseConn()
+                'MessageBox.Show(Base_Language.Lang_Global_Sukses_Simpan, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
-                kosong()
-                EMI_Display_Timbang.kosong()
-                Me.Close()
-                'Exit Sub
+                'kosong()
+                'EMI_Display_Timbang.kosong()
+                'Me.Close()
+                ''Exit Sub
             ElseIf jenisMasuk = "KELUAR" Then
 
                 'If  Then
@@ -1344,7 +1351,7 @@ Public Class EMI_Timbang_Unloading
                                 total_hpp += (harga * .Rows(index).Item("jumlah"))
 
                                 Dim Random As New Random()
-                                Dim str As String = Format(Random.Next(0, 999), "000") & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HHmmss")
+                                Dim str As String = Format(Random.Next(0, 999), "000") & Format(CDate(FMenuDev.ToolStripStatusLabel3.Text), "HHmmss")
                                 Dim Kode_Unik As String = str.Substring(0, 5) & "BB" & Chr(64 + str.Substring(6, 1)) & str.Substring(6, Len(str) - 6)
                                 Dim SN_Baru As String = Kode_Unik & Tanda_SN & "01" & Tanda_SN & harga & Tanda_SN & "02" & Tanda_SN & Format(DateTime.Now, "yyyy-MM-dd")
 
@@ -1533,21 +1540,23 @@ Public Class EMI_Timbang_Unloading
 
             If jenisMasuk = "MASUK" Then
 
-                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='" & No_Faktur & "'"
+                'SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='" & No_Faktur & "'"
+                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='TK1224-00002'"
                 Using Ds = BindingTrans(SQL)
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                        'CrDoc = New Rpt_Surat_Perintah_Bongkar
-                        'With A_Place_For_Printing2
-                        '    CrDoc.SetDataSource(Ds)
-                        '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        '    CrDoc.PrintOptions.PrinterName = ""
-                        '    CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
-                        '    CrDoc.SummaryInfo.ReportTitle = "Surat Perintah Bongkar"
-                        '    .Text = "Surat Perintah Bongkar"
-                        '    .CrystalReportViewer1.ReportSource = CrDoc
-                        '    .Refresh()
-                        '    .Show()
-                        'End With
+                        CrDoc = New Rpt_Surat_Perintah_Bongkar
+                        With A_Place_For_Printing2
+                            CrDoc.SetDataSource(Ds)
+                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                            CrDoc.PrintOptions.PrinterName = ""
+                            'CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
+                            CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='TK1224-00002' "
+                            CrDoc.SummaryInfo.ReportTitle = "Surat Perintah Bongkar"
+                            .Text = "Surat Perintah Bongkar"
+                            .CrystalReportViewer1.ReportSource = CrDoc
+                            .Refresh()
+                            .Show()
+                        End With
 
                         'CrDoc = New Rpt_Surat_Perintah_Bongkar
                         'kertas = "Faktur"
@@ -1583,31 +1592,31 @@ Public Class EMI_Timbang_Unloading
                         '================================================================================================================================================================================================================================
                         '================================================================================================================================================================================================================================
 
-                        CrDoc = New Rpt_Surat_Perintah_Bongkar
-                        kertas = "Faktur"
+                        'CrDoc = New Rpt_Surat_Perintah_Bongkar
+                        'kertas = "Faktur"
 
-                        CrDoc.SetDataSource(Ds)
-                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.PrintOptions.PrinterName = PrinterNameSPB
-                        CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
-                        'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+                        'CrDoc.SetDataSource(Ds)
+                        'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        'CrDoc.PrintOptions.PrinterName = PrinterNameSPB
+                        'CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
+                        ''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
-                        Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        doctoprint.PrinterSettings.PrinterName = PrinterNameSPB
-                        Dim rawKind As Integer
-                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                        For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                            If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
-                                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                                CrDoc.PrintOptions.PaperSize = rawKind
-                                Exit For
-                            End If
-                        Next
+                        'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                        'doctoprint.PrinterSettings.PrinterName = PrinterNameSPB
+                        'Dim rawKind As Integer
+                        'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        'For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                        '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                        '        CrDoc.PrintOptions.PaperSize = rawKind
+                        '        Exit For
+                        '    End If
+                        'Next
 
-                        CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                        CrDoc.PrintToPrinter(1, False, 1, 99)
+                        'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                        'CrDoc.PrintToPrinter(1, False, 1, 99)
 
-                        MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        'MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     End If
                 End Using
 
@@ -1616,84 +1625,84 @@ Public Class EMI_Timbang_Unloading
                 SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='" & No_Faktur & "'"
                 Using Ds = BindingTrans(SQL)
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                        'CrDoc = New Rpt_Bukti_Penerimaan_Barang
-                        'With A_Place_For_Printing2
-                        '    CrDoc.SetDataSource(Ds)
-                        '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        '    CrDoc.PrintOptions.PrinterName = ""
-                        '    CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
-                        '    CrDoc.SummaryInfo.ReportTitle = "Surat Bukti Penerimaan Barang"
-                        '    .Text = "Surat Bukti Penerimaan Barang"
-                        '    .CrystalReportViewer1.ReportSource = CrDoc
-                        '    .Refresh()
-                        '    .Show()
-                        'End With
+                        CrDoc = New Rpt_Bukti_Penerimaan_Barang
+                        With A_Place_For_Printing2
+                            CrDoc.SetDataSource(Ds)
+                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                            CrDoc.PrintOptions.PrinterName = ""
+                            CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
+                            CrDoc.SummaryInfo.ReportTitle = "Surat Bukti Penerimaan Barang"
+                            .Text = "Surat Bukti Penerimaan Barang"
+                            .CrystalReportViewer1.ReportSource = CrDoc
+                            .Refresh()
+                            .Show()
+                        End With
 
                         CrDoc = New Rpt_Bukti_Penerimaan_Barang
                         kertas = "Faktur"
 
-                        CrDoc.SetDataSource(Ds)
-                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.PrintOptions.PrinterName = PrinterNameBPB
-                        CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
-                        'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+                        'CrDoc.SetDataSource(Ds)
+                        'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        'CrDoc.PrintOptions.PrinterName = PrinterNameBPB
+                        'CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
+                        ''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
-                        Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        doctoprint.PrinterSettings.PrinterName = PrinterNameBPB
-                        Dim rawKind As Integer
-                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                        For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                            If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
-                                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                                CrDoc.PrintOptions.PaperSize = rawKind
-                                Exit For
-                            End If
-                        Next
+                        'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                        'doctoprint.PrinterSettings.PrinterName = PrinterNameBPB
+                        'Dim rawKind As Integer
+                        'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        'For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                        '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                        '        CrDoc.PrintOptions.PaperSize = rawKind
+                        '        Exit For
+                        '    End If
+                        'Next
 
-                        CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                        CrDoc.PrintToPrinter(1, False, 1, 99)
+                        'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                        'CrDoc.PrintToPrinter(1, False, 1, 99)
                     End If
                 End Using
 
                 SQL = "select Kode_Jenis_Muatan from Vw_Bukti_Timbang where No_Faktur = '" & No_Faktur & "'"
                 Using Ds = BindingTrans(SQL)
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                        'CrDoc = New Rpt_Bukti_Timbang
-                        'With A_Place_For_Printing3
-                        '    CrDoc.SetDataSource(Ds)
-                        '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        '    CrDoc.PrintOptions.PrinterName = ""
-                        '    CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading.No_Faktur}='" & No_Faktur & "' "
-                        '    CrDoc.SummaryInfo.ReportTitle = "Surat Bukti Penerimaan Barang"
-                        '    .Text = "Surat Bukti Timbang"
-                        '    .CrystalReportViewer1.ReportSource = CrDoc
-                        '    .Refresh()
-                        '    .Show()
-                        'End With
-
                         CrDoc = New Rpt_Bukti_Timbang
-                        kertas = "Faktur"
+                        With A_Place_For_Printing3
+                            CrDoc.SetDataSource(Ds)
+                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                            CrDoc.PrintOptions.PrinterName = ""
+                            CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading.No_Faktur}='" & No_Faktur & "' "
+                            CrDoc.SummaryInfo.ReportTitle = "Surat Bukti Penerimaan Barang"
+                            .Text = "Surat Bukti Timbang"
+                            .CrystalReportViewer1.ReportSource = CrDoc
+                            .Refresh()
+                            .Show()
+                        End With
 
-                        CrDoc.SetDataSource(Ds)
-                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.PrintOptions.PrinterName = PrinterNameBuktiTimbang
-                        CrDoc.RecordSelectionFormula = "{Vw_Bukti_Timbang.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Bukti_Timbang.No_Faktur}='" & No_Faktur & "' "
-                        'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+                        'CrDoc = New Rpt_Bukti_Timbang
+                        'kertas = "Faktur"
 
-                        Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        doctoprint.PrinterSettings.PrinterName = PrinterNameBuktiTimbang
-                        Dim rawKind As Integer
-                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                        For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                            If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
-                                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                                CrDoc.PrintOptions.PaperSize = rawKind
-                                Exit For
-                            End If
-                        Next
+                        'CrDoc.SetDataSource(Ds)
+                        'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        'CrDoc.PrintOptions.PrinterName = PrinterNameBuktiTimbang
+                        'CrDoc.RecordSelectionFormula = "{Vw_Bukti_Timbang.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Bukti_Timbang.No_Faktur}='" & No_Faktur & "' "
+                        ''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
-                        CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                        CrDoc.PrintToPrinter(1, False, 1, 99)
+                        'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                        'doctoprint.PrinterSettings.PrinterName = PrinterNameBuktiTimbang
+                        'Dim rawKind As Integer
+                        'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        'For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                        '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                        '        CrDoc.PrintOptions.PaperSize = rawKind
+                        '        Exit For
+                        '    End If
+                        'Next
+
+                        'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                        'CrDoc.PrintToPrinter(1, False, 1, 99)
 
                     End If
                 End Using
