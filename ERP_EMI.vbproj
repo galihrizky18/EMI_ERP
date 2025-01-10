@@ -1228,6 +1228,12 @@
     <Compile Include="Emi Form\Warehouse\Material Movement\Transfer_Stock_3.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer_Stock_QC.Designer.vb">
+      <DependentUpon>Transfer_Stock_QC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer_Stock_QC.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\Warehouse\Show Dialog\EMI_Display_Pallet_Masuk.designer.vb">
       <DependentUpon>EMI_Display_Pallet_Masuk.vb</DependentUpon>
     </Compile>
@@ -1704,6 +1710,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_EMI_Faktur_Transfer_Stock.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Rpt\Rpt_EMI_Faktur_Transfer_Stock_QC.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_EMI_Faktur_Transfer_Stock_QC.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Rpt\Rpt_EMI_Faktur_Transfer_Stock_Detail.vb">
@@ -2423,6 +2435,9 @@
     <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\Transfer_Stock_3.resx">
       <DependentUpon>Transfer_Stock_3.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\Transfer_Stock_QC.resx">
+      <DependentUpon>Transfer_Stock_QC.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Show Dialog\EMI_Display_Pallet_Masuk.resx">
       <DependentUpon>EMI_Display_Pallet_Masuk.vb</DependentUpon>
     </EmbeddedResource>
@@ -2679,6 +2694,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_EMI_Faktur_Transfer_Stock.vb</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\Rpt_EMI_Faktur_Transfer_Stock_QC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_EMI_Faktur_Transfer_Stock_QC.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Rpt\Rpt_EMI_Faktur_Transfer_Stock_Detail.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_EMI_Faktur_Transfer_Stock_Detail.vb</LastGenOutput>
@@ -2763,7 +2782,6 @@
     <Folder Include="Emi Form\Material Movement\Display\" />
     <Folder Include="Emi Form\QC\Quality Inspection\" />
     <Folder Include="Emi Form\Selisih Barang\New\" />
-    <Folder Include="Form Dummy\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="module\Module_SQL_ke_server_lain.vb" />

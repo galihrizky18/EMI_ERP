@@ -584,6 +584,14 @@ Public Class FMenuDev
         Emi_Display_Quality_Control.Focus()
     End Sub
 
+    Private Sub TransferStockQCToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TransferStockQCToolStripMenuItem.Click
+        Transfer_Stock_QC.StartPosition = FormStartPosition.CenterScreen
+
+        Transfer_Stock_QC.MdiParent = Me
+        Transfer_Stock_QC.Show()
+        Transfer_Stock_QC.Focus()
+    End Sub
+
 
 
 
