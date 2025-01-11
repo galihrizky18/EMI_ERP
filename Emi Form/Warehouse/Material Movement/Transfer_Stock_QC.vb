@@ -1916,6 +1916,8 @@ Public Class Transfer_Stock_QC
 
     End Sub
 
+
+
     Private Sub HapusToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HapusToolStripMenuItem.Click
         If Dgv_DataRekap.CurrentRow.Index = -1 Then Exit Sub
 
