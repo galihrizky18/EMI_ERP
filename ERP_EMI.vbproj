@@ -608,11 +608,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Laporan_GI_GR_Rpt.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Emi Form\Production\Report\Laporan_GI_GR_Summary.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Laporan_GI_GR_Summary.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Emi Form\Production\Report\Laporan_Hasil_Produksi_Per_Pallet_Per_Split_PO_Rpt.vb">
       <AutoGen>True</AutoGen>
@@ -624,26 +626,31 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Laporan_Perfaktur_GI_GR.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Emi Form\Production\Report\Laporan_Perfaktur_GI_GR_Detail.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Laporan_Perfaktur_GI_GR_Detail.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Emi Form\Production\Report\Laporan_Perfaktur_GI_GR_Detail_A.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Laporan_Perfaktur_GI_GR_Detail_A.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Emi Form\Production\Report\Laporan_Production_Lost.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Laporan_Production_Lost.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Emi Form\Production\Report\Laporan_RM_Usage_Summary.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Laporan_RM_Usage_Summary.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Emi Form\Production\Report\NewBarcodeFinishGood.vb">
       <AutoGen>True</AutoGen>
@@ -661,11 +668,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Laporan_Actual_Biaya_Produksi.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Emi Form\Production\Report\Rpt_Laporan_Hasil_Production.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Laporan_Hasil_Production.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Emi Form\Production\Report\Rpt_Laporan_Hasil_QC_FG.vb">
       <AutoGen>True</AutoGen>

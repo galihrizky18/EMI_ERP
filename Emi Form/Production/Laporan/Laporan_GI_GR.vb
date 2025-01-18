@@ -23,46 +23,79 @@
             Tgl1.Focus() : Exit Sub
         End If
 
-        Dim SF As String = ""
+        Try
+            OpenConn()
 
-        OpenConn()
+            Dim SF As String = ""
 
-        SQL = "SELECT No_Production_Order FROM View_GI_GR "
+            SQL = "SELECT No_Transaksi  FROM Vw_Laporan_Summary_GI_GR "
 
-        SQL = SQL & "WHERE Kode_Perusahaan = '" & KodePerusahaan & "' and "
-        SQL = SQL & "Tanggal_Production_Order between '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' and '"
-        SQL = SQL & Format(Tgl2.Value, "yyyy-MM-dd") & "'"
+            SQL = SQL & "WHERE Kode_Perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "Tgl_Produksi between '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' and '"
+            SQL = SQL & Format(Tgl2.Value, "yyyy-MM-dd") & "'"
 
-        SF = "{Vw_Laporan_Summary_GI_GR.Kode_Perusahaan} = '" & KodePerusahaan & "' and "
-        SF = SF & "{Vw_Laporan_Summary_GI_GR.Tgl_Produksi} >= #" & Format(Tgl1.Value, "yyyy-MM-dd") & "# and "
-        SF = SF & "{Vw_Laporan_Summary_GI_GR.Tgl_Produksi} <= #" & Format(Tgl2.Value, "yyyy-MM-dd") & "#"
+            SF = "{Vw_Laporan_Summary_GI_GR.Kode_Perusahaan} = '" & KodePerusahaan & "' and "
+            SF = SF & "{Vw_Laporan_Summary_GI_GR.Tgl_Produksi} >= #" & Format(Tgl1.Value, "yyyy-MM-dd") & "# and "
+            SF = SF & "{Vw_Laporan_Summary_GI_GR.Tgl_Produksi} <= #" & Format(Tgl2.Value, "yyyy-MM-dd") & "#"
 
-        Using MyDS As DataSet = Binding(SQL)
-            With MyDS.Tables(0)
-                If .Rows.Count <> 0 Then
+            'Using MyDS As DataSet = Binding(SQL)
+            '    With MyDS.Tables(0)
+            '        If .Rows.Count <> 0 Then
 
-                    Dim CrDoc As New Laporan_GI_GR_Summary
+            '            Dim CrDoc As New Laporan_GI_GR_Summary
 
-                    CrDoc.SetDataSource(MyDS)
-                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    CrDoc.SummaryInfo.ReportTitle = "Periode : " & Format(Tgl1.Value, "dd/MMM/yyyy") & " s/d " &
-                                                                    Format(Tgl2.Value, "dd/MMM/yyyy")
-                    CrDoc.RecordSelectionFormula = SF
+            '            CrDoc.SetDataSource(MyDS)
+            '            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+            '            CrDoc.SummaryInfo.ReportTitle = "Periode : " & Format(Tgl1.Value, "dd/MMM/yyyy") & " s/d " &
+            '                                                            Format(Tgl2.Value, "dd/MMM/yyyy")
+            '            CrDoc.RecordSelectionFormula = SF
 
-                    With A_Place_For_Printing2
-                        .Text = "Print Form"
-                        .CrystalReportViewer1.ReportSource = CrDoc
-                        .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
-                        .Refresh()
-                        .Show()
-                    End With
+            '            With A_Place_For_Printing2
+            '                .Text = "Print Form"
+            '                .CrystalReportViewer1.ReportSource = CrDoc
+            '                .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
+            '                .Refresh()
+            '                .Show()
+            '            End With
 
-                Else
-                    MessageBox.Show("Data tidak ditemukan!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                End If
-            End With
-        End Using
+            '        Else
+            '            MessageBox.Show("Data tidak ditemukan!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            '        End If
+            '    End With
+            'End Using
 
-        CloseConn()
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+
+                        Dim CrDoc As New Laporan_GI_GR_Summary
+
+                            CrDoc.SetDataSource(Ds)
+                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                            CrDoc.SummaryInfo.ReportTitle = "Periode : " & Format(Tgl1.Value, "dd/MMM/yyyy") & " s/d " &
+                                                                        Format(Tgl2.Value, "dd/MMM/yyyy")
+                            CrDoc.RecordSelectionFormula = SF
+
+                            With A_Place_For_Printing2
+                                .Text = "Print Form"
+                                .CrystalReportViewer1.ReportSource = CrDoc
+                                .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
+                                .Refresh()
+                                .Show()
+                            End With
+
+                    Else
+                        MessageBox.Show("Data tidak ditemukan!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    End If
+                End With
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
     End Sub
 End Class

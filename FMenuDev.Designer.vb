@@ -31,6 +31,7 @@ Partial Class FMenuDev
         Me.DetailAccoung1ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DetailAccount2ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DetailAccount3ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BudgetingPerCostCenterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SalesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ForecasetingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SalesToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
@@ -139,7 +140,7 @@ Partial Class FMenuDev
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
-        Me.BudgetingPerCostCenterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LaporanGIGRToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -198,6 +199,12 @@ Partial Class FMenuDev
         Me.DetailAccount3ToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
         Me.DetailAccount3ToolStripMenuItem.Text = "Detail Account Fix"
         '
+        'BudgetingPerCostCenterToolStripMenuItem
+        '
+        Me.BudgetingPerCostCenterToolStripMenuItem.Name = "BudgetingPerCostCenterToolStripMenuItem"
+        Me.BudgetingPerCostCenterToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.BudgetingPerCostCenterToolStripMenuItem.Text = "Budgeting Per Cost Center"
+        '
         'SalesToolStripMenuItem
         '
         Me.SalesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ForecasetingToolStripMenuItem})
@@ -209,7 +216,7 @@ Partial Class FMenuDev
         '
         Me.ForecasetingToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalesToolStripMenuItem2, Me.PPICToolStripMenuItem1})
         Me.ForecasetingToolStripMenuItem.Name = "ForecasetingToolStripMenuItem"
-        Me.ForecasetingToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ForecasetingToolStripMenuItem.Size = New System.Drawing.Size(141, 22)
         Me.ForecasetingToolStripMenuItem.Text = "Forecaseting"
         '
         'SalesToolStripMenuItem2
@@ -584,7 +591,7 @@ Partial Class FMenuDev
         '
         Me.TransaksiToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OrderProduksiToolStripMenuItem, Me.OrderProduksiToolStripMenuItem1, Me.ProduksiToolStripMenuItem, Me.BiayaToolStripMenuItem, Me.AktualBiayaProduksiToolStripMenuItem, Me.RequestMaterialToolStripMenuItem1})
         Me.TransaksiToolStripMenuItem3.Name = "TransaksiToolStripMenuItem3"
-        Me.TransaksiToolStripMenuItem3.Size = New System.Drawing.Size(122, 22)
+        Me.TransaksiToolStripMenuItem3.Size = New System.Drawing.Size(180, 22)
         Me.TransaksiToolStripMenuItem3.Text = "Transaksi"
         '
         'OrderProduksiToolStripMenuItem
@@ -659,7 +666,7 @@ Partial Class FMenuDev
         '
         Me.MasterToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterRoutingToolStripMenuItem, Me.MasterWorkCenterToolStripMenuItem, Me.MasterJenisBiayaToolStripMenuItem})
         Me.MasterToolStripMenuItem1.Name = "MasterToolStripMenuItem1"
-        Me.MasterToolStripMenuItem1.Size = New System.Drawing.Size(122, 22)
+        Me.MasterToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.MasterToolStripMenuItem1.Text = "Master"
         '
         'MasterRoutingToolStripMenuItem
@@ -684,7 +691,7 @@ Partial Class FMenuDev
         '
         Me.DisplayToolStripMenuItem4.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HasilProduksiToolStripMenuItem})
         Me.DisplayToolStripMenuItem4.Name = "DisplayToolStripMenuItem4"
-        Me.DisplayToolStripMenuItem4.Size = New System.Drawing.Size(122, 22)
+        Me.DisplayToolStripMenuItem4.Size = New System.Drawing.Size(180, 22)
         Me.DisplayToolStripMenuItem4.Text = "Display"
         '
         'HasilProduksiToolStripMenuItem
@@ -695,9 +702,9 @@ Partial Class FMenuDev
         '
         'LaporanToolStripMenuItem
         '
-        Me.LaporanToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SummaryUsageRMToolStripMenuItem})
+        Me.LaporanToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SummaryUsageRMToolStripMenuItem, Me.LaporanGIGRToolStripMenuItem})
         Me.LaporanToolStripMenuItem.Name = "LaporanToolStripMenuItem"
-        Me.LaporanToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.LaporanToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.LaporanToolStripMenuItem.Text = "Laporan"
         '
         'SummaryUsageRMToolStripMenuItem
@@ -888,11 +895,11 @@ Partial Class FMenuDev
         Me.Timer2.Enabled = True
         Me.Timer2.Interval = 1800000
         '
-        'BudgetingPerCostCenterToolStripMenuItem
+        'LaporanGIGRToolStripMenuItem
         '
-        Me.BudgetingPerCostCenterToolStripMenuItem.Name = "BudgetingPerCostCenterToolStripMenuItem"
-        Me.BudgetingPerCostCenterToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
-        Me.BudgetingPerCostCenterToolStripMenuItem.Text = "Budgeting Per Cost Center"
+        Me.LaporanGIGRToolStripMenuItem.Name = "LaporanGIGRToolStripMenuItem"
+        Me.LaporanGIGRToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.LaporanGIGRToolStripMenuItem.Text = "Laporan GI GR"
         '
         'FMenuDev
         '
@@ -1033,4 +1040,5 @@ Partial Class FMenuDev
     Friend WithEvents DisplayTimbangToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents RequestMaterialToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents BudgetingPerCostCenterToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents LaporanGIGRToolStripMenuItem As ToolStripMenuItem
 End Class

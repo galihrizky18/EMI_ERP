@@ -633,6 +633,14 @@ Public Class FMenuDev
         Budgeting_Per_CostCenter.Focus()
     End Sub
 
+    Private Sub LaporanGIGRToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanGIGRToolStripMenuItem.Click
+        Laporan_GI_GR.StartPosition = FormStartPosition.CenterScreen
+
+        Laporan_GI_GR.MdiParent = Me
+        Laporan_GI_GR.Show()
+        Laporan_GI_GR.Focus()
+    End Sub
+
 
 
 

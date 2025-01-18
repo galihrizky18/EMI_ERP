@@ -219,26 +219,34 @@ Public Class Budgeting_Per_CostCenter
             '=     LOAD DATA DETAIL     =
             '============================
             Dim formulaTemp As String = ""
-            SQL = "select a.Kode_Perusahaan, a.Kode_Account, a.Keterangan as Akun, "
-            SQL = SQL & "case "
-            SQL = SQL & "when a.Kode_Account in ( "
-            SQL = SQL & "select x.Kode_Account "
-            SQL = SQL & "from Account_Per_Cost_Center x "
-            SQL = SQL & "where x.Id_Cost_Center in ( "
-            SQL = SQL & "select z.Id_Cost_Center "
-            SQL = SQL & "from EMI_Master_Cost_Center z "
-            SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan "
-            SQL = SQL & ") ) "
-            SQL = SQL & "then ( select x.Id_Cost_Center "
-            SQL = SQL & "from Account_Per_Cost_Center x "
-            SQL = SQL & "where x.Id_Cost_Center in ( "
-            SQL = SQL & "select z.Id_Cost_Center "
-            SQL = SQL & "from EMI_Master_Cost_Center z "
-            SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan "
-            SQL = SQL & ") and x.Kode_Account = a.Kode_Account ) "
-            SQL = SQL & "end as kolom_dinamis "
-            SQL = SQL & "from Detail_Account a "
+            'SQL = "select a.Kode_Perusahaan, a.Kode_Account, a.Keterangan as Akun, "
+            'SQL = SQL & "case "
+            'SQL = SQL & "when a.Kode_Account in ( "
+            'SQL = SQL & "select x.Kode_Account "
+            'SQL = SQL & "from Account_Per_Cost_Center x "
+            'SQL = SQL & "where x.Id_Cost_Center in ( "
+            'SQL = SQL & "select z.Id_Cost_Center "
+            'SQL = SQL & "from EMI_Master_Cost_Center z "
+            'SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan "
+            'SQL = SQL & ") ) "
+            'SQL = SQL & "then ( select x.Id_Cost_Center "
+            'SQL = SQL & "from Account_Per_Cost_Center x "
+            'SQL = SQL & "where x.Id_Cost_Center in ( "
+            'SQL = SQL & "select z.Id_Cost_Center "
+            'SQL = SQL & "from EMI_Master_Cost_Center z "
+            'SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan "
+            'SQL = SQL & ") and x.Kode_Account = a.Kode_Account ) "
+            'SQL = SQL & "end as kolom_dinamis "
+            'SQL = SQL & "from Detail_Account a "
+            'SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+
+            SQL = "SELECT a.Kode_Perusahaan, a.Kode_Account, a.Keterangan AS Akun, "
+            SQL = SQL & "ISNULL(( "
+            SQL = SQL & "select top 1 'Y' from Account_Per_Cost_Center z where a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Account = z.Kode_Account "
+            SQL = SQL & "), null) as has_CostCenter "
+            SQL = SQL & "FROM Detail_Account a "
             SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+
 
             If Not Cmb_Filter.SelectedIndex = -1 OrElse Cmb_Filter.SelectedIndex > 0 Then
 
@@ -263,30 +271,51 @@ Public Class Budgeting_Per_CostCenter
 
                             formulaTemp = ""
 
-
                             Dgv_Data.Rows.Add(1)
                             Dgv_Data.Rows(i).Cells(ItemDgv_KodeAkun).Value = .Rows(i).Item("Kode_Account")
                             Dgv_Data.Rows(i).Cells(ItemDgv_Akun).Value = .Rows(i).Item("Akun")
                             Dgv_Data.Rows(i).Cells(ItemDgv_FlagBudgeting).Value = "Y"
 
-                            For k As Integer = ColDinamis To Dgv_Data.Columns.Count - 1
+                            If General_Class.CekNULL(.Rows(i).Item("has_CostCenter")) = "Y" Then
 
-                                If General_Class.CekNULL(.Rows(i).Item("kolom_dinamis")) = "" Then
+                                Dim coltemp As New ArrayList
+                                SQL = "select Id_Cost_Center from Account_Per_Cost_Center where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                SQL = SQL & "and Kode_Account = '" & .Rows(i).Item("Kode_Account") & "' "
+                                Using Dr = OpenTrans(SQL)
+                                    Do While Dr.Read
+                                        For k As Integer = ColDinamis To Dgv_Data.Columns.Count - 1
+
+                                            If isRelease Then
+                                                Dgv_Data.Rows(i).Cells(k).ReadOnly = True
+                                            End If
+
+                                            If Not Dr("Id_Cost_Center") = Val(Dgv_Data.Columns(k).Name) Then
+                                                If Not coltemp.Contains(k) Then
+                                                    Dgv_Data.Rows(i).Cells(k).ReadOnly = True
+                                                    Dgv_Data.Rows(i).Cells(k).Style.BackColor = Color.LightGray
+
+                                                End If
+                                            Else
+                                                coltemp.Add(k)
+                                                Dgv_Data.Rows(i).Cells(k).ReadOnly = False
+                                                Dgv_Data.Rows(i).Cells(k).Style.BackColor = Color.White
+                                            End If
+                                        Next
+                                    Loop
+                                End Using
+
+                            Else
+                                For k As Integer = ColDinamis To Dgv_Data.Columns.Count - 1
+
+                                    If isRelease Then
+                                        Dgv_Data.Rows(i).Cells(k).ReadOnly = True
+                                    End If
 
                                     Dgv_Data.Rows(i).Cells(k).ReadOnly = True
                                     Dgv_Data.Rows(i).Cells(k).Style.BackColor = Color.LightGray
-                                Else
-                                    If Not .Rows(i).Item("kolom_dinamis") = Dgv_Data.Columns(k).Name Then
-                                        Dgv_Data.Rows(i).Cells(k).ReadOnly = True
-                                        Dgv_Data.Rows(i).Cells(k).Style.BackColor = Color.LightGray
-                                    End If
-                                End If
+                                Next
 
-                                If isRelease Then
-                                    Dgv_Data.Rows(i).Cells(k).ReadOnly = True
-                                End If
-
-                            Next
+                            End If
 
                             '===============================
                             '=     GET NILAI BUDGETING     =
