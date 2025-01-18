@@ -332,59 +332,61 @@ Public Class Display_Hasil_Quality_Control
             Dim SF As String = ""
             SQL = "select Kode_Perusahaan from View_Laporan_Hasil_QC where Kode_Perusahaan = '" & KodePerusahaan & "' and "
             SQL = SQL & "No_Fak_Loading_Barang = '" & ListView1.FocusedItem.Text & "' "
+            SQL = SQL & "and kode_barang = '" & ListView2.FocusedItem.SubItems(1).Text & "' "
 
             SF = "{View_Laporan_Hasil_QC.No_Fak_Loading_Barang} = '" & ListView1.FocusedItem.Text & "' "
             SF = SF & "and {View_Laporan_Hasil_QC.kode_perusahaan} = '" & KodePerusahaan & "' "
+            SF = SF & "and {View_Laporan_Hasil_QC.Kode_Barang} = '" & ListView2.FocusedItem.SubItems(1).Text & "' "
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
                     CrDoc = New Rpt_Laporan_Hasil_QC
 
-                    'With A_Place_For_Printing2
+                    With A_Place_For_Printing2
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        CrDoc.PrintOptions.PrinterName = ""
+                        CrDoc.RecordSelectionFormula = SF
+                        'CrDoc.SummaryInfo.ReportTitle = "Barang Masuk Per Pallet"
+                        .Text = "Laporan Hasil QC"
+                        .CrystalReportViewer1.ReportSource = CrDoc
+                        '.CrystalReportViewer1.DisplayGroupTree = False
+                        .Refresh()
+                        .Show()
+                    End With
+
+
+                    '============================================================================================================================================
+                    '============================================================================================================================================
+
+                    '    kertas = "A4"
+
                     '    CrDoc.SetDataSource(Ds)
                     '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.PrintOptions.PrinterName = PrinterQC
                     '    CrDoc.RecordSelectionFormula = SF
-                    '    'CrDoc.SummaryInfo.ReportTitle = "Barang Masuk Per Pallet"
-                    '    .Text = "Laporan Hasil QC"
-                    '    .CrystalReportViewer1.ReportSource = CrDoc
-                    '    '.CrystalReportViewer1.DisplayGroupTree = False
-                    '    .Refresh()
-                    '    .Show()
-                    'End With
+                    '    'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
+                    '    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    '    doctoprint.PrinterSettings.PrinterName = PrinterQC
+                    '    'doctoprint.DefaultPageSettings.Landscape = True
+                    '    Dim rawKind As Integer
+                    '    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    '    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                    '        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                    '            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                    '            CrDoc.PrintOptions.PaperSize = rawKind
+                    '            Exit For
+                    '        End If
+                    '    Next
 
-                    '============================================================================================================================================
-                    '============================================================================================================================================
+                    '    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    '    CrDoc.PrintToPrinter(1, False, 1, 99)
 
-                    kertas = "A4"
-
-                    CrDoc.SetDataSource(Ds)
-                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    CrDoc.PrintOptions.PrinterName = PrinterQC
-                    CrDoc.RecordSelectionFormula = SF
-                    'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
-
-                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                    doctoprint.PrinterSettings.PrinterName = PrinterQC
-                    'doctoprint.DefaultPageSettings.Landscape = True
-                    Dim rawKind As Integer
-                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
-                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                            CrDoc.PrintOptions.PaperSize = rawKind
-                            Exit For
-                        End If
-                    Next
-
-                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                    CrDoc.PrintToPrinter(1, False, 1, 99)
-
-                    MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Else
-                    CloseConn()
-                    MessageBox.Show("Data Tidak diTemukan", "Cetak Ulang", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
+                    '    MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    'Else
+                    '    CloseConn()
+                    '    MessageBox.Show("Data Tidak diTemukan", "Cetak Ulang", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    '    Exit Sub
 
                 End If
             End Using
@@ -397,6 +399,10 @@ Public Class Display_Hasil_Quality_Control
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+    End Sub
+
+    Private Sub ListView2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListView2.SelectedIndexChanged
+
     End Sub
 
     Private Sub ListView2_DoubleClick(sender As Object, e As EventArgs) Handles ListView2.DoubleClick
@@ -417,9 +423,9 @@ Public Class Display_Hasil_Quality_Control
                     Lvw = ListView3.Items.Add(Format(dr("tanggal"), "dd-MM-yyyy"))
                     Lvw.SubItems.Add(dr("jam"))
                     Lvw.SubItems.Add(dr("userid"))
-                    Lvw.SubItems.Add(If(General_Class.CekNULL(dr("keterangan")) = "", "", dr("keterangan")))
-                    Lvw.SubItems.Add(dr("warna"))
-                    Lvw.SubItems.Add(dr("jenis_qc"))
+                    Lvw.SubItems.Add(If(General_Class.CekNULL(dr("keterangan")) = "-", "", dr("keterangan")))
+                    Lvw.SubItems.Add(If(General_Class.CekNULL(dr("warna")) = "", "-", dr("warna")))
+                    Lvw.SubItems.Add(If(General_Class.CekNULL(dr("jenis_qc")) = "", "-", dr("jenis_qc")))
                     Lvw.SubItems.Add(dr("step"))
                     Lvw.SubItems.Add(dr("no_faktur"))
                 Loop

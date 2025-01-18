@@ -3617,6 +3617,10 @@ Public Class EMI_Transaksi_ForecastOrder
         Display_Transaksi_ForecastOrder.Btn_Refresh_Click(Btn_Simpan, e)
     End Sub
 
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
+    End Sub
+
 
 
     '======================================================================================================
@@ -3757,7 +3761,6 @@ Public Class EMI_Transaksi_ForecastOrder
     Public Sub Get_Barang_Rix()
         Dim aksesUbahSales As String = ""
         Dim aksesUbahPPIC As String = ""
-
 
 
         Try

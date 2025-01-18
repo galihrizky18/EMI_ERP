@@ -53,40 +53,48 @@ Public Class Emi_Request_Material_Display
             OpenConn()
 
             Lv_Data.Rows.Clear()
-            SQL = "select a.No_Faktur, a.Kode_stock_Owner, a.Kode_Barang, b.Nama, a.Tanggal_Produksi, a.Jam_Produksi, a.Jumlah, a.Satuan, a.UserId, a.Flag_Selesai_Request_Material, "
+            SQL = "select a.no_transaksi, a.Kode_stock_Owner, a.Kode_Barang, b.Nama, a.Tgl_Produksi, a.Jam_Produksi, a.Jumlah, a.Satuan, a.UserId, "
 
             SQL = SQL & "ISNULL(( "
             SQL = SQL & "select top 1 'T' "
-            SQL = SQL & "from Emi_Order_Produksi_Detail_Bahan z where a.Kode_Perusahaan = z.Kode_Perusahaan and a.No_Faktur = z.No_Faktur and Flag_Terpenuhi is null "
-            SQL = SQL & "), 'Y') as Produksi_Terpenuhi "
+            SQL = SQL & "from Emi_Split_Production_Order_Detail_Bahan z where a.Kode_Perusahaan = z.Kode_Perusahaan and a.no_transaksi = z.No_Faktur and Flag_Terpenuhi is null "
+            SQL = SQL & "), 'Y') as Produksi_Bahan_Terpenuhi, "
 
-            SQL = SQL & "from EMI_Order_Produksi a, barang b "
+            SQL = SQL & "ISNULL(( "
+            SQL = SQL & "select top 1 'T' "
+            SQL = SQL & "from Emi_Split_Production_Order_Detail_Packaging z "
+            SQL = SQL & "where a.Kode_Perusahaan = z.Kode_Perusahaan "
+            SQL = SQL & "and a.no_transaksi = z.No_Faktur "
+            SQL = SQL & "and Flag_Terpenuhi is null "
+            SQL = SQL & "), 'Y') as Produksi_Packaging_Terpenuhi "
+
+            SQL = SQL & "from Emi_Split_Production_Order a, barang b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
             SQL = SQL & "and a.Kode_stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
             SQL = SQL & "and a.Status is null "
             SQL = SQL & "and a.Selesai is null "
             SQL = SQL & "and a.Flag_Selesai_Request_Material is null "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "order by a.Tanggal_Produksi desc "
+            SQL = SQL & "order by a.tgl_produksi desc "
             Using Dr = OpenTrans(SQL)
                 Dim row As Integer = 0
                 Do While Dr.Read
 
                     Lv_Data.Rows.Add(1)
-                    If General_Class.CekNULL(Dr("Produksi_Terpenuhi")) = "Y" Then
+                    If General_Class.CekNULL(Dr("Produksi_Bahan_Terpenuhi")) = "Y" And General_Class.CekNULL(Dr("Produksi_Packaging_Terpenuhi")) = "Y" Then
                         Lv_Data.Rows(row).Cells(item_Status).Value = "Terpenuhi"
                         Lv_Data.Rows(row).Cells(item_Status).Style.BackColor = Color.LightGreen
-                    ElseIf General_Class.CekNULL(Dr("Produksi_Terpenuhi")) = "T" Then
+                    ElseIf General_Class.CekNULL(Dr("Produksi_Bahan_Terpenuhi")) = "T" Or General_Class.CekNULL(Dr("Produksi_Packaging_Terpenuhi")) = "T" Then
                         Lv_Data.Rows(row).Cells(item_Status).Value = "Belum Terpenuhi"
                         Lv_Data.Rows(row).Cells(item_Status).Style.BackColor = Color.LightYellow
                     End If
 
-                    Lv_Data.Rows(row).Cells(item_NoFak).Value = Dr("No_Faktur")
+                    Lv_Data.Rows(row).Cells(item_NoFak).Value = Dr("no_transaksi")
                     Lv_Data.Rows(row).Cells(item_Lokasi).Value = Dr("Kode_stock_Owner")
                     Lv_Data.Rows(row).Cells(item_KdBarang).Value = Dr("Kode_Barang")
                     Lv_Data.Rows(row).Cells(item_Nama).Value = Dr("Nama")
-                    If Not General_Class.CekNULL(Dr("Tanggal_Produksi")) = "" Then
-                        Lv_Data.Rows(row).Cells(item_Tanggal).Value = Format(Dr("Tanggal_Produksi"), "dd MMM yyyy")
+                    If Not General_Class.CekNULL(Dr("tgl_produksi")) = "" Then
+                        Lv_Data.Rows(row).Cells(item_Tanggal).Value = Format(Dr("tgl_produksi"), "dd MMM yyyy")
                         Lv_Data.Rows(row).Cells(item_Jam).Value = Dr("Jam_Produksi")
                     Else
                         Lv_Data.Rows(row).Cells(item_Tanggal).Value = "-"
@@ -143,12 +151,19 @@ Public Class Emi_Request_Material_Display
                 ExecuteTrans(SQL)
 
             Else
-                MessageBox.Show("Requst Material Belum Terpenuhi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Exit Sub
+
+                Dim Validasi As String = MessageBox.Show("Requst Material Belum Terpenuhi, Tetap ingin Akhiri Request Produksi . . ? ?", "Production", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If Validasi = vbYes Then
+
+                    SQL = "update EMI_Order_Produksi set Flag_Selesai_Request_Material = 'Y' where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and No_Faktur = '" & Lv_NoFaktur & "' and Kode_stock_Owner = '" & Lv_Lokasi & "' and Kode_Barang = '" & Lv_KdBarang & "' "
+                    ExecuteTrans(SQL)
+
+                End If
 
             End If
 
-            CloseConn()
+                CloseConn()
         Catch ex As Exception
             CloseConn()
             MessageBox.Show(ex.Message)

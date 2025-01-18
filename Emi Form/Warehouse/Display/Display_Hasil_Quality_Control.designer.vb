@@ -47,10 +47,10 @@ Partial Class Display_Hasil_Quality_Control
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.ListView2 = New System.Windows.Forms.ListView()
-        Me.Panel8 = New System.Windows.Forms.Panel()
-        Me.ListView3 = New System.Windows.Forms.ListView()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.CetakHasilToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Panel8 = New System.Windows.Forms.Panel()
+        Me.ListView3 = New System.Windows.Forms.ListView()
         Me.Panel1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -87,7 +87,7 @@ Partial Class Display_Hasil_Quality_Control
         Me.LblInquiry_Judul.Location = New System.Drawing.Point(15, 11)
         Me.LblInquiry_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.LblInquiry_Judul.Name = "LblInquiry_Judul"
-        Me.LblInquiry_Judul.Size = New System.Drawing.Size(326, 30)
+        Me.LblInquiry_Judul.Size = New System.Drawing.Size(323, 30)
         Me.LblInquiry_Judul.TabIndex = 0
         Me.LblInquiry_Judul.Text = "Display - Hasil Quality Control"
         '
@@ -325,6 +325,18 @@ Partial Class Display_Hasil_Quality_Control
         Me.ListView2.UseCompatibleStateImageBehavior = False
         Me.ListView2.View = System.Windows.Forms.View.Details
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakHasilToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(134, 26)
+        '
+        'CetakHasilToolStripMenuItem
+        '
+        Me.CetakHasilToolStripMenuItem.Name = "CetakHasilToolStripMenuItem"
+        Me.CetakHasilToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
+        Me.CetakHasilToolStripMenuItem.Text = "Cetak Hasil"
+        '
         'Panel8
         '
         Me.Panel8.BackColor = System.Drawing.Color.Red
@@ -347,18 +359,6 @@ Partial Class Display_Hasil_Quality_Control
         Me.ListView3.TabIndex = 342
         Me.ListView3.UseCompatibleStateImageBehavior = False
         Me.ListView3.View = System.Windows.Forms.View.Details
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakHasilToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 48)
-        '
-        'CetakHasilToolStripMenuItem
-        '
-        Me.CetakHasilToolStripMenuItem.Name = "CetakHasilToolStripMenuItem"
-        Me.CetakHasilToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.CetakHasilToolStripMenuItem.Text = "Cetak Hasil"
         '
         'Display_Hasil_Quality_Control
         '

@@ -35,7 +35,8 @@ Public Class Emi_Display_Transfer
     Dim itemSN As Integer = 8
     Dim itemSatuanBarang As Integer = 9
 
-    Dim GetDataKodeTransfer, GetDataLokasi, GetDataKdBrg, GetDataNmBrg, GetDataBrgSN, GetDataJmlEstimasi, GetDataSatuanKecil, GetDataUrutOto As String
+    Dim GetDataKodeTransfer, GetDataLokasi, GetDataKdBrg, GetDataNmBrg, GetDataBrgSN, GetDataJmlEstimasi, GetDataSatuanKecil, GetDataUrutOto, GetDataJumlahBags, GetDataBeratBags As String
+    Dim GetDataSatuanBeratBags As String
 
     ''Dim itemNoFaktur As Integer = 0
     'Dim itemKdSupplier As Integer = 0
@@ -81,7 +82,6 @@ Public Class Emi_Display_Transfer
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
     End Sub
-
 
     Private Sub Popup_Timbang_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         My.Application.ChangeCulture("en-us")
@@ -191,32 +191,39 @@ Public Class Emi_Display_Transfer
 
             SQL = "select * from barang_sn "
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and Qr_Code+'-'+Kode_Unik_Berjalan = '" & Txt_ScanBarcode.Text & "' and jumlah <> 0 "
+            SQL = SQL & "and Qr_Code+'-'+Kode_Unik_Berjalan = '" & Txt_ScanBarcode.Text & "' and jumlah<>0 "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     SN = Dr("serial_number")
                 End If
             End Using
 
-            SQL = "select a.Kode_Transfer,a.lokasi, a.SO_Awal, a.SO_Tujuan,b.urut_oto, a.Kode_Barang, c.Nama, a.Total, a.Satuan, a.Satuan_Barang, b.Serial_Number_Awal, "
-            SQL = SQL & "isnull((select distinct x.Labeling_WMS_Position from View_Warehouse_Position x,View_Warehouse_Position_Detail y where "
-            SQL = SQL & "x.Kode_Perusahaan = y.kode_Perusahaan and x.Id_WMS_Warehouse_Position = y.Id_WMS_Warehouse_Position "
-            SQL = SQL & "and y.Kode_Perusahaan = b.Kode_Perusahaan and y.Id_WMS_Warehouse_Position = b.Id_Wms_Awal and y.nomor_urut = b.No_Pallet_Awal), null) as Rak_Awal "
-            SQL = SQL & "From tf_stock a, Tf_Stock_det b, Barang c "
-            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and  a.Kode_Transfer = b.No_Faktur "
-            SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.SO_Awal = c.Kode_Stock_Owner and a.Kode_Barang = c.Kode_Barang "
-            SQL = SQL & "and b.Flag_Pot_Stock is null and a.Status is null and b.flag_sudah_cetak is null "
-            SQL = SQL & "and b.Serial_Number_Awal = '" & SN & "' "
-            SQL = SQL & "order by a.kode_transfer, a.tanggal,a.jam "
+            SQL = "Select a.no_faktur, a.lokasi, a.so_awal, a.so_tujuan, c.urut_Oto, b.kode_Barang, "
+            SQL = SQL & "d.nama, b.Total, b.satuan, b.Satuan_Barang, c.serial_number_awal, "
+            SQL = SQL & "c.jumlah, c.Jumlah_Bags, d.Berat_Bags, d.Satuan_Berat_Bags, c.Id_Wms_Tujuan, c.Warna, "
+
+            SQL = SQL & "isnull((select x.Labeling_WMS_Position from View_Warehouse_Position x where "
+            SQL = SQL & "x.Kode_Perusahaan = c.Kode_Perusahaan And x.Id_WMS_Warehouse_Position = c.Id_Wms_Awal), null) As Rak_Awal "
+
+            SQL = SQL & "From tf_stock_parent a, tf_stock b, tf_stock_det c, barang d Where "
+            SQL = SQL & "a.kode_Perusahaan = b.kode_Perusahaan And a.no_faktur = b.no_faktur And "
+            SQL = SQL & "b.kode_Perusahaan = c.kode_Perusahaan And b.no_faktur = c.no_faktur And b.Urut_Oto = c.urut_TF "
+            SQL = SQL & "And b.Kode_Barang=d.Kode_Barang And a.so_awal=d.kode_stock_Owner And b.kode_Perusahaan=d.Kode_Perusahaan "
+            SQL = SQL & "And a.status Is null And b.Flag_Timbang ='Y' and c.selesai is null "
+            SQL = SQL & "And c.Serial_Number_Awal = '" & SN & "' and a.Kode_Perusahaan='" & KodePerusahaan & "' "
+
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
-                    GetDataKodeTransfer = Dr("Kode_Transfer")
+                    GetDataKodeTransfer = Dr("no_faktur")
                     GetDataLokasi = Dr("SO_Awal")
                     GetDataKdBrg = Dr("Kode_Barang")
                     GetDataNmBrg = Dr("Nama")
                     GetDataBrgSN = Dr("Serial_Number_Awal")
                     GetDataJmlEstimasi = Format(Dr("Total"), "N2")
                     GetDataSatuanKecil = Dr("Satuan_Barang")
+                    GetDataJumlahBags = Format(Dr("Jumlah_Bags"), "N2")
+                    GetDataBeratBags = Format(Dr("Berat_Bags"), "N2")
+                    GetDataSatuanBeratBags = Dr("Satuan_Berat_Bags")
                     GetDataUrutOto = Dr("urut_oto")
                 Else
                     CloseTrans()
@@ -235,28 +242,28 @@ Public Class Emi_Display_Transfer
             Exit Sub
         End Try
 
-        '---------------------------------------------------------------
+        '--------------------------------------------------------------- 
         EMI_Timbang_Floor_Scale.kosong()
-        ''EMI_Timbang_Floor_Scale.txtKodeTransfer.Text = LvKodeTransfer
-        ''EMI_Timbang_Floor_Scale.txt_lokasi.Text = LvSoAwal
-        ''EMI_Timbang_Floor_Scale.txt_barang.Text = LvNamaBarang
-        ''EMI_Timbang_Floor_Scale.TxtKdBarang.Text = LvKodeBarang
-        ''EMI_Timbang_Floor_Scale.txt_Barang_SN.Text = LvSn
-        ''EMI_Timbang_Floor_Scale.txt_Jml_Estimasi.Text = LvTotal
-        ''EMI_Timbang_Floor_Scale.Txt_SatuanKecil.Text = LvSatuanBarang
-        EMI_Timbang_Floor_Scale.txtKodeTransfer.Text = GetDataKodeTransfer
         EMI_Timbang_Floor_Scale.txtUrutOto.Text = GetDataUrutOto
-        EMI_Timbang_Floor_Scale.txt_lokasi.Text = GetDataLokasi
+        EMI_Timbang_Floor_Scale.txtKodeTransfer.Text = GetDataKodeTransfer
         EMI_Timbang_Floor_Scale.TxtKdBarang.Text = GetDataKdBrg
+        EMI_Timbang_Floor_Scale.txt_lokasi.Text = GetDataLokasi
         EMI_Timbang_Floor_Scale.txt_barang.Text = GetDataNmBrg
         EMI_Timbang_Floor_Scale.txt_Barang_SN.Text = GetDataBrgSN
         EMI_Timbang_Floor_Scale.txt_Jml_Estimasi.Text = GetDataJmlEstimasi
+        EMI_Timbang_Floor_Scale.TxtJumlahBags.Text = GetDataJumlahBags
+        EMI_Timbang_Floor_Scale.TxtBeratBags.Text = GetDataBeratBags & " " & GetDataSatuanBeratBags
+        EMI_Timbang_Floor_Scale.Txt_Berat_Bags_Bersih.Text = GetDataBeratBags
+
+
         EMI_Timbang_Floor_Scale.Txt_SatuanKecil.Text = GetDataSatuanKecil
+        EMI_Timbang_Floor_Scale.TxtBarcode.Text = Txt_ScanBarcode.Text
         EMI_Timbang_Floor_Scale.CmbJenisTimbang.SelectedItem = "TRANSFER STOCK"
 
         EMI_Timbang_Floor_Scale.Btn_Refresh.Visible = False
         EMI_Timbang_Floor_Scale.UNIX.Visible = False
 
+        EMI_Timbang_Floor_Scale.GetSisaTransfer()
         EMI_Timbang_Floor_Scale.ShowDialog()
     End Sub
 
@@ -308,27 +315,31 @@ Public Class Emi_Display_Transfer
             Lv_List_Barang.Items.Clear()
             Lv_List_Barang.View = View.Details
 
-            SQL = "select a.Kode_Transfer,a.lokasi, a.SO_Awal, a.SO_Tujuan, a.Kode_Barang, c.Nama, a.Total, a.Satuan, a.Satuan_Barang, b.Serial_Number_Awal, "
-            SQL = SQL & "isnull((select distinct x.Labeling_WMS_Position from View_Warehouse_Position x,View_Warehouse_Position_Detail y where "
-            SQL = SQL & "x.Kode_Perusahaan = y.kode_Perusahaan and x.Id_WMS_Warehouse_Position = y.Id_WMS_Warehouse_Position "
-            SQL = SQL & "and y.Kode_Perusahaan = b.Kode_Perusahaan and y.Id_WMS_Warehouse_Position = b.Id_Wms_Awal and y.nomor_urut = b.No_Pallet_Awal), null) as Rak_Awal "
-            SQL = SQL & "From tf_stock a, Tf_Stock_det b, Barang c "
-            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and  a.Kode_Transfer = b.No_Faktur "
-            SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.SO_Awal = c.Kode_Stock_Owner and a.Kode_Barang = c.Kode_Barang "
-            SQL = SQL & "and b.Flag_Pot_Stock is null and a.Status is null  and flag_sudah_cetak is null "
-            SQL = SQL & "order by a.kode_transfer, a.tanggal,a.jam "
+            SQL = "Select a.no_faktur, a.lokasi, a.so_awal, a.so_tujuan, c.urut_Oto, b.kode_Barang, "
+            SQL = SQL & "d.nama, b.Total, b.satuan, b.Satuan_Barang, c.serial_number_awal, "
+            SQL = SQL & "c.jumlah, c.Jumlah_Bags, c.Id_Wms_Tujuan, c.Warna, "
+
+            SQL = SQL & "isnull((select x.Labeling_WMS_Position from View_Warehouse_Position x where "
+            SQL = SQL & "x.Kode_Perusahaan = c.Kode_Perusahaan And x.Id_WMS_Warehouse_Position = c.Id_Wms_Awal), null) As Rak_Awal "
+
+            SQL = SQL & "From tf_stock_parent a, tf_stock b, tf_stock_det c, barang d Where "
+            SQL = SQL & "a.kode_Perusahaan = b.kode_Perusahaan And a.no_faktur = b.no_faktur And "
+            SQL = SQL & "b.kode_Perusahaan = c.kode_Perusahaan And b.no_faktur = c.no_faktur And b.Urut_Oto = c.urut_TF "
+            SQL = SQL & "And b.Kode_Barang=d.Kode_Barang And a.so_awal=d.kode_stock_Owner And b.kode_Perusahaan=d.Kode_Perusahaan "
+            SQL = SQL & "And a.status Is null And b.Flag_Timbang ='Y' and c.selesai is null "
+            SQL = SQL & "order by a.no_faktur, a.tanggal,a.jam "
 
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
                     Dim Lvw As ListViewItem
 
-                    Lvw = Lv_List_Barang.Items.Add(dr("Kode_Transfer"))
+                    Lvw = Lv_List_Barang.Items.Add(dr("no_faktur"))
                     '  Lvw.SubItems.Add(dr("lokasi"))
                     Lvw.SubItems.Add(dr("SO_Awal"))
                     Lvw.SubItems.Add(dr("so_tujuan"))
                     Lvw.SubItems.Add(dr("kode_barang"))
                     Lvw.SubItems.Add(dr("nama"))
-                    Lvw.SubItems.Add(Format(dr("total"), "N2"))
+                    Lvw.SubItems.Add(Format(dr("jumlah"), "N2"))
                     Lvw.SubItems.Add(dr("satuan"))
                     Lvw.SubItems.Add(dr("Rak_Awal"))
                     Lvw.SubItems.Add(dr("Serial_Number_Awal"))
@@ -509,4 +520,19 @@ Public Class Emi_Display_Transfer
 
     End Sub
 
+    Private Sub Txt_ScanBarcode_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_ScanBarcode.KeyPress
+        'If e.KeyChar = Chr(13) Then
+
+
+        '    If Txt_ScanBarcode.Text.Trim.Length <> 0 Then
+        '            Btn_TimbangFloorScale_Click(Me, Nothing)
+        '        End If
+
+        'Else
+        '    'If Char.IsLetterOrDigit(e.KeyChar) OrElse Char.IsSymbol(e.KeyChar) OrElse e.KeyChar = "-"c Then
+        '    '    ValueBarcode &= e.KeyChar.ToString.Trim
+        '    'End If
+
+        'End If
+    End Sub
 End Class

@@ -14,7 +14,7 @@ Module General_Module
     Public Bahasa_Pilihan As String = "ID"
     Public fPurchaseRequisition As String = "PR"
     Public FRefraksi As String = "FR"
-    Public fRequestMaterial As String = "RM"
+    Public fRequestMaterial As String = "RQM"
     Public fsb As String = "SB"
     Public fab As String = "FAB"
     Public fTransTimbanganKosong As String = ""
@@ -39,6 +39,7 @@ Module General_Module
     Public fbb As String = "BB"
     Public fbs As String = "BRG"
     Public FRencanaProduksiBarang As String = "FRP"
+    Public fBudgetingCostCenter As String = "BCC"
 
 
     '=====================

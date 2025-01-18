@@ -592,6 +592,47 @@ Public Class FMenuDev
         Transfer_Stock_QC.Focus()
     End Sub
 
+    Private Sub TfSrtockToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TfSrtockToolStripMenuItem.Click
+        Transfer_Stock_QC.StartPosition = FormStartPosition.CenterScreen
+
+        Transfer_Stock_QC.MdiParent = Me
+        Transfer_Stock_QC.Show()
+        Transfer_Stock_QC.Focus()
+    End Sub
+
+    Private Sub DisplayTidakTimbangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayTidakTimbangToolStripMenuItem.Click
+        EMI_Display_Transfer_Tidak_Timbang_QC.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Display_Transfer_Tidak_Timbang_QC.MdiParent = Me
+        EMI_Display_Transfer_Tidak_Timbang_QC.Show()
+        EMI_Display_Transfer_Tidak_Timbang_QC.Focus()
+    End Sub
+
+    Private Sub DisplayTimbangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayTimbangToolStripMenuItem.Click
+
+        EMI_Display_Transfer_QC.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Display_Transfer_QC.MdiParent = Me
+        EMI_Display_Transfer_QC.Show()
+        EMI_Display_Transfer_QC.Focus()
+    End Sub
+
+    Private Sub RequestMaterialToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles RequestMaterialToolStripMenuItem1.Click
+        Emi_Request_Material_Display.StartPosition = FormStartPosition.CenterScreen
+
+        Emi_Request_Material_Display.MdiParent = Me
+        Emi_Request_Material_Display.Show()
+        Emi_Request_Material_Display.Focus()
+    End Sub
+
+    Private Sub BudgetingPerCostCenterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BudgetingPerCostCenterToolStripMenuItem.Click
+        Budgeting_Per_CostCenter.StartPosition = FormStartPosition.CenterScreen
+
+        Budgeting_Per_CostCenter.MdiParent = Me
+        Budgeting_Per_CostCenter.Show()
+        Budgeting_Per_CostCenter.Focus()
+    End Sub
+
 
 
 

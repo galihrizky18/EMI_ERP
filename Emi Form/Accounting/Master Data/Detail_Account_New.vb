@@ -426,6 +426,21 @@ Public Class Detail_Account_New
             LvInput_CostCenter.Focus() : Exit Sub
         End If
 
+        Dim hasDataToInsert As Boolean = False
+
+        For i As Integer = 0 To LvInput_CostCenter.Items.Count - 1
+            If LvInput_CostCenter.Items(i).Checked Then
+                hasDataToInsert = True
+                Exit For
+            End If
+        Next
+
+        If Not hasDataToInsert Then
+            MessageBox.Show("Cost Center Harus di Centang Minimal 1", "Accounting", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            LvInput_CostCenter.Focus() : Exit Sub
+        End If
+
+
         Try
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
@@ -926,11 +941,7 @@ Public Class Detail_Account_New
         Txt_KodeDetailAccount_Leave(Lv_Display, e)
     End Sub
 
-    Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
-        If TabControl1.SelectedIndex = 2 Then
-            Load_DGV_Tab3()
-        End If
-    End Sub
+
 
     Private Sub Load_DGV_Tab3()
 
@@ -970,7 +981,7 @@ Public Class Detail_Account_New
             '=============================
             Dgv_Binding.Rows.Clear()
             Dim formulaTemp As String = ""
-            SQL = "select Kode_Account, Kode_Detail_Acc, Keterangan "
+            SQL = "select Kode_Account, Kode_Detail_Acc, Keterangan, Kode_acc, kode_detail_acc "
             SQL = SQL & "from Detail_Account "
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "'"
             Using Ds = BindingTrans(SQL)
@@ -982,13 +993,14 @@ Public Class Detail_Account_New
                         For i As Integer = 0 To .Rows.Count - 1
                             formulaTemp = ""
                             Dgv_Binding.Rows.Add(1)
+                            'Dgv_Binding.Rows(Row).Cells(itemBinding_KdAccount).Value = .Rows(i).Item("Kode_Account")
                             Dgv_Binding.Rows(Row).Cells(itemBinding_KdAccount).Value = .Rows(i).Item("Kode_Account")
                             Dgv_Binding.Rows(Row).Cells(itemBinding_KdDetailAccount).Value = .Rows(i).Item("Kode_Detail_Acc")
                             Dgv_Binding.Rows(Row).Cells(itemBinding_KeteranganAccount).Value = .Rows(i).Item("Keterangan")
 
                             '====================================
                             '=     GET DATA PER COST CENTER     =
-                            '====================================
+                            '====================================               
                             SQL = "select Kode_Account, Id_Cost_Center "
                             SQL = SQL & "from Account_Per_Cost_Center "
                             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
@@ -1039,11 +1051,73 @@ Public Class Detail_Account_New
 
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Load_DGV_Tab3()
+
+
+    Private Sub Txt_BudgetHarian_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_BudgetHarian.KeyPress
+        If e.KeyChar = Chr(13) Then Txt_N_BudgetHarian.Focus()
+
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+        End If
     End Sub
 
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+    Private Sub Txt_N_BudgetHarian_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_N_BudgetHarian.KeyPress
+        If e.KeyChar = Chr(13) Then Txt_BudgetBulanan.Focus()
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub Txt_BudgetBulanan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_BudgetBulanan.KeyPress
+        If e.KeyChar = Chr(13) Then Txt_N_BudgetBulanan.Focus()
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub Txt_N_BudgetBulanan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_N_BudgetBulanan.KeyPress
+        If e.KeyChar = Chr(13) Then Cmb_FlagKhusus.Focus()
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub Cmb_KodeAccount_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_KodeAccount.KeyPress
+        If e.KeyChar = Chr(13) Then Txt_KodeDetailAccount.Focus()
+    End Sub
+
+    Private Sub Txt_Keterangan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Keterangan.KeyPress
+        If e.KeyChar = Chr(13) Then Cmb_Posisi.Focus()
+    End Sub
+
+    Private Sub Cmb_Posisi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Posisi.KeyPress
+        If e.KeyChar = Chr(13) Then Cmb_Cabang.Focus()
+    End Sub
+
+    Private Sub Cmb_Cabang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Cabang.KeyPress
+        If e.KeyChar = Chr(13) Then Cmb_Letak.Focus()
+    End Sub
+
+    Private Sub Cmb_FlagAktif_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_FlagAktif.KeyPress
+        If e.KeyChar = Chr(13) Then Cmb_FlagBudget.Focus()
+    End Sub
+
+    Private Sub Cmb_FlagKhusus_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_FlagKhusus.KeyPress
+        If e.KeyChar = Chr(13) Then Cmb_FlagBiaya.Focus()
+    End Sub
+
+    Private Sub Cmb_FlagBiaya_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_FlagBiaya.KeyPress
+        If e.KeyChar = Chr(13) Then Cmb_FlagPBK.Focus()
+    End Sub
+
+
+    Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
+        If TabControl1.SelectedIndex = 2 Then
+            Load_DGV_Tab3()
+        End If
+    End Sub
+
+    Private Sub Button3_Click_1(sender As Object, e As EventArgs) Handles Button3.Click
         If Dgv_Binding.Rows.Count = 0 Then Exit Sub
 
         Try
@@ -1103,64 +1177,10 @@ Public Class Detail_Account_New
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-
     End Sub
 
-    Private Sub Txt_BudgetHarian_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_BudgetHarian.KeyPress
-        If e.KeyChar = Chr(13) Then Txt_N_BudgetHarian.Focus()
-
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
-            e.Handled = True
-        End If
-    End Sub
-
-    Private Sub Txt_N_BudgetHarian_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_N_BudgetHarian.KeyPress
-        If e.KeyChar = Chr(13) Then Txt_BudgetBulanan.Focus()
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
-            e.Handled = True
-        End If
-    End Sub
-
-    Private Sub Txt_BudgetBulanan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_BudgetBulanan.KeyPress
-        If e.KeyChar = Chr(13) Then Txt_N_BudgetBulanan.Focus()
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
-            e.Handled = True
-        End If
-    End Sub
-
-    Private Sub Txt_N_BudgetBulanan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_N_BudgetBulanan.KeyPress
-        If e.KeyChar = Chr(13) Then Cmb_FlagKhusus.Focus()
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
-            e.Handled = True
-        End If
-    End Sub
-
-    Private Sub Cmb_KodeAccount_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_KodeAccount.KeyPress
-        If e.KeyChar = Chr(13) Then Txt_KodeDetailAccount.Focus()
-    End Sub
-
-    Private Sub Txt_Keterangan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Keterangan.KeyPress
-        If e.KeyChar = Chr(13) Then Cmb_Posisi.Focus()
-    End Sub
-
-    Private Sub Cmb_Posisi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Posisi.KeyPress
-        If e.KeyChar = Chr(13) Then Cmb_Cabang.Focus()
-    End Sub
-
-    Private Sub Cmb_Cabang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Cabang.KeyPress
-        If e.KeyChar = Chr(13) Then Cmb_Letak.Focus()
-    End Sub
-
-    Private Sub Cmb_FlagAktif_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_FlagAktif.KeyPress
-        If e.KeyChar = Chr(13) Then Cmb_FlagBudget.Focus()
-    End Sub
-
-    Private Sub Cmb_FlagKhusus_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_FlagKhusus.KeyPress
-        If e.KeyChar = Chr(13) Then Cmb_FlagBiaya.Focus()
-    End Sub
-
-    Private Sub Cmb_FlagBiaya_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_FlagBiaya.KeyPress
-        If e.KeyChar = Chr(13) Then Cmb_FlagPBK.Focus()
+    Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles Button2.Click
+        Load_DGV_Tab3()
     End Sub
 
     Private Sub Txt_KodeDetailAccount_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_KodeDetailAccount.KeyPress

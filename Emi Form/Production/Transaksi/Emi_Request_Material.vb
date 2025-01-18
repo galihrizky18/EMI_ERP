@@ -8,7 +8,7 @@ Public Class Emi_Request_Material
 
     Public No_faktur As String = ""
 
-    Dim Dgv_NoFak, Dgv_KdSo, Dgv_KdBarang, Dgv_JmlhKebutuhan, Dgv_JmlhDiProduksi, Dgv_Sisa, Dgv_SatuanBesar, Dgv_JmlhInput, Dgv_SatuanKecil, Dgv_Tipe, Dgv_Warna As String
+    Dim Dgv_NoFak, Dgv_KdSo, Dgv_KdBarang, Dgv_JmlhKebutuhan, Dgv_JmlhDiProduksi, Dgv_Sisa, Dgv_SatuanBesar, Dgv_JmlhInput, Dgv_SatuanKecil, Dgv_Tipe, Dgv_Warna, Dgv_JenisBahan As String
 
     Dim cell_NoFak As Integer = 0
     Dim cell_Kd_SO As Integer = 1
@@ -21,6 +21,7 @@ Public Class Emi_Request_Material
     Dim cell_SatuanKecil As Integer = 8
     Dim cell_Tipe As Integer = 9
     Dim cell_warna As Integer = 10
+    Dim cell_JenisBahan As Integer = 11
 
     Private Sub Emi_Request_Material_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         My.Application.ChangeCulture("en-us")
@@ -46,6 +47,8 @@ Public Class Emi_Request_Material
         Dgv_Data.Rows.Clear()
         TxtTotalRequest.Text = 0
 
+        get_jam()
+
         Try
             OpenConn()
 
@@ -64,9 +67,11 @@ Public Class Emi_Request_Material
             SQL = SQL & "(select sum(z.jumlah) "
             SQL = SQL & "from Emi_Material_Requisition_det z, Emi_Material_Requisition x "
             SQL = SQL & "where a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Stock_Owner =z.Kode_Stock_Owner and a.Kode_Barang = z.Kode_Barang "
-            SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur and a.No_Faktur = x.No_Faktur_Order ), 0)) as sisa " 'SISA
+            SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur and a.No_Faktur = x.No_Faktur_Order ), 0)) as sisa ," 'SISA
 
-            SQL = SQL & "from Emi_Order_Produksi_Detail_Bahan a, Barang b "
+            SQL = SQL & "'BAHAN' as Jenis_Bahan " ' JENIS BAHAN
+
+            SQL = SQL & "from Emi_Split_Production_Order_Detail_Bahan a, Barang b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
             SQL = SQL & "and a.kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.No_Faktur='" & Txt_NoFaktur.Text & "' "
@@ -84,9 +89,11 @@ Public Class Emi_Request_Material
             SQL = SQL & "(select sum(z.jumlah) "
             SQL = SQL & "from Emi_Material_Requisition_det z, Emi_Material_Requisition x "
             SQL = SQL & "where a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Stock_Owner =z.Kode_Stock_Owner and a.Kode_Barang = z.Kode_Barang "
-            SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur and a.No_Faktur = x.No_Faktur_Order ), 0)) as sisa " 'SISA
+            SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur and a.No_Faktur = x.No_Faktur_Order ), 0)) as sisa, " 'SISA
 
-            SQL = SQL & "from EMI_Order_Produksi_Detail_Packaging a, Barang b "
+            SQL = SQL & "'PACKAGING' as Jenis_Bahan " ' JENIS BAHAN
+
+            SQL = SQL & "from Emi_Split_Production_Order_Detail_Packaging a, Barang b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
             SQL = SQL & "and a.kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.No_Faktur='" & Txt_NoFaktur.Text & "' "
@@ -106,6 +113,7 @@ Public Class Emi_Request_Material
                             Dgv_Data.Rows(i).Cells(cell_SatuanKecil).Value = .Rows(i).Item("Satuan_Barang")
                             Dgv_Data.Rows(i).Cells(cell_Tipe).Value = .Rows(i).Item("tipe")
                             Dgv_Data.Rows(i).Cells(cell_warna).Value = "Hijau"
+                            Dgv_Data.Rows(i).Cells(cell_JenisBahan).Value = .Rows(i).Item("Jenis_Bahan")
 
                             Dgv_Data.Rows(i).Cells(cell_JumlahInput).Style.BackColor = Color.LightGray
                         Next
@@ -141,6 +149,7 @@ Public Class Emi_Request_Material
         Dgv_SatuanKecil = Dgv_Data.Rows(index).Cells(cell_SatuanKecil).Value
         Dgv_Tipe = Dgv_Data.Rows(index).Cells(cell_Tipe).Value
         Dgv_Warna = Dgv_Data.Rows(index).Cells(cell_warna).Value
+        Dgv_JenisBahan = Dgv_Data.Rows(index).Cells(cell_JenisBahan).Value
     End Sub
 
     Private Sub Dgv_Data_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles Dgv_Data.CellEndEdit
@@ -233,18 +242,21 @@ Public Class Emi_Request_Material
         '============================
         '=     CEK DATAGRIDVIEW     =
         '============================
+        Dim hasData As Boolean = False
         For i As Integer = 0 To Dgv_Data.RowCount - 1
             Get_DGV_Items(i)
-            If Dgv_JmlhInput <> "" Then
-
+            If String.IsNullOrWhiteSpace(Dgv_JmlhInput) Then
+                Continue For
+            Else
+                hasData = True
                 Exit For
             End If
-
-            If i = Dgv_Data.RowCount - 1 Then
-                MessageBox.Show("Tidak Ada Jumlah yang Diinput", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Exit Sub
-            End If
         Next
+
+        If Not hasData Then
+            MessageBox.Show("Tidak Ada Jumlah yang Diinput", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
 
 
         get_jam()
@@ -356,47 +368,91 @@ Public Class Emi_Request_Material
                 '======================================
                 '=     CEK APAKAH BAHAN TERPENUHI     =
                 '======================================
-                SQL = "select "
-                SQL = SQL & "(a.jumlah - ISNULL(( "
-                SQL = SQL & "select sum(x.Jumlah) "
-                SQL = SQL & "from Emi_Material_Requisition z, Emi_Material_Requisition_det x "
-                SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan "
-                SQL = SQL & "and z.No_Faktur = x.No_Faktur "
-                SQL = SQL & "and a.No_Faktur = z.No_Faktur_Order "
-                SQL = SQL & "and a.Kode_Stock_Owner = x.Kode_Stock_Owner and a.Kode_Barang = x.Kode_Barang "
-                SQL = SQL & "), 0)) as Sisa "
-                SQL = SQL & "from Emi_Order_Produksi_Detail_Bahan a "
-                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-                SQL = SQL & "and a.No_Faktur = '" & Txt_NoFaktur.Text & "' "
-                SQL = SQL & "and a.Kode_Barang = '" & Dgv_KdBarang & "' "
-                Using Ds = BindingTrans(SQL)
-                    With Ds.Tables("MyTable")
-                        If .Rows.Count <> 0 Then
+                If Dgv_JenisBahan = "BAHAN" Then
 
-                            Dim cekDataDouble As Integer = 0
-                            For j As Integer = 0 To .Rows.Count - 1
-                                cekDataDouble = cekDataDouble + 1
+                    SQL = "select "
+                    SQL = SQL & "(a.jumlah - ISNULL(( "
+                    SQL = SQL & "select sum(x.Jumlah) "
+                    SQL = SQL & "from Emi_Material_Requisition z, Emi_Material_Requisition_det x "
+                    SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan "
+                    SQL = SQL & "and z.No_Faktur = x.No_Faktur "
+                    SQL = SQL & "and a.No_Faktur = z.No_Faktur_Order "
+                    SQL = SQL & "and a.Kode_Stock_Owner = x.Kode_Stock_Owner and a.Kode_Barang = x.Kode_Barang "
+                    SQL = SQL & "), 0)) as Sisa "
+                    SQL = SQL & "from Emi_Split_Production_Order_Detail_Bahan a "
+                    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and a.No_Faktur = '" & Txt_NoFaktur.Text & "' "
+                    SQL = SQL & "and a.Kode_Barang = '" & Dgv_KdBarang & "' "
+                    Using Ds = BindingTrans(SQL)
+                        With Ds.Tables("MyTable")
+                            If .Rows.Count <> 0 Then
 
-                                If cekDataDouble > 1 Then
-                                    CloseTrans()
-                                    CloseConn()
-                                    MessageBox.Show("Terjadi Kesalahan Saat Cek Sisa", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                    Exit Sub
-                                End If
+                                Dim cekDataDouble As Integer = 0
+                                For j As Integer = 0 To .Rows.Count - 1
+                                    cekDataDouble = cekDataDouble + 1
 
-                                If Val(.Rows(j).Item("Sisa")) = 0 Then
+                                    If cekDataDouble > 1 Then
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Terjadi Kesalahan Saat Cek Sisa", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
 
-                                    SQL = "update Emi_Order_Produksi_Detail_Bahan set Flag_Terpenuhi =  'Y' where kode_perusahaan = '" & KodePerusahaan & "' "
-                                    SQL = SQL & "and No_Faktur = '" & Txt_NoFaktur.Text & "' and Kode_Stock_Owner = '" & Txt_So.Text & "' and Kode_Barang = '" & Dgv_KdBarang & "'"
-                                    ExecuteTrans(SQL)
+                                    If Val(.Rows(j).Item("Sisa")) = 0 Then
 
-                                End If
+                                        SQL = "update Emi_Split_Production_Order_Detail_Bahan set Flag_Terpenuhi =  'Y' where kode_perusahaan = '" & KodePerusahaan & "' "
+                                        SQL = SQL & "and No_Faktur = '" & Txt_NoFaktur.Text & "' and Kode_Stock_Owner = '" & Txt_So.Text & "' and Kode_Barang = '" & Dgv_KdBarang & "'"
+                                        ExecuteTrans(SQL)
 
+                                    End If
+                                Next
+                            End If
+                        End With
+                    End Using
 
-                            Next
-                        End If
-                    End With
-                End Using
+                ElseIf Dgv_JenisBahan = "PACKAGING" Then
+
+                    SQL = "select "
+                    SQL = SQL & "(a.jumlah - ISNULL(( "
+                    SQL = SQL & "select sum(x.Jumlah) "
+                    SQL = SQL & "from Emi_Material_Requisition z, Emi_Material_Requisition_det x "
+                    SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan "
+                    SQL = SQL & "and z.No_Faktur = x.No_Faktur "
+                    SQL = SQL & "and a.No_Faktur = z.No_Faktur_Order "
+                    SQL = SQL & "and a.Kode_Stock_Owner = x.Kode_Stock_Owner and a.Kode_Barang = x.Kode_Barang "
+                    SQL = SQL & "), 0)) as Sisa "
+                    SQL = SQL & "from Emi_Split_Production_Order_Detail_Packaging a "
+                    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and a.No_Faktur = '" & Txt_NoFaktur.Text & "' "
+                    SQL = SQL & "and a.Kode_Barang = '" & Dgv_KdBarang & "' "
+                    Using Ds = BindingTrans(SQL)
+                        With Ds.Tables("MyTable")
+                            If .Rows.Count <> 0 Then
+
+                                Dim cekDataDouble As Integer = 0
+                                For j As Integer = 0 To .Rows.Count - 1
+                                    cekDataDouble = cekDataDouble + 1
+
+                                    If cekDataDouble > 1 Then
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Terjadi Kesalahan Saat Cek Sisa", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+
+                                    If Val(.Rows(j).Item("Sisa")) = 0 Then
+
+                                        SQL = "update Emi_Split_Production_Order_Detail_Packaging set Flag_Terpenuhi =  'Y' where kode_perusahaan = '" & KodePerusahaan & "' "
+                                        SQL = SQL & "and No_Faktur = '" & Txt_NoFaktur.Text & "' and Kode_Stock_Owner = '" & Txt_So.Text & "' and Kode_Barang = '" & Dgv_KdBarang & "'"
+                                        ExecuteTrans(SQL)
+
+                                    End If
+                                Next
+                            End If
+                        End With
+                    End Using
+
+                End If
 
 
             Next

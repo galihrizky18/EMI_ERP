@@ -22,16 +22,17 @@ Partial Class Detail_Account_New
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabInput = New System.Windows.Forms.TabPage()
+        Me.Panel8 = New System.Windows.Forms.Panel()
         Me.Btn_Refresh = New System.Windows.Forms.Button()
         Me.Btn_Hapus = New System.Windows.Forms.Button()
-        Me.Panel8 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Btn_Simpan = New System.Windows.Forms.Button()
         Me.Chk_InputCostCenter = New System.Windows.Forms.CheckBox()
@@ -83,13 +84,12 @@ Partial Class Detail_Account_New
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Dgv_Binding = New System.Windows.Forms.DataGridView()
-        Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.Panel6 = New System.Windows.Forms.Panel()
         Me.kode_account = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.formula = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.kode_detailAcc = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.keterangan = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabInput.SuspendLayout()
@@ -107,6 +107,19 @@ Partial Class Detail_Account_New
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1065, 51)
         Me.Panel1.TabIndex = 23
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1065, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -146,14 +159,14 @@ Partial Class Detail_Account_New
         Me.TabControl1.Location = New System.Drawing.Point(18, 56)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1031, 497)
+        Me.TabControl1.Size = New System.Drawing.Size(1031, 498)
         Me.TabControl1.TabIndex = 38
         '
         'TabInput
         '
+        Me.TabInput.Controls.Add(Me.Panel8)
         Me.TabInput.Controls.Add(Me.Btn_Refresh)
         Me.TabInput.Controls.Add(Me.Btn_Hapus)
-        Me.TabInput.Controls.Add(Me.Panel8)
         Me.TabInput.Controls.Add(Me.Panel7)
         Me.TabInput.Controls.Add(Me.Btn_Simpan)
         Me.TabInput.Controls.Add(Me.Chk_InputCostCenter)
@@ -197,17 +210,26 @@ Partial Class Detail_Account_New
         Me.TabInput.Location = New System.Drawing.Point(4, 25)
         Me.TabInput.Name = "TabInput"
         Me.TabInput.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabInput.Size = New System.Drawing.Size(1023, 468)
+        Me.TabInput.Size = New System.Drawing.Size(1023, 469)
         Me.TabInput.TabIndex = 0
         Me.TabInput.Text = " Input"
         Me.TabInput.UseVisualStyleBackColor = True
+        '
+        'Panel8
+        '
+        Me.Panel8.BackColor = System.Drawing.Color.Red
+        Me.Panel8.Location = New System.Drawing.Point(8, 455)
+        Me.Panel8.Name = "Panel8"
+        Me.Panel8.Size = New System.Drawing.Size(1312, 10)
+        Me.Panel8.TabIndex = 38
+        Me.Panel8.Visible = False
         '
         'Btn_Refresh
         '
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(231, 422)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(231, 420)
         Me.Btn_Refresh.Margin = New System.Windows.Forms.Padding(2)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(115, 35)
@@ -220,7 +242,7 @@ Partial Class Detail_Account_New
         Me.Btn_Hapus.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Hapus.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Hapus.ForeColor = System.Drawing.Color.White
-        Me.Btn_Hapus.Location = New System.Drawing.Point(117, 422)
+        Me.Btn_Hapus.Location = New System.Drawing.Point(117, 420)
         Me.Btn_Hapus.Margin = New System.Windows.Forms.Padding(2)
         Me.Btn_Hapus.Name = "Btn_Hapus"
         Me.Btn_Hapus.Size = New System.Drawing.Size(115, 35)
@@ -228,19 +250,10 @@ Partial Class Detail_Account_New
         Me.Btn_Hapus.Text = "&Hapus"
         Me.Btn_Hapus.UseVisualStyleBackColor = False
         '
-        'Panel8
-        '
-        Me.Panel8.BackColor = System.Drawing.Color.Red
-        Me.Panel8.Location = New System.Drawing.Point(6, 456)
-        Me.Panel8.Name = "Panel8"
-        Me.Panel8.Size = New System.Drawing.Size(1312, 10)
-        Me.Panel8.TabIndex = 37
-        Me.Panel8.Visible = False
-        '
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(6, 412)
+        Me.Panel7.Location = New System.Drawing.Point(9, 412)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(1312, 10)
         Me.Panel7.TabIndex = 37
@@ -251,7 +264,7 @@ Partial Class Detail_Account_New
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(2, 422)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(2, 420)
         Me.Btn_Simpan.Margin = New System.Windows.Forms.Padding(2)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(115, 35)
@@ -649,7 +662,7 @@ Partial Class Detail_Account_New
         Me.Display.Location = New System.Drawing.Point(4, 25)
         Me.Display.Name = "Display"
         Me.Display.Padding = New System.Windows.Forms.Padding(3)
-        Me.Display.Size = New System.Drawing.Size(1023, 468)
+        Me.Display.Size = New System.Drawing.Size(1023, 469)
         Me.Display.TabIndex = 1
         Me.Display.Text = "Display"
         Me.Display.UseVisualStyleBackColor = True
@@ -716,7 +729,7 @@ Partial Class Detail_Account_New
         Me.Lv_Display.HideSelection = False
         Me.Lv_Display.Location = New System.Drawing.Point(6, 45)
         Me.Lv_Display.Name = "Lv_Display"
-        Me.Lv_Display.Size = New System.Drawing.Size(1011, 415)
+        Me.Lv_Display.Size = New System.Drawing.Size(1011, 418)
         Me.Lv_Display.TabIndex = 0
         Me.Lv_Display.UseCompatibleStateImageBehavior = False
         Me.Lv_Display.View = System.Windows.Forms.View.Details
@@ -728,9 +741,9 @@ Partial Class Detail_Account_New
         Me.Binding.Controls.Add(Me.Dgv_Binding)
         Me.Binding.Location = New System.Drawing.Point(4, 25)
         Me.Binding.Name = "Binding"
-        Me.Binding.Size = New System.Drawing.Size(1023, 468)
+        Me.Binding.Size = New System.Drawing.Size(1023, 469)
         Me.Binding.TabIndex = 2
-        Me.Binding.Text = "Binding"
+        Me.Binding.Text = "Account Per Cost Center"
         Me.Binding.UseVisualStyleBackColor = True
         '
         'Button2
@@ -738,11 +751,11 @@ Partial Class Detail_Account_New
         Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(126, 427)
+        Me.Button2.Location = New System.Drawing.Point(121, 432)
         Me.Button2.Margin = New System.Windows.Forms.Padding(2)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(115, 35)
-        Me.Button2.TabIndex = 452
+        Me.Button2.TabIndex = 456
         Me.Button2.Text = "&Refresh"
         Me.Button2.UseVisualStyleBackColor = False
         '
@@ -751,11 +764,11 @@ Partial Class Detail_Account_New
         Me.Button3.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button3.ForeColor = System.Drawing.Color.White
-        Me.Button3.Location = New System.Drawing.Point(7, 426)
+        Me.Button3.Location = New System.Drawing.Point(2, 431)
         Me.Button3.Margin = New System.Windows.Forms.Padding(2)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(115, 35)
-        Me.Button3.TabIndex = 453
+        Me.Button3.TabIndex = 457
         Me.Button3.Text = "&Simpan"
         Me.Button3.UseVisualStyleBackColor = False
         '
@@ -764,28 +777,10 @@ Partial Class Detail_Account_New
         Me.Dgv_Binding.BackgroundColor = System.Drawing.Color.White
         Me.Dgv_Binding.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.Dgv_Binding.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.kode_account, Me.formula, Me.kode_detailAcc, Me.keterangan})
-        Me.Dgv_Binding.Location = New System.Drawing.Point(3, 0)
+        Me.Dgv_Binding.Location = New System.Drawing.Point(3, 3)
         Me.Dgv_Binding.Name = "Dgv_Binding"
-        Me.Dgv_Binding.Size = New System.Drawing.Size(1017, 421)
-        Me.Dgv_Binding.TabIndex = 0
-        '
-        'Panel4
-        '
-        Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(1048, 67)
-        Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(16, 619)
-        Me.Panel4.TabIndex = 36
-        Me.Panel4.Visible = False
-        '
-        'Panel6
-        '
-        Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(29, 550)
-        Me.Panel6.Name = "Panel6"
-        Me.Panel6.Size = New System.Drawing.Size(1312, 10)
-        Me.Panel6.TabIndex = 37
-        Me.Panel6.Visible = False
+        Me.Dgv_Binding.Size = New System.Drawing.Size(1017, 424)
+        Me.Dgv_Binding.TabIndex = 422
         '
         'kode_account
         '
@@ -793,7 +788,7 @@ Partial Class Detail_Account_New
         Me.kode_account.HeaderText = "Kode Account"
         Me.kode_account.Name = "kode_account"
         Me.kode_account.ReadOnly = True
-        Me.kode_account.Visible = False
+        Me.kode_account.Width = 160
         '
         'formula
         '
@@ -801,11 +796,12 @@ Partial Class Detail_Account_New
         Me.formula.HeaderText = "Formula"
         Me.formula.Name = "formula"
         Me.formula.ReadOnly = True
+        Me.formula.Visible = False
         '
         'kode_detailAcc
         '
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.kode_detailAcc.DefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.kode_detailAcc.DefaultCellStyle = DataGridViewCellStyle4
         Me.kode_detailAcc.Frozen = True
         Me.kode_detailAcc.HeaderText = "Kode Detail Account"
         Me.kode_detailAcc.Name = "kode_detailAcc"
@@ -820,20 +816,25 @@ Partial Class Detail_Account_New
         Me.keterangan.ReadOnly = True
         Me.keterangan.Width = 250
         '
-        'PanelGradient1
+        'Panel4
         '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1065, 2)
-        Me.PanelGradient1.TabIndex = 22
+        Me.Panel4.BackColor = System.Drawing.Color.Red
+        Me.Panel4.Location = New System.Drawing.Point(1048, 67)
+        Me.Panel4.Name = "Panel4"
+        Me.Panel4.Size = New System.Drawing.Size(16, 619)
+        Me.Panel4.TabIndex = 36
+        Me.Panel4.Visible = False
         '
-        'Detail_Account_New3
+        'Panel6
+        '
+        Me.Panel6.BackColor = System.Drawing.Color.Red
+        Me.Panel6.Location = New System.Drawing.Point(25, 552)
+        Me.Panel6.Name = "Panel6"
+        Me.Panel6.Size = New System.Drawing.Size(1312, 10)
+        Me.Panel6.TabIndex = 37
+        Me.Panel6.Visible = False
+        '
+        'Detail_Account_New
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -848,7 +849,7 @@ Partial Class Detail_Account_New
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "Detail_Account_New3"
+        Me.Name = "Detail_Account_New"
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.TabControl1.ResumeLayout(False)
@@ -909,22 +910,22 @@ Partial Class Detail_Account_New
     Friend WithEvents Panel5 As Panel
     Friend WithEvents LvInput_CostCenter As ListView
     Friend WithEvents Chk_InputCostCenter As CheckBox
-    Friend WithEvents Binding As TabPage
     Friend WithEvents Lv_Display As ListView
-    Friend WithEvents Dgv_Binding As DataGridView
     Friend WithEvents Btn_Refresh As Button
     Friend WithEvents Btn_Hapus As Button
     Friend WithEvents Btn_Simpan As Button
     Friend WithEvents Panel6 As Panel
-    Friend WithEvents Panel8 As Panel
     Friend WithEvents Panel7 As Panel
     Friend WithEvents Btn_Cari As Button
     Friend WithEvents Txt_Display_Filter As TextBox
     Friend WithEvents Cmb_Display_Filter As ComboBox
     Friend WithEvents Label2 As Label
     Friend WithEvents Button1 As Button
+    Friend WithEvents Binding As TabPage
+    Friend WithEvents Panel8 As Panel
     Friend WithEvents Button2 As Button
     Friend WithEvents Button3 As Button
+    Friend WithEvents Dgv_Binding As DataGridView
     Friend WithEvents kode_account As DataGridViewTextBoxColumn
     Friend WithEvents formula As DataGridViewTextBoxColumn
     Friend WithEvents kode_detailAcc As DataGridViewTextBoxColumn

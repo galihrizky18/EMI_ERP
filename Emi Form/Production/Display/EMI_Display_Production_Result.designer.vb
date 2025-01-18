@@ -31,6 +31,11 @@ Partial Class EMI_Display_Production_Result
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Lv_ProductionResult = New System.Windows.Forms.ListView()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.CopyNoTransaksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CetakToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LaporanGIGRToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LaporanGIGRDetailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Lv_DetailFinishedGood = New System.Windows.Forms.ListView()
@@ -55,16 +60,14 @@ Partial Class EMI_Display_Production_Result
         Me.Lv_DetailPackaging = New System.Windows.Forms.ListView()
         Me.TabScrap = New System.Windows.Forms.TabPage()
         Me.Lv_DetailScrap = New System.Windows.Forms.ListView()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.CopyNoTransaksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1.SuspendLayout()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabFinishedGood.SuspendLayout()
         Me.TabRawMaterial.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabScrap.SuspendLayout()
-        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -75,7 +78,7 @@ Partial Class EMI_Display_Production_Result
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1054, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1052, 51)
         Me.Panel1.TabIndex = 22
         '
         'PanelGradient1
@@ -88,7 +91,7 @@ Partial Class EMI_Display_Production_Result
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1054, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1052, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
@@ -155,6 +158,37 @@ Partial Class EMI_Display_Production_Result
         Me.Lv_ProductionResult.TabIndex = 234
         Me.Lv_ProductionResult.UseCompatibleStateImageBehavior = False
         Me.Lv_ProductionResult.View = System.Windows.Forms.View.Details
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNoTransaksiToolStripMenuItem, Me.CetakToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 70)
+        '
+        'CopyNoTransaksiToolStripMenuItem
+        '
+        Me.CopyNoTransaksiToolStripMenuItem.Name = "CopyNoTransaksiToolStripMenuItem"
+        Me.CopyNoTransaksiToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.CopyNoTransaksiToolStripMenuItem.Text = "Copy No Transaksi"
+        '
+        'CetakToolStripMenuItem
+        '
+        Me.CetakToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LaporanGIGRToolStripMenuItem, Me.LaporanGIGRDetailToolStripMenuItem})
+        Me.CetakToolStripMenuItem.Name = "CetakToolStripMenuItem"
+        Me.CetakToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CetakToolStripMenuItem.Text = "Cetak"
+        '
+        'LaporanGIGRToolStripMenuItem
+        '
+        Me.LaporanGIGRToolStripMenuItem.Name = "LaporanGIGRToolStripMenuItem"
+        Me.LaporanGIGRToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
+        Me.LaporanGIGRToolStripMenuItem.Text = "Laporan GI & GR"
+        '
+        'LaporanGIGRDetailToolStripMenuItem
+        '
+        Me.LaporanGIGRDetailToolStripMenuItem.Name = "LaporanGIGRDetailToolStripMenuItem"
+        Me.LaporanGIGRDetailToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
+        Me.LaporanGIGRDetailToolStripMenuItem.Text = "Laporan Detail GI & GR"
         '
         'Panel6
         '
@@ -430,24 +464,12 @@ Partial Class EMI_Display_Production_Result
         Me.Lv_DetailScrap.UseCompatibleStateImageBehavior = False
         Me.Lv_DetailScrap.View = System.Windows.Forms.View.Details
         '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNoTransaksiToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(173, 26)
-        '
-        'CopyNoTransaksiToolStripMenuItem
-        '
-        Me.CopyNoTransaksiToolStripMenuItem.Name = "CopyNoTransaksiToolStripMenuItem"
-        Me.CopyNoTransaksiToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
-        Me.CopyNoTransaksiToolStripMenuItem.Text = "Copy No Transaksi"
-        '
         'EMI_Display_Production_Result
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1054, 769)
+        Me.ClientSize = New System.Drawing.Size(1052, 769)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.Panel7)
@@ -465,6 +487,7 @@ Partial Class EMI_Display_Production_Result
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
         Me.TabControl1.ResumeLayout(False)
@@ -472,7 +495,6 @@ Partial Class EMI_Display_Production_Result
         Me.TabRawMaterial.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabScrap.ResumeLayout(False)
-        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -511,4 +533,7 @@ Partial Class EMI_Display_Production_Result
     Friend WithEvents CopyNoTransaksiToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents TabScrap As TabPage
     Friend WithEvents Lv_DetailScrap As ListView
+    Friend WithEvents CetakToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents LaporanGIGRToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents LaporanGIGRDetailToolStripMenuItem As ToolStripMenuItem
 End Class

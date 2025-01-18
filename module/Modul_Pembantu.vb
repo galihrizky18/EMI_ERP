@@ -109,7 +109,7 @@ Public Class Modul_Pembantu
         '    Dim nilai As Decimal = Decimal.Parse(cellKuantity)
         '    Dim formattedValue As String = nilai.ToString("N2", culture)
 
-        '    Dgv_DataBarang.CurrentRow.Cells(CellQty).Value = formattedValue
+        '    Dgv_DataBarang.CurrentCell.Value = formattedValue
         'End If
         'End If
     End Sub

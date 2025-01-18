@@ -130,8 +130,10 @@ Partial Class Master_Menu2
         'Tb_MenuForm
         '
         Me.Tb_MenuForm.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_MenuForm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Tb_MenuForm.Enabled = False
         Me.Tb_MenuForm.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_MenuForm.Location = New System.Drawing.Point(428, 52)
+        Me.Tb_MenuForm.Location = New System.Drawing.Point(428, 56)
         Me.Tb_MenuForm.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_MenuForm.Name = "Tb_MenuForm"
         Me.Tb_MenuForm.Size = New System.Drawing.Size(204, 23)
@@ -140,8 +142,10 @@ Partial Class Master_Menu2
         'Tb_Var3
         '
         Me.Tb_Var3.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_Var3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Tb_Var3.Enabled = False
         Me.Tb_Var3.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_Var3.Location = New System.Drawing.Point(109, 145)
+        Me.Tb_Var3.Location = New System.Drawing.Point(109, 149)
         Me.Tb_Var3.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_Var3.Name = "Tb_Var3"
         Me.Tb_Var3.Size = New System.Drawing.Size(204, 23)
@@ -151,7 +155,7 @@ Partial Class Master_Menu2
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(354, 55)
+        Me.Label8.Location = New System.Drawing.Point(354, 59)
         Me.Label8.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(40, 18)
@@ -161,8 +165,10 @@ Partial Class Master_Menu2
         'Tb_ImagePath
         '
         Me.Tb_ImagePath.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_ImagePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Tb_ImagePath.Enabled = False
         Me.Tb_ImagePath.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_ImagePath.Location = New System.Drawing.Point(109, 24)
+        Me.Tb_ImagePath.Location = New System.Drawing.Point(109, 25)
         Me.Tb_ImagePath.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_ImagePath.Name = "Tb_ImagePath"
         Me.Tb_ImagePath.Size = New System.Drawing.Size(204, 23)
@@ -170,9 +176,10 @@ Partial Class Master_Menu2
         '
         'Tb_MenuOrder
         '
-        Me.Tb_MenuOrder.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_MenuOrder.BackColor = System.Drawing.Color.White
+        Me.Tb_MenuOrder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Tb_MenuOrder.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_MenuOrder.Location = New System.Drawing.Point(109, 55)
+        Me.Tb_MenuOrder.Location = New System.Drawing.Point(109, 56)
         Me.Tb_MenuOrder.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_MenuOrder.Name = "Tb_MenuOrder"
         Me.Tb_MenuOrder.Size = New System.Drawing.Size(204, 23)
@@ -180,7 +187,8 @@ Partial Class Master_Menu2
         '
         'Tb_MenuName
         '
-        Me.Tb_MenuName.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_MenuName.BackColor = System.Drawing.Color.White
+        Me.Tb_MenuName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Tb_MenuName.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Tb_MenuName.Location = New System.Drawing.Point(428, 25)
         Me.Tb_MenuName.Margin = New System.Windows.Forms.Padding(4)
@@ -213,8 +221,10 @@ Partial Class Master_Menu2
         'Tb_Var2
         '
         Me.Tb_Var2.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_Var2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Tb_Var2.Enabled = False
         Me.Tb_Var2.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_Var2.Location = New System.Drawing.Point(109, 114)
+        Me.Tb_Var2.Location = New System.Drawing.Point(109, 118)
         Me.Tb_Var2.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_Var2.Name = "Tb_Var2"
         Me.Tb_Var2.Size = New System.Drawing.Size(204, 23)
@@ -235,7 +245,7 @@ Partial Class Master_Menu2
         '
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(14, 86)
+        Me.Label9.Location = New System.Drawing.Point(14, 89)
         Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(66, 18)
@@ -245,8 +255,10 @@ Partial Class Master_Menu2
         'Tb_IsiVariabel3
         '
         Me.Tb_IsiVariabel3.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_IsiVariabel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Tb_IsiVariabel3.Enabled = False
         Me.Tb_IsiVariabel3.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_IsiVariabel3.Location = New System.Drawing.Point(428, 145)
+        Me.Tb_IsiVariabel3.Location = New System.Drawing.Point(428, 149)
         Me.Tb_IsiVariabel3.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_IsiVariabel3.Name = "Tb_IsiVariabel3"
         Me.Tb_IsiVariabel3.Size = New System.Drawing.Size(204, 23)
@@ -256,7 +268,7 @@ Partial Class Master_Menu2
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(330, 86)
+        Me.Label11.Location = New System.Drawing.Point(330, 90)
         Me.Label11.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(84, 18)
@@ -267,7 +279,7 @@ Partial Class Master_Menu2
         '
         Me.Label10.AutoSize = True
         Me.Label10.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label10.Location = New System.Drawing.Point(14, 117)
+        Me.Label10.Location = New System.Drawing.Point(14, 120)
         Me.Label10.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(69, 18)
@@ -277,8 +289,10 @@ Partial Class Master_Menu2
         'Tb_IsiVariabel2
         '
         Me.Tb_IsiVariabel2.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_IsiVariabel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Tb_IsiVariabel2.Enabled = False
         Me.Tb_IsiVariabel2.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_IsiVariabel2.Location = New System.Drawing.Point(428, 114)
+        Me.Tb_IsiVariabel2.Location = New System.Drawing.Point(428, 118)
         Me.Tb_IsiVariabel2.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_IsiVariabel2.Name = "Tb_IsiVariabel2"
         Me.Tb_IsiVariabel2.Size = New System.Drawing.Size(204, 23)
@@ -288,7 +302,7 @@ Partial Class Master_Menu2
         '
         Me.Label12.AutoSize = True
         Me.Label12.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label12.Location = New System.Drawing.Point(330, 117)
+        Me.Label12.Location = New System.Drawing.Point(330, 121)
         Me.Label12.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(87, 18)
@@ -299,7 +313,7 @@ Partial Class Master_Menu2
         '
         Me.Label14.AutoSize = True
         Me.Label14.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label14.Location = New System.Drawing.Point(14, 148)
+        Me.Label14.Location = New System.Drawing.Point(14, 151)
         Me.Label14.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(69, 18)
@@ -309,8 +323,10 @@ Partial Class Master_Menu2
         'Tb_IsiVariabel1
         '
         Me.Tb_IsiVariabel1.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_IsiVariabel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Tb_IsiVariabel1.Enabled = False
         Me.Tb_IsiVariabel1.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_IsiVariabel1.Location = New System.Drawing.Point(428, 83)
+        Me.Tb_IsiVariabel1.Location = New System.Drawing.Point(428, 87)
         Me.Tb_IsiVariabel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_IsiVariabel1.Name = "Tb_IsiVariabel1"
         Me.Tb_IsiVariabel1.Size = New System.Drawing.Size(204, 23)
@@ -319,8 +335,10 @@ Partial Class Master_Menu2
         'Tb_Var1
         '
         Me.Tb_Var1.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_Var1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Tb_Var1.Enabled = False
         Me.Tb_Var1.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_Var1.Location = New System.Drawing.Point(109, 83)
+        Me.Tb_Var1.Location = New System.Drawing.Point(109, 87)
         Me.Tb_Var1.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_Var1.Name = "Tb_Var1"
         Me.Tb_Var1.Size = New System.Drawing.Size(204, 23)
@@ -330,7 +348,7 @@ Partial Class Master_Menu2
         '
         Me.Label15.AutoSize = True
         Me.Label15.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(330, 148)
+        Me.Label15.Location = New System.Drawing.Point(330, 152)
         Me.Label15.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(87, 18)
@@ -339,6 +357,7 @@ Partial Class Master_Menu2
         '
         'Cb_SubMenuLv3
         '
+        Me.Cb_SubMenuLv3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_SubMenuLv3.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cb_SubMenuLv3.FormattingEnabled = True
         Me.Cb_SubMenuLv3.Location = New System.Drawing.Point(389, 89)
@@ -388,6 +407,7 @@ Partial Class Master_Menu2
         '
         'Cb_SubMenu
         '
+        Me.Cb_SubMenu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_SubMenu.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cb_SubMenu.FormattingEnabled = True
         Me.Cb_SubMenu.Location = New System.Drawing.Point(97, 89)
@@ -398,6 +418,7 @@ Partial Class Master_Menu2
         '
         'Cb_SubMenuLv2
         '
+        Me.Cb_SubMenuLv2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_SubMenuLv2.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cb_SubMenuLv2.FormattingEnabled = True
         Me.Cb_SubMenuLv2.Location = New System.Drawing.Point(389, 58)
@@ -408,6 +429,7 @@ Partial Class Master_Menu2
         '
         'Cb_MainMenu
         '
+        Me.Cb_MainMenu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_MainMenu.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cb_MainMenu.FormattingEnabled = True
         Me.Cb_MainMenu.Location = New System.Drawing.Point(97, 27)
@@ -418,6 +440,7 @@ Partial Class Master_Menu2
         '
         'Cb_Menu
         '
+        Me.Cb_Menu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_Menu.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cb_Menu.FormattingEnabled = True
         Me.Cb_Menu.Location = New System.Drawing.Point(97, 59)
@@ -439,6 +462,7 @@ Partial Class Master_Menu2
         '
         'Cb_SubMenuLv1
         '
+        Me.Cb_SubMenuLv1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_SubMenuLv1.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cb_SubMenuLv1.FormattingEnabled = True
         Me.Cb_SubMenuLv1.Location = New System.Drawing.Point(389, 27)

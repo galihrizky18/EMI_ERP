@@ -106,9 +106,9 @@ Partial Class EMI_Transaksi_Actual_Biaya_Produksi_Display
         Me.Label1.Location = New System.Drawing.Point(15, 11)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(439, 30)
+        Me.Label1.Size = New System.Drawing.Size(296, 30)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Display - Transaksi Actual Biaya Produksi"
+        Me.Label1.Text = "Display - Input Aktual Biaya"
         '
         'Panel2
         '

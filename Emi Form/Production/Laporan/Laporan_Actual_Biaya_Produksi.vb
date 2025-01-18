@@ -9,6 +9,9 @@ Public Class Laporan_Actual_Biaya_Produksi
 
         Tgl1.Value = Now.Date : Tgl2.Value = Now.Date
 
+
+
+
         Try
             OpenConn()
 
@@ -59,6 +62,11 @@ Public Class Laporan_Actual_Biaya_Produksi
     Private Sub BtnExit_Click(sender As Object, e As EventArgs) Handles BtnExit.Click
         Me.Close()
     End Sub
+
+
+
+
+
 
 
 

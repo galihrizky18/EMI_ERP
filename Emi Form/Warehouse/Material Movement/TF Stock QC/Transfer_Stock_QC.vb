@@ -527,9 +527,9 @@ Public Class Transfer_Stock_QC
     Private Sub get_no_faktur()
         Dim FPro_Results As String = "TSQC-"
         TxtNo_Transaksi.Text = FPro_Results & arrInisialFaktur.Item(CmbSO_Asal.SelectedIndex) & "-" & Format(tgl_skg, "MM/yy") & "-" &
-                                      General_Class.Get_Last_Number2("Tf_Stock_QC", "kode_transfer", JumlahDigit,
+                                      General_Class.Get_Last_Number2("Tf_Stock_QC", "No_Faktur", JumlahDigit,
                                       "Kode_perusahaan", KodePerusahaan,
-                                      "And", "substring(kode_transfer,1," & Len(FPro_Results) + Len(arrInisialFaktur.Item(CmbSO_Asal.SelectedIndex)) + 6 & ")", FPro_Results & arrInisialFaktur.Item(CmbSO_Asal.SelectedIndex) & "-" & Format(tgl_skg, "MM/yy"))
+                                      "And", "substring(No_Faktur,1," & Len(FPro_Results) + Len(arrInisialFaktur.Item(CmbSO_Asal.SelectedIndex)) + 6 & ")", FPro_Results & arrInisialFaktur.Item(CmbSO_Asal.SelectedIndex) & "-" & Format(tgl_skg, "MM/yy"))
 
     End Sub
 
@@ -735,33 +735,20 @@ Public Class Transfer_Stock_QC
             'SQL = SQL & "order by a.Kode_Barang "
 
 
-            SQL = "Select a.Kode_Stock_Owner, a.Kode_Barang, a.Serial_Number, b.Nama, "
-            SQL = SQL & " a.Id_Warehouse, c.Keterangan As kode_rak, a.Id_Nametag_pallet, "
-
-            SQL = SQL & " dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, b.satuan, '" & TxtSatuan.Text & "', a.jumlah) as jumlah, "
-
-            SQL = SQL & " b.satuan, a.nomor_pallet, isNull(a.Jumlah_Bags, 0) As stock_bags, a.warna, b.Metode_Pengeluaran_Stok, "
-            SQL = SQL & " b.Jenis_Kemasan, b.Isi_Per_Bags, b.Satuan_Isi_Bags, a.Tgl_Expired, a.Tgl_Produksi "
-
-            SQL = SQL & ",isNull((select x.keterangan from emi_master_warna x where "
-            SQL = SQL & "x.kode_Perusahaan = a.kode_Perusahaan And x.kode_warna = a.warna),NULL) As Ket_Warna "
-
-            SQL = SQL & " From barang_sn a, barang b, View_Warehouse_Position c, View_Warehouse_Position_Detail d "
-            SQL = SQL & " Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.Kode_Barang = b.Kode_Barang And "
-            SQL = SQL & " a.Kode_Stock_Owner = b.Kode_Stock_Owner And a.Kode_Perusahaan = c.Kode_Perusahaan And "
-            SQL = SQL & " a.Kode_Stock_Owner = d.Kode_Stock_Owner And "
-            SQL = SQL & " a.Nomor_Pallet = d.nomor_urut and a.Kode_Barang = d.Kode_Barang And "
-            SQL = SQL & " a.Id_Warehouse = c.Id_WMS_Warehouse_Position And "
-            SQL = SQL & " c.Id_WMS_Warehouse_Position = d.Id_WMS_Warehouse_Position And "
-            SQL = SQL & " a.Kode_Perusahaan ='" & KodePerusahaan & "' "
-            SQL = SQL & " And b.Kode_Stock_Owner ='" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
-            SQL = SQL & " And b.Kode_Barang='" & TxtKd_Barang.Text & "' "
-            SQL = SQL & " And a.Jumlah <> 0 "
-
-            SQL = SQL & " order by case "
-            SQL = SQL & " when Metode_Pengeluaran_Stok='FIFO' then a.Tgl_Masuk "
-            SQL = SQL & " Else a.Tgl_Expired End "
-
+            SQL = "select a.Kode_Stock_Owner, a.Kode_Barang, a.Serial_Number, a.Kode_Unik_Berjalan, b.Nama,  a.Id_Warehouse, c.Keterangan As kode_rak, a.Id_Nametag_pallet, "
+            SQL = SQL & "b.satuan, a.nomor_pallet, a.warna, b.Metode_Pengeluaran_Stok,  b.Jenis_Kemasan, b.Isi_Per_Bags, b.Satuan_Isi_Bags, a.Tgl_Expired, a.Tgl_Produksi, "
+            SQL = SQL & "dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, b.satuan, 'KG', a.jumlah) as jumlah, "
+            SQL = SQL & "isNull(a.Jumlah_Bags, 0) As stock_bags, "
+            SQL = SQL & "isNull((select x.keterangan from emi_master_warna x where x.kode_Perusahaan = a.kode_Perusahaan And x.kode_warna = a.warna),NULL) As Ket_Warna "
+            SQL = SQL & "from barang_sn a, Barang b, View_Warehouse_Position c "
+            SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan "
+            SQL = SQL & "and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
+            SQL = SQL & "and a.Id_Warehouse = c.Id_WMS_Warehouse_Position "
+            SQL = SQL & "And a.Kode_Perusahaan ='" & KodePerusahaan & "' "
+            SQL = SQL & "And b.Kode_Stock_Owner ='" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
+            SQL = SQL & "And b.Kode_Barang='" & TxtKd_Barang.Text & "' "
+            SQL = SQL & "And a.Jumlah <> 0 "
+            SQL = SQL & "order by case  when Metode_Pengeluaran_Stok='FIFO' then a.Tgl_Masuk  Else a.Tgl_Expired End "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
 
@@ -842,8 +829,6 @@ Public Class Transfer_Stock_QC
 
     Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
 
-
-
         If Dgv_DataRekap.RowCount = 0 Then
             MessageBox.Show("Belum ada barang yang mau di transfer!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TxtKd_Barang.Focus() : Exit Sub
@@ -880,7 +865,7 @@ Public Class Transfer_Stock_QC
 
             Dim lokasi_tujuan As String = ""
 
-            If Not CmbSo_Tujuan.SelectedIndex = -1 Then
+            If CmbJnsTransfer.SelectedIndex = 1 Then
                 lokasi_tujuan = arrSO(CmbSo_Tujuan.SelectedIndex)
             Else
                 lokasi_tujuan = arrSO(CmbSO_Asal.SelectedIndex)
@@ -890,9 +875,10 @@ Public Class Transfer_Stock_QC
             '=     INSERT PARENT TF STOCK QC     =
             '=====================================
 
-            SQL = "insert into Tf_Stock_QC (Kode_Perusahaan, Kode_Transfer, Tanggal, Jam, UserID, Lokasi) values "
-            SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "',  "
-            SQL = SQL & "'" & tgl_skg & "', '" & tgl_skg.ToString("HH:mm:ss") & "', '" & UserID & "', '" & Cmb_Lokasi.Text & "')"
+            SQL = "insert into Tf_Stock_QC (Kode_Perusahaan, No_Faktur, SO_Awal, SO_Tujuan, Tanggal, Jam, UserID, Jenis_Transfer, Lokasi, Keterangan) values "
+            SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & arrSO(CmbSO_Asal.SelectedIndex) & "', '" & lokasi_tujuan & "', "
+            SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & tgl_skg.ToString("HH:mm:ss") & "', '" & UserID & "', '" & CmbJnsTransfer.SelectedItem & "', '" & Cmb_Lokasi.Text & "', "
+            SQL = SQL & "'" & TxtKeterangan.Text.ToString & "')"
             ExecuteTrans(SQL)
 
             For i As Integer = 0 To Dgv_DataRekap.Rows.Count - 1
@@ -901,7 +887,7 @@ Public Class Transfer_Stock_QC
 
                 hasData = True
 
-                Dim nilai_kecil As Double = 0
+                Dim nilai_kecil_jumlah_bersih As Double = 0
                 SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & TxtKd_Barang.Text & "', '" & TxtSatuan.Text & "',"
                 SQL = SQL & "'" & TxtSatuanKecil.Text & "', '" & HilangkanTanda(dgv_Rekap_JumlahBersih) & "' ) as hasil"
                 Using Dr1 = OpenTrans(SQL)
@@ -914,7 +900,7 @@ Public Class Transfer_Stock_QC
                             Exit Sub
                         End If
 
-                        nilai_kecil = Dr1("hasil")
+                        nilai_kecil_jumlah_bersih = Dr1("hasil")
                     Else
                         Dr1.Close()
                         CloseTrans()
@@ -925,31 +911,21 @@ Public Class Transfer_Stock_QC
                 End Using
 
 
-                SQL = "insert into Tf_Stock_QC_Detail (Kode_Perusahaan, Kode_Transfer, SO_Awal, SO_Tujuan ,Kode_Barang, "
-                SQL = SQL & "Tanggal, Jam, Jenis_Transfer, Total, Satuan, Keterangan, Total_Barang, Satuan_Barang, userid, Total_Transfer_Bags, urut_material_requisition_convert, Lokasi) values "
-                SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & arrSO(CmbSO_Asal.SelectedIndex) & "', "
-                SQL = SQL & "'" & lokasi_tujuan & "', "
-                SQL = SQL & "'" & dgv_Rekap_KdBarang & "', '" & tgl_skg & "', '" & tgl_skg.ToString("HH:mm:ss") & "', '" & CmbJnsTransfer.SelectedItem & "', "
-                SQL = SQL & "'" & HilangkanTanda(dgv_Rekap_JumlahBersih) & "', '" & TxtSatuan.Text & "', '" & TxtKeterangan.Text.ToString & "', "
-                SQL = SQL & " '" & nilai_kecil & "', '" & TxtSatuanKecil.Text.ToString & "', '" & UserID & "', '" & HilangkanTanda(dgv_Rekap_JumlahBags) & "', '" & Txt_OtoMaterial_req.Text & "', "
-                SQL = SQL & "'" & Cmb_Lokasi.Text & "')"
+                SQL = "insert into Tf_Stock_QC_Detail (Kode_Perusahaan, No_Faktur, Kode_Barang, Total, Satuan, Total_Barang, Satuan_Barang, Total_Bags, Urut_Material_Requisition_Convert) values "
+                SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & dgv_Rekap_KdBarang & "', '" & HilangkanTanda(dgv_Rekap_JumlahBersih) & "', "
+                SQL = SQL & "'" & TxtSatuan.Text & "', '" & nilai_kecil_jumlah_bersih & "', '" & TxtSatuanKecil.Text & "', '" & HilangkanTanda(dgv_Rekap_JumlahBags) & "', '" & Txt_OtoMaterial_req.Text & "')"
                 ExecuteTrans(SQL)
 
-                Dim Jenis_Berat As String = ""
-                SQL = "Select isnull(flag_tampil_berat,'T') as flag_tampil_berat from emi_satuan where "
-                SQL = SQL & "satuan='" & TxtSatuan.Text & "' and kode_perusahaan='" & KodePerusahaan & "' "
-                Using dr = OpenTrans(SQL)
-                    If dr.Read Then
-                        Jenis_Berat = dr("flag_tampil_berat")
-                    Else
-                        dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("data Satuan Tidak ada . . ! ! ")
-                        Exit Sub
-                    End If
-                End Using
 
+                'SQL = "insert into Tf_Stock_QC_Detail (Kode_Perusahaan, Kode_Transfer, SO_Awal, SO_Tujuan ,Kode_Barang, "
+                'SQL = SQL & "Tanggal, Jam, Jenis_Transfer, Total, Satuan, Keterangan, Total_Barang, Satuan_Barang, userid, Total_Transfer_Bags, urut_material_requisition_convert, Lokasi) values "
+                'SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & arrSO(CmbSO_Asal.SelectedIndex) & "', "
+                'SQL = SQL & "'" & lokasi_tujuan & "', "
+                'SQL = SQL & "'" & dgv_Rekap_KdBarang & "', '" & tgl_skg & "', '" & tgl_skg.ToString("HH:mm:ss") & "', '" & CmbJnsTransfer.SelectedItem & "', "
+                'SQL = SQL & "'" & HilangkanTanda(dgv_Rekap_JumlahBersih) & "', '" & TxtSatuan.Text & "', '" & TxtKeterangan.Text.ToString & "', "
+                'SQL = SQL & " '" & nilai_kecil & "', '" & TxtSatuanKecil.Text.ToString & "', '" & UserID & "', '" & HilangkanTanda(dgv_Rekap_JumlahBags) & "', '" & Txt_OtoMaterial_req.Text & "', "
+                'SQL = SQL & "'" & Cmb_Lokasi.Text & "')"
+                'ExecuteTrans(SQL)
 
 
                 'tab 3 / pallet
@@ -967,9 +943,10 @@ Public Class Transfer_Stock_QC
                         '======================================
                         '=       CEK APAKAH SUDAH CETAK       =
                         '======================================
-                        SQL = "select a.Kode_Perusahaan from Tf_Stock_QC_Det b, Tf_Stock_QC_Detail a where "
-                        SQL = SQL & "a.kode_Perusahaan=b.kode_Perusahaan And a.kode_Transfer=b.no_faktur and "
-                        SQL = SQL & "b.Serial_Number_Awal = '" & dgv_detail_SN & "' and b.Flag_Sudah_Cetak is null and a.status is null and b.Urut_Tf_QC = a.Urut_Oto "
+                        SQL = "select a.Kode_Perusahaan from Tf_Stock_QC a, Tf_Stock_QC_det b  where "
+                        SQL = SQL & "a.kode_Perusahaan = b.kode_Perusahaan And a.No_Faktur = b.no_faktur and "
+                        SQL = SQL & "b.Serial_Number_Awal = '" & dgv_detail_SN & "' and "
+                        SQL = SQL & "b.selesai is null and a.status is null "
                         Using Dr = OpenTrans(SQL)
                             If Dr.Read Then
                                 Dr.Close()
@@ -982,9 +959,9 @@ Public Class Transfer_Stock_QC
                             End If
                         End Using
 
-                        Dim nilai_kecildetail As Double = 0
+                        Dim Nilai_Kecil_Berat_Bagi As Double = 0
                         SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & dgv_detail_KdBarang & "', '" & TxtSatuan.Text & "',"
-                        SQL = SQL & "'" & TxtSatuanKecil.Text & "', '" & HilangkanTanda(dgv_detail_Count.ToString) & "' ) as hasil"
+                        SQL = SQL & "'" & TxtSatuanKecil.Text & "', '" & HilangkanTanda(dgv_detail_Jumlah.ToString) & "' ) as hasil"
                         Using Dr1 = OpenTrans(SQL)
                             If Dr1.Read Then
                                 If General_Class.CekNULL(Dr1("hasil")) = "" Then
@@ -995,7 +972,7 @@ Public Class Transfer_Stock_QC
                                     Exit Sub
                                 End If
 
-                                nilai_kecildetail = Dr1("hasil")
+                                Nilai_Kecil_Berat_Bagi = Dr1("hasil")
                             Else
                                 Dr1.Close()
                                 CloseTrans()
@@ -1022,21 +999,31 @@ Public Class Transfer_Stock_QC
                             End If
                         End Using
 
-                        Dim flag_pot_stock As String = "NULL"
                         Dim jumlah_pot_stock As String = "0"
                         Dim sn As String = "NULL"
 
-                        If dgv_detail_JenisKemasan.ToUpper = "ORIGINAL BAGS" Or Jenis_Berat = "T" Then
-                            flag_pot_stock = "'T'"
-                        End If
 
-                        jumlah_pot_stock = nilai_kecildetail
+
+                        jumlah_pot_stock = Val(HilangkanTanda(dgv_detail_Jumlah.ToString)) * Val(HilangkanTanda(dgv_detail_Count.ToString))
 
                         Dim x_ident_current As Integer = 0
                         SQL = "select IDENT_CURRENT('Tf_Stock_QC_Detail') as urutan"
                         Using Dr = OpenTrans(SQL)
                             If Dr.Read Then
                                 x_ident_current = Dr("urutan")
+                            End If
+                        End Using
+
+                        SQL = "select kode_perusahaan from Tf_Stock_QC_Detail "
+                        SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                        SQL = SQL & "and No_Faktur = '" & Trim(TxtNo_Transaksi.Text) & "' "
+                        SQL = SQL & "and Urut_Oto = '" & x_ident_current & "'"
+                        Using Dr = OpenTrans(SQL)
+                            If Not Dr.Read Then
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("Terjadi sedikit masalah, Harap Ulangi Transaksi", "Transfer Stock Quality Control", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
                             End If
                         End Using
 
@@ -1051,14 +1038,41 @@ Public Class Transfer_Stock_QC
                         'ExecuteTrans(SQL)
 
                         Dim total As Double
-                        total = dgv_detail_Jumlah * nilai_kecildetail
+                        total = Nilai_Kecil_Berat_Bagi * Val(HilangkanTanda(dgv_detail_Count))
 
-                        SQL = "insert into Tf_Stock_QC_Det (Kode_Perusahaan, No_Faktur, Id_Wms_Awal, No_Pallet_Awal, Id_Wms_Tujuan, No_Pallet_Tujuan, Serial_Number_Awal, Serial_Number_Akhir, "
-                        SQL = SQL & "Jumlah_Pembagi, Jumlah_Bags, Jumlah_Pecah, Total, Satuan, Warna, Urut_Tf_QC ) values "
-                        SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', " & dgv_detail_IDWarehouseAwal & ", " & dgv_detail_IDPalletAwal & ", " & dgv_detail_IDWarehouseTujuan & ", "
-                        SQL = SQL & palletTujuan & ", '" & dgv_detail_SN & "', '" & sn & "', '" & dgv_detail_Jumlah & "', '" & HilangkanTanda(dgv_detail_JumlahBags) & "', '" & nilai_kecildetail & "', '" & total & "', '" & TxtSatuanKecil.Text & "', "
-                        SQL = SQL & "'" & dgv_detail_Warna & "', " & x_ident_current & ")"
+                        SQL = "insert into Tf_Stock_QC_det (Kode_Perusahaan, No_Faktur, Id_Wms_Awal, No_Pallet_Awal, Id_Wms_Tujuan, No_Pallet_Tujuan, Serial_Number_Awal, Berat_Bagi, Jumlah_Bags, Count, total, Satuan_Barang, Warna, Urut_TF) values "
+                        SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', " & dgv_detail_IDWarehouseAwal & ", '" & dgv_detail_IDPalletAwal & "', " & dgv_detail_IDWarehouseTujuan & ", '" & palletTujuan & "', '" & dgv_detail_SN & "', "
+                        SQL = SQL & "'" & Nilai_Kecil_Berat_Bagi & "', '" & HilangkanTanda(dgv_detail_JumlahBags) & "', '" & HilangkanTanda(dgv_detail_Count) & "', '" & total & "', '" & TxtSatuanKecil.Text & "', "
+                        SQL = SQL & "'" & dgv_detail_Warna & "', '" & x_ident_current & "')"
                         ExecuteTrans(SQL)
+
+
+                        Dim Jenis_Berat As String = ""
+                        SQL = "Select isnull(flag_tampil_berat,'T') as flag_tampil_berat from emi_satuan where "
+                        SQL = SQL & "satuan='" & TxtSatuan.Text & "' and kode_perusahaan='" & KodePerusahaan & "' "
+                        Using dr = OpenTrans(SQL)
+                            If dr.Read Then
+                                Jenis_Berat = dr("flag_tampil_berat")
+                            Else
+                                dr.Close()
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("data Satuan Tidak ada . . ! ! ")
+                                Exit Sub
+                            End If
+                        End Using
+
+                        Dim flag_pot_stock As String = "NULL"
+                        If dgv_detail_JenisKemasan.ToUpper = "ORIGINAL BAGS" Or Jenis_Berat = "T" Then
+                            flag_pot_stock = "'T'"
+                        End If
+
+                        SQL = "update Tf_Stock_QC_Detail set Flag_Timbang = " & flag_pot_stock
+                        SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                        SQL = SQL & "and No_Faktur = '" & Trim(TxtNo_Transaksi.Text) & "' "
+                        SQL = SQL & "and Urut_Oto = '" & x_ident_current & "'"
+                        ExecuteTrans(SQL)
+
 
                         'end tab 3 / pallet
 
@@ -1594,21 +1608,9 @@ Public Class Transfer_Stock_QC
             Dim CrDoc As New Object
             Dim kertas As String = ""
 
-            SQL = "select a.Kode_Perusahaan "
-            SQL = SQL & "from Tf_Stock_QC a, Tf_Stock_QC_Detail b, Tf_Stock_QC_Det c, barang d, Barang_SN e, View_Warehouse_Position f "
-            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Perusahaan = d.kode_Perusahaan "
-            SQL = SQL & "and c.Kode_Perusahaan = e.Kode_Perusahaan and c.Kode_Perusahaan = f.Kode_Perusahaan "
-
-            SQL = SQL & "and a.Kode_Transfer = b.Kode_Transfer "
-            SQL = SQL & "and b.Kode_Transfer = c.No_Faktur and b.Urut_Oto = c.Urut_Tf_QC"
-            SQL = SQL & "and b.SO_Awal = d.Kode_Stock_Owner and b.Kode_Barang = d.Kode_Barang "
-            SQL = SQL & "and c.Serial_Number_Awal = e.Serial_Number "
-            SQL = SQL & "and c.Id_Wms_Awal = f.Id_WMS_Warehouse_Position "
-            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and a.Kode_Transfer = '" & Trim(TxtNo_Transaksi.Text) & "' "
+            SQL = "select Kode_Perusahaan from Vw_Tf_Stock_QC where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & Trim(TxtNo_Transaksi.Text) & "'"
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
-
                     CrDoc = New Rpt_EMI_Faktur_Transfer_Stock_QC
                     kertas = "Faktur"
 
@@ -1616,7 +1618,7 @@ Public Class Transfer_Stock_QC
                         CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                         CrDoc.PrintOptions.PrinterName = ""
-                        CrDoc.RecordSelectionFormula = "{Tf_Stock_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Tf_Stock_QC.Kode_Transfer}='" & Trim(TxtNo_Transaksi.Text) & "' "
+                        CrDoc.RecordSelectionFormula = "{Vw_Tf_Stock_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Tf_Stock_QC.No_Faktur}='" & Trim(TxtNo_Transaksi.Text) & "' "
                         CrDoc.SummaryInfo.ReportTitle = "TF"
                         .Text = "TF"
                         .CrystalReportViewer1.ReportSource = CrDoc
@@ -1629,7 +1631,7 @@ Public Class Transfer_Stock_QC
                     'CrDoc.SetDataSource(Ds)
                     'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                     'CrDoc.PrintOptions.PrinterName = PrinterNameTS
-                    'CrDoc.RecordSelectionFormula = "{Tf_Stock_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Tf_Stock_QC.Kode_Transfer}='" & Trim(TxtNo_Transaksi.Text) & "' "
+                    'CrDoc.RecordSelectionFormula = "{Vw_Tf_Stock_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Tf_Stock_QC.No_Faktur}='" & Trim(TxtNo_Transaksi.Text) & "' "
                     ''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
                     'Dim doctoprint As New System.Drawing.Printing.PrintDocument()

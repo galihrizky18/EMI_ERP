@@ -51,6 +51,8 @@ Partial Class Emi_Request_Material
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Btn_Refresh = New System.Windows.Forms.Button()
         Me.Dgv_Data = New System.Windows.Forms.DataGridView()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.TxtTotalRequest = New System.Windows.Forms.TextBox()
         Me.noFak = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.kode_so = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.kode_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -62,8 +64,7 @@ Partial Class Emi_Request_Material
         Me.satuan_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.tipe = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.TxtTotalRequest = New System.Windows.Forms.TextBox()
+        Me.jenis_bahan = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.Dgv_Data, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -298,7 +299,7 @@ Partial Class Emi_Request_Material
         DataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.Dgv_Data.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle10
         Me.Dgv_Data.ColumnHeadersHeight = 45
-        Me.Dgv_Data.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.noFak, Me.kode_so, Me.kode_barang, Me.Jumlah_Order, Me.jumlah_produksi, Me.sisa, Me.satuan_order, Me.jumlah, Me.satuan_barang, Me.tipe, Me.Column1})
+        Me.Dgv_Data.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.noFak, Me.kode_so, Me.kode_barang, Me.Jumlah_Order, Me.jumlah_produksi, Me.sisa, Me.satuan_order, Me.jumlah, Me.satuan_barang, Me.tipe, Me.Column1, Me.jenis_bahan})
         Me.Dgv_Data.Location = New System.Drawing.Point(20, 207)
         Me.Dgv_Data.MultiSelect = False
         Me.Dgv_Data.Name = "Dgv_Data"
@@ -306,6 +307,28 @@ Partial Class Emi_Request_Material
         Me.Dgv_Data.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.Dgv_Data.Size = New System.Drawing.Size(1102, 359)
         Me.Dgv_Data.TabIndex = 285
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label5.Location = New System.Drawing.Point(936, 578)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(40, 17)
+        Me.Label5.TabIndex = 467
+        Me.Label5.Text = "Total"
+        '
+        'TxtTotalRequest
+        '
+        Me.TxtTotalRequest.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtTotalRequest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtTotalRequest.Enabled = False
+        Me.TxtTotalRequest.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.TxtTotalRequest.Location = New System.Drawing.Point(982, 576)
+        Me.TxtTotalRequest.MaxLength = 50
+        Me.TxtTotalRequest.Name = "TxtTotalRequest"
+        Me.TxtTotalRequest.Size = New System.Drawing.Size(140, 21)
+        Me.TxtTotalRequest.TabIndex = 466
         '
         'noFak
         '
@@ -407,27 +430,11 @@ Partial Class Emi_Request_Material
         Me.Column1.ReadOnly = True
         Me.Column1.Visible = False
         '
-        'Label5
+        'jenis_bahan
         '
-        Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label5.Location = New System.Drawing.Point(936, 578)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(40, 17)
-        Me.Label5.TabIndex = 467
-        Me.Label5.Text = "Total"
-        '
-        'TxtTotalRequest
-        '
-        Me.TxtTotalRequest.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtTotalRequest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtTotalRequest.Enabled = False
-        Me.TxtTotalRequest.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtTotalRequest.Location = New System.Drawing.Point(982, 576)
-        Me.TxtTotalRequest.MaxLength = 50
-        Me.TxtTotalRequest.Name = "TxtTotalRequest"
-        Me.TxtTotalRequest.Size = New System.Drawing.Size(140, 21)
-        Me.TxtTotalRequest.TabIndex = 466
+        Me.jenis_bahan.HeaderText = "Jenis Bahan"
+        Me.jenis_bahan.Name = "jenis_bahan"
+        Me.jenis_bahan.Visible = False
         '
         'Emi_Request_Material
         '
@@ -496,4 +503,5 @@ Partial Class Emi_Request_Material
     Friend WithEvents satuan_barang As DataGridViewTextBoxColumn
     Friend WithEvents tipe As DataGridViewTextBoxColumn
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
+    Friend WithEvents jenis_bahan As DataGridViewTextBoxColumn
 End Class

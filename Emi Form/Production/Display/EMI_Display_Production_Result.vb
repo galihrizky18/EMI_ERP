@@ -1,5 +1,6 @@
 ﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
+Imports iTextSharp.text.pdf
 
 Public Class EMI_Display_Production_Result
 
@@ -9,6 +10,18 @@ Public Class EMI_Display_Production_Result
     Dim KT As Color = Color.Red
     Dim KY As Color = Color.Green
     Dim Batal As Color = Color.Black
+
+    Dim itemPR_NoFak As Integer = 0
+    Dim itemPR_NoPO As Integer = 1
+    Dim itemPR_Tanggal As Integer = 2
+    Dim itemPR_Jam As Integer = 3
+    Dim itemPR_UserID As Integer = 4
+    Dim itemPR_JumlahProduksi As Integer = 5
+    Dim itemPR_Satuan As Integer = 6
+    Dim itemPR_Catatan As Integer = 7
+    Dim itemPR_TanggalSelesaiProduksi As Integer = 8
+    Dim itemPR_JamSelesaiProduksi As Integer = 9
+    Dim itemPR_FlagSelesai As Integer = 10
 
     Private Sub Display_Pembelian_Barang_Masuk_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         kosong()
@@ -393,6 +406,94 @@ Public Class EMI_Display_Production_Result
     End Sub
 
 
+
+
+    'Private Sub LaporanDetailBatchMaterialToolStripMenuItem_Click(sender As Object, e As EventArgs)
+    '    If Lv_ProductionResult.Items.Count = 0 Then Exit Sub
+
+    '    If Lv_ProductionResult.Items.Count = 0 Or Lv_ProductionResult.SelectedItems.Count = 0 Then
+    '        MessageBox.Show("Pilih dahulu data yang akan dicetak!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '        Exit Sub
+    '    End If
+
+    '    Try
+    '        OpenConn()
+
+    '        Dim CrDoc As New Object
+    '        Dim kertas As String = ""
+
+    '        Dim SF As String = ""
+    '        SQL = "select Kode_Perusahaan from View_Laporan_Hasil_QC where Kode_Perusahaan = '" & KodePerusahaan & "' and "
+    '        SQL = SQL & "No_Fak_Loading_Barang = '" & ListView1.FocusedItem.Text & "' "
+    '        SQL = SQL & "and kode_barang = '" & ListView2.FocusedItem.SubItems(1).Text & "' "
+
+    '        SF = "{View_Laporan_Hasil_QC.No_Fak_Loading_Barang} = '" & ListView1.FocusedItem.Text & "' "
+    '        SF = SF & "and {View_Laporan_Hasil_QC.kode_perusahaan} = '" & KodePerusahaan & "' "
+    '        SF = SF & "and {View_Laporan_Hasil_QC.Kode_Barang} = '" & ListView2.FocusedItem.SubItems(1).Text & "' "
+    '        Using Ds = BindingTrans(SQL)
+    '            If Ds.Tables("MyTable").Rows.Count <> 0 Then
+    '                CrDoc = New Rpt_Laporan_Hasil_QC
+
+    '                'With A_Place_For_Printing2
+    '                '    CrDoc.SetDataSource(Ds)
+    '                '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+    '                '    CrDoc.PrintOptions.PrinterName = ""
+    '                '    CrDoc.RecordSelectionFormula = SF
+    '                '    'CrDoc.SummaryInfo.ReportTitle = "Barang Masuk Per Pallet"
+    '                '    .Text = "Laporan Hasil QC"
+    '                '    .CrystalReportViewer1.ReportSource = CrDoc
+    '                '    '.CrystalReportViewer1.DisplayGroupTree = False
+    '                '    .Refresh()
+    '                '    .Show()
+    '                'End With
+
+
+    '                '============================================================================================================================================
+    '                '============================================================================================================================================
+
+    '                kertas = "A4"
+
+    '                CrDoc.SetDataSource(Ds)
+    '                CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+    '                CrDoc.PrintOptions.PrinterName = PrinterQC
+    '                CrDoc.RecordSelectionFormula = SF
+    '                'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+    '                Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+    '                doctoprint.PrinterSettings.PrinterName = PrinterQC
+    '                'doctoprint.DefaultPageSettings.Landscape = True
+    '                Dim rawKind As Integer
+    '                CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+    '                For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+    '                    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+    '                        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+    '                        CrDoc.PrintOptions.PaperSize = rawKind
+    '                        Exit For
+    '                    End If
+    '                Next
+
+    '                CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+    '                CrDoc.PrintToPrinter(1, False, 1, 99)
+
+    '                MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '            Else
+    '                CloseConn()
+    '                MessageBox.Show("Data Tidak diTemukan", "Cetak Ulang", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '                Exit Sub
+
+    '            End If
+    '        End Using
+
+    '        A_Place_For_Printing2.Focus()
+
+    '        CloseConn()
+    '    Catch ex As Exception
+    '        CloseConn()
+    '        MessageBox.Show(ex.Message)
+    '        Exit Sub
+    '    End Try
+    'End Sub
+
     Private Sub DisplayRakToolStripMenuItem_Click(sender As Object, e As EventArgs)
         If Lv_ProductionResult.Items.Count = 0 Or Lv_ProductionResult.SelectedItems.Count = 0 Then
             Exit Sub
@@ -400,6 +501,8 @@ Public Class EMI_Display_Production_Result
         EMI_Barang_Masuk_Display_Rak.TxtNoBM.Text = Lv_ProductionResult.FocusedItem.Text
         EMI_Barang_Masuk_Display_Rak.ShowDialog()
     End Sub
+
+
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_ParamTgl.CheckedChanged
         If Cb_ParamTgl.Checked Then
@@ -418,6 +521,159 @@ Public Class EMI_Display_Production_Result
             Cmb_ParamLain.Enabled = False : Txt_ParamValue.Enabled = False
             Cmb_ParamLain.SelectedIndex = -1 : Txt_ParamValue.Text = ""
         End If
+    End Sub
+
+    '======= CETAK ULANG ======='
+
+    Private Sub LaporanGIGRToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanGIGRToolStripMenuItem.Click
+        If Lv_ProductionResult.Items.Count = 0 Then Exit Sub
+
+        If Not Lv_ProductionResult.SelectedItems(0).SubItems(itemPR_FlagSelesai).Text = "Y" Then
+            MessageBox.Show("Order Produksi Belum Selesai", "Production Result", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        Try
+            OpenConn()
+
+            Dim CrDoc As New Object
+            Dim kertas As String = ""
+
+            Dim NoPO As String = Lv_ProductionResult.SelectedItems(0).SubItems(itemPR_NoPO).Text
+            Dim NoTransaksi As String = Lv_ProductionResult.SelectedItems(0).SubItems(itemPR_NoFak).Text
+
+            SQL = "select Kode_Perusahaan from Vw_Laporan_Perfaktur_GI_GR "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_PO = '" & NoPO & "' and No_Transaksi = '" & NoTransaksi & "'"
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                    CrDoc = New Laporan_Perfaktur_GI_GR
+                    kertas = "A4"
+
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = "{Vw_Laporan_Perfaktur_GI_GR.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Laporan_Perfaktur_GI_GR.No_PO}='" & NoPO & "' and {Vw_Laporan_Perfaktur_GI_GR.No_Transaksi}='" & NoTransaksi & "' "
+                    '    CrDoc.SummaryInfo.ReportTitle = "Laporan GI GR"
+                    '    .Text = "Laporan GI GR"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
+
+                    '============================================================================================================================================
+                    '============================================================================================================================================
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.PrintOptions.PrinterName = PrinterQC
+                    CrDoc.RecordSelectionFormula = "{Vw_Laporan_Perfaktur_GI_GR.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Laporan_Perfaktur_GI_GR.No_PO}='" & NoPO & "' and {Vw_Laporan_Perfaktur_GI_GR.No_Transaksi}='" & NoTransaksi & "' "
+                    'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    doctoprint.PrinterSettings.PrinterName = PrinterQC
+                    doctoprint.DefaultPageSettings.Landscape = True
+                    Dim rawKind As Integer
+                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                            CrDoc.PrintOptions.PaperSize = rawKind
+                            Exit For
+                        End If
+                    Next
+
+                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    CrDoc.PrintToPrinter(1, False, 1, 99)
+
+                    MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+    End Sub
+
+    Private Sub LaporanGIGRDetailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanGIGRDetailToolStripMenuItem.Click
+        If Lv_ProductionResult.Items.Count = 0 Then Exit Sub
+
+        If Not Lv_ProductionResult.SelectedItems(0).SubItems(itemPR_FlagSelesai).Text = "Y" Then
+            MessageBox.Show("Order Produksi Belum Selesai", "Production Result", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        Try
+            OpenConn()
+
+            Dim CrDoc As New Object
+            Dim kertas As String = ""
+
+            Dim NoPO As String = Lv_ProductionResult.SelectedItems(0).SubItems(itemPR_NoPO).Text
+            Dim NoTransaksi As String = Lv_ProductionResult.SelectedItems(0).SubItems(itemPR_NoFak).Text
+
+            SQL = "select Kode_Perusahaan from Vw_Laporan_Perfaktur_GI_GR_Detail "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_PO = '" & NoPO & "' and No_Transaksi = '" & NoTransaksi & "'"
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                    CrDoc = New Laporan_Perfaktur_GI_GR_Detail
+                    kertas = "A4"
+
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = "{Vw_Laporan_Perfaktur_GI_GR_Detail.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Laporan_Perfaktur_GI_GR_Detail.No_PO}='" & NoPO & "' and {Vw_Laporan_Perfaktur_GI_GR_Detail.No_Transaksi}='" & NoTransaksi & "' "
+                    '    CrDoc.SummaryInfo.ReportTitle = "Laporan GI GR"
+                    '    .Text = "Laporan GI GR"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
+
+                    '============================================================================================================================================
+                    '============================================================================================================================================
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.PrintOptions.PrinterName = PrinterQC
+                    CrDoc.RecordSelectionFormula = "{Vw_Laporan_Perfaktur_GI_GR.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Laporan_Perfaktur_GI_GR.No_PO}='" & NoPO & "' and {Vw_Laporan_Perfaktur_GI_GR.No_Transaksi}='" & NoTransaksi & "' "
+                    'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    doctoprint.PrinterSettings.PrinterName = PrinterQC
+                    doctoprint.DefaultPageSettings.Landscape = True
+                    Dim rawKind As Integer
+                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                            CrDoc.PrintOptions.PaperSize = rawKind
+                            Exit For
+                        End If
+                    Next
+
+                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    CrDoc.PrintToPrinter(1, False, 1, 99)
+
+                    MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
     End Sub
 
 End Class
