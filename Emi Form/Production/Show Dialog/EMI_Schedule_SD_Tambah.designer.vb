@@ -33,8 +33,6 @@ Partial Class EMI_Schedule_SD_Tambah
         Me.BtnPilihBarang_Simpan = New System.Windows.Forms.Button()
         Me.TxtSchedule_Deskripsi = New System.Windows.Forms.TextBox()
         Me.LblSchedule_Deskripsi = New System.Windows.Forms.Label()
-        Me.TxtSchedule_text = New System.Windows.Forms.TextBox()
-        Me.LblSchedule_text = New System.Windows.Forms.Label()
         Me.LblSchedule_TanggalStart = New System.Windows.Forms.Label()
         Me.LblSchedule_Kategori = New System.Windows.Forms.Label()
         Me.CmbSchedule_Kategori = New System.Windows.Forms.ComboBox()
@@ -54,6 +52,7 @@ Partial Class EMI_Schedule_SD_Tambah
         Me.TxtJumlah = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.TxtSatuan = New System.Windows.Forms.TextBox()
+        Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -65,7 +64,7 @@ Partial Class EMI_Schedule_SD_Tambah
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(578, 51)
+        Me.Panel1.Size = New System.Drawing.Size(579, 51)
         Me.Panel1.TabIndex = 22
         '
         'PanelGradient1
@@ -78,7 +77,7 @@ Partial Class EMI_Schedule_SD_Tambah
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(578, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(579, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'LblSchedule_Judul
@@ -118,14 +117,14 @@ Partial Class EMI_Schedule_SD_Tambah
         Me.Panel5.Location = New System.Drawing.Point(559, 63)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(19, 366)
+        Me.Panel5.Size = New System.Drawing.Size(19, 401)
         Me.Panel5.TabIndex = 37
         Me.Panel5.Visible = False
         '
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(1, 490)
+        Me.Panel4.Location = New System.Drawing.Point(1, 461)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1028, 15)
@@ -137,7 +136,7 @@ Partial Class EMI_Schedule_SD_Tambah
         Me.BtnPilihBarang_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnPilihBarang_Refresh.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnPilihBarang_Refresh.ForeColor = System.Drawing.Color.White
-        Me.BtnPilihBarang_Refresh.Location = New System.Drawing.Point(118, 452)
+        Me.BtnPilihBarang_Refresh.Location = New System.Drawing.Point(118, 423)
         Me.BtnPilihBarang_Refresh.Name = "BtnPilihBarang_Refresh"
         Me.BtnPilihBarang_Refresh.Size = New System.Drawing.Size(84, 36)
         Me.BtnPilihBarang_Refresh.TabIndex = 355
@@ -149,7 +148,7 @@ Partial Class EMI_Schedule_SD_Tambah
         Me.BtnPilihBarang_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnPilihBarang_Simpan.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnPilihBarang_Simpan.ForeColor = System.Drawing.Color.White
-        Me.BtnPilihBarang_Simpan.Location = New System.Drawing.Point(28, 452)
+        Me.BtnPilihBarang_Simpan.Location = New System.Drawing.Point(28, 423)
         Me.BtnPilihBarang_Simpan.Name = "BtnPilihBarang_Simpan"
         Me.BtnPilihBarang_Simpan.Size = New System.Drawing.Size(84, 36)
         Me.BtnPilihBarang_Simpan.TabIndex = 353
@@ -161,7 +160,7 @@ Partial Class EMI_Schedule_SD_Tambah
         Me.TxtSchedule_Deskripsi.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TxtSchedule_Deskripsi.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtSchedule_Deskripsi.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TxtSchedule_Deskripsi.Location = New System.Drawing.Point(162, 274)
+        Me.TxtSchedule_Deskripsi.Location = New System.Drawing.Point(162, 239)
         Me.TxtSchedule_Deskripsi.MaxLength = 100
         Me.TxtSchedule_Deskripsi.Multiline = True
         Me.TxtSchedule_Deskripsi.Name = "TxtSchedule_Deskripsi"
@@ -172,38 +171,17 @@ Partial Class EMI_Schedule_SD_Tambah
         '
         Me.LblSchedule_Deskripsi.AutoSize = True
         Me.LblSchedule_Deskripsi.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.LblSchedule_Deskripsi.Location = New System.Drawing.Point(24, 274)
+        Me.LblSchedule_Deskripsi.Location = New System.Drawing.Point(24, 239)
         Me.LblSchedule_Deskripsi.Name = "LblSchedule_Deskripsi"
         Me.LblSchedule_Deskripsi.Size = New System.Drawing.Size(72, 20)
         Me.LblSchedule_Deskripsi.TabIndex = 351
         Me.LblSchedule_Deskripsi.Text = "Deskripsi"
         '
-        'TxtSchedule_text
-        '
-        Me.TxtSchedule_text.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtSchedule_text.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtSchedule_text.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TxtSchedule_text.Location = New System.Drawing.Point(162, 242)
-        Me.TxtSchedule_text.MaxLength = 50
-        Me.TxtSchedule_text.Name = "TxtSchedule_text"
-        Me.TxtSchedule_text.Size = New System.Drawing.Size(344, 22)
-        Me.TxtSchedule_text.TabIndex = 350
-        '
-        'LblSchedule_text
-        '
-        Me.LblSchedule_text.AutoSize = True
-        Me.LblSchedule_text.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.LblSchedule_text.Location = New System.Drawing.Point(23, 243)
-        Me.LblSchedule_text.Name = "LblSchedule_text"
-        Me.LblSchedule_text.Size = New System.Drawing.Size(48, 20)
-        Me.LblSchedule_text.TabIndex = 349
-        Me.LblSchedule_text.Text = "Judul"
-        '
         'LblSchedule_TanggalStart
         '
         Me.LblSchedule_TanggalStart.AutoSize = True
         Me.LblSchedule_TanggalStart.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.LblSchedule_TanggalStart.Location = New System.Drawing.Point(23, 392)
+        Me.LblSchedule_TanggalStart.Location = New System.Drawing.Point(23, 357)
         Me.LblSchedule_TanggalStart.Name = "LblSchedule_TanggalStart"
         Me.LblSchedule_TanggalStart.Size = New System.Drawing.Size(101, 20)
         Me.LblSchedule_TanggalStart.TabIndex = 356
@@ -232,14 +210,14 @@ Partial Class EMI_Schedule_SD_Tambah
         'DtpSchedule_DateStart
         '
         Me.DtpSchedule_DateStart.CustomFormat = "ddddd MM yyyy"
-        Me.DtpSchedule_DateStart.Location = New System.Drawing.Point(162, 392)
+        Me.DtpSchedule_DateStart.Location = New System.Drawing.Point(162, 357)
         Me.DtpSchedule_DateStart.Name = "DtpSchedule_DateStart"
         Me.DtpSchedule_DateStart.Size = New System.Drawing.Size(197, 20)
         Me.DtpSchedule_DateStart.TabIndex = 361
         '
         'DtpSchedule_DateEnd
         '
-        Me.DtpSchedule_DateEnd.Location = New System.Drawing.Point(162, 420)
+        Me.DtpSchedule_DateEnd.Location = New System.Drawing.Point(162, 385)
         Me.DtpSchedule_DateEnd.Name = "DtpSchedule_DateEnd"
         Me.DtpSchedule_DateEnd.Size = New System.Drawing.Size(197, 20)
         Me.DtpSchedule_DateEnd.TabIndex = 363
@@ -248,7 +226,7 @@ Partial Class EMI_Schedule_SD_Tambah
         '
         Me.LblSchedule_TanggalEnd.AutoSize = True
         Me.LblSchedule_TanggalEnd.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.LblSchedule_TanggalEnd.Location = New System.Drawing.Point(23, 420)
+        Me.LblSchedule_TanggalEnd.Location = New System.Drawing.Point(23, 385)
         Me.LblSchedule_TanggalEnd.Name = "LblSchedule_TanggalEnd"
         Me.LblSchedule_TanggalEnd.Size = New System.Drawing.Size(112, 20)
         Me.LblSchedule_TanggalEnd.TabIndex = 362
@@ -257,18 +235,20 @@ Partial Class EMI_Schedule_SD_Tambah
         'DtpSchedule_TimeStart
         '
         Me.DtpSchedule_TimeStart.CustomFormat = "HH:mm"
-        Me.DtpSchedule_TimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DtpSchedule_TimeStart.Location = New System.Drawing.Point(365, 392)
+        Me.DtpSchedule_TimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Time
+        Me.DtpSchedule_TimeStart.Location = New System.Drawing.Point(365, 357)
         Me.DtpSchedule_TimeStart.Name = "DtpSchedule_TimeStart"
+        Me.DtpSchedule_TimeStart.ShowUpDown = True
         Me.DtpSchedule_TimeStart.Size = New System.Drawing.Size(73, 20)
         Me.DtpSchedule_TimeStart.TabIndex = 364
         '
         'DtpSchedule_TimeEnd
         '
         Me.DtpSchedule_TimeEnd.CustomFormat = "HH:mm"
-        Me.DtpSchedule_TimeEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DtpSchedule_TimeEnd.Location = New System.Drawing.Point(365, 420)
+        Me.DtpSchedule_TimeEnd.Format = System.Windows.Forms.DateTimePickerFormat.Time
+        Me.DtpSchedule_TimeEnd.Location = New System.Drawing.Point(365, 385)
         Me.DtpSchedule_TimeEnd.Name = "DtpSchedule_TimeEnd"
+        Me.DtpSchedule_TimeEnd.ShowUpDown = True
         Me.DtpSchedule_TimeEnd.Size = New System.Drawing.Size(73, 20)
         Me.DtpSchedule_TimeEnd.TabIndex = 365
         '
@@ -312,7 +292,7 @@ Partial Class EMI_Schedule_SD_Tambah
         Me.TxtSchedule_IdJenisProduk.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtSchedule_IdJenisProduk.Enabled = False
         Me.TxtSchedule_IdJenisProduk.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TxtSchedule_IdJenisProduk.Location = New System.Drawing.Point(386, 460)
+        Me.TxtSchedule_IdJenisProduk.Location = New System.Drawing.Point(386, 423)
         Me.TxtSchedule_IdJenisProduk.MaxLength = 50
         Me.TxtSchedule_IdJenisProduk.Name = "TxtSchedule_IdJenisProduk"
         Me.TxtSchedule_IdJenisProduk.Size = New System.Drawing.Size(166, 22)
@@ -398,12 +378,23 @@ Partial Class EMI_Schedule_SD_Tambah
         Me.TxtSatuan.Size = New System.Drawing.Size(158, 22)
         Me.TxtSatuan.TabIndex = 399
         '
+        'Panel6
+        '
+        Me.Panel6.BackColor = System.Drawing.Color.Red
+        Me.Panel6.Location = New System.Drawing.Point(19, 408)
+        Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel6.Name = "Panel6"
+        Me.Panel6.Size = New System.Drawing.Size(942, 12)
+        Me.Panel6.TabIndex = 35
+        Me.Panel6.Visible = False
+        '
         'EMI_Schedule_SD_Tambah
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(578, 505)
+        Me.ClientSize = New System.Drawing.Size(579, 477)
+        Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.TxtSatuan)
         Me.Controls.Add(Me.TxtJumlah)
         Me.Controls.Add(Me.Label4)
@@ -429,9 +420,7 @@ Partial Class EMI_Schedule_SD_Tambah
         Me.Controls.Add(Me.TxtSchedule_Deskripsi)
         Me.Controls.Add(Me.LblSchedule_Deskripsi)
         Me.Controls.Add(Me.Panel5)
-        Me.Controls.Add(Me.TxtSchedule_text)
         Me.Controls.Add(Me.Panel3)
-        Me.Controls.Add(Me.LblSchedule_text)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
         Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
@@ -457,8 +446,6 @@ Partial Class EMI_Schedule_SD_Tambah
     Friend WithEvents BtnPilihBarang_Simpan As Button
     Friend WithEvents TxtSchedule_Deskripsi As TextBox
     Friend WithEvents LblSchedule_Deskripsi As Label
-    Friend WithEvents TxtSchedule_text As TextBox
-    Friend WithEvents LblSchedule_text As Label
     Friend WithEvents LblSchedule_TanggalStart As Label
     Friend WithEvents LblSchedule_Kategori As Label
     Friend WithEvents CmbSchedule_Kategori As ComboBox
@@ -478,4 +465,5 @@ Partial Class EMI_Schedule_SD_Tambah
     Friend WithEvents TxtJumlah As TextBox
     Friend WithEvents Label4 As Label
     Friend WithEvents TxtSatuan As TextBox
+    Friend WithEvents Panel6 As Panel
 End Class

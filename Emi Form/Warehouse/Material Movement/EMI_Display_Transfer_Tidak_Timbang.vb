@@ -475,112 +475,118 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 End With
             End Using
 
+#Region "JURNAL"
 
 
-            'dari
-            Dim inisial_faktur_dari As String = ""
-            Dim akun_persediaan_dari As String = ""
-            Dim akun_persediaan_tujuan As String = ""
+            ''dari
+            'Dim inisial_faktur_dari As String = ""
+            'Dim akun_persediaan_dari As String = ""
+            'Dim akun_persediaan_tujuan As String = ""
 
-            SQL = "select inisial_faktur,Persediaan_Bahan_Baku,Persediaan,Persediaan_Bahan_Setengah_Jadi,Persediaan_Scrap, Persediaan_Packaging from stock_owner_gudang "
-            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & GetSoAwal & "' "
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    'akun_persediaan_dari = Dr("persediaan")
-                    inisial_faktur_dari = Dr("inisial_faktur")
+            'SQL = "select inisial_faktur,Persediaan_Bahan_Baku,Persediaan,Persediaan_Bahan_Setengah_Jadi,Persediaan_Scrap, Persediaan_Packaging from stock_owner_gudang "
+            'SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & GetSoAwal & "' "
+            'Using Dr = OpenTrans(SQL)
+            '    If Dr.Read Then
+            '        'akun_persediaan_dari = Dr("persediaan")
+            '        inisial_faktur_dari = Dr("inisial_faktur")
 
-                Else
-                    Dr.Close()
-                    CloseTrans()
-                    CloseConn()
-                    MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
-            End Using
+            '    Else
+            '        Dr.Close()
+            '        CloseTrans()
+            '        CloseConn()
+            '        MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '        Exit Sub
+            '    End If
+            'End Using
 
-            SQL = "select c.akun_Persediaan "
-            SQL = SQL & "from EMI_Group_Jenis a, Barang b, EMI_Group_Jenis_Akun c where "
-            SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Group_Jenis = b.Id_Group_Jenis and "
-            SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Group_Jenis = c.Id_Group_Jenis and "
-            SQL = SQL & "b.kode_stock_owner = c.kode_stock_owner and b.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and b.kode_stock_owner = '" & GetSoAwal & "' and b.Kode_Barang='" & GetDataKdBrg & "' "
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    akun_persediaan_dari = Dr("akun_Persediaan")
-                Else
-                    Dr.Close()
-                    CloseTrans()
-                    CloseConn()
-                    MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
-            End Using
+            'SQL = "select c.akun_Persediaan "
+            'SQL = SQL & "from EMI_Group_Jenis a, Barang b, EMI_Group_Jenis_Akun c where "
+            'SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Group_Jenis = b.Id_Group_Jenis and "
+            'SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Group_Jenis = c.Id_Group_Jenis and "
+            'SQL = SQL & "b.kode_stock_owner = c.kode_stock_owner and b.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            'SQL = SQL & "and b.kode_stock_owner = '" & GetSoAwal & "' and b.Kode_Barang='" & GetDataKdBrg & "' "
+            'Using Dr = OpenTrans(SQL)
+            '    If Dr.Read Then
+            '        akun_persediaan_dari = Dr("akun_Persediaan")
+            '    Else
+            '        Dr.Close()
+            '        CloseTrans()
+            '        CloseConn()
+            '        MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '        Exit Sub
+            '    End If
+            'End Using
 
-            SQL = "select c.akun_Persediaan "
-            SQL = SQL & "from EMI_Group_Jenis a, Barang b, EMI_Group_Jenis_Akun c where "
-            SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Group_Jenis = b.Id_Group_Jenis and "
-            SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Group_Jenis = c.Id_Group_Jenis and "
-            SQL = SQL & "b.kode_stock_owner = c.kode_stock_owner and b.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and b.kode_stock_owner = '" & GetSoTujuan & "' and b.Kode_Barang='" & GetDataKdBrg & "' "
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    akun_persediaan_tujuan = Dr("akun_Persediaan")
-                Else
-                    Dr.Close()
-                    CloseTrans()
-                    CloseConn()
-                    MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
-            End Using
+            'SQL = "select c.akun_Persediaan "
+            'SQL = SQL & "from EMI_Group_Jenis a, Barang b, EMI_Group_Jenis_Akun c where "
+            'SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Group_Jenis = b.Id_Group_Jenis and "
+            'SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Group_Jenis = c.Id_Group_Jenis and "
+            'SQL = SQL & "b.kode_stock_owner = c.kode_stock_owner and b.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            'SQL = SQL & "and b.kode_stock_owner = '" & GetSoTujuan & "' and b.Kode_Barang='" & GetDataKdBrg & "' "
+            'Using Dr = OpenTrans(SQL)
+            '    If Dr.Read Then
+            '        akun_persediaan_tujuan = Dr("akun_Persediaan")
+            '    Else
+            '        Dr.Close()
+            '        CloseTrans()
+            '        CloseConn()
+            '        MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '        Exit Sub
+            '    End If
+            'End Using
 
-            Dim Kode_voucher As String = ""
-            Kode_voucher = GetLastNumberJurnal(Format(tgl_skg, "yyyyMM"), "JS" & inisial_faktur_dari, KodePerusahaan)
-            Dim pagenumber As Integer = 1
+            'Dim Kode_voucher As String = ""
+            'Kode_voucher = GetLastNumberJurnal(Format(tgl_skg, "yyyyMM"), "JS" & inisial_faktur_dari, KodePerusahaan)
+            'Dim pagenumber As Integer = 1
 
-            SQL = "Insert Into Jurnal(Kode_Voucher, Tanggal, Jam, Kode_Perusahaan, Kode_Proyek, "
-            SQL = SQL & "Keterangan, JudulBank, KetDK, userid) values("
-            SQL = SQL & "'" & Kode_voucher & "', "
-            SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', "
-            SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
-            SQL = SQL & "'" & KodeProyek & "', 'Transfer Stock " & GetDataKodeTransfer & "', '', "
-            SQL = SQL & "'-', '" & UserID & "')"
-            ExecuteTrans(SQL)
+            'SQL = "Insert Into Jurnal(Kode_Voucher, Tanggal, Jam, Kode_Perusahaan, Kode_Proyek, "
+            'SQL = SQL & "Keterangan, JudulBank, KetDK, userid) values("
+            'SQL = SQL & "'" & Kode_voucher & "', "
+            'SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', "
+            'SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
+            'SQL = SQL & "'" & KodeProyek & "', 'Transfer Stock " & GetDataKodeTransfer & "', '', "
+            'SQL = SQL & "'-', '" & UserID & "')"
+            'ExecuteTrans(SQL)
 
-            SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_persediaan_dari, 1),
-                      Strings.Mid(akun_persediaan_dari, 2, 1),
-                      Strings.Mid(Ganti(akun_persediaan_dari), 3),
-                      KodePerusahaan, KodeProyek, "Persedian " & GetDataKodeTransfer, "0", nilai_persediaan_min, pagenumber, "TSSS")
-            ExecuteTrans(SQL)
-            pagenumber = pagenumber + 1
+            'SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_persediaan_dari, 1),
+            '          Strings.Mid(akun_persediaan_dari, 2, 1),
+            '          Strings.Mid(Ganti(akun_persediaan_dari), 3),
+            '          KodePerusahaan, KodeProyek, "Persedian " & GetDataKodeTransfer, "0", nilai_persediaan_min, pagenumber, "TSSS")
+            'ExecuteTrans(SQL)
+            'pagenumber = pagenumber + 1
 
-            SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_persediaan_tujuan, 1),
-                     Strings.Mid(akun_persediaan_tujuan, 2, 1),
-                     Strings.Mid(Ganti(akun_persediaan_tujuan), 3),
-                     KodePerusahaan, KodeProyek, "Persedian " & GetDataKodeTransfer, nilai_persediaan_min, "0", pagenumber, "TSSS")
-            ExecuteTrans(SQL)
-            pagenumber = pagenumber + 1
+            'SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_persediaan_tujuan, 1),
+            '         Strings.Mid(akun_persediaan_tujuan, 2, 1),
+            '         Strings.Mid(Ganti(akun_persediaan_tujuan), 3),
+            '         KodePerusahaan, KodeProyek, "Persedian " & GetDataKodeTransfer, nilai_persediaan_min, "0", pagenumber, "TSSS")
+            'ExecuteTrans(SQL)
+            'pagenumber = pagenumber + 1
 
-            SQL = "select sum(debit) as debit, sum(kredit) as kredit from detail_jurnal where "
-            SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
-            SQL = SQL & "kode_voucher = '" & Kode_voucher & "'"
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    If Dr("debit") <> Dr("kredit") Then
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Jurnal salah!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
-                Else
-                    Dr.Close()
-                    CloseTrans()
-                    CloseConn()
-                    MessageBox.Show("Data jurnal tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
-            End Using
+            'SQL = "select sum(debit) as debit, sum(kredit) as kredit from detail_jurnal where "
+            'SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
+            'SQL = SQL & "kode_voucher = '" & Kode_voucher & "'"
+            'Using Dr = OpenTrans(SQL)
+            '    If Dr.Read Then
+            '        If Dr("debit") <> Dr("kredit") Then
+            '            Dr.Close()
+            '            CloseTrans()
+            '            CloseConn()
+            '            MessageBox.Show("Jurnal salah!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '            Exit Sub
+            '        End If
+            '    Else
+            '        Dr.Close()
+            '        CloseTrans()
+            '        CloseConn()
+            '        MessageBox.Show("Data jurnal tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '        Exit Sub
+            '    End If
+            'End Using
+
+
+#End Region
+
+            Dim Kode_voucher As String = "TESVOUCHER"
 
             SQL = "insert into Tf_Stock_det2(kode_perusahaan, No_faktur, Urut_Det, No_Pallet, "
             SQL = SQL & "Serial_Number, Jumlah, UserID, Tanggal, Jam, Kode_Voucher) values( "
@@ -667,6 +673,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                     Selesai = "Y"
                 End If
             End Using
+            'asd
 
             If Selesai = "Y" Then
                 SQL = "select a.Kode_Perusahaan "
@@ -726,10 +733,12 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
             '=========================
             '=     CETAK BARCODE     =
             '=========================
+            Dim PrinterBarcode As String = "TSC TE210"
+
             SQL = "select Kode_Perusahaan from Cetak_TransferStock where Kode_Perusahaan='" & KodePerusahaan & "' and kode_unik_print='" & kode_unik_print & "'"
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                    CrDoc = New NewBarcodeTransferStock
+                    CrDoc = New NewBarcodeTransferStock2
                     'With A_Place_For_Printing2
                     '    CrDoc.SetDataSource(Ds)
                     '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
@@ -750,7 +759,6 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
 
                     Dim doctoprint As New System.Drawing.Printing.PrintDocument()
                     doctoprint.PrinterSettings.PrinterName = PrinterBarcode
-
                     CrDoc.PrintToPrinter(1, False, 1, 2500)
 
                 End If

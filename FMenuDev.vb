@@ -641,6 +641,39 @@ Public Class FMenuDev
         Laporan_GI_GR.Focus()
     End Sub
 
+    Private Sub MulaiProduksiToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MulaiProduksiToolStripMenuItem.Click
+        EMI_Display_Mulai_Produksi.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Display_Mulai_Produksi.MdiParent = Me
+        EMI_Display_Mulai_Produksi.Show()
+        EMI_Display_Mulai_Produksi.Focus()
+    End Sub
+
+    Private Sub TrackToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TrackToolStripMenuItem.Click
+
+        Jf_Display_Rencana_Order1.StartPosition = FormStartPosition.CenterScreen
+
+        Jf_Display_Rencana_Order1.MdiParent = Me
+        Jf_Display_Rencana_Order1.Show()
+        Jf_Display_Rencana_Order1.Focus()
+    End Sub
+
+    Private Sub TransferStockToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles TransferStockToolStripMenuItem1.Click
+        Emi_Display_Transfer_Stock.StartPosition = FormStartPosition.CenterScreen
+
+        Emi_Display_Transfer_Stock.MdiParent = Me
+        Emi_Display_Transfer_Stock.Show()
+        Emi_Display_Transfer_Stock.Focus()
+    End Sub
+
+    Private Sub TransferQualityQCToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TransferQualityQCToolStripMenuItem.Click
+        EMI_Transfer_Quality_QC.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Transfer_Quality_QC.MdiParent = Me
+        EMI_Transfer_Quality_QC.Show()
+        EMI_Transfer_Quality_QC.Focus()
+    End Sub
+
 
 
 

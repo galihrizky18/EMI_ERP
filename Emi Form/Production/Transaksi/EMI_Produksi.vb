@@ -85,6 +85,13 @@ Public Class EMI_Produksi
         TextBox4_Leave(Nothing, e)
     End Sub
 
+    Private Sub Txt_NoTransaksi_TextChanged(sender As Object, e As EventArgs) Handles Txt_NoTransaksi.TextChanged
+
+    End Sub
+
+    Private Sub Txt_Qty_TextChanged(sender As Object, e As EventArgs) Handles Txt_Qty.TextChanged
+
+    End Sub
 
     Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
         If Txt_BatchNo.Text.Trim.Length = 0 Then
@@ -520,6 +527,14 @@ Public Class EMI_Produksi
         Me.Close()
     End Sub
 
+    Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
+        DateTimePicker1.Value = Date.Now
+        DateTimePicker2.Value = Date.Now
+        Txt_Qty.Text = ""
+        Txt_BatchNo.Text = ""
+        Cmb_Operator.SelectedIndex = -1
+    End Sub
+
     Private Sub Transaksi_Produksi_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
@@ -551,9 +566,25 @@ Public Class EMI_Produksi
                     Txt_Qty.Text = ""
                     Cmb_Routing.Text = dr("routing")
                     satuan = dr("satuan")
+                    TxtQtyPO_Satuan.Text = satuan
+                    TxtQtyProduksi_Satuan.Text = satuan
+                    Txt_DisplayQtyPO.Text = TxtQtyPO.Text + " " + TxtQtyPO_Satuan.Text
+                    Txt_DisplayQtyProd.Text = TxtQtyProduksi.Text + " " + TxtQtyProduksi_Satuan.Text
                     'catatan = dr("catatan")
                 End If
             End Using
+
+            Cmb_Satuan.Items.Clear()
+            SQL = "select Kode_barang, Satuan from barang_detail_satuan "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "Flag_Tampil_Display = 'Y' and "
+            SQL = SQL & "Kode_barang = '" & Txt_KdBarang.Text & "' "
+            Using dr = OpenTrans(SQL)
+                Do While dr.Read
+                    Cmb_Satuan.Items.Add(dr("Satuan"))
+                Loop
+            End Using
+            Cmb_Satuan.SelectedIndex = 0
 
             CloseTrans()
             CloseConn()
@@ -570,12 +601,18 @@ Public Class EMI_Produksi
         If e.KeyChar = Chr(13) Then DateTimePicker2.Focus()
     End Sub
 
-    Private Sub DateTimePicker2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DateTimePicker2.KeyPress
+    Private Sub DateTimePicker2_KeyPress(sender As Object, e As KeyPressEventArgs)
         If e.KeyChar = Chr(13) Then Txt_BatchNo.Focus()
     End Sub
 
     Private Sub TextBox3_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_BatchNo.KeyPress
         If e.KeyChar = Chr(13) Then Cmb_Operator.Focus()
+    End Sub
+
+    Private Sub Txt_Qty_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Qty.KeyPress
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+        End If
     End Sub
 
 End Class

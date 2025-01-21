@@ -120,7 +120,7 @@ Public Class SD_Pilih_Split_Produksi
     End Sub
 
     Private Sub ListView1_DoubleClick(sender As Object, e As EventArgs) Handles ListView1.DoubleClick
-        EMI_Produksi.TextBox4.Text = ListView1.FocusedItem.Text
+        'EMI_Produksi.TextBox4.Text = ListView1.FocusedItem.Text
         EMI_Produksi.ShowDialog()
     End Sub
 End Class

@@ -16,12 +16,14 @@ Public Class EMI_Display_Production_Result
     Dim itemPR_Tanggal As Integer = 2
     Dim itemPR_Jam As Integer = 3
     Dim itemPR_UserID As Integer = 4
-    Dim itemPR_JumlahProduksi As Integer = 5
-    Dim itemPR_Satuan As Integer = 6
-    Dim itemPR_Catatan As Integer = 7
-    Dim itemPR_TanggalSelesaiProduksi As Integer = 8
-    Dim itemPR_JamSelesaiProduksi As Integer = 9
-    Dim itemPR_FlagSelesai As Integer = 10
+    Dim itemPR_KdBarang As Integer = 5
+    Dim itemPR_NmBarang As Integer = 6
+    Dim itemPR_JumlahProduksi As Integer = 7
+    Dim itemPR_Satuan As Integer = 8
+    Dim itemPR_Catatan As Integer = 9
+    Dim itemPR_TanggalSelesaiProduksi As Integer = 10
+    Dim itemPR_JamSelesaiProduksi As Integer = 11
+    Dim itemPR_FlagSelesai As Integer = 12
 
     Private Sub Display_Pembelian_Barang_Masuk_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         kosong()
@@ -44,14 +46,16 @@ Public Class EMI_Display_Production_Result
         Lv_ProductionResult.Items.Clear()
         Lv_ProductionResult.Columns.Add(Base_Language.Lang_Global_NoFaktur, 125, HorizontalAlignment.Left)
         Lv_ProductionResult.Columns.Add("No Production Order", 135, HorizontalAlignment.Left)
-        Lv_ProductionResult.Columns.Add(Base_Language.Lang_Global_Tanggal, 100, HorizontalAlignment.Center)
-        Lv_ProductionResult.Columns.Add(Base_Language.Lang_Global_Jam, 80, HorizontalAlignment.Center)
+        Lv_ProductionResult.Columns.Add(Base_Language.Lang_Global_Tanggal, 150, HorizontalAlignment.Center)
+        Lv_ProductionResult.Columns.Add(Base_Language.Lang_Global_Jam, 100, HorizontalAlignment.Center)
         Lv_ProductionResult.Columns.Add("User ID", 100, HorizontalAlignment.Center)
-        Lv_ProductionResult.Columns.Add("Jumlah Produksi", 150, HorizontalAlignment.Right)
-        Lv_ProductionResult.Columns.Add("Satuan", 150, HorizontalAlignment.Center)
-        Lv_ProductionResult.Columns.Add("Catatan", 300, HorizontalAlignment.Left)
-        Lv_ProductionResult.Columns.Add("Tanggal Selesai Produksi", 100, HorizontalAlignment.Center) 'NULLable
-        Lv_ProductionResult.Columns.Add("Jam Selesai Produksi", 80, HorizontalAlignment.Center) 'NULLable
+        Lv_ProductionResult.Columns.Add("Kode Barang", 150, HorizontalAlignment.Center)
+        Lv_ProductionResult.Columns.Add("Nama", 250, HorizontalAlignment.Center)
+        Lv_ProductionResult.Columns.Add("Jumlah Produksi", 130, HorizontalAlignment.Right)
+        Lv_ProductionResult.Columns.Add("Satuan", 80, HorizontalAlignment.Center)
+        Lv_ProductionResult.Columns.Add("Catatan", 350, HorizontalAlignment.Left)
+        Lv_ProductionResult.Columns.Add("Tanggal Selesai Produksi", 150, HorizontalAlignment.Center) 'NULLable
+        Lv_ProductionResult.Columns.Add("Jam Selesai Produksi", 100, HorizontalAlignment.Center) 'NULLable
         'Hide
         Lv_ProductionResult.Columns.Add("Flag Selesai Produksi", 0, HorizontalAlignment.Center) 'NULLable
         Lv_ProductionResult.View = View.Details
@@ -144,7 +148,8 @@ Public Class EMI_Display_Production_Result
             'ComboBox3.SelectedIndex = 1
 
             Cmb_ParamTgl.Items.Clear() : Arr1.Clear()
-            Cmb_ParamTgl.Items.Add("Tanggal") : Arr1.Add("Tanggal")
+            Cmb_ParamTgl.Items.Add("Tanggal") : Arr1.Add("a.Tanggal")
+            Cmb_ParamTgl.Items.Add("Tanggal Selesai") : Arr1.Add("a.Tgl_Hasil_Produksi")
 
             'TextBoxa.Text = "0"
             Cmb_ParamTgl.Enabled = False : Cmb_ParamLain.Enabled = False
@@ -152,9 +157,12 @@ Public Class EMI_Display_Production_Result
             Txt_ParamValue.Enabled = False
 
             Cmb_ParamLain.Items.Clear() : Cmb_ParamLain.Text = "" : Arr2.Clear()
-            Cmb_ParamLain.Items.Add(Base_Language.Lang_Global_No_Transaksi) : Arr2.Add("no_transaksi")
-            'ComboBox2.Items.Add("NO Nota") : Arr2.Add("a.no_nota")
-            'ComboBox2.Items.Add("Kode Supplier") : Arr2.Add("a.kode_supplier")
+            Cmb_ParamLain.Items.Add(Base_Language.Lang_Global_No_Transaksi) : Arr2.Add("a.no_transaksi")
+            Cmb_ParamLain.Items.Add("No Production Order") : Arr2.Add("a.No_PO")
+            Cmb_ParamLain.Items.Add("User ID") : Arr2.Add("a.UserID")
+            Cmb_ParamLain.Items.Add("Kode Barang") : Arr2.Add("a.Kode_Barang")
+            Cmb_ParamLain.Items.Add("Nama Barang") : Arr2.Add("b.Nama")
+            Cmb_ParamLain.Items.Add("Satuan") : Arr2.Add("a.satuan")
 
             Label1.Text = "Display - Production Result"
             Cb_TransaksiHrIni.Text = Base_Language.Lang_Global_Hari_ini
@@ -216,15 +224,16 @@ Public Class EMI_Display_Production_Result
             Lv_DetailPackaging.Items.Clear()
             Lv_DetailScrap.Items.Clear()
 
-            SQL = "select No_Transaksi, No_PO, Tanggal, Jam, UserID, Jumlah, satuan, Catatan,  "
-            SQL = SQL & "Flag_Hasil_Produksi, Tgl_Hasil_Produksi, Jam_Hasil_Produksi "
-            SQL = SQL & "from Emi_Split_Production_Order  "
-            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and status is null "
+            SQL = "select a.No_Transaksi, a.No_PO, a.Tanggal, a.Jam, a.UserID, a.Kode_Barang, b.Nama, a.Jumlah, a.satuan, a.Catatan,  a.Flag_Hasil_Produksi, a.Tgl_Hasil_Produksi, a.Jam_Hasil_Produksi "
+            SQL = SQL & "from Emi_Split_Production_Order a, barang b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan  "
+            SQL = SQL & "and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
+            SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.status is null "
 
             If Cb_TransaksiHrIni.Checked Then
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
 
-                SQL = SQL & " tanggal between '"
+                SQL = SQL & " a.tanggal between '"
                 SQL = SQL & Format(Now, "yyyy-MM-dd") & "' and '" & Format(Now, "yyyy-MM-dd") & "' "
             End If
 
@@ -253,6 +262,8 @@ Public Class EMI_Display_Production_Result
                             Lvw.SubItems.Add(Format(.Rows(i).Item("Tanggal"), "dd MMM yyyy"))
                             Lvw.SubItems.Add(.Rows(i).Item("Jam"))
                             Lvw.SubItems.Add(.Rows(i).Item("UserID"))
+                            Lvw.SubItems.Add(.Rows(i).Item("Kode_Barang"))
+                            Lvw.SubItems.Add(.Rows(i).Item("Nama"))
                             Lvw.SubItems.Add(.Rows(i).Item("Jumlah"))
                             Lvw.SubItems.Add(.Rows(i).Item("satuan"))
                             Lvw.SubItems.Add(If(General_Class.CekNULL(.Rows(i).Item("Catatan")) = "", "-", General_Class.CekNULL(.Rows(i).Item("Catatan"))))
@@ -301,7 +312,7 @@ Public Class EMI_Display_Production_Result
             SQL = SQL & "and a.No_Transaksi = b.No_Transaksi "
             SQL = SQL & "and b.Jenis = c.Kode_Warna "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and a.No_Production_Order = '" & Lv_ProductionResult.FocusedItem.SubItems(0).Text & "' "
+            SQL = SQL & "and a.No_Production_Order = '" & Lv_ProductionResult.FocusedItem.SubItems(itemPR_NoFak).Text & "' "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Dim lvw As ListViewItem
@@ -329,7 +340,7 @@ Public Class EMI_Display_Production_Result
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan "
             SQL = SQL & "and a.No_Transaksi = b.No_Transaksi and  b.Kode_Barang = c.Kode_Barang and b.Kode_Stock_Owner = c.Kode_Stock_Owner "
             SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and a.No_Production_Order = '" & Lv_ProductionResult.FocusedItem.SubItems(0).Text & "' "
+            SQL = SQL & "and a.No_Production_Order = '" & Lv_ProductionResult.FocusedItem.SubItems(itemPR_NoFak).Text & "' "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Dim lvw As ListViewItem
@@ -350,7 +361,7 @@ Public Class EMI_Display_Production_Result
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan "
             SQL = SQL & "and a.No_Transaksi = b.No_Transaksi and  b.Kode_Barang = c.Kode_Barang and b.Kode_Stock_Owner = c.Kode_Stock_Owner "
             SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and a.No_Production_Order = '" & Lv_ProductionResult.FocusedItem.SubItems(0).Text & "' "
+            SQL = SQL & "and a.No_Production_Order = '" & Lv_ProductionResult.FocusedItem.SubItems(itemPR_NoFak).Text & "' "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Dim lvw As ListViewItem
@@ -372,7 +383,7 @@ Public Class EMI_Display_Production_Result
             SQL = SQL & "and b.Serial_Number = c.Serial_Number "
             SQL = SQL & "and c.Kode_Stock_Owner = d.Kode_Stock_Owner and c.Kode_Barang = d.Kode_Barang "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and a.No_Production_Order = '" & Lv_ProductionResult.FocusedItem.SubItems(0).Text & "' "
+            SQL = SQL & "and a.No_Production_Order = '" & Lv_ProductionResult.FocusedItem.SubItems(itemPR_NoFak).Text & "' "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Dim Lvw As ListViewItem

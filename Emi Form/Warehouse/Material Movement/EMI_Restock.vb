@@ -51,17 +51,18 @@ Public Class EMI_Restock
                     Arr_COA_Adj_Kurang.Add(Dr("adjustment_stock_kurang"))
                 Loop
             End Using
+
             'Cmb_Lokasi.Text = Lokasi
-            Cmb_Lokasi.Text = "RAW MATERIAL"
+            ' Cmb_Lokasi.Text = "RAW MATERIAL"
 
 
 
 
 
-            TextBox1.Text = FAdj & arrInisialFaktur.Item(Cmb_Lokasi.SelectedIndex) & "-" & Format(DateTimePicker1.Value, "MM/yy") & "-" &
-                      General_Class.Get_Last_Number2("EMI_Adjustment", "kode_adjustment", JumlahDigit,
-                      "Kode_perusahaan", KodePerusahaan,
-                      "And", "substring(kode_adjustment,1," & Len(FAdj) + Len(arrInisialFaktur.Item(Cmb_Lokasi.SelectedIndex)) + 6 & ")", FAdj & arrInisialFaktur.Item(Cmb_Lokasi.SelectedIndex) & "-" & Format(DateTimePicker1.Value, "MM/yy"))
+            'TextBox1.Text = FAdj & arrInisialFaktur.Item(Cmb_Lokasi.SelectedIndex) & "-" & Format(DateTimePicker1.Value, "MM/yy") & "-" &
+            '          General_Class.Get_Last_Number2("EMI_Adjustment", "kode_adjustment", JumlahDigit,
+            '          "Kode_perusahaan", KodePerusahaan,
+            '          "And", "substring(kode_adjustment,1," & Len(FAdj) + Len(arrInisialFaktur.Item(Cmb_Lokasi.SelectedIndex)) + 6 & ")", FAdj & arrInisialFaktur.Item(Cmb_Lokasi.SelectedIndex) & "-" & Format(DateTimePicker1.Value, "MM/yy"))
 
             CloseConn()
         Catch ex As Exception
@@ -142,6 +143,7 @@ Public Class EMI_Restock
     End Sub
 
     Private Sub DateTimePicker1_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles DateTimePicker1.Leave
+        If Cmb_Lokasi.SelectedIndex = -1 Then Exit Sub
         Try
             OpenConn()
 
@@ -1032,6 +1034,25 @@ Public Class EMI_Restock
 
     End Sub
 
+    Private Sub Cmb_Lokasi_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Lokasi.SelectedIndexChanged
+        If Cmb_Lokasi.SelectedIndex = -1 Then Exit Sub
+
+        Try
+            OpenConn()
+
+            TextBox1.Text = FAdj & arrInisialFaktur.Item(Cmb_Lokasi.SelectedIndex) & "-" & Format(DateTimePicker1.Value, "MM/yy") & "-" &
+                          General_Class.Get_Last_Number2("EMI_Adjustment", "kode_adjustment", JumlahDigit,
+                          "Kode_perusahaan", KodePerusahaan,
+                          "And", "substring(kode_adjustment,1," & Len(FAdj) + Len(arrInisialFaktur.Item(Cmb_Lokasi.SelectedIndex)) + 6 & ")", FAdj & arrInisialFaktur.Item(Cmb_Lokasi.SelectedIndex) & "-" & Format(DateTimePicker1.Value, "MM/yy"))
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
     Private Sub TxtNo_Transaksi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox1.KeyPress
         If e.KeyChar = Chr(13) Then TextBox2.Focus()
         If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
@@ -1046,4 +1067,7 @@ Public Class EMI_Restock
         If e.KeyChar = Chr(13) Then Btn_Simpan.Focus()
     End Sub
 
+    Private Sub Cmb_Lokasi_MouseHover(sender As Object, e As EventArgs) Handles Cmb_Lokasi.MouseHover
+
+    End Sub
 End Class

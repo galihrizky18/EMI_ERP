@@ -1185,7 +1185,8 @@ Public Class Detail_Account_New
 
     Private Sub Txt_KodeDetailAccount_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_KodeDetailAccount.KeyPress
         If e.KeyChar = Chr(13) Then Txt_Keterangan.Focus()
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> "."c Then
+
             e.Handled = True
         End If
     End Sub

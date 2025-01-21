@@ -52,7 +52,7 @@ Module General_Module
     Public PrinterName As String = "EPSON LX-310 ESC/P"
     Public PrinterNameTS As String = "EPSON LX-310 ESC/P"
 
-    Public PrinterBarcode As String = ""
+    Public PrinterBarcode As String = "TSC TE210"
     Public PrinterQC As String = ""
 
 

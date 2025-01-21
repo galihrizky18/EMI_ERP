@@ -24,13 +24,15 @@ Partial Class EMI_Pembelian_PO_Summary_Data
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Lv_PO = New System.Windows.Forms.ListView()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.CetakUlangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BatalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Lv_PODetail = New System.Windows.Forms.ListView()
@@ -45,13 +47,14 @@ Partial Class EMI_Pembelian_PO_Summary_Data
         Me.DateTimePicker2 = New System.Windows.Forms.DateTimePicker()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.CheckBox4 = New System.Windows.Forms.CheckBox()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.ComboBox3 = New System.Windows.Forms.ComboBox()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.CetakUlangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
-        Me.GroupBox3.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -65,19 +68,6 @@ Partial Class EMI_Pembelian_PO_Summary_Data
         Me.Panel1.Size = New System.Drawing.Size(1005, 51)
         Me.Panel1.TabIndex = 22
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1005, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
         'Label1
         '
         Me.Label1.AutoSize = True
@@ -85,9 +75,9 @@ Partial Class EMI_Pembelian_PO_Summary_Data
         Me.Label1.Location = New System.Drawing.Point(5, 9)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(349, 30)
+        Me.Label1.Size = New System.Drawing.Size(334, 30)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Summary Data - Purchase Order"
+        Me.Label1.Text = "Summary Data - Pembelian PO"
         '
         'Panel2
         '
@@ -143,10 +133,28 @@ Partial Class EMI_Pembelian_PO_Summary_Data
         Me.Lv_PO.UseCompatibleStateImageBehavior = False
         Me.Lv_PO.View = System.Windows.Forms.View.Details
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakUlangToolStripMenuItem, Me.BatalToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(139, 48)
+        '
+        'CetakUlangToolStripMenuItem
+        '
+        Me.CetakUlangToolStripMenuItem.Name = "CetakUlangToolStripMenuItem"
+        Me.CetakUlangToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.CetakUlangToolStripMenuItem.Text = "Cetak Ulang"
+        '
+        'BatalToolStripMenuItem
+        '
+        Me.BatalToolStripMenuItem.Name = "BatalToolStripMenuItem"
+        Me.BatalToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.BatalToolStripMenuItem.Text = "Batal"
+        '
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(20, 721)
+        Me.Panel6.Location = New System.Drawing.Point(20, 746)
         Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(1436, 15)
@@ -188,13 +196,15 @@ Partial Class EMI_Pembelian_PO_Summary_Data
         Me.GroupBox3.Controls.Add(Me.DateTimePicker2)
         Me.GroupBox3.Controls.Add(Me.Label7)
         Me.GroupBox3.Controls.Add(Me.DateTimePicker1)
+        Me.GroupBox3.Controls.Add(Me.CheckBox4)
         Me.GroupBox3.Controls.Add(Me.CheckBox1)
+        Me.GroupBox3.Controls.Add(Me.ComboBox1)
         Me.GroupBox3.Controls.Add(Me.ComboBox3)
         Me.GroupBox3.Location = New System.Drawing.Point(20, 588)
         Me.GroupBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Padding = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.GroupBox3.Size = New System.Drawing.Size(636, 130)
+        Me.GroupBox3.Size = New System.Drawing.Size(670, 157)
         Me.GroupBox3.TabIndex = 342
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Filter Data"
@@ -204,7 +214,7 @@ Partial Class EMI_Pembelian_PO_Summary_Data
         Me.BtnBarangMasuk_Cari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnBarangMasuk_Cari.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnBarangMasuk_Cari.ForeColor = System.Drawing.Color.White
-        Me.BtnBarangMasuk_Cari.Location = New System.Drawing.Point(496, 92)
+        Me.BtnBarangMasuk_Cari.Location = New System.Drawing.Point(567, 122)
         Me.BtnBarangMasuk_Cari.Name = "BtnBarangMasuk_Cari"
         Me.BtnBarangMasuk_Cari.Size = New System.Drawing.Size(81, 27)
         Me.BtnBarangMasuk_Cari.TabIndex = 343
@@ -215,7 +225,7 @@ Partial Class EMI_Pembelian_PO_Summary_Data
         '
         Me.ComboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox6.FormattingEnabled = True
-        Me.ComboBox6.Location = New System.Drawing.Point(8, 23)
+        Me.ComboBox6.Location = New System.Drawing.Point(8, 21)
         Me.ComboBox6.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.ComboBox6.Name = "ComboBox6"
         Me.ComboBox6.Size = New System.Drawing.Size(209, 24)
@@ -224,7 +234,7 @@ Partial Class EMI_Pembelian_PO_Summary_Data
         'CheckBox3
         '
         Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Location = New System.Drawing.Point(8, 48)
+        Me.CheckBox3.Location = New System.Drawing.Point(8, 46)
         Me.CheckBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(118, 20)
@@ -234,7 +244,7 @@ Partial Class EMI_Pembelian_PO_Summary_Data
         '
         'TextBox4
         '
-        Me.TextBox4.Location = New System.Drawing.Point(283, 95)
+        Me.TextBox4.Location = New System.Drawing.Point(354, 125)
         Me.TextBox4.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.Size = New System.Drawing.Size(208, 20)
@@ -243,7 +253,7 @@ Partial Class EMI_Pembelian_PO_Summary_Data
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(244, 96)
+        Me.Label6.Location = New System.Drawing.Point(315, 126)
         Me.Label6.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(35, 16)
@@ -254,16 +264,16 @@ Partial Class EMI_Pembelian_PO_Summary_Data
         '
         Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(143, 92)
+        Me.ComboBox2.Location = New System.Drawing.Point(143, 122)
         Me.ComboBox2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.ComboBox2.Name = "ComboBox2"
-        Me.ComboBox2.Size = New System.Drawing.Size(97, 24)
+        Me.ComboBox2.Size = New System.Drawing.Size(159, 24)
         Me.ComboBox2.TabIndex = 6
         '
         'CheckBox2
         '
         Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(8, 97)
+        Me.CheckBox2.Location = New System.Drawing.Point(8, 122)
         Me.CheckBox2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(107, 20)
@@ -275,16 +285,16 @@ Partial Class EMI_Pembelian_PO_Summary_Data
         '
         Me.DateTimePicker2.CustomFormat = "dd MMMM yyyy"
         Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker2.Location = New System.Drawing.Point(419, 66)
+        Me.DateTimePicker2.Location = New System.Drawing.Point(501, 98)
         Me.DateTimePicker2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.DateTimePicker2.Name = "DateTimePicker2"
-        Me.DateTimePicker2.Size = New System.Drawing.Size(158, 20)
+        Me.DateTimePicker2.Size = New System.Drawing.Size(143, 20)
         Me.DateTimePicker2.TabIndex = 4
         '
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(390, 67)
+        Me.Label7.Location = New System.Drawing.Point(469, 100)
         Me.Label7.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(25, 16)
@@ -295,16 +305,27 @@ Partial Class EMI_Pembelian_PO_Summary_Data
         '
         Me.DateTimePicker1.CustomFormat = "dd MMMM yyyy"
         Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker1.Location = New System.Drawing.Point(228, 66)
+        Me.DateTimePicker1.Location = New System.Drawing.Point(318, 98)
         Me.DateTimePicker1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.Size = New System.Drawing.Size(158, 20)
+        Me.DateTimePicker1.Size = New System.Drawing.Size(143, 20)
         Me.DateTimePicker1.TabIndex = 3
+        '
+        'CheckBox4
+        '
+        Me.CheckBox4.AutoSize = True
+        Me.CheckBox4.Location = New System.Drawing.Point(8, 71)
+        Me.CheckBox4.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.CheckBox4.Name = "CheckBox4"
+        Me.CheckBox4.Size = New System.Drawing.Size(62, 20)
+        Me.CheckBox4.TabIndex = 1
+        Me.CheckBox4.Text = "Status"
+        Me.CheckBox4.UseVisualStyleBackColor = True
         '
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(8, 72)
+        Me.CheckBox1.Location = New System.Drawing.Point(8, 96)
         Me.CheckBox1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(124, 20)
@@ -312,34 +333,45 @@ Partial Class EMI_Pembelian_PO_Summary_Data
         Me.CheckBox1.Text = "Parameter Tanggal"
         Me.CheckBox1.UseVisualStyleBackColor = True
         '
+        'ComboBox1
+        '
+        Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Location = New System.Drawing.Point(143, 66)
+        Me.ComboBox1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(159, 24)
+        Me.ComboBox1.TabIndex = 2
+        '
         'ComboBox3
         '
         Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox3.FormattingEnabled = True
-        Me.ComboBox3.Location = New System.Drawing.Point(143, 64)
+        Me.ComboBox3.Location = New System.Drawing.Point(143, 94)
         Me.ComboBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.ComboBox3.Name = "ComboBox3"
-        Me.ComboBox3.Size = New System.Drawing.Size(81, 24)
+        Me.ComboBox3.Size = New System.Drawing.Size(159, 24)
         Me.ComboBox3.TabIndex = 2
         '
-        'ContextMenuStrip1
+        'PanelGradient1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakUlangToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 48)
-        '
-        'CetakUlangToolStripMenuItem
-        '
-        Me.CetakUlangToolStripMenuItem.Name = "CetakUlangToolStripMenuItem"
-        Me.CetakUlangToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.CetakUlangToolStripMenuItem.Text = "Cetak Ulang"
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1005, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'EMI_Pembelian_PO_Summary_Data
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1005, 737)
+        Me.ClientSize = New System.Drawing.Size(1005, 762)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.Lv_PODetail)
         Me.Controls.Add(Me.Panel7)
@@ -357,9 +389,9 @@ Partial Class EMI_Pembelian_PO_Summary_Data
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
-        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -390,4 +422,7 @@ Partial Class EMI_Pembelian_PO_Summary_Data
     Friend WithEvents BtnBarangMasuk_Cari As Button
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents CetakUlangToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents BatalToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CheckBox4 As CheckBox
+    Friend WithEvents ComboBox1 As ComboBox
 End Class

@@ -126,4 +126,49 @@ Public Class TesPrint
 
     End Sub
 
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Try
+            OpenConn()
+
+            Dim CrDoc As New Object
+            Dim kertas As String = ""
+
+            Dim PrinterBarcode As String = "TSC TE210"
+
+            SQL = "select Kode_Perusahaan from Cetak_TransferStock where Kode_Perusahaan='001' and kode_unik_print='012016123108405'"
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+                    CrDoc = New NewBarcodeTransferStock
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_TransferStock.kode_unik_print} = '" & kode_unik_print & "' and {Cetak_TransferStock.batch} = '" & batchLama & "' "
+                    '    CrDoc.SummaryInfo.ReportTitle = "New Barcode Transfer Stock"
+                    '    .Text = "New Barcode Transfer Stock"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
+
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '001' and {Cetak_TransferStock.kode_unik_print} = '012016042604209' and {Cetak_TransferStock.batch} = '0120M9B311224' "
+                    CrDoc.PrintOptions.PrinterName = PrinterBarcode
+
+
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+                    CrDoc.PrintToPrinter(1, False, 1, 2500)
+
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
 End Class

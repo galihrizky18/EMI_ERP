@@ -560,8 +560,8 @@ Public Class EMI_Transaksi_Actual_Biaya_Produksi
                     'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
                     Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                    doctoprint.PrinterSettings.PrinterName = PrinterNameTS
                     doctoprint.DefaultPageSettings.Landscape = True
+                    doctoprint.PrinterSettings.PrinterName = PrinterNameTS
                     Dim rawKind As Integer
                     CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
                     For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1

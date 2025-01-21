@@ -18,7 +18,7 @@ Imports System
 Imports System.ComponentModel
 
 
-Public Class Rpt_Faktur_Transfer_Stock
+Public Class NewBarcodeTransferStock2
     Inherits ReportClass
     
     Public Sub New()
@@ -27,7 +27,7 @@ Public Class Rpt_Faktur_Transfer_Stock
     
     Public Overrides Property ResourceName() As String
         Get
-            Return "Rpt_Faktur_Transfer_Stock.rpt"
+            Return "NewBarcodeTransferStock2.rpt"
         End Get
         Set
             'Do nothing
@@ -45,7 +45,7 @@ Public Class Rpt_Faktur_Transfer_Stock
     
     Public Overrides Property FullResourceName() As String
         Get
-            Return "ERP_EMI.Rpt_Faktur_Transfer_Stock.rpt"
+            Return "ERP_EMI.NewBarcodeTransferStock2.rpt"
         End Get
         Set
             'Do nothing
@@ -94,7 +94,7 @@ Public Class Rpt_Faktur_Transfer_Stock
 End Class
 
 <System.Drawing.ToolboxBitmapAttribute(GetType(CrystalDecisions.[Shared].ExportOptions), "report.bmp")>  _
-Public Class CachedRpt_Faktur_Transfer_Stock
+Public Class CachedNewBarcodeTransferStock2
     Inherits Component
     Implements ICachedReport
     
@@ -136,7 +136,7 @@ Public Class CachedRpt_Faktur_Transfer_Stock
     End Property
     
     Public Overridable Function CreateReport() As CrystalDecisions.CrystalReports.Engine.ReportDocument Implements CrystalDecisions.ReportSource.ICachedReport.CreateReport
-        Dim rpt As Rpt_Faktur_Transfer_Stock = New Rpt_Faktur_Transfer_Stock()
+        Dim rpt As NewBarcodeTransferStock2 = New NewBarcodeTransferStock2()
         rpt.Site = Me.Site
         Return rpt
     End Function

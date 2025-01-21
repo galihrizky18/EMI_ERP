@@ -69,16 +69,18 @@ Partial Class EMI_Restock
         Me.MetodePengeluaranStock = New System.Windows.Forms.TextBox()
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Txt_SatuanKecil = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.DateTimePicker2 = New System.Windows.Forms.DateTimePicker()
         Me.GroupBox1.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Btn_Refresh)
+        Me.GroupBox1.Controls.Add(Me.DateTimePicker2)
+        Me.GroupBox1.Controls.Add(Me.Btn_Simpan)
         Me.GroupBox1.Controls.Add(Me.ListView3)
-        Me.GroupBox1.Controls.Add(Me.TextBox7)
-        Me.GroupBox1.Controls.Add(Me.Label10)
         Me.GroupBox1.Controls.Add(Me.TextBox2)
         Me.GroupBox1.Controls.Add(Me.TextBox6)
         Me.GroupBox1.Controls.Add(Me.Cmb_Lokasi)
@@ -91,11 +93,8 @@ Partial Class EMI_Restock
         Me.GroupBox1.Controls.Add(Me.Label7)
         Me.GroupBox1.Controls.Add(Me.TextBox3)
         Me.GroupBox1.Controls.Add(Me.Label8)
-        Me.GroupBox1.Controls.Add(Me.Label12)
-        Me.GroupBox1.Controls.Add(Me.Label11)
-        Me.GroupBox1.Controls.Add(Me.Dtp_TglEx)
-        Me.GroupBox1.Controls.Add(Me.Dtp_TglProd)
         Me.GroupBox1.Controls.Add(Me.SatuanBesar)
+        Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Location = New System.Drawing.Point(20, 96)
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Name = "GroupBox1"
@@ -120,24 +119,26 @@ Partial Class EMI_Restock
         '
         Me.TextBox7.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox7.Enabled = False
-        Me.TextBox7.Location = New System.Drawing.Point(188, 169)
+        Me.TextBox7.Location = New System.Drawing.Point(919, 318)
         Me.TextBox7.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox7.MaxLength = 12
         Me.TextBox7.Name = "TextBox7"
-        Me.TextBox7.Size = New System.Drawing.Size(256, 20)
+        Me.TextBox7.Size = New System.Drawing.Size(141, 20)
         Me.TextBox7.TabIndex = 15
         Me.TextBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TextBox7.Visible = False
         '
         'Label10
         '
         Me.Label10.AutoSize = True
         Me.Label10.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label10.Location = New System.Drawing.Point(36, 170)
+        Me.Label10.Location = New System.Drawing.Point(874, 318)
         Me.Label10.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(37, 20)
         Me.Label10.TabIndex = 16
         Me.Label10.Text = "HPP"
+        Me.Label10.Visible = False
         '
         'TextBox2
         '
@@ -152,7 +153,7 @@ Partial Class EMI_Restock
         'TextBox6
         '
         Me.TextBox6.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TextBox6.Location = New System.Drawing.Point(188, 197)
+        Me.TextBox6.Location = New System.Drawing.Point(188, 169)
         Me.TextBox6.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox6.MaxLength = 100
         Me.TextBox6.Name = "TextBox6"
@@ -195,7 +196,7 @@ Partial Class EMI_Restock
         '
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label9.Location = New System.Drawing.Point(36, 198)
+        Me.Label9.Location = New System.Drawing.Point(36, 170)
         Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(86, 20)
@@ -271,43 +272,47 @@ Partial Class EMI_Restock
         '
         Me.Label12.AutoSize = True
         Me.Label12.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label12.Location = New System.Drawing.Point(36, 256)
+        Me.Label12.Location = New System.Drawing.Point(754, 374)
         Me.Label12.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(83, 20)
         Me.Label12.TabIndex = 275
         Me.Label12.Text = "Tgl Expired"
+        Me.Label12.Visible = False
         '
         'Label11
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label11.Location = New System.Drawing.Point(36, 228)
+        Me.Label11.Location = New System.Drawing.Point(746, 345)
         Me.Label11.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(91, 20)
         Me.Label11.TabIndex = 274
         Me.Label11.Text = "Tgl Produksi"
+        Me.Label11.Visible = False
         '
         'Dtp_TglEx
         '
         Me.Dtp_TglEx.CustomFormat = "dd MMMM yyyy"
         Me.Dtp_TglEx.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.Dtp_TglEx.Location = New System.Drawing.Point(188, 256)
+        Me.Dtp_TglEx.Location = New System.Drawing.Point(843, 374)
         Me.Dtp_TglEx.Margin = New System.Windows.Forms.Padding(2)
         Me.Dtp_TglEx.Name = "Dtp_TglEx"
-        Me.Dtp_TglEx.Size = New System.Drawing.Size(256, 20)
+        Me.Dtp_TglEx.Size = New System.Drawing.Size(148, 20)
         Me.Dtp_TglEx.TabIndex = 273
+        Me.Dtp_TglEx.Visible = False
         '
         'Dtp_TglProd
         '
         Me.Dtp_TglProd.CustomFormat = "dd MMMM yyyy"
         Me.Dtp_TglProd.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.Dtp_TglProd.Location = New System.Drawing.Point(188, 226)
+        Me.Dtp_TglProd.Location = New System.Drawing.Point(843, 344)
         Me.Dtp_TglProd.Margin = New System.Windows.Forms.Padding(2)
         Me.Dtp_TglProd.Name = "Dtp_TglProd"
-        Me.Dtp_TglProd.Size = New System.Drawing.Size(256, 20)
+        Me.Dtp_TglProd.Size = New System.Drawing.Size(148, 20)
         Me.Dtp_TglProd.TabIndex = 272
+        Me.Dtp_TglProd.Visible = False
         '
         'SatuanBesar
         '
@@ -331,8 +336,6 @@ Partial Class EMI_Restock
         '
         'GroupBox2
         '
-        Me.GroupBox2.Controls.Add(Me.Btn_Refresh)
-        Me.GroupBox2.Controls.Add(Me.Btn_Simpan)
         Me.GroupBox2.Location = New System.Drawing.Point(20, 389)
         Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.Name = "GroupBox2"
@@ -346,7 +349,7 @@ Partial Class EMI_Restock
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(173, 18)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(204, 239)
         Me.Btn_Refresh.Margin = New System.Windows.Forms.Padding(4)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(162, 38)
@@ -359,7 +362,7 @@ Partial Class EMI_Restock
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Simpan.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(9, 18)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(40, 239)
         Me.Btn_Simpan.Margin = New System.Windows.Forms.Padding(4)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(162, 38)
@@ -373,7 +376,7 @@ Partial Class EMI_Restock
         Me.ListView1.FullRowSelect = True
         Me.ListView1.GridLines = True
         Me.ListView1.HideSelection = False
-        Me.ListView1.Location = New System.Drawing.Point(766, 106)
+        Me.ListView1.Location = New System.Drawing.Point(742, 101)
         Me.ListView1.Margin = New System.Windows.Forms.Padding(4)
         Me.ListView1.Name = "ListView1"
         Me.ListView1.Size = New System.Drawing.Size(676, 184)
@@ -408,11 +411,11 @@ Partial Class EMI_Restock
         'urutan
         '
         Me.urutan.Enabled = False
-        Me.urutan.Location = New System.Drawing.Point(791, 427)
+        Me.urutan.Location = New System.Drawing.Point(922, 293)
         Me.urutan.Margin = New System.Windows.Forms.Padding(4)
         Me.urutan.MaxLength = 12
         Me.urutan.Name = "urutan"
-        Me.urutan.Size = New System.Drawing.Size(164, 20)
+        Me.urutan.Size = New System.Drawing.Size(106, 20)
         Me.urutan.TabIndex = 17
         Me.urutan.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.urutan.Visible = False
@@ -448,7 +451,7 @@ Partial Class EMI_Restock
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(732, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1190, 51)
         Me.Panel1.TabIndex = 318
         '
         'PanelGradient1
@@ -461,7 +464,7 @@ Partial Class EMI_Restock
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(732, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1190, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label13
@@ -539,11 +542,11 @@ Partial Class EMI_Restock
         'MetodePengeluaranStock
         '
         Me.MetodePengeluaranStock.Enabled = False
-        Me.MetodePengeluaranStock.Location = New System.Drawing.Point(791, 375)
+        Me.MetodePengeluaranStock.Location = New System.Drawing.Point(742, 293)
         Me.MetodePengeluaranStock.Margin = New System.Windows.Forms.Padding(4)
         Me.MetodePengeluaranStock.MaxLength = 12
         Me.MetodePengeluaranStock.Name = "MetodePengeluaranStock"
-        Me.MetodePengeluaranStock.Size = New System.Drawing.Size(164, 20)
+        Me.MetodePengeluaranStock.Size = New System.Drawing.Size(106, 20)
         Me.MetodePengeluaranStock.TabIndex = 17
         Me.MetodePengeluaranStock.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.MetodePengeluaranStock.Visible = False
@@ -561,7 +564,7 @@ Partial Class EMI_Restock
         'Txt_SatuanKecil
         '
         Me.Txt_SatuanKecil.Enabled = False
-        Me.Txt_SatuanKecil.Location = New System.Drawing.Point(791, 324)
+        Me.Txt_SatuanKecil.Location = New System.Drawing.Point(856, 293)
         Me.Txt_SatuanKecil.Margin = New System.Windows.Forms.Padding(4)
         Me.Txt_SatuanKecil.MaxLength = 12
         Me.Txt_SatuanKecil.Name = "Txt_SatuanKecil"
@@ -570,13 +573,36 @@ Partial Class EMI_Restock
         Me.Txt_SatuanKecil.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.Txt_SatuanKecil.Visible = False
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label1.Location = New System.Drawing.Point(36, 198)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(61, 20)
+        Me.Label1.TabIndex = 274
+        Me.Label1.Text = "Periode"
+        Me.Label1.Visible = False
+        '
+        'DateTimePicker2
+        '
+        Me.DateTimePicker2.CustomFormat = "dd MMMM yyyy"
+        Me.DateTimePicker2.Location = New System.Drawing.Point(188, 198)
+        Me.DateTimePicker2.Margin = New System.Windows.Forms.Padding(2)
+        Me.DateTimePicker2.Name = "DateTimePicker2"
+        Me.DateTimePicker2.Size = New System.Drawing.Size(256, 20)
+        Me.DateTimePicker2.TabIndex = 277
+        '
         'EMI_Restock
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(732, 465)
+        Me.ClientSize = New System.Drawing.Size(1190, 465)
         Me.Controls.Add(Me.ListView1)
+        Me.Controls.Add(Me.TextBox7)
+        Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel4)
@@ -587,9 +613,13 @@ Partial Class EMI_Restock
         Me.Controls.Add(Me.Button6)
         Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.Txt_SatuanKecil)
+        Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.MetodePengeluaranStock)
+        Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.urutan)
+        Me.Controls.Add(Me.Dtp_TglEx)
         Me.Controls.Add(Me.GroupBox2)
+        Me.Controls.Add(Me.Dtp_TglProd)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.DateTimePicker1)
         Me.Controls.Add(Me.Label2)
@@ -602,7 +632,6 @@ Partial Class EMI_Restock
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
-        Me.GroupBox2.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)
@@ -655,4 +684,6 @@ Partial Class EMI_Restock
     Friend WithEvents Panel6 As Panel
     Friend WithEvents SatuanBesar As ComboBox
     Friend WithEvents Txt_SatuanKecil As TextBox
+    Friend WithEvents DateTimePicker2 As DateTimePicker
+    Friend WithEvents Label1 As Label
 End Class

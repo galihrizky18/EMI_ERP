@@ -13,10 +13,8 @@ Public Class EMI_Schedule_SD_Tambah
         get_jam()
 
         If BtnPilihBarang_Simpan.Tag = "Simpan" Then
-            TxtSchedule_text.Text = ""
+            ''TxtSchedule_text_temp.Text = ""
             TxtSchedule_Deskripsi.Text = ""
-
-
 
             DtpSchedule_DateStart.Value = tgl_skg
             DtpSchedule_DateEnd.Value = tgl_skg
@@ -28,7 +26,6 @@ Public Class EMI_Schedule_SD_Tambah
             Ambil_Data()
             CmbSchedule_Kategori.Focus()
         Else
-
 
             Jenis_Produk()
             Line()
@@ -63,7 +60,7 @@ Public Class EMI_Schedule_SD_Tambah
                         End If
                     Next
 
-                    TxtSchedule_text.Text = ""
+                    ''TxtSchedule_text_temp.Text = ""
                     TxtSchedule_Deskripsi.Text = ""
                     DtpSchedule_DateStart.Value = General_Class.CekNULL(dr("Tanggal_Awal"))
                     DtpSchedule_TimeStart.Value = General_Class.CekNULL(dr("Tanggal_Awal"))
@@ -272,7 +269,7 @@ Public Class EMI_Schedule_SD_Tambah
                 'SQL = SQL & "'" & arrId_line.Item(CmbSchedule_Kategori.SelectedIndex) & "', '" & TxtSchedule_NoFaktur.Text & "') "
                 'ExecuteTrans(SQL)
                 SQL = "insert into emi_schedule(Kode_Perusahaan, Judul, Deskripsi, Tanggal_Awal, Tanggal_akhir, Id_Routing, no_rencana_produksi) "
-                SQL = SQL & "values('" & KodePerusahaan & "', '" & TxtSchedule_text.Text & "', '" & TxtSchedule_Deskripsi.Text & "', "
+                SQL = SQL & "values('" & KodePerusahaan & "', '" & TxtNamaBarang.Text & "', '" & TxtSchedule_Deskripsi.Text & "', "
                 SQL = SQL & "'" & Format(DtpSchedule_DateStart.Value, "yyyy-MM-dd") & " " & Format(DtpSchedule_TimeStart.Value, "HH:mm:00") & "', "
                 SQL = SQL & "'" & Format(DtpSchedule_DateEnd.Value, "yyyy-MM-dd") & " " & Format(DtpSchedule_TimeEnd.Value, "HH:mm:00") & "', "
                 SQL = SQL & "'" & arrId_Routing.Item(CmbSchedule_Kategori.SelectedIndex) & "', '" & TxtSchedule_NoFaktur.Text & "') "
@@ -328,7 +325,7 @@ Public Class EMI_Schedule_SD_Tambah
 
                         dr.Close()
                         SQL = "update emi_schedule set "
-                        SQL = SQL & "Judul='" & TxtSchedule_text.Text & "', "
+                        SQL = SQL & "Judul='" & TxtNamaBarang.Text & "', "
                         SQL = SQL & "Deskripsi='" & TxtSchedule_Deskripsi.Text & "', "
                         SQL = SQL & "Tanggal_Awal='" & Format(DtpSchedule_DateStart.Value, "yyyy-MM-dd") & " " & Format(DtpSchedule_TimeStart.Value, "HH:mm:00") & "', "
                         SQL = SQL & "Tanggal_Akhir='" & Format(DtpSchedule_DateEnd.Value, "yyyy-MM-dd") & " " & Format(DtpSchedule_TimeEnd.Value, "HH:mm:00") & "', "
