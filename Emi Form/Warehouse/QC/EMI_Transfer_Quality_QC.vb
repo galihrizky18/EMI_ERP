@@ -4,7 +4,7 @@ Imports Org.BouncyCastle.Utilities
 
 Public Class EMI_Transfer_Quality_QC
 
-    Dim Data_KdSo, Data_KdBarang, Data_NmBarang, Data_JumlahStock, Data_JumlahBags, Data_Satuan, Data_Rak, Data_Sn, Data_QrCode, Data_Batch, Data_IdWarehouse, Data_NoPallet, Data_Warna As String
+    Dim Data_KdSo, Data_KdBarang, Data_NmBarang, Data_JumlahStock, Data_JumlahBags, Data_Satuan, Data_Rak, Data_Sn, Data_QrCode, Data_Batch, Data_IdWarehouse, Data_NoPallet, Data_Warna, Data_KodeUnikBerjalan As String
     Dim Data_TglExp, Data_TglMsk, Data_MetodePengeluaran As String
     Dim arrWarna, arrInisialFaktur As New ArrayList
     Dim JudulMessage As String = "Transfer Quality"
@@ -15,7 +15,7 @@ Public Class EMI_Transfer_Quality_QC
     Private rawData1() As Byte
     Private fs1 As FileStream
 
-    Dim Lv_KdSo, Lv_KdBarang, Lv_NmBarang, Lv_JumlahStock, Lv_JumlahBags, Lv_Satuan, Lv_Rak, Lv_Sn, Lv_QrCode, Lv_Batch, Lv_IdWarehouse, Lv_NoPallet, Lv_Warna, Lv_TglExp, Lv_TglMsk, Lv_MetodePengeluaran As String
+    Dim Lv_KdSo, Lv_KdBarang, Lv_NmBarang, Lv_JumlahStock, Lv_JumlahBags, Lv_Satuan, Lv_Rak, Lv_Sn, Lv_QrCode, Lv_Batch, Lv_IdWarehouse, Lv_NoPallet, Lv_Warna, Lv_TglExp, Lv_TglMsk, Lv_MetodePengeluaran, Lv_KodeUnikBerjalan As String
 
     Dim item_KdSo As Integer = 0
     Dim item_KdBarang As Integer = 1
@@ -33,6 +33,7 @@ Public Class EMI_Transfer_Quality_QC
     Dim item_TglExp As Integer = 13
     Dim item_TglMsk As Integer = 14
     Dim item_MetodePengeluaran As Integer = 15
+    Dim item_KodeUnikBerjalan As Integer = 16
 
 
     Private Sub EMI_Transfer_Quality_QC_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -130,6 +131,7 @@ Public Class EMI_Transfer_Quality_QC
         Lv_Data.Columns.Add("Tgl_Exp", 0, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("Tgl_Msk", 0, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("Metode_Pengeluaran", 0, HorizontalAlignment.Center)
+        Lv_Data.Columns.Add("Kode_UnikBerjalan", 0, HorizontalAlignment.Center)
         Lv_Data.View = View.Details
 
     End Sub
@@ -152,6 +154,7 @@ Public Class EMI_Transfer_Quality_QC
         Lv_TglExp = Lv_Data.Items(index).SubItems(item_TglExp).Text
         Lv_TglMsk = Lv_Data.Items(index).SubItems(item_TglMsk).Text
         Lv_MetodePengeluaran = Lv_Data.Items(index).SubItems(item_MetodePengeluaran).Text
+        Lv_KodeUnikBerjalan = Lv_Data.Items(index).SubItems(item_KodeUnikBerjalan).Text
 
     End Sub
 
@@ -234,13 +237,13 @@ Public Class EMI_Transfer_Quality_QC
 
             tempArray.Clear()
             For i As Integer = 0 To Lv_Data.Items.Count - 1
-                tempArray.Add(Lv_Data.Items(i).SubItems(item_QrCode).Text)
+                tempArray.Add(Lv_Data.Items(i).SubItems(item_QrCode).Text & "-" & Lv_Data.Items(i).SubItems(item_KodeUnikBerjalan).Text)
             Next
 
             '=================================================
             '=     AMBIL DATA BARANG BERDASARKAN BARCODE     =
             '=================================================
-            SQL = "SELECT a.Serial_Number, a.Qr_Code, a.Kode_Unik_Berjalan, a.Kode_Stock_Owner, "
+            SQL = "SELECT top 1 a.Serial_Number, a.Qr_Code, a.Kode_Unik_Berjalan, a.Kode_Stock_Owner, "
             SQL = SQL & "a.Kode_Barang, b.Nama, "
             SQL = SQL & "dbo.Ubah_Satuan(a.Kode_Perusahaan, 'masa' , a.Kode_Barang, b.Satuan, 'KG', a.Jumlah) as Jumlah, "
             SQL = SQL & "a.Jumlah_Bags, 'KG' as satuan, a.Batch_Number, a.Id_Warehouse, c.Keterangan as Rak, "
@@ -271,11 +274,14 @@ Public Class EMI_Transfer_Quality_QC
                     Data_TglExp = General_Class.CekNULL(Dr("Tgl_Expired"))
                     Data_TglMsk = General_Class.CekNULL(Dr("Tgl_Masuk"))
                     Data_MetodePengeluaran = General_Class.CekNULL(Dr("Metode_Pengeluaran_Stok"))
+                    Data_KodeUnikBerjalan = General_Class.CekNULL(Dr("Kode_Unik_Berjalan"))
 
                 Else
                     Dr.Close()
                     CloseConn()
                     MessageBox.Show("Data Tidak Ditemukan", JudulMessage, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Txt_ScanBarcode.Text = ""
+                    Txt_ScanBarcode.Focus()
                     Exit Sub
                 End If
             End Using
@@ -288,7 +294,7 @@ Public Class EMI_Transfer_Quality_QC
                 Exit Sub
             End If
 
-            If tempArray.Contains(Data_QrCode) Then
+            If tempArray.Contains(Data_QrCode & "-" & Data_KodeUnikBerjalan) Then
                 CloseConn()
                 MessageBox.Show("Pallet Sudah Ada", JudulMessage, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Txt_ScanBarcode.Text = ""
@@ -315,6 +321,7 @@ Public Class EMI_Transfer_Quality_QC
             Lv.SubItems.Add(Data_TglExp)
             Lv.SubItems.Add(Data_TglMsk)
             Lv.SubItems.Add(Data_MetodePengeluaran)
+            Lv.SubItems.Add(Data_KodeUnikBerjalan)
 
             Txt_ScanBarcode.Text = ""
             Txt_ScanBarcode.Focus()
@@ -713,8 +720,8 @@ Public Class EMI_Transfer_Quality_QC
             SQL = "select Kode_Perusahaan, QrUtuh from Cetak_TransferQuality where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & TxtNo_Transaksi.Text.Trim & "' and Kode_Unik_Print = '" & kode_unik_print & "'"
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                    For i As Integer = 0 To .Rows.Count - 1
-                        CrDoc = New NewBarcodeTransferStock
+                    For i As Integer = 0 To Ds.Tables("MyTable").Rows.Count - 1
+                        CrDoc = New NewBarcodeTransferQuality
                         With A_Place_For_Printing2
                             CrDoc.SetDataSource(Ds)
                             CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
@@ -755,9 +762,7 @@ Public Class EMI_Transfer_Quality_QC
 
 
     Private Sub Lv_Data_KeyDown(sender As Object, e As KeyEventArgs) Handles Lv_Data.KeyDown
-        If Lv_Data.Items.Count = 0 Then
-            Exit Sub
-        End If
+        If Lv_Data.Items.Count = 0 Then Exit Sub
 
         Dim currentRow = Lv_Data.FocusedItem.Index
 
@@ -769,6 +774,7 @@ Public Class EMI_Transfer_Quality_QC
             Lv_Data.Items.RemoveAt(currentRow)
         End If
     End Sub
+    'asd
 
 
 End Class

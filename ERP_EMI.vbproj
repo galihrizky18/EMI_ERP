@@ -1342,6 +1342,12 @@
     <Compile Include="Emi Form\Warehouse\QC\EMI_Transfer_Quality_QC.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Warehouse\QC\NewBarcodeTransferQuality.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NewBarcodeTransferQuality.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Emi Form\Warehouse\QC\SD_Transfer_Quality.Designer.vb">
       <DependentUpon>SD_Transfer_Quality.vb</DependentUpon>
     </Compile>
@@ -2601,6 +2607,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\QC\EMI_Transfer_Quality_QC.resx">
       <DependentUpon>EMI_Transfer_Quality_QC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\QC\NewBarcodeTransferQuality.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>NewBarcodeTransferQuality.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\QC\SD_Transfer_Quality.resx">
       <DependentUpon>SD_Transfer_Quality.vb</DependentUpon>

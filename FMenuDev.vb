@@ -674,6 +674,14 @@ Public Class FMenuDev
         EMI_Transfer_Quality_QC.Focus()
     End Sub
 
+    Private Sub SyncServerB2BToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SyncServerB2BToolStripMenuItem.Click
+        Server_Sinkronasi_B2B.StartPosition = FormStartPosition.CenterScreen
+
+        Server_Sinkronasi_B2B.MdiParent = Me
+        Server_Sinkronasi_B2B.Show()
+        Server_Sinkronasi_B2B.Focus()
+    End Sub
+
 
 
 
