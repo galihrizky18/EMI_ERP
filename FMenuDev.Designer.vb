@@ -147,6 +147,7 @@ Partial Class FMenuDev
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
         Me.SyncToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SyncServerB2BToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MasterGudangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -406,7 +407,7 @@ Partial Class FMenuDev
         '
         'WarehouseToolStripMenuItem
         '
-        Me.WarehouseToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterDataToolStripMenuItem, Me.TransaksiToolStripMenuItem1, Me.DisplayToolStripMenuItem3})
+        Me.WarehouseToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterDataToolStripMenuItem, Me.TransaksiToolStripMenuItem1, Me.DisplayToolStripMenuItem3, Me.MasterGudangToolStripMenuItem})
         Me.WarehouseToolStripMenuItem.Name = "WarehouseToolStripMenuItem"
         Me.WarehouseToolStripMenuItem.Size = New System.Drawing.Size(78, 20)
         Me.WarehouseToolStripMenuItem.Text = "Warehouse"
@@ -944,6 +945,12 @@ Partial Class FMenuDev
         Me.SyncServerB2BToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SyncServerB2BToolStripMenuItem.Text = "Sync Server B2B"
         '
+        'MasterGudangToolStripMenuItem
+        '
+        Me.MasterGudangToolStripMenuItem.Name = "MasterGudangToolStripMenuItem"
+        Me.MasterGudangToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.MasterGudangToolStripMenuItem.Text = "Master Gudang"
+        '
         'FMenuDev
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1090,4 +1097,5 @@ Partial Class FMenuDev
     Friend WithEvents TransferQualityQCToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SyncToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SyncServerB2BToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MasterGudangToolStripMenuItem As ToolStripMenuItem
 End Class

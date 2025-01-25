@@ -682,6 +682,14 @@ Public Class FMenuDev
         Server_Sinkronasi_B2B.Focus()
     End Sub
 
+    Private Sub MasterGudangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterGudangToolStripMenuItem.Click
+        Master_Gudang.StartPosition = FormStartPosition.CenterScreen
+
+        Master_Gudang.MdiParent = Me
+        Master_Gudang.Show()
+        Master_Gudang.Focus()
+    End Sub
+
 
 
 

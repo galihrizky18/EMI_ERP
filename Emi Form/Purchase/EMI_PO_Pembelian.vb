@@ -276,16 +276,16 @@ Public Class EMI_PO_Pembelian
         TxtPO_TotalSblmPPN.Text = "0"
         TxtPO_GrandTotal.Text = "0"
         ListView1.Columns.Clear()
-        ListView1.Columns.Add("Kode Barang", 170, HorizontalAlignment.Left)
-        ListView1.Columns.Add("Nama Barang", 420, HorizontalAlignment.Left)
+        ListView1.Columns.Add("Kode Barang", 150, HorizontalAlignment.Left)
+        ListView1.Columns.Add("Nama Barang", 300, HorizontalAlignment.Left)
         ListView1.View = View.Details
 
         LvPO_DataPO.Items.Clear()
         LvPO_DataPO.Columns.Clear()
-        LvPO_DataPO.Columns.Add("Lokasi", 170, HorizontalAlignment.Left) '0
-        LvPO_DataPO.Columns.Add("Kode Barang", 170, HorizontalAlignment.Left) '1
-        LvPO_DataPO.Columns.Add("Nama Barang", 450, HorizontalAlignment.Left) '2
-        LvPO_DataPO.Columns.Add("Harga", 152, HorizontalAlignment.Right) '3
+        LvPO_DataPO.Columns.Add("Lokasi", 150, HorizontalAlignment.Left) '0
+        LvPO_DataPO.Columns.Add("Kode Barang", 150, HorizontalAlignment.Left) '1
+        LvPO_DataPO.Columns.Add("Nama Barang", 300, HorizontalAlignment.Left) '2
+        LvPO_DataPO.Columns.Add("Harga", 150, HorizontalAlignment.Right) '3
         LvPO_DataPO.Columns.Add("Jumlah", 150, HorizontalAlignment.Right) '4
         LvPO_DataPO.Columns.Add("Satuan", 100, HorizontalAlignment.Center) '5
         LvPO_DataPO.Columns.Add("Harga_SB", 0, HorizontalAlignment.Right) '6
@@ -293,7 +293,7 @@ Public Class EMI_PO_Pembelian
         LvPO_DataPO.Columns.Add("Satuan_SB", 0, HorizontalAlignment.Center) '8
         LvPO_DataPO.Columns.Add("No Penawaran", 0, HorizontalAlignment.Center) '9
         LvPO_DataPO.Columns.Add("ID", 0, HorizontalAlignment.Center) '10
-        LvPO_DataPO.Columns.Add("Total", 260, HorizontalAlignment.Right) '11
+        LvPO_DataPO.Columns.Add("Total", 245, HorizontalAlignment.Right) '11
         LvPO_DataPO.Columns.Add("Urut", 0, HorizontalAlignment.Center) '12
         LvPO_DataPO.Columns.Add("No PR", 0, HorizontalAlignment.Center) '13
         LvPO_DataPO.View = View.Details
@@ -588,12 +588,10 @@ Public Class EMI_PO_Pembelian
                         Loop
                     End Using
 
-
-
                     cmb_pr.Items.Clear() : arrNoUrutPr.Clear()
                     SQL = "select a.No_Faktur, b.no_Urut,b.tanggal_delivery  From EMI_Purchase_Requisition a, EMI_Purchase_Requisition_Detail b "
                     SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-                    SQL = SQL & "and a.Status is null and flag_release = 'Y' and b.Kode_Barang = '" & TxtPO_KdBrg.Text & "' and b.flag_sudah_po is null "
+                    SQL = SQL & "and a.Status is null and flag_release = 'Y' and b.Kode_Barang = '" & TxtPO_KdBrg.Text & "' and b.flag_sudah_po is null and b.flag_tolak is null "
                     '   SQL = SQL & "group by a.no_faktur"
                     Using dr3 = OpenTrans(SQL)
                         Do While dr3.Read
@@ -882,7 +880,7 @@ Public Class EMI_PO_Pembelian
 
                     SQL = "select a.Jumlah - isnull((select sum(y.Jumlah) from EMI_Pembelian_PO x, EMI_Pembelian_PO_Det y    "
                     SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and y.Kode_Perusahaan = a.Kode_Perusahaan "
-                    SQL = SQL & "and y.no_urut_pr = a.No_Urut ), 0) as sisa, a.satuan from  EMI_Purchase_Requisition_Detail a,EMI_Purchase_Requisition b where a.kode_perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and y.no_urut_pr = a.No_Urut and x.status is null), 0) as sisa, a.satuan from  EMI_Purchase_Requisition_Detail a,EMI_Purchase_Requisition b where a.kode_perusahaan = '" & KodePerusahaan & "' "
                     SQL = SQL & "and a.Kode_Perusahaan= b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and b.status is null and b.Flag_Release = 'Y' and a.no_urut = '" & lvPO_PR & "'"
                     Using Dr = OpenTrans(SQL)
                         If Dr.Read Then
@@ -1236,6 +1234,34 @@ Public Class EMI_PO_Pembelian
                 Exit Sub
             End If
 
+            Dim flagBolehLewat As Boolean = True
+
+            SQL = "select "
+            SQL = SQL & "a.tanggal_delivery,DATEDIFF(DAY, a.Tanggal_Delivery , DATEADD(day,b.Waktu_Pabrikasi + b.Waktu_Pengiriman,'" & Format(tgl_skg, "yyyy-MM-dd") & "' ) ) as  Waktu_Proses_Pengiriman,"
+            SQL = SQL & "DATEADD(day,Waktu_Pabrikasi + Waktu_Pengiriman, '" & Format(tgl_skg, "yyyy-MM-dd") & "') as tanggal_actual_delivery "
+            SQL = SQL & "from EMI_Purchase_Requisition_Detail a, emi_detail_proses_pengiriman_po b, Suppliers c "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Barang = b.Kode_Barang  "
+            SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Kategori_Supplier = c.ID_Kategori_Suppliers "
+            SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and c.Kode_Supplier = '" & TxtPO_KdSupplier.Text & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+
+                    If Dr("waktu_proses_pengiriman") > 0 Then
+                        Dim tanya As String = MessageBox.Show("Terdapat data yang melewati estimasi delivery  " & vbNewLine & vbNewLine & TxtPO_NmBrg.Text.Trim & vbNewLine & "- Tanggal Estimasi Delivery : " & Format(Dr("tanggal_delivery"), "dd MMM yyyy") & vbNewLine & "- Tanggal Actual Delivery : " & Format(Dr("tanggal_actual_delivery"), "dd MMM yyyy") & vbNewLine & vbNewLine & "Apakah ingin melanjutkan transaksi ? ", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                        If tanya = vbNo Then
+                            CloseConn()
+                            MessageBox.Show("Transaksi dibatalkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+
+                    End If
+
+                End If
+            End Using
+
+
+
             Dim lvw As ListViewItem
             lvw = LvPO_DataPO.Items.Add(lokasi_gudang_bahan)
             lvw.SubItems.Add(TxtPO_KdBrg.Text)
@@ -1298,7 +1324,7 @@ Public Class EMI_PO_Pembelian
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnRelease.Click
         EMI_PO_Pembelian_Display.asal = Jenis
-        EMI_PO_Pembelian_Display.filter_tambahan = " and a.Flag_Sudah_PO is null "
+        EMI_PO_Pembelian_Display.filter_tambahan = " And a.Flag_Sudah_PO Is null "
         EMI_PO_Pembelian_Display.ShowDialog()
     End Sub
 
@@ -1334,11 +1360,11 @@ Public Class EMI_PO_Pembelian
             OpenConn()
             txtSatuanSisa.Text = ""
             txtSisaPr.Text = ""
-            SQL = "select a.Jumlah - isnull((select sum(y.Jumlah) from EMI_Pembelian_PO x, EMI_Pembelian_PO_Det y   "
-            SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur "
-            SQL = SQL & "and y.Kode_Perusahaan = a.Kode_Perusahaan and y.no_urut_pr = a.No_Urut "
-            SQL = SQL & "), 0) as sisa, a.satuan "
-            SQL = SQL & "from  EMI_Purchase_Requisition_Detail a,EMI_Purchase_Requisition b "
+            SQL = "Select a.Jumlah - isnull((Select sum(y.Jumlah) from EMI_Pembelian_PO x, EMI_Pembelian_PO_Det y   "
+            SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan And x.No_Faktur = y.No_Faktur "
+            SQL = SQL & "And y.Kode_Perusahaan = a.Kode_Perusahaan And y.no_urut_pr = a.No_Urut And x.status Is null "
+            SQL = SQL & "), 0) As sisa, a.satuan "
+            SQL = SQL & "from  EMI_Purchase_Requisition_Detail a, EMI_Purchase_Requisition b "
             SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.Kode_Perusahaan= b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and b.status is null and b.Flag_Release = 'Y' "
             SQL = SQL & "and a.no_urut = '" & arrNoUrutPr.Item(cmb_pr.SelectedIndex) & "'"
@@ -1637,7 +1663,7 @@ Public Class EMI_PO_Pembelian
                             SQL = SQL & "jumlah_minimal, kode_stock_owner, jumlah_per_konte) "
 
                             SQL = SQL & "select c.id_rencana, '" & KodePerusahaan & "', '" & lvPO_KdBarang & "', "
-                            SQL = SQL & "'" & nilai_kirim & "', 1, '" & nilai_kirim & "', '" & lvPO_Lokasi & "', "
+                            SQL = SQL & "0, 1, 0, '" & lvPO_Lokasi & "', "
                             SQL = SQL & "'" & Qty_Kontainer & "' "
 
                             SQL = SQL & "from rencana_order c "

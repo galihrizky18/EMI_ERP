@@ -13,6 +13,8 @@ Public Class Server_Sinkronasi_B2B
 
     Dim arrNo_PO, arrNoPo2, arrKodeSupplier, arrNoPenawaranPackaging, arrNoPenawaranBahanBaku As New ArrayList
 
+    Dim Faktur_Penawaran As String = ""
+
     Private Sub insert_sql_to_mysql_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ListView1.Columns.Add("Error", 900, HorizontalAlignment.Left)
         ListView1.View = View.Details
@@ -658,7 +660,9 @@ Public Class Server_Sinkronasi_B2B
             arrNoPenawaranBahanBaku.Clear()
             SQLB2B = "select a.No_Faktur From B2B_Penawaran_Bahan_Baku a , B2B_Penawaran_Bahan_Baku_Detail b "
             SQLB2B = SQLB2B & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-            SQLB2B = SQLB2B & "and a.flag_sudah_pindah is null and a.Status is null and b.Flag_Approval = 'A' "
+            SQLB2B = SQLB2B & "and a.Status is null "
+            SQLB2B = SQLB2B & "and b.Flag_Approval = 'A' "
+            SQLB2B = SQLB2B & "and b.Flag_Sudah_Pindah is null "
             SQLB2B = SQLB2B & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
             SQLB2B = SQLB2B & "group by a.No_Faktur "
             Using DsB2B = BindingTransB2B(SQLB2B)
@@ -671,7 +675,13 @@ Public Class Server_Sinkronasi_B2B
 
             For z As Integer = 0 To arrNoPenawaranBahanBaku.Count - 1
 
+                get_no_faktur_penawaran()
+
                 Dim flag_kategori_Supplier As String = ""
+                Dim Data_Faktur_Penawaran As String = ""
+                Dim arrDataDetailPenawaran As New ArrayList
+
+                Dim hasInsert As Boolean = False
 
                 SQLB2B = "select Kode_Perusahaan, no_faktur, No_Penawaran, Tanggal_Awal_Berlaku_Pnwr as Tgl_Penawaran_Hrg, "
                 SQLB2B = SQLB2B & "Tanggal_Akhir_Berlaku_Pnwr as Periode_Akhir_Penawaran, Kode_Supplier, Lokasi, Tanggal, Jam, Id_User "
@@ -682,13 +692,30 @@ Public Class Server_Sinkronasi_B2B
                     With DsB2B.Tables("MyTable")
                         For i As Integer = 0 To .Rows.Count - 1
 
-                            SQL = "insert into emi_master_penawaran(Kode_Perusahaan, No_Faktur, No_Penawaran, Tgl_Penawaran_Hrg, Periode_Akhir_Penawaran, Kode_Supplier, Lokasi, "
-                            SQL = SQL & "Tanggal, Jam, iduser) values ( "
-                            SQL = SQL & "'" & .Rows(i).Item("kode_perusahaan") & "', '" & .Rows(i).Item("no_faktur") & "', "
-                            SQL = SQL & "'" & .Rows(i).Item("No_Penawaran") & "', '" & .Rows(i).Item("tgl_penawaran_hrg") & "', "
-                            SQL = SQL & "'" & .Rows(i).Item("periode_akhir_penawaran") & "', '" & .Rows(i).Item("kode_supplier") & "', "
-                            SQL = SQL & "'" & .Rows(i).Item("lokasi") & "', '" & .Rows(i).Item("tanggal") & "', '" & .Rows(i).Item("jam") & "', '" & .Rows(i).Item("Id_User") & "' )"
-                            ExecuteTrans(SQL)
+                            '==================================================
+                            '=     CEK APAKAH ADA DATA DI PENAWARAN INDUK     =
+                            '==================================================
+                            SQL = "select Top 1 Kode_Perusahaan, No_Faktur from emi_master_penawaran where Kode_Perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "' and No_Faktur_B2B = '" & .Rows(i).Item("no_faktur") & "'"
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+
+                                    Data_Faktur_Penawaran = Dr("No_Faktur")
+
+                                Else
+                                    Dr.Close()
+                                    SQL = "insert into emi_master_penawaran(Kode_Perusahaan, No_Faktur, No_Faktur_B2B, No_Penawaran, Tgl_Penawaran_Hrg, Periode_Akhir_Penawaran, Kode_Supplier, Lokasi, "
+                                    SQL = SQL & "Tanggal, Jam, iduser) values ( "
+                                    SQL = SQL & "'" & .Rows(i).Item("kode_perusahaan") & "', '" & Faktur_Penawaran & "', '" & .Rows(i).Item("no_faktur") & "', "
+                                    SQL = SQL & "'" & .Rows(i).Item("No_Penawaran") & "', '" & .Rows(i).Item("tgl_penawaran_hrg") & "', "
+                                    SQL = SQL & "'" & .Rows(i).Item("periode_akhir_penawaran") & "', '" & .Rows(i).Item("kode_supplier") & "', "
+                                    SQL = SQL & "'" & .Rows(i).Item("lokasi") & "', '" & .Rows(i).Item("tanggal") & "', '" & .Rows(i).Item("jam") & "', '" & .Rows(i).Item("Id_User") & "' )"
+                                    ExecuteTrans(SQL)
+
+                                    Data_Faktur_Penawaran = Faktur_Penawaran
+                                End If
+                            End Using
+
+
 
                             '===================
                             '=     RELEASE     =
@@ -715,12 +742,16 @@ Public Class Server_Sinkronasi_B2B
 
 
                             'MASUK KE DETAIL B2B
-                            SQLB2B = "select Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Barang, Mata_Uang, Harga, Satuan, MOQ "
+                            SQLB2B = "select Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Barang, Mata_Uang, Harga, Satuan, MOQ, No_Urut "
                             SQLB2B = SQLB2B & "from B2B_Penawaran_Bahan_Baku_Detail "
                             SQLB2B = SQLB2B & "where Kode_Perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "' "
-                            SQLB2B = SQLB2B & "and No_Faktur = '" & .Rows(i).Item("No_Faktur") & "' and Flag_Approval = 'A'"
+                            SQLB2B = SQLB2B & "and No_Faktur = '" & .Rows(i).Item("No_Faktur") & "' "
+                            SQLB2B = SQLB2B & "and Flag_Approval = 'A' "
+                            SQLB2B = SQLB2B & "and Flag_Sudah_Pindah is null "
                             Using Ds2B2B = BindingTransB2B(SQLB2B)
                                 For j As Integer = 0 To Ds2B2B.Tables("MyTable").Rows.Count - 1
+
+                                    hasInsert = True
 
                                     Dim Detail_KdPerusahaan As String = Ds2B2B.Tables("MyTable").Rows(j).Item("Kode_Perusahaan")
                                     Dim Detail_KdBarang As String = Ds2B2B.Tables("MyTable").Rows(j).Item("Kode_Barang")
@@ -728,6 +759,7 @@ Public Class Server_Sinkronasi_B2B
                                     Dim Detail_Harga As String = Ds2B2B.Tables("MyTable").Rows(j).Item("Harga")
                                     Dim Detail_IdSatuan As String = Ds2B2B.Tables("MyTable").Rows(j).Item("Satuan")
                                     Dim Detail_MOQ As String = Ds2B2B.Tables("MyTable").Rows(j).Item("MOQ")
+                                    Dim Detail_UrutB2B As String = Ds2B2B.Tables("MyTable").Rows(j).Item("No_Urut")
 
                                     '===================================
                                     '=     INSERT PENAWARAN DETAIL     =
@@ -766,7 +798,7 @@ Public Class Server_Sinkronasi_B2B
                                             CloseTransB2B()
                                             CloseConn()
                                             CloseConnB2B()
-                                            MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & .Rows(i).Item("satuan_kecil") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            MessageBox.Show("Satuan " & Kode_Satuan & " Ke " & satuanBarang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                             Exit Sub
                                         End If
                                     End Using
@@ -786,7 +818,7 @@ Public Class Server_Sinkronasi_B2B
                                                     CloseTransB2B()
                                                     CloseConn()
                                                     CloseConnB2B()
-                                                    MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & .Rows(i).Item("satuan_kecil") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                    MessageBox.Show("Satuan " & Kode_Satuan & " Ke " & satuanBarang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                                     Exit Sub
                                                 Else
                                                     ConvertHarga = dr4("hasil")
@@ -798,16 +830,18 @@ Public Class Server_Sinkronasi_B2B
                                                 CloseTransB2B()
                                                 CloseConn()
                                                 CloseConnB2B()
-                                                MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & .Rows(i).Item("satuan_kecil") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                MessageBox.Show("Satuan " & Kode_Satuan & " Ke " & satuanBarang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                                 Exit Sub
                                             End If
                                         End If
                                     End Using
 
-                                    SQL = "insert into EMI_Master_Penawaran_Detail (kode_perusahaan, no_faktur, kode_barang, min_order, satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang) values ( "
-                                    SQL = SQL & "'" & Detail_KdPerusahaan & "' , '" & .Rows(i).Item("No_Faktur") & "', '" & Detail_KdBarang & "', "
+
+
+                                    SQL = "insert into EMI_Master_Penawaran_Detail (kode_perusahaan, no_faktur, kode_barang, min_order, satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang, urut_B2B) values ( "
+                                    SQL = SQL & "'" & Detail_KdPerusahaan & "' , '" & Data_Faktur_Penawaran & "', '" & Detail_KdBarang & "', "
                                     SQL = SQL & "'" & Detail_MOQ & "', '" & Kode_Satuan & "', '" & Detail_Harga & "' , "
-                                    SQL = SQL & "'" & ConvertHarga & "', '" & satuanBarang & "', '" & Detail_MataUang & "' ) "
+                                    SQL = SQL & "'" & ConvertHarga & "', '" & satuanBarang & "', '" & Detail_MataUang & "', '" & Detail_UrutB2B & "' ) "
                                     ExecuteTrans(SQL)
 
 
@@ -900,28 +934,50 @@ Public Class Server_Sinkronasi_B2B
                                         SQL = "update emi_master_penawaran_detail set "
                                         SQL = SQL & "flag_baru = 'Y' "
                                         SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and Kode_barang='" & Detail_KdBarang & "' "
-                                        SQL = SQL & "and no_faktur='" & .Rows(i).Item("No_Faktur") & "' "
+                                        SQL = SQL & "and no_faktur='" & .Rows(i).Item("No_Faktur") & "' and urut_B2B = '" & Detail_UrutB2B & "' "
                                         ExecuteTrans(SQL)
 
                                     End If
 
+                                    SQLB2B = "Update B2B_Penawaran_Bahan_Baku_Detail set flag_sudah_pindah = 'Y' where "
+                                    SQLB2B = SQLB2B & "Kode_Perusahaan = '" & Detail_KdPerusahaan & "'  "
+                                    SQLB2B = SQLB2B & "and No_Faktur = '" & .Rows(i).Item("no_faktur") & "' "
+                                    SQLB2B = SQLB2B & "and no_urut = '" & Detail_UrutB2B & "' "
+                                    ExecuteTransB2B(SQLB2B)
+
                                 Next
                             End Using
 
-                            'UPDATE FLAG RELEASE
-                            SQL = "update EMI_Master_Penawaran set "
-                            SQL = SQL & "flag_release = 'Y', "
-                            SQL = SQL & "Tanggal_Release = '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
-                            SQL = SQL & "jam_release = '" & Format(tgl_skg, "HH:mm:ss") & "' , "
-                            SQL = SQL & "iduser_release = '" & UserID & "' "
-                            SQL = SQL & "where kode_perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "' and No_Faktur='" & .Rows(i).Item("no_faktur") & "' "
-                            SQL = SQL & "and no_penawaran='" & .Rows(i).Item("No_Penawaran") & "' "
-                            ExecuteTrans(SQL)
+                            '==================================================================
+                            '=     CEK APAKAH EMI_MASTER_PENAWARAN_DETAIL SUDAH DI INSERT     =
+                            '==================================================================
+                            SQL = "select top 1 * from EMI_Master_Penawaran_Detail where Kode_Perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "' and No_Faktur = '" & Data_Faktur_Penawaran & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
 
-                            SQLB2B = "Update B2B_Penawaran_Bahan_Baku set flag_sudah_pindah = 'Y' where "
-                            SQLB2B = SQLB2B & "Kode_Perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "'  and "
-                            SQLB2B = SQLB2B & "No_Faktur = '" & .Rows(i).Item("no_faktur") & "' "
-                            ExecuteTransB2B(SQLB2B)
+                                Else
+                                    Dr.Close()
+                                    CloseTrans()
+                                    CloseTransB2B()
+                                    CloseConn()
+                                    CloseConnB2B()
+                                    MessageBox.Show("Ada Masalah saat Insert Detail Penawaran", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End Using
+
+                            If hasInsert Then
+                                'UPDATE FLAG RELEASE
+                                SQL = "update EMI_Master_Penawaran set "
+                                SQL = SQL & "flag_release = 'Y', "
+                                SQL = SQL & "Tanggal_Release = '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
+                                SQL = SQL & "jam_release = '" & Format(tgl_skg, "HH:mm:ss") & "' , "
+                                SQL = SQL & "iduser_release = '" & UserID & "' "
+                                SQL = SQL & "where kode_perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "' and No_Faktur='" & Faktur_Penawaran & "' "
+                                SQL = SQL & "and no_penawaran='" & .Rows(i).Item("No_Penawaran") & "' "
+                                ExecuteTrans(SQL)
+                            End If
+
 
                         Next
                     End With
@@ -950,10 +1006,14 @@ Public Class Server_Sinkronasi_B2B
             Cmd.Transaction = Cn.BeginTransaction
             CmdB2B.Transaction = CnB2B.BeginTransaction
 
+
+
             arrNoPenawaranPackaging.Clear()
             SQLB2B = "select a.no_transaksi From b2b_packaging a , b2b_detail_packaging b "
             SQLB2B = SQLB2B & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.no_transaksi = b.no_transaksi "
-            SQLB2B = SQLB2B & "and a.flag_sudah_pindah is null and a.Status is null and b.Flag_Approval = 'A' "
+            SQLB2B = SQLB2B & "and b.Flag_Approval = 'A' "
+            SQLB2B = SQLB2B & "and a.Status is null  "
+            SQLB2B = SQLB2B & "and b.Flag_Sudah_Pindah is null "
             SQLB2B = SQLB2B & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
             SQLB2B = SQLB2B & "group by a.no_transaksi "
             Using DsB2B = BindingTransB2B(SQLB2B)
@@ -967,31 +1027,51 @@ Public Class Server_Sinkronasi_B2B
 
             For z As Integer = 0 To arrNoPenawaranPackaging.Count - 1
 
+                get_no_faktur_penawaran()
+
                 Dim flag_kategori_Supplier As String = ""
+                Dim Data_Faktur_Penawaran As String = ""
+                Dim arrDataDetailPenawaran As New ArrayList
+
+                Dim hasInsert As Boolean = False
 
                 SQLB2B = "select Kode_Perusahaan, No_Transaksi as no_faktur, No_Penawaran,Tanggal_Mulai as Tgl_Penawaran_Hrg, "
-                SQLB2B = SQLB2B & "Tanggal_Selesai as Periode_Akhir_Penawaran,Kode_Supplier, Lokasi, Tanggal,Jam "
+                SQLB2B = SQLB2B & "Tanggal_Selesai as Periode_Akhir_Penawaran,Kode_Supplier, Lokasi, Tanggal, Jam, Id_User "
                 SQLB2B = SQLB2B & "from B2B_Packaging where kode_perusahaan = '" & KodePerusahaan & "' "
                 SQLB2B = SQLB2B & "and no_transaksi = '" & arrNoPenawaranPackaging.Item(z).ToString & "' "
                 Using DsB2B = BindingTransB2B(SQLB2B)
                     With DsB2B.Tables("MyTable")
                         For i As Integer = 0 To .Rows.Count - 1
 
-                            SQL = "insert into emi_master_penawaran(Kode_Perusahaan,No_Faktur,No_Penawaran,Tgl_Penawaran_Hrg,Periode_Akhir_Penawaran,Kode_Supplier,	Lokasi,	"
-                            SQL = SQL & "Tanggal,Jam) values ( "
-                            SQL = SQL & "'" & .Rows(i).Item("kode_perusahaan") & "', '" & .Rows(i).Item("no_faktur") & "', "
-                            SQL = SQL & "'" & .Rows(i).Item("No_Penawaran") & "', '" & .Rows(i).Item("tgl_penawaran_hrg") & "', "
-                            SQL = SQL & "'" & .Rows(i).Item("periode_akhir_penawaran") & "', '" & .Rows(i).Item("kode_supplier") & "', "
-                            SQL = SQL & "'" & .Rows(i).Item("lokasi") & "', '" & .Rows(i).Item("tanggal") & "', '" & .Rows(i).Item("jam") & "' )"
-                            ExecuteTrans(SQL)
+                            '==================================================
+                            '=     CEK APAKAH ADA DATA DI PENAWARAN INDUK     =
+                            '==================================================
+                            SQL = "select Top 1 Kode_Perusahaan, No_Faktur from emi_master_penawaran where Kode_Perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "' and No_Faktur_B2B = '" & .Rows(i).Item("no_faktur") & "'"
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+
+                                    Data_Faktur_Penawaran = Dr("No_Faktur")
+
+                                Else
+                                    Dr.Close()
+                                    SQL = "insert into emi_master_penawaran(Kode_Perusahaan, No_Faktur, No_Faktur_B2B, No_Penawaran, Tgl_Penawaran_Hrg, Periode_Akhir_Penawaran, Kode_Supplier, Lokasi, "
+                                    SQL = SQL & "Tanggal, Jam, iduser) values ( "
+                                    SQL = SQL & "'" & .Rows(i).Item("kode_perusahaan") & "', '" & Faktur_Penawaran & "', '" & .Rows(i).Item("no_faktur") & "', "
+                                    SQL = SQL & "'" & .Rows(i).Item("No_Penawaran") & "', '" & .Rows(i).Item("tgl_penawaran_hrg") & "', "
+                                    SQL = SQL & "'" & .Rows(i).Item("periode_akhir_penawaran") & "', '" & .Rows(i).Item("kode_supplier") & "', "
+                                    SQL = SQL & "'" & .Rows(i).Item("lokasi") & "', '" & .Rows(i).Item("tanggal") & "', '" & .Rows(i).Item("jam") & "', '" & .Rows(i).Item("Id_User") & "' )"
+                                    ExecuteTrans(SQL)
+
+                                    Data_Faktur_Penawaran = Faktur_Penawaran
+                                End If
+                            End Using
 
                             '===================
                             '=     RELEASE     =
                             '===================
                             'GET KATEGORI SUPPLIER
                             SQL = "select b.kode_supplier, b.ID_Kategori_Suppliers, c.flag_jenis_import  from  Suppliers b, Suppliers_Kategori c "
-                            SQL = SQL & "where "
-                            SQL = SQL & "b.kode_perusahaan = c.kode_perusahaan and b.id_kategori_suppliers = c.id_kategori_suppliers "
+                            SQL = SQL & "where b.kode_perusahaan = c.kode_perusahaan and b.id_kategori_suppliers = c.id_kategori_suppliers "
                             SQL = SQL & "and b.kode_perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "' and b.Kode_Supplier = '" & .Rows(i).Item("kode_supplier") & "' "
                             Using Dr = OpenTrans(SQL)
                                 If Dr.Read Then
@@ -1010,15 +1090,19 @@ Public Class Server_Sinkronasi_B2B
 
 
                             'MASUK KE DETAIL PACKAGING
-                            SQLB2B = "select  a.kode_perusahaan, a.No_Transaksi AS no_faktur, a.kode_barang, a.MOQ, a.satuan, a.Harga, b.kode_satuan, a.mata_uang "
+                            SQLB2B = "select  a.kode_perusahaan, a.No_Transaksi AS no_faktur, a.kode_barang, a.MOQ, a.satuan, a.Harga, b.kode_satuan, a.mata_uang, a.no_urut "
                             SQLB2B = SQLB2B & "from B2B_Detail_Packaging a, b2b_satuan b "
                             SQLB2B = SQLB2B & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
                             SQLB2B = SQLB2B & "and a.Satuan = b.Id_Satuan "
                             SQLB2B = SQLB2B & "and a.Kode_Perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "' "
                             SQLB2B = SQLB2B & "and a.No_Transaksi = '" & .Rows(i).Item("no_faktur") & "' "
+                            SQLB2B = SQLB2B & "and a.Flag_Approval = 'A' "
+                            SQLB2B = SQLB2B & "and a.Flag_Sudah_Pindah is null "
                             SQLB2B = SQLB2B & "order by a.Kode_Barang"
                             Using Ds2B2B = BindingTransB2B(SQLB2B)
                                 For j As Integer = 0 To Ds2B2B.Tables("MyTable").Rows.Count - 1
+
+                                    hasInsert = True
 
                                     Dim Detail_KdPerusahaan As String = Ds2B2B.Tables("MyTable").Rows(j).Item("kode_perusahaan")
                                     Dim Detail_KdBarang As String = Ds2B2B.Tables("MyTable").Rows(j).Item("kode_barang")
@@ -1027,6 +1111,7 @@ Public Class Server_Sinkronasi_B2B
                                     Dim Detail_MOQ As String = Ds2B2B.Tables("MyTable").Rows(j).Item("MOQ")
                                     Dim Detail_MataUang As String = Ds2B2B.Tables("MyTable").Rows(j).Item("mata_uang")
                                     Dim Detail_IdSatuan As String = Ds2B2B.Tables("MyTable").Rows(j).Item("Satuan")
+                                    Dim Detail_UrutB2B As String = Ds2B2B.Tables("MyTable").Rows(j).Item("no_urut")
 
                                     '===================================
                                     '=     INSERT PENAWARAN DETAIL     =
@@ -1065,7 +1150,7 @@ Public Class Server_Sinkronasi_B2B
                                             CloseTransB2B()
                                             CloseConn()
                                             CloseConnB2B()
-                                            MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & .Rows(i).Item("satuan_kecil") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            MessageBox.Show("Satuan " & Kode_Satuan & " Ke " & satuanBarang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                             Exit Sub
                                         End If
                                     End Using
@@ -1085,7 +1170,7 @@ Public Class Server_Sinkronasi_B2B
                                                     CloseTransB2B()
                                                     CloseConn()
                                                     CloseConnB2B()
-                                                    MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & .Rows(i).Item("satuan_kecil") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                    MessageBox.Show("Satuan " & Kode_Satuan & " Ke " & satuanBarang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                                     Exit Sub
                                                 Else
                                                     ConvertHarga = dr4("hasil")
@@ -1097,16 +1182,16 @@ Public Class Server_Sinkronasi_B2B
                                                 CloseTransB2B()
                                                 CloseConn()
                                                 CloseConnB2B()
-                                                MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & .Rows(i).Item("satuan_kecil") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                MessageBox.Show("Satuan " & Kode_Satuan & " Ke " & satuanBarang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                                 Exit Sub
                                             End If
                                         End If
                                     End Using
 
-                                    SQL = "insert into EMI_Master_Penawaran_Detail (kode_perusahaan, no_faktur, kode_barang, min_order, satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang) values ( "
-                                    SQL = SQL & "'" & Detail_KdPerusahaan & "' , '" & .Rows(i).Item("No_Faktur") & "', '" & Detail_KdBarang & "', "
+                                    SQL = "insert into EMI_Master_Penawaran_Detail (kode_perusahaan, no_faktur, kode_barang, min_order, satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang, urut_B2B) values ( "
+                                    SQL = SQL & "'" & Detail_KdPerusahaan & "' , '" & Data_Faktur_Penawaran & "', '" & Detail_KdBarang & "', "
                                     SQL = SQL & "'" & Detail_MOQ & "', '" & Kode_Satuan & "', '" & Detail_Harga & "' , "
-                                    SQL = SQL & "'" & ConvertHarga & "', '" & satuanBarang & "', '" & Detail_MataUang & "' ) "
+                                    SQL = SQL & "'" & ConvertHarga & "', '" & satuanBarang & "', '" & Detail_MataUang & "', '" & Detail_UrutB2B & "' ) "
                                     ExecuteTrans(SQL)
 
                                     If flag_kategori_Supplier = "Y" Then
@@ -1203,24 +1288,48 @@ Public Class Server_Sinkronasi_B2B
 
                                     End If
 
+                                    SQLB2B = "Update B2B_Detail_Packaging set flag_sudah_pindah = 'Y' where "
+                                    SQLB2B = SQLB2B & "Kode_Perusahaan = '" & Detail_KdPerusahaan & "' "
+                                    SQLB2B = SQLB2B & "and no_transaksi = '" & .Rows(i).Item("no_faktur") & "' "
+                                    SQLB2B = SQLB2B & "and no_urut = '" & Detail_UrutB2B & "' "
+                                    ExecuteTransB2B(SQLB2B)
+
                                 Next
 
                             End Using
 
-                            'UPDATE FLAG RELEASE
-                            SQL = "update EMI_Master_Penawaran set "
-                            SQL = SQL & "flag_release = 'Y', "
-                            SQL = SQL & "Tanggal_Release = '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
-                            SQL = SQL & "jam_release = '" & Format(tgl_skg, "HH:mm:ss") & "' , "
-                            SQL = SQL & "iduser_release = '" & UserID & "' "
-                            SQL = SQL & "where kode_perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "' and No_Faktur='" & .Rows(i).Item("no_faktur") & "' "
-                            SQL = SQL & "and no_penawaran='" & .Rows(i).Item("No_Penawaran") & "' "
-                            ExecuteTrans(SQL)
+                            '==================================================================
+                            '=     CEK APAKAH EMI_MASTER_PENAWARAN_DETAIL SUDAH DI INSERT     =
+                            '==================================================================
+                            SQL = "select top 1 * from EMI_Master_Penawaran_Detail where Kode_Perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "' and No_Faktur = '" & Data_Faktur_Penawaran & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
 
-                            SQLB2B = "Update B2B_Packaging set flag_sudah_pindah = 'Y' where "
-                            SQLB2B = SQLB2B & "Kode_Perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "'  and "
-                            SQLB2B = SQLB2B & "no_transaksi = '" & .Rows(i).Item("no_faktur") & "' "
-                            ExecuteTransB2B(SQLB2B)
+                                Else
+                                    Dr.Close()
+                                    CloseTrans()
+                                    CloseTransB2B()
+                                    CloseConn()
+                                    CloseConnB2B()
+                                    MessageBox.Show("Ada Masalah saat Insert Detail Penawaran", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End Using
+
+                            If hasInsert Then
+                                'UPDATE FLAG RELEASE
+                                SQL = "update EMI_Master_Penawaran set "
+                                SQL = SQL & "flag_release = 'Y', "
+                                SQL = SQL & "Tanggal_Release = '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
+                                SQL = SQL & "jam_release = '" & Format(tgl_skg, "HH:mm:ss") & "' , "
+                                SQL = SQL & "iduser_release = '" & UserID & "' "
+                                SQL = SQL & "where kode_perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "' and No_Faktur='" & Data_Faktur_Penawaran & "' "
+                                SQL = SQL & "and no_penawaran='" & .Rows(i).Item("No_Penawaran") & "' "
+                                ExecuteTrans(SQL)
+                            End If
+
+
+
 
 
                         Next
@@ -1600,8 +1709,8 @@ Public Class Server_Sinkronasi_B2B
             Dim item As Object = listINSERT(index)
             If item = "proyek" Then
                 Button1_Click(Button22, e)
-                btnPnwrBahanBaku_Click(Button22, e)
-                btnPenawaranPackaging_Click(Button22, e)
+                'btnPnwrBahanBaku_Click(Button22, e)
+                'btnPenawaranPackaging_Click(Button22, e)
 
             End If
         Next
@@ -2262,6 +2371,13 @@ Public Class Server_Sinkronasi_B2B
         '    Clipboard.SetText(ListView1.FocusedItem.Text)
         'Catch ex As Exception
         'End Try
+    End Sub
+
+    Private Sub get_no_faktur_penawaran()
+        Faktur_Penawaran = fMasterPenawaran & Format(tgl_skg, "MMyy") & "-" &
+                             General_Class.Get_Last_Number2("emi_master_penawaran", "no_Faktur", 5,
+                             "Kode_perusahaan", KodePerusahaan,
+                             "And", "substring(no_Faktur, 1, " & Len(fMasterPenawaran) + 4 & ")", fMasterPenawaran & Format(tgl_skg, "MMyy"))
     End Sub
 
 End Class

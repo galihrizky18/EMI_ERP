@@ -336,6 +336,18 @@
     <Compile Include="Emi Form\Inventory\EMI_Adjustment_Dist.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Mater Gudang\Master_Gudang.designer.vb">
+      <DependentUpon>Master_Gudang.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Mater Gudang\Master_Gudang.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Mater Gudang\Master_Gudang_QR_Code.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Master_Gudang_QR_Code.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Emi Form\Penawaran\Transaksi_Penawaran.designer.vb">
       <DependentUpon>Transaksi_Penawaran.vb</DependentUpon>
     </Compile>
@@ -700,6 +712,12 @@
     <Compile Include="Emi Form\Production\Transaksi\EMI_Transaksi_Actual_Biaya_Produksi.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Purchase\EMI_PO_Pembelian.designer.vb">
+      <DependentUpon>EMI_PO_Pembelian.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Purchase\EMI_PO_Pembelian.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\Purchase\Purchase Requisition Revisi\EMI_Pembelian_PO_Summary_Data.designer.vb">
       <DependentUpon>EMI_Pembelian_PO_Summary_Data.vb</DependentUpon>
     </Compile>
@@ -1052,12 +1070,6 @@
       <DependentUpon>Master_Penawaran_SD_Barang.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Penawaran\Master_Penawaran_SD_Barang.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Purchase\EMI_PO_Pembelian.designer.vb">
-      <DependentUpon>EMI_PO_Pembelian.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Purchase\EMI_PO_Pembelian.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Purchase\Emi_PO_Pembelian2.designer.vb">
@@ -2089,6 +2101,13 @@
     <EmbeddedResource Include="Emi Form\Inventory\EMI_Adjustment_Dist.resx">
       <DependentUpon>EMI_Adjustment_Dist.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Mater Gudang\Master_Gudang.resx">
+      <DependentUpon>Master_Gudang.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Mater Gudang\Master_Gudang_QR_Code.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Master_Gudang_QR_Code.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Penawaran\Transaksi_Penawaran.resx">
       <DependentUpon>Transaksi_Penawaran.vb</DependentUpon>
     </EmbeddedResource>
@@ -2286,6 +2305,9 @@
     <EmbeddedResource Include="Emi Form\Production\Transaksi\EMI_Transaksi_Actual_Biaya_Produksi.resx">
       <DependentUpon>EMI_Transaksi_Actual_Biaya_Produksi.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Purchase\EMI_PO_Pembelian.resx">
+      <DependentUpon>EMI_PO_Pembelian.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Purchase\Purchase Requisition Revisi\EMI_Pembelian_PO_Summary_Data.resx">
       <DependentUpon>EMI_Pembelian_PO_Summary_Data.vb</DependentUpon>
     </EmbeddedResource>
@@ -2462,9 +2484,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Penawaran\Master_Penawaran_SD_Barang.resx">
       <DependentUpon>Master_Penawaran_SD_Barang.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Purchase\EMI_PO_Pembelian.resx">
-      <DependentUpon>EMI_PO_Pembelian.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Purchase\Emi_PO_Pembelian2.resx">
       <DependentUpon>Emi_PO_Pembelian2.vb</DependentUpon>
