@@ -36,6 +36,7 @@ Partial Class FMenuDev
         Me.PelunasanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PelunasanBiayaToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.PelunasanBahanToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PelunasanPerbaikanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DisplayToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem()
         Me.PelunasanBiayaImportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PelunasanSupplierToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -134,6 +135,7 @@ Partial Class FMenuDev
         Me.KategoriBiayaImportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TrackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DisplayToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TransaksiBiayaImportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.InventoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TransasksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AdjustmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -161,7 +163,7 @@ Partial Class FMenuDev
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
-        Me.TransaksiBiayaImportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.HutangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -235,28 +237,34 @@ Partial Class FMenuDev
         '
         'PelunasanToolStripMenuItem
         '
-        Me.PelunasanToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PelunasanBiayaToolStripMenuItem1, Me.PelunasanBahanToolStripMenuItem1})
+        Me.PelunasanToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PelunasanBiayaToolStripMenuItem1, Me.PelunasanBahanToolStripMenuItem1, Me.PelunasanPerbaikanToolStripMenuItem})
         Me.PelunasanToolStripMenuItem.Name = "PelunasanToolStripMenuItem"
-        Me.PelunasanToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.PelunasanToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.PelunasanToolStripMenuItem.Text = "Pelunasan"
         '
         'PelunasanBiayaToolStripMenuItem1
         '
         Me.PelunasanBiayaToolStripMenuItem1.Name = "PelunasanBiayaToolStripMenuItem1"
-        Me.PelunasanBiayaToolStripMenuItem1.Size = New System.Drawing.Size(164, 22)
+        Me.PelunasanBiayaToolStripMenuItem1.Size = New System.Drawing.Size(183, 22)
         Me.PelunasanBiayaToolStripMenuItem1.Text = "Pelunasan Biaya"
         '
         'PelunasanBahanToolStripMenuItem1
         '
         Me.PelunasanBahanToolStripMenuItem1.Name = "PelunasanBahanToolStripMenuItem1"
-        Me.PelunasanBahanToolStripMenuItem1.Size = New System.Drawing.Size(164, 22)
+        Me.PelunasanBahanToolStripMenuItem1.Size = New System.Drawing.Size(183, 22)
         Me.PelunasanBahanToolStripMenuItem1.Text = "Pelunasan Bahan"
+        '
+        'PelunasanPerbaikanToolStripMenuItem
+        '
+        Me.PelunasanPerbaikanToolStripMenuItem.Name = "PelunasanPerbaikanToolStripMenuItem"
+        Me.PelunasanPerbaikanToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
+        Me.PelunasanPerbaikanToolStripMenuItem.Text = "Pelunasan Perbaikan"
         '
         'DisplayToolStripMenuItem5
         '
-        Me.DisplayToolStripMenuItem5.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PelunasanBiayaImportToolStripMenuItem, Me.PelunasanSupplierToolStripMenuItem})
+        Me.DisplayToolStripMenuItem5.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PelunasanBiayaImportToolStripMenuItem, Me.PelunasanSupplierToolStripMenuItem, Me.HutangToolStripMenuItem})
         Me.DisplayToolStripMenuItem5.Name = "DisplayToolStripMenuItem5"
-        Me.DisplayToolStripMenuItem5.Size = New System.Drawing.Size(128, 22)
+        Me.DisplayToolStripMenuItem5.Size = New System.Drawing.Size(180, 22)
         Me.DisplayToolStripMenuItem5.Text = "Display"
         '
         'PelunasanBiayaImportToolStripMenuItem
@@ -487,7 +495,7 @@ Partial Class FMenuDev
         'TransferMaterialToolStripMenuItem
         '
         Me.TransferMaterialToolStripMenuItem.Name = "TransferMaterialToolStripMenuItem"
-        Me.TransferMaterialToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.TransferMaterialToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
         Me.TransferMaterialToolStripMenuItem.Text = "Transfer Material"
         '
         'TransaksiToolStripMenuItem1
@@ -507,43 +515,43 @@ Partial Class FMenuDev
         'RefraksiToolStripMenuItem
         '
         Me.RefraksiToolStripMenuItem.Name = "RefraksiToolStripMenuItem"
-        Me.RefraksiToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.RefraksiToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
         Me.RefraksiToolStripMenuItem.Text = "Refraksi (LAMA)"
         '
         'RefraksiToolStripMenuItem1
         '
         Me.RefraksiToolStripMenuItem1.Name = "RefraksiToolStripMenuItem1"
-        Me.RefraksiToolStripMenuItem1.Size = New System.Drawing.Size(198, 22)
+        Me.RefraksiToolStripMenuItem1.Size = New System.Drawing.Size(197, 22)
         Me.RefraksiToolStripMenuItem1.Text = "Refraksi"
         '
         'PalletMasukToolStripMenuItem
         '
         Me.PalletMasukToolStripMenuItem.Name = "PalletMasukToolStripMenuItem"
-        Me.PalletMasukToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.PalletMasukToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
         Me.PalletMasukToolStripMenuItem.Text = "Pallet Masuk"
         '
         'TimbangFloorScaleToolStripMenuItem
         '
         Me.TimbangFloorScaleToolStripMenuItem.Name = "TimbangFloorScaleToolStripMenuItem"
-        Me.TimbangFloorScaleToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.TimbangFloorScaleToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
         Me.TimbangFloorScaleToolStripMenuItem.Text = "Timbang Floor Scale"
         '
         'KendaraanTidakSesuaiToolStripMenuItem
         '
         Me.KendaraanTidakSesuaiToolStripMenuItem.Name = "KendaraanTidakSesuaiToolStripMenuItem"
-        Me.KendaraanTidakSesuaiToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.KendaraanTidakSesuaiToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
         Me.KendaraanTidakSesuaiToolStripMenuItem.Text = "Kendaraan Tidak Sesuai"
         '
         'TimbangMasukToolStripMenuItem
         '
         Me.TimbangMasukToolStripMenuItem.Name = "TimbangMasukToolStripMenuItem"
-        Me.TimbangMasukToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.TimbangMasukToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
         Me.TimbangMasukToolStripMenuItem.Text = "Timbang Masuk"
         '
         'TimbangKeluarToolStripMenuItem
         '
         Me.TimbangKeluarToolStripMenuItem.Name = "TimbangKeluarToolStripMenuItem"
-        Me.TimbangKeluarToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.TimbangKeluarToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
         Me.TimbangKeluarToolStripMenuItem.Text = "Timbang Keluar"
         '
         'MaterialMovementToolStripMenuItem
@@ -556,37 +564,37 @@ Partial Class FMenuDev
         'TransferStockToolStripMenuItem
         '
         Me.TransferStockToolStripMenuItem.Name = "TransferStockToolStripMenuItem"
-        Me.TransferStockToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.TransferStockToolStripMenuItem.Size = New System.Drawing.Size(245, 22)
         Me.TransferStockToolStripMenuItem.Text = "Transfer Stock"
         '
         'TransferStockQCToolStripMenuItem
         '
         Me.TransferStockQCToolStripMenuItem.Name = "TransferStockQCToolStripMenuItem"
-        Me.TransferStockQCToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.TransferStockQCToolStripMenuItem.Size = New System.Drawing.Size(245, 22)
         Me.TransferStockQCToolStripMenuItem.Text = "Transfer Stock QC"
         '
         'DisplayTransferToolStripMenuItem
         '
         Me.DisplayTransferToolStripMenuItem.Name = "DisplayTransferToolStripMenuItem"
-        Me.DisplayTransferToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.DisplayTransferToolStripMenuItem.Size = New System.Drawing.Size(245, 22)
         Me.DisplayTransferToolStripMenuItem.Text = "Display Transfer (Timbang)"
         '
         'DisplayTransferTidakTimbangToolStripMenuItem
         '
         Me.DisplayTransferTidakTimbangToolStripMenuItem.Name = "DisplayTransferTidakTimbangToolStripMenuItem"
-        Me.DisplayTransferTidakTimbangToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.DisplayTransferTidakTimbangToolStripMenuItem.Size = New System.Drawing.Size(245, 22)
         Me.DisplayTransferTidakTimbangToolStripMenuItem.Text = "Display Transfer (Tidak Timbang)"
         '
         'TransferMaterialToolStripMenuItem1
         '
         Me.TransferMaterialToolStripMenuItem1.Name = "TransferMaterialToolStripMenuItem1"
-        Me.TransferMaterialToolStripMenuItem1.Size = New System.Drawing.Size(248, 22)
+        Me.TransferMaterialToolStripMenuItem1.Size = New System.Drawing.Size(245, 22)
         Me.TransferMaterialToolStripMenuItem1.Text = "Transfer Material"
         '
         'DisplayMaterialTidakTimbangToolStripMenuItem
         '
         Me.DisplayMaterialTidakTimbangToolStripMenuItem.Name = "DisplayMaterialTidakTimbangToolStripMenuItem"
-        Me.DisplayMaterialTidakTimbangToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.DisplayMaterialTidakTimbangToolStripMenuItem.Size = New System.Drawing.Size(245, 22)
         Me.DisplayMaterialTidakTimbangToolStripMenuItem.Text = "Display Material Tidak Timbang"
         '
         'SalesForecastingToolStripMenuItem
@@ -618,19 +626,19 @@ Partial Class FMenuDev
         'TfSrtockToolStripMenuItem
         '
         Me.TfSrtockToolStripMenuItem.Name = "TfSrtockToolStripMenuItem"
-        Me.TfSrtockToolStripMenuItem.Size = New System.Drawing.Size(195, 22)
+        Me.TfSrtockToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.TfSrtockToolStripMenuItem.Text = "Tf Srtock"
         '
         'DisplayTidakTimbangToolStripMenuItem
         '
         Me.DisplayTidakTimbangToolStripMenuItem.Name = "DisplayTidakTimbangToolStripMenuItem"
-        Me.DisplayTidakTimbangToolStripMenuItem.Size = New System.Drawing.Size(195, 22)
+        Me.DisplayTidakTimbangToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.DisplayTidakTimbangToolStripMenuItem.Text = "Display Tidak Timbang"
         '
         'DisplayTimbangToolStripMenuItem
         '
         Me.DisplayTimbangToolStripMenuItem.Name = "DisplayTimbangToolStripMenuItem"
-        Me.DisplayTimbangToolStripMenuItem.Size = New System.Drawing.Size(195, 22)
+        Me.DisplayTimbangToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.DisplayTimbangToolStripMenuItem.Text = "Display Timbang"
         '
         'TransferQualityQCToolStripMenuItem
@@ -687,7 +695,7 @@ Partial Class FMenuDev
         '
         Me.TransaksiToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OrderProduksiToolStripMenuItem, Me.OrderProduksiToolStripMenuItem1, Me.ProduksiToolStripMenuItem, Me.BiayaToolStripMenuItem, Me.AktualBiayaProduksiToolStripMenuItem, Me.RequestMaterialToolStripMenuItem1})
         Me.TransaksiToolStripMenuItem3.Name = "TransaksiToolStripMenuItem3"
-        Me.TransaksiToolStripMenuItem3.Size = New System.Drawing.Size(122, 22)
+        Me.TransaksiToolStripMenuItem3.Size = New System.Drawing.Size(121, 22)
         Me.TransaksiToolStripMenuItem3.Text = "Transaksi"
         '
         'OrderProduksiToolStripMenuItem
@@ -762,7 +770,7 @@ Partial Class FMenuDev
         '
         Me.MasterToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterRoutingToolStripMenuItem, Me.MasterWorkCenterToolStripMenuItem, Me.MasterJenisBiayaToolStripMenuItem})
         Me.MasterToolStripMenuItem1.Name = "MasterToolStripMenuItem1"
-        Me.MasterToolStripMenuItem1.Size = New System.Drawing.Size(122, 22)
+        Me.MasterToolStripMenuItem1.Size = New System.Drawing.Size(121, 22)
         Me.MasterToolStripMenuItem1.Text = "Master"
         '
         'MasterRoutingToolStripMenuItem
@@ -787,7 +795,7 @@ Partial Class FMenuDev
         '
         Me.DisplayToolStripMenuItem4.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HasilProduksiToolStripMenuItem, Me.MulaiProduksiToolStripMenuItem})
         Me.DisplayToolStripMenuItem4.Name = "DisplayToolStripMenuItem4"
-        Me.DisplayToolStripMenuItem4.Size = New System.Drawing.Size(122, 22)
+        Me.DisplayToolStripMenuItem4.Size = New System.Drawing.Size(121, 22)
         Me.DisplayToolStripMenuItem4.Text = "Display"
         '
         'HasilProduksiToolStripMenuItem
@@ -806,7 +814,7 @@ Partial Class FMenuDev
         '
         Me.LaporanToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SummaryUsageRMToolStripMenuItem, Me.LaporanGIGRToolStripMenuItem})
         Me.LaporanToolStripMenuItem.Name = "LaporanToolStripMenuItem"
-        Me.LaporanToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.LaporanToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
         Me.LaporanToolStripMenuItem.Text = "Laporan"
         '
         'SummaryUsageRMToolStripMenuItem
@@ -832,7 +840,7 @@ Partial Class FMenuDev
         '
         Me.TransaksiToolStripMenuItem4.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadingBarangToolStripMenuItem, Me.HitungHPPToolStripMenuItem})
         Me.TransaksiToolStripMenuItem4.Name = "TransaksiToolStripMenuItem4"
-        Me.TransaksiToolStripMenuItem4.Size = New System.Drawing.Size(180, 22)
+        Me.TransaksiToolStripMenuItem4.Size = New System.Drawing.Size(137, 22)
         Me.TransaksiToolStripMenuItem4.Text = "Transaksi"
         '
         'LoadingBarangToolStripMenuItem
@@ -851,7 +859,7 @@ Partial Class FMenuDev
         '
         Me.MasterDataToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KategoriBiayaImportToolStripMenuItem})
         Me.MasterDataToolStripMenuItem3.Name = "MasterDataToolStripMenuItem3"
-        Me.MasterDataToolStripMenuItem3.Size = New System.Drawing.Size(180, 22)
+        Me.MasterDataToolStripMenuItem3.Size = New System.Drawing.Size(137, 22)
         Me.MasterDataToolStripMenuItem3.Text = "Master Data"
         '
         'KategoriBiayaImportToolStripMenuItem
@@ -863,15 +871,21 @@ Partial Class FMenuDev
         'TrackToolStripMenuItem
         '
         Me.TrackToolStripMenuItem.Name = "TrackToolStripMenuItem"
-        Me.TrackToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.TrackToolStripMenuItem.Size = New System.Drawing.Size(137, 22)
         Me.TrackToolStripMenuItem.Text = "Track"
         '
         'DisplayToolStripMenuItem6
         '
         Me.DisplayToolStripMenuItem6.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TransaksiBiayaImportToolStripMenuItem})
         Me.DisplayToolStripMenuItem6.Name = "DisplayToolStripMenuItem6"
-        Me.DisplayToolStripMenuItem6.Size = New System.Drawing.Size(180, 22)
+        Me.DisplayToolStripMenuItem6.Size = New System.Drawing.Size(137, 22)
         Me.DisplayToolStripMenuItem6.Text = "Display"
+        '
+        'TransaksiBiayaImportToolStripMenuItem
+        '
+        Me.TransaksiBiayaImportToolStripMenuItem.Name = "TransaksiBiayaImportToolStripMenuItem"
+        Me.TransaksiBiayaImportToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.TransaksiBiayaImportToolStripMenuItem.Text = "Transaksi Biaya Import"
         '
         'InventoryToolStripMenuItem
         '
@@ -968,19 +982,19 @@ Partial Class FMenuDev
         '
         Me.TesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TesToolStripMenuItem1, Me.TesPrintToolStripMenuItem})
         Me.TesToolStripMenuItem.Name = "TesToolStripMenuItem"
-        Me.TesToolStripMenuItem.Size = New System.Drawing.Size(36, 20)
+        Me.TesToolStripMenuItem.Size = New System.Drawing.Size(35, 20)
         Me.TesToolStripMenuItem.Text = "Tes"
         '
         'TesToolStripMenuItem1
         '
         Me.TesToolStripMenuItem1.Name = "TesToolStripMenuItem1"
-        Me.TesToolStripMenuItem1.Size = New System.Drawing.Size(119, 22)
+        Me.TesToolStripMenuItem1.Size = New System.Drawing.Size(118, 22)
         Me.TesToolStripMenuItem1.Text = "Tes"
         '
         'TesPrintToolStripMenuItem
         '
         Me.TesPrintToolStripMenuItem.Name = "TesPrintToolStripMenuItem"
-        Me.TesPrintToolStripMenuItem.Size = New System.Drawing.Size(119, 22)
+        Me.TesPrintToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
         Me.TesPrintToolStripMenuItem.Text = "Tes Print"
         '
         'HPPToolStripMenuItem
@@ -1014,13 +1028,13 @@ Partial Class FMenuDev
         'ToolStripStatusLabel1
         '
         Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
-        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(120, 17)
+        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(119, 17)
         Me.ToolStripStatusLabel1.Text = "ToolStripStatusLabel1"
         '
         'ToolStripStatusLabel4
         '
         Me.ToolStripStatusLabel4.Name = "ToolStripStatusLabel4"
-        Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(120, 17)
+        Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(119, 17)
         Me.ToolStripStatusLabel4.Text = "ToolStripStatusLabel4"
         '
         'ToolStripStatusLabel2
@@ -1035,7 +1049,7 @@ Partial Class FMenuDev
         'ToolStripStatusLabel3
         '
         Me.ToolStripStatusLabel3.Name = "ToolStripStatusLabel3"
-        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(120, 17)
+        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(119, 17)
         Me.ToolStripStatusLabel3.Text = "ToolStripStatusLabel3"
         '
         'Timer1
@@ -1048,11 +1062,11 @@ Partial Class FMenuDev
         Me.Timer2.Enabled = True
         Me.Timer2.Interval = 1800000
         '
-        'TransaksiBiayaImportToolStripMenuItem
+        'HutangToolStripMenuItem
         '
-        Me.TransaksiBiayaImportToolStripMenuItem.Name = "TransaksiBiayaImportToolStripMenuItem"
-        Me.TransaksiBiayaImportToolStripMenuItem.Size = New System.Drawing.Size(192, 22)
-        Me.TransaksiBiayaImportToolStripMenuItem.Text = "Transaksi Biaya Import"
+        Me.HutangToolStripMenuItem.Name = "HutangToolStripMenuItem"
+        Me.HutangToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.HutangToolStripMenuItem.Text = "Hutang"
         '
         'FMenuDev
         '
@@ -1215,4 +1229,6 @@ Partial Class FMenuDev
     Friend WithEvents PelunasanSupplierToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents DisplayToolStripMenuItem6 As ToolStripMenuItem
     Friend WithEvents TransaksiBiayaImportToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents PelunasanPerbaikanToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents HutangToolStripMenuItem As ToolStripMenuItem
 End Class

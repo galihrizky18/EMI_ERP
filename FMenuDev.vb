@@ -764,6 +764,22 @@ Public Class FMenuDev
         Display_Transaksi_Biaya_Import.Focus()
     End Sub
 
+    Private Sub PelunasanPerbaikanToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PelunasanPerbaikanToolStripMenuItem.Click
+        Pelunasan_Biaya_Import.StartPosition = FormStartPosition.CenterScreen
+
+        Pelunasan_Biaya_Import.MdiParent = Me
+        Pelunasan_Biaya_Import.Show()
+        Pelunasan_Biaya_Import.Focus()
+    End Sub
+
+    Private Sub HutangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HutangToolStripMenuItem.Click
+        Display_Hutang_Biaya_Import.StartPosition = FormStartPosition.CenterScreen
+
+        Display_Hutang_Biaya_Import.MdiParent = Me
+        Display_Hutang_Biaya_Import.Show()
+        Display_Hutang_Biaya_Import.Focus()
+    End Sub
+
 
 
 

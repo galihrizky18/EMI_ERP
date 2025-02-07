@@ -29,6 +29,10 @@
     Dim LvDetSubTotal As String
     Dim LvDetKursLama As String
     Dim LvDetKursBaru As String
+    Dim LvDetTglBayar As String
+    Dim LvDetBankTujuan As String
+    Dim LvDetRekTujuan As String
+    Dim LvDetPenerima As String
 
     Dim itemPelNoVal As Integer = 0
     Dim itemPelTanggal As Integer = 1
@@ -57,6 +61,10 @@
     Dim itemDetSubTotal As Integer = 9
     Dim itemDetKursLama As Integer = 10
     Dim itemDetKursBaru As Integer = 11
+    Dim itemDetTglBayar As Integer = 12
+    Dim itemDetBankTujuan As Integer = 13
+    Dim itemDetRekTujuan As Integer = 14
+    Dim itemDetPenerima As Integer = 15
 
     Private Sub Display_Val_Pel_Pelunasan_Biaya_Import_By_Perusahaan_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
         My.Application.ChangeCulture("en-us")
@@ -96,10 +104,10 @@
     End Sub
 
     Private Sub Header_lvValPelBiayaImport()
-        lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("No Pelunasan", 100, HorizontalAlignment.Left) '0            
+        lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("No Pelunasan", 120, HorizontalAlignment.Left) '0            
         lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Tanggal", 90, HorizontalAlignment.Center) '1
         lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Jam", 65, HorizontalAlignment.Center) '2
-        lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Kategori Biaya", 180, HorizontalAlignment.Left) '3
+        lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Kategori Biaya", 0, HorizontalAlignment.Left) '3
         lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Keterangan", 250, HorizontalAlignment.Left) '4
         lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("User", 80, HorizontalAlignment.Center) '5
         lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Mata Uang", 0, HorizontalAlignment.Center) '6
@@ -110,15 +118,16 @@
         lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Total Kurs Lama", 110, HorizontalAlignment.Right) '11
         lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Total Kurs Baru", 110, HorizontalAlignment.Right) '12
         lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("JenisBiaya", 0, HorizontalAlignment.Right) '13
+        lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("No Pengajuan", 120, HorizontalAlignment.Left) '13
 
         lvValPelPelunasanBiayaImportByPerusahaan.View = View.Details
     End Sub
 
     Private Sub Header_lvDetailValPelBiayaImport()
         lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("No Val", 0, HorizontalAlignment.Left) '0            
-        lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("No Faktur", 100, HorizontalAlignment.Left) '1
+        lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("No Faktur", 130, HorizontalAlignment.Left) '1
         lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Nama Perusahaan", 200, HorizontalAlignment.Left) '2
-        lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Kategori Biaya", 0, HorizontalAlignment.Left) '3        
+        lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Kategori Biaya", 0, HorizontalAlignment.Left) '3
         lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Lokasi", 150, HorizontalAlignment.Left) '4
         lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Nilai", 110, HorizontalAlignment.Right) '5
         lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Tambahan", 90, HorizontalAlignment.Right) '6
@@ -127,6 +136,10 @@
         lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Sub Total", 110, HorizontalAlignment.Right) '9
         lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Kurs Lama", 110, HorizontalAlignment.Right) '10
         lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Kurs Baru", 110, HorizontalAlignment.Right) '11
+        lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Tanggal Bayar", 130, HorizontalAlignment.Center) '12
+        lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Bank Tujuan", 90, HorizontalAlignment.Center) '13
+        lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Rekening Tujuan", 130, HorizontalAlignment.Left) '14
+        lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Penerima", 130, HorizontalAlignment.Left) '15
 
         lvDetailValPelPelunasanBiayaImportByPerusahaan.View = View.Details
     End Sub
@@ -227,13 +240,13 @@
             'End If
             'SQL = SQL & "Order by a.Tanggal + a.Jam Desc"
 
-            SQL = "Select a.No_Val, a.Tanggal, a.Jam, a.Keterangan, a.UserValidasi, a.Mata_Uang, a.total, a.Total_PPN, a.Total_PPH, a.Grand_Total, a.Total_Kurs_Lama, a.Total_Kurs_Baru, a.jenis, "
-            SQL = SQL & "ISNULL(( "
-            SQL = SQL & "select top 1 x.Keterangan from detail_Val_Pel_Biaya_import_by_Perusahaan_Lokal z, Master_Kategori_Biaya_Import x "
-            SQL = SQL & "where a.Kode_Perusahaan = z.Kode_Perusahaan and z.Kode_Perusahaan = x.Kode_Perusahaan "
-            SQL = SQL & "and a.No_Val = z.No_Val and z.Kode_Master_Kategori_Biaya_Import = x.Kode_Master_Kategori_Biaya_Import "
-            SQL = SQL & "), '-') as Kategori_Biaya "
-            SQL = SQL & "From Val_Pel_Biaya_import_by_Perusahaan_Lokal a "
+            SQL = "Select a.No_Val, a.Tanggal, a.Jam, a.Keterangan, a.UserValidasi, a.Mata_Uang, a.total, a.Total_PPN, a.Total_PPH, a.Grand_Total, a.Total_Kurs_Lama, a.Total_Kurs_Baru, a.jenis, a.no_pengajuan "
+            'SQL = SQL & "ISNULL(( "
+            'SQL = SQL & "select top 1 x.Keterangan from EMI_Pelunasan_Detail z, Master_Kategori_Biaya_Import x "
+            'SQL = SQL & "where a.Kode_Perusahaan = z.Kode_Perusahaan and z.Kode_Perusahaan = x.Kode_Perusahaan "
+            'SQL = SQL & "and a.No_Val = z.No_Val and z.Kode_Master_Kategori_Biaya_Import = x.Kode_Master_Kategori_Biaya_Import "
+            'SQL = SQL & "), '-') as Kategori_Biaya "
+            SQL = SQL & "From EMI_Pelunasan a "
             SQL = SQL & "Where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.status is null "
 
@@ -258,8 +271,6 @@
             End If
             SQL = SQL & "Order by a.Tanggal + a.Jam Desc "
 
-
-
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
@@ -280,7 +291,7 @@
                             Lvw = lvValPelPelunasanBiayaImportByPerusahaan.Items.Add(General_Class.CekNULL(.Rows(i).Item("No_Val")))
                             Lvw.SubItems.Add(General_Class.CekNULL(Format(.Rows(i).Item("Tanggal"), "dd MMM yyyy")))
                             Lvw.SubItems.Add(General_Class.CekNULL(.Rows(i).Item("Jam")))
-                            Lvw.SubItems.Add(General_Class.CekNULL(.Rows(i).Item("Kategori_Biaya")))
+                            Lvw.SubItems.Add(General_Class.CekNULL(""))
                             Lvw.SubItems.Add(General_Class.CekNULL(.Rows(i).Item("Keterangan")))
                             Lvw.SubItems.Add(General_Class.CekNULL(.Rows(i).Item("UserValidasi")))
                             Lvw.SubItems.Add(General_Class.CekNULL(.Rows(i).Item("Mata_Uang")))
@@ -307,6 +318,8 @@
                                 Lvw.SubItems.Add(.Rows(i).Item("jenis"))
                             End If
 
+                            Lvw.SubItems.Add(General_Class.CekNULL(.Rows(i).Item("no_pengajuan")))
+
                         Next
                     End If
                 End With
@@ -328,12 +341,13 @@
                 Dim Grand As Double = 0
                 lvDetailValPelPelunasanBiayaImportByPerusahaan.Items.Clear()
 
-                SQL = "select Kode_Perusahaan, No_Val, No_Faktur, Kode_Perusahaan_Biaya_Import, Kode_Master_Kategori_Biaya_Import,  "
-                SQL = SQL & "Kode_stock_Owner, Byr, Tambahan, Nilai_PPN, Nilai_PPH, Subtotal, Kurs_Lama, Kurs_Baru "
-                SQL = SQL & "from detail_Val_Pel_Biaya_import_by_Perusahaan_Lokal "
-                SQL = SQL & "Where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-                SQL = SQL & "No_Val = '" & lvValPelPelunasanBiayaImportByPerusahaan.FocusedItem.Text & "' "
 
+                SQL = "select Kode_Perusahaan, No_Val, No_Faktur, Kode_Perusahaan_Biaya_Import, Kode_Master_Kategori_Biaya_Import, "
+                SQL = SQL & "Kode_stock_Owner, Byr, Tambahan, Nilai_PPN, Nilai_PPH, Subtotal, Kurs_Lama, Kurs_Baru, "
+                SQL = SQL & "Kode_Bank_Tujuan, No_Rek_Tujuan, Nama_Penerima, Tanggal_Bayar "
+                SQL = SQL & "from EMI_Pelunasan_Detail "
+                SQL = SQL & "Where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and No_Val = '" & lvValPelPelunasanBiayaImportByPerusahaan.FocusedItem.Text & "' "
                 Using Dr = OpenTrans(SQL)
                     Do While Dr.Read
                         Dim Lv As ListViewItem
@@ -366,17 +380,10 @@
                             Lv.SubItems.Add(Format(Dr("Kurs_Baru"), "N2"))
                         End If
 
-                        'If General_Class.CekNULL(Dr("Nilai_PPH")) = "" Then
-                        '    Lv.SubItems.Add("-")
-                        'Else
-                        '    Lv.SubItems.Add(Format(General_Class.CekNULL(Dr("Nilai_PPH")), "N2"))
-                        'End If
-
-                        'Lv.SubItems.Add(Format(CekIsNull(Dr("Byr")), "N2"))
-                        'Lv.SubItems.Add(Format(CekIsNull(Dr("Tambahan")), "N2"))
-                        'Lv.SubItems.Add(Format(CekIsNull(Dr("Nilai_PPN")), "N2"))
-                        'Lv.SubItems.Add(Format(CekIsNull(Dr("Nilai_PPH")), "N2"))
-                        'Lv.SubItems.Add(Format(CekIsNull(Dr("Subtotal")), "N2"))
+                        Lv.SubItems.Add(Format(Dr("Tanggal_Bayar"), "dd MMM yyyy"))
+                        Lv.SubItems.Add(Dr("Kode_Bank_Tujuan"))
+                        Lv.SubItems.Add(Dr("No_Rek_Tujuan"))
+                        Lv.SubItems.Add(Dr("Nama_Penerima"))
                     Loop
                 End Using
 
