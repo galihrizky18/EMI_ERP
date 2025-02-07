@@ -11,12 +11,15 @@ Imports ZXing.QrCode
 
 Public Class EMI_Display_Pallet_Masuk_Data
 
+
     Dim Arr1, Arr2, Arr3, Arr4, arrAlreadyPrinted As New ArrayList
     Dim pertama As Integer = 1
     Dim T As Color = Color.Blue
     Dim KT As Color = Color.Red
     Dim KY As Color = Color.Green
     Dim Batal As Color = Color.Black
+
+    Dim tahunMulaiProduksi As String = ""
 
     Private random As New Random()
     Private Is2ndPrint As Boolean = False
@@ -155,8 +158,8 @@ Public Class EMI_Display_Pallet_Masuk_Data
             Lv_BM_PerPallet.Columns.Add("Nama Supplier", 200, HorizontalAlignment.Left)
             Lv_BM_PerPallet.Columns.Add("Tanggal", 100, HorizontalAlignment.Center)
             Lv_BM_PerPallet.Columns.Add("Jam", 80, HorizontalAlignment.Center)
-            Lv_BM_PerPallet.Columns.Add("User ID", 80, HorizontalAlignment.Center)
-            Lv_BM_PerPallet.Columns.Add("Lokasi", 150, HorizontalAlignment.Left)
+            Lv_BM_PerPallet.Columns.Add("User ID", 0, HorizontalAlignment.Center)
+            Lv_BM_PerPallet.Columns.Add("Lokasi", 0, HorizontalAlignment.Left)
             Lv_BM_PerPallet.Columns.Add("Kode Barang", 100, HorizontalAlignment.Left)
             Lv_BM_PerPallet.Columns.Add("Nama Barang", 200, HorizontalAlignment.Left)
             Lv_BM_PerPallet.Columns.Add("Tanggal Produksi", 150, HorizontalAlignment.Center)
@@ -164,10 +167,11 @@ Public Class EMI_Display_Pallet_Masuk_Data
             Lv_BM_PerPallet.Columns.Add("Jumlah", 100, HorizontalAlignment.Left)
             Lv_BM_PerPallet.Columns.Add("Jumlah Bags", 100, HorizontalAlignment.Left)
             Lv_BM_PerPallet.Columns.Add("Satuan", 100, HorizontalAlignment.Center)
-            Lv_BM_PerPallet.Columns.Add("Nilai Pengali", 100, HorizontalAlignment.Right)
-            Lv_BM_PerPallet.Columns.Add("Nilai Barang", 100, HorizontalAlignment.Right)
-            Lv_BM_PerPallet.Columns.Add("Satuan Barang", 100, HorizontalAlignment.Center)
+            Lv_BM_PerPallet.Columns.Add("Nilai Pengali", 0, HorizontalAlignment.Right)
+            Lv_BM_PerPallet.Columns.Add("Nilai Barang", 0, HorizontalAlignment.Right)
+            Lv_BM_PerPallet.Columns.Add("Satuan Barang", 0, HorizontalAlignment.Center)
             Lv_BM_PerPallet.Columns.Add("UrutOto", 0, HorizontalAlignment.Left)
+            Lv_BM_PerPallet.Columns.Add("QR Code", 130, HorizontalAlignment.Left)
             Lv_BM_PerPallet.View = View.Details
 
             Lv_BMPerPalletDetail.Items.Clear()
@@ -282,7 +286,7 @@ Public Class EMI_Display_Pallet_Masuk_Data
 
             arrAlreadyPrinted.Clear()
 
-            SQL = "select a.No_Faktur, a.No_Pembelian_Loading, a.Id_Nametag_Pallet, a.No_SJ, a.No_Plat, c.Nama as nama_supplier, "
+            SQL = "select a.qr_code + '-' + a.kode_unik_berjalan as Qr_Code ,a.No_Faktur, a.No_Pembelian_Loading, a.Id_Nametag_Pallet, a.No_SJ, a.No_Plat, c.Nama as nama_supplier, "
             SQL = SQL & "a.tanggal, a.jam, a.userid, b.kode_stock_owner, b.kode_barang, d.nama as nama_barang, b.tgl_produksi, b.tgl_expired, "
             SQL = SQL & "b.jumlah, b.jumlah_bags, b.satuan, b.nilai_pengali, b.nilai_barang, b.satuan_barang, b.urut_oto, a.sdh_cetak "
             SQL = SQL & "from EMI_Barang_Masuk_Perpallet a, EMI_Barang_Masuk_Perpallet_Detail b, Suppliers c, Barang d "
@@ -321,6 +325,11 @@ Public Class EMI_Display_Pallet_Masuk_Data
                     lvw.SubItems.Add(Dr("satuan_barang"))
                     lvw.SubItems.Add(Dr("urut_oto"))
 
+                    If General_Class.CekNULL(Dr("qr_code")) = "" Then
+                        lvw.SubItems.Add("-")
+                    Else
+                        lvw.SubItems.Add(Dr("qr_code"))
+                    End If
                     If General_Class.CekNULL(Dr("sdh_cetak")) = "Y" Then
                         lvw.BackColor = Color.Yellow
                         arrAlreadyPrinted.Add(Dr("No_Faktur"))
@@ -380,7 +389,7 @@ Public Class EMI_Display_Pallet_Masuk_Data
         End Try
     End Sub
 
-    Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles Dtp_Awal.ValueChanged
+    Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs)
 
     End Sub
 
@@ -484,14 +493,14 @@ Public Class EMI_Display_Pallet_Masuk_Data
             '''SQL = SQL & "and Status is null "
 
             '''-----------------------------------
-            SQL = "select a.sdh_cetak, a.No_Faktur, a.No_Pembelian_Loading, a.Id_Nametag_Pallet, a.No_SJ, a.No_Plat, c.Nama as nama_supplier, "
-            SQL = SQL & "a.tanggal, a.jam, a.userid, b.kode_stock_owner, b.kode_barang, d.nama as nama_barang, b.tgl_produksi, b.tgl_expired, "
+            SQL = "select a.qr_code + '-' + a.kode_unik_Berjalan as QR_Code, a.sdh_cetak, a.No_Faktur, a.No_Pembelian_Loading, a.Id_Nametag_Pallet, a.No_SJ, a.No_Plat, c.Nama as nama_supplier, "
+            SQL = SQL & "a.tanggal, a.jam, a.userid, b.kode_stock_owner, b.kode_barang, d.nama as nama_barang, a.tgl_produksi_real as Tgl_Produksi, a.Tgl_expired_real as tgl_expired, "
             SQL = SQL & "b.jumlah, b.jumlah_bags, b.satuan, b.nilai_pengali, b.nilai_barang, b.satuan_barang, b.urut_oto "
             SQL = SQL & "from EMI_Barang_Masuk_Perpallet a, EMI_Barang_Masuk_Perpallet_Detail b, Suppliers c, Barang d "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Perusahaan = d.Kode_Perusahaan "
             SQL = SQL & "and a.No_Faktur = b.No_Faktur and a.Kode_Supplier = c.Kode_Supplier "
             SQL = SQL & "and b.Kode_Barang = d.Kode_Barang and b.Kode_Stock_Owner = d.Kode_Stock_Owner "
-            SQL = SQL & "and a.flag_angkut is null "
+            '   SQL = SQL & "and a.flag_angkut is null "
             'SQL = SQL & "and a.sdh_cetak is null "
             SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.lokasi = '" & Lokasi & "' "
 
@@ -560,6 +569,11 @@ Public Class EMI_Display_Pallet_Masuk_Data
                     lvw.SubItems.Add(Format(Dr("nilai_barang"), "N2"))
                     lvw.SubItems.Add(Dr("satuan_barang"))
                     lvw.SubItems.Add(Dr("urut_oto"))
+                    If General_Class.CekNULL(Dr("sdh_cetak")) = "" Then
+                        lvw.SubItems.Add("-")
+                    Else
+                        lvw.SubItems.Add(Dr("qr_code"))
+                    End If
 
                     If General_Class.CekNULL(Dr("sdh_cetak")) = "Y" Then
                         lvw.BackColor = Color.Yellow
@@ -639,6 +653,8 @@ Public Class EMI_Display_Pallet_Masuk_Data
             Exit Sub
         End If
 
+
+
         'If Lv_BM_PerPallet.CheckedItems.Count = 0 Then
         '    MessageBox.Show("Pilih dahulu item yang akan di cetak labelnya . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         '    Exit Sub
@@ -664,13 +680,21 @@ Public Class EMI_Display_Pallet_Masuk_Data
 
     End Sub
 
+
+
     Private Sub cetak()
 
         Dim tanya As String = MessageBox.Show("Yakin ingin mencetak data ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If tanya = vbNo Then Exit Sub
 
+        get_jam()
+
+        Dim kode_unik_print As String = ""
+
         Try
             OpenConn()
+
+            Get_Isi_Listview(Lv_BM_PerPallet.FocusedItem.Index)
 
             '''Using Ds = Binding("select * from EMI_Barang_Masuk_Perpallet where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "'")
             '''    If Ds.Tables("MyTable").Rows.Count <> 0 Then
@@ -697,108 +721,239 @@ Public Class EMI_Display_Pallet_Masuk_Data
             Dim sudah_execute As String = "belum"
             Dim X As String = ""
 
-            'For i As Integer = 0 To Lv_BM_PerPallet.Items.Count - 1
-            '    If Lv_BM_PerPallet.Items(i).Checked = True Then
-            '        X = X & "'" & Lv_BM_PerPallet.Items(i).SubItems(itemUrutOto).Text & "',"
-            '        'If i <> ListView2.CheckedItems.Count - 1 Then
-            '        '    X = X & ","
-            '        'End If
-            '    End If
-            'Next
 
-            'X = Strings.Left(X, Len(X) - 1)
 
             SQL = "truncate table Cetak_Barang_Masuk_Perpallet "
-            '''SQL = "delete from cetak_barang_masuk_perpallet "
-            '''SQL = SQL & "where no_barang_masuk_per_pallet = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and userid = '" & UserID & "' "
             ExecuteTrans(SQL)
 
-            SQL = "Select a.no_faktur, b.kode_stock_owner, b.Kode_Barang, c.Nama, b.Tgl_Produksi, b.Tgl_Expired, "
-            SQL = SQL & "b.Jumlah, b.Satuan, b.Jumlah_Bags, b.Nilai_Pengali, b.Nilai_Barang, b.Satuan_Barang, b.urut_oto "
-            SQL = SQL & ",a.no_sj, a.no_plat "
-            SQL = SQL & "From EMI_Barang_Masuk_Perpallet a, EMI_Barang_Masuk_Perpallet_Detail b, Barang c "
+            SQL = "select Tahun_Mulai_Produksi from Init"
+            Using dr = OpenTrans(SQL)
+                If dr.Read Then
+                    tahunMulaiProduksi = If(General_Class.CekNULL(dr("Tahun_Mulai_Produksi")) = "", "0", dr("Tahun_Mulai_Produksi"))
+                End If
+
+
+            End Using
+
+            Dim sudahCetak As Boolean = False
+
+            SQL = "Select a.no_faktur, a.No_Pembelian_Loading, b.kode_stock_owner, b.Kode_Barang, c.Nama, a.tgl_produksi_real as Tgl_Produksi, a.Tgl_expired_real as tgl_expired, "
+            SQL = SQL & "b.Jumlah, b.Satuan, b.Jumlah_Bags, b.Nilai_Pengali, b.Nilai_Barang, b.Satuan_Barang, b.urut_oto, "
+            SQL = SQL & "a.no_sj, a.no_plat, b.Urut_Loading, a.kode_supplier, a.Sdh_Cetak, a.Metode_Timbang, a.Flag_Timbang, "
+            SQL = SQL & "c.Metode_Pengeluaran_Stok, d.Tanggal as Tanggal_Masuk, a.Qr_Code, a.Kode_Unik_Berjalan "
+            SQL = SQL & "From EMI_Barang_Masuk_Perpallet a,EMI_Barang_Masuk_Perpallet_Detail b, Barang c, EMI_Register_Kendaraan_BM d "
             SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.Kode_Perusahaan = c.Kode_Perusahaan "
             SQL = SQL & "And a.No_Faktur = b.No_Faktur And b.Kode_Stock_Owner = c.Kode_Stock_Owner "
+            SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.No_Pembelian_Loading =  d.No_Fak_Loading_Barang "
             SQL = SQL & "And b.Kode_Barang = c.Kode_Barang and a.no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
-            'SQL = SQL & "and b.urut_oto in (" & X & ") order by urut_oto"
+            SQL = SQL & "and b.urut_oto = '" & LvUrutOto & "' "
+            SQL = SQL & "and b.Kode_Barang = '" & LvKdBrg & "' "
             SQL = SQL & "order by urut_oto "
-            Using Ds = Binding(SQL)
-                With Ds.Tables("MyTable")
-                    If .Rows.Count <> 0 Then
-                        Cmd = New SqlClient.SqlCommand
-                        Cmd.Connection = Cn
-                        Cmd.CommandType = CommandType.Text
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
 
-                        For i As Integer = 0 To .Rows.Count - 1
-                            '1
-                            Dim nama1 As String = .Rows(i).Item("kode_stock_owner") & "###" & .Rows(i).Item("no_faktur") & "###" & .Rows(i).Item("kode_barang") & "###" & .Rows(i).Item("nama")
-                            Dim QR_Kode_Barang As String = ""
-                            QR_Kode_Barang = .Rows(i).Item("kode_barang")
-                            PictureBoxKdBrg.Image = Generate_QR_1(QR_Kode_Barang) 'CType(, Image)
+                    'Cmd = New SqlClient.SqlCommand
+                    'Cmd.Connection = Cn
+                    'Cmd.CommandType = CommandType.Text
 
-                            Dim FileToSaveAs1 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, .Rows(i).Item("urut_oto") & "_barang.jpg")
-                            If Not (System.IO.File.Exists(FileToSaveAs1)) Then
-                                PictureBoxKdBrg.Image.Save(FileToSaveAs1, System.Drawing.Imaging.ImageFormat.Jpeg)
+                    Dim batch As String = ""
+                    Dim Qr As String = ""
+
+                    For i As Integer = 0 To Ds.Tables("MyTable").Rows.Count - 1
+                        Dim kodeUnikBerjalan As String = ""
+                        Dim kodeUnikAsal As String = ""
+
+                        '======================================
+                        '=       CEK APAKAH FLOORSCALE      =
+                        '======================================
+
+                        If General_Class.CekNULL(Ds.Tables("MyTable").Rows(i).Item("Metode_Timbang")) = "FLOOR SCALE" Then
+                            If General_Class.CekNULL(Ds.Tables("MyTable").Rows(i).Item("Flag_Timbang")) <> "Y" Then
+                                CloseConn()
+                                MessageBox.Show("Harap Timbang Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
                             End If
 
-                            fs1 = New FileStream(FileToSaveAs1, FileMode.Open, FileAccess.Read)
-                            FileSize1 = fs1.Length
-                            rawData1 = New Byte(FileSize1) {}
-                            fs1.Read(rawData1, 0, FileSize1)
-                            fs1.Close()
-                            Cmd.Parameters.Add("@foto1" & .Rows(i).Item("urut_oto"), SqlDbType.Image).Value = rawData1
+                        End If
 
-                            '2
-                            Dim nama2 As String = .Rows(i).Item("kode_stock_owner") & "###" & .Rows(i).Item("no_sj") & "###" & .Rows(i).Item("no_plat")
-                            Dim QR_Tracking_Barang As String = ""
-                            QR_Tracking_Barang = .Rows(i).Item("no_sj") & " / " & .Rows(i).Item("no_plat")
-                            PictureBoxTracking.Image = Generate_QR_2(QR_Tracking_Barang) 'CType(, Image)
 
-                            Dim FileToSaveAs2 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, .Rows(i).Item("urut_oto") & "_tracking.jpg")
-                            If Not (System.IO.File.Exists(FileToSaveAs2)) Then
-                                PictureBoxTracking.Image.Save(FileToSaveAs2, System.Drawing.Imaging.ImageFormat.Jpeg)
-                            End If
+                        '======================================
+                        '=       CEK SUDAH PERNAH CETAK?      =
+                        '======================================
+                        If General_Class.CekNULL(Ds.Tables("MyTable").Rows(i).Item("Sdh_Cetak")) = "Y" Then
+                            sudahCetak = True
+                        End If
 
-                            fs2 = New FileStream(FileToSaveAs2, FileMode.Open, FileAccess.Read)
-                            FileSize2 = fs2.Length
-                            rawData2 = New Byte(FileSize2) {}
-                            fs2.Read(rawData2, 0, FileSize2)
-                            fs2.Close()
-                            Cmd.Parameters.Add("@foto2" & .Rows(i).Item("urut_oto"), SqlDbType.Image).Value = rawData2
+                        '==================================
+                        '=       CEK PO LOADING DET       =
+                        '==================================
 
-                            '''
-                            SQL = "insert into Cetak_Barang_Masuk_Perpallet(kode_perusahaan, no_barang_masuk_per_pallet, [" & kolom_1 & "], [" & kolom_1 & "a], "
-                            SQL = SQL & "[" & kolom_2 & "], [" & kolom_2 & "a], userid) values "
-                            SQL = SQL & "('" & KodePerusahaan & "', '" & Lv_BM_PerPallet.FocusedItem.Text & "', "
-                            SQL = SQL & "'" & nama1 & "', @foto1" & .Rows(i).Item("urut_oto") & ","
-                            SQL = SQL & "'" & nama2 & "', @foto2" & .Rows(i).Item("urut_oto") & ", "
-                            SQL = SQL & "'" & UserID & "')"
+                        SQL = "select  "
+                        SQL = SQL & "ISNULL((sum(b.Tot_Batch_Masuk)), 0) as Batch_Masuk, "
+                        SQL = SQL & "a.Kode_Supplier, a.Tanggal_Masuk, c.Tgl_expired_real as tgl_expired, b.Kode_Barang, c.Kode_Unik_Berjalan "
+                        SQL = SQL & "from emi_pembelian_loading a, emi_pembelian_loading_detail b, EMI_Barang_Masuk_Perpallet c "
+                        SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and a.No_Faktur = c.No_Pembelian_Loading "
+                        SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' "
+                        SQL = SQL & "and a.Status is null "
+                        SQL = SQL & "and c.No_Faktur='" & Ds.Tables("MyTable").Rows(i).Item("no_faktur") & "' "
+                        SQL = SQL & "and b.Kode_Barang='" & Ds.Tables("MyTable").Rows(i).Item("Kode_Barang") & "' "
+                        SQL = SQL & "and b.Urut_OTO='" & Ds.Tables("MyTable").Rows(i).Item("Urut_Loading") & "' "
+                        SQL = SQL & "group by a.Kode_Supplier, a.Tanggal_Masuk, c.Tgl_expired_real, b.Kode_Barang, c.Kode_Unik_Berjalan "
+                        Using Ds2 = BindingTrans(SQL)
+                            With Ds2.Tables("MyTable")
+                                If .Rows.Count <> 0 Then
+                                    For j As Integer = 0 To .Rows.Count - 1
+
+                                        Dim expDate As String = ""
+                                        Dim tanggalDatang As DateTime = .Rows(j).Item("Tanggal_Masuk")
+                                        Dim SupplierKode As String = .Rows(j).Item("Kode_Supplier").ToString
+                                        Dim tanggalMasuk As Integer = tanggalDatang.Day
+                                        Dim bulanMasuk As Integer = tanggalDatang.Month
+                                        Dim tahunMasuk As Integer = (tanggalDatang.Year - tahunMulaiProduksi) Mod 9
+
+                                        kodeUnikBerjalan = Ds.Tables("MyTable").Rows(i).Item("Kode_Unik_Berjalan")
+                                        Qr = Ds.Tables("MyTable").Rows(i).Item("Qr_Code")
+
+                                        If tahunMasuk = 0 Then tahunMasuk = 9
+
+                                        'Dim expDate As DateTime = Format(Ds2.Tables("MyTable").Rows(j).Item("Tanggal_Expired"), "yyy-MM-dd")
+                                        Dim barangKode As String = .Rows(j).Item("Kode_Barang").ToString
+
+                                        SQL = "select metode_pengeluaran_Stok from barang "
+                                        SQL = SQL & "where kode_barang='" & .Rows(j).Item("Kode_Barang") & "' "
+                                        SQL = SQL & "and Kode_Perusahaan='" & KodePerusahaan & "' "
+                                        SQL = SQL & "group by metode_pengeluaran_Stok"
+                                        Using Dr = OpenTrans(SQL)
+                                            Do While Dr.Read
+                                                If General_Class.CekNULL(Dr("metode_pengeluaran_Stok")) = "FIFO" Then
+                                                    expDate = "000000"
+                                                Else
+                                                    expDate = Format(.Rows(j).Item("tgl_expired"), "ddMMyy").ToString()
+                                                End If
+                                            Loop
+                                        End Using
+
+
+                                        If .Rows(i).Item("Batch_Masuk") = "0" Then
+
+                                            kodeUnikBerjalan = Generate_Random_Kode(10).ToUpper
+                                            kodeUnikAsal = kodeUnikBerjalan
+
+                                            '==============================================
+                                            '=       CEK SELURUH TRANSAKSI HARI INI       =
+                                            '==============================================
+                                            SQL = "select isnull(sum(Tot_Batch_Masuk),0) as Jmlh_Masuk_Hari_ini "
+                                            SQL = SQL & "from emi_pembelian_loading a, emi_pembelian_loading_detail b "
+                                            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+                                            SQL = SQL & "and b.Kode_Barang='" & .Rows(j).Item("Kode_Barang") & "' "
+                                            SQL = SQL & "and a.Tanggal_Masuk='" & Format(tgl_skg, "yyyy-MM-dd") & "' "
+                                            SQL = SQL & "and a.Status is null "
+                                            SQL = SQL & "and Tot_Batch_Masuk is not null "
+                                            Using Ds3 = BindingTrans(SQL)
+
+                                                If .Rows.Count <> 0 Then
+                                                    For k As Integer = 0 To .Rows.Count - 1
+
+                                                        '==========================
+                                                        '=      UPDATE DATA       =
+                                                        '==========================
+                                                        SQL = "update emi_pembelian_loading_detail set Tot_Batch_Masuk=" & Ds3.Tables("MyTable").Rows(k).Item("Jmlh_Masuk_Hari_ini") & " + 1 "
+                                                        SQL = SQL & "where No_Faktur='" & Ds.Tables("MyTable").Rows(i).Item("No_Pembelian_Loading") & "' and Urut_Oto='" & Ds.Tables("MyTable").Rows(i).Item("Urut_Loading") & "'"
+                                                        ExecuteTrans(SQL)
+
+                                                        Dim SupOrder As Integer = Val(Ds3.Tables("MyTable").Rows(k).Item("Jmlh_Masuk_Hari_ini")) + 1
+
+                                                        batch = Generate_Batch_Bahan(SupplierKode, tanggalMasuk, bulanMasuk, tahunMasuk, SupOrder, expDate)
+                                                        Qr = Generate_QR_Batch(barangKode, batch)
+
+
+                                                    Next
+                                                End If
+
+                                            End Using
+                                        Else
+                                            If sudahCetak = True Then
+                                                'kodeUnikBerjalan = .Rows(j).Item("Kode_Unik_Berjalan")
+                                                'kodeUnikAsal = kodeUnikBerjalan
+                                                'Dim SupOrder As Integer = Val(.Rows(j).Item("Batch_Masuk"))
+
+                                                'batch = Generate_Batch_Bahan(SupplierKode, tanggalMasuk, bulanMasuk, tahunMasuk, SupOrder, expDate)
+                                                'Qr = Generate_QR_Batch(barangKode, batch)
+                                            Else
+                                                CloseConn()
+                                                MessageBox.Show("Barcode Belum Pernah Cetak, Tidak Bisa Cetak ulang", "Cetak Ulang", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                Exit Sub
+                                            End If
+
+                                        End If
+                                    Next
+
+                                Else
+                                    CloseConn()
+                                    MessageBox.Show("Data tidak Ditemukan", "Cetak Ulang", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End With
+                        End Using
+
+
+                        PictureBoxKdBrg.Image = Generate_QR(Qr + "-" + kodeUnikBerjalan)
+
+                        Dim FileToSaveAs1 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, Ds.Tables("MyTable").Rows(i).Item("urut_oto") & "_barang1433.jpg")
+                        'If Not (System.IO.File.Exists(FileToSaveAs1)) Then
+                        PictureBoxKdBrg.Image.Save(FileToSaveAs1, System.Drawing.Imaging.ImageFormat.Jpeg)
+                        'End If
+
+                        fs1 = New FileStream(FileToSaveAs1, FileMode.Open, FileAccess.Read)
+                        FileSize1 = fs1.Length
+                        rawData1 = New Byte(FileSize1) {}
+                        fs1.Read(rawData1, 0, FileSize1)
+                        fs1.Close()
+                        Cmd.Parameters.Add("@foto1" & Ds.Tables("MyTable").Rows(i).Item("urut_oto"), SqlDbType.Image).Value = rawData1
+
+                        kode_unik_print = Format(tgl_skg, "MMddHHmmss") & Format(random.Next(0, 10000), "00000")
+
+
+                        '=================================
+                        '=      INSERT TABEL CETAK       =
+                        '=================================
+                        SQL = "insert into Cetak_barang_Masuk_Perpallet  (Kode_Perusahaan, No_Barang_Masuk_Per_Pallet, Kode_Barang, Barcode, Nama, QrUtuh, Qr, Tgl_Expired, batch, Tanggal_Cetak, "
+                        SQL = SQL & "Kode_Unik_Print,tanggal_masuk,metode_pengeluaran_stok ) values "
+                        SQL = SQL & "('" & KodePerusahaan & "', '" & Lv_BM_PerPallet.FocusedItem.Text & "', '" & Ds.Tables("MyTable").Rows(i).Item("Kode_Barang") & "', @foto1" & Ds.Tables("MyTable").Rows(i).Item("urut_oto") & ", "
+                        SQL = SQL & "'" & Ds.Tables("MyTable").Rows(i).Item("Nama") & "', '" & Qr & "-" & kodeUnikBerjalan & "', '" & Qr & "', '" & Format(Ds.Tables("MyTable").Rows(i).Item("Tgl_Expired"), "yyyy-MM-dd") & "', "
+                        SQL = SQL & "'" & batch & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & kode_unik_print & "' ,'" & Ds.Tables("MyTable").Rows(i).Item("tanggal_masuk") & "',"
+                        SQL = SQL & "'" & Ds.Tables("MyTable").Rows(i).Item("metode_pengeluaran_stok") & "' )"
+                        ExecuteTrans(SQL)
+
+
+                        'SQL = "insert into Cetak_Barang_Masuk_Perpallet(kode_perusahaan, no_barang_masuk_per_pallet, [" & kolom_1 & "], [" & kolom_1 & "a], "
+                        'SQL = SQL & "[" & kolom_2 & "], [" & kolom_2 & "a], userid, Qr) values "
+                        'SQL = SQL & "('" & KodePerusahaan & "', '" & Lv_BM_PerPallet.FocusedItem.Text & "', "
+                        'SQL = SQL & "'" & batch & "', @foto1" & Ds.Tables("MyTable").Rows(i).Item("urut_oto") & ", "
+                        ''SQL = SQL & "'" & batch & "', @foto2" & .Rows(i).Item("urut_oto") & ", "
+                        'SQL = SQL & "null, null, "
+                        'SQL = SQL & "'" & UserID & "', '" & Qr & "-" & kodeUnikBerjalan & "')"
+                        'ExecuteTrans(SQL)
+
+                        ''''update
+                        If Is2ndPrint = False Then
+                            SQL = "update EMI_Barang_Masuk_Perpallet set Sdh_Cetak = 'Y', "
+                            SQL = SQL & "batch_number='" & batch & "', QR_Code='" & Qr & "', "
+                            SQL = SQL & "kode_unik_berjalan='" & kodeUnikBerjalan & "', kode_unik_asal='" & kodeUnikAsal & "' "
+                            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
+                            'SQL = SQL & "and userid = '" & UserID & "' "
                             ExecuteTrans(SQL)
+                        End If
+                    Next
 
-                            '''update
-                            If Is2ndPrint = False Then
-                                Dim kodeUnikBerjalan As String = Generate_Random_Kode(15)
-                                Dim kodeUnikAsal As String = Generate_Random_Kode(15)
+                Else
+                    CloseConn()
+                    MessageBox.Show("Kendaraan Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
 
-                                SQL = "update EMI_Barang_Masuk_Perpallet set Sdh_Cetak = 'Y', "
-                                SQL = SQL & "batch_number='" & nama1 & "###" & kodeUnikBerjalan & "', "
-                                SQL = SQL & "kode_unik_berjalan='" & kodeUnikBerjalan & "', kode_unik_asal='" & kodeUnikAsal & "' "
-                                SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
-                                'SQL = SQL & "and userid = '" & UserID & "' "
-                                ExecuteTrans(SQL)
-                            End If
-
-
-                        Next
-
-                    Else
-                        CloseConn()
-                        MessageBox.Show("Data pembelian tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
-
-                End With
             End Using
+
 
             CloseConn()
         Catch ex As Exception
@@ -809,24 +964,37 @@ Public Class EMI_Display_Pallet_Masuk_Data
 
         Try
             OpenConn()
-            Dim CrDoc As New Object
+            'Dim CrDoc As New Object
 
             SQL = "select kode_perusahaan from Cetak_Barang_Masuk_Perpallet "
             SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_barang_masuk_per_pallet = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
-            SQL = SQL & "and userid = '" & UserID & "' "
-            '''SQL = "select a.kode_perusahaan, a.userid, b.no_faktur, b.sdh_cetak "
-            '''SQL = SQL & "from cetak_barang_masuk_Perpallet a, EMI_Barang_Masuk_Perpallet b "
-            '''SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan and a.no_barang_masuk_per_pallet = b.No_Faktur "
-            '''SQL = SQL & "and b.Sdh_Cetak is null and a.no_barang_masuk_per_pallet = '" & Lv_BM_PerPallet.FocusedItem.Text & "'"
-            '''SQL = SQL & "and a.userid = '" & UserID & "' "
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                    CrDoc = New BM_PerPallet
+
+
+                    Dim CrDoc As New BM_PerPallet
+
+                    'CrDoc.SetDataSource(Ds)
+                    'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    'CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and {Cetak_Barang_Masuk_Perpallet.Kode_Unik_Print} = '" & kode_unik_print & "' "
+
+                    'CrDoc.PrintOptions.PrinterName = PrinterBarcode
+
+                    'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    'doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+
+                    'CrDoc.PrintToPrinter(1, False, 1, 2500)
+
+                    '============================================================================================================================================
+                    '============================================================================================================================================
+
+
+                    'KODE LAMA
                     With A_Place_For_Printing2
                         CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                         CrDoc.PrintOptions.PrinterName = ""
-                        CrDoc.RecordSelectionFormula = "{EMI_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Barang_Masuk_Perpallet.No_Faktur} = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and {EMI_Barang_Masuk_Perpallet.UserID} = '" & UserID & "' and IsNull({EMI_Barang_Masuk_Perpallet.Sdh_Cetak}) "
+                        CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and {Cetak_Barang_Masuk_Perpallet.Kode_Unik_Print} = '" & kode_unik_print & "' "
                         CrDoc.SummaryInfo.ReportTitle = "Barang Masuk Per Pallet"
                         .Text = "Barang Masuk Per Pallet"
                         .CrystalReportViewer1.ReportSource = CrDoc
@@ -845,23 +1013,23 @@ Public Class EMI_Display_Pallet_Masuk_Data
                 End If
             End Using
 
-            ''Using Ds = Binding("select * from EMI_Barang_Masuk_Perpallet where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "'")
-            ''    If Ds.Tables("MyTable").Rows.Count <> 0 Then
-            ''        Dim CrDoc As New BM_PerPallet     'Nama file CR
-            ''        With A_Place_For_Printing2
-            ''            CrDoc.SetDataSource(Ds)
-            ''            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-            ''            'CrDoc.PrintOptions.PrinterName = PrinterName
-            ''            CrDoc.RecordSelectionFormula = "{EMI_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Barang_Masuk_Perpallet.No_faktur} = '" & Lv_BM_PerPallet.FocusedItem.Text & "'"
-            ''            CrDoc.SummaryInfo.ReportTitle = "Barang Masuk Per Pallet"
-            ''            .Text = "Barang Masuk Per Pallet"
-            ''            .CrystalReportViewer1.ReportSource = CrDoc
-            ''            '.CrystalReportViewer1.DisplayGroupTree = False
-            ''            .Refresh()
-            ''            .Show()
-            ''        End With
-            ''    End If
-            ''End Using
+            'Using Ds = Binding("select * from EMI_Barang_Masuk_Perpallet where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "'")
+            '    If Ds.Tables("MyTable").Rows.Count <> 0 Then
+            '        Dim CrDoc As New BM_PerPallet     'Nama file CR
+            '        With A_Place_For_Printing2
+            '            CrDoc.SetDataSource(Ds)
+            '            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+            '            'CrDoc.PrintOptions.PrinterName = PrinterName
+            '            CrDoc.RecordSelectionFormula = "{EMI_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Barang_Masuk_Perpallet.No_faktur} = '" & Lv_BM_PerPallet.FocusedItem.Text & "'"
+            '            CrDoc.SummaryInfo.ReportTitle = "Barang Masuk Per Pallet"
+            '            .Text = "Barang Masuk Per Pallet"
+            '            .CrystalReportViewer1.ReportSource = CrDoc
+            '            '.CrystalReportViewer1.DisplayGroupTree = False
+            '            .Refresh()
+            '            .Show()
+            '        End With
+            '    End If
+            'End Using
 
             CloseConn()
         Catch ex As Exception
@@ -872,6 +1040,336 @@ Public Class EMI_Display_Pallet_Masuk_Data
 
         'kosong()
     End Sub
+
+
+    'Private Sub cetak()
+
+    '    Dim tanya As String = MessageBox.Show("Yakin ingin mencetak data ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+    '    If tanya = vbNo Then Exit Sub
+
+    '    Try
+    '        OpenConn()
+
+
+
+    '        Dim kolom_1 As Integer = 1
+    '        Dim kolom_2 As Integer = 2
+    '        Dim sql1 As String = ""
+    '        Dim sql2 As String = ""
+    '        Dim sudah_execute As String = "belum"
+    '        Dim X As String = ""
+
+
+
+    '        SQL = "truncate table Cetak_Barang_Masuk_Perpallet "
+    '        ExecuteTrans(SQL)
+
+    '        Dim sudahCetak As Boolean = False
+
+    '        SQL = "Select a.no_faktur,a.metode_timbang, b.kode_stock_owner, b.Kode_Barang, c.Nama, b.Tgl_Produksi, b.Tgl_Expired, "
+    '        SQL = SQL & "b.Jumlah, b.Satuan,b.Urut_Loading, b.Jumlah_Bags, b.Nilai_Pengali, b.Nilai_Barang, b.Satuan_Barang, b.urut_oto "
+    '        SQL = SQL & ",a.no_sj, a.no_plat, a.flag_timbang "
+    '        SQL = SQL & "From EMI_Barang_Masuk_Perpallet a, EMI_Barang_Masuk_Perpallet_Detail b, Barang c "
+    '        SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.Kode_Perusahaan = c.Kode_Perusahaan "
+    '        SQL = SQL & "And a.No_Faktur = b.No_Faktur And b.Kode_Stock_Owner = c.Kode_Stock_Owner "
+    '        SQL = SQL & "And b.Kode_Barang = c.Kode_Barang and a.no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
+    '        'SQL = SQL & "and b.urut_oto in (" & X & ") order by urut_oto"
+    '        SQL = SQL & "order by urut_oto "
+    '        Using Ds = Binding(SQL)
+    '            With Ds.Tables("MyTable")
+    '                If .Rows.Count <> 0 Then
+    '                    Cmd = New SqlClient.SqlCommand
+    '                    Cmd.Connection = Cn
+    '                    Cmd.CommandType = CommandType.Text
+    '                    Dim batch As String = ""
+    '                    Dim Qr As String = ""
+    '                    For i As Integer = 0 To .Rows.Count - 1
+
+    '                        Dim kodeUnikBerjalan As String = ""
+    '                        Dim kodeUnikAsal As String = ""
+    '                        '======================================
+    '                        '=       CEK APAKAH FLOORSCALE      =
+    '                        '======================================
+
+    '                        If General_Class.CekNULL(Ds.Tables("MyTable").Rows(i).Item("Metode_Timbang")) = "FLOOR SCALE" Then
+    '                            If General_Class.CekNULL(Ds.Tables("MyTable").Rows(i).Item("Flag_Timbang")) <> "Y" Then
+    '                                CloseConn()
+    '                                MessageBox.Show("Harap Timbang Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '                                Exit Sub
+    '                            End If
+
+    '                        End If
+
+    '                        '======================================
+    '                        '=       CEK SUDAH PERNAH CETAK?      =
+    '                        '======================================
+    '                        If General_Class.CekNULL(Ds.Tables("MyTable").Rows(i).Item("Sdh_Cetak")) = "Y" Then
+    '                            sudahCetak = True
+
+    '                        End If
+
+
+
+    '                        '==================================
+    '                        '=       CEK PO LOADING DET       =
+    '                        '==================================
+
+    '                        SQL = "select  "
+    '                        SQL = SQL & "ISNULL((sum(b.Tot_Batch_Masuk)), 0) as Batch_Masuk, "
+    '                        SQL = SQL & "a.Kode_Supplier, a.Tanggal_Masuk, b.Tanggal_Expired, b.Kode_Barang, c.Kode_Unik_Berjalan "
+    '                        SQL = SQL & "from emi_pembelian_loading a, emi_pembelian_loading_detail b, EMI_Barang_Masuk_Perpallet c "
+    '                        SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and a.No_Faktur = c.No_Pembelian_Loading "
+    '                        SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' "
+    '                        SQL = SQL & "and a.Status is null "
+    '                        SQL = SQL & "and c.No_Faktur='" & Ds.Tables("MyTable").Rows(i).Item("no_faktur") & "' "
+    '                        SQL = SQL & "and b.Kode_Barang='" & Ds.Tables("MyTable").Rows(i).Item("Kode_Barang") & "' "
+    '                        SQL = SQL & "and b.Urut_OTO='" & Ds.Tables("MyTable").Rows(i).Item("Urut_Loading") & "' "
+    '                        SQL = SQL & "group by a.Kode_Supplier, a.Tanggal_Masuk, b.Tanggal_Expired, b.Kode_Barang, c.Kode_Unik_Berjalan "
+    '                        Using Ds2 = BindingTrans(SQL)
+    '                            With Ds2.Tables("MyTable")
+    '                                If .Rows.Count <> 0 Then
+    '                                    For j As Integer = 0 To .Rows.Count - 1
+
+    '                                        Dim expDate As String = ""
+    '                                        Dim tanggalDatang As DateTime = .Rows(j).Item("Tanggal_Masuk")
+    '                                        Dim SupplierKode As String = .Rows(j).Item("Kode_Supplier").ToString
+    '                                        Dim tanggalMasuk As Integer = tanggalDatang.Day
+    '                                        Dim bulanMasuk As Integer = tanggalDatang.Month
+    '                                        Dim tahunMasuk As Integer = (tanggalDatang.Year - tahunMulaiProduksi) Mod 9
+
+    '                                        If tahunMasuk = 0 Then tahunMasuk = 9
+
+    '                                        'Dim expDate As DateTime = Format(Ds2.Tables("MyTable").Rows(j).Item("Tanggal_Expired"), "yyy-MM-dd")
+    '                                        Dim barangKode As String = .Rows(j).Item("Kode_Barang").ToString
+
+    '                                        SQL = "select metode_pengeluaran_Stok from barang "
+    '                                        SQL = SQL & "where kode_barang='" & .Rows(j).Item("Kode_Barang") & "' "
+    '                                        SQL = SQL & "and Kode_Perusahaan='" & KodePerusahaan & "' "
+    '                                        SQL = SQL & "group by metode_pengeluaran_Stok"
+    '                                        Using Dr = OpenTrans(SQL)
+    '                                            Do While Dr.Read
+    '                                                If General_Class.CekNULL(Dr("metode_pengeluaran_Stok")) = "FIFO" Then
+    '                                                    expDate = "000000"
+    '                                                Else
+    '                                                    expDate = Format(.Rows(j).Item("Tanggal_Expired"), "ddMMyy").ToString()
+    '                                                End If
+    '                                            Loop
+    '                                        End Using
+
+
+    '                                        If .Rows(i).Item("Batch_Masuk") = "0" Then
+
+    '                                            kodeUnikBerjalan = Generate_Random_Kode(10).ToUpper
+    '                                            kodeUnikAsal = kodeUnikBerjalan
+
+    '                                            '==============================================
+    '                                            '=       CEK SELURUH TRANSAKSI HARI INI       =
+    '                                            '==============================================
+    '                                            SQL = "select isnull(sum(Tot_Batch_Masuk),0) as Jmlh_Masuk_Hari_ini "
+    '                                            SQL = SQL & "from emi_pembelian_loading a, emi_pembelian_loading_detail b "
+    '                                            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+    '                                            SQL = SQL & "and b.Kode_Barang='" & .Rows(j).Item("Kode_Barang") & "' "
+    '                                            SQL = SQL & "and a.Tanggal_Masuk='" & Format(tgl_skg, "yyyy-MM-dd") & "' "
+    '                                            SQL = SQL & "and a.Status is null "
+    '                                            SQL = SQL & "and Tot_Batch_Masuk is not null "
+    '                                            Using Ds3 = BindingTrans(SQL)
+
+    '                                                If .Rows.Count <> 0 Then
+    '                                                    For k As Integer = 0 To .Rows.Count - 1
+
+    '                                                        '==========================
+    '                                                        '=      UPDATE DATA       =
+    '                                                        '==========================
+    '                                                        SQL = "update emi_pembelian_loading_detail set Tot_Batch_Masuk=" & Ds3.Tables("MyTable").Rows(k).Item("Jmlh_Masuk_Hari_ini") & " + 1 "
+    '                                                        SQL = SQL & "where No_Faktur='" & Ds.Tables("MyTable").Rows(i).Item("No_Pembelian_Loading") & "' and Urut_Oto='" & Ds.Tables("MyTable").Rows(i).Item("Urut_Loading") & "'"
+    '                                                        ExecuteTrans(SQL)
+
+    '                                                        Dim SupOrder As Integer = Val(Ds3.Tables("MyTable").Rows(k).Item("Jmlh_Masuk_Hari_ini")) + 1
+
+    '                                                        batch = Generate_Batch_Bahan(SupplierKode, tanggalMasuk, bulanMasuk, tahunMasuk, SupOrder, expDate)
+    '                                                        Qr = Generate_QR_Batch(barangKode, batch)
+
+
+    '                                                    Next
+    '                                                End If
+
+    '                                            End Using
+    '                                        Else
+    '                                            If sudahCetak = True Then
+    '                                                kodeUnikBerjalan = .Rows(j).Item("Kode_Unik_Berjalan")
+    '                                                kodeUnikAsal = kodeUnikBerjalan
+    '                                                Dim SupOrder As Integer = Val(.Rows(j).Item("Batch_Masuk"))
+
+    '                                                batch = Generate_Batch_Bahan(SupplierKode, tanggalMasuk, bulanMasuk, tahunMasuk, SupOrder, expDate)
+    '                                                Qr = Generate_QR_Batch(barangKode, batch)
+    '                                            Else
+    '                                                kodeUnikBerjalan = Generate_Random_Kode(10).ToUpper
+    '                                                kodeUnikAsal = kodeUnikBerjalan
+    '                                                Dim SupOrder As Integer = Val(.Rows(j).Item("Batch_Masuk"))
+
+    '                                                batch = Generate_Batch_Bahan(SupplierKode, tanggalMasuk, bulanMasuk, tahunMasuk, SupOrder, expDate)
+    '                                                Qr = Generate_QR_Batch(barangKode, batch)
+    '                                            End If
+
+    '                                        End If
+    '                                    Next
+
+    '                                Else
+    '                                    Exit Sub
+    '                                End If
+    '                            End With
+    '                        End Using
+
+
+
+    '                        '1
+    '                        Dim nama1 As String = .Rows(i).Item("kode_stock_owner") & "###" & .Rows(i).Item("no_faktur") & "###" & .Rows(i).Item("kode_barang") & "###" & .Rows(i).Item("nama")
+    '                        Dim QR_Kode_Barang As String = ""
+
+
+
+    '                        QR_Kode_Barang = .Rows(i).Item("kode_barang")
+    '                        PictureBoxKdBrg.Image = Generate_QR_1(QR_Kode_Barang) 'CType(, Image)
+
+    '                        Dim FileToSaveAs1 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, .Rows(i).Item("urut_oto") & "_barang.jpg")
+    '                        If Not (System.IO.File.Exists(FileToSaveAs1)) Then
+    '                            PictureBoxKdBrg.Image.Save(FileToSaveAs1, System.Drawing.Imaging.ImageFormat.Jpeg)
+    '                        End If
+
+    '                        fs1 = New FileStream(FileToSaveAs1, FileMode.Open, FileAccess.Read)
+    '                        FileSize1 = fs1.Length
+    '                        rawData1 = New Byte(FileSize1) {}
+    '                        fs1.Read(rawData1, 0, FileSize1)
+    '                        fs1.Close()
+    '                        Cmd.Parameters.Add("@foto1" & .Rows(i).Item("urut_oto"), SqlDbType.Image).Value = rawData1
+
+    '                        '2
+    '                        Dim nama2 As String = .Rows(i).Item("kode_stock_owner") & "###" & .Rows(i).Item("no_sj") & "###" & .Rows(i).Item("no_plat")
+    '                        Dim QR_Tracking_Barang As String = ""
+    '                        QR_Tracking_Barang = .Rows(i).Item("no_sj") & " / " & .Rows(i).Item("no_plat")
+    '                        PictureBoxTracking.Image = Generate_QR_2(QR_Tracking_Barang) 'CType(, Image)
+
+    '                        Dim FileToSaveAs2 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, .Rows(i).Item("urut_oto") & "_tracking.jpg")
+    '                        If Not (System.IO.File.Exists(FileToSaveAs2)) Then
+    '                            PictureBoxTracking.Image.Save(FileToSaveAs2, System.Drawing.Imaging.ImageFormat.Jpeg)
+    '                        End If
+
+    '                        fs2 = New FileStream(FileToSaveAs2, FileMode.Open, FileAccess.Read)
+    '                        FileSize2 = fs2.Length
+    '                        rawData2 = New Byte(FileSize2) {}
+    '                        fs2.Read(rawData2, 0, FileSize2)
+    '                        fs2.Close()
+    '                        Cmd.Parameters.Add("@foto2" & .Rows(i).Item("urut_oto"), SqlDbType.Image).Value = rawData2
+
+
+    '                        '=================================
+    '                        '=      INSERT TABEL CETAK       =
+    '                        '=================================
+    '                        SQL = "insert into Cetak_Barang_Masuk_Perpallet(kode_perusahaan, no_barang_masuk_per_pallet, [" & kolom_1 & "], [" & kolom_1 & "a], "
+    '                        SQL = SQL & "[" & kolom_2 & "], [" & kolom_2 & "a], userid) values "
+    '                        SQL = SQL & "('" & KodePerusahaan & "', '" & Lv_BM_PerPallet.FocusedItem.Text & "', "
+    '                        SQL = SQL & "'" & nama1 & "', @foto1" & .Rows(i).Item("urut_oto") & ","
+    '                        SQL = SQL & "'" & nama2 & "', @foto2" & .Rows(i).Item("urut_oto") & ", "
+    '                        SQL = SQL & "'" & UserID & "')"
+    '                        ExecuteTrans(SQL)
+
+    '                        '''update
+    '                        If Is2ndPrint = False Then
+    '                            Dim kodeUnikBerjalan As String = Generate_Random_Kode(15)
+    '                            Dim kodeUnikAsal As String = Generate_Random_Kode(15)
+
+    '                            SQL = "update EMI_Barang_Masuk_Perpallet set Sdh_Cetak = 'Y', "
+    '                            SQL = SQL & "batch_number='" & nama1 & "###" & kodeUnikBerjalan & "', "
+    '                            SQL = SQL & "kode_unik_berjalan='" & kodeUnikBerjalan & "', kode_unik_asal='" & kodeUnikAsal & "' "
+    '                            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
+    '                            'SQL = SQL & "and userid = '" & UserID & "' "
+    '                            ExecuteTrans(SQL)
+    '                        End If
+
+
+    '                    Next
+
+    '                Else
+    '                    CloseConn()
+    '                    MessageBox.Show("Data pembelian tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '                    Exit Sub
+    '                End If
+
+    '            End With
+    '        End Using
+
+    '        CloseConn()
+    '    Catch ex As Exception
+    '        CloseConn()
+    '        MessageBox.Show(ex.Message)
+    '        Exit Sub
+    '    End Try
+
+    '    Try
+    '        OpenConn()
+    '        Dim CrDoc As New Object
+
+    '        SQL = "select kode_perusahaan from Cetak_Barang_Masuk_Perpallet "
+    '        SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_barang_masuk_per_pallet = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
+    '        SQL = SQL & "and userid = '" & UserID & "' "
+    '        '''SQL = "select a.kode_perusahaan, a.userid, b.no_faktur, b.sdh_cetak "
+    '        '''SQL = SQL & "from cetak_barang_masuk_Perpallet a, EMI_Barang_Masuk_Perpallet b "
+    '        '''SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan and a.no_barang_masuk_per_pallet = b.No_Faktur "
+    '        '''SQL = SQL & "and b.Sdh_Cetak is null and a.no_barang_masuk_per_pallet = '" & Lv_BM_PerPallet.FocusedItem.Text & "'"
+    '        '''SQL = SQL & "and a.userid = '" & UserID & "' "
+    '        Using Ds = BindingTrans(SQL)
+    '            If Ds.Tables("MyTable").Rows.Count <> 0 Then
+    '                CrDoc = New BM_PerPallet
+    '                With A_Place_For_Printing2
+    '                    CrDoc.SetDataSource(Ds)
+    '                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+    '                    CrDoc.PrintOptions.PrinterName = ""
+    '                    CrDoc.RecordSelectionFormula = "{EMI_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Barang_Masuk_Perpallet.No_Faktur} = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and {EMI_Barang_Masuk_Perpallet.UserID} = '" & UserID & "' and IsNull({EMI_Barang_Masuk_Perpallet.Sdh_Cetak}) "
+    '                    CrDoc.SummaryInfo.ReportTitle = "Barang Masuk Per Pallet"
+    '                    .Text = "Barang Masuk Per Pallet"
+    '                    .CrystalReportViewer1.ReportSource = CrDoc
+    '                    .Refresh()
+    '                    .Show()
+    '                End With
+
+    '                '''CrDoc.SetDataSource(Ds)
+    '                '''CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+    '                '''CrDoc.PrintOptions.PrinterName = ""
+    '                '''Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+    '                '''doctoprint.PrinterSettings.PrinterName = ""
+    '                '''A_Place_For_Printing2.CrystalReportViewer1.ReportSource = CrDoc
+    '                '''A_Place_For_Printing2.Refresh()
+    '                '''A_Place_For_Printing2.Show()
+    '            End If
+    '        End Using
+
+    '        ''Using Ds = Binding("select * from EMI_Barang_Masuk_Perpallet where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "'")
+    '        ''    If Ds.Tables("MyTable").Rows.Count <> 0 Then
+    '        ''        Dim CrDoc As New BM_PerPallet     'Nama file CR
+    '        ''        With A_Place_For_Printing2
+    '        ''            CrDoc.SetDataSource(Ds)
+    '        ''            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+    '        ''            'CrDoc.PrintOptions.PrinterName = PrinterName
+    '        ''            CrDoc.RecordSelectionFormula = "{EMI_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Barang_Masuk_Perpallet.No_faktur} = '" & Lv_BM_PerPallet.FocusedItem.Text & "'"
+    '        ''            CrDoc.SummaryInfo.ReportTitle = "Barang Masuk Per Pallet"
+    '        ''            .Text = "Barang Masuk Per Pallet"
+    '        ''            .CrystalReportViewer1.ReportSource = CrDoc
+    '        ''            '.CrystalReportViewer1.DisplayGroupTree = False
+    '        ''            .Refresh()
+    '        ''            .Show()
+    '        ''        End With
+    '        ''    End If
+    '        ''End Using
+
+    '        CloseConn()
+    '    Catch ex As Exception
+    '        CloseConn()
+    '        MessageBox.Show(ex.Message)
+    '        Exit Sub
+    '    End Try
+
+    '    'kosong()
+    'End Sub
 
     Private Sub DisplayRakToolStripMenuItem_Click(sender As Object, e As EventArgs)
         If Lv_BM_PerPallet.Items.Count = 0 Or Lv_BM_PerPallet.SelectedItems.Count = 0 Then
@@ -1132,7 +1630,7 @@ Public Class EMI_Display_Pallet_Masuk_Data
         Dim result As New StringBuilder()
 
         For i As Integer = 1 To length
-            Dim index As Integer = Random.Next(0, chars.Length)
+            Dim index As Integer = random.Next(0, chars.Length)
             result.Append(chars(index))
         Next
 

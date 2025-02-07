@@ -690,6 +690,79 @@ Public Class FMenuDev
         Master_Gudang.Focus()
     End Sub
 
+    Private Sub DisplayPO2ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayPO2ToolStripMenuItem.Click
+        EMI_PO_Pembelian_Display2.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_PO_Pembelian_Display2.MdiParent = Me
+        EMI_PO_Pembelian_Display2.Show()
+        EMI_PO_Pembelian_Display2.Focus()
+    End Sub
+
+    Private Sub DisplayPalletMasukToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayPalletMasukToolStripMenuItem.Click
+        EMI_Display_Pallet_Masuk_Data.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Display_Pallet_Masuk_Data.MdiParent = Me
+        EMI_Display_Pallet_Masuk_Data.Show()
+        EMI_Display_Pallet_Masuk_Data.Focus()
+    End Sub
+
+
+
+    Private Sub LaporanImportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanImportToolStripMenuItem.Click
+        Laporan_HPP_Import.StartPosition = FormStartPosition.CenterScreen
+
+        Laporan_HPP_Import.MdiParent = Me
+        Laporan_HPP_Import.Show()
+        Laporan_HPP_Import.Focus()
+    End Sub
+
+    Private Sub LaporanLokalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanLokalToolStripMenuItem.Click
+        Laporan_HPP_Local.StartPosition = FormStartPosition.CenterScreen
+
+        Laporan_HPP_Local.MdiParent = Me
+        Laporan_HPP_Local.Show()
+        Laporan_HPP_Local.Focus()
+    End Sub
+
+    Private Sub PelunasanBiayaToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles PelunasanBiayaToolStripMenuItem1.Click
+        EMI_Pelunasan_Biaya_Import_By_Perusahaan_Lokal.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Pelunasan_Biaya_Import_By_Perusahaan_Lokal.MdiParent = Me
+        EMI_Pelunasan_Biaya_Import_By_Perusahaan_Lokal.Show()
+        EMI_Pelunasan_Biaya_Import_By_Perusahaan_Lokal.Focus()
+    End Sub
+
+    Private Sub PelunasanBahanToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles PelunasanBahanToolStripMenuItem1.Click
+        EMI_Pelunasan_Hutang_Bahan_Stock.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Pelunasan_Hutang_Bahan_Stock.MdiParent = Me
+        EMI_Pelunasan_Hutang_Bahan_Stock.Show()
+        EMI_Pelunasan_Hutang_Bahan_Stock.Focus()
+    End Sub
+
+    Private Sub PelunasanBiayaImportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PelunasanBiayaImportToolStripMenuItem.Click
+        Display_Pelunasan_Biaya_Import.StartPosition = FormStartPosition.CenterScreen
+
+        Display_Pelunasan_Biaya_Import.MdiParent = Me
+        Display_Pelunasan_Biaya_Import.Show()
+        Display_Pelunasan_Biaya_Import.Focus()
+    End Sub
+
+    Private Sub PelunasanSupplierToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PelunasanSupplierToolStripMenuItem.Click
+        Display_Pelunasan_Supplier.StartPosition = FormStartPosition.CenterScreen
+
+        Display_Pelunasan_Supplier.MdiParent = Me
+        Display_Pelunasan_Supplier.Show()
+        Display_Pelunasan_Supplier.Focus()
+    End Sub
+
+    Private Sub TransaksiBiayaImportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TransaksiBiayaImportToolStripMenuItem.Click
+        Display_Transaksi_Biaya_Import.StartPosition = FormStartPosition.CenterScreen
+
+        Display_Transaksi_Biaya_Import.MdiParent = Me
+        Display_Transaksi_Biaya_Import.Show()
+        Display_Transaksi_Biaya_Import.Focus()
+    End Sub
 
 
 

@@ -171,4 +171,70 @@ Public Class TesPrint
             Exit Sub
         End Try
     End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+
+        NewGenerateSn("COLD STORAGE", "1111031", "2", DateTime.Now)
+
+    End Sub
+
+    Private Function NewGenerateSn(ByVal KdSo As String, ByVal KdBarang As String, ByVal HPP As String, ByVal Tgl As String) As String
+
+        Dim Alfabet As New ArrayList From {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
+                                       "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
+
+        Dim SN As String = ""
+
+        Try
+            OpenConn()
+
+            '==================
+            '=     CEK SN     =
+            '==================
+            SQL = "select kode_barang, serial_number from barang_sn where "
+            SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "kode_stock_owner = '" & KdSo & "' and "
+            SQL = SQL & "kode_barang = '" & KdBarang & "'"
+            'SQL = SQL & "and serial_number = '" & SN & "'"
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+
+                        For i As Integer = 0 To .Rows.Count - 1
+
+                            Dim FirstCode As String = GetFirstCode(.Rows(i).Item("serial_number"))
+
+                            For j As Integer = 0 To Alfabet.Count - 1
+
+                                If Not Alfabet(j) = FirstCode Then
+                                    SN = Alfabet(j) & Tanda_SN & "01" & Tanda_SN & HPP & Tanda_SN & "02" & Tanda_SN & Format(Tgl, "yyyy-MM-dd")
+                                    Exit For
+                                End If
+
+                            Next
+
+                        Next
+
+                    Else
+                        SN = Alfabet(0) & Tanda_SN & "01" & Tanda_SN & HPP & Tanda_SN & "02" & Tanda_SN & Format(Tgl, "yyyy-MM-dd")
+                    End If
+                End With
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Return Nothing
+        End Try
+
+        Return SN
+
+    End Function
+
+    Private Function GetFirstCode(ByVal SN As String) As String
+        Dim hasil As String = SN.Split("#"c)(0)
+        Return hasil
+    End Function
+
 End Class

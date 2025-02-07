@@ -38,6 +38,7 @@ Module General_Module
     Public fProduksi As String = "PRD"
     Public fbb As String = "BB"
     Public fbs As String = "BRG"
+    Public fValPelBI As String = "PB"
     Public FRencanaProduksiBarang As String = "FRP"
     Public fBudgetingCostCenter As String = "BCC"
 

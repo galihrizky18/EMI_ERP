@@ -22,16 +22,6 @@ Partial Class EMI_PO_Pembelian_Display2
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -44,20 +34,20 @@ Partial Class EMI_PO_Pembelian_Display2
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Btn_Cari = New System.Windows.Forms.Button()
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
-        Me.DgvPO_DataLocal = New System.Windows.Forms.DataGridView()
-        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GBLocal = New System.Windows.Forms.GroupBox()
+        Me.Lv_PO = New System.Windows.Forms.ListView()
+        Me.Panel8 = New System.Windows.Forms.Panel()
+        Me.Lv_Kendaraan = New System.Windows.Forms.ListView()
+        Me.Lv_Barang = New System.Windows.Forms.ListView()
+        Me.Panel7 = New System.Windows.Forms.Panel()
         Me.BtnRefresh = New System.Windows.Forms.Button()
+        Me.Panel6 = New System.Windows.Forms.Panel()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.Panel1.SuspendLayout()
-        CType(Me.DgvPO_DataLocal, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GBLocal.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -68,7 +58,7 @@ Partial Class EMI_PO_Pembelian_Display2
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1208, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1241, 51)
         Me.Panel1.TabIndex = 22
         '
         'PanelGradient1
@@ -81,7 +71,7 @@ Partial Class EMI_PO_Pembelian_Display2
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1208, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1241, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
@@ -91,7 +81,7 @@ Partial Class EMI_PO_Pembelian_Display2
         Me.Label1.Location = New System.Drawing.Point(15, 11)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(210, 30)
+        Me.Label1.Size = New System.Drawing.Size(211, 30)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Display - Customer"
         '
@@ -118,7 +108,7 @@ Partial Class EMI_PO_Pembelian_Display2
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(1189, 49)
+        Me.Panel5.Location = New System.Drawing.Point(1221, 63)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(19, 724)
@@ -128,7 +118,7 @@ Partial Class EMI_PO_Pembelian_Display2
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(0, 747)
+        Me.Panel4.Location = New System.Drawing.Point(0, 739)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1436, 15)
@@ -190,124 +180,72 @@ Partial Class EMI_PO_Pembelian_Display2
         Me.ComboBox1.Size = New System.Drawing.Size(195, 25)
         Me.ComboBox1.TabIndex = 339
         '
-        'DgvPO_DataLocal
-        '
-        Me.DgvPO_DataLocal.AllowUserToAddRows = False
-        Me.DgvPO_DataLocal.AllowUserToDeleteRows = False
-        Me.DgvPO_DataLocal.AllowUserToResizeColumns = False
-        Me.DgvPO_DataLocal.AllowUserToResizeRows = False
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvPO_DataLocal.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
-        Me.DgvPO_DataLocal.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        Me.DgvPO_DataLocal.BackgroundColor = System.Drawing.Color.White
-        Me.DgvPO_DataLocal.BorderStyle = System.Windows.Forms.BorderStyle.None
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvPO_DataLocal.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
-        Me.DgvPO_DataLocal.ColumnHeadersHeight = 45
-        Me.DgvPO_DataLocal.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4, Me.Column5, Me.Column6, Me.Column7, Me.Column8})
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle9.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        DataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvPO_DataLocal.DefaultCellStyle = DataGridViewCellStyle9
-        Me.DgvPO_DataLocal.Location = New System.Drawing.Point(6, 19)
-        Me.DgvPO_DataLocal.MultiSelect = False
-        Me.DgvPO_DataLocal.Name = "DgvPO_DataLocal"
-        Me.DgvPO_DataLocal.RowHeadersWidth = 21
-        DataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvPO_DataLocal.RowsDefaultCellStyle = DataGridViewCellStyle10
-        Me.DgvPO_DataLocal.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DgvPO_DataLocal.Size = New System.Drawing.Size(1156, 622)
-        Me.DgvPO_DataLocal.TabIndex = 457
-        '
-        'Column1
-        '
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column1.DefaultCellStyle = DataGridViewCellStyle3
-        Me.Column1.HeaderText = "No Faktur"
-        Me.Column1.Name = "Column1"
-        Me.Column1.ReadOnly = True
-        Me.Column1.Width = 130
-        '
-        'Column2
-        '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column2.DefaultCellStyle = DataGridViewCellStyle4
-        Me.Column2.HeaderText = "Lokasix"
-        Me.Column2.Name = "Column2"
-        Me.Column2.ReadOnly = True
-        Me.Column2.Width = 150
-        '
-        'Column3
-        '
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column3.DefaultCellStyle = DataGridViewCellStyle5
-        Me.Column3.HeaderText = "Tanggal"
-        Me.Column3.Name = "Column3"
-        Me.Column3.ReadOnly = True
-        Me.Column3.Width = 130
-        '
-        'Column4
-        '
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column4.DefaultCellStyle = DataGridViewCellStyle6
-        Me.Column4.HeaderText = "Kode Supplierx"
-        Me.Column4.Name = "Column4"
-        Me.Column4.ReadOnly = True
-        Me.Column4.Visible = False
-        Me.Column4.Width = 120
-        '
-        'Column5
-        '
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column5.DefaultCellStyle = DataGridViewCellStyle7
-        Me.Column5.HeaderText = "Namax"
-        Me.Column5.Name = "Column5"
-        Me.Column5.ReadOnly = True
-        Me.Column5.Width = 250
-        '
-        'Column6
-        '
-        Me.Column6.HeaderText = "Lokasi Gudangx"
-        Me.Column6.Name = "Column6"
-        Me.Column6.ReadOnly = True
-        Me.Column6.Visible = False
-        '
-        'Column7
-        '
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle8.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Column7.DefaultCellStyle = DataGridViewCellStyle8
-        Me.Column7.HeaderText = "Keterangan"
-        Me.Column7.Name = "Column7"
-        Me.Column7.ReadOnly = True
-        Me.Column7.Width = 475
-        '
-        'Column8
-        '
-        Me.Column8.HeaderText = "ID"
-        Me.Column8.Name = "Column8"
-        Me.Column8.ReadOnly = True
-        Me.Column8.Visible = False
-        '
         'GBLocal
         '
-        Me.GBLocal.Controls.Add(Me.DgvPO_DataLocal)
-        Me.GBLocal.Location = New System.Drawing.Point(20, 99)
+        Me.GBLocal.Controls.Add(Me.Lv_PO)
+        Me.GBLocal.Controls.Add(Me.Panel8)
+        Me.GBLocal.Location = New System.Drawing.Point(20, 93)
         Me.GBLocal.Name = "GBLocal"
-        Me.GBLocal.Size = New System.Drawing.Size(1168, 326)
+        Me.GBLocal.Size = New System.Drawing.Size(1201, 318)
         Me.GBLocal.TabIndex = 458
         Me.GBLocal.TabStop = False
         Me.GBLocal.Text = "Local"
+        '
+        'Lv_PO
+        '
+        Me.Lv_PO.FullRowSelect = True
+        Me.Lv_PO.GridLines = True
+        Me.Lv_PO.HideSelection = False
+        Me.Lv_PO.Location = New System.Drawing.Point(6, 19)
+        Me.Lv_PO.Name = "Lv_PO"
+        Me.Lv_PO.Size = New System.Drawing.Size(1189, 290)
+        Me.Lv_PO.TabIndex = 458
+        Me.Lv_PO.UseCompatibleStateImageBehavior = False
+        Me.Lv_PO.View = System.Windows.Forms.View.Details
+        '
+        'Panel8
+        '
+        Me.Panel8.BackColor = System.Drawing.Color.Red
+        Me.Panel8.Location = New System.Drawing.Point(8, 615)
+        Me.Panel8.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel8.Name = "Panel8"
+        Me.Panel8.Size = New System.Drawing.Size(1216, 12)
+        Me.Panel8.TabIndex = 34
+        Me.Panel8.Visible = False
+        '
+        'Lv_Kendaraan
+        '
+        Me.Lv_Kendaraan.FullRowSelect = True
+        Me.Lv_Kendaraan.GridLines = True
+        Me.Lv_Kendaraan.HideSelection = False
+        Me.Lv_Kendaraan.Location = New System.Drawing.Point(11, 20)
+        Me.Lv_Kendaraan.Name = "Lv_Kendaraan"
+        Me.Lv_Kendaraan.Size = New System.Drawing.Size(568, 290)
+        Me.Lv_Kendaraan.TabIndex = 460
+        Me.Lv_Kendaraan.UseCompatibleStateImageBehavior = False
+        Me.Lv_Kendaraan.View = System.Windows.Forms.View.Details
+        '
+        'Lv_Barang
+        '
+        Me.Lv_Barang.FullRowSelect = True
+        Me.Lv_Barang.GridLines = True
+        Me.Lv_Barang.HideSelection = False
+        Me.Lv_Barang.Location = New System.Drawing.Point(11, 20)
+        Me.Lv_Barang.Name = "Lv_Barang"
+        Me.Lv_Barang.Size = New System.Drawing.Size(571, 290)
+        Me.Lv_Barang.TabIndex = 459
+        Me.Lv_Barang.UseCompatibleStateImageBehavior = False
+        Me.Lv_Barang.View = System.Windows.Forms.View.Details
+        '
+        'Panel7
+        '
+        Me.Panel7.BackColor = System.Drawing.Color.Red
+        Me.Panel7.Location = New System.Drawing.Point(615, 419)
+        Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel7.Name = "Panel7"
+        Me.Panel7.Size = New System.Drawing.Size(15, 695)
+        Me.Panel7.TabIndex = 35
+        Me.Panel7.Visible = False
         '
         'BtnRefresh
         '
@@ -321,13 +259,48 @@ Partial Class EMI_PO_Pembelian_Display2
         Me.BtnRefresh.Text = "Refresh"
         Me.BtnRefresh.UseVisualStyleBackColor = False
         '
-        'EMI_PO_Pembelian_Display2
+        'Panel6
+        '
+        Me.Panel6.BackColor = System.Drawing.Color.Red
+        Me.Panel6.Location = New System.Drawing.Point(26, 408)
+        Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel6.Name = "Panel6"
+        Me.Panel6.Size = New System.Drawing.Size(1216, 12)
+        Me.Panel6.TabIndex = 34
+        Me.Panel6.Visible = False
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.Lv_Barang)
+        Me.GroupBox1.Location = New System.Drawing.Point(22, 419)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(592, 318)
+        Me.GroupBox1.TabIndex = 461
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Barang"
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.Lv_Kendaraan)
+        Me.GroupBox2.Location = New System.Drawing.Point(629, 419)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(592, 318)
+        Me.GroupBox2.TabIndex = 462
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Kendaraan"
+        '
+        'EMI_PO_Pembelian_Display21
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1208, 764)
+        Me.ClientSize = New System.Drawing.Size(1241, 754)
+        Me.Controls.Add(Me.Panel5)
+        Me.Controls.Add(Me.GroupBox2)
+        Me.Controls.Add(Me.GroupBox1)
+        Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.BtnRefresh)
+        Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.GBLocal)
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Btn_Cari)
@@ -335,19 +308,19 @@ Partial Class EMI_PO_Pembelian_Display2
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.TextBox3)
         Me.Controls.Add(Me.Panel4)
-        Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
         Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "EMI_PO_Pembelian_Display2"
+        Me.Name = "EMI_PO_Pembelian_Display21"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        CType(Me.DgvPO_DataLocal, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GBLocal.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -365,15 +338,14 @@ Partial Class EMI_PO_Pembelian_Display2
     Friend WithEvents Label5 As Label
     Friend WithEvents Btn_Cari As Button
     Friend WithEvents ComboBox1 As ComboBox
-    Friend WithEvents DgvPO_DataLocal As DataGridView
     Friend WithEvents GBLocal As GroupBox
-    Friend WithEvents Column1 As DataGridViewTextBoxColumn
-    Friend WithEvents Column2 As DataGridViewTextBoxColumn
-    Friend WithEvents Column3 As DataGridViewTextBoxColumn
-    Friend WithEvents Column4 As DataGridViewTextBoxColumn
-    Friend WithEvents Column5 As DataGridViewTextBoxColumn
-    Friend WithEvents Column6 As DataGridViewTextBoxColumn
-    Friend WithEvents Column7 As DataGridViewTextBoxColumn
-    Friend WithEvents Column8 As DataGridViewTextBoxColumn
     Friend WithEvents BtnRefresh As Button
+    Friend WithEvents Lv_PO As ListView
+    Friend WithEvents Lv_Kendaraan As ListView
+    Friend WithEvents Lv_Barang As ListView
+    Friend WithEvents Panel7 As Panel
+    Friend WithEvents Panel8 As Panel
+    Friend WithEvents Panel6 As Panel
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents GroupBox2 As GroupBox
 End Class

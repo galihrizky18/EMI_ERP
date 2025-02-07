@@ -27,6 +27,7 @@ Partial Class Master_Menu2
         Me.Tb_MenuForm = New System.Windows.Forms.TextBox()
         Me.Tb_Var3 = New System.Windows.Forms.TextBox()
         Me.Label8 = New System.Windows.Forms.Label()
+        Me.Tb_UrutMainMenu = New System.Windows.Forms.TextBox()
         Me.Tb_ImagePath = New System.Windows.Forms.TextBox()
         Me.Tb_MenuOrder = New System.Windows.Forms.TextBox()
         Me.Tb_MenuName = New System.Windows.Forms.TextBox()
@@ -60,9 +61,9 @@ Partial Class Master_Menu2
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Lv_hierarki = New System.Windows.Forms.ListView()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -87,7 +88,7 @@ Partial Class Master_Menu2
         Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(14, 71)
+        Me.GroupBox1.Location = New System.Drawing.Point(14, 64)
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
@@ -101,6 +102,7 @@ Partial Class Master_Menu2
         Me.GroupBox2.Controls.Add(Me.Tb_MenuForm)
         Me.GroupBox2.Controls.Add(Me.Tb_Var3)
         Me.GroupBox2.Controls.Add(Me.Label8)
+        Me.GroupBox2.Controls.Add(Me.Tb_UrutMainMenu)
         Me.GroupBox2.Controls.Add(Me.Tb_ImagePath)
         Me.GroupBox2.Controls.Add(Me.Tb_MenuOrder)
         Me.GroupBox2.Controls.Add(Me.Tb_MenuName)
@@ -162,6 +164,18 @@ Partial Class Master_Menu2
         Me.Label8.TabIndex = 1
         Me.Label8.Text = "Form"
         '
+        'Tb_UrutMainMenu
+        '
+        Me.Tb_UrutMainMenu.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Tb_UrutMainMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Tb_UrutMainMenu.Enabled = False
+        Me.Tb_UrutMainMenu.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb_UrutMainMenu.Location = New System.Drawing.Point(255, 25)
+        Me.Tb_UrutMainMenu.Margin = New System.Windows.Forms.Padding(4)
+        Me.Tb_UrutMainMenu.Name = "Tb_UrutMainMenu"
+        Me.Tb_UrutMainMenu.Size = New System.Drawing.Size(58, 23)
+        Me.Tb_UrutMainMenu.TabIndex = 4
+        '
         'Tb_ImagePath
         '
         Me.Tb_ImagePath.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
@@ -171,7 +185,7 @@ Partial Class Master_Menu2
         Me.Tb_ImagePath.Location = New System.Drawing.Point(109, 25)
         Me.Tb_ImagePath.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_ImagePath.Name = "Tb_ImagePath"
-        Me.Tb_ImagePath.Size = New System.Drawing.Size(204, 23)
+        Me.Tb_ImagePath.Size = New System.Drawing.Size(139, 23)
         Me.Tb_ImagePath.TabIndex = 4
         '
         'Tb_MenuOrder
@@ -179,7 +193,7 @@ Partial Class Master_Menu2
         Me.Tb_MenuOrder.BackColor = System.Drawing.Color.White
         Me.Tb_MenuOrder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Tb_MenuOrder.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_MenuOrder.Location = New System.Drawing.Point(109, 56)
+        Me.Tb_MenuOrder.Location = New System.Drawing.Point(428, 26)
         Me.Tb_MenuOrder.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_MenuOrder.Name = "Tb_MenuOrder"
         Me.Tb_MenuOrder.Size = New System.Drawing.Size(204, 23)
@@ -190,7 +204,7 @@ Partial Class Master_Menu2
         Me.Tb_MenuName.BackColor = System.Drawing.Color.White
         Me.Tb_MenuName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Tb_MenuName.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_MenuName.Location = New System.Drawing.Point(428, 25)
+        Me.Tb_MenuName.Location = New System.Drawing.Point(109, 56)
         Me.Tb_MenuName.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_MenuName.Name = "Tb_MenuName"
         Me.Tb_MenuName.Size = New System.Drawing.Size(204, 23)
@@ -211,7 +225,7 @@ Partial Class Master_Menu2
         '
         Me.Label16.AutoSize = True
         Me.Label16.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label16.Location = New System.Drawing.Point(14, 58)
+        Me.Label16.Location = New System.Drawing.Point(333, 28)
         Me.Label16.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(83, 18)
@@ -234,7 +248,7 @@ Partial Class Master_Menu2
         '
         Me.Label13.AutoSize = True
         Me.Label13.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(333, 28)
+        Me.Label13.Location = New System.Drawing.Point(14, 59)
         Me.Label13.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(84, 18)
@@ -534,27 +548,14 @@ Partial Class Master_Menu2
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1264, 68)
+        Me.Panel1.Size = New System.Drawing.Size(1264, 54)
         Me.Panel1.TabIndex = 23
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 66)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1264, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
         Me.Lbl_Judul.AutoSize = True
         Me.Lbl_Judul.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_Judul.Location = New System.Drawing.Point(18, 14)
+        Me.Lbl_Judul.Location = New System.Drawing.Point(18, 11)
         Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
         Me.Lbl_Judul.Name = "Lbl_Judul"
         Me.Lbl_Judul.Size = New System.Drawing.Size(219, 30)
@@ -567,19 +568,32 @@ Partial Class Master_Menu2
         Me.Lv_hierarki.FullRowSelect = True
         Me.Lv_hierarki.GridLines = True
         Me.Lv_hierarki.HideSelection = False
-        Me.Lv_hierarki.Location = New System.Drawing.Point(701, 76)
+        Me.Lv_hierarki.Location = New System.Drawing.Point(701, 69)
         Me.Lv_hierarki.Name = "Lv_hierarki"
         Me.Lv_hierarki.Size = New System.Drawing.Size(551, 373)
         Me.Lv_hierarki.TabIndex = 24
         Me.Lv_hierarki.UseCompatibleStateImageBehavior = False
         Me.Lv_hierarki.View = System.Windows.Forms.View.Details
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 52)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1264, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'Master_Menu2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1264, 474)
+        Me.ClientSize = New System.Drawing.Size(1264, 457)
         Me.Controls.Add(Me.Lv_hierarki)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.GroupBox1)
@@ -640,4 +654,5 @@ Partial Class Master_Menu2
     Friend WithEvents Cb_MainMenu As ComboBox
     Friend WithEvents Tb_MenuOrder As TextBox
     Friend WithEvents Label16 As Label
+    Friend WithEvents Tb_UrutMainMenu As TextBox
 End Class
