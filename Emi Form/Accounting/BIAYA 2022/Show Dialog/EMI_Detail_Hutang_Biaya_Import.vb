@@ -1,9 +1,8 @@
 ﻿Public Class EMI_Detail_Hutang_Biaya_Import
 
 
-
-
     Public Sub Kosong()
+
 
         Txt_NoPO.Text = ""
         Txt_TanggalPO.Text = ""
@@ -33,6 +32,14 @@
     End Sub
 
     Public Sub Load_Lv()
+
+
+
+
+
+
+
+
 
         Try
             OpenConn()

@@ -19,13 +19,14 @@
     Dim Item_SubMenuLv1Name As Integer = 10
     Dim Item_SubMenuLv2Name As Integer = 11
     Dim Item_SubmenuLv3Name As Integer = 12
-    Dim Item_MainMenuOrder As Integer = 13
-    Dim Item_MenuOrder As Integer = 14
-    Dim Item_SubMenuOrder As Integer = 15
-    Dim Item_SubmenuLv1Order As Integer = 16
-    Dim Item_SubMenuLv2Order As Integer = 17
-    Dim Item_SubMenuLv3Order As Integer = 18
-    Dim Item_ImagePath As Integer = 19
+    Dim Item_FormTpl As Integer = 13
+    Dim Item_MainMenuOrder As Integer = 14
+    Dim Item_MenuOrder As Integer = 15
+    Dim Item_SubMenuOrder As Integer = 16
+    Dim Item_SubmenuLv1Order As Integer = 17
+    Dim Item_SubMenuLv2Order As Integer = 18
+    Dim Item_SubMenuLv3Order As Integer = 19
+    Dim Item_ImagePath As Integer = 20
 
     Private Sub Master_Menu1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -112,6 +113,7 @@
         Lv_hierarki.Columns.Add("Sub Menu Lv 1", 190, HorizontalAlignment.Left)
         Lv_hierarki.Columns.Add("Sub Menu Lv 2", 190, HorizontalAlignment.Left)
         Lv_hierarki.Columns.Add("Sub Menu Lv 3", 190, HorizontalAlignment.Left)
+        Lv_hierarki.Columns.Add("Form", 230, HorizontalAlignment.Left)
 
         'HIDE
         Lv_hierarki.Columns.Add("MainMenuOrder", 0, HorizontalAlignment.Center)
@@ -158,6 +160,7 @@
                     Lv.SubItems.Add(General_Class.CekNULL(Dr("SubMenuLv1Name")))
                     Lv.SubItems.Add(General_Class.CekNULL(Dr("SubMenuLv2Name")))
                     Lv.SubItems.Add(General_Class.CekNULL(Dr("SubMenuLv3Name")))
+                    Lv.SubItems.Add(General_Class.CekNULL(Dr("Form")))
                     'HIDE
                     Lv.SubItems.Add(General_Class.CekNULL(Dr("urut")))
                     Lv.SubItems.Add(General_Class.CekNULL(Dr("MenuOrder")))
@@ -781,6 +784,7 @@
 
         Try
             OpenConn()
+            Cmd.Transaction = Cn.BeginTransaction
 
             If submenulv3id = "" Then
                 If submenulv2id = "" Then
@@ -789,38 +793,65 @@
                             If menuid = "" Then
                                 If mainmenuid = "" Then
                                 Else
+                                    SQL = "delete RoleMainMenus where MainMenuID = '" & mainmenuid & "'"
+                                    ExecuteTrans(SQL)
+
                                     SQL = "delete from MainMenu where MainMenuID='" & mainmenuid & "'"
                                     ExecuteTrans(SQL)
+
                                     MessageBox.Show("Berhasil DiHapus", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 End If
                             Else
+                                SQL = "delete RoleMenus where MenuID = '" & menuid & "'"
+                                ExecuteTrans(SQL)
+
                                 SQL = "delete from menus where MenuID='" & menuid & "'"
                                 ExecuteTrans(SQL)
+
                                 MessageBox.Show("Berhasil DiHapus", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                             End If
                         Else
+                            SQL = "delete RoleSubMenu where SubMenuID = '" & submenuid & "'"
+                            ExecuteTrans(SQL)
+
                             SQL = "delete from SubMenus where SubMenuID='" & submenuid & "'"
                             ExecuteTrans(SQL)
+
                             MessageBox.Show("Berhasil DiHapus", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
                     Else
+                        SQL = "delete RoleSubMenuLv1 where SubMenuLv1ID = '" & submenulv1id & "'"
+                        ExecuteTrans(SQL)
+
                         SQL = "delete from SubMenuLv1 where SubMenuLv1ID='" & submenulv1id & "'"
                         ExecuteTrans(SQL)
+
                         MessageBox.Show("Berhasil DiHapus", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
                 Else
+                    SQL = "delete RoleSubMenuLv2 where SubMenuLv2ID = '" & submenulv2id & "'"
+                    ExecuteTrans(SQL)
+
                     SQL = "delete from SubMenuLv2 where SubMenuLv2ID='" & submenulv2id & "'"
                     ExecuteTrans(SQL)
+
                     MessageBox.Show("Berhasil DiHapus", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
             Else
+                SQL = "delete RoleSubMenuLv3 where SubMenuLv3ID = '" & submenulv3id & "'"
+                ExecuteTrans(SQL)
+
                 SQL = "delete from SubMenuLv3 where SubMenuLv3ID='" & submenulv3id & "'"
                 ExecuteTrans(SQL)
+
                 MessageBox.Show("Berhasil DiHapus", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
 
+            Cmd.Transaction.Commit()
+            CloseTrans()
             CloseConn()
         Catch ex As Exception
+            CloseTrans()
             CloseConn()
             MessageBox.Show(ex.Message)
             Exit Sub

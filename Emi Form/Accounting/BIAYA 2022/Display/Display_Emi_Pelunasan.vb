@@ -1,4 +1,4 @@
-﻿Public Class Display_Pelunasan_Biaya_Import
+﻿Public Class Display_Emi_Pelunasan
     Dim Arr1, Arr2, Arr3 As New ArrayList
     Dim pertama As Integer = 1
 
@@ -16,6 +16,7 @@
     Dim LvTotalKursLama As String
     Dim LvTotalKursBaru As String
     Dim LvJenisBiaya As String
+    Dim LvNoPengajuan As String
 
     Dim LvDetNoVal As String
     Dim LvDetNoFaktur As String
@@ -48,6 +49,7 @@
     Dim itemTotalKursLama As Integer = 11
     Dim itemTotalKursBaru As Integer = 12
     Dim itemJenisBiaya As Integer = 13
+    Dim itemNoPengajuan As Integer = 14
 
     Dim itemDetNoVal As Integer = 0
     Dim itemDetNoFaktur As Integer = 1
@@ -87,6 +89,7 @@
         LvTotalKursLama = lvValPelPelunasanBiayaImportByPerusahaan.Items(No_Index).SubItems(itemTotalKursLama).Text
         LvTotalKursBaru = lvValPelPelunasanBiayaImportByPerusahaan.Items(No_Index).SubItems(itemTotalKursBaru).Text
         LvJenisBiaya = lvValPelPelunasanBiayaImportByPerusahaan.Items(No_Index).SubItems(itemJenisBiaya).Text
+        LvNoPengajuan = lvValPelPelunasanBiayaImportByPerusahaan.Items(No_Index).SubItems(itemNoPengajuan).Text
 
         LvDetNoVal = lvDetailValPelPelunasanBiayaImportByPerusahaan.Items(No_Index).Text
         LvDetNoFaktur = lvDetailValPelPelunasanBiayaImportByPerusahaan.Items(No_Index).SubItems(itemDetNoFaktur).Text
@@ -118,7 +121,7 @@
         lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Total Kurs Lama", 110, HorizontalAlignment.Right) '11
         lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Total Kurs Baru", 110, HorizontalAlignment.Right) '12
         lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("JenisBiaya", 0, HorizontalAlignment.Right) '13
-        lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("No Pengajuan", 120, HorizontalAlignment.Left) '13
+        lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("No Pengajuan", 120, HorizontalAlignment.Left) '14
 
         lvValPelPelunasanBiayaImportByPerusahaan.View = View.Details
     End Sub
@@ -501,94 +504,151 @@
 
         Try
             OpenConn()
-
-            Dim CrDoc As Object
             Dim SF As String = ""
 
             Dim SelectedVal As String = lvValPelPelunasanBiayaImportByPerusahaan.FocusedItem.SubItems(itemPelNoVal).Text
             Dim SelectedJenisBiaya As String = lvValPelPelunasanBiayaImportByPerusahaan.FocusedItem.SubItems(itemJenisBiaya).Text
+            Dim NoPengajuan As String = lvValPelPelunasanBiayaImportByPerusahaan.FocusedItem.SubItems(itemNoPengajuan).Text
 
-            If SelectedJenisBiaya.Trim.ToUpper = "IMPORT" Then
 
-                SQL = "select Kode_Perusahaan from View_Laporan_Pelunasan_Biaya_Import_IMPORT "
-                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Val = '" & SelectedVal & "' "
+            SQL = "select Kode_Perusahaan "
+            SQL = SQL & "from View_Laporan_Pengajuan_Pelunasan  "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Val = '" & SelectedVal & "' "
+            SQL = SQL & "and no_pengajuan = '" & NoPengajuan & "' "
 
-                SF = "{View_Laporan_Pelunasan_Biaya_Import_IMPORT.Kode_Perusahaan} = '" & KodePerusahaan & "' "
-                SF = SF & "and {View_Laporan_Pelunasan_Biaya_Import_IMPORT.No_Val} = '" & SelectedVal & "' "
+            SF = "{View_Laporan_Pengajuan_Pelunasan.Kode_Perusahaan} = '" & KodePerusahaan & "' "
+            SF = SF & "and {View_Laporan_Pengajuan_Pelunasan.No_Val} = '" & SelectedVal & "' "
+            SF = SF & "and {View_Laporan_Pengajuan_Pelunasan.no_pengajuan} = '" & NoPengajuan & "'"
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+                    Dim CrDoc As New Laporan_Emi_Pelunasan    'Nama file CR
 
-                Using Ds = BindingTrans(SQL)
-                    If Ds.Tables("MyTable").Rows.Count <> 0 Then
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.RecordSelectionFormula = SF
+                    With A_Place_For_Printing2
+                        .Text = "Pelunasan Biaya Import "
+                        .CrystalReportViewer1.ReportSource = CrDoc
+                        .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
+                        .Refresh()
+                        .Show()
+                    End With
 
-                        CrDoc = New Laporan_Pelunasan_Biaya_Import_By_Perusahaan_IMPORT
+                    '=============================================================================
+                    '=============================================================================
+                    'CrDoc.SetDataSource(Ds)
+                    'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    'CrDoc.PrintOptions.PrinterName = PrinterName
+                    'CrDoc.RecordSelectionFormula = SF
 
-                        With A_Place_For_Printing2
-                            CrDoc.SetDataSource(Ds)
-                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            CrDoc.RecordSelectionFormula = SF
-                            CrDoc.SummaryInfo.ReportTitle = "Val Pel Pelunasan Biaya Import By Perusahaan"
-                            .Text = "Laporan Val Pel Pelunasan Biaya Import By Perusahaan (IMPORT)"
-                            .CrystalReportViewer1.ReportSource = CrDoc
-                            .CrystalReportViewer1.DisplayGroupTree = False
-                            .Refresh()
-                            .Show()
-                            .Focus()
-                        End With
-
-                    Else
-                        CloseConn()
-                        MessageBox.Show("Tidak ada data yang dapat dicetak!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-
-                    End If
-                End Using
-
-            ElseIf SelectedJenisBiaya.Trim.ToUpper = "LOKAL" Then
-
-                SQL = "select Kode_Perusahaan from View_Laporan_Pelunasan_Biaya_Import_LOKAL "
-                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Val = '" & SelectedVal & "' "
-
-                SF = "{View_Laporan_Pelunasan_Biaya_Import_LOKAL.Kode_Perusahaan} = '" & KodePerusahaan & "' "
-                SF = SF & "and {View_Laporan_Pelunasan_Biaya_Import_LOKAL.No_Val} = '" & SelectedVal & "' "
-
-                Using Ds = BindingTrans(SQL)
-                    If Ds.Tables("MyTable").Rows.Count <> 0 Then
-
-                        CrDoc = New Laporan_Pelunasan_Biaya_Import_By_Perusahaan_LOKAL
-
-                        With A_Place_For_Printing2
-                            CrDoc.SetDataSource(Ds)
-                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            CrDoc.RecordSelectionFormula = SF
-                            CrDoc.SummaryInfo.ReportTitle = "Val Pel Pelunasan Biaya Import By Perusahaan"
-                            .Text = "Laporan Val Pel Pelunasan Biaya Import By Perusahaan (LOKAL)"
-                            .CrystalReportViewer1.ReportSource = CrDoc
-                            .CrystalReportViewer1.DisplayGroupTree = False
-                            .Refresh()
-                            .Show()
-                            .Focus()
-                        End With
-
-                    Else
-                        CloseConn()
-                        MessageBox.Show("Tidak ada data yang dapat dicetak!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-
-                    End If
-                End Using
-
-            Else
-                CloseConn()
-                MessageBox.Show("Data Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Exit Sub
-            End If
+                    'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    'doctoprint.PrinterSettings.PrinterName = PrinterName
+                    'Dim rawKind As Integer
+                    'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    'For i = doctoprint.PrinterSettings.PaperSizes.Count - 1 To 0 Step -1
+                    '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = "Faktur" Then
+                    '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                    '        CrDoc.PrintOptions.PaperSize = rawKind
+                    '        Exit For
+                    '    End If
+                    'Next
+                    'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    'CrDoc.PrintToPrinter(1, False, 1, 99)
+                End If
+            End Using
 
             CloseConn()
-
         Catch ex As Exception
             CloseConn()
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+#Region "CETAK LAMA"
+
+        '    If SelectedJenisBiaya.Trim.ToUpper = "IMPORT" Then
+
+        '        SQL = "select Kode_Perusahaan from View_Laporan_Pelunasan_Biaya_Import_IMPORT "
+        '        SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Val = '" & SelectedVal & "' "
+
+        '        SF = "{View_Laporan_Pelunasan_Biaya_Import_IMPORT.Kode_Perusahaan} = '" & KodePerusahaan & "' "
+        '        SF = SF & "and {View_Laporan_Pelunasan_Biaya_Import_IMPORT.No_Val} = '" & SelectedVal & "' "
+
+        '        Using Ds = BindingTrans(SQL)
+        '            If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+        '                CrDoc = New Laporan_Pelunasan_Biaya_Import_By_Perusahaan_IMPORT
+
+        '                With A_Place_For_Printing2
+        '                    CrDoc.SetDataSource(Ds)
+        '                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+        '                    CrDoc.RecordSelectionFormula = SF
+        '                    CrDoc.SummaryInfo.ReportTitle = "Val Pel Pelunasan Biaya Import By Perusahaan"
+        '                    .Text = "Laporan Val Pel Pelunasan Biaya Import By Perusahaan (IMPORT)"
+        '                    .CrystalReportViewer1.ReportSource = CrDoc
+        '                    .CrystalReportViewer1.DisplayGroupTree = False
+        '                    .Refresh()
+        '                    .Show()
+        '                    .Focus()
+        '                End With
+
+        '            Else
+        '                CloseConn()
+        '                MessageBox.Show("Tidak ada data yang dapat dicetak!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '                Exit Sub
+
+        '            End If
+        '        End Using
+
+        '    ElseIf SelectedJenisBiaya.Trim.ToUpper = "LOKAL" Then
+
+        '        SQL = "select Kode_Perusahaan from View_Laporan_Pelunasan_Biaya_Import_LOKAL "
+        '        SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Val = '" & SelectedVal & "' "
+
+        '        SF = "{View_Laporan_Pelunasan_Biaya_Import_LOKAL.Kode_Perusahaan} = '" & KodePerusahaan & "' "
+        '        SF = SF & "and {View_Laporan_Pelunasan_Biaya_Import_LOKAL.No_Val} = '" & SelectedVal & "' "
+
+        '        Using Ds = BindingTrans(SQL)
+        '            If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+        '                CrDoc = New Laporan_Pelunasan_Biaya_Import_By_Perusahaan_LOKAL
+
+        '                With A_Place_For_Printing2
+        '                    CrDoc.SetDataSource(Ds)
+        '                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+        '                    CrDoc.RecordSelectionFormula = SF
+        '                    CrDoc.SummaryInfo.ReportTitle = "Val Pel Pelunasan Biaya Import By Perusahaan"
+        '                    .Text = "Laporan Val Pel Pelunasan Biaya Import By Perusahaan (LOKAL)"
+        '                    .CrystalReportViewer1.ReportSource = CrDoc
+        '                    .CrystalReportViewer1.DisplayGroupTree = False
+        '                    .Refresh()
+        '                    .Show()
+        '                    .Focus()
+        '                End With
+
+        '            Else
+        '                CloseConn()
+        '                MessageBox.Show("Tidak ada data yang dapat dicetak!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '                Exit Sub
+
+        '            End If
+        '        End Using
+
+        '    Else
+        '        CloseConn()
+        '        MessageBox.Show("Data Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        Exit Sub
+        '    End If
+
+        '    CloseConn()
+
+        'Catch ex As Exception
+        '    CloseConn()
+        '    MessageBox.Show(ex.Message)
+        '    Exit Sub
+        'End Try
+
+#End Region
 
     End Sub
 

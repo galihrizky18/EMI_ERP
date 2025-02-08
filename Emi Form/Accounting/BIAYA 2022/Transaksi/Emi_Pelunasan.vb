@@ -1,7 +1,6 @@
 ﻿'Imports Org.BouncyCastle.Utilities
-Imports System.Runtime.Remoting.Metadata.W3cXsd2001
-Imports Microsoft.VisualBasic
-Public Class Pelunasan_Biaya_Import
+
+Public Class Emi_Pelunasan
     Dim JT As String
     Dim ArrNP1 As New ArrayList
     Dim ArrNP2 As New ArrayList
@@ -95,9 +94,6 @@ Public Class Pelunasan_Biaya_Import
     Dim Cell1_Lokasi As Integer = 16
     Dim Cell1_JenisLokasi As Integer = 17
 
-
-
-
     Dim arrCrByr1, ArrAkunCB1, ArrAkunRek1 As New ArrayList
     Dim arrCrByr2, ArrAkunCB2 As New ArrayList
     Dim varMataUang As String
@@ -115,7 +111,6 @@ Public Class Pelunasan_Biaya_Import
     Private Sub Validasi_Pembelian_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
-
 
         'ListViewMT1.Columns.Add("No Faktur", 110, HorizontalAlignment.Left) '0
         'ListViewMT1.Columns.Add("ID Rencana", 0, HorizontalAlignment.Center) '1
@@ -186,7 +181,7 @@ Public Class Pelunasan_Biaya_Import
         ListViewMT11.Columns.Add("KodeBank", 0, HorizontalAlignment.Right) '23
         ListViewMT11.Columns.Add("Rek Tujuan", 0, HorizontalAlignment.Right) '24
         ListViewMT11.Columns.Add("Nama Tujuan", 0, HorizontalAlignment.Right) '25
-        ListViewMT11.Columns.Add("TanggalPelunasan", 0, HorizontalAlignment.Right) '26
+        ListViewMT11.Columns.Add("Tanggal Bayar", 0, HorizontalAlignment.Right) '26
         ListViewMT11.Columns.Add("KotaTujuan", 0, HorizontalAlignment.Right) '27
         ListViewMT11.Columns.Add("NegaraTujuan", 0, HorizontalAlignment.Right) '28
         ListViewMT11.Columns.Add("Jenis1", 0, HorizontalAlignment.Right) '28
@@ -204,6 +199,7 @@ Public Class Pelunasan_Biaya_Import
         TxtFaktur.Focus()
 
     End Sub
+
     Private Sub Get_Isi_Listview1(ByVal No_Index As Integer)
         Lv1_NoPO = ListViewMT1.Items(No_Index).SubItems(Cell1_NoPO).Text
         Lv1_Keterangan = ListViewMT1.Items(No_Index).SubItems(Cell1_Keterangan).Text
@@ -261,119 +257,6 @@ Public Class Pelunasan_Biaya_Import
     End Sub
 
 
-
-    Private Sub cetak(ByVal Jenis As String)
-        Try
-
-            OpenConn()
-
-            If Jenis.Trim.ToUpper = "IMPORT" Then
-
-                Dim SF As String
-
-                SQL = "select Kode_Perusahaan from View_Laporan_Pelunasan_Biaya_Import_IMPORT  "
-                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Val = '" & TxtFaktur.Text.Trim & "' "
-                SQL = SQL & "and Kode_Master_Kategori_Biaya_Import = '" & TxtKodeKategori.Text & "'"
-
-                SF = "{View_Laporan_Pelunasan_Biaya_Import_IMPORT.Kode_Perusahaan} = '" & KodePerusahaan & "' "
-                SF = SF & "and {View_Laporan_Pelunasan_Biaya_Import_IMPORT.No_Val} = '" & TxtFaktur.Text.Trim & "' "
-                SF = SF & "and {View_Laporan_Pelunasan_Biaya_Import_IMPORT.Kode_Master_Kategori_Biaya_Import} = '" & TxtKodeKategori.Text & "'"
-                Using Ds = BindingTrans(SQL)
-                    If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                        Dim CrDoc As New Laporan_Pelunasan_Biaya_Import_By_Perusahaan_IMPORT    'Nama file CR
-
-                        CrDoc.SetDataSource(Ds)
-                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.RecordSelectionFormula = SF
-                        With A_Place_For_Printing2
-                            .Text = "Pelunasan Biaya Import (IMPORT)"
-                            .CrystalReportViewer1.ReportSource = CrDoc
-                            .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
-                            .Refresh()
-                            .Show()
-                        End With
-
-                        '=============================================================================
-                        '=============================================================================
-                        'CrDoc.SetDataSource(Ds)
-                        'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        'CrDoc.PrintOptions.PrinterName = PrinterName
-                        'CrDoc.RecordSelectionFormula = SF
-
-                        'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        'doctoprint.PrinterSettings.PrinterName = PrinterName
-                        'Dim rawKind As Integer
-                        'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                        'For i = doctoprint.PrinterSettings.PaperSizes.Count - 1 To 0 Step -1
-                        '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = "Faktur" Then
-                        '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                        '        CrDoc.PrintOptions.PaperSize = rawKind
-                        '        Exit For
-                        '    End If
-                        'Next
-                        'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                        'CrDoc.PrintToPrinter(1, False, 1, 99)
-                    End If
-                End Using
-
-            ElseIf Jenis.Trim.ToUpper = "LOKAL" Then
-                Dim SF As String
-
-                SQL = "select Kode_Perusahaan from View_Laporan_Pelunasan_Biaya_Import_LOKAL  "
-                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Val = '" & TxtFaktur.Text.Trim & "' "
-                SQL = SQL & "and Kode_Master_Kategori_Biaya_Import = '" & TxtKodeKategori.Text & "'"
-
-                SF = "{View_Laporan_Pelunasan_Biaya_Import_LOKAL.Kode_Perusahaan} = '" & KodePerusahaan & "' "
-                SF = SF & "and {View_Laporan_Pelunasan_Biaya_Import_LOKAL.No_Val} = '" & TxtFaktur.Text.Trim & "' "
-                SF = SF & "and {View_Laporan_Pelunasan_Biaya_Import_LOKAL.Kode_Master_Kategori_Biaya_Import} = '" & TxtKodeKategori.Text & "' "
-                Using Ds = BindingTrans(SQL)
-                    If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                        Dim CrDoc As New Laporan_Pelunasan_Biaya_Import_By_Perusahaan_LOKAL    'Nama file CR
-
-                        CrDoc.SetDataSource(Ds)
-                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.RecordSelectionFormula = SF
-                        With A_Place_For_Printing2
-                            .Text = "Pelunasan Biaya Import (LOKAL)"
-                            .CrystalReportViewer1.ReportSource = CrDoc
-                            .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
-                            .Refresh()
-                            .Show()
-                        End With
-
-                        '======================================================
-                        'CrDoc.SetDataSource(Ds)
-                        'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        'CrDoc.PrintOptions.PrinterName = PrinterName
-                        'CrDoc.RecordSelectionFormula = SF
-                        'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        'doctoprint.PrinterSettings.PrinterName = PrinterName
-                        'Dim rawKind As Integer
-                        'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                        'For i = doctoprint.PrinterSettings.PaperSizes.Count - 1 To 0 Step -1
-                        '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = "Faktur" Then
-                        '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                        '        CrDoc.PrintOptions.PaperSize = rawKind
-                        '        Exit For
-                        '    End If
-                        'Next
-                        'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                        'CrDoc.PrintToPrinter(1, False, 1, 99)
-                    End If
-                End Using
-
-            End If
-
-
-
-            CloseConn()
-
-        Catch ex As Exception
-            CloseConn()
-            MessageBox.Show(ex.Message)
-            Exit Sub
-        End Try
-    End Sub
 
     Private Sub Cari(ByVal param As String)
 
@@ -435,7 +318,6 @@ Public Class Pelunasan_Biaya_Import
             SQL = SQL & "from View_EMI_Pelunasan "
             SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and flag_lunas is null "
-
 
             If param = "Tidak1" Then
                 SQL = SQL & " and Mata_Uang = '" & ComboBoxMT1.Text & "' "
@@ -523,12 +405,10 @@ Public Class Pelunasan_Biaya_Import
 
         TextBoxSelisih.Text = (Format((TotalKursBaru - TotalKurs), "N0"))
 
-
         TextBoxtotPPN.Text = (Format(TotalPPN, "N0"))
         TextBoxtotPPH.Text = (Format(TotalPPH, "N0"))
 
         Txt_GrandTotal.Text = (Format((TotalKursBaru + TotalPPN) - TotalPPH, "N0"))
-
 
     End Sub
 
@@ -542,7 +422,7 @@ Public Class Pelunasan_Biaya_Import
     Private Sub Get_No_Faktur_Pengajuan()
         Dim fNB = "NB"
         no_fakturPengajuan = fNB & Format(DateTimePicker1.Value, "MMyy") & "-" &
-                             General_Class.Get_Last_Number2("Pengajuan", "No_Pengajuan", 5,
+                             General_Class.Get_Last_Number2("Pengajuan_temp", "No_Pengajuan", 5,
                              "Kode_perusahaan", KodePerusahaan,
                              "And", "substring(No_Pengajuan, 1, " & Len(fNB) + 4 & ")", fNB & Format(DateTimePicker1.Value, "MMyy"))
     End Sub
@@ -604,7 +484,6 @@ Public Class Pelunasan_Biaya_Import
         ComboBoxNP1.Enabled = True
         ComboBoxMT1.Enabled = True
         Cmb_Jenis.Enabled = True
-
 
         ArrMataUangRek.Clear()
         ListViewMT11.Items.Clear()
@@ -746,8 +625,6 @@ Public Class Pelunasan_Biaya_Import
 
     'End Sub
 
-
-
     Private Sub DateTimePicker1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles DateTimePicker1.KeyPress
         If e.KeyChar = Chr(13) Then TextBoxket.Focus()
     End Sub
@@ -788,7 +665,6 @@ Public Class Pelunasan_Biaya_Import
                 MessageBox.Show("Silahkan pilih Rekening Tujuan terlebih dahulu")
                 Cmb_Rekening_Tujuan.Focus() : Exit Sub
             End If
-
 
             If (Val(TextBoxbyr.Text) > Val(HilangkanTanda(TextBoxjml.Text))) Then
                 MessageBox.Show("Pembayaran tidak boleh melebihi sisa hutang") : Exit Sub
@@ -1019,6 +895,10 @@ Public Class Pelunasan_Biaya_Import
 
         ListViewMT11.FocusedItem.Remove()
         Hitung()
+    End Sub
+
+    Private Sub ListViewMT1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListViewMT1.SelectedIndexChanged
+
     End Sub
 
     Private Sub TxtFaktur_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TxtFaktur.KeyPress
@@ -1333,7 +1213,7 @@ Public Class Pelunasan_Biaya_Import
             '================================
             If jns1.Trim.ToUpper = "AGENT" Then
 
-                Cmb_Rekening_Tujuan.Items.Clear() : arrRekeningTujuan.Clear() : arrKodeBankTujuan.Clear() : arrNamaPemilikiRekTujuan.Clear() : arrKotaTujuan.clear() : arrNegaraTujuan.clear()
+                Cmb_Rekening_Tujuan.Items.Clear() : arrRekeningTujuan.Clear() : arrKodeBankTujuan.Clear() : arrNamaPemilikiRekTujuan.Clear() : arrKotaTujuan.Clear() : arrNegaraTujuan.Clear()
                 SQL = "select Nama_Pemilik, Nama_Bank, No_Rekening, Kota_Pemilik, Negara_Pemilik "
                 SQL = SQL & "from Rekening_Perusahaan_Biaya_Import "
                 SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
@@ -1377,9 +1257,7 @@ Public Class Pelunasan_Biaya_Import
                     Loop
                 End Using
 
-
             End If
-
 
             CloseConn()
         Catch ex As Exception
@@ -1447,8 +1325,6 @@ Public Class Pelunasan_Biaya_Import
         Txt_KursBaru.Text = HilangkanTanda(Txt_KursBaru.Text)
     End Sub
 
-
-
     Private Sub Btn_Cari_Click(sender As Object, e As EventArgs) Handles Btn_Cari.Click
         If ComboBoxNP1.SelectedIndex = -1 Then
             MessageBox.Show("Pilih Dahulu Nama Perusahaan", "Pelunasan Biaya", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1466,7 +1342,6 @@ Public Class Pelunasan_Biaya_Import
 
         Cari("Tidak1")
     End Sub
-
 
     Private Sub Txt_KursBaru_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_KursBaru.KeyPress
         If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
@@ -1581,12 +1456,26 @@ Public Class Pelunasan_Biaya_Import
                 'SQL = SQL & "'" & x_alamat & "', '" & x_Kota & "', '" & x_negara & "', '" & x_telp & "', '" & HilangkanTanda(txt_TotKurs_Lama.Text) & "', '" & HilangkanTanda(txt_TotKurs_Baru.Text) & "', '" & Txt_SelectedJenis.Text & "')"
                 'ExecuteTrans(SQL)
 
-                SQL = "insert into EMI_Pelunasan (Kode_Perusahaan, No_Val, Tanggal, Jam, Keterangan, UserValidasi, Kode_Voucher, Mata_Uang, Total, Total_PPN, Total_PPH, Grand_Total, "
-                SQL = SQL & "Total_Kurs_Lama, Total_Kurs_Baru, jenis) values "
-                SQL = SQL & "('" & KodePerusahaan & "', '" & TxtFaktur.Text.Trim & "', '" & Format(Tanggal_Sekarang, "yyyy-MM-dd") & "', '" & Format(Tanggal_Sekarang, "HH:mm:ss") & "', "
-                SQL = SQL & "'" & TextBoxket.Text.Trim & "', '" & UserID & "', NULL, '" & ComboBoxMT1.Text & "', '" & HilangkanTanda(TextBoxtot1.Text) & "', '" & HilangkanTanda(TextBoxtotPPN.Text) & "', "
-                SQL = SQL & "'" & HilangkanTanda(TextBoxtotPPH.Text) & "' , '" & HilangkanTanda(Txt_GrandTotal.Text) & "', '" & HilangkanTanda(txt_TotKurs_Lama.Text) & "', '" & HilangkanTanda(txt_TotKurs_Baru.Text) & "', '" & Txt_SelectedJenis.Text & "')"
+
+                Get_No_Faktur_Pengajuan()
+
+                SQL = "INSERT INTO pengajuan_Temp(kode_perusahaan, no_pengajuan, tanggal, jam, keterangan, userid, grand, pbk, "
+                SQL = SQL & "Validasi) "
+                SQL = SQL & "values('" & KodePerusahaan & "', '" & no_fakturPengajuan & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
+                SQL = SQL & "'" & Format(Tanggal_Sekarang, "HH:mm:ss") & "', '" & TextBoxket.Text & "', '" & UserID & "', "
+                SQL = SQL & "" & HilangkanTanda(Txt_GrandTotal.Text) & ", 'T', NULL)"
                 ExecuteTrans(SQL)
+
+                SQL = "insert into EMI_Pelunasan (Kode_Perusahaan, No_Val, Tanggal, Jam, Keterangan, UserValidasi, Kode_Voucher, "
+                SQL = SQL & "Mata_Uang, Total, Total_PPN, Total_PPH, Grand_Total, "
+                SQL = SQL & "Total_Kurs_Lama, Total_Kurs_Baru, jenis, No_Pengajuan) values "
+                SQL = SQL & "('" & KodePerusahaan & "', '" & TxtFaktur.Text.Trim & "', '" & Format(Tanggal_Sekarang, "yyyy-MM-dd") & "', "
+                SQL = SQL & "'" & Format(Tanggal_Sekarang, "HH:mm:ss") & "', '" & TextBoxket.Text.Trim & "', '" & UserID & "', NULL, "
+                SQL = SQL & "'" & ComboBoxMT1.Text & "', '" & HilangkanTanda(TextBoxtot1.Text) & "', '" & HilangkanTanda(TextBoxtotPPN.Text) & "', "
+                SQL = SQL & "'" & HilangkanTanda(TextBoxtotPPH.Text) & "' , '" & HilangkanTanda(Txt_GrandTotal.Text) & "', '" & HilangkanTanda(txt_TotKurs_Lama.Text) & "', "
+                SQL = SQL & " '" & HilangkanTanda(txt_TotKurs_Baru.Text) & "', '" & Txt_SelectedJenis.Text & "', '" & no_fakturPengajuan & "')"
+                ExecuteTrans(SQL)
+
 
                 For i As Integer = 0 To ListViewMT11.Items.Count - 1
                     Get_Isi_Listview(i)
@@ -1636,7 +1525,6 @@ Public Class Pelunasan_Biaya_Import
 
                     If SisaHutang = Val(HilangkanTanda(LvJml)) Then
 
-
                         If Jenis1.Trim.ToUpper = "AGENT" And Jenis2.Trim.ToUpper = "A" Then
                             'UNtuk Jenis 1 agent & Jenis 2 A
                             SQL = "Update Detail_Transaksi_Biaya_Import_By_Perusahaan set flag_lunas = 'Y', "
@@ -1657,14 +1545,13 @@ Public Class Pelunasan_Biaya_Import
                             ExecuteTrans(SQL)
                         ElseIf Jenis1.Trim.ToUpper = "SUPPLIER" And Jenis2.Trim.ToUpper = "A" Then
                             'UNtuk Jenis 1 Supplier & Jenis 2 a
-                            SQL = "Update EmiPEmbnelian set flag_lunas = 'Y', "
+                            SQL = "Update Emi_Pembelian set flag_lunas = 'Y', "
                             SQL = SQL & "Tgl_lunas = '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
                             SQL = SQL & "jam_lunas = '" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
                             SQL = SQL & "user_lunas = '" & UserID & "' where kode_perusahaan = '" & KodePerusahaan & "' and "
                             SQL = SQL & "no_faktur = '" & LvFak.Trim & "' "
                             'SQL = SQL & "and Kode_Master_Kategori_Biaya_Import ='" & LvKdKategori & "' and lokasi='" & LvLokasi & "' "
                             ExecuteTrans(SQL)
-
                         Else
                             CloseTrans()
                             CloseConn()
@@ -1712,36 +1599,78 @@ Public Class Pelunasan_Biaya_Import
                     Dim akunPPN As String = ""
                     Dim inisial_faktur As String = ""
                     Dim lokasi_default_PPH As String = ""
-
-                    SQL = "select akun_2 from detail_account_master X where X.Kode_Perusahaan = '" & KodePerusahaan & "' and "
-                    SQL = SQL & "x.Kode_Master_Kategori_Biaya_import ='" & kdMaster & "' and "
-                    SQL = SQL & "x.lokasi='" & LvLokasi & "' "
-                    Using Dr = OpenTrans(SQL)
-                        If Dr.Read Then
-                            coa_hutang = Dr("akun_2")
-                        Else
-                            Dr.Close()
-                            CloseTrans()
-                            CloseConn()
-                            MessageBox.Show("Lokasi Tidak di Temukan . .  !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                            Exit Sub
-                        End If
-                    End Using
-
                     Dim jenis_PPH As String = ""
-                    SQL = "select Jenis_PPH from Perusahaan_Biaya_Import where "
-                    SQL = SQL & "kode_Perusahaan='" & KodePerusahaan & "' and Kode_Perusahaan_Biaya_Import='" & LvKP & "' "
-                    Using dr = OpenTrans(SQL)
-                        If dr.Read Then
-                            jenis_PPH = General_Class.CekNULL(dr("Jenis_PPH"))
-                        Else
-                            dr.Close()
-                            CloseTrans()
-                            CloseConn()
-                            MessageBox.Show("Customer Tidak ditemukan . . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                            Exit Sub
-                        End If
-                    End Using
+                    If Jenis1.Trim.ToUpper = "SUPPLIER" Then
+                        SQL = "select Hutang_Supplier, akun_selisih_PO "
+                        SQL = SQL & "from stock_owner "
+                        SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & Lokasi & "' "
+                        Using Dr = OpenTrans(SQL)
+                            If Dr.Read Then
+                                coa_hutang = Dr("Hutang_Supplier")
+
+                            Else
+                                Dr.Close()
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+                        End Using
+
+                        'SQL = "select Jenis_PPH from suppliers where "
+                        'SQL = SQL & "kode_Perusahaan='" & KodePerusahaan & "' and Kode_Supplier='" & LvKP & "' "
+                        'Using dr = OpenTrans(SQL)
+                        '    If dr.Read Then
+                        '        jenis_PPH = General_Class.CekNULL(dr("Jenis_PPH"))
+                        '    Else
+                        '        dr.Close()
+                        '        CloseTrans()
+                        '        CloseConn()
+                        '        MessageBox.Show("Customer Tidak ditemukan . . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        '        Exit Sub
+                        '    End If
+                        'End Using
+
+                    ElseIf Jenis1.Trim.ToUpper = "AGENT" Then
+                        SQL = "select akun_2 from detail_account_master X where X.Kode_Perusahaan = '" & KodePerusahaan & "' and "
+                        SQL = SQL & "x.Kode_Master_Kategori_Biaya_import ='" & kdMaster & "' and "
+                        SQL = SQL & "x.lokasi='" & LvLokasi & "' "
+                        Using Dr = OpenTrans(SQL)
+                            If Dr.Read Then
+                                coa_hutang = Dr("akun_2")
+                            Else
+                                Dr.Close()
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("Lokasi Tidak di Temukan . .  !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                                Exit Sub
+                            End If
+                        End Using
+
+
+                        SQL = "select Jenis_PPH from Perusahaan_Biaya_Import where "
+                        SQL = SQL & "kode_Perusahaan='" & KodePerusahaan & "' and Kode_Perusahaan_Biaya_Import='" & LvKP & "' "
+                        Using dr = OpenTrans(SQL)
+                            If dr.Read Then
+                                jenis_PPH = General_Class.CekNULL(dr("Jenis_PPH"))
+                            Else
+                                dr.Close()
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("Customer Tidak ditemukan . . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+                        End Using
+
+                    Else
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Data Tidak di temukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+
+
 
                     SQL = "select top(1) inisial_faktur, ppn_pembelian, Akun_PPH23, Akun_PPH21, Lokasi_default_PPH, Akun_Biaya_Import, akun_selisih_PO from stock_owner where Kode_Stock_Owner='" & LvLokasi & "'"
                     Using Dr = OpenTrans(SQL)
@@ -1750,7 +1679,7 @@ Public Class Pelunasan_Biaya_Import
                             inisial_faktur = Dr("inisial_faktur")
                             akunPPN = Dr("ppn_pembelian")
                             lokasi_default_PPH = Dr("Lokasi_default_PPH")
-                            coa_selisih = Dr("akun_selisih_PO")
+                            Coa_Selisih = Dr("akun_selisih_PO")
 
                             If jenis_PPH = "21" Then
                                 akunPPH = Dr("Akun_PPH21")
@@ -1768,63 +1697,56 @@ Public Class Pelunasan_Biaya_Import
                         End If
                     End Using
 
-
 #Region "Masuk Pengajuan"
-                    If i = 0 Then
-                        Get_No_Faktur_Pengajuan()
 
-                        SQL = "INSERT INTO pengajuan(kode_perusahaan, no_pengajuan, tanggal, jam, keterangan, userid, grand, pbk, Validasi, No_Val_Declare) "
-                        SQL = SQL & "values('" & KodePerusahaan & "', '" & no_fakturPengajuan & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                        SQL = SQL & "'" & Format(Tanggal_Sekarang, "HH:mm:ss") & "', '" & TextBoxket.Text & "', '" & UserID & "', "
-                        SQL = SQL & "" & HilangkanTanda(Txt_GrandTotal.Text) & ", 'T', NULL, '" & TxtFaktur.Text.Trim & "')"
-                        ExecuteTrans(SQL)
 
-                        'PERHATIKAN DIBAWAH INI
-                        SQL = "INSERT INTO detail_pengajuan(kode_perusahaan, no_pengajuan, kode_master_acc, kode_acc, kode_detail_acc, "
-                        SQL = SQL & "keterangan_detail, tgl_jatuh_tempo, jumlah, kode_bank_tujuan, no_rek_tujuan, nama_penerima, "
-                        SQL = SQL & "Alamat_Penerima, Kota_Penerima, Negara_Penerima, Telp_Penerima, Lokasi, Kode_Account) "
-                        SQL = SQL & "values('" & KodePerusahaan & "', '" & no_fakturPengajuan & "', '" & Strings.Left(coa_hutang, 1) & "', "
-                        SQL = SQL & "'" & Strings.Mid(coa_hutang, 2, 1) & "', '" & Strings.Mid(Ganti(coa_hutang), 3) & "', "
-                        SQL = SQL & "'" & TextBoxket.Text & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', " & HilangkanTanda(Txt_GrandTotal.Text) & ", "
-                        SQL = SQL & "'" & LvDet_KdBank & "', '" & LvDet_RekTujuanData & "', '" & LvDet_NmTujuan & "', "
-                        SQL = SQL & "'-', '" & LvDet_KotaTujuan & "', '" & LvDet_NegaraTujuan & "', '-','" & LvLokasi & "','" & coa_hutang & "') "
-                        ExecuteTrans(SQL)
+                    'PERHATIKAN DIBAWAH INI
+                    SQL = "INSERT INTO detail_pengajuan_Temp(kode_perusahaan, no_pengajuan, kode_master_acc, kode_acc, kode_detail_acc, "
+                    SQL = SQL & "keterangan_detail, tgl_jatuh_tempo, jumlah, kode_bank_tujuan, no_rek_tujuan, nama_penerima, "
+                    SQL = SQL & "Alamat_Penerima, Kota_Penerima, Negara_Penerima, Telp_Penerima, Lokasi, Kode_Account, "
+                    SQL = SQL & "Id_Cost_Center, No_Pelunasan, Urut_Pelunasan, Tgl_Bayar) "
+                    SQL = SQL & "values('" & KodePerusahaan & "', '" & no_fakturPengajuan & "', '" & Strings.Left(coa_hutang, 1) & "', "
+                    SQL = SQL & "'" & Strings.Mid(coa_hutang, 2, 1) & "', '" & Strings.Mid(Ganti(coa_hutang), 3) & "', "
+                    SQL = SQL & "'" & TextBoxket.Text & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', " & HilangkanTanda(Txt_GrandTotal.Text) & ", "
+                    SQL = SQL & "'" & LvDet_KdBank & "', '" & LvDet_RekTujuanData & "', '" & LvDet_NmTujuan & "', "
+                    SQL = SQL & "'-', '" & LvDet_KotaTujuan & "', '" & LvDet_NegaraTujuan & "', '-','" & LvLokasi & "','" & coa_hutang & "', "
+                    SQL = SQL & "'0', '" & TxtFaktur.Text.Trim & "', '" & x_no_urut_detail_pelunasan & "', '" & LvDet_TglPelData & "') "
+                    ExecuteTrans(SQL)
 
-                        SQL = "select IDENT_CURRENT('detail_pengajuan') as urutan"
-                        Using Dr = OpenTrans(SQL)
-                            If Dr.Read Then
-                                x_no_urut_det_pengajuan = Dr("urutan")
-                            End If
-                        End Using
+                    SQL = "select IDENT_CURRENT('detail_pengajuan_Temp') as urutan"
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            x_no_urut_det_pengajuan = Dr("urutan")
+                        End If
+                    End Using
 
-                        SQL = "select urut from detail_pengajuan where kode_perusahaan = '" & KodePerusahaan & "' and "
-                        SQL = SQL & "no_pengajuan = '" & no_fakturPengajuan & "' and urut = '" & x_no_urut_det_pengajuan & "'"
-                        Using Dr = OpenTrans(SQL)
-                            If Not (Dr.Read) Then
-                                Dr.Close()
-                                CloseTrans()
-                                CloseConn()
-                                MessageBox.Show("Harap ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                Exit Sub
-                            End If
-                        End Using
+                    SQL = "select urut from detail_pengajuan_Temp where kode_perusahaan = '" & KodePerusahaan & "' and "
+                    SQL = SQL & "no_pengajuan = '" & no_fakturPengajuan & "' and urut = '" & x_no_urut_det_pengajuan & "'"
+                    Using Dr = OpenTrans(SQL)
+                        If Not (Dr.Read) Then
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Harap ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
 
-                        SQL = "update EMI_Pelunasan set no_pengajuan='" & no_fakturPengajuan & "' where "
-                        SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and No_Val = '" & TxtFaktur.Text.Trim & "' "
-                        ExecuteTrans(SQL)
-
-                        SQL = "insert into Detail_Pengajuan5(Kode_Perusahaan,Urut_Detail_Pengajuan, Kode_Account,Debit, Kredit, Keterangan,Tgl, lokasi)"
-                        SQL = SQL & "values('" & KodePerusahaan & "', '" & x_no_urut_det_pengajuan & "', '" & coa_hutang & "', '" & HilangkanTanda(txt_TotKurs_Lama.Text) & "','0', "
-                        SQL = SQL & "'Pelunasan " & TxtFaktur.Text.Trim & ";" & TextBoxket.Text.Trim & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Lokasi & "')"
-                        ExecuteTrans(SQL)
-
-                        SQL = "insert into Detail_Pengajuan5(Kode_Perusahaan,Urut_Detail_Pengajuan, Kode_Account,Debit, Kredit, Keterangan,Tgl, lokasi)"
-                        SQL = SQL & "values('" & KodePerusahaan & "', '" & x_no_urut_det_pengajuan & "', '" & coa_tambahan & "', '" & HilangkanTanda(TxtTotTambahan.Text) & "','0', "
+                    If Val(HilangkanTanda(LvKursLamaTot)) <> 0 Then
+                        SQL = "insert into Detail_Pengajuan5_Temp(Kode_Perusahaan,Urut_Detail_Pengajuan, Kode_Account,Debit, Kredit, Keterangan,Tgl, lokasi)"
+                        SQL = SQL & "values('" & KodePerusahaan & "', '" & x_no_urut_det_pengajuan & "', '" & coa_hutang & "', '" & HilangkanTanda(LvKursLamaTot) & "','0', "
                         SQL = SQL & "'Pelunasan " & TxtFaktur.Text.Trim & ";" & TextBoxket.Text.Trim & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Lokasi & "')"
                         ExecuteTrans(SQL)
                     End If
 
-                    If TextBoxtotPPN.Text <> 0 Then
+                    If Val(HilangkanTanda(LvTambahan)) <> 0 Then
+                        SQL = "insert into Detail_Pengajuan5_Temp(Kode_Perusahaan,Urut_Detail_Pengajuan, Kode_Account,Debit, Kredit, Keterangan,Tgl, lokasi)"
+                        SQL = SQL & "values('" & KodePerusahaan & "', '" & x_no_urut_det_pengajuan & "', '" & coa_tambahan & "', '" & HilangkanTanda(LvTambahan) & "','0', "
+                        SQL = SQL & "'Pelunasan " & TxtFaktur.Text.Trim & ";" & TextBoxket.Text.Trim & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Lokasi & "')"
+                        ExecuteTrans(SQL)
+                    End If
+
+                    If Val(HilangkanTanda(LvNilaiPPN)) <> 0 Then
 
                         SQL = "select no_faktur_pajak, nilai_pembagi From Display_Biaya_Import_PPN "
                         SQL = SQL & "where kode_Perusahaan='" & KodePerusahaan & "' and UserID='" & UserID & "' and "
@@ -1837,7 +1759,7 @@ Public Class Pelunasan_Biaya_Import
                                     SQL = SQL & "values('" & KodePerusahaan & "','" & x_no_urut_detail_pelunasan & "', '" & .Rows(index).Item("no_faktur_pajak") & "', '" & .Rows(index).Item("nilai_pembagi") & "', 'PPN')"
                                     ExecuteTrans(SQL)
 
-                                    SQL = "insert into Detail_Pengajuan5(Kode_Perusahaan,Urut_Detail_Pengajuan, Kode_Account,Debit, Kredit, Keterangan,Tgl, lokasi)"
+                                    SQL = "insert into Detail_Pengajuan5_Temp(Kode_Perusahaan,Urut_Detail_Pengajuan, Kode_Account,Debit, Kredit, Keterangan,Tgl, lokasi)"
                                     SQL = SQL & "values('" & KodePerusahaan & "', '" & x_no_urut_det_pengajuan & "', '" & akunPPN & "', '" & .Rows(index).Item("nilai_pembagi") & "','0', "
                                     SQL = SQL & "'Pelunasan " & TxtFaktur.Text.Trim & ";" & TextBoxket.Text.Trim & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & lokasi_default_PPH & "')"
                                     ExecuteTrans(SQL)
@@ -1847,7 +1769,7 @@ Public Class Pelunasan_Biaya_Import
 
                     End If
 
-                    If TextBoxtotPPH.Text <> 0 Then
+                    If Val(HilangkanTanda(LvNilaiPPH)) <> 0 Then
                         If jenis_PPH = "" Then
                             CloseTrans()
                             CloseConn()
@@ -1866,7 +1788,7 @@ Public Class Pelunasan_Biaya_Import
                                     SQL = SQL & "values('" & KodePerusahaan & "','" & x_no_urut_detail_pelunasan & "', '" & .Rows(index).Item("no_faktur_pajak") & "', '" & .Rows(index).Item("nilai_pembagi") & "', 'PPH')"
                                     ExecuteTrans(SQL)
 
-                                    SQL = "insert into Detail_Pengajuan5(Kode_Perusahaan,Urut_Detail_Pengajuan, Kode_Account,Debit, Kredit, Keterangan,Tgl, lokasi)"
+                                    SQL = "insert into Detail_Pengajuan5_Temp(Kode_Perusahaan,Urut_Detail_Pengajuan, Kode_Account,Debit, Kredit, Keterangan,Tgl, lokasi)"
                                     SQL = SQL & "values('" & KodePerusahaan & "', '" & x_no_urut_det_pengajuan & "', '" & akunPPH & "', '0', '" & .Rows(index).Item("nilai_pembagi") & "', "
                                     SQL = SQL & "'Pelunasan " & TxtFaktur.Text.Trim & ";" & TextBoxket.Text.Trim & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & lokasi_default_PPH & "')"
                                     ExecuteTrans(SQL)
@@ -1874,6 +1796,47 @@ Public Class Pelunasan_Biaya_Import
                             End With
                         End Using
                     End If
+
+                    Dim selisih As Double = Val(HilangkanTanda(LvKursBaruTot)) - Val(HilangkanTanda(LvKursLamaTot))
+
+                    If selisih <> 0 Then
+                        If selisih > 0 Then
+
+                            SQL = "insert into Detail_Pengajuan5(Kode_Perusahaan,Urut_Detail_Pengajuan, Kode_Account,Debit, Kredit, Keterangan,Tgl, lokasi)"
+                            SQL = SQL & "values('" & KodePerusahaan & "', '" & x_no_urut_det_pengajuan & "', '" & Coa_Selisih & "', '" & selisih & "', '0', "
+                            SQL = SQL & "'Pelunasan " & TxtFaktur.Text.Trim & ";" & TextBoxket.Text.Trim & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Ket_Lokasi_HO & "')"
+                            ExecuteTrans(SQL)
+                        Else
+                            SQL = "insert into Detail_Pengajuan5_Temp(Kode_Perusahaan,Urut_Detail_Pengajuan, Kode_Account,Debit, Kredit, Keterangan,Tgl, lokasi)"
+                            SQL = SQL & "values('" & KodePerusahaan & "', '" & x_no_urut_det_pengajuan & "', '" & Coa_Selisih & "', '0', '" & Math.Abs(selisih) & "', "
+                            SQL = SQL & "'Pelunasan " & TxtFaktur.Text.Trim & ";" & TextBoxket.Text.Trim & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Ket_Lokasi_HO & "')"
+                            ExecuteTrans(SQL)
+                        End If
+                    End If
+
+                    Dim Nilai_Total As Double = ((Val(HilangkanTanda(LvKursLamaTot)) + Val(HilangkanTanda(LvNilaiPPN))) - Val(HilangkanTanda(LvNilaiPPH))) + selisih
+
+                    SQL = "select round(sum(debit), 2) - round(sum(kredit), 2) as data from Detail_Pengajuan5_Temp where "
+                    SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
+                    SQL = SQL & "Urut_Detail_Pengajuan = '" & x_no_urut_det_pengajuan & "'"
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            If Dr("data") <> Nilai_Total Then
+                                Dr.Close()
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("Jurnal 1 salah!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+                        Else
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Data jurnal 1 tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
+
 #End Region
 
 #Region "Masuk Jurnal"
@@ -1981,7 +1944,6 @@ Public Class Pelunasan_Biaya_Import
 
                     'End If
 
-
                     'If TextBoxtotPPH.Text <> 0 Then
                     '    If jenis_PPH = "" Then
                     '        CloseTrans()
@@ -2032,59 +1994,12 @@ Public Class Pelunasan_Biaya_Import
                     '    End Using
                     'End If
 
-
 #End Region
-
-
 
                 Next
 
-                If Val(HilangkanTanda(TextBoxSelisih.Text)) <> 0 Then
-                    If Val(HilangkanTanda(TextBoxSelisih.Text)) > 0 Then
-
-                        SQL = "insert into Detail_Pengajuan5(Kode_Perusahaan,Urut_Detail_Pengajuan, Kode_Account,Debit, Kredit, Keterangan,Tgl, lokasi)"
-                        SQL = SQL & "values('" & KodePerusahaan & "', '" & x_no_urut_det_pengajuan & "', '" & Coa_Selisih & "', '" & HilangkanTanda(TextBoxSelisih.Text) & "', '0', "
-                        SQL = SQL & "'Pelunasan " & TxtFaktur.Text.Trim & ";" & TextBoxket.Text.Trim & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Ket_Lokasi_HO & "')"
-                        ExecuteTrans(SQL)
-
-                    Else
-                        SQL = "insert into Detail_Pengajuan5(Kode_Perusahaan,Urut_Detail_Pengajuan, Kode_Account,Debit, Kredit, Keterangan,Tgl, lokasi)"
-                        SQL = SQL & "values('" & KodePerusahaan & "', '" & x_no_urut_det_pengajuan & "', '" & Coa_Selisih & "', '0', '" & Math.Abs(Val(HilangkanTanda(TextBoxSelisih.Text))) & "', "
-                        SQL = SQL & "'Pelunasan " & TxtFaktur.Text.Trim & ";" & TextBoxket.Text.Trim & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Ket_Lokasi_HO & "')"
-                        ExecuteTrans(SQL)
-                    End If
-                End If
-
-                'PERHATIKAN DIBAWAH INI
-                'SQL = "insert into Detail_Pengajuan5(Kode_Perusahaan,Urut_Detail_Pengajuan, Kode_Account,Debit, Kredit, Keterangan,Tgl, lokasi)"
-                'SQL = SQL & "values('" & KodePerusahaan & "', '" & x_no_urut_det_pengajuan & "', '" & ArrAkunRek1.Item(ComboBoxRek1.SelectedIndex) & "', '0', '" & HilangkanTanda(Txt_GrandTotal.Text) & "', "
-                'SQL = SQL & "'Pelunasan " & TxtFaktur.Text.Trim & ";" & TextBoxket.Text.Trim & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Ket_Lokasi_HO & "')"
-                'ExecuteTrans(SQL)
-
-                SQL = "select round(sum(debit), 2) as debit, round(sum(kredit), 2) as kredit from Detail_Pengajuan5 where "
-                SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
-                SQL = SQL & "Urut_Detail_Pengajuan = '" & x_no_urut_det_pengajuan & "'"
-                Using Dr = OpenTrans(SQL)
-                    If Dr.Read Then
-                        If Dr("debit") <> Dr("kredit") Then
-                            Dr.Close()
-                            CloseTrans()
-                            CloseConn()
-                            MessageBox.Show("Jurnal 1 salah!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                            Exit Sub
-                        End If
-                    Else
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Data jurnal 1 tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
-                End Using
 
 #Region "Kode Lama"
-
-
 
                 '                If Val(HilangkanTanda(TextBoxSelisih.Text)) <> 0 Then
                 '                    If Val(HilangkanTanda(TextBoxSelisih.Text)) > 0 Then
@@ -2094,7 +2009,7 @@ Public Class Pelunasan_Biaya_Import
                 '                        Using Dr = OpenTrans(SQL)
                 '                            If Dr.Read Then
                 '                                Dr.Close()
-                '                                'update 
+                '                                'update
 
                 '                                SQL = "update detail_jurnal set debit = debit+ " & HilangkanTanda(TextBoxSelisih.Text) & " where "
                 '                                SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
@@ -2119,7 +2034,7 @@ Public Class Pelunasan_Biaya_Import
                 '                        Using Dr = OpenTrans(SQL)
                 '                            If Dr.Read Then
                 '                                Dr.Close()
-                '                                'update 
+                '                                'update
 
                 '                                SQL = "update detail_jurnal set kredit = kredit+ " & Math.Abs(Val(HilangkanTanda(TextBoxSelisih.Text))) & " where "
                 '                                SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
@@ -2166,7 +2081,6 @@ Public Class Pelunasan_Biaya_Import
                 '                    End If
                 '                End Using
 
-
                 '                SQL = "select sum(debit) as debit, sum(kredit) as kredit from detail_jurnal where "
                 '                SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
                 '                SQL = SQL & "kode_voucher = '" & Kode_Voucher & "'"
@@ -2188,7 +2102,6 @@ Public Class Pelunasan_Biaya_Import
                 '                    End If
                 '                End Using
 
-
 #End Region
 
                 MessageBox.Show("Data berhasil disimpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -2202,7 +2115,10 @@ Public Class Pelunasan_Biaya_Import
                 MessageBox.Show(ex.Message)
                 Exit Sub
             End Try
-        Else 'update
+        Else
+
+#Region "Kode Update Lama"
+            'update
 
             ' ''Dim tny As String = MessageBox.Show("Yakin akan diupdate?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation)
             ' ''If tny = vbNo Then Exit Sub
@@ -2442,6 +2358,8 @@ Public Class Pelunasan_Biaya_Import
             ' ''    MessageBox.Show(ex.Message)
             ' ''    Exit Sub
             ' ''End Try
+
+#End Region
         End If
 
         Dim TanyaCetak As String = MessageBox.Show("Mau dicetak?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -2453,5 +2371,169 @@ Public Class Pelunasan_Biaya_Import
         DateTimePicker1.Focus()
 
     End Sub
+
+    Private Sub cetak(ByVal Jenis As String)
+        Try
+
+            OpenConn()
+
+            Dim SF As String
+
+            SQL = "select Kode_Perusahaan "
+            SQL = SQL & "from View_Laporan_Pengajuan_Pelunasan  "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Val = '" & TxtFaktur.Text.Trim & "' "
+            SQL = SQL & "and no_pengajuan = '" & no_fakturPengajuan & "' "
+
+            SF = "{View_Laporan_Pengajuan_Pelunasan.Kode_Perusahaan} = '" & KodePerusahaan & "' "
+            SF = SF & "and {View_Laporan_Pengajuan_Pelunasan.No_Val} = '" & TxtFaktur.Text.Trim & "' "
+            SF = SF & "and {View_Laporan_Pengajuan_Pelunasan.no_pengajuan} = '" & no_fakturPengajuan & "'"
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+                    Dim CrDoc As New Laporan_Emi_Pelunasan    'Nama file CR
+
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.RecordSelectionFormula = SF
+                    With A_Place_For_Printing2
+                        .Text = "Pelunasan Biaya Import "
+                        .CrystalReportViewer1.ReportSource = CrDoc
+                        .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
+                        .Refresh()
+                        .Show()
+                    End With
+
+                    '=============================================================================
+                    '=============================================================================
+                    'CrDoc.SetDataSource(Ds)
+                    'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    'CrDoc.PrintOptions.PrinterName = PrinterName
+                    'CrDoc.RecordSelectionFormula = SF
+
+                    'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    'doctoprint.PrinterSettings.PrinterName = PrinterName
+                    'Dim rawKind As Integer
+                    'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    'For i = doctoprint.PrinterSettings.PaperSizes.Count - 1 To 0 Step -1
+                    '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = "Faktur" Then
+                    '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                    '        CrDoc.PrintOptions.PaperSize = rawKind
+                    '        Exit For
+                    '    End If
+                    'Next
+                    'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    'CrDoc.PrintToPrinter(1, False, 1, 99)
+                End If
+            End Using
+
+
+#Region "REPORT LAMA IMPORT LOKAL"
+
+            'If Jenis.Trim.ToUpper = "IMPORT" Then
+
+
+            '    SQL = "select Kode_Perusahaan from View_Laporan_Pelunasan_Biaya_Import_IMPORT  "
+            '    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Val = '" & TxtFaktur.Text.Trim & "' "
+            '    SQL = SQL & "and Kode_Master_Kategori_Biaya_Import = '" & TxtKodeKategori.Text & "'"
+
+            '    SF = "{View_Laporan_Pelunasan_Biaya_Import_IMPORT.Kode_Perusahaan} = '" & KodePerusahaan & "' "
+            '    SF = SF & "and {View_Laporan_Pelunasan_Biaya_Import_IMPORT.No_Val} = '" & TxtFaktur.Text.Trim & "' "
+            '    SF = SF & "and {View_Laporan_Pelunasan_Biaya_Import_IMPORT.Kode_Master_Kategori_Biaya_Import} = '" & TxtKodeKategori.Text & "'"
+            '    Using Ds = BindingTrans(SQL)
+            '        If Ds.Tables("MyTable").Rows.Count <> 0 Then
+            '            Dim CrDoc As New Laporan_Pelunasan_Biaya_Import_By_Perusahaan_IMPORT    'Nama file CR
+
+            '            CrDoc.SetDataSource(Ds)
+            '            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+            '            CrDoc.RecordSelectionFormula = SF
+            '            With A_Place_For_Printing2
+            '                .Text = "Pelunasan Biaya Import (IMPORT)"
+            '                .CrystalReportViewer1.ReportSource = CrDoc
+            '                .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
+            '                .Refresh()
+            '                .Show()
+            '            End With
+
+            '            '=============================================================================
+            '            '=============================================================================
+            '            'CrDoc.SetDataSource(Ds)
+            '            'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+            '            'CrDoc.PrintOptions.PrinterName = PrinterName
+            '            'CrDoc.RecordSelectionFormula = SF
+
+            '            'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+            '            'doctoprint.PrinterSettings.PrinterName = PrinterName
+            '            'Dim rawKind As Integer
+            '            'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+            '            'For i = doctoprint.PrinterSettings.PaperSizes.Count - 1 To 0 Step -1
+            '            '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = "Faktur" Then
+            '            '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+            '            '        CrDoc.PrintOptions.PaperSize = rawKind
+            '            '        Exit For
+            '            '    End If
+            '            'Next
+            '            'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+            '            'CrDoc.PrintToPrinter(1, False, 1, 99)
+            '        End If
+            '    End Using
+
+            'ElseIf Jenis.Trim.ToUpper = "LOKAL" Then
+
+            '    SQL = "select Kode_Perusahaan from View_Laporan_Pelunasan_Biaya_Import_LOKAL  "
+            '    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Val = '" & TxtFaktur.Text.Trim & "' "
+            '    SQL = SQL & "and Kode_Master_Kategori_Biaya_Import = '" & TxtKodeKategori.Text & "'"
+
+            '    SF = "{View_Laporan_Pelunasan_Biaya_Import_LOKAL.Kode_Perusahaan} = '" & KodePerusahaan & "' "
+            '    SF = SF & "and {View_Laporan_Pelunasan_Biaya_Import_LOKAL.No_Val} = '" & TxtFaktur.Text.Trim & "' "
+            '    SF = SF & "and {View_Laporan_Pelunasan_Biaya_Import_LOKAL.Kode_Master_Kategori_Biaya_Import} = '" & TxtKodeKategori.Text & "' "
+            '    Using Ds = BindingTrans(SQL)
+            '        If Ds.Tables("MyTable").Rows.Count <> 0 Then
+            '            Dim CrDoc As New Laporan_Pelunasan_Biaya_Import_By_Perusahaan_LOKAL    'Nama file CR
+
+            '            CrDoc.SetDataSource(Ds)
+            '            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+            '            CrDoc.RecordSelectionFormula = SF
+            '            With A_Place_For_Printing2
+            '                .Text = "Pelunasan Biaya Import (LOKAL)"
+            '                .CrystalReportViewer1.ReportSource = CrDoc
+            '                .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
+            '                .Refresh()
+            '                .Show()
+            '            End With
+
+            '            '======================================================
+            '            'CrDoc.SetDataSource(Ds)
+            '            'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+            '            'CrDoc.PrintOptions.PrinterName = PrinterName
+            '            'CrDoc.RecordSelectionFormula = SF
+            '            'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+            '            'doctoprint.PrinterSettings.PrinterName = PrinterName
+            '            'Dim rawKind As Integer
+            '            'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+            '            'For i = doctoprint.PrinterSettings.PaperSizes.Count - 1 To 0 Step -1
+            '            '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = "Faktur" Then
+            '            '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+            '            '        CrDoc.PrintOptions.PaperSize = rawKind
+            '            '        Exit For
+            '            '    End If
+            '            'Next
+            '            'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+            '            'CrDoc.PrintToPrinter(1, False, 1, 99)
+            '        End If
+            '    End Using
+
+            'End If
+
+#End Region
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+
+
 
 End Class

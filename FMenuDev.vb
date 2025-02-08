@@ -1,6 +1,4 @@
-﻿Imports ZXing.Aztec.Internal
-
-Public Class FMenuDev
+﻿Public Class FMenuDev
 
 #Region "INITIAL FUNCTION"
 
@@ -741,11 +739,11 @@ Public Class FMenuDev
     End Sub
 
     Private Sub PelunasanBiayaImportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PelunasanBiayaImportToolStripMenuItem.Click
-        Display_Pelunasan_Biaya_Import.StartPosition = FormStartPosition.CenterScreen
+        Display_Emi_Pelunasan.StartPosition = FormStartPosition.CenterScreen
 
-        Display_Pelunasan_Biaya_Import.MdiParent = Me
-        Display_Pelunasan_Biaya_Import.Show()
-        Display_Pelunasan_Biaya_Import.Focus()
+        Display_Emi_Pelunasan.MdiParent = Me
+        Display_Emi_Pelunasan.Show()
+        Display_Emi_Pelunasan.Focus()
     End Sub
 
     Private Sub PelunasanSupplierToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PelunasanSupplierToolStripMenuItem.Click
@@ -765,19 +763,19 @@ Public Class FMenuDev
     End Sub
 
     Private Sub PelunasanPerbaikanToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PelunasanPerbaikanToolStripMenuItem.Click
-        Pelunasan_Biaya_Import.StartPosition = FormStartPosition.CenterScreen
+        Emi_Pelunasan.StartPosition = FormStartPosition.CenterScreen
 
-        Pelunasan_Biaya_Import.MdiParent = Me
-        Pelunasan_Biaya_Import.Show()
-        Pelunasan_Biaya_Import.Focus()
+        Emi_Pelunasan.MdiParent = Me
+        Emi_Pelunasan.Show()
+        Emi_Pelunasan.Focus()
     End Sub
 
     Private Sub HutangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HutangToolStripMenuItem.Click
-        Display_Hutang_Biaya_Import.StartPosition = FormStartPosition.CenterScreen
+        Display_Emi_Pelunasan_Hutang.StartPosition = FormStartPosition.CenterScreen
 
-        Display_Hutang_Biaya_Import.MdiParent = Me
-        Display_Hutang_Biaya_Import.Show()
-        Display_Hutang_Biaya_Import.Focus()
+        Display_Emi_Pelunasan_Hutang.MdiParent = Me
+        Display_Emi_Pelunasan_Hutang.Show()
+        Display_Emi_Pelunasan_Hutang.Focus()
     End Sub
 
 

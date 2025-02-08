@@ -1,6 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-
-Public Class Display_Hutang_Biaya_Import
+﻿Public Class Display_Emi_Pelunasan_Hutang
 
     Dim lv As New ListViewItem
 
@@ -130,6 +128,7 @@ Public Class Display_Hutang_Biaya_Import
             ComboBox3.Items.Clear() : Arr1.Clear() : arrSfB.Clear()
             'ComboBox3.Items.Add("Tanggal") : Arr1.Add("a.tanggal")
             ComboBox3.Items.Add("Tanggal PO") : Arr1.Add("a.Tanggal_PO") : arrSfB.Add("Tanggal_PO")
+            ComboBox3.Items.Add("Jatuh Tempo") : Arr1.Add("a.Tgl_Jatuh_Tempo") : arrSfB.Add("Tgl_Jatuh_Tempo")
 
             'TextBoxa.Text = "0" 
             ComboBox3.Enabled = False : ComboBox2.Enabled = False
@@ -285,15 +284,14 @@ Public Class Display_Hutang_Biaya_Import
             Dim SF As String = ""
 
             '---------- SQL
-            SQL = "select a.kode_Perusahaan, a.No_PO, a.Keterangan, a.Tanggal_PO, a.Kode_Perusahaan_Biaya_Import, a.nama as Perusahaan, a.Kode_Master_Kategori_Biaya_Import , a.Nama_Kategori,  "
-            SQL = SQL & "a.Mata_uang, a.Nilai as TotalHutang, a.PPN, a.PPH, a.sudah_bayar, a.lokasi "
+            SQL = "select a.kode_perusahaan "
             SQL = SQL & "from View_EMI_Pelunasan a "
             SQL = SQL & "where a.kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.flag_lunas is null "
 
             '---------- SF
             SF = "{View_EMI_Pelunasan.Kode_Perusahaan} = '" & KodePerusahaan & "' and "
-            SF = SF & "IsNull({View_EMI_Pelunasan.Status})  "
+            SF = SF & "IsNull({View_EMI_Pelunasan.flag_lunas})  "
 
             'LOKASI
             If ComboBox6.SelectedIndex <> -1 Then
@@ -351,25 +349,22 @@ Public Class Display_Hutang_Biaya_Import
 
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                    'Dim CrDoc = New Rpt_Laporan_Hutang_Biaya_Import_Rpt
 
-                    'With A_Place_For_Printing2
-                    '    CrDoc.SetDataSource(Ds)
-                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    '    CrDoc.RecordSelectionFormula = SF
-                    '    .Text = "Laporan Perusahaan Biaya Import"
-                    '    .CrystalReportViewer1.ReportSource = CrDoc
-
-                    '    '.CrystalReportViewer1.DisplayGroupTree = False
-                    '    .Refresh()
-                    '    .Show()
-                    'End With
+                    Dim CrDoc As New Laporan_Emi_Pelunasan_Hutang    'Nama file CR
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.RecordSelectionFormula = SF
+                    With A_Place_For_Printing2
+                        .Text = "Laporan Hutang Per PO "
+                        .CrystalReportViewer1.ReportSource = CrDoc
+                        .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
+                        .Refresh()
+                        .Show()
+                    End With
                 Else
                     MessageBox.Show("Data tidak ada . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
             End Using
-
-
 
 
             CloseConn()

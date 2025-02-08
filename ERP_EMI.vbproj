@@ -216,16 +216,16 @@
     <Compile Include="Emi Form\Accounting\BIAYA 2008\Pelunasan_Biaya_Import_By_Perusahaan.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Accounting\BIAYA 2022\Display\Display_Hutang_Biaya_Import.Designer.vb">
-      <DependentUpon>Display_Hutang_Biaya_Import.vb</DependentUpon>
+    <Compile Include="Emi Form\Accounting\BIAYA 2022\Display\Display_Emi_Pelunasan_Hutang.Designer.vb">
+      <DependentUpon>Display_Emi_Pelunasan_Hutang.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\Accounting\BIAYA 2022\Display\Display_Hutang_Biaya_Import.vb">
+    <Compile Include="Emi Form\Accounting\BIAYA 2022\Display\Display_Emi_Pelunasan_Hutang.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Accounting\BIAYA 2022\Display\Display_Pelunasan_Biaya_Import.designer.vb">
-      <DependentUpon>Display_Pelunasan_Biaya_Import.vb</DependentUpon>
+    <Compile Include="Emi Form\Accounting\BIAYA 2022\Display\Display_Emi_Pelunasan.designer.vb">
+      <DependentUpon>Display_Emi_Pelunasan.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\Accounting\BIAYA 2022\Display\Display_Pelunasan_Biaya_Import.vb">
+    <Compile Include="Emi Form\Accounting\BIAYA 2022\Display\Display_Emi_Pelunasan.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Accounting\BIAYA 2022\Display\Display_Pelunasan_Supplier.designer.vb">
@@ -252,6 +252,12 @@
     <Compile Include="Emi Form\Accounting\BIAYA 2022\EMI_Pelunasan_Hutang_Bahan_Stock.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Accounting\BIAYA 2022\Report\Laporan_Emi_Pelunasan_Hutang.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Laporan_Emi_Pelunasan_Hutang.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Emi Form\Accounting\BIAYA 2022\Report\Laporan_Pelunasan_Biaya_Import_By_Perusahaan_IMPORT.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -268,6 +274,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Laporan_Pelunasan_Biaya_Import_By_Perusahaan_LOKAL.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Accounting\BIAYA 2022\Report\Laporan_Emi_Pelunasan.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Laporan_Emi_Pelunasan.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Emi Form\Accounting\BIAYA 2022\Report\R_Val_Pel_Pelunasan_Biaya_Import_By_Perusahaan.vb">
@@ -288,6 +300,12 @@
     <Compile Include="Emi Form\Accounting\BIAYA 2022\Show Dialog\EMI_Detail_Hutang_Biaya_Import.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Accounting\BIAYA 2022\Transaksi\Emi_Pelunasan.designer.vb">
+      <DependentUpon>Emi_Pelunasan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Accounting\BIAYA 2022\Transaksi\Emi_Pelunasan.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\Accounting\Budgeting_Per_CostCenter.Designer.vb">
       <DependentUpon>Budgeting_Per_CostCenter.vb</DependentUpon>
     </Compile>
@@ -304,12 +322,6 @@
       <DependentUpon>Detail_Account_New.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Accounting\Master Data\Detail_Account_New.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Accounting\Pelunasan_Biaya_Import.designer.vb">
-      <DependentUpon>Pelunasan_Biaya_Import.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Accounting\Pelunasan_Biaya_Import.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\B2B Sinkronasi\Server_Sinkronasi_B2B.designer.vb">
@@ -2188,11 +2200,11 @@
     <EmbeddedResource Include="Emi Form\Accounting\BIAYA 2008\Pelunasan_Biaya_Import_By_Perusahaan.resx">
       <DependentUpon>Pelunasan_Biaya_Import_By_Perusahaan.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Accounting\BIAYA 2022\Display\Display_Hutang_Biaya_Import.resx">
-      <DependentUpon>Display_Hutang_Biaya_Import.vb</DependentUpon>
+    <EmbeddedResource Include="Emi Form\Accounting\BIAYA 2022\Display\Display_Emi_Pelunasan_Hutang.resx">
+      <DependentUpon>Display_Emi_Pelunasan_Hutang.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Accounting\BIAYA 2022\Display\Display_Pelunasan_Biaya_Import.resx">
-      <DependentUpon>Display_Pelunasan_Biaya_Import.vb</DependentUpon>
+    <EmbeddedResource Include="Emi Form\Accounting\BIAYA 2022\Display\Display_Emi_Pelunasan.resx">
+      <DependentUpon>Display_Emi_Pelunasan.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Accounting\BIAYA 2022\Display\Display_Pelunasan_Supplier.resx">
       <DependentUpon>Display_Pelunasan_Supplier.vb</DependentUpon>
@@ -2206,6 +2218,10 @@
     <EmbeddedResource Include="Emi Form\Accounting\BIAYA 2022\EMI_Pelunasan_Hutang_Bahan_Stock.resx">
       <DependentUpon>EMI_Pelunasan_Hutang_Bahan_Stock.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Accounting\BIAYA 2022\Report\Laporan_Emi_Pelunasan_Hutang.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Laporan_Emi_Pelunasan_Hutang.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Accounting\BIAYA 2022\Report\Laporan_Pelunasan_Biaya_Import_By_Perusahaan_IMPORT.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Laporan_Pelunasan_Biaya_Import_By_Perusahaan_IMPORT.vb</LastGenOutput>
@@ -2217,6 +2233,10 @@
     <EmbeddedResource Include="Emi Form\Accounting\BIAYA 2022\Report\Laporan_Pelunasan_Biaya_Import_By_Perusahaan_LOKAL.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Laporan_Pelunasan_Biaya_Import_By_Perusahaan_LOKAL.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Accounting\BIAYA 2022\Report\Laporan_Emi_Pelunasan.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Laporan_Emi_Pelunasan.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Accounting\BIAYA 2022\Report\Rpt_Laporan_Hutang_Biaya_Import_Rpt.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -2232,6 +2252,9 @@
     <EmbeddedResource Include="Emi Form\Accounting\BIAYA 2022\Show Dialog\EMI_Detail_Hutang_Biaya_Import.resx">
       <DependentUpon>EMI_Detail_Hutang_Biaya_Import.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Accounting\BIAYA 2022\Transaksi\Emi_Pelunasan.resx">
+      <DependentUpon>Emi_Pelunasan.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Accounting\Budgeting_Per_CostCenter.resx">
       <DependentUpon>Budgeting_Per_CostCenter.vb</DependentUpon>
     </EmbeddedResource>
@@ -2240,9 +2263,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Accounting\Master Data\Detail_Account_New.resx">
       <DependentUpon>Detail_Account_New.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Accounting\Pelunasan_Biaya_Import.resx">
-      <DependentUpon>Pelunasan_Biaya_Import.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\B2B Sinkronasi\Server_Sinkronasi_B2B.resx">
       <DependentUpon>Server_Sinkronasi_B2B.vb</DependentUpon>

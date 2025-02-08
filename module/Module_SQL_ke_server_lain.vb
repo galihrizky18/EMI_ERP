@@ -1,12 +1,9 @@
 ﻿'Imports MySql.Data.MySqlClient
-Imports System.Security.Cryptography
-Imports System.Text
 Imports LovePdf.Core
 Imports LovePdf.Core.Sign
 Imports LovePdf.Model.Task
 Imports LovePdf.Model.TaskParams
 Imports LovePdf.Model.TaskParams.Sign.Elements
-Imports LovePdf.Model.TaskParams.Sign.Signers
 
 Module Module_SQL_Pengajuan
     Public CnSQL As SqlClient.SqlConnection
@@ -25,11 +22,11 @@ Module Module_SQL_Pengajuan
     Dim AccessCode As String = "3V0J4Y4"
 
 
-    Public CServerSQL As String = "35.240.215.51,59114\team"
-    Public Const CDatabaseSQL As String = "tes_absen"
+    Private CServerSQL As String = "35.240.215.51,59114\team"
+    Private Const CDatabaseSQL As String = "tes_absen"
     ''Public Const CDatabaseSQL As String = "grahaweb_tm"
-    Public Const CUserIdSQL As String = "sa2"
-    Public Const CPasswordSQL As String = "P@ssword99000"
+    Private Const CUserIdSQL As String = "sa2"
+    Private Const CPasswordSQL As String = "P@ssword99000"
 
 
     Public Sub OpenConnSQL()

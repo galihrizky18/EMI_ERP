@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Pelunasan_Biaya_Import
+Partial Class Emi_Pelunasan
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -23,7 +23,7 @@ Partial Class Pelunasan_Biaya_Import
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Pelunasan_Biaya_Import))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Emi_Pelunasan))
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.Cmb_Rekening_Tujuan = New System.Windows.Forms.ComboBox()
         Me.Btn_Refresh = New System.Windows.Forms.Button()
@@ -142,12 +142,12 @@ Partial Class Pelunasan_Biaya_Import
         Me.GroupBox2.Controls.Add(Me.TextBoxFktr)
         Me.GroupBox2.Controls.Add(Me.Label16)
         Me.GroupBox2.Controls.Add(Me.Label15)
-        Me.GroupBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox2.Location = New System.Drawing.Point(20, 391)
+        Me.GroupBox2.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox2.Location = New System.Drawing.Point(20, 342)
         Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupBox2.Size = New System.Drawing.Size(1374, 492)
+        Me.GroupBox2.Size = New System.Drawing.Size(1344, 484)
         Me.GroupBox2.TabIndex = 2
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Yang Akan Dilunasi"
@@ -156,19 +156,19 @@ Partial Class Pelunasan_Biaya_Import
         '
         Me.Cmb_Rekening_Tujuan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cmb_Rekening_Tujuan.Enabled = False
-        Me.Cmb_Rekening_Tujuan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
+        Me.Cmb_Rekening_Tujuan.Font = New System.Drawing.Font("Work Sans", 8.25!)
         Me.Cmb_Rekening_Tujuan.FormattingEnabled = True
-        Me.Cmb_Rekening_Tujuan.Location = New System.Drawing.Point(853, 50)
+        Me.Cmb_Rekening_Tujuan.Location = New System.Drawing.Point(820, 50)
         Me.Cmb_Rekening_Tujuan.Name = "Cmb_Rekening_Tujuan"
-        Me.Cmb_Rekening_Tujuan.Size = New System.Drawing.Size(122, 21)
+        Me.Cmb_Rekening_Tujuan.Size = New System.Drawing.Size(122, 24)
         Me.Cmb_Rekening_Tujuan.TabIndex = 466
         '
         'Btn_Refresh
         '
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(129, 445)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(129, 440)
         Me.Btn_Refresh.Margin = New System.Windows.Forms.Padding(2)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(115, 35)
@@ -179,9 +179,9 @@ Partial Class Pelunasan_Biaya_Import
         'Btn_Simpan
         '
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Simpan.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(12, 445)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(12, 440)
         Me.Btn_Simpan.Margin = New System.Windows.Forms.Padding(2)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(115, 35)
@@ -193,32 +193,32 @@ Partial Class Pelunasan_Biaya_Import
         '
         Me.TxtLokasi.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtLokasi.Enabled = False
-        Me.TxtLokasi.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.TxtLokasi.Location = New System.Drawing.Point(162, 51)
+        Me.TxtLokasi.Font = New System.Drawing.Font("Work Sans", 8.25!)
+        Me.TxtLokasi.Location = New System.Drawing.Point(158, 51)
         Me.TxtLokasi.Name = "TxtLokasi"
         Me.TxtLokasi.ReadOnly = True
-        Me.TxtLokasi.Size = New System.Drawing.Size(128, 20)
+        Me.TxtLokasi.Size = New System.Drawing.Size(123, 20)
         Me.TxtLokasi.TabIndex = 331
         '
         'TxtNmKategori
         '
         Me.TxtNmKategori.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtNmKategori.Enabled = False
-        Me.TxtNmKategori.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.TxtNmKategori.Location = New System.Drawing.Point(604, 51)
+        Me.TxtNmKategori.Font = New System.Drawing.Font("Work Sans", 8.25!)
+        Me.TxtNmKategori.Location = New System.Drawing.Point(580, 51)
         Me.TxtNmKategori.Name = "TxtNmKategori"
         Me.TxtNmKategori.ReadOnly = True
-        Me.TxtNmKategori.Size = New System.Drawing.Size(166, 20)
+        Me.TxtNmKategori.Size = New System.Drawing.Size(154, 20)
         Me.TxtNmKategori.TabIndex = 330
         '
         'Label10
         '
         Me.Label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.Label10.Location = New System.Drawing.Point(604, 24)
+        Me.Label10.Font = New System.Drawing.Font("Work Sans", 8.25!)
+        Me.Label10.Location = New System.Drawing.Point(580, 24)
         Me.Label10.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(166, 25)
+        Me.Label10.Size = New System.Drawing.Size(154, 25)
         Me.Label10.TabIndex = 329
         Me.Label10.Text = "Kategori"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -226,8 +226,8 @@ Partial Class Pelunasan_Biaya_Import
         'txt_TotKurs_Baru
         '
         Me.txt_TotKurs_Baru.Enabled = False
-        Me.txt_TotKurs_Baru.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.txt_TotKurs_Baru.Location = New System.Drawing.Point(1100, 375)
+        Me.txt_TotKurs_Baru.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold)
+        Me.txt_TotKurs_Baru.Location = New System.Drawing.Point(1067, 357)
         Me.txt_TotKurs_Baru.Margin = New System.Windows.Forms.Padding(4)
         Me.txt_TotKurs_Baru.Name = "txt_TotKurs_Baru"
         Me.txt_TotKurs_Baru.Size = New System.Drawing.Size(269, 22)
@@ -237,8 +237,8 @@ Partial Class Pelunasan_Biaya_Import
         'txt_TotKurs_Lama
         '
         Me.txt_TotKurs_Lama.Enabled = False
-        Me.txt_TotKurs_Lama.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.txt_TotKurs_Lama.Location = New System.Drawing.Point(1100, 344)
+        Me.txt_TotKurs_Lama.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold)
+        Me.txt_TotKurs_Lama.Location = New System.Drawing.Point(1065, 327)
         Me.txt_TotKurs_Lama.Margin = New System.Windows.Forms.Padding(4)
         Me.txt_TotKurs_Lama.Name = "txt_TotKurs_Lama"
         Me.txt_TotKurs_Lama.Size = New System.Drawing.Size(269, 22)
@@ -249,11 +249,11 @@ Partial Class Pelunasan_Biaya_Import
         '
         Me.Label21.AutoSize = True
         Me.Label21.Enabled = False
-        Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Label21.Location = New System.Drawing.Point(969, 440)
+        Me.Label21.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold)
+        Me.Label21.Location = New System.Drawing.Point(934, 419)
         Me.Label21.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(89, 16)
+        Me.Label21.Size = New System.Drawing.Size(77, 17)
         Me.Label21.TabIndex = 327
         Me.Label21.Text = "Grand Total"
         '
@@ -261,19 +261,19 @@ Partial Class Pelunasan_Biaya_Import
         '
         Me.Label20.AutoSize = True
         Me.Label20.Enabled = False
-        Me.Label20.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Label20.Location = New System.Drawing.Point(969, 470)
+        Me.Label20.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold)
+        Me.Label20.Location = New System.Drawing.Point(934, 449)
         Me.Label20.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(88, 16)
+        Me.Label20.Size = New System.Drawing.Size(75, 17)
         Me.Label20.TabIndex = 327
         Me.Label20.Text = "Selisih Kurs"
         '
         'Txt_GrandTotal
         '
         Me.Txt_GrandTotal.Enabled = False
-        Me.Txt_GrandTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Txt_GrandTotal.Location = New System.Drawing.Point(1102, 437)
+        Me.Txt_GrandTotal.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold)
+        Me.Txt_GrandTotal.Location = New System.Drawing.Point(1067, 416)
         Me.Txt_GrandTotal.Margin = New System.Windows.Forms.Padding(4)
         Me.Txt_GrandTotal.Name = "Txt_GrandTotal"
         Me.Txt_GrandTotal.Size = New System.Drawing.Size(269, 22)
@@ -283,8 +283,8 @@ Partial Class Pelunasan_Biaya_Import
         'TextBoxSelisih
         '
         Me.TextBoxSelisih.Enabled = False
-        Me.TextBoxSelisih.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.TextBoxSelisih.Location = New System.Drawing.Point(1102, 467)
+        Me.TextBoxSelisih.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold)
+        Me.TextBoxSelisih.Location = New System.Drawing.Point(1067, 446)
         Me.TextBoxSelisih.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBoxSelisih.Name = "TextBoxSelisih"
         Me.TextBoxSelisih.Size = New System.Drawing.Size(269, 22)
@@ -295,11 +295,11 @@ Partial Class Pelunasan_Biaya_Import
         '
         Me.Label22.AutoSize = True
         Me.Label22.Enabled = False
-        Me.Label22.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Label22.Location = New System.Drawing.Point(969, 347)
+        Me.Label22.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold)
+        Me.Label22.Location = New System.Drawing.Point(934, 330)
         Me.Label22.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(115, 16)
+        Me.Label22.Size = New System.Drawing.Size(97, 17)
         Me.Label22.TabIndex = 327
         Me.Label22.Text = "Total IDR Lama"
         '
@@ -307,19 +307,19 @@ Partial Class Pelunasan_Biaya_Import
         '
         Me.Label8.AutoSize = True
         Me.Label8.Enabled = False
-        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Label8.Location = New System.Drawing.Point(969, 378)
+        Me.Label8.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold)
+        Me.Label8.Location = New System.Drawing.Point(936, 360)
         Me.Label8.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(109, 16)
+        Me.Label8.Size = New System.Drawing.Size(92, 17)
         Me.Label8.TabIndex = 327
         Me.Label8.Text = "Total IDR Baru"
         '
         'TextBoxtotPPN
         '
         Me.TextBoxtotPPN.Enabled = False
-        Me.TextBoxtotPPN.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.TextBoxtotPPN.Location = New System.Drawing.Point(1102, 407)
+        Me.TextBoxtotPPN.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold)
+        Me.TextBoxtotPPN.Location = New System.Drawing.Point(1067, 387)
         Me.TextBoxtotPPN.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBoxtotPPN.Name = "TextBoxtotPPN"
         Me.TextBoxtotPPN.Size = New System.Drawing.Size(106, 22)
@@ -330,11 +330,11 @@ Partial Class Pelunasan_Biaya_Import
         '
         Me.Label7.AutoSize = True
         Me.Label7.Enabled = False
-        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Label7.Location = New System.Drawing.Point(1063, 409)
+        Me.Label7.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold)
+        Me.Label7.Location = New System.Drawing.Point(1028, 389)
         Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(38, 16)
+        Me.Label7.Size = New System.Drawing.Size(33, 17)
         Me.Label7.TabIndex = 325
         Me.Label7.Text = "PPN"
         '
@@ -342,18 +342,18 @@ Partial Class Pelunasan_Biaya_Import
         '
         Me.Dtp_TglBayar.CustomFormat = "dd MMMM yyyy"
         Me.Dtp_TglBayar.Enabled = False
-        Me.Dtp_TglBayar.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
+        Me.Dtp_TglBayar.Font = New System.Drawing.Font("Work Sans", 8.25!)
         Me.Dtp_TglBayar.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.Dtp_TglBayar.Location = New System.Drawing.Point(979, 52)
+        Me.Dtp_TglBayar.Location = New System.Drawing.Point(946, 52)
         Me.Dtp_TglBayar.Name = "Dtp_TglBayar"
-        Me.Dtp_TglBayar.Size = New System.Drawing.Size(138, 20)
+        Me.Dtp_TglBayar.Size = New System.Drawing.Size(137, 20)
         Me.Dtp_TglBayar.TabIndex = 0
         '
         'TextBoxtotPPH
         '
         Me.TextBoxtotPPH.Enabled = False
-        Me.TextBoxtotPPH.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.TextBoxtotPPH.Location = New System.Drawing.Point(1255, 406)
+        Me.TextBoxtotPPH.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold)
+        Me.TextBoxtotPPH.Location = New System.Drawing.Point(1220, 386)
         Me.TextBoxtotPPH.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBoxtotPPH.Name = "TextBoxtotPPH"
         Me.TextBoxtotPPH.Size = New System.Drawing.Size(114, 22)
@@ -364,11 +364,11 @@ Partial Class Pelunasan_Biaya_Import
         '
         Me.Label6.AutoSize = True
         Me.Label6.Enabled = False
-        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Label6.Location = New System.Drawing.Point(1211, 409)
+        Me.Label6.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold)
+        Me.Label6.Location = New System.Drawing.Point(1176, 389)
         Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(38, 16)
+        Me.Label6.Size = New System.Drawing.Size(33, 17)
         Me.Label6.TabIndex = 323
         Me.Label6.Text = "PPH"
         '
@@ -376,8 +376,8 @@ Partial Class Pelunasan_Biaya_Import
         '
         Me.TextBoxMT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxMT.Enabled = False
-        Me.TextBoxMT.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.TextBoxMT.Location = New System.Drawing.Point(774, 51)
+        Me.TextBoxMT.Font = New System.Drawing.Font("Work Sans", 8.25!)
+        Me.TextBoxMT.Location = New System.Drawing.Point(739, 51)
         Me.TextBoxMT.Name = "TextBoxMT"
         Me.TextBoxMT.ReadOnly = True
         Me.TextBoxMT.Size = New System.Drawing.Size(76, 20)
@@ -387,8 +387,8 @@ Partial Class Pelunasan_Biaya_Import
         'Label23
         '
         Me.Label23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label23.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.Label23.Location = New System.Drawing.Point(979, 24)
+        Me.Label23.Font = New System.Drawing.Font("Work Sans", 8.25!)
+        Me.Label23.Location = New System.Drawing.Point(946, 24)
         Me.Label23.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(137, 25)
@@ -399,8 +399,8 @@ Partial Class Pelunasan_Biaya_Import
         'Lbl_Rekening
         '
         Me.Lbl_Rekening.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_Rekening.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.Lbl_Rekening.Location = New System.Drawing.Point(853, 24)
+        Me.Lbl_Rekening.Font = New System.Drawing.Font("Work Sans", 8.25!)
+        Me.Lbl_Rekening.Location = New System.Drawing.Point(820, 24)
         Me.Lbl_Rekening.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Lbl_Rekening.Name = "Lbl_Rekening"
         Me.Lbl_Rekening.Size = New System.Drawing.Size(122, 25)
@@ -411,8 +411,8 @@ Partial Class Pelunasan_Biaya_Import
         'Label11
         '
         Me.Label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.Label11.Location = New System.Drawing.Point(774, 24)
+        Me.Label11.Font = New System.Drawing.Font("Work Sans", 8.25!)
+        Me.Label11.Location = New System.Drawing.Point(739, 24)
         Me.Label11.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(76, 25)
@@ -425,8 +425,8 @@ Partial Class Pelunasan_Biaya_Import
         Me.TextBoxbyr.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.TextBoxbyr.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxbyr.Enabled = False
-        Me.TextBoxbyr.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.TextBoxbyr.Location = New System.Drawing.Point(1119, 51)
+        Me.TextBoxbyr.Font = New System.Drawing.Font("Work Sans", 8.25!)
+        Me.TextBoxbyr.Location = New System.Drawing.Point(1089, 51)
         Me.TextBoxbyr.Name = "TextBoxbyr"
         Me.TextBoxbyr.Size = New System.Drawing.Size(122, 20)
         Me.TextBoxbyr.TabIndex = 308
@@ -435,8 +435,8 @@ Partial Class Pelunasan_Biaya_Import
         'TextBoxtot1
         '
         Me.TextBoxtot1.Enabled = False
-        Me.TextBoxtot1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxtot1.Location = New System.Drawing.Point(1100, 313)
+        Me.TextBoxtot1.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBoxtot1.Location = New System.Drawing.Point(1065, 297)
         Me.TextBoxtot1.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBoxtot1.Name = "TextBoxtot1"
         Me.TextBoxtot1.Size = New System.Drawing.Size(269, 22)
@@ -447,19 +447,19 @@ Partial Class Pelunasan_Biaya_Import
         '
         Me.Label13.AutoSize = True
         Me.Label13.Enabled = False
-        Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(969, 316)
+        Me.Label13.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label13.Location = New System.Drawing.Point(934, 300)
         Me.Label13.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(80, 16)
+        Me.Label13.Size = New System.Drawing.Size(69, 17)
         Me.Label13.TabIndex = 34
         Me.Label13.Text = "Total MUA"
         '
         'Label9
         '
         Me.Label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.Label9.Location = New System.Drawing.Point(1119, 24)
+        Me.Label9.Font = New System.Drawing.Font("Work Sans", 8.25!)
+        Me.Label9.Location = New System.Drawing.Point(1089, 24)
         Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(122, 25)
@@ -472,8 +472,8 @@ Partial Class Pelunasan_Biaya_Import
         Me.TextBoxjml.BackColor = System.Drawing.SystemColors.Control
         Me.TextBoxjml.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxjml.Enabled = False
-        Me.TextBoxjml.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.TextBoxjml.Location = New System.Drawing.Point(1244, 51)
+        Me.TextBoxjml.Font = New System.Drawing.Font("Work Sans", 8.25!)
+        Me.TextBoxjml.Location = New System.Drawing.Point(1215, 51)
         Me.TextBoxjml.Name = "TextBoxjml"
         Me.TextBoxjml.ReadOnly = True
         Me.TextBoxjml.Size = New System.Drawing.Size(122, 20)
@@ -483,8 +483,8 @@ Partial Class Pelunasan_Biaya_Import
         'Label18
         '
         Me.Label18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label18.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.Label18.Location = New System.Drawing.Point(1244, 24)
+        Me.Label18.Font = New System.Drawing.Font("Work Sans", 8.25!)
+        Me.Label18.Location = New System.Drawing.Point(1215, 24)
         Me.Label18.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(122, 25)
@@ -494,14 +494,14 @@ Partial Class Pelunasan_Biaya_Import
         '
         'ListViewMT11
         '
-        Me.ListViewMT11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.ListViewMT11.Font = New System.Drawing.Font("Work Sans", 8.25!)
         Me.ListViewMT11.FullRowSelect = True
         Me.ListViewMT11.GridLines = True
         Me.ListViewMT11.HideSelection = False
         Me.ListViewMT11.Location = New System.Drawing.Point(12, 80)
         Me.ListViewMT11.Margin = New System.Windows.Forms.Padding(4)
         Me.ListViewMT11.Name = "ListViewMT11"
-        Me.ListViewMT11.Size = New System.Drawing.Size(1358, 216)
+        Me.ListViewMT11.Size = New System.Drawing.Size(1322, 199)
         Me.ListViewMT11.TabIndex = 316
         Me.ListViewMT11.UseCompatibleStateImageBehavior = False
         '
@@ -509,21 +509,21 @@ Partial Class Pelunasan_Biaya_Import
         '
         Me.TextBoxNP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxNP.Enabled = False
-        Me.TextBoxNP.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.TextBoxNP.Location = New System.Drawing.Point(293, 51)
+        Me.TextBoxNP.Font = New System.Drawing.Font("Work Sans", 8.25!)
+        Me.TextBoxNP.Location = New System.Drawing.Point(285, 51)
         Me.TextBoxNP.Name = "TextBoxNP"
         Me.TextBoxNP.ReadOnly = True
-        Me.TextBoxNP.Size = New System.Drawing.Size(310, 20)
+        Me.TextBoxNP.Size = New System.Drawing.Size(291, 20)
         Me.TextBoxNP.TabIndex = 303
         '
         'Label17
         '
         Me.Label17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.Label17.Location = New System.Drawing.Point(293, 24)
+        Me.Label17.Font = New System.Drawing.Font("Work Sans", 8.25!)
+        Me.Label17.Location = New System.Drawing.Point(285, 24)
         Me.Label17.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(310, 25)
+        Me.Label17.Size = New System.Drawing.Size(291, 25)
         Me.Label17.TabIndex = 302
         Me.Label17.Text = "Nama Perusahaan"
         Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -532,21 +532,21 @@ Partial Class Pelunasan_Biaya_Import
         '
         Me.TextBoxFktr.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxFktr.Enabled = False
-        Me.TextBoxFktr.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBoxFktr.Font = New System.Drawing.Font("Work Sans", 8.25!)
         Me.TextBoxFktr.Location = New System.Drawing.Point(11, 51)
         Me.TextBoxFktr.Name = "TextBoxFktr"
         Me.TextBoxFktr.ReadOnly = True
-        Me.TextBoxFktr.Size = New System.Drawing.Size(149, 20)
+        Me.TextBoxFktr.Size = New System.Drawing.Size(143, 20)
         Me.TextBoxFktr.TabIndex = 288
         '
         'Label16
         '
         Me.Label16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label16.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label16.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label16.Location = New System.Drawing.Point(11, 24)
         Me.Label16.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(149, 25)
+        Me.Label16.Size = New System.Drawing.Size(143, 25)
         Me.Label16.TabIndex = 287
         Me.Label16.Text = "No Faktur"
         Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -554,11 +554,11 @@ Partial Class Pelunasan_Biaya_Import
         'Label15
         '
         Me.Label15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label15.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.Label15.Location = New System.Drawing.Point(162, 24)
+        Me.Label15.Font = New System.Drawing.Font("Work Sans", 8.25!)
+        Me.Label15.Location = New System.Drawing.Point(158, 24)
         Me.Label15.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(128, 25)
+        Me.Label15.Size = New System.Drawing.Size(123, 25)
         Me.Label15.TabIndex = 286
         Me.Label15.Text = "Lokasi"
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -655,25 +655,25 @@ Partial Class Pelunasan_Biaya_Import
         '
         'ListViewMT1
         '
-        Me.ListViewMT1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.ListViewMT1.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ListViewMT1.FullRowSelect = True
         Me.ListViewMT1.GridLines = True
         Me.ListViewMT1.HideSelection = False
-        Me.ListViewMT1.Location = New System.Drawing.Point(7, 58)
+        Me.ListViewMT1.Location = New System.Drawing.Point(7, 44)
         Me.ListViewMT1.Margin = New System.Windows.Forms.Padding(4)
         Me.ListViewMT1.Name = "ListViewMT1"
-        Me.ListViewMT1.Size = New System.Drawing.Size(1363, 210)
+        Me.ListViewMT1.Size = New System.Drawing.Size(1328, 173)
         Me.ListViewMT1.TabIndex = 48
         Me.ListViewMT1.UseCompatibleStateImageBehavior = False
         '
         'DateTimePicker1
         '
         Me.DateTimePicker1.CustomFormat = "dd MMMM yyyy"
-        Me.DateTimePicker1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DateTimePicker1.Font = New System.Drawing.Font("Work Sans", 8.25!)
         Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.DateTimePicker1.Location = New System.Drawing.Point(87, 92)
         Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.Size = New System.Drawing.Size(189, 21)
+        Me.DateTimePicker1.Size = New System.Drawing.Size(189, 20)
         Me.DateTimePicker1.TabIndex = 0
         '
         'TxtFaktur
@@ -690,30 +690,32 @@ Partial Class Pelunasan_Biaya_Import
         'ComboBoxNP1
         '
         Me.ComboBoxNP1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBoxNP1.Font = New System.Drawing.Font("Work Sans", 8.25!)
         Me.ComboBoxNP1.FormattingEnabled = True
-        Me.ComboBoxNP1.Location = New System.Drawing.Point(137, 22)
+        Me.ComboBoxNP1.Location = New System.Drawing.Point(115, 14)
         Me.ComboBoxNP1.Margin = New System.Windows.Forms.Padding(4)
         Me.ComboBoxNP1.Name = "ComboBoxNP1"
-        Me.ComboBoxNP1.Size = New System.Drawing.Size(160, 23)
+        Me.ComboBoxNP1.Size = New System.Drawing.Size(160, 24)
         Me.ComboBoxNP1.TabIndex = 0
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(4, 26)
+        Me.Label2.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(4, 18)
         Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(111, 15)
+        Me.Label2.Size = New System.Drawing.Size(103, 16)
         Me.Label2.TabIndex = 223
         Me.Label2.Text = "Nama Perusahaan"
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(308, 26)
+        Me.Label3.Location = New System.Drawing.Point(286, 18)
         Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(68, 15)
+        Me.Label3.Size = New System.Drawing.Size(64, 16)
         Me.Label3.TabIndex = 224
         Me.Label3.Text = "Mata Uang"
         '
@@ -729,12 +731,12 @@ Partial Class Pelunasan_Biaya_Import
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.ComboBoxNP1)
         Me.GroupBox1.Controls.Add(Me.Txt_KursBaru)
-        Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox1.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(19, 116)
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupBox1.Size = New System.Drawing.Size(1374, 274)
+        Me.GroupBox1.Size = New System.Drawing.Size(1345, 226)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Data PO"
@@ -744,7 +746,7 @@ Partial Class Pelunasan_Biaya_Import
         Me.Btn_Cari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Cari.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Cari.ForeColor = System.Drawing.Color.White
-        Me.Btn_Cari.Location = New System.Drawing.Point(927, 20)
+        Me.Btn_Cari.Location = New System.Drawing.Point(880, 12)
         Me.Btn_Cari.Name = "Btn_Cari"
         Me.Btn_Cari.Size = New System.Drawing.Size(79, 32)
         Me.Btn_Cari.TabIndex = 465
@@ -755,29 +757,29 @@ Partial Class Pelunasan_Biaya_Import
         '
         Me.Cmb_Jenis.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cmb_Jenis.FormattingEnabled = True
-        Me.Cmb_Jenis.Location = New System.Drawing.Point(574, 23)
+        Me.Cmb_Jenis.Location = New System.Drawing.Point(533, 15)
         Me.Cmb_Jenis.Margin = New System.Windows.Forms.Padding(4)
         Me.Cmb_Jenis.Name = "Cmb_Jenis"
-        Me.Cmb_Jenis.Size = New System.Drawing.Size(130, 23)
+        Me.Cmb_Jenis.Size = New System.Drawing.Size(130, 24)
         Me.Cmb_Jenis.TabIndex = 315
         '
         'Label19
         '
         Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(719, 26)
+        Me.Label19.Location = New System.Drawing.Point(683, 18)
         Me.Label19.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(32, 15)
+        Me.Label19.Size = New System.Drawing.Size(31, 16)
         Me.Label19.TabIndex = 224
         Me.Label19.Text = "Kurs"
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(522, 26)
+        Me.Label1.Location = New System.Drawing.Point(490, 18)
         Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(36, 15)
+        Me.Label1.Size = New System.Drawing.Size(35, 16)
         Me.Label1.TabIndex = 224
         Me.Label1.Text = "Jenis"
         '
@@ -785,10 +787,10 @@ Partial Class Pelunasan_Biaya_Import
         '
         Me.ComboBoxMT1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBoxMT1.FormattingEnabled = True
-        Me.ComboBoxMT1.Location = New System.Drawing.Point(395, 22)
+        Me.ComboBoxMT1.Location = New System.Drawing.Point(360, 14)
         Me.ComboBoxMT1.Margin = New System.Windows.Forms.Padding(4)
         Me.ComboBoxMT1.Name = "ComboBoxMT1"
-        Me.ComboBoxMT1.Size = New System.Drawing.Size(116, 23)
+        Me.ComboBoxMT1.Size = New System.Drawing.Size(116, 24)
         Me.ComboBoxMT1.TabIndex = 315
         '
         'Txt_KursBaru
@@ -796,7 +798,7 @@ Partial Class Pelunasan_Biaya_Import
         Me.Txt_KursBaru.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.Txt_KursBaru.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_KursBaru.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        Me.Txt_KursBaru.Location = New System.Drawing.Point(766, 25)
+        Me.Txt_KursBaru.Location = New System.Drawing.Point(722, 17)
         Me.Txt_KursBaru.Name = "Txt_KursBaru"
         Me.Txt_KursBaru.Size = New System.Drawing.Size(157, 22)
         Me.Txt_KursBaru.TabIndex = 308
@@ -805,32 +807,32 @@ Partial Class Pelunasan_Biaya_Import
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.Location = New System.Drawing.Point(23, 93)
         Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(52, 15)
+        Me.Label4.Size = New System.Drawing.Size(47, 16)
         Me.Label4.TabIndex = 226
         Me.Label4.Text = "Tanggal"
         '
         'TextBoxket
         '
-        Me.TextBoxket.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBoxket.Font = New System.Drawing.Font("Work Sans", 8.25!)
         Me.TextBoxket.Location = New System.Drawing.Point(374, 92)
         Me.TextBoxket.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBoxket.MaxLength = 50
         Me.TextBoxket.Name = "TextBoxket"
-        Me.TextBoxket.Size = New System.Drawing.Size(283, 21)
+        Me.TextBoxket.Size = New System.Drawing.Size(283, 20)
         Me.TextBoxket.TabIndex = 1
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Font = New System.Drawing.Font("Work Sans", 8.25!)
         Me.Label5.Location = New System.Drawing.Point(293, 93)
         Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(71, 15)
+        Me.Label5.Size = New System.Drawing.Size(67, 16)
         Me.Label5.TabIndex = 228
         Me.Label5.Text = "Keterangan"
         '
@@ -879,7 +881,7 @@ Partial Class Pelunasan_Biaya_Import
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1414, 49)
+        Me.Panel1.Size = New System.Drawing.Size(1385, 49)
         Me.Panel1.TabIndex = 339
         '
         'PanelGradient1
@@ -892,7 +894,7 @@ Partial Class Pelunasan_Biaya_Import
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 46)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1414, 3)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1385, 3)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label14
@@ -902,9 +904,9 @@ Partial Class Pelunasan_Biaya_Import
         Me.Label14.Location = New System.Drawing.Point(16, 12)
         Me.Label14.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(261, 25)
+        Me.Label14.Size = New System.Drawing.Size(344, 25)
         Me.Label14.TabIndex = 0
-        Me.Label14.Text = "Pelunasan Biaya Import"
+        Me.Label14.Text = "Pengajuan Pembayaran Hutang"
         '
         'Panel6
         '
@@ -929,7 +931,7 @@ Partial Class Pelunasan_Biaya_Import
         'Panel2
         '
         Me.Panel2.BackColor = System.Drawing.Color.Red
-        Me.Panel2.Location = New System.Drawing.Point(1397, 71)
+        Me.Panel2.Location = New System.Drawing.Point(1366, 71)
         Me.Panel2.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(19, 857)
@@ -939,7 +941,7 @@ Partial Class Pelunasan_Biaya_Import
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(26, 886)
+        Me.Panel4.Location = New System.Drawing.Point(21, 827)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1749, 14)
@@ -978,7 +980,7 @@ Partial Class Pelunasan_Biaya_Import
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1414, 901)
+        Me.ClientSize = New System.Drawing.Size(1385, 838)
         Me.Controls.Add(Me.Txt_SelectedJns2)
         Me.Controls.Add(Me.Txt_SelectedJns1)
         Me.Controls.Add(Me.Txt_SelectedJenis)
