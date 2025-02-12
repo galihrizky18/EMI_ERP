@@ -108,8 +108,8 @@
 
     Private Sub Header_lvValPelBiayaImport()
         lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("No Pelunasan", 120, HorizontalAlignment.Left) '0            
-        lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Tanggal", 90, HorizontalAlignment.Center) '1
-        lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Jam", 65, HorizontalAlignment.Center) '2
+        lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Tanggal", 100, HorizontalAlignment.Center) '1
+        lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Jam", 70, HorizontalAlignment.Center) '2
         lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Kategori Biaya", 0, HorizontalAlignment.Left) '3
         lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Keterangan", 250, HorizontalAlignment.Left) '4
         lvValPelPelunasanBiayaImportByPerusahaan.Columns.Add("User", 80, HorizontalAlignment.Center) '5
@@ -129,7 +129,7 @@
     Private Sub Header_lvDetailValPelBiayaImport()
         lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("No Val", 0, HorizontalAlignment.Left) '0            
         lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("No Faktur", 130, HorizontalAlignment.Left) '1
-        lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Nama Perusahaan", 200, HorizontalAlignment.Left) '2
+        lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Nama Perusahaan", 260, HorizontalAlignment.Left) '2
         lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Kategori Biaya", 0, HorizontalAlignment.Left) '3
         lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Lokasi", 150, HorizontalAlignment.Left) '4
         lvDetailValPelPelunasanBiayaImportByPerusahaan.Columns.Add("Nilai", 110, HorizontalAlignment.Right) '5

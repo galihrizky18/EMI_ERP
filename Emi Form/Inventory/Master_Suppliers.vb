@@ -1,7 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-Public Class Master_Suppliers
+﻿Public Class Master_Suppliers
     Dim arrkolom, arrkategori, arrkategoriImport, arrPerhitunganTempo, arrKatBaru As New ArrayList
 
     Private Sub Perusahaan_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -162,12 +159,18 @@ Public Class Master_Suppliers
         ComboBox1.Items.Add("Perhitungan Jatuh Tempo") : arrkolom.Add("Perhitungan_Jatuh_Tempo")
         ComboBox1.Items.Add("Ket Perhitungan Jatuh Tempo") : arrkolom.Add("Ket_Perhitungan_Jatuh_Tempo")
 
+        cmb_JenisPPH.Items.Clear()
+        cmb_JenisPPH.Items.Add("21")
+        cmb_JenisPPH.Items.Add("23")
+        cmb_JenisPPH.SelectedIndex = -1 : cmb_JenisPPH.Text = ""
+
         TextBox1.Text = "" : ComboBox2.SelectedIndex = -1 : ComboBox3.SelectedIndex = -1
         TextBox2.Text = "" : TextBox3.Text = ""
         TextBox4.Text = "" : TextBox5.Text = "" : TextBox6.Text = ""
         TextBox7.Text = "" : TextBox8.Text = "" : TextBox9.Text = ""
         TextBox10.Text = "" : TextBox11.Text = "" : TextBox12.Text = ""
         TextBox13.Text = "" : TextBox14.Text = "" : TextBox15.Text = ""
+        Txt_PPN.Text = "" : Txt_PPH.Text = ""
         ComboBox4.SelectedIndex = -1 : ComboBox5.SelectedIndex = -1 : ComboBox6.SelectedIndex = -1
         Button1.Text = "&Simpan" : Button2.Enabled = False
 
@@ -187,7 +190,7 @@ Public Class Master_Suppliers
             SQL = "Select kode_supplier, nama, alamat, pemilik, telepon, fax, contact_person,ID_Kategori_Suppliers, "
             SQL = SQL & "hp_cp, kode_kategori, Kategori_Import, Nama_Supplier, Negara, Kota, Port, "
             SQL = SQL & "PIC, Mata_Uang_Rek, Mata_Uang_Declare, Mata_Uang_Bayar, Perhitungan_Jatuh_Tempo, "
-            SQL = SQL & "Ket_Perhitungan_Jatuh_Tempo From suppliers Where "
+            SQL = SQL & "Ket_Perhitungan_Jatuh_Tempo, PPN, PPH From suppliers Where "
             SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and "
             SQL = SQL & "kode_supplier = '" & TextBox1.Text.Trim & "'"
             Using Dr = OpenTrans(SQL)
@@ -225,6 +228,9 @@ Public Class Master_Suppliers
                     ComboBox4.Text = General_Class.CekNULL(Dr("Mata_Uang_Rek"))
                     ComboBox5.Text = General_Class.CekNULL(Dr("Mata_Uang_Declare"))
                     ComboBox6.Text = General_Class.CekNULL(Dr("Mata_Uang_Bayar"))
+                    Txt_PPN.Text = If(General_Class.CekNULL(Dr("PPN")) = "", 0, Dr("PPN"))
+                    Txt_PPH.Text = If(General_Class.CekNULL(Dr("PPH")) = "", 0, Dr("PPH"))
+
                     For i As Integer = 0 To ComboBox7.Items.Count - 1
                         If arrPerhitunganTempo.Item(i) = General_Class.CekNULL(Dr("Perhitungan_Jatuh_Tempo")) Then
                             ComboBox7.SelectedIndex = i
@@ -240,6 +246,7 @@ Public Class Master_Suppliers
                     TextBox7.Text = "" : TextBox8.Text = "" : TextBox9.Text = ""
                     TextBox10.Text = "" : TextBox11.Text = "" : TextBox12.Text = ""
                     TextBox13.Text = "" : TextBox14.Text = ""
+                    Txt_PPN.Text = "" : Txt_PPH.Text = ""
                     ComboBox4.SelectedIndex = -1 : ComboBox5.SelectedIndex = -1 : ComboBox6.SelectedIndex = -1 : ComboBox7.SelectedIndex = -1
                     TextBox15.Text = ""
                     Button1.Text = "&Simpan" : Button2.Enabled = False
@@ -318,7 +325,17 @@ Public Class Master_Suppliers
         ElseIf CmbKategori.Text = "" Then
             MessageBox.Show("Kategori Import harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             CmbKategori.Focus() : Exit Sub
+        ElseIf Txt_PPN.Text = "" Then
+            MessageBox.Show("PPN harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Txt_PPN.Focus() : Exit Sub
+        ElseIf Txt_PPH.Text = "" Then
+            MessageBox.Show("PPH harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Txt_PPH.Focus() : Exit Sub
+        ElseIf cmb_JenisPPH.SelectedIndex = -1 Then
+            MessageBox.Show("Jenis PPH harus dipilih!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            cmb_JenisPPH.Focus() : Exit Sub
         End If
+
 
         Try
             OpenConn()
@@ -351,7 +368,7 @@ Public Class Master_Suppliers
                 SQL = SQL & "alamat, pemilik, telepon, fax, contact_person, hp_cp, hutang, Kategori_Import,"
                 SQL = SQL & " Nama_Supplier, Negara, Kota, Port, PIC, Mata_Uang_Rek, Mata_Uang_Declare, Mata_Uang_Bayar, "
                 SQL = SQL & " Perhitungan_Jatuh_Tempo, Ket_Perhitungan_Jatuh_Tempo,ID_Kategori_Suppliers, "
-                SQL = SQL & "inisial_sup, tampil_di_PO, Flag_Average, Flag_Form_E, Metode_Selisih_Declare, Biaya_Form_E) "
+                SQL = SQL & "inisial_sup, tampil_di_PO, Flag_Average, Flag_Form_E, Metode_Selisih_Declare, Biaya_Form_E, PPN, PPH, Jenis_PPH) "
                 SQL = SQL & "Values('" & KodePerusahaan & "', "
                 SQL = SQL & "'" & arrkategori.Item(ComboBox2.SelectedIndex) & "', "
                 SQL = SQL & "'" & TextBox1.Text.Trim & "', '" & TextBox13.Text.Trim & "', "
@@ -362,7 +379,8 @@ Public Class Master_Suppliers
                 SQL = SQL & "'" & TextBox2.Text.Trim & "', '" & TextBox10.Text.Trim & "', '" & TextBox11.Text.Trim & "', "
                 SQL = SQL & "'" & TextBox12.Text.Trim & "', '" & TextBox14.Text.Trim & "', '" & ComboBox4.Text & "', "
                 SQL = SQL & "'" & ComboBox5.Text & "', '" & ComboBox6.Text & "','" & arrPerhitunganTempo.Item(ComboBox7.SelectedIndex) & "',"
-                SQL = SQL & "'" & TextBox15.Text & "','" & arrKatBaru.Item(CmbKategori.SelectedIndex) & "', '','" & jenisKategori & "','T',NULL, 'A', 0)"
+                SQL = SQL & "'" & TextBox15.Text & "','" & arrKatBaru.Item(CmbKategori.SelectedIndex) & "', '','" & jenisKategori & "','T',NULL, 'A', 0, "
+                SQL = SQL & "'" & Txt_PPN.Text.Trim & "', '" & Txt_PPH.Text.Trim & "', '" & cmb_JenisPPH.Text & "') "
                 ExecuteTrans(SQL)
             Else
                 SQL = "Update suppliers Set nama = '" & TextBox13.Text.Trim & "', "
@@ -390,7 +408,10 @@ Public Class Master_Suppliers
                 SQL = SQL & "Flag_Average = 'T', "
                 SQL = SQL & "Flag_Form_E = NULL, "
                 SQL = SQL & "Metode_Selisih_Declare = 'A', "
-                SQL = SQL & "Biaya_Form_E = 0 "
+                SQL = SQL & "Biaya_Form_E = 0, "
+                SQL = SQL & "PPN = '" & Txt_PPN.Text.Trim & "', "
+                SQL = SQL & "PPH = '" & Txt_PPH.Text.Trim & "', "
+                SQL = SQL & "Jenis_PPH = '" & cmb_JenisPPH.Text & "' "
                 SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_supplier = '" & TextBox1.Text.Trim & "'"
                 ExecuteTrans(SQL)
             End If
@@ -546,10 +567,6 @@ Public Class Master_Suppliers
     '    Button1.Text = "&Simpan" : Button2.Enabled = False
     'End Sub
 
-    Private Sub TextBox8_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TextBox8.TextChanged
-
-    End Sub
-
     Private Sub TextBox14_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox14.KeyPress
         If e.KeyChar = Chr(13) Then ComboBox4.Focus()
     End Sub
@@ -582,16 +599,8 @@ Public Class Master_Suppliers
         If e.KeyChar = Chr(13) Then ComboBox6.Focus()
     End Sub
 
-    Private Sub ComboBox6_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox6.KeyPress
+    Private Sub ComboBox6_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox6.KeyPress, cmb_JenisPPH.KeyPress
         If e.KeyChar = Chr(13) Then ComboBox7.Focus()
-    End Sub
-
-    Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox2.SelectedIndexChanged
-
-    End Sub
-
-    Private Sub ListView1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListView1.SelectedIndexChanged
-
     End Sub
 
     Private Sub ComboBox7_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox7.KeyPress
@@ -600,10 +609,6 @@ Public Class Master_Suppliers
 
     Private Sub TextBox15_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox15.KeyPress
         If e.KeyChar = Chr(13) Then Button1.Focus()
-    End Sub
-
-    Private Sub TextBox1_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TextBox1.TextChanged
-
     End Sub
 
     Private Sub CmbKategori_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbKategori.KeyPress
@@ -626,6 +631,29 @@ Public Class Master_Suppliers
     Private Sub TextBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox1.KeyPress
         If e.KeyChar = Chr(13) Then TextBox2.Focus()
     End Sub
+
+    Private Sub Txt_PPN_KeyPress(sender As Object, e As KeyPressEventArgs)
+        If Not (Char.IsDigit(e.KeyChar) Or e.KeyChar = ChrW(Keys.Back) Or e.KeyChar = ".") Then
+            e.Handled = True
+        End If
+
+        ' Cegah lebih dari satu tanda titik (.)
+        If e.KeyChar = "." AndAlso Txt_PPN.Text.Contains(".") Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub Txt_PPH_KeyPress(sender As Object, e As KeyPressEventArgs)
+        If Not (Char.IsDigit(e.KeyChar) Or e.KeyChar = ChrW(Keys.Back) Or e.KeyChar = ".") Then
+            e.Handled = True
+        End If
+
+        ' Cegah lebih dari satu tanda titik (.)
+        If e.KeyChar = "." AndAlso Txt_PPN.Text.Contains(".") Then
+            e.Handled = True
+        End If
+    End Sub
+
 
     Private Sub TextBox2_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox2.KeyPress
         If e.KeyChar = Chr(13) Then TextBox3.Focus()

@@ -778,6 +778,32 @@
         Display_Emi_Pelunasan_Hutang.Focus()
     End Sub
 
+    Private Sub HPPToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles HPPToolStripMenuItem1.Click
+        EMI_Display_HPP.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Display_HPP.MdiParent = Me
+        EMI_Display_HPP.Show()
+        EMI_Display_HPP.Focus()
+    End Sub
+
+    Private Sub MasterRoleToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterRoleToolStripMenuItem.Click
+        Master_Role.StartPosition = FormStartPosition.CenterScreen
+
+        Master_Role.MdiParent = Me
+        Master_Role.Show()
+        Master_Role.Focus()
+    End Sub
+
+    Private Sub MasterSupplierToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterSupplierToolStripMenuItem.Click
+        Master_Suppliers.StartPosition = FormStartPosition.CenterScreen
+
+        Master_Suppliers.MdiParent = Me
+        Master_Suppliers.Show()
+        Master_Suppliers.Focus()
+    End Sub
+
+
+
 
 
 

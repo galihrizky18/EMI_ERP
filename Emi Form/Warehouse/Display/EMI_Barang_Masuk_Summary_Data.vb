@@ -1,9 +1,4 @@
-﻿Imports System.Runtime.InteropServices.ComTypes
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-
-Public Class EMI_Barang_Masuk_Summary_Data
+﻿Public Class EMI_Barang_Masuk_Summary_Data
 
     Dim Arr1, Arr2, Arr3, Arr4 As New ArrayList
     Dim pertama As Integer = 1
@@ -36,23 +31,23 @@ Public Class EMI_Barang_Masuk_Summary_Data
 
         LV_PembelianLoading.Columns.Add(Base_Language.Lang_Global_NoFaktur, 170, HorizontalAlignment.Left)
         LV_PembelianLoading.Columns.Add(Base_Language.Lang_Global_Supplier, 0, HorizontalAlignment.Left)
-        LV_PembelianLoading.Columns.Add(Base_Language.lang_global_Nama_Supplier, 250, HorizontalAlignment.Left)
-        LV_PembelianLoading.Columns.Add(Base_Language.Lang_GLOBAL_No_Surat_Jalan, 110, HorizontalAlignment.Center)
-        LV_PembelianLoading.Columns.Add(Base_Language.Lang_Global_PlatNomor, 110, HorizontalAlignment.Center)
-        LV_PembelianLoading.Columns.Add(Base_Language.Lang_Global_Supir, 110, HorizontalAlignment.Center)
-        LV_PembelianLoading.Columns.Add("Tanggal Masuk", 100, HorizontalAlignment.Center)
-        LV_PembelianLoading.Columns.Add("Selesai", 80, HorizontalAlignment.Center)
+        LV_PembelianLoading.Columns.Add(Base_Language.lang_global_Nama_Supplier, 280, HorizontalAlignment.Left)
+        LV_PembelianLoading.Columns.Add(Base_Language.Lang_GLOBAL_No_Surat_Jalan, 150, HorizontalAlignment.Center)
+        LV_PembelianLoading.Columns.Add(Base_Language.Lang_Global_PlatNomor, 130, HorizontalAlignment.Center)
+        LV_PembelianLoading.Columns.Add(Base_Language.Lang_Global_Supir, 130, HorizontalAlignment.Center)
+        LV_PembelianLoading.Columns.Add("Tanggal Masuk", 140, HorizontalAlignment.Center)
+        LV_PembelianLoading.Columns.Add("Selesai", 100, HorizontalAlignment.Center)
 
         LV_PembelianLoading.View = View.Details
 
         Lv_PODetail.Items.Clear()
-        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_No_PO, 120, HorizontalAlignment.Left) '
+        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_No_PO, 130, HorizontalAlignment.Left) '
         Lv_PODetail.Columns.Add(Base_Language.Lang_Global_KodeBarang, 120, HorizontalAlignment.Left) '
-        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_NamaBarang, 170, HorizontalAlignment.Left) '
-        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Satuan, 120, HorizontalAlignment.Center)
+        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_NamaBarang, 200, HorizontalAlignment.Left) '
+        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Satuan, 90, HorizontalAlignment.Center)
         Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Harga, 110, HorizontalAlignment.Right) '
-        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Tanggal_Produksi, 110, HorizontalAlignment.Center) '
-        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Tanggal_Expired, 110, HorizontalAlignment.Center) '
+        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Tanggal_Produksi, 130, HorizontalAlignment.Center) '
+        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Tanggal_Expired, 130, HorizontalAlignment.Center) '
         Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Jumlah, 100, HorizontalAlignment.Center) '
         Lv_PODetail.Columns.Add("Jumlah Masuk", 110, HorizontalAlignment.Center)
         Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Satuan, 0, HorizontalAlignment.Center)
@@ -110,7 +105,8 @@ Public Class EMI_Barang_Masuk_Summary_Data
             'ComboBox3.SelectedIndex = 1
 
             ComboBox3.Items.Clear() : Arr1.Clear()
-            ComboBox3.Items.Add("Tanggal") : Arr1.Add("a.Tanggal")
+            ComboBox3.Items.Add("Tanggal Loading") : Arr1.Add("a.Tanggal")
+            ComboBox3.Items.Add("Tanggal Masuk") : Arr1.Add("a.tanggal_masuk")
 
             'TextBoxa.Text = "0" 
             ComboBox3.Enabled = False : ComboBox2.Enabled = False
@@ -119,8 +115,9 @@ Public Class EMI_Barang_Masuk_Summary_Data
 
             ComboBox2.Items.Clear() : ComboBox2.Text = "" : Arr2.Clear()
             ComboBox2.Items.Add("No Faktur") : Arr2.Add("a.no_faktur")
-            ComboBox2.Items.Add("Kode  Supplier") : Arr2.Add("a.kode_supplier")
-            ComboBox2.Items.Add("Nama") : Arr2.Add("b.nama")
+            ComboBox2.Items.Add("Kode Supplier") : Arr2.Add("a.kode_supplier")
+            ComboBox2.Items.Add("Nama Supplier") : Arr2.Add("b.nama")
+            ComboBox2.Items.Add("Supir") : Arr2.Add("a.Driver")
             ComboBox2.Items.Add("No Plat") : Arr2.Add("a.no_plat")
             ComboBox2.Items.Add("Surat Jalan") : Arr2.Add("a.no_sj")
 
@@ -136,16 +133,9 @@ Public Class EMI_Barang_Masuk_Summary_Data
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-
+        PrinterNameSPB = "EPSON LX-310 ESC/P"
     End Sub
 
-    Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged
-
-    End Sub
-
-    Private Sub GroupBox3_Enter(sender As Object, e As EventArgs) Handles GroupBox3.Enter
-
-    End Sub
 
     Private Sub CheckBox3_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox3.CheckedChanged
         If CheckBox3.Checked = True Then
@@ -217,32 +207,36 @@ Public Class EMI_Barang_Masuk_Summary_Data
 
 
     Private Sub BtnBarangMasuk_Cari_Click(sender As Object, e As EventArgs) Handles BtnBarangMasuk_Cari.Click
+
+        If CheckBox1.Checked = False And CheckBox2.Checked = False And CheckBox3.Checked = False Then
+            MessageBox.Show(Base_Language.Lang_Global_Error_Paramater, Judul)
+            CheckBox1.Focus() : Exit Sub
+        End If
+
+        If CheckBox1.Checked Then
+            If ComboBox3.SelectedIndex = -1 Then
+                MessageBox.Show(Base_Language.Lang_Global_Error_Paramater_Tgl, Judul)
+                ComboBox3.Focus() : Exit Sub
+            ElseIf DateTimePicker1.Value > DateTimePicker2.Value Then
+                MessageBox.Show("Periode I " & Base_Language.Lang_Global_TidakBolehLebihDari & " periode II!", Judul)
+                DateTimePicker1.Value = Now.Date : DateTimePicker2.Value = Now.Date
+                Exit Sub
+            End If
+        End If
+
+        If CheckBox2.Checked Then
+            If ComboBox2.SelectedIndex = -1 Then
+                MessageBox.Show(Base_Language.Lang_Global_Error_Paramater_Lain, Judul)
+                ComboBox2.Focus() : Exit Sub
+            ElseIf TextBox4.Text.Trim.Length = 0 Then
+                MessageBox.Show(Base_Language.Lang_Global_Error_Paramater_Lain2, Judul)
+                TextBox4.Focus() : Exit Sub
+            End If
+        End If
+
         Try
             pertama = 1
 
-            If CheckBox1.Checked = False And CheckBox2.Checked = False And CheckBox3.Checked = False Then
-                MessageBox.Show(Base_Language.Lang_Global_Error_Paramater, Judul)
-                CheckBox1.Focus() : Exit Sub
-            End If
-
-            If CheckBox1.Checked Then
-                If ComboBox3.SelectedIndex = -1 Then
-                    MessageBox.Show(Base_Language.Lang_Global_Error_Paramater_Tgl, Judul)
-                    ComboBox3.Focus() : Exit Sub
-                ElseIf DateTimePicker1.Value > DateTimePicker2.Value Then
-                    MessageBox.Show("Periode I " & Base_Language.Lang_Global_TidakBolehLebihDari & " periode II!", Judul)
-                    DateTimePicker1.Value = Now.Date : DateTimePicker2.Value = Now.Date
-                    Exit Sub
-                End If
-            ElseIf CheckBox2.Checked Then
-                If ComboBox2.SelectedIndex = -1 Then
-                    MessageBox.Show(Base_Language.Lang_Global_Error_Paramater_Lain, Judul)
-                    ComboBox2.Focus() : Exit Sub
-                ElseIf TextBox4.Text.Trim.Length = 0 Then
-                    MessageBox.Show(Base_Language.Lang_Global_Error_Paramater_Lain2, Judul)
-                    TextBox4.Focus() : Exit Sub
-                End If
-            End If
 
             OpenConn()
 
@@ -309,8 +303,12 @@ Public Class EMI_Barang_Masuk_Summary_Data
                             Lvw.SubItems.Add(.Rows(i).Item("no_plat"))
                             Lvw.SubItems.Add(.Rows(i).Item("Driver"))
 
+                            If General_Class.CekNULL(.Rows(i).Item("tanggal_masuk")) <> "" Then
+                                Lvw.SubItems.Add(Format(.Rows(i).Item("tanggal_masuk"), "dd MMM yyyy"))
+                            Else
+                                Lvw.SubItems.Add("-")
+                            End If
 
-                            Lvw.SubItems.Add(Format(.Rows(i).Item("tanggal_masuk"), "dd MMM yyyy"))
 
                             If General_Class.CekNULL(.Rows(i).Item("selesai")) = "" Then
                                 Lvw.SubItems.Add("-")
@@ -766,6 +764,7 @@ Public Class EMI_Barang_Masuk_Summary_Data
 
 
                         CrDoc = New Rpt_Bukti_Penerimaan_Barang
+
                         kertas = "Faktur"
 
                         CrDoc.SetDataSource(Ds)
@@ -776,6 +775,7 @@ Public Class EMI_Barang_Masuk_Summary_Data
                         'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
                         Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                        'doctoprint.DefaultPageSettings.Landscape = False
                         doctoprint.PrinterSettings.PrinterName = PrinterNameBPB
                         Dim rawKind As Integer
                         CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize

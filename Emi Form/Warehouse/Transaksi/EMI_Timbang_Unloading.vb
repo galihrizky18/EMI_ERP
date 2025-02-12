@@ -1,407 +1,442 @@
-﻿Imports System.Deployment.Internal
-Imports System.IO.Ports
-Imports System.Windows.Forms
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-Imports System.Windows.Markup
-Imports Azure.Storage.Blobs
-Imports Azure.Storage.Blobs.Models
-Imports CrystalDecisions.CrystalReports.Engine
-Imports Microsoft.VisualBasic.ApplicationServices
-Imports WebEye.Controls.WinForms.StreamPlayerControl
+﻿Imports System.IO.Ports
 
 Public Class EMI_Timbang_Unloading
-    Dim arrcari As New ArrayList
-    Dim Jenis = "Transaksi_Timbang_Kosong"
+    Public filterDetailBarang As String = ""
+    Public jenisMasuk As String = ""
     Public Txt_Ekspedisi As String = ""
-
+    Dim arrcari As New ArrayList
     Dim arrIdJenisMuatan, arrMetodeTruckScale As New ArrayList
     Dim arrNamaBarang, arrKodeBarang As New ArrayList
-    Dim No_Faktur As String = ""
-
-    Dim LvNoPO As String
-    Dim LvKdBarang As String
-    Dim LvNama As String
-    Dim LvTglExp As String
-    Dim LvTglProd As String
-    Dim LvUrutPO As String
-    Dim LvSatuan As String
-    Dim LvJumlah As String
-    Dim LvJumlahMasuk As String
-    Dim LvUrutLoading As String
-    Dim LvJumlahBagMasuk As String
-
-    Dim ItemNoPO As Integer = 0
+    Private isError As Boolean = False
+    Dim ItemJumlah As Integer = 7
+    Dim ItemJumlahBags As Integer = 9
+    Dim ItemJumlahMasuk As Integer = 8
     Dim ItemKdBarang As Integer = 1
     Dim ItemNama As Integer = 2
+    Dim ItemNoPO As Integer = 0
+    Dim ItemSatuan As Integer = 6
     Dim ItemTglExp As Integer = 3
     Dim ItemTglProd As Integer = 4
-    Dim ItemUrutPO As Integer = 5
-    Dim ItemSatuan As Integer = 6
-    Dim ItemJumlah As Integer = 7
-    Dim ItemJumlahMasuk As Integer = 8
-    Dim ItemJumlahBags As Integer = 9
-    Dim ItemUrutLoading As Integer = 10
-
-    Dim LvTimbangKdBarang As String
-    Dim LvTimbangNmBarang As String
-    Dim LvTimbangSatuan As String
-    Dim LvTimbangJmlBags As String
-    Dim LvTimbangBeratBags As String
-    Dim LvTimbangJmlPallet As String
-    Dim LvTimbangjmlBarang As String
-    Dim LvTimbangBeratBarang As String
-
+    Dim ItemTimbangBeratBags As Integer = 4
+    Dim ItemTimbangBeratBarang As Integer = 7
+    Dim ItemTimbangFlagTolak As Integer = 8
+    Dim ItemTimbangJmlBags As Integer = 3
+    Dim ItemTimbangJmlBarang As Integer = 6
+    Dim ItemTimbangJmlPallet As Integer = 5
     Dim ItemTimbangKdBarang As Integer = 0
     Dim ItemTimbangNmBarang As Integer = 1
     Dim ItemTimbangSatuan As Integer = 2
-    Dim ItemTimbangJmlBags As Integer = 3
-    Dim ItemTimbangBeratBags As Integer = 4
-    Dim ItemTimbangJmlPallet As Integer = 5
-    Dim ItemTimbangJmlBarang As Integer = 6
-    Dim ItemTimbangBeratBarang As Integer = 7
-    Public jenisMasuk As String = ""
-    Public filterDetailBarang As String = ""
-
-    Private isError As Boolean = False
+    Dim ItemUrutLoading As Integer = 10
+    Dim ItemFlagTolak As Integer = 11
+    Dim ItemUrutPO As Integer = 5
+    Dim Jenis = "Transaksi_Timbang_Kosong"
     Dim LokasiGudangUnloading As String = ""
-
-    Private Function CekNothing(ByVal str As String) As String
-        Dim hasil As String = ""
-
-        If str Is Nothing OrElse str = "" Then
-            hasil = "0"
-        Else
-            hasil = str
-        End If
-
-        Return hasil
-    End Function
-
-    Private Sub Get_Isi_DataGridViewTimbang(ByVal NoIndex As Integer)
-        LvTimbangKdBarang = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangKdBarang).Value
-        LvTimbangNmBarang = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangNmBarang).Value
-        LvTimbangSatuan = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangSatuan).Value
-        LvTimbangJmlBags = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangJmlBags).Value
-        LvTimbangBeratBags = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangBeratBags).Value
-        LvTimbangJmlPallet = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangJmlPallet).Value
-        LvTimbangjmlBarang = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangJmlBarang).Value
-        LvTimbangBeratBarang = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangBeratBarang).Value
-    End Sub
-
-    Private Sub Get_Isi_DataGridView(ByVal NoIndex As Integer)
-        LvNoPO = DgvPO.Rows(NoIndex).Cells(ItemNoPO).Value
-        LvKdBarang = DgvPO.Rows(NoIndex).Cells(ItemKdBarang).Value
-        LvNama = DgvPO.Rows(NoIndex).Cells(ItemNama).Value
-        LvTglExp = DgvPO.Rows(NoIndex).Cells(ItemTglExp).Value
-        LvTglProd = CekNothing(DgvPO.Rows(NoIndex).Cells(ItemTglProd).Value)
-        LvUrutPO = DgvPO.Rows(NoIndex).Cells(ItemUrutPO).Value
-        LvSatuan = DgvPO.Rows(NoIndex).Cells(ItemSatuan).Value
-        LvJumlah = DgvPO.Rows(NoIndex).Cells(ItemJumlah).Value
-        LvJumlahMasuk = DgvPO.Rows(NoIndex).Cells(ItemJumlahMasuk).Value
-        LvJumlahBagMasuk = DgvPO.Rows(NoIndex).Cells(ItemJumlahBags).Value
-        LvUrutLoading = DgvPO.Rows(NoIndex).Cells(ItemUrutLoading).Value
-    End Sub
-
-    Private Sub Get_Data_Timbangan()
-        Try
-            Dim sp = New SerialPort(My.Settings.Port_Timbangan, 9600, Parity.None, 8, StopBits.One)
-            If Not (sp Is Nothing) Then
-                sp.Open()
-                sp.ReadLine()
-
-                sp.Close()
-                sp.Dispose()
-                sp = Nothing
-            End If
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-            Exit Sub
-        End Try
-    End Sub
-
-    Private Sub get_no_faktur()
-        Txt_NoFaktur.Text = fTransTimbanganKosong & Format(tgl_skg, "MMyy") & "-" &
-                             General_Class.Get_Last_Number2("EMI_Timbang_Unloading", "No_Faktur", 5,
-                             "Kode_perusahaan", KodePerusahaan,
-                             "And", "substring(no_Faktur, 1, " & Len(fTransTimbanganKosong) + 4 & ")", fTransTimbanganKosong & Format(tgl_skg, "MMyy"))
-    End Sub
-
-    Private Sub Tampil_Kamera()
-        StreamPlayerControl1.Show()
-        StreamPlayerControl2.Show()
-
-        Try
-
-            'If StreamPlayerControl1.IsPlaying = True Then
-            '    StreamPlayerControl1.Stop()
-            '    StreamPlayerControl2.Stop()
-            'End If
-
-            'SQL = "select User_IPCAM, Password_IPCAM, IPPORT_CAM from Emi_CAM"
-            'Using dr = OpenTrans(SQL)
-            '    Dim stream As Integer = 1
-            '    Do While dr.Read
-            '        Dim controlName As String = "StreamPlayerControl" & stream
-            '        Dim control As Object = Me.GetType().GetField(controlName, Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(Me)
-
-            '        If control IsNot Nothing Then
-            '            control.StartPlay((New Uri("rtsp://" & dr("User_IPCAM") & ":" & dr("Password_IPCAM") & "@" & dr("IPPORT_CAM") & "/Streaming/channels/102/")))
-            '            stream += 1
-            '        End If
-
-            '    Loop
-            'End Using
-
-            Dim user1 As String = "" : Dim pass1 As String = "" : Dim ipaddr1 As String = ""
-            Dim user2 As String = "" : Dim pass2 As String = "" : Dim ipaddr2 As String = ""
-
-            Try
-                OpenConn()
-                SQL = "select UserName, Password, IP_Address, CAM_Number from Emi_CAM"
-                Using dr = OpenTrans(SQL)
-                    Do While dr.Read
-                        If dr("CAM_Number") = "CAM 1" Then
-                            user1 = dr("UserName")
-                            pass1 = dr("Password")
-                            ipaddr1 = dr("IP_Address")
-
-                        ElseIf dr("CAM_Number") = "CAM 2" Then
-                            user2 = dr("UserName")
-                            pass2 = dr("Password")
-                            ipaddr2 = dr("IP_Address")
-                        End If
-                    Loop
-                End Using
-
-                CloseConn()
-            Catch ex As Exception
-                CloseConn()
-                MessageBox.Show(ex.Message)
-            End Try
-
-            StreamPlayerControl1.StartPlay((New Uri("rtsp://" & user1 & ":" & pass1 & "@" & ipaddr1 & "/Streaming/channels/102/")))
-            StreamPlayerControl2.StartPlay((New Uri("rtsp://" & user2 & ":" & pass2 & "@" & ipaddr2 & "/Streaming/channels/102/")))
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-            Exit Sub
-        End Try
-    End Sub
-
-    Private Sub Transaksi_Timbang_Unloading_Activated(sender As Object, e As EventArgs) Handles Me.Activated
-        My.Application.ChangeCulture("en-us")
-        My.Application.ChangeUICulture("en-us")
-    End Sub
-
-    Private Sub Transaksi_Timbang_Unloading_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        My.Application.ChangeCulture("en-us")
-        My.Application.ChangeUICulture("en-us")
+    Dim LvJumlah As String
+    Dim LvJumlahBagMasuk As String
+    Dim LvJumlahMasuk As String
+    Dim LvKdBarang As String
+    Dim LvNama As String
+    Dim LvNoPO As String
+    Dim LvSatuan As String
+    Dim LvTglExp As String
+    Dim LvTglProd As String
+    Dim LvTimbangBeratBags As String
+    Dim LvTimbangBeratBarang As String
+    Dim LvTimbangJmlBags As String
+    Dim LvTimbangjmlBarang As String
+    Dim LvTimbangJmlPallet As String
+    Dim LvTimbangKdBarang As String
+    Dim LvTimbangNmBarang As String
+    Dim LvTimbangSatuan As String
+    Dim LvUrutLoading As String
+    Dim LvUrutPO As String
+    Dim No_Faktur As String = ""
+    Public Sub Get_DGVKeluar()
 
         Try
             OpenConn()
 
-            Base_Language.Get_Languages(Bahasa_Pilihan, "GLOBAL")
-            Base_Language.Get_Languages(Bahasa_Pilihan, Jenis)
-
-            DgvPO.Columns(ItemUrutPO).Visible = False
-            DgvPO.Columns(ItemUrutLoading).Visible = False
-
-            If jenisMasuk = "MASUK" Then
-                Lbl_Judul.Text = "Transaksi - Timbang 1 " 'Base_Language.Lang_TransUnloading_Judul + " | " + Base_Language.Lang_Global_Bruto
-                DgvPO.Columns(ItemJumlahMasuk).Visible = False
-                DgvPO.Columns(ItemJumlahMasuk).ReadOnly = True
-                'DgvPO.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-
-                Txt_Timbang1.Text = Txt_Timbangan.Text
-                Txt_Timbang2.Enabled = False
-
-                DTP_Bruto.Value = DateTime.Now
-                DTP_Tara.Value = DateTime.Now
-
-            ElseIf jenisMasuk = "KELUAR" Then
-                Lbl_Judul.Text = "Transaksi - Timbang 2 " 'Base_Language.Lang_TransUnloading_Judul + " | " + Base_Language.Lang_Global_Tara
-                DgvPO.Columns(ItemJumlahMasuk).Visible = True
-                DgvPO.Columns(ItemJumlahMasuk).ReadOnly = False
-                'DgvPO.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-
-                Txt_Timbang2.Text = Txt_Timbangan.Text
-                Txt_Timbang1.Enabled = False
-
-                SQL = "select No_Faktur from EMI_Timbang_Unloading a where "
-                SQL = SQL & "kode_Perusahaan='" & KodePerusahaan & "' and no_loading='" & TxtNo_Loading.Text & "' "
-                SQL = SQL & "and status is null and flag_selesai is null  "
-                Using Dr = OpenTrans(SQL)
-                    If Dr.Read Then
-                        Txt_NoFaktur.Text = Dr("No_Faktur")
-                    End If
-                End Using
-
-                DTP_Tara.Value = DateTime.Now
-            Else
-                MessageBox.Show("Terjadi Kesalahan  . .  !")
-                Exit Sub
-            End If
-
-            '================================
-            '=     GET GUDANG UNLOADING     =
-            '================================
-            SQL = "select b.Kode_Stock_Owner from binding_lokasi_gudang a, stock_owner_gudang b "
-            SQL = SQL & "where a.kode_stock_owner='HEAD OFFICE' and b.Kode_Stock_Owner=a.Kode_Stock_Owner_gudang "
-            SQL = SQL & "and flag_unloading='Y' "
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    LokasiGudangUnloading = Dr("Kode_Stock_Owner")
-                Else
-                    Dr.Close()
-                    MessageBox.Show("Lokasi Gudang Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
-            End Using
-
-            loadJenisMuatan()
-            'Btn_Simpan.Text = Base_Language.Lang_Global_Simpan
-            'Btn_Refresh.Text = Base_Language.Lang_Global_Refresh
-            'Lbl_Supplier.Text = Base_Language.Lang_Global_Supplier
-            'Lbl_Supir.Text = Base_Language.Lang_Global_Supir
-            'Lbl_PlatNomor.Text = Base_Language.Lang_Global_PlatNomor
-            Btn_Simpan.Text = "Simpan"
-            Btn_Refresh.Text = "Refresh"
-            Lbl_Supplier.Text = "Supplier"
-            Lbl_Supir.Text = "Supir"
-            Lbl_PlatNomor.Text = "Plat"
-
-            Lbl_Timbang1.Text = "Timbang 1"
-            Lbl_Timbang2.Text = "Timbang 2"
-            'Lbl_FotoKendaraan.Text = Base_Language.Lang_Global_FotoKendaraan
-            Lbl_FotoKendaraan.Text = "Foto"
-
-            ListView2.Columns.Clear()
-            ListView2.Columns.Add("No SJ", 160, HorizontalAlignment.Left)
-            ListView2.Columns.Add("No PO", 160, HorizontalAlignment.Left)
+            ListView2.Items.Clear()
             ListView2.View = View.Details
 
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MessageBox.Show(ex.Message)
-            Exit Sub
+            DgvPO.Rows.Clear()
 
-        End Try
-
-        If jenisMasuk = "MASUK" Then
-            Get_DGVMasuk()
-        ElseIf jenisMasuk = "KELUAR" Then
-            Get_DGVKeluar()
-        End If
-
-        'kosong()
-        Tampil_Kamera()
-    End Sub
-
-    Private Sub loadJenisMuatan()
-        Try
-            OpenConn()
-
-            SQL = "select Id_Jenis_Muatan, Kode_Jenis_Muatan, Keterangan, Metode_Timbang "
-            SQL = SQL & "from EMI_Master_Jenis_Muatan"
-            Using Dr = OpenTrans(SQL)
-                Do While Dr.Read
-
-                    CmbJenisMuatan.Items.Add(Dr("Keterangan")) : arrIdJenisMuatan.Add(Dr("Id_Jenis_Muatan")) : arrMetodeTruckScale.Add(Dr("Metode_Timbang"))
-
-                Loop
-            End Using
-
-            If jenisMasuk = "KELUAR" Then
-                Dim idmuatan As String = ""
-
-                SQL = "select timbang_masuk, id_jenis_muatan, tgl_timbang_masuk, Jam_Timbang_Masuk from EMI_Timbang_Unloading where "
-                SQL = SQL & "no_faktur='" & Txt_NoFaktur.Text & "'"
-                Using Dr = OpenTrans(SQL)
-                    If Dr.Read Then
-                        idmuatan = Dr("id_jenis_muatan")
-                        Txt_Timbang1.Text = Format(Dr("timbang_masuk"), "N2")
-                        If General_Class.CekNULL(Dr("tgl_timbang_masuk")) = "" Then
-                            DTP_Bruto.Value = DateTime.Now
-                        Else
-                            DTP_Bruto.Value = Convert.ToDateTime(Dr("tgl_timbang_masuk")).Date.Add(Convert.ToDateTime(Dr("Jam_Timbang_Masuk")).TimeOfDay)
-                        End If
-                    End If
-                End Using
-
-                For index = 0 To arrIdJenisMuatan.Count - 1
-                    If arrIdJenisMuatan.Item(index) = idmuatan Then
-                        CmbJenisMuatan.SelectedIndex = index
-                        Exit For
-                    End If
-                Next
-
-                CmbJenisMuatan.Enabled = False
-                CmbBarang.Enabled = False
-
-                Hitung_Netto()
-
-            End If
-
-            If jenisMasuk = "MASUK" Then
-
-                '===================================
-                '=     CEK APAKAH TIMBANG KE 2     =
-                '===================================
-                SQL = "select top 1 a.ID_Jenis_Muatan, c.Keterangan "
-                SQL = SQL & "from EMI_Timbang_Unloading a, EMI_Pembelian_Loading b, EMI_Master_Jenis_Muatan c "
-                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan "
-                SQL = SQL & "and a.No_Loading = b.No_Faktur "
-                SQL = SQL & "and a.ID_Jenis_Muatan = c.Id_Jenis_Muatan "
-                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-                SQL = SQL & "and a.No_Loading = '" & TxtNo_Loading.Text & "' "
-                Using Dr = OpenTrans(SQL)
-                    If Dr.Read Then
-                        CmbJenisMuatan.Enabled = False
-                        CmbJenisMuatan.SelectedItem = Dr("Keterangan")
-                    Else
-                        Dr.Close()
-                    End If
-                End Using
-            End If
-
-            Dim nama_barang As String = ""
             Dim id As Integer = 0
-            SQL = "select distinct a.kode_supplier, D.nama, b.Kode_Barang, C.nama as Nama_Barang, a.Lokasi, a.No_SJ, a.No_Plat, a.Driver "
-            SQL = SQL & "from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_Detail b, barang c, Suppliers d "
-            SQL = SQL & "where a.kode_Perusahaan=b.kode_Perusahaan and a.no_faktur=b.no_faktur and a.status is null and "
-            SQL = SQL & "b.kode_Barang=c.kode_Barang and b.kode_stock_Owner=c.Kode_Stock_Owner and b.kode_Perusahaan=c.kode_Perusahaan "
-            SQL = SQL & "and a.kode_Perusahaan=d.Kode_Perusahaan and a.kode_Supplier=d.Kode_Supplier "
-            SQL = SQL & "and a.kode_Perusahaan ='" & KodePerusahaan & "' and a.No_faktur='" & TxtNo_Loading.Text & "' "
-            If jenisMasuk = "MASUK" Then
-                SQL = SQL & "and b.Flag_Timbang_Masuk is null "
-            ElseIf jenisMasuk = "KELUAR" Then
-                SQL = SQL & "and b.Flag_Timbang_Keluar is null "
-            End If
+            SQL = " select c.no_PO, c.Kode_Barang, d.nama as Nama_Barang, c.Tanggal_Expired, c.Tanggal_Produksi, "
+            SQL = SQL & "c.Urut_PO, c.Jumlah, c.Urut_Oto as Urut_Loading, c.satuan, c.Flag_Tolak  "
+            SQL = SQL & "from EMI_Timbang_Unloading a, EMI_Timbang_Unloading_PO_Det b, EMI_Pembelian_Loading_Detail c, barang d "
+            SQL = SQL & "where a.Kode_Perusahaan =b.Kode_Perusahaan and a.no_faktur=b.no_faktur and "
+            SQL = SQL & "b.Kode_Perusahaan=c.Kode_Perusahaan and b.Urut_loading=c.Urut_Oto "
+            SQL = SQL & "and c.Kode_Perusahaan=d.Kode_Perusahaan and c.Kode_Barang=d.Kode_Barang and c.Kode_Stock_Owner=d.Kode_Stock_Owner "
+            SQL = SQL & "and a.status is null and a.No_faktur='" & Txt_NoFaktur.Text & "' and a.kode_Perusahaan ='" & KodePerusahaan & "' "
+
+            'FILTER QC
+            'SQL = SQL & "and (c.Flag_Tolak is null or c.Flag_Tolak <> 'Y')	"
+
             SQL = SQL & "Order By d.nama "
             Using dr = OpenTrans(SQL)
+
                 Do While dr.Read
 
-                    If id = 0 Then
-                        TxtNoSJ.Text = dr("No_SJ")
-                        Txt_PlatNomor.Text = dr("No_Plat")
-                        Txt_Supir.Text = dr("Driver")
-                        Txt_Supplier.Text = dr("nama")
-                        Lbl_KodeSupplier.Text = dr("kode_supplier")
+                    DgvPO.Rows.Add(1)
+                    DgvPO.Rows(id).Cells(ItemNoPO).Value = dr("No_Po")
+                    DgvPO.Rows(id).Cells(ItemKdBarang).Value = dr("Kode_Barang")
+                    DgvPO.Rows(id).Cells(ItemNama).Value = dr("Nama_Barang")
+                    DgvPO.Rows(id).Cells(ItemTglExp).Value = Format(dr("Tanggal_Expired"), "dd MMM yyyy")
+                    DgvPO.Rows(id).Cells(ItemTglProd).Value = Format(dr("tanggal_Produksi"), "dd MMM yyyy")
+                    DgvPO.Rows(id).Cells(ItemUrutPO).Value = dr("Urut_PO")
+                    DgvPO.Rows(id).Cells(ItemSatuan).Value = dr("Satuan")
+                    DgvPO.Rows(id).Cells(ItemJumlah).Value = Format(dr("Jumlah"), "N2")
+                    DgvPO.Rows(id).Cells(ItemJumlahMasuk).Value = 0
+                    DgvPO.Rows(id).Cells(ItemJumlahBags).Value = 0
+                    DgvPO.Rows(id).Cells(ItemUrutLoading).Value = dr("Urut_Loading")
+                    DgvPO.Rows(id).Cells(ItemFlagTolak).Value = General_Class.CekNULL(dr("Flag_Tolak"))
+
+                    If General_Class.CekNULL(dr("Flag_Tolak")) = "" Then
+                        DgvPO.Rows(id).Cells(ItemJumlahMasuk).ReadOnly = True
+                        DgvPO.Rows(id).Cells(ItemJumlahBags).ReadOnly = True
                     End If
 
-                    arrNamaBarang.Add(dr("Nama_Barang")) : arrKodeBarang.Add(dr("Kode_Barang"))
-                    CmbBarang.Items.Add(dr("Nama_Barang"))
                     id += 1
                 Loop
             End Using
 
+            DgvTimbang.Rows.Clear()
+
+            SQL = "select a.Kode_Perusahaan, a.no_faktur, b.Kode_Barang, c.nama, b.Satuan, b.Satuan_Per_Bag, "
+            SQL = SQL & "b.Jumlah_Per_Bag,c.Berat_Bags, c.Satuan_Berat_Bags "
+
+            SQL = SQL & ",isnull((select sum(Jumlah_Bags) from emi_barang_masuk_perpallet x where "
+            SQL = SQL & "x.Kode_Perusahaan=a.Kode_Perusahaan and x.No_Pembelian_Loading=a.No_Faktur and x.status is null "
+            SQL = SQL & "and x.Kode_Barang=b.Kode_Barang),0) as Jumlah_Bags "
+
+            SQL = SQL & ",isnull((select sum(Jumlah) from emi_barang_masuk_perpallet x where "
+            SQL = SQL & "x.Kode_Perusahaan=a.Kode_Perusahaan and x.No_Pembelian_Loading=a.No_Faktur and x.status is null "
+            SQL = SQL & "and x.Kode_Barang=b.Kode_Barang),0) as Jumlah_Barang "
+
+            SQL = SQL & ",isnull((select sum(Jumlah_Pallet) from emi_barang_masuk_perpallet x where "
+            SQL = SQL & "x.Kode_Perusahaan=a.Kode_Perusahaan and x.No_Pembelian_Loading=a.No_Faktur and x.status is null "
+            SQL = SQL & "and x.Kode_Barang=b.Kode_Barang),0) as Jumlah_Pallet, b.Flag_Tolak "
+
+            SQL = SQL & "from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_Detail b, barang c where "
+            SQL = SQL & "a.No_Faktur=b.No_Faktur and a.Kode_Perusahaan=b.Kode_Perusahaan and a.status is null "
+            SQL = SQL & "and b.Kode_Perusahaan=c.Kode_Perusahaan and b.Kode_Barang=c.Kode_Barang and b.Kode_Stock_Owner=c.Kode_Stock_Owner "
+            SQL = SQL & "and a.kode_Perusahaan ='" & KodePerusahaan & "' and a.No_faktur='" & TxtNo_Loading.Text & "' "
+
+            'FILTER QC
+            'SQL = SQL & "and (b.Flag_Tolak is null or b.Flag_Tolak <> 'Y') "
+
+            SQL = SQL & "and b.kode_Barang in( "
+
+            SQL = SQL & "Select distinct b.Kode_Barang from EMI_Timbang_Unloading a, EMI_Timbang_Unloading_PO_Det b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Faktur = b.No_Faktur And a.status Is null "
+            SQL = SQL & "And a.Kode_Perusahaan='" & KodePerusahaan & "' and a.No_Faktur='" & Txt_NoFaktur.Text & "' "
+
+            SQL = SQL & ") "
+
+            SQL = SQL & "group by a.Kode_Perusahaan, a.no_faktur,b.Kode_Barang, c.nama, b.Satuan, b.Satuan_Per_Bag, "
+            SQL = SQL & "b.Jumlah_Per_Bag,c.Berat_Bags, c.Satuan_Berat_Bags, b.Flag_Tolak "
+
+            SQL = SQL & "Order By c.nama "
+            Using ds = BindingTrans(SQL)
+                With ds.Tables("MyTable")
+                    For id2 = 0 To .Rows.Count - 1
+
+                        Dim berat_bags As Double
+                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(id2).Item("Kode_Barang") & "',"
+                        SQL = SQL & "'" & .Rows(id2).Item("Satuan_Berat_Bags") & "','" & CmbSatuan.Text & "',"
+                        SQL = SQL & "" & .Rows(id2).Item("Jumlah_Bags") * .Rows(id2).Item("Berat_Bags") & ") as Hasil "
+                        Using dr3 = OpenTrans(SQL)
+                            If dr3.Read Then
+                                If General_Class.CekNULL(dr3("Hasil")) <> "" Then
+                                    berat_bags = dr3("Hasil")
+                                Else
+                                    MessageBox.Show("Satuan " & .Rows(id2).Item("Satuan_Berat_Bags") & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End If
+                        End Using
+
+                        Dim berat_barang As Double
+                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(id2).Item("Kode_Barang") & "',"
+                        SQL = SQL & "'" & .Rows(id2).Item("Satuan") & "','" & CmbSatuan.Text & "',"
+                        SQL = SQL & "" & .Rows(id2).Item("Jumlah_Barang") & ") as Hasil "
+                        Using dr3 = OpenTrans(SQL)
+                            If dr3.Read Then
+                                If General_Class.CekNULL(dr3("Hasil")) <> "" Then
+                                    berat_barang = dr3("Hasil")
+                                Else
+                                    MessageBox.Show("Satuan " & .Rows(id2).Item("Satuan_Berat_Bags") & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End If
+                        End Using
+
+                        DgvTimbang.Rows.Add(1)
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangKdBarang).Value = .Rows(id2).Item("Kode_Barang")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangNmBarang).Value = .Rows(id2).Item("Nama")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangSatuan).Value = .Rows(id2).Item("Satuan")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangJmlBags).Value = Format(.Rows(id2).Item("Jumlah_Bags"), "N0")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangBeratBags).Value = Format(berat_bags, "N2")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangJmlPallet).Value = Format(.Rows(id2).Item("Jumlah_Pallet"), "N0")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangJmlBarang).Value = Format(.Rows(id2).Item("Jumlah_Barang"), "N2")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangBeratBarang).Value = Format(berat_barang, "N2")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangFlagTolak).Value = .Rows(id2).Item("Flag_Tolak")
+
+                    Next
+                End With
+            End Using
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+        get_jumlahPO_Otomatis()
+
+        getSumOfBerat()
+    End Sub
+
+    Public Sub Get_DGVMasuk()
+
+        Try
+            OpenConn()
+
+            ListView2.Items.Clear()
+            ListView2.View = View.Details
+
+            DgvPO.Rows.Clear()
+
+            Dim id As Integer = 0
+            SQL = "select a.kode_Perusahaan, a.no_faktur, a.kode_supplier, C.nama as Nama_Barang, a.Lokasi, a.No_SJ, a.No_Plat, "
+            SQL = SQL & "a.Driver, b.No_Po, B.Urut_PO, B.Kode_Stock_Owner, b.Kode_Barang, D.nama, b.tanggal_Produksi, b.Tanggal_Expired, "
+            SQL = SQL & "b.Jumlah, b.Satuan ,b.urut_Oto as Urut_Loading, b.satuan, b.Flag_Tolak "
+            SQL = SQL & "from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_Detail b, barang c, Suppliers d "
+            SQL = SQL & "where a.kode_Perusahaan=b.kode_Perusahaan and a.no_faktur=b.no_faktur and a.status is null and "
+            SQL = SQL & "b.kode_Barang=c.kode_Barang and b.kode_stock_Owner=c.Kode_Stock_Owner and b.kode_Perusahaan=c.kode_Perusahaan "
+            SQL = SQL & "and a.kode_Perusahaan=d.Kode_Perusahaan and a.kode_Supplier=d.Kode_Supplier "
+            SQL = SQL & "and a.kode_Perusahaan ='" & KodePerusahaan & "' and b.Flag_Timbang_Masuk is null and a.No_faktur='" & TxtNo_Loading.Text & "' "
+
+            'FILTER QC
+            'SQL = SQL & "and (b.Flag_Tolak is null or b.Flag_Tolak <> 'Y') "
+            If CmbBarang.SelectedIndex <> -1 Then
+                SQL = SQL & "and b.kode_Barang='" & arrKodeBarang.Item(CmbBarang.SelectedIndex) & "'"
+            End If
+            SQL = SQL & "Order By d.nama "
+            Using dr = OpenTrans(SQL)
+
+                Do While dr.Read
+
+                    DgvPO.Rows.Add(1)
+                    DgvPO.Rows(id).Cells(ItemNoPO).Value = dr("No_Po")
+                    DgvPO.Rows(id).Cells(ItemKdBarang).Value = dr("Kode_Barang")
+                    DgvPO.Rows(id).Cells(ItemNama).Value = dr("Nama_Barang")
+                    DgvPO.Rows(id).Cells(ItemTglExp).Value = Format(dr("Tanggal_Expired"), "dd MMM yyyy")
+                    DgvPO.Rows(id).Cells(ItemTglProd).Value = Format(dr("tanggal_Produksi"), "dd MMM yyyy")
+                    DgvPO.Rows(id).Cells(ItemUrutPO).Value = dr("Urut_PO")
+                    DgvPO.Rows(id).Cells(ItemSatuan).Value = dr("Satuan")
+                    DgvPO.Rows(id).Cells(ItemJumlah).Value = Format(dr("Jumlah"), "N2")
+                    DgvPO.Rows(id).Cells(ItemJumlahMasuk).Value = 0
+                    DgvPO.Rows(id).Cells(ItemUrutLoading).Value = dr("Urut_Loading")
+                    DgvPO.Rows(id).Cells(ItemFlagTolak).Value = General_Class.CekNULL(dr("Flag_Tolak"))
+
+                    If General_Class.CekNULL(dr("Flag_Tolak")) = "" Then
+                        DgvPO.Rows(id).Cells(ItemJumlahMasuk).ReadOnly = True
+                    End If
+
+                    id += 1
+                Loop
+            End Using
+
+            DgvTimbang.Rows.Clear()
+
+            SQL = "select a.Kode_Perusahaan, a.no_faktur, b.Kode_Barang, c.nama, b.Satuan, b.Satuan_Per_Bag, "
+            SQL = SQL & "b.Jumlah_Per_Bag,c.Berat_Bags, c.Satuan_Berat_Bags "
+
+            SQL = SQL & ",isnull((select sum(Jumlah_Bags) from emi_barang_masuk_perpallet x where "
+            SQL = SQL & "x.Kode_Perusahaan=a.Kode_Perusahaan and x.No_Pembelian_Loading=a.No_Faktur and x.status is null "
+            SQL = SQL & "and x.Kode_Barang=b.Kode_Barang),0) as Jumlah_Bags "
+
+            SQL = SQL & ",isnull((select sum(Jumlah) from emi_barang_masuk_perpallet x where "
+            SQL = SQL & "x.Kode_Perusahaan=a.Kode_Perusahaan and x.No_Pembelian_Loading=a.No_Faktur and x.status is null "
+            SQL = SQL & "and x.Kode_Barang=b.Kode_Barang),0) as Jumlah_Barang "
+
+            SQL = SQL & ",isnull((select sum(Jumlah_Pallet) from emi_barang_masuk_perpallet x where "
+            SQL = SQL & "x.Kode_Perusahaan=a.Kode_Perusahaan and x.No_Pembelian_Loading=a.No_Faktur and x.status is null "
+            SQL = SQL & "and x.Kode_Barang=b.Kode_Barang),0) as Jumlah_Pallet, b.Flag_Tolak "
+
+            SQL = SQL & "from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_Detail b, barang c where "
+            SQL = SQL & "a.No_Faktur=b.No_Faktur and a.Kode_Perusahaan=b.Kode_Perusahaan and a.status is null "
+            SQL = SQL & "and b.Kode_Perusahaan=c.Kode_Perusahaan and b.Kode_Barang=c.Kode_Barang and b.Kode_Stock_Owner=c.Kode_Stock_Owner "
+            SQL = SQL & "and a.kode_Perusahaan ='" & KodePerusahaan & "' and b.Flag_Timbang_Masuk is null and a.No_faktur='" & TxtNo_Loading.Text & "' "
+            'FILTER QC
+            'SQL = SQL & "and (b.Flag_Tolak is null or b.Flag_Tolak <> 'Y') "
+
+            If CmbBarang.SelectedIndex <> -1 Then
+                SQL = SQL & "and b.kode_Barang='" & arrKodeBarang.Item(CmbBarang.SelectedIndex) & "'"
+            End If
+
+            SQL = SQL & "group by a.Kode_Perusahaan, a.no_faktur,b.Kode_Barang, c.nama, b.Satuan, b.Satuan_Per_Bag, "
+            SQL = SQL & "b.Jumlah_Per_Bag,c.Berat_Bags, c.Satuan_Berat_Bags, b.Flag_Tolak "
+
+            SQL = SQL & "Order By c.nama "
+            Using ds = BindingTrans(SQL)
+                With ds.Tables("MyTable")
+                    For id2 = 0 To .Rows.Count - 1
+
+                        Dim berat_bags As Double
+                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(id2).Item("Kode_Barang") & "',"
+                        SQL = SQL & "'" & .Rows(id2).Item("Satuan_Berat_Bags") & "','" & CmbSatuan.Text & "',"
+                        SQL = SQL & "" & .Rows(id2).Item("Jumlah_Bags") * .Rows(id2).Item("Berat_Bags") & ") as Hasil "
+                        Using dr3 = OpenTrans(SQL)
+                            If dr3.Read Then
+                                If General_Class.CekNULL(dr3("Hasil")) <> "" Then
+                                    berat_bags = dr3("Hasil")
+                                Else
+                                    MessageBox.Show("Satuan " & .Rows(id2).Item("Satuan_Berat_Bags") & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End If
+                        End Using
+
+                        Dim berat_barang As Double
+                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(id2).Item("Kode_Barang") & "',"
+                        SQL = SQL & "'" & .Rows(id2).Item("Satuan") & "','" & CmbSatuan.Text & "',"
+                        SQL = SQL & "" & .Rows(id2).Item("Jumlah_Barang") & ") as Hasil "
+                        Using dr3 = OpenTrans(SQL)
+                            If dr3.Read Then
+                                If General_Class.CekNULL(dr3("Hasil")) <> "" Then
+                                    berat_barang = dr3("Hasil")
+                                Else
+                                    MessageBox.Show("Satuan " & .Rows(id2).Item("Satuan_Berat_Bags") & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End If
+                        End Using
+
+                        DgvTimbang.Rows.Add(1)
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangKdBarang).Value = .Rows(id2).Item("Kode_Barang")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangNmBarang).Value = .Rows(id2).Item("Nama")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangSatuan).Value = .Rows(id2).Item("Satuan")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangJmlBags).Value = Format(.Rows(id2).Item("Jumlah_Bags"), "N0")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangBeratBags).Value = Format(berat_bags, "N2")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangJmlPallet).Value = Format(.Rows(id2).Item("Jumlah_Pallet"), "N0")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangJmlBarang).Value = Format(.Rows(id2).Item("Jumlah_Barang"), "N2")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangBeratBarang).Value = Format(berat_barang, "N2")
+                        DgvTimbang.Rows(id2).Cells(ItemTimbangFlagTolak).Value = .Rows(id2).Item("Flag_Tolak")
+
+                    Next
+                End With
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    'Data PO berdasarkan Supplier
+    Public Sub get_jumlahPO_Otomatis()
+        For index = 0 To DgvTimbang.Rows.Count - 1
+            Get_Isi_DataGridViewTimbang(index)
+
+            'Ambil Data Timbang Dulu
+            Dim jumlah As Double = Val(HilangkanTanda(LvTimbangjmlBarang))
+            Dim bags As Double = Val(HilangkanTanda(LvTimbangJmlBags))
+
+            Dim jumlah_timbang As Double = Val(HilangkanTanda(LvTimbangjmlBarang))
+
+            'INI UNTUK ISI JUMLAH PO
+            Dim id_terakhir As Double
+            'Isi Tabel PO sesuai Data Timbang
+            For index2 = 0 To DgvPO.Rows.Count - 1
+                Get_Isi_DataGridView(index2)
+
+                'Ambil data baran yg sama
+                If LvTimbangKdBarang = LvKdBarang Then
+
+                    'Data Masuk Semua ny di reset dahulu
+                    Dim jumlah_pakai As Double = 0
+
+                    If jumlah_timbang > Val(HilangkanTanda(LvJumlah)) Then
+                        jumlah_pakai = Val(HilangkanTanda(LvJumlah))
+                    Else
+                        jumlah_pakai = jumlah_timbang
+                    End If
+
+                    'update Jumlah PO sesuai Urutan
+                    DgvPO.Rows(index2).Cells(ItemJumlahMasuk).Value = jumlah_pakai
+
+                    jumlah_timbang -= jumlah_pakai
+
+                    'Ambil ID Terkahir yg ada Barang Tersebut
+                    id_terakhir = index2
+                End If
+
+                'klo data timbang 0, di selesaikan
+                If jumlah_timbang = 0 Then
+                    Exit For
+                End If
+
+            Next
+
+            If jumlah_timbang <> 0 Then
+                Get_Isi_DataGridView(id_terakhir)
+                DgvPO.Rows(id_terakhir).Cells(ItemJumlahMasuk).Value = Val(HilangkanTanda(LvJumlahMasuk)) + jumlah_timbang
+
+                jumlah_timbang -= jumlah_timbang
+            End If
+
+            If jumlah_timbang <> 0 Then
+                MessageBox.Show("Terjadi Kesalahan . . ! ! !")
+                Exit Sub
+            End If
+
+            'INI UNTUK ISI JUMLAH BAGS
+            For index2 = 0 To DgvPO.Rows.Count - 1
+                Get_Isi_DataGridView(index2)
+
+                If LvTimbangKdBarang = LvKdBarang Then
+
+                    Dim JumlahFinalBags As Double = 0
+                    Dim BeratPerBags As Double = jumlah / bags
+                    JumlahFinalBags = Val(HilangkanTanda(LvJumlahMasuk)) / BeratPerBags
+
+                    DgvPO.Rows(index2).Cells(ItemJumlahBags).Value = Math.Round(JumlahFinalBags)
+
+                End If
+
+            Next
+
+        Next
+
+    End Sub
+
+    Public Sub Hitung_Netto()
+
+        If Txt_Timbang2.Text.Trim <> "" Then
+
+            Txt_Netto.Text = Format(Math.Max(0, Val(HilangkanTanda(Txt_Timbang1.Text)) - Val(HilangkanTanda(Txt_Timbang2.Text))), "N0")
+
+            If CmbJenisMuatan.SelectedIndex <> -1 And DgvTimbang.RowCount <> 0 Then
+                Dim indexSelected As Integer = CmbJenisMuatan.SelectedIndex
+                Dim metodeTruckScale As String = arrMetodeTruckScale(indexSelected).ToString.ToUpper.Trim
+
+                If metodeTruckScale = "TRUCK SCALE" Then
+                    DgvTimbang.Rows(0).Cells(ItemTimbangJmlBarang).Value = Val(HilangkanTanda(Txt_Netto.Text))
+                    DgvTimbang.Rows(0).Cells(ItemTimbangBeratBarang).Value = Val(HilangkanTanda(Txt_Netto.Text))
+                End If
+
+                getSumOfBerat()
+            End If
+
+        End If
+        get_jumlahPO_Otomatis()
+
     End Sub
 
     Public Sub kosong()
@@ -459,386 +494,8 @@ Public Class EMI_Timbang_Unloading
         'Popup_Timbang.Show()
     End Sub
 
-    'Data PO berdasarkan Supplier
-
-    Public Sub Get_DGVMasuk()
-
-        Try
-            OpenConn()
-
-            ListView2.Items.Clear()
-            ListView2.View = View.Details
-
-            DgvPO.Rows.Clear()
-
-            Dim id As Integer = 0
-            SQL = "select a.kode_Perusahaan, a.no_faktur, a.kode_supplier, C.nama as Nama_Barang, a.Lokasi, a.No_SJ, a.No_Plat, "
-            SQL = SQL & "a.Driver, b.No_Po, B.Urut_PO, B.Kode_Stock_Owner, b.Kode_Barang, D.nama, b.tanggal_Produksi, b.Tanggal_Expired, "
-            SQL = SQL & "b.Jumlah, b.Satuan ,b.urut_Oto as Urut_Loading, b.satuan from "
-            SQL = SQL & "EMI_Pembelian_Loading a, EMI_Pembelian_Loading_Detail b, barang c, Suppliers d "
-            SQL = SQL & "where a.kode_Perusahaan=b.kode_Perusahaan and a.no_faktur=b.no_faktur and a.status is null and "
-            SQL = SQL & "b.kode_Barang=c.kode_Barang and b.kode_stock_Owner=c.Kode_Stock_Owner and b.kode_Perusahaan=c.kode_Perusahaan "
-            SQL = SQL & "and a.kode_Perusahaan=d.Kode_Perusahaan and a.kode_Supplier=d.Kode_Supplier "
-            SQL = SQL & "and a.kode_Perusahaan ='" & KodePerusahaan & "' and b.Flag_Timbang_Masuk is null and a.No_faktur='" & TxtNo_Loading.Text & "' "
-            If CmbBarang.SelectedIndex <> -1 Then
-                SQL = SQL & "and b.kode_Barang='" & arrKodeBarang.Item(CmbBarang.SelectedIndex) & "'"
-            End If
-            SQL = SQL & "Order By d.nama "
-            Using dr = OpenTrans(SQL)
-
-                Do While dr.Read
-
-                    DgvPO.Rows.Add(1)
-                    DgvPO.Rows(id).Cells(ItemNoPO).Value = dr("No_Po")
-                    DgvPO.Rows(id).Cells(ItemKdBarang).Value = dr("Kode_Barang")
-                    DgvPO.Rows(id).Cells(ItemNama).Value = dr("Nama_Barang")
-                    DgvPO.Rows(id).Cells(ItemTglExp).Value = Format(dr("Tanggal_Expired"), "dd MMM yyyy")
-                    DgvPO.Rows(id).Cells(ItemTglProd).Value = Format(dr("tanggal_Produksi"), "dd MMM yyyy")
-                    DgvPO.Rows(id).Cells(ItemUrutPO).Value = dr("Urut_PO")
-                    DgvPO.Rows(id).Cells(ItemSatuan).Value = dr("Satuan")
-                    DgvPO.Rows(id).Cells(ItemJumlah).Value = Format(dr("Jumlah"), "N2")
-                    DgvPO.Rows(id).Cells(ItemJumlahMasuk).Value = 0
-                    DgvPO.Rows(id).Cells(ItemUrutLoading).Value = dr("Urut_Loading")
-
-                    id += 1
-                Loop
-            End Using
-
-            DgvTimbang.Rows.Clear()
-
-            SQL = "select a.Kode_Perusahaan, a.no_faktur, b.Kode_Barang, c.nama, b.Satuan, b.Satuan_Per_Bag, "
-            SQL = SQL & "b.Jumlah_Per_Bag,c.Berat_Bags, c.Satuan_Berat_Bags "
-
-            SQL = SQL & ",isnull((select sum(Jumlah_Bags) from emi_barang_masuk_perpallet x where "
-            SQL = SQL & "x.Kode_Perusahaan=a.Kode_Perusahaan and x.No_Pembelian_Loading=a.No_Faktur and x.status is null "
-            SQL = SQL & "and x.Kode_Barang=b.Kode_Barang),0) as Jumlah_Bags "
-
-            SQL = SQL & ",isnull((select sum(Jumlah) from emi_barang_masuk_perpallet x where "
-            SQL = SQL & "x.Kode_Perusahaan=a.Kode_Perusahaan and x.No_Pembelian_Loading=a.No_Faktur and x.status is null "
-            SQL = SQL & "and x.Kode_Barang=b.Kode_Barang),0) as Jumlah_Barang "
-
-            SQL = SQL & ",isnull((select sum(Jumlah_Pallet) from emi_barang_masuk_perpallet x where "
-            SQL = SQL & "x.Kode_Perusahaan=a.Kode_Perusahaan and x.No_Pembelian_Loading=a.No_Faktur and x.status is null "
-            SQL = SQL & "and x.Kode_Barang=b.Kode_Barang),0) as Jumlah_Pallet "
-
-            SQL = SQL & "from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_Detail b, barang c where "
-            SQL = SQL & "a.No_Faktur=b.No_Faktur and a.Kode_Perusahaan=b.Kode_Perusahaan and a.status is null "
-            SQL = SQL & "and b.Kode_Perusahaan=c.Kode_Perusahaan and b.Kode_Barang=c.Kode_Barang and b.Kode_Stock_Owner=c.Kode_Stock_Owner "
-            SQL = SQL & "and a.kode_Perusahaan ='" & KodePerusahaan & "' and b.Flag_Timbang_Masuk is null and a.No_faktur='" & TxtNo_Loading.Text & "' "
-
-            If CmbBarang.SelectedIndex <> -1 Then
-                SQL = SQL & "and b.kode_Barang='" & arrKodeBarang.Item(CmbBarang.SelectedIndex) & "'"
-            End If
-
-            SQL = SQL & "group by a.Kode_Perusahaan, a.no_faktur,b.Kode_Barang, c.nama, b.Satuan, b.Satuan_Per_Bag, "
-            SQL = SQL & "b.Jumlah_Per_Bag,c.Berat_Bags, c.Satuan_Berat_Bags "
-
-            SQL = SQL & "Order By c.nama "
-            Using ds = BindingTrans(SQL)
-                With ds.Tables("MyTable")
-                    For id2 = 0 To .Rows.Count - 1
-
-                        Dim berat_bags As Double
-                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(id2).Item("Kode_Barang") & "',"
-                        SQL = SQL & "'" & .Rows(id2).Item("Satuan_Berat_Bags") & "','" & CmbSatuan.Text & "',"
-                        SQL = SQL & "" & .Rows(id2).Item("Jumlah_Bags") * .Rows(id2).Item("Berat_Bags") & ") as Hasil "
-                        Using dr3 = OpenTrans(SQL)
-                            If dr3.Read Then
-                                If General_Class.CekNULL(dr3("Hasil")) <> "" Then
-                                    berat_bags = dr3("Hasil")
-                                Else
-                                    MessageBox.Show("Satuan " & .Rows(id2).Item("Satuan_Berat_Bags") & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                    Exit Sub
-                                End If
-                            End If
-                        End Using
-
-                        Dim berat_barang As Double
-                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(id2).Item("Kode_Barang") & "',"
-                        SQL = SQL & "'" & .Rows(id2).Item("Satuan") & "','" & CmbSatuan.Text & "',"
-                        SQL = SQL & "" & .Rows(id2).Item("Jumlah_Barang") & ") as Hasil "
-                        Using dr3 = OpenTrans(SQL)
-                            If dr3.Read Then
-                                If General_Class.CekNULL(dr3("Hasil")) <> "" Then
-                                    berat_barang = dr3("Hasil")
-                                Else
-                                    MessageBox.Show("Satuan " & .Rows(id2).Item("Satuan_Berat_Bags") & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                    Exit Sub
-                                End If
-                            End If
-                        End Using
-
-                        DgvTimbang.Rows.Add(1)
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangKdBarang).Value = .Rows(id2).Item("Kode_Barang")
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangNmBarang).Value = .Rows(id2).Item("Nama")
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangSatuan).Value = .Rows(id2).Item("Satuan")
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangJmlBags).Value = Format(.Rows(id2).Item("Jumlah_Bags"), "N0")
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangBeratBags).Value = Format(berat_bags, "N2")
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangJmlPallet).Value = Format(.Rows(id2).Item("Jumlah_Pallet"), "N0")
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangJmlBarang).Value = Format(.Rows(id2).Item("Jumlah_Barang"), "N2")
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangBeratBarang).Value = Format(berat_barang, "N2")
-
-                    Next
-                End With
-            End Using
-
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MessageBox.Show(ex.Message)
-            Exit Sub
-        End Try
-    End Sub
-
-    Public Sub Get_DGVKeluar()
-
-        Try
-            OpenConn()
-
-            ListView2.Items.Clear()
-            ListView2.View = View.Details
-
-            DgvPO.Rows.Clear()
-
-            Dim id As Integer = 0
-            SQL = " select c.no_PO, c.Kode_Barang, d.nama as Nama_Barang, c.Tanggal_Expired, c.Tanggal_Produksi, "
-            SQL = SQL & "c.Urut_PO, c.Jumlah, c.Urut_Oto as Urut_Loading, c.satuan from "
-            SQL = SQL & "EMI_Timbang_Unloading a, EMI_Timbang_Unloading_PO_Det b, EMI_Pembelian_Loading_Detail c, barang d "
-            SQL = SQL & "where a.Kode_Perusahaan =b.Kode_Perusahaan and a.no_faktur=b.no_faktur and "
-            SQL = SQL & "b.Kode_Perusahaan=c.Kode_Perusahaan and b.Urut_loading=c.Urut_Oto "
-            SQL = SQL & "and c.Kode_Perusahaan=d.Kode_Perusahaan and c.Kode_Barang=d.Kode_Barang and c.Kode_Stock_Owner=d.Kode_Stock_Owner "
-            SQL = SQL & "and a.status is null and a.No_faktur='" & Txt_NoFaktur.Text & "' and a.kode_Perusahaan ='" & KodePerusahaan & "' "
-            SQL = SQL & "Order By d.nama "
-            Using dr = OpenTrans(SQL)
-
-                Do While dr.Read
-
-                    DgvPO.Rows.Add(1)
-                    DgvPO.Rows(id).Cells(ItemNoPO).Value = dr("No_Po")
-                    DgvPO.Rows(id).Cells(ItemKdBarang).Value = dr("Kode_Barang")
-                    DgvPO.Rows(id).Cells(ItemNama).Value = dr("Nama_Barang")
-                    DgvPO.Rows(id).Cells(ItemTglExp).Value = Format(dr("Tanggal_Expired"), "dd MMM yyyy")
-                    DgvPO.Rows(id).Cells(ItemTglProd).Value = Format(dr("tanggal_Produksi"), "dd MMM yyyy")
-                    DgvPO.Rows(id).Cells(ItemUrutPO).Value = dr("Urut_PO")
-                    DgvPO.Rows(id).Cells(ItemSatuan).Value = dr("Satuan")
-                    DgvPO.Rows(id).Cells(ItemJumlah).Value = Format(dr("Jumlah"), "N2")
-                    DgvPO.Rows(id).Cells(ItemJumlahMasuk).Value = 0
-                    DgvPO.Rows(id).Cells(ItemJumlahBags).Value = 0
-                    DgvPO.Rows(id).Cells(ItemUrutLoading).Value = dr("Urut_Loading")
-
-                    id += 1
-                Loop
-            End Using
-
-            DgvTimbang.Rows.Clear()
-
-            SQL = "select a.Kode_Perusahaan, a.no_faktur, b.Kode_Barang, c.nama, b.Satuan, b.Satuan_Per_Bag, "
-            SQL = SQL & "b.Jumlah_Per_Bag,c.Berat_Bags, c.Satuan_Berat_Bags "
-
-            SQL = SQL & ",isnull((select sum(Jumlah_Bags) from emi_barang_masuk_perpallet x where "
-            SQL = SQL & "x.Kode_Perusahaan=a.Kode_Perusahaan and x.No_Pembelian_Loading=a.No_Faktur and x.status is null "
-            SQL = SQL & "and x.Kode_Barang=b.Kode_Barang),0) as Jumlah_Bags "
-
-            SQL = SQL & ",isnull((select sum(Jumlah) from emi_barang_masuk_perpallet x where "
-            SQL = SQL & "x.Kode_Perusahaan=a.Kode_Perusahaan and x.No_Pembelian_Loading=a.No_Faktur and x.status is null "
-            SQL = SQL & "and x.Kode_Barang=b.Kode_Barang),0) as Jumlah_Barang "
-
-            SQL = SQL & ",isnull((select sum(Jumlah_Pallet) from emi_barang_masuk_perpallet x where "
-            SQL = SQL & "x.Kode_Perusahaan=a.Kode_Perusahaan and x.No_Pembelian_Loading=a.No_Faktur and x.status is null "
-            SQL = SQL & "and x.Kode_Barang=b.Kode_Barang),0) as Jumlah_Pallet "
-
-            SQL = SQL & "from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_Detail b, barang c where "
-            SQL = SQL & "a.No_Faktur=b.No_Faktur and a.Kode_Perusahaan=b.Kode_Perusahaan and a.status is null "
-            SQL = SQL & "and b.Kode_Perusahaan=c.Kode_Perusahaan and b.Kode_Barang=c.Kode_Barang and b.Kode_Stock_Owner=c.Kode_Stock_Owner "
-            SQL = SQL & "and a.kode_Perusahaan ='" & KodePerusahaan & "' and a.No_faktur='" & TxtNo_Loading.Text & "' "
-
-            SQL = SQL & "and b.kode_Barang in( "
-
-            SQL = SQL & "Select distinct b.Kode_Barang from EMI_Timbang_Unloading a, EMI_Timbang_Unloading_PO_Det b "
-            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Faktur = b.No_Faktur And a.status Is null "
-            SQL = SQL & "And a.Kode_Perusahaan='" & KodePerusahaan & "' and a.No_Faktur='" & Txt_NoFaktur.Text & "' "
-
-            SQL = SQL & ") "
-
-            SQL = SQL & "group by a.Kode_Perusahaan, a.no_faktur,b.Kode_Barang, c.nama, b.Satuan, b.Satuan_Per_Bag, "
-            SQL = SQL & "b.Jumlah_Per_Bag,c.Berat_Bags, c.Satuan_Berat_Bags "
-
-            SQL = SQL & "Order By c.nama "
-            Using ds = BindingTrans(SQL)
-                With ds.Tables("MyTable")
-                    For id2 = 0 To .Rows.Count - 1
-
-                        Dim berat_bags As Double
-                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(id2).Item("Kode_Barang") & "',"
-                        SQL = SQL & "'" & .Rows(id2).Item("Satuan_Berat_Bags") & "','" & CmbSatuan.Text & "',"
-                        SQL = SQL & "" & .Rows(id2).Item("Jumlah_Bags") * .Rows(id2).Item("Berat_Bags") & ") as Hasil "
-                        Using dr3 = OpenTrans(SQL)
-                            If dr3.Read Then
-                                If General_Class.CekNULL(dr3("Hasil")) <> "" Then
-                                    berat_bags = dr3("Hasil")
-                                Else
-                                    MessageBox.Show("Satuan " & .Rows(id2).Item("Satuan_Berat_Bags") & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                    Exit Sub
-                                End If
-                            End If
-                        End Using
-
-                        Dim berat_barang As Double
-                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(id2).Item("Kode_Barang") & "',"
-                        SQL = SQL & "'" & .Rows(id2).Item("Satuan") & "','" & CmbSatuan.Text & "',"
-                        SQL = SQL & "" & .Rows(id2).Item("Jumlah_Barang") & ") as Hasil "
-                        Using dr3 = OpenTrans(SQL)
-                            If dr3.Read Then
-                                If General_Class.CekNULL(dr3("Hasil")) <> "" Then
-                                    berat_barang = dr3("Hasil")
-                                Else
-                                    MessageBox.Show("Satuan " & .Rows(id2).Item("Satuan_Berat_Bags") & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                    Exit Sub
-                                End If
-                            End If
-                        End Using
-
-                        DgvTimbang.Rows.Add(1)
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangKdBarang).Value = .Rows(id2).Item("Kode_Barang")
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangNmBarang).Value = .Rows(id2).Item("Nama")
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangSatuan).Value = .Rows(id2).Item("Satuan")
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangJmlBags).Value = Format(.Rows(id2).Item("Jumlah_Bags"), "N0")
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangBeratBags).Value = Format(berat_bags, "N2")
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangJmlPallet).Value = Format(.Rows(id2).Item("Jumlah_Pallet"), "N0")
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangJmlBarang).Value = Format(.Rows(id2).Item("Jumlah_Barang"), "N2")
-                        DgvTimbang.Rows(id2).Cells(ItemTimbangBeratBarang).Value = Format(berat_barang, "N2")
-
-                    Next
-                End With
-            End Using
-
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MessageBox.Show(ex.Message)
-            Exit Sub
-        End Try
-
-        getSumOfBerat()
-    End Sub
-
-    Public Sub Hitung_Netto()
-
-        If Txt_Timbang2.Text.Trim <> "" Then
-
-            Txt_Netto.Text = Format(Math.Max(0, Val(HilangkanTanda(Txt_Timbang1.Text)) - Val(HilangkanTanda(Txt_Timbang2.Text))), "N0")
-
-            If CmbJenisMuatan.SelectedIndex <> -1 And DgvTimbang.RowCount <> 0 Then
-                Dim indexSelected As Integer = CmbJenisMuatan.SelectedIndex
-                Dim metodeTruckScale As String = arrMetodeTruckScale(indexSelected).ToString.ToUpper.Trim
-
-                If metodeTruckScale = "TRUCK SCALE" Then
-                    DgvTimbang.Rows(0).Cells(ItemTimbangJmlBarang).Value = Val(HilangkanTanda(Txt_Netto.Text))
-                    DgvTimbang.Rows(0).Cells(ItemTimbangBeratBarang).Value = Val(HilangkanTanda(Txt_Netto.Text))
-                End If
-
-                getSumOfBerat()
-            End If
-
-        End If
-    End Sub
-
-    Private Sub TextBox1_KeyPress(sender As Object, e As KeyPressEventArgs)
-        If e.KeyChar = Chr(13) Then Txt_Supir.Focus()
-    End Sub
-
-    Private Sub TextBox2_KeyPress(sender As Object, e As KeyPressEventArgs)
-        If e.KeyChar = Chr(13) Then Btn_Simpan.Focus()
-    End Sub
-
     Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
         kosong()
-    End Sub
-
-    Private Sub Txt_Timbang1_TextChanged(sender As Object, e As EventArgs) Handles Txt_Timbang1.TextChanged
-        Hitung_Netto()
-
-    End Sub
-
-    Private Sub Txt_Timbang2_TextChanged(sender As Object, e As EventArgs) Handles Txt_Timbang2.TextChanged
-        Hitung_Netto()
-    End Sub
-
-    Private Sub DataGridView1_CellEndEdit_1(sender As Object, e As DataGridViewCellEventArgs) Handles DgvPO.CellEndEdit
-        If IsNumeric(DgvPO.CurrentRow.Cells(ItemJumlahMasuk).Value) = False Then
-            DgvPO.CurrentRow.Cells(ItemJumlahMasuk).Value = ""
-        End If
-
-        Dim curentKodeBarang As String = DgvPO.CurrentRow.Cells(ItemKdBarang).Value
-        Dim curentJumlahMasuk As String = DgvPO.CurrentRow.Cells(ItemJumlahMasuk).Value
-
-        If Not curentJumlahMasuk = "" Or Not curentJumlahMasuk.Trim.Length = 0 Then
-
-            Dim JumlahBagsTimbang As Double = 0
-            Dim JumlahBarangPO As Double = 0
-
-            Dim BeratPerBags As Double = 0
-
-            For i As Integer = 0 To DgvTimbang.Rows.Count - 1
-                Get_Isi_DataGridViewTimbang(i)
-
-                If LvTimbangKdBarang = curentKodeBarang Then
-                    JumlahBagsTimbang = Val(HilangkanTanda(LvTimbangJmlBags))
-                    JumlahBarangPO = Val(HilangkanTanda(LvTimbangjmlBarang))
-                    Exit For
-                End If
-
-            Next
-
-            If JumlahBagsTimbang <> 0 And JumlahBarangPO <> 0 Then
-
-                Dim JumlahFinalBags As Double = 0
-
-                BeratPerBags = JumlahBarangPO / JumlahBagsTimbang
-
-                JumlahFinalBags = curentJumlahMasuk / BeratPerBags
-
-                DgvPO.CurrentRow.Cells(ItemJumlahBags).Value = Math.Round(JumlahFinalBags)
-
-            End If
-
-        End If
-
-    End Sub
-
-    Private Sub LblSatuan_Click(sender As Object, e As EventArgs) Handles LblSatuan.Click
-
-    End Sub
-
-    Private Sub CmbSatuan_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbSatuan.SelectedIndexChanged
-
-    End Sub
-
-    Private Sub Txt_Timbang1_Leave(sender As Object, e As EventArgs) Handles Txt_Timbang1.Leave
-        For i As Integer = 0 To DgvPO.RowCount - 1
-            DgvPO.Rows(i).Cells(ItemJumlahMasuk).Value = 0
-        Next
-    End Sub
-
-    Private Sub Txt_Timbang2_Leave(sender As Object, e As EventArgs) Handles Txt_Timbang2.Leave
-        For i As Integer = 0 To DgvPO.RowCount - 1
-            DgvPO.Rows(i).Cells(ItemJumlahMasuk).Value = 0
-        Next
-    End Sub
-
-    Private Sub CmbJenisMuatan_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbJenisMuatan.SelectedIndexChanged
-
-        Dim indexSelected As Integer = CmbJenisMuatan.SelectedIndex
-        Dim metodeTruckScale As String = arrMetodeTruckScale(indexSelected).ToString.ToUpper.Trim
-
-        CmbBarang.SelectedIndex = -1
-        If metodeTruckScale = "TRUCK SCALE" Then
-            CmbBarang.Enabled = True
-        Else
-            CmbBarang.Enabled = False
-
-        End If
-
     End Sub
 
     Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
@@ -906,96 +563,96 @@ Public Class EMI_Timbang_Unloading
 
             If jenisMasuk = "MASUK" Then
 
-                'If metodeTruckScale = "TRUCK SCALE" Then
-                '    If CmbBarang.SelectedIndex = -1 Then
-                '        MessageBox.Show("Barang Harus di isi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                '        CmbBarang.Focus()
-                '        Exit Sub
-                '    End If
-                'End If
+                If metodeTruckScale = "TRUCK SCALE" Then
+                    If CmbBarang.SelectedIndex = -1 Then
+                        MessageBox.Show("Barang Harus di isi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        CmbBarang.Focus()
+                        Exit Sub
+                    End If
+                End If
 
-                'OpenConn()
+                OpenConn()
 
-                'get_no_faktur()
-                'get_jam()
+                get_no_faktur()
+                get_jam()
 
-                'No_Faktur = Txt_NoFaktur.Text
+                No_Faktur = Txt_NoFaktur.Text
 
-                'Cmd.Transaction = Cn.BeginTransaction
+                Cmd.Transaction = Cn.BeginTransaction
 
-                'SQL = "Insert into EMI_Timbang_Unloading (Kode_Perusahaan, "
-                'SQL = SQL & "No_Faktur, No_Loading, Timbang_Masuk, Tgl_Timbang_Masuk, Jam_Timbang_Masuk, Foto_Timbang_Masuk_1, "
-                'SQL = SQL & "Foto_Timbang_Masuk_2, id_jenis_muatan, Satuan) values('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "','" & TxtNo_Loading.Text & "', "
-                'SQL = SQL & "'" & HilangkanTanda(Txt_Timbang1.Text) & "', '" & Format(DTP_1.Value, "yyyy-MM-dd") & "', "
-                'SQL = SQL & "'" & Format(CDate(DTP_Bruto.Value), "HH:mm:ss") & "', '" & Nama_File_1 & "', '" & Nama_File_2 & "', '" & arrIdJenisMuatan.Item(CmbJenisMuatan.SelectedIndex) & "', '" & CmbSatuan.Text & "')"
-                'ExecuteTrans(SQL)
+                SQL = "Insert into EMI_Timbang_Unloading (Kode_Perusahaan, "
+                SQL = SQL & "No_Faktur, No_Loading, Timbang_Masuk, Tgl_Timbang_Masuk, Jam_Timbang_Masuk, Foto_Timbang_Masuk_1, "
+                SQL = SQL & "Foto_Timbang_Masuk_2, id_jenis_muatan, Satuan) values('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "','" & TxtNo_Loading.Text & "', "
+                SQL = SQL & "'" & HilangkanTanda(Txt_Timbang1.Text) & "', '" & Format(DTP_1.Value, "yyyy-MM-dd") & "', "
+                SQL = SQL & "'" & Format(CDate(DTP_Bruto.Value), "HH:mm:ss") & "', '" & Nama_File_1 & "', '" & Nama_File_2 & "', '" & arrIdJenisMuatan.Item(CmbJenisMuatan.SelectedIndex) & "', '" & CmbSatuan.Text & "')"
+                ExecuteTrans(SQL)
 
-                ''''SIMPAN Unloading PO
-                'Dim noFaktur As String = ""
-                'Dim noSuratJalan As String = ""
-                'Dim noPO As String = ""
+                '''SIMPAN Unloading PO
+                Dim noFaktur As String = ""
+                Dim noSuratJalan As String = ""
+                Dim noPO As String = ""
 
-                ''For i As Integer = 0 To ListView2.Items.Count - 1
-                'For i As Integer = 0 To DgvPO.RowCount - 1
-                '    Get_Isi_DataGridView(i)
+                'For i As Integer = 0 To ListView2.Items.Count - 1
+                For i As Integer = 0 To DgvPO.RowCount - 1
+                    Get_Isi_DataGridView(i)
 
-                '    If LvNoPO <> noPO Then
-                '        SQL = "Insert into EMI_Timbang_Unloading_PO ("
-                '        SQL = SQL & "Kode_Perusahaan, No_Faktur, No_PO)"
-                '        SQL = SQL & "Values('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', "
-                '        SQL = SQL & "'" & LvNoPO & "') "
-                '        ExecuteTrans(SQL)
+                    If LvNoPO <> noPO Then
+                        SQL = "Insert into EMI_Timbang_Unloading_PO ("
+                        SQL = SQL & "Kode_Perusahaan, No_Faktur, No_PO)"
+                        SQL = SQL & "Values('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', "
+                        SQL = SQL & "'" & LvNoPO & "') "
+                        ExecuteTrans(SQL)
 
-                '        noPO = LvNoPO
+                        noPO = LvNoPO
 
-                '    End If
+                    End If
 
-                '    SQL = "Insert into EMI_Timbang_Unloading_PO_Det ("
-                '    SQL = SQL & "Kode_Perusahaan, No_Faktur, No_PO, Urut_Loading, Kode_Barang, Kode_Stock_owner)"
-                '    SQL = SQL & "Values('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', "
-                '    SQL = SQL & "'" & LvNoPO & "', '" & LvUrutLoading & "', '" & LvKdBarang & "', '" & LokasiGudangUnloading & "') "
-                '    ExecuteTrans(SQL)
+                    SQL = "Insert into EMI_Timbang_Unloading_PO_Det ("
+                    SQL = SQL & "Kode_Perusahaan, No_Faktur, No_PO, Urut_Loading, Kode_Barang, Kode_Stock_owner)"
+                    SQL = SQL & "Values('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', "
+                    SQL = SQL & "'" & LvNoPO & "', '" & LvUrutLoading & "', '" & LvKdBarang & "', '" & LokasiGudangUnloading & "') "
+                    ExecuteTrans(SQL)
 
-                '    SQL = "update EMI_Pembelian_Loading_Detail set flag_timbang_masuk='Y' where No_Faktur='" & TxtNo_Loading.Text & "' "
-                '    SQL = SQL & "and urut_oto='" & LvUrutLoading & "' and kode_barang='" & LvKdBarang & "'"
-                '    ExecuteTrans(SQL)
+                    SQL = "update EMI_Pembelian_Loading_Detail set flag_timbang_masuk='Y' where No_Faktur='" & TxtNo_Loading.Text & "' "
+                    SQL = SQL & "and urut_oto='" & LvUrutLoading & "' and kode_barang='" & LvKdBarang & "'"
+                    ExecuteTrans(SQL)
 
-                'Next
+                Next
 
-                ''FLAGING BRUTO
-                'SQL = "update EMI_Pembelian_Loading set "
-                'SQL = SQL & "ID_Jenis_Muatan=" & arrIdJenisMuatan.Item(CmbJenisMuatan.SelectedIndex) & ", "
-                'SQL = SQL & "flag_proses_loading = 'Y' "
-                'SQL = SQL & "where No_faktur='" & TxtNo_Loading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
-                'ExecuteTrans(SQL)
+                'FLAGING BRUTO
+                SQL = "update EMI_Pembelian_Loading set "
+                SQL = SQL & "ID_Jenis_Muatan=" & arrIdJenisMuatan.Item(CmbJenisMuatan.SelectedIndex) & ", "
+                SQL = SQL & "flag_proses_loading = 'Y' "
+                SQL = SQL & "where No_faktur='" & TxtNo_Loading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
+                ExecuteTrans(SQL)
 
-                'SQL = "select Kode_Perusahaan from EMI_Pembelian_Loading_detail where "
-                'SQL = SQL & "No_faktur='" & TxtNo_Loading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
-                'SQL = SQL & "and Flag_Timbang_masuk is null "
-                'Using dr = OpenTrans(SQL)
-                '    If Not dr.Read Then
-                '        dr.Close()
-                '        SQL = "update EMI_Pembelian_Loading set Flag_Timbang ='Y' "
-                '        SQL = SQL & "where No_faktur='" & TxtNo_Loading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
-                '        ExecuteTrans(SQL)
+                SQL = "select Kode_Perusahaan from EMI_Pembelian_Loading_detail where "
+                SQL = SQL & "No_faktur='" & TxtNo_Loading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
+                SQL = SQL & "and Flag_Timbang_masuk is null "
+                Using dr = OpenTrans(SQL)
+                    If Not dr.Read Then
+                        dr.Close()
+                        SQL = "update EMI_Pembelian_Loading set Flag_Timbang ='Y' "
+                        SQL = SQL & "where No_faktur='" & TxtNo_Loading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
+                        ExecuteTrans(SQL)
 
-                '    End If
-                'End Using
+                    End If
+                End Using
 
-                ''''Dim Blob_1 As BlobClient = Container.GetBlobClient(BlobName_1)
-                ''''Blob_1.Upload(FilePath_1, New BlobHttpHeaders With {.ContentType = "image/jpeg"})
+                '''Dim Blob_1 As BlobClient = Container.GetBlobClient(BlobName_1)
+                '''Blob_1.Upload(FilePath_1, New BlobHttpHeaders With {.ContentType = "image/jpeg"})
 
-                ''''Dim Blob_2 As BlobClient = Container.GetBlobClient(BlobName_2)
-                ''''Blob_2.Upload(FilePath_2, New BlobHttpHeaders With {.ContentType = "image/jpeg"})
+                '''Dim Blob_2 As BlobClient = Container.GetBlobClient(BlobName_2)
+                '''Blob_2.Upload(FilePath_2, New BlobHttpHeaders With {.ContentType = "image/jpeg"})
 
-                'Cmd.Transaction.Commit()
-                'CloseConn()
-                'MessageBox.Show(Base_Language.Lang_Global_Sukses_Simpan, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Cmd.Transaction.Commit()
+                CloseConn()
+                MessageBox.Show(Base_Language.Lang_Global_Sukses_Simpan, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
-                'kosong()
-                'EMI_Display_Timbang.kosong()
-                'Me.Close()
-                ''Exit Sub
+                kosong()
+                EMI_Display_Timbang.kosong()
+                Me.Close()
+                'Exit Sub
             ElseIf jenisMasuk = "KELUAR" Then
 
                 'If  Then
@@ -1398,6 +1055,42 @@ Public Class EMI_Timbang_Unloading
                                     End If
                                 End Using
 
+                                '========================
+                                '=     CEK WARNA QC     =
+                                '========================
+                                Dim warnaQC, HasilQC, warnaFinal As String
+                                SQL = "select Warna, Hasil "
+                                SQL = SQL & "from EMI_Hasil_Quality_Control "
+                                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                SQL = SQL & "and No_Fak_Loading_Barang = '" & .Rows(index).Item("No_Pembelian_Loading") & "' "
+                                Using Dr2 = OpenTrans(SQL)
+                                    If Dr2.Read Then
+
+                                        warnaQC = Dr2("Warna")
+                                        HasilQC = Dr2("Hasil")
+                                    Else
+                                        Dr2.Close()
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Data Barang pada QC tidak Ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+                                End Using
+
+
+                                If warnaQC = "KUNING" And HasilQC = "DITERIMA" Then
+                                    warnaFinal = "HIJAU"
+                                    'ElseIf warnaQC = "KUNING" And HasilQC = "TOLAK SELURUH" Then
+                                    '    warnaFinal = "MERAH"
+                                ElseIf HasilQC = "TOLAK SELURUH" Then
+                                    warnaFinal = "MERAH"
+                                ElseIf warnaQC = "HIJAU" Then
+                                    warnaFinal = "HIJAU"
+                                Else
+                                    warnaFinal = "KUNING"
+                                End If
+
+
                                 SQL = "insert into Barang_SN(kode_perusahaan, kode_stock_owner, kode_barang, "
                                 SQL = SQL & "serial_number, jumlah, Tgl_Produksi, Tgl_Expired, Id_Warehouse, "
                                 SQL = SQL & "id_Susunan, Nomor_Pallet, Kode_Unik_Asal, Kode_Unik_Berjalan, "
@@ -1410,7 +1103,7 @@ Public Class EMI_Timbang_Unloading
                                 SQL = SQL & "'" & .Rows(index).Item("id_Susunan") & "','" & available_NoPallet & "', "
                                 SQL = SQL & "'" & .Rows(index).Item("Kode_Unik_Asal") & "','" & .Rows(index).Item("Kode_Unik_Berjalan") & "', "
                                 SQL = SQL & "'" & .Rows(index).Item("Jumlah_Bags") & "','" & .Rows(index).Item("Qr_Code") & "', "
-                                SQL = SQL & "'" & .Rows(index).Item("Batch_Number") & "','" & .Rows(index).Item("warna") & "', "
+                                SQL = SQL & "'" & .Rows(index).Item("Batch_Number") & "','" & warnaFinal & "', "
                                 SQL = SQL & "'" & TglMasuk & "')"
                                 ExecuteTrans(SQL)
 
@@ -1468,7 +1161,7 @@ Public Class EMI_Timbang_Unloading
                 '''End If
 
                 SQL = "Update EMI_Pembelian_Loading "
-                SQL = SQL & "Set Flag_Proses_loading = null "
+                SQL = SQL & "Set Flag_Proses_loading = null, flag_sdh_update = 'Y' "
                 SQL = SQL & "Where No_Faktur = '" & TxtNo_Loading.Text & "' "
                 ExecuteTrans(SQL)
 
@@ -1495,22 +1188,25 @@ Public Class EMI_Timbang_Unloading
                 'Btn_Simpan.Text = "&Simpan Bruto"
                 ' kosong()
 
-                isError = False
-                If flag_import = "Y" Then
+                ''isError = False
+                ''If flag_import = "Y" Then
 
-                    If flag_HPP = "Y" Then
-                        Jurnal_Import()
-                    End If
-                Else
-                    Jurnal_Lokal()
-                End If
+                ''    If flag_HPP = "Y" Then
+                ''        Jurnal_Import()
+                ''    Else
+                ''        isError = True
+                ''    End If
 
-                If isError = False Then
-                    CloseTrans()
-                    CloseConn()
-                    MessageBox.Show("Ada Masalah pada Jurnal", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
+                ''Else
+                ''    Jurnal_Lokal()
+                ''End If
+
+                ''If isError = False Then
+                ''    CloseTrans()
+                ''    CloseConn()
+                ''    MessageBox.Show("Ada Masalah pada Jurnal", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                ''    Exit Sub
+                ''End If
 
                 Cmd.Transaction.Commit()
                 CloseConn()
@@ -1540,23 +1236,21 @@ Public Class EMI_Timbang_Unloading
 
             If jenisMasuk = "MASUK" Then
 
-                'SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='" & No_Faktur & "'"
-                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='TK1224-00002'"
+                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='" & No_Faktur & "'"
                 Using Ds = BindingTrans(SQL)
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                        CrDoc = New Rpt_Surat_Perintah_Bongkar
-                        With A_Place_For_Printing2
-                            CrDoc.SetDataSource(Ds)
-                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            CrDoc.PrintOptions.PrinterName = ""
-                            'CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
-                            CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='TK1224-00002' "
-                            CrDoc.SummaryInfo.ReportTitle = "Surat Perintah Bongkar"
-                            .Text = "Surat Perintah Bongkar"
-                            .CrystalReportViewer1.ReportSource = CrDoc
-                            .Refresh()
-                            .Show()
-                        End With
+                        'CrDoc = New Rpt_Surat_Perintah_Bongkar
+                        'With A_Place_For_Printing2
+                        '    CrDoc.SetDataSource(Ds)
+                        '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        '    CrDoc.PrintOptions.PrinterName = ""
+                        '    CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
+                        '    CrDoc.SummaryInfo.ReportTitle = "Surat Perintah Bongkar"
+                        '    .Text = "Surat Perintah Bongkar"
+                        '    .CrystalReportViewer1.ReportSource = CrDoc
+                        '    .Refresh()
+                        '    .Show()
+                        'End With
 
                         'CrDoc = New Rpt_Surat_Perintah_Bongkar
                         'kertas = "Faktur"
@@ -1592,31 +1286,31 @@ Public Class EMI_Timbang_Unloading
                         '================================================================================================================================================================================================================================
                         '================================================================================================================================================================================================================================
 
-                        'CrDoc = New Rpt_Surat_Perintah_Bongkar
-                        'kertas = "Faktur"
+                        CrDoc = New Rpt_Surat_Perintah_Bongkar
+                        kertas = "Faktur"
 
-                        'CrDoc.SetDataSource(Ds)
-                        'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        'CrDoc.PrintOptions.PrinterName = PrinterNameSPB
-                        'CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
-                        ''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        CrDoc.PrintOptions.PrinterName = PrinterNameSPB
+                        CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
+                        'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
-                        'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        'doctoprint.PrinterSettings.PrinterName = PrinterNameSPB
-                        'Dim rawKind As Integer
-                        'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                        'For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                        '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
-                        '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                        '        CrDoc.PrintOptions.PaperSize = rawKind
-                        '        Exit For
-                        '    End If
-                        'Next
+                        Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                        doctoprint.PrinterSettings.PrinterName = PrinterNameSPB
+                        Dim rawKind As Integer
+                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                            If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                                CrDoc.PrintOptions.PaperSize = rawKind
+                                Exit For
+                            End If
+                        Next
 
-                        'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                        'CrDoc.PrintToPrinter(1, False, 1, 99)
+                        CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                        CrDoc.PrintToPrinter(1, False, 1, 99)
 
-                        'MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     End If
                 End Using
 
@@ -1625,84 +1319,84 @@ Public Class EMI_Timbang_Unloading
                 SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='" & No_Faktur & "'"
                 Using Ds = BindingTrans(SQL)
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                        CrDoc = New Rpt_Bukti_Penerimaan_Barang
-                        With A_Place_For_Printing2
-                            CrDoc.SetDataSource(Ds)
-                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            CrDoc.PrintOptions.PrinterName = ""
-                            CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
-                            CrDoc.SummaryInfo.ReportTitle = "Surat Bukti Penerimaan Barang"
-                            .Text = "Surat Bukti Penerimaan Barang"
-                            .CrystalReportViewer1.ReportSource = CrDoc
-                            .Refresh()
-                            .Show()
-                        End With
+                        'CrDoc = New Rpt_Bukti_Penerimaan_Barang
+                        'With A_Place_For_Printing2
+                        '    CrDoc.SetDataSource(Ds)
+                        '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        '    CrDoc.PrintOptions.PrinterName = ""
+                        '    CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
+                        '    CrDoc.SummaryInfo.ReportTitle = "Surat Bukti Penerimaan Barang"
+                        '    .Text = "Surat Bukti Penerimaan Barang"
+                        '    .CrystalReportViewer1.ReportSource = CrDoc
+                        '    .Refresh()
+                        '    .Show()
+                        'End With
 
                         CrDoc = New Rpt_Bukti_Penerimaan_Barang
                         kertas = "Faktur"
 
-                        'CrDoc.SetDataSource(Ds)
-                        'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        'CrDoc.PrintOptions.PrinterName = PrinterNameBPB
-                        'CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
-                        ''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        CrDoc.PrintOptions.PrinterName = PrinterNameBPB
+                        CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading_PO_Det.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading_PO_Det.No_Faktur}='" & No_Faktur & "' "
+                        'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
-                        'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        'doctoprint.PrinterSettings.PrinterName = PrinterNameBPB
-                        'Dim rawKind As Integer
-                        'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                        'For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                        '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
-                        '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                        '        CrDoc.PrintOptions.PaperSize = rawKind
-                        '        Exit For
-                        '    End If
-                        'Next
+                        Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                        doctoprint.PrinterSettings.PrinterName = PrinterNameBPB
+                        Dim rawKind As Integer
+                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                            If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                                CrDoc.PrintOptions.PaperSize = rawKind
+                                Exit For
+                            End If
+                        Next
 
-                        'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                        'CrDoc.PrintToPrinter(1, False, 1, 99)
+                        CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                        CrDoc.PrintToPrinter(1, False, 1, 99)
                     End If
                 End Using
 
                 SQL = "select Kode_Jenis_Muatan from Vw_Bukti_Timbang where No_Faktur = '" & No_Faktur & "'"
                 Using Ds = BindingTrans(SQL)
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                        CrDoc = New Rpt_Bukti_Timbang
-                        With A_Place_For_Printing3
-                            CrDoc.SetDataSource(Ds)
-                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            CrDoc.PrintOptions.PrinterName = ""
-                            CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading.No_Faktur}='" & No_Faktur & "' "
-                            CrDoc.SummaryInfo.ReportTitle = "Surat Bukti Penerimaan Barang"
-                            .Text = "Surat Bukti Timbang"
-                            .CrystalReportViewer1.ReportSource = CrDoc
-                            .Refresh()
-                            .Show()
-                        End With
-
                         'CrDoc = New Rpt_Bukti_Timbang
-                        'kertas = "Faktur"
+                        'With A_Place_For_Printing3
+                        '    CrDoc.SetDataSource(Ds)
+                        '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        '    CrDoc.PrintOptions.PrinterName = ""
+                        '    CrDoc.RecordSelectionFormula = "{EMI_Timbang_Unloading.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Timbang_Unloading.No_Faktur}='" & No_Faktur & "' "
+                        '    CrDoc.SummaryInfo.ReportTitle = "Surat Bukti Penerimaan Barang"
+                        '    .Text = "Surat Bukti Timbang"
+                        '    .CrystalReportViewer1.ReportSource = CrDoc
+                        '    .Refresh()
+                        '    .Show()
+                        'End With
 
-                        'CrDoc.SetDataSource(Ds)
-                        'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        'CrDoc.PrintOptions.PrinterName = PrinterNameBuktiTimbang
-                        'CrDoc.RecordSelectionFormula = "{Vw_Bukti_Timbang.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Bukti_Timbang.No_Faktur}='" & No_Faktur & "' "
-                        ''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+                        CrDoc = New Rpt_Bukti_Timbang
+                        kertas = "Faktur"
 
-                        'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        'doctoprint.PrinterSettings.PrinterName = PrinterNameBuktiTimbang
-                        'Dim rawKind As Integer
-                        'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                        'For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                        '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
-                        '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                        '        CrDoc.PrintOptions.PaperSize = rawKind
-                        '        Exit For
-                        '    End If
-                        'Next
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        CrDoc.PrintOptions.PrinterName = PrinterNameBuktiTimbang
+                        CrDoc.RecordSelectionFormula = "{Vw_Bukti_Timbang.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Bukti_Timbang.No_Faktur}='" & No_Faktur & "' "
+                        'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
-                        'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                        'CrDoc.PrintToPrinter(1, False, 1, 99)
+                        Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                        doctoprint.PrinterSettings.PrinterName = PrinterNameBuktiTimbang
+                        Dim rawKind As Integer
+                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                            If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                                CrDoc.PrintOptions.PaperSize = rawKind
+                                Exit For
+                            End If
+                        Next
+
+                        CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                        CrDoc.PrintToPrinter(1, False, 1, 99)
 
                     End If
                 End Using
@@ -1723,27 +1417,40 @@ Public Class EMI_Timbang_Unloading
 
     End Sub
 
-    Private Sub Txt_Timbang1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Timbang1.KeyPress
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
-            e.Handled = True
+    Private Function CekNothing(ByVal str As String) As String
+        Dim hasil As String = ""
+
+        If str Is Nothing OrElse str = "" Then
+            hasil = "0"
+        Else
+            hasil = str
         End If
+
+        Return hasil
+    End Function
+
+    Private Sub CmbBarang_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbBarang.SelectedIndexChanged
+        Get_DGVMasuk()
     End Sub
 
-    Private Sub Txt_Timbang2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Timbang2.KeyPress
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
-            e.Handled = True
+    Private Sub CmbJenisMuatan_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbJenisMuatan.SelectedIndexChanged
+
+        Dim indexSelected As Integer = CmbJenisMuatan.SelectedIndex
+        Dim metodeTruckScale As String = arrMetodeTruckScale(indexSelected).ToString.ToUpper.Trim
+
+        CmbBarang.SelectedIndex = -1
+        If metodeTruckScale = "TRUCK SCALE" Then
+            CmbBarang.Enabled = True
+        Else
+            CmbBarang.Enabled = False
+
         End If
+
     End Sub
 
-    'Private Sub DataGridView1_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DataGridView1.EditingControlShowing
-    '    AddHandler e.Control.KeyPress, AddressOf TextBoxColumn3_KeyPress
-    'End Sub
+    Private Sub CmbSatuan_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbSatuan.SelectedIndexChanged
 
-    'Private Sub TextBoxColumn3_KeyPress(sender As Object, e As KeyPressEventArgs)
-    '    If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
-    '        e.Handled = True
-    '    End If
-    'End Sub
+    End Sub
 
     Private Sub DataGridView1_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs)
 
@@ -1763,6 +1470,127 @@ Public Class EMI_Timbang_Unloading
 
     End Sub
 
+    Private Sub DataGridView1_CellEndEdit_1(sender As Object, e As DataGridViewCellEventArgs) Handles DgvPO.CellEndEdit
+        If IsNumeric(DgvPO.CurrentRow.Cells(ItemJumlahMasuk).Value) = False Then
+            DgvPO.CurrentRow.Cells(ItemJumlahMasuk).Value = ""
+        End If
+
+        Dim curentKodeBarang As String = DgvPO.CurrentRow.Cells(ItemKdBarang).Value
+        Dim curentJumlahMasuk As String = DgvPO.CurrentRow.Cells(ItemJumlahMasuk).Value
+
+        'If Not curentJumlahMasuk = "" Or Not curentJumlahMasuk.Trim.Length = 0 Then
+
+        '    Dim JumlahBagsTimbang As Double = 0
+        '    Dim JumlahBarangPO As Double = 0
+
+        '    Dim BeratPerBags As Double = 0
+
+        '    For i As Integer = 0 To DgvTimbang.Rows.Count - 1
+        '        Get_Isi_DataGridViewTimbang(i)
+
+        '        If LvTimbangKdBarang = curentKodeBarang Then
+        '            JumlahBagsTimbang = Val(HilangkanTanda(LvTimbangJmlBags))
+        '            JumlahBarangPO = Val(HilangkanTanda(LvTimbangjmlBarang))
+        '            Exit For
+        '        End If
+
+        '    Next
+
+        '    If JumlahBagsTimbang <> 0 And JumlahBarangPO <> 0 Then
+
+        '        Dim JumlahFinalBags As Double = 0
+
+        '        BeratPerBags = JumlahBarangPO / JumlahBagsTimbang
+
+        '        JumlahFinalBags = curentJumlahMasuk / BeratPerBags
+
+        '        DgvPO.CurrentRow.Cells(ItemJumlahBags).Value = Math.Round(JumlahFinalBags)
+
+        '    End If
+
+        'End If
+
+    End Sub
+
+    Private Sub DgvTimbang_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DgvTimbang.CellContentClick
+
+    End Sub
+
+    Private Sub EMI_Timbang_Unloading_Invalidated(sender As Object, e As InvalidateEventArgs) Handles Me.Invalidated
+
+    End Sub
+
+    Private Sub Get_Data_Timbangan()
+        Try
+            Dim sp = New SerialPort(My.Settings.Port_Timbangan, 9600, Parity.None, 8, StopBits.One)
+            If Not (sp Is Nothing) Then
+                sp.Open()
+                sp.ReadLine()
+
+                sp.Close()
+                sp.Dispose()
+                sp = Nothing
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Get_Isi_DataGridView(ByVal NoIndex As Integer)
+        LvNoPO = DgvPO.Rows(NoIndex).Cells(ItemNoPO).Value
+        LvKdBarang = DgvPO.Rows(NoIndex).Cells(ItemKdBarang).Value
+        LvNama = DgvPO.Rows(NoIndex).Cells(ItemNama).Value
+        LvTglExp = DgvPO.Rows(NoIndex).Cells(ItemTglExp).Value
+        LvTglProd = CekNothing(DgvPO.Rows(NoIndex).Cells(ItemTglProd).Value)
+        LvUrutPO = DgvPO.Rows(NoIndex).Cells(ItemUrutPO).Value
+        LvSatuan = DgvPO.Rows(NoIndex).Cells(ItemSatuan).Value
+        LvJumlah = DgvPO.Rows(NoIndex).Cells(ItemJumlah).Value
+        LvJumlahMasuk = DgvPO.Rows(NoIndex).Cells(ItemJumlahMasuk).Value
+        LvJumlahBagMasuk = DgvPO.Rows(NoIndex).Cells(ItemJumlahBags).Value
+        LvUrutLoading = DgvPO.Rows(NoIndex).Cells(ItemUrutLoading).Value
+    End Sub
+
+    Private Sub Get_Isi_DataGridViewTimbang(ByVal NoIndex As Integer)
+        LvTimbangKdBarang = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangKdBarang).Value
+        LvTimbangNmBarang = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangNmBarang).Value
+        LvTimbangSatuan = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangSatuan).Value
+        LvTimbangJmlBags = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangJmlBags).Value
+        LvTimbangBeratBags = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangBeratBags).Value
+        LvTimbangJmlPallet = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangJmlPallet).Value
+        LvTimbangjmlBarang = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangJmlBarang).Value
+        LvTimbangBeratBarang = DgvTimbang.Rows(NoIndex).Cells(ItemTimbangBeratBarang).Value
+    End Sub
+    Private Sub get_no_faktur()
+        Txt_NoFaktur.Text = fTransTimbanganKosong & Format(tgl_skg, "MMyy") & "-" &
+                             General_Class.Get_Last_Number2("EMI_Timbang_Unloading", "No_Faktur", 5,
+                             "Kode_perusahaan", KodePerusahaan,
+                             "And", "substring(no_Faktur, 1, " & Len(fTransTimbanganKosong) + 4 & ")", fTransTimbanganKosong & Format(tgl_skg, "MMyy"))
+    End Sub
+
+    Private Sub getSumOfBerat()
+        Dim totalJumlah As Double = 0
+        Dim totalBags As Double = 0
+
+        For i As Integer = 0 To DgvTimbang.RowCount - 1
+            Get_Isi_DataGridViewTimbang(i)
+
+            Dim nilai As Double = Val(HilangkanTanda(LvTimbangBeratBarang)) - Val(HilangkanTanda(LvTimbangBeratBags))
+            totalJumlah = totalJumlah + nilai
+
+            totalBags = totalBags + Val(HilangkanTanda(LvTimbangJmlBags))
+
+        Next
+
+        TxtTotalBeratBarang.Text = Format(totalJumlah, "N2")
+        Tot_Bags.Text = Format(totalBags, "N2")
+    End Sub
+
+    'Private Sub TextBoxColumn3_KeyPress(sender As Object, e As KeyPressEventArgs)
+    '    If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+    '        e.Handled = True
+    '    End If
+    'End Sub
     Private Sub getSumOfJumlah()
         Dim totalJumlah As Double = 0
 
@@ -1788,40 +1616,6 @@ Public Class EMI_Timbang_Unloading
             End If
         Next
 
-    End Sub
-
-    Private Sub getSumOfBerat()
-        Dim totalJumlah As Double = 0
-        Dim totalBags As Double = 0
-
-        For i As Integer = 0 To DgvTimbang.RowCount - 1
-            Get_Isi_DataGridViewTimbang(i)
-
-            Dim nilai As Double = Val(HilangkanTanda(LvTimbangBeratBarang)) - Val(HilangkanTanda(LvTimbangBeratBags))
-            totalJumlah = totalJumlah + nilai
-
-            totalBags = totalBags + Val(HilangkanTanda(LvTimbangJmlBags))
-
-        Next
-
-        TxtTotalBeratBarang.Text = Format(totalJumlah, "N2")
-        Tot_Bags.Text = Format(totalBags, "N2")
-    End Sub
-
-    Private Sub Tot_Bags_TextChanged(sender As Object, e As EventArgs) Handles Tot_Bags.TextChanged
-
-    End Sub
-
-    Private Sub DgvTimbang_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DgvTimbang.CellContentClick
-
-    End Sub
-
-    Private Sub Transaksi_Timbang_Unloading_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
-        Me.Dispose()
-    End Sub
-
-    Private Sub CmbBarang_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbBarang.SelectedIndexChanged
-        Get_DGVMasuk()
     End Sub
 
     Private Sub Jurnal_Import()
@@ -2122,6 +1916,7 @@ Public Class EMI_Timbang_Unloading
         Dim Billing As Double = 0
         Dim pib As Double = 0
         Dim pph_billing As Double = 0
+        Dim BM_Billing As Double = 0
         Dim Selisih_PO As Double = 0
         Dim Selisih_PO_Biaya As Double = 0
 
@@ -2137,22 +1932,22 @@ Public Class EMI_Timbang_Unloading
         For index = 0 To DgvPO.Rows.Count - 1
             Get_Isi_DataGridView(index)
 
-            SQL = "Select c.PPN "
-            SQL = SQL & "From EMI_Pembelian_Loading_Detail a, EMI_Pembelian_PO_Detail b, EMI_Pembelian_PO c Where "
-            SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan And a.Urut_PO = b.No_Urut And "
-            SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan And b.No_Faktur = c.No_Faktur and c.status is null And "
-            SQL = SQL & "Urut_Oto = '" & LvUrutLoading & "' "
-            Using dr = OpenTrans(SQL)
-                If dr.Read Then
-                    PPN = dr("PPN")
-                Else
-                    dr.Close()
-                    CloseTrans()
-                    CloseConn()
-                    MessageBox.Show("PO Tidak ditemukan . . ! !")
-                    Exit Sub
-                End If
-            End Using
+            'SQL = "Select c.PPN "
+            'SQL = SQL & "From EMI_Pembelian_Loading_Detail a, EMI_Pembelian_PO_Detail b, EMI_Pembelian_PO c Where "
+            'SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan And a.Urut_PO = b.No_Urut And "
+            'SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan And b.No_Faktur = c.No_Faktur and c.status is null And "
+            'SQL = SQL & "Urut_Oto = '" & LvUrutLoading & "' "
+            'Using dr = OpenTrans(SQL)
+            '    If dr.Read Then
+            '        PPN = dr("PPN")
+            '    Else
+            '        dr.Close()
+            '        CloseTrans()
+            '        CloseConn()
+            '        MessageBox.Show("PO Tidak ditemukan . . ! !")
+            '        Exit Sub
+            '    End If
+            'End Using
 
             SQL = "select a.No_faktur, a.ID_Rencana, b.Kode_stock_owner, b.Kode_barang, b.jumlah,"
             SQL = SQL & "b.Nilai_Pot_Stock/Jumlah as Nilai_Pot_Stock, Nilai_Tdk_Pot_stock_LNS/Jumlah as Nilai_Tdk_Pot_stock_LNS,"
@@ -2175,14 +1970,14 @@ Public Class EMI_Timbang_Unloading
                 End If
             End Using
 
-            SQL = "select b.kode_stock_owner, b.Kode_Barang, jumlah, b.Nilai_PPH/Jumlah as Nilai_PPH, Nilai_PPN/Jumlah as Nilai_PPN "
+            SQL = "select b.kode_stock_owner, b.Kode_Barang, jumlah, b.Nilai_PPH/Jumlah as Nilai_PPH, Nilai_PPN/Jumlah as Nilai_PPN, Nilai_BM/Jumlah as Nilai_BM "
             SQL = SQL & "from Total_Billing a, Detail_Total_Billing b where a.Kode_Perusahaan=b.Kode_perusahaan and a.No_Faktur=b.No_Faktur "
             SQL = SQL & "and a.ID_Rencana='" & id_rencana & "' and a.Status is nulL AND B.Kode_Barang='" & LvKdBarang & "' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
+                    BM_Billing = BM_Billing + (Dr("Nilai_BM") * LvJumlah)
                     pib = pib + (Dr("Nilai_PPN") * LvJumlah)
                     pph_billing = pph_billing + (Dr("Nilai_PPH") * LvJumlah)
-
                 End If
             End Using
 
@@ -3225,27 +3020,19 @@ Public Class EMI_Timbang_Unloading
         For index = 0 To DgvPO.Rows.Count - 1
             Get_Isi_DataGridView(index)
 
-            Dim fRaw_Material_dari As String = ""
-            Dim fFinished_Good_dari As String = ""
-            Dim fSemi_FG_dari As String = ""
-            Dim fScrap_dari As String = ""
-            Dim fPackaging_dari As String = ""
-
             Dim akun_persediaan_dari As String = ""
             Dim akun_ppn As String = ""
             Dim akun_hutang As String = ""
 
-            SQL = "select a.Flag_Raw_Material,a.Flag_Finished_Good,a.Flag_Semi_FG,a.Flag_Scrap, a.Flag_Packaging "
-            SQL = SQL & "from Barang b,EMI_Group_Jenis a where a.Kode_Perusahaan = b.Kode_Perusahaan "
-            SQL = SQL & "and a.Id_Group_Jenis = b.Id_Group_Jenis and b.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = "select c.akun_Persediaan "
+            SQL = SQL & "from EMI_Group_Jenis a, Barang b, EMI_Group_Jenis_Akun c where "
+            SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Group_Jenis = b.Id_Group_Jenis and "
+            SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Group_Jenis = c.Id_Group_Jenis and "
+            SQL = SQL & "b.kode_stock_owner = c.kode_stock_owner and b.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and b.kode_stock_owner = '" & lokasi_Barang & "' and b.Kode_Barang='" & LvKdBarang & "' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
-                    fRaw_Material_dari = Dr("Flag_Raw_Material")
-                    fFinished_Good_dari = Dr("Flag_Finished_Good")
-                    fSemi_FG_dari = Dr("Flag_Semi_FG")
-                    fScrap_dari = Dr("Flag_Scrap")
-                    fPackaging_dari = Dr("Flag_Packaging")
+                    akun_persediaan_dari = Dr("akun_Persediaan")
                 Else
                     Dr.Close()
                     CloseTrans()
@@ -3255,32 +3042,11 @@ Public Class EMI_Timbang_Unloading
                 End If
             End Using
 
-            SQL = "select inisial_faktur,Persediaan_Bahan_Baku,Persediaan, "
-            SQL = SQL & "Persediaan_Bahan_Setengah_Jadi,Persediaan_Scrap, "
-            SQL = SQL & "Persediaan_Packaging, hutang, PPN_Pembelian "
+            SQL = "select inisial_faktur, hutang, PPN_Pembelian "
             SQL = SQL & "from stock_owner_gudang "
             SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & lokasi_Barang & "' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
-                    'akun_persediaan_dari = Dr("persediaan")
-                    If fRaw_Material_dari = "Y" Then
-                        akun_persediaan_dari = Dr("Persediaan_Bahan_Baku")
-                    ElseIf fFinished_Good_dari = "Y" Then
-                        akun_persediaan_dari = Dr("Persediaan")
-                    ElseIf fSemi_FG_dari = "Y" Then
-                        akun_persediaan_dari = Dr("Persediaan_Bahan_Setengah_Jadi")
-                    ElseIf fScrap_dari = "Y" Then
-                        akun_persediaan_dari = Dr("Persediaan_Scrap")
-                    ElseIf fPackaging_dari = "Y" Then
-                        akun_persediaan_dari = Dr("Persediaan_Packaging")
-                    Else
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
-
                     akun_hutang = Dr("hutang")
                     akun_ppn = Dr("PPN_Pembelian")
                 Else
@@ -3491,4 +3257,330 @@ Public Class EMI_Timbang_Unloading
         isError = True
     End Sub
 
+    Private Sub LblSatuan_Click(sender As Object, e As EventArgs) Handles LblSatuan.Click
+
+    End Sub
+
+    Private Sub loadJenisMuatan()
+        Try
+            OpenConn()
+
+            SQL = "select Id_Jenis_Muatan, Kode_Jenis_Muatan, Keterangan, Metode_Timbang "
+            SQL = SQL & "from EMI_Master_Jenis_Muatan"
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+
+                    CmbJenisMuatan.Items.Add(Dr("Keterangan")) : arrIdJenisMuatan.Add(Dr("Id_Jenis_Muatan")) : arrMetodeTruckScale.Add(Dr("Metode_Timbang"))
+
+                Loop
+            End Using
+
+            If jenisMasuk = "KELUAR" Then
+                Dim idmuatan As String = ""
+
+                SQL = "select timbang_masuk, id_jenis_muatan, tgl_timbang_masuk, Jam_Timbang_Masuk from EMI_Timbang_Unloading where "
+                SQL = SQL & "no_faktur='" & Txt_NoFaktur.Text & "'"
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        idmuatan = Dr("id_jenis_muatan")
+                        Txt_Timbang1.Text = Format(Dr("timbang_masuk"), "N2")
+                        If General_Class.CekNULL(Dr("tgl_timbang_masuk")) = "" Then
+                            DTP_Bruto.Value = DateTime.Now
+                        Else
+                            DTP_Bruto.Value = Convert.ToDateTime(Dr("tgl_timbang_masuk")).Date.Add(Convert.ToDateTime(Dr("Jam_Timbang_Masuk")).TimeOfDay)
+                        End If
+                    End If
+                End Using
+
+                For index = 0 To arrIdJenisMuatan.Count - 1
+                    If arrIdJenisMuatan.Item(index) = idmuatan Then
+                        CmbJenisMuatan.SelectedIndex = index
+                        Exit For
+                    End If
+                Next
+
+                CmbJenisMuatan.Enabled = False
+                CmbBarang.Enabled = False
+
+                Hitung_Netto()
+
+            End If
+
+            If jenisMasuk = "MASUK" Then
+
+                '===================================
+                '=     CEK APAKAH TIMBANG KE 2     =
+                '===================================
+                SQL = "select top 1 a.ID_Jenis_Muatan, c.Keterangan "
+                SQL = SQL & "from EMI_Timbang_Unloading a, EMI_Pembelian_Loading b, EMI_Master_Jenis_Muatan c "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan "
+                SQL = SQL & "and a.No_Loading = b.No_Faktur "
+                SQL = SQL & "and a.ID_Jenis_Muatan = c.Id_Jenis_Muatan "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.No_Loading = '" & TxtNo_Loading.Text & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        CmbJenisMuatan.Enabled = False
+                        CmbJenisMuatan.SelectedItem = Dr("Keterangan")
+                    Else
+                        Dr.Close()
+                    End If
+                End Using
+            End If
+
+            Dim nama_barang As String = ""
+            Dim id As Integer = 0
+            SQL = "select distinct a.kode_supplier, D.nama, b.Kode_Barang, C.nama as Nama_Barang, a.Lokasi, a.No_SJ, a.No_Plat, a.Driver "
+            SQL = SQL & "from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_Detail b, barang c, Suppliers d "
+            SQL = SQL & "where a.kode_Perusahaan=b.kode_Perusahaan and a.no_faktur=b.no_faktur and a.status is null and "
+            SQL = SQL & "b.kode_Barang=c.kode_Barang and b.kode_stock_Owner=c.Kode_Stock_Owner and b.kode_Perusahaan=c.kode_Perusahaan "
+            SQL = SQL & "and a.kode_Perusahaan=d.Kode_Perusahaan and a.kode_Supplier=d.Kode_Supplier "
+            SQL = SQL & "and a.kode_Perusahaan ='" & KodePerusahaan & "' and a.No_faktur='" & TxtNo_Loading.Text & "' "
+            If jenisMasuk = "MASUK" Then
+                SQL = SQL & "and b.Flag_Timbang_Masuk is null "
+            ElseIf jenisMasuk = "KELUAR" Then
+                SQL = SQL & "and b.Flag_Timbang_Keluar is null "
+            End If
+            SQL = SQL & "Order By d.nama "
+            Using dr = OpenTrans(SQL)
+                Do While dr.Read
+
+                    If id = 0 Then
+                        TxtNoSJ.Text = dr("No_SJ")
+                        Txt_PlatNomor.Text = dr("No_Plat")
+                        Txt_Supir.Text = dr("Driver")
+                        Txt_Supplier.Text = dr("nama")
+                        Lbl_KodeSupplier.Text = dr("kode_supplier")
+                    End If
+
+                    arrNamaBarang.Add(dr("Nama_Barang")) : arrKodeBarang.Add(dr("Kode_Barang"))
+                    CmbBarang.Items.Add(dr("Nama_Barang"))
+                    id += 1
+                Loop
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Tampil_Kamera()
+        StreamPlayerControl1.Show()
+        StreamPlayerControl2.Show()
+
+        Try
+
+            'If StreamPlayerControl1.IsPlaying = True Then
+            '    StreamPlayerControl1.Stop()
+            '    StreamPlayerControl2.Stop()
+            'End If
+
+            'SQL = "select User_IPCAM, Password_IPCAM, IPPORT_CAM from Emi_CAM"
+            'Using dr = OpenTrans(SQL)
+            '    Dim stream As Integer = 1
+            '    Do While dr.Read
+            '        Dim controlName As String = "StreamPlayerControl" & stream
+            '        Dim control As Object = Me.GetType().GetField(controlName, Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(Me)
+
+            '        If control IsNot Nothing Then
+            '            control.StartPlay((New Uri("rtsp://" & dr("User_IPCAM") & ":" & dr("Password_IPCAM") & "@" & dr("IPPORT_CAM") & "/Streaming/channels/102/")))
+            '            stream += 1
+            '        End If
+
+            '    Loop
+            'End Using
+
+            Dim user1 As String = "" : Dim pass1 As String = "" : Dim ipaddr1 As String = ""
+            Dim user2 As String = "" : Dim pass2 As String = "" : Dim ipaddr2 As String = ""
+
+            Try
+                OpenConn()
+                SQL = "select UserName, Password, IP_Address, CAM_Number from Emi_CAM"
+                Using dr = OpenTrans(SQL)
+                    Do While dr.Read
+                        If dr("CAM_Number") = "CAM 1" Then
+                            user1 = dr("UserName")
+                            pass1 = dr("Password")
+                            ipaddr1 = dr("IP_Address")
+
+                        ElseIf dr("CAM_Number") = "CAM 2" Then
+                            user2 = dr("UserName")
+                            pass2 = dr("Password")
+                            ipaddr2 = dr("IP_Address")
+                        End If
+                    Loop
+                End Using
+
+                CloseConn()
+            Catch ex As Exception
+                CloseConn()
+                MessageBox.Show(ex.Message)
+            End Try
+
+            StreamPlayerControl1.StartPlay((New Uri("rtsp://" & user1 & ":" & pass1 & "@" & ipaddr1 & "/Streaming/channels/102/")))
+            StreamPlayerControl2.StartPlay((New Uri("rtsp://" & user2 & ":" & pass2 & "@" & ipaddr2 & "/Streaming/channels/102/")))
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub TextBox1_KeyPress(sender As Object, e As KeyPressEventArgs)
+        If e.KeyChar = Chr(13) Then Txt_Supir.Focus()
+    End Sub
+
+    Private Sub TextBox2_KeyPress(sender As Object, e As KeyPressEventArgs)
+        If e.KeyChar = Chr(13) Then Btn_Simpan.Focus()
+    End Sub
+
+    'Private Sub DataGridView1_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DataGridView1.EditingControlShowing
+    '    AddHandler e.Control.KeyPress, AddressOf TextBoxColumn3_KeyPress
+    'End Sub
+    Private Sub Tot_Bags_TextChanged(sender As Object, e As EventArgs) Handles Tot_Bags.TextChanged
+
+    End Sub
+
+    Private Sub Transaksi_Timbang_Unloading_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        My.Application.ChangeCulture("en-us")
+        My.Application.ChangeUICulture("en-us")
+    End Sub
+
+    Private Sub Transaksi_Timbang_Unloading_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Me.Dispose()
+    End Sub
+
+    Private Sub Transaksi_Timbang_Unloading_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        My.Application.ChangeCulture("en-us")
+        My.Application.ChangeUICulture("en-us")
+
+        Try
+            OpenConn()
+
+            Base_Language.Get_Languages(Bahasa_Pilihan, "GLOBAL")
+            Base_Language.Get_Languages(Bahasa_Pilihan, Jenis)
+
+            DgvPO.Columns(ItemUrutPO).Visible = False
+            DgvPO.Columns(ItemUrutLoading).Visible = False
+
+            If jenisMasuk = "MASUK" Then
+                Lbl_Judul.Text = "Transaksi - Timbang 1 " 'Base_Language.Lang_TransUnloading_Judul + " | " + Base_Language.Lang_Global_Bruto
+                DgvPO.Columns(ItemJumlahMasuk).Visible = False
+                DgvPO.Columns(ItemJumlahMasuk).ReadOnly = True
+                DgvPO.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+
+                Txt_Timbang1.Text = Txt_Timbangan.Text
+                Txt_Timbang2.Enabled = False
+
+                DTP_Bruto.Value = DateTime.Now
+                DTP_Tara.Value = DateTime.Now
+
+            ElseIf jenisMasuk = "KELUAR" Then
+                Lbl_Judul.Text = "Transaksi - Timbang 2 " 'Base_Language.Lang_TransUnloading_Judul + " | " + Base_Language.Lang_Global_Tara
+                DgvPO.Columns(ItemJumlahMasuk).Visible = True
+                DgvPO.Columns(ItemJumlahMasuk).ReadOnly = False
+                DgvPO.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+
+                Txt_Timbang2.Text = Txt_Timbangan.Text
+                Txt_Timbang1.Enabled = False
+
+                SQL = "select No_Faktur from EMI_Timbang_Unloading a where "
+                SQL = SQL & "kode_Perusahaan='" & KodePerusahaan & "' and no_loading='" & TxtNo_Loading.Text & "' "
+                SQL = SQL & "and status is null " 'and flag_selesai is null  "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Txt_NoFaktur.Text = Dr("No_Faktur")
+                    End If
+                End Using
+
+                DTP_Tara.Value = DateTime.Now
+            Else
+                MessageBox.Show("Terjadi Kesalahan  . .  !")
+                Exit Sub
+            End If
+
+            '================================
+            '=     GET GUDANG UNLOADING     =
+            '================================
+            SQL = "select b.Kode_Stock_Owner from binding_lokasi_gudang a, stock_owner_gudang b "
+            SQL = SQL & "where a.kode_stock_owner='" & Lokasi & "' and b.Kode_Stock_Owner=a.Kode_Stock_Owner_gudang "
+            SQL = SQL & "and flag_unloading='Y' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    LokasiGudangUnloading = Dr("Kode_Stock_Owner")
+                Else
+                    Dr.Close()
+                    MessageBox.Show("Lokasi Gudang Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            loadJenisMuatan()
+            Btn_Simpan.Text = Base_Language.Lang_Global_Simpan
+            Btn_Refresh.Text = Base_Language.Lang_Global_Refresh
+            Lbl_Supplier.Text = Base_Language.Lang_Global_Supplier
+            Lbl_Supir.Text = Base_Language.Lang_Global_Supir
+            Lbl_PlatNomor.Text = Base_Language.Lang_Global_PlatNomor
+            Lbl_Timbang1.Text = "Timbang 1"
+            Lbl_Timbang2.Text = "Timbang 2"
+            Lbl_FotoKendaraan.Text = Base_Language.Lang_Global_FotoKendaraan
+
+            ListView2.Columns.Clear()
+            ListView2.Columns.Add("No SJ", 160, HorizontalAlignment.Left)
+            ListView2.Columns.Add("No PO", 160, HorizontalAlignment.Left)
+            ListView2.View = View.Details
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+
+        End Try
+
+        If jenisMasuk = "MASUK" Then
+            Get_DGVMasuk()
+        ElseIf jenisMasuk = "KELUAR" Then
+            Get_DGVKeluar()
+        End If
+
+        'kosong()
+        Tampil_Kamera()
+    End Sub
+    Private Sub Txt_Timbang1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Timbang1.KeyPress
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub Txt_Timbang1_Leave(sender As Object, e As EventArgs) Handles Txt_Timbang1.Leave
+        For i As Integer = 0 To DgvPO.RowCount - 1
+            DgvPO.Rows(i).Cells(ItemJumlahMasuk).Value = 0
+        Next
+    End Sub
+
+    Private Sub Txt_Timbang1_TextChanged(sender As Object, e As EventArgs) Handles Txt_Timbang1.TextChanged
+        Hitung_Netto()
+
+    End Sub
+
+    Private Sub Txt_Timbang2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Timbang2.KeyPress
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub Txt_Timbang2_Leave(sender As Object, e As EventArgs) Handles Txt_Timbang2.Leave
+        For i As Integer = 0 To DgvPO.RowCount - 1
+            DgvPO.Rows(i).Cells(ItemJumlahMasuk).Value = 0
+        Next
+
+        get_jumlahPO_Otomatis()
+    End Sub
+
+    Private Sub Txt_Timbang2_TextChanged(sender As Object, e As EventArgs) Handles Txt_Timbang2.TextChanged
+        Hitung_Netto()
+    End Sub
 End Class

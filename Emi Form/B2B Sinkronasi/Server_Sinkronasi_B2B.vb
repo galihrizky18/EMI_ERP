@@ -1,11 +1,5 @@
-﻿Imports System.Net
-Imports System.Security.Cryptography
-Imports System.Text
-Imports System.IO
-Imports System.IO.Ports
-Imports System.Net.Mail
-Imports System.Text.RegularExpressions
-Imports System.Globalization
+﻿Imports System.IO
+Imports System.Net
 
 Public Class Server_Sinkronasi_B2B
 
@@ -41,7 +35,7 @@ Public Class Server_Sinkronasi_B2B
                 End With
             End Using
 
-            SQLB2B = "select kode_perusahaan,no_faktur,no_do,lokasi,kode_supplier,Id_Kendaraan,Driver,ETD,eta,plat,telpon,tanggal,jam,Id_User,cara_kirim,harga "
+            SQLB2B = "select kode_perusahaan,no_faktur,no_do,lokasi,kode_supplier,Id_Kendaraan,Driver,ETD,eta,plat,telpon,tanggal,jam,Id_User,cara_kirim,harga, Kode_Vendor "
             SQLB2B = SQLB2B & "from B2B_Purchase_Order where flag_sudah_pindah is null and status is null and flag_selesai = 'Y' order by No_Faktur  "
             Using DsSQL = BindingTransB2B(SQLB2B)
                 With DsSQL.Tables("MyTable")
@@ -54,7 +48,7 @@ Public Class Server_Sinkronasi_B2B
                             no_do = "'" & .Rows(i).Item("no_do") & "',"
                         End If
 
-                        SQL = "insert into emi_pembelian_loading(kode_perusahaan,no_faktur,no_sj,lokasi,kode_supplier,Driver,Tanggal_OTW,eta,No_Plat,telpon,tanggal,jam,UseriD,cara_kirim,biaya_perjalanan) "
+                        SQL = "insert into emi_pembelian_loading(kode_perusahaan,no_faktur,no_sj,lokasi,kode_supplier,Driver,Tanggal_OTW,eta,No_Plat,telpon,tanggal,jam,UseriD,cara_kirim,biaya_perjalanan, Kode_Vendor) "
                         SQL = SQL & "values ('" & .Rows(i).Item("kode_perusahaan") & "','" & .Rows(i).Item("no_faktur") & "',"
 
                         SQL = SQL & "" & no_do & " "
@@ -63,7 +57,7 @@ Public Class Server_Sinkronasi_B2B
                         SQL = SQL & "'" & .Rows(i).Item("driver") & "', '" & Format(.Rows(i).Item("etd"), "yyyy-MM-dd") & "',"
                         SQL = SQL & "'" & Format(.Rows(i).Item("eta"), "yyyy-MM-dd") & "', '" & .Rows(i).Item("plat") & "','" & .Rows(i).Item("telpon") & "',"
                         SQL = SQL & "'" & Format(.Rows(i).Item("tanggal"), "yyyy-MM-dd") & "','" & .Rows(i).Item("jam") & "','" & .Rows(i).Item("Id_User") & "',"
-                        SQL = SQL & "'" & .Rows(i).Item("cara_kirim") & "', '" & .Rows(i).Item("harga") & "' "
+                        SQL = SQL & "'" & .Rows(i).Item("cara_kirim") & "', '" & .Rows(i).Item("harga") & "', '" & .Rows(i).Item("Kode_Vendor") & "' "
                         SQL = SQL & ")"
                         ExecuteTrans(SQL)
                     Next
@@ -1454,7 +1448,7 @@ Public Class Server_Sinkronasi_B2B
             CmdB2B.Transaction = CnB2B.BeginTransaction
 
             arrNoPo2.Clear()
-            SQL = "select no_faktur from EMI_Pembelian_Loading where flag_sdh_update ='Y'   order by no_faktur"
+            SQL = "select no_faktur from EMI_Pembelian_Loading where flag_sdh_update ='Y' order by no_faktur"
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
                     For i As Integer = 0 To .Rows.Count - 1

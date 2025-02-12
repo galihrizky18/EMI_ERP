@@ -1,6 +1,5 @@
 ﻿
 Imports System.Data.SqlClient
-Imports System.Diagnostics.Eventing.Reader
 Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
@@ -553,9 +552,10 @@ Module General_Module
             Cmd = New SqlClient.SqlCommand
             Cmd.Connection = Cn1
             Cmd.CommandType = CommandType.Text
-            Cmd.CommandText = Query
+            'Cmd.CommandText = Query
             Cmd.ExecuteNonQuery()
             Cmd = Nothing
+
         Catch ex As Exception
             MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try

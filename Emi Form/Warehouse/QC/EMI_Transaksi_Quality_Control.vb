@@ -1,13 +1,4 @@
-﻿Imports System.IO
-Imports System.Net
-Imports System.Reflection
-Imports System.Text
-Imports System.Windows.Forms.VisualStyles
-Imports System.Xml
-Imports Azure
-
-
-Public Class EMI_Transaksi_Quality_Control
+﻿Public Class EMI_Transaksi_Quality_Control
     Dim arrcari, arrJenisQC As New ArrayList
 
     Dim Jenis = "Master_Quality_Control"
@@ -730,7 +721,7 @@ Public Class EMI_Transaksi_Quality_Control
                         CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                         CrDoc.PrintOptions.PrinterName = PrinterQC
-                        CrDoc.RecordSelectionFormula = "{View_Laporan_Hasil_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Hasil_QC.No_Fak_Loading_Barang} = '" & TxtNoLoading.Text & "' "
+                        CrDoc.RecordSelectionFormula = "{View_Laporan_Hasil_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_Hasil_QC.No_Fak_Loading_Barang} = '" & TxtNoLoading.Text & "' and {View_Laporan_Hasil_QC.Kode_barang} = '" & TxtKdBarang.Text & "' "
                         'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
                         Dim doctoprint As New System.Drawing.Printing.PrintDocument()
@@ -766,8 +757,7 @@ Public Class EMI_Transaksi_Quality_Control
 
         '======================
         ' awal fcm 
-        '======================
-
+        ''======================
         'If flag_berhasil_masuk = True Then
         '    Dim token = GetAccessToken().Result
         '    If String.IsNullOrEmpty(token) Then
@@ -853,7 +843,7 @@ Public Class EMI_Transaksi_Quality_Control
 
 
         kosong()
-        EMI_Display_Quality_Control.kosong()
+        Emi_Display_Quality_Control.kosong()
         'EMI_Display_Quality_Control.Btn_Refresh_Click(Btn_Simpan, e)
         Me.Close()
     End Sub
@@ -915,9 +905,6 @@ Public Class EMI_Transaksi_Quality_Control
         Dim data = Dgv_QC_Lab.Rows(currentRow).Cells(currentCell)
 
         If currentCell = CellValue Then
-            If Val(Dgv_QC_Lab.CurrentRow.Cells(CellValue).Value) < 0 Or IsNumeric(Dgv_QC_Lab.CurrentRow.Cells(CellValue).Value) = False Then
-                Dgv_QC_Lab.CurrentRow.Cells(CellValue).Value = 0
-            End If
 
             Get_Isi_Listview(currentRow, Dgv_QC_Lab)
             Dim Flag_slider As String = ""
@@ -949,6 +936,13 @@ Public Class EMI_Transaksi_Quality_Control
             End Try
 
             If Flag_slider = "Y" Then
+
+                If Val(Dgv_QC_Lab.CurrentRow.Cells(CellValue).Value) < 0 Or IsNumeric(Dgv_QC_Lab.CurrentRow.Cells(CellValue).Value) = False Then
+                    Dgv_QC_Lab.CurrentRow.Cells(CellValue).Value = 0
+                End If
+
+                Get_Isi_Listview(currentRow, Dgv_QC_Lab)
+
                 If Val(HilangkanTanda(LvValue)) < Val(HilangkanTanda(LvMinAwal)) Or Val(HilangkanTanda(LvValue)) > Val(HilangkanTanda(LvMaxAwal)) Then
                     Dgv_QC_Lab.CurrentRow.Cells(CellValue).Value = ""
                     MessageBox.Show("Value Tidak Boleh Lebih atau Kurang dari Range", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1003,11 +997,13 @@ Public Class EMI_Transaksi_Quality_Control
             End Try
             If Flag_Option = "Y" Then
 
-                Dim comboBoxCell As DataGridViewComboBoxCell = CType(Dgv_QC_Lab.Rows(currentRow).Cells(CellCmbValue), DataGridViewComboBoxCell)
-                Dim index As Integer = comboBoxCell.Items.IndexOf(comboBoxCell.Value)
 
+                Dim comboBoxCell As DataGridViewComboBoxCell = CType(Dgv_QC_Lab.Rows(currentRow).Cells(CellCmbValue), DataGridViewComboBoxCell)
 
                 If CekNothing(comboBoxCell.Value) = "" Then Exit Sub
+
+                Dim index As Integer = comboBoxCell.Items.IndexOf(comboBoxCell.Value)
+
 
                 Dim data_default As String = ""
                 Try

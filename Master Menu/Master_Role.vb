@@ -1,12 +1,6 @@
-﻿Imports System.Data.Common
-Imports System.Data.SqlClient
-Imports System.Diagnostics.Eventing.Reader
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock
-Imports System.Windows.Markup
+﻿Public Class Master_Role
 
-Public Class Master_Role
+    Dim arrUserReference As New ArrayList
 
     Dim _UserID As String
     Dim KodePerusahaan As String = "001"
@@ -25,7 +19,6 @@ Public Class Master_Role
     Private Sub Master_Role_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         kosong()
-        kosongUser()
         kosongArr()
         LoadLvRole()
 
@@ -34,10 +27,10 @@ Public Class Master_Role
 
     'HANDLE RESET
     Private Sub kosong()
-        Lv_Role.Items.Clear()
-    End Sub
 
-    Private Sub kosongUser()
+        Lv_Role.Items.Clear()
+        Cmb_Reference.Items.Clear() : arrUserReference.Clear()
+
         Cb_Users.Items.Clear()
         Tb_UserName.Text = String.Empty
         Tb_UserName.Enabled = False
@@ -45,17 +38,19 @@ Public Class Master_Role
         Try
             OpenConn()
 
+
+            '====================
+            '=     GET USER     =
+            '====================
             arrUser.Clear()
-
             SQL = "select UserID, UserName, UserLevel from users"
-
             Using dr = OpenTrans(SQL)
                 If dr.HasRows Then
-
                     Do While dr.Read
                         Cb_Users.Items.Add(dr("UserName")) : arrUser.Add(dr("UserID"))
+                        Cmb_Reference.Items.Add(dr("UserName")) : arrUserReference.Add(dr("UserID"))
                     Loop
-                    CloseTrans()
+
                 Else
                     dr.Close()
                     CloseTrans()
@@ -63,15 +58,26 @@ Public Class Master_Role
                 End If
             End Using
 
-
             CloseConn()
         Catch ex As Exception
-            CloseTrans()
             CloseConn()
             MessageBox.Show("Failed Connect...")
+            Exit Sub
         End Try
 
     End Sub
+
+    Private Sub KosongSebagian()
+
+        Cmb_Reference.SelectedIndex = -1 : Cmb_Reference.Text = ""
+
+        If Not String.IsNullOrWhiteSpace(arrUser.Item(Cb_Users.SelectedIndex)) Then
+            LoadAllRoleMenus()
+        End If
+
+    End Sub
+
+
 
     Private Sub kosongArr()
         arrMainMenu.Clear()
@@ -112,11 +118,28 @@ Public Class Master_Role
             Exit Sub
         End If
 
-        kosong()
-
         If Not String.IsNullOrWhiteSpace(arrUser.Item(Cb_Users.SelectedIndex)) Then
             LoadAllRoleMenus()
+
+            Cmb_Reference.SelectedIndex = -1 : Cmb_Reference.Text = ""
         End If
+
+    End Sub
+
+    Private Sub Btn_GetReference_Click(sender As Object, e As EventArgs) Handles Btn_GetReference.Click
+
+        If Cb_Users.SelectedIndex = -1 Then
+            MessageBox.Show("Pilih Dahulu User sebelum memilih Referensi", "Role Menu", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Cmb_Reference.SelectedIndex = -1 : Cmb_Reference.Text = ""
+            Exit Sub
+        End If
+
+        If Cmb_Reference.SelectedIndex = -1 Then
+            MessageBox.Show("Pilih Dahulu Referensi", "Role Menu", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        LoadAllRoleMenus(arrUserReference(Cmb_Reference.SelectedIndex))
 
     End Sub
 
@@ -126,8 +149,9 @@ Public Class Master_Role
 
         Try
             OpenConn()
-
             Cmd.Transaction = Cn.BeginTransaction
+
+            Dim hasData As Boolean = False
 
             SQL = "delete from RoleMainMenus where userid='" & _UserID & "'"
             ExecuteTrans(SQL)
@@ -156,6 +180,8 @@ Public Class Master_Role
 
             For i As Integer = 0 To Lv_Role.Items.Count - 1
                 If Lv_Role.Items(i).Checked = True Then
+
+                    hasData = True
 
                     If Not String.IsNullOrWhiteSpace(Lv_Role.Items(i).SubItems(itemSubMenuLv3IDRole).Text) Then
                         Dim Data As String = Lv_Role.Items(i).SubItems(itemSubMenuLv3IDRole).Text
@@ -279,8 +305,18 @@ Public Class Master_Role
                 End If
             Next
 
+            'If Not hasData Then
+            '    CloseTrans()
+            '    CloseConn()
+            '    MessageBox.Show("Tidak ada Role yang dapat disimpan", "Role Menu", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '    Lv_Role.Focus()
+            '    Exit Sub
+            'End If
+
             Cmd.Transaction.Commit()
+            CloseTrans()
             CloseConn()
+            MessageBox.Show("Role Berhasil Disimpan", "Role Menu", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
             CloseTrans()
             CloseConn()
@@ -288,21 +324,23 @@ Public Class Master_Role
             Exit Sub
         End Try
 
-        Refresh()
+
+        KosongSebagian()
 
     End Sub
 
 
     'HANDLE LOAD ROLE MENUS
-    Private Sub LoadAllRoleMenus()
+    Private Sub LoadAllRoleMenus(ByVal Optional UserIDReference As String = "")
         If String.IsNullOrWhiteSpace(_UserID) Then Exit Sub
 
-        Lv_Role.Items.Clear()
+
 
         Try
             OpenConn()
 
             Dim SQL As String
+            Lv_Role.Items.Clear()
             SQL = "WITH CTE_A AS ( "
             SQL = SQL & "SELECT a.MainMenuID, a.TItle, b.MenuID, b.MenuName, c.SubMenuID, c.SubMenuName, d.SubMenuLv1ID, d.SubMenuLv1Name, e.SubMenuLv2ID, e.SubMenuLv2Name, f.SubMenuLv3ID, f.SubMenuLv3Name "
             SQL = SQL & "FROM MainMenu a "
@@ -322,12 +360,12 @@ Public Class Master_Role
             SQL = SQL & "ELSE CASE WHEN b.RoleMainMenuID IS NOT NULL THEN 'Access' ELSE 'Not Access' END "
             SQL = SQL & "END AS StatusAccess "
             SQL = SQL & "FROM CTE_A a "
-            SQL = SQL & "LEFT JOIN RoleMainMenus b ON a.MainMenuID = b.MainMenuID AND b.UserID = '" & _UserID & "' "
-            SQL = SQL & "LEFT JOIN RoleMenus c ON a.MenuID = c.MenuID AND c.UserID = '" & _UserID & "' "
-            SQL = SQL & "LEFT JOIN RoleSubMenu d ON a.SubMenuID = d.SubMenuID AND d.UserID = '" & _UserID & "' "
-            SQL = SQL & "LEFT JOIN RoleSubMenuLv1 e ON a.SubMenuLv1ID = e.SubMenuLv1ID AND e.UserID = '" & _UserID & "' "
-            SQL = SQL & "LEFT JOIN RoleSubMenuLv2 f ON a.SubMenuLv2ID = f.SubMenuLv2ID AND f.UserID = '" & _UserID & "' "
-            SQL = SQL & "LEFT JOIN RoleSubMenuLv3 g ON a.SubMenuLv3ID = g.SubMenuLv3ID AND g.UserID = '" & _UserID & "' "
+            SQL = SQL & "LEFT JOIN RoleMainMenus b ON a.MainMenuID = b.MainMenuID AND b.UserID = '" & If(UserIDReference = "", _UserID, UserIDReference) & "' "
+            SQL = SQL & "LEFT JOIN RoleMenus c ON a.MenuID = c.MenuID AND c.UserID = '" & If(UserIDReference = "", _UserID, UserIDReference) & "' "
+            SQL = SQL & "LEFT JOIN RoleSubMenu d ON a.SubMenuID = d.SubMenuID AND d.UserID = '" & If(UserIDReference = "", _UserID, UserIDReference) & "' "
+            SQL = SQL & "LEFT JOIN RoleSubMenuLv1 e ON a.SubMenuLv1ID = e.SubMenuLv1ID AND e.UserID = '" & If(UserIDReference = "", _UserID, UserIDReference) & "' "
+            SQL = SQL & "LEFT JOIN RoleSubMenuLv2 f ON a.SubMenuLv2ID = f.SubMenuLv2ID AND f.UserID = '" & If(UserIDReference = "", _UserID, UserIDReference) & "' "
+            SQL = SQL & "LEFT JOIN RoleSubMenuLv3 g ON a.SubMenuLv3ID = g.SubMenuLv3ID AND g.UserID = '" & If(UserIDReference = "", _UserID, UserIDReference) & "' "
             SQL = SQL & "ORDER BY a.MainMenuID, a.MenuID, a.SubMenuID, a.SubMenuLv1ID, a.SubMenuLv2ID, a.SubMenuLv3ID"
 
             Using dr = OpenTrans(SQL)
@@ -375,8 +413,6 @@ Public Class Master_Role
             Exit Sub
         End If
 
-        kosong()
-
 
         Try
             OpenConn()
@@ -405,24 +441,10 @@ Public Class Master_Role
     End Sub
 
 
-    'UTILITY FUNCTION
-    Private Sub Refresh()
-        If Cb_Users.SelectedIndex = -1 Then
-            Exit Sub
-        End If
-
-        kosong()
-
-        If Not String.IsNullOrWhiteSpace(arrUser.Item(Cb_Users.SelectedIndex)) Then
-            LoadAllRoleMenus()
-        End If
-    End Sub
 
     Private Sub Get_Data_Lv_Checked()
         Dim tampung As New ArrayList
         kosongArr()
-
-        Dim a As Integer
         For i As Integer = 0 To Lv_Role.Items.Count - 1
             If Lv_Role.Items(i).Checked Then
                 If Not String.IsNullOrWhiteSpace(Lv_Role.Items(i).SubItems(itemSubMenuLv3IDRole).Text) Then

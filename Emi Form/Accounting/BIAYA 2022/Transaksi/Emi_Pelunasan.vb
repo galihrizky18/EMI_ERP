@@ -1,6 +1,6 @@
 ﻿'Imports Org.BouncyCastle.Utilities
 
-Public Class Emi_Pelunasan
+Public Class EMI_Pelunasan
     Dim JT As String
     Dim ArrNP1 As New ArrayList
     Dim ArrNP2 As New ArrayList
@@ -134,20 +134,20 @@ Public Class Emi_Pelunasan
         'ListViewMT1.Columns.Add("Jenis2", 0, HorizontalAlignment.Right) '19
         'ListViewMT1.View = View.Details
 
-        ListViewMT1.Columns.Add("No PO", 110, HorizontalAlignment.Left) '0
+        ListViewMT1.Columns.Add("No PO", 130, HorizontalAlignment.Left) '0
         ListViewMT1.Columns.Add("Keterangan", 200, HorizontalAlignment.Left) '1
         ListViewMT1.Columns.Add("Tanggal PO", 120, HorizontalAlignment.Center) '2
         ListViewMT1.Columns.Add("Kd_Perusahaan_Biaya_Import", 0, HorizontalAlignment.Left) '3
-        ListViewMT1.Columns.Add("Nama Perusahaan", 150, HorizontalAlignment.Left) '4
+        ListViewMT1.Columns.Add("Nama Perusahaan", 190, HorizontalAlignment.Left) '4
         ListViewMT1.Columns.Add("Kd_Master_KAtegori", 0, HorizontalAlignment.Left) '5
         ListViewMT1.Columns.Add("Kategori", 200, HorizontalAlignment.Left) '6
         ListViewMT1.Columns.Add("Mata Uang", 90, HorizontalAlignment.Center) '7
         ListViewMT1.Columns.Add("Kurs Lama", 0, HorizontalAlignment.Right) '8
         ListViewMT1.Columns.Add("PPN", 0, HorizontalAlignment.Right) '9
         ListViewMT1.Columns.Add("PPH", 0, HorizontalAlignment.Right) '10
-        ListViewMT1.Columns.Add("Total", 130, HorizontalAlignment.Right) '11
-        ListViewMT1.Columns.Add("Dibayar", 130, HorizontalAlignment.Right) '12
-        ListViewMT1.Columns.Add("Sisa", 130, HorizontalAlignment.Right) '13
+        ListViewMT1.Columns.Add("Total", 120, HorizontalAlignment.Right) '11
+        ListViewMT1.Columns.Add("Dibayar", 120, HorizontalAlignment.Right) '12
+        ListViewMT1.Columns.Add("Sisa", 120, HorizontalAlignment.Right) '13
         'HIDE
         ListViewMT1.Columns.Add("Jenis1", 0, HorizontalAlignment.Left) '14
         ListViewMT1.Columns.Add("Jenis2", 0, HorizontalAlignment.Left) '15
@@ -162,12 +162,12 @@ Public Class Emi_Pelunasan
         ListViewMT11.Columns.Add("Kode Kategori", 0, HorizontalAlignment.Left) '4
         ListViewMT11.Columns.Add("Kategori Perusahaan", 200, HorizontalAlignment.Left) '5
         ListViewMT11.Columns.Add("Mata Uang", 80, HorizontalAlignment.Center) '6
-        ListViewMT11.Columns.Add("Jumlah", 130, HorizontalAlignment.Right) '7
+        ListViewMT11.Columns.Add("Jumlah", 120, HorizontalAlignment.Right) '7
         ListViewMT11.Columns.Add("Nilai Tambahan", 0, HorizontalAlignment.Right) '8
-        ListViewMT11.Columns.Add("Kurs Lama", 130, HorizontalAlignment.Right) '9
-        ListViewMT11.Columns.Add("Total Kurs Lama", 150, HorizontalAlignment.Right) '10
-        ListViewMT11.Columns.Add("Kurs Baru", 150, HorizontalAlignment.Right) '11
-        ListViewMT11.Columns.Add("Total Kurs Baru", 150, HorizontalAlignment.Right) '12
+        ListViewMT11.Columns.Add("Kurs Lama", 120, HorizontalAlignment.Right) '9
+        ListViewMT11.Columns.Add("Total Kurs Lama", 130, HorizontalAlignment.Right) '10
+        ListViewMT11.Columns.Add("Kurs Baru", 120, HorizontalAlignment.Right) '11
+        ListViewMT11.Columns.Add("Total Kurs Baru", 130, HorizontalAlignment.Right) '12
         ListViewMT11.Columns.Add("Total", 0, HorizontalAlignment.Right) '13
         ListViewMT11.Columns.Add("PPN", 0, HorizontalAlignment.Right) '14
         ListViewMT11.Columns.Add("PPH", 0, HorizontalAlignment.Right) '15
@@ -181,7 +181,7 @@ Public Class Emi_Pelunasan
         ListViewMT11.Columns.Add("KodeBank", 0, HorizontalAlignment.Right) '23
         ListViewMT11.Columns.Add("Rek Tujuan", 0, HorizontalAlignment.Right) '24
         ListViewMT11.Columns.Add("Nama Tujuan", 0, HorizontalAlignment.Right) '25
-        ListViewMT11.Columns.Add("Tanggal Bayar", 0, HorizontalAlignment.Right) '26
+        ListViewMT11.Columns.Add("TanggalPelunasan", 0, HorizontalAlignment.Right) '26
         ListViewMT11.Columns.Add("KotaTujuan", 0, HorizontalAlignment.Right) '27
         ListViewMT11.Columns.Add("NegaraTujuan", 0, HorizontalAlignment.Right) '28
         ListViewMT11.Columns.Add("Jenis1", 0, HorizontalAlignment.Right) '28
@@ -325,7 +325,7 @@ Public Class Emi_Pelunasan
                     SQL = SQL & "and a.Kode_Perusahaan_Biaya_Import ='" & ArrNP1.Item(ComboBoxNP1.SelectedIndex - 1) & "' "
                 End If
                 If Cmb_Jenis.SelectedIndex <> 0 Then
-                    SQL = SQL & "and a.Jenis =  '" & Cmb_Jenis.SelectedItem & "' "
+                    SQL = SQL & "and Jenis_Lokasi =  '" & Cmb_Jenis.SelectedItem & "' "
                 End If
             End If
 
@@ -782,12 +782,12 @@ Public Class Emi_Pelunasan
                 Cmd.Transaction = Cn.BeginTransaction
                 'Simpan PPN
                 SQL = "Insert into Display_Biaya_Import_PPN (Kode_Perusahaan, Kode_Perusahaan_Biaya_Import, No_Faktur, No_Pembagi, No_Faktur_Pajak, Nilai_Pembagi, Mata_Uang, Kode_Master_Kategori_Biaya_Import, UserID, Lokasi) "
-                SQL = SQL & "Values ('" & KodePerusahaan & "', '" & TextBoxKP.Text & "', '" & TextBoxFktr.Text & "', '1', '-', '" & Nppn & "', '" & TextBoxMT.Text & "', '" & TxtKodeKategori.Text & "', '" & UserID & "', '" & TxtLokasi.Text & "') "
+                SQL = SQL & "Values ('" & KodePerusahaan & "', '" & TextBoxKP.Text & "', '" & TextBoxFktr.Text & "', '1', '-', " & Nppn & ", '" & TextBoxMT.Text & "', '" & TxtKodeKategori.Text & "', '" & UserID & "', '" & TxtLokasi.Text & "') "
                 ExecuteTrans(SQL)
 
                 'Simpan PPh
                 SQL = "Insert into Display_Biaya_Import_PPh (Kode_Perusahaan, Kode_Perusahaan_Biaya_Import, No_Faktur, No_Pembagi, No_Faktur_Pajak, Nilai_Pembagi, Mata_Uang, Kode_Master_Kategori_Biaya_Import, UserID, Lokasi) "
-                SQL = SQL & "Values ('" & KodePerusahaan & "', '" & TextBoxKP.Text & "', '" & TextBoxFktr.Text & "', '1', '-', '" & Npph & "', '" & TextBoxMT.Text & "', '" & TxtKodeKategori.Text & "', '" & UserID & "', '" & TxtLokasi.Text & "') "
+                SQL = SQL & "Values ('" & KodePerusahaan & "', '" & TextBoxKP.Text & "', '" & TextBoxFktr.Text & "', '1', '-', " & Npph & ", '" & TextBoxMT.Text & "', '" & TxtKodeKategori.Text & "', '" & UserID & "', '" & TxtLokasi.Text & "') "
                 ExecuteTrans(SQL)
 
                 Cmd.Transaction.Commit()
@@ -910,6 +910,7 @@ Public Class Emi_Pelunasan
             End If
         End If
     End Sub
+
 
     Private Sub TxtFaktur_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles TxtFaktur.Leave
         'Try
@@ -1142,10 +1143,10 @@ Public Class Emi_Pelunasan
                 jns = ListViewMT11.Items(i).SubItems(CellJnsBiaya).Text.Trim.ToUpper
             End If
 
-            If jns <> ListViewMT1.FocusedItem.SubItems(Cell1_JenisLokasi).Text.Trim.ToUpper Then
-                MessageBox.Show("Jenis Biaya Tidak Boleh berbeda !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Exit Sub
-            End If
+            'If jns <> ListViewMT1.FocusedItem.SubItems(Cell1_JenisLokasi).Text.Trim.ToUpper Then
+            '    MessageBox.Show("Jenis Biaya Tidak Boleh berbeda !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '    Exit Sub
+            'End If
 
             'If kd_kategori <> ListViewMT1.FocusedItem.SubItems(CellKdKategoriMU).Text.Trim.ToUpper Then
             '    MessageBox.Show("kategori Tidak Boleh berbeda !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1552,6 +1553,15 @@ Public Class Emi_Pelunasan
                             SQL = SQL & "no_faktur = '" & LvFak.Trim & "' "
                             'SQL = SQL & "and Kode_Master_Kategori_Biaya_Import ='" & LvKdKategori & "' and lokasi='" & LvLokasi & "' "
                             ExecuteTrans(SQL)
+                        ElseIf Jenis1.Trim.ToUpper = "SUPPLIER" And Jenis2.Trim.ToUpper = "B" Then
+                            'UNtuk Jenis 1 Supplier & Jenis 2 a
+                            SQL = "Update Pelunasan_Pembelian set flag_lunas = 'Y', "
+                            SQL = SQL & "Tgl_lunas = '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
+                            SQL = SQL & "jam_lunas = '" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
+                            SQL = SQL & "user_lunas = '" & UserID & "' where kode_perusahaan = '" & KodePerusahaan & "' and "
+                            SQL = SQL & "no_faktur = '" & LvFak.Trim & "' and kode='HUTANG PERJALANAN' "
+                            'SQL = SQL & "and Kode_Master_Kategori_Biaya_Import ='" & LvKdKategori & "' and lokasi='" & LvLokasi & "' "
+                            ExecuteTrans(SQL)
                         Else
                             CloseTrans()
                             CloseConn()
@@ -1607,7 +1617,6 @@ Public Class Emi_Pelunasan
                         Using Dr = OpenTrans(SQL)
                             If Dr.Read Then
                                 coa_hutang = Dr("Hutang_Supplier")
-
                             Else
                                 Dr.Close()
                                 CloseTrans()
@@ -1617,19 +1626,19 @@ Public Class Emi_Pelunasan
                             End If
                         End Using
 
-                        'SQL = "select Jenis_PPH from suppliers where "
-                        'SQL = SQL & "kode_Perusahaan='" & KodePerusahaan & "' and Kode_Supplier='" & LvKP & "' "
-                        'Using dr = OpenTrans(SQL)
-                        '    If dr.Read Then
-                        '        jenis_PPH = General_Class.CekNULL(dr("Jenis_PPH"))
-                        '    Else
-                        '        dr.Close()
-                        '        CloseTrans()
-                        '        CloseConn()
-                        '        MessageBox.Show("Customer Tidak ditemukan . . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        '        Exit Sub
-                        '    End If
-                        'End Using
+                        SQL = "select Jenis_PPH from suppliers where "
+                        SQL = SQL & "kode_Perusahaan='" & KodePerusahaan & "' and Kode_Supplier='" & LvKP & "' "
+                        Using dr = OpenTrans(SQL)
+                            If dr.Read Then
+                                jenis_PPH = General_Class.CekNULL(dr("Jenis_PPH"))
+                            Else
+                                dr.Close()
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("Customer Tidak ditemukan . . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+                        End Using
 
                     ElseIf Jenis1.Trim.ToUpper = "AGENT" Then
                         SQL = "select akun_2 from detail_account_master X where X.Kode_Perusahaan = '" & KodePerusahaan & "' and "

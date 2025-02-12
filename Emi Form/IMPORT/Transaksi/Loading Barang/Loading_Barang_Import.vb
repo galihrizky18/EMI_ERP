@@ -1319,19 +1319,6 @@
         End Try
     End Sub
 
-    Private Sub TxtId_Rencana_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TxtId_Rencana.TextChanged
-
-
-    End Sub
-
-    Private Sub TxtContainer_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TxtContainer.TextChanged
-
-    End Sub
-
-    Private Sub Label6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label6.Click
-
-    End Sub
-
     Private Sub ComboBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox1.KeyPress
         If e.KeyChar = Chr(13) Then ComboBox2.Focus()
     End Sub
@@ -1529,7 +1516,7 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-        
+
 
     End Sub
 

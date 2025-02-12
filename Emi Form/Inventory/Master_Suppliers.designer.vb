@@ -83,6 +83,12 @@ Partial Class Master_Suppliers
         Me.Label18 = New System.Windows.Forms.Label()
         Me.ComboBox7 = New System.Windows.Forms.ComboBox()
         Me.TextBox15 = New System.Windows.Forms.TextBox()
+        Me.Txt_PPH = New System.Windows.Forms.TextBox()
+        Me.Txt_PPN = New System.Windows.Forms.TextBox()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.cmb_JenisPPH = New System.Windows.Forms.ComboBox()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -150,7 +156,7 @@ Partial Class Master_Suppliers
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(2, 806)
+        Me.Panel4.Location = New System.Drawing.Point(2, 837)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1231, 12)
         Me.Panel4.TabIndex = 38
@@ -159,7 +165,7 @@ Partial Class Master_Suppliers
         'Panel17
         '
         Me.Panel17.BackColor = System.Drawing.Color.Red
-        Me.Panel17.Location = New System.Drawing.Point(10, 549)
+        Me.Panel17.Location = New System.Drawing.Point(10, 580)
         Me.Panel17.Name = "Panel17"
         Me.Panel17.Size = New System.Drawing.Size(1264, 10)
         Me.Panel17.TabIndex = 35
@@ -300,7 +306,7 @@ Partial Class Master_Suppliers
         '
         Me.Label13.AutoSize = True
         Me.Label13.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label13.Location = New System.Drawing.Point(23, 470)
+        Me.Label13.Location = New System.Drawing.Point(23, 498)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(187, 20)
         Me.Label13.TabIndex = 376
@@ -310,7 +316,7 @@ Partial Class Master_Suppliers
         '
         Me.Label14.AutoSize = True
         Me.Label14.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label14.Location = New System.Drawing.Point(23, 443)
+        Me.Label14.Location = New System.Drawing.Point(23, 471)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(112, 20)
         Me.Label14.TabIndex = 375
@@ -339,7 +345,7 @@ Partial Class Master_Suppliers
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(3, 496)
+        Me.Panel6.Location = New System.Drawing.Point(3, 527)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(1264, 10)
         Me.Panel6.TabIndex = 36
@@ -350,7 +356,7 @@ Partial Class Master_Suppliers
         Me.Button4.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button4.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button4.ForeColor = System.Drawing.Color.White
-        Me.Button4.Location = New System.Drawing.Point(371, 509)
+        Me.Button4.Location = New System.Drawing.Point(371, 540)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(113, 36)
         Me.Button4.TabIndex = 418
@@ -362,7 +368,7 @@ Partial Class Master_Suppliers
         Me.Button3.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button3.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button3.ForeColor = System.Drawing.Color.White
-        Me.Button3.Location = New System.Drawing.Point(256, 509)
+        Me.Button3.Location = New System.Drawing.Point(256, 540)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(113, 36)
         Me.Button3.TabIndex = 417
@@ -374,7 +380,7 @@ Partial Class Master_Suppliers
         Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button2.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(141, 509)
+        Me.Button2.Location = New System.Drawing.Point(141, 540)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(113, 36)
         Me.Button2.TabIndex = 416
@@ -386,7 +392,7 @@ Partial Class Master_Suppliers
         Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button1.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(25, 509)
+        Me.Button1.Location = New System.Drawing.Point(25, 540)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(113, 36)
         Me.Button1.TabIndex = 415
@@ -398,7 +404,7 @@ Partial Class Master_Suppliers
         Me.Button5.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button5.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button5.ForeColor = System.Drawing.Color.White
-        Me.Button5.Location = New System.Drawing.Point(577, 562)
+        Me.Button5.Location = New System.Drawing.Point(577, 593)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(98, 36)
         Me.Button5.TabIndex = 423
@@ -409,7 +415,7 @@ Partial Class Master_Suppliers
         '
         Me.Label23.AutoSize = True
         Me.Label23.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label23.Location = New System.Drawing.Point(290, 571)
+        Me.Label23.Location = New System.Drawing.Point(290, 602)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(46, 20)
         Me.Label23.TabIndex = 422
@@ -419,7 +425,7 @@ Partial Class Master_Suppliers
         '
         Me.Label22.AutoSize = True
         Me.Label22.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label22.Location = New System.Drawing.Point(23, 571)
+        Me.Label22.Location = New System.Drawing.Point(23, 602)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(50, 20)
         Me.Label22.TabIndex = 421
@@ -430,7 +436,7 @@ Partial Class Master_Suppliers
         Me.TextBox9.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox9.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TextBox9.Location = New System.Drawing.Point(342, 570)
+        Me.TextBox9.Location = New System.Drawing.Point(342, 601)
         Me.TextBox9.MaxLength = 50
         Me.TextBox9.Name = "TextBox9"
         Me.TextBox9.Size = New System.Drawing.Size(225, 22)
@@ -440,7 +446,7 @@ Partial Class Master_Suppliers
         '
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(78, 571)
+        Me.ComboBox1.Location = New System.Drawing.Point(78, 602)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(185, 21)
         Me.ComboBox1.TabIndex = 419
@@ -451,7 +457,7 @@ Partial Class Master_Suppliers
         Me.ListView1.FullRowSelect = True
         Me.ListView1.GridLines = True
         Me.ListView1.HideSelection = False
-        Me.ListView1.Location = New System.Drawing.Point(19, 602)
+        Me.ListView1.Location = New System.Drawing.Point(19, 633)
         Me.ListView1.Name = "ListView1"
         Me.ListView1.Size = New System.Drawing.Size(880, 200)
         Me.ListView1.TabIndex = 424
@@ -501,7 +507,7 @@ Partial Class Master_Suppliers
         Me.TextBox4.Location = New System.Drawing.Point(226, 145)
         Me.TextBox4.MaxLength = 50
         Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(381, 22)
+        Me.TextBox4.Size = New System.Drawing.Size(361, 22)
         Me.TextBox4.TabIndex = 428
         '
         'TextBox5
@@ -534,7 +540,7 @@ Partial Class Master_Suppliers
         Me.TextBox7.Location = New System.Drawing.Point(226, 199)
         Me.TextBox7.MaxLength = 50
         Me.TextBox7.Name = "TextBox7"
-        Me.TextBox7.Size = New System.Drawing.Size(381, 22)
+        Me.TextBox7.Size = New System.Drawing.Size(361, 22)
         Me.TextBox7.TabIndex = 431
         '
         'TextBox8
@@ -554,7 +560,7 @@ Partial Class Master_Suppliers
         Me.ComboBox2.FormattingEnabled = True
         Me.ComboBox2.Location = New System.Drawing.Point(226, 254)
         Me.ComboBox2.Name = "ComboBox2"
-        Me.ComboBox2.Size = New System.Drawing.Size(226, 21)
+        Me.ComboBox2.Size = New System.Drawing.Size(169, 21)
         Me.ComboBox2.TabIndex = 433
         '
         'CmbKategori
@@ -563,16 +569,16 @@ Partial Class Master_Suppliers
         Me.CmbKategori.FormattingEnabled = True
         Me.CmbKategori.Location = New System.Drawing.Point(226, 281)
         Me.CmbKategori.Name = "CmbKategori"
-        Me.CmbKategori.Size = New System.Drawing.Size(154, 21)
+        Me.CmbKategori.Size = New System.Drawing.Size(169, 21)
         Me.CmbKategori.TabIndex = 434
         '
         'ComboBox3
         '
         Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox3.FormattingEnabled = True
-        Me.ComboBox3.Location = New System.Drawing.Point(381, 281)
+        Me.ComboBox3.Location = New System.Drawing.Point(401, 281)
         Me.ComboBox3.Name = "ComboBox3"
-        Me.ComboBox3.Size = New System.Drawing.Size(226, 21)
+        Me.ComboBox3.Size = New System.Drawing.Size(186, 21)
         Me.ComboBox3.TabIndex = 435
         '
         'TextBox10
@@ -583,7 +589,7 @@ Partial Class Master_Suppliers
         Me.TextBox10.Location = New System.Drawing.Point(226, 307)
         Me.TextBox10.MaxLength = 50
         Me.TextBox10.Name = "TextBox10"
-        Me.TextBox10.Size = New System.Drawing.Size(381, 22)
+        Me.TextBox10.Size = New System.Drawing.Size(361, 22)
         Me.TextBox10.TabIndex = 436
         '
         'TextBox11
@@ -594,7 +600,7 @@ Partial Class Master_Suppliers
         Me.TextBox11.Location = New System.Drawing.Point(226, 334)
         Me.TextBox11.MaxLength = 50
         Me.TextBox11.Name = "TextBox11"
-        Me.TextBox11.Size = New System.Drawing.Size(381, 22)
+        Me.TextBox11.Size = New System.Drawing.Size(361, 22)
         Me.TextBox11.TabIndex = 437
         '
         'TextBox12
@@ -605,7 +611,7 @@ Partial Class Master_Suppliers
         Me.TextBox12.Location = New System.Drawing.Point(226, 361)
         Me.TextBox12.MaxLength = 50
         Me.TextBox12.Name = "TextBox12"
-        Me.TextBox12.Size = New System.Drawing.Size(381, 22)
+        Me.TextBox12.Size = New System.Drawing.Size(361, 22)
         Me.TextBox12.TabIndex = 438
         '
         'TextBox13
@@ -616,7 +622,7 @@ Partial Class Master_Suppliers
         Me.TextBox13.Location = New System.Drawing.Point(226, 388)
         Me.TextBox13.MaxLength = 50
         Me.TextBox13.Name = "TextBox13"
-        Me.TextBox13.Size = New System.Drawing.Size(559, 22)
+        Me.TextBox13.Size = New System.Drawing.Size(361, 22)
         Me.TextBox13.TabIndex = 439
         '
         'TextBox14
@@ -627,14 +633,14 @@ Partial Class Master_Suppliers
         Me.TextBox14.Location = New System.Drawing.Point(226, 415)
         Me.TextBox14.MaxLength = 50
         Me.TextBox14.Name = "TextBox14"
-        Me.TextBox14.Size = New System.Drawing.Size(559, 22)
+        Me.TextBox14.Size = New System.Drawing.Size(361, 22)
         Me.TextBox14.TabIndex = 440
         '
         'ComboBox4
         '
         Me.ComboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox4.FormattingEnabled = True
-        Me.ComboBox4.Location = New System.Drawing.Point(226, 443)
+        Me.ComboBox4.Location = New System.Drawing.Point(226, 471)
         Me.ComboBox4.Name = "ComboBox4"
         Me.ComboBox4.Size = New System.Drawing.Size(99, 21)
         Me.ComboBox4.TabIndex = 441
@@ -643,7 +649,7 @@ Partial Class Master_Suppliers
         '
         Me.ComboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox5.FormattingEnabled = True
-        Me.ComboBox5.Location = New System.Drawing.Point(450, 443)
+        Me.ComboBox5.Location = New System.Drawing.Point(450, 471)
         Me.ComboBox5.Name = "ComboBox5"
         Me.ComboBox5.Size = New System.Drawing.Size(99, 21)
         Me.ComboBox5.TabIndex = 442
@@ -652,7 +658,7 @@ Partial Class Master_Suppliers
         '
         Me.ComboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox6.FormattingEnabled = True
-        Me.ComboBox6.Location = New System.Drawing.Point(686, 443)
+        Me.ComboBox6.Location = New System.Drawing.Point(686, 471)
         Me.ComboBox6.Name = "ComboBox6"
         Me.ComboBox6.Size = New System.Drawing.Size(99, 21)
         Me.ComboBox6.TabIndex = 443
@@ -661,7 +667,7 @@ Partial Class Master_Suppliers
         '
         Me.Label17.AutoSize = True
         Me.Label17.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label17.Location = New System.Drawing.Point(331, 443)
+        Me.Label17.Location = New System.Drawing.Point(331, 471)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(113, 20)
         Me.Label17.TabIndex = 444
@@ -671,7 +677,7 @@ Partial Class Master_Suppliers
         '
         Me.Label18.AutoSize = True
         Me.Label18.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label18.Location = New System.Drawing.Point(555, 443)
+        Me.Label18.Location = New System.Drawing.Point(555, 471)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(125, 20)
         Me.Label18.TabIndex = 445
@@ -681,7 +687,7 @@ Partial Class Master_Suppliers
         '
         Me.ComboBox7.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox7.FormattingEnabled = True
-        Me.ComboBox7.Location = New System.Drawing.Point(226, 470)
+        Me.ComboBox7.Location = New System.Drawing.Point(226, 498)
         Me.ComboBox7.Name = "ComboBox7"
         Me.ComboBox7.Size = New System.Drawing.Size(99, 21)
         Me.ComboBox7.TabIndex = 446
@@ -691,22 +697,89 @@ Partial Class Master_Suppliers
         Me.TextBox15.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox15.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TextBox15.Location = New System.Drawing.Point(326, 469)
+        Me.TextBox15.Location = New System.Drawing.Point(326, 497)
         Me.TextBox15.MaxLength = 50
         Me.TextBox15.Name = "TextBox15"
         Me.TextBox15.Size = New System.Drawing.Size(459, 22)
         Me.TextBox15.TabIndex = 447
+        '
+        'Txt_PPH
+        '
+        Me.Txt_PPH.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_PPH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_PPH.Font = New System.Drawing.Font("Work Sans", 8.999999!)
+        Me.Txt_PPH.Location = New System.Drawing.Point(423, 443)
+        Me.Txt_PPH.MaxLength = 50
+        Me.Txt_PPH.Name = "Txt_PPH"
+        Me.Txt_PPH.Size = New System.Drawing.Size(99, 22)
+        Me.Txt_PPH.TabIndex = 450
+        '
+        'Txt_PPN
+        '
+        Me.Txt_PPN.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_PPN.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_PPN.Font = New System.Drawing.Font("Work Sans", 8.999999!)
+        Me.Txt_PPN.Location = New System.Drawing.Point(270, 443)
+        Me.Txt_PPN.MaxLength = 50
+        Me.Txt_PPN.Name = "Txt_PPN"
+        Me.Txt_PPN.Size = New System.Drawing.Size(99, 22)
+        Me.Txt_PPN.TabIndex = 451
+        '
+        'Label20
+        '
+        Me.Label20.AutoSize = True
+        Me.Label20.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label20.Location = New System.Drawing.Point(378, 444)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(37, 20)
+        Me.Label20.TabIndex = 448
+        Me.Label20.Text = "PPH"
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label19.Location = New System.Drawing.Point(224, 444)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(37, 20)
+        Me.Label19.TabIndex = 449
+        Me.Label19.Text = "PPN"
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label21.Location = New System.Drawing.Point(533, 444)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(78, 20)
+        Me.Label21.TabIndex = 448
+        Me.Label21.Text = "Jenis PPH"
+        '
+        'cmb_JenisPPH
+        '
+        Me.cmb_JenisPPH.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmb_JenisPPH.FormattingEnabled = True
+        Me.cmb_JenisPPH.Location = New System.Drawing.Point(616, 443)
+        Me.cmb_JenisPPH.Name = "cmb_JenisPPH"
+        Me.cmb_JenisPPH.Size = New System.Drawing.Size(72, 21)
+        Me.cmb_JenisPPH.TabIndex = 443
         '
         'Master_Suppliers
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(920, 820)
+        Me.ClientSize = New System.Drawing.Size(920, 856)
+        Me.Controls.Add(Me.Txt_PPH)
+        Me.Controls.Add(Me.Label21)
+        Me.Controls.Add(Me.Txt_PPN)
+        Me.Controls.Add(Me.Label20)
+        Me.Controls.Add(Me.Label19)
         Me.Controls.Add(Me.TextBox15)
         Me.Controls.Add(Me.ComboBox7)
         Me.Controls.Add(Me.Label18)
         Me.Controls.Add(Me.Label17)
+        Me.Controls.Add(Me.cmb_JenisPPH)
         Me.Controls.Add(Me.ComboBox6)
         Me.Controls.Add(Me.ComboBox5)
         Me.Controls.Add(Me.ComboBox4)
@@ -827,4 +900,10 @@ Partial Class Master_Suppliers
     Friend WithEvents Label18 As Label
     Friend WithEvents ComboBox7 As ComboBox
     Friend WithEvents TextBox15 As TextBox
+    Friend WithEvents Txt_PPH As TextBox
+    Friend WithEvents Txt_PPN As TextBox
+    Friend WithEvents Label20 As Label
+    Friend WithEvents Label19 As Label
+    Friend WithEvents Label21 As Label
+    Friend WithEvents cmb_JenisPPH As ComboBox
 End Class

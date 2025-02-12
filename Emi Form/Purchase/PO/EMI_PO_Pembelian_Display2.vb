@@ -1,9 +1,9 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-Public Class EMI_PO_Pembelian_Display2
+﻿Public Class EMI_PO_Pembelian_Display2
 
     Public Property filter_tambahan As String
+
+    Public bolehLewat As Boolean
+
     Public Property asal As String
 
     Dim arrcariLocal, arrcariImport As New ArrayList
@@ -71,7 +71,7 @@ Public Class EMI_PO_Pembelian_Display2
             Lv_PO.Columns.Clear()
             Lv_PO.Columns.Add("No Faktur", 150, HorizontalAlignment.Left)
             Lv_PO.Columns.Add("Lokasi", 0, HorizontalAlignment.Left)
-            Lv_PO.Columns.Add("Keterangan", 400, HorizontalAlignment.Left)
+            Lv_PO.Columns.Add("Keterangan", 370, HorizontalAlignment.Left)
             Lv_PO.Columns.Add("Release", 0, HorizontalAlignment.Center)
             Lv_PO.Columns.Add("Tanggal", 150, HorizontalAlignment.Center)
             Lv_PO.Columns.Add("Jam", 100, HorizontalAlignment.Center)
@@ -86,8 +86,8 @@ Public Class EMI_PO_Pembelian_Display2
             Lv_Barang.Columns.Add("No Faktur", 0, HorizontalAlignment.Left)
             Lv_Barang.Columns.Add("No Penawaran", 0, HorizontalAlignment.Left)
             Lv_Barang.Columns.Add("Lokasi", 0, HorizontalAlignment.Left)
-            Lv_Barang.Columns.Add("Kode Barang", 100, HorizontalAlignment.Left)
-            Lv_Barang.Columns.Add("Nama Barang", 250, HorizontalAlignment.Left)
+            Lv_Barang.Columns.Add("Kode Barang", 130, HorizontalAlignment.Left)
+            Lv_Barang.Columns.Add("Nama Barang", 260, HorizontalAlignment.Left)
             Lv_Barang.Columns.Add("Jumlah PO", 100, HorizontalAlignment.Right)
             Lv_Barang.Columns.Add("Jumlah Masuk", 100, HorizontalAlignment.Right)
             Lv_Barang.Columns.Add("Satuan", 0, HorizontalAlignment.Center)
@@ -99,8 +99,8 @@ Public Class EMI_PO_Pembelian_Display2
             Lv_Kendaraan.Columns.Add("No Faktur", 0, HorizontalAlignment.Left)
             Lv_Kendaraan.Columns.Add("Lokasi", 0, HorizontalAlignment.Left)
             Lv_Kendaraan.Columns.Add("Surat Jalan", 100, HorizontalAlignment.Left)
-            Lv_Kendaraan.Columns.Add("Plat Kendaraan", 100, HorizontalAlignment.Left)
-            Lv_Kendaraan.Columns.Add("Driver", 130, HorizontalAlignment.Left)
+            Lv_Kendaraan.Columns.Add("Plat Kendaraan", 110, HorizontalAlignment.Left)
+            Lv_Kendaraan.Columns.Add("Driver", 150, HorizontalAlignment.Left)
             Lv_Kendaraan.Columns.Add("Flag Masuk", 0, HorizontalAlignment.Left)
             Lv_Kendaraan.Columns.Add("Tanggal", 130, HorizontalAlignment.Center)
             Lv_Kendaraan.Columns.Add("Jam", 100, HorizontalAlignment.Center)
@@ -145,7 +145,7 @@ Public Class EMI_PO_Pembelian_Display2
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan "
             SQL = SQL & "and a.Kode_Supplier = b.Kode_Supplier "
             SQL = SQL & "and b.ID_Kategori_Suppliers = c.ID_Kategori_Suppliers "
-            SQL = SQL & "and a.Status is null "
+            SQL = SQL & "and a.Status is null and a.flag_pembelian is null "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             If semua = "T" Then
                 SQL = SQL & " and " & arrcariLocal.Item(ComboBox1.SelectedIndex) & " like '%" & TextBox3.Text & "%' "
@@ -224,11 +224,13 @@ Public Class EMI_PO_Pembelian_Display2
             OpenConn()
             Get_Isi_LvPO(Lv_PO.FocusedItem.Index)
 
+
+
             Lv_Barang.Items.Clear() : Lv_Kendaraan.Items.Clear()
             SQL = "select a.No_Faktur, b.No_Penawaran, b.Kode_Stock_Owner, b.Kode_Barang, c.Nama, b.Jumlah, "
             SQL = SQL & "ISNULL(( "
-            SQL = SQL & "select (dbo.Ubah_Satuan(b.Kode_Perusahaan, 'masa', z.Kode_Barang, z.Satuan_Barang, z.Satuan, sum(z.Jumlah_Masuk))) from EMI_Pembelian_Loading_Detail z where b.Kode_Perusahaan = z.Kode_Perusahaan  "
-            SQL = SQL & "and b.No_Faktur = z.No_PO and b.Kode_Stock_Owner = z.Kode_Stock_Owner and b.Kode_Barang = z.Kode_Barang and b.No_Urut = z.Urut_PO group by z.Kode_Barang, z.Satuan_Barang, z.Satuan, z.Jumlah_Masuk "
+            SQL = SQL & "select (dbo.Ubah_Satuan(b.Kode_Perusahaan, 'masa', z.Kode_Barang, z.Satuan_Barang, z.Satuan, sum(z.Jumlah_Masuk))) from EMI_Pembelian_Loading_Detail z, EMI_Pembelian_Loading y where b.Kode_Perusahaan = z.Kode_Perusahaan  "
+            SQL = SQL & "and b.No_Faktur = z.No_PO and b.Kode_Stock_Owner = z.Kode_Stock_Owner and b.Kode_Barang = z.Kode_Barang and b.No_Urut = z.Urut_PO and z.kode_perusahaan = y.kode_perusahaan and z.no_faktur = y.no_faktur and y.status is null group by z.Kode_Barang, z.Satuan_Barang, z.Satuan "
             SQL = SQL & "), '0') as Jumlah_Masuk, "
             SQL = SQL & "b.Satuan, b.No_Urut "
             SQL = SQL & "from EMI_Pembelian_PO a, EMI_Pembelian_PO_Detail b, Barang c "
@@ -285,32 +287,45 @@ Public Class EMI_PO_Pembelian_Display2
         EMI_Pembelian2.Kosong()
         EMI_Pembelian2.TxtPembelian_NoPO.Text = Lv_PO_NoFak
         EMI_Pembelian2.TxtPembelian_NoPO_Leave(Lv_PO, e)
-        EMI_Pembelian2.ShowDialog()
+
+        If bolehLewat Then
+            EMI_Pembelian2.ShowDialog()
+        End If
+
         'End If
     End Sub
 
+
     Private Sub Load_Kendaraan()
         If Lv_PO.Items.Count = 0 Then Exit Sub
+
 
         Try
             OpenConn()
 
             Lv_Kendaraan.Items.Clear()
-            SQL = "select a.No_Faktur, a.Lokasi, a.No_SJ, a.No_Plat, a.Driver, a.Flag_Timbang, a.Tanggal_Masuk,  a.Jam_Masuk,  a.UseriD, b.urut_oto as Urut_Loading, "
+            SQL = "select distinct a.No_Faktur, a.Lokasi, a.No_SJ, a.No_Plat, a.Driver, a.Flag_Timbang, a.Tanggal_Masuk,  a.Jam_Masuk,  a.UseriD, "
             SQL = SQL & "ISNULL(( "
-            SQL = SQL & "select x.Flag_Validasi from EMI_Pembelian_Selisih_Barang_Masuk z, EMI_Pembelian_Selisih_Barang_Masuk_Det x "
+            SQL = SQL & "select coalesce(x.Flag_Validasi,'T') from EMI_Pembelian_Selisih_Barang_Masuk z, EMI_Pembelian_Selisih_Barang_Masuk_Det x "
             SQL = SQL & "where a.Kode_Perusahaan  = z.Kode_Perusahaan and z.Kode_Perusahaan  =  x.Kode_Perusahaan "
             SQL = SQL & "and a.No_Faktur = z.No_Faktur_BM  "
             SQL = SQL & "and z.No_Faktur = x.No_Faktur  "
             SQL = SQL & "and b.Kode_Stock_Owner = x.Kode_Stock_Owner and  b.Kode_Barang =  x.Kode_Barang and b.Urut_Oto =  x.Urut_Loading "
-            SQL = SQL & "), 'T') as Flag_Validasi  "
+            SQL = SQL & "), 'X') as Flag_Validasi  "
             SQL = SQL & "from emi_pembelian_loading a,  EMI_Pembelian_Loading_Detail b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
             SQL = SQL & "and a .No_Faktur = b.No_Faktur "
             SQL = SQL & "and a.Status is null "
             SQL = SQL & "and a.Kode_Perusahaan  = '" & KodePerusahaan & "'"
             SQL = SQL & "and b.No_PO =  '" & Lv_PO_NoFak & "' "
-            SQL = SQL & "order by Urut_Loading"
+            'SQL = SQL & "and ISNULL(( "
+            'SQL = SQL & "select x.Flag_Validasi from EMI_Pembelian_Selisih_Barang_Masuk z, EMI_Pembelian_Selisih_Barang_Masuk_Det x "
+            'SQL = SQL & "where a.Kode_Perusahaan  = z.Kode_Perusahaan and z.Kode_Perusahaan  =  x.Kode_Perusahaan "
+            'SQL = SQL & "and a.No_Faktur = z.No_Faktur_BM  "
+            'SQL = SQL & "and z.No_Faktur = x.No_Faktur  "
+            'SQL = SQL & "and b.Kode_Stock_Owner = x.Kode_Stock_Owner and  b.Kode_Barang =  x.Kode_Barang and b.Urut_Oto =  x.Urut_Loading "
+            'SQL = SQL & "), 'X')<>'X' "
+            SQL = SQL & "order by no_faktur"
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Dim Lv As ListViewItem
@@ -334,10 +349,12 @@ Public Class EMI_PO_Pembelian_Display2
 
                     'Hide
                     Lv.SubItems.Add(Dr("Flag_Validasi"))
-                    Lv.SubItems.Add(Dr("Urut_Loading"))
+                    Lv.SubItems.Add("")
 
                     If General_Class.CekNULL(Dr("Flag_Validasi")) = "Y" Then
                         Lv.BackColor = Color.LightGreen
+                    ElseIf General_Class.CekNULL(Dr("Flag_Validasi")) = "X" Then
+                        Lv.BackColor = Color.White
                     Else
                         Lv.BackColor = Color.LightYellow
                     End If

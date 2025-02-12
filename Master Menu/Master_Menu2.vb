@@ -24,6 +24,14 @@
     Dim Item_MenuOrder As Integer = 15
     Dim Item_SubMenuOrder As Integer = 16
     Dim Item_SubmenuLv1Order As Integer = 17
+
+    Private Sub Master_Menu2_Load(sender As Object, e As EventArgs)
+        Dim ok As String = "asda"
+
+        ok = "Rix"
+
+    End Sub
+
     Dim Item_SubMenuLv2Order As Integer = 18
     Dim Item_SubMenuLv3Order As Integer = 19
     Dim Item_ImagePath As Integer = 20
@@ -649,6 +657,8 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+
 
     End Sub
 

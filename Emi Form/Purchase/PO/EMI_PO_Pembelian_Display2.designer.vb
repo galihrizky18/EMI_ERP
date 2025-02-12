@@ -58,7 +58,7 @@ Partial Class EMI_PO_Pembelian_Display2
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1241, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1084, 51)
         Me.Panel1.TabIndex = 22
         '
         'PanelGradient1
@@ -71,7 +71,7 @@ Partial Class EMI_PO_Pembelian_Display2
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1241, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1084, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
@@ -108,7 +108,7 @@ Partial Class EMI_PO_Pembelian_Display2
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(1221, 63)
+        Me.Panel5.Location = New System.Drawing.Point(1065, 65)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(19, 724)
@@ -118,7 +118,7 @@ Partial Class EMI_PO_Pembelian_Display2
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(0, 739)
+        Me.Panel4.Location = New System.Drawing.Point(30, 644)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1436, 15)
@@ -186,7 +186,7 @@ Partial Class EMI_PO_Pembelian_Display2
         Me.GBLocal.Controls.Add(Me.Panel8)
         Me.GBLocal.Location = New System.Drawing.Point(20, 93)
         Me.GBLocal.Name = "GBLocal"
-        Me.GBLocal.Size = New System.Drawing.Size(1201, 318)
+        Me.GBLocal.Size = New System.Drawing.Size(1045, 267)
         Me.GBLocal.TabIndex = 458
         Me.GBLocal.TabStop = False
         Me.GBLocal.Text = "Local"
@@ -198,7 +198,7 @@ Partial Class EMI_PO_Pembelian_Display2
         Me.Lv_PO.HideSelection = False
         Me.Lv_PO.Location = New System.Drawing.Point(6, 19)
         Me.Lv_PO.Name = "Lv_PO"
-        Me.Lv_PO.Size = New System.Drawing.Size(1189, 290)
+        Me.Lv_PO.Size = New System.Drawing.Size(1033, 240)
         Me.Lv_PO.TabIndex = 458
         Me.Lv_PO.UseCompatibleStateImageBehavior = False
         Me.Lv_PO.View = System.Windows.Forms.View.Details
@@ -218,9 +218,9 @@ Partial Class EMI_PO_Pembelian_Display2
         Me.Lv_Kendaraan.FullRowSelect = True
         Me.Lv_Kendaraan.GridLines = True
         Me.Lv_Kendaraan.HideSelection = False
-        Me.Lv_Kendaraan.Location = New System.Drawing.Point(11, 20)
+        Me.Lv_Kendaraan.Location = New System.Drawing.Point(6, 20)
         Me.Lv_Kendaraan.Name = "Lv_Kendaraan"
-        Me.Lv_Kendaraan.Size = New System.Drawing.Size(568, 290)
+        Me.Lv_Kendaraan.Size = New System.Drawing.Size(499, 251)
         Me.Lv_Kendaraan.TabIndex = 460
         Me.Lv_Kendaraan.UseCompatibleStateImageBehavior = False
         Me.Lv_Kendaraan.View = System.Windows.Forms.View.Details
@@ -232,7 +232,7 @@ Partial Class EMI_PO_Pembelian_Display2
         Me.Lv_Barang.HideSelection = False
         Me.Lv_Barang.Location = New System.Drawing.Point(11, 20)
         Me.Lv_Barang.Name = "Lv_Barang"
-        Me.Lv_Barang.Size = New System.Drawing.Size(571, 290)
+        Me.Lv_Barang.Size = New System.Drawing.Size(499, 251)
         Me.Lv_Barang.TabIndex = 459
         Me.Lv_Barang.UseCompatibleStateImageBehavior = False
         Me.Lv_Barang.View = System.Windows.Forms.View.Details
@@ -240,7 +240,7 @@ Partial Class EMI_PO_Pembelian_Display2
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(615, 419)
+        Me.Panel7.Location = New System.Drawing.Point(536, 367)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(15, 695)
@@ -262,7 +262,7 @@ Partial Class EMI_PO_Pembelian_Display2
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(26, 408)
+        Me.Panel6.Location = New System.Drawing.Point(26, 355)
         Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(1216, 12)
@@ -272,9 +272,9 @@ Partial Class EMI_PO_Pembelian_Display2
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.Lv_Barang)
-        Me.GroupBox1.Location = New System.Drawing.Point(22, 419)
+        Me.GroupBox1.Location = New System.Drawing.Point(21, 366)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(592, 318)
+        Me.GroupBox1.Size = New System.Drawing.Size(511, 275)
         Me.GroupBox1.TabIndex = 461
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Barang"
@@ -282,19 +282,19 @@ Partial Class EMI_PO_Pembelian_Display2
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.Lv_Kendaraan)
-        Me.GroupBox2.Location = New System.Drawing.Point(629, 419)
+        Me.GroupBox2.Location = New System.Drawing.Point(550, 366)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(592, 318)
+        Me.GroupBox2.Size = New System.Drawing.Size(511, 275)
         Me.GroupBox2.TabIndex = 462
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Kendaraan"
         '
-        'EMI_PO_Pembelian_Display21
+        'EMI_PO_Pembelian_Display2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1241, 754)
+        Me.ClientSize = New System.Drawing.Size(1084, 661)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
@@ -314,7 +314,7 @@ Partial Class EMI_PO_Pembelian_Display2
         Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "EMI_PO_Pembelian_Display21"
+        Me.Name = "EMI_PO_Pembelian_Display2"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()

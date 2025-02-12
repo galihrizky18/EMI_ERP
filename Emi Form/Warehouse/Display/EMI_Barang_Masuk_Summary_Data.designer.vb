@@ -24,16 +24,7 @@ Partial Class EMI_Barang_Masuk_Summary_Data
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.Panel5 = New System.Windows.Forms.Panel()
-        Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.LV_PembelianLoading = New System.Windows.Forms.ListView()
-        Me.Panel6 = New System.Windows.Forms.Panel()
-        Me.Panel7 = New System.Windows.Forms.Panel()
-        Me.Lv_PODetail = New System.Windows.Forms.ListView()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.BtnBarangMasuk_Cari = New System.Windows.Forms.Button()
         Me.ComboBox6 = New System.Windows.Forms.ComboBox()
@@ -47,20 +38,29 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.ComboBox3 = New System.Windows.Forms.ComboBox()
-        Me.TabControl1 = New System.Windows.Forms.TabControl()
-        Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.TabPage2 = New System.Windows.Forms.TabPage()
-        Me.ListView1 = New System.Windows.Forms.ListView()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Panel3 = New System.Windows.Forms.Panel()
+        Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.LV_PembelianLoading = New System.Windows.Forms.ListView()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.CetakPerintahBongkarToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CetakPenerimaanBarangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CetakBuktiTimbangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Panel6 = New System.Windows.Forms.Panel()
+        Me.Panel7 = New System.Windows.Forms.Panel()
+        Me.Lv_PODetail = New System.Windows.Forms.ListView()
+        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.ListView1 = New System.Windows.Forms.ListView()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
-        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -71,21 +71,8 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1005, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1215, 55)
         Me.Panel1.TabIndex = 22
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1005, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -97,6 +84,152 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.Label1.Size = New System.Drawing.Size(423, 30)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Summary Data - Loading Barang Masuk"
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.BtnBarangMasuk_Cari)
+        Me.GroupBox3.Controls.Add(Me.ComboBox6)
+        Me.GroupBox3.Controls.Add(Me.CheckBox3)
+        Me.GroupBox3.Controls.Add(Me.TextBox4)
+        Me.GroupBox3.Controls.Add(Me.Label6)
+        Me.GroupBox3.Controls.Add(Me.ComboBox2)
+        Me.GroupBox3.Controls.Add(Me.CheckBox2)
+        Me.GroupBox3.Controls.Add(Me.DateTimePicker2)
+        Me.GroupBox3.Controls.Add(Me.Label7)
+        Me.GroupBox3.Controls.Add(Me.DateTimePicker1)
+        Me.GroupBox3.Controls.Add(Me.CheckBox1)
+        Me.GroupBox3.Controls.Add(Me.ComboBox3)
+        Me.GroupBox3.Location = New System.Drawing.Point(21, 586)
+        Me.GroupBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Padding = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.GroupBox3.Size = New System.Drawing.Size(631, 148)
+        Me.GroupBox3.TabIndex = 342
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Filter Data"
+        '
+        'BtnBarangMasuk_Cari
+        '
+        Me.BtnBarangMasuk_Cari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnBarangMasuk_Cari.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnBarangMasuk_Cari.ForeColor = System.Drawing.Color.White
+        Me.BtnBarangMasuk_Cari.Location = New System.Drawing.Point(536, 102)
+        Me.BtnBarangMasuk_Cari.Name = "BtnBarangMasuk_Cari"
+        Me.BtnBarangMasuk_Cari.Size = New System.Drawing.Size(81, 29)
+        Me.BtnBarangMasuk_Cari.TabIndex = 343
+        Me.BtnBarangMasuk_Cari.Text = "&Cari"
+        Me.BtnBarangMasuk_Cari.UseVisualStyleBackColor = False
+        '
+        'ComboBox6
+        '
+        Me.ComboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox6.FormattingEnabled = True
+        Me.ComboBox6.Location = New System.Drawing.Point(8, 23)
+        Me.ComboBox6.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.ComboBox6.Name = "ComboBox6"
+        Me.ComboBox6.Size = New System.Drawing.Size(209, 24)
+        Me.ComboBox6.TabIndex = 342
+        '
+        'CheckBox3
+        '
+        Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Location = New System.Drawing.Point(5, 55)
+        Me.CheckBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.CheckBox3.Name = "CheckBox3"
+        Me.CheckBox3.Size = New System.Drawing.Size(118, 20)
+        Me.CheckBox3.TabIndex = 9
+        Me.CheckBox3.Text = "Transaksi Hari Ini"
+        Me.CheckBox3.UseVisualStyleBackColor = True
+        '
+        'TextBox4
+        '
+        Me.TextBox4.Location = New System.Drawing.Point(314, 109)
+        Me.TextBox4.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.TextBox4.Name = "TextBox4"
+        Me.TextBox4.Size = New System.Drawing.Size(217, 20)
+        Me.TextBox4.TabIndex = 7
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(264, 112)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(35, 16)
+        Me.Label6.TabIndex = 8
+        Me.Label6.Text = "Value"
+        '
+        'ComboBox2
+        '
+        Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox2.FormattingEnabled = True
+        Me.ComboBox2.Location = New System.Drawing.Point(132, 109)
+        Me.ComboBox2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.ComboBox2.Name = "ComboBox2"
+        Me.ComboBox2.Size = New System.Drawing.Size(123, 24)
+        Me.ComboBox2.TabIndex = 6
+        '
+        'CheckBox2
+        '
+        Me.CheckBox2.AutoSize = True
+        Me.CheckBox2.Location = New System.Drawing.Point(4, 108)
+        Me.CheckBox2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.CheckBox2.Name = "CheckBox2"
+        Me.CheckBox2.Size = New System.Drawing.Size(107, 20)
+        Me.CheckBox2.TabIndex = 5
+        Me.CheckBox2.Text = "Parameter Lain"
+        Me.CheckBox2.UseVisualStyleBackColor = True
+        '
+        'DateTimePicker2
+        '
+        Me.DateTimePicker2.CustomFormat = "dd MMMM yyyy"
+        Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DateTimePicker2.Location = New System.Drawing.Point(459, 82)
+        Me.DateTimePicker2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.DateTimePicker2.Name = "DateTimePicker2"
+        Me.DateTimePicker2.Size = New System.Drawing.Size(158, 20)
+        Me.DateTimePicker2.TabIndex = 4
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(425, 83)
+        Me.Label7.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(25, 16)
+        Me.Label7.TabIndex = 4
+        Me.Label7.Text = "s/d"
+        '
+        'DateTimePicker1
+        '
+        Me.DateTimePicker1.CustomFormat = "dd MMMM yyyy"
+        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DateTimePicker1.Location = New System.Drawing.Point(259, 82)
+        Me.DateTimePicker1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.DateTimePicker1.Name = "DateTimePicker1"
+        Me.DateTimePicker1.Size = New System.Drawing.Size(158, 20)
+        Me.DateTimePicker1.TabIndex = 3
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Location = New System.Drawing.Point(4, 81)
+        Me.CheckBox1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(124, 20)
+        Me.CheckBox1.TabIndex = 1
+        Me.CheckBox1.Text = "Parameter Tanggal"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
+        'ComboBox3
+        '
+        Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox3.FormattingEnabled = True
+        Me.ComboBox3.Location = New System.Drawing.Point(132, 79)
+        Me.ComboBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.ComboBox3.Name = "ComboBox3"
+        Me.ComboBox3.Size = New System.Drawing.Size(123, 24)
+        Me.ComboBox3.TabIndex = 2
         '
         'Panel2
         '
@@ -121,7 +254,7 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(986, 63)
+        Me.Panel5.Location = New System.Drawing.Point(1196, 69)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(19, 491)
@@ -147,15 +280,40 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.LV_PembelianLoading.HideSelection = False
         Me.LV_PembelianLoading.Location = New System.Drawing.Point(21, 64)
         Me.LV_PembelianLoading.Name = "LV_PembelianLoading"
-        Me.LV_PembelianLoading.Size = New System.Drawing.Size(963, 257)
+        Me.LV_PembelianLoading.Size = New System.Drawing.Size(1175, 257)
         Me.LV_PembelianLoading.TabIndex = 234
         Me.LV_PembelianLoading.UseCompatibleStateImageBehavior = False
         Me.LV_PembelianLoading.View = System.Windows.Forms.View.Details
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakPerintahBongkarToolStripMenuItem, Me.CetakPenerimaanBarangToolStripMenuItem, Me.CetakBuktiTimbangToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(211, 70)
+        '
+        'CetakPerintahBongkarToolStripMenuItem
+        '
+        Me.CetakPerintahBongkarToolStripMenuItem.Name = "CetakPerintahBongkarToolStripMenuItem"
+        Me.CetakPerintahBongkarToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.CetakPerintahBongkarToolStripMenuItem.Text = "Cetak Perintah Bongkar"
+        '
+        'CetakPenerimaanBarangToolStripMenuItem
+        '
+        Me.CetakPenerimaanBarangToolStripMenuItem.Name = "CetakPenerimaanBarangToolStripMenuItem"
+        Me.CetakPenerimaanBarangToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.CetakPenerimaanBarangToolStripMenuItem.Text = "Cetak Penerimaan Barang"
+        '
+        'CetakBuktiTimbangToolStripMenuItem
+        '
+        Me.CetakBuktiTimbangToolStripMenuItem.Name = "CetakBuktiTimbangToolStripMenuItem"
+        Me.CetakBuktiTimbangToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.CetakBuktiTimbangToolStripMenuItem.Text = "Cetak Bukti Timbang"
+        '
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(20, 721)
+        Me.Panel6.Location = New System.Drawing.Point(21, 741)
         Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(1436, 15)
@@ -180,156 +338,10 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.Lv_PODetail.HideSelection = False
         Me.Lv_PODetail.Location = New System.Drawing.Point(0, 0)
         Me.Lv_PODetail.Name = "Lv_PODetail"
-        Me.Lv_PODetail.Size = New System.Drawing.Size(955, 211)
+        Me.Lv_PODetail.Size = New System.Drawing.Size(1161, 211)
         Me.Lv_PODetail.TabIndex = 341
         Me.Lv_PODetail.UseCompatibleStateImageBehavior = False
         Me.Lv_PODetail.View = System.Windows.Forms.View.Details
-        '
-        'GroupBox3
-        '
-        Me.GroupBox3.Controls.Add(Me.BtnBarangMasuk_Cari)
-        Me.GroupBox3.Controls.Add(Me.ComboBox6)
-        Me.GroupBox3.Controls.Add(Me.CheckBox3)
-        Me.GroupBox3.Controls.Add(Me.TextBox4)
-        Me.GroupBox3.Controls.Add(Me.Label6)
-        Me.GroupBox3.Controls.Add(Me.ComboBox2)
-        Me.GroupBox3.Controls.Add(Me.CheckBox2)
-        Me.GroupBox3.Controls.Add(Me.DateTimePicker2)
-        Me.GroupBox3.Controls.Add(Me.Label7)
-        Me.GroupBox3.Controls.Add(Me.DateTimePicker1)
-        Me.GroupBox3.Controls.Add(Me.CheckBox1)
-        Me.GroupBox3.Controls.Add(Me.ComboBox3)
-        Me.GroupBox3.Location = New System.Drawing.Point(20, 588)
-        Me.GroupBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Padding = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.GroupBox3.Size = New System.Drawing.Size(636, 130)
-        Me.GroupBox3.TabIndex = 342
-        Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Filter Data"
-        '
-        'BtnBarangMasuk_Cari
-        '
-        Me.BtnBarangMasuk_Cari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.BtnBarangMasuk_Cari.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnBarangMasuk_Cari.ForeColor = System.Drawing.Color.White
-        Me.BtnBarangMasuk_Cari.Location = New System.Drawing.Point(496, 92)
-        Me.BtnBarangMasuk_Cari.Name = "BtnBarangMasuk_Cari"
-        Me.BtnBarangMasuk_Cari.Size = New System.Drawing.Size(81, 27)
-        Me.BtnBarangMasuk_Cari.TabIndex = 343
-        Me.BtnBarangMasuk_Cari.Text = "&Cari"
-        Me.BtnBarangMasuk_Cari.UseVisualStyleBackColor = False
-        '
-        'ComboBox6
-        '
-        Me.ComboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBox6.FormattingEnabled = True
-        Me.ComboBox6.Location = New System.Drawing.Point(8, 23)
-        Me.ComboBox6.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.ComboBox6.Name = "ComboBox6"
-        Me.ComboBox6.Size = New System.Drawing.Size(209, 24)
-        Me.ComboBox6.TabIndex = 342
-        '
-        'CheckBox3
-        '
-        Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Location = New System.Drawing.Point(8, 48)
-        Me.CheckBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.CheckBox3.Name = "CheckBox3"
-        Me.CheckBox3.Size = New System.Drawing.Size(118, 20)
-        Me.CheckBox3.TabIndex = 9
-        Me.CheckBox3.Text = "Transaksi Hari Ini"
-        Me.CheckBox3.UseVisualStyleBackColor = True
-        '
-        'TextBox4
-        '
-        Me.TextBox4.Location = New System.Drawing.Point(283, 95)
-        Me.TextBox4.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(208, 20)
-        Me.TextBox4.TabIndex = 7
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(244, 96)
-        Me.Label6.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(35, 16)
-        Me.Label6.TabIndex = 8
-        Me.Label6.Text = "Value"
-        '
-        'ComboBox2
-        '
-        Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(143, 92)
-        Me.ComboBox2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.ComboBox2.Name = "ComboBox2"
-        Me.ComboBox2.Size = New System.Drawing.Size(97, 24)
-        Me.ComboBox2.TabIndex = 6
-        '
-        'CheckBox2
-        '
-        Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(8, 97)
-        Me.CheckBox2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(107, 20)
-        Me.CheckBox2.TabIndex = 5
-        Me.CheckBox2.Text = "Parameter Lain"
-        Me.CheckBox2.UseVisualStyleBackColor = True
-        '
-        'DateTimePicker2
-        '
-        Me.DateTimePicker2.CustomFormat = "dd MMMM yyyy"
-        Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker2.Location = New System.Drawing.Point(419, 66)
-        Me.DateTimePicker2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.DateTimePicker2.Name = "DateTimePicker2"
-        Me.DateTimePicker2.Size = New System.Drawing.Size(158, 20)
-        Me.DateTimePicker2.TabIndex = 4
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(390, 67)
-        Me.Label7.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(25, 16)
-        Me.Label7.TabIndex = 4
-        Me.Label7.Text = "s/d"
-        '
-        'DateTimePicker1
-        '
-        Me.DateTimePicker1.CustomFormat = "dd MMMM yyyy"
-        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker1.Location = New System.Drawing.Point(228, 66)
-        Me.DateTimePicker1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.Size = New System.Drawing.Size(158, 20)
-        Me.DateTimePicker1.TabIndex = 3
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(8, 72)
-        Me.CheckBox1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(124, 20)
-        Me.CheckBox1.TabIndex = 1
-        Me.CheckBox1.Text = "Parameter Tanggal"
-        Me.CheckBox1.UseVisualStyleBackColor = True
-        '
-        'ComboBox3
-        '
-        Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBox3.FormattingEnabled = True
-        Me.ComboBox3.Location = New System.Drawing.Point(143, 64)
-        Me.ComboBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.ComboBox3.Name = "ComboBox3"
-        Me.ComboBox3.Size = New System.Drawing.Size(81, 24)
-        Me.ComboBox3.TabIndex = 2
         '
         'TabControl1
         '
@@ -338,7 +350,7 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.TabControl1.Location = New System.Drawing.Point(21, 331)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(963, 240)
+        Me.TabControl1.Size = New System.Drawing.Size(1175, 249)
         Me.TabControl1.TabIndex = 343
         '
         'TabPage1
@@ -347,9 +359,9 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.TabPage1.Location = New System.Drawing.Point(4, 25)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(955, 211)
+        Me.TabPage1.Size = New System.Drawing.Size(1167, 220)
         Me.TabPage1.TabIndex = 0
-        Me.TabPage1.Text = "TabPage1"
+        Me.TabPage1.Text = "Detail"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
         'TabPage2
@@ -358,9 +370,9 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.TabPage2.Location = New System.Drawing.Point(4, 25)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(955, 211)
+        Me.TabPage2.Size = New System.Drawing.Size(1167, 220)
         Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "TabPage2"
+        Me.TabPage2.Text = "Barang Masuk"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
         'ListView1
@@ -371,41 +383,30 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.ListView1.HideSelection = False
         Me.ListView1.Location = New System.Drawing.Point(0, 0)
         Me.ListView1.Name = "ListView1"
-        Me.ListView1.Size = New System.Drawing.Size(955, 211)
+        Me.ListView1.Size = New System.Drawing.Size(1161, 211)
         Me.ListView1.TabIndex = 342
         Me.ListView1.UseCompatibleStateImageBehavior = False
         Me.ListView1.View = System.Windows.Forms.View.Details
         '
-        'ContextMenuStrip1
+        'PanelGradient1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakPerintahBongkarToolStripMenuItem, Me.CetakPenerimaanBarangToolStripMenuItem, Me.CetakBuktiTimbangToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(211, 92)
-        '
-        'CetakPerintahBongkarToolStripMenuItem
-        '
-        Me.CetakPerintahBongkarToolStripMenuItem.Name = "CetakPerintahBongkarToolStripMenuItem"
-        Me.CetakPerintahBongkarToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
-        Me.CetakPerintahBongkarToolStripMenuItem.Text = "Cetak Perintah Bongkar"
-        '
-        'CetakPenerimaanBarangToolStripMenuItem
-        '
-        Me.CetakPenerimaanBarangToolStripMenuItem.Name = "CetakPenerimaanBarangToolStripMenuItem"
-        Me.CetakPenerimaanBarangToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
-        Me.CetakPenerimaanBarangToolStripMenuItem.Text = "Cetak Penerimaan Barang"
-        '
-        'CetakBuktiTimbangToolStripMenuItem
-        '
-        Me.CetakBuktiTimbangToolStripMenuItem.Name = "CetakBuktiTimbangToolStripMenuItem"
-        Me.CetakBuktiTimbangToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
-        Me.CetakBuktiTimbangToolStripMenuItem.Text = "Cetak Bukti Timbang"
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 53)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1215, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'EMI_Barang_Masuk_Summary_Data
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1005, 737)
+        Me.ClientSize = New System.Drawing.Size(1215, 754)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.Panel7)
@@ -425,10 +426,10 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.Panel1.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
-        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
