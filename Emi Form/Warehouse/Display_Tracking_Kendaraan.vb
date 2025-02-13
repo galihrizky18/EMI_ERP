@@ -15,7 +15,6 @@
     Dim cellNoPlat As Integer = 9
     Dim cellETA As Integer = 10
 
-
     Private Sub Tracking_Kamar_Timbang_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         Lv_DetBahan.Columns.Add("Nama", 270, HorizontalAlignment.Left)
@@ -54,7 +53,9 @@
             Dim idx As Integer = 0
 
             Dgv_Tracking.Rows.Clear()
+
 #Region "Kode Lama"
+
             'SQL = ";With cte as ( Select a.No_Faktur, a.Lokasi, c.Nama as Supplier, a.No_SJ, a.No_Plat, a.Driver, a.Tanggal as tanggal_sampai,  "
             'SQL = SQL & "a.Jam, a.Tanggal_OTW, a.ETA, "
 
@@ -215,6 +216,7 @@
                         Dgv_Tracking.Rows(idx).Cells(cellStatus).Style.BackColor = Color.LightGray
                     End If
 
+
                     'Hidden
                     Dgv_Tracking.Rows(idx).Cells(cellTanggalSampai).Value = Format(Dr("tanggal_sampai"), "dd MMNM yyyy")
                     '  Dgv_Tracking.Rows(idx).Cells(cellEkspedisi).Value = Dr("Nama_Ekspedisi")
@@ -234,7 +236,6 @@
         End Try
 
     End Sub
-
 
     Private Sub Dgv_Tracking_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles Dgv_Tracking.CellClick
         If Dgv_Tracking.RowCount = 0 Then Exit Sub
@@ -268,13 +269,11 @@
             '                lv.SubItems.Add(Format(isNUll(Dr("Jumlah_Masuk")), "N2"))
             '                lv.SubItems.Add(Dr("Satuan_Barang"))
 
-
             '            Next
 
             '        End If
             '    End With
             'End Using
-
 
             SQL = "select distinct b.Nama, a.Kode_Stock_Owner ,a.jumlah, a.satuan "
             SQL = SQL & "From EMI_Pembelian_Loading_Detail a, Barang b "
@@ -300,7 +299,6 @@
 
     End Sub
 
-
     'HANDLE BUTTON
     Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
         kosong()
@@ -315,7 +313,6 @@
 
     End Sub
 
-
     'HANDLE KEYPRESS
     Private Sub DateTimePicker1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DateTimePicker1.KeyPress
         If e.KeyChar = Chr(13) Then DateTimePicker2.Focus()
@@ -324,7 +321,6 @@
     Private Sub DateTimePicker2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DateTimePicker2.KeyPress
         If e.KeyChar = Chr(13) Then Btn_Cari.Focus()
     End Sub
-
 
     'UTLITY FUNCTION
     Public Shared Function isNUll(ByVal xNullString As Object) As String
@@ -339,4 +335,5 @@
             Return ""
         End Try
     End Function
+
 End Class

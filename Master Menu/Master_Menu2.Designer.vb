@@ -138,7 +138,7 @@ Partial Class Master_Menu2
         Me.Tb_MenuForm.Location = New System.Drawing.Point(511, 56)
         Me.Tb_MenuForm.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_MenuForm.Name = "Tb_MenuForm"
-        Me.Tb_MenuForm.Size = New System.Drawing.Size(204, 27)
+        Me.Tb_MenuForm.Size = New System.Drawing.Size(204, 23)
         Me.Tb_MenuForm.TabIndex = 4
         '
         'Tb_Var3
@@ -150,7 +150,7 @@ Partial Class Master_Menu2
         Me.Tb_Var3.Location = New System.Drawing.Point(133, 150)
         Me.Tb_Var3.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_Var3.Name = "Tb_Var3"
-        Me.Tb_Var3.Size = New System.Drawing.Size(204, 27)
+        Me.Tb_Var3.Size = New System.Drawing.Size(204, 23)
         Me.Tb_Var3.TabIndex = 4
         '
         'Label8
@@ -160,7 +160,7 @@ Partial Class Master_Menu2
         Me.Label8.Location = New System.Drawing.Point(378, 60)
         Me.Label8.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(54, 25)
+        Me.Label8.Size = New System.Drawing.Size(40, 18)
         Me.Label8.TabIndex = 1
         Me.Label8.Text = "Form"
         '
@@ -173,7 +173,7 @@ Partial Class Master_Menu2
         Me.Tb_UrutMainMenu.Location = New System.Drawing.Point(279, 26)
         Me.Tb_UrutMainMenu.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_UrutMainMenu.Name = "Tb_UrutMainMenu"
-        Me.Tb_UrutMainMenu.Size = New System.Drawing.Size(58, 27)
+        Me.Tb_UrutMainMenu.Size = New System.Drawing.Size(58, 23)
         Me.Tb_UrutMainMenu.TabIndex = 4
         '
         'Tb_ImagePath
@@ -185,7 +185,7 @@ Partial Class Master_Menu2
         Me.Tb_ImagePath.Location = New System.Drawing.Point(133, 26)
         Me.Tb_ImagePath.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_ImagePath.Name = "Tb_ImagePath"
-        Me.Tb_ImagePath.Size = New System.Drawing.Size(139, 27)
+        Me.Tb_ImagePath.Size = New System.Drawing.Size(139, 23)
         Me.Tb_ImagePath.TabIndex = 4
         '
         'Tb_MenuOrder
@@ -196,7 +196,7 @@ Partial Class Master_Menu2
         Me.Tb_MenuOrder.Location = New System.Drawing.Point(511, 26)
         Me.Tb_MenuOrder.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_MenuOrder.Name = "Tb_MenuOrder"
-        Me.Tb_MenuOrder.Size = New System.Drawing.Size(204, 27)
+        Me.Tb_MenuOrder.Size = New System.Drawing.Size(204, 23)
         Me.Tb_MenuOrder.TabIndex = 4
         '
         'Tb_MenuName
@@ -207,7 +207,7 @@ Partial Class Master_Menu2
         Me.Tb_MenuName.Location = New System.Drawing.Point(133, 57)
         Me.Tb_MenuName.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_MenuName.Name = "Tb_MenuName"
-        Me.Tb_MenuName.Size = New System.Drawing.Size(204, 27)
+        Me.Tb_MenuName.Size = New System.Drawing.Size(204, 23)
         Me.Tb_MenuName.TabIndex = 4
         '
         'Label1
@@ -217,7 +217,7 @@ Partial Class Master_Menu2
         Me.Label1.Location = New System.Drawing.Point(14, 28)
         Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(106, 25)
+        Me.Label1.Size = New System.Drawing.Size(78, 18)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "Image Path"
         '
@@ -228,7 +228,7 @@ Partial Class Master_Menu2
         Me.Label16.Location = New System.Drawing.Point(357, 29)
         Me.Label16.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(112, 25)
+        Me.Label16.Size = New System.Drawing.Size(83, 18)
         Me.Label16.TabIndex = 1
         Me.Label16.Text = "Menu Order"
         '
@@ -241,7 +241,7 @@ Partial Class Master_Menu2
         Me.Tb_Var2.Location = New System.Drawing.Point(133, 119)
         Me.Tb_Var2.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_Var2.Name = "Tb_Var2"
-        Me.Tb_Var2.Size = New System.Drawing.Size(204, 27)
+        Me.Tb_Var2.Size = New System.Drawing.Size(204, 23)
         Me.Tb_Var2.TabIndex = 4
         '
         'Label13
@@ -251,7 +251,7 @@ Partial Class Master_Menu2
         Me.Label13.Location = New System.Drawing.Point(14, 59)
         Me.Label13.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(112, 25)
+        Me.Label13.Size = New System.Drawing.Size(84, 18)
         Me.Label13.TabIndex = 1
         Me.Label13.Text = "Menu Name"
         '
@@ -262,7 +262,7 @@ Partial Class Master_Menu2
         Me.Label9.Location = New System.Drawing.Point(14, 89)
         Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(92, 25)
+        Me.Label9.Size = New System.Drawing.Size(66, 18)
         Me.Label9.TabIndex = 1
         Me.Label9.Text = "Variabel 1"
         '
@@ -275,7 +275,7 @@ Partial Class Master_Menu2
         Me.Tb_IsiVariabel3.Location = New System.Drawing.Point(511, 149)
         Me.Tb_IsiVariabel3.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_IsiVariabel3.Name = "Tb_IsiVariabel3"
-        Me.Tb_IsiVariabel3.Size = New System.Drawing.Size(204, 27)
+        Me.Tb_IsiVariabel3.Size = New System.Drawing.Size(204, 23)
         Me.Tb_IsiVariabel3.TabIndex = 4
         '
         'Label11
@@ -285,7 +285,7 @@ Partial Class Master_Menu2
         Me.Label11.Location = New System.Drawing.Point(354, 91)
         Me.Label11.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(116, 25)
+        Me.Label11.Size = New System.Drawing.Size(84, 18)
         Me.Label11.TabIndex = 1
         Me.Label11.Text = "Isi Variabel 1"
         '
@@ -296,7 +296,7 @@ Partial Class Master_Menu2
         Me.Label10.Location = New System.Drawing.Point(14, 120)
         Me.Label10.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(95, 25)
+        Me.Label10.Size = New System.Drawing.Size(69, 18)
         Me.Label10.TabIndex = 1
         Me.Label10.Text = "Variabel 2"
         '
@@ -309,7 +309,7 @@ Partial Class Master_Menu2
         Me.Tb_IsiVariabel2.Location = New System.Drawing.Point(511, 118)
         Me.Tb_IsiVariabel2.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_IsiVariabel2.Name = "Tb_IsiVariabel2"
-        Me.Tb_IsiVariabel2.Size = New System.Drawing.Size(204, 27)
+        Me.Tb_IsiVariabel2.Size = New System.Drawing.Size(204, 23)
         Me.Tb_IsiVariabel2.TabIndex = 4
         '
         'Label12
@@ -319,7 +319,7 @@ Partial Class Master_Menu2
         Me.Label12.Location = New System.Drawing.Point(354, 122)
         Me.Label12.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(119, 25)
+        Me.Label12.Size = New System.Drawing.Size(87, 18)
         Me.Label12.TabIndex = 1
         Me.Label12.Text = "Isi Variabel 2"
         '
@@ -330,7 +330,7 @@ Partial Class Master_Menu2
         Me.Label14.Location = New System.Drawing.Point(14, 151)
         Me.Label14.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(95, 25)
+        Me.Label14.Size = New System.Drawing.Size(69, 18)
         Me.Label14.TabIndex = 1
         Me.Label14.Text = "Variabel 3"
         '
@@ -343,7 +343,7 @@ Partial Class Master_Menu2
         Me.Tb_IsiVariabel1.Location = New System.Drawing.Point(511, 87)
         Me.Tb_IsiVariabel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_IsiVariabel1.Name = "Tb_IsiVariabel1"
-        Me.Tb_IsiVariabel1.Size = New System.Drawing.Size(204, 27)
+        Me.Tb_IsiVariabel1.Size = New System.Drawing.Size(204, 23)
         Me.Tb_IsiVariabel1.TabIndex = 4
         '
         'Tb_Var1
@@ -355,7 +355,7 @@ Partial Class Master_Menu2
         Me.Tb_Var1.Location = New System.Drawing.Point(133, 88)
         Me.Tb_Var1.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_Var1.Name = "Tb_Var1"
-        Me.Tb_Var1.Size = New System.Drawing.Size(204, 27)
+        Me.Tb_Var1.Size = New System.Drawing.Size(204, 23)
         Me.Tb_Var1.TabIndex = 4
         '
         'Label15
@@ -365,7 +365,7 @@ Partial Class Master_Menu2
         Me.Label15.Location = New System.Drawing.Point(354, 153)
         Me.Label15.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(119, 25)
+        Me.Label15.Size = New System.Drawing.Size(87, 18)
         Me.Label15.TabIndex = 1
         Me.Label15.Text = "Isi Variabel 3"
         '
@@ -377,7 +377,7 @@ Partial Class Master_Menu2
         Me.Cb_SubMenuLv3.Location = New System.Drawing.Point(524, 89)
         Me.Cb_SubMenuLv3.Margin = New System.Windows.Forms.Padding(4)
         Me.Cb_SubMenuLv3.Name = "Cb_SubMenuLv3"
-        Me.Cb_SubMenuLv3.Size = New System.Drawing.Size(164, 31)
+        Me.Cb_SubMenuLv3.Size = New System.Drawing.Size(164, 26)
         Me.Cb_SubMenuLv3.TabIndex = 4
         '
         'Btn_Delete
@@ -416,7 +416,7 @@ Partial Class Master_Menu2
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(140, 31)
         Me.Btn_Simpan.TabIndex = 3
-        Me.Btn_Simpan.Text = "Save"
+        Me.Btn_Simpan.Text = "&Save"
         Me.Btn_Simpan.UseVisualStyleBackColor = False
         '
         'Cb_SubMenu
@@ -427,7 +427,7 @@ Partial Class Master_Menu2
         Me.Cb_SubMenu.Location = New System.Drawing.Point(146, 89)
         Me.Cb_SubMenu.Margin = New System.Windows.Forms.Padding(4)
         Me.Cb_SubMenu.Name = "Cb_SubMenu"
-        Me.Cb_SubMenu.Size = New System.Drawing.Size(164, 31)
+        Me.Cb_SubMenu.Size = New System.Drawing.Size(164, 26)
         Me.Cb_SubMenu.TabIndex = 4
         '
         'Cb_SubMenuLv2
@@ -438,7 +438,7 @@ Partial Class Master_Menu2
         Me.Cb_SubMenuLv2.Location = New System.Drawing.Point(524, 58)
         Me.Cb_SubMenuLv2.Margin = New System.Windows.Forms.Padding(4)
         Me.Cb_SubMenuLv2.Name = "Cb_SubMenuLv2"
-        Me.Cb_SubMenuLv2.Size = New System.Drawing.Size(164, 31)
+        Me.Cb_SubMenuLv2.Size = New System.Drawing.Size(164, 26)
         Me.Cb_SubMenuLv2.TabIndex = 4
         '
         'Cb_MainMenu
@@ -449,7 +449,7 @@ Partial Class Master_Menu2
         Me.Cb_MainMenu.Location = New System.Drawing.Point(146, 27)
         Me.Cb_MainMenu.Margin = New System.Windows.Forms.Padding(4)
         Me.Cb_MainMenu.Name = "Cb_MainMenu"
-        Me.Cb_MainMenu.Size = New System.Drawing.Size(164, 31)
+        Me.Cb_MainMenu.Size = New System.Drawing.Size(164, 26)
         Me.Cb_MainMenu.TabIndex = 4
         '
         'Cb_Menu
@@ -460,7 +460,7 @@ Partial Class Master_Menu2
         Me.Cb_Menu.Location = New System.Drawing.Point(146, 59)
         Me.Cb_Menu.Margin = New System.Windows.Forms.Padding(4)
         Me.Cb_Menu.Name = "Cb_Menu"
-        Me.Cb_Menu.Size = New System.Drawing.Size(164, 31)
+        Me.Cb_Menu.Size = New System.Drawing.Size(164, 26)
         Me.Cb_Menu.TabIndex = 4
         '
         'Label2
@@ -470,7 +470,7 @@ Partial Class Master_Menu2
         Me.Label2.Location = New System.Drawing.Point(12, 30)
         Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(108, 25)
+        Me.Label2.Size = New System.Drawing.Size(79, 18)
         Me.Label2.TabIndex = 1
         Me.Label2.Text = "MainMenus"
         '
@@ -482,7 +482,7 @@ Partial Class Master_Menu2
         Me.Cb_SubMenuLv1.Location = New System.Drawing.Point(524, 27)
         Me.Cb_SubMenuLv1.Margin = New System.Windows.Forms.Padding(4)
         Me.Cb_SubMenuLv1.Name = "Cb_SubMenuLv1"
-        Me.Cb_SubMenuLv1.Size = New System.Drawing.Size(164, 31)
+        Me.Cb_SubMenuLv1.Size = New System.Drawing.Size(164, 26)
         Me.Cb_SubMenuLv1.TabIndex = 4
         '
         'Label7
@@ -492,7 +492,7 @@ Partial Class Master_Menu2
         Me.Label7.Location = New System.Drawing.Point(363, 95)
         Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(139, 25)
+        Me.Label7.Size = New System.Drawing.Size(104, 18)
         Me.Label7.TabIndex = 1
         Me.Label7.Text = "SubMenus Lv 3"
         '
@@ -503,7 +503,7 @@ Partial Class Master_Menu2
         Me.Label6.Location = New System.Drawing.Point(363, 63)
         Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(139, 25)
+        Me.Label6.Size = New System.Drawing.Size(104, 18)
         Me.Label6.TabIndex = 1
         Me.Label6.Text = "SubMenus Lv 2"
         '
@@ -514,7 +514,7 @@ Partial Class Master_Menu2
         Me.Label5.Location = New System.Drawing.Point(363, 30)
         Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(136, 25)
+        Me.Label5.Size = New System.Drawing.Size(101, 18)
         Me.Label5.TabIndex = 1
         Me.Label5.Text = "SubMenus Lv 1"
         '
@@ -525,7 +525,7 @@ Partial Class Master_Menu2
         Me.Label4.Location = New System.Drawing.Point(12, 97)
         Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(99, 25)
+        Me.Label4.Size = New System.Drawing.Size(74, 18)
         Me.Label4.TabIndex = 1
         Me.Label4.Text = "SubMenus"
         '
@@ -536,7 +536,7 @@ Partial Class Master_Menu2
         Me.Label3.Location = New System.Drawing.Point(12, 63)
         Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(67, 25)
+        Me.Label3.Size = New System.Drawing.Size(50, 18)
         Me.Label3.TabIndex = 1
         Me.Label3.Text = "Menus"
         '
@@ -571,7 +571,7 @@ Partial Class Master_Menu2
         Me.Lbl_Judul.Location = New System.Drawing.Point(18, 11)
         Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
         Me.Lbl_Judul.Name = "Lbl_Judul"
-        Me.Lbl_Judul.Size = New System.Drawing.Size(281, 39)
+        Me.Lbl_Judul.Size = New System.Drawing.Size(219, 30)
         Me.Lbl_Judul.TabIndex = 0
         Me.Lbl_Judul.Text = "Master Data - Menu"
         '
@@ -589,7 +589,7 @@ Partial Class Master_Menu2
         '
         'Master_Menu2
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 20.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1356, 463)
@@ -603,7 +603,6 @@ Partial Class Master_Menu2
         Me.Name = "Master_Menu2"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "MasterMenu"
-        AddHandler Load, AddressOf Me.Master_Menu2_Load
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)

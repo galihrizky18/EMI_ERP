@@ -25,6 +25,7 @@ Module General_Module
     Public Pass_IPCAM_2 As String = ""
     Public Url_WA_Business As String = ""
     Public Token_WA_Business As String = ""
+    Public fDownPay As String = "DPDS"
     Public Data_User_App2 As New ArrayList
 
     Public fPO_EMI As String = "PO"

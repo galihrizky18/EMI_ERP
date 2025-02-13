@@ -25,6 +25,7 @@
     Dim Item_SubMenuOrder As Integer = 16
     Dim Item_SubmenuLv1Order As Integer = 17
 
+
     Private Sub Master_Menu2_Load(sender As Object, e As EventArgs)
         Dim ok As String = "asda"
 
@@ -53,6 +54,9 @@
         Cb_SubMenuLv1.Items.Clear()
         Cb_SubMenuLv2.Items.Clear()
         Cb_SubMenuLv3.Items.Clear()
+
+        Btn_Simpan.Tag = "SAVE"
+        Btn_Simpan.Text = "&Save"
 
         Cb_MainMenu.Text = ""
         Cb_Menu.Text = ""
@@ -687,19 +691,36 @@
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
 
-            If Not newMenuName = "" Then
-                If Not Cb_MainMenu.Text = "" Then
-                    If Not Cb_Menu.Text = "" Then
-                        If Not Cb_SubMenu.Text = "" Then
-                            If Not Cb_SubMenuLv1.Text = "" Then
-                                If Not Cb_SubMenuLv2.Text = "" Then
-                                    If Not Cb_SubMenuLv3.Text = "" Then
+            If Btn_Simpan.Tag = "SAVE" Then
+
+                If Not newMenuName = "" Then
+                    If Not Cb_MainMenu.Text = "" Then
+                        If Not Cb_Menu.Text = "" Then
+                            If Not Cb_SubMenu.Text = "" Then
+                                If Not Cb_SubMenuLv1.Text = "" Then
+                                    If Not Cb_SubMenuLv2.Text = "" Then
+                                        If Not Cb_SubMenuLv3.Text = "" Then
+                                        Else
+                                            'ADD NEW SUBMENU LV3
+                                            If Not newMenuName = "" AndAlso Not newMenuOrder = "" Then
+                                                SQL = "insert into SubMenuLv3(SubMenuLv3ID, SubMenuLv2ID, SubMenuLv3Name, SubMenuLv3Order, Form, Variabel, Isi_Variabel, "
+                                                SQL = SQL & "Variabel2, Isi_Variabel2, Variabel3, Isi_Variabel3) values "
+                                                SQL = SQL & "(SubMenuLv3_'" & getUniqueID() & "', '" & submenulv2id & "', '" & newMenuName & "', " & newMenuOrder & ", "
+                                                SQL = SQL & "" & cekEmptyString(newMenuForm) & ", " & cekEmptyString(newMenuVar1) & ", " & cekEmptyString(newMenuIsiVar1) & ", "
+                                                SQL = SQL & "" & cekEmptyString(newMenuVar2) & ", " & cekEmptyString(newMenuIsiVar2) & ", " & cekEmptyString(newMenuVar3) & ", "
+                                                SQL = SQL & "" & cekEmptyString(newMenuIsiVar3) & ")"
+                                                ExecuteTrans(SQL)
+                                                MessageBox.Show("Berhasil Disimpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                            Else
+                                                MessageBox.Show("MenuName dan MenuOrder Harus Diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            End If
+                                        End If
                                     Else
-                                        'ADD NEW SUBMENU LV3
+                                        'ADD NEW SUBMENULV2
                                         If Not newMenuName = "" AndAlso Not newMenuOrder = "" Then
-                                            SQL = "insert into SubMenuLv3(SubMenuLv3ID, SubMenuLv2ID, SubMenuLv3Name, SubMenuLv3Order, Form, Variabel, Isi_Variabel, "
+                                            SQL = "insert into SubMenuLv2(SubMenuLv2ID, SubMenuLv1ID, SubMenuLv2Name, SubMenuLv2Order, Form, Variabel, Isi_Variabel, "
                                             SQL = SQL & "Variabel2, Isi_Variabel2, Variabel3, Isi_Variabel3) values "
-                                            SQL = SQL & "(SubMenuLv3_'" & getUniqueID() & "', '" & submenulv2id & "', '" & newMenuName & "', " & newMenuOrder & ", "
+                                            SQL = SQL & "('SubMenuLv2_" & getUniqueID() & "', '" & submenulv1id & "', '" & newMenuName & "', " & newMenuOrder & ", "
                                             SQL = SQL & "" & cekEmptyString(newMenuForm) & ", " & cekEmptyString(newMenuVar1) & ", " & cekEmptyString(newMenuIsiVar1) & ", "
                                             SQL = SQL & "" & cekEmptyString(newMenuVar2) & ", " & cekEmptyString(newMenuIsiVar2) & ", " & cekEmptyString(newMenuVar3) & ", "
                                             SQL = SQL & "" & cekEmptyString(newMenuIsiVar3) & ")"
@@ -710,14 +731,13 @@
                                         End If
                                     End If
                                 Else
-                                    'ADD NEW SUBMENULV2
+                                    'ADD NEW SUBMENULV1
                                     If Not newMenuName = "" AndAlso Not newMenuOrder = "" Then
-                                        SQL = "insert into SubMenuLv2(SubMenuLv2ID, SubMenuLv1ID, SubMenuLv2Name, SubMenuLv2Order, Form, Variabel, Isi_Variabel, "
+                                        SQL = "insert into SubMenuLv1(SubMenuLv1ID, SubMenuID, SubMenuLv1Name, SubMenuLv1Order, Form, Variabel, Isi_Variabel, "
                                         SQL = SQL & "Variabel2, Isi_Variabel2, Variabel3, Isi_Variabel3) values "
-                                        SQL = SQL & "('SubMenuLv2_" & getUniqueID() & "', '" & submenulv1id & "', '" & newMenuName & "', " & newMenuOrder & ", "
-                                        SQL = SQL & "" & cekEmptyString(newMenuForm) & ", " & cekEmptyString(newMenuVar1) & ", " & cekEmptyString(newMenuIsiVar1) & ", "
-                                        SQL = SQL & "" & cekEmptyString(newMenuVar2) & ", " & cekEmptyString(newMenuIsiVar2) & ", " & cekEmptyString(newMenuVar3) & ", "
-                                        SQL = SQL & "" & cekEmptyString(newMenuIsiVar3) & ")"
+                                        SQL = SQL & "('SubMenuLv1ID_" & getUniqueID() & "', '" & submenuid & "', '" & newMenuName & "', " & newMenuOrder & ", " & cekEmptyString(newMenuForm) & ", "
+                                        SQL = SQL & "" & cekEmptyString(newMenuVar1) & ", " & cekEmptyString(newMenuIsiVar1) & ", " & cekEmptyString(newMenuVar2) & ", "
+                                        SQL = SQL & "" & cekEmptyString(newMenuIsiVar2) & ", " & cekEmptyString(newMenuVar3) & ", " & cekEmptyString(newMenuIsiVar3) & ")"
                                         ExecuteTrans(SQL)
                                         MessageBox.Show("Berhasil Disimpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                                     Else
@@ -725,12 +745,12 @@
                                     End If
                                 End If
                             Else
-                                'ADD NEW SUBMENULV1
+                                'ADD NEW SUBMENU
                                 If Not newMenuName = "" AndAlso Not newMenuOrder = "" Then
-                                    SQL = "insert into SubMenuLv1(SubMenuLv1ID, SubMenuID, SubMenuLv1Name, SubMenuLv1Order, Form, Variabel, Isi_Variabel, "
+                                    SQL = "insert into SubMenus(SubMenuID, SubMenuName, MenuID, SubMenuOrder, Form, Variabel, Isi_Variabel, "
                                     SQL = SQL & "Variabel2, Isi_Variabel2, Variabel3, Isi_Variabel3) values "
-                                    SQL = SQL & "('SubMenuLv1ID_" & getUniqueID() & "', '" & submenuid & "', '" & newMenuName & "', " & newMenuOrder & ", " & cekEmptyString(newMenuForm) & ", "
-                                    SQL = SQL & "" & cekEmptyString(newMenuVar1) & ", " & cekEmptyString(newMenuIsiVar1) & ", " & cekEmptyString(newMenuVar2) & ", "
+                                    SQL = SQL & "('SubMenu_" & getUniqueID() & "', '" & newMenuName & "', '" & menuid & "', " & newMenuOrder & ", " & cekEmptyString(newMenuForm) & " "
+                                    SQL = SQL & ", " & cekEmptyString(newMenuVar1) & ", " & cekEmptyString(newMenuIsiVar1) & ", " & cekEmptyString(newMenuVar2) & ", "
                                     SQL = SQL & "" & cekEmptyString(newMenuIsiVar2) & ", " & cekEmptyString(newMenuVar3) & ", " & cekEmptyString(newMenuIsiVar3) & ")"
                                     ExecuteTrans(SQL)
                                     MessageBox.Show("Berhasil Disimpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -739,13 +759,10 @@
                                 End If
                             End If
                         Else
-                            'ADD NEW SUBMENU
+                            'ADD NEW MENU
                             If Not newMenuName = "" AndAlso Not newMenuOrder = "" Then
-                                SQL = "insert into SubMenus(SubMenuID, SubMenuName, MenuID, SubMenuOrder, Form, Variabel, Isi_Variabel, "
-                                SQL = SQL & "Variabel2, Isi_Variabel2, Variabel3, Isi_Variabel3) values "
-                                SQL = SQL & "('SubMenu_" & getUniqueID() & "', '" & newMenuName & "', '" & menuid & "', " & newMenuOrder & ", " & cekEmptyString(newMenuForm) & " "
-                                SQL = SQL & ", " & cekEmptyString(newMenuVar1) & ", " & cekEmptyString(newMenuIsiVar1) & ", " & cekEmptyString(newMenuVar2) & ", "
-                                SQL = SQL & "" & cekEmptyString(newMenuIsiVar2) & ", " & cekEmptyString(newMenuVar3) & ", " & cekEmptyString(newMenuIsiVar3) & ")"
+                                SQL = "insert into menus (MenuId, MainMenuID, MenuName, MenuOrder, MenuParent) values "
+                                SQL = SQL & "('Menu_" & getUniqueID() & "', '" & mainmenuid & "', '" & newMenuName & "', " & newMenuOrder & " , NULL)"
                                 ExecuteTrans(SQL)
                                 MessageBox.Show("Berhasil Disimpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Else
@@ -753,29 +770,24 @@
                             End If
                         End If
                     Else
-                        'ADD NEW MENU
-                        If Not newMenuName = "" AndAlso Not newMenuOrder = "" Then
-                            SQL = "insert into menus (MenuId, MainMenuID, MenuName, MenuOrder, MenuParent) values "
-                            SQL = SQL & "('Menu_" & getUniqueID() & "', '" & mainmenuid & "', '" & newMenuName & "', " & newMenuOrder & " , NULL)"
+                        'ADD NEW MAINMENU
+                        If Not newImagePath = "" Then
+                            SQL = "insert into MainMenu(MainMenuId, ImagePath, Title, urut) values "
+                            SQL = SQL & "('MainMenu_" & getUniqueID() & "', '" & newImagePath & "', '" & newMenuName & "', '" & newUrutMainMenu & "')"
                             ExecuteTrans(SQL)
                             MessageBox.Show("Berhasil Disimpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Else
-                            MessageBox.Show("MenuName dan MenuOrder Harus Diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            MessageBox.Show("ImagePath Harus Diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         End If
                     End If
-                Else
-                    'ADD NEW MAINMENU
-                    If Not newImagePath = "" Then
-                        SQL = "insert into MainMenu(MainMenuId, ImagePath, Title, urut) values "
-                        SQL = SQL & "('MainMenu_" & getUniqueID() & "', '" & newImagePath & "', '" & newMenuName & "', '" & newUrutMainMenu & "')"
-                        ExecuteTrans(SQL)
-                        MessageBox.Show("Berhasil Disimpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Else
-                        MessageBox.Show("ImagePath Harus Diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    End If
+
                 End If
 
+            ElseIf Btn_Simpan.Tag = "UPDATE" Then
+
+
             End If
+
 
             Cmd.Transaction.Commit()
             CloseConn()
@@ -875,6 +887,9 @@
         If Lv_hierarki.Items.Count = 0 Then Exit Sub
 
         Get_Lv_MenuHierarchy(Lv_hierarki.FocusedItem.Index)
+
+        Btn_Simpan.Tag = "UPDATE"
+        Btn_Simpan.Text = "&Update"
 
         If Not String.IsNullOrEmpty(Lv_MainMenuId) Then
             Cb_MainMenu.SelectedIndex = arrMainMenu.IndexOf(Lv_MainMenuId)

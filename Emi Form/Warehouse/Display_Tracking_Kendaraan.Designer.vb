@@ -40,6 +40,17 @@ Partial Class Display_Tracking_Kendaraan
         Me.Label4 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Dgv_Tracking = New System.Windows.Forms.DataGridView()
+        Me.no_faktur = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.lokasi = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.supplier = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.no_sj = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.tanggal_sampai = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.status = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.tglSampai = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ekspedisi = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.driver = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.noPlat = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.eta = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Lv_DetBahan = New System.Windows.Forms.ListView()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
@@ -59,17 +70,6 @@ Partial Class Display_Tracking_Kendaraan
         Me.Label5 = New System.Windows.Forms.Label()
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.Btn_Refresh = New System.Windows.Forms.Button()
-        Me.no_faktur = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.lokasi = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.supplier = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.no_sj = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.tanggal_sampai = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.status = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.tglSampai = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ekspedisi = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.driver = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.noPlat = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.eta = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.Dgv_Tracking, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -84,7 +84,7 @@ Partial Class Display_Tracking_Kendaraan
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1133, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1128, 51)
         Me.Panel1.TabIndex = 23
         '
         'PanelGradient1
@@ -97,7 +97,7 @@ Partial Class Display_Tracking_Kendaraan
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1133, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1128, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
@@ -194,6 +194,100 @@ Partial Class Display_Tracking_Kendaraan
         Me.Dgv_Tracking.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.Dgv_Tracking.Size = New System.Drawing.Size(1073, 284)
         Me.Dgv_Tracking.TabIndex = 23
+        '
+        'no_faktur
+        '
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.no_faktur.DefaultCellStyle = DataGridViewCellStyle3
+        Me.no_faktur.HeaderText = "No Faktur"
+        Me.no_faktur.Name = "no_faktur"
+        Me.no_faktur.ReadOnly = True
+        Me.no_faktur.Width = 160
+        '
+        'lokasi
+        '
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.lokasi.DefaultCellStyle = DataGridViewCellStyle4
+        Me.lokasi.HeaderText = "Lokasi"
+        Me.lokasi.Name = "lokasi"
+        Me.lokasi.ReadOnly = True
+        Me.lokasi.Width = 150
+        '
+        'supplier
+        '
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.supplier.DefaultCellStyle = DataGridViewCellStyle5
+        Me.supplier.HeaderText = "Supplier"
+        Me.supplier.Name = "supplier"
+        Me.supplier.ReadOnly = True
+        Me.supplier.Width = 150
+        '
+        'no_sj
+        '
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.no_sj.DefaultCellStyle = DataGridViewCellStyle6
+        Me.no_sj.HeaderText = "No Surat Jalan"
+        Me.no_sj.Name = "no_sj"
+        Me.no_sj.ReadOnly = True
+        Me.no_sj.Width = 150
+        '
+        'tanggal_sampai
+        '
+        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.tanggal_sampai.DefaultCellStyle = DataGridViewCellStyle7
+        Me.tanggal_sampai.HeaderText = "Tanggal Sampai"
+        Me.tanggal_sampai.Name = "tanggal_sampai"
+        Me.tanggal_sampai.ReadOnly = True
+        Me.tanggal_sampai.Width = 150
+        '
+        'status
+        '
+        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.status.DefaultCellStyle = DataGridViewCellStyle8
+        Me.status.HeaderText = "Status"
+        Me.status.Name = "status"
+        Me.status.ReadOnly = True
+        Me.status.Width = 300
+        '
+        'tglSampai
+        '
+        Me.tglSampai.HeaderText = "tgl_Sampai"
+        Me.tglSampai.Name = "tglSampai"
+        Me.tglSampai.ReadOnly = True
+        Me.tglSampai.Visible = False
+        Me.tglSampai.Width = 5
+        '
+        'ekspedisi
+        '
+        Me.ekspedisi.HeaderText = "ekspedisi"
+        Me.ekspedisi.Name = "ekspedisi"
+        Me.ekspedisi.ReadOnly = True
+        Me.ekspedisi.Visible = False
+        Me.ekspedisi.Width = 5
+        '
+        'driver
+        '
+        Me.driver.HeaderText = "driver"
+        Me.driver.Name = "driver"
+        Me.driver.ReadOnly = True
+        Me.driver.Visible = False
+        Me.driver.Width = 5
+        '
+        'noPlat
+        '
+        Me.noPlat.HeaderText = "noPlat"
+        Me.noPlat.Name = "noPlat"
+        Me.noPlat.ReadOnly = True
+        Me.noPlat.Visible = False
+        Me.noPlat.Width = 5
+        '
+        'eta
+        '
+        Me.eta.HeaderText = "eta"
+        Me.eta.Name = "eta"
+        Me.eta.ReadOnly = True
+        Me.eta.Visible = False
+        Me.eta.Width = 5
         '
         'Panel4
         '
@@ -398,106 +492,12 @@ Partial Class Display_Tracking_Kendaraan
         Me.Btn_Refresh.Text = "&Refresh"
         Me.Btn_Refresh.UseVisualStyleBackColor = False
         '
-        'no_faktur
-        '
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.no_faktur.DefaultCellStyle = DataGridViewCellStyle3
-        Me.no_faktur.HeaderText = "No Faktur"
-        Me.no_faktur.Name = "no_faktur"
-        Me.no_faktur.ReadOnly = True
-        Me.no_faktur.Width = 160
-        '
-        'lokasi
-        '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.lokasi.DefaultCellStyle = DataGridViewCellStyle4
-        Me.lokasi.HeaderText = "Lokasi"
-        Me.lokasi.Name = "lokasi"
-        Me.lokasi.ReadOnly = True
-        Me.lokasi.Width = 150
-        '
-        'supplier
-        '
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.supplier.DefaultCellStyle = DataGridViewCellStyle5
-        Me.supplier.HeaderText = "Supplier"
-        Me.supplier.Name = "supplier"
-        Me.supplier.ReadOnly = True
-        Me.supplier.Width = 150
-        '
-        'no_sj
-        '
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.no_sj.DefaultCellStyle = DataGridViewCellStyle6
-        Me.no_sj.HeaderText = "No Surat Jalan"
-        Me.no_sj.Name = "no_sj"
-        Me.no_sj.ReadOnly = True
-        Me.no_sj.Width = 150
-        '
-        'tanggal_sampai
-        '
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.tanggal_sampai.DefaultCellStyle = DataGridViewCellStyle7
-        Me.tanggal_sampai.HeaderText = "Tanggal Sampai"
-        Me.tanggal_sampai.Name = "tanggal_sampai"
-        Me.tanggal_sampai.ReadOnly = True
-        Me.tanggal_sampai.Width = 150
-        '
-        'status
-        '
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.status.DefaultCellStyle = DataGridViewCellStyle8
-        Me.status.HeaderText = "Status"
-        Me.status.Name = "status"
-        Me.status.ReadOnly = True
-        Me.status.Width = 300
-        '
-        'tglSampai
-        '
-        Me.tglSampai.HeaderText = "tgl_Sampai"
-        Me.tglSampai.Name = "tglSampai"
-        Me.tglSampai.ReadOnly = True
-        Me.tglSampai.Visible = False
-        Me.tglSampai.Width = 5
-        '
-        'ekspedisi
-        '
-        Me.ekspedisi.HeaderText = "ekspedisi"
-        Me.ekspedisi.Name = "ekspedisi"
-        Me.ekspedisi.ReadOnly = True
-        Me.ekspedisi.Visible = False
-        Me.ekspedisi.Width = 5
-        '
-        'driver
-        '
-        Me.driver.HeaderText = "driver"
-        Me.driver.Name = "driver"
-        Me.driver.ReadOnly = True
-        Me.driver.Visible = False
-        Me.driver.Width = 5
-        '
-        'noPlat
-        '
-        Me.noPlat.HeaderText = "noPlat"
-        Me.noPlat.Name = "noPlat"
-        Me.noPlat.ReadOnly = True
-        Me.noPlat.Visible = False
-        Me.noPlat.Width = 5
-        '
-        'eta
-        '
-        Me.eta.HeaderText = "eta"
-        Me.eta.Name = "eta"
-        Me.eta.ReadOnly = True
-        Me.eta.Visible = False
-        Me.eta.Width = 5
-        '
         'Display_Tracking_Kendaraan
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1133, 622)
+        Me.ClientSize = New System.Drawing.Size(1128, 622)
         Me.Controls.Add(Me.DateTimePicker2)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.DateTimePicker1)
