@@ -802,6 +802,14 @@
         Master_Suppliers.Focus()
     End Sub
 
+    Private Sub TrackKendaraanToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TrackKendaraanToolStripMenuItem.Click
+        Display_Tracking_Kendaraan.StartPosition = FormStartPosition.CenterScreen
+
+        Display_Tracking_Kendaraan.MdiParent = Me
+        Display_Tracking_Kendaraan.Show()
+        Display_Tracking_Kendaraan.Focus()
+    End Sub
+
 
 
 

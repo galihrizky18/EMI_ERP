@@ -22,16 +22,17 @@ Partial Class Tracking_Kamar_Timbang
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle28 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle29 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle36 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle30 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle31 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle32 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle33 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle34 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle35 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -69,7 +70,6 @@ Partial Class Tracking_Kamar_Timbang
         Me.Label5 = New System.Windows.Forms.Label()
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.Btn_Refresh = New System.Windows.Forms.Button()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.Dgv_Tracking, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -86,6 +86,19 @@ Partial Class Tracking_Kamar_Timbang
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1133, 51)
         Me.Panel1.TabIndex = 23
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1133, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -157,74 +170,74 @@ Partial Class Tracking_Kamar_Timbang
         Me.Dgv_Tracking.AllowUserToDeleteRows = False
         Me.Dgv_Tracking.AllowUserToResizeColumns = False
         Me.Dgv_Tracking.AllowUserToResizeRows = False
-        DataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_Tracking.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle28
+        DataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_Tracking.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle10
         Me.Dgv_Tracking.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.Dgv_Tracking.BackgroundColor = System.Drawing.Color.White
         Me.Dgv_Tracking.BorderStyle = System.Windows.Forms.BorderStyle.None
-        DataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle29.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle29.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle29.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle29.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle29.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_Tracking.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle29
+        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle11.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_Tracking.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle11
         Me.Dgv_Tracking.ColumnHeadersHeight = 45
         Me.Dgv_Tracking.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.no_faktur, Me.lokasi, Me.supplier, Me.no_sj, Me.tanggal_sampai, Me.status, Me.tglSampai, Me.ekspedisi, Me.driver, Me.noPlat, Me.eta})
         Me.Dgv_Tracking.Location = New System.Drawing.Point(6, 19)
         Me.Dgv_Tracking.Name = "Dgv_Tracking"
         Me.Dgv_Tracking.RowHeadersWidth = 10
-        DataGridViewCellStyle36.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_Tracking.RowsDefaultCellStyle = DataGridViewCellStyle36
+        DataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_Tracking.RowsDefaultCellStyle = DataGridViewCellStyle18
         Me.Dgv_Tracking.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.Dgv_Tracking.Size = New System.Drawing.Size(1073, 284)
         Me.Dgv_Tracking.TabIndex = 23
         '
         'no_faktur
         '
-        DataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.no_faktur.DefaultCellStyle = DataGridViewCellStyle30
+        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.no_faktur.DefaultCellStyle = DataGridViewCellStyle12
         Me.no_faktur.HeaderText = "No Faktur"
         Me.no_faktur.Name = "no_faktur"
         Me.no_faktur.Width = 160
         '
         'lokasi
         '
-        DataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.lokasi.DefaultCellStyle = DataGridViewCellStyle31
+        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.lokasi.DefaultCellStyle = DataGridViewCellStyle13
         Me.lokasi.HeaderText = "Lokasi"
         Me.lokasi.Name = "lokasi"
         Me.lokasi.Width = 150
         '
         'supplier
         '
-        DataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.supplier.DefaultCellStyle = DataGridViewCellStyle32
+        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.supplier.DefaultCellStyle = DataGridViewCellStyle14
         Me.supplier.HeaderText = "Supplier"
         Me.supplier.Name = "supplier"
         Me.supplier.Width = 150
         '
         'no_sj
         '
-        DataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.no_sj.DefaultCellStyle = DataGridViewCellStyle33
+        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.no_sj.DefaultCellStyle = DataGridViewCellStyle15
         Me.no_sj.HeaderText = "No Surat Jalan"
         Me.no_sj.Name = "no_sj"
         Me.no_sj.Width = 150
         '
         'tanggal_sampai
         '
-        DataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.tanggal_sampai.DefaultCellStyle = DataGridViewCellStyle34
+        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.tanggal_sampai.DefaultCellStyle = DataGridViewCellStyle16
         Me.tanggal_sampai.HeaderText = "Tanggal Sampai"
         Me.tanggal_sampai.Name = "tanggal_sampai"
         Me.tanggal_sampai.Width = 150
         '
         'status
         '
-        DataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.status.DefaultCellStyle = DataGridViewCellStyle35
+        DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.status.DefaultCellStyle = DataGridViewCellStyle17
         Me.status.HeaderText = "Status"
         Me.status.Name = "status"
         Me.status.Width = 300
@@ -277,9 +290,9 @@ Partial Class Tracking_Kamar_Timbang
         'Lv_DetBahan
         '
         Me.Lv_DetBahan.HideSelection = False
-        Me.Lv_DetBahan.Location = New System.Drawing.Point(14, 28)
+        Me.Lv_DetBahan.Location = New System.Drawing.Point(6, 19)
         Me.Lv_DetBahan.Name = "Lv_DetBahan"
-        Me.Lv_DetBahan.Size = New System.Drawing.Size(660, 166)
+        Me.Lv_DetBahan.Size = New System.Drawing.Size(682, 175)
         Me.Lv_DetBahan.TabIndex = 0
         Me.Lv_DetBahan.UseCompatibleStateImageBehavior = False
         '
@@ -288,7 +301,7 @@ Partial Class Tracking_Kamar_Timbang
         Me.GroupBox2.Controls.Add(Me.Lv_DetBahan)
         Me.GroupBox2.Location = New System.Drawing.Point(416, 414)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(688, 200)
+        Me.GroupBox2.Size = New System.Drawing.Size(692, 200)
         Me.GroupBox2.TabIndex = 347
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Detail Bahan"
@@ -464,19 +477,6 @@ Partial Class Tracking_Kamar_Timbang
         Me.Btn_Refresh.TabIndex = 343
         Me.Btn_Refresh.Text = "&Refresh"
         Me.Btn_Refresh.UseVisualStyleBackColor = False
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1133, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Tracking_Kamar_Timbang
         '

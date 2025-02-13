@@ -886,12 +886,6 @@
     <Compile Include="Emi Form\Production\Transaksi\EMI_Transaksi_Actual_Biaya_Produksi.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Purchase\EMI_PO_Pembelian.designer.vb">
-      <DependentUpon>EMI_PO_Pembelian.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Purchase\EMI_PO_Pembelian.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Purchase\PO\EMI_PO_Pembelian_Display2.designer.vb">
       <DependentUpon>EMI_PO_Pembelian_Display2.vb</DependentUpon>
     </Compile>
@@ -902,6 +896,12 @@
       <DependentUpon>EMI_Pembelian_PO_Summary_Data.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Purchase\Purchase Requisition Revisi\EMI_Pembelian_PO_Summary_Data.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Purchase\Transaksi\EMI_PO_Pembelian.designer.vb">
+      <DependentUpon>EMI_PO_Pembelian.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Purchase\Transaksi\EMI_PO_Pembelian.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Warehouse\Display\EMI_Barang_Masuk_Summary_Data.designer.vb">
@@ -926,6 +926,12 @@
       <DependentUpon>Emi_Display_Transfer_Stock.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Warehouse\Display\Emi_Display_Transfer_Stock.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Display_Tracking_Kendaraan.Designer.vb">
+      <DependentUpon>Display_Tracking_Kendaraan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Display_Tracking_Kendaraan.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Warehouse\Laporan\Laporan_Penambahan_Stock_Barang.Designer.vb">
@@ -1438,12 +1444,6 @@
     <Compile Include="Emi Form\Warehouse\Display\Display_Hasil_Quality_Control.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Warehouse\Display\Display_Tracking_Kendaraan.Designer.vb">
-      <DependentUpon>Display_Tracking_Kendaraan.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Warehouse\Display\Display_Tracking_Kendaraan.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Warehouse\Display\EMI_Display_Adjustment.designer.vb">
       <DependentUpon>EMI_Display_Adjustment.vb</DependentUpon>
     </Compile>
@@ -1538,12 +1538,6 @@
       <DependentUpon>SD_Transfer_Quality.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Warehouse\QC\SD_Transfer_Quality.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Warehouse\Show Dialog\EMI_Display_Pallet_Masuk.designer.vb">
-      <DependentUpon>EMI_Display_Pallet_Masuk.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Warehouse\Show Dialog\EMI_Display_Pallet_Masuk.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Warehouse\Show Dialog\EMI_Display_Quality_Control.designer.vb">
@@ -1664,6 +1658,12 @@
       <DependentUpon>EMI_Adjustment.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Warehouse\Transaksi\EMI_Adjustment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Transaksi\EMI_Display_Pallet_Masuk.designer.vb">
+      <DependentUpon>EMI_Display_Pallet_Masuk.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Transaksi\EMI_Display_Pallet_Masuk.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Warehouse\Transaksi\EMI_Flever3.Designer.vb">
@@ -2506,14 +2506,14 @@
     <EmbeddedResource Include="Emi Form\Production\Transaksi\EMI_Transaksi_Actual_Biaya_Produksi.resx">
       <DependentUpon>EMI_Transaksi_Actual_Biaya_Produksi.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Purchase\EMI_PO_Pembelian.resx">
-      <DependentUpon>EMI_PO_Pembelian.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Purchase\PO\EMI_PO_Pembelian_Display2.resx">
       <DependentUpon>EMI_PO_Pembelian_Display2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Purchase\Purchase Requisition Revisi\EMI_Pembelian_PO_Summary_Data.resx">
       <DependentUpon>EMI_Pembelian_PO_Summary_Data.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Purchase\Transaksi\EMI_PO_Pembelian.resx">
+      <DependentUpon>EMI_PO_Pembelian.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Display\EMI_Barang_Masuk_Summary_Data.resx">
       <DependentUpon>EMI_Barang_Masuk_Summary_Data.vb</DependentUpon>
@@ -2526,6 +2526,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Display\Emi_Display_Transfer_Stock.resx">
       <DependentUpon>Emi_Display_Transfer_Stock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Display_Tracking_Kendaraan.resx">
+      <DependentUpon>Display_Tracking_Kendaraan.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Laporan\Laporan_Penambahan_Stock_Barang.resx">
       <DependentUpon>Laporan_Penambahan_Stock_Barang.vb</DependentUpon>
@@ -2783,9 +2786,6 @@
     <EmbeddedResource Include="Emi Form\Warehouse\Display\Display_Hasil_Quality_Control.resx">
       <DependentUpon>Display_Hasil_Quality_Control.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Warehouse\Display\Display_Tracking_Kendaraan.resx">
-      <DependentUpon>Display_Tracking_Kendaraan.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Display\EMI_Display_Adjustment.resx">
       <DependentUpon>EMI_Display_Adjustment.vb</DependentUpon>
     </EmbeddedResource>
@@ -2834,9 +2834,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\QC\SD_Transfer_Quality.resx">
       <DependentUpon>SD_Transfer_Quality.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Warehouse\Show Dialog\EMI_Display_Pallet_Masuk.resx">
-      <DependentUpon>EMI_Display_Pallet_Masuk.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Show Dialog\EMI_Display_Quality_Control.resx">
       <DependentUpon>EMI_Display_Quality_Control.vb</DependentUpon>
@@ -2897,6 +2894,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Transaksi\EMI_Adjustment.resx">
       <DependentUpon>EMI_Adjustment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Transaksi\EMI_Display_Pallet_Masuk.resx">
+      <DependentUpon>EMI_Display_Pallet_Masuk.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Transaksi\EMI_Flever3.resx">
       <DependentUpon>EMI_Flever3.vb</DependentUpon>

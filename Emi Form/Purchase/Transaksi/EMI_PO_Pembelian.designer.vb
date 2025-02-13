@@ -45,13 +45,12 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_NoNota = New System.Windows.Forms.TextBox()
         Me.DtpPO_Tgl = New System.Windows.Forms.DateTimePicker()
         Me.TxtPO_KdSupplier = New System.Windows.Forms.TextBox()
-        Me.DtpPO_TglBayar = New System.Windows.Forms.DateTimePicker()
-        Me.CmbPO_RangeBayar = New System.Windows.Forms.ComboBox()
-        Me.CmbPO_JnsBayar = New System.Windows.Forms.ComboBox()
         Me.LblPO_Supplier = New System.Windows.Forms.Label()
-        Me.LblPO_Pembayaran = New System.Windows.Forms.Label()
         Me.CmbPO_MataUang = New System.Windows.Forms.ComboBox()
         Me.LblPO_MataUang = New System.Windows.Forms.Label()
+        Me.DtpPO_TglBayar = New System.Windows.Forms.DateTimePicker()
+        Me.CmbPO_JnsBayar = New System.Windows.Forms.ComboBox()
+        Me.LblPO_Pembayaran = New System.Windows.Forms.Label()
         Me.LvSupplier = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -134,6 +133,8 @@ Partial Class EMI_PO_Pembelian
         Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
+        Me.cmbJenisPengiriman = New System.Windows.Forms.ComboBox()
+        Me.txtJatuhTempo = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -247,11 +248,7 @@ Partial Class EMI_PO_Pembelian
         Me.GroupBox1.Controls.Add(Me.TxtPO_NoNota)
         Me.GroupBox1.Controls.Add(Me.DtpPO_Tgl)
         Me.GroupBox1.Controls.Add(Me.TxtPO_KdSupplier)
-        Me.GroupBox1.Controls.Add(Me.DtpPO_TglBayar)
-        Me.GroupBox1.Controls.Add(Me.CmbPO_RangeBayar)
-        Me.GroupBox1.Controls.Add(Me.CmbPO_JnsBayar)
         Me.GroupBox1.Controls.Add(Me.LblPO_Supplier)
-        Me.GroupBox1.Controls.Add(Me.LblPO_Pembayaran)
         Me.GroupBox1.Controls.Add(Me.LblPO_TotalBiaya)
         Me.GroupBox1.Controls.Add(Me.CmbPO_MataUang)
         Me.GroupBox1.Controls.Add(Me.LblPO_MataUang)
@@ -412,43 +409,6 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_KdSupplier.Size = New System.Drawing.Size(192, 21)
         Me.TxtPO_KdSupplier.TabIndex = 17
         '
-        'DtpPO_TglBayar
-        '
-        Me.DtpPO_TglBayar.CustomFormat = "dd MMMM yyyy"
-        Me.DtpPO_TglBayar.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.DtpPO_TglBayar.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DtpPO_TglBayar.Location = New System.Drawing.Point(649, 92)
-        Me.DtpPO_TglBayar.Margin = New System.Windows.Forms.Padding(2)
-        Me.DtpPO_TglBayar.Name = "DtpPO_TglBayar"
-        Me.DtpPO_TglBayar.Size = New System.Drawing.Size(168, 21)
-        Me.DtpPO_TglBayar.TabIndex = 6
-        Me.DtpPO_TglBayar.Visible = False
-        '
-        'CmbPO_RangeBayar
-        '
-        Me.CmbPO_RangeBayar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CmbPO_RangeBayar.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.CmbPO_RangeBayar.FormattingEnabled = True
-        Me.CmbPO_RangeBayar.Items.AddRange(New Object() {"Tunai", "Non-Tunai"})
-        Me.CmbPO_RangeBayar.Location = New System.Drawing.Point(551, 91)
-        Me.CmbPO_RangeBayar.Margin = New System.Windows.Forms.Padding(2)
-        Me.CmbPO_RangeBayar.Name = "CmbPO_RangeBayar"
-        Me.CmbPO_RangeBayar.Size = New System.Drawing.Size(94, 23)
-        Me.CmbPO_RangeBayar.TabIndex = 5
-        Me.CmbPO_RangeBayar.Visible = False
-        '
-        'CmbPO_JnsBayar
-        '
-        Me.CmbPO_JnsBayar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CmbPO_JnsBayar.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.CmbPO_JnsBayar.FormattingEnabled = True
-        Me.CmbPO_JnsBayar.Items.AddRange(New Object() {"Tunai", "Non-Tunai"})
-        Me.CmbPO_JnsBayar.Location = New System.Drawing.Point(355, 91)
-        Me.CmbPO_JnsBayar.Margin = New System.Windows.Forms.Padding(2)
-        Me.CmbPO_JnsBayar.Name = "CmbPO_JnsBayar"
-        Me.CmbPO_JnsBayar.Size = New System.Drawing.Size(192, 23)
-        Me.CmbPO_JnsBayar.TabIndex = 1
-        '
         'LblPO_Supplier
         '
         Me.LblPO_Supplier.AutoSize = True
@@ -458,17 +418,6 @@ Partial Class EMI_PO_Pembelian
         Me.LblPO_Supplier.Size = New System.Drawing.Size(66, 17)
         Me.LblPO_Supplier.TabIndex = 215
         Me.LblPO_Supplier.Text = "Supplierx"
-        '
-        'LblPO_Pembayaran
-        '
-        Me.LblPO_Pembayaran.AutoSize = True
-        Me.LblPO_Pembayaran.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblPO_Pembayaran.Location = New System.Drawing.Point(229, 94)
-        Me.LblPO_Pembayaran.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.LblPO_Pembayaran.Name = "LblPO_Pembayaran"
-        Me.LblPO_Pembayaran.Size = New System.Drawing.Size(94, 17)
-        Me.LblPO_Pembayaran.TabIndex = 213
-        Me.LblPO_Pembayaran.Text = "Pembayaranx"
         '
         'CmbPO_MataUang
         '
@@ -492,6 +441,41 @@ Partial Class EMI_PO_Pembelian
         Me.LblPO_MataUang.Size = New System.Drawing.Size(83, 17)
         Me.LblPO_MataUang.TabIndex = 334
         Me.LblPO_MataUang.Text = "Mata Uangx"
+        '
+        'DtpPO_TglBayar
+        '
+        Me.DtpPO_TglBayar.CustomFormat = "dd MMMM yyyy"
+        Me.DtpPO_TglBayar.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.DtpPO_TglBayar.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DtpPO_TglBayar.Location = New System.Drawing.Point(527, 272)
+        Me.DtpPO_TglBayar.Margin = New System.Windows.Forms.Padding(2)
+        Me.DtpPO_TglBayar.Name = "DtpPO_TglBayar"
+        Me.DtpPO_TglBayar.Size = New System.Drawing.Size(168, 21)
+        Me.DtpPO_TglBayar.TabIndex = 6
+        Me.DtpPO_TglBayar.Visible = False
+        '
+        'CmbPO_JnsBayar
+        '
+        Me.CmbPO_JnsBayar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CmbPO_JnsBayar.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.CmbPO_JnsBayar.FormattingEnabled = True
+        Me.CmbPO_JnsBayar.Items.AddRange(New Object() {"Tunai", "Non-Tunai"})
+        Me.CmbPO_JnsBayar.Location = New System.Drawing.Point(134, 271)
+        Me.CmbPO_JnsBayar.Margin = New System.Windows.Forms.Padding(2)
+        Me.CmbPO_JnsBayar.Name = "CmbPO_JnsBayar"
+        Me.CmbPO_JnsBayar.Size = New System.Drawing.Size(192, 23)
+        Me.CmbPO_JnsBayar.TabIndex = 1
+        '
+        'LblPO_Pembayaran
+        '
+        Me.LblPO_Pembayaran.AutoSize = True
+        Me.LblPO_Pembayaran.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.LblPO_Pembayaran.Location = New System.Drawing.Point(5, 272)
+        Me.LblPO_Pembayaran.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.LblPO_Pembayaran.Name = "LblPO_Pembayaran"
+        Me.LblPO_Pembayaran.Size = New System.Drawing.Size(94, 17)
+        Me.LblPO_Pembayaran.TabIndex = 213
+        Me.LblPO_Pembayaran.Text = "Pembayaranx"
         '
         'LvSupplier
         '
@@ -738,6 +722,8 @@ Partial Class EMI_PO_Pembelian
         '
         'Groupbox
         '
+        Me.Groupbox.Controls.Add(Me.txtJatuhTempo)
+        Me.Groupbox.Controls.Add(Me.cmbJenisPengiriman)
         Me.Groupbox.Controls.Add(Me.Label6)
         Me.Groupbox.Controls.Add(Me.txtSatuanSisa)
         Me.Groupbox.Controls.Add(Me.Label4)
@@ -751,10 +737,13 @@ Partial Class EMI_PO_Pembelian
         Me.Groupbox.Controls.Add(Me.CmbPO_JnsEkspedisi)
         Me.Groupbox.Controls.Add(Me.LblPO_Ekspedisi)
         Me.Groupbox.Controls.Add(Me.CmbPO_Harga)
+        Me.Groupbox.Controls.Add(Me.DtpPO_TglBayar)
         Me.Groupbox.Controls.Add(Me.ListView1)
         Me.Groupbox.Controls.Add(Me.CmbPO_Satuan)
+        Me.Groupbox.Controls.Add(Me.CmbPO_JnsBayar)
         Me.Groupbox.Controls.Add(Me.LblPO_Satuan)
         Me.Groupbox.Controls.Add(Me.LvPO_DataPO)
+        Me.Groupbox.Controls.Add(Me.LblPO_Pembayaran)
         Me.Groupbox.Controls.Add(Me.LblPO_TotalMUA)
         Me.Groupbox.Controls.Add(Me.TxtPO_Total)
         Me.Groupbox.Controls.Add(Me.TxtPO_Kurs)
@@ -865,17 +854,17 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_Berat.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtPO_Berat.Enabled = False
         Me.TxtPO_Berat.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtPO_Berat.Location = New System.Drawing.Point(90, 267)
+        Me.TxtPO_Berat.Location = New System.Drawing.Point(134, 299)
         Me.TxtPO_Berat.MaxLength = 30
         Me.TxtPO_Berat.Name = "TxtPO_Berat"
-        Me.TxtPO_Berat.Size = New System.Drawing.Size(228, 21)
+        Me.TxtPO_Berat.Size = New System.Drawing.Size(192, 21)
         Me.TxtPO_Berat.TabIndex = 352
         '
         'LblPO_Berat
         '
         Me.LblPO_Berat.AutoSize = True
         Me.LblPO_Berat.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblPO_Berat.Location = New System.Drawing.Point(5, 269)
+        Me.LblPO_Berat.Location = New System.Drawing.Point(6, 299)
         Me.LblPO_Berat.Name = "LblPO_Berat"
         Me.LblPO_Berat.Size = New System.Drawing.Size(42, 17)
         Me.LblPO_Berat.TabIndex = 353
@@ -887,7 +876,7 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_Biaya.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtPO_Biaya.Enabled = False
         Me.TxtPO_Biaya.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtPO_Biaya.Location = New System.Drawing.Point(314, 307)
+        Me.TxtPO_Biaya.Location = New System.Drawing.Point(696, 321)
         Me.TxtPO_Biaya.MaxLength = 30
         Me.TxtPO_Biaya.Name = "TxtPO_Biaya"
         Me.TxtPO_Biaya.Size = New System.Drawing.Size(228, 21)
@@ -898,7 +887,7 @@ Partial Class EMI_PO_Pembelian
         '
         Me.LblPO_biaya.AutoSize = True
         Me.LblPO_biaya.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblPO_biaya.Location = New System.Drawing.Point(263, 309)
+        Me.LblPO_biaya.Location = New System.Drawing.Point(645, 323)
         Me.LblPO_biaya.Name = "LblPO_biaya"
         Me.LblPO_biaya.Size = New System.Drawing.Size(49, 17)
         Me.LblPO_biaya.TabIndex = 315
@@ -911,7 +900,7 @@ Partial Class EMI_PO_Pembelian
         Me.CmbPO_JnsEkspedisi.DropDownWidth = 150
         Me.CmbPO_JnsEkspedisi.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
         Me.CmbPO_JnsEkspedisi.FormattingEnabled = True
-        Me.CmbPO_JnsEkspedisi.Location = New System.Drawing.Point(141, 307)
+        Me.CmbPO_JnsEkspedisi.Location = New System.Drawing.Point(523, 321)
         Me.CmbPO_JnsEkspedisi.Margin = New System.Windows.Forms.Padding(2)
         Me.CmbPO_JnsEkspedisi.Name = "CmbPO_JnsEkspedisi"
         Me.CmbPO_JnsEkspedisi.Size = New System.Drawing.Size(117, 23)
@@ -922,7 +911,7 @@ Partial Class EMI_PO_Pembelian
         '
         Me.LblPO_Ekspedisi.AutoSize = True
         Me.LblPO_Ekspedisi.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblPO_Ekspedisi.Location = New System.Drawing.Point(54, 309)
+        Me.LblPO_Ekspedisi.Location = New System.Drawing.Point(436, 323)
         Me.LblPO_Ekspedisi.Name = "LblPO_Ekspedisi"
         Me.LblPO_Ekspedisi.Size = New System.Drawing.Size(74, 17)
         Me.LblPO_Ekspedisi.TabIndex = 349
@@ -1055,7 +1044,7 @@ Partial Class EMI_PO_Pembelian
         '
         Me.LblPO_TotalSblmPPN.AutoSize = True
         Me.LblPO_TotalSblmPPN.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblPO_TotalSblmPPN.Location = New System.Drawing.Point(873, 298)
+        Me.LblPO_TotalSblmPPN.Location = New System.Drawing.Point(879, 297)
         Me.LblPO_TotalSblmPPN.Name = "LblPO_TotalSblmPPN"
         Me.LblPO_TotalSblmPPN.Size = New System.Drawing.Size(145, 17)
         Me.LblPO_TotalSblmPPN.TabIndex = 332
@@ -1101,7 +1090,7 @@ Partial Class EMI_PO_Pembelian
         '
         Me.LblPO_PPN.AutoSize = True
         Me.LblPO_PPN.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblPO_PPN.Location = New System.Drawing.Point(985, 326)
+        Me.LblPO_PPN.Location = New System.Drawing.Point(982, 327)
         Me.LblPO_PPN.Name = "LblPO_PPN"
         Me.LblPO_PPN.Size = New System.Drawing.Size(42, 17)
         Me.LblPO_PPN.TabIndex = 327
@@ -1123,7 +1112,7 @@ Partial Class EMI_PO_Pembelian
         '
         Me.LblPO_CaraBayar.AutoSize = True
         Me.LblPO_CaraBayar.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblPO_CaraBayar.Location = New System.Drawing.Point(53, 338)
+        Me.LblPO_CaraBayar.Location = New System.Drawing.Point(435, 352)
         Me.LblPO_CaraBayar.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.LblPO_CaraBayar.Name = "LblPO_CaraBayar"
         Me.LblPO_CaraBayar.Size = New System.Drawing.Size(85, 17)
@@ -1137,7 +1126,7 @@ Partial Class EMI_PO_Pembelian
         Me.CmbPO_CaraBayar.DropDownWidth = 150
         Me.CmbPO_CaraBayar.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
         Me.CmbPO_CaraBayar.FormattingEnabled = True
-        Me.CmbPO_CaraBayar.Location = New System.Drawing.Point(141, 336)
+        Me.CmbPO_CaraBayar.Location = New System.Drawing.Point(523, 350)
         Me.CmbPO_CaraBayar.Margin = New System.Windows.Forms.Padding(2)
         Me.CmbPO_CaraBayar.Name = "CmbPO_CaraBayar"
         Me.CmbPO_CaraBayar.Size = New System.Drawing.Size(401, 23)
@@ -1459,6 +1448,31 @@ Partial Class EMI_PO_Pembelian
         Me.Panel7.TabIndex = 308
         Me.Panel7.Visible = False
         '
+        'cmbJenisPengiriman
+        '
+        Me.cmbJenisPengiriman.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbJenisPengiriman.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.cmbJenisPengiriman.FormattingEnabled = True
+        Me.cmbJenisPengiriman.Items.AddRange(New Object() {"Tunai", "Non-Tunai"})
+        Me.cmbJenisPengiriman.Location = New System.Drawing.Point(329, 271)
+        Me.cmbJenisPengiriman.Margin = New System.Windows.Forms.Padding(2)
+        Me.cmbJenisPengiriman.Name = "cmbJenisPengiriman"
+        Me.cmbJenisPengiriman.Size = New System.Drawing.Size(94, 23)
+        Me.cmbJenisPengiriman.TabIndex = 360
+        Me.cmbJenisPengiriman.Visible = False
+        '
+        'txtJatuhTempo
+        '
+        Me.txtJatuhTempo.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.txtJatuhTempo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtJatuhTempo.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.txtJatuhTempo.Location = New System.Drawing.Point(428, 272)
+        Me.txtJatuhTempo.MaxLength = 30
+        Me.txtJatuhTempo.Name = "txtJatuhTempo"
+        Me.txtJatuhTempo.Size = New System.Drawing.Size(94, 21)
+        Me.txtJatuhTempo.TabIndex = 361
+        Me.txtJatuhTempo.Visible = False
+        '
         'EMI_PO_Pembelian
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
@@ -1530,7 +1544,6 @@ Partial Class EMI_PO_Pembelian
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents LblPO_Supplier As System.Windows.Forms.Label
     Friend WithEvents LblPO_Pembayaran As System.Windows.Forms.Label
-    Friend WithEvents CmbPO_RangeBayar As System.Windows.Forms.ComboBox
     Friend WithEvents CmbPO_JnsBayar As System.Windows.Forms.ComboBox
     Friend WithEvents DtpPO_TglBayar As System.Windows.Forms.DateTimePicker
     Friend WithEvents TxtPO_KdSupplier As System.Windows.Forms.TextBox
@@ -1630,4 +1643,6 @@ Partial Class EMI_PO_Pembelian
     Friend WithEvents Button1 As Button
     Friend WithEvents Panel6 As Panel
     Friend WithEvents Panel7 As Panel
+    Friend WithEvents cmbJenisPengiriman As ComboBox
+    Friend WithEvents txtJatuhTempo As TextBox
 End Class

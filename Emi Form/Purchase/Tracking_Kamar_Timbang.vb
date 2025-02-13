@@ -19,7 +19,7 @@
 
         Lv_DetBahan.Columns.Add("Nama", 200, HorizontalAlignment.Center)
         Lv_DetBahan.Columns.Add("Lokasi", 200, HorizontalAlignment.Center)
-        Lv_DetBahan.Columns.Add("Jumlah Masuk", 130, HorizontalAlignment.Center)
+        Lv_DetBahan.Columns.Add("Jumlah Masuk", 130, HorizontalAlignment.Right)
         Lv_DetBahan.Columns.Add("Satuan", 100, HorizontalAlignment.Center)
         Lv_DetBahan.View = View.Details
 
