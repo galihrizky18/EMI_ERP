@@ -1,12 +1,13 @@
 ﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-Imports ZXing.QrCode.Internal
 
 Public Class Transaksi_Penawaran
-    Dim arrcari As New ArrayList
+
+    Dim arrcari, arrPembayaran As New ArrayList
     Public MinHari As Integer = 300
 
     Dim publicFlagRelease = "T"
+    Dim noPenawaran As String = ""
+    Dim kodeSupplier As String = ""
 
     Public arrIdProvAsal, arrIdKabKotaAsal, arrIdKecAsal, arrIdKelAsal, arrIdLokasiAwal As New ArrayList
     Public arrIdProvTujuan, arrIdKabKotaTujuan, arrIdKecTujuan, arrIdKelTujuan, arrIdLokasiTujuan As New ArrayList
@@ -635,7 +636,17 @@ Public Class Transaksi_Penawaran
         TxtPO_NmSupplier.Text = ""
         Txt_NoPenawaran.Text = ""
         Txt_NoUrut.Text = ""
+        cmbJenisPengiriman.SelectedIndex = -1
+        txtJatuhTempo.Text = ""
+
+        cmbJenisPengiriman.Enabled = False
+        txtJatuhTempo.Enabled = False
         publicFlagRelease = "T"
+
+        cmb_JenisBayar.Items.Clear() : arrPembayaran.Clear()
+        cmb_JenisBayar.Items.Add("Tunai") : arrPembayaran.Add("T")
+        cmb_JenisBayar.Items.Add("Non-Tunai") : arrPembayaran.Add("N")
+        cmb_JenisBayar.SelectedIndex = -1
 
         Dtp_Tgl.Value = tgl_skg
         Dtp_PeriodAkhir.Value = tgl_skg
@@ -789,6 +800,11 @@ Public Class Transaksi_Penawaran
                 SQL = SQL & ")"
                 ExecuteTrans(SQL)
 
+
+                SQL = "insert into EMI_Master_Penawaran_Jatuh_Tempo(Kode_Perusahaan,No_Faktur,No_Penawaran,Jenis_Pembayaran,Tempo_Pembayaran,Lama_Pembayaran) values("
+                SQL = SQL & "'" & KodePerusahaan & "', '" & saveFaktur & "', '" & saveNoPenawaran & "', '" & arrPembayaran.Item(cmb_JenisBayar.SelectedIndex) & "',"
+                SQL = SQL & "'" & cmbJenisPengiriman.Text & "', '" & txtJatuhTempo.Text & "') "
+                ExecuteTrans(SQL)
 
                 'Save Master Penawaran Detail
                 For index = 0 To DgvMaster_Penawaran.Rows.Count - 1
@@ -1501,6 +1517,8 @@ Public Class Transaksi_Penawaran
             Dim flag_release_fix As String = ""
             Dim IndexTambahan As Integer = DgvMaster_Penawaran.Rows.Count
 
+
+
             '=======================
             '=     IS RELEASE?     =
             '=======================
@@ -1519,6 +1537,9 @@ Public Class Transaksi_Penawaran
                     Txt_NoPenawaran.Text = Dr("No_Penawaran")
                     TxtPO_KdSupplier.Text = Dr("Kode_Supplier")
                     Txt_NoUrut.Text = Dr("NoUrut")
+
+                    noPenawaran = Dr("No_Penawaran")
+                    kodeSupplier = Dr("Kode_Supplier")
 
                     Dim tglPeriodeAwal As DateTime = Dr("Tgl_Penawaran_Hrg")
                     Dim tglPeriodeAkhir As DateTime = Dr("Periode_Akhir_Penawaran")
@@ -1545,6 +1566,34 @@ Public Class Transaksi_Penawaran
                 End If
             End Using
 
+            If Not String.IsNullOrEmpty(noPenawaran) And Not String.IsNullOrEmpty(kodeSupplier) Then
+                SQL = "select top 1 b.Jenis_Pembayaran, b.Tempo_Pembayaran, b.Lama_Pembayaran  "
+                SQL = SQL & "from EMI_Master_Penawaran a, EMI_Master_Penawaran_Jatuh_Tempo b "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+                SQL = SQL & "and a.No_Faktur = b.No_Faktur and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.No_Faktur = '" & TxtPenawaran_NoFaktur.Text & "' and a.No_Penawaran = '" & noPenawaran & "' "
+                SQL = SQL & "and a.Kode_Supplier = '" & kodeSupplier & "'"
+                Using Ds = BindingTrans(SQL)
+                    With Ds.Tables("MyTable")
+                        If .Rows.Count <> 0 Then
+                            For i As Integer = 0 To .Rows.Count - 1
+                                If .Rows(i).Item("Jenis_Pembayaran") = "N" Then
+                                    If Not .Rows(i).Item("Tempo_Pembayaran") = "" Then
+
+                                        cmb_JenisBayar.SelectedIndex = 1
+                                        cmbJenisPengiriman.SelectedItem = .Rows(i).Item("Tempo_Pembayaran")
+                                        txtJatuhTempo.Text = .Rows(i).Item("Lama_Pembayaran")
+
+                                    End If
+                                End If
+                            Next
+                        End If
+                    End With
+
+                End Using
+
+            End If
+
             '==============================
             '=     CEK APAKAH ADA DATA    =
             '==============================
@@ -1564,6 +1613,10 @@ Public Class Transaksi_Penawaran
                     TxtPO_NmSupplier.ReadOnly = True
                     Dtp_Tgl.Enabled = False
                     Dtp_PeriodAkhir.Enabled = False
+
+                    cmb_JenisBayar.Enabled = False
+                    cmbJenisPengiriman.Enabled = False
+                    txtJatuhTempo.ReadOnly = True
                 Else
                     Btn_PilihBarang.Enabled = True
                     Btn_Simpan.Enabled = True
@@ -1575,6 +1628,10 @@ Public Class Transaksi_Penawaran
                     TxtPO_NmSupplier.ReadOnly = False
                     Dtp_Tgl.Enabled = True
                     Dtp_PeriodAkhir.Enabled = True
+
+                    cmb_JenisBayar.Enabled = True
+                    cmbJenisPengiriman.Enabled = True
+                    txtJatuhTempo.ReadOnly = False
 
                 End If
 
@@ -1994,6 +2051,30 @@ Public Class Transaksi_Penawaran
 
     End Sub
 
+    Private Sub CmbPO_JnsBayar_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmb_JenisBayar.SelectedIndexChanged
+        If cmb_JenisBayar.SelectedIndex = 0 Then
+
+            cmbJenisPengiriman.Items.Clear()
+            cmbJenisPengiriman.Enabled = False
+            cmbJenisPengiriman.SelectedIndex = -1
+            txtJatuhTempo.Enabled = False
+            txtJatuhTempo.Text = ""
+        Else
+
+            cmbJenisPengiriman.Enabled = True
+
+            txtJatuhTempo.Enabled = True
+            txtJatuhTempo.Text = ""
+
+            cmbJenisPengiriman.Items.Clear()
+            cmbJenisPengiriman.Items.Add("ETA")
+            cmbJenisPengiriman.Items.Add("ETD")
+
+            cmbJenisPengiriman.SelectedIndex = 0
+
+        End If
+    End Sub
+
     Private Sub Cmb_KecAsal_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_KecAsal.KeyPress
         If e.KeyChar = Chr(13) Then Cmb_KelAsal.Focus()
     End Sub
@@ -2119,6 +2200,8 @@ Public Class Transaksi_Penawaran
                 End If
                 LvAutoCompleteSupplier.Visible = False
             End Using
+
+
 
             CloseTrans()
             CloseConn()

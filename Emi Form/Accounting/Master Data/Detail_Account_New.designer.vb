@@ -22,7 +22,7 @@ Partial Class Detail_Account_New
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -290,7 +290,7 @@ Partial Class Detail_Account_New
         Me.LvInput_CostCenter.HideSelection = False
         Me.LvInput_CostCenter.Location = New System.Drawing.Point(483, 39)
         Me.LvInput_CostCenter.Name = "LvInput_CostCenter"
-        Me.LvInput_CostCenter.Size = New System.Drawing.Size(526, 373)
+        Me.LvInput_CostCenter.Size = New System.Drawing.Size(537, 373)
         Me.LvInput_CostCenter.TabIndex = 446
         Me.LvInput_CostCenter.UseCompatibleStateImageBehavior = False
         Me.LvInput_CostCenter.View = System.Windows.Forms.View.Details
@@ -800,8 +800,8 @@ Partial Class Detail_Account_New
         '
         'kode_detailAcc
         '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.kode_detailAcc.DefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.kode_detailAcc.DefaultCellStyle = DataGridViewCellStyle1
         Me.kode_detailAcc.Frozen = True
         Me.kode_detailAcc.HeaderText = "Kode Detail Account"
         Me.kode_detailAcc.Name = "kode_detailAcc"

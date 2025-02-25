@@ -60,6 +60,25 @@ Partial Class EMI_Transaksi_ForecastOrder
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Btn_Simpan = New System.Windows.Forms.Button()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+        Me.Txt_Keterangan = New System.Windows.Forms.TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Txt_NoFaktur = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.btn_TambahBarang = New System.Windows.Forms.Button()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Cmb_Bulan = New System.Windows.Forms.ComboBox()
+        Me.Cmb_Tahun = New System.Windows.Forms.ComboBox()
+        Me.CB_PilihSeluruh = New System.Windows.Forms.CheckBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Cmb_Lokasi = New System.Windows.Forms.ComboBox()
+        Me.Cb_Referensi = New System.Windows.Forms.CheckBox()
+        Me.Btn_Realese = New System.Windows.Forms.Button()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Btn_Unrealese = New System.Windows.Forms.Button()
+        Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Column13 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -99,25 +118,6 @@ Partial Class EMI_Transaksi_ForecastOrder
         Me.Column25 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column26 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column27 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Txt_Keterangan = New System.Windows.Forms.TextBox()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.Txt_NoFaktur = New System.Windows.Forms.TextBox()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.btn_TambahBarang = New System.Windows.Forms.Button()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.Cmb_Bulan = New System.Windows.Forms.ComboBox()
-        Me.Cmb_Tahun = New System.Windows.Forms.ComboBox()
-        Me.CB_PilihSeluruh = New System.Windows.Forms.CheckBox()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.Cmb_Lokasi = New System.Windows.Forms.ComboBox()
-        Me.Cb_Referensi = New System.Windows.Forms.CheckBox()
-        Me.Btn_Realese = New System.Windows.Forms.Button()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.Btn_Unrealese = New System.Windows.Forms.Button()
-        Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Panel1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -238,6 +238,208 @@ Partial Class EMI_Transaksi_ForecastOrder
         Me.DataGridView1.RowHeadersWidth = 15
         Me.DataGridView1.Size = New System.Drawing.Size(1235, 397)
         Me.DataGridView1.TabIndex = 379
+        '
+        'Txt_Keterangan
+        '
+        Me.Txt_Keterangan.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_Keterangan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_Keterangan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.Txt_Keterangan.Location = New System.Drawing.Point(141, 101)
+        Me.Txt_Keterangan.MaxLength = 50
+        Me.Txt_Keterangan.Name = "Txt_Keterangan"
+        Me.Txt_Keterangan.Size = New System.Drawing.Size(388, 21)
+        Me.Txt_Keterangan.TabIndex = 385
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label5.Location = New System.Drawing.Point(26, 102)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(82, 17)
+        Me.Label5.TabIndex = 384
+        Me.Label5.Text = "Keterangan"
+        '
+        'Txt_NoFaktur
+        '
+        Me.Txt_NoFaktur.BackColor = System.Drawing.Color.Goldenrod
+        Me.Txt_NoFaktur.Enabled = False
+        Me.Txt_NoFaktur.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_NoFaktur.ForeColor = System.Drawing.SystemColors.Window
+        Me.Txt_NoFaktur.Location = New System.Drawing.Point(141, 70)
+        Me.Txt_NoFaktur.MaxLength = 20
+        Me.Txt_NoFaktur.Name = "Txt_NoFaktur"
+        Me.Txt_NoFaktur.ReadOnly = True
+        Me.Txt_NoFaktur.Size = New System.Drawing.Size(211, 21)
+        Me.Txt_NoFaktur.TabIndex = 383
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label2.Location = New System.Drawing.Point(26, 72)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(96, 17)
+        Me.Label2.TabIndex = 382
+        Me.Label2.Text = "No. Transaksi"
+        '
+        'DateTimePicker1
+        '
+        Me.DateTimePicker1.Location = New System.Drawing.Point(424, 72)
+        Me.DateTimePicker1.Name = "DateTimePicker1"
+        Me.DateTimePicker1.Size = New System.Drawing.Size(219, 20)
+        Me.DateTimePicker1.TabIndex = 381
+        Me.DateTimePicker1.Value = New Date(2024, 8, 15, 0, 0, 0, 0)
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label3.Location = New System.Drawing.Point(358, 72)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(60, 17)
+        Me.Label3.TabIndex = 380
+        Me.Label3.Text = "Tanggal"
+        '
+        'btn_TambahBarang
+        '
+        Me.btn_TambahBarang.Location = New System.Drawing.Point(535, 100)
+        Me.btn_TambahBarang.Name = "btn_TambahBarang"
+        Me.btn_TambahBarang.Size = New System.Drawing.Size(108, 23)
+        Me.btn_TambahBarang.TabIndex = 388
+        Me.btn_TambahBarang.Text = "Tambah Barang"
+        Me.btn_TambahBarang.UseVisualStyleBackColor = True
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label4.Location = New System.Drawing.Point(664, 103)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(44, 17)
+        Me.Label4.TabIndex = 389
+        Me.Label4.Text = "Bulan"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label6.Location = New System.Drawing.Point(836, 103)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(49, 17)
+        Me.Label6.TabIndex = 391
+        Me.Label6.Text = "Tahun"
+        '
+        'Cmb_Bulan
+        '
+        Me.Cmb_Bulan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Bulan.Enabled = False
+        Me.Cmb_Bulan.FormattingEnabled = True
+        Me.Cmb_Bulan.Location = New System.Drawing.Point(714, 102)
+        Me.Cmb_Bulan.Name = "Cmb_Bulan"
+        Me.Cmb_Bulan.Size = New System.Drawing.Size(116, 21)
+        Me.Cmb_Bulan.TabIndex = 392
+        '
+        'Cmb_Tahun
+        '
+        Me.Cmb_Tahun.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Tahun.Enabled = False
+        Me.Cmb_Tahun.FormattingEnabled = True
+        Me.Cmb_Tahun.Location = New System.Drawing.Point(891, 101)
+        Me.Cmb_Tahun.Name = "Cmb_Tahun"
+        Me.Cmb_Tahun.Size = New System.Drawing.Size(116, 21)
+        Me.Cmb_Tahun.TabIndex = 393
+        '
+        'CB_PilihSeluruh
+        '
+        Me.CB_PilihSeluruh.AutoSize = True
+        Me.CB_PilihSeluruh.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.CB_PilihSeluruh.Location = New System.Drawing.Point(1027, 103)
+        Me.CB_PilihSeluruh.Name = "CB_PilihSeluruh"
+        Me.CB_PilihSeluruh.Size = New System.Drawing.Size(106, 21)
+        Me.CB_PilihSeluruh.TabIndex = 394
+        Me.CB_PilihSeluruh.Text = "Pilih Seluruh"
+        Me.CB_PilihSeluruh.UseVisualStyleBackColor = True
+        Me.CB_PilihSeluruh.Visible = False
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label7.Location = New System.Drawing.Point(664, 73)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(49, 17)
+        Me.Label7.TabIndex = 395
+        Me.Label7.Text = "Lokasi"
+        '
+        'Cmb_Lokasi
+        '
+        Me.Cmb_Lokasi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Lokasi.FormattingEnabled = True
+        Me.Cmb_Lokasi.Location = New System.Drawing.Point(714, 71)
+        Me.Cmb_Lokasi.Name = "Cmb_Lokasi"
+        Me.Cmb_Lokasi.Size = New System.Drawing.Size(293, 21)
+        Me.Cmb_Lokasi.TabIndex = 396
+        '
+        'Cb_Referensi
+        '
+        Me.Cb_Referensi.AutoSize = True
+        Me.Cb_Referensi.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Cb_Referensi.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Cb_Referensi.Location = New System.Drawing.Point(1139, 101)
+        Me.Cb_Referensi.Name = "Cb_Referensi"
+        Me.Cb_Referensi.Size = New System.Drawing.Size(93, 24)
+        Me.Cb_Referensi.TabIndex = 397
+        Me.Cb_Referensi.Text = "Referensi"
+        Me.Cb_Referensi.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Cb_Referensi.UseVisualStyleBackColor = True
+        Me.Cb_Referensi.Visible = False
+        '
+        'Btn_Realese
+        '
+        Me.Btn_Realese.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Realese.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Realese.ForeColor = System.Drawing.Color.White
+        Me.Btn_Realese.Location = New System.Drawing.Point(253, 543)
+        Me.Btn_Realese.Name = "Btn_Realese"
+        Me.Btn_Realese.Size = New System.Drawing.Size(106, 36)
+        Me.Btn_Realese.TabIndex = 398
+        Me.Btn_Realese.Text = "&Release"
+        Me.Btn_Realese.UseVisualStyleBackColor = False
+        '
+        'Button1
+        '
+        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Button1.ForeColor = System.Drawing.Color.White
+        Me.Button1.Location = New System.Drawing.Point(141, 543)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(106, 36)
+        Me.Button1.TabIndex = 399
+        Me.Button1.Text = "&Refresh"
+        Me.Button1.UseVisualStyleBackColor = False
+        '
+        'Btn_Unrealese
+        '
+        Me.Btn_Unrealese.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Unrealese.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Unrealese.ForeColor = System.Drawing.Color.White
+        Me.Btn_Unrealese.Location = New System.Drawing.Point(365, 543)
+        Me.Btn_Unrealese.Name = "Btn_Unrealese"
+        Me.Btn_Unrealese.Size = New System.Drawing.Size(106, 36)
+        Me.Btn_Unrealese.TabIndex = 400
+        Me.Btn_Unrealese.Text = "&Unrelease"
+        Me.Btn_Unrealese.UseVisualStyleBackColor = False
+        '
+        'Panel7
+        '
+        Me.Panel7.BackColor = System.Drawing.Color.Red
+        Me.Panel7.Location = New System.Drawing.Point(1256, 73)
+        Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel7.Name = "Panel7"
+        Me.Panel7.Size = New System.Drawing.Size(19, 654)
+        Me.Panel7.TabIndex = 35
+        Me.Panel7.Visible = False
         '
         'Column13
         '
@@ -581,208 +783,6 @@ Partial Class EMI_Transaksi_ForecastOrder
         Me.Column27.Name = "Column27"
         Me.Column27.ReadOnly = True
         Me.Column27.Width = 80
-        '
-        'Txt_Keterangan
-        '
-        Me.Txt_Keterangan.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.Txt_Keterangan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_Keterangan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_Keterangan.Location = New System.Drawing.Point(141, 101)
-        Me.Txt_Keterangan.MaxLength = 50
-        Me.Txt_Keterangan.Name = "Txt_Keterangan"
-        Me.Txt_Keterangan.Size = New System.Drawing.Size(388, 21)
-        Me.Txt_Keterangan.TabIndex = 385
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label5.Location = New System.Drawing.Point(26, 102)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(82, 17)
-        Me.Label5.TabIndex = 384
-        Me.Label5.Text = "Keterangan"
-        '
-        'Txt_NoFaktur
-        '
-        Me.Txt_NoFaktur.BackColor = System.Drawing.Color.Goldenrod
-        Me.Txt_NoFaktur.Enabled = False
-        Me.Txt_NoFaktur.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_NoFaktur.ForeColor = System.Drawing.SystemColors.Window
-        Me.Txt_NoFaktur.Location = New System.Drawing.Point(141, 70)
-        Me.Txt_NoFaktur.MaxLength = 20
-        Me.Txt_NoFaktur.Name = "Txt_NoFaktur"
-        Me.Txt_NoFaktur.ReadOnly = True
-        Me.Txt_NoFaktur.Size = New System.Drawing.Size(211, 21)
-        Me.Txt_NoFaktur.TabIndex = 383
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label2.Location = New System.Drawing.Point(26, 72)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(96, 17)
-        Me.Label2.TabIndex = 382
-        Me.Label2.Text = "No. Transaksi"
-        '
-        'DateTimePicker1
-        '
-        Me.DateTimePicker1.Location = New System.Drawing.Point(424, 72)
-        Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.Size = New System.Drawing.Size(219, 20)
-        Me.DateTimePicker1.TabIndex = 381
-        Me.DateTimePicker1.Value = New Date(2024, 8, 15, 0, 0, 0, 0)
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label3.Location = New System.Drawing.Point(358, 72)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(60, 17)
-        Me.Label3.TabIndex = 380
-        Me.Label3.Text = "Tanggal"
-        '
-        'btn_TambahBarang
-        '
-        Me.btn_TambahBarang.Location = New System.Drawing.Point(535, 100)
-        Me.btn_TambahBarang.Name = "btn_TambahBarang"
-        Me.btn_TambahBarang.Size = New System.Drawing.Size(108, 23)
-        Me.btn_TambahBarang.TabIndex = 388
-        Me.btn_TambahBarang.Text = "Tambah Barang"
-        Me.btn_TambahBarang.UseVisualStyleBackColor = True
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label4.Location = New System.Drawing.Point(664, 103)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(44, 17)
-        Me.Label4.TabIndex = 389
-        Me.Label4.Text = "Bulan"
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label6.Location = New System.Drawing.Point(836, 103)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(49, 17)
-        Me.Label6.TabIndex = 391
-        Me.Label6.Text = "Tahun"
-        '
-        'Cmb_Bulan
-        '
-        Me.Cmb_Bulan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Cmb_Bulan.Enabled = False
-        Me.Cmb_Bulan.FormattingEnabled = True
-        Me.Cmb_Bulan.Location = New System.Drawing.Point(714, 102)
-        Me.Cmb_Bulan.Name = "Cmb_Bulan"
-        Me.Cmb_Bulan.Size = New System.Drawing.Size(116, 21)
-        Me.Cmb_Bulan.TabIndex = 392
-        '
-        'Cmb_Tahun
-        '
-        Me.Cmb_Tahun.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Cmb_Tahun.Enabled = False
-        Me.Cmb_Tahun.FormattingEnabled = True
-        Me.Cmb_Tahun.Location = New System.Drawing.Point(891, 101)
-        Me.Cmb_Tahun.Name = "Cmb_Tahun"
-        Me.Cmb_Tahun.Size = New System.Drawing.Size(116, 21)
-        Me.Cmb_Tahun.TabIndex = 393
-        '
-        'CB_PilihSeluruh
-        '
-        Me.CB_PilihSeluruh.AutoSize = True
-        Me.CB_PilihSeluruh.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.CB_PilihSeluruh.Location = New System.Drawing.Point(1027, 103)
-        Me.CB_PilihSeluruh.Name = "CB_PilihSeluruh"
-        Me.CB_PilihSeluruh.Size = New System.Drawing.Size(106, 21)
-        Me.CB_PilihSeluruh.TabIndex = 394
-        Me.CB_PilihSeluruh.Text = "Pilih Seluruh"
-        Me.CB_PilihSeluruh.UseVisualStyleBackColor = True
-        Me.CB_PilihSeluruh.Visible = False
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label7.Location = New System.Drawing.Point(664, 73)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(49, 17)
-        Me.Label7.TabIndex = 395
-        Me.Label7.Text = "Lokasi"
-        '
-        'Cmb_Lokasi
-        '
-        Me.Cmb_Lokasi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Cmb_Lokasi.FormattingEnabled = True
-        Me.Cmb_Lokasi.Location = New System.Drawing.Point(714, 71)
-        Me.Cmb_Lokasi.Name = "Cmb_Lokasi"
-        Me.Cmb_Lokasi.Size = New System.Drawing.Size(293, 21)
-        Me.Cmb_Lokasi.TabIndex = 396
-        '
-        'Cb_Referensi
-        '
-        Me.Cb_Referensi.AutoSize = True
-        Me.Cb_Referensi.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Cb_Referensi.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Cb_Referensi.Location = New System.Drawing.Point(1139, 101)
-        Me.Cb_Referensi.Name = "Cb_Referensi"
-        Me.Cb_Referensi.Size = New System.Drawing.Size(93, 24)
-        Me.Cb_Referensi.TabIndex = 397
-        Me.Cb_Referensi.Text = "Referensi"
-        Me.Cb_Referensi.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.Cb_Referensi.UseVisualStyleBackColor = True
-        Me.Cb_Referensi.Visible = False
-        '
-        'Btn_Realese
-        '
-        Me.Btn_Realese.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_Realese.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.Btn_Realese.ForeColor = System.Drawing.Color.White
-        Me.Btn_Realese.Location = New System.Drawing.Point(253, 543)
-        Me.Btn_Realese.Name = "Btn_Realese"
-        Me.Btn_Realese.Size = New System.Drawing.Size(106, 36)
-        Me.Btn_Realese.TabIndex = 398
-        Me.Btn_Realese.Text = "&Release"
-        Me.Btn_Realese.UseVisualStyleBackColor = False
-        '
-        'Button1
-        '
-        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(141, 543)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(106, 36)
-        Me.Button1.TabIndex = 399
-        Me.Button1.Text = "&Refresh"
-        Me.Button1.UseVisualStyleBackColor = False
-        '
-        'Btn_Unrealese
-        '
-        Me.Btn_Unrealese.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_Unrealese.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.Btn_Unrealese.ForeColor = System.Drawing.Color.White
-        Me.Btn_Unrealese.Location = New System.Drawing.Point(365, 543)
-        Me.Btn_Unrealese.Name = "Btn_Unrealese"
-        Me.Btn_Unrealese.Size = New System.Drawing.Size(106, 36)
-        Me.Btn_Unrealese.TabIndex = 400
-        Me.Btn_Unrealese.Text = "&Unrelease"
-        Me.Btn_Unrealese.UseVisualStyleBackColor = False
-        '
-        'Panel7
-        '
-        Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(1256, 73)
-        Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
-        Me.Panel7.Name = "Panel7"
-        Me.Panel7.Size = New System.Drawing.Size(19, 654)
-        Me.Panel7.TabIndex = 35
-        Me.Panel7.Visible = False
         '
         'EMI_Transaksi_ForecastOrder
         '

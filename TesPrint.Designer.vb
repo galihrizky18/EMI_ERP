@@ -25,6 +25,9 @@ Partial Class TesPrint
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
+        Me.Button4 = New System.Windows.Forms.Button()
+        Me.Barcode = New System.Windows.Forms.PictureBox()
+        CType(Me.Barcode, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Button1
@@ -55,16 +58,37 @@ Partial Class TesPrint
         Me.Button3.Text = "Button3"
         Me.Button3.UseVisualStyleBackColor = True
         '
+        'Button4
+        '
+        Me.Button4.Location = New System.Drawing.Point(484, 299)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(75, 23)
+        Me.Button4.TabIndex = 4
+        Me.Button4.Text = "Btn Cetak Barcode"
+        Me.Button4.UseVisualStyleBackColor = True
+        '
+        'Barcode
+        '
+        Me.Barcode.Location = New System.Drawing.Point(709, 26)
+        Me.Barcode.Name = "Barcode"
+        Me.Barcode.Size = New System.Drawing.Size(79, 32)
+        Me.Barcode.TabIndex = 480
+        Me.Barcode.TabStop = False
+        Me.Barcode.Visible = False
+        '
         'TesPrint
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.Barcode)
         Me.Controls.Add(Me.Button3)
+        Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
         Me.Name = "TesPrint"
         Me.Text = "TesPrint"
+        CType(Me.Barcode, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -72,4 +96,6 @@ Partial Class TesPrint
     Friend WithEvents Button1 As Button
     Friend WithEvents Button2 As Button
     Friend WithEvents Button3 As Button
+    Friend WithEvents Button4 As Button
+    Friend WithEvents Barcode As PictureBox
 End Class

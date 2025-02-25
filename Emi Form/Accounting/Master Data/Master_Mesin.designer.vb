@@ -59,7 +59,7 @@ Partial Class Master_Mesin
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(942, 55)
+        Me.Panel1.Size = New System.Drawing.Size(942, 51)
         Me.Panel1.TabIndex = 22
         '
         'Lbl_Judul
@@ -198,9 +198,9 @@ Partial Class Master_Mesin
         Me.Lbl_Divisi.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_Divisi.Location = New System.Drawing.Point(27, 71)
         Me.Lbl_Divisi.Name = "Lbl_Divisi"
-        Me.Lbl_Divisi.Size = New System.Drawing.Size(45, 20)
+        Me.Lbl_Divisi.Size = New System.Drawing.Size(90, 20)
         Me.Lbl_Divisi.TabIndex = 359
-        Me.Lbl_Divisi.Text = "Divisi"
+        Me.Lbl_Divisi.Text = "Jenis Mesin"
         '
         'Cmb_Divisi
         '
@@ -328,7 +328,7 @@ Partial Class Master_Mesin
         Me.PanelGradient1.cuteTransparent1 = 100
         Me.PanelGradient1.cuteTransparent2 = 64
         Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 53)
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
         Me.PanelGradient1.Size = New System.Drawing.Size(942, 2)

@@ -1,15 +1,4 @@
-﻿Imports System.CodeDom.Compiler
-Imports System.Data.SqlClient
-Imports System.IO
-Imports System.Linq.Expressions
-Imports System.Net.NetworkInformation
-Imports System.Security.Cryptography
-Imports System.Text
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-Imports ZXing
-Imports ZXing.Common
-Imports ZXing.QrCode
+﻿Imports System.IO
 
 Public Class EMI_Display_Pallet_Masuk
 
@@ -420,7 +409,7 @@ Public Class EMI_Display_Pallet_Masuk
             SQL = SQL & "b.Jumlah, b.Satuan, b.Jumlah_Bags, b.Nilai_Pengali, b.Nilai_Barang, b.Satuan_Barang, b.urut_oto, "
             SQL = SQL & "a.no_sj, a.no_plat, b.Urut_Loading, a.kode_supplier, a.Sdh_Cetak, a.Metode_Timbang, a.Flag_Timbang, "
             SQL = SQL & "c.Metode_Pengeluaran_Stok, d.Tanggal as Tanggal_Masuk "
-            SQL = SQL & "From EMI_Barang_Masuk_Perpallet a,EMI_Barang_Masuk_Perpallet_Detail b, Barang c, EMI_Register_Kendaraan_BM d "
+            SQL = SQL & "From EMI_Barang_Masuk_Perpallet a, EMI_Barang_Masuk_Perpallet_Detail b, Barang c, EMI_Register_Kendaraan_BM d "
             SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.Kode_Perusahaan = c.Kode_Perusahaan "
             SQL = SQL & "And a.No_Faktur = b.No_Faktur And b.Kode_Stock_Owner = c.Kode_Stock_Owner "
             SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.No_Pembelian_Loading =  d.No_Fak_Loading_Barang "
@@ -485,8 +474,8 @@ Public Class EMI_Display_Pallet_Masuk
                                     For j As Integer = 0 To .Rows.Count - 1
 
                                         Dim expDate As String = ""
-                                        Dim tanggalDatang As DateTime = .Rows(j).Item("Tanggal_Masuk")
-                                        Dim SupplierKode As String = .Rows(j).Item("Kode_Supplier").ToString
+                                        Dim tanggalDatang As DateTime = Ds2.Tables("MyTable").Rows(j).Item("Tanggal_Masuk")
+                                        Dim SupplierKode As String = Ds2.Tables("MyTable").Rows(j).Item("Kode_Supplier").ToString
                                         Dim tanggalMasuk As Integer = tanggalDatang.Day
                                         Dim bulanMasuk As Integer = tanggalDatang.Month
                                         Dim tahunMasuk As Integer = (tanggalDatang.Year - tahunMulaiProduksi) Mod 9
@@ -494,10 +483,10 @@ Public Class EMI_Display_Pallet_Masuk
                                         If tahunMasuk = 0 Then tahunMasuk = 9
 
                                         'Dim expDate As DateTime = Format(Ds2.Tables("MyTable").Rows(j).Item("Tanggal_Expired"), "yyy-MM-dd")
-                                        Dim barangKode As String = .Rows(j).Item("Kode_Barang").ToString
+                                        Dim barangKode As String = Ds2.Tables("MyTable").Rows(j).Item("Kode_Barang").ToString
 
                                         SQL = "select metode_pengeluaran_Stok from barang "
-                                        SQL = SQL & "where kode_barang='" & .Rows(j).Item("Kode_Barang") & "' "
+                                        SQL = SQL & "where kode_barang='" & Ds2.Tables("MyTable").Rows(j).Item("Kode_Barang") & "' "
                                         SQL = SQL & "and Kode_Perusahaan='" & KodePerusahaan & "' "
                                         SQL = SQL & "group by metode_pengeluaran_Stok"
                                         Using Dr = OpenTrans(SQL)
@@ -505,7 +494,7 @@ Public Class EMI_Display_Pallet_Masuk
                                                 If General_Class.CekNULL(Dr("metode_pengeluaran_Stok")) = "FIFO" Then
                                                     expDate = "000000"
                                                 Else
-                                                    expDate = Format(.Rows(j).Item("Tanggal_Expired"), "ddMMyy").ToString()
+                                                    expDate = Format(Ds2.Tables("MyTable").Rows(j).Item("Tanggal_Expired"), "ddMMyy").ToString()
                                                 End If
                                             Loop
                                         End Using
@@ -519,13 +508,16 @@ Public Class EMI_Display_Pallet_Masuk
                                             '==============================================
                                             '=       CEK SELURUH TRANSAKSI HARI INI       =
                                             '==============================================
-                                            SQL = "select isnull(sum(Tot_Batch_Masuk),0) as Jmlh_Masuk_Hari_ini "
+                                            'Asumsi jika data emi_pembelian_loading_detail per row sebagai 1 mobil masuk
+                                            SQL = "select isnull(count(b.Tot_Batch_Masuk),0) as Jmlh_Masuk_Hari_ini "
                                             SQL = SQL & "from emi_pembelian_loading a, emi_pembelian_loading_detail b "
                                             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
-                                            SQL = SQL & "and b.Kode_Barang='" & .Rows(j).Item("Kode_Barang") & "' "
+                                            SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+                                            SQL = SQL & "and b.Kode_Barang='" & Ds2.Tables("MyTable").Rows(j).Item("Kode_Barang") & "' "
                                             SQL = SQL & "and a.Tanggal_Masuk='" & Format(tgl_skg, "yyyy-MM-dd") & "' "
+                                            SQL = SQL & "and a.Kode_Supplier = '" & Ds2.Tables("MyTable").Rows(j).Item("Kode_Supplier") & "' "
                                             SQL = SQL & "and a.Status is null "
-                                            SQL = SQL & "and Tot_Batch_Masuk is not null "
+                                            SQL = SQL & "and b.Tot_Batch_Masuk is not null "
                                             Using Ds3 = BindingTrans(SQL)
 
                                                 If .Rows.Count <> 0 Then
@@ -550,16 +542,16 @@ Public Class EMI_Display_Pallet_Masuk
                                             End Using
                                         Else
                                             If sudahCetak = True Then
-                                                kodeUnikBerjalan = .Rows(j).Item("Kode_Unik_Berjalan")
+                                                kodeUnikBerjalan = Ds2.Tables("MyTable").Rows(j).Item("Kode_Unik_Berjalan")
                                                 kodeUnikAsal = kodeUnikBerjalan
-                                                Dim SupOrder As Integer = Val(.Rows(j).Item("Batch_Masuk"))
+                                                Dim SupOrder As Integer = Val(Ds2.Tables("MyTable").Rows(j).Item("Batch_Masuk"))
 
                                                 batch = Generate_Batch_Bahan(SupplierKode, tanggalMasuk, bulanMasuk, tahunMasuk, SupOrder, expDate)
                                                 Qr = Generate_QR_Batch(barangKode, batch)
                                             Else
                                                 kodeUnikBerjalan = Generate_Random_Kode(10).ToUpper
                                                 kodeUnikAsal = kodeUnikBerjalan
-                                                Dim SupOrder As Integer = Val(.Rows(j).Item("Batch_Masuk"))
+                                                Dim SupOrder As Integer = Val(Ds2.Tables("MyTable").Rows(j).Item("Batch_Masuk"))
 
                                                 batch = Generate_Batch_Bahan(SupplierKode, tanggalMasuk, bulanMasuk, tahunMasuk, SupOrder, expDate)
                                                 Qr = Generate_QR_Batch(barangKode, batch)
@@ -655,20 +647,38 @@ Public Class EMI_Display_Pallet_Masuk
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
 
 
-                    Dim CrDoc As New BM_PerPallet
+
+                    Dim CrDoc = New BM_PerPallet
+                    Dim kertas As String = "Barcode TSC"
 
                     CrDoc.SetDataSource(Ds)
                     CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                     CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and {Cetak_Barang_Masuk_Perpallet.Kode_Unik_Print} = '" & kode_unik_print & "' "
-
                     CrDoc.PrintOptions.PrinterName = PrinterBarcode
 
                     Dim doctoprint As New System.Drawing.Printing.PrintDocument()
                     doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+                    'SET KERTAS
+                    Dim rawKind As Integer
+                    Dim kertasDitemukan As Boolean = False
+                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                            CrDoc.PrintOptions.PaperSize = rawKind
+                            kertasDitemukan = True
+                            Exit For
+                        End If
+                    Next
 
+                    If Not kertasDitemukan Then
+                        CloseConn()
+                        MessageBox.Show("Kertas Tidak diTemukan", "Cetak", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
                     CrDoc.PrintToPrinter(1, False, 1, 2500)
-
-
 
 
                     'KODE LAMA

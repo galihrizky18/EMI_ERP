@@ -75,6 +75,8 @@ Partial Class EMI_PO_Pembelian
         Me.LblPO_satBarang = New System.Windows.Forms.Label()
         Me.TxtPO_SatuanBarang = New System.Windows.Forms.TextBox()
         Me.Groupbox = New System.Windows.Forms.GroupBox()
+        Me.txtJatuhTempo = New System.Windows.Forms.TextBox()
+        Me.cmbJenisPengiriman = New System.Windows.Forms.ComboBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.txtSatuanSisa = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -133,8 +135,6 @@ Partial Class EMI_PO_Pembelian
         Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
-        Me.cmbJenisPengiriman = New System.Windows.Forms.ComboBox()
-        Me.txtJatuhTempo = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -447,7 +447,7 @@ Partial Class EMI_PO_Pembelian
         Me.DtpPO_TglBayar.CustomFormat = "dd MMMM yyyy"
         Me.DtpPO_TglBayar.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
         Me.DtpPO_TglBayar.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DtpPO_TglBayar.Location = New System.Drawing.Point(527, 272)
+        Me.DtpPO_TglBayar.Location = New System.Drawing.Point(1321, 454)
         Me.DtpPO_TglBayar.Margin = New System.Windows.Forms.Padding(2)
         Me.DtpPO_TglBayar.Name = "DtpPO_TglBayar"
         Me.DtpPO_TglBayar.Size = New System.Drawing.Size(168, 21)
@@ -649,7 +649,7 @@ Partial Class EMI_PO_Pembelian
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1318, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1317, 51)
         Me.Panel1.TabIndex = 1
         '
         'PanelGradient1
@@ -662,7 +662,7 @@ Partial Class EMI_PO_Pembelian
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1318, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1317, 2)
         Me.PanelGradient1.TabIndex = 0
         '
         'Panel5
@@ -737,7 +737,6 @@ Partial Class EMI_PO_Pembelian
         Me.Groupbox.Controls.Add(Me.CmbPO_JnsEkspedisi)
         Me.Groupbox.Controls.Add(Me.LblPO_Ekspedisi)
         Me.Groupbox.Controls.Add(Me.CmbPO_Harga)
-        Me.Groupbox.Controls.Add(Me.DtpPO_TglBayar)
         Me.Groupbox.Controls.Add(Me.ListView1)
         Me.Groupbox.Controls.Add(Me.CmbPO_Satuan)
         Me.Groupbox.Controls.Add(Me.CmbPO_JnsBayar)
@@ -777,6 +776,31 @@ Partial Class EMI_PO_Pembelian
         Me.Groupbox.Size = New System.Drawing.Size(1280, 378)
         Me.Groupbox.TabIndex = 306
         Me.Groupbox.TabStop = False
+        '
+        'txtJatuhTempo
+        '
+        Me.txtJatuhTempo.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.txtJatuhTempo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtJatuhTempo.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.txtJatuhTempo.Location = New System.Drawing.Point(428, 272)
+        Me.txtJatuhTempo.MaxLength = 30
+        Me.txtJatuhTempo.Name = "txtJatuhTempo"
+        Me.txtJatuhTempo.Size = New System.Drawing.Size(94, 21)
+        Me.txtJatuhTempo.TabIndex = 361
+        Me.txtJatuhTempo.Visible = False
+        '
+        'cmbJenisPengiriman
+        '
+        Me.cmbJenisPengiriman.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbJenisPengiriman.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.cmbJenisPengiriman.FormattingEnabled = True
+        Me.cmbJenisPengiriman.Items.AddRange(New Object() {"Tunai", "Non-Tunai"})
+        Me.cmbJenisPengiriman.Location = New System.Drawing.Point(329, 271)
+        Me.cmbJenisPengiriman.Margin = New System.Windows.Forms.Padding(2)
+        Me.cmbJenisPengiriman.Name = "cmbJenisPengiriman"
+        Me.cmbJenisPengiriman.Size = New System.Drawing.Size(94, 23)
+        Me.cmbJenisPengiriman.TabIndex = 360
+        Me.cmbJenisPengiriman.Visible = False
         '
         'Label6
         '
@@ -1448,37 +1472,12 @@ Partial Class EMI_PO_Pembelian
         Me.Panel7.TabIndex = 308
         Me.Panel7.Visible = False
         '
-        'cmbJenisPengiriman
-        '
-        Me.cmbJenisPengiriman.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmbJenisPengiriman.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.cmbJenisPengiriman.FormattingEnabled = True
-        Me.cmbJenisPengiriman.Items.AddRange(New Object() {"Tunai", "Non-Tunai"})
-        Me.cmbJenisPengiriman.Location = New System.Drawing.Point(329, 271)
-        Me.cmbJenisPengiriman.Margin = New System.Windows.Forms.Padding(2)
-        Me.cmbJenisPengiriman.Name = "cmbJenisPengiriman"
-        Me.cmbJenisPengiriman.Size = New System.Drawing.Size(94, 23)
-        Me.cmbJenisPengiriman.TabIndex = 360
-        Me.cmbJenisPengiriman.Visible = False
-        '
-        'txtJatuhTempo
-        '
-        Me.txtJatuhTempo.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.txtJatuhTempo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtJatuhTempo.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.txtJatuhTempo.Location = New System.Drawing.Point(428, 272)
-        Me.txtJatuhTempo.MaxLength = 30
-        Me.txtJatuhTempo.Name = "txtJatuhTempo"
-        Me.txtJatuhTempo.Size = New System.Drawing.Size(94, 21)
-        Me.txtJatuhTempo.TabIndex = 361
-        Me.txtJatuhTempo.Visible = False
-        '
         'EMI_PO_Pembelian
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1318, 666)
+        Me.ClientSize = New System.Drawing.Size(1317, 666)
         Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.Button2)
@@ -1494,6 +1493,7 @@ Partial Class EMI_PO_Pembelian
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.TextBox13)
         Me.Controls.Add(Me.Panel5)
+        Me.Controls.Add(Me.DtpPO_TglBayar)
         Me.Controls.Add(Me.BtnPO_Refresh)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.BtnPO_Simpan)

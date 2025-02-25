@@ -1,5 +1,6 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Transaksi_Penawaran
+
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -55,6 +56,10 @@ Partial Class Transaksi_Penawaran
         Me.Col_HrgSatuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txtJatuhTempo = New System.Windows.Forms.TextBox()
+        Me.cmbJenisPengiriman = New System.Windows.Forms.ComboBox()
+        Me.cmb_JenisBayar = New System.Windows.Forms.ComboBox()
+        Me.LblPO_Pembayaran = New System.Windows.Forms.Label()
         Me.TxtPO_NmSupplier = New System.Windows.Forms.TextBox()
         Me.TxtPO_KdSupplier = New System.Windows.Forms.TextBox()
         Me.Dtp_PeriodAkhir = New System.Windows.Forms.DateTimePicker()
@@ -138,8 +143,8 @@ Partial Class Transaksi_Penawaran
         Me.Panel14 = New System.Windows.Forms.Panel()
         Me.BtnOngkir_Refresh = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.DgvMaster_Penawaran, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -441,6 +446,10 @@ Partial Class Transaksi_Penawaran
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.txtJatuhTempo)
+        Me.GroupBox1.Controls.Add(Me.cmbJenisPengiriman)
+        Me.GroupBox1.Controls.Add(Me.cmb_JenisBayar)
+        Me.GroupBox1.Controls.Add(Me.LblPO_Pembayaran)
         Me.GroupBox1.Controls.Add(Me.TxtPO_NmSupplier)
         Me.GroupBox1.Controls.Add(Me.TxtPO_KdSupplier)
         Me.GroupBox1.Controls.Add(Me.Dtp_PeriodAkhir)
@@ -457,6 +466,52 @@ Partial Class Transaksi_Penawaran
         Me.GroupBox1.Size = New System.Drawing.Size(1012, 99)
         Me.GroupBox1.TabIndex = 392
         Me.GroupBox1.TabStop = False
+        '
+        'txtJatuhTempo
+        '
+        Me.txtJatuhTempo.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.txtJatuhTempo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtJatuhTempo.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.txtJatuhTempo.Location = New System.Drawing.Point(880, 72)
+        Me.txtJatuhTempo.MaxLength = 30
+        Me.txtJatuhTempo.Name = "txtJatuhTempo"
+        Me.txtJatuhTempo.Size = New System.Drawing.Size(92, 21)
+        Me.txtJatuhTempo.TabIndex = 384
+        '
+        'cmbJenisPengiriman
+        '
+        Me.cmbJenisPengiriman.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbJenisPengiriman.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.cmbJenisPengiriman.FormattingEnabled = True
+        Me.cmbJenisPengiriman.Items.AddRange(New Object() {"Tunai", "Non-Tunai"})
+        Me.cmbJenisPengiriman.Location = New System.Drawing.Point(781, 71)
+        Me.cmbJenisPengiriman.Margin = New System.Windows.Forms.Padding(2)
+        Me.cmbJenisPengiriman.Name = "cmbJenisPengiriman"
+        Me.cmbJenisPengiriman.Size = New System.Drawing.Size(94, 23)
+        Me.cmbJenisPengiriman.TabIndex = 383
+        '
+        'cmb_JenisBayar
+        '
+        Me.cmb_JenisBayar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmb_JenisBayar.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.cmb_JenisBayar.FormattingEnabled = True
+        Me.cmb_JenisBayar.Items.AddRange(New Object() {"Tunai", "Non-Tunai"})
+        Me.cmb_JenisBayar.Location = New System.Drawing.Point(652, 71)
+        Me.cmb_JenisBayar.Margin = New System.Windows.Forms.Padding(2)
+        Me.cmb_JenisBayar.Name = "cmb_JenisBayar"
+        Me.cmb_JenisBayar.Size = New System.Drawing.Size(125, 23)
+        Me.cmb_JenisBayar.TabIndex = 381
+        '
+        'LblPO_Pembayaran
+        '
+        Me.LblPO_Pembayaran.AutoSize = True
+        Me.LblPO_Pembayaran.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.LblPO_Pembayaran.Location = New System.Drawing.Point(503, 72)
+        Me.LblPO_Pembayaran.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.LblPO_Pembayaran.Name = "LblPO_Pembayaran"
+        Me.LblPO_Pembayaran.Size = New System.Drawing.Size(94, 17)
+        Me.LblPO_Pembayaran.TabIndex = 382
+        Me.LblPO_Pembayaran.Text = "Pembayaranx"
         '
         'TxtPO_NmSupplier
         '
@@ -556,7 +611,7 @@ Partial Class Transaksi_Penawaran
         Me.Txt_NoPenawaran.Location = New System.Drawing.Point(652, 16)
         Me.Txt_NoPenawaran.MaxLength = 20
         Me.Txt_NoPenawaran.Name = "Txt_NoPenawaran"
-        Me.Txt_NoPenawaran.Size = New System.Drawing.Size(316, 22)
+        Me.Txt_NoPenawaran.Size = New System.Drawing.Size(320, 22)
         Me.Txt_NoPenawaran.TabIndex = 2
         '
         'Lbl_Supplier
@@ -1377,6 +1432,17 @@ Partial Class Transaksi_Penawaran
         Me.Panel1.Size = New System.Drawing.Size(1073, 49)
         Me.Panel1.TabIndex = 392
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(15, 11)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(277, 30)
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "Master Data - Penawaran"
+        '
         'PanelGradient1
         '
         Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
@@ -1389,17 +1455,6 @@ Partial Class Transaksi_Penawaran
         Me.PanelGradient1.Name = "PanelGradient1"
         Me.PanelGradient1.Size = New System.Drawing.Size(1073, 2)
         Me.PanelGradient1.TabIndex = 22
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(15, 11)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(277, 30)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Master Data - Penawaran"
         '
         'Transaksi_Penawaran
         '
@@ -1541,4 +1596,8 @@ Partial Class Transaksi_Penawaran
     Friend WithEvents Label5 As Label
     Friend WithEvents Label7 As Label
     Friend WithEvents Txt_NoUrut As TextBox
+    Friend WithEvents cmb_JenisBayar As ComboBox
+    Friend WithEvents LblPO_Pembayaran As Label
+    Friend WithEvents txtJatuhTempo As TextBox
+    Friend WithEvents cmbJenisPengiriman As ComboBox
 End Class

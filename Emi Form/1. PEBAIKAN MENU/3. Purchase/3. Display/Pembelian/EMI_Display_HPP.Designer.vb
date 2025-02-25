@@ -411,14 +411,14 @@ Partial Class EMI_Display_HPP
         Me.GroupBox3.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Padding = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.GroupBox3.Size = New System.Drawing.Size(755, 144)
+        Me.GroupBox3.Size = New System.Drawing.Size(755, 116)
         Me.GroupBox3.TabIndex = 40
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Filter Data"
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(354, 108)
+        Me.TextBox1.Location = New System.Drawing.Point(355, 83)
         Me.TextBox1.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(295, 23)
@@ -428,7 +428,7 @@ Partial Class EMI_Display_HPP
         '
         Me.ComboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox6.FormattingEnabled = True
-        Me.ComboBox6.Location = New System.Drawing.Point(7, 19)
+        Me.ComboBox6.Location = New System.Drawing.Point(458, 16)
         Me.ComboBox6.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.ComboBox6.Name = "ComboBox6"
         Me.ComboBox6.Size = New System.Drawing.Size(291, 26)
@@ -437,7 +437,7 @@ Partial Class EMI_Display_HPP
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(307, 111)
+        Me.Label3.Location = New System.Drawing.Point(308, 86)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(42, 18)
         Me.Label3.TabIndex = 86
@@ -446,7 +446,7 @@ Partial Class EMI_Display_HPP
         'CheckBox3
         '
         Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Location = New System.Drawing.Point(7, 48)
+        Me.CheckBox3.Location = New System.Drawing.Point(8, 24)
         Me.CheckBox3.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(133, 22)
@@ -459,7 +459,7 @@ Partial Class EMI_Display_HPP
         Me.Btn_Cari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Cari.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold)
         Me.Btn_Cari.ForeColor = System.Drawing.Color.White
-        Me.Btn_Cari.Location = New System.Drawing.Point(650, 103)
+        Me.Btn_Cari.Location = New System.Drawing.Point(651, 78)
         Me.Btn_Cari.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Btn_Cari.Name = "Btn_Cari"
         Me.Btn_Cari.Size = New System.Drawing.Size(90, 32)
@@ -471,7 +471,7 @@ Partial Class EMI_Display_HPP
         '
         Me.DateTimePicker2.CustomFormat = "dd MMMM yyyy"
         Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker2.Location = New System.Drawing.Point(545, 75)
+        Me.DateTimePicker2.Location = New System.Drawing.Point(546, 50)
         Me.DateTimePicker2.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.DateTimePicker2.Name = "DateTimePicker2"
         Me.DateTimePicker2.Size = New System.Drawing.Size(195, 23)
@@ -481,7 +481,7 @@ Partial Class EMI_Display_HPP
         '
         Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(164, 108)
+        Me.ComboBox2.Location = New System.Drawing.Point(165, 83)
         Me.ComboBox2.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(134, 26)
@@ -490,7 +490,7 @@ Partial Class EMI_Display_HPP
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(511, 78)
+        Me.Label2.Location = New System.Drawing.Point(512, 53)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(28, 18)
         Me.Label2.TabIndex = 4
@@ -499,7 +499,7 @@ Partial Class EMI_Display_HPP
         'CheckBox2
         '
         Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(7, 111)
+        Me.CheckBox2.Location = New System.Drawing.Point(8, 84)
         Me.CheckBox2.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(122, 22)
@@ -511,7 +511,7 @@ Partial Class EMI_Display_HPP
         '
         Me.DateTimePicker1.CustomFormat = "dd MMMM yyyy"
         Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker1.Location = New System.Drawing.Point(310, 76)
+        Me.DateTimePicker1.Location = New System.Drawing.Point(311, 51)
         Me.DateTimePicker1.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.DateTimePicker1.Name = "DateTimePicker1"
         Me.DateTimePicker1.Size = New System.Drawing.Size(195, 23)
@@ -520,7 +520,7 @@ Partial Class EMI_Display_HPP
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(7, 79)
+        Me.CheckBox1.Location = New System.Drawing.Point(8, 52)
         Me.CheckBox1.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(143, 22)
@@ -532,7 +532,7 @@ Partial Class EMI_Display_HPP
         '
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(164, 74)
+        Me.ComboBox1.Location = New System.Drawing.Point(165, 49)
         Me.ComboBox1.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(134, 26)
@@ -541,7 +541,7 @@ Partial Class EMI_Display_HPP
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(22, 748)
+        Me.Panel4.Location = New System.Drawing.Point(22, 723)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1904, 12)
@@ -563,7 +563,7 @@ Partial Class EMI_Display_HPP
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1157, 759)
+        Me.ClientSize = New System.Drawing.Size(1157, 736)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.GroupBox3)

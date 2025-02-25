@@ -1,26 +1,21 @@
-﻿Imports System.Diagnostics.Eventing.Reader
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-Public Class Master_Mesin
+﻿Public Class Master_Mesin
     Dim arrcari, arrDivisiMesin As New ArrayList
     Dim Jenis = "Master_Mesin"
 
     Dim LvDivisiMesin, LvNmMesin, LvSeriMesin, LvKeterangan, LvNoUrut As String
 
     Dim itemDivisiMesin As Integer = 0
-    Dim itemNmMesin As Integer = 2
+    Dim itemNmMesin As Integer = 1
     Dim itemSeriMesin As Integer = 2
     Dim itemKeterangan As Integer = 3
-    Dim itemNoUrut As Integer = 1
+    Dim itemNoUrut As Integer = 4
 
     Private Sub Get_Isi_ListView(ByVal NoIndex As Integer)
-        LvDivisiMesin = Lv_Data_MasterMesin.Items(NoIndex).Text '0
-        LvNoUrut = Lv_Data_MasterMesin.Items(NoIndex).SubItems(itemNoUrut).Text '4
-        LvNmMesin = Lv_Data_MasterMesin.Items(NoIndex).SubItems(itemNmMesin).Text '1
-        LvSeriMesin = Lv_Data_MasterMesin.Items(NoIndex).SubItems(itemNmMesin).Text '2
-        LvKeterangan = Lv_Data_MasterMesin.Items(NoIndex).SubItems(itemKeterangan).Text '3
-
+        LvDivisiMesin = Lv_Data_MasterMesin.Items(NoIndex).Text
+        LvNmMesin = Lv_Data_MasterMesin.Items(NoIndex).SubItems(itemNmMesin).Text
+        LvSeriMesin = Lv_Data_MasterMesin.Items(NoIndex).SubItems(itemNmMesin).Text
+        LvKeterangan = Lv_Data_MasterMesin.Items(NoIndex).SubItems(itemKeterangan).Text
+        LvNoUrut = Lv_Data_MasterMesin.Items(NoIndex).SubItems(itemNoUrut).Text
     End Sub
 
     Private Sub Master_Mesin_Activated(sender As Object, e As EventArgs) Handles Me.Activated
@@ -83,7 +78,7 @@ Public Class Master_Mesin
             Lv_Data_MasterMesin.Items.Clear()
             SQL = "Select * From "
             SQL = SQL & "EMI_Master_Mesin "
-            SQL = SQL & "Order By NoUrut"
+            SQL = SQL & "Order By Id_Master_Mesin"
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Dim lvw As ListViewItem
@@ -91,7 +86,7 @@ Public Class Master_Mesin
                     lvw.SubItems.Add(Dr("Seri_Mesin"))
                     lvw.SubItems.Add(Dr("Nama_Mesin"))
                     lvw.SubItems.Add(Dr("Keterangan"))
-                    lvw.SubItems.Add(Dr("NoUrut"))
+                    lvw.SubItems.Add(Dr("Id_Master_Mesin"))
                 Loop
             End Using
             CloseConn()
@@ -161,10 +156,10 @@ Public Class Master_Mesin
 
             If Btn_Simpan.Text = Base_Language.Lang_Global_Simpan Then
                 SQL = "Insert Into EMI_Master_Mesin "
-                SQL = SQL & "(Kode_Perusahaan, Divisi_Mesin, Seri_Mesin, Nama_Mesin, Keterangan) "
+                SQL = SQL & "(Kode_Perusahaan, Divisi_Mesin, Seri_Mesin, Nama_Mesin, Keterangan, id_divisi_mesin) "
                 SQL = SQL & "Values ('" & KodePerusahaan & "', "
                 SQL = SQL & "'" & divisiMesin.Trim.ToString & "', '" & seriMesin.Trim & "', "
-                SQL = SQL & "'" & namaMesin.Trim & "', '" & keterangan.Trim & "') "
+                SQL = SQL & "'" & namaMesin.Trim & "', '" & keterangan.Trim & "', '" & arrDivisiMesin(Cmb_Divisi.SelectedIndex) & "') "
                 ExecuteTrans(SQL)
             Else
                 SQL = "Update EMI_Master_Mesin "
@@ -173,7 +168,7 @@ Public Class Master_Mesin
                 SQL = SQL & "Nama_Mesin = '" & namaMesin.Trim & "', "
                 SQL = SQL & "Keterangan = '" & keterangan.Trim & "' "
                 SQL = SQL & "Where Kode_Perusahaan = '" & KodePerusahaan & "' "
-                SQL = SQL & "and NoUrut = '" & LvNoUrut & "'"
+                SQL = SQL & "and Id_Master_Mesin = '" & LvNoUrut & "'"
                 ExecuteTrans(SQL)
             End If
 
@@ -201,7 +196,7 @@ Public Class Master_Mesin
 
                 SQL = "DELETE FROM EMI_Master_Mesin "
                 SQL = SQL & "Where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-                SQL = SQL & "NoUrut = '" & LvNoUrut & "' "
+                SQL = SQL & "Id_Master_Mesin = '" & LvNoUrut & "' "
                 ExecuteTrans(SQL)
 
                 Cmd.Transaction.Commit()
@@ -251,7 +246,7 @@ Public Class Master_Mesin
                 SQL = SQL & "and " & arrcari.Item(ComboBox1.SelectedIndex) & " like '%" & TextBox3.Text & "%' "
                 SQL = SQL & "order by " & arrcari.Item(ComboBox1.SelectedIndex) & " "
             Else
-                SQL = SQL & "order by NoUrut"
+                SQL = SQL & "order by Id_Master_Mesin"
             End If
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
@@ -260,7 +255,7 @@ Public Class Master_Mesin
                     lvw.SubItems.Add(dr("Seri_Mesin"))
                     lvw.SubItems.Add(dr("Nama_Mesin"))
                     lvw.SubItems.Add(dr("Keterangan"))
-                    lvw.SubItems.Add(dr("NoUrut"))
+                    lvw.SubItems.Add(dr("Id_Master_Mesin"))
                 Loop
             End Using
 
@@ -293,8 +288,6 @@ Public Class Master_Mesin
         TextBox3.Enabled = True : TextBox3.Text = ""
     End Sub
 
-
-
     Private Sub Cmb_Divisi_Leave(sender As Object, e As EventArgs) Handles Cmb_Divisi.Leave
         Dim divisiMesin = Cmb_Divisi.SelectedItem
         Dim seriMesin = Txt_SeriMesin.Text
@@ -313,10 +306,10 @@ Public Class Master_Mesin
             SQL = "Select * From "
             SQL = SQL & "EMI_Master_Mesin "
             SQL = SQL & "Where Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and NoUrut = '" & LvNoUrut & "' "
+            SQL = SQL & "and Id_Master_Mesin = '" & LvNoUrut & "' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
-                    divisiMesin = Dr("Divisi_Mesin")
+                    Cmb_Divisi.SelectedIndex = arrDivisiMesin.IndexOf(Dr("id_divisi_mesin"))
                     seriMesin = Dr("Seri_Mesin")
                     namaMesin = Dr("Nama_Mesin")
                     keterangan = Dr("Keterangan")

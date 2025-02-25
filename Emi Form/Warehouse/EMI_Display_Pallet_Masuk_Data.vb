@@ -762,7 +762,8 @@ Public Class EMI_Display_Pallet_Masuk_Data
                     For i As Integer = 0 To Ds.Tables("MyTable").Rows.Count - 1
                         Dim kodeUnikBerjalan As String = ""
                         Dim kodeUnikAsal As String = ""
-
+                        Dim Jumlah As String = ""
+                        Dim satuan As String = ""
                         '======================================
                         '=       CEK APAKAH FLOORSCALE      =
                         '======================================
@@ -790,7 +791,7 @@ Public Class EMI_Display_Pallet_Masuk_Data
 
                         SQL = "select  "
                         SQL = SQL & "ISNULL((sum(b.Tot_Batch_Masuk)), 0) as Batch_Masuk, "
-                        SQL = SQL & "a.Kode_Supplier, a.Tanggal_Masuk, c.Tgl_expired_real as tgl_expired, b.Kode_Barang, c.Kode_Unik_Berjalan "
+                        SQL = SQL & "a.Kode_Supplier, a.Tanggal_Masuk, c.Tgl_expired_real as tgl_expired, b.Kode_Barang, c.Kode_Unik_Berjalan, sum(c.jumlah) as jumlah, c.satuan "
                         SQL = SQL & "from emi_pembelian_loading a, emi_pembelian_loading_detail b, EMI_Barang_Masuk_Perpallet c "
                         SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and a.No_Faktur = c.No_Pembelian_Loading "
                         SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' "
@@ -798,12 +799,13 @@ Public Class EMI_Display_Pallet_Masuk_Data
                         SQL = SQL & "and c.No_Faktur='" & Ds.Tables("MyTable").Rows(i).Item("no_faktur") & "' "
                         SQL = SQL & "and b.Kode_Barang='" & Ds.Tables("MyTable").Rows(i).Item("Kode_Barang") & "' "
                         SQL = SQL & "and b.Urut_OTO='" & Ds.Tables("MyTable").Rows(i).Item("Urut_Loading") & "' "
-                        SQL = SQL & "group by a.Kode_Supplier, a.Tanggal_Masuk, c.Tgl_expired_real, b.Kode_Barang, c.Kode_Unik_Berjalan "
+                        SQL = SQL & "group by a.Kode_Supplier, a.Tanggal_Masuk, c.Tgl_expired_real, b.Kode_Barang, c.Kode_Unik_Berjalan, c.satuan "
                         Using Ds2 = BindingTrans(SQL)
                             With Ds2.Tables("MyTable")
                                 If .Rows.Count <> 0 Then
                                     For j As Integer = 0 To .Rows.Count - 1
-
+                                        Jumlah = .Rows(j).Item("jumlah")
+                                        satuan = .Rows(j).Item("satuan")
                                         Dim expDate As String = ""
                                         Dim tanggalDatang As DateTime = .Rows(j).Item("Tanggal_Masuk")
                                         Dim SupplierKode As String = .Rows(j).Item("Kode_Supplier").ToString
@@ -873,12 +875,12 @@ Public Class EMI_Display_Pallet_Masuk_Data
                                             End Using
                                         Else
                                             If sudahCetak = True Then
-                                                'kodeUnikBerjalan = .Rows(j).Item("Kode_Unik_Berjalan")
-                                                'kodeUnikAsal = kodeUnikBerjalan
-                                                'Dim SupOrder As Integer = Val(.Rows(j).Item("Batch_Masuk"))
+                                                kodeUnikBerjalan = .Rows(j).Item("Kode_Unik_Berjalan")
+                                                kodeUnikAsal = kodeUnikBerjalan
+                                                Dim SupOrder As Integer = Val(.Rows(j).Item("Batch_Masuk"))
 
-                                                'batch = Generate_Batch_Bahan(SupplierKode, tanggalMasuk, bulanMasuk, tahunMasuk, SupOrder, expDate)
-                                                'Qr = Generate_QR_Batch(barangKode, batch)
+                                                batch = Generate_Batch_Bahan(SupplierKode, tanggalMasuk, bulanMasuk, tahunMasuk, SupOrder, expDate)
+                                                Qr = Generate_QR_Batch(barangKode, batch)
                                             Else
                                                 CloseConn()
                                                 MessageBox.Show("Barcode Belum Pernah Cetak, Tidak Bisa Cetak ulang", "Cetak Ulang", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -897,7 +899,7 @@ Public Class EMI_Display_Pallet_Masuk_Data
                         End Using
 
 
-                        PictureBoxKdBrg.Image = Generate_QR(Qr + "-" + kodeUnikBerjalan)
+                        PictureBoxKdBrg.Image = Generate_QR(Qr + "-" + kodeUnikBerjalan + "-" + Jumlah + "" + satuan)
 
                         Dim FileToSaveAs1 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, Ds.Tables("MyTable").Rows(i).Item("urut_oto") & "_barang1433.jpg")
                         'If Not (System.IO.File.Exists(FileToSaveAs1)) Then
@@ -920,7 +922,7 @@ Public Class EMI_Display_Pallet_Masuk_Data
                         SQL = "insert into Cetak_barang_Masuk_Perpallet  (Kode_Perusahaan, No_Barang_Masuk_Per_Pallet, Kode_Barang, Barcode, Nama, QrUtuh, Qr, Tgl_Expired, batch, Tanggal_Cetak, "
                         SQL = SQL & "Kode_Unik_Print,tanggal_masuk,metode_pengeluaran_stok ) values "
                         SQL = SQL & "('" & KodePerusahaan & "', '" & Lv_BM_PerPallet.FocusedItem.Text & "', '" & Ds.Tables("MyTable").Rows(i).Item("Kode_Barang") & "', @foto1" & Ds.Tables("MyTable").Rows(i).Item("urut_oto") & ", "
-                        SQL = SQL & "'" & Ds.Tables("MyTable").Rows(i).Item("Nama") & "', '" & Qr & "-" & kodeUnikBerjalan & "', '" & Qr & "', '" & Format(Ds.Tables("MyTable").Rows(i).Item("Tgl_Expired"), "yyyy-MM-dd") & "', "
+                        SQL = SQL & "'" & Ds.Tables("MyTable").Rows(i).Item("Nama") & "', '" & Qr & "-" & kodeUnikBerjalan & "-" & Jumlah & "" & satuan & "', '" & Qr & "', '" & Format(Ds.Tables("MyTable").Rows(i).Item("Tgl_Expired"), "yyyy-MM-dd") & "', "
                         SQL = SQL & "'" & batch & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & kode_unik_print & "' ,'" & Ds.Tables("MyTable").Rows(i).Item("tanggal_masuk") & "',"
                         SQL = SQL & "'" & Ds.Tables("MyTable").Rows(i).Item("metode_pengeluaran_stok") & "' )"
                         ExecuteTrans(SQL)
@@ -974,33 +976,33 @@ Public Class EMI_Display_Pallet_Masuk_Data
 
                     Dim CrDoc As New BM_PerPallet
 
-                    'CrDoc.SetDataSource(Ds)
-                    'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    'CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and {Cetak_Barang_Masuk_Perpallet.Kode_Unik_Print} = '" & kode_unik_print & "' "
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and {Cetak_Barang_Masuk_Perpallet.Kode_Unik_Print} = '" & kode_unik_print & "' "
 
-                    'CrDoc.PrintOptions.PrinterName = PrinterBarcode
+                    CrDoc.PrintOptions.PrinterName = PrinterBarcode
 
-                    'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                    'doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    doctoprint.PrinterSettings.PrinterName = PrinterBarcode
 
-                    'CrDoc.PrintToPrinter(1, False, 1, 2500)
+                    CrDoc.PrintToPrinter(1, False, 1, 2500)
 
                     '============================================================================================================================================
                     '============================================================================================================================================
 
 
                     'KODE LAMA
-                    With A_Place_For_Printing2
-                        CrDoc.SetDataSource(Ds)
-                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.PrintOptions.PrinterName = ""
-                        CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and {Cetak_Barang_Masuk_Perpallet.Kode_Unik_Print} = '" & kode_unik_print & "' "
-                        CrDoc.SummaryInfo.ReportTitle = "Barang Masuk Per Pallet"
-                        .Text = "Barang Masuk Per Pallet"
-                        .CrystalReportViewer1.ReportSource = CrDoc
-                        .Refresh()
-                        .Show()
-                    End With
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and {Cetak_Barang_Masuk_Perpallet.Kode_Unik_Print} = '" & kode_unik_print & "' "
+                    '    CrDoc.SummaryInfo.ReportTitle = "Barang Masuk Per Pallet"
+                    '    .Text = "Barang Masuk Per Pallet"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
 
                     '''CrDoc.SetDataSource(Ds)
                     '''CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)

@@ -432,9 +432,9 @@
                 End With
             End Using
 
-            
 
-            
+
+
 
             CloseConn()
 
@@ -724,7 +724,7 @@
             Exit Sub
         End If
 
-       
+
 
         Try
 
@@ -876,7 +876,7 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-       
+
 
         ComboBox5.Items.Clear()
         ComboBox5.Items.Add("BIAYA")
@@ -922,7 +922,7 @@
         ListView1.Columns.Add("Tabel asal", 0, HorizontalAlignment.Left)
         ListView1.View = View.Details
 
-        
+
         Try
             OpenConn()
 
@@ -1147,17 +1147,34 @@
                     jns = "'" & LvJns & "'"
                 End If
 
+                Dim FLAG_HPP As String = ""
+                SQL = "select isnull(Flag_Masuk_HPP,'T') as Flag_Masuk_HPP "
+                SQL = SQL & "from Kategori_Biaya_Import where "
+                SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
+                SQL = SQL & "Kode_Kategori_Biaya_Import = '" & LvKodeKategori & "'"
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+                        FLAG_HPP = dr("Flag_Masuk_HPP")
+                    Else
+                        dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Data Kategori tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
                 SQL = "insert into detail_transaksi_biaya_import (kode_perusahaan, No_faktur, Id_Rencana, Kode_stock_Owner, Kode_Biaya, "
                 SQL = SQL & "Kode_Kontainer, jml_kontainer, Kode_Perusahaan_Biaya_Import, Jenis_Perhitungan, "
                 SQL = SQL & "Mata_Uang, Kurs, biaya, Nilai_2, Total, Kode_Master_Kategori_Biaya_Import, Jns, "
-                SQL = SQL & "kode_kategori_biaya_import,flag_average_kategori, avg_biaya, total_avg_biaya, Flag_Validasi_Biaya) values( " 'coding stenly
+                SQL = SQL & "kode_kategori_biaya_import,flag_average_kategori, avg_biaya, total_avg_biaya, Flag_Validasi_Biaya, Flag_Masuk_HPP) values( " 'coding stenly
                 SQL = SQL & "'" & KodePerusahaan & "', '" & TxtNo_Faktur.Text & "', "
                 SQL = SQL & "'" & TxtId_Rencana.Text & "', '" & Lvlokasi & "', "
                 SQL = SQL & "'" & LvKodeBiaya & "', '" & LvKontainer & "', "
                 SQL = SQL & "'" & LvJumlahKontainer & "', '" & LvKodePerusahaanBiaya & "', "
                 SQL = SQL & "'" & LvPerhitungan & "', '" & LvMataUang & "', " & HilangkanTanda(LvKurs) & ", "
                 SQL = SQL & HilangkanTanda(LvBiaya) & ", " & HilangkanTanda(LvNilai2) & ", " & HilangkanTanda(LvTotal) & ", '" & LvMaster & "', "
-                SQL = SQL & "" & jns & ", '" & LvKodeKategori & "', '" & LvFlagAvg & "', '" & HilangkanTanda(LvBiaya) & "', " & HilangkanTanda(LvTotal) & ", '" & LvValidasi & "')" 'coding stenly
+                SQL = SQL & "" & jns & ", '" & LvKodeKategori & "', '" & LvFlagAvg & "', '" & HilangkanTanda(LvBiaya) & "', " & HilangkanTanda(LvTotal) & ", '" & LvValidasi & "', '" & FLAG_HPP & "')" 'coding stenly
                 ExecuteTrans(SQL)
             Next
 
@@ -1299,7 +1316,7 @@
                     End If
 
                 End Using
-                
+
 
             Next
 
@@ -1346,7 +1363,7 @@
                 SQL = SQL & ") "
 
                 SQL = SQL & ",Cte_data as( "
-                SQL = SQL & "select a.Kode_Perusahaan, a.No_Faktur, a.ID_rencana, a.Kode_Kategori_Biaya_Import, a.selisih_lama, a.Urut_Selisih_Lama, a.Total_Kontainer, b.Flag_Masuk_HPP, "
+                SQL = SQL & "select a.Kode_Perusahaan, a.No_Faktur, a.ID_rencana, a.Kode_Kategori_Biaya_Import, a.selisih_lama, a.Urut_Selisih_Lama, a.Total_Kontainer, isnull(b.Flag_Masuk_HPP,'T') as Flag_Masuk_HPP, "
                 SQL = SQL & "round(((a.Total_Biaya+a.Selisih_Lama)/a.Total_Kontainer),0) as Biaya_Avg, "
                 SQL = SQL & "round((((a.Total_Biaya+a.Selisih_Lama)/a.Total_Kontainer)*a.Jml_Kontainer),0) as Total_Biaya_Avg, "
                 SQL = SQL & "round((a.Total+a.selisih_lama-(((a.Total_Biaya+a.Selisih_Lama)/a.Total_Kontainer)*a.Jml_Kontainer)),0) as selisih_Baru "
@@ -1395,7 +1412,7 @@
                     End With
                 End Using
 
-                SQL = " select a.id_rencana, a.No_Faktur, a.Kode_Kategori_Biaya_Import, sum(a.Biaya) as Biaya, sum(a.Total) as Total, b.Flag_Masuk_HPP "
+                SQL = " select a.id_rencana, a.No_Faktur, a.Kode_Kategori_Biaya_Import, sum(a.Biaya) as Biaya, sum(a.Total) as Total, isnull(b.Flag_Masuk_HPP,'T') as Flag_Masuk_HPP "
                 SQL = SQL & "from Detail_Transaksi_Biaya_Import a, Kategori_Biaya_Import b "
                 SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
                 SQL = SQL & "and a.Kode_Kategori_Biaya_Import = b.Kode_Kategori_Biaya_Import "
@@ -1425,7 +1442,7 @@
                 'SQL = SQL & "no_faktur = '" & TxtNo_Faktur.Text.Trim & "'"
                 'ExecuteTrans(SQL)
 
-                SQL = " select a.id_rencana, a.No_Faktur, a.Kode_Kategori_Biaya_Import, sum(a.Biaya) as Biaya, sum(a.Total) as Total, b.Flag_Masuk_HPP "
+                SQL = " select a.id_rencana, a.No_Faktur, a.Kode_Kategori_Biaya_Import, sum(a.Biaya) as Biaya, sum(a.Total) as Total, isnull(b.Flag_Masuk_HPP,'T') as Flag_Masuk_HPP "
                 SQL = SQL & "from Detail_Transaksi_Biaya_Import a, Kategori_Biaya_Import b "
                 SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
                 SQL = SQL & "and a.Kode_Kategori_Biaya_Import = b.Kode_Kategori_Biaya_Import "
@@ -1438,9 +1455,9 @@
                             For i = 0 To Ds.Tables("MyTable").Rows.Count - 1
 
                                 SQL = "insert into avg_Kategori_Biaya_import(Kode_Perusahaan, No_Faktur, Kode_Kategori_Biaya_Import, "
-                                SQL = SQL & "Avg_Biaya, Total_Avg_Biaya, Id_Rencana) Values("
+                                SQL = SQL & "Avg_Biaya, Total_Avg_Biaya, Id_Rencana, Flag_Masuk_HPP) Values("
                                 SQL = SQL & "'" & KodePerusahaan & "', '" & .Rows(i).Item("No_Faktur") & "', '" & .Rows(i).Item("Kode_Kategori_Biaya_Import") & "',  "
-                                SQL = SQL & "'" & .Rows(i).Item("Biaya") & "', '" & .Rows(i).Item("Total") & "', '" & .Rows(i).Item("id_rencana") & "') "
+                                SQL = SQL & "'" & .Rows(i).Item("Biaya") & "', '" & .Rows(i).Item("Total") & "', '" & .Rows(i).Item("id_rencana") & "', '" & .Rows(i).Item("Flag_Masuk_HPP") & "') "
                                 ExecuteTrans(SQL)
                             Next
                         End If
@@ -2080,9 +2097,6 @@
         HitungGrand()
     End Sub
 
-    Private Sub ListView1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListView1.SelectedIndexChanged
-
-    End Sub
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
 
@@ -2284,7 +2298,7 @@
     Private Sub ComboBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox1.KeyPress
         If e.KeyChar = Chr(13) Then ComboBox5.Focus()
     End Sub
-     
+
     Private Sub ComboBox1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBox1.SelectedIndexChanged
 
     End Sub

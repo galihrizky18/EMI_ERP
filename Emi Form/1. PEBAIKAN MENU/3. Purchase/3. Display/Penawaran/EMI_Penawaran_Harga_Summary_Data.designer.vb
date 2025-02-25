@@ -24,6 +24,7 @@ Partial Class EMI_Penawaran_Harga_Summary_Data
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -36,6 +37,8 @@ Partial Class EMI_Penawaran_Harga_Summary_Data
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.LvPenawaranHarga_Detail = New System.Windows.Forms.ListView()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.cmb_aktif = New System.Windows.Forms.ComboBox()
+        Me.Btn_PilihBarang = New System.Windows.Forms.Button()
         Me.CmbSubmited = New System.Windows.Forms.ComboBox()
         Me.BtnBarangMasuk_Cari = New System.Windows.Forms.Button()
         Me.ComboBox6 = New System.Windows.Forms.ComboBox()
@@ -49,9 +52,6 @@ Partial Class EMI_Penawaran_Harga_Summary_Data
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.ComboBox3 = New System.Windows.Forms.ComboBox()
-        Me.Btn_PilihBarang = New System.Windows.Forms.Button()
-        Me.cmb_aktif = New System.Windows.Forms.ComboBox()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -67,6 +67,19 @@ Partial Class EMI_Penawaran_Harga_Summary_Data
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1005, 51)
         Me.Panel1.TabIndex = 22
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1005, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -199,16 +212,38 @@ Partial Class EMI_Penawaran_Harga_Summary_Data
         Me.GroupBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Padding = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.GroupBox3.Size = New System.Drawing.Size(636, 130)
+        Me.GroupBox3.Size = New System.Drawing.Size(621, 130)
         Me.GroupBox3.TabIndex = 342
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Filter Data"
+        '
+        'cmb_aktif
+        '
+        Me.cmb_aktif.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmb_aktif.FormattingEnabled = True
+        Me.cmb_aktif.Location = New System.Drawing.Point(329, 23)
+        Me.cmb_aktif.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.cmb_aktif.Name = "cmb_aktif"
+        Me.cmb_aktif.Size = New System.Drawing.Size(76, 24)
+        Me.cmb_aktif.TabIndex = 419
+        '
+        'Btn_PilihBarang
+        '
+        Me.Btn_PilihBarang.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_PilihBarang.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_PilihBarang.ForeColor = System.Drawing.Color.White
+        Me.Btn_PilihBarang.Location = New System.Drawing.Point(408, 23)
+        Me.Btn_PilihBarang.Name = "Btn_PilihBarang"
+        Me.Btn_PilihBarang.Size = New System.Drawing.Size(188, 27)
+        Me.Btn_PilihBarang.TabIndex = 418
+        Me.Btn_PilihBarang.Text = "Data Penawaran Berakhir" & Global.Microsoft.VisualBasic.ChrW(10)
+        Me.Btn_PilihBarang.UseVisualStyleBackColor = False
         '
         'CmbSubmited
         '
         Me.CmbSubmited.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CmbSubmited.FormattingEnabled = True
-        Me.CmbSubmited.Location = New System.Drawing.Point(221, 23)
+        Me.CmbSubmited.Location = New System.Drawing.Point(242, 23)
         Me.CmbSubmited.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.CmbSubmited.Name = "CmbSubmited"
         Me.CmbSubmited.Size = New System.Drawing.Size(84, 24)
@@ -219,7 +254,7 @@ Partial Class EMI_Penawaran_Harga_Summary_Data
         Me.BtnBarangMasuk_Cari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnBarangMasuk_Cari.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnBarangMasuk_Cari.ForeColor = System.Drawing.Color.White
-        Me.BtnBarangMasuk_Cari.Location = New System.Drawing.Point(496, 92)
+        Me.BtnBarangMasuk_Cari.Location = New System.Drawing.Point(515, 92)
         Me.BtnBarangMasuk_Cari.Name = "BtnBarangMasuk_Cari"
         Me.BtnBarangMasuk_Cari.Size = New System.Drawing.Size(81, 27)
         Me.BtnBarangMasuk_Cari.TabIndex = 343
@@ -233,7 +268,7 @@ Partial Class EMI_Penawaran_Harga_Summary_Data
         Me.ComboBox6.Location = New System.Drawing.Point(8, 23)
         Me.ComboBox6.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.ComboBox6.Name = "ComboBox6"
-        Me.ComboBox6.Size = New System.Drawing.Size(209, 24)
+        Me.ComboBox6.Size = New System.Drawing.Size(232, 24)
         Me.ComboBox6.TabIndex = 342
         '
         'CheckBox3
@@ -252,7 +287,7 @@ Partial Class EMI_Penawaran_Harga_Summary_Data
         Me.TextBox4.Location = New System.Drawing.Point(283, 95)
         Me.TextBox4.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(208, 20)
+        Me.TextBox4.Size = New System.Drawing.Size(230, 20)
         Me.TextBox4.TabIndex = 7
         '
         'Label6
@@ -289,8 +324,9 @@ Partial Class EMI_Penawaran_Harga_Summary_Data
         'DateTimePicker2
         '
         Me.DateTimePicker2.CustomFormat = "dd MMMM yyyy"
+        Me.DateTimePicker2.Enabled = False
         Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker2.Location = New System.Drawing.Point(419, 66)
+        Me.DateTimePicker2.Location = New System.Drawing.Point(438, 68)
         Me.DateTimePicker2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.DateTimePicker2.Name = "DateTimePicker2"
         Me.DateTimePicker2.Size = New System.Drawing.Size(158, 20)
@@ -299,7 +335,7 @@ Partial Class EMI_Penawaran_Harga_Summary_Data
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(390, 67)
+        Me.Label7.Location = New System.Drawing.Point(409, 69)
         Me.Label7.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(25, 16)
@@ -309,8 +345,9 @@ Partial Class EMI_Penawaran_Harga_Summary_Data
         'DateTimePicker1
         '
         Me.DateTimePicker1.CustomFormat = "dd MMMM yyyy"
+        Me.DateTimePicker1.Enabled = False
         Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker1.Location = New System.Drawing.Point(228, 66)
+        Me.DateTimePicker1.Location = New System.Drawing.Point(247, 68)
         Me.DateTimePicker1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.DateTimePicker1.Name = "DateTimePicker1"
         Me.DateTimePicker1.Size = New System.Drawing.Size(158, 20)
@@ -334,43 +371,8 @@ Partial Class EMI_Penawaran_Harga_Summary_Data
         Me.ComboBox3.Location = New System.Drawing.Point(143, 64)
         Me.ComboBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.ComboBox3.Name = "ComboBox3"
-        Me.ComboBox3.Size = New System.Drawing.Size(81, 24)
+        Me.ComboBox3.Size = New System.Drawing.Size(97, 24)
         Me.ComboBox3.TabIndex = 2
-        '
-        'Btn_PilihBarang
-        '
-        Me.Btn_PilihBarang.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_PilihBarang.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_PilihBarang.ForeColor = System.Drawing.Color.White
-        Me.Btn_PilihBarang.Location = New System.Drawing.Point(389, 23)
-        Me.Btn_PilihBarang.Name = "Btn_PilihBarang"
-        Me.Btn_PilihBarang.Size = New System.Drawing.Size(188, 27)
-        Me.Btn_PilihBarang.TabIndex = 418
-        Me.Btn_PilihBarang.Text = "Data Penawaran Berakhir" & Global.Microsoft.VisualBasic.ChrW(10)
-        Me.Btn_PilihBarang.UseVisualStyleBackColor = False
-        '
-        'cmb_aktif
-        '
-        Me.cmb_aktif.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmb_aktif.FormattingEnabled = True
-        Me.cmb_aktif.Location = New System.Drawing.Point(310, 23)
-        Me.cmb_aktif.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.cmb_aktif.Name = "cmb_aktif"
-        Me.cmb_aktif.Size = New System.Drawing.Size(76, 24)
-        Me.cmb_aktif.TabIndex = 419
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1005, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'EMI_Penawaran_Harga_Summary_Data
         '

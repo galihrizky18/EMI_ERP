@@ -1511,83 +1511,95 @@ Public Class EMI_Transaksi_ForecastOrder
 
         DataGridView1.Columns(CellChkBox).ReadOnly = False
 
-        If Display_Transaksi_ForecastOrder.asal = "isi_lv" Then
-            Txt_NoFaktur_Leave(Txt_NoFaktur, e)
-        ElseIf Display_Transaksi_ForecastOrder.asal = "Ref" Then
-            Try
+        'If Display_Transaksi_ForecastOrder.asal = "isi_lv" Then
+        '    Txt_NoFaktur_Leave(Txt_NoFaktur, e)
+        'ElseIf Display_Transaksi_ForecastOrder.asal = "Ref" Then
+        'Try
+        '        OpenConn()
+
+        '        get_no_faktur()
+        '        SQL = "select a.No_Faktur,a.Kode_Barang,b.Nama,a.Kode_Stock_Owner from EMI_Transaksi_Sales_Forecasting_Detail a,"
+        '        SQL = SQL & "Barang b where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang and "
+        '        SQL = SQL & "a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Faktur = '" & Display_Transaksi_ForecastOrder.nfak & "' "
+        '        SQL = SQL & "group by a.No_Faktur,a.Kode_Barang,b.Nama,a.Kode_Stock_Owner "
+        '        Using Ds = BindingTrans(SQL)
+        '            With Ds.Tables("MyTable")
+        '                For i As Integer = 0 To .Rows.Count - 1
+        '                    DataGridView1.Rows.Add(1)
+
+        '                    DataGridView1.Rows(i).Cells(CellSalesForecastBln1).Style.BackColor = Color.LightYellow
+        '                    DataGridView1.Rows(i).Cells(CellPPICForecastBln1).Style.BackColor = Color.LightCyan
+        '                    DataGridView1.Rows(i).Cells(CellSpace1).Style.BackColor = Color.LightGray
+        '                    DataGridView1.Rows(i).Cells(CellSalesForecastBln2).Style.BackColor = Color.LightYellow
+        '                    DataGridView1.Rows(i).Cells(CellPPICForecastBln2).Style.BackColor = Color.LightCyan
+        '                    DataGridView1.Rows(i).Cells(CellSpace2).Style.BackColor = Color.LightGray
+        '                    DataGridView1.Rows(i).Cells(CellSalesForecastBln3).Style.BackColor = Color.LightYellow
+        '                    DataGridView1.Rows(i).Cells(CellPPICForecastBln3).Style.BackColor = Color.LightCyan
+        '                    DataGridView1.Rows(i).Cells(CellSpace3).Style.BackColor = Color.LightGray
+        '                    DataGridView1.Rows(i).Cells(CellSalesForecastBln4).Style.BackColor = Color.LightYellow
+        '                    DataGridView1.Rows(i).Cells(CellPPICForecastBln4).Style.BackColor = Color.LightCyan
+        '                    DataGridView1.Rows(i).Cells(CellSpace4).Style.BackColor = Color.LightGray
+        '                    DataGridView1.Rows(i).Cells(CellSalesForecastBln5).Style.BackColor = Color.LightYellow
+        '                    DataGridView1.Rows(i).Cells(CellPPICForecastBln5).Style.BackColor = Color.LightCyan
+        '                    DataGridView1.Rows(i).Cells(CellSpace5).Style.BackColor = Color.LightGray
+        '                    DataGridView1.Rows(i).Cells(CellSalesForecastBln6).Style.BackColor = Color.LightYellow
+        '                    DataGridView1.Rows(i).Cells(CellPPICForecastBln6).Style.BackColor = Color.LightCyan
+        '                    DataGridView1.Rows(i).Cells(CellSpace6).Style.BackColor = Color.LightGray
+        '                    DataGridView1.Rows(i).Cells(CellStatus).Style.BackColor = Color.Yellow
+
+        '                    DataGridView1.Rows(i).Cells(CellKdBrg).Value = .Rows(i).Item("Kode_Barang")
+        '                    DataGridView1.Rows(i).Cells(CellNmBrg).Value = .Rows(i).Item("Nama")
+        '                    DataGridView1.Rows(i).Cells(CellAvg3Bulan).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellForecastCurrentMonth).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellActualCurrentMonth).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellPersenCurrentMonth).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellSalesForecastBln1).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellPPICForecastBln1).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellUrut_1).Value = ""
+        '                    DataGridView1.Rows(i).Cells(CellRV_1).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellSpace1).Value = ""
+        '                    DataGridView1.Rows(i).Cells(CellSalesForecastBln2).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellPPICForecastBln2).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellUrut_2).Value = ""
+        '                    DataGridView1.Rows(i).Cells(CellRV_2).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellSpace2).Value = ""
+        '                    DataGridView1.Rows(i).Cells(CellSalesForecastBln3).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellPPICForecastBln3).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellUrut_3).Value = ""
+        '                    DataGridView1.Rows(i).Cells(CellRV_3).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellSpace3).Value = ""
+        '                    DataGridView1.Rows(i).Cells(CellSalesForecastBln4).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellPPICForecastBln4).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellUrut_4).Value = ""
+        '                    DataGridView1.Rows(i).Cells(CellRV_4).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellSpace4).Value = ""
+        '                    DataGridView1.Rows(i).Cells(CellSalesForecastBln5).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellPPICForecastBln5).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellUrut_5).Value = ""
+        '                    DataGridView1.Rows(i).Cells(CellRV_5).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellSpace5).Value = ""
+        '                    DataGridView1.Rows(i).Cells(CellSalesForecastBln6).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellPPICForecastBln6).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellUrut_6).Value = ""
+        '                    DataGridView1.Rows(i).Cells(CellRV_6).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(CellSpace6).Value = ""
+        '                    DataGridView1.Rows(i).Cells(CellStatus).Value = "NEW"
+        '                    Btn_Simpan.Tag = "&Simpan"
+        '                Next
+        '            End With
+        '        End Using
+
+        '        CloseConn()
+        '    Catch ex As Exception
+        '        CloseConn()
+        '        MessageBox.Show(ex.Message)
+        '        Exit Sub
+        '    End Try
+        'Else
+        Try
                 OpenConn()
 
                 get_no_faktur()
-                SQL = "select a.No_Faktur,a.Kode_Barang,b.Nama,a.Kode_Stock_Owner from EMI_Transaksi_Sales_Forecasting_Detail a,"
-                SQL = SQL & "Barang b where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang and "
-                SQL = SQL & "a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Faktur = '" & Display_Transaksi_ForecastOrder.nfak & "' "
-                SQL = SQL & "group by a.No_Faktur,a.Kode_Barang,b.Nama,a.Kode_Stock_Owner "
-                Using Ds = BindingTrans(SQL)
-                    With Ds.Tables("MyTable")
-                        For i As Integer = 0 To .Rows.Count - 1
-                            DataGridView1.Rows.Add(1)
-
-                            DataGridView1.Rows(i).Cells(CellSalesForecastBln1).Style.BackColor = Color.LightYellow
-                            DataGridView1.Rows(i).Cells(CellPPICForecastBln1).Style.BackColor = Color.LightCyan
-                            DataGridView1.Rows(i).Cells(CellSpace1).Style.BackColor = Color.LightGray
-                            DataGridView1.Rows(i).Cells(CellSalesForecastBln2).Style.BackColor = Color.LightYellow
-                            DataGridView1.Rows(i).Cells(CellPPICForecastBln2).Style.BackColor = Color.LightCyan
-                            DataGridView1.Rows(i).Cells(CellSpace2).Style.BackColor = Color.LightGray
-                            DataGridView1.Rows(i).Cells(CellSalesForecastBln3).Style.BackColor = Color.LightYellow
-                            DataGridView1.Rows(i).Cells(CellPPICForecastBln3).Style.BackColor = Color.LightCyan
-                            DataGridView1.Rows(i).Cells(CellSpace3).Style.BackColor = Color.LightGray
-                            DataGridView1.Rows(i).Cells(CellSalesForecastBln4).Style.BackColor = Color.LightYellow
-                            DataGridView1.Rows(i).Cells(CellPPICForecastBln4).Style.BackColor = Color.LightCyan
-                            DataGridView1.Rows(i).Cells(CellSpace4).Style.BackColor = Color.LightGray
-                            DataGridView1.Rows(i).Cells(CellSalesForecastBln5).Style.BackColor = Color.LightYellow
-                            DataGridView1.Rows(i).Cells(CellPPICForecastBln5).Style.BackColor = Color.LightCyan
-                            DataGridView1.Rows(i).Cells(CellSpace5).Style.BackColor = Color.LightGray
-                            DataGridView1.Rows(i).Cells(CellSalesForecastBln6).Style.BackColor = Color.LightYellow
-                            DataGridView1.Rows(i).Cells(CellPPICForecastBln6).Style.BackColor = Color.LightCyan
-                            DataGridView1.Rows(i).Cells(CellSpace6).Style.BackColor = Color.LightGray
-                            DataGridView1.Rows(i).Cells(CellStatus).Style.BackColor = Color.Yellow
-
-                            DataGridView1.Rows(i).Cells(CellKdBrg).Value = .Rows(i).Item("Kode_Barang")
-                            DataGridView1.Rows(i).Cells(CellNmBrg).Value = .Rows(i).Item("Nama")
-                            DataGridView1.Rows(i).Cells(CellAvg3Bulan).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellForecastCurrentMonth).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellActualCurrentMonth).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellPersenCurrentMonth).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellSalesForecastBln1).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellPPICForecastBln1).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellUrut_1).Value = ""
-                            DataGridView1.Rows(i).Cells(CellRV_1).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellSpace1).Value = ""
-                            DataGridView1.Rows(i).Cells(CellSalesForecastBln2).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellPPICForecastBln2).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellUrut_2).Value = ""
-                            DataGridView1.Rows(i).Cells(CellRV_2).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellSpace2).Value = ""
-                            DataGridView1.Rows(i).Cells(CellSalesForecastBln3).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellPPICForecastBln3).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellUrut_3).Value = ""
-                            DataGridView1.Rows(i).Cells(CellRV_3).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellSpace3).Value = ""
-                            DataGridView1.Rows(i).Cells(CellSalesForecastBln4).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellPPICForecastBln4).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellUrut_4).Value = ""
-                            DataGridView1.Rows(i).Cells(CellRV_4).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellSpace4).Value = ""
-                            DataGridView1.Rows(i).Cells(CellSalesForecastBln5).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellPPICForecastBln5).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellUrut_5).Value = ""
-                            DataGridView1.Rows(i).Cells(CellRV_5).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellSpace5).Value = ""
-                            DataGridView1.Rows(i).Cells(CellSalesForecastBln6).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellPPICForecastBln6).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellUrut_6).Value = ""
-                            DataGridView1.Rows(i).Cells(CellRV_6).Value = "0"
-                            DataGridView1.Rows(i).Cells(CellSpace6).Value = ""
-                            DataGridView1.Rows(i).Cells(CellStatus).Value = "NEW"
-                            Btn_Simpan.Tag = "&Simpan"
-                        Next
-                    End With
-                End Using
 
                 CloseConn()
             Catch ex As Exception
@@ -1595,19 +1607,7 @@ Public Class EMI_Transaksi_ForecastOrder
                 MessageBox.Show(ex.Message)
                 Exit Sub
             End Try
-        Else
-            Try
-                OpenConn()
-
-                get_no_faktur()
-
-                CloseConn()
-            Catch ex As Exception
-                CloseConn()
-                MessageBox.Show(ex.Message)
-                Exit Sub
-            End Try
-        End If
+        'End If
 
     End Sub
 
@@ -3614,11 +3614,7 @@ Public Class EMI_Transaksi_ForecastOrder
 
 
     Private Sub EMI_Transaksi_ForecastOrder_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
-        Display_Transaksi_ForecastOrder.Btn_Refresh_Click(Btn_Simpan, e)
-    End Sub
-
-    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
-
+        'Display_Transaksi_ForecastOrder.Btn_Refresh_Click(Btn_Simpan, e)
     End Sub
 
 
@@ -3761,6 +3757,7 @@ Public Class EMI_Transaksi_ForecastOrder
     Public Sub Get_Barang_Rix()
         Dim aksesUbahSales As String = ""
         Dim aksesUbahPPIC As String = ""
+
 
 
         Try

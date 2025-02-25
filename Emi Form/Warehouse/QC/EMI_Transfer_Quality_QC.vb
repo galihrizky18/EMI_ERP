@@ -1,6 +1,4 @@
-﻿Imports iTextSharp.text.pdf
-Imports System.IO
-Imports Org.BouncyCastle.Utilities
+﻿Imports System.IO
 
 Public Class EMI_Transfer_Quality_QC
 

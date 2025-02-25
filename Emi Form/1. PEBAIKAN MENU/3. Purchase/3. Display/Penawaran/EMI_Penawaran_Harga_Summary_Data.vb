@@ -1,8 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-
-Public Class EMI_Penawaran_Harga_Summary_Data
+﻿Public Class EMI_Penawaran_Harga_Summary_Data
 
     Dim Arr1, Arr2, Arr3, Arr4, arrSubmited, arrAktif As New ArrayList
     Dim pertama As Integer = 1
@@ -72,8 +68,7 @@ Public Class EMI_Penawaran_Harga_Summary_Data
             Exit Sub
         End Try
 
-        LvPenawaranHarga.Items.Clear()
-
+        LvPenawaranHarga.Columns.Clear() : LvPenawaranHarga.Items.Clear()
         LvPenawaranHarga.Columns.Add(Base_Language.Lang_Global_NoFaktur, 120, HorizontalAlignment.Left)
         LvPenawaranHarga.Columns.Add(Base_Language.Lang_Penawaran_NoPenawaran, 190, HorizontalAlignment.Left)
         LvPenawaranHarga.Columns.Add(Base_Language.Lang_global_Periode_Awal, 120, HorizontalAlignment.Center)
@@ -85,17 +80,16 @@ Public Class EMI_Penawaran_Harga_Summary_Data
         LvPenawaranHarga.Columns.Add("sisa hari", 120, HorizontalAlignment.Center)
         LvPenawaranHarga.Columns.Add("Status", 100, HorizontalAlignment.Center)
         LvPenawaranHarga.Columns.Add("Lokasi", 0, HorizontalAlignment.Center)
-
         LvPenawaranHarga.View = View.Details
 
-        LvPenawaranHarga_Detail.Items.Clear()
+        LvPenawaranHarga_Detail.Columns.Clear() : LvPenawaranHarga_Detail.Items.Clear()
         LvPenawaranHarga_Detail.Columns.Add(Base_Language.Lang_Global_KodeBarang, 140, HorizontalAlignment.Left)
         LvPenawaranHarga_Detail.Columns.Add(Base_Language.Lang_Global_Nama, 390, HorizontalAlignment.Left)
         LvPenawaranHarga_Detail.Columns.Add(Base_Language.Lang_Global_MinOrder, 120, HorizontalAlignment.Center)
         LvPenawaranHarga_Detail.Columns.Add(Base_Language.Lang_Global_Satuan, 110, HorizontalAlignment.Center)
         LvPenawaranHarga_Detail.Columns.Add(Base_Language.Lang_Global_HargaSatuan, 180, HorizontalAlignment.Right)
-
         LvPenawaranHarga_Detail.View = View.Details
+
 
         Try
             OpenConn()
@@ -107,13 +101,6 @@ Public Class EMI_Penawaran_Harga_Summary_Data
 
             SQL = "Select kode_stock_owner From "
             SQL = SQL & "stock_owner where kode_perusahaan = '" & KodePerusahaan & "' "
-            'SQL = SQL & "and kode_kota in( "
-            'For i As Integer = 0 To xSplit.Count - 1
-            '    SQL = SQL & "'" & xSplit(i).Trim & "', "
-            'Next
-            'SQL = Strings.Left(SQL, Len(SQL) - 2)
-
-            'SQL = SQL & ") "
             SQL = SQL & "order by kode_stock_owner"
             'ComboBox1.Items.Add("Seluruh")
             Using dr = OpenTrans(SQL)
@@ -135,13 +122,17 @@ Public Class EMI_Penawaran_Harga_Summary_Data
             'ComboBox3.Items.Add("T") : Arr4.Add("T")
             'ComboBox3.SelectedIndex = 1
 
+
             ComboBox3.Items.Clear() : Arr1.Clear()
             ComboBox3.Items.Add("Tanggal") : Arr1.Add("a.Tanggal")
+            ComboBox3.Items.Add("Periode Awal") : Arr1.Add("a.Tgl_Penawaran_Hrg")
+            ComboBox3.Items.Add("Periode Akhir") : Arr1.Add("a.Periode_Akhir_Penawaran")
 
             CmbSubmited.Items.Clear() : arrSubmited.Clear()
             CmbSubmited.Items.Add("--Seluruh--")
             CmbSubmited.Items.Add("Submited")
             CmbSubmited.Items.Add("Unsbumited")
+            CmbSubmited.SelectedIndex = 0
 
             cmb_aktif.Items.Clear() : arrAktif.Clear()
             cmb_aktif.Items.Add("--Seluruh--") : arrAktif.Add("seluruh")
@@ -169,89 +160,90 @@ Public Class EMI_Penawaran_Harga_Summary_Data
             CheckBox2.Text = Base_Language.Lang_Global_Para_lain
             BtnBarangMasuk_Cari.Text = Base_Language.Lang_Global_Cari
 
+#Region "Kode Lama"
+
+            'get_jam()
+            'SQL = ";with cte as ( "
+            'SQL = SQL & "Select a.kode_Perusahaan,a.tanggal,a.lokasi,a.flag_release, a.no_faktur, a.no_penawaran,Tgl_Penawaran_Hrg,Periode_Akhir_Penawaran,a.Kode_Supplier,b.nama, a.noUrut, "
+            'SQL = SQL & "(case "
+            'SQL = SQL & "when a.Selesai='Y' then 'T' "
+            'SQL = SQL & "when '" & Format(tgl_skg, "yyyy-MM-dd") & "' not between a.Tgl_Penawaran_Hrg And a.Periode_Akhir_Penawaran then 'T' "
+            'SQL = SQL & "when a.flag_release = 'Y' then 'Y' "
+            'SQL = SQL & "else 'S' end "
+            'SQL = SQL & ") as aktif, datediff(day, '" & Format(tgl_skg, "yyyy-MM-dd") & "',a.Periode_Akhir_Penawaran) as sisa_hari "
+            'SQL = SQL & "From EMI_Master_Penawaran a, suppliers b "
+            'SQL = SQL & "Where a.Kode_Perusahaan =b.kode_Perusahaan and a.Kode_supplier=b.kode_supplier "
+            'SQL = SQL & ") select * from cte a where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            'SQL = SQL & "and aktif = '" & arrAktif.Item(cmb_aktif.SelectedIndex) & "' "
 
 
-            get_jam()
-            SQL = ";with cte as ( "
-            SQL = SQL & "Select a.kode_Perusahaan,a.tanggal,a.lokasi,a.flag_release, a.no_faktur, a.no_penawaran,Tgl_Penawaran_Hrg,Periode_Akhir_Penawaran,a.Kode_Supplier,b.nama, a.noUrut, "
-            SQL = SQL & "(case "
-            SQL = SQL & "when a.Selesai='Y' then 'T' "
-            SQL = SQL & "when '" & Format(tgl_skg, "yyyy-MM-dd") & "' not between a.Tgl_Penawaran_Hrg And a.Periode_Akhir_Penawaran then 'T' "
-            SQL = SQL & "when a.flag_release = 'Y' then 'Y' "
-            SQL = SQL & "else 'S' end "
-            SQL = SQL & ") as aktif, datediff(day, '" & Format(tgl_skg, "yyyy-MM-dd") & "',a.Periode_Akhir_Penawaran) as sisa_hari "
-            SQL = SQL & "From EMI_Master_Penawaran a, suppliers b "
-            SQL = SQL & "Where a.Kode_Perusahaan =b.kode_Perusahaan and a.Kode_supplier=b.kode_supplier "
-            SQL = SQL & ") select * from cte a where Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and aktif = '" & arrAktif.Item(cmb_aktif.SelectedIndex) & "' "
+            'If ComboBox6.SelectedIndex = 0 Then
+            '    SQL = SQL & " and a.Lokasi in("
+            '    Dim list_kota As String = ""
+            '    For x As Integer = 1 To ComboBox6.Items.Count - 1
+            '        list_kota = list_kota & "'" & ComboBox6.Items(x).ToString & "', "
+            '    Next
+
+            '    list_kota = Strings.Left(list_kota, Len(list_kota) - 2)
+
+            '    SQL = SQL & list_kota & ")"
+            'Else
+            '    SQL = SQL & " and a.Lokasi = '" & ComboBox6.Text & "' "
+            'End If
+
+            'SQL = SQL & "order by Tgl_Penawaran_Hrg"
+
+            'Dim Lvw As ListViewItem
+
+            'Using Ds = BindingTrans(SQL)
+            '    With Ds.Tables("MyTable")
+            '        If .Rows.Count <> 0 Then
+            '            For i As Integer = 0 To .Rows.Count - 1
+
+            '                Lvw = LvPenawaranHarga.Items.Add(.Rows(i).Item("no_faktur"))
+            '                Lvw.SubItems.Add(.Rows(i).Item("no_penawaran"))
+            '                Lvw.SubItems.Add(Format(.Rows(i).Item("Tgl_Penawaran_Hrg"), "dd MMM yyyy"))
+            '                Lvw.SubItems.Add(Format(.Rows(i).Item("Periode_Akhir_Penawaran"), "dd MMM yyyy"))
+            '                Lvw.SubItems.Add(.Rows(i).Item("kode_supplier"))
+            '                Lvw.SubItems.Add(.Rows(i).Item("NoUrut"))
+            '                Lvw.SubItems.Add(.Rows(i).Item("nama"))
+
+            '                If .Rows(i).Item("aktif") = "Y" Then
+            '                    Lvw.SubItems.Add("Aktif")
+            '                    Lvw.BackColor = Color.LightGreen
+            '                ElseIf .Rows(i).Item("aktif") = "T" Then
+            '                    Lvw.SubItems.Add("Tidak Aktif")
+            '                    Lvw.BackColor = Color.FromArgb(231, 64, 50)
+            '                ElseIf .Rows(i).Item("aktif") = "S" Then
+            '                    Lvw.SubItems.Add("Belum Aktif")
+            '                    Lvw.BackColor = Color.LightBlue
+            '                End If
+
+            '                If General_Class.CekNULL(.Rows(i).Item("aktif")) = "Y" Then
+            '                    Lvw.SubItems.Add(.Rows(i).Item("sisa_hari") & " hari")
+
+            '                    If .Rows(i).Item("sisa_hari") < ExpPenwaran Then
+            '                        Lvw.BackColor = Color.LightYellow
+            '                    End If
+
+            '                Else
+            '                    Lvw.SubItems.Add("-")
+            '                End If
+            '                If General_Class.CekNULL(.Rows(i).Item("Flag_release")) = "Y" Then
+            '                    Lvw.SubItems.Add("SUBMITTED")
+            '                Else
+            '                    Lvw.SubItems.Add("UNSUBMITTED")
+            '                End If
+            '                Lvw.SubItems.Add(.Rows(i).Item("lokasi"))
 
 
+            '            Next
+            '        End If
+            '    End With
+            'End Using
+#End Region
 
-            If ComboBox6.SelectedIndex = 0 Then
-                SQL = SQL & " and a.Lokasi in("
-                Dim list_kota As String = ""
-                For x As Integer = 1 To ComboBox6.Items.Count - 1
-                    list_kota = list_kota & "'" & ComboBox6.Items(x).ToString & "', "
-                Next
-
-                list_kota = Strings.Left(list_kota, Len(list_kota) - 2)
-
-                SQL = SQL & list_kota & ")"
-            Else
-                SQL = SQL & " and a.Lokasi = '" & ComboBox6.Text & "' "
-            End If
-
-            SQL = SQL & "order by Tgl_Penawaran_Hrg"
-
-            Dim Lvw As ListViewItem
-
-            Using Ds = BindingTrans(SQL)
-                With Ds.Tables("MyTable")
-                    If .Rows.Count <> 0 Then
-                        For i As Integer = 0 To .Rows.Count - 1
-
-                            Lvw = LvPenawaranHarga.Items.Add(.Rows(i).Item("no_faktur"))
-                            Lvw.SubItems.Add(.Rows(i).Item("no_penawaran"))
-                            Lvw.SubItems.Add(Format(.Rows(i).Item("Tgl_Penawaran_Hrg"), "dd MMM yyyy"))
-                            Lvw.SubItems.Add(Format(.Rows(i).Item("Periode_Akhir_Penawaran"), "dd MMM yyyy"))
-                            Lvw.SubItems.Add(.Rows(i).Item("kode_supplier"))
-                            Lvw.SubItems.Add(.Rows(i).Item("NoUrut"))
-                            Lvw.SubItems.Add(.Rows(i).Item("nama"))
-
-                            If .Rows(i).Item("aktif") = "Y" Then
-                                Lvw.SubItems.Add("Aktif")
-                                Lvw.BackColor = Color.LightGreen
-                            ElseIf .Rows(i).Item("aktif") = "T" Then
-                                Lvw.SubItems.Add("Tidak Aktif")
-                                Lvw.BackColor = Color.FromArgb(231, 64, 50)
-                            ElseIf .Rows(i).Item("aktif") = "S" Then
-                                Lvw.SubItems.Add("Belum Aktif")
-                                Lvw.BackColor = Color.LightBlue
-                            End If
-
-                            If General_Class.CekNULL(.Rows(i).Item("aktif")) = "Y" Then
-                                Lvw.SubItems.Add(.Rows(i).Item("sisa_hari") & " hari")
-
-                                If .Rows(i).Item("sisa_hari") < ExpPenwaran Then
-                                    Lvw.BackColor = Color.LightYellow
-                                End If
-
-                            Else
-                                Lvw.SubItems.Add("-")
-                            End If
-                            If General_Class.CekNULL(.Rows(i).Item("Flag_release")) = "Y" Then
-                                Lvw.SubItems.Add("SUBMITTED")
-                            Else
-                                Lvw.SubItems.Add("UNSUBMITTED")
-                            End If
-                            Lvw.SubItems.Add(.Rows(i).Item("lokasi"))
-
-
-                        Next
-                    End If
-                End With
-            End Using
-
+            cari()
 
             CloseConn()
         Catch ex As Exception
@@ -314,10 +306,14 @@ Public Class EMI_Penawaran_Harga_Summary_Data
         End Try
     End Sub
 
-
     Private Sub BtnBarangMasuk_Cari_Click(sender As Object, e As EventArgs) Handles BtnBarangMasuk_Cari.Click
-        Try
-            pertama = 1
+        cari(True)
+    End Sub
+
+
+
+    Private Sub cari(ByVal Optional filter As Boolean = False)
+        If filter Then
 
             If CheckBox1.Checked = False And CheckBox2.Checked = False And CheckBox3.Checked = False Then
                 MessageBox.Show(Base_Language.Lang_Global_Error_Paramater, Judul)
@@ -333,15 +329,20 @@ Public Class EMI_Penawaran_Harga_Summary_Data
                     DateTimePicker1.Value = Now.Date : DateTimePicker2.Value = Now.Date
                     Exit Sub
                 End If
-            ElseIf CheckBox2.Checked Then
+            End If
+            If CheckBox2.Checked Then
                 If ComboBox2.SelectedIndex = -1 Then
                     MessageBox.Show(Base_Language.Lang_Global_Error_Paramater_Lain, Judul)
                     ComboBox2.Focus() : Exit Sub
-                ElseIf TextBox4.Text.Trim.Length = 0 Then
-                    MessageBox.Show(Base_Language.Lang_Global_Error_Paramater_Lain2, Judul)
-                    TextBox4.Focus() : Exit Sub
+                    If TextBox4.Text.Trim.Length = 0 Then
+                        MessageBox.Show(Base_Language.Lang_Global_Error_Paramater_Lain2, Judul)
+                        TextBox4.Focus() : Exit Sub
+                    End If
                 End If
             End If
+        End If
+
+        Try
 
             OpenConn()
 
@@ -360,6 +361,10 @@ Public Class EMI_Penawaran_Harga_Summary_Data
             SQL = SQL & "From EMI_Master_Penawaran a, suppliers b "
             SQL = SQL & "Where a.Kode_Perusahaan =b.kode_Perusahaan and a.Kode_supplier=b.kode_supplier "
             SQL = SQL & ") select * from cte a where Kode_Perusahaan = '" & KodePerusahaan & "' "
+
+            If Not filter Then
+                SQL = SQL & "and aktif = '" & arrAktif.Item(cmb_aktif.SelectedIndex) & "' "
+            End If
 
             If CmbSubmited.SelectedIndex = 0 Then
                 SQL = SQL & " "
@@ -414,7 +419,7 @@ Public Class EMI_Penawaran_Harga_Summary_Data
                 SQL = SQL & " and a.Lokasi = '" & ComboBox6.Text & "' "
             End If
 
-            SQL = SQL & "order by Tgl_Penawaran_Hrg"
+            SQL = SQL & "order by Tgl_Penawaran_Hrg, aktif DESC"
 
             Dim Lvw As ListViewItem
 
@@ -436,7 +441,7 @@ Public Class EMI_Penawaran_Harga_Summary_Data
                                 Lvw.BackColor = Color.LightGreen
                             ElseIf .Rows(i).Item("aktif") = "T" Then
                                 Lvw.SubItems.Add("Tidak Aktif")
-                                Lvw.BackColor = Color.FromArgb(231, 64, 50)
+                                Lvw.BackColor = Color.FromArgb(237, 114, 110)
                             ElseIf .Rows(i).Item("aktif") = "S" Then
                                 Lvw.SubItems.Add("Belum Aktif")
                                 Lvw.BackColor = Color.LightYellow
@@ -506,13 +511,12 @@ Public Class EMI_Penawaran_Harga_Summary_Data
         End Try
     End Sub
 
+
+
+
     Private Sub Btn_PilihBarang_Click(sender As Object, e As EventArgs) Handles Btn_PilihBarang.Click
         Emi_Display_Barang_Penawaran.dari = "Summary Data"
         Emi_Display_Barang_Penawaran.ShowDialog()
-    End Sub
-
-    Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox2.SelectedIndexChanged
-
     End Sub
 
     'Private Sub CetakUlangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CetakUlangToolStripMenuItem.Click
@@ -599,7 +603,7 @@ Public Class EMI_Penawaran_Harga_Summary_Data
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-        kosong()
+        cari(True)
     End Sub
 
     'Private Sub DisplayRakToolStripMenuItem_Click(sender As Object, e As EventArgs)
@@ -612,12 +616,18 @@ Public Class EMI_Penawaran_Harga_Summary_Data
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
         If CheckBox1.Checked Then
-            ComboBox3.Enabled = True : DateTimePicker1.Enabled = True : DateTimePicker2.Enabled = True
+            ComboBox3.Enabled = True
             CheckBox3.Checked = False
         Else
             ComboBox3.Enabled = False : DateTimePicker1.Enabled = False : DateTimePicker2.Enabled = False
             ComboBox3.SelectedIndex = -1 : DateTimePicker1.Value = Now.Date : DateTimePicker2.Value = Now.Date
         End If
+    End Sub
+
+    Private Sub ComboBox3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox3.SelectedIndexChanged
+        If ComboBox3.SelectedIndex = -1 Then Exit Sub
+
+        DateTimePicker1.Enabled = True : DateTimePicker2.Enabled = True
     End Sub
 
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged

@@ -10,31 +10,26 @@
     Dim KY As Color = Color.Green
     Dim Batal As Color = Color.Black
 
-
-    Dim Lv_NoPO, Lv_TglPO, Lv_Keterangan, Lv_KdPerusahaanBiayaImport, Lv_Perusahaan, Lv_KdKategori, Lv_NmKategori, Lv_MataUang, Lv_TotHutang, Lv_PPN, Lv_PPH, Lv_Dibayar, Lv_Sisa, Lv_Lokasi, Lv_JatuhTempo, Lv_Jenis As String
+    Dim Lv_NoPO, Lv_TglPO, Lv_Keterangan, Lv_KdPerusahaanBiayaImport, Lv_Perusahaan, Lv_KdKategori, Lv_NmKategori, Lv_MataUang As String
+    Dim Lv_DPP, Lv_PPN, Lv_PPH, Lv_Total, Lv_Pelunasan, Lv_Sisa, Lv_Lokasi, Lv_JatuhTempo, Lv_Jenis As String
 
     Dim item_NoPO As Integer = 0
     Dim item_TglPO As Integer = 1
     Dim item_Keterangan As Integer = 2
-    Dim item_KdPerusahaanBIayaImport As Integer = 3
+    Dim item_KdPerusahaanBiayaImport As Integer = 3
     Dim item_Perusahaan As Integer = 4
     Dim item_KdKategori As Integer = 5
     Dim item_NmKategori As Integer = 6
     Dim item_MataUang As Integer = 7
-    Dim item_TotHutang As Integer = 8
-
-    Private Sub LvHutangBiaya_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LvHutangBiaya.SelectedIndexChanged
-
-    End Sub
-
+    Dim item_DPP As Integer = 8
     Dim item_PPN As Integer = 9
     Dim item_PPH As Integer = 10
-    Dim item_Dibayar As Integer = 11
-    Dim item_Sisa As Integer = 12
-    Dim item_Lokasi As Integer = 13
-    Dim item_JatuhTempo As Integer = 14
-    Dim item_Jenis As Integer = 15
-
+    Dim item_Total As Integer = 11
+    Dim item_Pelunasan As Integer = 12
+    Dim item_Sisa As Integer = 13
+    Dim item_Lokasi As Integer = 14
+    Dim item_JatuhTempo As Integer = 15
+    Dim item_Jenis As Integer = 16
 
     Private Sub Laporan_Bahan_Tidak_Potong_Stock_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         My.Application.ChangeCulture("en-us")
@@ -52,46 +47,28 @@
             Exit Sub
         End Try
 
-        'LvHutangBiaya.Columns.Add("Id Rencana", 100, HorizontalAlignment.Center)
-        'LvHutangBiaya.Columns.Add("No Faktur", 120, HorizontalAlignment.Left)
-        'LvHutangBiaya.Columns.Add("Tanggal HPP", 100, HorizontalAlignment.Center)
-        'LvHutangBiaya.Columns.Add("Lokasi", 110, HorizontalAlignment.Left)
-        'LvHutangBiaya.Columns.Add("Kode Perusahaan", 150, HorizontalAlignment.Left)
-        'LvHutangBiaya.Columns.Add("Kode Supplier", 110, HorizontalAlignment.Left)
-        'LvHutangBiaya.Columns.Add("Nama Supplier", 150, HorizontalAlignment.Left)
-        'LvHutangBiaya.Columns.Add("Keterangan", 120, HorizontalAlignment.Left)
-        'LvHutangBiaya.Columns.Add("Kode Kategori Biaya Import", 180, HorizontalAlignment.Left)
-        'LvHutangBiaya.Columns.Add("Mata Uang", 80, HorizontalAlignment.Center)
-        'LvHutangBiaya.Columns.Add("Total", 120, HorizontalAlignment.Right)
-        'LvHutangBiaya.Columns.Add("Kurs", 120, HorizontalAlignment.Right)
-        'LvHutangBiaya.Columns.Add("Nilai Idr", 120, HorizontalAlignment.Right)
-        'LvHutangBiaya.Columns.Add("Total Hutang", 120, HorizontalAlignment.Right)
-        'LvHutangBiaya.Columns.Add("Total Pelunasan", 120, HorizontalAlignment.Right)
-        'LvHutangBiaya.Columns.Add("Selesai Pembelian", 120, HorizontalAlignment.Center)
-
-        LvHutangBiaya.Columns.Add("No PO", 130, HorizontalAlignment.Left) '1
-        LvHutangBiaya.Columns.Add("Tanggal PO", 120, HorizontalAlignment.Center) '2
-        LvHutangBiaya.Columns.Add("Keterangan", 200, HorizontalAlignment.Left) '3
-        LvHutangBiaya.Columns.Add("KdPerusahanBiayaImport", 0, HorizontalAlignment.Left) '4
-        LvHutangBiaya.Columns.Add("Perusahaan", 180, HorizontalAlignment.Left) '5
-        LvHutangBiaya.Columns.Add("KdKategori", 0, HorizontalAlignment.Left) '6
-        LvHutangBiaya.Columns.Add("Kategori", 150, HorizontalAlignment.Left) '7
-        LvHutangBiaya.Columns.Add("Mata Uang", 90, HorizontalAlignment.Center) '8
-        LvHutangBiaya.Columns.Add("Total Hutang", 150, HorizontalAlignment.Right) '9
-        LvHutangBiaya.Columns.Add("PPN", 0, HorizontalAlignment.Right) '10
-        LvHutangBiaya.Columns.Add("PPH", 0, HorizontalAlignment.Right) '11
-        LvHutangBiaya.Columns.Add("Dibayar", 150, HorizontalAlignment.Right) '12
+        LvHutangBiaya.Columns.Add("No PO", 130, HorizontalAlignment.Left) '0
+        LvHutangBiaya.Columns.Add("Tanggal PO", 120, HorizontalAlignment.Center) '1
+        LvHutangBiaya.Columns.Add("Keterangan", 200, HorizontalAlignment.Left) '2
+        LvHutangBiaya.Columns.Add("KdPerusahanBiayaImport", 0, HorizontalAlignment.Left) '3
+        LvHutangBiaya.Columns.Add("Perusahaan", 180, HorizontalAlignment.Left) '4
+        LvHutangBiaya.Columns.Add("KdKategori", 0, HorizontalAlignment.Left) '5
+        LvHutangBiaya.Columns.Add("Kategori", 150, HorizontalAlignment.Left) '6
+        LvHutangBiaya.Columns.Add("Mata Uang", 90, HorizontalAlignment.Center) '7
+        LvHutangBiaya.Columns.Add("DPP", 150, HorizontalAlignment.Right) '8
+        LvHutangBiaya.Columns.Add("PPN", 150, HorizontalAlignment.Right) '9
+        LvHutangBiaya.Columns.Add("PPH", 150, HorizontalAlignment.Right) '10
+        LvHutangBiaya.Columns.Add("Total", 150, HorizontalAlignment.Right) '11
+        LvHutangBiaya.Columns.Add("Pelunasan", 150, HorizontalAlignment.Right) '12
         LvHutangBiaya.Columns.Add("Sisa", 150, HorizontalAlignment.Right) '13
+        'HIDE
         LvHutangBiaya.Columns.Add("Lokasi", 0, HorizontalAlignment.Right) '14
         LvHutangBiaya.Columns.Add("Jatuh Tempo", 120, HorizontalAlignment.Center).DisplayIndex = 2 '15
         LvHutangBiaya.Columns.Add("Jenis", 0, HorizontalAlignment.Left) '16
-        LvHutangBiaya.Columns.Add("Nilai PPN", 100, HorizontalAlignment.Right) '10
-        LvHutangBiaya.Columns.Add("Nilai PPH", 100, HorizontalAlignment.Right) '11
 
         LvHutangBiaya.View = View.Details
 
         ' get_lokasi()
-
 
         kosong()
 
@@ -99,10 +76,8 @@
 
     Private Sub kosong()
 
-
         Try
             OpenConn()
-
 
             ComboBox6.Items.Clear()
             ComboBox6.Items.Add(Base_Language.Lang_Global_SeluruhCombobox)
@@ -136,7 +111,7 @@
             ComboBox3.Items.Add("Tanggal PO") : Arr1.Add("a.Tanggal_PO") : arrSfB.Add("Tanggal_PO")
             ComboBox3.Items.Add("Jatuh Tempo") : Arr1.Add("a.Tgl_Jatuh_Tempo") : arrSfB.Add("Tgl_Jatuh_Tempo")
 
-            'TextBoxa.Text = "0" 
+            'TextBoxa.Text = "0"
             ComboBox3.Enabled = False : ComboBox2.Enabled = False
             Tgl1.Enabled = False : Tgl2.Enabled = False
             TextBox4.Enabled = False
@@ -163,9 +138,7 @@
             Exit Sub
         End Try
 
-
         GetData()
-
 
     End Sub
 
@@ -174,15 +147,16 @@
         Lv_NoPO = LvHutangBiaya.Items(index).SubItems(item_NoPO).Text
         Lv_TglPO = LvHutangBiaya.Items(index).SubItems(item_TglPO).Text
         Lv_Keterangan = LvHutangBiaya.Items(index).SubItems(item_Keterangan).Text
-        Lv_KdPerusahaanBiayaImport = LvHutangBiaya.Items(index).SubItems(item_KdPerusahaanBIayaImport).Text
+        Lv_KdPerusahaanBiayaImport = LvHutangBiaya.Items(index).SubItems(item_KdPerusahaanBiayaImport).Text
         Lv_Perusahaan = LvHutangBiaya.Items(index).SubItems(item_Perusahaan).Text
         Lv_KdKategori = LvHutangBiaya.Items(index).SubItems(item_KdKategori).Text
         Lv_NmKategori = LvHutangBiaya.Items(index).SubItems(item_NmKategori).Text
         Lv_MataUang = LvHutangBiaya.Items(index).SubItems(item_MataUang).Text
-        Lv_TotHutang = LvHutangBiaya.Items(index).SubItems(item_TotHutang).Text
+        Lv_DPP = LvHutangBiaya.Items(index).SubItems(item_DPP).Text
         Lv_PPN = LvHutangBiaya.Items(index).SubItems(item_PPN).Text
         Lv_PPH = LvHutangBiaya.Items(index).SubItems(item_PPH).Text
-        Lv_Dibayar = LvHutangBiaya.Items(index).SubItems(item_Dibayar).Text
+        Lv_Total = LvHutangBiaya.Items(index).SubItems(item_Total).Text
+        Lv_Pelunasan = LvHutangBiaya.Items(index).SubItems(item_Pelunasan).Text
         Lv_Sisa = LvHutangBiaya.Items(index).SubItems(item_Sisa).Text
         Lv_Lokasi = LvHutangBiaya.Items(index).SubItems(item_Lokasi).Text
         Lv_JatuhTempo = LvHutangBiaya.Items(index).SubItems(item_JatuhTempo).Text
@@ -190,22 +164,13 @@
 
     End Sub
 
-
-
-
-
     Private Sub CheckBox6_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox6.CheckedChanged
         If CheckBox6.Checked Then
             ComboBox2.Enabled = True : TextBox4.Enabled = True
-
         Else
             ComboBox2.Enabled = False : TextBox4.Enabled = False
             ComboBox2.SelectedIndex = -1 : TextBox4.Text = ""
         End If
-    End Sub
-
-    Private Sub GroupBox1_Enter(sender As Object, e As EventArgs) Handles GroupBox1.Enter
-
     End Sub
 
     Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
@@ -217,8 +182,6 @@
         TextBox4.Text = ""
     End Sub
 
-
-
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
         If CheckBox1.Checked Then
             ComboBox3.Enabled = True : Tgl1.Enabled = True : Tgl2.Enabled = True
@@ -227,7 +190,6 @@
             ComboBox3.SelectedIndex = -1
         End If
     End Sub
-
 
     Private Sub LvHutangBiaya_DoubleClick(sender As Object, e As EventArgs) Handles LvHutangBiaya.DoubleClick
 
@@ -246,7 +208,7 @@
         EMI_Detail_Hutang_Biaya_Import.Txt_Keterangan.Text = Lv_Keterangan
         EMI_Detail_Hutang_Biaya_Import.Txt_KdPerusahaanBiayaImport.Text = Lv_KdPerusahaanBiayaImport
         EMI_Detail_Hutang_Biaya_Import.Txt_KdMasterKategori.Text = Lv_KdKategori
-        EMI_Detail_Hutang_Biaya_Import.Txt_TotalHutang.Text = Lv_TotHutang
+        EMI_Detail_Hutang_Biaya_Import.Txt_TotalHutang.Text = Lv_Total
 
         EMI_Detail_Hutang_Biaya_Import.Txt_MataUang.Text = Lv_MataUang
         EMI_Detail_Hutang_Biaya_Import.Txt_MataUang2.Text = Lv_MataUang
@@ -255,10 +217,7 @@
         EMI_Detail_Hutang_Biaya_Import.Load_Lv()
         EMI_Detail_Hutang_Biaya_Import.ShowDialog()
 
-
-
     End Sub
-
 
     Private Sub BtnCetak_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnCetak.Click
         'If CheckBox1.Checked = False And CheckBox5.Checked = False And CheckBox6.Checked = False Then
@@ -284,7 +243,6 @@
         '    End If
         'End If
 
-
         Try
             OpenConn()
 
@@ -292,13 +250,13 @@
 
             '---------- SQL
             SQL = "select a.kode_perusahaan "
-            SQL = SQL & "from View_EMI_Pelunasan a "
+            SQL = SQL & "from View_Emi_Pelunasan_Cetak a "
             SQL = SQL & "where a.kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.flag_lunas is null and a.Nilai <> 0 "
 
             '---------- SF
-            SF = "{View_EMI_Pelunasan.Kode_Perusahaan} = '" & KodePerusahaan & "' and "
-            SF = SF & "IsNull({View_EMI_Pelunasan.flag_lunas}) and {View_EMI_Pelunasan.Nilai} <> 0  "
+            SF = "{View_Emi_Pelunasan_Cetak.Kode_Perusahaan} = '" & KodePerusahaan & "' and "
+            SF = SF & "IsNull({View_Emi_Pelunasan_Cetak.flag_lunas}) and {View_Emi_Pelunasan_Cetak.Nilai} <> 0  "
 
             'LOKASI
             If ComboBox6.SelectedIndex <> -1 Then
@@ -308,7 +266,7 @@
 
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SF = SF & "AND "
 
-                SF = SF & "{View_EMI_Pelunasan.lokasi} = '" & ComboBox6.Text & "' "
+                SF = SF & "{View_Emi_Pelunasan_Cetak.lokasi} = '" & ComboBox6.Text & "' "
             End If
 
             'TRANSAKSI HARI INI
@@ -320,9 +278,9 @@
 
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SF = SF & "AND "
 
-                SF = SF & " {View_EMI_Pelunasan.Tanggal_PO} "
+                SF = SF & " {View_Emi_Pelunasan_Cetak.Tanggal_PO} "
                 SF = SF & " >=date('" & Format(Now, "yyyy-MM-dd") & "') "
-                SF = SF & " and {View_EMI_Pelunasan.Tanggal_PO} "
+                SF = SF & " and {View_Emi_Pelunasan_Cetak.Tanggal_PO} "
                 SF = SF & " <=date('" & Format(Now, "yyyy-MM-dd") & "') "
             End If
 
@@ -336,9 +294,9 @@
 
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SF = SF & "AND "
 
-                SF = SF & " {View_EMI_Pelunasan." & arrSfB.Item(ComboBox3.SelectedIndex) & "} "
+                SF = SF & " {View_Emi_Pelunasan_Cetak." & arrSfB.Item(ComboBox3.SelectedIndex) & "} "
                 SF = SF & " >=date('" & Format(Tgl1.Value, "yyyy-MM-dd") & "') "
-                SF = SF & " and {View_EMI_Pelunasan." & arrSfB.Item(ComboBox3.SelectedIndex) & "} "
+                SF = SF & " and {View_Emi_Pelunasan_Cetak." & arrSfB.Item(ComboBox3.SelectedIndex) & "} "
                 SF = SF & " <=date('" & Format(Tgl2.Value, "yyyy-MM-dd") & "') "
             End If
 
@@ -351,7 +309,7 @@
 
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SF = SF & "AND "
 
-                SF = SF & " ToText({View_EMI_Pelunasan." & arrSfA.Item(ComboBox2.SelectedIndex) & "}) like '*" & Trim(TextBox4.Text) & "*' "
+                SF = SF & " ToText({View_Emi_Pelunasan_Cetak." & arrSfA.Item(ComboBox2.SelectedIndex) & "}) like '*" & Trim(TextBox4.Text) & "*' "
             End If
 
             Using Ds = BindingTrans(SQL)
@@ -373,7 +331,6 @@
                 End If
             End Using
 
-
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -381,12 +338,9 @@
             Exit Sub
         End Try
 
-
-
     End Sub
 
     Private Sub BtnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnRefresh.Click
-
 
         If CheckBox1.Checked = False And CheckBox5.Checked = False And CheckBox6.Checked = False Then
             MessageBox.Show(Base_Language.Lang_Global_Error_Paramater, Judul)
@@ -420,15 +374,24 @@
 
     End Sub
 
-
     Private Sub GetData(ByVal Optional Filter As Boolean = False)
 
         Try
             OpenConn()
 
             LvHutangBiaya.Items.Clear()
-            SQL = "select a.kode_Perusahaan, a.No_PO, a.Keterangan, a.Tanggal_PO, a.Kode_Perusahaan_Biaya_Import, a.nama as Perusahaan, a.Kode_Master_Kategori_Biaya_Import , a.Nama_Kategori,  "
-            SQL = SQL & "a.Mata_uang, ISNULL(a.Nilai, 0) as TotalHutang, isnull(a.PPN,0) as PPN, isnull(a.PPH,0) as PPH, a.sudah_bayar, a.lokasi, a.Tgl_jatuh_Tempo, a.Jenis1 "
+
+            SQL = "select a.kode_Perusahaan, a.No_PO, a.Tanggal_PO, a.Keterangan, a.Kode_Perusahaan_Biaya_Import, a.Nama as Perusahaan, a.Kode_Master_Kategori_Biaya_Import, a.Nama_Kategori, "
+            SQL = SQL & "a.Mata_uang, ISNULL(a.Nilai, 0) as DPP, a.ppn as persenPPN, a.pph as persenPPH, "
+            SQL = SQL & "ISNULL(( (ISNULL(a.Nilai, 0) * isnull(a.PPN, 0) / 100) ), 0) as PPN, "
+            SQL = SQL & "ISNULL(( (ISNULL(a.Nilai, 0) * isnull(a.PPH, 0) / 100) ), 0) as PPH, "
+            SQL = SQL & "ISNULL(( (a.Nilai + ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPN, 0) / 100)), 0)) - ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPH, 0) / 100)), 0) ),0) as total, "
+            SQL = SQL & "ISNULL(( (a.sudah_bayar + ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPN, 0) / 100)), 0)) - ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPH, 0) / 100)), 0) ), 0) as Pelunasan,"
+
+            SQL = SQL & "ISNULL(( ISNULL(((a.Nilai + ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPN, 0) / 100)), 0)) -ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPH, 0) / 100)), 0)),0) - "
+            SQL = SQL & "ISNULL(((a.sudah_bayar + ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPN, 0) / 100)), 0)) -ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPH, 0) / 100)), 0)), 0) ),0) as Sisa, "
+
+            SQL = SQL & "a.lokasi, a.Tgl_Jatuh_Tempo, a.Jenis1 "
             SQL = SQL & "from View_EMI_Pelunasan a "
             SQL = SQL & "where a.kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.flag_lunas is null and a.Nilai <> 0 "
@@ -468,7 +431,6 @@
                     SQL = SQL & Arr2.Item(ComboBox2.SelectedIndex) & " like '%" & Trim(TextBox4.Text) & "%' "
                 End If
 
-
             End If
 
             SQL = SQL & "order by a.Tanggal_PO"
@@ -481,30 +443,26 @@
                     lv.SubItems.Add(Format(Dr("Tanggal_PO"), "dd MMM yyyy"))
                     lv.SubItems.Add(Dr("Keterangan"))
                     lv.SubItems.Add(Dr("Kode_Perusahaan_Biaya_Import"))
-
                     lv.SubItems.Add(Dr("Perusahaan"))
                     lv.SubItems.Add(Dr("Kode_Master_Kategori_Biaya_Import"))
                     lv.SubItems.Add(Dr("Nama_Kategori"))
                     lv.SubItems.Add(Dr("Mata_uang"))
-                    lv.SubItems.Add(Format(Dr("TotalHutang"), "N2"))
+                    lv.SubItems.Add(Format(Dr("DPP"), "N2"))
                     lv.SubItems.Add(Format(Dr("PPN"), "N2"))
                     lv.SubItems.Add(Format(Dr("PPH"), "N2"))
-                    lv.SubItems.Add(Format(Dr("sudah_bayar"), "N2"))
-                    Dim Sisa As Double = Val(HilangkanTanda(Dr("TotalHutang"))) - Val(HilangkanTanda(Dr("sudah_bayar")))
-                    lv.SubItems.Add(Format(Sisa, "N2"))
+                    lv.SubItems.Add(Format(Dr("total"), "N2"))
+                    lv.SubItems.Add(Format(Dr("Pelunasan"), "N2"))
+                    lv.SubItems.Add(Format(Dr("Sisa"), "N2"))
                     lv.SubItems.Add(Dr("lokasi"))
-                    Dim tanggalJatuhTempo As String = If(General_Class.CekNULL(Dr("Tgl_jatuh_Tempo")) = "", "-", Format(Dr("Tgl_jatuh_Tempo"), "dd MMM yyyy"))
-                    lv.SubItems.Add(tanggalJatuhTempo)
+                    lv.SubItems.Add(If(General_Class.CekNULL(Dr("Tgl_Jatuh_Tempo")) = "", "-", Format(Dr("Tgl_Jatuh_Tempo"), "dd MMM yyyy")))
                     lv.SubItems.Add(Dr("Jenis1"))
-                    lv.SubItems.Add(Format((Dr("TotalHutang") * Dr("PPN")) / 100, "N2"))
-                    lv.SubItems.Add(Format((Dr("TotalHutang") * Dr("PPH")) / 100, "N2"))
+
+
                     'If Sisa <> 0 Then
                     '    lv.BackColor = Color.LightYellow
                     'ElseIf Sisa = 0 Then
                     '    lv.BackColor = Color.LightGreen
                     'End If
-
-
 
                 Loop
             End Using

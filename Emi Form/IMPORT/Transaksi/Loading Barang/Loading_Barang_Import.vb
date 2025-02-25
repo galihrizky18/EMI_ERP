@@ -1048,12 +1048,30 @@
 
 
                             ElseIf .Rows(i).Item("Flag_Potong_Stock") = "T" Then
+                                Dim hargaPembelianPO As Double = 0
+                                SQL = "select c.Harga, c.Satuan, c.Harga_Barang, c.Satuan_Barang from Rencana_Order a, EMI_Pembelian_PO b, EMI_Pembelian_PO_Detail c "
+                                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_PO = b.No_Faktur "
+                                SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur "
+                                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "'  and c.Kode_Barang = '" & .Rows(i).Item("kode_bahan") & "' "
+                                SQL = SQL & "and a.Status is null and b.status is null "
+                                Using Dr = OpenTrans(SQL)
+                                    If Dr.Read Then
+                                        hargaPembelianPO = Dr("harga")
+                                    Else
+                                        Dr.Close()
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Barang tidak ada dalam PO!")
+                                        Exit Sub
+                                    End If
+                                End Using
+
 
                                 SQL = "select Harga from bahan_import "
                                 SQL = SQL & " where kode_perusahaan = '" & KodePerusahaan & "' and Kode_Bahan = '" & .Rows(i).Item("kode_bahan") & "' and Kode_Stock_Owner_Import = '" & TextBox2.Text & "'"
                                 Using dr = OpenTrans(SQL)
                                     If dr.Read Then
-                                        HargaTot = HargaTot + dr("Harga") * .Rows(i).Item("tot_sat_bsr")
+                                        HargaTot = HargaTot + hargaPembelianPO * .Rows(i).Item("tot_sat_bsr")
                                     Else
                                         dr.Close()
                                         CloseTrans()
@@ -1082,13 +1100,33 @@
             For j As Integer = 0 To ListView1.Items.Count - 1
                 Dim TotHrgBrg As Double = 0
                 Dim Flag_Potong_Harga As String = ""
+
+                Dim hargaPembelianPO As Double = 0
+                SQL = "select c.Harga, c.Satuan, c.Harga_Barang, c.Satuan_Barang from Rencana_Order a, EMI_Pembelian_PO b, EMI_Pembelian_PO_Detail c "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_PO = b.No_Faktur "
+                SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "'  and c.Kode_Barang = '" & ListView1.Items(j).SubItems(1).Text & "' "
+                SQL = SQL & "and a.Status is null and b.status is null "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        hargaPembelianPO = Dr("harga")
+                    Else
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Barang tidak ada dalam PO!")
+                        Exit Sub
+                    End If
+                End Using
+
                 SQL = "Select Flag_Potong_Stock, Harga from Bahan_import where kode_perusahaan = '" & KodePerusahaan & "' and Kode_Bahan = '" & ListView1.Items(j).SubItems(1).Text & "' and Kode_Stock_Owner_Import = '" & TextBox2.Text & "'"
                 Using Dr = OpenTrans(SQL)
 
                     If Dr.Read Then
                         Flag_Potong_Harga = Dr("Flag_Potong_Stock")
                         If Dr("Flag_Potong_Stock") = "T" Then
-                            TotHrgBrg = Val(ListView1.Items(j).SubItems(4).Text) * Dr("Harga")
+
+                            TotHrgBrg = Val(ListView1.Items(j).SubItems(4).Text) * hargaPembelianPO
                         ElseIf Dr("Flag_Potong_Stock") = "Y" Then
                             Dr.Close()
                             SQL = "Select B.KOde_Barang, B.Kode_Bahan, sum(a.Harga*b.Jumlah) as tot_harga from Bahan_SN a, Det_Loading_Barang B where "
@@ -1143,6 +1181,27 @@
             SQL = "update rencana_order set Flag_Loading_Barang = 'Y' "
             SQL = SQL & " where kode_perusahaan = '" & KodePerusahaan & "' and id_rencana = '" & TxtId_Rencana.Text & "'"
             ExecuteTrans(SQL)
+
+            '==================================
+            '=     UPDATE FLAG SELESAI PO     =
+            '==================================
+            SQL = "select ID_Rencana, No_PO from Rencana_Order where Kode_Perusahaan = '" & KodePerusahaan & "' and ID_Rencana = '" & TxtId_Rencana.Text.Trim & "' and Status is null"
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+
+                        '==================
+                        '=     UPDATE     =
+                        '==================
+                        SQL = "update EMI_Pembelian_PO set Flag_Selesai_PO = 'Y' where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & .Rows(0).Item("No_PO") & "'"
+                        ExecuteTrans(SQL)
+
+                    End If
+                End With
+            End Using
+
+
+
 
             Cmd.Transaction.Commit()
 
@@ -1319,6 +1378,19 @@
         End Try
     End Sub
 
+    Private Sub TxtId_Rencana_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TxtId_Rencana.TextChanged
+
+
+    End Sub
+
+    Private Sub TxtContainer_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TxtContainer.TextChanged
+
+    End Sub
+
+    Private Sub Label6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label6.Click
+
+    End Sub
+
     Private Sub ComboBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox1.KeyPress
         If e.KeyChar = Chr(13) Then ComboBox2.Focus()
     End Sub
@@ -1452,6 +1524,7 @@
         Input_Data_kontainer_Loading_Barang.TxtSupplier.Text = TextBox1.Text
         Input_Data_kontainer_Loading_Barang.Lokasi_utama.Text = CmbLokasi.Text
 
+
         Input_Data_kontainer_Loading_Barang.ShowDialog()
     End Sub
 
@@ -1542,6 +1615,10 @@
     End Sub
 
     Private Sub ListView3_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListView3.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub DataGridView1_CellContentClick_1(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
 
     End Sub
 End Class

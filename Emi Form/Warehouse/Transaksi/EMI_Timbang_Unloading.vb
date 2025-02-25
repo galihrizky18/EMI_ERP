@@ -1298,14 +1298,19 @@ Public Class EMI_Timbang_Unloading
                         Dim doctoprint As New System.Drawing.Printing.PrintDocument()
                         doctoprint.PrinterSettings.PrinterName = PrinterNameSPB
                         Dim rawKind As Integer
+
+                        'SEet KERTAS
                         CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
                         For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+
                             If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
                                 rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
                                 CrDoc.PrintOptions.PaperSize = rawKind
                                 Exit For
                             End If
+
                         Next
+
 
                         CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
                         CrDoc.PrintToPrinter(1, False, 1, 99)

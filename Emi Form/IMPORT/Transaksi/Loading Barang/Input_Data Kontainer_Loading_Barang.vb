@@ -4,7 +4,7 @@
 
     Dim fakturStr As String = ""
     Dim arrInisialFaktur As String = ""
-    Dim TEmi_Loading As String = "PL"
+    Dim TEmi_Loading As String = "QT.PO-"
     Private Sub Input_Data_kontainer_Loading_Barang_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
@@ -23,11 +23,12 @@
     'End Sub
 
     Private Sub Get_No_Faktur()
-        fakturStr = TEmi_Loading & Format(Tanggal.Value, "MMyy") & "-" &
-                             General_Class.Get_Last_Number2("EMI_Pembelian_Loading", "no_Faktur", 5,
+        fakturStr = TEmi_Loading & Format(Tanggal.Value, "MM/yy") & "-" &
+                             General_Class.Get_Last_Number2("EMI_Pembelian_Loading", "no_Faktur", 4,
                              "Kode_perusahaan", KodePerusahaan,
                              "And", "substring(no_Faktur, 1, " & Len(TEmi_Loading) + 4 & ")", TEmi_Loading & Format(Tanggal.Value, "MMyy"))
     End Sub
+
 
 
     Private Sub Edit_Barang_Pembelian_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -176,7 +177,7 @@
 
 
                 'simpan ke emi pembelian loading pabrik
-                SQL = "select kode_perusahaan, no_faktur from EMI_Pembelian_Loading where Kode_Perusahaan = '" & KodePerusahaan & "' and no_fak_submit_po = '" & faktur.Text & "' and "
+                SQL = "select kode_perusahaan from EMI_Pembelian_Loading where Kode_Perusahaan = '" & KodePerusahaan & "' and no_fak_submit_po = '" & faktur.Text & "' and "
                 SQL = SQL & "no_plat = '" & Kontainer.Text & "'"
                 Using Dr = OpenTrans(SQL)
                     If Not Dr.Read Then
@@ -186,9 +187,6 @@
                         SQL = SQL & "'" & KodePerusahaan & "', '" & fakturStr & "', '" & TxtSupplier.Text & "', '" & Lokasi_utama.Text & "','-', '" & Kontainer.Text & "' , '-',  "
                         SQL = SQL & " '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "','" & UserID & "', 'Y', '" & faktur.Text & "', '" & Seal.Text & "' ) "
                         ExecuteTrans(SQL)
-                    Else
-                        fakturStr = Dr("no_faktur")
-                        Dr.Close()
                     End If
                 End Using
 
@@ -246,9 +244,9 @@
 
                 SQL = "insert into EMI_Pembelian_Loading_Detail(Kode_Perusahaan,No_Faktur,No_PO,Urut_PO,Kode_Stock_Owner,Kode_Barang,Tanggal_Produksi,Tanggal_Expired,"
                 SQL = SQL & "Jumlah,Satuan,Jumlah_Barang,Jumlah_Masuk,Satuan_Barang, No_Urut_B2B, jumlah_per_bag, No_Batch, Satuan_Per_Bag, harga_barang) values( "
-                SQL = SQL & "'" & KodePerusahaan & "', '" & fakturStr & "', '" & faktur.Text & "', '" & urut_PO & "', '" & Lokasi.Text & "', '" & kode.Text & "',  "
+                SQL = SQL & "'" & KodePerusahaan & "', '" & fakturStr & "', '" & NoPO & "', '" & urut_PO & "', '" & Lokasi.Text & "', '" & kode.Text & "',  "
                 SQL = SQL & "'" & Format(DTP_TglProduksi.Value, "yyyy-MM-dd") & "','" & Format(DTP_TglExpired.Value, "yyyy-MM-dd") & "', '" & Qty.Text & "', '" & sat & "',"
-                SQL = SQL & "'" & jml_brg & "','" & jml_brg & "','" & sat_brg & "', NULL, '" & isi_Per_Bags & "', '-', '" & Satuan_Isi_Bags & "', NULL)"
+                SQL = SQL & "'" & jml_brg & "','" & 0 & "','" & sat_brg & "', NULL, '" & isi_Per_Bags & "', '-', '" & Satuan_Isi_Bags & "', NULL)"
                 ExecuteTrans(SQL)
 
 
@@ -318,7 +316,7 @@
                 End Using
 
                 SQL = "update EMI_Pembelian_Loading_Detail set EMI_Pembelian_Loading_Detail.Jumlah = '" & Qty.Text & "',EMI_Pembelian_Loading_Detail.Satuan = '" & sat & "',"
-                SQL = SQL & "EMI_Pembelian_Loading_Detail.Jumlah_Barang = '" & jml_brg & "',EMI_Pembelian_Loading_Detail.Jumlah_Masuk = '" & jml_brg & "',EMI_Pembelian_Loading_Detail.Satuan_Barang = '" & sat_brg & "',"
+                SQL = SQL & "EMI_Pembelian_Loading_Detail.Jumlah_Barang = '" & jml_brg & "',EMI_Pembelian_Loading_Detail.Jumlah_Masuk = '" & 0 & "',EMI_Pembelian_Loading_Detail.Satuan_Barang = '" & sat_brg & "',"
                 SQL = SQL & "EMI_Pembelian_Loading_Detail.Tanggal_Produksi = '" & Format(DTP_TglProduksi.Value, "yyyy-MM-dd") & "',"
                 SQL = SQL & "EMI_Pembelian_Loading_Detail.Tanggal_Expired = '" & Format(DTP_TglExpired.Value, "yyyy-MM-dd") & "', "
                 SQL = SQL & "EMI_Pembelian_Loading_Detail.Jumlah_Per_Bag = '" & isi_Per_Bags & "', "
@@ -329,7 +327,7 @@
                 SQL = SQL & "EMI_Pembelian_Loading.No_Faktur = EMI_Pembelian_Loading_Detail.No_Faktur "
 
                 SQL = SQL & "where EMI_Pembelian_Loading_Detail.Kode_Perusahaan = '" & KodePerusahaan & "' and EMI_Pembelian_Loading.no_plat = '" & Kontainer.Text & "' and "
-                SQL = SQL & "EMI_Pembelian_Loading_Detail.Urut_PO = '" & urut_PO & "' and EMI_Pembelian_Loading_Detail.No_PO = '" & faktur.Text & "'  and "
+                SQL = SQL & "EMI_Pembelian_Loading_Detail.Urut_PO = '" & urut_PO & "' and EMI_Pembelian_Loading_Detail.No_PO = '" & NoPO & "'  and "
                 SQL = SQL & "EMI_Pembelian_Loading_Detail.Kode_Barang = '" & kode.Text & "' and EMI_Pembelian_Loading_Detail.Kode_Stock_Owner = '" & Lokasi.Text & "'"
                 ExecuteTrans(SQL)
             End If

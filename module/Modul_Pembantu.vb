@@ -1,10 +1,23 @@
-﻿Imports System.Globalization
-Imports System.Text
+﻿Imports System.Text
 
 Public Class Modul_Pembantu
 
     Private random As New Random()
     Private Tahun_MulaiProduksi As String = "2024"
+
+    Private Sub ActivedForm()
+        My.Application.ChangeCulture("en-us")
+        My.Application.ChangeUICulture("en-us")
+    End Sub
+
+    Private Sub LoadForm()
+        My.Application.ChangeCulture("en-us")
+        My.Application.ChangeUICulture("en-us")
+    End Sub
+
+    Private Sub Ubah_SatuanKecil()
+        SQL = "select dbo.ubah_satuan('KODE_PERUSAHAAN', 'masa','KODE BARANG', 'SATUAN AWAL', 'SATUAN TUJUAN', 'JUMLAH UBAH' ) as hasil"
+    End Sub
 
     Private Function Generate_Batch_New(ByVal productionDate As String, ByVal lineCode As String, ByVal expDate As String) As String
 

@@ -24,6 +24,7 @@ Partial Class EMI_Barang_Masuk_Summary_Data
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.BtnBarangMasuk_Cari = New System.Windows.Forms.Button()
@@ -54,7 +55,6 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.ListView1 = New System.Windows.Forms.ListView()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -73,6 +73,19 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1215, 55)
         Me.Panel1.TabIndex = 22
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 53)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1215, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -290,7 +303,7 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.ContextMenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakPerintahBongkarToolStripMenuItem, Me.CetakPenerimaanBarangToolStripMenuItem, Me.CetakBuktiTimbangToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(211, 70)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(211, 92)
         '
         'CetakPerintahBongkarToolStripMenuItem
         '
@@ -387,19 +400,6 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.ListView1.TabIndex = 342
         Me.ListView1.UseCompatibleStateImageBehavior = False
         Me.ListView1.View = System.Windows.Forms.View.Details
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 53)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1215, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'EMI_Barang_Masuk_Summary_Data
         '

@@ -23,6 +23,7 @@ Partial Class EMI_Transfer_Quality_QC
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -36,19 +37,18 @@ Partial Class EMI_Transfer_Quality_QC
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Barcode = New System.Windows.Forms.PictureBox()
+        Me.TxtNo_Transaksi = New System.Windows.Forms.TextBox()
+        Me.Cmb_Lokasi = New System.Windows.Forms.ComboBox()
         Me.Cmb_KualitasAkhir = New System.Windows.Forms.ComboBox()
         Me.Cmb_KualitasAwal = New System.Windows.Forms.ComboBox()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Panel8 = New System.Windows.Forms.Panel()
-        Me.TxtNo_Transaksi = New System.Windows.Forms.TextBox()
-        Me.Cmb_Lokasi = New System.Windows.Forms.ComboBox()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Supplier = New System.Windows.Forms.Label()
         Me.TxtKeterangan = New System.Windows.Forms.TextBox()
-        Me.Barcode = New System.Windows.Forms.PictureBox()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.Barcode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -62,8 +62,21 @@ Partial Class EMI_Transfer_Quality_QC
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(940, 51)
+        Me.Panel1.Size = New System.Drawing.Size(939, 51)
         Me.Panel1.TabIndex = 25
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(939, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -199,7 +212,6 @@ Partial Class EMI_Transfer_Quality_QC
         '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.Barcode)
         Me.GroupBox1.Controls.Add(Me.TxtNo_Transaksi)
         Me.GroupBox1.Controls.Add(Me.Cmb_Lokasi)
         Me.GroupBox1.Controls.Add(Me.Cmb_KualitasAkhir)
@@ -214,6 +226,36 @@ Partial Class EMI_Transfer_Quality_QC
         Me.GroupBox1.TabIndex = 485
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Quality"
+        '
+        'Barcode
+        '
+        Me.Barcode.Location = New System.Drawing.Point(945, 81)
+        Me.Barcode.Name = "Barcode"
+        Me.Barcode.Size = New System.Drawing.Size(100, 50)
+        Me.Barcode.TabIndex = 486
+        Me.Barcode.TabStop = False
+        Me.Barcode.Visible = False
+        '
+        'TxtNo_Transaksi
+        '
+        Me.TxtNo_Transaksi.BackColor = System.Drawing.Color.Goldenrod
+        Me.TxtNo_Transaksi.Enabled = False
+        Me.TxtNo_Transaksi.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtNo_Transaksi.Location = New System.Drawing.Point(18, 19)
+        Me.TxtNo_Transaksi.MaxLength = 50
+        Me.TxtNo_Transaksi.Name = "TxtNo_Transaksi"
+        Me.TxtNo_Transaksi.Size = New System.Drawing.Size(253, 21)
+        Me.TxtNo_Transaksi.TabIndex = 485
+        '
+        'Cmb_Lokasi
+        '
+        Me.Cmb_Lokasi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Lokasi.Enabled = False
+        Me.Cmb_Lokasi.FormattingEnabled = True
+        Me.Cmb_Lokasi.Location = New System.Drawing.Point(124, 47)
+        Me.Cmb_Lokasi.Name = "Cmb_Lokasi"
+        Me.Cmb_Lokasi.Size = New System.Drawing.Size(147, 24)
+        Me.Cmb_Lokasi.TabIndex = 484
         '
         'Cmb_KualitasAkhir
         '
@@ -242,6 +284,16 @@ Partial Class EMI_Transfer_Quality_QC
         Me.Label3.Size = New System.Drawing.Size(105, 20)
         Me.Label3.TabIndex = 482
         Me.Label3.Text = "Kualitas Akhir"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Work Sans SemiBold", 10.0!, System.Drawing.FontStyle.Bold)
+        Me.Label2.Location = New System.Drawing.Point(14, 48)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(52, 20)
+        Me.Label2.TabIndex = 482
+        Me.Label2.Text = "Lokasi"
         '
         'Label1
         '
@@ -275,50 +327,6 @@ Partial Class EMI_Transfer_Quality_QC
         Me.Panel8.TabIndex = 36
         Me.Panel8.Visible = False
         '
-        'TxtNo_Transaksi
-        '
-        Me.TxtNo_Transaksi.BackColor = System.Drawing.Color.Goldenrod
-        Me.TxtNo_Transaksi.Enabled = False
-        Me.TxtNo_Transaksi.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtNo_Transaksi.Location = New System.Drawing.Point(18, 19)
-        Me.TxtNo_Transaksi.MaxLength = 50
-        Me.TxtNo_Transaksi.Name = "TxtNo_Transaksi"
-        Me.TxtNo_Transaksi.Size = New System.Drawing.Size(253, 21)
-        Me.TxtNo_Transaksi.TabIndex = 485
-        '
-        'Cmb_Lokasi
-        '
-        Me.Cmb_Lokasi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Cmb_Lokasi.Enabled = False
-        Me.Cmb_Lokasi.FormattingEnabled = True
-        Me.Cmb_Lokasi.Location = New System.Drawing.Point(124, 47)
-        Me.Cmb_Lokasi.Name = "Cmb_Lokasi"
-        Me.Cmb_Lokasi.Size = New System.Drawing.Size(147, 24)
-        Me.Cmb_Lokasi.TabIndex = 484
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Work Sans SemiBold", 10.0!, System.Drawing.FontStyle.Bold)
-        Me.Label2.Location = New System.Drawing.Point(14, 48)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(52, 20)
-        Me.Label2.TabIndex = 482
-        Me.Label2.Text = "Lokasi"
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(940, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
         'Lbl_Supplier
         '
         Me.Lbl_Supplier.AutoSize = True
@@ -340,21 +348,13 @@ Partial Class EMI_Transfer_Quality_QC
         Me.TxtKeterangan.Size = New System.Drawing.Size(340, 21)
         Me.TxtKeterangan.TabIndex = 486
         '
-        'Barcode
-        '
-        Me.Barcode.Location = New System.Drawing.Point(795, 18)
-        Me.Barcode.Name = "Barcode"
-        Me.Barcode.Size = New System.Drawing.Size(100, 50)
-        Me.Barcode.TabIndex = 486
-        Me.Barcode.TabStop = False
-        Me.Barcode.Visible = False
-        '
         'EMI_Transfer_Quality_QC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(940, 658)
+        Me.ClientSize = New System.Drawing.Size(939, 658)
+        Me.Controls.Add(Me.Barcode)
         Me.Controls.Add(Me.Lbl_Supplier)
         Me.Controls.Add(Me.TxtKeterangan)
         Me.Controls.Add(Me.GroupBox1)

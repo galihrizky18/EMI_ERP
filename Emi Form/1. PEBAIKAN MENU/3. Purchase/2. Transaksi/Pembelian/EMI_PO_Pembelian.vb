@@ -1,10 +1,4 @@
-﻿Imports System.Reflection
-Imports System.Reflection.Emit
-Imports System.Windows
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-Public Class EMI_PO_Pembelian
+﻿Public Class EMI_PO_Pembelian
     Public FlagSelisihPO As String
     Public Asal As String = ""
 
@@ -297,8 +291,8 @@ Public Class EMI_PO_Pembelian
         LvPO_DataPO.Columns.Add("Total", 130, HorizontalAlignment.Right) '11
         LvPO_DataPO.Columns.Add("Urut", 0, HorizontalAlignment.Center) '12
         LvPO_DataPO.Columns.Add("No PR", 0, HorizontalAlignment.Center) '13
-        LvPO_DataPO.Columns.Add("Tempo Pembayaran", 110, HorizontalAlignment.Center) '14
-        LvPO_DataPO.Columns.Add("Jatuh Tempo", 110, HorizontalAlignment.Center) '15
+        LvPO_DataPO.Columns.Add("Tempo Pembayaran", 0, HorizontalAlignment.Center) '14
+        LvPO_DataPO.Columns.Add("Jatuh Tempo", 0, HorizontalAlignment.Center) '15
         LvPO_DataPO.View = View.Details
         CmbPO_Lokasi.Enabled = False
 
@@ -839,7 +833,7 @@ Public Class EMI_PO_Pembelian
                 SQL = "insert into emi_pembelian_PO(Kode_Perusahaan, No_Faktur, No_Nota, Tanggal, Jam, UserID, "
                 SQL = SQL & "Kode_Supplier, Lokasi,Jenis_Pembayaran, Mata_Uang, Kurs, Cara_Bayar, Total_MUA, "
                 SQL = SQL & "Total_IDR, Grand_Sebelum_PPN, PPN,Grand, No_Prepare_Bahan, ETD_Simulasi, "
-                SQL = SQL & "Tgl_Jatuh_Tempo,ekspedisi,biaya, Flag_Import, tempo_pembayaran) values( "
+                SQL = SQL & "Tgl_Jatuh_Tempo,ekspedisi,biaya, Flag_Import, tempo_pembayaran, Lama_Pembayaran) values( "
                 SQL = SQL & "'" & KodePerusahaan & "', '" & TxtPO_NoFaktur.Text & "', '" & TxtPO_NoNota.Text & "', "
                 SQL = SQL & "'" & Format(DtpPO_Tgl.Value, " yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
                 SQL = SQL & "'" & UserID & "', '" & TxtPO_KdSupplier.Text & "', '" & CmbPO_Lokasi.Text & "', "
@@ -849,7 +843,8 @@ Public Class EMI_PO_Pembelian
                 SQL = SQL & "'" & HilangkanTanda(TxtPO_TotalSblmPPN.Text) & "', '" & TxtPO_PersenPPN.Text & "', "
                 SQL = SQL & "'" & HilangkanTanda(TxtPO_GrandTotal.Text) & "', " & no_po & ", "
                 SQL = SQL & "'" & Format(DtpPO_ETD.Value, "yyyy-MM-dd") & "'," & Tgl_Jatuh_Tempo & ", "
-                SQL = SQL & "'" & CmbPO_JnsEkspedisi.Text & "', '" & TxtPO_Biaya.Text & "', " & Import & ", '" & cmbJenisPengiriman.Text & "' )"
+                SQL = SQL & "'" & CmbPO_JnsEkspedisi.Text & "', '" & TxtPO_Biaya.Text & "', " & Import & ", '" & cmbJenisPengiriman.Text & "', "
+                SQL = SQL & Val(HilangkanTanda(txtJatuhTempo.Text)) & " )"
                 ExecuteTrans(SQL)
 
 
@@ -1137,8 +1132,14 @@ Public Class EMI_PO_Pembelian
             txtJatuhTempo.Visible = True
             txtJatuhTempo.Text = ""
 
-            cmbJenisPengiriman.Text = LvPO_DataPO.Items(0).SubItems(14).Text
-            txtJatuhTempo.Text = LvPO_DataPO.Items(0).SubItems(15).Text
+            If LvPO_DataPO.Items.Count <> 0 Then
+                'If LvPO_DataPO.Items(0).SubItems(14).Text <> "" Then
+                '    cmbJenisPengiriman.Text = LvPO_DataPO.Items(0).SubItems(14).Text
+                '    txtJatuhTempo.Text = LvPO_DataPO.Items(0).SubItems(15).Text
+                'End If
+
+            End If
+
 
 
 
@@ -1158,6 +1159,16 @@ Public Class EMI_PO_Pembelian
         ElseIf CmbPO_Satuan.SelectedIndex = -1 Then
             MessageBox.Show(Base_Language.Lang_Global_Satuan & " " & Base_Language.Lang_Global_Belum_Diisi & ". . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             CmbPO_Satuan.Focus()
+            Exit Sub
+        End If
+
+        If CmbPO_Harga.SelectedIndex = -1 Then
+            MessageBox.Show("Pilih Dahulu Harga . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            CmbPO_Harga.Focus()
+            Exit Sub
+        ElseIf cmb_pr.SelectedIndex = -1 Then
+            MessageBox.Show("Pilih Dahulu PR . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            cmb_pr.Focus()
             Exit Sub
         End If
 
@@ -1330,6 +1341,44 @@ Public Class EMI_PO_Pembelian
             lvw.SubItems.Add(arrJatuhTempo.Item(CmbPO_Harga.SelectedIndex))
             CmbPO_MataUang.Enabled = False
 
+
+            '==========================
+            '=     SET PEMBAYARAN     =
+            '==========================
+            SQL = "select top 1 a.Kode_Supplier, b.Kode_Barang, c.Jenis_Pembayaran, c.Tempo_Pembayaran, c.Lama_Pembayaran "
+            SQL = SQL & "from EMI_Master_Penawaran a, EMI_Master_Penawaran_Detail b, EMI_Master_Penawaran_Jatuh_Tempo c "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan "
+            SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+            SQL = SQL & "and a.No_Faktur = c.No_Faktur "
+            SQL = SQL & "and a.Selesai is null and flag_release = 'Y' "
+            SQL = SQL & "and Status is null "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.Kode_Supplier = '" & TxtPO_KdSupplier.Text & "' "
+            SQL = SQL & "and b.Kode_Barang = '" & TxtPO_KdBrg.Text & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+
+                    If Dr("Jenis_Pembayaran") = "N" Then
+
+                        CmbPO_JnsBayar.SelectedIndex = 1
+
+                        If Not General_Class.CekNULL(Dr("Tempo_Pembayaran")) = "" Then
+
+                            cmbJenisPengiriman.SelectedItem = Dr("Tempo_Pembayaran")
+                            txtJatuhTempo.Text = Dr("Lama_Pembayaran")
+
+                        End If
+
+                    Else
+                        CmbPO_JnsBayar.SelectedIndex = 0
+                    End If
+
+
+                End If
+            End Using
+
+
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -1446,6 +1495,8 @@ Public Class EMI_PO_Pembelian
         TxtPO_KdSupplier.Enabled = False
         TxtPO_NmSupplier.Enabled = False
         CmbPO_JnsBayar.Enabled = False
+        cmbJenisPengiriman.Enabled = False
+        txtJatuhTempo.Enabled = False
         'CmbPO_RangeBayar.Enabled = False
         CmbPO_JnsEkspedisi.Enabled = False
         CmbPO_CaraBayar.Enabled = False
@@ -1470,6 +1521,7 @@ Public Class EMI_PO_Pembelian
 
         TxtPO_Biaya.Enabled = False
 
+
     End Sub
 
     Private Sub enableSebagian()
@@ -1482,6 +1534,8 @@ Public Class EMI_PO_Pembelian
         TxtPO_KdSupplier.Enabled = True
         TxtPO_NmSupplier.Enabled = True
         CmbPO_JnsBayar.Enabled = True
+        cmbJenisPengiriman.Enabled = True
+        txtJatuhTempo.Enabled = True
         ''CmbPO_RangeBayar.Enabled = True
         CmbPO_JnsEkspedisi.Enabled = True
         'CmbPO_CaraBayar.Enabled = True
@@ -2078,8 +2132,8 @@ Public Class EMI_PO_Pembelian
             Dim checkPPN As Integer = 0
             Dim checkFlagRelease As String = ""
             SQL = "select a.status,a.No_Nota,a.Kode_Supplier, b.Nama_Supplier as nama,lokasi,a.tanggal, "
-            SQL = SQL & "Jenis_Pembayaran,Cara_Bayar,Tgl_Jatuh_Tempo,Total_MUA, Mata_Uang,kurs, "
-            SQL = SQL & "Total_IDR,Grand_Sebelum_PPN,ppn,Grand,ETD_Simulasi, ekspedisi,biaya, flag_release "
+            SQL = SQL & "a.Jenis_Pembayaran,a.Cara_Bayar, a.lama_pembayaran, Tgl_Jatuh_Tempo,Total_MUA, Mata_Uang,kurs, "
+            SQL = SQL & "Total_IDR,Grand_Sebelum_PPN,a.ppn,Grand,ETD_Simulasi, ekspedisi,biaya, flag_release "
             SQL = SQL & "from EMI_Pembelian_PO a, Suppliers b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan  "
             SQL = SQL & "and a.Kode_Supplier = b.Kode_Supplier  "
@@ -2117,6 +2171,7 @@ Public Class EMI_PO_Pembelian
                         If arrPembayaran.Item(i) = Dr("jenis_pembayaran") Then
                             CmbPO_JnsBayar.SelectedIndex = i
                             CmbPO_JnsBayar_SelectedIndexChanged(TxtPO_NoFaktur, e)
+                            txtJatuhTempo.Text = General_Class.CekNULL(Dr("lama_pembayaran"))
                             Exit For
                         End If
 

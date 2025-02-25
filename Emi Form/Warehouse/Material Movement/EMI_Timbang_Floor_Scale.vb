@@ -1,17 +1,5 @@
-﻿Imports System.Deployment.Internal
-Imports System.IO
-Imports System.IO.Ports
-Imports System.Text
-Imports System.Web.UI.WebControls
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar
-Imports Azure.Storage.Blobs
-Imports Azure.Storage.Blobs.Models
+﻿Imports System.IO
 'Imports Microsoft.SqlServer.Server
-Imports Microsoft.VisualBasic.ApplicationServices
-Imports WebEye.Controls.WinForms.StreamPlayerControl
-Imports ZXing.QrCode
 
 
 
@@ -479,7 +467,7 @@ Public Class EMI_Timbang_Floor_Scale
                 SQL = SQL & "Id_Jenis_Alas = '" & arrid_Jenis_alas(CmbJenisAlas.SelectedIndex) & "', "
                 SQL = SQL & "Jumlah_Gross = '" & HilangkanTanda(txt_Jumlah_Timbang.Text) & "', "
                 SQL = SQL & "Satuan_Gross = '" & CmbSatuan.Text & "', "
-                SQL = SQL & "Jumlah_Alas = '" & HilangkanTanda(TxtBeratAlas.Text) & "', "
+                SQL = SQL & "Jumlah_Alas = '" & HilangkanTanda(TxtBeratAlas_Bersih.Text) & "', "
                 SQL = SQL & "Satuan_Alas= '" & CmbSatuan.Text & "' "
                 SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
                 SQL = SQL & "and no_faktur = '" & txtKodeTransfer.Text & "' "
@@ -1162,43 +1150,43 @@ Public Class EMI_Timbang_Floor_Scale
                             CrDoc = New Rpt_EMI_Faktur_Transfer_Stock_Detail
                             kertas = "Faktur"
 
-                            With A_Place_For_Printing2
-                                CrDoc.SetDataSource(Ds)
-                                CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                                CrDoc.PrintOptions.PrinterName = ""
-                                CrDoc.RecordSelectionFormula = "{Vw_tf_stock_detail.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_tf_stock_detail.No_Faktur}='" & txtKodeTransfer.Text & "' "
-                                CrDoc.SummaryInfo.ReportTitle = "TF"
-                                .Text = "TF"
-                                .CrystalReportViewer1.ReportSource = CrDoc
-                                .Refresh()
-                                .Show()
-                            End With
+                            'With A_Place_For_Printing2
+                            '    CrDoc.SetDataSource(Ds)
+                            '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                            '    CrDoc.PrintOptions.PrinterName = ""
+                            '    CrDoc.RecordSelectionFormula = "{Vw_tf_stock_detail.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_tf_stock_detail.No_Faktur}='" & txtKodeTransfer.Text & "' "
+                            '    CrDoc.SummaryInfo.ReportTitle = "TF"
+                            '    .Text = "TF"
+                            '    .CrystalReportViewer1.ReportSource = CrDoc
+                            '    .Refresh()
+                            '    .Show()
+                            'End With
 
                             '============================================================================================================================================
                             '============================================================================================================================================
-                            '''CrDoc.SetDataSource(Ds)
-                            '''CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            '''CrDoc.PrintOptions.PrinterName = PrinterNameTS
-                            '''CrDoc.RecordSelectionFormula = "{Vw_tf_stock_detail.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_tf_stock_detail.No_Faktur}='" & txtKodeTransfer.Text & "' "
-                            ''''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+                            CrDoc.SetDataSource(Ds)
+                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                            CrDoc.PrintOptions.PrinterName = PrinterNameTS
+                            CrDoc.RecordSelectionFormula = "{Vw_tf_stock_detail.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_tf_stock_detail.No_Faktur}='" & txtKodeTransfer.Text & "' "
+                            'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
-                            '''Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                            '''doctoprint.PrinterSettings.PrinterName = PrinterNameTS
-                            '''doctoprint.DefaultPageSettings.Landscape = True
-                            '''Dim rawKind As Integer
-                            '''CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                            '''For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                            '''    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
-                            '''        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                            '''        CrDoc.PrintOptions.PaperSize = rawKind
-                            '''        Exit For
-                            '''    End If
-                            '''Next
+                            Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                            doctoprint.PrinterSettings.PrinterName = PrinterNameTS
+                            doctoprint.DefaultPageSettings.Landscape = True
+                            Dim rawKind As Integer
+                            CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                            For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                                If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                                    rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                                    CrDoc.PrintOptions.PaperSize = rawKind
+                                    Exit For
+                                End If
+                            Next
 
-                            '''CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                            '''CrDoc.PrintToPrinter(1, False, 1, 99)
+                            CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                            CrDoc.PrintToPrinter(1, False, 1, 99)
 
-                            '''MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
 
                         End If
@@ -1352,8 +1340,8 @@ Public Class EMI_Timbang_Floor_Scale
                                     For j As Integer = 0 To .Rows.Count - 1
 
                                         Dim expDate As String = ""
-                                        Dim tanggalDatang As DateTime = .Rows(j).Item("Tanggal_Masuk")
-                                        Dim SupplierKode As String = .Rows(j).Item("Kode_Supplier").ToString
+                                        Dim tanggalDatang As DateTime = Ds2.Tables("MyTable").Rows(j).Item("Tanggal_Masuk")
+                                        Dim SupplierKode As String = Ds2.Tables("MyTable").Rows(j).Item("Kode_Supplier").ToString
                                         Dim tanggalMasuk As Integer = tanggalDatang.Day
                                         Dim bulanMasuk As Integer = tanggalDatang.Month
                                         Dim tahunMasuk As Integer = (tanggalDatang.Year - tahunMulaiProduksi) Mod 9
@@ -1361,10 +1349,10 @@ Public Class EMI_Timbang_Floor_Scale
                                         If tahunMasuk = 0 Then tahunMasuk = 9
 
                                         'Dim expDate As DateTime = Format(Ds2.Tables("MyTable").Rows(j).Item("Tanggal_Expired"), "yyy-MM-dd")
-                                        Dim barangKode As String = .Rows(j).Item("Kode_Barang").ToString
+                                        Dim barangKode As String = Ds2.Tables("MyTable").Rows(j).Item("Kode_Barang").ToString
 
                                         SQL = "select metode_pengeluaran_Stok from barang "
-                                        SQL = SQL & "where kode_barang='" & .Rows(j).Item("Kode_Barang") & "' "
+                                        SQL = SQL & "where kode_barang='" & Ds2.Tables("MyTable").Rows(j).Item("Kode_Barang") & "' "
                                         SQL = SQL & "and Kode_Perusahaan='" & KodePerusahaan & "' "
                                         SQL = SQL & "group by metode_pengeluaran_Stok"
                                         Using Dr = OpenTrans(SQL)
@@ -1372,7 +1360,7 @@ Public Class EMI_Timbang_Floor_Scale
                                                 If General_Class.CekNULL(Dr("metode_pengeluaran_Stok")) = "FIFO" Then
                                                     expDate = "000000"
                                                 Else
-                                                    expDate = Format(.Rows(j).Item("Tanggal_Expired"), "ddMMyy").ToString()
+                                                    expDate = Format(Ds2.Tables("MyTable").Rows(j).Item("Tanggal_Expired"), "ddMMyy").ToString()
                                                 End If
                                             Loop
                                         End Using
@@ -1386,11 +1374,13 @@ Public Class EMI_Timbang_Floor_Scale
                                             '==============================================
                                             '=       CEK SELURUH TRANSAKSI HARI INI       =
                                             '==============================================
-                                            SQL = "select isnull(sum(Tot_Batch_Masuk),0) as Jmlh_Masuk_Hari_ini "
+                                            SQL = "select isnull( (Tot_Batch_Masuk),0) as Jmlh_Masuk_Hari_ini "
                                             SQL = SQL & "from emi_pembelian_loading a, emi_pembelian_loading_detail b "
                                             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
-                                            SQL = SQL & "and b.Kode_Barang='" & .Rows(j).Item("Kode_Barang") & "' "
+                                            SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+                                            SQL = SQL & "and b.Kode_Barang='" & Ds2.Tables("MyTable").Rows(j).Item("Kode_Barang") & "' "
                                             SQL = SQL & "and a.Tanggal_Masuk='" & Format(tgl_skg, "yyyy-MM-dd") & "' "
+                                            SQL = SQL & "and a.Kode_Supplier = '" & Ds2.Tables("MyTable").Rows(j).Item("Kode_Supplier") & "' "
                                             SQL = SQL & "and a.Status is null "
                                             SQL = SQL & "and Tot_Batch_Masuk is not null "
                                             Using Ds3 = BindingTrans(SQL)

@@ -1,8 +1,14 @@
-﻿Imports iTextSharp.text.pdf
-Imports System.IO
+﻿Imports System.IO
 Imports System.Text
+Imports iTextSharp.text.pdf
 
 Public Class TesPrint
+    Dim Random As New Random()
+    Private imageBytes1 As Byte = Nothing
+    Private FileSize1 As UInt32
+    Private rawData1() As Byte
+    Private fs1 As FileStream
+
 
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -135,10 +141,44 @@ Public Class TesPrint
 
             Dim PrinterBarcode As String = "TSC TE210"
 
-            SQL = "select Kode_Perusahaan from Cetak_TransferStock where Kode_Perusahaan='001' and kode_unik_print='012016123108405'"
+            SQL = "select Kode_Perusahaan from Cetak_TransferStock where Kode_Perusahaan='001' and kode_unik_print='021408272904114'"
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
                     CrDoc = New NewBarcodeTransferStock
+                    kertas = "Barcode TSC"
+
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '001' and {Cetak_TransferStock.kode_unik_print} = '021408272904114' "
+                    CrDoc.PrintOptions.PrinterName = PrinterBarcode
+
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+
+                    'SET KERTAS
+                    Dim rawKind As Integer
+                    Dim kertasDitemukan As Boolean = False
+                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                            CrDoc.PrintOptions.PaperSize = rawKind
+                            kertasDitemukan = True
+                            Exit For
+                        End If
+                    Next
+
+                    If Not kertasDitemukan Then
+                        CloseConn()
+                        MessageBox.Show("Kertas Tidak diTemukan", "Cetak", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    CrDoc.PrintToPrinter(1, False, 1, 2500)
+
+
+
                     'With A_Place_For_Printing2
                     '    CrDoc.SetDataSource(Ds)
                     '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
@@ -150,16 +190,6 @@ Public Class TesPrint
                     '    .Refresh()
                     '    .Show()
                     'End With
-
-                    CrDoc.SetDataSource(Ds)
-                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '001' and {Cetak_TransferStock.kode_unik_print} = '012016042604209' and {Cetak_TransferStock.batch} = '0120M9B311224' "
-                    CrDoc.PrintOptions.PrinterName = PrinterBarcode
-
-
-                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                    doctoprint.PrinterSettings.PrinterName = PrinterBarcode
-                    CrDoc.PrintToPrinter(1, False, 1, 2500)
 
                 End If
             End Using
@@ -237,4 +267,104 @@ Public Class TesPrint
         Return hasil
     End Function
 
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+
+        get_jam()
+
+        Try
+            OpenConn()
+            Dim CrDoc As New Object
+            Dim kertas As String = ""
+
+            Dim fullNewQr As String = "1111065-0112C1B280225-8FDGXPD94Y-450.5"
+
+            '=====================================
+            '=       GENERATE BARCODE BARU       =
+            '=====================================
+            Dim kode_unik_print As String = Format(tgl_skg, "MMddHHmmss") & Format(Random.Next(0, 10000), "00000")
+
+            Barcode.Image = Generate_QR(fullNewQr)
+
+            Dim FileToSaveAs1 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "newBarcodeTfStock" & kode_unik_print & ".jpg")
+            'If Not (System.IO.File.Exists(FileToSaveAs1)) Then
+            Barcode.Image.Save(FileToSaveAs1, System.Drawing.Imaging.ImageFormat.Jpeg)
+            'End If
+
+            fs1 = New FileStream(FileToSaveAs1, FileMode.Open, FileAccess.Read)
+            FileSize1 = fs1.Length
+            rawData1 = New Byte(FileSize1) {}
+            fs1.Read(rawData1, 0, FileSize1)
+            fs1.Close()
+            Cmd.Parameters.Add("@newBarcode", SqlDbType.Image).Value = rawData1
+
+
+            '===================================
+            '=       INSERT BARCODE BARU       =
+            '===================================
+            Dim tglDuaHariSebelum As DateTime = tgl_skg.AddDays(-2)
+
+            SQL = "delete from Cetak_TransferStock where Kode_Perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "Tanggal_Cetak between '" & Format(tglDuaHariSebelum, "yyyy-MM-dd") & "' and '" & Format(tgl_skg, "yyyy-MM-dd") & "' "
+            ExecuteTrans(SQL)
+
+            Dim namaBarang As String = "IKAN PATIN UTUH FROZEN IKAN PATIN UTUH FROZEN"
+            Dim QrLama As String = "1111065-0112C1B280225"
+            Dim expDate As String = "2025-02-28"
+            Dim batchLama As String = "0112C1B280225"
+            Dim tglMsk As String = "2025-02-12 "
+            Dim metodePengeluaranStock As String = "FEFO"
+            Dim GetDataKdBrg As String = "1111065"
+
+            SQL = "insert into Cetak_TransferStock (kode_perusahaan, kode_barang, Barcode, Nama, QrUtuh, Qr, Tgl_Expired, batch, tanggal_cetak, kode_unik_print,tanggal_masuk,metode_pengeluaran_stok) values "
+            SQL = SQL & "('" & KodePerusahaan & "', '" & GetDataKdBrg & "', @newBarcode, '" & namaBarang & "', '" & fullNewQr & "', '" & QrLama & "', "
+            SQL = SQL & "'" & expDate & "', '" & batchLama & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "','" & kode_unik_print & "' , "
+            SQL = SQL & "'" & tglMsk & "', '" & metodePengeluaranStock & "' ) "
+            ExecuteTrans(SQL)
+
+
+
+
+            '=========================
+            '=     CETAK BARCODE     =
+            '=========================
+            Dim PrinterBarcode As String = "TSC TE210"
+            Dim kodeUnikPrint As String = "021408272904114"
+
+            SQL = "select Kode_Perusahaan from Cetak_TransferStock where Kode_Perusahaan='" & KodePerusahaan & "' and kode_unik_print='" & kode_unik_print & "'"
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+                    CrDoc = New NewBarcodeTransferStock
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_TransferStock.kode_unik_print} = '" & kode_unik_print & "' and {Cetak_TransferStock.batch} = '" & batchLama & "' "
+                    '    CrDoc.SummaryInfo.ReportTitle = "New Barcode Transfer Stock"
+                    '    .Text = "New Barcode Transfer Stock"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
+
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_TransferStock.kode_unik_print} = '" & kode_unik_print & "' "
+
+                    CrDoc.PrintOptions.PrinterName = PrinterBarcode
+
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+                    CrDoc.PrintToPrinter(1, False, 1, 2500)
+
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+    End Sub
 End Class

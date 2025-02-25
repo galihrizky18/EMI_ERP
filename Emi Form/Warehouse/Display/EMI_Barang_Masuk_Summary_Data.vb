@@ -191,10 +191,11 @@
                     lvw.SubItems.Add(Dr("nama"))
                     lvw.SubItems.Add(Format(Dr("jumlah"), "N0"))
                     lvw.SubItems.Add(Dr("satuan"))
-                    lvw.SubItems.Add(Dr("Batch_Number"))
-                    lvw.SubItems.Add(Dr("QR_Code"))
-                    lvw.SubItems.Add(Dr("Labeling_WMS_Position"))
-                    lvw.SubItems.Add(Dr("Kode_Voucher"))
+                    lvw.SubItems.Add(If(General_Class.CekNULL(Dr("Labeling_WMS_Position")) = "", "", Dr("Labeling_WMS_Position")))
+                    lvw.SubItems.Add(If(General_Class.CekNULL(Dr("QR_Code")) = "", "", Dr("QR_Code")))
+                    lvw.SubItems.Add(If(General_Class.CekNULL(Dr("Batch_Number")) = "", "", Dr("Batch_Number")))
+                    lvw.SubItems.Add(If(General_Class.CekNULL(Dr("satuan")) = "", "", Dr("satuan")))
+                    lvw.SubItems.Add(If(General_Class.CekNULL(Dr("Kode_Voucher")) = "", "", Dr("Kode_Voucher")))
                 Loop
             End Using
             CloseConn()
@@ -362,6 +363,7 @@
             ComboBox2.SelectedIndex = -1 : TextBox4.Text = ""
         End If
     End Sub
+
 
     ''Dim arrcari As New ArrayList
     ''Dim Jenis = "Master_Jenis_Hewan"
@@ -605,10 +607,11 @@
             Dim isAvailable As Boolean = False
 
             Dim No_PO As String = ""
+            Dim urutLoading As String = ""
             '====================================
             '=     CEK APAKAH DATA TERSEDIA     =
             '====================================
-            SQL = "select top 1 a.flag_timbang, a.Flag_Timbang_Keluar, b.No_PO from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_detail b "
+            SQL = "select top 1 a.flag_timbang, a.Flag_Timbang_Keluar, b.No_PO, b.urut_oto from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_detail b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan  "
             SQL = SQL & "and a.No_Faktur = b.No_Faktur "
             SQL = SQL & "and a.flag_timbang = 'Y' and a.No_Faktur = '" & no_faktur & "' "
@@ -620,6 +623,7 @@
                     Else
                         isAvailable = True
                         No_PO = Dr("No_PO")
+                        urutLoading = Dr("urut_oto")
                     End If
 
                 Else
@@ -639,7 +643,7 @@
                 '=========================
                 '=     GET NO FAKTUR     =
                 '=========================
-                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where No_PO = '" & No_PO & "' and Kode_Perusahaan = '" & KodePerusahaan & "'"
+                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where No_PO = '" & No_PO & "' and urut_loading = '" & urutLoading & "' and Kode_Perusahaan = '" & KodePerusahaan & "'"
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
                         no_fak = Dr("No_Faktur")
@@ -652,7 +656,7 @@
 
                 End Using
 
-                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='" & no_fak & "'"
+                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='" & no_fak & "' "
                 Using Ds = BindingTrans(SQL)
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
 
@@ -710,11 +714,11 @@
 
             Dim isAvailable As Boolean = False
             Dim No_PO As String = ""
-
+            Dim UrutLoading As String = ""
             '====================================
             '=     CEK APAKAH DATA TERSEDIA     =
             '====================================
-            SQL = "select top 1 a.flag_timbang, a.Flag_Timbang_Keluar, b.No_PO from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_detail b "
+            SQL = "select top 1 a.flag_timbang, a.Flag_Timbang_Keluar, b.No_PO, b.urut_oto from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_detail b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan  "
             SQL = SQL & "and a.No_Faktur = b.No_Faktur "
             SQL = SQL & "and a.flag_timbang = 'Y' and a.No_Faktur = '" & no_faktur & "' "
@@ -726,6 +730,7 @@
                     Else
                         isAvailable = True
                         No_PO = Dr("No_PO")
+                        UrutLoading = Dr("urut_oto")
                     End If
 
                 Else
@@ -745,7 +750,7 @@
                 '=========================
                 '=     GET NO FAKTUR     =
                 '=========================
-                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where No_PO = '" & No_PO & "' and Kode_Perusahaan = '" & KodePerusahaan & "'"
+                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where No_PO = '" & No_PO & "' and urut_loading = '" & UrutLoading & "' and Kode_Perusahaan = '" & KodePerusahaan & "'"
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
                         no_fak = Dr("No_Faktur")
@@ -758,7 +763,7 @@
 
                 End Using
 
-                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='" & no_fak & "'"
+                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where no_Faktur='" & no_fak & "' "
                 Using Ds = BindingTrans(SQL)
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
 
@@ -817,11 +822,11 @@
 
             Dim isAvailable As Boolean = False
             Dim No_PO As String = ""
-
+            Dim UrutLoading As String = ""
             '====================================
             '=     CEK APAKAH DATA TERSEDIA     =
             '====================================
-            SQL = "select top 1 a.flag_timbang, a.Flag_Timbang_Keluar, b.No_PO from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_detail b "
+            SQL = "select top 1 a.flag_timbang, a.Flag_Timbang_Keluar, b.No_PO, b.urut_oto from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_detail b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan  "
             SQL = SQL & "and a.No_Faktur = b.No_Faktur "
             SQL = SQL & "and a.flag_timbang = 'Y' and a.No_Faktur = '" & no_faktur & "' "
@@ -833,6 +838,7 @@
                     Else
                         isAvailable = True
                         No_PO = Dr("No_PO")
+                        UrutLoading = Dr("urut_oto")
                     End If
 
                 Else
@@ -852,7 +858,7 @@
                 '=========================
                 '=     GET NO FAKTUR     =
                 '=========================
-                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where No_PO = '" & No_PO & "' and Kode_Perusahaan = '" & KodePerusahaan & "'"
+                SQL = "select top 1 No_Faktur from EMI_Timbang_Unloading_PO_Det where No_PO = '" & No_PO & "' and urut_loading = '" & UrutLoading & "' and Kode_Perusahaan = '" & KodePerusahaan & "'"
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
                         no_fak = Dr("No_Faktur")

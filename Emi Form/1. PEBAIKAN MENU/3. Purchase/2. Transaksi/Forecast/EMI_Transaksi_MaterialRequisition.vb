@@ -2117,8 +2117,8 @@ Public Class EMI_Transaksi_MaterialRequisition
         'ComboBox1.Enabled = False
         'ComboBox2.Enabled = False
         'ComboBox3.Enabled = False
-        SD_Pilih_Produk.urutcmb = ComboBox1.SelectedIndex
-        SD_Pilih_Produk.ShowDialog()
+        'SD_Pilih_Produk.urutcmb = ComboBox1.SelectedIndex
+        'SD_Pilih_Produk.ShowDialog()
     End Sub
 
     Private Sub Master_Jenis_Hewan_Activated(sender As Object, e As EventArgs) Handles Me.Activated
@@ -2476,59 +2476,71 @@ Public Class EMI_Transaksi_MaterialRequisition
 
         'DataGridView1.Columns(Cell0).ReadOnly = False
 
-        If Display_Transaksi_MaterialRequsition.asal = "isi_lv" Then
-            TxtBarangMasuk_NoFaktur_Leave(TxtBarangMasuk_NoFaktur, e)
-        ElseIf Display_Transaksi_MaterialRequsition.asal = "Ref" Then
-            Try
+        'If Display_Transaksi_MaterialRequsition.asal = "isi_lv" Then
+        '    TxtBarangMasuk_NoFaktur_Leave(TxtBarangMasuk_NoFaktur, e)
+        'ElseIf Display_Transaksi_MaterialRequsition.asal = "Ref" Then
+        '    Try
+        '        OpenConn()
+
+        '        get_no_faktur()
+
+        '        DataGridView1.Rows.Clear()
+        '        SQL = "select a.No_Faktur,a.Kode_Barang,b.Nama,a.Kode_Stock_Owner from EMI_Transaksi_Material_Requsition_Detail a,"
+        '        SQL = SQL & "Barang b where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang and "
+        '        SQL = SQL & "a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Faktur = '" & Display_Transaksi_MaterialRequsition.nfak & "' "
+        '        SQL = SQL & "group by a.No_Faktur,a.Kode_Barang,b.Nama,a.Kode_Stock_Owner "
+        '        Using Ds = BindingTrans(SQL)
+        '            With Ds.Tables("MyTable")
+        '                For i As Integer = 0 To .Rows.Count - 1
+        '                    DataGridView1.Rows.Add(1)
+        '                    DataGridView1.Rows(i).Cells(1).Value = .Rows(i).Item("Kode_Barang")
+        '                    DataGridView1.Rows(i).Cells(2).Value = .Rows(i).Item("Nama")
+        '                    DataGridView1.Rows(i).Cells(3).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(4).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(5).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(6).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(7).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(8).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(9).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(10).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(11).Value = ""
+        '                    DataGridView1.Rows(i).Cells(12).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(13).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(14).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(15).Value = ""
+        '                    DataGridView1.Rows(i).Cells(16).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(17).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(18).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(19).Value = ""
+        '                    DataGridView1.Rows(i).Cells(20).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(21).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(22).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(23).Value = ""
+        '                    DataGridView1.Rows(i).Cells(24).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(25).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(26).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(27).Value = ""
+        '                    DataGridView1.Rows(i).Cells(28).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(29).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(30).Value = "0"
+        '                    DataGridView1.Rows(i).Cells(31).Value = ""
+        '                    DataGridView1.Rows(i).Cells(32).Value = "NEW"
+        '                    Btn_Simpan.Tag = "&Simpan"
+        '                Next
+        '            End With
+        '        End Using
+
+        '        CloseConn()
+        '    Catch ex As Exception
+        '        CloseConn()
+        '        MessageBox.Show(ex.Message)
+        '        Exit Sub
+        '    End Try
+        'Else
+        Try
                 OpenConn()
 
                 get_no_faktur()
-
-                DataGridView1.Rows.Clear()
-                SQL = "select a.No_Faktur,a.Kode_Barang,b.Nama,a.Kode_Stock_Owner from EMI_Transaksi_Material_Requsition_Detail a,"
-                SQL = SQL & "Barang b where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang and "
-                SQL = SQL & "a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Faktur = '" & Display_Transaksi_MaterialRequsition.nfak & "' "
-                SQL = SQL & "group by a.No_Faktur,a.Kode_Barang,b.Nama,a.Kode_Stock_Owner "
-                Using Ds = BindingTrans(SQL)
-                    With Ds.Tables("MyTable")
-                        For i As Integer = 0 To .Rows.Count - 1
-                            DataGridView1.Rows.Add(1)
-                            DataGridView1.Rows(i).Cells(1).Value = .Rows(i).Item("Kode_Barang")
-                            DataGridView1.Rows(i).Cells(2).Value = .Rows(i).Item("Nama")
-                            DataGridView1.Rows(i).Cells(3).Value = "0"
-                            DataGridView1.Rows(i).Cells(4).Value = "0"
-                            DataGridView1.Rows(i).Cells(5).Value = "0"
-                            DataGridView1.Rows(i).Cells(6).Value = "0"
-                            DataGridView1.Rows(i).Cells(7).Value = "0"
-                            DataGridView1.Rows(i).Cells(8).Value = "0"
-                            DataGridView1.Rows(i).Cells(9).Value = "0"
-                            DataGridView1.Rows(i).Cells(10).Value = "0"
-                            DataGridView1.Rows(i).Cells(11).Value = ""
-                            DataGridView1.Rows(i).Cells(12).Value = "0"
-                            DataGridView1.Rows(i).Cells(13).Value = "0"
-                            DataGridView1.Rows(i).Cells(14).Value = "0"
-                            DataGridView1.Rows(i).Cells(15).Value = ""
-                            DataGridView1.Rows(i).Cells(16).Value = "0"
-                            DataGridView1.Rows(i).Cells(17).Value = "0"
-                            DataGridView1.Rows(i).Cells(18).Value = "0"
-                            DataGridView1.Rows(i).Cells(19).Value = ""
-                            DataGridView1.Rows(i).Cells(20).Value = "0"
-                            DataGridView1.Rows(i).Cells(21).Value = "0"
-                            DataGridView1.Rows(i).Cells(22).Value = "0"
-                            DataGridView1.Rows(i).Cells(23).Value = ""
-                            DataGridView1.Rows(i).Cells(24).Value = "0"
-                            DataGridView1.Rows(i).Cells(25).Value = "0"
-                            DataGridView1.Rows(i).Cells(26).Value = "0"
-                            DataGridView1.Rows(i).Cells(27).Value = ""
-                            DataGridView1.Rows(i).Cells(28).Value = "0"
-                            DataGridView1.Rows(i).Cells(29).Value = "0"
-                            DataGridView1.Rows(i).Cells(30).Value = "0"
-                            DataGridView1.Rows(i).Cells(31).Value = ""
-                            DataGridView1.Rows(i).Cells(32).Value = "NEW"
-                            Btn_Simpan.Tag = "&Simpan"
-                        Next
-                    End With
-                End Using
 
                 CloseConn()
             Catch ex As Exception
@@ -2536,19 +2548,7 @@ Public Class EMI_Transaksi_MaterialRequisition
                 MessageBox.Show(ex.Message)
                 Exit Sub
             End Try
-        Else
-            Try
-                OpenConn()
-
-                get_no_faktur()
-
-                CloseConn()
-            Catch ex As Exception
-                CloseConn()
-                MessageBox.Show(ex.Message)
-                Exit Sub
-            End Try
-        End If
+        'End If
 
         'Try
         '    OpenConn()

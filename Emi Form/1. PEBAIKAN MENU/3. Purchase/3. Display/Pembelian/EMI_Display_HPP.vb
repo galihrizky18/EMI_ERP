@@ -231,13 +231,14 @@
         Lv_TotHpp.Columns.Add("Total Harga", 120, HorizontalAlignment.Right) '7
         Lv_TotHpp.Columns.Add("PPH29", 120, HorizontalAlignment.Right) '8
         Lv_TotHpp.Columns.Add("Berat Bersih", 120, HorizontalAlignment.Right) '9
-        Lv_TotHpp.Columns.Add("Berat Kotor", 120, HorizontalAlignment.Right) '10
+        Lv_TotHpp.Columns.Add("Berat Kotor", 0, HorizontalAlignment.Right) '10
         Lv_TotHpp.Columns.Add("Biaya Import", 120, HorizontalAlignment.Right) '11
         Lv_TotHpp.Columns.Add("Biaya Dry Wet", 120, HorizontalAlignment.Right) '12
         Lv_TotHpp.Columns.Add("Biaya Billing", 120, HorizontalAlignment.Right) '13
         Lv_TotHpp.Columns.Add("Biaya Storage", 120, HorizontalAlignment.Right) '14
         Lv_TotHpp.Columns.Add("Biaya Freight", 120, HorizontalAlignment.Right) '15
         Lv_TotHpp.Columns.Add("Total Hpp Per Pcs", 120, HorizontalAlignment.Right) '16
+        Lv_TotHpp.Columns.Add("Biaya Bahan", 120, HorizontalAlignment.Right).DisplayIndex = 11 '16
         Lv_TotHpp.View = View.Details
 
 
@@ -355,6 +356,7 @@
 
             SQL = SQL & ") select * from cte_a "
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and Status is null "
 
             If CheckBox3.Checked Then
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
@@ -442,7 +444,7 @@
                         Lv.SubItems.Add(Dr("No_Plat"))
                         Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Biaya_Perjalanan")) = "", "0", Format(Dr("Biaya_Perjalanan"), "N2")))
                         Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Tanggal_Masuk")) = "", "-", Format(Dr("Tanggal_Masuk"), "dd MMM yyyy")))
-                        Lv.SubItems.Add(Dr("Jam_Masuk"))
+                        Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Jam_Masuk")) = "", "-", Dr("Jam_Masuk")))
 
                     Loop
                 End Using
@@ -512,7 +514,7 @@
                 SQL = SQL & "c.Jumlah, c.Harga, COALESCE(NULLIF(c.total_harga, 0), b.total_harga) as Total_Harga, b.PPH29,  "
                 SQL = SQL & "COALESCE(NULLIF(c.Berat_Bersih, 0), b.Berat_Bersih) as Berat_Bersih, COALESCE(NULLIF(c.berat_kotor, 0), b.berat_kotor) as Berat_Kotor, "
                 SQL = SQL & "COALESCE(NULLIF(c.Biaya_import2, 0), b.Biaya_Import) AS Biaya_Import, c.Biaya_import_Wet_Dry, b.Biaya_Billing, b.Biaya_Kontainer as Biaya_Storage, "
-                SQL = SQL & "b.Biaya_Freight_int, COALESCE(NULLIF(c.nilai_hpp_barang_per_pcs_brsh, 0), b.nilai_hpp_barang_per_pcs) AS Total_HPP_Per_Pcs "
+                SQL = SQL & "b.Biaya_Freight_int, COALESCE(NULLIF(c.nilai_hpp_barang_per_pcs_brsh, 0), b.nilai_hpp_barang_per_pcs) AS Total_HPP_Per_Pcs, Nilai_Tdk_Pot_Stock_HTG_Utama as Nilai_Bahan "
                 SQL = SQL & "from hpp_import a, detail_hpp_import b, detail_hpp_import2 c, barang d, Rencana_Order e "
                 SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Perusahaan = d.Kode_Perusahaan and a.Kode_Perusahaan = e.Kode_Perusahaan "
                 SQL = SQL & "and a.No_Faktur = b.No_Faktur "
@@ -542,6 +544,7 @@
                         Lv.SubItems.Add(Format(Dr("Biaya_Storage"), "N2"))
                         Lv.SubItems.Add(Format(Dr("Biaya_Freight_int"), "N2"))
                         Lv.SubItems.Add(Format(Dr("Total_HPP_Per_Pcs"), "N2"))
+                        Lv.SubItems.Add(Format(Dr("Nilai_Bahan"), "N2"))
                     Loop
                 End Using
 
