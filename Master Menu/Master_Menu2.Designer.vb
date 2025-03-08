@@ -22,9 +22,9 @@ Partial Class Master_Menu2
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.Tb_MenuForm = New System.Windows.Forms.TextBox()
@@ -63,7 +63,6 @@ Partial Class Master_Menu2
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Lv_hierarki = New System.Windows.Forms.ListView()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
@@ -80,6 +79,7 @@ Partial Class Master_Menu2
         Me.current_order = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.new_order = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Txt_SelectedMenu = New System.Windows.Forms.TextBox()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -112,7 +112,7 @@ Partial Class Master_Menu2
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupBox1.Size = New System.Drawing.Size(770, 431)
+        Me.GroupBox1.Size = New System.Drawing.Size(727, 431)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Menus"
@@ -143,7 +143,7 @@ Partial Class Master_Menu2
         Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupBox2.Size = New System.Drawing.Size(741, 249)
+        Me.GroupBox2.Size = New System.Drawing.Size(705, 249)
         Me.GroupBox2.TabIndex = 5
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Detail Menu"
@@ -154,11 +154,11 @@ Partial Class Master_Menu2
         Me.Tb_MenuForm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Tb_MenuForm.Enabled = False
         Me.Tb_MenuForm.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_MenuForm.Location = New System.Drawing.Point(133, 119)
+        Me.Tb_MenuForm.Location = New System.Drawing.Point(119, 119)
         Me.Tb_MenuForm.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_MenuForm.Name = "Tb_MenuForm"
         Me.Tb_MenuForm.Size = New System.Drawing.Size(204, 23)
-        Me.Tb_MenuForm.TabIndex = 4
+        Me.Tb_MenuForm.TabIndex = 3
         '
         'Tb_Var3
         '
@@ -166,11 +166,11 @@ Partial Class Master_Menu2
         Me.Tb_Var3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Tb_Var3.Enabled = False
         Me.Tb_Var3.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_Var3.Location = New System.Drawing.Point(133, 212)
+        Me.Tb_Var3.Location = New System.Drawing.Point(119, 212)
         Me.Tb_Var3.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_Var3.Name = "Tb_Var3"
         Me.Tb_Var3.Size = New System.Drawing.Size(204, 23)
-        Me.Tb_Var3.TabIndex = 4
+        Me.Tb_Var3.TabIndex = 8
         '
         'Label8
         '
@@ -189,33 +189,33 @@ Partial Class Master_Menu2
         Me.Tb_ImagePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Tb_ImagePath.Enabled = False
         Me.Tb_ImagePath.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_ImagePath.Location = New System.Drawing.Point(133, 26)
+        Me.Tb_ImagePath.Location = New System.Drawing.Point(119, 26)
         Me.Tb_ImagePath.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_ImagePath.Name = "Tb_ImagePath"
         Me.Tb_ImagePath.Size = New System.Drawing.Size(204, 23)
-        Me.Tb_ImagePath.TabIndex = 4
+        Me.Tb_ImagePath.TabIndex = 0
         '
         'Tb_MenuOrder
         '
         Me.Tb_MenuOrder.BackColor = System.Drawing.Color.White
         Me.Tb_MenuOrder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Tb_MenuOrder.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_MenuOrder.Location = New System.Drawing.Point(133, 88)
+        Me.Tb_MenuOrder.Location = New System.Drawing.Point(118, 88)
         Me.Tb_MenuOrder.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_MenuOrder.Name = "Tb_MenuOrder"
         Me.Tb_MenuOrder.Size = New System.Drawing.Size(92, 23)
-        Me.Tb_MenuOrder.TabIndex = 4
+        Me.Tb_MenuOrder.TabIndex = 2
         '
         'Tb_MenuName
         '
         Me.Tb_MenuName.BackColor = System.Drawing.Color.White
         Me.Tb_MenuName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Tb_MenuName.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_MenuName.Location = New System.Drawing.Point(133, 57)
+        Me.Tb_MenuName.Location = New System.Drawing.Point(119, 57)
         Me.Tb_MenuName.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_MenuName.Name = "Tb_MenuName"
         Me.Tb_MenuName.Size = New System.Drawing.Size(204, 23)
-        Me.Tb_MenuName.TabIndex = 4
+        Me.Tb_MenuName.TabIndex = 1
         '
         'Label1
         '
@@ -245,11 +245,11 @@ Partial Class Master_Menu2
         Me.Tb_Var2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Tb_Var2.Enabled = False
         Me.Tb_Var2.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_Var2.Location = New System.Drawing.Point(133, 181)
+        Me.Tb_Var2.Location = New System.Drawing.Point(119, 181)
         Me.Tb_Var2.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_Var2.Name = "Tb_Var2"
         Me.Tb_Var2.Size = New System.Drawing.Size(204, 23)
-        Me.Tb_Var2.TabIndex = 4
+        Me.Tb_Var2.TabIndex = 6
         '
         'Label13
         '
@@ -279,11 +279,11 @@ Partial Class Master_Menu2
         Me.Tb_IsiVariabel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Tb_IsiVariabel3.Enabled = False
         Me.Tb_IsiVariabel3.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_IsiVariabel3.Location = New System.Drawing.Point(511, 211)
+        Me.Tb_IsiVariabel3.Location = New System.Drawing.Point(481, 211)
         Me.Tb_IsiVariabel3.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_IsiVariabel3.Name = "Tb_IsiVariabel3"
         Me.Tb_IsiVariabel3.Size = New System.Drawing.Size(204, 23)
-        Me.Tb_IsiVariabel3.TabIndex = 4
+        Me.Tb_IsiVariabel3.TabIndex = 9
         '
         'Label11
         '
@@ -313,11 +313,11 @@ Partial Class Master_Menu2
         Me.Tb_IsiVariabel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Tb_IsiVariabel2.Enabled = False
         Me.Tb_IsiVariabel2.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_IsiVariabel2.Location = New System.Drawing.Point(511, 180)
+        Me.Tb_IsiVariabel2.Location = New System.Drawing.Point(481, 180)
         Me.Tb_IsiVariabel2.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_IsiVariabel2.Name = "Tb_IsiVariabel2"
         Me.Tb_IsiVariabel2.Size = New System.Drawing.Size(204, 23)
-        Me.Tb_IsiVariabel2.TabIndex = 4
+        Me.Tb_IsiVariabel2.TabIndex = 7
         '
         'Label12
         '
@@ -347,11 +347,11 @@ Partial Class Master_Menu2
         Me.Tb_IsiVariabel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Tb_IsiVariabel1.Enabled = False
         Me.Tb_IsiVariabel1.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_IsiVariabel1.Location = New System.Drawing.Point(511, 149)
+        Me.Tb_IsiVariabel1.Location = New System.Drawing.Point(481, 150)
         Me.Tb_IsiVariabel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_IsiVariabel1.Name = "Tb_IsiVariabel1"
         Me.Tb_IsiVariabel1.Size = New System.Drawing.Size(204, 23)
-        Me.Tb_IsiVariabel1.TabIndex = 4
+        Me.Tb_IsiVariabel1.TabIndex = 5
         '
         'Tb_Var1
         '
@@ -359,7 +359,7 @@ Partial Class Master_Menu2
         Me.Tb_Var1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Tb_Var1.Enabled = False
         Me.Tb_Var1.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tb_Var1.Location = New System.Drawing.Point(133, 150)
+        Me.Tb_Var1.Location = New System.Drawing.Point(119, 150)
         Me.Tb_Var1.Margin = New System.Windows.Forms.Padding(4)
         Me.Tb_Var1.Name = "Tb_Var1"
         Me.Tb_Var1.Size = New System.Drawing.Size(204, 23)
@@ -394,11 +394,11 @@ Partial Class Master_Menu2
         Me.Cb_SubMenuLv3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_SubMenuLv3.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cb_SubMenuLv3.FormattingEnabled = True
-        Me.Cb_SubMenuLv3.Location = New System.Drawing.Point(524, 89)
+        Me.Cb_SubMenuLv3.Location = New System.Drawing.Point(494, 89)
         Me.Cb_SubMenuLv3.Margin = New System.Windows.Forms.Padding(4)
         Me.Cb_SubMenuLv3.Name = "Cb_SubMenuLv3"
         Me.Cb_SubMenuLv3.Size = New System.Drawing.Size(164, 26)
-        Me.Cb_SubMenuLv3.TabIndex = 4
+        Me.Cb_SubMenuLv3.TabIndex = 5
         '
         'Btn_Refresh
         '
@@ -422,7 +422,7 @@ Partial Class Master_Menu2
         Me.Btn_Simpan.Margin = New System.Windows.Forms.Padding(4)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(140, 35)
-        Me.Btn_Simpan.TabIndex = 3
+        Me.Btn_Simpan.TabIndex = 6
         Me.Btn_Simpan.Text = "&Save"
         Me.Btn_Simpan.UseVisualStyleBackColor = False
         '
@@ -431,18 +431,18 @@ Partial Class Master_Menu2
         Me.Cb_SubMenu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_SubMenu.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cb_SubMenu.FormattingEnabled = True
-        Me.Cb_SubMenu.Location = New System.Drawing.Point(146, 89)
+        Me.Cb_SubMenu.Location = New System.Drawing.Point(131, 89)
         Me.Cb_SubMenu.Margin = New System.Windows.Forms.Padding(4)
         Me.Cb_SubMenu.Name = "Cb_SubMenu"
         Me.Cb_SubMenu.Size = New System.Drawing.Size(164, 26)
-        Me.Cb_SubMenu.TabIndex = 4
+        Me.Cb_SubMenu.TabIndex = 2
         '
         'Cb_SubMenuLv2
         '
         Me.Cb_SubMenuLv2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_SubMenuLv2.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cb_SubMenuLv2.FormattingEnabled = True
-        Me.Cb_SubMenuLv2.Location = New System.Drawing.Point(524, 58)
+        Me.Cb_SubMenuLv2.Location = New System.Drawing.Point(494, 58)
         Me.Cb_SubMenuLv2.Margin = New System.Windows.Forms.Padding(4)
         Me.Cb_SubMenuLv2.Name = "Cb_SubMenuLv2"
         Me.Cb_SubMenuLv2.Size = New System.Drawing.Size(164, 26)
@@ -453,22 +453,22 @@ Partial Class Master_Menu2
         Me.Cb_MainMenu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_MainMenu.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cb_MainMenu.FormattingEnabled = True
-        Me.Cb_MainMenu.Location = New System.Drawing.Point(146, 27)
+        Me.Cb_MainMenu.Location = New System.Drawing.Point(131, 27)
         Me.Cb_MainMenu.Margin = New System.Windows.Forms.Padding(4)
         Me.Cb_MainMenu.Name = "Cb_MainMenu"
         Me.Cb_MainMenu.Size = New System.Drawing.Size(164, 26)
-        Me.Cb_MainMenu.TabIndex = 4
+        Me.Cb_MainMenu.TabIndex = 0
         '
         'Cb_Menu
         '
         Me.Cb_Menu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_Menu.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cb_Menu.FormattingEnabled = True
-        Me.Cb_Menu.Location = New System.Drawing.Point(146, 59)
+        Me.Cb_Menu.Location = New System.Drawing.Point(131, 59)
         Me.Cb_Menu.Margin = New System.Windows.Forms.Padding(4)
         Me.Cb_Menu.Name = "Cb_Menu"
         Me.Cb_Menu.Size = New System.Drawing.Size(164, 26)
-        Me.Cb_Menu.TabIndex = 4
+        Me.Cb_Menu.TabIndex = 1
         '
         'Label2
         '
@@ -486,17 +486,17 @@ Partial Class Master_Menu2
         Me.Cb_SubMenuLv1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cb_SubMenuLv1.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cb_SubMenuLv1.FormattingEnabled = True
-        Me.Cb_SubMenuLv1.Location = New System.Drawing.Point(524, 27)
+        Me.Cb_SubMenuLv1.Location = New System.Drawing.Point(494, 27)
         Me.Cb_SubMenuLv1.Margin = New System.Windows.Forms.Padding(4)
         Me.Cb_SubMenuLv1.Name = "Cb_SubMenuLv1"
         Me.Cb_SubMenuLv1.Size = New System.Drawing.Size(164, 26)
-        Me.Cb_SubMenuLv1.TabIndex = 4
+        Me.Cb_SubMenuLv1.TabIndex = 3
         '
         'Label7
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(363, 95)
+        Me.Label7.Location = New System.Drawing.Point(367, 92)
         Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(104, 18)
@@ -507,7 +507,7 @@ Partial Class Master_Menu2
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(363, 63)
+        Me.Label6.Location = New System.Drawing.Point(367, 60)
         Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(104, 18)
@@ -518,7 +518,7 @@ Partial Class Master_Menu2
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(363, 30)
+        Me.Label5.Location = New System.Drawing.Point(367, 27)
         Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(101, 18)
@@ -555,21 +555,8 @@ Partial Class Master_Menu2
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1349, 54)
+        Me.Panel1.Size = New System.Drawing.Size(1305, 54)
         Me.Panel1.TabIndex = 23
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 52)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1349, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -598,7 +585,7 @@ Partial Class Master_Menu2
         '
         Me.TabControl1.Controls.Add(Me.view)
         Me.TabControl1.Controls.Add(Me.order)
-        Me.TabControl1.Location = New System.Drawing.Point(791, 64)
+        Me.TabControl1.Location = New System.Drawing.Point(746, 64)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(553, 431)
@@ -624,7 +611,7 @@ Partial Class Master_Menu2
         Me.Btn_Cari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Cari.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Cari.ForeColor = System.Drawing.Color.White
-        Me.Btn_Cari.Location = New System.Drawing.Point(436, 362)
+        Me.Btn_Cari.Location = New System.Drawing.Point(464, 363)
         Me.Btn_Cari.Margin = New System.Windows.Forms.Padding(4)
         Me.Btn_Cari.Name = "Btn_Cari"
         Me.Btn_Cari.Size = New System.Drawing.Size(78, 31)
@@ -637,7 +624,7 @@ Partial Class Master_Menu2
         Me.Txt_Filter.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Txt_Filter.Location = New System.Drawing.Point(193, 368)
         Me.Txt_Filter.Name = "Txt_Filter"
-        Me.Txt_Filter.Size = New System.Drawing.Size(236, 23)
+        Me.Txt_Filter.Size = New System.Drawing.Size(272, 23)
         Me.Txt_Filter.TabIndex = 26
         '
         'Cmb_Filter
@@ -707,8 +694,8 @@ Partial Class Master_Menu2
         '
         'mainmenu
         '
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.mainmenu.DefaultCellStyle = DataGridViewCellStyle7
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.mainmenu.DefaultCellStyle = DataGridViewCellStyle1
         Me.mainmenu.HeaderText = "Menu Name"
         Me.mainmenu.Name = "mainmenu"
         Me.mainmenu.ReadOnly = True
@@ -716,8 +703,8 @@ Partial Class Master_Menu2
         '
         'current_order
         '
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.current_order.DefaultCellStyle = DataGridViewCellStyle8
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.current_order.DefaultCellStyle = DataGridViewCellStyle2
         Me.current_order.HeaderText = "Current Order"
         Me.current_order.Name = "current_order"
         Me.current_order.ReadOnly = True
@@ -725,8 +712,8 @@ Partial Class Master_Menu2
         '
         'new_order
         '
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.new_order.DefaultCellStyle = DataGridViewCellStyle9
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.new_order.DefaultCellStyle = DataGridViewCellStyle3
         Me.new_order.HeaderText = "New Order"
         Me.new_order.Name = "new_order"
         Me.new_order.Width = 110
@@ -739,12 +726,25 @@ Partial Class Master_Menu2
         Me.Txt_SelectedMenu.TabIndex = 26
         Me.Txt_SelectedMenu.Visible = False
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 52)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1305, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'Master_Menu2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1349, 504)
+        Me.ClientSize = New System.Drawing.Size(1305, 504)
         Me.Controls.Add(Me.Txt_SelectedMenu)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Panel1)

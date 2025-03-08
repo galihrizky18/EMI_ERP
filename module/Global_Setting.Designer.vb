@@ -47,6 +47,10 @@ Partial Class Global_Setting
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.cmbCOMFloorScale = New System.Windows.Forms.ComboBox()
+        Me.Cmb_BarcodeQC = New System.Windows.Forms.ComboBox()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -55,7 +59,7 @@ Partial Class Global_Setting
         Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button1.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(193, 354)
+        Me.Button1.Location = New System.Drawing.Point(192, 408)
         Me.Button1.Margin = New System.Windows.Forms.Padding(4)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(476, 35)
@@ -291,12 +295,52 @@ Partial Class Global_Setting
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(23, 409)
+        Me.Panel7.Location = New System.Drawing.Point(22, 444)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(677, 12)
         Me.Panel7.TabIndex = 402
         Me.Panel7.Visible = False
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(24, 346)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(106, 17)
+        Me.Label2.TabIndex = 404
+        Me.Label2.Text = "COM Floor Scale"
+        '
+        'cmbCOMFloorScale
+        '
+        Me.cmbCOMFloorScale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbCOMFloorScale.FormattingEnabled = True
+        Me.cmbCOMFloorScale.Location = New System.Drawing.Point(193, 342)
+        Me.cmbCOMFloorScale.Margin = New System.Windows.Forms.Padding(4)
+        Me.cmbCOMFloorScale.Name = "cmbCOMFloorScale"
+        Me.cmbCOMFloorScale.Size = New System.Drawing.Size(475, 25)
+        Me.cmbCOMFloorScale.TabIndex = 403
+        '
+        'Cmb_BarcodeQC
+        '
+        Me.Cmb_BarcodeQC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_BarcodeQC.FormattingEnabled = True
+        Me.Cmb_BarcodeQC.Location = New System.Drawing.Point(194, 375)
+        Me.Cmb_BarcodeQC.Margin = New System.Windows.Forms.Padding(4)
+        Me.Cmb_BarcodeQC.Name = "Cmb_BarcodeQC"
+        Me.Cmb_BarcodeQC.Size = New System.Drawing.Size(475, 25)
+        Me.Cmb_BarcodeQC.TabIndex = 403
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(25, 379)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(121, 17)
+        Me.Label5.TabIndex = 404
+        Me.Label5.Text = "Printer Barcode QC"
         '
         'Global_Setting
         '
@@ -304,7 +348,11 @@ Partial Class Global_Setting
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(720, 421)
+        Me.ClientSize = New System.Drawing.Size(720, 455)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.Cmb_BarcodeQC)
+        Me.Controls.Add(Me.cmbCOMFloorScale)
         Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel2)
@@ -363,4 +411,8 @@ Partial Class Global_Setting
     Friend WithEvents Panel2 As Panel
     Friend WithEvents Panel5 As Panel
     Friend WithEvents Panel7 As Panel
+    Friend WithEvents Label2 As Label
+    Friend WithEvents cmbCOMFloorScale As ComboBox
+    Friend WithEvents Cmb_BarcodeQC As ComboBox
+    Friend WithEvents Label5 As Label
 End Class

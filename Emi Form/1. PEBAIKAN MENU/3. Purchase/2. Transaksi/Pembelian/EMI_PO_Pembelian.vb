@@ -4,7 +4,7 @@
 
     Dim Jenis = "Po_Bahan"
     Dim arrInisialFaktur, arrPembayaran, arrMUA, arrCrByr, ArrAkunCrByr As New ArrayList
-    Dim arrNoPenawaran, arrSatuanPenawaran, arrHargaPenawaran As New ArrayList
+    Dim arrFakPenawaran, arrNoPenawaran, arrSatuanPenawaran, arrHargaPenawaran As New ArrayList
     Dim arrTempoPenawaran, arrJatuhTempo As New ArrayList
     Dim arrEkspedisi As New ArrayList
     Dim arrNoUrutPr As New ArrayList
@@ -293,6 +293,7 @@
         LvPO_DataPO.Columns.Add("No PR", 0, HorizontalAlignment.Center) '13
         LvPO_DataPO.Columns.Add("Tempo Pembayaran", 0, HorizontalAlignment.Center) '14
         LvPO_DataPO.Columns.Add("Jatuh Tempo", 0, HorizontalAlignment.Center) '15
+        LvPO_DataPO.Columns.Add("Fak Penawaran", 0, HorizontalAlignment.Center) '16
         LvPO_DataPO.View = View.Details
         CmbPO_Lokasi.Enabled = False
 
@@ -602,7 +603,7 @@
                     Using dr2 = OpenTrans(SQL)
                         Do While dr2.Read
                             CmbPO_Harga.Items.Add(Format(dr2("harga_satuan")) & "/" & dr2("satuan").ToString.Trim & "-" & dr2("nama"))
-                            arrNoPenawaran.Add(dr2("no_penawaran"))
+                            arrFakPenawaran.Add(dr2("No_Faktur")) : arrNoPenawaran.Add(dr2("no_penawaran"))
                             arrSatuanPenawaran.Add(dr2("satuan_Barang")) : arrHargaPenawaran.Add(dr2("Nilai_Barang"))
                             arrJatuhTempo.Add(dr2("jatuh_tempo"))
                             If General_Class.CekNULL(dr2("tempo_pembayaran")) = "" Then
@@ -853,6 +854,8 @@
 
                 For index = 0 To LvPO_DataPO.Items.Count - 1
                     Get_Isi_Listview(index)
+
+
                     SQL = "select flag_PPn from barang where "
                     SQL = SQL & "Kode_barang='" & lvPO_KdBarang & "' and Kode_Stock_Owner ='" & lvPO_Lokasi & "' "
                     Using dr = OpenTrans(SQL)
@@ -932,9 +935,6 @@
 
 
 
-
-
-
                 If ChkPO_PPN.Checked = True Then
                     If Flag_PPn <> "Y" Then
                         CloseTrans()
@@ -974,6 +974,7 @@
 
                 For i As Integer = 0 To LvPO_DataPO.Items.Count - 1
                     Get_Isi_Listview(i)
+
 
                     'insert lagi ke detail
                     SQL = "select no_faktur from emi_pembelian_po_detail where kode_perusahaan = '" & KodePerusahaan & "' "
@@ -1329,7 +1330,9 @@
             lvw.SubItems.Add(arrHargaPenawaran.Item(CmbPO_Harga.SelectedIndex))
             lvw.SubItems.Add(Jumlah_satuan_Kecil)
             lvw.SubItems.Add(TxtPO_SatuanBarang.Text)
-            lvw.SubItems.Add(arrNoPenawaran.Item(CmbPO_Harga.SelectedIndex))
+            'lvw.SubItems.Add(arrNoPenawaran.Item(CmbPO_Harga.SelectedIndex))
+            lvw.SubItems.Add(arrFakPenawaran.Item(CmbPO_Harga.SelectedIndex))
+
 
             lvw.SubItems.Add("T")
 

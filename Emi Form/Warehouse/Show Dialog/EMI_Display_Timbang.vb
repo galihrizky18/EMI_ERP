@@ -1,7 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-Public Class EMI_Display_Timbang
+﻿Public Class EMI_Display_Timbang
     Dim arrcari As New ArrayList
     Dim Jenis = "ETA"
 
@@ -130,9 +127,11 @@ Public Class EMI_Display_Timbang
             SQL = SQL & "FROM EMI_Pembelian_Loading a, Suppliers b WHERE "
             SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan AND a.Kode_Supplier = b.Kode_Supplier "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' AND a.Status IS NULL "
-            SQL = SQL & "and flag_security='Y' and Flag_Qc_Pertama='Y') "
-            SQL = SQL & "select * from cte "
-            SQL = SQL & "where " & filter_tambahan & " "
+            'SQL = SQL & "and flag_security='Y' and Flag_Qc_Pertama='Y' "
+
+            SQL = SQL & ")select * from cte "
+
+            'SQL = SQL & "where " & filter_tambahan & " "
 
             SQL = SQL & "ORDER BY ETA DESC; "
 
@@ -214,19 +213,19 @@ Public Class EMI_Display_Timbang
             '    Exit Sub
             'End Try
 
-            'Emi_Barang_Masuk.txtBarangMasuk_LokasiGudang.Text = gudang
-            'Emi_Barang_Masuk.CmbBarangMasuk_Lokasi.Text = LvLokasi
-            'Emi_Barang_Masuk.TxtBarang_Masuk_NoNota.Text = LvNoSJ
-            'Emi_Barang_Masuk.TxtBarangMasuk_NoPlat.Text = LvPlatNomor
+            'EMI_Timbang_Unloading.txtBarangMasuk_LokasiGudang.Text = gudang
+            'EMI_Timbang_Unloading.CmbBarangMasuk_Lokasi.Text = LvLokasi
+            'EMI_Timbang_Unloading.TxtBarang_Masuk_NoNota.Text = LvNoSJ
+            'EMI_Timbang_Unloading.TxtBarangMasuk_NoPlat.Text = LvPlatNomor
 
-            'Emi_Barang_Masuk.TxtBarang_Masuk_NoNota.Focus()
-            'Emi_Barang_Masuk.LvBarangMasuk_DataPO.Items.Clear()
+            'EMI_Timbang_Unloading.TxtBarang_Masuk_NoNota.Focus()
+            'EMI_Timbang_Unloading.LvBarangMasuk_DataPO.Items.Clear()
 
-            'Emi_Barang_Masuk.TxtBarangMasuk_KdBarang.Clear()
-            'Emi_Barang_Masuk.TxtBarangMasuk_NmBarang.Clear()
-            'Emi_Barang_Masuk.TxtBarangMasuk_Jml.Clear()
+            'EMI_Timbang_Unloading.TxtBarangMasuk_KdBarang.Clear()
+            'EMI_Timbang_Unloading.TxtBarangMasuk_NmBarang.Clear()
+            'EMI_Timbang_Unloading.TxtBarangMasuk_Jml.Clear()
 
-            'Emi_Barang_Masuk.ShowDialog()
+            EMI_Timbang_Unloading.ShowDialog()
         Else
             MessageBox.Show(Base_Language.Lang_Global_FormAsal & " . .!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub

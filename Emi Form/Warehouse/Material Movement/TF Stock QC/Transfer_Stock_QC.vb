@@ -1,9 +1,4 @@
-﻿Imports System.CodeDom.Compiler
-Imports System.Data.SqlClient
-Imports System.Reflection
-Imports System.Text
-Imports System.Text.RegularExpressions
-Imports Newtonsoft.Json
+﻿Imports System.Text
 
 Public Class Transfer_Stock_QC
     Public asal As String
@@ -400,10 +395,12 @@ Public Class Transfer_Stock_QC
                 End If
 
             Next
+
             If TempArray.Contains("") Then
                 DGV_Data_TF.CurrentRow.Cells(itemDgvCheckBox).Value = False
                 Exit Sub
             End If
+
 
             If DGV_Data_TF.CurrentRow.Cells(itemDgvWarna).Value.ToString.ToUpper <> "HIJAU" Then
                 DGV_Data_TF.CurrentRow.Cells(itemDgvCheckBox).Value = False

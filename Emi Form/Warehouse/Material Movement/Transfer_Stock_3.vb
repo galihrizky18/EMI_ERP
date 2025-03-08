@@ -19,7 +19,7 @@ Public Class Transfer_Stock_3
     Dim dgv_IsiPerBags, dgv_SatuanIsiBags, dgv_TglProd, dgv_TglExp, dgv_KetWarna As String
     Dim dgv_CheckBox As Boolean
 
-    Dim dgv_Rekap_lokasi, dgv_Rekap_KdBarang, dgv_Rekap_NmBarang, dgv_Rekap_Jumlah, dgv_Rekap_JumlahBags, dgv_Rekap_JumlahBersih, dgv_Rekap_Satuan, dgv_Rekap_SatuanKecil As String
+    Dim dgv_Rekap_lokasi, dgv_Rekap_KdBarang, dgv_Rekap_NmBarang, dgv_Rekap_Jumlah, dgv_Rekap_JumlahBags, dgv_Rekap_JumlahBersih, dgv_Rekap_Satuan, dgv_Rekap_SatuanKecil, dgv_Rekap_Oto As String
 
     Dim dgv_detail_lokasi, dgv_detail_KdBarang, dgv_detail_SN, dgv_detail_NmBarang, dgv_detail_IDWarehouseAwal, dgv_detail_KodeRakAwal As String
     Dim dgv_detail_IDPalletAwal, dgv_detail_Jumlah, dgv_detail_JumlahBags, dgv_detail_KodeRakTujuan, dgv_detail_IDWarehouseTujuan As String
@@ -72,7 +72,7 @@ Public Class Transfer_Stock_3
     Dim itemDgvRekap_JumlahBersih As Integer = 5
     Dim itemDgvRekap_Satuan As Integer = 6
     Dim itemDgvRekap_SatuanKecil As Integer = 7
-
+    Dim itemDgvRekap_Oto As Integer = 8
     'Tab 3
     Dim itemDgvDetail_lokasi As Integer = 0
     Dim itemDgvDetail_KdBarang As Integer = 1
@@ -202,6 +202,7 @@ Public Class Transfer_Stock_3
         dgv_Rekap_JumlahBersih = Dgv_DataRekap.Rows(index).Cells(itemDgvRekap_JumlahBersih).Value
         dgv_Rekap_Satuan = Dgv_DataRekap.Rows(index).Cells(itemDgvRekap_Satuan).Value
         dgv_Rekap_SatuanKecil = Dgv_DataRekap.Rows(index).Cells(itemDgvRekap_SatuanKecil).Value
+        dgv_Rekap_Oto = Dgv_DataRekap.Rows(index).Cells(itemDgvRekap_Oto).Value
     End Sub
     Private Sub get_grid_view_Detail(ByVal index As Integer)
         dgv_detail_lokasi = Dgv_DataDetail.Rows(index).Cells(itemDgvDetail_lokasi).Value
@@ -910,8 +911,8 @@ Public Class Transfer_Stock_3
                 hasData = True
 
                 Dim nilai_kecil As Double = 0
-                SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & TxtKd_Barang.Text & "', '" & TxtSatuan.Text & "',"
-                SQL = SQL & "'" & TxtSatuanKecil.Text & "', '" & HilangkanTanda(dgv_Rekap_JumlahBersih) & "' ) as hasil"
+                SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & dgv_Rekap_KdBarang & "', '" & dgv_Rekap_Satuan & "',"
+                SQL = SQL & "'" & dgv_Rekap_SatuanKecil & "', '" & HilangkanTanda(dgv_Rekap_JumlahBersih) & "' ) as hasil"
                 Using Dr1 = OpenTrans(SQL)
                     If Dr1.Read Then
                         If General_Class.CekNULL(Dr1("hasil")) = "" Then
@@ -934,7 +935,7 @@ Public Class Transfer_Stock_3
 
                 Dim Jenis_Berat As String = ""
                 SQL = "Select isnull(flag_tampil_berat,'T') as flag_tampil_berat from emi_satuan where "
-                SQL = SQL & "satuan='" & TxtSatuan.Text & "' and kode_perusahaan='" & KodePerusahaan & "' "
+                SQL = SQL & "satuan='" & dgv_Rekap_Satuan & "' and kode_perusahaan='" & KodePerusahaan & "' "
                 Using dr = OpenTrans(SQL)
                     If dr.Read Then
                         Jenis_Berat = dr("flag_tampil_berat")
@@ -976,7 +977,7 @@ Public Class Transfer_Stock_3
                 SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & dgv_Rekap_KdBarang & "', "
                 SQL = SQL & "'" & HilangkanTanda(dgv_Rekap_JumlahBersih) & "', '" & dgv_Rekap_Satuan & "', "
                 SQL = SQL & "'" & nilai_kecil & "', '" & dgv_Rekap_SatuanKecil & "', "
-                SQL = SQL & "'" & HilangkanTanda(dgv_Rekap_JumlahBags) & "', '" & Txt_OtoMaterial_req.Text & "', '" & Flag_Timbang & "')"
+                SQL = SQL & "'" & HilangkanTanda(dgv_Rekap_JumlahBags) & "', '" & dgv_Rekap_Oto & "', '" & Flag_Timbang & "')"
                 ExecuteTrans(SQL)
 
                 Dim x_ident_current As Integer = 0
@@ -1035,8 +1036,8 @@ Public Class Transfer_Stock_3
                         End Using
 
                         Dim nilai_kecildetail As Double = 0
-                        SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & dgv_detail_KdBarang & "', '" & TxtSatuan.Text & "',"
-                        SQL = SQL & "'" & TxtSatuanKecil.Text & "', '" & HilangkanTanda(dgv_detail_Jumlah.ToString) & "' ) as hasil"
+                        SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & dgv_detail_KdBarang & "', '" & dgv_Rekap_Satuan & "',"
+                        SQL = SQL & "'" & dgv_Rekap_SatuanKecil & "', '" & HilangkanTanda(dgv_detail_Jumlah.ToString) & "' ) as hasil"
                         Using Dr1 = OpenTrans(SQL)
                             If Dr1.Read Then
                                 If General_Class.CekNULL(Dr1("hasil")) = "" Then
@@ -1602,50 +1603,50 @@ Public Class Transfer_Stock_3
             SQL = "select a.Kode_Perusahaan "
             SQL = SQL & "from Vw_Tf_Stock a where "
             SQL = SQL & "a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and a.No_Faktur = '" & Trim(TxtNo_Transaksi.Text) & "' "
+            SQL = SQL & "and a.No_Faktur = 'TS-WR-01/25-0005' "
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
 
                     CrDoc = New Rpt_EMI_Faktur_Transfer_Stock
                     kertas = "Faktur"
 
-                    With A_Place_For_Printing2
-                        CrDoc.SetDataSource(Ds)
-                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.PrintOptions.PrinterName = ""
-                        CrDoc.RecordSelectionFormula = "{Vw_Tf_Stock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Tf_Stock.No_Faktur}='" & Trim(TxtNo_Transaksi.Text) & "' "
-                        CrDoc.SummaryInfo.ReportTitle = "TF"
-                        .Text = "TF"
-                        .CrystalReportViewer1.ReportSource = CrDoc
-                        .Refresh()
-                        .Show()
-                    End With
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = "{Vw_Tf_Stock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Tf_Stock.No_Faktur}='" & Trim(TxtNo_Transaksi.Text) & "' "
+                    '    CrDoc.SummaryInfo.ReportTitle = "TF"
+                    '    .Text = "TF"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
 
                     '============================================================================================================================================
                     '============================================================================================================================================
-                    ''CrDoc.SetDataSource(Ds)
-                    ''CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    ''CrDoc.PrintOptions.PrinterName = PrinterNameTS
-                    ''CrDoc.RecordSelectionFormula = "{Vw_Tf_Stock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Tf_Stock.No_Faktur}='" & Trim(TxtNo_Transaksi.Text) & "' "
-                    '''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.PrintOptions.PrinterName = PrinterNameTS
+                    CrDoc.RecordSelectionFormula = "{Vw_Tf_Stock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Tf_Stock.No_Faktur}='TS-WR-01/25-0005' "
+                    'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
-                    ''Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                    ''doctoprint.PrinterSettings.PrinterName = PrinterNameTS
-                    '''doctoprint.DefaultPageSettings.Landscape = True
-                    ''Dim rawKind As Integer
-                    ''CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                    ''For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                    ''    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
-                    ''        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                    ''        CrDoc.PrintOptions.PaperSize = rawKind
-                    ''        Exit For
-                    ''    End If
-                    ''Next
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    doctoprint.PrinterSettings.PrinterName = PrinterNameTS
+                    'doctoprint.DefaultPageSettings.Landscape = True
+                    Dim rawKind As Integer
+                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                            CrDoc.PrintOptions.PaperSize = rawKind
+                            Exit For
+                        End If
+                    Next
 
-                    ''CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                    ''CrDoc.PrintToPrinter(1, False, 1, 99)
+                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    CrDoc.PrintToPrinter(1, False, 1, 99)
 
-                    ''MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
 
                 End If
@@ -1904,6 +1905,7 @@ Public Class Transfer_Stock_3
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_JumlahBersih).Value = TxtTotalTransfer.Text
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_Satuan).Value = TxtSatuan.Text
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_SatuanKecil).Value = TxtSatuanKecil.Text
+            Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_Oto).Value = Txt_OtoMaterial_req.Text
         Else
 
             MessageBox.Show("Tidak Ada Data Yang Di Pilih", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

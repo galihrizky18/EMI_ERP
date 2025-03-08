@@ -117,6 +117,72 @@ Public Class Master_Menu2
 
     End Sub
 
+    Private Sub kosongSebagian()
+        Cb_MainMenu.Items.Clear()
+        Cb_Menu.Items.Clear()
+        Cb_SubMenu.Items.Clear()
+        Cb_SubMenuLv1.Items.Clear()
+        Cb_SubMenuLv2.Items.Clear()
+        Cb_SubMenuLv3.Items.Clear()
+
+        Btn_Simpan.Tag = "SAVE"
+        Btn_Simpan.Text = "&Save"
+
+        Cb_MainMenu.Text = ""
+        Cb_Menu.Text = ""
+        Cb_SubMenu.Text = ""
+        Cb_SubMenuLv1.Text = ""
+        Cb_SubMenuLv2.Text = ""
+        Cb_SubMenuLv3.Text = ""
+
+        Tb_ImagePath.Enabled = True
+        Tb_MenuName.Enabled = True
+        Tb_MenuOrder.Enabled = True
+        Tb_MenuForm.Enabled = False
+        Tb_Var1.Enabled = False
+        Tb_IsiVariabel1.Enabled = False
+        Tb_Var2.Enabled = False
+        Tb_IsiVariabel2.Enabled = False
+        Tb_Var3.Enabled = False
+        Tb_IsiVariabel3.Enabled = False
+
+        Tb_ImagePath.Text = ""
+        Tb_MenuName.Text = ""
+        Tb_MenuOrder.Text = ""
+        Tb_MenuForm.Text = ""
+        Tb_Var1.Text = ""
+        Tb_IsiVariabel1.Text = ""
+        Tb_Var2.Text = ""
+        Tb_IsiVariabel2.Text = ""
+        Tb_Var3.Text = ""
+        Tb_IsiVariabel3.Text = ""
+        Txt_SelectedMenu.Text = "MAINMENU"
+
+        Tb_ImagePath.BackColor = Color.White
+        Tb_MenuName.BackColor = Color.White
+        Tb_MenuOrder.BackColor = Color.White
+        Tb_MenuForm.BackColor = Color.LightGray
+        Tb_Var1.BackColor = Color.LightGray
+        Tb_IsiVariabel1.BackColor = Color.LightGray
+        Tb_Var2.BackColor = Color.LightGray
+        Tb_IsiVariabel2.BackColor = Color.LightGray
+        Tb_Var3.BackColor = Color.LightGray
+        Tb_IsiVariabel3.BackColor = Color.LightGray
+
+        Cmb_Filter.Items.Clear() : arrFilter.Clear()
+        Cmb_Filter.Items.Add("Main Menu") : arrFilter.Add("title")
+        Cmb_Filter.Items.Add("Menu") : arrFilter.Add("MenuName")
+        Cmb_Filter.Items.Add("Sub Menu") : arrFilter.Add("SubMenuName")
+        Cmb_Filter.Items.Add("Sub Menu Lv 1") : arrFilter.Add("SubMenuLv1Name")
+        Cmb_Filter.Items.Add("Sub Menu Lv 2") : arrFilter.Add("SubMenuLv2Name")
+        Cmb_Filter.Items.Add("Sub Menu Lv 3") : arrFilter.Add("SubMenuLv4Name")
+        Cmb_Filter.SelectedIndex = -1 : Txt_Filter.Text = ""
+
+        Dgv_Order.Rows.Clear()
+
+        Load_MainMenu()
+        Load_Order_MainMenu()
+    End Sub
 
     Private Sub Initial_LvMenu()
 
@@ -155,7 +221,6 @@ Public Class Master_Menu2
         Lv_hierarki.Columns.Add("isivar2", 0, HorizontalAlignment.Center)
         Lv_hierarki.Columns.Add("var3", 0, HorizontalAlignment.Center)
         Lv_hierarki.Columns.Add("isivar3", 0, HorizontalAlignment.Center)
-
 
     End Sub
 
@@ -283,27 +348,34 @@ Public Class Master_Menu2
         Tb_Var3.Text = ""
         Tb_IsiVariabel3.Text = ""
 
-        Tb_ImagePath.Enabled = False
         Tb_MenuName.Enabled = True
         Tb_MenuOrder.Enabled = True
-        Tb_MenuForm.Enabled = True
-        Tb_Var1.Enabled = True
-        Tb_IsiVariabel1.Enabled = True
-        Tb_Var2.Enabled = True
-        Tb_IsiVariabel2.Enabled = True
-        Tb_Var3.Enabled = True
-        Tb_IsiVariabel3.Enabled = True
+        Tb_MenuForm.Enabled = False
+        Tb_Var1.Enabled = False
+        Tb_IsiVariabel1.Enabled = False
+        Tb_Var2.Enabled = False
+        Tb_IsiVariabel2.Enabled = False
+        Tb_Var3.Enabled = False
+        Tb_IsiVariabel3.Enabled = False
 
-        Tb_ImagePath.BackColor = Color.LightGray
+        If Btn_Simpan.Tag = "UPDATE" Then
+            Tb_ImagePath.Enabled = True
+            Tb_ImagePath.BackColor = Color.White
+        Else
+            Tb_ImagePath.Enabled = False
+            Tb_ImagePath.BackColor = Color.LightGray
+
+        End If
+
         Tb_MenuName.BackColor = Color.White
         Tb_MenuOrder.BackColor = Color.White
-        Tb_MenuForm.BackColor = Color.White
-        Tb_Var1.BackColor = Color.White
-        Tb_IsiVariabel1.BackColor = Color.White
-        Tb_Var2.BackColor = Color.White
-        Tb_IsiVariabel2.BackColor = Color.White
-        Tb_Var3.BackColor = Color.White
-        Tb_IsiVariabel3.BackColor = Color.White
+        Tb_MenuForm.BackColor = Color.LightGray
+        Tb_Var1.BackColor = Color.LightGray
+        Tb_IsiVariabel1.BackColor = Color.LightGray
+        Tb_Var2.BackColor = Color.LightGray
+        Tb_IsiVariabel2.BackColor = Color.LightGray
+        Tb_Var3.BackColor = Color.LightGray
+        Tb_IsiVariabel3.BackColor = Color.LightGray
 
         LoadMenu()
         Load_Order_Menu()
@@ -342,24 +414,44 @@ Public Class Master_Menu2
         Tb_ImagePath.Enabled = False
         Tb_MenuName.Enabled = True
         Tb_MenuOrder.Enabled = True
-        Tb_MenuForm.Enabled = True
-        Tb_Var1.Enabled = True
-        Tb_IsiVariabel1.Enabled = True
-        Tb_Var2.Enabled = True
-        Tb_IsiVariabel2.Enabled = True
-        Tb_Var3.Enabled = True
-        Tb_IsiVariabel3.Enabled = True
+
+        If Btn_Simpan.Tag = "UPDATE" Then
+            Tb_MenuForm.Enabled = False
+            Tb_Var1.Enabled = False
+            Tb_IsiVariabel1.Enabled = False
+            Tb_Var2.Enabled = False
+            Tb_IsiVariabel2.Enabled = False
+            Tb_Var3.Enabled = False
+            Tb_IsiVariabel3.Enabled = False
+
+            Tb_MenuForm.BackColor = Color.LightGray
+            Tb_Var1.BackColor = Color.LightGray
+            Tb_IsiVariabel1.BackColor = Color.LightGray
+            Tb_Var2.BackColor = Color.LightGray
+            Tb_IsiVariabel2.BackColor = Color.LightGray
+            Tb_Var3.BackColor = Color.LightGray
+            Tb_IsiVariabel3.BackColor = Color.LightGray
+        Else
+            Tb_MenuForm.Enabled = True
+            Tb_Var1.Enabled = True
+            Tb_IsiVariabel1.Enabled = True
+            Tb_Var2.Enabled = True
+            Tb_IsiVariabel2.Enabled = True
+            Tb_Var3.Enabled = True
+            Tb_IsiVariabel3.Enabled = True
+
+            Tb_MenuForm.BackColor = Color.White
+            Tb_Var1.BackColor = Color.White
+            Tb_IsiVariabel1.BackColor = Color.White
+            Tb_Var2.BackColor = Color.White
+            Tb_IsiVariabel2.BackColor = Color.White
+            Tb_Var3.BackColor = Color.White
+            Tb_IsiVariabel3.BackColor = Color.White
+        End If
 
         Tb_ImagePath.BackColor = Color.LightGray
         Tb_MenuName.BackColor = Color.White
         Tb_MenuOrder.BackColor = Color.White
-        Tb_MenuForm.BackColor = Color.White
-        Tb_Var1.BackColor = Color.White
-        Tb_IsiVariabel1.BackColor = Color.White
-        Tb_Var2.BackColor = Color.White
-        Tb_IsiVariabel2.BackColor = Color.White
-        Tb_Var3.BackColor = Color.White
-        Tb_IsiVariabel3.BackColor = Color.White
 
         LoadSubMenu()
         Load_Order_Submenu()
@@ -560,6 +652,11 @@ Public Class Master_Menu2
         Tb_IsiVariabel3.BackColor = Color.White
     End Sub
 
+    Private Sub Cmb_Filter_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Filter.SelectedIndexChanged
+        If Cmb_Filter.SelectedIndex = -1 Then Exit Sub
+        Txt_Filter.Text = ""
+    End Sub
+
     '=============== LOAD MENUS ==============='
     Private Sub Load_MainMenu()
         Try
@@ -700,10 +797,7 @@ Public Class Master_Menu2
             Exit Sub
         End Try
 
-
-
     End Sub
-
 
     '============ LOAD ORDER ============'
 
@@ -728,8 +822,6 @@ Public Class Master_Menu2
                     End If
                 End With
             End Using
-
-
 
             CloseConn()
         Catch ex As Exception
@@ -889,8 +981,6 @@ Public Class Master_Menu2
         End Try
     End Sub
 
-
-
     '============ HANDLE BUTTON ============'
     Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
         If Tb_MenuName.Text.Trim.Length = 0 Then
@@ -901,22 +991,21 @@ Public Class Master_Menu2
             Exit Sub
         End If
 
-        Dim newImagePath = Tb_ImagePath.Text.Trim
-        Dim newMenuName = Tb_MenuName.Text.Trim
-        Dim newMenuOrder = Tb_MenuOrder.Text.Trim
-        Dim newMenuForm = Tb_MenuForm.Text.Trim
-        Dim newMenuVar1 = Tb_Var1.Text.Trim
-        Dim newMenuVar2 = Tb_Var2.Text.Trim
-        Dim newMenuVar3 = Tb_Var3.Text.Trim
-        Dim newMenuIsiVar1 = Tb_IsiVariabel1.Text.Trim
-        Dim newMenuIsiVar2 = Tb_IsiVariabel2.Text.Trim
-        Dim newMenuIsiVar3 = Tb_IsiVariabel3.Text.Trim
+        Dim newImagePath = cekEmptyString(Tb_ImagePath.Text.Trim)
+        Dim newMenuName = cekEmptyString(Tb_MenuName.Text.Trim)
+        Dim newMenuOrder = cekEmptyString(Tb_MenuOrder.Text.Trim)
+        Dim newMenuForm = cekEmptyString(Tb_MenuForm.Text.Trim)
+        Dim newMenuVar1 = cekEmptyString(Tb_Var1.Text.Trim)
+        Dim newMenuVar2 = cekEmptyString(Tb_Var2.Text.Trim)
+        Dim newMenuVar3 = cekEmptyString(Tb_Var3.Text.Trim)
+        Dim newMenuIsiVar1 = cekEmptyString(Tb_IsiVariabel1.Text.Trim)
+        Dim newMenuIsiVar2 = cekEmptyString(Tb_IsiVariabel2.Text.Trim)
+        Dim newMenuIsiVar3 = cekEmptyString(Tb_IsiVariabel3.Text.Trim)
 
         Dim action As String = ""
         Try
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
-
 
             If Btn_Simpan.Tag = "SAVE" Then
 
@@ -928,59 +1017,98 @@ Public Class Master_Menu2
                                     If Not Cb_SubMenuLv2.Text = "" Then
                                         If Not Cb_SubMenuLv3.Text = "" Then
                                         Else
+                                            'Cek SubMenu2
+                                            SQL = "select form from SubMenuLv2 where SubMenuLv2ID = '" & submenulv2id & "' "
+                                            Using Dr = OpenTrans(SQL)
+                                                If Dr.Read Then
+                                                    If Not General_Class.CekNULL(Dr("form")) = "" Then
+                                                        Dr.Close()
+                                                        CloseTrans()
+                                                        CloseConn()
+                                                        MessageBox.Show("Menu Tidak bisa tambah anak", "Master Menu", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                        Exit Sub
+                                                    End If
+                                                End If
+                                            End Using
+
                                             'ADD NEW SUBMENU LV3
                                             If Not newMenuName = "" AndAlso Not newMenuOrder = "" Then
                                                 SQL = "insert into SubMenuLv3(SubMenuLv3ID, SubMenuLv2ID, SubMenuLv3Name, SubMenuLv3Order, Form, Variabel, Isi_Variabel, "
                                                 SQL = SQL & "Variabel2, Isi_Variabel2, Variabel3, Isi_Variabel3) values "
-                                                SQL = SQL & "(SubMenuLv3_'" & getUniqueID() & "', '" & submenulv2id & "', '" & newMenuName & "', " & newMenuOrder & ", "
-                                                SQL = SQL & "" & cekEmptyString(newMenuForm) & ", " & cekEmptyString(newMenuVar1) & ", " & cekEmptyString(newMenuIsiVar1) & ", "
-                                                SQL = SQL & "" & cekEmptyString(newMenuVar2) & ", " & cekEmptyString(newMenuIsiVar2) & ", " & cekEmptyString(newMenuVar3) & ", "
-                                                SQL = SQL & "" & cekEmptyString(newMenuIsiVar3) & ")"
+                                                SQL = SQL & "(SubMenuLv3_'" & getUniqueID() & "', '" & submenulv2id & "', " & newMenuName & ", " & newMenuOrder & ", "
+                                                SQL = SQL & "" & newMenuForm & ", " & newMenuVar1 & ", " & newMenuIsiVar1 & ", "
+                                                SQL = SQL & "" & newMenuVar2 & ", " & newMenuIsiVar2 & ", " & newMenuVar3 & ", "
+                                                SQL = SQL & "" & newMenuIsiVar3 & ")"
                                                 ExecuteTrans(SQL)
-
                                             Else
                                                 MessageBox.Show("MenuName dan MenuOrder Harus Diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                             End If
                                         End If
                                     Else
+                                        'Cek SubMenu1
+                                        SQL = "select form from SubMenuLv1 where SubMenuLv1ID = '" & submenulv1id & "' "
+                                        Using Dr = OpenTrans(SQL)
+                                            If Dr.Read Then
+                                                If Not General_Class.CekNULL(Dr("form")) = "" Then
+                                                    Dr.Close()
+                                                    CloseTrans()
+                                                    CloseConn()
+                                                    MessageBox.Show("Menu Tidak bisa tambah anak", "Master Menu", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                    Exit Sub
+                                                End If
+                                            End If
+                                        End Using
+
                                         'ADD NEW SUBMENULV2
                                         If Not newMenuName = "" AndAlso Not newMenuOrder = "" Then
                                             SQL = "insert into SubMenuLv2(SubMenuLv2ID, SubMenuLv1ID, SubMenuLv2Name, SubMenuLv2Order, Form, Variabel, Isi_Variabel, "
                                             SQL = SQL & "Variabel2, Isi_Variabel2, Variabel3, Isi_Variabel3) values "
-                                            SQL = SQL & "('SubMenuLv2_" & getUniqueID() & "', '" & submenulv1id & "', '" & newMenuName & "', " & newMenuOrder & ", "
-                                            SQL = SQL & "" & cekEmptyString(newMenuForm) & ", " & cekEmptyString(newMenuVar1) & ", " & cekEmptyString(newMenuIsiVar1) & ", "
-                                            SQL = SQL & "" & cekEmptyString(newMenuVar2) & ", " & cekEmptyString(newMenuIsiVar2) & ", " & cekEmptyString(newMenuVar3) & ", "
-                                            SQL = SQL & "" & cekEmptyString(newMenuIsiVar3) & ")"
+                                            SQL = SQL & "('SubMenuLv2_" & getUniqueID() & "', '" & submenulv1id & "', " & newMenuName & ", " & newMenuOrder & ", "
+                                            SQL = SQL & "" & newMenuForm & ", " & newMenuVar1 & ", " & newMenuIsiVar1 & ", "
+                                            SQL = SQL & "" & newMenuVar2 & ", " & newMenuIsiVar2 & ", " & newMenuVar3 & ", "
+                                            SQL = SQL & "" & newMenuIsiVar3 & ")"
                                             ExecuteTrans(SQL)
-
                                         Else
                                             MessageBox.Show("MenuName dan MenuOrder Harus Diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                         End If
                                     End If
                                 Else
+                                    'Cek SubMenus
+                                    SQL = "select form from SubMenus where SubMenuID = '" & submenuid & "' "
+                                    Using Dr = OpenTrans(SQL)
+                                        If Dr.Read Then
+                                            If Not General_Class.CekNULL(Dr("form")) = "" Then
+                                                Dr.Close()
+                                                CloseTrans()
+                                                CloseConn()
+                                                MessageBox.Show("Menu Tidak bisa tambah anak", "Master Menu", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                Exit Sub
+                                            End If
+                                        End If
+                                    End Using
+
                                     'ADD NEW SUBMENULV1
                                     If Not newMenuName = "" AndAlso Not newMenuOrder = "" Then
                                         SQL = "insert into SubMenuLv1(SubMenuLv1ID, SubMenuID, SubMenuLv1Name, SubMenuLv1Order, Form, Variabel, Isi_Variabel, "
                                         SQL = SQL & "Variabel2, Isi_Variabel2, Variabel3, Isi_Variabel3) values "
-                                        SQL = SQL & "('SubMenuLv1ID_" & getUniqueID() & "', '" & submenuid & "', '" & newMenuName & "', " & newMenuOrder & ", " & cekEmptyString(newMenuForm) & ", "
-                                        SQL = SQL & "" & cekEmptyString(newMenuVar1) & ", " & cekEmptyString(newMenuIsiVar1) & ", " & cekEmptyString(newMenuVar2) & ", "
-                                        SQL = SQL & "" & cekEmptyString(newMenuIsiVar2) & ", " & cekEmptyString(newMenuVar3) & ", " & cekEmptyString(newMenuIsiVar3) & ")"
+                                        SQL = SQL & "('SubMenuLv1ID_" & getUniqueID() & "', '" & submenuid & "', " & newMenuName & ", " & newMenuOrder & ", " & newMenuForm & ", "
+                                        SQL = SQL & "" & newMenuVar1 & ", " & newMenuIsiVar1 & ", " & newMenuVar2 & ", "
+                                        SQL = SQL & "" & newMenuIsiVar2 & ", " & newMenuVar3 & ", " & newMenuIsiVar3 & ")"
                                         ExecuteTrans(SQL)
-
                                     Else
                                         MessageBox.Show("MenuName dan MenuOrder Harus Diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     End If
                                 End If
                             Else
+
                                 'ADD NEW SUBMENU
                                 If Not newMenuName = "" AndAlso Not newMenuOrder = "" Then
                                     SQL = "insert into SubMenus(SubMenuID, SubMenuName, MenuID, SubMenuOrder, Form, Variabel, Isi_Variabel, "
                                     SQL = SQL & "Variabel2, Isi_Variabel2, Variabel3, Isi_Variabel3) values "
-                                    SQL = SQL & "('SubMenu_" & getUniqueID() & "', '" & newMenuName & "', '" & menuid & "', " & newMenuOrder & ", " & cekEmptyString(newMenuForm) & " "
-                                    SQL = SQL & ", " & cekEmptyString(newMenuVar1) & ", " & cekEmptyString(newMenuIsiVar1) & ", " & cekEmptyString(newMenuVar2) & ", "
-                                    SQL = SQL & "" & cekEmptyString(newMenuIsiVar2) & ", " & cekEmptyString(newMenuVar3) & ", " & cekEmptyString(newMenuIsiVar3) & ")"
+                                    SQL = SQL & "('SubMenu_" & getUniqueID() & "', " & newMenuName & ", '" & menuid & "', " & newMenuOrder & ", " & newMenuForm & " "
+                                    SQL = SQL & ", " & newMenuVar1 & ", " & newMenuIsiVar1 & ", " & newMenuVar2 & ", "
+                                    SQL = SQL & "" & newMenuIsiVar2 & ", " & newMenuVar3 & ", " & newMenuIsiVar3 & ")"
                                     ExecuteTrans(SQL)
-
                                 Else
                                     MessageBox.Show("MenuName dan MenuOrder Harus Diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 End If
@@ -989,9 +1117,8 @@ Public Class Master_Menu2
                             'ADD NEW MENU
                             If Not newMenuName = "" AndAlso Not newMenuOrder = "" Then
                                 SQL = "insert into menus (MenuId, MainMenuID, MenuName, MenuOrder, MenuParent) values "
-                                SQL = SQL & "('Menu_" & getUniqueID() & "', '" & mainmenuid & "', '" & newMenuName & "', " & newMenuOrder & " , NULL)"
+                                SQL = SQL & "('Menu_" & getUniqueID() & "', '" & mainmenuid & "', " & newMenuName & ", " & newMenuOrder & " , NULL)"
                                 ExecuteTrans(SQL)
-
                             Else
                                 MessageBox.Show("MenuName dan MenuOrder Harus Diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             End If
@@ -1000,9 +1127,8 @@ Public Class Master_Menu2
                         'ADD NEW MAINMENU
                         If Not newImagePath = "" Then
                             SQL = "insert into MainMenu(MainMenuId, ImagePath, Title, urut) values "
-                            SQL = SQL & "('MainMenu_" & getUniqueID() & "', '" & newImagePath & "', '" & newMenuName & "', '" & newMenuOrder & "')"
+                            SQL = SQL & "('MainMenu_" & getUniqueID() & "', " & newImagePath & ", " & newMenuName & ", " & newMenuOrder & ")"
                             ExecuteTrans(SQL)
-
                         Else
                             MessageBox.Show("ImagePath Harus Diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         End If
@@ -1013,6 +1139,13 @@ Public Class Master_Menu2
                 action = "Simpan"
             ElseIf Btn_Simpan.Tag = "UPDATE" Then
 
+                Dim pertanyaan As String = MessageBox.Show("Yakin Ingin Update?", "Master Menu", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If pertanyaan = vbNo Then
+                    CloseTrans()
+                    CloseConn()
+                    Exit Sub
+                End If
+
                 If submenulv3id = "" Then
                     If submenulv2id = "" Then
                         If submenulv1id = "" Then
@@ -1020,59 +1153,59 @@ Public Class Master_Menu2
                                 If menuid = "" Then
                                     If mainmenuid = "" Then
                                     Else
-                                        SQL = "update MainMenu set ImagePath = '" & newImagePath & "', TItle = '" & newMenuName & "', urut = '" & newMenuOrder & "' "
+                                        SQL = "update MainMenu set ImagePath = " & newImagePath & ", TItle = " & newMenuName & ", urut = " & newMenuOrder & " "
                                         SQL = SQL & "where MainMenuID = '" & mainmenuid & "' "
                                         ExecuteTrans(SQL)
 
                                     End If
                                 Else
-                                    SQL = "update Menus set MenuName = '" & newMenuName & "', MenuOrder = '" & newMenuOrder & "' "
+                                    SQL = "update Menus set MenuName = " & newMenuName & ", MenuOrder = " & newMenuOrder & " "
                                     SQL = SQL & "where MenuID = '" & menuid & "' "
                                     ExecuteTrans(SQL)
 
                                 End If
                             Else
-                                SQL = "delete RoleSubMenu where SubMenuID = '" & submenuid & "'"
+                                SQL = "update submenus set SubMenuName = " & newMenuName & ", SubMenuOrder = " & newMenuOrder & ", form = " & newMenuForm & ", "
+                                SQL = SQL & "Variabel = " & newMenuVar1 & ", Isi_Variabel = " & newMenuIsiVar1 & ", "
+                                SQL = SQL & "Variabel2 = " & newMenuVar2 & ", Isi_Variabel2 = " & newMenuIsiVar2 & ", "
+                                SQL = SQL & "Variabel3 = " & newMenuVar3 & ", Isi_Variabel3 = " & newMenuIsiVar3 & " "
+                                SQL = SQL & "where SubMenuID = '" & submenuid & "' "
                                 ExecuteTrans(SQL)
 
-                                SQL = "delete from SubMenus where SubMenuID='" & submenuid & "'"
-                                ExecuteTrans(SQL)
-
-                                MessageBox.Show("Berhasil DiHapus", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                             End If
                         Else
-                            SQL = "delete RoleSubMenuLv1 where SubMenuLv1ID = '" & submenulv1id & "'"
+                            SQL = "update SubMenuLv1 set SubMenuLv1Name = " & newMenuName & ", SubMenuLv1Order = " & newMenuOrder & ", form = " & newMenuForm & ", "
+                            SQL = SQL & "Variabel = " & newMenuVar1 & ", Isi_Variabel = " & newMenuIsiVar1 & ", "
+                            SQL = SQL & "Variabel2 = " & newMenuVar2 & ", Isi_Variabel2 = " & newMenuIsiVar2 & ", "
+                            SQL = SQL & "Variabel3 = " & newMenuVar3 & ", Isi_Variabel3 = " & newMenuIsiVar3 & " "
+                            SQL = SQL & "where SubMenuLv1ID = '" & submenulv1id & "' "
                             ExecuteTrans(SQL)
 
-                            SQL = "delete from SubMenuLv1 where SubMenuLv1ID='" & submenulv1id & "'"
-                            ExecuteTrans(SQL)
-
-                            MessageBox.Show("Berhasil DiHapus", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
                     Else
-                        SQL = "delete RoleSubMenuLv2 where SubMenuLv2ID = '" & submenulv2id & "'"
+                        SQL = "update SubMenuLv2 set SubMenuLv2Name = " & newMenuName & ", SubMenuLv2Order = " & newMenuOrder & ", form = " & newMenuForm & ", "
+                        SQL = SQL & "Variabel = " & newMenuVar1 & ", Isi_Variabel = " & newMenuIsiVar1 & ", "
+                        SQL = SQL & "Variabel2 = " & newMenuVar2 & ", Isi_Variabel2 = " & newMenuIsiVar2 & ", "
+                        SQL = SQL & "Variabel3 = " & newMenuVar3 & ", Isi_Variabel3 = " & newMenuIsiVar3 & " "
+                        SQL = SQL & "where SubMenuLv2ID = '" & submenulv2id & "' "
                         ExecuteTrans(SQL)
 
-                        SQL = "delete from SubMenuLv2 where SubMenuLv2ID='" & submenulv2id & "'"
-                        ExecuteTrans(SQL)
-
-                        MessageBox.Show("Berhasil DiHapus", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
                 Else
-                    SQL = "delete RoleSubMenuLv3 where SubMenuLv3ID = '" & submenulv3id & "'"
+                    SQL = "update SubMenuLv3 set SubMenuLv3Name = " & newMenuName & ", SubMenuLv3Order = " & newMenuOrder & ", form = " & newMenuForm & ", "
+                    SQL = SQL & "Variabel = " & newMenuVar1 & ", Isi_Variabel = " & newMenuIsiVar1 & ", "
+                    SQL = SQL & "Variabel2 = " & newMenuVar2 & ", Isi_Variabel2 = " & newMenuIsiVar2 & ", "
+                    SQL = SQL & "Variabel3 = " & newMenuVar3 & ", Isi_Variabel3 = " & newMenuIsiVar3 & " "
+                    SQL = SQL & "where SubMenuLv3ID = '" & submenulv2id & "' "
                     ExecuteTrans(SQL)
 
-                    SQL = "delete from SubMenuLv3 where SubMenuLv3ID='" & submenulv3id & "'"
-                    ExecuteTrans(SQL)
-
-                    MessageBox.Show("Berhasil DiHapus", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
 
                 action = "Update"
             End If
 
-
             Cmd.Transaction.Commit()
+            CloseTrans()
             CloseConn()
         Catch ex As Exception
             CloseTrans()
@@ -1082,7 +1215,7 @@ Public Class Master_Menu2
         End Try
 
         MessageBox.Show($"Data Berhasil di {action}", "Master Menu", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        kosong()
+        kosongSebagian()
 
     End Sub
 
@@ -1216,23 +1349,23 @@ Public Class Master_Menu2
             Exit Sub
         End Try
 
-        Select Case Txt_SelectedMenu.Text.ToUpper()
-            Case "MAINMENU"
-                Load_Order_MainMenu()
-            Case "MENU"
-                Load_Order_Menu()
-            Case "SUBMENU"
-                Load_Order_Submenu()
-            Case "SUBMENULV1"
-                Load_Order_SubMenuLv1()
-            Case "SUBMENULV2"
-                Load_Order_SubMenuLv2()
-            Case "SUBMENULV3"
-                Load_Order_Submenulv3()
-        End Select
+        'Select Case Txt_SelectedMenu.Text.ToUpper()
+        '    Case "MAINMENU"
+        '        Load_Order_MainMenu()
+        '    Case "MENU"
+        '        Load_Order_Menu()
+        '    Case "SUBMENU"
+        '        Load_Order_Submenu()
+        '    Case "SUBMENULV1"
+        '        Load_Order_SubMenuLv1()
+        '    Case "SUBMENULV2"
+        '        Load_Order_SubMenuLv2()
+        '    Case "SUBMENULV3"
+        '        Load_Order_Submenulv3()
+        'End Select
 
         MessageBox.Show("Berhasil Update Order", "Input Menu", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
+        kosong()
     End Sub
 
     Private Sub Lv_hierarki_DoubleClick(sender As Object, e As EventArgs) Handles Lv_hierarki.DoubleClick
@@ -1244,7 +1377,6 @@ Public Class Master_Menu2
         Btn_Simpan.Text = "&Update"
 
         Try
-
 
             If Not String.IsNullOrEmpty(Lv_SubMenuLv3Id) Then
 
@@ -1376,14 +1508,12 @@ Public Class Master_Menu2
                 Tb_ImagePath.Text = Lv_ImagePath
                 Tb_MenuOrder.Text = Lv_MenuOrder
                 Tb_MenuName.Text = Lv_MenuName
-                Tb_MenuForm.Text = Lv_Form
 
             ElseIf Not String.IsNullOrEmpty(Lv_MainMenuId) Then
                 Cb_MainMenu.SelectedIndex = arrMainMenu.IndexOf(Lv_MainMenuId)
                 Tb_ImagePath.Text = Lv_ImagePath
                 Tb_MenuOrder.Text = Lv_MainMenuOrder
                 Tb_MenuName.Text = Lv_MainMenuName
-                Tb_MenuForm.Text = Lv_Form
 
             End If
 
@@ -1393,7 +1523,6 @@ Public Class Master_Menu2
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-
 
     End Sub
 
@@ -1414,12 +1543,6 @@ Public Class Master_Menu2
 
     End Function
 
-    Private Sub Tb_MenuOrder_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_MenuOrder.KeyPress
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
-            e.Handled = True
-        End If
-    End Sub
-
     Private Sub Tb_UrutMainMenu_KeyPress(sender As Object, e As KeyPressEventArgs)
         If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
             e.Handled = True
@@ -1436,6 +1559,7 @@ Public Class Master_Menu2
         End If
 
         Load_All_Menu()
+        kosongSebagian()
 
     End Sub
 
@@ -1453,6 +1577,54 @@ Public Class Master_Menu2
 
         End If
 
+    End Sub
+
+
+
+    '======================
+    '=    HANDLE CLICK    =
+    '======================
+    Private Sub Tb_ImagePath_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_ImagePath.KeyPress
+        If e.KeyChar = Chr(13) Then Tb_MenuName.Focus()
+    End Sub
+
+    Private Sub Tb_MenuName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_MenuName.KeyPress
+        If e.KeyChar = Chr(13) Then Tb_MenuOrder.Focus()
+    End Sub
+
+    Private Sub Tb_MenuOrder_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_MenuOrder.KeyPress
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+        End If
+        If e.KeyChar = Chr(13) Then Tb_MenuForm.Focus()
+    End Sub
+
+    Private Sub Tb_MenuForm_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_MenuForm.KeyPress
+        If e.KeyChar = Chr(13) Then Tb_Var1.Focus()
+    End Sub
+
+    Private Sub Tb_Var1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_Var1.KeyPress
+        If e.KeyChar = Chr(13) Then Tb_IsiVariabel1.Focus()
+    End Sub
+
+    Private Sub Tb_IsiVariabel1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_IsiVariabel1.KeyPress
+        If e.KeyChar = Chr(13) Then Tb_Var2.Focus()
+    End Sub
+
+    Private Sub Tb_Var2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_Var2.KeyPress
+        If e.KeyChar = Chr(13) Then Tb_IsiVariabel2.Focus()
+    End Sub
+
+    Private Sub Tb_IsiVariabel2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_IsiVariabel2.KeyPress
+        If e.KeyChar = Chr(13) Then Tb_Var3.Focus()
+    End Sub
+
+    Private Sub Tb_Var3_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_Var3.KeyPress
+        If e.KeyChar = Chr(13) Then Tb_IsiVariabel3.Focus()
+    End Sub
+
+    Private Sub Tb_IsiVariabel3_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tb_IsiVariabel3.KeyPress
+        If e.KeyChar = Chr(13) Then Btn_Simpan.Focus()
     End Sub
 
 End Class

@@ -35,5 +35,8 @@
     <Setting Name="Prt_Barcode" Type="System.String" Scope="User">
       <Value Profile="(Default)">XXX</Value>
     </Setting>
+    <Setting Name="Prt_Barcode_QC" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XXX</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

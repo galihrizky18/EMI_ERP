@@ -648,36 +648,49 @@ Public Class EMI_Display_Pallet_Masuk
 
 
 
-                    Dim CrDoc = New BM_PerPallet
-                    Dim kertas As String = "Barcode TSC"
+                    'Dim CrDoc = New BM_PerPallet
+                    'Dim kertas As String = "Barcode TSC"
+
+                    'CrDoc.SetDataSource(Ds)
+                    'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    'CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and {Cetak_Barang_Masuk_Perpallet.Kode_Unik_Print} = '" & kode_unik_print & "' "
+                    'CrDoc.PrintOptions.PrinterName = PrinterBarcode
+
+                    'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    'doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+                    ''SET KERTAS
+                    'Dim rawKind As Integer
+                    'Dim kertasDitemukan As Boolean = False
+                    'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    'For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                    '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                    '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                    '        CrDoc.PrintOptions.PaperSize = rawKind
+                    '        kertasDitemukan = True
+                    '        Exit For
+                    '    End If
+                    'Next
+
+                    'If Not kertasDitemukan Then
+                    '    CloseConn()
+                    '    MessageBox.Show("Kertas Tidak diTemukan", "Cetak", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    '    Exit Sub
+                    'End If
+
+                    'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    'CrDoc.PrintToPrinter(1, False, 1, 2500)
+
+                    Dim CrDoc As New BM_PerPallet
 
                     CrDoc.SetDataSource(Ds)
                     CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                     CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and {Cetak_Barang_Masuk_Perpallet.Kode_Unik_Print} = '" & kode_unik_print & "' "
+
                     CrDoc.PrintOptions.PrinterName = PrinterBarcode
 
                     Dim doctoprint As New System.Drawing.Printing.PrintDocument()
                     doctoprint.PrinterSettings.PrinterName = PrinterBarcode
-                    'SET KERTAS
-                    Dim rawKind As Integer
-                    Dim kertasDitemukan As Boolean = False
-                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
-                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                            CrDoc.PrintOptions.PaperSize = rawKind
-                            kertasDitemukan = True
-                            Exit For
-                        End If
-                    Next
 
-                    If Not kertasDitemukan Then
-                        CloseConn()
-                        MessageBox.Show("Kertas Tidak diTemukan", "Cetak", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
-
-                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
                     CrDoc.PrintToPrinter(1, False, 1, 2500)
 
 

@@ -1,7 +1,4 @@
-﻿Imports System.Security.Cryptography
-Imports CrystalDecisions.CrystalReports.Engine
-
-Public Class Hitung_HPP_Import
+﻿Public Class Hitung_HPP_Import
     Dim arrselisih, arrselisih_biaya As New ArrayList
 
     Public arrNoUrutBiaya, arrNilaiPakaiBiaya As New ArrayList
@@ -1308,151 +1305,151 @@ Public Class Hitung_HPP_Import
 
 
             For index As Integer = 0 To ListView1.Items.Count - 1
-                    SQL = "insert into Kurs_HPP_Import(kode_perusahaan, no_faktur, Mata_Uang, Jenis, Nilai) Values( "
-                    SQL = SQL & "'" & KodePerusahaan & "','" & faktur & "','" & ListView1.Items(index).SubItems(0).Text & "', "
-                    SQL = SQL & "'" & ListView1.Items(index).SubItems(1).Text & "', '" & ListView1.Items(index).SubItems(2).Text & "')"
-                    ExecuteTrans(SQL)
-                Next
+                SQL = "insert into Kurs_HPP_Import(kode_perusahaan, no_faktur, Mata_Uang, Jenis, Nilai) Values( "
+                SQL = SQL & "'" & KodePerusahaan & "','" & faktur & "','" & ListView1.Items(index).SubItems(0).Text & "', "
+                SQL = SQL & "'" & ListView1.Items(index).SubItems(1).Text & "', '" & ListView1.Items(index).SubItems(2).Text & "')"
+                ExecuteTrans(SQL)
+            Next
 
-                Dim metode_Hitung_Konte As String = ""
-                SQL = "select Metode_Hitung_Konte from Stock_Owner where Kode_Stock_Owner ='" & CmbLokasi.Text & "'"
-                Using Dr = OpenTrans(SQL)
-                    If Dr.Read Then
-                        metode_Hitung_Konte = Dr("Metode_Hitung_Konte")
-                    Else
-                        MessageBox.Show("Lokasi tidak ada !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        Exit Sub
-                    End If
-                End Using
-
-                SQL = ";with "
-                If metode_Hitung_Konte = "A" Then
-                    SQL = SQL & "cte_Kontainer as( "
-                    SQL = SQL & "select a.Kode_Perusahaan, a.id_rencana, a.ETA, c.Lokasi, b.kode_pelabuhan, c.free_storage, d.No_Container, "
-                    SQL = SQL & "d.Tgl_Tarik ,datediff(day,format(DATEADD(dd, c.free_storage, a.ETA), 'yyyy-MM-dd'), format(d.Tgl_Tarik, 'yyyy-MM-dd')) as jumlah_hari "
-                    SQL = SQL & "from ubah_status_otw a, "
-                    SQL = SQL & "kapal_tiba_import b, pelabuhan c, Tarik_Kontainer d  where a.Kode_Perusahaan = b.Kode_Perusahaan "
-                    SQL = SQL & "and a.id_rencana = b.id_rencana and b.Kode_Perusahaan = c.Kode_Perusahaan and b.kode_pelabuhan = "
-                    SQL = SQL & "c.Kode_Pelabuhan and a.Kode_Perusahaan = d.Kode_perusahaan and a.Id_rencana = d.id_rencana and "
-                    SQL = SQL & "a.id_rencana in (" & id_rencana_group & ") "
-                    SQL = SQL & ") "
-                    SQL = SQL & ",cte_total_Kontainer as ( "
-                    SQL = SQL & "select a.*,b.id_rencana, isnull(( "
-                    SQL = SQL & "select count(X.no_container) from cte_Kontainer X where jumlah_hari+1 >= dari "
-                    SQL = SQL & "and X.Id_rencana = d.id_rencana ), 0) as Jumlah_Kontainer, Harga*isnull(( "
-                    SQL = SQL & "select count(X.no_container) from cte_Kontainer X where jumlah_hari+1 >= dari "
-                    SQL = SQL & "and X.Id_rencana = d.id_rencana ), 0) as Biaya "
-                    SQL = SQL & "from storage a, Kapal_Tiba_import b, Pelabuhan c, rencana_order d where "
-                    SQL = SQL & "b.Kode_Pelabuhan = c.Kode_Pelabuhan and B.Kode_Perusahaan = C.Kode_Perusahaan and "
-                    SQL = SQL & "a.kode_stock_owner = c.Lokasi And a.kode_pelabuhan = b.Kode_Pelabuhan and "
-                    SQL = SQL & "b.Kode_Perusahaan = d.Kode_Perusahaan  and b.Id_Rencana = d.Id_rencana and "
-                    SQL = SQL & "a.Kode_Kontainer = d.Kode_Kontainer "
-                    SQL = SQL & "and d.id_rencana in (" & id_rencana_group & ") ) "
-                ElseIf metode_Hitung_Konte = "B" Then
-                    SQL = SQL & "cte_total_Kontainer as ( "
-                    SQL = SQL & "select a.Kode_Perusahaan, c.Lokasi as Kode_stock_Owner, a.id_rencana,e.Kode_Kontainer, a.ETA,b.kode_pelabuhan, c.free_storage, "
-                    SQL = SQL & "d.No_Container, d.Tgl_Tarik ,datediff(day,format(DATEADD(dd, c.free_storage, a.ETA), 'yyyy-MM-dd'), "
-                    SQL = SQL & "format(d.Tgl_Tarik, 'yyyy-MM-dd')) as jumlah_hari, isnull((select X.Harga from storage X "
-                    SQL = SQL & "where datediff(day,format(DATEADD(dd, c.free_storage, a.ETA), 'yyyy-MM-dd'), "
-                    SQL = SQL & "format(d.Tgl_Tarik, 'yyyy-MM-dd'))= sampai and X.Kode_Perusahaan = c.Kode_Perusahaan and "
-                    SQL = SQL & "X.Kode_Stock_Owner = c.Lokasi and X.Kode_Pelabuhan = c.Kode_Pelabuhan and X.Kode_Kontainer = "
-                    SQL = SQL & "e.Kode_Kontainer),0) as biaya from ubah_status_otw a, kapal_tiba_import b, pelabuhan c, "
-                    SQL = SQL & "Tarik_Kontainer d, rencana_order e  where a.Kode_Perusahaan = b.Kode_Perusahaan and a.id_rencana = "
-                    SQL = SQL & "b.id_rencana and b.Kode_Perusahaan = c.Kode_Perusahaan and b.kode_pelabuhan = c.Kode_Pelabuhan and "
-                    SQL = SQL & "a.Kode_Perusahaan = d.Kode_perusahaan and a.Id_rencana = d.id_rencana and a.kode_perusahaan = "
-                    SQL = SQL & "e.Kode_Perusahaan and a.Id_rencana = e.Id_rencana and a.id_rencana in (" & id_rencana_group & ") "
-                    SQL = SQL & ") "
+            Dim metode_Hitung_Konte As String = ""
+            SQL = "select Metode_Hitung_Konte from Stock_Owner where Kode_Stock_Owner ='" & CmbLokasi.Text & "'"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    metode_Hitung_Konte = Dr("Metode_Hitung_Konte")
                 Else
-                    MessageBox.Show("Metode Perhitungan Konte tidak ada !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("Lokasi tidak ada !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Dr.Close()
                     CloseTrans()
                     CloseConn()
                     Exit Sub
                 End If
-                SQL = SQL & "select* from "
-                SQL = SQL & "cte_Total_kontainer a where biaya<>0 "
-                Using Ds = BindingTrans(SQL)
-                    With Ds.Tables("MyTable")
-                        For index As Integer = 0 To .Rows.Count - 1
+            End Using
 
-                            If metode_Hitung_Konte = "A" Then
-                                SQL = "Insert Into Detail_Storage_HPP_A(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Kontainer, Kode_Pelabuhan, Dari, Sampai, Harga, Jumlah_Kontainer, Biaya) "
-                                SQL = SQL & "Values('" & KodePerusahaan & "', '" & faktur & "', '" & .Rows(index).Item("Kode_Stock_Owner") & "', '" & .Rows(index).Item("Kode_Kontainer") & "', "
-                                SQL = SQL & "'" & .Rows(index).Item("Kode_Pelabuhan") & "', '" & .Rows(index).Item("Dari") & "', '" & .Rows(index).Item("Sampai") & "', '" & .Rows(index).Item("Harga") & "', "
-                                SQL = SQL & "'" & .Rows(index).Item("Jumlah_Kontainer") & "', '" & .Rows(index).Item("Biaya") & "')"
-                                ExecuteTrans(SQL)
-
-                            ElseIf metode_Hitung_Konte = "B" Then
-                                SQL = "Insert Into Detail_Storage_HPP_B(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Kontainer, Kode_Pelabuhan, No_Kontainer, Jumlah_Hari, Biaya) "
-                                SQL = SQL & "Values('" & KodePerusahaan & "', '" & faktur & "', '" & .Rows(index).Item("Kode_Stock_Owner") & "', '" & .Rows(index).Item("Kode_Kontainer") & "', "
-                                SQL = SQL & "'" & .Rows(index).Item("Kode_Pelabuhan") & "', '" & .Rows(index).Item("No_Container") & "', "
-                                SQL = SQL & "'" & .Rows(index).Item("Jumlah_Hari") & "', '" & .Rows(index).Item("Biaya") & "')"
-                                ExecuteTrans(SQL)
-                            Else
-                                MessageBox.Show("Metode Perhitungan Konte tidak ada !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                                CloseTrans()
-                                CloseConn()
-                                Exit Sub
-
-                            End If
-
-                        Next
-                    End With
-                End Using
-
-
-                SQL = "Delete From HPP_Temp "
-                ExecuteTrans(SQL)
-
-                SQL = "select Flag_Gabungan from rencana_order where "
-                SQL = SQL & "Id_rencana = '" & TxtId_Rencana.Text & "'"
-                Using Dr2 = OpenTrans(SQL)
-                    If Dr2.Read Then
-                        If General_Class.CekNULL(Dr2("Flag_Gabungan")) = "Y" Then
-                            Dr2.Close()
-                            SQL = "select a.id_rencana from rencana_order a, rencana_order_gabungan b where "
-                            SQL = SQL & "a.id_rencana = b.Id_rencana and b.Id_rencana_induk = '" & TxtId_Rencana.Text & "'"
-                            Using Ds = BindingTrans(SQL)
-                                With Ds.Tables("MyTable")
-                                    If .Rows.Count <> 0 Then
-                                        For i As Integer = 0 To .Rows.Count - 1
-                                            SQL = "update rencana_Order set flag_HPP = 'Y' "
-                                            SQL = SQL & " where Id_Rencana = '" & .Rows(i).Item("id_rencana") & "'"
-                                            ExecuteTrans(SQL)
-                                        Next
-                                    Else
-                                        CloseTrans()
-                                        CloseConn()
-                                        MessageBox.Show("Data lokasi tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                        Exit Sub
-                                    End If
-                                End With
-                            End Using
-                        Else
-                            Dr2.Close()
-                            SQL = "update rencana_Order set flag_HPP = 'Y' "
-                            SQL = SQL & " where Id_Rencana = '" & TxtId_Rencana.Text.Trim & "'"
-                            ExecuteTrans(SQL)
-                        End If
-                    Else
-                        Dr2.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Id Rencana tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
-                End Using
-
-                ' cek
-                SQL = Simpan_Status_Rencana_Order(TxtId_Rencana.Text, "HITUNG_HPP", faktur)
-                ExecuteTrans(SQL)
-
-                Cmd.Transaction.Commit()
+            SQL = ";with "
+            If metode_Hitung_Konte = "A" Then
+                SQL = SQL & "cte_Kontainer as( "
+                SQL = SQL & "select a.Kode_Perusahaan, a.id_rencana, a.ETA, c.Lokasi, b.kode_pelabuhan, c.free_storage, d.No_Container, "
+                SQL = SQL & "d.Tgl_Tarik ,datediff(day,format(DATEADD(dd, c.free_storage, a.ETA), 'yyyy-MM-dd'), format(d.Tgl_Tarik, 'yyyy-MM-dd')) as jumlah_hari "
+                SQL = SQL & "from ubah_status_otw a, "
+                SQL = SQL & "kapal_tiba_import b, pelabuhan c, Tarik_Kontainer d  where a.Kode_Perusahaan = b.Kode_Perusahaan "
+                SQL = SQL & "and a.id_rencana = b.id_rencana and b.Kode_Perusahaan = c.Kode_Perusahaan and b.kode_pelabuhan = "
+                SQL = SQL & "c.Kode_Pelabuhan and a.Kode_Perusahaan = d.Kode_perusahaan and a.Id_rencana = d.id_rencana and "
+                SQL = SQL & "a.id_rencana in (" & id_rencana_group & ") "
+                SQL = SQL & ") "
+                SQL = SQL & ",cte_total_Kontainer as ( "
+                SQL = SQL & "select a.*,b.id_rencana, isnull(( "
+                SQL = SQL & "select count(X.no_container) from cte_Kontainer X where jumlah_hari+1 >= dari "
+                SQL = SQL & "and X.Id_rencana = d.id_rencana ), 0) as Jumlah_Kontainer, Harga*isnull(( "
+                SQL = SQL & "select count(X.no_container) from cte_Kontainer X where jumlah_hari+1 >= dari "
+                SQL = SQL & "and X.Id_rencana = d.id_rencana ), 0) as Biaya "
+                SQL = SQL & "from storage a, Kapal_Tiba_import b, Pelabuhan c, rencana_order d where "
+                SQL = SQL & "b.Kode_Pelabuhan = c.Kode_Pelabuhan and B.Kode_Perusahaan = C.Kode_Perusahaan and "
+                SQL = SQL & "a.kode_stock_owner = c.Lokasi And a.kode_pelabuhan = b.Kode_Pelabuhan and "
+                SQL = SQL & "b.Kode_Perusahaan = d.Kode_Perusahaan  and b.Id_Rencana = d.Id_rencana and "
+                SQL = SQL & "a.Kode_Kontainer = d.Kode_Kontainer "
+                SQL = SQL & "and d.id_rencana in (" & id_rencana_group & ") ) "
+            ElseIf metode_Hitung_Konte = "B" Then
+                SQL = SQL & "cte_total_Kontainer as ( "
+                SQL = SQL & "select a.Kode_Perusahaan, c.Lokasi as Kode_stock_Owner, a.id_rencana,e.Kode_Kontainer, a.ETA,b.kode_pelabuhan, c.free_storage, "
+                SQL = SQL & "d.No_Container, d.Tgl_Tarik ,datediff(day,format(DATEADD(dd, c.free_storage, a.ETA), 'yyyy-MM-dd'), "
+                SQL = SQL & "format(d.Tgl_Tarik, 'yyyy-MM-dd')) as jumlah_hari, isnull((select X.Harga from storage X "
+                SQL = SQL & "where datediff(day,format(DATEADD(dd, c.free_storage, a.ETA), 'yyyy-MM-dd'), "
+                SQL = SQL & "format(d.Tgl_Tarik, 'yyyy-MM-dd'))= sampai and X.Kode_Perusahaan = c.Kode_Perusahaan and "
+                SQL = SQL & "X.Kode_Stock_Owner = c.Lokasi and X.Kode_Pelabuhan = c.Kode_Pelabuhan and X.Kode_Kontainer = "
+                SQL = SQL & "e.Kode_Kontainer),0) as biaya from ubah_status_otw a, kapal_tiba_import b, pelabuhan c, "
+                SQL = SQL & "Tarik_Kontainer d, rencana_order e  where a.Kode_Perusahaan = b.Kode_Perusahaan and a.id_rencana = "
+                SQL = SQL & "b.id_rencana and b.Kode_Perusahaan = c.Kode_Perusahaan and b.kode_pelabuhan = c.Kode_Pelabuhan and "
+                SQL = SQL & "a.Kode_Perusahaan = d.Kode_perusahaan and a.Id_rencana = d.id_rencana and a.kode_perusahaan = "
+                SQL = SQL & "e.Kode_Perusahaan and a.Id_rencana = e.Id_rencana and a.id_rencana in (" & id_rencana_group & ") "
+                SQL = SQL & ") "
+            Else
+                MessageBox.Show("Metode Perhitungan Konte tidak ada !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 CloseTrans()
                 CloseConn()
-                MessageBox.Show("Data Tersimpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            SQL = SQL & "select* from "
+            SQL = SQL & "cte_Total_kontainer a where biaya<>0 "
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    For index As Integer = 0 To .Rows.Count - 1
+
+                        If metode_Hitung_Konte = "A" Then
+                            SQL = "Insert Into Detail_Storage_HPP_A(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Kontainer, Kode_Pelabuhan, Dari, Sampai, Harga, Jumlah_Kontainer, Biaya) "
+                            SQL = SQL & "Values('" & KodePerusahaan & "', '" & faktur & "', '" & .Rows(index).Item("Kode_Stock_Owner") & "', '" & .Rows(index).Item("Kode_Kontainer") & "', "
+                            SQL = SQL & "'" & .Rows(index).Item("Kode_Pelabuhan") & "', '" & .Rows(index).Item("Dari") & "', '" & .Rows(index).Item("Sampai") & "', '" & .Rows(index).Item("Harga") & "', "
+                            SQL = SQL & "'" & .Rows(index).Item("Jumlah_Kontainer") & "', '" & .Rows(index).Item("Biaya") & "')"
+                            ExecuteTrans(SQL)
+
+                        ElseIf metode_Hitung_Konte = "B" Then
+                            SQL = "Insert Into Detail_Storage_HPP_B(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Kontainer, Kode_Pelabuhan, No_Kontainer, Jumlah_Hari, Biaya) "
+                            SQL = SQL & "Values('" & KodePerusahaan & "', '" & faktur & "', '" & .Rows(index).Item("Kode_Stock_Owner") & "', '" & .Rows(index).Item("Kode_Kontainer") & "', "
+                            SQL = SQL & "'" & .Rows(index).Item("Kode_Pelabuhan") & "', '" & .Rows(index).Item("No_Container") & "', "
+                            SQL = SQL & "'" & .Rows(index).Item("Jumlah_Hari") & "', '" & .Rows(index).Item("Biaya") & "')"
+                            ExecuteTrans(SQL)
+                        Else
+                            MessageBox.Show("Metode Perhitungan Konte tidak ada !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            CloseTrans()
+                            CloseConn()
+                            Exit Sub
+
+                        End If
+
+                    Next
+                End With
+            End Using
+
+
+            SQL = "Delete From HPP_Temp "
+            ExecuteTrans(SQL)
+
+            SQL = "select Flag_Gabungan from rencana_order where "
+            SQL = SQL & "Id_rencana = '" & TxtId_Rencana.Text & "'"
+            Using Dr2 = OpenTrans(SQL)
+                If Dr2.Read Then
+                    If General_Class.CekNULL(Dr2("Flag_Gabungan")) = "Y" Then
+                        Dr2.Close()
+                        SQL = "select a.id_rencana from rencana_order a, rencana_order_gabungan b where "
+                        SQL = SQL & "a.id_rencana = b.Id_rencana and b.Id_rencana_induk = '" & TxtId_Rencana.Text & "'"
+                        Using Ds = BindingTrans(SQL)
+                            With Ds.Tables("MyTable")
+                                If .Rows.Count <> 0 Then
+                                    For i As Integer = 0 To .Rows.Count - 1
+                                        SQL = "update rencana_Order set flag_HPP = 'Y' "
+                                        SQL = SQL & " where Id_Rencana = '" & .Rows(i).Item("id_rencana") & "'"
+                                        ExecuteTrans(SQL)
+                                    Next
+                                Else
+                                    CloseTrans()
+                                    CloseConn()
+                                    MessageBox.Show("Data lokasi tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End With
+                        End Using
+                    Else
+                        Dr2.Close()
+                        SQL = "update rencana_Order set flag_HPP = 'Y' "
+                        SQL = SQL & " where Id_Rencana = '" & TxtId_Rencana.Text.Trim & "'"
+                        ExecuteTrans(SQL)
+                    End If
+                Else
+                    Dr2.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Id Rencana tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            ' cek
+            SQL = Simpan_Status_Rencana_Order(TxtId_Rencana.Text, "HITUNG_HPP", faktur)
+            ExecuteTrans(SQL)
+
+            Cmd.Transaction.Commit()
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show("Data Tersimpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
             CloseTrans()
             CloseConn()
@@ -4118,7 +4115,7 @@ Public Class Hitung_HPP_Import
         SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Hutang_Dalam_Proses, 1),
                     Strings.Mid(coa_Hutang_Dalam_Proses, 2, 1),
                     Strings.Mid(Ganti(coa_Hutang_Dalam_Proses), 3),
-                    KodePerusahaan, KodeProyek, ket, Hutang_Dalam_Proses, "0", pagenumber)
+                    KodePerusahaan, KodeProyek, ket, Hutang_Dalam_Proses, "0", pagenumber, "", "")
         ExecuteTrans(SQL)
         pagenumber = pagenumber + 1
 
@@ -4126,7 +4123,7 @@ Public Class Hitung_HPP_Import
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Hutang_Dalam_Proses, 1),
                       Strings.Mid(coa_Hutang_Dalam_Proses, 2, 1),
                       Strings.Mid(Ganti(coa_Hutang_Dalam_Proses), 3),
-                      KodePerusahaan, KodeProyek, ket, Biaya_PPN, "0", pagenumber)
+                      KodePerusahaan, KodeProyek, ket, Biaya_PPN, "0", pagenumber, "", "")
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
         End If
@@ -4135,7 +4132,7 @@ Public Class Hitung_HPP_Import
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_pph_billing, 1),
                      Strings.Mid(coa_pph_billing, 2, 1),
                      Strings.Mid(Ganti(coa_pph_billing), 3),
-                     KodePerusahaan, KodeProyek, ket, pph_billing, "0", pagenumber)
+                     KodePerusahaan, KodeProyek, ket, pph_billing, "0", pagenumber, "", "")
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
         End If
@@ -4145,7 +4142,7 @@ Public Class Hitung_HPP_Import
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(Arr_Akun2.Item(index), 1),
                      Strings.Mid(Arr_Akun2.Item(index), 2, 1),
                      Strings.Mid(Ganti(Arr_Akun2.Item(index)), 3),
-                     KodePerusahaan, KodeProyek, ket & "; " & Arr_Biaya_Import_Kategori.Item(index), "0", Arr_Biaya_Import.Item(index), pagenumber)
+                     KodePerusahaan, KodeProyek, ket & "; " & Arr_Biaya_Import_Kategori.Item(index), "0", Arr_Biaya_Import.Item(index), pagenumber, "", "")
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
@@ -4163,7 +4160,7 @@ Public Class Hitung_HPP_Import
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(Arr_Akun2_Bongkar.Item(index), 1),
                       Strings.Mid(Arr_Akun2_Bongkar.Item(index), 2, 1),
                       Strings.Mid(Ganti(Arr_Akun2_Bongkar.Item(index)), 3),
-                      KodePerusahaan, KodeProyek, ket2, "0", Arr_Biaya_Bongkar_Import.Item(index), pagenumber)
+                      KodePerusahaan, KodeProyek, ket2, "0", Arr_Biaya_Bongkar_Import.Item(index), pagenumber, "", "")
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
@@ -4180,7 +4177,7 @@ Public Class Hitung_HPP_Import
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Selisih_AVG_Import, 1),
                     Strings.Mid(coa_Selisih_AVG_Import, 2, 1),
                     Strings.Mid(Ganti(coa_Selisih_AVG_Import), 3),
-                    KodePerusahaan, KodeProyek, ket, "0", Selisih_Import_AVG, pagenumber)
+                    KodePerusahaan, KodeProyek, ket, "0", Selisih_Import_AVG, pagenumber, "", "")
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
         End If
@@ -4189,7 +4186,7 @@ Public Class Hitung_HPP_Import
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Selisih_AVG_Import, 1),
                     Strings.Mid(coa_Selisih_AVG_Import, 2, 1),
                     Strings.Mid(Ganti(coa_Selisih_AVG_Import), 3),
-                    KodePerusahaan, KodeProyek, ket, Math.Abs(Selisih_Import_AVG), "0", pagenumber)
+                    KodePerusahaan, KodeProyek, ket, Math.Abs(Selisih_Import_AVG), "0", pagenumber, "", "")
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
         End If
@@ -4198,7 +4195,7 @@ Public Class Hitung_HPP_Import
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Billing, 1),
                     Strings.Mid(coa_Billing, 2, 1),
                     Strings.Mid(Ganti(coa_Billing), 3),
-                    KodePerusahaan, KodeProyek, ket, "0", Billing, pagenumber)
+                    KodePerusahaan, KodeProyek, ket, "0", Billing, pagenumber, "", "")
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
 
@@ -4214,7 +4211,7 @@ Public Class Hitung_HPP_Import
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Storage, 1),
                     Strings.Mid(coa_Storage, 2, 1),
                     Strings.Mid(Ganti(coa_Storage), 3),
-                    KodePerusahaan, KodeProyek, ket & "; STORAGE", "0", Storage, pagenumber)
+                    KodePerusahaan, KodeProyek, ket & "; STORAGE", "0", Storage, pagenumber, "", "")
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
 
@@ -4230,7 +4227,7 @@ Public Class Hitung_HPP_Import
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_freigt, 1),
                     Strings.Mid(coa_freigt, 2, 1),
                     Strings.Mid(Ganti(coa_freigt), 3),
-                    KodePerusahaan, KodeProyek, ket, "0", freigt, pagenumber)
+                    KodePerusahaan, KodeProyek, ket, "0", freigt, pagenumber, "", "")
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
 
@@ -4246,7 +4243,7 @@ Public Class Hitung_HPP_Import
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_pph, 1),
                 Strings.Mid(coa_pph, 2, 1),
                 Strings.Mid(Ganti(coa_pph), 3),
-                KodePerusahaan, KodeProyek, ket, "0", pph_pakai_persentase, pagenumber)
+                KodePerusahaan, KodeProyek, ket, "0", pph_pakai_persentase, pagenumber, "", "")
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
 
@@ -4264,7 +4261,7 @@ Public Class Hitung_HPP_Import
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Tot_Pot_Stock_IDR, 1),
                     Strings.Mid(coa_Tot_Pot_Stock_IDR, 2, 1),
                     Strings.Mid(Ganti(coa_Tot_Pot_Stock_IDR), 3),
-                    KodePerusahaan, KodeProyek, ket, "0", Tot_Pot_Stock_IDR, pagenumber)
+                    KodePerusahaan, KodeProyek, ket, "0", Tot_Pot_Stock_IDR, pagenumber, "", "")
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
 
@@ -4303,7 +4300,7 @@ Public Class Hitung_HPP_Import
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Tdk_Pot_Stock_IDR, 1),
                     Strings.Mid(coa_Tdk_Pot_Stock_IDR, 2, 1),
                     Strings.Mid(Ganti(coa_Tdk_Pot_Stock_IDR), 3),
-                    KodePerusahaan, KodeProyek, ket, "0", Tdk_Pot_Stock_IDR, pagenumber)
+                    KodePerusahaan, KodeProyek, ket, "0", Tdk_Pot_Stock_IDR, pagenumber, "", "")
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
 
@@ -4343,7 +4340,7 @@ Public Class Hitung_HPP_Import
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Tdk_Pot_Stock_Hutang_IDR_Utama, 1),
                     Strings.Mid(coa_Tdk_Pot_Stock_Hutang_IDR_Utama, 2, 1),
                     Strings.Mid(Ganti(coa_Tdk_Pot_Stock_Hutang_IDR_Utama), 3),
-                    KodePerusahaan, KodeProyek, ket, "0", Tdk_Pot_Stock_Hutang_IDR_Utama, pagenumber)
+                    KodePerusahaan, KodeProyek, ket, "0", Tdk_Pot_Stock_Hutang_IDR_Utama, pagenumber, "", "")
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
 
@@ -4382,7 +4379,7 @@ Public Class Hitung_HPP_Import
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Tdk_Pot_Stock_Hutang_IDR_Penolong, 1),
                     Strings.Mid(coa_Tdk_Pot_Stock_Hutang_IDR_Penolong, 2, 1),
                     Strings.Mid(Ganti(coa_Tdk_Pot_Stock_Hutang_IDR_Penolong), 3),
-                    KodePerusahaan, KodeProyek, ket, "0", Tdk_Pot_Stock_Hutang_IDR_Penolong, pagenumber)
+                    KodePerusahaan, KodeProyek, ket, "0", Tdk_Pot_Stock_Hutang_IDR_Penolong, pagenumber, "", "")
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
 
@@ -4422,7 +4419,7 @@ Public Class Hitung_HPP_Import
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Selisih_PO, 1),
                         Strings.Mid(coa_Selisih_PO, 2, 1),
                         Strings.Mid(Ganti(coa_Selisih_PO), 3),
-                        KodePerusahaan, KodeProyek, ket, Math.Abs(Selisih_PO), "0", pagenumber)
+                        KodePerusahaan, KodeProyek, ket, Math.Abs(Selisih_PO), "0", pagenumber, "", "")
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
@@ -4430,7 +4427,7 @@ Public Class Hitung_HPP_Import
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Selisih_PO, 1),
                         Strings.Mid(coa_Selisih_PO, 2, 1),
                         Strings.Mid(Ganti(coa_Selisih_PO), 3),
-                        KodePerusahaan, KodeProyek, ket, "0", Selisih_PO, pagenumber)
+                        KodePerusahaan, KodeProyek, ket, "0", Selisih_PO, pagenumber, "", "")
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
@@ -4447,7 +4444,7 @@ Public Class Hitung_HPP_Import
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Selisih_PO_Biaya, 1),
                         Strings.Mid(coa_Selisih_PO_Biaya, 2, 1),
                         Strings.Mid(Ganti(coa_Selisih_PO_Biaya), 3),
-                        KodePerusahaan, KodeProyek, ket, Math.Abs(Selisih_PO_Biaya), "0", pagenumber)
+                        KodePerusahaan, KodeProyek, ket, Math.Abs(Selisih_PO_Biaya), "0", pagenumber, "", "")
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
@@ -4455,7 +4452,7 @@ Public Class Hitung_HPP_Import
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Selisih_PO_Biaya, 1),
                         Strings.Mid(coa_Selisih_PO_Biaya, 2, 1),
                         Strings.Mid(Ganti(coa_Selisih_PO_Biaya), 3),
-                        KodePerusahaan, KodeProyek, ket, "0", Selisih_PO_Biaya, pagenumber)
+                        KodePerusahaan, KodeProyek, ket, "0", Selisih_PO_Biaya, pagenumber, "", "")
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
@@ -4473,7 +4470,7 @@ Public Class Hitung_HPP_Import
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Selisih_Hutang_Import, 1),
                         Strings.Mid(coa_Selisih_Hutang_Import, 2, 1),
                         Strings.Mid(Ganti(coa_Selisih_Hutang_Import), 3),
-                        KodePerusahaan, KodeProyek, ket, Math.Abs(Selisih_Hutang), "0", pagenumber)
+                        KodePerusahaan, KodeProyek, ket, Math.Abs(Selisih_Hutang), "0", pagenumber, "", "")
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
@@ -4481,7 +4478,7 @@ Public Class Hitung_HPP_Import
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_Selisih_Hutang_Import, 1),
                         Strings.Mid(coa_Selisih_Hutang_Import, 2, 1),
                         Strings.Mid(Ganti(coa_Selisih_Hutang_Import), 3),
-                        KodePerusahaan, KodeProyek, ket, "0", Selisih_Hutang, pagenumber)
+                        KodePerusahaan, KodeProyek, ket, "0", Selisih_Hutang, pagenumber, "", "")
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
@@ -4497,7 +4494,7 @@ Public Class Hitung_HPP_Import
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_pib, 1),
                        Strings.Mid(coa_pib, 2, 1),
                        Strings.Mid(Ganti(coa_pib), 3),
-                       KodePerusahaan, KodeProyek, ket, "0", pib, pagenumber)
+                       KodePerusahaan, KodeProyek, ket, "0", pib, pagenumber, "", "")
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
 
@@ -4535,7 +4532,7 @@ Public Class Hitung_HPP_Import
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_selisih_pib, 1),
                     Strings.Mid(coa_selisih_pib, 2, 1),
                     Strings.Mid(Ganti(coa_selisih_pib), 3),
-                    KodePerusahaan, KodeProyek, ket, -(Biaya_PPN - pib), "0", pagenumber)
+                    KodePerusahaan, KodeProyek, ket, -(Biaya_PPN - pib), "0", pagenumber, "", "")
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
@@ -4549,7 +4546,7 @@ Public Class Hitung_HPP_Import
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_selisih_pib, 1),
                     Strings.Mid(coa_selisih_pib, 2, 1),
                     Strings.Mid(Ganti(coa_selisih_pib), 3),
-                    KodePerusahaan, KodeProyek, ket, "0", Biaya_PPN - pib, pagenumber)
+                    KodePerusahaan, KodeProyek, ket, "0", Biaya_PPN - pib, pagenumber, "", "")
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
@@ -4587,7 +4584,7 @@ Public Class Hitung_HPP_Import
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(coa_hutang_pph_billing, 1),
                      Strings.Mid(coa_hutang_pph_billing, 2, 1),
                      Strings.Mid(Ganti(coa_hutang_pph_billing), 3),
-                     KodePerusahaan, KodeProyek, ket, "0", pph_billing, pagenumber)
+                     KodePerusahaan, KodeProyek, ket, "0", pph_billing, pagenumber, "", "")
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
 
@@ -4662,7 +4659,7 @@ Public Class Hitung_HPP_Import
                         SQL = Get_Detail_Jurnal(Kode_Voucher2, Strings.Left(coa_selisih_new, 1),
                               Strings.Mid(coa_selisih_new, 2, 1),
                               Strings.Mid(Ganti(coa_selisih_new), 3),
-                              KodePerusahaan, KodeProyek, ket, "0", total_selish, pagenumber2)
+                              KodePerusahaan, KodeProyek, ket, "0", total_selish, pagenumber2, "", "")
                         ExecuteTrans(SQL)
                     End If
                 End Using
@@ -4687,7 +4684,7 @@ Public Class Hitung_HPP_Import
                         SQL = Get_Detail_Jurnal(Kode_Voucher2, Strings.Left(coa_Tdk_Pot_Stock_Hutang_IDR_Utama, 1),
                               Strings.Mid(coa_Tdk_Pot_Stock_Hutang_IDR_Utama, 2, 1),
                               Strings.Mid(Ganti(coa_Tdk_Pot_Stock_Hutang_IDR_Utama), 3),
-                              KodePerusahaan, KodeProyek, ket, Math.Abs(total_selish), "0", pagenumber2)
+                              KodePerusahaan, KodeProyek, ket, Math.Abs(total_selish), "0", pagenumber2, "", "")
                         ExecuteTrans(SQL)
                     End If
                 End Using
@@ -4712,7 +4709,7 @@ Public Class Hitung_HPP_Import
                         SQL = Get_Detail_Jurnal(Kode_Voucher2, Strings.Left(coa_selisih_new, 1),
                               Strings.Mid(coa_selisih_new, 2, 1),
                               Strings.Mid(Ganti(coa_selisih_new), 3),
-                              KodePerusahaan, KodeProyek, ket, Math.Abs(total_selish), "0", pagenumber2)
+                              KodePerusahaan, KodeProyek, ket, Math.Abs(total_selish), "0", pagenumber2, "", "")
                         ExecuteTrans(SQL)
                     End If
                 End Using
@@ -4737,7 +4734,7 @@ Public Class Hitung_HPP_Import
                         SQL = Get_Detail_Jurnal(Kode_Voucher2, Strings.Left(coa_Tdk_Pot_Stock_Hutang_IDR_Utama, 1),
                               Strings.Mid(coa_Tdk_Pot_Stock_Hutang_IDR_Utama, 2, 1),
                               Strings.Mid(Ganti(coa_Tdk_Pot_Stock_Hutang_IDR_Utama), 3),
-                              KodePerusahaan, KodeProyek, ket, "0", Math.Abs(total_selish), pagenumber2)
+                              KodePerusahaan, KodeProyek, ket, "0", Math.Abs(total_selish), pagenumber2, "", "")
                         ExecuteTrans(SQL)
                     End If
                 End Using

@@ -387,6 +387,7 @@ Public Class EMI_Transfer_Quality_QC
                     If Dr.Read Then
                         satuanKecil = Dr("Satuan")
                     Else
+                        Dr.Close()
                         CloseTrans()
                         CloseConn()
                         MessageBox.Show("Satuan Tidak Ditemukan", JudulMessage, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -547,6 +548,7 @@ Public Class EMI_Transfer_Quality_QC
                         Id_WarehouseTujuan = Dr("id_wms_warehouse_position")
                         NoPalletTujuan = Dr("nomor_urut")
                     Else
+                        Dr.Close()
                         CloseTrans()
                         CloseConn()
                         MessageBox.Show("Pallet Kosong Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -627,9 +629,8 @@ Public Class EMI_Transfer_Quality_QC
                 SQL = "select No_Faktur from Emi_TF_Quality_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & TxtNo_Transaksi.Text.Trim & "' "
                 SQL = SQL & "and Urut_Oto = '" & x_urut_TF_Quality_Detail & "'"
                 Using Dr = OpenTrans(SQL)
-                    If Dr.Read Then
-
-                    Else
+                    If Not Dr.Read Then
+                        Dr.Close()
                         CloseTrans()
                         CloseConn()
                         MessageBox.Show("Terdapat Masalah Saat Simpan, Harap Ulangi Transaksi", JudulMessage, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

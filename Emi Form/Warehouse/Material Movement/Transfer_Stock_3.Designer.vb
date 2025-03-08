@@ -177,6 +177,7 @@ Partial Class Transfer_Stock_3
         Me.Column22 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column23 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column24 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column25 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         CType(Me.DGV_Data_TF, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1194,7 +1195,7 @@ Partial Class Transfer_Stock_3
         DataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.Dgv_DataRekap.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle17
         Me.Dgv_DataRekap.ColumnHeadersHeight = 40
-        Me.Dgv_DataRekap.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn21, Me.DataGridViewTextBoxColumn22, Me.DataGridViewTextBoxColumn24, Me.DataGridViewTextBoxColumn28, Me.DataGridViewTextBoxColumn30, Me.Column22, Me.Column23, Me.Column24})
+        Me.Dgv_DataRekap.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn21, Me.DataGridViewTextBoxColumn22, Me.DataGridViewTextBoxColumn24, Me.DataGridViewTextBoxColumn28, Me.DataGridViewTextBoxColumn30, Me.Column22, Me.Column23, Me.Column24, Me.Column25})
         DataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle26.BackColor = System.Drawing.SystemColors.Window
         DataGridViewCellStyle26.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1418,6 +1419,7 @@ Partial Class Transfer_Stock_3
         Me.DataGridViewTextBoxColumn22.HeaderText = "Kode Barang"
         Me.DataGridViewTextBoxColumn22.Name = "DataGridViewTextBoxColumn22"
         Me.DataGridViewTextBoxColumn22.ReadOnly = True
+        Me.DataGridViewTextBoxColumn22.Width = 220
         '
         'DataGridViewTextBoxColumn24
         '
@@ -1426,7 +1428,7 @@ Partial Class Transfer_Stock_3
         Me.DataGridViewTextBoxColumn24.HeaderText = "Nama"
         Me.DataGridViewTextBoxColumn24.Name = "DataGridViewTextBoxColumn24"
         Me.DataGridViewTextBoxColumn24.ReadOnly = True
-        Me.DataGridViewTextBoxColumn24.Width = 180
+        Me.DataGridViewTextBoxColumn24.Width = 350
         '
         'DataGridViewTextBoxColumn28
         '
@@ -1435,7 +1437,7 @@ Partial Class Transfer_Stock_3
         Me.DataGridViewTextBoxColumn28.HeaderText = "Jumlah"
         Me.DataGridViewTextBoxColumn28.Name = "DataGridViewTextBoxColumn28"
         Me.DataGridViewTextBoxColumn28.ReadOnly = True
-        Me.DataGridViewTextBoxColumn28.Width = 130
+        Me.DataGridViewTextBoxColumn28.Width = 200
         '
         'DataGridViewTextBoxColumn30
         '
@@ -1444,7 +1446,7 @@ Partial Class Transfer_Stock_3
         Me.DataGridViewTextBoxColumn30.HeaderText = "Jumlah Bags"
         Me.DataGridViewTextBoxColumn30.Name = "DataGridViewTextBoxColumn30"
         Me.DataGridViewTextBoxColumn30.ReadOnly = True
-        Me.DataGridViewTextBoxColumn30.Width = 120
+        Me.DataGridViewTextBoxColumn30.Width = 200
         '
         'Column22
         '
@@ -1453,6 +1455,7 @@ Partial Class Transfer_Stock_3
         Me.Column22.HeaderText = "Jumlah_Bersih"
         Me.Column22.Name = "Column22"
         Me.Column22.ReadOnly = True
+        Me.Column22.Visible = False
         '
         'Column23
         '
@@ -1469,6 +1472,14 @@ Partial Class Transfer_Stock_3
         Me.Column24.HeaderText = "Satuan Kecil"
         Me.Column24.Name = "Column24"
         Me.Column24.ReadOnly = True
+        Me.Column24.Visible = False
+        '
+        'Column25
+        '
+        Me.Column25.HeaderText = "Oto"
+        Me.Column25.Name = "Column25"
+        Me.Column25.ReadOnly = True
+        Me.Column25.Visible = False
         '
         'Transfer_Stock_3
         '
@@ -1648,4 +1659,5 @@ Partial Class Transfer_Stock_3
     Friend WithEvents Column22 As DataGridViewTextBoxColumn
     Friend WithEvents Column23 As DataGridViewTextBoxColumn
     Friend WithEvents Column24 As DataGridViewTextBoxColumn
+    Friend WithEvents Column25 As DataGridViewTextBoxColumn
 End Class

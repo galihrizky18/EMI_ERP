@@ -6,8 +6,12 @@
 
     Dim ItemDgv_IdRouting As Integer = 0
     Dim ItemDgv_IdWorkCenter As Integer = 1
-    Dim ItemDgv_Routing As Integer = 211
+    Dim ItemDgv_Routing As Integer = 2
     Dim ItemDgv_WorkCenter As Integer = 3
+
+    Dim DgvRouting_IdRouting As Integer = 0
+    Dim DgvRouting_Routing As Integer = 1
+    Dim DgvRouting_Chkbox As Integer = 2
 
     Private Sub EMI_Compare_Budget_Work_Center_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         My.Application.ChangeCulture("en-us")
@@ -46,6 +50,32 @@
                 Loop
             End Using
             Cmb_Lokasi.SelectedIndex = 0
+
+
+            '=======================
+            '=     GET ROUTING     =
+            '=======================
+            dgv_biaya.Rows.Clear()
+            SQL = "select Kode_Perusahaan, Id_Routing, Keterangan "
+            SQL = SQL & "from emi_master_routing "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "'"
+            SQL = SQL & "order by Id_Routing"
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
+                            dgv_biaya.Rows.Add(1)
+                            dgv_biaya.Rows(i).Cells(DgvRouting_IdRouting).Value = .Rows(i).Item("Id_Routing")
+                            dgv_biaya.Rows(i).Cells(DgvRouting_Routing).Value = .Rows(i).Item("Keterangan")
+                            dgv_biaya.Rows(i).Cells(DgvRouting_Chkbox).Value = False
+
+                        Next
+                    End If
+                End With
+            End Using
+
+
+
 
             CloseConn()
         Catch ex As Exception
@@ -100,10 +130,20 @@
                     Dgv_Data.Columns(ColNum).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
 
                     Dgv_Data.Columns.Add($"{dr("kode_jenis_biaya_produksi")}-act", $"{dr("Keterangan")} Actual")
-
                     Dgv_Data.Columns(ColNum).Width = 130
                     Dgv_Data.Columns(ColNum).ReadOnly = True
                     Dgv_Data.Columns(ColNum).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+
+                    Dgv_Data.Columns.Add($"{dr("kode_jenis_biaya_produksi")}-selisih", "Selisih")
+                    Dgv_Data.Columns(ColNum).Width = 130
+                    Dgv_Data.Columns(ColNum).ReadOnly = True
+                    Dgv_Data.Columns(ColNum).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+
+                    Dgv_Data.Columns.Add($"{dr("kode_jenis_biaya_produksi")}-selisihPersen", "Selisih %")
+                    Dgv_Data.Columns(ColNum).Width = 100
+                    Dgv_Data.Columns(ColNum).ReadOnly = True
+                    Dgv_Data.Columns(ColNum).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+
 
                     arrKodeJnsBiaya.Add(dr("kode_jenis_biaya_produksi"))
 
@@ -185,20 +225,24 @@
                             SQL = SQL & "order by Jenis_Biaya "
                             Using Ds2 = BindingTrans(SQL)
                                 If Ds2.Tables("MyTable").Rows.Count <> 0 Then
+                                    Dim Biaya As Double = 0
+                                    Dim biayaActual As Double = 0
+
                                     For j As Integer = 0 To Ds2.Tables("MyTable").Rows.Count - 1
 
                                         For k As Integer = DynamicColumn To Dgv_Data.Columns.Count - 1
-
-                                            Dim asdasd As String = Dgv_Data.Columns(k).Name
+                                            Dgv_Data.Rows(row).Cells(k).Style.Alignment = DataGridViewContentAlignment.MiddleRight
 
                                             If Dgv_Data.Columns(k).Name = Ds2.Tables("MyTable").Rows(j).Item("Jenis_Biaya") Then
                                                 Dgv_Data.Rows(row).Cells(k).Value = Format(Ds2.Tables("MyTable").Rows(j).Item("Biaya"), "N2")
 
+                                                Biaya = Val(HilangkanTanda(Ds2.Tables("MyTable").Rows(j).Item("Biaya")))
+
                                                 Dgv_Data.Rows(row).Cells(k).Style.BackColor = Color.LightYellow
+
 
                                             ElseIf Dgv_Data.Columns(k).Name = Ds2.Tables("MyTable").Rows(j).Item("Jenis_Biaya") & "-act" Then
 
-                                                Dgv_Data.Rows(row).Cells(k).Style.BackColor = Color.LightGreen
 
                                                 SQL = "select sum(ISNULL(b.total, 0)) as Biaya_Actual "
                                                 SQL = SQL & "from emi_transaksi_hpp a, EMI_Transaksi_HPP_Work_Center b "
@@ -213,11 +257,36 @@
                                                 Using Dr = OpenTrans(SQL)
                                                     If Dr.Read Then
                                                         Dgv_Data.Rows(row).Cells(k).Value = Format(Dr("Biaya_Actual"), "N2")
+                                                        biayaActual = Val(HilangkanTanda(Dr("Biaya_Actual")))
                                                     Else
                                                         Dr.Close()
                                                         Dgv_Data.Rows(row).Cells(k).Value = Format(0, "N2")
+                                                        biayaActual = 0
                                                     End If
                                                 End Using
+
+                                                Dgv_Data.Rows(row).Cells(k).Style.BackColor = Color.LightGreen
+
+                                            ElseIf Dgv_Data.Columns(k).Name = Ds2.Tables("MyTable").Rows(j).Item("Jenis_Biaya") & "-selisih" Then
+
+                                                Dim selisih As Double = biayaActual - Biaya
+
+                                                Dgv_Data.Rows(row).Cells(k).Value = Format(selisih, "N2")
+
+                                                Dgv_Data.Rows(row).Cells(k).Style.BackColor = Color.LightBlue
+
+                                            ElseIf Dgv_Data.Columns(k).Name = Ds2.Tables("MyTable").Rows(j).Item("Jenis_Biaya") & "-selisihPersen" Then
+
+                                                Dim selisih As Double = biayaActual - Biaya
+                                                Dim selisihPersen As Double = 0
+
+                                                If Not selisih = 0 Then
+                                                    selisihPersen = (selisih / Biaya) * 100
+                                                End If
+
+                                                Dgv_Data.Rows(row).Cells(k).Value = $"{Format(selisihPersen, "N0")} %"
+
+                                                Dgv_Data.Rows(row).Cells(k).Style.BackColor = Color.LightBlue
 
                                                 Exit For
 
@@ -229,12 +298,18 @@
                                 Else
                                     For k As Integer = DynamicColumn To Dgv_Data.Columns.Count - 1
                                         Dgv_Data.Rows(row).Cells(k).Value = Format(0, "N2")
+                                        Dgv_Data.Rows(row).Cells(k).Style.Alignment = DataGridViewContentAlignment.MiddleRight
 
-                                        If (k Mod 2) = 0 Then
-                                            Dgv_Data.Rows(row).Cells(k).Style.BackColor = Color.LightYellow
-                                        Else
-                                            Dgv_Data.Rows(row).Cells(k).Style.BackColor = Color.LightGreen
-                                        End If
+                                        Select Case (k Mod 4)
+                                            Case 0
+                                                Dgv_Data.Rows(row).Cells(k).Style.BackColor = Color.LightYellow
+                                            Case 1
+                                                Dgv_Data.Rows(row).Cells(k).Style.BackColor = Color.LightGreen
+                                            Case 2, 3
+                                                Dgv_Data.Rows(row).Cells(k).Style.BackColor = Color.LightBlue
+                                            Case Else
+                                                Dgv_Data.Rows(row).Cells(k).Style.BackColor = Color.White
+                                        End Select
                                     Next
                                 End If
                             End Using

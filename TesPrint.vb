@@ -139,7 +139,7 @@ Public Class TesPrint
             Dim CrDoc As New Object
             Dim kertas As String = ""
 
-            Dim PrinterBarcode As String = "TSC TE210"
+            Dim PrinterBarcode As String = "TSC TE210 (LAN)"
 
             SQL = "select Kode_Perusahaan from Cetak_TransferStock where Kode_Perusahaan='001' and kode_unik_print='021408272904114'"
             Using Ds = BindingTrans(SQL)
@@ -366,5 +366,216 @@ Public Class TesPrint
             Exit Sub
         End Try
 
+    End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        Try
+            OpenConn()
+
+            Dim CrDoc, CrDoc2 As New Object
+            Dim kertas As String = ""
+
+            Dim PrinterBarcodeKecil As String = "TSC TE210 (LAN)"
+            Dim PrinterBarcodeBesar As String = "TSC TE210"
+
+            Dim kertasBarcodeBesar As String = "BarcodeFG"
+            Dim kertasBarcodeKecil As String = "BarcodeQC"
+
+            SQL = "select Kode_Perusahaan from Cetak_Finish_Good where Kode_Perusahaan = '001' and Kode_Unik_Print = '030513122502848'"
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+                    '==========================
+                    '=     BARCODEE BESAR     =
+                    '==========================
+                    CrDoc = New NewBarcodeFinishGood
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '030513122502848' "
+                    CrDoc.PrintOptions.PrinterName = PrinterBarcodeBesar
+
+                    doctoprint.PrinterSettings.PrinterName = PrinterBarcodeBesar
+
+                    Dim rawKind As Integer
+                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertasBarcodeBesar Then
+                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                            CrDoc.PrintOptions.PaperSize = rawKind
+                            Exit For
+                        End If
+                    Next
+
+                    CrDoc.PrintToPrinter(1, False, 1, 2500)
+
+
+                    '==========================
+                    '=     BARCODEE KECIL     =
+                    '==========================
+                    CrDoc2 = New NewBarcodeFinishGoodKecil
+
+                    Dim doctoprint2 As New System.Drawing.Printing.PrintDocument()
+
+                    CrDoc2.SetDataSource(Ds)
+                    CrDoc2.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc2.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '030513122502848' "
+                    CrDoc2.PrintOptions.PrinterName = PrinterBarcodeKecil
+
+                    doctoprint2.PrinterSettings.PrinterName = PrinterBarcodeKecil
+
+                    Dim rawKind2 As Integer
+                    CrDoc2.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint2.PrinterSettings.PaperSizes(i).PaperName = kertasBarcodeKecil Then
+                            rawKind2 = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint2.PrinterSettings.PaperSizes(i)))
+                            CrDoc2.PrintOptions.PaperSize = rawKind2
+                            Exit For
+                        End If
+                    Next
+
+                    CrDoc2.PrintToPrinter(1, False, 1, 2500)
+
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        '=================================
+        '=     CETAK FAKTUR TF STOCK     =
+        '=================================
+        Dim CrDoc, CrDoc2 As New Object
+        Dim kertas As String = ""
+        Dim kertasBarcodeBesar As String = "BarcodeFG"
+        Dim kertasBarcodeKecil As String = "BarcodeQC"
+
+        SQL = "select a.Kode_Perusahaan "
+        SQL = SQL & "from Vw_tf_stock_detail a "
+        SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+        SQL = SQL & "and a.No_Faktur = 'TS-RM-02/25-0001' "
+        Using Ds = BindingTrans(SQL)
+            If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                CrDoc = New Rpt_EMI_Faktur_Transfer_Stock_Detail
+                kertas = "Faktur"
+
+                'With A_Place_For_Printing2
+                '    CrDoc.SetDataSource(Ds)
+                '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                '    CrDoc.PrintOptions.PrinterName = ""
+                '    CrDoc.RecordSelectionFormula = "{Vw_tf_stock_detail.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_tf_stock_detail.No_Faktur}='" & txtKodeTransfer.Text & "' "
+                '    CrDoc.SummaryInfo.ReportTitle = "TF"
+                '    .Text = "TF"
+                '    .CrystalReportViewer1.ReportSource = CrDoc
+                '    .Refresh()
+                '    .Show()
+                'End With
+
+                '============================================================================================================================================
+                '============================================================================================================================================
+                CrDoc.SetDataSource(Ds)
+                CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                CrDoc.PrintOptions.PrinterName = PrinterNameTS
+                CrDoc.RecordSelectionFormula = "{Vw_tf_stock_detail.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_tf_stock_detail.No_Faktur}='' "
+                'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+                Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                doctoprint.PrinterSettings.PrinterName = PrinterNameTS
+                doctoprint.DefaultPageSettings.Landscape = True
+                Dim rawKind As Integer
+                CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                        CrDoc.PrintOptions.PaperSize = rawKind
+                        Exit For
+                    End If
+                Next
+
+                CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                CrDoc.PrintToPrinter(1, False, 1, 99)
+
+                MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+
+            End If
+        End Using
+
+
+        '=================================
+        '=     CETAK FAKTUR BARCODE     =
+        '=================================
+        Dim PrinterBarcode As String = "TSC TE210"
+        SQL = "select Kode_Perusahaan from Cetak_TransferStock where Kode_Perusahaan='" & KodePerusahaan & "' and kode_unik_print='021408272904114'"
+        Using Ds = BindingTrans(SQL)
+            If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+#Region "Kode Lama"
+
+                'CrDoc = New NewBarcodeTransferStock
+                'CrDoc.SetDataSource(Ds)
+                'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                'CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_TransferStock.kode_unik_print} = '021408272904114' "
+
+                'CrDoc.PrintOptions.PrinterName = PrinterBarcode
+
+                'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                'doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+                'Dim rawKind As Integer
+                'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                'For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertasBarcodeBesar Then
+                '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                '        CrDoc.PrintOptions.PaperSize = rawKind
+                '        Exit For
+                '    End If
+                'Next
+
+                'CrDoc.PrintToPrinter(1, False, 1, 2500)
+
+#End Region
+
+#Region "Kode Baru"
+
+                CrDoc = New NewBarcodeTransferStock
+                CrDoc.SetDataSource(Ds)
+                CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_TransferStock.kode_unik_print} = '021408272904114' "
+
+                CrDoc.PrintOptions.PrinterName = PrinterBarcode
+
+                Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+                Dim rawKind As Integer = -1 ' Default jika kertas tidak ditemukan
+
+                ' Loop mencari ukuran kertas yang cocok
+                For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                        rawKind = doctoprint.PrinterSettings.PaperSizes(i).RawKind
+                        Exit For
+                    End If
+                Next
+
+                ' Jika kertas ditemukan, gunakan ukurannya
+                If rawKind <> -1 Then
+                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                Else
+                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    Debug.Print("Ukuran kertas tidak ditemukan, menggunakan default.")
+                End If
+
+                CrDoc.PrintToPrinter(1, False, 1, 2500)
+
+#End Region
+
+            End If
+        End Using
     End Sub
 End Class

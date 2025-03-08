@@ -1,8 +1,4 @@
-﻿Imports System.CodeDom.Compiler
-Imports System.IO
-Imports System.Reflection.Emit
-Imports System.Text
-Imports ZXing.QrCode
+﻿Imports System.IO
 
 Public Class Emi_Production_Barcode
 
@@ -463,14 +459,32 @@ Public Class Emi_Production_Barcode
                     '    .Show()
                     'End With
 
+                    '==========================
+                    '=     BARCODEE BESAR     =
+                    '==========================
                     CrDoc = New NewBarcodeFinishGood
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
 
                     CrDoc.SetDataSource(Ds)
                     CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                     CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & Txt_KdBarang.Text & "' "
                     CrDoc.PrintOptions.PrinterName = PrinterBarcode
 
-                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+
+                    CrDoc.PrintToPrinter(1, False, 1, 2500)
+
+
+                    '==========================
+                    '=     BARCODEE KECIL     =
+                    '==========================
+                    CrDoc = New NewBarcodeFinishGoodKecil
+
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & Txt_KdBarang.Text & "' "
+                    CrDoc.PrintOptions.PrinterName = PrinterBarcode
+
                     doctoprint.PrinterSettings.PrinterName = PrinterBarcode
 
                     CrDoc.PrintToPrinter(1, False, 1, 2500)

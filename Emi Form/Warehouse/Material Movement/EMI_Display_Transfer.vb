@@ -1,8 +1,4 @@
-﻿
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-Public Class Emi_Display_Transfer
+﻿Public Class Emi_Display_Transfer
 
     Dim arrcari As New ArrayList
     Dim Jenis = "ETA"

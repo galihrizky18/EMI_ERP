@@ -9,6 +9,7 @@ Module General_Module
 
     Public lblLoading As Label
 
+
     Public tgl_skg As DateTime
     Public Bahasa_Pilihan As String = "ID"
     Public fPurchaseRequisition As String = "PR"
@@ -27,6 +28,13 @@ Module General_Module
     Public Token_WA_Business As String = ""
     Public fDownPay As String = "DPDS"
     Public Data_User_App2 As New ArrayList
+    Public Ket_Cost_Center_HO As String = "0"
+
+    Public isErrorTimbangan As Boolean = True
+    Public isClosingTimbangan As Boolean = True
+    Public Port_Timbangan As String = "COM3"
+    Public BaudRate_Timbangan As String = "9600"
+    Public DataBits_Timbangan As String = "7"
 
     Public fPO_EMI As String = "PO"
     Public fLokasi_PO As String = "LP"
@@ -55,6 +63,7 @@ Module General_Module
 
     Public PrinterBarcode As String = "TSC TE210"
     Public PrinterQC As String = ""
+    Public PrinterBarcodeQC As String = "TSC TE210 (LAN)"
 
 
     Public Cn As SqlConnection
@@ -1295,13 +1304,36 @@ Module General_Module
         End Using
     End Function
 
-    Public Function Get_Detail_Jurnal(ByVal kode_voucher As String, ByVal kode_master_acc As String, ByVal kode_acc As String, ByVal kode_detail_acc As String, ByVal Kode_perusahaan As String, ByVal Kode_Proyek As String, ByVal Keterangan As String, ByVal debit As String, ByVal kredit As String, ByVal pagenumber As String, Optional ByVal _lokasi_per_akun As String = "BELUM") As String
+    'Kode LAma
+    'Public Function Get_Detail_Jurnal(ByVal kode_voucher As String, ByVal kode_master_acc As String, ByVal kode_acc As String, ByVal kode_detail_acc As String, ByVal Kode_perusahaan As String, ByVal Kode_Proyek As String, ByVal Keterangan As String, ByVal debit As String, ByVal kredit As String, ByVal pagenumber As String, Optional ByVal _lokasi_per_akun As String = "BELUM") As String
+    '    Dim MMM As String = ""
+    '    MMM = "Insert Into Detail_Jurnal(Kode_perusahaan, kode_voucher, kode_master_acc, kode_acc, "
+    '    MMM = MMM & "kode_detail_acc, kode_proyek, keterangan, debit, kredit, pagenumber, Lokasi_Detail, kode_account) Values('" & Kode_perusahaan & "', "
+    '    MMM = MMM & "'" & kode_voucher & "', '" & kode_master_acc & " ', '" & kode_acc & "', "
+    '    MMM = MMM & "'" & kode_detail_acc & "', '" & Kode_Proyek & "', "
+    '    MMM = MMM & "'" & Keterangan & "', '" & debit & "', '" & kredit & "', '" & pagenumber & "', '" & _lokasi_per_akun & "', '" & kode_master_acc & kode_acc & kode_detail_acc & "') "
+
+    '    Return MMM
+    'End Function
+
+    Public Function Get_Detail_Jurnal(ByVal kode_voucher As String, ByVal kode_master_acc As String, ByVal kode_acc As String, ByVal kode_detail_acc As String, ByVal Kode_perusahaan As String, ByVal Kode_Proyek As String, ByVal Keterangan As String, ByVal debit As String, ByVal kredit As String, ByVal pagenumber As String, ByVal _lokasi_per_akun As String, Optional ByVal locale As String = "us", Optional ByVal Cost_center As String = "0") As String
         Dim MMM As String = ""
-        MMM = "Insert Into Detail_Jurnal(Kode_perusahaan, kode_voucher, kode_master_acc, kode_acc, "
-        MMM = MMM & "kode_detail_acc, kode_proyek, keterangan, debit, kredit, pagenumber, Lokasi_Detail, kode_account) Values('" & Kode_perusahaan & "', "
-        MMM = MMM & "'" & kode_voucher & "', '" & kode_master_acc & " ', '" & kode_acc & "', "
-        MMM = MMM & "'" & kode_detail_acc & "', '" & Kode_Proyek & "', "
-        MMM = MMM & "'" & Keterangan & "', '" & debit & "', '" & kredit & "', '" & pagenumber & "', '" & _lokasi_per_akun & "', '" & kode_master_acc & kode_acc & kode_detail_acc & "') "
+
+        If locale = "id" Then
+            MMM = "Insert Into Detail_Jurnal(Kode_perusahaan, kode_voucher, kode_master_acc, kode_acc, "
+            MMM = MMM & "kode_detail_acc, kode_proyek, keterangan, debit, kredit, pagenumber, Lokasi_Detail, kode_account,Id_Cost_Center) Values('" & Kode_perusahaan & "', "
+            MMM = MMM & "'" & kode_voucher & "', '" & kode_master_acc & " ', '" & kode_acc & "', "
+            MMM = MMM & "'" & kode_detail_acc & "', '" & Kode_Proyek & "', "
+            MMM = MMM & "'" & Keterangan & "', '" & debit & "', '" & kredit & "', '" & pagenumber & "', '" & _lokasi_per_akun & "', '" & kode_master_acc & kode_acc & kode_detail_acc & "','" & Cost_center & "') "
+
+        Else
+            MMM = "Insert Into Detail_Jurnal(Kode_perusahaan, kode_voucher, kode_master_acc, kode_acc, "
+            MMM = MMM & "kode_detail_acc, kode_proyek, keterangan, debit, kredit, pagenumber, Lokasi_Detail, kode_account,Id_Cost_Center) Values('" & Kode_perusahaan & "', "
+            MMM = MMM & "'" & kode_voucher & "', '" & kode_master_acc & " ', '" & kode_acc & "', "
+            MMM = MMM & "'" & kode_detail_acc & "', '" & Kode_Proyek & "', "
+            MMM = MMM & "'" & Keterangan & "', '" & HilangkanTanda(Format(Val(debit), "N2")) & "', '" & HilangkanTanda(Format(Val(kredit), "N2")) & "', '" & pagenumber & "', '" & _lokasi_per_akun & "', '" & kode_master_acc & kode_acc & kode_detail_acc & "','" & Cost_center & "') "
+
+        End If
 
         Return MMM
     End Function

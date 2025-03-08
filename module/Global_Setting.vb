@@ -1,6 +1,5 @@
 ﻿
 Imports System.Drawing.Printing
-Imports System.Web.UI.WebControls
 Public Class Global_Setting
     Dim arrKd As New ArrayList
 
@@ -62,6 +61,24 @@ Public Class Global_Setting
         Get_Printer_List(cmbQC)
         SyncComboBoxWithSettings(cmbQC, My.Settings.Prt_QC)
 
+        Get_Printer_List(Cmb_BarcodeQC)
+        SyncComboBoxWithSettings(Cmb_BarcodeQC, My.Settings.Prt_Barcode_QC)
+
+
+        cmbCOMFloorScale.Items.Clear()
+        cmbCOMFloorScale.Items.Add("COM1")
+        cmbCOMFloorScale.Items.Add("COM2")
+        cmbCOMFloorScale.Items.Add("COM3")
+        cmbCOMFloorScale.Items.Add("COM4")
+        cmbCOMFloorScale.Items.Add("COM5")
+        cmbCOMFloorScale.Items.Add("COM6")
+        cmbCOMFloorScale.Items.Add("COM7")
+        cmbCOMFloorScale.Items.Add("COM8")
+        cmbCOMFloorScale.Items.Add("COM9")
+
+        cmbCOMFloorScale.Text = My.Settings.Port_Timbangan
+
+
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
@@ -91,11 +108,18 @@ Public Class Global_Setting
             Exit Sub
         ElseIf cmbBarcode.SelectedIndex = -1 Then
             MessageBox.Show("Printer Barcode harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            ComboBox8.Focus()
+            cmbBarcode.Focus()
             Exit Sub
         ElseIf cmbQC.SelectedIndex = -1 Then
             MessageBox.Show("Printer QC harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            ComboBox8.Focus()
+            cmbQC.Focus()
+            Exit Sub
+        ElseIf cmbCOMFloorScale.SelectedIndex = -1 Then
+            MessageBox.Show("COM Floor scale harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            cmbCOMFloorScale.Focus()
+        ElseIf Cmb_BarcodeQC.SelectedIndex = -1 Then
+            MessageBox.Show("Printer Barcode harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            cmbCOMFloorScale.Focus()
             Exit Sub
         End If
 
@@ -107,6 +131,8 @@ Public Class Global_Setting
         My.Settings.Prt_Name_2 = ComboBox8.Text
         My.Settings.Prt_Barcode = cmbBarcode.Text
         My.Settings.Prt_QC = cmbQC.Text
+        My.Settings.Port_Timbangan = cmbCOMFloorScale.Text
+        My.Settings.Prt_Barcode_QC = Cmb_BarcodeQC.Text
 
 
         PrinterName = My.Settings.Prt_Name
@@ -117,20 +143,19 @@ Public Class Global_Setting
         PrinterName2 = My.Settings.Prt_Name_2
         PrinterBarcode = My.Settings.Prt_Barcode
         PrinterQC = My.Settings.Prt_QC
+        Port_Timbangan = My.Settings.Port_Timbangan
+        PrinterBarcodeQC = My.Settings.Prt_Barcode_QC
 
         My.Settings.Save()
 
         MessageBox.Show("Berhasil disimpan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-
+        End
     End Sub
 
     'Private Sub Printer_Setting_SizeChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.SizeChanged
     '    Label2.Size = New Point(Me.Width, 33)
     'End Sub
 
-    Private Sub ComboBox3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox3.SelectedIndexChanged
-
-    End Sub
 
     Private Sub ComboBox3_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox3.KeyPress
         If e.KeyChar = Chr(13) Then ComboBox4.Focus()
@@ -153,6 +178,10 @@ Public Class Global_Setting
     End Sub
 
     Private Sub ComboBox8_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox8.KeyPress
+        If e.KeyChar = Chr(13) Then cmbBarcode.Focus()
+    End Sub
+
+    Private Sub Cmb_BarcodeQC_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_BarcodeQC.KeyPress
         If e.KeyChar = Chr(13) Then Button1.Focus()
     End Sub
 End Class

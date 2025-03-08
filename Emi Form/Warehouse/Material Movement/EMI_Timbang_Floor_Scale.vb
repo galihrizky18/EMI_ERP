@@ -1,4 +1,7 @@
-﻿Imports System.IO
+﻿Imports System.ComponentModel
+Imports System.IO
+Imports System.IO.Ports
+Imports System.Threading
 'Imports Microsoft.SqlServer.Server
 
 
@@ -8,6 +11,8 @@ Public Class EMI_Timbang_Floor_Scale
     Dim Jenis = "Transaksi_Timbang_Kosong"
     Public Txt_Ekspedisi As String = ""
     Dim Random As New Random()
+    Dim ReadThread As Thread
+
 
     Dim tahunMulaiProduksi As String = ""
     Private Is2ndPrint As Boolean = False
@@ -41,6 +46,124 @@ Public Class EMI_Timbang_Floor_Scale
     Public MetodeTimbang As String = ""
 
     Dim kode_unik_print As String = ""
+    Public WithEvents SerialPort As New SerialPort
+
+    Public Sub BukaKoneksiTimbangan()
+        SerialPort.PortName = "COM3" 'Port_Timbangan
+        SerialPort.BaudRate = BaudRate_Timbangan
+        SerialPort.Parity = Parity.Even
+        SerialPort.DataBits = DataBits_Timbangan
+        SerialPort.StopBits = StopBits.One
+        SerialPort.Handshake = Handshake.None
+        SerialPort.NewLine = vbLf
+
+        Try
+            If SerialPort.IsOpen = False Then
+                SerialPort.Open()
+                isClosingTimbangan = False
+                isErrorTimbangan = False
+
+                ' Pastikan thread lama mati sebelum membuat thread baru
+                If ReadThread IsNot Nothing AndAlso ReadThread.IsAlive Then
+                    ReadThread.Join(500) ' Tunggu thread lama berhenti
+                End If
+
+                ' Jalankan thread baru untuk membaca data
+                isClosingTimbangan = False
+                ReadThread = New Thread(AddressOf ReadSerialData)
+                ReadThread.IsBackground = True
+                ReadThread.Start()
+
+            Else
+                isErrorTimbangan = False
+            End If
+
+        Catch ex As Exception
+            isErrorTimbangan = True
+        End Try
+
+    End Sub
+
+    Private Sub TutupKoneksiTimbangan()
+        isClosingTimbangan = True ' Tandai bahwa form sedang ditutup
+
+        If ReadThread IsNot Nothing AndAlso ReadThread.IsAlive Then
+            ReadThread.Join(500) ' Tunggu maksimal 500ms agar thread berhenti
+        End If
+
+        If SerialPort.IsOpen Then
+            Try
+                SerialPort.DiscardInBuffer() ' Hapus buffer agar tidak ada data tertinggal
+                SerialPort.Close() ' Tutup port dengan aman
+                SerialPort.Dispose() ' Hapus objek SerialPort dari memori
+                isErrorTimbangan = False
+            Catch ex As Exception
+                isErrorTimbangan = True
+            End Try
+        End If
+    End Sub
+
+    Private Sub ReadSerialData()
+        While Not isClosingTimbangan
+            Try
+                If SerialPort.IsOpen AndAlso SerialPort.BytesToRead > 0 Then
+                    Dim receivedData As String = SerialPort.ReadLine()
+                    Me.Invoke(Sub()
+                                  Dim nilai_data As String = Strings.Mid(Trim(receivedData), 7, 99)
+                                  nilai_data = Strings.Left(nilai_data, Len(nilai_data) - 3)
+
+                                  Dim satuan_berat_data As String = Strings.Right(Trim(receivedData), 3)
+
+                                  Txt_Timbangan.Text = Val(nilai_data)
+                                  TxtOriginal_Data_FloorScale.Text = receivedData
+
+                                  If Strings.Left(receivedData, 2) = "ST" Then
+                                      txt_Jumlah_Timbang.Text = Val(nilai_data)
+                                      TxtSatuan_FloorScale.Text = satuan_berat_data
+                                  Else
+                                      txt_Jumlah_Timbang.Text = "0"
+                                      TxtSatuan_FloorScale.Text = satuan_berat_data
+                                  End If
+
+                              End Sub)
+                End If
+            Catch ex As Exception
+                Exit While ' Keluar dari loop jika terjadi error
+            End Try
+            Thread.Sleep(50) ' Hindari penggunaan CPU yang berlebihan
+        End While
+    End Sub
+
+    'Private Sub SerialPort_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles SerialPort.DataReceived
+    '    If isClosingTimbangan Then Exit Sub
+
+    '    Try
+    '        Dim receivedData As String = SerialPort.ReadLine()
+    '        Me.Invoke(Sub()
+    '                      Dim nilai_data As String = Strings.Mid(Trim(receivedData), 7, 99)
+    '                      nilai_data = Strings.Left(nilai_data, Len(nilai_data) - 3)
+
+    '                      Dim satuan_berat_data As String = Strings.Right(Trim(receivedData), 3)
+
+    '                      Txt_Timbangan.Text = Val(nilai_data)
+    '                      TxtOriginal_Data_FloorScale.Text = receivedData
+
+    '                      If Strings.Left(receivedData, 2) = "ST" Then
+    '                          txt_Jumlah_Timbang.Text = Val(nilai_data)
+    '                          TxtSatuan_FloorScale.Text = satuan_berat_data
+    '                      Else
+    '                          txt_Jumlah_Timbang.Text = "0"
+    '                          TxtSatuan_FloorScale.Text = satuan_berat_data
+    '                      End If
+
+
+    '                      'TextBox1.AppendText(receivedData & Environment.NewLine)
+    '                  End Sub)
+    '    Catch ex As Exception
+    '        MessageBox.Show("Error membaca data: " & ex.Message)
+    '    End Try
+    'End Sub
+
     Private Sub Transaksi_Timbang_Unloading_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
@@ -83,6 +206,8 @@ Public Class EMI_Timbang_Floor_Scale
         If CmbJenisTimbang.Text = "BARANG MASUK" Then
             get_data_BM()
         End If
+
+        BukaKoneksiTimbangan()
     End Sub
 
     Private Sub txt_Jumlah_Timbang_Leave(sender As Object, e As EventArgs) Handles txt_Jumlah_Timbang.Leave
@@ -94,6 +219,7 @@ Public Class EMI_Timbang_Floor_Scale
         Dim isiPerBags As Double = jumlahEstimasi / jumlahBagsEstimas
 
         TxtJumlahBagsDetail.Text = Val(HilangkanTanda(TxtBeratBersih.Text)) * isiPerBags
+
 
 
 
@@ -220,7 +346,7 @@ Public Class EMI_Timbang_Floor_Scale
         CmbJenisTimbang.Items.Add("BARANG MASUK")
         CmbJenisTimbang.Items.Add("TRANSFER STOCK")
 
-        Txt_Timbangan.Text = "99999"
+        Txt_Timbangan.Text = "0"
 
         txt_lokasi.Text = ""
         txt_barang.Text = ""
@@ -231,7 +357,7 @@ Public Class EMI_Timbang_Floor_Scale
         txt_Jml_Estimasi.Text = ""
         txt_Jumlah_Timbang.Text = ""
         Txt_Berat_Bags_Bersih.Text = ""
-
+        TxtSatuan_FloorScale.Text = ""
         Txt_Sisa_Jumlah.Text = ""
         Txt_Sisa_Bags.Text = ""
 
@@ -241,8 +367,8 @@ Public Class EMI_Timbang_Floor_Scale
         'txt_Jml_Estimasi.Enabled = True
         ' txt_Jumlah_Timbang.Enabled = True
 
-        txt_Jumlah_Timbang.Text = Txt_Timbangan.Text
-
+        txt_Jumlah_Timbang.Text = "0" 'Txt_Timbangan.Text
+        TxtOriginal_Data_FloorScale.Text = "0"
         Try
             OpenConn()
 
@@ -389,7 +515,7 @@ Public Class EMI_Timbang_Floor_Scale
     End Sub
 
     Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
-        Txt_Timbangan.Text = "99999"
+        Txt_Timbangan.Text = "0"
     End Sub
 
 
@@ -406,11 +532,16 @@ Public Class EMI_Timbang_Floor_Scale
             Exit Sub
         End If
 
-        If txt_Jumlah_Timbang.Text.Trim.Length = 0 Or txt_Jumlah_Timbang.Text = "0" Then
+        If txt_Jumlah_Timbang.Text.Trim.Length = 0 Or Val(txt_Jumlah_Timbang.Text) = 0 Or Val(txt_Jumlah_Timbang.Text) < 0 Then
             MessageBox.Show("Berat Timbang Tidak Boleh Kosong atau 0", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
+        ElseIf TxtSatuan_FloorScale.Text.Trim.ToUpper <> CmbSatuan.Text.ToUpper Then
+            MessageBox.Show("Satuan timbang berbeda!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        ElseIf Strings.Left(TxtOriginal_Data_FloorScale.Text.Trim.ToUpper, 2) <> "ST" Then
+            MessageBox.Show("Terjadi kesalahan pada timbangan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
         End If
-
         get_jam()
 
 
@@ -788,7 +919,7 @@ Public Class EMI_Timbang_Floor_Scale
                 SQL = SQL & "and a.Kode_Stock_Owner='" & GetSoAwal & "' "
                 SQL = SQL & "and a.Kode_Barang ='" & GetDataKdBrg & "' "
                 SQL = SQL & "and a.Serial_Number='" & GetSnAwal & "' "
-                SQL = SQL & "and a.Jumlah <> 0 "
+                'SQL = SQL & "and a.Jumlah <> 0 "
                 Using Dr = OpenTrans(SQL)
                     Do While Dr.Read
                         hargaIsn = Get_Harga_SN(Dr("Serial_Number"))
@@ -932,14 +1063,14 @@ Public Class EMI_Timbang_Floor_Scale
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_persediaan_dari, 1),
                       Strings.Mid(akun_persediaan_dari, 2, 1),
                       Strings.Mid(Ganti(akun_persediaan_dari), 3),
-                      KodePerusahaan, KodeProyek, "Persedian " & txtKodeTransfer.Text, "0", nilai_persediaan_min, pagenumber, "TSSS")
+                      KodePerusahaan, KodeProyek, "Persedian " & txtKodeTransfer.Text, "0", nilai_persediaan_min, pagenumber, GetSoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_persediaan_tujuan, 1),
                      Strings.Mid(akun_persediaan_tujuan, 2, 1),
                      Strings.Mid(Ganti(akun_persediaan_tujuan), 3),
-                     KodePerusahaan, KodeProyek, "Persedian " & txtKodeTransfer.Text, nilai_persediaan_min, "0", pagenumber, "TSSS")
+                     KodePerusahaan, KodeProyek, "Persedian " & txtKodeTransfer.Text, nilai_persediaan_min, "0", pagenumber, GetSoTujuan, Bahasa_Pilihan, Ket_Cost_Center_HO)
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
@@ -1059,13 +1190,13 @@ Public Class EMI_Timbang_Floor_Scale
                         Exit Sub
                     End Try
 
-                    cetaktransfer()
+                    cetaktransfer(kode_unik_print)
                     Emi_Display_Transfer.kosong()
                     Me.Close()
                     Exit Sub
                 End If
 
-                cetaktransfer()
+                cetaktransfer(kode_unik_print)
 
             Else
 
@@ -1086,10 +1217,11 @@ Public Class EMI_Timbang_Floor_Scale
                     Exit Sub
                 End Try
 
-                cetaktransfer()
+                cetaktransfer(kode_unik_print)
                 Emi_Display_Transfer.kosong()
                 Me.Close()
 
+                TutupKoneksiTimbangan()
             End If
 
 
@@ -1111,7 +1243,7 @@ Public Class EMI_Timbang_Floor_Scale
         End Try
     End Function
 
-    Private Sub cetaktransfer()
+    Private Sub cetaktransfer(ByVal kode_unikPrintBarcode As String)
         Try
             OpenConn()
 
@@ -1197,19 +1329,31 @@ Public Class EMI_Timbang_Floor_Scale
                 '=================================
                 '=     CETAK FAKTUR BARCODE     =
                 '=================================
-                SQL = "select Kode_Perusahaan from Cetak_TransferStock where Kode_Perusahaan='" & KodePerusahaan & "' and kode_unik_print='" & kode_unik_print & "'"
+                Dim kertasBarcode As String = ""
+                SQL = "select Kode_Perusahaan from Cetak_TransferStock where Kode_Perusahaan='" & KodePerusahaan & "' and kode_unik_print='" & kode_unikPrintBarcode & "'"
                 Using Ds = BindingTrans(SQL)
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
 
                         CrDoc = New NewBarcodeTransferStock
+                        kertasBarcode = "BarcodeFG"
                         CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_TransferStock.kode_unik_print} = '" & kode_unik_print & "' "
+                        CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_TransferStock.kode_unik_print} = '" & kode_unikPrintBarcode & "' "
 
                         CrDoc.PrintOptions.PrinterName = PrinterBarcode
 
                         Dim doctoprint As New System.Drawing.Printing.PrintDocument()
                         doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+
+                        Dim rawKind As Integer
+                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                            If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertasBarcode Then
+                                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                                CrDoc.PrintOptions.PaperSize = rawKind
+                                Exit For
+                            End If
+                        Next
 
                         CrDoc.PrintToPrinter(1, False, 1, 2500)
 
@@ -1374,7 +1518,7 @@ Public Class EMI_Timbang_Floor_Scale
                                             '==============================================
                                             '=       CEK SELURUH TRANSAKSI HARI INI       =
                                             '==============================================
-                                            SQL = "select isnull( (Tot_Batch_Masuk),0) as Jmlh_Masuk_Hari_ini "
+                                            SQL = "select isnull(count(Tot_Batch_Masuk),0) as Jmlh_Masuk_Hari_ini "
                                             SQL = SQL & "from emi_pembelian_loading a, emi_pembelian_loading_detail b "
                                             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
                                             SQL = SQL & "and a.No_Faktur = b.No_Faktur "
@@ -1512,10 +1656,10 @@ Public Class EMI_Timbang_Floor_Scale
                     CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                     CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & txtKodeTransfer.Text & "'  and {Cetak_Barang_Masuk_Perpallet.Kode_Unik_Print} = '" & kode_unik_print & "' "
 
-                    CrDoc.PrintOptions.PrinterName = PrinterName
+                    CrDoc.PrintOptions.PrinterName = PrinterBarcode
 
                     Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                    doctoprint.PrinterSettings.PrinterName = PrinterName
+                    doctoprint.PrinterSettings.PrinterName = PrinterBarcode
 
                     CrDoc.PrintToPrinter(1, False, 1, 2500)
 
@@ -1618,5 +1762,29 @@ Public Class EMI_Timbang_Floor_Scale
         Dim berat_net As Double = 0
         berat_net = Val(HilangkanTanda(txt_Jumlah_Timbang.Text)) - (Val(HilangkanTanda(TxtBeratAlas.Text))) '+ Val(HilangkanTanda(TxtBeratBags.Text)))
         TxtBeratBersih.Text = Format(berat_net, "N2")
+    End Sub
+
+    Private Sub EMI_Timbang_Floor_Scale_Disposed(sender As Object, e As EventArgs) Handles Me.Disposed
+        Dim xxxx As String = ""
+    End Sub
+
+    Private Sub EMI_Timbang_Floor_Scale_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Dim xxxx As String = ""
+        TutupKoneksiTimbangan()
+    End Sub
+
+    Private Sub EMI_Timbang_Floor_Scale_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        Dim xxxx As String = ""
+        TutupKoneksiTimbangan()
+    End Sub
+
+    Private Sub EMI_Timbang_Floor_Scale_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+        Dim xxxx As String = ""
+        TutupKoneksiTimbangan()
+    End Sub
+
+    Private Sub EMI_Timbang_Floor_Scale_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        Dim xxxx As String = ""
+        TutupKoneksiTimbangan()
     End Sub
 End Class

@@ -1,12 +1,5 @@
-﻿Imports System.CodeDom.Compiler
-Imports System.Data.SqlClient
-Imports System.IO
-Imports System.Net.NetworkInformation
+﻿Imports System.IO
 Imports System.Text
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-Imports ZXing
-Imports ZXing.Common
 Imports ZXing.QrCode
 
 Public Class EMI_Display_Pallet_Masuk_Data
@@ -812,6 +805,12 @@ Public Class EMI_Display_Pallet_Masuk_Data
                                         Dim tanggalMasuk As Integer = tanggalDatang.Day
                                         Dim bulanMasuk As Integer = tanggalDatang.Month
                                         Dim tahunMasuk As Integer = (tanggalDatang.Year - tahunMulaiProduksi) Mod 9
+
+                                        If General_Class.CekNULL(Ds.Tables("MyTable").Rows(i).Item("Kode_Unik_Berjalan")) = "" Then
+                                            CloseConn()
+                                            MessageBox.Show("Barang / Pallet Belum Masuk", "Cetak Ulang Pallet Masuk", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            Exit Sub
+                                        End If
 
                                         kodeUnikBerjalan = Ds.Tables("MyTable").Rows(i).Item("Kode_Unik_Berjalan")
                                         Qr = Ds.Tables("MyTable").Rows(i).Item("Qr_Code")

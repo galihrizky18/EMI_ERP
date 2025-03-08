@@ -111,7 +111,7 @@ Public Class Modul_Pembantu
 
         'If Dgv_DataBarang.CurrentCell.ColumnIndex = CellQty Then
 
-        '    Dim cellKuantity As String = Dgv_Data.CurrentCell.Value
+        '    Dim cellKuantity As String = Dgv_Data.CurrentCell.Value.ToString()
 
         '    If cellKuantity.Contains(",") Then
         '        MessageBox.Show("Kuantity Tidak Boleh Koma, Ganti dengan Titik", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -135,7 +135,7 @@ Public Class Modul_Pembantu
         ''======================
 
         'If Dgv_DataBarang.CurrentCell.ColumnIndex = CellQty Then
-        '    Dim cellKuantity As String = Dgv_DataBarang.CurrentCell.Value
+        '    Dim cellKuantity As String = Dgv_DataBarang.CurrentCell.Value.ToString()
 
         '    If cellKuantity = "" Then
         '        Exit Sub
@@ -158,7 +158,7 @@ Public Class Modul_Pembantu
         'Dim culture As CultureInfo = CultureInfo.CurrentCulture
 
         'If Dgv_DataBarang.CurrentCell.ColumnIndex = CellQty Then
-        '    Dim cellKuantity As String = Dgv_DataBarang.CurrentCell.Value
+        '    Dim cellKuantity As String = Dgv_DataBarang.CurrentCell.Value.ToString()
 
         '    If cellKuantity = "" Then
         '        Exit Sub
