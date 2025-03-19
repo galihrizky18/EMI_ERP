@@ -23,6 +23,7 @@ Partial Class Master_Jenis_Biaya_Produksi
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -51,9 +52,18 @@ Partial Class Master_Jenis_Biaya_Produksi
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Txt_KdBarang = New System.Windows.Forms.TextBox()
         Me.Lv_BarangPotStock = New System.Windows.Forms.ListView()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Txt_NamaBarang = New System.Windows.Forms.TextBox()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Txt_KdBiaya = New System.Windows.Forms.TextBox()
+        Me.Txt_KetBiaya = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Txt_KdBudget = New System.Windows.Forms.TextBox()
+        Me.Txt_KetBudget = New System.Windows.Forms.TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Txt_TarifPerSatuan = New System.Windows.Forms.TextBox()
+        Me.Lv_AkunBiaya = New System.Windows.Forms.ListView()
+        Me.Lv_AkunBudget = New System.Windows.Forms.ListView()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -66,8 +76,21 @@ Partial Class Master_Jenis_Biaya_Produksi
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(688, 51)
+        Me.Panel1.Size = New System.Drawing.Size(683, 51)
         Me.Panel1.TabIndex = 23
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(683, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -145,7 +168,7 @@ Partial Class Master_Jenis_Biaya_Produksi
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(5, 226)
+        Me.Panel6.Location = New System.Drawing.Point(20, 303)
         Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(924, 12)
@@ -157,7 +180,7 @@ Partial Class Master_Jenis_Biaya_Produksi
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(200, 240)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(201, 317)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(84, 36)
         Me.Btn_Refresh.TabIndex = 9
@@ -169,7 +192,7 @@ Partial Class Master_Jenis_Biaya_Produksi
         Me.Btn_Hapus.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Hapus.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Hapus.ForeColor = System.Drawing.Color.White
-        Me.Btn_Hapus.Location = New System.Drawing.Point(110, 240)
+        Me.Btn_Hapus.Location = New System.Drawing.Point(111, 317)
         Me.Btn_Hapus.Name = "Btn_Hapus"
         Me.Btn_Hapus.Size = New System.Drawing.Size(84, 36)
         Me.Btn_Hapus.TabIndex = 8
@@ -181,7 +204,7 @@ Partial Class Master_Jenis_Biaya_Produksi
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(20, 240)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(21, 317)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(84, 36)
         Me.Btn_Simpan.TabIndex = 7
@@ -191,7 +214,7 @@ Partial Class Master_Jenis_Biaya_Produksi
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(4, 279)
+        Me.Panel7.Location = New System.Drawing.Point(19, 356)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(924, 12)
@@ -261,7 +284,7 @@ Partial Class Master_Jenis_Biaya_Produksi
         Me.Lv_Jenis_BP.HideSelection = False
         Me.Lv_Jenis_BP.Location = New System.Drawing.Point(7, 43)
         Me.Lv_Jenis_BP.Name = "Lv_Jenis_BP"
-        Me.Lv_Jenis_BP.Size = New System.Drawing.Size(640, 236)
+        Me.Lv_Jenis_BP.Size = New System.Drawing.Size(640, 242)
         Me.Lv_Jenis_BP.TabIndex = 0
         Me.Lv_Jenis_BP.UseCompatibleStateImageBehavior = False
         Me.Lv_Jenis_BP.View = System.Windows.Forms.View.Details
@@ -279,7 +302,7 @@ Partial Class Master_Jenis_Biaya_Produksi
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(-247, 581)
+        Me.Panel4.Location = New System.Drawing.Point(-250, 658)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1436, 15)
@@ -294,7 +317,7 @@ Partial Class Master_Jenis_Biaya_Produksi
         Me.GroupBox1.Controls.Add(Me.Btn_Cari)
         Me.GroupBox1.Controls.Add(Me.Lv_Jenis_BP)
         Me.GroupBox1.Controls.Add(Me.Cmb_Kolom)
-        Me.GroupBox1.Location = New System.Drawing.Point(20, 289)
+        Me.GroupBox1.Location = New System.Drawing.Point(17, 366)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(652, 289)
         Me.GroupBox1.TabIndex = 347
@@ -338,18 +361,18 @@ Partial Class Master_Jenis_Biaya_Produksi
         '
         Me.Chk_PotongStock.AutoSize = True
         Me.Chk_PotongStock.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Chk_PotongStock.Location = New System.Drawing.Point(141, 172)
+        Me.Chk_PotongStock.Location = New System.Drawing.Point(141, 166)
         Me.Chk_PotongStock.Name = "Chk_PotongStock"
-        Me.Chk_PotongStock.Size = New System.Drawing.Size(106, 20)
+        Me.Chk_PotongStock.Size = New System.Drawing.Size(70, 20)
         Me.Chk_PotongStock.TabIndex = 4
-        Me.Chk_PotongStock.Text = "Potong Stock"
+        Me.Chk_PotongStock.Text = "Barang"
         Me.Chk_PotongStock.UseVisualStyleBackColor = True
         '
         'Label2
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label2.Location = New System.Drawing.Point(21, 201)
+        Me.Label2.Location = New System.Drawing.Point(21, 195)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(91, 17)
         Me.Label2.TabIndex = 230
@@ -361,7 +384,7 @@ Partial Class Master_Jenis_Biaya_Produksi
         Me.Txt_KdBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_KdBarang.Enabled = False
         Me.Txt_KdBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_KdBarang.Location = New System.Drawing.Point(141, 200)
+        Me.Txt_KdBarang.Location = New System.Drawing.Point(141, 194)
         Me.Txt_KdBarang.MaxLength = 50
         Me.Txt_KdBarang.Name = "Txt_KdBarang"
         Me.Txt_KdBarang.Size = New System.Drawing.Size(110, 21)
@@ -372,7 +395,7 @@ Partial Class Master_Jenis_Biaya_Produksi
         Me.Lv_BarangPotStock.FullRowSelect = True
         Me.Lv_BarangPotStock.GridLines = True
         Me.Lv_BarangPotStock.HideSelection = False
-        Me.Lv_BarangPotStock.Location = New System.Drawing.Point(695, 226)
+        Me.Lv_BarangPotStock.Location = New System.Drawing.Point(700, 121)
         Me.Lv_BarangPotStock.Name = "Lv_BarangPotStock"
         Me.Lv_BarangPotStock.Size = New System.Drawing.Size(414, 194)
         Me.Lv_BarangPotStock.TabIndex = 349
@@ -380,26 +403,13 @@ Partial Class Master_Jenis_Biaya_Produksi
         Me.Lv_BarangPotStock.View = System.Windows.Forms.View.Details
         Me.Lv_BarangPotStock.Visible = False
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(688, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
         'Txt_NamaBarang
         '
         Me.Txt_NamaBarang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_NamaBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_NamaBarang.Enabled = False
         Me.Txt_NamaBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_NamaBarang.Location = New System.Drawing.Point(257, 200)
+        Me.Txt_NamaBarang.Location = New System.Drawing.Point(257, 194)
         Me.Txt_NamaBarang.Name = "Txt_NamaBarang"
         Me.Txt_NamaBarang.Size = New System.Drawing.Size(298, 21)
         Me.Txt_NamaBarang.TabIndex = 350
@@ -412,27 +422,148 @@ Partial Class Master_Jenis_Biaya_Produksi
         Me.TextBox1.Size = New System.Drawing.Size(100, 20)
         Me.TextBox1.TabIndex = 351
         '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label3.Location = New System.Drawing.Point(21, 222)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(79, 17)
+        Me.Label3.TabIndex = 230
+        Me.Label3.Text = "Akun Biaya"
+        '
+        'Txt_KdBiaya
+        '
+        Me.Txt_KdBiaya.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_KdBiaya.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_KdBiaya.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.Txt_KdBiaya.Location = New System.Drawing.Point(141, 221)
+        Me.Txt_KdBiaya.MaxLength = 50
+        Me.Txt_KdBiaya.Name = "Txt_KdBiaya"
+        Me.Txt_KdBiaya.Size = New System.Drawing.Size(110, 21)
+        Me.Txt_KdBiaya.TabIndex = 5
+        '
+        'Txt_KetBiaya
+        '
+        Me.Txt_KetBiaya.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_KetBiaya.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_KetBiaya.Enabled = False
+        Me.Txt_KetBiaya.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.Txt_KetBiaya.Location = New System.Drawing.Point(257, 221)
+        Me.Txt_KetBiaya.Name = "Txt_KetBiaya"
+        Me.Txt_KetBiaya.Size = New System.Drawing.Size(298, 21)
+        Me.Txt_KetBiaya.TabIndex = 350
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label4.Location = New System.Drawing.Point(21, 249)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(89, 17)
+        Me.Label4.TabIndex = 230
+        Me.Label4.Text = "Akun Budget"
+        '
+        'Txt_KdBudget
+        '
+        Me.Txt_KdBudget.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_KdBudget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_KdBudget.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.Txt_KdBudget.Location = New System.Drawing.Point(141, 248)
+        Me.Txt_KdBudget.MaxLength = 50
+        Me.Txt_KdBudget.Name = "Txt_KdBudget"
+        Me.Txt_KdBudget.Size = New System.Drawing.Size(110, 21)
+        Me.Txt_KdBudget.TabIndex = 5
+        '
+        'Txt_KetBudget
+        '
+        Me.Txt_KetBudget.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_KetBudget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_KetBudget.Enabled = False
+        Me.Txt_KetBudget.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.Txt_KetBudget.Location = New System.Drawing.Point(257, 248)
+        Me.Txt_KetBudget.Name = "Txt_KetBudget"
+        Me.Txt_KetBudget.Size = New System.Drawing.Size(298, 21)
+        Me.Txt_KetBudget.TabIndex = 350
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label5.Location = New System.Drawing.Point(21, 276)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(112, 17)
+        Me.Label5.TabIndex = 230
+        Me.Label5.Text = "Tarif Per Satuan"
+        '
+        'Txt_TarifPerSatuan
+        '
+        Me.Txt_TarifPerSatuan.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_TarifPerSatuan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_TarifPerSatuan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.Txt_TarifPerSatuan.Location = New System.Drawing.Point(141, 275)
+        Me.Txt_TarifPerSatuan.Name = "Txt_TarifPerSatuan"
+        Me.Txt_TarifPerSatuan.Size = New System.Drawing.Size(414, 21)
+        Me.Txt_TarifPerSatuan.TabIndex = 350
+        Me.Txt_TarifPerSatuan.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Lv_AkunBiaya
+        '
+        Me.Lv_AkunBiaya.FullRowSelect = True
+        Me.Lv_AkunBiaya.GridLines = True
+        Me.Lv_AkunBiaya.HideSelection = False
+        Me.Lv_AkunBiaya.Location = New System.Drawing.Point(700, 246)
+        Me.Lv_AkunBiaya.Name = "Lv_AkunBiaya"
+        Me.Lv_AkunBiaya.Size = New System.Drawing.Size(425, 197)
+        Me.Lv_AkunBiaya.TabIndex = 354
+        Me.Lv_AkunBiaya.UseCompatibleStateImageBehavior = False
+        Me.Lv_AkunBiaya.View = System.Windows.Forms.View.Details
+        Me.Lv_AkunBiaya.Visible = False
+        '
+        'Lv_AkunBudget
+        '
+        Me.Lv_AkunBudget.FullRowSelect = True
+        Me.Lv_AkunBudget.GridLines = True
+        Me.Lv_AkunBudget.HideSelection = False
+        Me.Lv_AkunBudget.Location = New System.Drawing.Point(701, 286)
+        Me.Lv_AkunBudget.Name = "Lv_AkunBudget"
+        Me.Lv_AkunBudget.Size = New System.Drawing.Size(425, 197)
+        Me.Lv_AkunBudget.TabIndex = 355
+        Me.Lv_AkunBudget.UseCompatibleStateImageBehavior = False
+        Me.Lv_AkunBudget.View = System.Windows.Forms.View.Details
+        Me.Lv_AkunBudget.Visible = False
+        '
         'Master_Jenis_Biaya_Produksi
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(688, 594)
-        Me.Controls.Add(Me.TextBox1)
-        Me.Controls.Add(Me.Txt_NamaBarang)
+        Me.ClientSize = New System.Drawing.Size(683, 666)
         Me.Controls.Add(Me.Lv_BarangPotStock)
+        Me.Controls.Add(Me.Lv_AkunBiaya)
+        Me.Controls.Add(Me.Lv_AkunBudget)
+        Me.Controls.Add(Me.Panel6)
+        Me.Controls.Add(Me.Btn_Simpan)
+        Me.Controls.Add(Me.TextBox1)
+        Me.Controls.Add(Me.Btn_Hapus)
+        Me.Controls.Add(Me.Txt_TarifPerSatuan)
+        Me.Controls.Add(Me.Btn_Refresh)
+        Me.Controls.Add(Me.Txt_KetBudget)
+        Me.Controls.Add(Me.Panel7)
+        Me.Controls.Add(Me.Txt_KetBiaya)
+        Me.Controls.Add(Me.Panel4)
+        Me.Controls.Add(Me.Txt_NamaBarang)
+        Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Chk_PotongStock)
         Me.Controls.Add(Me.Cmbsatuan)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Lbl_IdJenisBP)
-        Me.Controls.Add(Me.Panel4)
-        Me.Controls.Add(Me.Panel7)
-        Me.Controls.Add(Me.Btn_Refresh)
-        Me.Controls.Add(Me.Btn_Hapus)
-        Me.Controls.Add(Me.Btn_Simpan)
-        Me.Controls.Add(Me.Panel6)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.Txt_KdBudget)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.Txt_KdBiaya)
+        Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Txt_KdBarang)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Txt_Keterangan)
@@ -486,4 +617,14 @@ Partial Class Master_Jenis_Biaya_Produksi
     Friend WithEvents Lv_BarangPotStock As ListView
     Friend WithEvents Txt_NamaBarang As TextBox
     Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Txt_KdBiaya As TextBox
+    Friend WithEvents Txt_KetBiaya As TextBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Txt_KdBudget As TextBox
+    Friend WithEvents Txt_KetBudget As TextBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Txt_TarifPerSatuan As TextBox
+    Friend WithEvents Lv_AkunBiaya As ListView
+    Friend WithEvents Lv_AkunBudget As ListView
 End Class

@@ -1,7 +1,10 @@
 ﻿Public Class Master_Jenis_Biaya_Produksi
+    Dim JudulForm As String = "Master Jenis Biaya Produksi"
 
     Dim arrCari, arrKd_biaya, arrKeterangan As New ArrayList
     Dim Jenis = "Master_Jenis_Biaya_Produksi"
+
+    Dim asalLv As String = ""
 
     Dim LvID, LvKd, LvKeterangan, LvSatuan As String
     Dim LvKdBrg_KodeBarang, LvKdBrg_NamaBarang, LvKdBrg_Satuan As String
@@ -46,6 +49,7 @@
             Btn_Hapus.Enabled = False
 
             Lbl_Kolom.Text = Base_Language.Lang_Global_Kolom
+            Txt_TarifPerSatuan.Text = ""
 
             Lv_Jenis_BP.Columns.Clear()
             Lv_Jenis_BP.Columns.Add("ID", 0, HorizontalAlignment.Left)
@@ -61,6 +65,23 @@
             Lv_BarangPotStock.Columns.Add("Nama Barang", 300, HorizontalAlignment.Left)
             Lv_BarangPotStock.Columns.Add("Satuan", 150, HorizontalAlignment.Left)
             Lv_BarangPotStock.View = View.Details
+
+            'Lv_KodeAkunBiaya
+            Lv_AkunBiaya.Columns.Clear()
+            Lv_AkunBiaya.Columns.Add("Kode Akun", 150, HorizontalAlignment.Left)
+            Lv_AkunBiaya.Columns.Add("Keterangan", 250, HorizontalAlignment.Left)
+            Lv_AkunBiaya.View = View.Details
+            Lv_AkunBiaya.Location = New Point(700, 246)
+            Lv_AkunBiaya.Visible = False
+
+            'Lv_KodeAkunBiaya
+            Lv_AkunBudget.Columns.Clear()
+            Lv_AkunBudget.Columns.Add("Kode Akun", 150, HorizontalAlignment.Left)
+            Lv_AkunBudget.Columns.Add("Keterangan", 250, HorizontalAlignment.Left)
+            Lv_AkunBudget.View = View.Details
+            Lv_AkunBudget.Location = New Point(700, 286)
+            Lv_AkunBudget.Visible = False
+
 
 
             Txt_KdBarang.Enabled = False
@@ -81,6 +102,16 @@
         Txt_Keterangan.Text = ""
         Cmb_Kolom.SelectedIndex = -1
         Txt_Value.Text = ""
+        Txt_KdBarang.Text = ""
+        Txt_NamaBarang.Text = ""
+
+        Txt_KdBiaya.Text = ""
+        Txt_KetBiaya.Text = ""
+        Txt_KdBudget.Text = ""
+        Txt_KetBudget.Text = ""
+        Txt_TarifPerSatuan.Text = ""
+
+        Lv_AkunBiaya.Items.Clear() : Lv_AkunBudget.Items.Clear()
 
         Cmb_Kolom.Items.Clear() : arrCari.Clear() : Cmb_Kolom.SelectedIndex = -1
         Cmb_Kolom.Items.Add(Base_Language.Lang_Global_Kode) : arrCari.Add("kode_jenis_biaya_produksi")
@@ -151,31 +182,45 @@
         ElseIf Cmbsatuan.SelectedIndex = -1 Then
             MessageBox.Show(Base_Language.Lang_Global_Satuan & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Cmbsatuan.Focus() : Exit Sub
+        ElseIf Txt_KetBiaya.Text.Trim.Length = 0 Then
+            MessageBox.Show("Akun Biaya Harus Di Isi . . ! !", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Txt_KdBiaya.Focus() : Exit Sub
+        ElseIf Txt_KetBudget.Text.Trim.Length = 0 Then
+            MessageBox.Show("Akun Budget Harus Di Isi . . ! !", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Txt_KdBudget.Focus() : Exit Sub
         End If
 
+        If Chk_PotongStock.Checked = True Then
+            If Txt_KdBarang.Text.Trim.Length = 0 Then
+                MessageBox.Show(Base_Language.Lang_Global_Barang & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Txt_KdBarang.Focus() : Exit Sub
+            End If
+        End If
         Try
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
 
             If Btn_Simpan.Tag = "&Simpan" Then
 
-                SQL = "Insert Into Emi_Jenis_Biaya_Produksi(Kode_Perusahaan, Kode_Jenis_Biaya_Produksi, Keterangan,satuan, Flag_Potong_Stock, Kode_Barang, Nama_Barang) "
+                SQL = "Insert Into Emi_Jenis_Biaya_Produksi(Kode_Perusahaan, Kode_Jenis_Biaya_Produksi, Keterangan,satuan, Flag_Potong_Stock, Kode_Barang, Nama_Barang, Kode_Akun_Biaya, Kode_Akun_Budget, Tarif_Per_Satuan) "
                 SQL = SQL & "Values('" & KodePerusahaan & "', '" & Txt_Kd.Text.Trim & "',"
                 SQL = SQL & " '" & Txt_Keterangan.Text.Trim & "', '" & Cmbsatuan.Text & "', "
 
                 If Chk_PotongStock.Checked Then
-                    SQL = SQL & "'Y', '" & Txt_KdBarang.Text & "', '" & Txt_NamaBarang.Text & "')"
+                    SQL = SQL & "'Y', '" & Txt_KdBarang.Text & "', '" & Txt_NamaBarang.Text & "', '" & Txt_KdBiaya.Text & "', '" & Txt_KdBudget.Text & "', NULL)"
                 Else
-                    SQL = SQL & "NULL, NULL, NULL)"
+                    SQL = SQL & "NULL, NULL, NULL, '" & Txt_KdBiaya.Text & "', '" & Txt_KdBudget.Text & "', '" & HilangkanTanda(Txt_TarifPerSatuan.Text) & "')"
                 End If
                 ExecuteTrans(SQL)
             Else
                 SQL = "Update Emi_Jenis_Biaya_Produksi Set Keterangan =  '" & Txt_Keterangan.Text.Trim & "', "
                 SQL = SQL & "satuan = '" & Cmbsatuan.Text & "' "
                 If Chk_PotongStock.Checked Then
-                    SQL = SQL & ",Flag_Potong_Stock = 'Y', Kode_Barang = '" & Txt_KdBarang.Text & "', Nama_Barang = '" & Txt_NamaBarang.Text & "' "
+                    SQL = SQL & ",Flag_Potong_Stock = 'Y', Kode_Barang = '" & Txt_KdBarang.Text & "', Nama_Barang = '" & Txt_NamaBarang.Text & "', "
+                    SQL = SQL & "Kode_Akun_Biaya = '" & Txt_KdBiaya.Text & "', Kode_Akun_Budget = '" & Txt_KdBudget.Text & "', Tarif_Per_Satuan = NULL "
                 Else
-                    SQL = SQL & ",Flag_Potong_Stock = NULL, Kode_Barang = NULL, Nama_Barang = NULL "
+                    SQL = SQL & ",Flag_Potong_Stock = NULL, Kode_Barang = NULL, Nama_Barang = NULL, "
+                    SQL = SQL & "Kode_Akun_Biaya = '" & Txt_KdBiaya.Text & "', Kode_Akun_Budget = '" & Txt_KdBudget.Text & "', Tarif_Per_Satuan = '" & HilangkanTanda(Txt_TarifPerSatuan.Text) & "' "
                 End If
                 SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and id_jenis_biaya_produksi = '" & Lbl_IdJenisBP.Text & "' "
                 ExecuteTrans(SQL)
@@ -218,6 +263,7 @@
     End Sub
 
     Private Sub Cari(ByVal semua As String)
+
         Try
 
             OpenConn()
@@ -255,8 +301,12 @@
 
         If Chk_PotongStock.Checked Then
             Txt_KdBarang.Enabled = True
+            Txt_TarifPerSatuan.Enabled = False
+            Txt_TarifPerSatuan.Text = ""
         Else
             Txt_KdBarang.Enabled = False
+            Txt_TarifPerSatuan.Enabled = True
+            Txt_TarifPerSatuan.Text = ""
         End If
 
         Txt_KdBarang.Text = ""
@@ -269,7 +319,7 @@
         If Txt_KdBarang.Text.Trim.Length = 0 Then
             Lv_BarangPotStock.Items.Clear()
             Lv_BarangPotStock.Visible = False
-            Lv_BarangPotStock.Location = New Point(695, 226)
+            Lv_BarangPotStock.Location = New Point(695, 220)
 
             Txt_NamaBarang.Text = ""
             Exit Sub
@@ -292,7 +342,7 @@
             End Using
 
             Lv_BarangPotStock.Visible = True
-            Lv_BarangPotStock.Location = New Point(141, 226)
+            Lv_BarangPotStock.Location = New Point(141, 217)
 
             CloseConn()
         Catch ex As Exception
@@ -302,6 +352,8 @@
         End Try
 
     End Sub
+
+
 
     Private Sub Lv_BarangPotStock_DoubleClick(sender As Object, e As EventArgs) Handles Lv_BarangPotStock.DoubleClick
         If Lv_BarangPotStock.Items.Count = 0 Then Exit Sub
@@ -319,7 +371,6 @@
 
 
 
-
     Private Sub Txt_Kd_Leave(sender As Object, e As EventArgs) Handles Txt_Kd.Leave
         If Txt_Kd.Text.Trim.Length = 0 Then Exit Sub
         Lbl_IdJenisBP.Enabled = False
@@ -328,7 +379,7 @@
         Try
             OpenConn()
 
-            SQL = "select  Kode_Jenis_Biaya_Produksi,keterangan,satuan,id_jenis_biaya_produksi, Flag_Potong_Stock, Kode_Barang, Nama_Barang "
+            SQL = "select  Kode_Jenis_Biaya_Produksi,keterangan,satuan,id_jenis_biaya_produksi, Flag_Potong_Stock, Kode_Barang, Nama_Barang, Kode_Akun_Biaya, Kode_Akun_Budget, Tarif_Per_Satuan "
             SQL = SQL & "from  Emi_Jenis_Biaya_Produksi where kode_perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and Kode_Jenis_Biaya_Produksi = '" & Txt_Kd.Text.Trim & "' "
             Using Dr = OpenTrans(SQL)
@@ -340,10 +391,19 @@
                     Btn_Simpan.Text = Base_Language.Lang_Global_Update : Btn_Hapus.Enabled = True
                     Btn_Simpan.Tag = "&Update"
 
+                    Txt_KdBiaya.Text = If(General_Class.CekNULL(Dr("Kode_Akun_Biaya")) = "", "", Dr("Kode_Akun_Biaya"))
+                    Txt_KdBiaya_Leave(Txt_KdBiaya, e)
+
+                    Txt_KdBudget.Text = If(General_Class.CekNULL(Dr("Kode_Akun_Budget")) = "", "", Dr("Kode_Akun_Budget"))
+                    Txt_KdBudget_Leave(Txt_KdBudget, e)
+
+                    Txt_TarifPerSatuan.Text = Format((If(General_Class.CekNULL(Dr("Tarif_Per_Satuan")) = "", 0, Dr("Tarif_Per_Satuan"))), "N2")
+
                     If General_Class.CekNULL(Dr("Flag_Potong_Stock")) = "Y" Then
                         Chk_PotongStock.Checked = True
                         Txt_KdBarang.Text = Dr("Kode_Barang")
                         Txt_NamaBarang.Text = Dr("Nama_Barang")
+                        Lv_BarangPotStock.Visible = False
                     Else
                         Chk_PotongStock.Checked = False
                         Txt_KdBarang.Text = ""
@@ -405,6 +465,224 @@
         kosong()
         Txt_Kd.Focus()
     End Sub
+
+
+
+    Private Sub Txt_KdBiaya_TextChanged(sender As Object, e As EventArgs) Handles Txt_KdBiaya.TextChanged
+        If Txt_KdBiaya.Text.Trim.Length = 0 Then
+            Lv_AkunBiaya.Visible = False
+            Lv_AkunBiaya.Location = New Point(700, 246)
+            Txt_KetBiaya.Text = ""
+        Else
+            Lv_AkunBiaya.Visible = True
+            Lv_AkunBiaya.Location = New Point(141, 246)
+        End If
+
+        Try
+            OpenConn()
+
+            Lv_AkunBiaya.Items.Clear()
+            SQL = "select top(75) Kode_Account as Kode_Account, Keterangan, Posisi from "
+            SQL = SQL & "detail_account where kode_perusahaan = '" & KodePerusahaan & "' and right(kode_detail_acc,3) <> '000' and "
+            SQL = SQL & "keterangan like '%" & Txt_KdBiaya.Text & "%' "
+            SQL = SQL & "order by keterangan"
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Dim Lvw As ListViewItem
+                    Lvw = Lv_AkunBiaya.Items.Add(Dr("Kode_Account"))
+                    Lvw.SubItems.Add(Dr("Keterangan"))
+                Loop
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
+    End Sub
+
+
+
+    Private Sub Txt_KdBiaya_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_KdBiaya.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If Txt_KdBiaya.Text.Trim.Length = 0 Then
+                Lv_AkunBiaya.Visible = False : Txt_KetBiaya.Focus() : Exit Sub
+            End If
+            Txt_KdBiaya_Leave(Txt_KetBiaya, e)
+        End If
+    End Sub
+
+
+
+    Private Sub Txt_KdBiaya_Leave(sender As Object, e As EventArgs) Handles Txt_KdBiaya.Leave
+        If Txt_KdBiaya.Text.Trim.Length = 0 Then
+            Lv_AkunBiaya.Visible = False : Exit Sub
+        Else
+            'Lv_AkunBiaya.Visible = True
+        End If
+        If Lv_AkunBiaya.Focused = True Then Exit Sub
+
+        Try
+            OpenConn()
+
+            SQL = "select Kode_Account as Kode_Account, Keterangan, Posisi from "
+            SQL = SQL & "detail_account where kode_perusahaan = '" & KodePerusahaan & "' and right(kode_detail_acc,3) <> '000' and "
+            SQL = SQL & "Kode_Account = '" & Txt_KdBiaya.Text.Trim & "' "
+            SQL = SQL & "order by keterangan"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Txt_KdBiaya.Text = Dr("Kode_Account")
+                    Txt_KetBiaya.Text = Dr("Keterangan")
+                Else
+                    Txt_KdBiaya.Text = ""
+                    Txt_KetBiaya.Text = ""
+                End If
+
+                Lv_AkunBiaya.Visible = False
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+
+
+    Private Sub Lv_AkunBiaya_DoubleClick(sender As Object, e As EventArgs) Handles Lv_AkunBiaya.DoubleClick
+        If Lv_AkunBiaya.Items.Count = 0 Then Exit Sub
+        Dim kode As String = Lv_AkunBiaya.FocusedItem.Text
+        Dim nama As String = Lv_AkunBiaya.FocusedItem.SubItems(1).Text
+
+        Txt_KdBiaya.Text = kode
+        Txt_KetBiaya.Text = nama
+
+        Lv_AkunBiaya.Location = New Point(700, 246)
+        Txt_KdBudget.Focus()
+
+    End Sub
+
+
+
+    Private Sub Txt_KdBudget_TextChanged(sender As Object, e As EventArgs) Handles Txt_KdBudget.TextChanged
+        If Txt_KdBudget.Text.Trim.Length = 0 Then
+            Lv_AkunBudget.Visible = False
+            Lv_AkunBudget.Location = New Point(700, 246)
+            Txt_KetBudget.Text = ""
+        Else
+            Lv_AkunBudget.Visible = True
+            Lv_AkunBudget.Location = New Point(140, 275)
+        End If
+
+        Try
+            OpenConn()
+
+            Lv_AkunBudget.Items.Clear()
+            SQL = "select top(75) Kode_Account as Kode_Account, Keterangan, Posisi from "
+            SQL = SQL & "detail_account where kode_perusahaan = '" & KodePerusahaan & "' and right(kode_detail_acc,3) <> '000' and "
+            SQL = SQL & "keterangan like '%" & Txt_KdBudget.Text & "%' "
+            SQL = SQL & "order by keterangan"
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Dim Lvw As ListViewItem
+                    Lvw = Lv_AkunBudget.Items.Add(Dr("Kode_Account"))
+                    Lvw.SubItems.Add(Dr("Keterangan"))
+                Loop
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+
+
+    Private Sub Lv_AkunBudget_DoubleClick(sender As Object, e As EventArgs) Handles Lv_AkunBudget.DoubleClick
+        If Lv_AkunBudget.Items.Count = 0 Then Exit Sub
+        Dim kode As String = Lv_AkunBudget.FocusedItem.Text
+        Dim nama As String = Lv_AkunBudget.FocusedItem.SubItems(1).Text
+
+        Txt_KdBudget.Text = kode
+        Txt_KetBudget.Text = nama
+
+        Lv_AkunBudget.Location = New Point(700, 286)
+        Txt_TarifPerSatuan.Focus()
+    End Sub
+
+    Private Sub Txt_KdBiaya_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_KdBiaya.KeyDown
+        If e.KeyCode = Keys.Down Then
+            Lv_AkunBiaya.Focus()
+        End If
+    End Sub
+
+    Private Sub Txt_KdBudget_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_KdBudget.KeyDown
+        If e.KeyCode = Keys.Down Then
+            Lv_AkunBudget.Focus()
+        End If
+    End Sub
+
+
+    Private Sub Txt_KdBudget_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_KdBudget.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If Txt_KdBudget.Text.Trim.Length = 0 Then
+                Lv_AkunBudget.Visible = False : Txt_KetBudget.Focus() : Exit Sub
+            End If
+            Txt_KdBudget_Leave(Txt_KetBudget, e)
+        End If
+    End Sub
+
+    Private Sub Txt_KdBudget_Leave(sender As Object, e As EventArgs) Handles Txt_KdBudget.Leave
+        If Txt_KdBudget.Text.Trim.Length = 0 Then
+            Lv_AkunBudget.Visible = False : Exit Sub
+        Else
+            Lv_AkunBudget.Visible = True
+        End If
+        If Lv_AkunBudget.Focused = True Then Exit Sub
+
+        Try
+            OpenConn()
+
+            SQL = "select Kode_Account as Kode_Account, Keterangan, Posisi from "
+            SQL = SQL & "detail_account where kode_perusahaan = '" & KodePerusahaan & "' and right(kode_detail_acc,3) <> '000' and "
+            SQL = SQL & "Kode_Account = '" & Txt_KdBudget.Text.Trim & "' "
+            SQL = SQL & "order by keterangan"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Txt_KdBudget.Text = Dr("Kode_Account")
+                    Txt_KetBudget.Text = Dr("Keterangan")
+                Else
+                    Txt_KdBudget.Text = ""
+                    Txt_KetBudget.Text = ""
+                End If
+
+                Lv_AkunBudget.Visible = False
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Txt_TarifPerSatuan_Leave(sender As Object, e As EventArgs) Handles Txt_TarifPerSatuan.Leave
+        If Not IsNumeric(Txt_TarifPerSatuan.Text) Then
+            Txt_TarifPerSatuan.Text = "" : Exit Sub
+        End If
+
+        Txt_TarifPerSatuan.Text = Format(Val(Txt_TarifPerSatuan.Text), "N2")
+    End Sub
+
+
 
 
 

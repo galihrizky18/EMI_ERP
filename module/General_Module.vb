@@ -50,6 +50,14 @@ Module General_Module
     Public FRencanaProduksiBarang As String = "FRP"
     Public fBudgetingCostCenter As String = "BCC"
 
+    Public FilterPengeluaranCostCenter As String = " gj.Flag_Packaging = 'T' and gj.Flag_Raw_Material = 'T' and gj.Flag_Finished_Good = 'T' and gj.Flag_Sample = 'T' and gj.Flag_Semi_FG = 'T' and gj.Flag_Scrap = 'T' and gj.Flag_Bahan_Bakar = 'T' and gj.Flag_Peralatan = 'T' "
+
+    Public FilterPengeluaranCostCenterCR As String = " {emi_group_jenis.Flag_Packaging} = 'T' and {emi_group_jenis.Flag_Raw_Material} = 'T' and {emi_group_jenis.Flag_Finished_Good} = 'T' and {emi_group_jenis.Flag_Sample} = 'T' and {emi_group_jenis.Flag_Semi_FG} = 'T' and {emi_group_jenis.Flag_Scrap} = 'T' and {emi_group_jenis.Flag_Bahan_Bakar} = 'T' and {emi_group_jenis.Flag_Peralatan} = 'T' "
+
+    Public fATK As String = ""
+    Public fAsset As String = ""
+    Public fSparepart As String = ""
+
 
     '=====================
     '=    PRINTER NAME   =
@@ -1899,5 +1907,82 @@ Module General_Module
 
 
 
+    Public Sub Cek_Flagging()
+        OpenConn()
+
+        fATK = "T" : fAsset = "T" : fSparepart = "T"
+
+        SQL = "select nama_role from emi_pengeluaran_barang_roles "
+        SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and userid = '" & UserID & "'"
+        Using dr = OpenTrans(SQL)
+            Do While dr.Read
+                If dr("nama_role") = "ATK" Then fATK = "Y"
+                If dr("nama_role") = "Asset" Then fAsset = "Y"
+                If dr("nama_role") = "Sparepart" Then fSparepart = "Y"
+            Loop
+        End Using
+
+        CloseConn()
+    End Sub
+
+    Public Function Jurnal_Pengeluaran_Barang(ByVal xNo_fak As String, ByVal xAkun_Debit As String, ByVal xAkun_Kredit As String, ByVal xnilai As String, ByVal xSog As String, ByVal xid_cost As String, ByVal xinisial_faktur_dari As String) As String
+        Dim Kode_voucher As String = ""
+        Kode_voucher = GetLastNumberJurnal(Format(tgl_skg, "yyyyMM"), "JS" & xinisial_faktur_dari, KodePerusahaan)
+
+        SQL = "Insert Into Jurnal(Kode_Voucher, Tanggal, Jam, Kode_Perusahaan, Kode_Proyek, "
+        SQL = SQL & "Keterangan, JudulBank, KetDK, userid) values("
+        SQL = SQL & "'" & Kode_voucher & "', "
+        SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', "
+        SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
+        SQL = SQL & "'" & KodeProyek & "', 'Pengeluaran barang " & xNo_fak & "', '', "
+        SQL = SQL & "'-', '" & UserID & "')"
+        ExecuteTrans(SQL)
+
+        Dim pagenumber As Integer = 1
+        SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(xAkun_Debit, 1),
+                         Strings.Mid(xAkun_Debit, 2, 1),
+                         Strings.Mid(Ganti(xAkun_Debit), 3),
+                         KodePerusahaan, KodeProyek, "Biaya " & xNo_fak, xnilai, "0", pagenumber, xSog, "us", xid_cost)
+        ExecuteTrans(SQL)
+        pagenumber = pagenumber + 1
+
+        SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(xAkun_Kredit, 1),
+                          Strings.Mid(xAkun_Kredit, 2, 1),
+                          Strings.Mid(Ganti(xAkun_Kredit), 3),
+                          KodePerusahaan, KodeProyek, "Persediaan " & xNo_fak, "0", xnilai, pagenumber, xSog, "us", xid_cost)
+        ExecuteTrans(SQL)
+        pagenumber = pagenumber + 1
+
+        SQL = "select sum(debit) as debit, sum(kredit) as kredit from detail_jurnal where "
+        SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
+        SQL = SQL & "kode_voucher = '" & Kode_voucher & "'"
+        Using Dr = OpenTrans(SQL)
+            If Dr.Read Then
+                If Dr("debit") <> Dr("kredit") Then
+                    Dr.Close()
+                    'CloseTrans()
+                    'CloseConn()
+                    MessageBox.Show("Jurnal salah!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Pengeluaran_Barang.isError = False
+                    Exit Function
+                End If
+
+            Else
+                Dr.Close()
+                'CloseTrans()
+                'CloseConn()
+                MessageBox.Show("Data jurnal tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Pengeluaran_Barang.isError = False
+                Exit Function
+            End If
+        End Using
+
+        SQL = "update EMI_Pengeluaran_Barang set Kode_Voucher = '" & Kode_voucher & "' where Kode_Perusahaan = '" & KodePerusahaan & "' and "
+        SQL = SQL & "No_Faktur = '" & xNo_fak & "'"
+        ExecuteTrans(SQL)
+
+        Pengeluaran_Barang.isError = True
+
+    End Function
 
 End Module

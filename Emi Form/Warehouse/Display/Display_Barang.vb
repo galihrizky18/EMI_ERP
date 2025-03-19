@@ -1,7 +1,5 @@
-﻿Imports System.Text.RegularExpressions
-
-Public Class Display_Barang
-    Dim arrcarib, arrcari2b, arrkatb, arrtanggalb, arrpilihblnb, arrbln1b, arrbln2b, arrdb As New ArrayList
+﻿Public Class Display_Barang
+    Dim arrcarib, arrcari2b, arrkatb, arrtanggalb, arrpilihblnb, arrbln1b, arrbln2b, arrdb, arrStatus As New ArrayList
     Dim arrcaribsf, arrcari2bsf, arrP1, arrP2, arrP3, arrP4 As New ArrayList
     Dim arrSO, arrGroup_Jenis, arrArea, arrRow, arrLevel, arrPosition, arrBay As New ArrayList
     Dim arrBL As New ArrayList
@@ -19,7 +17,6 @@ Public Class Display_Barang
     Dim CellNama As Integer = 3
     Dim CellStokTersedia As Integer = 4
     Dim CellSatuan As Integer = 5
-
 
     Public Sub Get_Isi_Listview(ByVal No_Index As Integer)
         LvGudang = Dgv_BarangPerlokasi.Rows(No_Index).Cells(CellGudang).Value
@@ -134,8 +131,8 @@ Public Class Display_Barang
         ComboBox10b.Items.Add("--Semua--") : ComboBox10b.Items.Add("Y") : ComboBox10b.Items.Add("T")
         ComboBox10b.SelectedIndex = 1
 
-        ComboBox1b.Enabled = True : ComboBox7b.Enabled = False
-        TextBox7b.Enabled = True : TextBox6b.Enabled = False
+        ComboBox1b.Enabled = False : ComboBox7b.Enabled = False
+        TextBox7b.Enabled = False : TextBox6b.Enabled = False
 
         ComboBox1b.SelectedIndex = -1 : ComboBox7b.SelectedIndex = -1
         TextBox7b.Text = "" : TextBox6b.Text = ""
@@ -175,7 +172,7 @@ Public Class Display_Barang
         'ComboBox1b.Items.Add("Stock Minimum") : arrcarib.Add("x.Stock_Minimum") : arrcaribsf.Add("{barang.Stock_Minimum}")
         'ComboBox1b.Items.Add("Lemari") : arrcarib.Add("Lemari") 
         'ComboBox1b.Items.Add("Kategori") : arrcarib.Add("x.kode_kategori") : arrcaribsf.Add("{barang.kode_kategori}")
-        ComboBox1b.SelectedIndex = 0
+        ComboBox1b.SelectedIndex = -1
 
         ComboBox7b.Items.Clear() : arrcari2b.Clear() : arrcari2bsf.Clear()
         'ComboBox7b.Items.Add("Lokasi") : arrcari2b.Add("x.kode_stock_owner") : arrcari2bsf.Add("{barang.kode_stock_owner}")
@@ -306,6 +303,21 @@ Public Class Display_Barang
             End Using
             ComboBox12.SelectedIndex = 0
 
+
+            cmbStatus.Items.Clear() : arrStatus.Clear()
+            cmbStatus.Items.Add("---SELURUH---") : arrStatus.Add("")
+            SQL = "select id,kode_warna,Keterangan From EMI_Master_Warna  "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "order by keterangan "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    cmbStatus.Items.Add(Dr("keterangan")) : arrStatus.Add(Dr("kode_warna"))
+                Loop
+            End Using
+            cmbStatus.SelectedIndex = 0
+
+
+
             If CekButtonRole("Ganti_Lokasi_Display_Barang") = "T" Then
                 ComboKota.Enabled = False
             Else
@@ -373,61 +385,80 @@ Public Class Display_Barang
         DataGridView1.Columns(9).Visible = False
 
         Try
+            Cek_Flagging()
+
             OpenConn()
 
             DataGridView1.Rows.Clear()
-            SQL = "select *, dbo.get_hpp(serial_number) as HPP from Stock_Barang_SN_Per_Rak where kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = "select a.*, dbo.get_hpp(a.serial_number) as HPP "
+            SQL = SQL & "from Stock_Barang_SN_Per_Rak as a inner join emi_group_jenis as gj on a.id_group_jenis = gj.id_group_jenis "
+            SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' and "
+
+            'SQL = SQL & "gj.Flag_Packaging = '" & Flag_Packaging & "' and gj.Flag_Raw_Material = '" & Flag_Raw_Material & "' and "
+            'SQL = SQL & "gj.Flag_Finished_Good = '" & Flag_Finished_Good & "' and gj.Flag_Sample = '" & Flag_Sample & "' and "
+            'SQL = SQL & "gj.Flag_Semi_FG = '" & Flag_Semi_FG & "' and gj.Flag_Scrap = '" & Flag_Scrap & "' and "
+            'SQL = SQL & "gj.Flag_Bahan_Bakar = '" & Flag_Bahan_Bakar & "' and gj.Flag_Peralatan = '" & Flag_Peralatan & "' "
+
+            SQL = SQL & FilterPengeluaranCostCenter
+            SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
+
             If CheckBox1.Checked = True Then
-                SQL = SQL & " and " & arrcarib.Item(ComboBox1b.SelectedIndex) & " " & ComboBox1.Text & " '" & ComboBox3.Text & TextBox7b.Text & ComboBox4.Text & "' "
+                SQL = SQL & " and a." & arrcarib.Item(ComboBox1b.SelectedIndex) & " " & ComboBox1.Text & " '" & ComboBox3.Text & TextBox7b.Text & ComboBox4.Text & "' "
             End If
 
             If CheckBox2.Checked = True Then
-                SQL = SQL & " and " & arrcari2b.Item(ComboBox7b.SelectedIndex) & " " & ComboBox2.Text & " '" & ComboBox5.Text & TextBox6b.Text & ComboBox6.Text & "' "
+                SQL = SQL & " and a." & arrcari2b.Item(ComboBox7b.SelectedIndex) & " " & ComboBox2.Text & " '" & ComboBox5.Text & TextBox6b.Text & ComboBox6.Text & "' "
             End If
 
             If ComboBox7.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_Stock_Owner = '" & ComboBox7.Text & "' "
+                SQL = SQL & " and a.Kode_Stock_Owner = '" & ComboBox7.Text & "' "
             End If
 
             If ComboBox8.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_Group_Jenis = '" & ComboBox8.Text & "' "
+                SQL = SQL & " and a.Kode_Group_Jenis = '" & ComboBox8.Text & "' "
             End If
 
             If ComboBox9.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_WMS_Area = '" & ComboBox9.Text & "' "
+                SQL = SQL & " and a.Kode_WMS_Area = '" & ComboBox9.Text & "' "
             End If
 
             If ComboBox10.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_WMS_Row = '" & ComboBox10.Text & "' "
+                SQL = SQL & " and a.Kode_WMS_Row = '" & ComboBox10.Text & "' "
             End If
 
             If ComboBox13.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_WMS_Bay = '" & ComboBox13.Text & "' "
+                SQL = SQL & " and a.Kode_WMS_Bay = '" & ComboBox13.Text & "' "
             End If
 
             If ComboBox11.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_WMS_Level = '" & ComboBox11.Text & "' "
+                SQL = SQL & " and a.Kode_WMS_Level = '" & ComboBox11.Text & "' "
             End If
 
             If ComboBox12.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_WMS_Position = '" & ComboBox12.Text & "' "
+                SQL = SQL & " and a.Kode_WMS_Position = '" & ComboBox12.Text & "' "
             End If
 
-            SQL = SQL & "order by kode_stock_owner, nama, Labeling_WMS_Position"
+            If cmbStatus.SelectedIndex = 0 Then
+                SQL = SQL & ""
+            Else
+                SQL = SQL & " and a.warna = '" & cmbStatus.Text & "' "
+            End If
+
+            SQL = SQL & "order by a.kode_stock_owner, a.nama, a.Labeling_WMS_Position"
             Using ds = BindingTrans(SQL)
                 With ds.Tables("MyTable")
                     For i As Integer = 0 To .Rows.Count - 1
@@ -466,35 +497,58 @@ Public Class Display_Barang
                         Else
                             DataGridView1.Rows.Item(i).Cells(11).Value = .Rows(i).Item("umur") & " hari"
                         End If
+
+                        If IsDBNull(.Rows(i).Item("warna")) Then
+                            DataGridView1.Rows.Item(i).Cells(12).Value = ""
+                        Else
+                            DataGridView1.Rows.Item(i).Cells(12).Value = .Rows(i).Item("warna") & ""
+                        End If
                     Next
                 End With
             End Using
 
             Dgv_BarangPerlokasi.Rows.Clear()
-            SQL = "select * from Stock_Barang_SN_Per_lokasi where kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = "select a.* "
+            SQL = SQL & "from Stock_Barang_SN_Per_lokasi as a inner join emi_group_jenis as gj on a.kode_group_jenis = gj.kode_group_jenis "
+            SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' and "
+
+            'SQL = SQL & "gj.Flag_Packaging = '" & Flag_Packaging & "' and gj.Flag_Raw_Material = '" & Flag_Raw_Material & "' and "
+            'SQL = SQL & "gj.Flag_Finished_Good = '" & Flag_Finished_Good & "' and gj.Flag_Sample = '" & Flag_Sample & "' and "
+            'SQL = SQL & "gj.Flag_Semi_FG = '" & Flag_Semi_FG & "' and gj.Flag_Scrap = '" & Flag_Scrap & "' and "
+            'SQL = SQL & "gj.Flag_Bahan_Bakar = '" & Flag_Bahan_Bakar & "' and gj.Flag_Peralatan = '" & Flag_Peralatan & "' "
+
+            SQL = SQL & FilterPengeluaranCostCenter
+            SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
+
             If CheckBox1.Checked = True Then
-                SQL = SQL & " and " & arrcarib.Item(ComboBox1b.SelectedIndex) & " " & ComboBox1.Text & " '" & ComboBox3.Text & TextBox7b.Text & ComboBox4.Text & "' "
+                SQL = SQL & " and a." & arrcarib.Item(ComboBox1b.SelectedIndex) & " " & ComboBox1.Text & " '" & ComboBox3.Text & TextBox7b.Text & ComboBox4.Text & "' "
             End If
 
             If CheckBox2.Checked = True Then
-                SQL = SQL & " and " & arrcari2b.Item(ComboBox7b.SelectedIndex) & " " & ComboBox2.Text & " '" & ComboBox5.Text & TextBox6b.Text & ComboBox6.Text & "' "
+                SQL = SQL & " and a." & arrcari2b.Item(ComboBox7b.SelectedIndex) & " " & ComboBox2.Text & " '" & ComboBox5.Text & TextBox6b.Text & ComboBox6.Text & "' "
             End If
 
             If ComboBox7.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_Stock_Owner = '" & ComboBox7.Text & "' "
+                SQL = SQL & " and a.Kode_Stock_Owner = '" & ComboBox7.Text & "' "
             End If
 
             If ComboBox8.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_Group_Jenis = '" & ComboBox8.Text & "' "
+                SQL = SQL & " and a.Kode_Group_Jenis = '" & ComboBox8.Text & "' "
+            End If
+
+            If cmbStatus.SelectedIndex = 0 Then
+                SQL = SQL & ""
+            Else
+                SQL = SQL & " and a.warna = '" & cmbStatus.Text & "' "
             End If
 
 
 
-            SQL = SQL & "order by kode_stock_owner, nama"
+            SQL = SQL & "order by a.kode_stock_owner, a.nama"
             Using ds = BindingTrans(SQL)
                 With ds.Tables("MyTable")
                     For i As Integer = 0 To .Rows.Count - 1
@@ -509,7 +563,7 @@ Public Class Display_Barang
                         Dgv_BarangPerlokasi.Rows.Item(i).Cells(3).Value = .Rows(i).Item("nama")
                         Dgv_BarangPerlokasi.Rows.Item(i).Cells(4).Value = .Rows(i).Item("Total_Stock_Tersedia_Satuan_Besar") & " " & .Rows(i).Item("Satuan_Besar")
                         Dgv_BarangPerlokasi.Rows.Item(i).Cells(5).Value = .Rows(i).Item("satuan_besar")
-
+                        Dgv_BarangPerlokasi.Rows.Item(i).Cells(6).Value = .Rows(i).Item("warna")
                     Next
                 End With
             End Using
@@ -572,20 +626,41 @@ Public Class Display_Barang
         Dim SF As String = ""
 
         Try
+            Cek_Flagging()
+
             OpenConn()
 
-            SQL = "select top 1 *, dbo.get_hpp(serial_number) as HPP from Stock_Barang_SN_Per_Rak where kode_perusahaan = '" & KodePerusahaan & "' "
-            SF = "{Stock_Barang_SN_Per_Rak.Kode_Perusahaan} = '" & KodePerusahaan & "'"
+            SQL = "select top 1 a.*, dbo.get_hpp(a.serial_number) as HPP "
+            SQL = SQL & "from Stock_Barang_SN_Per_Rak as a inner join emi_group_jenis as gj on a.id_group_jenis = gj.id_group_jenis "
+            SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' and "
+
+            'SQL = SQL & "gj.Flag_Packaging = '" & Flag_Packaging & "' and gj.Flag_Raw_Material = '" & Flag_Raw_Material & "' and "
+            'SQL = SQL & "gj.Flag_Finished_Good = '" & Flag_Finished_Good & "' and gj.Flag_Sample = '" & Flag_Sample & "' and "
+            'SQL = SQL & "gj.Flag_Semi_FG = '" & Flag_Semi_FG & "' and gj.Flag_Scrap = '" & Flag_Scrap & "' and "
+            'SQL = SQL & "gj.Flag_Bahan_Bakar = '" & Flag_Bahan_Bakar & "' and gj.Flag_Peralatan = '" & Flag_Peralatan & "' "
+
+            SQL = SQL & FilterPengeluaranCostCenter
+            SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
+
+            SF = "{Stock_Barang_SN_Per_Rak.Kode_Perusahaan} = '" & KodePerusahaan & "' and "
+            'SF = SF & "{EMI_Group_Jenis.Flag_Packaging} = '" & Flag_Packaging & "' and "
+            'SF = SF & "{EMI_Group_Jenis.Flag_Raw_Material} = '" & Flag_Raw_Material & "' and {EMI_Group_Jenis.Flag_Finished_Good} = '" & Flag_Finished_Good & "' and "
+            'SF = SF & "{EMI_Group_Jenis.Flag_Sample} = '" & Flag_Sample & "' and {EMI_Group_Jenis.Flag_Semi_FG} = '" & Flag_Semi_FG & "' and "
+            'SF = SF & "{EMI_Group_Jenis.Flag_Scrap} = '" & Flag_Scrap & "' and {EMI_Group_Jenis.Flag_Bahan_Bakar} = '" & Flag_Bahan_Bakar & "' and "
+            'SF = SF & "{EMI_Group_Jenis.Flag_Peralatan} = '" & Flag_Peralatan & "' and "
+            SF = SF & FilterPengeluaranCostCenterCR
+            SF = SF & "AND ({EMI_Group_Jenis.Flag_ATK} = '" & fATK & "' or {EMI_Group_Jenis.Flag_Asset} = '" & fAsset & "' or {EMI_Group_Jenis.Flag_Sparepart} = '" & fSparepart & "')"
+
 
             If CheckBox1.Checked = True Then
-                SQL = SQL & " and " & arrcarib.Item(ComboBox1b.SelectedIndex) & " " & ComboBox1.Text & " '" & ComboBox3.Text & TextBox7b.Text & ComboBox4.Text & "' "
+                SQL = SQL & " and a." & arrcarib.Item(ComboBox1b.SelectedIndex) & " " & ComboBox1.Text & " '" & ComboBox3.Text & TextBox7b.Text & ComboBox4.Text & "' "
 
                 SF = SF & " and {Stock_Barang_SN_Per_Rak." & arrcarib.Item(ComboBox1b.SelectedIndex) & "} " & ComboBox1.Text & " '"
                 SF = SF & Strings.Replace(ComboBox3.Text, "%", "*") & TextBox7b.Text & Strings.Replace(ComboBox4.Text, "%", "*") & "' "
             End If
 
             If CheckBox2.Checked = True Then
-                SQL = SQL & " and " & arrcari2b.Item(ComboBox7b.SelectedIndex) & " " & ComboBox2.Text & " '" & ComboBox5.Text & TextBox6b.Text & ComboBox6.Text & "' "
+                SQL = SQL & " and a." & arrcari2b.Item(ComboBox7b.SelectedIndex) & " " & ComboBox2.Text & " '" & ComboBox5.Text & TextBox6b.Text & ComboBox6.Text & "' "
 
                 SF = SF & " and {Stock_Barang_SN_Per_Rak." & arrcari2b.Item(ComboBox7b.SelectedIndex) & "} " & ComboBox2.Text & " '"
                 SF = SF & Strings.Replace(ComboBox5.Text, "%", "*") & TextBox6b.Text & Strings.Replace(ComboBox6.Text, "%", "*") & "' "
@@ -594,7 +669,7 @@ Public Class Display_Barang
             If ComboBox7.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_Stock_Owner = '" & ComboBox7.Text & "' "
+                SQL = SQL & " and a.Kode_Stock_Owner = '" & ComboBox7.Text & "' "
 
                 SF = SF & " and {Stock_Barang_SN_Per_Rak.Kode_Stock_Owner} = '" & ComboBox7.Text & "' "
             End If
@@ -602,7 +677,7 @@ Public Class Display_Barang
             If ComboBox8.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_Group_Jenis = '" & ComboBox8.Text & "' "
+                SQL = SQL & " and a.Kode_Group_Jenis = '" & ComboBox8.Text & "' "
 
                 SF = SF & " and {Stock_Barang_SN_Per_Rak.Kode_Group_Jenis} = '" & ComboBox8.Text & "'"
             End If
@@ -610,7 +685,7 @@ Public Class Display_Barang
             If ComboBox9.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_WMS_Area = '" & ComboBox9.Text & "' "
+                SQL = SQL & " and a.Kode_WMS_Area = '" & ComboBox9.Text & "' "
 
                 SF = SF & " and {Stock_Barang_SN_Per_Rak.Kode_WMS_Area} = '" & ComboBox9.Text & "' "
             End If
@@ -618,7 +693,7 @@ Public Class Display_Barang
             If ComboBox10.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_WMS_Row = '" & ComboBox10.Text & "' "
+                SQL = SQL & " and a.Kode_WMS_Row = '" & ComboBox10.Text & "' "
 
                 SF = SF & " and {Stock_Barang_SN_Per_Rak.Kode_WMS_Row} = '" & ComboBox10.Text & "' "
             End If
@@ -626,7 +701,7 @@ Public Class Display_Barang
             If ComboBox13.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_WMS_Bay = '" & ComboBox13.Text & "' "
+                SQL = SQL & " and a.Kode_WMS_Bay = '" & ComboBox13.Text & "' "
 
                 SF = SF & " and {Stock_Barang_SN_Per_Rak.Kode_WMS_Bay} = '" & ComboBox13.Text & "' "
             End If
@@ -634,7 +709,7 @@ Public Class Display_Barang
             If ComboBox11.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_WMS_Level = '" & ComboBox11.Text & "' "
+                SQL = SQL & " and a.Kode_WMS_Level = '" & ComboBox11.Text & "' "
 
                 SF = SF & " and {Stock_Barang_SN_Per_Rak.Kode_WMS_Level} = '" & ComboBox11.Text & "' "
             End If
@@ -642,12 +717,12 @@ Public Class Display_Barang
             If ComboBox12.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_WMS_Position = '" & ComboBox12.Text & "' "
+                SQL = SQL & " and a.Kode_WMS_Position = '" & ComboBox12.Text & "' "
 
                 SF = SF & " and {Stock_Barang_SN_Per_Rak.Kode_WMS_Position} = '" & ComboBox12.Text & "' "
             End If
 
-            SQL = SQL & "order by kode_stock_owner, nama, Labeling_WMS_Position"
+            SQL = SQL & "order by a.kode_stock_owner, a.nama, a.Labeling_WMS_Position"
 
             Using MyDS As DataSet = Binding(SQL)
                 With MyDS.Tables(0)
@@ -732,20 +807,39 @@ Public Class Display_Barang
         Dim SF As String = ""
 
         Try
+            Cek_Flagging()
+
             OpenConn()
 
-            SQL = "select top 1 *from Stock_Barang_SN_Per_Lokasi where kode_perusahaan = '" & KodePerusahaan & "' "
-            SF = "{Stock_Barang_SN_Per_Lokasi.Kode_Perusahaan} = '" & KodePerusahaan & "'"
+            SQL = "select top 1 a.* "
+            SQL = SQL & "from Stock_Barang_SN_Per_Lokasi as a inner join emi_group_jenis as gj on a.kode_group_jenis = gj.kode_group_jenis "
+
+            SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' and "
+            'SQL = SQL & "gj.Flag_Packaging = '" & Flag_Packaging & "' and gj.Flag_Raw_Material = '" & Flag_Raw_Material & "' and "
+            'SQL = SQL & "gj.Flag_Finished_Good = '" & Flag_Finished_Good & "' and gj.Flag_Sample = '" & Flag_Sample & "' and "
+            'SQL = SQL & "gj.Flag_Semi_FG = '" & Flag_Semi_FG & "' and gj.Flag_Scrap = '" & Flag_Scrap & "' and "
+            'SQL = SQL & "gj.Flag_Bahan_Bakar = '" & Flag_Bahan_Bakar & "' and gj.Flag_Peralatan = '" & Flag_Peralatan & "' "
+            SQL = SQL & FilterPengeluaranCostCenter
+            SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
+
+            SF = "{Stock_Barang_SN_Per_Lokasi.Kode_Perusahaan} = '" & KodePerusahaan & "' and "
+            'SF = SF & "{EMI_Group_Jenis.Flag_Packaging} = '" & Flag_Packaging & "' and "
+            'SF = SF & "{EMI_Group_Jenis.Flag_Raw_Material} = '" & Flag_Raw_Material & "' and {EMI_Group_Jenis.Flag_Finished_Good} = '" & Flag_Finished_Good & "' and "
+            'SF = SF & "{EMI_Group_Jenis.Flag_Sample} = '" & Flag_Sample & "' and {EMI_Group_Jenis.Flag_Semi_FG} = '" & Flag_Semi_FG & "' and "
+            'SF = SF & "{EMI_Group_Jenis.Flag_Scrap} = '" & Flag_Scrap & "' and {EMI_Group_Jenis.Flag_Bahan_Bakar} = '" & Flag_Bahan_Bakar & "' and "
+            'SF = SF & "{EMI_Group_Jenis.Flag_Peralatan} = '" & Flag_Peralatan & "' and "
+            SF = SF & FilterPengeluaranCostCenterCR
+            SF = SF & "AND ({EMI_Group_Jenis.Flag_ATK} = '" & fATK & "' or {EMI_Group_Jenis.Flag_Asset} = '" & fAsset & "' or {EMI_Group_Jenis.Flag_Sparepart} = '" & fSparepart & "')"
 
             If CheckBox1.Checked = True Then
-                SQL = SQL & " and " & arrcarib.Item(ComboBox1b.SelectedIndex) & " " & ComboBox1.Text & " '" & ComboBox3.Text & TextBox7b.Text & ComboBox4.Text & "' "
+                SQL = SQL & " and a." & arrcarib.Item(ComboBox1b.SelectedIndex) & " " & ComboBox1.Text & " '" & ComboBox3.Text & TextBox7b.Text & ComboBox4.Text & "' "
 
                 SF = SF & " and {Stock_Barang_SN_Per_Lokasi." & arrcarib.Item(ComboBox1b.SelectedIndex) & "} " & ComboBox1.Text & " '"
                 SF = SF & Strings.Replace(ComboBox3.Text, "%", "*") & TextBox7b.Text & Strings.Replace(ComboBox4.Text, "%", "*") & "' "
             End If
 
             If CheckBox2.Checked = True Then
-                SQL = SQL & " and " & arrcari2b.Item(ComboBox7b.SelectedIndex) & " " & ComboBox2.Text & " '" & ComboBox5.Text & TextBox6b.Text & ComboBox6.Text & "' "
+                SQL = SQL & " and a." & arrcari2b.Item(ComboBox7b.SelectedIndex) & " " & ComboBox2.Text & " '" & ComboBox5.Text & TextBox6b.Text & ComboBox6.Text & "' "
 
                 SF = SF & " and {Stock_Barang_SN_Per_Lokasi." & arrcari2b.Item(ComboBox7b.SelectedIndex) & "} " & ComboBox2.Text & " '"
                 SF = SF & Strings.Replace(ComboBox5.Text, "%", "*") & TextBox6b.Text & Strings.Replace(ComboBox6.Text, "%", "*") & "' "
@@ -754,7 +848,7 @@ Public Class Display_Barang
             If ComboBox7.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_Stock_Owner = '" & ComboBox7.Text & "' "
+                SQL = SQL & " and a.Kode_Stock_Owner = '" & ComboBox7.Text & "' "
 
                 SF = SF & " and {Stock_Barang_SN_Per_Lokasi.Kode_Stock_Owner} = '" & ComboBox7.Text & "' "
             End If
@@ -762,14 +856,12 @@ Public Class Display_Barang
             If ComboBox8.SelectedIndex = 0 Then
                 SQL = SQL & ""
             Else
-                SQL = SQL & " and Kode_Group_Jenis = '" & ComboBox8.Text & "' "
+                SQL = SQL & " and a.Kode_Group_Jenis = '" & ComboBox8.Text & "' "
 
                 SF = SF & " and {Stock_Barang_SN_Per_Lokasi.Kode_Group_Jenis} = '" & ComboBox8.Text & "'"
             End If
 
-
-
-            SQL = SQL & "order by kode_stock_owner, nama"
+            SQL = SQL & "order by a.kode_stock_owner, a.nama"
 
             Using MyDS As DataSet = Binding(SQL)
                 With MyDS.Tables(0)

@@ -5,7 +5,7 @@ Public Class Server_Sinkronasi_B2B
 
     Dim arrId_Proyeks, arrKd_Brg, arrSO, arrNo_Rab, arrNo_Fak, arrEdit, arrHapus, arrKdSupplier, arrNo_Fak2, arrNoUrut As New ArrayList
 
-    Dim arrNo_PO, arrNoPo2, arrKodeSupplier, arrNoPenawaranPackaging, arrNoPenawaranBahanBaku As New ArrayList
+    Dim arrNo_PO, arrNoPo2, arrKodeSupplier, arrNoPenawaranPackaging, arrNoPenawaranBahanBaku, arrNoPoPembelianSelesai As New ArrayList
 
     Dim Faktur_Penawaran As String = ""
 
@@ -35,7 +35,7 @@ Public Class Server_Sinkronasi_B2B
                 End With
             End Using
 
-            SQLB2B = "select kode_perusahaan,no_faktur,no_do,lokasi,kode_supplier,Id_Kendaraan,Driver,ETD,eta,plat,telpon,tanggal,jam,Id_User,cara_kirim,harga, Kode_Vendor "
+            SQLB2B = "select kode_perusahaan,no_faktur,no_do,lokasi,kode_supplier,Id_Kendaraan,Driver,ETD,eta,plat,telpon,tanggal,jam,Id_User,cara_kirim,harga "
             SQLB2B = SQLB2B & "from B2B_Purchase_Order where flag_sudah_pindah is null and status is null and flag_selesai = 'Y' order by No_Faktur  "
             Using DsSQL = BindingTransB2B(SQLB2B)
                 With DsSQL.Tables("MyTable")
@@ -48,7 +48,7 @@ Public Class Server_Sinkronasi_B2B
                             no_do = "'" & .Rows(i).Item("no_do") & "',"
                         End If
 
-                        SQL = "insert into emi_pembelian_loading(kode_perusahaan,no_faktur,no_sj,lokasi,kode_supplier,Driver,Tanggal_OTW,eta,No_Plat,telpon,tanggal,jam,UseriD,cara_kirim,biaya_perjalanan, Kode_Vendor) "
+                        SQL = "insert into emi_pembelian_loading(kode_perusahaan,no_faktur,no_sj,lokasi,kode_supplier,Driver,Tanggal_OTW,eta,No_Plat,telpon,tanggal,jam,UseriD,cara_kirim,biaya_perjalanan) "
                         SQL = SQL & "values ('" & .Rows(i).Item("kode_perusahaan") & "','" & .Rows(i).Item("no_faktur") & "',"
 
                         SQL = SQL & "" & no_do & " "
@@ -57,7 +57,7 @@ Public Class Server_Sinkronasi_B2B
                         SQL = SQL & "'" & .Rows(i).Item("driver") & "', '" & Format(.Rows(i).Item("etd"), "yyyy-MM-dd") & "',"
                         SQL = SQL & "'" & Format(.Rows(i).Item("eta"), "yyyy-MM-dd") & "', '" & .Rows(i).Item("plat") & "','" & .Rows(i).Item("telpon") & "',"
                         SQL = SQL & "'" & Format(.Rows(i).Item("tanggal"), "yyyy-MM-dd") & "','" & .Rows(i).Item("jam") & "','" & .Rows(i).Item("Id_User") & "',"
-                        SQL = SQL & "'" & .Rows(i).Item("cara_kirim") & "', '" & .Rows(i).Item("harga") & "', '" & .Rows(i).Item("Kode_Vendor") & "' "
+                        SQL = SQL & "'" & .Rows(i).Item("cara_kirim") & "', '" & .Rows(i).Item("harga") & "' "
                         SQL = SQL & ")"
                         ExecuteTrans(SQL)
                     Next
@@ -88,7 +88,7 @@ Public Class Server_Sinkronasi_B2B
                         For i As Integer = 0 To .Rows.Count - 1
 
                             '==========================================
-                            ' convert jumlah ke satuan kecil
+                            ' convert Satuan Besar ke satuan kecil
                             '==========================================
                             Dim jumlahConvert As Double = 0
                             SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(i).Item("kode_barang") & "',"
@@ -242,28 +242,32 @@ Public Class Server_Sinkronasi_B2B
                                 End If
                             End Using
 
-                            '==========================================
-                            ' convert jumlah ke satuan kecil
-                            '==========================================
-                            Dim jumlahSatuanTampilDisplay As Double = 0
-                            SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(i).Item("kode_barang") & "',"
+                            Dim biayaPerGram As Double = 0
+                            Dim totalHppPerBarang As Double = 0
+                            Dim biayaKirimPerbarang As Double = 0
+
+                            biayaPerGram = Val(.Rows(i).Item("biaya_kirim")) / Val(totalSeluruhBarangSatuanKecil)
+
+                            biayaKirimPerbarang = .Rows(i).Item("berat") * biayaPerGram
+
+                            SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','UANG','" & .Rows(i).Item("kode_barang") & "',"
                             SQL = SQL & "'" & .Rows(i).Item("satuan_kecil") & "','" & satuanTampilDisplay & "',"
-                            SQL = SQL & "" & .Rows(i).Item("berat") & ") as Hasil "
+                            SQL = SQL & "" & biayaKirimPerbarang & ") as Hasil "
                             Using dr4 = OpenTrans(SQL)
                                 If dr4.Read Then
                                     If General_Class.CekNULL(dr4("Hasil")) <> "" Then
-                                        If dr4("Hasil") = 0 Then
-                                            MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & satuanBarang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                            dr4.Close()
-                                            CloseTrans()
-                                            CloseTransB2B()
-                                            CloseConn()
-                                            CloseConnB2B()
-                                            Exit Sub
-                                        Else
-                                            jumlahSatuanTampilDisplay = dr4("hasil")
+                                        'If dr4("Hasil") = 0 Then
+                                        '    MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & satuanBarang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        '    dr4.Close()
+                                        '    CloseTrans()
+                                        '    CloseTransB2B()
+                                        '    CloseConn()
+                                        '    CloseConnB2B()
+                                        '    Exit Sub
+                                        'Else
+                                        biayaKirimPerbarang = dr4("hasil")
 
-                                        End If
+                                        'End If
                                     Else
                                         dr4.Close()
                                         CloseTrans()
@@ -275,14 +279,6 @@ Public Class Server_Sinkronasi_B2B
                                     End If
                                 End If
                             End Using
-
-                            Dim biayaPerGram As Double = 0
-                            Dim totalHppPerBarang As Double = 0
-                            Dim biayaKirimPerbarang As Double = 0
-
-                            biayaPerGram = Val(.Rows(i).Item("biaya_kirim")) / Val(totalSeluruhBarangSatuanKecil)
-
-                            biayaKirimPerbarang = Val(jumlahSatuanTampilDisplay) * biayaPerGram
 
                             totalHppPerBarang = Val(biayaKirimPerbarang) + Val(hargaPOSatuanDisplay)
 
@@ -657,6 +653,7 @@ Public Class Server_Sinkronasi_B2B
             SQLB2B = SQLB2B & "and a.Status is null "
             SQLB2B = SQLB2B & "and b.Flag_Approval = 'A' "
             SQLB2B = SQLB2B & "and b.Flag_Sudah_Pindah is null "
+            '   SQLB2B = SQLB2B & "and b.flag_edit_extend_penawaran is null "
             SQLB2B = SQLB2B & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
             SQLB2B = SQLB2B & "group by a.No_Faktur "
             Using DsB2B = BindingTransB2B(SQLB2B)
@@ -694,7 +691,6 @@ Public Class Server_Sinkronasi_B2B
                                 If Dr.Read Then
 
                                     Data_Faktur_Penawaran = Dr("No_Faktur")
-
                                 Else
                                     Dr.Close()
                                     SQL = "insert into emi_master_penawaran(Kode_Perusahaan, No_Faktur, No_Faktur_B2B, No_Penawaran, Tgl_Penawaran_Hrg, Periode_Akhir_Penawaran, Kode_Supplier, Lokasi, "
@@ -708,8 +704,6 @@ Public Class Server_Sinkronasi_B2B
                                     Data_Faktur_Penawaran = Faktur_Penawaran
                                 End If
                             End Using
-
-
 
                             '===================
                             '=     RELEASE     =
@@ -733,7 +727,6 @@ Public Class Server_Sinkronasi_B2B
 
                                 End If
                             End Using
-
 
                             'MASUK KE DETAIL B2B
                             SQLB2B = "select Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Barang, Mata_Uang, Harga, Satuan, MOQ, No_Urut "
@@ -775,7 +768,6 @@ Public Class Server_Sinkronasi_B2B
                                         End If
                                     End Using
 
-
                                     ' GET SATUAN KECIL BARANG
                                     Dim satuanBarang As String
                                     SQL = "select satuan from barang where "
@@ -792,11 +784,10 @@ Public Class Server_Sinkronasi_B2B
                                             CloseTransB2B()
                                             CloseConn()
                                             CloseConnB2B()
-                                            MessageBox.Show("Satuan " & Kode_Satuan & " Ke " & satuanBarang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & .Rows(i).Item("satuan_kecil") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                             Exit Sub
                                         End If
                                     End Using
-
 
                                     ' CONVERT HARGA KESATUAN KECIL
                                     Dim ConvertHarga As Double = 0
@@ -812,7 +803,7 @@ Public Class Server_Sinkronasi_B2B
                                                     CloseTransB2B()
                                                     CloseConn()
                                                     CloseConnB2B()
-                                                    MessageBox.Show("Satuan " & Kode_Satuan & " Ke " & satuanBarang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                    MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & .Rows(i).Item("satuan_kecil") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                                     Exit Sub
                                                 Else
                                                     ConvertHarga = dr4("hasil")
@@ -824,20 +815,17 @@ Public Class Server_Sinkronasi_B2B
                                                 CloseTransB2B()
                                                 CloseConn()
                                                 CloseConnB2B()
-                                                MessageBox.Show("Satuan " & Kode_Satuan & " Ke " & satuanBarang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & .Rows(i).Item("satuan_kecil") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                                 Exit Sub
                                             End If
                                         End If
                                     End Using
-
-
 
                                     SQL = "insert into EMI_Master_Penawaran_Detail (kode_perusahaan, no_faktur, kode_barang, min_order, satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang, urut_B2B) values ( "
                                     SQL = SQL & "'" & Detail_KdPerusahaan & "' , '" & Data_Faktur_Penawaran & "', '" & Detail_KdBarang & "', "
                                     SQL = SQL & "'" & Detail_MOQ & "', '" & Kode_Satuan & "', '" & Detail_Harga & "' , "
                                     SQL = SQL & "'" & ConvertHarga & "', '" & satuanBarang & "', '" & Detail_MataUang & "', '" & Detail_UrutB2B & "' ) "
                                     ExecuteTrans(SQL)
-
 
                                     'JIKA FLAG KATEGORI SUPPLIER = Y
                                     If flag_kategori_Supplier = "Y" Then
@@ -924,7 +912,7 @@ Public Class Server_Sinkronasi_B2B
                                             End If
                                         End Using
 
-                                        'UPDATE emi_master_penawaran_detail 
+                                        'UPDATE emi_master_penawaran_detail
                                         SQL = "update emi_master_penawaran_detail set "
                                         SQL = SQL & "flag_baru = 'Y' "
                                         SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and Kode_barang='" & Detail_KdBarang & "' "
@@ -942,13 +930,56 @@ Public Class Server_Sinkronasi_B2B
                                 Next
                             End Using
 
+                            'MASUK KE Penawaran Jatuh Tempo
+                            SQLB2B = "select no_urut,kode_perusahaan,no_faktur,no_penawaran,jenis_pembayaran,tempo_pembayaran,lama_pembayaran "
+                            SQLB2B = SQLB2B & "from B2B_Jatuh_Tempo_RawMaterial a "
+
+                            SQLB2B = SQLB2B & "where a.Kode_Perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "' "
+                            SQLB2B = SQLB2B & "and a.no_faktur = '" & .Rows(i).Item("no_faktur") & "' "
+
+                            SQLB2B = SQLB2B & "order by no_urut "
+                            Using Ds2B2B = BindingTransB2B(SQLB2B)
+                                For j As Integer = 0 To Ds2B2B.Tables("MyTable").Rows.Count - 1
+
+                                    hasInsert = True
+
+                                    Dim Detail_KdPerusahaanT As String = Ds2B2B.Tables("MyTable").Rows(j).Item("kode_perusahaan")
+                                    Dim no_urutT As String = Ds2B2B.Tables("MyTable").Rows(j).Item("no_urut")
+                                    Dim no_fakturT As String = Ds2B2B.Tables("MyTable").Rows(j).Item("no_faktur")
+                                    Dim no_penawaranT As String = Ds2B2B.Tables("MyTable").Rows(j).Item("no_penawaran")
+                                    Dim jenis_pembayaranT As String = Ds2B2B.Tables("MyTable").Rows(j).Item("jenis_pembayaran")
+
+                                    Dim tempo_pembayaranT As String = ""
+                                    If IsDBNull(Ds2B2B.Tables("MyTable").Rows(j).Item("tempo_pembayaran")) Then
+                                        tempo_pembayaranT = "NULL"
+                                    Else
+                                        tempo_pembayaranT = "'" & Ds2B2B.Tables("MyTable").Rows(j).Item("tempo_pembayaran") & "'"
+                                    End If
+
+                                    Dim lama_pembayaranT As String = ""
+                                    If IsDBNull(Ds2B2B.Tables("MyTable").Rows(j).Item("lama_pembayaran")) Then
+                                        lama_pembayaranT = "NULL"
+                                    Else
+                                        lama_pembayaranT = "'" & Ds2B2B.Tables("MyTable").Rows(j).Item("lama_pembayaran") & "'"
+                                    End If
+
+                                    SQL = "insert into EMI_Master_Penawaran_Jatuh_Tempo(kode_perusahaan,no_faktur,no_faktur_b2b,no_penawaran, "
+                                    SQL = SQL & "urut_b2b,jenis_pembayaran,tempo_pembayaran,lama_pembayaran) values ( "
+                                    SQL = SQL & "'" & Detail_KdPerusahaanT & "','" & Data_Faktur_Penawaran & "', '" & no_fakturT & "', '" & no_penawaranT & "' ,"
+                                    SQL = SQL & "'" & no_urutT & "', '" & jenis_pembayaranT & "', " & tempo_pembayaranT & ", " & lama_pembayaranT & ""
+                                    SQL = SQL & ")"
+                                    ExecuteTrans(SQL)
+
+                                Next
+
+                            End Using
+
                             '==================================================================
                             '=     CEK APAKAH EMI_MASTER_PENAWARAN_DETAIL SUDAH DI INSERT     =
                             '==================================================================
                             SQL = "select top 1 * from EMI_Master_Penawaran_Detail where Kode_Perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "' and No_Faktur = '" & Data_Faktur_Penawaran & "' "
                             Using Dr = OpenTrans(SQL)
                                 If Dr.Read Then
-
                                 Else
                                     Dr.Close()
                                     CloseTrans()
@@ -972,7 +1003,6 @@ Public Class Server_Sinkronasi_B2B
                                 ExecuteTrans(SQL)
                             End If
 
-
                         Next
                     End With
                 End Using
@@ -992,7 +1022,7 @@ Public Class Server_Sinkronasi_B2B
         End Try
     End Sub
 
-    Private Sub btnPenawaranPackaging_Click(sender As Object, e As EventArgs) Handles btnPenawaranPackaging.Click
+    Private Sub Button5_Click_1(sender As Object, e As EventArgs) Handles Button5.Click
         get_jam()
         Try
             OpenConn()
@@ -1000,7 +1030,55 @@ Public Class Server_Sinkronasi_B2B
             Cmd.Transaction = Cn.BeginTransaction
             CmdB2B.Transaction = CnB2B.BeginTransaction
 
+            arrNoPoPembelianSelesai.Clear()
+            SQLB2B = "select a.No_Faktur from EMI_Pembelian_PO a, EMI_Pembelian_PO_Detail b "
+            SQLB2B = SQLB2B & "where a.Status is null and a.flag_selesai_po = 'Y' "
+            SQLB2B = SQLB2B & "and a.Kode_Perusahaan = b.Kode_Perusahaan "
+            SQLB2B = SQLB2B & "and a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            SQLB2B = SQLB2B & "and b.Flag_Sudah_Kirim = 'Y' and flag_edit_po = 'Y' "
+            SQLB2B = SQLB2B & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
+            SQLB2B = SQLB2B & "group by a.No_Faktur "
+            Using DsB2B = BindingTransB2B(SQLB2B)
+                With DsB2B.Tables("MyTable")
+                    For i As Integer = 0 To .Rows.Count - 1
+                        arrNoPoPembelianSelesai.Add(.Rows(i).Item("no_faktur"))
+                    Next
+                End With
+            End Using
 
+            For z As Integer = 0 To arrNoPoPembelianSelesai.Count - 1
+
+                SQL = "update emi_pembelian_Po set flag_selesai_po = 'Y' where kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and no_faktur = '" & arrNoPoPembelianSelesai.Item(z).ToString & "' "
+                ExecuteTrans(SQL)
+
+                SQLB2B = "update emi_pembelian_PO set flag_edit_po = null where kode_perusahaan = '" & KodePerusahaan & "' "
+                SQLB2B = SQLB2B & "and no_faktur = '" & arrNoPoPembelianSelesai.Item(z).ToString & "' "
+                ExecuteTransB2B(SQLB2B)
+
+            Next
+
+            Cmd.Transaction.Commit()
+            CmdB2B.Transaction.Commit()
+
+            CloseConn()
+        Catch ex As Exception
+            CloseTrans()
+            CloseTransB2B()
+            CloseConn()
+            CloseConnB2B()
+            MessageBox.Show(ex.Message & " Insert Penawaran Packaging")
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub btnPenawaranPackaging_Click(sender As Object, e As EventArgs) Handles btnPenawaranPackaging.Click
+        get_jam()
+        Try
+            OpenConn()
+            OpenConnB2B()
+            Cmd.Transaction = Cn.BeginTransaction
+            CmdB2B.Transaction = CnB2B.BeginTransaction
 
             arrNoPenawaranPackaging.Clear()
             SQLB2B = "select a.no_transaksi From b2b_packaging a , b2b_detail_packaging b "
@@ -1045,7 +1123,6 @@ Public Class Server_Sinkronasi_B2B
                                 If Dr.Read Then
 
                                     Data_Faktur_Penawaran = Dr("No_Faktur")
-
                                 Else
                                     Dr.Close()
                                     SQL = "insert into emi_master_penawaran(Kode_Perusahaan, No_Faktur, No_Faktur_B2B, No_Penawaran, Tgl_Penawaran_Hrg, Periode_Akhir_Penawaran, Kode_Supplier, Lokasi, "
@@ -1081,7 +1158,6 @@ Public Class Server_Sinkronasi_B2B
 
                                 End If
                             End Using
-
 
                             'MASUK KE DETAIL PACKAGING
                             SQLB2B = "select  a.kode_perusahaan, a.No_Transaksi AS no_faktur, a.kode_barang, a.MOQ, a.satuan, a.Harga, b.kode_satuan, a.mata_uang, a.no_urut "
@@ -1127,7 +1203,6 @@ Public Class Server_Sinkronasi_B2B
                                         End If
                                     End Using
 
-
                                     ' GET SATUAN KECIL BARANG
                                     Dim satuanBarang As String
                                     SQL = "select satuan from barang where "
@@ -1144,11 +1219,10 @@ Public Class Server_Sinkronasi_B2B
                                             CloseTransB2B()
                                             CloseConn()
                                             CloseConnB2B()
-                                            MessageBox.Show("Satuan " & Kode_Satuan & " Ke " & satuanBarang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & .Rows(i).Item("satuan_kecil") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                             Exit Sub
                                         End If
                                     End Using
-
 
                                     ' CONVERT HARGA KESATUAN KECIL
                                     Dim ConvertHarga As Double = 0
@@ -1272,13 +1346,12 @@ Public Class Server_Sinkronasi_B2B
                                             End If
                                         End Using
 
-                                        'UPDATE emi_master_penawaran_detail 
+                                        'UPDATE emi_master_penawaran_detail
                                         SQL = "update emi_master_penawaran_detail set "
                                         SQL = SQL & "flag_baru = 'Y' "
                                         SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and Kode_barang='" & Detail_KdBarang & "' "
                                         SQL = SQL & "and no_faktur='" & .Rows(i).Item("No_Faktur") & "' "
                                         ExecuteTrans(SQL)
-
 
                                     End If
 
@@ -1298,7 +1371,6 @@ Public Class Server_Sinkronasi_B2B
                             SQL = "select top 1 * from EMI_Master_Penawaran_Detail where Kode_Perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "' and No_Faktur = '" & Data_Faktur_Penawaran & "' "
                             Using Dr = OpenTrans(SQL)
                                 If Dr.Read Then
-
                                 Else
                                     Dr.Close()
                                     CloseTrans()
@@ -1308,6 +1380,50 @@ Public Class Server_Sinkronasi_B2B
                                     MessageBox.Show("Ada Masalah saat Insert Detail Penawaran", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     Exit Sub
                                 End If
+                            End Using
+
+                            'MASUK KE Penawaran Jatuh Tempo
+                            SQLB2B = "select no_urut,kode_perusahaan,no_faktur,no_penawaran,jenis_pembayaran,tempo_pembayaran,lama_pembayaran "
+                            SQLB2B = SQLB2B & "from B2B_Jatuh_Tempo_Packaging a "
+
+                            SQLB2B = SQLB2B & "where a.Kode_Perusahaan = '" & .Rows(i).Item("kode_perusahaan") & "' "
+                            SQLB2B = SQLB2B & "and a.no_faktur = '" & .Rows(i).Item("no_faktur") & "' "
+
+                            SQLB2B = SQLB2B & "order by no_urut "
+                            Using Ds2B2B = BindingTransB2B(SQLB2B)
+                                For j As Integer = 0 To Ds2B2B.Tables("MyTable").Rows.Count - 1
+
+                                    hasInsert = True
+
+                                    Dim Detail_KdPerusahaanT As String = Ds2B2B.Tables("MyTable").Rows(j).Item("kode_perusahaan")
+                                    Dim no_urutT As String = Ds2B2B.Tables("MyTable").Rows(j).Item("no_urut")
+                                    Dim no_fakturT As String = Ds2B2B.Tables("MyTable").Rows(j).Item("no_faktur")
+                                    Dim no_penawaranT As String = Ds2B2B.Tables("MyTable").Rows(j).Item("no_penawaran")
+                                    Dim jenis_pembayaranT As String = Ds2B2B.Tables("MyTable").Rows(j).Item("jenis_pembayaran")
+
+                                    Dim tempo_pembayaranT As String = ""
+                                    If IsDBNull(Ds2B2B.Tables("MyTable").Rows(j).Item("tempo_pembayaran")) Then
+                                        tempo_pembayaranT = "NULL"
+                                    Else
+                                        tempo_pembayaranT = "'" & Ds2B2B.Tables("MyTable").Rows(j).Item("tempo_pembayaran") & "'"
+                                    End If
+
+                                    Dim lama_pembayaranT As String = ""
+                                    If IsDBNull(Ds2B2B.Tables("MyTable").Rows(j).Item("lama_pembayaran")) Then
+                                        lama_pembayaranT = "NULL"
+                                    Else
+                                        lama_pembayaranT = "'" & Ds2B2B.Tables("MyTable").Rows(j).Item("lama_pembayaran") & "'"
+                                    End If
+
+                                    SQL = "insert into EMI_Master_Penawaran_Jatuh_Tempo(kode_perusahaan,no_faktur,no_faktur_b2b,no_penawaran, "
+                                    SQL = SQL & "urut_b2b,jenis_pembayaran,tempo_pembayaran,lama_pembayaran) values ( "
+                                    SQL = SQL & "'" & Detail_KdPerusahaanT & "','" & Data_Faktur_Penawaran & "', '" & no_fakturT & "', '" & no_penawaranT & "' ,"
+                                    SQL = SQL & "'" & no_urutT & "', '" & jenis_pembayaranT & "', " & tempo_pembayaranT & ", " & lama_pembayaranT & ""
+                                    SQL = SQL & ")"
+                                    ExecuteTrans(SQL)
+
+                                Next
+
                             End Using
 
                             If hasInsert Then
@@ -1321,10 +1437,6 @@ Public Class Server_Sinkronasi_B2B
                                 SQL = SQL & "and no_penawaran='" & .Rows(i).Item("No_Penawaran") & "' "
                                 ExecuteTrans(SQL)
                             End If
-
-
-
-
 
                         Next
                     End With
@@ -1532,29 +1644,6 @@ Public Class Server_Sinkronasi_B2B
 
     Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
 
-        'Button1_Click(Timer1, e)
-        'Button2_Click(Timer1, e)
-        'Button3_Click(Timer1, e)
-        'Button4_Click(Timer1, e)
-        'Button5_Click(Timer1, e)
-        'Button6_Click(Timer1, e)
-        'Button7_Click(Timer1, e)
-        'Button8_Click(Timer1, e)
-        'Button9_Click(Timer1, e)
-        'Button10_Click(Timer1, e)
-        'Button11_Click(Timer1, e)
-        'Button12_Click(Timer1, e)
-        'Button13_Click(Timer1, e)
-        'Button14_Click(Timer1, e)
-        'Button15_Click(Timer1, e)
-        'Button16_Click(Timer1, e)
-        'Button17_Click(Timer1, e)
-        'Button18_Click(Timer1, e)
-        'Button19_Click(Timer1, e)
-        'Button20_Click(Timer1, e)
-        'Button21_Click(Timer1, e)
-        'btn_KeBrgMskMYSQL_Click(Timer1, e)
-
         Button22_Click(Timer1, e)
         Button23_Click(Timer1, e)
     End Sub
@@ -1567,122 +1656,44 @@ Public Class Server_Sinkronasi_B2B
 
             OpenConnB2B()
 
-            'INSERT
-            SQLB2B = "select id, 'proyek' as dari from proyeks where flag_sdh_pindah_ke_sql is null "
+            '==================
+            '=     INSERT     =
+            '==================
+            SQLB2B = "select top 1 Kode_Perusahaan, 'B2B_Purchase_Order' as dari from B2B_Purchase_Order where Kode_Perusahaan = '" & KodePerusahaan & "' and status is null and flag_sudah_pindah is null and flag_selesai = 'Y' "
             SQLB2B = SQLB2B & "union all "
-            SQLB2B = SQLB2B & "Select id, 'sub_proyek' as dari from subproyeks where flag_sdh_pindah_ke_sql is null  "
+            SQLB2B = SQLB2B & "select top 1 a.Kode_Perusahaan, 'B2B_Penawaran_Bahan_Baku' as dari From B2B_Penawaran_Bahan_Baku a , B2B_Penawaran_Bahan_Baku_Detail b where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            SQLB2B = SQLB2B & "and a.Status is null and b.Flag_Approval = 'A' and b.Flag_Sudah_Pindah is null and a.kode_perusahaan = '" & KodePerusahaan & "' "
             SQLB2B = SQLB2B & "union all "
-            SQLB2B = SQLB2B & "select id, 'pekerjaan' as dari from pekerjaans where flag_sdh_pindah_ke_sql is null  "
-            SQLB2B = SQLB2B & "union all "
-            SQLB2B = SQLB2B & "select id, 'sub_pekerjaan' as dari from sub_pekerjaans where flag_sdh_pindah_ke_sql is null  "
-            SQLB2B = SQLB2B & "union all "
-            SQLB2B = SQLB2B & "select no_faktur, 'request_material' as dari from request_material where flag_sdh_pindah_ke_sql is null and flag_acc = 'Y' limit 0, 1 "
+            SQLB2B = SQLB2B & "select top 1 a.Kode_Perusahaan, 'b2b_packaging' as dari From b2b_packaging a , b2b_detail_packaging b where a.Kode_Perusahaan = b.Kode_Perusahaan and a.no_transaksi = b.no_transaksi  "
+            SQLB2B = SQLB2B & "and b.Flag_Approval = 'A' and a.Status is null and b.Flag_Sudah_Pindah is null and a.kode_perusahaan = '" & KodePerusahaan & "' "
             Using DsSQL = BindingTransB2B(SQLB2B)
                 With DsSQL.Tables("MyTable")
                     For i As Integer = 0 To .Rows.Count - 1
-                        If .Rows(i).Item("dari") = "proyek" Then
-                            'Button1_Click(Button22, e)
-                            listINSERT.Add("proyek")
-                        ElseIf .Rows(i).Item("dari") = "sub_proyek" Then
-                            'Button4_Click(Button22, e)
-                            listINSERT.Add("sub_proyek")
-                        ElseIf .Rows(i).Item("dari") = "pekerjaan" Then
-                            'Button5_Click(Button22, e)
-                            listINSERT.Add("pekerjaan")
-                        ElseIf .Rows(i).Item("dari") = "sub_pekerjaan" Then
-                            'Button6_Click(Button22, e)
-                            listINSERT.Add("sub_pekerjaan")
-                        ElseIf .Rows(i).Item("dari") = "request_material" Then
-                            'Button7_Click(Button22, e)
-                            listINSERT.Add("request_material")
-                        End If
+                        Select Case .Rows(i).Item("dari").ToString()
+                            Case "B2B_Purchase_Order"
+                                listINSERT.Add("B2B_Purchase_Order")
+                            Case "B2B_Penawaran_Bahan_Baku"
+                                listINSERT.Add("B2B_Penawaran_Bahan_Baku")
+                            Case "b2b_packaging"
+                                listINSERT.Add("b2b_packaging")
+                        End Select
                     Next
                 End With
             End Using
 
-            'EDIT
-            SQLB2B = "select id, 'proyek' as dari from proyeks where "
-            SQLB2B = SQLB2B & "flag_sdh_pindah_ke_sql = 'Y' and flag_edit_proyeks is null  "
-            SQLB2B = SQLB2B & "union all "
-            SQLB2B = SQLB2B & "select id, 'sub_proyek' as dari from subproyeks where "
-            SQLB2B = SQLB2B & "flag_sdh_pindah_ke_sql = 'Y' and flag_edit_subproyeks is null  "
-            SQLB2B = SQLB2B & "union all "
-            SQLB2B = SQLB2B & "select id, 'pekerjaan' as dari from pekerjaans where "
-            SQLB2B = SQLB2B & "flag_sdh_pindah_ke_sql = 'Y' and flag_edit_pekerjaans is null  "
-            SQLB2B = SQLB2B & "union all "
-            SQLB2B = SQLB2B & "select id, 'sub_pekerjaan' as dari from sub_pekerjaans where "
-            SQLB2B = SQLB2B & "flag_sdh_pindah_ke_sql = 'Y' and flag_edit_subpekerjaans is null  "
-            SQLB2B = SQLB2B & "union all "
-            SQLB2B = SQLB2B & "select 1 as id, 'rab_pembelian_proyek' as dari from rab_pembelian_proyek where "
-            SQLB2B = SQLB2B & "Kode_Perusahaan = '" & KodePerusahaan & "' and flag_edit_rab = 'Y'  "
-            SQLB2B = SQLB2B & "union all "
-            SQLB2B = SQLB2B & "select 1 as id, 'po_pembelian_proyek' as dari from po_pembelian_proyek where "
-            SQLB2B = SQLB2B & "Kode_Perusahaan = '" & KodePerusahaan & "' and flag_edit_po = 'Y' "
-            SQLB2B = SQLB2B & "union all "
-            SQLB2B = SQLB2B & "select 1 as id, 'penjualan_proyek_sementara' as dari from penjualan_proyek_sementara where "
-            SQLB2B = SQLB2B & " flag_sdh_update = 'Y' "
-            SQLB2B = SQLB2B & "union all "
-            SQLB2B = SQLB2B & "select 1 as id, 'approval_penjualan_proyek' as dari from approval_penjualan_proyek where  flag_WA is null "
-
-            'SQLB2B = SQLB2B & " limit 0, 1 "
+            '================
+            '=     EDIT     =
+            '================
+            SQLB2B = "select top 1 a.Kode_Perusahaan, 'EMI_Pembelian_PO' as dari from EMI_Pembelian_PO a, EMI_Pembelian_PO_Detail b where a.Status is null and a.flag_selesai_po = 'Y' and a.Kode_Perusahaan = b.Kode_Perusahaan "
+            SQLB2B = SQLB2B & "and a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and b.Flag_Sudah_Kirim = 'Y' and flag_edit_po = 'Y' and a.kode_perusahaan = '" & KodePerusahaan & "' "
             Using DsSQL = BindingTransB2B(SQLB2B)
                 With DsSQL.Tables("MyTable")
                     For i As Integer = 0 To .Rows.Count - 1
-                        If .Rows(i).Item("dari") = "proyek" Then
-                            'Button14_Click(Button22, e)
-                            listEDIT.Add("proyek")
-                        ElseIf .Rows(i).Item("dari") = "sub_proyek" Then
-                            'Button15_Click(Button22, e)
-                            listEDIT.Add("sub_proyek")
-                        ElseIf .Rows(i).Item("dari") = "pekerjaan" Then
-                            'Button17_Click(Button22, e)
-                            listEDIT.Add("pekerjaan")
-                        ElseIf .Rows(i).Item("dari") = "sub_pekerjaan" Then
-                            'Button16_Click(Button22, e)
-                            listEDIT.Add("sub_pekerjaan")
-                        ElseIf .Rows(i).Item("dari") = "rab_pembelian_proyek" Then
-                            'Button12_Click(Button22, e)
-                            listEDIT.Add("rab_pembelian_proyek")
-                        ElseIf .Rows(i).Item("dari") = "po_pembelian_proyek" Then
-                            'Button13_Click(Button22, e)
-                            listEDIT.Add("po_pembelian_proyek")
-                        ElseIf .Rows(i).Item("dari") = "penjualan_proyek_sementara" Then
-                            listEDIT.Add("penjualan_proyek_sementara")
-                        ElseIf .Rows(i).Item("dari") = "approval_penjualan_proyek" Then
-                            listEDIT.Add("approval_penjualan_proyek")
-                        End If
-                    Next
-                End With
-            End Using
+                        Select Case .Rows(i).Item("dari").ToString()
+                            Case "EMI_Pembelian_PO"
+                                listEDIT.Add("EMI_Pembelian_PO")
+                        End Select
 
-            'DELETE
-            SQLB2B = "select id, 'proyek' as dari from proyeks where "
-            SQLB2B = SQLB2B & "flag_sdh_pindah_ke_sql = 'Y' and deleted_at is not null and flag_sudah_hapus_di_sql is null "
-            SQLB2B = SQLB2B & "union all "
-            SQLB2B = SQLB2B & "select id, 'sub_proyek' as dari from subproyeks where "
-            SQLB2B = SQLB2B & "flag_sdh_pindah_ke_sql = 'Y' and deleted_at is not null and flag_sudah_hapus_di_sql is null "
-            SQLB2B = SQLB2B & "union all "
-            SQLB2B = SQLB2B & "select id, 'pekerjaan' as dari from pekerjaans where "
-            SQLB2B = SQLB2B & "flag_sdh_pindah_ke_sql = 'Y' and deleted_at is not null and flag_sudah_hapus_di_sql is null "
-            SQLB2B = SQLB2B & "union all "
-            SQLB2B = SQLB2B & "select id, 'sub_pekerjaan' as dari from sub_pekerjaans where "
-            SQLB2B = SQLB2B & "flag_sdh_pindah_ke_sql = 'Y' and deleted_at is not null and flag_sudah_hapus_di_sql is null "
-            Using DsSQL = BindingTransB2B(SQLB2B)
-                With DsSQL.Tables("MyTable")
-                    For i As Integer = 0 To .Rows.Count - 1
-                        If .Rows(i).Item("dari") = "proyek" Then
-                            'Button1_Click(Button22, e)
-                            listDELETE.Add("proyek")
-                        ElseIf .Rows(i).Item("dari") = "sub_proyek" Then
-                            'Button4_Click(Button22, e)
-                            listDELETE.Add("sub_proyek")
-                        ElseIf .Rows(i).Item("dari") = "pekerjaan" Then
-                            'Button5_Click(Button22, e)
-                            listDELETE.Add("pekerjaan")
-                        ElseIf .Rows(i).Item("dari") = "sub_pekerjaan" Then
-                            'Button6_Click(Button22, e)
-                            listDELETE.Add("sub_pekerjaan")
-                        End If
                     Next
                 End With
             End Using
@@ -1701,34 +1712,23 @@ Public Class Server_Sinkronasi_B2B
         'Execute INSERT
         For index As Integer = 0 To listINSERT.Count - 1
             Dim item As Object = listINSERT(index)
-            If item = "proyek" Then
-                Button1_Click(Button22, e)
-                'btnPnwrBahanBaku_Click(Button22, e)
-                'btnPenawaranPackaging_Click(Button22, e)
-
-            End If
+            Select Case item
+                Case "B2B_Purchase_Order"
+                    Button1_Click(Button1, e)
+                Case "B2B_Penawaran_Bahan_Baku"
+                    btnPnwrBahanBaku_Click(btnPnwrBahanBaku, e)
+                Case "b2b_packaging"
+                    btnPenawaranPackaging_Click(btnPenawaranPackaging, e)
+            End Select
         Next
 
         'Execute EDIT
         For index As Integer = 0 To listEDIT.Count - 1
             Dim item As Object = listEDIT(index)
-            If item = "proyek" Then
-
-            ElseIf item = "sub_proyek" Then
-
-            ElseIf item = "pekerjaan" Then
-
-            ElseIf item = "sub_pekerjaan" Then
-
-            ElseIf item = "rab_pembelian_proyek" Then
-
-            ElseIf item = "po_pembelian_proyek" Then
-
-            ElseIf item = "penjualan_proyek_sementara" Then
-
-            ElseIf item = "approval_penjualan_proyek" Then
-
-            End If
+            Select Case item
+                Case "EMI_Pembelian_PO"
+                    Button5_Click_1(Button5, e)
+            End Select
         Next
 
     End Sub
@@ -1740,68 +1740,53 @@ Public Class Server_Sinkronasi_B2B
         Try
             OpenConn()
 
-            'INSERT
-            SQL = "select top(1) kode_barang, 'barang' as dari from barang_proyek where Kode_Perusahaan = '" & KodePerusahaan & "' and flag_sdh_pindah is null "
+            '==================
+            '=     INSERT     =
+            '==================
+            SQL = "select top 1 Kode_Perusahaan, 'Pembelian_PO' as dari from emi_pembelian_po where Kode_Perusahaan = '" & KodePerusahaan & "' and flag_sudah_pindah is null "
             SQL = SQL & "union all "
-            SQL = SQL & "Select top(1) no_faktur, 'rab_pembelian_proyek' as dari from rab_pembelian_proyek where Kode_Perusahaan = '" & KodePerusahaan & "' and flag_sdh_pindah is null "
+            SQL = SQL & "select top 1 kode_perusahaan, 'Barang' as dari from barang where Kode_Perusahaan = '" & KodePerusahaan & "' and Flag_Sudah_Pindah is null "
             SQL = SQL & "union all "
-            SQL = SQL & "select top(1) kode_supplier, 'supplier' as dari from suppliers where Kode_Perusahaan = '" & KodePerusahaan & "' and flag_sdh_pindah is null "
-            SQL = SQL & "union all "
-            SQL = SQL & "select top(1) no_faktur, 'barang_masuk' as dari from barang_masuk_proyek where Kode_Perusahaan = '" & KodePerusahaan & "' and flag_sdh_pindah is null "
-            SQL = SQL & "union all "
-            SQL = SQL & "select top(1) no_faktur, 'po_pembelian_proyek' as dari from po_pembelian_proyek where Kode_Perusahaan = '" & KodePerusahaan & "' and flag_sdh_pindah is null "
-            SQL = SQL & "union all "
-            SQL = SQL & "select top(1) no_faktur, 'penjualan_proyek' as dari from penjualan_proyek where Kode_Perusahaan = '" & KodePerusahaan & "' and flag_sdh_pindah is null "
-            SQL = SQL & "union all "
-            SQL = SQL & "select top(1) no_faktur, 'penjualan_proyek_sementara' as dari from penjualan_proyek_sementara where Kode_Perusahaan = '" & KodePerusahaan & "' and flag_sdh_pindah is null "
-            SQL = SQL & "union all "
-            SQL = SQL & "select top(1) no_val, 'val_pemb_proyek' as dari from val_pemb_proyek where Kode_Perusahaan = '" & KodePerusahaan & "' and flag_sdh_pindah is null "
+            SQL = SQL & "select top 1 kode_perusahaan, 'Supplier' as dari from suppliers where Kode_Perusahaan = '" & KodePerusahaan & "' and Flag_Sudah_Pindah is null "
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
-                    For i As Integer = 0 To .Rows.Count - 1
-                        If .Rows(i).Item("dari") = "barang" Then
-                            listINSERT.Add("barang")
-                        ElseIf .Rows(i).Item("dari") = "rab_pembelian_proyek" Then
-                            listINSERT.Add("rab_pembelian_proyek")
-                        ElseIf .Rows(i).Item("dari") = "supplier" Then
-                            listINSERT.Add("supplier")
-                        ElseIf .Rows(i).Item("dari") = "barang_masuk" Then
-                            listINSERT.Add("barang_masuk")
-                        ElseIf .Rows(i).Item("dari") = "po_pembelian_proyek" Then
-                            listINSERT.Add("po_pembelian_proyek")
-                        ElseIf .Rows(i).Item("dari") = "penjualan_proyek" Then
-                            listINSERT.Add("penjualan_proyek")
-                        ElseIf .Rows(i).Item("dari") = "penjualan_proyek_sementara" Then
-                            listINSERT.Add("penjualan_proyek_sementara")
-                        ElseIf .Rows(i).Item("dari") = "val_pemb_proyek" Then
-                            listINSERT.Add("val_pemb_proyek")
-                        End If
-                    Next
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
+                            Select Case .Rows(i).Item("dari").ToString()
+                                Case "Pembelian_PO"
+                                    listINSERT.Add("Pembelian_PO")
+                                Case "Barang"
+                                    listINSERT.Add("Barang")
+                                Case "Supplier"
+                                    listINSERT.Add("Supplier")
+                            End Select
+                        Next
+                    End If
                 End With
             End Using
 
-            'EDIT
-            SQL = "select top(1) no_faktur, 'rab_pembelian_proyek' as dari from rab_pembelian_proyek where Kode_Perusahaan = '" & KodePerusahaan & "' and flag_sdh_pindah = 'Y' and flag_edit = 'Y' "
-
+            '================
+            '=     EDIT     =
+            '================
+            SQL = "select top 1 kode_perusahaan, 'Pembelian_Loading' as dari from EMI_Pembelian_Loading where Kode_Perusahaan = '" & KodePerusahaan & "' and flag_sdh_update = 'Y' "
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
-                    For i As Integer = 0 To .Rows.Count - 1
-                        If .Rows(i).Item("dari") = "rab_pembelian_proyek" Then
-                            listEDIT.Add("rab_pembelian_proyek")
-
-                        End If
-                    Next
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
+                            Select Case .Rows(i).Item("dari").ToString()
+                                Case "Pembelian_Loading"
+                                    listEDIT.Add("Pembelian_Loading")
+                            End Select
+                        Next
+                    End If
                 End With
             End Using
 
             CloseConn()
         Catch ex As Exception
-            CloseTrans()
             CloseConn()
-
             Dim Lvw As ListViewItem
-            Lvw = ListView1.Items.Add("Sql-MySql : " & ex.Message)
-
+            Lvw = ListView1.Items.Add("Sql - MySql : " & ex.Message)
             'MessageBox.Show(ex.Message)
             Exit Sub
         End Try
@@ -1809,33 +1794,26 @@ Public Class Server_Sinkronasi_B2B
         'Execute INSERT
         For index As Integer = 0 To listINSERT.Count - 1
             Dim item As Object = listINSERT(index)
-            If item = "barang" Then
 
-            ElseIf item = "rab_pembelian_proyek" Then
+            Select Case item
+                Case "Pembelian_PO"
+                    Button2_Click(Button2, e)
+                Case "Barang"
+                    Button4_Click(Button4, e)
+                Case "Supplier"
+                    Button5_Click(btnSupplierInsert, e)
+            End Select
 
-            ElseIf item = "supplier" Then
-
-            ElseIf item = "barang_masuk" Then
-
-            ElseIf item = "po_pembelian_proyek" Then
-
-            ElseIf item = "penjualan_proyek" Then
-
-            ElseIf item = "penjualan_proyek_sementara" Then
-                Button24_Click(Button22, e)
-
-            ElseIf item = "val_pemb_proyek" Then
-                Button27_Click(Button22, e)
-
-            End If
         Next
 
         'Execute EDIT
         For index As Integer = 0 To listEDIT.Count - 1
             Dim item As Object = listEDIT(index)
-            If item = "rab_pembelian_proyek" Then
 
-            End If
+            Select Case item
+                Case "Pembelian_Loading"
+                    Button3_Click(Button3, e)
+            End Select
         Next
 
     End Sub

@@ -31,7 +31,6 @@ Partial Class Master_Barang_New
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Labeljudul = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -135,6 +134,11 @@ Partial Class Master_Barang_New
         Me.txtStandarPrice = New System.Windows.Forms.TextBox()
         Me.Txtket = New System.Windows.Forms.TextBox()
         Me.Label12 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Txt_Toleransi_TimbangMin = New System.Windows.Forms.TextBox()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.Txt_Toleransi_TimbangMax = New System.Windows.Forms.TextBox()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         CType(Me.DgvSatuanTerpilih, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -148,19 +152,6 @@ Partial Class Master_Barang_New
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1243, 51)
         Me.Panel1.TabIndex = 22
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1243, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Labeljudul
         '
@@ -203,7 +194,7 @@ Partial Class Master_Barang_New
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(18, 721)
+        Me.Panel4.Location = New System.Drawing.Point(18, 749)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1231, 12)
         Me.Panel4.TabIndex = 38
@@ -212,7 +203,7 @@ Partial Class Master_Barang_New
         'Panel17
         '
         Me.Panel17.BackColor = System.Drawing.Color.Red
-        Me.Panel17.Location = New System.Drawing.Point(23, 471)
+        Me.Panel17.Location = New System.Drawing.Point(23, 503)
         Me.Panel17.Name = "Panel17"
         Me.Panel17.Size = New System.Drawing.Size(1264, 10)
         Me.Panel17.TabIndex = 35
@@ -363,7 +354,7 @@ Partial Class Master_Barang_New
         '
         Me.lblKolom.AutoSize = True
         Me.lblKolom.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.lblKolom.Location = New System.Drawing.Point(23, 487)
+        Me.lblKolom.Location = New System.Drawing.Point(23, 515)
         Me.lblKolom.Name = "lblKolom"
         Me.lblKolom.Size = New System.Drawing.Size(50, 20)
         Me.lblKolom.TabIndex = 398
@@ -720,9 +711,9 @@ Partial Class Master_Barang_New
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(653, 95)
+        Me.Panel6.Location = New System.Drawing.Point(658, 95)
         Me.Panel6.Name = "Panel6"
-        Me.Panel6.Size = New System.Drawing.Size(16, 370)
+        Me.Panel6.Size = New System.Drawing.Size(11, 370)
         Me.Panel6.TabIndex = 38
         Me.Panel6.Visible = False
         '
@@ -1082,7 +1073,7 @@ Partial Class Master_Barang_New
         '
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(79, 487)
+        Me.ComboBox1.Location = New System.Drawing.Point(79, 515)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(140, 21)
         Me.ComboBox1.TabIndex = 460
@@ -1091,7 +1082,7 @@ Partial Class Master_Barang_New
         '
         Me.lblValue.AutoSize = True
         Me.lblValue.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.lblValue.Location = New System.Drawing.Point(234, 487)
+        Me.lblValue.Location = New System.Drawing.Point(234, 515)
         Me.lblValue.Name = "lblValue"
         Me.lblValue.Size = New System.Drawing.Size(46, 20)
         Me.lblValue.TabIndex = 461
@@ -1102,7 +1093,7 @@ Partial Class Master_Barang_New
         Me.TextBox8.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox8.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TextBox8.Location = New System.Drawing.Point(286, 486)
+        Me.TextBox8.Location = New System.Drawing.Point(286, 514)
         Me.TextBox8.MaxLength = 50
         Me.TextBox8.Name = "TextBox8"
         Me.TextBox8.Size = New System.Drawing.Size(151, 22)
@@ -1113,7 +1104,7 @@ Partial Class Master_Barang_New
         Me.Button5.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button5.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button5.ForeColor = System.Drawing.Color.White
-        Me.Button5.Location = New System.Drawing.Point(858, 482)
+        Me.Button5.Location = New System.Drawing.Point(858, 510)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(80, 28)
         Me.Button5.TabIndex = 463
@@ -1124,7 +1115,7 @@ Partial Class Master_Barang_New
         '
         Me.lblSatusAktif.AutoSize = True
         Me.lblSatusAktif.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.lblSatusAktif.Location = New System.Drawing.Point(447, 487)
+        Me.lblSatusAktif.Location = New System.Drawing.Point(447, 515)
         Me.lblSatusAktif.Name = "lblSatusAktif"
         Me.lblSatusAktif.Size = New System.Drawing.Size(91, 20)
         Me.lblSatusAktif.TabIndex = 464
@@ -1135,7 +1126,7 @@ Partial Class Master_Barang_New
         Me.ComboBox7.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox7.FormattingEnabled = True
         Me.ComboBox7.Items.AddRange(New Object() {"Y", "T"})
-        Me.ComboBox7.Location = New System.Drawing.Point(544, 487)
+        Me.ComboBox7.Location = New System.Drawing.Point(544, 515)
         Me.ComboBox7.Name = "ComboBox7"
         Me.ComboBox7.Size = New System.Drawing.Size(77, 21)
         Me.ComboBox7.TabIndex = 465
@@ -1144,7 +1135,7 @@ Partial Class Master_Barang_New
         '
         Me.Label17.AutoSize = True
         Me.Label17.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label17.Location = New System.Drawing.Point(636, 487)
+        Me.Label17.Location = New System.Drawing.Point(636, 515)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(38, 20)
         Me.Label17.TabIndex = 466
@@ -1154,7 +1145,7 @@ Partial Class Master_Barang_New
         '
         Me.ComboBox8.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox8.FormattingEnabled = True
-        Me.ComboBox8.Location = New System.Drawing.Point(680, 487)
+        Me.ComboBox8.Location = New System.Drawing.Point(680, 515)
         Me.ComboBox8.Name = "ComboBox8"
         Me.ComboBox8.Size = New System.Drawing.Size(162, 21)
         Me.ComboBox8.TabIndex = 467
@@ -1165,7 +1156,7 @@ Partial Class Master_Barang_New
         Me.ListView1.FullRowSelect = True
         Me.ListView1.GridLines = True
         Me.ListView1.HideSelection = False
-        Me.ListView1.Location = New System.Drawing.Point(18, 514)
+        Me.ListView1.Location = New System.Drawing.Point(18, 542)
         Me.ListView1.Name = "ListView1"
         Me.ListView1.Size = New System.Drawing.Size(1204, 207)
         Me.ListView1.TabIndex = 468
@@ -1211,6 +1202,7 @@ Partial Class Master_Barang_New
         Me.txtStandarPrice.Name = "txtStandarPrice"
         Me.txtStandarPrice.Size = New System.Drawing.Size(93, 22)
         Me.txtStandarPrice.TabIndex = 472
+        Me.txtStandarPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Txtket
         '
@@ -1233,14 +1225,73 @@ Partial Class Master_Barang_New
         Me.Label12.TabIndex = 473
         Me.Label12.Text = "Keterangan"
         '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label13.Location = New System.Drawing.Point(25, 470)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(99, 20)
+        Me.Label13.TabIndex = 397
+        Me.Label13.Text = "Toleransi Min"
+        '
+        'Txt_Toleransi_TimbangMin
+        '
+        Me.Txt_Toleransi_TimbangMin.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_Toleransi_TimbangMin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_Toleransi_TimbangMin.Font = New System.Drawing.Font("Work Sans", 8.999999!)
+        Me.Txt_Toleransi_TimbangMin.Location = New System.Drawing.Point(152, 469)
+        Me.Txt_Toleransi_TimbangMin.MaxLength = 50
+        Me.Txt_Toleransi_TimbangMin.Name = "Txt_Toleransi_TimbangMin"
+        Me.Txt_Toleransi_TimbangMin.Size = New System.Drawing.Size(93, 22)
+        Me.Txt_Toleransi_TimbangMin.TabIndex = 445
+        Me.Txt_Toleransi_TimbangMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label14.Location = New System.Drawing.Point(265, 469)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(101, 20)
+        Me.Label14.TabIndex = 471
+        Me.Label14.Text = "Toleransi Max"
+        '
+        'Txt_Toleransi_TimbangMax
+        '
+        Me.Txt_Toleransi_TimbangMax.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_Toleransi_TimbangMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_Toleransi_TimbangMax.Font = New System.Drawing.Font("Work Sans", 8.999999!)
+        Me.Txt_Toleransi_TimbangMax.Location = New System.Drawing.Point(376, 468)
+        Me.Txt_Toleransi_TimbangMax.MaxLength = 50
+        Me.Txt_Toleransi_TimbangMax.Name = "Txt_Toleransi_TimbangMax"
+        Me.Txt_Toleransi_TimbangMax.Size = New System.Drawing.Size(93, 22)
+        Me.Txt_Toleransi_TimbangMax.TabIndex = 472
+        Me.Txt_Toleransi_TimbangMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1243, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'Master_Barang_New
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1243, 733)
+        Me.ClientSize = New System.Drawing.Size(1243, 756)
         Me.Controls.Add(Me.Txtket)
         Me.Controls.Add(Me.Label12)
+        Me.Controls.Add(Me.Txt_Toleransi_TimbangMax)
+        Me.Controls.Add(Me.Label14)
         Me.Controls.Add(Me.txtStandarPrice)
         Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.Cmb_FlagPotongStok)
@@ -1268,6 +1319,7 @@ Partial Class Master_Barang_New
         Me.Controls.Add(Me.TextBox4)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.ComboBox17)
+        Me.Controls.Add(Me.Txt_Toleransi_TimbangMin)
         Me.Controls.Add(Me.TextBox3)
         Me.Controls.Add(Me.ComboBox16)
         Me.Controls.Add(Me.Label6)
@@ -1316,6 +1368,7 @@ Partial Class Master_Barang_New
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.cmbJenis)
+        Me.Controls.Add(Me.Label13)
         Me.Controls.Add(Me.lblKolom)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label5)
@@ -1451,4 +1504,8 @@ Partial Class Master_Barang_New
     Friend WithEvents Column3 As DataGridViewCheckBoxColumn
     Friend WithEvents Txtket As TextBox
     Friend WithEvents Label12 As Label
+    Friend WithEvents Label13 As Label
+    Friend WithEvents Txt_Toleransi_TimbangMin As TextBox
+    Friend WithEvents Label14 As Label
+    Friend WithEvents Txt_Toleransi_TimbangMax As TextBox
 End Class

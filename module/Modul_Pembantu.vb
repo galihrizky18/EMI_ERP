@@ -19,6 +19,10 @@ Public Class Modul_Pembantu
         SQL = "select dbo.ubah_satuan('KODE_PERUSAHAAN', 'masa','KODE BARANG', 'SATUAN AWAL', 'SATUAN TUJUAN', 'JUMLAH UBAH' ) as hasil"
     End Sub
 
+    Private Sub GeT_HPP()
+        SQL = "dbo.get_hpp(c.Serial_Number) as Harga"
+    End Sub
+
     Private Function Generate_Batch_New(ByVal productionDate As String, ByVal lineCode As String, ByVal expDate As String) As String
 
         Dim productionTime As Date = Date.Parse(productionDate)
@@ -37,7 +41,7 @@ Public Class Modul_Pembantu
     End Function
 
 
-    Private Function Generate_QR(ByVal MaterialCode As String, ByVal BatchCode As String) As String
+    Private Function Generate_QR(ByVal KodeBarang As String, ByVal BatchCode As String) As String
 
         'Dim chars As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         'Dim UnixCode As New StringBuilder()
@@ -48,7 +52,7 @@ Public Class Modul_Pembantu
         'Next
 
         Dim Qr As String = ""
-        Qr = MaterialCode & "-" & BatchCode
+        Qr = KodeBarang & "-" & BatchCode
 
         Return Qr
     End Function
@@ -233,10 +237,51 @@ Public Class Modul_Pembantu
     End Sub
 
 
+    Private Sub Get_Pallet_Tujuan()
+        Dim palletTujuan As Double = 0
+        SQL = "Select Top(1) nomor_urut from view_warehouse_position_detail where "
+        SQL = SQL & "kode_Perusahaan ='" & KodePerusahaan & "' and kode_barang is null and "
+        SQL = SQL & "id_wms_warehouse_position = 'ISI ID WAREHOUSE TUJUAN' "
+        SQL = SQL & "order by nomor_urut "
+        Using dr = OpenTrans(SQL)
+            If dr.Read Then
+                palletTujuan = dr("nomor_urut")
+            Else
+                dr.Close()
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("data Rak Sudah Penuh . . ! ! ")
+                Exit Sub
+            End If
+        End Using
+    End Sub
 
 
+    Private Sub Get_ID_Warehouse_Tujuan()
 
-
+        'GET WAREHOUSE KOSONG
+        Dim Id_WarehouseTujuan, NoPalletTujuan As String
+        SQL = "SELECT TOP(1) "
+        SQL = SQL & "a.id_wms_warehouse_position, b.nomor_urut "
+        SQL = SQL & "FROM view_warehouse_position a, view_warehouse_position_detail b "
+        SQL = SQL & "WHERE a.Id_WMS_Warehouse_Position = b.Id_WMS_Warehouse_Position "
+        SQL = SQL & "AND a.kode_Perusahaan = b.kode_Perusahaan "
+        SQL = SQL & "AND a.kode_Perusahaan = '" & KodePerusahaan & "' "
+        SQL = SQL & "AND a.Kode_Stock_Owner = 'KODE STOCK OWNER' "
+        SQL = SQL & "AND b.Kode_Barang IS NULL;"
+        Using Dr = OpenTrans(SQL)
+            If Dr.Read Then
+                Id_WarehouseTujuan = Dr("id_wms_warehouse_position")
+                NoPalletTujuan = Dr("nomor_urut")
+            Else
+                Dr.Close()
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("Pallet Kosong Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+        End Using
+    End Sub
 
 
 

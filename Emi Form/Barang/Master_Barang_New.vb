@@ -1,7 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-Public Class Master_Barang_New
+﻿Public Class Master_Barang_New
 
     Dim arrkolom, arrorder, arrJenisBarang, arrJenisGudang, arrKategoriGudang, arrId_kategori_qc, arrId_kategori_PO, arrId_Klasifikasi_Bahan, arrprefix_Klasifikasi_Bahan, arrid_Routing As New ArrayList
     Dim arrId_Klasifikasi_Bahan2, arrprefix_Klasifikasi_Bahan2 As New ArrayList
@@ -256,6 +253,9 @@ Public Class Master_Barang_New
 
         Button1.Text = Base_Language.Lang_Global_Simpan
         Button3.Text = Base_Language.Lang_Global_Refresh
+
+        Txt_Toleransi_TimbangMin.Text = ""
+        Txt_Toleransi_TimbangMax.Text = ""
 
         ComboBox11.Enabled = False
 
@@ -732,7 +732,7 @@ Public Class Master_Barang_New
             SQL = SQL & "and a.ID_Klasifikasi_Bahan2 = x.ID_Klasifikasi_Bahan2), null) as keterangan_Bhn2 , "
 
             SQL = SQL & "isnull((select keterangan from EMI_Master_Routing x where a.kode_perusahaan = x.kode_perusahaan "
-            SQL = SQL & "and a.ID_Routing = x.ID_Routing),NULL) as Keterangan_Routing, a.keterangan as Ket_Barang  "
+            SQL = SQL & "and a.ID_Routing = x.ID_Routing),NULL) as Keterangan_Routing, a.keterangan as Ket_Barang, a.Toleransi_Timbang_Min, a.Toleransi_Timbang_Max  "
             SQL = SQL & "From barang a, EMI_Group_Jenis b, emi_kategori_gudang c,Emi_Kategori_PO e, Emi_Klasifikasi_Bahan f Where "
             SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan And a.id_group_jenis = b.id_group_jenis "
             SQL = SQL & "And a.Kode_Perusahaan = '" & KodePerusahaan & "' and "
@@ -893,6 +893,18 @@ Public Class Master_Barang_New
                     TextBox4.Text = General_Class.CekNULL(Dr("Isi_Per_Bags"))
 
                     Txtket.Text = General_Class.CekNULL(Dr("ket_barang"))
+
+                    If General_Class.CekNULL(Dr("Toleransi_Timbang_Min")) = "" Then
+                        Txt_Toleransi_TimbangMin.Text = 0
+                    Else
+                        Txt_Toleransi_TimbangMin.Text = Dr("Toleransi_Timbang_Min")
+                    End If
+
+                    If General_Class.CekNULL(Dr("Toleransi_Timbang_Max")) = "" Then
+                        Txt_Toleransi_TimbangMax.Text = 0
+                    Else
+                        Txt_Toleransi_TimbangMax.Text = Dr("Toleransi_Timbang_Max")
+                    End If
 
                     TextBox1.Text = Dr("kode_barang")
 
@@ -1092,6 +1104,12 @@ Public Class Master_Barang_New
         ElseIf ComboBox16.SelectedIndex = -1 Then
             MessageBox.Show("Metode Pengeluaran Stok harus diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             ComboBox16.Focus() : Exit Sub
+        ElseIf Txt_Toleransi_TimbangMin.Text = "" Then
+            MessageBox.Show("Toleransi Min harus diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Txt_Toleransi_TimbangMin.Focus() : Exit Sub
+        ElseIf Txt_Toleransi_TimbangMax.Text = "" Then
+            MessageBox.Show("Toleransi Max harus diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Txt_Toleransi_TimbangMax.Focus() : Exit Sub
         End If
 
         If arrGudangRawMaterial.Contains(arrJenisBarang(cmbJenis.SelectedIndex)) Then
@@ -1154,22 +1172,28 @@ Public Class Master_Barang_New
 
                     Dim No_Urut As String
 
-                    SQL = " Select b.Prefix As Prefix_Klasifikasi_Bahan, (max(right(a.Kode_Barang,3)) + 1) As No_Urut "
-                    SQL = SQL & "From barang a left Join ( "
-                    SQL = SQL & "Select a.Prefix_Klasifikasi_Bahan +''+b.Prefix_Klasifikasi_Bahan as Prefix, b.id_klasifikasi_bahan1 "
-                    SQL = SQL & "From EMI_Klasifikasi_Bahan a, EMI_Klasifikasi_Bahan2 b Where "
-                    SQL = SQL & "a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 And "
-                    SQL = SQL & "b.id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "') b "
-                    SQL = SQL & "on a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 Where Left(a.kode_barang, 4) = Prefix "
-                    SQL = SQL & "Group By b.Prefix "
+                    'SQL = " Select b.Prefix As Prefix_Klasifikasi_Bahan, (max(right(a.Kode_Barang,3)) + 1) As No_Urut "
+                    'SQL = SQL & "From barang a left Join ( "
+                    'SQL = SQL & "Select a.Prefix_Klasifikasi_Bahan +''+b.Prefix_Klasifikasi_Bahan as Prefix, b.id_klasifikasi_bahan1 "
+                    'SQL = SQL & "From EMI_Klasifikasi_Bahan a, EMI_Klasifikasi_Bahan2 b Where "
+                    'SQL = SQL & "a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 And "
+                    'SQL = SQL & "b.id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "') b "
+                    'SQL = SQL & "on a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 Where Left(a.kode_barang, 4) = Prefix "
+                    'SQL = SQL & "Group By b.Prefix "
+
+                    SQL = "select top(1) substring(kode_barang, 5, 3) as no_urut from barang where kode_perusahaan = '" & KodePerusahaan & "' and "
+                    SQL = SQL & "id_klasifikasi_bahan = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "' and "
+                    SQL = SQL & "id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan2.Item(ComboBox19.SelectedIndex) & "' "
+                    SQL = SQL & "order by no_urut desc"
 
                     Using Dr = OpenTrans(SQL)
                         If Dr.Read Then
-                            If IsDBNull(Dr("No_Urut")) Then
-                                No_Urut = "001"
-                            Else
-                                No_Urut = Format(Dr("No_Urut"), "0##")
-                            End If
+                            'If IsDBNull(Dr("No_Urut")) Then
+                            '    No_Urut = "001"
+                            'Else
+                            '   
+                            'End If
+                            No_Urut = Format(Val(Dr("No_Urut")) + 1, "000")
                         Else
                             No_Urut = "001"
                         End If
@@ -1228,7 +1252,8 @@ Public Class Master_Barang_New
                                 Else
                                     SQL = SQL & ",ID_Klasifikasi_Bahan2"
                                 End If
-                                SQL = SQL & ",ID_Routing, Jenis_Kemasan, Metode_Pengeluaran_Stok, Berat_Bags, Satuan_Berat_Bags, Isi_Per_Bags, Satuan_Isi_Bags,flag_potong_stok,standar_price, Keterangan) "
+                                SQL = SQL & ",ID_Routing, Jenis_Kemasan, Metode_Pengeluaran_Stok, Berat_Bags, Satuan_Berat_Bags, Isi_Per_Bags, Satuan_Isi_Bags,flag_potong_stok,standar_price, "
+                                SQL = SQL & "Keterangan, Toleransi_Timbang_Min, Toleransi_Timbang_Max) "
                                 SQL = SQL & "values ('" & KodePerusahaan & "', '" & .Rows(i).Item("kode_stock_owner") & "', "
 
                                 SQL = SQL & "'" & TextBox1.Text.Trim & "', '" & TextBox1.Text.Trim & "', "
@@ -1269,8 +1294,8 @@ Public Class Master_Barang_New
 
                                 SQL = SQL & "'" & ComboBox18.SelectedItem & "', "
                                 SQL = SQL & "'" & Cmb_FlagPotongStok.Text & "' ,"
-                                SQL = SQL & "'" & txtStandarPrice.Text.Trim & "', '" & Txtket.Text & "' "
-                                SQL = SQL & ")"
+                                SQL = SQL & "'" & txtStandarPrice.Text.Trim & "', '" & Txtket.Text & "', "
+                                SQL = SQL & "'" & Txt_Toleransi_TimbangMin.Text & "', '" & Txt_Toleransi_TimbangMax.Text & "')"
                                 ExecuteTrans(SQL)
 
                             Next
@@ -1378,8 +1403,10 @@ Public Class Master_Barang_New
                 End If
 
                 SQL = SQL & "a.Satuan_Isi_Bags = '" & ComboBox18.SelectedItem & "', "
-                SQL = SQL & "a.keterangan = '" & Txtket.Text & "' "
-                ' SQL = SQL & "a.input_csi = '" & ComboBox11.Text & "', "
+                SQL = SQL & "a.keterangan = '" & Txtket.Text & "', "
+                SQL = SQL & "a.Toleransi_Timbang_Min = '" & Txt_Toleransi_TimbangMin.Text & "', "
+                SQL = SQL & "a.Toleransi_Timbang_Max = '" & Txt_Toleransi_TimbangMax.Text & "' "
+                ' SQL = SQL & "a.input_csi = '" & ComboBox11.Text & "', "S
 
                 '    SQL = SQL & "a.penentu_harga_csi = '" & TextBox5.Text & "' "
                 SQL = SQL & "from barang a, View_Lokasi_Stock b where "
@@ -2081,7 +2108,7 @@ Public Class Master_Barang_New
 
     Private Sub TextBox9_KeyPress_1(sender As Object, e As KeyPressEventArgs) Handles txtStandarPrice.KeyPress
         If e.KeyChar = Chr(13) Then
-            Button1.Focus()
+            Txt_Toleransi_TimbangMin.Focus()
         End If
 
         If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
@@ -2118,6 +2145,16 @@ Public Class Master_Barang_New
 
     Private Sub DgvSatuanTerpilih_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DgvSatuanTerpilih.KeyPress
         If e.KeyChar = Chr(13) Then ComboBox19.Focus()
+    End Sub
+
+    Private Sub Txt_Toleransi_TimbangMin_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Toleransi_TimbangMin.KeyPress
+        If e.KeyChar = Chr(13) Then Txt_Toleransi_TimbangMax.Focus()
+        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
+    End Sub
+
+    Private Sub Txt_Toleransi_TimbangMax_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Toleransi_TimbangMax.KeyPress
+        If e.KeyChar = Chr(13) Then Button1.Focus()
+        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
     End Sub
 
     Private Sub cmbJenis_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbJenis.SelectedIndexChanged
@@ -2230,14 +2267,14 @@ Public Class Master_Barang_New
                 'SQL = SQL & "group by b.Prefix_Klasifikasi_Bahan "
 
 
-                SQL = " Select b.Prefix As Prefix_Klasifikasi_Bahan, (max(right(a.Kode_Barang,3)) + 1) As No_Urut "
-                SQL = SQL & "From barang a left Join ( "
-                SQL = SQL & "Select a.Prefix_Klasifikasi_Bahan +''+b.Prefix_Klasifikasi_Bahan as Prefix, b.id_klasifikasi_bahan1 "
-                SQL = SQL & "From EMI_Klasifikasi_Bahan a, EMI_Klasifikasi_Bahan2 b Where "
-                SQL = SQL & "a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 And "
-                SQL = SQL & "b.id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "') b "
-                SQL = SQL & "on a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 Where Left(a.kode_barang, 4) = Prefix "
-                SQL = SQL & "Group By b.Prefix "
+                'SQL = " Select b.Prefix As Prefix_Klasifikasi_Bahan, (max(right(a.Kode_Barang,3)) + 1) As No_Urut "
+                'SQL = SQL & "From barang a left Join ( "
+                'SQL = SQL & "Select a.Prefix_Klasifikasi_Bahan +''+b.Prefix_Klasifikasi_Bahan as Prefix, b.id_klasifikasi_bahan1 "
+                'SQL = SQL & "From EMI_Klasifikasi_Bahan a, EMI_Klasifikasi_Bahan2 b Where "
+                'SQL = SQL & "a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 And "
+                'SQL = SQL & "b.id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "') b "
+                'SQL = SQL & "on a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 Where Left(a.kode_barang, 4) = Prefix "
+                'SQL = SQL & "Group By b.Prefix "
 
                 SQL = "select top(1) substring(kode_barang, 5, 3) as no_urut from barang where kode_perusahaan = '" & KodePerusahaan & "' and "
                 SQL = SQL & "id_klasifikasi_bahan = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "' and "
@@ -2275,4 +2312,5 @@ Public Class Master_Barang_New
     Private Sub Txtket_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txtket.KeyPress
         If e.KeyChar = Chr(13) Then TextBox5.Focus()
     End Sub
+
 End Class

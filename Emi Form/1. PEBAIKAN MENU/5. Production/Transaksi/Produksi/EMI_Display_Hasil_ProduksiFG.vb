@@ -1,7 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-Public Class EMI_Display_Hasil_ProduksiFG
+﻿Public Class EMI_Display_Hasil_ProduksiFG
     Dim Jenis = "Display_Production_Order"
     Public asal As String
     Dim arrcari As New ArrayList
@@ -216,7 +213,5 @@ Public Class EMI_Display_Hasil_ProduksiFG
         End If
     End Sub
 
-    Private Sub ListView1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListView1.SelectedIndexChanged
 
-    End Sub
 End Class

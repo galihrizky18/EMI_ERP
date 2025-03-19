@@ -24,7 +24,6 @@ Partial Class EMI_Barang_Masuk_Summary_Data
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.BtnBarangMasuk_Cari = New System.Windows.Forms.Button()
@@ -51,16 +50,23 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Lv_PODetail = New System.Windows.Forms.ListView()
-        Me.TabControl1 = New System.Windows.Forms.TabControl()
-        Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.ListView1 = New System.Windows.Forms.ListView()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Txt_PalletBlmMasuk = New System.Windows.Forms.TextBox()
+        Me.Txt_PalletMasuk = New System.Windows.Forms.TextBox()
+        Me.Txt_JumlahMasuk = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Txt_JumlahBlmMasuk = New System.Windows.Forms.TextBox()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
-        Me.TabControl1.SuspendLayout()
-        Me.TabPage1.SuspendLayout()
-        Me.TabPage2.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -71,21 +77,8 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1215, 55)
+        Me.Panel1.Size = New System.Drawing.Size(1284, 55)
         Me.Panel1.TabIndex = 22
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 53)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1215, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -116,7 +109,7 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.GroupBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Padding = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.GroupBox3.Size = New System.Drawing.Size(631, 148)
+        Me.GroupBox3.Size = New System.Drawing.Size(626, 148)
         Me.GroupBox3.TabIndex = 342
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Filter Data"
@@ -260,17 +253,17 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.Panel3.Location = New System.Drawing.Point(1, 63)
         Me.Panel3.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(19, 491)
+        Me.Panel3.Size = New System.Drawing.Size(13, 491)
         Me.Panel3.TabIndex = 35
         Me.Panel3.Visible = False
         '
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(1196, 69)
+        Me.Panel5.Location = New System.Drawing.Point(1272, 63)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(19, 491)
+        Me.Panel5.Size = New System.Drawing.Size(12, 491)
         Me.Panel5.TabIndex = 37
         Me.Panel5.Visible = False
         '
@@ -291,9 +284,9 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.LV_PembelianLoading.FullRowSelect = True
         Me.LV_PembelianLoading.GridLines = True
         Me.LV_PembelianLoading.HideSelection = False
-        Me.LV_PembelianLoading.Location = New System.Drawing.Point(21, 64)
+        Me.LV_PembelianLoading.Location = New System.Drawing.Point(14, 64)
         Me.LV_PembelianLoading.Name = "LV_PembelianLoading"
-        Me.LV_PembelianLoading.Size = New System.Drawing.Size(1175, 257)
+        Me.LV_PembelianLoading.Size = New System.Drawing.Size(1252, 215)
         Me.LV_PembelianLoading.TabIndex = 234
         Me.LV_PembelianLoading.UseCompatibleStateImageBehavior = False
         Me.LV_PembelianLoading.View = System.Windows.Forms.View.Details
@@ -303,7 +296,7 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.ContextMenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakPerintahBongkarToolStripMenuItem, Me.CetakPenerimaanBarangToolStripMenuItem, Me.CetakBuktiTimbangToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(211, 92)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(211, 70)
         '
         'CetakPerintahBongkarToolStripMenuItem
         '
@@ -336,10 +329,10 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(21, 322)
+        Me.Panel7.Location = New System.Drawing.Point(21, 280)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel7.Name = "Panel7"
-        Me.Panel7.Size = New System.Drawing.Size(1436, 24)
+        Me.Panel7.Size = New System.Drawing.Size(1436, 10)
         Me.Panel7.TabIndex = 39
         Me.Panel7.Visible = False
         '
@@ -349,44 +342,12 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.Lv_PODetail.FullRowSelect = True
         Me.Lv_PODetail.GridLines = True
         Me.Lv_PODetail.HideSelection = False
-        Me.Lv_PODetail.Location = New System.Drawing.Point(0, 0)
+        Me.Lv_PODetail.Location = New System.Drawing.Point(6, 19)
         Me.Lv_PODetail.Name = "Lv_PODetail"
-        Me.Lv_PODetail.Size = New System.Drawing.Size(1161, 211)
+        Me.Lv_PODetail.Size = New System.Drawing.Size(611, 259)
         Me.Lv_PODetail.TabIndex = 341
         Me.Lv_PODetail.UseCompatibleStateImageBehavior = False
         Me.Lv_PODetail.View = System.Windows.Forms.View.Details
-        '
-        'TabControl1
-        '
-        Me.TabControl1.Controls.Add(Me.TabPage1)
-        Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Location = New System.Drawing.Point(21, 331)
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1175, 249)
-        Me.TabControl1.TabIndex = 343
-        '
-        'TabPage1
-        '
-        Me.TabPage1.Controls.Add(Me.Lv_PODetail)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 25)
-        Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(1167, 220)
-        Me.TabPage1.TabIndex = 0
-        Me.TabPage1.Text = "Detail"
-        Me.TabPage1.UseVisualStyleBackColor = True
-        '
-        'TabPage2
-        '
-        Me.TabPage2.Controls.Add(Me.ListView1)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 25)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1167, 220)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Barang Masuk"
-        Me.TabPage2.UseVisualStyleBackColor = True
         '
         'ListView1
         '
@@ -394,20 +355,142 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.ListView1.FullRowSelect = True
         Me.ListView1.GridLines = True
         Me.ListView1.HideSelection = False
-        Me.ListView1.Location = New System.Drawing.Point(0, 0)
+        Me.ListView1.Location = New System.Drawing.Point(7, 19)
         Me.ListView1.Name = "ListView1"
-        Me.ListView1.Size = New System.Drawing.Size(1161, 211)
+        Me.ListView1.Size = New System.Drawing.Size(614, 191)
         Me.ListView1.TabIndex = 342
         Me.ListView1.UseCompatibleStateImageBehavior = False
         Me.ListView1.View = System.Windows.Forms.View.Details
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.Lv_PODetail)
+        Me.GroupBox1.Location = New System.Drawing.Point(14, 285)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(623, 284)
+        Me.GroupBox1.TabIndex = 343
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Barang"
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.Txt_PalletBlmMasuk)
+        Me.GroupBox2.Controls.Add(Me.Txt_PalletMasuk)
+        Me.GroupBox2.Controls.Add(Me.Txt_JumlahBlmMasuk)
+        Me.GroupBox2.Controls.Add(Me.Txt_JumlahMasuk)
+        Me.GroupBox2.Controls.Add(Me.Label4)
+        Me.GroupBox2.Controls.Add(Me.Label5)
+        Me.GroupBox2.Controls.Add(Me.Label3)
+        Me.GroupBox2.Controls.Add(Me.Label2)
+        Me.GroupBox2.Controls.Add(Me.ListView1)
+        Me.GroupBox2.Location = New System.Drawing.Point(645, 285)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(627, 284)
+        Me.GroupBox2.TabIndex = 343
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Pallet"
+        '
+        'Txt_PalletBlmMasuk
+        '
+        Me.Txt_PalletBlmMasuk.Enabled = False
+        Me.Txt_PalletBlmMasuk.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_PalletBlmMasuk.Location = New System.Drawing.Point(483, 254)
+        Me.Txt_PalletBlmMasuk.Name = "Txt_PalletBlmMasuk"
+        Me.Txt_PalletBlmMasuk.Size = New System.Drawing.Size(131, 22)
+        Me.Txt_PalletBlmMasuk.TabIndex = 344
+        Me.Txt_PalletBlmMasuk.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Txt_PalletMasuk
+        '
+        Me.Txt_PalletMasuk.Enabled = False
+        Me.Txt_PalletMasuk.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_PalletMasuk.Location = New System.Drawing.Point(483, 226)
+        Me.Txt_PalletMasuk.Name = "Txt_PalletMasuk"
+        Me.Txt_PalletMasuk.Size = New System.Drawing.Size(131, 22)
+        Me.Txt_PalletMasuk.TabIndex = 344
+        Me.Txt_PalletMasuk.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Txt_JumlahMasuk
+        '
+        Me.Txt_JumlahMasuk.Enabled = False
+        Me.Txt_JumlahMasuk.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_JumlahMasuk.Location = New System.Drawing.Point(145, 227)
+        Me.Txt_JumlahMasuk.Name = "Txt_JumlahMasuk"
+        Me.Txt_JumlahMasuk.Size = New System.Drawing.Size(131, 22)
+        Me.Txt_JumlahMasuk.TabIndex = 344
+        Me.Txt_JumlahMasuk.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Location = New System.Drawing.Point(295, 257)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(171, 17)
+        Me.Label4.TabIndex = 343
+        Me.Label4.Text = "Jumlah Pallet Belum Masuk"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(294, 229)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(130, 17)
+        Me.Label3.TabIndex = 343
+        Me.Label3.Text = "Jumlah Pallet Masuk"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(6, 229)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(92, 17)
+        Me.Label2.TabIndex = 343
+        Me.Label2.Text = "Jumlah Masuk"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(6, 257)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(133, 17)
+        Me.Label5.TabIndex = 343
+        Me.Label5.Text = "Jumlah Belum Masuk"
+        '
+        'Txt_JumlahBlmMasuk
+        '
+        Me.Txt_JumlahBlmMasuk.Enabled = False
+        Me.Txt_JumlahBlmMasuk.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_JumlahBlmMasuk.Location = New System.Drawing.Point(145, 255)
+        Me.Txt_JumlahBlmMasuk.Name = "Txt_JumlahBlmMasuk"
+        Me.Txt_JumlahBlmMasuk.Size = New System.Drawing.Size(131, 22)
+        Me.Txt_JumlahBlmMasuk.TabIndex = 344
+        Me.Txt_JumlahBlmMasuk.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 53)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1284, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'EMI_Barang_Masuk_Summary_Data
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1215, 754)
-        Me.Controls.Add(Me.TabControl1)
+        Me.ClientSize = New System.Drawing.Size(1284, 754)
+        Me.Controls.Add(Me.GroupBox2)
+        Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.Panel6)
@@ -427,9 +510,9 @@ Partial Class EMI_Barang_Masuk_Summary_Data
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
         Me.ContextMenuStrip1.ResumeLayout(False)
-        Me.TabControl1.ResumeLayout(False)
-        Me.TabPage1.ResumeLayout(False)
-        Me.TabPage2.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -458,12 +541,19 @@ Partial Class EMI_Barang_Masuk_Summary_Data
     Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents ComboBox3 As ComboBox
     Friend WithEvents BtnBarangMasuk_Cari As Button
-    Friend WithEvents TabControl1 As TabControl
-    Friend WithEvents TabPage1 As TabPage
-    Friend WithEvents TabPage2 As TabPage
     Friend WithEvents ListView1 As ListView
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents CetakPerintahBongkarToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CetakPenerimaanBarangToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CetakBuktiTimbangToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents Txt_PalletBlmMasuk As TextBox
+    Friend WithEvents Txt_PalletMasuk As TextBox
+    Friend WithEvents Txt_JumlahMasuk As TextBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Txt_JumlahBlmMasuk As TextBox
+    Friend WithEvents Label5 As Label
 End Class

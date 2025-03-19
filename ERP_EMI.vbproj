@@ -18,6 +18,21 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -452,12 +467,6 @@
       <DependentUpon>Laporan_Emi_Pelunasan_HutangBackup.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Display\Biaya\EMI_Transaksi_Actual_Biaya_Produksi_Display.designer.vb">
-      <DependentUpon>EMI_Transaksi_Actual_Biaya_Produksi_Display.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Display\Biaya\EMI_Transaksi_Actual_Biaya_Produksi_Display.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Display\Produksi\EMI_Display_Production_Result.designer.vb">
       <DependentUpon>EMI_Display_Production_Result.vb</DependentUpon>
     </Compile>
@@ -528,18 +537,6 @@
       <DependentUpon>EMI_Transaksi_Work_Center_PerBulan.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Biaya\EMI_Transaksi_Work_Center_PerBulan.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\HPP\EMI_Display_Validasi_HPP_Produksi.designer.vb">
-      <DependentUpon>EMI_Display_Validasi_HPP_Produksi.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\HPP\EMI_Display_Validasi_HPP_Produksi.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\HPP\Emi_Validasi_HPP_Produksi.designer.vb">
-      <DependentUpon>Emi_Validasi_HPP_Produksi.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\HPP\Emi_Validasi_HPP_Produksi.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Produksi\EMI_Display_Hasil_Produksi.designer.vb">
@@ -717,34 +714,52 @@
     <Compile Include="Emi Form\Accounting\BIAYA 2022\Show Dialog\EMI_Detail_Hutang_Biaya_Import.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Actual_Budgeting_Detail_Display.designer.vb">
+      <DependentUpon>EMI_Actual_Budgeting_Detail_Display.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Actual_Budgeting_Detail_Display.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\Accounting\Budgeting\EMI_Budgeting_Work_Center.Designer.vb">
       <DependentUpon>EMI_Budgeting_Work_Center.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Accounting\Budgeting\EMI_Budgeting_Work_Center.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budget_Work_Center.Designer.vb">
-      <DependentUpon>EMI_Compare_Budget_Work_Center.vb</DependentUpon>
+    <Compile Include="Emi Form\Accounting\Budgeting\Display_Validasi_Budget_Work_Center.Designer.vb">
+      <DependentUpon>Display_Validasi_Budget_Work_Center.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budget_Work_Center.vb">
+    <Compile Include="Emi Form\Accounting\Budgeting\Display_Validasi_Budget_Work_Center.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budget_Work_Center2.Designer.vb">
-      <DependentUpon>EMI_Compare_Budget_Work_Center2.vb</DependentUpon>
+    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budgeting.Designer.vb">
+      <DependentUpon>EMI_Compare_Budgeting.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budget_Work_Center2.vb">
+    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budgeting.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budget_Work_Center_Fix.Designer.vb">
-      <DependentUpon>EMI_Compare_Budget_Work_Center_Fix.vb</DependentUpon>
+    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budgeting2.Designer.vb">
+      <DependentUpon>EMI_Compare_Budgeting2.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budget_Work_Center_Fix.vb">
+    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budgeting2.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budget_Work_Center3.Designer.vb">
-      <DependentUpon>EMI_Compare_Budget_Work_Center3.vb</DependentUpon>
+    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Transaksi_Actual_Biaya_Produksi_Display.designer.vb">
+      <DependentUpon>EMI_Transaksi_Actual_Biaya_Produksi_Display.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budget_Work_Center3.vb">
+    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Transaksi_Actual_Biaya_Produksi_Display.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Validasi_Budget_Work_Center.Designer.vb">
+      <DependentUpon>EMI_Validasi_Budget_Work_Center.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Accounting\Budgeting\EMI_Validasi_Budget_Work_Center.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Accounting\Budgeting\Perbaikan\EMI_Controlling_Produksi.Designer.vb">
+      <DependentUpon>EMI_Controlling_Produksi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Accounting\Budgeting\Perbaikan\EMI_Controlling_Produksi.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Accounting\Budgeting_Per_CostCenter.Designer.vb">
@@ -957,12 +972,6 @@
       <DependentUpon>Master_Gudang_QR_Code.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Emi Form\Material Movement\QC\Emi_Display_Tf_Stock_QC.Designer.vb">
-      <DependentUpon>Emi_Display_Tf_Stock_QC.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Material Movement\QC\Emi_Display_Tf_Stock_QC.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Material Movement\QC\EMI_Display_Transfer_QC.designer.vb">
       <DependentUpon>EMI_Display_Transfer_QC.vb</DependentUpon>
     </Compile>
@@ -975,22 +984,10 @@
     <Compile Include="Emi Form\Material Movement\QC\EMI_Display_Transfer_Tidak_Timbang_QC.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Material Movement\QC\Emi_Split_Stock_QC.Designer.vb">
-      <DependentUpon>Emi_Split_Stock_QC.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Material Movement\QC\Emi_Split_Stock_QC.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Material Movement\QC\EMI_Timbang_Floor_Scale_QC.designer.vb">
       <DependentUpon>EMI_Timbang_Floor_Scale_QC.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Material Movement\QC\EMI_Timbang_Floor_Scale_QC.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Material Movement\QC\EMI_Transfer_Quality_QC.Designer.vb">
-      <DependentUpon>EMI_Transfer_Quality_QC.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Material Movement\QC\EMI_Transfer_Quality_QC.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Production\DUMMY\SD_Pilih_Inquiry.Designer.vb">
@@ -1291,6 +1288,48 @@
     <Compile Include="Emi Form\Production\Show Dialog\EMI_Schedule_SD_Tambah.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Production\Validasi HPP\EMI_Display_Validasi_HPP_Produksi.designer.vb">
+      <DependentUpon>EMI_Display_Validasi_HPP_Produksi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Production\Validasi HPP\EMI_Display_Validasi_HPP_Produksi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Production\Validasi HPP\Emi_Validasi_HPP_Produksi.designer.vb">
+      <DependentUpon>Emi_Validasi_HPP_Produksi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Production\Validasi HPP\Emi_Validasi_HPP_Produksi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Production\Validasi HPP\SD_Detail_Batch.Designer.vb">
+      <DependentUpon>SD_Detail_Batch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Production\Validasi HPP\SD_Detail_Batch.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Production\Validasi HPP\SD_Detail_Validasi_HPP.Designer.vb">
+      <DependentUpon>SD_Detail_Validasi_HPP.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Production\Validasi HPP\SD_Detail_Validasi_HPP.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Production\Work Center\Master\EMI_Group_Jenis_Akun.designer.vb">
+      <DependentUpon>EMI_Group_Jenis_Akun.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Production\Work Center\Master\EMI_Group_Jenis_Akun.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Production\Work Center\Master\Master_Jenis_Biaya_Produksi.Designer.vb">
+      <DependentUpon>Master_Jenis_Biaya_Produksi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Production\Work Center\Master\Master_Jenis_Biaya_Produksi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Production\Work Center\Master\Master_Routing.Designer.vb">
+      <DependentUpon>Master_Routing.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Production\Work Center\Master\Master_Routing.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\SYNC\Server_Sinkronasi_B2B.designer.vb">
       <DependentUpon>Server_Sinkronasi_B2B.vb</DependentUpon>
     </Compile>
@@ -1301,6 +1340,12 @@
       <DependentUpon>SyncMenus.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\SYNC\SyncMenus.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Display\Display_Barang.designer.vb">
+      <DependentUpon>Display_Barang.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Display\Display_Barang.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Warehouse\Display\EMI_Barang_Masuk_Summary_Data.designer.vb">
@@ -1325,12 +1370,6 @@
       <DependentUpon>EMI_Display_Restock.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Warehouse\Display\EMI_Display_Restock.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Warehouse\Display\Emi_Display_Transfer_Stock.Designer.vb">
-      <DependentUpon>Emi_Display_Transfer_Stock.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Warehouse\Display\Emi_Display_Transfer_Stock.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Warehouse\Display_Tracking_Kendaraan.Designer.vb">
@@ -1531,18 +1570,6 @@
     <Compile Include="Emi Form\Production\Work Center\EMI_Transaksi_Work_Center2.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Production\Work Center\Master\Master_Jenis_Biaya_Produksi.Designer.vb">
-      <DependentUpon>Master_Jenis_Biaya_Produksi.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Production\Work Center\Master\Master_Jenis_Biaya_Produksi.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Production\Work Center\Master\Master_Routing.Designer.vb">
-      <DependentUpon>Master_Routing.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Production\Work Center\Master\Master_Routing.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Penawaran\Display_Penawaran_SD_Ongkir.designer.vb">
       <DependentUpon>Display_Penawaran_SD_Ongkir.vb</DependentUpon>
     </Compile>
@@ -1687,12 +1714,6 @@
     <Compile Include="Emi Form\Flever\EMI_Display_Flever_Tidak_Timbang.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Warehouse\Display\Display_Barang.designer.vb">
-      <DependentUpon>Display_Barang.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Warehouse\Display\Display_Barang.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Warehouse\Display\Display_Hasil_Quality_Control.designer.vb">
       <DependentUpon>Display_Hasil_Quality_Control.vb</DependentUpon>
     </Compile>
@@ -1723,22 +1744,40 @@
     <Compile Include="Emi Form\Warehouse\Laporan\Laporan_Transfer_Stock.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Warehouse\Material Movement\EMI_Display_Transfer.designer.vb">
-      <DependentUpon>EMI_Display_Transfer.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Warehouse\Material Movement\EMI_Display_Transfer.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Warehouse\Material Movement\EMI_Display_Transfer_Tidak_Timbang.designer.vb">
-      <DependentUpon>EMI_Display_Transfer_Tidak_Timbang.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Warehouse\Material Movement\EMI_Display_Transfer_Tidak_Timbang.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Warehouse\Material Movement\EMI_Timbang_Floor_Scale.designer.vb">
       <DependentUpon>EMI_Timbang_Floor_Scale.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Warehouse\Material Movement\EMI_Timbang_Floor_Scale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Pengeluaran_Barang.Designer.vb">
+      <DependentUpon>Pengeluaran_Barang.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Pengeluaran_Barang.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\TF Material To Material\EMI_Flever3.Designer.vb">
+      <DependentUpon>EMI_Flever3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\TF Material To Material\EMI_Flever3.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\TF Material To Material\Tf_Material_To_Material.Designer.vb">
+      <DependentUpon>Tf_Material_To_Material.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\TF Material To Material\Tf_Material_To_Material.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\TF Stock QC\Display\Emi_Display_Tf_Stock_QC.Designer.vb">
+      <DependentUpon>Emi_Display_Tf_Stock_QC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\TF Stock QC\Display\Emi_Display_Tf_Stock_QC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\TF Stock QC\EMI_Transfer_Quality_QC.Designer.vb">
+      <DependentUpon>EMI_Transfer_Quality_QC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\TF Stock QC\EMI_Transfer_Quality_QC.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Warehouse\Material Movement\TF Stock QC\Transfer_Stock_QC.Designer.vb">
@@ -1747,10 +1786,46 @@
     <Compile Include="Emi Form\Warehouse\Material Movement\TF Stock QC\Transfer_Stock_QC.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer_Stock_3.Designer.vb">
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Display\EMI_Display_Transfer.designer.vb">
+      <DependentUpon>EMI_Display_Transfer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Display\EMI_Display_Transfer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Display\Emi_Display_Transfer_Stock.Designer.vb">
+      <DependentUpon>Emi_Display_Transfer_Stock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Display\Emi_Display_Transfer_Stock.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Display\EMI_Display_Transfer_Tidak_Timbang.designer.vb">
+      <DependentUpon>EMI_Display_Transfer_Tidak_Timbang.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Display\EMI_Display_Transfer_Tidak_Timbang.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\EMI_Display_Split_Stock.Designer.vb">
+      <DependentUpon>EMI_Display_Split_Stock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\EMI_Display_Split_Stock.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Emi_Split_Stock_QC.Designer.vb">
+      <DependentUpon>Emi_Split_Stock_QC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Emi_Split_Stock_QC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Split_Stock.Designer.vb">
+      <DependentUpon>Split_Stock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Split_Stock.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Transfer_Stock_3.Designer.vb">
       <DependentUpon>Transfer_Stock_3.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer_Stock_3.vb">
+    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Transfer_Stock_3.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Warehouse\QC\Display\EMI_Display_QC.Designer.vb">
@@ -1825,6 +1900,12 @@
     <Compile Include="Emi Form\Warehouse\Show Dialog\SD_Pilih_PO2.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\Warehouse\Show Dialog\tes\EMI_Barang_Masuk_Display_Rak.Designer.vb">
+      <DependentUpon>EMI_Barang_Masuk_Display_Rak.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\Warehouse\Show Dialog\tes\EMI_Barang_Masuk_Display_Rak.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\Warehouse\Temp\Emi_Adjustment_Dist2.Designer.vb">
       <DependentUpon>Emi_Adjustment_Dist2.vb</DependentUpon>
     </Compile>
@@ -1867,12 +1948,6 @@
     <Compile Include="Emi Form\Warehouse\Temp\Transfer_Quality_Stock2.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Warehouse\TEs\EMI_Barang_Masuk_Display_Rak.Designer.vb">
-      <DependentUpon>EMI_Barang_Masuk_Display_Rak.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Warehouse\TEs\EMI_Barang_Masuk_Display_Rak.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Warehouse\Transaksi Biaya Lokal\EMI_Display_Transaksi_Biaya_Lokal.Designer.vb">
       <DependentUpon>EMI_Display_Transaksi_Biaya_Lokal.vb</DependentUpon>
     </Compile>
@@ -1901,12 +1976,6 @@
       <DependentUpon>EMI_Adjustment.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\Warehouse\Transaksi\EMI_Adjustment.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Warehouse\Transaksi\EMI_Flever3.Designer.vb">
-      <DependentUpon>EMI_Flever3.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Warehouse\Transaksi\EMI_Flever3.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\Warehouse\Transaksi\EMI_Pembelian2.designer.vb">
@@ -2195,6 +2264,18 @@
       <DependentUpon>Laporan_Transfer_Stock_Rpt.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Rpt\NewBarcodeTransferMaterial.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NewBarcodeTransferMaterial.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Rpt\NewBarcodeTransferMaterial2.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NewBarcodeTransferMaterial2.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Rpt\NewBarcodeTransferStock.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -2211,6 +2292,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>NewBarcodeTransferStockQC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Rpt\Pengeluaran_Barang_Faktur.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Pengeluaran_Barang_Faktur.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Rpt\Rpt_Bukti_Penerimaan_Barang.vb">
@@ -2271,6 +2358,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Faktur_Transfer_Quality.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Rpt\Rpt_Faktur_Transfer_Stock.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Faktur_Transfer_Stock.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Rpt\Rpt_Laporah_Hasil_QC2.vb">
@@ -2499,9 +2592,6 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Laporan_Emi_Pelunasan_HutangBackup.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Display\Biaya\EMI_Transaksi_Actual_Biaya_Produksi_Display.resx">
-      <DependentUpon>EMI_Transaksi_Actual_Biaya_Produksi_Display.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Display\Produksi\EMI_Display_Production_Result.resx">
       <DependentUpon>EMI_Display_Production_Result.vb</DependentUpon>
     </EmbeddedResource>
@@ -2537,12 +2627,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Biaya\EMI_Transaksi_Work_Center_PerBulan.resx">
       <DependentUpon>EMI_Transaksi_Work_Center_PerBulan.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\HPP\EMI_Display_Validasi_HPP_Produksi.resx">
-      <DependentUpon>EMI_Display_Validasi_HPP_Produksi.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\HPP\Emi_Validasi_HPP_Produksi.resx">
-      <DependentUpon>Emi_Validasi_HPP_Produksi.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Produksi\EMI_Display_Hasil_Produksi.resx">
       <DependentUpon>EMI_Display_Hasil_Produksi.vb</DependentUpon>
@@ -2638,20 +2722,29 @@
     <EmbeddedResource Include="Emi Form\Accounting\BIAYA 2022\Show Dialog\EMI_Detail_Hutang_Biaya_Import.resx">
       <DependentUpon>EMI_Detail_Hutang_Biaya_Import.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Accounting\Budgeting\EMI_Actual_Budgeting_Detail_Display.resx">
+      <DependentUpon>EMI_Actual_Budgeting_Detail_Display.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Accounting\Budgeting\EMI_Budgeting_Work_Center.resx">
       <DependentUpon>EMI_Budgeting_Work_Center.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budget_Work_Center.resx">
-      <DependentUpon>EMI_Compare_Budget_Work_Center.vb</DependentUpon>
+    <EmbeddedResource Include="Emi Form\Accounting\Budgeting\Display_Validasi_Budget_Work_Center.resx">
+      <DependentUpon>Display_Validasi_Budget_Work_Center.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budget_Work_Center2.resx">
-      <DependentUpon>EMI_Compare_Budget_Work_Center2.vb</DependentUpon>
+    <EmbeddedResource Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budgeting.resx">
+      <DependentUpon>EMI_Compare_Budgeting.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budget_Work_Center_Fix.resx">
-      <DependentUpon>EMI_Compare_Budget_Work_Center_Fix.vb</DependentUpon>
+    <EmbeddedResource Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budgeting2.resx">
+      <DependentUpon>EMI_Compare_Budgeting2.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Accounting\Budgeting\EMI_Compare_Budget_Work_Center3.resx">
-      <DependentUpon>EMI_Compare_Budget_Work_Center3.vb</DependentUpon>
+    <EmbeddedResource Include="Emi Form\Accounting\Budgeting\EMI_Transaksi_Actual_Biaya_Produksi_Display.resx">
+      <DependentUpon>EMI_Transaksi_Actual_Biaya_Produksi_Display.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Accounting\Budgeting\EMI_Validasi_Budget_Work_Center.resx">
+      <DependentUpon>EMI_Validasi_Budget_Work_Center.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Accounting\Budgeting\Perbaikan\EMI_Controlling_Produksi.resx">
+      <DependentUpon>EMI_Controlling_Produksi.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Accounting\Budgeting_Per_CostCenter.resx">
       <DependentUpon>Budgeting_Per_CostCenter.vb</DependentUpon>
@@ -2762,23 +2855,14 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Master_Gudang_QR_Code.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Material Movement\QC\Emi_Display_Tf_Stock_QC.resx">
-      <DependentUpon>Emi_Display_Tf_Stock_QC.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Material Movement\QC\EMI_Display_Transfer_QC.resx">
       <DependentUpon>EMI_Display_Transfer_QC.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Material Movement\QC\EMI_Display_Transfer_Tidak_Timbang_QC.resx">
       <DependentUpon>EMI_Display_Transfer_Tidak_Timbang_QC.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Material Movement\QC\Emi_Split_Stock_QC.resx">
-      <DependentUpon>Emi_Split_Stock_QC.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Material Movement\QC\EMI_Timbang_Floor_Scale_QC.resx">
       <DependentUpon>EMI_Timbang_Floor_Scale_QC.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Material Movement\QC\EMI_Transfer_Quality_QC.resx">
-      <DependentUpon>EMI_Transfer_Quality_QC.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Production\DUMMY\SD_Pilih_Inquiry.resx">
       <DependentUpon>SD_Pilih_Inquiry.vb</DependentUpon>
@@ -2948,11 +3032,35 @@
     <EmbeddedResource Include="Emi Form\Production\Show Dialog\EMI_Schedule_SD_Tambah.resx">
       <DependentUpon>EMI_Schedule_SD_Tambah.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Production\Validasi HPP\EMI_Display_Validasi_HPP_Produksi.resx">
+      <DependentUpon>EMI_Display_Validasi_HPP_Produksi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Production\Validasi HPP\Emi_Validasi_HPP_Produksi.resx">
+      <DependentUpon>Emi_Validasi_HPP_Produksi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Production\Validasi HPP\SD_Detail_Batch.resx">
+      <DependentUpon>SD_Detail_Batch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Production\Validasi HPP\SD_Detail_Validasi_HPP.resx">
+      <DependentUpon>SD_Detail_Validasi_HPP.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Production\Work Center\Master\EMI_Group_Jenis_Akun.resx">
+      <DependentUpon>EMI_Group_Jenis_Akun.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Production\Work Center\Master\Master_Jenis_Biaya_Produksi.resx">
+      <DependentUpon>Master_Jenis_Biaya_Produksi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Production\Work Center\Master\Master_Routing.resx">
+      <DependentUpon>Master_Routing.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\SYNC\Server_Sinkronasi_B2B.resx">
       <DependentUpon>Server_Sinkronasi_B2B.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\SYNC\SyncMenus.resx">
       <DependentUpon>SyncMenus.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Display\Display_Barang.resx">
+      <DependentUpon>Display_Barang.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Display\EMI_Barang_Masuk_Summary_Data.resx">
       <DependentUpon>EMI_Barang_Masuk_Summary_Data.vb</DependentUpon>
@@ -2965,9 +3073,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Display\EMI_Display_Restock.resx">
       <DependentUpon>EMI_Display_Restock.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Warehouse\Display\Emi_Display_Transfer_Stock.resx">
-      <DependentUpon>Emi_Display_Transfer_Stock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Display_Tracking_Kendaraan.resx">
       <DependentUpon>Display_Tracking_Kendaraan.vb</DependentUpon>
@@ -3068,12 +3173,6 @@
     <EmbeddedResource Include="Emi Form\Production\Work Center\EMI_Transaksi_Work_Center2.resx">
       <DependentUpon>EMI_Transaksi_Work_Center2.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Production\Work Center\Master\Master_Jenis_Biaya_Produksi.resx">
-      <DependentUpon>Master_Jenis_Biaya_Produksi.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Production\Work Center\Master\Master_Routing.resx">
-      <DependentUpon>Master_Routing.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Penawaran\Display_Penawaran_SD_Ongkir.resx">
       <DependentUpon>Display_Penawaran_SD_Ongkir.vb</DependentUpon>
     </EmbeddedResource>
@@ -3146,10 +3245,6 @@
     <EmbeddedResource Include="Emi Form\Flever\EMI_Display_Flever_Tidak_Timbang.resx">
       <DependentUpon>EMI_Display_Flever_Tidak_Timbang.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Warehouse\Display\Display_Barang.resx">
-      <DependentUpon>Display_Barang.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Display\Display_Hasil_Quality_Control.resx">
       <DependentUpon>Display_Hasil_Quality_Control.vb</DependentUpon>
     </EmbeddedResource>
@@ -3165,19 +3260,46 @@
     <EmbeddedResource Include="Emi Form\Warehouse\Laporan\Laporan_Transfer_Stock.resx">
       <DependentUpon>Laporan_Transfer_Stock.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\EMI_Display_Transfer.resx">
-      <DependentUpon>EMI_Display_Transfer.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\EMI_Display_Transfer_Tidak_Timbang.resx">
-      <DependentUpon>EMI_Display_Transfer_Tidak_Timbang.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\EMI_Timbang_Floor_Scale.resx">
       <DependentUpon>EMI_Timbang_Floor_Scale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\Pengeluaran_Barang.resx">
+      <DependentUpon>Pengeluaran_Barang.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\TF Material To Material\EMI_Flever3.resx">
+      <DependentUpon>EMI_Flever3.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\TF Material To Material\Tf_Material_To_Material.resx">
+      <DependentUpon>Tf_Material_To_Material.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\TF Stock QC\Display\Emi_Display_Tf_Stock_QC.resx">
+      <DependentUpon>Emi_Display_Tf_Stock_QC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\TF Stock QC\EMI_Transfer_Quality_QC.resx">
+      <DependentUpon>EMI_Transfer_Quality_QC.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\TF Stock QC\Transfer_Stock_QC.resx">
       <DependentUpon>Transfer_Stock_QC.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\Transfer_Stock_3.resx">
+    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Display\EMI_Display_Transfer.resx">
+      <DependentUpon>EMI_Display_Transfer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Display\Emi_Display_Transfer_Stock.resx">
+      <DependentUpon>Emi_Display_Transfer_Stock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Display\EMI_Display_Transfer_Tidak_Timbang.resx">
+      <DependentUpon>EMI_Display_Transfer_Tidak_Timbang.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\Transfer Stock\EMI_Display_Split_Stock.resx">
+      <DependentUpon>EMI_Display_Split_Stock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Emi_Split_Stock_QC.resx">
+      <DependentUpon>Emi_Split_Stock_QC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Split_Stock.resx">
+      <DependentUpon>Split_Stock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\Transfer Stock\Transfer_Stock_3.resx">
       <DependentUpon>Transfer_Stock_3.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\QC\Display\EMI_Display_QC.resx">
@@ -3217,6 +3339,9 @@
     <EmbeddedResource Include="Emi Form\Warehouse\Show Dialog\SD_Pilih_PO2.resx">
       <DependentUpon>SD_Pilih_PO2.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\Warehouse\Show Dialog\tes\EMI_Barang_Masuk_Display_Rak.resx">
+      <DependentUpon>EMI_Barang_Masuk_Display_Rak.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Temp\Emi_Adjustment_Dist2.resx">
       <DependentUpon>Emi_Adjustment_Dist2.vb</DependentUpon>
     </EmbeddedResource>
@@ -3238,9 +3363,6 @@
     <EmbeddedResource Include="Emi Form\Warehouse\Temp\Transfer_Quality_Stock2.resx">
       <DependentUpon>Transfer_Quality_Stock2.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Warehouse\TEs\EMI_Barang_Masuk_Display_Rak.resx">
-      <DependentUpon>EMI_Barang_Masuk_Display_Rak.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Transaksi Biaya Lokal\EMI_Display_Transaksi_Biaya_Lokal.resx">
       <DependentUpon>EMI_Display_Transaksi_Biaya_Lokal.vb</DependentUpon>
     </EmbeddedResource>
@@ -3255,9 +3377,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Transaksi\EMI_Adjustment.resx">
       <DependentUpon>EMI_Adjustment.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Warehouse\Transaksi\EMI_Flever3.resx">
-      <DependentUpon>EMI_Flever3.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Transaksi\EMI_Pembelian2.resx">
       <DependentUpon>EMI_Pembelian2.vb</DependentUpon>
@@ -3413,6 +3532,14 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Laporan_Transfer_Stock_Rpt.vb</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\NewBarcodeTransferMaterial.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>NewBarcodeTransferMaterial.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\NewBarcodeTransferMaterial2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>NewBarcodeTransferMaterial2.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Rpt\NewBarcodeTransferStock.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>NewBarcodeTransferStock.vb</LastGenOutput>
@@ -3424,6 +3551,10 @@
     <EmbeddedResource Include="Rpt\NewBarcodeTransferStockQC.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>NewBarcodeTransferStockQC.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\Pengeluaran_Barang_Faktur.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Pengeluaran_Barang_Faktur.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Rpt\Rpt_Bukti_Penerimaan_Barang.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -3464,6 +3595,10 @@
     <EmbeddedResource Include="Rpt\Rpt_Faktur_Transfer_Quality.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Faktur_Transfer_Quality.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\Rpt_Faktur_Transfer_Stock.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Faktur_Transfer_Stock.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Rpt\Rpt_Laporah_Hasil_QC2.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -3525,6 +3660,8 @@
   <ItemGroup>
     <Folder Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\1. Master Data\Forecast\" />
     <Folder Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\4. Laporan\Forecast\" />
+    <Folder Include="Emi Form\1. PEBAIKAN MENU\5. Production\Display\Biaya\" />
+    <Folder Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\HPP\" />
     <Folder Include="Emi Form\Accounting\BIAYA 2008\Laporan\" />
     <Folder Include="Emi Form\Accounting\BIAYA 2022\Transaksi\" />
     <Folder Include="Emi Form\Bahan\Display\" />
@@ -3539,6 +3676,7 @@
     <Folder Include="Emi Form\Purchase\Transaksi\" />
     <Folder Include="Emi Form\QC\Quality Inspection\" />
     <Folder Include="Emi Form\Selisih Barang\New\" />
+    <Folder Include="Emi Form\Warehouse\TEs\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="module\Module_SQL_ke_server_lain.vb" />
@@ -3548,6 +3686,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

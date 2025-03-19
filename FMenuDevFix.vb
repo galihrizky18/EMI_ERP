@@ -652,14 +652,6 @@
         EMI_Budgeting_Work_Center.Focus()
     End Sub
 
-    Private Sub CompareBudgetingWorkCenterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CompareBudgetingWorkCenterToolStripMenuItem.Click
-        EMI_Compare_Budget_Work_Center.StartPosition = FormStartPosition.CenterScreen
-
-        EMI_Compare_Budget_Work_Center.MdiParent = Me
-        EMI_Compare_Budget_Work_Center.Show()
-        EMI_Compare_Budget_Work_Center.Focus()
-    End Sub
-
     Private Sub TimbangUNloadingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TimbangUNloadingToolStripMenuItem.Click
         Emi_Display_Timbang_FloorScale.StartPosition = FormStartPosition.CenterScreen
 
@@ -685,11 +677,11 @@
     End Sub
 
     Private Sub SplitStockToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SplitStockToolStripMenuItem.Click
-        Emi_Split_Stock_QC.StartPosition = FormStartPosition.CenterScreen
+        'Emi_Split_Stock_QC.StartPosition = FormStartPosition.CenterScreen
 
-        Emi_Split_Stock_QC.MdiParent = Me
-        Emi_Split_Stock_QC.Show()
-        Emi_Split_Stock_QC.Focus()
+        'Emi_Split_Stock_QC.MdiParent = Me
+        'Emi_Split_Stock_QC.Show()
+        'Emi_Split_Stock_QC.Focus()
     End Sub
 
     Private Sub DisplaySplitStockToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplaySplitStockToolStripMenuItem.Click
@@ -764,29 +756,6 @@
         Pembayaran_Biaya_Produksi.Focus()
     End Sub
 
-    Private Sub CompareBudgetingWorkCenter2ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CompareBudgetingWorkCenter2ToolStripMenuItem.Click
-        EMI_Compare_Budget_Work_Center3.StartPosition = FormStartPosition.CenterScreen
-
-        EMI_Compare_Budget_Work_Center3.MdiParent = Me
-        EMI_Compare_Budget_Work_Center3.Show()
-        EMI_Compare_Budget_Work_Center3.Focus()
-    End Sub
-
-    Private Sub CompareBudgetingWorkCenter2ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles CompareBudgetingWorkCenter2ToolStripMenuItem1.Click
-        EMI_Compare_Budget_Work_Center2.StartPosition = FormStartPosition.CenterScreen
-
-        EMI_Compare_Budget_Work_Center2.MdiParent = Me
-        EMI_Compare_Budget_Work_Center2.Show()
-        EMI_Compare_Budget_Work_Center2.Focus()
-    End Sub
-
-    Private Sub CompareBudgetingWorkCenterFIXToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CompareBudgetingWorkCenterFIXToolStripMenuItem.Click
-        EMI_Compare_Budget_Work_Center_Fix.StartPosition = FormStartPosition.CenterScreen
-
-        EMI_Compare_Budget_Work_Center_Fix.MdiParent = Me
-        EMI_Compare_Budget_Work_Center_Fix.Show()
-        EMI_Compare_Budget_Work_Center_Fix.Focus()
-    End Sub
 
     Private Sub MToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MToolStripMenuItem.Click
         EMI_Master_Meteran.StartPosition = FormStartPosition.CenterScreen
@@ -812,5 +781,203 @@
         EMI_Persentase_Budgeting_WorkCenter.Focus()
     End Sub
 
+    Private Sub ValidasiBudgetWorkCenterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ValidasiBudgetWorkCenterToolStripMenuItem.Click
+        EMI_Validasi_Budget_Work_Center.StartPosition = FormStartPosition.CenterScreen
 
+        EMI_Validasi_Budget_Work_Center.MdiParent = Me
+        EMI_Validasi_Budget_Work_Center.Show()
+        EMI_Validasi_Budget_Work_Center.Focus()
+    End Sub
+
+    Private Sub DisplayValidasiBudgetWorkCenterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayValidasiBudgetWorkCenterToolStripMenuItem.Click
+        Display_Validasi_Budget_Work_Center.StartPosition = FormStartPosition.CenterScreen
+
+        Display_Validasi_Budget_Work_Center.MdiParent = Me
+        Display_Validasi_Budget_Work_Center.Show()
+        Display_Validasi_Budget_Work_Center.Focus()
+    End Sub
+
+    Private Sub MasterJenisBiayaProduksiToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterJenisBiayaProduksiToolStripMenuItem.Click
+        Master_Jenis_Biaya_Produksi.StartPosition = FormStartPosition.CenterScreen
+
+        Master_Jenis_Biaya_Produksi.MdiParent = Me
+        Master_Jenis_Biaya_Produksi.Show()
+        Master_Jenis_Biaya_Produksi.Focus()
+    End Sub
+
+    Private Sub DisplayBarangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayBarangToolStripMenuItem.Click
+        Display_Barang.StartPosition = FormStartPosition.CenterScreen
+
+        Display_Barang.MdiParent = Me
+        Display_Barang.Show()
+        Display_Barang.Focus()
+    End Sub
+
+    Private Sub TfMaterialToMaterialToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TfMaterialToMaterialToolStripMenuItem.Click
+        Tf_Material_To_Material.StartPosition = FormStartPosition.CenterScreen
+
+        Tf_Material_To_Material.MdiParent = Me
+        Tf_Material_To_Material.Show()
+        Tf_Material_To_Material.Focus()
+    End Sub
+
+    Private Sub ValidasiMaterialToMaterialToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ValidasiMaterialToMaterialToolStripMenuItem.Click
+        'EMI_Validasi_Tf_Material_To_Material.StartPosition = FormStartPosition.CenterScreen
+
+        'EMI_Validasi_Tf_Material_To_Material.MdiParent = Me
+        'EMI_Validasi_Tf_Material_To_Material.Show()
+        'EMI_Validasi_Tf_Material_To_Material.Focus()
+    End Sub
+
+    Private Sub TransferStockToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TransferStockToolStripMenuItem.Click
+        Transfer_Stock_3.StartPosition = FormStartPosition.CenterScreen
+
+        Transfer_Stock_3.MdiParent = Me
+        Transfer_Stock_3.Show()
+        Transfer_Stock_3.Focus()
+    End Sub
+
+    Private Sub SummaryBarangMasukToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SummaryBarangMasukToolStripMenuItem.Click
+        EMI_Barang_Masuk_Summary_Data.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Barang_Masuk_Summary_Data.MdiParent = Me
+        EMI_Barang_Masuk_Summary_Data.Show()
+        EMI_Barang_Masuk_Summary_Data.Focus()
+    End Sub
+
+    Private Sub PengeluaranBahanBakuToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PengeluaranBahanBakuToolStripMenuItem.Click
+        EMI_Display_Pengeluaran_Bahan_Baku.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Display_Pengeluaran_Bahan_Baku.MdiParent = Me
+        EMI_Display_Pengeluaran_Bahan_Baku.Show()
+        EMI_Display_Pengeluaran_Bahan_Baku.Focus()
+    End Sub
+
+    Private Sub ControllingProduksiToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ControllingProduksiToolStripMenuItem.Click
+        EMI_Controlling_Produksi.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Controlling_Produksi.MdiParent = Me
+        EMI_Controlling_Produksi.Show()
+        EMI_Controlling_Produksi.Focus()
+    End Sub
+
+    Private Sub MasterRoutingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterRoutingToolStripMenuItem.Click
+        Master_Routing.StartPosition = FormStartPosition.CenterScreen
+
+        Master_Routing.MdiParent = Me
+        Master_Routing.Show()
+        Master_Routing.Focus()
+    End Sub
+
+    Private Sub ValidasiHPPToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ValidasiHPPToolStripMenuItem1.Click
+        EMI_Display_Validasi_HPP_Produksi.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Display_Validasi_HPP_Produksi.MdiParent = Me
+        EMI_Display_Validasi_HPP_Produksi.Show()
+        EMI_Display_Validasi_HPP_Produksi.Focus()
+    End Sub
+
+    Private Sub MasterBarangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterBarangToolStripMenuItem.Click
+        Master_Barang_New.StartPosition = FormStartPosition.CenterScreen
+
+        Master_Barang_New.MdiParent = Me
+        Master_Barang_New.Show()
+        Master_Barang_New.Focus()
+    End Sub
+
+    Private Sub CompareBudgetingWorkCenterFIXToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CompareBudgetingWorkCenterFIXToolStripMenuItem.Click
+        EMI_Compare_Budgeting.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Compare_Budgeting.MdiParent = Me
+        EMI_Compare_Budgeting.Show()
+        EMI_Compare_Budgeting.Focus()
+    End Sub
+
+    Private Sub CompareBudgetingWorkCenterBiayaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CompareBudgetingWorkCenterBiayaToolStripMenuItem.Click
+        EMI_Compare_Budgeting2.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Compare_Budgeting2.MdiParent = Me
+        EMI_Compare_Budgeting2.Show()
+        EMI_Compare_Budgeting2.Focus()
+    End Sub
+
+    Private Sub TransferStockToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles TransferStockToolStripMenuItem1.Click
+        Transfer_Stock_3.StartPosition = FormStartPosition.CenterScreen
+
+        Transfer_Stock_3.MdiParent = Me
+        Transfer_Stock_3.Show()
+        Transfer_Stock_3.Focus()
+    End Sub
+
+    Private Sub DisplayTransferStockToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayTransferStockToolStripMenuItem.Click
+        Emi_Display_Transfer.StartPosition = FormStartPosition.CenterScreen
+
+        Emi_Display_Transfer.MdiParent = Me
+        Emi_Display_Transfer.Show()
+        Emi_Display_Transfer.Focus()
+    End Sub
+
+    Private Sub DisplayTransferStockTidakTimbangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayTransferStockTidakTimbangToolStripMenuItem.Click
+        EMI_Display_Transfer_Tidak_Timbang.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Display_Transfer_Tidak_Timbang.MdiParent = Me
+        EMI_Display_Transfer_Tidak_Timbang.Show()
+        EMI_Display_Transfer_Tidak_Timbang.Focus()
+    End Sub
+
+    Private Sub DipToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DipToolStripMenuItem.Click
+        Emi_Display_Transfer_Stock.StartPosition = FormStartPosition.CenterScreen
+
+        Emi_Display_Transfer_Stock.MdiParent = Me
+        Emi_Display_Transfer_Stock.Show()
+        Emi_Display_Transfer_Stock.Focus()
+    End Sub
+
+    Private Sub ValidasiSplitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ValidasiSplitToolStripMenuItem.Click
+        Emi_Display_Tf_Stock_QC.StartPosition = FormStartPosition.CenterScreen
+
+        Emi_Display_Tf_Stock_QC.MdiParent = Me
+        Emi_Display_Tf_Stock_QC.Show()
+        Emi_Display_Tf_Stock_QC.Focus()
+    End Sub
+
+    Private Sub SplitBarangToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SplitBarangToolStripMenuItem1.Click
+        Emi_Split_Stock_QC.StartPosition = FormStartPosition.CenterScreen
+
+        Emi_Split_Stock_QC.MdiParent = Me
+        Emi_Split_Stock_QC.Show()
+        Emi_Split_Stock_QC.Focus()
+    End Sub
+
+    Private Sub DisplaySplitBarangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplaySplitBarangToolStripMenuItem.Click
+        EMI_Display_Split_Stock.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Display_Split_Stock.MdiParent = Me
+        EMI_Display_Split_Stock.Show()
+        EMI_Display_Split_Stock.Focus()
+    End Sub
+
+    Private Sub SYNCToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SYNCToolStripMenuItem.Click
+        Server_Sinkronasi_B2B.StartPosition = FormStartPosition.CenterScreen
+
+        Server_Sinkronasi_B2B.MdiParent = Me
+        Server_Sinkronasi_B2B.Show()
+        Server_Sinkronasi_B2B.Focus()
+    End Sub
+
+    Private Sub TFQualityToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TFQualityToolStripMenuItem.Click
+        EMI_Transfer_Quality_QC.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Transfer_Quality_QC.MdiParent = Me
+        EMI_Transfer_Quality_QC.Show()
+        EMI_Transfer_Quality_QC.Focus()
+    End Sub
+
+    Private Sub PengeluaranBarangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PengeluaranBarangToolStripMenuItem.Click
+        Pengeluaran_Barang.StartPosition = FormStartPosition.CenterScreen
+
+        Pengeluaran_Barang.MdiParent = Me
+        Pengeluaran_Barang.Show()
+        Pengeluaran_Barang.Focus()
+    End Sub
 End Class

@@ -38,6 +38,7 @@ Partial Class Server_Sinkronasi_B2B
         Me.btnSupplierInsert = New System.Windows.Forms.Button()
         Me.btnPnwrBahanBaku = New System.Windows.Forms.Button()
         Me.btnPenawaranPackaging = New System.Windows.Forms.Button()
+        Me.Button5 = New System.Windows.Forms.Button()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -88,7 +89,7 @@ Partial Class Server_Sinkronasi_B2B
         Me.Button22.BackColor = System.Drawing.SystemColors.ControlLightLight
         Me.Button22.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button22.ForeColor = System.Drawing.Color.Maroon
-        Me.Button22.Location = New System.Drawing.Point(17, 417)
+        Me.Button22.Location = New System.Drawing.Point(17, 418)
         Me.Button22.Name = "Button22"
         Me.Button22.Size = New System.Drawing.Size(553, 34)
         Me.Button22.TabIndex = 79
@@ -197,11 +198,23 @@ Partial Class Server_Sinkronasi_B2B
         Me.btnPenawaranPackaging.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnPenawaranPackaging.UseVisualStyleBackColor = False
         '
+        'Button5
+        '
+        Me.Button5.BackColor = System.Drawing.SystemColors.ControlLightLight
+        Me.Button5.Location = New System.Drawing.Point(12, 172)
+        Me.Button5.Name = "Button5"
+        Me.Button5.Size = New System.Drawing.Size(173, 34)
+        Me.Button5.TabIndex = 94
+        Me.Button5.Text = "UPDATE | PO PEMBELIAN"
+        Me.Button5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Button5.UseVisualStyleBackColor = False
+        '
         'Server_Sinkronasi_B2B
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1023, 585)
+        Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.btnPenawaranPackaging)
         Me.Controls.Add(Me.btnPnwrBahanBaku)
         Me.Controls.Add(Me.btnSupplierInsert)
@@ -236,4 +249,5 @@ Partial Class Server_Sinkronasi_B2B
     Friend WithEvents btnSupplierInsert As Button
     Friend WithEvents btnPnwrBahanBaku As Button
     Friend WithEvents btnPenawaranPackaging As Button
+    Friend WithEvents Button5 As Button
 End Class

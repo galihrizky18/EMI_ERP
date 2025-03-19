@@ -31,13 +31,11 @@ Partial Class EMI_Transaksi_Work_Center
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.BtnCari = New System.Windows.Forms.Button()
+        Me.Btn_Set = New System.Windows.Forms.Button()
         Me.CmbLokasi = New System.Windows.Forms.ComboBox()
-        Me.TxtBarangMasuk_NoFaktur = New System.Windows.Forms.TextBox()
-        Me.CmbTahun = New System.Windows.Forms.ComboBox()
-        Me.CmbBulan = New System.Windows.Forms.ComboBox()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Txt_NoFaktur = New System.Windows.Forms.TextBox()
+        Me.Cmb_JenisBiaya = New System.Windows.Forms.ComboBox()
+        Me.Jenis_Biaya = New System.Windows.Forms.Label()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.dgv_routing = New System.Windows.Forms.DataGridView()
         Me.id_routing = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -57,7 +55,6 @@ Partial Class EMI_Transaksi_Work_Center
         Me.BtnSimpan = New System.Windows.Forms.Button()
         Me.Panel8 = New System.Windows.Forms.Panel()
         Me.BtnRefresh = New System.Windows.Forms.Button()
-        Me.Btn_release = New System.Windows.Forms.Button()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.Cmbsatuan = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -94,7 +91,7 @@ Partial Class EMI_Transaksi_Work_Center
         '
         Me.Lbl_Judul.AutoSize = True
         Me.Lbl_Judul.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_Judul.Location = New System.Drawing.Point(15, 14)
+        Me.Lbl_Judul.Location = New System.Drawing.Point(18, 14)
         Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
         Me.Lbl_Judul.Name = "Lbl_Judul"
         Me.Lbl_Judul.Size = New System.Drawing.Size(253, 25)
@@ -104,7 +101,7 @@ Partial Class EMI_Transaksi_Work_Center
         'Panel3
         '
         Me.Panel3.BackColor = System.Drawing.Color.Red
-        Me.Panel3.Location = New System.Drawing.Point(1, 69)
+        Me.Panel3.Location = New System.Drawing.Point(1, 71)
         Me.Panel3.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel3.Name = "Panel3"
         Me.Panel3.Size = New System.Drawing.Size(15, 515)
@@ -114,95 +111,74 @@ Partial Class EMI_Transaksi_Work_Center
         'Panel2
         '
         Me.Panel2.BackColor = System.Drawing.Color.Red
-        Me.Panel2.Location = New System.Drawing.Point(1, 53)
+        Me.Panel2.Location = New System.Drawing.Point(1, 55)
         Me.Panel2.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(1179, 15)
         Me.Panel2.TabIndex = 38
         Me.Panel2.Visible = False
         '
-        'BtnCari
+        'Btn_Set
         '
-        Me.BtnCari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.BtnCari.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.BtnCari.ForeColor = System.Drawing.Color.White
-        Me.BtnCari.Location = New System.Drawing.Point(445, 90)
-        Me.BtnCari.Margin = New System.Windows.Forms.Padding(4)
-        Me.BtnCari.Name = "BtnCari"
-        Me.BtnCari.Size = New System.Drawing.Size(98, 32)
-        Me.BtnCari.TabIndex = 409
-        Me.BtnCari.Text = "&Cari"
-        Me.BtnCari.UseVisualStyleBackColor = False
+        Me.Btn_Set.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Set.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Set.ForeColor = System.Drawing.Color.White
+        Me.Btn_Set.Location = New System.Drawing.Point(398, 90)
+        Me.Btn_Set.Margin = New System.Windows.Forms.Padding(4)
+        Me.Btn_Set.Name = "Btn_Set"
+        Me.Btn_Set.Size = New System.Drawing.Size(98, 32)
+        Me.Btn_Set.TabIndex = 409
+        Me.Btn_Set.Text = "&Set"
+        Me.Btn_Set.UseVisualStyleBackColor = False
         '
         'CmbLokasi
         '
         Me.CmbLokasi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CmbLokasi.FormattingEnabled = True
-        Me.CmbLokasi.Location = New System.Drawing.Point(1020, 71)
+        Me.CmbLokasi.Location = New System.Drawing.Point(1020, 73)
         Me.CmbLokasi.Margin = New System.Windows.Forms.Padding(4)
         Me.CmbLokasi.Name = "CmbLokasi"
         Me.CmbLokasi.Size = New System.Drawing.Size(176, 21)
         Me.CmbLokasi.TabIndex = 408
         '
-        'TxtBarangMasuk_NoFaktur
+        'Txt_NoFaktur
         '
-        Me.TxtBarangMasuk_NoFaktur.BackColor = System.Drawing.Color.Goldenrod
-        Me.TxtBarangMasuk_NoFaktur.Enabled = False
-        Me.TxtBarangMasuk_NoFaktur.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtBarangMasuk_NoFaktur.ForeColor = System.Drawing.SystemColors.Window
-        Me.TxtBarangMasuk_NoFaktur.Location = New System.Drawing.Point(17, 69)
-        Me.TxtBarangMasuk_NoFaktur.Margin = New System.Windows.Forms.Padding(4)
-        Me.TxtBarangMasuk_NoFaktur.MaxLength = 20
-        Me.TxtBarangMasuk_NoFaktur.Name = "TxtBarangMasuk_NoFaktur"
-        Me.TxtBarangMasuk_NoFaktur.Size = New System.Drawing.Size(245, 21)
-        Me.TxtBarangMasuk_NoFaktur.TabIndex = 407
+        Me.Txt_NoFaktur.BackColor = System.Drawing.Color.Goldenrod
+        Me.Txt_NoFaktur.Enabled = False
+        Me.Txt_NoFaktur.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_NoFaktur.ForeColor = System.Drawing.SystemColors.Window
+        Me.Txt_NoFaktur.Location = New System.Drawing.Point(17, 71)
+        Me.Txt_NoFaktur.Margin = New System.Windows.Forms.Padding(4)
+        Me.Txt_NoFaktur.MaxLength = 20
+        Me.Txt_NoFaktur.Name = "Txt_NoFaktur"
+        Me.Txt_NoFaktur.Size = New System.Drawing.Size(245, 21)
+        Me.Txt_NoFaktur.TabIndex = 407
         '
-        'CmbTahun
+        'Cmb_JenisBiaya
         '
-        Me.CmbTahun.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CmbTahun.FormattingEnabled = True
-        Me.CmbTahun.Location = New System.Drawing.Point(291, 95)
-        Me.CmbTahun.Margin = New System.Windows.Forms.Padding(4)
-        Me.CmbTahun.Name = "CmbTahun"
-        Me.CmbTahun.Size = New System.Drawing.Size(146, 21)
-        Me.CmbTahun.TabIndex = 406
+        Me.Cmb_JenisBiaya.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_JenisBiaya.FormattingEnabled = True
+        Me.Cmb_JenisBiaya.Location = New System.Drawing.Point(140, 97)
+        Me.Cmb_JenisBiaya.Margin = New System.Windows.Forms.Padding(4)
+        Me.Cmb_JenisBiaya.Name = "Cmb_JenisBiaya"
+        Me.Cmb_JenisBiaya.Size = New System.Drawing.Size(255, 21)
+        Me.Cmb_JenisBiaya.TabIndex = 405
         '
-        'CmbBulan
+        'Jenis_Biaya
         '
-        Me.CmbBulan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CmbBulan.FormattingEnabled = True
-        Me.CmbBulan.Location = New System.Drawing.Point(69, 95)
-        Me.CmbBulan.Margin = New System.Windows.Forms.Padding(4)
-        Me.CmbBulan.Name = "CmbBulan"
-        Me.CmbBulan.Size = New System.Drawing.Size(146, 21)
-        Me.CmbBulan.TabIndex = 405
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label6.Location = New System.Drawing.Point(233, 97)
-        Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(49, 17)
-        Me.Label6.TabIndex = 404
-        Me.Label6.Text = "Tahun"
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label4.Location = New System.Drawing.Point(17, 97)
-        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(44, 17)
-        Me.Label4.TabIndex = 403
-        Me.Label4.Text = "Bulan"
+        Me.Jenis_Biaya.AutoSize = True
+        Me.Jenis_Biaya.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Jenis_Biaya.Location = New System.Drawing.Point(17, 99)
+        Me.Jenis_Biaya.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Jenis_Biaya.Name = "Jenis_Biaya"
+        Me.Jenis_Biaya.Size = New System.Drawing.Size(80, 17)
+        Me.Jenis_Biaya.TabIndex = 403
+        Me.Jenis_Biaya.Text = "Jenis Biaya"
         '
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(19, 119)
+        Me.Panel4.Location = New System.Drawing.Point(19, 121)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1179, 15)
@@ -223,7 +199,8 @@ Partial Class EMI_Transaksi_Work_Center
         Me.dgv_routing.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.dgv_routing.ColumnHeadersHeight = 40
         Me.dgv_routing.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.id_routing, Me.routing, Me.checklist, Me.kode_routing, Me.prefix_code, Me.id_jenis_produk})
-        Me.dgv_routing.Location = New System.Drawing.Point(17, 160)
+        Me.dgv_routing.Enabled = False
+        Me.dgv_routing.Location = New System.Drawing.Point(17, 162)
         Me.dgv_routing.Margin = New System.Windows.Forms.Padding(4)
         Me.dgv_routing.Name = "dgv_routing"
         Me.dgv_routing.RowHeadersWidth = 10
@@ -279,7 +256,7 @@ Partial Class EMI_Transaksi_Work_Center
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(224, 136)
+        Me.Panel5.Location = New System.Drawing.Point(224, 138)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(15, 515)
@@ -300,7 +277,8 @@ Partial Class EMI_Transaksi_Work_Center
         Me.dgv_workcenter.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
         Me.dgv_workcenter.ColumnHeadersHeight = 40
         Me.dgv_workcenter.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.id_routingWork, Me.id_routing_workcenter, Me.routing_workcenter, Me.mesin})
-        Me.dgv_workcenter.Location = New System.Drawing.Point(238, 160)
+        Me.dgv_workcenter.Enabled = False
+        Me.dgv_workcenter.Location = New System.Drawing.Point(238, 162)
         Me.dgv_workcenter.Margin = New System.Windows.Forms.Padding(4)
         Me.dgv_workcenter.Name = "dgv_workcenter"
         Me.dgv_workcenter.RowHeadersWidth = 10
@@ -345,7 +323,7 @@ Partial Class EMI_Transaksi_Work_Center
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(1197, 136)
+        Me.Panel6.Location = New System.Drawing.Point(1197, 138)
         Me.Panel6.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(15, 515)
@@ -355,7 +333,7 @@ Partial Class EMI_Transaksi_Work_Center
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(17, 599)
+        Me.Panel7.Location = New System.Drawing.Point(17, 601)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(1179, 15)
@@ -367,7 +345,7 @@ Partial Class EMI_Transaksi_Work_Center
         Me.BtnSimpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnSimpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnSimpan.ForeColor = System.Drawing.Color.White
-        Me.BtnSimpan.Location = New System.Drawing.Point(238, 568)
+        Me.BtnSimpan.Location = New System.Drawing.Point(238, 570)
         Me.BtnSimpan.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnSimpan.Name = "BtnSimpan"
         Me.BtnSimpan.Size = New System.Drawing.Size(114, 32)
@@ -378,7 +356,7 @@ Partial Class EMI_Transaksi_Work_Center
         'Panel8
         '
         Me.Panel8.BackColor = System.Drawing.Color.Red
-        Me.Panel8.Location = New System.Drawing.Point(19, 556)
+        Me.Panel8.Location = New System.Drawing.Point(19, 558)
         Me.Panel8.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel8.Name = "Panel8"
         Me.Panel8.Size = New System.Drawing.Size(1179, 15)
@@ -390,7 +368,7 @@ Partial Class EMI_Transaksi_Work_Center
         Me.BtnRefresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnRefresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnRefresh.ForeColor = System.Drawing.Color.White
-        Me.BtnRefresh.Location = New System.Drawing.Point(355, 568)
+        Me.BtnRefresh.Location = New System.Drawing.Point(355, 570)
         Me.BtnRefresh.Margin = New System.Windows.Forms.Padding(4)
         Me.BtnRefresh.Name = "BtnRefresh"
         Me.BtnRefresh.Size = New System.Drawing.Size(98, 32)
@@ -398,25 +376,14 @@ Partial Class EMI_Transaksi_Work_Center
         Me.BtnRefresh.Text = "&Refresh"
         Me.BtnRefresh.UseVisualStyleBackColor = False
         '
-        'Btn_release
-        '
-        Me.Btn_release.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_release.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.Btn_release.ForeColor = System.Drawing.Color.White
-        Me.Btn_release.Location = New System.Drawing.Point(457, 567)
-        Me.Btn_release.Margin = New System.Windows.Forms.Padding(4)
-        Me.Btn_release.Name = "Btn_release"
-        Me.Btn_release.Size = New System.Drawing.Size(98, 32)
-        Me.Btn_release.TabIndex = 413
-        Me.Btn_release.Text = "&Release"
-        Me.Btn_release.UseVisualStyleBackColor = False
-        Me.Btn_release.Visible = False
-        '
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Checked = True
+        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox1.Enabled = False
         Me.CheckBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.CheckBox1.Location = New System.Drawing.Point(18, 136)
+        Me.CheckBox1.Location = New System.Drawing.Point(18, 138)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(101, 21)
         Me.CheckBox1.TabIndex = 414
@@ -427,7 +394,7 @@ Partial Class EMI_Transaksi_Work_Center
         '
         Me.Cmbsatuan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cmbsatuan.FormattingEnabled = True
-        Me.Cmbsatuan.Location = New System.Drawing.Point(1095, 136)
+        Me.Cmbsatuan.Location = New System.Drawing.Point(1095, 138)
         Me.Cmbsatuan.Margin = New System.Windows.Forms.Padding(4)
         Me.Cmbsatuan.Name = "Cmbsatuan"
         Me.Cmbsatuan.Size = New System.Drawing.Size(101, 21)
@@ -437,7 +404,7 @@ Partial Class EMI_Transaksi_Work_Center
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label1.Location = New System.Drawing.Point(1038, 137)
+        Me.Label1.Location = New System.Drawing.Point(1038, 139)
         Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(53, 17)
@@ -453,20 +420,17 @@ Partial Class EMI_Transaksi_Work_Center
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Cmbsatuan)
         Me.Controls.Add(Me.CheckBox1)
-        Me.Controls.Add(Me.Btn_release)
         Me.Controls.Add(Me.BtnRefresh)
         Me.Controls.Add(Me.BtnSimpan)
         Me.Controls.Add(Me.dgv_workcenter)
         Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.dgv_routing)
-        Me.Controls.Add(Me.BtnCari)
+        Me.Controls.Add(Me.Btn_Set)
         Me.Controls.Add(Me.CmbLokasi)
-        Me.Controls.Add(Me.TxtBarangMasuk_NoFaktur)
-        Me.Controls.Add(Me.CmbTahun)
-        Me.Controls.Add(Me.CmbBulan)
-        Me.Controls.Add(Me.Label6)
-        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.Txt_NoFaktur)
+        Me.Controls.Add(Me.Cmb_JenisBiaya)
+        Me.Controls.Add(Me.Jenis_Biaya)
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel8)
         Me.Controls.Add(Me.Panel4)
@@ -492,13 +456,11 @@ Partial Class EMI_Transaksi_Work_Center
     Friend WithEvents Lbl_Judul As Label
     Friend WithEvents Panel3 As Panel
     Friend WithEvents Panel2 As Panel
-    Friend WithEvents BtnCari As Button
+    Friend WithEvents Btn_Set As Button
     Friend WithEvents CmbLokasi As ComboBox
-    Friend WithEvents TxtBarangMasuk_NoFaktur As TextBox
-    Friend WithEvents CmbTahun As ComboBox
-    Friend WithEvents CmbBulan As ComboBox
-    Friend WithEvents Label6 As Label
-    Friend WithEvents Label4 As Label
+    Friend WithEvents Txt_NoFaktur As TextBox
+    Friend WithEvents Cmb_JenisBiaya As ComboBox
+    Friend WithEvents Jenis_Biaya As Label
     Friend WithEvents Panel4 As Panel
     Friend WithEvents dgv_routing As DataGridView
     Friend WithEvents Panel5 As Panel
@@ -518,7 +480,6 @@ Partial Class EMI_Transaksi_Work_Center
     Friend WithEvents id_routing_workcenter As DataGridViewTextBoxColumn
     Friend WithEvents routing_workcenter As DataGridViewTextBoxColumn
     Friend WithEvents mesin As DataGridViewTextBoxColumn
-    Friend WithEvents Btn_release As Button
     Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents Cmbsatuan As ComboBox
     Friend WithEvents Label1 As Label

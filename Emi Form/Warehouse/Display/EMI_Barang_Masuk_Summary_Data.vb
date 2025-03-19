@@ -7,7 +7,30 @@
     Dim KY As Color = Color.Green
     Dim Batal As Color = Color.Black
 
+    Dim LvPallet_KdBarang, LvPallet_NmBarang, LvPallet_Jumlah, LvPallet_Satuan, LvPallet_Batch, LvPallet_Qr, LvPallet_KdRak, LvPallet_FlagSelesai As String
+
+
     Dim item_PembelianPONoFaktur As Integer = 0
+
+
+    Dim itemDet_NoPO As Integer = 0
+    Dim itemDet_KdBarang As Integer = 1
+    Dim itemDet_NmBarang As Integer = 2
+    Dim itemDet_Satuan As Integer = 3
+    Dim itemDet_TglProduksi As Integer = 4
+    Dim itemDet_TglExpired As Integer = 5
+    Dim itemDet_Jumlah As Integer = 6
+    Dim itemDet_JumlahMasuk As Integer = 7
+
+
+    Dim itemPallet_KdBarang As Integer = 0
+    Dim itemPallet_NmBarang As Integer = 1
+    Dim itemPallet_Jumlah As Integer = 2
+    Dim itemPallet_Satuan As Integer = 3
+    Dim itemPallet_Batch As Integer = 4
+    Dim itemPallet_Qr As Integer = 5
+    Dim itemPallet_KdRak As Integer = 6
+    Dim itemPallet_FlagSelesai As Integer = 7
 
     Private Sub Display_Pembelian_Barang_Masuk_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         kosong()
@@ -27,8 +50,12 @@
             Exit Sub
         End Try
 
-        LV_PembelianLoading.Items.Clear()
+        Txt_JumlahMasuk.Text = ""
+        Txt_PalletMasuk.Text = ""
+        Txt_JumlahBlmMasuk.Text = ""
+        Txt_PalletBlmMasuk.Text = ""
 
+        LV_PembelianLoading.Items.Clear() : LV_PembelianLoading.Columns.Clear()
         LV_PembelianLoading.Columns.Add(Base_Language.Lang_Global_NoFaktur, 170, HorizontalAlignment.Left)
         LV_PembelianLoading.Columns.Add(Base_Language.Lang_Global_Supplier, 0, HorizontalAlignment.Left)
         LV_PembelianLoading.Columns.Add(Base_Language.lang_global_Nama_Supplier, 280, HorizontalAlignment.Left)
@@ -40,29 +67,30 @@
 
         LV_PembelianLoading.View = View.Details
 
-        Lv_PODetail.Items.Clear()
+
+
+        Lv_PODetail.Items.Clear() : Lv_PODetail.Columns.Clear()
         Lv_PODetail.Columns.Add(Base_Language.Lang_Global_No_PO, 130, HorizontalAlignment.Left) '
         Lv_PODetail.Columns.Add(Base_Language.Lang_Global_KodeBarang, 120, HorizontalAlignment.Left) '
         Lv_PODetail.Columns.Add(Base_Language.Lang_Global_NamaBarang, 200, HorizontalAlignment.Left) '
         Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Satuan, 90, HorizontalAlignment.Center)
-        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Harga, 110, HorizontalAlignment.Right) '
         Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Tanggal_Produksi, 130, HorizontalAlignment.Center) '
         Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Tanggal_Expired, 130, HorizontalAlignment.Center) '
         Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Jumlah, 100, HorizontalAlignment.Center) '
-        Lv_PODetail.Columns.Add("Jumlah Masuk", 110, HorizontalAlignment.Center)
+        Lv_PODetail.Columns.Add("Jumlah Masuk", 0, HorizontalAlignment.Center)
         Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Satuan, 0, HorizontalAlignment.Center)
 
         Lv_PODetail.View = View.Details
 
-
-        ListView1.Columns.Add(Base_Language.Lang_Global_KodeBarang, 120, HorizontalAlignment.Left) '
-        ListView1.Columns.Add(Base_Language.Lang_Global_NamaBarang, 200, HorizontalAlignment.Left) '
-        ListView1.Columns.Add(Base_Language.Lang_Global_Jumlah, 100, HorizontalAlignment.Right) '
+        ListView1.Columns.Clear() : ListView1.Items.Clear()
+        ListView1.Columns.Add(Base_Language.Lang_Global_KodeBarang, 0, HorizontalAlignment.Left) '
+        ListView1.Columns.Add(Base_Language.Lang_Global_NamaBarang, 0, HorizontalAlignment.Left) '
+        ListView1.Columns.Add(Base_Language.Lang_Global_Jumlah, 140, HorizontalAlignment.Right) '
         ListView1.Columns.Add(Base_Language.Lang_Global_Satuan, 80, HorizontalAlignment.Center) '
-        ListView1.Columns.Add("Batch Number", 120, HorizontalAlignment.Left) '
-        ListView1.Columns.Add("QR Code", 170, HorizontalAlignment.Left) '
-        ListView1.Columns.Add("Kode Rak", 170, HorizontalAlignment.Center) '
-        ListView1.Columns.Add("Kode Voucher", 120, HorizontalAlignment.Center) '
+        ListView1.Columns.Add("Batch Number", 0, HorizontalAlignment.Left) '
+        ListView1.Columns.Add("QR Code", 200, HorizontalAlignment.Left) '
+        ListView1.Columns.Add("Kode Rak", 180, HorizontalAlignment.Center) '
+        ListView1.Columns.Add("Selesai", 0, HorizontalAlignment.Center) '
         ListView1.View = View.Details
 
 
@@ -136,6 +164,17 @@
         PrinterNameSPB = "EPSON LX-310 ESC/P"
     End Sub
 
+    Private Sub GetData_Pallet(ByVal index As Integer)
+        LvPallet_KdBarang = ListView1.Items(index).SubItems(itemPallet_KdBarang).Text
+        LvPallet_NmBarang = ListView1.Items(index).SubItems(itemPallet_NmBarang).Text
+        LvPallet_Jumlah = ListView1.Items(index).SubItems(itemPallet_Jumlah).Text
+        LvPallet_Satuan = ListView1.Items(index).SubItems(itemPallet_Satuan).Text
+        LvPallet_Batch = ListView1.Items(index).SubItems(itemPallet_Batch).Text
+        LvPallet_Qr = ListView1.Items(index).SubItems(itemPallet_Qr).Text
+        LvPallet_KdRak = ListView1.Items(index).SubItems(itemPallet_KdRak).Text
+        LvPallet_FlagSelesai = ListView1.Items(index).SubItems(itemPallet_FlagSelesai).Text
+    End Sub
+
 
     Private Sub CheckBox3_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox3.CheckedChanged
         If CheckBox3.Checked = True Then
@@ -149,6 +188,12 @@
             OpenConn()
             Lv_PODetail.Items.Clear()
 
+            Txt_JumlahMasuk.Text = ""
+            Txt_PalletMasuk.Text = ""
+            Txt_JumlahBlmMasuk.Text = ""
+            Txt_PalletBlmMasuk.Text = ""
+
+            Lv_PODetail.Items.Clear() : ListView1.Items.Clear()
             SQL = "select b.no_po,b.Kode_Barang, c.Nama, "
             SQL = SQL & "isnull((select Harga from EMI_Pembelian_PO_Detail x where x.Kode_Perusahaan = b.Kode_Perusahaan and x.No_Urut= b.Urut_PO ), 0 ) as Harga, "
             SQL = SQL & "b.jumlah as Jumlah_Kirim,b.Satuan,b.Tanggal_Produksi,b.Tanggal_Expired "
@@ -167,7 +212,6 @@
                     lvw.SubItems.Add(Dr("kode_barang"))
                     lvw.SubItems.Add(Dr("nama"))
                     lvw.SubItems.Add(Dr("satuan"))
-                    lvw.SubItems.Add(Format(Dr("harga"), "N2"))
                     lvw.SubItems.Add(Format(Dr("Tanggal_Produksi"), "dd MMM yyyy"))
                     lvw.SubItems.Add(Format(Dr("Tanggal_Expired"), "dd MMM yyyy"))
                     lvw.SubItems.Add(Format(Dr("Jumlah_Kirim"), "N0"))
@@ -177,13 +221,30 @@
                 Loop
             End Using
 
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Lv_PODetail_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lv_PODetail.SelectedIndexChanged
+        Try
+            OpenConn()
+
             ListView1.Items.Clear()
             SQL = "Select a.Batch_Number, Qr_Code+'-'+Kode_Unik_Berjalan as QR_Code,a.Kode_Barang, b.nama, a.Tgl_Produksi_Real, "
-            SQL = SQL & "a.Tgl_Expired_Real, a.jumlah, a.satuan, a.Id_Warehouse, c.Labeling_WMS_Position, a.Kode_Voucher "
-            SQL = SQL & "From EMI_Barang_Masuk_Perpallet a, Barang b, View_Warehouse_Position c "
-            SQL = SQL & "Where no_Pembelian_loading ='" & LV_PembelianLoading.FocusedItem.Text & "' "
+            SQL = SQL & "a.Tgl_Expired_Real, a.jumlah, a.satuan, a.Id_Warehouse, a.selesai, a.Sdh_Cetak, "
+
+            SQL = SQL & "isnull((select c.Labeling_WMS_Position from View_Warehouse_Position c where "
+            SQL = SQL & "a.Kode_Perusahaan = c.Kode_Perusahaan And a.Id_Warehouse = c.Id_WMS_Warehouse_Position),'') as Labeling_WMS_Position "
+
+            SQL = SQL & "From EMI_Barang_Masuk_Perpallet a, Barang b "
+            SQL = SQL & "Where a.no_Pembelian_loading ='" & LV_PembelianLoading.FocusedItem.Text & "' "
+            SQL = SQL & "and a.Kode_Barang = '" & Lv_PODetail.Items(Lv_PODetail.FocusedItem.Index).SubItems(itemDet_KdBarang).Text & "' "
             SQL = SQL & "And a.Kode_Barang = b.Kode_Barang And a.Kode_Stock_Owner = b.Kode_Stock_Owner "
-            SQL = SQL & "And a.Kode_Perusahaan = c.Kode_Perusahaan And a.Id_Warehouse = c.Id_WMS_Warehouse_Position and a.selesai='Y' "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Dim lvw As ListViewItem
@@ -191,19 +252,63 @@
                     lvw.SubItems.Add(Dr("nama"))
                     lvw.SubItems.Add(Format(Dr("jumlah"), "N0"))
                     lvw.SubItems.Add(Dr("satuan"))
-                    lvw.SubItems.Add(If(General_Class.CekNULL(Dr("Labeling_WMS_Position")) = "", "", Dr("Labeling_WMS_Position")))
-                    lvw.SubItems.Add(If(General_Class.CekNULL(Dr("QR_Code")) = "", "", Dr("QR_Code")))
                     lvw.SubItems.Add(If(General_Class.CekNULL(Dr("Batch_Number")) = "", "", Dr("Batch_Number")))
-                    lvw.SubItems.Add(If(General_Class.CekNULL(Dr("satuan")) = "", "", Dr("satuan")))
-                    lvw.SubItems.Add(If(General_Class.CekNULL(Dr("Kode_Voucher")) = "", "", Dr("Kode_Voucher")))
+                    lvw.SubItems.Add(If(General_Class.CekNULL(Dr("QR_Code")) = "", "", Dr("QR_Code")))
+                    lvw.SubItems.Add(If(General_Class.CekNULL(Dr("Labeling_WMS_Position")) = "", "", Dr("Labeling_WMS_Position")))
+                    lvw.SubItems.Add(If(General_Class.CekNULL(Dr("Sdh_Cetak")) = "", "", Dr("Sdh_Cetak")))
+
+                    If General_Class.CekNULL(Dr("Sdh_Cetak")) = "" Or General_Class.CekNULL(Dr("Sdh_Cetak")) = "T" Then
+                        lvw.BackColor = Color.LightYellow
+                    Else
+                        lvw.BackColor = Color.LightGreen
+                    End If
                 Loop
             End Using
+
+            Dim jumlahPO As Double = Val(HilangkanTanda(Lv_PODetail.Items(Lv_PODetail.FocusedItem.Index).SubItems(itemDet_Jumlah).Text))
+
+            Hitung_Pallet(jumlahPO)
+
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+    End Sub
+
+    Private Sub Hitung_Pallet(ByVal TotalPo As Double)
+
+        Dim TotalMasuk As Double = 0
+        Dim TotalPalletMasuk As Double = 0
+        Dim TotalBlmMasuk As Double = 0
+        Dim TotalPalletBlmMasuk As Double = 0
+
+        For i As Integer = 0 To ListView1.Items.Count - 1
+            GetData_Pallet(i)
+
+            If LvPallet_FlagSelesai = "Y" Then
+                TotalMasuk += Val(HilangkanTanda(LvPallet_Jumlah))
+                TotalPalletMasuk += 1
+            Else
+                TotalPalletBlmMasuk += 1
+            End If
+
+        Next
+
+        TotalBlmMasuk = TotalPo - TotalMasuk
+
+        If TotalBlmMasuk < 0 Then
+            TotalBlmMasuk = 0
+        End If
+
+
+        Txt_JumlahMasuk.Text = Format(TotalMasuk, "N2")
+        Txt_PalletMasuk.Text = Format(TotalPalletMasuk, "N2")
+        Txt_JumlahBlmMasuk.Text = Format(TotalBlmMasuk, "N2")
+        Txt_PalletBlmMasuk.Text = Format(TotalPalletBlmMasuk, "N2")
+
     End Sub
 
 
@@ -243,7 +348,12 @@
 
             LV_PembelianLoading.Items.Clear()
             Lv_PODetail.Items.Clear()
+            ListView1.Items.Clear()
 
+            Txt_JumlahMasuk.Text = ""
+            Txt_PalletMasuk.Text = ""
+            Txt_JumlahBlmMasuk.Text = ""
+            Txt_PalletBlmMasuk.Text = ""
 
             SQL = "select a.No_Faktur,a.Kode_Supplier,a.selesai,b.Nama,a.No_SJ,a.No_Plat,a.Driver, a.tanggal_masuk,a.jam_masuk,tanggal_otw, eta "
             SQL = SQL & "from EMI_Pembelian_Loading a, Suppliers b  "
@@ -363,6 +473,9 @@
             ComboBox2.SelectedIndex = -1 : TextBox4.Text = ""
         End If
     End Sub
+
+
+
 
 
     ''Dim arrcari As New ArrayList

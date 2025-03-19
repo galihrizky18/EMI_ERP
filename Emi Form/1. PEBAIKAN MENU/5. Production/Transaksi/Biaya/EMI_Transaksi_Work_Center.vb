@@ -1,12 +1,10 @@
-﻿Imports System.Net
-Imports System.Security.Cryptography
+﻿Public Class EMI_Transaksi_Work_Center
 
-Public Class EMI_Transaksi_Work_Center
+    Dim JudulForm As String = "Transaksi Work Center"
 
-    Dim arrBulan, arrBulanMM, arrSelectedRouting As New ArrayList
+    Dim arrIdJnsBiaya, arrKdJnsBiaya, arrSelectedRouting As New ArrayList
 
     Dim ColDinamis As Integer = 4
-    Dim isDataRelease As Boolean
 
     Dim DgvRouting_IDRouting, DgvRouting_Keterangan, DgvRouting_CheckBox, DgvRouting_KdRouting, DgvRouting_PrefixCode, DgvRouting_IdJenisProduk As String
     Dim DgvWork_IDRouting, DgvWork_IDWorkCenter, DgvWork_Routing, DgvWork_Mesin As String
@@ -43,9 +41,9 @@ Public Class EMI_Transaksi_Work_Center
 
     End Sub
 
-    Private Sub Btn_release_Click(sender As Object, e As EventArgs) Handles Btn_release.Click
+    Private Sub Btn_release_Click(sender As Object, e As EventArgs)
 
-        If TxtBarangMasuk_NoFaktur.Text.Trim.Length = 0 Or dgv_workcenter.Rows.Count = 0 Then Exit Sub
+        If Txt_NoFaktur.Text.Trim.Length = 0 Or dgv_workcenter.Rows.Count = 0 Then Exit Sub
 
         Try
             OpenConn()
@@ -54,7 +52,7 @@ Public Class EMI_Transaksi_Work_Center
             '===============================
             '=     CEK APAKAH ADA DATA     =
             '===============================
-            SQL = "select No_Faktur from Emi_Transaksi_Work_Center where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & TxtBarangMasuk_NoFaktur.Text & "'"
+            SQL = "select No_Faktur from Emi_Transaksi_Work_Center where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & Txt_NoFaktur.Text & "'"
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
@@ -89,22 +87,43 @@ Public Class EMI_Transaksi_Work_Center
 
     End Sub
 
+    Private Sub Btn_Set_Click(sender As Object, e As EventArgs) Handles Btn_Set.Click
+        If Cmb_JenisBiaya.SelectedIndex = -1 Then
+            MessageBox.Show("Pilih Dahulu Jenis Biaya", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Cmb_JenisBiaya.Focus() : Exit Sub
+        End If
+
+
+        arrSelectedRouting.Clear()
+        Kosong_DGVWorkCenter()
+        dgv_workcenter.Rows.Clear()
+
+        For i As Integer = 0 To dgv_routing.RowCount - 1
+            Get_Data_DGVRouting(i)
+
+            If DgvRouting_CheckBox = "True" Then
+                arrSelectedRouting.Add(DgvRouting_IDRouting)
+            End If
+
+        Next
+
+        dgv_workcenter.Enabled = True
+        LoadData()
+    End Sub
+
     Private Sub Kosong()
 
         get_jam()
 
         Try
             OpenConn()
+            get_no_faktur()
 
             dgv_routing.Rows.Clear()
             dgv_workcenter.Rows.Clear()
 
             arrSelectedRouting.Clear()
 
-            TxtBarangMasuk_NoFaktur.Text = ""
-            isDataRelease = False
-            Btn_release.Enabled = True
-            Btn_release.Visible = False
             BtnSimpan.Enabled = True
 
             Cmbsatuan.Items.Clear()
@@ -131,37 +150,18 @@ Public Class EMI_Transaksi_Work_Center
             End Using
             CmbLokasi.Text = Lokasi
 
-            '=====================
-            '=     GET BULAN     =
-            '=====================
-            CmbBulan.Items.Clear() : arrBulan.Clear() : arrBulanMM.Clear()
-            CmbBulan.Items.Add("January") : arrBulan.Add("1") : arrBulanMM.Add("01")
-            CmbBulan.Items.Add("February") : arrBulan.Add("2") : arrBulanMM.Add("02")
-            CmbBulan.Items.Add("Maret") : arrBulan.Add("3") : arrBulanMM.Add("03")
-            CmbBulan.Items.Add("April") : arrBulan.Add("4") : arrBulanMM.Add("04")
-            CmbBulan.Items.Add("Mei") : arrBulan.Add("5") : arrBulanMM.Add("05")
-            CmbBulan.Items.Add("Juni") : arrBulan.Add("6") : arrBulanMM.Add("06")
-            CmbBulan.Items.Add("Juli") : arrBulan.Add("7") : arrBulanMM.Add("07")
-            CmbBulan.Items.Add("Agustus") : arrBulan.Add("8") : arrBulanMM.Add("08")
-            CmbBulan.Items.Add("September") : arrBulan.Add("9") : arrBulanMM.Add("09")
-            CmbBulan.Items.Add("Oktober") : arrBulan.Add("10") : arrBulanMM.Add("10")
-            CmbBulan.Items.Add("November") : arrBulan.Add("11") : arrBulanMM.Add("11")
-            CmbBulan.Items.Add("Desember") : arrBulan.Add("12") : arrBulanMM.Add("12")
+            '===========================
+            '=     GET JENIS BIAYA     =
+            '===========================
+            Cmb_JenisBiaya.Items.Clear() : arrKdJnsBiaya.Clear() : arrIdJnsBiaya.Clear()
+            SQL = "select Id_Jenis_Biaya_Produksi, Kode_Jenis_Biaya_Produksi, keterangan from Emi_Jenis_Biaya_Produksi where Kode_Perusahaan = '" & KodePerusahaan & "'"
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read()
+                    Cmb_JenisBiaya.Items.Add(Dr("keterangan")) : arrIdJnsBiaya.Add(Dr("Id_Jenis_Biaya_Produksi")) : arrKdJnsBiaya.Add(Dr("Kode_Jenis_Biaya_Produksi"))
+                Loop
+            End Using
 
-            CmbBulan.SelectedIndex = CInt(Format(Now.Date, "MM")) - 1
-            CmbBulan.Enabled = True
 
-            '=====================
-            '=     GET TAHUN     =
-            '=====================
-            CmbTahun.Items.Clear()
-            Dim tahun_awal As Integer = Date.Now.Year - 2
-            Dim tahun_akhir As Integer = Date.Now.Year + 2
-            For a As Integer = tahun_awal To tahun_akhir
-                CmbTahun.Items.Add(a)
-            Next
-            CmbTahun.Text = Format(Now.Date, "yyyy")
-            CmbTahun.Enabled = True
 
             Get_Data_Routing()
 
@@ -171,6 +171,8 @@ Public Class EMI_Transaksi_Work_Center
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+
 
     End Sub
 
@@ -203,32 +205,13 @@ Public Class EMI_Transaksi_Work_Center
 
     End Sub
 
-    Private Sub get_no_faktur(ByVal BulanTahun As String)
+    Private Sub get_no_faktur()
         Dim FPro_Results As String = "TCC"
-        TxtBarangMasuk_NoFaktur.Text = FPro_Results & BulanTahun & "-" &
-                             General_Class.Get_Last_Number2("Emi_Transaksi_work_Center", "No_Faktur", 5,
-                             "Kode_perusahaan", KodePerusahaan,
-                             "And", "substring(No_Faktur, 1, " & Len(FPro_Results) + 4 & ")", FPro_Results & BulanTahun)
+        Txt_NoFaktur.Text = FPro_Results & Format(tgl_skg, "MMyy") & "-" &
+                             General_Class.Get_Last_Number2("Emi_Transaksi_Work_Center", "No_Faktur", 5,
+                                          "Kode_perusahaan", KodePerusahaan, "And",
+                                          "substring(No_Faktur, 1, " & Len(FPro_Results) + 4 & ")", FPro_Results & Format(tgl_skg, "MMyy"))
     End Sub
-
-    Private Sub BtnCari_Click(sender As Object, e As EventArgs) Handles BtnCari.Click
-        If CmbLokasi.SelectedIndex = -1 Then
-            MessageBox.Show("Lokasi harus diisi!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            CmbLokasi.Focus() : Kosong_DGVWorkCenter() : Exit Sub
-        ElseIf CmbBulan.SelectedIndex = -1 Then
-            MessageBox.Show("Bulan harus diisi!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            CmbBulan.Focus() : Kosong_DGVWorkCenter() : Exit Sub
-        ElseIf CmbTahun.SelectedIndex = -1 Then
-            MessageBox.Show("Tahun harus diisi!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            CmbTahun.Focus() : Kosong_DGVWorkCenter() : Exit Sub
-        ElseIf arrSelectedRouting.Count = 0 Then
-            MessageBox.Show("Harus Pilih Minimal 1 Routing", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            dgv_routing.Focus() : Kosong_DGVWorkCenter() : Exit Sub
-        End If
-
-        LoadData()
-    End Sub
-
     Private Sub Get_Data_Routing()
 
         Dim row As Integer = 0
@@ -242,8 +225,9 @@ Public Class EMI_Transaksi_Work_Center
                 dgv_routing.Rows(row).Cells(item_DgvRouting_PrefixCode).Value = Dr("prefix_code")
                 dgv_routing.Rows(row).Cells(item_DgvRouting_IDJenisProduk).Value = Dr("Id_Jenis_Produk")
 
-                row += 1
+                dgv_routing.Rows(row).Cells(item_DgvRouting_CheckBox).Value = True
 
+                row += 1
             Loop
         End Using
 
@@ -255,8 +239,6 @@ Public Class EMI_Transaksi_Work_Center
         arrSelectedRouting.Clear()
         Kosong_DGVWorkCenter()
         dgv_workcenter.Rows.Clear()
-        Btn_release.Enabled = False
-        Btn_release.Visible = False
 
         For i As Integer = 0 To dgv_routing.RowCount - 1
             Get_Data_DGVRouting(i)
@@ -282,36 +264,7 @@ Public Class EMI_Transaksi_Work_Center
             Kosong_DGVWorkCenter()
             dgv_workcenter.Rows.Clear()
 
-            '============================================
-            '=     CEK APAKAH FAKTUR SUDAH RELEASE      =
-            '============================================
-            SQL = "select No_Faktur, Flag_Release from Emi_Transaksi_Work_Center where Kode_Perusahaan = '" & KodePerusahaan & "' and Bulan = '" & arrBulanMM.Item(CmbBulan.SelectedIndex) & "' and tahun = '" & CmbTahun.Text & "'  and status is null "
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
 
-                    TxtBarangMasuk_NoFaktur.Text = Dr("No_Faktur")
-
-                    If General_Class.CekNULL(Dr("Flag_Release")) = "Y" Then
-                        isDataRelease = True
-                        Btn_release.Enabled = False
-                        Btn_release.Visible = True
-                        BtnSimpan.Enabled = False
-                    Else
-                        isDataRelease = False
-                        Btn_release.Enabled = True
-                        Btn_release.Visible = True
-                        BtnSimpan.Enabled = True
-                    End If
-                Else
-                    Dr.Close()
-                    get_no_faktur(arrBulanMM(CmbBulan.SelectedIndex) & Strings.Right(CmbTahun.Text, 2))
-
-                    isDataRelease = False
-                    Btn_release.Enabled = False
-                    Btn_release.Visible = False
-                    BtnSimpan.Enabled = True
-                End If
-            End Using
 
             '=========================================
             '=     GET JENIS BIAYA (ADD COLUMN)      =
@@ -337,108 +290,138 @@ Public Class EMI_Transaksi_Work_Center
                 '=======================================
                 '=     GET DATA MESIN PER ROUTING      =
                 '=======================================
-                SQL = "select a.No_Faktur, b.Id_Routing, b.Id_Work_Center, d.Keterangan as Routing, c.Keterangan as Mesin "
-                SQL = SQL & "from Emi_Transaksi_Work_Center a, Emi_Transaksi_Work_Center_Detail b, EMI_Master_Work_Center c, emi_master_routing d, emi_master_routing_detail e "
-                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Perusahaan = d.Kode_Perusahaan and d.Kode_Perusahaan = e.Kode_Perusahaan "
-                SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+
+                Dim row As Integer = dgv_workcenter.Rows.Count
+                SQL = "select a.Id_Routing, b.Id_Work_Center, a.Keterangan as Routing, c.Keterangan as Mesin "
+                SQL = SQL & "from emi_master_routing a, emi_master_routing_detail b, EMI_Master_Work_Center c "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan "
+                SQL = SQL & "and a.Id_Routing = b.Id_Routing "
                 SQL = SQL & "and b.Id_Work_Center = c.Id_Work_Center "
-                SQL = SQL & "and b.Id_Routing = d.Id_Routing "
-                SQL = SQL & "and d.Id_Routing = e.Id_Routing "
-                SQL = SQL & "and b.Id_Work_Center = e.Id_Work_Center "
-                SQL = SQL & "and a.Bulan = '" & arrBulanMM.Item(CmbBulan.SelectedIndex) & "' "
-                SQL = SQL & "and a.Tahun = '" & CmbTahun.Text & "' "
-                SQL = SQL & "and b.Id_Routing = '" & arrSelectedRouting(a) & "'  "
-                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.status is null "
-                SQL = SQL & "order by b.Id_Routing, b.Id_Work_Center "
-                Using Ds = BindingTrans(SQL)
-                    With Ds.Tables("MyTable")
-                        If .Rows.Count <> 0 Then
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.Id_Routing = '" & arrSelectedRouting(a) & "' "
+                SQL = SQL & "order by b.Id_Routing, b.Id_Work_Center"
+                Using Ds2 = BindingTrans(SQL)
+                    If Ds2.Tables("MyTable").Rows.Count <> 0 Then
+                        For j As Integer = 0 To Ds2.Tables("MyTable").Rows.Count - 1
+                            dgv_workcenter.Rows.Add(1)
+                            dgv_workcenter.Rows(row).Cells(item_DGVWork_IDRouting).Value = Ds2.Tables("MyTable").Rows(j).Item("Id_Routing")
+                            dgv_workcenter.Rows(row).Cells(item_DGVWork_IDWorkCenter).Value = Ds2.Tables("MyTable").Rows(j).Item("Id_Work_Center")
+                            dgv_workcenter.Rows(row).Cells(item_DGVWork_Routing).Value = Ds2.Tables("MyTable").Rows(j).Item("Routing")
+                            dgv_workcenter.Rows(row).Cells(item_DGVWork_Mesin).Value = Ds2.Tables("MyTable").Rows(j).Item("Mesin")
 
-                            Dim row As Integer = dgv_workcenter.Rows.Count
+                            For k As Integer = ColDinamis To dgv_workcenter.Columns.Count - 1
+                                dgv_workcenter.Rows(row).Cells(k).Value = "0"
 
-                            For i As Integer = 0 To .Rows.Count - 1
-
-                                dgv_workcenter.Rows.Add(1)
-                                dgv_workcenter.Rows(row).Cells(item_DGVWork_IDRouting).Value = .Rows(i).Item("Id_Routing")
-                                dgv_workcenter.Rows(row).Cells(item_DGVWork_IDWorkCenter).Value = .Rows(i).Item("Id_Work_Center")
-                                dgv_workcenter.Rows(row).Cells(item_DGVWork_Routing).Value = .Rows(i).Item("Routing")
-                                dgv_workcenter.Rows(row).Cells(item_DGVWork_Mesin).Value = .Rows(i).Item("Mesin")
-
-                                '======================================
-                                '=     GET DATA DETAIL PER-MESIN      =
-                                '======================================
-                                SQL = "select b.Jenis_Biaya, b.Total "
-                                SQL = SQL & "from Emi_Transaksi_Work_Center a, Emi_Transaksi_Work_Center_Detail_Per_Mesin b "
-                                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
-                                SQL = SQL & "and a.No_Faktur = b.No_Faktur "
-                                SQL = SQL & "and a.Bulan = '" & arrBulanMM.Item(CmbBulan.SelectedIndex) & "' "
-                                SQL = SQL & "and a.Tahun = '" & CmbTahun.Text & "' "
-                                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-                                SQL = SQL & "and b.Id_Routing = '" & .Rows(i).Item("Id_Routing") & "' "
-                                SQL = SQL & "and b.Id_Work_Center = '" & .Rows(i).Item("Id_Work_Center") & "' and a.status is null "
-                                SQL = SQL & "order by b.Id_Routing, b.Id_Work_Center"
-                                Using Ds1 = BindingTrans(SQL)
-                                    If Ds1.Tables("MyTable").Rows.Count <> 0 Then
-                                        For j As Integer = 0 To Ds1.Tables("MyTable").Rows.Count - 1
-
-                                            For k As Integer = ColDinamis To dgv_workcenter.Columns.Count - 1
-                                                If Ds1.Tables("MyTable").Rows(j).Item("Jenis_Biaya") = dgv_workcenter.Columns(k).HeaderText Then
-                                                    dgv_workcenter.Rows(row).Cells(k).Value = Ds1.Tables("MyTable").Rows(j).Item("Total")
-
-                                                    If isDataRelease Then
-                                                        dgv_workcenter.Rows(row).Cells(k).ReadOnly = True
-                                                    Else
-                                                        dgv_workcenter.Rows(row).Cells(k).ReadOnly = False
-                                                    End If
-                                                    Exit For
-                                                End If
-                                            Next
-
-                                        Next
-                                    Else
-
-                                    End If
-                                End Using
-
-                                row += 1
+                                dgv_workcenter.Rows(row).Cells(k).ReadOnly = False
                             Next
-                        Else
 
-                            Dim row As Integer = dgv_workcenter.Rows.Count
-                            SQL = "select a.Id_Routing, b.Id_Work_Center, a.Keterangan as Routing, c.Keterangan as Mesin "
-                            SQL = SQL & "from emi_master_routing a, emi_master_routing_detail b, EMI_Master_Work_Center c "
-                            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan "
-                            SQL = SQL & "and a.Id_Routing = b.Id_Routing "
-                            SQL = SQL & "and b.Id_Work_Center = c.Id_Work_Center "
-                            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-                            SQL = SQL & "and a.Id_Routing = '" & arrSelectedRouting(a) & "' "
-                            SQL = SQL & "order by b.Id_Routing, b.Id_Work_Center"
-                            Using Ds2 = BindingTrans(SQL)
-                                If Ds2.Tables("MyTable").Rows.Count <> 0 Then
-                                    For j As Integer = 0 To Ds2.Tables("MyTable").Rows.Count - 1
-                                        dgv_workcenter.Rows.Add(1)
-                                        dgv_workcenter.Rows(row).Cells(item_DGVWork_IDRouting).Value = Ds2.Tables("MyTable").Rows(j).Item("Id_Routing")
-                                        dgv_workcenter.Rows(row).Cells(item_DGVWork_IDWorkCenter).Value = Ds2.Tables("MyTable").Rows(j).Item("Id_Work_Center")
-                                        dgv_workcenter.Rows(row).Cells(item_DGVWork_Routing).Value = Ds2.Tables("MyTable").Rows(j).Item("Routing")
-                                        dgv_workcenter.Rows(row).Cells(item_DGVWork_Mesin).Value = Ds2.Tables("MyTable").Rows(j).Item("Mesin")
-
-                                        For k As Integer = ColDinamis To dgv_workcenter.Columns.Count - 1
-                                            dgv_workcenter.Rows(row).Cells(k).Value = "0"
-                                            If isDataRelease Then
-                                                dgv_workcenter.Rows(row).Cells(k).ReadOnly = True
-                                            Else
-                                                dgv_workcenter.Rows(row).Cells(k).ReadOnly = False
-                                            End If
-                                        Next
-
-                                        row += 1
-                                    Next
-                                End If
-                            End Using
-
-                        End If
-                    End With
+                            row += 1
+                        Next
+                    End If
                 End Using
+
+#Region "KODE LAMA"
+
+                'SQL = "select a.No_Faktur, b.Id_Routing, b.Id_Work_Center, d.Keterangan as Routing, c.Keterangan as Mesin "
+                'SQL = SQL & "from Emi_Transaksi_Work_Center a, Emi_Transaksi_Work_Center_Detail b, EMI_Master_Work_Center c, emi_master_routing d, emi_master_routing_detail e "
+                'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Perusahaan = d.Kode_Perusahaan and d.Kode_Perusahaan = e.Kode_Perusahaan "
+                'SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+                'SQL = SQL & "and b.Id_Work_Center = c.Id_Work_Center "
+                'SQL = SQL & "and b.Id_Routing = d.Id_Routing "
+                'SQL = SQL & "and d.Id_Routing = e.Id_Routing "
+                'SQL = SQL & "and b.Id_Work_Center = e.Id_Work_Center "
+                'SQL = SQL & "and b.Id_Routing = '" & arrSelectedRouting(a) & "'  "
+                'SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.status is null "
+                'SQL = SQL & "order by b.Id_Routing, b.Id_Work_Center "
+                'Using Ds = BindingTrans(SQL)
+                '    With Ds.Tables("MyTable")
+                '        If .Rows.Count <> 0 Then
+
+                '            Dim row As Integer = dgv_workcenter.Rows.Count
+
+                '            For i As Integer = 0 To .Rows.Count - 1
+
+                '                dgv_workcenter.Rows.Add(1)
+                '                dgv_workcenter.Rows(row).Cells(item_DGVWork_IDRouting).Value = .Rows(i).Item("Id_Routing")
+                '                dgv_workcenter.Rows(row).Cells(item_DGVWork_IDWorkCenter).Value = .Rows(i).Item("Id_Work_Center")
+                '                dgv_workcenter.Rows(row).Cells(item_DGVWork_Routing).Value = .Rows(i).Item("Routing")
+                '                dgv_workcenter.Rows(row).Cells(item_DGVWork_Mesin).Value = .Rows(i).Item("Mesin")
+
+                '                '======================================
+                '                '=     GET DATA DETAIL PER-MESIN      =
+                '                '======================================
+                '                SQL = "select b.Jenis_Biaya, b.Total "
+                '                SQL = SQL & "from Emi_Transaksi_Work_Center a, Emi_Transaksi_Work_Center_Detail_Per_Mesin b "
+                '                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+                '                SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+                '                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                '                SQL = SQL & "and b.Id_Routing = '" & .Rows(i).Item("Id_Routing") & "' "
+                '                SQL = SQL & "and b.Id_Work_Center = '" & .Rows(i).Item("Id_Work_Center") & "' and a.status is null "
+                '                SQL = SQL & "order by b.Id_Routing, b.Id_Work_Center"
+                '                Using Ds1 = BindingTrans(SQL)
+                '                    If Ds1.Tables("MyTable").Rows.Count <> 0 Then
+                '                        For j As Integer = 0 To Ds1.Tables("MyTable").Rows.Count - 1
+
+                '                            For k As Integer = ColDinamis To dgv_workcenter.Columns.Count - 1
+                '                                If Ds1.Tables("MyTable").Rows(j).Item("Jenis_Biaya") = dgv_workcenter.Columns(k).HeaderText Then
+                '                                    dgv_workcenter.Rows(row).Cells(k).Value = Ds1.Tables("MyTable").Rows(j).Item("Total")
+
+                '                                    If isDataRelease Then
+                '                                        dgv_workcenter.Rows(row).Cells(k).ReadOnly = True
+                '                                    Else
+                '                                        dgv_workcenter.Rows(row).Cells(k).ReadOnly = False
+                '                                    End If
+                '                                    Exit For
+                '                                End If
+                '                            Next
+
+                '                        Next
+                '                    Else
+
+                '                    End If
+                '                End Using
+
+                '                row += 1
+                '            Next
+                '        Else
+
+                '            Dim row As Integer = dgv_workcenter.Rows.Count
+                '            SQL = "select a.Id_Routing, b.Id_Work_Center, a.Keterangan as Routing, c.Keterangan as Mesin "
+                '            SQL = SQL & "from emi_master_routing a, emi_master_routing_detail b, EMI_Master_Work_Center c "
+                '            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan "
+                '            SQL = SQL & "and a.Id_Routing = b.Id_Routing "
+                '            SQL = SQL & "and b.Id_Work_Center = c.Id_Work_Center "
+                '            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                '            SQL = SQL & "and a.Id_Routing = '" & arrSelectedRouting(a) & "' "
+                '            SQL = SQL & "order by b.Id_Routing, b.Id_Work_Center"
+                '            Using Ds2 = BindingTrans(SQL)
+                '                If Ds2.Tables("MyTable").Rows.Count <> 0 Then
+                '                    For j As Integer = 0 To Ds2.Tables("MyTable").Rows.Count - 1
+                '                        dgv_workcenter.Rows.Add(1)
+                '                        dgv_workcenter.Rows(row).Cells(item_DGVWork_IDRouting).Value = Ds2.Tables("MyTable").Rows(j).Item("Id_Routing")
+                '                        dgv_workcenter.Rows(row).Cells(item_DGVWork_IDWorkCenter).Value = Ds2.Tables("MyTable").Rows(j).Item("Id_Work_Center")
+                '                        dgv_workcenter.Rows(row).Cells(item_DGVWork_Routing).Value = Ds2.Tables("MyTable").Rows(j).Item("Routing")
+                '                        dgv_workcenter.Rows(row).Cells(item_DGVWork_Mesin).Value = Ds2.Tables("MyTable").Rows(j).Item("Mesin")
+
+                '                        For k As Integer = ColDinamis To dgv_workcenter.Columns.Count - 1
+                '                            dgv_workcenter.Rows(row).Cells(k).Value = "0"
+                '                            If isDataRelease Then
+                '                                dgv_workcenter.Rows(row).Cells(k).ReadOnly = True
+                '                            Else
+                '                                dgv_workcenter.Rows(row).Cells(k).ReadOnly = False
+                '                            End If
+                '                        Next
+
+                '                        row += 1
+                '                    Next
+                '                End If
+                '            End Using
+
+                '        End If
+                '    End With
+                'End Using
+
+#End Region
 
             Next
 
@@ -456,66 +439,27 @@ Public Class EMI_Transaksi_Work_Center
 
     Private Sub BtnSimpan_Click(sender As Object, e As EventArgs) Handles BtnSimpan.Click
         get_jam()
-        If TxtBarangMasuk_NoFaktur.Text.Trim.Length = 0 Then
+        If Txt_NoFaktur.Text.Trim.Length = 0 Then
             MessageBox.Show("No transaksi Harus diisi....!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            TxtBarangMasuk_NoFaktur.Focus() : Exit Sub
-        ElseIf CmbBulan.Text.Trim.Length = 0 Then
+            Txt_NoFaktur.Focus() : Exit Sub
+        ElseIf Cmb_JenisBiaya.Text.Trim.Length = 0 Then
             MessageBox.Show("Bulan Harus diisi....!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            CmbBulan.Focus() : Exit Sub
-        ElseIf CmbTahun.Text.Trim.Length = 0 Then
-            MessageBox.Show("Tahun Harus diisi....!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            CmbTahun.Focus() : Exit Sub
+            Cmb_JenisBiaya.Focus() : Exit Sub
         End If
 
         Try
             OpenConn()
 
             Cmd.Transaction = Cn.BeginTransaction
+            get_no_faktur()
 
-            '===============================
-            '=     CEK APAKAH ADA DATA     =
-            '===============================
-            Dim hasData As Boolean = False
-            SQL = "select No_Faktur from Emi_Transaksi_Work_Center where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & TxtBarangMasuk_NoFaktur.Text & "'"
-            Using Ds = BindingTrans(SQL)
-                With Ds.Tables("MyTable")
-                    If .Rows.Count <> 0 Then
-                        For j As Integer = 0 To .Rows.Count - 1
-                            hasData = True
-                        Next
-                    End If
-                End With
-            End Using
-
-            '=======================
-            '=     DELETE DATA     =
-            '=======================
-            If hasData Then
-                For i As Integer = 0 To arrSelectedRouting.Count - 1
-
-                    'DELETE Table Emi_Transaksi_Work_Center_Detail_Per_Mesin
-                    SQL = "delete Emi_Transaksi_Work_Center_Detail_Per_Mesin where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & TxtBarangMasuk_NoFaktur.Text & "' "
-                    SQL = SQL & "and Id_Routing = '" & arrSelectedRouting(i) & "' "
-                    ExecuteTrans(SQL)
-
-                    'DELETE Table Emi_Transaksi_Work_Center_Detail
-                    SQL = "delete Emi_Transaksi_Work_Center_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & TxtBarangMasuk_NoFaktur.Text & "' "
-                    SQL = SQL & "and Id_Routing = '" & arrSelectedRouting(i) & "' "
-                    ExecuteTrans(SQL)
-
-                Next
-
-                'DELETE Table Emi_Transaksi_Work_Center
-                SQL = "delete Emi_Transaksi_Work_Center where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & TxtBarangMasuk_NoFaktur.Text & "'"
-                ExecuteTrans(SQL)
-            End If
 
             '=======================
             '=     INSERT DATA     =
             '=======================
-            SQL = "INSERT INTO Emi_Transaksi_Work_Center(Kode_Perusahaan,No_Faktur,Bulan,Tahun,UserID,Tanggal,Jam) VALUES("
-            SQL = SQL & "'" & KodePerusahaan & "','" & TxtBarangMasuk_NoFaktur.Text & "','" & arrBulanMM.Item(CmbBulan.SelectedIndex) & "',"
-            SQL = SQL & "'" & CmbTahun.Text & "','" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "') "
+            SQL = "INSERT INTO Emi_Transaksi_Work_Center(Kode_Perusahaan, No_Faktur, UserID, Tanggal, Jam, Jenis_Biaya) VALUES("
+            SQL = SQL & "'" & KodePerusahaan & "','" & Txt_NoFaktur.Text & "', "
+            SQL = SQL & "'" & UserID & "','" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "', '" & arrKdJnsBiaya(Cmb_JenisBiaya.SelectedIndex) & "') "
             ExecuteTrans(SQL)
 
             'Emi_Transaksi_Work_Center_detail
@@ -527,9 +471,9 @@ Public Class EMI_Transaksi_Work_Center
 
                 Get_data_DGVWorkCenter(i)
 
-                SQL = "INSERT INTO Emi_Transaksi_Work_Center_Detail (kode_perusahaan, no_faktur, id_routing, id_work_center, total, nilai_per_pcs)"
-                SQL = SQL & "Values('" & KodePerusahaan & "', '" & TxtBarangMasuk_NoFaktur.Text & "', "
-                SQL = SQL & "'" & DgvWork_IDRouting & "', '" & DgvWork_IDWorkCenter & "', '" & Total & "','" & Total & "')"
+                SQL = "INSERT INTO Emi_Transaksi_Work_Center_Detail (kode_perusahaan, no_faktur, id_routing, id_work_center, nilai_per_pcs)"
+                SQL = SQL & "Values('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', "
+                SQL = SQL & "'" & DgvWork_IDRouting & "', '" & DgvWork_IDWorkCenter & "','" & Total & "')"
                 ExecuteTrans(SQL)
             Next
 
@@ -540,7 +484,7 @@ Public Class EMI_Transaksi_Work_Center
 
                 For j As Integer = ColDinamis To dgv_workcenter.Columns.Count - 1
                     SQL = "INSERT INTO Emi_Transaksi_Work_Center_Detail_Per_Mesin(Kode_Perusahaan, No_Faktur, id_routing, Id_Work_Center, Jenis_Biaya, Total, Nilai_Per_Pcs) "
-                    SQL = SQL & "VALUES('" & KodePerusahaan & "', '" & TxtBarangMasuk_NoFaktur.Text & "', '" & DgvWork_IDRouting & "', '" & DgvWork_IDWorkCenter & "', "
+                    SQL = SQL & "VALUES('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', '" & DgvWork_IDRouting & "', '" & DgvWork_IDWorkCenter & "', "
                     SQL = SQL & "'" & dgv_workcenter.Columns(j).HeaderText & "', '" & dgv_workcenter.Rows(i).Cells(j).Value & "', '" & dgv_workcenter.Rows(i).Cells(j).Value & "')"
                     ExecuteTrans(SQL)
                 Next
