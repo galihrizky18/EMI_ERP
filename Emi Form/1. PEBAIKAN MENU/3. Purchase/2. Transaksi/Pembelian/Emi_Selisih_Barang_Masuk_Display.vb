@@ -133,17 +133,17 @@
         Get_Lv_DataSelisih(Lv_Data.FocusedItem.Index)
 
 
-        Emi_Selisih_Barang_Masuk2.P_NoFakturPO = Lv_NoFaktur
-        Emi_Selisih_Barang_Masuk2.P_Supplier = Lv_Supplier
-        Emi_Selisih_Barang_Masuk2.P_KdSupplier = Lv_KdSupplier
-        Emi_Selisih_Barang_Masuk2.P_NoSJ = Lv_NoSJ
-        Emi_Selisih_Barang_Masuk2.P_NoPlat = Lv_NoPlat
-        Emi_Selisih_Barang_Masuk2.P_Driver = Lv_Driver
-        Emi_Selisih_Barang_Masuk2.P_TglMasuk = Lv_TglMasuk
-        Emi_Selisih_Barang_Masuk2.P_TglBerangkat = Lv_TglBerangkat
-        Emi_Selisih_Barang_Masuk2.P_JamMasuk = Lv_JamMasuk
+        EMI_Selisih_Barang_Masuk2.P_NoFakturPO = Lv_NoFaktur
+        EMI_Selisih_Barang_Masuk2.P_Supplier = Lv_Supplier
+        EMI_Selisih_Barang_Masuk2.P_KdSupplier = Lv_KdSupplier
+        EMI_Selisih_Barang_Masuk2.P_NoSJ = Lv_NoSJ
+        EMI_Selisih_Barang_Masuk2.P_NoPlat = Lv_NoPlat
+        EMI_Selisih_Barang_Masuk2.P_Driver = Lv_Driver
+        EMI_Selisih_Barang_Masuk2.P_TglMasuk = Lv_TglMasuk
+        EMI_Selisih_Barang_Masuk2.P_TglBerangkat = Lv_TglBerangkat
+        EMI_Selisih_Barang_Masuk2.P_JamMasuk = Lv_JamMasuk
 
-        Emi_Selisih_Barang_Masuk2.ShowDialog()
+        EMI_Selisih_Barang_Masuk2.ShowDialog()
 
     End Sub
 

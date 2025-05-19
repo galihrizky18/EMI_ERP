@@ -214,8 +214,8 @@
                     lvw.SubItems.Add(Dr("satuan"))
                     lvw.SubItems.Add(Format(Dr("Tanggal_Produksi"), "dd MMM yyyy"))
                     lvw.SubItems.Add(Format(Dr("Tanggal_Expired"), "dd MMM yyyy"))
-                    lvw.SubItems.Add(Format(Dr("Jumlah_Kirim"), "N0"))
-                    lvw.SubItems.Add(Format(Dr("jumlah_masuk"), "N0"))
+                    lvw.SubItems.Add(Format(Dr("Jumlah_Kirim"), "N2"))
+                    lvw.SubItems.Add(Format(Dr("jumlah_masuk"), "N2"))
                     lvw.SubItems.Add(Dr("satuan_masuk"))
 
                 Loop
@@ -244,13 +244,13 @@
             SQL = SQL & "From EMI_Barang_Masuk_Perpallet a, Barang b "
             SQL = SQL & "Where a.no_Pembelian_loading ='" & LV_PembelianLoading.FocusedItem.Text & "' "
             SQL = SQL & "and a.Kode_Barang = '" & Lv_PODetail.Items(Lv_PODetail.FocusedItem.Index).SubItems(itemDet_KdBarang).Text & "' "
-            SQL = SQL & "And a.Kode_Barang = b.Kode_Barang And a.Kode_Stock_Owner = b.Kode_Stock_Owner "
+            SQL = SQL & "And a.Kode_Barang = b.Kode_Barang And a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.status is null "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Dim lvw As ListViewItem
                     lvw = ListView1.Items.Add(Dr("Kode_Barang"))
                     lvw.SubItems.Add(Dr("nama"))
-                    lvw.SubItems.Add(Format(Dr("jumlah"), "N0"))
+                    lvw.SubItems.Add(Format(Dr("jumlah"), "N2"))
                     lvw.SubItems.Add(Dr("satuan"))
                     lvw.SubItems.Add(If(General_Class.CekNULL(Dr("Batch_Number")) = "", "", Dr("Batch_Number")))
                     lvw.SubItems.Add(If(General_Class.CekNULL(Dr("QR_Code")) = "", "", Dr("QR_Code")))

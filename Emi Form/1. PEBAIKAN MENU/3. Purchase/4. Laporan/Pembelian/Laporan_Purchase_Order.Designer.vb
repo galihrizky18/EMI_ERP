@@ -26,6 +26,8 @@ Partial Class Laporan_Purchase_Order
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.CmbRelease = New System.Windows.Forms.ComboBox()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.TxtNama = New System.Windows.Forms.TextBox()
         Me.TxtKdSupp = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -38,8 +40,6 @@ Partial Class Laporan_Purchase_Order
         Me.LvSupp = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.CmbRelease = New System.Windows.Forms.ComboBox()
-        Me.Label5 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -51,9 +51,9 @@ Partial Class Laporan_Purchase_Order
         Me.Label1.Location = New System.Drawing.Point(15, 11)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(265, 30)
+        Me.Label1.Size = New System.Drawing.Size(328, 30)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Laporan Purchase Order"
+        Me.Label1.Text = "Laporan - Sub Purchase Order"
         '
         'Panel1
         '
@@ -63,7 +63,7 @@ Partial Class Laporan_Purchase_Order
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(591, 51)
+        Me.Panel1.Size = New System.Drawing.Size(594, 51)
         Me.Panel1.TabIndex = 23
         '
         'PanelGradient1
@@ -76,7 +76,7 @@ Partial Class Laporan_Purchase_Order
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(591, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(594, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'GroupBox1
@@ -95,6 +95,24 @@ Partial Class Laporan_Purchase_Order
         Me.GroupBox1.Size = New System.Drawing.Size(569, 116)
         Me.GroupBox1.TabIndex = 24
         Me.GroupBox1.TabStop = False
+        '
+        'CmbRelease
+        '
+        Me.CmbRelease.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CmbRelease.FormattingEnabled = True
+        Me.CmbRelease.Location = New System.Drawing.Point(85, 74)
+        Me.CmbRelease.Name = "CmbRelease"
+        Me.CmbRelease.Size = New System.Drawing.Size(163, 26)
+        Me.CmbRelease.TabIndex = 5
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(17, 77)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(59, 18)
+        Me.Label5.TabIndex = 6
+        Me.Label5.Text = "Release"
         '
         'TxtNama
         '
@@ -202,30 +220,12 @@ Partial Class Laporan_Purchase_Order
         Me.ColumnHeader2.Text = "Nama"
         Me.ColumnHeader2.Width = 311
         '
-        'CmbRelease
-        '
-        Me.CmbRelease.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CmbRelease.FormattingEnabled = True
-        Me.CmbRelease.Location = New System.Drawing.Point(85, 74)
-        Me.CmbRelease.Name = "CmbRelease"
-        Me.CmbRelease.Size = New System.Drawing.Size(163, 26)
-        Me.CmbRelease.TabIndex = 5
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(17, 77)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(59, 18)
-        Me.Label5.TabIndex = 6
-        Me.Label5.Text = "Release"
-        '
         'Laporan_Purchase_Order
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(591, 217)
+        Me.ClientSize = New System.Drawing.Size(594, 208)
         Me.Controls.Add(Me.LvSupp)
         Me.Controls.Add(Me.BtnExit)
         Me.Controls.Add(Me.BtnCetak)

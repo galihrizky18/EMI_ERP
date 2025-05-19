@@ -111,11 +111,11 @@ Public Class EMI_Transfer_Quality_QC
     Private Sub IntialListView()
 
         Lv_Data.Columns.Clear()
-        Lv_Data.Columns.Add("Kode Stock Owner", 130, HorizontalAlignment.Left)
-        Lv_Data.Columns.Add("Kode Barang", 100, HorizontalAlignment.Left)
-        Lv_Data.Columns.Add("Nama Barang", 270, HorizontalAlignment.Left)
-        Lv_Data.Columns.Add("Jumlah Stock", 100, HorizontalAlignment.Right)
-        Lv_Data.Columns.Add("Jumlah Bags", 100, HorizontalAlignment.Right)
+        Lv_Data.Columns.Add("Kode Stock Owner", 170, HorizontalAlignment.Left)
+        Lv_Data.Columns.Add("Kode Barang", 150, HorizontalAlignment.Left)
+        Lv_Data.Columns.Add("Nama Barang", 0, HorizontalAlignment.Left)
+        Lv_Data.Columns.Add("Jumlah Stock", 190, HorizontalAlignment.Right)
+        Lv_Data.Columns.Add("Jumlah Bags", 190, HorizontalAlignment.Right)
         Lv_Data.Columns.Add("Satuan", 80, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("Rak", 120, HorizontalAlignment.Left)
 
@@ -314,7 +314,7 @@ Public Class EMI_Transfer_Quality_QC
             Dim Lv As New ListViewItem
             Lv = Lv_Data.Items.Add(Data_KdSo)
             Lv.SubItems.Add(Data_KdBarang)
-            Lv.SubItems.Add(Data_NmBarang)
+            Lv.SubItems.Add("X")
             Lv.SubItems.Add(Data_JumlahStock)
             Lv.SubItems.Add(Data_JumlahBags)
             Lv.SubItems.Add(Data_Satuan)
@@ -380,11 +380,11 @@ Public Class EMI_Transfer_Quality_QC
             SQL = SQL & "'" & TxtKeterangan.Text.Trim & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "') "
             ExecuteTrans(SQL)
 
-            '======================================
-            '=     DELETE Cetak_TransferStock     =
-            '======================================
-            SQL = "delete from Cetak_TransferQuality where Kode_Perusahaan = '" & KodePerusahaan & "' "
-            ExecuteTrans(SQL)
+            ''======================================
+            ''=     DELETE Cetak_TransferStock     =
+            ''======================================
+            'SQL = "delete from Cetak_TransferQuality where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            'ExecuteTrans(SQL)
 
             For i As Integer = 0 To Lv_Data.Items.Count - 1
                 Get_LvData(i)
@@ -437,193 +437,193 @@ Public Class EMI_Transfer_Quality_QC
                 ExecuteTrans(SQL)
 
 
-                '========================
-                '=     POTONG STOCK     =
-                '========================
-                'POTONG STOCK DI BARANG
-                Dim Nama As String = ""
-                SQL = "select Nama, round(good_stock,2) as good_stock, Jumlah_Bags from Barang where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner = '" & Lv_KdSo & "' "
-                SQL = SQL & "and Kode_Barang='" & Lv_KdBarang & "' "
-                Using dr = OpenTrans(SQL)
-                    If dr.Read Then
-                        Nama = dr("nama")
-                        If dr("good_stock") < jumlah_Kecil Then
-                            dr.Close()
-                            CloseTrans()
-                            CloseConn()
-                            MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat stock " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Exit Sub
-                        ElseIf dr("Jumlah_Bags") < Lv_JumlahBags Then
-                            dr.Close()
-                            CloseTrans()
-                            CloseConn()
-                            MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat jumlah bags " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Exit Sub
-                        Else
+                ''========================
+                ''=     POTONG STOCK     =
+                ''========================
+                ''POTONG STOCK DI BARANG
+                'Dim Nama As String = ""
+                'SQL = "select Nama, round(good_stock,2) as good_stock, Jumlah_Bags from Barang where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner = '" & Lv_KdSo & "' "
+                'SQL = SQL & "and Kode_Barang='" & Lv_KdBarang & "' "
+                'Using dr = OpenTrans(SQL)
+                '    If dr.Read Then
+                '        Nama = dr("nama")
+                '        If dr("good_stock") < jumlah_Kecil Then
+                '            dr.Close()
+                '            CloseTrans()
+                '            CloseConn()
+                '            MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat stock " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                '            Exit Sub
+                '        ElseIf dr("Jumlah_Bags") < Lv_JumlahBags Then
+                '            dr.Close()
+                '            CloseTrans()
+                '            CloseConn()
+                '            MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat jumlah bags " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                '            Exit Sub
+                '        Else
 
-                            dr.Close()
-                            SQL = "update barang set Good_Stock = Good_Stock - " & jumlah_Kecil & ", Jumlah_Bags = Jumlah_Bags - " & Lv_JumlahBags & " "
-                            SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Lv_KdSo & "' "
-                            SQL = SQL & " and Kode_Barang='" & Lv_KdBarang & "'"
-                            ExecuteTrans(SQL)
-                        End If
-                    Else
-                        dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Barang " & Nama & " tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
-                End Using
+                '            dr.Close()
+                '            SQL = "update barang set Good_Stock = Good_Stock - " & jumlah_Kecil & ", Jumlah_Bags = Jumlah_Bags - " & Lv_JumlahBags & " "
+                '            SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Lv_KdSo & "' "
+                '            SQL = SQL & " and Kode_Barang='" & Lv_KdBarang & "'"
+                '            ExecuteTrans(SQL)
+                '        End If
+                '    Else
+                '        dr.Close()
+                '        CloseTrans()
+                '        CloseConn()
+                '        MessageBox.Show("Barang " & Nama & " tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '        Exit Sub
+                '    End If
+                'End Using
 
-                'POTONG STOCK DI BARANG_SN
-                SQL = "select round(jumlah,2) as jumlah, Jumlah_Bags from Barang_SN where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Lv_KdSo & "' "
-                SQL = SQL & "and Kode_Barang='" & Lv_KdBarang & "' "
-                SQL = SQL & "and Serial_Number='" & Lv_Sn & "'"
-                Using dr = OpenTrans(SQL)
-                    If dr.Read Then
-                        If dr("jumlah") < jumlah_Kecil Then
-                            dr.Close()
-                            CloseTrans()
-                            CloseConn()
-                            MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat stock " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Exit Sub
-                        ElseIf dr("Jumlah_Bags") < Lv_JumlahBags Then
-                            dr.Close()
-                            CloseTrans()
-                            CloseConn()
-                            MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat jumlah bags " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Exit Sub
-                        Else
-                            dr.Close()
-                            SQL = "update barang_sn set jumlah = jumlah - " & jumlah_Kecil & ", Jumlah_Bags = Jumlah_Bags - " & Lv_JumlahBags & " "
-                            SQL = SQL & "where Kode_Stock_Owner='" & Lv_KdSo & "' and Kode_Barang='" & Lv_KdBarang & "' "
-                            SQL = SQL & "and Serial_Number='" & Lv_Sn & "'"
-                            ExecuteTrans(SQL)
-                        End If
-                    Else
-                        dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Barang " & Nama & " tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
-                End Using
+                ''POTONG STOCK DI BARANG_SN
+                'SQL = "select round(jumlah,2) as jumlah, Jumlah_Bags from Barang_SN where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Lv_KdSo & "' "
+                'SQL = SQL & "and Kode_Barang='" & Lv_KdBarang & "' "
+                'SQL = SQL & "and Serial_Number='" & Lv_Sn & "'"
+                'Using dr = OpenTrans(SQL)
+                '    If dr.Read Then
+                '        If dr("jumlah") < jumlah_Kecil Then
+                '            dr.Close()
+                '            CloseTrans()
+                '            CloseConn()
+                '            MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat stock " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                '            Exit Sub
+                '        ElseIf dr("Jumlah_Bags") < Lv_JumlahBags Then
+                '            dr.Close()
+                '            CloseTrans()
+                '            CloseConn()
+                '            MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat jumlah bags " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                '            Exit Sub
+                '        Else
+                '            dr.Close()
+                '            SQL = "update barang_sn set jumlah = jumlah - " & jumlah_Kecil & ", Jumlah_Bags = Jumlah_Bags - " & Lv_JumlahBags & " "
+                '            SQL = SQL & "where Kode_Stock_Owner='" & Lv_KdSo & "' and Kode_Barang='" & Lv_KdBarang & "' "
+                '            SQL = SQL & "and Serial_Number='" & Lv_Sn & "'"
+                '            ExecuteTrans(SQL)
+                '        End If
+                '    Else
+                '        dr.Close()
+                '        CloseTrans()
+                '        CloseConn()
+                '        MessageBox.Show("Barang " & Nama & " tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '        Exit Sub
+                '    End If
+                'End Using
 
-                ' CEK KESESUAIAN STOCK
-                SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_sn x "
-                SQL = SQL & "where a.kode_Barang=x.kode_Barang and a.Kode_Stock_Owner=x.kode_Stock_Owner "
-                SQL = SQL & "and a.kode_Perusahaan=x.kode_Perusahaan ),0) as Jumlah_sn, "
-                SQL = SQL & "isnull(round(SUM(jumlah_bags), 2), 0) AS jumlah_bags_barang, "
-                SQL = SQL & "isnull((select round(sum(Jumlah_Bags), 2) from Barang_sn y "
-                SQL = SQL & "where a.kode_Barang=y.kode_Barang and a.Kode_Stock_Owner=y.kode_Stock_Owner and a.kode_Perusahaan=y.kode_Perusahaan ), 0) as jumlah_bags_sn "
-                SQL = SQL & "FROM barang a WHERE a.Kode_Stock_Owner = '" & Lv_KdSo & "' "
-                SQL = SQL & "AND a.Kode_Barang = '" & Lv_KdBarang & "' and a.Kode_Perusahaan='" & KodePerusahaan & "' "
-                SQL = SQL & "group by a.kode_Barang, a.Kode_Stock_Owner, a.kode_Perusahaan "
-                Using Ds = BindingTrans(SQL)
-                    With Ds.Tables("MyTable")
-                        If .Rows.Count <> 0 Then
-                            If .Rows(0).Item("good_stock") <> .Rows(0).Item("Jumlah_sn") Or .Rows(0).Item("jumlah_bags_barang") <> .Rows(0).Item("jumlah_bags_sn") Then
-                                CloseTrans()
-                                CloseConn()
-                                MessageBox.Show("Terjadi Kesalahan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                Exit Sub
-                            End If
-                        Else
-                            CloseTrans()
-                            CloseConn()
-                            MessageBox.Show("Data tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                            Exit Sub
-                        End If
-                    End With
-                End Using
+                '' CEK KESESUAIAN STOCK
+                'SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_sn x "
+                'SQL = SQL & "where a.kode_Barang=x.kode_Barang and a.Kode_Stock_Owner=x.kode_Stock_Owner "
+                'SQL = SQL & "and a.kode_Perusahaan=x.kode_Perusahaan ),0) as Jumlah_sn, "
+                'SQL = SQL & "isnull(round(SUM(jumlah_bags), 2), 0) AS jumlah_bags_barang, "
+                'SQL = SQL & "isnull((select round(sum(Jumlah_Bags), 2) from Barang_sn y "
+                'SQL = SQL & "where a.kode_Barang=y.kode_Barang and a.Kode_Stock_Owner=y.kode_Stock_Owner and a.kode_Perusahaan=y.kode_Perusahaan ), 0) as jumlah_bags_sn "
+                'SQL = SQL & "FROM barang a WHERE a.Kode_Stock_Owner = '" & Lv_KdSo & "' "
+                'SQL = SQL & "AND a.Kode_Barang = '" & Lv_KdBarang & "' and a.Kode_Perusahaan='" & KodePerusahaan & "' "
+                'SQL = SQL & "group by a.kode_Barang, a.Kode_Stock_Owner, a.kode_Perusahaan "
+                'Using Ds = BindingTrans(SQL)
+                '    With Ds.Tables("MyTable")
+                '        If .Rows.Count <> 0 Then
+                '            If .Rows(0).Item("good_stock") <> .Rows(0).Item("Jumlah_sn") Or .Rows(0).Item("jumlah_bags_barang") <> .Rows(0).Item("jumlah_bags_sn") Then
+                '                CloseTrans()
+                '                CloseConn()
+                '                MessageBox.Show("Terjadi Kesalahan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '                Exit Sub
+                '            End If
+                '        Else
+                '            CloseTrans()
+                '            CloseConn()
+                '            MessageBox.Show("Data tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '            Exit Sub
+                '        End If
+                '    End With
+                'End Using
 
-                '========================
-                '=     TAMBAH STOCK     =
-                '========================
+                ''========================
+                ''=     TAMBAH STOCK     =
+                ''========================
 
-                'GET WAREHOUSE KOSONG
-                Dim Id_WarehouseTujuan, NoPalletTujuan As String
-                SQL = "SELECT TOP(1) "
-                SQL = SQL & "a.id_wms_warehouse_position, b.nomor_urut "
-                SQL = SQL & "FROM view_warehouse_position a, view_warehouse_position_detail b "
-                SQL = SQL & "WHERE a.Id_WMS_Warehouse_Position = b.Id_WMS_Warehouse_Position "
-                SQL = SQL & "AND a.kode_Perusahaan = b.kode_Perusahaan "
-                SQL = SQL & "AND a.kode_Perusahaan = '" & KodePerusahaan & "' "
-                SQL = SQL & "AND a.Kode_Stock_Owner = '" & Lv_KdSo & "' "
-                SQL = SQL & "AND b.Kode_Barang IS NULL;"
-                Using Dr = OpenTrans(SQL)
-                    If Dr.Read Then
-                        Id_WarehouseTujuan = Dr("id_wms_warehouse_position")
-                        NoPalletTujuan = Dr("nomor_urut")
-                    Else
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Pallet Kosong Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
-                End Using
+                ''GET WAREHOUSE KOSONG
+                'Dim Id_WarehouseTujuan, NoPalletTujuan As String
+                'SQL = "SELECT TOP(1) "
+                'SQL = SQL & "a.id_wms_warehouse_position, b.nomor_urut "
+                'SQL = SQL & "FROM view_warehouse_position a, view_warehouse_position_detail b "
+                'SQL = SQL & "WHERE a.Id_WMS_Warehouse_Position = b.Id_WMS_Warehouse_Position "
+                'SQL = SQL & "AND a.kode_Perusahaan = b.kode_Perusahaan "
+                'SQL = SQL & "AND a.kode_Perusahaan = '" & KodePerusahaan & "' "
+                'SQL = SQL & "AND a.Kode_Stock_Owner = '" & Lv_KdSo & "' "
+                'SQL = SQL & "AND b.Kode_Barang IS NULL;"
+                'Using Dr = OpenTrans(SQL)
+                '    If Dr.Read Then
+                '        Id_WarehouseTujuan = Dr("id_wms_warehouse_position")
+                '        NoPalletTujuan = Dr("nomor_urut")
+                '    Else
+                '        Dr.Close()
+                '        CloseTrans()
+                '        CloseConn()
+                '        MessageBox.Show("Pallet Kosong Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '        Exit Sub
+                '    End If
+                'End Using
 
 
-                Dim hargaIsn As String = Get_Harga_SN(Lv_Sn)
+                'Dim hargaIsn As String = Get_Harga_SN(Lv_Sn)
 
-                'GENERATE SN BARU
-                Dim str As String = Format(Random.Next(0, 999), "000") & Format(tgl_skg, "HHmmss")
-                Dim Kode_Unik As String = str.Substring(0, 5) & "BB" & Chr(64 + str.Substring(6, 1)) & str.Substring(6, Len(str) - 6)
-                Dim SN_Baru As String = Kode_Unik & Tanda_SN & "01" & Tanda_SN & hargaIsn & Tanda_SN & "02" & Tanda_SN & Format(tgl_skg, "yyyy-MM-dd")
+                ''GENERATE SN BARU
+                'Dim str As String = Format(Random.Next(0, 999), "000") & Format(tgl_skg, "HHmmss")
+                'Dim Kode_Unik As String = str.Substring(0, 5) & "BB" & Chr(64 + str.Substring(6, 1)) & str.Substring(6, Len(str) - 6)
+                'Dim SN_Baru As String = Kode_Unik & Tanda_SN & "01" & Tanda_SN & hargaIsn & Tanda_SN & "02" & Tanda_SN & Format(tgl_skg, "yyyy-MM-dd")
 
-                Dim newKodeUnikBerjalan As String = Generate_Random_Kode(10)
+                'Dim newKodeUnikBerjalan As String = Generate_Random_Kode(10)
 
-                'INSERT BARANG SN BARU  
-                SQL = "insert into Barang_SN (Kode_Perusahaan, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah,  Jumlah_Bags, "
-                SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, id_Susunan, Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number, Warna, Tgl_masuk) "
-                SQL = SQL & "select Kode_Perusahaan, '" & Lv_KdSo & "', Kode_Barang, '" & SN_Baru & "', '" & jumlah_Kecil & "', " & Lv_JumlahBags & ", "
-                SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, '" & Id_WarehouseTujuan & "', id_Susunan , Qr_Code, '" & newKodeUnikBerjalan & "', "
-                SQL = SQL & "Kode_Unik_Asal, '" & NoPalletTujuan & "', batch_number, '" & arrWarna(Cmb_KualitasAkhir.SelectedIndex) & "', Tgl_Masuk "
-                SQL = SQL & "from Barang_SN "
-                SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' "
-                SQL = SQL & "and Kode_Stock_Owner='" & Lv_KdSo & "' "
-                SQL = SQL & "and Kode_Barang='" & Lv_KdBarang & "' "
-                SQL = SQL & "and Serial_Number='" & Lv_Sn & "' "
-                ExecuteTrans(SQL)
+                ''INSERT BARANG SN BARU  
+                'SQL = "insert into Barang_SN (Kode_Perusahaan, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah,  Jumlah_Bags, "
+                'SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, id_Susunan, Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number, Warna, Tgl_masuk) "
+                'SQL = SQL & "select Kode_Perusahaan, '" & Lv_KdSo & "', Kode_Barang, '" & SN_Baru & "', '" & jumlah_Kecil & "', " & Lv_JumlahBags & ", "
+                'SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, '" & Id_WarehouseTujuan & "', id_Susunan , Qr_Code, '" & newKodeUnikBerjalan & "', "
+                'SQL = SQL & "Kode_Unik_Asal, '" & NoPalletTujuan & "', batch_number, '" & arrWarna(Cmb_KualitasAkhir.SelectedIndex) & "', Tgl_Masuk "
+                'SQL = SQL & "from Barang_SN "
+                'SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' "
+                'SQL = SQL & "and Kode_Stock_Owner='" & Lv_KdSo & "' "
+                'SQL = SQL & "and Kode_Barang='" & Lv_KdBarang & "' "
+                'SQL = SQL & "and Serial_Number='" & Lv_Sn & "' "
+                'ExecuteTrans(SQL)
 
-                '============================
-                '=       TAMBAH BARANG       =
-                '============================
+                ''============================
+                ''=       TAMBAH BARANG       =
+                ''============================
 
-                SQL = "update barang set Good_Stock= Good_Stock + " & jumlah_Kecil & ", Jumlah_Bags = Jumlah_Bags + " & Lv_JumlahBags & " "
-                SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Lv_KdSo & "' "
-                SQL = SQL & " and Kode_Barang='" & Lv_KdBarang & "'"
-                ExecuteTrans(SQL)
+                'SQL = "update barang set Good_Stock= Good_Stock + " & jumlah_Kecil & ", Jumlah_Bags = Jumlah_Bags + " & Lv_JumlahBags & " "
+                'SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Lv_KdSo & "' "
+                'SQL = SQL & " and Kode_Barang='" & Lv_KdBarang & "'"
+                'ExecuteTrans(SQL)
 
-                'CEK KESESUAIAN STOCK
-                SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_sn x "
-                SQL = SQL & "where a.kode_Barang=x.kode_Barang and a.Kode_Stock_Owner=x.kode_Stock_Owner "
-                SQL = SQL & "and a.kode_Perusahaan=x.kode_Perusahaan ),0) as Jumlah_sn, "
-                SQL = SQL & "isnull(round(SUM(jumlah_bags), 2), 0) AS jumlah_bags_barang, "
-                SQL = SQL & "isnull((select round(sum(Jumlah_Bags), 2) from Barang_sn y "
-                SQL = SQL & "where a.kode_Barang=y.kode_Barang and a.Kode_Stock_Owner=y.kode_Stock_Owner and a.kode_Perusahaan=y.kode_Perusahaan ), 0) as jumlah_bags_sn "
-                SQL = SQL & "FROM barang a WHERE a.Kode_Stock_Owner = '" & Lv_KdSo & "' "
-                SQL = SQL & "AND a.Kode_Barang = '" & Lv_KdBarang & "' and a.Kode_Perusahaan='" & KodePerusahaan & "' "
-                SQL = SQL & "group by a.kode_Barang, a.Kode_Stock_Owner, a.kode_Perusahaan "
-                Using Ds = BindingTrans(SQL)
-                    With Ds.Tables("MyTable")
-                        If .Rows.Count <> 0 Then
-                            If .Rows(0).Item("good_stock") <> .Rows(0).Item("Jumlah_sn") Or .Rows(0).Item("jumlah_bags_barang") <> .Rows(0).Item("jumlah_bags_sn") Then
-                                CloseTrans()
-                                CloseConn()
-                                MessageBox.Show("Terjadi Kesalahan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                Exit Sub
-                            End If
-                        Else
-                            CloseTrans()
-                            CloseConn()
-                            MessageBox.Show("Data tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                            Exit Sub
-                        End If
-                    End With
-                End Using
+                ''CEK KESESUAIAN STOCK
+                'SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_sn x "
+                'SQL = SQL & "where a.kode_Barang=x.kode_Barang and a.Kode_Stock_Owner=x.kode_Stock_Owner "
+                'SQL = SQL & "and a.kode_Perusahaan=x.kode_Perusahaan ),0) as Jumlah_sn, "
+                'SQL = SQL & "isnull(round(SUM(jumlah_bags), 2), 0) AS jumlah_bags_barang, "
+                'SQL = SQL & "isnull((select round(sum(Jumlah_Bags), 2) from Barang_sn y "
+                'SQL = SQL & "where a.kode_Barang=y.kode_Barang and a.Kode_Stock_Owner=y.kode_Stock_Owner and a.kode_Perusahaan=y.kode_Perusahaan ), 0) as jumlah_bags_sn "
+                'SQL = SQL & "FROM barang a WHERE a.Kode_Stock_Owner = '" & Lv_KdSo & "' "
+                'SQL = SQL & "AND a.Kode_Barang = '" & Lv_KdBarang & "' and a.Kode_Perusahaan='" & KodePerusahaan & "' "
+                'SQL = SQL & "group by a.kode_Barang, a.Kode_Stock_Owner, a.kode_Perusahaan "
+                'Using Ds = BindingTrans(SQL)
+                '    With Ds.Tables("MyTable")
+                '        If .Rows.Count <> 0 Then
+                '            If .Rows(0).Item("good_stock") <> .Rows(0).Item("Jumlah_sn") Or .Rows(0).Item("jumlah_bags_barang") <> .Rows(0).Item("jumlah_bags_sn") Then
+                '                CloseTrans()
+                '                CloseConn()
+                '                MessageBox.Show("Terjadi Kesalahan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '                Exit Sub
+                '            End If
+                '        Else
+                '            CloseTrans()
+                '            CloseConn()
+                '            MessageBox.Show("Data tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '            Exit Sub
+                '        End If
+                '    End With
+                'End Using
 
                 'GET URUT Emi_TF_Quality_Detail
                 Dim x_urut_TF_Quality_Detail As Integer = 0
@@ -647,47 +647,52 @@ Public Class EMI_Transfer_Quality_QC
                     End If
                 End Using
 
+                SQL = "update barang_sn set Warna =  '" & arrWarna(Cmb_KualitasAkhir.SelectedIndex) & "' "
+                SQL = SQL & "where Kode_Stock_Owner='" & Lv_KdSo & "' and Kode_Barang='" & Lv_KdBarang & "' "
+                SQL = SQL & "and Serial_Number='" & Lv_Sn & "'"
+                ExecuteTrans(SQL)
+
                 '============================
                 '=     INSERT TABEL DET     =
                 '============================
                 SQL = "insert into Emi_TF_Quality_Det (Kode_Perusahaan, No_Faktur, Serial_Number_Awal, Serial_Number_Akhir, Batch_Number, Id_Warehouse_Awal, "
                 SQL = SQL & "id_Pallet_Awal, Id_Warehouse_Akhir, id_Pallet_Akhir, Warna_Awal, Warna_Akhir, Urut_TF) values "
-                SQL = SQL & "('" & KodePerusahaan & "', '" & TxtNo_Transaksi.Text.Trim & "', '" & Lv_Sn & "', '" & SN_Baru & "', '" & Lv_Batch & "', "
-                SQL = SQL & "'" & Lv_IdWarehouse & "', '" & Lv_NoPallet & "', '" & Id_WarehouseTujuan & "', '" & NoPalletTujuan & "', '" & Lv_Warna & "', "
+                SQL = SQL & "('" & KodePerusahaan & "', '" & TxtNo_Transaksi.Text.Trim & "', '" & Lv_Sn & "', '" & Lv_Sn & "', '" & Lv_Batch & "', "
+                SQL = SQL & "'" & Lv_IdWarehouse & "', '" & Lv_NoPallet & "', '" & Lv_IdWarehouse & "', '" & Lv_NoPallet & "', '" & Lv_Warna & "', "
                 SQL = SQL & "'" & arrWarna(Cmb_KualitasAkhir.SelectedIndex) & "', '" & x_urut_TF_Quality_Detail & "')"
                 ExecuteTrans(SQL)
 
 
-                '=====================================
-                '=       GENERATE BARCODE BARU       =
-                '=====================================
+                ''=====================================
+                ''=       GENERATE BARCODE BARU       =
+                ''=====================================
 
-                kode_unik_print = Format(tgl_skg, "MMddHHmmss") & Format(Random.Next(0, 10000), "00000")
-                Dim fullNewQr As String = Lv_QrCode & "-" & newKodeUnikBerjalan
+                'kode_unik_print = Format(tgl_skg, "MMddHHmmss") & Format(Random.Next(0, 10000), "00000")
+                'Dim fullNewQr As String = Lv_QrCode & "-" & newKodeUnikBerjalan
 
-                Barcode.Image = Generate_QR(fullNewQr)
+                'Barcode.Image = Generate_QR(fullNewQr)
 
-                Dim FileToSaveAs1 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "newBarcodeTfQuality" & kode_unik_print & ".jpg")
-                'If Not (System.IO.File.Exists(FileToSaveAs1)) Then
-                Barcode.Image.Save(FileToSaveAs1, System.Drawing.Imaging.ImageFormat.Jpeg)
-                'End If
+                'Dim FileToSaveAs1 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "newBarcodeTfQuality" & kode_unik_print & ".jpg")
+                ''If Not (System.IO.File.Exists(FileToSaveAs1)) Then
+                'Barcode.Image.Save(FileToSaveAs1, System.Drawing.Imaging.ImageFormat.Jpeg)
+                ''End If
 
-                fs1 = New FileStream(FileToSaveAs1, FileMode.Open, FileAccess.Read)
-                FileSize1 = fs1.Length
-                rawData1 = New Byte(FileSize1) {}
-                fs1.Read(rawData1, 0, FileSize1)
-                fs1.Close()
-                Cmd.Parameters.Add("@newBarcode" & NoBarcode, SqlDbType.Image).Value = rawData1
+                'fs1 = New FileStream(FileToSaveAs1, FileMode.Open, FileAccess.Read)
+                'FileSize1 = fs1.Length
+                'rawData1 = New Byte(FileSize1) {}
+                'fs1.Read(rawData1, 0, FileSize1)
+                'fs1.Close()
+                'Cmd.Parameters.Add("@newBarcode" & NoBarcode, SqlDbType.Image).Value = rawData1
 
-                '==========================
-                '=     INSERT BARCODE     =
-                '==========================
-                Dim tglDuaHariSebelum As DateTime = tgl_skg.AddDays(-2)
-                SQL = "insert into Cetak_TransferQuality (Kode_Perusahaan, No_Faktur, Kode_Barang, Barcode, Nama, QrUtuh, Qr, Tgl_Expired, batch, Tanggal_Cetak, Kode_Unik_Print, Tanggal_Masuk, Metode_Pengeluaran_Stok) values "
-                SQL = SQL & "('" & KodePerusahaan & "', '" & TxtNo_Transaksi.Text.Trim & "', '" & Lv_KdBarang & "', @newBarcode" & NoBarcode & ", '" & Lv_NmBarang & "', "
-                SQL = SQL & "'" & fullNewQr & "', '" & Lv_QrCode & "', '" & Lv_TglExp & "', '" & Lv_Batch & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
-                SQL = SQL & "'" & kode_unik_print & "', '" & Lv_TglMsk & "', '" & Lv_MetodePengeluaran & "')"
-                ExecuteTrans(SQL)
+                ''==========================
+                ''=     INSERT BARCODE     =
+                ''==========================
+                'Dim tglDuaHariSebelum As DateTime = tgl_skg.AddDays(-2)
+                'SQL = "insert into Cetak_TransferQuality (Kode_Perusahaan, No_Faktur, Kode_Barang, Barcode, Nama, QrUtuh, Qr, Tgl_Expired, batch, Tanggal_Cetak, Kode_Unik_Print, Tanggal_Masuk, Metode_Pengeluaran_Stok) values "
+                'SQL = SQL & "('" & KodePerusahaan & "', '" & TxtNo_Transaksi.Text.Trim & "', '" & Lv_KdBarang & "', @newBarcode" & NoBarcode & ", '" & Lv_NmBarang & "', "
+                'SQL = SQL & "'" & fullNewQr & "', '" & Lv_QrCode & "', '" & Lv_TglExp & "', '" & Lv_Batch & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
+                'SQL = SQL & "'" & kode_unik_print & "', '" & Lv_TglMsk & "', '" & Lv_MetodePengeluaran & "')"
+                'ExecuteTrans(SQL)
 
                 NoBarcode += 1
             Next
@@ -704,11 +709,11 @@ Public Class EMI_Transfer_Quality_QC
             Exit Sub
         End Try
 
-        If berhasilSimpan Then
-            Cetak(kode_unik_print)
-        Else
-            MessageBox.Show("Gagal Simpan", JudulMessage, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        End If
+        'If berhasilSimpan Then
+        '    Cetak(kode_unik_print)
+        'Else
+        '    MessageBox.Show("Gagal Simpan", JudulMessage, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        'End If
 
         Kosong()
     End Sub

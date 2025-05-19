@@ -1,10 +1,4 @@
-﻿Imports System.Reflection
-Imports System.Reflection.Emit
-Imports System.Windows
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-Public Class Emi_PO_Pembelian2
+﻿Public Class Emi_PO_Pembelian2
     Public FlagSelisihPO As String
     Public Asal As String = ""
 
@@ -17,6 +11,7 @@ Public Class Emi_PO_Pembelian2
     Dim fakturSubmitPO As String = ""
     Dim arrInisialFakturSubmitPO As String = ""
     Dim no_Faktur_Sementara As String = ""
+    Dim PPN As Double = 0
     Dim canDeleteLv As Boolean
 
     Dim lvPO_Lokasi As String

@@ -29,24 +29,18 @@
         Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Global_No_Transaksi, 125, HorizontalAlignment.Left)
         Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Global_No_PO, 125, HorizontalAlignment.Left)
         Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Global_Lokasi, 0, HorizontalAlignment.Center)
-        Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Global_Tanggal, 100, HorizontalAlignment.Center)
-        Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Global_Jam, 80, HorizontalAlignment.Center)
         Lv_SplitProdOrder.Columns.Add("UserID", 100, HorizontalAlignment.Center)
-        Lv_SplitProdOrder.Columns.Add("Kode Stock Owner", 150, HorizontalAlignment.Center)
+        Lv_SplitProdOrder.Columns.Add("Kode Stock Owner", 0, HorizontalAlignment.Center)
         Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Global_KodeBarang, 100, HorizontalAlignment.Left)
         Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Global_NamaBarang, 250, HorizontalAlignment.Left)
         Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Global_Jumlah, 100, HorizontalAlignment.Left)
         Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Global_Satuan, 80, HorizontalAlignment.Left)
-        Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Global_Catatan, 150, HorizontalAlignment.Left)
+        Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Global_Catatan, 0, HorizontalAlignment.Left)
         Lv_SplitProdOrder.Columns.Add("Flag Produksi", 0, HorizontalAlignment.Center) 'NULLable
         Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Global_Tanggal_Produksi, 120, HorizontalAlignment.Center) 'NULLable
         Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Jam_Produksi, 120, HorizontalAlignment.Center) 'NULLable
         Lv_SplitProdOrder.Columns.Add("No Batch", 150, HorizontalAlignment.Left) 'NULLable
         Lv_SplitProdOrder.Columns.Add("Operator", 150, HorizontalAlignment.Left) 'NULLable
-        Lv_SplitProdOrder.Columns.Add("Flag Selesai Produksi", 0, HorizontalAlignment.Center) 'NULLable
-        Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Tgl_Selesai_Produksi, 150, HorizontalAlignment.Center) 'NULLable
-        Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Jam_Selesai_Produksi, 150, HorizontalAlignment.Center) 'NULLable
-        Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_UserID_Selesai_Produksi, 170, HorizontalAlignment.Center) 'NULLable
         Lv_SplitProdOrder.Columns.Add("Flag Hasil Produksi", 0, HorizontalAlignment.Center) 'NULLable
         Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Tgl_Hasil_Produksi, 150, HorizontalAlignment.Center) 'NULLable
         Lv_SplitProdOrder.Columns.Add(Base_Language.Lang_Jam_Hasil_Produksi, 150, HorizontalAlignment.Center) 'NULLable
@@ -158,7 +152,7 @@
             SQL = SQL & "a.Kode_Stock_Owner,a.Kode_Barang,b.Nama as Nama_Barang,a.Jumlah,a.Satuan, "
             SQL = SQL & "a.Catatan,a.Flag_Produksi,a.Tgl_Produksi,a.Jam_Produksi,a.No_Batch,a.Operator, "
             SQL = SQL & "a.Flag_Selesai_Produksi,a.Tgl_Selesai_Produksi,a.Jam_Selesai_Produksi,a.UserID_Selesai_Produksi, "
-            SQL = SQL & "a.Flag_Hasil_Produksi,a.Tgl_Hasil_Produksi,a.Jam_Hasil_Produksi "
+            SQL = SQL & "a.Flag_Hasil_Produksi,a.Tgl_Hasil_Produksi,a.Jam_Hasil_Produksi, a.Status "
             SQL = SQL & "from Emi_Split_Production_Order a, barang b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Barang = b.Kode_Barang "
             SQL = SQL & "and a.Kode_Stock_Owner = b.Kode_Stock_Owner "
@@ -217,15 +211,18 @@
                             Lvw = Lv_SplitProdOrder.Items.Add(.Rows(i).Item("No_Transaksi"))
                             Lvw.SubItems.Add(.Rows(i).Item("No_PO"))
                             Lvw.SubItems.Add(.Rows(i).Item("Lokasi"))
-                            Lvw.SubItems.Add(Format(.Rows(i).Item("Tanggal"), "dd MMM yyyy"))
-                            Lvw.SubItems.Add(.Rows(i).Item("Jam"))
                             Lvw.SubItems.Add(.Rows(i).Item("UserID"))
                             Lvw.SubItems.Add(.Rows(i).Item("Kode_Stock_Owner"))
                             Lvw.SubItems.Add(.Rows(i).Item("Kode_Barang"))
                             Lvw.SubItems.Add(.Rows(i).Item("Nama_Barang"))
                             Lvw.SubItems.Add(.Rows(i).Item("Jumlah"))
                             Lvw.SubItems.Add(.Rows(i).Item("Satuan"))
-                            Lvw.SubItems.Add(.Rows(i).Item("Catatan"))
+
+                            If General_Class.CekNULL(.Rows(i).Item("Catatan")) = "" Then
+                                Lvw.SubItems.Add("-")
+                            Else
+                                Lvw.SubItems.Add(.Rows(i).Item("Catatan"))
+                            End If
 
                             If General_Class.CekNULL(.Rows(i).Item("Flag_Produksi")) = "" Then
                                 Lvw.SubItems.Add("-")
@@ -258,32 +255,6 @@
                                 Lvw.SubItems.Add(.Rows(i).Item("Operator"))
                             End If
 
-                            If General_Class.CekNULL(.Rows(i).Item("Flag_Selesai_Produksi")) = "" Then
-                                Lvw.SubItems.Add("-")
-                                'Lvw.BackColor = Color.Red
-                            Else
-                                Lvw.SubItems.Add(.Rows(i).Item("Flag_Selesai_Produksi"))
-                                'Lvw.BackColor = Color.LightGreen
-                            End If
-
-                            If General_Class.CekNULL(.Rows(i).Item("Tgl_Selesai_Produksi")) = "" Then
-                                Lvw.SubItems.Add("-")
-                            Else
-                                Lvw.SubItems.Add(Format(.Rows(i).Item("Tgl_Selesai_Produksi"), "dd MMM yyyy"))
-                            End If
-
-                            If General_Class.CekNULL(.Rows(i).Item("Jam_Selesai_Produksi")) = "" Then
-                                Lvw.SubItems.Add("-")
-                            Else
-                                Lvw.SubItems.Add(.Rows(i).Item("Jam_Selesai_Produksi"))
-                            End If
-
-                            If General_Class.CekNULL(.Rows(i).Item("UserID_Selesai_Produksi")) = "" Then
-                                Lvw.SubItems.Add("-")
-                            Else
-                                Lvw.SubItems.Add(.Rows(i).Item("UserID_Selesai_Produksi"))
-                            End If
-
                             If General_Class.CekNULL(.Rows(i).Item("Flag_Hasil_Produksi")) = "" Then
                                 Lvw.SubItems.Add("-")
                             Else
@@ -302,24 +273,10 @@
                                 Lvw.SubItems.Add(.Rows(i).Item("Jam_Hasil_Produksi"))
                             End If
 
-                            'Lvw.SubItems.Add(.Rows(i).Item("Id_Routing"))
-                            'Lvw.SubItems.Add(.Rows(i).Item("routing"))
-                            'If General_Class.CekNULL(.Rows(i).Item("jumlah")) = "" Then
-                            '    Lvw.SubItems.Add("0")
-                            'Else
-                            '    Lvw.SubItems.Add(Format(.Rows(i).Item("jumlah"), "N0"))
-                            'End If
-                            'If General_Class.CekNULL(.Rows(i).Item("satuan")) = "" Then
-                            '    Lvw.SubItems.Add("-")
-                            'Else
-                            '    Lvw.SubItems.Add(.Rows(i).Item("satuan"))
-                            'End If
-                            'Lvw.SubItems.Add("0")
-                            'Lvw.SubItems.Add("0")
-                            'Lvw.SubItems.Add("0.0")
-                            'Lvw.SubItems.Add(.Rows(i).Item("keterangan"))
-                            'Lvw.SubItems.Add("-")
-                            'Lvw.SubItems.Add(.Rows(i).Item("userid"))
+                            If Not General_Class.CekNULL(.Rows(i).Item("Status")) = "" Then
+                                Lvw.BackColor = Color.FromArgb(242, 139, 130)
+                            End If
+
                         Next
                     End If
                 End With
@@ -342,6 +299,8 @@
 
         Clipboard.SetText(Lv_SplitProdOrder.FocusedItem.Text)
     End Sub
+
+
 
     Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_ParamLain.SelectedIndexChanged
         If Cmb_ParamLain.SelectedIndex = 0 Then
@@ -614,4 +573,42 @@
     ''Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs)
 
     ''End Sub
+
+
+    Private Sub BatalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BatalToolStripMenuItem.Click
+        If Lv_SplitProdOrder.Items.Count = 0 Then Exit Sub
+
+
+        Try
+            OpenConn()
+
+            Dim SelectedFaktur As String = Lv_SplitProdOrder.FocusedItem.SubItems(0).Text
+
+            '========================================
+            '=     CEK APAKAH PO SUDAH BERJALAN     =
+            '========================================
+            SQL = "select Kode_Perusahaan from Emi_Production_Results where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Production_Order = '" & SelectedFaktur & "' and Status is null "
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+                        CloseConn()
+                        MessageBox.Show("Tidak Bisa Membatalkan PO yang sudah Mulai Produksi")
+                        Exit Sub
+                    Else
+                        SQL = "update Emi_Split_Production_Order set Status='Y' where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Transaksi = '" & SelectedFaktur & "'"
+                        ExecuteTrans(SQL)
+                    End If
+                End With
+            End Using
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        BtnBarangMasuk_Cari_Click(sender, e)
+    End Sub
 End Class

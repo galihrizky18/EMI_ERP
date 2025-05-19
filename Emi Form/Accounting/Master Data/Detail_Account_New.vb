@@ -1,8 +1,4 @@
-﻿Imports System.Net
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar
-
-Public Class Detail_Account_New
+﻿Public Class Detail_Account_New
     Dim arrIdCostCenter, arrcari As New ArrayList
 
     Dim valueKodeAccount() As String

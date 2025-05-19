@@ -24,12 +24,15 @@ Partial Class Laporan_HPP
     Private Sub InitializeComponent()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Cmb_Jenis = New System.Windows.Forms.ComboBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.TxtNmBrg = New System.Windows.Forms.TextBox()
         Me.TxtKdBrg = New System.Windows.Forms.TextBox()
         Me.TxtNamaSupp = New System.Windows.Forms.TextBox()
         Me.TxtKdSupp = New System.Windows.Forms.TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Tgl2 = New System.Windows.Forms.DateTimePicker()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -49,9 +52,6 @@ Partial Class Laporan_HPP
         Me.LvBarang = New System.Windows.Forms.ListView()
         Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.Cmb_Jenis = New System.Windows.Forms.ComboBox()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -75,8 +75,21 @@ Partial Class Laporan_HPP
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(609, 51)
+        Me.Panel1.Size = New System.Drawing.Size(886, 51)
         Me.Panel1.TabIndex = 23
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(886, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'GroupBox1
         '
@@ -97,6 +110,15 @@ Partial Class Laporan_HPP
         Me.GroupBox1.Size = New System.Drawing.Size(569, 146)
         Me.GroupBox1.TabIndex = 24
         Me.GroupBox1.TabStop = False
+        '
+        'Cmb_Jenis
+        '
+        Me.Cmb_Jenis.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Jenis.FormattingEnabled = True
+        Me.Cmb_Jenis.Location = New System.Drawing.Point(85, 51)
+        Me.Cmb_Jenis.Name = "Cmb_Jenis"
+        Me.Cmb_Jenis.Size = New System.Drawing.Size(135, 26)
+        Me.Cmb_Jenis.TabIndex = 10
         '
         'Label6
         '
@@ -134,6 +156,15 @@ Partial Class Laporan_HPP
         Me.TxtKdSupp.Name = "TxtKdSupp"
         Me.TxtKdSupp.Size = New System.Drawing.Size(135, 23)
         Me.TxtKdSupp.TabIndex = 3
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(17, 54)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(41, 18)
+        Me.Label7.TabIndex = 4
+        Me.Label7.Text = "Jenis"
         '
         'Label4
         '
@@ -308,43 +339,12 @@ Partial Class Laporan_HPP
         Me.ColumnHeader4.Text = "Nama"
         Me.ColumnHeader4.Width = 311
         '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(17, 54)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(41, 18)
-        Me.Label7.TabIndex = 4
-        Me.Label7.Text = "Jenis"
-        '
-        'Cmb_Jenis
-        '
-        Me.Cmb_Jenis.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Cmb_Jenis.FormattingEnabled = True
-        Me.Cmb_Jenis.Location = New System.Drawing.Point(85, 51)
-        Me.Cmb_Jenis.Name = "Cmb_Jenis"
-        Me.Cmb_Jenis.Size = New System.Drawing.Size(135, 26)
-        Me.Cmb_Jenis.TabIndex = 10
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(609, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
         'Laporan_HPP
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(609, 253)
+        Me.ClientSize = New System.Drawing.Size(886, 453)
         Me.Controls.Add(Me.LvBarang)
         Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.Panel5)

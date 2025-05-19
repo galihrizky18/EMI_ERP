@@ -101,7 +101,7 @@
             SQL = SQL & "where a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Perusahaan = d.Kode_Perusahaan "
             SQL = SQL & "and a.Kode_Supplier = c.Kode_Supplier "
             SQL = SQL & "and a.Kode_Barang = d.Kode_Barang and a.Kode_Stock_Owner = d.Kode_Stock_Owner "
-            SQL = SQL & "and a.flag_angkut is null and Flag_Timbang is null "
+            SQL = SQL & "and a.flag_angkut is null and Flag_Timbang is null and a.status is null "
             'SQL = SQL & "and a.sdh_cetak is null "
             SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.lokasi = '" & Lokasi & "' and a.Metode_Timbang = 'FLOOR SCALE'"
             Using Dr = OpenTrans(SQL)
@@ -189,7 +189,7 @@
         Try
             OpenConn()
 
-            SQL = "select Flag_Timbang from EMI_Barang_Masuk_Perpallet where No_Faktur='" & LvNoFaktur.ToString & "'"
+            SQL = "select Flag_Timbang from EMI_Barang_Masuk_Perpallet where No_Faktur='" & LvNoFaktur.ToString & "' and status is null "
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
                     If General_Class.CekNULL(dr("Flag_Timbang")) = "Y" Then
@@ -226,6 +226,10 @@
         kosong()
     End Sub
 
-
-
+    Private Sub Emi_Display_Timbang_FloorScale_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        If EMI_Timbang_Floor_Scale.SerialPort.IsOpen Then
+            EMI_Timbang_Floor_Scale.SerialPort.Close()
+            EMI_Timbang_Floor_Scale.SerialPort.Dispose()
+        End If
+    End Sub
 End Class

@@ -42,7 +42,7 @@
         SQL = SQL & "dbo.Barang ON dbo.Tf_Stock.Kode_Perusahaan = dbo.Barang.Kode_Perusahaan AND dbo.Tf_Stock.Kode_Barang = dbo.Barang.Kode_Barang "
 
         SQL = SQL & "WHERE dbo.Tf_Stock.Kode_Perusahaan = '" & KodePerusahaan & "' and "
-        SQL = SQL & "dbo.Tf_Stock.Tanggal between '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' and '"
+        SQL = SQL & "dbo.Tf_Stock.Tanggal between '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' an d '"
         SQL = SQL & Format(Tgl2.Value, "yyyy-MM-dd") & "'"
 
         SF = "{Tf_Stock.Kode_Perusahaan} = '" & KodePerusahaan & "' and "
@@ -78,4 +78,3 @@
         CloseConn()
     End Sub
 End Class
-        

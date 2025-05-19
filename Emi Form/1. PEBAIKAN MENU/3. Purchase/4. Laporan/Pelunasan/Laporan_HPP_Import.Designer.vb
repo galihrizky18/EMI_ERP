@@ -73,7 +73,7 @@ Partial Class Laporan_HPP_Import
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(612, 51)
+        Me.Panel1.Size = New System.Drawing.Size(605, 51)
         Me.Panel1.TabIndex = 23
         '
         'PanelGradient1
@@ -86,7 +86,7 @@ Partial Class Laporan_HPP_Import
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(612, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(605, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'GroupBox1
@@ -317,12 +317,12 @@ Partial Class Laporan_HPP_Import
         Me.ColumnHeader4.Text = "Nama"
         Me.ColumnHeader4.Width = 311
         '
-        'Laporan_HPP
+        'Laporan_HPP_Import
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(612, 230)
+        Me.ClientSize = New System.Drawing.Size(605, 224)
         Me.Controls.Add(Me.LvBarang)
         Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.Panel5)
@@ -338,7 +338,7 @@ Partial Class Laporan_HPP_Import
         Me.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "Laporan_HPP"
+        Me.Name = "Laporan_HPP_Import"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()

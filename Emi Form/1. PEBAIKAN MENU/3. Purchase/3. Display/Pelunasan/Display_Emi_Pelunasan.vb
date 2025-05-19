@@ -253,6 +253,8 @@
             SQL = SQL & "Where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.status is null "
 
+
+
             If CbTransaksi_HrIni.Checked Then
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
 

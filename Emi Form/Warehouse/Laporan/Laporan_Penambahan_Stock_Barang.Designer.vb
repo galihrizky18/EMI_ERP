@@ -61,13 +61,12 @@ Partial Class Laporan_Penambahan_Stock_Barang
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(585, 51)
+        Me.Panel1.Size = New System.Drawing.Size(588, 51)
         Me.Panel1.TabIndex = 23
         '
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.TxtKd_Barang)
-        Me.GroupBox1.Controls.Add(Me.Txt_NmBarang)
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Tgl2)
         Me.GroupBox1.Controls.Add(Me.Label3)
@@ -87,7 +86,7 @@ Partial Class Laporan_Penambahan_Stock_Barang
         Me.TxtKd_Barang.Location = New System.Drawing.Point(121, 54)
         Me.TxtKd_Barang.MaxLength = 50
         Me.TxtKd_Barang.Name = "TxtKd_Barang"
-        Me.TxtKd_Barang.Size = New System.Drawing.Size(119, 21)
+        Me.TxtKd_Barang.Size = New System.Drawing.Size(163, 21)
         Me.TxtKd_Barang.TabIndex = 419
         '
         'Txt_NmBarang
@@ -95,7 +94,7 @@ Partial Class Laporan_Penambahan_Stock_Barang
         Me.Txt_NmBarang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_NmBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_NmBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_NmBarang.Location = New System.Drawing.Point(246, 54)
+        Me.Txt_NmBarang.Location = New System.Drawing.Point(621, 110)
         Me.Txt_NmBarang.MaxLength = 50
         Me.Txt_NmBarang.Name = "Txt_NmBarang"
         Me.Txt_NmBarang.Size = New System.Drawing.Size(240, 21)
@@ -203,7 +202,7 @@ Partial Class Laporan_Penambahan_Stock_Barang
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(585, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(588, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Laporan_Penambahan_Stock_Barang
@@ -211,8 +210,9 @@ Partial Class Laporan_Penambahan_Stock_Barang
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(585, 217)
+        Me.ClientSize = New System.Drawing.Size(588, 217)
         Me.Controls.Add(Me.Lv_DetBarang)
+        Me.Controls.Add(Me.Txt_NmBarang)
         Me.Controls.Add(Me.BtnExit)
         Me.Controls.Add(Me.BtnCetak)
         Me.Controls.Add(Me.GroupBox1)
@@ -227,6 +227,7 @@ Partial Class Laporan_Penambahan_Stock_Barang
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 

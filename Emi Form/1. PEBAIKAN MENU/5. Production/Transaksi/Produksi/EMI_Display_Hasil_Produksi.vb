@@ -1,4 +1,7 @@
-﻿Public Class EMI_Display_Hasil_Produksi
+﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
+
+Public Class EMI_Display_Hasil_Produksi
     Dim Jenis = "Display_Production_Order"
     Public asal As String
     Dim arrcari As New ArrayList
@@ -41,8 +44,8 @@
             SQL = SQL & "from Emi_Split_Production_Order a,EMI_Order_Produksi b,Barang c,Emi_Master_routing d "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_PO = b.No_Faktur and b.Selesai is null and b.flag_release='Y' "
             SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Stock_Owner = c.Kode_Stock_Owner and a.Kode_Barang = c.Kode_Barang "
-            SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.Flag_Produksi = 'Y'  "
-            SQL = SQL & " and b.Id_Routing = d.Id_Routing  "
+            SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.Flag_Produksi = 'Y' and b.status is null and a.status is null and a.Flag_Hasil_Produksi is null  "
+            SQL = SQL & "and b.Id_Routing = d.Id_Routing  "
             If ComboBox3.SelectedIndex <> -1 Then
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
                 SQL = SQL & arrcari.Item(ComboBox3.SelectedIndex) & "  like  '%" & Trim(TextBox3.Text) & "%' "
@@ -91,11 +94,11 @@
             TextBox3.Text = ""
 
             ListView1.Columns.Clear()
-            ListView1.Columns.Add(Base_Language.Lang_Global_NoFaktur, 150, HorizontalAlignment.Left)
-            ListView1.Columns.Add(Base_Language.Lang_Global_Tanggal_Produksi, 130, HorizontalAlignment.Center)
-            ListView1.Columns.Add(Base_Language.Lang_Global_Jam, 100, HorizontalAlignment.Center)
-            ListView1.Columns.Add(Base_Language.Lang_Global_Jumlah, 150, HorizontalAlignment.Center)
-            ListView1.Columns.Add("Jenis Produksi", 130, HorizontalAlignment.Center)
+            ListView1.Columns.Add(Base_Language.Lang_Global_NoFaktur, 170, HorizontalAlignment.Left)
+            ListView1.Columns.Add(Base_Language.Lang_Global_Tanggal_Produksi, 150, HorizontalAlignment.Center)
+            ListView1.Columns.Add(Base_Language.Lang_Global_Jam, 120, HorizontalAlignment.Center)
+            ListView1.Columns.Add(Base_Language.Lang_Global_Jumlah, 250, HorizontalAlignment.Right)
+            ListView1.Columns.Add("Line Produksi", 250, HorizontalAlignment.Center)
             ListView1.Columns.Add("id_routing", 0, HorizontalAlignment.Center)
             ListView1.Columns.Add("no po", 0, HorizontalAlignment.Center)
             ListView1.View = View.Details

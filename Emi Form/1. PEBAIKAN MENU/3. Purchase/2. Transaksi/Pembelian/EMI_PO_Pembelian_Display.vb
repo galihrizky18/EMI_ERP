@@ -1,8 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-
-Public Class EMI_PO_Pembelian_Display
+﻿Public Class EMI_PO_Pembelian_Display
     Dim arrcariLocal, arrcariImport As New ArrayList
     Dim Jenis = "Lokasi_PO"
     Dim LvNo_PoLocal As String
@@ -13,6 +9,7 @@ Public Class EMI_PO_Pembelian_Display
     Dim LvLokasiGudangLocal As String
     Dim LvKeteranganLocal As String
     Dim LvIDLocal As String
+    Dim LvKategoriPO As String
 
     Dim CellNo_PoLocal As Integer = 0
     Dim CellLokasiLocal As Integer = 1
@@ -22,6 +19,7 @@ Public Class EMI_PO_Pembelian_Display
     Dim CellLokasiGudangLocal As Integer = 5
     Dim CellKeteranganLocal As Integer = 6
     Dim CellIDLocal As Integer = 7
+    Dim CellKategoriPO As Integer = 8
 
     Dim LvNo_PoImport As String
     Dim LvLokasiImport As String
@@ -60,18 +58,9 @@ Public Class EMI_PO_Pembelian_Display
         LvLokasiGudangLocal = DgvPO_DataLocal.Rows(No_Index).Cells(CellLokasiGudangLocal).Value
         LvKeteranganLocal = DgvPO_DataLocal.Rows(No_Index).Cells(CellKeteranganLocal).Value
         LvIDLocal = DgvPO_DataLocal.Rows(No_Index).Cells(CellIDLocal).Value
+        LvKategoriPO = DgvPO_DataLocal.Rows(No_Index).Cells(CellKategoriPO).Value
     End Sub
 
-    Private Sub Get_Isi_ListviewImport(ByVal No_Index As Integer)
-        LvNo_PoImport = DgvPO_DataImport.Rows(No_Index).Cells(CellNo_PoImport).Value
-        LvLokasiImport = DgvPO_DataImport.Rows(No_Index).Cells(CellLokasiImport).Value
-        LvTanggalImport = DgvPO_DataImport.Rows(No_Index).Cells(CellTanggalImport).Value
-        LvKd_SupplierImport = DgvPO_DataImport.Rows(No_Index).Cells(CellKd_SupplierImport).Value
-        LvNm_SupplierImport = DgvPO_DataImport.Rows(No_Index).Cells(CellNm_SupplierImport).Value
-        LvLokasiGudangImport = DgvPO_DataImport.Rows(No_Index).Cells(CellLokasiGudangImport).Value
-        LvKeteranganImport = DgvPO_DataImport.Rows(No_Index).Cells(CellKeteranganImport).Value
-        LvIDImport = DgvPO_DataImport.Rows(No_Index).Cells(CellIDImport).Value
-    End Sub
     Private Sub SD_Pilih_PO_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
@@ -93,14 +82,8 @@ Public Class EMI_PO_Pembelian_Display
             DgvPO_DataLocal.Columns(CellNm_SupplierLocal).HeaderText = Base_Language.Lang_Global_Supplier
             DgvPO_DataLocal.Columns(CellLokasiGudangLocal).HeaderText = Base_Language.Lang_Global_LokasiGudang
             DgvPO_DataLocal.Columns(CellKeteranganLocal).HeaderText = Base_Language.lang_global_keterangan
-
-            DgvPO_DataImport.Columns(CellNo_PoImport).HeaderText = Base_Language.Lang_Global_NoFaktur
-            DgvPO_DataImport.Columns(CellLokasiImport).HeaderText = Base_Language.Lang_Global_Lokasi
-            DgvPO_DataImport.Columns(CellTanggalImport).HeaderText = Base_Language.Lang_Global_Tanggal
-            DgvPO_DataImport.Columns(CellKd_SupplierImport).HeaderText = Base_Language.Lang_Global_Kode_Supplier
-            DgvPO_DataImport.Columns(CellNm_SupplierImport).HeaderText = Base_Language.Lang_Global_Supplier
-            DgvPO_DataImport.Columns(CellLokasiGudangImport).HeaderText = Base_Language.Lang_Global_LokasiGudang
-            DgvPO_DataImport.Columns(CellKeteranganImport).HeaderText = Base_Language.lang_global_keterangan
+            DgvPO_DataLocal.Columns(CellKategoriPO).HeaderText = "Kategori PO"
+            DgvPO_DataLocal.Columns(CellKategoriPO).DisplayIndex = 3
 
             ComboBox1.Items.Clear() : arrcariLocal.Clear() : arrcariImport.Clear()
             ComboBox1.Items.Add(Base_Language.Lang_Global_NoFaktur) : arrcariLocal.Add("a.No_Faktur") : arrcariImport.Add("ro.id_rencana")
@@ -136,7 +119,6 @@ Public Class EMI_PO_Pembelian_Display
 
 
             DgvPO_DataLocal.Rows.Clear()
-            DgvPO_DataImport.Rows.Clear()
 
 
             Dim ind As Integer = 0
@@ -177,7 +159,7 @@ Public Class EMI_PO_Pembelian_Display
 
             SQL = "select a.No_Faktur, a.Lokasi, a.Tanggal, c.Kode_Supplier, c.Nama, 1 as ID, ETD, Flag_ETD, Flag_Release "
 
-            SQL = SQL & ",isnull((select top(1) 'T' from EMI_Pembelian_PO_detail x "
+            SQL = SQL & ",isnull((select top(1) 'T' from EMI_Pembelian_PO_Detail_Induk x "
             SQL = SQL & "where x.Kode_Perusahaan=a.Kode_Perusahaan and x.No_Faktur=a.no_Faktur and x.Flag_loading is null),'Y') as Selesai_ETA "
 
             SQL = SQL & ",isnull((select top(1) 'Y' from EMI_Pembelian_Loading_detail x, EMI_Pembelian_Loading y "
@@ -186,15 +168,15 @@ Public Class EMI_PO_Pembelian_Display
 
             SQL = SQL & ",isnull((select top(1) ETA from EMI_Pembelian_Loading_detail x, EMI_Pembelian_Loading y "
             SQL = SQL & "where x.Kode_Perusahaan=y.Kode_Perusahaan and x.No_faktur=y.No_Faktur and y.status is null "
-            SQL = SQL & "and x.Kode_Perusahaan=a.Kode_Perusahaan and x.no_PO=a.no_Faktur),null) as ETA "
+            SQL = SQL & "and x.Kode_Perusahaan=a.Kode_Perusahaan and x.no_PO=a.no_Faktur),null) as ETA, "
 
-            'SQL = SQL & ",isnull((select top(1) flag_timbang from EMI_Pembelian_ETA_detail_PO x, EMI_Pembelian_ETA y "
-            'SQL = SQL & "where x.Kode_Perusahaan=y.Kode_Perusahaan and x.NO_SJ=y.No_SJ and y.status is null "
-            'SQL = SQL & "and x.Kode_Perusahaan=a.Kode_Perusahaan and x.no_PO=a.no_Faktur),null) as Flag_Timbangan_Unloading "
+            SQL = SQL & "a.Flag_Import "
 
-            SQL = SQL & "from EMI_Pembelian_PO a, Suppliers c, Suppliers_Kategori d where Selesai is null and Status is null and "
+
+            SQL = SQL & "from EMI_Pembelian_PO_Induk a, Suppliers c, Suppliers_Kategori d where Selesai is null and Status is null and "
             SQL = SQL & "a.Kode_Perusahaan=c.Kode_Perusahaan and a.Kode_Supplier=c.Kode_Supplier and a.Kode_Perusahaan='" & KodePerusahaan & "' and "
-            SQL = SQL & "c.ID_Kategori_Suppliers=d.ID_Kategori_Suppliers and (d.Flag_Jenis_Lokal='Y' or(d.Flag_Jenis_import='Y' and a.Flag_Release is null)) "
+            'SQL = SQL & "c.ID_Kategori_Suppliers=d.ID_Kategori_Suppliers and (d.Flag_Jenis_Lokal='Y' or d.Flag_Jenis_import='Y' ) and a.flag_pembelian is null and Flag_Selesai_SubPO is null "
+            SQL = SQL & "c.ID_Kategori_Suppliers=d.ID_Kategori_Suppliers and (d.Flag_Jenis_Lokal='Y' or d.Flag_Jenis_import='Y' ) and Flag_Selesai_SubPO is null "
             If semua = "T" Then
                 SQL = SQL & " and " & arrcariLocal.Item(ComboBox1.SelectedIndex) & " like '%" & TextBox3.Text & "%' "
             Else
@@ -213,6 +195,12 @@ Public Class EMI_PO_Pembelian_Display
                     DgvPO_DataLocal.Rows(ind).Cells(CellKd_SupplierLocal).Value = dr("Kode_Supplier")
                     DgvPO_DataLocal.Rows(ind).Cells(CellNm_SupplierLocal).Value = dr("Nama")
                     DgvPO_DataLocal.Rows(ind).Cells(CellLokasiGudangLocal).Value = "" 'dr("Kode_Stock_Owner")
+
+                    If General_Class.CekNULL(dr("Flag_Import")) = "Y" Then
+                        DgvPO_DataLocal.Rows(ind).Cells(CellKategoriPO).Value = "IMPORT"
+                    Else
+                        DgvPO_DataLocal.Rows(ind).Cells(CellKategoriPO).Value = "LOKAL"
+                    End If
 
                     If General_Class.CekNULL(dr("Flag_Release")) = "" Then
                         DgvPO_DataLocal.Rows(ind).Cells(CellKeteranganLocal).Value = "PO" & Environment.NewLine & "Status : Submit  Tanggal : " & Format(dr("Tanggal"), "dd MMMM yyyy")
@@ -240,170 +228,8 @@ Public Class EMI_PO_Pembelian_Display
                     ind += 1
                 Loop
             End Using
-            '---------------------------------------------------------------------------------------------------------
-            Dim ind2 As Integer = 0
-            SQL = "SELECT ro.id_rencana, ro.lokasi, ro.kode_supplier, s.nama nama_supplier, "
-            SQL = SQL & "ro.no_po, ro.tanggal_po, ro.userid, CAST(ro.rv AS BIGINT) rv, "
-            SQL = SQL & "ro.kode_kontainer, ro.total_persen, ro.no_po_pembelian, ro.status, "
-            SQL = SQL & "ro.selesai,ro.Flag_Submit_PO,ro.Flag_Loading_Barang,ro.Flag_OTW,"
-            SQL = SQL & "ro.Flag_Draft,ro.Flag_Final,ro.Flag_Kirim,ro.Flag_Finish,"
-            SQL = SQL & "ro.Flag_SPPB,ro.Flag_Penjaluran,ro.Flag_Kapal_Tiba,ro.Flag_Tarik_Kontainer,"
-            SQL = SQL & "ro.Flag_Bongkar,ro.Flag_Sudah_Transaksi,ro.Flag_Sudah_Transaksi3,"
-            SQL = SQL & "ro.Flag_Lokasi_Tujuan,ro.Flag_Billing,ro.Flag_HPP,"
-            SQL = SQL & "ro.Flag_Barang_Masuk,ro.Flag_Pembelian "
-            SQL = SQL & "FROM rencana_order ro, suppliers s "
-            SQL = SQL & "WHERE ro.kode_perusahaan = s.kode_perusahaan AND "
-            SQL = SQL & "ro.kode_supplier = s.kode_supplier AND ro.kode_perusahaan = '" & KodePerusahaan & "' and ro.status is null and ro.selesai is null  "
-            If semua = "T" Then
-                SQL = SQL & " and " & arrcariImport.Item(ComboBox1.SelectedIndex) & " like '%" & TextBox3.Text & "%' "
-                SQL = SQL & "order by " & arrcariImport.Item(ComboBox1.SelectedIndex) & " "
-            Else
-                SQL = SQL & " "
-            End If
-            Using ds = BindingTrans(SQL)
-                With ds.Tables("MyTable")
-                    For index = 0 To .Rows.Count - 1
-
-                        Dim Penjaluran As String = ""
-                        SQL = "select count(kode_perusahaan) as count from penjaluran_import where id_rencana ='" & .Rows(index).Item("id_rencana") & "' and kode_perusahaan = '" & KodePerusahaan & "'"
-                        Using Dr = OpenTrans(SQL)
-                            If Dr.Read Then
-
-                                If Dr("count") > 0 Then
-                                    Penjaluran = "Y"
-                                Else
-                                    Penjaluran = ""
-                                End If
-                            End If
-                            Dr.Close()
-                        End Using
-
-                        SQL = ""
-                        Dim warna As String = ""
-                        If General_Class.CekNULL(.Rows(index).Item("Flag_Submit_PO")) = "" Then
-                            SQL = " SELECT ('Status : On Process ' ) as keterangan, 'PO' as status"
-                            SQL = SQL & " FROM rencana_order ro WHERE "
-                            SQL = SQL & " ro.kode_perusahaan = '" & KodePerusahaan & "' AND ro.id_rencana = '" & .Rows(index).Item("id_rencana") & "'  "
-
-                            warna = "RED"
-
-                        End If
-
-                        If General_Class.CekNULL(.Rows(index).Item("Flag_Submit_PO")) = "Y" Or General_Class.CekNULL(.Rows(index).Item("Flag_Loading_Barang")) = "Y" Then
-                            SQL = " SELECT ('Status : Submit  Tgl Submit : '+ format(bi.tanggal,'dd MMM yyyy') ) as keterangan, 'PO' as status"
-                            SQL = SQL & " FROM submit_PO bi, rencana_order ro WHERE bi.id_rencana = ro.id_rencana and bi.status is null and "
-                            SQL = SQL & " ro.kode_perusahaan = '" & KodePerusahaan & "' AND ro.id_rencana = '" & .Rows(index).Item("id_rencana") & "'  "
-
-                            warna = "RED"
-                        End If
-
-                        If General_Class.CekNULL(.Rows(index).Item("Flag_OTW")) = "Y" Then
-                            SQL = " select ('ETD : '+format(b.etd,'dd MMM yyyy')+' | ETA :'+format(b.eta,'dd MMM yyyy') ) as keterangan,  "
-                            SQL = SQL & " 'OTW' as status "
-                            SQL = SQL & " from rencana_order a, ubah_status_otw b  "
-                            SQL = SQL & " where a.kode_perusahaan = b.kode_perusahaan and a.id_rencana = b.id_rencana and a.kode_perusahaan = '" & KodePerusahaan & "' and a.id_rencana = '" & .Rows(index).Item("id_rencana") & "'  "
-
-                            warna = "YELLOW"
-                        End If
-
-                        If General_Class.CekNULL(.Rows(index).Item("Flag_Draft")) = "Y" Then
-                            SQL = " SELECT ('Status : ( '+ case when b.BL = 'Y' and b.Flag_Final is null and b.Kirim_Jam is null and b.finish_jam is null  then 'Draft' Else '' End +"
-                            SQL = SQL & " case when b.BL = 'Y' and b.Flag_Final is not null and b.Kirim_Jam is null and b.finish_jam is null  then 'Final' Else '' End +"
-                            SQL = SQL & " case when b.BL = 'Y' and b.Flag_Final is not null and b.Kirim_Jam is not null and b.finish_jam is null  then ' Kirim' Else '' End +"
-                            SQL = SQL & " case when  b.BL = 'Y' and b.Flag_Final is not null and b.Kirim_Jam is not null and b.finish_jam is not null  then ' Terkirim' Else '' End +'  )') AS keterangan,"
-                            SQL = SQL & " 'Tracking Dokumen' AS status"
-                            SQL = SQL & " from Rencana_Order a, Tracking_Dokumen b  "
-                            SQL = SQL & " where a.kode_perusahaan = b.kode_perusahaan and a.id_rencana = b.id_rencana and a.kode_perusahaan = '" & KodePerusahaan & "' and a.id_rencana = '" & .Rows(index).Item("id_rencana") & "'  "
-
-                            warna = "YELLOW"
-                        End If
-
-                        If General_Class.CekNULL(.Rows(index).Item("Flag_Kapal_Tiba")) = "Y" Then
-                            SQL = " SELECT ('Tgl Tiba : '+ format(kt.tanggal_tiba,'dd MMM yyyy') )as keterangan, 'Kapal Tiba' as status"
-                            SQL = SQL & " FROM kapal_tiba_import kt, rencana_order ro , pelabuhan p "
-                            SQL = SQL & " WHERE kt.id_rencana = ro.id_rencana and kt.kode_pelabuhan = p.kode_pelabuhan and ro.kode_perusahaan = '" & KodePerusahaan & "'"
-                            SQL = SQL & " AND ro.id_rencana = '" & .Rows(index).Item("id_rencana") & "' "
-
-                            warna = "YELLOW"
-                        End If
-
-                        If Penjaluran = "Y" Then
-                            SQL = "  select ('Status Warna : '+ b.warna) as keterangan"
-                            SQL = SQL & " , 'Penjaluran' as status from Rencana_Order a,penjaluran_import b  "
-                            SQL = SQL & " where a.kode_perusahaan = b.kode_perusahaan and a.id_rencana = b.id_rencana and "
-                            SQL = SQL & " a.kode_perusahaan = '" & KodePerusahaan & "' and a.id_rencana = '" & .Rows(index).Item("id_rencana") & "'  "
-
-                            warna = "YELLOW"
-                        End If
-
-                        If General_Class.CekNULL(.Rows(index).Item("Flag_SPPB")) = "Y" Then
-                            SQL = " SELECT ('Status : ( '+ case when b.ok <> 'T' then 'OK | Tanggal : ' + format(b.Tanggal_Ok,'dd MMM yyyy' ) Else '' End +"
-                            SQL = SQL & " case when b.nhi <> '' then '| NHI | Tanggal : ' + format(b.Tanggal_NHI,'dd MMM yyyy' )  Else '' End +"
-                            SQL = SQL & " case when b.hico <> '' then ' | HICO - Tanggal : ' + format(b.Tanggal_HICO,'dd MMM yyyy' )  Else '' End +"
-                            SQL = SQL & " ' )'  "
-                            SQL = SQL & " ) as Keterangan , 'SPPB' as status from  rencana_order a ,sppb_import b "
-                            SQL = SQL & " where a.kode_perusahaan = b.kode_perusahaan and a.id_rencana = b.id_rencana and "
-                            SQL = SQL & " a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.ID_Rencana = '" & .Rows(index).Item("id_rencana") & "' "
-
-                            warna = "YELLOW"
-                        End If
-
-                        If General_Class.CekNULL(.Rows(index).Item("Flag_Tarik_Kontainer")) = "Y" Then
-                            SQL = " SELECT top 1 ('Tgl Tarik Terakhir : '+ format(ISNULL((select top 1 tgl_tarik from tarik_kontainer where id_rencana ='" & .Rows(index).Item("id_rencana") & "' and kode_perusahaan ='" & KodePerusahaan & "'),"
-                            SQL = SQL & " (select top 1 tgl_tarik from tarik_kontainer where id_rencana ='" & .Rows(index).Item("id_rencana") & "' and kode_perusahaan ='" & KodePerusahaan & "')),'dd MMM yyyy')"
-                            SQL = SQL & " )as keterangan, 'Tarik Kontainer' as status "
-                            SQL = SQL & " FROM tarik_kontainer tk, rencana_order ro WHERE tk.id_rencana = ro.id_rencana and "
-                            SQL = SQL & " ro.kode_perusahaan = '" & KodePerusahaan & "' AND ro.id_rencana = '" & .Rows(index).Item("id_rencana") & "' "
-
-                            warna = "YELLOW"
-                        End If
 
 
-                        If General_Class.CekNULL(.Rows(index).Item("Flag_Bongkar")) = "Y" Or General_Class.CekNULL(.Rows(index).Item("Flag_sudah_Transaksi")) = "Y" _
-                            Or General_Class.CekNULL(.Rows(index).Item("Flag_sudah_Transaksi3")) = "Y" Or General_Class.CekNULL(.Rows(index).Item("Flag_Lokasi_Tujuan")) = "Y" _
-                            Or General_Class.CekNULL(.Rows(index).Item("Flag_Billing")) = "Y" Or General_Class.CekNULL(.Rows(index).Item("Flag_HPP")) = "Y" Then
-
-                            SQL = " SELECT ('Tgl Bongkar : '+ format(bi.tanggal_bongkar,'dd MMM yyyy') ) as keterangan, 'Bongkar' as status"
-                            SQL = SQL & " FROM bongkar_import bi, rencana_order ro WHERE bi.id_rencana = ro.id_rencana and  "
-                            SQL = SQL & " ro.kode_perusahaan = '" & KodePerusahaan & "' AND ro.id_rencana = '" & .Rows(index).Item("id_rencana") & "'  "
-
-                            warna = "GREEN"
-                        End If
-
-                        If SQL <> "" Then
-                            Using dr = OpenTrans(SQL)
-                                If dr.Read Then
-
-                                    DgvPO_DataImport.Rows.Add(1)
-
-
-                                    DgvPO_DataImport.Rows(ind2).Cells(CellNo_PoImport).Value = .Rows(index).Item("id_rencana")
-                                    DgvPO_DataImport.Rows(ind2).Cells(CellLokasiImport).Value = .Rows(index).Item("Lokasi")
-                                    DgvPO_DataImport.Rows(ind2).Cells(CellTanggalImport).Value = Format(.Rows(index).Item("Tanggal_po"), "dd MMMM yyyy")
-                                    DgvPO_DataImport.Rows(ind2).Cells(CellKd_SupplierImport).Value = .Rows(index).Item("Kode_Supplier")
-                                    DgvPO_DataImport.Rows(ind2).Cells(CellNm_SupplierImport).Value = .Rows(index).Item("nama_supplier")
-                                    DgvPO_DataImport.Rows(ind2).Cells(CellLokasiGudangImport).Value = "" '.Rows(index).Item("Kode_Stock_Owner")
-                                    DgvPO_DataImport.Rows(ind2).Cells(CellKeteranganImport).Value = dr("status") & Environment.NewLine & dr("keterangan")
-
-                                    If warna = "RED" Then
-                                        DgvPO_DataImport.Rows(ind2).Cells(CellKeteranganImport).Style.BackColor = Color.Coral
-                                    ElseIf warna = "YELLOW" Then
-                                        DgvPO_DataImport.Rows(ind2).Cells(CellKeteranganImport).Style.BackColor = Color.LightGoldenrodYellow
-                                    ElseIf warna = "GREEN" Then
-                                        DgvPO_DataImport.Rows(ind2).Cells(CellKeteranganImport).Style.BackColor = Color.LightGreen
-                                    End If
-
-                                    ind2 += 1
-                                End If
-
-
-                            End Using
-                        End If
-
-
-                    Next
-                End With
-            End Using
             CloseConn()
         Catch ex As Exception
             CloseConn()

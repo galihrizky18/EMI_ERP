@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Server_Sinkronasi_B2B
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class Server_Sinkronasi_B2B
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Button1 = New System.Windows.Forms.Button()
@@ -39,6 +39,11 @@ Partial Class Server_Sinkronasi_B2B
         Me.btnPnwrBahanBaku = New System.Windows.Forms.Button()
         Me.btnPenawaranPackaging = New System.Windows.Forms.Button()
         Me.Button5 = New System.Windows.Forms.Button()
+        Me.Btn_BiayaLokal = New System.Windows.Forms.Button()
+        Me.Btn_InsExpedisi = New System.Windows.Forms.Button()
+        Me.Btn_Update_BiayaLokal = New System.Windows.Forms.Button()
+        Me.Btn_InsKendaraan = New System.Windows.Forms.Button()
+        Me.Btn_UpdateKendaraan = New System.Windows.Forms.Button()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -201,7 +206,7 @@ Partial Class Server_Sinkronasi_B2B
         'Button5
         '
         Me.Button5.BackColor = System.Drawing.SystemColors.ControlLightLight
-        Me.Button5.Location = New System.Drawing.Point(12, 172)
+        Me.Button5.Location = New System.Drawing.Point(191, 52)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(173, 34)
         Me.Button5.TabIndex = 94
@@ -209,14 +214,74 @@ Partial Class Server_Sinkronasi_B2B
         Me.Button5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Button5.UseVisualStyleBackColor = False
         '
+        'Btn_BiayaLokal
+        '
+        Me.Btn_BiayaLokal.BackColor = System.Drawing.SystemColors.ControlLightLight
+        Me.Btn_BiayaLokal.Location = New System.Drawing.Point(604, 172)
+        Me.Btn_BiayaLokal.Name = "Btn_BiayaLokal"
+        Me.Btn_BiayaLokal.Size = New System.Drawing.Size(173, 34)
+        Me.Btn_BiayaLokal.TabIndex = 91
+        Me.Btn_BiayaLokal.Text = "INSERT | Biaya Lokal EMI"
+        Me.Btn_BiayaLokal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Btn_BiayaLokal.UseVisualStyleBackColor = False
+        '
+        'Btn_InsExpedisi
+        '
+        Me.Btn_InsExpedisi.BackColor = System.Drawing.SystemColors.ControlLightLight
+        Me.Btn_InsExpedisi.Location = New System.Drawing.Point(12, 172)
+        Me.Btn_InsExpedisi.Name = "Btn_InsExpedisi"
+        Me.Btn_InsExpedisi.Size = New System.Drawing.Size(173, 34)
+        Me.Btn_InsExpedisi.TabIndex = 94
+        Me.Btn_InsExpedisi.Text = "INSERT | Expedisi"
+        Me.Btn_InsExpedisi.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Btn_InsExpedisi.UseVisualStyleBackColor = False
+        '
+        'Btn_Update_BiayaLokal
+        '
+        Me.Btn_Update_BiayaLokal.BackColor = System.Drawing.SystemColors.ControlLightLight
+        Me.Btn_Update_BiayaLokal.Location = New System.Drawing.Point(783, 172)
+        Me.Btn_Update_BiayaLokal.Name = "Btn_Update_BiayaLokal"
+        Me.Btn_Update_BiayaLokal.Size = New System.Drawing.Size(173, 34)
+        Me.Btn_Update_BiayaLokal.TabIndex = 91
+        Me.Btn_Update_BiayaLokal.Text = "UPDATE | Biaya Lokal EMI"
+        Me.Btn_Update_BiayaLokal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Btn_Update_BiayaLokal.UseVisualStyleBackColor = False
+        '
+        'Btn_InsKendaraan
+        '
+        Me.Btn_InsKendaraan.BackColor = System.Drawing.SystemColors.ControlLightLight
+        Me.Btn_InsKendaraan.Location = New System.Drawing.Point(604, 212)
+        Me.Btn_InsKendaraan.Name = "Btn_InsKendaraan"
+        Me.Btn_InsKendaraan.Size = New System.Drawing.Size(173, 34)
+        Me.Btn_InsKendaraan.TabIndex = 91
+        Me.Btn_InsKendaraan.Text = "INSERT | Kendaraan"
+        Me.Btn_InsKendaraan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Btn_InsKendaraan.UseVisualStyleBackColor = False
+        '
+        'Btn_UpdateKendaraan
+        '
+        Me.Btn_UpdateKendaraan.BackColor = System.Drawing.SystemColors.ControlLightLight
+        Me.Btn_UpdateKendaraan.Location = New System.Drawing.Point(783, 212)
+        Me.Btn_UpdateKendaraan.Name = "Btn_UpdateKendaraan"
+        Me.Btn_UpdateKendaraan.Size = New System.Drawing.Size(173, 34)
+        Me.Btn_UpdateKendaraan.TabIndex = 91
+        Me.Btn_UpdateKendaraan.Text = "UPDATE | Kendaraan"
+        Me.Btn_UpdateKendaraan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Btn_UpdateKendaraan.UseVisualStyleBackColor = False
+        '
         'Server_Sinkronasi_B2B
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1023, 585)
+        Me.Controls.Add(Me.Btn_InsExpedisi)
         Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.btnPenawaranPackaging)
         Me.Controls.Add(Me.btnPnwrBahanBaku)
+        Me.Controls.Add(Me.Btn_Update_BiayaLokal)
+        Me.Controls.Add(Me.Btn_UpdateKendaraan)
+        Me.Controls.Add(Me.Btn_InsKendaraan)
+        Me.Controls.Add(Me.Btn_BiayaLokal)
         Me.Controls.Add(Me.btnSupplierInsert)
         Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.Button3)
@@ -250,4 +315,9 @@ Partial Class Server_Sinkronasi_B2B
     Friend WithEvents btnPnwrBahanBaku As Button
     Friend WithEvents btnPenawaranPackaging As Button
     Friend WithEvents Button5 As Button
+    Friend WithEvents Btn_BiayaLokal As Button
+    Friend WithEvents Btn_InsExpedisi As Button
+    Friend WithEvents Btn_Update_BiayaLokal As Button
+    Friend WithEvents Btn_InsKendaraan As Button
+    Friend WithEvents Btn_UpdateKendaraan As Button
 End Class

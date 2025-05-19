@@ -1,8 +1,4 @@
-﻿Imports System.Net
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-Public Class EMI_DownPayment_Binding
+﻿Public Class EMI_DownPayment_Binding
     Dim Jenis = "Display_Production_Order"
     Public fno_po As String
 
@@ -97,7 +93,7 @@ Public Class EMI_DownPayment_Binding
     '    TxtFakturPembayaran.Text = fDownPay & arrInisialFaktur.Item(CmbLokasi.SelectedIndex) & "-" & Format(Dtp1.Value, "MM/yy") & "-" &
     '                                 General_Class.Get_Last_Number2("emi_transaksi_pembayaran_dimuka", "no_transaksi", Jumlah_Digit,
     '                                 "Kode_perusahaan", KodePerusahaan,
-    '                                 "And", "substring(no_transaksi,1," & Len(fPO_EMI) + Len(arrInisialFaktur.Item(CmbLokasi.SelectedIndex)) + 6 & ")", fDownPay & arrInisialFaktur.Item(CmbLokasi.SelectedIndex) & "-" & Format(Dtp1.Value, "MM/yy"))
+    '                                 "And", "substring(no_transaksi,1," & Len(fDownPay) + Len(arrInisialFaktur.Item(CmbLokasi.SelectedIndex)) + 5 & ")", fDownPay & arrInisialFaktur.Item(CmbLokasi.SelectedIndex) & "-" & Format(Dtp1.Value, "MM/yy"))
     'End Sub
 
     Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
@@ -122,8 +118,6 @@ Public Class EMI_DownPayment_Binding
             Cmd.Transaction = Cn.BeginTransaction
 
             Dim noFakturPO_Fix As String = ""
-
-            Dim nilai_dp As String
 
             SQL = "select a.Nilai, "
             SQL = SQL & "isnull((select sum(x.nilai) from emi_transaksi_pembayaran_dimuka_detail x where a.Kode_Perusahaan = x.Kode_Perusahaan "
@@ -239,14 +233,6 @@ Public Class EMI_DownPayment_Binding
         End Try
     End Sub
 
-    Private Sub LvSupplier_DoubleClick(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub LvSupplier_KeyDown(sender As Object, e As KeyEventArgs)
-
-    End Sub
-
     Private Sub TxtKodeSupplier_KeyDown_1(sender As Object, e As KeyEventArgs) Handles TxtKodeSupplier.KeyDown
         If e.KeyCode = Keys.Down Then LvSupplier.Focus()
     End Sub
@@ -302,7 +288,7 @@ Public Class EMI_DownPayment_Binding
 
             SQL = "select a.Nilai, a.kurs, Mata_Uang, "
             SQL = SQL & "isnull((select sum(x.nilai) from emi_transaksi_pembayaran_dimuka_detail x where a.Kode_Perusahaan = x.Kode_Perusahaan "
-            SQL = SQL & "and a.No_Transaksi = x.No_Transaksi and x.status is null),0) as nilai_sudah_dp "
+            SQL = SQL & "and a.No_Transaksi = x.No_Transaksi and x.status is null and x.Persen_DP is null ),0) as nilai_sudah_dp "
             SQL = SQL & "from EMI_Transaksi_Pembayaran_Dimuka a where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Transaksi = '" & CmbNoFakturDp.Text & "' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
@@ -348,9 +334,9 @@ Public Class EMI_DownPayment_Binding
             SQL = ";with cte as ("
             SQL = SQL & "select a.No_Transaksi,a.kode_supplier, a.Flag_PO, a.Nilai - "
             SQL = SQL & "ISNULL((select SUM(x.nilai) from EMI_Transaksi_Pembayaran_Dimuka_Detail x where a.Kode_Perusahaan = x.Kode_Perusahaan "
-            SQL = SQL & "and a.No_Transaksi = x.No_Transaksi),0) as nilai "
+            SQL = SQL & "and a.No_Transaksi = x.No_Transaksi and x.Persen_DP is null),0) as nilai "
             SQL = SQL & "	from EMI_Transaksi_Pembayaran_Dimuka a where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Supplier = '" & TxtKodeSupplier.Text & "' "
-            SQL = SQL & ") select * From cte  where Flag_PO is null and nilai <> 0 "
+            SQL = SQL & ") select * From cte  where Flag_PO is null and nilai <> 0  "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     CmbNoFakturDp.Items.Add(Dr("no_transaksi"))
@@ -360,12 +346,12 @@ Public Class EMI_DownPayment_Binding
             CmbNoPO.Items.Clear()
             SQL = ";with cte as ( "
             SQL = SQL & "select No_Faktur, "
-            SQL = SQL & "isnull((select 'Y' from  EMI_Transaksi_Pembayaran_Dimuka x, EMI_Transaksi_Pembayaran_Dimuka_Detail y "
+            SQL = SQL & "isnull((select top(1) 'Y' from  EMI_Transaksi_Pembayaran_Dimuka x, EMI_Transaksi_Pembayaran_Dimuka_Detail y "
             SQL = SQL & "where x.kode_perusahaan = y.kode_perusahaan and x.no_transaksi = y.No_Transaksi "
-            SQL = SQL & "and a.Kode_Perusahaan = y.Kode_Perusahaan and a.No_Faktur = y.No_Fak_PO "
+            SQL = SQL & "and a.Kode_Perusahaan = y.Kode_Perusahaan and a.No_Faktur = y.No_Fak_PO and y.Persen_DP is null "
             SQL = SQL & "), null) as Flag "
-            SQL = SQL & "from EMI_Pembelian_PO a where Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Supplier = '" & TxtKodeSupplier.Text & "' "
-            SQL = SQL & ") select * from cte where Flag is null "
+            SQL = SQL & "from EMI_Pembelian_PO_Induk a where Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Supplier = '" & TxtKodeSupplier.Text & "'  "
+            SQL = SQL & ") select * from cte where Flag is null order by no_faktur"
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     CmbNoPO.Items.Add(Dr("no_faktur"))

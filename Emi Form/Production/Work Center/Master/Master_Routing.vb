@@ -194,11 +194,11 @@ Public Class Master_Routing
     End Function
 
 
-    Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
+    Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs)
         kosong()
     End Sub
 
-    Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
+    Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs)
         If Txt_Kd.Text.Trim.Length = 0 Then
             MessageBox.Show(Base_Language.Lang_Global_Kode & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Txt_Kd.Focus() : Exit Sub
@@ -361,6 +361,7 @@ Public Class Master_Routing
 
 
         Txt_Kd_Leave(Lv_Routing, e)
+        TabControl1.SelectedIndex = 0
     End Sub
 
     Private Sub Btn_Cari_Click(sender As Object, e As EventArgs) Handles Btn_Cari.Click
@@ -427,7 +428,7 @@ Public Class Master_Routing
         End Try
     End Sub
 
-    Private Sub Txt_Kd_Leave(sender As Object, e As EventArgs) Handles Txt_Kd.Leave
+    Private Sub Txt_Kd_Leave(sender As Object, e As EventArgs)
         If Txt_Kd.Text.Trim.Length = 0 Then Exit Sub
         Lbl_IdRouting.Enabled = False
         Txt_Kd.Enabled = False
@@ -491,7 +492,7 @@ Public Class Master_Routing
 
     End Sub
 
-    Private Sub Btn_Hapus_Click(sender As Object, e As EventArgs) Handles Btn_Hapus.Click
+    Private Sub Btn_Hapus_Click(sender As Object, e As EventArgs)
         Dim Hapus1 As String = MessageBox.Show(Base_Language.Lang_Global_Tanya_Hapus, Base_Language.Lang_Global_Perhatian, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
         If Hapus1 = vbYes Then
@@ -528,12 +529,12 @@ Public Class Master_Routing
     End Sub
 
 
-    Private Sub Txt_Kd_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Kd.KeyPress
+    Private Sub Txt_Kd_KeyPress(sender As Object, e As KeyPressEventArgs)
         If e.KeyChar = Chr(13) Then Txt_Keterangan.Focus()
     End Sub
 
 
-    Private Sub Btn_WorkCenter_Click(sender As Object, e As EventArgs) Handles Btn_WorkCenter.Click
+    Private Sub Btn_WorkCenter_Click(sender As Object, e As EventArgs)
         If Cmb_DataWorkCenter.Text.Trim.Length = 0 Then
             MessageBox.Show("Data work center harus diisi.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Cmb_DataWorkCenter.Focus() : Exit Sub
@@ -557,11 +558,11 @@ Public Class Master_Routing
 
     End Sub
 
-    Private Sub Txt_Keterangan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Keterangan.KeyPress
+    Private Sub Txt_Keterangan_KeyPress(sender As Object, e As KeyPressEventArgs)
         If e.KeyChar = Chr(13) Then Txt_PrefixCode.Focus()
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Btn_PilihBarColor.Click
+    Private Sub Button1_Click(sender As Object, e As EventArgs)
         Dim colorDialog As New ColorDialog()
 
         If colorDialog.ShowDialog() = DialogResult.OK Then
@@ -575,7 +576,7 @@ Public Class Master_Routing
         End If
     End Sub
 
-    Private Sub Btn_PilihBackColor_Click(sender As Object, e As EventArgs) Handles Btn_PilihBackColor.Click
+    Private Sub Btn_PilihBackColor_Click(sender As Object, e As EventArgs)
         Dim colorDialog As New ColorDialog()
 
         If colorDialog.ShowDialog() = DialogResult.OK Then
@@ -593,23 +594,23 @@ Public Class Master_Routing
         If e.KeyChar = Chr(13) Then Btn_Cari.Focus()
     End Sub
 
-    Private Sub Txt_Kd_TextChanged(sender As Object, e As EventArgs) Handles Txt_Kd.TextChanged
+    Private Sub Txt_Kd_TextChanged(sender As Object, e As EventArgs)
 
     End Sub
 
-    Private Sub Txt_Keterangan_TextChanged(sender As Object, e As EventArgs) Handles Txt_Keterangan.TextChanged
+    Private Sub Txt_Keterangan_TextChanged(sender As Object, e As EventArgs)
 
     End Sub
 
-    Private Sub Txt_PrefixCode_TextChanged(sender As Object, e As EventArgs) Handles Txt_PrefixCode.TextChanged, Txt_Qty_PerBatch.TextChanged
+    Private Sub Txt_PrefixCode_TextChanged(sender As Object, e As EventArgs)
 
     End Sub
 
-    Private Sub Cmb_JnsProduk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_JnsProduk.SelectedIndexChanged
+    Private Sub Cmb_JnsProduk_SelectedIndexChanged(sender As Object, e As EventArgs)
 
     End Sub
 
-    Private Sub Lv_DataWorkCenter_DoubleClick(sender As Object, e As EventArgs) Handles Lv_DataWorkCenter.DoubleClick
+    Private Sub Lv_DataWorkCenter_DoubleClick(sender As Object, e As EventArgs)
         If Lv_DataWorkCenter.SelectedItems.Count > 0 Then
             Lv_DataWorkCenter.Items.Remove(Lv_DataWorkCenter.SelectedItems(0))
         Else
@@ -617,22 +618,22 @@ Public Class Master_Routing
         End If
     End Sub
 
-    Private Sub TextBox1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_PrefixCode.KeyPress, Txt_Qty_PerBatch.KeyPress
+    Private Sub TextBox1_KeyPress(sender As Object, e As KeyPressEventArgs)
         If e.KeyChar = Chr(13) Then Cmb_JnsProduk.Focus()
     End Sub
     Private Sub Txt_Qty_PerBatch_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Qty_PerBatch.KeyPress
         If e.KeyChar = Chr(13) Then Cmb_SatuanBatch.Focus()
     End Sub
 
-    Private Sub Cmb_DataWorkCenter_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_DataWorkCenter.KeyPress, Cmb_SatuanBatch.KeyPress
+    Private Sub Cmb_DataWorkCenter_KeyPress(sender As Object, e As KeyPressEventArgs)
         If e.KeyChar = Chr(13) Then Btn_WorkCenter.Focus()
     End Sub
 
-    Private Sub Cmb_DataWorkCenter_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_DataWorkCenter.SelectedIndexChanged, Cmb_SatuanBatch.SelectedIndexChanged
+    Private Sub Cmb_DataWorkCenter_SelectedIndexChanged(sender As Object, e As EventArgs)
 
     End Sub
 
-    Private Sub Txt_Qty_PerBatch_Leave(sender As Object, e As EventArgs) Handles Txt_Qty_PerBatch.Leave
+    Private Sub Txt_Qty_PerBatch_Leave(sender As Object, e As EventArgs)
         If Txt_Qty_PerBatch.Text.Trim.Length = 0 Then Exit Sub
         If Not IsNumeric(Txt_Qty_PerBatch.Text) Then
             Txt_Qty_PerBatch.Text = ""
@@ -669,7 +670,7 @@ Public Class Master_Routing
         End If
     End Sub
 
-    Private Sub Txt_Qty_PerBatch_Enter(sender As Object, e As EventArgs) Handles Txt_Qty_PerBatch.Enter
+    Private Sub Txt_Qty_PerBatch_Enter(sender As Object, e As EventArgs)
         Dim cellKuantity As String = Txt_Qty_PerBatch.Text
 
         If cellKuantity = "" Then
@@ -686,19 +687,19 @@ Public Class Master_Routing
         e.DrawDefault = True
     End Sub
 
-    Private Sub Cmb_JnsProduk_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_JnsProduk.KeyPress
+    Private Sub Cmb_JnsProduk_KeyPress(sender As Object, e As KeyPressEventArgs)
         If e.KeyChar = Chr(13) Then Btn_PilihBarColor.Focus()
     End Sub
 
-    Private Sub Btn_PilihBarColor_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Btn_PilihBarColor.KeyPress
+    Private Sub Btn_PilihBarColor_KeyPress(sender As Object, e As KeyPressEventArgs)
         If e.KeyChar = Chr(13) Then Btn_PilihBarColor.Focus()
     End Sub
 
-    Private Sub Btn_PilihBackColor_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Btn_PilihBackColor.KeyPress
+    Private Sub Btn_PilihBackColor_KeyPress(sender As Object, e As KeyPressEventArgs)
         If e.KeyChar = Chr(13) Then Cmb_DataWorkCenter.Focus()
     End Sub
 
-    Private Sub Btn_WorkCenter_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Btn_WorkCenter.KeyPress
+    Private Sub Btn_WorkCenter_KeyPress(sender As Object, e As KeyPressEventArgs)
         If e.KeyChar = Chr(13) Then Btn_Simpan.Focus()
     End Sub
 

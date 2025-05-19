@@ -146,9 +146,7 @@
         If e.KeyCode = Keys.Down Then LvSupp.Focus()
     End Sub
 
-    Private Sub LvSupp_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LvSupp.SelectedIndexChanged
 
-    End Sub
 
     Private Sub LvSupp_DoubleClick(sender As Object, e As EventArgs) Handles LvSupp.DoubleClick
         Dim Kode As String = LvSupp.FocusedItem.Text

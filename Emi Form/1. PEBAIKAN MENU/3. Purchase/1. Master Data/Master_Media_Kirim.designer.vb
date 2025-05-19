@@ -392,7 +392,7 @@ Partial Class Master_Media_Kirim
         Me.Txt_Volume.MaxLength = 50
         Me.Txt_Volume.Name = "Txt_Volume"
         Me.Txt_Volume.ReadOnly = True
-        Me.Txt_Volume.Size = New System.Drawing.Size(350, 22)
+        Me.Txt_Volume.Size = New System.Drawing.Size(321, 22)
         Me.Txt_Volume.TabIndex = 395
         '
         'Lbl_Volume

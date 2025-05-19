@@ -1,6 +1,7 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class EMI_Production_Order
 
+
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -32,6 +33,8 @@ Partial Class EMI_Production_Order
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.LvData = New System.Windows.Forms.ListView()
+        Me.ContextMenuStrip3 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.BatalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.UbahAntrianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
@@ -41,6 +44,10 @@ Partial Class EMI_Production_Order
         Me.Label6 = New System.Windows.Forms.Label()
         Me.ComboBox2 = New System.Windows.Forms.ComboBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.txtNmBrgPO = New System.Windows.Forms.TextBox()
+        Me.txtKdBrgPO = New System.Windows.Forms.TextBox()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
         Me.LvOrder = New System.Windows.Forms.ListView()
         Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.HapusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -83,7 +90,9 @@ Partial Class EMI_Production_Order
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.LvPackaging = New System.Windows.Forms.ListView()
         Me.txt_faktur_bayangan = New System.Windows.Forms.TextBox()
+        Me.Btn_UnRelease = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
+        Me.ContextMenuStrip3.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -120,11 +129,11 @@ Partial Class EMI_Production_Order
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.Location = New System.Drawing.Point(11, 5)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(315, 30)
+        Me.Label1.Size = New System.Drawing.Size(316, 25)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Transaksi - Production Order"
         '
@@ -161,7 +170,7 @@ Partial Class EMI_Production_Order
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(-2, 801)
+        Me.Panel4.Location = New System.Drawing.Point(-2, 731)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1205, 12)
@@ -171,7 +180,8 @@ Partial Class EMI_Production_Order
         'LvData
         '
         Me.LvData.CheckBoxes = True
-        Me.LvData.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.LvData.ContextMenuStrip = Me.ContextMenuStrip3
+        Me.LvData.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.LvData.FullRowSelect = True
         Me.LvData.GridLines = True
         Me.LvData.HideSelection = False
@@ -181,6 +191,18 @@ Partial Class EMI_Production_Order
         Me.LvData.TabIndex = 381
         Me.LvData.UseCompatibleStateImageBehavior = False
         Me.LvData.View = System.Windows.Forms.View.Details
+        '
+        'ContextMenuStrip3
+        '
+        Me.ContextMenuStrip3.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BatalToolStripMenuItem})
+        Me.ContextMenuStrip3.Name = "ContextMenuStrip3"
+        Me.ContextMenuStrip3.Size = New System.Drawing.Size(101, 26)
+        '
+        'BatalToolStripMenuItem
+        '
+        Me.BatalToolStripMenuItem.Name = "BatalToolStripMenuItem"
+        Me.BatalToolStripMenuItem.Size = New System.Drawing.Size(100, 22)
+        Me.BatalToolStripMenuItem.Text = "Batal"
         '
         'ContextMenuStrip1
         '
@@ -215,7 +237,7 @@ Partial Class EMI_Production_Order
         Me.cb_seluruh.AutoSize = True
         Me.cb_seluruh.Location = New System.Drawing.Point(10, 26)
         Me.cb_seluruh.Name = "cb_seluruh"
-        Me.cb_seluruh.Size = New System.Drawing.Size(89, 20)
+        Me.cb_seluruh.Size = New System.Drawing.Size(81, 17)
         Me.cb_seluruh.TabIndex = 424
         Me.cb_seluruh.Text = "Pilih Semua"
         Me.cb_seluruh.UseVisualStyleBackColor = True
@@ -224,7 +246,7 @@ Partial Class EMI_Production_Order
         'Button2
         '
         Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Button2.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button2.ForeColor = System.Drawing.Color.White
         Me.Button2.Location = New System.Drawing.Point(862, 20)
         Me.Button2.Name = "Button2"
@@ -236,7 +258,7 @@ Partial Class EMI_Production_Order
         'Button1
         '
         Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Button1.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button1.ForeColor = System.Drawing.Color.White
         Me.Button1.Location = New System.Drawing.Point(780, 20)
         Me.Button1.Name = "Button1"
@@ -248,10 +270,10 @@ Partial Class EMI_Production_Order
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
         Me.Label6.Location = New System.Drawing.Point(496, 23)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(69, 20)
+        Me.Label6.Size = New System.Drawing.Size(65, 17)
         Me.Label6.TabIndex = 422
         Me.Label6.Text = "Order By"
         '
@@ -259,16 +281,20 @@ Partial Class EMI_Production_Order
         '
         Me.ComboBox2.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBox2.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.ComboBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.ComboBox2.FormattingEnabled = True
         Me.ComboBox2.Items.AddRange(New Object() {"Nama Barang", "Tanggal"})
         Me.ComboBox2.Location = New System.Drawing.Point(595, 20)
         Me.ComboBox2.Name = "ComboBox2"
-        Me.ComboBox2.Size = New System.Drawing.Size(179, 25)
+        Me.ComboBox2.Size = New System.Drawing.Size(179, 23)
         Me.ComboBox2.TabIndex = 421
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.txtNmBrgPO)
+        Me.GroupBox2.Controls.Add(Me.txtKdBrgPO)
+        Me.GroupBox2.Controls.Add(Me.Label9)
+        Me.GroupBox2.Controls.Add(Me.Label8)
         Me.GroupBox2.Controls.Add(Me.LvOrder)
         Me.GroupBox2.Location = New System.Drawing.Point(27, 401)
         Me.GroupBox2.Name = "GroupBox2"
@@ -277,16 +303,58 @@ Partial Class EMI_Production_Order
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Data Production Order"
         '
+        'txtNmBrgPO
+        '
+        Me.txtNmBrgPO.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.txtNmBrgPO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtNmBrgPO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.txtNmBrgPO.Location = New System.Drawing.Point(151, 227)
+        Me.txtNmBrgPO.Name = "txtNmBrgPO"
+        Me.txtNmBrgPO.ReadOnly = True
+        Me.txtNmBrgPO.Size = New System.Drawing.Size(189, 21)
+        Me.txtNmBrgPO.TabIndex = 422
+        '
+        'txtKdBrgPO
+        '
+        Me.txtKdBrgPO.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.txtKdBrgPO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtKdBrgPO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.txtKdBrgPO.Location = New System.Drawing.Point(151, 202)
+        Me.txtKdBrgPO.Name = "txtKdBrgPO"
+        Me.txtKdBrgPO.ReadOnly = True
+        Me.txtKdBrgPO.Size = New System.Drawing.Size(189, 21)
+        Me.txtKdBrgPO.TabIndex = 422
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label9.Location = New System.Drawing.Point(8, 229)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(45, 17)
+        Me.Label9.TabIndex = 427
+        Me.Label9.Text = "Nama"
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label8.Location = New System.Drawing.Point(8, 202)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(91, 17)
+        Me.Label8.TabIndex = 425
+        Me.Label8.Text = "Kode Barang"
+        '
         'LvOrder
         '
         Me.LvOrder.ContextMenuStrip = Me.ContextMenuStrip2
-        Me.LvOrder.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.LvOrder.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.LvOrder.FullRowSelect = True
         Me.LvOrder.GridLines = True
         Me.LvOrder.HideSelection = False
         Me.LvOrder.Location = New System.Drawing.Point(10, 19)
         Me.LvOrder.Name = "LvOrder"
-        Me.LvOrder.Size = New System.Drawing.Size(330, 228)
+        Me.LvOrder.Size = New System.Drawing.Size(330, 180)
         Me.LvOrder.TabIndex = 381
         Me.LvOrder.UseCompatibleStateImageBehavior = False
         Me.LvOrder.View = System.Windows.Forms.View.Details
@@ -307,7 +375,7 @@ Partial Class EMI_Production_Order
         'btnClear
         '
         Me.btnClear.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.btnClear.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.btnClear.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.btnClear.ForeColor = System.Drawing.Color.White
         Me.btnClear.Location = New System.Drawing.Point(2323, 452)
         Me.btnClear.Name = "btnClear"
@@ -319,7 +387,7 @@ Partial Class EMI_Production_Order
         'btnOk
         '
         Me.btnOk.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.btnOk.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.btnOk.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.btnOk.ForeColor = System.Drawing.Color.White
         Me.btnOk.Location = New System.Drawing.Point(2323, 479)
         Me.btnOk.Name = "btnOk"
@@ -332,17 +400,17 @@ Partial Class EMI_Production_Order
         '
         Me.txtJumlah.BackColor = System.Drawing.Color.White
         Me.txtJumlah.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtJumlah.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.txtJumlah.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.txtJumlah.Location = New System.Drawing.Point(2133, 481)
         Me.txtJumlah.Name = "txtJumlah"
-        Me.txtJumlah.Size = New System.Drawing.Size(109, 22)
+        Me.txtJumlah.Size = New System.Drawing.Size(109, 21)
         Me.txtJumlah.TabIndex = 391
         Me.txtJumlah.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'lblTxtJumlah
         '
         Me.lblTxtJumlah.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblTxtJumlah.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTxtJumlah.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTxtJumlah.Location = New System.Drawing.Point(2133, 454)
         Me.lblTxtJumlah.Name = "lblTxtJumlah"
         Me.lblTxtJumlah.Size = New System.Drawing.Size(109, 25)
@@ -355,10 +423,10 @@ Partial Class EMI_Production_Order
         Me.txtNoPo.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.txtNoPo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtNoPo.Enabled = False
-        Me.txtNoPo.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.txtNoPo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.txtNoPo.Location = New System.Drawing.Point(1372, 480)
         Me.txtNoPo.Name = "txtNoPo"
-        Me.txtNoPo.Size = New System.Drawing.Size(120, 22)
+        Me.txtNoPo.Size = New System.Drawing.Size(120, 21)
         Me.txtNoPo.TabIndex = 388
         '
         'txtNamaCustomer
@@ -366,16 +434,16 @@ Partial Class EMI_Production_Order
         Me.txtNamaCustomer.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.txtNamaCustomer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtNamaCustomer.Enabled = False
-        Me.txtNamaCustomer.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.txtNamaCustomer.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.txtNamaCustomer.Location = New System.Drawing.Point(1629, 480)
         Me.txtNamaCustomer.Name = "txtNamaCustomer"
-        Me.txtNamaCustomer.Size = New System.Drawing.Size(229, 22)
+        Me.txtNamaCustomer.Size = New System.Drawing.Size(229, 21)
         Me.txtNamaCustomer.TabIndex = 387
         '
         'lbltxtNoPo
         '
         Me.lbltxtNoPo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lbltxtNoPo.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbltxtNoPo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbltxtNoPo.Location = New System.Drawing.Point(1372, 454)
         Me.lbltxtNoPo.Name = "lbltxtNoPo"
         Me.lbltxtNoPo.Size = New System.Drawing.Size(120, 25)
@@ -386,7 +454,7 @@ Partial Class EMI_Production_Order
         'lblTxtNmCust
         '
         Me.lblTxtNmCust.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblTxtNmCust.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTxtNmCust.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTxtNmCust.Location = New System.Drawing.Point(1629, 454)
         Me.lblTxtNmCust.Name = "lblTxtNmCust"
         Me.lblTxtNmCust.Size = New System.Drawing.Size(229, 25)
@@ -399,16 +467,16 @@ Partial Class EMI_Production_Order
         Me.txtKodeCustomer.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.txtKodeCustomer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtKodeCustomer.Enabled = False
-        Me.txtKodeCustomer.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.txtKodeCustomer.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.txtKodeCustomer.Location = New System.Drawing.Point(1493, 480)
         Me.txtKodeCustomer.Name = "txtKodeCustomer"
-        Me.txtKodeCustomer.Size = New System.Drawing.Size(135, 22)
+        Me.txtKodeCustomer.Size = New System.Drawing.Size(135, 21)
         Me.txtKodeCustomer.TabIndex = 397
         '
         'lblTxtKodeCustomer
         '
         Me.lblTxtKodeCustomer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblTxtKodeCustomer.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTxtKodeCustomer.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTxtKodeCustomer.Location = New System.Drawing.Point(1493, 454)
         Me.lblTxtKodeCustomer.Name = "lblTxtKodeCustomer"
         Me.lblTxtKodeCustomer.Size = New System.Drawing.Size(135, 25)
@@ -421,16 +489,16 @@ Partial Class EMI_Production_Order
         Me.txtKodeBarang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.txtKodeBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtKodeBarang.Enabled = False
-        Me.txtKodeBarang.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.txtKodeBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.txtKodeBarang.Location = New System.Drawing.Point(1859, 480)
         Me.txtKodeBarang.Name = "txtKodeBarang"
-        Me.txtKodeBarang.Size = New System.Drawing.Size(168, 22)
+        Me.txtKodeBarang.Size = New System.Drawing.Size(168, 21)
         Me.txtKodeBarang.TabIndex = 401
         '
         'lblTxtKdBrng
         '
         Me.lblTxtKdBrng.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblTxtKdBrng.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTxtKdBrng.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTxtKdBrng.Location = New System.Drawing.Point(1859, 454)
         Me.lblTxtKdBrng.Name = "lblTxtKdBrng"
         Me.lblTxtKdBrng.Size = New System.Drawing.Size(168, 25)
@@ -443,16 +511,16 @@ Partial Class EMI_Production_Order
         Me.txtNamaBarang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.txtNamaBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtNamaBarang.Enabled = False
-        Me.txtNamaBarang.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.txtNamaBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.txtNamaBarang.Location = New System.Drawing.Point(2029, 480)
         Me.txtNamaBarang.Name = "txtNamaBarang"
-        Me.txtNamaBarang.Size = New System.Drawing.Size(229, 22)
+        Me.txtNamaBarang.Size = New System.Drawing.Size(229, 21)
         Me.txtNamaBarang.TabIndex = 399
         '
         'lblTxtNmBrng
         '
         Me.lblTxtNmBrng.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblTxtNmBrng.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTxtNmBrng.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTxtNmBrng.Location = New System.Drawing.Point(2029, 454)
         Me.lblTxtNmBrng.Name = "lblTxtNmBrng"
         Me.lblTxtNmBrng.Size = New System.Drawing.Size(229, 25)
@@ -465,16 +533,16 @@ Partial Class EMI_Production_Order
         Me.txtSatuan.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.txtSatuan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtSatuan.Enabled = False
-        Me.txtSatuan.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.txtSatuan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.txtSatuan.Location = New System.Drawing.Point(2244, 481)
         Me.txtSatuan.Name = "txtSatuan"
-        Me.txtSatuan.Size = New System.Drawing.Size(77, 22)
+        Me.txtSatuan.Size = New System.Drawing.Size(77, 21)
         Me.txtSatuan.TabIndex = 403
         '
         'lblTxtSatuan
         '
         Me.lblTxtSatuan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblTxtSatuan.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTxtSatuan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTxtSatuan.Location = New System.Drawing.Point(2244, 454)
         Me.lblTxtSatuan.Name = "lblTxtSatuan"
         Me.lblTxtSatuan.Size = New System.Drawing.Size(77, 25)
@@ -485,9 +553,9 @@ Partial Class EMI_Production_Order
         'Btn_Simpan
         '
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_Simpan.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(29, 765)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(29, 694)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(84, 36)
         Me.Btn_Simpan.TabIndex = 362
@@ -497,9 +565,9 @@ Partial Class EMI_Production_Order
         'btnRefresh
         '
         Me.btnRefresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.btnRefresh.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.btnRefresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.btnRefresh.ForeColor = System.Drawing.Color.White
-        Me.btnRefresh.Location = New System.Drawing.Point(119, 765)
+        Me.btnRefresh.Location = New System.Drawing.Point(117, 694)
         Me.btnRefresh.Name = "btnRefresh"
         Me.btnRefresh.Size = New System.Drawing.Size(84, 36)
         Me.btnRefresh.TabIndex = 380
@@ -509,10 +577,10 @@ Partial Class EMI_Production_Order
         'lblLine
         '
         Me.lblLine.AutoSize = True
-        Me.lblLine.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.lblLine.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
         Me.lblLine.Location = New System.Drawing.Point(915, 769)
         Me.lblLine.Name = "lblLine"
-        Me.lblLine.Size = New System.Drawing.Size(38, 20)
+        Me.lblLine.Size = New System.Drawing.Size(35, 17)
         Me.lblLine.TabIndex = 409
         Me.lblLine.Text = "Line"
         Me.lblLine.Visible = False
@@ -521,32 +589,32 @@ Partial Class EMI_Production_Order
         '
         Me.cmbLine.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.cmbLine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmbLine.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.cmbLine.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.cmbLine.FormattingEnabled = True
         Me.cmbLine.Location = New System.Drawing.Point(959, 768)
         Me.cmbLine.Name = "cmbLine"
-        Me.cmbLine.Size = New System.Drawing.Size(147, 25)
+        Me.cmbLine.Size = New System.Drawing.Size(147, 23)
         Me.cmbLine.TabIndex = 407
         Me.cmbLine.Visible = False
         '
         'txtNoFaktur
         '
         Me.txtNoFaktur.BackColor = System.Drawing.Color.Goldenrod
-        Me.txtNoFaktur.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtNoFaktur.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtNoFaktur.ForeColor = System.Drawing.SystemColors.Window
         Me.txtNoFaktur.Location = New System.Drawing.Point(27, 66)
         Me.txtNoFaktur.MaxLength = 30
         Me.txtNoFaktur.Name = "txtNoFaktur"
-        Me.txtNoFaktur.Size = New System.Drawing.Size(211, 22)
+        Me.txtNoFaktur.Size = New System.Drawing.Size(211, 21)
         Me.txtNoFaktur.TabIndex = 414
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
         Me.Label2.Location = New System.Drawing.Point(789, 65)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(52, 20)
+        Me.Label2.Size = New System.Drawing.Size(49, 17)
         Me.Label2.TabIndex = 416
         Me.Label2.Text = "Lokasi"
         '
@@ -555,20 +623,20 @@ Partial Class EMI_Production_Order
         Me.CmbLokasi.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.CmbLokasi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CmbLokasi.Enabled = False
-        Me.CmbLokasi.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.CmbLokasi.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.CmbLokasi.FormattingEnabled = True
         Me.CmbLokasi.Location = New System.Drawing.Point(860, 63)
         Me.CmbLokasi.Name = "CmbLokasi"
-        Me.CmbLokasi.Size = New System.Drawing.Size(179, 25)
+        Me.CmbLokasi.Size = New System.Drawing.Size(179, 23)
         Me.CmbLokasi.TabIndex = 415
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
         Me.Label3.Location = New System.Drawing.Point(25, 667)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(64, 20)
+        Me.Label3.Size = New System.Drawing.Size(57, 17)
         Me.Label3.TabIndex = 417
         Me.Label3.Text = "Catatan"
         '
@@ -576,10 +644,10 @@ Partial Class EMI_Production_Order
         '
         Me.TxtCatatan.BackColor = System.Drawing.Color.White
         Me.TxtCatatan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtCatatan.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.TxtCatatan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.TxtCatatan.Location = New System.Drawing.Point(98, 667)
         Me.TxtCatatan.Name = "TxtCatatan"
-        Me.TxtCatatan.Size = New System.Drawing.Size(400, 22)
+        Me.TxtCatatan.Size = New System.Drawing.Size(400, 21)
         Me.TxtCatatan.TabIndex = 418
         '
         'DateTimePicker3
@@ -598,26 +666,26 @@ Partial Class EMI_Production_Order
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
         Me.Label7.Location = New System.Drawing.Point(295, 198)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(87, 20)
+        Me.Label7.Size = New System.Drawing.Size(83, 17)
         Me.Label7.TabIndex = 420
         Me.Label7.Text = "Tgl Formula"
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
         Me.Label4.Location = New System.Drawing.Point(6, 200)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(88, 20)
+        Me.Label4.Size = New System.Drawing.Size(81, 17)
         Me.Label4.TabIndex = 419
         Me.Label4.Text = "No Formula"
         '
         'LvBahan
         '
-        Me.LvBahan.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.LvBahan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.LvBahan.FullRowSelect = True
         Me.LvBahan.GridLines = True
         Me.LvBahan.HideSelection = False
@@ -632,20 +700,20 @@ Partial Class EMI_Production_Order
         '
         Me.TextBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBox1.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.TextBox1.Location = New System.Drawing.Point(100, 199)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.ReadOnly = True
-        Me.TextBox1.Size = New System.Drawing.Size(189, 22)
+        Me.TextBox1.Size = New System.Drawing.Size(189, 21)
         Me.TextBox1.TabIndex = 419
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label5.Location = New System.Drawing.Point(25, 697)
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label5.Location = New System.Drawing.Point(504, 669)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(61, 20)
+        Me.Label5.Size = New System.Drawing.Size(57, 17)
         Me.Label5.TabIndex = 420
         Me.Label5.Text = "Routing"
         '
@@ -653,12 +721,12 @@ Partial Class EMI_Production_Order
         '
         Me.cmb_routing.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.cmb_routing.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmb_routing.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.cmb_routing.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.cmb_routing.FormattingEnabled = True
         Me.cmb_routing.Items.AddRange(New Object() {"ROUTING 1 (Mixer, Hammer)", "ROUTING 2 (Mixer, Pellet)"})
-        Me.cmb_routing.Location = New System.Drawing.Point(98, 695)
+        Me.cmb_routing.Location = New System.Drawing.Point(577, 667)
         Me.cmb_routing.Name = "cmb_routing"
-        Me.cmb_routing.Size = New System.Drawing.Size(400, 25)
+        Me.cmb_routing.Size = New System.Drawing.Size(400, 23)
         Me.cmb_routing.TabIndex = 419
         '
         'txt_IdJenisProduk
@@ -666,19 +734,19 @@ Partial Class EMI_Production_Order
         Me.txt_IdJenisProduk.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.txt_IdJenisProduk.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txt_IdJenisProduk.Enabled = False
-        Me.txt_IdJenisProduk.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        Me.txt_IdJenisProduk.Location = New System.Drawing.Point(367, 726)
+        Me.txt_IdJenisProduk.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.txt_IdJenisProduk.Location = New System.Drawing.Point(452, 703)
         Me.txt_IdJenisProduk.Name = "txt_IdJenisProduk"
-        Me.txt_IdJenisProduk.Size = New System.Drawing.Size(150, 22)
+        Me.txt_IdJenisProduk.Size = New System.Drawing.Size(150, 21)
         Me.txt_IdJenisProduk.TabIndex = 421
         Me.txt_IdJenisProduk.Visible = False
         '
         'Button3
         '
         Me.Button3.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Button3.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Button3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button3.ForeColor = System.Drawing.Color.White
-        Me.Button3.Location = New System.Drawing.Point(209, 765)
+        Me.Button3.Location = New System.Drawing.Point(205, 694)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(84, 36)
         Me.Button3.TabIndex = 422
@@ -703,10 +771,10 @@ Partial Class EMI_Production_Order
         Me.TabPage1.Controls.Add(Me.LvBahan)
         Me.TabPage1.Controls.Add(Me.Label4)
         Me.TabPage1.Controls.Add(Me.TextBox1)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(731, 227)
+        Me.TabPage1.Size = New System.Drawing.Size(731, 230)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Material"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -714,17 +782,17 @@ Partial Class EMI_Production_Order
         'TabPage2
         '
         Me.TabPage2.Controls.Add(Me.LvPackaging)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(731, 227)
+        Me.TabPage2.Size = New System.Drawing.Size(731, 230)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Packaging"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
         'LvPackaging
         '
-        Me.LvPackaging.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.LvPackaging.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.LvPackaging.FullRowSelect = True
         Me.LvPackaging.GridLines = True
         Me.LvPackaging.HideSelection = False
@@ -738,24 +806,38 @@ Partial Class EMI_Production_Order
         'txt_faktur_bayangan
         '
         Me.txt_faktur_bayangan.BackColor = System.Drawing.Color.Goldenrod
-        Me.txt_faktur_bayangan.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txt_faktur_bayangan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txt_faktur_bayangan.ForeColor = System.Drawing.SystemColors.Window
         Me.txt_faktur_bayangan.Location = New System.Drawing.Point(244, 66)
         Me.txt_faktur_bayangan.MaxLength = 30
         Me.txt_faktur_bayangan.Name = "txt_faktur_bayangan"
         Me.txt_faktur_bayangan.ReadOnly = True
-        Me.txt_faktur_bayangan.Size = New System.Drawing.Size(211, 22)
+        Me.txt_faktur_bayangan.Size = New System.Drawing.Size(211, 21)
         Me.txt_faktur_bayangan.TabIndex = 424
         Me.txt_faktur_bayangan.Visible = False
         '
+        'Btn_UnRelease
+        '
+        Me.Btn_UnRelease.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_UnRelease.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_UnRelease.ForeColor = System.Drawing.Color.White
+        Me.Btn_UnRelease.Location = New System.Drawing.Point(293, 694)
+        Me.Btn_UnRelease.Name = "Btn_UnRelease"
+        Me.Btn_UnRelease.Size = New System.Drawing.Size(93, 36)
+        Me.Btn_UnRelease.TabIndex = 422
+        Me.Btn_UnRelease.Text = "UnRelease"
+        Me.Btn_UnRelease.UseVisualStyleBackColor = False
+        Me.Btn_UnRelease.Visible = False
+        '
         'EMI_Production_Order
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1160, 813)
+        Me.ClientSize = New System.Drawing.Size(1160, 745)
         Me.Controls.Add(Me.txt_faktur_bayangan)
         Me.Controls.Add(Me.TabControl1)
+        Me.Controls.Add(Me.Btn_UnRelease)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.txt_IdJenisProduk)
         Me.Controls.Add(Me.Label5)
@@ -792,17 +874,19 @@ Partial Class EMI_Production_Order
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Btn_Simpan)
-        Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "EMI_Production_Order"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        Me.ContextMenuStrip3.ResumeLayout(False)
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
         Me.ContextMenuStrip2.ResumeLayout(False)
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
@@ -872,4 +956,11 @@ Partial Class EMI_Production_Order
     Friend WithEvents TabPage2 As TabPage
     Friend WithEvents LvPackaging As ListView
     Friend WithEvents txt_faktur_bayangan As TextBox
+    Friend WithEvents Label9 As Label
+    Friend WithEvents Label8 As Label
+    Friend WithEvents txtKdBrgPO As TextBox
+    Friend WithEvents txtNmBrgPO As TextBox
+    Friend WithEvents ContextMenuStrip3 As ContextMenuStrip
+    Friend WithEvents BatalToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Btn_UnRelease As Button
 End Class

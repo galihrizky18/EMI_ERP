@@ -1,5 +1,4 @@
 ﻿Imports System.Reflection
-Imports System.Runtime.Serialization.Formatters
 
 
 Public Class FMenu
@@ -673,8 +672,8 @@ Public Class FMenu
             Case "EMI_Production_Order_Summary_Data"
                 Return EMI_Production_Order_Summary_Data
 
-            Case "EMI_Schedule"
-                Return EMI_Schedule
+            'Case "EMI_Schedule"
+            '    Return EMI_Schedule
 
             Case "EMI_Selisih_Barang_Masuk_Validasi"
                 Return EMI_Selisih_Barang_Masuk_Validasi
@@ -1079,7 +1078,7 @@ Public Class FMenu
             Case "EMI_Display_Split_Production_Order" : Return EMI_Display_Split_Production_Order
             Case "EMI_Production_Order" : Return EMI_Production_Order
             Case "EMI_Independent_Order" : Return EMI_Independent_Order
-            Case "EMI_Schedule" : Return EMI_Schedule
+            'Case "EMI_Schedule" : Return EMI_Schedule
             Case "EMI_Split_Production" : Return EMI_Split_Production
             Case "EMI_Display_Mulai_Produksi" : Return EMI_Display_Mulai_Produksi
             Case "EMI_Display_Selesai_Produksi" : Return EMI_Display_Selesai_Produksi

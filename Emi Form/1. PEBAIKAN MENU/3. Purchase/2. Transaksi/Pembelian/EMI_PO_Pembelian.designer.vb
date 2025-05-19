@@ -34,9 +34,11 @@ Partial Class EMI_PO_Pembelian
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.TxtPO_NmSupplier = New System.Windows.Forms.TextBox()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.LblPO_NoPO = New System.Windows.Forms.Label()
         Me.DtpPO_ETD = New System.Windows.Forms.DateTimePicker()
         Me.LblPO_ETD = New System.Windows.Forms.Label()
+        Me.Txt_IDPPH = New System.Windows.Forms.TextBox()
         Me.TxtPO_NoPO = New System.Windows.Forms.TextBox()
         Me.btnRelease = New System.Windows.Forms.Button()
         Me.TextBox9 = New System.Windows.Forms.TextBox()
@@ -68,7 +70,6 @@ Partial Class EMI_PO_Pembelian
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.LblPO_Judul = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -101,9 +102,10 @@ Partial Class EMI_PO_Pembelian
         Me.Label25 = New System.Windows.Forms.Label()
         Me.LblPO_TotalSblmPPN = New System.Windows.Forms.Label()
         Me.TxtPO_TotalSblmPPN = New System.Windows.Forms.TextBox()
-        Me.ChkPO_PPN = New System.Windows.Forms.CheckBox()
         Me.TxtPO_PersenPPN = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
         Me.LblPO_PPN = New System.Windows.Forms.Label()
+        Me.Txt_GrandPPH = New System.Windows.Forms.TextBox()
         Me.TxtPO_NilaiPPN = New System.Windows.Forms.TextBox()
         Me.LblPO_CaraBayar = New System.Windows.Forms.Label()
         Me.CmbPO_CaraBayar = New System.Windows.Forms.ComboBox()
@@ -122,7 +124,7 @@ Partial Class EMI_PO_Pembelian
         Me.BtnPO_Ok = New System.Windows.Forms.Button()
         Me.TxtPO_Diskon = New System.Windows.Forms.TextBox()
         Me.TxtPO_Jml = New System.Windows.Forms.TextBox()
-        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Btn_Release = New System.Windows.Forms.Button()
         Me.BtnPO_Refresh = New System.Windows.Forms.Button()
         Me.BtnPO_Simpan = New System.Windows.Forms.Button()
         Me.Label27 = New System.Windows.Forms.Label()
@@ -135,6 +137,8 @@ Partial Class EMI_PO_Pembelian
         Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Btn_Expedisi = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -235,11 +239,14 @@ Partial Class EMI_PO_Pembelian
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Btn_Expedisi)
         Me.GroupBox1.Controls.Add(Me.Button1)
         Me.GroupBox1.Controls.Add(Me.TxtPO_NmSupplier)
+        Me.GroupBox1.Controls.Add(Me.Label9)
         Me.GroupBox1.Controls.Add(Me.LblPO_NoPO)
         Me.GroupBox1.Controls.Add(Me.DtpPO_ETD)
         Me.GroupBox1.Controls.Add(Me.LblPO_ETD)
+        Me.GroupBox1.Controls.Add(Me.Txt_IDPPH)
         Me.GroupBox1.Controls.Add(Me.TxtPO_NoPO)
         Me.GroupBox1.Controls.Add(Me.btnRelease)
         Me.GroupBox1.Controls.Add(Me.TextBox9)
@@ -281,7 +288,18 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_NmSupplier.MaxLength = 30
         Me.TxtPO_NmSupplier.Name = "TxtPO_NmSupplier"
         Me.TxtPO_NmSupplier.Size = New System.Drawing.Size(269, 21)
-        Me.TxtPO_NmSupplier.TabIndex = 0
+        Me.TxtPO_NmSupplier.TabIndex = 2
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label9.Location = New System.Drawing.Point(782, 18)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(76, 17)
+        Me.Label9.TabIndex = 316
+        Me.Label9.Text = "Txt_IDPPH"
+        Me.Label9.Visible = False
         '
         'LblPO_NoPO
         '
@@ -313,6 +331,20 @@ Partial Class EMI_PO_Pembelian
         Me.LblPO_ETD.Size = New System.Drawing.Size(42, 17)
         Me.LblPO_ETD.TabIndex = 314
         Me.LblPO_ETD.Text = "ETDx"
+        '
+        'Txt_IDPPH
+        '
+        Me.Txt_IDPPH.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_IDPPH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_IDPPH.Enabled = False
+        Me.Txt_IDPPH.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_IDPPH.Location = New System.Drawing.Point(864, 16)
+        Me.Txt_IDPPH.MaxLength = 75
+        Me.Txt_IDPPH.Name = "Txt_IDPPH"
+        Me.Txt_IDPPH.ReadOnly = True
+        Me.Txt_IDPPH.Size = New System.Drawing.Size(73, 21)
+        Me.Txt_IDPPH.TabIndex = 313
+        Me.Txt_IDPPH.Visible = False
         '
         'TxtPO_NoPO
         '
@@ -381,10 +413,10 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_NoNota.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtPO_NoNota.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtPO_NoNota.Location = New System.Drawing.Point(398, 38)
-        Me.TxtPO_NoNota.MaxLength = 75
+        Me.TxtPO_NoNota.MaxLength = 100
         Me.TxtPO_NoNota.Name = "TxtPO_NoNota"
         Me.TxtPO_NoNota.Size = New System.Drawing.Size(185, 21)
-        Me.TxtPO_NoNota.TabIndex = 1
+        Me.TxtPO_NoNota.TabIndex = 0
         '
         'DtpPO_Tgl
         '
@@ -407,7 +439,7 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_KdSupplier.MaxLength = 30
         Me.TxtPO_KdSupplier.Name = "TxtPO_KdSupplier"
         Me.TxtPO_KdSupplier.Size = New System.Drawing.Size(192, 21)
-        Me.TxtPO_KdSupplier.TabIndex = 17
+        Me.TxtPO_KdSupplier.TabIndex = 1
         '
         'LblPO_Supplier
         '
@@ -430,7 +462,7 @@ Partial Class EMI_PO_Pembelian
         Me.CmbPO_MataUang.Margin = New System.Windows.Forms.Padding(2)
         Me.CmbPO_MataUang.Name = "CmbPO_MataUang"
         Me.CmbPO_MataUang.Size = New System.Drawing.Size(112, 23)
-        Me.CmbPO_MataUang.TabIndex = 335
+        Me.CmbPO_MataUang.TabIndex = 3
         '
         'LblPO_MataUang
         '
@@ -649,21 +681,8 @@ Partial Class EMI_PO_Pembelian
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1317, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1313, 51)
         Me.Panel1.TabIndex = 1
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1317, 2)
-        Me.PanelGradient1.TabIndex = 0
         '
         'Panel5
         '
@@ -750,9 +769,10 @@ Partial Class EMI_PO_Pembelian
         Me.Groupbox.Controls.Add(Me.Label25)
         Me.Groupbox.Controls.Add(Me.LblPO_TotalSblmPPN)
         Me.Groupbox.Controls.Add(Me.TxtPO_TotalSblmPPN)
-        Me.Groupbox.Controls.Add(Me.ChkPO_PPN)
         Me.Groupbox.Controls.Add(Me.TxtPO_PersenPPN)
+        Me.Groupbox.Controls.Add(Me.Label8)
         Me.Groupbox.Controls.Add(Me.LblPO_PPN)
+        Me.Groupbox.Controls.Add(Me.Txt_GrandPPH)
         Me.Groupbox.Controls.Add(Me.TxtPO_NilaiPPN)
         Me.Groupbox.Controls.Add(Me.LblPO_CaraBayar)
         Me.Groupbox.Controls.Add(Me.CmbPO_CaraBayar)
@@ -773,7 +793,7 @@ Partial Class EMI_PO_Pembelian
         Me.Groupbox.Controls.Add(Me.TxtPO_Jml)
         Me.Groupbox.Location = New System.Drawing.Point(19, 222)
         Me.Groupbox.Name = "Groupbox"
-        Me.Groupbox.Size = New System.Drawing.Size(1280, 378)
+        Me.Groupbox.Size = New System.Drawing.Size(1280, 412)
         Me.Groupbox.TabIndex = 306
         Me.Groupbox.TabStop = False
         '
@@ -1086,39 +1106,51 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_TotalSblmPPN.TabIndex = 331
         Me.TxtPO_TotalSblmPPN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
-        'ChkPO_PPN
-        '
-        Me.ChkPO_PPN.AutoSize = True
-        Me.ChkPO_PPN.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.ChkPO_PPN.Location = New System.Drawing.Point(1047, 328)
-        Me.ChkPO_PPN.Name = "ChkPO_PPN"
-        Me.ChkPO_PPN.Size = New System.Drawing.Size(15, 14)
-        Me.ChkPO_PPN.TabIndex = 330
-        Me.ChkPO_PPN.UseVisualStyleBackColor = False
-        '
         'TxtPO_PersenPPN
         '
         Me.TxtPO_PersenPPN.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TxtPO_PersenPPN.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtPO_PersenPPN.Enabled = False
         Me.TxtPO_PersenPPN.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtPO_PersenPPN.Location = New System.Drawing.Point(1067, 325)
+        Me.TxtPO_PersenPPN.Location = New System.Drawing.Point(1047, 351)
         Me.TxtPO_PersenPPN.Margin = New System.Windows.Forms.Padding(2)
         Me.TxtPO_PersenPPN.MaxLength = 5
         Me.TxtPO_PersenPPN.Name = "TxtPO_PersenPPN"
-        Me.TxtPO_PersenPPN.Size = New System.Drawing.Size(73, 21)
+        Me.TxtPO_PersenPPN.Size = New System.Drawing.Size(92, 21)
         Me.TxtPO_PersenPPN.TabIndex = 328
         Me.TxtPO_PersenPPN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label8.Location = New System.Drawing.Point(943, 326)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(80, 17)
+        Me.Label8.TabIndex = 327
+        Me.Label8.Text = "Grand PPH"
         '
         'LblPO_PPN
         '
         Me.LblPO_PPN.AutoSize = True
         Me.LblPO_PPN.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblPO_PPN.Location = New System.Drawing.Point(982, 327)
+        Me.LblPO_PPN.Location = New System.Drawing.Point(981, 353)
         Me.LblPO_PPN.Name = "LblPO_PPN"
         Me.LblPO_PPN.Size = New System.Drawing.Size(42, 17)
         Me.LblPO_PPN.TabIndex = 327
         Me.LblPO_PPN.Text = "PPNx"
+        '
+        'Txt_GrandPPH
+        '
+        Me.Txt_GrandPPH.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_GrandPPH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_GrandPPH.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.Txt_GrandPPH.Location = New System.Drawing.Point(1047, 324)
+        Me.Txt_GrandPPH.Name = "Txt_GrandPPH"
+        Me.Txt_GrandPPH.ReadOnly = True
+        Me.Txt_GrandPPH.Size = New System.Drawing.Size(227, 21)
+        Me.Txt_GrandPPH.TabIndex = 329
+        Me.Txt_GrandPPH.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'TxtPO_NilaiPPN
         '
@@ -1126,7 +1158,7 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_NilaiPPN.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtPO_NilaiPPN.Enabled = False
         Me.TxtPO_NilaiPPN.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtPO_NilaiPPN.Location = New System.Drawing.Point(1145, 325)
+        Me.TxtPO_NilaiPPN.Location = New System.Drawing.Point(1144, 351)
         Me.TxtPO_NilaiPPN.Name = "TxtPO_NilaiPPN"
         Me.TxtPO_NilaiPPN.Size = New System.Drawing.Size(130, 21)
         Me.TxtPO_NilaiPPN.TabIndex = 329
@@ -1163,7 +1195,7 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_GrandTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtPO_GrandTotal.Enabled = False
         Me.TxtPO_GrandTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtPO_GrandTotal.Location = New System.Drawing.Point(1047, 353)
+        Me.TxtPO_GrandTotal.Location = New System.Drawing.Point(1046, 379)
         Me.TxtPO_GrandTotal.Name = "TxtPO_GrandTotal"
         Me.TxtPO_GrandTotal.Size = New System.Drawing.Size(228, 21)
         Me.TxtPO_GrandTotal.TabIndex = 321
@@ -1173,7 +1205,7 @@ Partial Class EMI_PO_Pembelian
         '
         Me.LblPO_GrandTotal.AutoSize = True
         Me.LblPO_GrandTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblPO_GrandTotal.Location = New System.Drawing.Point(934, 354)
+        Me.LblPO_GrandTotal.Location = New System.Drawing.Point(933, 380)
         Me.LblPO_GrandTotal.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.LblPO_GrandTotal.Name = "LblPO_GrandTotal"
         Me.LblPO_GrandTotal.Size = New System.Drawing.Size(90, 17)
@@ -1340,25 +1372,25 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_Jml.TabIndex = 306
         Me.TxtPO_Jml.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
-        'Button2
+        'Btn_Release
         '
-        Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(205, 613)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(84, 36)
-        Me.Button2.TabIndex = 360
-        Me.Button2.Text = "Release"
-        Me.Button2.UseVisualStyleBackColor = False
-        Me.Button2.Visible = False
+        Me.Btn_Release.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Release.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Release.ForeColor = System.Drawing.Color.White
+        Me.Btn_Release.Location = New System.Drawing.Point(205, 640)
+        Me.Btn_Release.Name = "Btn_Release"
+        Me.Btn_Release.Size = New System.Drawing.Size(84, 36)
+        Me.Btn_Release.TabIndex = 360
+        Me.Btn_Release.Text = "Release"
+        Me.Btn_Release.UseVisualStyleBackColor = False
+        Me.Btn_Release.Visible = False
         '
         'BtnPO_Refresh
         '
         Me.BtnPO_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnPO_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnPO_Refresh.ForeColor = System.Drawing.Color.White
-        Me.BtnPO_Refresh.Location = New System.Drawing.Point(115, 613)
+        Me.BtnPO_Refresh.Location = New System.Drawing.Point(115, 640)
         Me.BtnPO_Refresh.Name = "BtnPO_Refresh"
         Me.BtnPO_Refresh.Size = New System.Drawing.Size(84, 36)
         Me.BtnPO_Refresh.TabIndex = 348
@@ -1370,7 +1402,7 @@ Partial Class EMI_PO_Pembelian
         Me.BtnPO_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnPO_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnPO_Simpan.ForeColor = System.Drawing.Color.White
-        Me.BtnPO_Simpan.Location = New System.Drawing.Point(25, 613)
+        Me.BtnPO_Simpan.Location = New System.Drawing.Point(25, 640)
         Me.BtnPO_Simpan.Name = "BtnPO_Simpan"
         Me.BtnPO_Simpan.Size = New System.Drawing.Size(84, 36)
         Me.BtnPO_Simpan.TabIndex = 347
@@ -1402,7 +1434,7 @@ Partial Class EMI_PO_Pembelian
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(16, 649)
+        Me.Panel4.Location = New System.Drawing.Point(16, 676)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1247, 14)
         Me.Panel4.TabIndex = 307
@@ -1457,7 +1489,7 @@ Partial Class EMI_PO_Pembelian
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(15, 601)
+        Me.Panel6.Location = New System.Drawing.Point(15, 628)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(1247, 12)
         Me.Panel6.TabIndex = 308
@@ -1472,15 +1504,41 @@ Partial Class EMI_PO_Pembelian
         Me.Panel7.TabIndex = 308
         Me.Panel7.Visible = False
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1313, 2)
+        Me.PanelGradient1.TabIndex = 0
+        '
+        'Btn_Expedisi
+        '
+        Me.Btn_Expedisi.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Expedisi.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Expedisi.ForeColor = System.Drawing.Color.White
+        Me.Btn_Expedisi.Location = New System.Drawing.Point(231, 92)
+        Me.Btn_Expedisi.Margin = New System.Windows.Forms.Padding(2)
+        Me.Btn_Expedisi.Name = "Btn_Expedisi"
+        Me.Btn_Expedisi.Size = New System.Drawing.Size(112, 24)
+        Me.Btn_Expedisi.TabIndex = 317
+        Me.Btn_Expedisi.Text = "Pilih Expedisi"
+        Me.Btn_Expedisi.UseVisualStyleBackColor = False
+        '
         'EMI_PO_Pembelian
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1317, 666)
+        Me.ClientSize = New System.Drawing.Size(1313, 685)
         Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.Panel6)
-        Me.Controls.Add(Me.Button2)
+        Me.Controls.Add(Me.Btn_Release)
         Me.Controls.Add(Me.LvSupplier2)
         Me.Controls.Add(Me.LvSupplier)
         Me.Controls.Add(Me.GroupBox1)
@@ -1583,7 +1641,6 @@ Partial Class EMI_PO_Pembelian
     Public WithEvents LvPO_DataPO As ListView
     Friend WithEvents LblPO_TotalSblmPPN As Label
     Friend WithEvents TxtPO_TotalSblmPPN As TextBox
-    Friend WithEvents ChkPO_PPN As CheckBox
     Friend WithEvents TxtPO_PersenPPN As TextBox
     Friend WithEvents LblPO_PPN As Label
     Friend WithEvents TxtPO_NilaiPPN As TextBox
@@ -1634,7 +1691,7 @@ Partial Class EMI_PO_Pembelian
     Friend WithEvents txtSisaPr As TextBox
     Friend WithEvents Label6 As Label
     Friend WithEvents txtSatuanSisa As TextBox
-    Friend WithEvents Button2 As Button
+    Friend WithEvents Btn_Release As Button
     Friend WithEvents TxtPO_NmSupplier As TextBox
     Friend WithEvents TxtPO_NoFaktur As TextBox
     Friend WithEvents LvSupplier2 As ListView
@@ -1645,4 +1702,9 @@ Partial Class EMI_PO_Pembelian
     Friend WithEvents Panel7 As Panel
     Friend WithEvents cmbJenisPengiriman As ComboBox
     Friend WithEvents txtJatuhTempo As TextBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents Txt_GrandPPH As TextBox
+    Friend WithEvents Label9 As Label
+    Friend WithEvents Txt_IDPPH As TextBox
+    Friend WithEvents Btn_Expedisi As Button
 End Class

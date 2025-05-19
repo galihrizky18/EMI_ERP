@@ -117,7 +117,7 @@
             SQL = SQL & "and a.Kode_Supplier = b.Kode_Supplier "
             SQL = SQL & "and ( a.Flag_Import is null or a.Flag_Import <> 'Y') "
             'Todo : Jangan Lupa Di Uncomment
-            'SQL = SQL & "and a.Flag_Selisih_BM = 'Y' "
+            SQL = SQL & "and a.Flag_Selisih_BM = 'Y' "
             SQL = SQL & "and a.Status is null "
             SQL = SQL & "and a.Flag_Biaya is null "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
@@ -164,11 +164,11 @@
 
             SQL = "Select a.No_Faktur, b.Kode_Stock_Owner, b.Kode_Barang, d.Nama, b.Harga, b.Satuan, "
 
-            SQL = SQL & "sum(b.Jumlah) As Jumlah_PO, "
+            SQL = SQL & "b.Jumlah As Jumlah_PO, "
 
             SQL = SQL & "(dbo.ubah_satuan(a.Kode_Perusahaan, 'masa',b.Kode_Barang, b.Satuan_Barang, b.Satuan, sum(c.Jumlah_Masuk) )) as Jumlah_Masuk, "
 
-            SQL = SQL & "ISNULL(((dbo.ubah_satuan(a.Kode_Perusahaan, 'masa',b.Kode_Barang, b.Satuan_Barang, b.Satuan, sum(c.Jumlah_Masuk) )) - sum(b.Jumlah)), 0) as Selisih_Barang "
+            SQL = SQL & "ISNULL(((dbo.ubah_satuan(a.Kode_Perusahaan, 'masa',b.Kode_Barang, b.Satuan_Barang, b.Satuan, sum(c.Jumlah_Masuk) )) - b.Jumlah), 0) as Selisih_Barang "
 
             SQL = SQL & "From emi_pembelian_PO a, EMI_Pembelian_PO_Detail b, EMI_Pembelian_Loading_Detail c, barang d, EMI_Pembelian_Loading e "
             SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Faktur = b.No_Faktur "
@@ -177,7 +177,7 @@
             SQL = SQL & "And c.kode_Perusahaan=e.kode_Perusahaan And c.no_faktur=e.no_faktur "
             SQL = SQL & "And a.Status Is null And e.status Is null "
             SQL = SQL & "And a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Faktur = '" & SelectedFakturPO & "' "
-            SQL = SQL & "group by a.Kode_Perusahaan, a.No_Faktur, b.Kode_Stock_Owner, b.Kode_Barang, d.Nama, b.Harga, b.Satuan, b.Satuan_Barang "
+            SQL = SQL & "group by a.Kode_Perusahaan, a.No_Faktur, b.Kode_Stock_Owner, b.Kode_Barang, d.Nama, b.Harga, b.Satuan, b.Satuan_Barang, b.Jumlah "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Dim Lv As ListViewItem
@@ -347,6 +347,7 @@
         Transaksi_Biaya_Lokal.Txt_JumlahPO.Text = Format(JumlahPO, "N2")
         Transaksi_Biaya_Lokal.Txt_Berat.Text = Format(TotalBerat, "N2")
         Transaksi_Biaya_Lokal.TxtJumlahMobil.Text = JumlahMobil
+        Transaksi_Biaya_Lokal.CekEkspedisi()
         Transaksi_Biaya_Lokal.ShowDialog()
 
     End Sub
@@ -383,7 +384,7 @@
             '====================================
             '=     UPATE HPP SATUAN DISPLAY     =
             '====================================
-            SQL = "select a.No_Faktur, b.Kode_Stock_Owner, b.Kode_Barang, b.No_Urut, b.Nilai_Barang, b.Harga_Barang, b.Total "
+            SQL = "select a.No_Faktur, b.Kode_Stock_Owner, b.Kode_Barang, b.No_Urut, b.Nilai_Barang, b.Harga_Barang, b.harga, b.Total "
             SQL = SQL & "from emi_pembelian_PO a, EMI_Pembelian_PO_Detail b, EMI_Pembelian_Loading_Detail c "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan "
             SQL = SQL & "and a.No_Faktur = b.No_Faktur "
@@ -399,9 +400,12 @@
 
                             Dim NoPO As String = .Rows(i).Item("No_Faktur")
                             Dim UrutPo As Integer = .Rows(i).Item("No_Urut")
-                            Dim Biaya As Double = Val(HilangkanTanda(.Rows(i).Item("Total")))
+                            Dim Harga As Double = Val(HilangkanTanda(.Rows(i).Item("harga")))
+                            Dim Harga_barang As Double = Val(HilangkanTanda(.Rows(i).Item("Harga_Barang")))
 
-                            SQL = "update EMI_Pembelian_Loading_Detail set HPP_Satuan_Display = '" & Math.Round(Biaya, 0) & "' where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                            SQL = "update EMI_Pembelian_Loading_Detail set "
+                            SQL = SQL & "HPP_Satuan_Display = '" & Math.Round(Harga, 0) & "', Harga_Barang = '" & Harga_barang & "' "
+                            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
                             SQL = SQL & "and No_PO = '" & NoPO & "' and Urut_PO = '" & UrutPo & "' "
                             ExecuteTrans(SQL)
 

@@ -23,6 +23,7 @@ Partial Class EMI_Display_Hasil_Produksi
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -36,7 +37,6 @@ Partial Class EMI_Display_Hasil_Produksi
         Me.ListView1 = New System.Windows.Forms.ListView()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -48,8 +48,21 @@ Partial Class EMI_Display_Hasil_Produksi
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(732, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1054, 51)
         Me.Panel1.TabIndex = 22
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1054, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -85,7 +98,7 @@ Partial Class EMI_Display_Hasil_Produksi
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(711, 59)
+        Me.Panel5.Location = New System.Drawing.Point(1035, 63)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(19, 456)
@@ -159,9 +172,9 @@ Partial Class EMI_Display_Hasil_Produksi
         Me.ListView1.FullRowSelect = True
         Me.ListView1.GridLines = True
         Me.ListView1.HideSelection = False
-        Me.ListView1.Location = New System.Drawing.Point(22, 136)
+        Me.ListView1.Location = New System.Drawing.Point(20, 136)
         Me.ListView1.Name = "ListView1"
-        Me.ListView1.Size = New System.Drawing.Size(686, 357)
+        Me.ListView1.Size = New System.Drawing.Size(1013, 357)
         Me.ListView1.TabIndex = 234
         Me.ListView1.UseCompatibleStateImageBehavior = False
         Me.ListView1.View = System.Windows.Forms.View.Details
@@ -188,27 +201,15 @@ Partial Class EMI_Display_Hasil_Produksi
         Me.Button1.Text = "Refresh"
         Me.Button1.UseVisualStyleBackColor = False
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(732, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
         'EMI_Display_Hasil_Produksi
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(732, 512)
+        Me.ClientSize = New System.Drawing.Size(1054, 512)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Btn_Cari)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.ComboBox3)
@@ -216,7 +217,6 @@ Partial Class EMI_Display_Hasil_Produksi
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.TextBox3)
         Me.Controls.Add(Me.ListView1)
-        Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)

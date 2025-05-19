@@ -180,8 +180,8 @@ Public Class EMI_Display_Pallet_Masuk
             SQL = SQL & "where a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Perusahaan = d.Kode_Perusahaan "
             SQL = SQL & "and a.Kode_Supplier = c.Kode_Supplier "
             SQL = SQL & "and a.Kode_Barang = d.Kode_Barang and a.Kode_Stock_Owner = d.Kode_Stock_Owner "
-
             SQL = SQL & "and a.sdh_cetak is null "
+            SQL = SQL & "and a.status is null "
             SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.lokasi = '" & Lokasi & "' "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
@@ -405,15 +405,15 @@ Public Class EMI_Display_Pallet_Masuk
 
             Dim sudahCetak As Boolean = False
 
-            SQL = "Select a.no_faktur, a.No_Pembelian_Loading, b.kode_stock_owner, b.Kode_Barang, c.Nama, b.Tgl_Produksi, b.Tgl_Expired, "
+            SQL = "Select a.no_faktur, a.No_Pembelian_Loading, b.kode_stock_owner, b.Kode_Barang, c.Nama, b.Tgl_Produksi, a.Tgl_Expired_Real as Tgl_Expired, "
             SQL = SQL & "b.Jumlah, b.Satuan, b.Jumlah_Bags, b.Nilai_Pengali, b.Nilai_Barang, b.Satuan_Barang, b.urut_oto, "
             SQL = SQL & "a.no_sj, a.no_plat, b.Urut_Loading, a.kode_supplier, a.Sdh_Cetak, a.Metode_Timbang, a.Flag_Timbang, "
             SQL = SQL & "c.Metode_Pengeluaran_Stok, d.Tanggal as Tanggal_Masuk "
             SQL = SQL & "From EMI_Barang_Masuk_Perpallet a, EMI_Barang_Masuk_Perpallet_Detail b, Barang c, EMI_Register_Kendaraan_BM d "
             SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.Kode_Perusahaan = c.Kode_Perusahaan "
             SQL = SQL & "And a.No_Faktur = b.No_Faktur And b.Kode_Stock_Owner = c.Kode_Stock_Owner "
-            SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.No_Pembelian_Loading =  d.No_Fak_Loading_Barang "
-            SQL = SQL & "And b.Kode_Barang = c.Kode_Barang and a.no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
+            SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.No_Pembelian_Loading = d.No_Fak_Loading_Barang "
+            SQL = SQL & "And b.Kode_Barang = c.Kode_Barang and a.status is null and a.no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
             SQL = SQL & "order by urut_oto "
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
@@ -459,15 +459,15 @@ Public Class EMI_Display_Pallet_Masuk
 
                         SQL = "select  "
                         SQL = SQL & "ISNULL((sum(b.Tot_Batch_Masuk)), 0) as Batch_Masuk, "
-                        SQL = SQL & "a.Kode_Supplier, a.Tanggal_Masuk, b.Tanggal_Expired, b.Kode_Barang, c.Kode_Unik_Berjalan "
+                        SQL = SQL & "a.Kode_Supplier, a.Tanggal_Masuk, c.Tgl_Expired_Real as Tanggal_Expired, b.Kode_Barang, c.Kode_Unik_Berjalan "
                         SQL = SQL & "from emi_pembelian_loading a, emi_pembelian_loading_detail b, EMI_Barang_Masuk_Perpallet c "
                         SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and a.No_Faktur = c.No_Pembelian_Loading "
                         SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' "
-                        SQL = SQL & "and a.Status is null "
+                        SQL = SQL & "and a.Status is null and c.status is null "
                         SQL = SQL & "and c.No_Faktur='" & Ds.Tables("MyTable").Rows(i).Item("no_faktur") & "' "
                         SQL = SQL & "and b.Kode_Barang='" & Ds.Tables("MyTable").Rows(i).Item("Kode_Barang") & "' "
                         SQL = SQL & "and b.Urut_OTO='" & Ds.Tables("MyTable").Rows(i).Item("Urut_Loading") & "' "
-                        SQL = SQL & "group by a.Kode_Supplier, a.Tanggal_Masuk, b.Tanggal_Expired, b.Kode_Barang, c.Kode_Unik_Berjalan "
+                        SQL = SQL & "group by a.Kode_Supplier, a.Tanggal_Masuk, c.Tgl_Expired_Real, b.Kode_Barang, c.Kode_Unik_Berjalan "
                         Using Ds2 = BindingTrans(SQL)
                             With Ds2.Tables("MyTable")
                                 If .Rows.Count <> 0 Then
@@ -610,7 +610,7 @@ Public Class EMI_Display_Pallet_Masuk
                             SQL = "update EMI_Barang_Masuk_Perpallet set Sdh_Cetak = 'Y', "
                             SQL = SQL & "batch_number='" & batch & "', QR_Code='" & Qr & "', "
                             SQL = SQL & "kode_unik_berjalan='" & kodeUnikBerjalan & "', kode_unik_asal='" & kodeUnikAsal & "' "
-                            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
+                            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and status is null "
                             'SQL = SQL & "and userid = '" & UserID & "' "
                             ExecuteTrans(SQL)
                         End If

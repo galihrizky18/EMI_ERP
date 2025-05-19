@@ -43,7 +43,6 @@ Partial Class Tf_Material_To_Material
         Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel6 = New System.Windows.Forms.Panel()
@@ -106,6 +105,7 @@ Partial Class Tf_Material_To_Material
         Me.tgl_expired = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.barcode = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.flag_blokSN = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         CType(Me.DGV_Data_TF, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -120,21 +120,8 @@ Partial Class Tf_Material_To_Material
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(981, 51)
+        Me.Panel1.Size = New System.Drawing.Size(978, 51)
         Me.Panel1.TabIndex = 24
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(981, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -235,11 +222,11 @@ Partial Class Tf_Material_To_Material
         Me.TxtNm_Barang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtNm_Barang.Enabled = False
         Me.TxtNm_Barang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtNm_Barang.Location = New System.Drawing.Point(157, 181)
+        Me.TxtNm_Barang.Location = New System.Drawing.Point(990, 145)
         Me.TxtNm_Barang.MaxLength = 50
         Me.TxtNm_Barang.Name = "TxtNm_Barang"
         Me.TxtNm_Barang.ReadOnly = True
-        Me.TxtNm_Barang.Size = New System.Drawing.Size(250, 21)
+        Me.TxtNm_Barang.Size = New System.Drawing.Size(84, 21)
         Me.TxtNm_Barang.TabIndex = 439
         '
         'TxtKd_Barang
@@ -250,7 +237,7 @@ Partial Class Tf_Material_To_Material
         Me.TxtKd_Barang.Location = New System.Drawing.Point(20, 181)
         Me.TxtKd_Barang.MaxLength = 50
         Me.TxtKd_Barang.Name = "TxtKd_Barang"
-        Me.TxtKd_Barang.Size = New System.Drawing.Size(135, 21)
+        Me.TxtKd_Barang.Size = New System.Drawing.Size(182, 21)
         Me.TxtKd_Barang.TabIndex = 438
         '
         'Label6
@@ -258,7 +245,7 @@ Partial Class Tf_Material_To_Material
         Me.Label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label6.Location = New System.Drawing.Point(20, 155)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(135, 21)
+        Me.Label6.Size = New System.Drawing.Size(182, 21)
         Me.Label6.TabIndex = 436
         Me.Label6.Text = "Kode Barang"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -266,9 +253,9 @@ Partial Class Tf_Material_To_Material
         'Label7
         '
         Me.Label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label7.Location = New System.Drawing.Point(157, 155)
+        Me.Label7.Location = New System.Drawing.Point(990, 119)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(250, 21)
+        Me.Label7.Size = New System.Drawing.Size(84, 21)
         Me.Label7.TabIndex = 437
         Me.Label7.Text = "Nama Barang"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -417,7 +404,7 @@ Partial Class Tf_Material_To_Material
         Me.Btn_GetData.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_GetData.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_GetData.ForeColor = System.Drawing.Color.White
-        Me.Btn_GetData.Location = New System.Drawing.Point(903, 154)
+        Me.Btn_GetData.Location = New System.Drawing.Point(863, 155)
         Me.Btn_GetData.Name = "Btn_GetData"
         Me.Btn_GetData.Size = New System.Drawing.Size(54, 51)
         Me.Btn_GetData.TabIndex = 462
@@ -455,19 +442,19 @@ Partial Class Tf_Material_To_Material
         Me.TxtSatuan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtSatuan.Enabled = False
         Me.TxtSatuan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtSatuan.Location = New System.Drawing.Point(502, 181)
+        Me.TxtSatuan.Location = New System.Drawing.Point(389, 181)
         Me.TxtSatuan.MaxLength = 50
         Me.TxtSatuan.Name = "TxtSatuan"
-        Me.TxtSatuan.Size = New System.Drawing.Size(78, 21)
+        Me.TxtSatuan.Size = New System.Drawing.Size(110, 21)
         Me.TxtSatuan.TabIndex = 468
         Me.TxtSatuan.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label8
         '
         Me.Label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label8.Location = New System.Drawing.Point(502, 155)
+        Me.Label8.Location = New System.Drawing.Point(389, 155)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(78, 21)
+        Me.Label8.Size = New System.Drawing.Size(110, 21)
         Me.Label8.TabIndex = 467
         Me.Label8.Text = "Satuan Stock"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -478,19 +465,19 @@ Partial Class Tf_Material_To_Material
         Me.TxtStock.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtStock.Enabled = False
         Me.TxtStock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtStock.Location = New System.Drawing.Point(409, 181)
+        Me.TxtStock.Location = New System.Drawing.Point(205, 181)
         Me.TxtStock.MaxLength = 50
         Me.TxtStock.Name = "TxtStock"
-        Me.TxtStock.Size = New System.Drawing.Size(90, 21)
+        Me.TxtStock.Size = New System.Drawing.Size(181, 21)
         Me.TxtStock.TabIndex = 470
         Me.TxtStock.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label9
         '
         Me.Label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label9.Location = New System.Drawing.Point(409, 155)
+        Me.Label9.Location = New System.Drawing.Point(205, 155)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(90, 21)
+        Me.Label9.Size = New System.Drawing.Size(181, 21)
         Me.Label9.TabIndex = 469
         Me.Label9.Text = "Stock"
         Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -510,9 +497,9 @@ Partial Class Tf_Material_To_Material
         'Label11
         '
         Me.Label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label11.Location = New System.Drawing.Point(583, 155)
+        Me.Label11.Location = New System.Drawing.Point(502, 155)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(77, 21)
+        Me.Label11.Size = New System.Drawing.Size(112, 21)
         Me.Label11.TabIndex = 469
         Me.Label11.Text = "Bags"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -523,10 +510,10 @@ Partial Class Tf_Material_To_Material
         Me.TxtBags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtBags.Enabled = False
         Me.TxtBags.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtBags.Location = New System.Drawing.Point(583, 181)
+        Me.TxtBags.Location = New System.Drawing.Point(502, 181)
         Me.TxtBags.MaxLength = 50
         Me.TxtBags.Name = "TxtBags"
-        Me.TxtBags.Size = New System.Drawing.Size(77, 21)
+        Me.TxtBags.Size = New System.Drawing.Size(112, 21)
         Me.TxtBags.TabIndex = 470
         Me.TxtBags.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
@@ -577,7 +564,7 @@ Partial Class Tf_Material_To_Material
         'Label1
         '
         Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label1.Location = New System.Drawing.Point(662, 155)
+        Me.Label1.Location = New System.Drawing.Point(617, 156)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(243, 21)
         Me.Label1.TabIndex = 475
@@ -588,7 +575,7 @@ Partial Class Tf_Material_To_Material
         '
         Me.Cmb_Brg_Tujuan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cmb_Brg_Tujuan.FormattingEnabled = True
-        Me.Cmb_Brg_Tujuan.Location = New System.Drawing.Point(662, 181)
+        Me.Cmb_Brg_Tujuan.Location = New System.Drawing.Point(617, 182)
         Me.Cmb_Brg_Tujuan.Name = "Cmb_Brg_Tujuan"
         Me.Cmb_Brg_Tujuan.Size = New System.Drawing.Size(243, 21)
         Me.Cmb_Brg_Tujuan.TabIndex = 476
@@ -779,7 +766,7 @@ Partial Class Tf_Material_To_Material
         Me.barcode.HeaderText = "Barcode"
         Me.barcode.Name = "barcode"
         Me.barcode.ReadOnly = True
-        Me.barcode.Width = 230
+        Me.barcode.Width = 250
         '
         'flag_blokSN
         '
@@ -788,12 +775,25 @@ Partial Class Tf_Material_To_Material
         Me.flag_blokSN.ReadOnly = True
         Me.flag_blokSN.Visible = False
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(978, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'Tf_Material_To_Material
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(981, 660)
+        Me.ClientSize = New System.Drawing.Size(978, 660)
         Me.Controls.Add(Me.Cmb_Brg_Tujuan)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Panel9)

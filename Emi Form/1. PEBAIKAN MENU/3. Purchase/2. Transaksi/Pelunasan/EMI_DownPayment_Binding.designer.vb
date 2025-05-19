@@ -43,6 +43,16 @@ Partial Class EMI_DownPayment_Binding
         Me.LvSupplier = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.CmbMUA = New System.Windows.Forms.ComboBox()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.TxtNilaiIDRPO = New System.Windows.Forms.TextBox()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.TxtSisaDP = New System.Windows.Forms.TextBox()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.TxtKursDP = New System.Windows.Forms.TextBox()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.TxtNilaiDP = New System.Windows.Forms.TextBox()
         Me.TxtNamaSupplier = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.TxtKodeSupplier = New System.Windows.Forms.TextBox()
@@ -56,16 +66,6 @@ Partial Class EMI_DownPayment_Binding
         Me.Dtp1 = New System.Windows.Forms.DateTimePicker()
         Me.CmbLokasi = New System.Windows.Forms.ComboBox()
         Me.BtnFormulator_Refresh = New System.Windows.Forms.Button()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.TxtNilaiDP = New System.Windows.Forms.TextBox()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.TxtKursDP = New System.Windows.Forms.TextBox()
-        Me.Label12 = New System.Windows.Forms.Label()
-        Me.TxtSisaDP = New System.Windows.Forms.TextBox()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.TxtNilaiIDRPO = New System.Windows.Forms.TextBox()
-        Me.CmbMUA = New System.Windows.Forms.ComboBox()
-        Me.Label14 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -316,11 +316,121 @@ Partial Class EMI_DownPayment_Binding
         Me.ColumnHeader2.Text = "Nama"
         Me.ColumnHeader2.Width = 280
         '
+        'CmbMUA
+        '
+        Me.CmbMUA.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CmbMUA.Enabled = False
+        Me.CmbMUA.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CmbMUA.FormattingEnabled = True
+        Me.CmbMUA.Location = New System.Drawing.Point(469, 91)
+        Me.CmbMUA.Name = "CmbMUA"
+        Me.CmbMUA.Size = New System.Drawing.Size(78, 25)
+        Me.CmbMUA.TabIndex = 436
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label14.Location = New System.Drawing.Point(381, 93)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(82, 20)
+        Me.Label14.TabIndex = 435
+        Me.Label14.Text = "Mata Uang"
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label13.Location = New System.Drawing.Point(303, 189)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(88, 20)
+        Me.Label13.TabIndex = 434
+        Me.Label13.Text = "Jumlah IDR"
+        '
+        'TxtNilaiIDRPO
+        '
+        Me.TxtNilaiIDRPO.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtNilaiIDRPO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtNilaiIDRPO.Enabled = False
+        Me.TxtNilaiIDRPO.Font = New System.Drawing.Font("Work Sans", 8.999999!)
+        Me.TxtNilaiIDRPO.Location = New System.Drawing.Point(397, 188)
+        Me.TxtNilaiIDRPO.MaxLength = 50
+        Me.TxtNilaiIDRPO.Name = "TxtNilaiIDRPO"
+        Me.TxtNilaiIDRPO.Size = New System.Drawing.Size(150, 22)
+        Me.TxtNilaiIDRPO.TabIndex = 433
+        Me.TxtNilaiIDRPO.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label12.Location = New System.Drawing.Point(282, 126)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(37, 20)
+        Me.Label12.TabIndex = 432
+        Me.Label12.Text = "Sisa"
+        '
+        'TxtSisaDP
+        '
+        Me.TxtSisaDP.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtSisaDP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtSisaDP.Enabled = False
+        Me.TxtSisaDP.Font = New System.Drawing.Font("Work Sans", 8.999999!)
+        Me.TxtSisaDP.Location = New System.Drawing.Point(325, 125)
+        Me.TxtSisaDP.MaxLength = 50
+        Me.TxtSisaDP.Name = "TxtSisaDP"
+        Me.TxtSisaDP.Size = New System.Drawing.Size(223, 22)
+        Me.TxtSisaDP.TabIndex = 431
+        Me.TxtSisaDP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label11.Location = New System.Drawing.Point(15, 126)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(40, 20)
+        Me.Label11.TabIndex = 430
+        Me.Label11.Text = "Kurs"
+        '
+        'TxtKursDP
+        '
+        Me.TxtKursDP.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtKursDP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtKursDP.Font = New System.Drawing.Font("Work Sans", 8.999999!)
+        Me.TxtKursDP.Location = New System.Drawing.Point(156, 125)
+        Me.TxtKursDP.MaxLength = 50
+        Me.TxtKursDP.Name = "TxtKursDP"
+        Me.TxtKursDP.Size = New System.Drawing.Size(120, 22)
+        Me.TxtKursDP.TabIndex = 429
+        Me.TxtKursDP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label9.Location = New System.Drawing.Point(15, 93)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(39, 20)
+        Me.Label9.TabIndex = 428
+        Me.Label9.Text = "Nilai"
+        '
+        'TxtNilaiDP
+        '
+        Me.TxtNilaiDP.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtNilaiDP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtNilaiDP.Font = New System.Drawing.Font("Work Sans", 8.999999!)
+        Me.TxtNilaiDP.Location = New System.Drawing.Point(156, 92)
+        Me.TxtNilaiDP.MaxLength = 50
+        Me.TxtNilaiDP.Name = "TxtNilaiDP"
+        Me.TxtNilaiDP.Size = New System.Drawing.Size(219, 22)
+        Me.TxtNilaiDP.TabIndex = 427
+        Me.TxtNilaiDP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
         'TxtNamaSupplier
         '
         Me.TxtNamaSupplier.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TxtNamaSupplier.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtNamaSupplier.Enabled = False
         Me.TxtNamaSupplier.Font = New System.Drawing.Font("Work Sans", 8.999999!)
         Me.TxtNamaSupplier.Location = New System.Drawing.Point(307, 30)
         Me.TxtNamaSupplier.MaxLength = 50
@@ -454,117 +564,7 @@ Partial Class EMI_DownPayment_Binding
         Me.BtnFormulator_Refresh.Text = "&Refresh"
         Me.BtnFormulator_Refresh.UseVisualStyleBackColor = False
         '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label9.Location = New System.Drawing.Point(15, 93)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(39, 20)
-        Me.Label9.TabIndex = 428
-        Me.Label9.Text = "Nilai"
-        '
-        'TxtNilaiDP
-        '
-        Me.TxtNilaiDP.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtNilaiDP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtNilaiDP.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TxtNilaiDP.Location = New System.Drawing.Point(156, 92)
-        Me.TxtNilaiDP.MaxLength = 50
-        Me.TxtNilaiDP.Name = "TxtNilaiDP"
-        Me.TxtNilaiDP.Size = New System.Drawing.Size(219, 22)
-        Me.TxtNilaiDP.TabIndex = 427
-        Me.TxtNilaiDP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Label11
-        '
-        Me.Label11.AutoSize = True
-        Me.Label11.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label11.Location = New System.Drawing.Point(15, 126)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(40, 20)
-        Me.Label11.TabIndex = 430
-        Me.Label11.Text = "Kurs"
-        '
-        'TxtKursDP
-        '
-        Me.TxtKursDP.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtKursDP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtKursDP.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TxtKursDP.Location = New System.Drawing.Point(156, 125)
-        Me.TxtKursDP.MaxLength = 50
-        Me.TxtKursDP.Name = "TxtKursDP"
-        Me.TxtKursDP.Size = New System.Drawing.Size(120, 22)
-        Me.TxtKursDP.TabIndex = 429
-        Me.TxtKursDP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label12.Location = New System.Drawing.Point(282, 126)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(37, 20)
-        Me.Label12.TabIndex = 432
-        Me.Label12.Text = "Sisa"
-        '
-        'TxtSisaDP
-        '
-        Me.TxtSisaDP.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtSisaDP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtSisaDP.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TxtSisaDP.Location = New System.Drawing.Point(325, 125)
-        Me.TxtSisaDP.MaxLength = 50
-        Me.TxtSisaDP.Name = "TxtSisaDP"
-        Me.TxtSisaDP.Size = New System.Drawing.Size(223, 22)
-        Me.TxtSisaDP.TabIndex = 431
-        Me.TxtSisaDP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label13.Location = New System.Drawing.Point(303, 189)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(88, 20)
-        Me.Label13.TabIndex = 434
-        Me.Label13.Text = "Jumlah IDR"
-        '
-        'TxtNilaiIDRPO
-        '
-        Me.TxtNilaiIDRPO.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtNilaiIDRPO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtNilaiIDRPO.Enabled = False
-        Me.TxtNilaiIDRPO.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TxtNilaiIDRPO.Location = New System.Drawing.Point(397, 188)
-        Me.TxtNilaiIDRPO.MaxLength = 50
-        Me.TxtNilaiIDRPO.Name = "TxtNilaiIDRPO"
-        Me.TxtNilaiIDRPO.Size = New System.Drawing.Size(150, 22)
-        Me.TxtNilaiIDRPO.TabIndex = 433
-        Me.TxtNilaiIDRPO.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'CmbMUA
-        '
-        Me.CmbMUA.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CmbMUA.Enabled = False
-        Me.CmbMUA.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CmbMUA.FormattingEnabled = True
-        Me.CmbMUA.Location = New System.Drawing.Point(469, 91)
-        Me.CmbMUA.Name = "CmbMUA"
-        Me.CmbMUA.Size = New System.Drawing.Size(78, 25)
-        Me.CmbMUA.TabIndex = 436
-        '
-        'Label14
-        '
-        Me.Label14.AutoSize = True
-        Me.Label14.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label14.Location = New System.Drawing.Point(381, 93)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(82, 20)
-        Me.Label14.TabIndex = 435
-        Me.Label14.Text = "Mata Uang"
-        '
-        'EMI_BInding_Pembayaran_PO
+        'EMI_DownPayment_Binding
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -591,7 +591,7 @@ Partial Class EMI_DownPayment_Binding
         Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "EMI_BInding_Pembayaran_PO"
+        Me.Name = "EMI_DownPayment_Binding"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()

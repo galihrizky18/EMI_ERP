@@ -70,9 +70,9 @@
             SQL = SQL & "and a.Kode_Barang='" & Txt_KdBarang.Text & "' "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
-                    Emi_Selisih_Barang_Masuk2.Dgv_DetailBarang.CurrentRow.Cells(13).Value = Dr("Tgl_Produksi_Real")
-                    Emi_Selisih_Barang_Masuk2.Dgv_DetailBarang.CurrentRow.Cells(14).Value = Dr("Tgl_Expired_Real")
-                    Emi_Selisih_Barang_Masuk2.Dgv_DetailBarang.CurrentRow.Cells(15).Value = Dr("Serial_Number")
+                    'Emi_Selisih_Barang_Masuk2.Dgv_DetailBarang.CurrentRow.Cells(13).Value = Dr("Tgl_Produksi_Real")
+                    'Emi_Selisih_Barang_Masuk2.Dgv_DetailBarang.CurrentRow.Cells(14).Value = Dr("Tgl_Expired_Real")
+                    'Emi_Selisih_Barang_Masuk2.Dgv_DetailBarang.CurrentRow.Cells(15).Value = Dr("Serial_Number")
                 Loop
             End Using
 

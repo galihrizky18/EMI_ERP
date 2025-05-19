@@ -1,8 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-
-Public Class EMI_Pembelian_PO_Summary_Data
+﻿Public Class EMI_Pembelian_PO_Summary_Data
 
     Dim Arr1, Arr2, Arr3, Arr4 As New ArrayList
     Dim pertama As Integer = 1
@@ -58,15 +54,28 @@ Public Class EMI_Pembelian_PO_Summary_Data
         Lv_PO.View = View.Details
 
         Lv_PODetail.Items.Clear()
-        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_KodeBarang, 120, HorizontalAlignment.Left) '
-        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_NamaBarang, 250, HorizontalAlignment.Left) '
-        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Jumlah, 130, HorizontalAlignment.Right) '
-        Lv_PODetail.Columns.Add("Jumlah Masuk", 130, HorizontalAlignment.Right)
-        Lv_PODetail.Columns.Add("Sisa", 130, HorizontalAlignment.Right)
-        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Satuan, 80, HorizontalAlignment.Center)
-        Lv_PODetail.Columns.Add("%Complete", 130, HorizontalAlignment.Center)
-        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Harga, 130, HorizontalAlignment.Right) '
+        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_KodeBarang, 120, HorizontalAlignment.Left) '0
+        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_NamaBarang, 250, HorizontalAlignment.Left) '1
+        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Jumlah, 130, HorizontalAlignment.Right) '2
+        Lv_PODetail.Columns.Add("Jumlah Masuk", 130, HorizontalAlignment.Right) '3
+        Lv_PODetail.Columns.Add("Sisa", 130, HorizontalAlignment.Right) '4
+        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Satuan, 80, HorizontalAlignment.Center) '5
+        Lv_PODetail.Columns.Add("%Complete", 130, HorizontalAlignment.Center) '6
+        Lv_PODetail.Columns.Add(Base_Language.Lang_Global_Harga, 130, HorizontalAlignment.Right) '7
+        Lv_PODetail.Columns.Add("NoFakPO", 0, HorizontalAlignment.Right) '8
+        Lv_PODetail.Columns.Add("UrutPO", 0, HorizontalAlignment.Right) '9
+        Lv_PODetail.Columns.Add("NOPenawaran", 0, HorizontalAlignment.Right) '10
         Lv_PODetail.View = View.Details
+
+
+        Lv_DataLoading.Columns.Clear()
+        Lv_DataLoading.Columns.Add("No Loading", 140, HorizontalAlignment.Left)
+        Lv_DataLoading.Columns.Add("Tanggal", 130, HorizontalAlignment.Center)
+        Lv_DataLoading.Columns.Add("Lokasi", 150, HorizontalAlignment.Center)
+        Lv_DataLoading.Columns.Add("Kd Barang", 130, HorizontalAlignment.Left)
+        Lv_DataLoading.Columns.Add("Jumlah", 180, HorizontalAlignment.Right)
+        Lv_DataLoading.Columns.Add("Satuan", 100, HorizontalAlignment.Center)
+        Lv_DataLoading.View = View.Details
 
         Try
             OpenConn()
@@ -152,7 +161,7 @@ Public Class EMI_Pembelian_PO_Summary_Data
     Private Sub ListView1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lv_PO.SelectedIndexChanged
         Try
             OpenConn()
-            Lv_PODetail.Items.Clear()
+            Lv_PODetail.Items.Clear() : Lv_DataLoading.Items.Clear()
             'If ListView1.FocusedItem.SubItems(8).Text = "Y" Then
             '    SQL = "select a.Kode_Stock_Owner,a.Kode_Barang,b.Nama,a.jumlah,a.Satuan,a.Nilai_Pengali,a.Satuan_Barang,a.Nilai_Barang, "
             '    SQL = SQL & "a.Tgl_Produksi,a.Tgl_Expired from EMI_Pembelian_Barang_Masuk_Detail a, barang b "
@@ -174,35 +183,24 @@ Public Class EMI_Pembelian_PO_Summary_Data
             'SQL = "select a.kode_stock_owner, a.Kode_Barang,b.Nama,a.jumlah,a.jumlah_masuk, a.Satuan,a.Harga,a.Satuan,a.Nilai_Barang "
             'SQL = SQL & ""
             SQL = "select a.kode_stock_owner, a.Kode_Barang,b.Nama,a.harga, a.jumlah,  "
-            SQL = SQL & "isnull(( "
-            SQL = SQL & "select ( "
-            SQL = SQL & "dbo.ubah_satuan(z.Kode_Perusahaan, 'masa', z.Kode_Barang, z.Satuan_Barang, 'KG', sum(z.Jumlah_Masuk)) "
-            SQL = SQL & ") from EMI_Pembelian_Loading_detail z where a.Kode_Perusahaan = z.Kode_Perusahaan and a.No_Faktur = z.No_PO "
-            SQL = SQL & "and a.Kode_Stock_Owner = z.Kode_Stock_Owner and a.Kode_Barang  = z.Kode_Barang "
-            SQL = SQL & "group by z.Kode_Perusahaan, z.Kode_Barang, z.Satuan_Barang "
-            SQL = SQL & "), 0) as jumlah_masuk, "
-            SQL = SQL & "a.Satuan, "
-            SQL = SQL & "(a.jumlah - "
-            SQL = SQL & "isnull(( "
-            SQL = SQL & "select ( "
-            SQL = SQL & "dbo.ubah_satuan(z.Kode_Perusahaan, 'masa', z.Kode_Barang, z.Satuan_Barang, 'KG', sum(z.Jumlah_Masuk)) "
-            SQL = SQL & ") from EMI_Pembelian_Loading_detail z where a.Kode_Perusahaan = z.Kode_Perusahaan and a.No_Faktur = z.No_PO "
-            SQL = SQL & "and a.Kode_Stock_Owner = z.Kode_Stock_Owner and a.Kode_Barang  = z.Kode_Barang "
-            SQL = SQL & "group by z.Kode_Perusahaan, z.Kode_Barang, z.Satuan_Barang ), 0) "
-            SQL = SQL & ") as sisa, "
-            SQL = SQL & "CASE WHEN isnull(( select ("
-            SQL = SQL & "dbo.ubah_satuan(z.Kode_Perusahaan, 'masa', z.Kode_Barang, z.Satuan_Barang, 'KG', sum(z.Jumlah_Masuk)) "
-            SQL = SQL & ") from EMI_Pembelian_Loading_detail z where a.Kode_Perusahaan = z.Kode_Perusahaan and a.No_Faktur = z.No_PO "
-            SQL = SQL & "and a.Kode_Stock_Owner = z.Kode_Stock_Owner and a.Kode_Barang  = z.Kode_Barang "
-            SQL = SQL & "group by z.Kode_Perusahaan, z.Kode_Barang, z.Satuan_Barang "
-            SQL = SQL & "), 0) = 0 THEN 0 "
-            SQL = SQL & "ELSE ROUND(( "
-            SQL = SQL & "(a.jumlah / isnull(( select ( "
-            SQL = SQL & "dbo.ubah_satuan(z.Kode_Perusahaan, 'masa', z.Kode_Barang, z.Satuan_Barang, 'KG', sum(z.Jumlah_Masuk)) "
-            SQL = SQL & ") from EMI_Pembelian_Loading_detail z where a.Kode_Perusahaan = z.Kode_Perusahaan and a.No_Faktur = z.No_PO "
-            SQL = SQL & "and a.Kode_Stock_Owner = z.Kode_Stock_Owner and a.Kode_Barang  = z.Kode_Barang "
-            SQL = SQL & "group by z.Kode_Perusahaan, z.Kode_Barang, z.Satuan_Barang ), 0) ) * 100), 2) "
-            SQL = SQL & "END as percentComplete "
+
+            SQL = SQL & "isnull((  select (   sum(z.Jumlah_Masuk) ) from EMI_Pembelian_Loading_detail z, emi_pembelian_loading y where a.Kode_Perusahaan = z.Kode_Perusahaan "
+            SQL = SQL & "And a.No_Faktur = z.No_PO  And a.Kode_Stock_Owner = z.Kode_Stock_Owner And a.Kode_Barang  = z.Kode_Barang And z.no_faktur=y.no_faktur "
+            SQL = SQL & "And y.status Is null And z.Urut_PO=a.No_Urut "
+            SQL = SQL & "group by z.Kode_Perusahaan, z.Kode_Barang, z.Satuan_Barang  ), 0) as jumlah_masuk, "
+
+            SQL = SQL & "a.Satuan, (a.jumlah - isnull((  select (  sum(z.Jumlah_Masuk)) from EMI_Pembelian_Loading_detail z, emi_pembelian_loading y "
+            SQL = SQL & "where a.Kode_Perusahaan = z.Kode_Perusahaan And a.No_Faktur = z.No_PO And a.Kode_Stock_Owner = z.Kode_Stock_Owner And a.Kode_Barang = z.Kode_Barang "
+            SQL = SQL & "And z.no_faktur=y.no_faktur And y.status Is null And z.Urut_PO=a.No_Urut "
+            SQL = SQL & "group by z.Kode_Perusahaan, z.Kode_Barang, z.Satuan_Barang ), 0)  ) as sisa, "
+
+            SQL = SQL & "round((isnull((  select  sum(z.Jumlah_Masuk)   from EMI_Pembelian_Loading_detail z, emi_pembelian_loading y "
+            SQL = SQL & "where a.Kode_Perusahaan = z.Kode_Perusahaan And a.No_Faktur = z.No_PO And a.Kode_Stock_Owner = z.Kode_Stock_Owner And "
+            SQL = SQL & "a.Kode_Barang = z.Kode_Barang And z.no_faktur = y.no_faktur And y.status Is null And z.Urut_PO = a.No_Urut "
+            SQL = SQL & "group by z.Kode_Perusahaan, z.Kode_Barang, z.Satuan_Barang  ), 0) / a.jumlah) * 100,2) as percentComplete, "
+
+            SQL = SQL & "a.No_Faktur, a.No_Urut, a.No_Penawaran "
+
             SQL = SQL & "From EMI_Pembelian_PO_Detail a, barang b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
             SQL = SQL & "and  a.Kode_Stock_Owner = b.Kode_Stock_Owner "
@@ -220,12 +218,27 @@ Public Class EMI_Pembelian_PO_Summary_Data
                     lvw.SubItems.Add(Dr("satuan"))
                     lvw.SubItems.Add(Format(Dr("percentComplete"), "N1") & " %")
                     lvw.SubItems.Add(Format(Dr("harga"), "N2"))
+                    lvw.SubItems.Add(Dr("No_Faktur"))
+                    lvw.SubItems.Add(Dr("No_Urut"))
+                    lvw.SubItems.Add(Dr("No_Penawaran"))
                     'lvw.SubItems.Add(Format(Dr("nilai_barang"), "N0"))
                     'lvw.SubItems.Add(Format(Dr("nilai_barang"), "N0"))
                     'lvw.SubItems.Add(Format(Dr("tgl_produksi"), "dd MMM yyyy"))
                     'lvw.SubItems.Add(Format(Dr("tgl_expired"), "dd MMM yyyy"))
+
+
                 Loop
             End Using
+
+
+
+
+
+
+
+
+
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -275,16 +288,17 @@ Public Class EMI_Pembelian_PO_Summary_Data
 
             Lv_PO.Items.Clear()
             Lv_PODetail.Items.Clear()
+            Lv_DataLoading.Items.Clear()
 
             'SQL = "select a.No_Faktur,a.No_Nota,ETD_Simulasi,b.kode_supplier, b.Nama,a.Jenis_Pembayaran,a.Tgl_Jatuh_Tempo,a.Cara_Bayar,"
             'SQL = SQL & "a.Tgl_Jatuh_Tempo,a.Total_mua,a.Total_IDR,a.Mata_Uang,PPN,Grand,ETD_Simulasi, a.flag_release "
             'SQL = SQL & "from EMI_Pembelian_PO a, Suppliers b  "
             'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Supplier = b.Kode_Supplier "
             'SQL = SQL & "and a.Status is null "
-            SQL = "select a.No_Faktur,b.kode_supplier,b.Nama,a.tanggal,a.tanggal_release, a.ETD_Simulasi, a.userid, Flag_Release "
+            SQL = "select a.No_Faktur,b.kode_supplier,b.Nama,a.tanggal,a.tanggal_release, a.ETD_Simulasi, a.userid, a.Flag_Release, a.Status, a.Flag_Selesai_PO "
             SQL = SQL & "from EMI_Pembelian_PO a, Suppliers b  "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Supplier = b.Kode_Supplier "
-            SQL = SQL & "and a.Status is null "
+            'SQL = SQL & "and a.Status is null "
 
             If CheckBox4.Checked Then
                 'Pasang And
@@ -330,7 +344,7 @@ Public Class EMI_Pembelian_PO_Summary_Data
                 SQL = SQL & " and a.Lokasi = '" & ComboBox6.Text & "' "
             End If
 
-            SQL = SQL & "order by a.tanggal , a.jam"
+            SQL = SQL & "order by a.No_Faktur, a.tanggal , a.jam"
 
             Dim Lvw As ListViewItem
 
@@ -384,6 +398,17 @@ Public Class EMI_Pembelian_PO_Summary_Data
                                 Lvw.SubItems.Add("UNSUBMITTED")
                             End If
                             Lvw.SubItems.Add(.Rows(i).Item("userid"))
+
+
+                            If General_Class.CekNULL(.Rows(i).Item("Flag_Selesai_PO")) = "Y" Then
+                                Lvw.BackColor = Color.FromArgb(0, 128, 0)
+                                Lvw.ForeColor = Color.White
+                            End If
+
+                            If General_Class.CekNULL(.Rows(i).Item("Status")) <> "" Then
+                                Lvw.BackColor = Color.FromArgb(139, 0, 0)
+                                Lvw.ForeColor = Color.White
+                            End If
                         Next
                     End If
                 End With
@@ -413,7 +438,7 @@ Public Class EMI_Pembelian_PO_Summary_Data
             '==================================
             '=     UPDATE JUMLAH CETAK PO     =
             '==================================
-            SQL = "update EMI_Pembelian_PO set Jumlah_Print = Jumlah_Print + 1 where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & Lv_PO.FocusedItem.Text & "'"
+            SQL = "update EMI_Pembelian_PO set Jumlah_Print = isnull(Jumlah_Print,0) + 1 where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & Lv_PO.FocusedItem.Text & "'"
             ExecuteTrans(SQL)
 
 
@@ -428,23 +453,19 @@ Public Class EMI_Pembelian_PO_Summary_Data
         Try
             OpenConn()
 
-            SQL = "select a.No_Faktur "
-            SQL = SQL & "from EMI_Pembelian_PO a, EMI_Pembelian_PO_Detail b, barang c, suppliers d "
-            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Perusahaan = d.Kode_Perusahaan "
-            SQL = SQL & "and a.No_Faktur = b.No_Faktur "
-            SQL = SQL & "and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
-            SQL = SQL & "and a.Kode_Supplier = d.Kode_Supplier "
-            SQL = SQL & "and a.Kode_Perusahaan ='" & KodePerusahaan & "' "
-            SQL = SQL & "and a.No_Faktur='" & Lv_PO.FocusedItem.Text & "' "
+            SQL = "select Kode_Perusahaan, No_Faktur from View_Laporan_PO2 "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and No_Faktur = '" & Lv_PO.FocusedItem.Text & "' "
+
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
                     With Ds.Tables(0)
-                        Dim CrDoc As New Faktur_Purchase_Order
+                        Dim CrDoc As New Faktur_Purchase_Order2
                         With A_Place_For_Printing2
                             CrDoc.SetDataSource(Ds)
                             CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                             CrDoc.SummaryInfo.ReportTitle = "Laporan Faktur Purchase Order"
-                            CrDoc.RecordSelectionFormula = " {EMI_Pembelian_PO.Kode_Perusahaan} = '" & KodePerusahaan & "' and {EMI_Pembelian_PO.No_Faktur} = '" & Ds.Tables("MyTable").Rows(0).Item("No_Faktur") & "'"
+                            CrDoc.RecordSelectionFormula = " {View_Laporan_PO2.Kode_Perusahaan} = '" & KodePerusahaan & "' and {View_Laporan_PO2.No_Faktur} = '" & Ds.Tables("MyTable").Rows(0).Item("No_Faktur") & "'"
 
                             .Text = "Laporan Faktur Purchase Order"
                             .CrystalReportViewer1.ReportSource = CrDoc
@@ -477,8 +498,19 @@ Public Class EMI_Pembelian_PO_Summary_Data
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
 
+            If CekButtonRole("Pembatalan_PO") = "T" Then
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("Anda Tidak Memiliki Akses Untuk Pembatalan PO", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
             Dim tanya As String = MessageBox.Show("Yakin akan membatalkan Purhcase Order ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If tanya = vbNo Then Exit Sub
+            If tanya = vbNo Then
+                CloseTrans()
+                CloseConn()
+                Exit Sub
+            End If
 
             SQL = "select Status from EMI_Pembelian_PO where Kode_Perusahaan = '" & KodePerusahaan & "' and "
             SQL = SQL & "No_Faktur = '" & Lv_PO.FocusedItem.Text & "' "
@@ -519,32 +551,15 @@ Public Class EMI_Pembelian_PO_Summary_Data
             End Using
 
 
-            SQL = "Select No_Urut_PR from "
-            SQL = SQL & "emi_pembelian_po_det where "
-            SQL = SQL & "Kode_Perusahaan='" & KodePerusahaan & "' and "
-            SQL = SQL & "no_faktur='" & Lv_PO.FocusedItem.Text & "' "
-            Using ds = BindingTrans(SQL)
-                With ds.Tables("MyTable")
-                    For index = 0 To .Rows.Count - 1
-
-                        SQL = "Update EMI_Purchase_Requisition_Detail set Flag_Sudah_PO = null where "
-                        SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and "
-                        SQL = SQL & "No_Urut = '" & .Rows(index).Item("No_Urut_PR") & "' "
-                        ExecuteTrans(SQL)
-
-                    Next
-                End With
-            End Using
-
-
             SQL = "Update EMI_Pembelian_PO set Status = 'Y' where "
             SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and "
             SQL = SQL & "No_Faktur = '" & Lv_PO.FocusedItem.Text & "' "
             ExecuteTrans(SQL)
 
             Cmd.Transaction.Commit()
-            MessageBox.Show("Purhcase Order berhasil dibatalkan.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            CloseTrans()
             CloseConn()
+            MessageBox.Show("Purhcase Order berhasil dibatalkan.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
             CloseConn()
             MessageBox.Show(ex.Message)
@@ -565,6 +580,8 @@ Public Class EMI_Pembelian_PO_Summary_Data
         'EMI_Barang_Masuk_Display_Rak.ShowDialog()
     End Sub
 
+
+
     Private Sub CheckBox4_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox4.CheckedChanged
         If CheckBox4.Checked Then
             ComboBox1.Enabled = True
@@ -573,6 +590,8 @@ Public Class EMI_Pembelian_PO_Summary_Data
             ComboBox1.SelectedIndex = -1
         End If
     End Sub
+
+
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
         If CheckBox1.Checked Then
@@ -820,4 +839,196 @@ Public Class EMI_Pembelian_PO_Summary_Data
     ''Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs)
 
     ''End Sub
+
+    Private Sub Lv_PODetail_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lv_PODetail.SelectedIndexChanged
+        If Lv_PODetail.Items.Count = 0 Or Lv_PODetail.FocusedItem.Index = -1 Then Exit Sub
+
+        Try
+            OpenConn()
+
+
+            Lv_DataLoading.Items.Clear()
+            SQL = "select a.No_Faktur, d.No_Faktur as No_Loading, d.Tanggal, c.Kode_Stock_Owner, c.Kode_Barang, SUM(c.Jumlah) as Jumlah, c.Satuan, d.Status, b.No_Urut "
+            SQL = SQL & "from EMI_Pembelian_PO a, EMI_Pembelian_PO_Detail b, EMI_Pembelian_Loading_detail c, EMI_Pembelian_Loading d "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan "
+            SQL = SQL & "and a.No_Faktur = b.No_Faktur and b.No_Faktur = c.No_PO and b.No_Urut = c.Urut_PO and c.No_Faktur = d.No_Faktur "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.No_Faktur = '" & Lv_PODetail.FocusedItem.SubItems(8).Text & "' "
+            SQL = SQL & "and c.Urut_PO = '" & Lv_PODetail.FocusedItem.SubItems(9).Text & "' "
+            SQL = SQL & "and b.No_Penawaran = '" & Lv_PODetail.FocusedItem.SubItems(10).Text & "' "
+            SQL = SQL & "group by a.No_Faktur, d.No_Faktur, d.Tanggal, c.Kode_Stock_Owner, c.Kode_Barang, c.Satuan, d.Status, b.No_Urut"
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Dim Lv As ListViewItem
+                    Lv = Lv_DataLoading.Items.Add(Dr("No_Loading"))
+                    Lv.SubItems.Add(Format(Dr("Tanggal"), "dd MMM yyyy"))
+                    Lv.SubItems.Add(Dr("Kode_Stock_Owner"))
+                    Lv.SubItems.Add(Dr("Kode_Barang"))
+                    Lv.SubItems.Add(Format(Dr("Jumlah"), "N2"))
+                    Lv.SubItems.Add(Dr("Satuan"))
+
+                    If General_Class.CekNULL(Dr("Status")) <> "" Then
+                        Lv.BackColor = Color.FromArgb(139, 0, 0)
+                        Lv.ForeColor = Color.White
+                    End If
+
+                Loop
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+
+    Private Sub SelesaiToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SelesaiToolStripMenuItem.Click
+        If Lv_PO.Items.Count = 0 Or Lv_PO.SelectedItems.Count = 0 Then
+            Exit Sub
+        End If
+
+
+        get_jam()
+
+        Try
+            OpenConn()
+            Cmd.Transaction = Cn.BeginTransaction
+
+            If CekButtonRole("Penyelesaian_SubPO") = "T" Then
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("Anda Tidak Memiliki Akses Untuk Penyelesaian PO", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
+            Dim tanya As String = MessageBox.Show("Yakin Ingin Menyelesaikan Purhcase Order ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If tanya = vbNo Then
+                CloseTrans()
+                CloseConn()
+                Exit Sub
+            End If
+
+
+            '=======================================
+            '=     CEK APAKAH PO SUDAH SELESAI     =
+            '=======================================
+            SQL = "select Flag_Selesai_PO from EMI_Pembelian_PO "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & Lv_PO.FocusedItem.Text & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Flag_Selesai_PO")) = "Y" Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("PO Sudah Selesai, Tidak Bisa Diselesaikan Lagi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Data PO Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            '================================
+            '=     CEK VALIDASI LOADING     =
+            '================================
+            Dim hasData As Boolean = False
+            SQL = "select distinct a.No_Faktur, b.No_PO, a.Flag_Selisih_BM "
+            SQL = SQL & "from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_Detail b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+            SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+            SQL = SQL & "and a.status is null "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and b.No_PO = '" & Lv_PO.FocusedItem.Text & "'"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    hasData = True
+                Else
+                    hasData = False
+                End If
+            End Using
+
+            If hasData Then
+                SQL = "select distinct a.No_Faktur, b.No_PO, a.Flag_Selisih_BM "
+                SQL = SQL & "from EMI_Pembelian_Loading a, EMI_Pembelian_Loading_Detail b "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+                SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+                SQL = SQL & "and a.status is null "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and b.No_PO = '" & Lv_PO.FocusedItem.Text & "'"
+                SQL = SQL & "and a.Flag_Selisih_BM is null"
+                Using Ds = BindingTrans(SQL)
+                    With Ds.Tables("MyTable")
+                        If .Rows.Count = 0 Then
+
+                            '================================
+                            '=     CEK SELISIH BM DI PO     =
+                            '================================
+                            SQL = "select Flag_Selisih_BM from EMI_Pembelian_PO "
+                            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                            SQL = SQL & "and No_Faktur = '" & Lv_PO.FocusedItem.Text & "' "
+                            Using Ds1 = BindingTrans(SQL)
+                                If Ds1.Tables("MyTable").Rows.Count <> 0 Then
+
+                                    If General_Class.CekNULL(Ds1.Tables("MyTable").Rows(0).Item("Flag_Selisih_BM")) = "" Then
+                                        '=====================================
+                                        '=     UPDATE FLAG SELISIH BM PO     =
+                                        '=====================================
+                                        SQL = "update EMI_Pembelian_PO set Flag_Selisih_BM = 'Y' "
+                                        SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                        SQL = SQL & "and No_Faktur = '" & Lv_PO.FocusedItem.Text & "' "
+                                        SQL = SQL & "and Flag_Selisih_BM is null "
+                                        ExecuteTrans(SQL)
+
+                                    Else
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("PO Tidak Bisa diselesaikan, Harap Hubungi tim IT", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+
+                                Else
+                                    CloseTrans()
+                                    CloseConn()
+                                    MessageBox.Show("Terjadi Kesahalahan, Harap Hubungi tim IT", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End Using
+
+
+                        End If
+                    End With
+                End Using
+            End If
+
+            '==================================
+            '=     UPDATE FLAG SELESAI PO     =
+            '==================================
+            SQL = "update EMI_Pembelian_PO set Flag_Selesai_PO = 'Y', UserID_Selesai = '" & UserID & "', "
+            SQL = SQL & "Tanggal_Selesai = '" & Format(tgl_skg, "yyyy-MM-dd") & "', Jam_Selesai = '" & Format(tgl_skg, "HH:mm:ss") & "'  "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & Lv_PO.FocusedItem.Text & "' and Flag_Selesai_PO is null"
+            ExecuteTrans(SQL)
+
+
+            Cmd.Transaction.Commit()
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show("PO Berhasil Diselesaikan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
+        BtnBarangMasuk_Cari_Click(BatalToolStripMenuItem, e)
+
+    End Sub
+
 End Class

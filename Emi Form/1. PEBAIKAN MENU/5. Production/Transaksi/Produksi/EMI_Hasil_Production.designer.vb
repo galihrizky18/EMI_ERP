@@ -24,12 +24,12 @@ Partial Class EMI_Hasil_Production
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -64,6 +64,11 @@ Partial Class EMI_Hasil_Production
         Me.Txt_QtyHslProduksi = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Dgv_HslProduction = New System.Windows.Forms.DataGridView()
+        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.HslNilaiProduksi = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Satuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.BtnFormulator_Refresh = New System.Windows.Forms.Button()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
@@ -73,16 +78,13 @@ Partial Class EMI_Hasil_Production
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.Dgv_Hasil_Production_Packaging = New System.Windows.Forms.DataGridView()
-        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.HslNilaiProduksi = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Satuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Txt_QtyScrap = New System.Windows.Forms.TextBox()
         Me.Panel1.SuspendLayout()
         CType(Me.Dgv_HslProduction, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControl1.SuspendLayout()
@@ -245,10 +247,10 @@ Partial Class EMI_Hasil_Production
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(20, 171)
+        Me.Panel6.Location = New System.Drawing.Point(20, 196)
         Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel6.Name = "Panel6"
-        Me.Panel6.Size = New System.Drawing.Size(1053, 15)
+        Me.Panel6.Size = New System.Drawing.Size(1053, 11)
         Me.Panel6.TabIndex = 36
         Me.Panel6.Visible = False
         '
@@ -257,7 +259,7 @@ Partial Class EMI_Hasil_Production
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Simpan.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(20, 536)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(20, 537)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(84, 36)
         Me.Btn_Simpan.TabIndex = 10
@@ -267,7 +269,7 @@ Partial Class EMI_Hasil_Production
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(5, 572)
+        Me.Panel7.Location = New System.Drawing.Point(5, 579)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(1087, 12)
@@ -349,7 +351,7 @@ Partial Class EMI_Hasil_Production
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(20, 521)
+        Me.Panel4.Location = New System.Drawing.Point(20, 528)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1072, 12)
@@ -434,7 +436,7 @@ Partial Class EMI_Hasil_Production
         Me.Dgv_HslProduction.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.Dgv_HslProduction.ColumnHeadersHeight = 45
         Me.Dgv_HslProduction.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column2, Me.Column1, Me.DataGridViewTextBoxColumn2, Me.HslNilaiProduksi, Me.Satuan})
-        Me.Dgv_HslProduction.Location = New System.Drawing.Point(3, 0)
+        Me.Dgv_HslProduction.Location = New System.Drawing.Point(3, -1)
         Me.Dgv_HslProduction.Name = "Dgv_HslProduction"
         Me.Dgv_HslProduction.RowHeadersWidth = 21
         DataGridViewCellStyle6.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -443,12 +445,60 @@ Partial Class EMI_Hasil_Production
         Me.Dgv_HslProduction.Size = New System.Drawing.Size(992, 282)
         Me.Dgv_HslProduction.TabIndex = 9
         '
+        'Column2
+        '
+        Me.Column2.HeaderText = "Kode SO"
+        Me.Column2.Name = "Column2"
+        Me.Column2.ReadOnly = True
+        Me.Column2.Visible = False
+        Me.Column2.Width = 5
+        '
+        'Column1
+        '
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column1.DefaultCellStyle = DataGridViewCellStyle2
+        Me.Column1.HeaderText = "Kode Bahan"
+        Me.Column1.Name = "Column1"
+        Me.Column1.ReadOnly = True
+        Me.Column1.Width = 380
+        '
+        'DataGridViewTextBoxColumn2
+        '
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle3
+        Me.DataGridViewTextBoxColumn2.HeaderText = "Nilai Formula"
+        Me.DataGridViewTextBoxColumn2.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
+        Me.DataGridViewTextBoxColumn2.ReadOnly = True
+        Me.DataGridViewTextBoxColumn2.Visible = False
+        Me.DataGridViewTextBoxColumn2.Width = 210
+        '
+        'HslNilaiProduksi
+        '
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.HslNilaiProduksi.DefaultCellStyle = DataGridViewCellStyle4
+        Me.HslNilaiProduksi.HeaderText = "Hasil Nilai Produksi"
+        Me.HslNilaiProduksi.MinimumWidth = 6
+        Me.HslNilaiProduksi.Name = "HslNilaiProduksi"
+        Me.HslNilaiProduksi.ReadOnly = True
+        Me.HslNilaiProduksi.Width = 420
+        '
+        'Satuan
+        '
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Satuan.DefaultCellStyle = DataGridViewCellStyle5
+        Me.Satuan.HeaderText = "Satuan"
+        Me.Satuan.MinimumWidth = 6
+        Me.Satuan.Name = "Satuan"
+        Me.Satuan.ReadOnly = True
+        Me.Satuan.Width = 160
+        '
         'BtnFormulator_Refresh
         '
         Me.BtnFormulator_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnFormulator_Refresh.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnFormulator_Refresh.ForeColor = System.Drawing.Color.White
-        Me.BtnFormulator_Refresh.Location = New System.Drawing.Point(108, 536)
+        Me.BtnFormulator_Refresh.Location = New System.Drawing.Point(108, 539)
         Me.BtnFormulator_Refresh.Name = "BtnFormulator_Refresh"
         Me.BtnFormulator_Refresh.Size = New System.Drawing.Size(84, 36)
         Me.BtnFormulator_Refresh.TabIndex = 11
@@ -505,7 +555,7 @@ Partial Class EMI_Hasil_Production
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Location = New System.Drawing.Point(19, 189)
+        Me.TabControl1.Location = New System.Drawing.Point(19, 207)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(999, 325)
@@ -559,53 +609,6 @@ Partial Class EMI_Hasil_Production
         Me.Dgv_Hasil_Production_Packaging.Size = New System.Drawing.Size(992, 282)
         Me.Dgv_Hasil_Production_Packaging.TabIndex = 10
         '
-        'Column2
-        '
-        Me.Column2.HeaderText = "Kode SO"
-        Me.Column2.Name = "Column2"
-        Me.Column2.ReadOnly = True
-        Me.Column2.Visible = False
-        Me.Column2.Width = 5
-        '
-        'Column1
-        '
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column1.DefaultCellStyle = DataGridViewCellStyle2
-        Me.Column1.HeaderText = "Kode Bahan"
-        Me.Column1.Name = "Column1"
-        Me.Column1.ReadOnly = True
-        Me.Column1.Width = 380
-        '
-        'DataGridViewTextBoxColumn2
-        '
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle3
-        Me.DataGridViewTextBoxColumn2.HeaderText = "Nilai Formula"
-        Me.DataGridViewTextBoxColumn2.MinimumWidth = 6
-        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
-        Me.DataGridViewTextBoxColumn2.ReadOnly = True
-        Me.DataGridViewTextBoxColumn2.Width = 210
-        '
-        'HslNilaiProduksi
-        '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.HslNilaiProduksi.DefaultCellStyle = DataGridViewCellStyle4
-        Me.HslNilaiProduksi.HeaderText = "Hasil Nilai Produksi"
-        Me.HslNilaiProduksi.MinimumWidth = 6
-        Me.HslNilaiProduksi.Name = "HslNilaiProduksi"
-        Me.HslNilaiProduksi.ReadOnly = True
-        Me.HslNilaiProduksi.Width = 210
-        '
-        'Satuan
-        '
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Satuan.DefaultCellStyle = DataGridViewCellStyle5
-        Me.Satuan.HeaderText = "Satuan"
-        Me.Satuan.MinimumWidth = 6
-        Me.Satuan.Name = "Satuan"
-        Me.Satuan.ReadOnly = True
-        Me.Satuan.Width = 160
-        '
         'DataGridViewTextBoxColumn3
         '
         Me.DataGridViewTextBoxColumn3.HeaderText = "Kode SO"
@@ -631,6 +634,7 @@ Partial Class EMI_Hasil_Production
         Me.DataGridViewTextBoxColumn6.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn6.Name = "DataGridViewTextBoxColumn6"
         Me.DataGridViewTextBoxColumn6.ReadOnly = True
+        Me.DataGridViewTextBoxColumn6.Visible = False
         Me.DataGridViewTextBoxColumn6.Width = 210
         '
         'DataGridViewTextBoxColumn7
@@ -641,7 +645,7 @@ Partial Class EMI_Hasil_Production
         Me.DataGridViewTextBoxColumn7.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn7.Name = "DataGridViewTextBoxColumn7"
         Me.DataGridViewTextBoxColumn7.ReadOnly = True
-        Me.DataGridViewTextBoxColumn7.Width = 210
+        Me.DataGridViewTextBoxColumn7.Width = 420
         '
         'DataGridViewTextBoxColumn8
         '
@@ -653,18 +657,43 @@ Partial Class EMI_Hasil_Production
         Me.DataGridViewTextBoxColumn8.ReadOnly = True
         Me.DataGridViewTextBoxColumn8.Width = 160
         '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label10.Location = New System.Drawing.Point(374, 172)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(77, 20)
+        Me.Label10.TabIndex = 393
+        Me.Label10.Text = "Qty Scrap"
+        '
+        'Txt_QtyScrap
+        '
+        Me.Txt_QtyScrap.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_QtyScrap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_QtyScrap.Enabled = False
+        Me.Txt_QtyScrap.Font = New System.Drawing.Font("Work Sans", 8.999999!)
+        Me.Txt_QtyScrap.Location = New System.Drawing.Point(534, 171)
+        Me.Txt_QtyScrap.MaxLength = 50
+        Me.Txt_QtyScrap.Name = "Txt_QtyScrap"
+        Me.Txt_QtyScrap.Size = New System.Drawing.Size(165, 22)
+        Me.Txt_QtyScrap.TabIndex = 6
+        Me.Txt_QtyScrap.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
         'EMI_Hasil_Production
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1041, 583)
+        Me.ClientSize = New System.Drawing.Size(1041, 592)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Txt_QtyBadStock)
         Me.Controls.Add(Me.Txt_QtyGoodStock)
         Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.BtnFormulator_Refresh)
+        Me.Controls.Add(Me.Txt_QtyScrap)
+        Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.Txt_QtyHslProduksi)
         Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.TextBox2)
@@ -757,4 +786,6 @@ Partial Class EMI_Hasil_Production
     Friend WithEvents DataGridViewTextBoxColumn6 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn7 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn8 As DataGridViewTextBoxColumn
+    Friend WithEvents Label10 As Label
+    Friend WithEvents Txt_QtyScrap As TextBox
 End Class

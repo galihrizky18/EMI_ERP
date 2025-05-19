@@ -683,6 +683,10 @@ Public Class Master_Media_Kirim
         Get_Satuan_Volume()
     End Sub
 
+    Private Sub Cmb_CaraKirim_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_CaraKirim.SelectedIndexChanged
+
+    End Sub
+
     Private Sub ListView_MediaKirim_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListView_MediaKirim.SelectedIndexChanged
 
     End Sub

@@ -24,6 +24,7 @@ Partial Class EMI_Produksi
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Panel8 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -64,7 +65,11 @@ Partial Class EMI_Produksi
         Me.TxtQtyPO_Satuan = New System.Windows.Forms.TextBox()
         Me.TxtQtyProduksi_Satuan = New System.Windows.Forms.TextBox()
         Me.Btn_Refresh = New System.Windows.Forms.Button()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.Txt_JumlahBatch = New System.Windows.Forms.TextBox()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Txt_QtyBatch = New System.Windows.Forms.TextBox()
+        Me.Cmb_SatuanBatch = New System.Windows.Forms.ComboBox()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -89,6 +94,19 @@ Partial Class EMI_Produksi
         Me.Panel8.Size = New System.Drawing.Size(19, 489)
         Me.Panel8.TabIndex = 36
         Me.Panel8.Visible = False
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(607, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -177,7 +195,7 @@ Partial Class EMI_Produksi
         Me.Cmb_Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cmb_Operator.FormattingEnabled = True
         Me.Cmb_Operator.Items.AddRange(New Object() {"ZCM-948X", "JBC-0293L"})
-        Me.Cmb_Operator.Location = New System.Drawing.Point(217, 380)
+        Me.Cmb_Operator.Location = New System.Drawing.Point(214, 436)
         Me.Cmb_Operator.Name = "Cmb_Operator"
         Me.Cmb_Operator.Size = New System.Drawing.Size(354, 24)
         Me.Cmb_Operator.TabIndex = 11
@@ -187,7 +205,7 @@ Partial Class EMI_Produksi
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Simpan.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(42, 423)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(41, 477)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(84, 36)
         Me.Btn_Simpan.TabIndex = 12
@@ -197,7 +215,7 @@ Partial Class EMI_Produksi
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(20, 411)
+        Me.Panel7.Location = New System.Drawing.Point(19, 465)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(1072, 12)
@@ -209,7 +227,7 @@ Partial Class EMI_Produksi
         Me.Txt_BatchNo.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_BatchNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_BatchNo.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.Txt_BatchNo.Location = New System.Drawing.Point(217, 352)
+        Me.Txt_BatchNo.Location = New System.Drawing.Point(214, 408)
         Me.Txt_BatchNo.MaxLength = 50
         Me.Txt_BatchNo.Name = "Txt_BatchNo"
         Me.Txt_BatchNo.Size = New System.Drawing.Size(354, 22)
@@ -219,17 +237,17 @@ Partial Class EMI_Produksi
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label4.Location = New System.Drawing.Point(39, 352)
+        Me.Label4.Location = New System.Drawing.Point(36, 408)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(76, 20)
+        Me.Label4.Size = New System.Drawing.Size(86, 20)
         Me.Label4.TabIndex = 385
-        Me.Label4.Text = "Batch No."
+        Me.Label4.Text = "Keterangan"
         '
         'Label5
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label5.Location = New System.Drawing.Point(39, 381)
+        Me.Label5.Location = New System.Drawing.Point(36, 437)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(70, 20)
         Me.Label5.TabIndex = 387
@@ -293,7 +311,7 @@ Partial Class EMI_Produksi
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label11.Location = New System.Drawing.Point(39, 322)
+        Me.Label11.Location = New System.Drawing.Point(36, 378)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(61, 20)
         Me.Label11.TabIndex = 422
@@ -307,7 +325,7 @@ Partial Class EMI_Produksi
         Me.Cmb_Routing.Font = New System.Drawing.Font("Work Sans", 9.0!)
         Me.Cmb_Routing.FormattingEnabled = True
         Me.Cmb_Routing.Items.AddRange(New Object() {"ROUTING 1 (Mixer, Hammer)", "ROUTING 2 (Mixer, Pellet)"})
-        Me.Cmb_Routing.Location = New System.Drawing.Point(218, 320)
+        Me.Cmb_Routing.Location = New System.Drawing.Point(215, 376)
         Me.Cmb_Routing.Name = "Cmb_Routing"
         Me.Cmb_Routing.Size = New System.Drawing.Size(353, 25)
         Me.Cmb_Routing.TabIndex = 9
@@ -345,7 +363,7 @@ Partial Class EMI_Produksi
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(23, 462)
+        Me.Panel6.Location = New System.Drawing.Point(22, 516)
         Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(1072, 12)
@@ -526,37 +544,82 @@ Partial Class EMI_Produksi
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(132, 423)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(131, 477)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(84, 36)
         Me.Btn_Refresh.TabIndex = 439
         Me.Btn_Refresh.Text = "&Refresh"
         Me.Btn_Refresh.UseVisualStyleBackColor = False
         '
-        'PanelGradient1
+        'Label15
         '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(607, 2)
-        Me.PanelGradient1.TabIndex = 22
+        Me.Label15.AutoSize = True
+        Me.Label15.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label15.Location = New System.Drawing.Point(37, 320)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(105, 20)
+        Me.Label15.TabIndex = 395
+        Me.Label15.Text = "Jumlah Batch"
+        '
+        'Txt_JumlahBatch
+        '
+        Me.Txt_JumlahBatch.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_JumlahBatch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_JumlahBatch.Font = New System.Drawing.Font("Work Sans", 8.999999!)
+        Me.Txt_JumlahBatch.Location = New System.Drawing.Point(216, 320)
+        Me.Txt_JumlahBatch.MaxLength = 50
+        Me.Txt_JumlahBatch.Name = "Txt_JumlahBatch"
+        Me.Txt_JumlahBatch.Size = New System.Drawing.Size(256, 22)
+        Me.Txt_JumlahBatch.TabIndex = 8
+        Me.Txt_JumlahBatch.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label16.Location = New System.Drawing.Point(37, 348)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(77, 20)
+        Me.Label16.TabIndex = 395
+        Me.Label16.Text = "Qty Batch"
+        '
+        'Txt_QtyBatch
+        '
+        Me.Txt_QtyBatch.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_QtyBatch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_QtyBatch.Font = New System.Drawing.Font("Work Sans", 8.999999!)
+        Me.Txt_QtyBatch.Location = New System.Drawing.Point(216, 348)
+        Me.Txt_QtyBatch.MaxLength = 50
+        Me.Txt_QtyBatch.Name = "Txt_QtyBatch"
+        Me.Txt_QtyBatch.Size = New System.Drawing.Size(256, 22)
+        Me.Txt_QtyBatch.TabIndex = 8
+        Me.Txt_QtyBatch.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Cmb_SatuanBatch
+        '
+        Me.Cmb_SatuanBatch.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Cmb_SatuanBatch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_SatuanBatch.Enabled = False
+        Me.Cmb_SatuanBatch.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Cmb_SatuanBatch.FormattingEnabled = True
+        Me.Cmb_SatuanBatch.Items.AddRange(New Object() {"ROUTING 1 (Mixer, Hammer)", "ROUTING 2 (Mixer, Pellet)"})
+        Me.Cmb_SatuanBatch.Location = New System.Drawing.Point(479, 346)
+        Me.Cmb_SatuanBatch.Name = "Cmb_SatuanBatch"
+        Me.Cmb_SatuanBatch.Size = New System.Drawing.Size(92, 25)
+        Me.Cmb_SatuanBatch.TabIndex = 434
         '
         'EMI_Produksi
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(607, 476)
+        Me.ClientSize = New System.Drawing.Size(607, 529)
         Me.Controls.Add(Me.Btn_Refresh)
         Me.Controls.Add(Me.TxtQtyProduksi_Satuan)
         Me.Controls.Add(Me.TxtQtyPO_Satuan)
         Me.Controls.Add(Me.Txt_DisplayQtyProd)
         Me.Controls.Add(Me.Txt_DisplayQtyPO)
+        Me.Controls.Add(Me.Cmb_SatuanBatch)
         Me.Controls.Add(Me.Cmb_Satuan)
         Me.Controls.Add(Me.Label14)
         Me.Controls.Add(Me.TextBox1)
@@ -574,6 +637,10 @@ Partial Class EMI_Produksi
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Cmb_Routing)
         Me.Controls.Add(Me.Panel7)
+        Me.Controls.Add(Me.Txt_QtyBatch)
+        Me.Controls.Add(Me.Label16)
+        Me.Controls.Add(Me.Txt_JumlahBatch)
+        Me.Controls.Add(Me.Label15)
         Me.Controls.Add(Me.Txt_Qty)
         Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.Panel5)
@@ -647,4 +714,9 @@ Partial Class EMI_Produksi
     Friend WithEvents TxtQtyPO_Satuan As TextBox
     Friend WithEvents TxtQtyProduksi_Satuan As TextBox
     Friend WithEvents Btn_Refresh As Button
+    Friend WithEvents Label15 As Label
+    Friend WithEvents Txt_JumlahBatch As TextBox
+    Friend WithEvents Label16 As Label
+    Friend WithEvents Txt_QtyBatch As TextBox
+    Friend WithEvents Cmb_SatuanBatch As ComboBox
 End Class

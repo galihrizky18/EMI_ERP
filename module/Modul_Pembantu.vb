@@ -17,10 +17,20 @@ Public Class Modul_Pembantu
 
     Private Sub Ubah_SatuanKecil()
         SQL = "select dbo.ubah_satuan('KODE_PERUSAHAAN', 'masa','KODE BARANG', 'SATUAN AWAL', 'SATUAN TUJUAN', 'JUMLAH UBAH' ) as hasil"
+        SQL = "select dbo.ubah_satuan('KODE_PERUSAHAAN', 'UANG','KODE BARANG', 'SATUAN AWAL', 'SATUAN TUJUAN', 'JUMLAH UBAH' ) as hasil"
     End Sub
 
     Private Sub GeT_HPP()
         SQL = "dbo.get_hpp(c.Serial_Number) as Harga"
+    End Sub
+
+    Private Sub CekRoleButton()
+        If CekButtonRole("Ganti_Lokasi_Display_Penjualan") = "T" Then
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show("Anda Tidak Memiliki Akses Untuk Mengganti Lokasi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
     End Sub
 
     Private Function Generate_Batch_New(ByVal productionDate As String, ByVal lineCode As String, ByVal expDate As String) As String
@@ -97,6 +107,15 @@ Public Class Modul_Pembantu
         End Using
 
         Return (available_Id_Warehouse, available_NoPallet)
+    End Function
+
+    Public Function Get_CurrentIndex()
+        'SQL = "select IDENT_CURRENT('rencana_order') as urut"
+        'Using Dr1 = OpenTrans(SQL)
+        '    If Dr1.Read Then
+        '        idRencana_Order = Dr1("urut")
+        '    End If
+        'End Using
     End Function
 
 
@@ -286,9 +305,87 @@ Public Class Modul_Pembantu
 
 
 
+    '====================================================================================================================================================================================================================================
+    '=     HANDLE KEY PRESS
+    '====================================================================================================================================================================================================================================
 
+    Private Sub Handle_KeyPress_Focus()
+        'If e.KeyChar = Chr(13) Then Tgl2.Focus()
+    End Sub
+    Private Sub Handle_Leve_AutoComplete()
+        'If Txt_KdSupplier.Text.Trim.Length = 0 Then Exit Sub
+        'If Lv_Supplier.Focused = True Then Exit Sub
 
+        'Try
+        '    OpenConn()
 
+        '    If Not Txt_KdSupplier.Text = "--- SELURUH ---" Then
+
+        '        SQL = "select Kode_Supplier, Nama from Suppliers where Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Supplier = '" & Txt_KdSupplier.Text & "' "
+        '        Using Dr = OpenTrans(SQL)
+        '            If Dr.Read Then
+
+        '                Txt_KdSupplier.Text = Dr("Kode_Supplier")
+        '                Txt_NmSupplier.Text = Dr("Nama")
+        '            Else
+        '                MessageBox.Show("Supplier tidak ditemukan . . ! !", Judul)
+        '                Txt_KdSupplier.Text = "" : Txt_NmSupplier.Text = ""
+        '                Txt_KdSupplier.Focus()
+
+        '            End If
+
+        '            Me.Size = New Size(610, 333)
+        '            Lv_Supplier.Location = New Point(600, 172)
+        '            Lv_Supplier.Visible = False
+        '        End Using
+
+        '    End If
+
+        '    CloseConn()
+        'Catch ex As Exception
+        '    CloseConn()
+        '    MessageBox.Show(ex.Message)
+        '    Exit Sub
+        'End Try
+
+    End Sub
+
+    Private Sub Handle_KeyPress()
+        'If e.KeyChar = Chr(13) Then
+        '    If Txt_KdSupplier.Text.Trim.Length = 0 Then Txt_KdSupplier.Focus()
+        '    Txt_KdSupplier_Leave(Txt_KdSupplier, e)
+
+        '    Me.Size = New Size(610, 300)
+        '    Lv_Supplier.Location = New Point(600, 167)
+        '    Lv_Supplier.Visible = False
+
+        '    Txt_KdBarang.Focus()
+        'End If
+    End Sub
+
+    Private Sub Hadnle_KeyDown_AutoComplte()
+        'If e.KeyCode = Keys.Down Then Lv_Supplier.Focus()
+    End Sub
+
+    Private Sub Haandle_KeyDown_LV_AutoComplte()
+        'If e.KeyCode = Keys.Enter Then
+        '    Lv_Faktur_DoubleClick(Lv_Faktur, e)
+        'End If
+    End Sub
+
+    Private Sub Handle_DpubleKlik_AutoComplete()
+        'If Lv_Faktur.Items.Count = 0 Or Lv_Faktur.FocusedItem.Index = -1 Then Exit Sub
+
+        'Dim KdSupplier As String = Lv_Faktur.FocusedItem.SubItems(0).Text
+
+        'Txt_Faktur.Text = KdSupplier
+
+        'Me.Size = New Size(610, 300)
+        'Lv_Faktur.Location = New Point(600, 139)
+        'Lv_Faktur.Visible = False
+        'Txt_KdSupplier.Focus()
+
+    End Sub
 
 
 

@@ -770,6 +770,9 @@ Public Class Transaksi_Penawaran
         ElseIf Txt_NoPenawaran.Text.Trim.Length = 0 Then
             MessageBox.Show(Base_Language.Lang_Penawaran_NoPenawaran & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Txt_NoPenawaran.Focus() : Exit Sub
+        ElseIf cmb_JenisBayar.Text.Trim.Length = 0 Then
+            MessageBox.Show("Pembayaran Harus Diisi . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            cmb_JenisBayar.Focus() : Exit Sub
         End If
 
         If Format(Dtp_Tgl.Value, "yyyy-MM-dd") > Format(Dtp_PeriodAkhir.Value, "yyyy-MM-dd") Then
@@ -810,9 +813,15 @@ Public Class Transaksi_Penawaran
                 For index = 0 To DgvMaster_Penawaran.Rows.Count - 1
                     Get_Isi_Listview(index)
 
-                    If DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value = "" Or DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value = 0 Then
+                    If DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value Is Nothing Then
                         Continue For
+                    Else
+                        If DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value.ToString = "" Or DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value = 0 Then
+                            Continue For
+                        End If
                     End If
+
+
 
                     hasDataToInsert = True
 
@@ -1646,7 +1655,7 @@ Public Class Transaksi_Penawaran
                 SQL = SQL & "and b.Kode_Barang = c.Kode_Barang "
                 SQL = SQL & "and c.Id_Group_Jenis = d.Id_Group_Jenis "
                 SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-                SQL = SQL & "and d.Flag_Raw_Material = 'Y' "
+                'SQL = SQL & "and d.Flag_Raw_Material = 'Y' "
                 SQL = SQL & "and a.No_Faktur = '" & TxtPenawaran_NoFaktur.Text & "' "
                 SQL = SQL & "group by a.Kode_Perusahaan, a.No_Faktur,b.Kode_Barang, c.Nama, c.Kode_Kategori_Besar, c.Kode_Kategori_Kecil, d.Kode_Group_Jenis, c.Flag_PPN, "
                 SQL = SQL & "b.Min_Order, b.Satuan, b.Mata_Uang, b.Harga_Satuan "
@@ -1693,64 +1702,64 @@ Public Class Transaksi_Penawaran
                     End With
                 End Using
 
-                '==========================
-                '=     LOAD PACKAGING     =
-                '==========================
-                SQL = "select a.Kode_Perusahaan, a.No_Faktur, b.Kode_Barang, c.Nama, c.Kode_Kategori_Besar, c.Kode_Kategori_Kecil, d.Kode_Group_Jenis, c.Flag_PPN, "
-                SQL = SQL & "b.Min_Order, b.Satuan, b.Mata_Uang, b.Harga_Satuan "
-                SQL = SQL & "from EMI_Master_Penawaran a, EMI_Master_Penawaran_Detail b, barang c, EMI_Group_Jenis d "
-                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan "
-                SQL = SQL & "and a.No_Faktur = b.No_Faktur "
-                SQL = SQL & "and b.Kode_Barang = c.Kode_Barang "
-                SQL = SQL & "and c.Id_Group_Jenis = d.Id_Group_Jenis "
-                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-                SQL = SQL & "and d.flag_packaging = 'Y'  "
-                SQL = SQL & "and a.No_Faktur = '" & TxtPenawaran_NoFaktur.Text & "' "
-                SQL = SQL & "group by a.Kode_Perusahaan, a.No_Faktur,b.Kode_Barang, c.Nama, c.Kode_Kategori_Besar, c.Kode_Kategori_Kecil, d.Kode_Group_Jenis, c.Flag_PPN, "
-                SQL = SQL & "b.Min_Order, b.Satuan, b.Mata_Uang, b.Harga_Satuan "
-                Using ds = BindingTrans(SQL)
-                    With ds.Tables("MyTable")
-                        If .Rows.Count <> 0 Then
-                            For i As Integer = 0 To .Rows.Count - 1
+                ''==========================
+                ''=     LOAD PACKAGING     =
+                ''==========================
+                'SQL = "select a.Kode_Perusahaan, a.No_Faktur, b.Kode_Barang, c.Nama, c.Kode_Kategori_Besar, c.Kode_Kategori_Kecil, d.Kode_Group_Jenis, c.Flag_PPN, "
+                'SQL = SQL & "b.Min_Order, b.Satuan, b.Mata_Uang, b.Harga_Satuan "
+                'SQL = SQL & "from EMI_Master_Penawaran a, EMI_Master_Penawaran_Detail b, barang c, EMI_Group_Jenis d "
+                'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan "
+                'SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+                'SQL = SQL & "and b.Kode_Barang = c.Kode_Barang "
+                'SQL = SQL & "and c.Id_Group_Jenis = d.Id_Group_Jenis "
+                'SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                'SQL = SQL & "and d.flag_packaging = 'Y'  "
+                'SQL = SQL & "and a.No_Faktur = '" & TxtPenawaran_NoFaktur.Text & "' "
+                'SQL = SQL & "group by a.Kode_Perusahaan, a.No_Faktur,b.Kode_Barang, c.Nama, c.Kode_Kategori_Besar, c.Kode_Kategori_Kecil, d.Kode_Group_Jenis, c.Flag_PPN, "
+                'SQL = SQL & "b.Min_Order, b.Satuan, b.Mata_Uang, b.Harga_Satuan "
+                'Using ds = BindingTrans(SQL)
+                '    With ds.Tables("MyTable")
+                '        If .Rows.Count <> 0 Then
+                '            For i As Integer = 0 To .Rows.Count - 1
 
-                                DgvMaster_Penawaran.Rows.Add(1)
-                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellKdBrg).Value = .Rows(i).Item("kode_barang")
-                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellNmBrg).Value = .Rows(i).Item("nama")
+                '                DgvMaster_Penawaran.Rows.Add(1)
+                '                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellKdBrg).Value = .Rows(i).Item("kode_barang")
+                '                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellNmBrg).Value = .Rows(i).Item("nama")
 
-                                If .Rows(i).Item("Flag_PPN") = "Y" Then
-                                    DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellPPN).Value = "PPN"
-                                Else
-                                    DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellPPN).Value = "No PPN"
-                                End If
+                '                If .Rows(i).Item("Flag_PPN") = "Y" Then
+                '                    DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellPPN).Value = "PPN"
+                '                Else
+                '                    DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellPPN).Value = "No PPN"
+                '                End If
 
-                                SQL = "select satuan, flag_tampil_display from barang_detail_Satuan where Kode_Barang ='" & .Rows(i).Item("kode_barang") & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
-                                SQL = SQL & "and Flag_Tampil_Display = 'Y' "
-                                Using Ds2 = BindingTrans(SQL)
+                '                SQL = "select satuan, flag_tampil_display from barang_detail_Satuan where Kode_Barang ='" & .Rows(i).Item("kode_barang") & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
+                '                SQL = SQL & "and Flag_Tampil_Display = 'Y' "
+                '                Using Ds2 = BindingTrans(SQL)
 
-                                    For indexBaru As Integer = 0 To Ds2.Tables("MyTable").Rows.Count - 1
-                                        DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan).Value = Ds2.Tables("MyTable").Rows(indexBaru).Item("satuan")
-                                    Next
+                '                    For indexBaru As Integer = 0 To Ds2.Tables("MyTable").Rows.Count - 1
+                '                        DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan).Value = Ds2.Tables("MyTable").Rows(indexBaru).Item("satuan")
+                '                    Next
 
-                                End Using
+                '                End Using
 
-                                'Load Isian
-                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellMinOrder).Value = .Rows(i).Item("Min_Order")
-                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellMUA).Value = .Rows(i).Item("Mata_Uang")
-                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellHrgSatuan).Value = .Rows(i).Item("Harga_Satuan")
+                '                'Load Isian
+                '                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellMinOrder).Value = .Rows(i).Item("Min_Order")
+                '                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellMUA).Value = .Rows(i).Item("Mata_Uang")
+                '                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellHrgSatuan).Value = .Rows(i).Item("Harga_Satuan")
 
-                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellKdBrg).ReadOnly = True
-                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellNmBrg).ReadOnly = True
-                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan).ReadOnly = True
+                '                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellKdBrg).ReadOnly = True
+                '                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellNmBrg).ReadOnly = True
+                '                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan).ReadOnly = True
 
-                                DgvMaster_Penawaran.Rows(IndexTambahan).DefaultCellStyle.BackColor = Color.LightYellow
+                '                DgvMaster_Penawaran.Rows(IndexTambahan).DefaultCellStyle.BackColor = Color.LightYellow
 
-                                IndexTambahan = IndexTambahan + 1
+                '                IndexTambahan = IndexTambahan + 1
 
-                            Next
+                '            Next
 
-                        End If
-                    End With
-                End Using
+                '        End If
+                '    End With
+                'End Using
 
             End If
 
@@ -2073,6 +2082,10 @@ Public Class Transaksi_Penawaran
             cmbJenisPengiriman.SelectedIndex = 0
 
         End If
+    End Sub
+
+    Private Sub DgvMaster_Penawaran_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DgvMaster_Penawaran.CellContentClick
+
     End Sub
 
     Private Sub Cmb_KecAsal_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_KecAsal.KeyPress

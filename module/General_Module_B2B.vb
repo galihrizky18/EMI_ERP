@@ -1,6 +1,4 @@
 ﻿'Imports MySql.Data.MySqlClient
-Imports System.Security.Cryptography
-Imports System.Text
 
 Module General_Module_B2B
     Public CnB2B As SqlClient.SqlConnection
@@ -13,7 +11,8 @@ Module General_Module_B2B
     Public CServerB2B As String = "team311.dyndns.info"
     Public Const CDatabaseB2B As String = "grahaweb_tm"
     Public Const CUserIdB2B As String = "sqlserver"
-    Public Const CPasswordB2B As String = "**H0L4H0L4hola**"
+    'Public Const CPasswordB2B As String = "**H0L4H0L4hola**"
+    Public Const CPasswordB2B As String = "MakanEnak301%"
 
     Public Sub OpenConnB2B()
         General_Class.SetConnectionString(CServerB2B, CDatabaseB2B, CUserIdB2B, CPasswordB2B)

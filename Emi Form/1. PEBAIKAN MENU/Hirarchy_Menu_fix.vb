@@ -66,7 +66,7 @@
 #Region "Production"
             Case "EMI_Independent_Order" : Return EMI_Independent_Order
             Case "EMI_Production_Order" : Return EMI_Production_Order
-            Case "EMI_Schedule" : Return EMI_Schedule
+            'Case "EMI_Schedule" : Return EMI_Schedule
 
             Case "EMI_Compare_Work_Center" : Return EMI_Compare_Work_Center
             Case "EMI_HPP_Production" : Return EMI_HPP_Production

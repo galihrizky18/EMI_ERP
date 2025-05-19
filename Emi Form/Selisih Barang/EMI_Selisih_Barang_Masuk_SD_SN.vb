@@ -1,7 +1,4 @@
-﻿
-Imports System.Reflection
-
-Public Class EMI_Selisih_Barang_Masuk_SD_SN
+﻿Public Class EMI_Selisih_Barang_Masuk_SD_SN
     Dim ArrSn As New ArrayList
     Dim ArrTglProduksi, ArrExpired, ArrSusunan, arrWarehouse As New ArrayList
     Public FakturBM As String = ""
@@ -95,9 +92,9 @@ Public Class EMI_Selisih_Barang_Masuk_SD_SN
                     Exit Sub
                 End Try
 
-                EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(15).Value = Format(TanggalExpired.Value, "dd MMM yyyy")
-                EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(14).Value = Format(TanggalProduksi.Value, "dd MMM yyyy")
-                EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(16).Value = SN
+                'EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(15).Value = Format(TanggalExpired.Value, "dd MMM yyyy")
+                'EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(14).Value = Format(TanggalProduksi.Value, "dd MMM yyyy")
+                'EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(16).Value = SN
             Else
                 If ComboBoxTgl.SelectedIndex = -1 Then
                     MessageBox.Show("Rak Harus di Pilih!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -157,9 +154,9 @@ Public Class EMI_Selisih_Barang_Masuk_SD_SN
                 End Try
 
 
-                EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(15).Value = ArrExpired.Item(ComboBoxTgl.SelectedIndex)
-                EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(14).Value = ArrTglProduksi.Item(ComboBoxTgl.SelectedIndex)
-                EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(16).Value = ArrSn.Item(ComboBoxTgl.SelectedIndex)
+                'EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(15).Value = ArrExpired.Item(ComboBoxTgl.SelectedIndex)
+                'EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(14).Value = ArrTglProduksi.Item(ComboBoxTgl.SelectedIndex)
+                'EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(16).Value = ArrSn.Item(ComboBoxTgl.SelectedIndex)
             End If
 
         Else
@@ -168,9 +165,9 @@ Public Class EMI_Selisih_Barang_Masuk_SD_SN
                 ComboBoxTgl.Focus() : Exit Sub
             End If
 
-            EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(15).Value = ArrExpired.Item(ComboBoxTgl.SelectedIndex)
-            EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(14).Value = ArrTglProduksi.Item(ComboBoxTgl.SelectedIndex)
-            EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(16).Value = ArrSn.Item(ComboBoxTgl.SelectedIndex)
+            'EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(15).Value = ArrExpired.Item(ComboBoxTgl.SelectedIndex)
+            'EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(14).Value = ArrTglProduksi.Item(ComboBoxTgl.SelectedIndex)
+            'EMI_Selisih_Barang_Masuk.DgvSelisihBrgMsk_DataSelisih.CurrentRow.Cells(16).Value = ArrSn.Item(ComboBoxTgl.SelectedIndex)
         End If
 
 

@@ -24,7 +24,6 @@ Partial Class EMI_Display_Production_Result
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -60,6 +59,11 @@ Partial Class EMI_Display_Production_Result
         Me.Lv_DetailPackaging = New System.Windows.Forms.ListView()
         Me.TabScrap = New System.Windows.Forms.TabPage()
         Me.Lv_DetailScrap = New System.Windows.Forms.ListView()
+        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.CetakUlangBarcodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Barcode = New System.Windows.Forms.PictureBox()
+        Me.CetakUlangBarcodeQCToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -68,6 +72,8 @@ Partial Class EMI_Display_Production_Result
         Me.TabRawMaterial.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabScrap.SuspendLayout()
+        Me.ContextMenuStrip2.SuspendLayout()
+        CType(Me.Barcode, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel1
@@ -78,21 +84,8 @@ Partial Class EMI_Display_Production_Result
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1052, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1057, 51)
         Me.Panel1.TabIndex = 22
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1052, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -163,7 +156,7 @@ Partial Class EMI_Display_Production_Result
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNoTransaksiToolStripMenuItem, Me.CetakToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 70)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(173, 48)
         '
         'CopyNoTransaksiToolStripMenuItem
         '
@@ -175,7 +168,7 @@ Partial Class EMI_Display_Production_Result
         '
         Me.CetakToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LaporanGIGRToolStripMenuItem, Me.LaporanGIGRDetailToolStripMenuItem})
         Me.CetakToolStripMenuItem.Name = "CetakToolStripMenuItem"
-        Me.CetakToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CetakToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
         Me.CetakToolStripMenuItem.Text = "Cetak"
         '
         'LaporanGIGRToolStripMenuItem
@@ -212,6 +205,7 @@ Partial Class EMI_Display_Production_Result
         '
         'Lv_DetailFinishedGood
         '
+        Me.Lv_DetailFinishedGood.ContextMenuStrip = Me.ContextMenuStrip2
         Me.Lv_DetailFinishedGood.Font = New System.Drawing.Font("Work Sans", 9.0!)
         Me.Lv_DetailFinishedGood.FullRowSelect = True
         Me.Lv_DetailFinishedGood.GridLines = True
@@ -464,12 +458,53 @@ Partial Class EMI_Display_Production_Result
         Me.Lv_DetailScrap.UseCompatibleStateImageBehavior = False
         Me.Lv_DetailScrap.View = System.Windows.Forms.View.Details
         '
+        'ContextMenuStrip2
+        '
+        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakUlangBarcodeToolStripMenuItem, Me.CetakUlangBarcodeQCToolStripMenuItem})
+        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
+        Me.ContextMenuStrip2.Size = New System.Drawing.Size(205, 70)
+        '
+        'CetakUlangBarcodeToolStripMenuItem
+        '
+        Me.CetakUlangBarcodeToolStripMenuItem.Name = "CetakUlangBarcodeToolStripMenuItem"
+        Me.CetakUlangBarcodeToolStripMenuItem.Size = New System.Drawing.Size(204, 22)
+        Me.CetakUlangBarcodeToolStripMenuItem.Text = "Cetak Ulang Barcode FG"
+        '
+        'Barcode
+        '
+        Me.Barcode.Location = New System.Drawing.Point(1054, 55)
+        Me.Barcode.Name = "Barcode"
+        Me.Barcode.Size = New System.Drawing.Size(100, 50)
+        Me.Barcode.TabIndex = 378
+        Me.Barcode.TabStop = False
+        Me.Barcode.Visible = False
+        '
+        'CetakUlangBarcodeQCToolStripMenuItem
+        '
+        Me.CetakUlangBarcodeQCToolStripMenuItem.Name = "CetakUlangBarcodeQCToolStripMenuItem"
+        Me.CetakUlangBarcodeQCToolStripMenuItem.Size = New System.Drawing.Size(204, 22)
+        Me.CetakUlangBarcodeQCToolStripMenuItem.Text = "Cetak Ulang Barcode QC"
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1057, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'EMI_Display_Production_Result
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1052, 769)
+        Me.ClientSize = New System.Drawing.Size(1057, 769)
+        Me.Controls.Add(Me.Barcode)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.Panel7)
@@ -495,6 +530,8 @@ Partial Class EMI_Display_Production_Result
         Me.TabRawMaterial.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabScrap.ResumeLayout(False)
+        Me.ContextMenuStrip2.ResumeLayout(False)
+        CType(Me.Barcode, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -536,4 +573,8 @@ Partial Class EMI_Display_Production_Result
     Friend WithEvents CetakToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents LaporanGIGRToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents LaporanGIGRDetailToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ContextMenuStrip2 As ContextMenuStrip
+    Friend WithEvents CetakUlangBarcodeToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Barcode As PictureBox
+    Friend WithEvents CetakUlangBarcodeQCToolStripMenuItem As ToolStripMenuItem
 End Class

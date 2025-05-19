@@ -1,7 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-Public Class EMI_Produksi
+﻿Public Class EMI_Produksi
     Dim arrcari, arrId_line, arrId_Karyawan, arrInisialFaktur, arrInisialRouting As New ArrayList
     Dim Jenis = "Transaksi_Produksi"
     Dim no_po, kd_so, satuan As String
@@ -45,6 +42,13 @@ Public Class EMI_Produksi
             Btn_Simpan.Text = Base_Language.Lang_Global_Simpan
 
             Txt_BatchNo.Text = ""
+            Txt_JumlahBatch.Text = ""
+            Txt_QtyBatch.Text = ""
+            Cmb_SatuanBatch.Items.Clear()
+            Cmb_SatuanBatch.Items.Add("KG")
+            Cmb_SatuanBatch.SelectedIndex = 0
+            Cmb_SatuanBatch.Enabled = False
+
 
             Cmb_Operator.Items.Clear() : arrId_Karyawan.Clear()
             SQL = "select a.Id_Karyawan,a.Nama from Emi_Karyawan a,Emi_Jabatan_Internal b "
@@ -76,6 +80,22 @@ Public Class EMI_Produksi
                 Loop
             End Using
 
+            '============================
+            '=     GET QTY PERBATCH     =
+            '============================
+            Txt_QtyBatch.Text = ""
+            SQL = "select a.kode_barang, a.nama, ISNULL(b.Qty_PerBatch, 0) as Qty_PerBatch "
+            SQL = SQL & "from Barang a, Emi_Master_routing b "
+            SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan "
+            SQL = SQL & "and a.Id_Routing = b.Id_Routing "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.Kode_Stock_Owner = 'production' and a.Kode_Barang = '" & Txt_KdBarang.Text & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Txt_QtyBatch.Text = Val(HilangkanTanda(Dr("Qty_PerBatch")))
+                End If
+            End Using
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -85,13 +105,9 @@ Public Class EMI_Produksi
         TextBox4_Leave(Nothing, e)
     End Sub
 
-    Private Sub Txt_NoTransaksi_TextChanged(sender As Object, e As EventArgs) Handles Txt_NoTransaksi.TextChanged
 
-    End Sub
 
-    Private Sub Txt_Qty_TextChanged(sender As Object, e As EventArgs) Handles Txt_Qty.TextChanged
 
-    End Sub
 
     Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
         If Txt_BatchNo.Text.Trim.Length = 0 Then
@@ -103,6 +119,9 @@ Public Class EMI_Produksi
         ElseIf Txt_Qty.Text.Trim.Length = 0 Then
             MessageBox.Show("Qty", Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Txt_Qty.Focus() : Exit Sub
+        ElseIf Txt_QtyBatch.Text.Trim.Length = 0 Or Val(HilangkanTanda(Txt_QtyBatch.Text)) = 0 Then
+            MessageBox.Show("Qty Batch", Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Txt_QtyBatch.Focus() : Exit Sub
         End If
         get_jam()
 
@@ -115,18 +134,19 @@ Public Class EMI_Produksi
             '
             SQL = "INSERT INTO Emi_Split_Production_Order(Kode_Perusahaan,No_Transaksi,No_PO,Lokasi,Tanggal,Jam,UserID,Kode_Stock_Owner,"
             SQL = SQL & "Kode_Barang,Jumlah,Satuan, "
-            SQL = SQL & "Flag_Produksi,Tgl_Produksi, Jam_Produksi, No_Batch, Operator) "
+            SQL = SQL & "Flag_Produksi,Tgl_Produksi, Jam_Produksi, No_Batch, Operator, Jumlah_Batch, Qty_Batch, Satuan_Batch) "
             SQL = SQL & "Values ('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', '" & no_po & "', "
             SQL = SQL & "'" & Cmb_Lokasi.Text & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Format(DateTimePicker2.Value, "HH:mm:ss") & "', "
             SQL = SQL & "'" & UserID & "', '" & kd_so & "', '" & Txt_KdBarang.Text & "', '" & Txt_Qty.Text & "', "
             SQL = SQL & "'" & satuan & "', "
             SQL = SQL & "'Y', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "','" & Format(DateTimePicker2.Value, "HH:mm:ss") & "', "
-            SQL = SQL & "'" & Txt_BatchNo.Text & "', '" & arrId_Karyawan.Item(Cmb_Operator.SelectedIndex) & "') "
+            SQL = SQL & "'" & Txt_BatchNo.Text & "', '" & arrId_Karyawan.Item(Cmb_Operator.SelectedIndex) & "', "
+            SQL = SQL & "'" & HilangkanTanda(Txt_JumlahBatch.Text) & "', '" & HilangkanTanda(Txt_QtyBatch.Text) & "', '" & Cmb_SatuanBatch.Text & "')"
             ExecuteTrans(SQL)
 
             '
             SQL = "select a.No_Faktur,a.Kode_Stock_Owner,a.Kode_Barang,c.Nama,a.Jumlah,a.Satuan,d.Keterangan,a.Id_Routing, "
-            SQL = SQL & "ISNULL((select sum(z.Jumlah) from Emi_Split_Production_Order z where z.No_PO = a.No_Faktur "
+            SQL = SQL & "ISNULL((select sum(z.Jumlah) from Emi_Split_Production_Order z where z.No_PO = a.No_Faktur and z.status is null"
             SQL = SQL & "),0) as Jml_Sdh_Split "
             SQL = SQL & "from EMI_Order_Produksi a,Barang c,EMI_Master_Routing d where "
             SQL = SQL & "a.Status is null and a.Selesai is null and Flag_Release = 'Y' "
@@ -217,20 +237,15 @@ Public Class EMI_Produksi
             Dim kode_formula As String = ""
             Dim tanggal_formula As String = ""
 
-            SQL = "select kode_formula,tanggal from EMI_Transaksi_Formulator_Binding where  "
-            SQL = SQL & "Kode_Barang = '" & kd_barangINq & "' and Aktif = 'Y'"
+            SQL = "select a.Kode_Formula, b.Tanggal from EMI_Order_Produksi a, Emi_Transaksi_Formulator b where "
+            SQL = SQL & "a.no_faktur='" & no_po & "' and a.Kode_Perusahaan='" & KodePerusahaan & "' "
+            SQL = SQL & "and a.Kode_Perusahaan=b.Kode_Perusahaan and a.Kode_Formula=b.No_Faktur "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
-                    If General_Class.CekNULL(Dr("kode_formula")) = "" Then
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("terjadi kesalahan, kode_formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    Else
-                        kode_formula = Dr("kode_formula")
-                        tanggal_formula = Dr("tanggal")
-                    End If
+
+                    kode_formula = Dr("Kode_Formula")
+                    tanggal_formula = Dr("tanggal")
+
                 Else
                     Dr.Close()
                     CloseTrans()
@@ -282,8 +297,8 @@ Public Class EMI_Produksi
             End Using
 
             '
-            SQL = "select a.no_faktur,a.kode_stock_owner,a.kode_barang, c.nama,"
-            SQL = SQL & "a.nilai_barang,a.persentase,a.satuan_barang, "
+            SQL = "select a.no_faktur, a.kode_stock_owner, a.kode_barang, c.nama,"
+            SQL = SQL & "a.nilai_barang, a.persentase, a.satuan_barang, "
             SQL = SQL & "isnull((select sum(Good_Stock) From barang x where a.Kode_Perusahaan = x.Kode_Perusahaan and a.Kode_Barang  = x.Kode_Barang),null) as stock "
             SQL = SQL & "From EMI_Transaksi_Formulator_Detail_Bahan a, Emi_Transaksi_Formulator b,barang c  "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and b.Status is null "
@@ -299,7 +314,7 @@ Public Class EMI_Produksi
 
                             nilaiPersentase = nilai_production_order / totalSerapan
 
-                            jumlah = .Rows(indexFormulator).Item("nilai_barang") * nilaiPersentase
+                            jumlah = Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("nilai_barang"), "N4"))) * nilaiPersentase
 
                             Dim convertKeSatuanAsli As String = ""
                             Dim jumlahBarangDibutuhkan As Double = 0
@@ -380,8 +395,8 @@ Public Class EMI_Produksi
                             End Using
 
                             SQL = "insert into Emi_Split_Production_Order_Detail_Bahan(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) values( "
-                            SQL = SQL & "'" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "' , '" & kd_so & "','" & .Rows(indexFormulator).Item("kode_barang") & "', '" & HilangkanTanda(jumlahBarangDibutuhkan) & "', '" & convertKeSatuanAsli & "', "
-                            SQL = SQL & "" & jumlah & ", '" & .Rows(indexFormulator).Item("satuan_barang") & "' ) "
+                            SQL = SQL & "'" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "' , '" & kd_so & "','" & .Rows(indexFormulator).Item("kode_barang") & "', '" & HilangkanTanda(Format(jumlahBarangDibutuhkan, "N4")) & "', '" & convertKeSatuanAsli & "', "
+                            SQL = SQL & "" & HilangkanTanda(Format(jumlah, "N4")) & ", '" & .Rows(indexFormulator).Item("satuan_barang") & "' ) "
                             ExecuteTrans(SQL)
 
                         Next
@@ -412,8 +427,8 @@ Public Class EMI_Produksi
                         Dim satuan_bahan As String = .Rows(indexBahan).Item("Satuan_Bahan")
 
                         Dim jumlah As Double = .Rows(indexBahan).Item("Jumlah_Barang")
-                        Dim jumlahbahan As Double = .Rows(indexBahan).Item("Jumlah_Bahan")
-                        Dim jumlahstock As Double = .Rows(indexBahan).Item("good_stock")
+                        Dim jumlahbahan As Double = Val(HilangkanTanda(Format(.Rows(indexBahan).Item("Jumlah_Bahan"), "N4")))
+                        Dim jumlahstock As Double = Val(HilangkanTanda(Format(.Rows(indexBahan).Item("good_stock"), "N4")))
                         Dim jumlah_barang_satuan_barang As Double = 0
 
                         SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Txt_KdBarang.Text & "',"
@@ -441,7 +456,7 @@ Public Class EMI_Produksi
                             End If
                         End Using
 
-                        Dim jumlahBahan_Total As Double = Math.Ceiling((jumlah_barang_satuan_barang / jumlah) * jumlahbahan)
+                        Dim jumlahBahan_Total As Double = ((jumlah_barang_satuan_barang / jumlah) * jumlahbahan)
 
                         Dim jumlahBahan_Total_display As Double = 0
                         Dim jumlahstock_Total_display As Double = 0
@@ -503,8 +518,8 @@ Public Class EMI_Produksi
                         End Using
 
                         SQL = "insert into Emi_Split_Production_Order_Detail_Packaging(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) values( "
-                        SQL = SQL & "'" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "' , '" & kd_so & "','" & Kode_bahan & "', '" & jumlahBahan_Total_display & "', '" & satuan_display & "', "
-                        SQL = SQL & "" & jumlahBahan_Total & ", '" & satuan_bahan & "' ) "
+                        SQL = SQL & "'" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "' , '" & kd_so & "','" & Kode_bahan & "', '" & HilangkanTanda(Format(jumlahBahan_Total_display, "N4")) & "', '" & satuan_display & "', "
+                        SQL = SQL & "" & HilangkanTanda(Format(jumlahBahan_Total, "N4")) & ", '" & satuan_bahan & "' ) "
                         ExecuteTrans(SQL)
 
                     Next
@@ -535,17 +550,21 @@ Public Class EMI_Produksi
         Cmb_Operator.SelectedIndex = -1
     End Sub
 
+
+
     Private Sub Transaksi_Produksi_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
     End Sub
+
+
 
     Public Sub TextBox4_Leave(sender As Object, e As EventArgs) Handles Txt_NoTransaksi.Leave
         Try
             OpenConn()
 
             SQL = "select a.no_faktur, a.Lokasi, a.Tanggal, a.Jam, a.Kode_stock_Owner, a.kode_barang, b.nama as nama_barang, d.keterangan as jenis_produk, a.jumlah, a.satuan, c.Keterangan as Routing "
-            SQL = SQL & ",ISNULL((select sum(z.Jumlah) from Emi_Split_Production_Order z where z.No_PO = a.No_Faktur "
+            SQL = SQL & ",ISNULL((select sum(z.Jumlah) from Emi_Split_Production_Order z where z.No_PO = a.No_Faktur and z.status is null "
             SQL = SQL & "),0) as Jml_Sdh_Split "
             SQL = SQL & "from emi_order_produksi a, barang b, emi_master_routing c, emi_jenis_produk d "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Perusahaan = d.Kode_Perusahaan "
@@ -610,9 +629,40 @@ Public Class EMI_Produksi
     End Sub
 
     Private Sub Txt_Qty_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Qty.KeyPress
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> "."c Then
+            e.Handled = True
+        ElseIf e.KeyChar = "."c AndAlso CType(sender, TextBox).Text.Contains(".") Then
             e.Handled = True
         End If
+
+
+        If e.KeyChar = Chr(13) Then Txt_JumlahBatch.Focus()
     End Sub
+
+    Private Sub Txt_JumlahBatch_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_JumlahBatch.KeyPress
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> "."c Then
+            e.Handled = True
+        ElseIf e.KeyChar = "."c AndAlso CType(sender, TextBox).Text.Contains(".") Then
+            e.Handled = True
+        End If
+
+        If e.KeyChar = Chr(13) Then Txt_QtyBatch.Focus()
+    End Sub
+
+    Private Sub Txt_QtyBatch_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_QtyBatch.KeyPress
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> "."c Then
+            e.Handled = True
+        ElseIf e.KeyChar = "."c AndAlso CType(sender, TextBox).Text.Contains(".") Then
+            e.Handled = True
+        End If
+
+        If e.KeyChar = Chr(13) Then Cmb_Routing.Focus()
+    End Sub
+
+
+
+
+
+
 
 End Class

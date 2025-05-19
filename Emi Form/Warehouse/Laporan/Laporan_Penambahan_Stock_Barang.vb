@@ -1,6 +1,4 @@
-﻿Imports System.Net.Mime.MediaTypeNames
-
-Public Class Laporan_Penambahan_Stock_Barang
+﻿Public Class Laporan_Penambahan_Stock_Barang
     Dim arrWorkCenter, arrJenisBiaya As New ArrayList
 
     Private Sub Laporan_Purchase_Requisition_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -377,31 +375,31 @@ Public Class Laporan_Penambahan_Stock_Barang
         '    SF = SF & "and ISNULL({emi_pembelian_po.Flag_Release})"
         'End If
 
-        'Using MyDS As DataSet = Binding(SQL)
-        '    With MyDS.Tables(0)
-        '        If .Rows.Count <> 0 Then
+        Using MyDS As DataSet = Binding(SQL)
+            With MyDS.Tables(0)
+                If .Rows.Count <> 0 Then
 
-        '            Dim CrDoc As New Laporan_Penambahan_Stock_Bahan_Summary_A_Rpt
+                    Dim CrDoc As New Laporan_Penambahan_Stock_Bahan_Summary_A_Rpt
 
-        '            CrDoc.SetDataSource(MyDS)
-        '            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-        '            CrDoc.SummaryInfo.ReportTitle = "Periode : " & Format(Tgl1.Value, "dd/MMM/yyyy") & " s/d " &
-        '                                                            Format(Tgl2.Value, "dd/MMM/yyyy")
-        '            CrDoc.RecordSelectionFormula = SF
+                    CrDoc.SetDataSource(MyDS)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.SummaryInfo.ReportTitle = "Periode : " & Format(Tgl1.Value, "dd/MMM/yyyy") & " s/d " &
+                                                                    Format(Tgl2.Value, "dd/MMM/yyyy")
+                    CrDoc.RecordSelectionFormula = SF
 
-        '            With A_Place_For_Printing2
-        '                .Text = "Print Form"
-        '                .CrystalReportViewer1.ReportSource = CrDoc
-        '                .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
-        '                .Refresh()
-        '                .Show()
-        '            End With
+                    With A_Place_For_Printing2
+                        .Text = "Print Form"
+                        .CrystalReportViewer1.ReportSource = CrDoc
+                        .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
+                        .Refresh()
+                        .Show()
+                    End With
 
-        '        Else
-        '            MessageBox.Show("Data tidak ditemukan!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        '        End If
-        '    End With
-        'End Using
+                Else
+                    MessageBox.Show("Data tidak ditemukan!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                End If
+            End With
+        End Using
 
         CloseConn()
     End Sub

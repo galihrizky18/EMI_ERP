@@ -25,6 +25,7 @@ Partial Class EMI_Display_Pallet_Masuk_Data
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Title = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -38,6 +39,7 @@ Partial Class EMI_Display_Pallet_Masuk_Data
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Lv_BMPerPalletDetail = New System.Windows.Forms.ListView()
         Me.GroupBoxFilterData = New System.Windows.Forms.GroupBox()
+        Me.Dtp_Awal = New System.Windows.Forms.DateTimePicker()
         Me.Btn_Refresh = New System.Windows.Forms.Button()
         Me.Btn_Cari = New System.Windows.Forms.Button()
         Me.Cmb_Lokasi = New System.Windows.Forms.ComboBox()
@@ -50,15 +52,18 @@ Partial Class EMI_Display_Pallet_Masuk_Data
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Cb_ParamTgl = New System.Windows.Forms.CheckBox()
         Me.Cmb_ParamTgl = New System.Windows.Forms.ComboBox()
-        Me.PictureBoxKdBrg = New System.Windows.Forms.PictureBox()
         Me.PictureBoxTracking = New System.Windows.Forms.PictureBox()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
-        Me.Dtp_Awal = New System.Windows.Forms.DateTimePicker()
+        Me.PictureBoxKdBrg = New System.Windows.Forms.PictureBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Panel9 = New System.Windows.Forms.Panel()
+        Me.Panel8 = New System.Windows.Forms.Panel()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.BatalkanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.GroupBoxFilterData.SuspendLayout()
-        CType(Me.PictureBoxKdBrg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBoxTracking, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBoxKdBrg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel1
@@ -69,8 +74,21 @@ Partial Class EMI_Display_Pallet_Masuk_Data
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1282, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1278, 51)
         Me.Panel1.TabIndex = 22
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1278, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Title
         '
@@ -130,19 +148,19 @@ Partial Class EMI_Display_Pallet_Masuk_Data
         Me.Lv_BM_PerPallet.FullRowSelect = True
         Me.Lv_BM_PerPallet.GridLines = True
         Me.Lv_BM_PerPallet.HideSelection = False
-        Me.Lv_BM_PerPallet.Location = New System.Drawing.Point(21, 64)
+        Me.Lv_BM_PerPallet.Location = New System.Drawing.Point(21, 92)
         Me.Lv_BM_PerPallet.MultiSelect = False
         Me.Lv_BM_PerPallet.Name = "Lv_BM_PerPallet"
-        Me.Lv_BM_PerPallet.Size = New System.Drawing.Size(1237, 452)
+        Me.Lv_BM_PerPallet.Size = New System.Drawing.Size(1237, 424)
         Me.Lv_BM_PerPallet.TabIndex = 234
         Me.Lv_BM_PerPallet.UseCompatibleStateImageBehavior = False
         Me.Lv_BM_PerPallet.View = System.Windows.Forms.View.Details
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakToolStripMenuItem, Me.SalinNoFakturToolStripMenuItem})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakToolStripMenuItem, Me.SalinNoFakturToolStripMenuItem, Me.BatalkanToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(155, 48)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 92)
         '
         'CetakToolStripMenuItem
         '
@@ -209,17 +227,27 @@ Partial Class EMI_Display_Pallet_Masuk_Data
         Me.GroupBoxFilterData.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.GroupBoxFilterData.Name = "GroupBoxFilterData"
         Me.GroupBoxFilterData.Padding = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.GroupBoxFilterData.Size = New System.Drawing.Size(698, 130)
+        Me.GroupBoxFilterData.Size = New System.Drawing.Size(757, 130)
         Me.GroupBoxFilterData.TabIndex = 342
         Me.GroupBoxFilterData.TabStop = False
         Me.GroupBoxFilterData.Text = "Filter Data"
+        '
+        'Dtp_Awal
+        '
+        Me.Dtp_Awal.CustomFormat = "dd MMMM yyyy"
+        Me.Dtp_Awal.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.Dtp_Awal.Location = New System.Drawing.Point(301, 74)
+        Me.Dtp_Awal.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.Dtp_Awal.Name = "Dtp_Awal"
+        Me.Dtp_Awal.Size = New System.Drawing.Size(158, 20)
+        Me.Dtp_Awal.TabIndex = 345
         '
         'Btn_Refresh
         '
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(604, 98)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(658, 98)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(88, 27)
         Me.Btn_Refresh.TabIndex = 344
@@ -231,7 +259,7 @@ Partial Class EMI_Display_Pallet_Masuk_Data
         Me.Btn_Cari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Cari.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Cari.ForeColor = System.Drawing.Color.White
-        Me.Btn_Cari.Location = New System.Drawing.Point(514, 98)
+        Me.Btn_Cari.Location = New System.Drawing.Point(568, 98)
         Me.Btn_Cari.Name = "Btn_Cari"
         Me.Btn_Cari.Size = New System.Drawing.Size(88, 27)
         Me.Btn_Cari.TabIndex = 343
@@ -262,7 +290,7 @@ Partial Class EMI_Display_Pallet_Masuk_Data
         '
         'Txt_ParamLain
         '
-        Me.Txt_ParamLain.Location = New System.Drawing.Point(283, 102)
+        Me.Txt_ParamLain.Location = New System.Drawing.Point(337, 102)
         Me.Txt_ParamLain.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.Txt_ParamLain.Name = "Txt_ParamLain"
         Me.Txt_ParamLain.Size = New System.Drawing.Size(226, 20)
@@ -271,7 +299,7 @@ Partial Class EMI_Display_Pallet_Masuk_Data
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(244, 103)
+        Me.Label6.Location = New System.Drawing.Point(298, 103)
         Me.Label6.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(35, 16)
@@ -285,7 +313,7 @@ Partial Class EMI_Display_Pallet_Masuk_Data
         Me.Cmb_ParamLain.Location = New System.Drawing.Point(143, 99)
         Me.Cmb_ParamLain.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.Cmb_ParamLain.Name = "Cmb_ParamLain"
-        Me.Cmb_ParamLain.Size = New System.Drawing.Size(97, 24)
+        Me.Cmb_ParamLain.Size = New System.Drawing.Size(147, 24)
         Me.Cmb_ParamLain.TabIndex = 6
         '
         'Cb_ParamLain
@@ -303,7 +331,7 @@ Partial Class EMI_Display_Pallet_Masuk_Data
         '
         Me.Dtp_Akhir.CustomFormat = "dd MMMM yyyy"
         Me.Dtp_Akhir.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.Dtp_Akhir.Location = New System.Drawing.Point(447, 74)
+        Me.Dtp_Akhir.Location = New System.Drawing.Point(501, 74)
         Me.Dtp_Akhir.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.Dtp_Akhir.Name = "Dtp_Akhir"
         Me.Dtp_Akhir.Size = New System.Drawing.Size(158, 20)
@@ -312,7 +340,7 @@ Partial Class EMI_Display_Pallet_Masuk_Data
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(414, 76)
+        Me.Label7.Location = New System.Drawing.Point(468, 76)
         Me.Label7.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(25, 16)
@@ -337,17 +365,8 @@ Partial Class EMI_Display_Pallet_Masuk_Data
         Me.Cmb_ParamTgl.Location = New System.Drawing.Point(143, 70)
         Me.Cmb_ParamTgl.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.Cmb_ParamTgl.Name = "Cmb_ParamTgl"
-        Me.Cmb_ParamTgl.Size = New System.Drawing.Size(97, 24)
+        Me.Cmb_ParamTgl.Size = New System.Drawing.Size(147, 24)
         Me.Cmb_ParamTgl.TabIndex = 2
-        '
-        'PictureBoxKdBrg
-        '
-        Me.PictureBoxKdBrg.Location = New System.Drawing.Point(901, 535)
-        Me.PictureBoxKdBrg.Name = "PictureBoxKdBrg"
-        Me.PictureBoxKdBrg.Size = New System.Drawing.Size(80, 72)
-        Me.PictureBoxKdBrg.TabIndex = 344
-        Me.PictureBoxKdBrg.TabStop = False
-        Me.PictureBoxKdBrg.Visible = False
         '
         'PictureBoxTracking
         '
@@ -358,35 +377,65 @@ Partial Class EMI_Display_Pallet_Masuk_Data
         Me.PictureBoxTracking.TabStop = False
         Me.PictureBoxTracking.Visible = False
         '
-        'PanelGradient1
+        'PictureBoxKdBrg
         '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1282, 2)
-        Me.PanelGradient1.TabIndex = 22
+        Me.PictureBoxKdBrg.Location = New System.Drawing.Point(901, 535)
+        Me.PictureBoxKdBrg.Name = "PictureBoxKdBrg"
+        Me.PictureBoxKdBrg.Size = New System.Drawing.Size(80, 72)
+        Me.PictureBoxKdBrg.TabIndex = 344
+        Me.PictureBoxKdBrg.TabStop = False
+        Me.PictureBoxKdBrg.Visible = False
         '
-        'Dtp_Awal
+        'Label2
         '
-        Me.Dtp_Awal.CustomFormat = "dd MMMM yyyy"
-        Me.Dtp_Awal.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.Dtp_Awal.Location = New System.Drawing.Point(247, 74)
-        Me.Dtp_Awal.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.Dtp_Awal.Name = "Dtp_Awal"
-        Me.Dtp_Awal.Size = New System.Drawing.Size(158, 20)
-        Me.Dtp_Awal.TabIndex = 345
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(1159, 70)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(98, 16)
+        Me.Label2.TabIndex = 347
+        Me.Label2.Text = "Pallet Dibatalkan"
+        '
+        'Panel9
+        '
+        Me.Panel9.BackColor = System.Drawing.Color.DarkRed
+        Me.Panel9.Location = New System.Drawing.Point(1138, 70)
+        Me.Panel9.Name = "Panel9"
+        Me.Panel9.Size = New System.Drawing.Size(15, 15)
+        Me.Panel9.TabIndex = 346
+        '
+        'Panel8
+        '
+        Me.Panel8.BackColor = System.Drawing.Color.Yellow
+        Me.Panel8.Location = New System.Drawing.Point(1023, 70)
+        Me.Panel8.Name = "Panel8"
+        Me.Panel8.Size = New System.Drawing.Size(15, 15)
+        Me.Panel8.TabIndex = 346
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(1044, 70)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(76, 16)
+        Me.Label1.TabIndex = 347
+        Me.Label1.Text = "Sudah Cetak"
+        '
+        'BatalkanToolStripMenuItem
+        '
+        Me.BatalkanToolStripMenuItem.Name = "BatalkanToolStripMenuItem"
+        Me.BatalkanToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.BatalkanToolStripMenuItem.Text = "Batalkan"
         '
         'EMI_Display_Pallet_Masuk_Data
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1282, 682)
+        Me.ClientSize = New System.Drawing.Size(1278, 681)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.Panel8)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.Panel9)
         Me.Controls.Add(Me.PictureBoxTracking)
         Me.Controls.Add(Me.PictureBoxKdBrg)
         Me.Controls.Add(Me.GroupBoxFilterData)
@@ -409,9 +458,10 @@ Partial Class EMI_Display_Pallet_Masuk_Data
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.GroupBoxFilterData.ResumeLayout(False)
         Me.GroupBoxFilterData.PerformLayout()
-        CType(Me.PictureBoxKdBrg, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBoxTracking, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBoxKdBrg, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -445,4 +495,9 @@ Partial Class EMI_Display_Pallet_Masuk_Data
     Friend WithEvents Btn_Refresh As Button
     Friend WithEvents SalinNoFakturToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Dtp_Awal As DateTimePicker
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Panel9 As Panel
+    Friend WithEvents Panel8 As Panel
+    Friend WithEvents Label1 As Label
+    Friend WithEvents BatalkanToolStripMenuItem As ToolStripMenuItem
 End Class

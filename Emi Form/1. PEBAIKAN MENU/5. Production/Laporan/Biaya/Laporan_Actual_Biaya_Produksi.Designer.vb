@@ -28,8 +28,6 @@ Partial Class Laporan_Actual_Biaya_Produksi
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.CmbJenisBiaya = New System.Windows.Forms.ComboBox()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.CmbWorkCenter = New System.Windows.Forms.ComboBox()
-        Me.Label5 = New System.Windows.Forms.Label()
         Me.Tgl2 = New System.Windows.Forms.DateTimePicker()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Tgl1 = New System.Windows.Forms.DateTimePicker()
@@ -39,6 +37,8 @@ Partial Class Laporan_Actual_Biaya_Produksi
         Me.LvSupp = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.CmbWorkCenter = New System.Windows.Forms.ComboBox()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -50,7 +50,7 @@ Partial Class Laporan_Actual_Biaya_Produksi
         Me.Label1.Location = New System.Drawing.Point(15, 11)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(327, 30)
+        Me.Label1.Size = New System.Drawing.Size(328, 30)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Laporan Actual Biaya Produksi"
         '
@@ -111,24 +111,6 @@ Partial Class Laporan_Actual_Biaya_Produksi
         Me.Label4.Size = New System.Drawing.Size(77, 18)
         Me.Label4.TabIndex = 8
         Me.Label4.Text = "Jenis Biaya"
-        '
-        'CmbWorkCenter
-        '
-        Me.CmbWorkCenter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CmbWorkCenter.FormattingEnabled = True
-        Me.CmbWorkCenter.Location = New System.Drawing.Point(121, 52)
-        Me.CmbWorkCenter.Name = "CmbWorkCenter"
-        Me.CmbWorkCenter.Size = New System.Drawing.Size(366, 26)
-        Me.CmbWorkCenter.TabIndex = 5
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(17, 55)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(87, 18)
-        Me.Label5.TabIndex = 6
-        Me.Label5.Text = "Work Center"
         '
         'Tgl2
         '
@@ -213,6 +195,24 @@ Partial Class Laporan_Actual_Biaya_Produksi
         Me.ColumnHeader2.Text = "Nama"
         Me.ColumnHeader2.Width = 311
         '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(17, 55)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(87, 18)
+        Me.Label5.TabIndex = 6
+        Me.Label5.Text = "Work Center"
+        '
+        'CmbWorkCenter
+        '
+        Me.CmbWorkCenter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CmbWorkCenter.FormattingEnabled = True
+        Me.CmbWorkCenter.Location = New System.Drawing.Point(121, 52)
+        Me.CmbWorkCenter.Name = "CmbWorkCenter"
+        Me.CmbWorkCenter.Size = New System.Drawing.Size(366, 26)
+        Me.CmbWorkCenter.TabIndex = 5
+        '
         'Laporan_Actual_Biaya_Produksi
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
@@ -250,8 +250,8 @@ Partial Class Laporan_Actual_Biaya_Produksi
     Friend WithEvents LvSupp As ListView
     Friend WithEvents ColumnHeader1 As ColumnHeader
     Friend WithEvents ColumnHeader2 As ColumnHeader
-    Friend WithEvents CmbWorkCenter As ComboBox
-    Friend WithEvents Label5 As Label
     Friend WithEvents CmbJenisBiaya As ComboBox
     Friend WithEvents Label4 As Label
+    Friend WithEvents CmbWorkCenter As ComboBox
+    Friend WithEvents Label5 As Label
 End Class

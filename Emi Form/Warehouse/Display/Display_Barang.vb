@@ -131,8 +131,8 @@
         ComboBox10b.Items.Add("--Semua--") : ComboBox10b.Items.Add("Y") : ComboBox10b.Items.Add("T")
         ComboBox10b.SelectedIndex = 1
 
-        ComboBox1b.Enabled = False : ComboBox7b.Enabled = False
-        TextBox7b.Enabled = False : TextBox6b.Enabled = False
+        ComboBox1b.Enabled = True : ComboBox7b.Enabled = False
+        TextBox7b.Enabled = True : TextBox6b.Enabled = False
 
         ComboBox1b.SelectedIndex = -1 : ComboBox7b.SelectedIndex = -1
         TextBox7b.Text = "" : TextBox6b.Text = ""
@@ -172,7 +172,7 @@
         'ComboBox1b.Items.Add("Stock Minimum") : arrcarib.Add("x.Stock_Minimum") : arrcaribsf.Add("{barang.Stock_Minimum}")
         'ComboBox1b.Items.Add("Lemari") : arrcarib.Add("Lemari") 
         'ComboBox1b.Items.Add("Kategori") : arrcarib.Add("x.kode_kategori") : arrcaribsf.Add("{barang.kode_kategori}")
-        ComboBox1b.SelectedIndex = -1
+        ComboBox1b.SelectedIndex = 0
 
         ComboBox7b.Items.Clear() : arrcari2b.Clear() : arrcari2bsf.Clear()
         'ComboBox7b.Items.Add("Lokasi") : arrcari2b.Add("x.kode_stock_owner") : arrcari2bsf.Add("{barang.kode_stock_owner}")
@@ -381,18 +381,20 @@
             ComboBox12.Focus() : Exit Sub
         End If
 
-        DataGridView1.Columns(7).HeaderText = "QR CODE"
-        DataGridView1.Columns(9).Visible = False
+        'DataGridView1.Columns(7).HeaderText = "QR CODE"
+        ' DataGridView1.Columns(9).Visible = False
 
         Try
-            Cek_Flagging()
+
 
             OpenConn()
+
+            Cek_Flagging()
 
             DataGridView1.Rows.Clear()
             SQL = "select a.*, dbo.get_hpp(a.serial_number) as HPP "
             SQL = SQL & "from Stock_Barang_SN_Per_Rak as a inner join emi_group_jenis as gj on a.id_group_jenis = gj.id_group_jenis "
-            SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' "
 
             'SQL = SQL & "gj.Flag_Packaging = '" & Flag_Packaging & "' and gj.Flag_Raw_Material = '" & Flag_Raw_Material & "' and "
             'SQL = SQL & "gj.Flag_Finished_Good = '" & Flag_Finished_Good & "' and gj.Flag_Sample = '" & Flag_Sample & "' and "
@@ -400,7 +402,7 @@
             'SQL = SQL & "gj.Flag_Bahan_Bakar = '" & Flag_Bahan_Bakar & "' and gj.Flag_Peralatan = '" & Flag_Peralatan & "' "
 
             SQL = SQL & FilterPengeluaranCostCenter
-            SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
+            'SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
 
             If CheckBox1.Checked = True Then
                 SQL = SQL & " and a." & arrcarib.Item(ComboBox1b.SelectedIndex) & " " & ComboBox1.Text & " '" & ComboBox3.Text & TextBox7b.Text & ComboBox4.Text & "' "
@@ -471,37 +473,38 @@
                         DataGridView1.Rows.Item(i).Cells(1).Value = .Rows(i).Item("kode_group_jenis")
                         DataGridView1.Rows.Item(i).Cells(2).Value = .Rows(i).Item("kode_barang")
                         DataGridView1.Rows.Item(i).Cells(3).Value = .Rows(i).Item("nama")
-                        DataGridView1.Rows.Item(i).Cells(4).Value = .Rows(i).Item("Total_Stock_Tersedia_Satuan_Besar") & " " & .Rows(i).Item("Satuan_Besar")
+                        DataGridView1.Rows.Item(i).Cells(4).Value = Format(.Rows(i).Item("Total_Stock_Tersedia_Satuan_Besar"), "N2") & " " & .Rows(i).Item("Satuan_Besar")
+                        DataGridView1.Rows.Item(i).Cells(5).Value = Format(.Rows(i).Item("jumlah_bags"), "N2")
                         If IsDBNull(.Rows(i).Item("tgl_produksi")) Then
-                            DataGridView1.Rows.Item(i).Cells(5).Value = ""
-                        Else
-                            DataGridView1.Rows.Item(i).Cells(5).Value = Format(.Rows(i).Item("Tgl_produksi"), "dd MMM yyyy") '.Rows(i).Item("Total_Stock_Inquiry_Satuan_Besar") & " " & .Rows(i).Item("Satuan_Besar")
-                        End If
-                        If IsDBNull(.Rows(i).Item("tgl_expired")) Then
                             DataGridView1.Rows.Item(i).Cells(6).Value = ""
                         Else
-                            DataGridView1.Rows.Item(i).Cells(6).Value = Format(.Rows(i).Item("Tgl_expired"), "dd MMM yyyy") '& " " & .Rows(i).Item("Satuan_Besar")
+                            DataGridView1.Rows.Item(i).Cells(6).Value = Format(.Rows(i).Item("Tgl_produksi"), "dd MMM yyyy") '.Rows(i).Item("Total_Stock_Inquiry_Satuan_Besar") & " " & .Rows(i).Item("Satuan_Besar")
                         End If
-                        DataGridView1.Rows.Item(i).Cells(7).Value = .Rows(i).Item("batch_Number")
-                        DataGridView1.Rows.Item(i).Cells(8).Value = .Rows(i).Item("Labeling_WMS_Position")
-                        DataGridView1.Rows.Item(i).Cells(9).Value = Format(.Rows(i).Item("HPP"), "N2")
+                        If IsDBNull(.Rows(i).Item("tgl_expired")) Then
+                            DataGridView1.Rows.Item(i).Cells(7).Value = ""
+                        Else
+                            DataGridView1.Rows.Item(i).Cells(7).Value = Format(.Rows(i).Item("Tgl_expired"), "dd MMM yyyy") '& " " & .Rows(i).Item("Satuan_Besar")
+                        End If
+                        DataGridView1.Rows.Item(i).Cells(8).Value = .Rows(i).Item("Qr_Code")
+                        DataGridView1.Rows.Item(i).Cells(9).Value = .Rows(i).Item("Labeling_WMS_Position")
+                        DataGridView1.Rows.Item(i).Cells(10).Value = "" 'Format(.Rows(i).Item("HPP"), "N2")
 
                         If IsDBNull(.Rows(i).Item("sisa_umur")) Then
-                            DataGridView1.Rows.Item(i).Cells(10).Value = ""
+                            DataGridView1.Rows.Item(i).Cells(11).Value = ""
                         Else
-                            DataGridView1.Rows.Item(i).Cells(10).Value = .Rows(i).Item("sisa_umur") & " hari"
+                            DataGridView1.Rows.Item(i).Cells(11).Value = .Rows(i).Item("sisa_umur") & " hari"
                         End If
 
                         If IsDBNull(.Rows(i).Item("umur")) Then
-                            DataGridView1.Rows.Item(i).Cells(11).Value = ""
+                            DataGridView1.Rows.Item(i).Cells(12).Value = ""
                         Else
-                            DataGridView1.Rows.Item(i).Cells(11).Value = .Rows(i).Item("umur") & " hari"
+                            DataGridView1.Rows.Item(i).Cells(12).Value = .Rows(i).Item("umur") & " hari"
                         End If
 
                         If IsDBNull(.Rows(i).Item("warna")) Then
-                            DataGridView1.Rows.Item(i).Cells(12).Value = ""
+                            DataGridView1.Rows.Item(i).Cells(13).Value = ""
                         Else
-                            DataGridView1.Rows.Item(i).Cells(12).Value = .Rows(i).Item("warna") & ""
+                            DataGridView1.Rows.Item(i).Cells(13).Value = .Rows(i).Item("warna") & ""
                         End If
                     Next
                 End With
@@ -510,7 +513,7 @@
             Dgv_BarangPerlokasi.Rows.Clear()
             SQL = "select a.* "
             SQL = SQL & "from Stock_Barang_SN_Per_lokasi as a inner join emi_group_jenis as gj on a.kode_group_jenis = gj.kode_group_jenis "
-            SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' "
 
             'SQL = SQL & "gj.Flag_Packaging = '" & Flag_Packaging & "' and gj.Flag_Raw_Material = '" & Flag_Raw_Material & "' and "
             'SQL = SQL & "gj.Flag_Finished_Good = '" & Flag_Finished_Good & "' and gj.Flag_Sample = '" & Flag_Sample & "' and "
@@ -518,7 +521,7 @@
             'SQL = SQL & "gj.Flag_Bahan_Bakar = '" & Flag_Bahan_Bakar & "' and gj.Flag_Peralatan = '" & Flag_Peralatan & "' "
 
             SQL = SQL & FilterPengeluaranCostCenter
-            SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
+            'SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
 
             If CheckBox1.Checked = True Then
                 SQL = SQL & " and a." & arrcarib.Item(ComboBox1b.SelectedIndex) & " " & ComboBox1.Text & " '" & ComboBox3.Text & TextBox7b.Text & ComboBox4.Text & "' "
@@ -561,9 +564,10 @@
                         Dgv_BarangPerlokasi.Rows.Item(i).Cells(1).Value = .Rows(i).Item("kode_group_jenis")
                         Dgv_BarangPerlokasi.Rows.Item(i).Cells(2).Value = .Rows(i).Item("kode_barang")
                         Dgv_BarangPerlokasi.Rows.Item(i).Cells(3).Value = .Rows(i).Item("nama")
-                        Dgv_BarangPerlokasi.Rows.Item(i).Cells(4).Value = .Rows(i).Item("Total_Stock_Tersedia_Satuan_Besar") & " " & .Rows(i).Item("Satuan_Besar")
-                        Dgv_BarangPerlokasi.Rows.Item(i).Cells(5).Value = .Rows(i).Item("satuan_besar")
-                        Dgv_BarangPerlokasi.Rows.Item(i).Cells(6).Value = .Rows(i).Item("warna")
+                        Dgv_BarangPerlokasi.Rows.Item(i).Cells(4).Value = Format(.Rows(i).Item("Total_Stock_Tersedia_Satuan_Besar"), "N2") & " " & .Rows(i).Item("Satuan_Besar")
+                        Dgv_BarangPerlokasi.Rows.Item(i).Cells(5).Value = Format(.Rows(i).Item("jumlah_bags"), "N2")
+                        Dgv_BarangPerlokasi.Rows.Item(i).Cells(6).Value = .Rows(i).Item("satuan_besar")
+                        Dgv_BarangPerlokasi.Rows.Item(i).Cells(7).Value = .Rows(i).Item("warna")
                     Next
                 End With
             End Using
@@ -620,19 +624,20 @@
             ComboBox12.Focus() : Exit Sub
         End If
 
-        DataGridView1.Columns(7).HeaderText = "QR CODE"
-        DataGridView1.Columns(9).Visible = False
+        '   DataGridView1.Columns(7).HeaderText = "QR CODE"
+        ' DataGridView1.Columns(9).Visible = False
 
         Dim SF As String = ""
 
         Try
-            Cek_Flagging()
 
             OpenConn()
 
-            SQL = "select top 1 a.*, dbo.get_hpp(a.serial_number) as HPP "
+            Cek_Flagging()
+
+            SQL = "select a.*, dbo.get_hpp(a.serial_number) as HPP "
             SQL = SQL & "from Stock_Barang_SN_Per_Rak as a inner join emi_group_jenis as gj on a.id_group_jenis = gj.id_group_jenis "
-            SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' "
 
             'SQL = SQL & "gj.Flag_Packaging = '" & Flag_Packaging & "' and gj.Flag_Raw_Material = '" & Flag_Raw_Material & "' and "
             'SQL = SQL & "gj.Flag_Finished_Good = '" & Flag_Finished_Good & "' and gj.Flag_Sample = '" & Flag_Sample & "' and "
@@ -640,16 +645,16 @@
             'SQL = SQL & "gj.Flag_Bahan_Bakar = '" & Flag_Bahan_Bakar & "' and gj.Flag_Peralatan = '" & Flag_Peralatan & "' "
 
             SQL = SQL & FilterPengeluaranCostCenter
-            SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
+            ' SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
 
-            SF = "{Stock_Barang_SN_Per_Rak.Kode_Perusahaan} = '" & KodePerusahaan & "' and "
-            'SF = SF & "{EMI_Group_Jenis.Flag_Packaging} = '" & Flag_Packaging & "' and "
-            'SF = SF & "{EMI_Group_Jenis.Flag_Raw_Material} = '" & Flag_Raw_Material & "' and {EMI_Group_Jenis.Flag_Finished_Good} = '" & Flag_Finished_Good & "' and "
-            'SF = SF & "{EMI_Group_Jenis.Flag_Sample} = '" & Flag_Sample & "' and {EMI_Group_Jenis.Flag_Semi_FG} = '" & Flag_Semi_FG & "' and "
-            'SF = SF & "{EMI_Group_Jenis.Flag_Scrap} = '" & Flag_Scrap & "' and {EMI_Group_Jenis.Flag_Bahan_Bakar} = '" & Flag_Bahan_Bakar & "' and "
-            'SF = SF & "{EMI_Group_Jenis.Flag_Peralatan} = '" & Flag_Peralatan & "' and "
+            SF = "{Stock_Barang_SN_Per_Rak.Kode_Perusahaan} = '" & KodePerusahaan & "' "
+            'SF = SF & "{EMI_Group_Jenis.Flag_Packaging} = 'T' and "
+            'SF = SF & "{EMI_Group_Jenis.Flag_Raw_Material} = 'T' and {EMI_Group_Jenis.Flag_Finished_Good} = 'T' and "
+            'SF = SF & "{EMI_Group_Jenis.Flag_Sample} = 'T' and {EMI_Group_Jenis.Flag_Semi_FG} = 'T' and "
+            'SF = SF & "{EMI_Group_Jenis.Flag_Scrap} = 'T' and {EMI_Group_Jenis.Flag_Bahan_Bakar} = 'T' and "
+            'SF = SF & "{EMI_Group_Jenis.Flag_Peralatan} = 'T'  "
             SF = SF & FilterPengeluaranCostCenterCR
-            SF = SF & "AND ({EMI_Group_Jenis.Flag_ATK} = '" & fATK & "' or {EMI_Group_Jenis.Flag_Asset} = '" & fAsset & "' or {EMI_Group_Jenis.Flag_Sparepart} = '" & fSparepart & "')"
+            ' SF = SF & "AND ({EMI_Group_Jenis.Flag_ATK} = '" & fATK & "' or {EMI_Group_Jenis.Flag_Asset} = '" & fAsset & "' or {EMI_Group_Jenis.Flag_Sparepart} = '" & fSparepart & "')"
 
 
             If CheckBox1.Checked = True Then
@@ -724,13 +729,13 @@
 
             SQL = SQL & "order by a.kode_stock_owner, a.nama, a.Labeling_WMS_Position"
 
-            Using MyDS As DataSet = Binding(SQL)
-                With MyDS.Tables(0)
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
 
                         Dim CrDoc As New Display_Barang_Detail_Rpt
 
-                        CrDoc.SetDataSource(MyDS)
+                        CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                         CrDoc.SummaryInfo.ReportTitle = ""
                         CrDoc.RecordSelectionFormula = SF
@@ -755,6 +760,10 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+    End Sub
+
+    Private Sub GroupBox4_Enter(sender As Object, e As EventArgs) Handles GroupBox4.Enter
+
     End Sub
 
     Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles Button2.Click
@@ -801,35 +810,36 @@
             ComboBox12.Focus() : Exit Sub
         End If
 
-        DataGridView1.Columns(7).HeaderText = "QR CODE"
-        DataGridView1.Columns(9).Visible = False
+        '   DataGridView1.Columns(7).HeaderText = "QR CODE"
+        '  DataGridView1.Columns(9).Visible = False
 
         Dim SF As String = ""
 
         Try
-            Cek_Flagging()
 
             OpenConn()
 
-            SQL = "select top 1 a.* "
+            Cek_Flagging()
+
+            SQL = "select a.* "
             SQL = SQL & "from Stock_Barang_SN_Per_Lokasi as a inner join emi_group_jenis as gj on a.kode_group_jenis = gj.kode_group_jenis "
 
-            SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' "
             'SQL = SQL & "gj.Flag_Packaging = '" & Flag_Packaging & "' and gj.Flag_Raw_Material = '" & Flag_Raw_Material & "' and "
             'SQL = SQL & "gj.Flag_Finished_Good = '" & Flag_Finished_Good & "' and gj.Flag_Sample = '" & Flag_Sample & "' and "
             'SQL = SQL & "gj.Flag_Semi_FG = '" & Flag_Semi_FG & "' and gj.Flag_Scrap = '" & Flag_Scrap & "' and "
             'SQL = SQL & "gj.Flag_Bahan_Bakar = '" & Flag_Bahan_Bakar & "' and gj.Flag_Peralatan = '" & Flag_Peralatan & "' "
             SQL = SQL & FilterPengeluaranCostCenter
-            SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
+            ' SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
 
-            SF = "{Stock_Barang_SN_Per_Lokasi.Kode_Perusahaan} = '" & KodePerusahaan & "' and "
+            SF = "{Stock_Barang_SN_Per_Lokasi.Kode_Perusahaan} = '" & KodePerusahaan & "' "
             'SF = SF & "{EMI_Group_Jenis.Flag_Packaging} = '" & Flag_Packaging & "' and "
             'SF = SF & "{EMI_Group_Jenis.Flag_Raw_Material} = '" & Flag_Raw_Material & "' and {EMI_Group_Jenis.Flag_Finished_Good} = '" & Flag_Finished_Good & "' and "
             'SF = SF & "{EMI_Group_Jenis.Flag_Sample} = '" & Flag_Sample & "' and {EMI_Group_Jenis.Flag_Semi_FG} = '" & Flag_Semi_FG & "' and "
             'SF = SF & "{EMI_Group_Jenis.Flag_Scrap} = '" & Flag_Scrap & "' and {EMI_Group_Jenis.Flag_Bahan_Bakar} = '" & Flag_Bahan_Bakar & "' and "
             'SF = SF & "{EMI_Group_Jenis.Flag_Peralatan} = '" & Flag_Peralatan & "' and "
             SF = SF & FilterPengeluaranCostCenterCR
-            SF = SF & "AND ({EMI_Group_Jenis.Flag_ATK} = '" & fATK & "' or {EMI_Group_Jenis.Flag_Asset} = '" & fAsset & "' or {EMI_Group_Jenis.Flag_Sparepart} = '" & fSparepart & "')"
+            'SF = SF & "AND ({EMI_Group_Jenis.Flag_ATK} = '" & fATK & "' or {EMI_Group_Jenis.Flag_Asset} = '" & fAsset & "' or {EMI_Group_Jenis.Flag_Sparepart} = '" & fSparepart & "')"
 
             If CheckBox1.Checked = True Then
                 SQL = SQL & " and a." & arrcarib.Item(ComboBox1b.SelectedIndex) & " " & ComboBox1.Text & " '" & ComboBox3.Text & TextBox7b.Text & ComboBox4.Text & "' "
@@ -841,7 +851,7 @@
             If CheckBox2.Checked = True Then
                 SQL = SQL & " and a." & arrcari2b.Item(ComboBox7b.SelectedIndex) & " " & ComboBox2.Text & " '" & ComboBox5.Text & TextBox6b.Text & ComboBox6.Text & "' "
 
-                SF = SF & " and {Stock_Barang_SN_Per_Lokasi." & arrcari2b.Item(ComboBox7b.SelectedIndex) & "} " & ComboBox2.Text & " '"
+                SF = SF & " and {Stock_Barang_SN_Per_Lokasi." & arrcari2b.Item(ComboBox7b.SelectedIndex) & "} " & ComboBox2.Text & "' "
                 SF = SF & Strings.Replace(ComboBox5.Text, "%", "*") & TextBox6b.Text & Strings.Replace(ComboBox6.Text, "%", "*") & "' "
             End If
 
@@ -858,18 +868,18 @@
             Else
                 SQL = SQL & " and a.Kode_Group_Jenis = '" & ComboBox8.Text & "' "
 
-                SF = SF & " and {Stock_Barang_SN_Per_Lokasi.Kode_Group_Jenis} = '" & ComboBox8.Text & "'"
+                SF = SF & " and {Stock_Barang_SN_Per_Lokasi.Kode_Group_Jenis} = '" & ComboBox8.Text & "' "
             End If
 
             SQL = SQL & "order by a.kode_stock_owner, a.nama"
 
-            Using MyDS As DataSet = Binding(SQL)
-                With MyDS.Tables(0)
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
 
                         Dim CrDoc As New Display_Barang_Rpt
 
-                        CrDoc.SetDataSource(MyDS)
+                        CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                         CrDoc.SummaryInfo.ReportTitle = ""
                         CrDoc.RecordSelectionFormula = SF

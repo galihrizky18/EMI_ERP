@@ -22,6 +22,7 @@ Partial Class EMI_Production_Order_Summary_Data
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -48,13 +49,18 @@ Partial Class EMI_Production_Order_Summary_Data
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lv_Split = New System.Windows.Forms.ListView()
+        Me.Cmb_Status = New System.Windows.Forms.ComboBox()
+        Me.Cmb_Release = New System.Windows.Forms.ComboBox()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.BatalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -65,7 +71,7 @@ Partial Class EMI_Production_Order_Summary_Data
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(943, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1094, 51)
         Me.Panel1.TabIndex = 22
         '
         'Label1
@@ -95,14 +101,14 @@ Partial Class EMI_Production_Order_Summary_Data
         Me.Panel3.Location = New System.Drawing.Point(1, 63)
         Me.Panel3.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(19, 491)
+        Me.Panel3.Size = New System.Drawing.Size(19, 673)
         Me.Panel3.TabIndex = 35
         Me.Panel3.Visible = False
         '
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(922, 63)
+        Me.Panel5.Location = New System.Drawing.Point(1075, 64)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(19, 491)
@@ -121,13 +127,14 @@ Partial Class EMI_Production_Order_Summary_Data
         '
         'Lv_PR
         '
+        Me.Lv_PR.ContextMenuStrip = Me.ContextMenuStrip1
         Me.Lv_PR.Font = New System.Drawing.Font("Work Sans", 9.0!)
         Me.Lv_PR.FullRowSelect = True
         Me.Lv_PR.GridLines = True
         Me.Lv_PR.HideSelection = False
         Me.Lv_PR.Location = New System.Drawing.Point(21, 64)
         Me.Lv_PR.Name = "Lv_PR"
-        Me.Lv_PR.Size = New System.Drawing.Size(900, 257)
+        Me.Lv_PR.Size = New System.Drawing.Size(1053, 257)
         Me.Lv_PR.TabIndex = 234
         Me.Lv_PR.UseCompatibleStateImageBehavior = False
         Me.Lv_PR.View = System.Windows.Forms.View.Details
@@ -160,7 +167,7 @@ Partial Class EMI_Production_Order_Summary_Data
         Me.Lv_PRDetail.HideSelection = False
         Me.Lv_PRDetail.Location = New System.Drawing.Point(6, 6)
         Me.Lv_PRDetail.Name = "Lv_PRDetail"
-        Me.Lv_PRDetail.Size = New System.Drawing.Size(880, 209)
+        Me.Lv_PRDetail.Size = New System.Drawing.Size(1033, 209)
         Me.Lv_PRDetail.TabIndex = 341
         Me.Lv_PRDetail.UseCompatibleStateImageBehavior = False
         Me.Lv_PRDetail.View = System.Windows.Forms.View.Details
@@ -168,6 +175,8 @@ Partial Class EMI_Production_Order_Summary_Data
         'GroupBox3
         '
         Me.GroupBox3.Controls.Add(Me.BtnBarangMasuk_Cari)
+        Me.GroupBox3.Controls.Add(Me.Cmb_Release)
+        Me.GroupBox3.Controls.Add(Me.Cmb_Status)
         Me.GroupBox3.Controls.Add(Me.ComboBox6)
         Me.GroupBox3.Controls.Add(Me.CheckBox3)
         Me.GroupBox3.Controls.Add(Me.TextBox4)
@@ -179,7 +188,7 @@ Partial Class EMI_Production_Order_Summary_Data
         Me.GroupBox3.Controls.Add(Me.DateTimePicker1)
         Me.GroupBox3.Controls.Add(Me.CheckBox1)
         Me.GroupBox3.Controls.Add(Me.ComboBox3)
-        Me.GroupBox3.Location = New System.Drawing.Point(20, 609)
+        Me.GroupBox3.Location = New System.Drawing.Point(25, 615)
         Me.GroupBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Padding = New System.Windows.Forms.Padding(2, 3, 2, 3)
@@ -193,7 +202,7 @@ Partial Class EMI_Production_Order_Summary_Data
         Me.BtnBarangMasuk_Cari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnBarangMasuk_Cari.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnBarangMasuk_Cari.ForeColor = System.Drawing.Color.White
-        Me.BtnBarangMasuk_Cari.Location = New System.Drawing.Point(496, 92)
+        Me.BtnBarangMasuk_Cari.Location = New System.Drawing.Point(512, 94)
         Me.BtnBarangMasuk_Cari.Name = "BtnBarangMasuk_Cari"
         Me.BtnBarangMasuk_Cari.Size = New System.Drawing.Size(81, 27)
         Me.BtnBarangMasuk_Cari.TabIndex = 343
@@ -223,7 +232,7 @@ Partial Class EMI_Production_Order_Summary_Data
         '
         'TextBox4
         '
-        Me.TextBox4.Location = New System.Drawing.Point(283, 95)
+        Me.TextBox4.Location = New System.Drawing.Point(299, 97)
         Me.TextBox4.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.Size = New System.Drawing.Size(208, 20)
@@ -232,7 +241,7 @@ Partial Class EMI_Production_Order_Summary_Data
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(244, 96)
+        Me.Label6.Location = New System.Drawing.Point(252, 98)
         Me.Label6.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(35, 16)
@@ -264,7 +273,7 @@ Partial Class EMI_Production_Order_Summary_Data
         '
         Me.DateTimePicker2.CustomFormat = "dd MMMM yyyy"
         Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker2.Location = New System.Drawing.Point(419, 66)
+        Me.DateTimePicker2.Location = New System.Drawing.Point(435, 68)
         Me.DateTimePicker2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.DateTimePicker2.Name = "DateTimePicker2"
         Me.DateTimePicker2.Size = New System.Drawing.Size(158, 20)
@@ -273,7 +282,7 @@ Partial Class EMI_Production_Order_Summary_Data
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(390, 67)
+        Me.Label7.Location = New System.Drawing.Point(406, 69)
         Me.Label7.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(25, 16)
@@ -284,7 +293,7 @@ Partial Class EMI_Production_Order_Summary_Data
         '
         Me.DateTimePicker1.CustomFormat = "dd MMMM yyyy"
         Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker1.Location = New System.Drawing.Point(228, 66)
+        Me.DateTimePicker1.Location = New System.Drawing.Point(244, 68)
         Me.DateTimePicker1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.DateTimePicker1.Name = "DateTimePicker1"
         Me.DateTimePicker1.Size = New System.Drawing.Size(158, 20)
@@ -308,7 +317,7 @@ Partial Class EMI_Production_Order_Summary_Data
         Me.ComboBox3.Location = New System.Drawing.Point(143, 64)
         Me.ComboBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.ComboBox3.Name = "ComboBox3"
-        Me.ComboBox3.Size = New System.Drawing.Size(81, 24)
+        Me.ComboBox3.Size = New System.Drawing.Size(97, 24)
         Me.ComboBox3.TabIndex = 2
         '
         'TabControl1
@@ -318,7 +327,7 @@ Partial Class EMI_Production_Order_Summary_Data
         Me.TabControl1.Location = New System.Drawing.Point(21, 348)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(900, 250)
+        Me.TabControl1.Size = New System.Drawing.Size(1053, 250)
         Me.TabControl1.TabIndex = 343
         '
         'TabPage1
@@ -327,7 +336,7 @@ Partial Class EMI_Production_Order_Summary_Data
         Me.TabPage1.Location = New System.Drawing.Point(4, 25)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(892, 221)
+        Me.TabPage1.Size = New System.Drawing.Size(1045, 221)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Detail PO"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -338,10 +347,43 @@ Partial Class EMI_Production_Order_Summary_Data
         Me.TabPage2.Location = New System.Drawing.Point(4, 25)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(892, 221)
+        Me.TabPage2.Size = New System.Drawing.Size(1045, 221)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Split PO"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'Lv_Split
+        '
+        Me.Lv_Split.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Lv_Split.FullRowSelect = True
+        Me.Lv_Split.GridLines = True
+        Me.Lv_Split.HideSelection = False
+        Me.Lv_Split.Location = New System.Drawing.Point(6, 6)
+        Me.Lv_Split.Name = "Lv_Split"
+        Me.Lv_Split.Size = New System.Drawing.Size(1033, 209)
+        Me.Lv_Split.TabIndex = 342
+        Me.Lv_Split.UseCompatibleStateImageBehavior = False
+        Me.Lv_Split.View = System.Windows.Forms.View.Details
+        '
+        'Cmb_Status
+        '
+        Me.Cmb_Status.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Status.FormattingEnabled = True
+        Me.Cmb_Status.Location = New System.Drawing.Point(221, 23)
+        Me.Cmb_Status.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.Cmb_Status.Name = "Cmb_Status"
+        Me.Cmb_Status.Size = New System.Drawing.Size(128, 24)
+        Me.Cmb_Status.TabIndex = 342
+        '
+        'Cmb_Release
+        '
+        Me.Cmb_Release.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Release.FormattingEnabled = True
+        Me.Cmb_Release.Location = New System.Drawing.Point(353, 23)
+        Me.Cmb_Release.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.Cmb_Release.Name = "Cmb_Release"
+        Me.Cmb_Release.Size = New System.Drawing.Size(128, 24)
+        Me.Cmb_Release.TabIndex = 342
         '
         'PanelGradient1
         '
@@ -353,28 +395,28 @@ Partial Class EMI_Production_Order_Summary_Data
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(943, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1094, 2)
         Me.PanelGradient1.TabIndex = 22
         '
-        'Lv_Split
+        'ContextMenuStrip1
         '
-        Me.Lv_Split.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        Me.Lv_Split.FullRowSelect = True
-        Me.Lv_Split.GridLines = True
-        Me.Lv_Split.HideSelection = False
-        Me.Lv_Split.Location = New System.Drawing.Point(6, 6)
-        Me.Lv_Split.Name = "Lv_Split"
-        Me.Lv_Split.Size = New System.Drawing.Size(880, 209)
-        Me.Lv_Split.TabIndex = 342
-        Me.Lv_Split.UseCompatibleStateImageBehavior = False
-        Me.Lv_Split.View = System.Windows.Forms.View.Details
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BatalToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 48)
+        '
+        'BatalToolStripMenuItem
+        '
+        Me.BatalToolStripMenuItem.Name = "BatalToolStripMenuItem"
+        Me.BatalToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.BatalToolStripMenuItem.Text = "Batal"
         '
         'EMI_Production_Order_Summary_Data
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(943, 826)
+        Me.ClientSize = New System.Drawing.Size(1094, 757)
+        Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.Panel6)
@@ -384,7 +426,6 @@ Partial Class EMI_Production_Order_Summary_Data
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
-        Me.Controls.Add(Me.GroupBox3)
         Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
@@ -397,6 +438,7 @@ Partial Class EMI_Production_Order_Summary_Data
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -429,4 +471,8 @@ Partial Class EMI_Production_Order_Summary_Data
     Friend WithEvents TabPage1 As TabPage
     Friend WithEvents TabPage2 As TabPage
     Friend WithEvents Lv_Split As ListView
+    Friend WithEvents Cmb_Release As ComboBox
+    Friend WithEvents Cmb_Status As ComboBox
+    Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
+    Friend WithEvents BatalToolStripMenuItem As ToolStripMenuItem
 End Class

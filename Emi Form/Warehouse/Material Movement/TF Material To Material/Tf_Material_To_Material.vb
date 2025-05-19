@@ -142,7 +142,7 @@
                 If dr.Read Then
                     Txt_SO.Text = dr("kode_stock_owner")
                     TxtKd_Barang.Text = dr("kode_barang")
-                    TxtNm_Barang.Text = dr("nama")
+                    TxtNm_Barang.Text = "X"
                     TxtStock.Text = dr("Good_Stock")
                     TxtSatuan.Text = dr("Satuan_display")
                     TxtSatuanKecil.Text = dr("satuan")
@@ -151,15 +151,15 @@
 
                     OpenConn()
                     Cmb_Brg_Tujuan.Items.Clear() : arrJmlBrngAwal.Clear() : arrJmlBrgAkhir.Clear() : arrKdBrgTujuan.Clear()
-                    SQL = "select a.kode_barang_plus,  a.jumlah_barang_awal, b.Nama,a.Jumlah_Barang_Akhir "
-                    SQL = SQL & "from EMI_Master_Flever a,barang b "
+                    SQL = "select a.kode_barang_plus, a.jumlah_barang_awal, b.Nama, a.Jumlah_Barang_Akhir, b.kode_barang "
+                    SQL = SQL & "from EMI_Master_Flever a, barang b "
                     SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Barang_Min = '" & TxtKd_Barang.Text & "' "
                     SQL = SQL & "and a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Barang_Plus = b.Kode_Barang "
-                    SQL = SQL & "group by a.kode_barang_plus, a.jumlah_barang_awal,b.Nama,a.Jumlah_Barang_Akhir "
+                    SQL = SQL & "group by a.kode_barang_plus, a.jumlah_barang_awal,b.Nama,a.Jumlah_Barang_Akhir, b.kode_barang "
                     SQL = SQL & "order by b.Nama "
                     Using Dr2 = OpenTrans(SQL)
                         Do While Dr2.Read
-                            Cmb_Brg_Tujuan.Items.Add(Dr2("nama")) : arrJmlBrngAwal.Add(Dr2("jumlah_barang_awal"))
+                            Cmb_Brg_Tujuan.Items.Add(Dr2("kode_barang")) : arrJmlBrngAwal.Add(Dr2("jumlah_barang_awal"))
                             arrJmlBrgAkhir.Add(Dr2("jumlah_barang_akhir")) : arrKdBrgTujuan.Add(Dr2("kode_barang_plus"))
                         Loop
                     End Using
@@ -272,13 +272,13 @@
 
     Private Sub Initial_List_View()
 
-        Lv_DetBarang.Columns.Add("Kode SO", 140, HorizontalAlignment.Center)
-        Lv_DetBarang.Columns.Add("Kode Barang", 130, HorizontalAlignment.Center)
-        Lv_DetBarang.Columns.Add("Nama", 250, HorizontalAlignment.Center)
-        Lv_DetBarang.Columns.Add("Stock", 90, HorizontalAlignment.Center)
+        Lv_DetBarang.Columns.Add("Kode SO", 180, HorizontalAlignment.Center)
+        Lv_DetBarang.Columns.Add("Kode Barang", 150, HorizontalAlignment.Center)
+        Lv_DetBarang.Columns.Add("Nama", 0, HorizontalAlignment.Center)
+        Lv_DetBarang.Columns.Add("Stock", 150, HorizontalAlignment.Center)
         Lv_DetBarang.Columns.Add("Satuan", 0, HorizontalAlignment.Center)
         Lv_DetBarang.Columns.Add("Satuan", 80, HorizontalAlignment.Center)
-        Lv_DetBarang.Columns.Add("Jumlah Bags", 90, HorizontalAlignment.Center)
+        Lv_DetBarang.Columns.Add("Jumlah Bags", 150, HorizontalAlignment.Center)
         Lv_DetBarang.Columns.Add("Satuan", 0, HorizontalAlignment.Center)
 
         Lv_DetBarang.View = View.Details
@@ -357,7 +357,7 @@
                 SQL = SQL & "b.satuan, a.good_stock) as Good_Stock, a.Satuan, b.satuan as satuan_display, ISNULL(a.Jumlah_Bags, 0) as Jumlah_Bags, "
                 SQL = SQL & "a.Satuan_Isi_Bags from barang a, barang_detail_satuan b "
                 SQL = SQL & "where a.Kode_Perusahaan='" & KodePerusahaan & "' and a.Kode_Stock_Owner='" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
-                SQL = SQL & "and a.nama like '" & TxtKd_Barang.Text & "%' and a.Kode_Barang=b.kode_barang "
+                SQL = SQL & "and a.kode_barang like '%" & TxtKd_Barang.Text & "%' and a.Kode_Barang=b.kode_barang "
                 SQL = SQL & "And a.kode_Perusahaan = b.kode_Perusahaan And b.flag_tampil_display ='Y'  "
                 SQL = SQL & "order by a.Kode_Barang"
                 Using Dr = OpenTrans(SQL)
@@ -365,7 +365,7 @@
                         Dim Lv As New ListViewItem
                         Lv = Lv_DetBarang.Items.Add(Dr("kode_stock_owner"))
                         Lv.SubItems.Add(Dr("kode_barang"))
-                        Lv.SubItems.Add(Dr("nama"))
+                        Lv.SubItems.Add("X")
                         Lv.SubItems.Add(Dr("Good_Stock"))
                         Lv.SubItems.Add(Dr("Satuan"))
                         Lv.SubItems.Add(Dr("satuan_display"))
@@ -526,7 +526,7 @@
                     DGV_Data_TF.Rows(rows).Cells(itemDgvLokasi).Value = Dr("Kode_Stock_Owner")
                     DGV_Data_TF.Rows(rows).Cells(itemDgvKodeBarang).Value = Dr("Kode_Barang")
                     DGV_Data_TF.Rows(rows).Cells(itemDgvSerialNumber).Value = Dr("Serial_Number")
-                    DGV_Data_TF.Rows(rows).Cells(itemDgvNama).Value = Dr("Nama")
+                    DGV_Data_TF.Rows(rows).Cells(itemDgvNama).Value = "X"
                     DGV_Data_TF.Rows(rows).Cells(itemDgvIDWareHose).Value = Dr("Id_Warehouse")
                     DGV_Data_TF.Rows(rows).Cells(itemDgvKodeRak).Value = Dr("kode_rak")
                     DGV_Data_TF.Rows(rows).Cells(itemDgvIDPallet).Value = Dr("nomor_pallet")
@@ -554,7 +554,7 @@
                     DGV_Data_TF.Rows(rows).Cells(itemTglExpired).Value = Format(Dr("Tgl_Expired"), "dd MMM yyyy")
 
                     DGV_Data_TF.Rows(rows).Cells(itemBarcode).Value = Dr("Barcode")
-                    DGV_Data_TF.Rows(rows).Cells(itemBarcode).Value = General_Class.CekNULL(Dr("Blok_SN"))
+                    DGV_Data_TF.Rows(rows).Cells(itemFlagBlokSn).Value = General_Class.CekNULL(Dr("Blok_SN"))
 
                     rows = rows + 1
 
@@ -723,7 +723,6 @@
                     SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & Format(Tgl_Produksi, "yyyy-MM-dd") & "', '" & Format(Tgl_Expired, "yyyy-MM-dd") & "',  "
                     SQL = SQL & "'" & dgv_SerialNumber & "', '" & HilangkanTanda(JumlahBarangKecil) & "', '" & TxtSatuanKecil.Text & "', '" & HilangkanTanda(dgv_JmlhBags) & "', '" & dgv_IDWareHouse & "', '" & dgv_IDPallet & "')"
                     ExecuteTrans(SQL)
-
 
                 End If
             Next

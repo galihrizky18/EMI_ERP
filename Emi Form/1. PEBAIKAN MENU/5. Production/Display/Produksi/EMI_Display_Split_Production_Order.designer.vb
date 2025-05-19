@@ -24,12 +24,16 @@ Partial Class EMI_Display_Split_Production_Order
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Lv_SplitProdOrder = New System.Windows.Forms.ListView()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.CopyNoTransaksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BatalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Lv_PRDetail = New System.Windows.Forms.ListView()
@@ -47,12 +51,9 @@ Partial Class EMI_Display_Split_Production_Order
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.Cb_ParamTgl = New System.Windows.Forms.CheckBox()
         Me.Cmb_ParamTgl = New System.Windows.Forms.ComboBox()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.CopyNoTransaksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1.SuspendLayout()
-        Me.GroupBox3.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -65,6 +66,19 @@ Partial Class EMI_Display_Split_Production_Order
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1208, 51)
         Me.Panel1.TabIndex = 22
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1208, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -119,6 +133,7 @@ Partial Class EMI_Display_Split_Production_Order
         '
         'Lv_SplitProdOrder
         '
+        Me.Lv_SplitProdOrder.ContextMenuStrip = Me.ContextMenuStrip1
         Me.Lv_SplitProdOrder.Font = New System.Drawing.Font("Work Sans", 9.0!)
         Me.Lv_SplitProdOrder.FullRowSelect = True
         Me.Lv_SplitProdOrder.GridLines = True
@@ -129,6 +144,24 @@ Partial Class EMI_Display_Split_Production_Order
         Me.Lv_SplitProdOrder.TabIndex = 234
         Me.Lv_SplitProdOrder.UseCompatibleStateImageBehavior = False
         Me.Lv_SplitProdOrder.View = System.Windows.Forms.View.Details
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNoTransaksiToolStripMenuItem, Me.BatalToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 70)
+        '
+        'CopyNoTransaksiToolStripMenuItem
+        '
+        Me.CopyNoTransaksiToolStripMenuItem.Name = "CopyNoTransaksiToolStripMenuItem"
+        Me.CopyNoTransaksiToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CopyNoTransaksiToolStripMenuItem.Text = "Copy No Transaksi"
+        '
+        'BatalToolStripMenuItem
+        '
+        Me.BatalToolStripMenuItem.Name = "BatalToolStripMenuItem"
+        Me.BatalToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.BatalToolStripMenuItem.Text = "Batal"
         '
         'Panel6
         '
@@ -322,31 +355,6 @@ Partial Class EMI_Display_Split_Production_Order
         Me.Cmb_ParamTgl.Size = New System.Drawing.Size(134, 24)
         Me.Cmb_ParamTgl.TabIndex = 2
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1208, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNoTransaksiToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 48)
-        '
-        'CopyNoTransaksiToolStripMenuItem
-        '
-        Me.CopyNoTransaksiToolStripMenuItem.Name = "CopyNoTransaksiToolStripMenuItem"
-        Me.CopyNoTransaksiToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.CopyNoTransaksiToolStripMenuItem.Text = "Copy No Transaksi"
-        '
         'EMI_Display_Split_Production_Order
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
@@ -371,9 +379,9 @@ Partial Class EMI_Display_Split_Production_Order
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
-        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -405,4 +413,5 @@ Partial Class EMI_Display_Split_Production_Order
     Friend WithEvents Cmb_ValueParamLain As ComboBox
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents CopyNoTransaksiToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents BatalToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -386,10 +386,10 @@
             SQL = SQL & "ISNULL(( (ISNULL(a.Nilai, 0) * isnull(a.PPN, 0) / 100) ), 0) as PPN, "
             SQL = SQL & "ISNULL(( (ISNULL(a.Nilai, 0) * isnull(a.PPH, 0) / 100) ), 0) as PPH, "
             SQL = SQL & "ISNULL(( (a.Nilai + ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPN, 0) / 100)), 0)) - ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPH, 0) / 100)), 0) ),0) as total, "
-            SQL = SQL & "ISNULL(( (a.sudah_bayar + ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPN, 0) / 100)), 0)) - ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPH, 0) / 100)), 0) ), 0) as Pelunasan,"
+            SQL = SQL & "isnull(a.sudah_bayar,0) as Pelunasan,"
 
-            SQL = SQL & "ISNULL(( ISNULL(((a.Nilai + ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPN, 0) / 100)), 0)) -ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPH, 0) / 100)), 0)),0) - "
-            SQL = SQL & "ISNULL(((a.sudah_bayar + ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPN, 0) / 100)), 0)) -ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPH, 0) / 100)), 0)), 0) ),0) as Sisa, "
+            SQL = SQL & "ISNULL(( (a.Nilai + ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPN, 0) / 100)), 0)) - ISNULL(((ISNULL(a.Nilai, 0) * isnull(a.PPH, 0) / 100)), 0) ),0) - "
+            SQL = SQL & "isnull(a.sudah_bayar,0) as Sisa, "
 
             SQL = SQL & "a.lokasi, a.Tgl_Jatuh_Tempo, a.Jenis1 "
             SQL = SQL & "from View_EMI_Pelunasan a "

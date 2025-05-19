@@ -24,24 +24,15 @@ Partial Class EMI_PO_Pembelian_Display
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -63,16 +54,8 @@ Partial Class EMI_PO_Pembelian_Display
         Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.kategori_PO = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GBLocal = New System.Windows.Forms.GroupBox()
-        Me.GBImport = New System.Windows.Forms.GroupBox()
-        Me.DgvPO_DataImport = New System.Windows.Forms.DataGridView()
-        Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.BtnRefresh = New System.Windows.Forms.Button()
         Me.BtnNewPO = New System.Windows.Forms.Button()
         Me.BtnSelisih = New System.Windows.Forms.Button()
@@ -80,8 +63,6 @@ Partial Class EMI_PO_Pembelian_Display
         Me.Panel1.SuspendLayout()
         CType(Me.DgvPO_DataLocal, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GBLocal.SuspendLayout()
-        Me.GBImport.SuspendLayout()
-        CType(Me.DgvPO_DataImport, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel1
@@ -115,7 +96,7 @@ Partial Class EMI_PO_Pembelian_Display
         Me.Label1.Location = New System.Drawing.Point(15, 11)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(210, 30)
+        Me.Label1.Size = New System.Drawing.Size(211, 30)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Display - Customer"
         '
@@ -152,7 +133,7 @@ Partial Class EMI_PO_Pembelian_Display
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(0, 747)
+        Me.Panel4.Location = New System.Drawing.Point(13, 630)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1436, 15)
@@ -234,23 +215,23 @@ Partial Class EMI_PO_Pembelian_Display
         DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DgvPO_DataLocal.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.DgvPO_DataLocal.ColumnHeadersHeight = 45
-        Me.DgvPO_DataLocal.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4, Me.Column5, Me.Column6, Me.Column7, Me.Column8})
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle9.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        DataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvPO_DataLocal.DefaultCellStyle = DataGridViewCellStyle9
+        Me.DgvPO_DataLocal.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4, Me.Column5, Me.Column6, Me.Column7, Me.Column8, Me.kategori_PO})
+        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle10.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        DataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DgvPO_DataLocal.DefaultCellStyle = DataGridViewCellStyle10
         Me.DgvPO_DataLocal.Location = New System.Drawing.Point(6, 19)
         Me.DgvPO_DataLocal.MultiSelect = False
         Me.DgvPO_DataLocal.Name = "DgvPO_DataLocal"
         Me.DgvPO_DataLocal.RowHeadersWidth = 21
-        DataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvPO_DataLocal.RowsDefaultCellStyle = DataGridViewCellStyle10
+        DataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DgvPO_DataLocal.RowsDefaultCellStyle = DataGridViewCellStyle11
         Me.DgvPO_DataLocal.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DgvPO_DataLocal.Size = New System.Drawing.Size(1156, 301)
+        Me.DgvPO_DataLocal.Size = New System.Drawing.Size(1156, 503)
         Me.DgvPO_DataLocal.TabIndex = 457
         '
         'Column1
@@ -314,7 +295,7 @@ Partial Class EMI_PO_Pembelian_Display
         Me.Column7.HeaderText = "Keterangan"
         Me.Column7.Name = "Column7"
         Me.Column7.ReadOnly = True
-        Me.Column7.Width = 475
+        Me.Column7.Width = 400
         '
         'Column8
         '
@@ -323,127 +304,23 @@ Partial Class EMI_PO_Pembelian_Display
         Me.Column8.ReadOnly = True
         Me.Column8.Visible = False
         '
+        'kategori_PO
+        '
+        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.kategori_PO.DefaultCellStyle = DataGridViewCellStyle9
+        Me.kategori_PO.HeaderText = "Kategori PO"
+        Me.kategori_PO.Name = "kategori_PO"
+        Me.kategori_PO.ReadOnly = True
+        '
         'GBLocal
         '
         Me.GBLocal.Controls.Add(Me.DgvPO_DataLocal)
         Me.GBLocal.Location = New System.Drawing.Point(20, 99)
         Me.GBLocal.Name = "GBLocal"
-        Me.GBLocal.Size = New System.Drawing.Size(1168, 326)
+        Me.GBLocal.Size = New System.Drawing.Size(1168, 528)
         Me.GBLocal.TabIndex = 458
         Me.GBLocal.TabStop = False
         Me.GBLocal.Text = "Local"
-        '
-        'GBImport
-        '
-        Me.GBImport.Controls.Add(Me.DgvPO_DataImport)
-        Me.GBImport.Location = New System.Drawing.Point(20, 431)
-        Me.GBImport.Name = "GBImport"
-        Me.GBImport.Size = New System.Drawing.Size(1168, 309)
-        Me.GBImport.TabIndex = 459
-        Me.GBImport.TabStop = False
-        Me.GBImport.Text = "Import"
-        '
-        'DgvPO_DataImport
-        '
-        Me.DgvPO_DataImport.AllowUserToAddRows = False
-        Me.DgvPO_DataImport.AllowUserToDeleteRows = False
-        Me.DgvPO_DataImport.AllowUserToResizeColumns = False
-        Me.DgvPO_DataImport.AllowUserToResizeRows = False
-        DataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvPO_DataImport.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle11
-        Me.DgvPO_DataImport.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        Me.DgvPO_DataImport.BackgroundColor = System.Drawing.Color.White
-        Me.DgvPO_DataImport.BorderStyle = System.Windows.Forms.BorderStyle.None
-        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle12.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        DataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvPO_DataImport.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle12
-        Me.DgvPO_DataImport.ColumnHeadersHeight = 45
-        Me.DgvPO_DataImport.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.DataGridViewTextBoxColumn4, Me.DataGridViewTextBoxColumn5, Me.DataGridViewTextBoxColumn6, Me.DataGridViewTextBoxColumn7})
-        DataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle19.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        DataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvPO_DataImport.DefaultCellStyle = DataGridViewCellStyle19
-        Me.DgvPO_DataImport.Location = New System.Drawing.Point(6, 19)
-        Me.DgvPO_DataImport.MultiSelect = False
-        Me.DgvPO_DataImport.Name = "DgvPO_DataImport"
-        Me.DgvPO_DataImport.RowHeadersWidth = 21
-        DataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvPO_DataImport.RowsDefaultCellStyle = DataGridViewCellStyle20
-        Me.DgvPO_DataImport.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DgvPO_DataImport.Size = New System.Drawing.Size(1156, 284)
-        Me.DgvPO_DataImport.TabIndex = 457
-        '
-        'DataGridViewTextBoxColumn1
-        '
-        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle13
-        Me.DataGridViewTextBoxColumn1.HeaderText = "No Faktur"
-        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
-        Me.DataGridViewTextBoxColumn1.ReadOnly = True
-        Me.DataGridViewTextBoxColumn1.Width = 130
-        '
-        'DataGridViewTextBoxColumn2
-        '
-        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle14
-        Me.DataGridViewTextBoxColumn2.HeaderText = "Lokasix"
-        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
-        Me.DataGridViewTextBoxColumn2.ReadOnly = True
-        Me.DataGridViewTextBoxColumn2.Width = 150
-        '
-        'DataGridViewTextBoxColumn3
-        '
-        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle15
-        Me.DataGridViewTextBoxColumn3.HeaderText = "Tanggal"
-        Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
-        Me.DataGridViewTextBoxColumn3.ReadOnly = True
-        Me.DataGridViewTextBoxColumn3.Width = 130
-        '
-        'DataGridViewTextBoxColumn4
-        '
-        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle16
-        Me.DataGridViewTextBoxColumn4.HeaderText = "Kode Supplierx"
-        Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
-        Me.DataGridViewTextBoxColumn4.ReadOnly = True
-        Me.DataGridViewTextBoxColumn4.Visible = False
-        Me.DataGridViewTextBoxColumn4.Width = 120
-        '
-        'DataGridViewTextBoxColumn5
-        '
-        DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn5.DefaultCellStyle = DataGridViewCellStyle17
-        Me.DataGridViewTextBoxColumn5.HeaderText = "Namax"
-        Me.DataGridViewTextBoxColumn5.Name = "DataGridViewTextBoxColumn5"
-        Me.DataGridViewTextBoxColumn5.ReadOnly = True
-        Me.DataGridViewTextBoxColumn5.Width = 250
-        '
-        'DataGridViewTextBoxColumn6
-        '
-        Me.DataGridViewTextBoxColumn6.HeaderText = "Lokasi Gudangx"
-        Me.DataGridViewTextBoxColumn6.Name = "DataGridViewTextBoxColumn6"
-        Me.DataGridViewTextBoxColumn6.ReadOnly = True
-        Me.DataGridViewTextBoxColumn6.Visible = False
-        '
-        'DataGridViewTextBoxColumn7
-        '
-        DataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle18.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DataGridViewTextBoxColumn7.DefaultCellStyle = DataGridViewCellStyle18
-        Me.DataGridViewTextBoxColumn7.HeaderText = "Keterangan"
-        Me.DataGridViewTextBoxColumn7.Name = "DataGridViewTextBoxColumn7"
-        Me.DataGridViewTextBoxColumn7.ReadOnly = True
-        Me.DataGridViewTextBoxColumn7.Width = 475
         '
         'BtnRefresh
         '
@@ -499,12 +376,11 @@ Partial Class EMI_PO_Pembelian_Display
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1208, 764)
+        Me.ClientSize = New System.Drawing.Size(1208, 644)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.BtnSelisih)
         Me.Controls.Add(Me.BtnNewPO)
         Me.Controls.Add(Me.BtnRefresh)
-        Me.Controls.Add(Me.GBImport)
         Me.Controls.Add(Me.GBLocal)
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Btn_Cari)
@@ -525,8 +401,6 @@ Partial Class EMI_PO_Pembelian_Display
         Me.Panel1.PerformLayout()
         CType(Me.DgvPO_DataLocal, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GBLocal.ResumeLayout(False)
-        Me.GBImport.ResumeLayout(False)
-        CType(Me.DgvPO_DataImport, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -546,15 +420,10 @@ Partial Class EMI_PO_Pembelian_Display
     Friend WithEvents ComboBox1 As ComboBox
     Friend WithEvents DgvPO_DataLocal As DataGridView
     Friend WithEvents GBLocal As GroupBox
-    Friend WithEvents GBImport As GroupBox
-    Friend WithEvents DgvPO_DataImport As DataGridView
-    Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn5 As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn6 As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn7 As DataGridViewTextBoxColumn
+    Friend WithEvents BtnRefresh As Button
+    Friend WithEvents BtnNewPO As Button
+    Friend WithEvents BtnSelisih As Button
+    Friend WithEvents Button1 As Button
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
@@ -563,8 +432,5 @@ Partial Class EMI_PO_Pembelian_Display
     Friend WithEvents Column6 As DataGridViewTextBoxColumn
     Friend WithEvents Column7 As DataGridViewTextBoxColumn
     Friend WithEvents Column8 As DataGridViewTextBoxColumn
-    Friend WithEvents BtnRefresh As Button
-    Friend WithEvents BtnNewPO As Button
-    Friend WithEvents BtnSelisih As Button
-    Friend WithEvents Button1 As Button
+    Friend WithEvents kategori_PO As DataGridViewTextBoxColumn
 End Class

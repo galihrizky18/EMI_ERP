@@ -1,6 +1,6 @@
 ﻿Public Class EMI_Production_Order_Summary_Data
 
-    Dim Arr1, Arr2, Arr3, Arr4 As New ArrayList
+    Dim Arr1, Arr2, Arr3, Arr4, arrStatus, arrRelease As New ArrayList
     Dim pertama As Integer = 1
     Dim T As Color = Color.Blue
     Dim KT As Color = Color.Red
@@ -123,6 +123,22 @@
             CheckBox1.Text = Base_Language.Lang_Global_Para_Tbl
             CheckBox2.Text = Base_Language.Lang_Global_Para_lain
             BtnBarangMasuk_Cari.Text = Base_Language.Lang_Global_Cari
+
+
+            Cmb_Status.Items.Clear() : arrStatus.Clear()
+            Cmb_Status.Items.Add("---SEMUA---") : arrStatus.Add("---SEMUA---")
+            Cmb_Status.Items.Add("Aktif") : arrStatus.Add("a.Status is null")
+            Cmb_Status.Items.Add("Batal") : arrStatus.Add("a.Status is not null")
+            Cmb_Status.SelectedIndex = 0
+
+            Cmb_Release.Items.Clear() : arrRelease.Clear()
+            Cmb_Release.Items.Add("---SEMUA---") : arrRelease.Add("---SEMUA---")
+            Cmb_Release.Items.Add("Release") : arrRelease.Add("a.Flag_Release = 'Y'")
+            Cmb_Release.Items.Add("Submit") : arrRelease.Add("a.Flag_Release is null")
+            Cmb_Release.SelectedIndex = 0
+
+
+
             CloseConn()
         Catch ex As Exception
             ComboBox6.Items.Clear()
@@ -133,13 +149,6 @@
 
     End Sub
 
-    Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged
-
-    End Sub
-
-    Private Sub GroupBox3_Enter(sender As Object, e As EventArgs) Handles GroupBox3.Enter
-
-    End Sub
 
     Private Sub CheckBox3_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox3.CheckedChanged
         If CheckBox3.Checked = True Then
@@ -147,6 +156,8 @@
             BtnBarangMasuk_Cari_Click(CheckBox3, e)
         End If
     End Sub
+
+
 
     Private Sub ListView1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lv_PR.SelectedIndexChanged
         Try
@@ -226,9 +237,6 @@
         End Try
     End Sub
 
-    Private Sub ValidasiInquiryToolStripMenuItem_Click(sender As Object, e As EventArgs)
-
-    End Sub
 
     Private Sub BtnBarangMasuk_Cari_Click(sender As Object, e As EventArgs) Handles BtnBarangMasuk_Cari.Click
         Try
@@ -264,11 +272,10 @@
             Lv_PRDetail.Items.Clear()
             Lv_Split.Items.Clear()
 
-            SQL = "select a.no_faktur, a.Tanggal, a.Tanggal_Release, a.Keterangan, a.Id_Routing, b.keterangan as routing, a.jumlah, a.satuan, a.UserId "
+            SQL = "select a.no_faktur, a.Tanggal, a.Tanggal_Release, a.Keterangan, a.Id_Routing, b.keterangan as routing, a.jumlah, a.satuan, a.UserId, a.Status, a.Flag_Release "
             SQL = SQL & "from emi_order_produksi a, EMI_Master_Routing b "
             SQL = SQL & "where a. Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Perusahaan = b.Kode_Perusahaan "
             SQL = SQL & "and a.Id_Routing = b.Id_Routing "
-            SQL = SQL & "and a.Status is null "
 
             If CheckBox1.Checked Then
                 'Pasang And
@@ -291,6 +298,20 @@
 
                 SQL = SQL & " tanggal between '"
                 SQL = SQL & Format(Now, "yyyy-MM-dd") & "' and '" & Format(Now, "yyyy-MM-dd") & "' "
+            End If
+
+            If Cmb_Status.SelectedIndex <> 0 Then
+                'Pasang And
+                If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+                SQL = SQL & arrStatus(Cmb_Status.SelectedIndex) & " "
+            End If
+
+            If Cmb_Release.SelectedIndex <> 0 Then
+                'Pasang And
+                If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+                SQL = SQL & arrRelease(Cmb_Release.SelectedIndex) & " "
             End If
 
             If ComboBox6.SelectedIndex = 0 Then
@@ -341,6 +362,16 @@
                             Lvw.SubItems.Add(.Rows(i).Item("keterangan"))
                             Lvw.SubItems.Add("-")
                             Lvw.SubItems.Add(.Rows(i).Item("userid"))
+
+
+                            If Not General_Class.CekNULL(.Rows(i).Item("Flag_Release")) = "" Then
+                                Lvw.BackColor = Color.LightGreen
+                            End If
+
+                            If Not General_Class.CekNULL(.Rows(i).Item("Status")) = "" Then
+                                Lvw.BackColor = Color.FromArgb(242, 139, 130)
+                            End If
+
                         Next
                     End If
                 End With
@@ -607,4 +638,43 @@
     ''Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs)
 
     ''End Sub
+
+
+    Private Sub BatalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BatalToolStripMenuItem.Click
+        If Lv_PR.Items.Count = 0 Then Exit Sub
+
+
+        Try
+            OpenConn()
+
+            Dim SelectedFaktur As String = Lv_PR.FocusedItem.SubItems(0).Text
+
+            '========================================
+            '=     CEK APAKAH PO SUDAH BERJALAN     =
+            '========================================
+            SQL = "select Kode_Perusahaan from Emi_Split_Production_Order where Kode_Perusahaan = '" & KodePerusahaan & "' and No_PO = '" & SelectedFaktur & "' and Status is null "
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+                        CloseConn()
+                        MessageBox.Show("Tidak Bisa Membatalkan PO yang sudah Mulai Produksi")
+                        Exit Sub
+                    Else
+                        SQL = "update EMI_Order_Produksi set Status='Y' where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & SelectedFaktur & "'"
+                        ExecuteTrans(SQL)
+                    End If
+                End With
+            End Using
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        BtnBarangMasuk_Cari_Click(sender, e)
+
+    End Sub
 End Class

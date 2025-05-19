@@ -1,8 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-
-Public Class EMI_Independent_Order
+﻿Public Class EMI_Independent_Order
     Public filter_tambahan, filter_kdSupplier As String
     Public asal As String
     Dim arrcari, arrJenis, arrInisialFaktur As New ArrayList
@@ -111,7 +107,7 @@ Public Class EMI_Independent_Order
             LvPilihBarang_DataBarang.Columns.Add(Base_Language.Lang_Global_KodeBarang, 110, HorizontalAlignment.Left)
             LvPilihBarang_DataBarang.Columns.Add(Base_Language.Lang_Global_Nama, 220, HorizontalAlignment.Left)
             LvPilihBarang_DataBarang.Columns.Add(Base_Language.Lang_Global_Satuan, 90, HorizontalAlignment.Left)
-            LvPilihBarang_DataBarang.View = View.Details
+            LvPilihBarang_DataBarang.View = Windows.Forms.View.Details
 
             ListView1.Columns.Clear()
             ListView1.Columns.Add("id_jenis_produk", 0) '0
@@ -460,55 +456,57 @@ Public Class EMI_Independent_Order
     End Sub
 
     Private Sub TxtNamaBarang_Leave(sender As Object, e As EventArgs) Handles TxtNamaBarang.Leave
-
-        If TxtNamaBarang.Text.Trim.Length = 0 Then Exit Sub
-
         If LvPilihBarang_DataBarang.Focused = True Then Exit Sub
+        TxtNamaBarang.Text = "" : TxtPilihBarang_KodeBarang.Text = ""
+
+
+        'If TxtNamaBarang.Text.Trim.Length = 0 Then Exit Sub
+
+        'If LvPilihBarang_DataBarang.Focused = True Then Exit Sub
+
+
+        'Dim var As String = ""
+
+        'Try
+        '    OpenConn()
 
 
 
-        Dim var As String = ""
+        '    SQL = "select a.Kode_Barang,a.Nama, a.Satuan, c.lokasi_gudang, b.Kode_Group_Jenis, e.Keterangan,e.Id_Jenis_Produk  "
+        '    SQL = SQL & "from barang a, EMI_Group_Jenis b, EMI_Kategori_Gudang_PerLokasi c, EMI_Varian d, EMI_Jenis_Produk e  "
+        '    SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan and a.Id_Group_Jenis=b.Id_Group_Jenis and a.Kode_Perusahaan='" & KodePerusahaan & "'  "
+        '    SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Gudang = c.ID_Kategori_Gudang "
+        '    SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.Id_Varian = d.Id_Varian and d.Kode_Perusahaan = e.Kode_Perusahaan and d.Id_Jenis_Produk = e.Id_Jenis_Produk "
+        '    SQL = SQL & "and (b.flag_semi_fg='Y' or b.flag_finished_good = 'Y' ) "
 
-        Try
-            OpenConn()
+        '    SQL = SQL & "and a.nama like '%" & TxtNamaBarang.Text & "%' and aktif = 'Y'  " & filter_tambahan & " "
+        '    SQL = SQL & "group by a.Kode_Barang,b.Kode_Group_Jenis,a.Nama, a.Satuan,c.lokasi_gudang ,e.Keterangan, e.Id_Jenis_Produk"
 
+        '    Using dr = OpenTrans(SQL)
+        '        If dr.Read Then
+        '            txtLokasi_Gudang.Text = dr("lokasi_gudang")
+        '            TxtPilihBarang_KodeBarang.Text = dr("kode_barang")
+        '            TxtNamaBarang.Text = dr("nama")
+        '            TxtPilihBarang_Satuan.Text = dr("Satuan")
+        '            txtIdJenisProduk.Text = dr("id_jenis_produk")
+        '            TxtKso.Text = dr("Kode_Group_Jenis")
+        '            TxtJenisProduk.Text = dr("keterangan")
+        '            dr.Close()
+        '        Else
+        '            TxtPilihBarang_KodeBarang.Text = ""
+        '            TxtNamaBarang.Text = ""
+        '            'TxtPilihBarang_NamaBarang.Text = ""
+        '            TxtPilihBarang_Satuan.Text = ""
+        '            TxtPilihBarang_KodeBarang.Focus()
+        '        End If
+        '    End Using
 
-
-            SQL = "select a.Kode_Barang,a.Nama, a.Satuan, c.lokasi_gudang, b.Kode_Group_Jenis, e.Keterangan,e.Id_Jenis_Produk  "
-            SQL = SQL & "from barang a, EMI_Group_Jenis b, EMI_Kategori_Gudang_PerLokasi c, EMI_Varian d, EMI_Jenis_Produk e  "
-            SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan and a.Id_Group_Jenis=b.Id_Group_Jenis and a.Kode_Perusahaan='" & KodePerusahaan & "'  "
-            SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Gudang = c.ID_Kategori_Gudang "
-            SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.Id_Varian = d.Id_Varian and d.Kode_Perusahaan = e.Kode_Perusahaan and d.Id_Jenis_Produk = e.Id_Jenis_Produk "
-            SQL = SQL & "and (b.flag_semi_fg='Y' or b.flag_finished_good = 'Y' ) "
-
-            SQL = SQL & "and a.nama like '%" & TxtNamaBarang.Text & "%' and aktif = 'Y'  " & filter_tambahan & " "
-            SQL = SQL & "group by a.Kode_Barang,b.Kode_Group_Jenis,a.Nama, a.Satuan,c.lokasi_gudang ,e.Keterangan, e.Id_Jenis_Produk"
-
-            Using dr = OpenTrans(SQL)
-                If dr.Read Then
-                    txtLokasi_Gudang.Text = dr("lokasi_gudang")
-                    TxtPilihBarang_KodeBarang.Text = dr("kode_barang")
-                    TxtNamaBarang.Text = dr("nama")
-                    TxtPilihBarang_Satuan.Text = dr("Satuan")
-                    txtIdJenisProduk.Text = dr("id_jenis_produk")
-                    TxtKso.Text = dr("Kode_Group_Jenis")
-                    TxtJenisProduk.Text = dr("keterangan")
-                    dr.Close()
-                Else
-                    TxtPilihBarang_KodeBarang.Text = ""
-                    TxtNamaBarang.Text = ""
-                    'TxtPilihBarang_NamaBarang.Text = ""
-                    TxtPilihBarang_Satuan.Text = ""
-                    TxtPilihBarang_KodeBarang.Focus()
-                End If
-            End Using
-
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MessageBox.Show(ex.Message)
-            Exit Sub
-        End Try
+        '    CloseConn()
+        'Catch ex As Exception
+        '    CloseConn()
+        '    MessageBox.Show(ex.Message)
+        '    Exit Sub
+        'End Try
     End Sub
 
     Private Sub TextBox1_KeyPress_1(sender As Object, e As KeyPressEventArgs) Handles TextBox1.KeyPress

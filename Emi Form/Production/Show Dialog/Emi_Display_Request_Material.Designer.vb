@@ -24,15 +24,15 @@ Partial Class Emi_Display_Request_Material
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Title = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Lv_Data = New System.Windows.Forms.ListView()
-        Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.Panel5 = New System.Windows.Forms.Panel()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.SelesaiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -47,19 +47,6 @@ Partial Class Emi_Display_Request_Material
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1130, 51)
         Me.Panel1.TabIndex = 23
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1130, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Title
         '
@@ -107,6 +94,18 @@ Partial Class Emi_Display_Request_Material
         Me.Lv_Data.UseCompatibleStateImageBehavior = False
         Me.Lv_Data.View = System.Windows.Forms.View.Details
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelesaiToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(110, 26)
+        '
+        'SelesaiToolStripMenuItem
+        '
+        Me.SelesaiToolStripMenuItem.Name = "SelesaiToolStripMenuItem"
+        Me.SelesaiToolStripMenuItem.Size = New System.Drawing.Size(109, 22)
+        Me.SelesaiToolStripMenuItem.Text = "Selesai"
+        '
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
@@ -127,17 +126,18 @@ Partial Class Emi_Display_Request_Material
         Me.Panel5.TabIndex = 35
         Me.Panel5.Visible = False
         '
-        'ContextMenuStrip1
+        'PanelGradient1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelesaiToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 48)
-        '
-        'SelesaiToolStripMenuItem
-        '
-        Me.SelesaiToolStripMenuItem.Name = "SelesaiToolStripMenuItem"
-        Me.SelesaiToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.SelesaiToolStripMenuItem.Text = "Selesai"
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1130, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Emi_Display_Request_Material
         '

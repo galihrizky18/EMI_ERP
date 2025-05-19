@@ -1,4 +1,6 @@
-﻿Public Class EMI_Display_Production_Result
+﻿Imports System.IO
+
+Public Class EMI_Display_Production_Result
 
     Dim Arr1, Arr2, Arr3, Arr4 As New ArrayList
     Dim pertama As Integer = 1
@@ -6,6 +8,12 @@
     Dim KT As Color = Color.Red
     Dim KY As Color = Color.Green
     Dim Batal As Color = Color.Black
+
+    Private random As New Random()
+    Private imageBytes1 As Byte = Nothing
+    Private FileSize1 As UInt32
+    Private rawData1() As Byte
+    Private fs1 As FileStream
 
     Dim itemPR_NoFak As Integer = 0
     Dim itemPR_NoPO As Integer = 1
@@ -20,6 +28,16 @@
     Dim itemPR_TanggalSelesaiProduksi As Integer = 10
     Dim itemPR_JamSelesaiProduksi As Integer = 11
     Dim itemPR_FlagSelesai As Integer = 12
+
+    Dim itemFG_NoFak As Integer = 0
+    Dim itemFG_NoPO As Integer = 1
+    Dim itemFG_FullQR As Integer = 2
+    Dim itemFG_Jumlah As Integer = 3
+    Dim itemFG_Satuan As Integer = 4
+    Dim itemFG_TglExp As Integer = 5
+    Dim itemFG_Kualitas As Integer = 6
+
+
 
     Private Sub Display_Pembelian_Barang_Masuk_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         kosong()
@@ -40,8 +58,8 @@
         End Try
 
         Lv_ProductionResult.Items.Clear()
-        Lv_ProductionResult.Columns.Add(Base_Language.Lang_Global_NoFaktur, 125, HorizontalAlignment.Left)
-        Lv_ProductionResult.Columns.Add("No Production Order", 135, HorizontalAlignment.Left)
+        Lv_ProductionResult.Columns.Add("No Split", 125, HorizontalAlignment.Left)
+        Lv_ProductionResult.Columns.Add("No PO", 135, HorizontalAlignment.Left)
         Lv_ProductionResult.Columns.Add(Base_Language.Lang_Global_Tanggal, 150, HorizontalAlignment.Center)
         Lv_ProductionResult.Columns.Add(Base_Language.Lang_Global_Jam, 100, HorizontalAlignment.Center)
         Lv_ProductionResult.Columns.Add("User ID", 100, HorizontalAlignment.Center)
@@ -49,7 +67,7 @@
         Lv_ProductionResult.Columns.Add("Nama", 250, HorizontalAlignment.Center)
         Lv_ProductionResult.Columns.Add("Jumlah Produksi", 130, HorizontalAlignment.Right)
         Lv_ProductionResult.Columns.Add("Satuan", 80, HorizontalAlignment.Center)
-        Lv_ProductionResult.Columns.Add("Catatan", 350, HorizontalAlignment.Left)
+        Lv_ProductionResult.Columns.Add("Catatan", 0, HorizontalAlignment.Left)
         Lv_ProductionResult.Columns.Add("Tanggal Selesai Produksi", 150, HorizontalAlignment.Center) 'NULLable
         Lv_ProductionResult.Columns.Add("Jam Selesai Produksi", 100, HorizontalAlignment.Center) 'NULLable
         'Hide
@@ -59,49 +77,38 @@
         Lv_DetailFinishedGood.Items.Clear()
         Lv_DetailFinishedGood.Columns.Add(Base_Language.Lang_Global_NoFaktur, 0, HorizontalAlignment.Left)
         Lv_DetailFinishedGood.Columns.Add("No_Production_Order", 0, HorizontalAlignment.Left)
-        Lv_DetailFinishedGood.Columns.Add(Base_Language.Lang_Global_Kode_Unik_Berjalan, 150, HorizontalAlignment.Left)
-        Lv_DetailFinishedGood.Columns.Add(Base_Language.Lang_Global_Kode_Unik_Asal, 150, HorizontalAlignment.Left)
-        Lv_DetailFinishedGood.Columns.Add("QR Code", 0, HorizontalAlignment.Left)
-        Lv_DetailFinishedGood.Columns.Add("Batch Number", 190, HorizontalAlignment.Left)
-        Lv_DetailFinishedGood.Columns.Add(Base_Language.Lang_Global_Jumlah, 120, HorizontalAlignment.Right)
+        Lv_DetailFinishedGood.Columns.Add("QR Code", 350, HorizontalAlignment.Left)
+        Lv_DetailFinishedGood.Columns.Add(Base_Language.Lang_Global_Jumlah, 150, HorizontalAlignment.Right)
         Lv_DetailFinishedGood.Columns.Add(Base_Language.Lang_Global_Satuan, 100, HorizontalAlignment.Center)
-        Lv_DetailFinishedGood.Columns.Add(Base_Language.Lang_Global_Nilai_Barang, 120, HorizontalAlignment.Right)
-        Lv_DetailFinishedGood.Columns.Add(Base_Language.Lang_Global_Satuan_Barang, 120, HorizontalAlignment.Center)
-        Lv_DetailFinishedGood.Columns.Add("Harga Barang", 150, HorizontalAlignment.Right)
-        Lv_DetailFinishedGood.Columns.Add("Total Harga", 150, HorizontalAlignment.Right)
         Lv_DetailFinishedGood.Columns.Add("Tanggal Expired", 150, HorizontalAlignment.Center)
-        Lv_DetailFinishedGood.Columns.Add("Kualitas", 150, HorizontalAlignment.Center)
+        Lv_DetailFinishedGood.Columns.Add("Kualitas", 200, HorizontalAlignment.Center)
         Lv_DetailFinishedGood.View = View.Details
 
         Lv_DetailRawMaterial.Items.Clear()
         Lv_DetailRawMaterial.Columns.Add(Base_Language.Lang_Global_NoFaktur, 0, HorizontalAlignment.Left)
-        Lv_DetailRawMaterial.Columns.Add("Kode Stock Owner", 150, HorizontalAlignment.Left)
+        Lv_DetailRawMaterial.Columns.Add("Kode Stock Owner", 0, HorizontalAlignment.Left)
         Lv_DetailRawMaterial.Columns.Add(Base_Language.Lang_Global_KodeBarang, 150, HorizontalAlignment.Left)
-        Lv_DetailRawMaterial.Columns.Add(Base_Language.Lang_Global_NamaBarang, 300, HorizontalAlignment.Left)
-        Lv_DetailRawMaterial.Columns.Add(Base_Language.Lang_Global_Nilai_Formula, 120, HorizontalAlignment.Right)
-        Lv_DetailRawMaterial.Columns.Add(Base_Language.Lang_Global_Nilai_Produksi, 120, HorizontalAlignment.Right)
+        Lv_DetailRawMaterial.Columns.Add(Base_Language.Lang_Global_NamaBarang, 400, HorizontalAlignment.Left)
+        Lv_DetailRawMaterial.Columns.Add(Base_Language.Lang_Global_Nilai_Produksi, 180, HorizontalAlignment.Right)
         Lv_DetailRawMaterial.Columns.Add(Base_Language.Lang_Global_Satuan, 100, HorizontalAlignment.Center)
         Lv_DetailRawMaterial.View = View.Details
 
         Lv_DetailPackaging.Items.Clear()
         Lv_DetailPackaging.Columns.Add(Base_Language.Lang_Global_NoFaktur, 0, HorizontalAlignment.Left)
-        Lv_DetailPackaging.Columns.Add("Kode Stock Owner", 150, HorizontalAlignment.Left)
+        Lv_DetailPackaging.Columns.Add("Kode Stock Owner", 0, HorizontalAlignment.Left)
         Lv_DetailPackaging.Columns.Add(Base_Language.Lang_Global_KodeBarang, 150, HorizontalAlignment.Left)
-        Lv_DetailPackaging.Columns.Add(Base_Language.Lang_Global_NamaBarang, 300, HorizontalAlignment.Left)
-        Lv_DetailPackaging.Columns.Add(Base_Language.Lang_Global_Nilai_Formula, 120, HorizontalAlignment.Right)
-        Lv_DetailPackaging.Columns.Add(Base_Language.Lang_Global_Nilai_Produksi, 120, HorizontalAlignment.Right)
+        Lv_DetailPackaging.Columns.Add(Base_Language.Lang_Global_NamaBarang, 400, HorizontalAlignment.Left)
+        Lv_DetailPackaging.Columns.Add(Base_Language.Lang_Global_Nilai_Produksi, 180, HorizontalAlignment.Right)
         Lv_DetailPackaging.Columns.Add(Base_Language.Lang_Global_Satuan, 100, HorizontalAlignment.Center)
         Lv_DetailPackaging.View = View.Details
 
         Lv_DetailScrap.Items.Clear()
         Lv_DetailScrap.Columns.Add(Base_Language.Lang_Global_NoFaktur, 0, HorizontalAlignment.Left)
         Lv_DetailScrap.Columns.Add(Base_Language.Lang_Global_KodeBarang, 150, HorizontalAlignment.Left)
-        Lv_DetailScrap.Columns.Add(Base_Language.Lang_Global_NamaBarang, 300, HorizontalAlignment.Left)
-        Lv_DetailScrap.Columns.Add("Jumlah", 120, HorizontalAlignment.Right)
+        Lv_DetailScrap.Columns.Add(Base_Language.Lang_Global_NamaBarang, 400, HorizontalAlignment.Left)
+        Lv_DetailScrap.Columns.Add("Jumlah", 180, HorizontalAlignment.Right)
         Lv_DetailScrap.Columns.Add("Satuan", 130, HorizontalAlignment.Center)
-        Lv_DetailScrap.Columns.Add("Nilai Barang", 120, HorizontalAlignment.Right)
-        Lv_DetailScrap.Columns.Add("Satuan Barang", 130, HorizontalAlignment.Center)
-        Lv_DetailScrap.Columns.Add("Proses", 80, HorizontalAlignment.Center)
+        Lv_DetailScrap.Columns.Add("Proses", 0, HorizontalAlignment.Center)
         'Hide
         Lv_DetailScrap.Columns.Add("Urut Oto", 0, HorizontalAlignment.Center)
         Lv_DetailScrap.View = View.Details
@@ -314,16 +321,9 @@
                     Dim lvw As ListViewItem
                     lvw = Lv_DetailFinishedGood.Items.Add(Dr("No_Transaksi"))
                     lvw.SubItems.Add(Dr("No_Production_Order"))
-                    lvw.SubItems.Add(Dr("Kode_Unik_Berjalan"))
-                    lvw.SubItems.Add(Dr("Kode_Unik_Asal"))
-                    lvw.SubItems.Add(Dr("Qr_Code"))
-                    lvw.SubItems.Add(Dr("Batch_Number"))
+                    lvw.SubItems.Add(Dr("Qr_Code") + "-" + Dr("Kode_Unik_Berjalan"))
                     lvw.SubItems.Add(Format(Dr("jumlah"), "N0"))
                     lvw.SubItems.Add(Dr("Satuan"))
-                    lvw.SubItems.Add(Format(Dr("NIlai_Barang"), "N0"))
-                    lvw.SubItems.Add(Dr("Satuan_Barang"))
-                    lvw.SubItems.Add(Dr("Harga_Per_Barang"))
-                    lvw.SubItems.Add(Dr("Total_Harga"))
                     lvw.SubItems.Add(Format(Dr("Tgl_Expired"), "dd MMM yyyy"))
                     lvw.SubItems.Add(Dr("Kualitas"))
                 Loop
@@ -344,11 +344,13 @@
                     lvw.SubItems.Add(Dr("kode_stock_owner"))
                     lvw.SubItems.Add(Dr("Kode_Barang"))
                     lvw.SubItems.Add(Dr("Nama_Barang"))
-                    lvw.SubItems.Add(Format(Dr("Nilai_Formula"), "N0"))
                     lvw.SubItems.Add(Format(Dr("Nilai_Produksi"), "N0"))
                     lvw.SubItems.Add(Dr("Satuan"))
                 Loop
             End Using
+
+
+
 
             'Packaging
             SQL = "select b.No_Transaksi, b.kode_stock_owner, b.Kode_Barang, c.Nama as Nama_Barang, "
@@ -365,7 +367,6 @@
                     lvw.SubItems.Add(Dr("kode_stock_owner"))
                     lvw.SubItems.Add(Dr("Kode_Barang"))
                     lvw.SubItems.Add(Dr("Nama_Barang"))
-                    lvw.SubItems.Add(Format(Dr("Nilai_Formula"), "N0"))
                     lvw.SubItems.Add(Format(Dr("Nilai_Produksi"), "N0"))
                     lvw.SubItems.Add(Dr("Satuan"))
                 Loop
@@ -388,12 +389,11 @@
                     Lvw.SubItems.Add(Dr("Nama_Barang"))
                     Lvw.SubItems.Add(Dr("Jumlah"))
                     Lvw.SubItems.Add(Dr("Satuan"))
-                    Lvw.SubItems.Add(Dr("Nilai_Barang"))
-                    Lvw.SubItems.Add(Dr("Satuan_Barang"))
                     Lvw.SubItems.Add(Dr("Proses"))
                     Lvw.SubItems.Add(Dr("Urut_Oto"))
                 Loop
             End Using
+
 
             CloseConn()
         Catch ex As Exception
@@ -521,6 +521,8 @@
         End If
     End Sub
 
+
+
     Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_ParamLain.CheckedChanged
         If Cb_ParamLain.Checked Then
             Cmb_ParamLain.Enabled = True : Txt_ParamValue.Enabled = True
@@ -529,6 +531,8 @@
             Cmb_ParamLain.SelectedIndex = -1 : Txt_ParamValue.Text = ""
         End If
     End Sub
+
+
 
     '======= CETAK ULANG ======='
 
@@ -682,5 +686,373 @@
             Exit Sub
         End Try
     End Sub
+
+    Private Sub CetakUlangBarcodeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CetakUlangBarcodeToolStripMenuItem.Click
+
+        If Lv_DetailFinishedGood.Items.Count = 0 Then Exit Sub
+
+        Dim KdBarang, Qr_Code, TglExp, Tgl_Produksi, Tgl_Masuk, Batch, MetodePengeluaranStok As String
+        Dim kode_unik_print As String
+        Dim SelectedIndex As Integer = Lv_DetailFinishedGood.FocusedItem.Index
+
+        Try
+            OpenConn()
+
+
+            '======================
+            '=      GET DATA      =
+            '======================
+            'Finished Good
+            SQL = "select a.Kode_Perusahaan, a.Kode_Barang, b.Qr_Code, Tgl_Expired, b.Batch_Number, b.Tgl_Produksi, b.Tgl_Masuk, a.Metode_Pengeluaran_Stok "
+            SQL = SQL & "from barang a, barang_sn b "
+            SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan "
+            SQL = SQL & "and a.kode_stock_owner = b.kode_stock_owner "
+            SQL = SQL & "and a.kode_barang = b.kode_barang "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and b.Qr_Code + '-' + b.Kode_Unik_Berjalan = '" & Lv_DetailFinishedGood.FocusedItem.SubItems(itemFG_FullQR).Text & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    KdBarang = Dr("Kode_Barang")
+                    Qr_Code = Dr("Qr_Code")
+                    TglExp = If(General_Class.CekNULL(Dr("Tgl_Expired")) = "", "", Dr("Tgl_Expired"))
+                    Batch = Dr("Batch_Number")
+                    Tgl_Produksi = If(General_Class.CekNULL(Dr("Tgl_Produksi")) = "", "", Dr("Tgl_Produksi"))
+                    Tgl_Masuk = If(General_Class.CekNULL(Dr("Tgl_Masuk")) = "", "", Dr("Tgl_Masuk"))
+                    MetodePengeluaranStok = Dr("Metode_Pengeluaran_Stok")
+                Else
+                    Dr.Close()
+                    CloseConn()
+                    MessageBox.Show("Data Tidak Ditemukan", "Production Result", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            '==================================
+            '=      GENERATE NEW BARCODE      =
+            '==================================
+            'HAPUS TABEL SEMENTARA
+            SQL = "truncate table Cetak_Finish_Good "
+            ExecuteTrans(SQL)
+
+            kode_unik_print = Format(tgl_skg, "MMddHHmmss") & Format(random.Next(0, 10000), "00000")
+
+            Dim fullNewQr As String = Lv_DetailFinishedGood.Items(SelectedIndex).SubItems(itemFG_FullQR).Text
+
+            Barcode.Image = Generate_QR(fullNewQr)
+
+            Dim FileToSaveAs1 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "newBarcodeTfStock" & kode_unik_print & ".jpg")
+
+            '   Dim FileToSaveAs1 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "newBarcodeFinishGood.jpg")
+
+            'If Not (System.IO.File.Exists(FileToSaveAs1)) Then
+            Barcode.Image.Save(FileToSaveAs1, System.Drawing.Imaging.ImageFormat.Jpeg)
+            'End If
+
+            fs1 = New FileStream(FileToSaveAs1, FileMode.Open, FileAccess.Read)
+            FileSize1 = fs1.Length
+            rawData1 = New Byte(FileSize1) {}
+            fs1.Read(rawData1, 0, FileSize1)
+            fs1.Close()
+            Cmd.Parameters.Add("@newBarcode", SqlDbType.Image).Value = rawData1
+
+
+            'INSERT TABEL CETAK QR
+            SQL = "insert into Cetak_Finish_Good (Kode_Perusahaan, Kode_Barang, Barcode, QrUtuh, Qr, Tgl_Expired, batch, tgl_produksi, kode_unik_print, tanggal_masuk, metode_pengeluaran_stok) values "
+            'SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_KdBarang.Text & "', @newBarcode, '" & Txt_NamaBarang.Text & "', "
+            SQL = SQL & "('" & KodePerusahaan & "', '" & KdBarang & "', @newBarcode, "
+            SQL = SQL & "'" & fullNewQr & "', '" & Qr_Code & "', '" & Format(Date.Parse(TglExp), "yyyy-MM-dd") & "', '" & Batch & "',  '" & Format(Date.Parse(Tgl_Produksi), "yyyy-MM-dd") & "', "
+            SQL = SQL & "'" & kode_unik_print & "', '" & If(String.IsNullOrEmpty(Tgl_Masuk), "", Format(Date.Parse(Tgl_Masuk), "yyyy-MM-dd")) & "', '" & MetodePengeluaranStok & "'"
+            SQL = SQL & ")"
+            ExecuteTrans(SQL)
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        '===========================
+        '=      CETAK BARCODE      =
+        '===========================
+
+        Try
+            OpenConn()
+            Dim CrDoc As New Object
+
+            Dim KertasBesar As String = "BarcodeFG"
+            Dim KertasKecil As String = "BarcodeQC"
+
+            SQL = "select Kode_Perusahaan from Cetak_Finish_Good where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Barang='" & KdBarang & "' and Kode_Unik_Print = '" & kode_unik_print & "' "
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                    CrDoc = New NewBarcodeFinishGood
+
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & KdBarang & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '" & kode_unik_print & "' "
+
+                    '    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    '    Dim rawKind As Integer
+                    '    Dim foundPaper As Boolean = False
+                    '    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    '    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                    '        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = KertasBesar Then
+                    '            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                    '            CrDoc.PrintOptions.PaperSize = rawKind
+                    '            foundPaper = True
+                    '            Exit For
+                    '        End If
+                    '    Next
+
+                    '    If Not foundPaper Then
+                    '        CloseConn()
+                    '        MessageBox.Show("Kertas Tidak Ditemukan", "Cetak Ulang Barcode", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    '        Exit Sub
+                    '    End If
+
+                    '    CrDoc.SummaryInfo.ReportTitle = "New Barcode Finish Good"
+                    '    .Text = "New Barcode Finish Good"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
+
+                    '==========================
+                    '=     BARCODEE BESAR     =
+                    '==========================
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & KdBarang & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '" & kode_unik_print & "' "
+                    CrDoc.PrintOptions.PrinterName = PrinterBarcode
+
+                    doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+
+                    Dim rawKind As Integer
+                    Dim foundPaper As Boolean = False
+                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = KertasBesar Then
+                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                            CrDoc.PrintOptions.PaperSize = rawKind
+                            foundPaper = True
+                            Exit For
+                        End If
+                    Next
+
+                    If Not foundPaper Then
+                        CloseConn()
+                        MessageBox.Show("Kertas Tidak Ditemukan", "Cetak Ulang Barcode", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                    CrDoc.PrintToPrinter(1, False, 1, 2500)
+
+
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
+    End Sub
+
+    Private Sub CetakUlangBarcodeQCToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CetakUlangBarcodeQCToolStripMenuItem.Click
+
+        If Lv_DetailFinishedGood.Items.Count = 0 Then Exit Sub
+
+        Dim KdBarang, Qr_Code, TglExp, Tgl_Produksi, Tgl_Masuk, Batch, MetodePengeluaranStok As String
+        Dim kode_unik_print As String
+        Dim SelectedIndex As Integer = Lv_DetailFinishedGood.FocusedItem.Index
+
+        Try
+            OpenConn()
+
+
+            '======================
+            '=      GET DATA      =
+            '======================
+            'Finished Good
+            SQL = "select a.Kode_Perusahaan, a.Kode_Barang, b.Qr_Code, Tgl_Expired, b.Batch_Number, b.Tgl_Produksi, b.Tgl_Masuk, a.Metode_Pengeluaran_Stok "
+            SQL = SQL & "from barang a, barang_sn b "
+            SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan "
+            SQL = SQL & "and a.kode_stock_owner = b.kode_stock_owner "
+            SQL = SQL & "and a.kode_barang = b.kode_barang "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and b.Qr_Code + '-' + b.Kode_Unik_Berjalan = '" & Lv_DetailFinishedGood.FocusedItem.SubItems(itemFG_FullQR).Text & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    KdBarang = Dr("Kode_Barang")
+                    Qr_Code = Dr("Qr_Code")
+                    TglExp = If(General_Class.CekNULL(Dr("Tgl_Expired")) = "", "", Dr("Tgl_Expired"))
+                    Batch = Dr("Batch_Number")
+                    Tgl_Produksi = If(General_Class.CekNULL(Dr("Tgl_Produksi")) = "", "", Dr("Tgl_Produksi"))
+                    Tgl_Masuk = If(General_Class.CekNULL(Dr("Tgl_Masuk")) = "", "", Dr("Tgl_Masuk"))
+                    MetodePengeluaranStok = Dr("Metode_Pengeluaran_Stok")
+                Else
+                    Dr.Close()
+                    CloseConn()
+                    MessageBox.Show("Data Tidak Ditemukan", "Production Result", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            '==================================
+            '=      GENERATE NEW BARCODE      =
+            '==================================
+            'HAPUS TABEL SEMENTARA
+            SQL = "truncate table Cetak_Finish_Good "
+            ExecuteTrans(SQL)
+
+            kode_unik_print = Format(tgl_skg, "MMddHHmmss") & Format(random.Next(0, 10000), "00000")
+
+            Dim fullNewQr As String = Lv_DetailFinishedGood.Items(SelectedIndex).SubItems(itemFG_FullQR).Text
+
+            Barcode.Image = Generate_QR(fullNewQr)
+
+            Dim FileToSaveAs1 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "newBarcodeTfStock" & kode_unik_print & ".jpg")
+
+            '   Dim FileToSaveAs1 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "newBarcodeFinishGood.jpg")
+
+            'If Not (System.IO.File.Exists(FileToSaveAs1)) Then
+            Barcode.Image.Save(FileToSaveAs1, System.Drawing.Imaging.ImageFormat.Jpeg)
+            'End If
+
+            fs1 = New FileStream(FileToSaveAs1, FileMode.Open, FileAccess.Read)
+            FileSize1 = fs1.Length
+            rawData1 = New Byte(FileSize1) {}
+            fs1.Read(rawData1, 0, FileSize1)
+            fs1.Close()
+            Cmd.Parameters.Add("@newBarcode", SqlDbType.Image).Value = rawData1
+
+
+            'INSERT TABEL CETAK QR
+            SQL = "insert into Cetak_Finish_Good (Kode_Perusahaan, Kode_Barang, Barcode, QrUtuh, Qr, Tgl_Expired, batch, tgl_produksi, kode_unik_print, tanggal_masuk, metode_pengeluaran_stok) values "
+            'SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_KdBarang.Text & "', @newBarcode, '" & Txt_NamaBarang.Text & "', "
+            SQL = SQL & "('" & KodePerusahaan & "', '" & KdBarang & "', @newBarcode, "
+            SQL = SQL & "'" & fullNewQr & "', '" & Qr_Code & "', '" & Format(Date.Parse(TglExp), "yyyy-MM-dd") & "', '" & Batch & "',  '" & Format(Date.Parse(Tgl_Produksi), "yyyy-MM-dd") & "', "
+            SQL = SQL & "'" & kode_unik_print & "', '" & If(String.IsNullOrEmpty(Tgl_Masuk), "", Format(Date.Parse(Tgl_Masuk), "yyyy-MM-dd")) & "', '" & MetodePengeluaranStok & "'"
+            SQL = SQL & ")"
+            ExecuteTrans(SQL)
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        '===========================
+        '=      CETAK BARCODE      =
+        '===========================
+
+        Try
+            OpenConn()
+            Dim CrDoc As New Object
+
+            Dim KertasBesar As String = "BarcodeFG"
+            Dim KertasKecil As String = "BarcodeQC"
+
+            SQL = "select Kode_Perusahaan from Cetak_Finish_Good where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Barang='" & KdBarang & "' and Kode_Unik_Print = '" & kode_unik_print & "' "
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                    CrDoc = New NewBarcodeFinishGoodKecil
+
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & KdBarang & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '" & kode_unik_print & "' "
+
+
+                    '    Dim doctoprint2 As New System.Drawing.Printing.PrintDocument()
+                    '    doctoprint2.PrinterSettings.PrinterName = PrinterBarcodeQC
+                    '    Dim rawKind2 As Integer
+                    '    Dim foundPaper As Boolean = False
+                    '    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    '    For i = 0 To doctoprint2.PrinterSettings.PaperSizes.Count - 1
+                    '        If doctoprint2.PrinterSettings.PaperSizes(i).PaperName = KertasKecil Then
+                    '            rawKind2 = CInt(doctoprint2.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint2.PrinterSettings.PaperSizes(i)))
+                    '            CrDoc.PrintOptions.PaperSize = rawKind2
+                    '            foundPaper = True
+                    '            Exit For
+                    '        End If
+                    '    Next
+
+                    '    If Not foundPaper Then
+                    '        CloseConn()
+                    '        MessageBox.Show("Kertas Tidak Ditemukan", "Cetak Ulang Barcode", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    '        Exit Sub
+                    '    End If
+
+                    '    CrDoc.SummaryInfo.ReportTitle = "New Barcode Finish Good"
+                    '    .Text = "New Barcode Finish Good"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
+
+
+
+
+                    '==========================
+                    '=     BARCODEE KECIL     =
+                    '==========================
+
+                    Dim doctoprint2 As New System.Drawing.Printing.PrintDocument()
+
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & KdBarang & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '" & kode_unik_print & "' "
+                    CrDoc.PrintOptions.PrinterName = PrinterBarcodeQC
+
+                    doctoprint2.PrinterSettings.PrinterName = PrinterBarcodeQC
+
+                    Dim rawKind2 As Integer
+                    Dim foundPaper As Boolean = False
+                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    For i = 0 To doctoprint2.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint2.PrinterSettings.PaperSizes(i).PaperName = KertasKecil Then
+                            rawKind2 = CInt(doctoprint2.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint2.PrinterSettings.PaperSizes(i)))
+                            CrDoc.PrintOptions.PaperSize = rawKind2
+                            foundPaper = True
+                            Exit For
+                        End If
+                    Next
+
+                    If Not foundPaper Then
+                        CloseConn()
+                        MessageBox.Show("Kertas Tidak Ditemukan", "Cetak Ulang Barcode", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                    CrDoc.PrintToPrinter(1, False, 1, 2500)
+
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
+    End Sub
+
 
 End Class

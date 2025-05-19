@@ -19,6 +19,7 @@ Module General_Module
     Public fab As String = "FAB"
     Public fTransTimbanganKosong As String = ""
     Public IPPORT_IPCAM_1 As String = ""
+    Public PPN As String = "11"
     Public IPPORT_IPCAM_2 As String = ""
     Public User_IPCAM_1 As String = ""
     Public Pass_IPCAM_1 As String = ""
@@ -26,7 +27,7 @@ Module General_Module
     Public Pass_IPCAM_2 As String = ""
     Public Url_WA_Business As String = ""
     Public Token_WA_Business As String = ""
-    Public fDownPay As String = "DPDS"
+    Public fDownPay As String = "DP"
     Public Data_User_App2 As New ArrayList
     Public Ket_Cost_Center_HO As String = "0"
 
@@ -49,10 +50,17 @@ Module General_Module
     Public fValPelBI As String = "PB"
     Public FRencanaProduksiBarang As String = "FRP"
     Public fBudgetingCostCenter As String = "BCC"
+    Public fPurchaseRequisitionBL As String = "OR"
+
+    'Public FilterPengeluaranCostCenter As String = " gj.Flag_Packaging = 'T' and gj.Flag_Raw_Material = 'T' and gj.Flag_Finished_Good = 'T' and gj.Flag_Sample = 'T' and gj.Flag_Semi_FG = 'T' and gj.Flag_Scrap = 'T' and gj.Flag_Bahan_Bakar = 'T' and gj.Flag_Peralatan = 'T' "
+    'Public FilterPengeluaranCostCenterCR As String = " {emi_group_jenis.Flag_Packaging} = 'T' and {emi_group_jenis.Flag_Raw_Material} = 'T' and {emi_group_jenis.Flag_Finished_Good} = 'T' and {emi_group_jenis.Flag_Sample} = 'T' and {emi_group_jenis.Flag_Semi_FG} = 'T' and {emi_group_jenis.Flag_Scrap} = 'T' and {emi_group_jenis.Flag_Bahan_Bakar} = 'T' and {emi_group_jenis.Flag_Peralatan} = 'T' "
 
     Public FilterPengeluaranCostCenter As String = " gj.Flag_Packaging = 'T' and gj.Flag_Raw_Material = 'T' and gj.Flag_Finished_Good = 'T' and gj.Flag_Sample = 'T' and gj.Flag_Semi_FG = 'T' and gj.Flag_Scrap = 'T' and gj.Flag_Bahan_Bakar = 'T' and gj.Flag_Peralatan = 'T' "
-
     Public FilterPengeluaranCostCenterCR As String = " {emi_group_jenis.Flag_Packaging} = 'T' and {emi_group_jenis.Flag_Raw_Material} = 'T' and {emi_group_jenis.Flag_Finished_Good} = 'T' and {emi_group_jenis.Flag_Sample} = 'T' and {emi_group_jenis.Flag_Semi_FG} = 'T' and {emi_group_jenis.Flag_Scrap} = 'T' and {emi_group_jenis.Flag_Bahan_Bakar} = 'T' and {emi_group_jenis.Flag_Peralatan} = 'T' "
+
+
+
+
 
     Public fATK As String = ""
     Public fAsset As String = ""
@@ -124,7 +132,9 @@ Module General_Module
     Public Const CDatabase As String = "emi_tm_demo"
     'Public Const CDatabase As String = "grahaweb_tm"
     Public Const CUserId As String = "sqlserver"
-    Public Const CPassword As String = "**H0L4H0L4hola**"
+    'Public Const CPassword As String = "**H0L4H0L4hola**"
+    Public Const CPassword As String = "MakanEnak301%"
+
 
     'Public CServer As String = "35.240.215.51,59114\team"
     ''Public Const CDatabaseSQL As String = "tes_absen"
@@ -258,9 +268,10 @@ Module General_Module
     Public format_tgl As String = "yyyy-MM-dd 23:59:59" '"dd-MM-yyyy"
     Public format_tgl2 As String = "yyyy-MM-dd"
     Public EditHJ As String = "T"
-    Public PPN As Double = 10
     Public list_pembeda As String = "'MS', 'MK', 'Unikey', 'Prohex'"
     Public pakai_point As String = "Y"
+
+    Public fDownPayProyek As String = "DPPY"
 
     Public Lokasi_Import As String = "GUDANG A"
     Public HPP As String = "HP-"
@@ -1907,23 +1918,6 @@ Module General_Module
 
 
 
-    Public Sub Cek_Flagging()
-        OpenConn()
-
-        fATK = "T" : fAsset = "T" : fSparepart = "T"
-
-        SQL = "select nama_role from emi_pengeluaran_barang_roles "
-        SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and userid = '" & UserID & "'"
-        Using dr = OpenTrans(SQL)
-            Do While dr.Read
-                If dr("nama_role") = "ATK" Then fATK = "Y"
-                If dr("nama_role") = "Asset" Then fAsset = "Y"
-                If dr("nama_role") = "Sparepart" Then fSparepart = "Y"
-            Loop
-        End Using
-
-        CloseConn()
-    End Sub
 
     Public Function Jurnal_Pengeluaran_Barang(ByVal xNo_fak As String, ByVal xAkun_Debit As String, ByVal xAkun_Kredit As String, ByVal xnilai As String, ByVal xSog As String, ByVal xid_cost As String, ByVal xinisial_faktur_dari As String) As String
         Dim Kode_voucher As String = ""
@@ -1983,6 +1977,156 @@ Module General_Module
 
         Pengeluaran_Barang.isError = True
 
+    End Function
+
+
+    'Public FilterPengeluaranCostCenter As String = "" ' " and (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "' OR gj.flag_packaging = '" & fPackaging & "' OR gj.flag_raw_material = '" & fRawMaterial & "' OR gj.flag_finished_good = '" & fFinishedGood & "' OR gj.flag_sample = '" & fSample & "' OR gj.Flag_Semi_FG = '" & fSemiFG & "' OR gj.Flag_Scrap = '" & fScrap & "' OR gj.flag_bahan_bakar = '" & fBahanBakar & "' OR gj.flag_peralatan = '" & fPeralatan & "') "
+    ''"" ' " gj.Flag_Packaging = 'T' and gj.Flag_Raw_Material = 'T' and gj.Flag_Finished_Good = 'T' and gj.Flag_Sample = 'T' and gj.Flag_Semi_FG = 'T' and gj.Flag_Scrap = 'T' and gj.Flag_Bahan_Bakar = 'T' and gj.Flag_Peralatan = 'T' "
+
+    'Public FilterPengeluaranCostCenterCR As String = "" '" and ({emi_group_jenis.flag_ATK} = '" & fATK & "' OR {emi_group_jenis.flag_asset} = '" & fAsset & "' OR {emi_group_jenis.flag_sparepart} = '" & fSparepart & "' OR {emi_group_jenis.flag_packaging} = '" & fPackaging & "' OR {emi_group_jenis.flag_raw_material} = '" & fRawMaterial & "' OR {emi_group_jenis.flag_finished_good} = '" & fFinishedGood & "' OR {emi_group_jenis.flag_sample} = '" & fSample & "' OR {emi_group_jenis.Flag_Semi_FG} = '" & fSemiFG & "' OR {emi_group_jenis.Flag_Scrap} = '" & fScrap & "' OR {emi_group_jenis.flag_bahan_bakar} = '" & fBahanBakar & "' OR {emi_group_jenis.flag_peralatan} = '" & fPeralatan & "') "
+    ''"" ' " {emi_group_jenis.Flag_Packaging} = 'T' and {emi_group_jenis.Flag_Raw_Material} = 'T' and {emi_group_jenis.Flag_Finished_Good} = 'T' and {emi_group_jenis.Flag_Sample} = 'T' and {emi_group_jenis.Flag_Semi_FG} = 'T' and {emi_group_jenis.Flag_Scrap} = 'T' and {emi_group_jenis.Flag_Bahan_Bakar} = 'T' and {emi_group_jenis.Flag_Peralatan} = 'T' "
+
+
+    'Public fATK As String = ""
+    'Public fAsset As String = ""
+    'Public fSparepart As String = ""
+    Public fPackaging As String = ""
+    Public fRawMaterial As String = ""
+    Public fFinishedGood As String = ""
+    Public fSample As String = ""
+    Public fSemiFG As String = ""
+    Public fScrap As String = ""
+    Public fBahanBakar As String = ""
+    Public fPeralatan As String = ""
+
+    Public Sub Cek_Flagging()
+        '  OpenConn()
+
+        fATK = "T" : fAsset = "T" : fSparepart = "T" : fPackaging = "T" : fRawMaterial = "T"
+        fFinishedGood = "T" : fSample = "T" : fSemiFG = "T" : fScrap = "T" : fBahanBakar = "T" : fPeralatan = "T"
+
+        SQL = "select nama_role from emi_pengeluaran_barang_roles "
+        SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and userid = '" & UserID & "'"
+        Using dr = OpenTrans(SQL)
+            Do While dr.Read
+                If dr("nama_role") = "ATK" Then fATK = "Y"
+                If dr("nama_role") = "Asset" Then fAsset = "Y"
+                If dr("nama_role") = "Sparepart" Then fSparepart = "Y"
+                If dr("nama_role") = "Packaging" Then fPackaging = "Y"
+                If dr("nama_role") = "Raw Material" Then fRawMaterial = "Y"
+                If dr("nama_role") = "Finished Good" Then fFinishedGood = "Y"
+                If dr("nama_role") = "Sample" Then fSample = "Y"
+                If dr("nama_role") = "Semi FG" Then fSemiFG = "Y"
+                If dr("nama_role") = "Scrap" Then fScrap = "Y"
+                If dr("nama_role") = "Bahan Bakar" Then fBahanBakar = "Y"
+                If dr("nama_role") = "Peralatan" Then fPeralatan = "Y"
+            Loop
+        End Using
+
+        'FilterPengeluaranCostCenter = " and (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "' OR gj.flag_packaging = '" & fPackaging & "' OR gj.flag_raw_material = '" & fRawMaterial & "' OR gj.flag_finished_good = '" & fFinishedGood & "' OR gj.flag_sample = '" & fSample & "' OR gj.Flag_Semi_FG = '" & fSemiFG & "' OR gj.Flag_Scrap = '" & fScrap & "' OR gj.flag_bahan_bakar = '" & fBahanBakar & "' OR gj.flag_peralatan = '" & fPeralatan & "') "
+        'FilterPengeluaranCostCenterCR = " and ({emi_group_jenis.flag_ATK} = '" & fATK & "' OR {emi_group_jenis.flag_asset} = '" & fAsset & "' OR {emi_group_jenis.flag_sparepart} = '" & fSparepart & "' OR {emi_group_jenis.flag_packaging} = '" & fPackaging & "' OR {emi_group_jenis.flag_raw_material} = '" & fRawMaterial & "' OR {emi_group_jenis.flag_finished_good} = '" & fFinishedGood & "' OR {emi_group_jenis.flag_sample} = '" & fSample & "' OR {emi_group_jenis.Flag_Semi_FG} = '" & fSemiFG & "' OR {emi_group_jenis.Flag_Scrap} = '" & fScrap & "' OR {emi_group_jenis.flag_bahan_bakar} = '" & fBahanBakar & "' OR {emi_group_jenis.flag_peralatan} = '" & fPeralatan & "') "
+
+        If fATK = "T" And fAsset = "T" And fSparepart = "T" And fPackaging = "T" And fRawMaterial = "T" And fFinishedGood = "T" And
+              fSample = "T" And fSemiFG = "T" And fScrap = "T" And fBahanBakar = "T" And fPeralatan = "T" Then
+
+            FilterPengeluaranCostCenter = "and gj.flag_atk = ''" : FilterPengeluaranCostCenterCR = "and {EMI_Group_Jenis.flag_ATK} = ''"
+        Else
+
+            Dim TambahOR As String = ""
+
+            FilterPengeluaranCostCenter = "AND (" : FilterPengeluaranCostCenterCR = "AND ("
+
+            If fATK = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_ATK = '" & fATK & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{EMI_Group_Jenis.flag_ATK} = '" & fATK & "'"
+            End If
+
+            If fAsset = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_asset = '" & fAsset & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{EMI_Group_Jenis.flag_asset} = '" & fAsset & "'"
+            End If
+
+            If fSparepart = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_sparepart = '" & fSparepart & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{EMI_Group_Jenis.flag_sparepart} = '" & fSparepart & "'"
+            End If
+
+            If fPackaging = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_packaging = '" & fPackaging & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Packaging} = '" & fPackaging & "'"
+            End If
+
+            If fRawMaterial = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_raw_material = '" & fRawMaterial & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Raw_Material} = '" & fRawMaterial & "'"
+            End If
+
+            If fFinishedGood = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_finished_good = '" & fFinishedGood & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Finished_Good} = '" & fFinishedGood & "'"
+            End If
+
+            If fSample = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_sample = '" & fSample & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Sample} = '" & fSample & "'"
+            End If
+
+            If fSemiFG = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.Flag_Semi_FG = '" & fSemiFG & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Semi_FG} = '" & fSemiFG & "'"
+            End If
+
+            If fScrap = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.Flag_Scrap = '" & fScrap & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Scrap} = '" & fScrap & "'"
+            End If
+
+            If fBahanBakar = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_bahan_bakar = '" & fBahanBakar & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Bahan_Bakar} = '" & fBahanBakar & "'"
+            End If
+
+            If fPeralatan = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_peralatan = '" & fPeralatan & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & " {emi_group_jenis.Flag_Peralatan} = '" & fPeralatan & "'"
+            End If
+
+            FilterPengeluaranCostCenter &= ")" : FilterPengeluaranCostCenterCR &= ")"
+
+        End If
+
+        'CloseConn()
+    End Sub
+
+    Public Function GetLastNumberEntryJurnal()
+
+    End Function
+
+    Public Function CekSudahTutupSaldo()
+
+    End Function
+
+    Public Function SimpanPenjualanHariIni(ByVal telpon As String, ByVal keterangan As String, ByVal dari As String) As String
+        Dim MMM As String = ""
+        MMM = "insert into notifikasi_penjualan(kode_perusahaan,telpon,keterangan,tgl,jam,dari, "
+        MMM = MMM & "User_Id) values("
+        MMM = MMM & "'" & KodePerusahaan & "', '" & telpon & "' , '" & keterangan & "',  "
+        MMM = MMM & "'" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyy-MM-dd HH:mm:ss") & "', "
+        MMM = MMM & "'" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
+        MMM = MMM & "'" & dari & "', '" & UserID & "')"
+
+        Return MMM
     End Function
 
 End Module

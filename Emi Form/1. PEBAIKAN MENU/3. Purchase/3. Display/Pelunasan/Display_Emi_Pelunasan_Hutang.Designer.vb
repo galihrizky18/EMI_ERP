@@ -46,6 +46,7 @@ Partial Class Display_Emi_Pelunasan_Hutang
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.LvHutangBiaya = New System.Windows.Forms.ListView()
+        Me.Panel4 = New System.Windows.Forms.Panel()
         Me.GroupBox1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
@@ -66,7 +67,7 @@ Partial Class Display_Emi_Pelunasan_Hutang
         Me.GroupBox1.Controls.Add(Me.Tgl2)
         Me.GroupBox1.Controls.Add(Me.Tgl1)
         Me.GroupBox1.Controls.Add(Me.ComboBox3)
-        Me.GroupBox1.Location = New System.Drawing.Point(22, 550)
+        Me.GroupBox1.Location = New System.Drawing.Point(20, 542)
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
@@ -253,7 +254,7 @@ Partial Class Display_Emi_Pelunasan_Hutang
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(5, 9)
+        Me.Label2.Location = New System.Drawing.Point(5, 13)
         Me.Label2.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(262, 25)
@@ -308,21 +309,32 @@ Partial Class Display_Emi_Pelunasan_Hutang
         Me.LvHutangBiaya.HideSelection = False
         Me.LvHutangBiaya.Location = New System.Drawing.Point(20, 65)
         Me.LvHutangBiaya.Name = "LvHutangBiaya"
-        Me.LvHutangBiaya.Size = New System.Drawing.Size(1149, 478)
+        Me.LvHutangBiaya.Size = New System.Drawing.Size(1149, 470)
         Me.LvHutangBiaya.TabIndex = 235
         Me.LvHutangBiaya.UseCompatibleStateImageBehavior = False
         Me.LvHutangBiaya.View = System.Windows.Forms.View.Details
+        '
+        'Panel4
+        '
+        Me.Panel4.BackColor = System.Drawing.Color.Red
+        Me.Panel4.Location = New System.Drawing.Point(20, 688)
+        Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel4.Name = "Panel4"
+        Me.Panel4.Size = New System.Drawing.Size(1186, 12)
+        Me.Panel4.TabIndex = 83
+        Me.Panel4.Visible = False
         '
         'Display_Emi_Pelunasan_Hutang
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1189, 718)
+        Me.ClientSize = New System.Drawing.Size(1189, 701)
         Me.Controls.Add(Me.LvHutangBiaya)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.Panel3)
+        Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.GroupBox1)
@@ -362,4 +374,5 @@ Partial Class Display_Emi_Pelunasan_Hutang
     Friend WithEvents TextBox4 As TextBox
     Friend WithEvents Label6 As Label
     Friend WithEvents Btn_Refresh As Button
+    Friend WithEvents Panel4 As Panel
 End Class

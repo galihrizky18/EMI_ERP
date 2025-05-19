@@ -1,8 +1,4 @@
-﻿Imports System.Net
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-Public Class EMI_Hasil_Production
+﻿Public Class EMI_Hasil_Production
     Dim CrDoc As Object
     Dim Jenis = "Display_Production_Order"
     Public fno_po As String
@@ -114,8 +110,12 @@ Public Class EMI_Hasil_Production
             SQL = SQL & "isnull((select sum(f.Qty_Bad_Stock) from Emi_Production_Results e, EMI_Production_Results_Detail_Barang f "
             SQL = SQL & "where e.Kode_Perusahaan = a.Kode_Perusahaan and f.Kode_Perusahaan = a.Kode_Perusahaan "
             SQL = SQL & "and e.No_Transaksi = f.No_Transaksi and e.No_Production_Order = a.No_Transaksi) "
-            SQL = SQL & ",0) as Qty_Bad_Stock "
-
+            SQL = SQL & ",0) as Qty_Bad_Stock, "
+            SQL = SQL & "ISNULL(( "
+            SQL = SQL & "select sum(f.jumlah) from Emi_Production_Results e, EMI_Production_Results_Detail_Scrap f "
+            SQL = SQL & "where e.Kode_Perusahaan = a.Kode_Perusahaan and f.Kode_Perusahaan = a.Kode_Perusahaan "
+            SQL = SQL & "and e.No_Transaksi = f.No_Transaksi and e.No_Production_Order = a.No_Transaksi "
+            SQL = SQL & "), 0) as Qty_Scrap "
             SQL = SQL & "from Emi_Split_Production_Order a, barang b where "
             SQL = SQL & "a.Kode_Barang=b.Kode_Barang and a.Kode_Stock_Owner=b.Kode_Stock_Owner "
             SQL = SQL & "and a.Kode_Perusahaan=b.Kode_Perusahaan and a.kode_perusahaan = '" & KodePerusahaan & "' "
@@ -130,6 +130,7 @@ Public Class EMI_Hasil_Production
                     Txt_QtyHslProduksi.Text = Format(dr("Qty_Hasil_Produksi"), "N2")
                     Txt_QtyGoodStock.Text = Format(dr("Qty_Good_Stock"), "N2")
                     Txt_QtyBadStock.Text = Format(dr("Qty_Bad_Stock"), "N2")
+                    Txt_QtyScrap.Text = Format(dr("Qty_Scrap"), "N2")
                 End If
             End Using
 
@@ -163,7 +164,8 @@ Public Class EMI_Hasil_Production
                             ''Dgv_HslProduction.Rows.Item(i).Cells(CellNama_Bahan).Value = .Rows(i).Item("Nama")
                             ' Dim nhasil As Double = 0
                             ' nhasil = .Rows(i).Item("Jumlah") * .Rows(i).Item("Persentase") / 100
-                            Dgv_HslProduction.Rows.Item(i).Cells(CellNilai_Formula).Value = Format(.Rows(i).Item("jumlah"), "N2")
+                            'Dgv_HslProduction.Rows.Item(i).Cells(CellNilai_Formula).Value = Format(.Rows(i).Item("jumlah"), "N2")
+                            Dgv_HslProduction.Rows.Item(i).Cells(CellNilai_Formula).Value = Format(0, "N2")
                             Dgv_HslProduction.Rows.Item(i).Cells(CellNilai_Produksi).Value = Format(.Rows(i).Item("Nilai_Produksi"), "N2")
                             Dgv_HslProduction.Rows.Item(i).Cells(CellSatuan).Value = .Rows(i).Item("Satuan")
                         Next
@@ -192,7 +194,8 @@ Public Class EMI_Hasil_Production
                             ''Dgv_Hasil_Production_Packaging.Rows.Item(i).Cells(CellNama_Bahan).Value = .Rows(i).Item("Nama")
                             ' Dim nhasil As Double = 0
                             ' nhasil = .Rows(i).Item("Jumlah") * .Rows(i).Item("Persentase") / 100
-                            Dgv_Hasil_Production_Packaging.Rows.Item(i).Cells(CellNilai_Formula_Pckg).Value = Format(.Rows(i).Item("jumlah"), "N2")
+                            'Dgv_Hasil_Production_Packaging.Rows.Item(i).Cells(CellNilai_Formula_Pckg).Value = Format(.Rows(i).Item("jumlah"), "N2")
+                            Dgv_Hasil_Production_Packaging.Rows.Item(i).Cells(CellNilai_Formula_Pckg).Value = Format(0, "N2")
                             Dgv_Hasil_Production_Packaging.Rows.Item(i).Cells(CellNilai_Produksi_Pckg).Value = Format(.Rows(i).Item("Nilai_Produksi"), "N2")
                             Dgv_Hasil_Production_Packaging.Rows.Item(i).Cells(CellSatuan_Pckg).Value = .Rows(i).Item("Satuan")
                         Next
@@ -240,11 +243,59 @@ Public Class EMI_Hasil_Production
 
         Try
             OpenConn()
-
+            Cmd.Transaction = Cn.BeginTransaction
             get_no_faktur()
 
             Dim Kd_So As String = ""
             Dim Kd_Brg As String = ""
+
+            Dim ada_data As Boolean = False
+            For index = 0 To Dgv_HslProduction.Rows.Count - 1
+                Get_Isi_Listview(index)
+
+                If Val(HilangkanTanda(LvNilai_Produksi)) > 0 Then
+                    ada_data = True
+                End If
+
+            Next
+
+            For index = 0 To Dgv_Hasil_Production_Packaging.Rows.Count - 1
+                Get_Isi_Listview_Pckg(index)
+
+                If Val(HilangkanTanda(LvNilai_Produksi_Pckg)) > 0 Then
+                    ada_data = True
+                End If
+
+            Next
+
+            If ada_data = False Then
+                Dim tanya As String = MessageBox.Show("Belum ada Data Bahan yang di input ! ! !, Tetap Simpan . . ?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+                If tanya = vbYes Then
+
+
+                Else
+                    CloseTrans()
+                    CloseConn()
+                    Exit Sub
+                End If
+
+            End If
+
+
+            If Val(HilangkanTanda(Txt_QtyHslProduksi.Text)) + Val(HilangkanTanda(Txt_QtyScrap.Text)) = 0 Then
+                Dim tanya As String = MessageBox.Show("Belum ada Data Barang jadi yang di input ! ! !, Tetap Simpan . . ?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+                If tanya = vbYes Then
+
+
+                Else
+                    CloseTrans()
+                    CloseConn()
+                    Exit Sub
+                End If
+
+            End If
 
             SQL = "Select b.Status,b.Selesai,b.Kode_Stock_Owner,b.Kode_Barang "
             SQL = SQL & "from Emi_Split_Production_Order a,EMI_Order_Produksi b "
@@ -274,7 +325,7 @@ Public Class EMI_Hasil_Production
             SQL = "select b.Jumlah as jml_po,"
             SQL = SQL & "ISNULL((select SUM(a.Jumlah) from Emi_Split_Production_Order a where "
             SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_PO = b.No_Faktur "
-            SQL = SQL & "and a.Flag_Produksi = 'Y' and a.Flag_Selesai_Produksi = 'Y' "
+            SQL = SQL & "and a.Flag_Produksi = 'Y' "
             SQL = SQL & "and a.Flag_Hasil_Produksi ='Y'),0) as jml_split "
             SQL = SQL & "from EMI_Order_Produksi b where b.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and b.No_Faktur = '" & fno_po & "' "
@@ -289,6 +340,7 @@ Public Class EMI_Hasil_Production
                 End If
             End Using
 
+            Cmd.Transaction.Commit()
             MessageBox.Show("Berhasil Disimpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
             CloseTrans()
             CloseConn()
@@ -361,45 +413,45 @@ Public Class EMI_Hasil_Production
                     '    .Show()
                     'End With
 
-                    'CrDoc = New Laporan_Perfaktur_GI_GR
-                    'With A_Place_For_Printing
-                    '    CrDoc.SetDataSource(Ds)
-                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    '    CrDoc.RecordSelectionFormula = SF3
-                    '    .Text = "Laporan GI GR"
-                    '    .CrystalReportViewer1.ReportSource = CrDoc
-                    '    .CrystalReportViewer1.DisplayGroupTree = False
-                    '    .Refresh()
-                    '    .Show()
-                    'End With
+                    CrDoc = New Laporan_Perfaktur_GI_GR
+                    With A_Place_For_Printing
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        CrDoc.RecordSelectionFormula = SF3
+                        .Text = "Laporan GI GR"
+                        .CrystalReportViewer1.ReportSource = CrDoc
+                        .CrystalReportViewer1.DisplayGroupTree = False
+                        .Refresh()
+                        .Show()
+                    End With
 
                     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                    CrDoc = New Laporan_Perfaktur_GI_GR
-                    kertas = "A4"
+                    'CrDoc = New Laporan_Perfaktur_GI_GR
+                    'kertas = "A4"
 
 
-                    CrDoc.SetDataSource(Ds)
-                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    CrDoc.PrintOptions.PrinterName = PrinterQC
-                    CrDoc.RecordSelectionFormula = SF3
-                    'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+                    'CrDoc.SetDataSource(Ds)
+                    'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    'CrDoc.PrintOptions.PrinterName = PrinterQC
+                    'CrDoc.RecordSelectionFormula = SF3
+                    ''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
-                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                    doctoprint.PrinterSettings.PrinterName = PrinterQC
-                    Dim rawKind As Integer
-                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
-                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                            CrDoc.PrintOptions.PaperSize = rawKind
-                            Exit For
-                        End If
-                    Next
+                    'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    'doctoprint.PrinterSettings.PrinterName = PrinterQC
+                    'Dim rawKind As Integer
+                    'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    'For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                    '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                    '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                    '        CrDoc.PrintOptions.PaperSize = rawKind
+                    '        Exit For
+                    '    End If
+                    'Next
 
-                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                    CrDoc.PrintToPrinter(1, False, 1, 99)
+                    'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    'CrDoc.PrintToPrinter(1, False, 1, 99)
 
-                    MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    'MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Else
                     MessageBox.Show("Data tidak ditemukan . . ! !", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub

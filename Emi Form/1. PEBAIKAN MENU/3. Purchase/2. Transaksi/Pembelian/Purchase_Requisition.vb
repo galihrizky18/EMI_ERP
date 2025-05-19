@@ -1,6 +1,4 @@
-﻿Imports System.CodeDom.Compiler
-
-Public Class Purchase_Requisition
+﻿Public Class Purchase_Requisition
 
     Dim arrCari, arrKd_biaya, arrKeterangan As New ArrayList
 
@@ -129,8 +127,6 @@ Public Class Purchase_Requisition
         TextBox2.ReadOnly = False
 
         BtnPR_Simpan.Enabled = True
-        BtnPR_Release.Visible = True
-        BtnPR_Release.Enabled = True
         Button2.Enabled = True
 
         Dgv_DataBarang.Rows.Clear()
@@ -144,6 +140,9 @@ Public Class Purchase_Requisition
         Btn_Simpan.Tag = "&Simpan"
         Btn_Hapus.Enabled = False
         BtnPR_Release.Visible = False
+
+        Btn_Unrelease.Visible = False
+        Btn_Unrelease.Enabled = False
 
         Dim AksesSimpanPR As String = ""
         Dim AksesReleasePR As String = ""
@@ -168,6 +167,8 @@ Public Class Purchase_Requisition
                 AksesReleasePR = "Y"
             End If
 
+
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -186,6 +187,8 @@ Public Class Purchase_Requisition
         Else
             BtnPR_Release.Enabled = False
         End If
+
+
 
     End Sub
 
@@ -377,6 +380,8 @@ Public Class Purchase_Requisition
                 AksesSimpanPR = "Y"
             End If
 
+
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -409,6 +414,8 @@ Public Class Purchase_Requisition
         Else
             BtnPR_Release.Enabled = False
         End If
+
+
 
         Try
             OpenConn()
@@ -458,6 +465,10 @@ Public Class Purchase_Requisition
                                 BtnPR_Simpan.Enabled = False
                                 BtnPR_Release.Visible = False
                                 BtnPR_Release.Enabled = False
+
+                                Btn_Unrelease.Visible = True
+                                Btn_Unrelease.Enabled = True
+
                                 Button2.Enabled = False
                                 TextBox2.ReadOnly = True
                             Else
@@ -474,6 +485,9 @@ Public Class Purchase_Requisition
                                 Else
                                     BtnPR_Release.Enabled = False
                                 End If
+
+                                Btn_Unrelease.Visible = False
+                                Btn_Unrelease.Enabled = False
 
                                 BtnPR_Release.Visible = True
 
@@ -907,9 +921,85 @@ Public Class Purchase_Requisition
         End If
     End Sub
 
-    Private Sub Dgv_DataBarang_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles Dgv_DataBarang.CellContentClick
 
+    Private Sub Btn_Unrelease_Click(sender As Object, e As EventArgs) Handles Btn_Unrelease.Click
+
+        If Txt_NoFaktur.Text.Trim.Length = 0 Then Exit Sub
+
+        Try
+            OpenConn()
+            Cmd.Transaction = Cn.BeginTransaction
+
+            If CekButtonRole("UnRelease_Purchase_Requisition") = "T" Then
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("Anda Tidak Memiliki Akses Untuk Unrelease PR", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
+            Dim tanya As String = MessageBox.Show("Yakin akan Unrelease Purhcase Requisition ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If tanya = vbNo Then Exit Sub
+
+            SQL = "select Status from EMI_Purchase_Requisition where Kode_Perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "No_Faktur = '" & Txt_NoFaktur.Text & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Status")) <> "" Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Purhcase Requisition sudah dibatalkan sebelumnya!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Purhcase Requisition tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            SQL = "select a.No_Faktur from EMI_Purchase_Requisition a,"
+            SQL = SQL & "EMI_Purchase_Requisition_Detail b,EMI_Pembelian_PO_Det_Induk c,EMI_Pembelian_PO_Induk d "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            SQL = SQL & "and a.Status is null and b.Kode_Perusahaan = c.Kode_Perusahaan "
+            SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur "
+            SQL = SQL & "and b.No_Urut = c.No_Urut_PR and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and d.Status is null and a.No_Faktur = '" & Txt_NoFaktur.Text & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Purhcase Requisition tidak bisa diunrelease, karena sudah masuk tahap Purhcase Order!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+
+            SQL = "update EMI_Purchase_Requisition set Flag_Release = NULL, "
+            SQL = SQL & "tanggal_release = NULL, "
+            SQL = SQL & "jam_release = NULL, "
+            SQL = SQL & "user_release = NULL "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & Txt_NoFaktur.Text & "' "
+            ExecuteTrans(SQL)
+
+            Cmd.Transaction.Commit()
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show("Purhcase Requisition berhasil diunrelease.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Txt_NoFaktur_Leave(Btn_Unrelease, e)
     End Sub
+
+
 
     Private Sub Txt_Value_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Value.KeyPress
         If e.KeyChar = Chr(13) Then Btn_Cari.Focus()

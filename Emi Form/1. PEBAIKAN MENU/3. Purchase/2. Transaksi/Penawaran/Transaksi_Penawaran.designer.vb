@@ -143,8 +143,8 @@ Partial Class Transaksi_Penawaran
         Me.Panel14 = New System.Windows.Forms.Panel()
         Me.BtnOngkir_Refresh = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.DgvMaster_Penawaran, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1432,17 +1432,6 @@ Partial Class Transaksi_Penawaran
         Me.Panel1.Size = New System.Drawing.Size(1073, 49)
         Me.Panel1.TabIndex = 392
         '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(15, 11)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(277, 30)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Master Data - Penawaran"
-        '
         'PanelGradient1
         '
         Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
@@ -1455,6 +1444,17 @@ Partial Class Transaksi_Penawaran
         Me.PanelGradient1.Name = "PanelGradient1"
         Me.PanelGradient1.Size = New System.Drawing.Size(1073, 2)
         Me.PanelGradient1.TabIndex = 22
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(15, 11)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(277, 30)
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "Master Data - Penawaran"
         '
         'Transaksi_Penawaran
         '

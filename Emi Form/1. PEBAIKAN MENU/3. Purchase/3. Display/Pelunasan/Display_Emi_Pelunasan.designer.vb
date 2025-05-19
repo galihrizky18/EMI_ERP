@@ -44,6 +44,7 @@ Partial Class Display_Emi_Pelunasan
         Me.CbParamTgl = New System.Windows.Forms.CheckBox()
         Me.cmbTgl = New System.Windows.Forms.ComboBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -51,7 +52,6 @@ Partial Class Display_Emi_Pelunasan
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -62,11 +62,11 @@ Partial Class Display_Emi_Pelunasan
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.lvDetailValPelPelunasanBiayaImportByPerusahaan)
-        Me.GroupBox2.Location = New System.Drawing.Point(20, 335)
-        Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox2.Location = New System.Drawing.Point(20, 321)
+        Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
-        Me.GroupBox2.Size = New System.Drawing.Size(1200, 324)
+        Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4)
+        Me.GroupBox2.Size = New System.Drawing.Size(1200, 240)
         Me.GroupBox2.TabIndex = 70
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Detail Pelunasan Biaya Import"
@@ -79,7 +79,7 @@ Partial Class Display_Emi_Pelunasan
         Me.lvDetailValPelPelunasanBiayaImportByPerusahaan.Location = New System.Drawing.Point(6, 22)
         Me.lvDetailValPelPelunasanBiayaImportByPerusahaan.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
         Me.lvDetailValPelPelunasanBiayaImportByPerusahaan.Name = "lvDetailValPelPelunasanBiayaImportByPerusahaan"
-        Me.lvDetailValPelPelunasanBiayaImportByPerusahaan.Size = New System.Drawing.Size(1190, 294)
+        Me.lvDetailValPelPelunasanBiayaImportByPerusahaan.Size = New System.Drawing.Size(1190, 218)
         Me.lvDetailValPelPelunasanBiayaImportByPerusahaan.TabIndex = 13
         Me.lvDetailValPelPelunasanBiayaImportByPerusahaan.UseCompatibleStateImageBehavior = False
         '
@@ -91,7 +91,7 @@ Partial Class Display_Emi_Pelunasan
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(2, 4, 2, 4)
-        Me.GroupBox1.Size = New System.Drawing.Size(1200, 262)
+        Me.GroupBox1.Size = New System.Drawing.Size(1200, 240)
         Me.GroupBox1.TabIndex = 69
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Pelunasan Biaya Import"
@@ -106,7 +106,7 @@ Partial Class Display_Emi_Pelunasan
         Me.lvValPelPelunasanBiayaImportByPerusahaan.Location = New System.Drawing.Point(5, 19)
         Me.lvValPelPelunasanBiayaImportByPerusahaan.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
         Me.lvValPelPelunasanBiayaImportByPerusahaan.Name = "lvValPelPelunasanBiayaImportByPerusahaan"
-        Me.lvValPelPelunasanBiayaImportByPerusahaan.Size = New System.Drawing.Size(1191, 236)
+        Me.lvValPelPelunasanBiayaImportByPerusahaan.Size = New System.Drawing.Size(1190, 218)
         Me.lvValPelPelunasanBiayaImportByPerusahaan.TabIndex = 12
         Me.lvValPelPelunasanBiayaImportByPerusahaan.UseCompatibleStateImageBehavior = False
         '
@@ -142,7 +142,7 @@ Partial Class Display_Emi_Pelunasan
         Me.GroupBox3.Controls.Add(Me.CbParamTgl)
         Me.GroupBox3.Controls.Add(Me.cmbTgl)
         Me.GroupBox3.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.GroupBox3.Location = New System.Drawing.Point(20, 671)
+        Me.GroupBox3.Location = New System.Drawing.Point(21, 574)
         Me.GroupBox3.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Padding = New System.Windows.Forms.Padding(2, 4, 2, 4)
@@ -271,10 +271,23 @@ Partial Class Display_Emi_Pelunasan
         Me.Panel1.Controls.Add(Me.Label1)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
-        Me.Panel1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1243, 51)
         Me.Panel1.TabIndex = 78
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1243, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -290,7 +303,7 @@ Partial Class Display_Emi_Pelunasan
         'Panel2
         '
         Me.Panel2.BackColor = System.Drawing.Color.Red
-        Me.Panel2.Location = New System.Drawing.Point(-5, 53)
+        Me.Panel2.Location = New System.Drawing.Point(-5, 50)
         Me.Panel2.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(1323, 12)
@@ -320,7 +333,7 @@ Partial Class Display_Emi_Pelunasan
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(3, 325)
+        Me.Panel5.Location = New System.Drawing.Point(25, 310)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(1235, 12)
@@ -330,7 +343,7 @@ Partial Class Display_Emi_Pelunasan
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(5, 660)
+        Me.Panel6.Location = New System.Drawing.Point(20, 563)
         Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(1235, 12)
@@ -347,40 +360,27 @@ Partial Class Display_Emi_Pelunasan
         Me.Panel7.TabIndex = 84
         Me.Panel7.Visible = False
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1243, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
-        'Display_Val_Pel_Pelunasan_Biaya_Import_By_Perusahaan_lokal
+        'Display_Emi_Pelunasan
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1243, 801)
+        Me.ClientSize = New System.Drawing.Size(1243, 701)
+        Me.Controls.Add(Me.Panel6)
+        Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel7)
-        Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
-        Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
-        Me.Name = "Display_Val_Pel_Pelunasan_Biaya_Import_By_Perusahaan_lokal"
+        Me.Margin = New System.Windows.Forms.Padding(4)
+        Me.Name = "Display_Emi_Pelunasan"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)

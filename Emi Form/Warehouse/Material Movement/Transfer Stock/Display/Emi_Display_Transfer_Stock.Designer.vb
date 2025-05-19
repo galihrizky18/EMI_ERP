@@ -24,7 +24,6 @@ Partial Class Emi_Display_Transfer_Stock
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -35,14 +34,17 @@ Partial Class Emi_Display_Transfer_Stock
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.Lv_Stock_Detail = New System.Windows.Forms.ListView()
+        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.CetakUlangBarcodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
-        Me.LvwAwal = New System.Windows.Forms.ListView()
-        Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.LvwAkhir = New System.Windows.Forms.ListView()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.LvwAwal = New System.Windows.Forms.ListView()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.BtnBarangMasuk_Cari = New System.Windows.Forms.Button()
         Me.CmbSO_Asal = New System.Windows.Forms.ComboBox()
@@ -56,13 +58,18 @@ Partial Class Emi_Display_Transfer_Stock
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.Chk_Tanggal = New System.Windows.Forms.CheckBox()
         Me.Cmb_FIlterTanggal = New System.Windows.Forms.ComboBox()
+        Me.Barcode = New System.Windows.Forms.PictureBox()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
+        Me.ContextMenuStrip2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
-        Me.TabPage3.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.Barcode, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel1
@@ -73,21 +80,8 @@ Partial Class Emi_Display_Transfer_Stock
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1004, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1286, 51)
         Me.Panel1.TabIndex = 26
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1004, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -129,7 +123,7 @@ Partial Class Emi_Display_Transfer_Stock
         Me.Lv_Stock.HideSelection = False
         Me.Lv_Stock.Location = New System.Drawing.Point(20, 66)
         Me.Lv_Stock.Name = "Lv_Stock"
-        Me.Lv_Stock.Size = New System.Drawing.Size(960, 235)
+        Me.Lv_Stock.Size = New System.Drawing.Size(1244, 235)
         Me.Lv_Stock.TabIndex = 234
         Me.Lv_Stock.UseCompatibleStateImageBehavior = False
         Me.Lv_Stock.View = System.Windows.Forms.View.Details
@@ -149,7 +143,7 @@ Partial Class Emi_Display_Transfer_Stock
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(982, 69)
+        Me.Panel4.Location = New System.Drawing.Point(1265, 72)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(19, 601)
@@ -168,7 +162,7 @@ Partial Class Emi_Display_Transfer_Stock
         '
         'GroupBox2
         '
-        Me.GroupBox2.Location = New System.Drawing.Point(1001, 216)
+        Me.GroupBox2.Location = New System.Drawing.Point(1291, 214)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(1055, 208)
         Me.GroupBox2.TabIndex = 239
@@ -183,10 +177,22 @@ Partial Class Emi_Display_Transfer_Stock
         Me.Lv_Stock_Detail.HideSelection = False
         Me.Lv_Stock_Detail.Location = New System.Drawing.Point(0, 0)
         Me.Lv_Stock_Detail.Name = "Lv_Stock_Detail"
-        Me.Lv_Stock_Detail.Size = New System.Drawing.Size(952, 232)
+        Me.Lv_Stock_Detail.Size = New System.Drawing.Size(1233, 232)
         Me.Lv_Stock_Detail.TabIndex = 234
         Me.Lv_Stock_Detail.UseCompatibleStateImageBehavior = False
         Me.Lv_Stock_Detail.View = System.Windows.Forms.View.Details
+        '
+        'ContextMenuStrip2
+        '
+        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakUlangBarcodeToolStripMenuItem})
+        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
+        Me.ContextMenuStrip2.Size = New System.Drawing.Size(185, 26)
+        '
+        'CetakUlangBarcodeToolStripMenuItem
+        '
+        Me.CetakUlangBarcodeToolStripMenuItem.Name = "CetakUlangBarcodeToolStripMenuItem"
+        Me.CetakUlangBarcodeToolStripMenuItem.Size = New System.Drawing.Size(184, 22)
+        Me.CetakUlangBarcodeToolStripMenuItem.Text = "Cetak Ulang Barcode"
         '
         'Panel6
         '
@@ -212,11 +218,10 @@ Partial Class Emi_Display_Transfer_Stock
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Location = New System.Drawing.Point(21, 313)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(960, 267)
+        Me.TabControl1.Size = New System.Drawing.Size(1253, 267)
         Me.TabControl1.TabIndex = 241
         '
         'TabPage1
@@ -225,21 +230,56 @@ Partial Class Emi_Display_Transfer_Stock
         Me.TabPage1.Location = New System.Drawing.Point(4, 25)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(952, 238)
+        Me.TabPage1.Size = New System.Drawing.Size(1245, 238)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Detail Barang"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
         'TabPage2
         '
-        Me.TabPage2.Controls.Add(Me.LvwAwal)
+        Me.TabPage2.Controls.Add(Me.GroupBox4)
+        Me.TabPage2.Controls.Add(Me.GroupBox3)
         Me.TabPage2.Location = New System.Drawing.Point(4, 25)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(952, 238)
+        Me.TabPage2.Size = New System.Drawing.Size(1245, 238)
         Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Lokasi Awal"
+        Me.TabPage2.Text = "Lokasi"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Controls.Add(Me.LvwAkhir)
+        Me.GroupBox4.Location = New System.Drawing.Point(625, 2)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(620, 236)
+        Me.GroupBox4.TabIndex = 238
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Lokasi Tujuan"
+        '
+        'LvwAkhir
+        '
+        Me.LvwAkhir.ContextMenuStrip = Me.ContextMenuStrip2
+        Me.LvwAkhir.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.LvwAkhir.FullRowSelect = True
+        Me.LvwAkhir.GridLines = True
+        Me.LvwAkhir.HideSelection = False
+        Me.LvwAkhir.Location = New System.Drawing.Point(2, 19)
+        Me.LvwAkhir.Name = "LvwAkhir"
+        Me.LvwAkhir.Size = New System.Drawing.Size(615, 214)
+        Me.LvwAkhir.TabIndex = 236
+        Me.LvwAkhir.UseCompatibleStateImageBehavior = False
+        Me.LvwAkhir.View = System.Windows.Forms.View.Details
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.LvwAwal)
+        Me.GroupBox3.Location = New System.Drawing.Point(2, 2)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(620, 236)
+        Me.GroupBox3.TabIndex = 237
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Lokasi Awal"
         '
         'LvwAwal
         '
@@ -247,36 +287,12 @@ Partial Class Emi_Display_Transfer_Stock
         Me.LvwAwal.FullRowSelect = True
         Me.LvwAwal.GridLines = True
         Me.LvwAwal.HideSelection = False
-        Me.LvwAwal.Location = New System.Drawing.Point(0, 0)
+        Me.LvwAwal.Location = New System.Drawing.Point(2, 19)
         Me.LvwAwal.Name = "LvwAwal"
-        Me.LvwAwal.Size = New System.Drawing.Size(949, 235)
+        Me.LvwAwal.Size = New System.Drawing.Size(615, 214)
         Me.LvwAwal.TabIndex = 235
         Me.LvwAwal.UseCompatibleStateImageBehavior = False
         Me.LvwAwal.View = System.Windows.Forms.View.Details
-        '
-        'TabPage3
-        '
-        Me.TabPage3.Controls.Add(Me.LvwAkhir)
-        Me.TabPage3.Location = New System.Drawing.Point(4, 25)
-        Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(952, 238)
-        Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "Lokasi Tujuan"
-        Me.TabPage3.UseVisualStyleBackColor = True
-        '
-        'LvwAkhir
-        '
-        Me.LvwAkhir.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        Me.LvwAkhir.FullRowSelect = True
-        Me.LvwAkhir.GridLines = True
-        Me.LvwAkhir.HideSelection = False
-        Me.LvwAkhir.Location = New System.Drawing.Point(0, 0)
-        Me.LvwAkhir.Name = "LvwAkhir"
-        Me.LvwAkhir.Size = New System.Drawing.Size(949, 235)
-        Me.LvwAkhir.TabIndex = 235
-        Me.LvwAkhir.UseCompatibleStateImageBehavior = False
-        Me.LvwAkhir.View = System.Windows.Forms.View.Details
         '
         'GroupBox1
         '
@@ -424,12 +440,35 @@ Partial Class Emi_Display_Transfer_Stock
         Me.Cmb_FIlterTanggal.Size = New System.Drawing.Size(159, 24)
         Me.Cmb_FIlterTanggal.TabIndex = 2
         '
+        'Barcode
+        '
+        Me.Barcode.Location = New System.Drawing.Point(1291, 159)
+        Me.Barcode.Name = "Barcode"
+        Me.Barcode.Size = New System.Drawing.Size(79, 32)
+        Me.Barcode.TabIndex = 480
+        Me.Barcode.TabStop = False
+        Me.Barcode.Visible = False
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1286, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'Emi_Display_Transfer_Stock
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1004, 740)
+        Me.ClientSize = New System.Drawing.Size(1286, 740)
+        Me.Controls.Add(Me.Barcode)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Lv_Stock)
         Me.Controls.Add(Me.TabControl1)
@@ -449,12 +488,15 @@ Partial Class Emi_Display_Transfer_Stock
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.ContextMenuStrip1.ResumeLayout(False)
+        Me.ContextMenuStrip2.ResumeLayout(False)
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
-        Me.TabPage3.ResumeLayout(False)
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.Barcode, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -477,8 +519,6 @@ Partial Class Emi_Display_Transfer_Stock
     Friend WithEvents TabPage1 As TabPage
     Friend WithEvents TabPage2 As TabPage
     Friend WithEvents LvwAwal As ListView
-    Friend WithEvents TabPage3 As TabPage
-    Friend WithEvents LvwAkhir As ListView
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents BtnBarangMasuk_Cari As Button
     Friend WithEvents CmbSO_Asal As ComboBox
@@ -492,4 +532,10 @@ Partial Class Emi_Display_Transfer_Stock
     Friend WithEvents DateTimePicker1 As DateTimePicker
     Friend WithEvents Chk_Tanggal As CheckBox
     Friend WithEvents Cmb_FIlterTanggal As ComboBox
+    Friend WithEvents ContextMenuStrip2 As ContextMenuStrip
+    Friend WithEvents CetakUlangBarcodeToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Barcode As PictureBox
+    Friend WithEvents LvwAkhir As ListView
+    Friend WithEvents GroupBox4 As GroupBox
+    Friend WithEvents GroupBox3 As GroupBox
 End Class

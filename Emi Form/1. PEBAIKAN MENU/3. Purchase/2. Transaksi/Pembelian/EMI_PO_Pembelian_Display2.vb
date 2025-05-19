@@ -10,7 +10,7 @@
     Dim Jenis = "Lokasi_PO"
 
     Dim Lv_PO_NoFak, Lv_PO_Lokasi, Lv_PO_Keterangan, Lv_PO_Release, Lv_PO_Tanggal, Lv_PO_Jam, Lv_PO_Supplier, Lv_PO_KategoriSupplier, Lv_PO_MUA, Lv_PO_MataUang, Lv_PO_ETD As String
-    Dim Lv_Barang_NoFak, Lv_Barang_NoPenawaran, Lv_Barang_KdSo, Lv_Barang_KdBarang, Lv_Barang_NmBarang, Lv_Barang_JmlhPO, Lv_Barang_JmlhMasuk, Lv_Barang_Satuan, Lv_Barang_UrutPO As String
+    Dim Lv_Barang_NoFak, Lv_Barang_NoPenawaran, Lv_Barang_KdSo, Lv_Barang_KdBarang, Lv_Barang_NmBarang, Lv_Barang_JmlhPO, Lv_Barang_JmlhMasuk, Lv_Barang_Satuan, Lv_Barang_UrutPO, Lv_Barang_JumlahHutang As String
 
     Dim ItemPO_NoFaktur As Integer = 0
     Dim ItemPO_Lokasi As Integer = 1
@@ -33,6 +33,7 @@
     Dim itemBarang_JmlhMasuk As Integer = 6
     Dim itemBarang_Satuan As Integer = 7
     Dim itemBarang_UrutPO As Integer = 8
+    Dim itemBarang_JumlahHutang As Integer = 9
 
     Dim ID_Prepare As String = "0"
     Dim ID_PO As String = "1"
@@ -92,6 +93,7 @@
             Lv_Barang.Columns.Add("Jumlah Masuk", 100, HorizontalAlignment.Right)
             Lv_Barang.Columns.Add("Satuan", 0, HorizontalAlignment.Center)
             Lv_Barang.Columns.Add("No Urut", 0, HorizontalAlignment.Left)
+            Lv_Barang.Columns.Add("Jumlah Hutang", 100, HorizontalAlignment.Right).DisplayIndex = 7
             'Hide
             Lv_Barang.View = View.Details
 
@@ -145,7 +147,8 @@
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan "
             SQL = SQL & "and a.Kode_Supplier = b.Kode_Supplier "
             SQL = SQL & "and b.ID_Kategori_Suppliers = c.ID_Kategori_Suppliers "
-            SQL = SQL & "and a.Status is null and a.flag_pembelian is null "
+            SQL = SQL & "and a.Status is null and a.Flag_Biaya = 'Y' "
+            SQL = SQL & "and a.flag_pembelian is null  "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             If semua = "T" Then
                 SQL = SQL & " and " & arrcariLocal.Item(ComboBox1.SelectedIndex) & " like '%" & TextBox3.Text & "%' "
@@ -214,7 +217,7 @@
         Lv_Barang_JmlhMasuk = Lv_Barang.Items(Index).SubItems(itemBarang_JmlhMasuk).Text
         Lv_Barang_Satuan = Lv_Barang.Items(Index).SubItems(itemBarang_Satuan).Text
         Lv_Barang_UrutPO = Lv_Barang.Items(Index).SubItems(itemBarang_UrutPO).Text
-
+        Lv_Barang_JumlahHutang = Lv_Barang.Items(Index).SubItems(itemBarang_JumlahHutang).Text
     End Sub
 
     Private Sub Lv_PO_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lv_PO.SelectedIndexChanged
@@ -228,10 +231,25 @@
 
             Lv_Barang.Items.Clear() : Lv_Kendaraan.Items.Clear()
             SQL = "select a.No_Faktur, b.No_Penawaran, b.Kode_Stock_Owner, b.Kode_Barang, c.Nama, b.Jumlah, "
+
             SQL = SQL & "ISNULL(( "
-            SQL = SQL & "select (dbo.Ubah_Satuan(b.Kode_Perusahaan, 'masa', z.Kode_Barang, z.Satuan_Barang, z.Satuan, sum(z.Jumlah_Masuk))) from EMI_Pembelian_Loading_Detail z, EMI_Pembelian_Loading y where b.Kode_Perusahaan = z.Kode_Perusahaan  "
-            SQL = SQL & "and b.No_Faktur = z.No_PO and b.Kode_Stock_Owner = z.Kode_Stock_Owner and b.Kode_Barang = z.Kode_Barang and b.No_Urut = z.Urut_PO and z.kode_perusahaan = y.kode_perusahaan and z.no_faktur = y.no_faktur and y.status is null group by z.Kode_Barang, z.Satuan_Barang, z.Satuan "
+            SQL = SQL & "select (dbo.Ubah_Satuan(b.Kode_Perusahaan, 'masa', z.Kode_Barang, z.Satuan_Barang, z.Satuan, sum(z.Jumlah_Masuk))) "
+            SQL = SQL & "from EMI_Pembelian_Loading_Detail z, EMI_Pembelian_Loading y where b.Kode_Perusahaan = z.Kode_Perusahaan  "
+            SQL = SQL & "and b.No_Faktur = z.No_PO and b.Kode_Stock_Owner = z.Kode_Stock_Owner and b.Kode_Barang = z.Kode_Barang "
+            SQL = SQL & "and b.No_Urut = z.Urut_PO and z.kode_perusahaan = y.kode_perusahaan and z.no_faktur = y.no_faktur and y.status is null "
+            SQL = SQL & "group by z.Kode_Barang, z.Satuan_Barang, z.Satuan "
             SQL = SQL & "), '0') as Jumlah_Masuk, "
+
+            SQL = SQL & "ISNULL(( "
+            SQL = SQL & "select sum(x.Jumlah_Utang) from EMI_Pembelian_Selisih_Barang_Masuk z, EMI_Pembelian_Selisih_Barang_Masuk_Det x, EMI_Pembelian_Loading_Detail y, EMI_Pembelian_Loading w "
+            SQL = SQL & "where z.Kode_Perusahaan  =  x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur and z.status is null "
+            SQL = SQL & "and y.Kode_Perusahaan  = z.Kode_Perusahaan and y.No_Faktur = z.No_Faktur_BM  "
+            SQL = SQL & "and y.Kode_Stock_Owner = x.Kode_Stock_Owner and  y.Kode_Barang =  x.Kode_Barang and y.Urut_Oto =  x.Urut_Loading "
+            SQL = SQL & "and y.Kode_Perusahaan  =  w.Kode_Perusahaan and y.No_Faktur = w.No_Faktur and w.status is null "
+            SQL = SQL & "and b.No_Faktur = y.No_PO and b.Kode_Stock_Owner = y.Kode_Stock_Owner and b.Kode_Barang = y.Kode_Barang "
+            SQL = SQL & "and b.No_Urut = y.Urut_PO  "
+            SQL = SQL & "), '0') as Jumlah_Hutang,  "
+
             SQL = SQL & "b.Satuan, b.No_Urut "
             SQL = SQL & "from EMI_Pembelian_PO a, EMI_Pembelian_PO_Detail b, Barang c "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.kode_perusahaan = c.kode_perusahaan "
@@ -251,7 +269,7 @@
                     Lv.SubItems.Add(Dr("Jumlah_Masuk") & " " & Dr("Satuan"))
                     Lv.SubItems.Add(Dr("Satuan"))
                     Lv.SubItems.Add(Dr("No_Urut"))
-
+                    Lv.SubItems.Add(Dr("Jumlah_Hutang") & " " & Dr("Satuan"))
                 Loop
             End Using
 
