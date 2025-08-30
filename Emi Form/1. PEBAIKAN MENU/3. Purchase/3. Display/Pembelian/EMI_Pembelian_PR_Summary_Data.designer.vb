@@ -71,7 +71,7 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1184, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1184, 43)
         Me.Panel1.TabIndex = 22
         '
         'PanelGradient1
@@ -81,7 +81,7 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         Me.PanelGradient1.cuteTransparent1 = 100
         Me.PanelGradient1.cuteTransparent2 = 64
         Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
         Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
@@ -90,18 +90,18 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(5, 9)
+        Me.Label1.Font = New System.Drawing.Font("Work Sans", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(5, 8)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(407, 30)
+        Me.Label1.Size = New System.Drawing.Size(371, 28)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Summary Data - Purchase Requisition"
         '
         'Panel2
         '
         Me.Panel2.BackColor = System.Drawing.Color.Red
-        Me.Panel2.Location = New System.Drawing.Point(0, 51)
+        Me.Panel2.Location = New System.Drawing.Point(0, 43)
         Me.Panel2.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(942, 12)
@@ -131,7 +131,7 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(13, 543)
+        Me.Panel4.Location = New System.Drawing.Point(16, 452)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1436, 12)
@@ -145,9 +145,9 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         Me.Lv_PR.FullRowSelect = True
         Me.Lv_PR.GridLines = True
         Me.Lv_PR.HideSelection = False
-        Me.Lv_PR.Location = New System.Drawing.Point(16, 89)
+        Me.Lv_PR.Location = New System.Drawing.Point(16, 74)
         Me.Lv_PR.Name = "Lv_PR"
-        Me.Lv_PR.Size = New System.Drawing.Size(1157, 208)
+        Me.Lv_PR.Size = New System.Drawing.Size(1157, 174)
         Me.Lv_PR.TabIndex = 234
         Me.Lv_PR.UseCompatibleStateImageBehavior = False
         Me.Lv_PR.View = System.Windows.Forms.View.Details
@@ -156,18 +156,18 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakUlangToolStripMenuItem, Me.BatalToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 70)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(139, 48)
         '
         'CetakUlangToolStripMenuItem
         '
         Me.CetakUlangToolStripMenuItem.Name = "CetakUlangToolStripMenuItem"
-        Me.CetakUlangToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CetakUlangToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
         Me.CetakUlangToolStripMenuItem.Text = "Cetak Ulang"
         '
         'BatalToolStripMenuItem
         '
         Me.BatalToolStripMenuItem.Name = "BatalToolStripMenuItem"
-        Me.BatalToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.BatalToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
         Me.BatalToolStripMenuItem.Text = "Batal"
         '
         'Panel6
@@ -183,7 +183,7 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(13, 297)
+        Me.Panel7.Location = New System.Drawing.Point(13, 247)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(1436, 12)
@@ -198,7 +198,7 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         Me.Lv_PRDetail.HideSelection = False
         Me.Lv_PRDetail.Location = New System.Drawing.Point(6, 19)
         Me.Lv_PRDetail.Name = "Lv_PRDetail"
-        Me.Lv_PRDetail.Size = New System.Drawing.Size(563, 217)
+        Me.Lv_PRDetail.Size = New System.Drawing.Size(563, 173)
         Me.Lv_PRDetail.TabIndex = 341
         Me.Lv_PRDetail.UseCompatibleStateImageBehavior = False
         Me.Lv_PRDetail.View = System.Windows.Forms.View.Details
@@ -217,7 +217,7 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         Me.GroupBox3.Controls.Add(Me.DateTimePicker1)
         Me.GroupBox3.Controls.Add(Me.CheckBox1)
         Me.GroupBox3.Controls.Add(Me.ComboBox3)
-        Me.GroupBox3.Location = New System.Drawing.Point(13, 559)
+        Me.GroupBox3.Location = New System.Drawing.Point(16, 468)
         Me.GroupBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Padding = New System.Windows.Forms.Padding(2, 3, 2, 3)
@@ -352,7 +352,7 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         'Panel8
         '
         Me.Panel8.BackColor = System.Drawing.Color.Red
-        Me.Panel8.Location = New System.Drawing.Point(26, 686)
+        Me.Panel8.Location = New System.Drawing.Point(16, 597)
         Me.Panel8.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel8.Name = "Panel8"
         Me.Panel8.Size = New System.Drawing.Size(1436, 12)
@@ -362,7 +362,7 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         'Panel9
         '
         Me.Panel9.BackColor = System.Drawing.Color.DarkRed
-        Me.Panel9.Location = New System.Drawing.Point(1060, 68)
+        Me.Panel9.Location = New System.Drawing.Point(1060, 54)
         Me.Panel9.Name = "Panel9"
         Me.Panel9.Size = New System.Drawing.Size(15, 15)
         Me.Panel9.TabIndex = 343
@@ -370,7 +370,7 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(1081, 68)
+        Me.Label2.Location = New System.Drawing.Point(1081, 54)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(85, 16)
         Me.Label2.TabIndex = 344
@@ -384,7 +384,7 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         Me.Lv_Detail.HideSelection = False
         Me.Lv_Detail.Location = New System.Drawing.Point(6, 21)
         Me.Lv_Detail.Name = "Lv_Detail"
-        Me.Lv_Detail.Size = New System.Drawing.Size(563, 217)
+        Me.Lv_Detail.Size = New System.Drawing.Size(563, 173)
         Me.Lv_Detail.TabIndex = 342
         Me.Lv_Detail.UseCompatibleStateImageBehavior = False
         Me.Lv_Detail.View = System.Windows.Forms.View.Details
@@ -392,9 +392,9 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.Lv_PRDetail)
-        Me.GroupBox1.Location = New System.Drawing.Point(13, 305)
+        Me.GroupBox1.Location = New System.Drawing.Point(13, 257)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(575, 242)
+        Me.GroupBox1.Size = New System.Drawing.Size(575, 192)
         Me.GroupBox1.TabIndex = 345
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Detail PR"
@@ -402,9 +402,9 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.Lv_Detail)
-        Me.GroupBox2.Location = New System.Drawing.Point(595, 303)
+        Me.GroupBox2.Location = New System.Drawing.Point(595, 255)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(575, 242)
+        Me.GroupBox2.Size = New System.Drawing.Size(575, 192)
         Me.GroupBox2.TabIndex = 345
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Detail PO"
@@ -414,16 +414,16 @@ Partial Class EMI_Pembelian_PR_Summary_Data
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1184, 701)
+        Me.ClientSize = New System.Drawing.Size(1184, 611)
+        Me.Controls.Add(Me.Panel8)
+        Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Panel9)
         Me.Controls.Add(Me.GroupBox3)
-        Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.Lv_PR)
-        Me.Controls.Add(Me.Panel8)
         Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel3)

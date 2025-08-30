@@ -5,6 +5,8 @@ Public Class Emi_Adj_Stock
     Dim arrSO, arrInisialFaktur, arrIdWMSWarehouse, WarehosePosition, arrLokasiAdj As New ArrayList
     Private random As New Random()
 
+    Dim Flag_Opname As Boolean = False
+
     'Dim arr2RakTujuan As New List(Of List(Of String))
 
     Dim lv_DetKodeSO, lv_DetKodeBarang, lv_DetNamaBarang, lv_DetGoodStock, lv_DetSatuan, lv_DetSatuanDIsplay, lv_DetJmlhBags, lv_DetSatuanBags, lv_DetMetPotStock, lv_DetJenisBags As String
@@ -220,6 +222,28 @@ Public Class Emi_Adj_Stock
         Try
             OpenConn()
             'get_no_faktur()
+
+
+            SQL = "select Flag_Opname from init where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Flag_Opname")) = "Y" Then
+                        Flag_Opname = True
+                    Else
+                        Flag_Opname = False
+                    End If
+                End If
+            End Using
+
+            If Flag_Opname Then
+                DGV_Data_TF.Columns(itemDgvGoodStock).Visible = False
+                DGV_Data_TF.Columns(itemDgvStockBags).Visible = False
+            Else
+                DGV_Data_TF.Columns(itemDgvGoodStock).Visible = True
+                DGV_Data_TF.Columns(itemDgvStockBags).Visible = True
+            End If
+
+
             TxtKd_Barang.Enabled = True
             Btn_GetData.Enabled = True
             asal = "Transfer_Stock_3"
@@ -597,7 +621,7 @@ Public Class Emi_Adj_Stock
 
                 Lv_DetBarang.Items.Clear()
 
-                SQL = "select a.kode_stock_owner, a.kode_barang, a.nama, dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, a.satuan, "
+                SQL = "select top(20) a.kode_stock_owner, a.kode_barang, a.nama, dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, a.satuan, "
                 SQL = SQL & "b.satuan, a.good_stock) as Good_Stock, a.Satuan, b.satuan as satuan_display, ISNULL(a.Jumlah_Bags, 0) as Jumlah_Bags, "
                 SQL = SQL & "a.Satuan_Isi_Bags, a.Metode_Pengeluaran_Stok, a.Jenis_Kemasan from barang a, barang_detail_satuan b "
                 SQL = SQL & "where a.Kode_Perusahaan='" & KodePerusahaan & "' and a.Kode_Stock_Owner='" & arrLokasiAdj(Cmb_LokasiAdj.SelectedIndex) & "' "
@@ -611,10 +635,21 @@ Public Class Emi_Adj_Stock
                         Lv.SubItems.Add(General_Class.CekNULL(Dr("kode_barang")))
                         'Lv.SubItems.Add(General_Class.CekNULL(Dr("nama")))
                         Lv.SubItems.Add("X")
-                        Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Good_Stock")) = "", "", Format(Dr("Good_Stock"), "N2")))
+
+                        If Flag_Opname Then
+                            Lv.SubItems.Add(0)
+                        Else
+                            Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Good_Stock")) = "", "", Format(Dr("Good_Stock"), "N2")))
+                        End If
+
                         Lv.SubItems.Add(General_Class.CekNULL(Dr("Satuan")))
                         Lv.SubItems.Add(General_Class.CekNULL(Dr("satuan_display")))
-                        Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Jumlah_Bags")) = "", "", Format(Dr("Jumlah_Bags"), "N0")))
+
+                        If Flag_Opname Then
+                            Lv.SubItems.Add(0)
+                        Else
+                            Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Jumlah_Bags")) = "", "", Format(Dr("Jumlah_Bags"), "N0")))
+                        End If
                         Lv.SubItems.Add(General_Class.CekNULL(Dr("Satuan_Isi_Bags")))
                         Lv.SubItems.Add(General_Class.CekNULL(Dr("Metode_Pengeluaran_Stok")))
                         Lv.SubItems.Add(General_Class.CekNULL(Dr("Jenis_Kemasan")))

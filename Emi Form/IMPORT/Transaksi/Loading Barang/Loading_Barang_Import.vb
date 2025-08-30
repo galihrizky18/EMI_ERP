@@ -83,10 +83,10 @@
     End Sub
 
     Private Sub get_Faktur()
-        faktur = FLB & arrInisialFaktur & "-" & Format(Tanggal_Sekarang, "MM/yy") & "-" & _
-                            General_Class.Get_Last_Number2("Loading_Barang", "No_Faktur", JumlahDigit, _
-                            "Kode_perusahaan", KodePerusahaan, _
-                            "And", "substring(No_Faktur,1," & Len(FLB) + Len(arrInisialFaktur) + 6 & ")", _
+        faktur = FLB & arrInisialFaktur & "-" & Format(Tanggal_Sekarang, "MM/yy") & "-" &
+                            General_Class.Get_Last_Number2("Loading_Barang", "No_Faktur", JumlahDigit,
+                            "Kode_perusahaan", KodePerusahaan,
+                            "And", "substring(No_Faktur,1," & Len(FLB) + Len(arrInisialFaktur) + 6 & ")",
                              FLB & arrInisialFaktur & "-" & Format(Tanggal_Sekarang, "MM/yy"))
 
     End Sub
@@ -275,7 +275,7 @@
             End Using
 
 
-            SQL = "select b.kode_barang, a.kode_bahan, a.qty_bahan, (sum(Qty)/d.isi_satuan_besar) as Jml_Sat_Bsr, round((sum(Qty)/d.isi_satuan_besar)*Qty_Bahan,0) as tot_sat_bsr, b.Kode_Stock_Owner "
+            SQL = "select b.kode_barang, a.kode_bahan, a.qty_bahan, (sum(Qty)/d.isi_satuan_besar) as Jml_Sat_Bsr, round((sum(Qty)/d.isi_satuan_besar)*Qty_Bahan,2) as tot_sat_bsr, b.Kode_Stock_Owner "
             SQL = SQL & "from detail_komposisi_barang_jadi a, Kontainer_Masuk b, detail_submit_PO d where a.kode_perusahaan = '" & KodePerusahaan & "' and b.No_faktur = '" & Txtfaktur.Text & "'  "
             SQL = SQL & "and a.kode_perusahaan = b.Kode_perusahaan and a.kode_barang = b.Kode_Barang and b.no_faktur = d.No_Faktur and b.Kode_barang = d.Kode_Barang and b.Kode_Stock_Owner = d.Kode_Stock_Owner "
             SQL = SQL & "group by b.Kode_Barang, a.Kode_Bahan, a.qty_Bahan, d.isi_satuan_besar, b.Kode_Stock_Owner "
@@ -285,7 +285,8 @@
                     Lvw = ListView1.Items.Add(dr("kode_barang"))
                     Lvw.SubItems.Add(dr("kode_bahan"))
                     Lvw.SubItems.Add(dr("qty_bahan"))
-                    Lvw.SubItems.Add(Math.Ceiling(dr("Jml_Sat_Bsr")))
+                    'Lvw.SubItems.Add(Math.Ceiling(dr("Jml_Sat_Bsr")))
+                    Lvw.SubItems.Add(dr("Jml_Sat_Bsr"))
                     Lvw.SubItems.Add(dr("tot_sat_bsr"))
                     Lvw.SubItems.Add(dr("Kode_Stock_Owner"))
                 Loop
@@ -301,7 +302,7 @@
 
     End Sub
 
-    Public Sub get_ubah(ByVal index As Integer, ByVal qty As Integer)
+    Public Sub get_ubah(ByVal index As Integer, ByVal qty As Double)
         Get_Isi_Listview(index)
 
         DataGridView1.Rows.Item(index).Cells(cellJumlah).Value = LvJumlah + qty
@@ -309,10 +310,10 @@
         Get_Isi_Listview(index)
         DataGridView1.Rows.Item(index).Cells(cellSelisih).Value = LvJumlahPO - LvJumlah
         DataGridView1.Rows.Item(index).Cells(celltotal).Value = Format(LvHarga * LvJumlah, setN)
-        DataGridView1.Rows.Item(index).Cells(cellVolume).Value = Format((LvPjg * LvLbr * LvTinggi) * Math.Ceiling((LvJumlah / LvIsiBsr)), "N0")
+        DataGridView1.Rows.Item(index).Cells(cellVolume).Value = Format((LvPjg * LvLbr * LvTinggi) * Math.Ceiling((LvJumlah / LvIsiBsr)), "N2")
         DataGridView1.Rows.Item(index).Cells(cellJmlBsr).Value = Math.Ceiling((LvJumlah / LvIsiBsr))
-        DataGridView1.Rows.Item(index).Cells(cellTotBeratBrsh).Value = Format(LvBeratBrsh * LvJumlah, "N0")
-        DataGridView1.Rows.Item(index).Cells(cellTotBeratKtr).Value = Format(LvBeratKtr * LvJumlah, "N0")
+        DataGridView1.Rows.Item(index).Cells(cellTotBeratBrsh).Value = Format(LvBeratBrsh * LvJumlah, "N2")
+        DataGridView1.Rows.Item(index).Cells(cellTotBeratKtr).Value = Format(LvBeratKtr * LvJumlah, "N2")
 
 
     End Sub
@@ -331,6 +332,8 @@
     End Sub
 
     Public Sub Kosong()
+
+        get_jam()
         TextBoxRV.Text = ""
         TxtContainer.Text = ""
         TxtId_Rencana.Text = ""
@@ -344,8 +347,8 @@
         ComboBox1.SelectedIndex = -1
         ComboBox2.SelectedIndex = -1
         ComboBox3.SelectedIndex = -1
-        DtTanggal_Po.Value = FMenu.ToolStripStatusLabel3.Text
-        DateTimePicker1.Value = FMenu.ToolStripStatusLabel3.Text
+        DtTanggal_Po.Value = tgl_skg
+        DateTimePicker1.Value = tgl_skg
 
         DataGridView1.Rows.Clear()
         ListView2.Clear()
@@ -402,6 +405,7 @@
                 Loop
             End Using
 
+            BtCari.Focus()
 
             CloseConn()
         Catch ex As Exception
@@ -1089,10 +1093,49 @@
                         Next
                     End With
                 End Using
+
+
+                '===========================================
+                '=     GET HARGA DAN MATA UANG DARI PO     =
+                '===========================================
+                Dim HargaBarangPO As Double = 0
+                Dim SatuanBarangPO As String = ""
+                Dim MataUangPO As String = ""
+                SQL = "select c.Harga, c.Satuan, c.Harga_Barang, c.Satuan_Barang, b.Mata_Uang "
+                SQL = SQL & "from Rencana_Order a, EMI_Pembelian_PO b, EMI_Pembelian_PO_Detail c "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_PO = b.No_Faktur "
+                SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.ID_Rencana = '" & TxtId_Rencana.Text & "' "
+                SQL = SQL & "and c.Kode_Barang = '" & ListView2.Items(index).SubItems(1).Text & "' "
+                SQL = SQL & "and a.Status is null and b.status is null "
+
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        HargaBarangPO = Dr("Harga_Barang")
+                        SatuanBarangPO = Dr("Satuan_Barang")
+                        MataUangPO = Dr("Mata_Uang")
+                    End If
+                End Using
+
+
+                Dim JumlahInput As Double = ListView2.Items(index).SubItems(3).Text ' tot_satuanBesar
+                Dim HargaTotLoading2 As Double = JumlahInput * HargaBarangPO
+
+
                 SQL = "insert into detail_Loading_Barang2(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner_Import, Kode_Bahan, Jumlah, Total, Kategori, Flag_Potong_Stock, Mata_Uang) Values "
                 SQL = SQL & " ('" & KodePerusahaan & "', '" & faktur & "', '" & ListView2.Items(index).SubItems(0).Text & "',"
-                SQL = SQL & "'" & ListView2.Items(index).SubItems(1).Text & "', '" & ListView2.Items(index).SubItems(3).Text & "', '" & HargaTot & "', '" & ListView2.Items(index).SubItems(7).Text & "', '" & ListView2.Items(index).SubItems(8).Text & "', '" & ListView2.Items(index).SubItems(6).Text & "')"
+                SQL = SQL & "'" & ListView2.Items(index).SubItems(1).Text & "', '" & ListView2.Items(index).SubItems(3).Text & "', '" & HargaTotLoading2 & "', '" & ListView2.Items(index).SubItems(7).Text & "', "
+                SQL = SQL & "'" & ListView2.Items(index).SubItems(8).Text & "', '" & MataUangPO & "') "
                 ExecuteTrans(SQL)
+
+
+                'LAMA
+                'SQL = "insert into detail_Loading_Barang2(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner_Import, Kode_Bahan, Jumlah, Total, Kategori, Flag_Potong_Stock, Mata_Uang) Values "
+                'SQL = SQL & " ('" & KodePerusahaan & "', '" & faktur & "', '" & ListView2.Items(index).SubItems(0).Text & "',"
+                'SQL = SQL & "'" & ListView2.Items(index).SubItems(1).Text & "', '" & ListView2.Items(index).SubItems(3).Text & "', '" & HargaTot & "', '" & ListView2.Items(index).SubItems(7).Text & "', "
+                'SQL = SQL & "'" & ListView2.Items(index).SubItems(8).Text & "', '" & ListView2.Items(index).SubItems(6).Text & "') "
+                'ExecuteTrans(SQL)
 
             Next
 
@@ -1164,12 +1207,47 @@
 
                 End Using
 
+                '===========================================
+                '=     GET HARGA DAN MATA UANG DARI PO     =
+                '===========================================
+                Dim HargaBarangPO As Double = 0
+                Dim SatuanBarangPO As String = ""
+                Dim MataUangPO As String = ""
+                SQL = "select c.Harga, c.Satuan, c.Harga_Barang, c.Satuan_Barang, b.Mata_Uang "
+                SQL = SQL & "from Rencana_Order a, EMI_Pembelian_PO b, EMI_Pembelian_PO_Detail c "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_PO = b.No_Faktur "
+                SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.ID_Rencana = '" & TxtId_Rencana.Text & "' "
+                SQL = SQL & "and c.Kode_Barang = '" & ListView1.Items(j).SubItems(0).Text & "' "
+                SQL = SQL & "and a.Status is null and b.status is null "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        HargaBarangPO = Dr("Harga_Barang")
+                        SatuanBarangPO = Dr("Satuan_Barang")
+                        MataUangPO = Dr("Mata_Uang")
+                    End If
+                End Using
+
+
+                Dim JumlahInput As Double = ListView1.Items(j).SubItems(3).Text
+                Dim HargaTotLoading3 As Double = JumlahInput * HargaBarangPO
+
                 SQL = "insert into Detail_Loading_Barang3 (kode_perusahaan, No_faktur, Kode_Barang, Kode_Stock_Owner, Kode_Bahan, Qty_Bahan, Jumlah, Total, Harga, Flag_Potong_Stock, Kode_Stock_owner_import) Values ("
                 SQL = SQL & "'" & KodePerusahaan & "', '" & faktur & "', "
                 SQL = SQL & "'" & ListView1.Items(j).SubItems(0).Text & "', '" & ListView1.Items(j).SubItems(5).Text & "', '" & ListView1.Items(j).SubItems(1).Text & "', "
                 SQL = SQL & "'" & ListView1.Items(j).SubItems(2).Text & "', '" & ListView1.Items(j).SubItems(3).Text & "', "
-                SQL = SQL & "'" & ListView1.Items(j).SubItems(4).Text & "', '" & TotHrgBrg & "', '" & Flag_Potong_Harga & "', '" & TextBox2.Text & "') "
+                SQL = SQL & "'" & ListView1.Items(j).SubItems(4).Text & "', '" & HargaTotLoading3 & "', '" & Flag_Potong_Harga & "', '" & TextBox2.Text & "') "
                 ExecuteTrans(SQL)
+
+                'LAma
+
+                'SQL = "insert into Detail_Loading_Barang3 (kode_perusahaan, No_faktur, Kode_Barang, Kode_Stock_Owner, Kode_Bahan, Qty_Bahan, Jumlah, Total, Harga, Flag_Potong_Stock, Kode_Stock_owner_import) Values ("
+                'SQL = SQL & "'" & KodePerusahaan & "', '" & faktur & "', "
+                'SQL = SQL & "'" & ListView1.Items(j).SubItems(0).Text & "', '" & ListView1.Items(j).SubItems(5).Text & "', '" & ListView1.Items(j).SubItems(1).Text & "', "
+                'SQL = SQL & "'" & ListView1.Items(j).SubItems(2).Text & "', '" & ListView1.Items(j).SubItems(3).Text & "', "
+                'SQL = SQL & "'" & ListView1.Items(j).SubItems(4).Text & "', '" & TotHrgBrg & "', '" & Flag_Potong_Harga & "', '" & TextBox2.Text & "') "
+                ''ExecuteTrans(SQL)
             Next
 
 
@@ -1432,25 +1510,14 @@
     '    If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
     'End Sub
 
-    Private Sub TextBox4_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub Label1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label1.Click
-
-    End Sub
 
     Private Sub Submit_PO_Import_SizeChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.SizeChanged
         Label1.Size = New Point(Me.Width, 33)
     End Sub
 
-    Private Sub ComboBox2_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox2.KeyPress
-        If e.KeyChar = Chr(13) Then ComboBox3.Focus()
-    End Sub
 
-    Private Sub ComboBox3_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox3.KeyPress
-        If e.KeyChar = Chr(13) Then CheckBox1.Focus()
-    End Sub
+
+
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         If TextBox3.Text.Trim.Length = 0 Then
@@ -1480,7 +1547,7 @@
 
         TextBox3.Text = ""
         TextBox4.Text = ""
-        DateTimePicker1.Value = FMenu.ToolStripStatusLabel3.Text
+        DateTimePicker1.Value = tgl_skg
     End Sub
 
     Private Sub ListView3_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ListView3.Click
@@ -1600,25 +1667,54 @@
 
     Private Sub CheckBox1_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles CheckBox1.CheckedChanged
         If CheckBox1.Checked = True Then
+            ComboBox4.DroppedDown = True
             ComboBox4.Enabled = True
+            ComboBox4.Focus()
         Else
             ComboBox4.Enabled = False
         End If
     End Sub
 
+
+
+
+
+
+
+
+    '=================================================================================================================================================
+    '=     HANDLE KEY PRESS
+    '=================================================================================================================================================
+    Private Sub CmbLokasi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbLokasi.KeyPress
+        If e.KeyChar = Chr(13) Then BtCari.Focus()
+    End Sub
+    Private Sub ComboBox2_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox2.KeyPress
+        If e.KeyChar = Chr(13) Then
+            ComboBox3.DroppedDown = True
+            ComboBox3.Focus()
+        End If
+    End Sub
+    Private Sub ComboBox3_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox3.KeyPress
+        If e.KeyChar = Chr(13) Then CheckBox1.Focus()
+    End Sub
     Private Sub CheckBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles CheckBox1.KeyPress
-        If e.KeyChar = Chr(13) Then ComboBox4.Focus()
+        If e.KeyChar = Chr(13) Then
+            ComboBox4.DroppedDown = True
+            ComboBox4.Focus()
+        End If
     End Sub
-
     Private Sub ComboBox4_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox4.KeyPress
-        If e.KeyChar = Chr(13) Then BtnSimpan.Focus()
+        If e.KeyChar = Chr(13) Then TextBox3.Focus()
+    End Sub
+    Private Sub TextBox3_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox3.KeyPress
+        If e.KeyChar = Chr(13) Then TextBox4.Focus()
     End Sub
 
-    Private Sub ListView3_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListView3.SelectedIndexChanged
-
+    Private Sub TextBox4_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox4.KeyPress
+        If e.KeyChar = Chr(13) Then DateTimePicker1.Focus()
     End Sub
 
-    Private Sub DataGridView1_CellContentClick_1(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
-
+    Private Sub DateTimePicker1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DateTimePicker1.KeyPress
+        If e.KeyChar = Chr(13) Then Button1.Focus()
     End Sub
 End Class

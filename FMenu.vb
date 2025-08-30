@@ -594,8 +594,10 @@ Public Class FMenu
             Case "Purchase_Requisition"
                 Return Purchase_Requisition
 
-            'Case "EMI_Display_Log_ForecastOrder"
-            '    Return EMI_Display_Log_ForecastOrder
+            Case "EMI_Display_Log_ForecastOrder"
+                Return EMI_Display_Log_ForecastOrder
+            Case "EMI_Pengeluaran_Stock"
+                Return EMI_Pengeluaran_Stock
 
             'Case "Acc_Bongkar"
             '    Return Acc_Bongkar
@@ -659,6 +661,12 @@ Public Class FMenu
 
             Case "EMI_Pembelian_PO_Summary_Data"
                 Return EMI_Pembelian_PO_Summary_Data
+
+            Case "Emi_Display_Transfer_Stock"
+                Return Emi_Display_Transfer_Stock
+
+            Case "Global_Setting"
+                Return Global_Setting
 
             Case "EMI_PO_Pembelian_Display"
                 Return EMI_PO_Pembelian_Display

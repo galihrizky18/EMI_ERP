@@ -72,9 +72,9 @@ Partial Class SD_Sub_PO
         Me.Label1.Location = New System.Drawing.Point(15, 11)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(326, 30)
+        Me.Label1.Size = New System.Drawing.Size(239, 30)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Show Dialog - Purchase Order"
+        Me.Label1.Text = "Purchase Order Induk"
         '
         'Panel2
         '

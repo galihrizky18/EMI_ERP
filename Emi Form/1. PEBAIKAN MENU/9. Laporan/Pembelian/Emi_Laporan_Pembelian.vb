@@ -333,9 +333,9 @@
                         Txt_Faktur.Text = Dr("No_Faktur")
                         Txt_KdSupplier.Focus()
                     Else
-                        MessageBox.Show("No Pembelian tidak ditemukan . . ! !", Judul)
+                        MessageBox.Show("No Faktur tidak ditemukan . . ! !", Judul)
                         Txt_Faktur.Text = ""
-                        Txt_KdSupplier.Focus()
+                        Txt_Faktur.Focus()
                     End If
 
                     Me.Size = New Size(610, 300)
@@ -481,7 +481,6 @@
     End Sub
 
     Private Sub Txt_NmBarang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_NmBarang.KeyPress
-
         If e.KeyChar = Chr(13) Then
             Txt_KdBarang_Leave(Txt_NmBarang, e)
             Me.Size = New Size(610, 300)

@@ -7,6 +7,8 @@
     Dim total_hpp_metode_B As Double
     Dim fId_group As String
 
+    Dim Flag_Opname As Boolean = False
+
     Private Sub Pengeluaran_Barang_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         CmbSOBrg.Focus()
     End Sub
@@ -47,6 +49,18 @@
 
         Try
             OpenConn()
+
+
+            SQL = "select Flag_Opname from init where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Flag_Opname")) = "Y" Then
+                        Flag_Opname = True
+                    Else
+                        Flag_Opname = False
+                    End If
+                End If
+            End Using
 
             CmbSO.Items.Clear() : LInisial.Clear()
             SQL = "Select kode_stock_owner,inisial_faktur from stock_owner order by kode_stock_owner"

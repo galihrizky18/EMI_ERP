@@ -1134,7 +1134,33 @@
                     End If
                 Next
 
-                If Not Dgv_Binding.Rows(i).Cells(itemBinding_Formula).Value = formulaTemp Then
+                If Not Dgv_Binding.Rows(i).Cells(itemBinding_Formula).Value = formulaTemp And Dgv_Binding.Rows(i).Cells(itemBinding_Formula).Value IsNot Nothing Then
+
+                    '===============================
+                    '=     CEK DETAIL JURNAL       =
+                    '===============================
+                    For j As Integer = 0 To Dgv_Binding.Rows(i).Cells(itemBinding_Formula).Value.ToString.Length - 1
+                        If Dgv_Binding.Rows(i).Cells(itemBinding_Formula).Value.ToString(j) <> formulaTemp(j) Then
+
+                            If formulaTemp(j) = "0" Then
+
+                                SQL = "select Kode_Account, Id_Cost_Center from Detail_Jurnal "
+                                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Account = '" & Dgv_Binding.Rows(i).Cells(itemBinding_KdAccount).Value & "'  and Id_Cost_Center = '" & Dgv_Binding.Columns(j + ColDinamis).Name & "' "
+                                Using Dr = OpenTrans(SQL)
+                                    If Dr.Read Then
+                                        Dr.Close()
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Gagal Menghapus Data, Cost Center : " & Dgv_Binding.Columns(j + ColDinamis).HeaderText & " Sudah Digunakan pada Jurnal", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Dgv_Binding.Rows(i).Cells(j + ColDinamis).Value = True
+                                        Exit Sub
+                                    End If
+                                End Using
+                            End If
+
+                        End If
+                    Next
+
 
                     '===========================================================
                     '=     DELETE ACCOUNT PER COSTCENTER BY KODE_ACCOUNT       =
@@ -1179,12 +1205,13 @@
         Load_DGV_Tab3()
     End Sub
 
+    Private Sub Txt_KodeDetailAccount_TextChanged(sender As Object, e As EventArgs) Handles Txt_KodeDetailAccount.TextChanged
+
+    End Sub
+
     Private Sub Txt_KodeDetailAccount_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_KodeDetailAccount.KeyPress
         If e.KeyChar = Chr(13) Then Txt_Keterangan.Focus()
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> "."c Then
 
-            e.Handled = True
-        End If
     End Sub
 
 

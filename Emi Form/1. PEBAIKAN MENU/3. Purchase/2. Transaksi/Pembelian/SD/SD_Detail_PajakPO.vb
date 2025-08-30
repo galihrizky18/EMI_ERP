@@ -1,7 +1,9 @@
 ﻿Public Class SD_Detail_PajakPO
 
     Dim JudulForm As String = "Detail Pajak PO"
-    Public KdSupplier As String
+    Public KdSupplier, No_Fak As String
+
+    Public tempDataPajak As New List(Of (Pajak As String, Nilai As String, akun As String, isPPN As Boolean, KodeTarif As String))
 
     Private Sub SD_Detail_PajakPO_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Kosong()
@@ -29,50 +31,73 @@
 
             Dim TotalPPH As Double = 0
 
-            '==========================
-            '=     GET DATA PAJAK     =
-            '==========================
-            Lv_Data.Items.Clear()
-            SQL = "select Kode_Supplier, Kode_Jenis_Supplier, Kode_Jasa, Kode_Sub_Jasa  from Suppliers where Kode_Perusahaan = '" & KodePerusahaan & "' and  Kode_Supplier = '" & KdSupplier & "'"
+            Dim hasData As Boolean = False
+
+            '=======================================
+            '=     CEK APAKAH ADA SUDAH SIMPAN     =
+            '=======================================
+            SQL = "select Kode_Perusahaan from EMI_Pembelian_PO_Induk where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & No_Fak & "' "
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
 
-                        SQL = "select Keterangan, Tarif "
-                        SQL = SQL & "from EMI_Master_Pajak "
-                        SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-                        SQL = SQL & "and Kode_Tarif in ( "
-                        SQL = SQL & "select Kode_Tarif from EMI_Tarif_PPH where Kode_Perusahaan = '" & KodePerusahaan & "'  "
-                        SQL = SQL & "and Kode_Jenis_Supplier = '" & .Rows(0).Item("Kode_Jenis_Supplier") & "' and Kode_Jasa = '" & .Rows(0).Item("Kode_Jasa") & "' "
-                        SQL = SQL & " and Kode_Sub_Jasa = '" & .Rows(0).Item("Kode_Sub_Jasa") & "' )"
-                        Using Ds1 = BindingTrans(SQL)
-                            If Ds1.Tables("MyTable").Rows.Count <> 0 Then
-                                For i As Integer = 0 To Ds1.Tables("MyTable").Rows().Count - 1
+                        SQL = "select a.No_Faktur, a.Persentase, b.Keterangan "
+                        SQL = SQL & "from EMI_Detail_PPH_PO_Induk a, EMI_Master_Pajak b "
+                        SQL = SQL & "where  a.Kode_Perusahaan = b.Kode_Perusahaan "
+                        SQL = SQL & "and a.Kode_Tarif = b.Kode_Tarif "
+                        SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "'  "
+                        SQL = SQL & "and a.No_Faktur = '" & No_Fak & "' "
+                        SQL = SQL & "and a.Flag_PPN is null"
+                        Using Dr = OpenTrans(SQL)
 
-                                    Dim Lv As ListViewItem
-                                    Lv = Lv_Data.Items.Add(Ds1.Tables("MyTable").Rows(i).Item("Keterangan"))
-                                    Lv.SubItems.Add(Ds1.Tables("MyTable").Rows(i).Item("Tarif") & " %")
+                            Do While Dr.Read
+                                Dim Lv As ListViewItem
+                                Lv = Lv_Data.Items.Add(Dr("Keterangan"))
+                                Lv.SubItems.Add(Dr("Persentase") & " %")
 
-                                    Dim NilaiPajak As Double = (Val(Ds1.Tables("MyTable").Rows(i).Item("Tarif")) / 100) * HilangkanTanda(TxtPO_GrandTotal.Text)
-                                    Lv.SubItems.Add(Format(NilaiPajak, "N2"))
+                                Dim NilaiPajak As Double = (Val(Dr("Persentase")) / 100) * HilangkanTanda(TxtPO_GrandTotal.Text)
+                                Lv.SubItems.Add(Format(NilaiPajak, "N2"))
 
-                                    TotalPPH += NilaiPajak
+                                TotalPPH += NilaiPajak
+                            Loop
 
-                                Next
-                            Else
-                                CloseConn()
-                                MessageBox.Show("Data Pajak Tidak Ditemukan", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                Exit Sub
-                            End If
                         End Using
 
-                    Else
-                        CloseConn()
-                        MessageBox.Show("Suppplier Tidak Ditermukan", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
+
+                        hasData = True
                     End If
                 End With
             End Using
+
+
+            If Not hasData Then
+
+                If tempDataPajak.Count = 0 Then
+                    CloseConn()
+                    MessageBox.Show("Terjadi Kesahlahan pada PPH", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+
+                '==========================
+                '=     GET DATA PAJAK     =
+                '==========================
+                Lv_Data.Items.Clear()
+                For i As Integer = 0 To tempDataPajak.Count - 1
+                    If tempDataPajak(i).isPPN = True Then
+                        Continue For
+                    End If
+
+                    Dim Lv As ListViewItem
+                    Lv = Lv_Data.Items.Add(tempDataPajak(i).Pajak)
+                    Lv.SubItems.Add(tempDataPajak(i).Nilai & " %")
+
+                    Dim NilaiPajak As Double = (Val(tempDataPajak(i).Nilai) / 100) * HilangkanTanda(TxtPO_GrandTotal.Text)
+                    Lv.SubItems.Add(Format(NilaiPajak, "N2"))
+
+                    TotalPPH += NilaiPajak
+                Next
+
+            End If
 
             Txt_TotalPPH.Text = Format(TotalPPH, "N2")
 

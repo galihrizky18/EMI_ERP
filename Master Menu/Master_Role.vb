@@ -342,7 +342,8 @@
             Dim SQL As String
             Lv_Role.Items.Clear()
             SQL = "WITH CTE_A AS ( "
-            SQL = SQL & "SELECT a.MainMenuID, a.TItle, b.MenuID, b.MenuName, c.SubMenuID, c.SubMenuName, d.SubMenuLv1ID, d.SubMenuLv1Name, e.SubMenuLv2ID, e.SubMenuLv2Name, f.SubMenuLv3ID, f.SubMenuLv3Name "
+            SQL = SQL & "SELECT a.MainMenuID, a.TItle, b.MenuID, b.MenuName, c.SubMenuID, c.SubMenuName, d.SubMenuLv1ID, d.SubMenuLv1Name, e.SubMenuLv2ID, e.SubMenuLv2Name, f.SubMenuLv3ID, f.SubMenuLv3Name, "
+            SQL = SQL & "a.urut, b.MenuOrder, c.SubMenuOrder, d.SubMenuLv1Order, e.SubMenuLv2Order, f.SubMenuLv3Order "
             SQL = SQL & "FROM MainMenu a "
             SQL = SQL & "LEFT JOIN Menus b ON a.MainMenuID = b.MainMenuID "
             SQL = SQL & "LEFT JOIN SubMenus c ON b.MenuID = c.MenuID "
@@ -351,6 +352,7 @@
             SQL = SQL & "LEFT JOIN SubMenuLv3 f ON f.SubMenuLv2ID = e.SubMenuLv2ID "
             SQL = SQL & ") "
             SQL = SQL & "SELECT a.MainMenuID, a.TItle, a.MenuID, a.MenuName, a.SubMenuID, a.SubMenuName, a.SubMenuLv1ID, a.SubMenuLv1Name, a.SubMenuLv2ID, a.SubMenuLv2Name, a.SubMenuLv3ID, a.SubMenuLv3Name, "
+            SQL = SQL & "a.urut, a.MenuOrder, a.SubMenuOrder, a.SubMenuLv1Order, a.SubMenuLv2Order, a.SubMenuLv3Order, "
             SQL = SQL & "CASE "
             SQL = SQL & "WHEN a.SubMenuLv3ID IS NOT NULL THEN CASE WHEN g.RoleSubMenuLv3ID IS NOT NULL THEN 'Access' ELSE 'Not Access' END "
             SQL = SQL & "WHEN a.SubMenuLv2ID IS NOT NULL THEN CASE WHEN f.RoleSubMenuLv2ID IS NOT NULL THEN 'Access' ELSE 'Not Access' END "
@@ -366,7 +368,7 @@
             SQL = SQL & "LEFT JOIN RoleSubMenuLv1 e ON a.SubMenuLv1ID = e.SubMenuLv1ID AND e.UserID = '" & If(UserIDReference = "", _UserID, UserIDReference) & "' "
             SQL = SQL & "LEFT JOIN RoleSubMenuLv2 f ON a.SubMenuLv2ID = f.SubMenuLv2ID AND f.UserID = '" & If(UserIDReference = "", _UserID, UserIDReference) & "' "
             SQL = SQL & "LEFT JOIN RoleSubMenuLv3 g ON a.SubMenuLv3ID = g.SubMenuLv3ID AND g.UserID = '" & If(UserIDReference = "", _UserID, UserIDReference) & "' "
-            SQL = SQL & "ORDER BY a.MainMenuID, a.MenuID, a.SubMenuID, a.SubMenuLv1ID, a.SubMenuLv2ID, a.SubMenuLv3ID"
+            SQL = SQL & "ORDER BY a.MainMenuID, a.urut, a.MenuID, a.MenuOrder, a.SubMenuID, a.SubMenuOrder, a.SubMenuLv1ID, a.SubMenuLv1Order, a.SubMenuLv2ID, a.SubMenuLv2Order, a.SubMenuLv3ID, a.SubMenuLv3Order"
 
             Using dr = OpenTrans(SQL)
                 Do While dr.Read

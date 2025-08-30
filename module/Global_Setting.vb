@@ -147,7 +147,6 @@ Public Class Global_Setting
         PrinterBarcodeQC = My.Settings.Prt_Barcode_QC
 
         My.Settings.Save()
-
         MessageBox.Show("Berhasil disimpan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End
     End Sub

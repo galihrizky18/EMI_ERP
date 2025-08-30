@@ -1,6 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports AutoUpdaterDotNET
-Imports System.Reflection
+﻿Imports System.Reflection
 Public Class Form_Login
 
 
@@ -174,6 +172,7 @@ Public Class Form_Login
                         PrinterName2 = My.Settings.Prt_Name_2
                         PrinterBarcode = My.Settings.Prt_Barcode
                         PrinterQC = My.Settings.Prt_QC
+                        PrinterBarcodeQC = My.Settings.Prt_Barcode_QC
 
                         KodePerusahaan = xSplit(0).Trim
                         NamaPerusahaan = xSplit(1).Trim
@@ -189,6 +188,8 @@ Public Class Form_Login
 
                 End With
             End Using
+
+
 
             CloseConn()
 

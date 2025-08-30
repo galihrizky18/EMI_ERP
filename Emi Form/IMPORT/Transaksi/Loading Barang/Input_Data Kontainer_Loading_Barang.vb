@@ -1,10 +1,10 @@
 ﻿Public Class Input_Data_kontainer_Loading_Barang
     Public index As Integer
-    Dim nilai_update As Integer
+    Dim nilai_update As Double
 
     Dim fakturStr As String = ""
     Dim arrInisialFaktur As String = ""
-    Dim TEmi_Loading As String = "QT.PO-"
+    Dim TEmi_Loading As String = "QI.PO-"
     Private Sub Input_Data_kontainer_Loading_Barang_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
@@ -26,7 +26,7 @@
         fakturStr = TEmi_Loading & Format(Tanggal.Value, "MM/yy") & "-" &
                              General_Class.Get_Last_Number2("EMI_Pembelian_Loading", "no_Faktur", 4,
                              "Kode_perusahaan", KodePerusahaan,
-                             "And", "substring(no_Faktur, 1, " & Len(TEmi_Loading) + 4 & ")", TEmi_Loading & Format(Tanggal.Value, "MMyy"))
+                             "And", "substring(no_Faktur, 1, " & Len(TEmi_Loading) + 5 & ")", TEmi_Loading & Format(Tanggal.Value, "MM/yy"))
     End Sub
 
 
@@ -154,7 +154,7 @@
 
             Dim jml_brg As Double = 0
             SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & kode.Text & "', '" & sat & "',"
-            SQL = SQL & "'" & sat_brg & "', '" & Val(Qty.Text) & "' ) as hasil"
+            SQL = SQL & "'" & sat_brg & "', '" & Val(Format(Val(Qty.Text), "N2")) & "' ) as hasil"
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     jml_brg = Dr("hasil")
@@ -163,7 +163,7 @@
 
             If Button1.Text = "Simpan" Then
                 SQL = "insert into Kontainer_Masuk(Kode_Perusahaan, No_Faktur, No_Container, Kode_stock_Owner, Kode_Barang, No_Seal, Tgl_Muat, Qty) Values( "
-                SQL = SQL & "'" & KodePerusahaan & "', '" & faktur.Text & "', '" & Kontainer.Text & "', '" & Lokasi.Text & "', '" & kode.Text & "', '" & Seal.Text & "', '" & Format(Tanggal.Value, "yyyy-MM-dd") & "','" & Qty.Text & "')"
+                SQL = SQL & "'" & KodePerusahaan & "', '" & faktur.Text & "', '" & Kontainer.Text & "', '" & Lokasi.Text & "', '" & kode.Text & "', '" & Seal.Text & "', '" & Format(Tanggal.Value, "yyyy-MM-dd") & "','" & Format(Val(Qty.Text), "N2") & "')"
                 ExecuteTrans(SQL)
 
 
@@ -245,14 +245,14 @@
                 SQL = "insert into EMI_Pembelian_Loading_Detail(Kode_Perusahaan,No_Faktur,No_PO,Urut_PO,Kode_Stock_Owner,Kode_Barang,Tanggal_Produksi,Tanggal_Expired,"
                 SQL = SQL & "Jumlah,Satuan,Jumlah_Barang,Jumlah_Masuk,Satuan_Barang, No_Urut_B2B, jumlah_per_bag, No_Batch, Satuan_Per_Bag, harga_barang) values( "
                 SQL = SQL & "'" & KodePerusahaan & "', '" & fakturStr & "', '" & NoPO & "', '" & urut_PO & "', '" & Lokasi.Text & "', '" & kode.Text & "',  "
-                SQL = SQL & "'" & Format(DTP_TglProduksi.Value, "yyyy-MM-dd") & "','" & Format(DTP_TglExpired.Value, "yyyy-MM-dd") & "', '" & Qty.Text & "', '" & sat & "',"
+                SQL = SQL & "'" & Format(DTP_TglProduksi.Value, "yyyy-MM-dd") & "','" & Format(DTP_TglExpired.Value, "yyyy-MM-dd") & "', '" & Format(Val(Qty.Text), "N2") & "', '" & sat & "',"
                 SQL = SQL & "'" & jml_brg & "','" & 0 & "','" & sat_brg & "', NULL, '" & isi_Per_Bags & "', '-', '" & Satuan_Isi_Bags & "', NULL)"
                 ExecuteTrans(SQL)
 
 
 
             Else
-                SQL = "Update Kontainer_Masuk set Qty = '" & Qty.Text & "' Where No_Faktur = '" & faktur.Text & "' and No_Container = '" & Kontainer.Text & "' "
+                SQL = "Update Kontainer_Masuk set Qty = '" & Format(Val(Qty.Text), "N2") & "' Where No_Faktur = '" & faktur.Text & "' and No_Container = '" & Kontainer.Text & "' "
                 SQL = SQL & "and Kode_Barang = '" & kode.Text & "' and Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Stock_Owner = '" & Lokasi.Text & "' "
                 ExecuteTrans(SQL)
 
@@ -315,7 +315,7 @@
                     End If
                 End Using
 
-                SQL = "update EMI_Pembelian_Loading_Detail set EMI_Pembelian_Loading_Detail.Jumlah = '" & Qty.Text & "',EMI_Pembelian_Loading_Detail.Satuan = '" & sat & "',"
+                SQL = "update EMI_Pembelian_Loading_Detail set EMI_Pembelian_Loading_Detail.Jumlah = '" & Format(Val(Qty.Text), "N2") & "',EMI_Pembelian_Loading_Detail.Satuan = '" & sat & "',"
                 SQL = SQL & "EMI_Pembelian_Loading_Detail.Jumlah_Barang = '" & jml_brg & "',EMI_Pembelian_Loading_Detail.Jumlah_Masuk = '" & 0 & "',EMI_Pembelian_Loading_Detail.Satuan_Barang = '" & sat_brg & "',"
                 SQL = SQL & "EMI_Pembelian_Loading_Detail.Tanggal_Produksi = '" & Format(DTP_TglProduksi.Value, "yyyy-MM-dd") & "',"
                 SQL = SQL & "EMI_Pembelian_Loading_Detail.Tanggal_Expired = '" & Format(DTP_TglExpired.Value, "yyyy-MM-dd") & "', "
@@ -341,7 +341,8 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-        Loading_Barang_Import.get_ubah(index, Val(Qty.Text) - nilai_update)
+        Dim finalQty As Double = Format(Val(Qty.Text), "N2") - nilai_update
+        Loading_Barang_Import.get_ubah(index, finalQty)
         Loading_Barang_Import.Cek_Bahan()
         Me.Close()
         ''
@@ -349,11 +350,8 @@
 
     Private Sub Qty_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Qty.KeyPress
         If e.KeyChar = Chr(13) Then Button1.Focus()
-        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
+        If Not (Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(44) Or e.KeyChar = Chr(46)) Then e.Handled = True
     End Sub
 
 
-    Private Sub Qty_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Qty.TextChanged
-
-    End Sub
 End Class

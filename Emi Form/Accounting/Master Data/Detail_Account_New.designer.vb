@@ -23,6 +23,7 @@ Partial Class Detail_Account_New
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -84,12 +85,12 @@ Partial Class Detail_Account_New
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Dgv_Binding = New System.Windows.Forms.DataGridView()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.Panel6 = New System.Windows.Forms.Panel()
         Me.kode_account = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.formula = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.kode_detailAcc = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.keterangan = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabInput.SuspendLayout()
@@ -290,7 +291,7 @@ Partial Class Detail_Account_New
         Me.LvInput_CostCenter.HideSelection = False
         Me.LvInput_CostCenter.Location = New System.Drawing.Point(483, 39)
         Me.LvInput_CostCenter.Name = "LvInput_CostCenter"
-        Me.LvInput_CostCenter.Size = New System.Drawing.Size(537, 373)
+        Me.LvInput_CostCenter.Size = New System.Drawing.Size(526, 373)
         Me.LvInput_CostCenter.TabIndex = 446
         Me.LvInput_CostCenter.UseCompatibleStateImageBehavior = False
         Me.LvInput_CostCenter.View = System.Windows.Forms.View.Details
@@ -782,40 +783,6 @@ Partial Class Detail_Account_New
         Me.Dgv_Binding.Size = New System.Drawing.Size(1017, 424)
         Me.Dgv_Binding.TabIndex = 422
         '
-        'kode_account
-        '
-        Me.kode_account.Frozen = True
-        Me.kode_account.HeaderText = "Kode Account"
-        Me.kode_account.Name = "kode_account"
-        Me.kode_account.ReadOnly = True
-        Me.kode_account.Width = 160
-        '
-        'formula
-        '
-        Me.formula.Frozen = True
-        Me.formula.HeaderText = "Formula"
-        Me.formula.Name = "formula"
-        Me.formula.ReadOnly = True
-        Me.formula.Visible = False
-        '
-        'kode_detailAcc
-        '
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.kode_detailAcc.DefaultCellStyle = DataGridViewCellStyle1
-        Me.kode_detailAcc.Frozen = True
-        Me.kode_detailAcc.HeaderText = "Kode Detail Account"
-        Me.kode_detailAcc.Name = "kode_detailAcc"
-        Me.kode_detailAcc.ReadOnly = True
-        Me.kode_detailAcc.Width = 160
-        '
-        'keterangan
-        '
-        Me.keterangan.Frozen = True
-        Me.keterangan.HeaderText = "Keterangan"
-        Me.keterangan.Name = "keterangan"
-        Me.keterangan.ReadOnly = True
-        Me.keterangan.Width = 250
-        '
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
@@ -833,6 +800,42 @@ Partial Class Detail_Account_New
         Me.Panel6.Size = New System.Drawing.Size(1312, 10)
         Me.Panel6.TabIndex = 37
         Me.Panel6.Visible = False
+        '
+        'kode_account
+        '
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.kode_account.DefaultCellStyle = DataGridViewCellStyle1
+        Me.kode_account.Frozen = True
+        Me.kode_account.HeaderText = "Kode Account"
+        Me.kode_account.Name = "kode_account"
+        Me.kode_account.ReadOnly = True
+        Me.kode_account.Width = 140
+        '
+        'formula
+        '
+        Me.formula.Frozen = True
+        Me.formula.HeaderText = "Formula"
+        Me.formula.Name = "formula"
+        Me.formula.ReadOnly = True
+        Me.formula.Visible = False
+        '
+        'kode_detailAcc
+        '
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.kode_detailAcc.DefaultCellStyle = DataGridViewCellStyle2
+        Me.kode_detailAcc.Frozen = True
+        Me.kode_detailAcc.HeaderText = "Kode Detail Account"
+        Me.kode_detailAcc.Name = "kode_detailAcc"
+        Me.kode_detailAcc.ReadOnly = True
+        Me.kode_detailAcc.Width = 140
+        '
+        'keterangan
+        '
+        Me.keterangan.Frozen = True
+        Me.keterangan.HeaderText = "Keterangan"
+        Me.keterangan.Name = "keterangan"
+        Me.keterangan.ReadOnly = True
+        Me.keterangan.Width = 250
         '
         'Detail_Account_New
         '

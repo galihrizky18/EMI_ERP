@@ -44,6 +44,7 @@ Partial Class Server_Sinkronasi_B2B
         Me.Btn_Update_BiayaLokal = New System.Windows.Forms.Button()
         Me.Btn_InsKendaraan = New System.Windows.Forms.Button()
         Me.Btn_UpdateKendaraan = New System.Windows.Forms.Button()
+        Me.Button6 = New System.Windows.Forms.Button()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -269,11 +270,23 @@ Partial Class Server_Sinkronasi_B2B
         Me.Btn_UpdateKendaraan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Btn_UpdateKendaraan.UseVisualStyleBackColor = False
         '
+        'Button6
+        '
+        Me.Button6.BackColor = System.Drawing.SystemColors.ControlLightLight
+        Me.Button6.Location = New System.Drawing.Point(604, 252)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(173, 34)
+        Me.Button6.TabIndex = 95
+        Me.Button6.Text = "INSERT | Perusahaan Biaya"
+        Me.Button6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Button6.UseVisualStyleBackColor = False
+        '
         'Server_Sinkronasi_B2B
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1023, 585)
+        Me.Controls.Add(Me.Button6)
         Me.Controls.Add(Me.Btn_InsExpedisi)
         Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.btnPenawaranPackaging)
@@ -320,4 +333,5 @@ Partial Class Server_Sinkronasi_B2B
     Friend WithEvents Btn_Update_BiayaLokal As Button
     Friend WithEvents Btn_InsKendaraan As Button
     Friend WithEvents Btn_UpdateKendaraan As Button
+    Friend WithEvents Button6 As Button
 End Class

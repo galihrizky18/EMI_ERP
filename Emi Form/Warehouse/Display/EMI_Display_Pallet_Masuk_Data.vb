@@ -52,6 +52,8 @@ Public Class EMI_Display_Pallet_Masuk_Data
     Dim itemUrutOto As Integer = 20
     Dim itemQRCode As Integer = 21
 
+
+
     Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
         kosong()
     End Sub
@@ -64,6 +66,8 @@ Public Class EMI_Display_Pallet_Masuk_Data
 
         Clipboard.SetText(Lv_BM_PerPallet.FocusedItem.Text)
     End Sub
+
+
 
     Public Function Generate_QR_1(ByVal isi As String)
         Dim options As New QrCodeEncodingOptions
@@ -86,6 +90,8 @@ Public Class EMI_Display_Pallet_Masuk_Data
         Return result
     End Function
 
+
+
     Public Function Generate_QR_2(ByVal isi As String)
         Dim options As New QrCodeEncodingOptions
 
@@ -106,6 +112,8 @@ Public Class EMI_Display_Pallet_Masuk_Data
 
         Return result
     End Function
+
+
 
     Private Sub Get_Isi_Listview(ByVal No_Index As Integer)
         LvNoFaktur = Lv_BM_PerPallet.Items(No_Index).Text
@@ -131,6 +139,8 @@ Public Class EMI_Display_Pallet_Masuk_Data
         LvUrutOto = Lv_BM_PerPallet.Items(No_Index).SubItems(itemUrutOto).Text
         LvQRCode = Lv_BM_PerPallet.Items(No_Index).SubItems(itemQRCode).Text
     End Sub
+
+
 
     Private Sub Display_Pembelian_Barang_Masuk_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         kosong()
@@ -255,6 +265,8 @@ Public Class EMI_Display_Pallet_Masuk_Data
         End Try
 
         Data_BM_PerPallet()
+
+        Cb_TransaksiHrIni.Focus()
     End Sub
 
     Private Sub Data_BM_PerPallet()
@@ -1684,7 +1696,7 @@ Public Class EMI_Display_Pallet_Masuk_Data
             SQL = SQL & "from EMI_Barang_Masuk_Perpallet "
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and Status is null "
-            SQL = SQL & "and Flag_Timbang_Keluar is not null"
+            SQL = SQL & "and Flag_Timbang_Keluar is not null "
             SQL = SQL & "and No_Faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
@@ -1699,12 +1711,30 @@ Public Class EMI_Display_Pallet_Masuk_Data
             '===================================
             '=     UPDATE FLAG STATUS DATA     =
             '===================================
-            SQL = "update EMI_Barang_Masuk_Perpallet set Status = 'Y', "
-            SQL = SQL & "UserID_Batal = '" & UserID & "', Tanggal_Batal = '" & Format(tgl_skg, "yyyy-MM-dd") & "', Jam_Batal = '" & Format(tgl_skg, "HH:mm:ss") & "' "
-            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and Status is null "
+            SQL = "select Kode_Perusahaan from EMI_Barang_Masuk_Perpallet  "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Status is null   "
             SQL = SQL & "and No_Faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
-            ExecuteTrans(SQL)
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                    SQL = "update EMI_Barang_Masuk_Perpallet set Status = 'Y', "
+                    SQL = SQL & "UserID_Batal = '" & UserID & "', Tanggal_Batal = '" & Format(tgl_skg, "yyyy-MM-dd") & "', Jam_Batal = '" & Format(tgl_skg, "HH:mm:ss") & "' "
+                    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and Status is null "
+                    SQL = SQL & "and No_Faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
+                    ExecuteTrans(SQL)
+
+                Else
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("No Loading Tidak Ditemukan", "Pembatalan Barang Masuk", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+
+
+
 
 
             Cmd.Transaction.Commit()
@@ -1722,5 +1752,58 @@ Public Class EMI_Display_Pallet_Masuk_Data
 
 
     End Sub
+
+
+    '============================================================================================================================================================================
+    '=     HANDLE KEY PRESS
+    '============================================================================================================================================================================
+    Private Sub Lv_BM_PerPallet_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Lv_BM_PerPallet.KeyPress
+        'If e.KeyChar = Chr(13) Then
+        '    Cmb_Lokasi.DroppedDown = True
+        '    Cmb_Lokasi.Focus()
+        'End If
+    End Sub
+    Private Sub Cmb_Lokasi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Lokasi.KeyPress
+        If e.KeyChar = Chr(13) Then Cb_TransaksiHrIni.Focus()
+    End Sub
+    Private Sub Cb_TransaksiHrIni_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cb_TransaksiHrIni.KeyPress
+        If e.KeyChar = Chr(13) Then Cb_ParamTgl.Focus()
+    End Sub
+    Private Sub Cb_ParamTgl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cb_ParamTgl.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If Cb_ParamTgl.Checked Then
+                Cmb_ParamTgl.DroppedDown = True
+                Cmb_ParamTgl.Focus()
+            Else
+                Cb_ParamLain.Focus()
+            End If
+        End If
+    End Sub
+    Private Sub Cmb_ParamTgl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_ParamTgl.KeyPress
+        If e.KeyChar = Chr(13) Then Dtp_Awal.Focus()
+    End Sub
+    Private Sub Dtp_Awal_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Dtp_Awal.KeyPress
+        If e.KeyChar = Chr(13) Then Dtp_Akhir.Focus()
+    End Sub
+    Private Sub Dtp_Akhir_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Dtp_Akhir.KeyPress
+        If e.KeyChar = Chr(13) Then Cb_ParamLain.Focus()
+    End Sub
+    Private Sub Cb_ParamLain_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cb_ParamLain.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If Cb_ParamLain.Checked Then
+                Cmb_ParamLain.DroppedDown = True
+                Cmb_ParamLain.Focus()
+            Else
+                Btn_Cari.Focus()
+            End If
+        End If
+    End Sub
+    Private Sub Cmb_ParamLain_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_ParamLain.KeyPress
+        If e.KeyChar = Chr(13) Then Txt_ParamLain.Focus()
+    End Sub
+    Private Sub Txt_ParamLain_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_ParamLain.KeyPress
+        If e.KeyChar = Chr(13) Then Btn_Cari.Focus()
+    End Sub
+
 
 End Class

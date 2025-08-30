@@ -413,7 +413,7 @@ Public Class EMI_Display_Pallet_Masuk
             SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.Kode_Perusahaan = c.Kode_Perusahaan "
             SQL = SQL & "And a.No_Faktur = b.No_Faktur And b.Kode_Stock_Owner = c.Kode_Stock_Owner "
             SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.No_Pembelian_Loading = d.No_Fak_Loading_Barang "
-            SQL = SQL & "And b.Kode_Barang = c.Kode_Barang and a.status is null and a.no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
+            SQL = SQL & "And b.Kode_Barang = c.Kode_Barang and a.status is null and d.status is null and a.no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
             SQL = SQL & "order by urut_oto "
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then

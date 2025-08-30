@@ -83,6 +83,8 @@ Public Class Transaksi_Penawaran
     Private Sub Transaksi_Penawaran_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
+
+        Txt_NoPenawaran.Focus()
     End Sub
 
     Private Sub Master_Penawaran_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -636,6 +638,7 @@ Public Class Transaksi_Penawaran
         TxtPO_NmSupplier.Text = ""
         Txt_NoPenawaran.Text = ""
         Txt_NoUrut.Text = ""
+        Txt_NoUrut_JatuhTempo.Text = ""
         cmbJenisPengiriman.SelectedIndex = -1
         txtJatuhTempo.Text = ""
 
@@ -663,6 +666,7 @@ Public Class Transaksi_Penawaran
         Txt_NoPenawaran.ReadOnly = False
         Dtp_Tgl.Enabled = True
         Dtp_PeriodAkhir.Enabled = True
+        cmb_JenisBayar.Enabled = True
 
         Btn_Release.Visible = False
         Btn_Simpan.Tag = "&Simpan"
@@ -742,6 +746,8 @@ Public Class Transaksi_Penawaran
         Txt_Berat.Enabled = True
         Cmb_SatuanBerat.Enabled = True
 
+        Txt_NoPenawaran.Focus()
+
         'DgvMaster_Penawaran.Cell(cellCheckbox).Value = "True"
         'DgvMaster_Penawaran.Rows(0).Cells(cellCheckbox).Value = True
     End Sub
@@ -770,9 +776,6 @@ Public Class Transaksi_Penawaran
         ElseIf Txt_NoPenawaran.Text.Trim.Length = 0 Then
             MessageBox.Show(Base_Language.Lang_Penawaran_NoPenawaran & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Txt_NoPenawaran.Focus() : Exit Sub
-        ElseIf cmb_JenisBayar.Text.Trim.Length = 0 Then
-            MessageBox.Show("Pembayaran Harus Diisi . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            cmb_JenisBayar.Focus() : Exit Sub
         End If
 
         If Format(Dtp_Tgl.Value, "yyyy-MM-dd") > Format(Dtp_PeriodAkhir.Value, "yyyy-MM-dd") Then
@@ -813,15 +816,9 @@ Public Class Transaksi_Penawaran
                 For index = 0 To DgvMaster_Penawaran.Rows.Count - 1
                     Get_Isi_Listview(index)
 
-                    If DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value Is Nothing Then
+                    If DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value = "" Or DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value = 0 Then
                         Continue For
-                    Else
-                        If DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value.ToString = "" Or DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value = 0 Then
-                            Continue For
-                        End If
                     End If
-
-
 
                     hasDataToInsert = True
 
@@ -906,6 +903,11 @@ Public Class Transaksi_Penawaran
                             SQL = SQL & "No_Penawaran = '" & Txt_NoPenawaran.Text & "', Kode_Supplier = '" & TxtPO_KdSupplier.Text & "' "
                             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & TxtPenawaran_NoFaktur.Text & "' and NoUrut = '" & Txt_NoUrut.Text & "' "
                             ExecuteTrans(SQL)
+
+
+                            SQL = "insert into EMI_Master_Penawaran_Jatuh_Tempo(Kode_Perusahaan,No_Faktur,No_Penawaran,Jenis_Pembayaran,Tempo_Pembayaran,Lama_Pembayaran) values("
+                            SQL = SQL & "'" & KodePerusahaan & "', '" & saveFaktur & "', '" & saveNoPenawaran & "', '" & arrPembayaran.Item(cmb_JenisBayar.SelectedIndex) & "',"
+                            SQL = SQL & "'" & cmbJenisPengiriman.Text & "', '" & txtJatuhTempo.Text & "') "
 
                             For i As Integer = 0 To .Rows.Count - 1
 
@@ -1428,7 +1430,8 @@ Public Class Transaksi_Penawaran
         Lbl_NmSupplier.Text = Nama
 
         LvAutoCompleteSupplier.Visible = False
-        Txt_NoPenawaran.Focus()
+        cmb_JenisBayar.Focus()
+        cmb_JenisBayar.DroppedDown = True
     End Sub
 
     Private Sub Btn_Refresh_Click_1(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
@@ -1464,8 +1467,11 @@ Public Class Transaksi_Penawaran
 
     Private Sub TxtPO_KdSupplier_TextChanged(sender As Object, e As EventArgs) Handles TxtPO_KdSupplier.TextChanged
         If TxtPO_KdSupplier.Text.Trim.Length = 0 Then
-            LvAutoCompleteSupplier.Visible = False : Exit Sub
+            LvAutoCompleteSupplier.Location = New Point(1142, 90)
+            LvAutoCompleteSupplier.Visible = False
+            Exit Sub
         Else
+            LvAutoCompleteSupplier.Location = New Point(674, 90)
             LvAutoCompleteSupplier.Visible = True
         End If
 
@@ -1546,6 +1552,7 @@ Public Class Transaksi_Penawaran
                     Txt_NoPenawaran.Text = Dr("No_Penawaran")
                     TxtPO_KdSupplier.Text = Dr("Kode_Supplier")
                     Txt_NoUrut.Text = Dr("NoUrut")
+                    Txt_NoUrut_JatuhTempo.Text = ""
 
                     noPenawaran = Dr("No_Penawaran")
                     kodeSupplier = Dr("Kode_Supplier")
@@ -1594,6 +1601,10 @@ Public Class Transaksi_Penawaran
                                         txtJatuhTempo.Text = .Rows(i).Item("Lama_Pembayaran")
 
                                     End If
+                                Else
+                                    cmb_JenisBayar.SelectedIndex = 0
+                                    CmbPO_JnsBayar_SelectedIndexChanged(TxtPenawaran_NoFaktur, e)
+
                                 End If
                             Next
                         End If
@@ -1639,7 +1650,12 @@ Public Class Transaksi_Penawaran
                     Dtp_PeriodAkhir.Enabled = True
 
                     cmb_JenisBayar.Enabled = True
-                    cmbJenisPengiriman.Enabled = True
+
+                    If cmb_JenisBayar.SelectedIndex = 0 Then
+                        cmbJenisPengiriman.Enabled = False
+                    Else
+                        cmbJenisPengiriman.Enabled = True
+                    End If
                     txtJatuhTempo.ReadOnly = False
 
                 End If
@@ -1655,7 +1671,7 @@ Public Class Transaksi_Penawaran
                 SQL = SQL & "and b.Kode_Barang = c.Kode_Barang "
                 SQL = SQL & "and c.Id_Group_Jenis = d.Id_Group_Jenis "
                 SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-                'SQL = SQL & "and d.Flag_Raw_Material = 'Y' "
+                SQL = SQL & "and d.Flag_Penawaran = 'Y' "
                 SQL = SQL & "and a.No_Faktur = '" & TxtPenawaran_NoFaktur.Text & "' "
                 SQL = SQL & "group by a.Kode_Perusahaan, a.No_Faktur,b.Kode_Barang, c.Nama, c.Kode_Kategori_Besar, c.Kode_Kategori_Kecil, d.Kode_Group_Jenis, c.Flag_PPN, "
                 SQL = SQL & "b.Min_Order, b.Satuan, b.Mata_Uang, b.Harga_Satuan "
@@ -1686,7 +1702,7 @@ Public Class Transaksi_Penawaran
                                 'Load Isian
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellMinOrder).Value = Format(.Rows(i).Item("Min_Order"), "N2")
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellMUA).Value = .Rows(i).Item("Mata_Uang")
-                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellHrgSatuan).Value = Format(.Rows(i).Item("Harga_Satuan"), "N2")
+                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellHrgSatuan).Value = Format(.Rows(i).Item("Harga_Satuan"), "N4")
 
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellKdBrg).ReadOnly = True
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellNmBrg).ReadOnly = True
@@ -1952,7 +1968,7 @@ Public Class Transaksi_Penawaran
         Dim nilai1 As Decimal = Decimal.Parse(value1)
         Dim formattedValue1 As String = nilai1.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
         Dim nilai2 As Decimal = Decimal.Parse(value2)
-        Dim formattedValue2 As String = nilai2.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
+        Dim formattedValue2 As String = nilai2.ToString("N4", Globalization.CultureInfo.GetCultureInfo("en-us"))
 
         DgvMaster_Penawaran.CurrentRow.Cells(cellMinOrder).Value = formattedValue1
         DgvMaster_Penawaran.CurrentRow.Cells(cellHrgSatuan).Value = formattedValue2
@@ -1994,7 +2010,7 @@ Public Class Transaksi_Penawaran
 
             If Not String.IsNullOrEmpty(value2) Then
                 Dim nilai2 As Decimal = Decimal.Parse(value2)
-                Dim formattedValue2 As String = nilai2.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
+                Dim formattedValue2 As String = nilai2.ToString("N4", Globalization.CultureInfo.GetCultureInfo("en-us"))
 
                 DgvMaster_Penawaran.CurrentRow.Cells(cellHrgSatuan).Value = formattedValue2
             End If
@@ -2039,6 +2055,7 @@ Public Class Transaksi_Penawaran
                 Master_Penawaran_SD_Barang.asal = Jenis
                 Master_Penawaran_SD_Barang.filter_kdSupplier = " and a.Kode_Supplier = '" & Lbl_KdSupplier.Text & "' "
                 Master_Penawaran_SD_Barang.CmbPilihBarang_Lokasi.Text = Lbl_BindingLokasiGudang.Text
+                Master_Penawaran_SD_Barang.filter_tambahan = "and b.Flag_Penawaran ='Y' "
 
                 Master_Penawaran_SD_Barang.ShowDialog()
 
@@ -2084,8 +2101,10 @@ Public Class Transaksi_Penawaran
         End If
     End Sub
 
-    Private Sub DgvMaster_Penawaran_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DgvMaster_Penawaran.CellContentClick
 
+
+    Private Sub cmb_JenisBayar_KeyPress(sender As Object, e As KeyPressEventArgs) Handles cmb_JenisBayar.KeyPress
+        If e.KeyChar = Chr(13) Then DgvMaster_Penawaran.Focus()
     End Sub
 
     Private Sub Cmb_KecAsal_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_KecAsal.KeyPress
@@ -2128,8 +2147,11 @@ Public Class Transaksi_Penawaran
 
     Private Sub TxtPO_NmSupplier_TextChanged(sender As Object, e As EventArgs) Handles TxtPO_NmSupplier.TextChanged
         If TxtPO_NmSupplier.Text.Trim.Length = 0 Then
-            LvAutoCompleteSupplier.Visible = False : Exit Sub
+            LvAutoCompleteSupplier.Location = New Point(1142, 90)
+            LvAutoCompleteSupplier.Visible = False
+            Exit Sub
         Else
+            LvAutoCompleteSupplier.Location = New Point(674, 90)
             LvAutoCompleteSupplier.Visible = True
         End If
 

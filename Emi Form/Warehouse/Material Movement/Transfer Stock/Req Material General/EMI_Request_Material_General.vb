@@ -2,6 +2,8 @@
 
 Public Class EMI_Request_Material_General
 
+    Dim Flag_Opname As Boolean = False
+
     Dim judulForm As String = "Request Material General"
     Dim lv As New ListViewItem
     Dim LInisial As New ArrayList
@@ -58,6 +60,18 @@ Public Class EMI_Request_Material_General
             OpenConn()
 
             get_no_faktur()
+
+
+            SQL = "select Flag_Opname from init where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Flag_Opname")) = "Y" Then
+                        Flag_Opname = True
+                    Else
+                        Flag_Opname = False
+                    End If
+                End If
+            End Using
 
             CmbSO_Req.Enabled = True
             CmbSo_Sup.Enabled = True
@@ -126,7 +140,7 @@ Public Class EMI_Request_Material_General
             Dim lv As New ListViewItem
             LvBrg.Items.Clear()
 
-            SQL = "select a.Kode_Stock_Owner, a.Kode_Barang, a.Nama, a.Good_Stock, a.Satuan, "
+            SQL = "select top(20) a.Kode_Stock_Owner, a.Kode_Barang, a.Nama, a.Good_Stock, a.Satuan, "
             SQL = SQL & "dbo.ubah_satuan(a.kode_perusahaan, 'masa',a.kode_barang, a.Satuan, "
             SQL = SQL & "(select top 1 z.Satuan from Barang_Detail_Satuan z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Kode_barang = a.Kode_Barang and z.Flag_Tampil_Display = 'Y'), "
             SQL = SQL & "a.Good_Stock ) as Good_Stock_Besar,  "
@@ -140,7 +154,12 @@ Public Class EMI_Request_Material_General
                 Do While Dr.Read
                     lv = LvBrg.Items.Add(Dr("Kode_Barang"))
                     lv.SubItems.Add("X")
-                    lv.SubItems.Add(Format(Dr("Good_Stock_Besar"), "N2"))
+
+                    If Flag_Opname Then
+                        lv.SubItems.Add(0)
+                    Else
+                        lv.SubItems.Add(Format(Dr("Good_Stock_Besar"), "N2"))
+                    End If
                     lv.SubItems.Add(Dr("Satuan_Besar"))
                 Loop
             End Using
@@ -178,7 +197,11 @@ Public Class EMI_Request_Material_General
                 If Dr.Read Then
                     TxtKodeBarang.Text = Dr("Kode_Barang")
                     TxtNamaBarang.Text = Dr("Nama")
-                    Txt_Stock.Text = Format(Dr("Good_Stock_Besar"), "N2")
+                    If Flag_Opname Then
+                        Txt_Stock.Text = 0
+                    Else
+                        Txt_Stock.Text = Format(Dr("Good_Stock_Besar"), "N2")
+                    End If
                     TxtSatuan.Text = Dr("Satuan_Besar")
                     TxtJlh.Focus()
                 Else
@@ -245,7 +268,11 @@ Public Class EMI_Request_Material_General
                 Do While Dr.Read
                     lv = LvBrg.Items.Add(Dr("Kode_Barang"))
                     lv.SubItems.Add(Dr("Nama"))
-                    lv.SubItems.Add(Format(Dr("Good_Stock_Besar"), "N2"))
+                    If Flag_Opname Then
+                        lv.SubItems.Add(0)
+                    Else
+                        lv.SubItems.Add(Format(Dr("Good_Stock_Besar"), "N2"))
+                    End If
                     lv.SubItems.Add(Dr("Satuan_Besar"))
                 Loop
             End Using

@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Emi_Display_Transfer_Stock
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class Emi_Display_Transfer_Stock
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -29,6 +29,7 @@ Partial Class Emi_Display_Transfer_Stock
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Lv_Stock = New System.Windows.Forms.ListView()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SalinNoFakturToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CetakUlangFakturToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
@@ -59,6 +60,7 @@ Partial Class Emi_Display_Transfer_Stock
         Me.Chk_Tanggal = New System.Windows.Forms.CheckBox()
         Me.Cmb_FIlterTanggal = New System.Windows.Forms.ComboBox()
         Me.Barcode = New System.Windows.Forms.PictureBox()
+        Me.BatalTransferStockToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -80,24 +82,24 @@ Partial Class Emi_Display_Transfer_Stock
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1286, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1184, 44)
         Me.Panel1.TabIndex = 26
         '
         'Lbl_Judul
         '
         Me.Lbl_Judul.AutoSize = True
-        Me.Lbl_Judul.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_Judul.Location = New System.Drawing.Point(15, 11)
+        Me.Lbl_Judul.Font = New System.Drawing.Font("Work Sans SemiBold", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_Judul.Location = New System.Drawing.Point(21, 7)
         Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Lbl_Judul.Name = "Lbl_Judul"
-        Me.Lbl_Judul.Size = New System.Drawing.Size(266, 25)
+        Me.Lbl_Judul.Size = New System.Drawing.Size(239, 28)
         Me.Lbl_Judul.TabIndex = 0
         Me.Lbl_Judul.Text = "Display - Transfer Stock"
         '
         'Panel2
         '
         Me.Panel2.BackColor = System.Drawing.Color.Red
-        Me.Panel2.Location = New System.Drawing.Point(9, 52)
+        Me.Panel2.Location = New System.Drawing.Point(8, 44)
         Me.Panel2.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(942, 12)
@@ -117,33 +119,39 @@ Partial Class Emi_Display_Transfer_Stock
         'Lv_Stock
         '
         Me.Lv_Stock.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.Lv_Stock.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Lv_Stock.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.Lv_Stock.FullRowSelect = True
         Me.Lv_Stock.GridLines = True
         Me.Lv_Stock.HideSelection = False
-        Me.Lv_Stock.Location = New System.Drawing.Point(20, 66)
+        Me.Lv_Stock.Location = New System.Drawing.Point(18, 56)
         Me.Lv_Stock.Name = "Lv_Stock"
-        Me.Lv_Stock.Size = New System.Drawing.Size(1244, 235)
-        Me.Lv_Stock.TabIndex = 234
+        Me.Lv_Stock.Size = New System.Drawing.Size(1146, 189)
+        Me.Lv_Stock.TabIndex = 0
         Me.Lv_Stock.UseCompatibleStateImageBehavior = False
         Me.Lv_Stock.View = System.Windows.Forms.View.Details
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakUlangFakturToolStripMenuItem})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalinNoFakturToolStripMenuItem, Me.CetakUlangFakturToolStripMenuItem, Me.BatalTransferStockToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(175, 26)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(178, 70)
+        '
+        'SalinNoFakturToolStripMenuItem
+        '
+        Me.SalinNoFakturToolStripMenuItem.Name = "SalinNoFakturToolStripMenuItem"
+        Me.SalinNoFakturToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.SalinNoFakturToolStripMenuItem.Text = "Salin No Faktur"
         '
         'CetakUlangFakturToolStripMenuItem
         '
         Me.CetakUlangFakturToolStripMenuItem.Name = "CetakUlangFakturToolStripMenuItem"
-        Me.CetakUlangFakturToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.CetakUlangFakturToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
         Me.CetakUlangFakturToolStripMenuItem.Text = "Cetak Ulang Faktur"
         '
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(1265, 72)
+        Me.Panel4.Location = New System.Drawing.Point(1165, 66)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(19, 601)
@@ -153,7 +161,7 @@ Partial Class Emi_Display_Transfer_Stock
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(29, 300)
+        Me.Panel5.Location = New System.Drawing.Point(46, 242)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(942, 12)
@@ -171,13 +179,13 @@ Partial Class Emi_Display_Transfer_Stock
         '
         'Lv_Stock_Detail
         '
-        Me.Lv_Stock_Detail.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Lv_Stock_Detail.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.Lv_Stock_Detail.FullRowSelect = True
         Me.Lv_Stock_Detail.GridLines = True
         Me.Lv_Stock_Detail.HideSelection = False
-        Me.Lv_Stock_Detail.Location = New System.Drawing.Point(0, 0)
+        Me.Lv_Stock_Detail.Location = New System.Drawing.Point(4, 3)
         Me.Lv_Stock_Detail.Name = "Lv_Stock_Detail"
-        Me.Lv_Stock_Detail.Size = New System.Drawing.Size(1233, 232)
+        Me.Lv_Stock_Detail.Size = New System.Drawing.Size(1126, 154)
         Me.Lv_Stock_Detail.TabIndex = 234
         Me.Lv_Stock_Detail.UseCompatibleStateImageBehavior = False
         Me.Lv_Stock_Detail.View = System.Windows.Forms.View.Details
@@ -197,7 +205,7 @@ Partial Class Emi_Display_Transfer_Stock
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(25, 578)
+        Me.Panel6.Location = New System.Drawing.Point(19, 446)
         Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(942, 12)
@@ -207,10 +215,10 @@ Partial Class Emi_Display_Transfer_Stock
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(25, 725)
+        Me.Panel7.Location = New System.Drawing.Point(20, 596)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel7.Name = "Panel7"
-        Me.Panel7.Size = New System.Drawing.Size(942, 12)
+        Me.Panel7.Size = New System.Drawing.Size(942, 15)
         Me.Panel7.TabIndex = 36
         Me.Panel7.Visible = False
         '
@@ -218,10 +226,10 @@ Partial Class Emi_Display_Transfer_Stock
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Location = New System.Drawing.Point(21, 313)
+        Me.TabControl1.Location = New System.Drawing.Point(20, 254)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1253, 267)
+        Me.TabControl1.Size = New System.Drawing.Size(1144, 189)
         Me.TabControl1.TabIndex = 241
         '
         'TabPage1
@@ -230,7 +238,7 @@ Partial Class Emi_Display_Transfer_Stock
         Me.TabPage1.Location = New System.Drawing.Point(4, 25)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(1245, 238)
+        Me.TabPage1.Size = New System.Drawing.Size(1136, 160)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Detail Barang"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -242,7 +250,7 @@ Partial Class Emi_Display_Transfer_Stock
         Me.TabPage2.Location = New System.Drawing.Point(4, 25)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1245, 238)
+        Me.TabPage2.Size = New System.Drawing.Size(1136, 160)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Lokasi"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -250,9 +258,9 @@ Partial Class Emi_Display_Transfer_Stock
         'GroupBox4
         '
         Me.GroupBox4.Controls.Add(Me.LvwAkhir)
-        Me.GroupBox4.Location = New System.Drawing.Point(625, 2)
+        Me.GroupBox4.Location = New System.Drawing.Point(571, 5)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(620, 236)
+        Me.GroupBox4.Size = New System.Drawing.Size(565, 159)
         Me.GroupBox4.TabIndex = 238
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Lokasi Tujuan"
@@ -260,37 +268,37 @@ Partial Class Emi_Display_Transfer_Stock
         'LvwAkhir
         '
         Me.LvwAkhir.ContextMenuStrip = Me.ContextMenuStrip2
-        Me.LvwAkhir.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.LvwAkhir.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.LvwAkhir.FullRowSelect = True
         Me.LvwAkhir.GridLines = True
         Me.LvwAkhir.HideSelection = False
-        Me.LvwAkhir.Location = New System.Drawing.Point(2, 19)
+        Me.LvwAkhir.Location = New System.Drawing.Point(3, 19)
         Me.LvwAkhir.Name = "LvwAkhir"
-        Me.LvwAkhir.Size = New System.Drawing.Size(615, 214)
-        Me.LvwAkhir.TabIndex = 236
+        Me.LvwAkhir.Size = New System.Drawing.Size(557, 124)
+        Me.LvwAkhir.TabIndex = 0
         Me.LvwAkhir.UseCompatibleStateImageBehavior = False
         Me.LvwAkhir.View = System.Windows.Forms.View.Details
         '
         'GroupBox3
         '
         Me.GroupBox3.Controls.Add(Me.LvwAwal)
-        Me.GroupBox3.Location = New System.Drawing.Point(2, 2)
+        Me.GroupBox3.Location = New System.Drawing.Point(4, 6)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(620, 236)
+        Me.GroupBox3.Size = New System.Drawing.Size(565, 159)
         Me.GroupBox3.TabIndex = 237
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Lokasi Awal"
         '
         'LvwAwal
         '
-        Me.LvwAwal.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.LvwAwal.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.LvwAwal.FullRowSelect = True
         Me.LvwAwal.GridLines = True
         Me.LvwAwal.HideSelection = False
         Me.LvwAwal.Location = New System.Drawing.Point(2, 19)
         Me.LvwAwal.Name = "LvwAwal"
-        Me.LvwAwal.Size = New System.Drawing.Size(615, 214)
-        Me.LvwAwal.TabIndex = 235
+        Me.LvwAwal.Size = New System.Drawing.Size(557, 124)
+        Me.LvwAwal.TabIndex = 0
         Me.LvwAwal.UseCompatibleStateImageBehavior = False
         Me.LvwAwal.View = System.Windows.Forms.View.Details
         '
@@ -308,12 +316,12 @@ Partial Class Emi_Display_Transfer_Stock
         Me.GroupBox1.Controls.Add(Me.DateTimePicker1)
         Me.GroupBox1.Controls.Add(Me.Chk_Tanggal)
         Me.GroupBox1.Controls.Add(Me.Cmb_FIlterTanggal)
-        Me.GroupBox1.Location = New System.Drawing.Point(29, 593)
+        Me.GroupBox1.Location = New System.Drawing.Point(21, 458)
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.GroupBox1.Size = New System.Drawing.Size(670, 131)
-        Me.GroupBox1.TabIndex = 343
+        Me.GroupBox1.Size = New System.Drawing.Size(670, 141)
+        Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Filter Data"
         '
@@ -322,10 +330,10 @@ Partial Class Emi_Display_Transfer_Stock
         Me.BtnBarangMasuk_Cari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnBarangMasuk_Cari.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnBarangMasuk_Cari.ForeColor = System.Drawing.Color.White
-        Me.BtnBarangMasuk_Cari.Location = New System.Drawing.Point(562, 96)
+        Me.BtnBarangMasuk_Cari.Location = New System.Drawing.Point(562, 100)
         Me.BtnBarangMasuk_Cari.Name = "BtnBarangMasuk_Cari"
         Me.BtnBarangMasuk_Cari.Size = New System.Drawing.Size(81, 27)
-        Me.BtnBarangMasuk_Cari.TabIndex = 343
+        Me.BtnBarangMasuk_Cari.TabIndex = 9
         Me.BtnBarangMasuk_Cari.Text = "&Cari"
         Me.BtnBarangMasuk_Cari.UseVisualStyleBackColor = False
         '
@@ -337,31 +345,31 @@ Partial Class Emi_Display_Transfer_Stock
         Me.CmbSO_Asal.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.CmbSO_Asal.Name = "CmbSO_Asal"
         Me.CmbSO_Asal.Size = New System.Drawing.Size(209, 24)
-        Me.CmbSO_Asal.TabIndex = 342
+        Me.CmbSO_Asal.TabIndex = 0
         '
         'Chk_Transaksi_HariIni
         '
         Me.Chk_Transaksi_HariIni.AutoSize = True
-        Me.Chk_Transaksi_HariIni.Location = New System.Drawing.Point(8, 46)
+        Me.Chk_Transaksi_HariIni.Location = New System.Drawing.Point(8, 48)
         Me.Chk_Transaksi_HariIni.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.Chk_Transaksi_HariIni.Name = "Chk_Transaksi_HariIni"
         Me.Chk_Transaksi_HariIni.Size = New System.Drawing.Size(118, 20)
-        Me.Chk_Transaksi_HariIni.TabIndex = 9
+        Me.Chk_Transaksi_HariIni.TabIndex = 1
         Me.Chk_Transaksi_HariIni.Text = "Transaksi Hari Ini"
         Me.Chk_Transaksi_HariIni.UseVisualStyleBackColor = True
         '
         'Txt_ParamLain
         '
-        Me.Txt_ParamLain.Location = New System.Drawing.Point(349, 99)
+        Me.Txt_ParamLain.Location = New System.Drawing.Point(349, 105)
         Me.Txt_ParamLain.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.Txt_ParamLain.Name = "Txt_ParamLain"
         Me.Txt_ParamLain.Size = New System.Drawing.Size(208, 20)
-        Me.Txt_ParamLain.TabIndex = 7
+        Me.Txt_ParamLain.TabIndex = 8
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(310, 100)
+        Me.Label6.Location = New System.Drawing.Point(310, 106)
         Me.Label6.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(35, 16)
@@ -372,20 +380,20 @@ Partial Class Emi_Display_Transfer_Stock
         '
         Me.Cmb_Filter_ParamLain.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cmb_Filter_ParamLain.FormattingEnabled = True
-        Me.Cmb_Filter_ParamLain.Location = New System.Drawing.Point(143, 96)
+        Me.Cmb_Filter_ParamLain.Location = New System.Drawing.Point(143, 102)
         Me.Cmb_Filter_ParamLain.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.Cmb_Filter_ParamLain.Name = "Cmb_Filter_ParamLain"
         Me.Cmb_Filter_ParamLain.Size = New System.Drawing.Size(159, 24)
-        Me.Cmb_Filter_ParamLain.TabIndex = 6
+        Me.Cmb_Filter_ParamLain.TabIndex = 7
         '
         'Chk_Param_Lain
         '
         Me.Chk_Param_Lain.AutoSize = True
-        Me.Chk_Param_Lain.Location = New System.Drawing.Point(8, 96)
+        Me.Chk_Param_Lain.Location = New System.Drawing.Point(8, 102)
         Me.Chk_Param_Lain.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.Chk_Param_Lain.Name = "Chk_Param_Lain"
         Me.Chk_Param_Lain.Size = New System.Drawing.Size(107, 20)
-        Me.Chk_Param_Lain.TabIndex = 5
+        Me.Chk_Param_Lain.TabIndex = 6
         Me.Chk_Param_Lain.Text = "Parameter Lain"
         Me.Chk_Param_Lain.UseVisualStyleBackColor = True
         '
@@ -393,16 +401,16 @@ Partial Class Emi_Display_Transfer_Stock
         '
         Me.DateTimePicker2.CustomFormat = "dd MMMM yyyy"
         Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker2.Location = New System.Drawing.Point(496, 72)
+        Me.DateTimePicker2.Location = New System.Drawing.Point(496, 76)
         Me.DateTimePicker2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.DateTimePicker2.Name = "DateTimePicker2"
         Me.DateTimePicker2.Size = New System.Drawing.Size(143, 20)
-        Me.DateTimePicker2.TabIndex = 4
+        Me.DateTimePicker2.TabIndex = 5
         '
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(464, 74)
+        Me.Label7.Location = New System.Drawing.Point(464, 78)
         Me.Label7.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(25, 16)
@@ -413,20 +421,20 @@ Partial Class Emi_Display_Transfer_Stock
         '
         Me.DateTimePicker1.CustomFormat = "dd MMMM yyyy"
         Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker1.Location = New System.Drawing.Point(313, 72)
+        Me.DateTimePicker1.Location = New System.Drawing.Point(313, 76)
         Me.DateTimePicker1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.DateTimePicker1.Name = "DateTimePicker1"
         Me.DateTimePicker1.Size = New System.Drawing.Size(143, 20)
-        Me.DateTimePicker1.TabIndex = 3
+        Me.DateTimePicker1.TabIndex = 4
         '
         'Chk_Tanggal
         '
         Me.Chk_Tanggal.AutoSize = True
-        Me.Chk_Tanggal.Location = New System.Drawing.Point(8, 70)
+        Me.Chk_Tanggal.Location = New System.Drawing.Point(8, 74)
         Me.Chk_Tanggal.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.Chk_Tanggal.Name = "Chk_Tanggal"
         Me.Chk_Tanggal.Size = New System.Drawing.Size(124, 20)
-        Me.Chk_Tanggal.TabIndex = 1
+        Me.Chk_Tanggal.TabIndex = 2
         Me.Chk_Tanggal.Text = "Parameter Tanggal"
         Me.Chk_Tanggal.UseVisualStyleBackColor = True
         '
@@ -434,11 +442,11 @@ Partial Class Emi_Display_Transfer_Stock
         '
         Me.Cmb_FIlterTanggal.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cmb_FIlterTanggal.FormattingEnabled = True
-        Me.Cmb_FIlterTanggal.Location = New System.Drawing.Point(143, 68)
+        Me.Cmb_FIlterTanggal.Location = New System.Drawing.Point(143, 72)
         Me.Cmb_FIlterTanggal.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.Cmb_FIlterTanggal.Name = "Cmb_FIlterTanggal"
         Me.Cmb_FIlterTanggal.Size = New System.Drawing.Size(159, 24)
-        Me.Cmb_FIlterTanggal.TabIndex = 2
+        Me.Cmb_FIlterTanggal.TabIndex = 3
         '
         'Barcode
         '
@@ -449,6 +457,12 @@ Partial Class Emi_Display_Transfer_Stock
         Me.Barcode.TabStop = False
         Me.Barcode.Visible = False
         '
+        'BatalTransferStockToolStripMenuItem
+        '
+        Me.BatalTransferStockToolStripMenuItem.Name = "BatalTransferStockToolStripMenuItem"
+        Me.BatalTransferStockToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.BatalTransferStockToolStripMenuItem.Text = "Batal Transfer Stock"
+        '
         'PanelGradient1
         '
         Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
@@ -456,10 +470,10 @@ Partial Class Emi_Display_Transfer_Stock
         Me.PanelGradient1.cuteTransparent1 = 100
         Me.PanelGradient1.cuteTransparent2 = 64
         Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 42)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1286, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Emi_Display_Transfer_Stock
@@ -467,20 +481,20 @@ Partial Class Emi_Display_Transfer_Stock
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1286, 740)
-        Me.Controls.Add(Me.Barcode)
+        Me.ClientSize = New System.Drawing.Size(1184, 611)
+        Me.Controls.Add(Me.Panel7)
+        Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.GroupBox1)
+        Me.Controls.Add(Me.Barcode)
         Me.Controls.Add(Me.Lv_Stock)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.Panel3)
-        Me.Controls.Add(Me.Panel7)
-        Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
-        Me.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "Emi_Display_Transfer_Stock"
@@ -538,4 +552,6 @@ Partial Class Emi_Display_Transfer_Stock
     Friend WithEvents LvwAkhir As ListView
     Friend WithEvents GroupBox4 As GroupBox
     Friend WithEvents GroupBox3 As GroupBox
+    Friend WithEvents SalinNoFakturToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents BatalTransferStockToolStripMenuItem As ToolStripMenuItem
 End Class

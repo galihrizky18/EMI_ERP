@@ -49,9 +49,7 @@ Partial Class Loading_Barang_Import
         Me.ComboBox4 = New System.Windows.Forms.ComboBox()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.Label14 = New System.Windows.Forms.Label()
-        Me.TextBoxRV = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.ComboBox3 = New System.Windows.Forms.ComboBox()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -71,6 +69,8 @@ Partial Class Loading_Barang_Import
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.CmbLokasi = New System.Windows.Forms.ComboBox()
+        Me.TextBoxRV = New System.Windows.Forms.TextBox()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.BtnRefresh = New System.Windows.Forms.Button()
         Me.BtnSimpan = New System.Windows.Forms.Button()
@@ -140,9 +140,7 @@ Partial Class Loading_Barang_Import
         Me.GroupBox1.Controls.Add(Me.ComboBox4)
         Me.GroupBox1.Controls.Add(Me.CheckBox1)
         Me.GroupBox1.Controls.Add(Me.Label14)
-        Me.GroupBox1.Controls.Add(Me.TextBoxRV)
         Me.GroupBox1.Controls.Add(Me.Label5)
-        Me.GroupBox1.Controls.Add(Me.TextBox1)
         Me.GroupBox1.Controls.Add(Me.TextBox2)
         Me.GroupBox1.Controls.Add(Me.ComboBox3)
         Me.GroupBox1.Controls.Add(Me.Label4)
@@ -164,7 +162,7 @@ Partial Class Loading_Barang_Import
         Me.GroupBox1.Controls.Add(Me.CmbLokasi)
         Me.GroupBox1.Location = New System.Drawing.Point(3, 35)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(591, 242)
+        Me.GroupBox1.Size = New System.Drawing.Size(591, 236)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
@@ -192,7 +190,7 @@ Partial Class Loading_Barang_Import
         Me.ComboBox4.Location = New System.Drawing.Point(129, 207)
         Me.ComboBox4.Name = "ComboBox4"
         Me.ComboBox4.Size = New System.Drawing.Size(438, 21)
-        Me.ComboBox4.TabIndex = 83
+        Me.ComboBox4.TabIndex = 4
         '
         'CheckBox1
         '
@@ -200,7 +198,7 @@ Partial Class Loading_Barang_Import
         Me.CheckBox1.Location = New System.Drawing.Point(106, 209)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(15, 14)
-        Me.CheckBox1.TabIndex = 82
+        Me.CheckBox1.TabIndex = 3
         Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'Label14
@@ -212,15 +210,6 @@ Partial Class Loading_Barang_Import
         Me.Label14.TabIndex = 81
         Me.Label14.Text = "Lokasi Transit"
         '
-        'TextBoxRV
-        '
-        Me.TextBoxRV.Enabled = False
-        Me.TextBoxRV.Location = New System.Drawing.Point(446, 0)
-        Me.TextBoxRV.Name = "TextBoxRV"
-        Me.TextBoxRV.Size = New System.Drawing.Size(100, 21)
-        Me.TextBoxRV.TabIndex = 79
-        Me.TextBoxRV.Visible = False
-        '
         'Label5
         '
         Me.Label5.AutoSize = True
@@ -229,15 +218,6 @@ Partial Class Loading_Barang_Import
         Me.Label5.Size = New System.Drawing.Size(71, 13)
         Me.Label5.TabIndex = 80
         Me.Label5.Text = "Lokasi Import"
-        '
-        'TextBox1
-        '
-        Me.TextBox1.Enabled = False
-        Me.TextBox1.Location = New System.Drawing.Point(446, -13)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(100, 21)
-        Me.TextBox1.TabIndex = 77
-        Me.TextBox1.Visible = False
         '
         'TextBox2
         '
@@ -254,7 +234,7 @@ Partial Class Loading_Barang_Import
         Me.ComboBox3.Location = New System.Drawing.Point(98, 183)
         Me.ComboBox3.Name = "ComboBox3"
         Me.ComboBox3.Size = New System.Drawing.Size(469, 21)
-        Me.ComboBox3.TabIndex = 10
+        Me.ComboBox3.TabIndex = 2
         '
         'Label4
         '
@@ -272,7 +252,7 @@ Partial Class Loading_Barang_Import
         Me.ComboBox2.Location = New System.Drawing.Point(98, 160)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(469, 21)
-        Me.ComboBox2.TabIndex = 9
+        Me.ComboBox2.TabIndex = 1
         '
         'Label3
         '
@@ -307,7 +287,7 @@ Partial Class Loading_Barang_Import
         Me.BtCari.Location = New System.Drawing.Point(20, 42)
         Me.BtCari.Name = "BtCari"
         Me.BtCari.Size = New System.Drawing.Size(547, 23)
-        Me.BtCari.TabIndex = 1
+        Me.BtCari.TabIndex = 0
         Me.BtCari.Text = "&Cari"
         Me.BtCari.UseVisualStyleBackColor = True
         '
@@ -408,14 +388,32 @@ Partial Class Loading_Barang_Import
         Me.CmbLokasi.Size = New System.Drawing.Size(547, 21)
         Me.CmbLokasi.TabIndex = 0
         '
+        'TextBoxRV
+        '
+        Me.TextBoxRV.Enabled = False
+        Me.TextBoxRV.Location = New System.Drawing.Point(1094, 125)
+        Me.TextBoxRV.Name = "TextBoxRV"
+        Me.TextBoxRV.Size = New System.Drawing.Size(100, 21)
+        Me.TextBoxRV.TabIndex = 79
+        Me.TextBoxRV.Visible = False
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Enabled = False
+        Me.TextBox1.Location = New System.Drawing.Point(1094, 152)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(100, 21)
+        Me.TextBox1.TabIndex = 77
+        Me.TextBox1.Visible = False
+        '
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.BtnRefresh)
         Me.GroupBox2.Controls.Add(Me.BtnSimpan)
-        Me.GroupBox2.Location = New System.Drawing.Point(3, 638)
+        Me.GroupBox2.Location = New System.Drawing.Point(5, 571)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(378, 39)
-        Me.GroupBox2.TabIndex = 76
+        Me.GroupBox2.TabIndex = 3
         Me.GroupBox2.TabStop = False
         '
         'BtnRefresh
@@ -432,7 +430,7 @@ Partial Class Loading_Barang_Import
         Me.BtnSimpan.Location = New System.Drawing.Point(5, 10)
         Me.BtnSimpan.Name = "BtnSimpan"
         Me.BtnSimpan.Size = New System.Drawing.Size(180, 23)
-        Me.BtnSimpan.TabIndex = 1
+        Me.BtnSimpan.TabIndex = 0
         Me.BtnSimpan.Text = "&Simpan"
         Me.BtnSimpan.UseVisualStyleBackColor = True
         '
@@ -440,10 +438,10 @@ Partial Class Loading_Barang_Import
         '
         Me.GroupBox4.Controls.Add(Me.ListView1)
         Me.GroupBox4.Controls.Add(Me.ListView2)
-        Me.GroupBox4.Location = New System.Drawing.Point(3, 475)
+        Me.GroupBox4.Location = New System.Drawing.Point(3, 428)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(1010, 167)
-        Me.GroupBox4.TabIndex = 76
+        Me.GroupBox4.Size = New System.Drawing.Size(1010, 150)
+        Me.GroupBox4.TabIndex = 2
         Me.GroupBox4.TabStop = False
         '
         'ListView1
@@ -451,7 +449,7 @@ Partial Class Loading_Barang_Import
         Me.ListView1.FullRowSelect = True
         Me.ListView1.GridLines = True
         Me.ListView1.HideSelection = False
-        Me.ListView1.Location = New System.Drawing.Point(958, 21)
+        Me.ListView1.Location = New System.Drawing.Point(958, 13)
         Me.ListView1.Name = "ListView1"
         Me.ListView1.Size = New System.Drawing.Size(46, 130)
         Me.ListView1.TabIndex = 1
@@ -466,7 +464,7 @@ Partial Class Loading_Barang_Import
         Me.ListView2.HideSelection = False
         Me.ListView2.Location = New System.Drawing.Point(6, 13)
         Me.ListView2.Name = "ListView2"
-        Me.ListView2.Size = New System.Drawing.Size(946, 138)
+        Me.ListView2.Size = New System.Drawing.Size(946, 130)
         Me.ListView2.TabIndex = 0
         Me.ListView2.UseCompatibleStateImageBehavior = False
         Me.ListView2.View = System.Windows.Forms.View.Details
@@ -490,14 +488,14 @@ Partial Class Loading_Barang_Import
         Me.DataGridView1.ColumnHeadersHeight = 45
         Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column18, Me.Column4, Me.Column19, Me.Column5, Me.Column6, Me.Column7, Me.Column8, Me.Column9, Me.Column10, Me.Jumlah, Me.Column11, Me.Column12, Me.Column13, Me.Column15, Me.Column14, Me.Column16, Me.Column17})
         Me.DataGridView1.ContextMenuStrip = Me.ContextMenuStrip2
-        Me.DataGridView1.Location = New System.Drawing.Point(3, 292)
+        Me.DataGridView1.Location = New System.Drawing.Point(3, 275)
         Me.DataGridView1.MultiSelect = False
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
         Me.DataGridView1.RowHeadersWidth = 21
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(1010, 177)
-        Me.DataGridView1.TabIndex = 78
+        Me.DataGridView1.Size = New System.Drawing.Size(1010, 155)
+        Me.DataGridView1.TabIndex = 2
         '
         'Column1
         '
@@ -695,8 +693,8 @@ Partial Class Loading_Barang_Import
         Me.GroupBox3.Controls.Add(Me.TextBox3)
         Me.GroupBox3.Location = New System.Drawing.Point(600, 42)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(407, 235)
-        Me.GroupBox3.TabIndex = 79
+        Me.GroupBox3.Size = New System.Drawing.Size(407, 229)
+        Me.GroupBox3.TabIndex = 1
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Input Kontainer"
         '
@@ -705,7 +703,7 @@ Partial Class Loading_Barang_Import
         Me.Button1.Location = New System.Drawing.Point(269, 39)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(132, 24)
-        Me.Button1.TabIndex = 7
+        Me.Button1.TabIndex = 3
         Me.Button1.Text = "Simpan"
         Me.Button1.UseVisualStyleBackColor = True
         '
@@ -715,11 +713,11 @@ Partial Class Loading_Barang_Import
         Me.ListView3.FullRowSelect = True
         Me.ListView3.GridLines = True
         Me.ListView3.HideSelection = False
-        Me.ListView3.Location = New System.Drawing.Point(7, 68)
+        Me.ListView3.Location = New System.Drawing.Point(0, 68)
         Me.ListView3.MultiSelect = False
         Me.ListView3.Name = "ListView3"
-        Me.ListView3.Size = New System.Drawing.Size(394, 161)
-        Me.ListView3.TabIndex = 6
+        Me.ListView3.Size = New System.Drawing.Size(394, 153)
+        Me.ListView3.TabIndex = 4
         Me.ListView3.UseCompatibleStateImageBehavior = False
         Me.ListView3.View = System.Windows.Forms.View.Details
         '
@@ -790,10 +788,12 @@ Partial Class Loading_Barang_Import
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.ClientSize = New System.Drawing.Size(1031, 678)
+        Me.ClientSize = New System.Drawing.Size(1021, 611)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.GroupBox4)
+        Me.Controls.Add(Me.TextBoxRV)
+        Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Label1)
@@ -813,6 +813,7 @@ Partial Class Loading_Barang_Import
         Me.GroupBox3.PerformLayout()
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents Label1 As System.Windows.Forms.Label

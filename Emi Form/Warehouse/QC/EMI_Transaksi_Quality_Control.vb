@@ -1,4 +1,9 @@
-﻿Public Class EMI_Transaksi_Quality_Control
+﻿Imports System.IO
+Imports System.Net
+Imports System.Text
+
+
+Public Class EMI_Transaksi_Quality_Control
     Dim arrcari, arrJenisQC As New ArrayList
 
     Dim Jenis = "Master_Quality_Control"
@@ -652,7 +657,7 @@
 
                 SQL = "select Kode_Perusahaan from EMI_Pembelian_Loading_detail where "
                 SQL = SQL & "No_faktur='" & TxtNoLoading.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
-                SQL = SQL & "and flag_qc_pertama is null "
+                SQL = SQL & "and flag_qc_pertama is null and flag_tolak is null "
                 Using dr = OpenTrans(SQL)
                     If Not dr.Read Then
                         dr.Close()
@@ -757,81 +762,82 @@
 
         '======================
         ' awal fcm 
-        ''======================
-        'If flag_berhasil_masuk = True Then
-        '    Dim token = GetAccessToken().Result
-        '    If String.IsNullOrEmpty(token) Then
+        '======================
 
-        '        If flag_berhasil_masuk = True Then
-        '            MessageBox.Show("Data berhasil disimpan !!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        If flag_berhasil_masuk = True Then
+            Dim token = GetAccessToken().Result
+            If String.IsNullOrEmpty(token) Then
 
-        '            Console.WriteLine("Failed to get access token.")
-        '        End If
+                If flag_berhasil_masuk = True Then
+                    MessageBox.Show("Data berhasil disimpan !!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
-        '    End If
+                    Console.WriteLine("Failed to get access token.")
+                End If
 
-        '    Dim fcmUrl As String = "https://fcm.googleapis.com/v1/projects/emi-erp-468cd/messages:send"
+            End If
 
-        '    ' Membuat request ke FCM
+            Dim fcmUrl As String = "https://fcm.googleapis.com/v1/projects/emi-erp-468cd/messages:send"
 
-
-        '    ' Dim tokenAndroid As String = "frEOuJCvTIeQD-f-hoLVsR:APA91bEHXDmGGMH9ZpVJxRA6aARRobbfESnhSmWUeohSSxVAYhp9dfq0w7TpQvXvGCe36njxpxdvPZ1gYrpIviVAPkexpy1O9CHLZV0p35e_YCOsE7vmGLk"
+            ' Membuat request ke FCM
 
 
-        '    For i As Integer = 0 To arrListTokenFcm.Count - 1
-
-        '        Dim request As HttpWebRequest = CType(WebRequest.Create(fcmUrl), HttpWebRequest)
-        '        request.Method = "POST"
-        '        request.ContentType = "application/json"
-        '        request.Headers.Add($"Authorization: Bearer {token}")
+            ' Dim tokenAndroid As String = "frEOuJCvTIeQD-f-hoLVsR:APA91bEHXDmGGMH9ZpVJxRA6aARRobbfESnhSmWUeohSSxVAYhp9dfq0w7TpQvXvGCe36njxpxdvPZ1gYrpIviVAPkexpy1O9CHLZV0p35e_YCOsE7vmGLk"
 
 
-        '        ' Membuat payload JSON
-        '        Dim payload As String = "{
-        '     ""message"": {
-        '            ""token"": """ & arrListTokenFcm.Item(i) & """,
-        '            ""notification"": {
-        '                ""title"": """ & TxtNoLoading.Text & " berhasil divalidasi "",
-        '                ""body"": ""Loading Barang dengan no faktur " & TxtNoLoading.Text & " sudah selesai di Quality Control ""
-        '            }
-        '        }
-        '    }"
+            For i As Integer = 0 To arrListTokenFcm.Count - 1
 
-        '        ' Mengirimkan payload ke FCM
-        '        Dim byteArray As Byte() = Encoding.UTF8.GetBytes(payload)
-        '        request.ContentLength = byteArray.Length
-        '        Using dataStream As Stream = request.GetRequestStream()
-        '            dataStream.Write(byteArray, 0, byteArray.Length)
-        '        End Using
+                Dim request As HttpWebRequest = CType(WebRequest.Create(fcmUrl), HttpWebRequest)
+                request.Method = "POST"
+                request.ContentType = "application/json"
+                request.Headers.Add($"Authorization: Bearer {token}")
 
 
-        '        Try
-        '            Dim response As WebResponse = request.GetResponse()
-        '            Using dataStream As Stream = response.GetResponseStream()
-        '                Using reader As New StreamReader(dataStream)
-        '                    Dim responseFromServer As String = reader.ReadToEnd()
-        '                    Console.WriteLine(responseFromServer)
-        '                End Using
-        '            End Using
-        '            response.Close()
-        '        Catch ex As WebException
-        '            Using stream As Stream = ex.Response.GetResponseStream()
-        '                Using reader As New StreamReader(stream)
-        '                    Dim errorMessage As String = reader.ReadToEnd()
-        '                    MessageBox.Show("Data berhasil disimpan!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        '                    MessageBox.Show(errorMessage)
-        '                    Console.WriteLine("Error: " & errorMessage)
-        '                End Using
-        '            End Using
+                ' Membuat payload JSON
+                Dim payload As String = "{
+             ""message"": {
+                    ""token"": """ & arrListTokenFcm.Item(i) & """,
+                    ""notification"": {
+                        ""title"": """ & TxtNoLoading.Text & " berhasil divalidasi "",
+                        ""body"": ""Loading Barang dengan no faktur " & TxtNoLoading.Text & " sudah selesai di Quality Control ""
+                    }
+                }
+            }"
 
-        '        End Try
+                ' Mengirimkan payload ke FCM
+                Dim byteArray As Byte() = Encoding.UTF8.GetBytes(payload)
+                request.ContentLength = byteArray.Length
+                Using dataStream As Stream = request.GetRequestStream()
+                    dataStream.Write(byteArray, 0, byteArray.Length)
+                End Using
 
 
-        '    Next
+                Try
+                    Dim response As WebResponse = request.GetResponse()
+                    Using dataStream As Stream = response.GetResponseStream()
+                        Using reader As New StreamReader(dataStream)
+                            Dim responseFromServer As String = reader.ReadToEnd()
+                            Console.WriteLine(responseFromServer)
+                        End Using
+                    End Using
+                    response.Close()
+                Catch ex As WebException
+                    Using stream As Stream = ex.Response.GetResponseStream()
+                        Using reader As New StreamReader(stream)
+                            Dim errorMessage As String = reader.ReadToEnd()
+                            MessageBox.Show("Data berhasil disimpan!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            MessageBox.Show(errorMessage)
+                            Console.WriteLine("Error: " & errorMessage)
+                        End Using
+                    End Using
+
+                End Try
+
+
+            Next
 
 
 
-        'End If
+        End If
 
         '======================
         'akhir fcm
@@ -843,7 +849,7 @@
 
 
         kosong()
-        Emi_Display_Quality_Control.kosong()
+        EMI_Display_Quality_Control.kosong()
         'EMI_Display_Quality_Control.Btn_Refresh_Click(Btn_Simpan, e)
         Me.Close()
     End Sub

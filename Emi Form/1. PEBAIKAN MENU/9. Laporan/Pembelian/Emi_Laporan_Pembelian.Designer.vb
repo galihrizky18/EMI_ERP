@@ -26,6 +26,7 @@ Partial Class Emi_Laporan_Pembelian
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Txt_KdBarang = New System.Windows.Forms.TextBox()
@@ -46,7 +47,6 @@ Partial Class Emi_Laporan_Pembelian
         Me.Lv_Faktur = New System.Windows.Forms.ListView()
         Me.Lv_Barang = New System.Windows.Forms.ListView()
         Me.Lv_Supplier = New System.Windows.Forms.ListView()
-        Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -60,7 +60,7 @@ Partial Class Emi_Laporan_Pembelian
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1025, 51)
+        Me.Panel1.Size = New System.Drawing.Size(594, 51)
         Me.Panel1.TabIndex = 25
         '
         'PanelGradient1
@@ -73,7 +73,7 @@ Partial Class Emi_Laporan_Pembelian
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1025, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(594, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
@@ -97,6 +97,16 @@ Partial Class Emi_Laporan_Pembelian
         Me.Panel2.Size = New System.Drawing.Size(942, 12)
         Me.Panel2.TabIndex = 39
         Me.Panel2.Visible = False
+        '
+        'Panel5
+        '
+        Me.Panel5.BackColor = System.Drawing.Color.Red
+        Me.Panel5.Location = New System.Drawing.Point(0, 0)
+        Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel5.Name = "Panel5"
+        Me.Panel5.Size = New System.Drawing.Size(942, 12)
+        Me.Panel5.TabIndex = 40
+        Me.Panel5.Visible = False
         '
         'Panel3
         '
@@ -302,22 +312,12 @@ Partial Class Emi_Laporan_Pembelian
         Me.Lv_Supplier.View = System.Windows.Forms.View.Details
         Me.Lv_Supplier.Visible = False
         '
-        'Panel5
-        '
-        Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(0, 0)
-        Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
-        Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(942, 12)
-        Me.Panel5.TabIndex = 40
-        Me.Panel5.Visible = False
-        '
         'Emi_Laporan_Pembelian
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1025, 539)
+        Me.ClientSize = New System.Drawing.Size(594, 261)
         Me.Controls.Add(Me.Lv_Barang)
         Me.Controls.Add(Me.Lv_Supplier)
         Me.Controls.Add(Me.Lv_Faktur)

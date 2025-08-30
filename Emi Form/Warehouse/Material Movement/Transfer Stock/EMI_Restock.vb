@@ -1,5 +1,7 @@
 ﻿Public Class EMI_Restock
 
+    Dim Flag_Opname As Boolean = False
+
     Dim JumlahOld As Double
     Dim arrInisialFaktur, Arr_COA_Persediaan, Arr_COA_Adj_Tambah, Arr_COA_Adj_Kurang As New ArrayList
 
@@ -30,6 +32,18 @@
 
         Try
             OpenConn()
+
+
+            SQL = "select Flag_Opname from init where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Flag_Opname")) = "Y" Then
+                        Flag_Opname = True
+                    Else
+                        Flag_Opname = False
+                    End If
+                End If
+            End Using
 
             Cmb_Lokasi.Items.Clear() : arrInisialFaktur.Clear()
             Arr_COA_Persediaan.Clear() : Arr_COA_Adj_Tambah.Clear() : Arr_COA_Adj_Kurang.Clear()
@@ -175,10 +189,6 @@
         ElseIf TextBox6.Text.Trim.Length = 0 Then
             MessageBox.Show("Keterangan harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TextBox6.Focus() : Exit Sub
-            'ElseIf Format(DateTimePicker1.Value, "yyyyMM") <> Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyyMM") Then
-            '    MessageBox.Show("Adjustment tidak boleh dibulan mundur!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            '    DateTimePicker1.Focus()
-            '    Exit Sub
         ElseIf Dtp_TglProd.Text = Dtp_TglEx.Text Then
             MessageBox.Show("Tanggal Produksi Tidak Boleh Sama Dengan Tanggal Expire", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Dtp_TglProd.Focus() : Exit Sub
@@ -197,6 +207,23 @@
             OpenConn()
 
             Cmd.Transaction = Cn.BeginTransaction
+
+            Dim Jumlah As Double = 0
+            SQL = "select a.kode_barang, a.nama, a.good_stock, a.last_hpp, a.Standar_Price, a.Metode_Pengeluaran_Stok, "
+            SQL = SQL & "ISNULL(( dbo.ubah_satuan(a.Kode_Perusahaan, 'masa', a.Kode_Barang, a.Satuan, "
+            SQL = SQL & "(select z.satuan from Barang_Detail_Satuan z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Flag_Tampil_Display = 'Y' and z.Kode_barang = a.Kode_Barang) "
+            SQL = SQL & ", a.Good_Stock) ), '0') as Stock, "
+            SQL = SQL & "a.Satuan as Satuan_Kecil, "
+            SQL = SQL & "ISNULL((select Satuan from Barang_Detail_Satuan z where a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Barang = z.Kode_barang and z.Flag_Tampil_Display = 'Y'), '-') as Satuan_Display "
+            SQL = SQL & "from barang a where "
+            SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and a.kode_stock_owner = '" & Cmb_Lokasi.Text & "' and "
+            SQL = SQL & "a.kode_barang = '" & TextBox2.Text.Trim & "'"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Jumlah = Dr("jml")
+                End If
+            End Using
+
 
             If Btn_Simpan.Text = "&Simpan" Then
                 '==========================================================
@@ -393,7 +420,7 @@
                     SQL = SQL & Cmb_Lokasi.Text & "', '" & TextBox2.Text.Trim & "', " & HilangkanTanda(TextBox5.Text) & ", "
                     SQL = SQL & "'" & TextBox6.Text.Trim & "', '" & UserID & "', '" & Kode_Voucher & "', '" & TextBox7.Text & "', "
                     SQL = SQL & "'" & Format(Dtp_TglProd.Value, "yyyy-MM-dd") & "', '" & Format(Dtp_TglEx.Value, "yyyy-MM-dd") & "', '" & SatuanBesar.Text & "', "
-                    SQL = SQL & "'" & Txt_SatuanKecil.Text & "', '" & SN & "')"
+                    SQL = SQL & "'" & satuan_kecil & "', '" & SN & "')"
                     ExecuteTrans(SQL)
 
                 End If
@@ -664,7 +691,7 @@
             OpenConn()
 
             'iniiiii
-            Dim boleh_lihat As Boolean
+            Dim boleh_lihat As Boolean = True
 
             'SQL = "select flag_hide_stock, "
             'SQL = SQL & "ISNULL(("
@@ -693,7 +720,7 @@
             SQL = SQL & "ISNULL(( dbo.ubah_satuan(a.Kode_Perusahaan, 'masa', a.Kode_Barang, a.Satuan, "
             SQL = SQL & "(select z.satuan from Barang_Detail_Satuan z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Flag_Tampil_Display = 'Y' and z.Kode_barang = a.Kode_Barang) "
             SQL = SQL & ", a.Good_Stock) ), '0') as Stock, "
-            SQL = SQL & "ISNULL((select Satuan from Barang_Detail_Satuan z where a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Barang = z.Kode_barang and z.Flag_Tampil_Display IS NULL), '-') as Satuan_Kecil, "
+            SQL = SQL & "a.Satuan as Satuan_Kecil, "
             SQL = SQL & "ISNULL((select Satuan from Barang_Detail_Satuan z where a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Barang = z.Kode_barang and z.Flag_Tampil_Display = 'Y'), '-') as Satuan_Display "
             SQL = SQL & "from barang a where "
             SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and a.kode_stock_owner = '" & Cmb_Lokasi.Text & "' and "
@@ -704,7 +731,11 @@
                     TextBox3.Text = "X" 'Dr("nama")
                     'iniiiii
                     If boleh_lihat = True Then
-                        Txt_SisaStock.Text = Dr("Stock")
+                        If Flag_Opname Then
+                            Txt_SisaStock.Text = 0
+                        Else
+                            Txt_SisaStock.Text = Dr("Stock")
+                        End If
                     Else
                         Txt_SisaStock.Text = ""
                     End If
@@ -773,7 +804,7 @@
         Try
             OpenConn()
 
-            Dim boleh_lihat As Boolean
+            Dim boleh_lihat As Boolean = True
 
             'SQL = "select flag_hide_stock, "
             'SQL = SQL & "ISNULL(("
@@ -801,7 +832,7 @@
 
             ListView3.Items.Clear()
 
-            SQL = "Select a.kode_stock_owner, a.kode_barang, a.nama, a.good_stock, a.Satuan, "
+            SQL = "Select top(20) a.kode_stock_owner, a.kode_barang, a.nama, a.good_stock, a.Satuan, "
             SQL = SQL & "ISNULL(( dbo.ubah_satuan(a.Kode_Perusahaan, 'masa', a.Kode_Barang, a.Satuan,  "
             SQL = SQL & "(select z.satuan from Barang_Detail_Satuan z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Flag_Tampil_Display = 'Y' and z.Kode_barang = a.Kode_Barang) "
             SQL = SQL & ", a.Good_Stock)  "
@@ -821,7 +852,11 @@
                         Lvw.SubItems.Add("X")
                         'iniiiii
                         If boleh_lihat = True Then
-                            Lvw.SubItems.Add(.Rows(i).Item("Stock"))
+                            If Flag_Opname Then
+                                Lvw.SubItems.Add(0)
+                            Else
+                                Lvw.SubItems.Add(.Rows(i).Item("Stock"))
+                            End If
                             Lvw.SubItems.Add(.Rows(i).Item("Satuan"))
                         Else
                             Lvw.SubItems.Add("-")
@@ -938,7 +973,11 @@
                     Next
                     TextBox2.Text = Dr("kode_barang")
                     TextBox3.Text = Dr("nama")
-                    Txt_SisaStock.Text = Dr("good_stock")
+                    If Flag_Opname Then
+                        Txt_SisaStock.Text = Dr("good_stock")
+                    Else
+                        Txt_SisaStock.Text = Dr("good_stock")
+                    End If
                     TextBox5.Text = Dr("jumlah")
                     TextBox7.Text = Dr("harga_beli")
                     JumlahOld = Dr("jumlah")

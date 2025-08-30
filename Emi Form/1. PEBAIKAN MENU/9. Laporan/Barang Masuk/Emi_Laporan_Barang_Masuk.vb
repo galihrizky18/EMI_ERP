@@ -15,24 +15,33 @@
         Tgl1.Value = Now.Date
         Tgl2.Value = Now.Date
 
+
+
         Cmb_FilterBy.Items.Clear()
         Cmb_FilterBy.Items.Add("Per Pallet")
         Cmb_FilterBy.Items.Add("Mobil")
         Cmb_FilterBy.SelectedIndex = 0
 
-        Cmb_FlagValidasi.Items.Clear()
-        Cmb_FlagValidasi.Items.Add("--- SELURUH ---")
-        Cmb_FlagValidasi.Items.Add("Validasi")
-        Cmb_FlagValidasi.Items.Add("Belum Validasi")
-        Cmb_FlagValidasi.SelectedIndex = 0
+        Cmb_FlagValidasiWarehouse.Items.Clear()
+        Cmb_FlagValidasiWarehouse.Items.Add("--- SELURUH ---")
+        Cmb_FlagValidasiWarehouse.Items.Add("Validasi")
+        Cmb_FlagValidasiWarehouse.Items.Add("Belum Validasi")
+        Cmb_FlagValidasiWarehouse.SelectedIndex = 0
+
+        Cmb_FlagValidasiAcc.Items.Clear()
+        Cmb_FlagValidasiAcc.Items.Add("--- SELURUH ---")
+        Cmb_FlagValidasiAcc.Items.Add("Validasi")
+        Cmb_FlagValidasiAcc.Items.Add("Belum Validasi")
+        Cmb_FlagValidasiAcc.SelectedIndex = 0
 
         Cmb_Filter_Mobil.Items.Clear() : arrFilterMobil.Clear() : arrFilterSFMobil.Clear()
         Cmb_Filter_Mobil.Items.Add("--- SELURUH ---") : arrFilterMobil.Add("--- SELURUH ---") : arrFilterSFMobil.Add("--- SELURUH ---")
         Cmb_Filter_Mobil.Items.Add("No Faktur") : arrFilterMobil.Add("No_Faktur") : arrFilterSFMobil.Add("{View_Laporan_Barang_Masuk_Loading.No_Faktur}")
         Cmb_Filter_Mobil.Items.Add("No PO") : arrFilterMobil.Add("No_PO") : arrFilterSFMobil.Add("{View_Laporan_Barang_Masuk_Loading.No_PO}")
+        Cmb_Filter_Mobil.Items.Add("Mobil") : arrFilterMobil.Add("Mobil") : arrFilterSFMobil.Add("{View_Laporan_Barang_Masuk_Loading.Mobil}")
         Cmb_Filter_Mobil.SelectedIndex = 0
 
-        Cmb_FlagValidasi.Visible = True
+        Cmb_FlagValidasiWarehouse.Visible = True
 
         Cmb_Filter_Mobil.Visible = False
         Txt_ValueFilter.Visible = False
@@ -49,12 +58,22 @@
         Lv_Barang.Columns.Add("Nama Barang", 250, HorizontalAlignment.Left)
         Lv_Barang.View = View.Details
 
+        Lv_SJ.Columns.Clear()
+        Lv_SJ.Columns.Add("No Surat Jalan", 150, HorizontalAlignment.Left)
+        Lv_SJ.Columns.Add("Detetail", 250, HorizontalAlignment.Left)
+        Lv_SJ.View = View.Details
 
-        Txt_KdSupplier.Text = ""
-        Txt_NmSupplier.Text = ""
-        Txt_KdBarang.Text = ""
-        Txt_NmBarang.Text = ""
 
+        Txt_KdSupplier.Text = "--- SELURUH ---" : Txt_NmSupplier.Text = "--- SELURUH ---"
+        Txt_KdBarang.Text = "--- SELURUH ---" : Txt_NmBarang.Text = "--- SELURUH ---"
+        Txt_NoSJ.Text = "--- SELURUH ---" : Txt_NmSJ.Text = "--- SELURUH ---"
+
+        Txt_ValueFilter.Enabled = False
+        Lv_Supplier.Visible = False
+        Lv_Barang.Visible = False
+        Lv_SJ.Visible = False
+
+        Me.Size = New Size(600, 385)
     End Sub
 
     Private Sub BtnExit_Click(sender As Object, e As EventArgs) Handles BtnExit.Click
@@ -69,9 +88,9 @@
         ElseIf Cmb_FilterBy.SelectedIndex = -1 Then
             MessageBox.Show("Fiter harus diisi!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Cmb_FilterBy.Focus() : Exit Sub
-        ElseIf Cmb_FlagValidasi.SelectedIndex = -1 Then
+        ElseIf Cmb_FlagValidasiWarehouse.SelectedIndex = -1 Then
             MessageBox.Show("Status Validasi harus diisi!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Cmb_FlagValidasi.Focus() : Exit Sub
+            Cmb_FlagValidasiWarehouse.Focus() : Exit Sub
         ElseIf Txt_KdSupplier.Text.Trim.Length = 0 Then
             MessageBox.Show("Kode Supplier harus diisi!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Txt_KdSupplier.Focus() : Exit Sub
@@ -84,8 +103,16 @@
         ElseIf Txt_NmBarang.Text.Trim.Length = 0 Then
             MessageBox.Show("Nama Barang harus diisi!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Txt_NmBarang.Focus() : Exit Sub
-
         End If
+
+
+        If Cmb_Filter_Mobil.SelectedIndex <> 0 Then
+            If Txt_ValueFilter.Text.Trim.Length = 0 Then
+                MessageBox.Show("Value Filter harus diisi!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Txt_ValueFilter.Focus() : Exit Sub
+            End If
+        End If
+
 
         Try
             OpenConn()
@@ -112,12 +139,25 @@
                     SF = SF & "And {View_Laporan_Barang_Masuk.kode_barang} = '" & Txt_KdBarang.Text & "'"
                 End If
 
-                If Cmb_FlagValidasi.SelectedIndex = 1 Then
-                    SQL = SQL & "and a.status = 'Validasi' "
-                    SF = SF & "And {View_Laporan_Barang_Masuk.status} = 'Validasi'"
-                ElseIf Cmb_FlagValidasi.SelectedIndex = 2 Then
-                    SQL = SQL & "and a.status = 'Belum Di Validasi' "
-                    SF = SF & "And {View_Laporan_Barang_Masuk.status} = 'Belum Di Validasi'"
+                If Not Txt_NoSJ.Text = "--- SELURUH ---" Then
+                    SQL = SQL & "and a.No_SJ = '" & Txt_NoSJ.Text & "' "
+                    SF = SF & "And {View_Laporan_Barang_Masuk.No_SJ} = '" & Txt_NoSJ.Text & "'"
+                End If
+
+                If Cmb_FlagValidasiWarehouse.SelectedIndex = 1 Then
+                    SQL = SQL & "and a.status_Warehouse = 'Validasi' "
+                    SF = SF & "And {View_Laporan_Barang_Masuk.status_Warehouse} = 'Validasi'"
+                ElseIf Cmb_FlagValidasiWarehouse.SelectedIndex = 2 Then
+                    SQL = SQL & "and a.status_Warehouse = 'Belum Di Validasi' "
+                    SF = SF & "And {View_Laporan_Barang_Masuk.status_Warehouse} = 'Belum Di Validasi'"
+                End If
+
+                If Cmb_FlagValidasiAcc.SelectedIndex = 1 Then
+                    SQL = SQL & "and a.status_ACC = 'Validasi' "
+                    SF = SF & "And {View_Laporan_Barang_Masuk.status_ACC} = 'Validasi'"
+                ElseIf Cmb_FlagValidasiAcc.SelectedIndex = 2 Then
+                    SQL = SQL & "and a.status_ACC = 'Belum Di Validasi' "
+                    SF = SF & "And {View_Laporan_Barang_Masuk.status_ACC} = 'Belum Di Validasi'"
                 End If
 
                 Using DS = BindingTrans(SQL)
@@ -167,6 +207,27 @@
                 If Not Txt_KdBarang.Text = "--- SELURUH ---" Then
                     SQL = SQL & "and kode_barang = '" & Txt_KdBarang.Text & "' "
                     SF = SF & "And {View_Laporan_Barang_Masuk_Loading.kode_barang} = '" & Txt_KdBarang.Text & "'"
+                End If
+
+                If Not Txt_NoSJ.Text = "--- SELURUH ---" Then
+                    SQL = SQL & "and No_SJ = '" & Txt_NoSJ.Text & "' "
+                    SF = SF & "And {View_Laporan_Barang_Masuk_Loading.No_SJ} = '" & Txt_NoSJ.Text & "'"
+                End If
+
+                If Cmb_FlagValidasiWarehouse.SelectedIndex = 1 Then
+                    SQL = SQL & "and status_Warehouse = 'Validasi' "
+                    SF = SF & "And {View_Laporan_Barang_Masuk_Loading.status_Warehouse} = 'Validasi'"
+                ElseIf Cmb_FlagValidasiWarehouse.SelectedIndex = 2 Then
+                    SQL = SQL & "and status_Warehouse = 'Belum Di Validasi' "
+                    SF = SF & "And {View_Laporan_Barang_Masuk_Loading.status_Warehouse} = 'Belum Di Validasi'"
+                End If
+
+                If Cmb_FlagValidasiAcc.SelectedIndex = 1 Then
+                    SQL = SQL & "and status_acc = 'Validasi' "
+                    SF = SF & "And {View_Laporan_Barang_Masuk_Loading.status_ACC} = 'Validasi'"
+                ElseIf Cmb_FlagValidasiAcc.SelectedIndex = 2 Then
+                    SQL = SQL & "and status_acc = 'Belum Di Validasi' "
+                    SF = SF & "And {View_Laporan_Barang_Masuk_Loading.status_ACC} = 'Belum Di Validasi'"
                 End If
 
                 If Cmb_Filter_Mobil.SelectedIndex <> 0 Then
@@ -220,14 +281,14 @@
     Private Sub Txt_KdSupplier_TextChanged(sender As Object, e As EventArgs) Handles Txt_KdSupplier.TextChanged
 
         If Txt_KdSupplier.Text.Trim.Length = 0 Then
-            Me.Size = New Size(608, 333)
-            Lv_Supplier.Location = New Point(600, 172)
+            Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+            Lv_Supplier.Location = New Point(600, 170)
             Lv_Supplier.Visible = False
             Txt_KdSupplier.Text = ""
             Txt_NmSupplier.Text = ""
         Else
-            Me.Size = New Size(608, 421)
-            Lv_Supplier.Location = New Point(124, 172)
+            Me.Size = New Size(600, 420)
+            Lv_Supplier.Location = New Point(152, 170)
             Lv_Supplier.Visible = True
         End If
 
@@ -273,6 +334,7 @@
 
                         Txt_KdSupplier.Text = Dr("Kode_Supplier")
                         Txt_NmSupplier.Text = Dr("Nama")
+                        Txt_KdBarang.Focus()
                     Else
                         MessageBox.Show("Supplier tidak ditemukan . . ! !", Judul)
                         Txt_KdSupplier.Text = "" : Txt_NmSupplier.Text = ""
@@ -280,11 +342,13 @@
 
                     End If
 
-                    Me.Size = New Size(610, 333)
-                    Lv_Supplier.Location = New Point(600, 172)
+                    Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+                    Lv_Supplier.Location = New Point(600, 170)
                     Lv_Supplier.Visible = False
                 End Using
 
+            Else
+                Txt_KdBarang.Focus()
             End If
 
             CloseConn()
@@ -301,11 +365,11 @@
             If Txt_KdSupplier.Text.Trim.Length = 0 Then Txt_KdSupplier.Focus()
             Txt_KdSupplier_Leave(Txt_KdSupplier, e)
 
-            Me.Size = New Size(610, 333)
-            Lv_Supplier.Location = New Point(600, 172)
+            Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+            Lv_Supplier.Location = New Point(600, 170)
             Lv_Supplier.Visible = False
 
-            Txt_KdBarang.Focus()
+            'Txt_KdBarang.Focus()
         End If
     End Sub
 
@@ -317,14 +381,14 @@
 
 
         If Txt_NmSupplier.Text.Trim.Length = 0 Then
-            Me.Size = New Size(608, 333)
-            Lv_Supplier.Location = New Point(600, 172)
+            Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+            Lv_Supplier.Location = New Point(600, 170)
             Lv_Supplier.Visible = False
             Txt_KdSupplier.Text = ""
             Txt_NmSupplier.Text = ""
         Else
-            Me.Size = New Size(608, 421)
-            Lv_Supplier.Location = New Point(124, 172)
+            Me.Size = New Size(600, 420)
+            Lv_Supplier.Location = New Point(152, 170)
             Lv_Supplier.Visible = True
         End If
 
@@ -359,11 +423,11 @@
 
         If e.KeyChar = Chr(13) Then
             Txt_KdSupplier_Leave(Txt_NmSupplier, e)
-            Me.Size = New Size(610, 333)
-            Lv_Supplier.Location = New Point(600, 172)
+            Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+            Lv_Supplier.Location = New Point(600, 170)
             Lv_Supplier.Visible = False
 
-            Txt_KdBarang.Focus()
+            'Txt_KdBarang.Focus()
         End If
     End Sub
 
@@ -381,8 +445,8 @@
         Txt_KdSupplier.Text = KdSupplier
         Txt_NmSupplier.Text = NmSupplier
 
-        Me.Size = New Size(608, 333)
-        Lv_Supplier.Location = New Point(600, 172)
+        Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+        Lv_Supplier.Location = New Point(600, 170)
         Lv_Supplier.Visible = False
 
         Txt_KdBarang.Focus()
@@ -401,14 +465,14 @@
 
 
         If Txt_KdBarang.Text.Trim.Length = 0 Then
-            Me.Size = New Size(608, 333)
-            Lv_Barang.Location = New Point(600, 232)
+            Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+            Lv_Barang.Location = New Point(600, 200)
             Lv_Barang.Visible = False
             Txt_KdBarang.Text = ""
             Txt_NmBarang.Text = ""
         Else
-            Me.Size = New Size(608, 480)
-            Lv_Barang.Location = New Point(124, 232)
+            Me.Size = New Size(600, 465)
+            Lv_Barang.Location = New Point(152, 200)
             Lv_Barang.Visible = True
         End If
 
@@ -437,6 +501,47 @@
         End Try
     End Sub
 
+    Private Sub Txt_NoSJ_TextChanged(sender As Object, e As EventArgs) Handles Txt_NoSJ.TextChanged
+        If Txt_NoSJ.Text.Trim.Length = 0 Then
+            Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+            Lv_SJ.Location = New Point(600, 230)
+            Lv_SJ.Visible = False
+            Txt_NoSJ.Text = ""
+            Txt_NmSJ.Text = ""
+        Else
+            Me.Size = New Size(600, 485)
+            Lv_SJ.Location = New Point(152, 230)
+            Lv_SJ.Visible = True
+        End If
+
+        Try
+            OpenConn()
+
+            Lv_SJ.Items.Clear()
+            Dim Lv As ListViewItem
+            Lv = Lv_SJ.Items.Add("--- SELURUH ---")
+            Lv.SubItems.Add("--- SELURUH ---")
+
+            SQL = "select Distinct No_Faktur, No_SJ, ( No_Plat + ' - ' + Driver) as Mobil "
+            SQL = SQL & "from EMI_Pembelian_Loading where Kode_Perusahaan = '" & KodePerusahaan & "' and status is null and No_SJ like '%" & Txt_NoSJ.Text & "%' "
+
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+
+                    Lv = Lv_SJ.Items.Add(Dr("No_SJ"))
+                    Lv.SubItems.Add(Dr("Mobil"))
+                Loop
+            End Using
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
     Private Sub Txt_KdBarang_Leave(sender As Object, e As EventArgs) Handles Txt_KdBarang.Leave
         If Txt_KdBarang.Text.Trim.Length = 0 Then Exit Sub
         If Lv_Barang.Focused = True Then Exit Sub
@@ -451,18 +556,22 @@
                     If Dr.Read Then
                         Txt_KdBarang.Text = Dr("kode_barang")
                         Txt_NmBarang.Text = Dr("nama")
+                        Txt_NoSJ.Focus()
                     Else
                         MessageBox.Show("Kode barang tidak ditemukan . . ! !", Judul)
                         Txt_KdBarang.Text = "" : Txt_NmBarang.Text = ""
-                        Txt_NmBarang.Focus()
+                        Txt_KdBarang.Focus()
                     End If
 
-                    Me.Size = New Size(610, 333)
-                    Lv_Barang.Location = New Point(600, 232)
+                    Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+                    Lv_Barang.Location = New Point(600, 200)
                     Lv_Barang.Visible = False
 
 
                 End Using
+
+            Else
+                Txt_NoSJ.Focus()
             End If
 
 
@@ -474,14 +583,98 @@
             Exit Sub
         End Try
     End Sub
+    Private Sub Txt_NoSJ_Leave(sender As Object, e As EventArgs) Handles Txt_NoSJ.Leave
+        If Txt_NoSJ.Text.Trim.Length = 0 Then Exit Sub
+        If Lv_SJ.Focused = True Then Exit Sub
+
+
+        Try
+            OpenConn()
+
+            If Not Txt_KdSupplier.Text = "--- SELURUH ---" Then
+
+                SQL = "select Distinct No_Faktur, No_SJ, ( No_Plat + ' - ' + Driver) as Mobil "
+                SQL = SQL & "from EMI_Pembelian_Loading where Kode_Perusahaan = '" & KodePerusahaan & "' and status is null and No_SJ = '" & Txt_NoSJ.Text & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Txt_NoSJ.Text = Dr("No_SJ")
+                        Txt_NmSJ.Text = Dr("Mobil")
+
+                        If Cmb_FilterBy.SelectedIndex = 0 Then
+                            Cmb_FlagValidasiWarehouse.DroppedDown = True
+                            Cmb_FlagValidasiWarehouse.Focus()
+                        Else
+                            Cmb_Filter_Mobil.DroppedDown = True
+                            Cmb_Filter_Mobil.Focus()
+                        End If
+                    Else
+                        MessageBox.Show("No Surat Jalan tidak ditemukan . . ! !", Judul)
+                        Txt_NoSJ.Text = "" : Txt_NmSJ.Text = ""
+                        Txt_NoSJ.Focus()
+                    End If
+
+                    Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+                    Lv_SJ.Location = New Point(600, 230)
+                    Lv_SJ.Visible = False
+
+
+                End Using
+
+            Else
+                If Cmb_FilterBy.SelectedIndex = 0 Then
+                    Cmb_FlagValidasiWarehouse.DroppedDown = True
+                    Cmb_FlagValidasiWarehouse.Focus()
+                Else
+                    Cmb_Filter_Mobil.DroppedDown = True
+                    Cmb_Filter_Mobil.Focus()
+                End If
+            End If
+
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+    End Sub
 
     Private Sub Txt_KdBarang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_KdBarang.KeyPress
         If e.KeyChar = Chr(13) Then
             If Txt_KdBarang.Text.Trim.Length = 0 Then Txt_NmBarang.Focus()
             Txt_KdBarang_Leave(Txt_KdBarang, e)
-            Me.Size = New Size(610, 333)
-            Lv_Barang.Location = New Point(600, 232)
+            Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+            Lv_Barang.Location = New Point(600, 200)
             Lv_Barang.Visible = False
+        End If
+    End Sub
+
+    Private Sub Txt_NoSJ_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_NoSJ.KeyPress
+
+        If e.KeyChar = Chr(13) Then
+
+
+            If Cmb_FilterBy.SelectedIndex = 1 Then
+                Cmb_Filter_Mobil.Visible = True
+                Txt_ValueFilter.Visible = True : Txt_ValueFilter.Text = ""
+                Label_Status.Text = "Filter"
+
+                Cmb_Filter_Mobil.DroppedDown = True
+                Cmb_Filter_Mobil.Focus()
+            Else
+                Cmb_Filter_Mobil.Visible = False
+                If Cmb_Filter_Mobil.Items.Count <> 0 Then
+                    Cmb_Filter_Mobil.SelectedIndex = 0
+                End If
+                Txt_ValueFilter.Visible = False : Txt_ValueFilter.Text = ""
+                Label_Status.Text = "Status Validasi"
+
+                Cmb_FlagValidasiWarehouse.DroppedDown = True
+                Cmb_FlagValidasiWarehouse.Focus()
+            End If
+
         End If
     End Sub
 
@@ -489,18 +682,22 @@
         If e.KeyCode = Keys.Down Then Lv_Barang.Focus()
     End Sub
 
+    Private Sub Txt_NoSJ_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_NoSJ.KeyDown
+        If e.KeyCode = Keys.Down Then Lv_SJ.Focus()
+    End Sub
+
     Private Sub Txt_NmBarang_TextChanged(sender As Object, e As EventArgs) Handles Txt_NmBarang.TextChanged
 
 
         If Txt_NmBarang.Text.Trim.Length = 0 Then
-            Me.Size = New Size(608, 333)
-            Lv_Barang.Location = New Point(600, 232)
+            Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+            Lv_Barang.Location = New Point(600, 200)
             Lv_Barang.Visible = False
             Txt_KdBarang.Text = ""
             Txt_NmBarang.Text = ""
         Else
-            Me.Size = New Size(608, 480)
-            Lv_Barang.Location = New Point(124, 232)
+            Me.Size = New Size(600, 465)
+            Lv_Barang.Location = New Point(152, 200)
             Lv_Barang.Visible = True
         End If
 
@@ -530,17 +727,71 @@
         End Try
     End Sub
 
+    Private Sub Txt_NmSJ_TextChanged(sender As Object, e As EventArgs) Handles Txt_NmSJ.TextChanged
+        If Txt_NmSJ.Text.Trim.Length = 0 Then
+            Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+            Lv_SJ.Location = New Point(600, 230)
+            Lv_SJ.Visible = False
+            Txt_NoSJ.Text = ""
+            Txt_NmSJ.Text = ""
+        Else
+            Me.Size = New Size(600, 485)
+            Lv_SJ.Location = New Point(152, 230)
+            Lv_SJ.Visible = True
+        End If
+
+        Try
+            OpenConn()
+
+            Lv_SJ.Items.Clear()
+            Dim Lv As ListViewItem
+            Lv = Lv_SJ.Items.Add("--- SELURUH ---")
+            Lv.SubItems.Add("--- SELURUH ---")
+
+            SQL = "select Distinct No_Faktur, No_SJ, (No_Plat + ' - ' + Driver) as Mobil "
+            SQL = SQL & "from EMI_Pembelian_Loading where Kode_Perusahaan = '" & KodePerusahaan & "' and status is null and (No_Plat + ' - ' + Driver) like '%" & Txt_NmSJ.Text & "%' "
+
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+
+                    Lv = Lv_SJ.Items.Add(Dr("No_SJ"))
+                    Lv.SubItems.Add(Dr("Mobil"))
+                Loop
+            End Using
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
     Private Sub Txt_NmBarang_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_NmBarang.KeyDown
         If e.KeyCode = Keys.Down Then Lv_Barang.Focus()
     End Sub
 
-    Private Sub Txt_NmBarang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_NmBarang.KeyPress
+    Private Sub Txt_NmSJ_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_NmSJ.KeyDown
+        If e.KeyCode = Keys.Down Then Lv_SJ.Focus()
+    End Sub
 
+    Private Sub Txt_NmBarang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_NmBarang.KeyPress
         If e.KeyChar = Chr(13) Then
             Txt_KdBarang_Leave(Txt_NmBarang, e)
-            Me.Size = New Size(610, 333)
-            Lv_Barang.Location = New Point(600, 232)
+            Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+            Lv_Barang.Location = New Point(600, 200)
             Lv_Barang.Visible = False
+
+            'BtnCetak.Focus()
+        End If
+    End Sub
+    Private Sub Txt_NmSJ_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_NmSJ.KeyPress
+        If e.KeyChar = Chr(13) Then
+            Txt_NoSJ_Leave(Txt_NmSJ, e)
+            Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+            Lv_SJ.Location = New Point(600, 230)
+            Lv_SJ.Visible = False
 
             'BtnCetak.Focus()
         End If
@@ -556,12 +807,32 @@
         Txt_KdBarang.Text = KdBarang
         Txt_NmBarang.Text = NmBarang
 
-        Me.Size = New Size(608, 333)
-        Lv_Barang.Location = New Point(600, 232)
+        Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+        Lv_Barang.Location = New Point(600, 200)
         Lv_Barang.Visible = False
 
         If Cmb_FilterBy.SelectedIndex = 0 Then
-            Cmb_FlagValidasi.Focus()
+            Cmb_FlagValidasiWarehouse.Focus()
+        Else
+            Cmb_Filter_Mobil.Focus()
+        End If
+    End Sub
+
+    Private Sub Lv_SJ_DoubleClick(sender As Object, e As EventArgs) Handles Lv_SJ.DoubleClick
+        If Lv_SJ.Items.Count = 0 Or Lv_SJ.FocusedItem.Index = -1 Then Exit Sub
+
+        Dim KdSJ As String = Lv_SJ.FocusedItem.SubItems(0).Text
+        Dim NmSJ As String = Lv_SJ.FocusedItem.SubItems(1).Text
+
+        Txt_NoSJ.Text = KdSJ
+        Txt_NmSJ.Text = NmSJ
+
+        Me.Size = If(Cmb_FilterBy.SelectedIndex = 1, New Size(600, 420), New Size(600, 385))
+        Lv_SJ.Location = New Point(600, 230)
+        Lv_SJ.Visible = False
+
+        If Cmb_FilterBy.SelectedIndex = 0 Then
+            Cmb_FlagValidasiWarehouse.Focus()
         Else
             Cmb_Filter_Mobil.Focus()
         End If
@@ -573,25 +844,47 @@
         End If
     End Sub
 
-
+    Private Sub Lv_SJ_KeyDown(sender As Object, e As KeyEventArgs) Handles Lv_SJ.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            Lv_SJ_DoubleClick(Lv_SJ, e)
+        End If
+    End Sub
 
 
     Private Sub Cmb_FilterBy_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_FilterBy.SelectedIndexChanged
 
         If Cmb_FilterBy.SelectedIndex = 1 Then
             Cmb_Filter_Mobil.Visible = True
+            Label8.Visible = True
             Txt_ValueFilter.Visible = True : Txt_ValueFilter.Text = ""
-            Label_Status.Text = "Filter"
+
+
+            GroupBox1.Size = New Size(561, 270)
+            BtnCetak.Location = New Point(400, 340)
+            BtnExit.Location = New Point(483, 340)
+            Me.Size = New Size(600, 420)
         Else
             Cmb_Filter_Mobil.Visible = False
+            Label8.Visible = False
+            If Cmb_Filter_Mobil.Items.Count <> 0 Then
+                Cmb_Filter_Mobil.SelectedIndex = 0
+            End If
             Txt_ValueFilter.Visible = False : Txt_ValueFilter.Text = ""
-            Label_Status.Text = "Status Validasi"
+
+
+            GroupBox1.Size = New Size(561, 235)
+            BtnCetak.Location = New Point(400, 304)
+            BtnExit.Location = New Point(483, 304)
+            Me.Size = New Size(600, 385)
         End If
 
     End Sub
 
     Private Sub Tgl2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tgl2.KeyPress
-        If e.KeyChar = Chr(13) Then Cmb_FilterBy.Focus()
+        If e.KeyChar = Chr(13) Then
+            Cmb_FilterBy.DroppedDown = True
+            Cmb_FilterBy.Focus()
+        End If
     End Sub
 
     Private Sub Cmb_FilterBy_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_FilterBy.KeyPress
@@ -601,22 +894,45 @@
         End If
     End Sub
 
-    Private Sub Cmb_FlagValidasi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_FlagValidasi.KeyPress
-        If Cmb_FlagValidasi.Items.Count <> -1 Then
-            Cmb_FlagValidasi.SelectedIndex = 0
-            BtnCetak.Focus()
+    Private Sub Cmb_FlagValidasi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_FlagValidasiWarehouse.KeyPress
+        If e.KeyChar = Chr(13) Then
+            Cmb_FlagValidasiAcc.DroppedDown = True
+            Cmb_FlagValidasiAcc.Focus()
+        End If
+    End Sub
+    Private Sub Cmb_FlagValidasiAcc_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_FlagValidasiAcc.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If Cmb_FilterBy.SelectedIndex = 0 Then
+                BtnCetak.Focus()
+            Else
+                Cmb_Filter_Mobil.DroppedDown = True
+                Cmb_Filter_Mobil.Focus()
+            End If
         End If
     End Sub
 
     Private Sub Cmb_Filter_Mobil_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Filter_Mobil.KeyPress
-        If Cmb_Filter_Mobil.Items.Count <> -1 Then
-            Cmb_Filter_Mobil.SelectedIndex = 0
-            Txt_ValueFilter.Focus()
+        If Cmb_Filter_Mobil.Items.Count <> 0 Then
+            If Cmb_Filter_Mobil.SelectedIndex <> 0 Then
+                Txt_ValueFilter.Focus()
+            Else
+                BtnCetak.Focus()
+            End If
         End If
     End Sub
 
     Private Sub Txt_ValueFilter_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_ValueFilter.KeyPress
         If e.KeyChar = Chr(13) Then BtnCetak.Focus()
+    End Sub
+
+    Private Sub Cmb_Filter_Mobil_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Filter_Mobil.SelectedIndexChanged
+        If Cmb_Filter_Mobil.SelectedIndex = 0 Then
+            Txt_ValueFilter.Text = ""
+            Txt_ValueFilter.Enabled = False
+        Else
+            Txt_ValueFilter.Text = ""
+            Txt_ValueFilter.Enabled = True
+        End If
     End Sub
 
 

@@ -1,5 +1,4 @@
 ﻿Imports System.Reflection
-Imports System.Runtime.Serialization.Formatters
 
 
 Public Class FMenu2
@@ -596,8 +595,8 @@ Public Class FMenu2
             Case "EMI_Transaksi_ForecastOrder"
                 Return EMI_Transaksi_ForecastOrder
 
-                'Case "Purchase_Requisition"
-                '    Return Purchase_Requisition
+            Case "EMI_Pengeluaran_Stock"
+                Return EMI_Pengeluaran_Stock
                 'Case " EMI_Display_Log_ForecastOrder"
                 '    Return EMI_Display_Log_ForecastOrder
 

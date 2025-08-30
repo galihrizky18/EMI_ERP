@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Laporan_Biaya_Produksi
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,13 +20,26 @@ Partial Class Laporan_Biaya_Produksi
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Txt_NmBarang = New System.Windows.Forms.TextBox()
+        Me.Txt_NmLokasiTujuan = New System.Windows.Forms.TextBox()
+        Me.Txt_NmLokasiAwal = New System.Windows.Forms.TextBox()
+        Me.Txt_KdBarang = New System.Windows.Forms.TextBox()
+        Me.Txt_KdSoTujuan = New System.Windows.Forms.TextBox()
+        Me.Txt_Batch = New System.Windows.Forms.TextBox()
+        Me.Txt_KdSoAwal = New System.Windows.Forms.TextBox()
+        Me.Txt_NoSplit = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
         Me.Cmb_Laporan = New System.Windows.Forms.ComboBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.CmbJenisBiaya = New System.Windows.Forms.ComboBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Tgl2 = New System.Windows.Forms.DateTimePicker()
@@ -35,7 +48,11 @@ Partial Class Laporan_Biaya_Produksi
         Me.Label2 = New System.Windows.Forms.Label()
         Me.BtnExit = New System.Windows.Forms.Button()
         Me.BtnCetak = New System.Windows.Forms.Button()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Lv_Lokasi = New System.Windows.Forms.ListView()
+        Me.Lv_Barang = New System.Windows.Forms.ListView()
+        Me.Lv_Lokasi2 = New System.Windows.Forms.ListView()
+        Me.Chk_Batch = New System.Windows.Forms.CheckBox()
+        Me.Chk_NoSplit = New System.Windows.Forms.CheckBox()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -51,6 +68,19 @@ Partial Class Laporan_Biaya_Produksi
         Me.Panel1.Size = New System.Drawing.Size(591, 51)
         Me.Panel1.TabIndex = 24
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(591, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'Label1
         '
         Me.Label1.AutoSize = True
@@ -64,8 +94,22 @@ Partial Class Laporan_Biaya_Produksi
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Chk_NoSplit)
+        Me.GroupBox1.Controls.Add(Me.Chk_Batch)
+        Me.GroupBox1.Controls.Add(Me.Txt_NmBarang)
+        Me.GroupBox1.Controls.Add(Me.Txt_NmLokasiTujuan)
+        Me.GroupBox1.Controls.Add(Me.Txt_NmLokasiAwal)
+        Me.GroupBox1.Controls.Add(Me.Txt_KdBarang)
+        Me.GroupBox1.Controls.Add(Me.Txt_KdSoTujuan)
+        Me.GroupBox1.Controls.Add(Me.Txt_Batch)
+        Me.GroupBox1.Controls.Add(Me.Txt_KdSoAwal)
+        Me.GroupBox1.Controls.Add(Me.Txt_NoSplit)
+        Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Controls.Add(Me.Cmb_Laporan)
+        Me.GroupBox1.Controls.Add(Me.Label7)
+        Me.GroupBox1.Controls.Add(Me.Label9)
         Me.GroupBox1.Controls.Add(Me.Label5)
+        Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.CmbJenisBiaya)
         Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.Tgl2)
@@ -74,9 +118,84 @@ Partial Class Laporan_Biaya_Produksi
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Location = New System.Drawing.Point(11, 51)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(569, 118)
+        Me.GroupBox1.Size = New System.Drawing.Size(569, 221)
         Me.GroupBox1.TabIndex = 25
         Me.GroupBox1.TabStop = False
+        '
+        'Txt_NmBarang
+        '
+        Me.Txt_NmBarang.Location = New System.Drawing.Point(255, 182)
+        Me.Txt_NmBarang.Name = "Txt_NmBarang"
+        Me.Txt_NmBarang.Size = New System.Drawing.Size(231, 20)
+        Me.Txt_NmBarang.TabIndex = 9
+        Me.Txt_NmBarang.Visible = False
+        '
+        'Txt_NmLokasiTujuan
+        '
+        Me.Txt_NmLokasiTujuan.Location = New System.Drawing.Point(255, 156)
+        Me.Txt_NmLokasiTujuan.Name = "Txt_NmLokasiTujuan"
+        Me.Txt_NmLokasiTujuan.Size = New System.Drawing.Size(231, 20)
+        Me.Txt_NmLokasiTujuan.TabIndex = 9
+        Me.Txt_NmLokasiTujuan.Visible = False
+        '
+        'Txt_NmLokasiAwal
+        '
+        Me.Txt_NmLokasiAwal.Location = New System.Drawing.Point(255, 130)
+        Me.Txt_NmLokasiAwal.Name = "Txt_NmLokasiAwal"
+        Me.Txt_NmLokasiAwal.Size = New System.Drawing.Size(231, 20)
+        Me.Txt_NmLokasiAwal.TabIndex = 9
+        Me.Txt_NmLokasiAwal.Visible = False
+        '
+        'Txt_KdBarang
+        '
+        Me.Txt_KdBarang.Location = New System.Drawing.Point(121, 182)
+        Me.Txt_KdBarang.Name = "Txt_KdBarang"
+        Me.Txt_KdBarang.Size = New System.Drawing.Size(130, 20)
+        Me.Txt_KdBarang.TabIndex = 9
+        Me.Txt_KdBarang.Visible = False
+        '
+        'Txt_KdSoTujuan
+        '
+        Me.Txt_KdSoTujuan.Location = New System.Drawing.Point(121, 156)
+        Me.Txt_KdSoTujuan.Name = "Txt_KdSoTujuan"
+        Me.Txt_KdSoTujuan.Size = New System.Drawing.Size(130, 20)
+        Me.Txt_KdSoTujuan.TabIndex = 9
+        Me.Txt_KdSoTujuan.Visible = False
+        '
+        'Txt_Batch
+        '
+        Me.Txt_Batch.Enabled = False
+        Me.Txt_Batch.Location = New System.Drawing.Point(142, 104)
+        Me.Txt_Batch.Name = "Txt_Batch"
+        Me.Txt_Batch.Size = New System.Drawing.Size(344, 20)
+        Me.Txt_Batch.TabIndex = 9
+        Me.Txt_Batch.Visible = False
+        '
+        'Txt_KdSoAwal
+        '
+        Me.Txt_KdSoAwal.Location = New System.Drawing.Point(121, 130)
+        Me.Txt_KdSoAwal.Name = "Txt_KdSoAwal"
+        Me.Txt_KdSoAwal.Size = New System.Drawing.Size(130, 20)
+        Me.Txt_KdSoAwal.TabIndex = 9
+        Me.Txt_KdSoAwal.Visible = False
+        '
+        'Txt_NoSplit
+        '
+        Me.Txt_NoSplit.Enabled = False
+        Me.Txt_NoSplit.Location = New System.Drawing.Point(142, 78)
+        Me.Txt_NoSplit.Name = "Txt_NoSplit"
+        Me.Txt_NoSplit.Size = New System.Drawing.Size(344, 20)
+        Me.Txt_NoSplit.TabIndex = 9
+        Me.Txt_NoSplit.Visible = False
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(16, 184)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(43, 16)
+        Me.Label8.TabIndex = 8
+        Me.Label8.Text = "Barang"
         '
         'Cmb_Laporan
         '
@@ -87,6 +206,24 @@ Partial Class Laporan_Biaya_Produksi
         Me.Cmb_Laporan.Size = New System.Drawing.Size(365, 24)
         Me.Cmb_Laporan.TabIndex = 7
         '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(16, 158)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(82, 16)
+        Me.Label7.TabIndex = 8
+        Me.Label7.Text = "Lokasi Tujuan"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(16, 106)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(84, 16)
+        Me.Label9.TabIndex = 8
+        Me.Label9.Text = "Batch Number"
+        '
         'Label5
         '
         Me.Label5.AutoSize = True
@@ -95,6 +232,15 @@ Partial Class Laporan_Biaya_Produksi
         Me.Label5.Size = New System.Drawing.Size(51, 16)
         Me.Label5.TabIndex = 8
         Me.Label5.Text = "Laporan"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(16, 132)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(71, 16)
+        Me.Label6.TabIndex = 8
+        Me.Label6.Text = "Lokasi Awal"
         '
         'CmbJenisBiaya
         '
@@ -155,7 +301,7 @@ Partial Class Laporan_Biaya_Produksi
         Me.BtnExit.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnExit.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnExit.ForeColor = System.Drawing.Color.White
-        Me.BtnExit.Location = New System.Drawing.Point(496, 174)
+        Me.BtnExit.Location = New System.Drawing.Point(496, 278)
         Me.BtnExit.Name = "BtnExit"
         Me.BtnExit.Size = New System.Drawing.Size(84, 33)
         Me.BtnExit.TabIndex = 27
@@ -167,32 +313,84 @@ Partial Class Laporan_Biaya_Produksi
         Me.BtnCetak.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnCetak.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnCetak.ForeColor = System.Drawing.Color.White
-        Me.BtnCetak.Location = New System.Drawing.Point(413, 174)
+        Me.BtnCetak.Location = New System.Drawing.Point(413, 278)
         Me.BtnCetak.Name = "BtnCetak"
         Me.BtnCetak.Size = New System.Drawing.Size(84, 33)
         Me.BtnCetak.TabIndex = 26
         Me.BtnCetak.Text = "&Cetak"
         Me.BtnCetak.UseVisualStyleBackColor = False
         '
-        'PanelGradient1
+        'Lv_Lokasi
         '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(591, 2)
-        Me.PanelGradient1.TabIndex = 22
+        Me.Lv_Lokasi.BackColor = System.Drawing.Color.White
+        Me.Lv_Lokasi.FullRowSelect = True
+        Me.Lv_Lokasi.GridLines = True
+        Me.Lv_Lokasi.HideSelection = False
+        Me.Lv_Lokasi.Location = New System.Drawing.Point(600, 204)
+        Me.Lv_Lokasi.Name = "Lv_Lokasi"
+        Me.Lv_Lokasi.Size = New System.Drawing.Size(365, 159)
+        Me.Lv_Lokasi.TabIndex = 47
+        Me.Lv_Lokasi.UseCompatibleStateImageBehavior = False
+        Me.Lv_Lokasi.View = System.Windows.Forms.View.Details
+        Me.Lv_Lokasi.Visible = False
+        '
+        'Lv_Barang
+        '
+        Me.Lv_Barang.BackColor = System.Drawing.Color.White
+        Me.Lv_Barang.FullRowSelect = True
+        Me.Lv_Barang.GridLines = True
+        Me.Lv_Barang.HideSelection = False
+        Me.Lv_Barang.Location = New System.Drawing.Point(600, 247)
+        Me.Lv_Barang.Name = "Lv_Barang"
+        Me.Lv_Barang.Size = New System.Drawing.Size(365, 159)
+        Me.Lv_Barang.TabIndex = 47
+        Me.Lv_Barang.UseCompatibleStateImageBehavior = False
+        Me.Lv_Barang.View = System.Windows.Forms.View.Details
+        Me.Lv_Barang.Visible = False
+        '
+        'Lv_Lokasi2
+        '
+        Me.Lv_Lokasi2.BackColor = System.Drawing.Color.White
+        Me.Lv_Lokasi2.FullRowSelect = True
+        Me.Lv_Lokasi2.GridLines = True
+        Me.Lv_Lokasi2.HideSelection = False
+        Me.Lv_Lokasi2.Location = New System.Drawing.Point(600, 224)
+        Me.Lv_Lokasi2.Name = "Lv_Lokasi2"
+        Me.Lv_Lokasi2.Size = New System.Drawing.Size(365, 159)
+        Me.Lv_Lokasi2.TabIndex = 47
+        Me.Lv_Lokasi2.UseCompatibleStateImageBehavior = False
+        Me.Lv_Lokasi2.View = System.Windows.Forms.View.Details
+        Me.Lv_Lokasi2.Visible = False
+        '
+        'Chk_Batch
+        '
+        Me.Chk_Batch.AutoSize = True
+        Me.Chk_Batch.Location = New System.Drawing.Point(121, 109)
+        Me.Chk_Batch.Name = "Chk_Batch"
+        Me.Chk_Batch.Size = New System.Drawing.Size(15, 14)
+        Me.Chk_Batch.TabIndex = 48
+        Me.Chk_Batch.UseVisualStyleBackColor = True
+        Me.Chk_Batch.Visible = False
+        '
+        'Chk_NoSplit
+        '
+        Me.Chk_NoSplit.AutoSize = True
+        Me.Chk_NoSplit.Location = New System.Drawing.Point(121, 82)
+        Me.Chk_NoSplit.Name = "Chk_NoSplit"
+        Me.Chk_NoSplit.Size = New System.Drawing.Size(15, 14)
+        Me.Chk_NoSplit.TabIndex = 48
+        Me.Chk_NoSplit.UseVisualStyleBackColor = True
+        Me.Chk_NoSplit.Visible = False
         '
         'Laporan_Biaya_Produksi
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(591, 215)
+        Me.ClientSize = New System.Drawing.Size(591, 321)
+        Me.Controls.Add(Me.Lv_Barang)
+        Me.Controls.Add(Me.Lv_Lokasi2)
+        Me.Controls.Add(Me.Lv_Lokasi)
         Me.Controls.Add(Me.BtnExit)
         Me.Controls.Add(Me.BtnCetak)
         Me.Controls.Add(Me.GroupBox1)
@@ -224,4 +422,21 @@ Partial Class Laporan_Biaya_Produksi
     Friend WithEvents BtnCetak As Button
     Friend WithEvents Cmb_Laporan As ComboBox
     Friend WithEvents Label5 As Label
+    Friend WithEvents Txt_NoSplit As TextBox
+    Friend WithEvents Txt_KdSoAwal As TextBox
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Txt_KdSoTujuan As TextBox
+    Friend WithEvents Label7 As Label
+    Friend WithEvents Txt_KdBarang As TextBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents Txt_NmLokasiTujuan As TextBox
+    Friend WithEvents Txt_NmLokasiAwal As TextBox
+    Friend WithEvents Txt_NmBarang As TextBox
+    Friend WithEvents Txt_Batch As TextBox
+    Friend WithEvents Label9 As Label
+    Friend WithEvents Lv_Lokasi As ListView
+    Friend WithEvents Lv_Barang As ListView
+    Friend WithEvents Lv_Lokasi2 As ListView
+    Friend WithEvents Chk_Batch As CheckBox
+    Friend WithEvents Chk_NoSplit As CheckBox
 End Class

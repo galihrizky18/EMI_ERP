@@ -87,7 +87,12 @@
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Lv = Lv_Faktur.Items.Add(Dr("No_Val"))
-                    Lv.SubItems.Add(Format(Dr("Tanggal"), "dd MMM yyyy"))
+
+                    If General_Class.CekNULL(Dr("Tanggal")) = "" Then
+                        Lv.SubItems.Add("-")
+                    Else
+                        Lv.SubItems.Add(Format(Dr("Tanggal"), "dd MMM yyyy"))
+                    End If
 
                 Loop
             End Using
@@ -124,7 +129,7 @@
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Lv = Lv_User.Items.Add(Dr("UserID"))
-                    Lv.SubItems.Add(Dr("UserName"))
+                    Lv.SubItems.Add(If(General_Class.CekNULL(Dr("UserName")) = "", "-", Dr("UserName")))
 
                 Loop
             End Using
@@ -165,7 +170,7 @@
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Lv = Lv_Perusahaan.Items.Add(Dr("Kode_Perusahaan_Biaya_Import"))
-                    Lv.SubItems.Add(Dr("Nama"))
+                    Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Nama")) = "", "-", Dr("Nama")))
                 Loop
             End Using
 
@@ -205,7 +210,7 @@
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Lv = Lv_Perusahaan.Items.Add(Dr("Kode_Perusahaan_Biaya_Import"))
-                    Lv.SubItems.Add(Dr("Nama"))
+                    Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Nama")) = "", "-", Dr("Nama")))
                 Loop
             End Using
 
@@ -245,7 +250,7 @@
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Lv = Lv_Kategori.Items.Add(Dr("Kode_Master_Kategori_Biaya_Import"))
-                    Lv.SubItems.Add(Dr("Keterangan"))
+                    Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Keterangan")) = "", "-", Dr("Keterangan")))
                 Loop
             End Using
 
@@ -285,7 +290,7 @@
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Lv = Lv_Kategori.Items.Add(Dr("Kode_Master_Kategori_Biaya_Import"))
-                    Lv.SubItems.Add(Dr("Keterangan"))
+                    Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Keterangan")) = "", "-", Dr("Keterangan")))
                 Loop
             End Using
 
@@ -598,7 +603,6 @@
         End If
     End Sub
     Private Sub Txt_NmPerusahaan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_NmPerusahaan.KeyPress
-
         If e.KeyChar = Chr(13) Then
             Txt_KdPerusahaan_Leave(Txt_NmPerusahaan, e)
             Me.Size = New Size(613, 325)

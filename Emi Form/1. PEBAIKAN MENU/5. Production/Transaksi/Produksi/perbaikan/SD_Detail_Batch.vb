@@ -31,32 +31,95 @@
             Panel_GR.Visible = False
 
             Panel_GI.Location = New Point(13, 67)
-            Panel_GR.Location = New Point(300, 67)
+            Panel_GR.Location = New Point(1000, 67)
 
+            Dim boleh_lihat_data As Boolean = False
+            Try
+                OpenConn()
+
+
+                If CekButtonRole("Tampil_Detail_GI") = "Y" Then
+                    boleh_lihat_data = True
+                End If
+
+                CloseConn()
+            Catch ex As Exception
+                CloseConn()
+                MessageBox.Show(ex.Message)
+                Exit Sub
+            End Try
             '============================================================================
             '=     PANEL 1     
             '============================================================================
-            Lv_Data.Columns.Clear() : Lv_Data.Items.Clear()
-            Lv_Data.Columns.Add("", 0, HorizontalAlignment.Right)
-            Lv_Data.Columns.Add("Batch", 90, HorizontalAlignment.Center)
-            Lv_Data.Columns.Add("Tanggal", 140, HorizontalAlignment.Center)
-            Lv_Data.Columns.Add("Jam", 140, HorizontalAlignment.Center)
-            Lv_Data.Columns.Add("Kode Barang", 180, HorizontalAlignment.Left)
-            Lv_Data.Columns.Add("Nilai Produksi", 210, HorizontalAlignment.Right)
-            Lv_Data.Columns.Add("Satuan", 150, HorizontalAlignment.Center)
-            Lv_Data.Columns.Add("Selisih %", 210, HorizontalAlignment.Right)
 
-            'HIDE   
-            Lv_Data.Columns.Add("no_Faktur", 0, HorizontalAlignment.Left)
-            Lv_Data.View = View.Details
+            If boleh_lihat_data = True Then
+                Lv_DataDetail.Columns.Clear() : Lv_DataDetail.Items.Clear()
+                Lv_DataDetail.Columns.Add("", 0, HorizontalAlignment.Right)
+                Lv_DataDetail.Columns.Add("Batch", 70, HorizontalAlignment.Center)
+                Lv_DataDetail.Columns.Add("Tanggal", 120, HorizontalAlignment.Center)
+                Lv_DataDetail.Columns.Add("Jam", 90, HorizontalAlignment.Center)
+                Lv_DataDetail.Columns.Add("Kode Barang", 140, HorizontalAlignment.Left)
+                Lv_DataDetail.Columns.Add("Nama", 220, HorizontalAlignment.Left)
+                Lv_DataDetail.Columns.Add("Nilai Produksi", 150, HorizontalAlignment.Right)
+                Lv_DataDetail.Columns.Add("Nilai Formula", 150, HorizontalAlignment.Right)
+                Lv_DataDetail.Columns.Add("Satuan", 80, HorizontalAlignment.Center)
+                Lv_DataDetail.Columns.Add("Selisih ", 150, HorizontalAlignment.Right)
+                Lv_DataDetail.Columns.Add("Selisih %", 120, HorizontalAlignment.Right)
+                Lv_DataDetail.Columns.Add("no_Faktur", 0, HorizontalAlignment.Left)
+            Else
+                Lv_DataDetail.Columns.Clear() : Lv_DataDetail.Items.Clear()
+                Lv_DataDetail.Columns.Add("", 0, HorizontalAlignment.Right)
+                Lv_DataDetail.Columns.Add("Batch", 120, HorizontalAlignment.Center)
+                Lv_DataDetail.Columns.Add("Tanggal", 180, HorizontalAlignment.Center)
+                Lv_DataDetail.Columns.Add("Jam", 160, HorizontalAlignment.Center)
+                Lv_DataDetail.Columns.Add("Kode Barang", 220, HorizontalAlignment.Left)
+                Lv_DataDetail.Columns.Add("Nama", 0, HorizontalAlignment.Left)
+                Lv_DataDetail.Columns.Add("Nilai Produksi", 240, HorizontalAlignment.Right)
+                Lv_DataDetail.Columns.Add("Nilai Formula", 0, HorizontalAlignment.Right)
+                Lv_DataDetail.Columns.Add("Satuan", 130, HorizontalAlignment.Center)
+                Lv_DataDetail.Columns.Add("Selisih ", 0, HorizontalAlignment.Right)
+                Lv_DataDetail.Columns.Add("Selisih %", 0, HorizontalAlignment.Right)
+                Lv_DataDetail.Columns.Add("no_Faktur", 0, HorizontalAlignment.Left)
+            End If
+
+            Lv_DataDetail.View = View.Details
 
 
+            '============================================================================
+            LvDataRekap.Columns.Clear() : Lv_DataDetail.Items.Clear()
+            LvDataRekap.Columns.Add("", 0, HorizontalAlignment.Right)
+            LvDataRekap.Columns.Add("Batch", 130, HorizontalAlignment.Center)
+            LvDataRekap.Columns.Add("Tanggal", 180, HorizontalAlignment.Center)
+            LvDataRekap.Columns.Add("Jam", 180, HorizontalAlignment.Center)
+            LvDataRekap.Columns.Add("Nilai Dosing (Kg)", 250, HorizontalAlignment.Right)
+            LvDataRekap.Columns.Add("Selisih Dosing (%)", 200, HorizontalAlignment.Right)
+            LvDataRekap.View = View.Details
 
             Try
                 OpenConn()
 
                 Cmb_Filter_Batch_Pn1.Items.Clear()
-                SQL = "select max(e.Proses) as Proses "
+
+                SQL = "select a.Jumlah_Batch, a.satuan_batch, a.Kode_Barang, b.nama, Qty_Batch "
+                SQL = SQL & "from Emi_Split_Production_Order a, Barang b  "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+                SQL = SQL & "and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang  "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.Status is null  "
+                SQL = SQL & "and a.No_Transaksi = '" & noSplit & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        TxtJumlahBatch.Text = If(General_Class.CekNULL(Dr("Qty_Batch")) = "", 0, General_Class.CekNULL(Dr("Qty_Batch")))
+                        TxtJumlahBatchVw.Text = If(General_Class.CekNULL(Dr("Qty_Batch")) = "", 0, General_Class.CekNULL(Dr("Qty_Batch"))) & " " & Dr("satuan_batch")
+                        TxtBatch.Text = If(General_Class.CekNULL(Dr("Jumlah_Batch")) = "", 0, General_Class.CekNULL(Dr("Jumlah_Batch")))
+                        TxtNoSplit.Text = noSplit
+                        TxtNamaBarang.Text = Dr("nama")
+
+
+                    End If
+                End Using
+
+                SQL = "select isnull(max(e.Proses),0) as Proses "
                 SQL = SQL & "from Emi_Split_Production_Order a, EMI_Order_Produksi b, EMI_Transaksi_Formulator_Detail_Bahan c, Emi_Production_Results d, Emi_Production_Results_HPP e, Barang f  "
                 SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Perusahaan = d.Kode_Perusahaan and d.Kode_Perusahaan = e.Kode_Perusahaan and c.Kode_Perusahaan = f.Kode_Perusahaan  "
                 SQL = SQL & "and a.No_PO = b.No_Faktur  "
@@ -114,7 +177,7 @@
             Panel_GR.Visible = True
 
             Panel_GR.Location = New Point(13, 67)
-            Panel_GI.Location = New Point(300, 67)
+            Panel_GI.Location = New Point(1000, 67)
 
             Lv_DataGr.Columns.Clear() : Lv_DataGr.Items.Clear()
             Lv_DataGr.Columns.Add("", 0, HorizontalAlignment.Center)
@@ -127,16 +190,16 @@
             Lv_DataGr.Columns.Add("Lv_NoResult", 0, HorizontalAlignment.Left)
             Lv_DataGr.View = View.Details
 
-            Lv_DetailGr.Columns.Clear() : Lv_DetailGr.Items.Clear()
-            Lv_DetailGr.Columns.Add("", 0, HorizontalAlignment.Center)
-            Lv_DetailGr.Columns.Add("Batch Number", 150, HorizontalAlignment.Center)
-            Lv_DetailGr.Columns.Add("Tanggal", 115, HorizontalAlignment.Center)
-            Lv_DetailGr.Columns.Add("Lokasi", 180, HorizontalAlignment.Left)
-            Lv_DetailGr.Columns.Add("Barcode", 300, HorizontalAlignment.Left)
-            Lv_DetailGr.Columns.Add("Kode Barang", 150, HorizontalAlignment.Left)
-            Lv_DetailGr.Columns.Add("Jumlah", 180, HorizontalAlignment.Right)
-            Lv_DetailGr.Columns.Add("Satuan", 120, HorizontalAlignment.Center)
-            Lv_DetailGr.View = View.Details
+            Batch.Columns.Clear() : Batch.Items.Clear()
+            Batch.Columns.Add("", 0, HorizontalAlignment.Center)
+            Batch.Columns.Add("Batch Number", 150, HorizontalAlignment.Center)
+            Batch.Columns.Add("Tanggal", 115, HorizontalAlignment.Center)
+            Batch.Columns.Add("Lokasi", 180, HorizontalAlignment.Left)
+            Batch.Columns.Add("Barcode", 300, HorizontalAlignment.Left)
+            Batch.Columns.Add("Kode Barang", 150, HorizontalAlignment.Left)
+            Batch.Columns.Add("Jumlah", 180, HorizontalAlignment.Right)
+            Batch.Columns.Add("Satuan", 120, HorizontalAlignment.Center)
+            Batch.View = View.Details
 
             '============================================================================
             '=     PANEL 2     
@@ -171,7 +234,7 @@
                     Loop
                 End Using
 
-                Lv_DetailGr.Items.Clear()
+                Batch.Items.Clear()
                 SQL = "Select a.Kode_Perusahaan, e.No_PO, a.No_Production_Order as No_Split, a.No_Transaksi as No_Result, b.Tanggal, b.Jam, c.Batch_Number, c.Qr_Code+'-'+c.Kode_Unik_Berjalan as Barcode,  "
                 SQL = SQL & "b.Kode_Stock_Owner, b.Kode_Barang, d.Nama as Barang, sum(c.Jumlah) as jumlah, b.Satuan  "
                 SQL = SQL & "From Emi_Production_Results a, EMI_Production_Results_Detail_Barang b, Emi_Production_Results_Detail_Pallet c, barang d, Emi_Split_Production_Order e "
@@ -204,7 +267,7 @@
                 Using Dr = OpenTrans(SQL)
                     Do While Dr.Read
                         Dim Lv As ListViewItem
-                        Lv = Lv_DetailGr.Items.Add("")
+                        Lv = Batch.Items.Add("")
                         Lv.SubItems.Add(Dr("Batch_Number"))
                         Lv.SubItems.Add(Format(Dr("Tanggal"), "dd MMM yyyy"))
                         Lv.SubItems.Add(Dr("Kode_Stock_Owner"))
@@ -239,12 +302,63 @@
 
 
     Private Sub Btn_Cari_Pn1_Click(sender As Object, e As EventArgs) Handles Btn_Cari_Pn1.Click
+
+        Dim boleh_lihat_data As Boolean = False
+        Try
+            OpenConn()
+
+
+            If CekButtonRole("Tampil_Detail_GI") = "Y" Then
+                boleh_lihat_data = True
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
         Try
             OpenConn()
             Dim Total_Formula As Double = 0
             Dim Total_Produksi As Double = 0
 
-            Lv_Data.Items.Clear()
+
+            LvDataRekap.Items.Clear()
+            SQL = "Select b.proses, b.Tanggal, b.Jam, "
+            SQL = SQL & "isnull((select sum(y.Nilai_Barang) from Emi_Production_Results_Detail y where "
+            SQL = SQL & "a.kode_perusahaan = y.kode_perusahaan And a.No_Transaksi = y.No_Transaksi And "
+            SQL = SQL & "b.Proses = y.Proses ),0) As Total_Dosing "
+            SQL = SQL & "From Emi_Production_Results a, Emi_Production_Results_HPP b Where "
+            SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Transaksi = b.No_Transaksi  "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.Status is null "
+            SQL = SQL & "and a.no_production_order = '" & noSplit & "' "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read()
+                    Dim Lv As ListViewItem
+                    Lv = LvDataRekap.Items.Add("")
+                    Lv.SubItems.Add(Dr("Proses"))
+                    If General_Class.CekNULL(Dr("Tanggal")) = "" Then
+                        Lv.SubItems.Add("-")
+                        Lv.SubItems.Add("-")
+                        Lv.BackColor = Color.White
+                    Else
+                        Lv.SubItems.Add(Format(Dr("Tanggal"), "dd MMM yyyy"))
+                        Lv.SubItems.Add(Dr("Jam"))
+                        Lv.BackColor = Color.LightGreen
+                    End If
+
+
+                    Lv.SubItems.Add(Format(Dr("Total_Dosing"), "N4"))
+                    Lv.SubItems.Add(Format(Val(HilangkanTanda((Val(TxtJumlahBatch.Text) - Dr("Total_Dosing")) / Val(TxtJumlahBatch.Text) * 100)), "N4"))
+
+                Loop
+            End Using
+
+            Lv_DataDetail.Items.Clear()
             SQL = "select a.No_Transaksi, e.Tanggal, e.Jam, e.Proses, c.Kode_Stock_Owner, c.Kode_Barang, f.nama, c.satuan, "
 
             SQL = SQL & " "
@@ -282,25 +396,65 @@
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read()
                     Dim Lv As ListViewItem
-                    Lv = Lv_Data.Items.Add("")
-                    Lv.SubItems.Add(Dr("Proses"))
 
-                    If General_Class.CekNULL(Dr("Tanggal")) = "" Then
-                        Lv.SubItems.Add("-")
+
+                    If boleh_lihat_data = True Then
+                        Lv = Lv_DataDetail.Items.Add("")
+                        Lv.SubItems.Add(Dr("Proses"))
+
+                        If General_Class.CekNULL(Dr("Tanggal")) = "" Then
+                            Lv.SubItems.Add("-")
+                        Else
+                            Lv.SubItems.Add(Format(Dr("Tanggal"), "dd MMM yyyy"))
+                        End If
+
+                        If General_Class.CekNULL(Dr("Jam")) = "" Then
+                            Lv.SubItems.Add("-")
+                        Else
+                            Lv.SubItems.Add(Dr("Jam"))
+                        End If
+
+                        Lv.SubItems.Add(Dr("Kode_Barang"))
+
+                        Lv.SubItems.Add(Dr("nama"))
+                        Lv.SubItems.Add(Format(Val(HilangkanTanda(Dr("Nilai_Produksi"))), "N4"))
+                        Lv.SubItems.Add(Format(Val(HilangkanTanda(Dr("Nilai_Formula"))), "N4"))
+                        Lv.SubItems.Add(Dr("satuan"))
+                        Lv.SubItems.Add(Format(Val(HilangkanTanda((Dr("Nilai_Formula") - Dr("Nilai_Produksi")))), "N4"))
+
+                        Lv.SubItems.Add(Format(Val(HilangkanTanda((Dr("Nilai_Formula") - Dr("Nilai_Produksi")) / Dr("Nilai_Formula") * 100)), "N4"))
+
+                        Lv.SubItems.Add(Dr("No_Transaksi"))
+
                     Else
-                        Lv.SubItems.Add(Format(Dr("Tanggal"), "dd MMM yyyy"))
+                        Lv = Lv_DataDetail.Items.Add("")
+                        Lv.SubItems.Add(Dr("Proses"))
+
+                        If General_Class.CekNULL(Dr("Tanggal")) = "" Then
+                            Lv.SubItems.Add("-")
+                        Else
+                            Lv.SubItems.Add(Format(Dr("Tanggal"), "dd MMM yyyy"))
+                        End If
+
+                        If General_Class.CekNULL(Dr("Jam")) = "" Then
+                            Lv.SubItems.Add("-")
+                        Else
+                            Lv.SubItems.Add(Dr("Jam"))
+                        End If
+
+                        Lv.SubItems.Add(Dr("Kode_Barang"))
+
+                        Lv.SubItems.Add("X")
+                        Lv.SubItems.Add(Format(Val(HilangkanTanda(Dr("Nilai_Produksi"))), "N4"))
+                        Lv.SubItems.Add("0")
+                        Lv.SubItems.Add(Dr("satuan"))
+                        Lv.SubItems.Add("0")
+
+                        Lv.SubItems.Add("0")
+
+                        Lv.SubItems.Add(Dr("No_Transaksi"))
                     End If
 
-                    If General_Class.CekNULL(Dr("Jam")) = "" Then
-                        Lv.SubItems.Add("-")
-                    Else
-                        Lv.SubItems.Add(Dr("Jam"))
-                    End If
-
-                    Lv.SubItems.Add(Dr("Kode_Barang"))
-                    Lv.SubItems.Add(Format(Val(HilangkanTanda(Dr("Nilai_Produksi"))), "N4"))
-                    Lv.SubItems.Add(Dr("satuan"))
-                    Lv.SubItems.Add(Format(Val(HilangkanTanda((Dr("Nilai_Formula") - Dr("Nilai_Produksi")) / Dr("Nilai_Formula") * 100)), "N4"))
 
 
                     Total_Formula += Dr("Nilai_Formula")

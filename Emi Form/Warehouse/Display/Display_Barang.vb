@@ -392,7 +392,7 @@
             Cek_Flagging()
 
             DataGridView1.Rows.Clear()
-            SQL = "select a.*, dbo.get_hpp(a.serial_number) as HPP "
+            SQL = "select a.* "
             SQL = SQL & "from Stock_Barang_SN_Per_Rak as a inner join emi_group_jenis as gj on a.id_group_jenis = gj.id_group_jenis "
             SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' "
 
@@ -635,7 +635,7 @@
 
             Cek_Flagging()
 
-            SQL = "select a.*, dbo.get_hpp(a.serial_number) as HPP "
+            SQL = "select a.* "
             SQL = SQL & "from Stock_Barang_SN_Per_Rak as a inner join emi_group_jenis as gj on a.id_group_jenis = gj.id_group_jenis "
             SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' "
 

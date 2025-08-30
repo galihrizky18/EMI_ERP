@@ -3,6 +3,9 @@
     Dim arrCari As New ArrayList
     Dim judulForm As String = "Controlling Produksi"
 
+    'Dim arrOrderRouting As New Dictionary(Of String, List(Of Dictionary(Of String, Object)))
+    Dim arrOrderRoutingList As New List(Of (idRouting As String, NoSplit As String, Batch As String, Urut As Integer))
+
     Dim AsumsiIsiPerBatch As Integer = 10
 
     Public asal = ""
@@ -25,7 +28,7 @@
     Dim Lv_BatchBerjalan As String
     Dim Lv_Routing As String
     Dim Lv_TotalDosing As String
-
+    Dim Lv_IdRouting As String
 
     Dim Item_NoFaktur As Integer = 0
     Dim Item_NoPO As Integer = 1
@@ -39,6 +42,7 @@
     Dim Item_BatchBerjalan As Integer = 9
     Dim Item_Routing As Integer = 10
     Dim Item_TotalDosing As Integer = 11
+    Dim Item_IdRouting As Integer = 12
 
 
     Dim LvGR_NoFaktur As String
@@ -69,7 +73,8 @@
     Dim ItemGR_TotalDosing As Integer = 11
 
 
-    Private Sub EMI_Controlling_Produksi_Activated(sender As Object, e As EventArgs) Handles Me.Activated, Lv_GI.SelectedIndexChanged
+
+    Private Sub EMI_Controlling_Produksi_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
     End Sub
@@ -87,6 +92,9 @@
         Cmb_Filter.Items.Clear() : Cmb_Filter.Text = ""
         Txt_FilterValue.Text = ""
 
+        'arrOrderRouting.Clear()
+        arrOrderRoutingList.Clear()
+
         ' LvGR_Det.Items.Clear()
 
         Lv_GI.Columns.Clear()
@@ -102,6 +110,7 @@
         Lv_GI.Columns.Add("Batch Berjalan", 100, HorizontalAlignment.Right)
         Lv_GI.Columns.Add("Routing", 140, HorizontalAlignment.Left)
         Lv_GI.Columns.Add("Total Dosing", 120, HorizontalAlignment.Right)
+        Lv_GI.Columns.Add("id_Routing", 0, HorizontalAlignment.Left)
         Lv_GI.View = View.Details
 
         Lv_GR.Columns.Clear()
@@ -241,6 +250,7 @@
 
                             Lv.SubItems.Add(.Rows(i).Item("routing"))
                             Lv.SubItems.Add(Format(.Rows(i).Item("Total_Dosing"), "N4") + " Kg")
+                            Lv.SubItems.Add(.Rows(i).Item("Id_Routing"))
 
 
 
@@ -248,6 +258,89 @@
                     End If
                 End With
             End Using
+
+            '=======================================
+            '=     LOAD ORDER SPLIT BY ROUTING     =
+            '=======================================
+            'arrOrderRouting.Clear()
+            arrOrderRoutingList.Clear()
+            Dim UrutOrder As Integer = 0
+            SQL = "select a.No_Transaksi, b.No_Faktur, b.id_routing, isnull(a.jumlah_batch, 0) as jumlah_batch "
+            SQL = SQL & "from Emi_Split_Production_Order a, EMI_Order_Produksi b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+            SQL = SQL & "and a.No_PO = b.No_Faktur "
+            SQL = SQL & "and a.status is null and b.Status is null "
+            SQL = SQL & "And a.Flag_Produksi = 'Y' and a.flag_hasil_Produksi_GI is null "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            'SQL = SQL & "and b.Id_Routing = '12' "
+            If asal = "VALIDASI HPP" Then
+                SQL = SQL & "and a.No_Transaksi = '" & NoSplit & "' "
+            End If
+            SQL = SQL & "order by a.Tgl_Produksi, a.Jam_Produksi "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Dim isiArr As New List(Of Dictionary(Of String, Object))
+
+                    Dim idRouting As String = CStr(Dr("id_routing"))
+                    Dim noTransaksi As String = CStr(Dr("No_Transaksi"))
+
+                    For i As Integer = 0 To Val(Dr("jumlah_batch")) - 1
+                        isiArr.Add(New Dictionary(Of String, Object) From {
+                              {"NoSplit", noTransaksi},
+                              {"Batch", i + 1}
+                          })
+
+                        arrOrderRoutingList.Add((idRouting:=idRouting, NoSplit:=noTransaksi, Batch:=i + 1, Urut:=UrutOrder))
+
+                        UrutOrder += 1
+                    Next
+
+
+                    'If isiArr IsNot Nothing AndAlso isiArr.Count > 0 Then
+                    '    If arrOrderRouting.ContainsKey(idRouting) Then
+                    '        arrOrderRouting(idRouting).AddRange(isiArr)
+                    '    Else
+                    '        arrOrderRouting(idRouting) = isiArr
+                    '    End If
+                    'End If
+
+                Loop
+            End Using
+
+            ' KODE UNTUK CEK ISI arrOrderRouting
+            'For Each routingKey As String In arrOrderRouting.Keys
+
+            '    Console.WriteLine("Routing ID: " & routingKey)
+
+            '    Dim listData As List(Of Dictionary(Of String, Object)) = arrOrderRouting(routingKey)
+
+            '    For Each item As Dictionary(Of String, Object) In listData
+            '        Dim output As String = ""
+
+            '        For Each kvp As KeyValuePair(Of String, Object) In item
+            '            output &= kvp.Key & ": " & kvp.Value.ToString() & "  "
+            '        Next
+
+            '        Console.WriteLine("  " & output)
+            '    Next
+
+            '    Console.WriteLine()
+
+            '    Console.WriteLine("Data Filter")
+
+            '    If arrOrderRouting.ContainsKey("12") AndAlso arrOrderRouting("12").Count >= 0 Then
+            '        Dim data = arrOrderRouting("12")(4)
+            '        If data.ContainsKey("NoSplit") Then
+            '            Console.WriteLine("NoSplit index ke-3: " & CStr(data("NoSplit")))
+            '        End If
+            '    End If
+            '    Console.WriteLine()
+
+            'Next
+
+
+
+
 
             CloseConn()
         Catch ex As Exception
@@ -259,7 +352,7 @@
 
     Private Sub GetDataLvGI(ByVal index As Integer)
 
-        Lv_NoFaktur = Lv_GI.Items(index).SubItems(item_NoFaktur).Text
+        Lv_NoFaktur = Lv_GI.Items(index).SubItems(Item_NoFaktur).Text
         Lv_NoPO = Lv_GI.Items(index).SubItems(Item_NoPO).Text
         Lv_Ket = Lv_GI.Items(index).SubItems(Item_Ket).Text
         Lv_Tgl = Lv_GI.Items(index).SubItems(Item_Tgl).Text
@@ -271,6 +364,7 @@
         Lv_BatchBerjalan = Lv_GI.Items(index).SubItems(Item_BatchBerjalan).Text
         Lv_Routing = Lv_GI.Items(index).SubItems(Item_Routing).Text
         Lv_TotalDosing = Lv_GI.Items(index).SubItems(Item_TotalDosing).Text
+        Lv_IdRouting = Lv_GI.Items(index).SubItems(Item_IdRouting).Text
 
     End Sub
 
@@ -473,6 +567,8 @@
             Exit Sub
         End If
 
+        GetDataLvGI(Lv_GI.FocusedItem.Index)
+
         Try
             OpenConn()
 
@@ -483,6 +579,154 @@
                 Exit Sub
             End If
 
+
+            Dim jumlah_batch As Integer = 0
+            Dim jumlah_batch_selesai As Integer = 0
+            SQL = "select jumlah_batch from Emi_Split_Production_Order a "
+            SQL = SQL & "where a.kode_Perusahaan='" & KodePerusahaan & "' and a.No_Transaksi='" & Lv_NoFaktur & "' "
+            Using dr = OpenTrans(SQL)
+                If dr.Read Then
+                    If General_Class.CekNULL(dr("jumlah_batch")) = "" Then
+                        dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Jumlah Batch Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    Else
+                        jumlah_batch = dr("jumlah_batch")
+                    End If
+                End If
+            End Using
+
+
+            SQL = "Select count(b.Kode_Perusahaan) as Jumlah_selesai from Emi_Production_Results a, Emi_Production_Results_HPP b  "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Transaksi = b.No_Transaksi And a.status Is null "
+            SQL = SQL & "And a.kode_Perusahaan='" & KodePerusahaan & "' and a.No_Production_Order='" & Lv_NoFaktur & "' and b.Tanggal is not null "
+            Using dr = OpenTrans(SQL)
+                If dr.Read Then
+                    jumlah_batch_selesai = dr("Jumlah_selesai")
+                End If
+            End Using
+
+            If jumlah_batch_selesai >= jumlah_batch Then
+                CloseConn()
+                MessageBox.Show("Data Telah Selesai di Input . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
+            '================================================================
+            '=     CEK APAKAH ROUTING SUDAH DI GR SESUAI DENGAN MINUMUM     =
+            '================================================================
+            Dim MinimumGR As Integer = 0
+            SQL = "select Min_GR from init where kode_perusahaan = '" & KodePerusahaan & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    MinimumGR = Dr("Min_GR")
+                Else
+                    CloseConn()
+                    MessageBox.Show("Init Minumum GR Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+
+            '===============================
+            '=     GET POSISI SUDAH GR     =
+            '===============================
+            'Dim Batas_NoSplit As String = ""
+            'Dim Batas_Batch As Integer = 0
+
+
+            'If arrOrderRoutingList.ContainsKey(Lv_IdRouting) AndAlso arrOrderRouting(Lv_IdRouting).Count >= 0 Then
+            '    Dim data = arrOrderRouting(Lv_IdRouting)(2)
+            '    If data.ContainsKey("NoSplit") Then
+            '        Console.WriteLine("NoSplit index ke-3: " & CStr(data("NoSplit")))
+            '    End If
+            'End If
+
+            '============================================
+            '=     GET BATCH BERAPA YANG AKAN DI GI     =
+            '============================================
+            Dim CurrentBatchByRouting As Integer = 0
+            SQL = ";with cte as ( "
+            SQL = SQL & "select a.Kode_Perusahaan, a.No_Production_Order, a.No_Transaksi, c.id_routing,  "
+            SQL = SQL & "case "
+            SQL = SQL & "when ISNULL(( select COUNT(*) from Emi_Production_Results_HPP z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.No_Transaksi = a.No_Transaksi "
+            SQL = SQL & "and z.tanggal is not null "
+            SQL = SQL & "), 0) = 0 "
+            SQL = SQL & "then 1 "
+            SQL = SQL & "else ISNULL(( select COUNT(*) from Emi_Production_Results_HPP z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.No_Transaksi = a.No_Transaksi  "
+            SQL = SQL & "and z.tanggal is not null  "
+            SQL = SQL & "), 0) "
+            SQL = SQL & "end as Jumlah_Dosing "
+            SQL = SQL & "from Emi_Production_Results a , Emi_Split_Production_Order b, EMI_Order_Produksi c "
+            SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan and b.kode_perusahaan = c.kode_perusahaan "
+            SQL = SQL & "and a.no_production_order = b.No_Transaksi "
+            SQL = SQL & "and b.No_PO = c.No_Faktur "
+            SQL = SQL & "and a.Status is null and b.status is null and c.status is null "
+            SQL = SQL & "And b.Flag_Produksi = 'Y' and b.flag_hasil_Produksi_GI is null "
+            SQL = SQL & ") select isnull(sum(Jumlah_Dosing), 0) as jumlah_dosing from cte where kode_perusahaan = '" & KodePerusahaan & "' and id_routing = '" & Lv_IdRouting & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    CurrentBatchByRouting = Dr("jumlah_dosing")
+                End If
+            End Using
+
+            Dim filteredData = arrOrderRoutingList.Where(Function(x) x.idRouting = Lv_IdRouting).ToList()
+
+            Dim UrutBatch As Integer = 0
+            If filteredData.Count > 0 Then
+                Dim item = filteredData(CurrentBatchByRouting - 1)
+
+                UrutBatch = item.Urut
+            Else
+                CloseConn()
+                MessageBox.Show("Data Batch terhadap Routing Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
+
+            Dim BatchInsert As Integer = 0
+            Dim currentBatch As Integer = 0
+            SQL = "Select top 1 b.proses, b.Tanggal, b.Jam, "
+            SQL = SQL & "isnull((select sum(y.Nilai_Barang) from Emi_Production_Results_Detail y where "
+            SQL = SQL & "a.kode_perusahaan = y.kode_perusahaan And a.No_Transaksi = y.No_Transaksi And "
+            SQL = SQL & "b.Proses = y.Proses ),0) As Total_Dosing "
+            SQL = SQL & "From Emi_Production_Results a, Emi_Production_Results_HPP b Where "
+            SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Transaksi = b.No_Transaksi  "
+            SQL = SQL & "and a.Status is null "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.no_production_order = '" & Lv_NoFaktur & "' "
+            SQL = SQL & "order by b.proses desc "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    BatchInsert = Val(Dr("proses")) + 1
+                    currentBatch = Val(Dr("proses"))
+                Else
+                    BatchInsert = 1
+                End If
+            End Using
+
+            currentBatch = If(currentBatch = 0, 1, currentBatch)
+
+
+            Dim targetIndex As Integer = -1
+            For i As Integer = 0 To arrOrderRoutingList.Count - 1
+                Dim item = arrOrderRoutingList(i)
+                If item.idRouting = Lv_IdRouting AndAlso item.NoSplit = Lv_NoFaktur AndAlso item.Batch = currentBatch Then
+                    targetIndex = i
+                    Exit For
+                End If
+            Next
+
+
+            If targetIndex >= (UrutBatch + (MinimumGR + 2)) Then
+                CloseConn()
+                MessageBox.Show("Gagal Melakukan Dosing Karena Data GR terhadap Routing melebih Batas Maximum GI", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -490,7 +734,6 @@
             Exit Sub
         End Try
 
-        GetDataLvGI(Lv_GI.FocusedItem.Index)
         EMI_Hasil_Pengeluaran_Bahan_Baku.TextBox4.Text = Lv_NoFaktur
         EMI_Hasil_Pengeluaran_Bahan_Baku.DateTimePicker1.Value = CDate(Lv_Tgl)
         EMI_Hasil_Pengeluaran_Bahan_Baku.TextBox1.Text = Lv_Jam
@@ -557,6 +800,224 @@
 
     End Sub
 
+    Private Sub ValidasiGIToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ValidasiGIToolStripMenuItem.Click
+        If Lv_GI.Items.Count = 0 Or Lv_GI.SelectedItems.Count = 0 Then
+            Exit Sub
+        End If
+
+
+        get_jam()
+
+        Try
+            OpenConn()
+            Cmd.Transaction = Cn.BeginTransaction
+
+            If CekButtonRole("Validasi_GI") = "T" Then
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("Anda Tidak Memiliki Akses Untuk Penyelesaian GI", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
+            Dim tanya As String = MessageBox.Show("Yakin Ingin Menyelesaikan Goods Issue ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If tanya = vbNo Then
+                CloseTrans()
+                CloseConn()
+                Exit Sub
+            End If
+
+            GetDataLvGI(Lv_GI.FocusedItem.Index)
+
+            Dim jumlah_batch As Integer = 0
+            Dim jumlah_batch_selesai As Integer = 0
+            SQL = "select jumlah_batch from Emi_Split_Production_Order a "
+            SQL = SQL & "where a.kode_Perusahaan='" & KodePerusahaan & "' and a.No_Transaksi='" & Lv_NoFaktur & "' "
+            Using dr = OpenTrans(SQL)
+                If dr.Read Then
+                    jumlah_batch = dr("jumlah_batch")
+                End If
+            End Using
+
+
+            SQL = "Select count(b.Kode_Perusahaan) as Jumlah_selesai from Emi_Production_Results a, Emi_Production_Results_HPP b  "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Transaksi = b.No_Transaksi And a.status Is null "
+            SQL = SQL & "And a.kode_Perusahaan='" & KodePerusahaan & "' and a.No_Production_Order='" & Lv_NoFaktur & "' and b.Tanggal is not null "
+            Using dr = OpenTrans(SQL)
+                If dr.Read Then
+                    jumlah_batch_selesai = dr("Jumlah_selesai")
+                End If
+            End Using
+
+
+            If jumlah_batch_selesai <> jumlah_batch Then
+                Dim Kata As String = "Good Issue Ini Belum selesai. " & vbNewLine
+                Kata += " - Jumlah Batch Rencana Produksi : " & jumlah_batch & vbNewLine
+                Kata += " - Jumlah Batch Selesai Produksi : " & jumlah_batch_selesai & vbNewLine & vbNewLine
+                Kata += " Lanjutkan . . ? "
+
+                Dim tanya2 As String = MessageBox.Show(Kata, Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If tanya2 = vbNo Then
+                    CloseTrans()
+                    CloseConn()
+                    Exit Sub
+                End If
+            End If
+
+            '=======================================
+            '=     CEK APAKAH PO SUDAH SELESAI     =
+            '=======================================
+            SQL = "select Flag_Hasil_Produksi_GI from Emi_Split_Production_Order "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and no_transaksi = '" & Lv_NoFaktur & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Flag_Hasil_Produksi_GI")) = "Y" Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("GI Sudah Selesai, Tidak Bisa Diselesaikan Lagi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Data Split Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+
+            SQL = "update Emi_Split_Production_Order set Flag_Hasil_Produksi_GI = 'Y', UserID_Selesai_GI = '" & UserID & "', "
+            SQL = SQL & "Tgl_Hasil_Produksi_GI = '" & Format(tgl_skg, "yyyy-MM-dd") & "', Jam_Hasil_Produksi_GI = '" & Format(tgl_skg, "HH:mm:ss") & "'  "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and no_transaksi = '" & Lv_NoFaktur & "' "
+            ExecuteTrans(SQL)
+
+
+            Cmd.Transaction.Commit()
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show("GI Berhasil Diselesaikan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Button1_Click(ValidasiGIToolStripMenuItem, e)
+
+    End Sub
+
+    Private Sub ValidasiGRToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ValidasiGRToolStripMenuItem.Click
+        If Lv_GR.Items.Count = 0 Or Lv_GR.SelectedItems.Count = 0 Then
+            Exit Sub
+        End If
+
+
+        get_jam()
+
+        Try
+            OpenConn()
+            Cmd.Transaction = Cn.BeginTransaction
+
+            If CekButtonRole("Validasi_GR") = "T" Then
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("Anda Tidak Memiliki Akses Untuk Penyelesaian GR", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
+            Dim tanya As String = MessageBox.Show("Yakin Ingin Menyelesaikan Goods Received ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If tanya = vbNo Then
+                CloseTrans()
+                CloseConn()
+                Exit Sub
+            End If
+
+            GetDataLvGR(Lv_GR.FocusedItem.Index)
+
+            Dim jumlah_batch As Double = 0
+            Dim jumlah_batch_selesai As Double = 0
+            Dim jumlah_Loss As Double = 0
+
+
+            SQL = "Select round(isnull(sum(jumlah_dosing),0),4) as Jumlah_Dosing, round(isnull(sum(jumlah_Terpakai),0),4) as Jumlah_GR  from Emi_Production_Results a, Emi_Production_Results_HPP b  "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Transaksi = b.No_Transaksi And a.status Is null "
+            SQL = SQL & "And a.kode_Perusahaan='" & KodePerusahaan & "' and a.No_Production_Order='" & LvGR_NoFaktur & "' and b.Tanggal is not null "
+            Using dr = OpenTrans(SQL)
+                If dr.Read Then
+                    jumlah_batch = dr("Jumlah_Dosing")
+                    jumlah_batch_selesai = dr("Jumlah_GR")
+                    jumlah_Loss = dr("Jumlah_Dosing") - dr("Jumlah_GR")
+                End If
+            End Using
+
+
+            Dim Kata As String = "Berikut Detail GI-GR. " & vbNewLine
+            Kata += " - Jumlah Goods Issue (Kg) : " & Format(jumlah_batch, "N4") & vbNewLine
+            Kata += " - Jumlah Goods Received (Kg) : " & Format(jumlah_batch_selesai, "N4") & vbNewLine
+            Kata += " - Jumlah Production Loss (Kg) : " & Format(jumlah_Loss, "N4") & vbNewLine & vbNewLine
+            Kata += " Lanjutkan . . ? "
+
+            Dim tanya2 As String = MessageBox.Show(Kata, Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If tanya2 = vbNo Then
+                CloseTrans()
+                CloseConn()
+                Exit Sub
+            End If
+
+
+            '=======================================
+            '=     CEK APAKAH PO SUDAH SELESAI     =
+            '=======================================
+            SQL = "select Flag_Hasil_Produksi_GI, Flag_Hasil_Produksi_GR from Emi_Split_Production_Order "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and no_transaksi = '" & LvGR_NoFaktur & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Flag_Hasil_Produksi_GR")) = "Y" Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("GR Sudah Selesai, Tidak Bisa Diselesaikan Lagi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                    If General_Class.CekNULL(Dr("Flag_Hasil_Produksi_GI")) <> "Y" Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Validasi GI Terlebih Dahulu . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Data Split Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+
+            SQL = "update Emi_Split_Production_Order set Flag_Hasil_Produksi_GR = 'Y', UserID_Selesai_GR = '" & UserID & "', "
+            SQL = SQL & "Tgl_Hasil_Produksi_GR = '" & Format(tgl_skg, "yyyy-MM-dd") & "', Jam_Hasil_Produksi_GR = '" & Format(tgl_skg, "HH:mm:ss") & "'  "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and no_transaksi = '" & LvGR_NoFaktur & "' "
+            ExecuteTrans(SQL)
+
+
+            Cmd.Transaction.Commit()
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show("GR Berhasil Diselesaikan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Button1_Click(ValidasiGRToolStripMenuItem, e)
+    End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
         Kosong()
@@ -611,3 +1072,4 @@
 
     End Sub
 End Class
+

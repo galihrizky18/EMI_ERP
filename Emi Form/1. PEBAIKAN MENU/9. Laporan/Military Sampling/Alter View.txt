@@ -1,0 +1,30 @@
+Alter view N_EMI_View_Laporan_Military_Sampling_Rekap as   
+select a.Kode_Perusahaan, a.No_Production_Order, a.No_Transaksi as No_Transaksi_GR, c.No_Transaksi, c.No_Batch, c.No_GR as Jenis_Military_Sampling, c.Tahap_Military_Sampling, c.Tanggal, c.Jam, c.Userid,   
+ isnull(c.Flag_Military_Sampling, 'T') as Flag_Military_Sampling, ISNULL(c.Flag_Ready_For_Packaging, 'T') as Flag_Ready_For_Packaging,  
+   
+ case  
+  when c.Flag_Military_Sampling = 'Y' and c.Flag_Ready_For_Packaging = 'Y' then 'READY FOR PACKING'  
+  when c.Flag_Military_Sampling = 'Y' and c.Flag_Ready_For_Packaging is null then 'HOLD'  
+  when c.Flag_Military_Sampling is null and c.Flag_Ready_For_Packaging is null then 'UNTESTED'  
+  else 'UNDEFINED'  
+ end as Status,  
+  
+ isnull((  
+  select sum(z.Jumlah) from N_EMI_Military_Sampling_Detail z  
+  where c.Kode_Perusahaan = z.Kode_Perusahaan  
+  and c.No_Transaksi = z.No_Transaksi  
+  and z.jumlah_Waste is not null
+ ), 0) as Jumlah_Sample,  
+
+ ISNULL(c.Total_Waste, 0) as Total_Waste, 
+ ISNULL(c.Persentase_Waste, 0) as Persentase_Waste,  
+ isnull((  
+  select top 1 z.Satuan from N_EMI_Military_Sampling_Detail z  
+  where c.Kode_Perusahaan = z.Kode_Perusahaan  
+  and c.No_Transaksi = z.No_Transaksi  
+ ), '-') as Satuan  
+from Emi_Production_Results a, Emi_Split_Production_Order b, N_EMI_Military_Sampling c  
+where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan  
+and a.No_Production_Order = b.No_Transaksi  
+and a.No_Production_Order = c.No_Split  
+and a.Status is null and b.Status is null and c.Status is null

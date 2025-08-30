@@ -79,6 +79,8 @@ Partial Class EMI_DownPayment
         Me.CmbLokasi = New System.Windows.Forms.ComboBox()
         Me.TxtFakturPembayaran = New System.Windows.Forms.TextBox()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.Txt_NilaiDPP = New System.Windows.Forms.TextBox()
+        Me.Label15 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -92,7 +94,7 @@ Partial Class EMI_DownPayment
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(684, 51)
+        Me.Panel1.Size = New System.Drawing.Size(682, 51)
         Me.Panel1.TabIndex = 22
         '
         'Panel8
@@ -115,7 +117,7 @@ Partial Class EMI_DownPayment
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(684, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(682, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
@@ -175,17 +177,17 @@ Partial Class EMI_DownPayment
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Simpan.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(26, 403)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(26, 425)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(84, 36)
-        Me.Btn_Simpan.TabIndex = 0
+        Me.Btn_Simpan.TabIndex = 1
         Me.Btn_Simpan.Text = "&Simpan"
         Me.Btn_Simpan.UseVisualStyleBackColor = False
         '
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(20, 440)
+        Me.Panel7.Location = New System.Drawing.Point(20, 462)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(1072, 12)
@@ -254,7 +256,7 @@ Partial Class EMI_DownPayment
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(20, 394)
+        Me.Panel4.Location = New System.Drawing.Point(20, 416)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1072, 12)
@@ -281,7 +283,7 @@ Partial Class EMI_DownPayment
         Me.BtnFormulator_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnFormulator_Refresh.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnFormulator_Refresh.ForeColor = System.Drawing.Color.White
-        Me.BtnFormulator_Refresh.Location = New System.Drawing.Point(116, 403)
+        Me.BtnFormulator_Refresh.Location = New System.Drawing.Point(116, 425)
         Me.BtnFormulator_Refresh.Name = "BtnFormulator_Refresh"
         Me.BtnFormulator_Refresh.Size = New System.Drawing.Size(84, 36)
         Me.BtnFormulator_Refresh.TabIndex = 11
@@ -296,7 +298,7 @@ Partial Class EMI_DownPayment
         Me.TxtKodeSupplier.Location = New System.Drawing.Point(121, 29)
         Me.TxtKodeSupplier.MaxLength = 50
         Me.TxtKodeSupplier.Name = "TxtKodeSupplier"
-        Me.TxtKodeSupplier.Size = New System.Drawing.Size(149, 22)
+        Me.TxtKodeSupplier.Size = New System.Drawing.Size(164, 22)
         Me.TxtKodeSupplier.TabIndex = 0
         '
         'Label2
@@ -315,7 +317,7 @@ Partial Class EMI_DownPayment
         Me.TxtNamaSupplier.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TxtNamaSupplier.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtNamaSupplier.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TxtNamaSupplier.Location = New System.Drawing.Point(276, 30)
+        Me.TxtNamaSupplier.Location = New System.Drawing.Point(291, 30)
         Me.TxtNamaSupplier.MaxLength = 50
         Me.TxtNamaSupplier.Name = "TxtNamaSupplier"
         Me.TxtNamaSupplier.Size = New System.Drawing.Size(181, 22)
@@ -336,7 +338,9 @@ Partial Class EMI_DownPayment
         Me.GroupBox1.Controls.Add(Me.Label11)
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.CbNoFaktur)
+        Me.GroupBox1.Controls.Add(Me.Label15)
         Me.GroupBox1.Controls.Add(Me.Label8)
+        Me.GroupBox1.Controls.Add(Me.Txt_NilaiDPP)
         Me.GroupBox1.Controls.Add(Me.TxtNilai)
         Me.GroupBox1.Controls.Add(Me.CmbNoPO)
         Me.GroupBox1.Controls.Add(Me.Txt_PPH)
@@ -356,8 +360,8 @@ Partial Class EMI_DownPayment
         Me.GroupBox1.Controls.Add(Me.Cmb_Persen)
         Me.GroupBox1.Location = New System.Drawing.Point(20, 91)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(637, 302)
-        Me.GroupBox1.TabIndex = 1
+        Me.GroupBox1.Size = New System.Drawing.Size(642, 325)
+        Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
         'LvSupplier
@@ -388,7 +392,7 @@ Partial Class EMI_DownPayment
         '
         Me.Label13.AutoSize = True
         Me.Label13.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label13.Location = New System.Drawing.Point(18, 264)
+        Me.Label13.Location = New System.Drawing.Point(18, 292)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(86, 20)
         Me.Label13.TabIndex = 428
@@ -399,17 +403,17 @@ Partial Class EMI_DownPayment
         Me.TxtKeterangan.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TxtKeterangan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtKeterangan.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TxtKeterangan.Location = New System.Drawing.Point(121, 263)
+        Me.TxtKeterangan.Location = New System.Drawing.Point(121, 291)
         Me.TxtKeterangan.MaxLength = 50
         Me.TxtKeterangan.Name = "TxtKeterangan"
         Me.TxtKeterangan.Size = New System.Drawing.Size(351, 22)
-        Me.TxtKeterangan.TabIndex = 10
+        Me.TxtKeterangan.TabIndex = 6
         '
         'Label12
         '
         Me.Label12.AutoSize = True
         Me.Label12.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label12.Location = New System.Drawing.Point(247, 205)
+        Me.Label12.Location = New System.Drawing.Point(247, 233)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(69, 20)
         Me.Label12.TabIndex = 426
@@ -421,7 +425,7 @@ Partial Class EMI_DownPayment
         Me.TxtTotalIDR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtTotalIDR.Enabled = False
         Me.TxtTotalIDR.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TxtTotalIDR.Location = New System.Drawing.Point(322, 204)
+        Me.TxtTotalIDR.Location = New System.Drawing.Point(322, 232)
         Me.TxtTotalIDR.MaxLength = 50
         Me.TxtTotalIDR.Name = "TxtTotalIDR"
         Me.TxtTotalIDR.Size = New System.Drawing.Size(150, 22)
@@ -432,7 +436,7 @@ Partial Class EMI_DownPayment
         '
         Me.Label14.AutoSize = True
         Me.Label14.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label14.Location = New System.Drawing.Point(20, 176)
+        Me.Label14.Location = New System.Drawing.Point(20, 204)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(37, 20)
         Me.Label14.TabIndex = 424
@@ -442,7 +446,7 @@ Partial Class EMI_DownPayment
         '
         Me.Label_Kurs.AutoSize = True
         Me.Label_Kurs.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label_Kurs.Location = New System.Drawing.Point(18, 205)
+        Me.Label_Kurs.Location = New System.Drawing.Point(18, 233)
         Me.Label_Kurs.Name = "Label_Kurs"
         Me.Label_Kurs.Size = New System.Drawing.Size(40, 20)
         Me.Label_Kurs.TabIndex = 424
@@ -453,11 +457,11 @@ Partial Class EMI_DownPayment
         Me.TxtKurs.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TxtKurs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtKurs.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.TxtKurs.Location = New System.Drawing.Point(121, 204)
+        Me.TxtKurs.Location = New System.Drawing.Point(121, 232)
         Me.TxtKurs.MaxLength = 50
         Me.TxtKurs.Name = "TxtKurs"
         Me.TxtKurs.Size = New System.Drawing.Size(120, 22)
-        Me.TxtKurs.TabIndex = 7
+        Me.TxtKurs.TabIndex = 4
         Me.TxtKurs.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'CmbMUA
@@ -466,7 +470,7 @@ Partial Class EMI_DownPayment
         Me.CmbMUA.Enabled = False
         Me.CmbMUA.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CmbMUA.FormattingEnabled = True
-        Me.CmbMUA.Location = New System.Drawing.Point(369, 119)
+        Me.CmbMUA.Location = New System.Drawing.Point(384, 119)
         Me.CmbMUA.Name = "CmbMUA"
         Me.CmbMUA.Size = New System.Drawing.Size(88, 25)
         Me.CmbMUA.TabIndex = 422
@@ -475,7 +479,7 @@ Partial Class EMI_DownPayment
         '
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label9.Location = New System.Drawing.Point(18, 234)
+        Me.Label9.Location = New System.Drawing.Point(18, 262)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(85, 20)
         Me.Label9.TabIndex = 421
@@ -485,7 +489,7 @@ Partial Class EMI_DownPayment
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label11.Location = New System.Drawing.Point(19, 148)
+        Me.Label11.Location = New System.Drawing.Point(19, 176)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(37, 20)
         Me.Label11.TabIndex = 424
@@ -527,8 +531,8 @@ Partial Class EMI_DownPayment
         Me.TxtNilai.Location = New System.Drawing.Point(121, 120)
         Me.TxtNilai.MaxLength = 50
         Me.TxtNilai.Name = "TxtNilai"
-        Me.TxtNilai.Size = New System.Drawing.Size(242, 22)
-        Me.TxtNilai.TabIndex = 6
+        Me.TxtNilai.Size = New System.Drawing.Size(257, 22)
+        Me.TxtNilai.TabIndex = 3
         Me.TxtNilai.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'CmbNoPO
@@ -539,7 +543,7 @@ Partial Class EMI_DownPayment
         Me.CmbNoPO.FormattingEnabled = True
         Me.CmbNoPO.Location = New System.Drawing.Point(142, 60)
         Me.CmbNoPO.Name = "CmbNoPO"
-        Me.CmbNoPO.Size = New System.Drawing.Size(128, 25)
+        Me.CmbNoPO.Size = New System.Drawing.Size(143, 25)
         Me.CmbNoPO.TabIndex = 2
         '
         'Txt_PPH
@@ -548,10 +552,10 @@ Partial Class EMI_DownPayment
         Me.Txt_PPH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_PPH.Enabled = False
         Me.Txt_PPH.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.Txt_PPH.Location = New System.Drawing.Point(187, 176)
+        Me.Txt_PPH.Location = New System.Drawing.Point(187, 204)
         Me.Txt_PPH.MaxLength = 50
         Me.Txt_PPH.Name = "Txt_PPH"
-        Me.Txt_PPH.Size = New System.Drawing.Size(176, 22)
+        Me.Txt_PPH.Size = New System.Drawing.Size(191, 22)
         Me.Txt_PPH.TabIndex = 423
         Me.Txt_PPH.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -581,10 +585,10 @@ Partial Class EMI_DownPayment
         Me.Txt_DPPO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_DPPO.Enabled = False
         Me.Txt_DPPO.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.Txt_DPPO.Location = New System.Drawing.Point(463, 62)
+        Me.Txt_DPPO.Location = New System.Drawing.Point(478, 62)
         Me.Txt_DPPO.MaxLength = 50
         Me.Txt_DPPO.Name = "Txt_DPPO"
-        Me.Txt_DPPO.Size = New System.Drawing.Size(168, 22)
+        Me.Txt_DPPO.Size = New System.Drawing.Size(164, 22)
         Me.Txt_DPPO.TabIndex = 3
         Me.Txt_DPPO.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.Txt_DPPO.Visible = False
@@ -595,7 +599,7 @@ Partial Class EMI_DownPayment
         Me.Txt_JmlhPO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_JmlhPO.Enabled = False
         Me.Txt_JmlhPO.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.Txt_JmlhPO.Location = New System.Drawing.Point(276, 62)
+        Me.Txt_JmlhPO.Location = New System.Drawing.Point(291, 62)
         Me.Txt_JmlhPO.MaxLength = 50
         Me.Txt_JmlhPO.Name = "Txt_JmlhPO"
         Me.Txt_JmlhPO.Size = New System.Drawing.Size(181, 22)
@@ -608,7 +612,7 @@ Partial Class EMI_DownPayment
         Me.Txt_PPHPersen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_PPHPersen.Enabled = False
         Me.Txt_PPHPersen.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.Txt_PPHPersen.Location = New System.Drawing.Point(121, 176)
+        Me.Txt_PPHPersen.Location = New System.Drawing.Point(121, 204)
         Me.Txt_PPHPersen.MaxLength = 50
         Me.Txt_PPHPersen.Name = "Txt_PPHPersen"
         Me.Txt_PPHPersen.Size = New System.Drawing.Size(60, 22)
@@ -621,10 +625,10 @@ Partial Class EMI_DownPayment
         Me.CmbRekening.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.CmbRekening.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CmbRekening.FormattingEnabled = True
-        Me.CmbRekening.Location = New System.Drawing.Point(121, 232)
+        Me.CmbRekening.Location = New System.Drawing.Point(121, 260)
         Me.CmbRekening.Name = "CmbRekening"
         Me.CmbRekening.Size = New System.Drawing.Size(351, 25)
-        Me.CmbRekening.TabIndex = 9
+        Me.CmbRekening.TabIndex = 5
         '
         'Txt_Persen
         '
@@ -634,7 +638,7 @@ Partial Class EMI_DownPayment
         Me.Txt_Persen.Font = New System.Drawing.Font("Work Sans", 8.999999!)
         Me.Txt_Persen.Location = New System.Drawing.Point(142, 92)
         Me.Txt_Persen.Name = "Txt_Persen"
-        Me.Txt_Persen.Size = New System.Drawing.Size(221, 22)
+        Me.Txt_Persen.Size = New System.Drawing.Size(236, 22)
         Me.Txt_Persen.TabIndex = 5
         Me.Txt_Persen.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -644,7 +648,7 @@ Partial Class EMI_DownPayment
         Me.Txt_PPNPersen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_PPNPersen.Enabled = False
         Me.Txt_PPNPersen.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.Txt_PPNPersen.Location = New System.Drawing.Point(121, 148)
+        Me.Txt_PPNPersen.Location = New System.Drawing.Point(121, 176)
         Me.Txt_PPNPersen.MaxLength = 50
         Me.Txt_PPNPersen.Name = "Txt_PPNPersen"
         Me.Txt_PPNPersen.Size = New System.Drawing.Size(60, 22)
@@ -657,10 +661,10 @@ Partial Class EMI_DownPayment
         Me.Txt_PPN.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_PPN.Enabled = False
         Me.Txt_PPN.Font = New System.Drawing.Font("Work Sans", 8.999999!)
-        Me.Txt_PPN.Location = New System.Drawing.Point(186, 148)
+        Me.Txt_PPN.Location = New System.Drawing.Point(186, 176)
         Me.Txt_PPN.MaxLength = 50
         Me.Txt_PPN.Name = "Txt_PPN"
-        Me.Txt_PPN.Size = New System.Drawing.Size(177, 22)
+        Me.Txt_PPN.Size = New System.Drawing.Size(192, 22)
         Me.Txt_PPN.TabIndex = 423
         Me.Txt_PPN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -671,7 +675,7 @@ Partial Class EMI_DownPayment
         Me.Chk_Persen.Location = New System.Drawing.Point(121, 98)
         Me.Chk_Persen.Name = "Chk_Persen"
         Me.Chk_Persen.Size = New System.Drawing.Size(15, 14)
-        Me.Chk_Persen.TabIndex = 4
+        Me.Chk_Persen.TabIndex = 2
         Me.Chk_Persen.UseVisualStyleBackColor = True
         '
         'Cmb_Persen
@@ -680,7 +684,7 @@ Partial Class EMI_DownPayment
         Me.Cmb_Persen.Enabled = False
         Me.Cmb_Persen.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cmb_Persen.FormattingEnabled = True
-        Me.Cmb_Persen.Location = New System.Drawing.Point(369, 91)
+        Me.Cmb_Persen.Location = New System.Drawing.Point(384, 91)
         Me.Cmb_Persen.Name = "Cmb_Persen"
         Me.Cmb_Persen.Size = New System.Drawing.Size(88, 25)
         Me.Cmb_Persen.TabIndex = 422
@@ -723,17 +727,40 @@ Partial Class EMI_DownPayment
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
+        'Txt_NilaiDPP
+        '
+        Me.Txt_NilaiDPP.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_NilaiDPP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_NilaiDPP.Enabled = False
+        Me.Txt_NilaiDPP.Font = New System.Drawing.Font("Work Sans", 8.999999!)
+        Me.Txt_NilaiDPP.Location = New System.Drawing.Point(121, 148)
+        Me.Txt_NilaiDPP.MaxLength = 50
+        Me.Txt_NilaiDPP.Name = "Txt_NilaiDPP"
+        Me.Txt_NilaiDPP.Size = New System.Drawing.Size(257, 22)
+        Me.Txt_NilaiDPP.TabIndex = 3
+        Me.Txt_NilaiDPP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label15.Location = New System.Drawing.Point(18, 150)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(72, 20)
+        Me.Label15.TabIndex = 411
+        Me.Label15.Text = "Nilai DPP"
+        '
         'EMI_DownPayment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(684, 449)
+        Me.ClientSize = New System.Drawing.Size(682, 470)
         Me.Controls.Add(Me.Panel4)
-        Me.Controls.Add(Me.BtnFormulator_Refresh)
-        Me.Controls.Add(Me.Btn_Simpan)
-        Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel7)
+        Me.Controls.Add(Me.BtnFormulator_Refresh)
+        Me.Controls.Add(Me.Panel5)
+        Me.Controls.Add(Me.Btn_Simpan)
         Me.Controls.Add(Me.Dtp1)
         Me.Controls.Add(Me.CmbLokasi)
         Me.Controls.Add(Me.TxtFakturPembayaran)
@@ -818,4 +845,6 @@ Partial Class EMI_DownPayment
     Friend WithEvents Txt_PPNPersen As TextBox
     Friend WithEvents Txt_PPHPersen As TextBox
     Friend WithEvents Txt_DPPO As TextBox
+    Friend WithEvents Label15 As Label
+    Friend WithEvents Txt_NilaiDPP As TextBox
 End Class

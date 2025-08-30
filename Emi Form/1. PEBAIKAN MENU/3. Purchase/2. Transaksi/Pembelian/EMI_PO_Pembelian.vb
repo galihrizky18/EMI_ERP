@@ -3,7 +3,7 @@
     Public Asal As String = ""
     Dim JudulForm As String = "PO Pembelian Induk"
 
-    Dim tempDataPajak As New List(Of (Pajak As String, Nilai As String, akun As String, isPPN As Boolean))
+    Dim tempDataPajak As New List(Of (Pajak As String, Nilai As String, akun As String, isPPN As Boolean, KodeTarif As String))
 
     Dim Jenis = "Po_Bahan"
     Dim arrInisialFaktur, arrPembayaran, arrMUA, arrCrByr, ArrAkunCrByr As New ArrayList
@@ -32,6 +32,10 @@
     Dim lvPO_Total As String
     Dim lvPO_Urut As String
     Dim lvPO_PR As String
+    Dim lvPO_TempoPembayaran As String
+    Dim lvPO_JatuhTempo As String
+    Dim lvPO_FakPenawaran As String
+    Dim lvPO_JnsKategori As String
 
     Dim cellPO_Lokasi As Integer = 0
     Dim cellPO_KdBarang As Integer = 1
@@ -47,6 +51,17 @@
     Dim cellPO_Total As Integer = 11
     Dim cellPO_Urut As Integer = 12
     Dim cellPO_PR As Integer = 13
+    Dim cellPO_TempoPembayaran As Integer = 14
+    Dim cellPO_JatuhTempo As Integer = 15
+    Dim cellPO_FakPenawaran As Integer = 16
+    Dim cellPO_JnsKategori As Integer = 17
+
+    'TODO CEll
+    Dim Kode_Kategori_Besar As String = ""
+
+
+
+
 
     Public No_SJ As String
     Public No_Plat As String
@@ -90,6 +105,10 @@
         lvPO_Total = LvPO_DataPO.Items(No_Index).SubItems(cellPO_Total).Text
         lvPO_Urut = LvPO_DataPO.Items(No_Index).SubItems(cellPO_Urut).Text
         lvPO_PR = LvPO_DataPO.Items(No_Index).SubItems(cellPO_PR).Text
+        lvPO_TempoPembayaran = LvPO_DataPO.Items(No_Index).SubItems(cellPO_TempoPembayaran).Text
+        lvPO_JatuhTempo = LvPO_DataPO.Items(No_Index).SubItems(cellPO_JatuhTempo).Text
+        lvPO_FakPenawaran = LvPO_DataPO.Items(No_Index).SubItems(cellPO_FakPenawaran).Text
+        lvPO_JnsKategori = LvPO_DataPO.Items(No_Index).SubItems(cellPO_JnsKategori).Text
     End Sub
 
     Public Sub HitungGrandTotal()
@@ -105,8 +124,6 @@
 
             Grand = Grand + HilangkanTanda(lvPO_Total)
         Next
-
-
 
         Try
             OpenConn()
@@ -150,7 +167,6 @@
 
             Txt_GrandPPH.Text = Format(totalPajak, "N2")
 
-
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -168,8 +184,6 @@
         LblPO_TotalBiaya.Text = Format(TotalSeluruh + PPN, "N2")
         Dim asda As Double = (TotalSeluruh + PPN)
         TxtPO_GrandTotal.Text = Format((TotalSeluruh + PPN) - PPH, "N2")
-
-
 
     End Sub
 
@@ -280,6 +294,7 @@
         No_Plat = ""
         FlagSelisihPO = ""
         TxtPO_NoNota.Text = ""
+        Kode_Kategori_Besar = ""
         get_jam()
         DtpPO_Tgl.Value = tgl_skg
         DtpPO_TglBayar.Value = tgl_skg
@@ -313,25 +328,24 @@
         LvPO_DataPO.Columns.Clear()
         LvPO_DataPO.Columns.Add("Lokasi", 130, HorizontalAlignment.Left) '0
         LvPO_DataPO.Columns.Add("Kode Barang", 130, HorizontalAlignment.Left) '1
-        LvPO_DataPO.Columns.Add("Nama Barang", 300, HorizontalAlignment.Left) '2
-        LvPO_DataPO.Columns.Add("Harga", 130, HorizontalAlignment.Right) '3
-        LvPO_DataPO.Columns.Add("Jumlah", 130, HorizontalAlignment.Right) '4
+        LvPO_DataPO.Columns.Add("Nama Barang", 400, HorizontalAlignment.Left) '2
+        LvPO_DataPO.Columns.Add("Harga", 160, HorizontalAlignment.Right) '3
+        LvPO_DataPO.Columns.Add("Jumlah", 160, HorizontalAlignment.Right) '4
         LvPO_DataPO.Columns.Add("Satuan", 100, HorizontalAlignment.Center) '5
         LvPO_DataPO.Columns.Add("Harga_SB", 0, HorizontalAlignment.Right) '6
         LvPO_DataPO.Columns.Add("Jumlah_SB", 0, HorizontalAlignment.Right) '7
         LvPO_DataPO.Columns.Add("Satuan_SB", 0, HorizontalAlignment.Center) '8
         LvPO_DataPO.Columns.Add("No Penawaran", 0, HorizontalAlignment.Center) '9
         LvPO_DataPO.Columns.Add("ID", 0, HorizontalAlignment.Center) '10
-        LvPO_DataPO.Columns.Add("Total", 130, HorizontalAlignment.Right) '11
+        LvPO_DataPO.Columns.Add("Total", 180, HorizontalAlignment.Right) '11
         LvPO_DataPO.Columns.Add("Urut", 0, HorizontalAlignment.Center) '12
         LvPO_DataPO.Columns.Add("No PR", 0, HorizontalAlignment.Center) '13
         LvPO_DataPO.Columns.Add("Tempo Pembayaran", 0, HorizontalAlignment.Center) '14
         LvPO_DataPO.Columns.Add("Jatuh Tempo", 0, HorizontalAlignment.Center) '15
         LvPO_DataPO.Columns.Add("Fak Penawaran", 0, HorizontalAlignment.Center) '16
+        LvPO_DataPO.Columns.Add("Jenis_Kategori", 0, HorizontalAlignment.Center) '17
         LvPO_DataPO.View = View.Details
         CmbPO_Lokasi.Enabled = False
-
-
 
         Try
             OpenConn()
@@ -386,7 +400,6 @@
             End Using
 
             CmbPO_MataUang.Text = "RP"
-
 
             cmbJenisPengiriman.Items.Clear()
             SQL = "select Kode_Jenis_Perhitungan_JT,Keterangan from Emi_Master_Perhitungan_Jatuh_Tempo "
@@ -483,9 +496,7 @@
 
     End Sub
 
-    Private Sub TxtPO_KdBrg_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtPO_KdBrg.KeyDown
-        If e.KeyCode = Keys.Down Then ListView1.Focus()
-    End Sub
+
 
     Private Sub TxtPO_KdBrg_TextChanged(sender As Object, e As EventArgs) Handles TxtPO_KdBrg.TextChanged
 
@@ -553,7 +564,6 @@
         TxtPO_GrandTotal.Text = Format(0, "N2")
         TxtPO_Total.Text = Format(0, "N2")
 
-
     End Sub
 
     Public Sub TxtPO_KdBrg_Leave(sender As Object, e As EventArgs) Handles TxtPO_KdBrg.Leave
@@ -619,15 +629,14 @@
                     CmbPO_Satuan.Enabled = False
 
                     CmbPO_Harga.Items.Clear() : arrNoPenawaran.Clear() : arrSatuanPenawaran.Clear() : arrHargaPenawaran.Clear()
-                    arrTempoPenawaran.Clear() : arrJatuhTempo.Clear()
-                    SQL = "select a.No_Faktur,a.no_penawaran,a.Kode_Supplier, c.Nama,b.satuan, b.Nilai_Barang,b.harga_satuan, b.satuan_Barang,  "
+                    arrTempoPenawaran.Clear() : arrJatuhTempo.Clear() : arrFakPenawaran.Clear()
+                    SQL = "select a.No_Faktur, a.no_penawaran,a.Kode_Supplier, c.Nama,b.satuan, b.Nilai_Barang,b.harga_satuan, b.satuan_Barang,  "
 
                     SQL = SQL & "isnull((select x.Lama_Pembayaran from EMI_Master_Penawaran_Jatuh_Tempo x where a.Kode_Perusahaan = x.Kode_Perusahaan "
                     SQL = SQL & "and a.No_Faktur = x.No_Faktur), 0) as jatuh_Tempo,"
 
                     SQL = SQL & "isnull((select x.Tempo_Pembayaran from EMI_Master_Penawaran_Jatuh_Tempo x where a.Kode_Perusahaan = x.Kode_Perusahaan "
                     SQL = SQL & "and a.No_Faktur = x.No_Faktur), null) as Tempo_Pembayaran "
-
 
                     SQL = SQL & "from EMI_Master_Penawaran a, EMI_Master_Penawaran_Detail b, Suppliers c "
                     SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
@@ -636,7 +645,8 @@
                     SQL = SQL & "and flag_release = 'Y' and status is null and b.mata_uang = '" & CmbPO_MataUang.Text & "' and a.Selesai is null and '" & Format(tgl_skg, "yyyy-MM-dd") & "' between a.Tgl_Penawaran_Hrg and a.Periode_Akhir_Penawaran  "
                     Using dr2 = OpenTrans(SQL)
                         Do While dr2.Read
-                            CmbPO_Harga.Items.Add(Format(dr2("harga_satuan")) & "/" & dr2("satuan").ToString.Trim & "-" & dr2("nama"))
+                            CmbPO_Harga.Items.Add(Format(dr2("harga_satuan"), "N4") & "/" & dr2("satuan").ToString.Trim & "-" & dr2("nama"))
+
                             arrFakPenawaran.Add(dr2("No_Faktur")) : arrNoPenawaran.Add(dr2("no_penawaran"))
                             arrSatuanPenawaran.Add(dr2("satuan_Barang")) : arrHargaPenawaran.Add(dr2("Nilai_Barang"))
                             arrJatuhTempo.Add(dr2("jatuh_tempo"))
@@ -684,49 +694,8 @@
         End If
     End Sub
 
-    Private Sub ListView1_KeyDown(sender As Object, e As KeyEventArgs) Handles ListView1.KeyDown
-        If e.KeyCode = Keys.Enter Then
-            ListView1_DoubleClick(Me, e)
-        End If
-    End Sub
 
-    Private Sub ListView1_DoubleClick(sender As Object, e As EventArgs) Handles ListView1.DoubleClick
-        If ListView1.Items.Count = 0 Then Exit Sub
-        Dim Kode As String = ListView1.FocusedItem.Text
-        Dim Nama As String = ListView1.FocusedItem.SubItems(1).Text
 
-        TxtPO_KdBrg.Text = Kode
-        TxtPO_NmBrg.Text = Nama
-
-        ''Try
-        ''    OpenConn()
-
-        ''    SQL = "select satuan from Barang_Detail_Satuan where kode_perusahaan = '" & KodePerusahaan & "' "
-        ''    SQL = SQL & " and kode_barang = '" & Kode & "' order by satuan "
-        ''    Using Dr = OpenTrans(SQL)
-        ''        If Dr.Read Then
-        ''            CmbPO_Satuan.Items.Clear()
-        ''            CmbPO_Satuan.Items.Add(Dr("satuan"))
-
-        ''        Else
-        ''            CloseConn()
-        ''            MessageBox.Show("Satuan barang belum di isi")
-        ''            Exit Sub
-        ''        End If
-        ''    End Using
-
-        ''    CloseConn()
-        ''Catch ex As Exception
-        ''    CloseConn()
-        ''    MessageBox.Show(ex.Message)
-        ''    Exit Sub
-        ''End Try
-
-        ListView1.Visible = False
-        'ComboBox1.Enabled = True
-        TxtPO_KdBrg_Leave(ListView1, e)
-        CmbPO_Harga.Focus()
-    End Sub
 
     Private Sub TxtPO_Hrg_KeyPress(sender As Object, e As KeyPressEventArgs)
         If e.KeyChar = Chr(13) Then
@@ -737,7 +706,7 @@
 
     Private Sub TxtPO_Jml_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtPO_Jml.KeyPress
         If e.KeyChar = Chr(13) Then
-            CmbPO_Satuan.Focus()
+            BtnPO_Ok.Focus()
         End If
 
         If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
@@ -840,7 +809,6 @@
                     no_po = "'" & TxtPO_NoPO.Text & "'"
                 End If
 
-
                 Dim flag_kategori_Supplier As String = ""
                 '========== CEK JENIS NYA IMPORT ATAU LOKAL ===========================================
                 SQL = "select b.Flag_Jenis_Import From Suppliers a, Suppliers_Kategori b "
@@ -867,8 +835,6 @@
 
                 Dim terbilang As String = General_Class.SayMUA(Math.Round(Val(HilangkanTanda(TxtPO_GrandTotal.Text)), 0), CmbPO_MataUang.Text)
 
-
-
                 Txt_IDPPH.Text = "NULL"
 
                 SQL = "insert into EMI_Pembelian_PO_Induk(Kode_Perusahaan, No_Faktur, No_Nota, Tanggal, Jam, UserID, "
@@ -888,31 +854,46 @@
                 SQL = SQL & Val(HilangkanTanda(txtJatuhTempo.Text)) & ", '" & terbilang & "', '" & HilangkanTanda(Txt_GrandPPH.Text) & "' )"
                 ExecuteTrans(SQL)
 
+
+
+
+
                 '==========================
                 '=     GET DETAIL PPH     =
                 '==========================
                 For i As Integer = 0 To tempDataPajak.Count - 1
+
+                    '===================================
+                    '=     CEK KESESUAIAN DATA PPH     =
+                    '===================================
+                    SQL = "select Kode_Perusahaan from EMI_Master_Pajak "
+                    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Tarif = '" & tempDataPajak(i).KodeTarif & "' and Tarif = '" & tempDataPajak(i).Nilai & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Not Dr.Read Then
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Terjadi Kesahalan harap Ulangi Transaksi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
 
                     '=============================
                     '=     INSERT DETAIL PPH     =
                     '=============================
                     Dim totalPajak As Double = Math.Round(HilangkanTanda(TxtPO_Total.Text) * (tempDataPajak(i).Nilai / 100))
 
-
                     SQL = "insert into EMI_Detail_PPH_PO_Induk (Kode_Perusahaan, No_faktur, Persentase, Nilai, Kode_Tarif, Flag_PPN, Kode_Akun ) values "
-                    SQL = SQL & "('" & KodePerusahaan & "', '" & TxtPO_NoFaktur.Text & "', '" & tempDataPajak(i).Nilai & "', '" & HilangkanTanda(totalPajak) & "', '" & tempDataPajak(i).Pajak & "', "
+                    SQL = SQL & "('" & KodePerusahaan & "', '" & TxtPO_NoFaktur.Text & "', '" & tempDataPajak(i).Nilai & "', '" & HilangkanTanda(totalPajak) & "', '" & tempDataPajak(i).KodeTarif & "', "
                     SQL = SQL & If(tempDataPajak(i).isPPN, "'Y'", "NULL") & ", '" & tempDataPajak(i).akun & "')"
                     ExecuteTrans(SQL)
 
-
                 Next
-
 
                 Dim Flag_PPn As String = ""
 
                 For index = 0 To LvPO_DataPO.Items.Count - 1
                     Get_Isi_Listview(index)
-
 
                     SQL = "select flag_PPn from barang where "
                     SQL = SQL & "Kode_barang='" & lvPO_KdBarang & "' and Kode_Stock_Owner ='" & lvPO_Lokasi & "' "
@@ -938,7 +919,6 @@
                         End If
                     End Using
 
-
                     SQL = "select no_faktur from EMI_Pembelian_PO_Detail_Induk where "
                     SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' "
                     SQL = SQL & "and no_faktur = '" & TxtPO_NoFaktur.Text & "' "
@@ -960,7 +940,6 @@
                             SQL = SQL & "and kode_barang = '" & lvPO_KdBarang & "' "
                             SQL = SQL & "and satuan = '" & lvPO_Satuan & "' "
                             ExecuteTrans(SQL)
-
                         Else
                             Dr.Close()
 
@@ -989,10 +968,7 @@
 
                     'check flag kategori supplier
 
-
                 Next
-
-
 
                 'If ChkPO_PPN.Checked = True Then
                 '    If Flag_PPn <> "Y" Then
@@ -1011,7 +987,7 @@
 
                 'End If
             Else
-                Dim terbilang As String = General_Class.SayMUA(HilangkanTanda(TxtPO_GrandTotal.Text), CmbPO_MataUang.Text)
+                Dim terbilang As String = General_Class.SayMUA(HilangkanTanda(Format(Val(HilangkanTanda(TxtPO_GrandTotal.Text)), "N0")), CmbPO_MataUang.Text)
 
                 'update po pembelian
                 SQL = "update  EMI_Pembelian_PO_Induk set "
@@ -1040,7 +1016,6 @@
 
                 For i As Integer = 0 To LvPO_DataPO.Items.Count - 1
                     Get_Isi_Listview(i)
-
 
                     'insert lagi ke detail
                     SQL = "select no_faktur from EMI_Pembelian_PO_Detail_Induk where kode_perusahaan = '" & KodePerusahaan & "' "
@@ -1088,24 +1063,16 @@
 
 
 
-
-
-
-
-
-
-
-
             Cmd.Transaction.Commit()
             CloseConn()
         Catch ex As Exception
+            CloseTrans()
             CloseConn()
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
 
         kosong()
-
 
         EMI_PO_Pembelian_Display.Cari("Y")
 
@@ -1200,7 +1167,6 @@
                 End If
             End Using
 
-
             SQL = "update EMI_Pembelian_PO_Induk set flag_release = 'Y', "
             SQL = SQL & "tanggal_release = '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
             SQL = SQL & "jam_release = '" & Format(tgl_skg, "HH:mm:ss") & "', "
@@ -1250,7 +1216,6 @@
             Exit Sub
         End Try
 
-
         '========================
         '=     CETAK FAKTUR     =
         '========================
@@ -1291,12 +1256,10 @@
             Exit Sub
         End Try
 
-
         Me.Close()
         EMI_PO_Pembelian_Display.BtnRefresh_Click(Btn_Release, e)
 
     End Sub
-
 
     Private Sub BtnPO_Refresh_Click(sender As Object, e As EventArgs) Handles BtnPO_Refresh.Click
         kosong()
@@ -1314,7 +1277,6 @@
 
         TxtPO_KdBrg.Focus()
     End Sub
-
 
     Private Sub TxtPO_KdSupplier_TextChanged(sender As Object, e As EventArgs) Handles TxtPO_KdSupplier.TextChanged
         If TxtPO_KdSupplier.Text.Trim.Length = 0 Then
@@ -1396,10 +1358,6 @@
                 'End If
 
             End If
-
-
-
-
 
         End If
     End Sub
@@ -1574,35 +1532,78 @@
                 End If
             End Using
 
+            '==============================
+            '=     GEK JENIS KATEGORI     =
+            '==============================
+            SQL = "select top 1 b.Kode_Kategori_Besar, b.Jenis_Kategori "
+            SQL = SQL & "from Barang a, Kategori_Besar b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+            SQL = SQL & "and a.Kode_Kategori_Besar = b.Kode_Kategori_Besar "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Barang = '" & TxtPO_KdBrg.Text & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+
+                    If LvPO_DataPO.Items.Count = 0 Then
+                        If Kode_Kategori_Besar = "" Then
+                            Kode_Kategori_Besar = Dr("Jenis_Kategori")
+
+                            If Dr("Jenis_Kategori").ToString.ToUpper = "BARANG" Then
+                                'tempDataPajak.Clear()
+                                tempDataPajak.RemoveAll(Function(item) item.isPPN = False)
+                            End If
+
+                        Else
+                            If Not Kode_Kategori_Besar = Dr("Jenis_Kategori") Then
+                                Dr.Close()
+                                CloseConn()
+                                MessageBox.Show("Jenis Kategori Besar Tidak Boleh Berbeda!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+                        End If
+
+                    Else
+
+                        If Not LvPO_DataPO.Items(0).SubItems(cellPO_JnsKategori).Text = Dr("Jenis_Kategori") Then
+                            Dr.Close()
+                            CloseConn()
+                            MessageBox.Show("Jenis Kategori Besar Tidak Boleh Berbeda!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        Else
+                            Kode_Kategori_Besar = Dr("Jenis_Kategori")
+                        End If
+                    End If
+                End If
+            End Using
 
 
             Dim lvw As ListViewItem
-            lvw = LvPO_DataPO.Items.Add(lokasi_gudang_bahan)
-            lvw.SubItems.Add(TxtPO_KdBrg.Text)
-            lvw.SubItems.Add(TxtPO_NmBrg.Text)
-            lvw.SubItems.Add(Format(Val(harga_satuan_besar), "N2"))
-            lvw.SubItems.Add(Format(Val(TxtPO_Jml.Text), "N2"))
-            lvw.SubItems.Add(CmbPO_Satuan.Text)
-            lvw.SubItems.Add(arrHargaPenawaran.Item(CmbPO_Harga.SelectedIndex))
-            lvw.SubItems.Add(Jumlah_satuan_Kecil)
-            lvw.SubItems.Add(TxtPO_SatuanBarang.Text)
+            lvw = LvPO_DataPO.Items.Add(lokasi_gudang_bahan) '0
+            lvw.SubItems.Add(TxtPO_KdBrg.Text) '1
+            lvw.SubItems.Add(TxtPO_NmBrg.Text) '2
+            lvw.SubItems.Add(Format(Val(harga_satuan_besar), "N4")) '3
+            lvw.SubItems.Add(Format(Val(TxtPO_Jml.Text), "N2")) '4
+            lvw.SubItems.Add(CmbPO_Satuan.Text) '5
+            lvw.SubItems.Add(arrHargaPenawaran.Item(CmbPO_Harga.SelectedIndex)) '6
+            lvw.SubItems.Add(Jumlah_satuan_Kecil) '7
+            lvw.SubItems.Add(TxtPO_SatuanBarang.Text) '8
             'lvw.SubItems.Add(arrNoPenawaran.Item(CmbPO_Harga.SelectedIndex))
-            lvw.SubItems.Add(arrFakPenawaran.Item(CmbPO_Harga.SelectedIndex))
+            lvw.SubItems.Add(arrFakPenawaran.Item(CmbPO_Harga.SelectedIndex)) '9
 
+            lvw.SubItems.Add("T") '10
 
-            lvw.SubItems.Add("T")
+            lvw.SubItems.Add(Format(Jumlah_satuan_Kecil * Val(arrHargaPenawaran.Item(CmbPO_Harga.SelectedIndex)), "N4")) '11
+            lvw.SubItems.Add("") '12
+            lvw.SubItems.Add(arrNoUrutPr.Item(cmb_pr.SelectedIndex)) '13
 
-            lvw.SubItems.Add(Format(Jumlah_satuan_Kecil * Val(arrHargaPenawaran.Item(CmbPO_Harga.SelectedIndex)), "N2"))
-            lvw.SubItems.Add("")
-            lvw.SubItems.Add(arrNoUrutPr.Item(cmb_pr.SelectedIndex))
+            lvw.SubItems.Add(arrTempoPenawaran.Item(CmbPO_Harga.SelectedIndex)) '14
+            lvw.SubItems.Add(arrJatuhTempo.Item(CmbPO_Harga.SelectedIndex)) '15
+            lvw.SubItems.Add("") '16
+            lvw.SubItems.Add(Kode_Kategori_Besar) '17
 
-            lvw.SubItems.Add(arrTempoPenawaran.Item(CmbPO_Harga.SelectedIndex))
-            lvw.SubItems.Add(arrJatuhTempo.Item(CmbPO_Harga.SelectedIndex))
+            'TODO : Isi LV
             CmbPO_MataUang.Enabled = False
-
             TxtPO_KdSupplier.Enabled = False
             TxtPO_NmSupplier.Enabled = False
-
 
             '==========================
             '=     SET PEMBAYARAN     =
@@ -1630,16 +1631,12 @@
                             txtJatuhTempo.Text = Dr("Lama_Pembayaran")
 
                         End If
-
                     Else
                         CmbPO_JnsBayar.SelectedIndex = 0
                     End If
 
-
                 End If
             End Using
-
-
 
             CloseConn()
         Catch ex As Exception
@@ -1668,15 +1665,17 @@
         If canDeleteLv = True Then
             LvPO_DataPO.FocusedItem.Remove()
 
-
             If LvPO_DataPO.Items.Count = 0 Then
                 CmbPO_MataUang.Enabled = True
             End If
 
         End If
 
-
-
+        If LvPO_DataPO.Items.Count = 0 Then
+            MessageBox.Show("Harap Ulangi PO", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            kosong()
+            Exit Sub
+        End If
 
         HitungGrandTotal()
     End Sub
@@ -1747,7 +1746,6 @@
         End Try
     End Sub
 
-
     Private Sub disableSebagian()
         TxtPO_NoNota.Enabled = False
         DtpPO_ETD.Enabled = False
@@ -1785,7 +1783,6 @@
 
         CmbPO_MataUang.Enabled = False
 
-
     End Sub
 
     Private Sub enableSebagian()
@@ -1815,7 +1812,6 @@
         canDeleteLv = True
         BtnPO_Simpan.Visible = True
 
-
         Button1.Enabled = True
         BtnPO_Clear.Enabled = True
         BtnPO_Ok.Enabled = True
@@ -1828,14 +1824,12 @@
     End Sub
 
 
-    Private Sub TxtPO_KdSupplier_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtPO_KdSupplier.KeyPress
-        If e.KeyChar = Chr(13) Then CmbPO_MataUang.Focus()
-    End Sub
 
     Private Sub TxtPO_NmSupplier_TextChanged(sender As Object, e As EventArgs) Handles TxtPO_NmSupplier.TextChanged
         If TxtPO_NmSupplier.Text.Trim.Length = 0 Then
             LvSupplier2.Visible = False : Exit Sub
         Else
+            LvSupplier2.Location = New Point(132, 181)
             LvSupplier2.Visible = True
         End If
 
@@ -1923,12 +1917,6 @@
         EMI_PO_Pembelian_Display_User.ShowDialog()
     End Sub
 
-    Private Sub CmbPO_MataUang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbPO_MataUang.KeyPress
-        If e.KeyChar = Chr(13) Then
-            CmbPO_CaraBayar.Focus()
-        End If
-    End Sub
-
 
 
     'Private Sub CmbPO_JnsBayar_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbPO_JnsBayar.KeyPress
@@ -1949,7 +1937,6 @@
             xx = Val(txtJatuhTempo.Text)
         End If
         DtpPO_TglBayar.Value = DateAdd(DateInterval.Day, xx, DtpPO_Tgl.Value)
-
 
     End Sub
 
@@ -1972,18 +1959,19 @@
 
             SQL = SQL & "ISNULL(( select top 1 y.Kode_Akun from emi_master_kategori_pajak z, Tarif_Pajak x, EMI_Master_Pajak y where a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Kategori_PPN = z.Kode_Kategori "
             SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan "
-            SQL = SQL & "and z.Kode_Kategori = x.Kode_Kategori and x.Kode_Tarif = y.Kode_Tarif ), 0) as Kode_Akun_PPN "
+            SQL = SQL & "and z.Kode_Kategori = x.Kode_Kategori and x.Kode_Tarif = y.Kode_Tarif ), 0) as Kode_Akun_PPN, "
+
+            SQL = SQL & "ISNULL(( select top 1 y.Kode_Tarif from emi_master_kategori_pajak z, Tarif_Pajak x, EMI_Master_Pajak y where a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Kategori_PPN = z.Kode_Kategori "
+            SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan "
+            SQL = SQL & "and z.Kode_Kategori = x.Kode_Kategori and x.Kode_Tarif = y.Kode_Tarif ), 0) as Kode_Tarif "
 
             SQL = SQL & "from Suppliers a "
             SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and  a.Kode_Supplier = '" & TxtPO_KdSupplier.Text & "' "
-            SQL = SQL & ""
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
 
-
-
-                        SQL = "select Keterangan, Tarif, Kode_Akun "
+                        SQL = "select Keterangan, Tarif, Kode_Akun, Kode_Tarif "
                         SQL = SQL & "from EMI_Master_Pajak "
                         SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
                         SQL = SQL & "and Kode_Tarif in ( "
@@ -1993,7 +1981,7 @@
                         Using Ds1 = BindingTrans(SQL)
                             If Ds1.Tables("MyTable").Rows.Count <> 0 Then
                                 For i As Integer = 0 To Ds1.Tables("MyTable").Rows().Count - 1
-                                    tempDataPajak.Add((Ds1.Tables("MyTable").Rows(i).Item("Keterangan"), Ds1.Tables("MyTable").Rows(i).Item("Tarif"), Ds1.Tables("MyTable").Rows(i).Item("Kode_Akun"), False))
+                                    tempDataPajak.Add((Ds1.Tables("MyTable").Rows(i).Item("Keterangan"), Ds1.Tables("MyTable").Rows(i).Item("Tarif"), Ds1.Tables("MyTable").Rows(i).Item("Kode_Akun"), False, Ds1.Tables("MyTable").Rows(i).Item("Kode_Tarif")))
                                 Next
                             Else
                                 'CloseConn()
@@ -2004,8 +1992,9 @@
 
                         PPN = Val(HilangkanTanda(.Rows(0).Item("Persen_PPN")))
                         Dim akun As String = .Rows(0).Item("Kode_Akun_PPN")
+                        Dim KodeTarif As String = .Rows(0).Item("Kode_Tarif")
 
-                        tempDataPajak.Add(("PPN", PPN, akun, True))
+                        tempDataPajak.Add(("PPN", PPN, akun, True, KodeTarif))
                         TxtPO_PersenPPN.Text = PPN
                     Else
                         CloseConn()
@@ -2023,14 +2012,21 @@
         End Try
     End Sub
 
+
+
     Private Sub txtJatuhTempo_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtJatuhTempo.KeyPress
+        If e.KeyChar = Chr(13) Then BtnPO_Simpan.Focus()
         If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
     End Sub
+
+
 
     Private Sub CmbPO_MataUang_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbPO_MataUang.SelectedIndexChanged
         bersihsebagian()
         LvPO_DataPO.Items.Clear()
     End Sub
+
+
 
     Private Sub CmbPO_CaraBayar_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbPO_CaraBayar.KeyPress
         If e.KeyChar = Chr(13) Then TxtPO_KdBrg.Focus()
@@ -2158,24 +2154,65 @@
                         For i As Integer = 0 To .Rows.Count - 1
                             Dim lvw As ListViewItem
 
-                            lvw = LvPO_DataPO.Items.Add(.Rows(i).Item("kode_stock_owner"))
-                            lvw.SubItems.Add(.Rows(i).Item("kode_barang"))
-                            lvw.SubItems.Add(.Rows(i).Item("nama"))
-                            lvw.SubItems.Add(Format(.Rows(i).Item("harga"), "N2"))
-                            lvw.SubItems.Add(Format(Val(.Rows(i).Item("jumlah")), "N2"))
-                            lvw.SubItems.Add(.Rows(i).Item("satuan"))
-                            lvw.SubItems.Add(.Rows(i).Item("harga_barang"))
-                            lvw.SubItems.Add(.Rows(i).Item("nilai_barang"))
-                            lvw.SubItems.Add(.Rows(i).Item("satuan_barang"))
-                            lvw.SubItems.Add(.Rows(i).Item("no_penawaran"))
+                            lvw = LvPO_DataPO.Items.Add(.Rows(i).Item("kode_stock_owner")) ' 0
+                            lvw.SubItems.Add(.Rows(i).Item("kode_barang")) '1
+                            lvw.SubItems.Add(.Rows(i).Item("nama")) '2
+                            lvw.SubItems.Add(Format(.Rows(i).Item("harga"), "N4")) '3
+                            lvw.SubItems.Add(Format(Val(.Rows(i).Item("jumlah")), "N2")) '4
+                            lvw.SubItems.Add(.Rows(i).Item("satuan")) '5
+                            lvw.SubItems.Add(.Rows(i).Item("harga_barang")) '6
+                            lvw.SubItems.Add(.Rows(i).Item("nilai_barang")) '7
+                            lvw.SubItems.Add(.Rows(i).Item("satuan_barang")) '8
+                            lvw.SubItems.Add(.Rows(i).Item("no_penawaran")) '9
+
+                            lvw.SubItems.Add("T") '10
+
+                            lvw.SubItems.Add(Format(.Rows(i).Item("nilai_barang") * Val(.Rows(i).Item("harga_barang")), "N2")) '11
+                            lvw.SubItems.Add("") '12
+                            lvw.SubItems.Add(.Rows(i).Item("No_Urut_PR")) '13
+
+                            'TODO LEAVE
 
 
-                            lvw.SubItems.Add("T")
+                            '==============================
+                            '=     GET DATA PENAWARAN     =
+                            '==============================
+                            SQL = "select top 1 b.Tempo_Pembayaran, b.Lama_Pembayaran "
+                            SQL = SQL & "from EMI_Master_Penawaran a, EMI_Master_Penawaran_Jatuh_Tempo b "
+                            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+                            SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+                            SQL = SQL & "and a.Status is null "
+                            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                            SQL = SQL & "and a.No_Faktur = '" & .Rows(i).Item("no_penawaran") & "' "
+                            Using Ds2 = BindingTrans(SQL)
+                                If Ds2.Tables("MyTable").Rows.Count <> 0 Then
+
+                                    lvw.SubItems.Add(Ds2.Tables("MyTable").Rows(0).Item("Tempo_Pembayaran")) '14
+                                    lvw.SubItems.Add(Ds2.Tables("MyTable").Rows(0).Item("Lama_Pembayaran")) '14
+
+                                End If
+                            End Using
+
+                            lvw.SubItems.Add("") '16
+
+                            '==============================
+                            '=     GET KATEGORI BESAR     =
+                            '==============================
+                            SQL = "select top 1 b.Kode_Kategori_Besar, b.Jenis_Kategori "
+                            SQL = SQL & "from Barang a, Kategori_Besar b "
+                            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+                            SQL = SQL & "and a.Kode_Kategori_Besar = b.Kode_Kategori_Besar "
+                            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Barang = '" & .Rows(i).Item("kode_barang") & "' "
+                            Using Ds2 = BindingTrans(SQL)
+                                If Ds2.Tables("MyTable").Rows.Count <> 0 Then
+                                    lvw.SubItems.Add(Ds2.Tables("MyTable").Rows(0).Item("Jenis_Kategori")) '14
+                                Else
+                                    lvw.SubItems.Add("-")
+                                End If
+                            End Using
 
 
-                            lvw.SubItems.Add(Format(.Rows(i).Item("nilai_barang") * Val(.Rows(i).Item("harga_barang")), "N2"))
-                            lvw.SubItems.Add("")
-                            lvw.SubItems.Add(.Rows(i).Item("No_Urut_PR"))
+
                         Next
                     Else
                         CloseConn()
@@ -2217,7 +2254,6 @@
         Dim Kode As String = LvSupplier2.FocusedItem.Text
         Dim Nama As String = LvSupplier2.FocusedItem.SubItems(1).Text
 
-
         TxtPO_KdSupplier.Text = Kode
         TxtPO_NmSupplier.Text = Nama
         LvSupplier2.Visible = False
@@ -2240,7 +2276,11 @@
 
             SQL = SQL & "ISNULL(( select top 1 y.Kode_Akun from emi_master_kategori_pajak z, Tarif_Pajak x, EMI_Master_Pajak y where a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Kategori_PPN = z.Kode_Kategori "
             SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan "
-            SQL = SQL & "and z.Kode_Kategori = x.Kode_Kategori and x.Kode_Tarif = y.Kode_Tarif ), 0) as Kode_Akun_PPN "
+            SQL = SQL & "and z.Kode_Kategori = x.Kode_Kategori and x.Kode_Tarif = y.Kode_Tarif ), 0) as Kode_Akun_PPN, "
+
+            SQL = SQL & "ISNULL(( select top 1 y.Kode_Tarif from emi_master_kategori_pajak z, Tarif_Pajak x, EMI_Master_Pajak y where a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Kategori_PPN = z.Kode_Kategori "
+            SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan "
+            SQL = SQL & "and z.Kode_Kategori = x.Kode_Kategori and x.Kode_Tarif = y.Kode_Tarif ), 0) as Kode_Tarif "
 
             SQL = SQL & "from Suppliers a "
             SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and  a.Kode_Supplier = '" & TxtPO_KdSupplier.Text & "' "
@@ -2249,9 +2289,7 @@
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
 
-
-
-                        SQL = "select Keterangan, Tarif, Kode_Akun "
+                        SQL = "select Keterangan, Tarif, Kode_Akun, Kode_Tarif "
                         SQL = SQL & "from EMI_Master_Pajak "
                         SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
                         SQL = SQL & "and Kode_Tarif in ( "
@@ -2261,7 +2299,7 @@
                         Using Ds1 = BindingTrans(SQL)
                             If Ds1.Tables("MyTable").Rows.Count <> 0 Then
                                 For i As Integer = 0 To Ds1.Tables("MyTable").Rows().Count - 1
-                                    tempDataPajak.Add((Ds1.Tables("MyTable").Rows(i).Item("Keterangan"), Ds1.Tables("MyTable").Rows(i).Item("Tarif"), Ds1.Tables("MyTable").Rows(i).Item("Kode_Akun"), False))
+                                    tempDataPajak.Add((Ds1.Tables("MyTable").Rows(i).Item("Keterangan"), Ds1.Tables("MyTable").Rows(i).Item("Tarif"), Ds1.Tables("MyTable").Rows(i).Item("Kode_Akun"), False, Ds1.Tables("MyTable").Rows(i).Item("Kode_Tarif")))
                                 Next
                             Else
                                 'CloseConn()
@@ -2272,12 +2310,19 @@
 
                         PPN = Val(HilangkanTanda(.Rows(0).Item("Persen_PPN")))
                         Dim akun As String = .Rows(0).Item("Kode_Akun_PPN")
+                        Dim KodeTarif As String = .Rows(0).Item("Kode_Tarif")
 
-                        tempDataPajak.Add(("PPN", PPN, akun, True))
+                        tempDataPajak.Add(("PPN", PPN, akun, True, KodeTarif))
                         TxtPO_PersenPPN.Text = PPN
+
+                        CmbPO_MataUang.Focus()
+                        If CmbPO_MataUang.Items.Count <> 0 Then
+                            CmbPO_MataUang.DroppedDown = True
+                        End If
                     Else
                         CloseConn()
                         MessageBox.Show("Suppplier Tidak Ditermukan", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        TxtPO_KdSupplier.Focus()
                         Exit Sub
                     End If
                 End With
@@ -2297,7 +2342,6 @@
         End If
     End Sub
 
-
     Private Sub Txt_GrandPPH_DoubleClick(sender As Object, e As EventArgs) Handles Txt_GrandPPH.DoubleClick
         If Txt_GrandPPH.Text.Trim.Length = 0 Or HilangkanTanda(Txt_GrandPPH.Text) = 0 Then
             Exit Sub
@@ -2305,9 +2349,133 @@
 
         SD_Detail_PajakPO.TxtPO_GrandTotal.Text = TxtPO_Total.Text
         SD_Detail_PajakPO.KdSupplier = TxtPO_KdSupplier.Text
+        SD_Detail_PajakPO.No_Fak = TxtPO_NoFaktur.Text
+        SD_Detail_PajakPO.tempDataPajak = tempDataPajak
         SD_Detail_PajakPO.ShowDialog()
 
     End Sub
+
+
+
+
+
+    '==========================================================================================================================================
+    '=     HANDLE KEYPRESS
+    '==========================================================================================================================================
+
+    Private Sub DtpPO_Tgl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DtpPO_Tgl.KeyPress
+        If e.KeyChar = Chr(13) Then DtpPO_ETD.Focus()
+    End Sub
+
+    Private Sub CmbPO_JnsBayar_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbPO_JnsBayar.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If CmbPO_JnsBayar.SelectedIndex = 0 Then
+                BtnPO_Simpan.Focus()
+            Else
+                cmbJenisPengiriman.Focus()
+                cmbJenisPengiriman.DroppedDown = True
+            End If
+        End If
+    End Sub
+
+    Private Sub TxtPO_NoNota_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtPO_NoNota.KeyPress
+        If e.KeyChar = Chr(13) Then TxtPO_KdSupplier.Focus()
+    End Sub
+
+    Private Sub CmbPO_Harga_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbPO_Harga.KeyPress
+        If e.KeyChar = Chr(13) Then cmb_pr.Focus()
+        If cmb_pr.Items.Count <> 0 Then
+            cmb_pr.DroppedDown = True
+        End If
+    End Sub
+
+    Private Sub cmb_pr_KeyPress(sender As Object, e As KeyPressEventArgs) Handles cmb_pr.KeyPress
+        If e.KeyChar = Chr(13) Then TxtPO_Jml.Focus()
+    End Sub
+
+    Private Sub cmbJenisPengiriman_KeyPress(sender As Object, e As KeyPressEventArgs) Handles cmbJenisPengiriman.KeyPress
+        If e.KeyChar = Chr(13) Then txtJatuhTempo.Focus()
+    End Sub
+
+    Private Sub TxtPO_NmSupplier_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtPO_NmSupplier.KeyDown
+        If e.KeyCode = Keys.Down Then LvSupplier2.Focus()
+    End Sub
+
+
+    Private Sub DtpPO_ETD_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DtpPO_ETD.KeyPress
+        If e.KeyChar = Chr(13) Then TxtPO_NoNota.Focus()
+    End Sub
+    Private Sub TxtPO_KdSupplier_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtPO_KdSupplier.KeyPress
+        If e.KeyChar = Chr(13) Then CmbPO_MataUang.Focus()
+    End Sub
+    Private Sub TxtPO_KdSupplier_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtPO_KdSupplier.KeyDown
+        If e.KeyCode = Keys.Down Then LvSupplier2.Focus()
+    End Sub
+    Private Sub CmbPO_MataUang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbPO_MataUang.KeyPress
+        If e.KeyChar = Chr(13) Then TxtPO_KdBrg.Focus()
+    End Sub
+    Private Sub TxtPO_KdBrg_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtPO_KdBrg.KeyDown
+        If e.KeyCode = Keys.Down Then ListView1.Focus()
+    End Sub
+    Private Sub ListView1_DoubleClick(sender As Object, e As EventArgs) Handles ListView1.DoubleClick
+        If ListView1.Items.Count = 0 Then Exit Sub
+        Dim Kode As String = ListView1.FocusedItem.Text
+        Dim Nama As String = ListView1.FocusedItem.SubItems(1).Text
+
+        TxtPO_KdBrg.Text = Kode
+        TxtPO_NmBrg.Text = Nama
+
+        ''Try
+        ''    OpenConn()
+
+        ''    SQL = "select satuan from Barang_Detail_Satuan where kode_perusahaan = '" & KodePerusahaan & "' "
+        ''    SQL = SQL & " and kode_barang = '" & Kode & "' order by satuan "
+        ''    Using Dr = OpenTrans(SQL)
+        ''        If Dr.Read Then
+        ''            CmbPO_Satuan.Items.Clear()
+        ''            CmbPO_Satuan.Items.Add(Dr("satuan"))
+
+        ''        Else
+        ''            CloseConn()
+        ''            MessageBox.Show("Satuan barang belum di isi")
+        ''            Exit Sub
+        ''        End If
+        ''    End Using
+
+        ''    CloseConn()
+        ''Catch ex As Exception
+        ''    CloseConn()
+        ''    MessageBox.Show(ex.Message)
+        ''    Exit Sub
+        ''End Try
+
+        ListView1.Visible = False
+        'ComboBox1.Enabled = True
+        TxtPO_KdBrg_Leave(ListView1, e)
+        CmbPO_Harga.Focus()
+        If CmbPO_Harga.Items.Count <> 0 Then
+            CmbPO_Harga.DroppedDown = True
+        End If
+    End Sub
+    Private Sub ListView1_KeyDown(sender As Object, e As KeyEventArgs) Handles ListView1.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            ListView1_DoubleClick(Me, e)
+        End If
+    End Sub
+    Private Sub BtnPO_Ok_KeyPress(sender As Object, e As KeyPressEventArgs) Handles BtnPO_Ok.KeyPress
+        If e.KeyChar = Chr(13) Then
+            BtnPO_Ok_Click(Me, e)
+            CmbPO_JnsBayar.Focus()
+            If CmbPO_JnsBayar.Items.Count <> 0 Then
+                CmbPO_JnsBayar.DroppedDown = True
+            End If
+        End If
+
+    End Sub
+
+
+
+
 
 
 

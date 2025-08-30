@@ -771,7 +771,6 @@
 
     End Sub
 
-
     Private Sub TolakPrToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TolakPrToolStripMenuItem.Click
         Dim currentRow = Dgv_Pr.CurrentRow.Index
         Dim currentCell = Dgv_Pr.CurrentCellAddress.X

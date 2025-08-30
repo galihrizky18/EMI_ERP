@@ -3,20 +3,31 @@ Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports ZXing.QrCode
 
 Module General_Module
 
     Public lblLoading As Label
 
 
+    Public OpsiSeluruh As String = "--- SELURUH ---"
+
+    Public Tanggal_Default As DateTime = "1900-01-01"
+
+    Public ColorHighlight As Color = Color.FromArgb(104, 146, 225)
+
+    Public fSBL As String = "SADS"
+    Public fMasterPenawaranLain As String = "PL"
+    Public TBiaya_Import_Lain As String = "BI"
     Public tgl_skg As DateTime
     Public Bahasa_Pilihan As String = "ID"
     Public fPurchaseRequisition As String = "PR"
     Public FRefraksi As String = "FR"
     Public fRequestMaterial As String = "RQM"
+    Public fRequestMaterialQC As String = "RQC"
+    Public fValidasiRMQC As String = "VQC"
     Public fsb As String = "SB"
     Public fab As String = "FAB"
+    Public fTransTimbanganKosongLain As String = "TBL"
     Public fTransTimbanganKosong As String = ""
     Public IPPORT_IPCAM_1 As String = ""
     Public PPN As String = "11"
@@ -30,12 +41,15 @@ Module General_Module
     Public fDownPay As String = "DP"
     Public Data_User_App2 As New ArrayList
     Public Ket_Cost_Center_HO As String = "0"
+    Public fValPelBL As String = "PBL"
 
     Public isErrorTimbangan As Boolean = True
     Public isClosingTimbangan As Boolean = True
     Public Port_Timbangan As String = "COM3"
     Public BaudRate_Timbangan As String = "9600"
     Public DataBits_Timbangan As String = "7"
+
+    Public FPembelianL As String = "PMBL"
 
     Public fPO_EMI As String = "PO"
     Public fLokasi_PO As String = "LP"
@@ -52,6 +66,10 @@ Module General_Module
     Public fBudgetingCostCenter As String = "BCC"
     Public fPurchaseRequisitionBL As String = "OR"
 
+    Public fPengajuanTemp As String = "RB"
+    Public fPengajuanTokenTemp As String = "RT"
+
+
     'Public FilterPengeluaranCostCenter As String = " gj.Flag_Packaging = 'T' and gj.Flag_Raw_Material = 'T' and gj.Flag_Finished_Good = 'T' and gj.Flag_Sample = 'T' and gj.Flag_Semi_FG = 'T' and gj.Flag_Scrap = 'T' and gj.Flag_Bahan_Bakar = 'T' and gj.Flag_Peralatan = 'T' "
     'Public FilterPengeluaranCostCenterCR As String = " {emi_group_jenis.Flag_Packaging} = 'T' and {emi_group_jenis.Flag_Raw_Material} = 'T' and {emi_group_jenis.Flag_Finished_Good} = 'T' and {emi_group_jenis.Flag_Sample} = 'T' and {emi_group_jenis.Flag_Semi_FG} = 'T' and {emi_group_jenis.Flag_Scrap} = 'T' and {emi_group_jenis.Flag_Bahan_Bakar} = 'T' and {emi_group_jenis.Flag_Peralatan} = 'T' "
 
@@ -59,7 +77,8 @@ Module General_Module
     Public FilterPengeluaranCostCenterCR As String = " {emi_group_jenis.Flag_Packaging} = 'T' and {emi_group_jenis.Flag_Raw_Material} = 'T' and {emi_group_jenis.Flag_Finished_Good} = 'T' and {emi_group_jenis.Flag_Sample} = 'T' and {emi_group_jenis.Flag_Semi_FG} = 'T' and {emi_group_jenis.Flag_Scrap} = 'T' and {emi_group_jenis.Flag_Bahan_Bakar} = 'T' and {emi_group_jenis.Flag_Peralatan} = 'T' "
 
 
-
+    Public Ket_Cost_Center_HO_Proyek As String = "0"
+    Public Ket_Lokasi_HO_Proyek As String = "HEAD OFFICE"
 
 
     Public fATK As String = ""
@@ -128,6 +147,9 @@ Module General_Module
 
     Public Tanggal_Sekarang As DateTime
 
+    '============================
+    '=     SERVER EMI DUMMY     =
+    '============================
     Public CServer As String = "team311.dyndns.info"
     Public Const CDatabase As String = "emi_tm_demo"
     'Public Const CDatabase As String = "grahaweb_tm"
@@ -136,11 +158,22 @@ Module General_Module
     Public Const CPassword As String = "MakanEnak301%"
 
 
+    '======================
+    '=     HCIS DUMMY     =
+    '======================
     'Public CServer As String = "35.240.215.51,59114\team"
-    ''Public Const CDatabaseSQL As String = "tes_absen"
     'Public Const CDatabase As String = "grahaweb_tm"
     'Public Const CUserId As String = "sa2"
-    'Public Const CPassword As String = "P@ssword99000"
+    'Public Const CPassword As String = "LezatSekali%"
+
+
+    '=====================
+    '=     GRAHA WEB     =
+    '=====================
+    'Public CServer As String = "35.240.215.51,59114\team"
+    'Public Const CDatabase As String = "grahaweb_tm"
+    'Public Const CUserId As String = "sa2"
+    'Public Const CPassword As String = "LezatSekali%"
 
     Public UserID As String = "Art Di"
     'Public UserID As String = "BAYA"
@@ -1335,7 +1368,7 @@ Module General_Module
     '    Return MMM
     'End Function
 
-    Public Function Get_Detail_Jurnal(ByVal kode_voucher As String, ByVal kode_master_acc As String, ByVal kode_acc As String, ByVal kode_detail_acc As String, ByVal Kode_perusahaan As String, ByVal Kode_Proyek As String, ByVal Keterangan As String, ByVal debit As String, ByVal kredit As String, ByVal pagenumber As String, ByVal _lokasi_per_akun As String, Optional ByVal locale As String = "us", Optional ByVal Cost_center As String = "0") As String
+    Public Function Get_Detail_Jurnal(ByVal kode_voucher As String, ByVal kode_master_acc As String, ByVal kode_acc As String, ByVal kode_detail_acc As String, ByVal Kode_perusahaan As String, ByVal Kode_Proyek As String, ByVal Keterangan As String, ByVal debit As String, ByVal kredit As String, ByVal pagenumber As String, ByVal _lokasi_per_akun As String, Optional ByVal locale As String = "us", Optional ByVal Cost_center As String = "String") As String
         Dim MMM As String = ""
 
         If locale = "id" Then
@@ -1514,13 +1547,15 @@ Module General_Module
         Return result.ToString()
     End Function
 
+
     Public Function Generate_QR(ByVal isi As String)
-        Dim options As New QrCodeEncodingOptions
+        Dim options As New ZXing.QrCode.QrCodeEncodingOptions()
 
         options.DisableECI = True
         options.CharacterSet = "UTF-8"
         'options.Width = 80
         'options.Height = 80
+
 
         Dim qr As New ZXing.BarcodeWriter()
         'qr.Options = options
@@ -1533,6 +1568,22 @@ Module General_Module
         'result.SetResolution(50, 50)
 
         Return result
+
+
+        'Dim options As New ZXing.QrCode.QrCodeEncodingOptions()
+
+        'options.DisableECI = True
+        'options.CharacterSet = "UTF-8"
+        'options.Width = 80
+        'options.Height = 80
+        'options.Margin = 0
+
+        'Dim qr As New ZXing.BarcodeWriter()
+        'qr.Format = ZXing.BarcodeFormat.QR_CODE
+        'qr.Options = options
+
+        'Dim result As New Bitmap(qr.Write(isi))
+        'Return result
     End Function
 
     Public Function Generate_Batch_FG(ByVal productionDate As String, ByVal lineCode As String, ByVal expDate As String, ByVal Tahun_MulaiProduksi As String) As String
@@ -2113,8 +2164,19 @@ Module General_Module
 
     End Function
 
-    Public Function CekSudahTutupSaldo()
-
+    Public Function CekSudahTutupSaldo(ByVal tgl As Date) As String
+        SQL = "select kode_perusahaan from tutup_saldo where kode_perusahaan = '" & KodePerusahaan & "' and "
+        SQL = SQL & "bulantahun = '" & Format(tgl, "Myyyy") & "'"
+        Using Dr = OpenTrans(SQL)
+            If Dr.Read Then
+                Dr.Close()
+                CloseTrans()
+                CloseConn()
+                Return "Y"
+            Else
+                Return "T"
+            End If
+        End Using
     End Function
 
     Public Function SimpanPenjualanHariIni(ByVal telpon As String, ByVal keterangan As String, ByVal dari As String) As String
@@ -2128,5 +2190,51 @@ Module General_Module
 
         Return MMM
     End Function
+
+    Public Function Ubah_Satuan_Lain(ByVal kdBarang As String, ByVal jmlhUbah As String, ByVal satuanAwal As String, ByVal satuanAkhir As String, ByVal jenis As String) As Double
+
+        Dim Result As Double = 0
+
+        SQL = "select dbo.ubah_satuan_lain('" & KodePerusahaan & "', '" & jenis & "','" & kdBarang & "', '" & satuanAwal & "',"
+        SQL = SQL & "'" & satuanAkhir & "', '" & HilangkanTanda(jmlhUbah) & "' ) as hasil"
+        Using Dr1 = OpenTrans(SQL)
+            If Dr1.Read Then
+                If General_Class.CekNULL(Dr1("hasil")) = "" Then
+                    Dr1.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("data konversi satuan kirim tidak ada ")
+                    Return Nothing
+                End If
+
+                Result = Dr1("hasil")
+            Else
+                Dr1.Close()
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("data konversi satuan kirim tidak ada ")
+                Return Nothing
+            End If
+        End Using
+
+
+        Return Result
+
+    End Function
+
+    Public Sub releaseObject(ByVal obj As Object)
+        Try
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(obj)
+            obj = Nothing
+        Catch ex As Exception
+            obj = Nothing
+        Finally
+            GC.Collect()
+        End Try
+    End Sub
+
+    Public Sub Cek_Flagging_Barang_Lain()
+
+    End Sub
 
 End Module

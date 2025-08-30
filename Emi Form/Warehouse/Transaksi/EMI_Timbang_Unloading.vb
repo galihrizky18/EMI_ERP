@@ -556,8 +556,8 @@ Public Class EMI_Timbang_Unloading
         'Dim Nama_File_1 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FormDevleopment.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_A.jpg"
         'Dim Nama_File_2 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FormDevleopment.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_B.jpg"
 
-        Dim Nama_File_1 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_A.jpg"
-        Dim Nama_File_2 As String = Txt_NoFaktur.Text.Trim & "_" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyyMMddHHmmss") & Init_Akhir & "_B.jpg"
+        Dim Nama_File_1 As String = Txt_NoFaktur.Text.Trim & "_" & Format(tgl_skg, "yyyyMMddHHmmss") & Init_Akhir & "_A.jpg"
+        Dim Nama_File_2 As String = Txt_NoFaktur.Text.Trim & "_" & Format(tgl_skg, "yyyyMMddHHmmss") & Init_Akhir & "_B.jpg"
 
         Try
 
@@ -844,6 +844,8 @@ Public Class EMI_Timbang_Unloading
                             End If
                         End If
                     End Using
+
+
 
                     SQL = "Update EMI_Barang_Masuk_Perpallet set "
                     SQL = SQL & "Flag_Timbang = 'Y', "
@@ -3400,7 +3402,7 @@ Public Class EMI_Timbang_Unloading
 
                 SQL = "select No_Faktur from EMI_Timbang_Unloading a where "
                 SQL = SQL & "kode_Perusahaan='" & KodePerusahaan & "' and no_loading='" & TxtNo_Loading.Text & "' "
-                SQL = SQL & "and status is null " 'and flag_selesai is null  "
+                SQL = SQL & "and status is null and flag_selesai is null  "
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
                         Txt_NoFaktur.Text = Dr("No_Faktur")
@@ -3459,7 +3461,7 @@ Public Class EMI_Timbang_Unloading
         End If
 
         'kosong()
-        Tampil_Kamera()
+        'Tampil_Kamera()
     End Sub
     Private Sub Txt_Timbang1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Timbang1.KeyPress
         If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)

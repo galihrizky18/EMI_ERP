@@ -2,7 +2,7 @@
 
     Dim arrCari As New ArrayList
 
-    Dim Lv_NoPR, Lv_KdSo, Lv_KdBarang, Lv_NmBarang, Lv_Sisa, Lv_Satuan, Lv_UrutPR, Lv_TglDelivery, Lv_TglEstimasi As String
+    Dim Lv_NoPR, Lv_KdSo, Lv_KdBarang, Lv_NmBarang, Lv_Sisa, Lv_Satuan, Lv_UrutPR, Lv_TglDelivery, Lv_TglEstimasi, Lv_Keterangan As String
 
     Dim item_NoPR As Integer = 0
     Dim item_KdSO As Integer = 1
@@ -13,8 +13,12 @@
     Dim item_UrutPR As Integer = 6
     Dim item_TglDelivery As Integer = 7
     Dim item_TglEstimasi As Integer = 8
+    Dim item_Keterangan As Integer = 9
 
     Private Sub EMI_Validasi_Pengajuan_Selesai_PR_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        Dgv_Pr.Columns(item_Keterangan).DisplayIndex = 4
+
         Kosong()
     End Sub
 
@@ -47,7 +51,7 @@
             Dgv_Pr.Rows.Clear()
 
             SQL = "With cte As ( "
-            SQL = SQL & "Select a.No_Faktur,b.Kode_Stock_Owner,b.Kode_Barang,c.Nama,c.satuan As satuan_kecil_barang, "
+            SQL = SQL & "Select a.No_Faktur,b.Kode_Stock_Owner,b.Kode_Barang,c.Nama,c.satuan As satuan_kecil_barang, b.Keterangan_Pengajuan, "
             SQL = SQL & "b.Satuan, b.tanggal_delivery, b.no_urut, b.Jumlah, "
 
             SQL = SQL & "isnull((select  sum(y.Jumlah) from  EMI_Pembelian_PO_Induk x, EMI_Pembelian_PO_Det_Induk y where "
@@ -76,7 +80,7 @@
             SQL = SQL & "c.id_kategori_PO = d.kategori_po And d.userid = '" & UserID & "' and b.flag_sudah_po is null and b.Flag_Pengajuan_Selesai = 'Y' "
             SQL = SQL & ") "
 
-            SQL = SQL & "Select No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama, satuan_kecil_barang, Satuan, Tanggal_Delivery, No_Urut, "
+            SQL = SQL & "Select No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama, satuan_kecil_barang, Satuan, Tanggal_Delivery, No_Urut, Keterangan_Pengajuan, "
             SQL = SQL & "jumlah-(jumlah_Sementara + jumlah_Release) As Jumlah, Waktu_Pabrikasi, Waktu_Pengiriman, "
             SQL = SQL & "DateDiff(Day, Tanggal_Delivery, DateAdd(Day, Waktu_Pabrikasi + Waktu_Pengiriman, '" & Format(tgl_skg, "yyyy-MM-dd") & "') ) as  Waktu_Proses_Pengiriman, "
             SQL = SQL & "DateAdd(Day, Waktu_Pabrikasi + Waktu_Pengiriman, '" & Format(tgl_skg, "yyyy-MM-dd") & "') as tanggal_actual_delivery "
@@ -93,15 +97,16 @@
                     For i As Integer = 0 To .Rows.Count - 1
                         Dgv_Pr.Rows.Add(1)
 
-                        Dgv_Pr.Rows(i).Cells(item_NoPR).Value = .Rows(i).Item("No_Faktur")
-                        Dgv_Pr.Rows(i).Cells(item_KdSO).Value = .Rows(i).Item("Kode_Stock_Owner")
-                        Dgv_Pr.Rows(i).Cells(item_KdBarang).Value = .Rows(i).Item("Kode_Barang")
-                        Dgv_Pr.Rows(i).Cells(item_NmBarang).Value = .Rows(i).Item("Nama")
-                        Dgv_Pr.Rows(i).Cells(item_Sisa).Value = Format(.Rows(i).Item("jumlah"), "N2")
-                        Dgv_Pr.Rows(i).Cells(item_Satuan).Value = .Rows(i).Item("Satuan")
-                        Dgv_Pr.Rows(i).Cells(item_UrutPR).Value = .Rows(i).Item("No_Urut")
-                        Dgv_Pr.Rows(i).Cells(item_TglDelivery).Value = Format(.Rows(i).Item("Tanggal_Delivery"), "dd MMM yyyy")
-                        Dgv_Pr.Rows(i).Cells(item_TglEstimasi).Value = Format(.Rows(i).Item("tanggal_actual_delivery"), "dd MMM yyyy")
+                        Dgv_Pr.Rows(i).Cells(item_NoPR).Value = .Rows(i).Item("No_Faktur") '0
+                        Dgv_Pr.Rows(i).Cells(item_KdSO).Value = .Rows(i).Item("Kode_Stock_Owner") '1
+                        Dgv_Pr.Rows(i).Cells(item_KdBarang).Value = .Rows(i).Item("Kode_Barang") '2
+                        Dgv_Pr.Rows(i).Cells(item_NmBarang).Value = .Rows(i).Item("Nama") '3
+                        Dgv_Pr.Rows(i).Cells(item_Sisa).Value = Format(.Rows(i).Item("jumlah"), "N2") '4
+                        Dgv_Pr.Rows(i).Cells(item_Satuan).Value = .Rows(i).Item("Satuan") '5
+                        Dgv_Pr.Rows(i).Cells(item_UrutPR).Value = .Rows(i).Item("No_Urut") '6
+                        Dgv_Pr.Rows(i).Cells(item_TglDelivery).Value = Format(.Rows(i).Item("Tanggal_Delivery"), "dd MMM yyyy") '7
+                        Dgv_Pr.Rows(i).Cells(item_TglEstimasi).Value = Format(.Rows(i).Item("tanggal_actual_delivery"), "dd MMM yyyy") '8
+                        Dgv_Pr.Rows(i).Cells(item_Keterangan).Value = If(General_Class.CekNULL(.Rows(i).Item("Keterangan_Pengajuan")) = "", "-", .Rows(i).Item("Keterangan_Pengajuan")) '9
 
                     Next
                 End With
@@ -127,6 +132,7 @@
         Lv_UrutPR = Dgv_Pr.Rows(index).Cells(item_UrutPR).Value
         Lv_TglDelivery = Dgv_Pr.Rows(index).Cells(item_TglDelivery).Value
         Lv_TglEstimasi = Dgv_Pr.Rows(index).Cells(item_TglEstimasi).Value
+        Lv_Keterangan = Dgv_Pr.Rows(index).Cells(item_Keterangan).Value
 
     End Sub
 

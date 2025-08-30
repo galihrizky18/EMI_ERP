@@ -1,8 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-
-Public Class SD_Pilih_PO
+﻿Public Class SD_Pilih_PO
     Dim arrcari As New ArrayList
     Dim Jenis = "Lokasi_PO"
     Dim LvNo_Po As String
@@ -45,7 +41,7 @@ Public Class SD_Pilih_PO
 
             ListView1.Items.Clear()
             SQL = "select a.No_Faktur,a.Lokasi,a.Tanggal,a.Kode_Supplier,b.Nama "
-            SQL = SQL & "from EMI_Pembelian_PO a,Suppliers b where "
+            SQL = SQL & "from EMI_Pembelian2_PO a,Suppliers b where "
             SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Supplier = b.Kode_Supplier "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Status is null "
             SQL = SQL & " " & filter_tambahan & " "
@@ -91,7 +87,7 @@ Public Class SD_Pilih_PO
 
             ListView1.Items.Clear()
             SQL = "select a.No_Faktur,a.Lokasi,a.Tanggal,a.Kode_Supplier,b.Nama "
-            SQL = SQL & "from EMI_Pembelian_PO a,Suppliers b where "
+            SQL = SQL & "from EMI_Pembelian2_PO a,Suppliers b where "
             SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Supplier = b.Kode_Supplier "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Status is null "
             SQL = SQL & " " & filter_tambahan & " and  "
@@ -136,41 +132,41 @@ Public Class SD_Pilih_PO
                 SQL = "select a.No_Faktur,a.No_Nota,a.Tanggal,a.Kode_Supplier as Supplier,b.Nama,a.Jenis_Pembayaran,"
                 SQL = SQL & "a.Mata_Uang,a.Kurs,a.Cara_Bayar,c.Keterangan,a.PPN, "
                 SQL = SQL & "a.Total_MUA,a.Total_IDR,a.Grand_Sebelum_PPN,a.Grand "
-                SQL = SQL & "from EMI_Pembelian_PO a,Suppliers b,Cara_Bayar c "
+                SQL = SQL & "from EMI_Pembelian2_PO a,Suppliers b,Cara_Bayar c "
                 SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Supplier = b.Kode_Supplier "
                 SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and a.Lokasi = c.Lokasi "
                 SQL = SQL & "and a.Cara_Bayar = c.Kode_CB and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
                 SQL = SQL & "and a.No_Faktur = '" & LvNo_Po & "'"
                 Using dr = OpenTrans(SQL)
                     If dr.Read Then
-                        EMI_Pembelian.TxtPembelian_NoPO.Text = dr("No_Faktur")
-                        'EMI_Pembelian.DtpPembelian_Tgl.Value = Format(dr("Tanggal"), "dd MMMM yyyy")
-                        EMI_Pembelian.TxtPembelian_NoNota.Text = dr("No_Nota")
-                        EMI_Pembelian.TxtPembelian_KdSupplier.Text = dr("Supplier")
-                        EMI_Pembelian.TxtPembelian_NmSupplier.Text = dr("Nama")
+                        EMI_Pembelian2.TxtPembelian_NoPO.Text = dr("No_Faktur")
+                        'EMI_Pembelian2.DtpPembelian_Tgl.Value = Format(dr("Tanggal"), "dd MMMM yyyy")
+                        EMI_Pembelian2.TxtPembelian_NoNota.Text = dr("No_Nota")
+                        EMI_Pembelian2.TxtPembelian_KdSupplier.Text = dr("Supplier")
+                        EMI_Pembelian2.TxtPembelian_NmSupplier.Text = dr("Nama")
                         If dr("Jenis_Pembayaran") = "T" Then
-                            EMI_Pembelian.CmbPembelian_JnsBayar.SelectedIndex = 0
+                            EMI_Pembelian2.CmbPembelian_JnsBayar.SelectedIndex = 0
                         Else
-                            EMI_Pembelian.CmbPembelian_JnsBayar.SelectedIndex = 1
+                            EMI_Pembelian2.CmbPembelian_JnsBayar.SelectedIndex = 1
                         End If
-                        EMI_Pembelian.CmbPembelian_MataUang.Text = dr("Mata_Uang")
-                        EMI_Pembelian.TxtPembelian_Kurs.Text = Format(dr("Kurs"), "N2")
-                        EMI_Pembelian.CmbPembelian_CaraBayar.Text = dr("Keterangan")
+                        EMI_Pembelian2.CmbPembelian_MataUang.Text = dr("Mata_Uang")
+                        EMI_Pembelian2.TxtPembelian_Kurs.Text = Format(dr("Kurs"), "N2")
+                        EMI_Pembelian2.CmbPembelian_CaraBayar.Text = dr("Keterangan")
                         If dr("PPN") > 0 Then
-                            EMI_Pembelian.TxtPembelian_PersenPPN.Text = Format(dr("PPN"), "N2")
-                            EMI_Pembelian.ChkPembelian_PPN.Checked = True
+                            EMI_Pembelian2.TxtPembelian_PersenPPN.Text = Format(dr("PPN"), "N2")
+                            'EMI_Pembelian2.ChkPembelian_PPN.Checked = True
                         Else
-                            EMI_Pembelian.TxtPembelian_PersenPPN.Text = 0
-                            EMI_Pembelian.ChkPembelian_PPN.Checked = False
+                            EMI_Pembelian2.TxtPembelian_PersenPPN.Text = 0
+                            'EMI_Pembelian2.ChkPembelian_PPN.Checked = False
                         End If
 
                         Dim nilai_ppn As Double = 0
                         nilai_ppn = dr("Grand_Sebelum_PPN") * dr("PPN") / 100
-                        EMI_Pembelian.TxtPembelian_TotalMUA.Text = Format(dr("Total_MUA"), "N2")
-                        EMI_Pembelian.TxtPembelian_TotalIDR.Text = Format(dr("Total_IDR"), "N2")
-                        EMI_Pembelian.TxtPembelian_TotalSblmPPN.Text = Format(dr("Grand_Sebelum_PPN"), "N2")
-                        EMI_Pembelian.TxtPembelian_NilaiPPN.Text = Format(nilai_ppn, "N2")
-                        EMI_Pembelian.TxtPembelian_GrandTotal.Text = Format(dr("Grand"), "N2")
+                        EMI_Pembelian2.TxtPembelian_TotalMUA.Text = Format(dr("Total_MUA"), "N2")
+                        EMI_Pembelian2.TxtPembelian_TotalIDR.Text = Format(dr("Total_IDR"), "N2")
+                        EMI_Pembelian2.TxtPembelian_TotalSblmPPN.Text = Format(dr("Grand_Sebelum_PPN"), "N2")
+                        EMI_Pembelian2.TxtPembelian_NilaiPPN.Text = Format(nilai_ppn, "N2")
+                        EMI_Pembelian2.TxtPembelian_GrandTotal.Text = Format(dr("Grand"), "N2")
                     End If
                 End Using
                 CloseConn()
@@ -179,7 +175,7 @@ Public Class SD_Pilih_PO
                 MessageBox.Show(ex.Message)
                 Exit Sub
             End Try
-            EMI_Pembelian.TxtPembelian_NoPO_Leave(ListView1, e)
+            EMI_Pembelian2.TxtPembelian_NoPO_Leave(ListView1, e)
         Else
             MessageBox.Show(Base_Language.Lang_Global_FormAsal & " . .!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub

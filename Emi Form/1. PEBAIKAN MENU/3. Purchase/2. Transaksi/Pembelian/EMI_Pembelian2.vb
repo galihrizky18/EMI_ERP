@@ -1,6 +1,6 @@
 ﻿Public Class EMI_Pembelian2
 
-
+    Dim no_fakturPengajuan As String
 
     Dim tempDataPajak As New List(Of (Pajak As String, Nilai As String, akun As String, isPPN As Boolean))
 
@@ -67,6 +67,37 @@
     Dim LvBiayPerjalananDet As String
 
     'Dim Ket_Cost_Center_HO As Integer = 0
+
+    Private Sub get_no_faktur()
+        TxtPembelian_NoFaktur.Text = FPembelian & arrInisialFaktur.Item(CmbPembelian_Lokasi.SelectedIndex) & "-" & Format(DtpPembelian_Tgl.Value, "MM/yy") & "-" &
+                                  General_Class.Get_Last_Number2("EMI_Pembelian", "no_faktur", 5,
+                                  "Kode_perusahaan", KodePerusahaan,
+                                  "And", "substring(no_faktur,1," & Len(FPembelian) + Len(arrInisialFaktur.Item(CmbPembelian_Lokasi.SelectedIndex)) + 6 & ")", FPembelian & arrInisialFaktur.Item(CmbPembelian_Lokasi.SelectedIndex) & "-" & Format(DtpPembelian_Tgl.Value, "MM/yy"))
+    End Sub
+
+    Private Sub Generate_Faktur_Pelunasan()
+        Txt_Faktur_Pelunasan.Text = fValPelBI & Format(tgl_skg, "MMyy") & "-" &
+                             General_Class.Get_Last_Number2("EMI_Pelunasan", "no_val", 5,
+                             "Kode_perusahaan", KodePerusahaan,
+                             "And", "substring(no_val, 1, " & Len(fValPelBI) + 4 & ")", fValPelBI & Format(tgl_skg, "MMyy"))
+    End Sub
+
+    Private Sub Get_No_Faktur_Pengajuan()
+        Dim fNB = "NB"
+        no_fakturPengajuan = fNB & Format(tgl_skg, "MMyy") & "-" &
+                             General_Class.Get_Last_Number2("Pengajuan_temp", "No_Pengajuan", 5,
+                             "Kode_perusahaan", KodePerusahaan,
+                             "And", "substring(No_Pengajuan, 1, " & Len(fNB) + 4 & ")", fNB & Format(tgl_skg, "MMyy"))
+    End Sub
+
+    Private Sub Pembelian_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        My.Application.ChangeCulture("en-us")
+        My.Application.ChangeUICulture("en-us")
+
+
+        ' Kosong()
+    End Sub
+
     Public Sub Kosong()
 
         Try
@@ -772,6 +803,76 @@
             End Using
 
 
+            '================================
+            '=     GET DATA DOWNPAYMENT     =
+            '================================
+            Dim Total_DP As Double = 0
+            'SQL = "with Cte as ( select a.Nilai as Nilai_DP, ( "
+            'SQL = SQL & "a.Nilai - ISNULL(( select z.nilai from EMI_Pelunasan_Detail_DP z, emi_pelunasan w where "
+            'SQL = SQL & "z.Kode_Perusahaan = a.Kode_Perusahaan and z.urut_DP = a.No_Urut and "
+            'SQL = SQL & "z.kode_perusahaan=w.kode_Perusahaan and z.no_val=w.no_val and w.status is null "
+            'SQL = SQL & " ), 0) ) as Sisa "
+            'SQL = SQL & "from EMI_Transaksi_Pembayaran_Dimuka_Detail a, EMI_Transaksi_Pembayaran_Dimuka b  "
+            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+            'SQL = SQL & "And a.No_Transaksi = b.No_Transaksi  "
+            'SQL = SQL & "And b.Status Is null  "
+            'SQL = SQL & "And a.Kode_Perusahaan = '" & KodePerusahaan & "'  "
+            'SQL = SQL & "and a.No_Fak_PO in ( "
+            'SQL = SQL & "select y.No_FakInduk  "
+            'SQL = SQL & "from EMI_Pembelian_PO x, EMI_Pembelian_PO_Det y  "
+            'SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan  "
+            'SQL = SQL & "and x.No_Faktur = y.No_Faktur "
+            'SQL = SQL & "and x.Status is null  "
+            'SQL = SQL & "and x.Kode_Perusahaan = '" & KodePerusahaan & "'  "
+            'SQL = SQL & "and x.No_Faktur = '" & TxtPembelian_NoPO.Text & "'  "
+            'SQL = SQL & "group by y.No_FakInduk ) "
+            'SQL = SQL & ")select sum(Sisa) as Nilai_DP from Cte "
+            'Using Dr = OpenTrans(SQL)
+            '    If Dr.Read Then
+            '        Total_DP = Dr("Nilai_DP")
+            '    End If
+            'End Using
+
+            SQL = ";with Cte as ( "
+            SQL = SQL & "select a.Nilai as Nilai_DP, ( "
+            SQL = SQL & "(a.Nilai- "
+            SQL = SQL & "isnull(( "
+            SQL = SQL & "select sum(x.nilai) from EMI_Transaksi_Pembayaran_Dimuka_Pajak x "
+            SQL = SQL & "where x.kode_perusahaan=a.kode_perusahaan and x.no_faktur = a.No_Transaksi and x.flag_ppn is null ),0)) - "
+            SQL = SQL & "ISNULL(( "
+            SQL = SQL & "select z.nilai from EMI_Pelunasan_Detail_DP z, emi_pelunasan w "
+            SQL = SQL & "where z.Kode_Perusahaan = a.Kode_Perusahaan and z.urut_DP = a.No_Urut and "
+            SQL = SQL & "z.kode_perusahaan=w.kode_Perusahaan and z.no_val=w.no_val and w.status is null "
+            SQL = SQL & "), 0) ) as Sisa "
+            SQL = SQL & "from EMI_Transaksi_Pembayaran_Dimuka_Detail a, EMI_Transaksi_Pembayaran_Dimuka b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+            SQL = SQL & "And a.No_Transaksi = b.No_Transaksi "
+            SQL = SQL & "And b.Status Is null "
+            SQL = SQL & "And a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.No_Fak_PO in ( "
+            SQL = SQL & "select y.No_FakInduk "
+            SQL = SQL & "from EMI_Pembelian_PO x, EMI_Pembelian_PO_Det y "
+            SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan "
+            SQL = SQL & "and x.No_Faktur = y.No_Faktur "
+            SQL = SQL & "and x.Status is null "
+            SQL = SQL & "and x.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and x.No_Faktur = '" & TxtPembelian_NoPO.Text & "' "
+            SQL = SQL & "group by y.No_FakInduk ) "
+            SQL = SQL & ")select isnull(sum(Sisa),0) as Nilai_DP from Cte "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Total_DP = Dr("Nilai_DP")
+                End If
+            End Using
+            Txt_PembayaranDimuka.Text = Format((Total_DP), "N0")
+
+
+
+
+
+
+
+
 
             ''grouping
             'SQL = "Select b.Kode_Stock_Owner, b.Kode_Barang, d.Nama, sum(b.Jumlah_PL) As Jumlah_PL, sum(Jumlah_BM + isnull(Qty_PenyelesaianPlus, 0) - isnull(Qty_PenyelesaianMin, 0)) As Jumlah_Masuk,  "
@@ -906,6 +1007,8 @@
             Cmd.Transaction = Cn.BeginTransaction
 
             get_no_faktur()
+            Generate_Faktur_Pelunasan()
+            Get_No_Faktur_Pengajuan()
 
             If LvPembelian_DataPembelian.Items.Count = 0 Then
                 MessageBox.Show(Base_Language.Lang_Global_Error_Lv_Kosong, Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -928,7 +1031,7 @@
 
             SQL = "INSERT INTO EMI_Pembelian(Kode_Perusahaan,No_Faktur,Lokasi,Tanggal,Jam,"
             SQL = SQL & "No_PO,No_Nota,Jenis_Pembayaran,Tgl_Jatuh_Tempo,Cara_Bayar,Mata_Uang,"
-            SQL = SQL & "Kurs,Total_MUA,Total_IDR,Grand_Sebelum_PPN,PPN,Nilai_PPN,Grand,UserID, Nilai_PPH) "
+            SQL = SQL & "Kurs,Total_MUA,Total_IDR,Grand_Sebelum_PPN,PPN,Nilai_PPN,Grand,UserID, Nilai_PPH, Nilai_DP) "
             SQL = SQL & "VALUES('" & KodePerusahaan & "','" & TxtPembelian_NoFaktur.Text & "',"
             SQL = SQL & "'" & CmbPembelian_Lokasi.Text & "',"
             SQL = SQL & "'" & Format(DtpPembelian_Tgl.Value, "yyyy-MM-dd") & "',"
@@ -949,7 +1052,7 @@
             SQL = SQL & "'" & HilangkanTanda(TxtPembelian_PersenPPN.Text) & "',"
             SQL = SQL & "'" & HilangkanTanda(TxtPembelian_NilaiPPN.Text) & "',"
             SQL = SQL & "'" & HilangkanTanda(TxtPembelian_GrandTotal.Text) & "',"
-            SQL = SQL & "'" & UserID & "', '" & HilangkanTanda(Txt_GrandPPH.Text) & "')"
+            SQL = SQL & "'" & UserID & "', '" & HilangkanTanda(Txt_GrandPPH.Text) & "', '" & HilangkanTanda(Txt_PembayaranDimuka.Text) & "')"
             ExecuteTrans(SQL)
 
 
@@ -994,7 +1097,7 @@
                 Dim Flag_Masuk_Hutang As String = ""
                 SQL = "Select No_Faktur, Flag_Masuk_Hutang_Bahan from EMI_Pembelian_Selisih_Barang_Masuk "
                 SQL = SQL & "where No_Faktur_BM ='" & LvNo_PO & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
-                SQL = SQL & "and Flag_Validasi is null "
+                SQL = SQL & "and Flag_Validasi is null and status is null "
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
                         No_Selisih = Dr("No_Faktur")
@@ -1050,7 +1153,7 @@
                 SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
                 SQL = SQL & "and a.No_Pembelian_Loading = '" & LvNo_PO & "' "
                 'SQL = SQL & "and Flag_angkut = 'Y'"
-                SQL = SQL & "and kode_barang = '" & LvKd_Brg & "' and Serial_Number_Import is null "
+                SQL = SQL & "and kode_barang = '" & LvKd_Brg & "' and Serial_Number_Import is null and a.status is null "
                 Using Ds = BindingTrans(SQL)
                     With Ds.Tables("MyTable")
                         If .Rows.Count <> 0 Then
@@ -1169,9 +1272,6 @@
 #End Region
 
 
-
-
-
             Next
 
 
@@ -1232,6 +1332,81 @@
                 Exit Sub
             End If
 
+
+#Region "INPUT PELUNASAN"
+
+#End Region
+
+
+            '=============================
+            '=     CEK APAKAH ADA DP     =
+            '=============================
+            Dim JumlahDp As Double = 0
+            SQL = ";with Cte as ( "
+            SQL = SQL & "select a.Nilai as Nilai_DP, ( "
+            SQL = SQL & "(a.Nilai- "
+            SQL = SQL & "isnull(( "
+            SQL = SQL & "select sum(x.nilai) from EMI_Transaksi_Pembayaran_Dimuka_Pajak x "
+            SQL = SQL & "where x.kode_perusahaan=a.kode_perusahaan and x.no_faktur = a.No_Transaksi and x.flag_ppn is null ),0)) - "
+            SQL = SQL & "ISNULL(( "
+            SQL = SQL & "select z.nilai from EMI_Pelunasan_Detail_DP z, emi_pelunasan w "
+            SQL = SQL & "where z.Kode_Perusahaan = a.Kode_Perusahaan and z.urut_DP = a.No_Urut and "
+            SQL = SQL & "z.kode_perusahaan=w.kode_Perusahaan and z.no_val=w.no_val and w.status is null "
+            SQL = SQL & "), 0) ) as Sisa "
+            SQL = SQL & "from EMI_Transaksi_Pembayaran_Dimuka_Detail a, EMI_Transaksi_Pembayaran_Dimuka b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+            SQL = SQL & "And a.No_Transaksi = b.No_Transaksi "
+            SQL = SQL & "And b.Status Is null "
+            SQL = SQL & "And a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.No_Fak_PO in ( "
+            SQL = SQL & "select y.No_FakInduk "
+            SQL = SQL & "from EMI_Pembelian_PO x, EMI_Pembelian_PO_Det y "
+            SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan "
+            SQL = SQL & "and x.No_Faktur = y.No_Faktur "
+            SQL = SQL & "and x.Status is null "
+            SQL = SQL & "and x.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and x.No_Faktur = '" & TxtPembelian_NoPO.Text & "' "
+            SQL = SQL & "group by y.No_FakInduk ) "
+            SQL = SQL & ")select isnull(sum(Sisa),0) as Nilai_DP from Cte "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    JumlahDp = Dr("Nilai_DP")
+                End If
+            End Using
+
+            If JumlahDp > 0 Then
+                If Not Insert_Pelunasan() Then
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Ada Masalah pada Jurnal DP", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End If
+
+
+            ' TODO : SImpan
+
+
+            If Val(HilangkanTanda(Txt_PembayaranDimuka.Text)) >= Val(HilangkanTanda(TxtPembelian_GrandTotal.Text)) Then
+                SQL = "Update Emi_Pembelian set flag_lunas = 'Y', "
+                SQL = SQL & "Tgl_lunas = '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
+                SQL = SQL & "jam_lunas = '" & Format(tgl_skg, "HH:mm:ss") & "', "
+                SQL = SQL & "user_lunas = '" & UserID & "' where kode_perusahaan = '" & KodePerusahaan & "' and "
+                SQL = SQL & "no_faktur = '" & TxtPembelian_NoFaktur.Text.Trim & "' "
+                ExecuteTrans(SQL)
+            End If
+
+
+
+            'If True Then
+            '    CloseTrans()
+            '    CloseConn()
+            '    MessageBox.Show("TAHAN", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '    Exit Sub
+            'End If
+
+
+
             SQL = "update EMI_Pembelian_PO set flag_Pembelian='Y' where "
             SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and "
             SQL = SQL & "No_Faktur = '" & TxtPembelian_NoPO.Text & "'"
@@ -1270,20 +1445,14 @@
         DtpPembelian_TglBayar.Value = DateAdd(DateInterval.Day, xx, DtpPembelian_Tgl.Value)
     End Sub
 
-    Private Sub get_no_faktur()
-        TxtPembelian_NoFaktur.Text = FPembelian & arrInisialFaktur.Item(CmbPembelian_Lokasi.SelectedIndex) & "-" & Format(DtpPembelian_Tgl.Value, "MM/yy") & "-" &
-                                  General_Class.Get_Last_Number2("EMI_Pembelian", "no_faktur", 5,
-                                  "Kode_perusahaan", KodePerusahaan,
-                                  "And", "substring(no_faktur,1," & Len(FPembelian) + Len(arrInisialFaktur.Item(CmbPembelian_Lokasi.SelectedIndex)) + 6 & ")", FPembelian & arrInisialFaktur.Item(CmbPembelian_Lokasi.SelectedIndex) & "-" & Format(DtpPembelian_Tgl.Value, "MM/yy"))
-    End Sub
 
 
 
-    Private Sub TxtPembelian_NoPO_TextChanged(sender As Object, e As EventArgs) Handles TxtPembelian_NoPO.TextChanged
 
-    End Sub
 
     Private Sub Jurnal_Import()
+
+        'TODO : JURNAL IMPORT
 
         '=== INISIAL FAKTUR UNTUK JURNAL ======
         Dim inisial_faktur_dari As String
@@ -4404,6 +4573,9 @@
     End Sub
 
     Private Sub Jurnal_Lokal()
+
+        'TODO :JURNAL LOKAL
+
         Dim inisial_faktur_dari As String = ""
         Dim lokasi_Barang As String = ""
         Dim persen_PPN As Integer = 0
@@ -4518,7 +4690,7 @@
             Dim NilaiPPN As Double = Math.Round((JumlahHutang * HargaPO) * (PersenPPN / 100))
             'Dim NilaiPerjalanan As Double = Math.Round((HargaAkhir - HargaPO) * JumlahMasuk)
             Dim NilaiHutang As Double = Math.Round((JumlahHutang * HargaPO) + NilaiPPN)
-            Dim selisih As Double = Math.Round(JumlahHutang - JumlahMasuk)
+            Dim selisih As Double = Math.Round(JumlahHutang - JumlahMasuk, 2)
             Dim NilaiSelisihHutang As Double = Math.Round(selisih * HargaPO)
             'Dim TotalPO As Double = Math.Round(JumlahMasuk * HargaPO)
 
@@ -4814,20 +4986,6 @@
         isError = True
     End Sub
 
-    Private Sub Pembelian_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        My.Application.ChangeCulture("en-us")
-        My.Application.ChangeUICulture("en-us")
-        Try
-            OpenConn()
-
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MessageBox.Show(ex.Message)
-            Exit Sub
-        End Try
-        ' Kosong()
-    End Sub
 
     Private Function Insert_Jurnal(ByVal Kode_voucher As String, ByVal akun As String, ByVal Kode_Akun_Pembelian As String, ByVal Nilai As String, ByVal pagenumber As Integer, ByVal lks As String, ByVal Type As String) As Boolean
 
@@ -4916,6 +5074,491 @@
         Catch ex As Exception
             Return False
         End Try
+
+    End Function
+
+
+    Private Function Insert_Pelunasan() As Boolean
+
+        'TODO : INSERT PELUNASAN
+
+        Try
+
+            Dim inisial_faktur_dari As String = ""
+            SQL = "select inisial_faktur from stock_owner "
+            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & CmbPembelian_Lokasi.Text & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    'akun_persediaan_dari = Dr("persediaan")
+                    inisial_faktur_dari = Dr("inisial_faktur")
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Return False
+                End If
+            End Using
+
+            Dim Kode_voucher2 As String = ""
+            Kode_voucher2 = GetLastNumberJurnal(Format(tgl_skg, "yyyyMM"), "JS" & inisial_faktur_dari, KodePerusahaan)
+            Dim pagenumber As Integer = 1
+
+            Dim TotKurs As Double = Val(HilangkanTanda(TxtPembelian_Kurs.Text)) * Val(HilangkanTanda(TxtPembelian_GrandTotal.Text))
+
+            Dim DpDimuka As Double = Val(HilangkanTanda(Txt_PembayaranDimuka.Text))
+            Dim GrandTotal As Double = Val(HilangkanTanda(TxtPembelian_GrandTotal.Text))
+            Dim DpDigunakan As Double = 0
+
+            If DpDimuka < GrandTotal Then
+                DpDigunakan = DpDimuka
+            Else
+                DpDigunakan = GrandTotal
+            End If
+
+            '=====================================
+            '=     GET NILAI DP DIKURANG PPH     =
+            '=====================================
+            Dim JumlahDPA As Double = 0
+            SQL = ";with Cte as ( "
+            SQL = SQL & "select a.Nilai as Nilai_DP, ( "
+            SQL = SQL & "(a.Nilai- "
+            SQL = SQL & "isnull(( "
+            SQL = SQL & "select sum(x.nilai) from EMI_Transaksi_Pembayaran_Dimuka_Pajak x "
+            SQL = SQL & "where x.kode_perusahaan=a.kode_perusahaan and x.no_faktur = a.No_Transaksi and x.flag_ppn is null ),0)) - "
+            SQL = SQL & "ISNULL(( "
+            SQL = SQL & "select z.nilai from EMI_Pelunasan_Detail_DP z, emi_pelunasan w "
+            SQL = SQL & "where z.Kode_Perusahaan = a.Kode_Perusahaan and z.urut_DP = a.No_Urut and "
+            SQL = SQL & "z.kode_perusahaan=w.kode_Perusahaan and z.no_val=w.no_val and w.status is null "
+            SQL = SQL & "), 0) ) as Sisa "
+            SQL = SQL & "from EMI_Transaksi_Pembayaran_Dimuka_Detail a, EMI_Transaksi_Pembayaran_Dimuka b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+            SQL = SQL & "And a.No_Transaksi = b.No_Transaksi "
+            SQL = SQL & "And b.Status Is null "
+            SQL = SQL & "And a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.No_Fak_PO in ( "
+
+            SQL = SQL & "select y.No_FakInduk "
+            SQL = SQL & "from EMI_Pembelian_PO x, EMI_Pembelian_PO_Det y "
+            SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan "
+            SQL = SQL & "and x.No_Faktur = y.No_Faktur "
+            SQL = SQL & "and x.Status is null "
+            SQL = SQL & "and x.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and x.No_Faktur = '" & TxtPembelian_NoPO.Text & "' "
+            SQL = SQL & "group by y.No_FakInduk ) "
+
+            SQL = SQL & ")select isnull(sum(Sisa),0) as Nilai_DP from Cte "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    JumlahDPA = Val(HilangkanTanda(Format(Dr("Nilai_DP"), "N0")))
+                Else
+                    JumlahDPA = 0
+                End If
+            End Using
+
+            If JumlahDPA <> Val(HilangkanTanda(Txt_PembayaranDimuka.Text)) Then
+                MessageBox.Show("Harap Ulangi Transaksi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+
+
+            '=========================
+            '=     GET NILAI PPH     =
+            '=========================
+            Dim PersenPPN As Double = 0
+            Dim SumPersenPPH As Double = 0
+            SQL = "select a.No_Faktur, a.Persentase, a.Kode_Akun, a.Flag_PPN "
+            SQL = SQL & "from EMI_Detail_PPH_PO a, EMI_Pembelian_PO b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+            SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+            SQL = SQL & "and b.status is null "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and b.No_Faktur = '" & TxtPembelian_NoPO.Text & "' "
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
+
+                            If General_Class.CekNULL(.Rows(i).Item("Flag_PPN")) = "Y" Then
+                                PersenPPN = Val(HilangkanTanda(.Rows(i).Item("Persentase")))
+                            Else
+                                SumPersenPPH += Val(HilangkanTanda(.Rows(i).Item("Persentase")))
+                            End If
+                        Next
+                    End If
+                End With
+            End Using
+
+            Dim Persentase As Double = 0
+            Dim DPP As Double = 0
+            Dim NilaiPPN As Double = 0
+            Dim NilaiPPH As Double = 0
+            Dim NilaiGrandDPP As Double = 0
+
+            If JumlahDPA <> 0 Then
+                Persentase = 1 + (Val(HilangkanTanda(PersenPPN)) / 100) - (Val(HilangkanTanda(SumPersenPPH)) / 100)
+                DPP = Val(HilangkanTanda(Format(JumlahDPA / Persentase, "N0")))
+
+                NilaiPPN = Val(HilangkanTanda(Format(DPP * (Val(HilangkanTanda(PersenPPN)) / 100), "N0")))
+                NilaiPPH = Val(HilangkanTanda(Format(DPP * (Val(HilangkanTanda(SumPersenPPH)) / 100), "N0")))
+
+                NilaiGrandDPP = Val(HilangkanTanda(Format((DPP + NilaiPPN), "N0")))
+
+            End If
+
+
+
+            '=================================
+            '=     GET KATEGORI SUPPLIER     =
+            '=================================
+            Dim Kategori_Supplier As String = ""
+            SQL = "select c.Kode_Kategori_Suppliers  from  Suppliers b, Suppliers_Kategori c "
+            SQL = SQL & "where  b.kode_perusahaan = c.kode_perusahaan and b.id_kategori_suppliers = c.id_kategori_suppliers "
+            SQL = SQL & "and b.kode_perusahaan = '" & KodePerusahaan & "' and b.Kode_Supplier = '" & TxtPembelian_KdSupplier.Text & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Kategori_Supplier = "'" & Dr("Kode_Kategori_Suppliers") & "'"
+                Else
+                    Kategori_Supplier = "NULL"
+                End If
+            End Using
+
+
+            '============================
+            '=     INSERT PELUNASAN     =
+            '============================
+            'SQL = "insert into EMI_Pelunasan (Kode_Perusahaan, No_Val, Tanggal, Jam, Keterangan, UserValidasi, Kode_Voucher, "
+            'SQL = SQL & "Mata_Uang, Total, Total_PPN, Total_PPH, Grand_Total, "
+            'SQL = SQL & "Total_Kurs_Lama, Total_Kurs_Baru, jenis, No_Pengajuan) values "
+            'SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_Faktur_Pelunasan.Text.Trim & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
+            'SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', 'PELUNASAN : PEMBELIAN', '" & UserID & "', '" & Kode_voucher2 & "', "
+            'SQL = SQL & "'" & CmbPembelian_MataUang.Text & "', '" & HilangkanTanda(TxtPembelian_TotalIDR.Text) & "', '0', '0', "
+            'SQL = SQL & "'" & HilangkanTanda(TxtPembelian_GrandTotal.Text) & "', '" & HilangkanTanda(TotKurs) & "', "
+            'SQL = SQL & " '" & HilangkanTanda(TotKurs) & "', " & Kategori_Supplier & ", NULL)"
+            'ExecuteTrans(SQL)
+
+            SQL = "insert into EMI_Pelunasan (Kode_Perusahaan, No_Val, Tanggal, Jam, Keterangan, UserValidasi, Kode_Voucher, "
+            SQL = SQL & "Mata_Uang, Total, Total_PPN, Total_PPH, Grand_Total, "
+            SQL = SQL & "Total_Kurs_Lama, Total_Kurs_Baru, jenis, No_Pengajuan, Flag_Otomatis) values "
+            SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_Faktur_Pelunasan.Text.Trim & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
+            SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', 'PELUNASAN : PEMBELIAN', '" & UserID & "', '" & Kode_voucher2 & "', "
+            SQL = SQL & "'" & CmbPembelian_MataUang.Text & "', '" & HilangkanTanda(JumlahDPA) & "', '" & HilangkanTanda(NilaiPPN) & "', '" & HilangkanTanda(NilaiPPH) & "', "
+            SQL = SQL & "'" & HilangkanTanda(JumlahDPA) & "', '" & HilangkanTanda(DPP) & "', "
+            SQL = SQL & " '" & HilangkanTanda(DPP) & "', " & Kategori_Supplier & ", NULL, 'Y')"
+            ExecuteTrans(SQL)
+
+            '==========================================
+            '=     GET DATA KATEGORI BIAYA IMPORT     =
+            '==========================================
+            Dim Kode_Master_Kategori_Biaya_Import As String = ""
+            SQL = "select top 1 b.kode_group_jenis "
+            SQL = SQL & "from barang a, EMI_Group_Jenis b "
+            SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan "
+            SQL = SQL & "and a.id_group_jenis = b.id_group_jenis "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.kode_barang = '" & ListViewDet.Items(0).SubItems(2).Text & "' "
+            SQL = SQL & "order by b.Kode_Group_Jenis"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Kode_Master_Kategori_Biaya_Import = "'" & Dr("kode_group_jenis") & "'"
+                Else
+                    Kode_Master_Kategori_Biaya_Import = "NULL"
+                End If
+            End Using
+
+
+            '===================================
+            '=     INSERT DETAIL PELUNASAN     =
+            '===================================
+            SQL = "insert into EMI_Pelunasan_Detail(kode_perusahaan, no_val, no_faktur, kode_Perusahaan_biaya_import, Mata_Uang, byr, "
+            SQL = SQL & "Persen_PPN, Persen_PPH, Nilai_PPN, Nilai_PPH, Kode_Master_Kategori_Biaya_Import, Kode_stock_Owner, Tambahan, Total_Tambahan, Subtotal, "
+            SQL = SQL & "Kurs_lama, Total_Bayar_Kurs_Lama, Kurs_Baru, Total_Bayar_Kurs_Baru, Kode_Bank_Tujuan, No_Rek_Tujuan, Nama_Penerima, Kota_Penerima, Negara_Penerima, Tanggal_Bayar, Jenis1, Jenis2, DP_Digunakan) "
+            SQL = SQL & "values('" & KodePerusahaan & "', '" & Txt_Faktur_Pelunasan.Text.Trim & "','" & TxtPembelian_NoFaktur.Text.Trim & "', '" & TxtPembelian_KdSupplier.Text & "', "
+            SQL = SQL & "'" & CmbPembelian_MataUang.Text & "', " & HilangkanTanda(JumlahDPA) & ", "
+            SQL = SQL & "" & HilangkanTanda(PersenPPN) & ", " & HilangkanTanda(SumPersenPPH) & ", " & HilangkanTanda(NilaiPPN) & ", " & HilangkanTanda(NilaiPPH) & ", " & Kode_Master_Kategori_Biaya_Import & ", "
+            SQL = SQL & "'" & CmbPembelian_Lokasi.Text & "', 0, " & HilangkanTanda(DPP) & ", " & HilangkanTanda(NilaiGrandDPP) & ", "
+            SQL = SQL & HilangkanTanda(TxtPembelian_Kurs.Text) & ", " & HilangkanTanda(DPP) & ", " & HilangkanTanda(TxtPembelian_Kurs.Text) & ", " & HilangkanTanda(DPP) & ", "
+            SQL = SQL & "NULL, NULL, NULL, NULL, NULL, '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
+            SQL = SQL & "'SUPPLIER', 'A', " & HilangkanTanda(DpDigunakan) & ")"
+            ExecuteTrans(SQL)
+
+
+            Dim x_no_urut_detail_pelunasan As Integer = 0
+            SQL = "select IDENT_CURRENT('EMI_Pelunasan_Detail') as urutan"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    x_no_urut_detail_pelunasan = Dr("urutan")
+                End If
+            End Using
+
+            SQL = "select urut from EMI_Pelunasan_Detail where kode_perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "No_Val = '" & Txt_Faktur_Pelunasan.Text.Trim & "' and urut = '" & x_no_urut_detail_pelunasan & "'"
+            Using Dr = OpenTrans(SQL)
+                If Not Dr.Read Then
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Harap ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Return False
+                End If
+            End Using
+
+            Dim DpDipakai As Double = DpDigunakan
+
+            '==========================================
+            '=     INSERT EMI_Detail_DP_Pelunasan     =
+            '==========================================
+
+            SQL = "with Cte as ( select a.Nilai as Nilai_DP, a.no_urut, ( "
+            SQL = SQL & "(a.Nilai-isnull((select sum(x.nilai) from EMI_Transaksi_Pembayaran_Dimuka_Pajak x where "
+            SQL = SQL & "x.kode_perusahaan=a.kode_perusahaan and x.no_faktur=a.No_Transaksi and x.flag_ppn is null ),0)) - "
+            SQL = SQL & "ISNULL(( select z.nilai from EMI_Pelunasan_Detail_DP z, emi_pelunasan w where "
+            SQL = SQL & "z.Kode_Perusahaan = a.Kode_Perusahaan and z.urut_DP = a.No_Urut and "
+            SQL = SQL & "z.kode_perusahaan=w.kode_Perusahaan and z.no_val=w.no_val and w.status is null "
+            SQL = SQL & " ), 0) ) as Sisa "
+            SQL = SQL & "from EMI_Transaksi_Pembayaran_Dimuka_Detail a, EMI_Transaksi_Pembayaran_Dimuka b  "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+            SQL = SQL & "And a.No_Transaksi = b.No_Transaksi  "
+            SQL = SQL & "And b.Status Is null  "
+            SQL = SQL & "And a.Kode_Perusahaan = '" & KodePerusahaan & "'  "
+            SQL = SQL & "and a.No_Fak_PO in ( "
+            SQL = SQL & "select y.No_FakInduk  "
+            SQL = SQL & "from EMI_Pembelian_PO x, EMI_Pembelian_PO_Det y  "
+            SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan  "
+            SQL = SQL & "and x.No_Faktur = y.No_Faktur "
+            SQL = SQL & "and x.Status is null  "
+            SQL = SQL & "and x.Kode_Perusahaan = '" & KodePerusahaan & "'  "
+            SQL = SQL & "and x.No_Faktur = '" & TxtPembelian_NoPO.Text.Trim & "'  "
+            SQL = SQL & "group by y.No_FakInduk ) "
+            SQL = SQL & ")select no_urut, isnull(sisa,0) as Nilai_DP from Cte where sisa<>0 "
+            SQL = SQL & "order by No_Urut "
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+
+                        For i As Integer = 0 To .Rows.Count - 1
+
+                            Dim JumlahDp As Double = Val(HilangkanTanda(.Rows(i).Item("Nilai_DP")))
+
+                            If DpDipakai = 0 Then
+                                Exit For
+                            ElseIf DpDipakai < 0 Then
+                                Return False
+                            End If
+
+                            If JumlahDp >= DpDipakai Then
+
+                                SQL = "insert into EMI_Pelunasan_Detail_DP (Kode_Perusahaan, no_val, Urut_Detail_Pelunasan, Urut_DP, nilai) values "
+                                SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_Faktur_Pelunasan.Text.Trim & "', '" & x_no_urut_detail_pelunasan & "', "
+                                SQL = SQL & "'" & .Rows(i).Item("no_urut") & "', '" & HilangkanTanda(DpDipakai) & "')"
+                                ExecuteTrans(SQL)
+
+
+                                DpDipakai = 0
+
+                            Else
+
+                                SQL = "insert into EMI_Pelunasan_Detail_DP (Kode_Perusahaan, no_val, Urut_Detail_Pelunasan, Urut_DP, nilai) values "
+                                SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_Faktur_Pelunasan.Text.Trim & "', '" & x_no_urut_detail_pelunasan & "', "
+                                SQL = SQL & "'" & .Rows(i).Item("no_urut") & "', '" & HilangkanTanda(JumlahDp) & "')"
+                                ExecuteTrans(SQL)
+
+                                DpDipakai -= JumlahDp
+                            End If
+
+                        Next
+
+                    End If
+                End With
+            End Using
+
+
+            If Val(HilangkanTanda(Format(DpDipakai, "N2"))) <> 0 Then
+                Return False
+            End If
+
+
+
+
+
+#Region "JURNAL DP"
+
+
+            SQL = "Insert Into Jurnal(Kode_Voucher, Tanggal, Jam, Kode_Perusahaan, Kode_Proyek, "
+            SQL = SQL & "Keterangan, JudulBank, KetDK, userid) values("
+            SQL = SQL & "'" & Kode_voucher2 & "', "
+            SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', "
+            SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
+            SQL = SQL & "'" & KodeProyek & "', 'Pembelian " & TxtPembelian_NoFaktur.Text & "', '', "
+            SQL = SQL & "'-', '" & UserID & "')"
+            ExecuteTrans(SQL)
+
+
+            Dim Akun_DP, Akun_Hutang As String
+            SQL = "select Akun_DP, Hutang_Supplier "
+            SQL = SQL & "from stock_owner "
+            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & Lokasi & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Akun_DP = Dr("Akun_DP")
+                    Akun_Hutang = Dr("Hutang_Supplier")
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Return False
+                End If
+            End Using
+
+            Dim Type As String = ""
+
+#Region "INSERT JURNAL HUTANG"
+
+            Type = "D"
+            SQL = "select kode_perusahaan from detail_jurnal where kode_perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "kode_voucher = '" & Kode_voucher2 & "' and "
+            SQL = SQL & "kode_master_acc + kode_acc + kode_detail_acc = '" & Akun_Hutang & "' "
+            If Type = "D" Then
+                SQL = SQL & "and debit <> 0 "
+            Else
+                SQL = SQL & "and kredit <> 0 "
+            End If
+
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Dr.Close()
+                    'update
+
+
+                    If Type = "D" Then
+                        SQL = "update detail_jurnal set debit = debit+ " & NilaiGrandDPP & " where "
+                        SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
+                        SQL = SQL & "kode_voucher = '" & Kode_voucher2 & "' and "
+                        SQL = SQL & "kode_master_acc + kode_acc + kode_detail_acc = '" & Akun_Hutang & "'  "
+                        SQL = SQL & "and debit <> 0"
+
+                    ElseIf Type = "K" Then
+                        SQL = "update detail_jurnal set kredit = kredit+ " & NilaiGrandDPP & " where "
+                        SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
+                        SQL = SQL & "kode_voucher = '" & Kode_voucher2 & "' and "
+                        SQL = SQL & "kode_master_acc + kode_acc + kode_detail_acc = '" & Akun_Hutang & "'  "
+                        SQL = SQL & "and kredit <> 0"
+                    End If
+                    ExecuteTrans(SQL)
+                Else
+                    Dr.Close()
+                    'insert
+                    If Type = "D" Then
+                        SQL = Get_Detail_Jurnal(Kode_voucher2, Strings.Left(Akun_Hutang, 1),
+                              Strings.Mid(Akun_Hutang, 2, 1),
+                              Strings.Mid(Ganti(Akun_Hutang), 3),
+                              KodePerusahaan, KodeProyek, "Hutang ; " & TxtPembelian_NmSupplier.Text & "; " & TxtPembelian_NoFaktur.Text, NilaiGrandDPP, "0", pagenumber, CmbPembelian_Lokasi.Text, Bahasa_Pilihan, Ket_Cost_Center_HO)
+
+                    ElseIf Type = "K" Then
+                        SQL = Get_Detail_Jurnal(Kode_voucher2, Strings.Left(Akun_Hutang, 1),
+                              Strings.Mid(Akun_Hutang, 2, 1),
+                              Strings.Mid(Ganti(Akun_Hutang), 3),
+                              KodePerusahaan, KodeProyek, "Hutang; " & TxtPembelian_NmSupplier.Text & "; " & TxtPembelian_NoFaktur.Text, "0", NilaiGrandDPP, pagenumber, CmbPembelian_Lokasi.Text, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                    End If
+                    ExecuteTrans(SQL)
+                    pagenumber = pagenumber + 1
+
+                End If
+            End Using
+
+#End Region
+
+#Region "INSERT JURNAL DP"
+
+            Type = "K"
+            SQL = "select kode_perusahaan from detail_jurnal where kode_perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "kode_voucher = '" & Kode_voucher2 & "' and "
+            SQL = SQL & "kode_master_acc + kode_acc + kode_detail_acc = '" & Akun_DP & "' "
+            If Type = "D" Then
+                SQL = SQL & "and debit <> 0 "
+            Else
+                SQL = SQL & "and kredit <> 0 "
+            End If
+
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Dr.Close()
+                    'update
+
+
+                    If Type = "D" Then
+                        SQL = "update detail_jurnal set debit = debit+ " & NilaiGrandDPP & " where "
+                        SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
+                        SQL = SQL & "kode_voucher = '" & Kode_voucher2 & "' and "
+                        SQL = SQL & "kode_master_acc + kode_acc + kode_detail_acc = '" & Akun_DP & "'  "
+                        SQL = SQL & "and debit <> 0"
+
+                    ElseIf Type = "K" Then
+                        SQL = "update detail_jurnal set kredit = kredit+ " & NilaiGrandDPP & " where "
+                        SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
+                        SQL = SQL & "kode_voucher = '" & Kode_voucher2 & "' and "
+                        SQL = SQL & "kode_master_acc + kode_acc + kode_detail_acc = '" & Akun_DP & "'  "
+                        SQL = SQL & "and kredit <> 0"
+                    End If
+                    ExecuteTrans(SQL)
+                Else
+                    Dr.Close()
+                    'insert
+                    If Type = "D" Then
+                        SQL = Get_Detail_Jurnal(Kode_voucher2, Strings.Left(Akun_DP, 1),
+                              Strings.Mid(Akun_DP, 2, 1),
+                              Strings.Mid(Ganti(Akun_DP), 3),
+                              KodePerusahaan, KodeProyek, "Hutang ; " & TxtPembelian_NmSupplier.Text & "; " & TxtPembelian_NoFaktur.Text, NilaiGrandDPP, "0", pagenumber, CmbPembelian_Lokasi.Text, Bahasa_Pilihan, Ket_Cost_Center_HO)
+
+                    ElseIf Type = "K" Then
+                        SQL = Get_Detail_Jurnal(Kode_voucher2, Strings.Left(Akun_DP, 1),
+                              Strings.Mid(Akun_DP, 2, 1),
+                              Strings.Mid(Ganti(Akun_DP), 3),
+                              KodePerusahaan, KodeProyek, "Hutang; " & TxtPembelian_NmSupplier.Text & "; " & TxtPembelian_NoFaktur.Text, "0", NilaiGrandDPP, pagenumber, CmbPembelian_Lokasi.Text, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                    End If
+                    ExecuteTrans(SQL)
+                    pagenumber = pagenumber + 1
+
+                End If
+            End Using
+
+#End Region
+
+
+#End Region
+
+
+            '=========================
+            '=     CEK JURNAL DP     =
+            '=========================
+            SQL = "select sum(debit) as debit, sum(kredit) as kredit from detail_jurnal where "
+            SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "kode_voucher = '" & Kode_voucher2 & "'"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If Dr("debit") <> Dr("kredit") Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Jurnal salah!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Return False
+                    End If
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Data jurnal tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Return False
+                End If
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+            Return False
+        End Try
+
+        Return True
 
     End Function
 

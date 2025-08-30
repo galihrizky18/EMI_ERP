@@ -38,6 +38,7 @@ Partial Class EMI_Transfer_Bahan_Bakar
         Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel6 = New System.Windows.Forms.Panel()
@@ -87,7 +88,7 @@ Partial Class EMI_Transfer_Bahan_Bakar
         Me.jumlah_transfer = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.transfer_bags = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         CType(Me.DGV_Data_TF, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel4.SuspendLayout()
@@ -103,6 +104,19 @@ Partial Class EMI_Transfer_Bahan_Bakar
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(981, 51)
         Me.Panel1.TabIndex = 24
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(981, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -172,7 +186,7 @@ Partial Class EMI_Transfer_Bahan_Bakar
         Me.CmbSO_Asal.Location = New System.Drawing.Point(147, 116)
         Me.CmbSO_Asal.Name = "CmbSO_Asal"
         Me.CmbSO_Asal.Size = New System.Drawing.Size(163, 21)
-        Me.CmbSO_Asal.TabIndex = 429
+        Me.CmbSO_Asal.TabIndex = 1
         '
         'TxtKeterangan
         '
@@ -183,7 +197,7 @@ Partial Class EMI_Transfer_Bahan_Bakar
         Me.TxtKeterangan.MaxLength = 50
         Me.TxtKeterangan.Name = "TxtKeterangan"
         Me.TxtKeterangan.Size = New System.Drawing.Size(340, 21)
-        Me.TxtKeterangan.TabIndex = 428
+        Me.TxtKeterangan.TabIndex = 0
         '
         'TxtNo_Transaksi
         '
@@ -218,7 +232,7 @@ Partial Class EMI_Transfer_Bahan_Bakar
         Me.TxtKd_Barang.MaxLength = 50
         Me.TxtKd_Barang.Name = "TxtKd_Barang"
         Me.TxtKd_Barang.Size = New System.Drawing.Size(206, 21)
-        Me.TxtKd_Barang.TabIndex = 438
+        Me.TxtKd_Barang.TabIndex = 2
         '
         'Label6
         '
@@ -260,7 +274,7 @@ Partial Class EMI_Transfer_Bahan_Bakar
         DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DGV_Data_TF.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.DGV_Data_TF.ColumnHeadersHeight = 35
-        Me.DGV_Data_TF.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.lokasi, Me.kode_barang, Me.barang_sn, Me.nama_barang, Me.id_warehouse, Me.kode_rak, Me.id_pallet, Me.good_stock, Me.satuan, Me.bags_barang, Me.Chk_TF, Me.jumlah_transfer, Me.transfer_bags, Me.Column1})
+        Me.DGV_Data_TF.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.lokasi, Me.kode_barang, Me.barang_sn, Me.nama_barang, Me.id_warehouse, Me.kode_rak, Me.id_pallet, Me.good_stock, Me.satuan, Me.bags_barang, Me.Chk_TF, Me.jumlah_transfer, Me.transfer_bags, Me.Column1, Me.Column2})
         DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window
         DataGridViewCellStyle14.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
@@ -276,8 +290,8 @@ Partial Class EMI_Transfer_Bahan_Bakar
         DataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DGV_Data_TF.RowsDefaultCellStyle = DataGridViewCellStyle15
         Me.DGV_Data_TF.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DGV_Data_TF.Size = New System.Drawing.Size(940, 375)
-        Me.DGV_Data_TF.TabIndex = 461
+        Me.DGV_Data_TF.Size = New System.Drawing.Size(940, 337)
+        Me.DGV_Data_TF.TabIndex = 4
         '
         'Panel4
         '
@@ -316,7 +330,7 @@ Partial Class EMI_Transfer_Bahan_Bakar
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(20, 585)
+        Me.Panel7.Location = New System.Drawing.Point(20, 550)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(942, 12)
@@ -327,7 +341,7 @@ Partial Class EMI_Transfer_Bahan_Bakar
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label5.Location = New System.Drawing.Point(594, 608)
+        Me.Label5.Location = New System.Drawing.Point(594, 573)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(40, 17)
         Me.Label5.TabIndex = 465
@@ -339,21 +353,22 @@ Partial Class EMI_Transfer_Bahan_Bakar
         Me.TxtTotalTransfer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtTotalTransfer.Enabled = False
         Me.TxtTotalTransfer.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtTotalTransfer.Location = New System.Drawing.Point(640, 606)
+        Me.TxtTotalTransfer.Location = New System.Drawing.Point(640, 571)
         Me.TxtTotalTransfer.MaxLength = 50
         Me.TxtTotalTransfer.Name = "TxtTotalTransfer"
         Me.TxtTotalTransfer.Size = New System.Drawing.Size(114, 21)
         Me.TxtTotalTransfer.TabIndex = 464
+        Me.TxtTotalTransfer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Btn_Refresh
         '
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(110, 598)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(110, 563)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(84, 36)
-        Me.Btn_Refresh.TabIndex = 463
+        Me.Btn_Refresh.TabIndex = 6
         Me.Btn_Refresh.Text = "&Refresh"
         Me.Btn_Refresh.UseVisualStyleBackColor = False
         '
@@ -362,17 +377,17 @@ Partial Class EMI_Transfer_Bahan_Bakar
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(20, 598)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(20, 563)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(84, 36)
-        Me.Btn_Simpan.TabIndex = 462
+        Me.Btn_Simpan.TabIndex = 5
         Me.Btn_Simpan.Text = "&Simpan"
         Me.Btn_Simpan.UseVisualStyleBackColor = False
         '
         'Panel8
         '
         Me.Panel8.BackColor = System.Drawing.Color.Red
-        Me.Panel8.Location = New System.Drawing.Point(20, 635)
+        Me.Panel8.Location = New System.Drawing.Point(20, 600)
         Me.Panel8.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel8.Name = "Panel8"
         Me.Panel8.Size = New System.Drawing.Size(942, 12)
@@ -387,7 +402,7 @@ Partial Class EMI_Transfer_Bahan_Bakar
         Me.Btn_GetData.Location = New System.Drawing.Point(758, 151)
         Me.Btn_GetData.Name = "Btn_GetData"
         Me.Btn_GetData.Size = New System.Drawing.Size(60, 51)
-        Me.Btn_GetData.TabIndex = 462
+        Me.Btn_GetData.TabIndex = 3
         Me.Btn_GetData.Text = "&Get"
         Me.Btn_GetData.UseVisualStyleBackColor = False
         '
@@ -503,17 +518,18 @@ Partial Class EMI_Transfer_Bahan_Bakar
         Me.TxtTotalTransferBags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtTotalTransferBags.Enabled = False
         Me.TxtTotalTransferBags.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtTotalTransferBags.Location = New System.Drawing.Point(847, 606)
+        Me.TxtTotalTransferBags.Location = New System.Drawing.Point(847, 571)
         Me.TxtTotalTransferBags.MaxLength = 50
         Me.TxtTotalTransferBags.Name = "TxtTotalTransferBags"
         Me.TxtTotalTransferBags.Size = New System.Drawing.Size(114, 21)
         Me.TxtTotalTransferBags.TabIndex = 464
+        Me.TxtTotalTransferBags.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Label12
         '
         Me.Label12.AutoSize = True
         Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label12.Location = New System.Drawing.Point(760, 608)
+        Me.Label12.Location = New System.Drawing.Point(760, 573)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(76, 17)
         Me.Label12.TabIndex = 465
@@ -621,7 +637,7 @@ Partial Class EMI_Transfer_Bahan_Bakar
         '
         'jumlah_transfer
         '
-        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
         Me.jumlah_transfer.DefaultCellStyle = DataGridViewCellStyle12
         Me.jumlah_transfer.HeaderText = "Jumlah"
         Me.jumlah_transfer.Name = "jumlah_transfer"
@@ -642,25 +658,19 @@ Partial Class EMI_Transfer_Bahan_Bakar
         Me.Column1.ReadOnly = True
         Me.Column1.Visible = False
         '
-        'PanelGradient1
+        'Column2
         '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(981, 2)
-        Me.PanelGradient1.TabIndex = 22
+        Me.Column2.HeaderText = "Flag_Blok_SN"
+        Me.Column2.Name = "Column2"
+        Me.Column2.ReadOnly = True
+        Me.Column2.Visible = False
         '
         'EMI_Transfer_Bahan_Bakar
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(981, 653)
+        Me.ClientSize = New System.Drawing.Size(981, 611)
         Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.TxtSatuanKecil)
         Me.Controls.Add(Me.Lv_DetBarang)
@@ -758,4 +768,5 @@ Partial Class EMI_Transfer_Bahan_Bakar
     Friend WithEvents jumlah_transfer As DataGridViewTextBoxColumn
     Friend WithEvents transfer_bags As DataGridViewTextBoxColumn
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
+    Friend WithEvents Column2 As DataGridViewTextBoxColumn
 End Class

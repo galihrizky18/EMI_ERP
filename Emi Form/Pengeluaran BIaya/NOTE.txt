@@ -1,0 +1,3 @@
+Tambahkan Pada Tabel Menu : 
+Kolom Variabel = "MenuAsal"
+Kolom Isi Variabel = "PENGELUARAN_STOCK" | "PENGELUARAN_STOCK_REJECTED"

@@ -115,6 +115,8 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
 
 
 
+
+
             'Ambil Data SN Berdasar Barcode
             SQL = "select a.Serial_Number, a.Qr_Code, a.Kode_Unik_Berjalan, b.Nama, a.Batch_Number, a.Tgl_Expired,b.Metode_Pengeluaran_Stok,a.Tgl_Masuk, a.Blok_SN "
             SQL = SQL & "from barang_sn a, barang b "
@@ -124,25 +126,56 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
             SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' "
             SQL = SQL & "and a.Jumlah <> 0 "
             SQL = SQL & "and a.qr_code + '-' + a.kode_unik_berjalan ='" & Txt_ScanBarcode.Text & "' "
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
 
-                    If General_Class.CekNULL(Dr("Blok_SN")) = "Y" Then
-                        Dr.Close()
+                            Dim isWaste As Boolean = False
+                            SQL = "select a.SO_Tujuan, e.flag_waste "
+                            SQL = SQL & "From tf_stock_parent a, tf_stock b, tf_stock_det c, barang d, Stock_Owner_Gudang e Where "
+                            SQL = SQL & "a.kode_Perusahaan = b.kode_Perusahaan And a.no_faktur = b.no_faktur And "
+                            SQL = SQL & "b.kode_Perusahaan = c.kode_Perusahaan And b.no_faktur = c.no_faktur And b.Urut_Oto = c.urut_TF "
+                            SQL = SQL & "And b.Kode_Barang=d.Kode_Barang And a.so_awal=d.kode_stock_Owner And b.kode_Perusahaan=d.Kode_Perusahaan "
+                            SQL = SQL & "And a.status Is null And b.Flag_Timbang ='T' and c.selesai is null "
+                            SQL = SQL & "and a.kode_perusahaan = e.kode_perusahaan and a.so_tujuan = e.kode_stock_owner and e.flag_waste = 'Y' "
+                            SQL = SQL & "And c.Serial_Number_Awal = '" & .Rows(i).Item("serial_number") & "' and a.Kode_Perusahaan='" & KodePerusahaan & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    If General_Class.CekNULL(Dr("flag_waste")) = "Y" Then
+                                        isWaste = True
+                                    Else
+                                        isWaste = False
+                                    End If
+                                End If
+                            End Using
+
+                            If Not isWaste Then
+                                If General_Class.CekNULL(.Rows(i).Item("Blok_SN")) = "Y" Then
+                                    CloseTrans()
+                                    CloseConn()
+                                    MessageBox.Show("SN Pada Pallet di Block, Validasi di Batalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    kosong()
+                                    Exit Sub
+                                End If
+                            End If
+
+                            QrLama = General_Class.CekNULL(.Rows(i).Item("Qr_Code"))
+                            batchLama = General_Class.CekNULL(.Rows(i).Item("Batch_Number"))
+                            SN = .Rows(i).Item("serial_number")
+                            expDate = General_Class.CekNULL(.Rows(i).Item("Tgl_Expired"))
+                            tglMsk = General_Class.CekNULL(.Rows(i).Item("tgl_masuk"))
+                            metodePengeluaranStock = General_Class.CekNULL(.Rows(i).Item("Metode_Pengeluaran_Stok"))
+
+                        Next
+                    Else
                         CloseTrans()
                         CloseConn()
-                        MessageBox.Show("SN Pada Pallet di Block, Validasi di Batalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        MessageBox.Show("Barang Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         kosong()
                         Exit Sub
                     End If
-
-                    QrLama = General_Class.CekNULL(Dr("Qr_Code"))
-                    batchLama = General_Class.CekNULL(Dr("Batch_Number"))
-                    SN = Dr("serial_number")
-                    expDate = General_Class.CekNULL(Dr("Tgl_Expired"))
-                    tglMsk = General_Class.CekNULL(Dr("tgl_masuk"))
-                    metodePengeluaranStock = General_Class.CekNULL(Dr("Metode_Pengeluaran_Stok"))
-                End If
+                End With
             End Using
 
 
@@ -168,7 +201,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                     GetDataKdBrg = Dr("Kode_Barang")
                     GetDataNmBrg = Dr("Nama")
                     GetDataBrgSN = Dr("Serial_Number_Awal")
-                    GetDataJmlEstimasi = HilangkanTanda(Format(Dr("jumlah"), "N2"))
+                    GetDataJmlEstimasi = HilangkanTanda(Format(Dr("jumlah"), "N4"))
                     GetDataSatuanKecil = Dr("Satuan_Barang")
                     GetDataSatuanBesar = Dr("Satuan")
                     GetDataUrutOto = Dr("urut_oto")
@@ -926,7 +959,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                     Lvw.SubItems.Add(dr("so_tujuan"))
                     Lvw.SubItems.Add(dr("kode_barang"))
                     Lvw.SubItems.Add("X")
-                    Lvw.SubItems.Add(Format(dr("jumlah"), "N2"))
+                    Lvw.SubItems.Add(Format(dr("jumlah"), "N4"))
                     Lvw.SubItems.Add(dr("satuan"))
                     Lvw.SubItems.Add(dr("Rak_Awal"))
                     Lvw.SubItems.Add(dr("Serial_Number_Awal"))

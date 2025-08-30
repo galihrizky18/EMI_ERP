@@ -5,7 +5,7 @@ Public Class Server_Sinkronasi_B2B
 
     Dim arrId_Proyeks, arrKd_Brg, arrSO, arrNo_Rab, arrNo_Fak, arrEdit, arrHapus, arrKdSupplier, arrNo_Fak2, arrNoUrut As New ArrayList
 
-    Dim arrNo_PO, arrNoPo2, arrKodeSupplier, arrNoPenawaranPackaging, arrNoPenawaranBahanBaku, arrNoPoPembelianSelesai As New ArrayList
+    Dim arrNo_PO, arrNoPo2, arrKodeSupplier, arrKodePerusahanBiayaImport, arrNoPenawaranPackaging, arrNoPenawaranBahanBaku, arrNoPoPembelianSelesai As New ArrayList
 
     Dim Faktur_Penawaran As String = ""
 
@@ -1390,7 +1390,80 @@ Public Class Server_Sinkronasi_B2B
         End Try
     End Sub
 
+    Private Sub Button6_Click_1(sender As Object, e As EventArgs) Handles Button6.Click
+        get_jam()
+        Try
+            OpenConn()
+            OpenConnB2B()
+            Cmd.Transaction = Cn.BeginTransaction
+            CmdB2B.Transaction = CnB2B.BeginTransaction
 
+            arrKodePerusahanBiayaImport.Clear()
+            SQL = "select Distinct a.Flag_Sudah_Pindah, kode_perusahaan_biaya_import "
+            SQL = SQL & "from Perusahaan_biaya_Import a "
+            SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.Kode_Master_Kategori_Biaya_Import in ( "
+
+            SQL = SQL & "select Distinct y.Kode_Master_Kategori_Biaya_Import "
+            SQL = SQL & "from Biaya_B2B k, Biaya_Import z, Kategori_Biaya_Import x, Master_Kategori_Biaya_Import y "
+            SQL = SQL & "where k.Kode_Perusahaan = z.Kode_Perusahaan and z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan "
+            SQL = SQL & "and k.Kode_Biaya = z.Kode_Biaya "
+            SQL = SQL & "and z.Kode_Kategori_Biaya_Import = x.Kode_Kategori_Biaya_Import "
+            SQL = SQL & "and x.Kode_Master_Kategori_Biaya_Import = y.Kode_Master_Kategori_Biaya_Import "
+            SQL = SQL & "and z.Kode_Perusahaan = '" & KodePerusahaan & "') "
+
+            SQL = SQL & "and a.Flag_Sudah_Pindah is null "
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    For i As Integer = 0 To .Rows.Count - 1
+                        arrKodePerusahanBiayaImport.Add(.Rows(i).Item("kode_perusahaan_biaya_import"))
+                    Next
+                End With
+            End Using
+
+            Dim j As Integer = 0
+            For z As Integer = 1 To arrKodePerusahanBiayaImport.Count
+
+                SQL = "select Kode_Perusahaan, kode_perusahaan_biaya_import, Nama "
+                SQL = SQL & "from Perusahaan_biaya_Import where kode_perusahaan = '" & KodePerusahaan & "' and "
+                SQL = SQL & "flag_sudah_pindah is null and "
+                SQL = SQL & "kode_perusahaan_biaya_import = '" & arrKodePerusahanBiayaImport.Item(j).ToString & "' "
+                Using Ds = BindingTrans(SQL)
+                    With Ds.Tables("MyTable")
+                        For i As Integer = 0 To .Rows.Count - 1
+                            'Insert ke MySql
+                            SQLB2B = "insert into suppliers (Kode_Perusahaan,Kode_Supplier,Nama, Nama_Supplier "
+                            SQLB2B = SQLB2B & ")"
+                            SQLB2B = SQLB2B & "Values ('" & .Rows(i).Item("kode_perusahaan") & "', '" & .Rows(i).Item("kode_perusahaan_biaya_import") & "', "
+                            SQLB2B = SQLB2B & "'" & .Rows(i).Item("Nama") & "', '" & .Rows(i).Item("Nama") & "' "
+                            SQLB2B = SQLB2B & ")"
+                            ExecuteTransB2B(SQLB2B)
+
+                        Next
+                    End With
+                End Using
+
+                SQL = "Update Perusahaan_biaya_Import set flag_sudah_pindah = 'Y' where "
+                SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "'  and "
+                SQL = SQL & "kode_perusahaan_biaya_import = '" & arrKodePerusahanBiayaImport.Item(j).ToString & "' "
+                ExecuteTrans(SQL)
+
+                j = j + 1
+            Next
+
+            Cmd.Transaction.Commit()
+            CmdB2B.Transaction.Commit()
+            CloseConn()
+            CloseConnB2B()
+        Catch ex As Exception
+            CloseTrans()
+            CloseTransB2B()
+            CloseConn()
+            CloseConnB2B()
+            MessageBox.Show(ex.Message & " Insert Perusahaan")
+            Exit Sub
+        End Try
+    End Sub
 
     Private Sub Button5_Click_1(sender As Object, e As EventArgs) Handles Button5.Click
         get_jam()
@@ -2036,7 +2109,7 @@ Public Class Server_Sinkronasi_B2B
             SQLB2B = SQLB2B & "select top 1 a.Kode_Perusahaan, 'b2b_packaging' as dari From b2b_packaging a , b2b_detail_packaging b where a.Kode_Perusahaan = b.Kode_Perusahaan and a.no_transaksi = b.no_transaksi  "
             SQLB2B = SQLB2B & "and b.Flag_Approval = 'A' and a.Status is null and b.Flag_Sudah_Pindah is null and a.kode_perusahaan = '" & KodePerusahaan & "' "
             SQLB2B = SQLB2B & "union all "
-            SQLB2B = SQLB2B & "select c.No_Faktur, a.No_Urut, 'Expedisi' as dari from B2B_Detail_Vehicle_Expedition a, B2B_Detail_Expedition b, B2B_Expedition c "
+            SQLB2B = SQLB2B & "select top 1 a.Kode_Perusahaan, 'Expedisi' as dari from B2B_Detail_Vehicle_Expedition a, B2B_Detail_Expedition b, B2B_Expedition c "
             SQLB2B = SQLB2B & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Detail_Expedition = b.No_Urut and b.No_Penawaran = c.No_Penawaran "
             SQLB2B = SQLB2B & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and c.Status is null and a.Flag_Approval = 'A' and a.Flag_Sudah_Pindah is null order by c.No_Faktur "
             Using DsSQL = BindingTransB2B(SQLB2B)

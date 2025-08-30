@@ -102,6 +102,7 @@ Public Class EMI_DownPayment_Asset
         TxtTotalIDR.Text = ""
         TxtKeterangan.Text = ""
         Txt_JmlhPO.Text = ""
+        Txt_NilaiDPP.Text = ""
 
         Txt_PPNPersen.Text = ""
         Txt_PPN.Text = ""
@@ -127,11 +128,10 @@ Public Class EMI_DownPayment_Asset
     End Sub
 
     Private Sub Get_No_Faktur_Pengajuan()
-        Dim fNB = "NB"
-        no_fakturPengajuan = fNB & Format(Dtp1.Value, "MMyy") & "-" &
+        no_fakturPengajuan = fPengajuanTemp & Format(Dtp1.Value, "MMyy") & "-" &
                              General_Class.Get_Last_Number2("Pengajuan_temp", "No_Pengajuan", 5,
                              "Kode_perusahaan", KodePerusahaan,
-                             "And", "substring(No_Pengajuan, 1, " & Len(fNB) + 4 & ")", fNB & Format(Dtp1.Value, "MMyy"))
+                             "And", "substring(No_Pengajuan, 1, " & Len(fPengajuanTemp) + 4 & ")", fPengajuanTemp & Format(Dtp1.Value, "MMyy"))
     End Sub
 
     Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
@@ -222,11 +222,21 @@ Public Class EMI_DownPayment_Asset
 
             Get_No_Faktur_Pengajuan()
 
+            'KODE LAMA
+            'SQL = "INSERT INTO pengajuan_Temp(kode_perusahaan, no_pengajuan, tanggal, jam, keterangan, userid, grand, pbk, "
+            'SQL = SQL & "Validasi, Jenis_Asal) "
+            'SQL = SQL & "values('" & KodePerusahaan & "', '" & no_fakturPengajuan & "', '" & Format(Dtp1.Value, "yyyy-MM-dd") & "', "
+            'SQL = SQL & "'" & Format(Tanggal_Sekarang, "HH:mm:ss") & "', '" & TxtKeterangan.Text & "', '" & UserID & "', "
+            'SQL = SQL & "" & HilangkanTanda(TxtTotalIDR.Text) & ", 'T', NULL, 'ASSET')"
+            'ExecuteTrans(SQL)
+
+            Dim NilaiTranfer As Double = HilangkanTanda(TxtTotalIDR.Text) - Val(HilangkanTanda(Txt_PPH.Text))
+
             SQL = "INSERT INTO pengajuan_Temp(kode_perusahaan, no_pengajuan, tanggal, jam, keterangan, userid, grand, pbk, "
             SQL = SQL & "Validasi, Jenis_Asal) "
             SQL = SQL & "values('" & KodePerusahaan & "', '" & no_fakturPengajuan & "', '" & Format(Dtp1.Value, "yyyy-MM-dd") & "', "
             SQL = SQL & "'" & Format(Tanggal_Sekarang, "HH:mm:ss") & "', '" & TxtKeterangan.Text & "', '" & UserID & "', "
-            SQL = SQL & "" & HilangkanTanda(TxtTotalIDR.Text) & ", 'T', NULL, 'ASSET')"
+            SQL = SQL & "" & HilangkanTanda(NilaiTranfer) & ", 'T', NULL, 'ASSET')"
             ExecuteTrans(SQL)
 
             SQL = "insert into EMI_Transaksi_Pembayaran_Dimuka_Asset(Kode_Perusahaan,No_Transaksi	,Tanggal, Jam, UserID, "
@@ -239,16 +249,28 @@ Public Class EMI_DownPayment_Asset
             ExecuteTrans(SQL)
 
             '''INSERT KE DETAIL PENGAJUAN TEMP
+            'SQL = "INSERT INTO detail_pengajuan_Temp(kode_perusahaan, no_pengajuan, kode_master_acc, kode_acc, kode_detail_acc, "
+            'SQL = SQL & "keterangan_detail, tgl_jatuh_tempo, jumlah, kode_bank_tujuan, no_rek_tujuan, nama_penerima, "
+            'SQL = SQL & "Alamat_Penerima, Kota_Penerima, Negara_Penerima, Telp_Penerima, Lokasi, Kode_Account, "
+            'SQL = SQL & "Id_Cost_Center, No_Pelunasan, Urut_Pelunasan, Tgl_Bayar, Flag_Pengajuan, Flag_Pelunasan) "
+            'SQL = SQL & "values('" & KodePerusahaan & "', '" & no_fakturPengajuan & "', '" & Strings.Left(Akun_DP, 1) & "', "
+            'SQL = SQL & "'" & Strings.Mid(Akun_DP, 2, 1) & "', '" & Strings.Mid(Ganti(Akun_DP), 3) & "', "
+            'SQL = SQL & "'" & TxtKeterangan.Text & "', '" & Format(Dtp1.Value, "yyyy-MM-dd") & "', " & HilangkanTanda(TxtTotalIDR.Text) & ", "
+            'SQL = SQL & "'" & arrKodeBankTujuan.Item(CmbRekening.SelectedIndex) & "', '" & arrRekeningTujuan.Item(CmbRekening.SelectedIndex) & "', '" & arrNamaPemilikiRekTujuan.Item(CmbRekening.SelectedIndex) & "', "
+            'SQL = SQL & "'-', '" & arrKotaTujuan.Item(CmbRekening.SelectedIndex) & "', '" & arrNegaraTujuan.Item(CmbRekening.SelectedIndex) & "', '-','" & CmbLokasi.Text & "','" & Akun_DP & "', "
+            'SQL = SQL & "'0', '" & TxtFakturPembayaran.Text.Trim & "', NULL, '" & Format(Dtp1.Value, "yyyy-MM-dd") & "', 'Y', 'Y') "
+            'ExecuteTrans(SQL)
+
             SQL = "INSERT INTO detail_pengajuan_Temp(kode_perusahaan, no_pengajuan, kode_master_acc, kode_acc, kode_detail_acc, "
             SQL = SQL & "keterangan_detail, tgl_jatuh_tempo, jumlah, kode_bank_tujuan, no_rek_tujuan, nama_penerima, "
             SQL = SQL & "Alamat_Penerima, Kota_Penerima, Negara_Penerima, Telp_Penerima, Lokasi, Kode_Account, "
-            SQL = SQL & "Id_Cost_Center, No_Pelunasan, Urut_Pelunasan, Tgl_Bayar) "
+            SQL = SQL & "Id_Cost_Center, No_Pelunasan, Urut_Pelunasan, Tgl_Bayar, Flag_Pengajuan, Flag_Pelunasan) "
             SQL = SQL & "values('" & KodePerusahaan & "', '" & no_fakturPengajuan & "', '" & Strings.Left(Akun_DP, 1) & "', "
             SQL = SQL & "'" & Strings.Mid(Akun_DP, 2, 1) & "', '" & Strings.Mid(Ganti(Akun_DP), 3) & "', "
-            SQL = SQL & "'" & TxtKeterangan.Text & "', '" & Format(Dtp1.Value, "yyyy-MM-dd") & "', " & HilangkanTanda(TxtTotalIDR.Text) & ", "
+            SQL = SQL & "'" & TxtKeterangan.Text & "', '" & Format(Dtp1.Value, "yyyy-MM-dd") & "', " & HilangkanTanda(NilaiTranfer) & ", "
             SQL = SQL & "'" & arrKodeBankTujuan.Item(CmbRekening.SelectedIndex) & "', '" & arrRekeningTujuan.Item(CmbRekening.SelectedIndex) & "', '" & arrNamaPemilikiRekTujuan.Item(CmbRekening.SelectedIndex) & "', "
             SQL = SQL & "'-', '" & arrKotaTujuan.Item(CmbRekening.SelectedIndex) & "', '" & arrNegaraTujuan.Item(CmbRekening.SelectedIndex) & "', '-','" & CmbLokasi.Text & "','" & Akun_DP & "', "
-            SQL = SQL & "'0', '" & TxtFakturPembayaran.Text.Trim & "', NULL, '" & Format(Dtp1.Value, "yyyy-MM-dd") & "') "
+            SQL = SQL & "'0', '" & TxtFakturPembayaran.Text.Trim & "', NULL, '" & Format(Dtp1.Value, "yyyy-MM-dd") & "', 'Y', 'Y') "
             ExecuteTrans(SQL)
 
             Dim x_no_urut_det_pengajuan As String = ""
@@ -271,10 +293,59 @@ Public Class EMI_DownPayment_Asset
                 End If
             End Using
 
+            '============================
+            '=     INSERT JURNAL DP     =
+            '============================
             SQL = "insert into Detail_Pengajuan5_Temp(Kode_Perusahaan,Urut_Detail_Pengajuan, Kode_Account,Debit, Kredit, Keterangan,Tgl, lokasi)"
             SQL = SQL & "values('" & KodePerusahaan & "', '" & x_no_urut_det_pengajuan & "', '" & Akun_DP & "', '" & HilangkanTanda(TxtTotalIDR.Text) & "','0', "
             SQL = SQL & "'Pembayaran Di Muka " & TxtFakturPembayaran.Text.Trim & ";" & TxtKeterangan.Text.Trim & "', '" & Format(Dtp1.Value, "yyyy-MM-dd") & "', '" & Lokasi & "')"
             ExecuteTrans(SQL)
+
+
+            '=============================
+            '=     INSERT JURNAL PPH     =
+            '=============================
+            If CbNoFaktur.Checked Then
+                SQL = "select No_Faktur, Persentase, Kode_Tarif, Kode_Akun, Flag_PPN from EMI_Detail_PPH_PO_Induk_Barang_Lain  "
+                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & CmbNoPO.Text & "' "
+                SQL = SQL & "order by No_Faktur "
+                Using Ds = BindingTrans(SQL)
+                    With Ds.Tables("MyTable")
+                        If .Rows.Count <> 0 Then
+                            For i As Integer = 0 To .Rows.Count - 1
+
+                                Dim NilaiValue As Double = Val(HilangkanTanda(Format(Val(HilangkanTanda(Txt_NilaiDPP.Text)) * (Val(HilangkanTanda(.Rows(i).Item("Persentase"))) / 100), "N0")))
+
+                                If General_Class.CekNULL(.Rows(i).Item("Flag_PPN")) = "Y" Then
+
+                                    SQL = "insert into EMI_Transaksi_Pembayaran_Dimuka_Asset_Pajak (Kode_Perusahaan, No_Faktur_Induk, No_Faktur, Persentase, Nilai, Kode_Tarif, Flag_PPN, Kode_Akun) "
+                                    SQL = SQL & "values ('" & KodePerusahaan & "', '" & CmbNoPO.Text & "', '" & TxtFakturPembayaran.Text & "', '" & .Rows(i).Item("Persentase") & "', "
+                                    SQL = SQL & "'" & HilangkanTanda(NilaiValue) & "', '" & .Rows(i).Item("Kode_Tarif") & "', 'Y', '" & .Rows(i).Item("Kode_Akun") & "') "
+                                    ExecuteTrans(SQL)
+
+                                ElseIf General_Class.CekNULL(.Rows(i).Item("Flag_PPN")) = "" Then
+
+                                    SQL = "insert into EMI_Transaksi_Pembayaran_Dimuka_Asset_Pajak (Kode_Perusahaan, No_Faktur_Induk, No_Faktur, Persentase, Nilai, Kode_Tarif, Flag_PPN, Kode_Akun) "
+                                    SQL = SQL & "values ('" & KodePerusahaan & "', '" & CmbNoPO.Text & "', '" & TxtFakturPembayaran.Text & "', '" & .Rows(i).Item("Persentase") & "', "
+                                    SQL = SQL & "'" & HilangkanTanda(NilaiValue) & "', '" & .Rows(i).Item("Kode_Tarif") & "', NULL, '" & .Rows(i).Item("Kode_Akun") & "') "
+                                    ExecuteTrans(SQL)
+
+                                    SQL = "insert into Detail_Pengajuan5_Temp(Kode_Perusahaan, Urut_Detail_Pengajuan, Kode_Account,Debit, Kredit, Keterangan, Tgl, lokasi)"
+                                    SQL = SQL & "values('" & KodePerusahaan & "', '" & x_no_urut_det_pengajuan & "', '" & .Rows(i).Item("Kode_Akun") & "', '0','" & HilangkanTanda(NilaiValue) & "', "
+                                    SQL = SQL & "'Pembayaran " & .Rows(i).Item("Kode_Tarif") & " " & TxtFakturPembayaran.Text.Trim & ";" & TxtKeterangan.Text.Trim & "', '" & Format(Dtp1.Value, "yyyy-MM-dd") & "', '" & Lokasi & "')"
+                                    ExecuteTrans(SQL)
+
+                                End If
+
+
+
+                            Next
+                        End If
+                    End With
+                End Using
+
+
+            End If
 
             'insert ke binding/ detail
             If CbNoFaktur.Checked = True Then
@@ -291,46 +362,53 @@ Public Class EMI_DownPayment_Asset
                 ExecuteTrans(SQL)
             End If
 
-            '=====================================
-            '=     GET DATA PERSENTASE BY PO     =
-            '=====================================
-            If CbNoFaktur.Checked Then
-                Dim Persentase As Double = 1 + (HilangkanTanda(Txt_PPNPersen.Text) / 100) - (HilangkanTanda(Txt_PPHPersen.Text) / 100)
-                Dim DPP As Double = Format(Nilai / Persentase, "N2")
 
-                SQL = "select No_Faktur, Persentase, Kode_Tarif, Kode_Akun, Flag_PPN from EMI_Detail_PPH_PO_Barang_Lain  "
-                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur_Induk = '" & CmbNoPO.Text & "' "
-                SQL = SQL & "order by No_Faktur "
-                Using Ds = BindingTrans(SQL)
-                    With Ds.Tables("MyTable")
-                        If .Rows.Count <> 0 Then
-                            For i As Integer = 0 To .Rows.Count - 1
+            '======================
+            '=     CEK JURNAL     =
+            '======================
+            SQL = "select grand from pengajuan_Temp where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and No_Pengajuan = '" & no_fakturPengajuan & "' and UserID = '" & UserID & "'"
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
 
-                                Dim tes As Double = .Rows(i).Item("Persentase")
-                                Dim NilaiValue As Double = Format(DPP * (Val(HilangkanTanda(.Rows(i).Item("Persentase"))) / 100), "N4")
+                        If .Rows.Count > 1 Then
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Terdapat Kesahalan Pada Jurnal", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
 
-                                If General_Class.CekNULL(.Rows(i).Item("Flag_PPN")) = "Y" Then
+                        Else
+                            Dim NilaiTransfer As Double = Val(HilangkanTanda(.Rows(0).Item("grand")))
+                            Dim NilaiJurnal As Double = 0
 
-                                    SQL = "insert into EMI_Transaksi_Pembayaran_Dimuka_Asset_Pajak (Kode_Perusahaan, No_Faktur_Induk, No_Faktur, Persentase, Nilai, Kode_Tarif, Flag_PPN, Kode_Akun) "
-                                    SQL = SQL & "values ('" & KodePerusahaan & "', '" & CmbNoPO.Text & "', '" & TxtFakturPembayaran.Text & "', '" & .Rows(i).Item("Persentase") & "', "
-                                    SQL = SQL & "'" & HilangkanTanda(NilaiValue) & "', '" & .Rows(i).Item("Kode_Tarif") & "', 'Y', '" & .Rows(i).Item("Kode_Akun") & "') "
-                                    ExecuteTrans(SQL)
-
-                                ElseIf General_Class.CekNULL(.Rows(i).Item("Flag_PPN")) = "" Then
-
-                                    SQL = "insert into EMI_Transaksi_Pembayaran_Dimuka_Asset_Pajak (Kode_Perusahaan, No_Faktur_Induk, No_Faktur, Persentase, Nilai, Kode_Tarif, Flag_PPN, Kode_Akun) "
-                                    SQL = SQL & "values ('" & KodePerusahaan & "', '" & CmbNoPO.Text & "', '" & TxtFakturPembayaran.Text & "', '" & .Rows(i).Item("Persentase") & "', "
-                                    SQL = SQL & "'" & HilangkanTanda(NilaiValue) & "', '" & .Rows(i).Item("Kode_Tarif") & "', NULL, '" & .Rows(i).Item("Kode_Akun") & "') "
-                                    ExecuteTrans(SQL)
-
+                            SQL = "select round(sum(debit), 2) - round(sum(kredit), 2) as Nilai_jurnal "
+                            SQL = SQL & "from Detail_Pengajuan5_Temp where Kode_Perusahaan = '" & KodePerusahaan & "' and "
+                            SQL = SQL & "Urut_Detail_Pengajuan = '" & x_no_urut_det_pengajuan & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    NilaiJurnal = Val(HilangkanTanda(Dr("Nilai_jurnal")))
                                 End If
+                            End Using
 
-                            Next
+
+                            If NilaiTransfer <> NilaiJurnal Then
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("Terdapat Kesahalan Pada Jurnal", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+
                         End If
-                    End With
-                End Using
+                    Else
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Terdapat Kesahalan Pada Jurnal", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
 
-            End If
+                    End If
+                End With
+            End Using
 
             'akhir tutup
 
@@ -457,6 +535,17 @@ Public Class EMI_DownPayment_Asset
                 End If
             End Using
 
+            Chk_Persen.Checked = False
+            Txt_Persen.Text = ""
+            TxtNilai.Text = ""
+            Txt_NilaiDPP.Text = ""
+            Txt_PPNPersen.Text = ""
+            Txt_PPN.Text = ""
+            Txt_PPHPersen.Text = ""
+            Txt_PPH.Text = ""
+            TxtKurs.Text = ""
+            TxtTotalIDR.Text = ""
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -476,6 +565,7 @@ Public Class EMI_DownPayment_Asset
                 Txt_PPN.Text = ""
                 Txt_PPHPersen.Text = ""
                 Txt_PPH.Text = ""
+                Txt_NilaiDPP.Text = ""
                 Exit Sub
             End If
 
@@ -486,6 +576,7 @@ Public Class EMI_DownPayment_Asset
                 Txt_PPN.Text = ""
                 Txt_PPHPersen.Text = ""
                 Txt_PPH.Text = ""
+                Txt_NilaiDPP.Text = ""
                 TxtNilai.Focus()
                 Exit Sub
             End If
@@ -510,7 +601,9 @@ Public Class EMI_DownPayment_Asset
 
         TxtKodeSupplier.Text = Kode
         TxtNamaSupplier.Text = Nama
+
         LvSupplier.Visible = False
+        CbNoFaktur.Focus()
 
         TxtKodeSupplier_Leave(LvSupplier, e)
 
@@ -632,13 +725,7 @@ Public Class EMI_DownPayment_Asset
     End Sub
 
     Private Sub TxtKodeSupplier_Leave(sender As Object, e As EventArgs) Handles TxtKodeSupplier.Leave
-        If TxtKodeSupplier.ReadOnly = True Then Exit Sub
-
-        If TxtKodeSupplier.Text.Trim.Length = 0 Then
-            LvSupplier.Visible = False : Exit Sub
-        Else
-            LvSupplier.Visible = True
-        End If
+        If TxtKodeSupplier.Text.Trim.Length = 0 Then Exit Sub
         If LvSupplier.Focused = True Then Exit Sub
 
         Dim ada_data As String = "T"
@@ -652,8 +739,12 @@ Public Class EMI_DownPayment_Asset
                     TxtNamaSupplier.Text = Dr("nama")
 
                     ada_data = "Y"
+
+                    CbNoFaktur.Focus()
                 Else
                     CmbRekening.Items.Clear() : arrRekeningTujuan.Clear() : arrKodeBankTujuan.Clear() : arrNamaPemilikiRekTujuan.Clear() : arrKotaTujuan.Clear() : arrNegaraTujuan.Clear()
+
+                    MessageBox.Show("Supplier tidak ditemukan . . ! !", Judul)
 
                     TxtKodeSupplier.Text = ""
                     TxtNamaSupplier.Text = ""
@@ -709,28 +800,35 @@ Public Class EMI_DownPayment_Asset
     End Sub
 
     Private Sub TxtNilai_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNilai.KeyPress
-        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
+        'If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
+        If Not (Char.IsDigit(e.KeyChar) OrElse e.KeyChar = ChrW(8) OrElse e.KeyChar = "."c) Then e.Handled = True
+        If e.KeyChar = Chr(13) Then TxtKurs.Focus()
 
     End Sub
 
     Private Sub TxtKurs_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtKurs.KeyPress
-        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
+        'If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
+        If Not (Char.IsDigit(e.KeyChar) OrElse e.KeyChar = ChrW(8) OrElse e.KeyChar = "."c) Then e.Handled = True
+        If e.KeyChar = Chr(13) Then CmbRekening.Focus()
     End Sub
 
     Private Sub Txt_Persen_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Persen.KeyPress
-        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
+
+        'If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
+        If Not (Char.IsDigit(e.KeyChar) OrElse e.KeyChar = ChrW(8) OrElse e.KeyChar = "."c) Then e.Handled = True
+        If e.KeyChar = Chr(13) Then TxtKurs.Focus()
+
     End Sub
 
     Private Sub TxtKodeSupplier_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtKodeSupplier.KeyPress
+
         If e.KeyChar = Chr(13) Then
-
-            If TxtKodeSupplier.Text.Trim.Length = 0 Then
-                LvSupplier.Visible = False : TxtNamaSupplier.Focus() : Exit Sub
-            End If
-
+            If TxtKodeSupplier.Text.Trim.Length = 0 Then TxtKodeSupplier.Focus()
             TxtKodeSupplier_Leave(TxtKodeSupplier, e)
-            TxtNilai.Focus()
+
+            LvSupplier.Visible = False
         End If
+
     End Sub
 
     Private Sub TxtNilai_Leave(sender As Object, e As EventArgs) Handles TxtNilai.Leave
@@ -779,6 +877,34 @@ Public Class EMI_DownPayment_Asset
         If e.KeyCode = Keys.Down Then
             LvSupplier.Focus()
         End If
+    End Sub
+
+    Private Sub CbNoFaktur_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CbNoFaktur.KeyPress
+        If e.KeyChar = Chr(13) Then TxtNilai.Focus()
+    End Sub
+
+    Private Sub CmbNoPO_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbNoPO.KeyPress
+        If e.KeyChar = Chr(13) Then Chk_Persen.Focus()
+    End Sub
+
+    Private Sub Txt_JmlhPO_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_JmlhPO.KeyPress
+        If e.KeyChar = Chr(13) Then Chk_Persen.Focus()
+    End Sub
+
+    Private Sub Chk_Persen_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Chk_Persen.KeyPress
+        If e.KeyChar = Chr(13) Then TxtNilai.Focus()
+    End Sub
+
+    Private Sub CmbRekening_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbRekening.KeyPress
+        If e.KeyChar = Chr(13) Then TxtKeterangan.Focus()
+    End Sub
+
+    Private Sub TxtKeterangan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtKeterangan.KeyPress
+        If e.KeyChar = Chr(13) Then Btn_Simpan.Focus()
+    End Sub
+
+    Private Sub S(sender As Object, e As EventArgs) Handles CmbLokasi.SelectedIndexChanged
+
     End Sub
 
     Private Sub TxtNamaSupplier_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNamaSupplier.KeyPress
@@ -835,16 +961,18 @@ Public Class EMI_DownPayment_Asset
 
         Try
             OpenConn()
-            Cmd.Transaction = Cn.BeginTransaction
 
             Dim PersenPPN As Double = 0
             Dim PersenPPH As Double = 0
+            Dim arrPPH As New ArrayList
+            Dim NilaiPPH As Double = 0
 
             '====================================
             '     GET DATA PERSENTASE BY PO     =
             '====================================
-            SQL = "select No_Faktur, Persentase, Kode_Tarif, Kode_Akun, Flag_PPN from EMI_Detail_PPH_PO_Barang_Lain  "
-            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur_Induk = '" & no_faktur & "' "
+            arrPPH.Clear()
+            SQL = "select No_Faktur, Persentase, Kode_Tarif, Kode_Akun, Flag_PPN from EMI_Detail_PPH_PO_Induk_Barang_Lain  "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & no_faktur & "' "
             SQL = SQL & "order by No_Faktur "
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
@@ -855,6 +983,7 @@ Public Class EMI_DownPayment_Asset
                                 PersenPPN += .Rows(i).Item("Persentase")
                             ElseIf General_Class.CekNULL(.Rows(i).Item("Flag_PPN")) = "" Then
                                 PersenPPH += .Rows(i).Item("Persentase")
+                                arrPPH.Add(Val(HilangkanTanda(.Rows(i).Item("Persentase"))))
                             End If
 
                         Next
@@ -868,18 +997,23 @@ Public Class EMI_DownPayment_Asset
             '=================================================
             '=     AMBIL NILAI PO BERSIH (TANPA PPN PPH)     =
             '=================================================
-            Dim Persentase As Double = 1 + (HilangkanTanda(PersenPPN) / 100) - (HilangkanTanda(PersenPPH) / 100)
+            Dim Persentase As Double = 1 + (HilangkanTanda(PersenPPN) / 100) '- (HilangkanTanda(PersenPPH) / 100)
             Dim DPP As Double = Nilai / Persentase
 
             Dim NilaiPPN As Double = DPP * (PersenPPN / 100)
-            Dim NilaiPPH As Double = DPP * (PersenPPH / 100)
 
+            If arrPPH.Count <> 0 Then
+                For i As Integer = 0 To arrPPH.Count - 1
+                    NilaiPPH += Val(HilangkanTanda(Format(DPP * (arrPPH(i) / 100), "N0")))
+                Next
+            End If
+
+            Txt_NilaiDPP.Text = Format(DPP, "N0")
             Txt_PPNPersen.Text = Format(PersenPPN, "N0")
             Txt_PPN.Text = Format(NilaiPPN, "N0")
             Txt_PPHPersen.Text = Format(PersenPPH, "N0")
             Txt_PPH.Text = Format(NilaiPPH, "N0")
 
-            Cmd.Transaction.Commit()
             CloseTrans()
             CloseConn()
         Catch ex As Exception

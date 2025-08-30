@@ -70,6 +70,7 @@ Partial Class EMI_PO_Pembelian
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.LblPO_Judul = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -137,8 +138,6 @@ Partial Class EMI_PO_Pembelian
         Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
-        Me.Btn_Expedisi = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -239,7 +238,6 @@ Partial Class EMI_PO_Pembelian
         '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.Btn_Expedisi)
         Me.GroupBox1.Controls.Add(Me.Button1)
         Me.GroupBox1.Controls.Add(Me.TxtPO_NmSupplier)
         Me.GroupBox1.Controls.Add(Me.Label9)
@@ -262,7 +260,7 @@ Partial Class EMI_PO_Pembelian
         Me.GroupBox1.Location = New System.Drawing.Point(19, 92)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(1280, 124)
-        Me.GroupBox1.TabIndex = 1
+        Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
         'Button1
@@ -320,7 +318,7 @@ Partial Class EMI_PO_Pembelian
         Me.DtpPO_ETD.Margin = New System.Windows.Forms.Padding(2)
         Me.DtpPO_ETD.Name = "DtpPO_ETD"
         Me.DtpPO_ETD.Size = New System.Drawing.Size(192, 21)
-        Me.DtpPO_ETD.TabIndex = 315
+        Me.DtpPO_ETD.TabIndex = 0
         '
         'LblPO_ETD
         '
@@ -416,7 +414,7 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_NoNota.MaxLength = 100
         Me.TxtPO_NoNota.Name = "TxtPO_NoNota"
         Me.TxtPO_NoNota.Size = New System.Drawing.Size(185, 21)
-        Me.TxtPO_NoNota.TabIndex = 0
+        Me.TxtPO_NoNota.TabIndex = 1
         '
         'DtpPO_Tgl
         '
@@ -439,7 +437,7 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_KdSupplier.MaxLength = 30
         Me.TxtPO_KdSupplier.Name = "TxtPO_KdSupplier"
         Me.TxtPO_KdSupplier.Size = New System.Drawing.Size(192, 21)
-        Me.TxtPO_KdSupplier.TabIndex = 1
+        Me.TxtPO_KdSupplier.TabIndex = 2
         '
         'LblPO_Supplier
         '
@@ -496,7 +494,7 @@ Partial Class EMI_PO_Pembelian
         Me.CmbPO_JnsBayar.Margin = New System.Windows.Forms.Padding(2)
         Me.CmbPO_JnsBayar.Name = "CmbPO_JnsBayar"
         Me.CmbPO_JnsBayar.Size = New System.Drawing.Size(192, 23)
-        Me.CmbPO_JnsBayar.TabIndex = 1
+        Me.CmbPO_JnsBayar.TabIndex = 5
         '
         'LblPO_Pembayaran
         '
@@ -681,8 +679,21 @@ Partial Class EMI_PO_Pembelian
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1313, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1316, 51)
         Me.Panel1.TabIndex = 1
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1316, 2)
+        Me.PanelGradient1.TabIndex = 0
         '
         'Panel5
         '
@@ -794,7 +805,7 @@ Partial Class EMI_PO_Pembelian
         Me.Groupbox.Location = New System.Drawing.Point(19, 222)
         Me.Groupbox.Name = "Groupbox"
         Me.Groupbox.Size = New System.Drawing.Size(1280, 412)
-        Me.Groupbox.TabIndex = 306
+        Me.Groupbox.TabIndex = 1
         Me.Groupbox.TabStop = False
         '
         'txtJatuhTempo
@@ -879,7 +890,7 @@ Partial Class EMI_PO_Pembelian
         Me.cmb_pr.Location = New System.Drawing.Point(610, 41)
         Me.cmb_pr.Name = "cmb_pr"
         Me.cmb_pr.Size = New System.Drawing.Size(130, 23)
-        Me.cmb_pr.TabIndex = 355
+        Me.cmb_pr.TabIndex = 2
         '
         'Label2
         '
@@ -902,7 +913,7 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_Berat.MaxLength = 30
         Me.TxtPO_Berat.Name = "TxtPO_Berat"
         Me.TxtPO_Berat.Size = New System.Drawing.Size(192, 21)
-        Me.TxtPO_Berat.TabIndex = 352
+        Me.TxtPO_Berat.TabIndex = 6
         '
         'LblPO_Berat
         '
@@ -970,7 +981,7 @@ Partial Class EMI_PO_Pembelian
         Me.CmbPO_Harga.Location = New System.Drawing.Point(477, 41)
         Me.CmbPO_Harga.Name = "CmbPO_Harga"
         Me.CmbPO_Harga.Size = New System.Drawing.Size(130, 23)
-        Me.CmbPO_Harga.TabIndex = 344
+        Me.CmbPO_Harga.TabIndex = 1
         '
         'ListView1
         '
@@ -1019,7 +1030,7 @@ Partial Class EMI_PO_Pembelian
         Me.LvPO_DataPO.Location = New System.Drawing.Point(3, 66)
         Me.LvPO_DataPO.Name = "LvPO_DataPO"
         Me.LvPO_DataPO.Size = New System.Drawing.Size(1272, 200)
-        Me.LvPO_DataPO.TabIndex = 310
+        Me.LvPO_DataPO.TabIndex = 2
         Me.LvPO_DataPO.UseCompatibleStateImageBehavior = False
         Me.LvPO_DataPO.View = System.Windows.Forms.View.Details
         '
@@ -1118,7 +1129,7 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_PersenPPN.Name = "TxtPO_PersenPPN"
         Me.TxtPO_PersenPPN.Size = New System.Drawing.Size(92, 21)
         Me.TxtPO_PersenPPN.TabIndex = 328
-        Me.TxtPO_PersenPPN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TxtPO_PersenPPN.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label8
         '
@@ -1342,7 +1353,7 @@ Partial Class EMI_PO_Pembelian
         Me.BtnPO_Ok.Margin = New System.Windows.Forms.Padding(2)
         Me.BtnPO_Ok.Name = "BtnPO_Ok"
         Me.BtnPO_Ok.Size = New System.Drawing.Size(90, 28)
-        Me.BtnPO_Ok.TabIndex = 311
+        Me.BtnPO_Ok.TabIndex = 4
         Me.BtnPO_Ok.Text = "OKx"
         Me.BtnPO_Ok.UseVisualStyleBackColor = False
         '
@@ -1369,7 +1380,7 @@ Partial Class EMI_PO_Pembelian
         Me.TxtPO_Jml.Margin = New System.Windows.Forms.Padding(2)
         Me.TxtPO_Jml.Name = "TxtPO_Jml"
         Me.TxtPO_Jml.Size = New System.Drawing.Size(99, 21)
-        Me.TxtPO_Jml.TabIndex = 306
+        Me.TxtPO_Jml.TabIndex = 3
         Me.TxtPO_Jml.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Btn_Release
@@ -1405,7 +1416,7 @@ Partial Class EMI_PO_Pembelian
         Me.BtnPO_Simpan.Location = New System.Drawing.Point(25, 640)
         Me.BtnPO_Simpan.Name = "BtnPO_Simpan"
         Me.BtnPO_Simpan.Size = New System.Drawing.Size(84, 36)
-        Me.BtnPO_Simpan.TabIndex = 347
+        Me.BtnPO_Simpan.TabIndex = 2
         Me.BtnPO_Simpan.Text = "&Simpan"
         Me.BtnPO_Simpan.UseVisualStyleBackColor = False
         '
@@ -1504,38 +1515,12 @@ Partial Class EMI_PO_Pembelian
         Me.Panel7.TabIndex = 308
         Me.Panel7.Visible = False
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1313, 2)
-        Me.PanelGradient1.TabIndex = 0
-        '
-        'Btn_Expedisi
-        '
-        Me.Btn_Expedisi.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_Expedisi.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.Btn_Expedisi.ForeColor = System.Drawing.Color.White
-        Me.Btn_Expedisi.Location = New System.Drawing.Point(231, 92)
-        Me.Btn_Expedisi.Margin = New System.Windows.Forms.Padding(2)
-        Me.Btn_Expedisi.Name = "Btn_Expedisi"
-        Me.Btn_Expedisi.Size = New System.Drawing.Size(112, 24)
-        Me.Btn_Expedisi.TabIndex = 317
-        Me.Btn_Expedisi.Text = "Pilih Expedisi"
-        Me.Btn_Expedisi.UseVisualStyleBackColor = False
-        '
         'EMI_PO_Pembelian
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1313, 685)
+        Me.ClientSize = New System.Drawing.Size(1316, 685)
         Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.Btn_Release)
@@ -1706,5 +1691,4 @@ Partial Class EMI_PO_Pembelian
     Friend WithEvents Txt_GrandPPH As TextBox
     Friend WithEvents Label9 As Label
     Friend WithEvents Txt_IDPPH As TextBox
-    Friend WithEvents Btn_Expedisi As Button
 End Class

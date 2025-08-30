@@ -39,7 +39,6 @@ Partial Class Display_Emi_Pelunasan_Hutang
         Me.Tgl1 = New System.Windows.Forms.DateTimePicker()
         Me.ComboBox3 = New System.Windows.Forms.ComboBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -47,8 +46,14 @@ Partial Class Display_Emi_Pelunasan_Hutang
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.LvHutangBiaya = New System.Windows.Forms.ListView()
         Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.Cmb_Jenis_Display = New System.Windows.Forms.ComboBox()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.Panel13 = New System.Windows.Forms.Panel()
+        Me.Panel_Status = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.GroupBox1.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        Me.Panel_Status.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -59,6 +64,7 @@ Partial Class Display_Emi_Pelunasan_Hutang
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.CheckBox5)
         Me.GroupBox1.Controls.Add(Me.CheckBox1)
+        Me.GroupBox1.Controls.Add(Me.Cmb_Jenis_Display)
         Me.GroupBox1.Controls.Add(Me.ComboBox6)
         Me.GroupBox1.Controls.Add(Me.BtnRefresh)
         Me.GroupBox1.Controls.Add(Me.Btn_Refresh)
@@ -71,13 +77,14 @@ Partial Class Display_Emi_Pelunasan_Hutang
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupBox1.Size = New System.Drawing.Size(929, 146)
+        Me.GroupBox1.Size = New System.Drawing.Size(849, 146)
         Me.GroupBox1.TabIndex = 78
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Filter Data"
         '
         'ComboBox2
         '
+        Me.ComboBox2.Cursor = System.Windows.Forms.Cursors.Hand
         Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.FormattingEnabled = True
         Me.ComboBox2.Location = New System.Drawing.Point(161, 102)
@@ -89,6 +96,7 @@ Partial Class Display_Emi_Pelunasan_Hutang
         'CheckBox6
         '
         Me.CheckBox6.AutoSize = True
+        Me.CheckBox6.Cursor = System.Windows.Forms.Cursors.Hand
         Me.CheckBox6.Location = New System.Drawing.Point(11, 104)
         Me.CheckBox6.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.CheckBox6.Name = "CheckBox6"
@@ -99,6 +107,7 @@ Partial Class Display_Emi_Pelunasan_Hutang
         '
         'TextBox4
         '
+        Me.TextBox4.Cursor = System.Windows.Forms.Cursors.Hand
         Me.TextBox4.Location = New System.Drawing.Point(372, 103)
         Me.TextBox4.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.TextBox4.Name = "TextBox4"
@@ -118,6 +127,7 @@ Partial Class Display_Emi_Pelunasan_Hutang
         'CheckBox5
         '
         Me.CheckBox5.AutoSize = True
+        Me.CheckBox5.Cursor = System.Windows.Forms.Cursors.Hand
         Me.CheckBox5.Location = New System.Drawing.Point(11, 49)
         Me.CheckBox5.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.CheckBox5.Name = "CheckBox5"
@@ -129,6 +139,7 @@ Partial Class Display_Emi_Pelunasan_Hutang
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Cursor = System.Windows.Forms.Cursors.Hand
         Me.CheckBox1.Location = New System.Drawing.Point(11, 77)
         Me.CheckBox1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.CheckBox1.Name = "CheckBox1"
@@ -139,6 +150,7 @@ Partial Class Display_Emi_Pelunasan_Hutang
         '
         'ComboBox6
         '
+        Me.ComboBox6.Cursor = System.Windows.Forms.Cursors.Hand
         Me.ComboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox6.FormattingEnabled = True
         Me.ComboBox6.Location = New System.Drawing.Point(11, 20)
@@ -150,6 +162,7 @@ Partial Class Display_Emi_Pelunasan_Hutang
         'BtnRefresh
         '
         Me.BtnRefresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnRefresh.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnRefresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
         Me.BtnRefresh.ForeColor = System.Drawing.Color.White
         Me.BtnRefresh.Location = New System.Drawing.Point(660, 95)
@@ -163,6 +176,7 @@ Partial Class Display_Emi_Pelunasan_Hutang
         'Btn_Refresh
         '
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Refresh.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
         Me.Btn_Refresh.Location = New System.Drawing.Point(747, 69)
@@ -176,6 +190,7 @@ Partial Class Display_Emi_Pelunasan_Hutang
         'BtnCetak
         '
         Me.BtnCetak.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnCetak.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnCetak.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
         Me.BtnCetak.ForeColor = System.Drawing.Color.White
         Me.BtnCetak.Location = New System.Drawing.Point(660, 70)
@@ -198,6 +213,7 @@ Partial Class Display_Emi_Pelunasan_Hutang
         '
         'Tgl2
         '
+        Me.Tgl2.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Tgl2.CustomFormat = "dd MMMM yyyy"
         Me.Tgl2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.Tgl2.Location = New System.Drawing.Point(509, 75)
@@ -208,6 +224,7 @@ Partial Class Display_Emi_Pelunasan_Hutang
         '
         'Tgl1
         '
+        Me.Tgl1.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Tgl1.CustomFormat = "dd MMMM yyyy"
         Me.Tgl1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.Tgl1.Location = New System.Drawing.Point(327, 75)
@@ -218,6 +235,7 @@ Partial Class Display_Emi_Pelunasan_Hutang
         '
         'ComboBox3
         '
+        Me.ComboBox3.Cursor = System.Windows.Forms.Cursors.Hand
         Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox3.FormattingEnabled = True
         Me.ComboBox3.Location = New System.Drawing.Point(161, 73)
@@ -236,19 +254,6 @@ Partial Class Display_Emi_Pelunasan_Hutang
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1189, 51)
         Me.Panel1.TabIndex = 82
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1189, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Label2
         '
@@ -307,9 +312,9 @@ Partial Class Display_Emi_Pelunasan_Hutang
         Me.LvHutangBiaya.FullRowSelect = True
         Me.LvHutangBiaya.GridLines = True
         Me.LvHutangBiaya.HideSelection = False
-        Me.LvHutangBiaya.Location = New System.Drawing.Point(20, 65)
+        Me.LvHutangBiaya.Location = New System.Drawing.Point(20, 79)
         Me.LvHutangBiaya.Name = "LvHutangBiaya"
-        Me.LvHutangBiaya.Size = New System.Drawing.Size(1149, 470)
+        Me.LvHutangBiaya.Size = New System.Drawing.Size(1149, 456)
         Me.LvHutangBiaya.TabIndex = 235
         Me.LvHutangBiaya.UseCompatibleStateImageBehavior = False
         Me.LvHutangBiaya.View = System.Windows.Forms.View.Details
@@ -324,12 +329,64 @@ Partial Class Display_Emi_Pelunasan_Hutang
         Me.Panel4.TabIndex = 83
         Me.Panel4.Visible = False
         '
+        'Cmb_Jenis_Display
+        '
+        Me.Cmb_Jenis_Display.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Cmb_Jenis_Display.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Jenis_Display.FormattingEnabled = True
+        Me.Cmb_Jenis_Display.Location = New System.Drawing.Point(168, 20)
+        Me.Cmb_Jenis_Display.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.Cmb_Jenis_Display.Name = "Cmb_Jenis_Display"
+        Me.Cmb_Jenis_Display.Size = New System.Drawing.Size(153, 21)
+        Me.Cmb_Jenis_Display.TabIndex = 343
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(20, 5)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(36, 13)
+        Me.Label15.TabIndex = 492
+        Me.Label15.Text = "Lunas"
+        '
+        'Panel13
+        '
+        Me.Panel13.BackColor = System.Drawing.Color.LightGreen
+        Me.Panel13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel13.Location = New System.Drawing.Point(4, 6)
+        Me.Panel13.Name = "Panel13"
+        Me.Panel13.Size = New System.Drawing.Size(12, 12)
+        Me.Panel13.TabIndex = 491
+        '
+        'Panel_Status
+        '
+        Me.Panel_Status.Controls.Add(Me.Label15)
+        Me.Panel_Status.Controls.Add(Me.Panel13)
+        Me.Panel_Status.Location = New System.Drawing.Point(1112, 55)
+        Me.Panel_Status.Name = "Panel_Status"
+        Me.Panel_Status.Size = New System.Drawing.Size(58, 23)
+        Me.Panel_Status.TabIndex = 493
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1189, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'Display_Emi_Pelunasan_Hutang
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1189, 701)
+        Me.Controls.Add(Me.Panel_Status)
         Me.Controls.Add(Me.LvHutangBiaya)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel6)
@@ -348,6 +405,8 @@ Partial Class Display_Emi_Pelunasan_Hutang
         Me.GroupBox1.PerformLayout()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        Me.Panel_Status.ResumeLayout(False)
+        Me.Panel_Status.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -375,4 +434,8 @@ Partial Class Display_Emi_Pelunasan_Hutang
     Friend WithEvents Label6 As Label
     Friend WithEvents Btn_Refresh As Button
     Friend WithEvents Panel4 As Panel
+    Friend WithEvents Cmb_Jenis_Display As ComboBox
+    Friend WithEvents Label15 As Label
+    Friend WithEvents Panel13 As Panel
+    Friend WithEvents Panel_Status As Panel
 End Class

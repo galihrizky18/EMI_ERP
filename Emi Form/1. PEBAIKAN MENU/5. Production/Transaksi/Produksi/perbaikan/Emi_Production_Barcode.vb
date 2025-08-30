@@ -1,12 +1,14 @@
 ﻿Imports System.Drawing.Printing
 Imports System.IO
+
 Public Class Emi_Production_Barcode
 
     Dim fno_po As String = ""
     Dim Prefix As String = ""
+    Dim id_routing As String = ""
     Dim kategoriQuality As New ArrayList({"HIJAU", "MERAH"})
     Dim kategoriQualityKet As New ArrayList({"Good Stock", "Bad Stock"})
-    Dim arrInisialFaktur, arrSO As New ArrayList
+    Dim arrInisialFaktur, arrSO, arrSoGudangSisa As New ArrayList
     Dim arrKdBarangSrap, arrNamaScrap, arrSatuanScrap, arrSatuanKecilScrap As New ArrayList
     Private random As New Random()
     Private imageBytes1 As Byte = Nothing
@@ -31,7 +33,17 @@ Public Class Emi_Production_Barcode
     Dim item_TglSelesaiProduksi As Integer = 10
     Dim item_TglExpired As Integer = 11
     Dim item_PrefixCode As Integer = 12
+
+    Private Sub Txt_Troli_TextChanged(sender As Object, e As EventArgs) Handles Txt_Troli.TextChanged
+
+    End Sub
+
     Dim item_lf As Integer = 13
+
+    Private Sub TxtJmlScrap_TextChanged(sender As Object, e As EventArgs) Handles TxtJmlScrap.TextChanged
+
+    End Sub
+
     Dim item_Jmlh As Integer = 14
     Dim item_Satuan As Integer = 15
 
@@ -40,33 +52,31 @@ Public Class Emi_Production_Barcode
         Try
             OpenConn()
 
-            SQL = "select kode_barang, total, Satuan_Jumlah from barang_detail_susunan where "
-            SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and flag_default = 'Y' and kode_barang ='" & Txt_KdBarang.Text & "'"
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
+            If Chk_FullPallet.Checked = True Then
 
-                    Cmb_Satuan.Items.Clear()
+                Txt_Jumlah.Enabled = False
+                Txt_Jumlah.BackColor = Color.FromArgb(235, 235, 235)
+                SQL = "select kode_barang, total, Satuan_Jumlah from barang_detail_susunan where "
+                SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and flag_default = 'Y' and kode_barang ='" & Txt_KdBarang.Text & "'"
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
 
-                    If Chk_FullPallet.Checked = True Then
-                        Txt_Jumlah.Enabled = False
+                        Cmb_Satuan.Items.Clear()
+
                         Txt_Jumlah.Text = String.Empty
                         Txt_Jumlah.Text = Dr("total")
-
                     Else
-                        Txt_Jumlah.Enabled = True
                         Txt_Jumlah.Text = 0
+
                     End If
 
-
-
-                Else
-                    Txt_Jumlah.Enabled = True
-                    Txt_Jumlah.Text = 0
-
-                End If
-
-            End Using
+                End Using
+            Else
+                Txt_Jumlah.Enabled = True
+                Txt_Jumlah.BackColor = Color.White
+                Txt_Jumlah.Text = 0
+            End If
 
             CloseConn()
         Catch ex As Exception
@@ -86,12 +96,6 @@ Public Class Emi_Production_Barcode
 
     End Sub
 
-    Private Sub Lv_Data_SelectedIndexChanged(sender As Object, e As EventArgs)
-
-    End Sub
-
-
-
     Private Sub Emi_Barcode_FinishGood_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         kosong()
 
@@ -102,19 +106,26 @@ Public Class Emi_Production_Barcode
         'Txt_NoSplit.Text = String.Empty
         Txt_KdBarang.Text = String.Empty
         Txt_NamaBarang.Text = String.Empty
-        Txt_Jumlah.Text = String.Empty
+        Txt_Jumlah.Text = "0"
         Txt_HasilProduksi.Text = String.Empty
         TxtLifeTime.Text = ""
         TxtJmlScrap.Text = ""
+        Txt_Troli.Text = ""
         DtpProduksi.ResetText()
         DtpExpired.ResetText()
 
         Cmb_Satuan.Items.Clear()
 
         Chk_FullPallet.Checked = False
+        Txt_Jumlah.Enabled = True
+        Cmb_Lokasi_Gudang_Sisa.Enabled = False
+        Cmb_Tahapan.Enabled = False : Txt_Troli.Enabled = False
 
+        Txt_Troli.BackColor = Color.FromArgb(235, 235, 235)
+        TxtJmlScrap.BackColor = Color.FromArgb(235, 235, 235)
 
         'GET TAHUN MULAI PRODUKSI
+
         Try
             OpenConn()
 
@@ -168,12 +179,13 @@ Public Class Emi_Production_Barcode
                 End If
             End Using
 
-            SQL = "Select b.prefix_code from EMI_Order_Produksi a, EMI_Master_Routing b where "
+            SQL = "Select b.prefix_code, a.Id_Routing from EMI_Order_Produksi a, EMI_Master_Routing b where "
             SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan And a.Id_Routing = b.Id_Routing "
             SQL = SQL & "And a.status Is null and a.Kode_Perusahaan='" & KodePerusahaan & "' and a.no_faktur='" & fno_po & "' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     Prefix = Dr("prefix_code")
+                    id_routing = Dr("Id_Routing")
                 Else
                     Dr.Close()
                     CloseTrans()
@@ -194,6 +206,21 @@ Public Class Emi_Production_Barcode
                     CloseConn()
                     MessageBox.Show("data Tidak ditemukan . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
+                End If
+            End Using
+
+            SQL = "select distinct top(1) Nomor from Emi_Production_Results_detail_pallet where "
+            SQL = SQL & "no_transaksi = '" & TxtFormulator_NoFaktur.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
+            SQL = SQL & "order by Nomor Desc "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Nomor")) = "" Then
+                        TxtJumlahKeranjang.Text = 0
+                    Else
+                        TxtJumlahKeranjang.Text = Dr("Nomor")
+                    End If
+                Else
+                    TxtJumlahKeranjang.Text = 0
                 End If
             End Using
 
@@ -246,7 +273,8 @@ Public Class Emi_Production_Barcode
             End Using
 
             Dim satuanKodeBarang As String = ""
-            SQL = "select top(1) a.satuan, b.satuan as Satuan_Kecil, isnull(Life_Time,0) as Life_Time from barang_detail_satuan a, barang b where a.kode_perusahaan = '" & KodePerusahaan & "' "
+            Dim id_group_jenis As String = ""
+            SQL = "select top(1) a.satuan, b.satuan as Satuan_Kecil, isnull(Life_Time,0) as Life_Time, id_group_jenis from barang_detail_satuan a, barang b where a.kode_perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.kode_barang = '" & kode_barang & "' and a.kode_Barang=b.kode_barang "
             SQL = SQL & "and a.flag_tampil_display = 'Y' "
             Using Dr = OpenTrans(SQL)
@@ -255,6 +283,24 @@ Public Class Emi_Production_Barcode
                     Cmb_SatuanProduksi.Text = Dr("satuan")
                     TxtSatuanKecil.Text = Dr("Satuan_Kecil")
                     TxtLifeTime.Text = Dr("Life_Time")
+                    id_group_jenis = Dr("id_group_jenis")
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Barang detail satuan tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            Dim flag_FG As String = ""
+            SQL = "select kode_group_jenis, isnull(flag_finished_good,'T') as flag_finished_good "
+            SQL = SQL & "from emi_group_jenis where kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and id_group_jenis = '" & id_group_jenis & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    TxtGroupJenis.Text = Dr("kode_group_jenis")
+                    flag_FG = Dr("flag_finished_good")
                 Else
                     Dr.Close()
                     CloseTrans()
@@ -266,14 +312,66 @@ Public Class Emi_Production_Barcode
 
             Cmb_LokasiSimpan.Items.Clear() : arrSO.Clear()
             SQL = "Select kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan From Stock_Owner_Gudang where "
-            SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and aktif = 'Y' and Flag_Penyimpanan='Y' "
+            SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and aktif = 'Y' "
+
+            If flag_FG = "Y" Then
+                SQL = SQL & "And Flag_QI ='Y' "
+            Else
+                SQL = SQL & "And Flag_Penyimpanan ='Y' "
+            End If
+
             SQL = SQL & "order by kode_stock_owner"
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
                     Cmb_LokasiSimpan.Items.Add(dr("Keterangan")) : arrSO.Add(dr("kode_stock_owner"))
                     arrInisialFaktur.Add(dr("inisial_faktur"))
+
                 Loop
             End Using
+
+            Cmb_Lokasi_Gudang_Sisa.Items.Clear() : arrSoGudangSisa.Clear()
+            SQL = "Select kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan From Stock_Owner_Gudang where "
+            SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and aktif = 'Y' "
+            SQL = SQL & "And Flag_Penyimpanan ='Y' "
+            SQL = SQL & "order by kode_stock_owner"
+            Using dr = OpenTrans(SQL)
+                Do While dr.Read
+
+                    Cmb_Lokasi_Gudang_Sisa.Items.Add(dr("Keterangan")) : arrSoGudangSisa.Add(dr("kode_stock_owner"))
+                Loop
+            End Using
+
+            '======================
+            '=     LOAD BATCH     =
+            '======================
+            Cmb_Tahapan.Items.Clear()
+            SQL = "select Jumlah_Batch from Emi_Split_Production_Order "
+            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and No_Transaksi = '" & Txt_NoSplit.Text & "' "
+            SQL = SQL & "and status is null "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+
+                    Dim JumlahBatch As Double = Dr("Jumlah_Batch")
+                    For i As Integer = 1 To JumlahBatch
+                        Cmb_Tahapan.Items.Add(i)
+                    Next
+                End If
+            End Using
+
+            If flag_FG = "Y" Then
+                If Cmb_LokasiSimpan.Items.Count = 0 Then
+                    CloseConn()
+                    MessageBox.Show("Lokasi Belum di set . !!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+
+                Cmb_LokasiSimpan.SelectedIndex = 0
+                Cmb_LokasiSimpan.Enabled = False
+            Else
+                Cmb_LokasiSimpan.SelectedIndex = -1
+                Cmb_LokasiSimpan.Enabled = True
+            End If
 
             Dim tanggal_produksi As Date = DtpProduksi.Value
 
@@ -288,14 +386,97 @@ Public Class Emi_Production_Barcode
             Exit Sub
         End Try
 
+        get_packaging()
     End Sub
 
+    Private Sub get_packaging()
 
+        Try
+            OpenConn()
+
+            Dgv_Packaging.Rows.Clear()
+            'GET DETAIL DATA PACKAGING BY NO SPLIT
+
+            Dim kd_inq As String = ""
+            SQL = "select top(1) kode_barang_inq from barang a where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.kode_barang = '" & Txt_KdBarang.Text & "'  "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    kd_inq = Dr("kode_barang_inq")
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Data Tidak di temukan . !!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            SQL = "select a.No_Transaksi, "
+            SQL = SQL & "isnull(( select z.kode_barang_inq from barang z where a.kode_perusahaan = z.kode_perusahaan "
+            SQL = SQL & "and a.kode_stock_owner = z.kode_stock_owner and a.kode_barang = z.kode_barang "
+            SQL = SQL & "), '-') as Kode_Barang, "
+            SQL = SQL & "b.Kode_Stock_Owner, b.Kode_Barang as Kode_Bahan, c.Nama ,b.Jumlah, b.Satuan, c.flag_potong_stok,isnull(c.standar_price,0) as standar_price, isnull(c.Flag_Pembulatan_Produksi,'T') as Flag_Pembulatan_Produksi "
+            SQL = SQL & "from Emi_Split_Production_Order a, Emi_Split_Production_Order_Detail_Packaging b, barang c "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Faktur "
+            SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Barang = c.Kode_Barang and c.Kode_Stock_Owner = b.Kode_Stock_Owner "
+            SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_transaksi = '" & Txt_NoSplit.Text & "' "
+            SQL = SQL & "and b.Kode_Barang in ( "
+            SQL = SQL & "select z.Kode_Bahan from Barang_Detail_Bahan_Penolong z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Kode_Barang = '" & kd_inq & "' and jenis = 'KEMASAN UTAMA') "
+            SQL = SQL & "order by c.nama "
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
+
+                            '================================================================
+                            '=     GET JUMLAH KEBUTUHAN PACKAGING TERHADAP KD_BARANG PO     =
+                            '================================================================
+                            Dim jumlahKebutuhanPackaging As Double = 0
+                            Dim jumlahBarangPerBahan As Double = 0
+                            SQL = "select jumlah_barang, jumlah_bahan  "
+                            SQL = SQL & "from Barang_Detail_Bahan_Penolong  "
+                            SQL = SQL & "where kode_barang='" & .Rows(i).Item("Kode_Barang") & "' "
+                            SQL = SQL & "and kode_Bahan = '" & .Rows(i).Item("Kode_Bahan") & "' "
+                            SQL = SQL & "and Kode_Perusahaan = '" & KodePerusahaan & "'"
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    jumlahKebutuhanPackaging = Val(HilangkanTanda(Format(Dr("jumlah_bahan"), "N4")))
+                                    jumlahBarangPerBahan = Dr("jumlah_barang")
+                                End If
+                            End Using
+
+                            Dim NilaiProduksiPck As Double = Val(HilangkanTanda(Format((Val(HilangkanTanda(Txt_Jumlah.Text)) / jumlahBarangPerBahan) * jumlahKebutuhanPackaging, "N4")))
+
+                            If .Rows(i).Item("Flag_Pembulatan_Produksi") = "Y" Then
+                                NilaiProduksiPck = Math.Ceiling(NilaiProduksiPck)
+                            End If
+
+                            Dgv_Packaging.Rows.Add(1)
+                            Dgv_Packaging.Rows.Item(i).Cells(0).Value = .Rows(i).Item("Kode_Bahan")
+                            Dgv_Packaging.Rows.Item(i).Cells(1).Value = .Rows(i).Item("Nama")
+                            Dgv_Packaging.Rows.Item(i).Cells(2).Value = NilaiProduksiPck
+
+                        Next
+                    Else
+                        'CloseTrans()
+                        'CloseConn()
+                        'MessageBox.Show("Data Packaging Terhadap No Split Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        'Exit Sub
+                    End If
+                End With
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
 
     Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
         kosong()
     End Sub
-
 
     Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
         If Txt_NoSplit.Text.Trim.Length = 0 Then Exit Sub
@@ -319,7 +500,6 @@ Public Class Emi_Production_Barcode
                 Exit Sub
             End If
         End If
-
 
         If Val(TxtJmlScrap.Text) = 0 And Val(Txt_Jumlah.Text) = 0 Then
 
@@ -362,20 +542,52 @@ Public Class Emi_Production_Barcode
             End If
         End If
 
-
         If Val(TxtJmlScrap.Text) = 0 And Val(Txt_Jumlah.Text) = 0 Then
 
             MessageBox.Show("Tidak ada data yg di input!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Txt_Jumlah.Focus()
             Exit Sub
+        End If
 
+        If Val(Txt_Jumlah.Text) <> 0 Then
+            If CmbJenis.SelectedItem.ToString.ToUpper = "QUALITY INSPECTION" Then
+                'If Txt_Tahapan.Text.Trim.Length = 0 Then
+                '    MessageBox.Show("Tahapan Harus Diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '    Txt_Tahapan.Focus()
+                '    Exit Sub
+                'End If
+
+                If Cmb_Tahapan.SelectedIndex = -1 Then
+                    MessageBox.Show("Batch Harus Dipilih!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Cmb_Tahapan.DroppedDown = True : Cmb_Tahapan.Focus()
+                End If
+
+                If Txt_Troli.Text.Trim.Length = 0 Then
+                    MessageBox.Show("Troli Harus Diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Txt_Troli.Focus()
+                    Exit Sub
+                End If
+            End If
+        End If
+
+        If CmbSisaProduksi.SelectedIndex <> -1 Then
+            If Cmb_Lokasi_Gudang_Sisa.SelectedIndex = -1 Then
+                MessageBox.Show("Lokasi Gudang Harus Diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Cmb_Lokasi_Gudang_Sisa.DroppedDown = True : Cmb_Lokasi_Gudang_Sisa.Focus()
+                Exit Sub
+            End If
         End If
 
         Simpan_Data(False)
     End Sub
 
     Private Sub Txt_Jumlah_Leave(sender As Object, e As EventArgs) Handles Txt_Jumlah.Leave
-        If Not IsNumeric(Txt_Jumlah.Text) Then Txt_Jumlah.Text = String.Empty : Exit Sub
+        If Txt_Jumlah.Text.Trim.Length = 0 Then
+            Exit Sub
+        End If
+
+        get_packaging()
+
     End Sub
 
     Private Function Ubah_Angka_Kecil(ByVal kodeBarang As String, ByVal satuanBesar As String, ByVal satuanKecil As String, ByVal jumlahConvert As String) As Double
@@ -408,6 +620,19 @@ Public Class Emi_Production_Barcode
         If CmbSisaProduksi.SelectedIndex = -1 Then
             Exit Sub
         End If
+        If CmbSisaProduksi.SelectedIndex = -1 Then
+            Cmb_Lokasi_Gudang_Sisa.SelectedIndex = -1
+            Cmb_Lokasi_Gudang_Sisa.Enabled = False
+            TxtJmlScrap.Enabled = False
+            TxtJmlScrap.BackColor = Color.FromArgb(235, 235, 235)
+        Else
+            Cmb_Lokasi_Gudang_Sisa.SelectedIndex = -1
+            Cmb_Lokasi_Gudang_Sisa.Enabled = True
+            TxtJmlScrap.Enabled = True
+            TxtJmlScrap.BackColor = Color.White
+        End If
+
+        TxtJmlScrap.Text = ""
 
         CmbSatScrap.Text = arrSatuanScrap.Item(CmbSisaProduksi.SelectedIndex)
         TxtSatScrapKecil.Text = arrSatuanKecilScrap.Item(CmbSisaProduksi.SelectedIndex)
@@ -417,8 +642,20 @@ Public Class Emi_Production_Barcode
         If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
     End Sub
 
-    Private Sub TxtJmlScrap_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtJmlScrap.KeyPress
-        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
+    Private Sub CmbJenis_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbJenis.SelectedIndexChanged
+        If CmbJenis.SelectedIndex = -1 Then Exit Sub
+        If CmbJenis.SelectedItem.ToString.ToUpper = "QUALITY INSPECTION" Then
+            Txt_Troli.Text = ""
+            Cmb_Tahapan.Text = "" : Cmb_Tahapan.SelectedIndex = -1
+            Cmb_Tahapan.Enabled = True : Txt_Troli.Enabled = True
+
+            Txt_Troli.BackColor = Color.White
+        Else
+            Txt_Troli.Text = ""
+            Cmb_Tahapan.Text = "" : Cmb_Tahapan.SelectedIndex = -1
+            Cmb_Tahapan.Enabled = False : Txt_Troli.Enabled = False
+            Txt_Troli.BackColor = Color.FromArgb(235, 235, 235)
+        End If
     End Sub
 
     Private Sub Simpan_Data(ByVal isNormalSave As Boolean)
@@ -431,7 +668,6 @@ Public Class Emi_Production_Barcode
             Cmd.Transaction = Cn.BeginTransaction
 
             Dim Nilai_Packaging As Double = 0
-
 
             Dim proses As Integer
             SQL = "select TOP(1) no_transaksi, "
@@ -457,7 +693,6 @@ Public Class Emi_Production_Barcode
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     kd_inq = Dr("kode_barang_inq")
-
                 Else
                     Dr.Close()
                     CloseTrans()
@@ -475,7 +710,7 @@ Public Class Emi_Production_Barcode
             SQL = SQL & "isnull(( select z.kode_barang_inq from barang z where a.kode_perusahaan = z.kode_perusahaan "
             SQL = SQL & "and a.kode_stock_owner = z.kode_stock_owner and a.kode_barang = z.kode_barang "
             SQL = SQL & "), '-') as Kode_Barang, "
-            SQL = SQL & "b.Kode_Stock_Owner, b.Kode_Barang as Kode_Bahan, c.Nama ,b.Jumlah, b.Satuan, c.flag_potong_stok,isnull(c.standar_price,0) as standar_price "
+            SQL = SQL & "b.Kode_Stock_Owner, b.Kode_Barang as Kode_Bahan, c.Nama ,b.Jumlah, b.Satuan, c.flag_potong_stok,isnull(c.standar_price,0) as standar_price, isnull(c.Flag_Pembulatan_Produksi,'T') as Flag_Pembulatan_Produksi "
             SQL = SQL & "from Emi_Split_Production_Order a, Emi_Split_Production_Order_Detail_Packaging b, barang c "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Faktur "
             SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Barang = c.Kode_Barang and c.Kode_Stock_Owner = b.Kode_Stock_Owner "
@@ -509,6 +744,9 @@ Public Class Emi_Production_Barcode
 
                             Dim NilaiProduksiPck As Double = Val(HilangkanTanda(Format((Val(HilangkanTanda(Txt_Jumlah.Text)) / jumlahBarangPerBahan) * jumlahKebutuhanPackaging, "N4")))
 
+                            If .Rows(i).Item("Flag_Pembulatan_Produksi") = "Y" Then
+                                NilaiProduksiPck = Math.Ceiling(NilaiProduksiPck)
+                            End If
 
                             '======                              =========='
                             '======   Awal convert satuan barang =========='
@@ -570,7 +808,6 @@ Public Class Emi_Production_Barcode
                                 SQL = SQL & ") "
                                 ExecuteTrans(SQL)
 
-
                                 Dim x_ident_currentPackaging As Integer = 0
                                 SQL = "select IDENT_CURRENT('Emi_Production_Results_Packaging_Detail') as urutan"
                                 Using Dr = OpenTrans(SQL)
@@ -606,7 +843,6 @@ Public Class Emi_Production_Barcode
                                     End If
 
                                 End Using
-
 
                                 Dim lewatin As String = "T"
                                 SQL = "select isnull(round(sum(jumlah),4), 0) as stock from barang_sn where "
@@ -712,14 +948,12 @@ Public Class Emi_Production_Barcode
                                 End If
                             End If
 
-
-
                         Next
                     Else
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Data Packaging Terhadap No Split Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
+                        'CloseTrans()
+                        'CloseConn()
+                        'MessageBox.Show("Data Packaging Terhadap No Split Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        'Exit Sub
                     End If
                 End With
             End Using
@@ -728,7 +962,29 @@ Public Class Emi_Production_Barcode
             'TODO : Barcode FG
             If Val(HilangkanTanda(Txt_Jumlah.Text)) <> 0 Then
 
-                Dim newBatch As String = Generate_Batch_FG(tgl_skg, Prefix, DtpExpired.Value, Tahun_MulaiProduksi)
+                Dim newBatch As String = ""
+
+                SQL = "select top 1 b.Batch_Number "
+                SQL = SQL & "from Emi_Production_Results a, Emi_Production_Results_detail_Pallet b "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+                SQL = SQL & "and a.No_Transaksi = b.No_Transaksi "
+                SQL = SQL & "and a.Status is null "
+                'SQL = SQL & "and b.Batch_Number is not null "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.No_Production_Order = '" & Txt_NoSplit.Text & "' "
+                SQL = SQL & "order by b.proses DESC "
+                Using Dr1 = OpenTrans(SQL)
+                    If Dr1.Read Then
+                        If Not General_Class.CekNULL(Dr1("Batch_Number")) = "" Then
+                            newBatch = Dr1("Batch_Number")
+                        Else
+                            newBatch = Generate_Batch_FG(tgl_skg, Prefix, DtpExpired.Value, Tahun_MulaiProduksi)
+                        End If
+                    Else
+                        newBatch = Generate_Batch_FG(tgl_skg, Prefix, DtpExpired.Value, Tahun_MulaiProduksi)
+                    End If
+                End Using
+
                 Dim newQrCode As String = Generate_QR_Batch(Txt_KdBarang.Text, newBatch)
                 Dim Kode_Berjalan As String = Generate_Random_Kode(10)
                 Dim Kode_Asal As String = Kode_Berjalan
@@ -747,7 +1003,6 @@ Public Class Emi_Production_Barcode
                 SQL = SQL & " '" & Format(DtpExpired.Value, "yyyy-MM-dd") & "',  '" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "') "
                 ExecuteTrans(SQL)
 
-
                 Dim MetodePengeluaranStok As String = ""
                 SQL = "select  Metode_Pengeluaran_Stok from Barang where kode_perusahaan  = '" & KodePerusahaan & "'  "
                 SQL = SQL & "and Kode_Barang = '" & Txt_KdBarang.Text.Trim & "' and  Kode_Stock_Owner = '" & arrSO.Item(Cmb_LokasiSimpan.SelectedIndex) & "' "
@@ -764,20 +1019,19 @@ Public Class Emi_Production_Barcode
                     End If
                 End Using
 
-
-
                 '==================================
                 '=      GENERATE NEW BARCODE      =
                 '==================================
                 'HAPUS TABEL SEMENTARA
-                SQL = "truncate table Cetak_Finish_Good "
+                'SQL = "truncate table Cetak_Finish_Good "
+                SQL = "truncate table N_EMI_Barcode_Label_Barcode_GR_1 "
                 ExecuteTrans(SQL)
 
                 kode_unik_print = Format(tgl_skg, "MMddHHmmss") & Format(random.Next(0, 10000), "00000")
 
                 Dim fullNewQr As String = newQrCode & "-" & Kode_Berjalan
 
-                Barcode.Image = Generate_QR(fullNewQr)
+                Barcode.Image = Generate_QR_NoPadding(fullNewQr)
 
                 Dim FileToSaveAs1 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "newBarcodeTfStock" & kode_unik_print & ".jpg")
 
@@ -794,19 +1048,68 @@ Public Class Emi_Production_Barcode
                 fs1.Close()
                 Cmd.Parameters.Add("@newBarcode", SqlDbType.Image).Value = rawData1
 
+                '========================
+                '=     GET TOTAL GR     =
+                '========================
+                Dim Total_GR1_Cetak As Double = 1
+                SQL = "select distinct top(1) Nomor from Emi_Production_Results_detail_pallet where "
+                SQL = SQL & "no_transaksi = '" & TxtFormulator_NoFaktur.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
+                SQL = SQL & "order by Nomor Desc "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        If General_Class.CekNULL(Dr("Nomor")) = "" Then
+                            Total_GR1_Cetak = 1
+                        Else
+                            Total_GR1_Cetak = Dr("Nomor") + 1
+                        End If
+                    Else
+                        Total_GR1_Cetak = 1
+                    End If
+                End Using
+
+                '=======================
+                '=     GET ROUTING     =
+                '=======================
+                Dim Id_Routing As String = ""
+                Dim Routing As String = ""
+                SQL = "select b.Id_Routing, c.Keterangan as Routing "
+                SQL = SQL & "from Emi_Split_Production_Order a, EMI_Order_Produksi b, EMI_Master_Routing c "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan "
+                SQL = SQL & "and a.No_PO = b.No_Faktur "
+                SQL = SQL & "and b.Id_Routing = c.Id_Routing "
+                SQL = SQL & "and a.Status is null and b.Status is null "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.No_Transaksi = '" & Txt_NoSplit.Text & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Id_Routing = Dr("Id_Routing")
+                        Routing = Dr("Routing")
+                    Else
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Routing tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
 
                 'INSERT TABEL CETAK QR
-                SQL = "insert into Cetak_Finish_Good (Kode_Perusahaan, Kode_Barang, Barcode, QrUtuh, Qr, Tgl_Expired, batch, tgl_produksi, kode_unik_print, tanggal_masuk,metode_pengeluaran_stok) values "
-                'SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_KdBarang.Text & "', @newBarcode, '" & Txt_NamaBarang.Text & "', "
-                SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_KdBarang.Text & "', @newBarcode, "
-                SQL = SQL & "'" & fullNewQr & "', '" & newQrCode & "', '" & Format(Date.Parse(DtpExpired.Value), "yyyy-MM-dd") & "', '" & newBatch & "',  '" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "', "
-                SQL = SQL & "'" & kode_unik_print & "', '" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "', '" & MetodePengeluaranStok & "'"
-                SQL = SQL & ")"
+                'SQL = "insert into Cetak_Finish_Good (Kode_Perusahaan, Kode_Barang, Barcode, QrUtuh, Qr, Tgl_Expired, batch, tgl_produksi, kode_unik_print, tanggal_masuk,metode_pengeluaran_stok) values "
+                ''SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_KdBarang.Text & "', @newBarcode, '" & Txt_NamaBarang.Text & "', "
+                'SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_KdBarang.Text & "', @newBarcode, "
+                'SQL = SQL & "'" & fullNewQr & "', '" & newQrCode & "', '" & Format(Date.Parse(DtpExpired.Value), "yyyy-MM-dd") & "', '" & newBatch & "',  '" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "', "
+                'SQL = SQL & "'" & kode_unik_print & "', '" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "', '" & MetodePengeluaranStok & "'"
+                'SQL = SQL & ")"
+                'ExecuteTrans(SQL)
+
+                SQL = "insert into N_EMI_Barcode_Label_Barcode_GR_1 (kode_perusahaan, no_split, Barcode, Kode_barang, Nama_Barang, QrUtuh, Qr, Tgl_Produksi, Jam_Produksi, "
+                SQL = SQL & "Proses, Tahap, Jumlah, Satuan, Troli, Nomor, id_routing, routing, Kode_unik_print)  "
+                SQL = SQL & "values ('" & KodePerusahaan & "', '" & Txt_NoSplit.Text & "', @newBarcode, '" & Txt_KdBarang.Text & "', '" & Txt_NamaBarang.Text & "', '" & fullNewQr & "', '" & newQrCode & "', "
+                SQL = SQL & "'" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & proses & "', '" & Cmb_Tahapan.Text & "', '" & Txt_Jumlah.Text & "', '" & Cmb_Satuan.Text & "', "
+                SQL = SQL & "'" & Txt_Troli.Text & "', '" & Total_GR1_Cetak & "', '" & Id_Routing & "', '" & Routing & "', '" & kode_unik_print & "') "
                 ExecuteTrans(SQL)
 
             End If
-
-
 
             ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             '''=================================================================================================================='''
@@ -845,7 +1148,6 @@ Public Class Emi_Production_Barcode
                 End If
             End Using
 
-
             If TxtJmlScrap.Text = "" Then TxtJmlScrap.Text = "0"
 
             Dim badstock As Double = 0
@@ -859,13 +1161,10 @@ Public Class Emi_Production_Barcode
                     goodstock = 0
                     badstock = Val(HilangkanTanda(Txt_Jumlah.Text))
                 End If
-
             Else
                 goodstock = 0
                 badstock = 0
             End If
-
-
 
             Dim kd_barang_scrap As String = ""
 
@@ -875,8 +1174,6 @@ Public Class Emi_Production_Barcode
                 kd_barang_scrap = "'" & arrKdBarangSrap.Item(CmbSisaProduksi.SelectedIndex) & "'"
             End If
 
-
-
             SQL = "insert into emi_production_results_detail_barang(kode_perusahaan,no_transaksi,proses,tanggal,jam,userid,kode_Stock_owner,"
             SQL = SQL & "kode_barang, qty_hasil_produksi, qty_good_stock, qty_bad_stock, satuan, qty_scrap, satuan_scrap, Kode_Barang_Scrap) values("
             SQL = SQL & "'" & KodePerusahaan & "', '" & TxtFormulator_NoFaktur.Text & "', '" & proses & "', "
@@ -884,10 +1181,6 @@ Public Class Emi_Production_Barcode
             SQL = SQL & "'" & SoProduction & "', '" & Txt_KdBarang.Text & "','" & Txt_Jumlah.Text & "', '" & goodstock & "', "
             SQL = SQL & "'" & badstock & "', '" & Cmb_Satuan.Text & "', '" & TxtJmlScrap.Text & "', '" & CmbSatScrap.Text & "' ," & kd_barang_scrap & ") "
             ExecuteTrans(SQL)
-
-
-
-
 
             'Get data Barang berdasarkan NoSplit
             Dim Kd_So As String = ""
@@ -911,8 +1204,6 @@ Public Class Emi_Production_Barcode
                 End If
             End Using
 
-
-
             Dim fbulan As String = Format(tgl_skg, "MM")
             Dim ftahun As String = Format(tgl_skg, "yyyy")
 
@@ -921,15 +1212,35 @@ Public Class Emi_Production_Barcode
             Dim TotalTf As Double = 0
             Dim TotalHPP As Double = 0
             Dim TotalHPPScrap As Double = 0
+
 #Region "INSERT PRODUKSI"
 
+            '========================
+            '=     GET TOTAL GR     =
+            '========================
+            Dim Total_GR1 As Double = 1
+
+            SQL = "select distinct top(1) Nomor from Emi_Production_Results_detail_pallet where "
+            SQL = SQL & "no_transaksi = '" & TxtFormulator_NoFaktur.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
+            SQL = SQL & "order by Nomor Desc "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Nomor")) = "" Then
+                        Total_GR1 = 1
+                    Else
+                        Total_GR1 = Dr("Nomor") + 1
+                    End If
+                Else
+                    Total_GR1 = 1
+                End If
+            End Using
 
             '==============================
             '=     INSERT KE PRODUKSI     =
             '==============================
 
             ''GET DATA DI Emi_Produksi_Hasil_Perpallet
-            SQL = "select a.No_Split, a.Kode_Unik_Berjalan, a.Kode_Unik_Asal, a.Qr_Code, a.Jumlah, a.Satuan, a.Batch_Number, a.Kode_Barang, a.ID as urut_oto, a.jenis, a.Serial_Number, Tanggal, Tgl_Expired "
+            SQL = "select a.No_Split, a.Kode_Unik_Berjalan, a.Kode_Unik_Asal, a.Qr_Code, a.Jumlah, a.Satuan, a.Batch_Number, a.Kode_Barang, a.ID as urut_oto, a.jenis, a.Serial_Number, Tanggal, Tgl_Expired, tgl_produksi "
             SQL = SQL & "from Emi_Produksi_Hasil_Perpallet a "
             SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.No_Split='" & Txt_NoSplit.Text & "' and flag_simpan_pallet is null "
@@ -942,12 +1253,10 @@ Public Class Emi_Production_Barcode
 
                             Warna_stock = .Rows(i).Item("Jenis")
 
-
                             '====================================
                             '=       CONVERT SATUAN KECIL       =
                             '====================================
                             Dim nilai_kecildetail As Double = Val(HilangkanTanda(Format(Ubah_Angka_Kecil(.Rows(i).Item("Kode_Barang"), .Rows(i).Item("Satuan"), TxtSatuanKecil.Text, .Rows(i).Item("Jumlah")), "N4")))
-
 
                             ''GET ID_WAREHOUSE YG KOSONG
                             Dim available_Id_Warehouse As String = ""
@@ -957,7 +1266,7 @@ Public Class Emi_Production_Barcode
                             SQL = SQL & "view_warehouse_position a, view_warehouse_position_detail b "
                             SQL = SQL & "where a.Id_WMS_Warehouse_Position=b.Id_WMS_Warehouse_Position "
                             SQL = SQL & " And a.kode_Perusahaan = b.kode_Perusahaan And a.kode_Perusahaan ='" & KodePerusahaan & "' "
-                            SQL = SQL & "and a.Kode_Stock_Owner='" & Kd_So & "' and b.Kode_Barang is null"
+                            SQL = SQL & "and a.Kode_Stock_Owner='" & arrSO(Cmb_LokasiSimpan.SelectedIndex) & "' and b.Kode_Barang is null"
                             Using Dr2 = OpenTrans(SQL)
                                 Do While Dr2.Read
                                     available_Id_Warehouse = Dr2("id_wms_warehouse_position")
@@ -965,6 +1274,25 @@ Public Class Emi_Production_Barcode
                                 Loop
                             End Using
 
+                            SQL = ";with cte as ( "
+                            SQL = SQL & "Select a.kode_perusahaan, a.Id_Jenis_Biaya_Produksi, a.Kode_Jenis_Biaya_Produksi, "
+                            SQL = SQL & "isnull((select top(1) no_faktur from Emi_Transaksi_Work_Center x where x.status Is null "
+                            SQL = SQL & "And x.Kode_Perusahaan=a.Kode_Perusahaan And x.jenis_biaya=a.Kode_Jenis_Biaya_Produksi order by id desc),NULL) as Faktur_WC "
+                            SQL = SQL & "From Emi_Jenis_Biaya_Produksi a "
+                            SQL = SQL & ")select a.kode_jenis_biaya_produksi, c.id_work_center, max(c.Nilai_Per_pcs) as Nilai_Per_pcs "
+                            SQL = SQL & "From cte a, Emi_Transaksi_Work_Center b, Emi_Transaksi_Work_Center_detail c Where "
+                            SQL = SQL & "a.kode_perusahaan = b.Kode_Perusahaan And a.faktur_WC = b.No_Faktur And "
+                            SQL = SQL & "b.kode_perusahaan = c.Kode_Perusahaan And b.No_Faktur = c.No_Faktur And c.Id_Routing = '" & id_routing & "' "
+                            SQL = SQL & "group by a.kode_jenis_biaya_produksi, c.id_work_center "
+                            Using Dss = BindingTrans(SQL)
+                                If Dss.Tables("MyTable").Rows.Count = 0 Then
+                                    CloseTrans()
+                                    CloseConn()
+                                    MessageBox.Show("Biaya Belum di tambahkan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+
+                            End Using
 
                             'Cek HPP Per Dosing
                             Dim sisa_barang As Double = nilai_kecildetail
@@ -989,16 +1317,36 @@ Public Class Emi_Production_Barcode
                                     Dim jumlah_dosing As Double = Val(HilangkanTanda(Format(dss.Tables("MyTable").Rows(ind).Item("jumlah_dosing"), "N4")))
                                     Dim jumlah_dosing_pcs As Double = dss.Tables("MyTable").Rows(ind).Item("jumlah_dosing_pcs")
 
-
                                     'Ubah Nilai Dosing(Nilai Dosing Dalam KG), ke Nilai Pcs
-                                    Dim nilai_sisa_Pcs As Double = Math.Floor(Ubah_Angka_Kecil(.Rows(i).Item("Kode_Barang"), "KG", TxtSatuanKecil.Text, sisa))
+
+                                    Dim Jenis_Berat As String = ""
+                                    SQL = "Select isnull(flag_tampil_berat,'T') as flag_tampil_berat from emi_satuan where "
+                                    SQL = SQL & "satuan='" & TxtSatuanKecil.Text & "' and kode_perusahaan='" & KodePerusahaan & "' "
+                                    Using dr = OpenTrans(SQL)
+                                        If dr.Read Then
+                                            Jenis_Berat = dr("flag_tampil_berat")
+                                        Else
+                                            dr.Close()
+                                            CloseTrans()
+                                            CloseConn()
+                                            MessageBox.Show("data Satuan Tidak ada . . ! ! ")
+                                            Exit Sub
+                                        End If
+                                    End Using
+
+                                    Dim nilai_sisa_Pcs As Double = 0
+
+                                    If Jenis_Berat = "Y" Then
+                                        nilai_sisa_Pcs = Math.Round(Ubah_Angka_Kecil(.Rows(i).Item("Kode_Barang"), "KG", TxtSatuanKecil.Text, sisa), 4)
+                                    Else
+                                        nilai_sisa_Pcs = Math.Floor(Ubah_Angka_Kecil(.Rows(i).Item("Kode_Barang"), "KG", TxtSatuanKecil.Text, sisa))
+                                    End If
 
                                     Dim nilai_potong As Double = 0
                                     If nilai_sisa_Pcs > sisa_barang Then
 
                                         nilai_potong = sisa_barang
                                         sisa_barang -= sisa_barang
-
                                     Else
 
                                         nilai_potong = nilai_sisa_Pcs
@@ -1007,11 +1355,11 @@ Public Class Emi_Production_Barcode
                                     End If
 
                                     SQL = "insert into Emi_Production_Results_Detail_Pallet (Kode_Perusahaan, No_Transaksi, Kode_Unik_Berjalan, Kode_Unik_Asal, Qr_Code, Jumlah, Satuan, NIlai_Barang, "
-                                    SQL = SQL & "Satuan_Barang, Batch_Number, Id_Warehouse, Nomor_Pallet, proses, serial_number, Jenis, Tgl_Produksi, Tgl_Expired, Urut_HPP) values "
+                                    SQL = SQL & "Satuan_Barang, Batch_Number, Id_Warehouse, Nomor_Pallet, proses, serial_number, Jenis, Tgl_Produksi, Tgl_Expired, Urut_HPP, Tahap, Troli, Nomor) values "
                                     SQL = SQL & "('" & KodePerusahaan & "', '" & TxtFormulator_NoFaktur.Text & "', '" & .Rows(i).Item("Kode_Unik_Berjalan") & "', '" & .Rows(i).Item("Kode_Unik_Asal") & "', "
-                                    SQL = SQL & "'" & .Rows(i).Item("Qr_Code") & "', '" & .Rows(i).Item("Jumlah") & "', '" & .Rows(i).Item("Satuan") & "', '" & nilai_potong & "', '" & TxtSatuanKecil.Text & "', "
+                                    SQL = SQL & "'" & .Rows(i).Item("Qr_Code") & "', '" & nilai_potong & "', '" & .Rows(i).Item("Satuan") & "', '" & nilai_potong & "', '" & TxtSatuanKecil.Text & "', "
                                     SQL = SQL & "'" & .Rows(i).Item("Batch_Number") & "', '" & available_Id_Warehouse & "', '" & available_NoPallet & "', '" & proses & "', '', '" & .Rows(i).Item("Jenis") & "', "
-                                    SQL = SQL & " '" & .Rows(i).Item("Tanggal") & "','" & .Rows(i).Item("Tgl_Expired") & "', '" & urut_HPP & "') "
+                                    SQL = SQL & " '" & .Rows(i).Item("tgl_produksi") & "','" & .Rows(i).Item("Tgl_Expired") & "', '" & urut_HPP & "', '" & Cmb_Tahapan.Text & "', '" & Txt_Troli.Text & "', '" & Total_GR1 & "') "
                                     ExecuteTrans(SQL)
 
                                     Dim x_ident_currentPallet As Integer = 0
@@ -1031,14 +1379,28 @@ Public Class Emi_Production_Barcode
                                         End If
                                     End Using
 
+                                    Dim flag_FG As String = ""
+                                    SQL = "select isnull(flag_finished_good,'T') as flag_finished_good "
+                                    SQL = SQL & "from emi_group_jenis a, barang b where a.kode_perusahaan = '" & KodePerusahaan & "' "
+                                    SQL = SQL & "and a.id_group_jenis = b.id_group_jenis and b.kode_barang='" & Txt_KdBarang.Text & "' "
+                                    Using Dr = OpenTrans(SQL)
+                                        If Dr.Read Then
 
-
+                                            flag_FG = Dr("flag_finished_good")
+                                        Else
+                                            Dr.Close()
+                                            CloseTrans()
+                                            CloseConn()
+                                            MessageBox.Show("Barang detail satuan tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            Exit Sub
+                                        End If
+                                    End Using
 
                                     Dim nilai_bahan_KG As Double = Val(HilangkanTanda(Format(dss.Tables("MyTable").Rows(ind).Item("Total_bahan_baku") / jumlah_dosing, "N0")))
                                     Dim nilai_biaya_KG As Double = Val(HilangkanTanda(Format(dss.Tables("MyTable").Rows(ind).Item("total_biaya_produksi") / jumlah_dosing, "N0")))
                                     Dim nilai_loss_KG As Double = Val(HilangkanTanda(Format(dss.Tables("MyTable").Rows(ind).Item("nilai_loss_production") / jumlah_dosing, "N0")))
 
-                                    Dim nilai_packaging_Pcs As Double = Val(HilangkanTanda(Format(Nilai_Packaging / nilai_potong, "N0")))
+                                    Dim nilai_packaging_Pcs As Double = Val(HilangkanTanda(Format(Nilai_Packaging / nilai_kecildetail, "N0")))
 
                                     Dim nilai_HPP_pcs As Double = Val(HilangkanTanda(Format((((nilai_bahan_KG + nilai_biaya_KG + nilai_loss_KG) * berat) / 1000) + nilai_packaging_Pcs, "N0")))
 
@@ -1049,17 +1411,23 @@ Public Class Emi_Production_Barcode
                                     Dim Kode_Unik As String = str.Substring(0, 5) & Chr(64 + str.Substring(6, 1)) & str.Substring(6, Len(str) - 6)
                                     Dim SN As String = Kode_Unik & Tanda_SN & "01" & Tanda_SN & nilai_HPP_pcs & Tanda_SN & "02" & Tanda_SN & Format(tgl_skg, "yyyy-MM-dd")
 
+                                    Dim blok_sn As String = "NULL"
+                                    Dim jumlah_bags As Double = 0
+                                    If flag_FG = "Y" Then
+                                        blok_sn = "'Y'"
+                                        jumlah_bags = nilai_potong
+                                    End If
 
                                     SQL = "Update barang set "
-                                    SQL = SQL & "Good_Stock = Good_Stock + " & nilai_potong & " "
+                                    SQL = SQL & "Good_Stock = Good_Stock + " & nilai_potong & ", Jumlah_Bags=Jumlah_Bags+" & jumlah_bags & " "
                                     SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
-                                    SQL = SQL & "kode_stock_owner = '" & Kd_So & "' and kode_barang = '" & Kd_Brg & "'"
+                                    SQL = SQL & "kode_stock_owner = '" & arrSO(Cmb_LokasiSimpan.SelectedIndex) & "' and kode_barang = '" & Kd_Brg & "'"
                                     ExecuteTrans(SQL)
 
                                     'Cek Apakah Sn baru sama dengan Sn pada Barang Split
                                     SQL = "select kode_barang from barang_sn where "
                                     SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
-                                    SQL = SQL & "kode_stock_owner = '" & Kd_So & "' and "
+                                    SQL = SQL & "kode_stock_owner = '" & arrSO(Cmb_LokasiSimpan.SelectedIndex) & "' and "
                                     SQL = SQL & "kode_barang = '" & Kd_Brg & "' and serial_number = '" & SN & "'"
                                     Using Dr = OpenTrans(SQL)
                                         If Dr.Read Then
@@ -1072,12 +1440,13 @@ Public Class Emi_Production_Barcode
 
                                             'Insert Barang SN
                                             SQL = "insert into barang_sn(kode_perusahaan, kode_stock_owner, kode_barang, "
-                                            SQL = SQL & "serial_number, Jumlah, Warna, Kode_Unik_Berjalan, Kode_Unik_Asal, "
-                                            SQL = SQL & "Qr_Code, Batch_Number, Id_Warehouse, Nomor_Pallet, Tgl_Produksi, Tgl_Expired) values('" & KodePerusahaan & "', "
-                                            SQL = SQL & "'" & Kd_So & "', '" & Kd_Brg & "', "
-                                            SQL = SQL & "'" & SN & "', " & nilai_potong & ", '" & Warna_stock & "', "
+                                            SQL = SQL & "serial_number, Jumlah, Jumlah_Bags, Warna, Kode_Unik_Berjalan, Kode_Unik_Asal, "
+                                            SQL = SQL & "Qr_Code, Batch_Number, Id_Warehouse, Nomor_Pallet, Tgl_Produksi, Tgl_Expired, tgl_masuk, blok_sn) values('" & KodePerusahaan & "', "
+                                            SQL = SQL & "'" & arrSO(Cmb_LokasiSimpan.SelectedIndex) & "', '" & Kd_Brg & "', "
+                                            SQL = SQL & "'" & SN & "', " & nilai_potong & ", " & jumlah_bags & ", '" & Warna_stock & "', "
                                             SQL = SQL & "'" & .Rows(i).Item("Kode_Unik_Berjalan") & "', '" & .Rows(i).Item("Kode_Unik_Asal") & "', '" & .Rows(i).Item("Qr_Code") & "', "
-                                            SQL = SQL & "'" & .Rows(i).Item("Batch_Number") & "', '" & available_Id_Warehouse & "', '" & available_NoPallet & "','" & .Rows(i).Item("Tanggal") & "','" & .Rows(i).Item("Tgl_Expired") & "')"
+                                            SQL = SQL & "'" & .Rows(i).Item("Batch_Number") & "', '" & available_Id_Warehouse & "', '" & available_NoPallet & "', "
+                                            SQL = SQL & "'" & .Rows(i).Item("tgl_produksi") & "','" & .Rows(i).Item("Tgl_Expired") & "', '" & .Rows(i).Item("Tanggal") & "', " & blok_sn & ") "
                                             Dr.Close()
                                             ExecuteTrans(SQL)
                                         End If
@@ -1089,13 +1458,16 @@ Public Class Emi_Production_Barcode
                                     SQL = SQL & "Urut_oto = '" & x_ident_currentPallet & "' "
                                     ExecuteTrans(SQL)
 
-
                                     'Nilai yg di pakai, di kembalikan ke satuan dosing(KG)
                                     Dim nilai_pakai As Double = Ubah_Angka_Kecil(.Rows(i).Item("Kode_Barang"), TxtSatuanKecil.Text, "KG", nilai_potong)
                                     SQL = "Update Emi_Production_Results_HPP set "
                                     SQL = SQL & "jumlah_Terpakai = jumlah_Terpakai + " & nilai_pakai & " "
                                     SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
                                     SQL = SQL & "Urut = '" & urut_HPP & "' "
+                                    ExecuteTrans(SQL)
+
+                                    SQL = "update Emi_Production_Results_Detail_Pallet set SN_Baru ='" & SN & "', Lokasi_Gudang='" & arrSO(Cmb_LokasiSimpan.SelectedIndex) & "' where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                    SQL = SQL & "and urut_oto = '" & x_ident_currentPallet & "'"
                                     ExecuteTrans(SQL)
 
                                 Next
@@ -1107,7 +1479,6 @@ Public Class Emi_Production_Barcode
                                 MessageBox.Show("Terjadi Kesalahan ! ! . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 Exit Sub
                             End If
-
 
                             TotalTf = TotalTf + nilai_kecildetail
 
@@ -1141,7 +1512,6 @@ Public Class Emi_Production_Barcode
                                     MessageBox.Show("Terjadi Kesalahan Pada SN . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     Exit Sub
                                 End If
-
                             Else
                                 CloseTrans()
                                 CloseConn()
@@ -1158,161 +1528,180 @@ Public Class Emi_Production_Barcode
 
 #End Region
 
+#Region "Comment"
 
-
-
-
+            'DIKOMEN KARENA ADA STEP SELANJUTNYA
             '===============================================================
             '=     GET Emi_Production_Results_Detail_Pallet SEBELUMNYA     =
             '===============================================================
-            SQL = "select a.No_Transaksi, a.Proses, a.Jumlah, a.NIlai_Barang, a.Satuan, a.Satuan_Barang, a.Id_Warehouse, a.Serial_Number, a.Jenis, a.Nomor_Pallet, a.Proses, a.urut_oto, Kode_Unik_Berjalan, Kode_Unik_Asal, Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired "
-            SQL = SQL & "from Emi_Production_Results_Detail_Pallet a "
-            SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and a.No_Transaksi ='" & TxtFormulator_NoFaktur.Text & "' "
-            SQL = SQL & "and a.Proses = '" & proses & "'"
-            Using Ds = BindingTrans(SQL)
-                With Ds.Tables("MyTable")
-                    If .Rows.Count <> 0 Then
-                        For i As Integer = 0 To .Rows.Count - 1
+            '''SQL = "select a.No_Transaksi, a.Proses, a.Jumlah, a.NIlai_Barang, a.Satuan, a.Satuan_Barang, a.Id_Warehouse, a.Serial_Number, a.Jenis, a.Nomor_Pallet, a.Proses, a.urut_oto, Kode_Unik_Berjalan, Kode_Unik_Asal, Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired "
+            '''SQL = SQL & "from Emi_Production_Results_Detail_Pallet a "
+            '''SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            '''SQL = SQL & "and a.No_Transaksi ='" & TxtFormulator_NoFaktur.Text & "' "
+            '''SQL = SQL & "and a.Proses = '" & proses & "'"
+            '''Using Ds = BindingTrans(SQL)
+            '''    With Ds.Tables("MyTable")
+            '''        If .Rows.Count <> 0 Then
+            '''            For i As Integer = 0 To .Rows.Count - 1
 
-                            Dim SnLama As String = .Rows(i).Item("Serial_Number")
-                            Dim WarnaLama As String = .Rows(i).Item("Jenis")
-                            Dim HargaHpp2 As String = Get_Harga_SN(SnLama)
+            '''                Dim SnLama As String = .Rows(i).Item("Serial_Number")
+            '''                Dim WarnaLama As String = .Rows(i).Item("Jenis")
+            '''                Dim HargaHpp2 As String = Get_Harga_SN(SnLama)
 
-                            'Generate Sn Baru
-                            Dim Rand2 As New Random
-                            Dim sts2 As String = Format(Rand2.Next(0, 999), "000") & Format(tgl_skg, "HHmmss")
-                            Dim Kode_Unik2 As String = sts2.Substring(0, 5) & Chr(64 + sts2.Substring(6, 1)) & sts2.Substring(6, Len(sts2) - 6)
-                            Dim SN2 As String = Kode_Unik2 & Tanda_SN & "01" & Tanda_SN & HargaHpp2 & Tanda_SN & "02" & Tanda_SN & Format(tgl_skg, "yyyy-MM-dd")
+            '''                'Generate Sn Baru
+            '''                Dim Rand2 As New Random
+            '''                Dim sts2 As String = Format(Rand2.Next(0, 999), "000") & Format(tgl_skg, "HHmmss")
+            '''                Dim Kode_Unik2 As String = sts2.Substring(0, 5) & Chr(64 + sts2.Substring(6, 1)) & sts2.Substring(6, Len(sts2) - 6)
+            '''                Dim SN2 As String = Kode_Unik2 & Tanda_SN & "01" & Tanda_SN & HargaHpp2 & Tanda_SN & "02" & Tanda_SN & Format(tgl_skg, "yyyy-MM-dd")
 
-                            '================================
-                            '=     POTONG SN SEBELUMNYA     =
-                            '================================
-                            SQL = "update Barang_SN set Jumlah = Jumlah - " & .Rows(i).Item("NIlai_Barang") & " where Kode_Perusahaan = '" & KodePerusahaan & "' and Serial_Number = '" & SnLama & "' "
-                            SQL = SQL & "and Warna = '" & WarnaLama & "'"
-                            ExecuteTrans(SQL)
+            '''                '================================
+            '''                '=     POTONG SN SEBELUMNYA     =
+            '''                '================================
+            '''                SQL = "update Barang_SN set Jumlah = Jumlah - " & .Rows(i).Item("NIlai_Barang") & " where Kode_Perusahaan = '" & KodePerusahaan & "' and Serial_Number = '" & SnLama & "' "
+            '''                SQL = SQL & "and Warna = '" & WarnaLama & "'"
+            '''                ExecuteTrans(SQL)
 
-                            SQL = "Update barang set "
-                            SQL = SQL & "Good_Stock = Good_Stock - " & .Rows(i).Item("NIlai_Barang") & " "
-                            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
-                            SQL = SQL & "kode_stock_owner = '" & Kd_So & "' and kode_barang = '" & Kd_Brg & "'"
-                            ExecuteTrans(SQL)
+            '''                SQL = "Update barang set "
+            '''                SQL = SQL & "Good_Stock = Good_Stock - " & .Rows(i).Item("NIlai_Barang") & " "
+            '''                SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
+            '''                SQL = SQL & "kode_stock_owner = '" & Kd_So & "' and kode_barang = '" & Kd_Brg & "'"
+            '''                ExecuteTrans(SQL)
 
-                            SQL = "SELECT "
-                            SQL = SQL & "ROUND(SUM(good_stock), 4) AS good_stock, "
-                            SQL = SQL & "ISNULL((SELECT ROUND(SUM(jumlah), 4) FROM Barang_sn x WHERE a.kode_Barang = x.kode_Barang AND a.Kode_Stock_Owner = x.Kode_Stock_Owner AND a.kode_Perusahaan = x.kode_Perusahaan), 0) AS Jumlah_sn, "
-                            SQL = SQL & "ISNULL(ROUND(SUM(jumlah_bags), 4), 0) AS jumlah_bags_barang, "
-                            SQL = SQL & "ISNULL((SELECT ROUND(SUM(Jumlah_Bags), 4) FROM Barang_sn y WHERE a.kode_Barang = y.kode_Barang AND a.Kode_Stock_Owner = y.Kode_Stock_Owner AND a.kode_Perusahaan = y.Kode_Perusahaan), 0) AS jumlah_bags_sn "
-                            SQL = SQL & "FROM "
-                            SQL = SQL & "barang a "
-                            SQL = SQL & "WHERE "
-                            SQL = SQL & "a.Kode_Perusahaan = '" & KodePerusahaan & "' And a.Kode_Stock_Owner = '" & Kd_So & "' AND a.Kode_Barang = '" & Kd_Brg & "' "
-                            SQL = SQL & "GROUP BY "
-                            SQL = SQL & "a.kode_Barang, a.Kode_Stock_Owner, a.kode_Perusahaan"
-                            Using Ds2 = BindingTrans(SQL)
-                                If Ds2.Tables("MyTable").Rows.Count <> 0 Then
+            '''                SQL = "SELECT "
+            '''                SQL = SQL & "ROUND(SUM(good_stock), 4) AS good_stock, "
+            '''                SQL = SQL & "ISNULL((SELECT ROUND(SUM(jumlah), 4) FROM Barang_sn x WHERE a.kode_Barang = x.kode_Barang AND a.Kode_Stock_Owner = x.Kode_Stock_Owner AND a.kode_Perusahaan = x.kode_Perusahaan), 0) AS Jumlah_sn, "
+            '''                SQL = SQL & "ISNULL(ROUND(SUM(jumlah_bags), 4), 0) AS jumlah_bags_barang, "
+            '''                SQL = SQL & "ISNULL((SELECT ROUND(SUM(Jumlah_Bags), 4) FROM Barang_sn y WHERE a.kode_Barang = y.kode_Barang AND a.Kode_Stock_Owner = y.Kode_Stock_Owner AND a.kode_Perusahaan = y.Kode_Perusahaan), 0) AS jumlah_bags_sn "
+            '''                SQL = SQL & "FROM "
+            '''                SQL = SQL & "barang a "
+            '''                SQL = SQL & "WHERE "
+            '''                SQL = SQL & "a.Kode_Perusahaan = '" & KodePerusahaan & "' And a.Kode_Stock_Owner = '" & Kd_So & "' AND a.Kode_Barang = '" & Kd_Brg & "' "
+            '''                SQL = SQL & "GROUP BY "
+            '''                SQL = SQL & "a.kode_Barang, a.Kode_Stock_Owner, a.kode_Perusahaan"
+            '''                Using Ds2 = BindingTrans(SQL)
+            '''                    If Ds2.Tables("MyTable").Rows.Count <> 0 Then
 
-                                    Dim Stock_Barang As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("good_stock"), "N4")))
-                                    Dim Stock_Sn As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("Jumlah_sn"), "N4")))
-                                    Dim Bags_Barang As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("jumlah_bags_barang"), "N4")))
-                                    Dim Bags_Sn As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("jumlah_bags_sn"), "N4")))
+            '''                        Dim Stock_Barang As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("good_stock"), "N4")))
+            '''                        Dim Stock_Sn As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("Jumlah_sn"), "N4")))
+            '''                        Dim Bags_Barang As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("jumlah_bags_barang"), "N4")))
+            '''                        Dim Bags_Sn As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("jumlah_bags_sn"), "N4")))
 
-                                    If Stock_Barang <> Stock_Sn Or Bags_Barang <> Bags_Sn Then
-                                        CloseTrans()
-                                        CloseConn()
-                                        MessageBox.Show("Terjadi Kesalahan Pada SN . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                        Exit Sub
-                                    End If
+            '''                        If Stock_Barang <> Stock_Sn Or Bags_Barang <> Bags_Sn Then
+            '''                            CloseTrans()
+            '''                            CloseConn()
+            '''                            MessageBox.Show("Terjadi Kesalahan Pada SN . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '''                            Exit Sub
+            '''                        End If
 
-                                Else
-                                    CloseTrans()
-                                    CloseConn()
-                                    MessageBox.Show("Data tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                    Exit Sub
+            '''                    Else
+            '''                        CloseTrans()
+            '''                        CloseConn()
+            '''                        MessageBox.Show("Data tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '''                        Exit Sub
 
-                                End If
+            '''                    End If
 
-                            End Using
+            '''                End Using
 
-                            '==========================
-                            '=     CEK SN HARUS 0     =
-                            '==========================
-                            SQL = "select Jumlah from Barang_SN where Kode_Perusahaan = '" & KodePerusahaan & "' and Serial_Number = '" & SnLama & "' and Warna = '" & WarnaLama & "'"
-                            Using Dr = OpenTrans(SQL)
-                                If Dr.Read Then
-                                    If Val(Dr("Jumlah")) <> 0 Then
-                                        Dr.Close()
-                                        CloseTrans()
-                                        CloseConn()
-                                        MessageBox.Show("Terjadi Kesalahan Pada SN . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                        Exit Sub
-                                    End If
-                                Else
-                                    Dr.Close()
-                                    CloseTrans()
-                                    CloseConn()
-                                    MessageBox.Show("SN Tidak Ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                    Exit Sub
-                                End If
+            '''                '==========================
+            '''                '=     CEK SN HARUS 0     =
+            '''                '==========================
+            '''                SQL = "select Jumlah from Barang_SN where Kode_Perusahaan = '" & KodePerusahaan & "' and Serial_Number = '" & SnLama & "' and Warna = '" & WarnaLama & "'"
+            '''                Using Dr = OpenTrans(SQL)
+            '''                    If Dr.Read Then
+            '''                        If Val(Dr("Jumlah")) <> 0 Then
+            '''                            Dr.Close()
+            '''                            CloseTrans()
+            '''                            CloseConn()
+            '''                            MessageBox.Show("Terjadi Kesalahan Pada SN . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '''                            Exit Sub
+            '''                        End If
+            '''                    Else
+            '''                        Dr.Close()
+            '''                        CloseTrans()
+            '''                        CloseConn()
+            '''                        MessageBox.Show("SN Tidak Ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '''                        Exit Sub
+            '''                    End If
 
-                            End Using
+            '''                End Using
 
-                            SQL = "update Emi_Production_Results_Detail_Pallet set SN_Baru ='" & SN2 & "', Lokasi_Gudang='" & arrSO(Cmb_LokasiSimpan.SelectedIndex) & "' where Kode_Perusahaan = '" & KodePerusahaan & "' "
-                            SQL = SQL & "and urut_oto = '" & .Rows(i).Item("urut_oto") & "'"
-                            ExecuteTrans(SQL)
+            '''                SQL = "update Emi_Production_Results_Detail_Pallet set SN_Baru ='" & SN2 & "', Lokasi_Gudang='" & arrSO(Cmb_LokasiSimpan.SelectedIndex) & "' where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            '''                SQL = SQL & "and urut_oto = '" & .Rows(i).Item("urut_oto") & "'"
+            '''                ExecuteTrans(SQL)
 
-                            '================================
-                            '=     GET WAREHOUSE KOSONG     =
-                            '================================
-                            Dim available_Id_Warehouse2 As String = ""
-                            Dim available_NoPallet2 As String = ""
+            '''                '================================
+            '''                '=     GET WAREHOUSE KOSONG     =
+            '''                '================================
+            '''                Dim available_Id_Warehouse2 As String = ""
+            '''                Dim available_NoPallet2 As String = ""
 
-                            SQL = "select top(1) a.id_wms_warehouse_position, b.nomor_urut from "
-                            SQL = SQL & "view_warehouse_position a, view_warehouse_position_detail b "
-                            SQL = SQL & "where a.Id_WMS_Warehouse_Position=b.Id_WMS_Warehouse_Position "
-                            SQL = SQL & " And a.kode_Perusahaan = b.kode_Perusahaan And a.kode_Perusahaan ='" & KodePerusahaan & "' "
-                            SQL = SQL & "and a.Kode_Stock_Owner='" & arrSO(Cmb_LokasiSimpan.SelectedIndex) & "' and b.Kode_Barang is null"
-                            Using Dr2 = OpenTrans(SQL)
-                                If Dr2.Read Then
-                                    available_Id_Warehouse2 = Dr2("id_wms_warehouse_position")
-                                    available_NoPallet2 = Dr2("nomor_urut")
-                                Else
-                                    Dr2.Close()
-                                    CloseTrans()
-                                    CloseConn()
-                                    MessageBox.Show("Rak sudah Penuh")
-                                    Exit Sub
-                                End If
-                            End Using
+            '''                SQL = "select top(1) a.id_wms_warehouse_position, b.nomor_urut from "
+            '''                SQL = SQL & "view_warehouse_position a, view_warehouse_position_detail b "
+            '''                SQL = SQL & "where a.Id_WMS_Warehouse_Position=b.Id_WMS_Warehouse_Position "
+            '''                SQL = SQL & " And a.kode_Perusahaan = b.kode_Perusahaan And a.kode_Perusahaan ='" & KodePerusahaan & "' "
+            '''                SQL = SQL & "and a.Kode_Stock_Owner='" & arrSO(Cmb_LokasiSimpan.SelectedIndex) & "' and b.Kode_Barang is null"
+            '''                Using Dr2 = OpenTrans(SQL)
+            '''                    If Dr2.Read Then
+            '''                        available_Id_Warehouse2 = Dr2("id_wms_warehouse_position")
+            '''                        available_NoPallet2 = Dr2("nomor_urut")
+            '''                    Else
+            '''                        Dr2.Close()
+            '''                        CloseTrans()
+            '''                        CloseConn()
+            '''                        MessageBox.Show("Rak sudah Penuh")
+            '''                        Exit Sub
+            '''                    End If
+            '''                End Using
 
-                            SQL = "insert into barang_sn_sementara(kode_perusahaan, kode_stock_owner, kode_barang, "
-                            SQL = SQL & "serial_number, Jumlah, Warna, Kode_Unik_Berjalan, Kode_Unik_Asal, "
-                            SQL = SQL & "Qr_Code, Batch_Number, Id_Warehouse, Nomor_Pallet, Flag_Produksi, Flag_QI, Tgl_Produksi, Tgl_Expired) values('" & KodePerusahaan & "', "
-                            SQL = SQL & "'" & arrSO(Cmb_LokasiSimpan.SelectedIndex) & "', '" & Kd_Brg & "', "
-                            SQL = SQL & "'" & SN2 & "', " & .Rows(i).Item("NIlai_Barang") & ", '" & WarnaLama & "', "
-                            SQL = SQL & "'" & .Rows(i).Item("Kode_Unik_Berjalan") & "', '" & .Rows(i).Item("Kode_Unik_Asal") & "', '" & .Rows(i).Item("Qr_Code") & "', "
-                            SQL = SQL & "'" & .Rows(i).Item("Batch_Number") & "', '" & available_Id_Warehouse2 & "', '" & available_NoPallet2 & "', 'Y', 'Y', "
-                            SQL = SQL & " '" & .Rows(i).Item("Tgl_Produksi") & "', '" & .Rows(i).Item("Tgl_Expired") & "')"
-                            ExecuteTrans(SQL)
+            '''                SQL = "insert into barang_sn_sementara(kode_perusahaan, kode_stock_owner, kode_barang, "
+            '''                SQL = SQL & "serial_number, Jumlah, Warna, Kode_Unik_Berjalan, Kode_Unik_Asal, "
+            '''                SQL = SQL & "Qr_Code, Batch_Number, Id_Warehouse, Nomor_Pallet, Flag_Produksi, Flag_QI, Tgl_Produksi, Tgl_Expired) values('" & KodePerusahaan & "', "
+            '''                SQL = SQL & "'" & arrSO(Cmb_LokasiSimpan.SelectedIndex) & "', '" & Kd_Brg & "', "
+            '''                SQL = SQL & "'" & SN2 & "', " & .Rows(i).Item("NIlai_Barang") & ", '" & WarnaLama & "', "
+            '''                SQL = SQL & "'" & .Rows(i).Item("Kode_Unik_Berjalan") & "', '" & .Rows(i).Item("Kode_Unik_Asal") & "', '" & .Rows(i).Item("Qr_Code") & "', "
+            '''                SQL = SQL & "'" & .Rows(i).Item("Batch_Number") & "', '" & available_Id_Warehouse2 & "', '" & available_NoPallet2 & "', 'Y', 'Y', "
+            '''                SQL = SQL & " '" & .Rows(i).Item("Tgl_Produksi") & "', '" & .Rows(i).Item("Tgl_Expired") & "')"
+            '''                ExecuteTrans(SQL)
 
+            '''            Next
+            '''        End If
+            '''    End With
+            '''End Using
 
-
-                        Next
-                    End If
-                End With
-            End Using
-
-
+#End Region
 
             If Val(TxtJmlScrap.Text) <> 0 Then
 
                 'GENERATE BAROCDE
                 'TODO : Barcode Scrap
-                Dim newBatchScrap As String = Generate_Batch_FG(tgl_skg, Prefix, DtpExpired.Value, Tahun_MulaiProduksi)
+                Dim newBatchScrap As String = ""
+                'Dim newBatchScrap As String = Generate_Batch_FG(tgl_skg, Prefix, DtpExpired.Value, Tahun_MulaiProduksi)
+
+                SQL = "select top 1 b.Batch_Number "
+                SQL = SQL & "from Emi_Production_Results a, Emi_Production_Results_Detail_Scrap b "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+                SQL = SQL & "and a.No_Transaksi = b.No_Transaksi "
+                SQL = SQL & "and a.Status is null "
+                'SQL = SQL & "and b.Batch_Number is not null "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.No_Production_Order = '" & Txt_NoSplit.Text & "' "
+                SQL = SQL & "order by b.proses DESC "
+                Using Dr1 = OpenTrans(SQL)
+                    If Dr1.Read Then
+                        If Not General_Class.CekNULL(Dr1("Batch_Number")) = "" Then
+                            newBatchScrap = Dr1("Batch_Number")
+                        Else
+                            newBatchScrap = Generate_Batch_FG(tgl_skg, Prefix, DtpExpired.Value, Tahun_MulaiProduksi)
+                        End If
+                    Else
+                        newBatchScrap = Generate_Batch_FG(tgl_skg, Prefix, DtpExpired.Value, Tahun_MulaiProduksi)
+                    End If
+                End Using
+
                 Dim newQrCodeScrap As String = Generate_QR_Batch(arrKdBarangSrap(CmbSisaProduksi.SelectedIndex), newBatchScrap)
                 Dim Kode_BerjalanScrap As String = Generate_Random_Kode(10)
                 Dim Kode_AsalScrap As String = Kode_BerjalanScrap
-
 
                 Dim nilai_kecildetail As Double = 0
                 SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa', '" & arrKdBarangSrap.Item(CmbSisaProduksi.SelectedIndex) & "', '" & CmbSatScrap.Text & "', "
@@ -1352,6 +1741,25 @@ Public Class Emi_Production_Barcode
                     Loop
                 End Using
 
+                '===========================
+                '=     GET TOTAL SCRAP     =
+                '===========================
+                Dim TotalCountScrap As Double = 0
+                SQL = "select distinct top(1) Nomor from Emi_Production_Results_Detail_Scrap where "
+                SQL = SQL & "no_transaksi = '" & TxtFormulator_NoFaktur.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
+                SQL = SQL & "order by Nomor Desc "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        If General_Class.CekNULL(Dr("Nomor")) = "" Then
+                            TotalCountScrap = 1
+                        Else
+                            TotalCountScrap = Dr("Nomor") + 1
+                        End If
+                    Else
+                        TotalCountScrap = 1
+                    End If
+                End Using
+
                 Dim sisa_barang As Double = 0
                 sisa_barang = nilai_kecildetail
                 SQL = "Select b.jumlah_dosing, b.jumlah_dosing_pcs, b.jumlah_dosing - b.jumlah_Terpakai As sisa, Total_bahan_baku, "
@@ -1382,13 +1790,11 @@ Public Class Emi_Production_Barcode
                         Dim Kode_Unik As String = str.Substring(0, 5) & Chr(64 + str.Substring(6, 1)) & str.Substring(6, Len(str) - 6)
                         Dim SN As String = Kode_Unik & Tanda_SN & "01" & Tanda_SN & nilai_HPP_pcs & Tanda_SN & "02" & Tanda_SN & Format(tgl_skg, "yyyy-MM-dd")
 
-
                         Dim nilai_potong As Double = 0
                         If sisa > sisa_barang Then
 
                             nilai_potong = sisa_barang
                             sisa_barang -= sisa_barang
-
                         Else
 
                             nilai_potong = sisa
@@ -1417,22 +1823,24 @@ Public Class Emi_Production_Barcode
                                 Exit Sub
                             Else
                                 SQL = "insert into barang_sn(kode_perusahaan, kode_stock_owner, kode_barang, "
-                                SQL = SQL & "serial_number, jumlah, Kode_Unik_Berjalan, Kode_Unik_Asal, "
-                                SQL = SQL & "Qr_Code, Batch_Number, Id_Warehouse, Nomor_Pallet) values('" & KodePerusahaan & "', "
+                                SQL = SQL & "serial_number, jumlah, Jumlah_Bags, Warna, Kode_Unik_Berjalan, Kode_Unik_Asal, "
+                                SQL = SQL & "Qr_Code, Batch_Number, Id_Warehouse, Nomor_Pallet, Tgl_Produksi, Tgl_Expired, tgl_masuk) values('" & KodePerusahaan & "', "
                                 SQL = SQL & "'" & Kd_So & "', '" & arrKdBarangSrap.Item(CmbSisaProduksi.SelectedIndex) & "', "
-                                SQL = SQL & "'" & SN & "', " & nilai_potong & ", '" & "X" & "', "
-                                SQL = SQL & "'" & "X" & "', '" & "X" & "', "
-                                SQL = SQL & "'" & "X" & "', '" & available_Id_Warehouse & "', '" & available_NoPallet & "')"
+                                SQL = SQL & "'" & SN & "', " & nilai_potong & ", 0, 'HIJAU', '" & Kode_BerjalanScrap & "', "
+                                SQL = SQL & "'" & Kode_AsalScrap & "', '" & newQrCodeScrap & "', "
+                                SQL = SQL & "'" & newBatchScrap & "', '" & available_Id_Warehouse & "', '" & available_NoPallet & "', "
+                                SQL = SQL & "'" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "', '" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "', '" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "')"
                                 Dr.Close()
                                 ExecuteTrans(SQL)
                             End If
                         End Using
 
                         SQL = "insert into Emi_Production_Results_Detail_Scrap (Kode_Perusahaan, No_Transaksi, Kode_Unik_Berjalan, Kode_Unik_Asal, Qr_Code, Jumlah, Satuan, NIlai_Barang, "
-                        SQL = SQL & "Satuan_Barang, Batch_Number, Id_Warehouse, Nomor_Pallet,proses, serial_number, Urut_HPP) values "
+                        SQL = SQL & "Satuan_Barang, Batch_Number, Id_Warehouse, Nomor_Pallet, proses, serial_number, Urut_HPP, Lokasi_Gudang_Sisa, Nomor) values "
                         SQL = SQL & "('" & KodePerusahaan & "', '" & TxtFormulator_NoFaktur.Text & "', '" & Kode_BerjalanScrap & "', '" & Kode_AsalScrap & "', "
-                        SQL = SQL & "'" & newQrCodeScrap & "', '" & TxtJmlScrap.Text & "', '" & CmbSatScrap.Text & "', '" & nilai_potong & "', '" & TxtSatScrapKecil.Text & "', "
-                        SQL = SQL & "'" & newBatchScrap & "', '" & available_Id_Warehouse & "', '" & available_NoPallet & "', '" & proses & "', '" & SN & "', '" & urut_HPP & "') "
+                        SQL = SQL & "'" & newQrCodeScrap & "', '" & nilai_potong & "', '" & CmbSatScrap.Text & "', '" & nilai_potong & "', '" & TxtSatScrapKecil.Text & "', "
+                        SQL = SQL & "'" & newBatchScrap & "', '" & available_Id_Warehouse & "', '" & available_NoPallet & "', '" & proses & "', '" & SN & "', '" & urut_HPP & "', "
+                        SQL = SQL & "'" & arrSoGudangSisa(Cmb_Lokasi_Gudang_Sisa.SelectedIndex) & "', '" & TotalCountScrap & "')"
                         ExecuteTrans(SQL)
 
                         SQL = "Update Emi_Production_Results_HPP set "
@@ -1451,7 +1859,6 @@ Public Class Emi_Production_Barcode
                     Exit Sub
                 End If
 
-
                 Dim MetodePengeluaranStokScrap As String = ""
                 SQL = "select top 1 Metode_Pengeluaran_Stok from Barang where kode_perusahaan  = '" & KodePerusahaan & "'  "
                 SQL = SQL & "and Kode_Barang = '" & arrKdBarangSrap(CmbSisaProduksi.SelectedIndex) & "'"
@@ -1468,21 +1875,18 @@ Public Class Emi_Production_Barcode
                     End If
                 End Using
 
-
                 '==================================
                 '=      GENERATE NEW BARCODE      =
                 '==================================
                 'HAPUS TABEL SEMENTARA
-                If Txt_Jumlah.Text.Trim.Length = 0 Then
-                    SQL = "truncate table Cetak_Finish_Good "
-                    ExecuteTrans(SQL)
-                End If
+                SQL = "truncate table N_EMI_Barcode_Label_Barcode_GR_1_Scrap "
+                ExecuteTrans(SQL)
 
                 kode_unik_print_scrap = Format(tgl_skg, "MMddHHmmss") & Format(random.Next(0, 10000), "00000")
 
                 Dim fullNewQrScrap As String = newQrCodeScrap & "-" & Kode_BerjalanScrap
 
-                Barcode.Image = Generate_QR(fullNewQrScrap)
+                Barcode.Image = Generate_QR_NoPadding(fullNewQrScrap)
 
                 Dim FileToSaveAs1 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "newBarcodeTfStock" & kode_unik_print_scrap & ".jpg")
 
@@ -1499,24 +1903,49 @@ Public Class Emi_Production_Barcode
                 fs1.Close()
                 Cmd.Parameters.Add("@newBarcodescrap", SqlDbType.Image).Value = rawData1
 
+                '=======================
+                '=     GET ROUTING     =
+                '=======================
+                Dim Id_Routing As String = ""
+                Dim Routing As String = ""
+                SQL = "select b.Id_Routing, c.Keterangan as Routing "
+                SQL = SQL & "from Emi_Split_Production_Order a, EMI_Order_Produksi b, EMI_Master_Routing c "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan "
+                SQL = SQL & "and a.No_PO = b.No_Faktur "
+                SQL = SQL & "and b.Id_Routing = c.Id_Routing "
+                SQL = SQL & "and a.Status is null and b.Status is null "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.No_Transaksi = '" & Txt_NoSplit.Text & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Id_Routing = Dr("Id_Routing")
+                        Routing = Dr("Routing")
+                    Else
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Routing tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
 
-                'INSERT TABEL CETAK QR
-                SQL = "insert into Cetak_Finish_Good (Kode_Perusahaan, Kode_Barang, Barcode, QrUtuh, Qr, Tgl_Expired, batch, tgl_produksi, kode_unik_print, tanggal_masuk,metode_pengeluaran_stok) values "
-                'SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_KdBarang.Text & "', @newBarcode, '" & Txt_NamaBarang.Text & "', "
-                SQL = SQL & "('" & KodePerusahaan & "', '" & arrKdBarangSrap(CmbSisaProduksi.SelectedIndex) & "', @newBarcodescrap, "
-                SQL = SQL & "'" & fullNewQrScrap & "', '" & newQrCodeScrap & "', '" & Format(Date.Parse(DtpExpired.Value), "yyyy-MM-dd") & "', '" & newBatchScrap & "',  '" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "', "
-                SQL = SQL & "'" & kode_unik_print_scrap & "', '" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "', '" & MetodePengeluaranStokScrap & "'"
-                SQL = SQL & ")"
+                ''INSERT TABEL CETAK QR
+                'SQL = "insert into Cetak_Finish_Good (Kode_Perusahaan, Kode_Barang, Barcode, QrUtuh, Qr, Tgl_Expired, batch, tgl_produksi, kode_unik_print, tanggal_masuk,metode_pengeluaran_stok) values "
+                ''SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_KdBarang.Text & "', @newBarcode, '" & Txt_NamaBarang.Text & "', "
+                'SQL = SQL & "('" & KodePerusahaan & "', '" & arrKdBarangSrap(CmbSisaProduksi.SelectedIndex) & "', @newBarcodescrap, "
+                'SQL = SQL & "'" & fullNewQrScrap & "', '" & newQrCodeScrap & "', '" & Format(Date.Parse(DtpExpired.Value), "yyyy-MM-dd") & "', '" & newBatchScrap & "',  '" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "', "
+                'SQL = SQL & "'" & kode_unik_print_scrap & "', '" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "', '" & MetodePengeluaranStokScrap & "'"
+                'SQL = SQL & ")"
+                'ExecuteTrans(SQL)
+
+                SQL = "insert into N_EMI_Barcode_Label_Barcode_GR_1_Scrap (kode_perusahaan, no_split, Barcode, Kode_barang, Nama_Barang, QrUtuh, Qr, Tgl_Produksi, Jam_Produksi, "
+                SQL = SQL & "Proses, Jumlah, Satuan, Nomor, id_routing, routing, Kode_unik_print)  "
+                SQL = SQL & "values ('" & KodePerusahaan & "', '" & Txt_NoSplit.Text & "', @newBarcodescrap, '" & arrKdBarangSrap(CmbSisaProduksi.SelectedIndex) & "', '" & CmbSisaProduksi.Text & "', '" & fullNewQrScrap & "', '" & newQrCodeScrap & "', "
+                SQL = SQL & "'" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & proses & "', '" & TxtJmlScrap.Text & "', '" & CmbSatScrap.Text & "', "
+                SQL = SQL & "'" & TotalCountScrap & "', '" & Id_Routing & "', '" & Routing & "', '" & kode_unik_print_scrap & "') "
                 ExecuteTrans(SQL)
 
-
-
-
-
-
-
             End If
-
 
             SQL = "update Emi_Produksi_Hasil_Perpallet set flag_simpan_pallet = 'Y'  where "
             SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and No_Split = '" & Txt_NoSplit.Text & "' "
@@ -1573,14 +2002,8 @@ Public Class Emi_Production_Barcode
             Dim Akun_HPPScrap As String = ""
             Dim Akun_Pembulatan_FG As String = ""
 
-
             Dim keterangan2 As String = ""
             Dim keterangan3 As String = ""
-
-
-
-
-
 
             SQL = "select HPP_Barang_Setengah_Jadi, Persediaan_Barang_Dalam_Proses, "
             SQL = SQL & "HPP,Pembulatan_Finished_Good,Pembulatan_Semi_FG, Persediaan_Scrap from stock_owner_gudang "
@@ -1593,24 +2016,21 @@ Public Class Emi_Production_Barcode
 
                     Akun_Persediaan_Dalam_Proses = Dr("Persediaan_Barang_Dalam_Proses")
 
-                    If fFlag_Semi_FG = "Y" Then
+                    'If fFlag_Semi_FG = "Y" Then
 
+                    akun_HPP_FG = Dr("HPP_Barang_Setengah_Jadi")
+                    keterangan2 = "HPP Barang Setengah Jadi "
 
+                    Akun_Pembulatan_FG = Dr("Pembulatan_Semi_FG")
+                    keterangan3 = "Pembulatan HPP Barang Setengah Jadi "
+                    'ElseIf fFlag_Finished_Good = "Y" Then
 
-                        akun_HPP_FG = Dr("HPP_Barang_Setengah_Jadi")
-                        keterangan2 = "HPP Barang Setengah Jadi "
+                    '    akun_HPP_FG = Dr("HPP")
+                    '    keterangan2 = "HPP Barang Jadi "
 
-                        Akun_Pembulatan_FG = Dr("Pembulatan_Semi_FG")
-                        keterangan3 = "Pembulatan HPP Barang Setengah Jadi "
-                    ElseIf fFlag_Finished_Good = "Y" Then
-
-
-                        akun_HPP_FG = Dr("HPP")
-                        keterangan2 = "HPP Barang Jadi "
-
-                        Akun_Pembulatan_FG = Dr("Pembulatan_Finished_Good")
-                        keterangan3 = "Pembulatan HPP Barang Jadi "
-                    End If
+                    '    Akun_Pembulatan_FG = Dr("Pembulatan_Finished_Good")
+                    '    keterangan3 = "Pembulatan HPP Barang Jadi "
+                    'End If
                 Else
                     Dr.Close()
                     CloseTrans()
@@ -1643,8 +2063,103 @@ Public Class Emi_Production_Barcode
                     End If
                 End Using
 
-#Region "Jurnal 1"
+#Region "Jurnal Packaging"
 
+                If Nilai_Packaging <> 0 Then
+                    'HPP Pada Barang Dalam Proses
+
+                    Dim ket_packaging As String = ""
+                    Dim akun_kredit_packaging As String = ""
+                    Dim lok_packaging As String = ""
+
+                    Dim Kode_voucherPkg As String = ""
+                    Kode_voucherPkg = GetLastNumberJurnal(Format(tgl_skg, "yyyyMM"), "JS" & inisial_faktur_dari, KodePerusahaan)
+                    Dim pagenumberPkg As Integer = 1
+
+                    SQL = "Insert Into Jurnal(Kode_Voucher, Tanggal, Jam, Kode_Perusahaan, Kode_Proyek, "
+                    SQL = SQL & "Keterangan, JudulBank, KetDK, userid) values("
+                    SQL = SQL & "'" & Kode_voucherPkg & "', "
+                    SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', "
+                    SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
+                    SQL = SQL & "'" & KodeProyek & "', 'Pengeluaran Bahan Baku " & TxtFormulator_NoFaktur.Text & "', '', "
+                    SQL = SQL & "'-', '" & UserID & "')"
+                    ExecuteTrans(SQL)
+
+                    'Insert HPP Total
+                    SQL = Get_Detail_Jurnal(Kode_voucherPkg, Strings.Left(Akun_Persediaan_Dalam_Proses, 1),
+                     Strings.Mid(Akun_Persediaan_Dalam_Proses, 2, 1),
+                     Strings.Mid(Ganti(Akun_Persediaan_Dalam_Proses), 3),
+                     KodePerusahaan, KodeProyek, keterangan2 & TxtFormulator_NoFaktur.Text, Nilai_Packaging, "0", pagenumberPkg, fso, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                    ExecuteTrans(SQL)
+                    pagenumberPkg = pagenumberPkg + 1
+
+                    SQL = "select top(1) "
+                    SQL = SQL & "b.Id_Group_Jenis, b.kode_stock_owner, c.akun_persediaan, Kode_Group_Jenis "
+                    SQL = SQL & "from Emi_Production_Results_Packaging_Det a, Barang b, EMI_Group_Jenis_Akun c, "
+                    SQL = SQL & "Emi_Production_Results_Packaging_Detail e, EMI_Group_Jenis f where "
+                    SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner "
+                    SQL = SQL & "and a.Kode_Barang = b.Kode_Barang "
+                    SQL = SQL & "and b.Kode_Perusahaan = f.Kode_Perusahaan and b.Id_Group_Jenis = f.Id_Group_Jenis "
+                    SQL = SQL & "and f.Kode_Perusahaan = c.Kode_Perusahaan and f.Id_Group_Jenis = c.Id_Group_Jenis "
+                    SQL = SQL & "and b.Kode_Stock_Owner = c.Kode_Stock_Owner "
+                    SQL = SQL & "and a.Kode_Perusahaan = e.Kode_Perusahaan and a.No_Transaksi = e.No_Transaksi "
+                    SQL = SQL & "and a.Kode_Stock_Owner = e.Kode_Stock_Owner and a.Kode_Barang = e.Kode_Barang "
+                    SQL = SQL & "and a.No_Urut_Detail = e.Urut "
+                    SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and a.No_Transaksi = '" & TxtFormulator_NoFaktur.Text & "' "
+                    SQL = SQL & "and e.status is null "
+                    Using Ds = BindingTrans(SQL)
+                        With Ds.Tables("MyTable")
+                            If .Rows.Count <> 0 Then
+                                For h As Integer = 0 To .Rows.Count - 1
+
+                                    lok_packaging = .Rows(h).Item("kode_stock_owner")
+                                    akun_kredit_packaging = .Rows(h).Item("akun_persediaan")
+                                    ket_packaging = "Persediaan " + .Rows(h).Item("Kode_Group_Jenis")
+
+                                Next
+                            End If
+                        End With
+                    End Using
+
+                    SQL = Get_Detail_Jurnal(Kode_voucherPkg, Strings.Left(akun_kredit_packaging, 1),
+                   Strings.Mid(akun_kredit_packaging, 2, 1),
+                   Strings.Mid(Ganti(akun_kredit_packaging), 3),
+                   KodePerusahaan, KodeProyek, ket_packaging & TxtFormulator_NoFaktur.Text, "0", Nilai_Packaging, pagenumberPkg, lok_packaging, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                    ExecuteTrans(SQL)
+                    pagenumberPkg = pagenumberPkg + 1
+
+                    SQL = "select sum(debit) as debit, sum(kredit) as kredit from detail_jurnal where "
+                    SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
+                    SQL = SQL & "kode_voucher = '" & Kode_voucherPkg & "'"
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            If Dr("debit") <> Dr("kredit") Then
+                                Dr.Close()
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("Jurnal salah!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+                        Else
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Data jurnal tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
+
+                    SQL = "insert into Emi_Production_Results_Jurnal (Kode_Perusahaan,No_Transaksi,Kode_Voucher,Proses, Jenis) values ("
+                    SQL = SQL & "'" & KodePerusahaan & "','" & TxtFormulator_NoFaktur.Text & "','" & Kode_voucherPkg & "',"
+                    SQL = SQL & "'" & proses & "', 'GIP') "
+                    ExecuteTrans(SQL)
+
+                End If
+
+#End Region
+
+#Region "Jurnal 1"
 
                 'HPP Pada Barang Dalam Proses
 
@@ -1669,13 +2184,11 @@ Public Class Emi_Production_Barcode
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
-
-
                 'Insert Data Bahan dan Packaging yg dipakai
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(Akun_Persediaan_Dalam_Proses, 1),
                                   Strings.Mid(Akun_Persediaan_Dalam_Proses, 2, 1),
                                   Strings.Mid(Ganti(Akun_Persediaan_Dalam_Proses), 3),
-                                  KodePerusahaan, KodeProyek, "Persediaan Dalam Proses " & TxtFormulator_NoFaktur.Text, "0", TotalHPP, pagenumber, Lokasi, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                                  KodePerusahaan, KodeProyek, "Persediaan Dalam Proses " & TxtFormulator_NoFaktur.Text, "0", TotalHPP, pagenumber, fso, Bahasa_Pilihan, Ket_Cost_Center_HO)
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
@@ -1708,6 +2221,7 @@ Public Class Emi_Production_Barcode
 #End Region
 
 #Region "Jurnal 2"
+
                 'Persediaan Pada HPP
 
                 Dim Kode_voucher2 As String = ""
@@ -1727,11 +2241,9 @@ Public Class Emi_Production_Barcode
                 SQL = Get_Detail_Jurnal(Kode_voucher2, Strings.Left(Akun_Persediaan, 1),
                      Strings.Mid(Akun_Persediaan, 2, 1),
                      Strings.Mid(Ganti(Akun_Persediaan), 3),
-                     KodePerusahaan, KodeProyek, keterangan2 & TxtFormulator_NoFaktur.Text, TotalHPP, "0", pagenumber2, Lokasi, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                     KodePerusahaan, KodeProyek, keterangan2 & TxtFormulator_NoFaktur.Text, TotalHPP, "0", pagenumber2, arrSO(Cmb_LokasiSimpan.SelectedIndex), Bahasa_Pilihan, Ket_Cost_Center_HO)
                 ExecuteTrans(SQL)
                 pagenumber2 = pagenumber2 + 1
-
-
 
                 'Insert Data Bahan dan Packaging yg dipakai
                 SQL = Get_Detail_Jurnal(Kode_voucher2, Strings.Left(akun_HPP_FG, 1),
@@ -1766,9 +2278,10 @@ Public Class Emi_Production_Barcode
                 SQL = SQL & "'" & KodePerusahaan & "','" & TxtFormulator_NoFaktur.Text & "','" & Kode_voucher2 & "',"
                 SQL = SQL & "'" & proses & "', 'GR2') "
                 ExecuteTrans(SQL)
-#End Region
-            End If
 
+#End Region
+
+            End If
 
 #Region "Jurnal 3"
 
@@ -1791,17 +2304,15 @@ Public Class Emi_Production_Barcode
                 SQL = Get_Detail_Jurnal(Kode_voucher3, Strings.Left(Akun_PersediaanScrap, 1),
                          Strings.Mid(Akun_PersediaanScrap, 2, 1),
                          Strings.Mid(Ganti(Akun_PersediaanScrap), 3),
-                         KodePerusahaan, KodeProyek, keterangan2 & TxtFormulator_NoFaktur.Text, TotalHPPScrap, "0", pagenumber3, Lokasi, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                         KodePerusahaan, KodeProyek, keterangan2 & TxtFormulator_NoFaktur.Text, TotalHPPScrap, "0", pagenumber3, fso, Bahasa_Pilihan, Ket_Cost_Center_HO)
                 ExecuteTrans(SQL)
                 pagenumber3 = pagenumber3 + 1
-
-
 
                 'Insert Data Bahan dan Packaging yg dipakai
                 SQL = Get_Detail_Jurnal(Kode_voucher3, Strings.Left(Akun_Persediaan_Dalam_Proses, 1),
                                       Strings.Mid(Akun_Persediaan_Dalam_Proses, 2, 1),
                                       Strings.Mid(Ganti(Akun_Persediaan_Dalam_Proses), 3),
-                                      KodePerusahaan, KodeProyek, "Persediaan Dalam Proses " & TxtFormulator_NoFaktur.Text, "0", TotalHPPScrap, pagenumber3, Lokasi, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                                      KodePerusahaan, KodeProyek, "Persediaan Dalam Proses " & TxtFormulator_NoFaktur.Text, "0", TotalHPPScrap, pagenumber3, fso, Bahasa_Pilihan, Ket_Cost_Center_HO)
                 ExecuteTrans(SQL)
                 pagenumber3 = pagenumber3 + 1
 
@@ -1831,8 +2342,8 @@ Public Class Emi_Production_Barcode
                 SQL = SQL & "'" & proses & "', 'GR3') "
                 ExecuteTrans(SQL)
             End If
-#End Region
 
+#End Region
 
             Cmd.Transaction.Commit()
             CloseTrans()
@@ -1843,7 +2354,6 @@ Public Class Emi_Production_Barcode
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-
 
         '===========================
         '=      CETAK BARCODE      =
@@ -1858,7 +2368,7 @@ Public Class Emi_Production_Barcode
                 Dim KertasBesar As String = "BarcodeFG"
                 Dim KertasKecil As String = "BarcodeQC"
 
-                SQL = "select Kode_Perusahaan from Cetak_Finish_Good where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Barang='" & Txt_KdBarang.Text & "' and Kode_Unik_Print = '" & kode_unik_print & "' "
+                SQL = "select Kode_Perusahaan from N_EMI_Barcode_Label_Barcode_GR_1 where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Barang='" & Txt_KdBarang.Text & "' and Kode_Unik_Print = '" & kode_unik_print & "' "
                 Using Ds = BindingTrans(SQL)
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
 
@@ -1875,15 +2385,15 @@ Public Class Emi_Production_Barcode
 
                         If printerDitemukan Then
 
-                            CrDoc = New NewBarcodeFinishGood
+                            CrDoc = New N_EMI_Label_Barcode_GR_1
 
                             'With A_Place_For_Printing2
                             '    CrDoc.SetDataSource(Ds)
                             '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                             '    CrDoc.PrintOptions.PrinterName = ""
-                            '    CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & Txt_KdBarang.Text & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '" & kode_unik_print & "' "
-                            '    CrDoc.SummaryInfo.ReportTitle = "New Barcode Finish Good"
-                            '    .Text = "New Barcode Finish Good"
+                            '    CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Barcode_GR_1.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_Barcode_Label_Barcode_GR_1.Kode_Barang} = '" & Txt_KdBarang.Text & "' and {N_EMI_Barcode_Label_Barcode_GR_1.Kode_Unik_Print} = '" & kode_unik_print & "' "
+                            '    CrDoc.SummaryInfo.ReportTitle = "Label Good Received 1"
+                            '    .Text = "Label Good Received 1"
                             '    .CrystalReportViewer1.ReportSource = CrDoc
                             '    .Refresh()
                             '    .Show()
@@ -1894,48 +2404,54 @@ Public Class Emi_Production_Barcode
                             Dim doctoprint As New System.Drawing.Printing.PrintDocument()
                             CrDoc.SetDataSource(Ds)
                             CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & Txt_KdBarang.Text & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '" & kode_unik_print & "' "
+                            CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Barcode_GR_1.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_Barcode_Label_Barcode_GR_1.Kode_Barang} = '" & Txt_KdBarang.Text & "' and {N_EMI_Barcode_Label_Barcode_GR_1.Kode_Unik_Print} = '" & kode_unik_print & "' "
                             CrDoc.PrintOptions.PrinterName = PrinterBarcode
 
                             doctoprint.PrinterSettings.PrinterName = PrinterBarcode
 
                             Dim rawKind As Integer
+                            Dim foundPaper As Boolean = False
                             CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
                             For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
                                 If doctoprint.PrinterSettings.PaperSizes(i).PaperName = KertasBesar Then
                                     rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
                                     CrDoc.PrintOptions.PaperSize = rawKind
+                                    foundPaper = True
                                     Exit For
                                 End If
                             Next
 
-                            CrDoc.PrintToPrinter(1, False, 1, 2500)
+                            If Not foundPaper Then
+                                CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                                MessageBox.Show("Kertas Tidak Ditemukan, Menggunakan Kertas Default", "Cetak Ulang Barcode", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
+                            End If
+
+                            CrDoc.PrintToPrinter(1, False, 1, 2500)
                         Else
                             MessageBox.Show("Printer FG Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         End If
 
                         printerDitemukan = False
 
-
-                        '==========================
-                        '=     BARCODEE KECIL     =
-                        '==========================
-                        For Each printer As String In PrinterSettings.InstalledPrinters
-                            If printer.ToLower() = PrinterBarcodeQC.ToLower() Then
-                                printerDitemukan = True
-                                Exit For
-                            End If
-                        Next
+                        ''==========================
+                        ''=     BARCODEE KECIL     =
+                        ''==========================
+                        'For Each printer As String In PrinterSettings.InstalledPrinters
+                        '    If printer.ToLower() = PrinterBarcodeQC.ToLower() Then
+                        '        printerDitemukan = True
+                        '        Exit For
+                        '    End If
+                        'Next
 
                         If printerDitemukan Then
-                            CrDoc = New NewBarcodeFinishGoodKecil
+                            '    CrDoc = New NewBarcodeFinishGoodKecil
 
                             'With A_Place_For_Printing2
                             '    CrDoc.SetDataSource(Ds)
                             '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                             '    CrDoc.PrintOptions.PrinterName = ""
-                            '    CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & Txt_KdBarang.Text & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '" & kode_unik_print & "' "
+                            '    CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Barcode_GR_1.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_Barcode_Label_Barcode_GR_1.Kode_Barang} = '" & Txt_KdBarang.Text & "' and {N_EMI_Barcode_Label_Barcode_GR_1.Kode_Unik_Print} = '" & kode_unik_print & "' "
                             '    CrDoc.SummaryInfo.ReportTitle = "New Barcode Finish Good"
                             '    .Text = "New Barcode Finish Good"
                             '    .CrystalReportViewer1.ReportSource = CrDoc
@@ -1943,35 +2459,36 @@ Public Class Emi_Production_Barcode
                             '    .Show()
                             'End With
 
-                            '=======================================================
+                            '    '=======================================================
 
-                            Dim doctoprint2 As New System.Drawing.Printing.PrintDocument()
-                            CrDoc.SetDataSource(Ds)
-                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & Txt_KdBarang.Text & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '" & kode_unik_print & "' "
-                            CrDoc.PrintOptions.PrinterName = PrinterBarcodeQC
+                            '    Dim doctoprint2 As New System.Drawing.Printing.PrintDocument()
+                            '    CrDoc.SetDataSource(Ds)
+                            '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                            '    CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Barcode_GR_1.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_Barcode_Label_Barcode_GR_1.Kode_Barang} = '" & Txt_KdBarang.Text & "' and {N_EMI_Barcode_Label_Barcode_GR_1.Kode_Unik_Print} = '" & kode_unik_print & "' "
+                            '    CrDoc.PrintOptions.PrinterName = PrinterBarcodeQC
 
-                            doctoprint2.PrinterSettings.PrinterName = PrinterBarcodeQC
+                            '    doctoprint2.PrinterSettings.PrinterName = PrinterBarcodeQC
 
-                            Dim rawKind2 As Integer
-                            CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                            For i = 0 To doctoprint2.PrinterSettings.PaperSizes.Count - 1
-                                If doctoprint2.PrinterSettings.PaperSizes(i).PaperName = KertasKecil Then
-                                    rawKind2 = CInt(doctoprint2.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint2.PrinterSettings.PaperSizes(i)))
-                                    CrDoc.PrintOptions.PaperSize = rawKind2
-                                    Exit For
-                                End If
-                            Next
+                            '    Dim rawKind2 As Integer
+                            '    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                            '    For i = 0 To doctoprint2.PrinterSettings.PaperSizes.Count - 1
+                            '        If doctoprint2.PrinterSettings.PaperSizes(i).PaperName = KertasKecil Then
+                            '            rawKind2 = CInt(doctoprint2.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint2.PrinterSettings.PaperSizes(i)))
+                            '            CrDoc.PrintOptions.PaperSize = rawKind2
+                            '            Exit For
+                            '        End If
+                            '    Next
 
-                            CrDoc.PrintToPrinter(1, False, 1, 2500)
+                            '    CrDoc.PrintToPrinter(1, False, 1, 2500)
+                            'End If
                         End If
 
-                        printerDitemukan = False
-
+                        'printerDitemukan = False
                     Else
                         MessageBox.Show("Printer QC Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
                     End If
+
                 End Using
 
                 CloseConn()
@@ -1992,10 +2509,9 @@ Public Class Emi_Production_Barcode
                 Dim KertasBesar As String = "BarcodeFG"
                 Dim KertasKecil As String = "BarcodeQC"
 
-                SQL = "select Kode_Perusahaan from Cetak_Finish_Good where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Barang='" & arrKdBarangSrap(CmbSisaProduksi.SelectedIndex) & "' and Kode_Unik_Print = '" & kode_unik_print_scrap & "' "
+                SQL = "select Kode_Perusahaan from N_EMI_Barcode_Label_Barcode_GR_1_Scrap where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Barang='" & arrKdBarangSrap(CmbSisaProduksi.SelectedIndex) & "' and Kode_Unik_Print = '" & kode_unik_print_scrap & "' "
                 Using Ds = BindingTrans(SQL)
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
-
 
                         Dim printerDitemukan As Boolean = False
                         '==========================
@@ -2008,15 +2524,14 @@ Public Class Emi_Production_Barcode
                             End If
                         Next
 
-
                         If printerDitemukan Then
-                            CrDoc = New NewBarcodeFinishGood
+                            CrDoc = New N_EMI_Label_Barcode_GR_1_Scrap
 
                             'With A_Place_For_Printing2
                             '    CrDoc.SetDataSource(Ds)
                             '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                             '    CrDoc.PrintOptions.PrinterName = ""
-                            '    CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & arrKdBarangSrap(CmbSisaProduksi.SelectedIndex) & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '" & kode_unik_print_scrap & "'  "
+                            '    CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Barcode_GR_1_Scrap.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_Barcode_Label_Barcode_GR_1_Scrap.Kode_Barang} = '" & arrKdBarangSrap(CmbSisaProduksi.SelectedIndex) & "' and {N_EMI_Barcode_Label_Barcode_GR_1_Scrap.Kode_Unik_Print} = '" & kode_unik_print_scrap & "'  "
                             '    CrDoc.SummaryInfo.ReportTitle = "New Barcode Finish Good"
                             '    .Text = "New Barcode Finish Good"
                             '    .CrystalReportViewer1.ReportSource = CrDoc
@@ -2029,7 +2544,7 @@ Public Class Emi_Production_Barcode
                             Dim doctoprint As New System.Drawing.Printing.PrintDocument()
                             CrDoc.SetDataSource(Ds)
                             CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & arrKdBarangSrap(CmbSisaProduksi.SelectedIndex) & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '" & kode_unik_print_scrap & "'  "
+                            CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Barcode_GR_1_Scrap.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_Barcode_Label_Barcode_GR_1_Scrap.Kode_Barang} = '" & arrKdBarangSrap(CmbSisaProduksi.SelectedIndex) & "' and {N_EMI_Barcode_Label_Barcode_GR_1_Scrap.Kode_Unik_Print} = '" & kode_unik_print_scrap & "'  "
                             CrDoc.PrintOptions.PrinterName = PrinterBarcode
 
                             doctoprint.PrinterSettings.PrinterName = PrinterBarcode
@@ -2045,7 +2560,6 @@ Public Class Emi_Production_Barcode
                             Next
 
                             CrDoc.PrintToPrinter(1, False, 1, 2500)
-
                         Else
                             MessageBox.Show("Printer FG Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
@@ -2056,53 +2570,53 @@ Public Class Emi_Production_Barcode
                         '==========================
                         '=     BARCODEE KECIL     =
                         '==========================
-                        For Each printer As String In PrinterSettings.InstalledPrinters
-                            If printer.ToLower() = PrinterBarcodeQC.ToLower() Then
-                                'printerDitemukan = True
-                                Exit For
-                            End If
-                        Next
-                        CrDoc = New NewBarcodeFinishGoodKecil
+                        'For Each printer As String In PrinterSettings.InstalledPrinters
+                        '    If printer.ToLower() = PrinterBarcodeQC.ToLower() Then
+                        '        'printerDitemukan = True
+                        '        Exit For
+                        '    End If
+                        'Next
+                        'CrDoc = New NewBarcodeFinishGoodKecil
 
-                        If printerDitemukan Then
+                        'If printerDitemukan Then
 
-                            'With A_Place_For_Printing2
-                            '    CrDoc.SetDataSource(Ds)
-                            '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            '    CrDoc.PrintOptions.PrinterName = ""
-                            '    CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & arrKdBarangSrap(CmbSisaProduksi.SelectedIndex) & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '" & kode_unik_print_scrap & "' "
-                            '    CrDoc.SummaryInfo.ReportTitle = "New Barcode Finish Good"
-                            '    .Text = "New Barcode Finish Good"
-                            '    .CrystalReportViewer1.ReportSource = CrDoc
-                            '    .Refresh()
-                            '    .Show()
-                            'End With
+                        '    'With A_Place_For_Printing2
+                        '    '    CrDoc.SetDataSource(Ds)
+                        '    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        '    '    CrDoc.PrintOptions.PrinterName = ""
+                        '    '    CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & arrKdBarangSrap(CmbSisaProduksi.SelectedIndex) & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '" & kode_unik_print_scrap & "' "
+                        '    '    CrDoc.SummaryInfo.ReportTitle = "New Barcode Finish Good"
+                        '    '    .Text = "New Barcode Finish Good"
+                        '    '    .CrystalReportViewer1.ReportSource = CrDoc
+                        '    '    .Refresh()
+                        '    '    .Show()
+                        '    'End With
 
-                            '============================================
+                        '    '============================================
 
-                            Dim doctoprint2 As New System.Drawing.Printing.PrintDocument()
-                            CrDoc.SetDataSource(Ds)
-                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & arrKdBarangSrap(CmbSisaProduksi.SelectedIndex) & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '" & kode_unik_print_scrap & "' "
-                            CrDoc.PrintOptions.PrinterName = PrinterBarcodeQC
+                        '    Dim doctoprint2 As New System.Drawing.Printing.PrintDocument()
+                        '    CrDoc.SetDataSource(Ds)
+                        '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        '    CrDoc.RecordSelectionFormula = "{Cetak_Finish_Good.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Finish_Good.Kode_Barang} = '" & arrKdBarangSrap(CmbSisaProduksi.SelectedIndex) & "' and {Cetak_Finish_Good.Kode_Unik_Print} = '" & kode_unik_print_scrap & "' "
+                        '    CrDoc.PrintOptions.PrinterName = PrinterBarcodeQC
 
-                            doctoprint2.PrinterSettings.PrinterName = PrinterBarcodeQC
+                        '    doctoprint2.PrinterSettings.PrinterName = PrinterBarcodeQC
 
-                            Dim rawKind2 As Integer
-                            CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                            For i = 0 To doctoprint2.PrinterSettings.PaperSizes.Count - 1
-                                If doctoprint2.PrinterSettings.PaperSizes(i).PaperName = KertasKecil Then
-                                    rawKind2 = CInt(doctoprint2.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint2.PrinterSettings.PaperSizes(i)))
-                                    CrDoc.PrintOptions.PaperSize = rawKind2
-                                    Exit For
-                                End If
-                            Next
+                        '    Dim rawKind2 As Integer
+                        '    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        '    For i = 0 To doctoprint2.PrinterSettings.PaperSizes.Count - 1
+                        '        If doctoprint2.PrinterSettings.PaperSizes(i).PaperName = KertasKecil Then
+                        '            rawKind2 = CInt(doctoprint2.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint2.PrinterSettings.PaperSizes(i)))
+                        '            CrDoc.PrintOptions.PaperSize = rawKind2
+                        '            Exit For
+                        '        End If
+                        '    Next
 
-                            CrDoc.PrintToPrinter(1, False, 1, 2500)
-                        Else
-                            MessageBox.Show("Printer QC Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        '    CrDoc.PrintToPrinter(1, False, 1, 2500)
+                        'Else
+                        '    MessageBox.Show("Printer QC Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
-                        End If
+                        'End If
 
                     End If
                 End Using
@@ -2116,10 +2630,39 @@ Public Class Emi_Production_Barcode
 
         End If
 
-
-
         EMI_Controlling_Produksi.Kosong()
         kosong()
         Me.Close()
     End Sub
+
+    Private Function Generate_QR_NoPadding(ByVal isi As String)
+
+        Dim options As New ZXing.QrCode.QrCodeEncodingOptions()
+
+        options.DisableECI = True
+        options.CharacterSet = "UTF-8"
+        options.Width = 80
+        options.Height = 80
+        options.Margin = 0
+
+        Dim qr As New ZXing.BarcodeWriter()
+        qr.Format = ZXing.BarcodeFormat.QR_CODE
+        qr.Options = options
+
+        Dim result As New Bitmap(qr.Write(isi))
+        Return result
+    End Function
+
+    Private Sub Txt_Troli_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Troli.KeyPress
+
+        If Not (Char.IsDigit(e.KeyChar) OrElse e.KeyChar = Chr(8) OrElse e.KeyChar = "-"c) Then
+            e.KeyChar = Chr(0)
+        End If
+    End Sub
+
+    Private Sub TxtJmlScrap_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtJmlScrap.KeyPress
+        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
+
+    End Sub
+
 End Class

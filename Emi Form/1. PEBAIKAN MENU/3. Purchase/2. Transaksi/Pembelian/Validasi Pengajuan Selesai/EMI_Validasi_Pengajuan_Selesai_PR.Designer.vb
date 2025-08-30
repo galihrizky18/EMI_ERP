@@ -44,10 +44,10 @@ Partial Class EMI_Validasi_Pengajuan_Selesai_PR
         Me.Cmb_Order = New System.Windows.Forms.ComboBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Dgv_Pr = New System.Windows.Forms.DataGridView()
-        Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.Panel5 = New System.Windows.Forms.Panel()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.TerimaPengajuanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -57,6 +57,7 @@ Partial Class EMI_Validasi_Pengajuan_Selesai_PR
         Me.Column12 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         CType(Me.Dgv_Pr, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -172,7 +173,7 @@ Partial Class EMI_Validasi_Pengajuan_Selesai_PR
         DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.Dgv_Pr.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.Dgv_Pr.ColumnHeadersHeight = 35
-        Me.Dgv_Pr.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column2, Me.Column7, Me.Column8, Me.Column9, Me.Column10, Me.Column11, Me.Column12, Me.Column1, Me.Column3})
+        Me.Dgv_Pr.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column2, Me.Column7, Me.Column8, Me.Column9, Me.Column10, Me.Column11, Me.Column12, Me.Column1, Me.Column3, Me.Column4})
         Me.Dgv_Pr.ContextMenuStrip = Me.ContextMenuStrip1
         DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window
@@ -190,6 +191,18 @@ Partial Class EMI_Validasi_Pengajuan_Selesai_PR
         Me.Dgv_Pr.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.Dgv_Pr.Size = New System.Drawing.Size(1060, 540)
         Me.Dgv_Pr.TabIndex = 465
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TerimaPengajuanToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(170, 26)
+        '
+        'TerimaPengajuanToolStripMenuItem
+        '
+        Me.TerimaPengajuanToolStripMenuItem.Name = "TerimaPengajuanToolStripMenuItem"
+        Me.TerimaPengajuanToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
+        Me.TerimaPengajuanToolStripMenuItem.Text = "Terima Pengajuan"
         '
         'Panel4
         '
@@ -210,18 +223,6 @@ Partial Class EMI_Validasi_Pengajuan_Selesai_PR
         Me.Panel5.Size = New System.Drawing.Size(1256, 15)
         Me.Panel5.TabIndex = 36
         Me.Panel5.Visible = False
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TerimaPengajuanToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(170, 26)
-        '
-        'TerimaPengajuanToolStripMenuItem
-        '
-        Me.TerimaPengajuanToolStripMenuItem.Name = "TerimaPengajuanToolStripMenuItem"
-        Me.TerimaPengajuanToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
-        Me.TerimaPengajuanToolStripMenuItem.Text = "Terima Pengajuan"
         '
         'Column2
         '
@@ -317,6 +318,13 @@ Partial Class EMI_Validasi_Pengajuan_Selesai_PR
         Me.Column3.ReadOnly = True
         Me.Column3.Width = 150
         '
+        'Column4
+        '
+        Me.Column4.HeaderText = "Keterangan"
+        Me.Column4.Name = "Column4"
+        Me.Column4.ReadOnly = True
+        Me.Column4.Width = 250
+        '
         'EMI_Validasi_Pengajuan_Selesai_PR
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
@@ -368,4 +376,5 @@ Partial Class EMI_Validasi_Pengajuan_Selesai_PR
     Friend WithEvents Column12 As DataGridViewTextBoxColumn
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
+    Friend WithEvents Column4 As DataGridViewTextBoxColumn
 End Class

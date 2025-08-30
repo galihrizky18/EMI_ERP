@@ -2369,8 +2369,4 @@
         End If
     End Sub
 
-    Private Sub CmbPO_JnsEkspedisi_Format(sender As Object, e As ListControlConvertEventArgs) Handles CmbPO_JnsEkspedisi.Format
-
-    End Sub
-
 End Class

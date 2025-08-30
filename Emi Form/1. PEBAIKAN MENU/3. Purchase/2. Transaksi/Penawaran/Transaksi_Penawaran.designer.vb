@@ -25,13 +25,15 @@ Partial Class Transaksi_Penawaran
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.TabControl = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.Txt_NoUrut_JatuhTempo = New System.Windows.Forms.TextBox()
         Me.Txt_NoUrut = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
@@ -47,14 +49,6 @@ Partial Class Transaksi_Penawaran
         Me.Lbl_KdSupplier = New System.Windows.Forms.Label()
         Me.Panel8 = New System.Windows.Forms.Panel()
         Me.DgvMaster_Penawaran = New System.Windows.Forms.DataGridView()
-        Me.Col_KdBrg = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Col_NmBrg = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ppn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Col_MinOrder = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Col_Satuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column3 = New System.Windows.Forms.DataGridViewComboBoxColumn()
-        Me.Col_HrgSatuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.txtJatuhTempo = New System.Windows.Forms.TextBox()
         Me.cmbJenisPengiriman = New System.Windows.Forms.ComboBox()
@@ -143,8 +137,16 @@ Partial Class Transaksi_Penawaran
         Me.Panel14 = New System.Windows.Forms.Panel()
         Me.BtnOngkir_Refresh = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Col_KdBrg = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Col_NmBrg = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ppn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Col_MinOrder = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Col_Satuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column3 = New System.Windows.Forms.DataGridViewComboBoxColumn()
+        Me.Col_HrgSatuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.DgvMaster_Penawaran, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -166,6 +168,7 @@ Partial Class Transaksi_Penawaran
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.Txt_NoUrut_JatuhTempo)
         Me.TabPage1.Controls.Add(Me.Txt_NoUrut)
         Me.TabPage1.Controls.Add(Me.Label7)
         Me.TabPage1.Controls.Add(Me.Label5)
@@ -194,6 +197,14 @@ Partial Class Transaksi_Penawaran
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Master Penawaran"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'Txt_NoUrut_JatuhTempo
+        '
+        Me.Txt_NoUrut_JatuhTempo.Location = New System.Drawing.Point(1077, 75)
+        Me.Txt_NoUrut_JatuhTempo.Name = "Txt_NoUrut_JatuhTempo"
+        Me.Txt_NoUrut_JatuhTempo.Size = New System.Drawing.Size(46, 20)
+        Me.Txt_NoUrut_JatuhTempo.TabIndex = 381
+        Me.Txt_NoUrut_JatuhTempo.Visible = False
         '
         'Txt_NoUrut
         '
@@ -229,9 +240,9 @@ Partial Class Transaksi_Penawaran
         Me.LvAutoCompleteSupplier.FullRowSelect = True
         Me.LvAutoCompleteSupplier.GridLines = True
         Me.LvAutoCompleteSupplier.HideSelection = False
-        Me.LvAutoCompleteSupplier.Location = New System.Drawing.Point(1143, 90)
+        Me.LvAutoCompleteSupplier.Location = New System.Drawing.Point(1142, 90)
         Me.LvAutoCompleteSupplier.Name = "LvAutoCompleteSupplier"
-        Me.LvAutoCompleteSupplier.Size = New System.Drawing.Size(314, 259)
+        Me.LvAutoCompleteSupplier.Size = New System.Drawing.Size(319, 259)
         Me.LvAutoCompleteSupplier.TabIndex = 410
         Me.LvAutoCompleteSupplier.UseCompatibleStateImageBehavior = False
         Me.LvAutoCompleteSupplier.View = System.Windows.Forms.View.Details
@@ -367,82 +378,23 @@ Partial Class Transaksi_Penawaran
         Me.DgvMaster_Penawaran.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.DgvMaster_Penawaran.ColumnHeadersHeight = 45
         Me.DgvMaster_Penawaran.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Col_KdBrg, Me.Col_NmBrg, Me.ppn, Me.Col_MinOrder, Me.Col_Satuan, Me.Column3, Me.Col_HrgSatuan, Me.Column2})
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvMaster_Penawaran.DefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle7.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        DataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DgvMaster_Penawaran.DefaultCellStyle = DataGridViewCellStyle7
         Me.DgvMaster_Penawaran.Location = New System.Drawing.Point(21, 170)
         Me.DgvMaster_Penawaran.MultiSelect = False
         Me.DgvMaster_Penawaran.Name = "DgvMaster_Penawaran"
         Me.DgvMaster_Penawaran.RowHeadersWidth = 21
-        DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DgvMaster_Penawaran.RowsDefaultCellStyle = DataGridViewCellStyle7
+        DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DgvMaster_Penawaran.RowsDefaultCellStyle = DataGridViewCellStyle8
         Me.DgvMaster_Penawaran.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.DgvMaster_Penawaran.Size = New System.Drawing.Size(1026, 407)
-        Me.DgvMaster_Penawaran.TabIndex = 409
-        '
-        'Col_KdBrg
-        '
-        Me.Col_KdBrg.HeaderText = "Kode Barang"
-        Me.Col_KdBrg.Name = "Col_KdBrg"
-        Me.Col_KdBrg.ReadOnly = True
-        Me.Col_KdBrg.Width = 150
-        '
-        'Col_NmBrg
-        '
-        Me.Col_NmBrg.HeaderText = "Nama Barang"
-        Me.Col_NmBrg.Name = "Col_NmBrg"
-        Me.Col_NmBrg.ReadOnly = True
-        Me.Col_NmBrg.Width = 300
-        '
-        'ppn
-        '
-        Me.ppn.HeaderText = "PPN"
-        Me.ppn.Name = "ppn"
-        Me.ppn.ReadOnly = True
-        Me.ppn.Width = 90
-        '
-        'Col_MinOrder
-        '
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        DataGridViewCellStyle3.NullValue = Nothing
-        Me.Col_MinOrder.DefaultCellStyle = DataGridViewCellStyle3
-        Me.Col_MinOrder.HeaderText = "Minimal Order"
-        Me.Col_MinOrder.Name = "Col_MinOrder"
-        '
-        'Col_Satuan
-        '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Col_Satuan.DefaultCellStyle = DataGridViewCellStyle4
-        Me.Col_Satuan.HeaderText = "Satuan"
-        Me.Col_Satuan.Name = "Col_Satuan"
-        Me.Col_Satuan.ReadOnly = True
-        Me.Col_Satuan.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        '
-        'Column3
-        '
-        Me.Column3.HeaderText = "Mata Uang"
-        Me.Column3.Name = "Column3"
-        '
-        'Col_HrgSatuan
-        '
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        DataGridViewCellStyle5.NullValue = Nothing
-        Me.Col_HrgSatuan.DefaultCellStyle = DataGridViewCellStyle5
-        Me.Col_HrgSatuan.HeaderText = "Harga Satuan"
-        Me.Col_HrgSatuan.Name = "Col_HrgSatuan"
-        Me.Col_HrgSatuan.Width = 150
-        '
-        'Column2
-        '
-        Me.Column2.HeaderText = "Sisa Hari"
-        Me.Column2.Name = "Column2"
-        Me.Column2.ReadOnly = True
-        Me.Column2.Visible = False
+        Me.DgvMaster_Penawaran.TabIndex = 1
         '
         'GroupBox1
         '
@@ -464,7 +416,7 @@ Partial Class Transaksi_Penawaran
         Me.GroupBox1.Location = New System.Drawing.Point(21, 22)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(1012, 99)
-        Me.GroupBox1.TabIndex = 392
+        Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
         'txtJatuhTempo
@@ -500,7 +452,7 @@ Partial Class Transaksi_Penawaran
         Me.cmb_JenisBayar.Margin = New System.Windows.Forms.Padding(2)
         Me.cmb_JenisBayar.Name = "cmb_JenisBayar"
         Me.cmb_JenisBayar.Size = New System.Drawing.Size(125, 23)
-        Me.cmb_JenisBayar.TabIndex = 381
+        Me.cmb_JenisBayar.TabIndex = 2
         '
         'LblPO_Pembayaran
         '
@@ -531,7 +483,7 @@ Partial Class Transaksi_Penawaran
         Me.TxtPO_KdSupplier.MaxLength = 30
         Me.TxtPO_KdSupplier.Name = "TxtPO_KdSupplier"
         Me.TxtPO_KdSupplier.Size = New System.Drawing.Size(91, 22)
-        Me.TxtPO_KdSupplier.TabIndex = 379
+        Me.TxtPO_KdSupplier.TabIndex = 1
         '
         'Dtp_PeriodAkhir
         '
@@ -612,7 +564,7 @@ Partial Class Transaksi_Penawaran
         Me.Txt_NoPenawaran.MaxLength = 20
         Me.Txt_NoPenawaran.Name = "Txt_NoPenawaran"
         Me.Txt_NoPenawaran.Size = New System.Drawing.Size(320, 22)
-        Me.Txt_NoPenawaran.TabIndex = 2
+        Me.Txt_NoPenawaran.TabIndex = 0
         '
         'Lbl_Supplier
         '
@@ -642,7 +594,7 @@ Partial Class Transaksi_Penawaran
         Me.Btn_Simpan.Location = New System.Drawing.Point(20, 597)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(84, 36)
-        Me.Btn_Simpan.TabIndex = 400
+        Me.Btn_Simpan.TabIndex = 2
         Me.Btn_Simpan.Text = "&Simpan"
         Me.Btn_Simpan.UseVisualStyleBackColor = False
         '
@@ -1432,6 +1384,17 @@ Partial Class Transaksi_Penawaran
         Me.Panel1.Size = New System.Drawing.Size(1073, 49)
         Me.Panel1.TabIndex = 392
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(15, 11)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(277, 30)
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "Master Data - Penawaran"
+        '
         'PanelGradient1
         '
         Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
@@ -1445,16 +1408,66 @@ Partial Class Transaksi_Penawaran
         Me.PanelGradient1.Size = New System.Drawing.Size(1073, 2)
         Me.PanelGradient1.TabIndex = 22
         '
-        'Label1
+        'Col_KdBrg
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(15, 11)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(277, 30)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Master Data - Penawaran"
+        Me.Col_KdBrg.HeaderText = "Kode Barang"
+        Me.Col_KdBrg.Name = "Col_KdBrg"
+        Me.Col_KdBrg.ReadOnly = True
+        Me.Col_KdBrg.Width = 150
+        '
+        'Col_NmBrg
+        '
+        Me.Col_NmBrg.HeaderText = "Nama Barang"
+        Me.Col_NmBrg.Name = "Col_NmBrg"
+        Me.Col_NmBrg.ReadOnly = True
+        Me.Col_NmBrg.Width = 300
+        '
+        'ppn
+        '
+        Me.ppn.HeaderText = "PPN"
+        Me.ppn.Name = "ppn"
+        Me.ppn.ReadOnly = True
+        Me.ppn.Width = 90
+        '
+        'Col_MinOrder
+        '
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle3.NullValue = Nothing
+        Me.Col_MinOrder.DefaultCellStyle = DataGridViewCellStyle3
+        Me.Col_MinOrder.HeaderText = "Minimal Order"
+        Me.Col_MinOrder.Name = "Col_MinOrder"
+        '
+        'Col_Satuan
+        '
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Col_Satuan.DefaultCellStyle = DataGridViewCellStyle4
+        Me.Col_Satuan.HeaderText = "Satuan"
+        Me.Col_Satuan.Name = "Col_Satuan"
+        Me.Col_Satuan.ReadOnly = True
+        Me.Col_Satuan.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        '
+        'Column3
+        '
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column3.DefaultCellStyle = DataGridViewCellStyle5
+        Me.Column3.HeaderText = "Mata Uang"
+        Me.Column3.Name = "Column3"
+        '
+        'Col_HrgSatuan
+        '
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle6.NullValue = Nothing
+        Me.Col_HrgSatuan.DefaultCellStyle = DataGridViewCellStyle6
+        Me.Col_HrgSatuan.HeaderText = "Harga Satuan"
+        Me.Col_HrgSatuan.Name = "Col_HrgSatuan"
+        Me.Col_HrgSatuan.Width = 150
+        '
+        'Column2
+        '
+        Me.Column2.HeaderText = "Sisa Hari"
+        Me.Column2.Name = "Column2"
+        Me.Column2.ReadOnly = True
+        Me.Column2.Visible = False
         '
         'Transaksi_Penawaran
         '
@@ -1585,6 +1598,14 @@ Partial Class Transaksi_Penawaran
     Friend WithEvents BtnOngkir_Refresh As Button
     Friend WithEvents Btn_Release As Button
     Friend WithEvents Btn_PilihBarang As Button
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Label7 As Label
+    Friend WithEvents Txt_NoUrut As TextBox
+    Friend WithEvents cmb_JenisBayar As ComboBox
+    Friend WithEvents LblPO_Pembayaran As Label
+    Friend WithEvents txtJatuhTempo As TextBox
+    Friend WithEvents cmbJenisPengiriman As ComboBox
+    Friend WithEvents Txt_NoUrut_JatuhTempo As TextBox
     Friend WithEvents Col_KdBrg As DataGridViewTextBoxColumn
     Friend WithEvents Col_NmBrg As DataGridViewTextBoxColumn
     Friend WithEvents ppn As DataGridViewTextBoxColumn
@@ -1593,11 +1614,4 @@ Partial Class Transaksi_Penawaran
     Friend WithEvents Column3 As DataGridViewComboBoxColumn
     Friend WithEvents Col_HrgSatuan As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
-    Friend WithEvents Label5 As Label
-    Friend WithEvents Label7 As Label
-    Friend WithEvents Txt_NoUrut As TextBox
-    Friend WithEvents cmb_JenisBayar As ComboBox
-    Friend WithEvents LblPO_Pembayaran As Label
-    Friend WithEvents txtJatuhTempo As TextBox
-    Friend WithEvents cmbJenisPengiriman As ComboBox
 End Class

@@ -23,7 +23,6 @@ Partial Class EMI_Validasi_Tf_Material_To_Material
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -39,6 +38,7 @@ Partial Class EMI_Validasi_Tf_Material_To_Material
         Me.Btn_Refresh = New System.Windows.Forms.Button()
         Me.Panel8 = New System.Windows.Forms.Panel()
         Me.Panel9 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         CType(Me.Barcode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -55,19 +55,6 @@ Partial Class EMI_Validasi_Tf_Material_To_Material
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1134, 51)
         Me.Panel1.TabIndex = 25
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1134, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -193,7 +180,7 @@ Partial Class EMI_Validasi_Tf_Material_To_Material
         Me.Lv_List.HideSelection = False
         Me.Lv_List.Location = New System.Drawing.Point(12, 103)
         Me.Lv_List.Name = "Lv_List"
-        Me.Lv_List.Size = New System.Drawing.Size(1110, 440)
+        Me.Lv_List.Size = New System.Drawing.Size(1110, 454)
         Me.Lv_List.TabIndex = 485
         Me.Lv_List.UseCompatibleStateImageBehavior = False
         '
@@ -202,7 +189,7 @@ Partial Class EMI_Validasi_Tf_Material_To_Material
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(12, 553)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(12, 563)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(155, 36)
         Me.Btn_Refresh.TabIndex = 486
@@ -212,7 +199,7 @@ Partial Class EMI_Validasi_Tf_Material_To_Material
         'Panel8
         '
         Me.Panel8.BackColor = System.Drawing.Color.Red
-        Me.Panel8.Location = New System.Drawing.Point(13, 543)
+        Me.Panel8.Location = New System.Drawing.Point(13, 553)
         Me.Panel8.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel8.Name = "Panel8"
         Me.Panel8.Size = New System.Drawing.Size(942, 12)
@@ -222,19 +209,32 @@ Partial Class EMI_Validasi_Tf_Material_To_Material
         'Panel9
         '
         Me.Panel9.BackColor = System.Drawing.Color.Red
-        Me.Panel9.Location = New System.Drawing.Point(16, 589)
+        Me.Panel9.Location = New System.Drawing.Point(16, 599)
         Me.Panel9.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel9.Name = "Panel9"
         Me.Panel9.Size = New System.Drawing.Size(942, 12)
         Me.Panel9.TabIndex = 39
         Me.Panel9.Visible = False
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1134, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'EMI_Validasi_Tf_Material_To_Material
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1134, 601)
+        Me.ClientSize = New System.Drawing.Size(1134, 611)
         Me.Controls.Add(Me.Btn_Refresh)
         Me.Controls.Add(Me.Lv_List)
         Me.Controls.Add(Me.Barcode)

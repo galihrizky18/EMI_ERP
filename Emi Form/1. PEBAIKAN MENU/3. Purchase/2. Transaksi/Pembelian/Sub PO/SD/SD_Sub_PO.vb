@@ -13,10 +13,16 @@
 
 
 
+
     Private Sub SD_Sub_PO_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Kosong()
     End Sub
 
+    Private Sub Lv_Data_Induk_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Lv_Data_Induk.KeyPress
+        If e.KeyChar = Chr(13) Then
+            Lv_Data_Induk_DoubleClick(Lv_Data_Induk, e)
+        End If
+    End Sub
 
     Private Sub Kosong()
 
@@ -216,7 +222,8 @@
 
                     EMI_PO_Pembelian_Sub.LvSupplier2.Visible = False
 
-
+                    EMI_PO_Pembelian_Sub.CmbPO_MataUang.Enabled = False
+                    EMI_PO_Pembelian_Sub.TxtPO_NoNota.Focus()
                 Else
                     Dr.Close()
                     CloseConn()
@@ -247,11 +254,12 @@
             SQL = SQL & "from EMI_Pembelian_PO z, EMI_Pembelian_PO_Det x "
             SQL = SQL & "where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Kode_Perusahaan = x.Kode_Perusahaan "
             SQL = SQL & "and x.No_FakInduk = a.No_Faktur and z.No_Faktur = x.No_Faktur and x.Kode_Stock_Owner = d.Kode_Stock_Owner and x.Kode_Barang = d.Kode_Barang "
-            SQL = SQL & "and x.no_urut_pr=d.no_urut_pr and x.urut_det_induk = d.No_Urut), d.Jumlah) as Sisa, d.No_Urut as Urut_det  "
+            SQL = SQL & "and x.no_urut_pr=d.no_urut_pr and x.urut_det_induk = d.No_Urut), d.Jumlah) as Sisa, d.No_Urut as Urut_det, e.Jenis_Kategori "
 
-            SQL = SQL & "from EMI_Pembelian_PO_Induk a, barang c, EMI_Pembelian_PO_Det_Induk d  "
+            SQL = SQL & "from EMI_Pembelian_PO_Induk a, barang c, EMI_Pembelian_PO_Det_Induk d, kategori_besar e "
             SQL = SQL & "where a.Kode_Perusahaan = c.Kode_Perusahaan  "
             SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.No_Faktur = d.No_Faktur and d.Kode_Stock_Owner = c.Kode_Stock_Owner "
+            SQL = SQL & "and c.Kode_Perusahaan = e.Kode_Perusahaan and c.Kode_Kategori_Besar = e.Kode_Kategori_Besar "
             SQL = SQL & "and d.Kode_Barang = c.Kode_Barang and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Status is null and a.No_Faktur = '" & Lv_NoFak & "' "
 
 
@@ -263,6 +271,17 @@
             SQL = SQL & "order by d.Kode_Barang "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
+
+                    '===================================
+                    '=     GET DATA KATEGORI DI PO     =
+                    '===================================
+                    If EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows.Count <> 0 Then
+                        If Not EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(0).Cells(EMI_PO_Pembelian_Sub.cellJnsKategori).Value = Dr("Jenis_Kategori") Then
+                            CloseConn()
+                            MessageBox.Show("Kode Kategori Berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End If
 
                     'TODD :Perhatikan ini
                     For i As Integer = 0 To EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows.Count - 1
@@ -280,7 +299,7 @@
                     EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellPO_Lokasi).Value = Dr("Kode_Stock_Owner")
                     EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellPO_KdBarang).Value = Dr("Kode_Barang")
                     EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellPO_NmBarang).Value = Dr("Nama")
-                    EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellPO_Harga).Value = Format(Dr("Harga_Satuan_Besar"), "N2")
+                    EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellPO_Harga).Value = Format(Dr("Harga_Satuan_Besar"), "N4")
 
                     EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellPO_JumlahPO).Value = Format(Dr("Jumlah"), "N2")
                     EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellPO_Sisa).Value = Format(Dr("Sisa"), "N2")
@@ -304,6 +323,9 @@
                     EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellFakPenawaran).Value = Dr("No_Penawaran")
                     EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellFakInduk).Value = Dr("No_Faktur")
                     EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellUrutDet).Value = Dr("Urut_det")
+
+                    EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellJnsKategori).Value = Dr("Jenis_Kategori")
+
 
                     EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellPO_Jumlah).Style.BackColor = Color.LightGray
 

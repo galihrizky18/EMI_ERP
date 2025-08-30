@@ -24,7 +24,6 @@ Partial Class EMI_Controlling_Produksi
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
@@ -37,6 +36,9 @@ Partial Class EMI_Controlling_Produksi
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Lv_GR = New System.Windows.Forms.ListView()
+        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.DetailToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ValidasiGRToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.Label7 = New System.Windows.Forms.Label()
@@ -51,17 +53,18 @@ Partial Class EMI_Controlling_Produksi
         Me.Lv_GI = New System.Windows.Forms.ListView()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.DetailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ValidasiGIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Btn_Refresh = New System.Windows.Forms.Button()
-        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.DetailToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.ContextMenuStrip2.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.Panel9.SuspendLayout()
         Me.Panel8.SuspendLayout()
         Me.Panel7.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
-        Me.ContextMenuStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -74,19 +77,6 @@ Partial Class EMI_Controlling_Produksi
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1284, 54)
         Me.Panel1.TabIndex = 25
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 52)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1284, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -214,6 +204,24 @@ Partial Class EMI_Controlling_Produksi
         Me.Lv_GR.TabIndex = 415
         Me.Lv_GR.UseCompatibleStateImageBehavior = False
         Me.Lv_GR.View = System.Windows.Forms.View.Details
+        '
+        'ContextMenuStrip2
+        '
+        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DetailToolStripMenuItem1, Me.ValidasiGRToolStripMenuItem})
+        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
+        Me.ContextMenuStrip2.Size = New System.Drawing.Size(181, 70)
+        '
+        'DetailToolStripMenuItem1
+        '
+        Me.DetailToolStripMenuItem1.Name = "DetailToolStripMenuItem1"
+        Me.DetailToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.DetailToolStripMenuItem1.Text = "Detail"
+        '
+        'ValidasiGRToolStripMenuItem
+        '
+        Me.ValidasiGRToolStripMenuItem.Name = "ValidasiGRToolStripMenuItem"
+        Me.ValidasiGRToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ValidasiGRToolStripMenuItem.Text = "Validasi GR"
         '
         'Label8
         '
@@ -343,15 +351,21 @@ Partial Class EMI_Controlling_Produksi
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DetailToolStripMenuItem})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DetailToolStripMenuItem, Me.ValidasiGIToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(105, 26)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(128, 48)
         '
         'DetailToolStripMenuItem
         '
         Me.DetailToolStripMenuItem.Name = "DetailToolStripMenuItem"
-        Me.DetailToolStripMenuItem.Size = New System.Drawing.Size(104, 22)
+        Me.DetailToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
         Me.DetailToolStripMenuItem.Text = "Detail"
+        '
+        'ValidasiGIToolStripMenuItem
+        '
+        Me.ValidasiGIToolStripMenuItem.Name = "ValidasiGIToolStripMenuItem"
+        Me.ValidasiGIToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.ValidasiGIToolStripMenuItem.Text = "Validasi GI"
         '
         'Btn_Refresh
         '
@@ -365,17 +379,30 @@ Partial Class EMI_Controlling_Produksi
         Me.Btn_Refresh.Text = "&Refresh"
         Me.Btn_Refresh.UseVisualStyleBackColor = False
         '
-        'ContextMenuStrip2
+        'Button1
         '
-        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DetailToolStripMenuItem1})
-        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
-        Me.ContextMenuStrip2.Size = New System.Drawing.Size(181, 48)
+        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Button1.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.ForeColor = System.Drawing.Color.White
+        Me.Button1.Location = New System.Drawing.Point(1162, 64)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(102, 32)
+        Me.Button1.TabIndex = 417
+        Me.Button1.Text = "&History"
+        Me.Button1.UseVisualStyleBackColor = False
         '
-        'DetailToolStripMenuItem1
+        'PanelGradient1
         '
-        Me.DetailToolStripMenuItem1.Name = "DetailToolStripMenuItem1"
-        Me.DetailToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
-        Me.DetailToolStripMenuItem1.Text = "Detail"
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 52)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1284, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'EMI_Controlling_Produksi
         '
@@ -383,6 +410,7 @@ Partial Class EMI_Controlling_Produksi
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1284, 701)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Panel4)
@@ -404,6 +432,7 @@ Partial Class EMI_Controlling_Produksi
         Me.Panel1.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.ContextMenuStrip2.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
         Me.Panel9.ResumeLayout(False)
@@ -413,7 +442,6 @@ Partial Class EMI_Controlling_Produksi
         Me.Panel7.ResumeLayout(False)
         Me.Panel7.PerformLayout()
         Me.ContextMenuStrip1.ResumeLayout(False)
-        Me.ContextMenuStrip2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -450,4 +478,7 @@ Partial Class EMI_Controlling_Produksi
     Friend WithEvents Label8 As Label
     Friend WithEvents ContextMenuStrip2 As ContextMenuStrip
     Friend WithEvents DetailToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents ValidasiGRToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ValidasiGIToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Button1 As Button
 End Class

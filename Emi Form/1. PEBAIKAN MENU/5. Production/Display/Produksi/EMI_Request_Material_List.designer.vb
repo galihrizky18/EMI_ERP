@@ -38,7 +38,10 @@ Partial Class EMI_Request_Material_List
         Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -46,6 +49,8 @@ Partial Class EMI_Request_Material_List
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.ListView1 = New System.Windows.Forms.ListView()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SalinNoTransaksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CetakUlangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BatalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.ComboBox6 = New System.Windows.Forms.ComboBox()
@@ -75,13 +80,16 @@ Partial Class EMI_Request_Material_List
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.DataGridView2 = New System.Windows.Forms.DataGridView()
         Me.Panel8 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Panel9 = New System.Windows.Forms.Panel()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column9 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -99,8 +107,21 @@ Partial Class EMI_Request_Material_List
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(940, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1184, 51)
         Me.Panel1.TabIndex = 22
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -136,7 +157,7 @@ Partial Class EMI_Request_Material_List
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(922, 63)
+        Me.Panel5.Location = New System.Drawing.Point(1165, 56)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(19, 675)
@@ -160,23 +181,35 @@ Partial Class EMI_Request_Material_List
         Me.ListView1.FullRowSelect = True
         Me.ListView1.GridLines = True
         Me.ListView1.HideSelection = False
-        Me.ListView1.Location = New System.Drawing.Point(21, 64)
+        Me.ListView1.Location = New System.Drawing.Point(21, 84)
         Me.ListView1.Name = "ListView1"
-        Me.ListView1.Size = New System.Drawing.Size(900, 249)
+        Me.ListView1.Size = New System.Drawing.Size(1151, 229)
         Me.ListView1.TabIndex = 234
         Me.ListView1.UseCompatibleStateImageBehavior = False
         Me.ListView1.View = System.Windows.Forms.View.Details
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BatalToolStripMenuItem})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalinNoTransaksiToolStripMenuItem, Me.CetakUlangToolStripMenuItem, Me.BatalToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(101, 26)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(170, 70)
+        '
+        'SalinNoTransaksiToolStripMenuItem
+        '
+        Me.SalinNoTransaksiToolStripMenuItem.Name = "SalinNoTransaksiToolStripMenuItem"
+        Me.SalinNoTransaksiToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
+        Me.SalinNoTransaksiToolStripMenuItem.Text = "Salin No Transaksi"
+        '
+        'CetakUlangToolStripMenuItem
+        '
+        Me.CetakUlangToolStripMenuItem.Name = "CetakUlangToolStripMenuItem"
+        Me.CetakUlangToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
+        Me.CetakUlangToolStripMenuItem.Text = "Cetak Ulang"
         '
         'BatalToolStripMenuItem
         '
         Me.BatalToolStripMenuItem.Name = "BatalToolStripMenuItem"
-        Me.BatalToolStripMenuItem.Size = New System.Drawing.Size(100, 22)
+        Me.BatalToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
         Me.BatalToolStripMenuItem.Text = "Batal"
         '
         'GroupBox3
@@ -197,7 +230,7 @@ Partial Class EMI_Request_Material_List
         Me.GroupBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Padding = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.GroupBox3.Size = New System.Drawing.Size(627, 139)
+        Me.GroupBox3.Size = New System.Drawing.Size(652, 139)
         Me.GroupBox3.TabIndex = 340
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Filter Data"
@@ -217,7 +250,7 @@ Partial Class EMI_Request_Material_List
         Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button1.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(532, 103)
+        Me.Button1.Location = New System.Drawing.Point(560, 104)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(81, 27)
         Me.Button1.TabIndex = 345
@@ -237,17 +270,17 @@ Partial Class EMI_Request_Material_List
         '
         'TextBox4
         '
-        Me.TextBox4.Location = New System.Drawing.Point(313, 106)
+        Me.TextBox4.Location = New System.Drawing.Point(320, 106)
         Me.TextBox4.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(214, 20)
+        Me.TextBox4.Size = New System.Drawing.Size(235, 20)
         Me.TextBox4.TabIndex = 7
         '
         'Label6
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(269, 109)
+        Me.Label6.Location = New System.Drawing.Point(276, 109)
         Me.Label6.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(40, 17)
@@ -279,7 +312,7 @@ Partial Class EMI_Request_Material_List
         '
         Me.DateTimePicker2.CustomFormat = "dd MMMM yyyy"
         Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker2.Location = New System.Drawing.Point(441, 74)
+        Me.DateTimePicker2.Location = New System.Drawing.Point(469, 73)
         Me.DateTimePicker2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.DateTimePicker2.Name = "DateTimePicker2"
         Me.DateTimePicker2.Size = New System.Drawing.Size(172, 20)
@@ -288,7 +321,7 @@ Partial Class EMI_Request_Material_List
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(410, 77)
+        Me.Label7.Location = New System.Drawing.Point(438, 76)
         Me.Label7.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(25, 16)
@@ -299,7 +332,7 @@ Partial Class EMI_Request_Material_List
         '
         Me.DateTimePicker1.CustomFormat = "dd MMMM yyyy"
         Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker1.Location = New System.Drawing.Point(247, 74)
+        Me.DateTimePicker1.Location = New System.Drawing.Point(275, 73)
         Me.DateTimePicker1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.DateTimePicker1.Name = "DateTimePicker1"
         Me.DateTimePicker1.Size = New System.Drawing.Size(158, 20)
@@ -323,7 +356,7 @@ Partial Class EMI_Request_Material_List
         Me.ComboBox3.Location = New System.Drawing.Point(131, 74)
         Me.ComboBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.ComboBox3.Name = "ComboBox3"
-        Me.ComboBox3.Size = New System.Drawing.Size(112, 24)
+        Me.ComboBox3.Size = New System.Drawing.Size(134, 24)
         Me.ComboBox3.TabIndex = 2
         '
         'Panel6
@@ -339,7 +372,7 @@ Partial Class EMI_Request_Material_List
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(1000, 201)
+        Me.Panel7.Location = New System.Drawing.Point(1244, 209)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(1436, 53)
@@ -350,7 +383,7 @@ Partial Class EMI_Request_Material_List
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Location = New System.Drawing.Point(974, 358)
+        Me.TabControl1.Location = New System.Drawing.Point(1218, 366)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(901, 238)
@@ -483,13 +516,13 @@ Partial Class EMI_Request_Material_List
         DataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DataGridView2.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle9
         Me.DataGridView2.ColumnHeadersHeight = 45
-        Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.DataGridViewTextBoxColumn4, Me.DataGridViewTextBoxColumn6, Me.DataGridViewTextBoxColumn5})
+        Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.DataGridViewTextBoxColumn4, Me.DataGridViewTextBoxColumn6, Me.DataGridViewTextBoxColumn5, Me.Column8, Me.Column9})
         Me.DataGridView2.Location = New System.Drawing.Point(20, 329)
         Me.DataGridView2.MultiSelect = False
         Me.DataGridView2.Name = "DataGridView2"
         Me.DataGridView2.RowHeadersWidth = 21
         Me.DataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView2.Size = New System.Drawing.Size(901, 227)
+        Me.DataGridView2.Size = New System.Drawing.Size(1152, 243)
         Me.DataGridView2.TabIndex = 343
         '
         'Panel8
@@ -502,18 +535,22 @@ Partial Class EMI_Request_Material_List
         Me.Panel8.TabIndex = 39
         Me.Panel8.Visible = False
         '
-        'PanelGradient1
+        'Label2
         '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(940, 2)
-        Me.PanelGradient1.TabIndex = 22
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(1072, 63)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(84, 16)
+        Me.Label2.TabIndex = 348
+        Me.Label2.Text = "RM Dibatalkan"
+        '
+        'Panel9
+        '
+        Me.Panel9.BackColor = System.Drawing.Color.DarkRed
+        Me.Panel9.Location = New System.Drawing.Point(1051, 63)
+        Me.Panel9.Name = "Panel9"
+        Me.Panel9.Size = New System.Drawing.Size(15, 15)
+        Me.Panel9.TabIndex = 347
         '
         'DataGridViewTextBoxColumn1
         '
@@ -523,7 +560,7 @@ Partial Class EMI_Request_Material_List
         Me.DataGridViewTextBoxColumn1.HeaderText = "Lokasi"
         Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
         Me.DataGridViewTextBoxColumn1.ReadOnly = True
-        Me.DataGridViewTextBoxColumn1.Width = 140
+        Me.DataGridViewTextBoxColumn1.Width = 150
         '
         'DataGridViewTextBoxColumn2
         '
@@ -534,7 +571,7 @@ Partial Class EMI_Request_Material_List
         Me.DataGridViewTextBoxColumn2.HeaderText = "Kode Barang"
         Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
         Me.DataGridViewTextBoxColumn2.ReadOnly = True
-        Me.DataGridViewTextBoxColumn2.Width = 170
+        Me.DataGridViewTextBoxColumn2.Width = 150
         '
         'DataGridViewTextBoxColumn3
         '
@@ -548,12 +585,13 @@ Partial Class EMI_Request_Material_List
         '
         'DataGridViewTextBoxColumn4
         '
-        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
         DataGridViewCellStyle13.BackColor = System.Drawing.Color.White
         Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle13
         Me.DataGridViewTextBoxColumn4.HeaderText = "Jumlah"
         Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
         Me.DataGridViewTextBoxColumn4.ReadOnly = True
+        Me.DataGridViewTextBoxColumn4.Width = 200
         '
         'DataGridViewTextBoxColumn6
         '
@@ -571,14 +609,34 @@ Partial Class EMI_Request_Material_List
         Me.DataGridViewTextBoxColumn5.HeaderText = "Jenis Material"
         Me.DataGridViewTextBoxColumn5.Name = "DataGridViewTextBoxColumn5"
         Me.DataGridViewTextBoxColumn5.ReadOnly = True
-        Me.DataGridViewTextBoxColumn5.Width = 120
+        Me.DataGridViewTextBoxColumn5.Width = 150
+        '
+        'Column8
+        '
+        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column8.DefaultCellStyle = DataGridViewCellStyle16
+        Me.Column8.HeaderText = "Jumlah Transfer"
+        Me.Column8.Name = "Column8"
+        Me.Column8.ReadOnly = True
+        Me.Column8.Width = 200
+        '
+        'Column9
+        '
+        DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column9.DefaultCellStyle = DataGridViewCellStyle17
+        Me.Column9.HeaderText = "Sisa"
+        Me.Column9.Name = "Column9"
+        Me.Column9.ReadOnly = True
+        Me.Column9.Width = 200
         '
         'EMI_Request_Material_List
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(940, 729)
+        Me.ClientSize = New System.Drawing.Size(1184, 729)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.Panel9)
         Me.Controls.Add(Me.Panel8)
         Me.Controls.Add(Me.DataGridView2)
         Me.Controls.Add(Me.TabControl1)
@@ -606,6 +664,7 @@ Partial Class EMI_Request_Material_List
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -647,10 +706,16 @@ Partial Class EMI_Request_Material_List
     Friend WithEvents BatalToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Button1 As Button
     Friend WithEvents Panel8 As Panel
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Panel9 As Panel
+    Friend WithEvents CetakUlangToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SalinNoTransaksiToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn6 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn5 As DataGridViewTextBoxColumn
+    Friend WithEvents Column8 As DataGridViewTextBoxColumn
+    Friend WithEvents Column9 As DataGridViewTextBoxColumn
 End Class

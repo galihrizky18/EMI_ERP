@@ -176,9 +176,9 @@
             'SQL = SQL & "and a.no_faktur = '" & Lv_PR.FocusedItem.SubItems(0).Text & "' "
             SQL = "select a.kode_stock_owner, a.Kode_Barang,b.Nama,a.jumlah,a.Satuan, a.no_urut, a.no_faktur, "
             'jumlah masuk
-            SQL = SQL & "isnull((select sum(y.Jumlah) from EMI_Pembelian_PO_Induk x, EMI_Pembelian_PO_Det_Induk y "
-            SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur "
-            SQL = SQL & "and y.Kode_Perusahaan = a.Kode_Perusahaan and y.no_urut_pr = a.No_Urut and x.status is null ), "
+            SQL = SQL & "isnull((select sum(y.Jumlah) from EMI_Pembelian_PO x, EMI_Pembelian_PO_Det y "
+            SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur  "
+            SQL = SQL & "and y.Kode_Perusahaan = a.Kode_Perusahaan and y.no_urut_pr = a.No_Urut and x.status is null and x.No_Faktur_Induk is null and y.No_FakInduk is null ),  "
             SQL = SQL & "0) as jumlah_masuk, "
 
             SQL = SQL & "isnull((select sum(y.Jumlah) from EMI_Pembelian_PO_Induk x, EMI_Pembelian_PO_Det_Induk y "
@@ -214,6 +214,7 @@
 
                     Dim sisa As Double = Dr("jumlah") - total
                     Dim persen As Double = total / Dr("jumlah") * 100
+
                     If Dr("flag_selesai_po") = "Y" Then
                         lvw.BackColor = Color.LightGreen
                         lvw.SubItems.Add(Format(0, "N2"))

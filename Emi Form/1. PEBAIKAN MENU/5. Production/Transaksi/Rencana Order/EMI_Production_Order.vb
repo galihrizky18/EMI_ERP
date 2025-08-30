@@ -152,7 +152,11 @@
     Dim LvNilaiBrg4 As String
     Dim LvSatuanBrg4 As String
     Dim LvStockBrg4 As String
+    Dim LvKeepStockBrg4 As String
     Dim LvFlagPotStok4 As String
+    Dim LvJenis4 As String
+    Dim LvMasterJumlah_Barang4 As String
+    Dim LvMasterJumlah_Bahan4 As String
 
     Dim cellNoSo4 As Integer = 0
     Dim cellKdBhn4 As Integer = 1
@@ -163,8 +167,11 @@
     Dim cellNilaiBrg4 As Integer = 6
     Dim cellSatuanBrg4 As Integer = 7
     Dim cellStockBrg4 As Integer = 8
-    Dim cellPotStok4 As Integer = 9
-
+    Dim cellKeepStockBrg4 As Integer = 9
+    Dim cellPotStok4 As Integer = 10
+    Dim cellJenis4 As Integer = 11
+    Dim cellMasterJumlah_Barang4 As Integer = 12
+    Dim cellMasterJumlah_Bahan4 As Integer = 13
     Private Sub Get_Isi_Listview_Packaging(ByVal index As Integer)
 
         LvNoSo4 = LvPackaging.Items(index).SubItems(cellNoSo4).Text '0
@@ -176,8 +183,11 @@
         LvNilaiBrg4 = LvPackaging.Items(index).SubItems(cellNilaiBrg4).Text '6
         LvSatuanBrg4 = LvPackaging.Items(index).SubItems(cellSatuanBrg4).Text '7
         LvStockBrg4 = LvPackaging.Items(index).SubItems(cellStockBrg4).Text '8
-        LvFlagPotStok4 = LvPackaging.Items(index).SubItems(cellPotStok4).Text '9
-
+        LvKeepStockBrg4 = LvPackaging.Items(index).SubItems(cellKeepStockBrg4).Text '9
+        LvFlagPotStok4 = LvPackaging.Items(index).SubItems(cellPotStok4).Text '10
+        LvJenis4 = LvPackaging.Items(index).SubItems(cellJenis4).Text '11
+        LvMasterJumlah_Barang4 = LvPackaging.Items(index).SubItems(cellMasterJumlah_Barang4).Text '12
+        LvMasterJumlah_Bahan4 = LvPackaging.Items(index).SubItems(cellMasterJumlah_Bahan4).Text '13
     End Sub
 
     Private Sub get_no_faktur()
@@ -282,14 +292,18 @@
         LvPackaging.Columns.Add("kode_stock_owner", 0, HorizontalAlignment.Left) '0
         LvPackaging.Columns.Add("Kode Bahan", 200, HorizontalAlignment.Left) '1
 
-        LvPackaging.Columns.Add("Jumlah", 130, HorizontalAlignment.Right) '3
-        LvPackaging.Columns.Add("Satuan", 0, HorizontalAlignment.Center) '4
-        LvPackaging.Columns.Add("Stock", 130, HorizontalAlignment.Right) '5
-        LvPackaging.Columns.Add("Satuan", 117, HorizontalAlignment.Center) '6
-        LvPackaging.Columns.Add("nilai_barang", 0, HorizontalAlignment.Right) '7
-        LvPackaging.Columns.Add("satuan_barang", 0, HorizontalAlignment.Center) '8
-        LvPackaging.Columns.Add("stock_barang", 0, HorizontalAlignment.Right) '9
+        LvPackaging.Columns.Add("Jumlah", 130, HorizontalAlignment.Right) '2
+        LvPackaging.Columns.Add("Satuan", 0, HorizontalAlignment.Center) '3
+        LvPackaging.Columns.Add("Stock", 130, HorizontalAlignment.Right) '4
+        LvPackaging.Columns.Add("Satuan", 117, HorizontalAlignment.Center) '5
+        LvPackaging.Columns.Add("nilai_barang", 0, HorizontalAlignment.Right) '6
+        LvPackaging.Columns.Add("satuan_barang", 0, HorizontalAlignment.Center) '7
+        LvPackaging.Columns.Add("stock_barang", 0, HorizontalAlignment.Right) '8
         LvPackaging.Columns.Add("Keep Stock", 133, HorizontalAlignment.Right).DisplayIndex = 6
+        LvPackaging.Columns.Add("Pot Stock", 0, HorizontalAlignment.Center) '10
+        LvPackaging.Columns.Add("Jenis", 100, HorizontalAlignment.Right) '11
+        LvPackaging.Columns.Add("jumlah_barang", 100, HorizontalAlignment.Right) '12
+        LvPackaging.Columns.Add("Jumlah Bahan", 100, HorizontalAlignment.Right) '13
         kosong()
 
     End Sub
@@ -694,7 +708,7 @@
                 For i As Integer = 0 To LvBahan.Items.Count - 1
                     Get_Isi_Listview_Bahan(i)
                     ' MessageBox.Show(HilangkanTanda(ListView3.Items(i).SubItems(7).Text) & " - " & HilangkanTanda(ListView3.Items(i).SubItems(9).Text))
-
+                    'TODO : SIMPAN
                     If Val(HilangkanTanda(LvNilaiBrg3)) > Val(HilangkanTanda(LvStockBrg3)) Then
                         flag_stok_cukup = False
 
@@ -731,10 +745,10 @@
                         'Exit Sub
                     End If
 
-                    SQL = "insert into emi_order_produksi_detail_Packaging(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) values("
+                    SQL = "insert into emi_order_produksi_detail_Packaging(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang, jenis, jumlah_barang, Jumlah_Bahan) values("
                     SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text & "' ,'" & SoProduction & "', '" & LvKdBhn4 & "', "
                     SQL = SQL & "'" & HilangkanTanda(lvJmlh4) & "' , '" & LvSatuan4 & "',  "
-                    SQL = SQL & "'" & HilangkanTanda(LvNilaiBrg4) & "', '" & LvSatuanBrg4 & "' )"
+                    SQL = SQL & "'" & HilangkanTanda(LvNilaiBrg4) & "', '" & LvSatuanBrg4 & "', '" & LvJenis4 & "', '" & LvMasterJumlah_Barang4 & "', '" & LvMasterJumlah_Bahan4 & "' )"
                     ExecuteTrans(SQL)
 
                 Next
@@ -917,10 +931,10 @@
                         'Exit Sub
                     End If
 
-                    SQL = "insert into emi_order_produksi_detail_Packaging(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) values("
+                    SQL = "insert into emi_order_produksi_detail_Packaging(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang, jenis, jumlah_barang, Jumlah_Bahan) values("
                     SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text & "' ,'" & SoProduction & "', '" & LvKdBhn4 & "', "
                     SQL = SQL & "'" & HilangkanTanda(lvJmlh4) & "' , '" & LvSatuan4 & "',  "
-                    SQL = SQL & "'" & HilangkanTanda(LvNilaiBrg4) & "', '" & LvSatuanBrg4 & "' )"
+                    SQL = SQL & "'" & HilangkanTanda(LvNilaiBrg4) & "', '" & LvSatuanBrg4 & "', '" & LvJenis4 & "', '" & LvMasterJumlah_Barang4 & "', '" & LvMasterJumlah_Bahan4 & "' )"
                     ExecuteTrans(SQL)
 
                 Next
@@ -1230,6 +1244,7 @@
                             TextBox1.Text = ""
                             txtNmBrgPO.Text = ""
                             txtKdBrgPO.Text = ""
+
                             MessageBox.Show("Kode formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
@@ -1417,7 +1432,7 @@
                     SQL = SQL & "),0) as good_stock, "
                     SQL = SQL & "isnull((select sum(x.Jumlah) from EMI_Order_Produksi_Detail_Packaging x, EMI_Order_Produksi y "
                     SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and x.Kode_Perusahaan = a.Kode_Perusahaan "
-                    SQL = SQL & "and x.Kode_Barang = a.Kode_Bahan and y.status is null and y.flag_release='Y'),0) as keep_stock "
+                    SQL = SQL & "and x.Kode_Barang = a.Kode_Bahan and y.status is null and y.flag_release='Y'),0) as keep_stock, a.Jenis "
 
                     SQL = SQL & "from barang_detail_Bahan_Penolong a, barang b, barang c "
                     SQL = SQL & "where b.Kode_barang='" & kodeBarang & "' and a.kode_Perusahaan=b.kode_Perusahaan and a.Kode_Barang=b.Kode_Barang_Inq and b.Kode_Stock_Owner='" & lks & "'  "
@@ -1433,6 +1448,7 @@
                                 Dim satuan_barang As String = .Rows(indexBahan).Item("Satuan_Barang")
                                 Dim Kode_bahan As String = .Rows(indexBahan).Item("Kode_Bahan")
                                 Dim satuan_bahan As String = .Rows(indexBahan).Item("Satuan_Bahan")
+                                Dim Jenis_bahan As String = .Rows(indexBahan).Item("Jenis")
 
                                 Dim jumlah As Double = .Rows(indexBahan).Item("Jumlah_Barang")
                                 Dim jumlahbahan As Double = Val(HilangkanTanda(Format(.Rows(indexBahan).Item("Jumlah_Bahan"), "N4")))
@@ -1528,6 +1544,7 @@
                                         Exit Sub
                                     End If
                                 End Using
+                                'TODO : Check
                                 lvwPackaging = LvPackaging.Items.Add(lks)
                                 lvwPackaging.SubItems.Add(Kode_bahan)
                                 ''lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("nama_bahan"))
@@ -1545,7 +1562,9 @@
                                     lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("flag_potong_stok")))
                                 End If
 
-
+                                lvwPackaging.SubItems.Add(Jenis_bahan)
+                                lvwPackaging.SubItems.Add(jumlah)
+                                lvwPackaging.SubItems.Add(jumlahbahan)
                             Next
                         End With
                     End Using
@@ -1796,7 +1815,7 @@
             SQL = SQL & ",b.satuan,"
             SQL = SQL & "isnull((select sum(x.jumlah) from EMI_Order_Produksi_Detail_Packaging x, EMI_Order_Produksi y "
             SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.no_faktur and y.Status is null "
-            SQL = SQL & "and x.Kode_Perusahaan = a.Kode_Perusahaan and x.Kode_Barang = a.Kode_Barang),0) as Keep_Stock "
+            SQL = SQL & "and x.Kode_Perusahaan = a.Kode_Perusahaan and x.Kode_Barang = a.Kode_Barang),0) as Keep_Stock, a.jenis, jumlah_barang, Jumlah_Bahan "
             SQL = SQL & " from EMI_Order_Produksi_Detail_Packaging a,barang b  "
             SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan  and a.kode_stock_owner = b.Kode_Stock_Owner "
             SQL = SQL & "and a.kode_barang = b.kode_barang and a.kode_perusahaan = '" & KodePerusahaan & "' and "
@@ -1861,7 +1880,9 @@
                             Else
                                 lvw.SubItems.Add(Format(.Rows(i).Item("flag_potong_stok")))
                             End If
-
+                            lvw.SubItems.Add(.Rows(i).Item("jenis"))
+                            lvw.SubItems.Add(.Rows(i).Item("jumlah_barang"))
+                            lvw.SubItems.Add(.Rows(i).Item("Jumlah_Bahan"))
                         Next
                         'Else
                         '    CloseConn()
@@ -2267,7 +2288,12 @@
 
             'packaging
 
-            SQL = "select a.kode_Barang,b.nama, b.Satuan as Satuan_Barang, a.Jumlah_Barang, a.Kode_Bahan, c.Nama as nama_bahan, c.satuan as satuan_bahan, A.Jumlah_Bahan, c.good_stock "
+            SQL = "select a.kode_Barang,b.nama, b.Satuan as Satuan_Barang, a.Jumlah_Barang, a.Kode_Bahan, c.Nama as nama_bahan, c.satuan as satuan_bahan, A.Jumlah_Bahan, c.good_stock, a.jenis, c.flag_potong_stok, "
+
+            SQL = SQL & "isnull((select sum(x.Jumlah) from EMI_Order_Produksi_Detail_Packaging x, EMI_Order_Produksi y "
+            SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and x.Kode_Perusahaan = a.Kode_Perusahaan "
+            SQL = SQL & "and x.Kode_Barang = a.Kode_Bahan and y.status is null and y.flag_release='Y'),0) as keep_stock "
+
             SQL = SQL & "from barang_detail_Bahan_Penolong a, barang b, barang c where b.Kode_barang='" & kodeBarang & "' "
             SQL = SQL & "and a.kode_Perusahaan=b.kode_Perusahaan and a.Kode_Barang=b.Kode_Barang_Inq and b.Kode_Stock_Owner='" & lks & "' "
             SQL = SQL & " And a.kode_Perusahaan = c.kode_Perusahaan And a.Kode_Bahan = c.Kode_Barang And c.Kode_Stock_Owner ='" & lks & "' "
@@ -2279,6 +2305,9 @@
                         Dim satuan_barang As String = .Rows(indexBahan).Item("Satuan_Barang")
                         Dim Kode_bahan As String = .Rows(indexBahan).Item("Kode_Bahan")
                         Dim satuan_bahan As String = .Rows(indexBahan).Item("Satuan_Bahan")
+                        Dim Jenis_bahan As String = .Rows(indexBahan).Item("Jenis_Bahan")
+
+                        Dim flag_potong_stock As String = .Rows(indexBahan).Item("flag_potong_stok")
 
                         Dim jumlah As Double = .Rows(indexBahan).Item("Jumlah_Barang")
                         Dim jumlahbahan As Double = Format(.Rows(indexBahan).Item("Jumlah_Bahan"), "N4")
@@ -2380,6 +2409,8 @@
                             End If
                         End Using
 
+                        'TODO  asdasdas()
+
                         lvwPackaging = LvPackaging.Items.Add(lks)
                         lvwPackaging.SubItems.Add(Kode_bahan)
                         ''lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("nama_bahan"))
@@ -2390,7 +2421,16 @@
                         lvwPackaging.SubItems.Add(Format(jumlahBahan_Total, "N4"))
                         lvwPackaging.SubItems.Add(satuan_bahan)
                         lvwPackaging.SubItems.Add(Format(jumlahstock, "N4"))
+                        lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("keep_stock"), "N4"))
+                        If General_Class.CekNULL(.Rows(indexBahan).Item("flag_potong_stok")) = "" Then
+                            lvwPackaging.SubItems.Add("")
+                        Else
+                            lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("flag_potong_stok")))
+                        End If
 
+                        lvwPackaging.SubItems.Add(Jenis_bahan)
+                        lvwPackaging.SubItems.Add(jumlah)
+                        lvwPackaging.SubItems.Add(jumlahbahan)
 
                     Next
                 End With

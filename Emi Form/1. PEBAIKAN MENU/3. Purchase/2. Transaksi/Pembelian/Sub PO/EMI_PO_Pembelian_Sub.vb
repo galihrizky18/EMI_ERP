@@ -64,6 +64,7 @@ Public Class EMI_PO_Pembelian_Sub
     Public cellFakPenawaran As Integer = 18
     Public cellFakInduk As Integer = 19
     Public cellUrutDet As Integer = 20
+    Public cellJnsKategori As Integer = 21
 
     Public No_SJ As String
     Public No_Plat As String
@@ -308,6 +309,8 @@ Public Class EMI_PO_Pembelian_Sub
             CmbPO_MataUang.Enabled = True
         End If
 
+        CmbPO_MataUang.Enabled = True
+
 
 
 
@@ -400,8 +403,6 @@ Public Class EMI_PO_Pembelian_Sub
 
             SQL = "Delete Emi_Expedition_PO_Sementara where Kode_Perusahaan = '" & KodePerusahaan & "' and userid = '" & UserID & "'"
             ExecuteTrans(SQL)
-
-
 
 
 
@@ -802,6 +803,13 @@ Public Class EMI_PO_Pembelian_Sub
 
         End If
 
+        If Cmb_Ekspedisi.SelectedIndex = 1 Then
+            If Val(HilangkanTanda(Txt_BiayaEkspedisi.Text)) = 0 Then
+                MessageBox.Show("Expedisi Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Btn_Ekspedisi.Focus() : Exit Sub
+            End If
+        End If
+
         get_jam()
 
         Dim cb As String = ""
@@ -898,11 +906,11 @@ Public Class EMI_PO_Pembelian_Sub
                                 ExecuteTrans(SQL)
                             Next
 
-                            'Else
-                            '    CloseTrans()
-                            '    CloseConn()
-                            '    MessageBox.Show("Data PPH Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                            '    Exit Sub
+                        Else
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Data PPH Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
                         End If
                     End With
 
@@ -2207,9 +2215,6 @@ Public Class EMI_PO_Pembelian_Sub
         End Try
     End Sub
 
-    Private Sub TxtPO_KdSupplier_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtPO_KdSupplier.KeyPress
-        If e.KeyChar = Chr(13) Then CmbPO_MataUang.Focus()
-    End Sub
 
     Private Sub TxtPO_NmSupplier_TextChanged(sender As Object, e As EventArgs) Handles TxtPO_NmSupplier.TextChanged
         If TxtPO_NmSupplier.Text.Trim.Length = 0 Then
@@ -2521,7 +2526,7 @@ Public Class EMI_PO_Pembelian_Sub
         TxtPO_KdSupplier.Text = Kode
         TxtPO_NmSupplier.Text = Nama
         LvSupplier2.Visible = False
-        LvPO_DataPO.Focus()
+        Button1.Focus()
     End Sub
 
 
@@ -2531,6 +2536,8 @@ Public Class EMI_PO_Pembelian_Sub
             LvSupplier2_DoubleClick(LvSupplier2, e)
         End If
     End Sub
+
+
 
     Private Sub LvPO_DataPO_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles LvPO_DataPO.CellEndEdit
 
@@ -2606,6 +2613,8 @@ Public Class EMI_PO_Pembelian_Sub
         End If
     End Sub
 
+
+
     Private Sub LvPO_DataPO_CellEnter(sender As Object, e As DataGridViewCellEventArgs) Handles LvPO_DataPO.CellEnter
         If Not LvPO_DataPO.Rows.Count = 0 Then
             '======================
@@ -2626,6 +2635,8 @@ Public Class EMI_PO_Pembelian_Sub
             End If
         End If
     End Sub
+
+
 
     Private Sub LvPO_DataPO_CellLeave(sender As Object, e As DataGridViewCellEventArgs) Handles LvPO_DataPO.CellLeave
         If Not LvPO_DataPO.Rows.Count = 0 Then
@@ -2662,6 +2673,8 @@ Public Class EMI_PO_Pembelian_Sub
         SD_Detail_PajakPO_Sub.asal = "SUBPO"
         SD_Detail_PajakPO_Sub.ShowDialog()
     End Sub
+
+
 
     Private Sub HapusToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HapusToolStripMenuItem.Click
         If LvPO_DataPO.CurrentRow IsNot Nothing Then
@@ -2726,6 +2739,27 @@ Public Class EMI_PO_Pembelian_Sub
         End Try
 
 
+    End Sub
+
+
+
+    '==================================================================================================================================================================================
+    '=     HANDLE KEY PRESS
+    '==================================================================================================================================================================================
+    Private Sub TxtPO_NoNota_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtPO_NoNota.KeyPress
+        If e.KeyChar = Chr(13) Then LvPO_DataPO.Focus()
+    End Sub
+    Private Sub CmbPO_JnsBayar_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbPO_JnsBayar.KeyPress
+        If e.KeyChar = Chr(13) Then Cmb_Ekspedisi.Focus()
+    End Sub
+    Private Sub Cmb_Ekspedisi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Ekspedisi.KeyPress
+        If e.KeyChar = Chr(13) Then BtnPO_Simpan.Focus()
+    End Sub
+    Private Sub TxtPO_KdSupplier_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtPO_KdSupplier.KeyPress
+        If e.KeyChar = Chr(13) Then Button1.Focus()
+    End Sub
+    Private Sub TxtPO_KdSupplier_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtPO_KdSupplier.KeyDown
+        If e.KeyCode = Keys.Down Then LvSupplier2.Focus()
     End Sub
 
 

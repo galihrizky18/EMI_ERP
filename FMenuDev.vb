@@ -546,14 +546,6 @@
         Detail_Account_New.Focus()
     End Sub
 
-    Private Sub DetailAccount2ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DetailAccount2ToolStripMenuItem.Click
-
-        Detail_Account_New2.StartPosition = FormStartPosition.CenterScreen
-
-        Detail_Account_New2.MdiParent = Me
-        Detail_Account_New2.Show()
-        Detail_Account_New.Focus()
-    End Sub
 
     Private Sub SummaryUsageRMToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SummaryUsageRMToolStripMenuItem.Click
 

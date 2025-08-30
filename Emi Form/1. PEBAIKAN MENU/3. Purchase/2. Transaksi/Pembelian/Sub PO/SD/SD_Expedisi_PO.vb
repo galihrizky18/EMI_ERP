@@ -310,6 +310,10 @@
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
 
+                        Dim TotBiayaLain As Double = 0
+                        Dim TotTarif As Double = 0
+                        Dim TotGrand As Double = 0
+
                         For i As Integer = 0 To .Rows.Count - 1
 
 
@@ -361,11 +365,20 @@
                                     Lv.SubItems.Add(Dr("Lokasi_Tujuan"))
                                     Lv.SubItems.Add(Dr("No_Urut"))
 
+
+                                    TotBiayaLain += Val(HilangkanTanda(Dr("Biaya_Lain")))
+                                    TotTarif += Val(HilangkanTanda(Dr("Tarif")))
+                                    TotGrand += Val(HilangkanTanda(Dr("Total")))
+
                                 End If
                             End Using
 
 
                         Next
+
+                        Txt_TotBiayaLain.Text = Format(TotBiayaLain, "N0")
+                        Txt_TotTarif.Text = Format(TotBiayaLain, "N0")
+                        Txt_GrandTotal.Text = Format(TotGrand, "N0")
 
                     End If
                 End With
@@ -519,6 +532,13 @@
 
         HitungTotal()
 
+    End Sub
+
+
+    Private Sub Lv_BiayaLokal_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Lv_BiayaLokal.KeyPress
+        If e.KeyChar = Chr(13) Then
+            Lv_BiayaLokal_DoubleClick(Lv_BiayaLokal, e)
+        End If
     End Sub
 
 End Class

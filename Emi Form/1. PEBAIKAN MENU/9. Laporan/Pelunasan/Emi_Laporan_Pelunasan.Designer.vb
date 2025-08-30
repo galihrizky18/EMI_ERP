@@ -23,6 +23,7 @@ Partial Class Emi_Laporan_Pelunasan
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -49,7 +50,6 @@ Partial Class Emi_Laporan_Pelunasan
         Me.Lv_User = New System.Windows.Forms.ListView()
         Me.Lv_Perusahaan = New System.Windows.Forms.ListView()
         Me.Lv_Kategori = New System.Windows.Forms.ListView()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -62,8 +62,21 @@ Partial Class Emi_Laporan_Pelunasan
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(597, 51)
+        Me.Panel1.Size = New System.Drawing.Size(615, 51)
         Me.Panel1.TabIndex = 26
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(615, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -114,7 +127,7 @@ Partial Class Emi_Laporan_Pelunasan
         Me.GroupBox1.Controls.Add(Me.Txt_NmKategori)
         Me.GroupBox1.Location = New System.Drawing.Point(12, 58)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(575, 175)
+        Me.GroupBox1.Size = New System.Drawing.Size(590, 175)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
@@ -122,28 +135,28 @@ Partial Class Emi_Laporan_Pelunasan
         '
         Me.Txt_KdKategori.Location = New System.Drawing.Point(177, 138)
         Me.Txt_KdKategori.Name = "Txt_KdKategori"
-        Me.Txt_KdKategori.Size = New System.Drawing.Size(151, 23)
+        Me.Txt_KdKategori.Size = New System.Drawing.Size(163, 23)
         Me.Txt_KdKategori.TabIndex = 6
         '
         'Txt_KdPerusahaan
         '
         Me.Txt_KdPerusahaan.Location = New System.Drawing.Point(177, 109)
         Me.Txt_KdPerusahaan.Name = "Txt_KdPerusahaan"
-        Me.Txt_KdPerusahaan.Size = New System.Drawing.Size(151, 23)
+        Me.Txt_KdPerusahaan.Size = New System.Drawing.Size(163, 23)
         Me.Txt_KdPerusahaan.TabIndex = 4
         '
         'Txt_UserValidasi
         '
         Me.Txt_UserValidasi.Location = New System.Drawing.Point(177, 80)
         Me.Txt_UserValidasi.Name = "Txt_UserValidasi"
-        Me.Txt_UserValidasi.Size = New System.Drawing.Size(151, 23)
+        Me.Txt_UserValidasi.Size = New System.Drawing.Size(163, 23)
         Me.Txt_UserValidasi.TabIndex = 3
         '
         'Txt_Faktur
         '
         Me.Txt_Faktur.Location = New System.Drawing.Point(177, 51)
         Me.Txt_Faktur.Name = "Txt_Faktur"
-        Me.Txt_Faktur.Size = New System.Drawing.Size(151, 23)
+        Me.Txt_Faktur.Size = New System.Drawing.Size(163, 23)
         Me.Txt_Faktur.TabIndex = 2
         '
         'Label4
@@ -220,14 +233,14 @@ Partial Class Emi_Laporan_Pelunasan
         '
         'Txt_NmPerusahaan
         '
-        Me.Txt_NmPerusahaan.Location = New System.Drawing.Point(331, 109)
+        Me.Txt_NmPerusahaan.Location = New System.Drawing.Point(346, 109)
         Me.Txt_NmPerusahaan.Name = "Txt_NmPerusahaan"
         Me.Txt_NmPerusahaan.Size = New System.Drawing.Size(236, 23)
         Me.Txt_NmPerusahaan.TabIndex = 5
         '
         'Txt_NmKategori
         '
-        Me.Txt_NmKategori.Location = New System.Drawing.Point(331, 138)
+        Me.Txt_NmKategori.Location = New System.Drawing.Point(346, 138)
         Me.Txt_NmKategori.Name = "Txt_NmKategori"
         Me.Txt_NmKategori.Size = New System.Drawing.Size(236, 23)
         Me.Txt_NmKategori.TabIndex = 7
@@ -235,7 +248,7 @@ Partial Class Emi_Laporan_Pelunasan
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(586, 71)
+        Me.Panel4.Location = New System.Drawing.Point(603, 71)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(12, 601)
@@ -282,7 +295,7 @@ Partial Class Emi_Laporan_Pelunasan
         Me.Lv_Faktur.FullRowSelect = True
         Me.Lv_Faktur.GridLines = True
         Me.Lv_Faktur.HideSelection = False
-        Me.Lv_Faktur.Location = New System.Drawing.Point(600, 134)
+        Me.Lv_Faktur.Location = New System.Drawing.Point(640, 134)
         Me.Lv_Faktur.Name = "Lv_Faktur"
         Me.Lv_Faktur.Size = New System.Drawing.Size(389, 200)
         Me.Lv_Faktur.TabIndex = 46
@@ -296,7 +309,7 @@ Partial Class Emi_Laporan_Pelunasan
         Me.Lv_User.FullRowSelect = True
         Me.Lv_User.GridLines = True
         Me.Lv_User.HideSelection = False
-        Me.Lv_User.Location = New System.Drawing.Point(600, 163)
+        Me.Lv_User.Location = New System.Drawing.Point(640, 163)
         Me.Lv_User.Name = "Lv_User"
         Me.Lv_User.Size = New System.Drawing.Size(389, 200)
         Me.Lv_User.TabIndex = 46
@@ -310,7 +323,7 @@ Partial Class Emi_Laporan_Pelunasan
         Me.Lv_Perusahaan.FullRowSelect = True
         Me.Lv_Perusahaan.GridLines = True
         Me.Lv_Perusahaan.HideSelection = False
-        Me.Lv_Perusahaan.Location = New System.Drawing.Point(600, 192)
+        Me.Lv_Perusahaan.Location = New System.Drawing.Point(640, 192)
         Me.Lv_Perusahaan.Name = "Lv_Perusahaan"
         Me.Lv_Perusahaan.Size = New System.Drawing.Size(389, 200)
         Me.Lv_Perusahaan.TabIndex = 46
@@ -324,7 +337,7 @@ Partial Class Emi_Laporan_Pelunasan
         Me.Lv_Kategori.FullRowSelect = True
         Me.Lv_Kategori.GridLines = True
         Me.Lv_Kategori.HideSelection = False
-        Me.Lv_Kategori.Location = New System.Drawing.Point(600, 220)
+        Me.Lv_Kategori.Location = New System.Drawing.Point(640, 220)
         Me.Lv_Kategori.Name = "Lv_Kategori"
         Me.Lv_Kategori.Size = New System.Drawing.Size(389, 200)
         Me.Lv_Kategori.TabIndex = 46
@@ -332,25 +345,12 @@ Partial Class Emi_Laporan_Pelunasan
         Me.Lv_Kategori.View = System.Windows.Forms.View.Details
         Me.Lv_Kategori.Visible = False
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(597, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
         'Emi_Laporan_Pelunasan
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(597, 286)
+        Me.ClientSize = New System.Drawing.Size(615, 286)
         Me.Controls.Add(Me.Lv_Kategori)
         Me.Controls.Add(Me.Lv_Perusahaan)
         Me.Controls.Add(Me.Lv_User)
