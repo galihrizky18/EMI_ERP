@@ -28,25 +28,15 @@ Partial Class SD_Detail_Validasi_HPP
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.TabPage2 = New System.Windows.Forms.TabPage()
-        Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.Txt_TotalBahanBaku = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.Lv_BahanBaku = New System.Windows.Forms.ListView()
         Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.Lv_Packaging = New System.Windows.Forms.ListView()
-        Me.Lv_Produksi = New System.Windows.Forms.ListView()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Txt_TotalBahanBaku = New System.Windows.Forms.TextBox()
-        Me.Txt_TotalPackaging = New System.Windows.Forms.TextBox()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Txt_TotalProduksi = New System.Windows.Forms.TextBox()
-        Me.Label3 = New System.Windows.Forms.Label()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
-        Me.TabPage2.SuspendLayout()
-        Me.TabPage3.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -94,8 +84,6 @@ Partial Class SD_Detail_Validasi_HPP
         'TabControl1
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
-        Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Location = New System.Drawing.Point(12, 65)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -115,30 +103,27 @@ Partial Class SD_Detail_Validasi_HPP
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Bahan Baku"
         '
-        'TabPage2
+        'Txt_TotalBahanBaku
         '
-        Me.TabPage2.BackColor = System.Drawing.Color.White
-        Me.TabPage2.Controls.Add(Me.Txt_TotalPackaging)
-        Me.TabPage2.Controls.Add(Me.Label2)
-        Me.TabPage2.Controls.Add(Me.Lv_Packaging)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 27)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1006, 549)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Packaging"
+        Me.Txt_TotalBahanBaku.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_TotalBahanBaku.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_TotalBahanBaku.Enabled = False
+        Me.Txt_TotalBahanBaku.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_TotalBahanBaku.Location = New System.Drawing.Point(831, 498)
+        Me.Txt_TotalBahanBaku.MaxLength = 50
+        Me.Txt_TotalBahanBaku.Name = "Txt_TotalBahanBaku"
+        Me.Txt_TotalBahanBaku.Size = New System.Drawing.Size(169, 23)
+        Me.Txt_TotalBahanBaku.TabIndex = 382
+        Me.Txt_TotalBahanBaku.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
-        'TabPage3
+        'Label1
         '
-        Me.TabPage3.BackColor = System.Drawing.Color.White
-        Me.TabPage3.Controls.Add(Me.Txt_TotalProduksi)
-        Me.TabPage3.Controls.Add(Me.Label3)
-        Me.TabPage3.Controls.Add(Me.Lv_Produksi)
-        Me.TabPage3.Location = New System.Drawing.Point(4, 27)
-        Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(1006, 549)
-        Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "Produksi"
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(777, 499)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(39, 18)
+        Me.Label1.TabIndex = 1
+        Me.Label1.Text = "Total"
         '
         'Lv_BahanBaku
         '
@@ -161,96 +146,6 @@ Partial Class SD_Detail_Validasi_HPP
         Me.Panel3.Size = New System.Drawing.Size(1179, 12)
         Me.Panel3.TabIndex = 40
         Me.Panel3.Visible = False
-        '
-        'Lv_Packaging
-        '
-        Me.Lv_Packaging.FullRowSelect = True
-        Me.Lv_Packaging.GridLines = True
-        Me.Lv_Packaging.HideSelection = False
-        Me.Lv_Packaging.Location = New System.Drawing.Point(6, 7)
-        Me.Lv_Packaging.Name = "Lv_Packaging"
-        Me.Lv_Packaging.Size = New System.Drawing.Size(994, 460)
-        Me.Lv_Packaging.TabIndex = 1
-        Me.Lv_Packaging.UseCompatibleStateImageBehavior = False
-        Me.Lv_Packaging.View = System.Windows.Forms.View.Details
-        '
-        'Lv_Produksi
-        '
-        Me.Lv_Produksi.FullRowSelect = True
-        Me.Lv_Produksi.GridLines = True
-        Me.Lv_Produksi.HideSelection = False
-        Me.Lv_Produksi.Location = New System.Drawing.Point(9, 6)
-        Me.Lv_Produksi.Name = "Lv_Produksi"
-        Me.Lv_Produksi.Size = New System.Drawing.Size(994, 460)
-        Me.Lv_Produksi.TabIndex = 1
-        Me.Lv_Produksi.UseCompatibleStateImageBehavior = False
-        Me.Lv_Produksi.View = System.Windows.Forms.View.Details
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(777, 499)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(39, 18)
-        Me.Label1.TabIndex = 1
-        Me.Label1.Text = "Total"
-        '
-        'Txt_TotalBahanBaku
-        '
-        Me.Txt_TotalBahanBaku.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.Txt_TotalBahanBaku.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_TotalBahanBaku.Enabled = False
-        Me.Txt_TotalBahanBaku.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_TotalBahanBaku.Location = New System.Drawing.Point(831, 498)
-        Me.Txt_TotalBahanBaku.MaxLength = 50
-        Me.Txt_TotalBahanBaku.Name = "Txt_TotalBahanBaku"
-        Me.Txt_TotalBahanBaku.Size = New System.Drawing.Size(169, 23)
-        Me.Txt_TotalBahanBaku.TabIndex = 382
-        Me.Txt_TotalBahanBaku.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Txt_TotalPackaging
-        '
-        Me.Txt_TotalPackaging.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.Txt_TotalPackaging.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_TotalPackaging.Enabled = False
-        Me.Txt_TotalPackaging.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Txt_TotalPackaging.Location = New System.Drawing.Point(831, 499)
-        Me.Txt_TotalPackaging.MaxLength = 50
-        Me.Txt_TotalPackaging.Name = "Txt_TotalPackaging"
-        Me.Txt_TotalPackaging.Size = New System.Drawing.Size(169, 23)
-        Me.Txt_TotalPackaging.TabIndex = 384
-        Me.Txt_TotalPackaging.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(777, 500)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(39, 18)
-        Me.Label2.TabIndex = 383
-        Me.Label2.Text = "Total"
-        '
-        'Txt_TotalProduksi
-        '
-        Me.Txt_TotalProduksi.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.Txt_TotalProduksi.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_TotalProduksi.Enabled = False
-        Me.Txt_TotalProduksi.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Txt_TotalProduksi.Location = New System.Drawing.Point(825, 495)
-        Me.Txt_TotalProduksi.MaxLength = 50
-        Me.Txt_TotalProduksi.Name = "Txt_TotalProduksi"
-        Me.Txt_TotalProduksi.Size = New System.Drawing.Size(169, 23)
-        Me.Txt_TotalProduksi.TabIndex = 384
-        Me.Txt_TotalProduksi.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(771, 496)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(39, 18)
-        Me.Label3.TabIndex = 383
-        Me.Label3.Text = "Total"
         '
         'Panel4
         '
@@ -297,10 +192,6 @@ Partial Class SD_Detail_Validasi_HPP
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
-        Me.TabPage2.ResumeLayout(False)
-        Me.TabPage2.PerformLayout()
-        Me.TabPage3.ResumeLayout(False)
-        Me.TabPage3.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -312,17 +203,9 @@ Partial Class SD_Detail_Validasi_HPP
     Friend WithEvents Panel5 As Panel
     Friend WithEvents TabControl1 As TabControl
     Friend WithEvents TabPage1 As TabPage
-    Friend WithEvents TabPage2 As TabPage
-    Friend WithEvents TabPage3 As TabPage
     Friend WithEvents Lv_BahanBaku As ListView
     Friend WithEvents Panel3 As Panel
-    Friend WithEvents Lv_Packaging As ListView
-    Friend WithEvents Lv_Produksi As ListView
     Friend WithEvents Label1 As Label
     Friend WithEvents Txt_TotalBahanBaku As TextBox
-    Friend WithEvents Txt_TotalPackaging As TextBox
-    Friend WithEvents Label2 As Label
-    Friend WithEvents Txt_TotalProduksi As TextBox
-    Friend WithEvents Label3 As Label
     Friend WithEvents Panel4 As Panel
 End Class

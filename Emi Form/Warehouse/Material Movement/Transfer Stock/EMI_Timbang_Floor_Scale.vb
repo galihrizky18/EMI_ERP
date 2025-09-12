@@ -814,7 +814,7 @@ Public Class EMI_Timbang_Floor_Scale
                             Exit Sub
                         Else
                             dr.Close()
-                            SQL = "update barang set Good_Stock = Good_Stock - " & nilai_kecildetail & ", "
+                            SQL = "update barang set Good_Stock = Good_Stock - Round(" & nilai_kecildetail & ",4), "
                             SQL = SQL & "Jumlah_Bags = Jumlah_Bags - " & Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) & " "
                             SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & GetSoAwal & "' "
                             SQL = SQL & " and Kode_Barang='" & GetDataKdBrg & "'"
@@ -848,7 +848,7 @@ Public Class EMI_Timbang_Floor_Scale
                             Exit Sub
                         Else
                             dr.Close()
-                            SQL = "update barang_sn set jumlah = jumlah - " & nilai_kecildetail & ", "
+                            SQL = "update barang_sn set jumlah = jumlah - Round(" & nilai_kecildetail & ",4), "
                             SQL = SQL & "Jumlah_Bags = Jumlah_Bags - " & Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) & " "
                             SQL = SQL & "where Kode_Stock_Owner='" & GetSoAwal & "' and Kode_Barang='" & GetDataKdBrg & "' "
                             SQL = SQL & "and Serial_Number='" & GetSnAwal & "'"
@@ -949,7 +949,7 @@ Public Class EMI_Timbang_Floor_Scale
                 '=       TAMBAH STOCK       =
                 '============================
 
-                SQL = "update barang set Good_Stock= Good_Stock + " & nilai_kecildetail & ", Jumlah_Bags = Jumlah_Bags + " & Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) & " "
+                SQL = "update barang set Good_Stock= Good_Stock + Round(" & nilai_kecildetail & ",4), Jumlah_Bags = Jumlah_Bags + " & Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) & " "
                 SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & GetSoTujuan & "' "
                 SQL = SQL & " and Kode_Barang='" & GetDataKdBrg & "'"
                 ExecuteTrans(SQL)
@@ -1348,7 +1348,7 @@ Public Class EMI_Timbang_Floor_Scale
                             Exit Sub
                         Else
                             dr.Close()
-                            SQL = "update barang set Good_Stock = Good_Stock - " & nilai_kecildetail & ", "
+                            SQL = "update barang set Good_Stock = Good_Stock - Round(" & nilai_kecildetail & ",4), "
                             SQL = SQL & "Jumlah_Bags = Jumlah_Bags - " & Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) & " "
                             SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & GetDataLokasi & "' "
                             SQL = SQL & " and Kode_Barang='" & GetDataKdBrg & "'"
@@ -1382,7 +1382,7 @@ Public Class EMI_Timbang_Floor_Scale
                             Exit Sub
                         Else
                             dr.Close()
-                            SQL = "update barang_sn set jumlah = jumlah - " & nilai_kecildetail & ", "
+                            SQL = "update barang_sn set jumlah = jumlah - Round(" & nilai_kecildetail & ",4), "
                             SQL = SQL & "Jumlah_Bags = Jumlah_Bags - " & Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) & " "
                             SQL = SQL & "where Kode_Stock_Owner='" & GetDataLokasi & "' and Kode_Barang='" & GetDataKdBrg & "' "
                             SQL = SQL & "and Serial_Number='" & GetDataBrgSN & "'"
@@ -1483,7 +1483,7 @@ Public Class EMI_Timbang_Floor_Scale
                 '=       TAMBAH STOCK       =
                 '============================
 
-                SQL = "update barang set Good_Stock= Good_Stock + " & nilai_kecildetail & ", Jumlah_Bags = Jumlah_Bags + " & Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) & " "
+                SQL = "update barang set Good_Stock= Good_Stock + Round(" & nilai_kecildetail & ",4), Jumlah_Bags = Jumlah_Bags + " & Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) & " "
                 SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & GetDataLokasi & "' "
                 SQL = SQL & " and Kode_Barang='" & GetDataKdBrg & "'"
                 ExecuteTrans(SQL)

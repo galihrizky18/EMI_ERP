@@ -610,7 +610,7 @@
                                 Exit Sub
                             Else
 
-                                SQL = "Update barang set good_stock = good_stock - " & HilangkanTanda(LvJumlah) & " where "
+                                SQL = "Update barang set good_stock = good_stock - Round(" & HilangkanTanda(LvJumlah) & ",4) where "
                                 SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
                                 SQL = SQL & "kode_stock_owner = '" & LvSO & "' and "
                                 SQL = SQL & "kode_barang = '" & LvKodeBarang & "'"
@@ -690,7 +690,7 @@
                                         End If
 
                                         If sisa < .Rows(h).Item("jumlah") Or sisa = .Rows(h).Item("jumlah") Then
-                                            SQL = "Update barang_sn set jumlah = jumlah - " & sisa & " where "
+                                            SQL = "Update barang_sn set jumlah = jumlah - Round(" & sisa & ",4) where "
                                             SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
                                             SQL = SQL & "kode_stock_owner = '" & .Rows(h).Item("kode_stock_owner") & "' and "
                                             SQL = SQL & "kode_barang = '" & .Rows(h).Item("kode_barang") & "' and "
@@ -722,7 +722,7 @@
                                             SQL = SQL & "" & x_no_urut_det_do & ",'" & .Rows(h).Item("jumlah") & "','" & LvKet & "')"
                                             ExecuteTrans(SQL)
 
-                                            SQL = "Update barang_sn set jumlah = jumlah - jumlah where "
+                                            SQL = "Update barang_sn set jumlah = jumlah - Round(jumlah,4) where "
                                             SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
                                             SQL = SQL & "kode_stock_owner = '" & .Rows(h).Item("kode_stock_owner") & "' and "
                                             SQL = SQL & "kode_barang = '" & .Rows(h).Item("kode_barang") & "' and "

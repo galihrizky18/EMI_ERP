@@ -2362,7 +2362,7 @@
 
     Private Sub TransferStockToolStripMenuItem3_Click(sender As Object, e As EventArgs) Handles TransferStockToolStripMenuItem3.Click
         Transfer_Stock_3.StartPosition = FormStartPosition.CenterScreen
-
+        Transfer_Stock_3.MenuAsal = "TRANSFER_STOCK"
         Transfer_Stock_3.MdiParent = Me
         Transfer_Stock_3.Show()
         Transfer_Stock_3.Focus()
@@ -2374,5 +2374,69 @@
         N_EMI_Laporan_Mutasi_Bahan_Dalam_Proses.MdiParent = Me
         N_EMI_Laporan_Mutasi_Bahan_Dalam_Proses.Show()
         N_EMI_Laporan_Mutasi_Bahan_Dalam_Proses.Focus()
+    End Sub
+
+    Private Sub NominalStockBySplitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NominalStockBySplitToolStripMenuItem.Click
+        N_EMI_Transaksi_Add_Nominal_Stock.StartPosition = FormStartPosition.CenterScreen
+
+        N_EMI_Transaksi_Add_Nominal_Stock.MdiParent = Me
+        N_EMI_Transaksi_Add_Nominal_Stock.Show()
+        N_EMI_Transaksi_Add_Nominal_Stock.Focus()
+    End Sub
+
+    Private Sub ValidasiHPPToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ValidasiHPPToolStripMenuItem2.Click
+        EMI_Display_Validasi_HPP_Produksi.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Display_Validasi_HPP_Produksi.MdiParent = Me
+        EMI_Display_Validasi_HPP_Produksi.Show()
+        EMI_Display_Validasi_HPP_Produksi.Focus()
+    End Sub
+
+    Private Sub LaporanPelunasanCutOffAssetToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanPelunasanCutOffAssetToolStripMenuItem.Click
+        N_EMI_Laporan_Pelunasan_Cut_Off_Asset.StartPosition = FormStartPosition.CenterScreen
+
+        N_EMI_Laporan_Pelunasan_Cut_Off_Asset.MdiParent = Me
+        N_EMI_Laporan_Pelunasan_Cut_Off_Asset.Show()
+        N_EMI_Laporan_Pelunasan_Cut_Off_Asset.Focus()
+    End Sub
+
+    Private Sub LaporanPelunasanToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles LaporanPelunasanToolStripMenuItem1.Click
+        N_EMI_Laporan_Pelunasan_Asset.StartPosition = FormStartPosition.CenterScreen
+
+        N_EMI_Laporan_Pelunasan_Asset.MdiParent = Me
+        N_EMI_Laporan_Pelunasan_Asset.Show()
+        N_EMI_Laporan_Pelunasan_Asset.Focus()
+    End Sub
+
+    Private Sub LaporanPembelianToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles LaporanPembelianToolStripMenuItem1.Click
+        N_EMI_Laporan_Pembelian_Asset.StartPosition = FormStartPosition.CenterScreen
+
+        N_EMI_Laporan_Pembelian_Asset.MdiParent = Me
+        N_EMI_Laporan_Pembelian_Asset.Show()
+        N_EMI_Laporan_Pembelian_Asset.Focus()
+    End Sub
+
+    Private Sub LaporanBarangMasukToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles LaporanBarangMasukToolStripMenuItem1.Click
+        N_EMI_Laporan_Barang_Masuk_Asset.StartPosition = FormStartPosition.CenterScreen
+
+        N_EMI_Laporan_Barang_Masuk_Asset.MdiParent = Me
+        N_EMI_Laporan_Barang_Masuk_Asset.Show()
+        N_EMI_Laporan_Barang_Masuk_Asset.Focus()
+    End Sub
+
+    Private Sub BypassMilitarySamplingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BypassMilitarySamplingToolStripMenuItem.Click
+        N_EMI_Transaksi_Bypass_Military_Sampling.StartPosition = FormStartPosition.CenterScreen
+
+        N_EMI_Transaksi_Bypass_Military_Sampling.MdiParent = Me
+        N_EMI_Transaksi_Bypass_Military_Sampling.Show()
+        N_EMI_Transaksi_Bypass_Military_Sampling.Focus()
+    End Sub
+
+    Private Sub LaporanHPPToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanHPPToolStripMenuItem.Click
+        N_EMI_Laporan_HPP.StartPosition = FormStartPosition.CenterScreen
+
+        N_EMI_Laporan_HPP.MdiParent = Me
+        N_EMI_Laporan_HPP.Show()
+        N_EMI_Laporan_HPP.Focus()
     End Sub
 End Class

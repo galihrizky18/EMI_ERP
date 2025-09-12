@@ -33,6 +33,8 @@ Partial Class TESTING_PRINT
         Me.Button8 = New System.Windows.Forms.Button()
         Me.Barcode = New System.Windows.Forms.PictureBox()
         Me.Button9 = New System.Windows.Forms.Button()
+        Me.Button10 = New System.Windows.Forms.Button()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
         CType(Me.Barcode, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -126,13 +128,31 @@ Partial Class TESTING_PRINT
         Me.Button9.Text = "Tes Print Barcode GR 2"
         Me.Button9.UseVisualStyleBackColor = True
         '
+        'Button10
+        '
+        Me.Button10.Location = New System.Drawing.Point(405, 281)
+        Me.Button10.Name = "Button10"
+        Me.Button10.Size = New System.Drawing.Size(135, 43)
+        Me.Button10.TabIndex = 0
+        Me.Button10.Text = "dsadad"
+        Me.Button10.UseVisualStyleBackColor = True
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(435, 205)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(190, 20)
+        Me.TextBox1.TabIndex = 3
+        '
         'TESTING_PRINT
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Barcode)
         Me.Controls.Add(Me.Button5)
+        Me.Controls.Add(Me.Button10)
         Me.Controls.Add(Me.Button9)
         Me.Controls.Add(Me.Button8)
         Me.Controls.Add(Me.Button7)
@@ -145,6 +165,7 @@ Partial Class TESTING_PRINT
         Me.Text = "TESTING_PRINT"
         CType(Me.Barcode, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -159,4 +180,6 @@ Partial Class TESTING_PRINT
     Friend WithEvents Button8 As Button
     Friend WithEvents Barcode As PictureBox
     Friend WithEvents Button9 As Button
+    Friend WithEvents Button10 As Button
+    Friend WithEvents TextBox1 As TextBox
 End Class

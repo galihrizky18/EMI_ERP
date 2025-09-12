@@ -47,8 +47,12 @@
             SQL = SQL & "from Emi_Split_Production_Order a,EMI_Order_Produksi b,Barang c,Emi_Master_routing d "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_PO = b.No_Faktur and b.Selesai is null and b.flag_release='Y' "
             SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Stock_Owner = c.Kode_Stock_Owner and a.Kode_Barang = c.Kode_Barang "
-            SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.Flag_Produksi = 'Y'  "
+            SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.Flag_Produksi = 'Y' and b.status is null and a.status is null "
             SQL = SQL & "and b.Id_Routing = d.Id_Routing and a.Flag_Val_HPP_Produksi is null "
+            SQL = SQL & "and a.No_Transaksi in ( "
+            SQL = SQL & "select distinct z.No_Production_Order from Emi_Production_Results z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.status is null) "
+            'SQL = SQL & "and a.flag_hasil_produksi_GI = 'Y' "
+            'SQL = SQL & "and a.flag_hasil_produksi_GR = 'Y' "
             If ComboBox3.SelectedIndex <> -1 Then
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
                 SQL = SQL & arrcari.Item(ComboBox3.SelectedIndex) & "  like  '%" & Trim(TextBox3.Text) & "%' "

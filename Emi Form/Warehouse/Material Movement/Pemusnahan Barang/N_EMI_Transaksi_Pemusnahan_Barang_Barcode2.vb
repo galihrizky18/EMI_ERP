@@ -342,7 +342,7 @@ Public Class N_EMI_Transaksi_Pemusnahan_Barang_Barcode2
                             Exit Sub
                         Else
                             dr.Close()
-                            SQL = "update barang set Good_Stock = Good_Stock - " & nilai_kecildetail & ", Jumlah_Bags = Jumlah_Bags - " & GetJumlahBags & " "
+                            SQL = "update barang set Good_Stock = Good_Stock - Round(" & nilai_kecildetail & ",4), Jumlah_Bags = Jumlah_Bags - " & GetJumlahBags & " "
                             SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & GetDataLokasi & "' "
                             SQL = SQL & " and Kode_Barang='" & GetDataKdBrg & "'"
                             ExecuteTrans(SQL)
@@ -375,7 +375,7 @@ Public Class N_EMI_Transaksi_Pemusnahan_Barang_Barcode2
                             Exit Sub
                         Else
                             dr.Close()
-                            SQL = "update barang_sn set jumlah = jumlah - " & nilai_kecildetail & ", Jumlah_Bags = Jumlah_Bags - " & GetJumlahBags & " "
+                            SQL = "update barang_sn set jumlah = jumlah - Round(" & nilai_kecildetail & ",4), Jumlah_Bags = Jumlah_Bags - " & GetJumlahBags & " "
                             SQL = SQL & "where Kode_Stock_Owner='" & GetDataLokasi & "' and Kode_Barang='" & GetDataKdBrg & "' "
                             SQL = SQL & "and Serial_Number='" & GetDataBrgSN & "'"
                             ExecuteTrans(SQL)
@@ -474,7 +474,7 @@ Public Class N_EMI_Transaksi_Pemusnahan_Barang_Barcode2
                 '=       TAMBAH STOCK       =
                 '============================
 
-                SQL = "update barang set Good_Stock= Good_Stock + " & nilai_kecildetail & ", Jumlah_Bags = Jumlah_Bags + " & GetJumlahBags & " "
+                SQL = "update barang set Good_Stock= Good_Stock + Round(" & nilai_kecildetail & ",4), Jumlah_Bags = Jumlah_Bags + " & GetJumlahBags & " "
                 SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & GetDataLokasi & "' "
                 SQL = SQL & " and Kode_Barang='" & GetDataKdBrg & "'"
                 ExecuteTrans(SQL)

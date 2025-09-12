@@ -69,7 +69,7 @@
 
     Private Sub get_no_faktur()
         Dim fPOi_EMI As String = "POI"
-        TxtPO_NoFaktur.Text = fPOi_EMI & arrInisialFaktur.Item(CmbPO_Lokasi.SelectedIndex) & "-" & Format(DtpPO_Tgl.Value, "MM/yy") & "-" &
+        TxtPO_NoFaktur.Text = fPOi_EMI & "-" & Format(DtpPO_Tgl.Value, "MM/yy") & "-" &
                                      General_Class.Get_Last_Number2("EMI_Pembelian_PO_Induk_Barang_Lain", "no_faktur", Jumlah_Digit,
                                      "Kode_perusahaan", KodePerusahaan,
                                      "And", "substring(no_faktur,1," & Len(fPOi_EMI) + Len(arrInisialFaktur.Item(CmbPO_Lokasi.SelectedIndex)) + 6 & ")", fPOi_EMI & arrInisialFaktur.Item(CmbPO_Lokasi.SelectedIndex) & "-" & Format(DtpPO_Tgl.Value, "MM/yy"))

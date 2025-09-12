@@ -23,7 +23,6 @@ Partial Class Emi_Laporan_Final_GI_GR
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -44,6 +43,7 @@ Partial Class Emi_Laporan_Final_GI_GR
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Lv_Routing = New System.Windows.Forms.ListView()
         Me.Lv_Barang = New System.Windows.Forms.ListView()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -58,19 +58,6 @@ Partial Class Emi_Laporan_Final_GI_GR
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(601, 51)
         Me.Panel1.TabIndex = 27
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(601, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -206,6 +193,7 @@ Partial Class Emi_Laporan_Final_GI_GR
         'BtnCetak
         '
         Me.BtnCetak.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnCetak.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnCetak.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnCetak.ForeColor = System.Drawing.Color.White
         Me.BtnCetak.Location = New System.Drawing.Point(420, 187)
@@ -218,6 +206,7 @@ Partial Class Emi_Laporan_Final_GI_GR
         'BtnExit
         '
         Me.BtnExit.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnExit.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnExit.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnExit.ForeColor = System.Drawing.Color.White
         Me.BtnExit.Location = New System.Drawing.Point(503, 187)
@@ -274,6 +263,19 @@ Partial Class Emi_Laporan_Final_GI_GR
         Me.Lv_Barang.UseCompatibleStateImageBehavior = False
         Me.Lv_Barang.View = System.Windows.Forms.View.Details
         Me.Lv_Barang.Visible = False
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(601, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Emi_Laporan_Final_GI_GR
         '

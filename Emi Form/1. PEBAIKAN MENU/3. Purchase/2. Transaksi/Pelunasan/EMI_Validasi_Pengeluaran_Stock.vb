@@ -318,7 +318,7 @@ Public Class EMI_Validasi_Pengeluaran_Stock
                         Exit Sub
                     Else
                         dr.Close()
-                        SQL = "update barang set Good_Stock = Good_Stock - " & nilai_kecildetail & ", Jumlah_Bags = Jumlah_Bags - " & GetJumlahBags & " "
+                        SQL = "update barang set Good_Stock = Good_Stock - Round(" & nilai_kecildetail & ",4), Jumlah_Bags = Jumlah_Bags - " & GetJumlahBags & " "
                         SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & GetSoAwal & "' "
                         SQL = SQL & " and Kode_Barang='" & GetDataKdBrg & "'"
                         ExecuteTrans(SQL)
@@ -351,7 +351,7 @@ Public Class EMI_Validasi_Pengeluaran_Stock
                         Exit Sub
                     Else
                         dr.Close()
-                        SQL = "update barang_sn set jumlah = jumlah - " & nilai_kecildetail & ", Jumlah_Bags = Jumlah_Bags - " & GetJumlahBags & " "
+                        SQL = "update barang_sn set jumlah = jumlah - Round(" & nilai_kecildetail & ",4), Jumlah_Bags = Jumlah_Bags - " & GetJumlahBags & " "
                         SQL = SQL & "where Kode_Stock_Owner='" & GetSoAwal & "' and Kode_Barang='" & GetDataKdBrg & "' "
                         SQL = SQL & "and Serial_Number='" & GetSnAwal & "'"
                         ExecuteTrans(SQL)

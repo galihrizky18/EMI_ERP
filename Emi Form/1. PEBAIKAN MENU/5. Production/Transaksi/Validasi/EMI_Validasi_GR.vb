@@ -23,7 +23,7 @@ Public Class EMI_Validasi_GR
     Dim LvPallet_KdSO, LvPallet_Barcode, LvPallet_BatchNumber, LvPallet_TglProduksi, LvPallet_TglExpired, LvPallet_KdBarang, LvPallet_NmBarang, LvPallet_Jumlah As String
     Dim LvPallet_Satuan, LvPallet_Kualitas, LvPallet_Warna, LvPallet_ID, LvPallet_QR, LvPallet_KdUnikBerjalan, LvPallet_Nomor, LvPallet_Batch As String
 
-    Dim LvData_Barcode, LvData_Nomor, LvData_Jumlah, LvData_Satuan, LvData_Berat, LvData_Tahap, LvData_Batch As String
+    Dim LvData_Barcode, LvData_Nomor, LvData_Jumlah, LvData_Satuan, LvData_Berat, LvData_Tahap, LvData_Batch, LvData_Tgl_Produksi, LvData_Tgl_Expired As String
 
     Dim LvBarcode_NomorBaru, LvBarcode_ID, LvBarcode_Jenis, LvBarcode_LokasiTujuan, LvBarcode_Total, LvBarcode_Satuan, LvBarcode_Barcode, LvBarcode_Batch, LvBarcode_NamaJenis As String
 
@@ -57,6 +57,8 @@ Public Class EMI_Validasi_GR
     Dim itemData_Satuan As Integer = 4
     Dim itemData_Berat As Integer = 5
     Dim itemData_Tahap As Integer = 6
+    Dim itemData_Tgl_Produksi As Integer = 7
+    Dim itemData_Tgl_Expired As Integer = 8
 
     Dim itemBarcode_ID As Integer = 0
     Dim itemBarcode_NomorBaru As Integer = 1
@@ -74,6 +76,7 @@ Public Class EMI_Validasi_GR
 
 
 
+    Dim ValTemp_TglProduksi, ValTemp_TglExpired As String
 
     Private Sub LvBarcode_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LvBarcode.SelectedIndexChanged
         If LvBarcode.Items.Count = 0 Or LvBarcode.FocusedItem Is Nothing Then Exit Sub
@@ -232,6 +235,7 @@ Public Class EMI_Validasi_GR
 
         get_jam()
 
+
         Try
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
@@ -375,6 +379,9 @@ Public Class EMI_Validasi_GR
         CurrentBatch = ""
         Txt_JmlhKeranjang.Text = ""
 
+        ValTemp_TglProduksi = ""
+        ValTemp_TglExpired = ""
+
         ReadyForPackaging = False
 
         get_jam()
@@ -453,13 +460,16 @@ Public Class EMI_Validasi_GR
         Lv_DataPallet.View = View.Details
 
         Lv_Data.Columns.Clear() : Lv_Data.Items.Clear()
-        Lv_Data.Columns.Add("Barcode", 630, HorizontalAlignment.Left)
-        Lv_Data.Columns.Add("Batch", 80, HorizontalAlignment.Center)
-        Lv_Data.Columns.Add("Nomor", 100, HorizontalAlignment.Center)
-        Lv_Data.Columns.Add("Jumlah", 180, HorizontalAlignment.Right)
-        Lv_Data.Columns.Add("Satuan", 80, HorizontalAlignment.Center)
-        Lv_Data.Columns.Add("Berat", 0, HorizontalAlignment.Center)
-        Lv_Data.Columns.Add("Tahap", 0, HorizontalAlignment.Center)
+        Lv_Data.Columns.Add("Barcode", 630, HorizontalAlignment.Left) '0
+        Lv_Data.Columns.Add("Batch", 80, HorizontalAlignment.Center) '1
+        Lv_Data.Columns.Add("Nomor", 100, HorizontalAlignment.Center) '2
+        Lv_Data.Columns.Add("Jumlah", 180, HorizontalAlignment.Right) '3
+        Lv_Data.Columns.Add("Satuan", 80, HorizontalAlignment.Center) '4
+        Lv_Data.Columns.Add("Berat", 0, HorizontalAlignment.Center) '5
+        Lv_Data.Columns.Add("Tahap", 0, HorizontalAlignment.Center) '6
+        'hide
+        Lv_Data.Columns.Add("tglproduksi", 0, HorizontalAlignment.Center) '9
+        Lv_Data.Columns.Add("tglexpired", 0, HorizontalAlignment.Center) '10
         Lv_Data.View = View.Details
 
         LvBarcode.Columns.Clear() : LvBarcode.Items.Clear()
@@ -563,6 +573,9 @@ Public Class EMI_Validasi_GR
         LvData_Satuan = Lv_Data.Items(index).SubItems(itemData_Satuan).Text
         LvData_Berat = Lv_Data.Items(index).SubItems(itemData_Berat).Text
         LvData_Tahap = Lv_Data.Items(index).SubItems(itemData_Tahap).Text
+
+        LvData_Tgl_Produksi = Lv_Data.Items(index).SubItems(itemData_Tgl_Produksi).Text
+        LvData_Tgl_Expired = Lv_Data.Items(index).SubItems(itemData_Tgl_Expired).Text
 
     End Sub
 
@@ -838,7 +851,7 @@ Public Class EMI_Validasi_GR
                 SQL = SQL & "select top 1 'Y' from N_EMI_Military_Sampling z "
                 SQL = SQL & "where z.kode_perusahaan = a.Kode_Perusahaan and z.status is null "
                 SQL = SQL & "and z.No_Split = b.No_Production_Order and z.No_Batch = a.tahap "
-                SQL = SQL & "and z.No_GR = '1' and z.Flag_Ready_For_Packaging = 'Y' "
+                SQL = SQL & "and z.No_GR = '1'  "
                 SQL = SQL & "), 'T') as Status_Military_Sampling "
 
                 SQL = SQL & "from Emi_Production_Results_Detail_Pallet a, Emi_Production_Results b, EMI_Production_Results_Detail_Barang c, barang d, EMI_Master_Warna e, Barang_SN f "
@@ -1010,6 +1023,9 @@ Public Class EMI_Validasi_GR
         Txt_Satuan.Text = LvPallet_Satuan
         Txt_Nomor.Text = LvPallet_Nomor
 
+        ValTemp_TglProduksi = LvPallet_TglProduksi
+        ValTemp_TglExpired = LvPallet_TglExpired
+
         Txt_Jumlah.Text = 0
 
         Dim Sisa As Double = 0
@@ -1080,6 +1096,11 @@ Public Class EMI_Validasi_GR
         Dim BeratBarang As Double = 0
         Dim Tahapan As Integer = 0
         Dim Batch As Integer = 0
+
+
+
+
+
         Try
             OpenConn()
 
@@ -1154,6 +1175,9 @@ Public Class EMI_Validasi_GR
             Lv.SubItems.Add(Txt_Satuan.Text)
             Lv.SubItems.Add(BeratBarangKG)
             Lv.SubItems.Add(Tahapan)
+
+            Lv.SubItems.Add(ValTemp_TglProduksi)
+            Lv.SubItems.Add(ValTemp_TglExpired)
         End If
 
 
@@ -1164,6 +1188,10 @@ Public Class EMI_Validasi_GR
         Txt_Satuan.Text = ""
         Txt_Jumlah.Text = ""
         Txt_Nomor.Text = ""
+
+        ValTemp_TglProduksi = ""
+        ValTemp_TglExpired = ""
+
         'Txt_SelectedBatch.Text = ""
         'Txt_SelectedKdBarang.Text = ""
         'Txt_SelectedNmBarang.Text = ""
@@ -1379,6 +1407,13 @@ Public Class EMI_Validasi_GR
                         '    End If
                         'End Using
 
+
+                        Dim newQrCode As String = ""
+
+                        Dim Tanggal_Produksi_Pertama As String = ""
+                        Dim Tanggal_Expired_Pertama As String = ""
+                        Dim Tanggal_Masuk_Pertama As String = ""
+
                         'Setelah di petakan, baru update per barcode
                         SQL = "select Barcode, Nomor_Sebelum, satuan, sum(jumlah) as Jumlah, Tahap, Jenis from N_EMI_Validation_GR_Temp a "
                         SQL = SQL & "where "
@@ -1396,12 +1431,13 @@ Public Class EMI_Validasi_GR
                                     Dim Jumlah_Pallet As String = dsPallet.Tables("MyTable").Rows(IndPallet).Item("Jumlah")
                                     Dim Tahap As String = dsPallet.Tables("MyTable").Rows(IndPallet).Item("Tahap")
 
-                                    Dim newQrCode As String = ""
+
                                     Dim KodeAsal As String = ""
                                     Dim BatchNumber As String = ""
                                     Dim Warna As String = ""
 
-                                    If dsPallet.Tables("MyTable").Rows(IndPallet).Item("Jenis").ToString.ToUpper.Trim = "FINISHED GOOOD" Or dsPallet.Tables("MyTable").Rows(IndPallet).Item("Jenis").ToString.ToUpper.Trim = "REJECTED" Then
+
+                                    If dsPallet.Tables("MyTable").Rows(IndPallet).Item("Jenis").ToString.ToUpper.Trim = "FINISHED GOOD" Or dsPallet.Tables("MyTable").Rows(IndPallet).Item("Jenis").ToString.ToUpper.Trim = "REJECTED" Then
 
                                         SQL = "select a.kode_barang from Emi_Split_Production_Order a "
                                         SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Transaksi = '" & Txt_NoSplit.Text & "'"
@@ -1455,7 +1491,10 @@ Public Class EMI_Validasi_GR
                                         If Dr.Read Then
 
                                             'Pastikan Batch Number di GR 1 SAMA
-                                            newQrCode = Generate_QR_Batch(kd_barang, Dr("Batch_Number"))
+                                            If newQrCode = "" Then
+                                                newQrCode = Generate_QR_Batch(kd_barang, Dr("Batch_Number"))
+                                            End If
+
                                             KodeAsal = Dr("Kode_Unik_Asal")
                                             BatchNumber = Dr("Batch_Number")
                                             Warna = Dr("Jenis")
@@ -1506,6 +1545,18 @@ Public Class EMI_Validasi_GR
                                                     Dim JumlahInsert As Double = 0
                                                     Dim JumlahKurang As Double = 0
                                                     Dim Satuan As String = ""
+
+                                                    If Tanggal_Produksi_Pertama = "" Then
+                                                        Tanggal_Produksi_Pertama = .Rows(j).Item("Tgl_Produksi")
+                                                    End If
+
+                                                    If Tanggal_Expired_Pertama = "" Then
+                                                        Tanggal_Expired_Pertama = .Rows(j).Item("Tgl_Expired")
+                                                    End If
+
+                                                    If Tanggal_Masuk_Pertama = "" Then
+                                                        Tanggal_Masuk_Pertama = .Rows(j).Item("Tgl_Masuk")
+                                                    End If
 
 #Region "Bagian_POtong"
                                                     If sisaPotong < Val(HilangkanTanda(.Rows(j).Item("Stock_SN"))) Or sisaPotong = Val(HilangkanTanda(.Rows(j).Item("Stock_SN"))) Then
@@ -1609,11 +1660,16 @@ Public Class EMI_Validasi_GR
 
 
                                                     Dim KualitasBarang As String = ""
-                                                    If Jenis_Nomor.ToUpper = "REJECTED" Then
-                                                        KualitasBarang = "MERAH"
+                                                    If Jenis_Nomor.ToUpper = "FINISHED GOOD" Or Jenis_Nomor.ToUpper = "REJECTED" Then
+                                                        If Jenis_Nomor.ToUpper = "REJECTED" Then
+                                                            KualitasBarang = "MERAH"
+                                                        Else
+                                                            KualitasBarang = .Rows(j).Item("Jenis")
+                                                        End If
                                                     Else
-                                                        KualitasBarang = .Rows(j).Item("Jenis")
+                                                        KualitasBarang = "HIJAU"
                                                     End If
+
 
                                                     'Summary HPP Yg Udah Kepotong
                                                     SumHPPAwal += Get_Harga_SN(.Rows(j).Item("SN_Baru")) * JumlahKurang
@@ -1625,11 +1681,11 @@ Public Class EMI_Validasi_GR
                                                     '=========================
                                                     SQL = "insert into Emi_Production_Results_Validation_Detail "
                                                     SQL = SQL & "(Kode_Perusahaan, No_Transaksi, Kode_Stock_Owner_Awal, Kode_Stock_Owner_Tujuan, Kode_Barang, "
-                                                    SQL = SQL & "Serial_Number_Awal, Serial_Number_Tujuan, Batch_Number, Warna, Jumlah, Satuan, Jenis, Nomor, Tahap ) "
+                                                    SQL = SQL & "Serial_Number_Awal, Serial_Number_Tujuan, Batch_Number, Warna, Jumlah, Satuan, Jenis, Nomor, Tahap, Jumlah_awal ) "
                                                     SQL = SQL & "values ('" & KodePerusahaan & "', '" & TxtNo_Transaksi.Text.Trim & "', '" & Lks_Awal & "', '" & Lks_tujuan_Nomor & "', "
                                                     SQL = SQL & "'" & kd_barang & "', '" & .Rows(j).Item("SN_Baru") & "', "
                                                     SQL = SQL & "NULL, '" & .Rows(j).Item("Batch_Number") & "', '" & KualitasBarang & "', '" & HilangkanTanda(JumlahInsert) & "', "
-                                                    SQL = SQL & "'" & Satuan & "', '" & Jenis_Nomor & "', '" & ID_Nomor & "', '" & Tahap & "')"
+                                                    SQL = SQL & "'" & Satuan & "', '" & Jenis_Nomor & "', '" & ID_Nomor & "', '" & Tahap & "', '" & JumlahKurang & "')"
                                                     ExecuteTrans(SQL)
 
                                                     '==========================
@@ -1932,7 +1988,7 @@ Public Class EMI_Validasi_GR
                                                         If idgroup_jenis = ArrHPP_GroupJenisID.Item(ind) And Lks_tujuan_Nomor = ArrHPP_Lokasi.Item(ind) Then
                                                             ada_data = True
 
-                                                            ArrHPP_Nilai.Item(ind) += (HppBaru * JumlahInsert)
+                                                            ArrHPP_Nilai.Item(ind) += (Math.Round(HppBaru * JumlahInsert, 0))
                                                         End If
 
                                                     Next
@@ -1942,7 +1998,7 @@ Public Class EMI_Validasi_GR
                                                         ArrHPP_GroupJenisNm.Add(Nmgroup_jenis)
                                                         ArrHPP_Lokasi.Add(Lks_tujuan_Nomor)
                                                         ArrHPP_Akun.Add(kode_akun)
-                                                        ArrHPP_Nilai.Add(HppBaru * JumlahInsert)
+                                                        ArrHPP_Nilai.Add(Math.Round(HppBaru * JumlahInsert, 0))
                                                     End If
 
                                                     Dim Str As String = Format(random.Next(0, 999), "000") & Format(tgl_skg, "HHmmss")
@@ -1982,6 +2038,7 @@ Public Class EMI_Validasi_GR
                                                         SQL = SQL & "'" & .Rows(j).Item("Batch_Number") & "', '" & available_Id_Warehouse & "', '" & available_NoPallet & "', 'Y', 'Y', "
                                                         SQL = SQL & " '" & .Rows(j).Item("Tgl_Produksi") & "', '" & .Rows(j).Item("Tgl_Expired") & "', '" & .Rows(j).Item("Tgl_Masuk") & "', 'Y')"
                                                         ExecuteTrans(SQL)
+
                                                     Else
 
                                                         Dim jumlah_bags As Double = 0
@@ -1993,9 +2050,9 @@ Public Class EMI_Validasi_GR
                                                         SQL = "insert into Barang_SN (Kode_Perusahaan, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah, Jumlah_Bags, Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, "
                                                         SQL = SQL & "Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number, Warna, Tgl_masuk, Blok_SN) "
                                                         SQL = SQL & "values('" & KodePerusahaan & "', '" & Lks_tujuan_Nomor & "', '" & kd_barang & "', '" & SN_Baru & "', "
-                                                        SQL = SQL & "'" & HilangkanTanda(JumlahInsert) & "', '" & jumlah_bags & "', '" & .Rows(j).Item("Tgl_Expired") & "', '" & .Rows(j).Item("Tgl_Produksi") & "', 0, 0, "
+                                                        SQL = SQL & "'" & HilangkanTanda(JumlahInsert) & "', '" & jumlah_bags & "', '" & Tanggal_Expired_Pertama & "', '" & Tanggal_Produksi_Pertama & "', 0, 0, "
                                                         SQL = SQL & "'" & available_Id_Warehouse & "', '" & newQrCode & "', '" & Kode_Berjalan & "', '" & .Rows(j).Item("Kode_Unik_Asal") & "-" & Kode_Berjalan & "', '" & available_NoPallet & "', "
-                                                        SQL = SQL & "'" & .Rows(j).Item("Batch_Number") & "', '" & KualitasBarang & "', '" & .Rows(j).Item("Tgl_Masuk") & "', 'Y')"
+                                                        SQL = SQL & "'" & .Rows(j).Item("Batch_Number") & "', '" & KualitasBarang & "', '" & Tanggal_Masuk_Pertama & "', NULL)"
                                                         ExecuteTrans(SQL)
 
                                                         '=========================
@@ -2803,7 +2860,7 @@ Public Class EMI_Validasi_GR
                 SQL = SQL & "and z.No_Batch = a.Tahap and z.Flag_Ready_For_Packaging = 'Y' and z.No_GR = '1' order by z.Tahap_Military_Sampling DESC), 'U') = 'Y' "
                 SQL = SQL & "then 'READY FOR PACKING' "
                 SQL = SQL & "when isnull(( select top 1 z.Kode_Perusahaan from N_EMI_Military_Sampling z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.No_Split = b.No_Production_Order "
-                SQL = SQL & "and z.No_Batch = a.Tahap and z.No_GR = '1' order by z.Tahap_Military_Sampling DESC), 'U') = 'Y' "
+                SQL = SQL & "and z.No_Batch = a.Tahap and z.No_GR = '1' and z.flag_military_sampling='Y' order by z.Tahap_Military_Sampling DESC), 'U') = 'Y' "
                 SQL = SQL & "then 'HOLD' "
                 SQL = SQL & "else 'NO DATA' "
                 SQL = SQL & "end as Status_Split "
@@ -2823,7 +2880,7 @@ Public Class EMI_Validasi_GR
                 SQL = SQL & "select distinct z.no_Split from N_EMI_Military_Sampling z "
                 SQL = SQL & "where z.kode_perusahaan = a.Kode_Perusahaan and z.status is null "
                 SQL = SQL & "and z.No_Split = b.No_Production_Order and z.No_Batch = a.tahap "
-                SQL = SQL & "and z.No_GR = '1' and z.Flag_Ready_For_Packaging = 'Y') "
+                SQL = SQL & "and z.No_GR = '1' and z.flag_military_sampling='Y') "
 
                 SQL = SQL & "and a.Qr_Code = '" & DataDic("QrCode") & "' and a.Kode_Unik_Berjalan = '" & DataDic("KdUnikBerjalan") & "' "
                 SQL = SQL & "group by a.kode_perusahaan, b.No_Production_Order, a.Lokasi_Gudang , a.Qr_Code, a.Kode_Unik_Berjalan, (a.Qr_Code + '-' + a.Kode_Unik_Berjalan) , a.Batch_Number, "

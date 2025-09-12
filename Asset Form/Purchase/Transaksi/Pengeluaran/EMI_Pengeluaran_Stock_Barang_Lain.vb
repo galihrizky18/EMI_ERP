@@ -1088,9 +1088,9 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
                     DGV_Data_TF.Rows(rows).Cells(itemDgvStockBags).Value = If(General_Class.CekNULL(Dr("stock_bags")) = "", "", Format(Dr("stock_bags"), "N0"))
                     DGV_Data_TF.Rows(rows).Cells(itemDgvWarna).Value = General_Class.CekNULL(Dr("warna"))
                     DGV_Data_TF.Rows(rows).Cells(itemJenisKemasan).Value = General_Class.CekNULL(Dr("Jenis_Kemasan"))
-                    DGV_Data_TF.Rows(rows).Cells(itemDGVIsiPerBags).Value = General_Class.CekNULL(Dr("Isi_Per_Bags"))
-                    DGV_Data_TF.Rows(rows).Cells(itemDGVSatuanIsiBags).Value = General_Class.CekNULL(Dr("Satuan_Isi_Bags"))
-                    DGV_Data_TF.Rows(rows).Cells(itemDGVKetWarna).Value = General_Class.CekNULL(Dr("Ket_Warna"))
+                    DGV_Data_TF.Rows(rows).Cells(itemDGVIsiPerBags).Value = General_Class.CekNULL(Dr("Isi_Per_Bags")) 'X
+                    DGV_Data_TF.Rows(rows).Cells(itemDGVSatuanIsiBags).Value = General_Class.CekNULL(Dr("Satuan_Isi_Bags")) 'X
+                    DGV_Data_TF.Rows(rows).Cells(itemDGVKetWarna).Value = General_Class.CekNULL(Dr("Ket_Warna")) 'X
                     DGV_Data_TF.Rows(rows).Cells(itemDGVTglProd).Value = If(General_Class.CekNULL(Dr("Tgl_Produksi")) = "", "", Format(Dr("Tgl_Produksi"), "dd MMM yyyy"))
                     DGV_Data_TF.Rows(rows).Cells(itemDgvSatuan).Value = TxtSatuan.Text
 

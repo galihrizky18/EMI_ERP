@@ -15,6 +15,22 @@ Public Class N_EMI_Laporan_Mutasi_Bahan
         Try
             OpenConn()
 
+            Cmb_Jenis_Laporan.Items.Clear()
+            Cmb_Jenis_Laporan.Items.Add("QTY")
+            If CekButtonRole("Laporan_Saldo_Mutasi_Bahan") = "Y" Then
+                Cmb_Jenis_Laporan.Items.Add("SALDO")
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Try
+            OpenConn()
+
             Cmb_Lokasi.Items.Clear()
             Cmb_Lokasi.Items.Add(OpsiSeluruh)
             SQL = "select kode_Stock_Owner from Stock_Owner_Gudang where kode_perusahaan = '" & KodePerusahaan & "' "
@@ -24,11 +40,7 @@ Public Class N_EMI_Laporan_Mutasi_Bahan
                 Loop
             End Using
 
-            Cmb_Jenis_Laporan.Items.Clear()
-            Cmb_Jenis_Laporan.Items.Add("QTY")
-            If CekButtonRole("Laporan_Saldo_Mutasi_Bahan") = "Y" Then
-                Cmb_Jenis_Laporan.Items.Add("SALDO")
-            End If
+
 
             Cmb_Group_Jenis.Items.Clear() : arr_Id_Group_Jenis.Clear()
             Cmb_Group_Jenis.Items.Add(OpsiSeluruh) : arr_Id_Group_Jenis.Add(OpsiSeluruh)
@@ -539,6 +551,11 @@ Public Class N_EMI_Laporan_Mutasi_Bahan
                     End If
 
                 End If
+
+                If Cmb_Group_Jenis.SelectedIndex > 0 Then
+                    SQL = SQL & "and Id_Group_Jenis = '" & arr_Id_Group_Jenis(Cmb_Group_Jenis.SelectedIndex) & "' "
+                    SF = SF & "And {N_EMI_View_Laporan_Mutasi_Bahan_Rekap.Id_Group_Jenis} = " & arr_Id_Group_Jenis(Cmb_Group_Jenis.SelectedIndex) & " "
+                End If
                 Using DS = BindingTrans(SQL)
                     With DS.Tables("MyTable")
                         If .Rows.Count <> 0 Then
@@ -550,7 +567,7 @@ Public Class N_EMI_Laporan_Mutasi_Bahan
                             CrDoc.SetDataSource(dt)
                             CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                             CrDoc.SummaryInfo.ReportTitle = "Periode : " & Format(Tgl1.Value, "dd/MMM/yyyy") & " s/d " &
-                                                                            Format(Tgl2.Value, "dd/MMM/yyyy")
+                                                                        Format(Tgl2.Value, "dd/MMM/yyyy")
                             CrDoc.RecordSelectionFormula = SF
 
                             With A_Place_For_Printing2
@@ -602,6 +619,12 @@ Public Class N_EMI_Laporan_Mutasi_Bahan
                     End If
 
                 End If
+
+                If Cmb_Group_Jenis.SelectedIndex > 0 Then
+                    SQL = SQL & "and Id_Group_Jenis = '" & arr_Id_Group_Jenis(Cmb_Group_Jenis.SelectedIndex) & "' "
+                    SF = SF & "And {N_EMI_View_Laporan_Mutasi_Bahan_Rekap_Saldo.Id_Group_Jenis} = " & arr_Id_Group_Jenis(Cmb_Group_Jenis.SelectedIndex) & " "
+                End If
+
                 Using DS = BindingTrans(SQL)
                     With DS.Tables("MyTable")
                         If .Rows.Count <> 0 Then

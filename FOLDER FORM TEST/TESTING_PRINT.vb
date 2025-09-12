@@ -646,5 +646,25 @@ Public Class TESTING_PRINT
         Return result
     End Function
 
+    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+        Try
+            OpenConn()
 
+
+
+
+            SQL = "select Keterangan from N_EMI_Transaksi_Bypass_Military_Sampling"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    TextBox1.Text = Dr("Keterangan")
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
 End Class

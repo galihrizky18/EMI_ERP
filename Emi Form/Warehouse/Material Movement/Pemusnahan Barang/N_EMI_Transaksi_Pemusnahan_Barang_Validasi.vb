@@ -305,7 +305,7 @@
                                     Else
 
                                         Dr.Close()
-                                        SQL = "update Barang_SN set Jumlah = Jumlah - " & Jumlah_Kecil & ", Jumlah_Bags = Jumlah_Bags - " & Jumlah_Bags & " "
+                                        SQL = "update Barang_SN set Jumlah = Jumlah - Round(" & Jumlah_Kecil & ",4), Jumlah_Bags = Jumlah_Bags - " & Jumlah_Bags & " "
                                         SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Stock_Owner = '" & KdSo & "' "
                                         SQL = SQL & "and Kode_Barang = '" & KdBarang & "' and Serial_Number = '" & SN_Baru & "' "
                                         ExecuteTrans(SQL)
@@ -340,7 +340,7 @@
                                     Else
 
                                         Dr.Close()
-                                        SQL = "update Barang set Good_Stock = Good_Stock - " & Jumlah_Kecil & ", Jumlah_Bags = Jumlah_Bags - " & Jumlah_Bags & " "
+                                        SQL = "update Barang set Good_Stock = Good_Stock - Round(" & Jumlah_Kecil & ",4), Jumlah_Bags = Jumlah_Bags - " & Jumlah_Bags & " "
                                         SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Stock_Owner = '" & KdSo & "' "
                                         SQL = SQL & "and Kode_Barang = '" & KdBarang & "' "
                                         ExecuteTrans(SQL)

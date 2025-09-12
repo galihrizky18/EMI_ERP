@@ -491,7 +491,7 @@
             SQL = SQL & "'" & HilangkanTanda(TxtTotalTransferBags.Text) & "') "
             ExecuteTrans(SQL)
 
-            SQL = "Update Barang Set Good_Stock = Good_Stock - '" & nilai_kecil & "', "
+            SQL = "Update Barang Set Good_Stock = Good_Stock - Round(" & nilai_kecil & ",4), "
             SQL = SQL & "Jumlah_Bags = Jumlah_Bags - '" & HilangkanTanda(TxtTotalTransferBags.Text) & "' "
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and Kode_Stock_Owner = '" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
@@ -545,7 +545,7 @@
                 SQL = SQL & "'" & nilai_kecildetail & "','" & Val(dgv_JmlhBags) & "', 0)"
                 ExecuteTrans(SQL)
 
-                SQL = "Update Barang_SN Set Jumlah = Jumlah - '" & nilai_kecildetail & "',"
+                SQL = "Update Barang_SN Set Jumlah = Jumlah - Round(" & nilai_kecildetail & ",4),"
                 SQL = SQL & "Jumlah_Bags = Jumlah_Bags - '" & Val(dgv_JmlhBags) & "' "
                 SQL = SQL & "Where Kode_Perusahaan = '" & KodePerusahaan & "' "
                 SQL = SQL & "and Kode_Stock_Owner = '" & dgv_Lokasi & "' "

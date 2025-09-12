@@ -267,7 +267,7 @@ Public Class Emi_Display_Tf_Stock_QC
                         Exit Sub
                     Else
                         dr.Close()
-                        SQL = "update barang set Good_Stock = Good_Stock - " & totalPotong & ", Jumlah_Bags = Jumlah_Bags - " & jumlahBags & " "
+                        SQL = "update barang set Good_Stock = Good_Stock - Round(" & totalPotong & ",4), Jumlah_Bags = Jumlah_Bags - " & jumlahBags & " "
                         SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & SoAwal & "' "
                         SQL = SQL & " and Kode_Barang='" & kodeBarang & "'"
                         ExecuteTrans(SQL)
@@ -303,7 +303,7 @@ Public Class Emi_Display_Tf_Stock_QC
                         Exit Sub
                     Else
                         dr.Close()
-                        SQL = "update barang_sn set jumlah = jumlah - " & totalPotong & ", Jumlah_Bags = Jumlah_Bags - " & jumlahBags & " "
+                        SQL = "update barang_sn set jumlah = jumlah - Round(" & totalPotong & ",4), Jumlah_Bags = Jumlah_Bags - " & jumlahBags & " "
                         SQL = SQL & "where Kode_Stock_Owner='" & SoAwal & "' and Kode_Barang='" & kodeBarang & "' "
                         SQL = SQL & "and Serial_Number='" & SN_Awal & "'"
                         ExecuteTrans(SQL)
@@ -448,7 +448,7 @@ Public Class Emi_Display_Tf_Stock_QC
             '===================================
             '=       TAMBAH STOCK BARANG       =
             '===================================
-            SQL = "update barang set Good_Stock= Good_Stock + " & totalTambahStock & ", Jumlah_Bags = Jumlah_Bags + " & totalTambahBags & " "
+            SQL = "update barang set Good_Stock= Good_Stock + Round(" & totalTambahStock & ",4), Jumlah_Bags = Jumlah_Bags + " & totalTambahBags & " "
             SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & SoTujuan & "' "
             SQL = SQL & " and Kode_Barang='" & kodeBarang & "'"
             ExecuteTrans(SQL)

@@ -517,10 +517,11 @@
                             End If
                         End Using
 
-                        SQL = "insert into      (Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) values( "
+                        SQL = "insert into Emi_Split_Production_Order (Kode_Perusahaan,No_Transaksi,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) values( "
                         SQL = SQL & "'" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "' , '" & kd_so & "','" & Kode_bahan & "', '" & HilangkanTanda(Format(jumlahBahan_Total_display, "N4")) & "', '" & satuan_display & "', "
                         SQL = SQL & "" & HilangkanTanda(Format(jumlahBahan_Total, "N4")) & ", '" & satuan_bahan & "' ) "
                         ExecuteTrans(SQL)
+
 
                     Next
                 End With

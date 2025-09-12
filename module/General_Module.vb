@@ -85,6 +85,17 @@ Module General_Module
     Public fAsset As String = ""
     Public fSparepart As String = ""
 
+    Public fPackaging As String = ""
+    Public fRawMaterial As String = ""
+    Public fFinishedGood As String = ""
+    Public fSample As String = ""
+    Public fSemiFG As String = ""
+    Public fScrap As String = ""
+    Public fBahanBakar As String = ""
+    Public fPeralatan As String = ""
+    Public fReject As String = ""
+    Public fWaste As String = ""
+
 
     '=====================
     '=    PRINTER NAME   =
@@ -176,6 +187,9 @@ Module General_Module
     'Public Const CPassword As String = "LezatSekali%"
 
     Public UserID As String = "Art Di"
+    'Public UserID As String = "Hendry"
+    'Public UserID As String = "DICKY"
+    'Public UserID As String = "AKONG"
     'Public UserID As String = "BAYA"
     'Public UserID As String = "garix"
     'Public UserID As String = "emi"
@@ -795,6 +809,7 @@ Module General_Module
         Da = New SqlClient.SqlDataAdapter
         Da.SelectCommand = Cmd
         BindingTrans = New DataSet
+        BindingTrans.Clear()
         Da.Fill(BindingTrans, "MyTable")
     End Function
 
@@ -2030,32 +2045,12 @@ Module General_Module
 
     End Function
 
-
-    'Public FilterPengeluaranCostCenter As String = "" ' " and (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "' OR gj.flag_packaging = '" & fPackaging & "' OR gj.flag_raw_material = '" & fRawMaterial & "' OR gj.flag_finished_good = '" & fFinishedGood & "' OR gj.flag_sample = '" & fSample & "' OR gj.Flag_Semi_FG = '" & fSemiFG & "' OR gj.Flag_Scrap = '" & fScrap & "' OR gj.flag_bahan_bakar = '" & fBahanBakar & "' OR gj.flag_peralatan = '" & fPeralatan & "') "
-    ''"" ' " gj.Flag_Packaging = 'T' and gj.Flag_Raw_Material = 'T' and gj.Flag_Finished_Good = 'T' and gj.Flag_Sample = 'T' and gj.Flag_Semi_FG = 'T' and gj.Flag_Scrap = 'T' and gj.Flag_Bahan_Bakar = 'T' and gj.Flag_Peralatan = 'T' "
-
-    'Public FilterPengeluaranCostCenterCR As String = "" '" and ({emi_group_jenis.flag_ATK} = '" & fATK & "' OR {emi_group_jenis.flag_asset} = '" & fAsset & "' OR {emi_group_jenis.flag_sparepart} = '" & fSparepart & "' OR {emi_group_jenis.flag_packaging} = '" & fPackaging & "' OR {emi_group_jenis.flag_raw_material} = '" & fRawMaterial & "' OR {emi_group_jenis.flag_finished_good} = '" & fFinishedGood & "' OR {emi_group_jenis.flag_sample} = '" & fSample & "' OR {emi_group_jenis.Flag_Semi_FG} = '" & fSemiFG & "' OR {emi_group_jenis.Flag_Scrap} = '" & fScrap & "' OR {emi_group_jenis.flag_bahan_bakar} = '" & fBahanBakar & "' OR {emi_group_jenis.flag_peralatan} = '" & fPeralatan & "') "
-    ''"" ' " {emi_group_jenis.Flag_Packaging} = 'T' and {emi_group_jenis.Flag_Raw_Material} = 'T' and {emi_group_jenis.Flag_Finished_Good} = 'T' and {emi_group_jenis.Flag_Sample} = 'T' and {emi_group_jenis.Flag_Semi_FG} = 'T' and {emi_group_jenis.Flag_Scrap} = 'T' and {emi_group_jenis.Flag_Bahan_Bakar} = 'T' and {emi_group_jenis.Flag_Peralatan} = 'T' "
-
-
-    'Public fATK As String = ""
-    'Public fAsset As String = ""
-    'Public fSparepart As String = ""
-    Public fPackaging As String = ""
-    Public fRawMaterial As String = ""
-    Public fFinishedGood As String = ""
-    Public fSample As String = ""
-    Public fSemiFG As String = ""
-    Public fScrap As String = ""
-    Public fBahanBakar As String = ""
-    Public fPeralatan As String = ""
-
     Public Sub Cek_Flagging()
         '  OpenConn()
 
         fATK = "T" : fAsset = "T" : fSparepart = "T" : fPackaging = "T" : fRawMaterial = "T"
         fFinishedGood = "T" : fSample = "T" : fSemiFG = "T" : fScrap = "T" : fBahanBakar = "T" : fPeralatan = "T"
-
+        fReject = "T" : fWaste = "T"
         SQL = "select nama_role from emi_pengeluaran_barang_roles "
         SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and userid = '" & UserID & "'"
         Using dr = OpenTrans(SQL)
@@ -2071,16 +2066,18 @@ Module General_Module
                 If dr("nama_role") = "Scrap" Then fScrap = "Y"
                 If dr("nama_role") = "Bahan Bakar" Then fBahanBakar = "Y"
                 If dr("nama_role") = "Peralatan" Then fPeralatan = "Y"
+                If dr("nama_role") = "Reject" Then fReject = "Y"
+                If dr("nama_role") = "Waste" Then fWaste = "Y"
             Loop
         End Using
 
-        'FilterPengeluaranCostCenter = " and (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "' OR gj.flag_packaging = '" & fPackaging & "' OR gj.flag_raw_material = '" & fRawMaterial & "' OR gj.flag_finished_good = '" & fFinishedGood & "' OR gj.flag_sample = '" & fSample & "' OR gj.Flag_Semi_FG = '" & fSemiFG & "' OR gj.Flag_Scrap = '" & fScrap & "' OR gj.flag_bahan_bakar = '" & fBahanBakar & "' OR gj.flag_peralatan = '" & fPeralatan & "') "
-        'FilterPengeluaranCostCenterCR = " and ({emi_group_jenis.flag_ATK} = '" & fATK & "' OR {emi_group_jenis.flag_asset} = '" & fAsset & "' OR {emi_group_jenis.flag_sparepart} = '" & fSparepart & "' OR {emi_group_jenis.flag_packaging} = '" & fPackaging & "' OR {emi_group_jenis.flag_raw_material} = '" & fRawMaterial & "' OR {emi_group_jenis.flag_finished_good} = '" & fFinishedGood & "' OR {emi_group_jenis.flag_sample} = '" & fSample & "' OR {emi_group_jenis.Flag_Semi_FG} = '" & fSemiFG & "' OR {emi_group_jenis.Flag_Scrap} = '" & fScrap & "' OR {emi_group_jenis.flag_bahan_bakar} = '" & fBahanBakar & "' OR {emi_group_jenis.flag_peralatan} = '" & fPeralatan & "') "
+        'FilterPengeluaranCostCenter = " and (gj.Flag_ATK = '" & fATK & "' OR gj.Flag_Asset = '" & fAsset & "' OR gj.Flag_Sparepart = '" & fSparepart & "' OR gj.Flag_Packaging = '" & fPackaging & "' OR gj.Flag_Raw_Material = '" & fRawMaterial & "' OR gj.Flag_Finished_Good = '" & fFinishedGood & "' OR gj.Flag_Sample = '" & fSample & "' OR gj.Flag_Semi_FG = '" & fSemiFG & "' OR gj.Flag_Scrap = '" & fScrap & "' OR gj.Flag_Bahan_Bakar = '" & fBahanBakar & "' OR gj.Flag_Peralatan = '" & fPeralatan & "') "
+        'FilterPengeluaranCostCenterCR = " and ({emi_group_jenis.Flag_ATK} = '" & fATK & "' OR {emi_group_jenis.Flag_Asset} = '" & fAsset & "' OR {emi_group_jenis.Flag_Sparepart} = '" & fSparepart & "' OR {emi_group_jenis.Flag_Packaging} = '" & fPackaging & "' OR {emi_group_jenis.Flag_Raw_Material} = '" & fRawMaterial & "' OR {emi_group_jenis.Flag_Finished_Good} = '" & fFinishedGood & "' OR {emi_group_jenis.Flag_Sample} = '" & fSample & "' OR {emi_group_jenis.Flag_Semi_FG} = '" & fSemiFG & "' OR {emi_group_jenis.Flag_Scrap} = '" & fScrap & "' OR {emi_group_jenis.Flag_Bahan_Bakar} = '" & fBahanBakar & "' OR {emi_group_jenis.Flag_Peralatan} = '" & fPeralatan & "') "
 
         If fATK = "T" And fAsset = "T" And fSparepart = "T" And fPackaging = "T" And fRawMaterial = "T" And fFinishedGood = "T" And
-              fSample = "T" And fSemiFG = "T" And fScrap = "T" And fBahanBakar = "T" And fPeralatan = "T" Then
+       fSample = "T" And fSemiFG = "T" And fScrap = "T" And fBahanBakar = "T" And fPeralatan = "T" And fReject = "T" And fWaste = "T" Then
 
-            FilterPengeluaranCostCenter = "and gj.flag_atk = ''" : FilterPengeluaranCostCenterCR = "and {EMI_Group_Jenis.flag_ATK} = ''"
+            FilterPengeluaranCostCenter = "and gj.Flag_ATK = ''" : FilterPengeluaranCostCenterCR = "and {EMI_Group_Jenis.Flag_ATK} = ''"
         Else
 
             Dim TambahOR As String = ""
@@ -2089,43 +2086,43 @@ Module General_Module
 
             If fATK = "Y" Then
                 If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
-                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_ATK = '" & fATK & "'"
-                FilterPengeluaranCostCenterCR &= TambahOR & "{EMI_Group_Jenis.flag_ATK} = '" & fATK & "'"
+                FilterPengeluaranCostCenter &= TambahOR & "gj.Flag_ATK = '" & fATK & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{EMI_Group_Jenis.Flag_ATK} = '" & fATK & "'"
             End If
 
             If fAsset = "Y" Then
                 If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
-                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_asset = '" & fAsset & "'"
-                FilterPengeluaranCostCenterCR &= TambahOR & "{EMI_Group_Jenis.flag_asset} = '" & fAsset & "'"
+                FilterPengeluaranCostCenter &= TambahOR & "gj.Flag_Asset = '" & fAsset & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{EMI_Group_Jenis.Flag_Asset} = '" & fAsset & "'"
             End If
 
             If fSparepart = "Y" Then
                 If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
-                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_sparepart = '" & fSparepart & "'"
-                FilterPengeluaranCostCenterCR &= TambahOR & "{EMI_Group_Jenis.flag_sparepart} = '" & fSparepart & "'"
+                FilterPengeluaranCostCenter &= TambahOR & "gj.Flag_Sparepart = '" & fSparepart & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{EMI_Group_Jenis.Flag_Sparepart} = '" & fSparepart & "'"
             End If
 
             If fPackaging = "Y" Then
                 If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
-                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_packaging = '" & fPackaging & "'"
+                FilterPengeluaranCostCenter &= TambahOR & "gj.Flag_Packaging = '" & fPackaging & "'"
                 FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Packaging} = '" & fPackaging & "'"
             End If
 
             If fRawMaterial = "Y" Then
                 If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
-                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_raw_material = '" & fRawMaterial & "'"
+                FilterPengeluaranCostCenter &= TambahOR & "gj.Flag_Raw_Material = '" & fRawMaterial & "'"
                 FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Raw_Material} = '" & fRawMaterial & "'"
             End If
 
             If fFinishedGood = "Y" Then
                 If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
-                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_finished_good = '" & fFinishedGood & "'"
+                FilterPengeluaranCostCenter &= TambahOR & "gj.Flag_Finished_Good = '" & fFinishedGood & "'"
                 FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Finished_Good} = '" & fFinishedGood & "'"
             End If
 
             If fSample = "Y" Then
                 If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
-                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_sample = '" & fSample & "'"
+                FilterPengeluaranCostCenter &= TambahOR & "gj.Flag_Sample = '" & fSample & "'"
                 FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Sample} = '" & fSample & "'"
             End If
 
@@ -2143,14 +2140,26 @@ Module General_Module
 
             If fBahanBakar = "Y" Then
                 If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
-                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_bahan_bakar = '" & fBahanBakar & "'"
+                FilterPengeluaranCostCenter &= TambahOR & "gj.Flag_Bahan_Bakar = '" & fBahanBakar & "'"
                 FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Bahan_Bakar} = '" & fBahanBakar & "'"
             End If
 
             If fPeralatan = "Y" Then
                 If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
-                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_peralatan = '" & fPeralatan & "'"
-                FilterPengeluaranCostCenterCR &= TambahOR & " {emi_group_jenis.Flag_Peralatan} = '" & fPeralatan & "'"
+                FilterPengeluaranCostCenter &= TambahOR & "gj.Flag_Peralatan = '" & fPeralatan & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Peralatan} = '" & fPeralatan & "'"
+            End If
+
+            If fReject = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.Flag_Reject = '" & fReject & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Reject} = '" & fReject & "'"
+            End If
+
+            If fWaste = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.Flag_Waste = '" & fWaste & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Waste} = '" & fWaste & "'"
             End If
 
             FilterPengeluaranCostCenter &= ")" : FilterPengeluaranCostCenterCR &= ")"
@@ -2159,6 +2168,19 @@ Module General_Module
 
         'CloseConn()
     End Sub
+
+
+    'Public FilterPengeluaranCostCenter As String = "" ' " and (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "' OR gj.flag_packaging = '" & fPackaging & "' OR gj.flag_raw_material = '" & fRawMaterial & "' OR gj.flag_finished_good = '" & fFinishedGood & "' OR gj.flag_sample = '" & fSample & "' OR gj.Flag_Semi_FG = '" & fSemiFG & "' OR gj.Flag_Scrap = '" & fScrap & "' OR gj.flag_bahan_bakar = '" & fBahanBakar & "' OR gj.flag_peralatan = '" & fPeralatan & "') "
+    ''"" ' " gj.Flag_Packaging = 'T' and gj.Flag_Raw_Material = 'T' and gj.Flag_Finished_Good = 'T' and gj.Flag_Sample = 'T' and gj.Flag_Semi_FG = 'T' and gj.Flag_Scrap = 'T' and gj.Flag_Bahan_Bakar = 'T' and gj.Flag_Peralatan = 'T' "
+
+    'Public FilterPengeluaranCostCenterCR As String = "" '" and ({emi_group_jenis.flag_ATK} = '" & fATK & "' OR {emi_group_jenis.flag_asset} = '" & fAsset & "' OR {emi_group_jenis.flag_sparepart} = '" & fSparepart & "' OR {emi_group_jenis.flag_packaging} = '" & fPackaging & "' OR {emi_group_jenis.flag_raw_material} = '" & fRawMaterial & "' OR {emi_group_jenis.flag_finished_good} = '" & fFinishedGood & "' OR {emi_group_jenis.flag_sample} = '" & fSample & "' OR {emi_group_jenis.Flag_Semi_FG} = '" & fSemiFG & "' OR {emi_group_jenis.Flag_Scrap} = '" & fScrap & "' OR {emi_group_jenis.flag_bahan_bakar} = '" & fBahanBakar & "' OR {emi_group_jenis.flag_peralatan} = '" & fPeralatan & "') "
+    ''"" ' " {emi_group_jenis.Flag_Packaging} = 'T' and {emi_group_jenis.Flag_Raw_Material} = 'T' and {emi_group_jenis.Flag_Finished_Good} = 'T' and {emi_group_jenis.Flag_Sample} = 'T' and {emi_group_jenis.Flag_Semi_FG} = 'T' and {emi_group_jenis.Flag_Scrap} = 'T' and {emi_group_jenis.Flag_Bahan_Bakar} = 'T' and {emi_group_jenis.Flag_Peralatan} = 'T' "
+
+
+    'Public fATK As String = ""
+    'Public fAsset As String = ""
+    'Public fSparepart As String = ""
+
 
     Public Function GetLastNumberEntryJurnal()
 

@@ -346,7 +346,7 @@
                     Using Dr = OpenTrans(SQL)
                         If Dr.Read Then
                             Dr.Close()
-                            SQL = "Update barang_sn set jumlah = jumlah + " & nilai_kecildetail & ", rr = 'X' where "
+                            SQL = "Update barang_sn set jumlah = jumlah + Round(" & nilai_kecildetail & ",4), rr = 'X' where "
                             SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
                             SQL = SQL & "kode_stock_owner = '" & Cmb_Lokasi.Text & "' and kode_barang = '" & TextBox2.Text.Trim & "' and "
                             SQL = SQL & "serial_number = '" & SN & "'"
@@ -427,7 +427,7 @@
 
                 '==========================================================
 
-                SQL = "Update barang set good_stock = good_stock + " & nilai_kecildetail & " where kode_perusahaan = '" & KodePerusahaan & "' and "
+                SQL = "Update barang set good_stock = good_stock + Round(" & nilai_kecildetail & ",4) where kode_perusahaan = '" & KodePerusahaan & "' and "
                 SQL = SQL & "kode_stock_owner = '" & Cmb_Lokasi.Text & "' and kode_Barang = '" & TextBox2.Text.Trim & "'"
                 ExecuteTrans(SQL)
 

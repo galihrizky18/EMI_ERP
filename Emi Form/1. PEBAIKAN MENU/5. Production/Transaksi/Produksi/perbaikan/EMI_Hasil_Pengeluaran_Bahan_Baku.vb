@@ -127,7 +127,7 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku
             SQL = SQL & "Select proses from Emi_Production_Results_Packaging_Detail x where "
             SQL = SQL & "a.Kode_Perusahaan = x.Kode_Perusahaan And a.No_Transaksi = x.No_Transaksi "
             SQL = SQL & ") as Data order by proses desc ),0) as proses "
-            SQL = SQL & "from Emi_Production_Results a where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Production_Order = '" & TextBox4.Text & "' and a.status is null"
+            SQL = SQL & "from Emi_Production_Results a where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Production_Order = '" & TextBox4.Text & "' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     TxtFormulator_NoFaktur.Text = Dr("no_transaksi")
@@ -224,7 +224,6 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku
                     SQL = SQL & "and a.No_Transaksi = '" & TxtFormulator_NoFaktur.Text & "' "
                     SQL = SQL & "and b.Kode_Stock_Owner = '" & LvKode_So & "' "
                     SQL = SQL & "and b.Kode_Barang = '" & LvKode_Bahan & "' "
-                    SQL = SQL & "and a.status is null "
                     SQL = SQL & "order by b.proses desc "
                     Using Dr = OpenTrans(SQL)
                         If Dr.Read Then
@@ -641,7 +640,7 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku
                                 End Using
 
 
-                                Nilai_loss_production = Math.Round(Hpp_Bahan_baku_Total * Persen_loss_production / 100, 0)
+                                'Nilai_loss_production = Math.Round(Hpp_Bahan_baku_Total * Persen_loss_production / 100, 0)
 
                                 'SQL = "Select isnull(sum(nilai * dbo.get_hpp(c.Serial_Number)),0) As Total from "
                                 'SQL = SQL & "Emi_Production_Results a, Emi_Production_Results_packaging_detail b, Emi_Production_Results_packaging_det c where "
@@ -657,53 +656,53 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku
                                 ' Hpp_Packaging_Pcs = Math.Round(Hpp_Packaging_Total / Jumlah_Dosing_Pcs, 2)
 
 
-                                Dim bulan As String = Format(tgl_skg, "MM")
-                                Dim tahun As String = Format(tgl_skg, "yyyy")
+                                ''Dim bulan As String = Format(tgl_skg, "MM")
+                                ''Dim tahun As String = Format(tgl_skg, "yyyy")
 
 
-                                SQL = ";with cte as ( "
-                                SQL = SQL & "Select a.kode_perusahaan, a.Id_Jenis_Biaya_Produksi, a.Kode_Jenis_Biaya_Produksi, "
-                                SQL = SQL & "isnull((select top(1) no_faktur from Emi_Transaksi_Work_Center x where x.status Is null "
-                                SQL = SQL & "And x.Kode_Perusahaan=a.Kode_Perusahaan And x.jenis_biaya=a.Kode_Jenis_Biaya_Produksi order by id desc),NULL) as Faktur_WC "
-                                SQL = SQL & "From Emi_Jenis_Biaya_Produksi a "
-                                SQL = SQL & ")select a.kode_jenis_biaya_produksi, c.id_work_center, max(c.Nilai_Per_pcs) as Nilai_Per_pcs "
-                                SQL = SQL & "From cte a, Emi_Transaksi_Work_Center b, Emi_Transaksi_Work_Center_detail c Where "
-                                SQL = SQL & "a.kode_perusahaan = b.Kode_Perusahaan And a.faktur_WC = b.No_Faktur And "
-                                SQL = SQL & "b.kode_perusahaan = c.Kode_Perusahaan And b.No_Faktur = c.No_Faktur And c.Id_Routing = '" & ID_Routing & "' "
-                                SQL = SQL & "group by a.kode_jenis_biaya_produksi, c.id_work_center "
-                                Using Dss = BindingTrans(SQL)
-                                    If Dss.Tables("MyTable").Rows.Count <> 0 Then
+                                ''SQL = ";with cte as ( "
+                                ''SQL = SQL & "Select a.kode_perusahaan, a.Id_Jenis_Biaya_Produksi, a.Kode_Jenis_Biaya_Produksi, "
+                                ''SQL = SQL & "isnull((select top(1) no_faktur from Emi_Transaksi_Work_Center x where x.status Is null "
+                                ''SQL = SQL & "And x.Kode_Perusahaan=a.Kode_Perusahaan And x.jenis_biaya=a.Kode_Jenis_Biaya_Produksi order by id desc),NULL) as Faktur_WC "
+                                ''SQL = SQL & "From Emi_Jenis_Biaya_Produksi a "
+                                ''SQL = SQL & ")select a.kode_jenis_biaya_produksi, c.id_work_center, max(c.Nilai_Per_pcs) as Nilai_Per_pcs "
+                                ''SQL = SQL & "From cte a, Emi_Transaksi_Work_Center b, Emi_Transaksi_Work_Center_detail c Where "
+                                ''SQL = SQL & "a.kode_perusahaan = b.Kode_Perusahaan And a.faktur_WC = b.No_Faktur And "
+                                ''SQL = SQL & "b.kode_perusahaan = c.Kode_Perusahaan And b.No_Faktur = c.No_Faktur And c.Id_Routing = '" & ID_Routing & "' "
+                                ''SQL = SQL & "group by a.kode_jenis_biaya_produksi, c.id_work_center "
+                                ''Using Dss = BindingTrans(SQL)
+                                ''    If Dss.Tables("MyTable").Rows.Count <> 0 Then
 
-                                        For indxx = 0 To Dss.Tables("MyTable").Rows.Count - 1
+                                ''        For indxx = 0 To Dss.Tables("MyTable").Rows.Count - 1
 
-                                            Dim id_WC As String = Dss.Tables("MyTable").Rows(indxx).Item("id_work_center")
-                                            Dim Jenis_biaya As String = Dss.Tables("MyTable").Rows(indxx).Item("kode_jenis_biaya_produksi")
-                                            Dim Nilai_WC As Double = Dss.Tables("MyTable").Rows(indxx).Item("Nilai_Per_pcs")
+                                ''            Dim id_WC As String = Dss.Tables("MyTable").Rows(indxx).Item("id_work_center")
+                                ''            Dim Jenis_biaya As String = Dss.Tables("MyTable").Rows(indxx).Item("kode_jenis_biaya_produksi")
+                                ''            Dim Nilai_WC As Double = Dss.Tables("MyTable").Rows(indxx).Item("Nilai_Per_pcs")
 
 
-                                            If Nilai_WC <> 0 Then
-                                                arrID_Work_Center.Add(id_WC)
-                                                arrJenis_Biaya.Add(Jenis_biaya)
-                                                arr_biaya_Produksi.Add(Math.Round(Nilai_WC * Jumlah_Dosing))
-                                                Hpp_Work_Center_total += Math.Round(Nilai_WC * Jumlah_Dosing)
+                                ''            If Nilai_WC <> 0 Then
+                                ''                arrID_Work_Center.Add(id_WC)
+                                ''                arrJenis_Biaya.Add(Jenis_biaya)
+                                ''                arr_biaya_Produksi.Add(Math.Round(Nilai_WC * Jumlah_Dosing))
+                                ''                Hpp_Work_Center_total += Math.Round(Nilai_WC * Jumlah_Dosing)
 
-                                                SQL = "insert into Emi_Production_Results_HPP_Detail_Work_Center ("
-                                                SQL = SQL & "kode_Perusahaan, No_Transaksi, proses, ID_Work_Center, Kode_Jenis_Biaya, Nilai) values( "
-                                                SQL = SQL & "'" & KodePerusahaan & "', '" & TxtFormulator_NoFaktur.Text & "', '" & proses_temp & "', "
-                                                SQL = SQL & "'" & id_WC & "', '" & Jenis_biaya & "', '" & Nilai_WC & "') "
-                                                ExecuteTrans(SQL)
-                                            End If
+                                ''                SQL = "insert into Emi_Production_Results_HPP_Detail_Work_Center ("
+                                ''                SQL = SQL & "kode_Perusahaan, No_Transaksi, proses, ID_Work_Center, Kode_Jenis_Biaya, Nilai) values( "
+                                ''                SQL = SQL & "'" & KodePerusahaan & "', '" & TxtFormulator_NoFaktur.Text & "', '" & proses_temp & "', "
+                                ''                SQL = SQL & "'" & id_WC & "', '" & Jenis_biaya & "', '" & Nilai_WC & "') "
+                                ''                ExecuteTrans(SQL)
+                                ''            End If
 
-                                        Next
+                                ''        Next
 
-                                    Else
-                                        CloseTrans()
-                                        CloseConn()
-                                        MessageBox.Show("Biaya Belum di tambahkan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                        Exit Sub
-                                    End If
+                                ''    Else
+                                ''        CloseTrans()
+                                ''        CloseConn()
+                                ''        MessageBox.Show("Biaya Belum di tambahkan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                ''        Exit Sub
+                                ''    End If
 
-                                End Using
+                                ''End Using
 
 
                                 SQL = "Update Emi_Production_Results_HPP set "

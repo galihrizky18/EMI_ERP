@@ -455,73 +455,75 @@ Public Class Emi_Laporan_Final_GI_GR
             Txt_KdBarang.Focus() : Exit Sub
         End If
 
-        Try
-            OpenConn()
+        Generate_Excel(SQL)
 
-            Dim SF As String = ""
+        'Try
+        '    OpenConn()
 
-            SQL = "select No_PO, no_split, Tgl_Produksi, Jam_Produksi, Nama_Routing, Keterangan, Kode_Barang, Nama, Jumlah, satuan, batch, Berat_GI, Jumlah_Dosing, NilaiGR1_Pcs, NilaiGR1_KG, ScrapGR1_KG, TotalGR1_KG, Loss_Production, Loss_Production_Persen, Persen_WasteGR1, WaktuGR1, "
-            SQL = SQL & "NilaiGR2_Pcs, NilaiGR2_KG, ScrapGR2_KG, TotalGR2_KG, Persen_WasteGR2, WaktuGR2, NilaiAfterGR_Pcs, NilaiAfterGR_KG, Persen_WasteGR3, WaktuGR3, NilaiGRFinal_Pcs, NilaiGRFinal_KG, ScrapGRFinal_KG, Loss_Production_Final_GR, Loss_Production_Final_GR_Persen, Total_Waste "
-            SQL = SQL & "from Laporan_Akhir_GIGR "
-            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and Tgl_Produksi between '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' and '" & Format(Tgl2.Value, "yyyy-MM-dd") & "' "
+        '    Dim SF As String = ""
 
-            SF = "{Laporan_Akhir_GIGR.kode_perusahaan} = '" & KodePerusahaan & "' "
-            SF = SF & "and {Laporan_Akhir_GIGR.Tgl_Produksi} >= #" & Format(Tgl1.Value, "yyyy-MM-dd") & "# and "
-            SF = SF & "{Laporan_Akhir_GIGR.Tgl_Produksi} <= #" & Format(Tgl2.Value, "yyyy-MM-dd") & "# "
+        '    SQL = "select No_PO, no_split, Tgl_Produksi, Jam_Produksi, Nama_Routing, Keterangan, Kode_Barang, Nama, Jumlah, satuan, batch, Berat_GI, Jumlah_Dosing, NilaiGR1_Pcs, NilaiGR1_KG, ScrapGR1_KG, TotalGR1_KG, Loss_Production, Loss_Production_Persen, Persen_WasteGR1, WaktuGR1, "
+        '    SQL = SQL & "NilaiGR2_Pcs, NilaiGR2_KG, ScrapGR2_KG, TotalGR2_KG, Persen_WasteGR2, WaktuGR2, NilaiAfterGR_Pcs, NilaiAfterGR_KG, Persen_WasteGR3, WaktuGR3, NilaiGRFinal_Pcs, NilaiGRFinal_KG, ScrapGRFinal_KG, Loss_Production_Final_GR, Loss_Production_Final_GR_Persen, Total_Waste "
+        '    SQL = SQL & "from Laporan_Akhir_GIGR "
+        '    SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+        '    SQL = SQL & "and Tgl_Produksi between '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' and '" & Format(Tgl2.Value, "yyyy-MM-dd") & "' "
 
-            If Not Txt_IdRouting.Text.ToUpper = OpsiSeluruh.ToUpper Then
-                SQL = SQL & "and Id_Routing = '" & Txt_IdRouting.Text & "' "
-                SF = SF & "And {Laporan_Akhir_GIGR.Id_Routing} = '" & Txt_IdRouting.Text & "'"
-            End If
+        '    SF = "{Laporan_Akhir_GIGR.kode_perusahaan} = '" & KodePerusahaan & "' "
+        '    SF = SF & "and {Laporan_Akhir_GIGR.Tgl_Produksi} >= #" & Format(Tgl1.Value, "yyyy-MM-dd") & "# and "
+        '    SF = SF & "{Laporan_Akhir_GIGR.Tgl_Produksi} <= #" & Format(Tgl2.Value, "yyyy-MM-dd") & "# "
 
-            If Not Txt_KdBarang.Text.ToUpper = OpsiSeluruh.ToUpper Then
-                SQL = SQL & "and Kode_Barang = '" & Txt_KdBarang.Text & "' "
-                SF = SF & "And {Laporan_Akhir_GIGR.Kode_Barang} = '" & Txt_KdBarang.Text & "' "
-            End If
-            SQL = SQL & "order by no_split, Tgl_Produksi, Jam_Produksi "
-            Using DS = BindingTrans(SQL)
-                With DS.Tables("MyTable")
-                    If .Rows.Count <> 0 Then
+        '    If Not Txt_IdRouting.Text.ToUpper = OpsiSeluruh.ToUpper Then
+        '        SQL = SQL & "and Id_Routing = '" & Txt_IdRouting.Text & "' "
+        '        SF = SF & "And {Laporan_Akhir_GIGR.Id_Routing} = '" & Txt_IdRouting.Text & "'"
+        '    End If
 
-                        'Dim CrDoc As New Rpt_Laporan_Final_GI_GR
+        '    If Not Txt_KdBarang.Text.ToUpper = OpsiSeluruh.ToUpper Then
+        '        SQL = SQL & "and Kode_Barang = '" & Txt_KdBarang.Text & "' "
+        '        SF = SF & "And {Laporan_Akhir_GIGR.Kode_Barang} = '" & Txt_KdBarang.Text & "' "
+        '    End If
+        '    SQL = SQL & "order by no_split, Tgl_Produksi, Jam_Produksi "
+        '    Using DS = BindingTrans(SQL)
+        '        With DS.Tables("MyTable")
+        '            If .Rows.Count <> 0 Then
 
-                        'CrDoc.SetDataSource(DS)
-                        'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        'CrDoc.SummaryInfo.ReportTitle = "Periode : " & Format(Tgl1.Value, "dd/MMM/yyyy") & " s/d " &
-                        '                                                    Format(Tgl2.Value, "dd/MMM/yyyy")
-                        'CrDoc.RecordSelectionFormula = SF
+        '                'Dim CrDoc As New Rpt_Laporan_Final_GI_GR
 
-                        'With A_Place_For_Printing2
-                        '    .Text = "Laporan Final GI GR"
-                        '    .CrystalReportViewer1.ReportSource = CrDoc
-                        '    .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
-                        '    .Refresh()
-                        '    .Show()
-                        'End With
+        '                'CrDoc.SetDataSource(DS)
+        '                'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+        '                'CrDoc.SummaryInfo.ReportTitle = "Periode : " & Format(Tgl1.Value, "dd/MMM/yyyy") & " s/d " &
+        '                '                                                    Format(Tgl2.Value, "dd/MMM/yyyy")
+        '                'CrDoc.RecordSelectionFormula = SF
 
-                        Generate_Excel(SQL)
+        '                'With A_Place_For_Printing2
+        '                '    .Text = "Laporan Final GI GR"
+        '                '    .CrystalReportViewer1.ReportSource = CrDoc
+        '                '    .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
+        '                '    .Refresh()
+        '                '    .Show()
+        '                'End With
 
-                    Else
+        '                Generate_Excel(SQL)
 
-                        CloseConn()
-                        MessageBox.Show("Data Tidak Ditemukan", judulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
+        '            Else
 
-                    End If
-                End With
-            End Using
+        '                CloseConn()
+        '                MessageBox.Show("Data Tidak Ditemukan", judulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '                Exit Sub
+
+        '            End If
+        '        End With
+        '    End Using
 
 
 
 
 
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MessageBox.Show(ex.Message)
-            Exit Sub
-        End Try
+        '    CloseConn()
+        'Catch ex As Exception
+        '    CloseConn()
+        '    MessageBox.Show(ex.Message)
+        '    Exit Sub
+        'End Try
 
     End Sub
 
@@ -854,9 +856,11 @@ Public Class Emi_Laporan_Final_GI_GR
             '=     GENERATE BODY     =
             '=========================
 
-            Dim stringCenter As New List(Of Integer) From {3, 4, 9, 10, 20, 26, 30}
+            Dim stringCenter As New List(Of Integer) From {2, 3, 4, 9, 10, 20, 26, 30}
 
             Dim numberColumn As New List(Of Integer) From {8, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 24, 25, 27, 28, 29, 31, 32, 33, 34, 35, 36}
+
+            Dim NumberN0 As New List(Of Integer) From {8, 13, 20, 21, 26, 27, 30, 31}
 
             Dim defaultRowIndex As Integer = 5
             Try
@@ -867,12 +871,12 @@ Public Class Emi_Laporan_Final_GI_GR
                 xlApp.UseSystemSeparators = True
 
                 '==  AMBIL SEPARATOR DARI EXCEL =='
-                'Dim decimalSep As String = xlApp.DecimalSeparator
-                'Dim groupSep As String = xlApp.ThousandsSeparator
+                Dim decimalSep As String = xlApp.DecimalSeparator
+                Dim groupSep As String = xlApp.ThousandsSeparator
 
                 '==  AMBIL SEPARATOR DARI SISTEM =='
-                Dim decimalSep As String = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator
-                Dim groupSep As String = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyGroupSeparator
+                'Dim decimalSep As String = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator
+                'Dim groupSep As String = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyGroupSeparator
 
                 If decimalSep = "," Then
                     decimalSep = "."
@@ -891,94 +895,127 @@ Public Class Emi_Laporan_Final_GI_GR
                     .Replace("GROUP", groupSep) _
                     .Replace("DEC", decimalSep)
 
+                Dim templateFormatN0 As String = "#GROUP##0"
+                Dim excelFormatN0 As String = templateFormatN0 _
+                    .Replace("GROUP", groupSep)
 
 
-
-
+                Dim jumlahRows As Integer = 0
                 Dim row As Integer = 0
                 'sql = "select No_PO, no_split, Tgl_Produksi, Jam_Produksi, Nama_Routing, Keterangan, Kode_Barang, Nama, Jumlah, satuan, batch, Jumlah_Dosing, NilaiGR1_Pcs, NilaiGR1_KG, ScrapGR1_KG, Loss_Production, Persen_WasteGR1, "
                 'sql = sql & "NilaiGR2_Pcs, NilaiGR2_KG, ScrapGR2_KG, Persen_WasteGR2, NilaiAfterGR_Pcs, NilaiAfterGR_KG, Persen_WasteGR3, NilaiGRFinal_Pcs, NilaiGRFinal_KG, Total_Waste "
                 'sql = sql & "from Laporan_Akhir_GIGR "
                 'sql = sql & "where Kode_Perusahaan = '001' "
                 'sql = sql & "and Tgl_Produksi between '2022-12-20 00:00:00.000' and '2030-12-20 00:00:00.000' "
+
+                sql = "select No_PO, no_split, Tgl_Produksi, Jam_Produksi, Nama_Routing, Keterangan, Kode_Barang, Nama, Jumlah, satuan, batch, Berat_GI, Jumlah_Dosing, NilaiGR1_Pcs, NilaiGR1_KG, ScrapGR1_KG, TotalGR1_KG, Loss_Production, Loss_Production_Persen, Persen_WasteGR1, WaktuGR1, "
+                sql = sql & "NilaiGR2_Pcs, NilaiGR2_KG, ScrapGR2_KG, TotalGR2_KG, Persen_WasteGR2, WaktuGR2, NilaiAfterGR_Pcs, NilaiAfterGR_KG, Persen_WasteGR3, WaktuGR3, NilaiGRFinal_Pcs, NilaiGRFinal_KG, ScrapGRFinal_KG, Loss_Production_Final_GR, Loss_Production_Final_GR_Persen, Total_Waste "
+                sql = sql & "from Laporan_Akhir_GIGR "
+                sql = sql & "where kode_perusahaan = '" & KodePerusahaan & "' "
+                sql = sql & "and Tgl_Produksi between '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' and '" & Format(Tgl2.Value, "yyyy-MM-dd") & "' "
+
+                If Not Txt_IdRouting.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    sql = sql & "and Id_Routing = '" & Txt_IdRouting.Text & "' "
+                End If
+
+                If Not Txt_KdBarang.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    sql = sql & "and Kode_Barang = '" & Txt_KdBarang.Text & "' "
+                End If
+                sql = sql & "order by no_split, Tgl_Produksi, Jam_Produksi "
                 Using Ds = BindingTrans(sql)
                     With Ds.Tables("MyTable")
+                        If .Rows.Count <> 0 Then
 
-                        For i As Integer = 0 To .Rows.Count - 1
+                            If .Rows.Count = 0 Then
+                                CloseConn()
+                                MessageBox.Show("Data Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
 
-                            For colIndex As Integer = 0 To .Columns.Count - 1
-                                Dim cell = xlWorkSheet.Cells(i + defaultRowIndex, colIndex + 1)
+
+                            Dim rowCount As Integer = .Rows.Count
+                            Dim colCount As Integer = .Columns.Count
+                            jumlahRows = rowCount
+
+                            Dim startCell As excel.Range = xlWorkSheet.Cells(defaultRowIndex, 1)
+                            Dim endCell As excel.Range = xlWorkSheet.Cells(defaultRowIndex + rowCount - 1, colCount)
+                            Dim dataRange As excel.Range = xlWorkSheet.Range(startCell, endCell)
+
+
+                            Dim dataArray(rowCount - 1, colCount - 1) As Object
+                            For r As Integer = 0 To rowCount - 1
+                                For c As Integer = 0 To colCount - 1
+
+                                    'Ambil data dari data tabel
+                                    Dim currentValue As Object = .Rows(r)(c)
+
+                                    ' cek tipe datanya
+                                    If TypeOf currentValue Is Date Then
+                                        dataArray(r, c) = Format(CDate(currentValue), "dd MMM yyyy")
+                                    Else
+                                        dataArray(r, c) = General_Class.CekNULL(currentValue)
+                                    End If
+                                Next
+                            Next
+
+                            dataRange.Value = dataArray
+
+                            dataRange.VerticalAlignment = excel.XlVAlign.xlVAlignCenter
+
+                            With dataRange.Borders
+                                .LineStyle = excel.XlLineStyle.xlContinuous
+                                .ColorIndex = 0
+                                .Weight = excel.XlBorderWeight.xlThin
+                            End With
+
+                            For c As Integer = 1 To colCount
+                                Dim colIndex As Integer = c - 1 ' Index berbasis 0
+                                Dim currentColumn As excel.Range = dataRange.Columns(c)
+
                                 If colIndex = 6 Then
-                                    cell.NumberFormat = "@"
+                                    currentColumn.NumberFormat = "@"
                                 End If
 
-                                cell.Value = General_Class.CekNULL(.Rows(i).Item(colIndex))
+                                ' Alignment untuk kolom String (Text)
+                                If stringCenter.Contains(colIndex) Then
+                                    currentColumn.HorizontalAlignment = excel.XlHAlign.xlHAlignCenter
+                                Else
+                                    currentColumn.HorizontalAlignment = excel.XlHAlign.xlHAlignLeft
+                                End If
 
-                                cell.VerticalAlignment = excel.XlVAlign.xlVAlignCenter
-
-                                ' Format numerik (N4)
+                                ' Format kolom numerik (N4 atau N0)
                                 If numberColumn.Contains(colIndex) Then
-                                    Dim nilai As Double = If(General_Class.CekNULL(.Rows(i).Item(colIndex)) = "", 0, .Rows(i).Item(colIndex))
-
-                                    cell.NumberFormat = excelFormat
-                                    cell.Value = nilai
+                                    If NumberN0.Contains(colIndex) Then
+                                        currentColumn.NumberFormat = excelFormatN0
+                                    Else
+                                        currentColumn.NumberFormat = excelFormat
+                                    End If
+                                    currentColumn.HorizontalAlignment = excel.XlHAlign.xlHAlignRight
 
                                 End If
-
-
-
-
-
-                                '== ATUR ALIGMENT CELL =='
-                                Select Case .Columns(colIndex).DataType.Name
-                                    Case "String"
-                                        cell.HorizontalAlignment = If(stringCenter.Contains(colIndex), excel.XlHAlign.xlHAlignCenter, excel.XlHAlign.xlHAlignLeft)
-                                    Case "DateTime"
-                                        cell.HorizontalAlignment = excel.XlHAlign.xlHAlignCenter
-                                        cell.Value = Format(CDate(.Rows(i).Item(colIndex)), "dd MMM yyyy")
-                                    Case "Int32", "Double"
-                                        cell.HorizontalAlignment = excel.XlHAlign.xlHAlignRight
-                                        cell.HorizontalAlignment = If(stringCenter.Contains(colIndex), excel.XlHAlign.xlHAlignCenter, excel.XlHAlign.xlHAlignRight)
-                                End Select
-
-                                ' BORDER
-                                With cell.Borders
-                                    .LineStyle = excel.XlLineStyle.xlContinuous
-                                    .ColorIndex = 0
-                                    .Weight = excel.XlBorderWeight.xlThin
-                                End With
-
-                                ' BG COLOR
-                                Select Case colIndex
-                                    Case 13 To 20
-                                        If .Columns(colIndex).ColumnName = "WaktuGR1" Then
-                                            cell.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(252, 105, 108))
-                                        Else
-                                            cell.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightYellow)
-                                        End If
-                                    Case 21 To 26
-                                        If .Columns(colIndex).ColumnName = "WaktuGR2" Then
-                                            cell.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(181, 230, 162))
-                                        Else
-                                            cell.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightBlue)
-                                        End If
-                                    Case 27 To 30
-                                        If .Columns(colIndex).ColumnName = "WaktuGR3" Then
-                                            cell.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White)
-                                        Else
-                                            cell.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray)
-                                        End If
-                                    Case 31 To 36
-                                        cell.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen)
-                                End Select
-
-                                xlWorkSheet.Cells(1, 1).Interior.TintAndShade = 0.2
 
                             Next
 
-                            row += 1
+                            xlWorkSheet.Range(dataRange.Columns(14), dataRange.Columns(21)).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightYellow)
+                            xlWorkSheet.Range(dataRange.Columns(22), dataRange.Columns(27)).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightBlue)
+                            xlWorkSheet.Range(dataRange.Columns(28), dataRange.Columns(31)).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray)
+                            xlWorkSheet.Range(dataRange.Columns(32), dataRange.Columns(37)).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen)
+                            dataRange.Columns(21).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(252, 105, 108))
+                            dataRange.Columns(27).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(181, 230, 162))
+                            dataRange.Columns(31).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White)
 
-                        Next
+                            dataRange.Columns.AutoFit()
+
+                        Else
+                            CloseConn()
+                            MessageBox.Show("Data Tidak Ditemukan", judulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+
+
+
+
+
 
                     End With
                 End Using
@@ -1003,13 +1040,12 @@ Public Class Emi_Laporan_Final_GI_GR
                 '==========================
                 '=     FOOTER LAPORAN     =
                 '==========================
-                Dim jumlahRows As Integer = row + defaultRowIndex
 
                 Dim Footer As String = "| " & Format(tgl_skg, "dd MMM yyyy") & " | " & Format(tgl_skg, "HH:mm:ss")
 
-                xlWorkSheet.Cells(jumlahRows + 1, 1).Value = Footer
-                xlWorkSheet.Cells(jumlahRows + 1, 1).HorizontalAlignment = excel.XlHAlign.xlHAlignCenter
-                xlWorkSheet.Cells(jumlahRows + 1, 1).VerticalAlignment = excel.XlVAlign.xlVAlignCenter
+                xlWorkSheet.Cells((jumlahRows + defaultRowIndex) + 1, 1).Value = Footer
+                xlWorkSheet.Cells((jumlahRows + defaultRowIndex) + 1, 1).HorizontalAlignment = excel.XlHAlign.xlHAlignCenter
+                xlWorkSheet.Cells((jumlahRows + defaultRowIndex) + 1, 1).VerticalAlignment = excel.XlVAlign.xlVAlignCenter
                 xlWorkSheet.Columns(1).AutoFit()
 
 

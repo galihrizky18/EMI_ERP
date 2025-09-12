@@ -223,7 +223,7 @@ Public Class EMI_Validasi_Tf_Material_To_Material
                                         Exit Sub
                                     Else
                                         dr.Close()
-                                        SQL = "update barang set Good_Stock = Good_Stock - " & JmlhBarang & ", Jumlah_Bags = Jumlah_Bags - " & JmlhBags & " "
+                                        SQL = "update barang set Good_Stock = Good_Stock - Round(" & JmlhBarang & ",4), Jumlah_Bags = Jumlah_Bags - " & JmlhBags & " "
                                         SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & SoAwal & "' "
                                         SQL = SQL & " and Kode_Barang='" & KdBarangAwal & "'"
                                         ExecuteTrans(SQL)
@@ -257,7 +257,7 @@ Public Class EMI_Validasi_Tf_Material_To_Material
                                         Exit Sub
                                     Else
                                         dr.Close()
-                                        SQL = "update barang_sn set jumlah = jumlah - " & JmlhBarang & ", Jumlah_Bags = Jumlah_Bags - " & JmlhBags & " "
+                                        SQL = "update barang_sn set jumlah = jumlah - Round(" & JmlhBarang & ",4), Jumlah_Bags = Jumlah_Bags - " & JmlhBags & " "
                                         SQL = SQL & "where Kode_Stock_Owner='" & SoAwal & "' and Kode_Barang='" & KdBarangAwal & "' "
                                         SQL = SQL & "and Serial_Number='" & SN_Awal & "'"
                                         ExecuteTrans(SQL)
@@ -385,7 +385,7 @@ Public Class EMI_Validasi_Tf_Material_To_Material
                             '=       TAMBAH STOCK       =
                             '============================
 
-                            SQL = "update barang set Good_Stock= Good_Stock + " & JumlahTambah & ", Jumlah_Bags = Jumlah_Bags + " & JmlhBags & " "
+                            SQL = "update barang set Good_Stock= Good_Stock + Round(" & JumlahTambah & ",4), Jumlah_Bags = Jumlah_Bags + " & JmlhBags & " "
                             SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & SoAwal & "' "
                             SQL = SQL & " and Kode_Barang='" & KdBarangTujuan & "'"
                             ExecuteTrans(SQL)

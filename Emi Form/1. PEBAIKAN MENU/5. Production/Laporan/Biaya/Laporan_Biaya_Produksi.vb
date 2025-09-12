@@ -323,7 +323,7 @@
                 End Using
 
             ElseIf arrReport(Cmb_Laporan.SelectedIndex) = "Laporan_Biaya_Detail_Good_Issue" Then
-                SQL = "select kode_perusahaan from Vw_Laporan_GI_Detail_Duit where kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = "select * from Vw_Laporan_GI_Detail_Duit where kode_perusahaan = '" & KodePerusahaan & "' "
                 SF = "{Vw_Laporan_GI_Detail_duit.Kode_Perusahaan} = '" & KodePerusahaan & "' "
 
                 SQL = SQL & "and Tgl_Produksi between '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' and '" & Format(Tgl2.Value, "yyyy-MM-dd") & "' "
@@ -334,7 +334,7 @@
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
                         CrDoc = New Rpt_Laporan_GI_Detail_Nominal
 
-                        With A_Place_For_Printing2
+                        With A_Place_For_Printing3
                             CrDoc.SetDataSource(Ds)
                             CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                             CrDoc.PrintOptions.PrinterName = ""
@@ -364,6 +364,7 @@
                 Using Ds = BindingTrans(SQL)
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
                         CrDoc = New Rpt_Laporan_GI_Detail
+
 
                         With A_Place_For_Printing2
                             CrDoc.SetDataSource(Ds)

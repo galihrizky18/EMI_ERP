@@ -22,184 +22,184 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle21 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle22 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle23 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle24 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle25 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle26 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle27 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle28 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle29 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle30 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle31 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle32 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle33 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle34 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle35 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle36 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle37 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle38 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle39 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle40 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle41 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle42 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle43 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle44 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle45 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle46 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle47 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle48 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle49 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle50 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle51 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle52 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle53 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle54 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle55 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle56 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle57 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle58 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle59 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle60 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle61 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle62 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle63 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle64 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle65 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle66 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle67 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle68 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle69 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle70 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle71 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle72 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle73 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle74 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle75 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle76 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle77 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle78 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle79 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle80 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle81 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle82 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle83 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle84 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle85 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle86 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle87 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle88 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle89 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle90 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle91 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle92 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle93 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle94 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle95 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle96 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle97 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle98 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle99 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle100 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle101 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle102 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle103 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle104 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle105 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle106 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle107 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle108 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle109 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle110 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle111 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle112 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle113 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle114 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle115 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle116 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle117 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle118 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle119 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle120 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle121 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle122 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle123 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle124 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle125 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle126 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle127 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle128 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle129 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle130 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle131 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle132 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle133 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle134 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle135 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle136 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle137 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle138 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle139 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle140 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle141 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle142 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle143 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle144 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle145 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle146 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle147 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle148 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle149 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle150 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle151 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle152 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle153 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle154 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle155 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle156 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle157 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle158 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle159 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle160 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle161 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle162 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle163 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle164 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle165 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle166 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle167 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle168 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle169 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle170 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle171 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle172 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle173 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle174 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle175 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle176 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle177 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle178 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle357 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle358 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle359 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle360 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle361 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle362 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle363 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle364 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle365 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle366 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle367 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle368 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle369 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle370 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle371 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle372 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle373 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle374 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle375 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle376 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle377 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle378 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle379 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle380 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle381 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle382 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle383 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle384 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle385 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle386 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle387 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle388 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle389 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle390 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle391 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle392 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle393 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle394 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle395 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle396 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle397 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle398 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle399 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle400 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle401 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle402 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle403 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle404 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle405 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle406 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle407 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle408 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle409 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle410 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle411 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle412 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle413 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle414 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle415 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle416 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle417 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle418 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle419 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle420 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle421 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle422 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle423 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle424 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle425 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle426 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle427 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle428 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle429 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle430 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle431 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle432 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle433 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle434 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle435 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle436 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle437 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle438 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle439 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle440 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle441 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle442 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle443 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle444 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle445 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle446 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle447 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle448 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle449 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle450 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle451 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle452 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle453 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle454 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle455 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle456 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle457 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle458 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle459 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle460 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle461 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle462 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle463 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle464 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle465 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle466 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle467 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle468 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle469 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle470 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle471 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle472 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle473 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle474 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle475 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle476 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle477 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle478 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle479 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle480 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle481 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle482 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle483 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle484 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle485 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle486 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle487 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle488 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle489 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle490 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle491 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle492 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle493 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle494 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle495 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle496 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle497 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle498 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle499 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle500 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle501 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle502 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle503 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle504 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle505 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle506 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle507 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle508 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle509 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle510 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle511 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle512 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle513 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle514 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle515 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle516 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle517 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle518 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle519 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle520 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle521 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle522 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle523 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle524 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle525 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle526 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle527 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle528 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle529 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle530 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle531 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle532 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle533 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle534 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -410,6 +410,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         Me.Column35 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column36 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column37 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -505,10 +507,12 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         Me.GroupBox1.Controls.Add(Me.Txt_KdBarang)
         Me.GroupBox1.Controls.Add(Me.Label7)
         Me.GroupBox1.Controls.Add(Me.Txt_IdRouting)
+        Me.GroupBox1.Controls.Add(Me.Btn_Cetak_Detail)
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.Tgl2)
+        Me.GroupBox1.Controls.Add(Me.Btn_Cetak_Rekap)
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.Tgl1)
         Me.GroupBox1.Controls.Add(Me.Label2)
@@ -643,7 +647,7 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         Me.Btn_Refresh.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans", 8.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(460, 220)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(457, 220)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(105, 30)
         Me.Btn_Refresh.TabIndex = 8
@@ -669,12 +673,13 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         Me.Btn_Cetak_Rekap.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_Cetak_Rekap.Font = New System.Drawing.Font("Work Sans", 8.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Cetak_Rekap.ForeColor = System.Drawing.Color.White
-        Me.Btn_Cetak_Rekap.Location = New System.Drawing.Point(246, 220)
+        Me.Btn_Cetak_Rekap.Location = New System.Drawing.Point(908, 123)
         Me.Btn_Cetak_Rekap.Name = "Btn_Cetak_Rekap"
         Me.Btn_Cetak_Rekap.Size = New System.Drawing.Size(105, 30)
         Me.Btn_Cetak_Rekap.TabIndex = 9
         Me.Btn_Cetak_Rekap.Text = "&Cetak Rekap"
         Me.Btn_Cetak_Rekap.UseVisualStyleBackColor = False
+        Me.Btn_Cetak_Rekap.Visible = False
         '
         'Btn_Cetak_Detail
         '
@@ -682,12 +687,13 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         Me.Btn_Cetak_Detail.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_Cetak_Detail.Font = New System.Drawing.Font("Work Sans", 8.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Cetak_Detail.ForeColor = System.Drawing.Color.White
-        Me.Btn_Cetak_Detail.Location = New System.Drawing.Point(353, 220)
+        Me.Btn_Cetak_Detail.Location = New System.Drawing.Point(1015, 123)
         Me.Btn_Cetak_Detail.Name = "Btn_Cetak_Detail"
         Me.Btn_Cetak_Detail.Size = New System.Drawing.Size(105, 30)
         Me.Btn_Cetak_Detail.TabIndex = 10
         Me.Btn_Cetak_Detail.Text = "&Cetak Detail"
         Me.Btn_Cetak_Detail.UseVisualStyleBackColor = False
+        Me.Btn_Cetak_Detail.Visible = False
         '
         'TabControl1
         '
@@ -721,14 +727,14 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         Me.Dgv_Rekap.AllowUserToResizeRows = False
         Me.Dgv_Rekap.BackgroundColor = System.Drawing.Color.White
         Me.Dgv_Rekap.BorderStyle = System.Windows.Forms.BorderStyle.None
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_Rekap.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle357.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle357.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle357.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        DataGridViewCellStyle357.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle357.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle357.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle357.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_Rekap.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle357
         Me.Dgv_Rekap.ColumnHeadersHeight = 45
         Me.Dgv_Rekap.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column7, Me.Column8, Me.Column3, Me.Column4, Me.Column5, Me.Column6, Me.Column9, Me.Column11, Me.Column12, Me.Column70, Me.Column71, Me.Column72, Me.Column73, Me.Column13, Me.Column14, Me.Column15, Me.Column16, Me.Column17, Me.Column18, Me.Column19, Me.Column20, Me.Column21, Me.Column64, Me.Column65, Me.Column22, Me.Column59, Me.Column74, Me.Column60, Me.Column61, Me.Column62, Me.Column10, Me.Column63, Me.Column69})
         Me.Dgv_Rekap.Dock = System.Windows.Forms.DockStyle.Fill
@@ -742,8 +748,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column1
         '
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column1.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle358.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column1.DefaultCellStyle = DataGridViewCellStyle358
         Me.Column1.Frozen = True
         Me.Column1.HeaderText = "No PO"
         Me.Column1.Name = "Column1"
@@ -752,8 +758,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column2
         '
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column2.DefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle359.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column2.DefaultCellStyle = DataGridViewCellStyle359
         Me.Column2.Frozen = True
         Me.Column2.HeaderText = "No Split"
         Me.Column2.Name = "Column2"
@@ -762,8 +768,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column7
         '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column7.DefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle360.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column7.DefaultCellStyle = DataGridViewCellStyle360
         Me.Column7.Frozen = True
         Me.Column7.HeaderText = "Kode Barang"
         Me.Column7.Name = "Column7"
@@ -772,8 +778,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column8
         '
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column8.DefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle361.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column8.DefaultCellStyle = DataGridViewCellStyle361
         Me.Column8.Frozen = True
         Me.Column8.HeaderText = "Nama Barang"
         Me.Column8.Name = "Column8"
@@ -782,8 +788,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column3
         '
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column3.DefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle362.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column3.DefaultCellStyle = DataGridViewCellStyle362
         Me.Column3.HeaderText = "Tanggal Produksi"
         Me.Column3.Name = "Column3"
         Me.Column3.ReadOnly = True
@@ -791,8 +797,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column4
         '
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column4.DefaultCellStyle = DataGridViewCellStyle7
+        DataGridViewCellStyle363.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column4.DefaultCellStyle = DataGridViewCellStyle363
         Me.Column4.HeaderText = "Jam Produksi"
         Me.Column4.Name = "Column4"
         Me.Column4.ReadOnly = True
@@ -800,8 +806,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column5
         '
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column5.DefaultCellStyle = DataGridViewCellStyle8
+        DataGridViewCellStyle364.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column5.DefaultCellStyle = DataGridViewCellStyle364
         Me.Column5.HeaderText = "Routing"
         Me.Column5.Name = "Column5"
         Me.Column5.ReadOnly = True
@@ -809,8 +815,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column6
         '
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column6.DefaultCellStyle = DataGridViewCellStyle9
+        DataGridViewCellStyle365.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column6.DefaultCellStyle = DataGridViewCellStyle365
         Me.Column6.HeaderText = "Keterangan"
         Me.Column6.Name = "Column6"
         Me.Column6.ReadOnly = True
@@ -818,8 +824,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column9
         '
-        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column9.DefaultCellStyle = DataGridViewCellStyle10
+        DataGridViewCellStyle366.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column9.DefaultCellStyle = DataGridViewCellStyle366
         Me.Column9.HeaderText = "Pro-RQ (PCS)"
         Me.Column9.Name = "Column9"
         Me.Column9.ReadOnly = True
@@ -827,8 +833,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column11
         '
-        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column11.DefaultCellStyle = DataGridViewCellStyle11
+        DataGridViewCellStyle367.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column11.DefaultCellStyle = DataGridViewCellStyle367
         Me.Column11.HeaderText = "Berat (Gram)"
         Me.Column11.Name = "Column11"
         Me.Column11.ReadOnly = True
@@ -836,8 +842,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column12
         '
-        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column12.DefaultCellStyle = DataGridViewCellStyle12
+        DataGridViewCellStyle368.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column12.DefaultCellStyle = DataGridViewCellStyle368
         Me.Column12.HeaderText = "Good Issue (KG)"
         Me.Column12.Name = "Column12"
         Me.Column12.ReadOnly = True
@@ -845,8 +851,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column70
         '
-        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column70.DefaultCellStyle = DataGridViewCellStyle13
+        DataGridViewCellStyle369.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column70.DefaultCellStyle = DataGridViewCellStyle369
         Me.Column70.HeaderText = "Pro-Line Reject (KG)"
         Me.Column70.Name = "Column70"
         Me.Column70.ReadOnly = True
@@ -854,8 +860,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column71
         '
-        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column71.DefaultCellStyle = DataGridViewCellStyle14
+        DataGridViewCellStyle370.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column71.DefaultCellStyle = DataGridViewCellStyle370
         Me.Column71.HeaderText = "Qc-Line Reject (KG)"
         Me.Column71.Name = "Column71"
         Me.Column71.ReadOnly = True
@@ -863,8 +869,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column72
         '
-        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column72.DefaultCellStyle = DataGridViewCellStyle15
+        DataGridViewCellStyle371.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column72.DefaultCellStyle = DataGridViewCellStyle371
         Me.Column72.HeaderText = "Warehouse-Line Reject (KG)"
         Me.Column72.Name = "Column72"
         Me.Column72.ReadOnly = True
@@ -872,8 +878,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column73
         '
-        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column73.DefaultCellStyle = DataGridViewCellStyle16
+        DataGridViewCellStyle372.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column73.DefaultCellStyle = DataGridViewCellStyle372
         Me.Column73.HeaderText = "Total Reject (KG)"
         Me.Column73.Name = "Column73"
         Me.Column73.ReadOnly = True
@@ -881,8 +887,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column13
         '
-        DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column13.DefaultCellStyle = DataGridViewCellStyle17
+        DataGridViewCellStyle373.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column13.DefaultCellStyle = DataGridViewCellStyle373
         Me.Column13.HeaderText = "Pro-Line Scrap (KG)"
         Me.Column13.Name = "Column13"
         Me.Column13.ReadOnly = True
@@ -890,8 +896,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column14
         '
-        DataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column14.DefaultCellStyle = DataGridViewCellStyle18
+        DataGridViewCellStyle374.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column14.DefaultCellStyle = DataGridViewCellStyle374
         Me.Column14.HeaderText = "Qc-Line Scrap (KG)"
         Me.Column14.Name = "Column14"
         Me.Column14.ReadOnly = True
@@ -899,8 +905,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column15
         '
-        DataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column15.DefaultCellStyle = DataGridViewCellStyle19
+        DataGridViewCellStyle375.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column15.DefaultCellStyle = DataGridViewCellStyle375
         Me.Column15.HeaderText = "Warehouse-Line Scrap (KG)"
         Me.Column15.Name = "Column15"
         Me.Column15.ReadOnly = True
@@ -908,8 +914,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column16
         '
-        DataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column16.DefaultCellStyle = DataGridViewCellStyle20
+        DataGridViewCellStyle376.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column16.DefaultCellStyle = DataGridViewCellStyle376
         Me.Column16.HeaderText = "Total Scrap (KG)"
         Me.Column16.Name = "Column16"
         Me.Column16.ReadOnly = True
@@ -917,8 +923,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column17
         '
-        DataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column17.DefaultCellStyle = DataGridViewCellStyle21
+        DataGridViewCellStyle377.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column17.DefaultCellStyle = DataGridViewCellStyle377
         Me.Column17.HeaderText = "Pro-Line Waste (KG)"
         Me.Column17.Name = "Column17"
         Me.Column17.ReadOnly = True
@@ -926,8 +932,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column18
         '
-        DataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column18.DefaultCellStyle = DataGridViewCellStyle22
+        DataGridViewCellStyle378.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column18.DefaultCellStyle = DataGridViewCellStyle378
         Me.Column18.HeaderText = "Qc-Line Waste (KG)"
         Me.Column18.Name = "Column18"
         Me.Column18.ReadOnly = True
@@ -935,8 +941,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column19
         '
-        DataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column19.DefaultCellStyle = DataGridViewCellStyle23
+        DataGridViewCellStyle379.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column19.DefaultCellStyle = DataGridViewCellStyle379
         Me.Column19.HeaderText = "Warehouse-Line Waste (KG)"
         Me.Column19.Name = "Column19"
         Me.Column19.ReadOnly = True
@@ -944,8 +950,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column20
         '
-        DataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column20.DefaultCellStyle = DataGridViewCellStyle24
+        DataGridViewCellStyle380.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column20.DefaultCellStyle = DataGridViewCellStyle380
         Me.Column20.HeaderText = "Total Waste (KG)"
         Me.Column20.Name = "Column20"
         Me.Column20.ReadOnly = True
@@ -953,8 +959,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column21
         '
-        DataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column21.DefaultCellStyle = DataGridViewCellStyle25
+        DataGridViewCellStyle381.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column21.DefaultCellStyle = DataGridViewCellStyle381
         Me.Column21.HeaderText = "Loss Production (KG)"
         Me.Column21.Name = "Column21"
         Me.Column21.ReadOnly = True
@@ -962,8 +968,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column64
         '
-        DataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column64.DefaultCellStyle = DataGridViewCellStyle26
+        DataGridViewCellStyle382.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column64.DefaultCellStyle = DataGridViewCellStyle382
         Me.Column64.HeaderText = "GR Inspection (KG)"
         Me.Column64.Name = "Column64"
         Me.Column64.ReadOnly = True
@@ -972,8 +978,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column65
         '
-        DataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column65.DefaultCellStyle = DataGridViewCellStyle27
+        DataGridViewCellStyle383.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column65.DefaultCellStyle = DataGridViewCellStyle383
         Me.Column65.HeaderText = "GR Inspection (PCS)"
         Me.Column65.Name = "Column65"
         Me.Column65.ReadOnly = True
@@ -982,8 +988,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column22
         '
-        DataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column22.DefaultCellStyle = DataGridViewCellStyle28
+        DataGridViewCellStyle384.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column22.DefaultCellStyle = DataGridViewCellStyle384
         Me.Column22.HeaderText = "Final GR (KG)"
         Me.Column22.Name = "Column22"
         Me.Column22.ReadOnly = True
@@ -991,8 +997,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column59
         '
-        DataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column59.DefaultCellStyle = DataGridViewCellStyle29
+        DataGridViewCellStyle385.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column59.DefaultCellStyle = DataGridViewCellStyle385
         Me.Column59.HeaderText = "Final GR (PCS)"
         Me.Column59.Name = "Column59"
         Me.Column59.ReadOnly = True
@@ -1000,8 +1006,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column74
         '
-        DataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column74.DefaultCellStyle = DataGridViewCellStyle30
+        DataGridViewCellStyle386.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column74.DefaultCellStyle = DataGridViewCellStyle386
         Me.Column74.HeaderText = "Reject Final (%)"
         Me.Column74.Name = "Column74"
         Me.Column74.ReadOnly = True
@@ -1009,8 +1015,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column60
         '
-        DataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column60.DefaultCellStyle = DataGridViewCellStyle31
+        DataGridViewCellStyle387.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column60.DefaultCellStyle = DataGridViewCellStyle387
         Me.Column60.HeaderText = "Scrap Final (%)"
         Me.Column60.Name = "Column60"
         Me.Column60.ReadOnly = True
@@ -1018,8 +1024,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column61
         '
-        DataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column61.DefaultCellStyle = DataGridViewCellStyle32
+        DataGridViewCellStyle388.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column61.DefaultCellStyle = DataGridViewCellStyle388
         Me.Column61.HeaderText = "Waste Final (%)"
         Me.Column61.Name = "Column61"
         Me.Column61.ReadOnly = True
@@ -1027,8 +1033,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column62
         '
-        DataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column62.DefaultCellStyle = DataGridViewCellStyle33
+        DataGridViewCellStyle389.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column62.DefaultCellStyle = DataGridViewCellStyle389
         Me.Column62.HeaderText = "Loss Final (%)"
         Me.Column62.Name = "Column62"
         Me.Column62.ReadOnly = True
@@ -1036,8 +1042,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column10
         '
-        DataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column10.DefaultCellStyle = DataGridViewCellStyle34
+        DataGridViewCellStyle390.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column10.DefaultCellStyle = DataGridViewCellStyle390
         Me.Column10.HeaderText = "GR Inspection (%)"
         Me.Column10.Name = "Column10"
         Me.Column10.ReadOnly = True
@@ -1045,8 +1051,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column63
         '
-        DataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column63.DefaultCellStyle = DataGridViewCellStyle35
+        DataGridViewCellStyle391.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column63.DefaultCellStyle = DataGridViewCellStyle391
         Me.Column63.HeaderText = "GR Final (%)"
         Me.Column63.Name = "Column63"
         Me.Column63.ReadOnly = True
@@ -1054,8 +1060,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column69
         '
-        DataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column69.DefaultCellStyle = DataGridViewCellStyle36
+        DataGridViewCellStyle392.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column69.DefaultCellStyle = DataGridViewCellStyle392
         Me.Column69.HeaderText = "Status"
         Me.Column69.Name = "Column69"
         Me.Column69.ReadOnly = True
@@ -1080,14 +1086,14 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         Me.Dgv_Detail2.AllowUserToResizeRows = False
         Me.Dgv_Detail2.BackgroundColor = System.Drawing.Color.White
         Me.Dgv_Detail2.BorderStyle = System.Windows.Forms.BorderStyle.None
-        DataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle37.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle37.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        DataGridViewCellStyle37.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle37.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle37.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle37.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_Detail2.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle37
+        DataGridViewCellStyle393.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle393.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle393.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        DataGridViewCellStyle393.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle393.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle393.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle393.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_Detail2.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle393
         Me.Dgv_Detail2.ColumnHeadersHeight = 45
         Me.Dgv_Detail2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn61, Me.DataGridViewTextBoxColumn62, Me.DataGridViewTextBoxColumn67, Me.DataGridViewTextBoxColumn68, Me.DataGridViewTextBoxColumn63, Me.DataGridViewTextBoxColumn64, Me.DataGridViewTextBoxColumn65, Me.DataGridViewTextBoxColumn66, Me.DataGridViewTextBoxColumn69, Me.DataGridViewTextBoxColumn71, Me.DataGridViewTextBoxColumn72, Me.DataGridViewTextBoxColumn73, Me.Column40, Me.Column41, Me.Column75, Me.Column39, Me.Column42, Me.Column43, Me.Column44, Me.Column45, Me.Column66, Me.Column46, Me.Column47, Me.Column48, Me.Column76, Me.Column77, Me.Column49, Me.Column50, Me.Column51, Me.Column67, Me.Column52, Me.Column53, Me.Column54, Me.Column78, Me.Column79, Me.Column55, Me.Column56, Me.Column57, Me.Column68, Me.Column58})
         Me.Dgv_Detail2.Dock = System.Windows.Forms.DockStyle.Fill
@@ -1101,8 +1107,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn61
         '
-        DataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn61.DefaultCellStyle = DataGridViewCellStyle38
+        DataGridViewCellStyle394.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn61.DefaultCellStyle = DataGridViewCellStyle394
         Me.DataGridViewTextBoxColumn61.Frozen = True
         Me.DataGridViewTextBoxColumn61.HeaderText = "No PO"
         Me.DataGridViewTextBoxColumn61.Name = "DataGridViewTextBoxColumn61"
@@ -1111,8 +1117,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn62
         '
-        DataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn62.DefaultCellStyle = DataGridViewCellStyle39
+        DataGridViewCellStyle395.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn62.DefaultCellStyle = DataGridViewCellStyle395
         Me.DataGridViewTextBoxColumn62.Frozen = True
         Me.DataGridViewTextBoxColumn62.HeaderText = "No Split"
         Me.DataGridViewTextBoxColumn62.Name = "DataGridViewTextBoxColumn62"
@@ -1121,8 +1127,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn67
         '
-        DataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn67.DefaultCellStyle = DataGridViewCellStyle40
+        DataGridViewCellStyle396.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn67.DefaultCellStyle = DataGridViewCellStyle396
         Me.DataGridViewTextBoxColumn67.Frozen = True
         Me.DataGridViewTextBoxColumn67.HeaderText = "Kode Barang"
         Me.DataGridViewTextBoxColumn67.Name = "DataGridViewTextBoxColumn67"
@@ -1131,8 +1137,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn68
         '
-        DataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn68.DefaultCellStyle = DataGridViewCellStyle41
+        DataGridViewCellStyle397.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn68.DefaultCellStyle = DataGridViewCellStyle397
         Me.DataGridViewTextBoxColumn68.Frozen = True
         Me.DataGridViewTextBoxColumn68.HeaderText = "Nama Barang"
         Me.DataGridViewTextBoxColumn68.Name = "DataGridViewTextBoxColumn68"
@@ -1141,8 +1147,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn63
         '
-        DataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.DataGridViewTextBoxColumn63.DefaultCellStyle = DataGridViewCellStyle42
+        DataGridViewCellStyle398.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn63.DefaultCellStyle = DataGridViewCellStyle398
         Me.DataGridViewTextBoxColumn63.HeaderText = "Tanggal Produksi"
         Me.DataGridViewTextBoxColumn63.Name = "DataGridViewTextBoxColumn63"
         Me.DataGridViewTextBoxColumn63.ReadOnly = True
@@ -1150,8 +1156,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn64
         '
-        DataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.DataGridViewTextBoxColumn64.DefaultCellStyle = DataGridViewCellStyle43
+        DataGridViewCellStyle399.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn64.DefaultCellStyle = DataGridViewCellStyle399
         Me.DataGridViewTextBoxColumn64.HeaderText = "Jam Produksi"
         Me.DataGridViewTextBoxColumn64.Name = "DataGridViewTextBoxColumn64"
         Me.DataGridViewTextBoxColumn64.ReadOnly = True
@@ -1160,8 +1166,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn65
         '
-        DataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn65.DefaultCellStyle = DataGridViewCellStyle44
+        DataGridViewCellStyle400.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn65.DefaultCellStyle = DataGridViewCellStyle400
         Me.DataGridViewTextBoxColumn65.HeaderText = "Routing"
         Me.DataGridViewTextBoxColumn65.Name = "DataGridViewTextBoxColumn65"
         Me.DataGridViewTextBoxColumn65.ReadOnly = True
@@ -1169,8 +1175,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn66
         '
-        DataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn66.DefaultCellStyle = DataGridViewCellStyle45
+        DataGridViewCellStyle401.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn66.DefaultCellStyle = DataGridViewCellStyle401
         Me.DataGridViewTextBoxColumn66.HeaderText = "Keterangan"
         Me.DataGridViewTextBoxColumn66.Name = "DataGridViewTextBoxColumn66"
         Me.DataGridViewTextBoxColumn66.ReadOnly = True
@@ -1178,8 +1184,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn69
         '
-        DataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn69.DefaultCellStyle = DataGridViewCellStyle46
+        DataGridViewCellStyle402.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn69.DefaultCellStyle = DataGridViewCellStyle402
         Me.DataGridViewTextBoxColumn69.HeaderText = "PRO-RQ (PCS)"
         Me.DataGridViewTextBoxColumn69.Name = "DataGridViewTextBoxColumn69"
         Me.DataGridViewTextBoxColumn69.ReadOnly = True
@@ -1187,8 +1193,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn71
         '
-        DataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.DataGridViewTextBoxColumn71.DefaultCellStyle = DataGridViewCellStyle47
+        DataGridViewCellStyle403.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn71.DefaultCellStyle = DataGridViewCellStyle403
         Me.DataGridViewTextBoxColumn71.HeaderText = "Batch"
         Me.DataGridViewTextBoxColumn71.Name = "DataGridViewTextBoxColumn71"
         Me.DataGridViewTextBoxColumn71.ReadOnly = True
@@ -1196,8 +1202,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn72
         '
-        DataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn72.DefaultCellStyle = DataGridViewCellStyle48
+        DataGridViewCellStyle404.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn72.DefaultCellStyle = DataGridViewCellStyle404
         Me.DataGridViewTextBoxColumn72.HeaderText = "Isi (Gram)"
         Me.DataGridViewTextBoxColumn72.Name = "DataGridViewTextBoxColumn72"
         Me.DataGridViewTextBoxColumn72.ReadOnly = True
@@ -1205,8 +1211,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn73
         '
-        DataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn73.DefaultCellStyle = DataGridViewCellStyle49
+        DataGridViewCellStyle405.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn73.DefaultCellStyle = DataGridViewCellStyle405
         Me.DataGridViewTextBoxColumn73.HeaderText = "Good Issue (KG)"
         Me.DataGridViewTextBoxColumn73.Name = "DataGridViewTextBoxColumn73"
         Me.DataGridViewTextBoxColumn73.ReadOnly = True
@@ -1214,8 +1220,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column40
         '
-        DataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column40.DefaultCellStyle = DataGridViewCellStyle50
+        DataGridViewCellStyle406.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column40.DefaultCellStyle = DataGridViewCellStyle406
         Me.Column40.HeaderText = "Waste GR 1 (KG)"
         Me.Column40.Name = "Column40"
         Me.Column40.ReadOnly = True
@@ -1223,8 +1229,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column41
         '
-        DataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column41.DefaultCellStyle = DataGridViewCellStyle51
+        DataGridViewCellStyle407.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column41.DefaultCellStyle = DataGridViewCellStyle407
         Me.Column41.HeaderText = "Waste GR 1 (%)"
         Me.Column41.Name = "Column41"
         Me.Column41.ReadOnly = True
@@ -1232,8 +1238,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column75
         '
-        DataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column75.DefaultCellStyle = DataGridViewCellStyle52
+        DataGridViewCellStyle408.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column75.DefaultCellStyle = DataGridViewCellStyle408
         Me.Column75.HeaderText = "Reject GR 1 (KG)"
         Me.Column75.Name = "Column75"
         Me.Column75.ReadOnly = True
@@ -1241,8 +1247,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column39
         '
-        DataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column39.DefaultCellStyle = DataGridViewCellStyle53
+        DataGridViewCellStyle409.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column39.DefaultCellStyle = DataGridViewCellStyle409
         Me.Column39.HeaderText = "Scrap GR 1 (KG)"
         Me.Column39.Name = "Column39"
         Me.Column39.ReadOnly = True
@@ -1250,8 +1256,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column42
         '
-        DataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column42.DefaultCellStyle = DataGridViewCellStyle54
+        DataGridViewCellStyle410.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column42.DefaultCellStyle = DataGridViewCellStyle410
         Me.Column42.HeaderText = " Loss GR 1 (KG)"
         Me.Column42.Name = "Column42"
         Me.Column42.ReadOnly = True
@@ -1259,8 +1265,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column43
         '
-        DataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column43.DefaultCellStyle = DataGridViewCellStyle55
+        DataGridViewCellStyle411.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column43.DefaultCellStyle = DataGridViewCellStyle411
         Me.Column43.HeaderText = " Loss GR 1 (%)"
         Me.Column43.Name = "Column43"
         Me.Column43.ReadOnly = True
@@ -1268,8 +1274,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column44
         '
-        DataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column44.DefaultCellStyle = DataGridViewCellStyle56
+        DataGridViewCellStyle412.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column44.DefaultCellStyle = DataGridViewCellStyle412
         Me.Column44.HeaderText = "GR 1 (KG)"
         Me.Column44.Name = "Column44"
         Me.Column44.ReadOnly = True
@@ -1277,8 +1283,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column45
         '
-        DataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column45.DefaultCellStyle = DataGridViewCellStyle57
+        DataGridViewCellStyle413.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column45.DefaultCellStyle = DataGridViewCellStyle413
         Me.Column45.HeaderText = "GR 1 (PCS)"
         Me.Column45.Name = "Column45"
         Me.Column45.ReadOnly = True
@@ -1286,8 +1292,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column66
         '
-        DataGridViewCellStyle58.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column66.DefaultCellStyle = DataGridViewCellStyle58
+        DataGridViewCellStyle414.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column66.DefaultCellStyle = DataGridViewCellStyle414
         Me.Column66.HeaderText = "Stock Sementara (KG)"
         Me.Column66.Name = "Column66"
         Me.Column66.ReadOnly = True
@@ -1295,16 +1301,16 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column46
         '
-        DataGridViewCellStyle59.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column46.DefaultCellStyle = DataGridViewCellStyle59
+        DataGridViewCellStyle415.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column46.DefaultCellStyle = DataGridViewCellStyle415
         Me.Column46.HeaderText = "GR 1 Time (Day)"
         Me.Column46.Name = "Column46"
         Me.Column46.ReadOnly = True
         '
         'Column47
         '
-        DataGridViewCellStyle60.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column47.DefaultCellStyle = DataGridViewCellStyle60
+        DataGridViewCellStyle416.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column47.DefaultCellStyle = DataGridViewCellStyle416
         Me.Column47.HeaderText = "Waste GR 2 (PCS)"
         Me.Column47.Name = "Column47"
         Me.Column47.ReadOnly = True
@@ -1312,8 +1318,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column48
         '
-        DataGridViewCellStyle61.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column48.DefaultCellStyle = DataGridViewCellStyle61
+        DataGridViewCellStyle417.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column48.DefaultCellStyle = DataGridViewCellStyle417
         Me.Column48.HeaderText = "Waste GR 2 (%)"
         Me.Column48.Name = "Column48"
         Me.Column48.ReadOnly = True
@@ -1321,8 +1327,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column76
         '
-        DataGridViewCellStyle62.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column76.DefaultCellStyle = DataGridViewCellStyle62
+        DataGridViewCellStyle418.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column76.DefaultCellStyle = DataGridViewCellStyle418
         Me.Column76.HeaderText = "Reject GR 2 (PCS)"
         Me.Column76.Name = "Column76"
         Me.Column76.ReadOnly = True
@@ -1330,8 +1336,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column77
         '
-        DataGridViewCellStyle63.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column77.DefaultCellStyle = DataGridViewCellStyle63
+        DataGridViewCellStyle419.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column77.DefaultCellStyle = DataGridViewCellStyle419
         Me.Column77.HeaderText = "Reject GR 2 (KG)"
         Me.Column77.Name = "Column77"
         Me.Column77.ReadOnly = True
@@ -1339,8 +1345,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column49
         '
-        DataGridViewCellStyle64.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column49.DefaultCellStyle = DataGridViewCellStyle64
+        DataGridViewCellStyle420.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column49.DefaultCellStyle = DataGridViewCellStyle420
         Me.Column49.HeaderText = "Scrap GR 2 (PCS)"
         Me.Column49.Name = "Column49"
         Me.Column49.ReadOnly = True
@@ -1348,8 +1354,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column50
         '
-        DataGridViewCellStyle65.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column50.DefaultCellStyle = DataGridViewCellStyle65
+        DataGridViewCellStyle421.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column50.DefaultCellStyle = DataGridViewCellStyle421
         Me.Column50.HeaderText = "Scrap GR 2 (KG)"
         Me.Column50.Name = "Column50"
         Me.Column50.ReadOnly = True
@@ -1357,8 +1363,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column51
         '
-        DataGridViewCellStyle66.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column51.DefaultCellStyle = DataGridViewCellStyle66
+        DataGridViewCellStyle422.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column51.DefaultCellStyle = DataGridViewCellStyle422
         Me.Column51.HeaderText = "GR 2 (PCS)"
         Me.Column51.Name = "Column51"
         Me.Column51.ReadOnly = True
@@ -1366,8 +1372,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column67
         '
-        DataGridViewCellStyle67.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column67.DefaultCellStyle = DataGridViewCellStyle67
+        DataGridViewCellStyle423.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column67.DefaultCellStyle = DataGridViewCellStyle423
         Me.Column67.HeaderText = "Stock Sementara (PCS)"
         Me.Column67.Name = "Column67"
         Me.Column67.ReadOnly = True
@@ -1375,16 +1381,16 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column52
         '
-        DataGridViewCellStyle68.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column52.DefaultCellStyle = DataGridViewCellStyle68
+        DataGridViewCellStyle424.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column52.DefaultCellStyle = DataGridViewCellStyle424
         Me.Column52.HeaderText = "GR 2 Time (Day)"
         Me.Column52.Name = "Column52"
         Me.Column52.ReadOnly = True
         '
         'Column53
         '
-        DataGridViewCellStyle69.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column53.DefaultCellStyle = DataGridViewCellStyle69
+        DataGridViewCellStyle425.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column53.DefaultCellStyle = DataGridViewCellStyle425
         Me.Column53.HeaderText = "Waste GR 3 (PCS)"
         Me.Column53.Name = "Column53"
         Me.Column53.ReadOnly = True
@@ -1392,8 +1398,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column54
         '
-        DataGridViewCellStyle70.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column54.DefaultCellStyle = DataGridViewCellStyle70
+        DataGridViewCellStyle426.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column54.DefaultCellStyle = DataGridViewCellStyle426
         Me.Column54.HeaderText = "Waste GR 3 (%)"
         Me.Column54.Name = "Column54"
         Me.Column54.ReadOnly = True
@@ -1401,8 +1407,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column78
         '
-        DataGridViewCellStyle71.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column78.DefaultCellStyle = DataGridViewCellStyle71
+        DataGridViewCellStyle427.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column78.DefaultCellStyle = DataGridViewCellStyle427
         Me.Column78.HeaderText = "Reject GR 3 (PCS)"
         Me.Column78.Name = "Column78"
         Me.Column78.ReadOnly = True
@@ -1410,8 +1416,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column79
         '
-        DataGridViewCellStyle72.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column79.DefaultCellStyle = DataGridViewCellStyle72
+        DataGridViewCellStyle428.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column79.DefaultCellStyle = DataGridViewCellStyle428
         Me.Column79.HeaderText = "Reject GR 3 (KG)"
         Me.Column79.Name = "Column79"
         Me.Column79.ReadOnly = True
@@ -1419,8 +1425,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column55
         '
-        DataGridViewCellStyle73.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column55.DefaultCellStyle = DataGridViewCellStyle73
+        DataGridViewCellStyle429.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column55.DefaultCellStyle = DataGridViewCellStyle429
         Me.Column55.HeaderText = "Scrap GR 3 (PCS)"
         Me.Column55.Name = "Column55"
         Me.Column55.ReadOnly = True
@@ -1428,8 +1434,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column56
         '
-        DataGridViewCellStyle74.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column56.DefaultCellStyle = DataGridViewCellStyle74
+        DataGridViewCellStyle430.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column56.DefaultCellStyle = DataGridViewCellStyle430
         Me.Column56.HeaderText = "Scrap GR 3 (KG)"
         Me.Column56.Name = "Column56"
         Me.Column56.ReadOnly = True
@@ -1437,8 +1443,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column57
         '
-        DataGridViewCellStyle75.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column57.DefaultCellStyle = DataGridViewCellStyle75
+        DataGridViewCellStyle431.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column57.DefaultCellStyle = DataGridViewCellStyle431
         Me.Column57.HeaderText = "Final GR 3 (PCS)"
         Me.Column57.Name = "Column57"
         Me.Column57.ReadOnly = True
@@ -1446,8 +1452,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column68
         '
-        DataGridViewCellStyle76.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column68.DefaultCellStyle = DataGridViewCellStyle76
+        DataGridViewCellStyle432.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column68.DefaultCellStyle = DataGridViewCellStyle432
         Me.Column68.HeaderText = "Stock Sementara (PCS)"
         Me.Column68.Name = "Column68"
         Me.Column68.ReadOnly = True
@@ -1455,8 +1461,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column58
         '
-        DataGridViewCellStyle77.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column58.DefaultCellStyle = DataGridViewCellStyle77
+        DataGridViewCellStyle433.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column58.DefaultCellStyle = DataGridViewCellStyle433
         Me.Column58.HeaderText = "GR 3 Time (Day)"
         Me.Column58.Name = "Column58"
         Me.Column58.ReadOnly = True
@@ -1469,14 +1475,14 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         Me.Dgv_Detail.AllowUserToResizeRows = False
         Me.Dgv_Detail.BackgroundColor = System.Drawing.Color.White
         Me.Dgv_Detail.BorderStyle = System.Windows.Forms.BorderStyle.None
-        DataGridViewCellStyle78.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle78.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle78.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        DataGridViewCellStyle78.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle78.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle78.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle78.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_Detail.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle78
+        DataGridViewCellStyle434.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle434.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle434.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        DataGridViewCellStyle434.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle434.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle434.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle434.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_Detail.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle434
         Me.Dgv_Detail.ColumnHeadersHeight = 35
         Me.Dgv_Detail.Location = New System.Drawing.Point(1200, 408)
         Me.Dgv_Detail.Name = "Dgv_Detail"
@@ -1527,8 +1533,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn1
         '
-        DataGridViewCellStyle79.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle79
+        DataGridViewCellStyle435.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle435
         Me.DataGridViewTextBoxColumn1.Frozen = True
         Me.DataGridViewTextBoxColumn1.HeaderText = "No PO"
         Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
@@ -1537,8 +1543,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn2
         '
-        DataGridViewCellStyle80.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle80
+        DataGridViewCellStyle436.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle436
         Me.DataGridViewTextBoxColumn2.Frozen = True
         Me.DataGridViewTextBoxColumn2.HeaderText = "No Split"
         Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
@@ -1547,8 +1553,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn3
         '
-        DataGridViewCellStyle81.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle81
+        DataGridViewCellStyle437.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle437
         Me.DataGridViewTextBoxColumn3.Frozen = True
         Me.DataGridViewTextBoxColumn3.HeaderText = "Tanggal Produksi"
         Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
@@ -1557,8 +1563,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn4
         '
-        DataGridViewCellStyle82.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle82
+        DataGridViewCellStyle438.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle438
         Me.DataGridViewTextBoxColumn4.Frozen = True
         Me.DataGridViewTextBoxColumn4.HeaderText = "Jam Produksi"
         Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
@@ -1568,8 +1574,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn5
         '
-        DataGridViewCellStyle83.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn5.DefaultCellStyle = DataGridViewCellStyle83
+        DataGridViewCellStyle439.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn5.DefaultCellStyle = DataGridViewCellStyle439
         Me.DataGridViewTextBoxColumn5.HeaderText = "Routing"
         Me.DataGridViewTextBoxColumn5.Name = "DataGridViewTextBoxColumn5"
         Me.DataGridViewTextBoxColumn5.ReadOnly = True
@@ -1577,8 +1583,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn6
         '
-        DataGridViewCellStyle84.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn6.DefaultCellStyle = DataGridViewCellStyle84
+        DataGridViewCellStyle440.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn6.DefaultCellStyle = DataGridViewCellStyle440
         Me.DataGridViewTextBoxColumn6.HeaderText = "Keterangan"
         Me.DataGridViewTextBoxColumn6.Name = "DataGridViewTextBoxColumn6"
         Me.DataGridViewTextBoxColumn6.ReadOnly = True
@@ -1587,8 +1593,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn7
         '
-        DataGridViewCellStyle85.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn7.DefaultCellStyle = DataGridViewCellStyle85
+        DataGridViewCellStyle441.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn7.DefaultCellStyle = DataGridViewCellStyle441
         Me.DataGridViewTextBoxColumn7.HeaderText = "Kode Barang"
         Me.DataGridViewTextBoxColumn7.Name = "DataGridViewTextBoxColumn7"
         Me.DataGridViewTextBoxColumn7.ReadOnly = True
@@ -1596,8 +1602,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn8
         '
-        DataGridViewCellStyle86.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn8.DefaultCellStyle = DataGridViewCellStyle86
+        DataGridViewCellStyle442.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn8.DefaultCellStyle = DataGridViewCellStyle442
         Me.DataGridViewTextBoxColumn8.HeaderText = "Nama Barang"
         Me.DataGridViewTextBoxColumn8.Name = "DataGridViewTextBoxColumn8"
         Me.DataGridViewTextBoxColumn8.ReadOnly = True
@@ -1605,8 +1611,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn9
         '
-        DataGridViewCellStyle87.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn9.DefaultCellStyle = DataGridViewCellStyle87
+        DataGridViewCellStyle443.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn9.DefaultCellStyle = DataGridViewCellStyle443
         Me.DataGridViewTextBoxColumn9.HeaderText = "Jumlah"
         Me.DataGridViewTextBoxColumn9.Name = "DataGridViewTextBoxColumn9"
         Me.DataGridViewTextBoxColumn9.ReadOnly = True
@@ -1614,8 +1620,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn10
         '
-        DataGridViewCellStyle88.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.DataGridViewTextBoxColumn10.DefaultCellStyle = DataGridViewCellStyle88
+        DataGridViewCellStyle444.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn10.DefaultCellStyle = DataGridViewCellStyle444
         Me.DataGridViewTextBoxColumn10.HeaderText = "Satuan"
         Me.DataGridViewTextBoxColumn10.Name = "DataGridViewTextBoxColumn10"
         Me.DataGridViewTextBoxColumn10.ReadOnly = True
@@ -1623,8 +1629,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn11
         '
-        DataGridViewCellStyle89.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn11.DefaultCellStyle = DataGridViewCellStyle89
+        DataGridViewCellStyle445.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn11.DefaultCellStyle = DataGridViewCellStyle445
         Me.DataGridViewTextBoxColumn11.HeaderText = "Berat (Gram)"
         Me.DataGridViewTextBoxColumn11.Name = "DataGridViewTextBoxColumn11"
         Me.DataGridViewTextBoxColumn11.ReadOnly = True
@@ -1632,8 +1638,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn12
         '
-        DataGridViewCellStyle90.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn12.DefaultCellStyle = DataGridViewCellStyle90
+        DataGridViewCellStyle446.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn12.DefaultCellStyle = DataGridViewCellStyle446
         Me.DataGridViewTextBoxColumn12.HeaderText = "Good Issue (KG)"
         Me.DataGridViewTextBoxColumn12.Name = "DataGridViewTextBoxColumn12"
         Me.DataGridViewTextBoxColumn12.ReadOnly = True
@@ -1641,8 +1647,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn13
         '
-        DataGridViewCellStyle91.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn13.DefaultCellStyle = DataGridViewCellStyle91
+        DataGridViewCellStyle447.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn13.DefaultCellStyle = DataGridViewCellStyle447
         Me.DataGridViewTextBoxColumn13.HeaderText = "Total GR Lv 1 (KG)"
         Me.DataGridViewTextBoxColumn13.Name = "DataGridViewTextBoxColumn13"
         Me.DataGridViewTextBoxColumn13.ReadOnly = True
@@ -1650,8 +1656,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn14
         '
-        DataGridViewCellStyle92.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn14.DefaultCellStyle = DataGridViewCellStyle92
+        DataGridViewCellStyle448.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn14.DefaultCellStyle = DataGridViewCellStyle448
         Me.DataGridViewTextBoxColumn14.HeaderText = "Loss GR Lv 1 (KG)"
         Me.DataGridViewTextBoxColumn14.Name = "DataGridViewTextBoxColumn14"
         Me.DataGridViewTextBoxColumn14.ReadOnly = True
@@ -1659,8 +1665,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn15
         '
-        DataGridViewCellStyle93.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn15.DefaultCellStyle = DataGridViewCellStyle93
+        DataGridViewCellStyle449.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn15.DefaultCellStyle = DataGridViewCellStyle449
         Me.DataGridViewTextBoxColumn15.HeaderText = "Loss GR Lv 1 (%)"
         Me.DataGridViewTextBoxColumn15.Name = "DataGridViewTextBoxColumn15"
         Me.DataGridViewTextBoxColumn15.ReadOnly = True
@@ -1668,8 +1674,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn16
         '
-        DataGridViewCellStyle94.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn16.DefaultCellStyle = DataGridViewCellStyle94
+        DataGridViewCellStyle450.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn16.DefaultCellStyle = DataGridViewCellStyle450
         Me.DataGridViewTextBoxColumn16.HeaderText = "Waste GR Lv 1 (%)"
         Me.DataGridViewTextBoxColumn16.Name = "DataGridViewTextBoxColumn16"
         Me.DataGridViewTextBoxColumn16.ReadOnly = True
@@ -1677,8 +1683,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn17
         '
-        DataGridViewCellStyle95.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn17.DefaultCellStyle = DataGridViewCellStyle95
+        DataGridViewCellStyle451.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn17.DefaultCellStyle = DataGridViewCellStyle451
         Me.DataGridViewTextBoxColumn17.HeaderText = "Total GR Lv 2 (KG)"
         Me.DataGridViewTextBoxColumn17.Name = "DataGridViewTextBoxColumn17"
         Me.DataGridViewTextBoxColumn17.ReadOnly = True
@@ -1686,8 +1692,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn18
         '
-        DataGridViewCellStyle96.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn18.DefaultCellStyle = DataGridViewCellStyle96
+        DataGridViewCellStyle452.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn18.DefaultCellStyle = DataGridViewCellStyle452
         Me.DataGridViewTextBoxColumn18.HeaderText = "Waste GR Lv 2 (%)"
         Me.DataGridViewTextBoxColumn18.Name = "DataGridViewTextBoxColumn18"
         Me.DataGridViewTextBoxColumn18.ReadOnly = True
@@ -1695,8 +1701,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn19
         '
-        DataGridViewCellStyle97.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn19.DefaultCellStyle = DataGridViewCellStyle97
+        DataGridViewCellStyle453.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn19.DefaultCellStyle = DataGridViewCellStyle453
         Me.DataGridViewTextBoxColumn19.HeaderText = "GR Rejected (KG)"
         Me.DataGridViewTextBoxColumn19.Name = "DataGridViewTextBoxColumn19"
         Me.DataGridViewTextBoxColumn19.ReadOnly = True
@@ -1704,8 +1710,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn20
         '
-        DataGridViewCellStyle98.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn20.DefaultCellStyle = DataGridViewCellStyle98
+        DataGridViewCellStyle454.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn20.DefaultCellStyle = DataGridViewCellStyle454
         Me.DataGridViewTextBoxColumn20.HeaderText = "Waste GR Rejected (%)"
         Me.DataGridViewTextBoxColumn20.Name = "DataGridViewTextBoxColumn20"
         Me.DataGridViewTextBoxColumn20.ReadOnly = True
@@ -1713,8 +1719,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn21
         '
-        DataGridViewCellStyle99.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn21.DefaultCellStyle = DataGridViewCellStyle99
+        DataGridViewCellStyle455.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn21.DefaultCellStyle = DataGridViewCellStyle455
         Me.DataGridViewTextBoxColumn21.HeaderText = "GR Final (KG)"
         Me.DataGridViewTextBoxColumn21.Name = "DataGridViewTextBoxColumn21"
         Me.DataGridViewTextBoxColumn21.ReadOnly = True
@@ -1722,8 +1728,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn22
         '
-        DataGridViewCellStyle100.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn22.DefaultCellStyle = DataGridViewCellStyle100
+        DataGridViewCellStyle456.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn22.DefaultCellStyle = DataGridViewCellStyle456
         Me.DataGridViewTextBoxColumn22.HeaderText = "Waste Final (%)"
         Me.DataGridViewTextBoxColumn22.Name = "DataGridViewTextBoxColumn22"
         Me.DataGridViewTextBoxColumn22.ReadOnly = True
@@ -1731,8 +1737,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn23
         '
-        DataGridViewCellStyle101.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn23.DefaultCellStyle = DataGridViewCellStyle101
+        DataGridViewCellStyle457.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn23.DefaultCellStyle = DataGridViewCellStyle457
         Me.DataGridViewTextBoxColumn23.Frozen = True
         Me.DataGridViewTextBoxColumn23.HeaderText = "No PO"
         Me.DataGridViewTextBoxColumn23.Name = "DataGridViewTextBoxColumn23"
@@ -1741,8 +1747,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn24
         '
-        DataGridViewCellStyle102.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn24.DefaultCellStyle = DataGridViewCellStyle102
+        DataGridViewCellStyle458.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn24.DefaultCellStyle = DataGridViewCellStyle458
         Me.DataGridViewTextBoxColumn24.Frozen = True
         Me.DataGridViewTextBoxColumn24.HeaderText = "No Split"
         Me.DataGridViewTextBoxColumn24.Name = "DataGridViewTextBoxColumn24"
@@ -1751,8 +1757,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn25
         '
-        DataGridViewCellStyle103.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.DataGridViewTextBoxColumn25.DefaultCellStyle = DataGridViewCellStyle103
+        DataGridViewCellStyle459.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn25.DefaultCellStyle = DataGridViewCellStyle459
         Me.DataGridViewTextBoxColumn25.HeaderText = "Tanggal Produksi"
         Me.DataGridViewTextBoxColumn25.Name = "DataGridViewTextBoxColumn25"
         Me.DataGridViewTextBoxColumn25.ReadOnly = True
@@ -1761,8 +1767,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn26
         '
-        DataGridViewCellStyle104.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.DataGridViewTextBoxColumn26.DefaultCellStyle = DataGridViewCellStyle104
+        DataGridViewCellStyle460.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn26.DefaultCellStyle = DataGridViewCellStyle460
         Me.DataGridViewTextBoxColumn26.HeaderText = "Jam Produksi"
         Me.DataGridViewTextBoxColumn26.Name = "DataGridViewTextBoxColumn26"
         Me.DataGridViewTextBoxColumn26.ReadOnly = True
@@ -1771,8 +1777,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn27
         '
-        DataGridViewCellStyle105.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn27.DefaultCellStyle = DataGridViewCellStyle105
+        DataGridViewCellStyle461.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn27.DefaultCellStyle = DataGridViewCellStyle461
         Me.DataGridViewTextBoxColumn27.Frozen = True
         Me.DataGridViewTextBoxColumn27.HeaderText = "Routing"
         Me.DataGridViewTextBoxColumn27.Name = "DataGridViewTextBoxColumn27"
@@ -1781,8 +1787,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn28
         '
-        DataGridViewCellStyle106.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn28.DefaultCellStyle = DataGridViewCellStyle106
+        DataGridViewCellStyle462.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn28.DefaultCellStyle = DataGridViewCellStyle462
         Me.DataGridViewTextBoxColumn28.Frozen = True
         Me.DataGridViewTextBoxColumn28.HeaderText = "Keterangan"
         Me.DataGridViewTextBoxColumn28.Name = "DataGridViewTextBoxColumn28"
@@ -1791,8 +1797,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn29
         '
-        DataGridViewCellStyle107.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn29.DefaultCellStyle = DataGridViewCellStyle107
+        DataGridViewCellStyle463.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn29.DefaultCellStyle = DataGridViewCellStyle463
         Me.DataGridViewTextBoxColumn29.Frozen = True
         Me.DataGridViewTextBoxColumn29.HeaderText = "Kode Barang"
         Me.DataGridViewTextBoxColumn29.Name = "DataGridViewTextBoxColumn29"
@@ -1801,8 +1807,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn30
         '
-        DataGridViewCellStyle108.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn30.DefaultCellStyle = DataGridViewCellStyle108
+        DataGridViewCellStyle464.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn30.DefaultCellStyle = DataGridViewCellStyle464
         Me.DataGridViewTextBoxColumn30.Frozen = True
         Me.DataGridViewTextBoxColumn30.HeaderText = "Nama Barang"
         Me.DataGridViewTextBoxColumn30.Name = "DataGridViewTextBoxColumn30"
@@ -1812,8 +1818,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn31
         '
-        DataGridViewCellStyle109.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn31.DefaultCellStyle = DataGridViewCellStyle109
+        DataGridViewCellStyle465.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn31.DefaultCellStyle = DataGridViewCellStyle465
         Me.DataGridViewTextBoxColumn31.HeaderText = "Jumlah"
         Me.DataGridViewTextBoxColumn31.Name = "DataGridViewTextBoxColumn31"
         Me.DataGridViewTextBoxColumn31.ReadOnly = True
@@ -1821,8 +1827,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn32
         '
-        DataGridViewCellStyle110.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.DataGridViewTextBoxColumn32.DefaultCellStyle = DataGridViewCellStyle110
+        DataGridViewCellStyle466.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn32.DefaultCellStyle = DataGridViewCellStyle466
         Me.DataGridViewTextBoxColumn32.HeaderText = "Satuan"
         Me.DataGridViewTextBoxColumn32.Name = "DataGridViewTextBoxColumn32"
         Me.DataGridViewTextBoxColumn32.ReadOnly = True
@@ -1831,8 +1837,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn33
         '
-        DataGridViewCellStyle111.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.DataGridViewTextBoxColumn33.DefaultCellStyle = DataGridViewCellStyle111
+        DataGridViewCellStyle467.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn33.DefaultCellStyle = DataGridViewCellStyle467
         Me.DataGridViewTextBoxColumn33.HeaderText = "Batch"
         Me.DataGridViewTextBoxColumn33.Name = "DataGridViewTextBoxColumn33"
         Me.DataGridViewTextBoxColumn33.ReadOnly = True
@@ -1840,8 +1846,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn34
         '
-        DataGridViewCellStyle112.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn34.DefaultCellStyle = DataGridViewCellStyle112
+        DataGridViewCellStyle468.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn34.DefaultCellStyle = DataGridViewCellStyle468
         Me.DataGridViewTextBoxColumn34.HeaderText = "Berat (Gram)"
         Me.DataGridViewTextBoxColumn34.Name = "DataGridViewTextBoxColumn34"
         Me.DataGridViewTextBoxColumn34.ReadOnly = True
@@ -1849,8 +1855,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn35
         '
-        DataGridViewCellStyle113.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn35.DefaultCellStyle = DataGridViewCellStyle113
+        DataGridViewCellStyle469.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn35.DefaultCellStyle = DataGridViewCellStyle469
         Me.DataGridViewTextBoxColumn35.Frozen = True
         Me.DataGridViewTextBoxColumn35.HeaderText = "Good Issue (KG)"
         Me.DataGridViewTextBoxColumn35.Name = "DataGridViewTextBoxColumn35"
@@ -1859,8 +1865,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn36
         '
-        DataGridViewCellStyle114.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn36.DefaultCellStyle = DataGridViewCellStyle114
+        DataGridViewCellStyle470.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn36.DefaultCellStyle = DataGridViewCellStyle470
         Me.DataGridViewTextBoxColumn36.Frozen = True
         Me.DataGridViewTextBoxColumn36.HeaderText = "GR Lv 1 (PCS)"
         Me.DataGridViewTextBoxColumn36.Name = "DataGridViewTextBoxColumn36"
@@ -1869,8 +1875,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn37
         '
-        DataGridViewCellStyle115.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn37.DefaultCellStyle = DataGridViewCellStyle115
+        DataGridViewCellStyle471.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn37.DefaultCellStyle = DataGridViewCellStyle471
         Me.DataGridViewTextBoxColumn37.Frozen = True
         Me.DataGridViewTextBoxColumn37.HeaderText = "GR_Lv 1 (KG)"
         Me.DataGridViewTextBoxColumn37.Name = "DataGridViewTextBoxColumn37"
@@ -1879,8 +1885,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn38
         '
-        DataGridViewCellStyle116.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn38.DefaultCellStyle = DataGridViewCellStyle116
+        DataGridViewCellStyle472.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn38.DefaultCellStyle = DataGridViewCellStyle472
         Me.DataGridViewTextBoxColumn38.Frozen = True
         Me.DataGridViewTextBoxColumn38.HeaderText = "Scrap GR Lv 1 (KG)"
         Me.DataGridViewTextBoxColumn38.Name = "DataGridViewTextBoxColumn38"
@@ -1889,8 +1895,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn39
         '
-        DataGridViewCellStyle117.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn39.DefaultCellStyle = DataGridViewCellStyle117
+        DataGridViewCellStyle473.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn39.DefaultCellStyle = DataGridViewCellStyle473
         Me.DataGridViewTextBoxColumn39.Frozen = True
         Me.DataGridViewTextBoxColumn39.HeaderText = "Total GR Lv 1 (KG)"
         Me.DataGridViewTextBoxColumn39.Name = "DataGridViewTextBoxColumn39"
@@ -1899,8 +1905,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn40
         '
-        DataGridViewCellStyle118.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn40.DefaultCellStyle = DataGridViewCellStyle118
+        DataGridViewCellStyle474.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn40.DefaultCellStyle = DataGridViewCellStyle474
         Me.DataGridViewTextBoxColumn40.HeaderText = "Loss GR Lv 1 (KG)"
         Me.DataGridViewTextBoxColumn40.Name = "DataGridViewTextBoxColumn40"
         Me.DataGridViewTextBoxColumn40.ReadOnly = True
@@ -1909,8 +1915,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn41
         '
-        DataGridViewCellStyle119.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn41.DefaultCellStyle = DataGridViewCellStyle119
+        DataGridViewCellStyle475.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn41.DefaultCellStyle = DataGridViewCellStyle475
         Me.DataGridViewTextBoxColumn41.HeaderText = "Loss GR Lv 1 (%)"
         Me.DataGridViewTextBoxColumn41.Name = "DataGridViewTextBoxColumn41"
         Me.DataGridViewTextBoxColumn41.ReadOnly = True
@@ -1919,8 +1925,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn42
         '
-        DataGridViewCellStyle120.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn42.DefaultCellStyle = DataGridViewCellStyle120
+        DataGridViewCellStyle476.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn42.DefaultCellStyle = DataGridViewCellStyle476
         Me.DataGridViewTextBoxColumn42.HeaderText = "Waste GR Lv 1 (%)"
         Me.DataGridViewTextBoxColumn42.Name = "DataGridViewTextBoxColumn42"
         Me.DataGridViewTextBoxColumn42.ReadOnly = True
@@ -1928,8 +1934,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn43
         '
-        DataGridViewCellStyle121.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn43.DefaultCellStyle = DataGridViewCellStyle121
+        DataGridViewCellStyle477.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn43.DefaultCellStyle = DataGridViewCellStyle477
         Me.DataGridViewTextBoxColumn43.HeaderText = "Time GR Lv 1 (Day)"
         Me.DataGridViewTextBoxColumn43.Name = "DataGridViewTextBoxColumn43"
         Me.DataGridViewTextBoxColumn43.ReadOnly = True
@@ -1937,8 +1943,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn44
         '
-        DataGridViewCellStyle122.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn44.DefaultCellStyle = DataGridViewCellStyle122
+        DataGridViewCellStyle478.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn44.DefaultCellStyle = DataGridViewCellStyle478
         Me.DataGridViewTextBoxColumn44.HeaderText = "GR Lv 2 (PCS)"
         Me.DataGridViewTextBoxColumn44.Name = "DataGridViewTextBoxColumn44"
         Me.DataGridViewTextBoxColumn44.ReadOnly = True
@@ -1946,8 +1952,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn45
         '
-        DataGridViewCellStyle123.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn45.DefaultCellStyle = DataGridViewCellStyle123
+        DataGridViewCellStyle479.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn45.DefaultCellStyle = DataGridViewCellStyle479
         Me.DataGridViewTextBoxColumn45.HeaderText = "GR Lv 2 (KG)"
         Me.DataGridViewTextBoxColumn45.Name = "DataGridViewTextBoxColumn45"
         Me.DataGridViewTextBoxColumn45.ReadOnly = True
@@ -1955,8 +1961,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn46
         '
-        DataGridViewCellStyle124.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn46.DefaultCellStyle = DataGridViewCellStyle124
+        DataGridViewCellStyle480.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn46.DefaultCellStyle = DataGridViewCellStyle480
         Me.DataGridViewTextBoxColumn46.HeaderText = "Rejected Lv 2 (PCS)"
         Me.DataGridViewTextBoxColumn46.Name = "DataGridViewTextBoxColumn46"
         Me.DataGridViewTextBoxColumn46.ReadOnly = True
@@ -1964,8 +1970,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn47
         '
-        DataGridViewCellStyle125.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn47.DefaultCellStyle = DataGridViewCellStyle125
+        DataGridViewCellStyle481.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn47.DefaultCellStyle = DataGridViewCellStyle481
         Me.DataGridViewTextBoxColumn47.HeaderText = "Scrap GR Lv 2 (KG)"
         Me.DataGridViewTextBoxColumn47.Name = "DataGridViewTextBoxColumn47"
         Me.DataGridViewTextBoxColumn47.ReadOnly = True
@@ -1973,8 +1979,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn48
         '
-        DataGridViewCellStyle126.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn48.DefaultCellStyle = DataGridViewCellStyle126
+        DataGridViewCellStyle482.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn48.DefaultCellStyle = DataGridViewCellStyle482
         Me.DataGridViewTextBoxColumn48.HeaderText = "Total GR Lv 2 (KG)"
         Me.DataGridViewTextBoxColumn48.Name = "DataGridViewTextBoxColumn48"
         Me.DataGridViewTextBoxColumn48.ReadOnly = True
@@ -1982,8 +1988,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn49
         '
-        DataGridViewCellStyle127.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn49.DefaultCellStyle = DataGridViewCellStyle127
+        DataGridViewCellStyle483.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn49.DefaultCellStyle = DataGridViewCellStyle483
         Me.DataGridViewTextBoxColumn49.HeaderText = "Waste GR Lv 2 (%)"
         Me.DataGridViewTextBoxColumn49.Name = "DataGridViewTextBoxColumn49"
         Me.DataGridViewTextBoxColumn49.ReadOnly = True
@@ -1991,8 +1997,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn50
         '
-        DataGridViewCellStyle128.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn50.DefaultCellStyle = DataGridViewCellStyle128
+        DataGridViewCellStyle484.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn50.DefaultCellStyle = DataGridViewCellStyle484
         Me.DataGridViewTextBoxColumn50.HeaderText = "Time GR Lv 2 (Day)"
         Me.DataGridViewTextBoxColumn50.Name = "DataGridViewTextBoxColumn50"
         Me.DataGridViewTextBoxColumn50.ReadOnly = True
@@ -2000,8 +2006,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn51
         '
-        DataGridViewCellStyle129.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn51.DefaultCellStyle = DataGridViewCellStyle129
+        DataGridViewCellStyle485.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn51.DefaultCellStyle = DataGridViewCellStyle485
         Me.DataGridViewTextBoxColumn51.HeaderText = "GR Rejected (PCS)"
         Me.DataGridViewTextBoxColumn51.Name = "DataGridViewTextBoxColumn51"
         Me.DataGridViewTextBoxColumn51.ReadOnly = True
@@ -2009,8 +2015,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn52
         '
-        DataGridViewCellStyle130.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn52.DefaultCellStyle = DataGridViewCellStyle130
+        DataGridViewCellStyle486.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn52.DefaultCellStyle = DataGridViewCellStyle486
         Me.DataGridViewTextBoxColumn52.HeaderText = "GR Rejected (KG)"
         Me.DataGridViewTextBoxColumn52.Name = "DataGridViewTextBoxColumn52"
         Me.DataGridViewTextBoxColumn52.ReadOnly = True
@@ -2018,8 +2024,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn53
         '
-        DataGridViewCellStyle131.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn53.DefaultCellStyle = DataGridViewCellStyle131
+        DataGridViewCellStyle487.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn53.DefaultCellStyle = DataGridViewCellStyle487
         Me.DataGridViewTextBoxColumn53.HeaderText = "Waste GR Rejected (%)"
         Me.DataGridViewTextBoxColumn53.Name = "DataGridViewTextBoxColumn53"
         Me.DataGridViewTextBoxColumn53.ReadOnly = True
@@ -2027,8 +2033,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn54
         '
-        DataGridViewCellStyle132.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn54.DefaultCellStyle = DataGridViewCellStyle132
+        DataGridViewCellStyle488.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn54.DefaultCellStyle = DataGridViewCellStyle488
         Me.DataGridViewTextBoxColumn54.HeaderText = "Time GR Rejected (Day)"
         Me.DataGridViewTextBoxColumn54.Name = "DataGridViewTextBoxColumn54"
         Me.DataGridViewTextBoxColumn54.ReadOnly = True
@@ -2036,8 +2042,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn55
         '
-        DataGridViewCellStyle133.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn55.DefaultCellStyle = DataGridViewCellStyle133
+        DataGridViewCellStyle489.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn55.DefaultCellStyle = DataGridViewCellStyle489
         Me.DataGridViewTextBoxColumn55.HeaderText = "GR Final (PCS)"
         Me.DataGridViewTextBoxColumn55.Name = "DataGridViewTextBoxColumn55"
         Me.DataGridViewTextBoxColumn55.ReadOnly = True
@@ -2045,8 +2051,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn56
         '
-        DataGridViewCellStyle134.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn56.DefaultCellStyle = DataGridViewCellStyle134
+        DataGridViewCellStyle490.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn56.DefaultCellStyle = DataGridViewCellStyle490
         Me.DataGridViewTextBoxColumn56.HeaderText = "GR Final (KG)"
         Me.DataGridViewTextBoxColumn56.Name = "DataGridViewTextBoxColumn56"
         Me.DataGridViewTextBoxColumn56.ReadOnly = True
@@ -2054,8 +2060,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn57
         '
-        DataGridViewCellStyle135.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn57.DefaultCellStyle = DataGridViewCellStyle135
+        DataGridViewCellStyle491.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn57.DefaultCellStyle = DataGridViewCellStyle491
         Me.DataGridViewTextBoxColumn57.HeaderText = "Scrap Final (KG)"
         Me.DataGridViewTextBoxColumn57.Name = "DataGridViewTextBoxColumn57"
         Me.DataGridViewTextBoxColumn57.ReadOnly = True
@@ -2063,8 +2069,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn58
         '
-        DataGridViewCellStyle136.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn58.DefaultCellStyle = DataGridViewCellStyle136
+        DataGridViewCellStyle492.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn58.DefaultCellStyle = DataGridViewCellStyle492
         Me.DataGridViewTextBoxColumn58.HeaderText = "Loss Final (KG)"
         Me.DataGridViewTextBoxColumn58.Name = "DataGridViewTextBoxColumn58"
         Me.DataGridViewTextBoxColumn58.ReadOnly = True
@@ -2072,8 +2078,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn59
         '
-        DataGridViewCellStyle137.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn59.DefaultCellStyle = DataGridViewCellStyle137
+        DataGridViewCellStyle493.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn59.DefaultCellStyle = DataGridViewCellStyle493
         Me.DataGridViewTextBoxColumn59.Frozen = True
         Me.DataGridViewTextBoxColumn59.HeaderText = "Loss Final (%)"
         Me.DataGridViewTextBoxColumn59.Name = "DataGridViewTextBoxColumn59"
@@ -2082,8 +2088,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn60
         '
-        DataGridViewCellStyle138.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn60.DefaultCellStyle = DataGridViewCellStyle138
+        DataGridViewCellStyle494.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn60.DefaultCellStyle = DataGridViewCellStyle494
         Me.DataGridViewTextBoxColumn60.Frozen = True
         Me.DataGridViewTextBoxColumn60.HeaderText = "Waste Final (%)"
         Me.DataGridViewTextBoxColumn60.Name = "DataGridViewTextBoxColumn60"
@@ -2092,8 +2098,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn70
         '
-        DataGridViewCellStyle139.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn70.DefaultCellStyle = DataGridViewCellStyle139
+        DataGridViewCellStyle495.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn70.DefaultCellStyle = DataGridViewCellStyle495
         Me.DataGridViewTextBoxColumn70.HeaderText = "Berat (Gram)"
         Me.DataGridViewTextBoxColumn70.Name = "DataGridViewTextBoxColumn70"
         Me.DataGridViewTextBoxColumn70.ReadOnly = True
@@ -2101,8 +2107,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn74
         '
-        DataGridViewCellStyle140.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn74.DefaultCellStyle = DataGridViewCellStyle140
+        DataGridViewCellStyle496.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn74.DefaultCellStyle = DataGridViewCellStyle496
         Me.DataGridViewTextBoxColumn74.HeaderText = "Scrap GR Lv 1 (KG)"
         Me.DataGridViewTextBoxColumn74.Name = "DataGridViewTextBoxColumn74"
         Me.DataGridViewTextBoxColumn74.ReadOnly = True
@@ -2110,8 +2116,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn75
         '
-        DataGridViewCellStyle141.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn75.DefaultCellStyle = DataGridViewCellStyle141
+        DataGridViewCellStyle497.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn75.DefaultCellStyle = DataGridViewCellStyle497
         Me.DataGridViewTextBoxColumn75.HeaderText = "Total GR Lv 1 (KG)"
         Me.DataGridViewTextBoxColumn75.Name = "DataGridViewTextBoxColumn75"
         Me.DataGridViewTextBoxColumn75.ReadOnly = True
@@ -2119,176 +2125,176 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'DataGridViewTextBoxColumn76
         '
-        DataGridViewCellStyle142.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn76.DefaultCellStyle = DataGridViewCellStyle142
+        DataGridViewCellStyle498.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn76.DefaultCellStyle = DataGridViewCellStyle498
         Me.DataGridViewTextBoxColumn76.HeaderText = "Loss GR Lv 1 (KG)"
         Me.DataGridViewTextBoxColumn76.Name = "DataGridViewTextBoxColumn76"
         Me.DataGridViewTextBoxColumn76.Width = 150
         '
         'DataGridViewTextBoxColumn77
         '
-        DataGridViewCellStyle143.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn77.DefaultCellStyle = DataGridViewCellStyle143
+        DataGridViewCellStyle499.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn77.DefaultCellStyle = DataGridViewCellStyle499
         Me.DataGridViewTextBoxColumn77.HeaderText = "Loss GR Lv 1 (%)"
         Me.DataGridViewTextBoxColumn77.Name = "DataGridViewTextBoxColumn77"
         Me.DataGridViewTextBoxColumn77.Width = 150
         '
         'DataGridViewTextBoxColumn78
         '
-        DataGridViewCellStyle144.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn78.DefaultCellStyle = DataGridViewCellStyle144
+        DataGridViewCellStyle500.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn78.DefaultCellStyle = DataGridViewCellStyle500
         Me.DataGridViewTextBoxColumn78.HeaderText = "Waste GR Lv 1 (%)"
         Me.DataGridViewTextBoxColumn78.Name = "DataGridViewTextBoxColumn78"
         Me.DataGridViewTextBoxColumn78.Width = 150
         '
         'DataGridViewTextBoxColumn79
         '
-        DataGridViewCellStyle145.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn79.DefaultCellStyle = DataGridViewCellStyle145
+        DataGridViewCellStyle501.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn79.DefaultCellStyle = DataGridViewCellStyle501
         Me.DataGridViewTextBoxColumn79.HeaderText = "Time GR Lv 1 (Day)"
         Me.DataGridViewTextBoxColumn79.Name = "DataGridViewTextBoxColumn79"
         Me.DataGridViewTextBoxColumn79.Width = 150
         '
         'DataGridViewTextBoxColumn80
         '
-        DataGridViewCellStyle146.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn80.DefaultCellStyle = DataGridViewCellStyle146
+        DataGridViewCellStyle502.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn80.DefaultCellStyle = DataGridViewCellStyle502
         Me.DataGridViewTextBoxColumn80.HeaderText = "GR Lv 2 (PCS)"
         Me.DataGridViewTextBoxColumn80.Name = "DataGridViewTextBoxColumn80"
         Me.DataGridViewTextBoxColumn80.Width = 150
         '
         'DataGridViewTextBoxColumn81
         '
-        DataGridViewCellStyle147.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn81.DefaultCellStyle = DataGridViewCellStyle147
+        DataGridViewCellStyle503.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn81.DefaultCellStyle = DataGridViewCellStyle503
         Me.DataGridViewTextBoxColumn81.HeaderText = "GR Lv 2 (KG)"
         Me.DataGridViewTextBoxColumn81.Name = "DataGridViewTextBoxColumn81"
         Me.DataGridViewTextBoxColumn81.Width = 150
         '
         'DataGridViewTextBoxColumn82
         '
-        DataGridViewCellStyle148.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn82.DefaultCellStyle = DataGridViewCellStyle148
+        DataGridViewCellStyle504.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn82.DefaultCellStyle = DataGridViewCellStyle504
         Me.DataGridViewTextBoxColumn82.HeaderText = "Rejected Lv 2 (PCS)"
         Me.DataGridViewTextBoxColumn82.Name = "DataGridViewTextBoxColumn82"
         Me.DataGridViewTextBoxColumn82.Width = 150
         '
         'DataGridViewTextBoxColumn83
         '
-        DataGridViewCellStyle149.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn83.DefaultCellStyle = DataGridViewCellStyle149
+        DataGridViewCellStyle505.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn83.DefaultCellStyle = DataGridViewCellStyle505
         Me.DataGridViewTextBoxColumn83.HeaderText = "Scrap GR Lv 2 (KG)"
         Me.DataGridViewTextBoxColumn83.Name = "DataGridViewTextBoxColumn83"
         Me.DataGridViewTextBoxColumn83.Width = 150
         '
         'DataGridViewTextBoxColumn84
         '
-        DataGridViewCellStyle150.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn84.DefaultCellStyle = DataGridViewCellStyle150
+        DataGridViewCellStyle506.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn84.DefaultCellStyle = DataGridViewCellStyle506
         Me.DataGridViewTextBoxColumn84.HeaderText = "Total GR Lv 2 (KG)"
         Me.DataGridViewTextBoxColumn84.Name = "DataGridViewTextBoxColumn84"
         Me.DataGridViewTextBoxColumn84.Width = 150
         '
         'DataGridViewTextBoxColumn85
         '
-        DataGridViewCellStyle151.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn85.DefaultCellStyle = DataGridViewCellStyle151
+        DataGridViewCellStyle507.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn85.DefaultCellStyle = DataGridViewCellStyle507
         Me.DataGridViewTextBoxColumn85.HeaderText = "Waste GR Lv 2 (%)"
         Me.DataGridViewTextBoxColumn85.Name = "DataGridViewTextBoxColumn85"
         Me.DataGridViewTextBoxColumn85.Width = 150
         '
         'DataGridViewTextBoxColumn86
         '
-        DataGridViewCellStyle152.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn86.DefaultCellStyle = DataGridViewCellStyle152
+        DataGridViewCellStyle508.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn86.DefaultCellStyle = DataGridViewCellStyle508
         Me.DataGridViewTextBoxColumn86.HeaderText = "Time GR Lv 2 (Day)"
         Me.DataGridViewTextBoxColumn86.Name = "DataGridViewTextBoxColumn86"
         Me.DataGridViewTextBoxColumn86.Width = 150
         '
         'DataGridViewTextBoxColumn87
         '
-        DataGridViewCellStyle153.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn87.DefaultCellStyle = DataGridViewCellStyle153
+        DataGridViewCellStyle509.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn87.DefaultCellStyle = DataGridViewCellStyle509
         Me.DataGridViewTextBoxColumn87.HeaderText = "GR Rejected (PCS)"
         Me.DataGridViewTextBoxColumn87.Name = "DataGridViewTextBoxColumn87"
         Me.DataGridViewTextBoxColumn87.Width = 150
         '
         'DataGridViewTextBoxColumn88
         '
-        DataGridViewCellStyle154.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn88.DefaultCellStyle = DataGridViewCellStyle154
+        DataGridViewCellStyle510.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn88.DefaultCellStyle = DataGridViewCellStyle510
         Me.DataGridViewTextBoxColumn88.HeaderText = "GR Rejected (KG)"
         Me.DataGridViewTextBoxColumn88.Name = "DataGridViewTextBoxColumn88"
         Me.DataGridViewTextBoxColumn88.Width = 150
         '
         'DataGridViewTextBoxColumn89
         '
-        DataGridViewCellStyle155.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn89.DefaultCellStyle = DataGridViewCellStyle155
+        DataGridViewCellStyle511.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn89.DefaultCellStyle = DataGridViewCellStyle511
         Me.DataGridViewTextBoxColumn89.HeaderText = "Waste GR Rejected (%)"
         Me.DataGridViewTextBoxColumn89.Name = "DataGridViewTextBoxColumn89"
         Me.DataGridViewTextBoxColumn89.Width = 150
         '
         'DataGridViewTextBoxColumn90
         '
-        DataGridViewCellStyle156.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn90.DefaultCellStyle = DataGridViewCellStyle156
+        DataGridViewCellStyle512.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn90.DefaultCellStyle = DataGridViewCellStyle512
         Me.DataGridViewTextBoxColumn90.HeaderText = "Time GR Rejected (Day)"
         Me.DataGridViewTextBoxColumn90.Name = "DataGridViewTextBoxColumn90"
         Me.DataGridViewTextBoxColumn90.Width = 150
         '
         'DataGridViewTextBoxColumn91
         '
-        DataGridViewCellStyle157.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn91.DefaultCellStyle = DataGridViewCellStyle157
+        DataGridViewCellStyle513.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn91.DefaultCellStyle = DataGridViewCellStyle513
         Me.DataGridViewTextBoxColumn91.HeaderText = "GR Final (PCS)"
         Me.DataGridViewTextBoxColumn91.Name = "DataGridViewTextBoxColumn91"
         Me.DataGridViewTextBoxColumn91.Width = 150
         '
         'DataGridViewTextBoxColumn92
         '
-        DataGridViewCellStyle158.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn92.DefaultCellStyle = DataGridViewCellStyle158
+        DataGridViewCellStyle514.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn92.DefaultCellStyle = DataGridViewCellStyle514
         Me.DataGridViewTextBoxColumn92.HeaderText = "GR Final (KG)"
         Me.DataGridViewTextBoxColumn92.Name = "DataGridViewTextBoxColumn92"
         Me.DataGridViewTextBoxColumn92.Width = 150
         '
         'DataGridViewTextBoxColumn93
         '
-        DataGridViewCellStyle159.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn93.DefaultCellStyle = DataGridViewCellStyle159
+        DataGridViewCellStyle515.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn93.DefaultCellStyle = DataGridViewCellStyle515
         Me.DataGridViewTextBoxColumn93.HeaderText = "Scrap Final (KG)"
         Me.DataGridViewTextBoxColumn93.Name = "DataGridViewTextBoxColumn93"
         Me.DataGridViewTextBoxColumn93.Width = 150
         '
         'DataGridViewTextBoxColumn94
         '
-        DataGridViewCellStyle160.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn94.DefaultCellStyle = DataGridViewCellStyle160
+        DataGridViewCellStyle516.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn94.DefaultCellStyle = DataGridViewCellStyle516
         Me.DataGridViewTextBoxColumn94.HeaderText = "Loss Final (KG)"
         Me.DataGridViewTextBoxColumn94.Name = "DataGridViewTextBoxColumn94"
         Me.DataGridViewTextBoxColumn94.Width = 150
         '
         'DataGridViewTextBoxColumn95
         '
-        DataGridViewCellStyle161.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn95.DefaultCellStyle = DataGridViewCellStyle161
+        DataGridViewCellStyle517.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn95.DefaultCellStyle = DataGridViewCellStyle517
         Me.DataGridViewTextBoxColumn95.HeaderText = "Loss Final (%)"
         Me.DataGridViewTextBoxColumn95.Name = "DataGridViewTextBoxColumn95"
         Me.DataGridViewTextBoxColumn95.Width = 150
         '
         'DataGridViewTextBoxColumn96
         '
-        DataGridViewCellStyle162.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn96.DefaultCellStyle = DataGridViewCellStyle162
+        DataGridViewCellStyle518.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn96.DefaultCellStyle = DataGridViewCellStyle518
         Me.DataGridViewTextBoxColumn96.HeaderText = "Waste Final (%)"
         Me.DataGridViewTextBoxColumn96.Name = "DataGridViewTextBoxColumn96"
         Me.DataGridViewTextBoxColumn96.Width = 150
         '
         'Column23
         '
-        DataGridViewCellStyle163.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column23.DefaultCellStyle = DataGridViewCellStyle163
+        DataGridViewCellStyle519.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column23.DefaultCellStyle = DataGridViewCellStyle519
         Me.Column23.HeaderText = "Batch"
         Me.Column23.Name = "Column23"
         Me.Column23.ReadOnly = True
@@ -2296,16 +2302,16 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column24
         '
-        DataGridViewCellStyle164.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column24.DefaultCellStyle = DataGridViewCellStyle164
+        DataGridViewCellStyle520.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column24.DefaultCellStyle = DataGridViewCellStyle520
         Me.Column24.HeaderText = "GR Lv 1 (PCS)"
         Me.Column24.Name = "Column24"
         Me.Column24.ReadOnly = True
         '
         'Column25
         '
-        DataGridViewCellStyle165.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column25.DefaultCellStyle = DataGridViewCellStyle165
+        DataGridViewCellStyle521.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column25.DefaultCellStyle = DataGridViewCellStyle521
         Me.Column25.HeaderText = "GR_Lv 1 (KG)"
         Me.Column25.Name = "Column25"
         Me.Column25.ReadOnly = True
@@ -2313,8 +2319,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column26
         '
-        DataGridViewCellStyle166.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column26.DefaultCellStyle = DataGridViewCellStyle166
+        DataGridViewCellStyle522.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column26.DefaultCellStyle = DataGridViewCellStyle522
         Me.Column26.HeaderText = "Scrap GR Lv 1 (KG)"
         Me.Column26.Name = "Column26"
         Me.Column26.ReadOnly = True
@@ -2322,8 +2328,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column27
         '
-        DataGridViewCellStyle167.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column27.DefaultCellStyle = DataGridViewCellStyle167
+        DataGridViewCellStyle523.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column27.DefaultCellStyle = DataGridViewCellStyle523
         Me.Column27.HeaderText = "Time GR Lv 1 (Day)"
         Me.Column27.Name = "Column27"
         Me.Column27.ReadOnly = True
@@ -2331,8 +2337,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column28
         '
-        DataGridViewCellStyle168.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column28.DefaultCellStyle = DataGridViewCellStyle168
+        DataGridViewCellStyle524.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column28.DefaultCellStyle = DataGridViewCellStyle524
         Me.Column28.HeaderText = "GR Lv 2 (PCS)"
         Me.Column28.Name = "Column28"
         Me.Column28.ReadOnly = True
@@ -2340,8 +2346,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column29
         '
-        DataGridViewCellStyle169.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column29.DefaultCellStyle = DataGridViewCellStyle169
+        DataGridViewCellStyle525.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column29.DefaultCellStyle = DataGridViewCellStyle525
         Me.Column29.HeaderText = "GR Lv 2 (KG)"
         Me.Column29.Name = "Column29"
         Me.Column29.ReadOnly = True
@@ -2349,8 +2355,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column38
         '
-        DataGridViewCellStyle170.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column38.DefaultCellStyle = DataGridViewCellStyle170
+        DataGridViewCellStyle526.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column38.DefaultCellStyle = DataGridViewCellStyle526
         Me.Column38.HeaderText = "Rejected Lv 2 (PCS)"
         Me.Column38.Name = "Column38"
         Me.Column38.ReadOnly = True
@@ -2358,8 +2364,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column30
         '
-        DataGridViewCellStyle171.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column30.DefaultCellStyle = DataGridViewCellStyle171
+        DataGridViewCellStyle527.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column30.DefaultCellStyle = DataGridViewCellStyle527
         Me.Column30.HeaderText = "Scrap GR Lv 2 (KG)"
         Me.Column30.Name = "Column30"
         Me.Column30.ReadOnly = True
@@ -2367,8 +2373,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column31
         '
-        DataGridViewCellStyle172.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column31.DefaultCellStyle = DataGridViewCellStyle172
+        DataGridViewCellStyle528.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column31.DefaultCellStyle = DataGridViewCellStyle528
         Me.Column31.HeaderText = "Time GR Lv 2 (Day)"
         Me.Column31.Name = "Column31"
         Me.Column31.ReadOnly = True
@@ -2376,8 +2382,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column32
         '
-        DataGridViewCellStyle173.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column32.DefaultCellStyle = DataGridViewCellStyle173
+        DataGridViewCellStyle529.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column32.DefaultCellStyle = DataGridViewCellStyle529
         Me.Column32.HeaderText = "GR Rejected (PCS)"
         Me.Column32.Name = "Column32"
         Me.Column32.ReadOnly = True
@@ -2385,8 +2391,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column33
         '
-        DataGridViewCellStyle174.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column33.DefaultCellStyle = DataGridViewCellStyle174
+        DataGridViewCellStyle530.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column33.DefaultCellStyle = DataGridViewCellStyle530
         Me.Column33.HeaderText = "Time GR Rejected (Day)"
         Me.Column33.Name = "Column33"
         Me.Column33.ReadOnly = True
@@ -2394,8 +2400,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column34
         '
-        DataGridViewCellStyle175.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column34.DefaultCellStyle = DataGridViewCellStyle175
+        DataGridViewCellStyle531.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column34.DefaultCellStyle = DataGridViewCellStyle531
         Me.Column34.HeaderText = "GR Final (PCS)"
         Me.Column34.Name = "Column34"
         Me.Column34.ReadOnly = True
@@ -2403,8 +2409,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column35
         '
-        DataGridViewCellStyle176.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column35.DefaultCellStyle = DataGridViewCellStyle176
+        DataGridViewCellStyle532.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column35.DefaultCellStyle = DataGridViewCellStyle532
         Me.Column35.HeaderText = "Scrap Final (KG)"
         Me.Column35.Name = "Column35"
         Me.Column35.ReadOnly = True
@@ -2412,8 +2418,8 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column36
         '
-        DataGridViewCellStyle177.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column36.DefaultCellStyle = DataGridViewCellStyle177
+        DataGridViewCellStyle533.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column36.DefaultCellStyle = DataGridViewCellStyle533
         Me.Column36.HeaderText = "Loss Final (KG)"
         Me.Column36.Name = "Column36"
         Me.Column36.ReadOnly = True
@@ -2421,12 +2427,38 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         '
         'Column37
         '
-        DataGridViewCellStyle178.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column37.DefaultCellStyle = DataGridViewCellStyle178
+        DataGridViewCellStyle534.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column37.DefaultCellStyle = DataGridViewCellStyle534
         Me.Column37.HeaderText = "Loss Final (%)"
         Me.Column37.Name = "Column37"
         Me.Column37.ReadOnly = True
         Me.Column37.Width = 150
+        '
+        'Button1
+        '
+        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Button1.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Button1.Font = New System.Drawing.Font("Work Sans", 8.0!, System.Drawing.FontStyle.Bold)
+        Me.Button1.ForeColor = System.Drawing.Color.White
+        Me.Button1.Location = New System.Drawing.Point(245, 220)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(105, 30)
+        Me.Button1.TabIndex = 9
+        Me.Button1.Text = "&Cetak Rekap"
+        Me.Button1.UseVisualStyleBackColor = False
+        '
+        'Button2
+        '
+        Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Button2.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Button2.Font = New System.Drawing.Font("Work Sans", 8.0!, System.Drawing.FontStyle.Bold)
+        Me.Button2.ForeColor = System.Drawing.Color.White
+        Me.Button2.Location = New System.Drawing.Point(352, 220)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(105, 30)
+        Me.Button2.TabIndex = 10
+        Me.Button2.Text = "&Cetak Detail"
+        Me.Button2.UseVisualStyleBackColor = False
         '
         'N_EMI_Laporan_Final_GI_GR_Main
         '
@@ -2439,10 +2471,10 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Lv_Barang)
         Me.Controls.Add(Me.Lv_Routing)
-        Me.Controls.Add(Me.Btn_Cetak_Detail)
+        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.GroupBox1)
-        Me.Controls.Add(Me.Btn_Cetak_Rekap)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.Btn_Cari)
         Me.Controls.Add(Me.Panel4)
@@ -2678,4 +2710,6 @@ Partial Class N_EMI_Laporan_Final_GI_GR_Main
     Friend WithEvents Column68 As DataGridViewTextBoxColumn
     Friend WithEvents Column58 As DataGridViewTextBoxColumn
     Friend WithEvents Txt_NmRouting As TextBox
+    Friend WithEvents Button1 As Button
+    Friend WithEvents Button2 As Button
 End Class
