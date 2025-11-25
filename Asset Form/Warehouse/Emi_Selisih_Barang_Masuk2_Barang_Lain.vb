@@ -15,9 +15,12 @@
     Public P_NoSJ As String = ""
     Public P_NoPlat As String = ""
     Public P_Driver As String = ""
+    Public P_NoPO As String = ""
     Public P_TglMasuk As String = ""
     Public P_TglBerangkat As String = ""
     Public P_JamMasuk As String = ""
+    Public P_Flag_Selisih As String = ""
+    Public P_No_PO As String = ""
 
     Dim Cell_Lokasi As Integer = 0
     Dim Cell_KdBarang As Integer = 1
@@ -100,6 +103,7 @@
         Txt_FakturPO.Text = P_NoFakturPO
 
         Txt_Supplier.Text = String.Empty
+        Txt_No_PO.Text = String.Empty
         Txt_NoSJ.Text = String.Empty
         Txt_Plat.Text = String.Empty
         Txt_Driver.Text = String.Empty
@@ -120,6 +124,7 @@
         Txt_TglBerangkat.Text = P_TglBerangkat
         Txt_TglMasuk.Text = P_TglMasuk
         Txt_JamMasuk.Text = P_JamMasuk
+        Txt_No_PO.Text = P_No_PO
 
         Try
             OpenConn()
@@ -177,7 +182,7 @@
 
             Dim cekNilaiSelisih As Double = 0
 
-            SQL = "select b.Kode_Stock_Owner,b.Tanggal_Produksi,b.Tanggal_Expired, b.Kode_Barang, c.Nama, b.Jumlah_Barang as Jmlh_Pl_Hitung, b.Jumlah as Jmlh_Pl ,b.Jumlah_Masuk as jmlh_BM, b.Satuan, b.satuan_barang, d.Harga_Barang, d.Harga,"
+            SQL = "select b.Kode_Stock_Owner,b.Tanggal_Produksi,b.Tanggal_Expired, b.Kode_Barang, c.Nama, b.Jumlah_Barang as Jmlh_Pl_Hitung, b.Jumlah as Jmlh_Pl ,isnull(b.Jumlah_Masuk,0) as jmlh_BM, b.Satuan, b.satuan_barang, d.Harga_Barang, d.Harga,"
             SQL = SQL & "ISNULL((b.Jumlah_Barang *  d.Harga_Barang), 0) as Harga_Pl, "
             SQL = SQL & "ISNULL((b.Jumlah_Masuk *  d.Harga_Barang), 0) as Harga_BM, urut_oto "
             SQL = SQL & "from emi_pembelian_loading_barang_lain a, emi_pembelian_loading_detail_barang_lain b, Barang_Lain c, EMI_Pembelian_PO_Detail_Barang_Lain d "
@@ -420,7 +425,43 @@
             'ElseIf Cmb_JenisSelisih.SelectedIndex = -1 Then
             '    MessageBox.Show("Jenis Selisih Harus Dipilih", Judul, MessageBoxButtons.OK)
             '    Exit Sub
+        ElseIf Txt_Keterangan.Text.Trim.Length = 0 Then
+            MessageBox.Show("Keterangan Tidak Boleh Kosong", Judul, MessageBoxButtons.OK)
+            Txt_Keterangan.Focus()
+            Exit Sub
         End If
+
+        Try
+            OpenConn()
+
+            '===========================
+            '=     CEK BUTTON ROLE     =
+            '===========================
+            If P_Flag_Selisih = "Y" Then
+                If CekButtonRole("Simpan_Validasi_BM_Selisih_Barang_Lain") = "T" Then
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Anda Tidak Memiliki Akses Untuk Simpan Selisih", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            Else
+                If CekButtonRole("Simpan_Validasi_BM_Tidak_Selisih_Barang_Lain") = "T" Then
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Anda Tidak Memiliki Akses Untuk Simpan Tidak Selisih", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+
+            End If
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
 
         Dim akun_bahan As String = ""
         Dim akun_perjalanan As String = ""
@@ -492,10 +533,10 @@
             Next
 
 
-            SQL = "insert into EMI_Pembelian_Selisih_Barang_Masuk_Barang_Lain(Kode_Perusahaan, No_Faktur, Tanggal, Jam, UserID, Kode_Supplier, Total_Selisih, Total_Harga_Selisih, No_Faktur_BM, jenis_selisih, akun_bahan,akun_perjalanan, Flag_Masuk_Hutang_Bahan) values( "
+            SQL = "insert into EMI_Pembelian_Selisih_Barang_Masuk_Barang_Lain(Kode_Perusahaan, No_Faktur, Tanggal, Jam, UserID, Kode_Supplier, Total_Selisih, Total_Harga_Selisih, No_Faktur_BM, jenis_selisih, akun_bahan,akun_perjalanan, Flag_Masuk_Hutang_Bahan, Keterangan) values( "
             SQL = SQL & "'" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "', '" & P_KdSupplier & "', "
             SQL = SQL & "'" & HilangkanTanda(Txt_TotSelisihQTY.Text) & "', '" & HilangkanTanda(Txt_TotSelisihRP.Text) & "', '" & Txt_FakturPO.Text & "', '" & jenis_selisih & "', "
-            SQL = SQL & "'" & akun_bahan & "' , '" & akun_perjalanan & "', '" & masuk_hutang_bahan & "' ) "
+            SQL = SQL & "'" & akun_bahan & "' , '" & akun_perjalanan & "', '" & masuk_hutang_bahan & "', '" & Txt_Keterangan.Text.Trim & "' ) "
             ExecuteTrans(SQL)
 
 

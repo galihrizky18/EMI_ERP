@@ -138,6 +138,7 @@
         End Try
 
         Emi_Request_Material.kosong()
+        'EMI_Produksi.LoadDataDGV()
         Me.Close()
 
     End Sub

@@ -587,7 +587,7 @@ Public Class EMI_Display_Pallet_Masuk
                         '=================================
                         '=      INSERT TABEL CETAK       =
                         '=================================
-                        SQL = "insert into Cetak_barang_Masuk_Perpallet  (Kode_Perusahaan, No_Barang_Masuk_Per_Pallet, Kode_Barang, Barcode, Nama, QrUtuh, Qr, Tgl_Expired, batch, Tanggal_Cetak, "
+                        SQL = "insert into Cetak_barang_Masuk_Perpallet (Kode_Perusahaan, No_Barang_Masuk_Per_Pallet, Kode_Barang, Barcode, Nama, QrUtuh, Qr, Tgl_Expired, batch, Tanggal_Cetak, "
                         SQL = SQL & "Kode_Unik_Print,tanggal_masuk,metode_pengeluaran_stok ) values "
                         SQL = SQL & "('" & KodePerusahaan & "', '" & Lv_BM_PerPallet.FocusedItem.Text & "', '" & Ds.Tables("MyTable").Rows(i).Item("Kode_Barang") & "', @foto1" & Ds.Tables("MyTable").Rows(i).Item("urut_oto") & ", "
                         SQL = SQL & "'" & Ds.Tables("MyTable").Rows(i).Item("Nama") & "', '" & Qr & "-" & kodeUnikBerjalan & "', '" & Qr & "', '" & Format(Ds.Tables("MyTable").Rows(i).Item("Tgl_Expired"), "yyyy-MM-dd") & "', "

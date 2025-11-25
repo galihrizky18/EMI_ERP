@@ -44,6 +44,11 @@
     Dim itemDgvBatch As Integer = 13
     Dim itemDgvHarga As Integer = 14
     Dim itemDgvHargaDisplay As Integer = 15
+
+    Private Sub DGV_Data_TF_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Data_TF.CellContentClick
+
+    End Sub
+
     Dim itemDgvJmlAwal As Integer = 16
     Dim itemDgvJmlAkhir As Integer = 17
     Dim itemDgvKdBrgTujuan As Integer = 18
@@ -529,13 +534,15 @@
             arrIdWMSWarehouse.Clear()
             WarehosePosition.Clear()
 
-            SQL = "Select a.Id_WMS_Warehouse_Position, a.Keterangan  from "
-            SQL = SQL & "view_warehouse_position a, view_warehouse_position_detail b "
-            SQL = SQL & "where a.id_wms_warehouse_position = b.id_wms_warehouse_position "
-            SQL = SQL & "And a.KOde_Perusahaan = b.KOde_Perusahaan "
-            SQL = SQL & "And b.kode_Barang Is null "
+            SQL = "Select a.Id_WMS_Warehouse_Position, a.Keterangan from "
+            SQL = SQL & "view_warehouse_position a "
+            SQL = SQL & "where a.kode_perusahaan='" & KodePerusahaan & "' "
+
             SQL = SQL & "and a.Kode_Stock_Owner='" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
-            SQL = SQL & "group by a.Id_WMS_Warehouse_Position, a.Keterangan "
+
+            SQL = SQL & "and isnull((select top(1)  'Y' from view_warehouse_position_detail b where "
+            SQL = SQL & "a.id_wms_warehouse_position = b.id_wms_warehouse_position And a.Kode_Perusahaan = b.KOde_Perusahaan "
+            SQL = SQL & "And b.kode_Barang Is null ),null) ='Y' "
             SQL = SQL & "order by a.Keterangan "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
@@ -543,23 +550,53 @@
                 Loop
             End Using
 
-            SQL = "select a.Kode_Stock_Owner, a.Kode_Barang, a.Serial_Number, dbo.get_hpp(a.Serial_Number) as Harga, b.Nama, a.Id_Warehouse, c.Keterangan as kode_rak, "
-            SQL = SQL & " a.Id_Nametag_pallet, dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, b.satuan, "
-            SQL = SQL & "'" & TxtSatuan.Text & "', a.jumlah) as jumlah, b.satuan, a.nomor_pallet, ISNULL(a.Jumlah_Bags, 0) as stock_bags, a.Batch_number "
+            'SQL = "select a.Kode_Stock_Owner, a.Kode_Barang, 'X' as Serial_Number, dbo.get_hpp(a.Serial_Number) as Harga, b.Nama, a.Id_Warehouse, c.Keterangan as kode_rak, "
+            'SQL = SQL & " a.Id_Nametag_pallet, dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, b.satuan, "
+            'SQL = SQL & "'" & TxtSatuan.Text & "', a.jumlah) as jumlah, b.satuan, a.nomor_pallet, ISNULL(a.Jumlah_Bags, 0) as stock_bags, a.Batch_number "
 
-            SQL = SQL & ",dbo.ubah_satuan('" & KodePerusahaan & "', 'UANG','" & TxtKd_Barang.Text & "', '" & TxtSatuanKecil.Text & "',"
-            SQL = SQL & "'" & TxtSatuan.Text & "', dbo.get_hpp(a.Serial_Number) ) as Harga_display, a.Tgl_Produksi, a.Tgl_Expired, "
+            'SQL = SQL & ",dbo.ubah_satuan('" & KodePerusahaan & "', 'UANG','" & TxtKd_Barang.Text & "', '" & TxtSatuanKecil.Text & "',"
+            'SQL = SQL & "'" & TxtSatuan.Text & "', dbo.get_hpp(a.Serial_Number) ) as Harga_display, a.Tgl_Produksi, a.Tgl_Expired, "
+
+            'SQL = SQL & "(a.Qr_Code + '-' + a.Kode_Unik_Berjalan) as Barcode, a.Blok_SN "
+
+            'SQL = SQL & "from barang_sn a, barang b, View_Warehouse_Position c "
+            'SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan and a.Kode_Barang=b.Kode_Barang and a.kode_stock_Owner=b.kode_stock_Owner "
+            'SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Stock_Owner=c.Kode_Stock_Owner "
+            'SQL = SQL & "and a.Id_Warehouse=c.Id_WMS_Warehouse_Position "
+            'SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' "
+            'SQL = SQL & "and b.Kode_Stock_Owner='" & Txt_SO.Text & "' and b.Kode_Barang='" & TxtKd_Barang.Text & "' "
+            'SQL = SQL & "and a.jumlah > 0 "
+            'SQL = SQL & "order by a.Kode_Barang "
+
+
+
+            SQL = "Select a.Kode_Stock_Owner, a.Kode_Barang, 'X' as Serial_Number, b.Nama, a.Id_Warehouse, c.Keterangan As kode_rak, a.Id_Nametag_pallet, "
+
+            SQL = SQL & "dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, b.satuan, '" & TxtSatuan.Text & "', sum(a.jumlah)) as jumlah, "
+
+            SQL = SQL & "b.satuan, 0 As nomor_pallet, isNull(sum(a.Jumlah_Bags), 0) As stock_bags, a.warna, b.Metode_Pengeluaran_Stok, "
+            SQL = SQL & "b.Jenis_Kemasan, isNull(b.Isi_Per_Bags, 0) As Isi_Per_Bags, b.Satuan_Isi_Bags, a.Tgl_Expired, a.Tgl_Produksi, a.Tgl_Masuk "
+
+            SQL = SQL & ",isnull((select x.keterangan from emi_master_warna x where "
+            SQL = SQL & "x.kode_Perusahaan = a.kode_Perusahaan And x.kode_warna = a.warna),NULL) As Ket_Warna, "
 
             SQL = SQL & "(a.Qr_Code + '-' + a.Kode_Unik_Berjalan) as Barcode, a.Blok_SN "
 
-            SQL = SQL & "from barang_sn a, barang b, View_Warehouse_Position c "
-            SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan and a.Kode_Barang=b.Kode_Barang and a.kode_stock_Owner=b.kode_stock_Owner "
-            SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Stock_Owner=c.Kode_Stock_Owner "
-            SQL = SQL & "and a.Id_Warehouse=c.Id_WMS_Warehouse_Position "
-            SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' "
-            SQL = SQL & "and b.Kode_Stock_Owner='" & Txt_SO.Text & "' and b.Kode_Barang='" & TxtKd_Barang.Text & "' "
-            SQL = SQL & "and a.jumlah > 0 "
-            SQL = SQL & "order by a.Kode_Barang "
+            SQL = SQL & "From barang_sn a, barang b, View_Warehouse_Position c "
+            SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.Kode_Barang = b.Kode_Barang And "
+            SQL = SQL & "a.Kode_Stock_Owner = b.Kode_Stock_Owner And a.Kode_Perusahaan = c.Kode_Perusahaan And "
+            SQL = SQL & "a.Id_Warehouse = c.Id_WMS_Warehouse_Position And a.Jumlah <> 0 And "
+            SQL = SQL & "a.Kode_Perusahaan ='" & KodePerusahaan & "' And b.Kode_Stock_Owner ='" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
+            SQL = SQL & "And b.Kode_Barang ='" & TxtKd_Barang.Text & "' "
+
+            SQL = SQL & "group by a.Kode_Perusahaan, a.Kode_Stock_Owner, a.Kode_Barang, b.Nama, b.Satuan, a.Id_Warehouse, "
+            SQL = SQL & "c.Keterangan, a.Id_Nametag_pallet, a.warna, b.Metode_Pengeluaran_Stok, b.Jenis_Kemasan, "
+            SQL = SQL & "b.Isi_Per_Bags, b.Satuan_Isi_Bags, a.Tgl_Expired, a.Tgl_Produksi, a.warna, "
+            SQL = SQL & "a.Qr_Code, a.Kode_Unik_Berjalan, a.Blok_SN, a.Tgl_Masuk "
+
+            SQL = SQL & "order by case when Metode_Pengeluaran_Stok='FIFO' then a.Tgl_Masuk "
+            SQL = SQL & "Else a.Tgl_Expired End "
+
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
 
@@ -575,9 +612,9 @@
                     DGV_Data_TF.Rows(rows).Cells(itemDgvIDPallet).Value = Dr("nomor_pallet")
                     DGV_Data_TF.Rows(rows).Cells(itemDgvGoodStock).Value = Format(Dr("jumlah"), "N2")
                     DGV_Data_TF.Rows(rows).Cells(itemDgvStockBags).Value = Format(Dr("stock_bags"), "N0")
-                    DGV_Data_TF.Rows(rows).Cells(itemDgvBatch).Value = Dr("Batch_number")
-                    DGV_Data_TF.Rows(rows).Cells(itemDgvHarga).Value = Dr("Harga")
-                    DGV_Data_TF.Rows(rows).Cells(itemDgvHargaDisplay).Value = Format(Dr("Harga_display"), "N2")
+                    DGV_Data_TF.Rows(rows).Cells(itemDgvBatch).Value =
+                    DGV_Data_TF.Rows(rows).Cells(itemDgvHarga).Value = 0
+                    DGV_Data_TF.Rows(rows).Cells(itemDgvHargaDisplay).Value = 0 'Format(Dr("Harga_display"), "N2")
 
                     DGV_Data_TF.Rows(rows).Cells(itemDgvSatuan).Value = TxtSatuan.Text
 
@@ -758,15 +795,111 @@
                         End If
                     End Using
 
+                    Dim jenis_bags As String = ""
+                    Dim isi_per_bags As Double = 0
+                    SQL = "select Jenis_Kemasan, isnull(Isi_Per_Bags,0) as Isi_Per_Bags from barang where "
+                    SQL = SQL & "kode_perusahaan='" & KodePerusahaan & "' and "
+                    SQL = SQL & "kode_barang='" & dgv_KodeBarang & "' and "
+                    SQL = SQL & "kode_stock_owner='" & dgv_Lokasi & "'"
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            jenis_bags = Dr("Jenis_Kemasan").ToString.ToUpper
+                            isi_per_bags = Dr("Isi_Per_Bags")
+                        Else
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Data barang tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
+
                     '=========================
-                    '=     INSERT DETAIL     =
+                    '=     GET DETAIL SN     =
                     '=========================
-                    Dim Tgl_Produksi As Date = DateTime.ParseExact(dgv_TglProduksi, "dd MMM yyyy", Globalization.CultureInfo.InvariantCulture)
-                    Dim Tgl_Expired As Date = DateTime.ParseExact(dgv_TglExpired, "dd MMM yyyy", Globalization.CultureInfo.InvariantCulture)
-                    SQL = "insert into EMI_TF_Material_To_Material_Detail (Kode_Perusahaan, Kode_Transfer, Tgl_Produksi, Tgl_Expired, Serial_Number_Awal, Jumlah_Barang, Satuan_Barang, Jumlah_Bags, Id_Warehouse_Awal, Nomor_Pallet_Awal) values "
-                    SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & Format(Tgl_Produksi, "yyyy-MM-dd") & "', '" & Format(Tgl_Expired, "yyyy-MM-dd") & "',  "
-                    SQL = SQL & "'" & dgv_SerialNumber & "', '" & HilangkanTanda(JumlahBarangKecil) & "', '" & TxtSatuanKecil.Text & "', '" & HilangkanTanda(dgv_JmlhBags) & "', '" & dgv_IDWareHouse & "', '" & dgv_IDPallet & "')"
-                    ExecuteTrans(SQL)
+                    Dim jumlah_potong As Double = Val(HilangkanTanda(JumlahBarangKecil))
+                    Dim JumlahDipotong As Double = 0
+                    SQL = "select a.Jumlah as Stock_SN, a.serial_number, Tgl_Produksi, Tgl_Expired "
+                    SQL = SQL & "from Barang_SN a "
+                    SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and a.qr_Code+'-'+a.kode_unik_berjalan = '" & dgv_Barcode & "' "
+                    SQL = SQL & "and a.Kode_stock_owner = '" & dgv_Lokasi & "' and a.jumlah<>0 "
+                    SQL = SQL & "order by a.Tgl_Expired "
+                    Using Ds = BindingTrans(SQL)
+                        With Ds.Tables("MyTable")
+                            If .Rows.Count <> 0 Then
+                                For i As Integer = 0 To .Rows.Count - 1
+                                    If jumlah_potong = 0 Then
+                                        Exit For
+                                    ElseIf jumlah_potong < 0 Then
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Terdapat Kesalahan saat Potong Barang Produksi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+
+
+                                    Dim JumlahInsert As Double = 0
+                                    Dim Data_SN As String = .Rows(i).Item("serial_number")
+
+                                    If jumlah_potong < Val(HilangkanTanda(.Rows(i).Item("Stock_SN"))) Or jumlah_potong = Val(HilangkanTanda(.Rows(i).Item("Stock_SN"))) Then
+
+                                        JumlahInsert = jumlah_potong
+                                        ' Satuan = .Rows(Index).Item("Satuan").ToString.Trim
+
+
+                                        JumlahDipotong += jumlah_potong
+                                        jumlah_potong = 0
+
+                                    ElseIf jumlah_potong > Val(HilangkanTanda(.Rows(i).Item("Stock_SN"))) Then
+
+                                        JumlahInsert = Val(HilangkanTanda(Format(.Rows(i).Item("Stock_SN"), "N4")))
+                                        'Satuan = .Rows(Index).Item("Satuan").ToString.Trim
+
+                                        JumlahDipotong += Val(HilangkanTanda(Format(.Rows(i).Item("Stock_SN"), "N4")))
+                                        jumlah_potong = jumlah_potong - Val(HilangkanTanda(Format(.Rows(i).Item("Stock_SN"), "N4")))
+                                    Else
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Terjadi Kesalaham pada Barang SN untuk Kode Barang !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+
+
+                                    Dim Jumlah_Bags = 0
+                                    If jenis_bags = "ORIGINAL BAGS" Then
+                                        Jumlah_Bags = JumlahInsert / isi_per_bags
+                                    End If
+
+                                    '=========================
+                                    '=     INSERT DETAIL     =
+                                    '=========================
+                                    SQL = "insert into EMI_TF_Material_To_Material_Detail (Kode_Perusahaan, Kode_Transfer, Tgl_Produksi, Tgl_Expired, Serial_Number_Awal, Jumlah_Barang, Satuan_Barang, Jumlah_Bags, Id_Warehouse_Awal, Nomor_Pallet_Awal) values "
+                                    SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & .Rows(i).Item("Tgl_Produksi") & "', '" & .Rows(i).Item("Tgl_Expired") & "',  "
+                                    SQL = SQL & "'" & Data_SN & "', '" & HilangkanTanda(JumlahInsert) & "', '" & TxtSatuanKecil.Text & "', '" & HilangkanTanda(Jumlah_Bags) & "', '" & dgv_IDWareHouse & "', '" & dgv_IDPallet & "')"
+                                    ExecuteTrans(SQL)
+
+
+
+                                Next
+                            Else
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("Terdapat Kesalahan saat Potong Barang Produksi, SN Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+                        End With
+                    End Using
+
+                    If Val(HilangkanTanda(JumlahDipotong)) <> Val(HilangkanTanda(JumlahBarangKecil)) Then
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Terjadi Kesalahan Saat Memotong Stock Barang !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+
+
 
                 End If
             Next

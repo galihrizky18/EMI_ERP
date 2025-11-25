@@ -22,6 +22,7 @@ Partial Class Emi_Display_Retur_Pembelian
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -48,10 +49,14 @@ Partial Class Emi_Display_Retur_Pembelian
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.Lv_Retur_Mobil = New System.Windows.Forms.ListView()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SalinNoFakturToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CetakUlangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -274,6 +279,7 @@ Partial Class Emi_Display_Retur_Pembelian
         '
         'Lv_Retur
         '
+        Me.Lv_Retur.ContextMenuStrip = Me.ContextMenuStrip1
         Me.Lv_Retur.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lv_Retur.FullRowSelect = True
         Me.Lv_Retur.GridLines = True
@@ -351,6 +357,24 @@ Partial Class Emi_Display_Retur_Pembelian
         Me.Lv_Retur_Mobil.UseCompatibleStateImageBehavior = False
         Me.Lv_Retur_Mobil.View = System.Windows.Forms.View.Details
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalinNoFakturToolStripMenuItem, Me.CetakUlangToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 70)
+        '
+        'SalinNoFakturToolStripMenuItem
+        '
+        Me.SalinNoFakturToolStripMenuItem.Name = "SalinNoFakturToolStripMenuItem"
+        Me.SalinNoFakturToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SalinNoFakturToolStripMenuItem.Text = "Salin No Faktur"
+        '
+        'CetakUlangToolStripMenuItem
+        '
+        Me.CetakUlangToolStripMenuItem.Name = "CetakUlangToolStripMenuItem"
+        Me.CetakUlangToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CetakUlangToolStripMenuItem.Text = "Cetak Ulang"
+        '
         'Emi_Display_Retur_Pembelian
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -376,6 +400,7 @@ Partial Class Emi_Display_Retur_Pembelian
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -405,4 +430,7 @@ Partial Class Emi_Display_Retur_Pembelian
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents GroupBox3 As GroupBox
     Friend WithEvents Lv_Retur_Mobil As ListView
+    Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
+    Friend WithEvents SalinNoFakturToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CetakUlangToolStripMenuItem As ToolStripMenuItem
 End Class

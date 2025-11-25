@@ -1,5 +1,6 @@
 ﻿
 Imports System.Drawing.Printing
+Imports System.IO.Ports
 Public Class Global_Setting
     Dim arrKd As New ArrayList
 
@@ -79,6 +80,63 @@ Public Class Global_Setting
         cmbCOMFloorScale.Text = My.Settings.Port_Timbangan
 
 
+        Cb_Tb1.Items.Clear()
+        Cb_Tb1.Items.Add("COM1")
+        Cb_Tb1.Items.Add("COM2")
+        Cb_Tb1.Items.Add("COM3")
+        Cb_Tb1.Items.Add("COM4")
+        Cb_Tb1.Items.Add("COM5")
+        Cb_Tb1.Items.Add("COM6")
+        Cb_Tb1.Items.Add("COM7")
+        Cb_Tb1.Items.Add("COM8")
+        Cb_Tb1.Items.Add("COM9")
+        Cb_Tb1.Items.Add("COM10")
+
+        Cb_Tb1.Text = My.Settings.Port_Timbangan1
+
+        Cb_Tb2.Items.Clear()
+        Cb_Tb2.Items.Add("COM1")
+        Cb_Tb2.Items.Add("COM2")
+        Cb_Tb2.Items.Add("COM3")
+        Cb_Tb2.Items.Add("COM4")
+        Cb_Tb2.Items.Add("COM5")
+        Cb_Tb2.Items.Add("COM6")
+        Cb_Tb2.Items.Add("COM7")
+        Cb_Tb2.Items.Add("COM8")
+        Cb_Tb2.Items.Add("COM9")
+        Cb_Tb2.Items.Add("COM10")
+
+        Cb_Tb2.Text = My.Settings.Port_Timbangan2
+
+        Cb_Tb3.Items.Clear()
+        Cb_Tb3.Items.Add("COM1")
+        Cb_Tb3.Items.Add("COM2")
+        Cb_Tb3.Items.Add("COM3")
+        Cb_Tb3.Items.Add("COM4")
+        Cb_Tb3.Items.Add("COM5")
+        Cb_Tb3.Items.Add("COM6")
+        Cb_Tb3.Items.Add("COM7")
+        Cb_Tb3.Items.Add("COM8")
+        Cb_Tb3.Items.Add("COM9")
+        Cb_Tb3.Items.Add("COM10")
+
+        Cb_Tb3.Text = My.Settings.Port_Timbangan3
+    End Sub
+
+    Private Sub SetComboBoxWithCheck(cb As ComboBox, savedPort As String, lbl As Label)
+        If Not String.IsNullOrEmpty(savedPort) Then
+            cb.SelectedItem = savedPort
+            If cb.Items.Contains(savedPort) Then
+                lbl.Text = "Port aktif"
+                lbl.ForeColor = Color.Green
+            Else
+                lbl.Text = "Port tidak aktif"
+                lbl.ForeColor = Color.Red
+            End If
+        Else
+            lbl.Text = "Tidak ada port diset"
+            lbl.ForeColor = Color.Black
+        End If
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
@@ -133,6 +191,9 @@ Public Class Global_Setting
         My.Settings.Prt_QC = cmbQC.Text
         My.Settings.Port_Timbangan = cmbCOMFloorScale.Text
         My.Settings.Prt_Barcode_QC = Cmb_BarcodeQC.Text
+        My.Settings.Port_Timbangan1 = Cb_Tb1.Text
+        My.Settings.Port_Timbangan2 = Cb_Tb2.Text
+        My.Settings.Port_Timbangan3 = Cb_Tb3.Text
 
 
         PrinterName = My.Settings.Prt_Name
@@ -144,9 +205,13 @@ Public Class Global_Setting
         PrinterBarcode = My.Settings.Prt_Barcode
         PrinterQC = My.Settings.Prt_QC
         Port_Timbangan = My.Settings.Port_Timbangan
+        Port_Timbangan1 = My.Settings.Port_Timbangan1
+        Port_Timbangan2 = My.Settings.Port_Timbangan2
+        Port_Timbangan3 = My.Settings.Port_Timbangan3
         PrinterBarcodeQC = My.Settings.Prt_Barcode_QC
 
         My.Settings.Save()
+
         MessageBox.Show("Berhasil disimpan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End
     End Sub

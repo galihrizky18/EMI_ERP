@@ -925,7 +925,7 @@ Partial Class EMI_Pembelian2
         Me.BtnPembelian_Simpan.Location = New System.Drawing.Point(8, 531)
         Me.BtnPembelian_Simpan.Margin = New System.Windows.Forms.Padding(2)
         Me.BtnPembelian_Simpan.Name = "BtnPembelian_Simpan"
-        Me.BtnPembelian_Simpan.Size = New System.Drawing.Size(84, 62)
+        Me.BtnPembelian_Simpan.Size = New System.Drawing.Size(84, 58)
         Me.BtnPembelian_Simpan.TabIndex = 322
         Me.BtnPembelian_Simpan.Text = "&Simpan"
         Me.BtnPembelian_Simpan.TextAlign = System.Drawing.ContentAlignment.BottomCenter

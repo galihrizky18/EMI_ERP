@@ -25,11 +25,13 @@ Public Class EMI_Validasi_Pengeluaran_Stock
     Dim itemSOAkhir As Integer = 2
     Dim itemKodeBarang As Integer = 3
     Dim itemNamaBarang As Integer = 4
-    Dim itemTotal As Integer = 5
-    Dim itemSatuan As Integer = 6
-    Dim itemLokasiRak As Integer = 7
-    Dim itemSN As Integer = 8
-    Dim itemSatuanBarang As Integer = 9
+    Dim itemTotalInput As Integer = 5
+    Dim itemSatuanInput As Integer = 6
+    Dim itemTotal As Integer = 7
+    Dim itemSatuan As Integer = 8
+    Dim itemLokasiRak As Integer = 9
+    Dim itemSN As Integer = 10
+    Dim itemSatuanBarang As Integer = 11
 
     Dim Random As New Random()
     Private imageBytes1 As Byte = Nothing
@@ -111,10 +113,10 @@ Public Class EMI_Validasi_Pengeluaran_Stock
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
 
-
+            Dim Id_Jenis_Kategori_Produksi As String = ""
 
             'Ambil Data SN Berdasar Barcode
-            SQL = "select a.Serial_Number, a.Qr_Code, a.Kode_Unik_Berjalan, b.Nama, a.Batch_Number, a.Tgl_Expired,b.Metode_Pengeluaran_Stok,a.Tgl_Masuk, a.Blok_SN "
+            SQL = "select a.Serial_Number, a.Qr_Code, a.Kode_Unik_Berjalan, b.Nama, a.Batch_Number, a.Tgl_Expired,b.Metode_Pengeluaran_Stok,a.Tgl_Masuk, a.Blok_SN, a.id_jenis_kategori_produksi "
             SQL = SQL & "from barang_sn a, barang b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
             SQL = SQL & "and a.Kode_Stock_Owner = b.Kode_Stock_Owner "
@@ -140,6 +142,13 @@ Public Class EMI_Validasi_Pengeluaran_Stock
                     expDate = General_Class.CekNULL(Dr("Tgl_Expired"))
                     tglMsk = General_Class.CekNULL(Dr("tgl_masuk"))
                     metodePengeluaranStock = General_Class.CekNULL(Dr("Metode_Pengeluaran_Stok"))
+
+                    If General_Class.CekNULL(Dr("id_jenis_kategori_produksi")) = "" Then
+                        Id_Jenis_Kategori_Produksi = "NULL"
+                    Else
+                        Id_Jenis_Kategori_Produksi = $"'{Dr("id_jenis_kategori_produksi")}'"
+                    End If
+
                 Else
                     Dr.Close()
                     CloseTrans()
@@ -178,7 +187,8 @@ Public Class EMI_Validasi_Pengeluaran_Stock
                     GetDataSatuanBesar = Dr("Satuan")
                     GetDataUrutOto = Dr("urut_oto")
 
-                    GetJumlahBags = Dr("Jumlah_Bags")
+                    GetJumlahBags = 0
+                    'GetJumlahBags = Dr("Jumlah_Bags")
                     GetSoAwal = Dr("kode_Stock_owner")
                     GetSnAwal = Dr("Serial_Number_Awal")
                     GetWarna = Dr("Warna")
@@ -310,12 +320,12 @@ Public Class EMI_Validasi_Pengeluaran_Stock
                         CloseConn()
                         MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat stock " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Exit Sub
-                    ElseIf dr("Jumlah_Bags") < GetJumlahBags Then
-                        dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat jumlah bags " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Exit Sub
+                        'ElseIf dr("Jumlah_Bags") < GetJumlahBags Then
+                        '    dr.Close()
+                        '    CloseTrans()
+                        '    CloseConn()
+                        '    MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat jumlah bags " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        '    Exit Sub
                     Else
                         dr.Close()
                         SQL = "update barang set Good_Stock = Good_Stock - Round(" & nilai_kecildetail & ",4), Jumlah_Bags = Jumlah_Bags - " & GetJumlahBags & " "
@@ -343,12 +353,12 @@ Public Class EMI_Validasi_Pengeluaran_Stock
                         CloseConn()
                         MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat stock " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Exit Sub
-                    ElseIf dr("Jumlah_Bags") < GetJumlahBags Then
-                        dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat jumlah bags " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Exit Sub
+                        'ElseIf dr("Jumlah_Bags") < GetJumlahBags Then
+                        '    dr.Close()
+                        '    CloseTrans()
+                        '    CloseConn()
+                        '    MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat jumlah bags " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        '    Exit Sub
                     Else
                         dr.Close()
                         SQL = "update barang_sn set jumlah = jumlah - Round(" & nilai_kecildetail & ",4), Jumlah_Bags = Jumlah_Bags - " & GetJumlahBags & " "
@@ -499,6 +509,7 @@ Public Class EMI_Validasi_Pengeluaran_Stock
             Cmd.Transaction.Commit()
             CloseTrans()
             CloseConn()
+            MessageBox.Show("Data Berhasil Divalidasi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
             CloseTrans()
             CloseConn()
@@ -573,15 +584,17 @@ Public Class EMI_Validasi_Pengeluaran_Stock
             Lv_List_Barang.Columns.Clear()
 
             Lv_List_Barang.Columns.Add("Kode Transfer", 180, HorizontalAlignment.Left).DisplayIndex = 0 '0
-            '  Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_Lokasi, 130, HorizontalAlignment.Left) '1
             Lv_List_Barang.Columns.Add("Lokasi", 200, HorizontalAlignment.Left) '1
             Lv_List_Barang.Columns.Add("SO Akhir", 0, HorizontalAlignment.Left) '2
             Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_KodeBarang, 150, HorizontalAlignment.Left) '3
             Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_NamaBarang, 0, HorizontalAlignment.Left) '4
-            Lv_List_Barang.Columns.Add("Total", 150, HorizontalAlignment.Right) '5
-            Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_Satuan, 120, HorizontalAlignment.Center) '6
-            Lv_List_Barang.Columns.Add("Lokasi RAK", 200, HorizontalAlignment.Left) '7
-            Lv_List_Barang.Columns.Add("barangSn", 0, HorizontalAlignment.Left) '8
+            Lv_List_Barang.Columns.Add("Total Input", 150, HorizontalAlignment.Right) '5
+            Lv_List_Barang.Columns.Add("Satuan Input", 90, HorizontalAlignment.Center) '6
+            Lv_List_Barang.Columns.Add("Total", 150, HorizontalAlignment.Right) '7
+            Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_Satuan, 90, HorizontalAlignment.Center) '8
+            Lv_List_Barang.Columns.Add("Lokasi RAK", 200, HorizontalAlignment.Left) '9
+            Lv_List_Barang.Columns.Add("barangSn", 0, HorizontalAlignment.Left) '10
+            Lv_List_Barang.Columns.Add("satuanBarang", 0, HorizontalAlignment.Left) '11
 
             Lv_List_Barang.View = View.Details
 
@@ -646,7 +659,14 @@ Public Class EMI_Validasi_Pengeluaran_Stock
             SQL = SQL & "c.jumlah, c.Jumlah_Bags, c.Warna, "
 
             SQL = SQL & "isnull((select x.Labeling_WMS_Position from View_Warehouse_Position x where "
-            SQL = SQL & "x.Kode_Perusahaan = c.Kode_Perusahaan And x.Id_WMS_Warehouse_Position = c.Id_Wms_Awal), null) As Rak_Awal "
+            SQL = SQL & "x.Kode_Perusahaan = c.Kode_Perusahaan And x.Id_WMS_Warehouse_Position = c.Id_Wms_Awal), null) As Rak_Awal, "
+
+            SQL = SQL & "isnull((select (c.Jumlah / z.Nilai) as Hasil "
+            SQL = SQL & "from N_EMI_Master_Satuan z "
+            SQL = SQL & "where z.Kode_Perusahaan = a.Kode_Perusahaan "
+            SQL = SQL & "and z.Kode_Barang = b.Kode_Barang "
+            SQL = SQL & "and z.Satuan = c.satuan_input "
+            SQL = SQL & "), 0) as Jumlah_Input, isnull(c.satuan_input, '-') as satuan_input "
 
             SQL = SQL & "From EMI_Pengeluaran_Stock_Parent a, EMI_Pengeluaran_Stock b, EMI_Pengeluaran_Stock_det c, barang d Where "
             SQL = SQL & "a.kode_Perusahaan = b.kode_Perusahaan And a.no_faktur = b.no_faktur And "
@@ -659,17 +679,20 @@ Public Class EMI_Validasi_Pengeluaran_Stock
                 Do While dr.Read
                     Dim Lvw As ListViewItem
 
-                    Lvw = Lv_List_Barang.Items.Add(dr("no_faktur"))
-                    '  Lvw.SubItems.Add(dr("lokasi"))
-                    Lvw.SubItems.Add(dr("Kode_Stock_Owner"))
-                    Lvw.SubItems.Add("")
-                    Lvw.SubItems.Add(dr("kode_barang"))
-                    Lvw.SubItems.Add("X")
-                    Lvw.SubItems.Add(Format(dr("jumlah"), "N2"))
-                    Lvw.SubItems.Add(dr("satuan"))
-                    Lvw.SubItems.Add(dr("Rak_Awal"))
-                    Lvw.SubItems.Add(dr("Serial_Number_Awal"))
-                    Lvw.SubItems.Add(dr("Satuan_Barang"))
+                    Lvw = Lv_List_Barang.Items.Add(dr("no_faktur")) '0
+                    Lvw.SubItems.Add(dr("Kode_Stock_Owner")) '1
+                    Lvw.SubItems.Add("") '2
+                    Lvw.SubItems.Add(dr("kode_barang")) '3
+                    Lvw.SubItems.Add("X") '4
+
+                    Lvw.SubItems.Add(Format(dr("Jumlah_Input"), "N2")) '5
+                    Lvw.SubItems.Add(dr("satuan_input")) '6
+
+                    Lvw.SubItems.Add(Format(dr("jumlah"), "N2")) '7
+                    Lvw.SubItems.Add(dr("satuan")) '8
+                    Lvw.SubItems.Add(dr("Rak_Awal")) '9
+                    Lvw.SubItems.Add(dr("Serial_Number_Awal")) '10
+                    Lvw.SubItems.Add(dr("Satuan_Barang")) '11
                 Loop
             End Using
 

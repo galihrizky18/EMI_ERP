@@ -51,7 +51,10 @@
 
     Private Sub Kosong()
 
-
+        FlowLayoutPanelSidebar.Controls.Clear()
+        Lv_Detail.Rows.Clear()
+        Txt_Keterangan.Text = ""
+        Lv_Det.Items.Clear()
 
         LoadData()
         LoadSidebar()

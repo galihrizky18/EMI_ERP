@@ -659,6 +659,9 @@ Public Class FMenu
             Case "EMI_Display_Timbang"
                 Return EMI_Display_Timbang
 
+            Case "N_EMI_Transaksi_Request_Material_QC_Validasi"
+                Return N_EMI_Transaksi_Request_Material_QC_Validasi
+
             Case "EMI_Pembelian_PO_Summary_Data"
                 Return EMI_Pembelian_PO_Summary_Data
 

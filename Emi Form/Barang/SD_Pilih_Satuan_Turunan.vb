@@ -1,8 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-
-Public Class SD_Pilih_Satuan_Turunan
+﻿Public Class SD_Pilih_Satuan_Turunan
     Public asal As String
     Dim arrcari, arrIdPenanggungJawab As New ArrayList
     Dim Jenis = "barang"
@@ -35,23 +31,32 @@ Public Class SD_Pilih_Satuan_Turunan
             lvwSatuan.Visible = True
             lvwSatuan.Items.Clear()
 
-            SQL = "select satuan_akhir,nilai_pengali,flag_general from EMI_Satuan_Detail_Perhitungan where kode_perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and satuan_awal = '" & Master_Barang_New.cmbSatuan.Text & "' and jenis = 'masa' "
-            SQL = SQL & "and satuan_akhir <> '" & Master_Barang_New.cmbSatuan.Text & "' "
+            'SQL = "select satuan_akhir,nilai_pengali,flag_general from EMI_Satuan_Detail_Perhitungan where kode_perusahaan = '" & KodePerusahaan & "' "
+            'SQL = SQL & "and satuan_awal = '" & Master_Barang_New.cmbSatuan.Text & "' and jenis = 'masa' "
+            'SQL = SQL & "and satuan_akhir <> '" & Master_Barang_New.cmbSatuan.Text & "' "
+
+            SQL = "select Satuan from emi_satuan "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Flag_Barang = 'Y' "
+
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Dim lvw As ListViewItem
                     lvw = lvwSatuan.Items.Add("")
-                    lvw.SubItems.Add(Dr("satuan_akhir"))
-                    lvw.SubItems.Add(Dr("nilai_pengali"))
+                    'lvw.SubItems.Add(Dr("satuan_akhir"))
+                    'lvw.SubItems.Add(Dr("nilai_pengali"))
 
-                    If General_Class.CekNULL(Dr("flag_general")) = "" Then
-                        lvw.SubItems.Add("T")
-                    ElseIf Dr("flag_general") = "T" Then
-                        lvw.SubItems.Add("T")
-                    Else
-                        lvw.SubItems.Add("Y")
-                    End If
+                    lvw.SubItems.Add(Dr("Satuan"))
+                    lvw.SubItems.Add(0)
+
+                    lvw.SubItems.Add("Y")
+
+                    'If General_Class.CekNULL(Dr("flag_general")) = "" Then
+                    '    lvw.SubItems.Add("T")
+                    'ElseIf Dr("flag_general") = "T" Then
+                    '    lvw.SubItems.Add("T")
+                    'Else
+                    '    lvw.SubItems.Add("Y")
+                    'End If
 
                 Loop
             End Using
@@ -133,8 +138,6 @@ Public Class SD_Pilih_Satuan_Turunan
                         End If
                     Next
 
-
-
                     Dim rows As Integer = Master_Barang_New.DgvSatuanTerpilih.Rows.Count
 
                     Master_Barang_New.DgvSatuanTerpilih.Rows.Add(1)
@@ -144,10 +147,11 @@ Public Class SD_Pilih_Satuan_Turunan
 
 
                     If lvwSatuan.Items(i).SubItems(3).Text = "Y" Then
-                        Master_Barang_New.DgvSatuanTerpilih.Rows(rows).Cells(1).ReadOnly = True
+                        'Master_Barang_New.DgvSatuanTerpilih.Rows(rows).Cells(1).ReadOnly = True
                         Master_Barang_New.DgvSatuanTerpilih.Rows(rows).Cells(1).Style.BackColor = Color.Yellow
 
-                        Master_Barang_New.DgvSatuanTerpilih.Rows(rows).Cells(1).Value = lvwSatuan.Items(i).SubItems(2).Text
+                        'Master_Barang_New.DgvSatuanTerpilih.Rows(rows).Cells(1).Value = lvwSatuan.Items(i).SubItems(2).Text
+                        Master_Barang_New.DgvSatuanTerpilih.Rows(rows).Cells(1).Value = 0
                     Else
                         Master_Barang_New.DgvSatuanTerpilih.Rows(rows).Cells(1).Value = 0
                     End If

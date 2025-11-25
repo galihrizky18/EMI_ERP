@@ -77,6 +77,8 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.TxtBeratAlas_Bersih = New System.Windows.Forms.TextBox()
         Me.Txt_Jumlah_Sisa_Bersih = New System.Windows.Forms.TextBox()
         Me.Txt_Bags_Sisa_Bersih = New System.Windows.Forms.TextBox()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.Txt_Sisa_Request = New System.Windows.Forms.TextBox()
         GroupBox1 = New System.Windows.Forms.GroupBox()
         GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -112,7 +114,7 @@ Partial Class EMI_Timbang_Floor_Scale
         GroupBox1.Controls.Add(Me.lblJumlahEstimasi)
         GroupBox1.Location = New System.Drawing.Point(20, 66)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New System.Drawing.Size(789, 353)
+        GroupBox1.Size = New System.Drawing.Size(789, 374)
         GroupBox1.TabIndex = 0
         GroupBox1.TabStop = False
         GroupBox1.Text = "Data Scales/Timbang"
@@ -151,6 +153,8 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.GroupBox2.Controls.Add(Me.Label10)
         Me.GroupBox2.Controls.Add(Me.lblJumlahTimbang)
         Me.GroupBox2.Controls.Add(Me.Label8)
+        Me.GroupBox2.Controls.Add(Me.Txt_Sisa_Request)
+        Me.GroupBox2.Controls.Add(Me.Label11)
         Me.GroupBox2.Controls.Add(Me.Txt_Sisa_Jumlah)
         Me.GroupBox2.Controls.Add(Me.Label9)
         Me.GroupBox2.Controls.Add(Me.TxtBeratBersih)
@@ -159,7 +163,7 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.GroupBox2.Controls.Add(Me.LblSatuan)
         Me.GroupBox2.Location = New System.Drawing.Point(7, 194)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(439, 114)
+        Me.GroupBox2.Size = New System.Drawing.Size(439, 132)
         Me.GroupBox2.TabIndex = 497
         Me.GroupBox2.TabStop = False
         '
@@ -168,7 +172,7 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.txt_Jumlah_Timbang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.txt_Jumlah_Timbang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txt_Jumlah_Timbang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.txt_Jumlah_Timbang.Location = New System.Drawing.Point(115, 46)
+        Me.txt_Jumlah_Timbang.Location = New System.Drawing.Point(115, 69)
         Me.txt_Jumlah_Timbang.MaxLength = 50
         Me.txt_Jumlah_Timbang.Name = "txt_Jumlah_Timbang"
         Me.txt_Jumlah_Timbang.Size = New System.Drawing.Size(124, 21)
@@ -181,7 +185,7 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.Txt_Sisa_Bags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_Sisa_Bags.Enabled = False
         Me.Txt_Sisa_Bags.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_Sisa_Bags.Location = New System.Drawing.Point(341, 19)
+        Me.Txt_Sisa_Bags.Location = New System.Drawing.Point(341, 42)
         Me.Txt_Sisa_Bags.MaxLength = 50
         Me.Txt_Sisa_Bags.Name = "Txt_Sisa_Bags"
         Me.Txt_Sisa_Bags.ReadOnly = True
@@ -194,7 +198,7 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.TxtJumlahBagsDetail.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TxtJumlahBagsDetail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtJumlahBagsDetail.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtJumlahBagsDetail.Location = New System.Drawing.Point(341, 46)
+        Me.TxtJumlahBagsDetail.Location = New System.Drawing.Point(341, 69)
         Me.TxtJumlahBagsDetail.MaxLength = 50
         Me.TxtJumlahBagsDetail.Name = "TxtJumlahBagsDetail"
         Me.TxtJumlahBagsDetail.ReadOnly = True
@@ -206,7 +210,7 @@ Partial Class EMI_Timbang_Floor_Scale
         '
         Me.Label10.AutoSize = True
         Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label10.Location = New System.Drawing.Point(245, 21)
+        Me.Label10.Location = New System.Drawing.Point(245, 44)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(71, 17)
         Me.Label10.TabIndex = 496
@@ -216,7 +220,7 @@ Partial Class EMI_Timbang_Floor_Scale
         '
         Me.lblJumlahTimbang.AutoSize = True
         Me.lblJumlahTimbang.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.lblJumlahTimbang.Location = New System.Drawing.Point(8, 48)
+        Me.lblJumlahTimbang.Location = New System.Drawing.Point(8, 71)
         Me.lblJumlahTimbang.Name = "lblJumlahTimbang"
         Me.lblJumlahTimbang.Size = New System.Drawing.Size(101, 17)
         Me.lblJumlahTimbang.TabIndex = 441
@@ -226,7 +230,7 @@ Partial Class EMI_Timbang_Floor_Scale
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label8.Location = New System.Drawing.Point(245, 48)
+        Me.Label8.Location = New System.Drawing.Point(245, 71)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(91, 17)
         Me.Label8.TabIndex = 496
@@ -238,7 +242,7 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.Txt_Sisa_Jumlah.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_Sisa_Jumlah.Enabled = False
         Me.Txt_Sisa_Jumlah.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_Sisa_Jumlah.Location = New System.Drawing.Point(115, 19)
+        Me.Txt_Sisa_Jumlah.Location = New System.Drawing.Point(115, 42)
         Me.Txt_Sisa_Jumlah.MaxLength = 50
         Me.Txt_Sisa_Jumlah.Name = "Txt_Sisa_Jumlah"
         Me.Txt_Sisa_Jumlah.Size = New System.Drawing.Size(124, 21)
@@ -249,7 +253,7 @@ Partial Class EMI_Timbang_Floor_Scale
         '
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label9.Location = New System.Drawing.Point(8, 21)
+        Me.Label9.Location = New System.Drawing.Point(8, 44)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(84, 17)
         Me.Label9.TabIndex = 488
@@ -261,7 +265,7 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.TxtBeratBersih.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtBeratBersih.Enabled = False
         Me.TxtBeratBersih.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtBeratBersih.Location = New System.Drawing.Point(115, 73)
+        Me.TxtBeratBersih.Location = New System.Drawing.Point(115, 96)
         Me.TxtBeratBersih.MaxLength = 50
         Me.TxtBeratBersih.Name = "TxtBeratBersih"
         Me.TxtBeratBersih.Size = New System.Drawing.Size(124, 21)
@@ -272,7 +276,7 @@ Partial Class EMI_Timbang_Floor_Scale
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label5.Location = New System.Drawing.Point(8, 75)
+        Me.Label5.Location = New System.Drawing.Point(8, 98)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(86, 17)
         Me.Label5.TabIndex = 488
@@ -283,7 +287,7 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.CmbSatuan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CmbSatuan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CmbSatuan.FormattingEnabled = True
-        Me.CmbSatuan.Location = New System.Drawing.Point(341, 75)
+        Me.CmbSatuan.Location = New System.Drawing.Point(341, 98)
         Me.CmbSatuan.Name = "CmbSatuan"
         Me.CmbSatuan.Size = New System.Drawing.Size(92, 23)
         Me.CmbSatuan.TabIndex = 6
@@ -292,7 +296,7 @@ Partial Class EMI_Timbang_Floor_Scale
         '
         Me.LblSatuan.AutoSize = True
         Me.LblSatuan.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblSatuan.Location = New System.Drawing.Point(245, 78)
+        Me.LblSatuan.Location = New System.Drawing.Point(245, 101)
         Me.LblSatuan.Name = "LblSatuan"
         Me.LblSatuan.Size = New System.Drawing.Size(53, 17)
         Me.LblSatuan.TabIndex = 480
@@ -360,7 +364,7 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(101, 315)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(101, 332)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(94, 32)
         Me.Btn_Refresh.TabIndex = 2
@@ -372,7 +376,7 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(7, 315)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(7, 332)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(94, 32)
         Me.Btn_Simpan.TabIndex = 1
@@ -634,7 +638,7 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(828, 51)
+        Me.Panel1.Size = New System.Drawing.Size(829, 51)
         Me.Panel1.TabIndex = 22
         '
         'PanelGradient1
@@ -647,7 +651,7 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(828, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(829, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
@@ -684,7 +688,7 @@ Partial Class EMI_Timbang_Floor_Scale
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(29, 426)
+        Me.Panel7.Location = New System.Drawing.Point(9, 440)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(676, 12)
@@ -742,12 +746,35 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.Txt_Bags_Sisa_Bersih.TabIndex = 498
         Me.Txt_Bags_Sisa_Bersih.Visible = False
         '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label11.Location = New System.Drawing.Point(8, 17)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(92, 17)
+        Me.Label11.TabIndex = 488
+        Me.Label11.Text = "Sisa Request"
+        '
+        'Txt_Sisa_Request
+        '
+        Me.Txt_Sisa_Request.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_Sisa_Request.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_Sisa_Request.Enabled = False
+        Me.Txt_Sisa_Request.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.Txt_Sisa_Request.Location = New System.Drawing.Point(115, 15)
+        Me.Txt_Sisa_Request.MaxLength = 50
+        Me.Txt_Sisa_Request.Name = "Txt_Sisa_Request"
+        Me.Txt_Sisa_Request.Size = New System.Drawing.Size(124, 21)
+        Me.Txt_Sisa_Request.TabIndex = 9
+        Me.Txt_Sisa_Request.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
         'EMI_Timbang_Floor_Scale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(828, 438)
+        Me.ClientSize = New System.Drawing.Size(829, 451)
         Me.Controls.Add(Me.Txt_Bags_Sisa_Bersih)
         Me.Controls.Add(Me.Txt_Jumlah_Sisa_Bersih)
         Me.Controls.Add(Me.TxtBeratAlas_Bersih)
@@ -836,6 +863,8 @@ Partial Class EMI_Timbang_Floor_Scale
     Friend WithEvents Txt_Bags_Sisa_Bersih As TextBox
     Friend WithEvents TxtSatuan_FloorScale As TextBox
     Friend WithEvents TxtOriginal_Data_FloorScale As TextBox
+    Friend WithEvents Txt_Sisa_Request As TextBox
+    Friend WithEvents Label11 As Label
     '''Friend WithEvents StreamPlayerControl1 As WebEye.Controls.WinForms.StreamPlayerControl.StreamPlayerControl
     '''Friend WithEvents StreamPlayerControl2 As WebEye.Controls.WinForms.StreamPlayerControl.StreamPlayerControl
 End Class

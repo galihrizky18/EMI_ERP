@@ -30,6 +30,11 @@
         Lv_Kategori.Columns.Add("Keterangan", 200, HorizontalAlignment.Left)
         Lv_Kategori.View = View.Details
 
+        Cmb_JenisLaporan.Items.Clear()
+        Cmb_JenisLaporan.Items.Add("Laporan Hutang")
+        Cmb_JenisLaporan.Items.Add("Laporan Hutang Rekap")
+        Cmb_JenisLaporan.SelectedIndex = 0
+
         Kosong()
 
     End Sub
@@ -40,10 +45,10 @@
         Tgl1.Value = Now.Date : Tgl2.Value = Now.Date
 
         Switch_Lv = False
-        Txt_Faktur.Text = OpsiSeluruh
-        Txt_PO.Text = OpsiSeluruh : Txt_Ket_PO.Text = OpsiSeluruh
-        Txt_Kd_Perusahaan_Import.Text = OpsiSeluruh : Txt_Nm_Perusahaan_Import.Text = OpsiSeluruh
-        Txt_Kd_Kategori.Text = OpsiSeluruh : Txt_Nm_Kategori.Text = OpsiSeluruh
+        Txt_Faktur.Text = "--- SELURUH ---"
+        Txt_PO.Text = "--- SELURUH ---" : Txt_Ket_PO.Text = "--- SELURUH ---"
+        Txt_Kd_Perusahaan_Import.Text = "--- SELURUH ---" : Txt_Nm_Perusahaan_Import.Text = "--- SELURUH ---"
+        Txt_Kd_Kategori.Text = "--- SELURUH ---" : Txt_Nm_Kategori.Text = "--- SELURUH ---"
         Switch_Lv = True
 
 
@@ -56,14 +61,14 @@
     Private Sub Txt_Faktur_TextChanged(sender As Object, e As EventArgs) Handles Txt_Faktur.TextChanged
         If Switch_Lv = False Then Exit Sub
         If Txt_Faktur.Text.Trim.Length = 0 Then
-            Me.Size = New Size(755, 310)
+            Me.Size = New Size(738, 335)
             Lv_Faktur.Visible = False
-            Lv_Faktur.Location = New Point(750, 126)
+            Lv_Faktur.Location = New Point(750, 153)
             Txt_Faktur.Text = ""
             Exit Sub
         Else
-            Me.Size = New Size(755, 385)
-            Lv_Faktur.Location = New Point(197, 126)
+            Me.Size = New Size(738, 405)
+            Lv_Faktur.Location = New Point(176, 153)
             Lv_Faktur.Visible = True
         End If
 
@@ -126,9 +131,9 @@
                         Txt_Faktur.Focus()
                     End If
 
-                    Me.Size = New Size(755, 310)
+                    Me.Size = New Size(738, 335)
                     Lv_Faktur.Visible = False
-                    Lv_Faktur.Location = New Point(750, 126)
+                    Lv_Faktur.Location = New Point(750, 153)
                 End Using
 
             Else
@@ -148,15 +153,15 @@
     Private Sub Txt_PO_TextChanged(sender As Object, e As EventArgs) Handles Txt_PO.TextChanged
         If Switch_Lv = False Then Exit Sub
         If Txt_PO.Text.Trim.Length = 0 Then
-            Me.Size = New Size(755, 310)
+            Me.Size = New Size(738, 335)
             Lv_PO.Visible = False
-            Lv_PO.Location = New Point(750, 155)
+            Lv_PO.Location = New Point(750, 181)
             Txt_PO.Text = ""
             Txt_Ket_PO.Text = ""
             Exit Sub
         Else
-            Me.Size = New Size(755, 410)
-            Lv_PO.Location = New Point(197, 155)
+            Me.Size = New Size(738, 465)
+            Lv_PO.Location = New Point(176, 181)
             Lv_PO.Visible = True
         End If
 
@@ -195,15 +200,15 @@
     Private Sub Txt_Ket_PO_TextChanged(sender As Object, e As EventArgs) Handles Txt_Ket_PO.TextChanged
         If Switch_Lv = False Then Exit Sub
         If Txt_Ket_PO.Text.Trim.Length = 0 Then
-            Me.Size = New Size(755, 310)
+            Me.Size = New Size(738, 335)
             Lv_PO.Visible = False
-            Lv_PO.Location = New Point(750, 155)
+            Lv_PO.Location = New Point(750, 181)
             Txt_PO.Text = ""
             Txt_Ket_PO.Text = ""
             Exit Sub
         Else
-            Me.Size = New Size(755, 410)
-            Lv_PO.Location = New Point(197, 155)
+            Me.Size = New Size(738, 465)
+            Lv_PO.Location = New Point(176, 181)
             Lv_PO.Visible = True
         End If
 
@@ -261,9 +266,9 @@
                         Txt_PO.Focus()
                     End If
 
-                    Me.Size = New Size(755, 310)
+                    Me.Size = New Size(738, 335)
                     Lv_PO.Visible = False
-                    Lv_PO.Location = New Point(750, 155)
+                    Lv_PO.Location = New Point(750, 181)
                 End Using
 
             Else
@@ -282,15 +287,15 @@
     Private Sub Txt_Kd_Perusahaan_Import_TextChanged(sender As Object, e As EventArgs) Handles Txt_Kd_Perusahaan_Import.TextChanged
         If Switch_Lv = False Then Exit Sub
         If Txt_Kd_Perusahaan_Import.Text.Trim.Length = 0 Then
-            Me.Size = New Size(755, 310)
+            Me.Size = New Size(738, 335)
             LV_Perusahaan_Import.Visible = False
-            LV_Perusahaan_Import.Location = New Point(750, 180)
+            LV_Perusahaan_Import.Location = New Point(750, 206)
             Txt_Kd_Perusahaan_Import.Text = ""
             Txt_Nm_Perusahaan_Import.Text = ""
             Exit Sub
         Else
-            Me.Size = New Size(755, 435)
-            LV_Perusahaan_Import.Location = New Point(197, 180)
+            Me.Size = New Size(738, 465)
+            LV_Perusahaan_Import.Location = New Point(176, 206)
             LV_Perusahaan_Import.Visible = True
         End If
 
@@ -325,15 +330,15 @@
     Private Sub Txt_Nm_Perusahaan_Import_TextChanged(sender As Object, e As EventArgs) Handles Txt_Nm_Perusahaan_Import.TextChanged
         If Switch_Lv = False Then Exit Sub
         If Txt_Nm_Perusahaan_Import.Text.Trim.Length = 0 Then
-            Me.Size = New Size(755, 310)
+            Me.Size = New Size(738, 335)
             LV_Perusahaan_Import.Visible = False
-            LV_Perusahaan_Import.Location = New Point(750, 180)
+            LV_Perusahaan_Import.Location = New Point(750, 206)
             Txt_Kd_Perusahaan_Import.Text = ""
             Txt_Nm_Perusahaan_Import.Text = ""
             Exit Sub
         Else
-            Me.Size = New Size(755, 435)
-            LV_Perusahaan_Import.Location = New Point(197, 180)
+            Me.Size = New Size(738, 465)
+            LV_Perusahaan_Import.Location = New Point(176, 206)
             LV_Perusahaan_Import.Visible = True
         End If
 
@@ -389,9 +394,9 @@
                         Txt_Kd_Perusahaan_Import.Focus()
                     End If
 
-                    Me.Size = New Size(755, 310)
+                    Me.Size = New Size(738, 335)
                     LV_Perusahaan_Import.Visible = False
-                    LV_Perusahaan_Import.Location = New Point(750, 180)
+                    LV_Perusahaan_Import.Location = New Point(750, 206)
                 End Using
 
             Else
@@ -410,15 +415,15 @@
     Private Sub Txt_Kd_Kategori_TextChanged(sender As Object, e As EventArgs) Handles Txt_Kd_Kategori.TextChanged
         If Switch_Lv = False Then Exit Sub
         If Txt_Kd_Kategori.Text.Trim.Length = 0 Then
-            Me.Size = New Size(755, 310)
+            Me.Size = New Size(738, 335)
             Lv_Kategori.Visible = False
-            Lv_Kategori.Location = New Point(750, 205)
+            Lv_Kategori.Location = New Point(750, 231)
             Txt_Kd_Kategori.Text = ""
             Txt_Nm_Kategori.Text = ""
             Exit Sub
         Else
-            Me.Size = New Size(755, 460)
-            Lv_Kategori.Location = New Point(197, 205)
+            Me.Size = New Size(738, 490)
+            Lv_Kategori.Location = New Point(176, 231)
             Lv_Kategori.Visible = True
         End If
 
@@ -461,15 +466,15 @@
     Private Sub Txt_Nm_Kategori_TextChanged(sender As Object, e As EventArgs) Handles Txt_Nm_Kategori.TextChanged
         If Switch_Lv = False Then Exit Sub
         If Txt_Nm_Kategori.Text.Trim.Length = 0 Then
-            Me.Size = New Size(755, 310)
+            Me.Size = New Size(738, 335)
             Lv_Kategori.Visible = False
-            Lv_Kategori.Location = New Point(750, 205)
+            Lv_Kategori.Location = New Point(750, 231)
             Txt_Kd_Kategori.Text = ""
             Txt_Nm_Kategori.Text = ""
             Exit Sub
         Else
-            Me.Size = New Size(755, 460)
-            Lv_Kategori.Location = New Point(197, 205)
+            Me.Size = New Size(738, 490)
+            Lv_Kategori.Location = New Point(176, 231)
             Lv_Kategori.Visible = True
         End If
 
@@ -541,9 +546,9 @@
                         Txt_Kd_Kategori.Focus()
                     End If
 
-                    Me.Size = New Size(755, 310)
+                    Me.Size = New Size(738, 335)
                     Lv_Kategori.Visible = False
-                    Lv_Kategori.Location = New Point(750, 205)
+                    Lv_Kategori.Location = New Point(750, 231)
                 End Using
 
             Else
@@ -568,7 +573,10 @@
     End Sub
 
     Private Sub Tgl2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tgl2.KeyPress
-        If e.KeyChar = Chr(13) Then Txt_Faktur.Focus()
+        If e.KeyChar = Chr(13) Then
+            Cmb_JenisLaporan.DroppedDown = True
+            Cmb_JenisLaporan.Focus()
+        End If
     End Sub
 
     Private Sub Txt_Faktur_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Faktur.KeyPress
@@ -576,9 +584,9 @@
             If Txt_Faktur.Text.Trim.Length = 0 Then Txt_Faktur.Focus()
             Txt_Faktur_Leave(Txt_Faktur, e)
 
-            Me.Size = New Size(755, 310)
+            Me.Size = New Size(738, 335)
             Lv_Faktur.Visible = False
-            Lv_Faktur.Location = New Point(750, 126)
+            Lv_Faktur.Location = New Point(750, 153)
 
             'Txt_UserValidasi.Focus()
         End If
@@ -593,9 +601,9 @@
             If Txt_PO.Text.Trim.Length = 0 Then Txt_PO.Focus()
             Txt_PO_Leave(Txt_PO, e)
 
-            Me.Size = New Size(755, 310)
+            Me.Size = New Size(738, 335)
             Lv_PO.Visible = False
-            Lv_PO.Location = New Point(750, 155)
+            Lv_PO.Location = New Point(750, 181)
 
             'Txt_UserValidasi.Focus()
         End If
@@ -609,9 +617,9 @@
         If e.KeyChar = Chr(13) Then
             Txt_PO_Leave(Txt_Ket_PO, e)
 
-            Me.Size = New Size(755, 310)
+            Me.Size = New Size(738, 335)
             Lv_PO.Visible = False
-            Lv_PO.Location = New Point(750, 155)
+            Lv_PO.Location = New Point(750, 181)
 
             'Txt_KdKategori.Focus()
         End If
@@ -626,9 +634,9 @@
             If Txt_Kd_Perusahaan_Import.Text.Trim.Length = 0 Then Txt_Kd_Perusahaan_Import.Focus()
             Txt_Kd_Perusahaan_Import_Leave(Txt_Kd_Perusahaan_Import, e)
 
-            Me.Size = New Size(755, 310)
+            Me.Size = New Size(738, 335)
             LV_Perusahaan_Import.Visible = False
-            LV_Perusahaan_Import.Location = New Point(750, 180)
+            LV_Perusahaan_Import.Location = New Point(750, 206)
 
             'Txt_UserValidasi.Focus()
         End If
@@ -642,9 +650,9 @@
         If e.KeyChar = Chr(13) Then
             Txt_Kd_Perusahaan_Import_Leave(Txt_Nm_Perusahaan_Import, e)
 
-            Me.Size = New Size(755, 310)
+            Me.Size = New Size(738, 335)
             LV_Perusahaan_Import.Visible = False
-            LV_Perusahaan_Import.Location = New Point(750, 180)
+            LV_Perusahaan_Import.Location = New Point(750, 206)
 
             'Txt_KdKategori.Focus()
         End If
@@ -659,9 +667,9 @@
             If Txt_Kd_Kategori.Text.Trim.Length = 0 Then Txt_Kd_Kategori.Focus()
             Txt_Kd_Kategori_Leave(Txt_Kd_Kategori, e)
 
-            Me.Size = New Size(755, 310)
+            Me.Size = New Size(738, 335)
             Lv_Kategori.Visible = False
-            Lv_Kategori.Location = New Point(750, 205)
+            Lv_Kategori.Location = New Point(750, 231)
 
             'Txt_UserValidasi.Focus()
         End If
@@ -677,9 +685,9 @@
 
         Txt_Faktur.Text = Faktur
 
-        Me.Size = New Size(755, 310)
+        Me.Size = New Size(738, 335)
         Lv_Faktur.Visible = False
-        Lv_Faktur.Location = New Point(750, 126)
+        Lv_Faktur.Location = New Point(750, 153)
         Txt_PO.Focus()
     End Sub
 
@@ -698,9 +706,9 @@
         Txt_PO.Text = Faktur
         Txt_Ket_PO.Text = Keterangan
 
-        Me.Size = New Size(755, 310)
+        Me.Size = New Size(738, 335)
         Lv_PO.Visible = False
-        Lv_PO.Location = New Point(750, 155)
+        Lv_PO.Location = New Point(750, 181)
         Txt_Kd_Perusahaan_Import.Focus()
     End Sub
 
@@ -719,9 +727,9 @@
         Txt_Kd_Perusahaan_Import.Text = Faktur
         Txt_Nm_Perusahaan_Import.Text = Keterangan
 
-        Me.Size = New Size(755, 310)
+        Me.Size = New Size(738, 335)
         LV_Perusahaan_Import.Visible = False
-        LV_Perusahaan_Import.Location = New Point(750, 180)
+        LV_Perusahaan_Import.Location = New Point(750, 206)
         Txt_Kd_Kategori.Focus()
     End Sub
 
@@ -740,9 +748,9 @@
         Txt_Kd_Kategori.Text = Faktur
         Txt_Nm_Kategori.Text = Keterangan
 
-        Me.Size = New Size(755, 310)
+        Me.Size = New Size(738, 335)
         Lv_Kategori.Visible = False
-        Lv_Kategori.Location = New Point(750, 205)
+        Lv_Kategori.Location = New Point(750, 231)
         Txt_Kd_Kategori.Focus()
     End Sub
 
@@ -755,6 +763,9 @@
             MessageBox.Show("Periode I tidak boleh lebih dari periode II!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Tgl1.Value = Now.Date : Tgl2.Value = Now.Date
             Tgl1.Focus() : Exit Sub
+        ElseIf Cmb_JenisLaporan.SelectedIndex = -1 Then
+            MessageBox.Show("Jenis Laporan harus dipilih!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Cmb_JenisLaporan.Focus() : Exit Sub
         ElseIf Txt_Faktur.Text.Trim.Length = 0 Then
             MessageBox.Show("Faktur harus diisi!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Txt_Faktur.Focus() : Exit Sub
@@ -814,7 +825,13 @@
             SQL = SQL & "@tanggal_akhir = '" & Format(Tgl2.Value, "yyyy-MM-dd") & "' "
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
-                    Dim CrDoc As New N_EMI_CR_Laporan_Pelunasan_Cut_Off
+
+                    Dim CrDoc As Object
+                    If Cmb_JenisLaporan.SelectedIndex = 0 Then
+                        CrDoc = New N_EMI_CR_Laporan_Pelunasan_Cut_Off
+                    Else
+                        CrDoc = New N_EMI_CR_Laporan_Pelunasan_Cut_Off_Rekap
+                    End If
 
                     With A_Place_For_Printing2
                         ' Set data dan koneksi database
@@ -876,5 +893,11 @@
 
     Private Sub BtnExit_Click(sender As Object, e As EventArgs) Handles BtnExit.Click
         Me.Close()
+    End Sub
+
+    Private Sub Cmb_JenisLaporan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_JenisLaporan.KeyPress
+        If e.KeyChar = Chr(13) Then
+            Txt_Faktur.Focus()
+        End If
     End Sub
 End Class

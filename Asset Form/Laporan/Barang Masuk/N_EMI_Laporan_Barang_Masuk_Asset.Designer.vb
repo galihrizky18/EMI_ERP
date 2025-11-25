@@ -92,9 +92,9 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Label1.Location = New System.Drawing.Point(15, 11)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(329, 30)
+        Me.Label1.Size = New System.Drawing.Size(630, 60)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Laporan - Barang Masuk Asset"
+        Me.Label1.Text = "Laporan - Barang Masuk Lain"
         '
         'Panel2
         '
@@ -194,7 +194,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         '
         Me.Txt_NmBarang.Location = New System.Drawing.Point(308, 112)
         Me.Txt_NmBarang.Name = "Txt_NmBarang"
-        Me.Txt_NmBarang.Size = New System.Drawing.Size(239, 23)
+        Me.Txt_NmBarang.Size = New System.Drawing.Size(239, 38)
         Me.Txt_NmBarang.TabIndex = 6
         '
         'Label2
@@ -202,7 +202,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(7, 24)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(56, 18)
+        Me.Label2.Size = New System.Drawing.Size(113, 38)
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "Periode"
         '
@@ -212,7 +212,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Tgl1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.Tgl1.Location = New System.Drawing.Point(139, 22)
         Me.Tgl1.Name = "Tgl1"
-        Me.Tgl1.Size = New System.Drawing.Size(163, 23)
+        Me.Tgl1.Size = New System.Drawing.Size(163, 38)
         Me.Tgl1.TabIndex = 0
         '
         'Label3
@@ -220,7 +220,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(313, 24)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(28, 18)
+        Me.Label3.Size = New System.Drawing.Size(57, 38)
         Me.Label3.TabIndex = 2
         Me.Label3.Text = "s/d"
         '
@@ -230,7 +230,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Tgl2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.Tgl2.Location = New System.Drawing.Point(350, 22)
         Me.Tgl2.Name = "Tgl2"
-        Me.Tgl2.Size = New System.Drawing.Size(163, 23)
+        Me.Tgl2.Size = New System.Drawing.Size(163, 38)
         Me.Tgl2.TabIndex = 1
         '
         'Label4
@@ -238,7 +238,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(6, 54)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(60, 18)
+        Me.Label4.Size = New System.Drawing.Size(122, 38)
         Me.Label4.TabIndex = 4
         Me.Label4.Text = "Filter By"
         '
@@ -247,7 +247,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(7, 86)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(60, 18)
+        Me.Label5.Size = New System.Drawing.Size(123, 38)
         Me.Label5.TabIndex = 4
         Me.Label5.Text = "Supplier"
         '
@@ -256,7 +256,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(7, 115)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(50, 18)
+        Me.Label6.Size = New System.Drawing.Size(105, 38)
         Me.Label6.TabIndex = 4
         Me.Label6.Text = "Barang"
         '
@@ -264,21 +264,21 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         '
         Me.Txt_KdSupplier.Location = New System.Drawing.Point(139, 83)
         Me.Txt_KdSupplier.Name = "Txt_KdSupplier"
-        Me.Txt_KdSupplier.Size = New System.Drawing.Size(163, 23)
+        Me.Txt_KdSupplier.Size = New System.Drawing.Size(163, 38)
         Me.Txt_KdSupplier.TabIndex = 3
         '
         'Txt_KdBarang
         '
         Me.Txt_KdBarang.Location = New System.Drawing.Point(139, 112)
         Me.Txt_KdBarang.Name = "Txt_KdBarang"
-        Me.Txt_KdBarang.Size = New System.Drawing.Size(163, 23)
+        Me.Txt_KdBarang.Size = New System.Drawing.Size(163, 38)
         Me.Txt_KdBarang.TabIndex = 4
         '
         'Txt_NmSupplier
         '
         Me.Txt_NmSupplier.Location = New System.Drawing.Point(308, 83)
         Me.Txt_NmSupplier.Name = "Txt_NmSupplier"
-        Me.Txt_NmSupplier.Size = New System.Drawing.Size(239, 23)
+        Me.Txt_NmSupplier.Size = New System.Drawing.Size(239, 38)
         Me.Txt_NmSupplier.TabIndex = 4
         '
         'GroupBox1
@@ -315,7 +315,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         '
         Me.Txt_NoSJ.Location = New System.Drawing.Point(139, 141)
         Me.Txt_NoSJ.Name = "Txt_NoSJ"
-        Me.Txt_NoSJ.Size = New System.Drawing.Size(163, 23)
+        Me.Txt_NoSJ.Size = New System.Drawing.Size(163, 38)
         Me.Txt_NoSJ.TabIndex = 5
         '
         'Txt_ValueFilter
@@ -323,7 +323,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Txt_ValueFilter.Enabled = False
         Me.Txt_ValueFilter.Location = New System.Drawing.Point(308, 237)
         Me.Txt_ValueFilter.Name = "Txt_ValueFilter"
-        Me.Txt_ValueFilter.Size = New System.Drawing.Size(239, 23)
+        Me.Txt_ValueFilter.Size = New System.Drawing.Size(239, 38)
         Me.Txt_ValueFilter.TabIndex = 8
         '
         'Cmb_Filter_Mobil
@@ -332,7 +332,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Cmb_Filter_Mobil.FormattingEnabled = True
         Me.Cmb_Filter_Mobil.Location = New System.Drawing.Point(139, 234)
         Me.Cmb_Filter_Mobil.Name = "Cmb_Filter_Mobil"
-        Me.Cmb_Filter_Mobil.Size = New System.Drawing.Size(163, 26)
+        Me.Cmb_Filter_Mobil.Size = New System.Drawing.Size(163, 46)
         Me.Cmb_Filter_Mobil.TabIndex = 6
         '
         'Cmb_FlagValidasiAcc
@@ -341,7 +341,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Cmb_FlagValidasiAcc.FormattingEnabled = True
         Me.Cmb_FlagValidasiAcc.Location = New System.Drawing.Point(139, 202)
         Me.Cmb_FlagValidasiAcc.Name = "Cmb_FlagValidasiAcc"
-        Me.Cmb_FlagValidasiAcc.Size = New System.Drawing.Size(163, 26)
+        Me.Cmb_FlagValidasiAcc.Size = New System.Drawing.Size(163, 46)
         Me.Cmb_FlagValidasiAcc.TabIndex = 5
         '
         'Cmb_FlagValidasiWarehouse
@@ -350,7 +350,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Cmb_FlagValidasiWarehouse.FormattingEnabled = True
         Me.Cmb_FlagValidasiWarehouse.Location = New System.Drawing.Point(139, 170)
         Me.Cmb_FlagValidasiWarehouse.Name = "Cmb_FlagValidasiWarehouse"
-        Me.Cmb_FlagValidasiWarehouse.Size = New System.Drawing.Size(163, 26)
+        Me.Cmb_FlagValidasiWarehouse.Size = New System.Drawing.Size(163, 46)
         Me.Cmb_FlagValidasiWarehouse.TabIndex = 5
         '
         'Label7
@@ -358,7 +358,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(7, 144)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(45, 18)
+        Me.Label7.Size = New System.Drawing.Size(93, 38)
         Me.Label7.TabIndex = 4
         Me.Label7.Text = "No SJ"
         '
@@ -368,7 +368,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Cmb_FilterBy.FormattingEnabled = True
         Me.Cmb_FilterBy.Location = New System.Drawing.Point(139, 51)
         Me.Cmb_FilterBy.Name = "Cmb_FilterBy"
-        Me.Cmb_FilterBy.Size = New System.Drawing.Size(163, 26)
+        Me.Cmb_FilterBy.Size = New System.Drawing.Size(163, 46)
         Me.Cmb_FilterBy.TabIndex = 2
         '
         'Label9
@@ -376,7 +376,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(7, 205)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(127, 18)
+        Me.Label9.Size = New System.Drawing.Size(265, 38)
         Me.Label9.TabIndex = 6
         Me.Label9.Text = "Validasi Accounting"
         '
@@ -385,7 +385,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(7, 237)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(41, 18)
+        Me.Label8.Size = New System.Drawing.Size(84, 38)
         Me.Label8.TabIndex = 6
         Me.Label8.Text = "Filter"
         '
@@ -394,7 +394,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         Me.Label_Status.AutoSize = True
         Me.Label_Status.Location = New System.Drawing.Point(7, 173)
         Me.Label_Status.Name = "Label_Status"
-        Me.Label_Status.Size = New System.Drawing.Size(128, 18)
+        Me.Label_Status.Size = New System.Drawing.Size(264, 38)
         Me.Label_Status.TabIndex = 6
         Me.Label_Status.Text = "Validasi Warehouse"
         '
@@ -402,7 +402,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         '
         Me.Txt_NmSJ.Location = New System.Drawing.Point(308, 141)
         Me.Txt_NmSJ.Name = "Txt_NmSJ"
-        Me.Txt_NmSJ.Size = New System.Drawing.Size(239, 23)
+        Me.Txt_NmSJ.Size = New System.Drawing.Size(239, 38)
         Me.Txt_NmSJ.TabIndex = 6
         '
         'Lv_SJ
@@ -421,7 +421,7 @@ Partial Class N_EMI_Laporan_Barang_Masuk_Asset
         '
         'N_EMI_Laporan_Barang_Masuk_Asset
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(16.0!, 38.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(584, 381)

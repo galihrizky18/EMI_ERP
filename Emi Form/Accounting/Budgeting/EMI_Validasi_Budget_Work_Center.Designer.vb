@@ -74,9 +74,9 @@ Partial Class EMI_Validasi_Budget_Work_Center
         Me.Lbl_Judul.Location = New System.Drawing.Point(19, 15)
         Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
         Me.Lbl_Judul.Name = "Lbl_Judul"
-        Me.Lbl_Judul.Size = New System.Drawing.Size(315, 25)
+        Me.Lbl_Judul.Size = New System.Drawing.Size(334, 25)
         Me.Lbl_Judul.TabIndex = 0
-        Me.Lbl_Judul.Text = "Validasi Budget Work Center"
+        Me.Lbl_Judul.Text = "Validasi - Budgeting VS Aktual"
         '
         'Panel2
         '
@@ -103,12 +103,14 @@ Partial Class EMI_Validasi_Budget_Work_Center
         Me.Lv_Aktual_WorkCenter.ContextMenuStrip = Me.ContextMenuStrip1
         Me.Lv_Aktual_WorkCenter.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lv_Aktual_WorkCenter.FullRowSelect = True
+        Me.Lv_Aktual_WorkCenter.GridLines = True
         Me.Lv_Aktual_WorkCenter.HideSelection = False
         Me.Lv_Aktual_WorkCenter.Location = New System.Drawing.Point(5, 22)
         Me.Lv_Aktual_WorkCenter.Name = "Lv_Aktual_WorkCenter"
         Me.Lv_Aktual_WorkCenter.Size = New System.Drawing.Size(1050, 282)
         Me.Lv_Aktual_WorkCenter.TabIndex = 414
         Me.Lv_Aktual_WorkCenter.UseCompatibleStateImageBehavior = False
+        Me.Lv_Aktual_WorkCenter.View = System.Windows.Forms.View.Details
         '
         'ContextMenuStrip1
         '
@@ -162,12 +164,14 @@ Partial Class EMI_Validasi_Budget_Work_Center
         '
         Me.Lv_Detail.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lv_Detail.FullRowSelect = True
+        Me.Lv_Detail.GridLines = True
         Me.Lv_Detail.HideSelection = False
         Me.Lv_Detail.Location = New System.Drawing.Point(3, 22)
         Me.Lv_Detail.Name = "Lv_Detail"
         Me.Lv_Detail.Size = New System.Drawing.Size(1051, 282)
         Me.Lv_Detail.TabIndex = 414
         Me.Lv_Detail.UseCompatibleStateImageBehavior = False
+        Me.Lv_Detail.View = System.Windows.Forms.View.Details
         '
         'Panel4
         '

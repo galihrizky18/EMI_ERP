@@ -84,9 +84,9 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         Me.Label1.Location = New System.Drawing.Point(13, 7)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(342, 28)
+        Me.Label1.Size = New System.Drawing.Size(808, 55)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Laporan - Pengeluaran Stock Asset"
+        Me.Label1.Text = "Laporan - Pengeluaran Stock Barang Lain"
         '
         'Panel5
         '
@@ -147,7 +147,7 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         Me.Cmb_Lokasi.FormattingEnabled = True
         Me.Cmb_Lokasi.Location = New System.Drawing.Point(94, 48)
         Me.Cmb_Lokasi.Name = "Cmb_Lokasi"
-        Me.Cmb_Lokasi.Size = New System.Drawing.Size(163, 24)
+        Me.Cmb_Lokasi.Size = New System.Drawing.Size(163, 38)
         Me.Cmb_Lokasi.TabIndex = 2
         '
         'Cmb_ParamLain
@@ -156,21 +156,21 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         Me.Cmb_ParamLain.FormattingEnabled = True
         Me.Cmb_ParamLain.Location = New System.Drawing.Point(94, 130)
         Me.Cmb_ParamLain.Name = "Cmb_ParamLain"
-        Me.Cmb_ParamLain.Size = New System.Drawing.Size(163, 24)
+        Me.Cmb_ParamLain.Size = New System.Drawing.Size(163, 38)
         Me.Cmb_ParamLain.TabIndex = 7
         '
         'Txt_IdCostCenter
         '
         Me.Txt_IdCostCenter.Location = New System.Drawing.Point(94, 78)
         Me.Txt_IdCostCenter.Name = "Txt_IdCostCenter"
-        Me.Txt_IdCostCenter.Size = New System.Drawing.Size(55, 20)
+        Me.Txt_IdCostCenter.Size = New System.Drawing.Size(55, 33)
         Me.Txt_IdCostCenter.TabIndex = 3
         '
         'Txt_KdBarang
         '
         Me.Txt_KdBarang.Location = New System.Drawing.Point(94, 104)
         Me.Txt_KdBarang.Name = "Txt_KdBarang"
-        Me.Txt_KdBarang.Size = New System.Drawing.Size(163, 20)
+        Me.Txt_KdBarang.Size = New System.Drawing.Size(163, 33)
         Me.Txt_KdBarang.TabIndex = 5
         '
         'Label4
@@ -178,7 +178,7 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(8, 51)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(42, 16)
+        Me.Label4.Size = New System.Drawing.Size(82, 32)
         Me.Label4.TabIndex = 4
         Me.Label4.Text = "Lokasi"
         '
@@ -187,7 +187,7 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(8, 81)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(73, 16)
+        Me.Label7.Size = New System.Drawing.Size(144, 32)
         Me.Label7.TabIndex = 4
         Me.Label7.Text = "Cost Center"
         '
@@ -196,7 +196,7 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(8, 133)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(49, 16)
+        Me.Label8.Size = New System.Drawing.Size(96, 32)
         Me.Label8.TabIndex = 4
         Me.Label8.Text = "Lainnya"
         '
@@ -205,7 +205,7 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(8, 107)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(43, 16)
+        Me.Label6.Size = New System.Drawing.Size(87, 32)
         Me.Label6.TabIndex = 4
         Me.Label6.Text = "Barang"
         '
@@ -215,7 +215,7 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         Me.Tgl2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.Tgl2.Location = New System.Drawing.Point(305, 22)
         Me.Tgl2.Name = "Tgl2"
-        Me.Tgl2.Size = New System.Drawing.Size(163, 20)
+        Me.Tgl2.Size = New System.Drawing.Size(163, 33)
         Me.Tgl2.TabIndex = 1
         '
         'Label3
@@ -223,7 +223,7 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(267, 24)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(25, 16)
+        Me.Label3.Size = New System.Drawing.Size(49, 32)
         Me.Label3.TabIndex = 2
         Me.Label3.Text = "s/d"
         '
@@ -233,7 +233,7 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         Me.Tgl1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.Tgl1.Location = New System.Drawing.Point(94, 22)
         Me.Tgl1.Name = "Tgl1"
-        Me.Tgl1.Size = New System.Drawing.Size(163, 20)
+        Me.Tgl1.Size = New System.Drawing.Size(163, 33)
         Me.Tgl1.TabIndex = 0
         '
         'Label2
@@ -241,7 +241,7 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(8, 23)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(47, 16)
+        Me.Label2.Size = New System.Drawing.Size(95, 32)
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "Periode"
         '
@@ -249,7 +249,7 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         '
         Me.Txt_NmCostCenter.Location = New System.Drawing.Point(152, 78)
         Me.Txt_NmCostCenter.Name = "Txt_NmCostCenter"
-        Me.Txt_NmCostCenter.Size = New System.Drawing.Size(428, 20)
+        Me.Txt_NmCostCenter.Size = New System.Drawing.Size(428, 33)
         Me.Txt_NmCostCenter.TabIndex = 4
         '
         'Txt_ParamLain
@@ -257,14 +257,14 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         Me.Txt_ParamLain.Enabled = False
         Me.Txt_ParamLain.Location = New System.Drawing.Point(261, 133)
         Me.Txt_ParamLain.Name = "Txt_ParamLain"
-        Me.Txt_ParamLain.Size = New System.Drawing.Size(319, 20)
+        Me.Txt_ParamLain.Size = New System.Drawing.Size(319, 33)
         Me.Txt_ParamLain.TabIndex = 8
         '
         'Txt_NmBarang
         '
         Me.Txt_NmBarang.Location = New System.Drawing.Point(261, 104)
         Me.Txt_NmBarang.Name = "Txt_NmBarang"
-        Me.Txt_NmBarang.Size = New System.Drawing.Size(319, 20)
+        Me.Txt_NmBarang.Size = New System.Drawing.Size(319, 33)
         Me.Txt_NmBarang.TabIndex = 6
         '
         'Panel2
@@ -331,7 +331,7 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         '
         'N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(13.0!, 30.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(631, 269)
@@ -350,7 +350,6 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "N_EMI_Laporan_Pengeluaran_Stock_Barang_Lain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "d"
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)

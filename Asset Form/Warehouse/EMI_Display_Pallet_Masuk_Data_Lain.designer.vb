@@ -97,7 +97,7 @@ Partial Class EMI_Display_Pallet_Masuk_Data_Lain
         Me.Lbl_Title.Location = New System.Drawing.Point(5, 9)
         Me.Lbl_Title.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Lbl_Title.Name = "Lbl_Title"
-        Me.Lbl_Title.Size = New System.Drawing.Size(425, 30)
+        Me.Lbl_Title.Size = New System.Drawing.Size(426, 30)
         Me.Lbl_Title.TabIndex = 0
         Me.Lbl_Title.Text = "Display - Barang Masuk Asset Per Pallet"
         '
@@ -404,6 +404,7 @@ Partial Class EMI_Display_Pallet_Masuk_Data_Lain
         'Panel9
         '
         Me.Panel9.BackColor = System.Drawing.Color.DarkRed
+        Me.Panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel9.Location = New System.Drawing.Point(1138, 70)
         Me.Panel9.Name = "Panel9"
         Me.Panel9.Size = New System.Drawing.Size(15, 15)
@@ -412,6 +413,7 @@ Partial Class EMI_Display_Pallet_Masuk_Data_Lain
         'Panel8
         '
         Me.Panel8.BackColor = System.Drawing.Color.Yellow
+        Me.Panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel8.Location = New System.Drawing.Point(1023, 70)
         Me.Panel8.Name = "Panel8"
         Me.Panel8.Size = New System.Drawing.Size(15, 15)

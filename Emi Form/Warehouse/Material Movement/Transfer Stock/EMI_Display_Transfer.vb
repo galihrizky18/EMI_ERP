@@ -1,4 +1,4 @@
-﻿Public Class EMI_Display_Transfer
+﻿Public Class Emi_Display_Transfer
 
     Dim arrcari As New ArrayList
     Dim Jenis = "ETA"
@@ -18,18 +18,20 @@
     'Dim isTimbangMasuk, isTimbangKeluar As String
 
     Dim LvKodeTransfer, LvSoAwal, LvSoAkhir, LvKodeBarang As String
-    Dim LvNamaBarang, LvTotal, LvSatuan, LvRak, LvSn, LvSatuanBarang As String
+    Dim LvNamaBarang, LvTotal, LvSatuan, lv_JumlahInput, Lv_SatuanInput, LvRak, LvSn, LvSatuanBarang As String
 
     Dim itemKodeTransfer As Integer = 0
     Dim itemSOAwal As Integer = 1
     Dim itemSOAkhir As Integer = 2
     Dim itemKodeBarang As Integer = 3
     Dim itemNamaBarang As Integer = 4
-    Dim itemTotal As Integer = 5
-    Dim itemSatuan As Integer = 6
-    Dim itemLokasiRak As Integer = 7
-    Dim itemSN As Integer = 8
-    Dim itemSatuanBarang As Integer = 9
+    Dim itemJumlahInput As Integer = 5
+    Dim itemSatuanInput As Integer = 6
+    Dim itemTotal As Integer = 7
+    Dim itemSatuan As Integer = 8
+    Dim itemLokasiRak As Integer = 9
+    Dim itemSN As Integer = 10
+    Dim itemSatuanBarang As Integer = 11
 
     Dim GetDataKodeTransfer, GetDataLokasi, GetDataKdBrg, GetDataNmBrg, GetDataBrgSN, GetDataJmlEstimasi, GetDataSatuanKecil, GetDataUrutOto, GetDataJumlahBags, GetDataBeratBags As String
     Dim GetDataSatuanBeratBags, GetDataSatuanBeratBesar As String
@@ -110,10 +112,12 @@
             Lv_List_Barang.Columns.Add("SO Akhir", 180, HorizontalAlignment.Left) '2
             Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_KodeBarang, 130, HorizontalAlignment.Left) '3
             Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_NamaBarang, 0, HorizontalAlignment.Left) '4
+            Lv_List_Barang.Columns.Add("Total Input", 130, HorizontalAlignment.Center) '7
+            Lv_List_Barang.Columns.Add("Satuan Input", 120, HorizontalAlignment.Center) '8
             Lv_List_Barang.Columns.Add("Total", 130, HorizontalAlignment.Center) '5
             Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_Satuan, 120, HorizontalAlignment.Center) '6
-            Lv_List_Barang.Columns.Add("Lokasi RAK", 150, HorizontalAlignment.Left) '7
-            Lv_List_Barang.Columns.Add("barangSn", 0, HorizontalAlignment.Left) '8
+            Lv_List_Barang.Columns.Add("Lokasi RAK", 150, HorizontalAlignment.Left) '9
+            Lv_List_Barang.Columns.Add("barangSn", 0, HorizontalAlignment.Left) '10
 
             Lv_List_Barang.View = View.Details
 
@@ -179,6 +183,8 @@
             Exit Sub
         End If
 
+        Dim JumlahRequst As Double = 0
+        Dim SisaRequest As Double = 0
 
         Try
             OpenConn()
@@ -204,12 +210,30 @@
                 End If
             End Using
 
+
+
             SQL = "Select a.no_faktur, a.lokasi, a.so_awal, a.so_tujuan, c.urut_Oto, b.kode_Barang, "
             SQL = SQL & "d.nama, b.Total, b.satuan, b.Satuan_Barang, c.serial_number_awal, "
             SQL = SQL & "c.jumlah, c.Jumlah_Bags, d.Berat_Bags, d.Satuan_Berat_Bags, c.Id_Wms_Tujuan, c.Warna, "
 
             SQL = SQL & "isnull((select x.Labeling_WMS_Position from View_Warehouse_Position x where "
-            SQL = SQL & "x.Kode_Perusahaan = c.Kode_Perusahaan And x.Id_WMS_Warehouse_Position = c.Id_Wms_Awal), null) As Rak_Awal "
+            SQL = SQL & "x.Kode_Perusahaan = c.Kode_Perusahaan And x.Id_WMS_Warehouse_Position = c.Id_Wms_Awal), null) As Rak_Awal, "
+
+            SQL = SQL & "isnull((select e.Jumlah "
+            SQL = SQL & "from Emi_Material_Requisition q, Emi_Material_Requisition_Det w, Emi_Material_Requisition_Det_Convert e "
+            SQL = SQL & "where q.Kode_Perusahaan = w.Kode_Perusahaan and w.Kode_Perusahaan = e.Kode_Perusahaan  "
+            SQL = SQL & "and q.No_Faktur = w.No_Faktur "
+            SQL = SQL & "and w.No_Faktur = e.No_Faktur and w.Urut_Oto = e.No_Urut_Det "
+            SQL = SQL & "and q.Status is null "
+            SQL = SQL & "and q.Kode_Perusahaan = a.Kode_Perusahaan "
+            SQL = SQL & "and e.Urut_Oto = b.Urut_Material_Requisition_Convert "
+            SQL = SQL & "), 0) as Jumlah_Kebutuhan, "
+
+            SQL = SQL & "ISNULL(( select sum(w.jumlah) from tf_stock y, Tf_Stock_det z, Tf_Stock_det2 w "
+            SQL = SQL & "where y.kode_Perusahaan=z.kode_perusahaan and y.no_faktur=z.no_faktur and y.urut_oto=z.urut_tf and (z.selesai is null or z.selesai='Y') and "
+            SQL = SQL & "z.kode_Perusahaan=w.kode_perusahaan and z.no_faktur=w.no_faktur and z.urut_oto=w.Urut_Det and "
+            SQL = SQL & "a.Kode_Perusahaan = y.Kode_Perusahaan and b.urut_material_requisition_convert = y.urut_material_requisition_convert  and y.Flag_Jenis_Request = 'PRODUKSI' ) "
+            SQL = SQL & ", '0') as Total_TF "
 
             SQL = SQL & "From tf_stock_parent a, tf_stock b, tf_stock_det c, barang d Where "
             SQL = SQL & "a.kode_Perusahaan = b.kode_Perusahaan And a.no_faktur = b.no_faktur And "
@@ -223,7 +247,7 @@
                     GetDataKodeTransfer = Dr("no_faktur")
                     GetDataLokasi = Dr("SO_Awal")
                     GetDataKdBrg = Dr("Kode_Barang")
-                    GetDataNmBrg = "X"
+                    GetDataNmBrg = Dr("nama")
                     GetDataBrgSN = Dr("Serial_Number_Awal")
                     GetDataJmlEstimasi = Format(Dr("jumlah"), "N2")
                     GetDataSatuanKecil = Dr("Satuan_Barang")
@@ -232,6 +256,8 @@
                     GetDataSatuanBeratBags = Dr("Satuan_Berat_Bags")
                     GetDataSatuanBeratBesar = Dr("satuan")
                     GetDataUrutOto = Dr("urut_oto")
+                    JumlahRequst = Format(Dr("Jumlah_Kebutuhan"), "N2")
+                    SisaRequest = Format(Val(HilangkanTanda(Dr("Jumlah_Kebutuhan")) - Val(HilangkanTanda(Dr("Total_TF")))), "N2")
                 Else
                     CloseTrans()
                     CloseConn()
@@ -265,6 +291,7 @@
 
         EMI_Timbang_Floor_Scale.Txt_SatuanKecil.Text = GetDataSatuanKecil
         EMI_Timbang_Floor_Scale.TxtBarcode.Text = Txt_ScanBarcode.Text
+        EMI_Timbang_Floor_Scale.Txt_Sisa_Request.Text = SisaRequest
         EMI_Timbang_Floor_Scale.CmbJenisTimbang.SelectedItem = "TRANSFER STOCK"
 
         EMI_Timbang_Floor_Scale.Btn_Refresh.Visible = False
@@ -300,9 +327,12 @@
         LvNamaBarang = Lv_List_Barang.Items(NoIndex).SubItems(itemNamaBarang).Text
         LvTotal = Lv_List_Barang.Items(NoIndex).SubItems(itemTotal).Text
         LvSatuan = Lv_List_Barang.Items(NoIndex).SubItems(itemSatuan).Text
+        lv_JumlahInput = Lv_List_Barang.Items(NoIndex).SubItems(itemJumlahInput).Text
+        Lv_SatuanInput = Lv_List_Barang.Items(NoIndex).SubItems(itemSatuanInput).Text
         LvRak = Lv_List_Barang.Items(NoIndex).SubItems(itemLokasiRak).Text
         LvSn = Lv_List_Barang.Items(NoIndex).SubItems(itemSN).Text
         LvSatuanBarang = Lv_List_Barang.Items(NoIndex).SubItems(itemSatuanBarang).Text
+
 
     End Sub
 
@@ -328,7 +358,14 @@
             SQL = SQL & "c.jumlah, c.Jumlah_Bags, c.Id_Wms_Tujuan, c.Warna, "
 
             SQL = SQL & "isnull((select x.Labeling_WMS_Position from View_Warehouse_Position x where "
-            SQL = SQL & "x.Kode_Perusahaan = c.Kode_Perusahaan And x.Id_WMS_Warehouse_Position = c.Id_Wms_Awal), null) As Rak_Awal "
+            SQL = SQL & "x.Kode_Perusahaan = c.Kode_Perusahaan And x.Id_WMS_Warehouse_Position = c.Id_Wms_Awal), null) As Rak_Awal, "
+
+            SQL = SQL & "isnull(( select case when r.Flag_Dasar IS NULL THEN (c.Jumlah / r.Nilai) "
+            SQL = SQL & "else (c.Jumlah * isnull(z.Nilai, 1)) end as Hasil "
+            SQL = SQL & "from N_EMI_Master_Satuan r "
+            SQL = SQL & "left join N_EMI_Master_Satuan z ON r.Kode_Perusahaan = z.Kode_Perusahaan and r.Kode_Barang = z.Kode_Barang and z.Flag_Dasar = 'Y' "
+            SQL = SQL & "where r.Kode_Perusahaan = a.Kode_Perusahaan and r.Kode_Barang = b.Kode_Barang and r.Satuan = c.Satuan_Input "
+            SQL = SQL & "), 0) as Jumlah_Input, isnull(c.Satuan_Input, '-') as Satuan_Input "
 
             SQL = SQL & "From tf_stock_parent a, tf_stock b, tf_stock_det c, barang d Where "
             SQL = SQL & "a.kode_Perusahaan = b.kode_Perusahaan And a.no_faktur = b.no_faktur And "
@@ -347,8 +384,12 @@
                     Lvw.SubItems.Add(dr("so_tujuan"))
                     Lvw.SubItems.Add(dr("kode_barang"))
                     Lvw.SubItems.Add("X")
+
+                    Lvw.SubItems.Add(Format(dr("Jumlah_Input"), "N0"))
+                    Lvw.SubItems.Add(dr("Satuan_Input"))
                     Lvw.SubItems.Add(Format(dr("jumlah"), "N2"))
                     Lvw.SubItems.Add(dr("satuan"))
+
                     Lvw.SubItems.Add(dr("Rak_Awal"))
                     Lvw.SubItems.Add(dr("Serial_Number_Awal"))
                     Lvw.SubItems.Add(dr("Satuan_Barang"))

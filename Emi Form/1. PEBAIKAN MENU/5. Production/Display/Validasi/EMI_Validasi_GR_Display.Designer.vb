@@ -27,6 +27,7 @@ Partial Class EMI_Validasi_GR_Display
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -37,6 +38,7 @@ Partial Class EMI_Validasi_GR_Display
         Me.Lv_Validation = New System.Windows.Forms.ListView()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.SalinNoTransaksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BatalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Lv_Detail = New System.Windows.Forms.ListView()
@@ -76,12 +78,17 @@ Partial Class EMI_Validasi_GR_Display
         Me.Dtp_Produksi = New System.Windows.Forms.DateTimePicker()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Lbl_Supplier = New System.Windows.Forms.Label()
         Me.Txt_Barang = New System.Windows.Forms.TextBox()
         Me.Txt_Barcode = New System.Windows.Forms.TextBox()
+        Me.Txt_Jenis = New System.Windows.Forms.TextBox()
         Me.Txt_Jumlah = New System.Windows.Forms.TextBox()
         Me.Txt_KdBarang = New System.Windows.Forms.TextBox()
+        Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -190,15 +197,21 @@ Partial Class EMI_Validasi_GR_Display
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalinNoTransaksiToolStripMenuItem})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalinNoTransaksiToolStripMenuItem, Me.BatalToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(170, 26)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(170, 48)
         '
         'SalinNoTransaksiToolStripMenuItem
         '
         Me.SalinNoTransaksiToolStripMenuItem.Name = "SalinNoTransaksiToolStripMenuItem"
         Me.SalinNoTransaksiToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
         Me.SalinNoTransaksiToolStripMenuItem.Text = "Salin No Transaksi"
+        '
+        'BatalToolStripMenuItem
+        '
+        Me.BatalToolStripMenuItem.Name = "BatalToolStripMenuItem"
+        Me.BatalToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
+        Me.BatalToolStripMenuItem.Text = "Batal"
         '
         'Panel5
         '
@@ -231,7 +244,7 @@ Partial Class EMI_Validasi_GR_Display
         Me.Lv_Detail.HideSelection = False
         Me.Lv_Detail.Location = New System.Drawing.Point(3, 16)
         Me.Lv_Detail.Name = "Lv_Detail"
-        Me.Lv_Detail.Size = New System.Drawing.Size(644, 168)
+        Me.Lv_Detail.Size = New System.Drawing.Size(644, 137)
         Me.Lv_Detail.TabIndex = 0
         Me.Lv_Detail.UseCompatibleStateImageBehavior = False
         Me.Lv_Detail.View = System.Windows.Forms.View.Details
@@ -413,7 +426,7 @@ Partial Class EMI_Validasi_GR_Display
         Me.Lv_Detail_Packaging.HideSelection = False
         Me.Lv_Detail_Packaging.Location = New System.Drawing.Point(3, 16)
         Me.Lv_Detail_Packaging.Name = "Lv_Detail_Packaging"
-        Me.Lv_Detail_Packaging.Size = New System.Drawing.Size(398, 168)
+        Me.Lv_Detail_Packaging.Size = New System.Drawing.Size(398, 137)
         Me.Lv_Detail_Packaging.TabIndex = 0
         Me.Lv_Detail_Packaging.UseCompatibleStateImageBehavior = False
         Me.Lv_Detail_Packaging.View = System.Windows.Forms.View.Details
@@ -432,9 +445,9 @@ Partial Class EMI_Validasi_GR_Display
         '
         Me.GroupBox2.Controls.Add(Me.Lv_Detail)
         Me.GroupBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.GroupBox2.Location = New System.Drawing.Point(6, 132)
+        Me.GroupBox2.Location = New System.Drawing.Point(6, 163)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(650, 187)
+        Me.GroupBox2.Size = New System.Drawing.Size(650, 156)
         Me.GroupBox2.TabIndex = 1
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Detail Validation"
@@ -443,9 +456,9 @@ Partial Class EMI_Validasi_GR_Display
         '
         Me.GroupBox4.Controls.Add(Me.Lv_Detail_Packaging)
         Me.GroupBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.GroupBox4.Location = New System.Drawing.Point(662, 132)
+        Me.GroupBox4.Location = New System.Drawing.Point(662, 163)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(404, 187)
+        Me.GroupBox4.Size = New System.Drawing.Size(404, 156)
         Me.GroupBox4.TabIndex = 2
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Detail Packaging"
@@ -564,10 +577,12 @@ Partial Class EMI_Validasi_GR_Display
         Me.GroupBox5.Controls.Add(Me.Dtp_Produksi)
         Me.GroupBox5.Controls.Add(Me.Label3)
         Me.GroupBox5.Controls.Add(Me.Label2)
+        Me.GroupBox5.Controls.Add(Me.Label9)
         Me.GroupBox5.Controls.Add(Me.Label5)
         Me.GroupBox5.Controls.Add(Me.Lbl_Supplier)
         Me.GroupBox5.Controls.Add(Me.Txt_Barang)
         Me.GroupBox5.Controls.Add(Me.Txt_Barcode)
+        Me.GroupBox5.Controls.Add(Me.Txt_Jenis)
         Me.GroupBox5.Controls.Add(Me.Txt_Jumlah)
         Me.GroupBox5.Controls.Add(Me.Txt_KdBarang)
         Me.GroupBox5.Controls.Add(Me.GroupBox4)
@@ -585,7 +600,7 @@ Partial Class EMI_Validasi_GR_Display
         Me.Cmb_Satuan.Enabled = False
         Me.Cmb_Satuan.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.Cmb_Satuan.FormattingEnabled = True
-        Me.Cmb_Satuan.Location = New System.Drawing.Point(229, 97)
+        Me.Cmb_Satuan.Location = New System.Drawing.Point(229, 119)
         Me.Cmb_Satuan.Name = "Cmb_Satuan"
         Me.Cmb_Satuan.Size = New System.Drawing.Size(85, 24)
         Me.Cmb_Satuan.TabIndex = 437
@@ -594,7 +609,7 @@ Partial Class EMI_Validasi_GR_Display
         '
         Me.Dtp_Expired.Enabled = False
         Me.Dtp_Expired.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.Dtp_Expired.Location = New System.Drawing.Point(411, 72)
+        Me.Dtp_Expired.Location = New System.Drawing.Point(411, 94)
         Me.Dtp_Expired.Name = "Dtp_Expired"
         Me.Dtp_Expired.Size = New System.Drawing.Size(207, 20)
         Me.Dtp_Expired.TabIndex = 436
@@ -603,7 +618,7 @@ Partial Class EMI_Validasi_GR_Display
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Label4.Location = New System.Drawing.Point(321, 75)
+        Me.Label4.Location = New System.Drawing.Point(321, 97)
         Me.Label4.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(84, 13)
@@ -614,7 +629,7 @@ Partial Class EMI_Validasi_GR_Display
         '
         Me.Dtp_Produksi.Enabled = False
         Me.Dtp_Produksi.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.Dtp_Produksi.Location = New System.Drawing.Point(107, 72)
+        Me.Dtp_Produksi.Location = New System.Drawing.Point(107, 94)
         Me.Dtp_Produksi.Name = "Dtp_Produksi"
         Me.Dtp_Produksi.Size = New System.Drawing.Size(207, 20)
         Me.Dtp_Produksi.TabIndex = 436
@@ -623,7 +638,7 @@ Partial Class EMI_Validasi_GR_Display
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Label3.Location = New System.Drawing.Point(11, 77)
+        Me.Label3.Location = New System.Drawing.Point(11, 99)
         Me.Label3.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(90, 13)
@@ -641,11 +656,22 @@ Partial Class EMI_Validasi_GR_Display
         Me.Label2.TabIndex = 435
         Me.Label2.Text = "Barcode"
         '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.Label9.Location = New System.Drawing.Point(11, 72)
+        Me.Label9.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(31, 13)
+        Me.Label9.TabIndex = 435
+        Me.Label9.Text = "Jenis"
+        '
         'Label5
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Label5.Location = New System.Drawing.Point(11, 101)
+        Me.Label5.Location = New System.Drawing.Point(11, 123)
         Me.Label5.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(40, 13)
@@ -669,11 +695,11 @@ Partial Class EMI_Validasi_GR_Display
         Me.Txt_Barang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_Barang.Enabled = False
         Me.Txt_Barang.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.Txt_Barang.Location = New System.Drawing.Point(209, 21)
+        Me.Txt_Barang.Location = New System.Drawing.Point(227, 21)
         Me.Txt_Barang.Margin = New System.Windows.Forms.Padding(2)
         Me.Txt_Barang.MaxLength = 50
         Me.Txt_Barang.Name = "Txt_Barang"
-        Me.Txt_Barang.Size = New System.Drawing.Size(409, 20)
+        Me.Txt_Barang.Size = New System.Drawing.Size(391, 20)
         Me.Txt_Barang.TabIndex = 434
         '
         'Txt_Barcode
@@ -690,13 +716,27 @@ Partial Class EMI_Validasi_GR_Display
         Me.Txt_Barcode.TabIndex = 434
         Me.Txt_Barcode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
+        'Txt_Jenis
+        '
+        Me.Txt_Jenis.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_Jenis.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_Jenis.Enabled = False
+        Me.Txt_Jenis.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Txt_Jenis.Location = New System.Drawing.Point(107, 69)
+        Me.Txt_Jenis.Margin = New System.Windows.Forms.Padding(2)
+        Me.Txt_Jenis.MaxLength = 50
+        Me.Txt_Jenis.Name = "Txt_Jenis"
+        Me.Txt_Jenis.Size = New System.Drawing.Size(117, 20)
+        Me.Txt_Jenis.TabIndex = 434
+        Me.Txt_Jenis.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
         'Txt_Jumlah
         '
         Me.Txt_Jumlah.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_Jumlah.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_Jumlah.Enabled = False
         Me.Txt_Jumlah.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.Txt_Jumlah.Location = New System.Drawing.Point(107, 99)
+        Me.Txt_Jumlah.Location = New System.Drawing.Point(107, 121)
         Me.Txt_Jumlah.Margin = New System.Windows.Forms.Padding(2)
         Me.Txt_Jumlah.MaxLength = 50
         Me.Txt_Jumlah.Name = "Txt_Jumlah"
@@ -714,8 +754,31 @@ Partial Class EMI_Validasi_GR_Display
         Me.Txt_KdBarang.Margin = New System.Windows.Forms.Padding(2)
         Me.Txt_KdBarang.MaxLength = 50
         Me.Txt_KdBarang.Name = "Txt_KdBarang"
-        Me.Txt_KdBarang.Size = New System.Drawing.Size(99, 20)
+        Me.Txt_KdBarang.Size = New System.Drawing.Size(117, 20)
         Me.Txt_KdBarang.TabIndex = 434
+        '
+        'DataGridViewTextBoxColumn1
+        '
+        Me.DataGridViewTextBoxColumn1.HeaderText = "No Transaksi"
+        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
+        Me.DataGridViewTextBoxColumn1.ReadOnly = True
+        Me.DataGridViewTextBoxColumn1.Visible = False
+        '
+        'DataGridViewTextBoxColumn2
+        '
+        Me.DataGridViewTextBoxColumn2.HeaderText = "no SPlit"
+        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
+        Me.DataGridViewTextBoxColumn2.ReadOnly = True
+        Me.DataGridViewTextBoxColumn2.Visible = False
+        '
+        'DataGridViewTextBoxColumn3
+        '
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle5
+        Me.DataGridViewTextBoxColumn3.HeaderText = "Keranjang"
+        Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
+        Me.DataGridViewTextBoxColumn3.ReadOnly = True
+        Me.DataGridViewTextBoxColumn3.Width = 80
         '
         'EMI_Validasi_GR_Display
         '
@@ -817,4 +880,10 @@ Partial Class EMI_Validasi_GR_Display
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
+    Friend WithEvents BatalToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
+    Friend WithEvents Label9 As Label
+    Friend WithEvents Txt_Jenis As TextBox
 End Class

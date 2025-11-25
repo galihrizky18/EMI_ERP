@@ -42,6 +42,12 @@ Public Class EMI_PO_Pembelian_Sub
     Dim LvPO_JatuhTempo As String
     Dim LvPO_FakPenawaran As String
     Dim LvPO_Fakinduk, LvPO_UrutDet As String
+    Dim LvPO_JumlahPOInput As String
+    Dim LvPO_SatuanInput As String
+    Dim LvPO_HargaInput As String
+    Dim LvPO_SisaPOInput As String
+    Dim LvPO_HargaDisplay As String
+
 
     Public cellPO_Lokasi As Integer = 0
     Public cellPO_KdBarang As Integer = 1
@@ -65,6 +71,11 @@ Public Class EMI_PO_Pembelian_Sub
     Public cellFakInduk As Integer = 19
     Public cellUrutDet As Integer = 20
     Public cellJnsKategori As Integer = 21
+    Public cellJumlahPOInput As Integer = 22
+    Public cellSatuanInput As Integer = 23
+    Public cellHargaInput As Integer = 24
+    Public cellSisaPOInput As Integer = 25
+    Public cellHargaDisplay As Integer = 26
 
     Public No_SJ As String
     Public No_Plat As String
@@ -109,6 +120,11 @@ Public Class EMI_PO_Pembelian_Sub
         lvPO_PR = LvPO_DataPO.Rows(No_Index).Cells(cellPO_PR).Value
         LvPO_Fakinduk = LvPO_DataPO.Rows(No_Index).Cells(cellFakInduk).Value
         LvPO_UrutDet = LvPO_DataPO.Rows(No_Index).Cells(cellUrutDet).Value
+        LvPO_JumlahPOInput = LvPO_DataPO.Rows(No_Index).Cells(cellJumlahPOInput).Value
+        LvPO_SatuanInput = LvPO_DataPO.Rows(No_Index).Cells(cellSatuanInput).Value
+        LvPO_HargaInput = LvPO_DataPO.Rows(No_Index).Cells(cellHargaInput).Value
+        LvPO_SisaPOInput = LvPO_DataPO.Rows(No_Index).Cells(cellSisaPOInput).Value
+        LvPO_HargaDisplay = LvPO_DataPO.Rows(No_Index).Cells(cellHargaDisplay).Value
     End Sub
 
     Private Sub HitungGrandTotal()
@@ -247,6 +263,11 @@ Public Class EMI_PO_Pembelian_Sub
         get_jam()
 
         LvPO_DataPO.Columns(cellFakInduk).DisplayIndex = 1
+
+        LvPO_DataPO.Columns(cellHargaDisplay).DisplayIndex = 3
+        LvPO_DataPO.Columns(cellJumlahPOInput).DisplayIndex = 5
+        LvPO_DataPO.Columns(cellSatuanInput).DisplayIndex = 8
+        LvPO_DataPO.Columns(cellSisaPOInput).DisplayIndex = 6
 
         LblPO_CaraBayar.Text = Base_Language.Lang_Global_CaraBayar
         LblPO_Diskon.Text = Base_Language.Lang_Global_Diskon_Persen
@@ -619,10 +640,10 @@ Public Class EMI_PO_Pembelian_Sub
                     arrTempoPenawaran.Clear() : arrJatuhTempo.Clear()
                     SQL = "select a.No_Faktur,a.no_penawaran,a.Kode_Supplier, c.Nama,b.satuan, b.Nilai_Barang,b.harga_satuan, b.satuan_Barang,  "
 
-                    SQL = SQL & "isnull((select x.Lama_Pembayaran from EMI_Master_Penawaran_Jatuh_Tempo x where a.Kode_Perusahaan = x.Kode_Perusahaan "
+                    SQL = SQL & "isnull((select top(1)  x.Lama_Pembayaran from EMI_Master_Penawaran_Jatuh_Tempo x where a.Kode_Perusahaan = x.Kode_Perusahaan "
                     SQL = SQL & "and a.No_Faktur = x.No_Faktur), 0) as jatuh_Tempo,"
 
-                    SQL = SQL & "isnull((select x.Tempo_Pembayaran from EMI_Master_Penawaran_Jatuh_Tempo x where a.Kode_Perusahaan = x.Kode_Perusahaan "
+                    SQL = SQL & "isnull((select top(1) x.Tempo_Pembayaran from EMI_Master_Penawaran_Jatuh_Tempo x where a.Kode_Perusahaan = x.Kode_Perusahaan "
                     SQL = SQL & "and a.No_Faktur = x.No_Faktur), null) as Tempo_Pembayaran "
 
 
@@ -988,9 +1009,31 @@ Public Class EMI_PO_Pembelian_Sub
                 For index = 0 To LvPO_DataPO.Rows.Count - 1
                     Get_Isi_Listview(index)
 
-                    If Val(HilangkanTanda(lvPO_Jumlah)) = 0 Then
-                        Continue For
-                    End If
+                    '=======================
+                    '=     UBAH SATUAN     =
+                    '=======================
+                    Dim jumlahConvert As Double = 0
+                    SQL = "select isnull((" & HilangkanTanda(lvPO_Jumlah) & " * a.Nilai), 0) as Hasil "
+                    SQL = SQL & "from N_EMI_Master_Satuan a "
+                    SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and a.Kode_Barang = '" & lvPO_KdBarang & "' "
+                    SQL = SQL & "and a.Satuan = '" & LvPO_SatuanInput & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            jumlahConvert = Dr("Hasil")
+                        Else
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Satuan " & LvPO_SatuanInput & " pada barang " & lvPO_NmBarang & " Tidak Ditemukan pada Master Barang ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
+
+
+
+
+
 
 
                     SQL = "select flag_PPn from barang where "
@@ -1017,6 +1060,10 @@ Public Class EMI_PO_Pembelian_Sub
                         End If
                     End Using
 
+                    If Val(HilangkanTanda(jumlahConvert)) = 0 Then
+                        Continue For
+                    End If
+
 
                     SQL = "select no_faktur from emi_pembelian_po_detail where "
                     SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' "
@@ -1030,9 +1077,10 @@ Public Class EMI_PO_Pembelian_Sub
                             Dr.Close()
 
                             SQL = "update emi_pembelian_po_detail set "
-                            SQL = SQL & "jumlah = jumlah + " & HilangkanTanda(lvPO_Jumlah) & ", "
+                            SQL = SQL & "jumlah = jumlah + " & HilangkanTanda(jumlahConvert) & ", "
                             SQL = SQL & "nilai_barang = nilai_barang + " & lvPO_Jumlah_SB & ", "
-                            SQL = SQL & "total = total +   " & HilangkanTanda(lvPO_Total) & " "
+                            SQL = SQL & "total = total + " & HilangkanTanda(lvPO_Total) & ", "
+                            SQL = SQL & "Jumlah_Input = Jumlah_Input + " & HilangkanTanda(lvPO_Jumlah) & " "
                             SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
                             SQL = SQL & "and no_faktur = '" & TxtPO_NoFaktur.Text & "' "
                             SQL = SQL & "and kode_stock_owner = '" & lvPO_Lokasi & "' "
@@ -1045,12 +1093,12 @@ Public Class EMI_PO_Pembelian_Sub
 
                             SQL = "insert into EMI_Pembelian_PO_Detail(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, "
                             SQL = SQL & "Kode_Barang, Jumlah, Satuan, Harga, Nilai_Barang, Satuan_Barang, Harga_Barang, "
-                            SQL = SQL & "Total, No_Penawaran, Flag_Prepare) values( "
+                            SQL = SQL & "Total, No_Penawaran, Flag_Prepare, Jumlah_Input, Satuan_Input) values( "
                             SQL = SQL & "'" & KodePerusahaan & "', '" & TxtPO_NoFaktur.Text & "', '" & lvPO_Lokasi & "', "
-                            SQL = SQL & "'" & lvPO_KdBarang & "', '" & HilangkanTanda(lvPO_Jumlah) & "', '" & lvPO_Satuan & "', "
+                            SQL = SQL & "'" & lvPO_KdBarang & "', '" & HilangkanTanda(jumlahConvert) & "', '" & lvPO_Satuan & "', "
                             SQL = SQL & "'" & HilangkanTanda(lvPO_Harga) & "', '" & lvPO_Jumlah_SB & "', '" & lvPO_Satuan_SB & "', "
                             SQL = SQL & "'" & lvPO_Harga_SB & "', '" & HilangkanTanda(lvPO_Total) & "', "
-                            SQL = SQL & "'" & lvPO_NoPenawaran & "','" & lvPO_ID & "') "
+                            SQL = SQL & "'" & lvPO_NoPenawaran & "','" & lvPO_ID & "', '" & HilangkanTanda(lvPO_Jumlah) & "', '" & LvPO_SatuanInput & "') "
                             ExecuteTrans(SQL)
 
                         End If
@@ -1058,12 +1106,13 @@ Public Class EMI_PO_Pembelian_Sub
 
                     SQL = "insert into EMI_Pembelian_PO_Det(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, "
                     SQL = SQL & "Kode_Barang, Jumlah, Satuan, Harga, Nilai_Barang, Satuan_Barang, Harga_Barang, "
-                    SQL = SQL & "Total, No_Penawaran, no_urut_pr, No_FakInduk, urut_det_induk) values( "
+                    SQL = SQL & "Total, No_Penawaran, no_urut_pr, No_FakInduk, urut_det_induk, Jumlah_Input, Satuan_Input) values( "
                     SQL = SQL & "'" & KodePerusahaan & "', '" & TxtPO_NoFaktur.Text & "', '" & lvPO_Lokasi & "', "
-                    SQL = SQL & "'" & lvPO_KdBarang & "', '" & HilangkanTanda(lvPO_Jumlah) & "', '" & lvPO_Satuan & "', "
+                    SQL = SQL & "'" & lvPO_KdBarang & "', '" & HilangkanTanda(jumlahConvert) & "', '" & lvPO_Satuan & "', "
                     SQL = SQL & "'" & HilangkanTanda(lvPO_Harga) & "', '" & lvPO_Jumlah_SB & "', '" & lvPO_Satuan_SB & "', "
                     SQL = SQL & "'" & lvPO_Harga_SB & "', '" & HilangkanTanda(lvPO_Total) & "', "
-                    SQL = SQL & "'" & lvPO_NoPenawaran & "','" & lvPO_PR & "', '" & LvPO_Fakinduk & "', '" & LvPO_UrutDet & "') "
+                    SQL = SQL & "'" & lvPO_NoPenawaran & "','" & lvPO_PR & "', '" & LvPO_Fakinduk & "', '" & LvPO_UrutDet & "', "
+                    SQL = SQL & "'" & HilangkanTanda(lvPO_Jumlah) & "', '" & LvPO_SatuanInput & "')"
                     ExecuteTrans(SQL)
 
 
@@ -2543,7 +2592,7 @@ Public Class EMI_PO_Pembelian_Sub
 
         If Not IsNumeric(LvPO_DataPO.CurrentRow.Cells(cellPO_Jumlah).Value) Then
             LvPO_DataPO.CurrentRow.Cells(cellPO_Jumlah).Value = Format(0, "N2")
-            LvPO_DataPO.CurrentRow.Cells(cellPO_Total).Value = Format(0, "N2")
+            LvPO_DataPO.CurrentRow.Cells(cellPO_Total).Value = Format(0, "N4")
             HitungGrandTotal()
             Exit Sub
         End If
@@ -2554,10 +2603,42 @@ Public Class EMI_PO_Pembelian_Sub
             '======================
             Dim culture As CultureInfo = CultureInfo.CurrentCulture
 
+            Dim JumlahConvert As Double = 0
+
+            Try
+                OpenConn()
+
+                '=======================
+                '=     UBAH SATUAN     =
+                '=======================
+
+                SQL = "select isnull((" & LvPO_DataPO.CurrentRow.Cells(cellPO_Jumlah).Value & " * a.Nilai), 0) as Hasil "
+                SQL = SQL & "from N_EMI_Master_Satuan a "
+                SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.Kode_Barang = '" & LvPO_DataPO.CurrentRow.Cells(cellPO_KdBarang).Value & "' "
+                SQL = SQL & "and a.Satuan = '" & LvPO_DataPO.CurrentRow.Cells(cellSatuanInput).Value & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        JumlahConvert = Dr("Hasil")
+                    Else
+                        CloseConn()
+                        MessageBox.Show("Data Satuan " & LvPO_DataPO.CurrentRow.Cells(cellSatuanInput).Value & " pada Barang " & LvPO_DataPO.CurrentRow.Cells(cellPO_NmBarang).Value & " Tidak Ditemukan Dimaster Satuan",
+                            Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
+                CloseConn()
+            Catch ex As Exception
+                CloseConn()
+                MessageBox.Show(ex.Message)
+                Exit Sub
+            End Try
+
             If LvPO_DataPO.CurrentCell.ColumnIndex = cellPO_Jumlah Then
 
                 Dim cellKuantity As String = LvPO_DataPO.CurrentCell.Value.ToString()
-                Dim sisa As Double = LvPO_DataPO.CurrentRow.Cells(cellPO_Sisa).Value
+                Dim sisa As Double = Format(Val(HilangkanTanda(LvPO_DataPO.CurrentRow.Cells(cellPO_Sisa).Value)), "N4")
 
                 If cellKuantity.Contains(",") Then
                     MessageBox.Show("Kuantity Tidak Boleh Koma, Ganti dengan Titik", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -2566,10 +2647,10 @@ Public Class EMI_PO_Pembelian_Sub
                     Exit Sub
                 End If
 
-                If cellKuantity > sisa Then
+                If JumlahConvert > sisa Then
                     MessageBox.Show("Jumlah Tidak Boleh lebih besar dari sisa", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     LvPO_DataPO.CurrentCell.Value = Format(0, "N2")
-                    LvPO_DataPO.CurrentRow.Cells(cellPO_Total).Value = Format(0, "N2")
+                    LvPO_DataPO.CurrentRow.Cells(cellPO_Total).Value = Format(0, "N4")
                     HitungGrandTotal()
                     Exit Sub
                 End If
@@ -2577,8 +2658,10 @@ Public Class EMI_PO_Pembelian_Sub
                 Dim nilai As Decimal = Decimal.Parse(cellKuantity)
                 Dim formattedValue As String = nilai.ToString("N2", culture)
 
-                LvPO_DataPO.CurrentCell.Value = formattedValue
+                Dim nilaiInput As Decimal = Decimal.Parse(JumlahConvert)
+                Dim formattedValue_Input As String = nilaiInput.ToString("N4", culture)
 
+                LvPO_DataPO.CurrentCell.Value = formattedValue
                 Try
                     OpenConn()
 
@@ -2586,7 +2669,7 @@ Public Class EMI_PO_Pembelian_Sub
                     Dim satuanBesar As String = LvPO_DataPO.CurrentRow.Cells(cellPO_Satuan).Value
                     Dim satuanKecil As String = LvPO_DataPO.CurrentRow.Cells(cellPO_Satuan_SB).Value
                     'UBAH SATUAN
-                    SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & KdBarang & "', '" & satuanBesar & "', '" & satuanKecil & "', '" & HilangkanTanda(formattedValue) & "' ) as hasil"
+                    SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & KdBarang & "', '" & satuanBesar & "', '" & satuanKecil & "', '" & HilangkanTanda(formattedValue_Input) & "' ) as hasil"
                     Using Dr = OpenTrans(SQL)
                         If Dr.Read Then
                             LvPO_DataPO.CurrentRow.Cells(cellPO_Jumlah_SB).Value = Dr("hasil")
@@ -2605,7 +2688,7 @@ Public Class EMI_PO_Pembelian_Sub
                 Dim harga As Double = LvPO_DataPO.CurrentRow.Cells(cellPO_Harga_SB).Value
                 Dim jumlahKecil As Double = LvPO_DataPO.CurrentRow.Cells(cellPO_Jumlah_SB).Value
 
-                LvPO_DataPO.CurrentRow.Cells(cellPO_Total).Value = Format((harga * jumlahKecil), "N2")
+                LvPO_DataPO.CurrentRow.Cells(cellPO_Total).Value = Format((harga * jumlahKecil), "N4")
 
             End If
 

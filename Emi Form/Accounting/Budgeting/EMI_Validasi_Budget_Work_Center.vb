@@ -61,10 +61,10 @@
         Lv_Aktual_WorkCenter.Columns.Clear()
         Lv_Aktual_WorkCenter.Columns.Add("No Transaksi", 130, HorizontalAlignment.Left)
         Lv_Aktual_WorkCenter.Columns.Add("Jenis Biaya", 130, HorizontalAlignment.Left)
-        Lv_Aktual_WorkCenter.Columns.Add("Tanggal", 130, HorizontalAlignment.Center)
-        Lv_Aktual_WorkCenter.Columns.Add("User", 120, HorizontalAlignment.Left)
+        Lv_Aktual_WorkCenter.Columns.Add("Tanggal", 0, HorizontalAlignment.Center)
+        Lv_Aktual_WorkCenter.Columns.Add("User", 0, HorizontalAlignment.Left)
         Lv_Aktual_WorkCenter.Columns.Add("Jumlah Produksi", 0, HorizontalAlignment.Right)
-        Lv_Aktual_WorkCenter.Columns.Add("Total Budget", 160, HorizontalAlignment.Right)
+        Lv_Aktual_WorkCenter.Columns.Add("Total Budgeting", 160, HorizontalAlignment.Right)
         Lv_Aktual_WorkCenter.Columns.Add("Jumlah Pemakaian", 0, HorizontalAlignment.Right)
         Lv_Aktual_WorkCenter.Columns.Add("Tarif Per Satuan", 0, HorizontalAlignment.Right)
         Lv_Aktual_WorkCenter.Columns.Add("Total Aktual", 160, HorizontalAlignment.Right)
@@ -72,6 +72,8 @@
         Lv_Aktual_WorkCenter.Columns.Add("Budget Baru", 160, HorizontalAlignment.Right)
         Lv_Aktual_WorkCenter.Columns.Add("Budget Lama", 160, HorizontalAlignment.Right)
         Lv_Aktual_WorkCenter.Columns.Add("JnsBiaya", 0, HorizontalAlignment.Right)
+        Lv_Aktual_WorkCenter.Columns.Add("Periode Awal", 130, HorizontalAlignment.Center).DisplayIndex = 2
+        Lv_Aktual_WorkCenter.Columns.Add("Periode Akhir", 130, HorizontalAlignment.Center).DisplayIndex = 3
         Lv_Aktual_WorkCenter.View = View.Details
 
     End Sub
@@ -82,9 +84,9 @@
         Lv_Detail.Columns.Add("id_work_center", 0, HorizontalAlignment.Left)
         Lv_Detail.Columns.Add("Work Center", 200, HorizontalAlignment.Left)
         Lv_Detail.Columns.Add("Persentase", 160, HorizontalAlignment.Right)
-        Lv_Detail.Columns.Add("Nilai", 160, HorizontalAlignment.Right)
-        Lv_Detail.Columns.Add("Budget Lama", 160, HorizontalAlignment.Right)
         Lv_Detail.Columns.Add("Budget Baru", 160, HorizontalAlignment.Right)
+        Lv_Detail.Columns.Add("Budget Lama", 160, HorizontalAlignment.Right)
+        ' Lv_Detail.Columns.Add("Budget Baru", 160, HorizontalAlignment.Right)
         Lv_Detail.View = View.Details
 
     End Sub
@@ -124,7 +126,7 @@
 
             Lv_Aktual_WorkCenter.Items.Clear() : Lv_Detail.Items.Clear()
             SQL = "select a.No_Transaksi, a.Jenis_Biaya, b.keterangan as Ket_JenisBiaya, a.Tanggal, a.Jam, a.UserId, a.Jumlah_Produksi, a.Total_Budgeting, a.Jumlah_Pemakaian, "
-            SQL = SQL & "a.Nilai_Tarif_PerSatuan, a.Total_Aktual, a.Selisih, a.Nilai_BudgetBaru, a.Nilai_BudgetLama "
+            SQL = SQL & "a.Nilai_Tarif_PerSatuan, a.Total_Aktual, a.Selisih, a.Nilai_BudgetBaru, a.Nilai_BudgetLama, a.periode_awal, a.periode_akhir "
             SQL = SQL & "from EMI_Aktualisasi_Budgeting_WorkCenter a, Emi_Jenis_Biaya_Produksi b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
             SQL = SQL & "and a.Jenis_Biaya = b.Kode_Jenis_Biaya_Produksi "
@@ -148,6 +150,8 @@
                     Lv.SubItems.Add(Format(Val(Dr("Nilai_BudgetBaru")), "N2"))
                     Lv.SubItems.Add(Format(Val(Dr("Nilai_BudgetLama")), "N2"))
                     Lv.SubItems.Add(Dr("Jenis_Biaya"))
+                    Lv.SubItems.Add(Format(Dr("periode_awal"), "dd MMM yyyy"))
+                    Lv.SubItems.Add(Format(Dr("periode_akhir"), "dd MMM yyyy"))
                 Loop
             End Using
 
@@ -185,10 +189,10 @@
                     Dim Lv As ListViewItem
                     Lv = Lv_Detail.Items.Add(Dr("Id_WorkCenter"))
                     Lv.SubItems.Add(Dr("Work_Center"))
+                    Lv.SubItems.Add(Format(Val(Dr("Persentase")), "N2") & " %")
                     Lv.SubItems.Add(Format(Val(Dr("Nilai")), "N2"))
-                    Lv.SubItems.Add(Format(Val(Dr("Persentase")), "N2"))
                     Lv.SubItems.Add(Format(Val(Dr("Budget_Lama")), "N2"))
-                    Lv.SubItems.Add(Format(Val(Dr("Budget_Baru")), "N2"))
+                    ' Lv.SubItems.Add(Format(Val(Dr("Budget_Baru")), "N2"))
                 Loop
             End Using
 
@@ -206,7 +210,7 @@
         If Lv_Aktual_WorkCenter.Items.Count = 0 Then Exit Sub
         If Lv_Aktual_WorkCenter.FocusedItem.Index = -1 Then Exit Sub
 
-        Dim pertanyaan = MessageBox.Show("Yakin Ingin DiTerima?", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Question)
+        Dim pertanyaan = MessageBox.Show("Yakin Ingin Di Terima?", JudulForm, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If pertanyaan = vbNo Then Exit Sub
 
         get_jam()
@@ -297,7 +301,7 @@
         If Lv_Aktual_WorkCenter.Items.Count = 0 Then Exit Sub
         If Lv_Aktual_WorkCenter.FocusedItem.Index = -1 Then Exit Sub
 
-        Dim pertanyaan = MessageBox.Show("Yakin Ingin DiTolak?", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Question)
+        Dim pertanyaan = MessageBox.Show("Yakin Ingin Di Tolak?", JudulForm, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If pertanyaan = vbNo Then Exit Sub
 
         get_jam()

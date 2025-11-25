@@ -48,7 +48,7 @@ Partial Class SD_Pilih_Satuan_Turunan
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(661, 51)
+        Me.Panel1.Size = New System.Drawing.Size(650, 51)
         Me.Panel1.TabIndex = 22
         '
         'PanelGradient1
@@ -61,7 +61,7 @@ Partial Class SD_Pilih_Satuan_Turunan
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(661, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(650, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
@@ -190,7 +190,7 @@ Partial Class SD_Pilih_Satuan_Turunan
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(661, 490)
+        Me.ClientSize = New System.Drawing.Size(650, 490)
         Me.Controls.Add(Me.Btn_Pilih)
         Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.GroupBox1)

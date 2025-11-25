@@ -85,6 +85,21 @@ Partial Class DO_Reseller_New
         Me.TxtTotal = New System.Windows.Forms.TextBox()
         Me.CmbHelper = New System.Windows.Forms.ComboBox()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
+        Me.CmbEkspedisi = New System.Windows.Forms.ComboBox()
+        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.Button5 = New System.Windows.Forms.Button()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.SerialPort1 = New System.IO.Ports.SerialPort(Me.components)
         Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -121,21 +136,6 @@ Partial Class DO_Reseller_New
         Me.Column34 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column35 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column36 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
-        Me.CmbEkspedisi = New System.Windows.Forms.ComboBox()
-        Me.TabControl1 = New System.Windows.Forms.TabControl()
-        Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.Button5 = New System.Windows.Forms.Button()
-        Me.Label19 = New System.Windows.Forms.Label()
-        Me.Label18 = New System.Windows.Forms.Label()
-        Me.Label17 = New System.Windows.Forms.Label()
-        Me.Label16 = New System.Windows.Forms.Label()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.Label14 = New System.Windows.Forms.Label()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.TabPage2 = New System.Windows.Forms.TabPage()
-        Me.SerialPort1 = New System.IO.Ports.SerialPort(Me.components)
         Me.ContextMenuStrip2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -615,6 +615,166 @@ Partial Class DO_Reseller_New
         Me.DataGridView1.Size = New System.Drawing.Size(1144, 203)
         Me.DataGridView1.TabIndex = 74
         '
+        'Timer1
+        '
+        Me.Timer1.Enabled = True
+        Me.Timer1.Interval = 15000
+        '
+        'Timer2
+        '
+        Me.Timer2.Enabled = True
+        Me.Timer2.Interval = 10000
+        '
+        'CmbEkspedisi
+        '
+        Me.CmbEkspedisi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CmbEkspedisi.DropDownWidth = 200
+        Me.CmbEkspedisi.FormattingEnabled = True
+        Me.CmbEkspedisi.Location = New System.Drawing.Point(173, 12)
+        Me.CmbEkspedisi.Name = "CmbEkspedisi"
+        Me.CmbEkspedisi.Size = New System.Drawing.Size(63, 19)
+        Me.CmbEkspedisi.TabIndex = 312
+        '
+        'TabControl1
+        '
+        Me.TabControl1.Controls.Add(Me.TabPage1)
+        Me.TabControl1.Controls.Add(Me.TabPage2)
+        Me.TabControl1.Location = New System.Drawing.Point(9, 386)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(1158, 265)
+        Me.TabControl1.TabIndex = 313
+        '
+        'TabPage1
+        '
+        Me.TabPage1.Controls.Add(Me.Button5)
+        Me.TabPage1.Controls.Add(Me.Label19)
+        Me.TabPage1.Controls.Add(Me.Label18)
+        Me.TabPage1.Controls.Add(Me.Label17)
+        Me.TabPage1.Controls.Add(Me.Label16)
+        Me.TabPage1.Controls.Add(Me.Label15)
+        Me.TabPage1.Controls.Add(Me.Label14)
+        Me.TabPage1.Controls.Add(Me.Label13)
+        Me.TabPage1.Controls.Add(Me.CmbJnsMbl)
+        Me.TabPage1.Controls.Add(Me.CmbEkspedisi)
+        Me.TabPage1.Controls.Add(Me.CmbDriver)
+        Me.TabPage1.Controls.Add(Me.TxtMbl)
+        Me.TabPage1.Controls.Add(Me.TxtDriver)
+        Me.TabPage1.Controls.Add(Me.TextBox3)
+        Me.TabPage1.Controls.Add(Me.CmbHelper)
+        Me.TabPage1.Controls.Add(Me.TextBox4)
+        Me.TabPage1.Controls.Add(Me.TextBox5)
+        Me.TabPage1.Controls.Add(Me.CmbMbl)
+        Me.TabPage1.Controls.Add(Me.CheckBox4)
+        Me.TabPage1.Controls.Add(Me.CmbJnsDriver)
+        Me.TabPage1.Controls.Add(Me.ComboBox3)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 20)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage1.Size = New System.Drawing.Size(1150, 241)
+        Me.TabPage1.TabIndex = 0
+        Me.TabPage1.Text = "Pengiriman"
+        Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'Button5
+        '
+        Me.Button5.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button5.Location = New System.Drawing.Point(111, 194)
+        Me.Button5.Name = "Button5"
+        Me.Button5.Size = New System.Drawing.Size(223, 24)
+        Me.Button5.TabIndex = 319
+        Me.Button5.Text = "Selanjutnya"
+        Me.Button5.UseVisualStyleBackColor = True
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
+        Me.Label19.Location = New System.Drawing.Point(5, 166)
+        Me.Label19.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(99, 13)
+        Me.Label19.TabIndex = 318
+        Me.Label19.Text = "Group Customer"
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
+        Me.Label18.Location = New System.Drawing.Point(5, 138)
+        Me.Label18.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(73, 13)
+        Me.Label18.TabIndex = 317
+        Me.Label18.Text = "Keterangan"
+        '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
+        Me.Label17.Location = New System.Drawing.Point(5, 113)
+        Me.Label17.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(46, 13)
+        Me.Label17.TabIndex = 316
+        Me.Label17.Text = "Tujuan"
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
+        Me.Label16.Location = New System.Drawing.Point(5, 63)
+        Me.Label16.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(60, 13)
+        Me.Label16.TabIndex = 315
+        Me.Label16.Text = "HP Driver"
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
+        Me.Label15.Location = New System.Drawing.Point(5, 88)
+        Me.Label15.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(44, 13)
+        Me.Label15.TabIndex = 314
+        Me.Label15.Text = "Helper"
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
+        Me.Label14.Location = New System.Drawing.Point(5, 38)
+        Me.Label14.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(42, 13)
+        Me.Label14.TabIndex = 313
+        Me.Label14.Text = "Driver"
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
+        Me.Label13.Location = New System.Drawing.Point(5, 13)
+        Me.Label13.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(68, 13)
+        Me.Label13.TabIndex = 30
+        Me.Label13.Text = "Kendaraan"
+        '
+        'TabPage2
+        '
+        Me.TabPage2.Controls.Add(Me.DataGridView1)
+        Me.TabPage2.Controls.Add(Me.Button3)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 20)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage2.Size = New System.Drawing.Size(1150, 241)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "Detail Barang"
+        Me.TabPage2.UseVisualStyleBackColor = True
+        '
         'Column4
         '
         Me.Column4.HeaderText = "Gudang"
@@ -916,166 +1076,6 @@ Partial Class DO_Reseller_New
         Me.Column36.Name = "Column36"
         Me.Column36.ReadOnly = True
         Me.Column36.Visible = False
-        '
-        'Timer1
-        '
-        Me.Timer1.Enabled = True
-        Me.Timer1.Interval = 15000
-        '
-        'Timer2
-        '
-        Me.Timer2.Enabled = True
-        Me.Timer2.Interval = 10000
-        '
-        'CmbEkspedisi
-        '
-        Me.CmbEkspedisi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CmbEkspedisi.DropDownWidth = 200
-        Me.CmbEkspedisi.FormattingEnabled = True
-        Me.CmbEkspedisi.Location = New System.Drawing.Point(173, 12)
-        Me.CmbEkspedisi.Name = "CmbEkspedisi"
-        Me.CmbEkspedisi.Size = New System.Drawing.Size(63, 19)
-        Me.CmbEkspedisi.TabIndex = 312
-        '
-        'TabControl1
-        '
-        Me.TabControl1.Controls.Add(Me.TabPage1)
-        Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Location = New System.Drawing.Point(9, 386)
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1158, 265)
-        Me.TabControl1.TabIndex = 313
-        '
-        'TabPage1
-        '
-        Me.TabPage1.Controls.Add(Me.Button5)
-        Me.TabPage1.Controls.Add(Me.Label19)
-        Me.TabPage1.Controls.Add(Me.Label18)
-        Me.TabPage1.Controls.Add(Me.Label17)
-        Me.TabPage1.Controls.Add(Me.Label16)
-        Me.TabPage1.Controls.Add(Me.Label15)
-        Me.TabPage1.Controls.Add(Me.Label14)
-        Me.TabPage1.Controls.Add(Me.Label13)
-        Me.TabPage1.Controls.Add(Me.CmbJnsMbl)
-        Me.TabPage1.Controls.Add(Me.CmbEkspedisi)
-        Me.TabPage1.Controls.Add(Me.CmbDriver)
-        Me.TabPage1.Controls.Add(Me.TxtMbl)
-        Me.TabPage1.Controls.Add(Me.TxtDriver)
-        Me.TabPage1.Controls.Add(Me.TextBox3)
-        Me.TabPage1.Controls.Add(Me.CmbHelper)
-        Me.TabPage1.Controls.Add(Me.TextBox4)
-        Me.TabPage1.Controls.Add(Me.TextBox5)
-        Me.TabPage1.Controls.Add(Me.CmbMbl)
-        Me.TabPage1.Controls.Add(Me.CheckBox4)
-        Me.TabPage1.Controls.Add(Me.CmbJnsDriver)
-        Me.TabPage1.Controls.Add(Me.ComboBox3)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 20)
-        Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(1150, 241)
-        Me.TabPage1.TabIndex = 0
-        Me.TabPage1.Text = "Pengiriman"
-        Me.TabPage1.UseVisualStyleBackColor = True
-        '
-        'Button5
-        '
-        Me.Button5.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button5.Location = New System.Drawing.Point(111, 194)
-        Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(223, 24)
-        Me.Button5.TabIndex = 319
-        Me.Button5.Text = "Selanjutnya"
-        Me.Button5.UseVisualStyleBackColor = True
-        '
-        'Label19
-        '
-        Me.Label19.AutoSize = True
-        Me.Label19.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
-        Me.Label19.Location = New System.Drawing.Point(5, 166)
-        Me.Label19.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(99, 13)
-        Me.Label19.TabIndex = 318
-        Me.Label19.Text = "Group Customer"
-        '
-        'Label18
-        '
-        Me.Label18.AutoSize = True
-        Me.Label18.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
-        Me.Label18.Location = New System.Drawing.Point(5, 138)
-        Me.Label18.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(73, 13)
-        Me.Label18.TabIndex = 317
-        Me.Label18.Text = "Keterangan"
-        '
-        'Label17
-        '
-        Me.Label17.AutoSize = True
-        Me.Label17.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
-        Me.Label17.Location = New System.Drawing.Point(5, 113)
-        Me.Label17.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(46, 13)
-        Me.Label17.TabIndex = 316
-        Me.Label17.Text = "Tujuan"
-        '
-        'Label16
-        '
-        Me.Label16.AutoSize = True
-        Me.Label16.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
-        Me.Label16.Location = New System.Drawing.Point(5, 63)
-        Me.Label16.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(60, 13)
-        Me.Label16.TabIndex = 315
-        Me.Label16.Text = "HP Driver"
-        '
-        'Label15
-        '
-        Me.Label15.AutoSize = True
-        Me.Label15.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
-        Me.Label15.Location = New System.Drawing.Point(5, 88)
-        Me.Label15.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(44, 13)
-        Me.Label15.TabIndex = 314
-        Me.Label15.Text = "Helper"
-        '
-        'Label14
-        '
-        Me.Label14.AutoSize = True
-        Me.Label14.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
-        Me.Label14.Location = New System.Drawing.Point(5, 38)
-        Me.Label14.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(42, 13)
-        Me.Label14.TabIndex = 313
-        Me.Label14.Text = "Driver"
-        '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
-        Me.Label13.Location = New System.Drawing.Point(5, 13)
-        Me.Label13.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(68, 13)
-        Me.Label13.TabIndex = 30
-        Me.Label13.Text = "Kendaraan"
-        '
-        'TabPage2
-        '
-        Me.TabPage2.Controls.Add(Me.DataGridView1)
-        Me.TabPage2.Controls.Add(Me.Button3)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 20)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1150, 241)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Detail Barang"
-        Me.TabPage2.UseVisualStyleBackColor = True
         '
         'DO_Reseller_New
         '

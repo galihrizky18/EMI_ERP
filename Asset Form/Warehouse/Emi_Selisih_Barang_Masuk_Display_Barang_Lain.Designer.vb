@@ -31,7 +31,15 @@ Partial Class Emi_Selisih_Barang_Masuk_Display_Barang_Lain
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.BtnSelisihBrgMsk_Refresh = New System.Windows.Forms.Button()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Panel6 = New System.Windows.Forms.Panel()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Panel7 = New System.Windows.Forms.Panel()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
+        Me.Panel6.SuspendLayout()
+        Me.Panel7.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -65,9 +73,9 @@ Partial Class Emi_Selisih_Barang_Masuk_Display_Barang_Lain
         Me.Label11.Location = New System.Drawing.Point(14, 9)
         Me.Label11.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(340, 30)
+        Me.Label11.Size = New System.Drawing.Size(469, 30)
         Me.Label11.TabIndex = 0
-        Me.Label11.Text = "Display - Validasi Barang Masuk"
+        Me.Label11.Text = "Display - Validasi Barang Masuk Barang Lain"
         '
         'Panel3
         '
@@ -133,12 +141,78 @@ Partial Class Emi_Selisih_Barang_Masuk_Display_Barang_Lain
         Me.BtnSelisihBrgMsk_Refresh.Text = "&Refresh"
         Me.BtnSelisihBrgMsk_Refresh.UseVisualStyleBackColor = False
         '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Label4.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label4.Location = New System.Drawing.Point(1101, 83)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(46, 17)
+        Me.Label4.TabIndex = 422
+        Me.Label4.Text = "Selisih"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Label2.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label2.Location = New System.Drawing.Point(1181, 83)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(82, 17)
+        Me.Label2.TabIndex = 423
+        Me.Label2.Text = "Tidak Selisih"
+        '
+        'Panel6
+        '
+        Me.Panel6.BackColor = System.Drawing.Color.LightYellow
+        Me.Panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel6.Controls.Add(Me.Label3)
+        Me.Panel6.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Panel6.Enabled = False
+        Me.Panel6.Location = New System.Drawing.Point(1081, 84)
+        Me.Panel6.Name = "Panel6"
+        Me.Panel6.Size = New System.Drawing.Size(15, 15)
+        Me.Panel6.TabIndex = 420
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(0, 0)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(0, 16)
+        Me.Label3.TabIndex = 0
+        '
+        'Panel7
+        '
+        Me.Panel7.BackColor = System.Drawing.Color.LightGreen
+        Me.Panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel7.Controls.Add(Me.Label1)
+        Me.Panel7.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Panel7.Enabled = False
+        Me.Panel7.Location = New System.Drawing.Point(1161, 84)
+        Me.Panel7.Name = "Panel7"
+        Me.Panel7.Size = New System.Drawing.Size(15, 15)
+        Me.Panel7.TabIndex = 421
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(0, 0)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(0, 16)
+        Me.Label1.TabIndex = 0
+        '
         'Emi_Selisih_Barang_Masuk_Display_Barang_Lain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1284, 609)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.Panel6)
+        Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.BtnSelisihBrgMsk_Refresh)
         Me.Controls.Add(Me.Lv_Data)
         Me.Controls.Add(Me.Panel4)
@@ -153,7 +227,12 @@ Partial Class Emi_Selisih_Barang_Masuk_Display_Barang_Lain
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        Me.Panel6.ResumeLayout(False)
+        Me.Panel6.PerformLayout()
+        Me.Panel7.ResumeLayout(False)
+        Me.Panel7.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -166,4 +245,10 @@ Partial Class Emi_Selisih_Barang_Masuk_Display_Barang_Lain
     Friend WithEvents Panel4 As Panel
     Friend WithEvents Panel5 As Panel
     Friend WithEvents BtnSelisihBrgMsk_Refresh As Button
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Panel6 As Panel
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Panel7 As Panel
+    Friend WithEvents Label1 As Label
 End Class

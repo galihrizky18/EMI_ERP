@@ -23,6 +23,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Asset
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -49,7 +50,6 @@ Partial Class N_EMI_Laporan_Pelunasan_Asset
         Me.Lv_User = New System.Windows.Forms.ListView()
         Me.Lv_Perusahaan = New System.Windows.Forms.ListView()
         Me.Lv_Kategori = New System.Windows.Forms.ListView()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -65,6 +65,19 @@ Partial Class N_EMI_Laporan_Pelunasan_Asset
         Me.Panel1.Size = New System.Drawing.Size(615, 51)
         Me.Panel1.TabIndex = 26
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(615, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'Label1
         '
         Me.Label1.AutoSize = True
@@ -72,9 +85,9 @@ Partial Class N_EMI_Laporan_Pelunasan_Asset
         Me.Label1.Location = New System.Drawing.Point(15, 11)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(228, 30)
+        Me.Label1.Size = New System.Drawing.Size(708, 60)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Laporan - Pelunasan"
+        Me.Label1.Text = "Laporan - Pelunasan Barang Lain"
         '
         'Panel2
         '
@@ -122,28 +135,28 @@ Partial Class N_EMI_Laporan_Pelunasan_Asset
         '
         Me.Txt_KdKategori.Location = New System.Drawing.Point(177, 138)
         Me.Txt_KdKategori.Name = "Txt_KdKategori"
-        Me.Txt_KdKategori.Size = New System.Drawing.Size(163, 23)
+        Me.Txt_KdKategori.Size = New System.Drawing.Size(163, 38)
         Me.Txt_KdKategori.TabIndex = 6
         '
         'Txt_KdPerusahaan
         '
         Me.Txt_KdPerusahaan.Location = New System.Drawing.Point(177, 109)
         Me.Txt_KdPerusahaan.Name = "Txt_KdPerusahaan"
-        Me.Txt_KdPerusahaan.Size = New System.Drawing.Size(163, 23)
+        Me.Txt_KdPerusahaan.Size = New System.Drawing.Size(163, 38)
         Me.Txt_KdPerusahaan.TabIndex = 4
         '
         'Txt_UserValidasi
         '
         Me.Txt_UserValidasi.Location = New System.Drawing.Point(177, 80)
         Me.Txt_UserValidasi.Name = "Txt_UserValidasi"
-        Me.Txt_UserValidasi.Size = New System.Drawing.Size(163, 23)
+        Me.Txt_UserValidasi.Size = New System.Drawing.Size(163, 38)
         Me.Txt_UserValidasi.TabIndex = 3
         '
         'Txt_Faktur
         '
         Me.Txt_Faktur.Location = New System.Drawing.Point(177, 51)
         Me.Txt_Faktur.Name = "Txt_Faktur"
-        Me.Txt_Faktur.Size = New System.Drawing.Size(163, 23)
+        Me.Txt_Faktur.Size = New System.Drawing.Size(163, 38)
         Me.Txt_Faktur.TabIndex = 2
         '
         'Label4
@@ -151,7 +164,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Asset
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(8, 112)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(163, 18)
+        Me.Label4.Size = New System.Drawing.Size(335, 38)
         Me.Label4.TabIndex = 4
         Me.Label4.Text = "Perusahaan Biaya Import"
         '
@@ -160,7 +173,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Asset
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(8, 83)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(87, 18)
+        Me.Label7.Size = New System.Drawing.Size(179, 38)
         Me.Label7.TabIndex = 4
         Me.Label7.Text = "User Validasi"
         '
@@ -169,7 +182,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Asset
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(8, 141)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(142, 18)
+        Me.Label6.Size = New System.Drawing.Size(291, 38)
         Me.Label6.TabIndex = 4
         Me.Label6.Text = "Kategori Biaya Import"
         '
@@ -178,7 +191,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Asset
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(8, 54)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(69, 18)
+        Me.Label5.Size = New System.Drawing.Size(144, 38)
         Me.Label5.TabIndex = 4
         Me.Label5.Text = "No Faktur"
         '
@@ -188,7 +201,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Asset
         Me.Tgl2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.Tgl2.Location = New System.Drawing.Point(388, 20)
         Me.Tgl2.Name = "Tgl2"
-        Me.Tgl2.Size = New System.Drawing.Size(163, 23)
+        Me.Tgl2.Size = New System.Drawing.Size(163, 38)
         Me.Tgl2.TabIndex = 1
         '
         'Label3
@@ -196,7 +209,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Asset
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(351, 22)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(28, 18)
+        Me.Label3.Size = New System.Drawing.Size(57, 38)
         Me.Label3.TabIndex = 2
         Me.Label3.Text = "s/d"
         '
@@ -206,7 +219,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Asset
         Me.Tgl1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.Tgl1.Location = New System.Drawing.Point(177, 20)
         Me.Tgl1.Name = "Tgl1"
-        Me.Tgl1.Size = New System.Drawing.Size(163, 23)
+        Me.Tgl1.Size = New System.Drawing.Size(163, 38)
         Me.Tgl1.TabIndex = 0
         '
         'Label2
@@ -214,7 +227,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Asset
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(8, 24)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(56, 18)
+        Me.Label2.Size = New System.Drawing.Size(113, 38)
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "Periode"
         '
@@ -222,14 +235,14 @@ Partial Class N_EMI_Laporan_Pelunasan_Asset
         '
         Me.Txt_NmPerusahaan.Location = New System.Drawing.Point(346, 109)
         Me.Txt_NmPerusahaan.Name = "Txt_NmPerusahaan"
-        Me.Txt_NmPerusahaan.Size = New System.Drawing.Size(236, 23)
+        Me.Txt_NmPerusahaan.Size = New System.Drawing.Size(236, 38)
         Me.Txt_NmPerusahaan.TabIndex = 5
         '
         'Txt_NmKategori
         '
         Me.Txt_NmKategori.Location = New System.Drawing.Point(346, 138)
         Me.Txt_NmKategori.Name = "Txt_NmKategori"
-        Me.Txt_NmKategori.Size = New System.Drawing.Size(236, 23)
+        Me.Txt_NmKategori.Size = New System.Drawing.Size(236, 38)
         Me.Txt_NmKategori.TabIndex = 7
         '
         'Panel4
@@ -334,22 +347,9 @@ Partial Class N_EMI_Laporan_Pelunasan_Asset
         Me.Lv_Kategori.View = System.Windows.Forms.View.Details
         Me.Lv_Kategori.Visible = False
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(615, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
         'N_EMI_Laporan_Pelunasan_Asset
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(16.0!, 38.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(615, 286)

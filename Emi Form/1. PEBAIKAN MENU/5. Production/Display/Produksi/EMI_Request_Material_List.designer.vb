@@ -79,9 +79,6 @@ Partial Class EMI_Request_Material_List
         Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.DataGridView2 = New System.Windows.Forms.DataGridView()
-        Me.Panel8 = New System.Windows.Forms.Panel()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Panel9 = New System.Windows.Forms.Panel()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -90,6 +87,11 @@ Partial Class EMI_Request_Material_List
         Me.DataGridViewTextBoxColumn5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column9 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Panel8 = New System.Windows.Forms.Panel()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Panel9 = New System.Windows.Forms.Panel()
+        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.CetakUlangToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -97,6 +99,7 @@ Partial Class EMI_Request_Material_List
         Me.TabPage1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContextMenuStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -517,6 +520,7 @@ Partial Class EMI_Request_Material_List
         Me.DataGridView2.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle9
         Me.DataGridView2.ColumnHeadersHeight = 45
         Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.DataGridViewTextBoxColumn4, Me.DataGridViewTextBoxColumn6, Me.DataGridViewTextBoxColumn5, Me.Column8, Me.Column9})
+        Me.DataGridView2.ContextMenuStrip = Me.ContextMenuStrip2
         Me.DataGridView2.Location = New System.Drawing.Point(20, 329)
         Me.DataGridView2.MultiSelect = False
         Me.DataGridView2.Name = "DataGridView2"
@@ -524,33 +528,6 @@ Partial Class EMI_Request_Material_List
         Me.DataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DataGridView2.Size = New System.Drawing.Size(1152, 243)
         Me.DataGridView2.TabIndex = 343
-        '
-        'Panel8
-        '
-        Me.Panel8.BackColor = System.Drawing.Color.Red
-        Me.Panel8.Location = New System.Drawing.Point(21, 313)
-        Me.Panel8.Margin = New System.Windows.Forms.Padding(4)
-        Me.Panel8.Name = "Panel8"
-        Me.Panel8.Size = New System.Drawing.Size(1436, 15)
-        Me.Panel8.TabIndex = 39
-        Me.Panel8.Visible = False
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(1072, 63)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(84, 16)
-        Me.Label2.TabIndex = 348
-        Me.Label2.Text = "RM Dibatalkan"
-        '
-        'Panel9
-        '
-        Me.Panel9.BackColor = System.Drawing.Color.DarkRed
-        Me.Panel9.Location = New System.Drawing.Point(1051, 63)
-        Me.Panel9.Name = "Panel9"
-        Me.Panel9.Size = New System.Drawing.Size(15, 15)
-        Me.Panel9.TabIndex = 347
         '
         'DataGridViewTextBoxColumn1
         '
@@ -629,6 +606,45 @@ Partial Class EMI_Request_Material_List
         Me.Column9.ReadOnly = True
         Me.Column9.Width = 200
         '
+        'Panel8
+        '
+        Me.Panel8.BackColor = System.Drawing.Color.Red
+        Me.Panel8.Location = New System.Drawing.Point(21, 313)
+        Me.Panel8.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel8.Name = "Panel8"
+        Me.Panel8.Size = New System.Drawing.Size(1436, 15)
+        Me.Panel8.TabIndex = 39
+        Me.Panel8.Visible = False
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(1072, 63)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(84, 16)
+        Me.Label2.TabIndex = 348
+        Me.Label2.Text = "RM Dibatalkan"
+        '
+        'Panel9
+        '
+        Me.Panel9.BackColor = System.Drawing.Color.DarkRed
+        Me.Panel9.Location = New System.Drawing.Point(1051, 63)
+        Me.Panel9.Name = "Panel9"
+        Me.Panel9.Size = New System.Drawing.Size(15, 15)
+        Me.Panel9.TabIndex = 347
+        '
+        'ContextMenuStrip2
+        '
+        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakUlangToolStripMenuItem1})
+        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
+        Me.ContextMenuStrip2.Size = New System.Drawing.Size(181, 48)
+        '
+        'CetakUlangToolStripMenuItem1
+        '
+        Me.CetakUlangToolStripMenuItem1.Name = "CetakUlangToolStripMenuItem1"
+        Me.CetakUlangToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.CetakUlangToolStripMenuItem1.Text = "Cetak Ulang"
+        '
         'EMI_Request_Material_List
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
@@ -663,6 +679,7 @@ Partial Class EMI_Request_Material_List
         Me.TabPage1.ResumeLayout(False)
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenuStrip2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -718,4 +735,6 @@ Partial Class EMI_Request_Material_List
     Friend WithEvents DataGridViewTextBoxColumn5 As DataGridViewTextBoxColumn
     Friend WithEvents Column8 As DataGridViewTextBoxColumn
     Friend WithEvents Column9 As DataGridViewTextBoxColumn
+    Friend WithEvents ContextMenuStrip2 As ContextMenuStrip
+    Friend WithEvents CetakUlangToolStripMenuItem1 As ToolStripMenuItem
 End Class

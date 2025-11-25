@@ -667,4 +667,122 @@ Public Class TESTING_PRINT
             Exit Sub
         End Try
     End Sub
+
+    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+        '========================
+        '=     CETAK FAKTUR     =
+        '========================
+        Try
+            OpenConn()
+
+            Dim CrDoc As New Object
+            Dim SF As String = ""
+            Dim kertas As String = ""
+
+            '===========================
+            '=     GET DATA GUDANG     =
+            '===========================
+            SQL = "select distinct b.Kode_Stock_Owner_Tujuan "
+            SQL = SQL & "from Emi_Material_Requisition a, Emi_Material_Requisition_Det b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+            SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+            SQL = SQL & "and a.status is null "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.No_Faktur = 'RQM0525-00009' "
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
+
+                            Dim Lokasi As String = .Rows(i).Item("Kode_Stock_Owner_Tujuan")
+
+                            SQL = "select kode_perusahaan from Vw_Laporan_Faktur_Request_Material "
+                            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+                            SF = "{Vw_Laporan_Faktur_Request_Material.kode_perusahaan} = '" & KodePerusahaan & "' "
+
+                            SQL = SQL & "and no_faktur = 'RQM0525-00009' "
+                            SF = SF & "And {Vw_Laporan_Faktur_Request_Material.no_faktur} = 'RQM0525-00009' "
+
+                            SQL = SQL & "and Kode_Stock_Owner_Tujuan = '" & Lokasi & "' "
+                            SF = SF & "And {Vw_Laporan_Faktur_Request_Material.Kode_Stock_Owner_Tujuan} = '" & Lokasi & "' "
+
+                            SQL = SQL & "and no_faktur_Order = 'PR0325-00003-2' "
+                            SF = SF & "And {Vw_Laporan_Faktur_Request_Material.no_faktur_Order} = 'PR0325-00003-2' "
+                            Using Ds1 = BindingTrans(SQL)
+                                If Ds1.Tables("MyTable").Rows.Count <> 0 Then
+
+                                    CrDoc = New Faktur_Request_Material_EMI
+
+                                    'With A_Place_For_Printing2
+                                    '    CrDoc.SetDataSource(Ds)
+                                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                                    '    'CrDoc.PrintOptions.PrinterName = ""
+                                    '    CrDoc.RecordSelectionFormula = SF
+                                    '    CrDoc.SummaryInfo.ReportTitle = "Faktur Request Material "
+                                    '    .Text = "Faktur Request Material"
+                                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                                    '    .Refresh()
+                                    '    .Show()
+                                    'End With
+
+                                    '=====================================
+
+                                    kertas = "Faktur"
+
+                                    CrDoc.SetDataSource(Ds)
+                                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                                    CrDoc.PrintOptions.PrinterName = PrinterNameSPB
+                                    CrDoc.RecordSelectionFormula = SF
+                                    'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+                                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                                    doctoprint.PrinterSettings.PrinterName = PrinterNameSPB
+                                    Dim rawKind As Integer
+                                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                                    For j = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                                        If doctoprint.PrinterSettings.PaperSizes(j).PaperName = kertas Then
+                                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(j).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(j)))
+                                            CrDoc.PrintOptions.PaperSize = rawKind
+                                            Exit For
+                                        End If
+                                    Next
+
+                                    'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+
+                                    '=======================================
+                                    '=     CEK APAKAH KERTAS DITEMUKAN     =
+                                    '=======================================
+                                    If rawKind <> -1 Then
+                                        CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                                    Else
+                                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                                        Debug.Print("Ukuran kertas tidak ditemukan, menggunakan default.")
+                                    End If
+
+                                    CrDoc.PrintToPrinter(1, False, 1, 99)
+
+                                    MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Else
+                                    CloseConn()
+                                    MessageBox.Show("Laporan Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End Using
+                        Next
+                    Else
+                        CloseConn()
+                        MessageBox.Show("No Request Material Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+
+                    End If
+                End With
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
 End Class

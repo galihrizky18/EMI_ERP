@@ -415,7 +415,6 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-
     End Sub
 
     Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
@@ -593,6 +592,9 @@
             For i As Integer = 0 To Dgv_Data.RowCount - 1
 
                 Get_DGV_Items(i)
+                If String.IsNullOrWhiteSpace(Dgv_JmlhInput) OrElse Val(HilangkanTanda(Dgv_JmlhInput)) = 0 Or Dgv_JmlhInput Is Nothing Then
+                    Continue For
+                End If
 
                 '================================
                 '=     CONVERT SATUAN KECIL     =

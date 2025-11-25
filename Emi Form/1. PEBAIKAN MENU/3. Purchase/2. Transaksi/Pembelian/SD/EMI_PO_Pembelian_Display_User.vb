@@ -33,7 +33,8 @@
     Dim LvTglDeliv As String
     Dim LvWaktuPabrikasi As String
     Dim LvTglActDelivery As String
-
+    Dim LvSatuanInput As String
+    Dim LvJumlahInput As String
 
     Dim cellNoPR As Integer = 0
     Dim cellgudang As Integer = 1
@@ -52,8 +53,12 @@
     Dim cellTglDeliv As Integer = 14
     Dim cellWktPabrikasi As Integer = 15
     Dim cellTglActDelivery As Integer = 16
+    Dim cellSatuanInput As Integer = 17
+    Dim cellJumlahInput As Integer = 18
 
     Public asal_data As String = ""
+
+    Dim arr2SatuanInput As New List(Of List(Of String))
 
     Public Sub Get_Isi_Listview(ByVal No_Index As Integer)
         lvNoPR = Dgv_Pr.Rows(No_Index).Cells(cellNoPR).Value.ToString
@@ -73,8 +78,9 @@
         LvTglDeliv = Dgv_Pr.Rows(No_Index).Cells(cellTglDeliv).Value.ToString
         LvWaktuPabrikasi = Dgv_Pr.Rows(No_Index).Cells(cellWktPabrikasi).Value.ToString
         LvTglActDelivery = Dgv_Pr.Rows(No_Index).Cells(cellTglActDelivery).Value.ToString
+        LvSatuanInput = Dgv_Pr.Rows(No_Index).Cells(cellSatuanInput).Value.ToString
+        LvJumlahInput = Dgv_Pr.Rows(No_Index).Cells(cellJumlahInput).Value.ToString
     End Sub
-
 
     Dim lvPO_Lokasi As String
     Dim lvPO_KdBarang As String
@@ -123,7 +129,6 @@
         lvPO_PR = EMI_PO_Pembelian.LvPO_DataPO.Items(No_Index).SubItems(cellPO_PR).Text
     End Sub
 
-
     Private Sub Display_Gudang_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             OpenConn()
@@ -136,9 +141,6 @@
             Exit Sub
         End Try
 
-
-
-
         'Dgv_Pr.Columns(cellgudang).HeaderText = Base_Language.Lang_Global_LokasiGudang
         'Dgv_Pr.Columns(cellKdBarang).HeaderText = Base_Language.Lang_Global_KodeBarang
         'Dgv_Pr.Columns(cellNmBarang).HeaderText = Base_Language.Lang_Global_NamaBarang
@@ -150,7 +152,6 @@
         kosong()
     End Sub
 
-
     Public Sub kosong()
 
         CmbPO_JnsBayar.Items.Clear()
@@ -160,10 +161,13 @@
 
         CheckBox1.Checked = False
 
+        Dgv_Pr.Columns(cellJumlahInput).DisplayIndex = 7
+        Dgv_Pr.Columns(cellSatuanInput).DisplayIndex = 8
+        arr2SatuanInput.Clear()
+
 
         Cari()
     End Sub
-
 
     Private Sub Button1_Click(sender As Object, e As EventArgs)
         Cari()
@@ -251,6 +255,29 @@
                         Dgv_Pr.Rows(i).Cells(cellWktPabrikasi).Value = .Rows(i).Item("Waktu_Proses_Pengiriman")
                         Dgv_Pr.Rows(i).Cells(cellTglActDelivery).Value = Format(.Rows(i).Item("tanggal_actual_delivery"), "dd MMM yyyy")
 
+                        Dim subArrSatuanInput As New List(Of String)
+                        subArrSatuanInput.Clear()
+                        Dim dgvSatuanInput As DataGridViewComboBoxCell
+                        dgvSatuanInput = Dgv_Pr.Rows(i).Cells(cellSatuanInput)
+                        dgvSatuanInput.Items.Clear()
+
+                        SQL = "select Satuan, Flag_Default from N_EMI_Master_Satuan where Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Barang = '" & .Rows(i).Item("kode_barang") & "'"
+                        Using Ds2 = BindingTrans(SQL)
+                            If Ds2.Tables("MyTable").Rows.Count <> 0 Then
+                                For j As Integer = 0 To Ds2.Tables("MyTable").Rows.Count - 1
+                                    dgvSatuanInput.Items.Add(Ds2.Tables("MyTable").Rows(j).Item("Satuan"))
+                                    subArrSatuanInput.Add(Ds2.Tables("MyTable").Rows(j).Item("Satuan"))
+                                    If General_Class.CekNULL(Ds2.Tables("MyTable").Rows(j).Item("Flag_Default")) = "Y" Then
+                                        dgvSatuanInput.Value = Ds2.Tables("MyTable").Rows(j).Item("Satuan")
+                                    End If
+                                Next
+                            End If
+                        End Using
+
+                        arr2SatuanInput.Add(subArrSatuanInput)
+
+                        Dgv_Pr.Rows(i).Cells(cellJumlahInput).Value = Format(0, "N2")
+
 
                         If Jenismenu = "Display" Then
                             Dgv_Pr.Rows(i).Cells(cellNoPR).ReadOnly = True
@@ -272,13 +299,13 @@
                 End With
             End Using
             CloseConn()
-
         Catch ex As Exception
             CloseConn()
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
     End Sub
+
     Private Sub Master_Jenis_Hewan_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
@@ -302,7 +329,6 @@
 
         Dim data = Dgv_Pr.Rows(currentRow).Cells(currentCell)
 
-
         If currentCell = cellHarga Then
             SD_Pilih_Harga_PO.kodeSupplier = KdSupp
             SD_Pilih_Harga_PO.kodeBarang = Dgv_Pr.Rows(currentRow).Cells(cellKdBarang).Value
@@ -318,7 +344,7 @@
     End Sub
 
     Private Sub btnPilih_Click(sender As Object, e As EventArgs) Handles btnPilih.Click
-
+        Dim Kode_Kategori_Besar As String = ""
         For indexDisplayUserPO As Integer = 0 To Dgv_Pr.Rows.Count - 1
 
             Get_Isi_Listview(indexDisplayUserPO)
@@ -338,6 +364,9 @@
                     Exit Sub
                 End If
 
+            ElseIf LvSatuanInput = "" Then
+                MessageBox.Show("Satuan Input pada Baris ke -" & indexDisplayUserPO + 1 & " Harus Pilih", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
             End If
 
             'If Dgv_Pr.Rows(indexDisplayUserPO).Cells(7).Value = "" Then
@@ -350,7 +379,6 @@
             '    MessageBox.Show("Satuan pada " & Dgv_Pr.Rows(indexDisplayUserPO).Cells(3).Value & " belum di isi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             '    Exit Sub
             'End If
-
 
             For i As Integer = 0 To EMI_PO_Pembelian.LvPO_DataPO.Items.Count - 1
 
@@ -378,8 +406,6 @@
 
         Next
 
-
-
         Try
             OpenConn()
 
@@ -392,21 +418,10 @@
                 If Not Val(HilangkanTanda(Dgv_Pr.Rows(indexDisplayUserPO).Cells(cellHarga).Value)) = 0 And Not Val(HilangkanTanda(Dgv_Pr.Rows(indexDisplayUserPO).Cells(cellJumlah).Value)) = 0 Then
                     Get_Isi_Listview(indexDisplayUserPO)
 
-
-
-
-
-
-
                     If LvWaktuPabrikasi > 0 Then
                         cekLanjutPO = False
                         pesan = pesan & lvNmBarang & vbNewLine & " - Tanggal Estimasi Delivery  " & LvTglDeliv & vbNewLine & " - Tanggal Actual Delivery " & LvTglActDelivery & vbNewLine & vbNewLine
                     End If
-
-
-
-
-
 
                 End If
             Next
@@ -449,8 +464,6 @@
                             End If
                         End If
                     End Using
-
-
 
                     Dim Jumlah_satuan_Kecil As Double = 0
                     SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & lvKdBarang & "',"
@@ -513,32 +526,156 @@
                         End If
                     End Using
 
+                    '==============================
+                    '=     GEK JENIS KATEGORI     =
+                    '==============================
+                    SQL = "select top 1 b.Kode_Kategori_Besar, b.Jenis_Kategori "
+                    SQL = SQL & "from Barang a, Kategori_Besar b "
+                    SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+                    SQL = SQL & "and a.Kode_Kategori_Besar = b.Kode_Kategori_Besar "
+                    SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Barang = '" & lvKdBarang & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
 
+                            If EMI_PO_Pembelian.LvPO_DataPO.Items.Count = 0 Then
+                                If Kode_Kategori_Besar = "" Then
+                                    Kode_Kategori_Besar = Dr("Jenis_Kategori")
+
+                                    If Dr("Jenis_Kategori").ToString.ToUpper = "BARANG" Then
+                                        'tempDataPajak.Clear()
+                                        EMI_PO_Pembelian.tempDataPajak.RemoveAll(Function(item) item.isPPN = False)
+                                    End If
+                                Else
+                                    If Not Kode_Kategori_Besar = Dr("Jenis_Kategori") Then
+                                        Dr.Close()
+                                        CloseConn()
+                                        MessageBox.Show("Jenis Kategori Besar Tidak Boleh Berbeda!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+                                End If
+                            Else
+
+                                If Not EMI_PO_Pembelian.LvPO_DataPO.Items(0).SubItems(EMI_PO_Pembelian.cellPO_JnsKategori).Text = Dr("Jenis_Kategori") Then
+                                    Dr.Close()
+                                    CloseConn()
+                                    MessageBox.Show("Jenis Kategori Besar Tidak Boleh Berbeda!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                Else
+                                    Kode_Kategori_Besar = Dr("Jenis_Kategori")
+                                End If
+                            End If
+                        End If
+                    End Using
 
                     Dim lvw As ListViewItem
-                    lvw = EMI_PO_Pembelian.LvPO_DataPO.Items.Add(lokasi_gudang_bahan)
-                    lvw.SubItems.Add(lvKdBarang)
-                    lvw.SubItems.Add(lvNmBarang)
-                    lvw.SubItems.Add(Format(Val(harga_satuan_besar), "N2"))
-                    lvw.SubItems.Add(Format(Val(lvJumlah), "N2"))
-                    lvw.SubItems.Add(lvSatuan)
-                    lvw.SubItems.Add(LvHargaId)
-                    lvw.SubItems.Add(Jumlah_satuan_Kecil)
-                    lvw.SubItems.Add(LvSKBrg)
-                    lvw.SubItems.Add(lvNoPenawaran)
+                    lvw = EMI_PO_Pembelian.LvPO_DataPO.Items.Add(lokasi_gudang_bahan) '0
+                    lvw.SubItems.Add(lvKdBarang) '1
+                    lvw.SubItems.Add(lvNmBarang) '2
+                    lvw.SubItems.Add(Format(Val(harga_satuan_besar), "N4")) '3
+                    lvw.SubItems.Add(Format(Val(lvJumlah), "N2")) '4
+                    lvw.SubItems.Add(lvSatuan) '5
+                    lvw.SubItems.Add(LvHargaId) '6
+                    lvw.SubItems.Add(Jumlah_satuan_Kecil) '7
+                    lvw.SubItems.Add(LvSKBrg) '8
+                    lvw.SubItems.Add(lvNoPenawaran) '9
                     If FlagSelisihPO = "Y" Then
-                        lvw.SubItems.Add("X")
+                        lvw.SubItems.Add("X") '10
                     Else
-                        lvw.SubItems.Add("T")
+                        lvw.SubItems.Add("T") '10
                     End If
 
+                    lvw.SubItems.Add(Format(Jumlah_satuan_Kecil * Val(LvHargaId), "N4")) '11
+                    lvw.SubItems.Add("") '12
+                    lvw.SubItems.Add(lvNoUrutPR) '13
 
-                    lvw.SubItems.Add(Format(Jumlah_satuan_Kecil * Val(LvHargaId), "N2"))
-                    lvw.SubItems.Add("")
-                    lvw.SubItems.Add(lvNoUrutPR)
+                    Dim tempo_penawaran As String = ""
+                    Dim jatuh_tempo As String = ""
+                    SQL = "select a.No_Faktur, a.no_penawaran,a.Kode_Supplier, c.Nama,b.satuan, b.Nilai_Barang,b.harga_satuan, b.satuan_Barang,  "
+
+                    SQL = SQL & "isnull((select top(1) x.Lama_Pembayaran from EMI_Master_Penawaran_Jatuh_Tempo x where a.Kode_Perusahaan = x.Kode_Perusahaan "
+                    SQL = SQL & "and a.No_Faktur = x.No_Faktur), 0) as jatuh_Tempo,"
+
+                    SQL = SQL & "isnull((select top(1) x.Tempo_Pembayaran from EMI_Master_Penawaran_Jatuh_Tempo x where a.Kode_Perusahaan = x.Kode_Perusahaan "
+                    SQL = SQL & "and a.No_Faktur = x.No_Faktur), '') as Tempo_Pembayaran "
+
+                    SQL = SQL & "from EMI_Master_Penawaran a, EMI_Master_Penawaran_Detail b, Suppliers c "
+                    SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+                    SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Supplier = c.Kode_Supplier "
+                    SQL = SQL & "and b.kode_barang = '" & lvKdBarang & "' and a.no_faktur='" & lvNoPenawaran & "' "
+                    Using dr2 = OpenTrans(SQL)
+                        Do While dr2.Read
+                            jatuh_tempo = dr2("jatuh_tempo")
+                            If General_Class.CekNULL(dr2("tempo_pembayaran")) = "" Then
+                                tempo_penawaran = "-"
+                            Else
+                                tempo_penawaran = dr2("tempo_pembayaran")
+                            End If
+                        Loop
+                    End Using
+
+                    lvw.SubItems.Add(tempo_penawaran) '14
+                    lvw.SubItems.Add(jatuh_tempo) '15
+                    lvw.SubItems.Add("") '16
+                    lvw.SubItems.Add(Kode_Kategori_Besar) '17
+
+                    '==================================
+                    '=     HARGA PER SATUAN DASAR     =
+                    '==================================
+                    Dim HargaInput As Double = 0
+                    Dim HargaSatuanDasar As Double = 0
+                    SQL = "select "
+                    SQL = SQL & "b.Harga_Satuan as hasil, b.Nilai_Barang "
+                    'If isSatuanDasar Then
+                    'Else
+                    '    SQL = SQL & "(b.Min_Order * b.Harga_Satuan) as hasil "
+                    'End If
+                    SQL = SQL & "from EMI_Master_Penawaran a, EMI_Master_Penawaran_Detail b "
+                    SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+                    SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+                    SQL = SQL & "and a.Status is null "
+                    SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and a.No_Faktur= '" & lvNoPenawaran & "' "
+                    SQL = SQL & "and b.Kode_Barang = '" & lvKdBarang & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            HargaInput = Val(HilangkanTanda(Dr("hasil")))
+                            HargaSatuanDasar = Val(HilangkanTanda(Dr("Nilai_Barang")))
+                        Else
+                            Dr.Close()
+                            CloseConn()
+                            MessageBox.Show("Harga Penawaran Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
+
+                    lvw.SubItems.Add(LvJumlahInput) '18
+                    lvw.SubItems.Add(LvSatuanInput) '19
+                    lvw.SubItems.Add(Format(Val(HargaInput), "N4")) '20
+
+                    '=======================
+                    '=     UBAH SATUAN     =
+                    '=======================
+                    Dim Nilai_Per_Satuan_Default As Double = 0
+                    SQL = "select a.Nilai "
+                    SQL = SQL & "from N_EMI_Master_Satuan a "
+                    SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and a.Kode_Barang = '" & lvKdBarang & "' "
+                    SQL = SQL & "and a.Satuan = '" & LvSatuanInput & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            Nilai_Per_Satuan_Default = Dr("Nilai")
+                        Else
+                            CloseConn()
+                            MessageBox.Show("Satuan Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
+
+                    Dim Harga_Display As Double = HargaSatuanDasar * Nilai_Per_Satuan_Default
+
+                    lvw.SubItems.Add(Format(Val(Harga_Display), "N4")) '21 ' HARGA DISPLAY
 
                 End If
-
 
             Next
             CloseConn()
@@ -548,12 +685,9 @@
             Exit Sub
         End Try
 
-
-
         EMI_PO_Pembelian.HitungGrandTotal()
         Me.Close()
     End Sub
-
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
         ' SkipBrg = "Y"
@@ -563,11 +697,7 @@
                 Dgv_Pr.Rows(i).Cells(0).Value = True
 
             Next
-
-
         Else
-
-
 
             For i As Integer = 0 To Dgv_Pr.Rows.Count - 1
                 Dgv_Pr.Rows(i).Cells(0).Value = False
@@ -581,7 +711,6 @@
                 Dgv_Pr.Rows(i).Cells(8).Value = ""
 
             Next
-
 
         End If
     End Sub
@@ -600,56 +729,105 @@
         Try
             OpenConn()
 
-            Get_Isi_Listview(Dgv_Pr.CurrentRow.Index)
 
-            Dim Jumlah_satuan_Kecil As Double = 0
-            SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & lvKdBarang & "',"
-            SQL = SQL & "'" & lvSatuanPo & "','" & LvSKBrg & "',"
-            SQL = SQL & "" & lvJumlah & ") as Hasil "
-            Using dr = OpenTrans(SQL)
-                If dr.Read Then
-
-                    If General_Class.CekNULL(dr("Hasil")) <> "" Then
-                        If dr("Hasil") = 0 Then
-                            MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                            Exit Sub
-                        Else
-                            Jumlah_satuan_Kecil = dr("hasil")
-                        End If
-                    Else
-                        MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
+            '============================
+            '=     GET SATUAN DASAR     =
+            '============================
+            Dim satuanDasar As String = ""
+            SQL = "select Satuan from N_EMI_Master_Satuan "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and Kode_Barang = '" & Dgv_Pr.CurrentRow.Cells(cellKdBarang).Value.ToString & "' "
+            SQL = SQL & "and Flag_Dasar = 'Y' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    satuanDasar = Dr("Satuan")
+                Else
+                    CloseConn()
+                    MessageBox.Show("Satuan Dasar Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
                 End If
             End Using
 
-            Dim jumlah_sisa_satuan_kecil As Double = 0
-            SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & lvKdBarang & "',"
-            SQL = SQL & "'" & lvSatuan & "','" & LvSKBrg & "',"
-            SQL = SQL & "" & HilangkanTanda(LvSisa) & ") as Hasil "
-            Using dr = OpenTrans(SQL)
-                If dr.Read Then
+            Dim satuanInputDefault As String = If(Dgv_Pr.CurrentRow.Cells(cellSatuanInput).Value.ToString Is Nothing Or Dgv_Pr.CurrentRow.Cells(cellSatuanInput).Value.ToString = "",
+                    satuanDasar, Dgv_Pr.CurrentRow.Cells(cellSatuanInput).Value.ToString)
 
-                    If General_Class.CekNULL(dr("Hasil")) <> "" Then
-                        If dr("Hasil") = 0 Then
-                            MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                            Exit Sub
-                        Else
-                            jumlah_sisa_satuan_kecil = dr("hasil")
-                        End If
-                    Else
-                        MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Dim JumlahInput As Double = Val(HilangkanTanda(Dgv_Pr.CurrentRow.Cells(cellJumlahInput).Value))
+
+            '=======================
+            '=     UBAH SATUAN     =
+            '=======================
+            SQL = "select dbo.Ubah_Satuan_Baru('" & KodePerusahaan & "', '" & Dgv_Pr.CurrentRow.Cells(cellKdBarang).Value.ToString & "', "
+            SQL = SQL & "'" & satuanInputDefault & "', '" & satuanDasar & "', " & JumlahInput & ") as hasil"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("hasil")) = "" Then
+                        CloseConn()
+                        MessageBox.Show("Terjadi Kesalahan Saat Melakukan Convert Jumlah", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
+                    Else
+                        Dgv_Pr.CurrentRow.Cells(cellJumlah).Value = Format(Dr("hasil"), "N2")
                     End If
+                Else
+                    CloseConn()
+                    MessageBox.Show("Terjadi Kesalahan Saat Melakukan Convert Jumlah", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
                 End If
             End Using
 
+            If Dgv_Pr.CurrentCell.ColumnIndex = cellJumlahInput Then
 
-            If jumlah_sisa_satuan_kecil < Jumlah_satuan_Kecil Then
-                MessageBox.Show("Jumlah po tidak boleh lebih besar dari jumlah PR!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Dgv_Pr.CurrentCell.Value = Format(0, "N2")
-                CloseConn()
-                Exit Sub
+
+                Get_Isi_Listview(Dgv_Pr.CurrentRow.Index)
+
+                Dim Jumlah_satuan_Kecil As Double = 0
+                SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & lvKdBarang & "',"
+                SQL = SQL & "'" & lvSatuanPo & "','" & LvSKBrg & "',"
+                SQL = SQL & "" & lvJumlah & ") as Hasil "
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+
+                        If General_Class.CekNULL(dr("Hasil")) <> "" Then
+                            If dr("Hasil") = 0 Then
+                                MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            Else
+                                Jumlah_satuan_Kecil = dr("hasil")
+                            End If
+                        Else
+                            MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End If
+                End Using
+
+                Dim jumlah_sisa_satuan_kecil As Double = 0
+                SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & lvKdBarang & "',"
+                SQL = SQL & "'" & lvSatuan & "','" & LvSKBrg & "',"
+                SQL = SQL & "" & HilangkanTanda(LvSisa) & ") as Hasil "
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+
+                        If General_Class.CekNULL(dr("Hasil")) <> "" Then
+                            If dr("Hasil") = 0 Then
+                                MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            Else
+                                jumlah_sisa_satuan_kecil = dr("hasil")
+                            End If
+                        Else
+                            MessageBox.Show("Satuan " & lvSatuanPo & " Ke " & LvSKBrg & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End If
+                End Using
+
+                If jumlah_sisa_satuan_kecil < Jumlah_satuan_Kecil Then
+                    MessageBox.Show("Jumlah po tidak boleh lebih besar dari jumlah PR!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Dgv_Pr.CurrentCell.Value = Format(0, "N2")
+                    Dgv_Pr.CurrentRow.Cells(cellJumlah).Value = Format(0, "N2")
+                    CloseConn()
+                    Exit Sub
+                End If
             End If
 
             CloseConn()
@@ -659,12 +837,11 @@
             Exit Sub
         End Try
 
-
         '======================
         '=     SET FORMAT     =
         '======================
 
-        If Dgv_Pr.CurrentCell.ColumnIndex = cellHarga Or Dgv_Pr.CurrentCell.ColumnIndex = cellJumlah Then
+        If Dgv_Pr.CurrentCell.ColumnIndex = cellHarga Or Dgv_Pr.CurrentCell.ColumnIndex = cellJumlah Or Dgv_Pr.CurrentCell.ColumnIndex = cellJumlahInput Then
 
             Dim cellKuantity As String = Dgv_Pr.CurrentCell.Value
 
@@ -680,7 +857,6 @@
             Dgv_Pr.CurrentCell.Value = formattedValue
         End If
 
-
 #Region "Kode Lama"
 
         'Dim currentRow = Dgv_Pr.CurrentRow.Index
@@ -689,7 +865,9 @@
         'Dim data = Dgv_Pr.Rows(currentRow).Cells(currentCell)
 
         ''CentangSemuaData()
+
 #End Region
+
 
     End Sub
 
@@ -724,7 +902,6 @@
                 Exit Sub
             End If
 
-
             Dim nilai As Decimal = Decimal.Parse(cellKuantity)
             Dim formattedValue As String = nilai.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
 
@@ -732,8 +909,6 @@
 
         End If
     End Sub
-
-
 
     Private Sub CentangSemuaData()
         'arrIndex.Clear()
@@ -744,7 +919,6 @@
                 Dgv_Pr.CurrentRow.Cells(8).Value = 0
             End If
 
-
             For i As Integer = 0 To Dgv_Pr.Rows.Count - 1
                 If Dgv_Pr.Rows(i).Cells(0).Value = True Then
 
@@ -753,7 +927,6 @@
                     Dgv_Pr.Rows(i).Cells(7).ReadOnly = True
                     Dgv_Pr.Rows(i).Cells(8).ReadOnly = False
                     Dgv_Pr.Rows(i).Cells(9).ReadOnly = False
-
                 Else
                     jumlahCheckedItem = jumlahCheckedItem - 1
                     Dgv_Pr.Rows(i).Cells(7).ReadOnly = True
@@ -763,13 +936,14 @@
                     Dgv_Pr.Rows(i).Cells(7).Value = ""
                     Dgv_Pr.Rows(i).Cells(8).Value = ""
 
-
                 End If
             Next
         End If
 
-
     End Sub
+
+
+
 
     Private Sub TolakPrToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TolakPrToolStripMenuItem.Click
         Dim currentRow = Dgv_Pr.CurrentRow.Index
@@ -814,17 +988,24 @@
             SD_Pengajuan_Selesai_PR.Cmd_SatuanSisa.SelectedIndex = 0
 
             SD_Pengajuan_Selesai_PR.ShowDialog()
-
         Else
             MessageBox.Show("Pilih Dahulu Data yang Ingin di Ajukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         End If
 
-
-
     End Sub
 
+    Private Sub Dgv_Pr_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles Dgv_Pr.CellClick
+        '=====================================
+        '=      BUKA COMBOBOX SAAT CLICK     =
+        '=====================================
+        If e.RowIndex >= 0 AndAlso e.ColumnIndex >= 0 Then
+            If e.RowIndex >= 0 AndAlso e.ColumnIndex = cellSatuanInput Then
+                Dgv_Pr.BeginEdit(True)
+                Dim combo = TryCast(Dgv_Pr.EditingControl, ComboBox)
+                If combo IsNot Nothing Then combo.DroppedDown = True
+            End If
+        End If
+    End Sub
 
 End Class
-
-

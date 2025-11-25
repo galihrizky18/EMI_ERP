@@ -128,7 +128,6 @@ Public Class N_EMI_Transaksi_Pemusnahan_Barang_Barcode2
 
 
             If ada_data = False Then
-                Dr.Close()
                 CloseTrans()
                 CloseConn()
                 MessageBox.Show("Data Barcode Tidak di temukan . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

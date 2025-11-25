@@ -91,6 +91,8 @@ Partial Class EMI_Production_Order
         Me.LvPackaging = New System.Windows.Forms.ListView()
         Me.txt_faktur_bayangan = New System.Windows.Forms.TextBox()
         Me.Btn_UnRelease = New System.Windows.Forms.Button()
+        Me.Cmb_Jenis = New System.Windows.Forms.ComboBox()
+        Me.Label10 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.ContextMenuStrip3.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -724,9 +726,9 @@ Partial Class EMI_Production_Order
         Me.cmb_routing.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.cmb_routing.FormattingEnabled = True
         Me.cmb_routing.Items.AddRange(New Object() {"ROUTING 1 (Mixer, Hammer)", "ROUTING 2 (Mixer, Pellet)"})
-        Me.cmb_routing.Location = New System.Drawing.Point(577, 667)
+        Me.cmb_routing.Location = New System.Drawing.Point(567, 667)
         Me.cmb_routing.Name = "cmb_routing"
-        Me.cmb_routing.Size = New System.Drawing.Size(400, 23)
+        Me.cmb_routing.Size = New System.Drawing.Size(271, 23)
         Me.cmb_routing.TabIndex = 419
         '
         'txt_IdJenisProduk
@@ -829,6 +831,28 @@ Partial Class EMI_Production_Order
         Me.Btn_UnRelease.UseVisualStyleBackColor = False
         Me.Btn_UnRelease.Visible = False
         '
+        'Cmb_Jenis
+        '
+        Me.Cmb_Jenis.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Cmb_Jenis.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Jenis.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.Cmb_Jenis.FormattingEnabled = True
+        Me.Cmb_Jenis.Items.AddRange(New Object() {"ROUTING 1 (Mixer, Hammer)", "ROUTING 2 (Mixer, Pellet)"})
+        Me.Cmb_Jenis.Location = New System.Drawing.Point(899, 666)
+        Me.Cmb_Jenis.Name = "Cmb_Jenis"
+        Me.Cmb_Jenis.Size = New System.Drawing.Size(234, 23)
+        Me.Cmb_Jenis.TabIndex = 419
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label10.Location = New System.Drawing.Point(852, 669)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(41, 17)
+        Me.Label10.TabIndex = 420
+        Me.Label10.Text = "Jenis"
+        '
         'EMI_Production_Order
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -840,7 +864,9 @@ Partial Class EMI_Production_Order
         Me.Controls.Add(Me.Btn_UnRelease)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.txt_IdJenisProduk)
+        Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.Cmb_Jenis)
         Me.Controls.Add(Me.cmb_routing)
         Me.Controls.Add(Me.TxtCatatan)
         Me.Controls.Add(Me.Label3)
@@ -963,4 +989,6 @@ Partial Class EMI_Production_Order
     Friend WithEvents ContextMenuStrip3 As ContextMenuStrip
     Friend WithEvents BatalToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Btn_UnRelease As Button
+    Friend WithEvents Cmb_Jenis As ComboBox
+    Friend WithEvents Label10 As Label
 End Class

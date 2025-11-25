@@ -1,6 +1,6 @@
 ﻿Public Class Emi_Selisih_Barang_Masuk_Display_Barang_Lain
 
-    Dim Lv_NoFaktur, Lv_KdSupplier, Lv_NoSJ, Lv_NoPlat, Lv_Driver, Lv_TglPO, Lv_TglMasuk, Lv_User, Lv_Lokasi, Lv_Supplier, Lv_TglBerangkat, Lv_JamMasuk As String
+    Dim Lv_NoFaktur, Lv_KdSupplier, Lv_NoSJ, Lv_NoPlat, Lv_Driver, Lv_TglPO, Lv_TglMasuk, Lv_User, Lv_Lokasi, Lv_Supplier, Lv_TglBerangkat, Lv_JamMasuk, Lv_Flag_Selisih, Lv_No_PO As String
 
     Dim item_NoFak As Integer = 0
     Dim item_Supplier As Integer = 1
@@ -10,17 +10,19 @@
     Dim item_TglPO As Integer = 5
     Dim item_TglMasuk As Integer = 6
     Dim item_User As Integer = 7
+    Dim item_KdSupplier As Integer = 8
+    Dim item_Lokasi As Integer = 9
+    Dim item_TglBerangkat As Integer = 10
+    Dim item_JamMasuk As Integer = 11
+    Dim item_Flag_Selisih As Integer = 12
+    Dim item_No_PO As Integer = 13
+
+
 
     Private Sub BtnSelisihBrgMsk_Refresh_Click(sender As Object, e As EventArgs) Handles BtnSelisihBrgMsk_Refresh.Click
         kosong()
         Load_Data()
     End Sub
-
-    Dim item_KdSupplier As Integer = 8
-    Dim item_Lokasi As Integer = 9
-    Dim item_TglBerangkat As Integer = 10
-    Dim item_JamMasuk As Integer = 11
-
 
     Private Sub Emi_Selisih_Barang_Masuk_Display_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -60,6 +62,8 @@
         Lv_Data.Columns.Add("Lokasi", 0, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("tgl_berangkat", 0, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("jam_berangkat", 0, HorizontalAlignment.Center)
+        Lv_Data.Columns.Add("Flag_Selisih", 0, HorizontalAlignment.Center)
+        Lv_Data.Columns.Add("NO_PO", 0, HorizontalAlignment.Center)
 
         Lv_Data.View = View.Details
     End Sub
@@ -78,6 +82,8 @@
         Lv_Lokasi = Lv_Data.Items(Index).SubItems(item_Lokasi).Text
         Lv_TglBerangkat = Lv_Data.Items(Index).SubItems(item_TglBerangkat).Text
         Lv_JamMasuk = Lv_Data.Items(Index).SubItems(item_JamMasuk).Text
+        Lv_Flag_Selisih = Lv_Data.Items(Index).SubItems(item_Flag_Selisih).Text
+        Lv_No_PO = Lv_Data.Items(Index).SubItems(item_No_PO).Text
 
     End Sub
 
@@ -90,37 +96,80 @@
             Lv_Data.Items.Clear()
 
             SQL = "select a.No_Faktur, b.Nama, a.No_SJ, a.No_Plat, a.Driver, a.Tanggal as Tgl_PO, a.Tanggal_Masuk, a.UseriD, a.Kode_Supplier, a.Lokasi, "
-            SQL = SQL & "a.Tanggal_OTW, a.Jam_Masuk "
+            SQL = SQL & "a.Tanggal_OTW, a.Jam_Masuk, "
+            SQL = SQL & "isnull((select top 1 z.No_PO from EMI_Pembelian_Loading_Detail_Barang_Lain z "
+            SQL = SQL & "where a.Kode_Perusahaan = z.Kode_Perusahaan "
+            SQL = SQL & "and a.No_Faktur = z.No_Faktur "
+            SQL = SQL & "), '-') as No_PO "
             SQL = SQL & "from emi_pembelian_loading_barang_lain a, Suppliers b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
             SQL = SQL & "and a.Kode_Supplier = b.Kode_Supplier "
             SQL = SQL & "and a.status is null and a.Flag_Sudah_Bongkar_Android ='Y' and a.Flag_Timbang_Keluar='Y' "
             SQL = SQL & "and a.Flag_Selisih_BM is null "
-            SQL = SQL & "group by  a.No_Faktur, b.Nama, a.No_SJ, a.No_Plat, a.Driver, a.Tanggal, a.Tanggal_Masuk, a.UseriD, a.Kode_Supplier, a.Lokasi, "
+            SQL = SQL & "group by a.Kode_Perusahaan, a.No_Faktur, b.Nama, a.No_SJ, a.No_Plat, a.Driver, a.Tanggal, a.Tanggal_Masuk, a.UseriD, a.Kode_Supplier, a.Lokasi, "
             SQL = SQL & "a.Tanggal_OTW, a.Jam_Masuk"
-            Using Dr = OpenTrans(SQL)
-                Do While Dr.Read
-                    Dim lv As ListViewItem
-                    lv = Lv_Data.Items.Add(Dr("No_Faktur"))
-                    lv.SubItems.Add(Dr("Nama"))
-                    lv.SubItems.Add(Dr("No_SJ"))
-                    lv.SubItems.Add(Dr("No_Plat"))
-                    lv.SubItems.Add(Dr("Driver"))
-                    lv.SubItems.Add(Format(Dr("Tgl_PO"), "dd MMM yyyy"))
-                    lv.SubItems.Add(Format(Dr("Tanggal_Masuk"), "dd MMM yyyy"))
-                    lv.SubItems.Add(Dr("UseriD"))
-                    'Hide
-                    lv.SubItems.Add(Dr("Kode_Supplier"))
-                    lv.SubItems.Add(Dr("Lokasi"))
-                    If General_Class.CekNULL(Dr("Tanggal_OTW")) = "" Then
-                        lv.SubItems.Add("-")
-                        lv.SubItems.Add("-")
-                    Else
-                        lv.SubItems.Add(Format(Dr("Tanggal_OTW"), "dd MMM yyyy"))
-                        lv.SubItems.Add(Dr("Jam_Masuk"))
-                    End If
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
 
-                Loop
+                            Dim isDifferenceValue As Boolean = False
+                            SQL = "select b.Jumlah as Jmlh_Pl, "
+                            SQL = SQL & "dbo.Ubah_Satuan(a.Kode_Perusahaan, 'MASA', b.Kode_Barang, b.satuan_barang, b.Satuan, isnull(b.Jumlah_Masuk,0)) as Jmlh_BM "
+                            SQL = SQL & "from emi_pembelian_loading_barang_lain a, emi_pembelian_loading_detail_barang_lain b, Barang_Lain c, EMI_Pembelian_PO_Detail_Barang_Lain d "
+                            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Perusahaan = d.Kode_Perusahaan "
+                            SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+                            SQL = SQL & "and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
+                            SQL = SQL & "and b.Urut_PO = d.No_Urut "
+                            SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' and a.No_Faktur='" & .Rows(i).Item("No_Faktur") & "' "
+                            SQL = SQL & "and a.No_SJ='" & .Rows(i).Item("No_SJ") & "' and a.No_Plat='" & .Rows(i).Item("No_Plat") & "' "
+                            Using Dr = OpenTrans(SQL)
+                                Do While Dr.Read
+
+                                    If Val(HilangkanTanda(Dr("Jmlh_Pl"))) <> Val(HilangkanTanda(Dr("Jmlh_BM"))) Then
+                                        isDifferenceValue = True
+                                        Exit Do
+                                    End If
+                                Loop
+                            End Using
+
+
+                            Dim lv As ListViewItem
+                            lv = Lv_Data.Items.Add(If(General_Class.CekNULL(.Rows(i).Item("No_Faktur")) = "", "-", .Rows(i).Item("No_Faktur")))
+                            lv.SubItems.Add(If(General_Class.CekNULL(.Rows(i).Item("Nama")) = "", "-", .Rows(i).Item("Nama")))
+                            lv.SubItems.Add(If(General_Class.CekNULL(.Rows(i).Item("No_SJ")) = "", "-", .Rows(i).Item("No_SJ")))
+                            lv.SubItems.Add(If(General_Class.CekNULL(.Rows(i).Item("No_Plat")) = "", "-", .Rows(i).Item("No_Plat")))
+                            lv.SubItems.Add(If(General_Class.CekNULL(.Rows(i).Item("Driver")) = "", "-", .Rows(i).Item("Driver")))
+                            lv.SubItems.Add(If(General_Class.CekNULL(.Rows(i).Item("Tgl_PO")) = "", "-", Format(.Rows(i).Item("Tgl_PO"), "dd MMM yyyy")))
+                            lv.SubItems.Add(If(General_Class.CekNULL(.Rows(i).Item("Tanggal_Masuk")) = "", "-", Format(.Rows(i).Item("Tanggal_Masuk"), "dd MMM yyyy")))
+                            lv.SubItems.Add(If(General_Class.CekNULL(.Rows(i).Item("UseriD")) = "", "-", .Rows(i).Item("UseriD")))
+                            'Hide
+                            lv.SubItems.Add(If(General_Class.CekNULL(.Rows(i).Item("Kode_Supplier")) = "", "-", .Rows(i).Item("Kode_Supplier")))
+                            lv.SubItems.Add(If(General_Class.CekNULL(.Rows(i).Item("Lokasi")) = "", "-", .Rows(i).Item("Lokasi")))
+                            If General_Class.CekNULL(.Rows(i).Item("Tanggal_OTW")) = "" Then
+                                lv.SubItems.Add("-")
+                                lv.SubItems.Add("-")
+                            Else
+                                lv.SubItems.Add(Format(.Rows(i).Item("Tanggal_OTW"), "dd MMM yyyy"))
+                                lv.SubItems.Add(.Rows(i).Item("Jam_Masuk"))
+                            End If
+
+                            If isDifferenceValue Then
+                                lv.BackColor = Color.LightYellow
+                                lv.SubItems.Add("Y")
+                            Else
+                                lv.BackColor = Color.LightGreen
+                                lv.SubItems.Add("T")
+                            End If
+
+                            lv.SubItems.Add(.Rows(i).Item("No_PO"))
+
+
+                        Next
+                    End If
+                End With
+
+
             End Using
 
             CloseConn()
@@ -148,6 +197,8 @@
         Emi_Selisih_Barang_Masuk2_Barang_Lain.P_TglMasuk = Lv_TglMasuk
         Emi_Selisih_Barang_Masuk2_Barang_Lain.P_TglBerangkat = Lv_TglBerangkat
         Emi_Selisih_Barang_Masuk2_Barang_Lain.P_JamMasuk = Lv_JamMasuk
+        Emi_Selisih_Barang_Masuk2_Barang_Lain.P_Flag_Selisih = Lv_Flag_Selisih
+        Emi_Selisih_Barang_Masuk2_Barang_Lain.P_No_PO = Lv_No_PO
 
         Emi_Selisih_Barang_Masuk2_Barang_Lain.ShowDialog()
 

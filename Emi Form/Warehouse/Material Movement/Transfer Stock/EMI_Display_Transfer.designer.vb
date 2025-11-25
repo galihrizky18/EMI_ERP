@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class EMI_Display_Transfer
+Partial Class Emi_Display_Transfer
 
     Inherits System.Windows.Forms.Form
 

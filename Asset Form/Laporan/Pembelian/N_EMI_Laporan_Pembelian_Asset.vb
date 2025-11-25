@@ -16,11 +16,11 @@
         Tgl2.Value = Now.Date
 
         Switch_Auto_Complete = False
-        Txt_Faktur.Text = OpsiSeluruh
-        Txt_KdBarang.Text = OpsiSeluruh
-        Txt_NmBarang.Text = OpsiSeluruh
-        Txt_KdSupplier.Text = OpsiSeluruh
-        Txt_NmSupplier.Text = OpsiSeluruh
+        Txt_Faktur.Text = "--- SELURUH ---"
+        Txt_KdBarang.Text = "--- SELURUH ---"
+        Txt_NmBarang.Text = "--- SELURUH ---"
+        Txt_KdSupplier.Text = "--- SELURUH ---"
+        Txt_NmSupplier.Text = "--- SELURUH ---"
         Switch_Auto_Complete = True
 
 

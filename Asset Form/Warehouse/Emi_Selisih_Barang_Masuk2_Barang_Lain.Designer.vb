@@ -23,6 +23,18 @@ Partial Class Emi_Selisih_Barang_Masuk2_Barang_Lain
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle21 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle22 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle23 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle24 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle25 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -36,13 +48,14 @@ Partial Class Emi_Selisih_Barang_Masuk2_Barang_Lain
         Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Txt_FakturPO = New System.Windows.Forms.TextBox()
         Me.Cmb_LokasiPO = New System.Windows.Forms.ComboBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Txt_No_PO = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
         Me.Txt_JamMasuk = New System.Windows.Forms.TextBox()
         Me.Txt_TglMasuk = New System.Windows.Forms.TextBox()
         Me.Txt_TglBerangkat = New System.Windows.Forms.TextBox()
@@ -58,6 +71,35 @@ Partial Class Emi_Selisih_Barang_Masuk2_Barang_Lain
         Me.Txt_Supplier = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Dgv_DetailBarang = New System.Windows.Forms.DataGridView()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.Cmb_JenisSelisih = New System.Windows.Forms.ComboBox()
+        Me.lblJenisSelisih = New System.Windows.Forms.Label()
+        Me.LblSelisihBrgMsk_TotalHarga = New System.Windows.Forms.Label()
+        Me.Txt_TotSelisihRP = New System.Windows.Forms.TextBox()
+        Me.LblSelisihBrgMsk_TotalQty = New System.Windows.Forms.Label()
+        Me.Txt_TotSelisihQTY = New System.Windows.Forms.TextBox()
+        Me.BtnSelisihBrgMsk_Refresh = New System.Windows.Forms.Button()
+        Me.BtnSelisihBrgMsk_Simpan = New System.Windows.Forms.Button()
+        Me.Panel6 = New System.Windows.Forms.Panel()
+        Me.Panel7 = New System.Windows.Forms.Panel()
+        Me.Txt_NoFaktur = New System.Windows.Forms.TextBox()
+        Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn9 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn11 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn12 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn13 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn14 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn15 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn16 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.lokasi = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.kode_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.nama = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -74,19 +116,9 @@ Partial Class Emi_Selisih_Barang_Masuk2_Barang_Lain
         Me.hargabarang_hitung = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.jumlah_utang = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.Panel5 = New System.Windows.Forms.Panel()
-        Me.Cmb_JenisSelisih = New System.Windows.Forms.ComboBox()
-        Me.lblJenisSelisih = New System.Windows.Forms.Label()
-        Me.LblSelisihBrgMsk_TotalHarga = New System.Windows.Forms.Label()
-        Me.Txt_TotSelisihRP = New System.Windows.Forms.TextBox()
-        Me.LblSelisihBrgMsk_TotalQty = New System.Windows.Forms.Label()
-        Me.Txt_TotSelisihQTY = New System.Windows.Forms.TextBox()
-        Me.BtnSelisihBrgMsk_Refresh = New System.Windows.Forms.Button()
-        Me.BtnSelisihBrgMsk_Simpan = New System.Windows.Forms.Button()
-        Me.Panel6 = New System.Windows.Forms.Panel()
-        Me.Panel7 = New System.Windows.Forms.Panel()
-        Me.Txt_NoFaktur = New System.Windows.Forms.TextBox()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Txt_Keterangan = New System.Windows.Forms.TextBox()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.Dgv_DetailBarang, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -103,29 +135,16 @@ Partial Class Emi_Selisih_Barang_Masuk2_Barang_Lain
         Me.Panel1.Size = New System.Drawing.Size(1070, 51)
         Me.Panel1.TabIndex = 86
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1070, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
         'Label11
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(14, 9)
+        Me.Label11.Location = New System.Drawing.Point(14, 11)
         Me.Label11.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(254, 25)
+        Me.Label11.Size = New System.Drawing.Size(388, 25)
         Me.Label11.TabIndex = 0
-        Me.Label11.Text = "Validasi Barang Masuk"
+        Me.Label11.Text = "Validasi Barang Masuk Barang Lain"
         '
         'Panel3
         '
@@ -171,6 +190,10 @@ Partial Class Emi_Selisih_Barang_Masuk2_Barang_Lain
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Txt_No_PO)
+        Me.GroupBox1.Controls.Add(Me.Label8)
+        Me.GroupBox1.Controls.Add(Me.Cmb_JenisSelisih)
+        Me.GroupBox1.Controls.Add(Me.lblJenisSelisih)
         Me.GroupBox1.Controls.Add(Me.Txt_JamMasuk)
         Me.GroupBox1.Controls.Add(Me.Txt_TglMasuk)
         Me.GroupBox1.Controls.Add(Me.Txt_TglBerangkat)
@@ -185,11 +208,31 @@ Partial Class Emi_Selisih_Barang_Masuk2_Barang_Lain
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.Txt_Supplier)
         Me.GroupBox1.Controls.Add(Me.Label1)
-        Me.GroupBox1.Location = New System.Drawing.Point(17, 91)
+        Me.GroupBox1.Location = New System.Drawing.Point(17, 85)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1032, 156)
+        Me.GroupBox1.Size = New System.Drawing.Size(1032, 172)
         Me.GroupBox1.TabIndex = 282
         Me.GroupBox1.TabStop = False
+        '
+        'Txt_No_PO
+        '
+        Me.Txt_No_PO.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_No_PO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_No_PO.Enabled = False
+        Me.Txt_No_PO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_No_PO.Location = New System.Drawing.Point(609, 111)
+        Me.Txt_No_PO.Name = "Txt_No_PO"
+        Me.Txt_No_PO.Size = New System.Drawing.Size(273, 22)
+        Me.Txt_No_PO.TabIndex = 284
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(454, 113)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(47, 16)
+        Me.Label8.TabIndex = 283
+        Me.Label8.Text = "No PO"
         '
         'Txt_JamMasuk
         '
@@ -348,13 +391,289 @@ Partial Class Emi_Selisih_Barang_Masuk2_Barang_Lain
         Me.Dgv_DetailBarang.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.Dgv_DetailBarang.ColumnHeadersHeight = 45
         Me.Dgv_DetailBarang.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.lokasi, Me.kode_barang, Me.nama, Me.jumlah_pl, Me.jumlah_bm, Me.satuan, Me.selisih, Me.Column2, Me.harga_pcs, Me.tgl_produksi, Me.tgl_expired, Me.JmlhPlHitung, Me.jmlhBMHitung, Me.hargabarang_hitung, Me.Column1, Me.jumlah_utang})
-        Me.Dgv_DetailBarang.Location = New System.Drawing.Point(16, 264)
+        Me.Dgv_DetailBarang.Location = New System.Drawing.Point(16, 271)
         Me.Dgv_DetailBarang.MultiSelect = False
         Me.Dgv_DetailBarang.Name = "Dgv_DetailBarang"
         Me.Dgv_DetailBarang.RowHeadersWidth = 21
         Me.Dgv_DetailBarang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.Dgv_DetailBarang.Size = New System.Drawing.Size(1035, 311)
+        Me.Dgv_DetailBarang.Size = New System.Drawing.Size(1035, 305)
         Me.Dgv_DetailBarang.TabIndex = 283
+        '
+        'Panel4
+        '
+        Me.Panel4.BackColor = System.Drawing.Color.Red
+        Me.Panel4.Location = New System.Drawing.Point(20, 258)
+        Me.Panel4.Name = "Panel4"
+        Me.Panel4.Size = New System.Drawing.Size(1031, 12)
+        Me.Panel4.TabIndex = 278
+        Me.Panel4.Visible = False
+        '
+        'Panel5
+        '
+        Me.Panel5.BackColor = System.Drawing.Color.Red
+        Me.Panel5.Location = New System.Drawing.Point(20, 577)
+        Me.Panel5.Name = "Panel5"
+        Me.Panel5.Size = New System.Drawing.Size(1031, 12)
+        Me.Panel5.TabIndex = 278
+        Me.Panel5.Visible = False
+        '
+        'Cmb_JenisSelisih
+        '
+        Me.Cmb_JenisSelisih.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_JenisSelisih.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmb_JenisSelisih.FormattingEnabled = True
+        Me.Cmb_JenisSelisih.Location = New System.Drawing.Point(150, 139)
+        Me.Cmb_JenisSelisih.Name = "Cmb_JenisSelisih"
+        Me.Cmb_JenisSelisih.Size = New System.Drawing.Size(273, 23)
+        Me.Cmb_JenisSelisih.TabIndex = 289
+        '
+        'lblJenisSelisih
+        '
+        Me.lblJenisSelisih.AutoSize = True
+        Me.lblJenisSelisih.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblJenisSelisih.Location = New System.Drawing.Point(18, 142)
+        Me.lblJenisSelisih.Name = "lblJenisSelisih"
+        Me.lblJenisSelisih.Size = New System.Drawing.Size(82, 16)
+        Me.lblJenisSelisih.TabIndex = 288
+        Me.lblJenisSelisih.Text = "Jenis Selisih"
+        '
+        'LblSelisihBrgMsk_TotalHarga
+        '
+        Me.LblSelisihBrgMsk_TotalHarga.AutoSize = True
+        Me.LblSelisihBrgMsk_TotalHarga.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblSelisihBrgMsk_TotalHarga.Location = New System.Drawing.Point(684, 634)
+        Me.LblSelisihBrgMsk_TotalHarga.Name = "LblSelisihBrgMsk_TotalHarga"
+        Me.LblSelisihBrgMsk_TotalHarga.Size = New System.Drawing.Size(128, 16)
+        Me.LblSelisihBrgMsk_TotalHarga.TabIndex = 287
+        Me.LblSelisihBrgMsk_TotalHarga.Text = "Total Selisih (Rp)"
+        Me.LblSelisihBrgMsk_TotalHarga.Visible = False
+        '
+        'Txt_TotSelisihRP
+        '
+        Me.Txt_TotSelisihRP.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_TotSelisihRP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_TotSelisihRP.Enabled = False
+        Me.Txt_TotSelisihRP.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_TotSelisihRP.Location = New System.Drawing.Point(818, 632)
+        Me.Txt_TotSelisihRP.Name = "Txt_TotSelisihRP"
+        Me.Txt_TotSelisihRP.Size = New System.Drawing.Size(231, 21)
+        Me.Txt_TotSelisihRP.TabIndex = 286
+        Me.Txt_TotSelisihRP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.Txt_TotSelisihRP.Visible = False
+        '
+        'LblSelisihBrgMsk_TotalQty
+        '
+        Me.LblSelisihBrgMsk_TotalQty.AutoSize = True
+        Me.LblSelisihBrgMsk_TotalQty.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblSelisihBrgMsk_TotalQty.Location = New System.Drawing.Point(718, 604)
+        Me.LblSelisihBrgMsk_TotalQty.Name = "LblSelisihBrgMsk_TotalQty"
+        Me.LblSelisihBrgMsk_TotalQty.Size = New System.Drawing.Size(94, 16)
+        Me.LblSelisihBrgMsk_TotalQty.TabIndex = 285
+        Me.LblSelisihBrgMsk_TotalQty.Text = "Total Selisih"
+        '
+        'Txt_TotSelisihQTY
+        '
+        Me.Txt_TotSelisihQTY.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_TotSelisihQTY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_TotSelisihQTY.Enabled = False
+        Me.Txt_TotSelisihQTY.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_TotSelisihQTY.Location = New System.Drawing.Point(818, 602)
+        Me.Txt_TotSelisihQTY.Name = "Txt_TotSelisihQTY"
+        Me.Txt_TotSelisihQTY.Size = New System.Drawing.Size(231, 21)
+        Me.Txt_TotSelisihQTY.TabIndex = 284
+        Me.Txt_TotSelisihQTY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'BtnSelisihBrgMsk_Refresh
+        '
+        Me.BtnSelisihBrgMsk_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnSelisihBrgMsk_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnSelisihBrgMsk_Refresh.ForeColor = System.Drawing.Color.White
+        Me.BtnSelisihBrgMsk_Refresh.Location = New System.Drawing.Point(182, 628)
+        Me.BtnSelisihBrgMsk_Refresh.Name = "BtnSelisihBrgMsk_Refresh"
+        Me.BtnSelisihBrgMsk_Refresh.Size = New System.Drawing.Size(156, 35)
+        Me.BtnSelisihBrgMsk_Refresh.TabIndex = 290
+        Me.BtnSelisihBrgMsk_Refresh.Text = "&Refresh"
+        Me.BtnSelisihBrgMsk_Refresh.UseVisualStyleBackColor = False
+        '
+        'BtnSelisihBrgMsk_Simpan
+        '
+        Me.BtnSelisihBrgMsk_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnSelisihBrgMsk_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnSelisihBrgMsk_Simpan.ForeColor = System.Drawing.Color.White
+        Me.BtnSelisihBrgMsk_Simpan.Location = New System.Drawing.Point(25, 628)
+        Me.BtnSelisihBrgMsk_Simpan.Name = "BtnSelisihBrgMsk_Simpan"
+        Me.BtnSelisihBrgMsk_Simpan.Size = New System.Drawing.Size(156, 35)
+        Me.BtnSelisihBrgMsk_Simpan.TabIndex = 291
+        Me.BtnSelisihBrgMsk_Simpan.Text = "&Simpan"
+        Me.BtnSelisihBrgMsk_Simpan.UseVisualStyleBackColor = False
+        '
+        'Panel6
+        '
+        Me.Panel6.BackColor = System.Drawing.Color.Red
+        Me.Panel6.Location = New System.Drawing.Point(22, 667)
+        Me.Panel6.Name = "Panel6"
+        Me.Panel6.Size = New System.Drawing.Size(1031, 12)
+        Me.Panel6.TabIndex = 278
+        Me.Panel6.Visible = False
+        '
+        'Panel7
+        '
+        Me.Panel7.BackColor = System.Drawing.Color.Red
+        Me.Panel7.Location = New System.Drawing.Point(1055, 91)
+        Me.Panel7.Name = "Panel7"
+        Me.Panel7.Size = New System.Drawing.Size(16, 618)
+        Me.Panel7.TabIndex = 279
+        Me.Panel7.Visible = False
+        '
+        'Txt_NoFaktur
+        '
+        Me.Txt_NoFaktur.BackColor = System.Drawing.Color.Goldenrod
+        Me.Txt_NoFaktur.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_NoFaktur.ForeColor = System.Drawing.SystemColors.Window
+        Me.Txt_NoFaktur.Location = New System.Drawing.Point(16, 61)
+        Me.Txt_NoFaktur.MaxLength = 10
+        Me.Txt_NoFaktur.Name = "Txt_NoFaktur"
+        Me.Txt_NoFaktur.ReadOnly = True
+        Me.Txt_NoFaktur.Size = New System.Drawing.Size(211, 21)
+        Me.Txt_NoFaktur.TabIndex = 280
+        '
+        'DataGridViewTextBoxColumn1
+        '
+        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle14
+        Me.DataGridViewTextBoxColumn1.HeaderText = "Lokasi"
+        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
+        Me.DataGridViewTextBoxColumn1.ReadOnly = True
+        Me.DataGridViewTextBoxColumn1.Visible = False
+        Me.DataGridViewTextBoxColumn1.Width = 125
+        '
+        'DataGridViewTextBoxColumn2
+        '
+        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle15
+        Me.DataGridViewTextBoxColumn2.HeaderText = "Kode Barang"
+        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
+        Me.DataGridViewTextBoxColumn2.ReadOnly = True
+        Me.DataGridViewTextBoxColumn2.Width = 130
+        '
+        'DataGridViewTextBoxColumn3
+        '
+        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle16
+        Me.DataGridViewTextBoxColumn3.HeaderText = "Nama"
+        Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
+        Me.DataGridViewTextBoxColumn3.ReadOnly = True
+        Me.DataGridViewTextBoxColumn3.Width = 250
+        '
+        'DataGridViewTextBoxColumn4
+        '
+        DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle17
+        Me.DataGridViewTextBoxColumn4.HeaderText = "Jumlah PL"
+        Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
+        Me.DataGridViewTextBoxColumn4.ReadOnly = True
+        Me.DataGridViewTextBoxColumn4.Width = 110
+        '
+        'DataGridViewTextBoxColumn5
+        '
+        DataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn5.DefaultCellStyle = DataGridViewCellStyle18
+        Me.DataGridViewTextBoxColumn5.HeaderText = "Jumlah BM"
+        Me.DataGridViewTextBoxColumn5.Name = "DataGridViewTextBoxColumn5"
+        Me.DataGridViewTextBoxColumn5.ReadOnly = True
+        Me.DataGridViewTextBoxColumn5.Width = 110
+        '
+        'DataGridViewTextBoxColumn6
+        '
+        DataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn6.DefaultCellStyle = DataGridViewCellStyle19
+        Me.DataGridViewTextBoxColumn6.HeaderText = "Satuan"
+        Me.DataGridViewTextBoxColumn6.Name = "DataGridViewTextBoxColumn6"
+        Me.DataGridViewTextBoxColumn6.ReadOnly = True
+        Me.DataGridViewTextBoxColumn6.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewTextBoxColumn6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        '
+        'DataGridViewTextBoxColumn7
+        '
+        DataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn7.DefaultCellStyle = DataGridViewCellStyle20
+        Me.DataGridViewTextBoxColumn7.HeaderText = "Selisih"
+        Me.DataGridViewTextBoxColumn7.Name = "DataGridViewTextBoxColumn7"
+        Me.DataGridViewTextBoxColumn7.ReadOnly = True
+        Me.DataGridViewTextBoxColumn7.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewTextBoxColumn7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.DataGridViewTextBoxColumn7.Width = 125
+        '
+        'DataGridViewTextBoxColumn8
+        '
+        DataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn8.DefaultCellStyle = DataGridViewCellStyle21
+        Me.DataGridViewTextBoxColumn8.HeaderText = "Selisih Harga"
+        Me.DataGridViewTextBoxColumn8.Name = "DataGridViewTextBoxColumn8"
+        Me.DataGridViewTextBoxColumn8.ReadOnly = True
+        Me.DataGridViewTextBoxColumn8.Visible = False
+        Me.DataGridViewTextBoxColumn8.Width = 120
+        '
+        'DataGridViewTextBoxColumn9
+        '
+        DataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn9.DefaultCellStyle = DataGridViewCellStyle22
+        Me.DataGridViewTextBoxColumn9.HeaderText = "Harga Barang"
+        Me.DataGridViewTextBoxColumn9.Name = "DataGridViewTextBoxColumn9"
+        Me.DataGridViewTextBoxColumn9.ReadOnly = True
+        Me.DataGridViewTextBoxColumn9.Visible = False
+        Me.DataGridViewTextBoxColumn9.Width = 125
+        '
+        'DataGridViewTextBoxColumn10
+        '
+        DataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn10.DefaultCellStyle = DataGridViewCellStyle23
+        Me.DataGridViewTextBoxColumn10.HeaderText = "Tgl Produksi"
+        Me.DataGridViewTextBoxColumn10.Name = "DataGridViewTextBoxColumn10"
+        Me.DataGridViewTextBoxColumn10.ReadOnly = True
+        Me.DataGridViewTextBoxColumn10.Width = 120
+        '
+        'DataGridViewTextBoxColumn11
+        '
+        DataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn11.DefaultCellStyle = DataGridViewCellStyle24
+        Me.DataGridViewTextBoxColumn11.HeaderText = "Tgl Expired"
+        Me.DataGridViewTextBoxColumn11.Name = "DataGridViewTextBoxColumn11"
+        Me.DataGridViewTextBoxColumn11.ReadOnly = True
+        Me.DataGridViewTextBoxColumn11.Width = 120
+        '
+        'DataGridViewTextBoxColumn12
+        '
+        Me.DataGridViewTextBoxColumn12.HeaderText = "JmlhPL"
+        Me.DataGridViewTextBoxColumn12.Name = "DataGridViewTextBoxColumn12"
+        Me.DataGridViewTextBoxColumn12.Visible = False
+        '
+        'DataGridViewTextBoxColumn13
+        '
+        Me.DataGridViewTextBoxColumn13.HeaderText = "JmlhBM"
+        Me.DataGridViewTextBoxColumn13.Name = "DataGridViewTextBoxColumn13"
+        Me.DataGridViewTextBoxColumn13.Visible = False
+        '
+        'DataGridViewTextBoxColumn14
+        '
+        Me.DataGridViewTextBoxColumn14.HeaderText = "Harga Barang Hitung"
+        Me.DataGridViewTextBoxColumn14.Name = "DataGridViewTextBoxColumn14"
+        Me.DataGridViewTextBoxColumn14.Visible = False
+        '
+        'DataGridViewTextBoxColumn15
+        '
+        Me.DataGridViewTextBoxColumn15.HeaderText = "Urut"
+        Me.DataGridViewTextBoxColumn15.Name = "DataGridViewTextBoxColumn15"
+        Me.DataGridViewTextBoxColumn15.ReadOnly = True
+        Me.DataGridViewTextBoxColumn15.Visible = False
+        '
+        'DataGridViewTextBoxColumn16
+        '
+        DataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight
+        Me.DataGridViewTextBoxColumn16.DefaultCellStyle = DataGridViewCellStyle25
+        Me.DataGridViewTextBoxColumn16.HeaderText = "Jumlah Hutang"
+        Me.DataGridViewTextBoxColumn16.Name = "DataGridViewTextBoxColumn16"
+        Me.DataGridViewTextBoxColumn16.Width = 110
         '
         'lokasi
         '
@@ -494,143 +813,39 @@ Partial Class Emi_Selisih_Barang_Masuk2_Barang_Lain
         Me.jumlah_utang.Name = "jumlah_utang"
         Me.jumlah_utang.Width = 110
         '
-        'Panel4
+        'PanelGradient1
         '
-        Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(20, 248)
-        Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(1031, 12)
-        Me.Panel4.TabIndex = 278
-        Me.Panel4.Visible = False
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1070, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
-        'Panel5
+        'Label9
         '
-        Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(20, 580)
-        Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(1031, 12)
-        Me.Panel5.TabIndex = 278
-        Me.Panel5.Visible = False
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.Location = New System.Drawing.Point(35, 592)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(76, 16)
+        Me.Label9.TabIndex = 293
+        Me.Label9.Text = "Keterangan"
         '
-        'Cmb_JenisSelisih
+        'Txt_Keterangan
         '
-        Me.Cmb_JenisSelisih.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Cmb_JenisSelisih.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmb_JenisSelisih.FormattingEnabled = True
-        Me.Cmb_JenisSelisih.Location = New System.Drawing.Point(139, 591)
-        Me.Cmb_JenisSelisih.Name = "Cmb_JenisSelisih"
-        Me.Cmb_JenisSelisih.Size = New System.Drawing.Size(280, 23)
-        Me.Cmb_JenisSelisih.TabIndex = 289
-        '
-        'lblJenisSelisih
-        '
-        Me.lblJenisSelisih.AutoSize = True
-        Me.lblJenisSelisih.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblJenisSelisih.Location = New System.Drawing.Point(22, 595)
-        Me.lblJenisSelisih.Name = "lblJenisSelisih"
-        Me.lblJenisSelisih.Size = New System.Drawing.Size(82, 16)
-        Me.lblJenisSelisih.TabIndex = 288
-        Me.lblJenisSelisih.Text = "Jenis Selisih"
-        '
-        'LblSelisihBrgMsk_TotalHarga
-        '
-        Me.LblSelisihBrgMsk_TotalHarga.AutoSize = True
-        Me.LblSelisihBrgMsk_TotalHarga.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblSelisihBrgMsk_TotalHarga.Location = New System.Drawing.Point(662, 636)
-        Me.LblSelisihBrgMsk_TotalHarga.Name = "LblSelisihBrgMsk_TotalHarga"
-        Me.LblSelisihBrgMsk_TotalHarga.Size = New System.Drawing.Size(128, 16)
-        Me.LblSelisihBrgMsk_TotalHarga.TabIndex = 287
-        Me.LblSelisihBrgMsk_TotalHarga.Text = "Total Selisih (Rp)"
-        Me.LblSelisihBrgMsk_TotalHarga.Visible = False
-        '
-        'Txt_TotSelisihRP
-        '
-        Me.Txt_TotSelisihRP.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.Txt_TotSelisihRP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_TotSelisihRP.Enabled = False
-        Me.Txt_TotSelisihRP.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_TotSelisihRP.Location = New System.Drawing.Point(818, 632)
-        Me.Txt_TotSelisihRP.Name = "Txt_TotSelisihRP"
-        Me.Txt_TotSelisihRP.Size = New System.Drawing.Size(168, 21)
-        Me.Txt_TotSelisihRP.TabIndex = 286
-        Me.Txt_TotSelisihRP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.Txt_TotSelisihRP.Visible = False
-        '
-        'LblSelisihBrgMsk_TotalQty
-        '
-        Me.LblSelisihBrgMsk_TotalQty.AutoSize = True
-        Me.LblSelisihBrgMsk_TotalQty.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblSelisihBrgMsk_TotalQty.Location = New System.Drawing.Point(718, 604)
-        Me.LblSelisihBrgMsk_TotalQty.Name = "LblSelisihBrgMsk_TotalQty"
-        Me.LblSelisihBrgMsk_TotalQty.Size = New System.Drawing.Size(94, 16)
-        Me.LblSelisihBrgMsk_TotalQty.TabIndex = 285
-        Me.LblSelisihBrgMsk_TotalQty.Text = "Total Selisih"
-        '
-        'Txt_TotSelisihQTY
-        '
-        Me.Txt_TotSelisihQTY.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.Txt_TotSelisihQTY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_TotSelisihQTY.Enabled = False
-        Me.Txt_TotSelisihQTY.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_TotSelisihQTY.Location = New System.Drawing.Point(818, 602)
-        Me.Txt_TotSelisihQTY.Name = "Txt_TotSelisihQTY"
-        Me.Txt_TotSelisihQTY.Size = New System.Drawing.Size(231, 21)
-        Me.Txt_TotSelisihQTY.TabIndex = 284
-        Me.Txt_TotSelisihQTY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'BtnSelisihBrgMsk_Refresh
-        '
-        Me.BtnSelisihBrgMsk_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.BtnSelisihBrgMsk_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnSelisihBrgMsk_Refresh.ForeColor = System.Drawing.Color.White
-        Me.BtnSelisihBrgMsk_Refresh.Location = New System.Drawing.Point(182, 626)
-        Me.BtnSelisihBrgMsk_Refresh.Name = "BtnSelisihBrgMsk_Refresh"
-        Me.BtnSelisihBrgMsk_Refresh.Size = New System.Drawing.Size(156, 35)
-        Me.BtnSelisihBrgMsk_Refresh.TabIndex = 290
-        Me.BtnSelisihBrgMsk_Refresh.Text = "&Refresh"
-        Me.BtnSelisihBrgMsk_Refresh.UseVisualStyleBackColor = False
-        '
-        'BtnSelisihBrgMsk_Simpan
-        '
-        Me.BtnSelisihBrgMsk_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.BtnSelisihBrgMsk_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnSelisihBrgMsk_Simpan.ForeColor = System.Drawing.Color.White
-        Me.BtnSelisihBrgMsk_Simpan.Location = New System.Drawing.Point(25, 626)
-        Me.BtnSelisihBrgMsk_Simpan.Name = "BtnSelisihBrgMsk_Simpan"
-        Me.BtnSelisihBrgMsk_Simpan.Size = New System.Drawing.Size(156, 35)
-        Me.BtnSelisihBrgMsk_Simpan.TabIndex = 291
-        Me.BtnSelisihBrgMsk_Simpan.Text = "&Simpan"
-        Me.BtnSelisihBrgMsk_Simpan.UseVisualStyleBackColor = False
-        '
-        'Panel6
-        '
-        Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(22, 667)
-        Me.Panel6.Name = "Panel6"
-        Me.Panel6.Size = New System.Drawing.Size(1031, 12)
-        Me.Panel6.TabIndex = 278
-        Me.Panel6.Visible = False
-        '
-        'Panel7
-        '
-        Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(1055, 91)
-        Me.Panel7.Name = "Panel7"
-        Me.Panel7.Size = New System.Drawing.Size(16, 618)
-        Me.Panel7.TabIndex = 279
-        Me.Panel7.Visible = False
-        '
-        'Txt_NoFaktur
-        '
-        Me.Txt_NoFaktur.BackColor = System.Drawing.Color.Goldenrod
-        Me.Txt_NoFaktur.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_NoFaktur.ForeColor = System.Drawing.SystemColors.Window
-        Me.Txt_NoFaktur.Location = New System.Drawing.Point(16, 61)
-        Me.Txt_NoFaktur.MaxLength = 10
-        Me.Txt_NoFaktur.Name = "Txt_NoFaktur"
-        Me.Txt_NoFaktur.ReadOnly = True
-        Me.Txt_NoFaktur.Size = New System.Drawing.Size(211, 21)
-        Me.Txt_NoFaktur.TabIndex = 280
+        Me.Txt_Keterangan.BackColor = System.Drawing.Color.White
+        Me.Txt_Keterangan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_Keterangan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_Keterangan.Location = New System.Drawing.Point(125, 590)
+        Me.Txt_Keterangan.MaxLength = 230
+        Me.Txt_Keterangan.Name = "Txt_Keterangan"
+        Me.Txt_Keterangan.Size = New System.Drawing.Size(451, 21)
+        Me.Txt_Keterangan.TabIndex = 292
         '
         'Emi_Selisih_Barang_Masuk2_Barang_Lain
         '
@@ -638,10 +853,10 @@ Partial Class Emi_Selisih_Barang_Masuk2_Barang_Lain
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1070, 676)
+        Me.Controls.Add(Me.Label9)
+        Me.Controls.Add(Me.Txt_Keterangan)
         Me.Controls.Add(Me.BtnSelisihBrgMsk_Refresh)
         Me.Controls.Add(Me.BtnSelisihBrgMsk_Simpan)
-        Me.Controls.Add(Me.Cmb_JenisSelisih)
-        Me.Controls.Add(Me.lblJenisSelisih)
         Me.Controls.Add(Me.LblSelisihBrgMsk_TotalHarga)
         Me.Controls.Add(Me.Txt_TotSelisihRP)
         Me.Controls.Add(Me.LblSelisihBrgMsk_TotalQty)
@@ -663,7 +878,6 @@ Partial Class Emi_Selisih_Barang_Masuk2_Barang_Lain
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "Emi_Selisih_Barang_Masuk2_Barang_Lain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "zd"
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
@@ -726,4 +940,24 @@ Partial Class Emi_Selisih_Barang_Masuk2_Barang_Lain
     Friend WithEvents hargabarang_hitung As DataGridViewTextBoxColumn
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents jumlah_utang As DataGridViewTextBoxColumn
+    Friend WithEvents Txt_No_PO As TextBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn5 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn6 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn7 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn8 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn9 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn10 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn11 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn12 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn13 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn14 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn15 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn16 As DataGridViewTextBoxColumn
+    Friend WithEvents Label9 As Label
+    Friend WithEvents Txt_Keterangan As TextBox
 End Class

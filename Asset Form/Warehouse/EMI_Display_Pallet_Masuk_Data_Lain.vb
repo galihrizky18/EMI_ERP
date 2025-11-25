@@ -278,7 +278,7 @@ Public Class EMI_Display_Pallet_Masuk_Data_Lain
                     Dim lvw As ListViewItem
                     lvw = Lv_BM_PerPallet.Items.Add(Dr("No_Faktur"))
                     lvw.SubItems.Add(Dr("No_Pembelian_Loading"))
-                    lvw.SubItems.Add(Dr("Id_Nametag_Pallet"))
+                    lvw.SubItems.Add(General_Class.CekNULL(Dr("Id_Nametag_Pallet")))
                     lvw.SubItems.Add(Dr("No_SJ"))
                     lvw.SubItems.Add(Dr("No_Plat"))
                     lvw.SubItems.Add(Dr("nama_supplier"))

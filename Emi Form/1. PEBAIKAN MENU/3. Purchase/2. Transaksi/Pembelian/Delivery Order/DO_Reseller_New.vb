@@ -1417,9 +1417,6 @@ Public Class DO_Reseller_New
 
 
 
-
-
-
             SQL = SQL & "isnull((select sum(y.good_stock + y.bad_stock) from "
             SQL = SQL & "retur_penjualan x, detail_r_penjualan y where "
             SQL = SQL & "x.kode_perusahaan = y.kode_perusahaan and x.no_retur_jual = y.no_retur_jual and "
@@ -1487,6 +1484,8 @@ Public Class DO_Reseller_New
             SQL = SQL & "c.lokasi = d.kode_stock_owner and "
             SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and "
             SQL = SQL & "a.no_faktur = '" & ListView1.FocusedItem.Text & "' order by b.nama"
+
+
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     DataGridView1.Rows.Add(1)
@@ -3421,8 +3420,8 @@ Public Class DO_Reseller_New
                 ExecuteTrans(SQL)
 
                 Dim total_hpp_metode_B As Double = 0
-                Dim TotalBarang As Double = 0
-                Dim TotalBarangSN As Double = 0
+
+
 
                 'TODO : Loop DGV
                 For i As Integer = 0 To DataGridView1.RowCount - 1
@@ -3730,6 +3729,9 @@ Public Class DO_Reseller_New
                             End If
                         End Using
 
+                        Dim TotalBarang As Double = 0
+                        Dim TotalBarangSN As Double = 0
+
                         If metode_pot_stock = "A" Then
                             SQL = "select Stock_Blm_Kirim from barang where "
                             SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
@@ -3989,18 +3991,20 @@ Public Class DO_Reseller_New
                             End If
 
                         End If
+
+                        'CEK Apakah sama
+                        If Not TotalBarang = HilangkanTanda(LvJmlKrm) Or Not TotalBarangSN = HilangkanTanda(LvJmlKrm) Then
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Terjadi Kesalahan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Stop)
+                            Exit Sub
+                        End If
                     End If
 
 
                     'TODO : Akhir Loop
 
-                    'CEK Apakah sama
-                    If Not TotalBarang = HilangkanTanda(LvJmlKrm) Or Not TotalBarangSN = HilangkanTanda(LvJmlKrm) Then
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Terjadi Kesalahan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Stop)
-                        Exit Sub
-                    End If
+
 
                 Next
 
@@ -5382,7 +5386,14 @@ Public Class DO_Reseller_New
             SQL = "delete Emi_DO_Pallet_Sementara where Kode_Perusahaan = '" & KodePerusahaan & "' and userid = '" & UserID & "' "
             ExecuteTrans(SQL)
 
-            Dim batas As String = "asdasdas"
+            'If True Then
+            '    CloseTrans()
+            '    CloseConn()
+            '    MessageBox.Show("Tahan")
+            '    Exit Sub
+            'End If
+
+
 
 
 
@@ -5834,6 +5845,10 @@ Public Class DO_Reseller_New
 
     Private Sub CmbEkspedisi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbEkspedisi.KeyPress
         If e.KeyChar = Chr(13) Then TxtMbl.Focus()
+    End Sub
+
+    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
+
     End Sub
 
     Private Sub CmbHelper_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbHelper.KeyPress

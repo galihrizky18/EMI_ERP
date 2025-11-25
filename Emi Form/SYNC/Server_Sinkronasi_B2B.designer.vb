@@ -44,7 +44,8 @@ Partial Class Server_Sinkronasi_B2B
         Me.Btn_Update_BiayaLokal = New System.Windows.Forms.Button()
         Me.Btn_InsKendaraan = New System.Windows.Forms.Button()
         Me.Btn_UpdateKendaraan = New System.Windows.Forms.Button()
-        Me.Button6 = New System.Windows.Forms.Button()
+        Me.btnPerusahaanBIaya = New System.Windows.Forms.Button()
+        Me.btn_Master_Satuan = New System.Windows.Forms.Button()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -270,23 +271,35 @@ Partial Class Server_Sinkronasi_B2B
         Me.Btn_UpdateKendaraan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Btn_UpdateKendaraan.UseVisualStyleBackColor = False
         '
-        'Button6
+        'btnPerusahaanBIaya
         '
-        Me.Button6.BackColor = System.Drawing.SystemColors.ControlLightLight
-        Me.Button6.Location = New System.Drawing.Point(604, 252)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(173, 34)
-        Me.Button6.TabIndex = 95
-        Me.Button6.Text = "INSERT | Perusahaan Biaya"
-        Me.Button6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Button6.UseVisualStyleBackColor = False
+        Me.btnPerusahaanBIaya.BackColor = System.Drawing.SystemColors.ControlLightLight
+        Me.btnPerusahaanBIaya.Location = New System.Drawing.Point(604, 252)
+        Me.btnPerusahaanBIaya.Name = "btnPerusahaanBIaya"
+        Me.btnPerusahaanBIaya.Size = New System.Drawing.Size(173, 34)
+        Me.btnPerusahaanBIaya.TabIndex = 95
+        Me.btnPerusahaanBIaya.Text = "INSERT | Perusahaan Biaya"
+        Me.btnPerusahaanBIaya.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnPerusahaanBIaya.UseVisualStyleBackColor = False
+        '
+        'btn_Master_Satuan
+        '
+        Me.btn_Master_Satuan.BackColor = System.Drawing.SystemColors.ControlLightLight
+        Me.btn_Master_Satuan.Location = New System.Drawing.Point(604, 292)
+        Me.btn_Master_Satuan.Name = "btn_Master_Satuan"
+        Me.btn_Master_Satuan.Size = New System.Drawing.Size(173, 34)
+        Me.btn_Master_Satuan.TabIndex = 96
+        Me.btn_Master_Satuan.Text = "INSERT | Master Satuan Barang"
+        Me.btn_Master_Satuan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btn_Master_Satuan.UseVisualStyleBackColor = False
         '
         'Server_Sinkronasi_B2B
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1023, 585)
-        Me.Controls.Add(Me.Button6)
+        Me.Controls.Add(Me.btn_Master_Satuan)
+        Me.Controls.Add(Me.btnPerusahaanBIaya)
         Me.Controls.Add(Me.Btn_InsExpedisi)
         Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.btnPenawaranPackaging)
@@ -307,7 +320,7 @@ Partial Class Server_Sinkronasi_B2B
         Me.Controls.Add(Me.Button1)
         Me.Name = "Server_Sinkronasi_B2B"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "eqw"
+        Me.Text = "Sinkronisasi B2B"
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
@@ -333,5 +346,6 @@ Partial Class Server_Sinkronasi_B2B
     Friend WithEvents Btn_Update_BiayaLokal As Button
     Friend WithEvents Btn_InsKendaraan As Button
     Friend WithEvents Btn_UpdateKendaraan As Button
-    Friend WithEvents Button6 As Button
+    Friend WithEvents btnPerusahaanBIaya As Button
+    Friend WithEvents btn_Master_Satuan As Button
 End Class

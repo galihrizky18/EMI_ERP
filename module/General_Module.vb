@@ -8,8 +8,11 @@ Module General_Module
 
     Public lblLoading As Label
 
-
+    Public Lokasi_Proyek As String = "GUDANG CENTRAL"
     Public OpsiSeluruh As String = "--- SELURUH ---"
+
+    Public fPurchaseRequisitionDP As String = "AD"
+    Public fPengajuanBrgBru As String = "FBR"
 
     Public Tanggal_Default As DateTime = "1900-01-01"
 
@@ -106,10 +109,14 @@ Module General_Module
     Public PrinterName2 As String = "EPSON LX-310 ESC/P"
     Public PrinterName As String = "EPSON LX-310 ESC/P"
     Public PrinterNameTS As String = "EPSON LX-310 ESC/P"
-
     Public PrinterBarcode As String = "TSC TE210"
     Public PrinterQC As String = ""
     Public PrinterBarcodeQC As String = "TSC TE210 (LAN)"
+
+    Public Port_Timbangan1 As String = ""
+    Public Port_Timbangan2 As String = ""
+    Public Port_Timbangan3 As String = ""
+
 
 
     Public Cn As SqlConnection
@@ -158,39 +165,16 @@ Module General_Module
 
     Public Tanggal_Sekarang As DateTime
 
-    '============================
-    '=     SERVER EMI DUMMY     =
-    '============================
-    Public CServer As String = "team311.dyndns.info"
-    Public Const CDatabase As String = "emi_tm_demo"
-    'Public Const CDatabase As String = "grahaweb_tm"
-    Public Const CUserId As String = "sqlserver"
-    'Public Const CPassword As String = "**H0L4H0L4hola**"
-    Public Const CPassword As String = "MakanEnak301%"
 
 
-    '======================
-    '=     HCIS DUMMY     =
-    '======================
-    'Public CServer As String = "35.240.215.51,59114\team"
-    'Public Const CDatabase As String = "grahaweb_tm"
-    'Public Const CUserId As String = "sa2"
-    'Public Const CPassword As String = "LezatSekali%"
 
-
-    '=====================
-    '=     GRAHA WEB     =
-    '=====================
-    'Public CServer As String = "35.240.215.51,59114\team"
-    'Public Const CDatabase As String = "grahaweb_tm"
-    'Public Const CUserId As String = "sa2"
-    'Public Const CPassword As String = "LezatSekali%"
 
     Public UserID As String = "Art Di"
     'Public UserID As String = "Hendry"
     'Public UserID As String = "DICKY"
     'Public UserID As String = "AKONG"
     'Public UserID As String = "BAYA"
+    'Public UserID As String = "AYU M"
     'Public UserID As String = "garix"
     'Public UserID As String = "emi"
     'Public Lokasi As String = "HEAD OFFICE"
@@ -856,7 +840,7 @@ Module General_Module
     End Function
 
     Public Function Ganti(ByVal x As String) As Double
-        Ganti = Val(Replace(x, ".", ""))
+        Ganti = Val(Replace(x, "", ""))
     End Function
 
     Public Function Ganti_lama(ByVal x As String) As String
@@ -2256,7 +2240,129 @@ Module General_Module
     End Sub
 
     Public Sub Cek_Flagging_Barang_Lain()
+        '  OpenConn()
 
+        fATK = "T" : fAsset = "T" : fSparepart = "T" : fPackaging = "T" : fRawMaterial = "T"
+        fFinishedGood = "T" : fSample = "T" : fSemiFG = "T" : fScrap = "T" : fBahanBakar = "T" : fPeralatan = "T"
+
+        SQL = "select nama_role from emi_pengeluaran_barang_roles "
+        SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and userid = '" & UserID & "'"
+        Using dr = OpenTrans(SQL)
+            Do While dr.Read
+                If dr("nama_role") = "ATK" Then fATK = "Y"
+                If dr("nama_role") = "Asset" Then fAsset = "Y"
+                If dr("nama_role") = "Sparepart" Then fSparepart = "Y"
+                If dr("nama_role") = "Packaging" Then fPackaging = "Y"
+                If dr("nama_role") = "Raw Material" Then fRawMaterial = "Y"
+                If dr("nama_role") = "Finished Good" Then fFinishedGood = "Y"
+                If dr("nama_role") = "Sample" Then fSample = "Y"
+                If dr("nama_role") = "Semi FG" Then fSemiFG = "Y"
+                If dr("nama_role") = "Scrap" Then fScrap = "Y"
+                If dr("nama_role") = "Bahan Bakar" Then fBahanBakar = "Y"
+                If dr("nama_role") = "Peralatan" Then fPeralatan = "Y"
+            Loop
+        End Using
+
+        'FilterPengeluaranCostCenter = " and (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "' OR gj.flag_packaging = '" & fPackaging & "' OR gj.flag_raw_material = '" & fRawMaterial & "' OR gj.flag_finished_good = '" & fFinishedGood & "' OR gj.flag_sample = '" & fSample & "' OR gj.Flag_Semi_FG = '" & fSemiFG & "' OR gj.Flag_Scrap = '" & fScrap & "' OR gj.flag_bahan_bakar = '" & fBahanBakar & "' OR gj.flag_peralatan = '" & fPeralatan & "') "
+        'FilterPengeluaranCostCenterCR = " and ({emi_group_jenis.flag_ATK} = '" & fATK & "' OR {emi_group_jenis.flag_asset} = '" & fAsset & "' OR {emi_group_jenis.flag_sparepart} = '" & fSparepart & "' OR {emi_group_jenis.flag_packaging} = '" & fPackaging & "' OR {emi_group_jenis.flag_raw_material} = '" & fRawMaterial & "' OR {emi_group_jenis.flag_finished_good} = '" & fFinishedGood & "' OR {emi_group_jenis.flag_sample} = '" & fSample & "' OR {emi_group_jenis.Flag_Semi_FG} = '" & fSemiFG & "' OR {emi_group_jenis.Flag_Scrap} = '" & fScrap & "' OR {emi_group_jenis.flag_bahan_bakar} = '" & fBahanBakar & "' OR {emi_group_jenis.flag_peralatan} = '" & fPeralatan & "') "
+
+        If fATK = "T" And fAsset = "T" And fSparepart = "T" And fPackaging = "T" And fRawMaterial = "T" And fFinishedGood = "T" And
+              fSample = "T" And fSemiFG = "T" And fScrap = "T" And fBahanBakar = "T" And fPeralatan = "T" Then
+
+            FilterPengeluaranCostCenter = "and gj.flag_atk = ''"
+            FilterPengeluaranCostCenterCR = "and {EMI_Group_Jenis.flag_ATK} = ''"
+        Else
+
+            Dim TambahOR As String = ""
+
+            FilterPengeluaranCostCenter = "AND ("
+            FilterPengeluaranCostCenterCR = "AND ("
+
+            If fATK = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_ATK = '" & fATK & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{EMI_Group_Jenis.flag_ATK} = '" & fATK & "'"
+            End If
+
+            If fAsset = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_asset = '" & fAsset & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{EMI_Group_Jenis.flag_asset} = '" & fAsset & "'"
+            End If
+
+            If fSparepart = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_sparepart = '" & fSparepart & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{EMI_Group_Jenis.flag_sparepart} = '" & fSparepart & "'"
+            End If
+
+            If fPackaging = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_packaging = '" & fPackaging & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Packaging} = '" & fPackaging & "'"
+            End If
+
+            If fRawMaterial = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_raw_material = '" & fRawMaterial & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Raw_Material} = '" & fRawMaterial & "'"
+            End If
+
+            If fFinishedGood = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_finished_good = '" & fFinishedGood & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Finished_Good} = '" & fFinishedGood & "'"
+            End If
+
+            If fSample = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_sample = '" & fSample & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Sample} = '" & fSample & "'"
+            End If
+
+            If fSemiFG = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.Flag_Semi_FG = '" & fSemiFG & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Semi_FG} = '" & fSemiFG & "'"
+            End If
+
+            If fScrap = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.Flag_Scrap = '" & fScrap & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Scrap} = '" & fScrap & "'"
+            End If
+
+            If fBahanBakar = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_bahan_bakar = '" & fBahanBakar & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Bahan_Bakar} = '" & fBahanBakar & "'"
+            End If
+
+            If fPeralatan = "Y" Then
+                If Strings.Right(FilterPengeluaranCostCenter, 1) = "(" Then TambahOR = "" Else TambahOR = " OR "
+                FilterPengeluaranCostCenter &= TambahOR & "gj.flag_peralatan = '" & fPeralatan & "'"
+                FilterPengeluaranCostCenterCR &= TambahOR & "{emi_group_jenis.Flag_Peralatan} = '" & fPeralatan & "'"
+            End If
+
+            FilterPengeluaranCostCenter &= ")" : FilterPengeluaranCostCenterCR &= ")"
+
+        End If
+
+        'CloseConn()
+    End Sub
+    Public Sub Execute(ByVal Query As String)
+        Try
+            Cmd = New SqlClient.SqlCommand
+            Cmd.Connection = Cn
+            Cmd.CommandType = CommandType.Text
+            Cmd.CommandText = Query
+            Cmd.ExecuteNonQuery()
+            Cmd = Nothing
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
+
+
 
 End Module

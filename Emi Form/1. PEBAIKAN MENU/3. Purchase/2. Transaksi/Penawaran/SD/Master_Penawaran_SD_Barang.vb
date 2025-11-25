@@ -301,13 +301,42 @@
             Try
                 OpenConn()
 
-                SQL = "select satuan from barang_detail_Satuan where Kode_Barang ='" & TxtPilihBarang_KodeBarang.Text & "'  and Kode_Perusahaan='" & KodePerusahaan & "' "
-                SQL = SQL & "and Flag_Tampil_Display = 'Y' "
-                Using dr2 = OpenTrans(SQL)
-                    Do While dr2.Read
-                        Transaksi_Penawaran.DgvMaster_Penawaran.Rows(rows).Cells(Transaksi_Penawaran.cellSatuan).Value = dr2("satuan")
-                    Loop
+                'SQL = "select satuan from barang_detail_Satuan where Kode_Barang ='" & TxtPilihBarang_KodeBarang.Text & "'  and Kode_Perusahaan='" & KodePerusahaan & "' "
+                'SQL = SQL & "and Flag_Tampil_Display = 'Y' "
+                'Using dr2 = OpenTrans(SQL)
+                '    Do While dr2.Read
+                '        Transaksi_Penawaran.DgvMaster_Penawaran.Rows(rows).Cells(Transaksi_Penawaran.cellSatuan).Value = dr2("satuan")
+                '    Loop
+                'End Using
+
+                '======================
+                '=     GET SATUAN     =
+                '======================
+                Dim subArrSatuan As New List(Of String)
+
+                Dim dgvCmbValueSatuan As DataGridViewComboBoxCell
+                dgvCmbValueSatuan = Transaksi_Penawaran.DgvMaster_Penawaran.Rows(rows).Cells(Transaksi_Penawaran.cellSatuan)
+                dgvCmbValueSatuan.Items.Clear()
+
+                SQL = "select Satuan, Flag_Default from N_EMI_Master_Satuan where Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Barang = '" & TxtPilihBarang_KodeBarang.Text & "' order by Satuan"
+                Using Ds = BindingTrans(SQL)
+                    With Ds.Tables("MyTable")
+                        If .Rows.Count <> 0 Then
+                            For i As Integer = 0 To .Rows.Count - 1
+
+                                dgvCmbValueSatuan.Items.Add(.Rows(i).Item("Satuan"))
+                                If General_Class.CekNULL(.Rows(i).Item("Flag_Default")) = "Y" Then
+                                    dgvCmbValueSatuan.Value = .Rows(i).Item("Satuan")
+                                End If
+
+                                subArrSatuan.Add(.Rows(i).Item("Satuan"))
+
+                            Next
+                        End If
+                    End With
                 End Using
+
+                Transaksi_Penawaran.arr2Satuan.Add(subArrSatuan)
 
                 CloseConn()
             Catch ex As Exception
@@ -318,7 +347,6 @@
 
             Transaksi_Penawaran.DgvMaster_Penawaran.Rows(rows).Cells(Transaksi_Penawaran.cellKdBrg).ReadOnly = True
             Transaksi_Penawaran.DgvMaster_Penawaran.Rows(rows).Cells(Transaksi_Penawaran.cellNmBrg).ReadOnly = True
-            Transaksi_Penawaran.DgvMaster_Penawaran.Rows(rows).Cells(Transaksi_Penawaran.cellSatuan).ReadOnly = True
 
 
             Transaksi_Penawaran.DgvMaster_Penawaran.Rows(rows).Cells(Transaksi_Penawaran.cellMinOrder).Value = 0

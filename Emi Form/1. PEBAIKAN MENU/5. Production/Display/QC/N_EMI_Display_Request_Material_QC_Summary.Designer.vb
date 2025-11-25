@@ -97,6 +97,8 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         Me.Panel11 = New System.Windows.Forms.Panel()
         Me.Panel12 = New System.Windows.Forms.Panel()
         Me.Txt_ActiveMenu = New System.Windows.Forms.TextBox()
+        Me.CM_Batal_TF_Material_QC = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.BatalBatchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -108,6 +110,7 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         Me.GroupBox3.SuspendLayout()
         Me.Panel_QC.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.CM_Batal_TF_Material_QC.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -825,6 +828,7 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         '
         'Lv_DetailQC
         '
+        Me.Lv_DetailQC.ContextMenuStrip = Me.CM_Batal_TF_Material_QC
         Me.Lv_DetailQC.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.Lv_DetailQC.FullRowSelect = True
         Me.Lv_DetailQC.GridLines = True
@@ -903,6 +907,18 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         Me.Txt_ActiveMenu.TabIndex = 509
         Me.Txt_ActiveMenu.Visible = False
         '
+        'CM_Batal_TF_Material_QC
+        '
+        Me.CM_Batal_TF_Material_QC.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BatalBatchToolStripMenuItem})
+        Me.CM_Batal_TF_Material_QC.Name = "CM_Batal_TF_Material_QC"
+        Me.CM_Batal_TF_Material_QC.Size = New System.Drawing.Size(181, 48)
+        '
+        'BatalBatchToolStripMenuItem
+        '
+        Me.BatalBatchToolStripMenuItem.Name = "BatalBatchToolStripMenuItem"
+        Me.BatalBatchToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.BatalBatchToolStripMenuItem.Text = "Batal Batch"
+        '
         'N_EMI_Display_Request_Material_QC_Summary
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
@@ -947,6 +963,7 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         Me.Panel_QC.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.CM_Batal_TF_Material_QC.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1026,4 +1043,6 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
     Friend WithEvents Panel16 As Panel
     Friend WithEvents Lv_BahanQC As ListView
     Friend WithEvents CetakUlangFakturToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CM_Batal_TF_Material_QC As ContextMenuStrip
+    Friend WithEvents BatalBatchToolStripMenuItem As ToolStripMenuItem
 End Class

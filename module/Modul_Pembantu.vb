@@ -387,10 +387,65 @@ Public Class Modul_Pembantu
 
     End Sub
 
+    '======================================================================================================================================================
+    '=     UNTUK KONTEKS MENU MUNCUL HANYA KETIKA ITEMS ADA ATAU DI SELECT
+    '======================================================================================================================================================
+    ' Event On Oppening of Context Menu
+    Private Sub Konteks_menu_condition(sender As Object, e As System.ComponentModel.CancelEventArgs)
+        'If Lv_PR.Items.Count = 0 Then
+        '    e.Cancel = True
+        '    Exit Sub
+        'End If
+
+
+        ''=========================================================
+        ''=     CEK APAKAH MOUSE BERADA DI ATAS ROWS LISTVIEW     =
+        ''=========================================================
+        'Dim mousePos As Point = Lv_PR.PointToClient(Cursor.Position)
+        'Dim info As ListViewHitTestInfo = Lv_PR.HitTest(mousePos)
+
+        'If info.Item Is Nothing Then
+        '    e.Cancel = True
+        '    Exit Sub
+        'End If
+
+        'Lv_PR.FocusedItem = info.Item
+        'info.Item.Selected = True
+    End Sub
 
 
 
+    '======================================================================================================================================================
+    '=     UNTUK CEGAK AGAR KETIKA TITLE BAR DOUBLE KLIK TIDAK MAXIMIZED
+    '======================================================================================================================================================
+    'Protected Overrides Sub WndProc(ByRef m As Message)
+    '    ' WM_NCLBUTTONDBLCLK = 0xA3 (double click di title bar)
+    '    If m.Msg = &HA3 Then
+    '        Return  ' Abaikan pesan, sehingga form tidak maximize
+    '    End If
 
+    '    MyBase.WndProc(m)
+    'End Sub
+
+
+    '======================================================================================================================================================
+    '=     UNTUK MOUSE BERUBAH JIKA DI ATAS ROW
+    '======================================================================================================================================================
+    'Private Sub Lv_Data_MouseMove(sender As Object, e As MouseEventArgs) Handles Lv_Data.MouseMove
+    '    Dim info As ListViewHitTestInfo = Lv_Data.HitTest(e.Location)
+
+    '    If info.Item IsNot Nothing Then
+    '        ' Mouse sedang berada di atas row
+    '        Lv_Data.Cursor = Cursors.Hand
+    '    Else
+    '        ' Mouse tidak mengenai row
+    '        Lv_Data.Cursor = Cursors.Default
+    '    End If
+    'End Sub
+
+    'Private Sub Lv_Data_MouseLeave(sender As Object, e As EventArgs) Handles Lv_Data.MouseLeave
+    '    Lv_Data.Cursor = Cursors.Default
+    'End Sub
 
 
 End Class

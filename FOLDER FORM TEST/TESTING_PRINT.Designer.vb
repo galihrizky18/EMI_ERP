@@ -35,6 +35,7 @@ Partial Class TESTING_PRINT
         Me.Button9 = New System.Windows.Forms.Button()
         Me.Button10 = New System.Windows.Forms.Button()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.Button11 = New System.Windows.Forms.Button()
         CType(Me.Barcode, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -144,6 +145,15 @@ Partial Class TESTING_PRINT
         Me.TextBox1.Size = New System.Drawing.Size(190, 20)
         Me.TextBox1.TabIndex = 3
         '
+        'Button11
+        '
+        Me.Button11.Location = New System.Drawing.Point(22, 193)
+        Me.Button11.Name = "Button11"
+        Me.Button11.Size = New System.Drawing.Size(135, 43)
+        Me.Button11.TabIndex = 0
+        Me.Button11.Text = "Testing Print LX"
+        Me.Button11.UseVisualStyleBackColor = True
+        '
         'TESTING_PRINT
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -153,6 +163,7 @@ Partial Class TESTING_PRINT
         Me.Controls.Add(Me.Barcode)
         Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.Button10)
+        Me.Controls.Add(Me.Button11)
         Me.Controls.Add(Me.Button9)
         Me.Controls.Add(Me.Button8)
         Me.Controls.Add(Me.Button7)
@@ -182,4 +193,5 @@ Partial Class TESTING_PRINT
     Friend WithEvents Button9 As Button
     Friend WithEvents Button10 As Button
     Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents Button11 As Button
 End Class

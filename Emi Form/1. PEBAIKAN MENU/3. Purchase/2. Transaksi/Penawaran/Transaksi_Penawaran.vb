@@ -20,6 +20,8 @@ Public Class Transaksi_Penawaran
 
     Dim lvKdBrg, lvNmBrg, lvMinOrder, lvSatuan, lvHrgSatuan, lvsisahari, lvMUA As String
 
+    Public arr2Satuan As New List(Of List(Of String))
+
     'Public cellCheckbox As Integer = 0
     Public cellKdBrg As Integer = 0
 
@@ -30,6 +32,9 @@ Public Class Transaksi_Penawaran
     Public cellMUA As Integer = 5
     Public cellHrgSatuan As Integer = 6
     Public cellSisaHari As Integer = 7
+
+
+    Dim switchAutoComplate As Boolean = False
 
     Private Sub get_no_faktur()
         TxtPenawaran_NoFaktur.Text = fMasterPenawaran & Format(tgl_skg, "MMyy") & "-" &
@@ -660,6 +665,8 @@ Public Class Transaksi_Penawaran
         TxtPO_KdSupplier.ReadOnly = False
         TxtPO_NmSupplier.ReadOnly = False
 
+        switchAutoComplate = True
+
         DgvMaster_Penawaran.ReadOnly = False
         Btn_PilihBarang.Enabled = True
 
@@ -728,6 +735,8 @@ Public Class Transaksi_Penawaran
         Txt_Berat.Text = ""
         Cmb_SatuanBerat.SelectedIndex = -1
 
+        arr2Satuan.Clear()
+
         DgvMaster_Penawaran.Rows.Clear()
         DgvMaster_Penawaran.Rows.Add(1)
         LoadDataPenawaran()
@@ -776,6 +785,19 @@ Public Class Transaksi_Penawaran
         ElseIf Txt_NoPenawaran.Text.Trim.Length = 0 Then
             MessageBox.Show(Base_Language.Lang_Penawaran_NoPenawaran & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Txt_NoPenawaran.Focus() : Exit Sub
+        End If
+
+        If cmb_JenisBayar.SelectedIndex = -1 Then
+            MessageBox.Show("Jenis Bayar Harus Dipilih Dahulu . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            cmb_JenisBayar.DroppedDown = True
+            cmb_JenisBayar.Focus() : Exit Sub
+
+        ElseIf cmb_JenisBayar.SelectedIndex = 1 Then
+            If cmbJenisPengiriman.SelectedIndex = -1 Then
+                MessageBox.Show("Jenis Pengiriman Harus Dipilih Dahulu . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                cmbJenisPengiriman.DroppedDown = True
+                cmbJenisPengiriman.Focus() : Exit Sub
+            End If
         End If
 
         If Format(Dtp_Tgl.Value, "yyyy-MM-dd") > Format(Dtp_PeriodAkhir.Value, "yyyy-MM-dd") Then
@@ -865,22 +887,70 @@ Public Class Transaksi_Penawaran
                             End If
                         End Using
 
-                        Dim harga_satuan_kecil As Double = 0
-                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','UANG','" & lvKdBrg & "',"
-                        SQL = SQL & "'" & lvSatuan & "','" & Satuan_Barang & "', "
-                        SQL = SQL & "'" & HilangkanTanda(lvHrgSatuan) & "') as Hasil "
-                        Using dr = OpenTrans(SQL)
-                            If dr.Read Then
-                                harga_satuan_kecil = dr("hasil")
+                        'Dim harga_satuan_kecil As Double = 0
+                        'SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','UANG','" & lvKdBrg & "',"
+                        'SQL = SQL & "'" & lvSatuan & "','" & Satuan_Barang & "', "
+                        'SQL = SQL & "'" & HilangkanTanda(lvHrgSatuan) & "') as Hasil "
+                        'Using dr = OpenTrans(SQL)
+                        '    If dr.Read Then
+                        '        harga_satuan_kecil = dr("hasil")
+                        '    End If
+                        'End Using
+
+                        '=======================
+                        '=     UBAH SATUAN     =
+                        '=======================
+                        Dim min_order_satuan_kecil As Double = 0
+                        Dim Satuan_Dasar As String = ""
+                        SQL = "select isnull((" & HilangkanTanda(lvMinOrder) & " * a.Nilai), 0) as Hasil, "
+                        SQL = SQL & "isnull((select z.Satuan from N_EMI_Master_Satuan z "
+                        SQL = SQL & "where a.Kode_Perusahaan = z.Kode_Perusahaan "
+                        SQL = SQL & "and a.Kode_Barang = z.Kode_Barang "
+                        SQL = SQL & "and z.Flag_Dasar = 'Y' "
+                        SQL = SQL & "), '-') as Satuan_Dasar "
+                        SQL = SQL & "from N_EMI_Master_Satuan a "
+                        SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                        SQL = SQL & "and a.Kode_Barang = '" & lvKdBrg & "' "
+                        SQL = SQL & "and a.Satuan = '" & lvSatuan & "' "
+                        Using Dr = OpenTrans(SQL)
+                            If Dr.Read Then
+                                min_order_satuan_kecil = Dr("hasil")
+                                Satuan_Dasar = Dr("Satuan_Dasar")
+                            Else
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("Nilai Pengali Satuan Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
                             End If
                         End Using
 
+
+                        '======================
+                        '=     GET NILAI      =
+                        '======================
+                        Dim Nilai_Pengali As Double = 0
+                        SQL = "select Nilai from N_EMI_Master_Satuan where kode_perusahaan = '" & KodePerusahaan & "' "
+                        SQL = SQL & "and Kode_Barang = '" & lvKdBrg & "' and Satuan = '" & lvSatuan & "' "
+                        Using Dr = OpenTrans(SQL)
+                            If Dr.Read Then
+                                Nilai_Pengali = Dr("Nilai")
+                            Else
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("Nilai Pengali Satuan Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+                        End Using
+
+                        Dim harga_per_satuan_dasar As Double = Math.Round(Val(HilangkanTanda(lvHrgSatuan)) / Nilai_Pengali, 4)
+
+
                         SQL = "Insert into EMI_Master_Penawaran_Detail "
                         SQL = SQL & "(Kode_Perusahaan, No_Faktur, Kode_Barang, "
-                        SQL = SQL & "Min_Order, Satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang) "
+                        SQL = SQL & "Min_Order, Satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang, Min_Order_Input, Satuan_Input) "
                         SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & lvKdBrg & "', "
-                        SQL = SQL & "'" & HilangkanTanda(lvMinOrder) & "', '" & lvSatuan & "', '" & HilangkanTanda(lvHrgSatuan) & "', "
-                        SQL = SQL & " '" & harga_satuan_kecil & "','" & Satuan_Barang & "', '" & lvMUA & "') "
+                        SQL = SQL & "'" & HilangkanTanda(min_order_satuan_kecil) & "', '" & Satuan_Dasar & "', '" & HilangkanTanda(Val(HilangkanTanda(lvHrgSatuan))) & "', "
+                        SQL = SQL & " '" & HilangkanTanda(Val(HilangkanTanda(harga_per_satuan_dasar))) & "','" & Satuan_Barang & "', '" & lvMUA & "', '" & HilangkanTanda(lvMinOrder) & "', '" & lvSatuan & "') "
                         ExecuteTrans(SQL)
 
                     End If
@@ -977,17 +1047,65 @@ Public Class Transaksi_Penawaran
                                         End If
                                     End Using
 
+                                    '=======================
+                                    '=     UBAH SATUAN     =
+                                    '=======================
+                                    Dim min_order_satuan_kecil As Double = 0
+                                    Dim Satuan_Dasar As String = ""
+                                    SQL = "select isnull((" & HilangkanTanda(lvMinOrder) & " * a.Nilai), 0) as Hasil, "
+                                    SQL = SQL & "isnull((select z.Satuan from N_EMI_Master_Satuan z "
+                                    SQL = SQL & "where a.Kode_Perusahaan = z.Kode_Perusahaan "
+                                    SQL = SQL & "and a.Kode_Barang = z.Kode_Barang "
+                                    SQL = SQL & "and z.Flag_Dasar = 'Y' "
+                                    SQL = SQL & "), '-') as Satuan_Dasar "
+                                    SQL = SQL & "from N_EMI_Master_Satuan a "
+                                    SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                    SQL = SQL & "and a.Kode_Barang = '" & lvKdBrg & "' "
+                                    SQL = SQL & "and a.Satuan = '" & lvSatuan & "' "
+                                    Using Dr = OpenTrans(SQL)
+                                        If Dr.Read Then
+                                            min_order_satuan_kecil = Dr("hasil")
+                                            Satuan_Dasar = Dr("Satuan_Dasar")
+                                        Else
+                                            CloseTrans()
+                                            CloseConn()
+                                            MessageBox.Show("Nilai Pengali Satuan Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            Exit Sub
+                                        End If
+                                    End Using
+
+                                    '======================
+                                    '=     GET NILAI      =
+                                    '======================
+                                    Dim Nilai_Pengali As Double = 0
+                                    SQL = "select Nilai from N_EMI_Master_Satuan where kode_perusahaan = '" & KodePerusahaan & "' "
+                                    SQL = SQL & "and Kode_Barang = '" & lvKdBrg & "' and Satuan = '" & lvSatuan & "' "
+                                    Using Dr = OpenTrans(SQL)
+                                        If Dr.Read Then
+                                            Nilai_Pengali = Dr("Nilai")
+                                        Else
+                                            CloseTrans()
+                                            CloseConn()
+                                            MessageBox.Show("Nilai Pengali Satuan Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            Exit Sub
+                                        End If
+                                    End Using
+
+                                    Dim harga_per_satuan_dasar As Double = Math.Round(Val(HilangkanTanda(lvHrgSatuan)) / Nilai_Pengali, 4)
+
+
 
 
                                     '============================
                                     '=     INSERT DATA BARU     =
                                     '============================
+
                                     SQL = "Insert into EMI_Master_Penawaran_Detail "
                                     SQL = SQL & "(Kode_Perusahaan, No_Faktur, Kode_Barang, "
-                                    SQL = SQL & "Min_Order, Satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang) "
+                                    SQL = SQL & "Min_Order, Satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang, Min_Order_Input, Satuan_Input) "
                                     SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & lvKdBrg & "', "
-                                    SQL = SQL & "'" & HilangkanTanda(lvMinOrder) & "', '" & lvSatuan & "', '" & HilangkanTanda(lvHrgSatuan) & "', "
-                                    SQL = SQL & " '" & harga_satuan_kecil & "', '" & Satuan_Barang & "', '" & lvMUA & "') "
+                                    SQL = SQL & "'" & HilangkanTanda(min_order_satuan_kecil) & "', '" & Satuan_Dasar & "', '" & HilangkanTanda(Val(HilangkanTanda(lvHrgSatuan))) & "', "
+                                    SQL = SQL & " '" & HilangkanTanda(Val(HilangkanTanda(harga_per_satuan_dasar))) & "','" & Satuan_Barang & "', '" & lvMUA & "', '" & HilangkanTanda(lvMinOrder) & "', '" & lvSatuan & "') "
                                     ExecuteTrans(SQL)
 
                                 Next
@@ -1009,7 +1127,7 @@ Public Class Transaksi_Penawaran
 
             Cmd.Transaction.Commit()
             CloseConn()
-            MessageBox.Show(Base_Language.Lang_Global_Sukses_Simpan, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show(Base_Language.Lang_Global_Sukses_Simpan, Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
             CloseTrans()
             CloseConn()
@@ -1157,7 +1275,7 @@ Public Class Transaksi_Penawaran
                                         SQL = SQL & "'" & KodePerusahaan & "', '" & Dsm.Tables("MyTable").Rows(iii).Item("kode_stock_owner_import") & "', "
                                         SQL = SQL & "'" & lvKdBrg & "','" & kode_supplier & "',"
                                         SQL = SQL & "'" & nama & "', '" & "Utama" & "', '" & lvMUA & "', "
-                                        SQL = SQL & "'" & lvHrgSatuan & "','" & satuan_kirim & "', '" & "T" & "')"
+                                        SQL = SQL & "" & Val(HilangkanTanda(lvHrgSatuan)) & ",'" & satuan_kirim & "', '" & "T" & "')"
                                         ExecuteTrans(SQL)
                                     Next
                                 Else
@@ -1466,6 +1584,7 @@ Public Class Transaksi_Penawaran
     End Sub
 
     Private Sub TxtPO_KdSupplier_TextChanged(sender As Object, e As EventArgs) Handles TxtPO_KdSupplier.TextChanged
+        If switchAutoComplate = False Then Exit Sub
         If TxtPO_KdSupplier.Text.Trim.Length = 0 Then
             LvAutoCompleteSupplier.Location = New Point(1142, 90)
             LvAutoCompleteSupplier.Visible = False
@@ -1550,7 +1669,9 @@ Public Class Transaksi_Penawaran
 
                     TxtPenawaran_NoFaktur.Text = Dr("No_Faktur")
                     Txt_NoPenawaran.Text = Dr("No_Penawaran")
+                    switchAutoComplate = False
                     TxtPO_KdSupplier.Text = Dr("Kode_Supplier")
+                    switchAutoComplate = True
                     Txt_NoUrut.Text = Dr("NoUrut")
                     Txt_NoUrut_JatuhTempo.Text = ""
 
@@ -1660,11 +1781,13 @@ Public Class Transaksi_Penawaran
 
                 End If
 
+                arr2Satuan.Clear()
+
                 '===========================
                 '=     LOAD BAHAN BAKU     =
                 '===========================
                 SQL = "select a.Kode_Perusahaan, a.No_Faktur, b.Kode_Barang, c.Nama, c.Kode_Kategori_Besar, c.Kode_Kategori_Kecil, d.Kode_Group_Jenis, c.Flag_PPN, "
-                SQL = SQL & "b.Min_Order, b.Satuan, b.Mata_Uang, b.Harga_Satuan "
+                SQL = SQL & "b.Min_Order, b.Satuan, b.Mata_Uang, b.Harga_Satuan, b.satuan_input "
                 SQL = SQL & "from EMI_Master_Penawaran a, EMI_Master_Penawaran_Detail b, barang c, EMI_Group_Jenis d "
                 SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan "
                 SQL = SQL & "and a.No_Faktur = b.No_Faktur "
@@ -1674,7 +1797,7 @@ Public Class Transaksi_Penawaran
                 SQL = SQL & "and d.Flag_Penawaran = 'Y' "
                 SQL = SQL & "and a.No_Faktur = '" & TxtPenawaran_NoFaktur.Text & "' "
                 SQL = SQL & "group by a.Kode_Perusahaan, a.No_Faktur,b.Kode_Barang, c.Nama, c.Kode_Kategori_Besar, c.Kode_Kategori_Kecil, d.Kode_Group_Jenis, c.Flag_PPN, "
-                SQL = SQL & "b.Min_Order, b.Satuan, b.Mata_Uang, b.Harga_Satuan "
+                SQL = SQL & "b.Min_Order, b.Satuan, b.Mata_Uang, b.Harga_Satuan, b.satuan_input "
                 Using ds = BindingTrans(SQL)
                     With ds.Tables("MyTable")
                         If .Rows.Count <> 0 Then
@@ -1690,23 +1813,96 @@ Public Class Transaksi_Penawaran
                                     DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellPPN).Value = "No PPN"
                                 End If
 
-                                SQL = "select satuan, flag_tampil_display from barang_detail_Satuan where Kode_Barang ='" & .Rows(i).Item("kode_barang") & "'  and Kode_Perusahaan='" & KodePerusahaan & "' "
-                                SQL = SQL & "and Flag_Tampil_Display = 'Y'"
-                                Using Ds2 = BindingTrans(SQL)
+                                'SQL = "select satuan, flag_tampil_display from barang_detail_Satuan where Kode_Barang ='" & .Rows(i).Item("kode_barang") & "'  and Kode_Perusahaan='" & KodePerusahaan & "' "
+                                'SQL = SQL & "and Flag_Tampil_Display = 'Y'"
+                                'Using Ds2 = BindingTrans(SQL)
 
-                                    For indexBaru As Integer = 0 To Ds2.Tables("MyTable").Rows.Count - 1
-                                        DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan).Value = Ds2.Tables("MyTable").Rows(indexBaru).Item("satuan")
-                                    Next
+                                '    For indexBaru As Integer = 0 To Ds2.Tables("MyTable").Rows.Count - 1
+                                '        DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan).Value = Ds2.Tables("MyTable").Rows(indexBaru).Item("satuan")
+                                '    Next
+                                'End Using
+
+                                Dim subArrSatuan As New List(Of String)
+
+                                Dim dgvCmbValueSatuan As DataGridViewComboBoxCell
+                                dgvCmbValueSatuan = DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan)
+                                dgvCmbValueSatuan.Items.Clear()
+
+                                SQL = "select Satuan, Flag_Default from N_EMI_Master_Satuan where Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Barang = '" & .Rows(i).Item("kode_barang") & "' order by Satuan"
+                                Using Ds2 = BindingTrans(SQL)
+                                    If Ds2.Tables("MyTable").Rows.Count <> 0 Then
+                                        For j As Integer = 0 To Ds2.Tables("MyTable").Rows.Count - 1
+
+                                            dgvCmbValueSatuan.Items.Add(Ds2.Tables("MyTable").Rows(j).Item("Satuan"))
+
+
+                                            If General_Class.CekNULL(.Rows(i).Item("satuan_input")).Trim.ToUpper = Ds2.Tables("MyTable").Rows(j).Item("Satuan").ToString.Trim.ToUpper Then
+                                                dgvCmbValueSatuan.Value = Ds2.Tables("MyTable").Rows(j).Item("Satuan")
+                                            End If
+
+                                            subArrSatuan.Add(Ds2.Tables("MyTable").Rows(j).Item("Satuan"))
+
+                                        Next
+                                    End If
                                 End Using
 
+                                arr2Satuan.Add(subArrSatuan)
+
+                                '=======================
+                                '=     UBAH SATUAN     =
+                                '=======================
+
+                                Dim asdsa As Double = .Rows(i).Item("Harga_Satuan")
+                                Dim Satuan_Dasar As String = ""
+                                SQL = "select isnull((" & HilangkanTanda(.Rows(i).Item("Harga_Satuan")) & " * a.Nilai), 0) as Hasil, "
+                                SQL = SQL & "isnull((select z.Satuan from N_EMI_Master_Satuan z "
+                                SQL = SQL & "where a.Kode_Perusahaan = z.Kode_Perusahaan "
+                                SQL = SQL & "and a.Kode_Barang = z.Kode_Barang "
+                                SQL = SQL & "and z.Flag_Dasar = 'Y' "
+                                SQL = SQL & "), '-') as Satuan_Dasar "
+                                SQL = SQL & "from N_EMI_Master_Satuan a "
+                                SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                SQL = SQL & "and a.Kode_Barang = '" & .Rows(i).Item("kode_barang") & "' "
+                                SQL = SQL & "and a.Satuan = '" & .Rows(i).Item("satuan_input") & "' "
+                                Using Ds2 = BindingTrans(SQL)
+                                    If Ds2.Tables("MyTable").Rows.Count <> 0 Then
+                                        For j As Integer = 0 To Ds2.Tables("MyTable").Rows.Count - 1
+                                            Satuan_Dasar = Ds2.Tables("MyTable").Rows(j).Item("Satuan_Dasar")
+                                        Next
+                                    Else
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Nilai Pengali Satuan Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+                                End Using
+
+                                Dim MinOrder As Double = 0
+                                SQL = "select dbo.Ubah_Satuan_Baru('" & KodePerusahaan & "', '" & .Rows(i).Item("kode_barang").ToString.Trim & "', '" & .Rows(i).Item("Satuan") & "', '" & .Rows(i).Item("satuan_input") & "', " & .Rows(i).Item("Min_Order") & ", 'masa') as Hasil"
+                                Using Ds2 = BindingTrans(SQL)
+                                    If Ds2.Tables("MyTable").Rows.Count <> 0 Then
+                                        For j As Integer = 0 To Ds2.Tables("MyTable").Rows.Count - 1
+                                            MinOrder = Ds2.Tables("MyTable").Rows(j).Item("Hasil")
+                                        Next
+                                    Else
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Nilai Pengali Satuan Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+                                End Using
+
+                                'Dim HargaS
+                                'atuan As Double = Val(HilangkanTanda(.Rows(i).Item("Harga_Satuan"))) / Val(HilangkanTanda(.Rows(i).Item("Min_Order")))
+
+
                                 'Load Isian
-                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellMinOrder).Value = Format(.Rows(i).Item("Min_Order"), "N2")
+                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellMinOrder).Value = Format(MinOrder, "N2")
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellMUA).Value = .Rows(i).Item("Mata_Uang")
-                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellHrgSatuan).Value = Format(.Rows(i).Item("Harga_Satuan"), "N4")
+                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellHrgSatuan).Value = Format(Val(HilangkanTanda(.Rows(i).Item("Harga_Satuan"))), "N4")
 
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellKdBrg).ReadOnly = True
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellNmBrg).ReadOnly = True
-                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan).ReadOnly = True
 
                                 DgvMaster_Penawaran.Rows(IndexTambahan).DefaultCellStyle.BackColor = Color.LightYellow
 
@@ -2107,6 +2303,8 @@ Public Class Transaksi_Penawaran
         If e.KeyChar = Chr(13) Then DgvMaster_Penawaran.Focus()
     End Sub
 
+
+
     Private Sub Cmb_KecAsal_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_KecAsal.KeyPress
         If e.KeyChar = Chr(13) Then Cmb_KelAsal.Focus()
     End Sub
@@ -2291,9 +2489,19 @@ Public Class Transaksi_Penawaran
             Lv_AutoCompleteNmEkspedisi_DoubleClick(Lv_AutoCompleteNmEkspedisi, e)
         End If
     End Sub
+    Private Sub DgvMaster_Penawaran_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DgvMaster_Penawaran.CellClick
+        If DgvMaster_Penawaran.CurrentRow Is Nothing OrElse e.RowIndex < 0 Then Exit Sub
 
-    Private Sub LvAutoCompleteSupplier_ParentChanged(sender As Object, e As EventArgs) Handles LvAutoCompleteSupplier.ParentChanged
+        If e.ColumnIndex = cellSatuan OrElse e.ColumnIndex = cellMUA Then
+            DgvMaster_Penawaran.BeginEdit(True)
 
+            Application.DoEvents()
+            Dim combo = TryCast(DgvMaster_Penawaran.EditingControl, System.Windows.Forms.ComboBox)
+            If combo IsNot Nothing Then
+                combo.DroppedDown = True
+            End If
+
+        End If
     End Sub
 
 

@@ -21,7 +21,7 @@
 
         Cmb_ParamLain.Items.Clear() : arrParamLain.Clear() : arrParamLainSF.Clear()
         Cmb_ParamLain.Items.Add(OpsiSeluruh) : arrParamLain.Add(OpsiSeluruh) : arrParamLainSF.Add(OpsiSeluruh)
-        Cmb_ParamLain.Items.Add("User ID") : arrParamLain.Add("UserId") : arrParamLainSF.Add("{View_Laporan_Transfer_Stock.UserId}")
+        Cmb_ParamLain.Items.Add("User ID") : arrParamLain.Add("UserId") : arrParamLainSF.Add("{View_Laporan_Split_Stock.UserId}")
         Cmb_ParamLain.SelectedIndex = 0
         Txt_ParamLain.Text = ""
 

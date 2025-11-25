@@ -24,7 +24,7 @@ Public Class Transfer_Stock_3
 
     Dim dgv_detail_lokasi, dgv_detail_KdBarang, dgv_detail_SN, dgv_detail_NmBarang, dgv_detail_IDWarehouseAwal, dgv_detail_KodeRakAwal As String
     Dim dgv_detail_IDPalletAwal, dgv_detail_Jumlah, dgv_detail_JumlahBags, dgv_detail_KodeRakTujuan, dgv_detail_IDWarehouseTujuan As String
-    Dim dgv_detail_Warna, dgv_detail_JenisKemasan, dgv_detail_TglProduksi, dgv_detail_TglExpired, dgv_detail_JenisKualitas, dgv_detail_Barcode, dgv_detail_JnsTransfer As String
+    Dim dgv_detail_Warna, dgv_detail_JenisKemasan, dgv_detail_TglProduksi, dgv_detail_TglExpired, dgv_detail_JenisKualitas, dgv_detail_Barcode, dgv_detail_JnsTransfer, dgv_detail_Satuan As String
 
     Dim kd_barang As String
 
@@ -69,7 +69,6 @@ Public Class Transfer_Stock_3
 
     'Tab 2
     Dim itemDgvRekap_lokasi As Integer = 0
-
     Dim itemDgvRekap_KdBarang As Integer = 1
     Dim itemDgvRekap_NmBarang As Integer = 2
     Dim itemDgvRekap_Jumlah As Integer = 3
@@ -81,17 +80,10 @@ Public Class Transfer_Stock_3
     Dim itemDgvRekap_JnsTransfer As Integer = 9
     Dim itemDgvRekap_OtoGen As Integer = 10
 
-    Private Sub DGV_Data_TF_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Data_TF.CellContentClick
 
-    End Sub
-
-    Private Sub Txt_QR_TextChanged(sender As Object, e As EventArgs) Handles Txt_QR.TextChanged
-
-    End Sub
 
     'Tab 3
     Dim itemDgvDetail_lokasi As Integer = 0
-
     Dim itemDgvDetail_KdBarang As Integer = 1
     Dim itemDgvDetail_SN As Integer = 2
     Dim itemDgvDetail_NmBarang As Integer = 3
@@ -109,11 +101,13 @@ Public Class Transfer_Stock_3
     Dim itemDgvDetail_JenisKualitas As Integer = 15
     Dim itemDgvDetail_Barcode As Integer = 16
     Dim itemDgvDetail_JnsTransfer As Integer = 17
+    Dim itemDgvDetail_Satuan As Integer = 18
 
     'Dim itemDgvIDWareHouseTujuan As Integer = 10
 
-    Dim index_waste As Integer = -1
+    Dim index_waste As Integer = -2
 
+    Dim isProduction As Boolean = False
     Private Sub Transfer_Stock_3_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
@@ -203,6 +197,7 @@ Public Class Transfer_Stock_3
         dgv_detail_JenisKualitas = Dgv_DataDetail.Rows(index).Cells(itemDgvDetail_JenisKualitas).Value
         dgv_detail_Barcode = Dgv_DataDetail.Rows(index).Cells(itemDgvDetail_Barcode).Value
         dgv_detail_JnsTransfer = Dgv_DataDetail.Rows(index).Cells(itemDgvDetail_JnsTransfer).Value
+        dgv_detail_Satuan = Dgv_DataDetail.Rows(index).Cells(itemDgvDetail_Satuan).Value
 
     End Sub
 
@@ -225,7 +220,23 @@ Public Class Transfer_Stock_3
     Public Sub kosong()
         get_jam()
 
+        DGV_Data_TF.Columns(itemDgvWarna).DisplayIndex = 6
+        DGV_Data_TF.Columns(itemDGVKetWarna).DisplayIndex = 4
+        DGV_Data_TF.Columns(itemDGVTglExp).DisplayIndex = 4
+        DGV_Data_TF.Columns(itemDGVTglProd).DisplayIndex = 4
+        DGV_Data_TF.Columns(itemDGVBarcode).DisplayIndex = 6
+        DGV_Data_TF.Columns(itemDgvSatuan).DisplayIndex = 13
 
+        Dgv_DataDetail.Columns(itemDgvDetail_Barcode).DisplayIndex = 6
+
+        Dgv_DataDetail.Columns(itemDgvDetail_JumlahBags).DisplayIndex = 7
+        Dgv_DataDetail.Columns(itemDgvDetail_Satuan).DisplayIndex = 8
+        Dgv_DataDetail.Columns(itemDgvDetail_Jumlah).DisplayIndex = 9
+
+        Dgv_DataRekap.Columns(itemDgvRekap_JumlahBags).DisplayIndex = 3
+        Dgv_DataRekap.Columns(itemDgvRekap_Satuan).DisplayIndex = 4
+        Dgv_DataRekap.Columns(itemDgvRekap_Jumlah).DisplayIndex = 5
+        Dgv_DataRekap.Columns(itemDgvRekap_SatuanKecil).DisplayIndex = 6
 
         Try
             OpenConn()
@@ -242,7 +253,13 @@ Public Class Transfer_Stock_3
                 End If
             End Using
 
-
+            If Flag_Opname Then
+                DGV_Data_TF.Columns(itemDgvGoodStock).Visible = False
+                'DGV_Data_TF.Columns(itemDgvStockBags).Visible = False
+            Else
+                DGV_Data_TF.Columns(itemDgvGoodStock).Visible = True
+                'DGV_Data_TF.Columns(itemDgvStockBags).Visible = True
+            End If
 
             'get_no_faktur()
             TxtKd_Barang.Enabled = True
@@ -251,14 +268,7 @@ Public Class Transfer_Stock_3
 
             Txt_Jenis_Transfer.Text = ""
 
-            DGV_Data_TF.Columns(itemDgvWarna).DisplayIndex = 6
 
-            DGV_Data_TF.Columns(itemDGVKetWarna).DisplayIndex = 4
-            DGV_Data_TF.Columns(itemDGVTglExp).DisplayIndex = 4
-            DGV_Data_TF.Columns(itemDGVTglProd).DisplayIndex = 4
-
-            DGV_Data_TF.Columns(itemDGVBarcode).DisplayIndex = 6
-            Dgv_DataDetail.Columns(itemDgvDetail_Barcode).DisplayIndex = 6
 
             Cmb_Warna.Items.Clear() : Cmb_Warna.SelectedIndex = -1
             Cmb_Warna.Items.Add("MERAH") : Cmb_Warna.Items.Add("KUNING") : Cmb_Warna.Items.Add("HIJAU")
@@ -343,6 +353,7 @@ Public Class Transfer_Stock_3
         TxtStockDisplay.Text = ""
         TxtMetPotStok.Text = ""
         TxtjmlPermintaanBersih.Text = ""
+        Txt_Urut_Request.Text = ""
 
         TxtsisaRequest.Text = ""
 
@@ -352,6 +363,8 @@ Public Class Transfer_Stock_3
         CmbJnsTransfer.Enabled = True
         CmbSO_Asal.Enabled = False
         CmbSo_Tujuan.Enabled = True
+
+        isProduction = False
 
         DGV_Data_TF.Rows.Clear()
         Dgv_DataRekap.Rows.Clear()
@@ -417,6 +430,9 @@ Public Class Transfer_Stock_3
         TxtTotalTransferBags.Text = ""
         TxtsisaRequest.Text = ""
 
+        Cmb_Satuan_Barang.Text = ""
+        Cmb_Satuan_Barang.Items.Clear()
+
         DGV_Data_TF.Rows.Clear()
 
     End Sub
@@ -427,6 +443,7 @@ Public Class Transfer_Stock_3
 
         Dim currentCell As Integer = DGV_Data_TF.CurrentCell.ColumnIndex
         Dim currentRow As Integer = DGV_Data_TF.CurrentRow.Index
+
 
         Dim cellValue As Object = HilangkanTanda(DGV_Data_TF.Rows(currentRow).Cells(currentCell).Value)
 
@@ -464,6 +481,18 @@ Public Class Transfer_Stock_3
 
         End If
 
+
+        '=====================================
+        '=      BUKA COMBOBOX SAAT CLICK     =
+        '=====================================
+        If e.RowIndex >= 0 AndAlso e.ColumnIndex >= 0 Then
+            If e.RowIndex >= 0 AndAlso e.ColumnIndex = itemDgvRakTujuan Then
+                DGV_Data_TF.BeginEdit(True)
+                Dim combo = TryCast(DGV_Data_TF.EditingControl, ComboBox)
+                If combo IsNot Nothing Then combo.DroppedDown = True
+            End If
+        End If
+
     End Sub
 
     Private Sub DGV_Data_TF_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Data_TF.CellEndEdit
@@ -477,21 +506,26 @@ Public Class Transfer_Stock_3
             TempArray.Clear()
             For i As Integer = 0 To DGV_Data_TF.Columns.Count - 1
 
-                If i <> Val(itemDgvJumlah) AndAlso i <> Val(itemDgvBags) AndAlso i <> Val(itemDgvRakTujuan) AndAlso i <> Val(itemDGVTglExp) AndAlso i <> Val(itemDGVFlagBlokSN) Then
+                If i <> Val(itemDgvJumlah) AndAlso i <> Val(itemDgvBags) AndAlso i <> Val(itemDgvRakTujuan) AndAlso i <> Val(itemDGVTglExp) AndAlso i <> Val(itemDGVFlagBlokSN) AndAlso i <> Val(itemDgvSatuan) Then
                     TempArray.Add(DGV_Data_TF.Rows(indexRow).Cells(i).Value)
                 End If
 
             Next
             If TempArray.Contains("") Then
                 DGV_Data_TF.CurrentRow.Cells(itemDgvCheckBox).Value = False
+                GetGrandTotal()
                 Exit Sub
             End If
 
-            If DGV_Data_TF.CurrentRow.Cells(itemDgvWarna).Value.ToString.ToUpper <> "HIJAU" Then
-                DGV_Data_TF.CurrentRow.Cells(itemDgvCheckBox).Value = False
-                MessageBox.Show("Data Tidak bisa di kirim . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Exit Sub
+            If MenuAsal <> "TRANSFER_WASTE" Then
+                If DGV_Data_TF.CurrentRow.Cells(itemDgvWarna).Value.ToString.ToUpper <> "HIJAU" Then
+                    DGV_Data_TF.CurrentRow.Cells(itemDgvCheckBox).Value = False
+                    MessageBox.Show("Data Tidak bisa di kirim . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    GetGrandTotal()
+                    Exit Sub
+                End If
             End If
+
 
             Dim currentColumn As Integer = DGV_Data_TF.CurrentCell.ColumnIndex
             Dim cellValue As Object = DGV_Data_TF.CurrentRow.Cells(currentColumn).Value
@@ -500,67 +534,190 @@ Public Class Transfer_Stock_3
                 If Not IsNumeric(cellValue) Then
                     DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
                     DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
+                    GetGrandTotal()
                     Exit Sub
                 End If
             End If
 
-            If DGV_Data_TF.CurrentRow.Cells(itemJenisKemasan).Value.ToString.ToUpper = "ORIGINAL BAGS" Then
-                DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).ReadOnly = True
+            'Dim Nilai_Toleransi_Min As Double = 0
+            'Dim Nilai_Toleransi_Max As Double = 0
 
-                If Not DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = "" Then
+            'If isProduction Then
 
-                    Dim stockBags As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvStockBags).Value))
-                    Dim jumlahInputBags As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value))
-                    Dim isiPerbags As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDGVIsiPerBags).Value))
-                    Dim jumlahStock As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvGoodStock).Value))
 
-                    'cek apakah input melebihi
-                    If jumlahInputBags > stockBags Then
-                        MessageBox.Show("Bags Tidak Boleh Melebihi Stock Bags", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
-                        DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
-                        Exit Sub
-                    End If
 
-                    Dim valueJumlah As Double = isiPerbags * jumlahInputBags
+            '    Try
+            '        OpenConn()
 
-                    DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = Format(valueJumlah, "N4")
-                    If valueJumlah > jumlahStock Then
-                        DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = Format(jumlahStock, "N4")
-                        'DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = Math.Floor(jumlahStock / isiPerbags)
-                    Else
-                        DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = Format(valueJumlah, "N4")
-                    End If
+            '        '===============================
+            '        '=     GET NILAI TOLERANSI     =
+            '        '===============================
+            '        Dim Persen_Toleransi_Min As Double = 0
+            '        Dim Persen_Toleransi_Max As Double = 0
+            '        SQL = "select Toleransi_Tf_Min, Toleransi_Tf_Max from barang where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            '        SQL = SQL & "and Kode_Stock_Owner = '" & arrSO(CmbSO_Asal.SelectedIndex) & "' and Kode_Barang = '" & DGV_Data_TF.CurrentRow.Cells(itemDgvKodeBarang).Value & "' "
+            '        Using Dr = OpenTrans(SQL)
+            '            If Dr.Read Then
+            '                Persen_Toleransi_Min = Dr("Toleransi_Tf_Min")
+            '                Persen_Toleransi_Max = Dr("Toleransi_Tf_Max")
+            '            End If
+            '        End Using
 
-                End If
-            Else
-                DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).ReadOnly = False
+            '        Nilai_Toleransi_Min = Val(HilangkanTanda(TxtjmlPermintaanBersih.Text)) - (Val(HilangkanTanda(TxtjmlPermintaanBersih.Text)) * (Persen_Toleransi_Min / 100))
+            '        Nilai_Toleransi_Max = Val(HilangkanTanda(TxtjmlPermintaanBersih.Text)) + (Val(HilangkanTanda(TxtjmlPermintaanBersih.Text)) * (Persen_Toleransi_Max / 100))
 
-                Dim jumlahStock As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvGoodStock).Value))
-                Dim jumlahInput As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value))
-                Dim stockBags As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvStockBags).Value))
-                Dim jumlahInputBags As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value))
 
-                If jumlahInput > jumlahStock Then
-                    MessageBox.Show("Jumlah Tidak Boleh Melebihi Stock ", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
-                    DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
-                    Exit Sub
-                End If
+            '        CloseConn()
+            '    Catch ex As Exception
+            '        CloseConn()
+            '        MessageBox.Show(ex.Message)
+            '        Exit Sub
+            '    End Try
 
-                'cek apakah input melebihi
-                If jumlahInputBags > stockBags Then
-                    MessageBox.Show("Bags Tidak Boleh Melebihi Stock Bags", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
-                    Exit Sub
-                End If
 
+            'End If
+
+
+            'If DGV_Data_TF.CurrentRow.Cells(itemJenisKemasan).Value.ToString.ToUpper = "ORIGINAL BAGS" Then
+            '    DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).ReadOnly = False
+
+            '    If Not DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = "" Then
+
+            '        Dim stockBags As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvStockBags).Value))
+            '        Dim jumlahInputBags As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value))
+            '        Dim isiPerbags As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDGVIsiPerBags).Value))
+            '        Dim jumlahStock As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvGoodStock).Value))
+
+            '        'cek apakah input melebihi
+            '        If jumlahInputBags > stockBags Then
+            '            MessageBox.Show("Bags Tidak Boleh Melebihi Stock Bags", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '            DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
+            '            DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
+            '            Exit Sub
+            '        End If
+
+            '        Dim valueJumlah As Double = isiPerbags * jumlahInputBags
+
+            '        'If isProduction Then
+            '        '    If currentColumn = itemDgvBags OrElse currentColumn = itemDgvJumlah Then
+            '        '        If valueJumlah < Nilai_Toleransi_Min Then
+            '        '            MessageBox.Show("Jumlah Kurang Dari Jumlah Request", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '        '            DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
+            '        '            DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
+            '        '            Exit Sub
+            '        '        ElseIf valueJumlah > Nilai_Toleransi_Max Then
+            '        '            MessageBox.Show("Jumlah Lebih Dari Jumlah Request", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '        '            DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
+            '        '            DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
+            '        '            Exit Sub
+            '        '        End If
+            '        '    End If
+            '        'End If
+
+            '        DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = Format(valueJumlah, "N4")
+            '        If valueJumlah > jumlahStock Then
+            '            DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = Format(jumlahStock, "N4")
+            '            'DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = Math.Floor(jumlahStock / isiPerbags)
+            '        Else
+            '            DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = Format(valueJumlah, "N4")
+            '        End If
+
+
+
+            '    End If
+            'Else
+            '    DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).ReadOnly = False
+
+            '    Dim jumlahStock As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvGoodStock).Value))
+            '    Dim jumlahInput As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value))
+            '    Dim stockBags As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvStockBags).Value))
+            '    Dim jumlahInputBags As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value))
+
+            '    If jumlahInput > jumlahStock Then
+            '        MessageBox.Show("Jumlah Tidak Boleh Melebihi Stock ", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '        DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
+            '        DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
+            '        Exit Sub
+            '    End If
+
+            '    'cek apakah input melebihi
+            '    If jumlahInputBags > stockBags Then
+            '        MessageBox.Show("Bags Tidak Boleh Melebihi Stock Bags", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '        DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
+            '        Exit Sub
+            '    End If
+
+            '    'If isProduction Then
+            '    '    If currentColumn = itemDgvBags OrElse currentColumn = itemDgvJumlah Then
+            '    '        If jumlahInput < Nilai_Toleransi_Min Then
+            '    '            MessageBox.Show("Jumlah Kurang Dari Jumlah Request", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '    '            DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
+            '    '            DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
+            '    '            Exit Sub
+            '    '        ElseIf jumlahInput > Nilai_Toleransi_Max Then
+            '    '            MessageBox.Show("Jumlah Lebih Dari Jumlah Request", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '    '            DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
+            '    '            DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
+            '    '            Exit Sub
+            '    '        End If
+            '    '    End If
+
+            '    'End If
+
+            'End If
+
+            Dim jumlahStock As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvGoodStock).Value))
+            Dim jumlahInput As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value))
+            Dim stockBags As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvStockBags).Value))
+            Dim jumlahInputBags As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value))
+
+            If jumlahInput < 0 Or jumlahInputBags < 0 Then
+                MessageBox.Show("Jumlah Input Tidak Boleh Minus", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
+                DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
+                GetGrandTotal()
+                Exit Sub
             End If
 
+            Dim JumlahConvert As Double = 0
+            Try
+                OpenConn()
+
+                SQL = "select case when a.Flag_Dasar IS NULL THEN (" & jumlahInputBags & " * a.Nilai) else (" & jumlahInputBags & " * isnull(z.Nilai, 1)) end as Hasil, "
+                SQL = SQL & "isnull(z.Satuan, '-') AS Satuan_Dasar "
+                SQL = SQL & "from N_EMI_Master_Satuan a "
+                SQL = SQL & "left join N_EMI_Master_Satuan z ON a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Barang = z.Kode_Barang and z.Flag_Dasar = 'Y' "
+                SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Barang = '" & TxtKd_Barang.Text & "' and a.Satuan = '" & Cmb_Satuan_Barang.Text & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        JumlahConvert = Dr("Hasil")
+                    End If
+                End Using
+
+                CloseConn()
+            Catch ex As Exception
+                CloseConn()
+                MessageBox.Show(ex.Message)
+                Exit Sub
+            End Try
+
+            If JumlahConvert > jumlahStock Then
+                MessageBox.Show("Jumlah Tidak Boleh Melebihi Stock ", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
+                DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
+                Exit Sub
+            End If
+
+            DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = Format(JumlahConvert, "N4")
+
+            DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).ReadOnly = True
             DGV_Data_TF.CurrentRow.Cells(itemDgvBags).ReadOnly = False
             DGV_Data_TF.CurrentRow.Cells(itemDgvRakTujuan).ReadOnly = False
+
+            DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Style.BackColor = Color.LightGray
         Else
             DGV_Data_TF.CurrentRow.DefaultCellStyle.BackColor = Color.White
+            DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Style.BackColor = Color.White
             DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
             DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
             DGV_Data_TF.CurrentRow.Cells(itemDgvRakTujuan).Value = ""
@@ -661,8 +818,7 @@ Public Class Transfer_Stock_3
 
                 Lv_DetBarang.Items.Clear()
 
-                SQL = "select top(20) a.kode_stock_owner, a.kode_barang, a.nama, dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, a.satuan, "
-                SQL = SQL & "b.satuan, a.good_stock) as Good_Stock, a.Satuan, b.satuan as satuan_display, ISNULL(a.Jumlah_Bags, 0) as Jumlah_Bags, "
+                SQL = "select top(20) a.kode_stock_owner, a.kode_barang, a.nama, a.good_stock as Good_Stock, a.Satuan, b.satuan as satuan_display, ISNULL(a.Jumlah_Bags, 0) as Jumlah_Bags, "
                 SQL = SQL & "a.Satuan_Isi_Bags, a.Metode_Pengeluaran_Stok, a.Jenis_Kemasan from barang a, barang_detail_satuan b "
                 SQL = SQL & "where a.Kode_Perusahaan='" & KodePerusahaan & "' and a.Kode_Stock_Owner='" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
                 SQL = SQL & "and a.kode_barang like '%" & TxtKd_Barang.Text & "%' and a.Kode_Barang=b.kode_barang "
@@ -673,7 +829,7 @@ Public Class Transfer_Stock_3
                         Dim Lv As New ListViewItem
                         Lv = Lv_DetBarang.Items.Add(General_Class.CekNULL(Dr("kode_stock_owner")))
                         Lv.SubItems.Add(General_Class.CekNULL(Dr("kode_barang")))
-                        Lv.SubItems.Add("X")
+                        Lv.SubItems.Add(General_Class.CekNULL(Dr("nama")))
                         If Flag_Opname Then
                             Lv.SubItems.Add(0)
                         Else
@@ -684,7 +840,7 @@ Public Class Transfer_Stock_3
                         If Flag_Opname Then
                             Lv.SubItems.Add(0)
                         Else
-                            Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Jumlah_Bags")) = "", "", Format(Dr("Jumlah_Bags"), "N0")))
+                            Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Jumlah_Bags")) = "", "", Format(Dr("Jumlah_Bags"), "N4")))
                         End If
                         Lv.SubItems.Add(General_Class.CekNULL(Dr("Satuan_Isi_Bags")))
                         Lv.SubItems.Add(General_Class.CekNULL(Dr("Metode_Pengeluaran_Stok")))
@@ -743,6 +899,32 @@ Public Class Transfer_Stock_3
         TxtMetPotStok.Text = lv_DetMetPotStock
         TxtJenisBags.Text = lv_DetJenisBags
 
+        Try
+            OpenConn()
+
+            '======================
+            '=     GET SATUAN     =
+            '======================
+            Cmb_Satuan_Barang.Items.Clear()
+            SQL = "select Satuan, Flag_Default from N_EMI_Master_Satuan where Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Barang = '" & lv_DetKodeBarang & "' order by Satuan"
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Cmb_Satuan_Barang.Items.Add(Dr("Satuan"))
+                    If General_Class.CekNULL(Dr("Flag_Default")) = "Y" Then
+                        Cmb_Satuan_Barang.Text = Dr("Satuan")
+                    End If
+                Loop
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
+
         TxtStockDisplay.Text = Format(Val(HilangkanTanda(lv_DetGoodStock)), "N4") + " " + lv_DetSatuanDIsplay
         'TxtSatuanBags.Text = lv_DetSatuanBags
 
@@ -750,7 +932,8 @@ Public Class Transfer_Stock_3
         Lv_DetBarang.Visible = False
         DGV_Data_TF.Rows.Clear()
 
-        Btn_GetData.Focus()
+        Cmb_Satuan_Barang.DroppedDown = True
+        Cmb_Satuan_Barang.Focus()
     End Sub
 
     Private Sub CmbJnsTransfer_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbJnsTransfer.SelectedIndexChanged
@@ -788,6 +971,11 @@ Public Class Transfer_Stock_3
             End If
         End If
 
+        If Cmb_Satuan_Barang.SelectedIndex = -1 Then
+            MessageBox.Show("Satuan harus dipilih dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Cmb_Satuan_Barang.DroppedDown = True : Cmb_Satuan_Barang.Focus() : Exit Sub
+        End If
+
         If TxtKd_Barang.Text.Trim.Length = 0 Or TxtKd_Barang.Text.Trim = "" Or TxtNm_Barang.Text.Trim.Length = 0 Then Exit Sub
 
         If Cmb_Warna.SelectedIndex = -1 Then
@@ -809,24 +997,32 @@ Public Class Transfer_Stock_3
             arrIdWMSWarehouse.Clear()
             WarehosePosition.Clear()
 
+            Dim lokasiTujuan As String = ""
+
+            If CmbJnsTransfer.SelectedIndex = 0 Then
+                lokasiTujuan = arrSO(CmbSO_Asal.SelectedIndex)
+            ElseIf CmbJnsTransfer.SelectedIndex = 1 Then
+                lokasiTujuan = arrSO(CmbSo_Tujuan.SelectedIndex)
+            End If
+
+
             SQL = "Select a.Id_WMS_Warehouse_Position, a.Keterangan from "
             SQL = SQL & "view_warehouse_position a "
             SQL = SQL & "where a.kode_perusahaan='" & KodePerusahaan & "' "
-
-            If CmbJnsTransfer.SelectedIndex = 0 Then
-                SQL = SQL & "and a.Kode_Stock_Owner='" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
-            ElseIf CmbJnsTransfer.SelectedIndex = 1 Then
-                SQL = SQL & "and a.Kode_Stock_Owner='" & arrSO(CmbSo_Tujuan.SelectedIndex) & "' "
-            End If
-            SQL = SQL & "and isnull((select top(1)  'Y' from view_warehouse_position_detail b where "
-            SQL = SQL & "a.id_wms_warehouse_position = b.id_wms_warehouse_position And a.Kode_Perusahaan = b.KOde_Perusahaan "
-            SQL = SQL & "And b.kode_Barang Is null ),null) ='Y' "
+            'SQL = SQL & "and exists( "
+            'SQL = SQL & "select 1  from dbo.N_EMI_Wharehouse_Position_Fn('" & KodePerusahaan & "', '" & lokasiTujuan & "', null) z "
+            'SQL = SQL & "where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Id_WMS_Warehouse_Position = a.Id_WMS_Warehouse_Position "
+            'SQL = SQL & "and z.Kode_Barang is null) "
+            SQL = SQL & "and a.Kode_Stock_Owner='" & lokasiTujuan & "' "
+            SQL = SQL & "group by a.Id_WMS_Warehouse_Position, a.Keterangan "
             SQL = SQL & "order by a.Keterangan "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     WarehosePosition.Add(Dr("Keterangan")) : arrIdWMSWarehouse.Add(Dr("Id_WMS_Warehouse_Position"))
                 Loop
             End Using
+
+
 
             For index = 0 To Dgv_DataRekap.Rows.Count - 1
                 get_grid_view_Rekap(index)
@@ -852,9 +1048,9 @@ Public Class Transfer_Stock_3
             'SQL = SQL & "and a.Jumlah <> 0 "
             'SQL = SQL & "order by a.Kode_Barang "
 
-            SQL = "Select a.Kode_Stock_Owner, a.Kode_Barang, 'X' as Serial_Number, b.Nama, a.Id_Warehouse, c.Keterangan As kode_rak, a.Id_Nametag_pallet, "
+            SQL = "Select top(40) a.Kode_Stock_Owner, a.Kode_Barang, 'X' as Serial_Number, b.Nama, a.Id_Warehouse, c.Keterangan As kode_rak, a.Id_Nametag_pallet, "
 
-            SQL = SQL & "dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, b.satuan, '" & TxtSatuan.Text & "', sum(a.jumlah)) as jumlah, "
+            SQL = SQL & "sum(a.jumlah) as jumlah, "
 
             SQL = SQL & "b.satuan, 0 As nomor_pallet, isNull(sum(a.Jumlah_Bags), 0) As stock_bags, a.warna, b.Metode_Pengeluaran_Stok, "
             SQL = SQL & "b.Jenis_Kemasan, isNull(b.Isi_Per_Bags, 0) As Isi_Per_Bags, b.Satuan_Isi_Bags, a.Tgl_Expired, a.Tgl_Produksi, a.Tgl_Masuk "
@@ -870,6 +1066,7 @@ Public Class Transfer_Stock_3
             SQL = SQL & "a.Id_Warehouse = c.Id_WMS_Warehouse_Position And a.Jumlah <> 0 And "
             SQL = SQL & "a.Kode_Perusahaan ='" & KodePerusahaan & "' And b.Kode_Stock_Owner ='" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
             SQL = SQL & "And b.Kode_Barang ='" & TxtKd_Barang.Text & "' "
+            SQL = SQL & "And round(a.Jumlah,4) <> 0  "
 
             SQL = SQL & "group by a.Kode_Perusahaan, a.Kode_Stock_Owner, a.Kode_Barang, b.Nama, b.Satuan, a.Id_Warehouse, "
             SQL = SQL & "c.Keterangan, a.Id_Nametag_pallet, a.warna, b.Metode_Pengeluaran_Stok, b.Jenis_Kemasan, "
@@ -883,25 +1080,37 @@ Public Class Transfer_Stock_3
                 Do While Dr.Read
 
                     hasData = True
-                    Dim subArr As New List(Of String)
+                    Dim subArr, subArrSatuan As New List(Of String)
 
                     DGV_Data_TF.Rows.Add(1)
                     DGV_Data_TF.Rows(rows).Cells(itemDgvLokasi).Value = General_Class.CekNULL(Dr("Kode_Stock_Owner"))
                     DGV_Data_TF.Rows(rows).Cells(itemDgvKodeBarang).Value = General_Class.CekNULL(Dr("Kode_Barang"))
                     DGV_Data_TF.Rows(rows).Cells(itemDgvSerialNumber).Value = General_Class.CekNULL(Dr("Serial_Number"))
-                    DGV_Data_TF.Rows(rows).Cells(itemDgvNama).Value = "X"
+                    DGV_Data_TF.Rows(rows).Cells(itemDgvNama).Value = General_Class.CekNULL(Dr("Nama"))
                     DGV_Data_TF.Rows(rows).Cells(itemDgvIDWareHose).Value = General_Class.CekNULL(Dr("Id_Warehouse"))
                     DGV_Data_TF.Rows(rows).Cells(itemDgvKodeRak).Value = General_Class.CekNULL(Dr("kode_rak"))
                     DGV_Data_TF.Rows(rows).Cells(itemDgvIDPallet).Value = General_Class.CekNULL(Dr("nomor_pallet"))
                     DGV_Data_TF.Rows(rows).Cells(itemDgvGoodStock).Value = If(General_Class.CekNULL(Dr("jumlah")) = "", "", Format(Dr("jumlah"), "N4"))
-                    DGV_Data_TF.Rows(rows).Cells(itemDgvStockBags).Value = If(General_Class.CekNULL(Dr("stock_bags")) = "", "", Format(Dr("stock_bags"), "N0"))
+                    DGV_Data_TF.Rows(rows).Cells(itemDgvStockBags).Value = If(General_Class.CekNULL(Dr("stock_bags")) = "", "", Format(Dr("stock_bags"), "N4"))
                     DGV_Data_TF.Rows(rows).Cells(itemDgvWarna).Value = General_Class.CekNULL(Dr("warna"))
                     DGV_Data_TF.Rows(rows).Cells(itemJenisKemasan).Value = General_Class.CekNULL(Dr("Jenis_Kemasan"))
                     DGV_Data_TF.Rows(rows).Cells(itemDGVIsiPerBags).Value = General_Class.CekNULL(Dr("Isi_Per_Bags"))
                     DGV_Data_TF.Rows(rows).Cells(itemDGVSatuanIsiBags).Value = General_Class.CekNULL(Dr("Satuan_Isi_Bags"))
                     DGV_Data_TF.Rows(rows).Cells(itemDGVKetWarna).Value = General_Class.CekNULL(Dr("Ket_Warna"))
                     DGV_Data_TF.Rows(rows).Cells(itemDGVTglProd).Value = If(General_Class.CekNULL(Dr("Tgl_Produksi")) = "", "", Format(Dr("Tgl_Produksi"), "dd MMM yyyy"))
-                    DGV_Data_TF.Rows(rows).Cells(itemDgvSatuan).Value = TxtSatuan.Text
+                    DGV_Data_TF.Rows(rows).Cells(itemDgvSatuan).Value = General_Class.CekNULL(Dr("satuan"))
+                    DGV_Data_TF.Rows(rows).Cells(itemDgvBags).Value = ""
+
+
+                    Dim dgvCmbValueRak As DataGridViewComboBoxCell
+                    dgvCmbValueRak = DGV_Data_TF.Rows(rows).Cells(itemDgvRakTujuan)
+                    dgvCmbValueRak.Items.Clear()
+
+
+                    For i As Integer = 0 To WarehosePosition.Count - 1
+                        dgvCmbValueRak.Items.Add(WarehosePosition(i)) : subArr.Add(arrIdWMSWarehouse(i))
+                    Next
+
 
                     If Txt_Jenis_Transfer.Text = "GENERAL" Then
                         DGV_Data_TF.Rows(rows).Cells(itemDGVJnsTransfer).Value = "'GENERAL'"
@@ -910,17 +1119,6 @@ Public Class Transfer_Stock_3
                     Else
                         DGV_Data_TF.Rows(rows).Cells(itemDGVJnsTransfer).Value = "NULL"
                     End If
-
-                    Dim dgvCmbValueRak As DataGridViewComboBoxCell
-                    dgvCmbValueRak = DGV_Data_TF.Rows(rows).Cells(itemDgvRakTujuan)
-                    dgvCmbValueRak.Items.Clear()
-
-                    'dgvCmbValueRak.Items.Add("-- Tidak Berubah --") : subArr.Add(Dr("Id_Warehouse"))
-                    For i As Integer = 0 To WarehosePosition.Count - 1
-                        dgvCmbValueRak.Items.Add(WarehosePosition(i)) : subArr.Add(arrIdWMSWarehouse(i))
-                    Next
-
-                    arr2RakTujuan.Add(subArr)
 
                     DGV_Data_TF.Rows(rows).Cells(itemDgvJumlah).ReadOnly = True
                     DGV_Data_TF.Rows(rows).Cells(itemDgvBags).ReadOnly = True
@@ -939,6 +1137,9 @@ Public Class Transfer_Stock_3
                     DGV_Data_TF.Rows(rows).Cells(itemDGVBarcode).Value = Dr("Barcode")
                     DGV_Data_TF.Rows(rows).Cells(itemDGVFlagBlokSN).Value = General_Class.CekNULL(Dr("Blok_SN"))
 
+
+
+                    arr2RakTujuan.Add(subArr)
                     rows = rows + 1
 
                 Loop
@@ -1026,7 +1227,7 @@ Public Class Transfer_Stock_3
             SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & arrSO(CmbSO_Asal.SelectedIndex) & "', "
             SQL = SQL & "'" & lokasi_tujuan & "', '" & tgl_skg & "', '" & tgl_skg.ToString("HH:mm:ss") & "', '" & UserID & "', '" & CmbJnsTransfer.SelectedItem & "', "
             SQL = SQL & "'" & Cmb_Lokasi.Text & "', '" & TxtKeterangan.Text & "')"
-            ExecuteTrans(SQL)
+            'ExecuteTrans(SQL)
 
             Dim Lokasi_Timbang As String = ""
             SQL = "Select isnull(Flag_Timbang, 'T') as Timbang from stock_owner_gudang where "
@@ -1049,32 +1250,52 @@ Public Class Transfer_Stock_3
 
                 hasData = True
 
-                Dim nilai_kecil As Double = 0
-                SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & dgv_Rekap_KdBarang & "', '" & dgv_Rekap_Satuan & "',"
-                SQL = SQL & "'" & dgv_Rekap_SatuanKecil & "', '" & HilangkanTanda(dgv_Rekap_JumlahBersih) & "' ) as hasil"
-                Using Dr1 = OpenTrans(SQL)
-                    If Dr1.Read Then
-                        If General_Class.CekNULL(Dr1("hasil")) = "" Then
-                            Dr1.Close()
-                            CloseTrans()
-                            CloseConn()
-                            MessageBox.Show("data konversi satuan kirim tidak ada ")
-                            Exit Sub
-                        End If
+                'Dim nilai_kecil As Double = 0
+                'SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & dgv_Rekap_KdBarang & "', '" & dgv_Rekap_Satuan & "',"
+                'SQL = SQL & "'" & dgv_Rekap_SatuanKecil & "', '" & HilangkanTanda(dgv_Rekap_JumlahBersih) & "' ) as hasil"
+                'Using Dr1 = OpenTrans(SQL)
+                '    If Dr1.Read Then
+                '        If General_Class.CekNULL(Dr1("hasil")) = "" Then
+                '            Dr1.Close()
+                '            CloseTrans()
+                '            CloseConn()
+                '            MessageBox.Show("data konversi satuan kirim tidak ada ")
+                '            Exit Sub
+                '        End If
 
-                        nilai_kecil = Dr1("hasil")
+                '        nilai_kecil = Dr1("hasil")
+                '    Else
+                '        Dr1.Close()
+                '        CloseTrans()
+                '        CloseConn()
+                '        MessageBox.Show("data konversi satuan kirim tidak ada ")
+                '        Exit Sub
+                '    End If
+                'End Using
+
+                '========================================
+                '=      UBAH SATUAN KE SATUAN DASAR     =
+                '========================================
+                Dim nilai_kecil As Double = 0
+                Dim Satuan_Kecil As String = ""
+                SQL = "select case when a.Flag_Dasar IS NULL THEN (" & HilangkanTanda(dgv_Rekap_JumlahBags) & " * a.Nilai) else (" & HilangkanTanda(dgv_Rekap_JumlahBags) & " * isnull(z.Nilai, 1)) end as Hasil, "
+                SQL = SQL & "isnull(z.Satuan, '-') AS Satuan_Dasar "
+                SQL = SQL & "from N_EMI_Master_Satuan a "
+                SQL = SQL & "left join N_EMI_Master_Satuan z ON a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Barang = z.Kode_Barang and z.Flag_Dasar = 'Y' "
+                SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Barang = '" & dgv_Rekap_KdBarang & "' and a.Satuan = '" & dgv_Rekap_Satuan & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        nilai_kecil = Dr("Hasil")
+                        Satuan_Kecil = Dr("Satuan_Dasar")
                     Else
-                        Dr1.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("data konversi satuan kirim tidak ada ")
-                        Exit Sub
+                        nilai_kecil = 0
+                        Satuan_Kecil = Dr("Satuan_Dasar")
                     End If
                 End Using
 
                 Dim Jenis_Berat As String = ""
                 SQL = "Select isnull(flag_tampil_berat,'T') as flag_tampil_berat from emi_satuan where "
-                SQL = SQL & "satuan='" & dgv_Rekap_Satuan & "' and kode_perusahaan='" & KodePerusahaan & "' "
+                SQL = SQL & "satuan='" & Satuan_Kecil & "' and kode_perusahaan='" & KodePerusahaan & "' "
                 Using dr = OpenTrans(SQL)
                     If dr.Read Then
                         Jenis_Berat = dr("flag_tampil_berat")
@@ -1119,18 +1340,18 @@ Public Class Transfer_Stock_3
 
                 End If
 
-
                 If CmbSo_Tujuan.SelectedIndex = index_waste Then
                     Flag_Timbang = "T"
                 End If
 
                 SQL = "insert into Tf_Stock (Kode_Perusahaan, No_faktur, Kode_Barang, Total, Satuan, "
-                SQL = SQL & "Total_Barang, Satuan_Barang, Total_Bags, urut_material_requisition_convert, Flag_Timbang, Flag_Jenis_Request) values "
+                SQL = SQL & "Total_Barang, Satuan_Barang, Total_Bags, urut_material_requisition_convert, Flag_Timbang, Flag_Jenis_Request, Total_Input, Satuan_Input) values "
                 SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & dgv_Rekap_KdBarang & "', "
-                SQL = SQL & "'" & HilangkanTanda(dgv_Rekap_JumlahBersih) & "', '" & dgv_Rekap_Satuan & "', "
-                SQL = SQL & "'" & nilai_kecil & "', '" & dgv_Rekap_SatuanKecil & "', "
-                SQL = SQL & "'" & HilangkanTanda(dgv_Rekap_JumlahBags) & "', '" & dgv_Rekap_Oto & "', '" & Flag_Timbang & "', " & dgv_Rekap_JnsTransfer & " )"
-                ExecuteTrans(SQL)
+                SQL = SQL & "'" & HilangkanTanda(nilai_kecil) & "', '" & Satuan_Kecil & "', "
+                SQL = SQL & "'" & nilai_kecil & "', '" & Satuan_Kecil & "', "
+                SQL = SQL & "'" & HilangkanTanda(0) & "', '" & dgv_Rekap_Oto & "', '" & Flag_Timbang & "', " & dgv_Rekap_JnsTransfer & ", "
+                SQL = SQL & HilangkanTanda(dgv_Rekap_JumlahBags) & ", '" & dgv_Rekap_Satuan & "')"
+                'ExecuteTrans(SQL)
 
                 Dim x_ident_current As Integer = 0
                 SQL = "select IDENT_CURRENT('Tf_Stock') as urutan"
@@ -1192,8 +1413,6 @@ Public Class Transfer_Stock_3
                         '======================================
                         '=       CEK APAKAH SUDAH CETAK       =
                         '======================================
-
-
                         SQL = "select a.Kode_Perusahaan from tf_stock_parent a, tf_Stock_det b, barang_sn c  where "
                         SQL = SQL & "a.kode_Perusahaan=b.kode_Perusahaan And a.No_Faktur=b.no_faktur and "
                         SQL = SQL & "b.kode_Perusahaan=c.kode_Perusahaan And b.Serial_Number_Awal=c.serial_number and "
@@ -1211,28 +1430,48 @@ Public Class Transfer_Stock_3
                             End If
                         End Using
 
+                        '========================================
+                        '=      UBAH SATUAN KE SATUAN DASAR     =
+                        '========================================
                         Dim nilai_kecildetail As Double = 0
-                        SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & dgv_detail_KdBarang & "', '" & dgv_Rekap_Satuan & "',"
-                        SQL = SQL & "'" & dgv_Rekap_SatuanKecil & "', '" & HilangkanTanda(dgv_detail_Jumlah.ToString) & "' ) as hasil"
-                        Using Dr1 = OpenTrans(SQL)
-                            If Dr1.Read Then
-                                If General_Class.CekNULL(Dr1("hasil")) = "" Then
-                                    Dr1.Close()
-                                    CloseTrans()
-                                    CloseConn()
-                                    MessageBox.Show("data konversi satuan kirim tidak ada ")
-                                    Exit Sub
-                                End If
-
-                                nilai_kecildetail = Dr1("hasil")
+                        Dim Satuan_Kecildetail As String = ""
+                        SQL = "select case when a.Flag_Dasar IS NULL THEN (" & HilangkanTanda(dgv_detail_JumlahBags) & " * a.Nilai) else (" & HilangkanTanda(dgv_detail_JumlahBags) & " * isnull(z.Nilai, 1)) end as Hasil, "
+                        SQL = SQL & "isnull(z.Satuan, '-') AS Satuan_Dasar "
+                        SQL = SQL & "from N_EMI_Master_Satuan a "
+                        SQL = SQL & "left join N_EMI_Master_Satuan z ON a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Barang = z.Kode_Barang and z.Flag_Dasar = 'Y' "
+                        SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Barang = '" & dgv_detail_KdBarang & "' and a.Satuan = '" & dgv_detail_Satuan & "' "
+                        Using Dr = OpenTrans(SQL)
+                            If Dr.Read Then
+                                nilai_kecildetail = Dr("Hasil")
+                                Satuan_Kecildetail = Dr("Satuan_Dasar")
                             Else
-                                Dr1.Close()
-                                CloseTrans()
-                                CloseConn()
-                                MessageBox.Show("data konversi satuan kirim tidak ada ")
-                                Exit Sub
+                                nilai_kecildetail = 0
+                                Satuan_Kecildetail = Dr("Satuan_Dasar")
                             End If
                         End Using
+
+                        'Dim nilai_kecildetail As Double = 0
+                        'SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & dgv_detail_KdBarang & "', '" & dgv_Rekap_Satuan & "',"
+                        'SQL = SQL & "'" & dgv_Rekap_SatuanKecil & "', '" & HilangkanTanda(dgv_detail_Jumlah.ToString) & "' ) as hasil"
+                        'Using Dr1 = OpenTrans(SQL)
+                        '    If Dr1.Read Then
+                        '        If General_Class.CekNULL(Dr1("hasil")) = "" Then
+                        '            Dr1.Close()
+                        '            CloseTrans()
+                        '            CloseConn()
+                        '            MessageBox.Show("data konversi satuan kirim tidak ada ")
+                        '            Exit Sub
+                        '        End If
+
+                        '        nilai_kecildetail = Dr1("hasil")
+                        '    Else
+                        '        Dr1.Close()
+                        '        CloseTrans()
+                        '        CloseConn()
+                        '        MessageBox.Show("data konversi satuan kirim tidak ada ")
+                        '        Exit Sub
+                        '    End If
+                        'End Using
 
                         Dim sisaPotong As Double = 0
                         Dim JumlahDipotong As Double = 0
@@ -1287,19 +1526,43 @@ Public Class Transfer_Stock_3
                                         End If
 
                                         Dim Jumlah_Bags = 0
-                                        If jenis_bags = "ORIGINAL BAGS" Then
-                                            Jumlah_Bags = JumlahInsert / isi_per_bags
-                                        End If
+                                        'If jenis_bags = "ORIGINAL BAGS" Then
+                                        '    Jumlah_Bags = JumlahInsert / isi_per_bags
+                                        'End If
 
+                                        '=================================
+                                        '=     CEK STOCK DI DATABASE     =
+                                        '=================================
+                                        SQL = "select Jumlah, Jumlah_Bags, Kode_Barang from barang_sn where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                        SQL = SQL & "and Serial_Number = '" & Data_SN & "'"
+                                        Using Dr = OpenTrans(SQL)
+                                            If Dr.Read Then
+                                                If Val(HilangkanTanda(Dr("Jumlah"))) < JumlahInsert Then
+                                                    Dim KdBarangCek As String = Dr("Kode_Barang")
+                                                    Dr.Close()
+                                                    CloseTrans()
+                                                    CloseConn()
+                                                    MessageBox.Show("Stock Pada Kode Barang " & KdBarangCek & " Kurang", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                    Exit Sub
+                                                End If
+                                            Else
+                                                Dim KdBarangCek As String = Dr("Kode_Barang")
+                                                Dr.Close()
+                                                CloseTrans()
+                                                CloseConn()
+                                                MessageBox.Show("Kode Barang " & KdBarangCek & " Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                Exit Sub
+                                            End If
+                                        End Using
 
                                         SQL = "insert into TF_Stock_Det(Kode_Perusahaan, No_faktur, Id_Wms_Awal, No_Pallet_Awal, Id_Wms_Tujuan, "
-                                        SQL = SQL & "Serial_Number_Awal, Jumlah, Jumlah_Barang, Jumlah_Bags, Warna, Urut_TF) values( "
+                                        SQL = SQL & "Serial_Number_Awal, Jumlah, Jumlah_Barang, Jumlah_Bags, Warna, Urut_TF, Satuan_Input) values( "
                                         SQL = SQL & "'" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & dgv_detail_IDWarehouseAwal & "', "
                                         SQL = SQL & "'" & dgv_detail_IDPalletAwal & "', '" & dgv_detail_IDWarehouseTujuan & "', '" & Data_SN & "', "
                                         SQL = SQL & "'" & JumlahInsert & "', '" & JumlahInsert & "', "
                                         SQL = SQL & "'" & Jumlah_Bags & "', "
-                                        SQL = SQL & "'" & dgv_detail_Warna & "', '" & x_ident_current & "')"
-                                        ExecuteTrans(SQL)
+                                        SQL = SQL & "'" & dgv_detail_Warna & "', '" & x_ident_current & "', '" & dgv_detail_Satuan & "')"
+                                        'ExecuteTrans(SQL)
 
                                     Next
                                 Else
@@ -1847,43 +2110,43 @@ Public Class Transfer_Stock_3
                     CrDoc = New Rpt_EMI_Faktur_Transfer_Stock
                     kertas = "Faktur"
 
-                    'With A_Place_For_Printing2
-                    '    CrDoc.SetDataSource(Ds)
-                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    '    CrDoc.PrintOptions.PrinterName = ""
-                    '    CrDoc.RecordSelectionFormula = "{Vw_Tf_Stock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Tf_Stock.No_Faktur}='" & Trim(TxtNo_Transaksi.Text) & "' "
-                    '    CrDoc.SummaryInfo.ReportTitle = "TF"
-                    '    .Text = "TF"
-                    '    .CrystalReportViewer1.ReportSource = CrDoc
-                    '    .Refresh()
-                    '    .Show()
-                    'End With
+                    With A_Place_For_Printing2
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        CrDoc.PrintOptions.PrinterName = ""
+                        CrDoc.RecordSelectionFormula = "{Vw_Tf_Stock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Tf_Stock.No_Faktur}='" & Trim(TxtNo_Transaksi.Text) & "' "
+                        CrDoc.SummaryInfo.ReportTitle = "TF"
+                        .Text = "TF"
+                        .CrystalReportViewer1.ReportSource = CrDoc
+                        .Refresh()
+                        .Show()
+                    End With
 
                     '============================================================================================================================================
                     '============================================================================================================================================
-                    CrDoc.SetDataSource(Ds)
-                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    CrDoc.PrintOptions.PrinterName = PrinterNameTS
-                    CrDoc.RecordSelectionFormula = "{Vw_Tf_Stock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Tf_Stock.No_Faktur}='" & Trim(TxtNo_Transaksi.Text) & "' "
-                    'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+                    'CrDoc.SetDataSource(Ds)
+                    'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    'CrDoc.PrintOptions.PrinterName = PrinterNameTS
+                    'CrDoc.RecordSelectionFormula = "{Vw_Tf_Stock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Vw_Tf_Stock.No_Faktur}='" & Trim(TxtNo_Transaksi.Text) & "' "
+                    ''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
-                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                    doctoprint.PrinterSettings.PrinterName = PrinterNameTS
-                    'doctoprint.DefaultPageSettings.Landscape = True
-                    Dim rawKind As Integer
-                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
-                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                            CrDoc.PrintOptions.PaperSize = rawKind
-                            Exit For
-                        End If
-                    Next
+                    'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    'doctoprint.PrinterSettings.PrinterName = PrinterNameTS
+                    ''doctoprint.DefaultPageSettings.Landscape = True
+                    'Dim rawKind As Integer
+                    'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    'For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                    '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                    '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                    '        CrDoc.PrintOptions.PaperSize = rawKind
+                    '        Exit For
+                    '    End If
+                    'Next
 
-                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                    CrDoc.PrintToPrinter(1, False, 1, 99)
+                    'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    'CrDoc.PrintToPrinter(1, False, 1, 99)
 
-                    MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    'MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
                 End If
             End Using
@@ -1968,6 +2231,8 @@ Public Class Transfer_Stock_3
         TxtKd_Barang.Text = ""
         Txt_SO.Text = ""
         TxtNm_Barang.Text = ""
+        Cmb_Satuan_Barang.Text = ""
+        Cmb_Satuan_Barang.Items.Clear()
 
         If MenuAsal.ToUpper = "TRANSFER_STOCK" Then CmbSo_Tujuan.SelectedIndex = -1
 
@@ -1984,6 +2249,34 @@ Public Class Transfer_Stock_3
                 Exit Sub
             End If
         End If
+
+        Try
+            OpenConn()
+
+            isProduction = False
+            SQL = "select kode_stock_owner from Stock_Owner_Gudang where kode_perusahaan = '" & KodePerusahaan & "' and flag_produksi = 'Y' "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    If arrSO(CmbSo_Tujuan.SelectedIndex).ToString.ToUpper = Dr("kode_stock_owner").ToString.ToUpper Then
+                        isProduction = True
+                        Exit Do
+                    End If
+                Loop
+            End Using
+
+            If isProduction Then
+                TxtKd_Barang.Enabled = False
+            Else
+                TxtKd_Barang.Enabled = True
+            End If
+            TxtKd_Barang.Text = ""
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
 
         DGV_Data_TF.Rows.Clear()
         TxtKd_Barang.Text = ""
@@ -2009,12 +2302,35 @@ Public Class Transfer_Stock_3
 
         Next
 
-        TxtTotalTransfer.Text = Format(total, "N4")
+        Dim JumlahConvert As Double = 0
+        Try
+            OpenConn()
+
+            SQL = "select case when a.Flag_Dasar IS NULL THEN (" & totalBags & " * a.Nilai) else (" & totalBags & " * isnull(z.Nilai, 1)) end as Hasil, "
+            SQL = SQL & "isnull(z.Satuan, '-') AS Satuan_Dasar "
+            SQL = SQL & "from N_EMI_Master_Satuan a "
+            SQL = SQL & "left join N_EMI_Master_Satuan z ON a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Barang = z.Kode_Barang and z.Flag_Dasar = 'Y' "
+            SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Barang = '" & TxtKd_Barang.Text & "' and a.Satuan = '" & Cmb_Satuan_Barang.Text & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    JumlahConvert = Dr("Hasil")
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
+        TxtTotalTransfer.Text = Format(JumlahConvert, "N4")
         TxtTotalTransferBags.Text = Format(totalBags, "N4")
 
         If Not TxtjmlPermintaanDisplay.Text.Trim.Length = 0 Then
             request = Val(HilangkanTanda(TxtjmlPermintaanBersih.Text))
-            TxtsisaRequest.Text = Format((request - total), "N4") & " KG"
+            TxtsisaRequest.Text = Format((request - JumlahConvert), "N4") & " KG"
         Else
             TxtsisaRequest.Text = 0
         End If
@@ -2081,6 +2397,116 @@ Public Class Transfer_Stock_3
 
         Dim JnsTransfer As String
 
+        If isProduction Then
+
+
+            Dim Nilai_Toleransi_Min As Double = 0
+            Dim Nilai_Toleransi_Max As Double = 0
+
+            Dim Jumlah_Kebutuhan As Double = 0
+            Dim Jumlah_sdh_transfer As Double = 0
+
+            Dim Satuan_Dasar As String = ""
+            Dim Nilai_Per_Satuan_Default As Double = 0
+            Try
+                OpenConn()
+
+                '===============================
+                '=     GET NILAI TOLERANSI     =
+                '===============================
+                Dim Persen_Toleransi_Min As Double = 0
+                Dim Persen_Toleransi_Max As Double = 0
+                SQL = "select Toleransi_Tf_Min, Toleransi_Tf_Max from barang where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and Kode_Stock_Owner = '" & arrSO(CmbSO_Asal.SelectedIndex) & "' and Kode_Barang = '" & DGV_Data_TF.CurrentRow.Cells(itemDgvKodeBarang).Value & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Persen_Toleransi_Min = Dr("Toleransi_Tf_Min")
+                        Persen_Toleransi_Max = Dr("Toleransi_Tf_Max")
+                    End If
+                End Using
+
+
+                SQL = "select c.Jumlah, "
+                SQL = SQL & "ISNULL(( "
+                SQL = SQL & "select sum(w.jumlah) from tf_stock_parent x,  tf_stock y, Tf_Stock_det z, Tf_Stock_det2 w  "
+                SQL = SQL & "where x.kode_Perusahaan=y.kode_perusahaan and x.no_faktur=y.no_faktur and x.status is null and "
+                SQL = SQL & "y.kode_Perusahaan=z.kode_perusahaan and y.no_faktur=z.no_faktur and y.urut_oto=z.urut_tf and (z.selesai is null or z.selesai='Y') and "
+                SQL = SQL & "z.kode_Perusahaan=w.kode_perusahaan and z.no_faktur=w.no_faktur and z.urut_oto=w.Urut_Det and "
+                SQL = SQL & "c.Kode_Perusahaan = y.Kode_Perusahaan and c.Urut_Oto = y.urut_material_requisition_convert  and y.Flag_Jenis_Request = 'PRODUKSI' ) "
+                SQL = SQL & ", '0') as Total_TF "
+                SQL = SQL & "from Emi_Material_Requisition a, Emi_Material_Requisition_Det b, Emi_Material_Requisition_Det_Convert c "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan  "
+                SQL = SQL & "and a.No_Faktur = b.No_Faktur  "
+                SQL = SQL & "and b.No_Faktur = c.No_Faktur and b.Urut_Oto = c.No_Urut_Det "
+                SQL = SQL & "and a.Status is null "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and c.Urut_Oto = '" & Txt_Urut_Request.Text & "'"
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Jumlah_Kebutuhan = Dr("Jumlah")
+                        Jumlah_sdh_transfer = Dr("Total_TF")
+                    Else
+                        CloseConn()
+                        MessageBox.Show("Data Request Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
+
+                SQL = "select "
+                SQL = SQL & "isnull(( select z.Satuan from N_EMI_Master_Satuan z where a.Kode_Perusahaan = z.Kode_Perusahaan "
+                SQL = SQL & "and a.Kode_Barang = z.Kode_Barang "
+                SQL = SQL & "and z.Flag_Dasar = 'Y' "
+                SQL = SQL & "), '-') as Satuan_Dasar, a.Nilai "
+                SQL = SQL & "from N_EMI_Master_Satuan a "
+                SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.Kode_Barang = '" & TxtKd_Barang.Text & "' "
+                SQL = SQL & "and a.Satuan = '" & Cmb_Satuan_Barang.Text & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+
+                        Satuan_Dasar = Dr("Satuan_Dasar")
+                        Nilai_Per_Satuan_Default = Dr("Nilai")
+                    Else
+                        CloseConn()
+                        MessageBox.Show("Satuan Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
+                Nilai_Toleransi_Min = Val(HilangkanTanda(Jumlah_Kebutuhan)) - (Val(HilangkanTanda(Jumlah_Kebutuhan)) * (Persen_Toleransi_Min / 100))
+                Nilai_Toleransi_Max = Val(HilangkanTanda(Jumlah_Kebutuhan)) + (Val(HilangkanTanda(Jumlah_Kebutuhan)) * (Persen_Toleransi_Max / 100))
+
+
+                CloseConn()
+            Catch ex As Exception
+                CloseConn()
+                MessageBox.Show(ex.Message)
+                Exit Sub
+            End Try
+
+            'If (Jumlah_sdh_transfer + Val(HilangkanTanda(TxtTotalTransfer.Text))) > Nilai_Toleransi_Max Then
+            '    MessageBox.Show("Total Transfer Lebih Dari Jumlah Request", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '    Exit Sub
+            'End If
+
+            If (Jumlah_sdh_transfer + Val(HilangkanTanda(TxtTotalTransfer.Text))) < Nilai_Toleransi_Min Then
+                If MessageBox.Show("Total Transfer Kurang Dari Jumlah Request, Apakah ingin lanjut?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = vbNo Then
+                    Exit Sub
+                End If
+            ElseIf (Jumlah_sdh_transfer + Val(HilangkanTanda(TxtTotalTransfer.Text))) > Nilai_Toleransi_Max Then
+
+                If Math.Abs((Jumlah_sdh_transfer + Val(HilangkanTanda(TxtTotalTransfer.Text))) - Nilai_Toleransi_Max) > Nilai_Per_Satuan_Default - 1 Then
+                    MessageBox.Show("Total Transfer Lebih Dari Jumlah Request", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+
+            End If
+
+
+        End If
+
+
         For row As Integer = 0 To DGV_Data_TF.RowCount - 1
 
             get_grid_view(row)
@@ -2105,6 +2531,12 @@ Public Class Transfer_Stock_3
                 MessageBox.Show("Rak Tujuan Harus Diisi", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             End If
+
+            If Val(HilangkanTanda(dgv_Jumlah)) < 0 Or Val(HilangkanTanda(dgv_JmlhBags)) < 0 Then
+                MessageBox.Show("Jumlah Input Tidak Boleh Minus", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
         Next
 
         For row As Integer = 0 To DGV_Data_TF.RowCount - 1
@@ -2156,8 +2588,8 @@ Public Class Transfer_Stock_3
             Dgv_DataDetail.Rows(DgvTab3_Rows).Cells(itemDgvDetail_IDWarehouseAwal).Value = dgv_IDWareHouse
             Dgv_DataDetail.Rows(DgvTab3_Rows).Cells(itemDgvDetail_KodeRakAwal).Value = dgv_KodeRak
             Dgv_DataDetail.Rows(DgvTab3_Rows).Cells(itemDgvDetail_IDPalletAwal).Value = dgv_IDPallet
-            Dgv_DataDetail.Rows(DgvTab3_Rows).Cells(itemDgvDetail_Jumlah).Value = dgv_Jumlah
-            Dgv_DataDetail.Rows(DgvTab3_Rows).Cells(itemDgvDetail_JumlahBags).Value = dgv_JmlhBags
+            Dgv_DataDetail.Rows(DgvTab3_Rows).Cells(itemDgvDetail_Jumlah).Value = Format(Val(HilangkanTanda(dgv_Jumlah)), "N4")
+            Dgv_DataDetail.Rows(DgvTab3_Rows).Cells(itemDgvDetail_JumlahBags).Value = Format(Val(HilangkanTanda(dgv_JmlhBags)), "N4")
             Dgv_DataDetail.Rows(DgvTab3_Rows).Cells(itemDgvDetail_KodeRakTujuan).Value = dgv_RakTujuan
             Dgv_DataDetail.Rows(DgvTab3_Rows).Cells(itemDgvDetail_IDWarehouseTujuan).Value = arr2RakTujuan(row)(selectedIndex)
             Dgv_DataDetail.Rows(DgvTab3_Rows).Cells(itemDgvDetail_Warna).Value = dgv_Warna
@@ -2167,6 +2599,7 @@ Public Class Transfer_Stock_3
             Dgv_DataDetail.Rows(DgvTab3_Rows).Cells(itemDgvDetail_JenisKualitas).Value = dgv_KetWarna
             Dgv_DataDetail.Rows(DgvTab3_Rows).Cells(itemDgvDetail_Barcode).Value = dgv_Barcode
             Dgv_DataDetail.Rows(DgvTab3_Rows).Cells(itemDgvDetail_JnsTransfer).Value = dgv_JnsTransfer
+            Dgv_DataDetail.Rows(DgvTab3_Rows).Cells(itemDgvDetail_Satuan).Value = Cmb_Satuan_Barang.Text
 
             JnsTransfer = dgv_JnsTransfer
 
@@ -2181,10 +2614,10 @@ Public Class Transfer_Stock_3
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_lokasi).Value = arrSO(CmbSO_Asal.SelectedIndex)
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_KdBarang).Value = TxtKd_Barang.Text
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_NmBarang).Value = TxtNm_Barang.Text
-            Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_Jumlah).Value = TxtTotalTransfer.Text & " " & TxtSatuan.Text
-            Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_JumlahBags).Value = TxtTotalTransferBags.Text
+            Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_Jumlah).Value = Format(Val(HilangkanTanda(TxtTotalTransfer.Text)), "N4") '& " " & TxtSatuan.Text
+            Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_JumlahBags).Value = Format(Val(HilangkanTanda(TxtTotalTransferBags.Text)), "N4")
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_JumlahBersih).Value = TxtTotalTransfer.Text
-            Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_Satuan).Value = TxtSatuan.Text
+            Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_Satuan).Value = Cmb_Satuan_Barang.Text
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_SatuanKecil).Value = TxtSatuanKecil.Text
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_Oto).Value = Txt_OtoMaterial_req.Text
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_JnsTransfer).Value = JnsTransfer
@@ -2195,6 +2628,10 @@ Public Class Transfer_Stock_3
             Exit Sub
 
         End If
+
+
+
+
 
         KosongTab1()
 
@@ -2269,8 +2706,124 @@ Public Class Transfer_Stock_3
         Next
 
         If Not foundMatch Then
-            MessageBox.Show("Data tidak ditemukan.", "Pencarian", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            Try
+                OpenConn()
+
+                Dim rows As Integer = DGV_Data_TF.Rows.Count
+
+                SQL = "Select top(1) a.Kode_Stock_Owner, a.Kode_Barang, 'X' as Serial_Number, b.Nama, a.Id_Warehouse, c.Keterangan As kode_rak, a.Id_Nametag_pallet, "
+
+                SQL = SQL & "sum(a.jumlah) as jumlah, "
+
+                SQL = SQL & "b.satuan, 0 As nomor_pallet, isNull(sum(a.Jumlah_Bags), 0) As stock_bags, a.warna, b.Metode_Pengeluaran_Stok, "
+                SQL = SQL & "b.Jenis_Kemasan, isNull(b.Isi_Per_Bags, 0) As Isi_Per_Bags, b.Satuan_Isi_Bags, a.Tgl_Expired, a.Tgl_Produksi, a.Tgl_Masuk "
+
+                SQL = SQL & ",isnull((select x.keterangan from emi_master_warna x where "
+                SQL = SQL & "x.kode_Perusahaan = a.kode_Perusahaan And x.kode_warna = a.warna),NULL) As Ket_Warna, "
+
+                SQL = SQL & "(a.Qr_Code + '-' + a.Kode_Unik_Berjalan) as Barcode, a.Blok_SN "
+
+                SQL = SQL & "From barang_sn a, barang b, View_Warehouse_Position c "
+                SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.Kode_Barang = b.Kode_Barang And "
+                SQL = SQL & "a.Kode_Stock_Owner = b.Kode_Stock_Owner And a.Kode_Perusahaan = c.Kode_Perusahaan And "
+                SQL = SQL & "a.Id_Warehouse = c.Id_WMS_Warehouse_Position And a.Jumlah <> 0 And "
+                SQL = SQL & "a.Kode_Perusahaan ='" & KodePerusahaan & "' And b.Kode_Stock_Owner ='" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
+                SQL = SQL & "And b.Kode_Barang ='" & TxtKd_Barang.Text & "' "
+
+                SQL = SQL & "And round(a.Jumlah,4) <> 0 and (a.Qr_Code + '-' + a.Kode_Unik_Berjalan) like '%" & Txt_QR.Text.Trim().ToUpper() & "%'"
+
+                SQL = SQL & "group by a.Kode_Perusahaan, a.Kode_Stock_Owner, a.Kode_Barang, b.Nama, b.Satuan, a.Id_Warehouse, "
+                SQL = SQL & "c.Keterangan, a.Id_Nametag_pallet, a.warna, b.Metode_Pengeluaran_Stok, b.Jenis_Kemasan, "
+                SQL = SQL & "b.Isi_Per_Bags, b.Satuan_Isi_Bags, a.Tgl_Expired, a.Tgl_Produksi, a.warna, "
+                SQL = SQL & "a.Qr_Code, a.Kode_Unik_Berjalan, a.Blok_SN, a.Tgl_Masuk "
+
+                SQL = SQL & "order by case when Metode_Pengeluaran_Stok='FIFO' then a.Tgl_Masuk "
+                SQL = SQL & "Else a.Tgl_Expired End "
+
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+
+                        Dim subArr As New List(Of String)
+
+                        DGV_Data_TF.Rows.Add(1)
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvLokasi).Value = General_Class.CekNULL(Dr("Kode_Stock_Owner"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvKodeBarang).Value = General_Class.CekNULL(Dr("Kode_Barang"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvSerialNumber).Value = General_Class.CekNULL(Dr("Serial_Number"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvNama).Value = General_Class.CekNULL(Dr("Nama"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvIDWareHose).Value = General_Class.CekNULL(Dr("Id_Warehouse"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvKodeRak).Value = General_Class.CekNULL(Dr("kode_rak"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvIDPallet).Value = General_Class.CekNULL(Dr("nomor_pallet"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvGoodStock).Value = If(General_Class.CekNULL(Dr("jumlah")) = "", "", Format(Dr("jumlah"), "N4"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvStockBags).Value = If(General_Class.CekNULL(Dr("stock_bags")) = "", "", Format(Dr("stock_bags"), "N4"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvWarna).Value = General_Class.CekNULL(Dr("warna"))
+                        DGV_Data_TF.Rows(rows).Cells(itemJenisKemasan).Value = General_Class.CekNULL(Dr("Jenis_Kemasan"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDGVIsiPerBags).Value = General_Class.CekNULL(Dr("Isi_Per_Bags"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDGVSatuanIsiBags).Value = General_Class.CekNULL(Dr("Satuan_Isi_Bags"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDGVKetWarna).Value = General_Class.CekNULL(Dr("Ket_Warna"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDGVTglProd).Value = If(General_Class.CekNULL(Dr("Tgl_Produksi")) = "", "", Format(Dr("Tgl_Produksi"), "dd MMM yyyy"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvSatuan).Value = General_Class.CekNULL(Dr("satuan"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvBags).Value = ""
+
+
+                        Dim dgvCmbValueRak As DataGridViewComboBoxCell
+                        dgvCmbValueRak = DGV_Data_TF.Rows(rows).Cells(itemDgvRakTujuan)
+                        dgvCmbValueRak.Items.Clear()
+
+
+                        For i As Integer = 0 To WarehosePosition.Count - 1
+                            dgvCmbValueRak.Items.Add(WarehosePosition(i)) : subArr.Add(arrIdWMSWarehouse(i))
+                        Next
+
+
+                        If Txt_Jenis_Transfer.Text = "GENERAL" Then
+                            DGV_Data_TF.Rows(rows).Cells(itemDGVJnsTransfer).Value = "'GENERAL'"
+                        ElseIf Txt_Jenis_Transfer.Text = "PRODUKSI" Then
+                            DGV_Data_TF.Rows(rows).Cells(itemDGVJnsTransfer).Value = "'PRODUKSI'"
+                        Else
+                            DGV_Data_TF.Rows(rows).Cells(itemDGVJnsTransfer).Value = "NULL"
+                        End If
+
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvJumlah).ReadOnly = True
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvBags).ReadOnly = True
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvRakTujuan).ReadOnly = True
+
+                        If Dr("Jenis_Kemasan").ToString.ToUpper = "ORIGINAL BAGS" Then
+                            DGV_Data_TF.Rows(rows).Cells(itemDgvJumlah).ReadOnly = True
+                        End If
+
+                        If Dr("Metode_Pengeluaran_Stok").ToString.ToUpper = "FIFO" Then
+                            DGV_Data_TF.Rows(rows).Cells(itemDGVTglExp).Value = "-"
+                        Else
+                            DGV_Data_TF.Rows(rows).Cells(itemDGVTglExp).Value = If(General_Class.CekNULL(Dr("Tgl_Expired")) = "", "", Format(Dr("Tgl_Expired"), "dd MMM yyyy"))
+                        End If
+
+                        DGV_Data_TF.Rows(rows).Cells(itemDGVBarcode).Value = Dr("Barcode")
+                        DGV_Data_TF.Rows(rows).Cells(itemDGVFlagBlokSN).Value = General_Class.CekNULL(Dr("Blok_SN"))
+
+
+
+                        arr2RakTujuan.Add(subArr)
+                        rows = rows + 1
+
+                    Else
+                        Dr.Close()
+                        CloseConn()
+                        MessageBox.Show("Data tidak ditemukan.", "Pencarian", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                End Using
+
+                CloseConn()
+            Catch ex As Exception
+                CloseConn()
+                MessageBox.Show(ex.Message)
+                Exit Sub
+            End Try
+
+
         End If
+
+        Txt_QR.Text = ""
 
     End Sub
 
@@ -2372,6 +2925,11 @@ Public Class Transfer_Stock_3
         End If
     End Sub
 
+    Private Sub Cmb_Satuan_Barang_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Satuan_Barang.SelectedIndexChanged
+        If Cmb_Satuan_Barang.SelectedIndex = -1 Then Exit Sub
+
+        Btn_Insert_Click(sender, e)
+    End Sub
 
 
 

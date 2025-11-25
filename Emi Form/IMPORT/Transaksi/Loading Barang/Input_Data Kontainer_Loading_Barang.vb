@@ -163,7 +163,7 @@
 
             If Button1.Text = "Simpan" Then
                 SQL = "insert into Kontainer_Masuk(Kode_Perusahaan, No_Faktur, No_Container, Kode_stock_Owner, Kode_Barang, No_Seal, Tgl_Muat, Qty) Values( "
-                SQL = SQL & "'" & KodePerusahaan & "', '" & faktur.Text & "', '" & Kontainer.Text & "', '" & Lokasi.Text & "', '" & kode.Text & "', '" & Seal.Text & "', '" & Format(Tanggal.Value, "yyyy-MM-dd") & "','" & Format(Val(Qty.Text), "N2") & "')"
+                SQL = SQL & "'" & KodePerusahaan & "', '" & faktur.Text & "', '" & Kontainer.Text & "', '" & Lokasi.Text & "', '" & kode.Text & "', '" & Seal.Text & "', '" & Format(Tanggal.Value, "yyyy-MM-dd") & "', '" & Format(Val(Qty.Text), "N2") & "')"
                 ExecuteTrans(SQL)
 
 

@@ -301,6 +301,8 @@
         End If
     End Sub
 
+
+
     Private Sub Chk_Tanggal_CheckedChanged(sender As Object, e As EventArgs) Handles Chk_Tanggal.CheckedChanged
 
         If Chk_Tanggal.Checked Then
@@ -311,6 +313,9 @@
             Cmb_Tanggal.SelectedIndex = -1 : DateTimePicker1.Value = Now.Date : DateTimePicker2.Value = Now.Date
         End If
     End Sub
+
+
+
     Private Sub Chk_ParamLain_CheckedChanged(sender As Object, e As EventArgs) Handles Chk_ParamLain.CheckedChanged
         If Chk_ParamLain.Checked = True Then
             Cmb_ParamLain.Enabled = True : Txt_ParamLain.Enabled = True
@@ -321,10 +326,96 @@
     End Sub
 
 
+    Private Sub SalinNoFakturToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SalinNoFakturToolStripMenuItem.Click
+        If Lv_Retur.Items.Count = 0 Or Lv_Retur.SelectedItems.Count = 0 Or Lv_Retur.FocusedItem Is Nothing Then
+            MessageBox.Show("Pilih dahulu no faktur yang mau salin!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        Clipboard.SetText(Lv_Retur.FocusedItem.Text)
+    End Sub
 
 
+    Private Sub CetakUlangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CetakUlangToolStripMenuItem.Click
+        If Lv_Retur.Items.Count = 0 Or Lv_Retur.SelectedItems.Count = 0 Or Lv_Retur.FocusedItem Is Nothing Then
+            MessageBox.Show("Pilih dahulu no faktur yang akan di Cetak!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        Dim NoTransaksi As String = Lv_Retur.FocusedItem.Text
+        'Dim NoTransaksi As String = "RPDS-09/25-000012"
+
+        Try
+            OpenConn()
+
+            Dim CrDoc As New Object
+            Dim kertas As String = ""
+
+            SQL = "select kode_perusahaan from N_EMI_View_Transaksi_Retur_Pembelian "
+            SQL = SQL & "where kode_perusahaan='" & KodePerusahaan & "' "
+            SQL = SQL & "and no_transaksi = '" & NoTransaksi & "' "
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                    CrDoc = New N_EMI_CR_Transaksi_Retur_Pembelian
+                    kertas = "Faktur"
 
 
+                    With A_Place_For_Printing2
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.PrintOptions.PrinterName = ""
+                        CrDoc.RecordSelectionFormula = "{N_EMI_View_Transaksi_Retur_Pembelian.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_View_Transaksi_Retur_Pembelian.no_transaksi}='" & NoTransaksi & "' "
+                        CrDoc.SummaryInfo.ReportTitle = "TF"
+                        .Text = "TF"
+                        .CrystalReportViewer1.ReportSource = CrDoc
+                        .Refresh()
+                        .Show()
+                    End With
+
+                    '============================================================================================================================================
+                    '============================================================================================================================================
+                    'CrDoc.SetDataSource(Ds)
+                    'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    'CrDoc.PrintOptions.PrinterName = PrinterNameTS
+                    'CrDoc.RecordSelectionFormula = "{N_EMI_View_Transaksi_Retur_Pembelian.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_View_Transaksi_Retur_Pembelian.no_transaksi}='" & Trim(TxtNo_Transaksi.Text) & "' "
+                    ''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+                    'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    'doctoprint.PrinterSettings.PrinterName = PrinterNameTS
+                    ''doctoprint.DefaultPageSettings.Landscape = True
+                    'Dim rawKind As Integer
+                    'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    'For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                    '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                    '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                    '        CrDoc.PrintOptions.PaperSize = rawKind
+                    '        Exit For
+                    '    End If
+                    'Next
+
+                    'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    'CrDoc.PrintToPrinter(1, False, 1, 99)
+
+                    'MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+
+                Else
+                    CloseConn()
+                    MessageBox.Show("No Transaksi Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
+    End Sub
 
 
 

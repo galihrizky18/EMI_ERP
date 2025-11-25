@@ -304,6 +304,15 @@
         LvPackaging.Columns.Add("Jenis", 100, HorizontalAlignment.Right) '11
         LvPackaging.Columns.Add("jumlah_barang", 100, HorizontalAlignment.Right) '12
         LvPackaging.Columns.Add("Jumlah Bahan", 100, HorizontalAlignment.Right) '13
+
+
+
+        Cmb_Jenis.Items.Clear()
+        Cmb_Jenis.Items.Add("Commercial")
+        Cmb_Jenis.Items.Add("Trial")
+        'Cmb_Jenis.SelectedIndex = 0
+
+
         kosong()
 
     End Sub
@@ -370,6 +379,7 @@
         cmbLine.Items.Clear() : arrIdLine.Clear()
         LvOrder.Items.Clear()
         LvBahan.Items.Clear()
+        Cmb_Jenis.SelectedIndex = -1
         Button3.Visible = False
         Btn_UnRelease.Visible = False
 
@@ -578,6 +588,10 @@
             'ElseIf DateDiff(DateInterval.Day, Tanggal_Sekarang, DateTimePicker2.Value) < 0 Then
             '    MessageBox.Show("Tanggal tidak boleh lebih kecil dari tanggal sekarang", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             '    Exit Sub
+        ElseIf Cmb_Jenis.SelectedIndex = -1 Then
+            MessageBox.Show("Jenis Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Cmb_Jenis.DroppedDown = True : Cmb_Jenis.Focus()
+            Exit Sub
         End If
 
         If LvOrder.Items.Count = 0 Or LvBahan.Items.Count = 0 Then
@@ -671,12 +685,18 @@
                 End If
 
                 SQL = "insert into emi_order_produksi(kode_perusahaan, no_faktur, tanggal, jam, userid, keterangan, kode_formula, "
-                SQL = SQL & "id_routing, id_jenis_produk, Lokasi, kode_stock_owner, kode_barang, jumlah, satuan, berat) values( "
+                SQL = SQL & "id_routing, id_jenis_produk, Lokasi, kode_stock_owner, kode_barang, jumlah, satuan, berat, Flag_Commercial) values( "
                 SQL = SQL & "'" & KodePerusahaan & "', '" & txtNoFaktur.Text & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "' , "
                 SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & UserID & "','" & TxtCatatan.Text.Trim & "',"
                 SQL = SQL & "'" & TextBox1.Text.Trim & "', '" & arrInisialRouting.Item(cmb_routing.SelectedIndex) & "',"
                 SQL = SQL & "'" & txt_IdJenisProduk.Text & "','" & CmbLokasi.Text & "',"
-                SQL = SQL & "'" & SoProduction & "', '" & kode_brg & "','" & jumlah & "', '" & sat & "', '" & berat & "') "
+                SQL = SQL & "'" & SoProduction & "', '" & kode_brg & "','" & jumlah & "', '" & sat & "', '" & berat & "', "
+                If Cmb_Jenis.SelectedIndex = 0 Then
+                    SQL = SQL & "'Y' "
+                Else
+                    SQL = SQL & "NULL "
+                End If
+                SQL = SQL & ")"
                 ExecuteTrans(SQL)
 
                 For i As Integer = 0 To LvOrder.Items.Count - 1
@@ -1638,7 +1658,7 @@
             Btn_Simpan.Tag = "&Update"
 
 
-            SQL = "select a.Status,a.Flag_Release, a.Id_Routing,c.Keterangan as routing,a.Id_Jenis_Produk, b.Keterangan as jenis_produk, a.keterangan,a.kode_formula "
+            SQL = "select a.Status,a.Flag_Release, a.Id_Routing,c.Keterangan as routing,a.Id_Jenis_Produk, b.Keterangan as jenis_produk, a.keterangan,a.kode_formula, a.Flag_Commercial "
             SQL = SQL & "from EMI_Order_Produksi a, EMI_Jenis_Produk b, EMI_Master_Routing c "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Jenis_Produk = b.Id_Jenis_Produk "
             SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Routing = c.Id_Routing "
@@ -1669,6 +1689,12 @@
                         Else
                             flag_release = Dr("flag_release")
 
+                        End If
+
+                        If General_Class.CekNULL(Dr("Flag_Commercial")) = "Y" Then
+                            Cmb_Jenis.SelectedIndex = 0
+                        Else
+                            Cmb_Jenis.SelectedIndex = 1
                         End If
 
 

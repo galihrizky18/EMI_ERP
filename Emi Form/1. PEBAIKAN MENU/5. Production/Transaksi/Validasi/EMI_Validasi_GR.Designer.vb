@@ -24,6 +24,7 @@ Partial Class EMI_Validasi_GR
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -81,6 +82,8 @@ Partial Class EMI_Validasi_GR
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Cmb_Jenis_Kategori = New System.Windows.Forms.ComboBox()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.Lv_SummaryPackaging = New System.Windows.Forms.ListView()
@@ -91,7 +94,6 @@ Partial Class EMI_Validasi_GR
         Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.DetailPackagingToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.HapusToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Barcode = New System.Windows.Forms.PictureBox()
         Me.SelectedBatch = New System.Windows.Forms.TextBox()
         Me.Txt_JmlhKeranjang = New System.Windows.Forms.TextBox()
         Me.Label10 = New System.Windows.Forms.Label()
@@ -101,7 +103,7 @@ Partial Class EMI_Validasi_GR
         Me.Label14 = New System.Windows.Forms.Label()
         Me.Panel13 = New System.Windows.Forms.Panel()
         Me.Label15 = New System.Windows.Forms.Label()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Barcode = New System.Windows.Forms.PictureBox()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -125,8 +127,21 @@ Partial Class EMI_Validasi_GR
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1051, 42)
+        Me.Panel1.Size = New System.Drawing.Size(1184, 42)
         Me.Panel1.TabIndex = 24
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 40)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -293,7 +308,7 @@ Partial Class EMI_Validasi_GR
         Me.Panel7.Location = New System.Drawing.Point(22, 137)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel7.Name = "Panel7"
-        Me.Panel7.Size = New System.Drawing.Size(974, 10)
+        Me.Panel7.Size = New System.Drawing.Size(1362, 10)
         Me.Panel7.TabIndex = 36
         Me.Panel7.Visible = False
         '
@@ -307,7 +322,7 @@ Partial Class EMI_Validasi_GR
         Me.Lv_DataPallet.Location = New System.Drawing.Point(2, 0)
         Me.Lv_DataPallet.Margin = New System.Windows.Forms.Padding(2)
         Me.Lv_DataPallet.Name = "Lv_DataPallet"
-        Me.Lv_DataPallet.Size = New System.Drawing.Size(1004, 145)
+        Me.Lv_DataPallet.Size = New System.Drawing.Size(1134, 145)
         Me.Lv_DataPallet.TabIndex = 4
         Me.Lv_DataPallet.UseCompatibleStateImageBehavior = False
         Me.Lv_DataPallet.View = System.Windows.Forms.View.Details
@@ -336,7 +351,7 @@ Partial Class EMI_Validasi_GR
         '
         Me.Panel8.BackColor = System.Drawing.Color.Red
         Me.Panel8.Controls.Add(Me.Panel9)
-        Me.Panel8.Location = New System.Drawing.Point(1035, 50)
+        Me.Panel8.Location = New System.Drawing.Point(1165, 49)
         Me.Panel8.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel8.Name = "Panel8"
         Me.Panel8.Size = New System.Drawing.Size(19, 566)
@@ -387,7 +402,7 @@ Partial Class EMI_Validasi_GR
         Me.Lv_Data.Location = New System.Drawing.Point(5, 18)
         Me.Lv_Data.Margin = New System.Windows.Forms.Padding(2)
         Me.Lv_Data.Name = "Lv_Data"
-        Me.Lv_Data.Size = New System.Drawing.Size(994, 154)
+        Me.Lv_Data.Size = New System.Drawing.Size(1125, 154)
         Me.Lv_Data.TabIndex = 474
         Me.Lv_Data.UseCompatibleStateImageBehavior = False
         Me.Lv_Data.View = System.Windows.Forms.View.Details
@@ -397,34 +412,34 @@ Partial Class EMI_Validasi_GR
         Me.Txt_TotFG.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_TotFG.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_TotFG.Enabled = False
-        Me.Txt_TotFG.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_TotFG.Location = New System.Drawing.Point(542, 182)
+        Me.Txt_TotFG.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.Txt_TotFG.Location = New System.Drawing.Point(696, 181)
         Me.Txt_TotFG.Margin = New System.Windows.Forms.Padding(2)
         Me.Txt_TotFG.MaxLength = 50
         Me.Txt_TotFG.Name = "Txt_TotFG"
-        Me.Txt_TotFG.Size = New System.Drawing.Size(123, 21)
+        Me.Txt_TotFG.Size = New System.Drawing.Size(120, 21)
         Me.Txt_TotFG.TabIndex = 477
         Me.Txt_TotFG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label5.Location = New System.Drawing.Point(469, 183)
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.Label5.Location = New System.Drawing.Point(635, 183)
         Me.Label5.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(67, 17)
+        Me.Label5.Size = New System.Drawing.Size(57, 15)
         Me.Label5.TabIndex = 478
         Me.Label5.Text = "Total Pcs"
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label4.Location = New System.Drawing.Point(669, 183)
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.Label4.Location = New System.Drawing.Point(820, 183)
         Me.Label4.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(64, 17)
+        Me.Label4.Size = New System.Drawing.Size(54, 15)
         Me.Label4.TabIndex = 478
         Me.Label4.Text = "Total KG"
         '
@@ -433,12 +448,12 @@ Partial Class EMI_Validasi_GR
         Me.Txt_TotBeratKG.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_TotBeratKG.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_TotBeratKG.Enabled = False
-        Me.Txt_TotBeratKG.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_TotBeratKG.Location = New System.Drawing.Point(737, 181)
+        Me.Txt_TotBeratKG.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.Txt_TotBeratKG.Location = New System.Drawing.Point(879, 181)
         Me.Txt_TotBeratKG.Margin = New System.Windows.Forms.Padding(2)
         Me.Txt_TotBeratKG.MaxLength = 50
         Me.Txt_TotBeratKG.Name = "Txt_TotBeratKG"
-        Me.Txt_TotBeratKG.Size = New System.Drawing.Size(127, 21)
+        Me.Txt_TotBeratKG.Size = New System.Drawing.Size(116, 21)
         Me.Txt_TotBeratKG.TabIndex = 477
         Me.Txt_TotBeratKG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -483,12 +498,12 @@ Partial Class EMI_Validasi_GR
         'Cmb_Jenis
         '
         Me.Cmb_Jenis.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Cmb_Jenis.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmb_Jenis.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Cmb_Jenis.FormattingEnabled = True
-        Me.Cmb_Jenis.Location = New System.Drawing.Point(319, 182)
+        Me.Cmb_Jenis.Location = New System.Drawing.Point(270, 180)
         Me.Cmb_Jenis.Margin = New System.Windows.Forms.Padding(2)
         Me.Cmb_Jenis.Name = "Cmb_Jenis"
-        Me.Cmb_Jenis.Size = New System.Drawing.Size(146, 21)
+        Me.Cmb_Jenis.Size = New System.Drawing.Size(135, 23)
         Me.Cmb_Jenis.TabIndex = 5
         '
         'Label6
@@ -546,9 +561,9 @@ Partial Class EMI_Validasi_GR
         Me.Btn_Tambah.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Tambah.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_Tambah.Enabled = False
-        Me.Btn_Tambah.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Tambah.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Tambah.ForeColor = System.Drawing.Color.White
-        Me.Btn_Tambah.Location = New System.Drawing.Point(913, 147)
+        Me.Btn_Tambah.Location = New System.Drawing.Point(913, 146)
         Me.Btn_Tambah.Margin = New System.Windows.Forms.Padding(2)
         Me.Btn_Tambah.Name = "Btn_Tambah"
         Me.Btn_Tambah.Size = New System.Drawing.Size(92, 47)
@@ -559,12 +574,12 @@ Partial Class EMI_Validasi_GR
         'Cmb_LokasiTujuan
         '
         Me.Cmb_LokasiTujuan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Cmb_LokasiTujuan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmb_LokasiTujuan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Cmb_LokasiTujuan.FormattingEnabled = True
-        Me.Cmb_LokasiTujuan.Location = New System.Drawing.Point(106, 182)
+        Me.Cmb_LokasiTujuan.Location = New System.Drawing.Point(93, 180)
         Me.Cmb_LokasiTujuan.Margin = New System.Windows.Forms.Padding(2)
         Me.Cmb_LokasiTujuan.Name = "Cmb_LokasiTujuan"
-        Me.Cmb_LokasiTujuan.Size = New System.Drawing.Size(164, 21)
+        Me.Cmb_LokasiTujuan.Size = New System.Drawing.Size(129, 23)
         Me.Cmb_LokasiTujuan.TabIndex = 6
         '
         'Label9
@@ -622,111 +637,118 @@ Partial Class EMI_Validasi_GR
         Me.Txt_SelectedBatch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_SelectedBatch.Enabled = False
         Me.Txt_SelectedBatch.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_SelectedBatch.Location = New System.Drawing.Point(1055, 320)
+        Me.Txt_SelectedBatch.Location = New System.Drawing.Point(1191, 195)
         Me.Txt_SelectedBatch.Margin = New System.Windows.Forms.Padding(2)
         Me.Txt_SelectedBatch.Name = "Txt_SelectedBatch"
         Me.Txt_SelectedBatch.ReadOnly = True
         Me.Txt_SelectedBatch.Size = New System.Drawing.Size(58, 20)
         Me.Txt_SelectedBatch.TabIndex = 476
         Me.Txt_SelectedBatch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Txt_SelectedBatch.Visible = False
         '
         'Txt_SelectedKdBarang
         '
         Me.Txt_SelectedKdBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_SelectedKdBarang.Enabled = False
         Me.Txt_SelectedKdBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_SelectedKdBarang.Location = New System.Drawing.Point(1055, 345)
+        Me.Txt_SelectedKdBarang.Location = New System.Drawing.Point(1191, 220)
         Me.Txt_SelectedKdBarang.Margin = New System.Windows.Forms.Padding(2)
         Me.Txt_SelectedKdBarang.Name = "Txt_SelectedKdBarang"
         Me.Txt_SelectedKdBarang.ReadOnly = True
         Me.Txt_SelectedKdBarang.Size = New System.Drawing.Size(58, 20)
         Me.Txt_SelectedKdBarang.TabIndex = 476
         Me.Txt_SelectedKdBarang.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Txt_SelectedKdBarang.Visible = False
         '
         'Txt_SelectedNmBarang
         '
         Me.Txt_SelectedNmBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_SelectedNmBarang.Enabled = False
         Me.Txt_SelectedNmBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_SelectedNmBarang.Location = New System.Drawing.Point(1055, 369)
+        Me.Txt_SelectedNmBarang.Location = New System.Drawing.Point(1191, 244)
         Me.Txt_SelectedNmBarang.Margin = New System.Windows.Forms.Padding(2)
         Me.Txt_SelectedNmBarang.Name = "Txt_SelectedNmBarang"
         Me.Txt_SelectedNmBarang.ReadOnly = True
         Me.Txt_SelectedNmBarang.Size = New System.Drawing.Size(58, 20)
         Me.Txt_SelectedNmBarang.TabIndex = 476
         Me.Txt_SelectedNmBarang.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Txt_SelectedNmBarang.Visible = False
         '
         'Txt_SelectedID
         '
         Me.Txt_SelectedID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_SelectedID.Enabled = False
         Me.Txt_SelectedID.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_SelectedID.Location = New System.Drawing.Point(1055, 394)
+        Me.Txt_SelectedID.Location = New System.Drawing.Point(1191, 269)
         Me.Txt_SelectedID.Margin = New System.Windows.Forms.Padding(2)
         Me.Txt_SelectedID.Name = "Txt_SelectedID"
         Me.Txt_SelectedID.ReadOnly = True
         Me.Txt_SelectedID.Size = New System.Drawing.Size(58, 20)
         Me.Txt_SelectedID.TabIndex = 476
         Me.Txt_SelectedID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Txt_SelectedID.Visible = False
         '
         'Txt_SelectedQR
         '
         Me.Txt_SelectedQR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_SelectedQR.Enabled = False
         Me.Txt_SelectedQR.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_SelectedQR.Location = New System.Drawing.Point(1054, 418)
+        Me.Txt_SelectedQR.Location = New System.Drawing.Point(1190, 293)
         Me.Txt_SelectedQR.Margin = New System.Windows.Forms.Padding(2)
         Me.Txt_SelectedQR.Name = "Txt_SelectedQR"
         Me.Txt_SelectedQR.ReadOnly = True
         Me.Txt_SelectedQR.Size = New System.Drawing.Size(58, 20)
         Me.Txt_SelectedQR.TabIndex = 476
         Me.Txt_SelectedQR.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Txt_SelectedQR.Visible = False
         '
         'Txt_SelectedKdUnikBerjalan
         '
         Me.Txt_SelectedKdUnikBerjalan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_SelectedKdUnikBerjalan.Enabled = False
         Me.Txt_SelectedKdUnikBerjalan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_SelectedKdUnikBerjalan.Location = New System.Drawing.Point(1055, 442)
+        Me.Txt_SelectedKdUnikBerjalan.Location = New System.Drawing.Point(1191, 317)
         Me.Txt_SelectedKdUnikBerjalan.Margin = New System.Windows.Forms.Padding(2)
         Me.Txt_SelectedKdUnikBerjalan.Name = "Txt_SelectedKdUnikBerjalan"
         Me.Txt_SelectedKdUnikBerjalan.ReadOnly = True
         Me.Txt_SelectedKdUnikBerjalan.Size = New System.Drawing.Size(58, 20)
         Me.Txt_SelectedKdUnikBerjalan.TabIndex = 476
         Me.Txt_SelectedKdUnikBerjalan.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Txt_SelectedKdUnikBerjalan.Visible = False
         '
         'Txt_TglExpired
         '
         Me.Txt_TglExpired.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_TglExpired.Enabled = False
         Me.Txt_TglExpired.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_TglExpired.Location = New System.Drawing.Point(1055, 466)
+        Me.Txt_TglExpired.Location = New System.Drawing.Point(1191, 341)
         Me.Txt_TglExpired.Margin = New System.Windows.Forms.Padding(2)
         Me.Txt_TglExpired.Name = "Txt_TglExpired"
         Me.Txt_TglExpired.ReadOnly = True
         Me.Txt_TglExpired.Size = New System.Drawing.Size(58, 20)
         Me.Txt_TglExpired.TabIndex = 476
         Me.Txt_TglExpired.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Txt_TglExpired.Visible = False
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label2.Location = New System.Drawing.Point(5, 183)
         Me.Label2.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(97, 17)
+        Me.Label2.Size = New System.Drawing.Size(84, 15)
         Me.Label2.TabIndex = 482
         Me.Label2.Text = "Lokasi Tujuan"
         '
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label8.Location = New System.Drawing.Point(271, 183)
+        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.Label8.Location = New System.Drawing.Point(226, 183)
         Me.Label8.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(41, 17)
+        Me.Label8.Size = New System.Drawing.Size(36, 15)
         Me.Label8.TabIndex = 483
         Me.Label8.Text = "Jenis"
         '
@@ -761,7 +783,7 @@ Partial Class EMI_Validasi_GR
         Me.Button1.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(868, 173)
+        Me.Button1.Location = New System.Drawing.Point(999, 173)
         Me.Button1.Margin = New System.Windows.Forms.Padding(2)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(132, 34)
@@ -776,11 +798,12 @@ Partial Class EMI_Validasi_GR
         Me.TabControl1.Location = New System.Drawing.Point(19, 147)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1015, 434)
+        Me.TabControl1.Size = New System.Drawing.Size(1146, 434)
         Me.TabControl1.TabIndex = 487
         '
         'TabPage1
         '
+        Me.TabPage1.BackColor = System.Drawing.Color.White
         Me.TabPage1.Controls.Add(Me.GroupBox1)
         Me.TabPage1.Controls.Add(Me.Lv_DataPallet)
         Me.TabPage1.Controls.Add(Me.Label16)
@@ -799,10 +822,9 @@ Partial Class EMI_Validasi_GR
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(1007, 408)
+        Me.TabPage1.Size = New System.Drawing.Size(1138, 408)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Combine"
-        Me.TabPage1.UseVisualStyleBackColor = True
         '
         'GroupBox1
         '
@@ -812,36 +834,60 @@ Partial Class EMI_Validasi_GR
         Me.GroupBox1.Controls.Add(Me.Txt_TotFG)
         Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Controls.Add(Me.Label4)
+        Me.GroupBox1.Controls.Add(Me.Label17)
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.Txt_TotBeratKG)
         Me.GroupBox1.Controls.Add(Me.Cmb_Jenis)
+        Me.GroupBox1.Controls.Add(Me.Cmb_Jenis_Kategori)
         Me.GroupBox1.Controls.Add(Me.Cmb_LokasiTujuan)
         Me.GroupBox1.Location = New System.Drawing.Point(3, 197)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1004, 211)
+        Me.GroupBox1.Size = New System.Drawing.Size(1132, 211)
         Me.GroupBox1.TabIndex = 486
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Detail Barcode"
         '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.Label17.Location = New System.Drawing.Point(409, 183)
+        Me.Label17.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(85, 15)
+        Me.Label17.TabIndex = 482
+        Me.Label17.Text = "Jenis Kategori"
+        '
+        'Cmb_Jenis_Kategori
+        '
+        Me.Cmb_Jenis_Kategori.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Jenis_Kategori.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.Cmb_Jenis_Kategori.FormattingEnabled = True
+        Me.Cmb_Jenis_Kategori.Location = New System.Drawing.Point(496, 180)
+        Me.Cmb_Jenis_Kategori.Margin = New System.Windows.Forms.Padding(2)
+        Me.Cmb_Jenis_Kategori.Name = "Cmb_Jenis_Kategori"
+        Me.Cmb_Jenis_Kategori.Size = New System.Drawing.Size(135, 23)
+        Me.Cmb_Jenis_Kategori.TabIndex = 6
+        '
         'TabPage2
         '
+        Me.TabPage2.BackColor = System.Drawing.Color.White
         Me.TabPage2.Controls.Add(Me.GroupBox4)
         Me.TabPage2.Controls.Add(Me.GroupBox3)
         Me.TabPage2.Controls.Add(Me.GroupBox2)
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1007, 408)
+        Me.TabPage2.Size = New System.Drawing.Size(1138, 408)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Result"
-        Me.TabPage2.UseVisualStyleBackColor = True
         '
         'GroupBox4
         '
         Me.GroupBox4.Controls.Add(Me.Lv_SummaryPackaging)
-        Me.GroupBox4.Location = New System.Drawing.Point(518, 204)
+        Me.GroupBox4.Location = New System.Drawing.Point(636, 204)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(487, 195)
+        Me.GroupBox4.Size = New System.Drawing.Size(499, 195)
         Me.GroupBox4.TabIndex = 1
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Data Detail Packaging"
@@ -856,7 +902,7 @@ Partial Class EMI_Validasi_GR
         Me.Lv_SummaryPackaging.Location = New System.Drawing.Point(3, 16)
         Me.Lv_SummaryPackaging.Margin = New System.Windows.Forms.Padding(2)
         Me.Lv_SummaryPackaging.Name = "Lv_SummaryPackaging"
-        Me.Lv_SummaryPackaging.Size = New System.Drawing.Size(481, 176)
+        Me.Lv_SummaryPackaging.Size = New System.Drawing.Size(493, 176)
         Me.Lv_SummaryPackaging.TabIndex = 476
         Me.Lv_SummaryPackaging.UseCompatibleStateImageBehavior = False
         Me.Lv_SummaryPackaging.View = System.Windows.Forms.View.Details
@@ -864,9 +910,9 @@ Partial Class EMI_Validasi_GR
         'GroupBox3
         '
         Me.GroupBox3.Controls.Add(Me.LvBarcodeDetail)
-        Me.GroupBox3.Location = New System.Drawing.Point(517, 4)
+        Me.GroupBox3.Location = New System.Drawing.Point(636, 4)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(487, 195)
+        Me.GroupBox3.Size = New System.Drawing.Size(498, 195)
         Me.GroupBox3.TabIndex = 1
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Data Detail Barcode"
@@ -881,7 +927,7 @@ Partial Class EMI_Validasi_GR
         Me.LvBarcodeDetail.Location = New System.Drawing.Point(3, 16)
         Me.LvBarcodeDetail.Margin = New System.Windows.Forms.Padding(2)
         Me.LvBarcodeDetail.Name = "LvBarcodeDetail"
-        Me.LvBarcodeDetail.Size = New System.Drawing.Size(481, 176)
+        Me.LvBarcodeDetail.Size = New System.Drawing.Size(492, 176)
         Me.LvBarcodeDetail.TabIndex = 476
         Me.LvBarcodeDetail.UseCompatibleStateImageBehavior = False
         Me.LvBarcodeDetail.View = System.Windows.Forms.View.Details
@@ -891,7 +937,7 @@ Partial Class EMI_Validasi_GR
         Me.GroupBox2.Controls.Add(Me.LvBarcode)
         Me.GroupBox2.Location = New System.Drawing.Point(3, 4)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(508, 401)
+        Me.GroupBox2.Size = New System.Drawing.Size(627, 401)
         Me.GroupBox2.TabIndex = 0
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Data Barcode"
@@ -906,7 +952,7 @@ Partial Class EMI_Validasi_GR
         Me.LvBarcode.Location = New System.Drawing.Point(5, 18)
         Me.LvBarcode.Margin = New System.Windows.Forms.Padding(2)
         Me.LvBarcode.Name = "LvBarcode"
-        Me.LvBarcode.Size = New System.Drawing.Size(498, 378)
+        Me.LvBarcode.Size = New System.Drawing.Size(617, 378)
         Me.LvBarcode.TabIndex = 475
         Me.LvBarcode.UseCompatibleStateImageBehavior = False
         Me.LvBarcode.View = System.Windows.Forms.View.Details
@@ -929,26 +975,19 @@ Partial Class EMI_Validasi_GR
         Me.HapusToolStripMenuItem1.Size = New System.Drawing.Size(162, 22)
         Me.HapusToolStripMenuItem1.Text = "Hapus"
         '
-        'Barcode
-        '
-        Me.Barcode.Location = New System.Drawing.Point(1086, 137)
-        Me.Barcode.Name = "Barcode"
-        Me.Barcode.Size = New System.Drawing.Size(100, 50)
-        Me.Barcode.TabIndex = 488
-        Me.Barcode.TabStop = False
-        '
         'SelectedBatch
         '
         Me.SelectedBatch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.SelectedBatch.Enabled = False
         Me.SelectedBatch.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SelectedBatch.Location = New System.Drawing.Point(1055, 294)
+        Me.SelectedBatch.Location = New System.Drawing.Point(1191, 169)
         Me.SelectedBatch.Margin = New System.Windows.Forms.Padding(2)
         Me.SelectedBatch.Name = "SelectedBatch"
         Me.SelectedBatch.ReadOnly = True
         Me.SelectedBatch.Size = New System.Drawing.Size(58, 20)
         Me.SelectedBatch.TabIndex = 476
         Me.SelectedBatch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.SelectedBatch.Visible = False
         '
         'Txt_JmlhKeranjang
         '
@@ -956,7 +995,7 @@ Partial Class EMI_Validasi_GR
         Me.Txt_JmlhKeranjang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_JmlhKeranjang.Enabled = False
         Me.Txt_JmlhKeranjang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_JmlhKeranjang.Location = New System.Drawing.Point(936, 49)
+        Me.Txt_JmlhKeranjang.Location = New System.Drawing.Point(1067, 49)
         Me.Txt_JmlhKeranjang.Margin = New System.Windows.Forms.Padding(2)
         Me.Txt_JmlhKeranjang.MaxLength = 50
         Me.Txt_JmlhKeranjang.Name = "Txt_JmlhKeranjang"
@@ -968,7 +1007,7 @@ Partial Class EMI_Validasi_GR
         '
         Me.Label10.AutoSize = True
         Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label10.Location = New System.Drawing.Point(810, 49)
+        Me.Label10.Location = New System.Drawing.Point(941, 49)
         Me.Label10.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(122, 17)
@@ -978,7 +1017,7 @@ Partial Class EMI_Validasi_GR
         'Label13
         '
         Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(921, 122)
+        Me.Label13.Location = New System.Drawing.Point(1054, 122)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(109, 13)
         Me.Label13.TabIndex = 490
@@ -988,7 +1027,7 @@ Partial Class EMI_Validasi_GR
         '
         Me.Panel11.BackColor = System.Drawing.Color.DarkRed
         Me.Panel11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel11.Location = New System.Drawing.Point(905, 123)
+        Me.Panel11.Location = New System.Drawing.Point(1038, 123)
         Me.Panel11.Name = "Panel11"
         Me.Panel11.Size = New System.Drawing.Size(12, 12)
         Me.Panel11.TabIndex = 489
@@ -997,7 +1036,7 @@ Partial Class EMI_Validasi_GR
         '
         Me.Panel12.BackColor = System.Drawing.Color.LightYellow
         Me.Panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel12.Location = New System.Drawing.Point(853, 123)
+        Me.Panel12.Location = New System.Drawing.Point(986, 123)
         Me.Panel12.Name = "Panel12"
         Me.Panel12.Size = New System.Drawing.Size(12, 12)
         Me.Panel12.TabIndex = 489
@@ -1005,7 +1044,7 @@ Partial Class EMI_Validasi_GR
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(869, 122)
+        Me.Label14.Location = New System.Drawing.Point(1002, 122)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(29, 13)
         Me.Label14.TabIndex = 490
@@ -1015,7 +1054,7 @@ Partial Class EMI_Validasi_GR
         '
         Me.Panel13.BackColor = System.Drawing.Color.LightGreen
         Me.Panel13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel13.Location = New System.Drawing.Point(734, 123)
+        Me.Panel13.Location = New System.Drawing.Point(867, 123)
         Me.Panel13.Name = "Panel13"
         Me.Panel13.Size = New System.Drawing.Size(12, 12)
         Me.Panel13.TabIndex = 489
@@ -1023,31 +1062,27 @@ Partial Class EMI_Validasi_GR
         'Label15
         '
         Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(750, 122)
+        Me.Label15.Location = New System.Drawing.Point(883, 122)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(98, 13)
         Me.Label15.TabIndex = 490
         Me.Label15.Text = "Ready For Packing"
         '
-        'PanelGradient1
+        'Barcode
         '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 40)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1051, 2)
-        Me.PanelGradient1.TabIndex = 22
+        Me.Barcode.Location = New System.Drawing.Point(1191, 110)
+        Me.Barcode.Name = "Barcode"
+        Me.Barcode.Size = New System.Drawing.Size(100, 50)
+        Me.Barcode.TabIndex = 488
+        Me.Barcode.TabStop = False
+        Me.Barcode.Visible = False
         '
         'EMI_Validasi_GR
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1051, 631)
+        Me.ClientSize = New System.Drawing.Size(1184, 631)
         Me.Controls.Add(Me.Label15)
         Me.Controls.Add(Me.Label14)
         Me.Controls.Add(Me.Label13)
@@ -1189,4 +1224,6 @@ Partial Class EMI_Validasi_GR
     Friend WithEvents Label14 As Label
     Friend WithEvents Panel13 As Panel
     Friend WithEvents Label15 As Label
+    Friend WithEvents Label17 As Label
+    Friend WithEvents Cmb_Jenis_Kategori As ComboBox
 End Class

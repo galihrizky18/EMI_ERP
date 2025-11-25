@@ -757,6 +757,10 @@ Public Class Transaksi_Penawaran_Barang_Lain
             Exit Sub
         End If
 
+        Dim saveFaktur = TxtPenawaran_NoFaktur.Text
+        Dim saveSupplier = Lbl_KdSupplier.Text
+        Dim saveNoPenawaran = Txt_NoPenawaran.Text
+
         If TxtPenawaran_NoFaktur.Text.Trim.Length = 0 Then
             MessageBox.Show(Base_Language.Lang_Global_NoFaktur & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             TxtPenawaran_NoFaktur.Focus() : Exit Sub
@@ -783,27 +787,22 @@ Public Class Transaksi_Penawaran_Barang_Lain
 
             Dim hasDataToInsert As Boolean = False
 
-            Dim saveFaktur = TxtPenawaran_NoFaktur.Text
-            Dim saveSupplier = Lbl_KdSupplier.Text
-            Dim saveNoPenawaran = Txt_NoPenawaran.Text
-
             If Btn_Simpan.Tag = "&Simpan" Then
 
                 get_no_faktur()
 
-
                 'Save Master Penawaran
                 SQL = "Insert into EMI_Master_Penawaran_Barang_Lain "
                 SQL = SQL & "(Kode_Perusahaan, No_Faktur, No_Penawaran, Tgl_Penawaran_Hrg, Periode_Akhir_Penawaran, Kode_Supplier, lokasi, tanggal, jam, iduser) "
-                SQL = SQL & "Values ('" & KodePerusahaan & "', '" & TxtPenawaran_NoFaktur.Text & "', '" & Txt_NoPenawaran.Text & "', "
+                SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & saveNoPenawaran & "', "
                 SQL = SQL & "'" & Format(Dtp_Tgl.Value, "yyyy-MM-dd") & "', '" & Format(Dtp_PeriodAkhir.Value, "yyyy-MM-dd") & "', "
-                SQL = SQL & "'" & Lbl_KdSupplier.Text & "', '" & Lokasi & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "' "
+                SQL = SQL & "'" & saveSupplier & "', '" & Lokasi & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "' "
                 SQL = SQL & ")"
                 ExecuteTrans(SQL)
 
 
                 SQL = "insert into EMI_Master_Penawaran_Jatuh_Tempo_Barang_Lain(Kode_Perusahaan,No_Faktur,No_Penawaran,Jenis_Pembayaran,Tempo_Pembayaran,Lama_Pembayaran) values("
-                SQL = SQL & "'" & KodePerusahaan & "', '" & TxtPenawaran_NoFaktur.Text & "', '" & Txt_NoPenawaran.Text & "', '" & arrPembayaran.Item(cmb_JenisBayar.SelectedIndex) & "',"
+                SQL = SQL & "'" & KodePerusahaan & "', '" & saveFaktur & "', '" & saveNoPenawaran & "', '" & arrPembayaran.Item(cmb_JenisBayar.SelectedIndex) & "',"
                 SQL = SQL & "'" & cmbJenisPengiriman.Text & "', '" & txtJatuhTempo.Text & "') "
                 ExecuteTrans(SQL)
 
@@ -873,7 +872,7 @@ Public Class Transaksi_Penawaran_Barang_Lain
                         SQL = "Insert into EMI_Master_Penawaran_Detail_Barang_Lain "
                         SQL = SQL & "(Kode_Perusahaan, No_Faktur, Kode_Barang, "
                         SQL = SQL & "Min_Order, Satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang) "
-                        SQL = SQL & "Values ('" & KodePerusahaan & "', '" & TxtPenawaran_NoFaktur.Text & "', '" & lvKdBrg & "', "
+                        SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & lvKdBrg & "', "
                         SQL = SQL & "'" & HilangkanTanda(lvMinOrder) & "', '" & lvSatuan & "', '" & HilangkanTanda(lvHrgSatuan) & "', "
                         SQL = SQL & " '" & harga_satuan_kecil & "','" & Satuan_Barang & "', '" & lvMUA & "') "
                         ExecuteTrans(SQL)
@@ -1637,7 +1636,7 @@ Public Class Transaksi_Penawaran_Barang_Lain
                 '===========================
                 '=     LOAD BAHAN BAKU     =
                 '===========================
-                SQL = "select a.Kode_Perusahaan, a.No_Faktur, b.Kode_Barang, c.Nama, c.Flag_PPN, "
+                SQL = "select a.Kode_Perusahaan, a.No_Faktur, b.Kode_Barang, c.Nama, d.Kode_Group_Jenis, c.Flag_PPN, "
                 SQL = SQL & "b.Min_Order, b.Satuan, b.Mata_Uang, b.Harga_Satuan "
                 SQL = SQL & "from EMI_Master_Penawaran_Barang_Lain a, EMI_Master_Penawaran_Detail_Barang_Lain b, Barang_Lain c, EMI_Group_Jenis_Lain d "
                 SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan "
@@ -1647,7 +1646,7 @@ Public Class Transaksi_Penawaran_Barang_Lain
                 SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
                 SQL = SQL & "and d.Flag_Raw_Material = 'Y' "
                 SQL = SQL & "and a.No_Faktur = '" & TxtPenawaran_NoFaktur.Text & "' "
-                SQL = SQL & "group by a.Kode_Perusahaan, a.No_Faktur,b.Kode_Barang, c.Nama, c.Flag_PPN, "
+                SQL = SQL & "group by a.Kode_Perusahaan, a.No_Faktur,b.Kode_Barang, c.Nama, d.Kode_Group_Jenis, c.Flag_PPN, "
                 SQL = SQL & "b.Min_Order, b.Satuan, b.Mata_Uang, b.Harga_Satuan "
                 Using ds = BindingTrans(SQL)
                     With ds.Tables("MyTable")
@@ -1695,7 +1694,7 @@ Public Class Transaksi_Penawaran_Barang_Lain
                 '==========================
                 '=     LOAD PACKAGING     =
                 '==========================
-                SQL = "select a.Kode_Perusahaan, a.No_Faktur, b.Kode_Barang, c.Nama, c.Flag_PPN, "
+                SQL = "select a.Kode_Perusahaan, a.No_Faktur, b.Kode_Barang, c.Nama, d.Kode_Group_Jenis, c.Flag_PPN, "
                 SQL = SQL & "b.Min_Order, b.Satuan, b.Mata_Uang, b.Harga_Satuan "
                 SQL = SQL & "from EMI_Master_Penawaran_Barang_Lain a, EMI_Master_Penawaran_Detail_Barang_Lain b, Barang_Lain c, EMI_Group_Jenis_Lain d "
                 SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan "
@@ -1705,7 +1704,7 @@ Public Class Transaksi_Penawaran_Barang_Lain
                 SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
                 SQL = SQL & "and d.flag_packaging = 'Y'  "
                 SQL = SQL & "and a.No_Faktur = '" & TxtPenawaran_NoFaktur.Text & "' "
-                SQL = SQL & "group by a.Kode_Perusahaan, a.No_Faktur,b.Kode_Barang, c.Nama, c.Flag_PPN, "
+                SQL = SQL & "group by a.Kode_Perusahaan, a.No_Faktur,b.Kode_Barang, c.Nama, d.Kode_Group_Jenis, c.Flag_PPN, "
                 SQL = SQL & "b.Min_Order, b.Satuan, b.Mata_Uang, b.Harga_Satuan "
                 Using ds = BindingTrans(SQL)
                     With ds.Tables("MyTable")

@@ -254,9 +254,6 @@
         Button1.Text = Base_Language.Lang_Global_Simpan
         Button3.Text = Base_Language.Lang_Global_Refresh
 
-        Txt_Toleransi_TimbangMin.Text = ""
-        Txt_Toleransi_TimbangMax.Text = ""
-
         ComboBox11.Enabled = False
 
         DgvSatuanTerpilih.Rows.Clear()
@@ -502,6 +499,12 @@
         ComboBox10.Items.Clear()
         ComboBox10.Items.Add("Y") : ComboBox10.Items.Add("T")
 
+        ComboBox3.Items.Clear()
+        ComboBox3.Items.Add("Y") : ComboBox3.Items.Add("T")
+
+        ComboBox9.Items.Clear()
+        ComboBox9.Items.Add("Y") : ComboBox9.Items.Add("T")
+
         ComboBox15.SelectedIndex = -1
         ComboBox16.SelectedIndex = -1
         TextBox3.Text = ""
@@ -517,6 +520,12 @@
         Button1.Enabled = True
 
         lvwSatuan.Visible = False
+
+        TxtToleransiTimbangMin.Text = ""
+        TxtToleransiTimbangMax.Text = ""
+        TxtToleransiTFMin.Text = ""
+        TxtToleransiTFMax.Text = ""
+        TxtLifeTime.Text = ""
 
         Get_Kategori_Gudang()
     End Sub
@@ -616,7 +625,7 @@
         ListView10.Columns.Add("Nama Supplier", 288, HorizontalAlignment.Left)
         ListView10.View = View.Details
 
-        ListView10.Location = New Point(161, 194)
+        ListView10.Location = New Point(961, 94) 'Point(161, 194)
 
         Cari("Y")
         TextBox1.Focus()
@@ -715,7 +724,7 @@
             SQL = "Select b.kode_group_jenis, "
             SQL = SQL & "a.kode_barang, a.satuan, a.flag_potong_stok, isnull(a.standar_price,0) as standar_price, a.Nama, a.harga_beli, a.last_hpp, a.stock_minimum, a.kode_kategori, "
             SQL = SQL & "a.flag_ppn, a.flag_sendiri, a.berat, a.berat_kotor, a.Panjang, a.Lebar, a.Tinggi, a.Kode_Kategori_Besar, a.Kode_Kategori_Kecil, "
-            SQL = SQL & "a.id_group_jenis, a.id_master_kategori_gudang, a.Jenis_Kemasan, a.Metode_Pengeluaran_Stok, a.Berat_Bags, a.Isi_Per_Bags, a.Id_Kategori_Gudang, "
+            SQL = SQL & "a.id_group_jenis, a.id_master_kategori_gudang, a.Jenis_Kemasan, a.Metode_Pengeluaran_Stok, a.Berat_Bags, a.Isi_Per_Bags, a.Id_Kategori_Gudang, a.aktif,"
 
             SQL = SQL & "isnull((select kode_kategori_gudang from emi_kategori_gudang x where a.kode_perusahaan = x.kode_perusahaan "
             SQL = SQL & "and a.id_kategori_gudang = x.id_kategori_gudang),NULL) as kode_kategori_gudang, "
@@ -732,7 +741,7 @@
             SQL = SQL & "and a.ID_Klasifikasi_Bahan2 = x.ID_Klasifikasi_Bahan2), null) as keterangan_Bhn2 , "
 
             SQL = SQL & "isnull((select keterangan from EMI_Master_Routing x where a.kode_perusahaan = x.kode_perusahaan "
-            SQL = SQL & "and a.ID_Routing = x.ID_Routing),NULL) as Keterangan_Routing, a.keterangan as Ket_Barang, a.Toleransi_Timbang_Min, a.Toleransi_Timbang_Max  "
+            SQL = SQL & "and a.ID_Routing = x.ID_Routing),NULL) as Keterangan_Routing, a.keterangan as Ket_Barang, ISNULL(a.Toleransi_Timbang_Min,0) as Toleransi_Timbang_Min,  ISNULL(a.Toleransi_Timbang_Max,0) as Toleransi_Timbang_Max, isnull(a.Toleransi_Tf_Min,0) as Toleransi_Tf_Min, isnull(a.Toleransi_Tf_Max,0) as Toleransi_Tf_Max, isnull(a.Life_Time,0) as Life_Time  "
             SQL = SQL & "From barang a, EMI_Group_Jenis b, emi_kategori_gudang c,Emi_Kategori_PO e, Emi_Klasifikasi_Bahan f Where "
             SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan And a.id_group_jenis = b.id_group_jenis "
             SQL = SQL & "And a.Kode_Perusahaan = '" & KodePerusahaan & "' and "
@@ -783,7 +792,7 @@
                     '    'Button2.Enabled = False
                     'End If
                     '  ComboBox5.Text = Dr("kode_pembeda")
-                    'ComboBox3.Text = Dr("aktif")
+                    ComboBox3.Text = Dr("aktif")
                     ComboBox9.Text = Dr("flag_ppn")
                     '   ComboBox6.Text = Dr("pakai_sn")
                     ComboBox10.Text = Dr("flag_sendiri")
@@ -894,19 +903,13 @@
 
                     Txtket.Text = General_Class.CekNULL(Dr("ket_barang"))
 
-                    If General_Class.CekNULL(Dr("Toleransi_Timbang_Min")) = "" Then
-                        Txt_Toleransi_TimbangMin.Text = 0
-                    Else
-                        Txt_Toleransi_TimbangMin.Text = Dr("Toleransi_Timbang_Min")
-                    End If
-
-                    If General_Class.CekNULL(Dr("Toleransi_Timbang_Max")) = "" Then
-                        Txt_Toleransi_TimbangMax.Text = 0
-                    Else
-                        Txt_Toleransi_TimbangMax.Text = Dr("Toleransi_Timbang_Max")
-                    End If
-
                     TextBox1.Text = Dr("kode_barang")
+
+                    TxtToleransiTimbangMin.Text = Dr("Toleransi_Timbang_Min")
+                    TxtToleransiTimbangMax.Text = Dr("Toleransi_Timbang_Max")
+                    TxtToleransiTFMin.Text = Dr("Toleransi_Tf_Min")
+                    TxtToleransiTFMax.Text = Dr("Toleransi_Tf_Max")
+                    TxtLifeTime.Text = Dr("Life_Time")
 
                     Dr.Close()
 
@@ -914,33 +917,21 @@
 
                     DgvSatuanTerpilih.Rows.Clear()
                     Dim rows As Integer = 0
-                    SQL = "select a.Satuan,a.Jumlah,a.Flag_Tampil_Display, a.Flag_Kirim, b. Flag_General from Barang_Detail_Satuan a , EMI_Satuan_Detail_Perhitungan b where   "
-                    SQL = SQL & " a.Kode_Perusahaan = b.Kode_Perusahaan and a.Satuan = b.Satuan_Akhir and Kode_barang = '" & kodeBarangTemp & "' "
-                    SQL = SQL & "and satuan_awal = '" & satuanBarang & "' "
-                    SQL = SQL & "group by a.Satuan,a.Jumlah,a.Flag_Tampil_Display,b. Flag_General, a.Flag_Kirim "
+                    SQL = "Select a.Satuan,a.Nilai,a.Flag_Dasar, a.Flag_Default from N_EMI_Master_Satuan a , EMI_Satuan_Detail_Perhitungan b where   "
+                    SQL = SQL & " a.Kode_Perusahaan = b.Kode_Perusahaan And a.Satuan = b.Satuan_Akhir And Kode_barang = '" & kodeBarangTemp & "' "
+                    'SQL = SQL & "and satuan_awal = '" & satuanBarang & "' "
+                    SQL = SQL & "group by a.Satuan,a.Nilai,a.Flag_Dasar,a.Flag_Default "
                     Using Dr2 = OpenTrans(SQL)
                         Do While Dr2.Read
                             DgvSatuanTerpilih.Rows.Add(1)
                             DgvSatuanTerpilih.Rows(rows).Cells(0).Value = Dr2("satuan")
-                            DgvSatuanTerpilih.Rows(rows).Cells(1).Value = Dr2("jumlah")
+                            DgvSatuanTerpilih.Rows(rows).Cells(1).Value = Dr2("nilai")
 
-                            If General_Class.CekNULL(Dr2("flag_tampil_display")) <> "" Then
+                            If General_Class.CekNULL(Dr2("flag_default")) <> "" Then
                                 DgvSatuanTerpilih.Rows(rows).Cells(2).Value = True
                             End If
 
-                            If General_Class.CekNULL(Dr2("flag_kirim")) <> "" Then
-                                DgvSatuanTerpilih.Rows(rows).Cells(4).Value = True
-                            End If
-
-                            If General_Class.CekNULL(Dr2("flag_general")) = "" Then
-                                DgvSatuanTerpilih.Rows(rows).Cells(3).Value = "T"
-                            ElseIf Dr2("flag_general") = "T" Then
-                                DgvSatuanTerpilih.Rows(rows).Cells(3).Value = "T"
-                            Else
-                                DgvSatuanTerpilih.Rows(rows).Cells(3).Value = "Y"
-                            End If
-
-                            If General_Class.CekNULL(Dr2("flag_General")) = "Y" Then
+                            If General_Class.CekNULL(Dr2("flag_dasar")) = "Y" Then
                                 DgvSatuanTerpilih.Rows(rows).Cells(1).ReadOnly = True
                                 DgvSatuanTerpilih.Rows(rows).Cells(1).Style.BackColor = Color.Yellow
                             End If
@@ -948,6 +939,42 @@
                             rows = rows + 1
                         Loop
                     End Using
+
+
+                    'SQL = "Select a.Satuan,a.Jumlah,a.Flag_Tampil_Display, a.Flag_Kirim, b. Flag_General from Barang_Detail_Satuan a , EMI_Satuan_Detail_Perhitungan b where   "
+                    'SQL = SQL & " a.Kode_Perusahaan = b.Kode_Perusahaan And a.Satuan = b.Satuan_Akhir And Kode_barang = '" & kodeBarangTemp & "' "
+                    'SQL = SQL & "and satuan_awal = '" & satuanBarang & "' "
+                    'SQL = SQL & "group by a.Satuan,a.Jumlah,a.Flag_Tampil_Display,b. Flag_General, a.Flag_Kirim "
+                    'Using Dr2 = OpenTrans(SQL)
+                    '    Do While Dr2.Read
+                    '        DgvSatuanTerpilih.Rows.Add(1)
+                    '        DgvSatuanTerpilih.Rows(rows).Cells(0).Value = Dr2("satuan")
+                    '        DgvSatuanTerpilih.Rows(rows).Cells(1).Value = Dr2("jumlah")
+
+                    '        If General_Class.CekNULL(Dr2("flag_tampil_display")) <> "" Then
+                    '            DgvSatuanTerpilih.Rows(rows).Cells(2).Value = True
+                    '        End If
+
+                    '        If General_Class.CekNULL(Dr2("flag_kirim")) <> "" Then
+                    '            DgvSatuanTerpilih.Rows(rows).Cells(4).Value = True
+                    '        End If
+
+                    '        If General_Class.CekNULL(Dr2("flag_general")) = "" Then
+                    '            DgvSatuanTerpilih.Rows(rows).Cells(3).Value = "T"
+                    '        ElseIf Dr2("flag_general") = "T" Then
+                    '            DgvSatuanTerpilih.Rows(rows).Cells(3).Value = "T"
+                    '        Else
+                    '            DgvSatuanTerpilih.Rows(rows).Cells(3).Value = "Y"
+                    '        End If
+
+                    '        'If General_Class.CekNULL(Dr2("flag_General")) = "Y" Then
+                    '        '    DgvSatuanTerpilih.Rows(rows).Cells(1).ReadOnly = True
+                    '        '    DgvSatuanTerpilih.Rows(rows).Cells(1).Style.BackColor = Color.Red
+                    '        'End If
+
+                    '        rows = rows + 1
+                    '    Loop
+                    'End Using
 
                     'For i As Integer = 0 To lvwSatuan.Items.Count - 1
                     '    SQL = "select flag_tampil_display from Barang_Detail_Satuan where kode_perusahaan = '" & KodePerusahaan & "'  "
@@ -1064,13 +1091,27 @@
         ElseIf TextBox15.Text.Length = 0 Then
             MessageBox.Show(Base_Language.Lang_Barang_Err_Berat_Kotor, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TextBox15.Focus() : Exit Sub
-
         ElseIf TextBox16.Text.Length = 0 Then
             MessageBox.Show(Base_Language.Lang_Barang_Err_Panjang, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TextBox16.Focus() : Exit Sub
         ElseIf TextBox17.Text.Length = 0 Then
             MessageBox.Show(Base_Language.Lang_Barang_Err_Lebar, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TextBox17.Focus() : Exit Sub
+        ElseIf TxtToleransiTFMin.Text.Length = 0 Then
+            MessageBox.Show("Toleransi Timbang Min Harus Diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox18.Focus() : Exit Sub
+        ElseIf TxtToleransiTFMax.Text.Length = 0 Then
+            MessageBox.Show("Toleransi Timbang Max Harus Diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox18.Focus() : Exit Sub
+        ElseIf TxtToleransiTFMin.Text.Length = 0 Then
+            MessageBox.Show("Toleransi TF Min Harus Diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox18.Focus() : Exit Sub
+        ElseIf TxtToleransiTFMax.Text.Length = 0 Then
+            MessageBox.Show("Toleransi TF Max Harus Diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox18.Focus() : Exit Sub
+        ElseIf TxtLifeTime.Text.Length = 0 Then
+            MessageBox.Show("Life Time Harus Diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox18.Focus() : Exit Sub
         ElseIf TextBox18.Text.Length = 0 Then
             MessageBox.Show(Base_Language.Lang_Barang_Err_Tinggi, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TextBox18.Focus() : Exit Sub
@@ -1104,12 +1145,6 @@
         ElseIf ComboBox16.SelectedIndex = -1 Then
             MessageBox.Show("Metode Pengeluaran Stok harus diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             ComboBox16.Focus() : Exit Sub
-        ElseIf Txt_Toleransi_TimbangMin.Text = "" Then
-            MessageBox.Show("Toleransi Min harus diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Txt_Toleransi_TimbangMin.Focus() : Exit Sub
-        ElseIf Txt_Toleransi_TimbangMax.Text = "" Then
-            MessageBox.Show("Toleransi Max harus diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Txt_Toleransi_TimbangMax.Focus() : Exit Sub
         End If
 
         If arrGudangRawMaterial.Contains(arrJenisBarang(cmbJenis.SelectedIndex)) Then
@@ -1133,9 +1168,18 @@
 
         Dim cekDIsplayYangDIpilih As Integer = 0
         Dim cekkirimYangDIpilih As Integer = 0
+        Dim hasCheckFlagDefault As Boolean = False
         For i As Integer = 0 To DgvSatuanTerpilih.Rows.Count - 1
 
-            If DgvSatuanTerpilih.Rows(i).Cells(3).Value = "T" And DgvSatuanTerpilih.Rows(i).Cells(1).Value < 1 Then
+            'If DgvSatuanTerpilih.Rows(i).Cells(3).Value = "T" And DgvSatuanTerpilih.Rows(i).Cells(1).Value < 1 Then
+            '    MessageBox.Show(Base_Language.Lang_Barang_Err_Nilai_Pengali1 & " " & DgvSatuanTerpilih.Rows(i).Cells(0).Value & " " & Base_Language.Lang_Barang_Err_Nilai_Pengali2)
+            '    Exit Sub
+            'End If
+
+            If DgvSatuanTerpilih.Rows(i).Cells(2).Value = True Then
+                hasCheckFlagDefault = True
+            End If
+            If DgvSatuanTerpilih.Rows(i).Cells(1).Value <= 0 Then
                 MessageBox.Show(Base_Language.Lang_Barang_Err_Nilai_Pengali1 & " " & DgvSatuanTerpilih.Rows(i).Cells(0).Value & " " & Base_Language.Lang_Barang_Err_Nilai_Pengali2)
                 Exit Sub
             End If
@@ -1148,6 +1192,11 @@
                 cekkirimYangDIpilih = cekkirimYangDIpilih + 1
             End If
         Next
+
+        If Not hasCheckFlagDefault Then
+            MessageBox.Show("Harap Pilih Minimal 1 Satuan Default", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
 
         If cekDIsplayYangDIpilih <> 1 Then
             MessageBox.Show(Base_Language.Lang_Barang_Err_Flag_Tampil_Display)
@@ -1166,20 +1215,13 @@
 
             Cmd.Transaction = Cn.BeginTransaction
 
+            Dim Msg As String = ""
+
             If Button1.Text = "&Simpan" Then
 
                 If arrGudangRawMaterial.Contains(arrJenisBarang(cmbJenis.SelectedIndex)) Then
 
                     Dim No_Urut As String
-
-                    'SQL = " Select b.Prefix As Prefix_Klasifikasi_Bahan, (max(right(a.Kode_Barang,3)) + 1) As No_Urut "
-                    'SQL = SQL & "From barang a left Join ( "
-                    'SQL = SQL & "Select a.Prefix_Klasifikasi_Bahan +''+b.Prefix_Klasifikasi_Bahan as Prefix, b.id_klasifikasi_bahan1 "
-                    'SQL = SQL & "From EMI_Klasifikasi_Bahan a, EMI_Klasifikasi_Bahan2 b Where "
-                    'SQL = SQL & "a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 And "
-                    'SQL = SQL & "b.id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "') b "
-                    'SQL = SQL & "on a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 Where Left(a.kode_barang, 4) = Prefix "
-                    'SQL = SQL & "Group By b.Prefix "
 
                     SQL = "select top(1) substring(kode_barang, 5, 3) as no_urut from barang where kode_perusahaan = '" & KodePerusahaan & "' and "
                     SQL = SQL & "id_klasifikasi_bahan = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "' and "
@@ -1199,7 +1241,6 @@
                         End If
                         TextBox1.Text = arrprefix_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & arrprefix_Klasifikasi_Bahan2.Item(ComboBox19.SelectedIndex) & No_Urut
                     End Using
-
 
                 End If
 
@@ -1252,8 +1293,7 @@
                                 Else
                                     SQL = SQL & ",ID_Klasifikasi_Bahan2"
                                 End If
-                                SQL = SQL & ",ID_Routing, Jenis_Kemasan, Metode_Pengeluaran_Stok, Berat_Bags, Satuan_Berat_Bags, Isi_Per_Bags, Satuan_Isi_Bags,flag_potong_stok,standar_price, "
-                                SQL = SQL & "Keterangan, Toleransi_Timbang_Min, Toleransi_Timbang_Max) "
+                                SQL = SQL & ",ID_Routing, Jenis_Kemasan, Metode_Pengeluaran_Stok, Berat_Bags, Satuan_Berat_Bags, Isi_Per_Bags, Satuan_Isi_Bags,flag_potong_stok,standar_price, Keterangan, Toleransi_Timbang_Min, Toleransi_Timbang_Max, Toleransi_Tf_Min, Toleransi_Tf_Max, Life_Time) "
                                 SQL = SQL & "values ('" & KodePerusahaan & "', '" & .Rows(i).Item("kode_stock_owner") & "', "
 
                                 SQL = SQL & "'" & TextBox1.Text.Trim & "', '" & TextBox1.Text.Trim & "', "
@@ -1294,8 +1334,15 @@
 
                                 SQL = SQL & "'" & ComboBox18.SelectedItem & "', "
                                 SQL = SQL & "'" & Cmb_FlagPotongStok.Text & "' ,"
-                                SQL = SQL & "'" & txtStandarPrice.Text.Trim & "', '" & Txtket.Text & "', "
-                                SQL = SQL & "'" & Txt_Toleransi_TimbangMin.Text & "', '" & Txt_Toleransi_TimbangMax.Text & "')"
+                                SQL = SQL & "'" & txtStandarPrice.Text.Trim & "', '" & Txtket.Text & "',"
+
+                                SQL = SQL & "'" & TxtToleransiTimbangMin.Text.Trim & "',"
+                                SQL = SQL & "'" & TxtToleransiTimbangMax.Text.Trim & "',"
+                                SQL = SQL & "'" & TxtToleransiTFMin.Text.Trim & "',"
+                                SQL = SQL & "'" & TxtToleransiTFMax.Text.Trim & "',"
+                                SQL = SQL & " '" & TxtLifeTime.Text.Trim & "'"
+
+                                SQL = SQL & ")"
                                 ExecuteTrans(SQL)
 
                             Next
@@ -1319,9 +1366,28 @@
                                 '    checkFlagKirim = "NULL"
                                 'End If
 
-                                SQL = "insert into Barang_Detail_Satuan(kode_perusahaan,kode_barang,satuan,flag_tampil_display,jumlah,Flag_Kirim) values("
-                                SQL = SQL & "'" & KodePerusahaan & "', '" & TextBox1.Text & "', '" & DgvSatuanTerpilih.Rows(i).Cells(0).Value & "',"
-                                SQL = SQL & "" & checkFlag & ", '" & DgvSatuanTerpilih.Rows(i).Cells(1).Value & "'," & checkFlagKirim & ")"
+                                Dim checkFlagDasar As String = ""
+                                If DgvSatuanTerpilih.Rows(i).Cells(0).Value = cmbSatuan.Text Then
+                                    checkFlagDasar = "'Y'"
+                                Else
+                                    checkFlagDasar = "NULL"
+                                End If
+
+                                If checkFlagDasar = "'Y'" Then
+                                    SQL = "insert into Barang_Detail_Satuan(kode_perusahaan,kode_barang,satuan,flag_tampil_display,jumlah,Flag_Kirim) values("
+                                    SQL = SQL & "'" & KodePerusahaan & "', '" & TextBox1.Text & "', '" & DgvSatuanTerpilih.Rows(i).Cells(0).Value & "',"
+                                    SQL = SQL & "'Y', '" & DgvSatuanTerpilih.Rows(i).Cells(1).Value & "','Y')"
+                                    ExecuteTrans(SQL)
+                                End If
+
+                                SQL = "INSERT INTO N_EMI_Master_Satuan (kode_perusahaan, kode_barang, barang, satuan, nilai, flag_dasar, flag_default) VALUES ("
+                                SQL &= "'" & KodePerusahaan & "', "
+                                SQL &= "'" & TextBox1.Text & "', "
+                                SQL &= "'" & TextBox2.Text & "', "
+                                SQL &= "'" & DgvSatuanTerpilih.Rows(i).Cells(0).Value & "', "
+                                SQL &= DgvSatuanTerpilih.Rows(i).Cells(1).Value & ", "
+                                SQL &= checkFlagDasar & ", "
+                                SQL &= checkFlag & ")"
                                 ExecuteTrans(SQL)
 
                             Next
@@ -1350,7 +1416,16 @@
                         End If
                     End With
                 End Using
+
+                Msg = "Barang Berhasil Disimpan"
             Else
+
+                If CekButtonRole("update_barang") = "T" Then
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Anda tidak memiliki akses untuk memproses transaksi ini!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
 
                 SQL = "Update a Set a.nama = '" & TextBox2.Text.Trim & "', "
                 SQL = SQL & "a.satuan = '" & cmbSatuan.Text.Trim & "', "
@@ -1403,10 +1478,39 @@
                 End If
 
                 SQL = SQL & "a.Satuan_Isi_Bags = '" & ComboBox18.SelectedItem & "', "
-                SQL = SQL & "a.keterangan = '" & Txtket.Text & "', "
-                SQL = SQL & "a.Toleransi_Timbang_Min = '" & Txt_Toleransi_TimbangMin.Text & "', "
-                SQL = SQL & "a.Toleransi_Timbang_Max = '" & Txt_Toleransi_TimbangMax.Text & "' "
-                ' SQL = SQL & "a.input_csi = '" & ComboBox11.Text & "', "S
+                SQL = SQL & "a.keterangan = '" & Txtket.Text & "',"
+                ' SQL = SQL & "a.input_csi = '" & ComboBox11.Text & "', "
+
+
+                If TxtToleransiTimbangMin.Text = "" Or String.IsNullOrWhiteSpace(TxtToleransiTimbangMin.Text) Then
+                    SQL = SQL & "a.Toleransi_Timbang_Min = Null, "
+                Else
+                    SQL = SQL & "a.Toleransi_Timbang_Min = '" & TxtToleransiTimbangMin.Text & "', "
+                End If
+
+                If TxtToleransiTimbangMax.Text = "" Or String.IsNullOrWhiteSpace(TxtToleransiTimbangMax.Text) Then
+                    SQL = SQL & "a.Toleransi_Timbang_Max = Null, "
+                Else
+                    SQL = SQL & "a.Toleransi_Timbang_Max = '" & TxtToleransiTimbangMax.Text & "', "
+                End If
+
+                If TxtToleransiTFMin.Text = "" Or String.IsNullOrWhiteSpace(TxtToleransiTFMin.Text) Then
+                    SQL = SQL & "a.Toleransi_Tf_Min = Null, "
+                Else
+                    SQL = SQL & "a.Toleransi_Tf_Min = '" & TxtToleransiTFMin.Text & "', "
+                End If
+
+                If TxtToleransiTFMax.Text = "" Or String.IsNullOrWhiteSpace(TxtToleransiTFMax.Text) Then
+                    SQL = SQL & "a.Toleransi_Tf_Max = Null, "
+                Else
+                    SQL = SQL & "a.Toleransi_Tf_Max = '" & TxtToleransiTFMax.Text & "', "
+                End If
+
+                If TxtLifeTime.Text = "" Or String.IsNullOrWhiteSpace(TxtLifeTime.Text) Then
+                    SQL = SQL & "a.Life_Time = Null "
+                Else
+                    SQL = SQL & "a.Life_Time = '" & TxtLifeTime.Text & "'"
+                End If
 
                 '    SQL = SQL & "a.penentu_harga_csi = '" & TextBox5.Text & "' "
                 SQL = SQL & "from barang a, View_Lokasi_Stock b where "
@@ -1414,33 +1518,59 @@
                 SQL = SQL & "a.kode_stock_owner = b.kode_stock_owner and "
                 SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and "
                 SQL = SQL & "a.kode_barang = '" & TextBox1.Text.Trim & "' "
+
                 ExecuteTrans(SQL)
 
                 SQL = "delete barang_detail_satuan where kode_perusahaan = '" & KodePerusahaan & "' and kode_barang = '" & TextBox1.Text & "' "
                 ExecuteTrans(SQL)
 
+                SQL = "delete N_EMI_Master_Satuan where kode_perusahaan = '" & KodePerusahaan & "' and kode_barang = '" & TextBox1.Text & "' "
+                ExecuteTrans(SQL)
+
                 For i As Integer = 0 To DgvSatuanTerpilih.Rows.Count - 1
 
-                    Dim checkFlag As String = ""
+                    Dim checkFlagDefault As String = ""
 
                     If DgvSatuanTerpilih.Rows(i).Cells(2).Value = True Then
-                        checkFlag = "'Y'"
+                        checkFlagDefault = "'Y'"
                     Else
-                        checkFlag = "NULL"
+                        checkFlagDefault = "NULL"
                     End If
 
-                    Dim checkFlagKirim As String = ""
+                    'Dim checkFlagKirim As String = ""
 
-                    If DgvSatuanTerpilih.Rows(i).Cells(4).Value = True Then
-                        checkFlagKirim = "'Y'"
+                    'If DgvSatuanTerpilih.Rows(i).Cells(4).Value = True Then
+                    '    checkFlagKirim = "'Y'"
+                    'Else
+                    '    checkFlagKirim = "NULL"
+                    'End If
+
+                    Dim checkFlagDasar As String = ""
+                    Debug.WriteLine(DgvSatuanTerpilih.Rows(i).Cells(0).Value)
+                    Debug.WriteLine(cmbSatuan.Text)
+                    If DgvSatuanTerpilih.Rows(i).Cells(0).Value = cmbSatuan.Text Then
+                        checkFlagDasar = "'Y'"
                     Else
-                        checkFlagKirim = "NULL"
+                        checkFlagDasar = "NULL"
                     End If
 
-                    SQL = "insert into Barang_Detail_Satuan(kode_perusahaan,kode_barang,satuan,flag_tampil_display,jumlah, flag_kirim) values("
-                    SQL = SQL & "'" & KodePerusahaan & "', '" & TextBox1.Text & "', '" & DgvSatuanTerpilih.Rows(i).Cells(0).Value & "',"
-                    SQL = SQL & "" & checkFlag & ", '" & DgvSatuanTerpilih.Rows(i).Cells(1).Value & "'," & checkFlagKirim & ")"
+                    If checkFlagDasar = "'Y'" Then
+                        SQL = "insert into Barang_Detail_Satuan(kode_perusahaan,kode_barang,satuan,flag_tampil_display,jumlah,Flag_Kirim) values("
+                        SQL = SQL & "'" & KodePerusahaan & "', '" & TextBox1.Text & "', '" & DgvSatuanTerpilih.Rows(i).Cells(0).Value & "',"
+                        SQL = SQL & "'Y', '" & DgvSatuanTerpilih.Rows(i).Cells(1).Value & "','Y')"
+                        ExecuteTrans(SQL)
+                    End If
+
+                    SQL = "INSERT INTO N_EMI_Master_Satuan (kode_perusahaan, kode_barang, barang, satuan, nilai, flag_dasar, flag_default) VALUES ("
+                    SQL &= "'" & KodePerusahaan & "', "
+                    SQL &= "'" & TextBox1.Text & "', "
+                    SQL &= "'" & TextBox2.Text & "', "
+                    SQL &= "'" & DgvSatuanTerpilih.Rows(i).Cells(0).Value & "', "
+                    SQL &= DgvSatuanTerpilih.Rows(i).Cells(1).Value & ", "
+                    SQL &= checkFlagDasar & ", "
+                    SQL &= checkFlagDefault & ")"
                     ExecuteTrans(SQL)
+
 
                     'Dim checkFlag As String = ""
 
@@ -1487,11 +1617,13 @@
                 'ListView1.FocusedItem.SubItems(15).Text = TextBox10.Text.Trim
                 'ListView1.FocusedItem.SubItems(16).Text = TextBox11.Text.Trim
                 'ListView1.FocusedItem.SubItems(17).Text = ComboBox9.Text
+
+                Msg = "Barang Berhasil Diupdate"
             End If
 
             Cmd.Transaction.Commit()
-
             CloseConn()
+            MessageBox.Show(Msg, Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
             CloseTrans()
             CloseConn()
@@ -1610,6 +1742,7 @@
         TextBox1.Text = ListView1.FocusedItem.SubItems(1).Text
         'ComboBox2.Text = ListView1.FocusedItem.Text
         TextBox1_Leave(ListView1, e)
+        TabControl1.SelectedIndex = 0
     End Sub
 
     Private Sub TextBox8_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TextBox8.TextChanged
@@ -1872,18 +2005,6 @@
 
     End Sub
 
-    Private Sub lvwSatuan_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvwSatuan.SelectedIndexChanged
-
-    End Sub
-
-    'Private Sub TextBox13_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
-    '    If e.KeyChar = Chr(13) Then TextBox14.Focus()
-    'End Sub
-
-    Private Sub TextBox14_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
-
-    End Sub
-
     Private Sub cmbSatuan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles cmbSatuan.KeyPress
         If e.KeyChar = Chr(13) Then Txtket.Focus()
     End Sub
@@ -1894,7 +2015,6 @@
     End Sub
 
     Private Sub cmbJenis_KeyPress(sender As Object, e As KeyPressEventArgs) Handles cmbJenis.KeyPress
-
         If e.KeyChar = Chr(13) Then
             If ComboBox11.Enabled = True Then
                 ComboBox11.Focus()
@@ -1902,7 +2022,6 @@
                 TextBox1.Focus()
             End If
         End If
-
     End Sub
 
     Private Sub TextBox15_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox15.KeyPress
@@ -1938,6 +2057,22 @@
 
         End If
 
+        If DgvSatuanTerpilih.CurrentRow.Cells(2).Value = True Then
+            For i As Integer = 0 To DgvSatuanTerpilih.Rows.Count - 1
+                If i <> currentRow Then
+                    If DgvSatuanTerpilih.Rows(i).Cells(2).Value = True Then
+                        DgvSatuanTerpilih.Rows(i).Cells(2).Value = False
+                    End If
+                End If
+            Next
+        Else
+            If DgvSatuanTerpilih.Rows.Count = 1 Then
+                MessageBox.Show("Satuan Default Harus Dipilih", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                DgvSatuanTerpilih.Rows(0).Cells(2).Value = True
+                Exit Sub
+            End If
+        End If
+
     End Sub
 
     Private Sub DgvSatuanTerpilih_KeyDown(sender As Object, e As KeyEventArgs) Handles DgvSatuanTerpilih.KeyDown
@@ -1958,13 +2093,13 @@
 
                 BeginInvoke(New MethodInvoker(Sub() DgvSatuanTerpilih.Rows.RemoveAt(currentRow)))
 
+                If DgvSatuanTerpilih.Rows.Count = 2 Then
+                    DgvSatuanTerpilih.Rows(0).Cells(2).Value = True
+                End If
+
             End If
         End If
     End Sub
-
-    'Private Sub ComboBox13_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox13.KeyPress
-    '    If e.KeyChar = Chr(13) Then ComboBox11.Focus()
-    'End Sub
 
     Private Sub cmbSatuan_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSatuan.SelectedIndexChanged
 
@@ -1981,11 +2116,18 @@
                     If Dr.Read Then
                         DgvSatuanTerpilih.Rows.Add(1)
                         DgvSatuanTerpilih.Rows(0).Cells(0).Value = Dr("satuan_akhir")
-                        DgvSatuanTerpilih.Rows(0).Cells(1).Value = Dr("nilai_pengali")
+                        'DgvSatuanTerpilih.Rows(0).Cells(1).Value = Dr("nilai_pengali")
+                        DgvSatuanTerpilih.Rows(0).Cells(1).Value = 1
                         DgvSatuanTerpilih.Rows(0).Cells(3).Value = Dr("flag_general")
 
-                        DgvSatuanTerpilih.Rows(0).Cells(1).ReadOnly = True
+                        If Dr("satuan_akhir").ToString.ToUpper = cmbSatuan.Text.ToUpper Then
+                            DgvSatuanTerpilih.Rows(0).Cells(1).ReadOnly = True
+                        Else
+                            DgvSatuanTerpilih.Rows(0).Cells(1).ReadOnly = False
+                        End If
                         DgvSatuanTerpilih.Rows(0).Cells(1).Style.BackColor = Color.Yellow
+
+                        DgvSatuanTerpilih.Rows(0).Cells(2).Value = True
                     Else
                         Dr.Close()
                         CloseConn()
@@ -2108,7 +2250,7 @@
 
     Private Sub TextBox9_KeyPress_1(sender As Object, e As KeyPressEventArgs) Handles txtStandarPrice.KeyPress
         If e.KeyChar = Chr(13) Then
-            Txt_Toleransi_TimbangMin.Focus()
+            Button1.Focus()
         End If
 
         If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
@@ -2139,22 +2281,8 @@
         If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
     End Sub
 
-    Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
-
-    End Sub
-
     Private Sub DgvSatuanTerpilih_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DgvSatuanTerpilih.KeyPress
         If e.KeyChar = Chr(13) Then ComboBox19.Focus()
-    End Sub
-
-    Private Sub Txt_Toleransi_TimbangMin_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Toleransi_TimbangMin.KeyPress
-        If e.KeyChar = Chr(13) Then Txt_Toleransi_TimbangMax.Focus()
-        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
-    End Sub
-
-    Private Sub Txt_Toleransi_TimbangMax_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Toleransi_TimbangMax.KeyPress
-        If e.KeyChar = Chr(13) Then Button1.Focus()
-        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
     End Sub
 
     Private Sub cmbJenis_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbJenis.SelectedIndexChanged
@@ -2176,9 +2304,327 @@
         If Button1.Text = "&Simpan" Then
             TextBox1.Text = String.Empty
         End If
+    End Sub
+
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
 
     End Sub
 
+    Private Sub PanelGradient1_Paint(sender As Object, e As PaintEventArgs) Handles PanelGradient1.Paint
+
+    End Sub
+
+    Private Sub Labeljudul_Click(sender As Object, e As EventArgs) Handles Labeljudul.Click
+
+    End Sub
+
+    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
+
+    End Sub
+
+    Private Sub Panel3_Paint(sender As Object, e As PaintEventArgs) Handles Panel3.Paint
+
+    End Sub
+
+    Private Sub Panel5_Paint(sender As Object, e As PaintEventArgs) Handles Panel5.Paint
+
+    End Sub
+
+    Private Sub Panel4_Paint(sender As Object, e As PaintEventArgs) Handles Panel4.Paint
+
+    End Sub
+
+    Private Sub lblJenis_Click(sender As Object, e As EventArgs) Handles lblJenis.Click
+
+    End Sub
+
+    Private Sub lblKodeBrng_Click(sender As Object, e As EventArgs) Handles lblKodeBrng.Click
+
+    End Sub
+
+    Private Sub lblNama_Click(sender As Object, e As EventArgs) Handles lblNama.Click
+
+    End Sub
+
+    Private Sub lblPenentuHarga_Click(sender As Object, e As EventArgs) Handles lblPenentuHarga.Click
+
+    End Sub
+
+    Private Sub lblStockMin_Click(sender As Object, e As EventArgs) Handles lblStockMin.Click
+
+    End Sub
+
+    Private Sub lblBeratBersih_Click(sender As Object, e As EventArgs) Handles lblBeratBersih.Click
+
+    End Sub
+
+    Private Sub lblUkuran_Click(sender As Object, e As EventArgs) Handles lblUkuran.Click
+
+    End Sub
+
+    Private Sub lblKategoriBesar_Click(sender As Object, e As EventArgs) Handles lblKategoriBesar.Click
+
+    End Sub
+
+    Private Sub Lbl_KategoriGudang_Click(sender As Object, e As EventArgs) Handles Lbl_KategoriGudang.Click
+
+    End Sub
+
+    Private Sub Label2_Click(sender As Object, e As EventArgs) Handles Label2.Click
+
+    End Sub
+
+    Private Sub Label5_Click(sender As Object, e As EventArgs) Handles Label5.Click
+
+    End Sub
+
+    Private Sub Label7_Click(sender As Object, e As EventArgs) Handles Label7.Click
+
+    End Sub
+
+    Private Sub lblKolom_Click(sender As Object, e As EventArgs) Handles lblKolom.Click
+
+    End Sub
+
+    Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
+
+    End Sub
+
+    Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox2.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub Label9_Click(sender As Object, e As EventArgs) Handles Label9.Click
+
+    End Sub
+
+    Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
+
+    End Sub
+
+    Private Sub lblSatuan_Click(sender As Object, e As EventArgs) Handles lblSatuan.Click
+
+    End Sub
+
+    Private Sub lblLastHpp_Click(sender As Object, e As EventArgs) Handles lblLastHpp.Click
+
+    End Sub
+
+    Private Sub TextBox6_TextChanged_1(sender As Object, e As EventArgs) Handles TextBox6.TextChanged
+
+    End Sub
+
+    Private Sub TextBox7_TextChanged(sender As Object, e As EventArgs) Handles TextBox7.TextChanged
+
+    End Sub
+
+    Private Sub lblJenisGudang_Click(sender As Object, e As EventArgs) Handles lblJenisGudang.Click
+
+    End Sub
+
+    Private Sub CmbJnsGudanng_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbJnsGudanng.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub lblBarangSendiri_Click(sender As Object, e As EventArgs) Handles lblBarangSendiri.Click
+
+    End Sub
+
+    Private Sub ComboBox10_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox10.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub ComboBox3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox3.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub ComboBox9_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox9.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub lblflagppn_Click(sender As Object, e As EventArgs) Handles lblflagppn.Click
+
+    End Sub
+
+    Private Sub TextBox12_TextChanged(sender As Object, e As EventArgs) Handles TextBox12.TextChanged
+
+    End Sub
+
+    Private Sub lblBeratKotor_Click(sender As Object, e As EventArgs) Handles lblBeratKotor.Click
+
+    End Sub
+
+    Private Sub TextBox15_TextChanged(sender As Object, e As EventArgs) Handles TextBox15.TextChanged
+
+    End Sub
+
+    Private Sub Label22_Click(sender As Object, e As EventArgs) Handles Label22.Click
+
+    End Sub
+
+    Private Sub lblPanjang_Click(sender As Object, e As EventArgs) Handles lblPanjang.Click
+
+    End Sub
+
+    Private Sub TextBox16_TextChanged(sender As Object, e As EventArgs) Handles TextBox16.TextChanged
+
+    End Sub
+
+    Private Sub lblLebar_Click(sender As Object, e As EventArgs) Handles lblLebar.Click
+
+    End Sub
+
+    Private Sub TextBox17_TextChanged(sender As Object, e As EventArgs) Handles TextBox17.TextChanged
+
+    End Sub
+
+    Private Sub lblTinggi_Click(sender As Object, e As EventArgs) Handles lblTinggi.Click
+
+    End Sub
+
+    Private Sub TextBox18_TextChanged(sender As Object, e As EventArgs) Handles TextBox18.TextChanged
+
+    End Sub
+
+    Private Sub Label33_Click(sender As Object, e As EventArgs) Handles Label33.Click
+
+    End Sub
+
+    Private Sub lblKategoriKecil_Click(sender As Object, e As EventArgs) Handles lblKategoriKecil.Click
+
+    End Sub
+
+    Private Sub ComboBox13_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox13.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub Cmb_KategoriGudang_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_KategoriGudang.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
+
+    End Sub
+
+    Private Sub ComboBox5_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox5.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub ComboBox6_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox6.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub Label4_Click(sender As Object, e As EventArgs) Handles Label4.Click
+
+    End Sub
+
+    Private Sub ComboBox14_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox14.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub Label6_Click(sender As Object, e As EventArgs) Handles Label6.Click
+
+    End Sub
+
+    Private Sub ComboBox16_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox16.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub TextBox3_TextChanged(sender As Object, e As EventArgs) Handles TextBox3.TextChanged
+
+    End Sub
+
+    Private Sub ComboBox17_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox17.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub Label8_Click(sender As Object, e As EventArgs) Handles Label8.Click
+
+    End Sub
+
+    Private Sub TextBox4_TextChanged(sender As Object, e As EventArgs) Handles TextBox4.TextChanged
+
+    End Sub
+
+    Private Sub ComboBox18_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox18.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub Label18_Click(sender As Object, e As EventArgs) Handles Label18.Click
+
+    End Sub
+
+    Private Sub lvwSatuan_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvwSatuan.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub DgvSatuanTerpilih_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DgvSatuanTerpilih.CellContentClick
+
+    End Sub
+
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub lblValue_Click(sender As Object, e As EventArgs) Handles lblValue.Click
+
+    End Sub
+
+    Private Sub lblSatusAktif_Click(sender As Object, e As EventArgs) Handles lblSatusAktif.Click
+
+    End Sub
+
+    Private Sub ComboBox7_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox7.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub Label17_Click(sender As Object, e As EventArgs) Handles Label17.Click
+
+    End Sub
+
+    Private Sub ComboBox8_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox8.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub ListView1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListView1.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub Label11_Click(sender As Object, e As EventArgs) Handles Label11.Click
+
+    End Sub
+
+    Private Sub Label10_Click(sender As Object, e As EventArgs) Handles Label10.Click
+
+    End Sub
+
+    Private Sub txtStandarPrice_TextChanged(sender As Object, e As EventArgs) Handles txtStandarPrice.TextChanged
+
+    End Sub
+
+    Private Sub Txtket_TextChanged(sender As Object, e As EventArgs) Handles Txtket.TextChanged
+
+    End Sub
+
+    Private Sub Label12_Click_1(sender As Object, e As EventArgs) Handles Label12.Click
+
+    End Sub
+
+    Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub TabPage2_Click(sender As Object, e As EventArgs) Handles TabPage2.Click
+
+    End Sub
+
+    Private Sub Panel6_Paint(sender As Object, e As PaintEventArgs) Handles Panel6.Paint
+
+    End Sub
+
+    Private Sub TabPage1_Click(sender As Object, e As EventArgs) Handles TabPage1.Click
+
+    End Sub
 
     Private Sub ComboBox15_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox15.SelectedIndexChanged
         If ComboBox15.Items.Count = 0 Then Exit Sub
@@ -2190,7 +2636,6 @@
         End If
 
         TextBox4.Text = ""
-
     End Sub
 
     Private Sub TextBox3_Leave(sender As Object, e As EventArgs) Handles TextBox3.Leave
@@ -2267,14 +2712,14 @@
                 'SQL = SQL & "group by b.Prefix_Klasifikasi_Bahan "
 
 
-                'SQL = " Select b.Prefix As Prefix_Klasifikasi_Bahan, (max(right(a.Kode_Barang,3)) + 1) As No_Urut "
-                'SQL = SQL & "From barang a left Join ( "
-                'SQL = SQL & "Select a.Prefix_Klasifikasi_Bahan +''+b.Prefix_Klasifikasi_Bahan as Prefix, b.id_klasifikasi_bahan1 "
-                'SQL = SQL & "From EMI_Klasifikasi_Bahan a, EMI_Klasifikasi_Bahan2 b Where "
-                'SQL = SQL & "a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 And "
-                'SQL = SQL & "b.id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "') b "
-                'SQL = SQL & "on a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 Where Left(a.kode_barang, 4) = Prefix "
-                'SQL = SQL & "Group By b.Prefix "
+                SQL = " Select b.Prefix As Prefix_Klasifikasi_Bahan, (max(right(a.Kode_Barang,3)) + 1) As No_Urut "
+                SQL = SQL & "From barang a left Join ( "
+                SQL = SQL & "Select a.Prefix_Klasifikasi_Bahan +''+b.Prefix_Klasifikasi_Bahan as Prefix, b.id_klasifikasi_bahan1 "
+                SQL = SQL & "From EMI_Klasifikasi_Bahan a, EMI_Klasifikasi_Bahan2 b Where "
+                SQL = SQL & "a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 And "
+                SQL = SQL & "b.id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "') b "
+                SQL = SQL & "on a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 Where Left(a.kode_barang, 4) = Prefix "
+                SQL = SQL & "Group By b.Prefix "
 
                 SQL = "select top(1) substring(kode_barang, 5, 3) as no_urut from barang where kode_perusahaan = '" & KodePerusahaan & "' and "
                 SQL = SQL & "id_klasifikasi_bahan = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "' and "
@@ -2313,4 +2758,19 @@
         If e.KeyChar = Chr(13) Then TextBox5.Focus()
     End Sub
 
+    Private Sub DgvSatuanTerpilih_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles DgvSatuanTerpilih.CellFormatting
+        If DgvSatuanTerpilih.CurrentCell IsNot Nothing AndAlso
+           DgvSatuanTerpilih.CurrentCell.RowIndex = e.RowIndex AndAlso
+           DgvSatuanTerpilih.CurrentCell.ColumnIndex = e.ColumnIndex AndAlso
+           DgvSatuanTerpilih.IsCurrentCellInEditMode Then
+            Exit Sub
+        End If
+
+        If e.ColumnIndex = DgvSatuanTerpilih.Columns("Column1").Index Then
+            If e.Value IsNot Nothing AndAlso IsNumeric(e.Value) Then
+                e.Value = e.Value.ToString() & " " & cmbSatuan.Text
+                e.FormattingApplied = True
+            End If
+        End If
+    End Sub
 End Class

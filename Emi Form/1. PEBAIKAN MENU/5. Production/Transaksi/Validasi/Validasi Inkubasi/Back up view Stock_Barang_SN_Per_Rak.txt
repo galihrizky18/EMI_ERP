@@ -1,0 +1,37 @@
+
+select a.Kode_Perusahaan, a.Kode_Stock_Owner, a.Kode_Barang, a.Nama,a.Id_Group_Jenis, e.Kode_Group_Jenis,           
+	a.Satuan as Satuan_Kecil, c.Satuan as Satuan_Besar, sum(b.jumlah) as Stock_Tersedia_Satuan_Kecil,          
+          
+	dbo.Ubah_Satuan(a.Kode_Perusahaan, 'MASA', a.Kode_Barang, a.Satuan, c.Satuan, sum(b.jumlah)) as Total_Stock_Tersedia_Satuan_Besar,          
+	sum(b.Jumlah_Bags) as Jumlah_Bags,      
+      
+          
+	b.Tgl_Expired, b.Tgl_Produksi, b.Tgl_Masuk, b.Batch_Number, b.Qr_Code+'-'+b.Kode_Unik_Berjalan as Qr_Code, a.Metode_Pengeluaran_Stok,          
+	f.Kode_WMS_Area, f.Kode_WMS_Row, f.Kode_WMS_Bay, f.Kode_WMS_Level, f.Kode_WMS_Position,           
+          
+	dbo.Labeling_WMS_Position(f.Kode_WMS_Area, f.Kode_WMS_Row, f.Kode_WMS_Bay, f.Kode_WMS_Level, f.Kode_WMS_Position) AS Labeling_WMS_Position,           
+          
+	g.Keterangan as Warna,              
+          
+	CASE WHEN a.Metode_Pengeluaran_Stok = 'FEFO' THEN datediff(day, getdate(), b.tgl_expired) ELSE 0 END AS sisa_umur,           
+	CASE WHEN a.Metode_Pengeluaran_Stok = 'FIFO' THEN isnull(datediff(day, b.Tgl_Masuk, getdate()),0) ELSE 0 END AS umur           
+          
+FROM            
+	dbo.Barang AS a INNER JOIN dbo.Barang_SN AS b ON           
+	a.Kode_Perusahaan = b.Kode_Perusahaan AND a.Kode_Stock_Owner = b.Kode_Stock_Owner AND a.Kode_Barang = b.Kode_Barang          
+	INNER JOIN dbo.Barang_Detail_Satuan AS c ON           
+	b.Kode_Perusahaan = c.Kode_Perusahaan AND b.Kode_Barang = c.Kode_barang           
+	INNER JOIN dbo.EMI_Group_Jenis AS e ON           
+	c.Kode_Perusahaan = e.Kode_Perusahaan AND a.Id_Group_Jenis = e.Id_Group_Jenis           
+	INNER JOIN dbo.View_Warehouse_Position AS f ON           
+	b.Id_Warehouse = f.Id_WMS_Warehouse_Position           
+	INNER JOIN EMI_Master_Warna as G on           
+	g.Kode_Perusahaan = b.Kode_Perusahaan and g.Kode_Warna = b.Warna            
+                  
+WHERE                  
+	(a.Kode_Perusahaan = '001') AND (c.Flag_Tampil_Display = 'Y') AND (b.Jumlah + b.Stock_Inquiry + b.Stock_PO <> 0)           
+          
+GROUP BY a.Kode_Perusahaan, a.Kode_Stock_Owner, a.Kode_Barang, a.Nama, a.Satuan, c.Satuan, f.Kode_WMS_Area,           
+	f.Kode_WMS_Row, f.Kode_WMS_Bay, f.Kode_WMS_Level, f.Kode_WMS_Position, a.Id_Group_Jenis, e.Kode_Group_Jenis,           
+	b.Tgl_Expired, b.Tgl_Produksi, b.Batch_Number, a.Metode_Pengeluaran_Stok, b.Tgl_Masuk,           
+	g.Keterangan, b.Qr_Code, b.Kode_Unik_Berjalan 

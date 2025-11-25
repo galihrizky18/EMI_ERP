@@ -32,8 +32,8 @@
 
                 '=== Pelunasan ==='
             Case "EMI_Pelunasan" : Return EMI_Pelunasan
-            Case "EMI_DownPayment" : Return EMI_DownPayment
-            Case "EMI_DownPayment_Binding" : Return EMI_DownPayment_Binding
+            Case "EMI_DownPayment" : Return EMI_Pembayaran_Di_Muka
+            Case "EMI_DownPayment_Binding" : Return EMI_Pembayaran_Di_Muka_Binding
 
                  'DISPLAY 
                  '=== Penawaran ==='

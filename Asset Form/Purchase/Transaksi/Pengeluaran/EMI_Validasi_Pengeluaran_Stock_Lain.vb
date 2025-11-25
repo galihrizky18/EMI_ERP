@@ -1029,12 +1029,15 @@ Public Class EMI_Validasi_Pengeluaran_Stock_Lain
                     End If
                 End Using
 
+
+#Region "Jurnal"
+
                 'dari
                 Dim inisial_faktur_dari As String = ""
                 Dim akun_biaya As String = ""
                 Dim akun_persediaan_dari As String = ""
 
-                SQL = "select inisial_faktur,Persediaan_Bahan_Baku,Persediaan,Persediaan_Bahan_Setengah_Jadi,Persediaan_Scrap, Persediaan_Packaging, Biaya_Pengeluaran_Barang, Biaya_Pengeluaran_Barang_Reject from stock_owner_gudang_lain "
+                SQL = "select inisial_faktur,Persediaan_Bahan_Baku, Biaya_Pengeluaran_Stock, Persediaan,Persediaan_Bahan_Setengah_Jadi,Persediaan_Scrap, Persediaan_Packaging, Biaya_Pengeluaran_Barang, Biaya_Pengeluaran_Barang_Reject from stock_owner_gudang_lain "
                 SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & GetSoAwal & "' "
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
@@ -1042,7 +1045,7 @@ Public Class EMI_Validasi_Pengeluaran_Stock_Lain
                         If Barang_Reject = "Y" Then
                             akun_biaya = Dr("Biaya_Pengeluaran_Barang_Reject")
                         Else
-                            akun_biaya = Dr("Biaya_Pengeluaran_Barang")
+                            akun_biaya = Dr("Biaya_Pengeluaran_Stock")
                         End If
 
                         inisial_faktur_dari = Dr("inisial_faktur")
@@ -1092,14 +1095,14 @@ Public Class EMI_Validasi_Pengeluaran_Stock_Lain
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_biaya, 1),
                           Strings.Mid(akun_biaya, 2, 1),
                           Strings.Mid(Ganti(akun_biaya), 3),
-                          KodePerusahaan, KodeProyek, "Biaya " & GetDataKodeTransfer, nilai_persediaan_min, "0", pagenumber, GetSoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                          KodePerusahaan, KodeProyek, "Persedian " & GetDataKodeTransfer, "0", nilai_persediaan_min, pagenumber, GetSoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_persediaan_dari, 1),
                          Strings.Mid(akun_persediaan_dari, 2, 1),
                          Strings.Mid(Ganti(akun_persediaan_dari), 3),
-                         KodePerusahaan, KodeProyek, "Persedian " & GetDataKodeTransfer, "0", nilai_persediaan_min, pagenumber, GetSoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                         KodePerusahaan, KodeProyek, "Persedian " & GetDataKodeTransfer, nilai_persediaan_min, "0", pagenumber, GetSoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
@@ -1124,6 +1127,7 @@ Public Class EMI_Validasi_Pengeluaran_Stock_Lain
                     End If
                 End Using
 
+#End Region
 
                 SQL = "update EMI_Pengeluaran_Stock_Det_Barang_Lain set  "
                 SQL = SQL & "Selesai = 'Y',Kode_Voucher='" & Kode_voucher & "'  "

@@ -1,5 +1,4 @@
-﻿Imports System.ComponentModel
-Imports System.IO
+﻿Imports System.IO
 Imports System.IO.Ports
 Imports System.Threading
 
@@ -59,6 +58,134 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
     Dim kode_unik_print As String = ""
     Public WithEvents SerialPort As New SerialPort
 
+    Private TimbanganPorts As New Dictionary(Of String, SerialPort)
+    Private TimbanganThreads As New Dictionary(Of String, Thread)
+    Private TimbanganPortNames As String() = {Port_Timbangan1, Port_Timbangan2, Port_Timbangan3}
+    Private isClosing As Boolean = False
+
+    Private Function CobaKoneksi(portName As String) As Boolean
+        Try
+            Dim sp As New SerialPort(portName, 9600, Parity.Even, DataBits_Timbangan, StopBits.One)
+            sp.Handshake = Handshake.None
+            sp.NewLine = vbLf
+            sp.Open()
+            TimbanganPorts(portName) = sp
+
+            Dim t As New Thread(Sub() BacaDataTimbangan(sp))
+            t.IsBackground = True
+            TimbanganThreads(portName) = t
+            t.Start()
+            Return True
+        Catch ex As Exception
+            MsgBox($"{portName} gagal dibuka: {ex.Message}")
+            Return False
+        End Try
+    End Function
+
+    Private Sub TutupKoneksi(portName As String)
+        Try
+            If TimbanganThreads.ContainsKey(portName) Then
+                Dim t = TimbanganThreads(portName)
+                If t.IsAlive Then t.Join(300)
+                TimbanganThreads.Remove(portName)
+            End If
+
+            If TimbanganPorts.ContainsKey(portName) Then
+                Dim sp = TimbanganPorts(portName)
+                If sp.IsOpen Then sp.Close()
+                sp.Dispose()
+                TimbanganPorts.Remove(portName)
+            End If
+        Catch ex As Exception
+            MsgBox($"{portName} gagal ditutup: {ex.Message}")
+        End Try
+    End Sub
+
+    Private Sub BacaDataTimbangan(sp As SerialPort)
+        While Not isClosing
+            Try
+                If sp.IsOpen AndAlso sp.BytesToRead > 0 Then
+                    Dim receivedData As String = sp.ReadLine().Trim()
+                    Dim nilai_data As String = ""
+                    Dim satuan_berat_data As String = ""
+
+                    If receivedData.StartsWith("ST,") Then
+                        Dim dataPart As String = receivedData.Substring(3).Trim()
+
+                        dataPart = dataPart.Replace("?", "").Replace("+", "").Trim()
+
+                        If dataPart.ToLower().EndsWith("kg") Then
+                            satuan_berat_data = "KG"
+                            dataPart = dataPart.Substring(0, dataPart.Length - 2).Trim()
+                        ElseIf dataPart.ToLower().EndsWith("g") Then
+                            satuan_berat_data = "G"
+                            dataPart = dataPart.Substring(0, dataPart.Length - 1).Trim()
+                        End If
+
+                        dataPart = New String(dataPart.Where(Function(c) Char.IsDigit(c) OrElse c = "."c).ToArray())
+
+                        Dim weightValue As Double
+                        If Double.TryParse(dataPart, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, weightValue) Then
+                            If satuan_berat_data = "G" Then
+                                weightValue = Math.Round(weightValue / 1000, 4)
+                                satuan_berat_data = "KG"
+                            End If
+
+                            nilai_data = weightValue.ToString("N4")
+                        End If
+                    End If
+
+                    Dim tbIndex As Integer = Array.IndexOf(TimbanganPortNames, sp.PortName)
+                    Me.Invoke(Sub()
+                                  TxtOriginal_Data_FloorScale.Text = receivedData
+                                  Txt_Timbangan.Text = nilai_data
+                                  txt_Jumlah_Timbang.Text = nilai_data
+                                  TxtSatuan_FloorScale.Text = satuan_berat_data
+                                  Lb_ActiveTb.Text = $"Timbangan {tbIndex + 1}"
+                              End Sub)
+                End If
+            Catch ex As Exception
+                MsgBox($"Error di {sp.PortName}: {ex.Message}")
+                Exit While
+            End Try
+            Thread.Sleep(50)
+        End While
+    End Sub
+
+
+    Private Sub ChkTimbangan_CheckedChanged(sender As Object, e As EventArgs) _
+    Handles Cb_Tb1.CheckedChanged, Cb_Tb2.CheckedChanged, Cb_Tb3.CheckedChanged
+
+        Dim chk As CheckBox = CType(sender, CheckBox)
+        Dim index As Integer = Integer.Parse(chk.Name.Replace("Cb_Tb", "")) - 1
+        Dim portName As String = TimbanganPortNames(index)
+
+        If chk.Checked Then
+            For Each ctrl As Control In chk.Parent.Controls
+                If TypeOf ctrl Is CheckBox AndAlso ctrl IsNot chk Then
+                    CType(ctrl, CheckBox).Checked = False
+                End If
+            Next
+
+            If Not TimbanganPorts.ContainsKey(portName) Then
+                If Not CobaKoneksi(portName) Then
+                    chk.Checked = False
+                End If
+            End If
+        Else
+            TutupKoneksi(portName)
+        End If
+    End Sub
+
+    Private Function GetCheckBoxByIndex(i As Integer) As CheckBox
+        Select Case i
+            Case 0 : Return Cb_Tb1
+            Case 1 : Return Cb_Tb2
+            Case 2 : Return Cb_Tb3
+            Case Else : Return Nothing
+        End Select
+    End Function
+
     Public Sub BukaKoneksiTimbangan()
         SerialPort.PortName = "COM5" 'Port_Timbangan
         SerialPort.BaudRate = BaudRate_Timbangan
@@ -87,6 +214,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             Else
                 isErrorTimbangan = False
             End If
+
         Catch ex As Exception
             isErrorTimbangan = True
         End Try
@@ -212,7 +340,18 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
         End Try
 
         kosong()
-        BukaKoneksiTimbangan()
+        'BukaKoneksiTimbangan()
+
+        For i As Integer = 0 To TimbanganPortNames.Length - 1
+            Dim portName = TimbanganPortNames(i)
+
+            If CobaKoneksi(portName) Then
+                GetCheckBoxByIndex(i).Checked = True
+                Exit For
+            Else
+                GetCheckBoxByIndex(i).Checked = False
+            End If
+        Next
 
     End Sub
 
@@ -238,23 +377,21 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                 End If
             End Using
 
+            Dim indexxx As Integer = 0
             CmbJenisAlas.Items.Clear() : arrid_Jenis_alas.Clear()
             SQL = "select Id,Kode_Jenis_Alas,Keterangan,Berat,Satuan, Flag_Default from Emi_Master_Jenis_Alas where Kode_Perusahaan = '" & KodePerusahaan & "' order by Keterangan "
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
                     CmbJenisAlas.Items.Add(dr("Keterangan")) : arrid_Jenis_alas.Add(dr("ID"))
 
+                    If General_Class.CekNULL(dr("Flag_Default")) = "Y" Then
+                        CmbJenisAlas.SelectedIndex = indexxx
+                    End If
+
+                    indexxx += 1
                 Loop
             End Using
 
-            SQL = "select Id from Emi_Master_Jenis_Alas where Kode_Perusahaan = '" & KodePerusahaan & "' and Flag_Default = 'Y' order by Keterangan "
-            Using dr = OpenTrans(SQL)
-                Do While dr.Read
-
-                    CmbJenisAlas.SelectedIndex = arrid_Jenis_alas.IndexOf(dr("ID"))
-
-                Loop
-            End Using
 
             CmbSatuan.Text = "KG"
             CmbSatuan.Enabled = False
@@ -267,6 +404,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
         End Try
 
         Txt_Barcode.Text = ""
+
         KunciSemuaData()
         Txt_Barcode.Focus()
 
@@ -369,6 +507,15 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
         PersenToleransiMIN = 0
         PersenToleransiMAX = 0
 
+        CmbJenisAlas.Text = ""
+        TxtBeratAlas.Text = ""
+        Txt_Sisa_Jumlah.Text = ""
+        txt_Jumlah_Timbang.Text = ""
+        TxtBeratBersih.Text = ""
+        CmbSatuan.Text = ""
+
+        Txt_Sisa_Jumlah.Text = ""
+
         Cmb_Faktur_RM.Enabled = False
         CmbJenisAlas.Enabled = False
         Txt_JmlhKebutuhan.Enabled = False
@@ -387,6 +534,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
         TxtOriginal_Data_FloorScale.Enabled = False
         TxtSatuan_FloorScale.Enabled = False
         CmbSatuan.Enabled = False
+
+
 
     End Sub
 
@@ -505,20 +654,20 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             '=======================
             '=     UBAH SATUAN     =
             '=======================
-            Dim BeratIsiBag As Double = 0
-            SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Txt_KDBarang.Text & "',"
-            SQL = SQL & "'" & SatuanBags & "','" & CmbSatuan.Text & "',"
-            SQL = SQL & "" & HilangkanTanda(BeratIsiPerBag) & ") as Hasil "
-            Using dr3 = OpenTrans(SQL)
-                If dr3.Read Then
-                    If General_Class.CekNULL(dr3("Hasil")) <> "" Then
-                        BeratIsiBag = dr3("Hasil")
-                    Else
-                        MessageBox.Show("Satuan " & SatuanBags & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
-                End If
-            End Using
+            Dim BeratIsiBag As Double = Val(HilangkanTanda(BeratIsiPerBag))
+            'SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Txt_KDBarang.Text & "',"
+            'SQL = SQL & "'" & SatuanBags & "','" & CmbSatuan.Text & "',"
+            'SQL = SQL & "" & HilangkanTanda(BeratIsiPerBag) & ") as Hasil "
+            'Using dr3 = OpenTrans(SQL)
+            '    If dr3.Read Then
+            '        If General_Class.CekNULL(dr3("Hasil")) <> "" Then
+            '            BeratIsiBag = dr3("Hasil")
+            '        Else
+            '            MessageBox.Show("Satuan " & SatuanBags & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '            Exit Sub
+            '        End If
+            '    End If
+            'End Using
 
             '=====================================
             '=     HITUNG JUMLAH POTONG BAGS     =
@@ -583,7 +732,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             Dim SN As String = ""
 
             SQL = "select b.Kode_stock_Owner, b.Kode_Barang, a.Serial_Number, b.good_stock, a.Jumlah_Bags, "
-            SQL = SQL & "dbo.ubah_satuan(a.Kode_Perusahaan, 'masa',b.Kode_Barang, b.Satuan, 'KG', a.Jumlah ) as Jumlah_Stock, "
+            SQL = SQL & " a.Jumlah  as Jumlah_Stock, "
             SQL = SQL & "a.Qr_Code, a.Kode_Unik_Berjalan, b.Nama, a.Batch_Number, a.Tgl_Expired, b.Metode_Pengeluaran_Stok,a.Tgl_Masuk, a.Blok_SN  "
             SQL = SQL & "from barang_sn a, barang b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
@@ -650,7 +799,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             SQL = SQL & "and kode_barang = '" & Txt_KDBarang.Text & "'"
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
-                    BeratIsiPerBag = Dr("Isi_Per_Bags")
+                    BeratIsiPerBag = If(General_Class.CekNULL(Dr("Isi_Per_Bags")) = "", 0, Dr("Isi_Per_Bags"))
                     SatuanBags = Dr("Satuan_Isi_Bags")
                 End If
             End Using
@@ -658,23 +807,31 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             '=======================
             '=     UBAH SATUAN     =
             '=======================
-            Dim BeratIsiBag As Double = 0
-            SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Txt_KDBarang.Text & "',"
-            SQL = SQL & "'" & SatuanBags & "','" & CmbSatuan.Text & "',"
-            SQL = SQL & "" & HilangkanTanda(BeratIsiPerBag) & ") as Hasil "
-            Using dr3 = OpenTrans(SQL)
-                If dr3.Read Then
-                    If General_Class.CekNULL(dr3("Hasil")) <> "" Then
-                        BeratIsiBag = dr3("Hasil")
-                    Else
-                        MessageBox.Show("Satuan " & SatuanBags & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
-                End If
-            End Using
+            Dim BeratIsiBag As Double = Val(HilangkanTanda(BeratIsiPerBag))
+            'SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Txt_KDBarang.Text & "',"
+            'SQL = SQL & "'" & SatuanBags & "','" & CmbSatuan.Text & "',"
+            'SQL = SQL & "" & HilangkanTanda(BeratIsiPerBag) & ") as Hasil "
+            'Using dr3 = OpenTrans(SQL)
+            '    If dr3.Read Then
+            '        If General_Class.CekNULL(dr3("Hasil")) <> "" Then
+            '            BeratIsiBag = dr3("Hasil")
+            '        Else
+            '            MessageBox.Show("Satuan " & SatuanBags & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '            Exit Sub
+            '        End If
+            '    End If
+            'End Using
 
             TxtBeratBags.Text = BeratIsiBag & " " & CmbSatuan.Text
             TxtBeratBagsBersih.Text = BeratIsiBag
+
+            SQL = "select Id from Emi_Master_Jenis_Alas where Kode_Perusahaan = '" & KodePerusahaan & "' and Flag_Default = 'Y' order by Keterangan "
+            Using dr = OpenTrans(SQL)
+                If dr.Read Then
+                    CmbJenisAlas.SelectedIndex = arrid_Jenis_alas.IndexOf(dr("ID"))
+                End If
+            End Using
+
 
             CloseConn()
         Catch ex As Exception
@@ -694,35 +851,44 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Try
             OpenConn()
 
+
+
             Dim nberat As Double = 0
             Dim convertKeSatuanAsli_bhn As String = ""
-            SQL = "select Id,Kode_Jenis_Alas,Keterangan,Berat,Satuan from Emi_Master_Jenis_Alas where Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and Id = '" & arrid_Jenis_alas.Item(CmbJenisAlas.SelectedIndex) & "' "
+            SQL = "select a.Id,a.Kode_Jenis_Alas,a.Keterangan,a.Berat,a.Satuan, "
+            SQL = SQL & "dbo.Ubah_Satuan_Baru(a.Kode_Perusahaan,'" & Txt_KDBarang.Text & "',a.Satuan, 'KG', a.berat, 'masa') as Berat2 "
+            SQL = SQL & "from Emi_Master_Jenis_Alas a where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.Id = '" & arrid_Jenis_alas.Item(CmbJenisAlas.SelectedIndex) & "' "
             Using dr = OpenTrans(SQL)
                 If dr.Read Then
                     convertKeSatuanAsli_bhn = dr("Satuan")
-                    SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Txt_KDBarang.Text & "',"
-                    SQL = SQL & "'" & dr("satuan") & "','" & CmbSatuan.Text & "',"
-                    SQL = SQL & "" & HilangkanTanda(dr("Berat")) & ") as Hasil "
-                    dr.Close()
-                    Using dr4 = OpenTrans(SQL)
-                        If dr4.Read Then
-                            If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+                    'SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Txt_KDBarang.Text & "',"
+                    'SQL = SQL & "'" & dr("satuan") & "','" & CmbSatuan.Text & "',"
+                    'SQL = SQL & "" & HilangkanTanda(dr("Berat")) & ") as Hasil "
+                    'dr.Close()
+                    'Using dr4 = OpenTrans(SQL)
+                    '    If dr4.Read Then
+                    '        If General_Class.CekNULL(dr4("Hasil")) <> "" Then
 
-                                nberat = dr4("hasil")
-                                    TxtBeratAlas.Text = Format(nberat, "N4") & " " & CmbSatuan.Text
-                                    TxtBeratAlasBersih.Text = Format(nberat, "N4")
-                                    TxtBeratAlas_Bersih.Text = Format(nberat, "N4")
+                    '            nberat = dr4("hasil")
+                    '            TxtBeratAlas.Text = Format(nberat, "N4") & " " & CmbSatuan.Text
+                    '            TxtBeratAlasBersih.Text = Format(nberat, "N4")
+                    '            TxtBeratAlas_Bersih.Text = Format(nberat, "N4")
 
-                            Else
-                                dr4.Close()
-                                CloseTrans()
-                                CloseConn()
-                                MessageBox.Show("Satuan " & convertKeSatuanAsli_bhn & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                Exit Sub
-                            End If
-                        End If
-                    End Using
+                    '        Else
+                    '            dr4.Close()
+                    '            CloseTrans()
+                    '            CloseConn()
+                    '            MessageBox.Show("Satuan " & convertKeSatuanAsli_bhn & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    '            Exit Sub
+                    '        End If
+                    '    End If
+                    'End Using
+
+                    nberat = Val(HilangkanTanda(dr("Berat")))
+                    TxtBeratAlas.Text = Format(nberat, "N4") & " " & CmbSatuan.Text
+                    TxtBeratAlasBersih.Text = Format(nberat, "N4")
+                    TxtBeratAlas_Bersih.Text = Format(nberat, "N4")
                 Else
                     dr.Close()
                     CloseTrans()
@@ -822,7 +988,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             '=     GET BERAT PER 1 BAG     =
             '===============================
             Dim BeratIsiPerBag As Double = 0
-            SQL = "select top 1 dbo.ubah_satuan(Kode_Perusahaan, 'masa',Kode_Barang, Satuan_Isi_Bags, Satuan, Isi_Per_Bags ) as Isi_Per_Bags from barang "
+            SQL = "select top 1 Isi_Per_Bags as Isi_Per_Bags from barang "
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and Kode_Stock_Owner = '" & Txt_KdSOBarang.Text & "' "
             SQL = SQL & "and kode_barang = '" & Txt_KDBarang.Text & "'"
@@ -836,7 +1002,6 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             '=     DELETE DATA TABEL CETAK     =
             '===================================
             Dim tglDuaHariSebelum As DateTime = tgl_skg.AddDays(-2)
-
             SQL = "delete from N_EMI_CR_Transaksi_Request_Material_QC_Barcode_Cetak where Kode_Perusahaan = '" & KodePerusahaan & "' and "
             SQL = SQL & "Tanggal_Cetak between '" & Format(tglDuaHariSebelum, "yyyy-MM-dd") & "' and '" & Format(tgl_skg, "yyyy-MM-dd") & "' "
             ExecuteTrans(SQL)
@@ -845,7 +1010,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             '=     CEK APAKAH RM TELAH SELESAI     =
             '=======================================
             SQL = "select a.Kode_Perusahaan, a.No_Faktur, No_Faktur_Order, c.Kode_Stock_Owner, c.Kode_Barang, c.Kebutuhan, b.Batch, c.Jumlah_Per_Batch, c.Jumlah_Tambah, "
-            SQL = SQL & "(dbo.ubah_satuan(a.Kode_Perusahaan, 'masa',c.Kode_Barang, c.Satuan, c.Satuan_Barang, c.Jumlah_Tambah)) as Jumlah_Tambah_Kecil, "
+            SQL = SQL & " c.Jumlah_Tambah as Jumlah_Tambah_Kecil, "
             SQL = SQL & "c.Jumlah_Barang, c.Satuan, c.Satuan_Barang, C.Urut_Oto, "
             SQL = SQL & "isnull((select sum(z.Jumlah_Barang) from N_EMI_Transaksi_Material_Requisition_QC_Validasi z "
             SQL = SQL & "where a.Kode_Perusahaan = a.Kode_Perusahaan and z.No_Faktur_RM = c.No_Faktur and z.Kode_Stock_Owner_Tujuan = c.Kode_Stock_Owner "
@@ -873,26 +1038,26 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                         '=====================================
                         '=     UBAH MENJADI SATUAN KECIL     =
                         '=====================================
-                        Dim JumlahInputKecil As Double = 0
-                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Txt_KDBarang.Text & "',"
-                        SQL = SQL & "'" & CmbSatuan.Text & "','" & .Rows(0).Item("Satuan_Barang") & "',"
-                        SQL = SQL & "" & HilangkanTanda(TxtBeratBersih.Text) & ") as Hasil "
-                        Using dr3 = OpenTrans(SQL)
-                            If dr3.Read Then
-                                If General_Class.CekNULL(dr3("Hasil")) <> "" Then
-                                    JumlahInputKecil = dr3("Hasil")
-                                Else
-                                    MessageBox.Show("Satuan " & CmbSatuan.Text & " Ke " & .Rows(0).Item("Satuan_Barang") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                    Exit Sub
-                                End If
-                            End If
-                        End Using
+                        Dim JumlahInputKecil As Double = Val(HilangkanTanda(TxtBeratBersih.Text))
+                        'SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Txt_KDBarang.Text & "',"
+                        'SQL = SQL & "'" & CmbSatuan.Text & "','" & .Rows(0).Item("Satuan_Barang") & "',"
+                        'SQL = SQL & "" & HilangkanTanda(TxtBeratBersih.Text) & ") as Hasil "
+                        'Using dr3 = OpenTrans(SQL)
+                        '    If dr3.Read Then
+                        '        If General_Class.CekNULL(dr3("Hasil")) <> "" Then
+                        '            JumlahInputKecil = dr3("Hasil")
+                        '        Else
+                        '            MessageBox.Show("Satuan " & CmbSatuan.Text & " Ke " & .Rows(0).Item("Satuan_Barang") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        '            Exit Sub
+                        '        End If
+                        '    End If
+                        'End Using
 
                         Dim JumlahInsert As Double = JumlahInputKecil
 
                         Dim JumlahValidasi As Double = 0
                         Dim JumlahValidasiBesar As Double = 0
-                        SQL = "select dbo.ubah_satuan(a.Kode_Perusahaan, 'masa', a.Kode_Barang, a.Satuan, a.Satuan_barang, sum(isnull(a.jumlah, 0))) as Jumlah, sum(isnull(a.jumlah, 0)) as JumlahBesar "
+                        SQL = "select  sum(isnull(a.jumlah, 0)) as Jumlah, sum(isnull(a.jumlah, 0)) as JumlahBesar "
                         SQL = SQL & "from N_EMI_Transaksi_Material_Requisition_QC_Validasi a "
                         SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Faktur_RM = '" & arrNoFakturRM(Cmb_Faktur_RM.SelectedIndex) & "' "
                         SQL = SQL & "and a.Kode_Stock_Owner_Tujuan = '" & Txt_SORequest.Text & "' "
@@ -984,7 +1149,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             '==========================
                             Dim available_Id_Warehouse As String = ""
                             Dim available_NoPallet As String = ""
-                            SQL = "select top(1) id_wms_warehouse_position, nomor_urut from view_warehouse_position_detail where kode_barang is null "
+                            SQL = "select top 1 id_wms_warehouse_position, 0 as nomor_urut from view_warehouse_position where "
+                            SQL = SQL & "kode_stock_Owner='" & Txt_SORequest.Text & "' "
                             Using Dr2 = OpenTrans(SQL)
                                 Do While Dr2.Read
                                     available_Id_Warehouse = Dr2("id_wms_warehouse_position")
@@ -1184,19 +1350,9 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
 
 #Region "JURNAL"
 
-                            Dim fRaw_Material_dari As String = ""
-                            Dim fFinished_Good_dari As String = ""
-                            Dim fSemi_FG_dari As String = ""
-                            Dim fScrap_dari As String = ""
-                            Dim fPackaging_dari As String = ""
-                            Dim akun_persediaan_dari As String = ""
 
-                            Dim fRaw_Material_tujuan As String = ""
-                            Dim fFinished_Good_tujuan As String = ""
-                            Dim fSemi_FG_tujuan As String = ""
-                            Dim fScrap_tujuan As String = ""
+                            Dim akun_persediaan_dari As String = ""
                             Dim akun_persediaan_tujuan As String = ""
-                            Dim fPackaging_tujuan As String = ""
                             Dim inisial_faktur_dari As String = ""
 
 
@@ -1321,22 +1477,22 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             '=====================================
                             '=     UBAH MENJADI SATUAN BESAR     =
                             '=====================================
-                            Dim JumlahBesar As Double = 0
-                            SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Txt_KDBarang.Text & "',"
-                            SQL = SQL & "'" & SatuanKecil & "','" & SatuanBesar & "',"
-                            SQL = SQL & "" & HilangkanTanda(JumlahInputDB) & ") as Hasil "
-                            Using dr3 = OpenTrans(SQL)
-                                If dr3.Read Then
-                                    If General_Class.CekNULL(dr3("Hasil")) <> "" Then
-                                        JumlahBesar = dr3("Hasil")
-                                    Else
-                                        CloseTrans()
-                                        CloseConn()
-                                        MessageBox.Show("Satuan " & CmbSatuan.Text & " Ke " & .Rows(0).Item("Satuan_Barang") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                        Exit Sub
-                                    End If
-                                End If
-                            End Using
+                            Dim JumlahBesar As Double = Val(HilangkanTanda(JumlahInputDB))
+                            'SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Txt_KDBarang.Text & "',"
+                            'SQL = SQL & "'" & SatuanKecil & "','" & SatuanBesar & "',"
+                            'SQL = SQL & "" & HilangkanTanda(JumlahInputDB) & ") as Hasil "
+                            'Using dr3 = OpenTrans(SQL)
+                            '    If dr3.Read Then
+                            '        If General_Class.CekNULL(dr3("Hasil")) <> "" Then
+                            '            JumlahBesar = dr3("Hasil")
+                            '        Else
+                            '            CloseTrans()
+                            '            CloseConn()
+                            '            MessageBox.Show("Satuan " & CmbSatuan.Text & " Ke " & .Rows(0).Item("Satuan_Barang") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            '            Exit Sub
+                            '        End If
+                            '    End If
+                            'End Using
 
                             '====================================
                             '=       INSERT DATA VALIDASI       =
@@ -1348,6 +1504,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                 Dim randomChar As Char = Chr(rnd.Next(65, 91)) ' ASCII 65–90 = A–Z
                                 TextBarcodePSS &= randomChar
                             Next
+
                             SQL = "INSERT INTO N_EMI_Transaksi_Material_Requisition_QC_Validasi "
                             SQL = SQL & "(Kode_Perusahaan, No_Faktur, No_Faktur_RM, Tanggal, Jam, Kode_Stock_Owner, Kode_Stock_Owner_Tujuan, Kode_Barang, SN_Lama, SN_Baru, Jumlah, "
                             SQL = SQL & "Satuan, Jumlah_Barang, Satuan_Barang, Kode_Voucher, Urut_Det_RM, Barcode_PSS, Jumlah_Bags) "
@@ -1601,6 +1758,14 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                 End With
             End Using
 
+
+
+
+
+
+
+
+
             Cmd.Transaction.Commit()
             CloseTrans()
             CloseConn()
@@ -1648,6 +1813,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
 
                 Dim kertasBarcode As String = ""
                 kertasBarcode = "BarcodeQC"
+
 
                 For i As Integer = 0 To arrKdUnikPrint.Count - 1
                     SQL = "select Kode_Perusahaan from N_EMI_CR_Transaksi_Request_Material_QC_Barcode_Cetak where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Unik_Print='" & arrKdUnikPrint(i) & "'"
@@ -1811,7 +1977,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             Dim JumlahKebutuhan As Double = 0
             CmbSatuan.Items.Clear()
             SQL = "select top 1 a.Kode_Perusahaan, a.No_Faktur, No_Faktur_Order, c.Kode_Stock_Owner, c.Kode_Barang, c.Kebutuhan, b.Batch, c.Jumlah_Per_Batch, isnull(c.Jumlah_Tambah, 0) as Jumlah_Tambah, "
-            SQL = SQL & "(dbo.ubah_satuan(a.Kode_Perusahaan, 'masa',c.Kode_Barang, c.Satuan, c.Satuan_Barang, isnull(c.Jumlah_Tambah, 0))) as Jumlah_Tambah_Kecil, "
+            SQL = SQL & " isnull(c.Jumlah_Tambah, 0) as Jumlah_Tambah_Kecil, "
             SQL = SQL & "c.Jumlah_Barang, c.Satuan, c.Satuan_Barang, c.Urut_Oto, d.Kode_Barang as Kode_Barang_Produksi, d.Nama as Nama_Barang, b.Urut_Oto as Urut_detail "
             SQL = SQL & "from N_EMI_Transaksi_Material_Requisition_QC a, N_EMI_Transaksi_Material_Requisition_QC_Detail b, N_EMI_Transaksi_Material_Requisition_QC_Det c, barang d "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Perusahaan = d.Kode_Perusahaan "
@@ -1903,6 +2069,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             Exit Sub
         End Try
 
+        CmbJenisAlas_SelectedIndexChanged(sender, e)
+
     End Sub
 
     Private Sub Txt_Barcode_TextChanged(sender As Object, e As EventArgs) Handles Txt_Barcode.TextChanged
@@ -1968,25 +2136,30 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Dim xxxx As String = ""
     End Sub
 
-    Private Sub EMI_Timbang_Floor_Scale_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
-        Dim xxxx As String = ""
-        TutupKoneksiTimbangan()
-    End Sub
+    'Private Sub EMI_Timbang_Floor_Scale_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
+    '    Dim xxxx As String = ""
+    '    TutupKoneksiTimbangan()
+    'End Sub
 
-    Private Sub EMI_Timbang_Floor_Scale_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        Dim xxxx As String = ""
-        TutupKoneksiTimbangan()
-    End Sub
+    'Private Sub EMI_Timbang_Floor_Scale_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+    '    Dim xxxx As String = ""
+    '    TutupKoneksiTimbangan()
+    'End Sub
 
     Private Sub EMI_Timbang_Floor_Scale_Closed(sender As Object, e As EventArgs) Handles MyBase.Closed
         Dim xxxx As String = ""
-        TutupKoneksiTimbangan()
+        'TutupKoneksiTimbangan()
+
+        isClosing = True
+        For Each portName In TimbanganPorts.Keys.ToList()
+            TutupKoneksi(portName)
+        Next
     End Sub
 
-    Private Sub EMI_Timbang_Floor_Scale_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
-        Dim xxxx As String = ""
-        TutupKoneksiTimbangan()
-    End Sub
+    'Private Sub EMI_Timbang_Floor_Scale_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
+    '    Dim xxxx As String = ""
+    '    TutupKoneksiTimbangan()
+    'End Sub
 
     Private Sub CmbJenisAlas_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbJenisAlas.KeyPress
         If e.KeyChar = Chr(13) Then txt_Jumlah_Timbang.Focus()

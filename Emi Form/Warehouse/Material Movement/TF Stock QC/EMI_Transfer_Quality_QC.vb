@@ -243,7 +243,7 @@ Public Class EMI_Transfer_Quality_QC
             '=================================================
             SQL = "SELECT top 1 a.Serial_Number, a.Qr_Code, a.Kode_Unik_Berjalan, a.Kode_Stock_Owner, "
             SQL = SQL & "a.Kode_Barang, b.Nama, "
-            SQL = SQL & "dbo.Ubah_Satuan(a.Kode_Perusahaan, 'masa' , a.Kode_Barang, b.Satuan, 'KG', a.Jumlah) as Jumlah, "
+            SQL = SQL & "dbo.Ubah_Satuan(a.Kode_Perusahaan, 'masa' , a.Kode_Barang, b.Satuan, b.Satuan, a.Jumlah) as Jumlah, "
             SQL = SQL & "a.Jumlah_Bags, 'KG' as satuan, a.Batch_Number, a.Id_Warehouse, c.Keterangan as Rak, "
             SQL = SQL & "a.Nomor_Pallet, a.Tgl_Expired, b.Metode_Pengeluaran_Stok, a.Tgl_Masuk, a.Warna, a.Blok_SN "
             SQL = SQL & "from barang_sn a, barang b, view_warehouse_position c "

@@ -4,7 +4,45 @@
     Dim arrJnsBiaya, arrReport As New ArrayList
     Dim Role As Boolean = False
 
+    Dim switchAutoComplete As Boolean = False
+
     Private Sub Laporan_Biaya_Produksi_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        Lv_Lokasi.Columns.Clear()
+        Lv_Lokasi.Columns.Add("Kode Stock Owner", 130, HorizontalAlignment.Left)
+        Lv_Lokasi.Columns.Add("Keterangan", 180, HorizontalAlignment.Left)
+        Lv_Lokasi.View = View.Details
+
+        Lv_Lokasi2.Columns.Clear()
+        Lv_Lokasi2.Columns.Add("Kode Stock Owner", 130, HorizontalAlignment.Left)
+        Lv_Lokasi2.Columns.Add("Keterangan", 180, HorizontalAlignment.Left)
+        Lv_Lokasi2.View = View.Details
+
+        Lv_Barang.Columns.Clear()
+        Lv_Barang.Columns.Add("Kode Barang", 130, HorizontalAlignment.Left)
+        Lv_Barang.Columns.Add("Nama Barang", 180, HorizontalAlignment.Left)
+        Lv_Barang.View = View.Details
+
+        Lv_Pack_Sekunder_NoTransaksi.Columns.Clear()
+        Lv_Pack_Sekunder_NoTransaksi.Columns.Add("No Transaksi", 130, HorizontalAlignment.Left)
+        Lv_Pack_Sekunder_NoTransaksi.Columns.Add("Tanggal", 110, HorizontalAlignment.Center)
+        Lv_Pack_Sekunder_NoTransaksi.Columns.Add("Keterangan", 180, HorizontalAlignment.Left)
+        Lv_Pack_Sekunder_NoTransaksi.View = View.Details
+
+        Lv_Pack_Sekunder_NoSplit.Columns.Clear()
+        Lv_Pack_Sekunder_NoSplit.Columns.Add("No Transaksi", 130, HorizontalAlignment.Left)
+        Lv_Pack_Sekunder_NoSplit.Columns.Add("Tanggal", 110, HorizontalAlignment.Center)
+        Lv_Pack_Sekunder_NoSplit.View = View.Details
+
+        Lv_Pack_Sekunder_Barang.Columns.Clear()
+        Lv_Pack_Sekunder_Barang.Columns.Add("Kode Barang", 130, HorizontalAlignment.Left)
+        Lv_Pack_Sekunder_Barang.Columns.Add("Barang", 180, HorizontalAlignment.Center)
+        Lv_Pack_Sekunder_Barang.View = View.Details
+
+        Lv_Pack_Sekunder_Bahan.Columns.Clear()
+        Lv_Pack_Sekunder_Bahan.Columns.Add("Kode Barang", 130, HorizontalAlignment.Left)
+        Lv_Pack_Sekunder_Bahan.Columns.Add("Barang", 180, HorizontalAlignment.Center)
+        Lv_Pack_Sekunder_Bahan.View = View.Details
 
         Kosong()
     End Sub
@@ -13,11 +51,16 @@
 
         Cmb_Laporan.Items.Clear() : arrReport.Clear()
 
+        switchAutoComplete = False
+
         Try
             OpenConn()
 
             Tgl1.Value = Date.Now
             Tgl2.Value = Date.Now
+
+            Panel_Packaging_Sekunder.Visible = False
+            Panel_Packaging_Sekunder.Location = New Point(600, 127)
 
             CmbJenisBiaya.Items.Clear() : arrJnsBiaya.Clear()
             SQL = "select Kode_Jenis_Biaya_Produksi, keterangan from Emi_Jenis_Biaya_Produksi where Kode_Perusahaan = '" & KodePerusahaan & "'"
@@ -66,24 +109,7 @@
             Exit Sub
         End Try
 
-        Lv_Lokasi.Columns.Clear()
-        Lv_Lokasi.Columns.Add("Kode Stock Owner", 130, HorizontalAlignment.Left)
-        Lv_Lokasi.Columns.Add("Keterangan", 180, HorizontalAlignment.Left)
-        Lv_Lokasi.View = View.Details
-
-        Lv_Lokasi2.Columns.Clear()
-        Lv_Lokasi2.Columns.Add("Kode Stock Owner", 130, HorizontalAlignment.Left)
-        Lv_Lokasi2.Columns.Add("Keterangan", 180, HorizontalAlignment.Left)
-        Lv_Lokasi2.View = View.Details
-
-        Lv_Barang.Columns.Clear()
-        Lv_Barang.Columns.Add("Kode Barang", 130, HorizontalAlignment.Left)
-        Lv_Barang.Columns.Add("Nama Barang", 180, HorizontalAlignment.Left)
-        Lv_Barang.View = View.Details
-
-
         Chk_NoSplit.Checked = False : Chk_Batch.Checked = False
-
 
         Try
             OpenConn()
@@ -188,6 +214,62 @@
 
             If CekButtonRole("Report_GR_3") = "Y" Then
                 Cmb_Laporan.Items.Add("Laporan Good Received Warehouse") : arrReport.Add("N_EMI_CR_Laporan_Validasi_GR_3")
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Try
+            OpenConn()
+
+            If CekButtonRole("Report_Packaging_Sekunder") = "Y" Then
+                Cmb_Laporan.Items.Add("Laporan Packaging Sekunder") : arrReport.Add("N_EMI_CR_Packaging_Sekunder")
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Try
+            OpenConn()
+
+            If CekButtonRole("Report_Packaging_Sekunder_Nominal") = "Y" Then
+                Cmb_Laporan.Items.Add("Laporan Packaging Sekunder (Nominal)") : arrReport.Add("N_EMI_CR_Packaging_Sekunder_Nominal")
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Try
+            OpenConn()
+
+            If CekButtonRole("Report_GR_3_Summary") = "Y" Then
+                Cmb_Laporan.Items.Add("Laporan Penerimaan Barang Warehouse") : arrReport.Add("N_EMI_CR_Transaksi_Validasi_GR_3_Summary")
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Try
+            OpenConn()
+
+            If CekButtonRole("Report_GR_3_Summary_Nominal") = "Y" Then
+                Cmb_Laporan.Items.Add("Laporan Penerimaan Barang Warehouse (Nominal)") : arrReport.Add("N_EMI_CR_Transaksi_Validasi_GR_3_Summary_Nominal")
             End If
 
             CloseConn()
@@ -365,7 +447,6 @@
                     If Ds.Tables("MyTable").Rows.Count <> 0 Then
                         CrDoc = New Rpt_Laporan_GI_Detail
 
-
                         With A_Place_For_Printing2
                             CrDoc.SetDataSource(Ds)
                             CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
@@ -521,7 +602,6 @@
                     End If
                 End Using
 
-
             ElseIf arrReport(Cmb_Laporan.SelectedIndex) = "N_EMI_CR_Laporan_Validasi_GR_3" Then
 
                 SQL = "select kode_perusahaan from N_EMI_View_Laporan_Validasi_GR_3 where kode_perusahaan = '" & KodePerusahaan & "' "
@@ -585,7 +665,182 @@
                 End Using
 
 
+            ElseIf arrReport(Cmb_Laporan.SelectedIndex) = "N_EMI_CR_Packaging_Sekunder" Then
 
+                SQL = "select kode_perusahaan from N_EMI_View_Laporan_Packaging_Sekunder where kode_perusahaan = '" & KodePerusahaan & "' "
+                SF = "{N_EMI_View_Laporan_Packaging_Sekunder.kode_perusahaan} = '" & KodePerusahaan & "' "
+
+                SQL = SQL & "and Tanggal between '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' and '" & Format(Tgl2.Value, "yyyy-MM-dd") & "' "
+                SF = SF & "and {N_EMI_View_Laporan_Packaging_Sekunder.Tanggal} >= #" & Format(Tgl1.Value, "yyyy-MM-dd") & "# and "
+                SF = SF & "{N_EMI_View_Laporan_Packaging_Sekunder.Tanggal} <= #" & Format(Tgl2.Value, "yyyy-MM-dd") & "# "
+
+
+                If Not Txt_Pack_Sekunder_NoTransaksi.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    SQL = SQL & "and No_Transaksi =  '" & Txt_Pack_Sekunder_NoTransaksi.Text.Trim & "' "
+                    SF = SF & "and {N_EMI_View_Laporan_Packaging_Sekunder.No_Transaksi} = '" & Txt_Pack_Sekunder_NoTransaksi.Text.Trim & "' "
+                End If
+
+                If Not Txt_Pack_Sekunder_NoSplit.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    SQL = SQL & "and No_Production_Order = '" & Txt_Pack_Sekunder_NoSplit.Text.Trim & "' "
+                    SF = SF & "and {N_EMI_View_Laporan_Packaging_Sekunder.No_Production_Order} = '" & Txt_Pack_Sekunder_NoSplit.Text.Trim & "' "
+                End If
+
+                If Not Txt_Pack_Sekunder_KdBarang.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    SQL = SQL & "and Kode_Barang = '" & Txt_Pack_Sekunder_KdBarang.Text.Trim & "' "
+                    SF = SF & "and {N_EMI_View_Laporan_Packaging_Sekunder.Kode_Barang} = '" & Txt_Pack_Sekunder_KdBarang.Text.Trim & "' "
+                End If
+
+                If Not Txt_Pack_Sekunder_KdBahan.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    SQL = SQL & "and Kode_Bahan = '" & Txt_Pack_Sekunder_KdBahan.Text.Trim & "' "
+                    SF = SF & "and {N_EMI_View_Laporan_Packaging_Sekunder.Kode_Bahan} = '" & Txt_Pack_Sekunder_KdBahan.Text.Trim & "' "
+                End If
+
+                Using Ds = BindingTrans(SQL)
+                    If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                        CrDoc = New N_EMI_CR_Packaging_Sekunder
+
+                        With A_Place_For_Printing2
+                            CrDoc.SetDataSource(Ds)
+                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                            CrDoc.PrintOptions.PrinterName = ""
+                            CrDoc.SummaryInfo.ReportTitle = "Periode : " & Format(Tgl1.Value, "dd/MMM/yyyy") & " s/d " &
+                                                                    Format(Tgl2.Value, "dd/MMM/yyyy")
+                            CrDoc.RecordSelectionFormula = SF
+                            .Text = JudulForm
+                            .CrystalReportViewer1.ReportSource = CrDoc
+                            .Refresh()
+                            .Show()
+                        End With
+                    Else
+                        CloseConn()
+                        MessageBox.Show("Data Tidak Ditemukan", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
+
+
+            ElseIf arrReport(Cmb_Laporan.SelectedIndex) = "N_EMI_CR_Packaging_Sekunder_Nominal" Then
+
+                SQL = "select kode_perusahaan from N_EMI_View_Laporan_Packaging_Sekunder where kode_perusahaan = '" & KodePerusahaan & "' "
+                SF = "{N_EMI_View_Laporan_Packaging_Sekunder.kode_perusahaan} = '" & KodePerusahaan & "' "
+
+                SQL = SQL & "and Tanggal between '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' and '" & Format(Tgl2.Value, "yyyy-MM-dd") & "' "
+                SF = SF & "and {N_EMI_View_Laporan_Packaging_Sekunder.Tanggal} >= #" & Format(Tgl1.Value, "yyyy-MM-dd") & "# and "
+                SF = SF & "{N_EMI_View_Laporan_Packaging_Sekunder.Tanggal} <= #" & Format(Tgl2.Value, "yyyy-MM-dd") & "# "
+
+
+                If Not Txt_Pack_Sekunder_NoTransaksi.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    SQL = SQL & "and No_Transaksi =  '" & Txt_KdSoAwal.Text.Trim & "' "
+                    SF = SF & "and {N_EMI_View_Laporan_Packaging_Sekunder.No_Transaksi} = '" & Txt_Pack_Sekunder_NoTransaksi.Text.Trim & "' "
+                End If
+
+                If Not Txt_Pack_Sekunder_NoSplit.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    SQL = SQL & "and No_Production_Order = '" & Txt_Pack_Sekunder_NoSplit.Text.Trim & "' "
+                    SF = SF & "and {N_EMI_View_Laporan_Packaging_Sekunder.No_Production_Order} = '" & Txt_Pack_Sekunder_NoSplit.Text.Trim & "' "
+                End If
+
+                If Not Txt_Pack_Sekunder_KdBarang.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    SQL = SQL & "and Kode_Barang = '" & Txt_Pack_Sekunder_KdBarang.Text.Trim & "' "
+                    SF = SF & "and {N_EMI_View_Laporan_Packaging_Sekunder.Kode_Barang} = '" & Txt_Pack_Sekunder_KdBarang.Text.Trim & "' "
+                End If
+
+                If Not Txt_Pack_Sekunder_KdBahan.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    SQL = SQL & "and Kode_Bahan = '" & Txt_KdBarang.Text.Trim & "' "
+                    SF = SF & "and {N_EMI_View_Laporan_Packaging_Sekunder.Kode_Bahan} = '" & Txt_Pack_Sekunder_KdBahan.Text.Trim & "' "
+                End If
+
+                Using Ds = BindingTrans(SQL)
+                    If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                        CrDoc = New N_EMI_CR_Packaging_Sekunder_Nominal
+
+                        With A_Place_For_Printing2
+                            CrDoc.SetDataSource(Ds)
+                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                            CrDoc.PrintOptions.PrinterName = ""
+                            CrDoc.SummaryInfo.ReportTitle = "Periode : " & Format(Tgl1.Value, "dd/MMM/yyyy") & " s/d " &
+                                                                    Format(Tgl2.Value, "dd/MMM/yyyy")
+                            CrDoc.RecordSelectionFormula = SF
+                            .Text = JudulForm
+                            .CrystalReportViewer1.ReportSource = CrDoc
+                            .Refresh()
+                            .Show()
+                        End With
+                    Else
+                        CloseConn()
+                        MessageBox.Show("Data Tidak Ditemukan", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
+            ElseIf arrReport(Cmb_Laporan.SelectedIndex) = "N_EMI_CR_Transaksi_Validasi_GR_3_Summary" Or arrReport(Cmb_Laporan.SelectedIndex) = "N_EMI_CR_Transaksi_Validasi_GR_3_Summary_Nominal" Then
+
+                SQL = "select kode_perusahaan from N_EMI_View_Laporan_Transaksi_Validasi_GR_3 where kode_perusahaan = '" & KodePerusahaan & "' "
+                SF = "{N_EMI_View_Laporan_Transaksi_Validasi_GR_3.kode_perusahaan} = '" & KodePerusahaan & "' "
+
+                SQL = SQL & "and Tanggal between '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' and '" & Format(Tgl2.Value, "yyyy-MM-dd") & "' "
+                SF = SF & "and {N_EMI_View_Laporan_Transaksi_Validasi_GR_3.Tanggal} >= #" & Format(Tgl1.Value, "yyyy-MM-dd") & "# and "
+                SF = SF & "{N_EMI_View_Laporan_Transaksi_Validasi_GR_3.Tanggal} <= #" & Format(Tgl2.Value, "yyyy-MM-dd") & "# "
+
+
+                If Not Txt_NoSplit.Text.Trim.Length = 0 Then
+                    If Not Txt_NoSplit.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                        SQL = SQL & "and No_Split = '" & Txt_NoSplit.Text.Trim & "' "
+                        SF = SF & "and {N_EMI_View_Laporan_Transaksi_Validasi_GR_3.No_Split} = '" & Txt_NoSplit.Text.Trim & "' "
+                    End If
+                End If
+
+                If Not Txt_Batch.Text.Trim.Length = 0 Then
+                    If Not Txt_Batch.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                        SQL = SQL & "and Batch_Number = '" & Txt_Batch.Text.Trim & "' "
+                        SF = SF & "and {N_EMI_View_Laporan_Transaksi_Validasi_GR_3.Batch_Number} = '" & Txt_Batch.Text.Trim & "' "
+                    End If
+                End If
+
+                If Not Txt_KdSoAwal.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    SQL = SQL & "and kode_stock_owner_awal = '" & Txt_KdSoAwal.Text.Trim & "' "
+                    SF = SF & "and {N_EMI_View_Laporan_Transaksi_Validasi_GR_3.kode_stock_owner_awal} = '" & Txt_KdSoAwal.Text.Trim & "' "
+                End If
+
+                If Not Txt_KdSoTujuan.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    SQL = SQL & "and kode_stock_owner_tujuan = '" & Txt_KdSoTujuan.Text.Trim & "' "
+                    SF = SF & "and {N_EMI_View_Laporan_Transaksi_Validasi_GR_3.kode_stock_owner_tujuan} = '" & Txt_KdSoTujuan.Text.Trim & "' "
+                End If
+
+                If Not Txt_KdBarang.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    SQL = SQL & "and kode_barang = '" & Txt_KdBarang.Text.Trim & "' "
+                    SF = SF & "and {N_EMI_View_Laporan_Transaksi_Validasi_GR_3.kode_barang} = '" & Txt_KdBarang.Text.Trim & "' "
+                End If
+
+                Using Ds = BindingTrans(SQL)
+                    If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                        If arrReport(Cmb_Laporan.SelectedIndex) = "N_EMI_CR_Transaksi_Validasi_GR_3_Summary" Then
+                            CrDoc = New N_EMI_CR_Transaksi_Validasi_GR_3_Summary
+                        ElseIf arrReport(Cmb_Laporan.SelectedIndex) = "N_EMI_CR_Transaksi_Validasi_GR_3_Summary_Nominal" Then
+                            CrDoc = New N_EMI_CR_Transaksi_Validasi_GR_3_Summary_Nominal
+                        End If
+
+                        With A_Place_For_Printing2
+                            CrDoc.SetDataSource(Ds)
+                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                            CrDoc.PrintOptions.PrinterName = ""
+                            CrDoc.SummaryInfo.ReportTitle = "Periode : " & Format(Tgl1.Value, "dd/MMM/yyyy") & " s/d " &
+                                                                    Format(Tgl2.Value, "dd/MMM/yyyy")
+                            CrDoc.RecordSelectionFormula = SF
+                            .Text = JudulForm
+                            .CrystalReportViewer1.ReportSource = CrDoc
+                            .Refresh()
+                            .Show()
+                        End With
+                    Else
+                        CloseConn()
+                        MessageBox.Show("Data Tidak Ditemukan", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
 
 
             End If
@@ -600,6 +855,9 @@
     End Sub
 
     Private Sub Cmb_Laporan_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Laporan.SelectedIndexChanged
+
+        Panel_Packaging_Sekunder.Visible = False
+        Panel_Packaging_Sekunder.Location = New Point(600, 127)
 
         If arrReport(Cmb_Laporan.SelectedIndex) = "Laporan_Biaya_Produksi" Then
             Label4.Visible = True : CmbJenisBiaya.Visible = True
@@ -638,6 +896,46 @@
             BtnCetak.Location = New Point(413, 278)
             BtnExit.Location = New Point(496, 278)
             Me.Size = New Size(607, 360)
+
+        ElseIf arrReport(Cmb_Laporan.SelectedIndex) = "N_EMI_CR_Packaging_Sekunder" Or arrReport(Cmb_Laporan.SelectedIndex) = "N_EMI_CR_Packaging_Sekunder_Nominal" Then
+
+            switchAutoComplete = True
+            Txt_Pack_Sekunder_NoTransaksi.Text = OpsiSeluruh
+            Txt_Pack_Sekunder_NoSplit.Text = OpsiSeluruh
+            Txt_Pack_Sekunder_KdBarang.Text = OpsiSeluruh : Txt_Pack_Sekunder_NmBarang.Text = OpsiSeluruh
+            Txt_Pack_Sekunder_KdBahan.Text = OpsiSeluruh : Txt_Pack_Sekunder_NmBahan.Text = OpsiSeluruh
+            switchAutoComplete = False
+
+            GroupBox1.Size = New Size(569, 221)
+            Me.Size = New Size(607, 360)
+            BtnCetak.Location = New Point(413, 278)
+            BtnExit.Location = New Point(496, 278)
+
+            Panel_Packaging_Sekunder.Location = New Point(17, 127)
+            Panel_Packaging_Sekunder.Visible = True
+
+        ElseIf arrReport(Cmb_Laporan.SelectedIndex) = "N_EMI_CR_Transaksi_Validasi_GR_3_Summary" Or arrReport(Cmb_Laporan.SelectedIndex) = "N_EMI_CR_Transaksi_Validasi_GR_3_Summary_Nominal" Then
+
+            Label4.Visible = True : CmbJenisBiaya.Visible = False : CmbJenisBiaya.SelectedIndex = 0
+            Label4.Text = "No Split" : Txt_NoSplit.Visible = True
+
+            Chk_NoSplit.Visible = True : Chk_Batch.Visible = True
+            Label9.Visible = True : Txt_Batch.Visible = True
+            Label6.Visible = True : Txt_KdSoAwal.Visible = True : Txt_NmLokasiAwal.Visible = True
+            Label7.Visible = True : Txt_KdSoTujuan.Visible = True : Txt_NmLokasiTujuan.Visible = True
+            Label8.Visible = True : Txt_KdBarang.Visible = True : Txt_NmBarang.Visible = True
+
+            Chk_NoSplit.Checked = False : Chk_Batch.Checked = False
+
+            Txt_KdSoAwal.Text = OpsiSeluruh : Txt_NmLokasiAwal.Text = OpsiSeluruh
+            Txt_KdSoTujuan.Text = OpsiSeluruh : Txt_NmLokasiTujuan.Text = OpsiSeluruh
+            Txt_KdBarang.Text = OpsiSeluruh : Txt_NmBarang.Text = OpsiSeluruh
+
+            GroupBox1.Size = New Size(569, 221)
+            BtnCetak.Location = New Point(413, 278)
+            BtnExit.Location = New Point(496, 278)
+            Me.Size = New Size(607, 360)
+
 
         Else
 
@@ -1252,5 +1550,711 @@
         End If
 
     End Sub
+
+    '=======================================================================================================================
+    '=     PACKAGING SEKUNDER
+    '=======================================================================================================================
+    Private Sub Txt_Pack_Sekunder_NoTransaksi_TextChanged(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_NoTransaksi.TextChanged
+
+        If switchAutoComplete = True Then Exit Sub
+
+        If Txt_Pack_Sekunder_NoTransaksi.Text.Trim.Length = 0 Then
+            Lv_Pack_Sekunder_NoTransaksi.Visible = False
+            Lv_Pack_Sekunder_NoTransaksi.Location = New Point(1120, 155)
+            Txt_Pack_Sekunder_NoTransaksi.Text = ""
+            Exit Sub
+        Else
+            Lv_Pack_Sekunder_NoTransaksi.Location = New Point(132, 155)
+            Lv_Pack_Sekunder_NoTransaksi.Visible = True
+        End If
+
+        Try
+            OpenConn()
+
+            Lv_Pack_Sekunder_NoTransaksi.Items.Clear()
+
+            Dim Lv As ListViewItem
+            Lv = Lv_Pack_Sekunder_NoTransaksi.Items.Add(OpsiSeluruh)
+            Lv.SubItems.Add(OpsiSeluruh)
+            Lv.SubItems.Add(OpsiSeluruh)
+
+            SQL = "select No_Transaksi, Tanggal, Keterangan "
+            SQL = SQL & "from Emi_Production_Results_Validation "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and Status is null "
+            SQL = SQL & "and No_Transaksi like '%" & Txt_Pack_Sekunder_NoTransaksi.Text & "%' "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Lv = Lv_Pack_Sekunder_NoTransaksi.Items.Add(Dr("No_Transaksi"))
+                    Lv.SubItems.Add(Format(Dr("Tanggal"), "dd MMM yyyy"))
+                    Lv.SubItems.Add(Dr("Keterangan"))
+                Loop
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NoTransaksi_Leave(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_NoTransaksi.Leave
+        If Txt_Pack_Sekunder_NoTransaksi.Text.Trim.Length = 0 Then Exit Sub
+        If Lv_Pack_Sekunder_NoTransaksi.Focused = True Then Exit Sub
+
+        Try
+            OpenConn()
+
+            If Not Txt_Pack_Sekunder_NoTransaksi.Text.ToUpper = OpsiSeluruh.ToUpper Then
+
+                switchAutoComplete = True
+                SQL = "select No_Transaksi, Tanggal, Keterangan "
+                SQL = SQL & "from Emi_Production_Results_Validation "
+                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and Status is null "
+                SQL = SQL & "and No_Transaksi = '" & Txt_Pack_Sekunder_NoTransaksi.Text & "' "
+                Using Dr = Open(SQL)
+                    If Dr.Read Then
+                        Txt_Pack_Sekunder_NoTransaksi.Text = Dr("No_Transaksi")
+                        Txt_Pack_Sekunder_NoSplit.Focus()
+                    Else
+                        MessageBox.Show("No Transaksi tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Txt_Pack_Sekunder_NoTransaksi.Text = ""
+                        Txt_Pack_Sekunder_NoTransaksi.Focus()
+                    End If
+
+                    Me.Size = New Size(607, 360)
+                    Lv_Pack_Sekunder_NoTransaksi.Visible = False
+                    Lv_Pack_Sekunder_NoTransaksi.Location = New Point(1120, 155)
+                End Using
+                switchAutoComplete = False
+            Else
+                Txt_Pack_Sekunder_NoSplit.Focus()
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NoTransaksi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Pack_Sekunder_NoTransaksi.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If Txt_Pack_Sekunder_NoTransaksi.Text.Trim.Length = 0 Then Txt_Pack_Sekunder_NoTransaksi.Focus()
+            Txt_Pack_Sekunder_NoTransaksi_Leave(Txt_Pack_Sekunder_NoTransaksi, e)
+
+            Me.Size = New Size(607, 360)
+            Lv_Pack_Sekunder_NoTransaksi.Visible = False
+            Lv_Pack_Sekunder_NoTransaksi.Location = New Point(1120, 155)
+
+        End If
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NoTransaksi_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_Pack_Sekunder_NoTransaksi.KeyDown
+        If e.KeyCode = Keys.Down Then Lv_Pack_Sekunder_NoTransaksi.Focus()
+    End Sub
+
+    Private Sub Lv_Pack_Sekunder_NoTransaksi_DoubleClick(sender As Object, e As EventArgs) Handles Lv_Pack_Sekunder_NoTransaksi.DoubleClick
+        If Lv_Pack_Sekunder_NoTransaksi.Items.Count = 0 Or Lv_Pack_Sekunder_NoTransaksi.FocusedItem.Index = -1 Then Exit Sub
+
+        Dim NoTransaksi As String = Lv_Pack_Sekunder_NoTransaksi.FocusedItem.SubItems(0).Text
+
+        switchAutoComplete = True
+        Txt_Pack_Sekunder_NoTransaksi.Text = NoTransaksi
+        switchAutoComplete = False
+
+        Me.Size = New Size(607, 360)
+        Lv_Pack_Sekunder_NoTransaksi.Visible = False
+        Lv_Pack_Sekunder_NoTransaksi.Location = New Point(1120, 155)
+
+        Txt_Pack_Sekunder_NoSplit.Focus()
+    End Sub
+
+    Private Sub Lv_Pack_Sekunder_NoTransaksi_KeyDown(sender As Object, e As KeyEventArgs) Handles Lv_Pack_Sekunder_NoTransaksi.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            Lv_Pack_Sekunder_NoTransaksi_DoubleClick(Lv_Pack_Sekunder_NoTransaksi, e)
+        End If
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NoSplit_TextChanged(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_NoSplit.TextChanged
+
+        If switchAutoComplete = True Then Exit Sub
+
+        If Txt_Pack_Sekunder_NoSplit.Text.Trim.Length = 0 Then
+            Lv_Pack_Sekunder_NoSplit.Visible = False
+            Lv_Pack_Sekunder_NoSplit.Location = New Point(1120, 181)
+            Txt_Pack_Sekunder_NoSplit.Text = ""
+            Me.Size = New Size(607, 360)
+            Exit Sub
+        Else
+            Lv_Pack_Sekunder_NoSplit.Location = New Point(132, 181)
+            Lv_Pack_Sekunder_NoSplit.Visible = True
+            Me.Size = New Size(607, 370)
+        End If
+
+        Try
+            OpenConn()
+
+            Lv_Pack_Sekunder_NoSplit.Items.Clear()
+
+            Dim Lv As ListViewItem
+            Lv = Lv_Pack_Sekunder_NoSplit.Items.Add(OpsiSeluruh)
+            Lv.SubItems.Add(OpsiSeluruh)
+
+            SQL = "select distinct a.No_Production_Order, b.Tgl_Produksi "
+            SQL = SQL & "from Emi_Production_Results_Validation a, Emi_Split_Production_Order b "
+            SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan "
+            SQL = SQL & "and a.no_production_order = b.No_Transaksi "
+            SQL = SQL & "and a.Status is null and b.Status is null "
+            SQL = SQL & "and a.Status is null and b.Status is null "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.No_Production_Order like '%" & Txt_Pack_Sekunder_NoSplit.Text & "%' "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Lv = Lv_Pack_Sekunder_NoSplit.Items.Add(Dr("No_Production_Order"))
+                    Lv.SubItems.Add(Format(Dr("Tgl_Produksi"), "dd MMM yyyy"))
+                Loop
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NoSplit_Leave(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_NoSplit.Leave
+        If Txt_Pack_Sekunder_NoSplit.Text.Trim.Length = 0 Then Exit Sub
+        If Lv_Pack_Sekunder_NoSplit.Focused = True Then Exit Sub
+
+        Try
+            OpenConn()
+
+            If Not Txt_Pack_Sekunder_NoSplit.Text.ToUpper = OpsiSeluruh.ToUpper Then
+
+                switchAutoComplete = True
+                SQL = "select distinct a.No_Production_Order, b.Tgl_Produksi "
+                SQL = SQL & "from Emi_Production_Results_Validation a, Emi_Split_Production_Order b "
+                SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan "
+                SQL = SQL & "and a.no_production_order = b.No_Transaksi "
+                SQL = SQL & "and a.Status is null and b.Status is null "
+                SQL = SQL & "and a.Status is null and b.Status is null "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.No_Production_Order = '" & Txt_Pack_Sekunder_NoSplit.Text & "' "
+                Using Dr = Open(SQL)
+                    If Dr.Read Then
+                        Txt_Pack_Sekunder_NoSplit.Text = Dr("No_Transaksi")
+                        Txt_Pack_Sekunder_KdBarang.Focus()
+                    Else
+                        MessageBox.Show("No Transaksi tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Txt_Pack_Sekunder_NoSplit.Text = ""
+                        Txt_Pack_Sekunder_NoSplit.Focus()
+                    End If
+
+                    Me.Size = New Size(607, 360)
+                    Lv_Pack_Sekunder_NoSplit.Visible = False
+                    Lv_Pack_Sekunder_NoSplit.Location = New Point(1120, 181)
+                End Using
+                switchAutoComplete = False
+            Else
+                Txt_Pack_Sekunder_KdBarang.Focus()
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NoSplit_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Pack_Sekunder_NoSplit.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If Txt_Pack_Sekunder_NoSplit.Text.Trim.Length = 0 Then Txt_Pack_Sekunder_NoSplit.Focus()
+            Txt_Pack_Sekunder_NoSplit_Leave(Txt_Pack_Sekunder_NoSplit, e)
+
+            Me.Size = New Size(607, 360)
+            Lv_Pack_Sekunder_NoSplit.Visible = False
+            Lv_Pack_Sekunder_NoSplit.Location = New Point(1120, 181)
+
+        End If
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NoSplit_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_Pack_Sekunder_NoSplit.KeyDown
+        If e.KeyCode = Keys.Down Then Lv_Pack_Sekunder_NoSplit.Focus()
+    End Sub
+
+    Private Sub Lv_Pack_Sekunder_NoSplit_DoubleClick(sender As Object, e As EventArgs) Handles Lv_Pack_Sekunder_NoSplit.DoubleClick
+        If Lv_Pack_Sekunder_NoSplit.Items.Count = 0 Or Lv_Pack_Sekunder_NoSplit.FocusedItem.Index = -1 Then Exit Sub
+
+        Dim NoTransaksi As String = Lv_Pack_Sekunder_NoSplit.FocusedItem.SubItems(0).Text
+
+        switchAutoComplete = True
+        Txt_Pack_Sekunder_NoSplit.Text = NoTransaksi
+        switchAutoComplete = False
+
+        Me.Size = New Size(607, 360)
+        Lv_Pack_Sekunder_NoSplit.Visible = False
+        Lv_Pack_Sekunder_NoSplit.Location = New Point(1120, 181)
+
+        Txt_Pack_Sekunder_KdBarang.Focus()
+    End Sub
+
+    Private Sub Lv_Pack_Sekunder_NoSplit_KeyDown(sender As Object, e As KeyEventArgs) Handles Lv_Pack_Sekunder_NoSplit.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            Lv_Pack_Sekunder_NoSplit_DoubleClick(Lv_Pack_Sekunder_NoSplit, e)
+        End If
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_KdBarang_TextChanged(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_KdBarang.TextChanged
+
+        If switchAutoComplete = True Then Exit Sub
+
+        If Txt_Pack_Sekunder_KdBarang.Text.Trim.Length = 0 Then
+            Lv_Pack_Sekunder_Barang.Visible = False
+            Lv_Pack_Sekunder_Barang.Location = New Point(1120, 207)
+            Txt_Pack_Sekunder_KdBarang.Text = ""
+            Txt_Pack_Sekunder_NmBahan.Text = ""
+            Me.Size = New Size(607, 360)
+            Exit Sub
+        Else
+            Lv_Pack_Sekunder_Barang.Location = New Point(132, 207)
+            Lv_Pack_Sekunder_Barang.Visible = True
+            Me.Size = New Size(607, 395)
+        End If
+
+        Try
+            OpenConn()
+
+            Lv_Pack_Sekunder_Barang.Items.Clear()
+
+            Dim Lv As ListViewItem
+            Lv = Lv_Pack_Sekunder_Barang.Items.Add(OpsiSeluruh)
+            Lv.SubItems.Add(OpsiSeluruh)
+
+            SQL = "select distinct a.Kode_Barang, a.Nama "
+            SQL = SQL & "from barang a, emi_group_jenis b "
+            SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan "
+            SQL = SQL & "and a.Id_Group_Jenis = b.Id_Group_Jenis "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and b.Flag_Produksi = 'Y' "
+            SQL = SQL & "and a.Kode_Barang like '%" & Txt_Pack_Sekunder_KdBarang.Text & "%' "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Lv = Lv_Pack_Sekunder_Barang.Items.Add(Dr("Kode_Barang"))
+                    Lv.SubItems.Add(Dr("Nama"))
+                Loop
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_KdBarang_Leave(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_KdBarang.Leave
+        If Txt_Pack_Sekunder_KdBarang.Text.Trim.Length = 0 Then Exit Sub
+        If Lv_Pack_Sekunder_Barang.Focused = True Then Exit Sub
+
+        Try
+            OpenConn()
+
+            If Not Txt_Pack_Sekunder_KdBarang.Text.ToUpper = OpsiSeluruh.ToUpper Then
+
+                switchAutoComplete = True
+                SQL = "select distinct a.Kode_Barang, a.Nama "
+                SQL = SQL & "from barang a, emi_group_jenis b "
+                SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan "
+                SQL = SQL & "and a.Id_Group_Jenis = b.Id_Group_Jenis "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and b.Flag_Produksi = 'Y' "
+                SQL = SQL & "and a.Kode_Barang = '" & Txt_Pack_Sekunder_KdBarang.Text & "' "
+                Using Dr = Open(SQL)
+                    If Dr.Read Then
+                        Txt_Pack_Sekunder_KdBarang.Text = Dr("Kode_Barang")
+                        Txt_Pack_Sekunder_NmBarang.Text = Dr("Nama")
+                        Txt_Pack_Sekunder_KdBarang.Focus()
+                    Else
+                        MessageBox.Show("Kode Barang tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Txt_Pack_Sekunder_KdBarang.Text = ""
+                        Txt_Pack_Sekunder_NmBarang.Text = ""
+                        Txt_Pack_Sekunder_KdBarang.Focus()
+                    End If
+
+                    Me.Size = New Size(607, 360)
+                    Lv_Pack_Sekunder_Barang.Visible = False
+                    Lv_Pack_Sekunder_Barang.Location = New Point(1120, 207)
+                End Using
+                switchAutoComplete = False
+            Else
+                Txt_Pack_Sekunder_KdBahan.Focus()
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_KdBarang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Pack_Sekunder_KdBarang.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If Txt_Pack_Sekunder_KdBarang.Text.Trim.Length = 0 Then Txt_Pack_Sekunder_KdBarang.Focus()
+            Txt_Pack_Sekunder_KdBarang_Leave(Txt_Pack_Sekunder_KdBarang, e)
+
+            Me.Size = New Size(607, 360)
+            Lv_Pack_Sekunder_Barang.Visible = False
+            Lv_Pack_Sekunder_Barang.Location = New Point(1120, 207)
+
+        End If
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_KdBarang_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_Pack_Sekunder_KdBarang.KeyDown
+        If e.KeyCode = Keys.Down Then Lv_Pack_Sekunder_Barang.Focus()
+    End Sub
+
+    Private Sub Lv_Pack_Sekunder_Barang_DoubleClick(sender As Object, e As EventArgs) Handles Lv_Pack_Sekunder_Barang.DoubleClick
+        If Lv_Pack_Sekunder_Barang.Items.Count = 0 Or Lv_Pack_Sekunder_Barang.FocusedItem.Index = -1 Then Exit Sub
+
+        Dim KdBarang As String = Lv_Pack_Sekunder_Barang.FocusedItem.SubItems(0).Text
+        Dim NmBarang As String = Lv_Pack_Sekunder_Barang.FocusedItem.SubItems(1).Text
+
+        switchAutoComplete = True
+        Txt_Pack_Sekunder_KdBarang.Text = KdBarang
+        Txt_Pack_Sekunder_NmBarang.Text = NmBarang
+        switchAutoComplete = False
+
+        Me.Size = New Size(607, 360)
+        Lv_Pack_Sekunder_Barang.Visible = False
+        Lv_Pack_Sekunder_Barang.Location = New Point(1120, 207)
+
+        Txt_Pack_Sekunder_KdBahan.Focus()
+    End Sub
+
+    Private Sub Lv_Pack_Sekunder_Barang_KeyDown(sender As Object, e As KeyEventArgs) Handles Lv_Pack_Sekunder_Barang.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            Lv_Pack_Sekunder_Barang_DoubleClick(Lv_Pack_Sekunder_Barang, e)
+        End If
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NmBarang_TextChanged(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_NmBarang.TextChanged
+
+        If switchAutoComplete = True Then Exit Sub
+
+        If Txt_Pack_Sekunder_NmBarang.Text.Trim.Length = 0 Then
+            Lv_Pack_Sekunder_Barang.Visible = False
+            Lv_Pack_Sekunder_Barang.Location = New Point(1120, 207)
+            Txt_Pack_Sekunder_KdBarang.Text = ""
+            Txt_Pack_Sekunder_NmBahan.Text = ""
+            Me.Size = New Size(607, 360)
+            Exit Sub
+        Else
+            Lv_Pack_Sekunder_Barang.Location = New Point(132, 207)
+            Lv_Pack_Sekunder_Barang.Visible = True
+            Me.Size = New Size(607, 395)
+        End If
+
+        Try
+            OpenConn()
+
+            Lv_Pack_Sekunder_Barang.Items.Clear()
+
+            Dim Lv As ListViewItem
+            Lv = Lv_Pack_Sekunder_Barang.Items.Add(OpsiSeluruh)
+            Lv.SubItems.Add(OpsiSeluruh)
+
+            SQL = "select distinct a.Kode_Barang, a.Nama "
+            SQL = SQL & "from barang a, emi_group_jenis b "
+            SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan "
+            SQL = SQL & "and a.Id_Group_Jenis = b.Id_Group_Jenis "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and b.Flag_Produksi = 'Y' "
+            SQL = SQL & "and a.Nama like '%" & Txt_Pack_Sekunder_NmBarang.Text & "%' "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Lv = Lv_Pack_Sekunder_Barang.Items.Add(Dr("Kode_Barang"))
+                    Lv.SubItems.Add(Dr("Nama"))
+                Loop
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NmBarang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Pack_Sekunder_NmBarang.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If Txt_Pack_Sekunder_NmBarang.Text.Trim.Length = 0 Then Txt_Pack_Sekunder_NmBarang.Focus()
+            Txt_Pack_Sekunder_KdBarang_Leave(Txt_Pack_Sekunder_NmBarang, e)
+
+            Me.Size = New Size(607, 360)
+            Lv_Pack_Sekunder_Barang.Visible = False
+            Lv_Pack_Sekunder_Barang.Location = New Point(1120, 207)
+
+        End If
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NmBarang_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_Pack_Sekunder_NmBarang.KeyDown
+        If e.KeyCode = Keys.Down Then Lv_Pack_Sekunder_Barang.Focus()
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_KdBahan_TextChanged(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_KdBahan.TextChanged
+
+        If switchAutoComplete = True Then Exit Sub
+
+        If Txt_Pack_Sekunder_KdBahan.Text.Trim.Length = 0 Then
+            Lv_Pack_Sekunder_Bahan.Visible = False
+            Lv_Pack_Sekunder_Bahan.Location = New Point(1120, 233)
+            Txt_Pack_Sekunder_KdBahan.Text = ""
+            Txt_Pack_Sekunder_NmBahan.Text = ""
+            Me.Size = New Size(607, 360)
+            Exit Sub
+        Else
+            Lv_Pack_Sekunder_Bahan.Location = New Point(132, 233)
+            Lv_Pack_Sekunder_Bahan.Visible = True
+            Me.Size = New Size(607, 420)
+        End If
+
+        Try
+            OpenConn()
+
+            Lv_Pack_Sekunder_Bahan.Items.Clear()
+
+            Dim Lv As ListViewItem
+            Lv = Lv_Pack_Sekunder_Bahan.Items.Add(OpsiSeluruh)
+            Lv.SubItems.Add(OpsiSeluruh)
+
+            SQL = "select distinct a.Kode_Barang, a.Nama "
+            SQL = SQL & "from barang a, emi_group_jenis b "
+            SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan "
+            SQL = SQL & "and a.Id_Group_Jenis = b.Id_Group_Jenis "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and b.flag_packaging = 'Y' "
+            SQL = SQL & "and a.Kode_Barang like '%" & Txt_Pack_Sekunder_KdBahan.Text & "%' "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Lv = Lv_Pack_Sekunder_Bahan.Items.Add(Dr("Kode_Barang"))
+                    Lv.SubItems.Add(Dr("Nama"))
+                Loop
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_KdBahan_Leave(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_KdBahan.Leave
+        If Txt_Pack_Sekunder_KdBahan.Text.Trim.Length = 0 Then Exit Sub
+        If Lv_Pack_Sekunder_Bahan.Focused = True Then Exit Sub
+
+        Try
+            OpenConn()
+
+            If Not Txt_Pack_Sekunder_KdBahan.Text.ToUpper = OpsiSeluruh.ToUpper Then
+
+                switchAutoComplete = True
+                SQL = "select distinct a.Kode_Barang, a.Nama "
+                SQL = SQL & "from barang a, emi_group_jenis b "
+                SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan "
+                SQL = SQL & "and a.Id_Group_Jenis = b.Id_Group_Jenis "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and b.flag_packaging = 'Y' "
+                SQL = SQL & "and a.Kode_Barang = '" & Txt_Pack_Sekunder_KdBahan.Text & "' "
+                Using Dr = Open(SQL)
+                    If Dr.Read Then
+                        Txt_Pack_Sekunder_KdBahan.Text = Dr("Kode_Barang")
+                        Txt_Pack_Sekunder_NmBahan.Text = Dr("Nama")
+                        BtnCetak.Focus()
+                    Else
+                        MessageBox.Show("Kode Bahan tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Txt_Pack_Sekunder_KdBahan.Text = ""
+                        Txt_Pack_Sekunder_NmBahan.Text = ""
+                        Txt_Pack_Sekunder_KdBahan.Focus()
+                    End If
+
+                    Me.Size = New Size(607, 360)
+                    Lv_Pack_Sekunder_Bahan.Visible = False
+                    Lv_Pack_Sekunder_Bahan.Location = New Point(1120, 233)
+                End Using
+                switchAutoComplete = False
+            Else
+                BtnCetak.Focus()
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_KdBahan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Pack_Sekunder_KdBahan.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If Txt_Pack_Sekunder_KdBahan.Text.Trim.Length = 0 Then Txt_Pack_Sekunder_KdBahan.Focus()
+            Txt_Pack_Sekunder_KdBahan_Leave(Txt_Pack_Sekunder_KdBahan, e)
+
+            Me.Size = New Size(607, 360)
+            Lv_Pack_Sekunder_Bahan.Visible = False
+            Lv_Pack_Sekunder_Bahan.Location = New Point(1120, 233)
+
+        End If
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_KdBahan_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_Pack_Sekunder_KdBahan.KeyDown
+        If e.KeyCode = Keys.Down Then Lv_Pack_Sekunder_Bahan.Focus()
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NmBahan_TextChanged(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_NmBahan.TextChanged
+
+        If switchAutoComplete = True Then Exit Sub
+
+        If Txt_Pack_Sekunder_NmBahan.Text.Trim.Length = 0 Then
+            Lv_Pack_Sekunder_Bahan.Visible = False
+            Lv_Pack_Sekunder_Bahan.Location = New Point(1120, 233)
+            Txt_Pack_Sekunder_KdBahan.Text = ""
+            Txt_Pack_Sekunder_NmBahan.Text = ""
+            Me.Size = New Size(607, 360)
+            Exit Sub
+        Else
+            Lv_Pack_Sekunder_Bahan.Location = New Point(132, 233)
+            Lv_Pack_Sekunder_Bahan.Visible = True
+            Me.Size = New Size(607, 420)
+        End If
+
+        Try
+            OpenConn()
+
+            Lv_Pack_Sekunder_Bahan.Items.Clear()
+
+            Dim Lv As ListViewItem
+            Lv = Lv_Pack_Sekunder_Bahan.Items.Add(OpsiSeluruh)
+            Lv.SubItems.Add(OpsiSeluruh)
+
+            SQL = "select distinct a.Kode_Barang, a.Nama "
+            SQL = SQL & "from barang a, emi_group_jenis b "
+            SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan "
+            SQL = SQL & "and a.Id_Group_Jenis = b.Id_Group_Jenis "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and b.flag_packaging = 'Y' "
+            SQL = SQL & "and a.Nama like '%" & Txt_Pack_Sekunder_NmBahan.Text & "%' "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Lv = Lv_Pack_Sekunder_Bahan.Items.Add(Dr("Kode_Barang"))
+                    Lv.SubItems.Add(Dr("Nama"))
+                Loop
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NmBahan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Pack_Sekunder_NmBahan.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If Txt_Pack_Sekunder_NmBahan.Text.Trim.Length = 0 Then Txt_Pack_Sekunder_NmBahan.Focus()
+            Txt_Pack_Sekunder_KdBahan_Leave(Txt_Pack_Sekunder_NmBahan, e)
+
+            Me.Size = New Size(607, 360)
+            Lv_Pack_Sekunder_Bahan.Visible = False
+            Lv_Pack_Sekunder_Bahan.Location = New Point(1120, 233)
+
+        End If
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NmBahan_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_Pack_Sekunder_NmBahan.KeyDown
+        If e.KeyCode = Keys.Down Then Lv_Pack_Sekunder_Bahan.Focus()
+    End Sub
+
+    Private Sub Lv_Pack_Sekunder_Bahan_DoubleClick(sender As Object, e As EventArgs) Handles Lv_Pack_Sekunder_Bahan.DoubleClick
+        If Lv_Pack_Sekunder_Bahan.Items.Count = 0 Or Lv_Pack_Sekunder_Bahan.FocusedItem.Index = -1 Then Exit Sub
+
+        Dim KdBarang As String = Lv_Pack_Sekunder_Bahan.FocusedItem.SubItems(0).Text
+        Dim NmBarang As String = Lv_Pack_Sekunder_Bahan.FocusedItem.SubItems(1).Text
+
+        switchAutoComplete = True
+        Txt_Pack_Sekunder_KdBahan.Text = KdBarang
+        Txt_Pack_Sekunder_NmBahan.Text = NmBarang
+        switchAutoComplete = False
+
+        Me.Size = New Size(607, 360)
+        Lv_Pack_Sekunder_Bahan.Visible = False
+        Lv_Pack_Sekunder_Bahan.Location = New Point(1120, 233)
+
+        BtnCetak.Focus()
+    End Sub
+
+    Private Sub Lv_Pack_Sekunder_Bahan_KeyDown(sender As Object, e As KeyEventArgs) Handles Lv_Pack_Sekunder_Bahan.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            Lv_Pack_Sekunder_Bahan_DoubleClick(Lv_Pack_Sekunder_Bahan, e)
+        End If
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NoTransaksi_Enter(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_NoTransaksi.Enter
+        Txt_Pack_Sekunder_NoTransaksi.SelectAll()
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NoSplit_Enter(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_NoSplit.Enter
+        Txt_Pack_Sekunder_NoSplit.SelectAll()
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_KdBarang_Enter(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_KdBarang.Enter
+        Txt_Pack_Sekunder_KdBarang.SelectAll()
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NmBarang_Enter(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_NmBarang.Enter
+        Txt_Pack_Sekunder_NmBarang.SelectAll()
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_KdBahan_Enter(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_KdBahan.Enter
+        Txt_Pack_Sekunder_KdBahan.SelectAll()
+    End Sub
+
+    Private Sub Txt_Pack_Sekunder_NmBahan_Enter(sender As Object, e As EventArgs) Handles Txt_Pack_Sekunder_NmBahan.Enter
+        Txt_Pack_Sekunder_NmBahan.SelectAll()
+    End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 End Class

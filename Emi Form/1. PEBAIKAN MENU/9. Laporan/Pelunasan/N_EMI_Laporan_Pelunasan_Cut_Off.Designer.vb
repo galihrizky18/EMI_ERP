@@ -51,6 +51,8 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         Me.Lv_PO = New System.Windows.Forms.ListView()
         Me.LV_Perusahaan_Import = New System.Windows.Forms.ListView()
         Me.Lv_Kategori = New System.Windows.Forms.ListView()
+        Me.Cmb_JenisLaporan = New System.Windows.Forms.ComboBox()
+        Me.Label8 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -63,7 +65,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(738, 44)
+        Me.Panel1.Size = New System.Drawing.Size(722, 44)
         Me.Panel1.TabIndex = 27
         '
         'PanelGradient1
@@ -76,7 +78,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 42)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(738, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(722, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
@@ -86,9 +88,9 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         Me.Label1.Location = New System.Drawing.Point(15, 7)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(292, 29)
+        Me.Label1.Size = New System.Drawing.Size(184, 29)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Laporan - Pelunasan Cut Off"
+        Me.Label1.Text = "Laporan - Hutang"
         '
         'Panel3
         '
@@ -113,7 +115,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         'Panel2
         '
         Me.Panel2.BackColor = System.Drawing.Color.Red
-        Me.Panel2.Location = New System.Drawing.Point(26, 256)
+        Me.Panel2.Location = New System.Drawing.Point(27, 281)
         Me.Panel2.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(942, 15)
@@ -123,7 +125,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(721, 60)
+        Me.Panel4.Location = New System.Drawing.Point(702, 63)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(19, 601)
@@ -132,6 +134,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Cmb_JenisLaporan)
         Me.GroupBox1.Controls.Add(Me.Txt_Kd_Kategori)
         Me.GroupBox1.Controls.Add(Me.Txt_Kd_Perusahaan_Import)
         Me.GroupBox1.Controls.Add(Me.Txt_PO)
@@ -140,6 +143,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.Label7)
         Me.GroupBox1.Controls.Add(Me.Label6)
+        Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Tgl2)
         Me.GroupBox1.Controls.Add(Me.Label3)
@@ -149,49 +153,49 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         Me.GroupBox1.Controls.Add(Me.Txt_Nm_Kategori)
         Me.GroupBox1.Location = New System.Drawing.Point(20, 55)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(700, 161)
-        Me.GroupBox1.TabIndex = 44
+        Me.GroupBox1.Size = New System.Drawing.Size(680, 189)
+        Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
         'Txt_Kd_Kategori
         '
-        Me.Txt_Kd_Kategori.Location = New System.Drawing.Point(177, 127)
+        Me.Txt_Kd_Kategori.Location = New System.Drawing.Point(156, 154)
         Me.Txt_Kd_Kategori.Name = "Txt_Kd_Kategori"
         Me.Txt_Kd_Kategori.Size = New System.Drawing.Size(163, 20)
         Me.Txt_Kd_Kategori.TabIndex = 6
         '
         'Txt_Kd_Perusahaan_Import
         '
-        Me.Txt_Kd_Perusahaan_Import.Location = New System.Drawing.Point(177, 101)
+        Me.Txt_Kd_Perusahaan_Import.Location = New System.Drawing.Point(156, 128)
         Me.Txt_Kd_Perusahaan_Import.Name = "Txt_Kd_Perusahaan_Import"
         Me.Txt_Kd_Perusahaan_Import.Size = New System.Drawing.Size(163, 20)
-        Me.Txt_Kd_Perusahaan_Import.TabIndex = 4
+        Me.Txt_Kd_Perusahaan_Import.TabIndex = 5
         '
         'Txt_PO
         '
-        Me.Txt_PO.Location = New System.Drawing.Point(177, 76)
+        Me.Txt_PO.Location = New System.Drawing.Point(156, 103)
         Me.Txt_PO.Name = "Txt_PO"
         Me.Txt_PO.Size = New System.Drawing.Size(163, 20)
-        Me.Txt_PO.TabIndex = 3
+        Me.Txt_PO.TabIndex = 4
         '
         'Txt_Ket_PO
         '
-        Me.Txt_Ket_PO.Location = New System.Drawing.Point(346, 76)
+        Me.Txt_Ket_PO.Location = New System.Drawing.Point(325, 103)
         Me.Txt_Ket_PO.Name = "Txt_Ket_PO"
         Me.Txt_Ket_PO.Size = New System.Drawing.Size(346, 20)
         Me.Txt_Ket_PO.TabIndex = 2
         '
         'Txt_Faktur
         '
-        Me.Txt_Faktur.Location = New System.Drawing.Point(177, 49)
+        Me.Txt_Faktur.Location = New System.Drawing.Point(156, 76)
         Me.Txt_Faktur.Name = "Txt_Faktur"
         Me.Txt_Faktur.Size = New System.Drawing.Size(163, 20)
-        Me.Txt_Faktur.TabIndex = 2
+        Me.Txt_Faktur.TabIndex = 3
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(8, 101)
+        Me.Label4.Location = New System.Drawing.Point(8, 128)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(141, 16)
         Me.Label4.TabIndex = 4
@@ -200,7 +204,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(8, 76)
+        Me.Label7.Location = New System.Drawing.Point(8, 103)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(41, 16)
         Me.Label7.TabIndex = 4
@@ -209,7 +213,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(8, 127)
+        Me.Label6.Location = New System.Drawing.Point(8, 154)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(123, 16)
         Me.Label6.TabIndex = 4
@@ -218,7 +222,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(8, 49)
+        Me.Label5.Location = New System.Drawing.Point(8, 76)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(60, 16)
         Me.Label5.TabIndex = 4
@@ -228,7 +232,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         '
         Me.Tgl2.CustomFormat = "dd MMMM yyyy"
         Me.Tgl2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.Tgl2.Location = New System.Drawing.Point(388, 20)
+        Me.Tgl2.Location = New System.Drawing.Point(367, 20)
         Me.Tgl2.Name = "Tgl2"
         Me.Tgl2.Size = New System.Drawing.Size(163, 20)
         Me.Tgl2.TabIndex = 1
@@ -236,7 +240,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(351, 20)
+        Me.Label3.Location = New System.Drawing.Point(330, 20)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(25, 16)
         Me.Label3.TabIndex = 2
@@ -246,7 +250,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         '
         Me.Tgl1.CustomFormat = "dd MMMM yyyy"
         Me.Tgl1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.Tgl1.Location = New System.Drawing.Point(177, 20)
+        Me.Tgl1.Location = New System.Drawing.Point(156, 20)
         Me.Tgl1.Name = "Tgl1"
         Me.Tgl1.Size = New System.Drawing.Size(163, 20)
         Me.Tgl1.TabIndex = 0
@@ -262,14 +266,14 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         '
         'Txt_Nm_Perusahaan_Import
         '
-        Me.Txt_Nm_Perusahaan_Import.Location = New System.Drawing.Point(346, 101)
+        Me.Txt_Nm_Perusahaan_Import.Location = New System.Drawing.Point(325, 128)
         Me.Txt_Nm_Perusahaan_Import.Name = "Txt_Nm_Perusahaan_Import"
         Me.Txt_Nm_Perusahaan_Import.Size = New System.Drawing.Size(346, 20)
         Me.Txt_Nm_Perusahaan_Import.TabIndex = 5
         '
         'Txt_Nm_Kategori
         '
-        Me.Txt_Nm_Kategori.Location = New System.Drawing.Point(346, 127)
+        Me.Txt_Nm_Kategori.Location = New System.Drawing.Point(325, 154)
         Me.Txt_Nm_Kategori.Name = "Txt_Nm_Kategori"
         Me.Txt_Nm_Kategori.Size = New System.Drawing.Size(346, 20)
         Me.Txt_Nm_Kategori.TabIndex = 7
@@ -280,10 +284,10 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         Me.BtnCetak.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnCetak.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnCetak.ForeColor = System.Drawing.Color.White
-        Me.BtnCetak.Location = New System.Drawing.Point(553, 222)
+        Me.BtnCetak.Location = New System.Drawing.Point(524, 250)
         Me.BtnCetak.Name = "BtnCetak"
         Me.BtnCetak.Size = New System.Drawing.Size(84, 33)
-        Me.BtnCetak.TabIndex = 45
+        Me.BtnCetak.TabIndex = 1
         Me.BtnCetak.Text = "&Cetak"
         Me.BtnCetak.UseVisualStyleBackColor = False
         '
@@ -293,7 +297,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         Me.BtnExit.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnExit.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnExit.ForeColor = System.Drawing.Color.White
-        Me.BtnExit.Location = New System.Drawing.Point(636, 222)
+        Me.BtnExit.Location = New System.Drawing.Point(607, 250)
         Me.BtnExit.Name = "BtnExit"
         Me.BtnExit.Size = New System.Drawing.Size(84, 33)
         Me.BtnExit.TabIndex = 46
@@ -306,7 +310,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         Me.Lv_Faktur.FullRowSelect = True
         Me.Lv_Faktur.GridLines = True
         Me.Lv_Faktur.HideSelection = False
-        Me.Lv_Faktur.Location = New System.Drawing.Point(750, 126)
+        Me.Lv_Faktur.Location = New System.Drawing.Point(750, 153)
         Me.Lv_Faktur.Name = "Lv_Faktur"
         Me.Lv_Faktur.Size = New System.Drawing.Size(515, 200)
         Me.Lv_Faktur.TabIndex = 47
@@ -320,7 +324,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         Me.Lv_PO.FullRowSelect = True
         Me.Lv_PO.GridLines = True
         Me.Lv_PO.HideSelection = False
-        Me.Lv_PO.Location = New System.Drawing.Point(750, 155)
+        Me.Lv_PO.Location = New System.Drawing.Point(750, 181)
         Me.Lv_PO.Name = "Lv_PO"
         Me.Lv_PO.Size = New System.Drawing.Size(515, 200)
         Me.Lv_PO.TabIndex = 47
@@ -334,7 +338,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         Me.LV_Perusahaan_Import.FullRowSelect = True
         Me.LV_Perusahaan_Import.GridLines = True
         Me.LV_Perusahaan_Import.HideSelection = False
-        Me.LV_Perusahaan_Import.Location = New System.Drawing.Point(750, 180)
+        Me.LV_Perusahaan_Import.Location = New System.Drawing.Point(750, 206)
         Me.LV_Perusahaan_Import.Name = "LV_Perusahaan_Import"
         Me.LV_Perusahaan_Import.Size = New System.Drawing.Size(515, 200)
         Me.LV_Perusahaan_Import.TabIndex = 47
@@ -348,7 +352,7 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         Me.Lv_Kategori.FullRowSelect = True
         Me.Lv_Kategori.GridLines = True
         Me.Lv_Kategori.HideSelection = False
-        Me.Lv_Kategori.Location = New System.Drawing.Point(750, 205)
+        Me.Lv_Kategori.Location = New System.Drawing.Point(750, 231)
         Me.Lv_Kategori.Name = "Lv_Kategori"
         Me.Lv_Kategori.Size = New System.Drawing.Size(515, 200)
         Me.Lv_Kategori.TabIndex = 47
@@ -356,12 +360,30 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
         Me.Lv_Kategori.View = System.Windows.Forms.View.Details
         Me.Lv_Kategori.Visible = False
         '
+        'Cmb_JenisLaporan
+        '
+        Me.Cmb_JenisLaporan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_JenisLaporan.FormattingEnabled = True
+        Me.Cmb_JenisLaporan.Location = New System.Drawing.Point(156, 46)
+        Me.Cmb_JenisLaporan.Name = "Cmb_JenisLaporan"
+        Me.Cmb_JenisLaporan.Size = New System.Drawing.Size(374, 24)
+        Me.Cmb_JenisLaporan.TabIndex = 2
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(8, 49)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(83, 16)
+        Me.Label8.TabIndex = 4
+        Me.Label8.Text = "Jenis Laporan"
+        '
         'N_EMI_Laporan_Pelunasan_Cut_Off
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(738, 271)
+        Me.ClientSize = New System.Drawing.Size(722, 296)
         Me.Controls.Add(Me.Lv_Kategori)
         Me.Controls.Add(Me.LV_Perusahaan_Import)
         Me.Controls.Add(Me.Lv_PO)
@@ -416,4 +438,6 @@ Partial Class N_EMI_Laporan_Pelunasan_Cut_Off
     Friend WithEvents Lv_PO As ListView
     Friend WithEvents LV_Perusahaan_Import As ListView
     Friend WithEvents Lv_Kategori As ListView
+    Friend WithEvents Cmb_JenisLaporan As ComboBox
+    Friend WithEvents Label8 As Label
 End Class

@@ -1,16 +1,12 @@
 ﻿Public Class EMI_Controlling_Produksi
 
-    Dim arrCari As New ArrayList
+    Dim arrCari, arrCari_GR As New ArrayList
     Dim judulForm As String = "Controlling Produksi"
-
-    'Dim arrOrderRouting As New Dictionary(Of String, List(Of Dictionary(Of String, Object)))
-    Dim arrOrderRoutingList As New List(Of (idRouting As String, NoSplit As String, Batch As String, Urut As Integer))
 
     Dim AsumsiIsiPerBatch As Integer = 10
 
     Public asal = ""
     Public NoSplit = ""
-
 
     'Dim Lv_NoFaktur, Lv_NoPO, Lv_Ket, Lv_TglProduksi, Lv_Jam, Lv_NmBarang, Lv_Jmlh, Lv_JnsProduksi, Lv_JmlhBatch, Lv_BatchDosing, Lv_KdBarang, Lv_Satuan, Lv_JmlhKg, Lv_SatuanKg, Lv_NoPO As String
     'Dim LvGR_NoFaktur, LvGR_TglProduksi, LvGR_Jam, LvGR_NmBarang, LvGR_Jmlh, LvGR_JnsProduksi, LvGR_JmlhBatch, LvGR_BatchDosing, LvGR_KdBarang, LvGR_Satuan, LvGR_JmlhKg, LvGR_SatuanKg, LvGR_NoPO As String
@@ -28,7 +24,6 @@
     Dim Lv_BatchBerjalan As String
     Dim Lv_Routing As String
     Dim Lv_TotalDosing As String
-    Dim Lv_IdRouting As String
 
     Dim Item_NoFaktur As Integer = 0
     Dim Item_NoPO As Integer = 1
@@ -42,8 +37,6 @@
     Dim Item_BatchBerjalan As Integer = 9
     Dim Item_Routing As Integer = 10
     Dim Item_TotalDosing As Integer = 11
-    Dim Item_IdRouting As Integer = 12
-
 
     Dim LvGR_NoFaktur As String
     Dim LvGR_NoPO As String
@@ -58,7 +51,6 @@
     Dim LvGR_Routing As String
     Dim LvGR_TotalDosing As String
 
-
     Dim ItemGR_NoFaktur As Integer = 0
     Dim ItemGR_NoPO As Integer = 1
     Dim ItemGR_Ket As Integer = 2
@@ -72,9 +64,17 @@
     Dim ItemGR_Routing As Integer = 10
     Dim ItemGR_TotalDosing As Integer = 11
 
+    Dim PageSize As Integer = 20
+    Dim CurrentPage As Integer = 1
+    Dim CurrentPage_GR As Integer = 1
+    Dim TotalRows As Integer
+    Dim totalpage As Integer = 10
+    Dim totalpage_GR As Integer = 10
 
+    Dim Warna_Hover As Color = ColorHighlight
+    Dim CurrentTab As Integer = -1
 
-    Private Sub EMI_Controlling_Produksi_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+    Private Sub EMI_Controlling_Produksi_Activated(sender As Object, e As EventArgs) Handles Me.Activated, Lv_GI.SelectedIndexChanged
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
     End Sub
@@ -83,19 +83,9 @@
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
 
-        Kosong()
-    End Sub
-
-
-    Public Sub Kosong()
-
-        Cmb_Filter.Items.Clear() : Cmb_Filter.Text = ""
-        Txt_FilterValue.Text = ""
-
-        'arrOrderRouting.Clear()
-        arrOrderRoutingList.Clear()
-
         ' LvGR_Det.Items.Clear()
+
+        Me.Size = New Size(1200, 670)
 
         Lv_GI.Columns.Clear()
         Lv_GI.Columns.Add("No Faktur", 130, HorizontalAlignment.Left)
@@ -110,7 +100,6 @@
         Lv_GI.Columns.Add("Batch Berjalan", 100, HorizontalAlignment.Right)
         Lv_GI.Columns.Add("Routing", 140, HorizontalAlignment.Left)
         Lv_GI.Columns.Add("Total Dosing", 120, HorizontalAlignment.Right)
-        Lv_GI.Columns.Add("id_Routing", 0, HorizontalAlignment.Left)
         Lv_GI.View = View.Details
 
         Lv_GR.Columns.Clear()
@@ -142,50 +131,118 @@
         '==================
         Cmb_Filter.Items.Clear() : arrCari.Clear()
         Cmb_Filter.Items.Add("No Faktur") : arrCari.Add("a.No_Transaksi")
-        Cmb_Filter.Items.Add("Nama Barang") : arrCari.Add("c.Nama")
+        Cmb_Filter.Items.Add("Nama Barang") : arrCari.Add("b.Nama")
         Cmb_Filter.Items.Add("Jenis Produksi") : arrCari.Add("d.Keterangan")
 
+        Cmb_FilterGR.Items.Clear() : arrCari_GR.Clear()
+        Cmb_FilterGR.Items.Add("No Faktur") : arrCari_GR.Add("a.No_Transaksi")
+        'Cmb_FilterGR.Items.Add("No PO") : arrCari_GR.Add("a.no_Po")
+        Cmb_FilterGR.Items.Add("Kode Barang") : arrCari_GR.Add("a.Kode_Barang")
+        Cmb_FilterGR.Items.Add("Nama Barang") : arrCari_GR.Add("b.Nama")
 
-        If asal = "VALIDASI HPP" Then
-            Btn_Cari.Enabled = False
-            Btn_Refresh.Enabled = False
-            Cmb_Filter.Enabled = False
-            Txt_FilterValue.Enabled = False
+        Try
+            OpenConn()
+
+            '=============================
+            '=     GET TOTAL PAGE GI     =
+            '=============================
+            SQL = "select CEILING( CAST(COUNT(*) AS FLOAT) / " & PageSize & " ) AS Total_Pages "
+            SQL = SQL & "From Emi_Split_Production_Order a, barang b, EMI_Order_Produksi c, emi_master_routing d Where "
+            SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan And a.Kode_Barang = b.Kode_Barang And a.Kode_Stock_Owner = b.Kode_Stock_Owner "
+            SQL = SQL & "And a.kode_perusahaan=c.Kode_Perusahaan And a.no_po=c.no_faktur "
+            SQL = SQL & "And c.Kode_Perusahaan=d.kode_perusahaan And c.Id_Routing=d.Id_Routing "
+            SQL = SQL & "And a.status Is null And c.Status Is null "
+            SQL = SQL & "And a.Flag_Produksi = 'Y' and a.flag_hasil_Produksi_GI is null "
+            SQL = SQL & "And a.Kode_Perusahaan ='" & KodePerusahaan & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    totalpage = Dr("Total_Pages")
+                End If
+            End Using
+
+            '=============================
+            '=     GET TOTAL PAGE GR     =
+            '=============================
+            SQL = "select CEILING( CAST(COUNT(*) AS FLOAT) / " & PageSize & " ) AS Total_Pages "
+            SQL = SQL & "From Emi_Split_Production_Order a, barang b, EMI_Order_Produksi c, emi_master_routing d Where "
+            SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan And a.Kode_Barang = b.Kode_Barang And a.Kode_Stock_Owner = b.Kode_Stock_Owner "
+            SQL = SQL & "And a.kode_perusahaan=c.Kode_Perusahaan And a.no_po=c.no_faktur "
+            SQL = SQL & "And c.Kode_Perusahaan=d.kode_perusahaan And c.Id_Routing=d.Id_Routing "
+            SQL = SQL & "And a.status Is null And c.Status Is null "
+            SQL = SQL & "And a.Flag_Produksi = 'Y' and a.flag_hasil_Produksi_GR is null "
+            SQL = SQL & "And a.Kode_Perusahaan ='" & KodePerusahaan & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    totalpage_GR = Dr("Total_Pages")
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        CurrentTab = 0
+        Kosong()
+    End Sub
+
+    Public Sub Kosong()
+
+
+        'LoadLvGI()
+        'LoadGR()
+
+        If CurrentTab = 0 Then
+            Lbl_tab1.ForeColor = Warna_Hover
+            Pnl_Tab1.BackColor = Warna_Hover
+
+            Lbl_tab1_Click(Nothing, EventArgs.Empty)
+        ElseIf CurrentTab = 1 Then
+            Lbl_tab2.ForeColor = Warna_Hover
+            Pnl_Tab2.BackColor = Warna_Hover
+
+            Lbl_tab2_Click(Nothing, EventArgs.Empty)
         End If
-
-
-        LoadLvGI()
-        LoadGR()
 
     End Sub
 
-    Private Sub LoadLvGI()
+    Private Sub LoadLvGI(Optional ByVal page As Integer = 1)
         Try
             OpenConn()
             'Dim JumlahBatch As Double = 0
 
+            Dim Tot_Data As Double = 0
+            SQL = "Select COUNT(*) AS TotalData "
+            SQL = SQL & "From Emi_Split_Production_Order a, barang b, EMI_Order_Produksi c, emi_master_routing d Where "
+            SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan And a.Kode_Barang = b.Kode_Barang And a.Kode_Stock_Owner = b.Kode_Stock_Owner "
+            SQL = SQL & "And a.kode_perusahaan=c.Kode_Perusahaan And a.no_po=c.no_faktur "
+            SQL = SQL & "And c.Kode_Perusahaan=d.kode_perusahaan And c.Id_Routing=d.Id_Routing "
+            SQL = SQL & "And a.status Is null And c.Status Is null "
+            SQL = SQL & "And a.Flag_Produksi = 'Y' and a.flag_hasil_Produksi_GI is null "
+            SQL = SQL & "And a.Kode_Perusahaan ='" & KodePerusahaan & "' "
+
+            If asal = "VALIDASI HPP" Then
+                SQL = SQL & "and a.No_Transaksi = '" & NoSplit & "' "
+            End If
+
+            If Cmb_Filter.SelectedIndex <> -1 Then
+                If Not Strings.Right(UCase(SQL), 6) = "ThenWHERE " Then SQL = SQL & "AND "
+                SQL = SQL & arrCari.Item(Cmb_Filter.SelectedIndex) & "  like  '%" & Trim(Txt_FilterValue.Text) & "%' "
+            End If
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Tot_Data = Dr("TotalData")
+                End If
+            End Using
+
+
+            Dim totalPages As Integer = Math.Ceiling(Tot_Data / PageSize)
+            Dim offset As Integer = (page - 1) * PageSize
+
 
             Lv_GI.Items.Clear()
-            'SQL = "select a.No_Transaksi, a.No_PO, a.Tgl_Produksi, a.Jam_Produksi, a.kode_barang, c.Nama, a.Jumlah, a.satuan, "
-            'SQL = SQL & "(select dbo.ubah_satuan(a.Kode_Perusahaan, 'masa', a.kode_barang, a.satuan, 'KG', a.Jumlah )) as Jumlah_KG, 'KG' as Satuan_KG, "
-            'SQL = SQL & "d.Keterangan, d.Id_Routing, isnull(a.Qty_Batch,0) as Qty_PerBatch "
-            'SQL = SQL & "from Emi_Split_Production_Order a,EMI_Order_Produksi b,Barang c,Emi_Master_routing d  "
-            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_PO = b.No_Faktur and b.Selesai is null and b.flag_release='Y' "
-            'SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Stock_Owner = c.Kode_Stock_Owner and a.Kode_Barang = c.Kode_Barang "
-            'SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.Flag_Produksi = 'Y' and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            'SQL = SQL & "and a.Flag_Hasil_Produksi is null and b.Id_Routing = d.Id_Routing and a.status is null "
-
-            'If asal = "VALIDASI HPP" Then
-            '    SQL = SQL & "and a.No_Transaksi = '" & NoSplit & "' "
-            'End If
-            'If Cmb_Filter.SelectedIndex <> -1 Then
-            '    If Not Strings.Right(UCase(SQL), 6) = "ThenWHERE " Then SQL = SQL & "AND "
-            '    SQL = SQL & arrCari.Item(Cmb_Filter.SelectedIndex) & "  like  '%" & Trim(Txt_FilterValue.Text) & "%' "
-            'End If
-            'SQL = SQL & "order by a.Tgl_Produksi,a.Jam_Produksi"
-
-
-
             SQL = "Select a.No_Transaksi, a.no_Po, c.Keterangan, a.Tgl_Produksi, a.Jam_Produksi, a.Kode_Barang, "
             SQL = SQL & "b.Nama, a.Jumlah, a.Satuan, a.Jumlah_Batch, isnull(a.Qty_Batch, 0) As Qty_PerBatch, d.Id_Routing, d.Keterangan as routing, "
             SQL = SQL & "isnull((select sum(y.Nilai_Barang) from Emi_Production_Results x, Emi_Production_Results_Detail y where "
@@ -209,6 +266,8 @@
             End If
 
             SQL = SQL & "order by a.Tgl_Produksi, a.Jam_Produksi "
+            SQL = SQL & "OFFSET " & offset & " ROWS "
+            SQL = SQL & "FETCH NEXT " & PageSize & " ROWS ONLY "
 
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
@@ -250,95 +309,14 @@
 
                             Lv.SubItems.Add(.Rows(i).Item("routing"))
                             Lv.SubItems.Add(Format(.Rows(i).Item("Total_Dosing"), "N4") + " Kg")
-                            Lv.SubItems.Add(.Rows(i).Item("Id_Routing"))
-
-
 
                         Next
                     End If
                 End With
             End Using
 
-            '=======================================
-            '=     LOAD ORDER SPLIT BY ROUTING     =
-            '=======================================
-            'arrOrderRouting.Clear()
-            arrOrderRoutingList.Clear()
-            Dim UrutOrder As Integer = 0
-            SQL = "select a.No_Transaksi, b.No_Faktur, b.id_routing, isnull(a.jumlah_batch, 0) as jumlah_batch "
-            SQL = SQL & "from Emi_Split_Production_Order a, EMI_Order_Produksi b "
-            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
-            SQL = SQL & "and a.No_PO = b.No_Faktur "
-            SQL = SQL & "and a.status is null and b.Status is null "
-            SQL = SQL & "And a.Flag_Produksi = 'Y' and a.flag_hasil_Produksi_GI is null "
-            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            'SQL = SQL & "and b.Id_Routing = '12' "
-            If asal = "VALIDASI HPP" Then
-                SQL = SQL & "and a.No_Transaksi = '" & NoSplit & "' "
-            End If
-            SQL = SQL & "order by a.Tgl_Produksi, a.Jam_Produksi "
-            Using Dr = OpenTrans(SQL)
-                Do While Dr.Read
-                    Dim isiArr As New List(Of Dictionary(Of String, Object))
 
-                    Dim idRouting As String = CStr(Dr("id_routing"))
-                    Dim noTransaksi As String = CStr(Dr("No_Transaksi"))
-
-                    For i As Integer = 0 To Val(Dr("jumlah_batch")) - 1
-                        isiArr.Add(New Dictionary(Of String, Object) From {
-                              {"NoSplit", noTransaksi},
-                              {"Batch", i + 1}
-                          })
-
-                        arrOrderRoutingList.Add((idRouting:=idRouting, NoSplit:=noTransaksi, Batch:=i + 1, Urut:=UrutOrder))
-
-                        UrutOrder += 1
-                    Next
-
-
-                    'If isiArr IsNot Nothing AndAlso isiArr.Count > 0 Then
-                    '    If arrOrderRouting.ContainsKey(idRouting) Then
-                    '        arrOrderRouting(idRouting).AddRange(isiArr)
-                    '    Else
-                    '        arrOrderRouting(idRouting) = isiArr
-                    '    End If
-                    'End If
-
-                Loop
-            End Using
-
-            ' KODE UNTUK CEK ISI arrOrderRouting
-            'For Each routingKey As String In arrOrderRouting.Keys
-
-            '    Console.WriteLine("Routing ID: " & routingKey)
-
-            '    Dim listData As List(Of Dictionary(Of String, Object)) = arrOrderRouting(routingKey)
-
-            '    For Each item As Dictionary(Of String, Object) In listData
-            '        Dim output As String = ""
-
-            '        For Each kvp As KeyValuePair(Of String, Object) In item
-            '            output &= kvp.Key & ": " & kvp.Value.ToString() & "  "
-            '        Next
-
-            '        Console.WriteLine("  " & output)
-            '    Next
-
-            '    Console.WriteLine()
-
-            '    Console.WriteLine("Data Filter")
-
-            '    If arrOrderRouting.ContainsKey("12") AndAlso arrOrderRouting("12").Count >= 0 Then
-            '        Dim data = arrOrderRouting("12")(4)
-            '        If data.ContainsKey("NoSplit") Then
-            '            Console.WriteLine("NoSplit index ke-3: " & CStr(data("NoSplit")))
-            '        End If
-            '    End If
-            '    Console.WriteLine()
-
-            'Next
-
-
+            Txt_Pages_1.Text = $"{page} of {totalPages}"
 
 
 
@@ -364,7 +342,6 @@
         Lv_BatchBerjalan = Lv_GI.Items(index).SubItems(Item_BatchBerjalan).Text
         Lv_Routing = Lv_GI.Items(index).SubItems(Item_Routing).Text
         Lv_TotalDosing = Lv_GI.Items(index).SubItems(Item_TotalDosing).Text
-        Lv_IdRouting = Lv_GI.Items(index).SubItems(Item_IdRouting).Text
 
     End Sub
 
@@ -385,41 +362,56 @@
 
     End Sub
 
-    Private Sub LoadGR()
+    Private Sub LoadGR(Optional ByVal page As Integer = 1)
 
         Try
             OpenConn()
 
             Dim JumlahBatch As Double = 0
 
-            Lv_GR.Items.Clear()
-            'SQL = "select a.No_Transaksi, a.No_PO, a.Tgl_Produksi, a.Jam_Produksi, a.kode_barang, c.Nama, a.Jumlah, a.satuan, "
-            'SQL = SQL & "(select dbo.ubah_satuan(a.Kode_Perusahaan, 'masa', a.kode_barang, a.satuan, 'KG', a.Jumlah )) as Jumlah_KG, 'KG' as Satuan_KG, "
-            'SQL = SQL & "d.Keterangan, d.Id_Routing, isnull(a.Qty_Batch,0) as Qty_PerBatch "
-            'SQL = SQL & "from Emi_Split_Production_Order a,EMI_Order_Produksi b,Barang c,Emi_Master_routing d  "
-            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_PO = b.No_Faktur and b.Selesai is null and b.flag_release='Y' "
-            'SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Stock_Owner = c.Kode_Stock_Owner and a.Kode_Barang = c.Kode_Barang "
-            'SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.Flag_Produksi = 'Y' and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            'SQL = SQL & "and a.Flag_Hasil_Produksi is null and b.Id_Routing = d.Id_Routing and a.status is null "
 
-            'If asal = "VALIDASI HPP" Then
-            '    SQL = SQL & "and a.No_Transaksi = '" & NoSplit & "' "
-            'End If
+
+            Dim Tot_Data As Double = 0
+            SQL = "Select COUNT(*) AS TotalData "
+            SQL = SQL & "From Emi_Split_Production_Order a, barang b, EMI_Order_Produksi c, emi_master_routing d Where "
+            SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan And a.Kode_Barang = b.Kode_Barang And a.Kode_Stock_Owner = b.Kode_Stock_Owner "
+            SQL = SQL & "And a.kode_perusahaan=c.Kode_Perusahaan And a.no_po=c.no_faktur "
+            SQL = SQL & "And c.Kode_Perusahaan=d.kode_perusahaan And c.Id_Routing=d.Id_Routing "
+            SQL = SQL & "And a.status Is null And c.Status Is null "
+            SQL = SQL & "And a.Flag_Produksi = 'Y' and a.flag_hasil_Produksi_GR is null and a.Flag_Hasil_Produksi_GI is null "
+            SQL = SQL & "And a.Kode_Perusahaan ='" & KodePerusahaan & "' "
+
+            If asal = "VALIDASI HPP" Then
+                SQL = SQL & "and a.No_Transaksi = '" & NoSplit & "' "
+            End If
+
             'If Cmb_Filter.SelectedIndex <> -1 Then
             '    If Not Strings.Right(UCase(SQL), 6) = "ThenWHERE " Then SQL = SQL & "AND "
             '    SQL = SQL & arrCari.Item(Cmb_Filter.SelectedIndex) & "  like  '%" & Trim(Txt_FilterValue.Text) & "%' "
             'End If
-            'SQL = SQL & "order by a.Tgl_Produksi,a.Jam_Produksi"
+
+            If Cmb_FilterGR.SelectedIndex <> -1 Then
+                If Not Strings.Right(UCase(SQL), 6) = "ThenWHERE " Then SQL = SQL & "AND "
+                SQL = SQL & arrCari_GR.Item(Cmb_FilterGR.SelectedIndex) & "  like  '%" & Trim(Txt_FilterGR.Text) & "%' "
+            End If
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Tot_Data = Dr("TotalData")
+                End If
+            End Using
 
 
+            Dim totalPages As Integer = Math.Ceiling(Tot_Data / PageSize)
+            Dim offset As Integer = (page - 1) * PageSize
 
+
+            Lv_GR.Items.Clear()
             SQL = "Select a.No_Transaksi, a.no_Po, c.Keterangan, a.Tgl_Produksi, a.Jam_Produksi, a.Kode_Barang, "
             SQL = SQL & "b.Nama, a.Jumlah, a.Satuan, isnull(a.Qty_Batch, 0) As Qty_PerBatch, d.Id_Routing, d.Keterangan as routing, "
 
             SQL = SQL & "isnull((select count(y.no_transaksi) from Emi_Production_Results x, Emi_Production_Results_HPP y where "
             SQL = SQL & "x.kode_perusahaan=y.kode_perusahaan and x.No_Transaksi=y.No_Transaksi and "
             SQL = SQL & "x.kode_perusahaan=a.kode_perusahaan and x.No_Production_Order=a.No_Transaksi and y.Tanggal is not null ),0) as Jumlah_Batch, "
-
 
             SQL = SQL & "isnull((select sum(y.Jumlah_Terpakai) from Emi_Production_Results x, Emi_Production_Results_HPP y where "
             SQL = SQL & "x.kode_perusahaan=y.kode_perusahaan and x.No_Transaksi=y.No_Transaksi and "
@@ -430,19 +422,26 @@
             SQL = SQL & "And a.kode_perusahaan=c.Kode_Perusahaan And a.no_po=c.no_faktur "
             SQL = SQL & "And c.Kode_Perusahaan=d.kode_perusahaan And c.Id_Routing=d.Id_Routing "
             SQL = SQL & "And a.status Is null And c.Status Is null "
-            SQL = SQL & "And a.Flag_Produksi = 'Y' and a.flag_hasil_Produksi_GR is null "
+            SQL = SQL & "And a.Flag_Produksi = 'Y' and a.flag_hasil_Produksi_GR is null and a.Flag_Hasil_Produksi_GI is null "
             SQL = SQL & "And a.Kode_Perusahaan ='" & KodePerusahaan & "' "
 
             If asal = "VALIDASI HPP" Then
                 SQL = SQL & "and a.No_Transaksi = '" & NoSplit & "' "
             End If
 
-            If Cmb_Filter.SelectedIndex <> -1 Then
+            'If Cmb_Filter.SelectedIndex <> -1 Then
+            '    If Not Strings.Right(UCase(SQL), 6) = "ThenWHERE " Then SQL = SQL & "AND "
+            '    SQL = SQL & arrCari.Item(Cmb_Filter.SelectedIndex) & "  like  '%" & Trim(Txt_FilterValue.Text) & "%' "
+            'End If
+
+            If Cmb_FilterGR.SelectedIndex <> -1 Then
                 If Not Strings.Right(UCase(SQL), 6) = "ThenWHERE " Then SQL = SQL & "AND "
-                SQL = SQL & arrCari.Item(Cmb_Filter.SelectedIndex) & "  like  '%" & Trim(Txt_FilterValue.Text) & "%' "
+                SQL = SQL & arrCari_GR.Item(Cmb_FilterGR.SelectedIndex) & "  like  '%" & Trim(Txt_FilterGR.Text) & "%' "
             End If
 
             SQL = SQL & "order by a.Tgl_Produksi, a.Jam_Produksi "
+            SQL = SQL & "OFFSET " & offset & " ROWS "
+            SQL = SQL & "FETCH NEXT " & PageSize & " ROWS ONLY "
 
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
@@ -490,12 +489,12 @@
                             Lv.SubItems.Add(.Rows(i).Item("routing"))
                             Lv.SubItems.Add(Format(.Rows(i).Item("Total_Dosing"), "N4") + " Kg")
 
-
-
                         Next
                     End If
                 End With
             End Using
+
+            Txt_Pages_2.Text = $"{page} of {totalPages}"
 
 
             CloseConn()
@@ -506,8 +505,6 @@
         End Try
 
     End Sub
-
-
 
     Private Sub Lv_GR_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lv_GR.SelectedIndexChanged
         If Lv_GR.Items.Count = 0 Or Lv_GR.SelectedItems.Count = 0 Then Exit Sub
@@ -555,11 +552,7 @@
         '    Exit Sub
         'End Try
 
-
-
-
     End Sub
-
 
     Private Sub Lv_GI_DoubleClick(sender As Object, e As EventArgs) Handles Lv_GI.DoubleClick
         If Lv_GI.Items.Count = 0 Or Lv_GI.SelectedItems.Count = 0 Then
@@ -579,25 +572,15 @@
                 Exit Sub
             End If
 
-
             Dim jumlah_batch As Integer = 0
             Dim jumlah_batch_selesai As Integer = 0
             SQL = "select jumlah_batch from Emi_Split_Production_Order a "
             SQL = SQL & "where a.kode_Perusahaan='" & KodePerusahaan & "' and a.No_Transaksi='" & Lv_NoFaktur & "' "
             Using dr = OpenTrans(SQL)
                 If dr.Read Then
-                    If General_Class.CekNULL(dr("jumlah_batch")) = "" Then
-                        dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Jumlah Batch Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    Else
-                        jumlah_batch = dr("jumlah_batch")
-                    End If
+                    jumlah_batch = dr("jumlah_batch")
                 End If
             End Using
-
 
             SQL = "Select count(b.Kode_Perusahaan) as Jumlah_selesai from Emi_Production_Results a, Emi_Production_Results_HPP b  "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Transaksi = b.No_Transaksi And a.status Is null "
@@ -614,119 +597,6 @@
                 Exit Sub
             End If
 
-            '================================================================
-            '=     CEK APAKAH ROUTING SUDAH DI GR SESUAI DENGAN MINUMUM     =
-            '================================================================
-            Dim MinimumGR As Integer = 0
-            SQL = "select Min_GR from init where kode_perusahaan = '" & KodePerusahaan & "' "
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    MinimumGR = Dr("Min_GR")
-                Else
-                    CloseConn()
-                    MessageBox.Show("Init Minumum GR Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
-            End Using
-
-
-            '===============================
-            '=     GET POSISI SUDAH GR     =
-            '===============================
-            'Dim Batas_NoSplit As String = ""
-            'Dim Batas_Batch As Integer = 0
-
-
-            'If arrOrderRoutingList.ContainsKey(Lv_IdRouting) AndAlso arrOrderRouting(Lv_IdRouting).Count >= 0 Then
-            '    Dim data = arrOrderRouting(Lv_IdRouting)(2)
-            '    If data.ContainsKey("NoSplit") Then
-            '        Console.WriteLine("NoSplit index ke-3: " & CStr(data("NoSplit")))
-            '    End If
-            'End If
-
-            '============================================
-            '=     GET BATCH BERAPA YANG AKAN DI GI     =
-            '============================================
-            Dim CurrentBatchByRouting As Integer = 0
-            SQL = ";with cte as ( "
-            SQL = SQL & "select a.Kode_Perusahaan, a.No_Production_Order, a.No_Transaksi, c.id_routing,  "
-            SQL = SQL & "case "
-            SQL = SQL & "when ISNULL(( select COUNT(*) from Emi_Production_Results_HPP z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.No_Transaksi = a.No_Transaksi "
-            SQL = SQL & "and z.tanggal is not null "
-            SQL = SQL & "), 0) = 0 "
-            SQL = SQL & "then 1 "
-            SQL = SQL & "else ISNULL(( select COUNT(*) from Emi_Production_Results_HPP z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.No_Transaksi = a.No_Transaksi  "
-            SQL = SQL & "and z.tanggal is not null  "
-            SQL = SQL & "), 0) "
-            SQL = SQL & "end as Jumlah_Dosing "
-            SQL = SQL & "from Emi_Production_Results a , Emi_Split_Production_Order b, EMI_Order_Produksi c "
-            SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan and b.kode_perusahaan = c.kode_perusahaan "
-            SQL = SQL & "and a.no_production_order = b.No_Transaksi "
-            SQL = SQL & "and b.No_PO = c.No_Faktur "
-            SQL = SQL & "and a.Status is null and b.status is null and c.status is null "
-            SQL = SQL & "And b.Flag_Produksi = 'Y' and b.flag_hasil_Produksi_GI is null "
-            SQL = SQL & ") select isnull(sum(Jumlah_Dosing), 0) as jumlah_dosing from cte where kode_perusahaan = '" & KodePerusahaan & "' and id_routing = '" & Lv_IdRouting & "' "
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    CurrentBatchByRouting = Dr("jumlah_dosing")
-                End If
-            End Using
-
-            Dim filteredData = arrOrderRoutingList.Where(Function(x) x.idRouting = Lv_IdRouting).ToList()
-
-            Dim UrutBatch As Integer = 0
-            If filteredData.Count > 0 Then
-                Dim item = filteredData(CurrentBatchByRouting - 1)
-
-                UrutBatch = item.Urut
-            Else
-                CloseConn()
-                MessageBox.Show("Data Batch terhadap Routing Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Exit Sub
-            End If
-
-
-            Dim BatchInsert As Integer = 0
-            Dim currentBatch As Integer = 0
-            SQL = "Select top 1 b.proses, b.Tanggal, b.Jam, "
-            SQL = SQL & "isnull((select sum(y.Nilai_Barang) from Emi_Production_Results_Detail y where "
-            SQL = SQL & "a.kode_perusahaan = y.kode_perusahaan And a.No_Transaksi = y.No_Transaksi And "
-            SQL = SQL & "b.Proses = y.Proses ),0) As Total_Dosing "
-            SQL = SQL & "From Emi_Production_Results a, Emi_Production_Results_HPP b Where "
-            SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Transaksi = b.No_Transaksi  "
-            SQL = SQL & "and a.Status is null "
-            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and a.no_production_order = '" & Lv_NoFaktur & "' "
-            SQL = SQL & "order by b.proses desc "
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    BatchInsert = Val(Dr("proses")) + 1
-                    currentBatch = Val(Dr("proses"))
-                Else
-                    BatchInsert = 1
-                End If
-            End Using
-
-            currentBatch = If(currentBatch = 0, 1, currentBatch)
-
-
-            Dim targetIndex As Integer = -1
-            For i As Integer = 0 To arrOrderRoutingList.Count - 1
-                Dim item = arrOrderRoutingList(i)
-                If item.idRouting = Lv_IdRouting AndAlso item.NoSplit = Lv_NoFaktur AndAlso item.Batch = currentBatch Then
-                    targetIndex = i
-                    Exit For
-                End If
-            Next
-
-
-            If targetIndex >= (UrutBatch + (MinimumGR + 2)) Then
-                CloseConn()
-                MessageBox.Show("Gagal Melakukan Dosing Karena Data GR terhadap Routing melebih Batas Maximum GI", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Exit Sub
-            End If
-
-
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -742,10 +612,9 @@
         EMI_Hasil_Pengeluaran_Bahan_Baku.TextBox6.Text = Lv_NmBarang
         EMI_Hasil_Pengeluaran_Bahan_Baku.fno_po = Lv_NoPO
 
+        'EMI_Hasil_Pengeluaran_Bahan_Baku.asal = "CONTROLLING"
         EMI_Hasil_Pengeluaran_Bahan_Baku.ShowDialog()
     End Sub
-
-
 
     Private Sub Lv_GR_DoubleClick(sender As Object, e As EventArgs) Handles Lv_GR.DoubleClick
 
@@ -766,8 +635,8 @@
                 Exit Sub
             End If
 
-            SQL = "select a.No_Transaksi, a.No_PO, b.No_Transaksi as No_Result, c.Proses as Batch_Number, c.Jumlah_Dosing_Pcs, "
-            SQL = SQL & "(select dbo.ubah_satuan(a.Kode_Perusahaan, 'masa',a.kode_barang, c.satuan, 'PCS', c.Jumlah_Terpakai )) as Jumlah_Dosing_Terpakai "
+            SQL = "select a.No_Transaksi, a.No_PO, b.No_Transaksi as No_Result, c.Proses as Batch_Number, c.Jumlah_Dosing_Pcs "
+            'SQL = SQL & "(select dbo.ubah_satuan(a.Kode_Perusahaan, 'masa',a.kode_barang, c.satuan, 'PCS', c.Jumlah_Terpakai )) as Jumlah_Dosing_Terpakai "
             SQL = SQL & "from Emi_Split_Production_Order a , Emi_Production_Results b, Emi_Production_Results_HPP c "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan "
             SQL = SQL & "and a.No_Transaksi = No_Production_Order "
@@ -787,7 +656,6 @@
                 End With
             End Using
 
-
             Emi_Production_Barcode.Txt_NoSplit.Text = LvGR_NoFaktur
             Emi_Production_Barcode.ShowDialog()
 
@@ -804,7 +672,6 @@
         If Lv_GI.Items.Count = 0 Or Lv_GI.SelectedItems.Count = 0 Then
             Exit Sub
         End If
-
 
         get_jam()
 
@@ -838,7 +705,6 @@
                 End If
             End Using
 
-
             SQL = "Select count(b.Kode_Perusahaan) as Jumlah_selesai from Emi_Production_Results a, Emi_Production_Results_HPP b  "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Transaksi = b.No_Transaksi And a.status Is null "
             SQL = SQL & "And a.kode_Perusahaan='" & KodePerusahaan & "' and a.No_Production_Order='" & Lv_NoFaktur & "' and b.Tanggal is not null "
@@ -847,7 +713,6 @@
                     jumlah_batch_selesai = dr("Jumlah_selesai")
                 End If
             End Using
-
 
             If jumlah_batch_selesai <> jumlah_batch Then
                 Dim Kata As String = "Good Issue Ini Belum selesai. " & vbNewLine
@@ -886,12 +751,10 @@
                 End If
             End Using
 
-
             SQL = "update Emi_Split_Production_Order set Flag_Hasil_Produksi_GI = 'Y', UserID_Selesai_GI = '" & UserID & "', "
             SQL = SQL & "Tgl_Hasil_Produksi_GI = '" & Format(tgl_skg, "yyyy-MM-dd") & "', Jam_Hasil_Produksi_GI = '" & Format(tgl_skg, "HH:mm:ss") & "'  "
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and no_transaksi = '" & Lv_NoFaktur & "' "
             ExecuteTrans(SQL)
-
 
             Cmd.Transaction.Commit()
             CloseTrans()
@@ -912,7 +775,6 @@
         If Lv_GR.Items.Count = 0 Or Lv_GR.SelectedItems.Count = 0 Then
             Exit Sub
         End If
-
 
         get_jam()
 
@@ -940,7 +802,6 @@
             Dim jumlah_batch_selesai As Double = 0
             Dim jumlah_Loss As Double = 0
 
-
             SQL = "Select round(isnull(sum(jumlah_dosing),0),4) as Jumlah_Dosing, round(isnull(sum(jumlah_Terpakai),0),4) as Jumlah_GR  from Emi_Production_Results a, Emi_Production_Results_HPP b  "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Transaksi = b.No_Transaksi And a.status Is null "
             SQL = SQL & "And a.kode_Perusahaan='" & KodePerusahaan & "' and a.No_Production_Order='" & LvGR_NoFaktur & "' and b.Tanggal is not null "
@@ -951,7 +812,6 @@
                     jumlah_Loss = dr("Jumlah_Dosing") - dr("Jumlah_GR")
                 End If
             End Using
-
 
             Dim Kata As String = "Berikut Detail GI-GR. " & vbNewLine
             Kata += " - Jumlah Goods Issue (Kg) : " & Format(jumlah_batch, "N4") & vbNewLine
@@ -965,7 +825,6 @@
                 CloseConn()
                 Exit Sub
             End If
-
 
             '=======================================
             '=     CEK APAKAH PO SUDAH SELESAI     =
@@ -998,12 +857,10 @@
                 End If
             End Using
 
-
             SQL = "update Emi_Split_Production_Order set Flag_Hasil_Produksi_GR = 'Y', UserID_Selesai_GR = '" & UserID & "', "
             SQL = SQL & "Tgl_Hasil_Produksi_GR = '" & Format(tgl_skg, "yyyy-MM-dd") & "', Jam_Hasil_Produksi_GR = '" & Format(tgl_skg, "HH:mm:ss") & "'  "
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and no_transaksi = '" & LvGR_NoFaktur & "' "
             ExecuteTrans(SQL)
-
 
             Cmd.Transaction.Commit()
             CloseTrans()
@@ -1038,6 +895,21 @@
         LoadLvGI()
     End Sub
 
+    Private Sub Btn_CariGR_Click(sender As Object, e As EventArgs) Handles Btn_CariGR.Click
+
+        If Cmb_FilterGR.SelectedIndex = -1 Then
+            MessageBox.Show("Pilih Jenis Filter Dahulu", judulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Cmb_FilterGR.Focus() : Exit Sub
+        ElseIf Cmb_FilterGR.SelectedIndex <> -1 Then
+            If Txt_FilterGR.Text.Trim.Length = 0 Then
+                MessageBox.Show("Isi Value Filter Dahulu", judulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Txt_FilterGR.Focus() : Exit Sub
+            End If
+        End If
+
+        LoadGR()
+    End Sub
+
     Private Sub DetailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DetailToolStripMenuItem.Click
         If Lv_GI.Items.Count = 0 Or Lv_GI.SelectedItems.Count = 0 Then
             MessageBox.Show("Pilih Data Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1051,7 +923,6 @@
         SD_Detail_Batch.Kosong()
 
         SD_Detail_Batch.ShowDialog()
-
 
     End Sub
 
@@ -1071,5 +942,304 @@
         SD_Detail_Batch.ShowDialog()
 
     End Sub
-End Class
 
+    Private Sub BtnNext_GI_Click(sender As Object, e As EventArgs) Handles BtnNext_GI.Click
+
+        If CurrentPage < totalpage Then
+            CurrentPage += 1
+            LoadLvGI(CurrentPage)
+
+        End If
+
+        If totalpage = CurrentPage Then
+            BtnNext_GI.Enabled = False
+        Else
+            BtnNext_GI.Enabled = True
+        End If
+
+        If 1 = CurrentPage Then
+            BtnPrev_GI.Enabled = False
+        Else
+            BtnPrev_GI.Enabled = True
+        End If
+    End Sub
+
+    Private Sub Btn_RefreshGR_Click(sender As Object, e As EventArgs) Handles Btn_RefreshGR.Click
+        Kosong()
+    End Sub
+
+    Private Sub BtnPrev_GI_Click(sender As Object, e As EventArgs) Handles BtnPrev_GI.Click
+
+        If CurrentPage > 1 Then
+            CurrentPage -= 1
+            LoadLvGI(CurrentPage)
+        End If
+
+        If totalpage = CurrentPage Then
+            BtnNext_GI.Enabled = False
+        Else
+            BtnNext_GI.Enabled = True
+        End If
+
+        If 1 = CurrentPage Then
+            BtnPrev_GI.Enabled = False
+        Else
+            BtnPrev_GI.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnFirst_GI_Click(sender As Object, e As EventArgs) Handles BtnFirst_GI.Click
+
+        CurrentPage = 1
+        LoadLvGI(CurrentPage)
+
+        If totalpage = CurrentPage Then
+            BtnNext_GI.Enabled = False
+        Else
+            BtnNext_GI.Enabled = True
+        End If
+
+        If 1 = CurrentPage Then
+            BtnPrev_GI.Enabled = False
+        Else
+            BtnPrev_GI.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnNext_GR_Click(sender As Object, e As EventArgs) Handles BtnNext_GR.Click
+
+        If CurrentPage_GR < totalpage_GR Then
+            CurrentPage_GR += 1
+            LoadGR(CurrentPage_GR)
+
+        End If
+
+        If totalpage_GR = CurrentPage_GR Then
+            BtnNext_GR.Enabled = False
+        Else
+            BtnNext_GR.Enabled = True
+        End If
+
+        If 1 = CurrentPage_GR Then
+            BtnPrev_GR.Enabled = False
+        Else
+            BtnPrev_GR.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnPrev_GR_Click(sender As Object, e As EventArgs) Handles BtnPrev_GR.Click
+
+        If CurrentPage_GR > 1 Then
+            CurrentPage_GR -= 1
+            LoadGR(CurrentPage_GR)
+        End If
+
+        If totalpage_GR = CurrentPage_GR Then
+            BtnNext_GR.Enabled = False
+        Else
+            BtnNext_GR.Enabled = True
+        End If
+
+        If 1 = CurrentPage_GR Then
+            BtnPrev_GR.Enabled = False
+        Else
+            BtnPrev_GR.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnFirst_GR_Click(sender As Object, e As EventArgs) Handles BtnFirst_GR.Click
+        CurrentPage_GR = 1
+        LoadGR(CurrentPage_GR)
+
+        If totalpage_GR = CurrentPage_GR Then
+            BtnNext_GR.Enabled = False
+        Else
+            BtnNext_GR.Enabled = True
+        End If
+
+        If 1 = CurrentPage_GR Then
+            BtnPrev_GR.Enabled = False
+        Else
+            BtnPrev_GR.Enabled = True
+        End If
+    End Sub
+
+    Private Sub CancelGIToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CancelGIToolStripMenuItem.Click
+        If Lv_GI.Items.Count = 0 Or Lv_GI.SelectedItems.Count = 0 Then
+            Exit Sub
+        End If
+
+        get_jam()
+
+        Try
+            OpenConn()
+            Cmd.Transaction = Cn.BeginTransaction
+
+            If CekButtonRole("Cancel_GI") = "T" Then
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("Anda Tidak Memiliki Akses Untuk Melakukan Cancel GI", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
+            Dim tanya As String = MessageBox.Show("Yakin Ingin Cancel Goods Issue ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If tanya = vbNo Then
+                CloseTrans()
+                CloseConn()
+                Exit Sub
+            End If
+
+            GetDataLvGI(Lv_GI.FocusedItem.Index)
+
+            '===================================
+            '=     CEK BATCH YANG SUDAH GI     =
+            '===================================
+            SQL = "select a.No_Production_Order, a.No_Transaksi, "
+            SQL = SQL & "ISNULL(( select COUNT(*) from Emi_Production_Results_HPP z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.No_Transaksi = a.No_Transaksi and z.tanggal is not null ), 0) as Jumlah_Dosing "
+            SQL = SQL & "from Emi_Production_Results a "
+            SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.Status is null "
+            SQL = SQL & "and a.No_Production_Order = '" & Lv_NoFaktur & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read() Then
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Terjadi Kesalahan !!!, GI Tidak Bisa Dicancel Karena Terdapat Batch yang Sudah Berjalan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            '=======================================
+            '=     CEK APAKAH PO SUDAH SELESAI     =
+            '=======================================
+            SQL = "select Flag_Hasil_Produksi_GI from Emi_Split_Production_Order "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and no_transaksi = '" & Lv_NoFaktur & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Flag_Hasil_Produksi_GI")) = "Y" Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("GI Sudah Selesai, Tidak Bisa Dilakukan Cancel", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Data Split Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            SQL = "update Emi_Split_Production_Order set Flag_Hasil_Produksi_GI = 'T', UserID_Selesai_GI = '" & UserID & "', "
+            SQL = SQL & "Tgl_Hasil_Produksi_GI = '" & Format(tgl_skg, "yyyy-MM-dd") & "', Jam_Hasil_Produksi_GI = '" & Format(tgl_skg, "HH:mm:ss") & "',  "
+            SQL = SQL & "Flag_Hasil_Produksi_GR = 'T', UserID_Selesai_GR = '" & UserID & "', "
+            SQL = SQL & "Tgl_Hasil_Produksi_GR = '" & Format(tgl_skg, "yyyy-MM-dd") & "', Jam_Hasil_Produksi_GR = '" & Format(tgl_skg, "HH:mm:ss") & "' "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and no_transaksi = '" & Lv_NoFaktur & "' "
+            ExecuteTrans(SQL)
+
+            Cmd.Transaction.Commit()
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show("GI Berhasil Dicancel", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Button1_Click(ValidasiGIToolStripMenuItem, e)
+
+    End Sub
+
+    '==================================================================================================================================================================
+    '=     HANDLE UI
+    '==================================================================================================================================================================
+
+
+    Private Sub Lbl_tab1_MouseEnter(sender As Object, e As EventArgs) Handles Lbl_tab1.MouseEnter, Pnl_Tab1.MouseEnter
+        Lbl_tab1.ForeColor = Warna_Hover
+        Pnl_Tab1.BackColor = Warna_Hover
+    End Sub
+
+    Private Sub Lbl_tab1_MouseLeave(sender As Object, e As EventArgs) Handles Lbl_tab1.MouseLeave, Pnl_Tab1.MouseEnter
+        If CurrentTab = 0 Then
+            Lbl_tab1.ForeColor = Warna_Hover
+            Pnl_Tab1.BackColor = Warna_Hover
+        Else
+            Lbl_tab1.ForeColor = SystemColors.ControlText
+            Pnl_Tab1.BackColor = Color.LightGray
+        End If
+    End Sub
+
+    Private Sub Lbl_tab2_MouseEnter(sender As Object, e As EventArgs) Handles Lbl_tab2.MouseEnter, Pnl_Tab2.MouseEnter
+        Lbl_tab2.ForeColor = Warna_Hover
+        Pnl_Tab2.BackColor = Warna_Hover
+    End Sub
+
+    Private Sub Lbl_tab2_MouseLeave(sender As Object, e As EventArgs) Handles Lbl_tab2.MouseLeave, Pnl_Tab2.MouseLeave
+        If CurrentTab = 1 Then
+            Lbl_tab2.ForeColor = Warna_Hover
+            Pnl_Tab2.BackColor = Warna_Hover
+        Else
+            Lbl_tab2.ForeColor = SystemColors.ControlText
+            Pnl_Tab2.BackColor = Color.LightGray
+        End If
+
+    End Sub
+
+    Private Sub Lbl_tab1_Click(sender As Object, e As EventArgs) Handles Lbl_tab1.Click, Pnl_Tab1.Click
+        CurrentTab = 0
+
+        Panel_GI.Location = New Point(13, 90)
+        Panel_GI.Visible = True
+
+        Panel_GR.Visible = False
+        Panel_GR.Location = New Point(1192, 90)
+
+        Lbl_tab2.ForeColor = SystemColors.ControlText
+        Pnl_Tab2.BackColor = Color.LightGray
+
+        If asal = "VALIDASI HPP" Then
+            Btn_Cari.Enabled = False
+            Btn_Refresh.Enabled = False
+            Cmb_Filter.Enabled = False
+            Txt_FilterValue.Enabled = False
+        End If
+
+        Cmb_Filter.SelectedIndex = -1 : Cmb_Filter.Text = ""
+        Txt_FilterValue.Text = ""
+
+        BtnFirst_GI_Click(sender, e)
+
+    End Sub
+
+    Private Sub Lbl_tab2_Click(sender As Object, e As EventArgs) Handles Lbl_tab2.Click, Pnl_Tab2.Click
+        CurrentTab = 1
+
+        Panel_GR.Location = New Point(13, 90)
+        Panel_GR.Visible = True
+
+        Panel_GI.Visible = False
+        Panel_GI.Location = New Point(1192, 90)
+
+        Lbl_tab1.ForeColor = SystemColors.ControlText
+        Pnl_Tab1.BackColor = Color.LightGray
+
+        If asal = "VALIDASI HPP" Then
+            Btn_Cari.Enabled = False
+            Btn_Refresh.Enabled = False
+            Cmb_Filter.Enabled = False
+            Txt_FilterValue.Enabled = False
+        End If
+
+        Cmb_FilterGR.SelectedIndex = -1 : Cmb_FilterGR.Text = ""
+        Txt_FilterGR.Text = ""
+
+        BtnFirst_GR_Click(sender, e)
+    End Sub
+
+End Class

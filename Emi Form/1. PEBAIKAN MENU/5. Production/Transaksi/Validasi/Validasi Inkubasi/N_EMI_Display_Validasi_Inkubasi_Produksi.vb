@@ -141,18 +141,30 @@ Public Class N_EMI_Display_Validasi_Inkubasi_Produksi
             Dim PanelSizeWidth As Double = FLPanel_Data.Width - 30
 
             FLPanel_Data.Controls.Clear()
+            'SQL = "select a.Kode_Perusahaan, a.No_Transaksi, b.No_Transaksi as No_Split, a.Keterangan, "
+            'SQL = SQL & "a.Tanggal as Tanggal_GR2, a.Jam as Jam_GR2, b.Tanggal as Tangal_Split, b.Jam as Jam_Split, a.UserID "
+            'SQL = SQL & "from Emi_Production_Results_Validation a, Emi_Split_Production_Order b "
+            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+            'SQL = SQL & "and a.No_Production_Order = b.No_Transaksi "
+            ''SQL = SQL & "and b.Flag_Hasil_Produksi_GR2 = 'Y' "
+            'SQL = SQL & "and a.Flag_Validasi_Inkubasi is null "
+            'SQL = SQL & "and a.Status is null and b.Status is null "
+            'SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+
             SQL = "select a.Kode_Perusahaan, a.No_Transaksi, b.No_Transaksi as No_Split, a.Keterangan, "
             SQL = SQL & "a.Tanggal as Tanggal_GR2, a.Jam as Jam_GR2, b.Tanggal as Tangal_Split, b.Jam as Jam_Split, a.UserID "
-            SQL = SQL & "from Emi_Production_Results_Validation a, Emi_Split_Production_Order b "
-            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+            SQL = SQL & "from Emi_Production_Results_Validation a, Emi_Split_Production_Order b, Emi_Production_Results_Validation_Detail c "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan "
             SQL = SQL & "and a.No_Production_Order = b.No_Transaksi "
-            'SQL = SQL & "and b.Flag_Hasil_Produksi_GR2 = 'Y' "
+            SQL = SQL & "and a.No_Transaksi = c.No_Transaksi "
             SQL = SQL & "and a.Flag_Validasi_Inkubasi is null "
             SQL = SQL & "and a.Status is null and b.Status is null "
+            SQL = SQL & "and c.Jenis = 'Finished Good' "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             If Cmb_Filter.SelectedIndex > 0 Then
                 SQL = SQL & "and " & arrFilter(Cmb_Filter.SelectedIndex) & " like '%" & Txt_FilterValue.Text & "%' "
             End If
+            SQL = SQL & "group by a.Kode_Perusahaan, a.No_Transaksi, b.No_Transaksi, a.Keterangan,a.Tanggal, a.Jam, b.Tanggal, b.Jam, a.UserID "
 
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read

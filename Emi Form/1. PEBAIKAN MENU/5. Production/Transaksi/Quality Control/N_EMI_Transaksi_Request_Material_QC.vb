@@ -1125,61 +1125,57 @@
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
-                        For i As Integer = 0 To .Rows.Count - 1
+
+                        CrDoc = New N_EMI_CR_Faktur_Request_Material_QC
+
+                        'With A_Place_For_Printing2
+                        '    CrDoc.SetDataSource(Ds)
+                        '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        '    'CrDoc.PrintOptions.PrinterName = ""
+                        '    CrDoc.RecordSelectionFormula = SF
+                        '    CrDoc.SummaryInfo.ReportTitle = "Faktur Request Material Quality Control"
+                        '    .Text = "Faktur Request Material Quality Control"
+                        '    .CrystalReportViewer1.ReportSource = CrDoc
+                        '    .Refresh()
+                        '    .Show()
+                        'End With
+
+                        '=====================================
 
 
-                            CrDoc = New N_EMI_CR_Faktur_Request_Material_QC
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        CrDoc.PrintOptions.PrinterName = PrinterNameSPB
+                        CrDoc.RecordSelectionFormula = SF
+                        'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
-                            'With A_Place_For_Printing2
-                            '    CrDoc.SetDataSource(Ds)
-                            '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            '    'CrDoc.PrintOptions.PrinterName = ""
-                            '    CrDoc.RecordSelectionFormula = SF
-                            '    CrDoc.SummaryInfo.ReportTitle = "Faktur Request Material Quality Control"
-                            '    .Text = "Faktur Request Material Quality Control"
-                            '    .CrystalReportViewer1.ReportSource = CrDoc
-                            '    .Refresh()
-                            '    .Show()
-                            'End With
-
-                            '=====================================
-
-
-                            CrDoc.SetDataSource(Ds)
-                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            CrDoc.PrintOptions.PrinterName = PrinterNameSPB
-                            CrDoc.RecordSelectionFormula = SF
-                            'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
-
-                            Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                            doctoprint.PrinterSettings.PrinterName = PrinterNameSPB
-                            Dim rawKind As Integer
-                            CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                            For j = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                                If doctoprint.PrinterSettings.PaperSizes(j).PaperName = kertas Then
-                                    rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(j).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(j)))
-                                    CrDoc.PrintOptions.PaperSize = rawKind
-                                    Exit For
-                                End If
-                            Next
-
-                            'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-
-                            '=======================================
-                            '=     CEK APAKAH KERTAS DITEMUKAN     =
-                            '=======================================
-                            If rawKind <> -1 Then
-                                CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                            Else
-                                CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                                Debug.Print("Ukuran kertas tidak ditemukan, menggunakan default.")
+                        Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                        doctoprint.PrinterSettings.PrinterName = PrinterNameSPB
+                        Dim rawKind As Integer
+                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        For j = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                            If doctoprint.PrinterSettings.PaperSizes(j).PaperName = kertas Then
+                                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(j).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(j)))
+                                CrDoc.PrintOptions.PaperSize = rawKind
+                                Exit For
                             End If
-
-                            CrDoc.PrintToPrinter(1, False, 1, 99)
-
-                            MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-
                         Next
+
+                        'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+
+                        '=======================================
+                        '=     CEK APAKAH KERTAS DITEMUKAN     =
+                        '=======================================
+                        If rawKind <> -1 Then
+                            CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                        Else
+                            CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                            Debug.Print("Ukuran kertas tidak ditemukan, menggunakan default.")
+                        End If
+
+                        CrDoc.PrintToPrinter(1, False, 1, 99)
+
+                        MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                     Else
                         CloseConn()

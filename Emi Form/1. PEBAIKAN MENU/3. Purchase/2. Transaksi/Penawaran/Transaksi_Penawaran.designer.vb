@@ -27,6 +27,9 @@ Partial Class Transaksi_Penawaran
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -138,12 +141,19 @@ Partial Class Transaksi_Penawaran
         Me.BtnOngkir_Refresh = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.DataGridViewTextBoxColumn7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Col_KdBrg = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Col_NmBrg = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ppn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Col_MinOrder = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Col_Satuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Col_Satuan = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.Col_HrgSatuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -1395,6 +1405,56 @@ Partial Class Transaksi_Penawaran
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Master Data - Penawaran"
         '
+        'DataGridViewTextBoxColumn1
+        '
+        Me.DataGridViewTextBoxColumn1.HeaderText = "Kode Barang"
+        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
+        Me.DataGridViewTextBoxColumn1.ReadOnly = True
+        Me.DataGridViewTextBoxColumn1.Width = 150
+        '
+        'DataGridViewTextBoxColumn2
+        '
+        Me.DataGridViewTextBoxColumn2.HeaderText = "Nama Barang"
+        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
+        Me.DataGridViewTextBoxColumn2.ReadOnly = True
+        Me.DataGridViewTextBoxColumn2.Width = 300
+        '
+        'DataGridViewTextBoxColumn3
+        '
+        Me.DataGridViewTextBoxColumn3.HeaderText = "PPN"
+        Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
+        Me.DataGridViewTextBoxColumn3.ReadOnly = True
+        Me.DataGridViewTextBoxColumn3.Width = 90
+        '
+        'DataGridViewTextBoxColumn4
+        '
+        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle9.NullValue = Nothing
+        Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle9
+        Me.DataGridViewTextBoxColumn4.HeaderText = "Minimal Order"
+        Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
+        '
+        'DataGridViewTextBoxColumn5
+        '
+        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn5.DefaultCellStyle = DataGridViewCellStyle10
+        Me.DataGridViewTextBoxColumn5.HeaderText = "Satuan"
+        Me.DataGridViewTextBoxColumn5.Name = "DataGridViewTextBoxColumn5"
+        Me.DataGridViewTextBoxColumn5.ReadOnly = True
+        Me.DataGridViewTextBoxColumn5.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewTextBoxColumn5.Width = 150
+        '
+        'DataGridViewTextBoxColumn6
+        '
+        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle11.NullValue = Nothing
+        Me.DataGridViewTextBoxColumn6.DefaultCellStyle = DataGridViewCellStyle11
+        Me.DataGridViewTextBoxColumn6.HeaderText = "Harga Satuan"
+        Me.DataGridViewTextBoxColumn6.Name = "DataGridViewTextBoxColumn6"
+        Me.DataGridViewTextBoxColumn6.ReadOnly = True
+        Me.DataGridViewTextBoxColumn6.Visible = False
+        Me.DataGridViewTextBoxColumn6.Width = 150
+        '
         'PanelGradient1
         '
         Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
@@ -1407,6 +1467,13 @@ Partial Class Transaksi_Penawaran
         Me.PanelGradient1.Name = "PanelGradient1"
         Me.PanelGradient1.Size = New System.Drawing.Size(1073, 2)
         Me.PanelGradient1.TabIndex = 22
+        '
+        'DataGridViewTextBoxColumn7
+        '
+        Me.DataGridViewTextBoxColumn7.HeaderText = "Sisa Hari"
+        Me.DataGridViewTextBoxColumn7.Name = "DataGridViewTextBoxColumn7"
+        Me.DataGridViewTextBoxColumn7.ReadOnly = True
+        Me.DataGridViewTextBoxColumn7.Visible = False
         '
         'Col_KdBrg
         '
@@ -1443,8 +1510,8 @@ Partial Class Transaksi_Penawaran
         Me.Col_Satuan.DefaultCellStyle = DataGridViewCellStyle4
         Me.Col_Satuan.HeaderText = "Satuan"
         Me.Col_Satuan.Name = "Col_Satuan"
-        Me.Col_Satuan.ReadOnly = True
         Me.Col_Satuan.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Col_Satuan.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
         '
         'Column3
         '
@@ -1606,11 +1673,18 @@ Partial Class Transaksi_Penawaran
     Friend WithEvents txtJatuhTempo As TextBox
     Friend WithEvents cmbJenisPengiriman As ComboBox
     Friend WithEvents Txt_NoUrut_JatuhTempo As TextBox
+    Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn5 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn6 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn7 As DataGridViewTextBoxColumn
     Friend WithEvents Col_KdBrg As DataGridViewTextBoxColumn
     Friend WithEvents Col_NmBrg As DataGridViewTextBoxColumn
     Friend WithEvents ppn As DataGridViewTextBoxColumn
     Friend WithEvents Col_MinOrder As DataGridViewTextBoxColumn
-    Friend WithEvents Col_Satuan As DataGridViewTextBoxColumn
+    Friend WithEvents Col_Satuan As DataGridViewComboBoxColumn
     Friend WithEvents Column3 As DataGridViewComboBoxColumn
     Friend WithEvents Col_HrgSatuan As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn

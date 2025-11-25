@@ -200,6 +200,21 @@
                 Loop
             End Using
 
+            SQL = ""
+            SQL = SQL & ""
+            SQL = SQL & ""
+            SQL = SQL & ""
+            SQL = SQL & ""
+            SQL = SQL & ""
+            SQL = SQL & ""
+            SQL = SQL & ""
+            SQL = SQL & ""
+            SQL = SQL & ""
+
+
+
+
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -215,6 +230,18 @@
         EMI_Timbang_Floor_Scale.txt_barang.Text = LvNmBrg
         EMI_Timbang_Floor_Scale.TxtKdBarang.Text = LvKdBrg
         EMI_Timbang_Floor_Scale.txt_Jml_Estimasi.Text = 0
+
+
+        'EMI_Timbang_Floor_Scale.txtUrutOto.Text = GetDataUrutOto
+        'EMI_Timbang_Floor_Scale.txt_Barang_SN.Text = GetDataBrgSN
+        'EMI_Timbang_Floor_Scale.TxtJumlahBags.Text = GetDataJumlahBags
+        'EMI_Timbang_Floor_Scale.TxtBeratBags.Text = GetDataBeratBags & " " & GetDataSatuanBeratBags
+        'EMI_Timbang_Floor_Scale.Txt_Berat_Bags_Bersih.Text = GetDataBeratBags
+        'EMI_Timbang_Floor_Scale.TxtSatuan_FloorScale.Text = GetDataSatuanBeratBesar
+
+        'EMI_Timbang_Floor_Scale.Txt_SatuanKecil.Text = GetDataSatuanKecil
+        'EMI_Timbang_Floor_Scale.TxtBarcode.Text = Txt_ScanBarcode.Text
+        'EMI_Timbang_Floor_Scale.Txt_Sisa_Request.Text = SisaRequest
 
 
         EMI_Timbang_Floor_Scale.ShowDialog()

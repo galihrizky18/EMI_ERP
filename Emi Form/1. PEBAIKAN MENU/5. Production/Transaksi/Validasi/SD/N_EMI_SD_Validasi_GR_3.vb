@@ -55,8 +55,8 @@
 
         Cmb_Periode.Items.Clear() : arrPeriode.Clear()
         Cmb_Periode.Items.Add(OpsiSeluruh) : arrPeriode.Add(OpsiSeluruh)
-        Cmb_Periode.Items.Add("Tanggal Produksi") : arrPeriode.Add("a.Tgl_Produksi")
-        Cmb_Periode.Items.Add("Tanggal Expired") : arrPeriode.Add("a.Tgl_Expired")
+        Cmb_Periode.Items.Add("Tanggal Produksi") : arrPeriode.Add("c.Tgl_Produksi")
+        Cmb_Periode.Items.Add("Tanggal Expired") : arrPeriode.Add("c.Tgl_Expired")
         Cmb_Periode.SelectedIndex = 0
 
         Cmb_Lain.Items.Clear() : arrParamLain.Clear()

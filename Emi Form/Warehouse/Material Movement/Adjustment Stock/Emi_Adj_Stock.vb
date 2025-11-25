@@ -236,8 +236,8 @@ Public Class Emi_Adj_Stock
             End Using
 
             If Flag_Opname Then
-                'DGV_Data_TF.Columns(itemDgvGoodStock).Visible = False
-                'DGV_Data_TF.Columns(itemDgvStockBags).Visible = False
+                DGV_Data_TF.Columns(itemDgvGoodStock).Visible = False
+                DGV_Data_TF.Columns(itemDgvStockBags).Visible = False
             Else
                 DGV_Data_TF.Columns(itemDgvGoodStock).Visible = True
                 DGV_Data_TF.Columns(itemDgvStockBags).Visible = True
@@ -431,7 +431,6 @@ Public Class Emi_Adj_Stock
             Dim currentColumn As Integer = DGV_Data_TF.CurrentCell.ColumnIndex
             Dim cellValue As Object = DGV_Data_TF.CurrentRow.Cells(currentColumn).Value
 
-
             If currentColumn = itemDgvBags OrElse currentColumn = itemDgvJumlah Then
                 If Not IsNumeric(cellValue) Then
                     DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
@@ -451,14 +450,14 @@ Public Class Emi_Adj_Stock
                     Dim jumlahStock As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvGoodStock).Value))
 
                     'cek apakah input melebihi
-                    If jumlahInputBags > stockBags Then
-                        MessageBox.Show("Bags Tidak Boleh Melebihi Stock Bags", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
-                        DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
-                        Exit Sub
-                    End If
+                    'If jumlahInputBags > stockBags Then
+                    '    MessageBox.Show("Bags Tidak Boleh Melebihi Stock Bags", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    '    DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
+                    '    DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
+                    '    Exit Sub
+                    'End If
 
-                    If (stockBags - jumlahInputBags) < 0 Then
+                    If (stockBags + jumlahInputBags) < 0 Then
                         MessageBox.Show("Jumlah Membuat Stock Menjadi Negatif", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
                         DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
@@ -484,30 +483,27 @@ Public Class Emi_Adj_Stock
                 Dim stockBags As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvStockBags).Value))
                 Dim jumlahInputBags As Double = Val(HilangkanTanda(DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value))
 
-                If jumlahInput > jumlahStock Then
-                    MessageBox.Show("Jumlah Tidak Boleh Melebihi Stock ", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
-                    DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
-                    Exit Sub
-                End If
+                'If jumlahInput > jumlahStock Then
+                '    MessageBox.Show("Jumlah Tidak Boleh Melebihi Stock ", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '    DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
+                '    DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
+                '    Exit Sub
+                'End If
 
-                If jumlahInputBags > stockBags Then
-                    MessageBox.Show("Bags Tidak Boleh Melebihi Stock Bags", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
-                    DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
-                    Exit Sub
-                End If
+                'If jumlahInputBags > stockBags Then
+                '    MessageBox.Show("Bags Tidak Boleh Melebihi Stock Bags", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '    DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
+                '    Exit Sub
+                'End If
 
-
-
-                If (jumlahStock - jumlahInput) < 0 Then
+                If (jumlahStock + jumlahInput) < 0 Then
                     MessageBox.Show("Jumlah Akan Membuat Stock Menjadi Negatif", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
                     DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
                     Exit Sub
                 End If
 
-                If (stockBags - jumlahInputBags) < 0 Then
+                If (stockBags + jumlahInputBags) < 0 Then
                     MessageBox.Show("Jumlah Akan Membuat Bags Menjadi Negatif", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     DGV_Data_TF.CurrentRow.Cells(itemDgvJumlah).Value = ""
                     DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = ""
@@ -1271,14 +1267,14 @@ Public Class Emi_Adj_Stock
 
                                     If Val(HilangkanTanda(dgv_detail_Jumlah.ToString)) < 0 Then
 
-                                        SQL = "update barang set Good_Stock = Good_Stock - Round(" & GoodTemp & ",4), Jumlah_Bags = Jumlah_Bags - " & BagsTemp & " "
+                                        SQL = "update barang set Good_Stock = Good_Stock - " & GoodTemp & ", Jumlah_Bags = Jumlah_Bags - " & BagsTemp & " "
                                         SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & dgv_detail_lokasi & "' "
                                         SQL = SQL & " and Kode_Barang='" & dgv_detail_KdBarang & "'"
                                         ExecuteTrans(SQL)
 
                                     Else
 
-                                        SQL = "update barang set Good_Stock = Good_Stock + Round(" & GoodTemp & ",4), Jumlah_Bags = Jumlah_Bags + " & BagsTemp & " "
+                                        SQL = "update barang set Good_Stock = Good_Stock + " & GoodTemp & ", Jumlah_Bags = Jumlah_Bags + " & BagsTemp & " "
                                         SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & dgv_detail_lokasi & "' "
                                         SQL = SQL & " and Kode_Barang='" & dgv_detail_KdBarang & "'"
                                         ExecuteTrans(SQL)
@@ -1327,7 +1323,7 @@ Public Class Emi_Adj_Stock
                                         Exit Sub
                                     End If
 
-                                    SQL = "update barang_sn set jumlah = jumlah - Round(" & GoodTemp & ",4), Jumlah_Bags = Jumlah_Bags - " & BagsTemp & " "
+                                    SQL = "update barang_sn set jumlah = jumlah - " & GoodTemp & ", Jumlah_Bags = Jumlah_Bags - " & BagsTemp & " "
                                     SQL = SQL & "where Kode_Stock_Owner='" & dgv_detail_lokasi & "' and Kode_Barang='" & dgv_detail_KdBarang & "' "
                                     SQL = SQL & "and Serial_Number='" & dgv_detail_SN & "'"
                                     ExecuteTrans(SQL)

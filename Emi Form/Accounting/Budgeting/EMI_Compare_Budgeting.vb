@@ -479,15 +479,108 @@
             NIlai_PersentaseBudgetBaru = Format(Val(HilangkanTanda((Val(HilangkanTanda(Nilai_BudgetBaru)) - Val(HilangkanTanda(Nilai_BudgetLama))) / Val(HilangkanTanda(Nilai_BudgetLama)) * 100)), "N2")
 
 
+#Region "Jurnal"
+
+            'dari
+            Dim inisial_faktur_dari As String = ""
+            Dim akun_biaya As String = ""
+            Dim akun_budget As String = ""
+
+            SQL = "select inisial_faktur from stock_owner "
+            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & Lokasi & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    'akun_persediaan_dari = Dr("persediaan")
+                    inisial_faktur_dari = Dr("inisial_faktur")
+
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            SQL = "select kode_akun_biaya, Kode_akun_budget "
+            SQL = SQL & "From Emi_Jenis_Biaya_Produksi "
+            SQL = SQL & "where kode_perusahaan='" & KodePerusahaan & "' and kode_jenis_biaya_produksi='" & arrTabControl(TabControl.SelectedIndex) & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+
+                    akun_biaya = Dr("kode_akun_biaya")
+                    akun_budget = Dr("Kode_akun_budget")
+
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+
+
+            Dim Kode_voucher As String = ""
+            Kode_voucher = GetLastNumberJurnal(Format(tgl_skg, "yyyyMM"), "JS" & inisial_faktur_dari, KodePerusahaan)
+            Dim pagenumber As Integer = 1
+
+            SQL = "Insert Into Jurnal(Kode_Voucher, Tanggal, Jam, Kode_Perusahaan, Kode_Proyek, "
+            SQL = SQL & "Keterangan, JudulBank, KetDK, userid) values("
+            SQL = SQL & "'" & Kode_voucher & "', "
+            SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', "
+            SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
+            SQL = SQL & "'" & KodeProyek & "', 'Aktualisasi " & arrTabControl(TabControl.SelectedIndex) & " : " & Txt_NoTransaksi.Text & "', '', "
+            SQL = SQL & "'-', '" & UserID & "')"
+            ExecuteTrans(SQL)
+
+            SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_budget, 1),
+                          Strings.Mid(akun_budget, 2, 1),
+                          Strings.Mid(Ganti(akun_budget), 3),
+                          KodePerusahaan, KodeProyek, "Aktualisasi " & Txt_NoTransaksi.Text, Total_Budgeting, "0", pagenumber, Lokasi, Bahasa_Pilihan, Ket_Cost_Center_HO)
+            ExecuteTrans(SQL)
+            pagenumber = pagenumber + 1
+
+            SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_biaya, 1),
+                         Strings.Mid(akun_biaya, 2, 1),
+                         Strings.Mid(Ganti(akun_biaya), 3),
+                         KodePerusahaan, KodeProyek, "Aktualisasi " & Txt_NoTransaksi.Text, "0", Total_Budgeting, pagenumber, Lokasi, Bahasa_Pilihan, Ket_Cost_Center_HO)
+            ExecuteTrans(SQL)
+            pagenumber = pagenumber + 1
+
+            SQL = "select sum(debit) as debit, sum(kredit) as kredit from detail_jurnal where "
+            SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "kode_voucher = '" & Kode_voucher & "'"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If Dr("debit") <> Dr("kredit") Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Jurnal salah!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Data jurnal tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+#End Region
+
             '========================
             '=     INSERT INDUK     =
             '========================
             SQL = "insert into EMI_Aktualisasi_Budgeting_WorkCenter (Kode_Perusahaan, No_Transaksi, Tanggal, Jam, UserId, Periode_Awal, Periode_Akhir, Jumlah_Produksi, Total_Budgeting, "
-            SQL = SQL & "Jumlah_Pemakaian, Nilai_Tarif_PerSatuan, Total_Aktual, Selisih, Selisih_Persen, Nilai_BudgetBaru, Nilai_BudgetBaru_Persen, Nilai_BudgetLama, Jenis_BIaya) values "
+            SQL = SQL & "Jumlah_Pemakaian, Nilai_Tarif_PerSatuan, Total_Aktual, Selisih, Selisih_Persen, Nilai_BudgetBaru, Nilai_BudgetBaru_Persen, Nilai_BudgetLama, Jenis_BIaya, Kode_Voucher) values "
             SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_NoTransaksi.Text & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "', "
             SQL = SQL & "'" & Format(DtpPeriodeAwal.Value, "yyyy-MM-dd") & "', '" & Format(DtpPeriodeAkhir.Value, "yyyy-MM-dd") & "', '" & Val(HilangkanTanda(JumlahProduksi)) & "', '" & Val(HilangkanTanda(Total_Budgeting)) & "',  "
             SQL = SQL & "'" & Val(HilangkanTanda(Jumlah_Pemakaian)) & "', '" & Val(HilangkanTanda(Nilai_Persatuan)) & "', '" & Val(HilangkanTanda(Total_Aktual)) & "', '" & Val(HilangkanTanda(Nilai_Selisih)) & "', "
-            SQL = SQL & "'" & ConvertToNumber(Nilai_PersentaseSelisih) & "', '" & Val(HilangkanTanda(Nilai_BudgetBaru)) & "', '" & ConvertToNumber(NIlai_PersentaseBudgetBaru) & "' , '" & Val(HilangkanTanda(Nilai_BudgetLama)) & "', '" & arrTabControl(TabControl.SelectedIndex) & "')"
+            SQL = SQL & "'" & ConvertToNumber(Nilai_PersentaseSelisih) & "', '" & Val(HilangkanTanda(Nilai_BudgetBaru)) & "', '" & ConvertToNumber(NIlai_PersentaseBudgetBaru) & "' , '" & Val(HilangkanTanda(Nilai_BudgetLama)) & "', '" & arrTabControl(TabControl.SelectedIndex) & "', '" & Kode_voucher & "')"
             ExecuteTrans(SQL)
 
 

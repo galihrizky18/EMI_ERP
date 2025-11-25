@@ -55,6 +55,7 @@
 
         CmbJenis.Items.Clear()
         CmbJenis.Items.Add("Rekap")
+        CmbJenis.Items.Add("Rekap Per Barang")
         CmbJenis.Items.Add("Detail")
 
         Cmb_FlagInspection.Items.Clear()
@@ -169,8 +170,14 @@
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
                     If CmbJenis.SelectedIndex = 0 Then
                         CrDoc = New Hr_Cetak_Saldo_Akhir_Rpt_Rekap
-                    Else
+                    ElseIf CmbJenis.SelectedIndex = 1 Then
+                        CrDoc = New N_Emi_CR_Laporan_Cetak_Saldo_Akhir_Rekap_Per_Barang
+                    ElseIf CmbJenis.SelectedIndex = 2 Then
                         CrDoc = New Hr_Cetak_Saldo_Akhir_Rpt_Detail
+                    Else
+                        CloseConn()
+                        MessageBox.Show("Jenis laporan salah diisi . . ! !", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        CmbJenis.Focus() : Exit Sub
                     End If
 
                     With A_Place_For_Printing

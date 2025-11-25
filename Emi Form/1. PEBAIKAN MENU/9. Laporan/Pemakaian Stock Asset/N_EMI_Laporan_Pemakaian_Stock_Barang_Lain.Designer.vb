@@ -67,7 +67,7 @@ Partial Class N_EMI_Laporan_Pemakaian_Stock_Barang_Lain
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(645, 43)
+        Me.Panel1.Size = New System.Drawing.Size(644, 43)
         Me.Panel1.TabIndex = 29
         '
         'PanelGradient1
@@ -80,7 +80,7 @@ Partial Class N_EMI_Laporan_Pemakaian_Stock_Barang_Lain
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(645, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(644, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
@@ -402,7 +402,7 @@ Partial Class N_EMI_Laporan_Pemakaian_Stock_Barang_Lain
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(645, 328)
+        Me.ClientSize = New System.Drawing.Size(644, 328)
         Me.Controls.Add(Me.Lv_Barang)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Lv_Pengguna)
