@@ -1961,6 +1961,30 @@
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\SD\N_EMI_SD_Transaksi_Retur_Packaging.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\GI\EMI_Hasil_Pengeluaran_Bahan_Baku_Baru.designer.vb">
+      <DependentUpon>EMI_Hasil_Pengeluaran_Bahan_Baku_Baru.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\GI\EMI_Hasil_Pengeluaran_Bahan_Baku_Baru.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\GI\Keypad_Numeric.Designer.vb">
+      <DependentUpon>Keypad_Numeric.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\GI\Keypad_Numeric.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\GI\Keypad_PIN.Designer.vb">
+      <DependentUpon>Keypad_PIN.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\GI\Keypad_PIN.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\GI\SD_Pengeluaran_Bahan_Baku_PIN.Designer.vb">
+      <DependentUpon>SD_Pengeluaran_Bahan_Baku_PIN.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\GI\SD_Pengeluaran_Bahan_Baku_PIN.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Jadwal Produksi\EMI_Schedule.designer.vb">
       <DependentUpon>EMI_Schedule.vb</DependentUpon>
     </Compile>
@@ -2267,12 +2291,6 @@
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Validasi GR 3\N_EMI_Transaksi_Validasi_GR_3_2.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Validasi GR 3\N_EMI_Transaksi_Validasi_GR_3.Designer.vb">
-      <DependentUpon>N_EMI_Transaksi_Validasi_GR_3.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Validasi GR 3\N_EMI_Transaksi_Validasi_GR_3.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Validasi Inkubasi\N_EMI_Display_Validasi_Inkubasi_Produksi.Designer.vb">
       <DependentUpon>N_EMI_Display_Validasi_Inkubasi_Produksi.vb</DependentUpon>
     </Compile>
@@ -2344,6 +2362,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_CR_Transaksi_Request_Material_QC_Summary.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\6. Quality Control\Cut Off Premix\CutOFF_PremixSN.Designer.vb">
+      <DependentUpon>CutOFF_PremixSN.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\6. Quality Control\Cut Off Premix\CutOFF_PremixSN.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\6. Quality Control\Laporan\N_EMI_Laporan_Request_Material_QC_Validasi.Designer.vb">
       <DependentUpon>N_EMI_Laporan_Request_Material_QC_Validasi.vb</DependentUpon>
@@ -2585,11 +2609,41 @@
       <DependentUpon>Rpt_Laporan_Final_GI_GR.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Formula Vs Aktual\N_EMI_CR_Laporan_Pemakaian_Bahan_Baku.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_CR_Laporan_Pemakaian_Bahan_Baku.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Formula Vs Aktual\N_EMI_Laporan_Pemakaian_Bahan_Baku.Designer.vb">
+      <DependentUpon>N_EMI_Laporan_Pemakaian_Bahan_Baku.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Formula Vs Aktual\N_EMI_Laporan_Pemakaian_Bahan_Baku.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\HCIS\CR\N_EMI_CR_Laporan_List_Karyawan_Per_Tahapan.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_CR_Laporan_List_Karyawan_Per_Tahapan.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Laporan Penjualan\N_EMI_CR_Laporan_Penjualan_Detail.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_CR_Laporan_Penjualan_Detail.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Laporan Penjualan\N_EMI_CR_Laporan_Penjualan_Rekap.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_CR_Laporan_Penjualan_Rekap.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Laporan Penjualan\N_EMI_Laporan_Penjualan.Designer.vb">
+      <DependentUpon>N_EMI_Laporan_Penjualan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Laporan Penjualan\N_EMI_Laporan_Penjualan.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Military Sampling\N_EMI_CR_Laporan_Military_Sampling_Summary_Rekap.vb">
       <AutoGen>True</AutoGen>
@@ -2817,6 +2871,12 @@
       <DependentUpon>Retur_DO_Reseller.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\DO\Retur_DO_Reseller.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\DO\Retur_DO_Reseller_Marketing.Designer.vb">
+      <DependentUpon>Retur_DO_Reseller_Marketing.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\DO\Retur_DO_Reseller_Marketing.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\DO\Retur_DO_Reseller_Sementara.Designer.vb">
@@ -4216,12 +4276,6 @@
     <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\EMI_Display_Transfer_Tidak_Timbang.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\EMI_Display_Transfer_Tidak_Timbang2.designer.vb">
-      <DependentUpon>EMI_Display_Transfer_Tidak_Timbang2.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\EMI_Display_Transfer_Tidak_Timbang2.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Warehouse\Material Movement\Transfer Stock\EMI_Restock.Designer.vb">
       <DependentUpon>EMI_Restock.vb</DependentUpon>
     </Compile>
@@ -4683,12 +4737,6 @@
     <Compile Include="module\Global_Setting.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="module\Keypad.Designer.vb">
-      <DependentUpon>Keypad.vb</DependentUpon>
-    </Compile>
-    <Compile Include="module\Keypad.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="module\Module1.vb" />
     <Compile Include="module\Module_Connection.vb" />
     <Compile Include="module\Module_fcm.vb" />
@@ -4833,16 +4881,16 @@
       <DependentUpon>NewBarcodeTransferStock.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Rpt\NewBarcodeTransferStock2.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>NewBarcodeTransferStock2.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Rpt\NewBarcodeTransferStockQC.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>NewBarcodeTransferStockQC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Rpt\NewBarcodeTransferStock2.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NewBarcodeTransferStock2.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Rpt\Pengeluaran_Barang_Faktur.vb">
@@ -5944,6 +5992,18 @@
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\SD\N_EMI_SD_Transaksi_Retur_Packaging.resx">
       <DependentUpon>N_EMI_SD_Transaksi_Retur_Packaging.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\GI\EMI_Hasil_Pengeluaran_Bahan_Baku_Baru.resx">
+      <DependentUpon>EMI_Hasil_Pengeluaran_Bahan_Baku_Baru.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\GI\Keypad_Numeric.resx">
+      <DependentUpon>Keypad_Numeric.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\GI\Keypad_PIN.resx">
+      <DependentUpon>Keypad_PIN.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\GI\SD_Pengeluaran_Bahan_Baku_PIN.resx">
+      <DependentUpon>SD_Pengeluaran_Bahan_Baku_PIN.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Jadwal Produksi\EMI_Schedule.resx">
       <DependentUpon>EMI_Schedule.vb</DependentUpon>
     </EmbeddedResource>
@@ -6105,9 +6165,6 @@
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Validasi GR 3\N_EMI_Transaksi_Validasi_GR_3_2.resx">
       <DependentUpon>N_EMI_Transaksi_Validasi_GR_3_2.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Validasi GR 3\N_EMI_Transaksi_Validasi_GR_3.resx">
-      <DependentUpon>N_EMI_Transaksi_Validasi_GR_3.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Validasi Inkubasi\N_EMI_Display_Validasi_Inkubasi_Produksi.resx">
       <DependentUpon>N_EMI_Display_Validasi_Inkubasi_Produksi.vb</DependentUpon>
     </EmbeddedResource>
@@ -6150,6 +6207,9 @@
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\6. Quality Control\CR\N_EMI_CR_Transaksi_Request_Material_QC_Summary.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_CR_Transaksi_Request_Material_QC_Summary.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\6. Quality Control\Cut Off Premix\CutOFF_PremixSN.resx">
+      <DependentUpon>CutOFF_PremixSN.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\6. Quality Control\Laporan\N_EMI_Laporan_Request_Material_QC_Validasi.resx">
       <DependentUpon>N_EMI_Laporan_Request_Material_QC_Validasi.vb</DependentUpon>
@@ -6296,9 +6356,27 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Laporan_Final_GI_GR.vb</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Formula Vs Aktual\N_EMI_CR_Laporan_Pemakaian_Bahan_Baku.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_CR_Laporan_Pemakaian_Bahan_Baku.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Formula Vs Aktual\N_EMI_Laporan_Pemakaian_Bahan_Baku.resx">
+      <DependentUpon>N_EMI_Laporan_Pemakaian_Bahan_Baku.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\HCIS\CR\N_EMI_CR_Laporan_List_Karyawan_Per_Tahapan.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_CR_Laporan_List_Karyawan_Per_Tahapan.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Laporan Penjualan\N_EMI_CR_Laporan_Penjualan_Detail.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_CR_Laporan_Penjualan_Detail.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Laporan Penjualan\N_EMI_CR_Laporan_Penjualan_Rekap.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_CR_Laporan_Penjualan_Rekap.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Laporan Penjualan\N_EMI_Laporan_Penjualan.resx">
+      <DependentUpon>N_EMI_Laporan_Penjualan.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Military Sampling\N_EMI_CR_Laporan_Military_Sampling_Summary_Rekap.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -6431,6 +6509,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\DO\Retur_DO_Reseller.resx">
       <DependentUpon>Retur_DO_Reseller.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\DO\Retur_DO_Reseller_Marketing.resx">
+      <DependentUpon>Retur_DO_Reseller_Marketing.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\DO\Retur_DO_Reseller_Sementara.resx">
       <DependentUpon>Retur_DO_Reseller_Sementara.vb</DependentUpon>
@@ -7186,9 +7267,6 @@
     <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\Transfer Stock\EMI_Display_Transfer_Tidak_Timbang.resx">
       <DependentUpon>EMI_Display_Transfer_Tidak_Timbang.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\Transfer Stock\EMI_Display_Transfer_Tidak_Timbang2.resx">
-      <DependentUpon>EMI_Display_Transfer_Tidak_Timbang2.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Warehouse\Material Movement\Transfer Stock\EMI_Restock.resx">
       <DependentUpon>EMI_Restock.vb</DependentUpon>
     </EmbeddedResource>
@@ -7422,9 +7500,6 @@
     <EmbeddedResource Include="module\Global_Setting.resx">
       <DependentUpon>Global_Setting.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="module\Keypad.resx">
-      <DependentUpon>Keypad.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -7509,13 +7584,13 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>NewBarcodeTransferStock.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Rpt\NewBarcodeTransferStock2.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>NewBarcodeTransferStock2.vb</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Rpt\NewBarcodeTransferStockQC.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>NewBarcodeTransferStockQC.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\NewBarcodeTransferStock2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>NewBarcodeTransferStock2.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Rpt\Pengeluaran_Barang_Faktur.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

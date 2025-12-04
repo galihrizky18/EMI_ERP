@@ -821,6 +821,12 @@ Public Class EMI_Validasi_GR_Display
             End Using
 
 
+            If True Then
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("Tahan")
+                Exit Sub
+            End If
 
 
 

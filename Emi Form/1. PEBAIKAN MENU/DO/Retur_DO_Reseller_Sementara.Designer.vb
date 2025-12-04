@@ -47,9 +47,6 @@ Partial Class Retur_DO_Reseller_Sementara
         Me.Button2 = New System.Windows.Forms.Button()
         Me.TextBox10 = New System.Windows.Forms.TextBox()
         Me.Label17 = New System.Windows.Forms.Label()
-        Me.ListView2 = New System.Windows.Forms.ListView()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.HapusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TextBox11 = New System.Windows.Forms.TextBox()
         Me.TextBox9 = New System.Windows.Forms.TextBox()
         Me.Label14 = New System.Windows.Forms.Label()
@@ -58,6 +55,9 @@ Partial Class Retur_DO_Reseller_Sementara
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
+        Me.ListView2 = New System.Windows.Forms.ListView()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.HapusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Label22 = New System.Windows.Forms.Label()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.ListView3 = New System.Windows.Forms.ListView()
@@ -82,19 +82,22 @@ Partial Class Retur_DO_Reseller_Sementara
         Me.TextBox19 = New System.Windows.Forms.TextBox()
         Me.TxtTotal = New System.Windows.Forms.TextBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Lv_Hidden_Data = New System.Windows.Forms.ListView()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.ListView4 = New System.Windows.Forms.ListView()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        Me.GroupBox5.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label3
@@ -111,6 +114,7 @@ Partial Class Retur_DO_Reseller_Sementara
         '
         Me.TextBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox1.Enabled = False
         Me.TextBox1.Location = New System.Drawing.Point(292, 63)
         Me.TextBox1.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
         Me.TextBox1.Name = "TextBox1"
@@ -300,7 +304,6 @@ Partial Class Retur_DO_Reseller_Sementara
         Me.GroupBox2.Controls.Add(Me.Button2)
         Me.GroupBox2.Controls.Add(Me.TextBox10)
         Me.GroupBox2.Controls.Add(Me.Label17)
-        Me.GroupBox2.Controls.Add(Me.ListView2)
         Me.GroupBox2.Controls.Add(Me.TextBox11)
         Me.GroupBox2.Controls.Add(Me.TextBox9)
         Me.GroupBox2.Controls.Add(Me.Label14)
@@ -309,6 +312,7 @@ Partial Class Retur_DO_Reseller_Sementara
         Me.GroupBox2.Controls.Add(Me.Label12)
         Me.GroupBox2.Controls.Add(Me.Label10)
         Me.GroupBox2.Controls.Add(Me.Label11)
+        Me.GroupBox2.Controls.Add(Me.ListView2)
         Me.GroupBox2.Location = New System.Drawing.Point(25, 315)
         Me.GroupBox2.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
         Me.GroupBox2.Name = "GroupBox2"
@@ -393,31 +397,6 @@ Partial Class Retur_DO_Reseller_Sementara
         Me.Label17.Text = "Max.Retur"
         Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'ListView2
-        '
-        Me.ListView2.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.ListView2.FullRowSelect = True
-        Me.ListView2.GridLines = True
-        Me.ListView2.HideSelection = False
-        Me.ListView2.Location = New System.Drawing.Point(6, 67)
-        Me.ListView2.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
-        Me.ListView2.Name = "ListView2"
-        Me.ListView2.Size = New System.Drawing.Size(778, 141)
-        Me.ListView2.TabIndex = 11
-        Me.ListView2.UseCompatibleStateImageBehavior = False
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HapusToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(109, 26)
-        '
-        'HapusToolStripMenuItem
-        '
-        Me.HapusToolStripMenuItem.Name = "HapusToolStripMenuItem"
-        Me.HapusToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
-        Me.HapusToolStripMenuItem.Text = "Hapus"
-        '
         'TextBox11
         '
         Me.TextBox11.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
@@ -457,11 +436,11 @@ Partial Class Retur_DO_Reseller_Sementara
         Me.Txt_Barcode.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_Barcode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_Barcode.Enabled = False
-        Me.Txt_Barcode.Location = New System.Drawing.Point(8, 39)
+        Me.Txt_Barcode.Location = New System.Drawing.Point(6, 39)
         Me.Txt_Barcode.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
         Me.Txt_Barcode.MaxLength = 8
         Me.Txt_Barcode.Name = "Txt_Barcode"
-        Me.Txt_Barcode.Size = New System.Drawing.Size(217, 20)
+        Me.Txt_Barcode.Size = New System.Drawing.Size(219, 20)
         Me.Txt_Barcode.TabIndex = 2
         Me.Txt_Barcode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
@@ -492,10 +471,10 @@ Partial Class Retur_DO_Reseller_Sementara
         'Label10
         '
         Me.Label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label10.Location = New System.Drawing.Point(8, 15)
+        Me.Label10.Location = New System.Drawing.Point(6, 15)
         Me.Label10.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(217, 23)
+        Me.Label10.Size = New System.Drawing.Size(219, 23)
         Me.Label10.TabIndex = 1
         Me.Label10.Text = "Barcode"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -510,6 +489,31 @@ Partial Class Retur_DO_Reseller_Sementara
         Me.Label11.TabIndex = 1
         Me.Label11.Text = "Kode Barang"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'ListView2
+        '
+        Me.ListView2.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.ListView2.FullRowSelect = True
+        Me.ListView2.GridLines = True
+        Me.ListView2.HideSelection = False
+        Me.ListView2.Location = New System.Drawing.Point(6, 67)
+        Me.ListView2.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
+        Me.ListView2.Name = "ListView2"
+        Me.ListView2.Size = New System.Drawing.Size(778, 141)
+        Me.ListView2.TabIndex = 11
+        Me.ListView2.UseCompatibleStateImageBehavior = False
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HapusToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(109, 26)
+        '
+        'HapusToolStripMenuItem
+        '
+        Me.HapusToolStripMenuItem.Name = "HapusToolStripMenuItem"
+        Me.HapusToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
+        Me.HapusToolStripMenuItem.Text = "Hapus"
         '
         'Label22
         '
@@ -540,10 +544,10 @@ Partial Class Retur_DO_Reseller_Sementara
         Me.ListView3.FullRowSelect = True
         Me.ListView3.GridLines = True
         Me.ListView3.HideSelection = False
-        Me.ListView3.Location = New System.Drawing.Point(12, 15)
+        Me.ListView3.Location = New System.Drawing.Point(6, 15)
         Me.ListView3.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
         Me.ListView3.Name = "ListView3"
-        Me.ListView3.Size = New System.Drawing.Size(778, 143)
+        Me.ListView3.Size = New System.Drawing.Size(778, 140)
         Me.ListView3.TabIndex = 15
         Me.ListView3.UseCompatibleStateImageBehavior = False
         '
@@ -576,7 +580,7 @@ Partial Class Retur_DO_Reseller_Sementara
         '
         Me.GroupBox3.Controls.Add(Me.Button5)
         Me.GroupBox3.Controls.Add(Me.Button3)
-        Me.GroupBox3.Location = New System.Drawing.Point(1156, 66)
+        Me.GroupBox3.Location = New System.Drawing.Point(1507, 77)
         Me.GroupBox3.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Padding = New System.Windows.Forms.Padding(2, 4, 2, 4)
@@ -587,7 +591,7 @@ Partial Class Retur_DO_Reseller_Sementara
         '
         'Button5
         '
-        Me.Button5.Location = New System.Drawing.Point(6, 110)
+        Me.Button5.Location = New System.Drawing.Point(27, 110)
         Me.Button5.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(80, 30)
@@ -597,7 +601,7 @@ Partial Class Retur_DO_Reseller_Sementara
         '
         'Button3
         '
-        Me.Button3.Location = New System.Drawing.Point(6, 45)
+        Me.Button3.Location = New System.Drawing.Point(27, 45)
         Me.Button3.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(80, 33)
@@ -681,7 +685,7 @@ Partial Class Retur_DO_Reseller_Sementara
         '
         Me.Label40.AutoSize = True
         Me.Label40.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label40.Location = New System.Drawing.Point(902, 82)
+        Me.Label40.Location = New System.Drawing.Point(1253, 93)
         Me.Label40.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label40.Name = "Label40"
         Me.Label40.Size = New System.Drawing.Size(44, 20)
@@ -693,7 +697,7 @@ Partial Class Retur_DO_Reseller_Sementara
         '
         Me.TextBox17.Enabled = False
         Me.TextBox17.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox17.Location = New System.Drawing.Point(951, 79)
+        Me.TextBox17.Location = New System.Drawing.Point(1302, 90)
         Me.TextBox17.Name = "TextBox17"
         Me.TextBox17.Size = New System.Drawing.Size(191, 26)
         Me.TextBox17.TabIndex = 306
@@ -704,7 +708,7 @@ Partial Class Retur_DO_Reseller_Sementara
         '
         Me.Label41.AutoSize = True
         Me.Label41.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label41.Location = New System.Drawing.Point(906, 110)
+        Me.Label41.Location = New System.Drawing.Point(1257, 121)
         Me.Label41.Name = "Label41"
         Me.Label41.Size = New System.Drawing.Size(40, 20)
         Me.Label41.TabIndex = 308
@@ -715,7 +719,7 @@ Partial Class Retur_DO_Reseller_Sementara
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(853, 138)
+        Me.Label1.Location = New System.Drawing.Point(1204, 149)
         Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(93, 20)
@@ -727,7 +731,7 @@ Partial Class Retur_DO_Reseller_Sementara
         '
         Me.TextBox18.Enabled = False
         Me.TextBox18.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox18.Location = New System.Drawing.Point(951, 107)
+        Me.TextBox18.Location = New System.Drawing.Point(1302, 118)
         Me.TextBox18.Margin = New System.Windows.Forms.Padding(2)
         Me.TextBox18.MaxLength = 5
         Me.TextBox18.Name = "TextBox18"
@@ -740,7 +744,7 @@ Partial Class Retur_DO_Reseller_Sementara
         '
         Me.TextBox19.Enabled = False
         Me.TextBox19.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox19.Location = New System.Drawing.Point(998, 107)
+        Me.TextBox19.Location = New System.Drawing.Point(1349, 118)
         Me.TextBox19.Name = "TextBox19"
         Me.TextBox19.Size = New System.Drawing.Size(144, 26)
         Me.TextBox19.TabIndex = 311
@@ -751,7 +755,7 @@ Partial Class Retur_DO_Reseller_Sementara
         '
         Me.TxtTotal.Enabled = False
         Me.TxtTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtTotal.Location = New System.Drawing.Point(951, 135)
+        Me.TxtTotal.Location = New System.Drawing.Point(1302, 146)
         Me.TxtTotal.Name = "TxtTotal"
         Me.TxtTotal.Size = New System.Drawing.Size(191, 26)
         Me.TxtTotal.TabIndex = 312
@@ -766,21 +770,8 @@ Partial Class Retur_DO_Reseller_Sementara
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(835, 43)
+        Me.Panel1.Size = New System.Drawing.Size(1186, 43)
         Me.Panel1.TabIndex = 313
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(835, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Label9
         '
@@ -816,12 +807,25 @@ Partial Class Retur_DO_Reseller_Sementara
         'Panel2
         '
         Me.Panel2.BackColor = System.Drawing.Color.Red
-        Me.Panel2.Location = New System.Drawing.Point(815, 66)
+        Me.Panel2.Location = New System.Drawing.Point(1166, 0)
         Me.Panel2.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(19, 601)
+        Me.Panel2.Size = New System.Drawing.Size(19, 681)
         Me.Panel2.TabIndex = 315
         Me.Panel2.Visible = False
+        '
+        'Lv_Hidden_Data
+        '
+        Me.Lv_Hidden_Data.FullRowSelect = True
+        Me.Lv_Hidden_Data.GridLines = True
+        Me.Lv_Hidden_Data.HideSelection = False
+        Me.Lv_Hidden_Data.Location = New System.Drawing.Point(1191, 382)
+        Me.Lv_Hidden_Data.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
+        Me.Lv_Hidden_Data.Name = "Lv_Hidden_Data"
+        Me.Lv_Hidden_Data.Size = New System.Drawing.Size(622, 141)
+        Me.Lv_Hidden_Data.TabIndex = 11
+        Me.Lv_Hidden_Data.UseCompatibleStateImageBehavior = False
+        Me.Lv_Hidden_Data.Visible = False
         '
         'Panel4
         '
@@ -833,32 +837,58 @@ Partial Class Retur_DO_Reseller_Sementara
         Me.Panel4.TabIndex = 314
         Me.Panel4.Visible = False
         '
-        'Lv_Hidden_Data
+        'GroupBox5
         '
-        Me.Lv_Hidden_Data.FullRowSelect = True
-        Me.Lv_Hidden_Data.GridLines = True
-        Me.Lv_Hidden_Data.HideSelection = False
-        Me.Lv_Hidden_Data.Location = New System.Drawing.Point(840, 382)
-        Me.Lv_Hidden_Data.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
-        Me.Lv_Hidden_Data.Name = "Lv_Hidden_Data"
-        Me.Lv_Hidden_Data.Size = New System.Drawing.Size(622, 141)
-        Me.Lv_Hidden_Data.TabIndex = 11
-        Me.Lv_Hidden_Data.UseCompatibleStateImageBehavior = False
-        Me.Lv_Hidden_Data.Visible = False
+        Me.GroupBox5.Controls.Add(Me.ListView4)
+        Me.GroupBox5.Location = New System.Drawing.Point(822, 83)
+        Me.GroupBox5.Margin = New System.Windows.Forms.Padding(4)
+        Me.GroupBox5.Name = "GroupBox5"
+        Me.GroupBox5.Padding = New System.Windows.Forms.Padding(4)
+        Me.GroupBox5.Size = New System.Drawing.Size(340, 509)
+        Me.GroupBox5.TabIndex = 316
+        Me.GroupBox5.TabStop = False
+        Me.GroupBox5.Text = "Data Retur Do Sementara"
+        '
+        'ListView4
+        '
+        Me.ListView4.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ListView4.FullRowSelect = True
+        Me.ListView4.GridLines = True
+        Me.ListView4.HideSelection = False
+        Me.ListView4.Location = New System.Drawing.Point(6, 17)
+        Me.ListView4.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
+        Me.ListView4.Name = "ListView4"
+        Me.ListView4.Size = New System.Drawing.Size(328, 485)
+        Me.ListView4.TabIndex = 0
+        Me.ListView4.UseCompatibleStateImageBehavior = False
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1186, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Retur_DO_Reseller_Sementara
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(835, 611)
+        Me.ClientSize = New System.Drawing.Size(1186, 611)
+        Me.Controls.Add(Me.Lv_Hidden_Data)
+        Me.Controls.Add(Me.GroupBox5)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.TxtTotal)
-        Me.Controls.Add(Me.Lv_Hidden_Data)
         Me.Controls.Add(Me.TextBox19)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.TextBox18)
@@ -894,6 +924,7 @@ Partial Class Retur_DO_Reseller_Sementara
         Me.GroupBox3.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        Me.GroupBox5.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -963,4 +994,6 @@ Partial Class Retur_DO_Reseller_Sementara
     Friend WithEvents Lv_Hidden_Data As ListView
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents HapusToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents GroupBox5 As GroupBox
+    Friend WithEvents ListView4 As ListView
 End Class

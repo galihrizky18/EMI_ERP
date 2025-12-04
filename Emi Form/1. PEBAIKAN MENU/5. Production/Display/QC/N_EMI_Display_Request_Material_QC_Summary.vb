@@ -136,9 +136,18 @@ Public Class N_EMI_Display_Request_Material_QC_Summary
                 ComboBox1.Enabled = True
             End If
 
-            '====================
-            '=     CEK ROLE     =
-            '====================
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Try
+            OpenConn()
+
+
             If CekButtonRole("Pembatalan_RM_QC") = "T" Then
                 PembatalanRequestToolStripMenuItem.Visible = False
             Else
@@ -915,10 +924,10 @@ Public Class N_EMI_Display_Request_Material_QC_Summary
                         CrDoc.SetDataSource(Ds)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                         CrDoc.RecordSelectionFormula = "{N_EMI_CR_Transaksi_Request_Material_QC_Barcode_Cetak.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_CR_Transaksi_Request_Material_QC_Barcode_Cetak.Kode_Unik_Print} = '" & kode_unik_print & "' "
-                        CrDoc.PrintOptions.PrinterName = PrinterBarcode
+                        CrDoc.PrintOptions.PrinterName = PrinterBarcodeQC
 
                         Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                        doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+                        doctoprint.PrinterSettings.PrinterName = PrinterBarcodeQC
 
                         Dim rawKind As Integer
                         CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
@@ -2062,11 +2071,11 @@ Public Class N_EMI_Display_Request_Material_QC_Summary
                             CrDoc.RecordSelectionFormula = "{N_EMI_CR_Transaksi_Request_Material_QC_Barcode_Cetak.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_CR_Transaksi_Request_Material_QC_Barcode_Cetak.Kode_Unik_Print} = '" & arrKdUnikPrint(i) & "' "
 
                             'CrDoc.PrintOptions.PrinterName = PrinterBarcodeQC
-                            CrDoc.PrintOptions.PrinterName = PrinterBarcode
+                            CrDoc.PrintOptions.PrinterName = PrinterBarcodeQC
 
                             Dim doctoprint As New System.Drawing.Printing.PrintDocument()
                             'doctoprint.PrinterSettings.PrinterName = PrinterBarcodeQC
-                            doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+                            doctoprint.PrinterSettings.PrinterName = PrinterBarcodeQC
 
 
                             Dim rawKind As Integer

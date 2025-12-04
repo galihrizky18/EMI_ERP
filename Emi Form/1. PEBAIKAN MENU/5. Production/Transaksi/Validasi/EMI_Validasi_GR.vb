@@ -7,6 +7,8 @@ Public Class EMI_Validasi_GR
     Dim arrLokasiAsal, arrLokasiTujuan, arrSO As New ArrayList
     Dim arrKdBarangSrap, arrNamaScrap, arrSatuanScrap, arrSatuanKecilScrap, arrIdJenisKategori As New ArrayList
 
+    Dim Fitur_Military_Sampling As Boolean = False
+
     Private random As New Random()
     Private imageBytes1 As Byte = Nothing
     Private FileSize1 As UInt32
@@ -16,8 +18,10 @@ Public Class EMI_Validasi_GR
 
     Public arrBarcodeFromSD As New List(Of Dictionary(Of String, String))
 
-    Dim ReadyForPackaging As Boolean = False
+    Dim arrGudangProduksi As New ArrayList
 
+
+    Dim ReadyForPackaging As Boolean = False
     Dim Prefix, Tahun_MulaiProduksi As String
 
     Dim LvPallet_KdSO, LvPallet_Barcode, LvPallet_BatchNumber, LvPallet_TglProduksi, LvPallet_TglExpired, LvPallet_KdBarang, LvPallet_NmBarang, LvPallet_Jumlah As String
@@ -128,57 +132,18 @@ Public Class EMI_Validasi_GR
     Private Sub Cmb_LokasiTujuan_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_LokasiTujuan.SelectedIndexChanged
         If Cmb_LokasiTujuan.SelectedIndex = -1 Then Exit Sub
 
-        Try
-            OpenConn()
 
-            Cmb_Jenis.Items.Clear() : arrKdBarangSrap.Clear() : arrNamaScrap.Clear() : arrSatuanScrap.Clear() : arrSatuanKecilScrap.Clear()
-            Cmb_Jenis_Kategori.Items.Clear()
-
-
-            Cmb_Jenis.Items.Add("FINISHED GOOD") : arrKdBarangSrap.Add("FINISHED GOOD") : arrNamaScrap.Add("FINISHED GOOD") : arrSatuanScrap.Add("FINISHED GOOD")
-            Cmb_Jenis.Items.Add("BLOCKED") : arrKdBarangSrap.Add("REJECTED") : arrNamaScrap.Add("REJECTED") : arrSatuanScrap.Add("REJECTED") : arrSatuanKecilScrap.Add("REJECTED")
-            Cmb_Jenis.Items.Add(" ------------- ") : arrKdBarangSrap.Add("-------") : arrNamaScrap.Add("-------") : arrSatuanScrap.Add("-------") : arrSatuanKecilScrap.Add("-------")
-
-            arrSatuanKecilScrap.Add("Finished Good")
-            SQL = "select a.kode_barang_Scrap, b.nama, b.satuan as satuan_kecil, c.satuan "
-            SQL = SQL & "from emi_binding_scrap a, barang b, barang_detail_satuan c "
-            SQL = SQL & "where a.kode_Perusahaan=b.Kode_Perusahaan and a.Kode_Barang_scrap=B.Kode_Barang "
-            SQL = SQL & "and b.kode_Perusahaan=c.Kode_Perusahaan and b.Kode_Barang=c.Kode_Barang "
-            SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and b.kode_stock_Owner='" & LvPallet_KdSO & "' "
-            SQL = SQL & "and c.flag_tampil_display = 'Y' "
-            Using Dr = OpenTrans(SQL)
-                Do While Dr.Read
-                    Cmb_Jenis.Items.Add(Dr("nama")) : arrKdBarangSrap.Add(Dr("kode_barang_Scrap"))
-                    arrNamaScrap.Add(Dr("nama")) : arrSatuanScrap.Add(Dr("satuan"))
-                    arrSatuanKecilScrap.Add(Dr("satuan_kecil"))
-                Loop
-            End Using
-
-            Cmb_Jenis.SelectedIndex = -1
-
-            Cmb_Jenis_Kategori.Items.Clear() : arrIdJenisKategori.Clear()
-            SQL = "select Id_Jenis_Kategori, Keterangan from N_EMI_Master_Jenis_Kategori_Produksi "
-            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "order by Id_Jenis_Kategori "
-            Using Dr = OpenTrans(SQL)
-                Do While Dr.Read
-                    Cmb_Jenis_Kategori.Items.Add(Dr("Keterangan")) : arrIdJenisKategori.Add(Dr("Id_Jenis_Kategori"))
-                Loop
-            End Using
-            Cmb_Jenis_Kategori.SelectedIndex = -1
-
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MessageBox.Show(ex.Message)
-            Exit Sub
-        End Try
     End Sub
 
     Private Sub EMI_Validasi_GR_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
 
+        If Fitur_Military_Sampling Then
+            Lbl_Bypass_MS.Visible = False
+        Else
+            Lbl_Bypass_MS.Visible = True
+        End If
 
         Kosong()
 
@@ -192,10 +157,108 @@ Public Class EMI_Validasi_GR
         If Cmb_Jenis.Items.Count = 0 Or Cmb_Jenis.SelectedIndex = -1 Then Exit Sub
         If Not ReadyForPackaging Then
             If Cmb_Jenis.SelectedIndex = 0 Then Cmb_Jenis.SelectedIndex = -1
+            Cmb_Jenis_Kategori.Items.Clear() : arrIdJenisKategori.Clear()
+            Cmb_LokasiTujuan.Items.Clear() : Cmb_LokasiTujuan.SelectedIndex = -1 : arrSO.Clear()
+            Exit Sub
         End If
 
-        If Cmb_Jenis.SelectedIndex = 2 Then Cmb_Jenis.SelectedIndex = -1
+        If Cmb_Jenis.SelectedIndex = 3 Then Cmb_Jenis.SelectedIndex = -1
 
+        'If Cmb_LokasiTujuan.SelectedIndex = -1 Then Exit Sub
+
+        Try
+            OpenConn()
+
+            'Cmb_Jenis.SelectedIndex = -1
+            'Cmb_Jenis_Kategori.Items.Clear() : arrIdJenisKategori.Clear()
+            'SQL = "select Id_Jenis_Kategori, Keterangan from N_EMI_Master_Jenis_Kategori_Produksi "
+            'SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            'SQL = SQL & "order by Id_Jenis_Kategori "
+            'Using Dr = OpenTrans(SQL)
+            '    Do While Dr.Read
+            '        Cmb_Jenis_Kategori.Items.Add(Dr("Keterangan")) : arrIdJenisKategori.Add(Dr("Id_Jenis_Kategori"))
+            '    Loop
+            'End Using
+            'Cmb_Jenis_Kategori.SelectedIndex = -1
+
+            Cmb_LokasiTujuan.Items.Clear() : Cmb_LokasiTujuan.SelectedIndex = -1 : arrSO.Clear()
+            Cmb_Jenis_Kategori.Items.Clear() : arrIdJenisKategori.Clear()
+            SQL = "select Id_Jenis_Kategori, Keterangan from N_EMI_Master_Jenis_Kategori_Produksi "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "order by Id_Jenis_Kategori "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Cmb_Jenis_Kategori.Items.Add(Dr("Keterangan")) : arrIdJenisKategori.Add(Dr("Id_Jenis_Kategori"))
+                Loop
+            End Using
+
+
+            'Cmb_LokasiTujuan.Items.Clear() : Cmb_LokasiTujuan.SelectedIndex = -1 : arrSO.Clear()
+            'Cmb_Jenis_Kategori.Items.Clear() : arrIdJenisKategori.Clear()
+            'SQL = "select Id_Jenis_Kategori, Keterangan from N_EMI_Master_Jenis_Kategori_Produksi "
+            'SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+
+            'If Cmb_Jenis.SelectedIndex = 0 Then
+            '    SQL = SQL & "and Flag_OK = 'Y' "
+            'Else
+            '    SQL = SQL & "and Flag_OK is null "
+            'End If
+
+            'SQL = SQL & "order by Id_Jenis_Kategori "
+
+            'Using Dr = OpenTrans(SQL)
+            '    Do While Dr.Read
+            '        Cmb_Jenis_Kategori.Items.Add(Dr("Keterangan")) : arrIdJenisKategori.Add(Dr("Id_Jenis_Kategori"))
+            '    Loop
+            'End Using
+
+            If Cmb_Jenis_Kategori.Items.Count <> 0 Then
+                If Cmb_Jenis.SelectedIndex = 0 Then
+                    Cmb_Jenis_Kategori.SelectedIndex = 0
+                End If
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+
+    Private Sub Cmb_Jenis_Kategori_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Jenis_Kategori.SelectedIndexChanged
+        If Cmb_Jenis_Kategori.SelectedIndex = -1 Then Exit Sub
+
+        Try
+            OpenConn()
+
+
+            Dim isProduksi As Boolean = arrGudangProduksi.Contains(arrKdBarangSrap(Cmb_Jenis.SelectedIndex))
+
+            Cmb_LokasiTujuan.Items.Clear() : Cmb_LokasiTujuan.SelectedIndex = -1 : arrSO.Clear()
+            SQL = "Select kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan From Stock_Owner_Gudang where "
+            SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and aktif = 'Y' "
+            'SQL = SQL & "and (flag_produksi='Y' or Flag_Penyimpanan='Y') "
+            If isProduksi Then
+                SQL = SQL & "and Flag_Produksi = 'Y' "
+            Else
+                SQL = SQL & "and Flag_Finish_Goods = 'Y' "
+            End If
+            SQL = SQL & "order by kode_stock_owner"
+            Using dr = OpenTrans(SQL)
+                Do While dr.Read
+                    arrSO.Add(dr("kode_stock_owner"))
+                    Cmb_LokasiTujuan.Items.Add(dr("Keterangan"))
+                Loop
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
     End Sub
 
     Private Sub HapusToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles HapusToolStripMenuItem1.Click
@@ -414,52 +477,33 @@ Public Class EMI_Validasi_GR
             SQL = "delete N_EMI_Validation_GR_Temp where kode_perusahaan = '" & KodePerusahaan & "' and UserID = '" & UserID & "' "
             ExecuteTrans(SQL)
 
-            Cmb_LokasiTujuan.Items.Clear() : Cmb_LokasiTujuan.SelectedIndex = -1 : arrSO.Clear()
-            SQL = "Select kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan From Stock_Owner_Gudang where "
-            SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and aktif = 'Y' "
-            SQL = SQL & "and (flag_produksi='Y' or Flag_Penyimpanan='Y') "
-            SQL = SQL & "order by kode_stock_owner"
-            Using dr = OpenTrans(SQL)
-                Do While dr.Read
-                    arrSO.Add(dr("kode_stock_owner"))
-                    Cmb_LokasiTujuan.Items.Add(dr("Keterangan"))
-                Loop
-            End Using
-
             Cmb_Jenis.Items.Clear() : arrKdBarangSrap.Clear() : arrNamaScrap.Clear() : arrSatuanScrap.Clear() : arrSatuanKecilScrap.Clear()
+            Cmb_Jenis_Kategori.Items.Clear()
+            Cmb_LokasiTujuan.Items.Clear() : Cmb_LokasiTujuan.SelectedIndex = -1 : arrSO.Clear()
 
             Cmb_Jenis.Items.Add("FINISHED GOOD") : arrKdBarangSrap.Add("FINISHED GOOD") : arrNamaScrap.Add("FINISHED GOOD") : arrSatuanScrap.Add("FINISHED GOOD")
             Cmb_Jenis.Items.Add("BLOCKED") : arrKdBarangSrap.Add("REJECTED") : arrNamaScrap.Add("REJECTED") : arrSatuanScrap.Add("REJECTED") : arrSatuanKecilScrap.Add("REJECTED")
-            Cmb_Jenis.Items.Add("------- ") : arrKdBarangSrap.Add("-------") : arrNamaScrap.Add("-------") : arrSatuanScrap.Add("-------") : arrSatuanKecilScrap.Add("-------")
+            Cmb_Jenis.Items.Add("SAMPLE") : arrKdBarangSrap.Add("SAMPLE") : arrNamaScrap.Add("SAMPLE") : arrSatuanScrap.Add("SAMPLE") : arrSatuanKecilScrap.Add("SAMPLE")
+            Cmb_Jenis.Items.Add(" ----------------------- ") : arrKdBarangSrap.Add("-------") : arrNamaScrap.Add("-------") : arrSatuanScrap.Add("-------") : arrSatuanKecilScrap.Add("-------")
 
+            arrGudangProduksi.Clear()
             arrSatuanKecilScrap.Add("Finished Good")
-            SQL = "select a.kode_barang_Scrap, b.nama, b.satuan as satuan_kecil, c.satuan "
+            SQL = "select distinct a.kode_barang_Scrap, b.nama, b.satuan as satuan_kecil, c.satuan "
             SQL = SQL & "from emi_binding_scrap a, barang b, barang_detail_satuan c "
             SQL = SQL & "where a.kode_Perusahaan=b.Kode_Perusahaan and a.Kode_Barang_scrap=B.Kode_Barang "
             SQL = SQL & "and b.kode_Perusahaan=c.Kode_Perusahaan and b.Kode_Barang=c.Kode_Barang "
-            SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and b.kode_stock_Owner='" & LvPallet_KdSO & "' "
+            SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
+            'SQL = SQL & "and b.kode_stock_Owner='" & LvPallet_KdSO & "' "
             SQL = SQL & "and c.flag_tampil_display = 'Y' "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Cmb_Jenis.Items.Add(Dr("nama")) : arrKdBarangSrap.Add(Dr("kode_barang_Scrap"))
                     arrNamaScrap.Add(Dr("nama")) : arrSatuanScrap.Add(Dr("satuan"))
                     arrSatuanKecilScrap.Add(Dr("satuan_kecil"))
+                    arrGudangProduksi.Add(Dr("kode_barang_Scrap"))
                 Loop
             End Using
-
             Cmb_Jenis.SelectedIndex = -1
-
-
-
-            Cmb_Jenis_Kategori.Items.Clear() : arrIdJenisKategori.Clear()
-            SQL = "select Id_Jenis_Kategori, Keterangan from N_EMI_Master_Jenis_Kategori_Produksi "
-            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "order by Id_Jenis_Kategori "
-            Using Dr = OpenTrans(SQL)
-                Do While Dr.Read
-                    Cmb_Jenis_Kategori.Items.Add(Dr("Keterangan")) : arrIdJenisKategori.Add(Dr("Id_Jenis_Kategori"))
-                Loop
-            End Using
 
 
             ExecuteTrans("Delete From N_EMI_Validation_GR_Temp where UserID='" & UserID & "'")
@@ -571,6 +615,8 @@ Public Class EMI_Validasi_GR
         Cmb_LokasiTujuan.SelectedIndex = -1
         Cmb_Jenis.SelectedIndex = -1
 
+        'arrBarcodeFromSD.Clear()
+
         LoadFromSD()
     End Sub
 
@@ -674,7 +720,7 @@ Public Class EMI_Validasi_GR
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
             SQL = SQL & "and a.kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and (qr_code +'-'+Kode_Unik_Berjalan ) = c.Barcode "
-            SQL = SQL & "and c.No_Production_Order = '" & NoSplit & "' "
+            SQL = SQL & "and c.No_Production_Order = '" & NoSplit & "' and c.jenis='FINISHED GOOD' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     KdBarang = Dr("Kode_Barang")
@@ -759,31 +805,6 @@ Public Class EMI_Validasi_GR
                     End If
                 End With
             End Using
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -878,7 +899,7 @@ Public Class EMI_Validasi_GR
                 SQL = SQL & "when isnull((select z.Flag_Ok from N_EMI_LAB_Hasil_Uji_Validasi_Final z where z.No_Split_Po = b.No_Production_Order and z.No_Batch = a.Tahap), 'U') = 'Y' "
                 SQL = SQL & "then 'DITERIMA' "
                 SQL = SQL & "else 'NO DATA' "
-                SQL = SQL & "end as Status_Split "
+                SQL = SQL & "end as Status_Split, "
 
                 SQL = SQL & "isnull(( "
                 SQL = SQL & "select top 1 'Y' from N_EMI_Military_Sampling z "
@@ -904,11 +925,13 @@ Public Class EMI_Validasi_GR
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
 
-                        If General_Class.CekNULL(Dr("Status_Military_Sampling")) = "T" Then
-                            Dr.Close()
-                            CloseConn()
-                            MessageBox.Show("Step Military Sampling Terhadap Split Belum Selesai", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                            Exit Sub
+                        If Fitur_Military_Sampling Then
+                            If General_Class.CekNULL(Dr("Status_Military_Sampling")) = "T" Then
+                                Dr.Close()
+                                CloseConn()
+                                MessageBox.Show("Step Military Sampling Terhadap Split Belum Selesai", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
                         End If
 
                         If Not NoSplit = "" Then
@@ -953,18 +976,19 @@ Public Class EMI_Validasi_GR
                         Txt_NoSplit.Text = Dr("No_Split")
                         Txt_ScanBarcode.Text = ""
 
-
-                        If General_Class.CekNULL(Dr("Status_Split")).ToUpper = "DITOLAK" Then
-                            Lv.BackColor = Color.DarkRed
-                            Lv.ForeColor = Color.White
-                        ElseIf General_Class.CekNULL(Dr("Status_Split")).ToUpper = "DITERIMA" Then
-                            Lv.BackColor = Color.LightGreen
-                        ElseIf General_Class.CekNULL(Dr("Status_Split")).ToUpper = "READY FOR PACKING" Then
-                            Lv.BackColor = Color.LightGreen
-                        ElseIf General_Class.CekNULL(Dr("Status_Split")).ToUpper = "HOLD" Then
-                            Lv.BackColor = Color.LightYellow
-                        Else
-                            Lv.BackColor = Color.White
+                        If Fitur_Military_Sampling Then
+                            If General_Class.CekNULL(Dr("Status_Split")).ToUpper = "DITOLAK" Then
+                                Lv.BackColor = Color.DarkRed
+                                Lv.ForeColor = Color.White
+                            ElseIf General_Class.CekNULL(Dr("Status_Split")).ToUpper = "DITERIMA" Then
+                                Lv.BackColor = Color.LightGreen
+                            ElseIf General_Class.CekNULL(Dr("Status_Split")).ToUpper = "READY FOR PACKING" Then
+                                Lv.BackColor = Color.LightGreen
+                            ElseIf General_Class.CekNULL(Dr("Status_Split")).ToUpper = "HOLD" Then
+                                Lv.BackColor = Color.LightYellow
+                            Else
+                                Lv.BackColor = Color.White
+                            End If
                         End If
 
                     Else
@@ -1254,7 +1278,11 @@ Public Class EMI_Validasi_GR
 
 
         Hitung_Data()
-        CekMilitarySampling()
+        If Fitur_Military_Sampling Then
+            CekMilitarySampling()
+        Else
+            ReadyForPackaging = True
+        End If
 
         If Not ReadyForPackaging Then
             MessageBox.Show("Batch Belum siap dipackaging", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1471,7 +1499,10 @@ Public Class EMI_Validasi_GR
                                     Dim Warna As String = ""
 
 
-                                    If dsPallet.Tables("MyTable").Rows(IndPallet).Item("Jenis").ToString.ToUpper.Trim = "FINISHED GOOD" Or dsPallet.Tables("MyTable").Rows(IndPallet).Item("Jenis").ToString.ToUpper.Trim = "REJECTED" Then
+                                    'Ini Ambil data barang yg berubah kode atau nggak
+                                    If dsPallet.Tables("MyTable").Rows(IndPallet).Item("Jenis").ToString.ToUpper.Trim = "FINISHED GOOD" Or
+                                        dsPallet.Tables("MyTable").Rows(IndPallet).Item("Jenis").ToString.ToUpper.Trim = "REJECTED" Or
+                                        dsPallet.Tables("MyTable").Rows(IndPallet).Item("Jenis").ToString.ToUpper.Trim = "SAMPLE" Then
 
                                         SQL = "select a.kode_barang from Emi_Split_Production_Order a "
                                         SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Transaksi = '" & Txt_NoSplit.Text & "'"
@@ -1598,8 +1629,8 @@ Public Class EMI_Validasi_GR
                                                         'Ambil Jumlah yg Kepotong
                                                         JumlahKurang = sisaPotong
 
-                                                        'Untuk Data Selain Finished GOOD dan Rejected, data satuannya KG, Jadi Data yg Masuk Harus di Convert
-                                                        If Jenis_Nomor.ToUpper = "FINISHED GOOD" Or Jenis_Nomor.ToUpper = "REJECTED" Then
+                                                        'Untuk Data Selain Finished GOOD dan Rejected dan SAMPLE, data satuannya KG, Jadi Data yg Masuk Harus di Convert
+                                                        If Jenis_Nomor.ToUpper = "FINISHED GOOD" Or Jenis_Nomor.ToUpper = "REJECTED" Or Jenis_Nomor.ToUpper = "SAMPLE" Then
                                                             JumlahInsert = sisaPotong
                                                             Satuan = .Rows(j).Item("Satuan").ToString.Trim
                                                         Else
@@ -1644,7 +1675,7 @@ Public Class EMI_Validasi_GR
                                                         JumlahKurang = Val(HilangkanTanda(Format(.Rows(j).Item("Stock_SN"), "N4")))
 
 
-                                                        If Jenis_Nomor.ToUpper = "FINISHED GOOD" Or Jenis_Nomor.ToUpper = "REJECTED" Then
+                                                        If Jenis_Nomor.ToUpper = "FINISHED GOOD" Or Jenis_Nomor.ToUpper = "REJECTED" Or Jenis_Nomor.ToUpper = "SAMPLE" Then
                                                             JumlahInsert = Val(HilangkanTanda(Format(.Rows(j).Item("Stock_SN"), "N4")))
                                                             Satuan = .Rows(j).Item("Satuan").ToString.Trim
                                                         Else
@@ -1694,7 +1725,7 @@ Public Class EMI_Validasi_GR
 
 
                                                     Dim KualitasBarang As String = ""
-                                                    If Jenis_Nomor.ToUpper = "FINISHED GOOD" Or Jenis_Nomor.ToUpper = "REJECTED" Then
+                                                    If Jenis_Nomor.ToUpper = "REJECTED" Then
                                                         If Jenis_Nomor.ToUpper = "REJECTED" Then
                                                             KualitasBarang = "MERAH"
                                                         Else
@@ -2035,7 +2066,17 @@ Public Class EMI_Validasi_GR
                                                         ArrHPP_Nilai.Add(Math.Round(HppBaru * JumlahInsert, 0))
                                                     End If
 
-                                                    Dim Str As String = Format(random.Next(0, 999), "000") & Format(tgl_skg, "HHmmss")
+                                                    Dim tgl_skg2 As DateTime
+                                                    SQL = "declare @ab int; declare @ac int; select @ab = Selisih_Jam, @ac= expired_proforma from Init; "
+                                                    SQL = SQL & " Select FORMAT(DATEADD(hh, @ab, getdate()), 'yyyy-MM-dd HH:mm:ss')  as Tanggal_Sekarang , @ac as expired"
+                                                    Using dr = OpenTrans(SQL)
+                                                        Do While dr.Read
+                                                            tgl_skg2 = dr("Tanggal_Sekarang")
+
+                                                        Loop
+                                                    End Using
+
+                                                    Dim Str As String = Format(random.Next(0, 999), "000") & Format(tgl_skg2, "HHmmss")
                                                     Dim Kode_Unik As String = Str.Substring(0, 5) & "BB" & Chr(64 + Str.Substring(6, 1)) & Str.Substring(6, Len(Str) - 6)
                                                     Dim SN_Baru As String = Kode_Unik & Tanda_SN & "01" & Tanda_SN & HppBaru & Tanda_SN & "02" & Tanda_SN & Format(tgl_skg, "yyyy-MM-dd")
 
@@ -2044,11 +2085,10 @@ Public Class EMI_Validasi_GR
                                                     '===========================================
                                                     Dim available_Id_Warehouse As String = ""
                                                     Dim available_NoPallet As String = ""
-                                                    SQL = "select top(1) a.id_wms_warehouse_position, b.nomor_urut from "
-                                                    SQL = SQL & "view_warehouse_position a, view_warehouse_position_detail b "
-                                                    SQL = SQL & "where a.Id_WMS_Warehouse_Position=b.Id_WMS_Warehouse_Position "
-                                                    SQL = SQL & " And a.kode_Perusahaan = b.kode_Perusahaan And a.kode_Perusahaan ='" & KodePerusahaan & "' "
-                                                    SQL = SQL & "and a.Kode_Stock_Owner='" & Lks_tujuan_Nomor & "' and b.Kode_Barang is null"
+                                                    SQL = "select top(1) a.id_wms_warehouse_position, 0 as nomor_urut from "
+                                                    SQL = SQL & "view_warehouse_position a "
+                                                    SQL = SQL & "where a.kode_Perusahaan ='" & KodePerusahaan & "' "
+                                                    SQL = SQL & "and a.Kode_Stock_Owner='" & Lks_tujuan_Nomor & "' "
                                                     Using Dr2 = OpenTrans(SQL)
                                                         Do While Dr2.Read
                                                             available_Id_Warehouse = Dr2("id_wms_warehouse_position")
@@ -2070,14 +2110,14 @@ Public Class EMI_Validasi_GR
                                                         SQL = SQL & "'" & SN_Baru & "', " & HilangkanTanda(JumlahInsert) & ", " & HilangkanTanda(JumlahInsert) & ", '" & KualitasBarang & "', "
                                                         SQL = SQL & "'" & Kode_Berjalan & "', '" & .Rows(j).Item("Kode_Unik_Asal") & "-" & Kode_Berjalan & "', '" & newQrCode & "', "
                                                         SQL = SQL & "'" & .Rows(j).Item("Batch_Number") & "', '" & available_Id_Warehouse & "', '" & available_NoPallet & "', 'Y', 'Y', "
-                                                        SQL = SQL & " '" & .Rows(j).Item("Tgl_Produksi") & "', '" & .Rows(j).Item("Tgl_Expired") & "', '" & .Rows(j).Item("Tgl_Masuk") & "', '" & Id_Jenis_Kategori & "')"
+                                                        SQL = SQL & " '" & Tanggal_Produksi_Pertama & "', '" & Tanggal_Expired_Pertama & "', '" & Tanggal_Masuk_Pertama & "', '" & Id_Jenis_Kategori & "')"
                                                         ExecuteTrans(SQL)
 
                                                     Else
 
                                                         Dim jumlah_bags As Double = 0
 
-                                                        If Jenis_Nomor.ToUpper = "REJECTED" Then
+                                                        If Jenis_Nomor.ToUpper = "REJECTED" Or Jenis_Nomor.ToUpper = "SAMPLE" Then
                                                             jumlah_bags = JumlahInsert
                                                         End If
 
@@ -2540,7 +2580,7 @@ Public Class EMI_Validasi_GR
             SQL = "with cte as( "
             SQL = SQL & "select b.Kode_Perusahaan, b.No_Production_Order, c.Nomor, c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code, e.Tgl_Produksi, c. Kode_Stock_Owner_Tujuan as Lokasi_Tujuan, "
             SQL = SQL & "e.Tgl_Expired, c.Jumlah as jumlah, d.Satuan,   "
-            SQL = SQL & "case when c.jenis = 'REJECTED' then 'Disqualified ' else c.jenis end as Jenis, "
+            SQL = SQL & "case when c.jenis = 'REJECTED' then 'Blocked ' else c.jenis end as Jenis, "
             SQL = SQL & "c.nomor as Number, "
 
             SQL = SQL & "e.Kode_Unik_Berjalan, g.Id_Routing, h.Keterangan as Routing "
@@ -2562,7 +2602,7 @@ Public Class EMI_Validasi_GR
 
             SQL = SQL & "select b.Kode_Perusahaan, b.No_Production_Order, c.Nomor, c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code, e.Tgl_Produksi, c. Kode_Stock_Owner_Tujuan as Lokasi_Tujuan, "
             SQL = SQL & "e.Tgl_Expired, c.Jumlah as jumlah, d.Satuan,  "
-            SQL = SQL & "case when c.jenis = 'REJECTED' then 'Disqualified ' else c.jenis end as Jenis, "
+            SQL = SQL & "case when c.jenis = 'REJECTED' then 'Blocked ' else c.jenis end as Jenis, "
             SQL = SQL & "c.nomor as Number, "
 
             SQL = SQL & "e.Kode_Unik_Berjalan, g.Id_Routing, h.Keterangan as Routing "
@@ -2860,9 +2900,11 @@ Public Class EMI_Validasi_GR
 
 
     Public Sub LoadFromSD()
-        If arrBarcodeFromSD.Count = 0 Then
-            MessageBox.Show("Tidak Ada Data yang Dipilih", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Exit Sub
+        If Cmb_Barcode.SelectedIndex = 1 Then
+            If arrBarcodeFromSD.Count = 0 Then
+                MessageBox.Show("Tidak Ada Data yang Dipilih", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
         End If
 
         Try
@@ -2927,11 +2969,15 @@ Public Class EMI_Validasi_GR
                 SQL = SQL & "And a.Kode_Perusahaan = '" & KodePerusahaan & "' "
                 'SQL = SQL & "and (a.Qr_Code + '-' + a.Kode_Unik_Berjalan) ='" & Txt_ScanBarcode.Text.Trim & "' "
 
-                SQL = SQL & "and (b.No_Production_Order in ( "
-                SQL = SQL & "select distinct z.no_Split from N_EMI_Military_Sampling z "
-                SQL = SQL & "where z.kode_perusahaan = a.Kode_Perusahaan and z.status is null "
-                SQL = SQL & "and z.No_Split = b.No_Production_Order and z.No_Batch = a.tahap "
-                SQL = SQL & "and z.No_GR = '1' and z.flag_military_sampling='Y') or isnull(h.flag_commercial, 'T')='T' ) "
+                If Fitur_Military_Sampling Then
+
+                    SQL = SQL & "and (b.No_Production_Order in ( "
+                    SQL = SQL & "select distinct z.no_Split from N_EMI_Military_Sampling z "
+                    SQL = SQL & "where z.kode_perusahaan = a.Kode_Perusahaan and z.status is null "
+                    SQL = SQL & "and z.No_Split = b.No_Production_Order and z.No_Batch = a.tahap "
+                    SQL = SQL & "and z.No_GR = '1' and z.flag_military_sampling='Y') or isnull(h.flag_commercial, 'T')='T' ) "
+
+                End If
 
                 SQL = SQL & "and a.Qr_Code = '" & DataDic("QrCode") & "' and a.Kode_Unik_Berjalan = '" & DataDic("KdUnikBerjalan") & "' "
                 SQL = SQL & "group by a.kode_perusahaan, b.No_Production_Order, a.Lokasi_Gudang , a.Qr_Code, a.Kode_Unik_Berjalan, (a.Qr_Code + '-' + a.Kode_Unik_Berjalan) , a.Batch_Number, "
@@ -2984,21 +3030,26 @@ Public Class EMI_Validasi_GR
 
                         Txt_NoSplit.Text = Dr("No_Split")
                         Txt_ScanBarcode.Text = ""
-                        If Dr("Flag_Commercial") = "Y" Then
-                            If General_Class.CekNULL(Dr("Status_Split")).ToUpper = "DITOLAK" Then
-                                Lv.BackColor = Color.DarkRed
-                                Lv.ForeColor = Color.White
-                            ElseIf General_Class.CekNULL(Dr("Status_Split")).ToUpper = "DITERIMA" Then
-                                Lv.BackColor = Color.LightGreen
-                            ElseIf General_Class.CekNULL(Dr("Status_Split")).ToUpper = "READY FOR PACKING" Then
-                                Lv.BackColor = Color.LightGreen
-                            ElseIf General_Class.CekNULL(Dr("Status_Split")).ToUpper = "HOLD" Then
-                                Lv.BackColor = Color.LightYellow
+
+                        If Fitur_Military_Sampling Then
+
+                            If Dr("Flag_Commercial") = "Y" Then
+                                If General_Class.CekNULL(Dr("Status_Split")).ToUpper = "DITOLAK" Then
+                                    Lv.BackColor = Color.DarkRed
+                                    Lv.ForeColor = Color.White
+                                ElseIf General_Class.CekNULL(Dr("Status_Split")).ToUpper = "DITERIMA" Then
+                                    Lv.BackColor = Color.LightGreen
+                                ElseIf General_Class.CekNULL(Dr("Status_Split")).ToUpper = "READY FOR PACKING" Then
+                                    Lv.BackColor = Color.LightGreen
+                                ElseIf General_Class.CekNULL(Dr("Status_Split")).ToUpper = "HOLD" Then
+                                    Lv.BackColor = Color.LightYellow
+                                Else
+                                    Lv.BackColor = Color.White
+                                End If
                             Else
-                                Lv.BackColor = Color.White
+                                Lv.BackColor = Color.LightYellow
                             End If
-                        Else
-                            Lv.BackColor = Color.LightYellow
+
                         End If
 
 
@@ -3230,15 +3281,17 @@ Public Class EMI_Validasi_GR
 
     Private Sub Cmb_LokasiTujuan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_LokasiTujuan.KeyPress
         If e.KeyChar = Chr(13) Then
-            Cmb_Jenis.DroppedDown = True
-            Cmb_Jenis.Focus()
+            Button1.Focus()
         End If
     End Sub
 
 
 
     Private Sub Cmb_Jenis_Kategori_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Jenis_Kategori.KeyPress
-        If e.KeyChar = Chr(13) Then Button1.Focus()
+        If e.KeyChar = Chr(13) Then
+            Cmb_LokasiTujuan.DroppedDown = True
+            Cmb_LokasiTujuan.Focus()
+        End If
     End Sub
 
 

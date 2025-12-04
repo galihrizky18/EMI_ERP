@@ -24,7 +24,6 @@ Partial Class EMI_Validasi_GR
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -104,6 +103,8 @@ Partial Class EMI_Validasi_GR
         Me.Panel13 = New System.Windows.Forms.Panel()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Barcode = New System.Windows.Forms.PictureBox()
+        Me.Lbl_Bypass_MS = New System.Windows.Forms.Label()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -129,19 +130,6 @@ Partial Class EMI_Validasi_GR
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1184, 42)
         Me.Panel1.TabIndex = 24
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 40)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -500,7 +488,7 @@ Partial Class EMI_Validasi_GR
         Me.Cmb_Jenis.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cmb_Jenis.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Cmb_Jenis.FormattingEnabled = True
-        Me.Cmb_Jenis.Location = New System.Drawing.Point(270, 180)
+        Me.Cmb_Jenis.Location = New System.Drawing.Point(49, 180)
         Me.Cmb_Jenis.Margin = New System.Windows.Forms.Padding(2)
         Me.Cmb_Jenis.Name = "Cmb_Jenis"
         Me.Cmb_Jenis.Size = New System.Drawing.Size(135, 23)
@@ -576,7 +564,7 @@ Partial Class EMI_Validasi_GR
         Me.Cmb_LokasiTujuan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cmb_LokasiTujuan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Cmb_LokasiTujuan.FormattingEnabled = True
-        Me.Cmb_LokasiTujuan.Location = New System.Drawing.Point(93, 180)
+        Me.Cmb_LokasiTujuan.Location = New System.Drawing.Point(502, 180)
         Me.Cmb_LokasiTujuan.Margin = New System.Windows.Forms.Padding(2)
         Me.Cmb_LokasiTujuan.Name = "Cmb_LokasiTujuan"
         Me.Cmb_LokasiTujuan.Size = New System.Drawing.Size(129, 23)
@@ -734,7 +722,7 @@ Partial Class EMI_Validasi_GR
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
-        Me.Label2.Location = New System.Drawing.Point(5, 183)
+        Me.Label2.Location = New System.Drawing.Point(414, 183)
         Me.Label2.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(84, 15)
@@ -745,7 +733,7 @@ Partial Class EMI_Validasi_GR
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
-        Me.Label8.Location = New System.Drawing.Point(226, 183)
+        Me.Label8.Location = New System.Drawing.Point(5, 183)
         Me.Label8.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(36, 15)
@@ -834,12 +822,12 @@ Partial Class EMI_Validasi_GR
         Me.GroupBox1.Controls.Add(Me.Txt_TotFG)
         Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Controls.Add(Me.Label4)
-        Me.GroupBox1.Controls.Add(Me.Label17)
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.Txt_TotBeratKG)
-        Me.GroupBox1.Controls.Add(Me.Cmb_Jenis)
-        Me.GroupBox1.Controls.Add(Me.Cmb_Jenis_Kategori)
+        Me.GroupBox1.Controls.Add(Me.Label17)
         Me.GroupBox1.Controls.Add(Me.Cmb_LokasiTujuan)
+        Me.GroupBox1.Controls.Add(Me.Cmb_Jenis_Kategori)
+        Me.GroupBox1.Controls.Add(Me.Cmb_Jenis)
         Me.GroupBox1.Location = New System.Drawing.Point(3, 197)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(1132, 211)
@@ -851,7 +839,7 @@ Partial Class EMI_Validasi_GR
         '
         Me.Label17.AutoSize = True
         Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
-        Me.Label17.Location = New System.Drawing.Point(409, 183)
+        Me.Label17.Location = New System.Drawing.Point(188, 183)
         Me.Label17.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(85, 15)
@@ -863,7 +851,7 @@ Partial Class EMI_Validasi_GR
         Me.Cmb_Jenis_Kategori.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cmb_Jenis_Kategori.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Cmb_Jenis_Kategori.FormattingEnabled = True
-        Me.Cmb_Jenis_Kategori.Location = New System.Drawing.Point(496, 180)
+        Me.Cmb_Jenis_Kategori.Location = New System.Drawing.Point(275, 180)
         Me.Cmb_Jenis_Kategori.Margin = New System.Windows.Forms.Padding(2)
         Me.Cmb_Jenis_Kategori.Name = "Cmb_Jenis_Kategori"
         Me.Cmb_Jenis_Kategori.Size = New System.Drawing.Size(135, 23)
@@ -1077,6 +1065,32 @@ Partial Class EMI_Validasi_GR
         Me.Barcode.TabStop = False
         Me.Barcode.Visible = False
         '
+        'Lbl_Bypass_MS
+        '
+        Me.Lbl_Bypass_MS.AutoSize = True
+        Me.Lbl_Bypass_MS.BackColor = System.Drawing.Color.White
+        Me.Lbl_Bypass_MS.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Lbl_Bypass_MS.ForeColor = System.Drawing.Color.Red
+        Me.Lbl_Bypass_MS.Location = New System.Drawing.Point(619, 51)
+        Me.Lbl_Bypass_MS.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Lbl_Bypass_MS.Name = "Lbl_Bypass_MS"
+        Me.Lbl_Bypass_MS.Size = New System.Drawing.Size(163, 17)
+        Me.Lbl_Bypass_MS.TabIndex = 433
+        Me.Lbl_Bypass_MS.Text = "MS Sementara Dibypass"
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 40)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'EMI_Validasi_GR
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1104,6 +1118,7 @@ Partial Class EMI_Validasi_GR
         Me.Controls.Add(Me.Btn_Scan)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Cmb_Barcode)
+        Me.Controls.Add(Me.Lbl_Bypass_MS)
         Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.Lbl_Supplier)
         Me.Controls.Add(Me.Txt_ScanBarcode)
@@ -1226,4 +1241,5 @@ Partial Class EMI_Validasi_GR
     Friend WithEvents Label15 As Label
     Friend WithEvents Label17 As Label
     Friend WithEvents Cmb_Jenis_Kategori As ComboBox
+    Friend WithEvents Lbl_Bypass_MS As Label
 End Class

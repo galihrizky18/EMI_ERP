@@ -287,6 +287,7 @@
 
         Next
         If TempArray.Contains("") Then
+            MessageBox.Show("Terdapat Data Pada Barang yang Belum Lengkap")
             DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = ""
             DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = ""
             Exit Sub

@@ -46,6 +46,7 @@
         End Set
     End Property
 
+
     Public Shared Sub SetConnectionString(ByVal xServer As String, ByVal xDatabase As String, _
                     ByVal xUserID As String, ByVal xPassword As String)
         Server = xServer

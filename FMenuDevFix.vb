@@ -2126,11 +2126,11 @@
     End Sub
 
     Private Sub ValidasiGR3ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ValidasiGR3ToolStripMenuItem.Click
-        N_EMI_Transaksi_Validasi_GR_3.StartPosition = FormStartPosition.CenterScreen
+        'N_EMI_Transaksi_Validasi_GR_3.StartPosition = FormStartPosition.CenterScreen
 
-        N_EMI_Transaksi_Validasi_GR_3.MdiParent = Me
-        N_EMI_Transaksi_Validasi_GR_3.Show()
-        N_EMI_Transaksi_Validasi_GR_3.Focus()
+        'N_EMI_Transaksi_Validasi_GR_3.MdiParent = Me
+        'N_EMI_Transaksi_Validasi_GR_3.Show()
+        'N_EMI_Transaksi_Validasi_GR_3.Focus()
     End Sub
 
     Private Sub AdasdaToolStripMenuItem_Click(sender As Object, e As EventArgs)
@@ -2505,7 +2505,7 @@
 
         Me.Hide()
 
-        With EMI_Hasil_Pengeluaran_Bahan_Baku
+        With EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
             .StartPosition = FormStartPosition.CenterScreen
             .asal = "INDEPENDENT"
             .FormBorderStyle = FormBorderStyle.None
@@ -2974,5 +2974,37 @@
         N_EMI_Display_Request_Material_QC_Summary.MdiParent = Me
         N_EMI_Display_Request_Material_QC_Summary.Show()
         N_EMI_Display_Request_Material_QC_Summary.Focus()
+    End Sub
+
+    Private Sub ReturDOMarketingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReturDOMarketingToolStripMenuItem.Click
+        Retur_DO_Reseller_Marketing.StartPosition = FormStartPosition.CenterScreen
+
+        Retur_DO_Reseller_Marketing.MdiParent = Me
+        Retur_DO_Reseller_Marketing.Show()
+        Retur_DO_Reseller_Marketing.Focus()
+    End Sub
+
+    Private Sub BalikStockPremixBukanTanamToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BalikStockPremixBukanTanamToolStripMenuItem.Click
+        CutOFF_PremixSN.StartPosition = FormStartPosition.CenterScreen
+
+        CutOFF_PremixSN.MdiParent = Me
+        CutOFF_PremixSN.Show()
+        CutOFF_PremixSN.Focus()
+    End Sub
+
+    Private Sub LaporanPemakaianBahanBakuToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanPemakaianBahanBakuToolStripMenuItem.Click
+        N_EMI_Laporan_Pemakaian_Bahan_Baku.StartPosition = FormStartPosition.CenterScreen
+
+        N_EMI_Laporan_Pemakaian_Bahan_Baku.MdiParent = Me
+        N_EMI_Laporan_Pemakaian_Bahan_Baku.Show()
+        N_EMI_Laporan_Pemakaian_Bahan_Baku.Focus()
+    End Sub
+
+    Private Sub LaporanPenjualanToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanPenjualanToolStripMenuItem.Click
+        N_EMI_Laporan_Penjualan.StartPosition = FormStartPosition.CenterScreen
+
+        N_EMI_Laporan_Penjualan.MdiParent = Me
+        N_EMI_Laporan_Penjualan.Show()
+        N_EMI_Laporan_Penjualan.Focus()
     End Sub
 End Class

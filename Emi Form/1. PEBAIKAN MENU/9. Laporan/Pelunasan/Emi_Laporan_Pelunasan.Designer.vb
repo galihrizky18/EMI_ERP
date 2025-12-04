@@ -62,7 +62,7 @@ Partial Class Emi_Laporan_Pelunasan
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(615, 51)
+        Me.Panel1.Size = New System.Drawing.Size(873, 51)
         Me.Panel1.TabIndex = 26
         '
         'PanelGradient1
@@ -75,7 +75,7 @@ Partial Class Emi_Laporan_Pelunasan
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(615, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(873, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
@@ -350,7 +350,7 @@ Partial Class Emi_Laporan_Pelunasan
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(615, 286)
+        Me.ClientSize = New System.Drawing.Size(873, 286)
         Me.Controls.Add(Me.Lv_Kategori)
         Me.Controls.Add(Me.Lv_Perusahaan)
         Me.Controls.Add(Me.Lv_User)

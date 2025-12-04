@@ -329,12 +329,6 @@ Public Class N_EMI_Transaksi_Validasi_GR_3_2
             For i As Integer = 0 To Lv_Data.Items.Count - 1
                 Get_Lv_Data_GR(i)
 
-                'SQL = "insert into N_EMI_Validation_GR_Temp(Kode_perusahaan, No_production_Order, UserID, Nomor, Barcode, Jenis, "
-                'SQL = SQL & "Jumlah, Lokasi_Tujuan, Nomor_Sebelum, Satuan, Batch, Tahap)  "
-                'SQL = SQL & "values ('" & KodePerusahaan & "', '" & Txt_NoSplit.Text & "', '" & UserID & "', '" & Nomor & "', "
-                'SQL = SQL & "'" & LvData_Barcode & "', '" & arrKdBarangSrap(Cmb_Jenis.SelectedIndex) & "', '" & HilangkanTanda(LvData_Jumlah) & "', "
-                ''SQL = SQL & " '" & arrSO.Item(Cmb_LokasiTujuan.SelectedIndex) & "', '" & LvData_Nomor & "', '" & LvData_Satuan & "', '" & LvData_Batch & "', '" & LvData_Tahap & "' )"
-                'ExecuteTrans(SQL)
 
                 SQL = "insert into N_EMI_Validation_GR3_Temp(Kode_Perusahaan, No_Transaksi, No_Transaksi_GR2, No_Split, Qr_Code, Kode_Unik_Berjalan, Jenis, Kd_Barang, So_AWal, So_Tujuan, Jumlah, UserID) "
                 SQL = SQL & "values ('" & KodePerusahaan & "', '" & LvData_NoFaktur & "', '" & LvData_NoTransGR2 & "', '" & Txt_NoSplit.Text & "', '" & LvData_QR & "', '" & LvData_KdUnikBerjalan & "', "

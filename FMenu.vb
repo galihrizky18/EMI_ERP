@@ -683,6 +683,9 @@ Public Class FMenu
             Case "EMI_Production_Order_Summary_Data"
                 Return EMI_Production_Order_Summary_Data
 
+            Case "N_EMI_Transaksi_Request_Material_QC_Validasi"
+                Return N_EMI_Transaksi_Request_Material_QC_Validasi
+
             'Case "EMI_Schedule"
             '    Return EMI_Schedule
 

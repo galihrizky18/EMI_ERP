@@ -857,7 +857,7 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 
                 Lv_DetBarang.Items.Clear()
 
-                SQL = "select a.kode_stock_owner, a.kode_barang, a.nama, dbo.ubah_satuan_lain(a.kode_Perusahaan, 'masa', a.kode_barang, a.satuan, "
+                SQL = "select top 20 a.kode_stock_owner, a.kode_barang, a.nama, dbo.ubah_satuan_lain(a.kode_Perusahaan, 'masa', a.kode_barang, a.satuan, "
                 SQL = SQL & "b.satuan, a.good_stock) as Good_Stock, a.Satuan, b.satuan as satuan_display, ISNULL(a.Jumlah_Bags, 0) as Jumlah_Bags, "
                 SQL = SQL & "a.Metode_Pengeluaran_Stok, a.Jenis_Kemasan from barang_lain a, Barang_Detail_Satuan_Lain b "
                 SQL = SQL & "where a.Kode_Perusahaan='" & KodePerusahaan & "' and a.Kode_Stock_Owner='" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
@@ -1088,9 +1088,9 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
                     DGV_Data_TF.Rows(rows).Cells(itemDgvStockBags).Value = If(General_Class.CekNULL(Dr("stock_bags")) = "", "", Format(Dr("stock_bags"), "N0"))
                     DGV_Data_TF.Rows(rows).Cells(itemDgvWarna).Value = General_Class.CekNULL(Dr("warna"))
                     DGV_Data_TF.Rows(rows).Cells(itemJenisKemasan).Value = General_Class.CekNULL(Dr("Jenis_Kemasan"))
-                    DGV_Data_TF.Rows(rows).Cells(itemDGVIsiPerBags).Value = General_Class.CekNULL(Dr("Isi_Per_Bags")) 'X
-                    DGV_Data_TF.Rows(rows).Cells(itemDGVSatuanIsiBags).Value = General_Class.CekNULL(Dr("Satuan_Isi_Bags")) 'X
-                    DGV_Data_TF.Rows(rows).Cells(itemDGVKetWarna).Value = General_Class.CekNULL(Dr("Ket_Warna")) 'X
+                    DGV_Data_TF.Rows(rows).Cells(itemDGVIsiPerBags).Value = General_Class.CekNULL(Dr("Isi_Per_Bags"))
+                    DGV_Data_TF.Rows(rows).Cells(itemDGVSatuanIsiBags).Value = General_Class.CekNULL(Dr("Satuan_Isi_Bags"))
+                    DGV_Data_TF.Rows(rows).Cells(itemDGVKetWarna).Value = General_Class.CekNULL(Dr("Ket_Warna"))
                     DGV_Data_TF.Rows(rows).Cells(itemDGVTglProd).Value = If(General_Class.CekNULL(Dr("Tgl_Produksi")) = "", "", Format(Dr("Tgl_Produksi"), "dd MMM yyyy"))
                     DGV_Data_TF.Rows(rows).Cells(itemDgvSatuan).Value = TxtSatuan.Text
 
@@ -2041,6 +2041,36 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
             CmbSO_Asal.SelectedIndex = -1
             Exit Sub
         End If
+
+
+        Try
+            OpenConn()
+
+            SQL = "Select kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan From  "
+            SQL = SQL & "Stock_Owner_Gudang_Lain a, N_EMI_View_Master_Kategori_Gudang_Binding_Departement_Barang_Lain b where a.kode_perusahaan = '" & KodePerusahaan & "'  "
+            SQL = SQL & "and aktif = 'Y' and (flag_produksi='Y' or Flag_Penyimpanan='Y')  "
+            SQL = SQL & "and a.kode_perusahaan = b.kode_perusahaan and a.kode_stock_owner = b.kode_stock_owner_gudang "
+            SQL = SQL & "and user_id = '" & UserID & "' "
+            SQL = SQL & "and a.kode_stock_owner = '" & CmbSO_Asal.Text & "' "
+            SQL = SQL & "group by kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan "
+            SQL = SQL & "order by kode_stock_owner"
+            Using dr = OpenTrans(SQL)
+                If Not dr.Read Then
+                    MessageBox.Show("Anda tidak memiliki akses untuk gudang ini", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    CmbSO_Asal.SelectedIndex = -1
+                    Exit Sub
+                End If
+            End Using
+
+
+            CloseConn()
+
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
 
         Lv_DetBarang.Items.Clear()
         Lv_DetBarang.Location = New Point(1278, 277)

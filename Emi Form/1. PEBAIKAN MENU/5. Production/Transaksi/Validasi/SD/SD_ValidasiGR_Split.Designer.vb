@@ -23,6 +23,7 @@ Partial Class SD_ValidasiGR_Split
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -44,9 +45,10 @@ Partial Class SD_ValidasiGR_Split
         Me.Btn_Tambah = New System.Windows.Forms.Button()
         Me.Panel10 = New System.Windows.Forms.Panel()
         Me.Btn_Close = New System.Windows.Forms.Button()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Panel13 = New System.Windows.Forms.Panel()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Panel8 = New System.Windows.Forms.Panel()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.Panel4.SuspendLayout()
@@ -62,6 +64,19 @@ Partial Class SD_ValidasiGR_Split
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(984, 45)
         Me.Panel1.TabIndex = 25
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(984, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -129,10 +144,10 @@ Partial Class SD_ValidasiGR_Split
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label3.Location = New System.Drawing.Point(12, 86)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(73, 17)
+        Me.Label3.Size = New System.Drawing.Size(71, 15)
         Me.Label3.TabIndex = 41
         Me.Label3.Text = "Param Lain"
         '
@@ -157,10 +172,10 @@ Partial Class SD_ValidasiGR_Split
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label4.Location = New System.Drawing.Point(385, 61)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(26, 17)
+        Me.Label4.Size = New System.Drawing.Size(23, 15)
         Me.Label4.TabIndex = 46
         Me.Label4.Text = "s/d"
         '
@@ -176,10 +191,10 @@ Partial Class SD_ValidasiGR_Split
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label5.Location = New System.Drawing.Point(12, 57)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(52, 17)
+        Me.Label5.Size = New System.Drawing.Size(50, 15)
         Me.Label5.TabIndex = 43
         Me.Label5.Text = "Periode"
         '
@@ -286,36 +301,41 @@ Partial Class SD_ValidasiGR_Split
         Me.Btn_Close.Text = "Close"
         Me.Btn_Close.UseVisualStyleBackColor = False
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(984, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
         'Label15
         '
         Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(872, 90)
+        Me.Label15.Location = New System.Drawing.Point(867, 90)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(98, 13)
+        Me.Label15.Size = New System.Drawing.Size(105, 13)
         Me.Label15.TabIndex = 492
-        Me.Label15.Text = "Ready For Packing"
+        Me.Label15.Text = "Ready For Validation"
         '
         'Panel13
         '
-        Me.Panel13.BackColor = System.Drawing.Color.LightGreen
+        Me.Panel13.BackColor = System.Drawing.Color.LightBlue
         Me.Panel13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel13.Location = New System.Drawing.Point(856, 91)
+        Me.Panel13.Location = New System.Drawing.Point(851, 91)
         Me.Panel13.Name = "Panel13"
         Me.Panel13.Size = New System.Drawing.Size(12, 12)
         Me.Panel13.TabIndex = 491
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(800, 90)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(45, 13)
+        Me.Label2.TabIndex = 493
+        Me.Label2.Text = "PO Trial"
+        '
+        'Panel8
+        '
+        Me.Panel8.BackColor = System.Drawing.Color.Tan
+        Me.Panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel8.Location = New System.Drawing.Point(782, 91)
+        Me.Panel8.Name = "Panel8"
+        Me.Panel8.Size = New System.Drawing.Size(12, 12)
+        Me.Panel8.TabIndex = 492
         '
         'SD_ValidasiGR_Split
         '
@@ -323,6 +343,8 @@ Partial Class SD_ValidasiGR_Split
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(984, 511)
+        Me.Controls.Add(Me.Panel8)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label15)
         Me.Controls.Add(Me.Panel13)
         Me.Controls.Add(Me.Btn_Close)
@@ -381,4 +403,6 @@ Partial Class SD_ValidasiGR_Split
     Friend WithEvents Btn_Close As Button
     Friend WithEvents Label15 As Label
     Friend WithEvents Panel13 As Panel
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Panel8 As Panel
 End Class

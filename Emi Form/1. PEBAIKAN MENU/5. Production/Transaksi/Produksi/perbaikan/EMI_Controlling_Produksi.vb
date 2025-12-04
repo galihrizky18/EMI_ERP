@@ -378,7 +378,7 @@
             SQL = SQL & "And a.kode_perusahaan=c.Kode_Perusahaan And a.no_po=c.no_faktur "
             SQL = SQL & "And c.Kode_Perusahaan=d.kode_perusahaan And c.Id_Routing=d.Id_Routing "
             SQL = SQL & "And a.status Is null And c.Status Is null "
-            SQL = SQL & "And a.Flag_Produksi = 'Y' and a.flag_hasil_Produksi_GR is null and a.Flag_Hasil_Produksi_GI is null "
+            SQL = SQL & "And a.Flag_Produksi = 'Y' and a.flag_hasil_Produksi_GR is null "
             SQL = SQL & "And a.Kode_Perusahaan ='" & KodePerusahaan & "' "
 
             If asal = "VALIDASI HPP" Then
@@ -422,7 +422,7 @@
             SQL = SQL & "And a.kode_perusahaan=c.Kode_Perusahaan And a.no_po=c.no_faktur "
             SQL = SQL & "And c.Kode_Perusahaan=d.kode_perusahaan And c.Id_Routing=d.Id_Routing "
             SQL = SQL & "And a.status Is null And c.Status Is null "
-            SQL = SQL & "And a.Flag_Produksi = 'Y' and a.flag_hasil_Produksi_GR is null and a.Flag_Hasil_Produksi_GI is null "
+            SQL = SQL & "And a.Flag_Produksi = 'Y' and a.flag_hasil_Produksi_GR is null "
             SQL = SQL & "And a.Kode_Perusahaan ='" & KodePerusahaan & "' "
 
             If asal = "VALIDASI HPP" Then

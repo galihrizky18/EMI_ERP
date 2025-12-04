@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Keypad
+Partial Class Keypad_Numeric
     Inherits System.Windows.Forms.UserControl
 
     'UserControl overrides dispose to clean up the component list.
@@ -42,7 +42,7 @@ Partial Class Keypad
         'Btn_Seven
         '
         Me.Btn_Seven.Font = New System.Drawing.Font("Microsoft Tai Le", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Seven.Location = New System.Drawing.Point(4, 69)
+        Me.Btn_Seven.Location = New System.Drawing.Point(7, 65)
         Me.Btn_Seven.Name = "Btn_Seven"
         Me.Btn_Seven.Size = New System.Drawing.Size(60, 60)
         Me.Btn_Seven.TabIndex = 0
@@ -52,7 +52,7 @@ Partial Class Keypad
         'Btn_Eight
         '
         Me.Btn_Eight.Font = New System.Drawing.Font("Microsoft Tai Le", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Eight.Location = New System.Drawing.Point(70, 69)
+        Me.Btn_Eight.Location = New System.Drawing.Point(73, 65)
         Me.Btn_Eight.Name = "Btn_Eight"
         Me.Btn_Eight.Size = New System.Drawing.Size(60, 60)
         Me.Btn_Eight.TabIndex = 1
@@ -62,7 +62,7 @@ Partial Class Keypad
         'Btn_Nine
         '
         Me.Btn_Nine.Font = New System.Drawing.Font("Microsoft Tai Le", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Nine.Location = New System.Drawing.Point(136, 69)
+        Me.Btn_Nine.Location = New System.Drawing.Point(139, 65)
         Me.Btn_Nine.Name = "Btn_Nine"
         Me.Btn_Nine.Size = New System.Drawing.Size(60, 60)
         Me.Btn_Nine.TabIndex = 2
@@ -72,7 +72,7 @@ Partial Class Keypad
         'Btn_Four
         '
         Me.Btn_Four.Font = New System.Drawing.Font("Microsoft Tai Le", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Four.Location = New System.Drawing.Point(4, 135)
+        Me.Btn_Four.Location = New System.Drawing.Point(7, 131)
         Me.Btn_Four.Name = "Btn_Four"
         Me.Btn_Four.Size = New System.Drawing.Size(60, 60)
         Me.Btn_Four.TabIndex = 3
@@ -82,7 +82,7 @@ Partial Class Keypad
         'Btn_Five
         '
         Me.Btn_Five.Font = New System.Drawing.Font("Microsoft Tai Le", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Five.Location = New System.Drawing.Point(70, 135)
+        Me.Btn_Five.Location = New System.Drawing.Point(73, 131)
         Me.Btn_Five.Name = "Btn_Five"
         Me.Btn_Five.Size = New System.Drawing.Size(60, 60)
         Me.Btn_Five.TabIndex = 4
@@ -92,7 +92,7 @@ Partial Class Keypad
         'Btn_Six
         '
         Me.Btn_Six.Font = New System.Drawing.Font("Microsoft Tai Le", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Six.Location = New System.Drawing.Point(136, 135)
+        Me.Btn_Six.Location = New System.Drawing.Point(139, 131)
         Me.Btn_Six.Name = "Btn_Six"
         Me.Btn_Six.Size = New System.Drawing.Size(60, 60)
         Me.Btn_Six.TabIndex = 5
@@ -102,7 +102,7 @@ Partial Class Keypad
         'Btn_One
         '
         Me.Btn_One.Font = New System.Drawing.Font("Microsoft Tai Le", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_One.Location = New System.Drawing.Point(4, 201)
+        Me.Btn_One.Location = New System.Drawing.Point(7, 197)
         Me.Btn_One.Name = "Btn_One"
         Me.Btn_One.Size = New System.Drawing.Size(60, 60)
         Me.Btn_One.TabIndex = 6
@@ -112,7 +112,7 @@ Partial Class Keypad
         'Btn_Two
         '
         Me.Btn_Two.Font = New System.Drawing.Font("Microsoft Tai Le", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Two.Location = New System.Drawing.Point(70, 201)
+        Me.Btn_Two.Location = New System.Drawing.Point(73, 197)
         Me.Btn_Two.Name = "Btn_Two"
         Me.Btn_Two.Size = New System.Drawing.Size(60, 60)
         Me.Btn_Two.TabIndex = 7
@@ -122,7 +122,7 @@ Partial Class Keypad
         'Btn_Three
         '
         Me.Btn_Three.Font = New System.Drawing.Font("Microsoft Tai Le", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Three.Location = New System.Drawing.Point(136, 201)
+        Me.Btn_Three.Location = New System.Drawing.Point(139, 197)
         Me.Btn_Three.Name = "Btn_Three"
         Me.Btn_Three.Size = New System.Drawing.Size(60, 60)
         Me.Btn_Three.TabIndex = 8
@@ -132,7 +132,7 @@ Partial Class Keypad
         'Btn_Zero
         '
         Me.Btn_Zero.Font = New System.Drawing.Font("Microsoft Tai Le", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Zero.Location = New System.Drawing.Point(4, 267)
+        Me.Btn_Zero.Location = New System.Drawing.Point(7, 263)
         Me.Btn_Zero.Name = "Btn_Zero"
         Me.Btn_Zero.Size = New System.Drawing.Size(60, 60)
         Me.Btn_Zero.TabIndex = 9
@@ -142,7 +142,7 @@ Partial Class Keypad
         'Btn_Dot
         '
         Me.Btn_Dot.Font = New System.Drawing.Font("Microsoft Tai Le", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Dot.Location = New System.Drawing.Point(136, 267)
+        Me.Btn_Dot.Location = New System.Drawing.Point(136, 264)
         Me.Btn_Dot.Name = "Btn_Dot"
         Me.Btn_Dot.Size = New System.Drawing.Size(60, 60)
         Me.Btn_Dot.TabIndex = 10
@@ -152,7 +152,7 @@ Partial Class Keypad
         'Btn_Backspace
         '
         Me.Btn_Backspace.Font = New System.Drawing.Font("Microsoft Tai Le", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Backspace.Location = New System.Drawing.Point(202, 201)
+        Me.Btn_Backspace.Location = New System.Drawing.Point(205, 197)
         Me.Btn_Backspace.Name = "Btn_Backspace"
         Me.Btn_Backspace.Size = New System.Drawing.Size(60, 126)
         Me.Btn_Backspace.TabIndex = 11
@@ -163,7 +163,7 @@ Partial Class Keypad
         '
         Me.Lb_Value.BackColor = System.Drawing.SystemColors.ControlLightLight
         Me.Lb_Value.Font = New System.Drawing.Font("Microsoft Sans Serif", 25.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lb_Value.Location = New System.Drawing.Point(3, 12)
+        Me.Lb_Value.Location = New System.Drawing.Point(6, 8)
         Me.Lb_Value.Name = "Lb_Value"
         Me.Lb_Value.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Lb_Value.Size = New System.Drawing.Size(259, 49)
@@ -174,7 +174,7 @@ Partial Class Keypad
         'Btn_Clear
         '
         Me.Btn_Clear.Font = New System.Drawing.Font("Microsoft Tai Le", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Clear.Location = New System.Drawing.Point(202, 69)
+        Me.Btn_Clear.Location = New System.Drawing.Point(205, 65)
         Me.Btn_Clear.Name = "Btn_Clear"
         Me.Btn_Clear.Size = New System.Drawing.Size(60, 126)
         Me.Btn_Clear.TabIndex = 13
@@ -184,17 +184,18 @@ Partial Class Keypad
         'Btn_ZeroDouble
         '
         Me.Btn_ZeroDouble.Font = New System.Drawing.Font("Microsoft Tai Le", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_ZeroDouble.Location = New System.Drawing.Point(70, 267)
+        Me.Btn_ZeroDouble.Location = New System.Drawing.Point(73, 263)
         Me.Btn_ZeroDouble.Name = "Btn_ZeroDouble"
         Me.Btn_ZeroDouble.Size = New System.Drawing.Size(60, 60)
         Me.Btn_ZeroDouble.TabIndex = 14
         Me.Btn_ZeroDouble.Text = "00"
         Me.Btn_ZeroDouble.UseVisualStyleBackColor = True
         '
-        'Keypad
+        'Keypad_Numeric
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.AutoSize = True
+        Me.BackColor = System.Drawing.SystemColors.ControlLightLight
         Me.Controls.Add(Me.Btn_ZeroDouble)
         Me.Controls.Add(Me.Btn_Clear)
         Me.Controls.Add(Me.Lb_Value)
@@ -210,8 +211,8 @@ Partial Class Keypad
         Me.Controls.Add(Me.Btn_Nine)
         Me.Controls.Add(Me.Btn_Eight)
         Me.Controls.Add(Me.Btn_Seven)
-        Me.Name = "Keypad"
-        Me.Size = New System.Drawing.Size(267, 333)
+        Me.Name = "Keypad_Numeric"
+        Me.Size = New System.Drawing.Size(273, 332)
         Me.ResumeLayout(False)
 
     End Sub

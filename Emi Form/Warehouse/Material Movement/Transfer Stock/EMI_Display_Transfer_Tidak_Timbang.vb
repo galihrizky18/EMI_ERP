@@ -477,13 +477,28 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                     End With
                 End Using
 
+                '==========================================
+                '=       GET NOMOR REQUEST MATERIAL       =
+                '==========================================
+                Dim No_Reservasi_Split As String = "NULL"
+                SQL = "select a.No_Faktur, a.No_Faktur_Order "
+                SQL = SQL & "from Emi_Material_Requisition a "
+                SQL = SQL & "inner join Emi_Material_Requisition_Det b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+                SQL = SQL & "inner join Emi_Material_Requisition_Det_Convert c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur and b.Urut_Oto = c.No_Urut_Det "
+                SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.Status is null "
+                SQL = SQL & "and c.Urut_Oto = '" & Urut_Det_Convert & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        No_Reservasi_Split = $"'{Dr("No_Faktur_Order")}'"
+                    End If
+                End Using
+
 
                 '==============================
                 '=       INSERT SN BARU       =
                 '==============================
-
                 Dim hargaIsn As String = ""
-
                 Dim warnaLama As String = ""
 
                 'Ambil Data Lama
@@ -517,10 +532,10 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
 
                 'INSERT BARANG SN BARU  
                 SQL = "insert into Barang_SN (Kode_Perusahaan, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah,  Jumlah_Bags, "
-                SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, id_Susunan, Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number, Warna, Tgl_masuk, Blok_SN, id_jenis_kategori_produksi) "
+                SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, id_Susunan, Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number, Warna, Tgl_masuk, Blok_SN, id_jenis_kategori_produksi, No_Reservasi) "
                 SQL = SQL & "select Kode_Perusahaan, '" & GetSoTujuan & "', Kode_Barang, '" & SN_Baru & "', '" & nilai_kecildetail & "', " & GetJumlahBags & ", "
                 SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, '" & GetRakTujuan & "', id_Susunan , Qr_Code, '" & newKodeUnikBerjalan & "', "
-                SQL = SQL & "Kode_Unik_Asal, '" & GetPalletTujuan & "', batch_number, '" & warnaLama & "', Tgl_Masuk, NULL, " & Id_Jenis_Kategori_Produksi & " "
+                SQL = SQL & "Kode_Unik_Asal, '" & GetPalletTujuan & "', batch_number, '" & warnaLama & "', Tgl_Masuk, NULL, " & Id_Jenis_Kategori_Produksi & ", " & No_Reservasi_Split & " "
                 SQL = SQL & "from Barang_SN "
                 SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' "
                 SQL = SQL & "and Kode_Stock_Owner='" & GetSoAwal & "' "

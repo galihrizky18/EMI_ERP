@@ -1,6 +1,7 @@
 ﻿Public Class N_EMI_SD_Retur_DO_Reseller_Sementara
 
-    Protected Friend Gudang, urut, urut_oto, hrg, discp, metper As String
+    Protected Friend No_Fak_Sementara, Gudang, urut, urut_oto, hrg, discp, metper As String
+    Protected Friend Max_Retur
 
     Dim item_KdBarang, item_NmBarang, item_Barcode, item_Jumlah, Item_MaxRetur, item_Satuan, item_JumlahInsert As String
 
@@ -67,7 +68,9 @@
             SQL = SQL & "and x.Kode_Barang = a.Kode_Barang "
             SQL = SQL & "and x.Urut_DO = a.urut_oto "
             SQL = SQL & "and y.Barcode = (e.Qr_Code+'-'+e.Kode_Unik_Berjalan) "
-            SQL = SQL & "group by x.kode_barang), 0)), 0) as Max_Retur "
+            SQL = SQL & "group by x.kode_barang), 0)), 0) as Max_Retur, "
+
+            SQL = SQL & "z.isSaved, z.Good_Stock "
 
             SQL = SQL & "from sub_invoice a "
             SQL = SQL & "inner join DO_New b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.no_do = b.No_DO     "
@@ -75,6 +78,19 @@
             SQL = SQL & "and a.kode_stock_owner = c.Kode_Stock_Owner and a.Kode_barang = c.Kode_Barang "
             SQL = SQL & "inner join Det_DO_New d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_DO = d.No_Faktur and c.Urut_Oto = d.No_Urut_DO and c.No_Urut = d.No_Urut_Det_Penj "
             SQL = SQL & "inner join Barang_SN e on d.kode_perusahaan = e.kode_perusahaan and d.Kode_Stock_Owner = e.Kode_Stock_Owner and d.Kode_Barang = e.Kode_Barang and d.Serial_Number = e.Serial_Number "
+
+            SQL = SQL & "left join ( "
+            SQL = SQL & "select z.No_DO, z.No_Retur_Jual_Sementara , 'Y' as isSaved, y.Barcode, y.Good_Stock, x.Kode_Stock_Owner, x.Kode_Barang, x.Urut_DO "
+            SQL = SQL & "from retur_do_sementara z "
+            SQL = SQL & "inner join detail_r_do_sementara x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Retur_Jual_Sementara = x.No_Retur_Jual_Sementara "
+            SQL = SQL & "inner join det_r_do_sementara y on x.kode_perusahaan = y.kode_perusahaan and x.No_Retur_Jual_Sementara = y.No_Retur_Jual_Sementara and x.kode_stock_owner = y.Kode_Stock_Owner and x.Kode_Barang = y.Kode_Barang "
+            SQL = SQL & "and x.No_Urut = y.Urut_Detail "
+            SQL = SQL & "where z.Status is null) as z "
+            SQL = SQL & "on z.Barcode = (e.Qr_Code+'-'+e.Kode_Unik_Berjalan) and z.Kode_Stock_Owner = a.Kode_Stock_Owner and z.Kode_Barang = a.Kode_Barang "
+            SQL = SQL & "and z.Urut_DO = a.urut_oto "
+            SQL = SQL & "and z.No_DO = a.no_do "
+            SQL = SQL & "and z.No_Retur_Jual_Sementara = '" & No_Fak_Sementara.Trim & "' "
+
             SQL = SQL & "where b.Status is null "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.no_do = '" & Txt_No_DO.Text & "' "
@@ -92,8 +108,18 @@
                             Dgv_Data_Barcode.Rows(i).Cells(Cell_MaxRetur).Value = Format(Val(HilangkanTanda(.Rows(i).Item("Max_Retur"))), "N4")
                             Dgv_Data_Barcode.Rows(i).Cells(Cell_Satuan).Value = .Rows(i).Item("satuan")
 
-                            Dgv_Data_Barcode.Rows(i).Cells(Cell_JumlahInsert).Value = ""
-                            Dgv_Data_Barcode.Rows(i).Cells(Cell_JumlahInsert).ReadOnly = True
+
+
+                            If General_Class.CekNULL(.Rows(i).Item("isSaved")) = "Y" Then
+                                Dgv_Data_Barcode.Rows(i).Cells(Cell_Chklist).Value = True
+                                Dgv_Data_Barcode.Rows(i).Cells(Cell_JumlahInsert).Value = Format(Val(HilangkanTanda(.Rows(i).Item("Good_Stock"))), "N4")
+                                Dgv_Data_Barcode.Rows(i).Cells(Cell_JumlahInsert).ReadOnly = False
+                            Else
+                                Dgv_Data_Barcode.Rows(i).Cells(Cell_Chklist).Value = False
+                                Dgv_Data_Barcode.Rows(i).Cells(Cell_JumlahInsert).Value = ""
+                                Dgv_Data_Barcode.Rows(i).Cells(Cell_JumlahInsert).ReadOnly = True
+                            End If
+
 
                             Total += Val(HilangkanTanda(.Rows(i).Item("Jumlah")))
 
@@ -103,7 +129,7 @@
             End Using
 
             Txt_Total.Text = Format(Total, "N4")
-
+            Hitung_Grand()
 
 
             CloseConn()
@@ -199,6 +225,8 @@
 
         If MessageBox.Show("Yakin Ingin Melakukan Insert Barcode Ini", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = vbNo Then Exit Sub
 
+        Dim total_input As Double = 0
+
 
         For i As Integer = 0 To Dgv_Data_Barcode.Rows.Count - 1
 
@@ -207,39 +235,54 @@
             End If
 
             Get_Data_DGV(i)
-
-            If Not Dgv_Data_Barcode.Rows(i).Cells(Cell_Chklist).Value = "True" Then
-                Continue For
-            End If
 
             If Val(item_JumlahInsert) = 0 Then
                 MessageBox.Show($"Barcode {item_Barcode} Harus Diinput!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             End If
 
-            For j As Integer = 0 To Retur_DO_Reseller_Sementara.Lv_Hidden_Data.Items.Count - 1
-                If item_KdBarang.Trim.ToUpper = Retur_DO_Reseller_Sementara.Lv_Hidden_Data.Items(j).SubItems(1).Text.Trim.ToUpper And
-                    item_NmBarang.Trim.ToUpper = Retur_DO_Reseller_Sementara.Lv_Hidden_Data.Items(j).SubItems(2).Text.Trim.ToUpper And
-                    item_Barcode.Trim.ToUpper = Retur_DO_Reseller_Sementara.Lv_Hidden_Data.Items(j).SubItems(10).Text.Trim.ToUpper Then
+            total_input = total_input + Val(HilangkanTanda(item_JumlahInsert))
 
-                    MessageBox.Show($"Barcode {item_Barcode} sudah anda masukkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Retur_DO_Reseller_Sementara.kosongbawah()
-                    Exit Sub
+            'For j As Integer = 0 To Retur_DO_Reseller_Sementara.Lv_Hidden_Data.Items.Count - 1
+            '    If item_KdBarang.Trim.ToUpper = Retur_DO_Reseller_Sementara.Lv_Hidden_Data.Items(j).SubItems(1).Text.Trim.ToUpper And
+            '    item_NmBarang.Trim.ToUpper = Retur_DO_Reseller_Sementara.Lv_Hidden_Data.Items(j).SubItems(2).Text.Trim.ToUpper And
+            '    item_Barcode.Trim.ToUpper = Retur_DO_Reseller_Sementara.Lv_Hidden_Data.Items(j).SubItems(10).Text.Trim.ToUpper Then
 
-                End If
+            '        MessageBox.Show($"Barcode {item_Barcode} sudah anda masukkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '        Retur_DO_Reseller_Sementara.kosongbawah()
+            '        Exit Sub
 
-            Next
+            '    End If
+
+            'Next
 
         Next
 
+        If total_input > Val(HilangkanTanda(Max_Retur)) Then
+            MessageBox.Show($"Jumlah retur tidak boleh lebih dari {Format(Val(HilangkanTanda(Max_Retur)), "N4")}!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
 
-        For i As Integer = 0 To Dgv_Data_Barcode.Rows.Count - 1
-            If Dgv_Data_Barcode.Rows(i).Cells(Cell_Chklist).Value <> "True" Then
-                Continue For
-            End If
 
-            Get_Data_DGV(i)
+        Try
+            OpenConn()
+            Cmd.Transaction = Cn.BeginTransaction
 
+            SQL = "delete det_r_do_sementara "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and No_Retur_Jual_Sementara = '" & Trim(No_Fak_Sementara) & "' "
+            SQL = SQL & "and Kode_Stock_Owner = '" & Trim(Gudang) & "' "
+            SQL = SQL & "and Kode_Barang = '" & Trim(item_KdBarang) & "' "
+            ExecuteTrans(SQL)
+
+            'Retur_DO_Reseller_Sementara.ListView2.Items.Clear()
+
+            For i As Integer = Retur_DO_Reseller_Sementara.Lv_Hidden_Data.Items.Count - 1 To 0 Step -1
+                If Retur_DO_Reseller_Sementara.Lv_Hidden_Data.Items(i).SubItems(0).Text.Trim() = Gudang And
+                     Retur_DO_Reseller_Sementara.Lv_Hidden_Data.Items(i).SubItems(1).Text.Trim() = item_KdBarang Then
+                    Retur_DO_Reseller_Sementara.Lv_Hidden_Data.Items.RemoveAt(i)
+                End If
+            Next
 
             Dim foundIndex As Integer = -1
             For j As Integer = 0 To Retur_DO_Reseller_Sementara.ListView2.Items.Count - 1
@@ -256,73 +299,143 @@
                 End If
             Next
 
-            Dim y_hrg As Double = Val(HilangkanTanda(hrg))
-            Dim y_disc As Double = Val(HilangkanTanda(Format(Val(discp), "N2")))
-            Dim y_jml As Double = Val(HilangkanTanda(item_JumlahInsert))
-            Dim subttl As Double
 
-
-            If foundIndex <> -1 Then
-
-                If metper = "A" Then
-                    subttl = (hrg * Val(y_jml)) - (hrg * Val(y_jml) * discp / 100)
-                ElseIf metper = "B" Then
-                    subttl = Hitung_Subtotal(y_hrg, y_disc, y_jml)
-                Else
-                    MessageBox.Show("error perhitungan")
+            Dim hasDataInput As Boolean = False
+            Dim TotJumlah As Double = 0
+            Dim TotSbtl As Double = 0
+            For i As Integer = 0 To Dgv_Data_Barcode.Rows.Count - 1
+                If Dgv_Data_Barcode.Rows(i).Cells(Cell_Chklist).Value <> "True" Then
+                    Continue For
                 End If
 
+                Get_Data_DGV(i)
 
-                Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(3).Text = Format(Val(HilangkanTanda(Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(3).Text)) + Val(y_jml), "N4")
-                Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(8).Text = Format(Val(HilangkanTanda(Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(8).Text)) + subttl, "N4")
-
-
-            Else
-                Dim lv As New ListViewItem
-                lv = Retur_DO_Reseller_Sementara.ListView2.Items.Add(Gudang) '0
-                lv.SubItems.Add(Trim(item_KdBarang)) '1
-                lv.SubItems.Add(item_NmBarang) '2
-                lv.SubItems.Add(Format(Val(y_jml), "N4")) '3
-                lv.SubItems.Add(urut) '4
-                lv.SubItems.Add(urut_oto) '5
-                lv.SubItems.Add(Format(Val(HilangkanTanda(hrg)), "N4")) '6
-                lv.SubItems.Add(discp) '7
+                hasDataInput = True
 
 
 
-                If metper = "A" Then
-                    subttl = (hrg * Val(y_jml)) - (hrg * Val(y_jml) * discp / 100)
-                ElseIf metper = "B" Then
-                    subttl = Hitung_Subtotal(y_hrg, y_disc, y_jml)
+                Dim y_hrg As Double = Val(HilangkanTanda(hrg))
+                Dim y_disc As Double = Val(HilangkanTanda(Format(Val(discp), "N2")))
+                Dim y_jml As Double = Val(HilangkanTanda(item_JumlahInsert))
+                Dim subttl As Double
+
+                TotJumlah += y_jml
+
+                If foundIndex <> -1 Then
+
+                    If metper = "A" Then
+                        subttl = (hrg * Val(y_jml)) - (hrg * Val(y_jml) * discp / 100)
+                    ElseIf metper = "B" Then
+                        subttl = Hitung_Subtotal(y_hrg, y_disc, y_jml)
+                    Else
+                        MessageBox.Show("error perhitungan")
+                    End If
+
+                    TotSbtl += y_jml
+
+
+                    'Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(10).Text = Format(Val(HilangkanTanda(Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(10).Text)) + Val(y_jml), "N4")
+                    'Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(8).Text = Format(Val(HilangkanTanda(Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(8).Text)) + subttl, "N4")
+
+                    Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(10).Text = Format(Val(TotJumlah), "N4")
+                    Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(8).Text = Format(TotSbtl, "N4")
+
                 Else
-                    MessageBox.Show("error perhitungan")
+                    Dim lv As New ListViewItem
+                    lv = Retur_DO_Reseller_Sementara.ListView2.Items.Add(Gudang) '0
+                    lv.SubItems.Add(Trim(item_KdBarang)) '1
+                    lv.SubItems.Add(item_NmBarang) '2
+                    lv.SubItems.Add(Format(Val(y_jml), "N4")) '3
+                    lv.SubItems.Add(urut) '4
+                    lv.SubItems.Add(urut_oto) '5
+                    lv.SubItems.Add(Format(Val(HilangkanTanda(hrg)), "N4")) '6
+                    lv.SubItems.Add(discp) '7
+
+
+
+                    If metper = "A" Then
+                        subttl = (hrg * Val(y_jml)) - (hrg * Val(y_jml) * discp / 100)
+                    ElseIf metper = "B" Then
+                        subttl = Hitung_Subtotal(y_hrg, y_disc, y_jml)
+                    Else
+                        MessageBox.Show("error perhitungan")
+                    End If
+
+                    lv.SubItems.Add(Format(subttl, "N4")) '8
+                    lv.SubItems.Add(metper) '9
                 End If
 
-                lv.SubItems.Add(Format(subttl, "N4")) '8
-                lv.SubItems.Add(metper) '9
+                '=========================
+                '=     ADD LV HIDDEN     =
+                '=========================
+
+                Dim lv2 As New ListViewItem
+                lv2 = Retur_DO_Reseller_Sementara.Lv_Hidden_Data.Items.Add(Gudang) '0
+                lv2.SubItems.Add(Trim(item_KdBarang)) '1
+                lv2.SubItems.Add(item_NmBarang) '2
+                lv2.SubItems.Add(Format(Val(y_jml), "N4")) '3
+                lv2.SubItems.Add(urut) '4
+                lv2.SubItems.Add(urut_oto) '5
+                lv2.SubItems.Add(Format(Val(HilangkanTanda(hrg)), "N4")) '6
+                lv2.SubItems.Add(discp) '7
+                lv2.SubItems.Add(Format(subttl, "N4")) '8
+                lv2.SubItems.Add(metper) '9
+                lv2.SubItems.Add(item_Barcode) '10
+
+
+
+                Dim Urut_detail_Sementara As String = ""
+                SQL = "select No_Urut "
+                SQL = SQL & "from Detail_R_DO_sementara "
+                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and No_Retur_Jual_Sementara = '" & No_Fak_Sementara & "' "
+                SQL = SQL & "and Kode_Stock_Owner = '" & Gudang & "' "
+                SQL = SQL & "and Kode_Barang = '" & Txt_KdBarang.Text.Trim & "' "
+                SQL = SQL & "and Urut_Detail_Penjualan = '" & urut & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Urut_detail_Sementara = Dr("No_Urut")
+                    Else
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Terjadi Kesalahan !, Retur Detail Sementara Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
+                '======================
+                '=     INSERT DET     =
+                '======================
+                SQL = "insert into det_r_do_sementara (Kode_Perusahaan, No_Retur_Jual_Sementara, Kode_Stock_Owner, Kode_Barang, Good_Stock, "
+                SQL = SQL & "Barcode, Bad_Stock, Urut_Detail, nHarga, nPersen_Diskon, nSubtotal) "
+                SQL = SQL & "values ('" & KodePerusahaan & "', '" & Trim(No_Fak_Sementara) & "', '" & Trim(Gudang) & "', '" & Trim(item_KdBarang) & "', "
+                SQL = SQL & "'" & HilangkanTanda(y_jml) & "', '" & Trim(item_Barcode) & "', "
+                SQL = SQL & "0, '" & Urut_detail_Sementara & "', '" & HilangkanTanda(hrg) & "', "
+                SQL = SQL & "'" & HilangkanTanda(discp) & "', '" & HilangkanTanda(subttl) & "') "
+                ExecuteTrans(SQL)
+
+
+
+            Next
+
+            If Not hasDataInput Then
+                Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(10).Text = Format(Val(0), "N4")
+                Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(8).Text = Format(0, "N4")
             End If
 
-            '=========================
-            '=     ADD LV HIDDEN     =
-            '=========================
-
-            Dim lv2 As New ListViewItem
-            lv2 = Retur_DO_Reseller_Sementara.Lv_Hidden_Data.Items.Add(Gudang) '0
-            lv2.SubItems.Add(Trim(item_KdBarang)) '1
-            lv2.SubItems.Add(item_NmBarang) '2
-            lv2.SubItems.Add(Format(Val(y_jml), "N4")) '3
-            lv2.SubItems.Add(urut) '4
-            lv2.SubItems.Add(urut_oto) '5
-            lv2.SubItems.Add(Format(Val(HilangkanTanda(hrg)), "N4")) '6
-            lv2.SubItems.Add(discp) '7
-            lv2.SubItems.Add(Format(subttl, "N4")) '8
-            lv2.SubItems.Add(metper) '9
-            lv2.SubItems.Add(item_Barcode) '10
 
 
 
-        Next
-
+            Cmd.Transaction.Commit()
+            CloseTrans()
+            CloseConn()
+        Catch ex As Exception
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
 
         Me.Close()
     End Sub
@@ -331,7 +444,14 @@
 
 
 
+    Protected Overrides Sub WndProc(ByRef m As Message)
+        ' WM_NCLBUTTONDBLCLK = 0xA3 (double click di title bar)
+        If m.Msg = &HA3 Then
+            Return  ' Abaikan pesan, sehingga form tidak maximize
+        End If
 
+        MyBase.WndProc(m)
+    End Sub
 
 
 

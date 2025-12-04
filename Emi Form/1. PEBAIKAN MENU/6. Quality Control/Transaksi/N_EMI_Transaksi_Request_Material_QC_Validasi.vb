@@ -138,8 +138,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                     Dim tbIndex As Integer = Array.IndexOf(TimbanganPortNames, sp.PortName)
                     Me.Invoke(Sub()
                                   TxtOriginal_Data_FloorScale.Text = receivedData
-                                  Txt_Timbangan.Text = nilai_data
-                                  txt_Jumlah_Timbang.Text = nilai_data
+                                  Txt_Timbangan.Text = nilai_data.Replace(",", ".")
+                                  txt_Jumlah_Timbang.Text = nilai_data.Replace(",", ".")
                                   TxtSatuan_FloorScale.Text = satuan_berat_data
                                   Lb_ActiveTb.Text = $"Timbangan {tbIndex + 1}"
                               End Sub)
@@ -151,7 +151,6 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             Thread.Sleep(50)
         End While
     End Sub
-
 
     Private Sub ChkTimbangan_CheckedChanged(sender As Object, e As EventArgs) _
     Handles Cb_Tb1.CheckedChanged, Cb_Tb2.CheckedChanged, Cb_Tb3.CheckedChanged
@@ -377,21 +376,23 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                 End If
             End Using
 
-            Dim indexxx As Integer = 0
             CmbJenisAlas.Items.Clear() : arrid_Jenis_alas.Clear()
             SQL = "select Id,Kode_Jenis_Alas,Keterangan,Berat,Satuan, Flag_Default from Emi_Master_Jenis_Alas where Kode_Perusahaan = '" & KodePerusahaan & "' order by Keterangan "
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
                     CmbJenisAlas.Items.Add(dr("Keterangan")) : arrid_Jenis_alas.Add(dr("ID"))
 
-                    If General_Class.CekNULL(dr("Flag_Default")) = "Y" Then
-                        CmbJenisAlas.SelectedIndex = indexxx
-                    End If
-
-                    indexxx += 1
                 Loop
             End Using
 
+            SQL = "select Id from Emi_Master_Jenis_Alas where Kode_Perusahaan = '" & KodePerusahaan & "' and Flag_Default = 'Y' order by Keterangan "
+            Using dr = OpenTrans(SQL)
+                Do While dr.Read
+
+                    CmbJenisAlas.SelectedIndex = arrid_Jenis_alas.IndexOf(dr("ID"))
+
+                Loop
+            End Using
 
             CmbSatuan.Text = "KG"
             CmbSatuan.Enabled = False
@@ -514,8 +515,6 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
         TxtBeratBersih.Text = ""
         CmbSatuan.Text = ""
 
-        Txt_Sisa_Jumlah.Text = ""
-
         Cmb_Faktur_RM.Enabled = False
         CmbJenisAlas.Enabled = False
         Txt_JmlhKebutuhan.Enabled = False
@@ -534,8 +533,6 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
         TxtOriginal_Data_FloorScale.Enabled = False
         TxtSatuan_FloorScale.Enabled = False
         CmbSatuan.Enabled = False
-
-
 
     End Sub
 
@@ -825,14 +822,6 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             TxtBeratBags.Text = BeratIsiBag & " " & CmbSatuan.Text
             TxtBeratBagsBersih.Text = BeratIsiBag
 
-            SQL = "select Id from Emi_Master_Jenis_Alas where Kode_Perusahaan = '" & KodePerusahaan & "' and Flag_Default = 'Y' order by Keterangan "
-            Using dr = OpenTrans(SQL)
-                If dr.Read Then
-                    CmbJenisAlas.SelectedIndex = arrid_Jenis_alas.IndexOf(dr("ID"))
-                End If
-            End Using
-
-
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -855,10 +844,11 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
 
             Dim nberat As Double = 0
             Dim convertKeSatuanAsli_bhn As String = ""
-            SQL = "select a.Id,a.Kode_Jenis_Alas,a.Keterangan,a.Berat,a.Satuan, "
-            SQL = SQL & "dbo.Ubah_Satuan_Baru(a.Kode_Perusahaan,'" & Txt_KDBarang.Text & "',a.Satuan, 'KG', a.berat, 'masa') as Berat2 "
-            SQL = SQL & "from Emi_Master_Jenis_Alas a where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and a.Id = '" & arrid_Jenis_alas.Item(CmbJenisAlas.SelectedIndex) & "' "
+            SQL = "SELECT a.Id, a.Kode_Jenis_Alas, a.Keterangan, a.Berat, a.Satuan, "
+            SQL &= "dbo.Ubah_Satuan_Baru(a.Kode_Perusahaan, '" & Txt_KDBarang.Text & "', a.Satuan, 'KG', a.Berat, 'masa') AS Berat2 "
+            SQL &= "FROM Emi_Master_Jenis_Alas a "
+            SQL &= "WHERE a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL &= "AND a.Id = '" & arrid_Jenis_alas.Item(CmbJenisAlas.SelectedIndex) & "'"
             Using dr = OpenTrans(SQL)
                 If dr.Read Then
                     convertKeSatuanAsli_bhn = dr("Satuan")
@@ -1002,6 +992,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             '=     DELETE DATA TABEL CETAK     =
             '===================================
             Dim tglDuaHariSebelum As DateTime = tgl_skg.AddDays(-2)
+
             SQL = "delete from N_EMI_CR_Transaksi_Request_Material_QC_Barcode_Cetak where Kode_Perusahaan = '" & KodePerusahaan & "' and "
             SQL = SQL & "Tanggal_Cetak between '" & Format(tglDuaHariSebelum, "yyyy-MM-dd") & "' and '" & Format(tgl_skg, "yyyy-MM-dd") & "' "
             ExecuteTrans(SQL)
@@ -1305,10 +1296,10 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
 
                             'INSERT BARANG SN BARU
                             SQL = "insert into Barang_SN (Kode_Perusahaan, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah,  Jumlah_Bags, "
-                            SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, id_Susunan, Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number, Warna, Tgl_masuk, Blok_SN) "
+                            SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, id_Susunan, Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number, Warna, Tgl_masuk, Blok_SN, No_Reservasi) "
                             SQL = SQL & "select Kode_Perusahaan, '" & Txt_SORequest.Text & "', Kode_Barang, '" & SN_Baru & "', '" & JumlahInputDB & "', " & BagsTerpakai & ", "
                             SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, '" & available_Id_Warehouse & "', id_Susunan , Qr_Code, '" & newKodeUnikBerjalan & "', "
-                            SQL = SQL & "Kode_Unik_Asal, '" & available_NoPallet & "', batch_number, '" & warnaLama & "', Tgl_Masuk, NULL "
+                            SQL = SQL & "Kode_Unik_Asal, '" & available_NoPallet & "', batch_number, '" & warnaLama & "', Tgl_Masuk, NULL, '" & Txt_NoFaktur.Text.Trim & "' "
                             SQL = SQL & "from Barang_SN "
                             SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' "
                             SQL = SQL & "and Kode_Stock_Owner='" & Txt_KdSOBarang.Text & "' "
@@ -1350,9 +1341,19 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
 
 #Region "JURNAL"
 
-
+                            Dim fRaw_Material_dari As String = ""
+                            Dim fFinished_Good_dari As String = ""
+                            Dim fSemi_FG_dari As String = ""
+                            Dim fScrap_dari As String = ""
+                            Dim fPackaging_dari As String = ""
                             Dim akun_persediaan_dari As String = ""
+
+                            Dim fRaw_Material_tujuan As String = ""
+                            Dim fFinished_Good_tujuan As String = ""
+                            Dim fSemi_FG_tujuan As String = ""
+                            Dim fScrap_tujuan As String = ""
                             Dim akun_persediaan_tujuan As String = ""
+                            Dim fPackaging_tujuan As String = ""
                             Dim inisial_faktur_dari As String = ""
 
 
@@ -1504,7 +1505,6 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                 Dim randomChar As Char = Chr(rnd.Next(65, 91)) ' ASCII 65–90 = A–Z
                                 TextBarcodePSS &= randomChar
                             Next
-
                             SQL = "INSERT INTO N_EMI_Transaksi_Material_Requisition_QC_Validasi "
                             SQL = SQL & "(Kode_Perusahaan, No_Faktur, No_Faktur_RM, Tanggal, Jam, Kode_Stock_Owner, Kode_Stock_Owner_Tujuan, Kode_Barang, SN_Lama, SN_Baru, Jumlah, "
                             SQL = SQL & "Satuan, Jumlah_Barang, Satuan_Barang, Kode_Voucher, Urut_Det_RM, Barcode_PSS, Jumlah_Bags) "
@@ -1814,7 +1814,6 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                 Dim kertasBarcode As String = ""
                 kertasBarcode = "BarcodeQC"
 
-
                 For i As Integer = 0 To arrKdUnikPrint.Count - 1
                     SQL = "select Kode_Perusahaan from N_EMI_CR_Transaksi_Request_Material_QC_Barcode_Cetak where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Unik_Print='" & arrKdUnikPrint(i) & "'"
                     Using Ds = BindingTrans(SQL)
@@ -2068,8 +2067,6 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-
-        CmbJenisAlas_SelectedIndexChanged(sender, e)
 
     End Sub
 

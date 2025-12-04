@@ -29,10 +29,12 @@ Partial Class N_EMI_Laporan_Pembayaran_Di_Muka_121225
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Cmb_Status_DP = New System.Windows.Forms.ComboBox()
         Me.Txt_Pengajuan = New System.Windows.Forms.TextBox()
         Me.Txt_Kd_Supplier = New System.Windows.Forms.TextBox()
         Me.Txt_No_PO = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Tgl2 = New System.Windows.Forms.DateTimePicker()
@@ -47,8 +49,6 @@ Partial Class N_EMI_Laporan_Pembayaran_Di_Muka_121225
         Me.Lv_NoPengajuan = New System.Windows.Forms.ListView()
         Me.Lv_NoPO = New System.Windows.Forms.ListView()
         Me.Lv_Supplier = New System.Windows.Forms.ListView()
-        Me.Cmb_Status_DP = New System.Windows.Forms.ComboBox()
-        Me.Label6 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -61,7 +61,7 @@ Partial Class N_EMI_Laporan_Pembayaran_Di_Muka_121225
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(644, 43)
+        Me.Panel1.Size = New System.Drawing.Size(641, 43)
         Me.Panel1.TabIndex = 30
         '
         'PanelGradient1
@@ -74,7 +74,7 @@ Partial Class N_EMI_Laporan_Pembayaran_Di_Muka_121225
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(644, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(641, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
@@ -140,6 +140,16 @@ Partial Class N_EMI_Laporan_Pembayaran_Di_Muka_121225
         Me.GroupBox1.TabIndex = 48
         Me.GroupBox1.TabStop = False
         '
+        'Cmb_Status_DP
+        '
+        Me.Cmb_Status_DP.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Cmb_Status_DP.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Status_DP.FormattingEnabled = True
+        Me.Cmb_Status_DP.Location = New System.Drawing.Point(105, 126)
+        Me.Cmb_Status_DP.Name = "Cmb_Status_DP"
+        Me.Cmb_Status_DP.Size = New System.Drawing.Size(163, 24)
+        Me.Cmb_Status_DP.TabIndex = 5
+        '
         'Txt_Pengajuan
         '
         Me.Txt_Pengajuan.Location = New System.Drawing.Point(105, 48)
@@ -169,6 +179,15 @@ Partial Class N_EMI_Laporan_Pembayaran_Di_Muka_121225
         Me.Label4.Size = New System.Drawing.Size(81, 16)
         Me.Label4.TabIndex = 4
         Me.Label4.Text = "No Pengajuan"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(8, 130)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(62, 16)
+        Me.Label6.TabIndex = 4
+        Me.Label6.Text = "Status DP"
         '
         'Label5
         '
@@ -318,31 +337,12 @@ Partial Class N_EMI_Laporan_Pembayaran_Di_Muka_121225
         Me.Lv_Supplier.View = System.Windows.Forms.View.Details
         Me.Lv_Supplier.Visible = False
         '
-        'Cmb_Status_DP
-        '
-        Me.Cmb_Status_DP.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Cmb_Status_DP.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Cmb_Status_DP.FormattingEnabled = True
-        Me.Cmb_Status_DP.Location = New System.Drawing.Point(105, 126)
-        Me.Cmb_Status_DP.Name = "Cmb_Status_DP"
-        Me.Cmb_Status_DP.Size = New System.Drawing.Size(163, 24)
-        Me.Cmb_Status_DP.TabIndex = 5
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(8, 130)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(62, 16)
-        Me.Label6.TabIndex = 4
-        Me.Label6.Text = "Status DP"
-        '
-        'N_EMI_Laporan_Down_Payment
+        'N_EMI_Laporan_Pembayaran_Di_Muka_121225
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(644, 274)
+        Me.ClientSize = New System.Drawing.Size(641, 274)
         Me.Controls.Add(Me.Lv_Supplier)
         Me.Controls.Add(Me.Lv_NoPO)
         Me.Controls.Add(Me.Lv_NoPengajuan)
@@ -357,7 +357,7 @@ Partial Class N_EMI_Laporan_Pembayaran_Di_Muka_121225
         Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "N_EMI_Laporan_Down_Payment"
+        Me.Name = "N_EMI_Laporan_Pembayaran_Di_Muka_121225"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()

@@ -1227,7 +1227,7 @@ Public Class Transfer_Stock_3
             SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & arrSO(CmbSO_Asal.SelectedIndex) & "', "
             SQL = SQL & "'" & lokasi_tujuan & "', '" & tgl_skg & "', '" & tgl_skg.ToString("HH:mm:ss") & "', '" & UserID & "', '" & CmbJnsTransfer.SelectedItem & "', "
             SQL = SQL & "'" & Cmb_Lokasi.Text & "', '" & TxtKeterangan.Text & "')"
-            'ExecuteTrans(SQL)
+            ExecuteTrans(SQL)
 
             Dim Lokasi_Timbang As String = ""
             SQL = "Select isnull(Flag_Timbang, 'T') as Timbang from stock_owner_gudang where "
@@ -1351,7 +1351,7 @@ Public Class Transfer_Stock_3
                 SQL = SQL & "'" & nilai_kecil & "', '" & Satuan_Kecil & "', "
                 SQL = SQL & "'" & HilangkanTanda(0) & "', '" & dgv_Rekap_Oto & "', '" & Flag_Timbang & "', " & dgv_Rekap_JnsTransfer & ", "
                 SQL = SQL & HilangkanTanda(dgv_Rekap_JumlahBags) & ", '" & dgv_Rekap_Satuan & "')"
-                'ExecuteTrans(SQL)
+                ExecuteTrans(SQL)
 
                 Dim x_ident_current As Integer = 0
                 SQL = "select IDENT_CURRENT('Tf_Stock') as urutan"
@@ -1562,7 +1562,7 @@ Public Class Transfer_Stock_3
                                         SQL = SQL & "'" & JumlahInsert & "', '" & JumlahInsert & "', "
                                         SQL = SQL & "'" & Jumlah_Bags & "', "
                                         SQL = SQL & "'" & dgv_detail_Warna & "', '" & x_ident_current & "', '" & dgv_detail_Satuan & "')"
-                                        'ExecuteTrans(SQL)
+                                        ExecuteTrans(SQL)
 
                                     Next
                                 Else

@@ -100,6 +100,8 @@ Module General_Module
     Public fWaste As String = ""
 
 
+
+
     '=====================
     '=    PRINTER NAME   =
     '=====================
@@ -2362,6 +2364,17 @@ Module General_Module
             MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+
+    Public Structure AccountInfo
+        Public UserName As String
+        Public UserLevel As String
+        Public KodePerusahaan As String
+        Public NamaPerusahaan As String
+        Public UserID As String
+        Public IsDefaultUser As Boolean
+    End Structure
+    Public Accounts As New List(Of AccountInfo)
 
 
 

@@ -205,17 +205,24 @@ Public Class EMI_Display_Split_Stock
                         CrDoc.RecordSelectionFormula = "{Cetak_TransferStock_QC.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_TransferStock_QC.kode_unik_print} = '" & Kode_unik_print & "' and {Cetak_TransferStock_QC.QrUtuh} = '" & Ds.Tables("MyTable").Rows(i).Item("QrUtuh") & "'"
                         CrDoc.PrintOptions.PrinterName = PrinterBarcode
 
-                        doctoprint.PrinterSettings.PrinterName = PrinterBarcode
-
                         Dim rawKind As Integer
+                        Dim isPaperFound As Boolean = False
                         CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
                         For j = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
                             If doctoprint.PrinterSettings.PaperSizes(j).PaperName = kertasBarcodeBesar Then
                                 rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(j).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(j)))
                                 CrDoc.PrintOptions.PaperSize = rawKind
+                                isPaperFound = True
                                 Exit For
                             End If
                         Next
+
+                        If Not isPaperFound Then
+                            'CloseConn()
+                            MessageBox.Show("Kertas Tidak DiTemukan, Kertas di set ke default", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                            'Exit Sub
+                        End If
 
                         CrDoc.PrintToPrinter(1, False, 1, 2500)
                     Next
@@ -533,9 +540,9 @@ Public Class EMI_Display_Split_Stock
                     Lv.SubItems.Add(Dr("Warehouse_Tujuan"))
                     Lv.SubItems.Add(Dr("Kode_Barang"))
                     Lv.SubItems.Add(Dr("NamaBarang"))
-                    Lv.SubItems.Add(Format(Val(HilangkanTanda(Dr("Total"))), "N2"))
+                    Lv.SubItems.Add(Format(Val(HilangkanTanda(Dr("Total"))), "N4"))
                     Lv.SubItems.Add(Format(Val(HilangkanTanda(Dr("Total_Bags"))), "N2"))
-                    Lv.SubItems.Add(Format(Val(HilangkanTanda(Dr("Berat_Bagi"))), "N2"))
+                    Lv.SubItems.Add(Format(Val(HilangkanTanda(Dr("Berat_Bagi"))), "N4"))
                     Lv.SubItems.Add(Dr("Satuan"))
                     Lv.SubItems.Add(Dr("Id_Wms_Awal"))
                     Lv.SubItems.Add(Dr("Id_Wms_Tujuan"))
@@ -765,7 +772,7 @@ Public Class EMI_Display_Split_Stock
                     If .Rows.Count <> 0 Then
                         For i As Integer = 0 To .Rows.Count - 1
 
-                            SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_sn x "
+                            SQL = "SELECT round(SUM(good_stock),4) AS good_stock, isnull((select round(sum(jumlah),4) from Barang_sn x "
                             SQL = SQL & "where a.kode_Barang=x.kode_Barang and a.Kode_Stock_Owner=x.kode_Stock_Owner "
                             SQL = SQL & "and a.kode_Perusahaan=x.kode_Perusahaan ),0) as Jumlah_sn, "
                             SQL = SQL & "isnull(round(SUM(jumlah_bags), 2), 0) AS jumlah_bags_barang, "
@@ -802,7 +809,7 @@ Public Class EMI_Display_Split_Stock
             '=========================
             '=     ROLLBACK DATA     =
             '=========================
-            SQL = "select a.No_Faktur, a.SO_Awal, a.SO_Tujuan, b.Kode_Barang, c.Serial_Number_Awal, c.Kode_Voucher, c.Urut_Oto "
+            SQL = "select a.No_Faktur, a.SO_Awal, a.SO_Tujuan, b.Kode_Barang, c.Serial_Number_Awal, c.Kode_Voucher, c.Urut_Oto, c.Jumlah_Bags "
             SQL = SQL & "from Tf_Stock_QC a, Tf_Stock_QC_Detail b, Tf_Stock_QC_det c "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan  "
             SQL = SQL & "and a.No_Faktur = b.No_Faktur "
@@ -817,7 +824,7 @@ Public Class EMI_Display_Split_Stock
 
                             Dim UrutDet As String = .Rows(i).Item("Urut_Oto")
                             Dim JumlahRollBack As Double = 0
-                            Dim JumlahRollBackBags As Double = 0
+                            Dim JumlahRollBackBags As Double = .Rows(i).Item("Jumlah_Bags")
 
                             '===============================
                             '=     ROLLBACK DATA DET 2     =
@@ -834,7 +841,7 @@ Public Class EMI_Display_Split_Stock
                             SQL = SQL & "and d.Urut_Det = '" & UrutDet & "' "
                             Using Ds1 = BindingTrans(SQL)
                                 If Ds1.Tables("MyTable").Rows.Count <> 0 Then
-                                    For j As Integer = 0 To .Rows.Count - 1
+                                    For j As Integer = 0 To Ds1.Tables("MyTable").Rows.Count - 1
 
 
                                         Dim Jumlah_Kecil As Double = Ds1.Tables("MyTable").Rows(j).Item("Jumlah")
@@ -845,7 +852,7 @@ Public Class EMI_Display_Split_Stock
                                         Dim SN_Tujuan As String = Ds1.Tables("MyTable").Rows(j).Item("Serial_Number_Tujuan")
 
                                         JumlahRollBack += Jumlah_Kecil
-                                        JumlahRollBackBags += 1
+                                        'JumlahRollBackBags += 1
 
                                         '=============================
                                         '=     PENGURANGAN STOCK     =
@@ -877,7 +884,7 @@ Public Class EMI_Display_Split_Stock
                                         End Using
 
                                         'PENGURANGAN BARANG
-                                        SQL = "select good_stock from Barang where Kode_Perusahaan = '" & KodePerusahaan & "' and kode_Stock_owner = '" & KdSo_Tujuan & "'  and kode_barang = '" & KdBarang & "' "
+                                        SQL = "select round(good_stock, 4) as good_stock from Barang where Kode_Perusahaan = '" & KodePerusahaan & "' and kode_Stock_owner = '" & KdSo_Tujuan & "'  and kode_barang = '" & KdBarang & "' "
                                         Using Ds2 = BindingTrans(SQL)
                                             If Ds2.Tables("MyTable").Rows.Count <> 0 Then
 
@@ -904,7 +911,7 @@ Public Class EMI_Display_Split_Stock
                                         '====================================
                                         '=       CEK KESESUAIAN STOCK       =
                                         '====================================
-                                        SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_sn x "
+                                        SQL = "SELECT round(SUM(good_stock),4) AS good_stock, isnull((select round(sum(jumlah),4) from Barang_sn x "
                                         SQL = SQL & "where a.kode_Barang=x.kode_Barang and a.Kode_Stock_Owner=x.kode_Stock_Owner "
                                         SQL = SQL & "and a.kode_Perusahaan=x.kode_Perusahaan ),0) as Jumlah_sn, "
                                         SQL = SQL & "isnull(round(SUM(jumlah_bags), 2), 0) AS jumlah_bags_barang, "
@@ -983,7 +990,7 @@ Public Class EMI_Display_Split_Stock
                             '====================================
                             '=       CEK KESESUAIAN STOCK       =
                             '====================================
-                            SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_sn x "
+                            SQL = "SELECT round(SUM(good_stock),4) AS good_stock, isnull((select round(sum(jumlah),4) from Barang_sn x "
                             SQL = SQL & "where a.kode_Barang=x.kode_Barang and a.Kode_Stock_Owner=x.kode_Stock_Owner "
                             SQL = SQL & "and a.kode_Perusahaan=x.kode_Perusahaan ),0) as Jumlah_sn, "
                             SQL = SQL & "isnull(round(SUM(jumlah_bags), 2), 0) AS jumlah_bags_barang, "

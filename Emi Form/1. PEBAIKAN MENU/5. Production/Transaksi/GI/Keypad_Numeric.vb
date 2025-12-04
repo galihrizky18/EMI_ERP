@@ -1,6 +1,6 @@
 ﻿Imports System.Media
 
-Public Class Keypad
+Public Class Keypad_Numeric
     Inherits UserControl
 
     Private _value As String = "0"

@@ -59,9 +59,51 @@
             OpenConn()
 
 
+            'SQL = "Select a.no_do, a.kode_stock_owner, a.Kode_barang, b.nama, a.jumlah, b.satuan, "
+            'SQL = SQL & "sdh_selesai_validasi, no_urut, urut_oto, "
+
+            'SQL = SQL & "isnull(("
+            'SQL = SQL & "select sum(x.good_stock + x.bad_stock) from retur_do z, detail_r_do x where "
+            'SQL = SQL & "z.kode_perusahaan = x.kode_perusahaan and "
+            'SQL = SQL & "z.no_retur_jual = x.no_retur_jual and "
+            'SQL = SQL & "x.kode_stock_owner = a.kode_stock_owner and "
+            'SQL = SQL & "x.kode_barang = a.kode_barang and "
+            'SQL = SQL & "x.urut_do = a.urut_oto and "
+            'SQL = SQL & "z.kode_perusahaan = a.kode_perusahaan and z.no_do = a.no_do and "
+            'SQL = SQL & "z.status is null group by x.kode_barang "
+            'SQL = SQL & "), 0) as pernahretur, a.harga, a.persen_diskon, a.subtotal_baru, a.metode_perhitungan "
+
+            'SQL = SQL & "from sub_invoice a, barang b where "
+            'SQL = SQL & "a.kode_perusahaan = b.kode_Perusahaan and a.kode_barang = b.kode_barang and "
+            'SQL = SQL & "a.kode_stock_owner = b.kode_stock_owner and "
+            'SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and "
+            'SQL = SQL & "a.no_do = '" & TextBox1.Text.Trim & "' "
+            'SQL = SQL & "order by a.no_urut"
+            'Dr = OpenTrans(SQL)
+            'ListView3.Items.Clear()
+
+            'Do While Dr.Read
+            '    Dim Lvw As ListViewItem
+            '    Lvw = ListView3.Items.Add(Dr("kode_stock_owner"))
+            '    Lvw.SubItems.Add(Dr("kode_barang"))
+            '    Lvw.SubItems.Add(Dr("nama"))
+            '    Lvw.SubItems.Add(Format(Dr("sdh_selesai_validasi"), "N4"))
+            '    Lvw.SubItems.Add(Format(General_Class.CekZERO(Dr("pernahretur")), "N4"))
+            '    Lvw.SubItems.Add(Dr("satuan"))
+            '    Lvw.SubItems.Add(Dr("no_urut"))
+            '    Lvw.SubItems.Add(Dr("urut_oto"))
+            '    Lvw.SubItems.Add(Format(Dr("harga"), "N4"))
+            '    Lvw.SubItems.Add(Dr("persen_diskon"))
+            '    Lvw.SubItems.Add(Format(Dr("subtotal_baru"), "N4"))
+            '    If General_Class.CekNULL(Dr("Metode_Perhitungan")) = "" Then
+            '        Lvw.SubItems.Add("A")
+            '    Else
+            '        Lvw.SubItems.Add(Dr("Metode_Perhitungan"))
+            '    End If
+            'Loop
+
             SQL = "Select a.no_do, a.kode_stock_owner, a.Kode_barang, b.nama, a.jumlah, b.satuan, "
             SQL = SQL & "sdh_selesai_validasi, no_urut, urut_oto, "
-
             SQL = SQL & "isnull(("
             SQL = SQL & "select sum(x.good_stock + x.bad_stock) from retur_do z, detail_r_do x where "
             SQL = SQL & "z.kode_perusahaan = x.kode_perusahaan and "
@@ -71,8 +113,14 @@
             SQL = SQL & "x.urut_do = a.urut_oto and "
             SQL = SQL & "z.kode_perusahaan = a.kode_perusahaan and z.no_do = a.no_do and "
             SQL = SQL & "z.status is null group by x.kode_barang "
-            SQL = SQL & "), 0) as pernahretur, a.harga, a.persen_diskon, a.subtotal_baru, a.metode_perhitungan "
-
+            SQL = SQL & "), 0) as pernahretur, "
+            SQL = SQL & "isnull(("
+            SQL = SQL & "select sum(y.good_stock) from detail_r_do_sementara y where "
+            SQL = SQL & "y.no_retur_jual_sementara = '" & TextBox4.Text.Trim & "' and "
+            SQL = SQL & "y.kode_stock_owner = a.kode_stock_owner and "
+            SQL = SQL & "y.kode_barang = a.kode_barang "
+            SQL = SQL & "group by y.kode_barang "
+            SQL = SQL & "), 0) as max_retur, a.harga, a.persen_diskon, a.subtotal_baru, a.metode_perhitungan "
             SQL = SQL & "from sub_invoice a, barang b where "
             SQL = SQL & "a.kode_perusahaan = b.kode_Perusahaan and a.kode_barang = b.kode_barang and "
             SQL = SQL & "a.kode_stock_owner = b.kode_stock_owner and "
@@ -81,7 +129,6 @@
             SQL = SQL & "order by a.no_urut"
             Dr = OpenTrans(SQL)
             ListView3.Items.Clear()
-
             Do While Dr.Read
                 Dim Lvw As ListViewItem
                 Lvw = ListView3.Items.Add(Dr("kode_stock_owner"))
@@ -100,6 +147,7 @@
                 Else
                     Lvw.SubItems.Add(Dr("Metode_Perhitungan"))
                 End If
+                Lvw.SubItems.Add(Format(General_Class.CekZERO(Dr("max_retur")), "N4"))
             Loop
 
 
@@ -153,27 +201,27 @@
     End Sub
 
     Private Sub tampil_brg_retur()
-        OpenConn()
+        'OpenConn()
 
-        SQL = "select c.kode_stock_owner, a.kode_barang, b.nama, a.harga, a.good_stock, a.bad_stock from detail_r_penjualan a, barang b, stock_owner c, perusahaan d where b.kode_perusahaan = c.kode_perusahaan and c.kode_perusahaan = d.kode_perusahaan and a.kode_barang = b.kode_barang and a.kode_stock_owner = b.kode_stock_owner and a.kode_stock_owner = c.kode_stock_owner and a.kode_perusahaan = b.kode_perusahaan and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_retur_jual = '" & Trim(TextBox4.Text) & "'"
-        Using Dr = Open(SQL)
-            ListView2.Items.Clear()
+        'SQL = "select c.kode_stock_owner, a.kode_barang, b.nama, a.harga, a.good_stock, a.bad_stock from detail_r_penjualan a, barang b, stock_owner c, perusahaan d where b.kode_perusahaan = c.kode_perusahaan and c.kode_perusahaan = d.kode_perusahaan and a.kode_barang = b.kode_barang and a.kode_stock_owner = b.kode_stock_owner and a.kode_stock_owner = c.kode_stock_owner and a.kode_perusahaan = b.kode_perusahaan and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_retur_jual = '" & Trim(TextBox4.Text) & "'"
+        'Using Dr = Open(SQL)
+        '    ListView2.Items.Clear()
 
-            Dim lvw As New ListViewItem
-            Do While Dr.Read
-                lvw = ListView2.Items.Add(Dr("kode_stock_owner"))
-                lvw.SubItems.Add(Dr("kode_barang"))
-                lvw.SubItems.Add(Dr("nama"))
-                lvw.SubItems.Add(Format(Dr("harga"), "N4"))
-                lvw.SubItems.Add(Format(Dr("good_stock"), "N4"))
-                lvw.SubItems.Add(Format(Dr("bad_stock"), "N4"))
-                lvw.SubItems.Add(Format((Dr("good_stock") + Dr("bad_stock")) * Dr("harga"), "N4"))
-            Loop
+        '    Dim lvw As New ListViewItem
+        '    Do While Dr.Read
+        '        lvw = ListView2.Items.Add(Dr("kode_stock_owner"))
+        '        lvw.SubItems.Add(Dr("kode_barang"))
+        '        lvw.SubItems.Add(Dr("nama"))
+        '        lvw.SubItems.Add(Format(Dr("harga"), "N4"))
+        '        lvw.SubItems.Add(Format(Dr("good_stock"), "N4"))
+        '        lvw.SubItems.Add(Format(Dr("bad_stock"), "N4"))
+        '        lvw.SubItems.Add(Format((Dr("good_stock") + Dr("bad_stock")) * Dr("harga"), "N4"))
+        '    Loop
 
-        End Using
+        'End Using
 
-        HitungGrandTotal()
-        CloseConn()
+        'HitungGrandTotal()
+        'CloseConn()
 
     End Sub
 
@@ -248,7 +296,7 @@
         TextBox11.Enabled = True
         ListView2.Enabled = True
 
-        TextBox1.Enabled = True
+        TextBox1.Enabled = False
 
         Try
 
@@ -268,7 +316,18 @@
 
             ComboBox1.Text = Lokasi
 
-            get_no_faktur("")
+            ListView4.Items.Clear()
+            SQL = "select no_do,no_retur_jual_sementara from retur_do_sementara where kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and status is null and lokasi = '" & ComboBox1.Text & "' and flag_val is null and flag_release is null "
+            Using dr = OpenTrans(SQL)
+                Do While dr.Read
+                    Dim Lvw As ListViewItem
+                    Lvw = ListView4.Items.Add(dr("no_do"))
+                    Lvw.SubItems.Add(dr("no_retur_jual_sementara"))
+                Loop
+            End Using
+
+            'get_no_faktur("")
 
             CloseConn()
         Catch ex As Exception
@@ -317,14 +376,15 @@
 
         ListView2.Columns.Add("Gudang", 130, HorizontalAlignment.Center)
         ListView2.Columns.Add("Kode Barang", 130, HorizontalAlignment.Left) '1
-        ListView2.Columns.Add("Nama Barang", 380, HorizontalAlignment.Left) '2  
-        ListView2.Columns.Add("Jumlah Rtr", 130, HorizontalAlignment.Right) '3
+        ListView2.Columns.Add("Nama Barang", 350, HorizontalAlignment.Left) '2  
+        ListView2.Columns.Add("Max Rtr", 80, HorizontalAlignment.Right) '3
         ListView2.Columns.Add("*", 0, HorizontalAlignment.Right) '4
         ListView2.Columns.Add("urut_oto", 0, HorizontalAlignment.Left) '5
         ListView2.Columns.Add("Hrg", 0, HorizontalAlignment.Left) '6
         ListView2.Columns.Add("DiscP", 0, HorizontalAlignment.Left) '7
         ListView2.Columns.Add("Subttl", 0, HorizontalAlignment.Left) '8
         ListView2.Columns.Add("Metode Perhitungan", 0, HorizontalAlignment.Left) '9
+        ListView2.Columns.Add("Jumlah Rtr", 80, HorizontalAlignment.Right) '10
         ListView2.View = View.Details
 
         Lv_Hidden_Data.Columns.Add("Gudang", 100, HorizontalAlignment.Center)
@@ -337,14 +397,14 @@
         Lv_Hidden_Data.Columns.Add("DiscP", 100, HorizontalAlignment.Left) '7
         Lv_Hidden_Data.Columns.Add("Subttl", 100, HorizontalAlignment.Left) '8
         Lv_Hidden_Data.Columns.Add("Metode Perhitungan", 100, HorizontalAlignment.Left) '9
-        Lv_Hidden_Data.Columns.Add("Barcode", 100, HorizontalAlignment.Left) '10
+        Lv_Hidden_Data.Columns.Add("Barcode", 200, HorizontalAlignment.Left) '10
         Lv_Hidden_Data.View = View.Details
 
         ListView3.Columns.Add("Gudang", 100, HorizontalAlignment.Center)
         ListView3.Columns.Add("Kode Barang", 100, HorizontalAlignment.Left) '1
-        ListView3.Columns.Add("Nama Barang", 270, HorizontalAlignment.Left) '2  
-        ListView3.Columns.Add("Jumlah", 120, HorizontalAlignment.Right) '3
-        ListView3.Columns.Add("Pernah Retur", 120, HorizontalAlignment.Right) '4
+        ListView3.Columns.Add("Nama Barang", 280, HorizontalAlignment.Left) '2  
+        ListView3.Columns.Add("Jumlah", 80, HorizontalAlignment.Right) '3
+        ListView3.Columns.Add("Pernah Retur", 80, HorizontalAlignment.Right) '4
         ListView3.Columns.Add("Satuan", 50, HorizontalAlignment.Left) '5
         ListView3.Columns.Add("*", 0, HorizontalAlignment.Right) '6
         ListView3.Columns.Add("urut_oto", 0, HorizontalAlignment.Left) '7
@@ -352,7 +412,12 @@
         ListView3.Columns.Add("DiscP", 0, HorizontalAlignment.Left) '9
         ListView3.Columns.Add("Subttl", 0, HorizontalAlignment.Left) '10
         ListView3.Columns.Add("Metode Perhitungan", 0, HorizontalAlignment.Left) '11
+        ListView3.Columns.Add("Max Retur", 80, HorizontalAlignment.Right) '12
         ListView3.View = View.Details
+
+        ListView4.Columns.Add("No Do", 150, HorizontalAlignment.Left)
+        ListView4.Columns.Add("No Retur Sementara", 150, HorizontalAlignment.Left)
+        ListView4.View = View.Details
 
         kosong()
         TextBox1.Focus()
@@ -422,7 +487,7 @@
 
             OpenConn()
 
-            get_no_faktur(initials)
+            'get_no_faktur(initials)
 
             CloseConn()
         Catch ex As Exception
@@ -499,7 +564,7 @@
         If TextBox4.Text.Trim.Length = 0 Then
             OpenConn()
 
-            get_no_faktur("")
+            'get_no_faktur("")
 
             CloseConn()
         End If
@@ -552,6 +617,7 @@
 
 
         N_EMI_SD_Retur_DO_Reseller_Sementara.Txt_No_DO.Text = TextBox1.Text.Trim
+        N_EMI_SD_Retur_DO_Reseller_Sementara.No_Fak_Sementara = TextBox4.Text.Trim
         N_EMI_SD_Retur_DO_Reseller_Sementara.Txt_KdBarang.Text = ListView3.FocusedItem.SubItems(1).Text
         N_EMI_SD_Retur_DO_Reseller_Sementara.Txt_NmBarang.Text = ListView3.FocusedItem.SubItems(2).Text
         N_EMI_SD_Retur_DO_Reseller_Sementara.Gudang = ListView3.FocusedItem.Text
@@ -560,6 +626,7 @@
         N_EMI_SD_Retur_DO_Reseller_Sementara.hrg = HilangkanTanda(ListView3.FocusedItem.SubItems(8).Text)
         N_EMI_SD_Retur_DO_Reseller_Sementara.discp = HilangkanTanda(ListView3.FocusedItem.SubItems(9).Text)
         N_EMI_SD_Retur_DO_Reseller_Sementara.metper = ListView3.FocusedItem.SubItems(11).Text
+        N_EMI_SD_Retur_DO_Reseller_Sementara.Max_Retur = HilangkanTanda(ListView3.FocusedItem.SubItems(12).Text)
         N_EMI_SD_Retur_DO_Reseller_Sementara.ShowDialog()
 
 
@@ -764,6 +831,8 @@
         Dim rand As New Random
         Dim get_unik As String = "RJ" & Format(Now, "MMddHHmmss") & Format(rand.Next(0, 100000), "00000")
 
+        get_jam()
+
         Try
             OpenConn()
 
@@ -778,87 +847,87 @@
             '    End If
             'End If
 
-            Dim y_jenis_nota As String = ""
-            Dim xnofak As String = ""
-            Dim flag_lns_do As String = ""
+            'Dim y_jenis_nota As String = ""
+            'Dim xnofak As String = ""
+            'Dim flag_lns_do As String = ""
 
-            SQL = "select status, validasi_hasil, validasi_terima, no_faktur, flag_lunas_do from do_new where "
-            SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_do = '" & TextBox1.Text.Trim & "'"
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    xnofak = Dr("no_faktur")
-                    flag_lns_do = General_Class.CekNULL(Dr("flag_lunas_do"))
+            'SQL = "select status, validasi_hasil, validasi_terima, no_faktur, flag_lunas_do from do_new where "
+            'SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_do = '" & TextBox1.Text.Trim & "'"
+            'Using Dr = OpenTrans(SQL)
+            '    If Dr.Read Then
+            '        xnofak = Dr("no_faktur")
+            '        flag_lns_do = General_Class.CekNULL(Dr("flag_lunas_do"))
 
-                    If General_Class.CekNULL(Dr("status")) = "Y" Then
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Retur tidak dapat dilanjutkan" & Chr(13) & "Karena penjualan untuk faktur ini berstatus Batal!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    ElseIf General_Class.CekNULL(Dr("validasi_hasil")) <> "Y" Then
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Proses tidak dapat dilanjutkan karena DO belum di validasi hasil!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    ElseIf General_Class.CekNULL(Dr("validasi_terima")) <> "Y" Then
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Proses tidak dapat dilanjutkan karena DO belum di validasi terima!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
-                Else
-                    Dr.Close()
-                    CloseTrans()
-                    CloseConn()
-                    MessageBox.Show("No faktur ini tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
-            End Using
+            '        If General_Class.CekNULL(Dr("status")) = "Y" Then
+            '            Dr.Close()
+            '            CloseTrans()
+            '            CloseConn()
+            '            MessageBox.Show("Retur tidak dapat dilanjutkan" & Chr(13) & "Karena penjualan untuk faktur ini berstatus Batal!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '            Exit Sub
+            '        ElseIf General_Class.CekNULL(Dr("validasi_hasil")) <> "Y" Then
+            '            Dr.Close()
+            '            CloseTrans()
+            '            CloseConn()
+            '            MessageBox.Show("Proses tidak dapat dilanjutkan karena DO belum di validasi hasil!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '            Exit Sub
+            '        ElseIf General_Class.CekNULL(Dr("validasi_terima")) <> "Y" Then
+            '            Dr.Close()
+            '            CloseTrans()
+            '            CloseConn()
+            '            MessageBox.Show("Proses tidak dapat dilanjutkan karena DO belum di validasi terima!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '            Exit Sub
+            '        End If
+            '    Else
+            '        Dr.Close()
+            '        CloseTrans()
+            '        CloseConn()
+            '        MessageBox.Show("No faktur ini tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '        Exit Sub
+            '    End If
+            'End Using
 
-            Dim metode_pot_Stock As String = ""
-            Dim y_lokasi_gudang As String = ""
+            'Dim metode_pot_Stock As String = ""
+            'Dim y_lokasi_gudang As String = ""
             ' If jns_trans = "T" Or flag_lns = "Y" Then
-            Dim coa_piutang As String = ""
-            Dim jns_trans As String = ""
-            Dim metode_budgeting As String = ""
+            'Dim coa_piutang As String = ""
+            'Dim jns_trans As String = ""
+            'Dim metode_budgeting As String = ""
 
-            SQL = "select a.metode_budgeting, a.metode_pot_stock, a.status, jenis, a.lokasi_gdg, a.coa_piutang, a.jenis_transaksi from penjualan a, customers b where "
-            SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.kode_customer = b.kode_customer and "
-            SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_faktur = '" & xnofak & "'"
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    y_jenis_nota = Dr("jenis")
-                    metode_pot_Stock = Dr("metode_pot_stock")
-                    y_lokasi_gudang = Dr("lokasi_gdg")
-                    coa_piutang = Dr("coa_piutang")
-                    jns_trans = Dr("jenis_transaksi")
-                    metode_budgeting = Dr("metode_budgeting")
+            'SQL = "select a.metode_budgeting, a.metode_pot_stock, a.status, jenis, a.lokasi_gdg, a.coa_piutang, a.jenis_transaksi from penjualan a, customers b where "
+            'SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.kode_customer = b.kode_customer and "
+            'SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_faktur = '" & xnofak & "'"
+            'Using Dr = OpenTrans(SQL)
+            '    If Dr.Read Then
+            '        y_jenis_nota = Dr("jenis")
+            '        metode_pot_Stock = Dr("metode_pot_stock")
+            '        y_lokasi_gudang = Dr("lokasi_gdg")
+            '        coa_piutang = Dr("coa_piutang")
+            '        jns_trans = Dr("jenis_transaksi")
+            '        metode_budgeting = Dr("metode_budgeting")
 
-                    If General_Class.CekNULL(Dr("status")) = "Y" Then
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Retur tidak dapat dilanjutkan" & Chr(13) & "Karena penjualan untuk faktur ini berstatus Batal!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
-                Else
-                    Dr.Close()
-                    CloseTrans()
-                    CloseConn()
-                    MessageBox.Show("No faktur ini tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
-            End Using
+            '        If General_Class.CekNULL(Dr("status")) = "Y" Then
+            '            Dr.Close()
+            '            CloseTrans()
+            '            CloseConn()
+            '            MessageBox.Show("Retur tidak dapat dilanjutkan" & Chr(13) & "Karena penjualan untuk faktur ini berstatus Batal!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '            Exit Sub
+            '        End If
+            '    Else
+            '        Dr.Close()
+            '        CloseTrans()
+            '        CloseConn()
+            '        MessageBox.Show("No faktur ini tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '        Exit Sub
+            '    End If
+            'End Using
 
-            HitungGrandTotal()
+            'HitungGrandTotal()
 
-            Dim total_hpp As Double = 0
+            'Dim total_hpp As Double = 0
 
-            get_no_faktur(y_jenis_nota)
+            'get_no_faktur(y_jenis_nota)
 
-            Dim flag_opm As String = "NULL"
+            'Dim flag_opm As String = "NULL"
 
             'SQL = "select flag_opname, buka_retur_Do from stock_owner "
             'SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
@@ -880,9 +949,9 @@
             'End Using
 
             'awal coding reza
-            Dim nilai_satu_poin As Integer = 0
-            Dim nilai_poin_dari_ngrand As Integer = 0
-            Dim check_nilai_poin_dari_ngrand As String = ""
+            'Dim nilai_satu_poin As Integer = 0
+            'Dim nilai_poin_dari_ngrand As Integer = 0
+            'Dim check_nilai_poin_dari_ngrand As String = ""
 
             'SQL = "select nilai_satu_poin from do_new where kode_perusahaan = '" & KodePerusahaan & "' "
             'SQL = SQL & "and no_do = '" & TextBox1.Text.Trim & "'"
@@ -905,141 +974,165 @@
             'End Using
             ''akhir coding Reza
 
-            SQL = "insert into retur_do_sementara(Kode_Perusahaan, No_Retur_jual_sementara, No_do, Tanggal, "
-            SQL = SQL & "Jam, UserID, lokasi, metode_pot_stock, NTotal, NPPN, NNilai_PPN, NGrand, hrs_updatex, xtermsc, flag_opm,nilai_satu_poin,total_poin) values "
-            SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TextBox4.Text) & "', '" & Trim(TextBox1.Text) & "', "
-            SQL = SQL & "'" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
-            SQL = SQL & "'" & UserID & "', '" & ComboBox1.Text & "', '" & metode_pot_Stock & "', "
-            SQL = SQL & "'" & HilangkanTanda(TextBox17.Text) & "', "
-            SQL = SQL & "'" & HilangkanTanda(TextBox18.Text) & "', "
-            SQL = SQL & "'" & HilangkanTanda(TextBox19.Text) & "', "
-            SQL = SQL & "'" & HilangkanTanda(TxtTotal.Text) & "', 'x', 'Y', " & flag_opm & ", "
-            SQL = SQL & " " & nilai_satu_poin & " , " & nilai_poin_dari_ngrand & " ) "
-            ExecuteTrans(SQL)
+            'SQL = "insert into retur_do_sementara(Kode_Perusahaan, No_Retur_jual_sementara, No_do, Tanggal, "
+            'SQL = SQL & "Jam, UserID, lokasi, metode_pot_stock, NTotal, NPPN, NNilai_PPN, NGrand, hrs_updatex, xtermsc, flag_opm,nilai_satu_poin,total_poin) values "
+            'SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TextBox4.Text) & "', '" & Trim(TextBox1.Text) & "', "
+            'SQL = SQL & "'" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
+            'SQL = SQL & "'" & UserID & "', '" & ComboBox1.Text & "', '" & metode_pot_Stock & "', "
+            'SQL = SQL & "'" & HilangkanTanda(TextBox17.Text) & "', "
+            'SQL = SQL & "'" & HilangkanTanda(TextBox18.Text) & "', "
+            'SQL = SQL & "'" & HilangkanTanda(TextBox19.Text) & "', "
+            'SQL = SQL & "'" & HilangkanTanda(TxtTotal.Text) & "', 'x', 'Y', " & flag_opm & ", "
+            'SQL = SQL & " " & nilai_satu_poin & " , " & nilai_poin_dari_ngrand & " ) "
+            'ExecuteTrans(SQL)
 
 
             Dim x As Integer = 1
             For i As Integer = 0 To ListView2.Items.Count - 1
-                Dim y_jml_jual As Double = 0
-                Dim y_pernah_retur As Double = 0
+                'Dim y_jml_jual As Double = 0
+                'Dim y_pernah_retur As Double = 0
 
-                SQL = "Select a.no_do, a.kode_stock_owner, a.Kode_barang, b.nama, b.satuan, "
-                SQL = SQL & "sdh_selesai_validasi, no_urut, urut_oto, "
+                'SQL = "Select a.no_do, a.kode_stock_owner, a.Kode_barang, b.nama, b.satuan, "
+                'SQL = SQL & "sdh_selesai_validasi, no_urut, urut_oto, "
 
-                SQL = SQL & "isnull(("
-                SQL = SQL & "select sum(x.good_stock + x.bad_stock) from retur_do z, detail_r_do x where "
-                SQL = SQL & "z.kode_perusahaan = x.kode_perusahaan and "
-                SQL = SQL & "z.no_retur_jual = x.no_retur_jual and "
-                SQL = SQL & "x.kode_stock_owner = a.kode_stock_owner and "
-                SQL = SQL & "x.kode_barang = a.kode_barang and "
-                SQL = SQL & "x.urut_do = a.urut_oto and "
-                SQL = SQL & "z.kode_perusahaan = a.kode_perusahaan and z.no_do = a.no_do and "
-                SQL = SQL & "z.status is null group by x.kode_barang "
-                SQL = SQL & "), 0) as pernahretur "
+                'SQL = SQL & "isnull(("
+                'SQL = SQL & "select sum(x.good_stock + x.bad_stock) from retur_do z, detail_r_do x where "
+                'SQL = SQL & "z.kode_perusahaan = x.kode_perusahaan and "
+                'SQL = SQL & "z.no_retur_jual = x.no_retur_jual and "
+                'SQL = SQL & "x.kode_stock_owner = a.kode_stock_owner and "
+                'SQL = SQL & "x.kode_barang = a.kode_barang and "
+                'SQL = SQL & "x.urut_do = a.urut_oto and "
+                'SQL = SQL & "z.kode_perusahaan = a.kode_perusahaan and z.no_do = a.no_do and "
+                'SQL = SQL & "z.status is null group by x.kode_barang "
+                'SQL = SQL & "), 0) as pernahretur "
 
-                SQL = SQL & "from sub_invoice a, barang b where "
-                SQL = SQL & "a.kode_perusahaan = b.kode_Perusahaan and a.kode_barang = b.kode_barang and "
-                SQL = SQL & "a.kode_stock_owner = b.kode_stock_owner and "
-                SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and "
-                SQL = SQL & "a.no_do = '" & TextBox1.Text.Trim & "' and "
-                SQL = SQL & "a.kode_stock_owner = '" & ListView2.Items(i).Text & "' and a.kode_barang = '" & ListView2.Items(i).SubItems(1).Text & "' and "
-                SQL = SQL & "a.urut_oto = '" & ListView2.Items(i).SubItems(5).Text & "'"
-                SQL = SQL & "order by a.urut_oto"
+                'SQL = SQL & "from sub_invoice a, barang b where "
+                'SQL = SQL & "a.kode_perusahaan = b.kode_Perusahaan and a.kode_barang = b.kode_barang and "
+                'SQL = SQL & "a.kode_stock_owner = b.kode_stock_owner and "
+                'SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and "
+                'SQL = SQL & "a.no_do = '" & TextBox1.Text.Trim & "' and "
+                'SQL = SQL & "a.kode_stock_owner = '" & ListView2.Items(i).Text & "' and a.kode_barang = '" & ListView2.Items(i).SubItems(1).Text & "' and "
+                'SQL = SQL & "a.urut_oto = '" & ListView2.Items(i).SubItems(5).Text & "'"
+                'SQL = SQL & "order by a.urut_oto"
+                'Using Dr = OpenTrans(SQL)
+                '    If Dr.Read Then
+                '        y_jml_jual = Dr("sdh_selesai_validasi")
+                '        y_pernah_retur = Dr("pernahretur")
+
+                '        Dim Kode As String = ""
+                '        Dim Nama As String = ""
+                '        If (Val(HilangkanTanda(ListView2.Items(i).SubItems(3).Text))) > (Dr("sdh_selesai_validasi") - Val(General_Class.CekZERO(Dr("pernahretur")))) Then
+                '            Kode = Dr("Kode_Barang")
+                '            Nama = Dr("nama")
+
+                '            Dr.Close()
+                '            CloseTrans()
+                '            CloseConn()
+                '            MessageBox.Show("Jumlah retur melebihi jumlah max untuk barang" & Chr(13) &
+                '                               Nama & " (" & Kode & ")" &
+                '                               "Proses tidak dapat dilanjutkan.", Judul)
+                '            Exit Sub
+                '        End If
+                '    Else
+                '        Dr.Close()
+                '        CloseTrans()
+                '        CloseConn()
+                '        MessageBox.Show("Barang tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '        Exit Sub
+                '    End If
+                'End Using
+
+                'SQL = "insert into detail_r_do_sementara(Kode_Perusahaan, No_Retur_jual_sementara, Kode_Stock_Owner, urut_do, Kode_Barang, "
+                'SQL = SQL & "Good_Stock, Bad_Stock, urut_detail_penjualan, Nharga, npersen_diskon, nsubtotal, Metode_Perhitungan) values "
+                'SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TextBox4.Text) & "', '" & ListView2.Items(i).Text & "', '" & ListView2.Items(i).SubItems(5).Text & "', "
+                'SQL = SQL & "'" & ListView2.Items(i).SubItems(1).Text & "', "
+                'SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(3).Text) & ", 0, "
+                'SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(4).Text) & ", "
+                'SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(6).Text) & ", "
+                'SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(7).Text) & ", "
+                'SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(8).Text) & ", '" & ListView2.Items(i).SubItems(9).Text & "')"
+                'ExecuteTrans(SQL)
+
+                'Dim x_no_urut_det_do As Integer = 0
+                'SQL = "select IDENT_CURRENT('detail_r_do_sementara') as urutan"
+                'Using Dr = OpenTrans(SQL)
+                '    If Dr.Read Then
+                '        x_no_urut_det_do = Dr("urutan")
+                '    End If
+                'End Using
+
+                'SQL = "select no_urut from detail_r_do_sementara where kode_perusahaan = '" & KodePerusahaan & "' and "
+                'SQL = SQL & "No_Retur_jual_sementara = '" & Trim(TextBox4.Text) & "' and no_urut = '" & x_no_urut_det_do & "'"
+                'Using Dr = OpenTrans(SQL)
+                '    If Not (Dr.Read) Then
+                '        Dr.Close()
+                '        CloseTrans()
+                '        CloseConn()
+                '        MessageBox.Show("Harap ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '        Exit Sub
+                '    End If
+                'End Using
+
+                'For j As Integer = 0 To Lv_Hidden_Data.Items.Count - 1
+
+                '    If Lv_Hidden_Data.Items(j).SubItems(0).Text.Trim.ToUpper = ListView2.Items(i).SubItems(0).Text.Trim.ToUpper And
+                '            Lv_Hidden_Data.Items(j).SubItems(1).Text.Trim.ToUpper = ListView2.Items(i).SubItems(1).Text.Trim.ToUpper And
+                '            Lv_Hidden_Data.Items(j).SubItems(4).Text.Trim.ToUpper = ListView2.Items(i).SubItems(4).Text.Trim.ToUpper And
+                '            Lv_Hidden_Data.Items(j).SubItems(5).Text.Trim.ToUpper = ListView2.Items(i).SubItems(5).Text.Trim.ToUpper Then
+
+                '        SQL = "insert into det_r_do_sementara (Kode_Perusahaan, No_Retur_Jual_Sementara, Kode_Stock_Owner, Kode_Barang, Good_Stock, "
+                '        SQL = SQL & "Barcode, Bad_Stock, Urut_Detail, nHarga, nPersen_Diskon, nSubtotal) "
+                '        SQL = SQL & "values ('" & KodePerusahaan & "', '" & Trim(TextBox4.Text) & "', '" & Lv_Hidden_Data.Items(j).Text & "', '" & Lv_Hidden_Data.Items(j).SubItems(1).Text & "', "
+                '        SQL = SQL & "'" & HilangkanTanda(Lv_Hidden_Data.Items(j).SubItems(3).Text) & "', '" & Lv_Hidden_Data.Items(j).SubItems(10).Text & "', "
+                '        SQL = SQL & "0, '" & x_no_urut_det_do & "', '" & HilangkanTanda(Lv_Hidden_Data.Items(j).SubItems(6).Text) & "', "
+                '        SQL = SQL & "'" & HilangkanTanda(Lv_Hidden_Data.Items(j).SubItems(7).Text) & "', '" & HilangkanTanda(Lv_Hidden_Data.Items(j).SubItems(8).Text) & "') "
+                '        ExecuteTrans(SQL)
+                '    End If
+                'Next
+
+                SQL = "select b.No_Urut "
+                SQL = SQL & "from retur_do_sementara a "
+                SQL = SQL & "inner join Detail_R_DO_sementara b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Retur_Jual_Sementara = b.No_Retur_Jual_Sementara "
+                SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.Status is null "
+                SQL = SQL & "and a.Flag_Val is null and a.Flag_Release is null "
+                SQL = SQL & "and a.No_Retur_Jual_Sementara = '" & TextBox4.Text.Trim & "' "
+                SQL = SQL & "and b.Kode_Stock_Owner ='" & ListView2.Items(i).SubItems(0).Text.Trim & "' "
+                SQL = SQL & "and b.Kode_Barang = '" & ListView2.Items(i).SubItems(1).Text.Trim & "'"
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
-                        y_jml_jual = Dr("sdh_selesai_validasi")
-                        y_pernah_retur = Dr("pernahretur")
 
-                        Dim Kode As String = ""
-                        Dim Nama As String = ""
-                        If (Val(HilangkanTanda(ListView2.Items(i).SubItems(3).Text))) > (Dr("sdh_selesai_validasi") - Val(General_Class.CekZERO(Dr("pernahretur")))) Then
-                            Kode = Dr("Kode_Barang")
-                            Nama = Dr("nama")
+                        SQL = "update Detail_R_DO_sementara set Good_Stock = '" & Val(HilangkanTanda(ListView2.Items(i).SubItems(10).Text.Trim)) & "', "
+                        SQL = SQL & "nHarga = '" & Val(HilangkanTanda(ListView2.Items(i).SubItems(6).Text.Trim)) & "', "
+                        SQL = SQL & "nPersen_Diskon = '" & Val(HilangkanTanda(ListView2.Items(i).SubItems(7).Text.Trim)) & "', "
+                        SQL = SQL & "nSubtotal = '" & Val(HilangkanTanda(ListView2.Items(i).SubItems(8).Text.Trim)) & "' "
+                        SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                        SQL = SQL & "and No_Retur_Jual_Sementara = '" & TextBox4.Text.Trim & "' "
+                        SQL = SQL & "and Kode_Stock_Owner = '" & ListView2.Items(i).SubItems(0).Text.Trim & "' "
+                        SQL = SQL & "and Kode_Barang = '" & ListView2.Items(i).SubItems(1).Text.Trim & "' "
+                        SQL = SQL & "and No_Urut = '" & Dr("No_Urut") & "' "
+                        Dr.Close()
+                        ExecuteTrans(SQL)
 
-                            Dr.Close()
-                            CloseTrans()
-                            CloseConn()
-                            MessageBox.Show("Jumlah retur melebihi jumlah max untuk barang" & Chr(13) &
-                                               Nama & " (" & Kode & ")" &
-                                               "Proses tidak dapat dilanjutkan.", Judul)
-                            Exit Sub
-                        End If
+
                     Else
                         Dr.Close()
                         CloseTrans()
                         CloseConn()
-                        MessageBox.Show("Barang tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        MessageBox.Show("Detail Barang Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
                 End Using
-
-                SQL = "insert into detail_r_do_sementara(Kode_Perusahaan, No_Retur_jual_sementara, Kode_Stock_Owner, urut_do, Kode_Barang, "
-                SQL = SQL & "Good_Stock, Bad_Stock, urut_detail_penjualan, Nharga, npersen_diskon, nsubtotal, Metode_Perhitungan) values "
-                SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TextBox4.Text) & "', '" & ListView2.Items(i).Text & "', '" & ListView2.Items(i).SubItems(5).Text & "', "
-                SQL = SQL & "'" & ListView2.Items(i).SubItems(1).Text & "', "
-                SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(3).Text) & ", 0, "
-                SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(4).Text) & ", "
-                SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(6).Text) & ", "
-                SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(7).Text) & ", "
-                SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(8).Text) & ", '" & ListView2.Items(i).SubItems(9).Text & "')"
-                ExecuteTrans(SQL)
-
-
-
-                Dim x_no_urut_det_do As Integer = 0
-                SQL = "select IDENT_CURRENT('detail_r_do_sementara') as urutan"
-                Using Dr = OpenTrans(SQL)
-                    If Dr.Read Then
-                        x_no_urut_det_do = Dr("urutan")
-                    End If
-                End Using
-
-                SQL = "select no_urut from detail_r_do_sementara where kode_perusahaan = '" & KodePerusahaan & "' and "
-                SQL = SQL & "No_Retur_jual_sementara = '" & Trim(TextBox4.Text) & "' and no_urut = '" & x_no_urut_det_do & "'"
-                Using Dr = OpenTrans(SQL)
-                    If Not (Dr.Read) Then
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Harap ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
-                    End If
-                End Using
-
-
-
-
-                For j As Integer = 0 To Lv_Hidden_Data.Items.Count - 1
-
-
-                    If Lv_Hidden_Data.Items(j).SubItems(0).Text.Trim.ToUpper = ListView2.Items(i).SubItems(0).Text.Trim.ToUpper And
-                            Lv_Hidden_Data.Items(j).SubItems(1).Text.Trim.ToUpper = ListView2.Items(i).SubItems(1).Text.Trim.ToUpper And
-                            Lv_Hidden_Data.Items(j).SubItems(4).Text.Trim.ToUpper = ListView2.Items(i).SubItems(4).Text.Trim.ToUpper And
-                            Lv_Hidden_Data.Items(j).SubItems(5).Text.Trim.ToUpper = ListView2.Items(i).SubItems(5).Text.Trim.ToUpper Then
-
-                        SQL = "insert into det_r_do_sementara (Kode_Perusahaan, No_Retur_Jual_Sementara, Kode_Stock_Owner, Kode_Barang, Good_Stock, "
-                        SQL = SQL & "Barcode, Bad_Stock, Urut_Detail, nHarga, nPersen_Diskon, nSubtotal) "
-                        SQL = SQL & "values ('" & KodePerusahaan & "', '" & Trim(TextBox4.Text) & "', '" & Lv_Hidden_Data.Items(j).Text & "', '" & Lv_Hidden_Data.Items(j).SubItems(1).Text & "', "
-                        SQL = SQL & "'" & HilangkanTanda(Lv_Hidden_Data.Items(j).SubItems(3).Text) & "', '" & Lv_Hidden_Data.Items(j).SubItems(10).Text & "', "
-                        SQL = SQL & "0, '" & x_no_urut_det_do & "', '" & HilangkanTanda(Lv_Hidden_Data.Items(j).SubItems(6).Text) & "', "
-                        SQL = SQL & "'" & HilangkanTanda(Lv_Hidden_Data.Items(j).SubItems(7).Text) & "', '" & HilangkanTanda(Lv_Hidden_Data.Items(j).SubItems(8).Text) & "') "
-                        ExecuteTrans(SQL)
-
-
-
-                    End If
-
-                Next
-
-
 
 
             Next
 
 
 
-
-
+            SQL = "update retur_do_sementara set Flag_Release = 'Y', "
+            SQL = SQL & "Tanggal_Release = '" & Format(tgl_skg, "yyyy-MM-dd") & "', Jam_Release = '" & Format(tgl_skg, "HH:mm:ss") & "', UserId_Release = '" & UserID & "' "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Retur_Jual_Sementara = '" & TextBox4.Text.Trim & "' "
+            ExecuteTrans(SQL)
 
 
 
@@ -1056,6 +1149,7 @@
 
         kosong()
         TextBox1.Text = ""
+        TextBox4.Text = ""
         TextBox1.Focus()
     End Sub
 
@@ -1079,7 +1173,7 @@
         Try
             OpenConn()
 
-            get_no_faktur("")
+            'get_no_faktur("")
 
             CloseConn()
         Catch ex As Exception
@@ -1131,8 +1225,6 @@
 
         N_EMI_SD_Retur_DO_Reseller_Sementara_Detail_Barcode.Txt_Total.Text = Format(Total, "N4")
         N_EMI_SD_Retur_DO_Reseller_Sementara_Detail_Barcode.ShowDialog()
-
-
 
     End Sub
 
@@ -1193,4 +1285,90 @@
 
         HitungGrandTotal()
     End Sub
+
+    Private Sub ListView4_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles ListView4.DoubleClick
+        If ListView4.Items.Count = 0 Or ListView4.SelectedItems.Count = 0 Then
+            MessageBox.Show("Pilih no do yang mau validasi !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        TextBox1.Text = ListView4.FocusedItem.Text
+        TextBox4.Text = ListView4.FocusedItem.SubItems(1).Text
+        TextBox1_Leave(ListView4, e)
+
+        Try
+            OpenConn()
+
+            ListView2.Items.Clear()
+            SQL = "select a.Kode_Stock_Owner,a.Urut_DO,a.Kode_Barang,b.Nama,a.Good_Stock, "
+            SQL = SQL & "a.Urut_Detail_Penjualan, a.Metode_Perhitungan,a.nHarga,a.nPersen_Diskon,a.nSubtotal, "
+            SQL = SQL & "isnull((select sum(c.Good_Stock) from Det_R_DO_Sementara c where "
+            SQL = SQL & "c.Kode_Perusahaan = a.Kode_Perusahaan and "
+            SQL = SQL & "c.No_Retur_Jual_Sementara = a.No_Retur_Jual_Sementara and "
+            SQL = SQL & "c.Kode_Barang = a.Kode_Barang and "
+            SQL = SQL & "c.Kode_Stock_Owner = a.Kode_Stock_Owner "
+            SQL = SQL & "group by c.Kode_Barang), 0) as det_good_stock "
+            SQL = SQL & "from Detail_R_DO_sementara a, Barang b where a.Kode_Perusahaan = b.Kode_Perusahaan "
+            SQL = SQL & "and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Retur_Jual_Sementara = '" & TextBox4.Text & "'"
+            Using dr = OpenTrans(SQL)
+                Do While dr.Read
+                    Dim Lvw As ListViewItem
+                    Lvw = ListView2.Items.Add(dr("kode_stock_owner"))
+                    Lvw.SubItems.Add(dr("kode_barang"))
+                    Lvw.SubItems.Add(dr("nama"))
+                    Lvw.SubItems.Add(Format(dr("good_stock"), "N4"))
+                    Lvw.SubItems.Add(dr("urut_detail_penjualan"))
+                    Lvw.SubItems.Add(dr("urut_do"))
+                    Lvw.SubItems.Add(Format(dr("nharga"), "N4"))
+                    Lvw.SubItems.Add(dr("npersen_diskon"))
+                    Lvw.SubItems.Add(Format(dr("nsubtotal"), "N4"))
+                    Lvw.SubItems.Add(dr("metode_perhitungan"))
+                    Lvw.SubItems.Add(Format(dr("det_good_stock"), "N4"))
+                Loop
+            End Using
+
+            Lv_Hidden_Data.Items.Clear()
+            SQL = "select b.Kode_Stock_Owner, b.Kode_Barang, b.urut_detail_penjualan, b.Urut_DO, d.Nama as Nama_Barang, b.No_Urut, c.Good_Stock, c.nHarga, c.nPersen_Diskon, c.nSubtotal, b.Metode_Perhitungan, c.Barcode, c.Urut_Oto "
+            SQL = SQL & "from retur_do_sementara a "
+            SQL = SQL & "inner join detail_r_do_sementara b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Retur_Jual_Sementara = b.No_Retur_Jual_Sementara "
+            SQL = SQL & "inner join det_r_do_sementara c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Retur_Jual_Sementara = c.No_Retur_Jual_Sementara and b.No_Urut = c.Urut_Detail "
+            SQL = SQL & "inner join Barang d on b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Stock_Owner = d.Kode_Stock_Owner and b.Kode_Barang = d.Kode_Barang "
+            SQL = SQL & "where a.Status is null "
+            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.No_Retur_Jual_Sementara = '" & TextBox4.Text & "' "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Dim Lv As ListViewItem
+                    Lv = Lv_Hidden_Data.Items.Add(Dr("Kode_Stock_Owner"))
+                    Lv.SubItems.Add(Dr("Kode_Barang"))
+                    Lv.SubItems.Add(Dr("Nama_Barang"))
+                    Lv.SubItems.Add(Dr("Good_Stock"))
+                    Lv.SubItems.Add(Dr("urut_detail_penjualan"))
+                    Lv.SubItems.Add(Dr("urut_do"))
+                    Lv.SubItems.Add(Dr("nHarga"))
+                    Lv.SubItems.Add(Dr("nPersen_Diskon"))
+                    Lv.SubItems.Add(Dr("nSubtotal"))
+                    Lv.SubItems.Add(Dr("Metode_Perhitungan"))
+                    Lv.SubItems.Add(Dr("Barcode"))
+                Loop
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Protected Overrides Sub WndProc(ByRef m As Message)
+        ' WM_NCLBUTTONDBLCLK = 0xA3 (double click di title bar)
+        If m.Msg = &HA3 Then
+            Return  ' Abaikan pesan, sehingga form tidak maximize
+        End If
+
+        MyBase.WndProc(m)
+    End Sub
+
 End Class

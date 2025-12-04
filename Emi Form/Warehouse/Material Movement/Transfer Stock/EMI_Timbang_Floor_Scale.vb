@@ -251,26 +251,26 @@ Public Class EMI_Timbang_Floor_Scale
                 End If
             End Using
 
-            Dim nilai As Double = 0
-            SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & TxtKdBarang.Text & "', '" & Satuan_bags & "',"
-            SQL = SQL & "'" & CmbSatuan.SelectedItem.ToString & "', '" & berat_bags & "' ) as hasil"
-            Using Dr1 = OpenTrans(SQL)
-                If Dr1.Read Then
-                    If General_Class.CekNULL(Dr1("hasil")) = "" Then
-                        Dr1.Close()
-                        CloseConn()
-                        MessageBox.Show("data konversi satuan kirim tidak ada ")
-                        Exit Sub
-                    End If
+            Dim nilai As Double = berat_bags
+            'SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & TxtKdBarang.Text & "', '" & Satuan_bags & "',"
+            'SQL = SQL & "'" & CmbSatuan.SelectedItem.ToString & "', '" & berat_bags & "' ) as hasil"
+            'Using Dr1 = OpenTrans(SQL)
+            '    If Dr1.Read Then
+            '        If General_Class.CekNULL(Dr1("hasil")) = "" Then
+            '            Dr1.Close()
+            '            CloseConn()
+            '            MessageBox.Show("data konversi satuan kirim tidak ada ")
+            '            Exit Sub
+            '        End If
 
-                    nilai = Dr1("hasil")
-                Else
-                    Dr1.Close()
-                    CloseConn()
-                    MessageBox.Show("data konversi satuan kirim tidak ada ")
-                    Exit Sub
-                End If
-            End Using
+            '        nilai = Dr1("hasil")
+            '    Else
+            '        Dr1.Close()
+            '        CloseConn()
+            '        MessageBox.Show("data konversi satuan kirim tidak ada ")
+            '        Exit Sub
+            '    End If
+            'End Using
 
             TxtJumlahBags.Text = Format(jumlah_bags, "N2")
             TxtBeratBags.Text = Format(nilai, "N2")
@@ -307,26 +307,26 @@ Public Class EMI_Timbang_Floor_Scale
                 End If
             End Using
 
-            Dim nilai As Double = 0
-            SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & TxtKdBarang.Text & "', '" & Satuan_bags & "',"
-            SQL = SQL & "'" & CmbSatuan.SelectedItem.ToString & "', '" & berat_bags & "' ) as hasil"
-            Using Dr1 = OpenTrans(SQL)
-                If Dr1.Read Then
-                    If General_Class.CekNULL(Dr1("hasil")) = "" Then
-                        Dr1.Close()
-                        CloseConn()
-                        MessageBox.Show("data konversi satuan kirim tidak ada ")
-                        Exit Sub
-                    End If
+            Dim nilai As Double = berat_bags
+            'SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & TxtKdBarang.Text & "', '" & Satuan_bags & "',"
+            'SQL = SQL & "'" & CmbSatuan.SelectedItem.ToString & "', '" & berat_bags & "' ) as hasil"
+            'Using Dr1 = OpenTrans(SQL)
+            '    If Dr1.Read Then
+            '        If General_Class.CekNULL(Dr1("hasil")) = "" Then
+            '            Dr1.Close()
+            '            CloseConn()
+            '            MessageBox.Show("data konversi satuan kirim tidak ada ")
+            '            Exit Sub
+            '        End If
 
-                    nilai = Dr1("hasil")
-                Else
-                    Dr1.Close()
-                    CloseConn()
-                    MessageBox.Show("data konversi satuan kirim tidak ada ")
-                    Exit Sub
-                End If
-            End Using
+            '        nilai = Dr1("hasil")
+            '    Else
+            '        Dr1.Close()
+            '        CloseConn()
+            '        MessageBox.Show("data konversi satuan kirim tidak ada ")
+            '        Exit Sub
+            '    End If
+            'End Using
 
             TxtJumlahBags.Text = Format(jumlah_bags, "N2")
             TxtBeratBags.Text = Format(nilai, "N2")
@@ -463,27 +463,27 @@ Public Class EMI_Timbang_Floor_Scale
             '====================================
             '=       CONVERT SATUAN KECIL       =
             '====================================
-            Dim sisaJumlah_Kecil As Double = 0
-            SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & TxtKdBarang.Text & "', '" & Txt_SatuanKecil.Text & "',"
-            SQL = SQL & "'" & CmbSatuan.SelectedItem.ToString & "', '" & HilangkanTanda(Sisa_Jumlah) & "' ) as hasil"
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    If General_Class.CekNULL(Dr("hasil")) = "" Then
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("data konversi satuan kirim tidak ada ")
-                        Exit Sub
-                    End If
+            Dim sisaJumlah_Kecil As Double = Val(HilangkanTanda(Sisa_Jumlah))
+            'SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & TxtKdBarang.Text & "', '" & Txt_SatuanKecil.Text & "',"
+            'SQL = SQL & "'" & CmbSatuan.SelectedItem.ToString & "', '" & HilangkanTanda(Sisa_Jumlah) & "' ) as hasil"
+            'Using Dr = OpenTrans(SQL)
+            '    If Dr.Read Then
+            '        If General_Class.CekNULL(Dr("hasil")) = "" Then
+            '            Dr.Close()
+            '            CloseTrans()
+            '            CloseConn()
+            '            MessageBox.Show("data konversi satuan kirim tidak ada ")
+            '            Exit Sub
+            '        End If
 
-                    sisaJumlah_Kecil = Dr("hasil")
-                Else
-                    Dr.Close()
-                    CloseConn()
-                    MessageBox.Show("data konversi satuan kirim tidak ada ")
-                    Exit Sub
-                End If
-            End Using
+            '        sisaJumlah_Kecil = Dr("hasil")
+            '    Else
+            '        Dr.Close()
+            '        CloseConn()
+            '        MessageBox.Show("data konversi satuan kirim tidak ada ")
+            '        Exit Sub
+            '    End If
+            'End Using
 
             Dim sisa_Bags As Double = BagsTF - jumlahBagsSimpan
 
@@ -554,7 +554,7 @@ Public Class EMI_Timbang_Floor_Scale
                 Cmd.Transaction = Cn.BeginTransaction
 
 
-                Dim jumlah_masuk_Barang As Double = 0
+                Dim jumlah_masuk_Barang As Double = Val(HilangkanTanda(TxtBeratBersih.Text))
                 Dim Satuan_Barang As String = ""
 
                 SQL = "select distinct Satuan from Barang where "
@@ -573,19 +573,19 @@ Public Class EMI_Timbang_Floor_Scale
 
 
                 'UBAH KE SATUAN PO
-                SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & TxtKdBarang.Text & "',"
-                SQL = SQL & "'" & CmbSatuan.Text & "','" & Satuan_Barang & "',"
-                SQL = SQL & "" & HilangkanTanda(TxtBeratBersih.Text) & ") as Hasil "
-                Using dr3 = OpenTrans(SQL)
-                    If dr3.Read Then
-                        If General_Class.CekNULL(dr3("Hasil")) <> "" Then
-                            jumlah_masuk_Barang = dr3("Hasil")
-                        Else
-                            MessageBox.Show("Satuan " & CmbSatuan.Text & " Ke " & Satuan_Barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                            Exit Sub
-                        End If
-                    End If
-                End Using
+                'SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & TxtKdBarang.Text & "',"
+                'SQL = SQL & "'" & CmbSatuan.Text & "','" & Satuan_Barang & "',"
+                'SQL = SQL & "" & HilangkanTanda(TxtBeratBersih.Text) & ") as Hasil "
+                'Using dr3 = OpenTrans(SQL)
+                '    If dr3.Read Then
+                '        If General_Class.CekNULL(dr3("Hasil")) <> "" Then
+                '            jumlah_masuk_Barang = dr3("Hasil")
+                '        Else
+                '            MessageBox.Show("Satuan " & CmbSatuan.Text & " Ke " & Satuan_Barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '            Exit Sub
+                '        End If
+                '    End If
+                'End Using
 
                 SQL = "update EMI_Barang_Masuk_Perpallet set  "
                 SQL = SQL & "Flag_Timbang = 'Y', "
@@ -790,53 +790,50 @@ Public Class EMI_Timbang_Floor_Scale
                         End If
                     End Using
 
-                    'SQL = "Select Top(1) nomor_urut from view_warehouse_position_detail where "
-                    'SQL = SQL & "kode_Perusahaan ='" & KodePerusahaan & "' and kode_barang is null and "
-                    'SQL = SQL & "id_wms_warehouse_position = '" & GetRakTujuan & "' "
+
+
+                    'SQL = "Select Top(1) nomor_urut from dbo.N_EMI_Wharehouse_Position_Fn('" & KodePerusahaan & "','" & GetSoTujuan & "', " & GetRakTujuan & ") where "
+                    'SQL = SQL & "kode_Perusahaan ='" & KodePerusahaan & "' and kode_barang is null "
                     'SQL = SQL & "order by nomor_urut "
-                    SQL = "select top 1 id_wms_warehouse_position, nomor_urut from dbo.N_EMI_Wharehouse_Position_Fn('" & KodePerusahaan & "', "
-                    SQL = SQL & "'" & GetSoTujuan & "', '" & GetRakTujuan & "') "
-                    SQL = SQL & "where kode_barang is null"
-                    SQL = SQL & "order by nomor_urut"
-                    Using dr = OpenTrans(SQL)
-                        If dr.Read Then
-                            GetPalletTujuan = dr("nomor_urut")
-                        Else
-                            dr.Close()
-                            CloseTrans()
-                            CloseConn()
-                            MessageBox.Show("data Rak Sudah Penuh . . ! ! ")
-                            Exit Sub
-                        End If
-                    End Using
+                    'Using dr = OpenTrans(SQL)
+                    '    If dr.Read Then
+                    '        GetPalletTujuan = dr("nomor_urut")
+                    '    Else
+                    '        dr.Close()
+                    '        CloseTrans()
+                    '        CloseConn()
+                    '        MessageBox.Show("data Rak Sudah Penuh . . ! ! ")
+                    '        Exit Sub
+                    '    End If
+                    'End Using
 
 
 
                     '====================================
                     '=       CONVERT SATUAN KECIL       =
                     '====================================
-                    Dim nilai_kecildetail As Double = 0
-                    SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & GetDataKdBrg & "', '" & CmbSatuan.SelectedItem.ToString & "',"
-                    SQL = SQL & "'" & GetDataSatuanKecil & "', '" & HilangkanTanda(TxtBeratBersih.Text) & "' ) as hasil"
-                    Using Dr1 = OpenTrans(SQL)
-                        If Dr1.Read Then
-                            If General_Class.CekNULL(Dr1("hasil")) = "" Then
-                                Dr1.Close()
-                                CloseTrans()
-                                CloseConn()
-                                MessageBox.Show("data konversi satuan kirim tidak ada ")
-                                Exit Sub
-                            End If
+                    Dim nilai_kecildetail As Double = Val(HilangkanTanda(TxtBeratBersih.Text))
+                    'SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & GetDataKdBrg & "', '" & CmbSatuan.SelectedItem.ToString & "',"
+                    'SQL = SQL & "'" & GetDataSatuanKecil & "', '" & HilangkanTanda(TxtBeratBersih.Text) & "' ) as hasil"
+                    'Using Dr1 = OpenTrans(SQL)
+                    '    If Dr1.Read Then
+                    '        If General_Class.CekNULL(Dr1("hasil")) = "" Then
+                    '            Dr1.Close()
+                    '            CloseTrans()
+                    '            CloseConn()
+                    '            MessageBox.Show("data konversi satuan kirim tidak ada ")
+                    '            Exit Sub
+                    '        End If
 
-                            nilai_kecildetail = Dr1("hasil")
-                        Else
-                            Dr1.Close()
-                            CloseTrans()
-                            CloseConn()
-                            MessageBox.Show("data konversi satuan kirim tidak ada ")
-                            Exit Sub
-                        End If
-                    End Using
+                    '        nilai_kecildetail = Dr1("hasil")
+                    '    Else
+                    '        Dr1.Close()
+                    '        CloseTrans()
+                    '        CloseConn()
+                    '        MessageBox.Show("data konversi satuan kirim tidak ada ")
+                    '        Exit Sub
+                    '    End If
+                    'End Using
 
 
                     '============================
@@ -959,6 +956,22 @@ Public Class EMI_Timbang_Floor_Scale
                         End With
                     End Using
 
+                    '==========================================
+                    '=       GET NOMOR REQUEST MATERIAL       =
+                    '==========================================
+                    Dim No_Reservasi_Split As String = "NULL"
+                    SQL = "select a.No_Faktur, a.No_Faktur_Order "
+                    SQL = SQL & "from Emi_Material_Requisition a "
+                    SQL = SQL & "inner join Emi_Material_Requisition_Det b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+                    SQL = SQL & "inner join Emi_Material_Requisition_Det_Convert c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur and b.Urut_Oto = c.No_Urut_Det "
+                    SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and a.Status is null "
+                    SQL = SQL & "and c.Urut_Oto = '" & Urut_Det_Convert & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            No_Reservasi_Split = $"'{Dr("No_Faktur_Order")}'"
+                        End If
+                    End Using
 
 
                     '==============================
@@ -999,10 +1012,10 @@ Public Class EMI_Timbang_Floor_Scale
 
                     'INSERT BARANG SN BARU  
                     SQL = "insert into Barang_SN (Kode_Perusahaan, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah,  Jumlah_Bags, "
-                    SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, id_Susunan, Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number, Warna, Tgl_masuk, Blok_SN, id_jenis_kategori_produksi) "
+                    SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, id_Susunan, Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number, Warna, Tgl_masuk, Blok_SN, id_jenis_kategori_produksi, No_Reservasi) "
                     SQL = SQL & "select Kode_Perusahaan, '" & GetSoTujuan & "', Kode_Barang, '" & SN_Baru & "', '" & nilai_kecildetail & "', " & Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) & ", "
                     SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, '" & GetRakTujuan & "', id_Susunan , Qr_Code, '" & newKodeUnikBerjalan & "', "
-                    SQL = SQL & "Kode_Unik_Asal, '" & GetPalletTujuan & "', batch_number, '" & warnaLama & "', Tgl_Masuk, NULL, " & Id_Jenis_Kategori_Produksi & " "
+                    SQL = SQL & "Kode_Unik_Asal, '" & GetPalletTujuan & "', batch_number, '" & warnaLama & "', Tgl_Masuk, NULL, " & Id_Jenis_Kategori_Produksi & ", " & No_Reservasi_Split & " "
                     SQL = SQL & "from Barang_SN "
                     SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' "
                     SQL = SQL & "and Kode_Stock_Owner='" & GetSoAwal & "' "
@@ -1544,54 +1557,50 @@ Public Class EMI_Timbang_Floor_Scale
                     End If
                 End Using
 
-                'SQL = "Select Top(1) nomor_urut from view_warehouse_position_detail where "
-                'SQL = SQL & "kode_Perusahaan ='" & KodePerusahaan & "' and kode_barang is null and "
-                'SQL = SQL & "id_wms_warehouse_position = '" & GetRakTujuan & "' "
+
+                'SQL = "Select Top(1) nomor_urut from dbo.N_EMI_Wharehouse_Position_Fn('" & KodePerusahaan & "','" & GetDataLokasi & "', " & GetRakTujuan & ") where "
+                'SQL = SQL & "kode_Perusahaan ='" & KodePerusahaan & "' and kode_barang is null "
                 'SQL = SQL & "order by nomor_urut "
 
-                SQL = "select top 1 id_wms_warehouse_position, nomor_urut from dbo.N_EMI_Wharehouse_Position_Fn('" & KodePerusahaan & "', "
-                SQL = SQL & "'" & GetDataLokasi & "', '" & GetRakTujuan & "') "
-                SQL = SQL & "where kode_barang is null"
-                SQL = SQL & "order by nomor_urut"
-                Using dr = OpenTrans(SQL)
-                    If dr.Read Then
-                        GetPalletTujuan = dr("nomor_urut")
-                    Else
-                        dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("data Rak Sudah Penuh . . ! ! ")
-                        Exit Sub
-                    End If
-                End Using
+                'Using dr = OpenTrans(SQL)
+                '    If dr.Read Then
+                '        GetPalletTujuan = dr("nomor_urut")
+                '    Else
+                '        dr.Close()
+                '        CloseTrans()
+                '        CloseConn()
+                '        MessageBox.Show("data Rak Sudah Penuh . . ! ! ")
+                '        Exit Sub
+                '    End If
+                'End Using
 
 
 
                 '====================================
                 '=       CONVERT SATUAN KECIL       =
                 '====================================
-                Dim nilai_kecildetail As Double = 0
-                SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & GetDataKdBrg & "', '" & CmbSatuan.SelectedItem.ToString & "',"
-                SQL = SQL & "'" & GetDataSatuanKecil & "', '" & HilangkanTanda(TxtBeratBersih.Text) & "' ) as hasil"
-                Using Dr1 = OpenTrans(SQL)
-                    If Dr1.Read Then
-                        If General_Class.CekNULL(Dr1("hasil")) = "" Then
-                            Dr1.Close()
-                            CloseTrans()
-                            CloseConn()
-                            MessageBox.Show("data konversi satuan kirim tidak ada ")
-                            Exit Sub
-                        End If
+                Dim nilai_kecildetail As Double = Val(HilangkanTanda(TxtBeratBersih.Text))
+                'SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & GetDataKdBrg & "', '" & CmbSatuan.SelectedItem.ToString & "',"
+                'SQL = SQL & "'" & GetDataSatuanKecil & "', '" & HilangkanTanda(TxtBeratBersih.Text) & "' ) as hasil"
+                'Using Dr1 = OpenTrans(SQL)
+                '    If Dr1.Read Then
+                '        If General_Class.CekNULL(Dr1("hasil")) = "" Then
+                '            Dr1.Close()
+                '            CloseTrans()
+                '            CloseConn()
+                '            MessageBox.Show("data konversi satuan kirim tidak ada ")
+                '            Exit Sub
+                '        End If
 
-                        nilai_kecildetail = Dr1("hasil")
-                    Else
-                        Dr1.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("data konversi satuan kirim tidak ada ")
-                        Exit Sub
-                    End If
-                End Using
+                '        nilai_kecildetail = Dr1("hasil")
+                '    Else
+                '        Dr1.Close()
+                '        CloseTrans()
+                '        CloseConn()
+                '        MessageBox.Show("data konversi satuan kirim tidak ada ")
+                '        Exit Sub
+                '    End If
+                'End Using
 
 
                 '============================
@@ -1982,63 +1991,63 @@ Public Class EMI_Timbang_Floor_Scale
         ElseIf CmbJenisTimbang.Text.Trim.ToUpper = "TRANSFER STOCK" Then
 
 
-            Dim result As DialogResult
-            result = MessageBox.Show("Apakah Proses Penimbangan akan di Lanjutkan ?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            'Dim result As DialogResult
+            'result = MessageBox.Show("Apakah Proses Penimbangan akan di Lanjutkan ?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
-            If result = DialogResult.Yes Then
-                ' Tindakan jika memilih Yes
-                kosong_sebagian()
-                If Val(HilangkanTanda(Txt_Sisa_Jumlah.Text)) = 0 Then
-                    MessageBox.Show("Transfer sudah terpenuhi", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Try
-                        OpenConn()
+            ''If result = DialogResult.Yes Then
+            '' Tindakan jika memilih Yes
+            'kosong_sebagian()
+            '    If Val(HilangkanTanda(Txt_Sisa_Jumlah.Text)) = 0 Then
+            '        MessageBox.Show("Transfer sudah terpenuhi", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '        Try
+            '            OpenConn()
 
-                        SQL = "update Tf_Stock_det set  "
-                        SQL = SQL & "Selesai = 'Y' "
-                        SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
-                        SQL = SQL & "and urut_oto = '" & txtUrutOto.Text & "' "
-                        ExecuteTrans(SQL)
+            '            SQL = "update Tf_Stock_det set  "
+            '            SQL = SQL & "Selesai = 'Y' "
+            '            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+            '            SQL = SQL & "and urut_oto = '" & txtUrutOto.Text & "' "
+            '            ExecuteTrans(SQL)
 
 
-                        CloseConn()
-                    Catch ex As Exception
-                        CloseConn()
-                        MessageBox.Show(ex.Message)
-                        Exit Sub
-                    End Try
+            '            CloseConn()
+            '        Catch ex As Exception
+            '            CloseConn()
+            '            MessageBox.Show(ex.Message)
+            '            Exit Sub
+            '        End Try
 
-                    cetaktransfer(kode_unik_print)
-                    Emi_Display_Transfer.kosong()
-                    Me.Close()
-                    Exit Sub
-                End If
+            '        cetaktransfer(kode_unik_print)
+            '        Emi_Display_Transfer.kosong()
+            '        Me.Close()
+            '        Exit Sub
+            '    End If
 
-                cetaktransfer(kode_unik_print)
+            '    cetaktransfer(kode_unik_print)
 
-            Else
+            'Else
 
-                Try
-                    OpenConn()
+            Try
+                OpenConn()
 
-                    SQL = "update Tf_Stock_det set  "
-                    SQL = SQL & "Selesai = 'Y' "
-                    SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
-                    SQL = SQL & "and urut_oto = '" & txtUrutOto.Text & "' "
-                    ExecuteTrans(SQL)
+                SQL = "update Tf_Stock_det set  "
+                SQL = SQL & "Selesai = 'Y' "
+                SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and urut_oto = '" & txtUrutOto.Text & "' "
+                ExecuteTrans(SQL)
 
-                    CloseConn()
-                Catch ex As Exception
-                    CloseConn()
-                    MessageBox.Show(ex.Message)
-                    Exit Sub
-                End Try
+                CloseConn()
+            Catch ex As Exception
+                CloseConn()
+                MessageBox.Show(ex.Message)
+                Exit Sub
+            End Try
 
-                cetaktransfer(kode_unik_print)
-                Emi_Display_Transfer.kosong()
-                Me.Close()
+            cetaktransfer(kode_unik_print)
+            Emi_Display_Transfer.kosong()
+            Me.Close()
 
-                TutupKoneksiTimbangan()
-            End If
+            TutupKoneksiTimbangan()
+            'End If
 
 
         ElseIf CmbJenisTimbang.Text.Trim.ToUpper = "PEMUSNAHAN BARANG" Then
@@ -2273,7 +2282,7 @@ Public Class EMI_Timbang_Floor_Scale
 
 
 
-            SQL = "truncate table Cetak_Barang_Masuk_Perpallet "
+            SQL = "delete Cetak_Barang_Masuk_Perpallet "
             ExecuteTrans(SQL)
 
             SQL = "select Tahun_Mulai_Produksi from Init"
@@ -2295,7 +2304,7 @@ Public Class EMI_Timbang_Floor_Scale
             'SQL = SQL & "And a.No_Faktur = b.No_Faktur And b.Kode_Stock_Owner = c.Kode_Stock_Owner "
             'SQL = SQL & "And b.Kode_Barang = c.Kode_Barang and a.no_faktur = '" & txtKodeTransfer.Text & "' "
             'SQL = SQL & "order by urut_oto "
-            SQL = "Select a.no_faktur, a.No_Pembelian_Loading, b.kode_stock_owner, b.Kode_Barang, c.Nama, b.Tgl_Produksi, b.Tgl_Expired, "
+            SQL = "Select a.no_faktur, a.No_Pembelian_Loading, b.kode_stock_owner, b.Kode_Barang, c.Nama, b.Tgl_Produksi, a.Tgl_Expired_Real as Tgl_Expired, "
             SQL = SQL & "b.Jumlah, b.Satuan, b.Jumlah_Bags, b.Nilai_Pengali, b.Nilai_Barang, b.Satuan_Barang, b.urut_oto, "
             SQL = SQL & "a.no_sj, a.no_plat, b.Urut_Loading, a.kode_supplier, a.Sdh_Cetak, a.Metode_Timbang, a.Flag_Timbang, "
             SQL = SQL & "c.Metode_Pengeluaran_Stok, d.Tanggal as Tanggal_Masuk "
@@ -2348,7 +2357,7 @@ Public Class EMI_Timbang_Floor_Scale
 
                         SQL = "select  "
                         SQL = SQL & "ISNULL((sum(b.Tot_Batch_Masuk)), 0) as Batch_Masuk, "
-                        SQL = SQL & "a.Kode_Supplier, a.Tanggal_Masuk, b.Tanggal_Expired, b.Kode_Barang, c.Kode_Unik_Berjalan "
+                        SQL = SQL & "a.Kode_Supplier, a.Tanggal_Masuk, c.Tgl_Expired_Real as Tanggal_Expired, b.Kode_Barang, c.Kode_Unik_Berjalan "
                         SQL = SQL & "from emi_pembelian_loading a, emi_pembelian_loading_detail b, EMI_Barang_Masuk_Perpallet c "
                         SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and a.No_Faktur = c.No_Pembelian_Loading "
                         SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' "
@@ -2356,7 +2365,7 @@ Public Class EMI_Timbang_Floor_Scale
                         SQL = SQL & "and c.No_Faktur='" & Ds.Tables("MyTable").Rows(i).Item("no_faktur") & "' "
                         SQL = SQL & "and b.Kode_Barang='" & Ds.Tables("MyTable").Rows(i).Item("Kode_Barang") & "' "
                         SQL = SQL & "and b.Urut_OTO='" & Ds.Tables("MyTable").Rows(i).Item("Urut_Loading") & "' "
-                        SQL = SQL & "group by a.Kode_Supplier, a.Tanggal_Masuk, b.Tanggal_Expired, b.Kode_Barang, c.Kode_Unik_Berjalan "
+                        SQL = SQL & "group by a.Kode_Supplier, a.Tanggal_Masuk, c.Tgl_Expired_Real, b.Kode_Barang, c.Kode_Unik_Berjalan "
                         Using Ds2 = BindingTrans(SQL)
                             With Ds2.Tables("MyTable")
                                 If .Rows.Count <> 0 Then
@@ -2588,34 +2597,38 @@ Public Class EMI_Timbang_Floor_Scale
             SQL = SQL & "and Id = '" & arrid_Jenis_alas.Item(CmbJenisAlas.SelectedIndex) & "' "
             Using dr = OpenTrans(SQL)
                 If dr.Read Then
-                    convertKeSatuanAsli_bhn = dr("Satuan")
-                    SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & TxtKdBarang.Text & "',"
-                    SQL = SQL & "'" & dr("satuan") & "','" & CmbSatuan.Text & "',"
-                    SQL = SQL & "" & HilangkanTanda(dr("Berat")) & ") as Hasil "
-                    dr.Close()
-                    Using dr4 = OpenTrans(SQL)
-                        If dr4.Read Then
-                            If General_Class.CekNULL(dr4("Hasil")) <> "" Then
-                                If dr4("Hasil") = 0 Then
-                                    dr4.Close()
-                                    CloseTrans()
-                                    CloseConn()
-                                    MessageBox.Show("Satuan " & convertKeSatuanAsli_bhn & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                    Exit Sub
-                                Else
-                                    nberat = dr4("hasil")
-                                    TxtBeratAlas.Text = Format(nberat, "N2") & " " & CmbSatuan.Text
-                                    TxtBeratAlas_Bersih.Text = Format(nberat, "N2")
-                                End If
-                            Else
-                                dr4.Close()
-                                CloseTrans()
-                                CloseConn()
-                                MessageBox.Show("Satuan " & convertKeSatuanAsli_bhn & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                Exit Sub
-                            End If
-                        End If
-                    End Using
+                    'convertKeSatuanAsli_bhn = dr("Satuan")
+                    'SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & TxtKdBarang.Text & "',"
+                    'SQL = SQL & "'" & dr("satuan") & "','" & CmbSatuan.Text & "',"
+                    'SQL = SQL & "" & HilangkanTanda(dr("Berat")) & ") as Hasil "
+                    'dr.Close()
+                    'Using dr4 = OpenTrans(SQL)
+                    '    If dr4.Read Then
+                    '        If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+                    '            If dr4("Hasil") = 0 Then
+                    '                dr4.Close()
+                    '                CloseTrans()
+                    '                CloseConn()
+                    '                MessageBox.Show("Satuan " & convertKeSatuanAsli_bhn & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    '                Exit Sub
+                    '            Else
+                    '                nberat = dr4("hasil")
+                    '                TxtBeratAlas.Text = Format(nberat, "N2") & " " & CmbSatuan.Text
+                    '                TxtBeratAlas_Bersih.Text = Format(nberat, "N2")
+                    '            End If
+                    '        Else
+                    '            dr4.Close()
+                    '            CloseTrans()
+                    '            CloseConn()
+                    '            MessageBox.Show("Satuan " & convertKeSatuanAsli_bhn & " Ke " & CmbSatuan.Text & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    '            Exit Sub
+                    '        End If
+                    '    End If
+                    'End Using
+
+                    nberat = Val(HilangkanTanda(dr("Berat")))
+                    TxtBeratAlas.Text = Format(nberat, "N2") & " " & CmbSatuan.Text
+                    TxtBeratAlas_Bersih.Text = Format(nberat, "N2")
                 Else
                     dr.Close()
                     CloseTrans()

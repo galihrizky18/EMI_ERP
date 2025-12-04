@@ -268,7 +268,7 @@
 
             ListView4.Items.Clear()
             SQL = "select no_do,no_retur_jual_sementara from retur_do_sementara where kode_perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and status is null and lokasi = '" & ComboBox1.Text & "' and flag_val is null "
+            SQL = SQL & "and status is null and lokasi = '" & ComboBox1.Text & "' and flag_val is null and flag_release = 'Y' "
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
                     Dim Lvw As ListViewItem
@@ -2205,6 +2205,15 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+    End Sub
+
+    Protected Overrides Sub WndProc(ByRef m As Message)
+        ' WM_NCLBUTTONDBLCLK = 0xA3 (double click di title bar)
+        If m.Msg = &HA3 Then
+            Return  ' Abaikan pesan, sehingga form tidak maximize
+        End If
+
+        MyBase.WndProc(m)
     End Sub
 
 End Class

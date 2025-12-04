@@ -807,11 +807,15 @@ Public Class Transaksi_Penawaran_Barang_Lain
                 ExecuteTrans(SQL)
 
                 'Save Master Penawaran Detail
-                For index = 0 To DgvMaster_Penawaran.Rows.Count - 1
+                For index = 0 To DgvMaster_Penawaran.Rows.Count - 2
                     Get_Isi_Listview(index)
 
-                    If DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value = "" Or DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value = 0 Then
-                        Continue For
+
+                    If Val(HilangkanTanda(DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value)) < 1 Then
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show($"Baris ke {index + 1} belum lengkap, harap periksa terlebih dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
                     End If
 
                     hasDataToInsert = True

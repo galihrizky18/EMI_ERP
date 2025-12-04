@@ -5,6 +5,8 @@
     Dim arrSelectedBarcode As New List(Of Dictionary(Of String, String))
     Public arrBarcodeFromParent As New List(Of Dictionary(Of String, String))
 
+    Dim Fitur_Military_Sampling As Boolean = False
+
     Dim Lv_NoSplit, Lv_Lokasi, Lv_Barcode, Lv_Batch, Lv_KdBarang, Lv_NmBarang, Lv_Jumlah, Lv_Satuan, Lv_TglProduksi, Lv_TglExpired, Lv_Kualitas, Lv_QrCode, Lv_KdUnikBerjalan, Lv_StatMilitary As String
 
     Dim item_NoSplit As Integer = 0
@@ -24,6 +26,8 @@
     Dim item_StatMilitarySampling As Integer = 14
 
     Dim SelectedSplit As String = ""
+
+
 
     Private Sub SD_ValidasiGR_Split_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -116,7 +120,7 @@
 
 
 
-            SQL = "select b.No_Production_Order as No_Split, a.Lokasi_Gudang as Kode_Stock_Owner, a.Qr_Code, a.Kode_Unik_Berjalan, (a.Qr_Code + '-' + a.Kode_Unik_Berjalan) as Barcode, a.Batch_Number,  "
+            SQL = "select top(300) b.No_Production_Order as No_Split, a.Lokasi_Gudang as Kode_Stock_Owner, a.Qr_Code, a.Kode_Unik_Berjalan, (a.Qr_Code + '-' + a.Kode_Unik_Berjalan) as Barcode, a.Batch_Number,  "
             SQL = SQL & "a.Tgl_Produksi, a.Tgl_Expired, b.UserID, c.Kode_Barang, d.Nama as Nama_Barang, a.Nomor, "
             'SQL = SQL & "sum(f.Jumlah) as Jumlah, "
 
@@ -132,8 +136,14 @@
             SQL = SQL & "select top 1 'Y' from N_EMI_Military_Sampling z "
             SQL = SQL & "where z.kode_perusahaan = a.Kode_Perusahaan and z.status is null "
             SQL = SQL & "and z.No_Split = b.No_Production_Order and z.No_Batch = a.tahap "
-            SQL = SQL & "and z.No_GR = '1' and z.Flag_Ready_For_Packaging = 'Y' "
-            SQL = SQL & "), 'T') as Status_Military_Sampling "
+            SQL = SQL & "and z.No_GR = '1' "
+            SQL = SQL & "), 'T') as Status_Military_Sampling, "
+
+            SQL = SQL & "isnull(( "
+            SQL = SQL & "select isnull(flag_commercial, 'T') "
+            SQL = SQL & "from emi_split_production_order x, emi_order_produksi y where "
+            SQL = SQL & "x.kode_perusahaan =y.kode_perusahaan and x.no_po=y.no_faktur and x.status is null and y.status is null "
+            SQL = SQL & "and b.kode_perusahaan=x.kode_perusahaan and b.no_production_order=x.no_transaksi), null) as Flag_Commercial "
 
             SQL = SQL & "from Emi_Production_Results_Detail_Pallet a, Emi_Production_Results b, EMI_Production_Results_Detail_Barang c, barang d, EMI_Master_Warna e, Barang_SN f "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan and a.Kode_Perusahaan = e.Kode_Perusahaan "
@@ -183,11 +193,19 @@
                     'Hide
                     Lv.SubItems.Add(Dr("Qr_Code")) '12
                     Lv.SubItems.Add(Dr("Kode_Unik_Berjalan")) '13
-                    Lv.SubItems.Add(Dr("Status_Military_Sampling")) '14
+                    If Dr("Flag_Commercial") = "Y" Then
 
-                    If Dr("Status_Military_Sampling") = "Y" Then
-                        Lv.BackColor = Color.LightGreen
+                        Lv.SubItems.Add(Dr("Status_Military_Sampling")) '14
+                        If Dr("Status_Military_Sampling") = "Y" Then
+                            Lv.BackColor = Color.LightBlue
+                        End If
+
+                    Else
+                        Lv.SubItems.Add("Y")
+                        Lv.BackColor = Color.Tan
                     End If
+
+
 
                     '=========================================================
                     '=     LAKUKAN CEK APAKAH ADA SUDAH ADA DI LV PARENT     =
@@ -231,10 +249,13 @@
 
         If Not Lv_Data.FocusedItem Is Nothing AndAlso Lv_Data.FocusedItem.Checked Then
 
-            If Lv_Data.FocusedItem.SubItems(item_StatMilitarySampling).Text = "T" Then
-                Lv_Data.FocusedItem.Checked = False
-                Exit Sub
+            If Fitur_Military_Sampling Then
+                If Lv_Data.FocusedItem.SubItems(item_StatMilitarySampling).Text = "T" Then
+                    Lv_Data.FocusedItem.Checked = False
+                    Exit Sub
+                End If
             End If
+
             If SelectedSplitParent = "" Then
                 If SelectedSplit = "" Then
                     SelectedSplit = Lv_Data.FocusedItem.Text

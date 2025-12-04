@@ -8,7 +8,7 @@
     Public asal = ""
     Public NoSplit = ""
 
-    Dim ASD As New Keypad
+    Dim ASD As New Keypad_Numeric
     Dim sfada As String = ASD.Value
 
 
@@ -529,7 +529,7 @@
         EMI_Hasil_Pengeluaran_Bahan_Baku.TextBox6.Text = Lv_NmBarang
         EMI_Hasil_Pengeluaran_Bahan_Baku.fno_po = Lv_NoPO
 
-        EMI_Hasil_Pengeluaran_Bahan_Baku.asal = "CONTROLLING"
+        'EMI_Hasil_Pengeluaran_Bahan_Baku.asal = "CONTROLLING"
         EMI_Hasil_Pengeluaran_Bahan_Baku.ShowDialog()
     End Sub
 
