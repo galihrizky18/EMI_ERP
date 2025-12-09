@@ -974,6 +974,20 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                 End If
             End Using
 
+            '============================
+            '=     CEK DATA SN AWAL     =
+            '============================
+            SQL = "SELECT Kode_Perusahaan from Barang_SN where Kode_Perusahaan = '" & KodePerusahaan & "' AND Serial_Number = '" & SN_Awal & "'"
+            Using Dr = OpenTrans(SQL)
+                If Not Dr.Read Then
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Data SN Awal Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
             '===============================
             '=     GET BERAT PER 1 BAG     =
             '===============================
@@ -1001,7 +1015,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             '=     CEK APAKAH RM TELAH SELESAI     =
             '=======================================
             SQL = "select a.Kode_Perusahaan, a.No_Faktur, No_Faktur_Order, c.Kode_Stock_Owner, c.Kode_Barang, c.Kebutuhan, b.Batch, c.Jumlah_Per_Batch, c.Jumlah_Tambah, "
-            SQL = SQL & " c.Jumlah_Tambah as Jumlah_Tambah_Kecil, "
+            SQL = SQL & "c.Jumlah_Tambah as Jumlah_Tambah_Kecil, "
             SQL = SQL & "c.Jumlah_Barang, c.Satuan, c.Satuan_Barang, C.Urut_Oto, "
             SQL = SQL & "isnull((select sum(z.Jumlah_Barang) from N_EMI_Transaksi_Material_Requisition_QC_Validasi z "
             SQL = SQL & "where a.Kode_Perusahaan = a.Kode_Perusahaan and z.No_Faktur_RM = c.No_Faktur and z.Kode_Stock_Owner_Tujuan = c.Kode_Stock_Owner "
@@ -1149,6 +1163,40 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                 Loop
                             End Using
 
+
+                            '===========================================
+                            '=       GET STOCK SEBELUM DIPOTONG       =
+                            '===========================================
+                            Dim Stock_SblmPotong As Double = 0
+                            Dim Stock_SN_SblmPotong As Double = 0
+                            SQL = "select sum(Good_Stock) as Stock from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                            SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_KdSOBarang.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    Stock_SblmPotong = Math.Round(Dr("Stock"), 4)
+                                End If
+                            End Using
+
+                            SQL = "select sum(Jumlah) as Stock_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                            SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_KdSOBarang.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    Stock_SN_SblmPotong = Math.Round(Dr("Stock_SN"), 4)
+                                End If
+                            End Using
+
+                            If Stock_SblmPotong <> Stock_SN_SblmPotong Then
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show($"Jumlah Stock {Txt_KDBarang.Text} pada Gudang {Txt_KdSOBarang.Text} Tidak Sesuai Sebelum Dipotong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+
+
+
+
+
                             '============================
                             '=       POTONG STOCK       =
                             '============================
@@ -1172,7 +1220,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                         Exit Sub
                                     Else
                                         dr.Close()
-                                        SQL = "update barang set Good_Stock = Good_Stock - " & JumlahInputDB & ", "
+                                        SQL = "update barang set Good_Stock = ROUND(Good_Stock - " & JumlahInputDB & ", 4), "
                                         SQL = SQL & "Jumlah_Bags = Jumlah_Bags - " & BagsTerpakai & " "
                                         SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Txt_KdSOBarang.Text & "' "
                                         SQL = SQL & " and Kode_Barang='" & Txt_KDBarang.Text & "'"
@@ -1205,8 +1253,9 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                         MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat jumlah bags " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                                         Exit Sub
                                     Else
+
                                         dr.Close()
-                                        SQL = "update barang_sn set jumlah = jumlah - " & JumlahInputDB & ", "
+                                        SQL = "update barang_sn set jumlah = ROUND(jumlah - " & JumlahInputDB & ", 4) , "
                                         SQL = SQL & "Jumlah_Bags = Jumlah_Bags - " & BagsTerpakai & " "
                                         SQL = SQL & "where Kode_Stock_Owner='" & Txt_KdSOBarang.Text & "' and Kode_Barang='" & Txt_KDBarang.Text & "' "
                                         SQL = SQL & "and Serial_Number='" & SN_Awal & "'"
@@ -1248,6 +1297,83 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                     Exit Sub
                                 End If
                             End Using
+
+
+
+                            '=======================================
+                            '=     CEK STOCK SETELAH DI POTONG     =
+                            '=======================================
+                            Dim Stock_Setelah_Potong As Double = 0
+                            Dim Stock_SN_Setelah_Potong As Double = 0
+                            SQL = "select sum(Good_Stock) as Stock from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                            SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_KdSOBarang.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    Stock_Setelah_Potong = Math.Round(Dr("Stock"), 4)
+                                End If
+                            End Using
+
+                            SQL = "select sum(Jumlah) as Stock_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                            SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_KdSOBarang.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    Stock_SN_Setelah_Potong = Math.Round(Dr("Stock_SN"), 4)
+                                End If
+                            End Using
+
+                            If Stock_Setelah_Potong <> Stock_SN_Setelah_Potong Then
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show($"Jumlah Stock {Txt_KDBarang.Text} pada Gudang {Txt_KdSOBarang.Text} Tidak Sesuai Setelah Di Potong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+
+                            If Math.Round((Stock_Setelah_Potong + JumlahInputDB), 4) <> Stock_SblmPotong Then
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show($"Jumlah Stock {Txt_KDBarang.Text} pada Gudang {Txt_KdSOBarang.Text} Tidak Sesuai Berdasarkan Stock DiPotong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+
+                            If Math.Round((Stock_SN_Setelah_Potong + JumlahInputDB), 4) <> Stock_SN_SblmPotong Then
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show($"Jumlah Stock SN {Txt_KDBarang.Text} pada Gudang {Txt_KdSOBarang.Text} Tidak Sesuai Berdasarkan Stock DiPotong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+
+
+                            '===========================================
+                            '=       GET STOCK SEBELUM DIINSERT       =
+                            '===========================================
+                            Dim Stock_Sebelum_Insert As Double = 0
+                            Dim Stock_SN_Sebelum_Insert As Double = 0
+                            SQL = "select sum(Good_Stock) as Stock from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                            SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_SORequest.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    Stock_Sebelum_Insert = Math.Round(Dr("Stock"), 4)
+                                End If
+                            End Using
+
+                            SQL = "select sum(Jumlah) as Stock_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                            SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_SORequest.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    Stock_SN_Sebelum_Insert = Math.Round(Dr("Stock_SN"), 4)
+                                End If
+                            End Using
+
+                            If Stock_Sebelum_Insert <> Stock_SN_Sebelum_Insert Then
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show($"Jumlah Stock {Txt_KDBarang.Text} pada Gudang {Txt_SORequest.Text} Tidak Sesuai Sebelum Diinsert", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
 
                             '============================
                             '=       TAMBAH STOCK       =
@@ -1334,6 +1460,88 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                     Exit Sub
                                 End If
                             End Using
+
+
+                            '=======================
+                            '=     CEK SN BARU     =
+                            '=======================
+                            SQL = "SELECT Kode_Perusahaan from Barang_SN where Kode_Perusahaan = '" & KodePerusahaan & "' AND Serial_Number = '" & SN_Baru & "'"
+                            Using Dr = OpenTrans(SQL)
+                                If Not Dr.Read Then
+                                    Dr.Close()
+                                    CloseTrans()
+                                    CloseConn()
+                                    MessageBox.Show("Data SN Tujuan Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End Using
+
+                            '=======================================
+                            '=     CEK STOCK SETELAH DIINSERT     =
+                            '=======================================
+                            Dim Stock_Setelah_Insert As Double = 0
+                            Dim Stock_SN_Setelah_Insert As Double = 0
+                            SQL = "select sum(Good_Stock) as Stock from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                            SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_SORequest.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    Stock_Setelah_Insert = Math.Round(Dr("Stock"), 4)
+                                End If
+                            End Using
+
+                            SQL = "select sum(Jumlah) as Stock_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                            SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_SORequest.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    Stock_SN_Setelah_Insert = Math.Round(Dr("Stock_SN"), 4)
+                                End If
+                            End Using
+
+                            If Stock_Setelah_Insert <> Stock_SN_Setelah_Insert Then
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show($"Jumlah Stock {Txt_KDBarang.Text} pada Gudang {Txt_KdSOBarang.Text} Tidak Sesuai Setelah Diinsert", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+
+                            If Math.Round((Stock_Setelah_Insert - JumlahInputDB), 4) <> Stock_Sebelum_Insert Then
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show($"Jumlah Stock {Txt_KDBarang.Text} pada Gudang {Txt_KdSOBarang.Text} Tidak Sesuai Berdasarkan Stock DiInsert", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+
+                            If Math.Round((Stock_SN_Setelah_Insert - JumlahInputDB), 4) <> Stock_SN_Sebelum_Insert Then
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show($"Jumlah Stock SN {Txt_KDBarang.Text} pada Gudang {Txt_KdSOBarang.Text} Tidak Sesuai Berdasarkan Stock DiInsert", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+
+
+                            SQL = $"
+                                SELECT sum(Jumlah) AS Jumlah, sum(Jumlah_Bags) AS Bags FROM Barang_SN
+                                WHERE Kode_Perusahaan = '{KodePerusahaan}'
+                                AND Kode_Stock_Owner = '{Txt_SORequest.Text}'
+                                and kode_barang = '{Txt_KDBarang.Text}'
+                                AND Serial_Number = '{SN_Baru}'
+                            "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    If Val(HilangkanTanda(Dr("Jumlah"))) <> Val(HilangkanTanda(TxtBeratBersih.Text)) Then
+                                        Dr.Close()
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Jumlah Insert Tidak Sesuai . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+                                End If
+                            End Using
+
+
 
                             '======================
                             '=       JURNAL       =
@@ -1762,10 +1970,6 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
 
 
 
-
-
-
-
             Cmd.Transaction.Commit()
             CloseTrans()
             CloseConn()
@@ -1776,6 +1980,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+
 
 #Region "BAGIAN CETAK BARCODE"
 
@@ -2121,11 +2327,11 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             Exit Sub
         End Try
 
-        If Not txt_Jumlah_Timbang.Text = "" Or Val(txt_Jumlah_Timbang.Text) = 0 Then
-            Txt_Sisa_Jumlah.Text = Format((Val(HilangkanTanda(Txt_JmlhKebutuhan.Text)) - Math.Max(0, Val(HilangkanTanda(TxtBeratBersih.Text))) - JumlahValidasi), "N4")
-        Else
-            Txt_Sisa_Jumlah.Text = Txt_Sisa.Text
-        End If
+        'If Not txt_Jumlah_Timbang.Text = "" Or Val(txt_Jumlah_Timbang.Text) = 0 Then
+        '    Txt_Sisa_Jumlah.Text = Format((Val(HilangkanTanda(Txt_JmlhKebutuhan.Text)) - Math.Max(0, Val(HilangkanTanda(TxtBeratBersih.Text))) - JumlahValidasi), "N4")
+        'Else
+        '    Txt_Sisa_Jumlah.Text = Txt_Sisa.Text
+        'End If
 
     End Sub
 

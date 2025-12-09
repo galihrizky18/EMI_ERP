@@ -2,7 +2,7 @@
 
     Dim arrCari, arrKd_biaya, arrKeterangan As New ArrayList
 
-    Dim arrInisialFaktur As New ArrayList
+    Dim arrInisialFaktur, arrKategoriGudang As New ArrayList
 
     Dim Jenis = "Purchase_Requisition_Barang_Lain_Departement"
 
@@ -40,6 +40,7 @@
     Dim LvNmStock As String
     Dim LvKategori As String
     Dim LvId As String
+    Dim LvEst As String
 
     Dim CellLokasi As Integer = 0
     Dim CellKdBrg As Integer = 1
@@ -59,6 +60,7 @@
     Dim CellNmStock As Integer = 15
     Dim CellKategori As Integer = 16
     Dim CellId As Integer = 17
+    Dim CellEst As Integer = 18
 
     Private Sub Get_Isi_Listview(ByVal No_Index As Integer)
 
@@ -80,6 +82,7 @@
         LvNmStock = Dgv_DataBarang.Rows(No_Index).Cells(CellNmStock).Value
         LvKategori = Dgv_DataBarang.Rows(No_Index).Cells(CellKategori).Value
         LvId = Dgv_DataBarang.Rows(No_Index).Cells(CellId).Value
+        LvEst = Dgv_DataBarang.Rows(No_Index).Cells(CellEst).Value
 
     End Sub
 
@@ -93,7 +96,7 @@
             Base_Language.Get_Languages(Bahasa_Pilihan, "GLOBAL")
             Base_Language.Get_Languages(Bahasa_Pilihan, Jenis)
 
-            Lbl_Judul.Text = "Purchase Requisition Barang Lain Departement"
+            Lbl_Judul.Text = "Purchase Requisition Barang Lain Per Departement"
 
             Btn_Simpan.Text = Base_Language.Lang_Global_Simpan
             Btn_Hapus.Text = Base_Language.Lang_Global_Hapus
@@ -105,6 +108,20 @@
             cmb_lokasi.Enabled = False
 
             no_Faktur_Sementara = String.Empty
+
+            Cmb_Kategori_Gudang.Items.Clear() : arrKategoriGudang.Clear()
+            SQL = "select kode_kategori_gudang from N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain a "
+            SQL = SQL & "where user_ID='" & UserID & "' and a.kode_perusahaan = '" & KodePerusahaan & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Cmb_Kategori_Gudang.Items.Add(Dr("kode_kategori_gudang")) : arrKategoriGudang.Add(Dr("kode_kategori_gudang"))
+                Else
+                    Dr.Close()
+                    CloseConn()
+                    MessageBox.Show("Gagal, Kategori Gudang belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
 
             CloseConn()
         Catch ex As Exception
@@ -175,7 +192,7 @@
         Try
             OpenConn()
 
-            If CekButtonRole("Simpan_Purchase_Requisition_Barang_Lain") = "Y" Then
+            If CekButtonRole("Simpan_Purchase_Requisition_Departement") = "Y" Then
                 AksesSimpanPR = "Y"
             End If
 
@@ -189,7 +206,7 @@
         Try
             OpenConn()
 
-            If CekButtonRole("Release_Purchase_Requisition_Barang_Lain") = "Y" Then
+            If CekButtonRole("Release_Purchase_Requisition_Departement") = "Y" Then
                 AksesReleasePR = "Y"
             End If
 
@@ -262,16 +279,26 @@
     End Sub
 
     Private Sub BtnFormulator_Simpan_Click(sender As Object, e As EventArgs) Handles BtnPR_Simpan.Click
-        If Dgv_DataBarang.Rows.Count = 0 Then
+        If Dgv_DataBarang.Rows.Count - 1 = 0 Then
             MessageBox.Show("Tidak ada Data yang bisa di simpan !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         End If
 
+        If Cmb_Kategori_Gudang.SelectedIndex = -1 Then
+            MessageBox.Show("Kategori Gudang Harus Dipilih Terlebih Dahulu !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Cmb_Kategori_Gudang.DroppedDown = True
+            Exit Sub
+        End If
+
         For i As Integer = 0 To Dgv_DataBarang.Rows.Count - 2
-            If Val(Dgv_DataBarang.Rows(i).Cells(3).Value) = 0 Then
-                MessageBox.Show("Qty Baris Ke " & i + 1 & " Belum Diisi !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+            Dim value = Dgv_DataBarang.Rows(i).Cells(3).Value
+
+            If value Is Nothing OrElse value.ToString().Trim() = "" OrElse Val(value) = 0 Then
+                MessageBox.Show("Qty baris ke " & (i + 1) & " belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             End If
+
         Next
 
         get_jam()
@@ -281,20 +308,30 @@
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
 
-            If CekButtonRole("Simpan_Purchase_Requisition_Barang_Lain_Departement") = "T" Then
-                CloseTrans()
-                CloseConn()
-                MessageBox.Show("anda tidak memiliki akses ! !")
-                Exit Sub
-            End If
+
 
             If Btn_Simpan.Tag = "&Simpan" Then
                 get_no_faktur()
 
-                SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement(Kode_Perusahaan,No_Faktur,Lokasi,Tanggal,Jam,UserId,Keterangan) values("
+                Dim Kategori_gudang As String = arrKategoriGudang(Cmb_Kategori_Gudang.SelectedIndex)
+                ''===================== Ambil gudang kode kategori gudang by user =====================
+                'SQL = "select top(1) kode_kategori_gudang from N_EMI_View_Master_Kategori_Gudang_Binding_Departement_Barang_Lain a "
+                'SQL = SQL & "where user_ID='" & UserID & "' and a.kode_perusahaan = '" & KodePerusahaan & "' "
+                'Using Dr = OpenTrans(SQL)
+                '    If Dr.Read Then
+                '        Kategori_gudang = Dr("kode_kategori_gudang")
+                '    Else
+                '        Dr.Close()
+                '        CloseConn()
+                '        MessageBox.Show("Gagal, Kategori Gudang belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                '        Exit Sub
+                '    End If
+                'End Using
+
+                SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement(Kode_Perusahaan,No_Faktur,Lokasi,Tanggal,Jam,UserId,Keterangan, Kode_Kategori_Gudang) values("
                 SQL = SQL & "'" & KodePerusahaan & "','" & Txt_NoFaktur.Text & "', '" & cmb_lokasi.Text & "', "
                 SQL = SQL & "'" & Format(DtpFormulator_Tanggal.Value, "yyyy-MM-dd") & "', '" & Format(DtpFormulator_Tanggal.Value, "HH:MM:ss") & "',"
-                SQL = SQL & "'" & UserID & "', '" & TextBox2.Text.Trim & "' )"
+                SQL = SQL & "'" & UserID & "', '" & TextBox2.Text.Trim & "', '" & Kategori_gudang & "' )"
                 ExecuteTrans(SQL)
 
                 For i As Integer = 0 To Dgv_DataBarang.Rows.Count - 2
@@ -322,12 +359,12 @@
                     End If
 
                     SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Nama_Barang,Jumlah,Satuan,Tanggal_Delivery,keterangan, "
-                    SQL = SQL & " Id_Cost_Center, ID_Gedung, Flag_Stock, Jmlh_PR, Link, Id_Sub_Kategori_Jenis) values("
+                    SQL = SQL & " Id_Cost_Center, ID_Gedung, Flag_Stock, Jmlh_PR, Link, Id_Sub_Kategori_Jenis, Estimasi_Harga) values("
                     SQL = SQL & "'" & KodePerusahaan & "', '" & Txt_NoFaktur.Text.Trim & "' ,"
                     SQL = SQL & "'" & LvLokasi & "', '" & LvKdBrg & "' ,'" & LvNmBrg & "' ,"
                     SQL = SQL & "'" & HilangkanTanda(LvQty) & "',"
                     SQL = SQL & "'" & LvSatuan & "', '" & Format(CDate(LvTglDeli), "yyyy-MM-dd") & "', '" & LvKet & "', " & SelelctedIDCostCenter & ", "
-                    SQL = SQL & " " & SelelctedIDGedung & ", '" & LvIsStock & "', '0', '" & LvLink & "', " & SelelctedIDsub & " )"
+                    SQL = SQL & " " & SelelctedIDGedung & ", '" & LvIsStock & "', '0', '" & LvLink & "', " & SelelctedIDsub & ",  '" & HilangkanTanda(LvEst) & "')"
                     ExecuteTrans(SQL)
                 Next
             Else
@@ -385,8 +422,8 @@
                 SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text & "' "
                 ExecuteTrans(SQL)
 
-                SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail_Log(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama_Barang, Jumlah, Satuan, Tanggal_Delivery, keterangan, Link, No_Urut, Id_Sub_Kategori_Jenis) "
-                SQL = SQL & "select Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama_Barang, Jumlah,Satuan, Tanggal_Delivery, keterangan, Link, No_Urut, Id_Sub_Kategori_Jenis "
+                SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail_Log(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama_Barang, Jumlah, Satuan, Tanggal_Delivery, keterangan, Link, No_Urut, Id_Sub_Kategori_Jenis, Estimasi_Harga) "
+                SQL = SQL & "select Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama_Barang, Jumlah,Satuan, Tanggal_Delivery, keterangan, Link, No_Urut, Id_Sub_Kategori_Jenis, Estimasi_Harga "
                 SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text & "'"
                 ExecuteTrans(SQL)
 
@@ -425,16 +462,29 @@
                     End If
 
                     SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Nama_Barang,Jumlah,Satuan,Tanggal_Delivery,keterangan, "
-                    SQL = SQL & "Id_Cost_Center, ID_Gedung, Flag_Stock, Jmlh_PR, Link, Id_Sub_Kategori_Jenis) values( "
+                    SQL = SQL & "Id_Cost_Center, ID_Gedung, Flag_Stock, Jmlh_PR, Link, Id_Sub_Kategori_Jenis, Estimasi_Harga) values( "
                     SQL = SQL & "'" & KodePerusahaan & "', '" & Txt_NoFaktur.Text.Trim & "' ,"
                     SQL = SQL & "'" & LvLokasi & "', '" & LvKdBrg & "' ,'" & LvNmBrg & "' ,"
                     SQL = SQL & "'" & HilangkanTanda(LvQty) & "',"
                     SQL = SQL & "'" & LvSatuan & "', '" & Format(CDate(LvTglDeli), "yyyy-MM-dd") & "', "
-                    SQL = SQL & "'" & LvKet & "', " & SelelctedIDCostCenter & ", " & SelelctedIDGedung & ", '" & LvIsStock & "', '0', '" & LvLink & "', " & SelelctedIDsub & " ) "
+                    SQL = SQL & "'" & LvKet & "', " & SelelctedIDCostCenter & ", " & SelelctedIDGedung & ", '" & LvIsStock & "', '0', '" & LvLink & "', " & SelelctedIDsub & ",  '" & HilangkanTanda(LvEst) & "' ) "
                     ExecuteTrans(SQL)
                 Next
 
             End If
+
+            SQL = "select no_faktur From  N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail where kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and no_faktur = '" & Txt_NoFaktur.Text.Trim & "' "
+            Using Dr = OpenTrans(SQL)
+                If Not Dr.Read Then
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Gagal menyimpan, barang harus di isi terlebih dahulu. refresh dan coba lagi")
+                    Exit Sub
+                End If
+            End Using
+
 
             Cmd.Transaction.Commit()
 
@@ -447,6 +497,7 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
     End Sub
 
     Public Sub BtnFormulator_Refresh_Click(sender As Object, e As EventArgs) Handles BtnFormulator_Refresh.Click
@@ -505,9 +556,12 @@
             TextBox2.Text = ""
 
             BtnPR_Release.Visible = True
+
+
+
             Dim ada_data As String = ""
             Dim flag_release_fix As String = ""
-            SQL = "select no_faktur, lokasi ,tanggal, jam, userId, keterangan, flag_release,status, No_Fak_Material_Requisition from N_EMI_Purchase_Requisition_Barang_Lain_Departement where "
+            SQL = "select no_faktur, lokasi ,tanggal, jam, userId, keterangan, flag_release,status, No_Fak_Material_Requisition, kode_kategori_gudang from N_EMI_Purchase_Requisition_Barang_Lain_Departement where "
             SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text & "' "
             SQL = SQL & "and status is null"
             Using Ds = BindingTrans(SQL)
@@ -516,7 +570,34 @@
 
                         For i As Integer = 0 To .Rows.Count - 1
 
+
                             ada_data = "Y"
+
+                            Dim Kategori_gudang As String = ""
+                            '===================== Ambil gudang kode kategori gudang by user =====================
+                            SQL = "select top(1) kode_kategori_gudang from N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain a "
+                            SQL = SQL & "where user_ID='" & UserID & "' and a.kode_perusahaan = '" & KodePerusahaan & "' and "
+                            SQL = SQL & "a.kode_kategori_gudang='" & .Rows(i).Item("kode_kategori_gudang") & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    Kategori_gudang = Dr("kode_kategori_gudang")
+                                Else
+                                    Dr.Close()
+                                    CloseConn()
+                                    ada_data = "T"
+                                    MessageBox.Show("anda Tidak ada Akses ke PR Ini !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    kosong()
+                                    Exit Sub
+                                End If
+                            End Using
+
+                            If General_Class.CekNULL(.Rows(i).Item("kode_kategori_gudang")) <> Kategori_gudang Then
+                                CloseConn()
+                                ada_data = "T"
+                                MessageBox.Show("anda Tidak ada Akses ke PR Ini !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                kosong()
+                                Exit Sub
+                            End If
 
                             Txt_NoFaktur.Text = .Rows(i).Item("no_faktur")
                             cmb_lokasi.Text = .Rows(i).Item("lokasi")
@@ -580,7 +661,7 @@
 
             Dgv_DataBarang.Rows.Clear()
             If ada_data = "Y" Then
-                SQL = "select a.kode_perusahaan, a.kode_stock_owner, a.kode_barang, a.nama_barang, a.jumlah, a.satuan, a.tanggal_delivery, a.keterangan, a.Link, "
+                SQL = "select a.kode_perusahaan, a.kode_stock_owner, a.kode_barang, a.nama_barang, a.jumlah, a.satuan, a.tanggal_delivery, a.keterangan, a.Link, a.Estimasi_Harga, "
 
                 SQL = SQL & "ISNULL((select sum(x.Nilai_PPIC) from EMI_Transaksi_Material_Requsition_detail x "
                 SQL = SQL & "where x.Kode_Perusahaan = a.Kode_Perusahaan and x.Kode_Stock_Owner = a.Kode_Stock_Owner and x.Kode_Barang = a.Kode_Barang "
@@ -715,6 +796,7 @@
 
                                 Dgv_DataBarang.Rows(i).Cells(CellKategori).Value = .Rows(i).Item("Sub_Kategori_Jenis")
                                 Dgv_DataBarang.Rows(i).Cells(CellId).Value = .Rows(i).Item("Id_Sub_Kategori_Jenis")
+                                Dgv_DataBarang.Rows(i).Cells(CellEst).Value = Format(.Rows(i).Item("Estimasi_Harga"), "N2")
 
                             Next
 
@@ -743,11 +825,23 @@
         Try
             OpenConn()
 
-            If CekButtonRole("Release_Purchase_Requisition_Barang_Lain") = "T" Then
+            If CekButtonRole("Release_Purchase_Requisition_Departement") = "T" Then
                 CloseConn()
                 MessageBox.Show("anda tidak memiliki akses ! !")
                 Exit Sub
             End If
+
+            SQL = "select no_faktur From  N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail where kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and no_faktur = '" & Txt_NoFaktur.Text.Trim & "' "
+            Using Dr = OpenTrans(SQL)
+                If Not Dr.Read Then
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Gagal Release, barang harus di isi terlebih dahulu")
+                    Exit Sub
+                End If
+            End Using
 
             no_Faktur_Sementara = String.Empty
 
@@ -937,6 +1031,12 @@
             Dgv_DataBarang.CurrentRow.Cells(CellQty).Value = Format(Val(LvQtyByForecast), "N2")
         End If
 
+        If Val(LvEst) < 0 Or IsNumeric(LvEst) = False Then
+            If LvEst Is Nothing Then
+                LvEst = 0
+            End If
+            Dgv_DataBarang.CurrentRow.Cells(CellEst).Value = Format(Val(LvEst), "N2")
+        End If
 
         '===========================================
         '=     CEK APAKAH JUMLAH MELEBIHI SISA     =
@@ -969,11 +1069,40 @@
 
             Dgv_DataBarang.CurrentRow.Cells(CellQty).Value = formattedValue
         End If
+
+        If Dgv_DataBarang.CurrentCell.ColumnIndex = CellEst Then
+
+            Dim cellKuantity As String = Dgv_DataBarang.CurrentRow.Cells(CellEst).Value
+
+            If cellKuantity.Contains(",") Then
+                'MessageBox.Show("Kuantity Tidak Boleh Koma, Ganti dengan Titik", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Dgv_DataBarang.CurrentRow.Cells(CellEst).Value = 0
+                Exit Sub
+            End If
+
+            Dim nilai As Decimal = Decimal.Parse(cellKuantity)
+            Dim formattedValue As String = nilai.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
+
+            Dgv_DataBarang.CurrentRow.Cells(CellEst).Value = formattedValue
+        End If
     End Sub
 
     Private Sub Dgv_DataBarang_CellEnter(sender As Object, e As DataGridViewCellEventArgs) Handles Dgv_DataBarang.CellEnter
 
         If Dgv_DataBarang.CurrentCell.ColumnIndex = CellQty Then
+            Dim cellKuantity As String = Dgv_DataBarang.CurrentCell.Value
+
+            If cellKuantity = "" Then
+                Exit Sub
+            End If
+
+            Dim cleanedStr As String = HilangkanTanda(cellKuantity) ' Menghapus titik
+            Dim nilai As Decimal = Decimal.Parse(cleanedStr)
+
+            Dgv_DataBarang.CurrentCell.Value = nilai
+        End If
+
+        If Dgv_DataBarang.CurrentCell.ColumnIndex = CellEst Then
             Dim cellKuantity As String = Dgv_DataBarang.CurrentCell.Value
 
             If cellKuantity = "" Then
@@ -1004,7 +1133,28 @@
             Dgv_DataBarang.CurrentCell.Value = formattedValue
 
         End If
+
+        If Dgv_DataBarang.CurrentCell.ColumnIndex = CellEst Then
+            Dim cellKuantity As String = Dgv_DataBarang.CurrentCell.Value
+
+            If cellKuantity = "" Then
+                Exit Sub
+            End If
+
+
+
+            Dim nilai As Decimal = Decimal.Parse(cellKuantity)
+            Dim formattedValue As String = nilai.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
+
+            Dgv_DataBarang.CurrentCell.Value = formattedValue
+
+        End If
     End Sub
+
+    Private Sub Txt_NoFaktur_TextChanged(sender As Object, e As EventArgs) Handles Txt_NoFaktur.TextChanged
+
+    End Sub
+
     Private Sub Txt_Value_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Value.KeyPress
         If e.KeyChar = Chr(13) Then Btn_Cari.Focus()
     End Sub

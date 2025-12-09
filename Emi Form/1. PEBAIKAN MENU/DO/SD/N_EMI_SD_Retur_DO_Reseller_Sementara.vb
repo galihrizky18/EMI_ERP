@@ -14,11 +14,7 @@
     Dim Cell_Chklist As Integer = 6
     Dim Cell_JumlahInsert As Integer = 7
 
-
-
-
     Private Sub N_EMI_SD_Retur_DO_Reseller_Sementara_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
 
         Load_Barcode()
 
@@ -38,9 +34,7 @@
         item_Satuan = Dgv_Data_Barcode.Rows(index).Cells(Cell_Satuan).Value
         item_JumlahInsert = Dgv_Data_Barcode.Rows(index).Cells(Cell_JumlahInsert).Value
 
-
     End Sub
-
 
     Private Sub Load_Barcode()
 
@@ -48,6 +42,8 @@
             MessageBox.Show("No DO Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         End If
+
+        Txt_ScanBarcode.Text = ""
 
         Try
             OpenConn()
@@ -108,8 +104,6 @@
                             Dgv_Data_Barcode.Rows(i).Cells(Cell_MaxRetur).Value = Format(Val(HilangkanTanda(.Rows(i).Item("Max_Retur"))), "N4")
                             Dgv_Data_Barcode.Rows(i).Cells(Cell_Satuan).Value = .Rows(i).Item("satuan")
 
-
-
                             If General_Class.CekNULL(.Rows(i).Item("isSaved")) = "Y" Then
                                 Dgv_Data_Barcode.Rows(i).Cells(Cell_Chklist).Value = True
                                 Dgv_Data_Barcode.Rows(i).Cells(Cell_JumlahInsert).Value = Format(Val(HilangkanTanda(.Rows(i).Item("Good_Stock"))), "N4")
@@ -119,7 +113,6 @@
                                 Dgv_Data_Barcode.Rows(i).Cells(Cell_JumlahInsert).Value = ""
                                 Dgv_Data_Barcode.Rows(i).Cells(Cell_JumlahInsert).ReadOnly = True
                             End If
-
 
                             Total += Val(HilangkanTanda(.Rows(i).Item("Jumlah")))
 
@@ -131,7 +124,6 @@
             Txt_Total.Text = Format(Total, "N4")
             Hitung_Grand()
 
-
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -139,14 +131,16 @@
             Exit Sub
         End Try
 
-
     End Sub
 
-
     Private Sub Dgv_Data_Barcode_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles Dgv_Data_Barcode.CellEndEdit
-        If Dgv_Data_Barcode.Rows.Count = 0 Then Exit Sub
+        If Dgv_Data_Barcode.Rows.Count = 0 OrElse Dgv_Data_Barcode.CurrentRow Is Nothing Then Exit Sub
+
 
         Dim RowsIndex As Integer = Dgv_Data_Barcode.CurrentRow.Index
+
+
+        Dgv_Data_Barcode.CurrentRow.DefaultCellStyle.BackColor = Color.White
 
         If Dgv_Data_Barcode.CurrentRow.Cells(Cell_Chklist).Value = "True" Then
 
@@ -184,24 +178,17 @@
             Dgv_Data_Barcode.CurrentRow.Cells(Cell_JumlahInsert).Value = Format(JumlahInsert, "N4")
 
 
-            Hitung_Grand()
 
+            Hitung_Grand()
         Else
 
             Dgv_Data_Barcode.CurrentRow.Cells(Cell_JumlahInsert).Value = ""
             Dgv_Data_Barcode.CurrentRow.Cells(Cell_JumlahInsert).ReadOnly = True
             Hitung_Grand()
 
-
-
         End If
 
-
-
-
     End Sub
-
-
 
     Private Sub Hitung_Grand()
         If Dgv_Data_Barcode.Rows.Count = 0 Then Exit Sub
@@ -226,7 +213,6 @@
         If MessageBox.Show("Yakin Ingin Melakukan Insert Barcode Ini", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = vbNo Then Exit Sub
 
         Dim total_input As Double = 0
-
 
         For i As Integer = 0 To Dgv_Data_Barcode.Rows.Count - 1
 
@@ -263,7 +249,6 @@
             Exit Sub
         End If
 
-
         Try
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
@@ -299,7 +284,6 @@
                 End If
             Next
 
-
             Dim hasDataInput As Boolean = False
             Dim TotJumlah As Double = 0
             Dim TotSbtl As Double = 0
@@ -311,8 +295,6 @@
                 Get_Data_DGV(i)
 
                 hasDataInput = True
-
-
 
                 Dim y_hrg As Double = Val(HilangkanTanda(hrg))
                 Dim y_disc As Double = Val(HilangkanTanda(Format(Val(discp), "N2")))
@@ -333,13 +315,11 @@
 
                     TotSbtl += y_jml
 
-
                     'Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(10).Text = Format(Val(HilangkanTanda(Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(10).Text)) + Val(y_jml), "N4")
                     'Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(8).Text = Format(Val(HilangkanTanda(Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(8).Text)) + subttl, "N4")
 
                     Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(10).Text = Format(Val(TotJumlah), "N4")
                     Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(8).Text = Format(TotSbtl, "N4")
-
                 Else
                     Dim lv As New ListViewItem
                     lv = Retur_DO_Reseller_Sementara.ListView2.Items.Add(Gudang) '0
@@ -350,8 +330,6 @@
                     lv.SubItems.Add(urut_oto) '5
                     lv.SubItems.Add(Format(Val(HilangkanTanda(hrg)), "N4")) '6
                     lv.SubItems.Add(discp) '7
-
-
 
                     If metper = "A" Then
                         subttl = (hrg * Val(y_jml)) - (hrg * Val(y_jml) * discp / 100)
@@ -381,8 +359,6 @@
                 lv2.SubItems.Add(Format(subttl, "N4")) '8
                 lv2.SubItems.Add(metper) '9
                 lv2.SubItems.Add(item_Barcode) '10
-
-
 
                 Dim Urut_detail_Sementara As String = ""
                 SQL = "select No_Urut "
@@ -415,17 +391,12 @@
                 SQL = SQL & "'" & HilangkanTanda(discp) & "', '" & HilangkanTanda(subttl) & "') "
                 ExecuteTrans(SQL)
 
-
-
             Next
 
             If Not hasDataInput Then
                 Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(10).Text = Format(Val(0), "N4")
                 Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(8).Text = Format(0, "N4")
             End If
-
-
-
 
             Cmd.Transaction.Commit()
             CloseTrans()
@@ -440,10 +411,6 @@
         Me.Close()
     End Sub
 
-
-
-
-
     Protected Overrides Sub WndProc(ByRef m As Message)
         ' WM_NCLBUTTONDBLCLK = 0xA3 (double click di title bar)
         If m.Msg = &HA3 Then
@@ -453,11 +420,43 @@
         MyBase.WndProc(m)
     End Sub
 
+    Private Sub Btn_Scan_Click(sender As Object, e As EventArgs) Handles Btn_Scan.Click
+        If Dgv_Data_Barcode.Rows.Count = 0 Then Exit Sub
 
+        Dim foundMatch As Boolean = False
+        Dim keyword As String = Txt_ScanBarcode.Text.Trim().ToUpper()
 
+        For i As Integer = 0 To Dgv_Data_Barcode.Rows.Count - 1
+            Dgv_Data_Barcode.Rows(i).DefaultCellStyle.BackColor = Color.White
+        Next
 
+        For i As Integer = 0 To Dgv_Data_Barcode.Rows.Count - 1
+            Get_Data_DGV(i)
 
+            If item_Barcode.Trim().ToUpper().Contains(keyword) Then
 
+                'Dgv_Data_Barcode.Rows(i).Cells(itemDgvCheckBox).Value = "True"
+                Dgv_Data_Barcode.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+
+                If Not foundMatch Then
+                    Dgv_Data_Barcode.FirstDisplayedScrollingRowIndex = i ' Scroll ke hasil pertama
+                End If
+
+                foundMatch = True
+
+            End If
+
+        Next
+    End Sub
+
+    Private Sub Txt_ScanBarcode_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_ScanBarcode.KeyPress
+        If e.KeyChar = Chr(13) Then
+
+            If Txt_ScanBarcode.Text.Trim.Length <> 0 Then
+                Btn_Scan_Click(Me, Nothing)
+            End If
+
+        End If
+    End Sub
 
 End Class
-

@@ -3,9 +3,12 @@
 
 Public Class SD_Tambah_PR_Barang_Lain
     Public filter_tambahan, filter_kdSupplier As String
-    Public asal, faktur_MR As String
+    Public asal, faktur_MR, SO_Kategori_Gudang_Pilih As String
     Dim arrcari As New ArrayList
     Dim Jenis = "Tampil_Barang"
+
+
+    Dim FlagOnLoad As Boolean = False
 
     'Private Purchase_Requisition As Purchase_Requisition
 
@@ -120,6 +123,8 @@ Public Class SD_Tambah_PR_Barang_Lain
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
 
+        FlagOnLoad = True
+
         Try
             OpenConn()
 
@@ -191,6 +196,8 @@ Public Class SD_Tambah_PR_Barang_Lain
             Exit Sub
 
         End Try
+
+        FlagOnLoad = False
 
         Lv_CostCenter.Columns.Clear() : Lv_CostCenter.Items.Clear()
         Lv_CostCenter.Columns.Add("ID Cost Center", 100, HorizontalAlignment.Left)
@@ -343,13 +350,72 @@ Public Class SD_Tambah_PR_Barang_Lain
 
                     LvPilihBarang_DataBarang.Visible = False
 
-                    SQL = "select sum(Good_Stock) as Stock from Barang_Lain "
-                    SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_barang = '" & TxtPilihBarang_KodeBarang.Text & "' and aktif = 'Y' "
+
+                    Dim GudangDepartment As String = ""
+
+                    'ambil gudang departmenet berdasrkan user login 
+
+                    SQL = "select top(1) Kode_Stock_Owner_Gudang from barang_lain a , View_Kategori_Turunan b,N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain c "
+                    SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_3 =b.Id_Sub_Kategori_Jenis_3 "
+                    SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Kategori_Jenis = c.id_kategori_jenis "
+                    SQL = SQL & "and b.Id_Sub_Kategori_Jenis = c.id_sub_kategori_jenis  "
+                    SQL = SQL & "and c.user_id = '" & UserID & "' and a.Kode_Barang = '" & TxtPilihBarang_KodeBarang.Text & "' "
                     Using Dr2 = OpenTrans(SQL)
                         If Dr2.Read Then
-                            Txt_SisaStock.Text = Format(Dr2("Stock"), "N2")
+                            GudangDepartment = Format(Dr2("Kode_Stock_Owner_Gudang"))
                         Else
-                            Txt_SisaStock.Text = Format(0, "N2")
+                            dr.Close()
+                            CloseConn()
+                            MessageBox.Show("Gagal, Gudang tujuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
+
+
+                    'SQL = "select sum(Good_Stock) as Stock from Barang_Lain "
+                    'SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_barang = '" & TxtPilihBarang_KodeBarang.Text & "' and aktif = 'Y' "
+
+                    SQL = "select sum(b.Jumlah) as Stock from barang_lain a, Barang_Lain_SN b "
+                    SQL = SQL & "where a.Kode_Barang = '" & TxtPilihBarang_KodeBarang.Text & "' and a.kode_perusahaan = '" & KodePerusahaan & "' and b.Kode_Stock_Owner = '" & GudangDepartment & "' "
+                    SQL = SQL & "and a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Barang = b.Kode_Barang and a.Kode_Stock_Owner = b.Kode_Stock_Owner "
+                    SQL = SQL & "and b.Jumlah <> 0 "
+                    Using Dr2 = OpenTrans(SQL)
+                        If Dr2.Read Then
+
+                            If General_Class.CekNULL(Dr2("Stock")) <> "" Then
+                                Txt_SisaStock.Text = Format(Dr2("Stock"), "N2")
+                            Else
+                                Txt_SisaStock.Text = 0
+                            End If
+
+                            'Txt_SisaStock.Text = Format(Dr2("Stock"), "N2")
+                        Else
+                            dr.Close()
+                            CloseConn()
+                            MessageBox.Show("Terjadi kesalahan pada SN barang", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
+
+
+                    'SQL = "select sum(Good_Stock) as Stock from Barang_Lain "
+                    'SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_barang = '" & TxtPilihBarang_KodeBarang.Text & "' and aktif = 'Y' "
+                    'Using Dr2 = OpenTrans(SQL)
+                    '    If Dr2.Read Then
+                    '        Txt_SisaStock.Text = Format(Dr2("Stock"), "N2")
+                    '    Else
+                    '        Txt_SisaStock.Text = Format(0, "N2")
+                    '    End If
+                    'End Using
+
+
+                    SQL = "select top(1) Waktu_Pengiriman from emi_detail_proses_pengiriman_po_Barang_Lain where Kode_Barang= '" & Trim(TxtPilihBarang_KodeBarang.Text) & "' "
+                    SQL = SQL & "order by Waktu_Pengiriman Desc "
+                    Using dr2 = OpenTrans(SQL)
+                        If dr2.Read Then
+                            TxtTiba.Text = dr2("Waktu_Pengiriman")
+                        Else
+                            TxtTiba.Text = 0
                         End If
                     End Using
 
@@ -435,10 +501,10 @@ Public Class SD_Tambah_PR_Barang_Lain
         Try
             OpenConn()
 
-            SQL = "select a.Kode_Barang from Barang_Lain a, View_Kategori_Turunan d, N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain e  "
+            SQL = "select distinct a.Kode_Barang from Barang_Lain a, View_Kategori_Turunan d, N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain e  "
             SQL = SQL & "where a.Kode_Perusahaan = d.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3 "
             SQL = SQL & "and d.Id_Kategori_Jenis = e.Id_Kategori_Jenis and d.Id_Sub_Kategori_Jenis = e.Id_Sub_Kategori_Jenis and e.User_ID = '" & UserID & "' "
-            SQL = SQL & "and a.Kode_Stock_Owner = '" & Txt_LokasiGudang.Text & "' and a.Kode_Barang = '" & TxtPilihBarang_KodeBarang.Text & "' "
+            SQL = SQL & "and e.Kode_Stock_Owner_Gudang = '" & SO_Kategori_Gudang_Pilih.Trim & "' and a.Kode_Barang = '" & TxtPilihBarang_KodeBarang.Text & "' "
 
             'SQL = "select a.Kode_Barang from Barang_Lain a, N_EMI_Master_Role_Sub_Kategori b "
             'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Kategori_Jenis = b.Kode_Kategori_Jenis "
@@ -537,6 +603,16 @@ Public Class SD_Tambah_PR_Barang_Lain
                 Exit Sub
             End If
 
+
+            Dim Diff As Integer = DateDiff(DateInterval.Day, tgl_skg, DateTimePicker1.Value)
+
+
+            If Diff < Val(TxtTiba.Text) Then
+                Dim Msg As String = MessageBox.Show("Tanggal Dibutuhkan Kurang dari Estimasi Tiba,  Tetap Lanjutkan ? ", Base_Language.Lang_Global_Perhatian, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If Msg = vbNo Then
+                    DateTimePicker1.Value = DateAdd(DateInterval.Day, Val(TxtTiba.Text) + 1, tgl_skg)
+                End If
+            End If
 
             Dim isAsset As Boolean = False
 
@@ -719,6 +795,8 @@ Public Class SD_Tambah_PR_Barang_Lain
                 Purchase_Requisition_Barang_Lain.Dgv_DataBarang.Rows(index).Cells(15).Value = "Non Stock"
             End If
 
+            Purchase_Requisition_Barang_Lain.Dgv_DataBarang.Rows(index).Cells(19).Value = TxtTiba.Text
+
             Purchase_Requisition_Barang_Lain.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(0).ReadOnly = True
             Purchase_Requisition_Barang_Lain.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(1).ReadOnly = True
             Purchase_Requisition_Barang_Lain.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(2).ReadOnly = True
@@ -828,7 +906,7 @@ Public Class SD_Tambah_PR_Barang_Lain
 
     Private Sub Txt_IDCostCenter_TextChanged(sender As Object, e As EventArgs) Handles Txt_CostCenter.TextChanged
         If Txt_CostCenter.Text.Trim.Length = 0 Then
-            Me.Size = New Size(592, 376)
+            Me.Size = New Size(593, 404)
             Lv_CostCenter.Location = New Point(650, 190)
             Lv_CostCenter.Visible = False
             Txt_CostCenter.Text = ""
@@ -884,7 +962,7 @@ Public Class SD_Tambah_PR_Barang_Lain
                     Txt_CostCenter.Focus()
                 End If
 
-                Me.Size = New Size(592, 376)
+                Me.Size = New Size(593, 404)
                 Lv_CostCenter.Location = New Point(650, 190)
                 Lv_CostCenter.Visible = False
             End Using
@@ -902,7 +980,7 @@ Public Class SD_Tambah_PR_Barang_Lain
             If Txt_CostCenter.Text.Trim.Length = 0 Then Txt_CostCenter.Focus()
             Txt_IDCostCenter_Leave(Txt_CostCenter, e)
 
-            Me.Size = New Size(592, 376)
+            Me.Size = New Size(593, 404)
             Lv_CostCenter.Location = New Point(650, 190)
             Lv_CostCenter.Visible = False
 
@@ -923,7 +1001,7 @@ Public Class SD_Tambah_PR_Barang_Lain
         Txt_Id_CostCenter.Text = Id_CostCenter
         Txt_CostCenter.Text = NmCostCenter
 
-        Me.Size = New Size(592, 376)
+        Me.Size = New Size(593, 404)
         Lv_CostCenter.Location = New Point(650, 190)
         Lv_CostCenter.Visible = False
 
@@ -938,7 +1016,7 @@ Public Class SD_Tambah_PR_Barang_Lain
 
     Private Sub Txt_KdGedung_TextChanged(sender As Object, e As EventArgs) Handles Txt_KdGedung.TextChanged
         If Txt_KdGedung.Text.Trim.Length = 0 Then
-            Me.Size = New Size(592, 376)
+            Me.Size = New Size(593, 404)
             Lv_Gedung.Location = New Point(650, 216)
             Lv_Gedung.Visible = False
             Txt_KdGedung.Text = ""
@@ -975,7 +1053,7 @@ Public Class SD_Tambah_PR_Barang_Lain
 
     Private Sub Txt_Gedung_TextChanged(sender As Object, e As EventArgs) Handles Txt_Gedung.TextChanged
         If Txt_Gedung.Text.Trim.Length = 0 Then
-            Me.Size = New Size(592, 376)
+            Me.Size = New Size(593, 404)
             Lv_Gedung.Location = New Point(650, 216)
             Lv_Gedung.Visible = False
             Txt_KdGedung.Text = ""
@@ -1033,7 +1111,7 @@ Public Class SD_Tambah_PR_Barang_Lain
                     Txt_KdGedung.Focus()
                 End If
 
-                Me.Size = New Size(592, 376)
+                Me.Size = New Size(593, 404)
                 Lv_Gedung.Location = New Point(650, 216)
                 Lv_Gedung.Visible = False
             End Using
@@ -1074,7 +1152,7 @@ Public Class SD_Tambah_PR_Barang_Lain
         Txt_Gedung.Text = NmGedung
         Txt_IdGedung.Text = Id_Gedung
 
-        Me.Size = New Size(592, 376)
+        Me.Size = New Size(593, 404)
         Lv_Gedung.Location = New Point(650, 216)
         Lv_Gedung.Visible = False
 
@@ -1091,7 +1169,7 @@ Public Class SD_Tambah_PR_Barang_Lain
         If e.KeyChar = Chr(13) Then
             Txt_KdGedung_Leave(Txt_Gedung, e)
 
-            Me.Size = New Size(592, 376)
+            Me.Size = New Size(593, 404)
             Lv_Gedung.Location = New Point(650, 216)
             Lv_Gedung.Visible = False
 
@@ -1117,6 +1195,21 @@ Public Class SD_Tambah_PR_Barang_Lain
 
         'Txt_CostCenter.Text = "" : Txt_Id_CostCenter.Text = ""
         'Txt_KdGedung.Text = "" : Txt_Gedung.Text = "" : Txt_IdGedung.Text = ""
+    End Sub
+
+    Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged
+        If FlagOnLoad Then Exit Sub
+        get_jam()
+
+        Dim Diff As Integer = DateDiff(DateInterval.Day, tgl_skg, DateTimePicker1.Value)
+
+
+        If Diff < Val(TxtTiba.Text) Then
+            Dim Msg As String = MessageBox.Show("Tanggal Dibutuhkan Kurang dari Estimasi Tiba,  Tetap Lanjutkan ? ", Base_Language.Lang_Global_Perhatian, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If Msg = vbNo Then
+                DateTimePicker1.Value = DateAdd(DateInterval.Day, Val(TxtTiba.Text) + 1, tgl_skg)
+            End If
+        End If
     End Sub
 
     Private Sub CmbPilihBarang_Satuan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbPilihBarang_Satuan.KeyPress, Cmb_Stock.KeyPress

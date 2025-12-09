@@ -58,6 +58,7 @@ Partial Class Display_Data_Retur_DO
         Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Title = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -66,7 +67,10 @@ Partial Class Display_Data_Retur_DO
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.ListView4 = New System.Windows.Forms.ListView()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Panel10 = New System.Windows.Forms.Panel()
+        Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -82,11 +86,11 @@ Partial Class Display_Data_Retur_DO
         Me.GroupBox1.Controls.Add(Me.Label9)
         Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Controls.Add(Me.ListView1)
-        Me.GroupBox1.Location = New System.Drawing.Point(19, 64)
+        Me.GroupBox1.Location = New System.Drawing.Point(19, 81)
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.GroupBox1.Size = New System.Drawing.Size(916, 221)
+        Me.GroupBox1.Size = New System.Drawing.Size(916, 204)
         Me.GroupBox1.TabIndex = 23
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Data Retur Sub Invoice"
@@ -147,7 +151,7 @@ Partial Class Display_Data_Retur_DO
         Me.ListView1.Location = New System.Drawing.Point(6, 18)
         Me.ListView1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.ListView1.Name = "ListView1"
-        Me.ListView1.Size = New System.Drawing.Size(904, 193)
+        Me.ListView1.Size = New System.Drawing.Size(904, 176)
         Me.ListView1.TabIndex = 12
         Me.ListView1.UseCompatibleStateImageBehavior = False
         '
@@ -450,6 +454,19 @@ Partial Class Display_Data_Retur_DO
         Me.Panel1.Size = New System.Drawing.Size(955, 51)
         Me.Panel1.TabIndex = 66
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(955, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'Lbl_Title
         '
         Me.Lbl_Title.AutoSize = True
@@ -533,18 +550,41 @@ Partial Class Display_Data_Retur_DO
         Me.ListView4.TabIndex = 14
         Me.ListView4.UseCompatibleStateImageBehavior = False
         '
-        'PanelGradient1
+        'Label1
         '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(955, 2)
-        Me.PanelGradient1.TabIndex = 22
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(728, 66)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(91, 12)
+        Me.Label1.TabIndex = 365
+        Me.Label1.Text = "Validasi Warehouse"
+        '
+        'Panel10
+        '
+        Me.Panel10.BackColor = System.Drawing.Color.LightGray
+        Me.Panel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel10.Location = New System.Drawing.Point(710, 66)
+        Me.Panel10.Name = "Panel10"
+        Me.Panel10.Size = New System.Drawing.Size(12, 12)
+        Me.Panel10.TabIndex = 364
+        '
+        'Panel5
+        '
+        Me.Panel5.BackColor = System.Drawing.Color.LightGreen
+        Me.Panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel5.Location = New System.Drawing.Point(825, 66)
+        Me.Panel5.Name = "Panel5"
+        Me.Panel5.Size = New System.Drawing.Size(12, 12)
+        Me.Panel5.TabIndex = 364
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(843, 66)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(92, 12)
+        Me.Label6.TabIndex = 365
+        Me.Label6.Text = "Validasi Accounting"
         '
         'Display_Data_Retur_DO
         '
@@ -552,6 +592,10 @@ Partial Class Display_Data_Retur_DO
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(955, 611)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.Panel5)
+        Me.Controls.Add(Me.Panel10)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.GroupBox4)
@@ -628,4 +672,8 @@ Partial Class Display_Data_Retur_DO
     Friend WithEvents Panel6 As Panel
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents ListView4 As ListView
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Panel10 As Panel
+    Friend WithEvents Panel5 As Panel
+    Friend WithEvents Label6 As Label
 End Class

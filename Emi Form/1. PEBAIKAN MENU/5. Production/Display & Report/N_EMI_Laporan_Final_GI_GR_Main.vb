@@ -3727,6 +3727,7 @@ Public Class N_EMI_Laporan_Final_GI_GR_Main
             Dim NumberN0 As New List(Of Integer) From {8, 9, 21, 25, 27}
 
             Dim defaultRowIndex As Integer = 5
+
             Try
                 OpenConn()
 

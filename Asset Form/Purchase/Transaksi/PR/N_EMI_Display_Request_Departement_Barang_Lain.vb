@@ -3,6 +3,8 @@
     Dim arrcari, arrcari2 As New ArrayList
     Dim Jenis = "N_EMI_Display_Request_Departement_Barang_Lain"
     Public asal As String = ""
+    Public KdSoKategori As String = ""
+
     Private Sub N_EMI_Display_Request_Departement_Barang_Lain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
@@ -19,7 +21,7 @@
 
             DataGridView1.Rows.Clear()
 
-            SQL = "select a.No_Faktur,a.Kode_Stock_Owner, a.Kode_Barang, a.Nama_Barang, a.Jumlah, a.Jmlh_PR, a.Satuan, b.Keterangan as Cost_Center, a.No_Urut, d.Lokasi, a.Flag_Ajukan, a.Link, d.UserId, "
+            SQL = "select g.kode_kategori_gudang,a.No_Faktur,a.Kode_Stock_Owner, a.Kode_Barang, a.Nama_Barang, a.Jumlah, a.Jmlh_PR, a.Satuan, b.Keterangan as Cost_Center, a.No_Urut, d.Lokasi, a.Flag_Ajukan, a.Link, d.UserId, "
             SQL = SQL & "isnull(( select c.Keterangan from N_EMI_Master_Gedung_Barang_Lain c where "
             SQL = SQL & "a.Kode_Perusahaan = c.Kode_Perusahaan and a.ID_Gedung = c.ID_Gedung ), NULL) as Gedung, a.Id_Cost_Center, a.Alasan_Tolak, "
             SQL = SQL & "isnull((select sum(e.Jumlah) from Barang_Lain_SN e where a.Kode_Perusahaan = e.Kode_Perusahaan and a.Kode_Stock_Owner = e.Kode_Stock_Owner "
@@ -40,6 +42,8 @@
             SQL = SQL & "and a.Flag_Sudah_PR is null  "
             '  SQL = SQL & "and a.Kode_Barang <> '-'"
             SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.No_Faktur = d.No_Faktur and d.Flag_Release = 'Y' and d.Flag_PR is null "
+
+            SQL = SQL & "AND g.Kode_Stock_Owner_Gudang = '" & KdSoKategori.Trim & "'  "
 
             If semua = "T" Then
                 If CheckBox1.Checked Then
@@ -78,7 +82,7 @@
                         For i As Integer = 0 To .Rows.Count - 1
                             DataGridView1.Rows.Add(1)
                             'DataGridView1.Rows.Item(i).Cells(0).Value = "" Jumlah_Keep_Stock
-                            DataGridView1.Rows.Item(i).Cells(1).Value = .Rows(i).Item("No_Faktur")
+                            DataGridView1.Rows.Item(i).Cells(1).Value = .Rows(i).Item("No_Faktur") & " - " & .Rows(i).Item("kode_kategori_gudang")
                             DataGridView1.Rows.Item(i).Cells(2).Value = .Rows(i).Item("Kode_Stock_Owner")
                             DataGridView1.Rows.Item(i).Cells(3).Value = .Rows(i).Item("Kode_Barang")
                             DataGridView1.Rows.Item(i).Cells(4).Value = .Rows(i).Item("Nama_Barang")
@@ -134,6 +138,9 @@
 
             DataGridView1.Rows.Clear()
 
+
+
+
             SQL = "select a.No_Faktur,a.Kode_Stock_Owner, a.Kode_Barang, a.Nama_Barang, a.Jumlah, a.Jmlh_PR, a.Satuan, b.Keterangan as Cost_Center, a.No_Urut, d.Lokasi, a.Flag_Ajukan, a.Link, d.UserId, "
             SQL = SQL & "isnull(( select c.Keterangan from N_EMI_Master_Gedung_Barang_Lain c where "
             SQL = SQL & "a.Kode_Perusahaan = c.Kode_Perusahaan and a.ID_Gedung = c.ID_Gedung ), NULL) as Gedung, a.Id_Cost_Center, a.Alasan_Tolak, "
@@ -174,6 +181,8 @@
             'SQL = SQL & "and a.Kode_Barang <> '-'"
             SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.No_Faktur = d.No_Faktur and d.Flag_Release = 'Y' and d.Flag_PR is null "
 
+            SQL = SQL & "AND g.Kode_Stock_Owner_Gudang = '" & KdSoKategori.Trim & "'  "
+
             If semua = "T" Then
                 If CheckBox1.Checked Then
                     'Pasang And
@@ -210,8 +219,19 @@
                     If .Rows.Count <> 0 Then
                         For i As Integer = 0 To .Rows.Count - 1
                             DataGridView1.Rows.Add(1)
+
+                            Dim Kategori_Gudang As String = ""
+                            SQL = "select top(1) kode_kategori_gudang From N_EMI_View_Master_Kategori_Gudang_Binding_Departement_Barang_Lain  "
+                            SQL = SQL & "where user_id = '" & .Rows(i).Item("userid") & "' and kode_perusahaan = '" & KodePerusahaan & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    Kategori_Gudang = Dr("kode_kategori_gudang")
+                                End If
+                            End Using
+
+
                             'DataGridView1.Rows.Item(i).Cells(0).Value = "" Jumlah_Keep_Stock
-                            DataGridView1.Rows.Item(i).Cells(1).Value = .Rows(i).Item("No_Faktur")
+                            DataGridView1.Rows.Item(i).Cells(1).Value = .Rows(i).Item("No_Faktur") & " - " & Kategori_Gudang
                             DataGridView1.Rows.Item(i).Cells(2).Value = .Rows(i).Item("Kode_Stock_Owner")
                             DataGridView1.Rows.Item(i).Cells(3).Value = .Rows(i).Item("Kode_Barang")
                             DataGridView1.Rows.Item(i).Cells(4).Value = .Rows(i).Item("Nama_Barang")
@@ -288,8 +308,12 @@
             SQL = SQL & "group by c.Nama),'-') as Nama_Barang_Baru, "
             SQL = SQL & "b.Kategori_Jenis, b.Sub_Kategori_Jenis, b.Sub_Kategori_Jenis_1, b.Sub_Kategori_Jenis_2, "
             SQL = SQL & "b.Sub_Kategori_Jenis_3, a.Tanggal, a.Userid, a.Flag_Pengajuan_Barang_Baru, a.Keterangan_Tolak "
-            SQL = SQL & "from N_EMI_Pengajuan_Barang_Baru_Lain a, View_Kategori_Turunan b "
-            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_3 = b.Id_Sub_Kategori_Jenis_3 "
+            SQL = SQL & "from N_EMI_Pengajuan_Barang_Baru_Lain a, View_Kategori_Turunan b, N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain c "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_3 = b.Id_Sub_Kategori_Jenis_3  "
+
+            SQL = SQL & "and b.Id_Kategori_Jenis = c.Id_Kategori_Jenis "
+            SQL = SQL & "And b.Id_Sub_Kategori_Jenis = c.Id_Sub_Kategori_Jenis And c.User_ID = '" & UserID & "' "
+
             SQL = SQL & ") "
             SQL = SQL & "select Kode_Perusahaan,No_Faktur, Kode_Barang_Baru, Nama_Barang_Baru, "
             SQL = SQL & "Kategori_Jenis, Sub_Kategori_Jenis, Sub_Kategori_Jenis_1, Sub_Kategori_Jenis_2, Sub_Kategori_Jenis_3, "

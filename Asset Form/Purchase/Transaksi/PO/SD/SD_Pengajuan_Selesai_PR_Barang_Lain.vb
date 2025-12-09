@@ -1,6 +1,6 @@
 ﻿Public Class SD_Pengajuan_Selesai_PR_Barang_Lain
 
-    Public UrutPR
+    Public UrutPR, asal
 
     Private Sub SD_Pengajuan_Selesai_PR_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         My.Application.ChangeCulture("en-us")
@@ -40,13 +40,23 @@
             CloseConn()
             MessageBox.Show("Data Berhasil Di Ajukan", "Pengajuan Penyelesaian PR", MessageBoxButtons.OK, MessageBoxIcon.Information)
             EMI_PO_Pembelian_Display_User.kosong()
-            Me.Close()
+            'Me.Close()
+
         Catch ex As Exception
             CloseConn()
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
 
+        If asal = "PR_PENAWARAN" Then
+            N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.TxtPO_KdSupplier.Text = ""
+            N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.TxtPO_NmSupplier.Text = ""
+            N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.Fetch_PR_Offered()
+            N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.Fetch_PR_Waiting_Offer_All()
+            N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.LvSupplier2.Visible = False
+        End If
+
+        Me.Close()
 
 
     End Sub

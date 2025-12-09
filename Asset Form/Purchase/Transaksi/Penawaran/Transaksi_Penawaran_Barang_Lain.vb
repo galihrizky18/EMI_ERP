@@ -96,13 +96,13 @@ Public Class Transaksi_Penawaran_Barang_Lain
             Base_Language.Get_Languages(Bahasa_Pilihan, Jenis)
             Base_Language.Get_Languages(Bahasa_Pilihan, Jenis2)
 
-            Label1.Text = Base_Language.Lang_Penawaran_Judul
-            lbl_NoFaktur.Text = Base_Language.Lang_Global_NoFaktur
-            Lbl_Supplier.Text = Base_Language.Lang_Global_Supplier
-            Lbl_NoPenawaran.Text = Base_Language.Lang_Penawaran_NoPenawaran
-            Lbl_TglPenawaranHrg.Text = Base_Language.Lang_global_Periode_Awal
-            Lbl_PeriodeAkhirPenawaran.Text = Base_Language.Lang_global_Periode_Akhir
-            LblOngkir_PeriodeAkhirPenawaran.Text = Base_Language.Lang_global_Periode_Akhir
+            Label1.Text = "Master Data - Penawaran Barang Lain"
+            lbl_NoFaktur.Text = "No Faktur"
+            Lbl_Supplier.Text = "Supplier"
+            Lbl_NoPenawaran.Text = "No. Penawaran"
+            Lbl_TglPenawaranHrg.Text = "Periode Awal"
+            Lbl_PeriodeAkhirPenawaran.Text = "Periode Akhir"
+            LblOngkir_PeriodeAkhirPenawaran.Text = "Periode Akhir"
 
             DgvMaster_Penawaran.Columns(cellKdBrg).HeaderText = Base_Language.Lang_Global_KodeBarang
             DgvMaster_Penawaran.Columns(cellNmBrg).HeaderText = Base_Language.Lang_Global_NamaBarang
@@ -135,31 +135,31 @@ Public Class Transaksi_Penawaran_Barang_Lain
             'Lv_AutoCompleteNmEkspedisi.View = View.Details
 
             'Lbl_OngkirJudul.Text = Base_Language.Lang_Ongkir_Lain_Judul
-            LblOngkir_NmEkspedisi.Text = Base_Language.Lang_Ongkir_NmEkspedisi
-            LblOngkir_NoPenawaran.Text = Base_Language.Lang_Penawaran_NoPenawaran
-            LblOngkir_TglPenawaranHrg.Text = Base_Language.Lang_global_Periode_Awal
-            LblOngkir_ProvAsal.Text = Base_Language.Lang_Ongkir_ProvAsal
-            LblOngkir_ProvTujuan.Text = Base_Language.Lang_Ongkir_ProvTujuan
-            LblOngkir_KabKotaAsal.Text = Base_Language.Lang_Ongkir_KabKotaAsal
-            LblOngkir_KabKotTujuan.Text = Base_Language.Lang_Ongkir_KabKotaTujuan
-            LblOngkir_LokasiAwal.Text = Base_Language.Lang_Global_Lokasi_Awal
-            LblOngkir_LokasiTujuan.Text = Base_Language.Lang_Global_Lokasi_Tujuan
-            LblOngkir_CaraKirim.Text = Base_Language.Lang_Global_Cara_Kirim
-            LblOngkir_MediaKirim.Text = Base_Language.Lang_Ongkir_MediaKirim
-            LblOngkir_Satuan.Text = Base_Language.Lang_Global_Satuan
+            LblOngkir_NmEkspedisi.Text = "Nama Ekspedisi"
+            LblOngkir_NoPenawaran.Text = "No. Penawaran"
+            LblOngkir_TglPenawaranHrg.Text = "Periode Awal"
+            LblOngkir_ProvAsal.Text = "Lang_Ongkir_ProvAsal"
+            LblOngkir_ProvTujuan.Text = "Provinsi Tujuan"
+            LblOngkir_KabKotaAsal.Text = "Kab/Kota Asal"
+            LblOngkir_KabKotTujuan.Text = "Kab/Kota Tujuan"
+            LblOngkir_LokasiAwal.Text = "Kab/Kota Tujuan"
+            LblOngkir_LokasiTujuan.Text = "Lokasi Tujuan"
+            LblOngkir_CaraKirim.Text = "Cara Kirim"
+            LblOngkir_MediaKirim.Text = "Media Kirim"
+            LblOngkir_Satuan.Text = "Satuan"
             'LblOngkir_Ukuran.Text = Base_Language.Lang_Ongkir_Lain_Ukuran 
-            LblOngkir_Hrg.Text = Base_Language.Lang_Ongkir_Hrg
+            LblOngkir_Hrg.Text = "Harga"
             BtnOngkir_Simpan.Text = Base_Language.Lang_Global_Simpan
             BtnOngkir_Refresh.Text = Base_Language.Lang_Global_Refresh
 
-            Lbl_Panjang.Text = Base_Language.Lang_Global_P
-            Lbl_Lebar.Text = Base_Language.Lang_Global_L
-            Lbl_Tinggi.Text = Base_Language.Lang_Global_T
+            Lbl_Panjang.Text = "P"
+            Lbl_Lebar.Text = "L"
+            Lbl_Tinggi.Text = "T"
             'Lbl_SatuanPanjang.Text = "Length Unit"
             'Lbl_SatuanVolume.Text = Base_Language.Lang_Global_SatuanVolume
-            Lbl_Berat.Text = Base_Language.Lang_Global_Berat
+            Lbl_Berat.Text = "Berat"
             'Lbl_SatuanBerat.Text = Base_Language.Lang_Global_SatuanBerat
-            lblOngkir_uk.Text = Base_Language.Lang_Global_Ukuran
+            lblOngkir_uk.Text = "Ukuran"
 
             CloseConn()
         Catch ex As Exception
@@ -807,15 +807,11 @@ Public Class Transaksi_Penawaran_Barang_Lain
                 ExecuteTrans(SQL)
 
                 'Save Master Penawaran Detail
-                For index = 0 To DgvMaster_Penawaran.Rows.Count - 2
+                For index = 0 To DgvMaster_Penawaran.Rows.Count - 1
                     Get_Isi_Listview(index)
 
-
-                    If Val(HilangkanTanda(DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value)) < 1 Then
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show($"Baris ke {index + 1} belum lengkap, harap periksa terlebih dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
+                    If DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value = "" Or DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value = 0 Then
+                        Continue For
                     End If
 
                     hasDataToInsert = True

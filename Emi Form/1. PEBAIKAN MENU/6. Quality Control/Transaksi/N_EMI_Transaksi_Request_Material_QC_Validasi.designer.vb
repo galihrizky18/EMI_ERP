@@ -709,7 +709,7 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(17, 351)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(12, 351)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(94, 32)
         Me.Btn_Simpan.TabIndex = 2

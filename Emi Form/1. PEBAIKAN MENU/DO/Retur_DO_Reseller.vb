@@ -908,7 +908,7 @@
             'akhir coding Reza
 
             SQL = "insert into retur_do(Kode_Perusahaan, No_Retur_jual, No_do, Tanggal, "
-            SQL = SQL & "Jam, UserID, lokasi, metode_pot_stock, NTotal, NPPN, NNilai_PPN, NGrand, hrs_updatex, xtermsc, flag_opm,nilai_satu_poin,total_poin) values "
+            SQL = SQL & "Jam, UserID, lokasi, metode_pot_stock, NTotal, NPPN, NNilai_PPN, NGrand, hrs_updatex, xtermsc, flag_opm,nilai_satu_poin,total_poin, No_Retur_Sementara) values "
             SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TextBox4.Text) & "', '" & Trim(TextBox1.Text) & "', "
             SQL = SQL & "'" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
             SQL = SQL & "'" & UserID & "', '" & ComboBox1.Text & "', '" & metode_pot_Stock & "', "
@@ -916,7 +916,7 @@
             SQL = SQL & "'" & HilangkanTanda(TextBox18.Text) & "', "
             SQL = SQL & "'" & HilangkanTanda(TextBox19.Text) & "', "
             SQL = SQL & "'" & HilangkanTanda(TxtTotal.Text) & "', 'x', 'Y', " & flag_opm & ", "
-            SQL = SQL & " " & nilai_satu_poin & " , " & nilai_poin_dari_ngrand & " ) "
+            SQL = SQL & " " & nilai_satu_poin & " , " & nilai_poin_dari_ngrand & ", '" & no_retur_s & "' ) "
             ExecuteTrans(SQL)
 
 

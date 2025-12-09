@@ -1,4 +1,8 @@
-﻿Public Class Display_Data_Penawaran_Barang_Lain
+﻿
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
+
+Public Class Display_Data_Penawaran_Barang_Lain
     Dim arrcari, arrcari2 As New ArrayList
     Public MinHari As Integer = 300
 
@@ -274,7 +278,7 @@
             Base_Language.Get_Languages(Bahasa_Pilihan, Jenis)
             Base_Language.Get_Languages(Bahasa_Pilihan, Jenis2)
 
-            Label1.Text = Base_Language.Lang_Penawaran_Judul
+            Label1.Text = "Master Data - Penawaran Barang Lain"
 
             Btn_Cari.Text = Base_Language.Lang_Global_Cari
             Btn_Refresh.Text = Base_Language.Lang_Global_Refresh
@@ -379,7 +383,7 @@
 
         ComboBox1.Items.Clear() : arrcari.Clear()
         ComboBox1.Items.Add(Base_Language.Lang_Global_NoFaktur) : arrcari.Add("a.No_Faktur")
-        ComboBox1.Items.Add(Base_Language.Lang_Penawaran_NoPenawaran) : arrcari.Add("a.No_Penawaran")
+        ComboBox1.Items.Add("No Penawaran") : arrcari.Add("a.No_Penawaran")
         TextBox3.Text = ""
 
         CmbpenawaranAktif.Items.Clear()
@@ -392,12 +396,12 @@
 
 
         CmbOngkir_Kolom.Items.Clear() : arrcari2.Clear()
-        CmbOngkir_Kolom.Items.Add(Base_Language.Lang_Ongkir_NmEkspedisi) : arrcari2.Add("a.Nama_Ekspedisi")
-        CmbOngkir_Kolom.Items.Add(Base_Language.Lang_Penawaran_NoPenawaran) : arrcari2.Add("a.No_Penawaran")
+        CmbOngkir_Kolom.Items.Add("Nama Expedisi") : arrcari2.Add("a.Nama_Ekspedisi")
+        CmbOngkir_Kolom.Items.Add("No Penawaran") : arrcari2.Add("a.No_Penawaran")
         TxtOngkir_Value.Text = ""
 
         CmbOngkirAktif.Items.Clear()
-        CmbOngkirAktif.Items.Add(Base_Language.Lang_Global_SeluruhCombobox)
+        CmbOngkirAktif.Items.Add("Seluruh")
         CmbOngkirAktif.Items.Add("Y")
         CmbOngkirAktif.Items.Add("T")
         CmbOngkirAktif.SelectedIndex = 0

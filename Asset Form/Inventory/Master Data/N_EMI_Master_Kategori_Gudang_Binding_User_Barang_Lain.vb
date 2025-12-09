@@ -615,8 +615,8 @@
                 If Rb_Desktop.Checked Then
 
                     SQL = $"
-                        insert into N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain (Kode_Perusahaan, Kode_Kategori_Gudang, User_ID, Keterangan, Tanggal, Jam, Id_Kategori_Gudang)
-                        values ('{KodePerusahaan}', '{Txt_Kd_Kategori.Text.Trim}', '{Txt_UserID.Text.Trim}', '{Txt_Keterangan.Text.Trim}', 
+                        insert into N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain (Kode_Perusahaan, Kode_Kategori_Gudang, User_ID, User_Id_Android, Keterangan, Tanggal, Jam, Id_Kategori_Gudang)
+                        values ('{KodePerusahaan}', '{Txt_Kd_Kategori.Text.Trim}', '{Txt_UserID.Text.Trim}', '-', '{Txt_Keterangan.Text.Trim}', 
                         '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', '{Txt_ID_Kategori.Text.Trim}')
                     "
                     ExecuteTrans(SQL)

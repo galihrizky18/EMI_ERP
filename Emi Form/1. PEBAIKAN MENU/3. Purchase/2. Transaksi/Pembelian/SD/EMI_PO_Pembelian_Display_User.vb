@@ -183,7 +183,7 @@
 
             SQL = "With cte As ( "
             SQL = SQL & "Select a.No_Faktur,b.Kode_Stock_Owner,b.Kode_Barang,c.Nama,c.satuan As satuan_kecil_barang, "
-            SQL = SQL & "b.Satuan, b.tanggal_delivery, b.no_urut, b.Jumlah, "
+            SQL = SQL & "b.Satuan, b.tanggal_delivery, b.no_urut, b.Jumlah, b.No_Penawaran, "
 
             SQL = SQL & "isnull((select  sum(y.Jumlah) from  EMI_Pembelian_PO_Induk x, EMI_Pembelian_PO_Det_Induk y where "
             SQL = SQL & "x.Kode_Perusahaan = y.Kode_Perusahaan And x.No_Faktur = y.No_Faktur And "
@@ -201,18 +201,30 @@
             SQL = SQL & "ISNULL((select  Waktu_Pengiriman from emi_detail_proses_pengiriman_po x, Suppliers y "
             SQL = SQL & "where b.Kode_Perusahaan = x.Kode_Perusahaan And b.Kode_Barang = x.kode_barang And "
             SQL = SQL & "x.Kode_Perusahaan = y.Kode_Perusahaan And x.Id_Kategori_Supplier = y.ID_Kategori_Suppliers "
-            SQL = SQL & "And y.Kode_Supplier = '" & EMI_PO_Pembelian.TxtPO_KdSupplier.Text & "' ),0) as Waktu_Pengiriman "
+            SQL = SQL & "And y.Kode_Supplier = '" & EMI_PO_Pembelian.TxtPO_KdSupplier.Text & "' ),0) as Waktu_Pengiriman, "
+
+            SQL = SQL & "ISNULL((select CASE WHEN b.No_Penawaran IS NULL THEN 0 ELSE z.Harga_Satuan END "
+            SQL = SQL & "from EMI_Master_Penawaran_Detail z where "
+            SQL = SQL & "z.No_Faktur = b.No_Penawaran And z.Kode_Barang = b.Kode_Barang And z.Mata_Uang = '" & MataUang & "'),0) as Harga_Satuan, "
+
+            SQL = SQL & "ISNULL((select CASE WHEN b.No_Penawaran IS NULL THEN 0 ELSE z.Nilai_Barang END "
+            SQL = SQL & "from EMI_Master_Penawaran_Detail z where "
+            SQL = SQL & "z.No_Faktur = b.No_Penawaran And z.Kode_Barang = b.Kode_Barang And z.Mata_Uang = '" & MataUang & "'),0) as Nilai_Barang, "
+
+            SQL = SQL & "(select Satuan_Barang "
+            SQL = SQL & "from EMI_Master_Penawaran_Detail z where "
+            SQL = SQL & "z.No_Faktur = b.No_Penawaran And z.Kode_Barang = b.Kode_Barang And z.Mata_Uang = '" & MataUang & "') as Satuan_Barang "
 
             SQL = SQL & "From EMI_Purchase_Requisition a, EMI_Purchase_Requisition_Detail b , barang c, Emi_Role_Kategori_PO d "
             SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Faktur = b.No_Faktur And "
             SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan And b.Kode_Barang = c.Kode_Barang And "
-            SQL = SQL & "b.Kode_Stock_Owner = c.Kode_Stock_Owner And a.kode_perusahaan = '" & KodePerusahaan & "' and a.Status is null "
+            SQL = SQL & "b.Kode_Stock_Owner = c.Kode_Stock_Owner And a.kode_perusahaan = '" & KodePerusahaan & "' and a.Status is null And b.No_Penawaran is not null "
             SQL = SQL & " And flag_release = 'Y' and c.kode_Perusahaan=d.kode_Perusahaan and "
             SQL = SQL & "c.id_kategori_PO = d.kategori_po And d.userid = '" & UserID & "' and b.flag_sudah_po is null and b.Flag_Pengajuan_Selesai is null "
             SQL = SQL & ") "
 
-            SQL = SQL & "Select No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama, satuan_kecil_barang, Satuan, Tanggal_Delivery, No_Urut, "
-            SQL = SQL & "jumlah-(jumlah_Sementara + jumlah_Release) As Jumlah, Waktu_Pabrikasi, Waktu_Pengiriman, "
+            SQL = SQL & "Select No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama, satuan_kecil_barang, Satuan, Tanggal_Delivery, No_Urut, No_Penawaran, "
+            SQL = SQL & "jumlah-(jumlah_Sementara + jumlah_Release) As Jumlah, Waktu_Pabrikasi, Waktu_Pengiriman, Harga_Satuan, Nilai_Barang, Satuan_Barang, "
             SQL = SQL & "DateDiff(Day, Tanggal_Delivery, DateAdd(Day, Waktu_Pabrikasi + Waktu_Pengiriman, '" & Format(tgl_skg, "yyyy-MM-dd") & "') ) as  Waktu_Proses_Pengiriman, "
             SQL = SQL & "DateAdd(Day, Waktu_Pabrikasi + Waktu_Pengiriman, '" & Format(tgl_skg, "yyyy-MM-dd") & "') as tanggal_actual_delivery "
 
@@ -242,13 +254,13 @@
                         Dgv_Pr.Rows(i).Cells(cellNmBarang).Value = .Rows(i).Item("nama")
                         Dgv_Pr.Rows(i).Cells(cellSisa).Value = Format(.Rows(i).Item("jumlah"), "N2")
                         Dgv_Pr.Rows(i).Cells(cellSatuan).Value = .Rows(i).Item("satuan")
-                        Dgv_Pr.Rows(i).Cells(cellHarga).Value = Format(0, "N2")
+                        Dgv_Pr.Rows(i).Cells(cellHarga).Value = Format(.Rows(i).Item("Harga_Satuan"), "N2")
                         Dgv_Pr.Rows(i).Cells(cellJumlah).Value = Format(0, "N2")
                         Dgv_Pr.Rows(i).Cells(cellSatuanPO).Value = .Rows(i).Item("satuan")
-                        Dgv_Pr.Rows(i).Cells(cellNoPenawaran).Value = ""
+                        Dgv_Pr.Rows(i).Cells(cellNoPenawaran).Value = .Rows(i).Item("No_Penawaran")
                         Dgv_Pr.Rows(i).Cells(cellNoUrutPR).Value = .Rows(i).Item("no_urut")
-                        Dgv_Pr.Rows(i).Cells(cellSatuanHarga).Value = ""
-                        Dgv_Pr.Rows(i).Cells(cellHargaId).Value = ""
+                        Dgv_Pr.Rows(i).Cells(cellSatuanHarga).Value = .Rows(i).Item("Satuan_Barang")
+                        Dgv_Pr.Rows(i).Cells(cellHargaId).Value = .Rows(i).Item("Nilai_Barang")
                         Dgv_Pr.Rows(i).Cells(cellSkBrg).Value = .Rows(i).Item("satuan_kecil_barang")
                         Dgv_Pr.Rows(i).Cells(cellTglDeliv).Value = Format(.Rows(i).Item("tanggal_delivery"), "dd MMM yyyy")
                         Dgv_Pr.Rows(i).Cells(cellSkBrg).Value = .Rows(i).Item("satuan_kecil_barang")
@@ -319,32 +331,10 @@
         Cari()
     End Sub
 
-    Private Sub Dgv_Pr_DoubleClick(sender As Object, e As EventArgs) Handles Dgv_Pr.DoubleClick
-        If Dgv_Pr.Rows.Count = 0 Then
-            Exit Sub
-        End If
-
-        Dim currentRow = Dgv_Pr.CurrentRow.Index
-        Dim currentCell = Dgv_Pr.CurrentCellAddress.X
-
-        Dim data = Dgv_Pr.Rows(currentRow).Cells(currentCell)
-
-        If currentCell = cellHarga Then
-            SD_Pilih_Harga_PO.kodeSupplier = KdSupp
-            SD_Pilih_Harga_PO.kodeBarang = Dgv_Pr.Rows(currentRow).Cells(cellKdBarang).Value
-            SD_Pilih_Harga_PO.cellDgv = currentCell
-            SD_Pilih_Harga_PO.cellNoPenawaran = cellNoPenawaran
-            SD_Pilih_Harga_PO.cellSatuanHarga = cellSatuanHarga
-            SD_Pilih_Harga_PO.cellHargaID = cellHargaId
-            SD_Pilih_Harga_PO.MataUang = MataUang
-            SD_Pilih_Harga_PO.rowDgv = currentRow
-            SD_Pilih_Harga_PO.ShowDialog()
-        End If
-
-    End Sub
-
     Private Sub btnPilih_Click(sender As Object, e As EventArgs) Handles btnPilih.Click
         Dim Kode_Kategori_Besar As String = ""
+        Dim Count_Valid_Data As Integer = 0
+
         For indexDisplayUserPO As Integer = 0 To Dgv_Pr.Rows.Count - 1
 
             Get_Isi_Listview(indexDisplayUserPO)
@@ -352,21 +342,18 @@
             '=======================================
             '     CEK APAKAH ADA DATA TERLEWAT     =
             '=======================================
-            If Not Val(HilangkanTanda(lvHarga)) = 0 Then
-                If Val(HilangkanTanda(lvJumlah)) = 0 Then
-                    MessageBox.Show("Jumlah pada Baris ke -" & indexDisplayUserPO + 1 & " Tidak Boleh 0", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
+            If Not Val(HilangkanTanda(lvJumlah)) = 0 Then
+                Count_Valid_Data += 1
 
-            ElseIf Not Val(HilangkanTanda(lvJumlah)) = 0 Then
                 If Val(HilangkanTanda(lvHarga)) = 0 Then
                     MessageBox.Show("Harga pada Baris ke -" & indexDisplayUserPO + 1 & " Tidak Boleh 0", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
 
-            ElseIf LvSatuanInput = "" Then
-                MessageBox.Show("Satuan Input pada Baris ke -" & indexDisplayUserPO + 1 & " Harus Pilih", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Exit Sub
+                If LvSatuanInput = "" Then
+                    MessageBox.Show("Satuan Input pada Baris ke -" & indexDisplayUserPO + 1 & " Harus Pilih", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
             End If
 
             'If Dgv_Pr.Rows(indexDisplayUserPO).Cells(7).Value = "" Then
@@ -379,6 +366,11 @@
             '    MessageBox.Show("Satuan pada " & Dgv_Pr.Rows(indexDisplayUserPO).Cells(3).Value & " belum di isi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             '    Exit Sub
             'End If
+
+            If Val(HilangkanTanda(Dgv_Pr.Rows(indexDisplayUserPO).Cells(cellJumlah).Value)) = 0 Then
+                Continue For
+            End If
+
 
             For i As Integer = 0 To EMI_PO_Pembelian.LvPO_DataPO.Items.Count - 1
 
@@ -405,6 +397,11 @@
             Next
 
         Next
+
+        If Count_Valid_Data = 0 Then
+            MessageBox.Show("Minimal ada 1 baris data yang harus diinputkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
 
         Try
             OpenConn()
@@ -434,6 +431,7 @@
                     Exit Sub
                 End If
             End If
+
             For indexDisplayUserPO As Integer = 0 To Dgv_Pr.Rows.Count - 1
 
                 If Not Val(HilangkanTanda(Dgv_Pr.Rows(indexDisplayUserPO).Cells(cellHarga).Value)) = 0 And Not Val(HilangkanTanda(Dgv_Pr.Rows(indexDisplayUserPO).Cells(cellJumlah).Value)) = 0 Then
@@ -757,7 +755,7 @@
             '=     UBAH SATUAN     =
             '=======================
             SQL = "select dbo.Ubah_Satuan_Baru('" & KodePerusahaan & "', '" & Dgv_Pr.CurrentRow.Cells(cellKdBarang).Value.ToString & "', "
-            SQL = SQL & "'" & satuanInputDefault & "', '" & satuanDasar & "', " & JumlahInput & ") as hasil"
+            SQL = SQL & "'" & satuanInputDefault & "', '" & satuanDasar & "', " & JumlahInput & ", 'masa') as hasil"
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     If General_Class.CekNULL(Dr("hasil")) = "" Then
@@ -821,12 +819,38 @@
                     End If
                 End Using
 
+                Dim Nilai_Per_Satuan_Default As Double = 0
+                SQL = "select "
+                SQL = SQL & "isnull(( select z.Satuan from N_EMI_Master_Satuan z where a.Kode_Perusahaan = z.Kode_Perusahaan "
+                SQL = SQL & "and a.Kode_Barang = z.Kode_Barang "
+                SQL = SQL & "and z.Flag_Dasar = 'Y' "
+                SQL = SQL & "), '-') as Satuan_Dasar, a.Nilai "
+                SQL = SQL & "from N_EMI_Master_Satuan a "
+                SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.Kode_Barang = '" & lvKdBarang & "' "
+                SQL = SQL & "and a.Satuan = '" & satuanInputDefault & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Nilai_Per_Satuan_Default = Dr("Nilai")
+                    Else
+                        CloseConn()
+                        MessageBox.Show("Satuan Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
                 If jumlah_sisa_satuan_kecil < Jumlah_satuan_Kecil Then
-                    MessageBox.Show("Jumlah po tidak boleh lebih besar dari jumlah PR!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Dgv_Pr.CurrentCell.Value = Format(0, "N2")
-                    Dgv_Pr.CurrentRow.Cells(cellJumlah).Value = Format(0, "N2")
-                    CloseConn()
-                    Exit Sub
+
+                    If Math.Abs((jumlah_sisa_satuan_kecil - Jumlah_satuan_Kecil)) > Nilai_Per_Satuan_Default - 1 Then
+
+                        MessageBox.Show("Jumlah po tidak boleh lebih besar dari jumlah PR!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Dgv_Pr.CurrentCell.Value = Format(0, "N2")
+                        Dgv_Pr.CurrentRow.Cells(cellJumlah).Value = Format(0, "N2")
+                        CloseConn()
+                        Exit Sub
+                    End If
+
+
                 End If
             End If
 
@@ -1007,5 +1031,4 @@
             End If
         End If
     End Sub
-
 End Class

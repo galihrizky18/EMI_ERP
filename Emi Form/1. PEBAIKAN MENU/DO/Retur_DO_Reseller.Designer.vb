@@ -78,6 +78,7 @@ Partial Class Retur_DO_Reseller
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
         Me.ListView4 = New System.Windows.Forms.ListView()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -85,7 +86,6 @@ Partial Class Retur_DO_Reseller
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Lv_Hidden_Data = New System.Windows.Forms.ListView()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
@@ -97,11 +97,11 @@ Partial Class Retur_DO_Reseller
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label3.Location = New System.Drawing.Point(22, 60)
         Me.Label3.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(87, 17)
+        Me.Label3.Size = New System.Drawing.Size(85, 15)
         Me.Label3.TabIndex = 29
         Me.Label3.Text = "Tanggal Retur"
         '
@@ -110,22 +110,22 @@ Partial Class Retur_DO_Reseller
         Me.TextBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox1.Enabled = False
-        Me.TextBox1.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.TextBox1.Location = New System.Drawing.Point(359, 58)
         Me.TextBox1.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(156, 22)
+        Me.TextBox1.Size = New System.Drawing.Size(156, 21)
         Me.TextBox1.TabIndex = 1
         Me.TextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label2.Location = New System.Drawing.Point(309, 62)
         Me.Label2.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(46, 17)
+        Me.Label2.Size = New System.Drawing.Size(44, 15)
         Me.Label2.TabIndex = 27
         Me.Label2.Text = "No DO"
         '
@@ -230,7 +230,7 @@ Partial Class Retur_DO_Reseller
         Me.ComboBox2.Location = New System.Drawing.Point(749, 47)
         Me.ComboBox2.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
         Me.ComboBox2.Name = "ComboBox2"
-        Me.ComboBox2.Size = New System.Drawing.Size(68, 24)
+        Me.ComboBox2.Size = New System.Drawing.Size(68, 21)
         Me.ComboBox2.TabIndex = 5
         Me.ComboBox2.Visible = False
         '
@@ -251,7 +251,7 @@ Partial Class Retur_DO_Reseller
         Me.TextBox3.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox3.Enabled = False
-        Me.TextBox3.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.TextBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.TextBox3.Location = New System.Drawing.Point(176, 50)
         Me.TextBox3.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
         Me.TextBox3.Name = "TextBox3"
@@ -324,7 +324,7 @@ Partial Class Retur_DO_Reseller
         Me.ComboBox4.Location = New System.Drawing.Point(571, 252)
         Me.ComboBox4.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
         Me.ComboBox4.Name = "ComboBox4"
-        Me.ComboBox4.Size = New System.Drawing.Size(58, 24)
+        Me.ComboBox4.Size = New System.Drawing.Size(58, 21)
         Me.ComboBox4.TabIndex = 20
         Me.ComboBox4.Visible = False
         '
@@ -332,7 +332,7 @@ Partial Class Retur_DO_Reseller
         '
         Me.Button4.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button4.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Button4.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Button4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button4.ForeColor = System.Drawing.Color.White
         Me.Button4.Location = New System.Drawing.Point(136, 252)
         Me.Button4.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
@@ -346,7 +346,7 @@ Partial Class Retur_DO_Reseller
         '
         Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button2.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Button2.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button2.ForeColor = System.Drawing.Color.White
         Me.Button2.Location = New System.Drawing.Point(8, 252)
         Me.Button2.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
@@ -515,12 +515,12 @@ Partial Class Retur_DO_Reseller
         '
         Me.DateTimePicker1.CustomFormat = "dd MMMM yyyy"
         Me.DateTimePicker1.Enabled = False
-        Me.DateTimePicker1.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.DateTimePicker1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.DateTimePicker1.Location = New System.Drawing.Point(113, 58)
         Me.DateTimePicker1.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
         Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.Size = New System.Drawing.Size(180, 22)
+        Me.DateTimePicker1.Size = New System.Drawing.Size(180, 21)
         Me.DateTimePicker1.TabIndex = 0
         Me.DateTimePicker1.TabStop = False
         '
@@ -613,7 +613,7 @@ Partial Class Retur_DO_Reseller
         Me.Label8.Location = New System.Drawing.Point(1576, 107)
         Me.Label8.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(76, 16)
+        Me.Label8.Size = New System.Drawing.Size(67, 13)
         Me.Label8.TabIndex = 38
         Me.Label8.Text = "Nomor Retur"
         Me.Label8.Visible = False
@@ -626,7 +626,7 @@ Partial Class Retur_DO_Reseller
         Me.ComboBox1.Location = New System.Drawing.Point(522, 58)
         Me.ComboBox1.Margin = New System.Windows.Forms.Padding(5)
         Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(159, 24)
+        Me.ComboBox1.Size = New System.Drawing.Size(159, 21)
         Me.ComboBox1.TabIndex = 66
         '
         'Label40
@@ -750,14 +750,27 @@ Partial Class Retur_DO_Reseller
         Me.Panel1.Size = New System.Drawing.Size(1185, 45)
         Me.Panel1.TabIndex = 314
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1185, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Font = New System.Drawing.Font("Work Sans SemiBold", 15.0!, System.Drawing.FontStyle.Bold)
-        Me.Label9.Location = New System.Drawing.Point(23, 6)
+        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Bold)
+        Me.Label9.Location = New System.Drawing.Point(23, 10)
         Me.Label9.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(219, 29)
+        Me.Label9.Size = New System.Drawing.Size(216, 25)
         Me.Label9.TabIndex = 0
         Me.Label9.Text = "Transaksi - Retur DO"
         '
@@ -824,22 +837,9 @@ Partial Class Retur_DO_Reseller
         Me.Lv_Hidden_Data.UseCompatibleStateImageBehavior = False
         Me.Lv_Hidden_Data.Visible = False
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1185, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
         'Retur_DO_Reseller
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1185, 682)
@@ -872,7 +872,7 @@ Partial Class Retur_DO_Reseller
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.GroupBox1)
-        Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)

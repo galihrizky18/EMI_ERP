@@ -83,6 +83,54 @@
 
             SQL = SQL & "From cte "
             SQL = SQL & "Where jumlah - (jumlah_Sementara + jumlah_Release) <> 0 "
+
+
+            'SQL = "With cte As ( "
+            'SQL = SQL & "select a.Kode_Perusahaan, a.user_id, b.Kode_Kategori_Gudang, b.Kode_Stock_Owner_Gudang, d.id_sub_kategori_jenis, d.id_kategori_jenis "
+            'SQL = SQL & "from N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain a "
+            'SQL = SQL & "inner join N_EMI_Master_Kategori_Gudang_Barang_Lain b on a.kode_perusahaan = b.kode_perusahaan and a.id_kategori_gudang = b.urut_oto "
+            'SQL = SQL & "inner join N_EMI_Master_Kategori_Gudang_Binding_Barang_Lain c on b.kode_perusahaan = c.kode_perusahaan and c.id_kategori_gudang = b.urut_oto "
+            'SQL = SQL & "inner join N_EMI_Master_Sub_Kategori_Jenis d on c.kode_perusahaan = d.kode_perusahaan and c.id_sub_kategori_jenis = d.id_sub_kategori_jenis "
+            'SQL = SQL & "where a.status is null and b.status is null and c.status is null "
+            'SQL = SQL & "), cte_b as ( "
+
+            'SQL = SQL & "Select a.No_Faktur,b.Kode_Stock_Owner,b.Kode_Barang,c.Nama,c.satuan As satuan_kecil_barang, "
+            'SQL = SQL & "b.Satuan, b.tanggal_delivery, b.no_urut, b.Jumlah, "
+
+            'SQL = SQL & "isnull((select  sum(y.Jumlah) from  EMI_Pembelian_PO_Induk_Barang_Lain x, EMI_Pembelian_PO_Det_Induk_Barang_Lain y where "
+            'SQL = SQL & "x.Kode_Perusahaan = y.Kode_Perusahaan And x.No_Faktur = y.No_Faktur And "
+            'SQL = SQL & "y.Kode_Perusahaan = a.Kode_Perusahaan And y.no_urut_pr = b.No_Urut And x.status Is null And x.Flag_Release Is null ),0) As jumlah_Sementara, "
+
+            'SQL = SQL & "isnull((select  sum(y.Jumlah) from  EMI_Pembelian_PO_Induk_Barang_Lain x, EMI_Pembelian_PO_Det_Induk_Barang_Lain y where "
+            'SQL = SQL & "x.Kode_Perusahaan = y.Kode_Perusahaan And x.No_Faktur = y.No_Faktur And "
+            'SQL = SQL & "y.Kode_Perusahaan = a.Kode_Perusahaan And y.no_urut_pr = b.No_Urut And x.status Is null And x.Flag_Release ='Y' ),0) as jumlah_Release, "
+
+            'SQL = SQL & "ISNULL((select waktu_pabrikasi from emi_detail_proses_pengiriman_po_Barang_Lain x, Suppliers y where "
+            'SQL = SQL & "b.Kode_Perusahaan = x.Kode_Perusahaan And b.Kode_Barang = x.kode_barang And "
+            'SQL = SQL & "x.Kode_Perusahaan = y.Kode_Perusahaan And x.Id_Kategori_Supplier = y.ID_Kategori_Suppliers "
+            'SQL = SQL & "And y.Kode_Supplier = '" & EMI_PO_Pembelian.TxtPO_KdSupplier.Text & "'),0) as Waktu_Pabrikasi,  "
+
+            'SQL = SQL & "ISNULL((select  Waktu_Pengiriman from emi_detail_proses_pengiriman_po_Barang_Lain x, Suppliers y "
+            'SQL = SQL & "where b.Kode_Perusahaan = x.Kode_Perusahaan And b.Kode_Barang = x.kode_barang And "
+            'SQL = SQL & "x.Kode_Perusahaan = y.Kode_Perusahaan And x.Id_Kategori_Supplier = y.ID_Kategori_Suppliers "
+            'SQL = SQL & "And y.Kode_Supplier = '" & EMI_PO_Pembelian.TxtPO_KdSupplier.Text & "' ),0) as Waktu_Pengiriman "
+
+            'SQL = SQL & "From EMI_Purchase_Requisition_Barang_Lain a, EMI_Purchase_Requisition_Barang_Lain_Detail b , barang_Lain c, View_Kategori_Turunan d, cte e "
+            'SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Faktur = b.No_Faktur And "
+            'SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan And b.Kode_Barang = c.Kode_Barang And b.Kode_Stock_Owner = c.Kode_Stock_Owner And a.kode_perusahaan = '001' and a.Status is null "
+            'SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3 "
+            'SQL = SQL & "and d.Kode_Perusahaan = e.Kode_Perusahaan and d.Id_Kategori_Jenis = e.Id_Kategori_Jenis and d.Id_Sub_Kategori_Jenis = e.Id_Sub_Kategori_Jenis and a.Kode_Kategori_Gudang = e.Kode_Kategori_Gudang "
+            'SQL = SQL & "and e.User_ID = '" & UserID & "' "
+            'SQL = SQL & "And flag_release = 'Y' "
+            'SQL = SQL & "and b.flag_sudah_po is null and b.Flag_Pengajuan_Selesai = 'Y' "
+            'SQL = SQL & ") "
+            'SQL = SQL & "Select No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama, satuan_kecil_barang, Satuan, Tanggal_Delivery, No_Urut, "
+            'SQL = SQL & "jumlah-(jumlah_Sementara + jumlah_Release) As Jumlah, Waktu_Pabrikasi, Waktu_Pengiriman, "
+            'SQL = SQL & "DateDiff(Day, Tanggal_Delivery, DateAdd(Day, Waktu_Pabrikasi + Waktu_Pengiriman, '" & Format(tgl_skg, "yyyy-MM-dd") & "') ) as  Waktu_Proses_Pengiriman, "
+            'SQL = SQL & "DateAdd(Day, Waktu_Pabrikasi + Waktu_Pengiriman, '" & Format(tgl_skg, "yyyy-MM-dd") & "') as tanggal_actual_delivery "
+            'SQL = SQL & "From cte_b "
+            'SQL = SQL & "Where jumlah - (jumlah_Sementara + jumlah_Release) <> 0 "
+
             If Cmb_Order.SelectedIndex = -1 Then
                 SQL = SQL & "order by no_faktur"
             Else

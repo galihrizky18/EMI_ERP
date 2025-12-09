@@ -22,25 +22,25 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle28 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle29 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle30 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle31 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle32 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle33 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle34 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle35 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle36 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle21 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle22 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle23 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle24 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle25 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle26 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle27 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -53,6 +53,7 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Dgv_Data_Barcode = New System.Windows.Forms.DataGridView()
+        Me.Column5 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.Txt_Total_Insert = New System.Windows.Forms.TextBox()
         Me.Txt_Total = New System.Windows.Forms.TextBox()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -62,20 +63,25 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         Me.Btn_Insert = New System.Windows.Forms.Button()
         Me.Btn_Refresh = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Txt_ScanBarcode = New System.Windows.Forms.TextBox()
+        Me.Panel8 = New System.Windows.Forms.Panel()
+        Me.Btn_Scan = New System.Windows.Forms.Button()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.jns_transfer_input = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column5 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.Dgv_Data_Barcode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,27 +98,14 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         Me.Panel1.Size = New System.Drawing.Size(902, 43)
         Me.Panel1.TabIndex = 314
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(902, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Font = New System.Drawing.Font("Work Sans SemiBold", 14.0!, System.Drawing.FontStyle.Bold)
+        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!, System.Drawing.FontStyle.Bold)
         Me.Label9.Location = New System.Drawing.Point(21, 7)
         Me.Label9.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(200, 28)
+        Me.Label9.Size = New System.Drawing.Size(195, 24)
         Me.Label9.TabIndex = 0
         Me.Label9.Text = "Detail - Barcode DO"
         '
@@ -139,10 +132,10 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label1.Location = New System.Drawing.Point(27, 63)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(46, 17)
+        Me.Label1.Size = New System.Drawing.Size(44, 15)
         Me.Label1.TabIndex = 317
         Me.Label1.Text = "No DO"
         '
@@ -161,10 +154,10 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label2.Location = New System.Drawing.Point(27, 89)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(48, 17)
+        Me.Label2.Size = New System.Drawing.Size(47, 15)
         Me.Label2.TabIndex = 317
         Me.Label2.Text = "Barang"
         '
@@ -199,9 +192,9 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         Me.GroupBox1.Controls.Add(Me.Dgv_Data_Barcode)
         Me.GroupBox1.Controls.Add(Me.Txt_Total_Insert)
         Me.GroupBox1.Controls.Add(Me.Txt_Total)
-        Me.GroupBox1.Location = New System.Drawing.Point(20, 122)
+        Me.GroupBox1.Location = New System.Drawing.Point(20, 165)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(862, 430)
+        Me.GroupBox1.Size = New System.Drawing.Size(862, 388)
         Me.GroupBox1.TabIndex = 319
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Detail Barcode"
@@ -209,20 +202,20 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label5.Location = New System.Drawing.Point(658, 403)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(75, 17)
+        Me.Label5.Size = New System.Drawing.Size(67, 15)
         Me.Label5.TabIndex = 317
         Me.Label5.Text = "Total Insert"
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label4.Location = New System.Drawing.Point(498, 404)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(37, 17)
+        Me.Label4.Size = New System.Drawing.Size(34, 15)
         Me.Label4.TabIndex = 317
         Me.Label4.Text = "Total"
         '
@@ -231,41 +224,47 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         Me.Dgv_Data_Barcode.AllowUserToAddRows = False
         Me.Dgv_Data_Barcode.AllowUserToResizeColumns = False
         Me.Dgv_Data_Barcode.AllowUserToResizeRows = False
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_Data_Barcode.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle19.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        DataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_Data_Barcode.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle19
         Me.Dgv_Data_Barcode.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.Dgv_Data_Barcode.BackgroundColor = System.Drawing.Color.White
         Me.Dgv_Data_Barcode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_Data_Barcode.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle20.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        DataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_Data_Barcode.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle20
         Me.Dgv_Data_Barcode.ColumnHeadersHeight = 30
         Me.Dgv_Data_Barcode.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.jns_transfer_input, Me.Column1, Me.Column2, Me.Column3, Me.Column7, Me.Column4, Me.Column5, Me.Column6})
-        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle10.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        DataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_Data_Barcode.DefaultCellStyle = DataGridViewCellStyle10
+        DataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle28.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        DataGridViewCellStyle28.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle28.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_Data_Barcode.DefaultCellStyle = DataGridViewCellStyle28
         Me.Dgv_Data_Barcode.Location = New System.Drawing.Point(10, 19)
         Me.Dgv_Data_Barcode.MultiSelect = False
         Me.Dgv_Data_Barcode.Name = "Dgv_Data_Barcode"
         Me.Dgv_Data_Barcode.RowHeadersWidth = 21
-        DataGridViewCellStyle11.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        DataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_Data_Barcode.RowsDefaultCellStyle = DataGridViewCellStyle11
+        DataGridViewCellStyle29.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        DataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_Data_Barcode.RowsDefaultCellStyle = DataGridViewCellStyle29
         Me.Dgv_Data_Barcode.RowTemplate.DefaultCellStyle.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.Dgv_Data_Barcode.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.Dgv_Data_Barcode.Size = New System.Drawing.Size(841, 377)
         Me.Dgv_Data_Barcode.TabIndex = 321
+        '
+        'Column5
+        '
+        Me.Column5.HeaderText = ""
+        Me.Column5.Name = "Column5"
+        Me.Column5.Width = 50
         '
         'Txt_Total_Insert
         '
@@ -335,7 +334,7 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         '
         Me.Btn_Insert.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Insert.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Btn_Insert.Font = New System.Drawing.Font("Work Sans", 10.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Insert.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Insert.ForeColor = System.Drawing.Color.White
         Me.Btn_Insert.Location = New System.Drawing.Point(22, 560)
         Me.Btn_Insert.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
@@ -349,7 +348,7 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         '
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Refresh.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans", 10.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
         Me.Btn_Refresh.Location = New System.Drawing.Point(129, 560)
         Me.Btn_Refresh.Margin = New System.Windows.Forms.Padding(2, 4, 2, 4)
@@ -362,35 +361,81 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(644, 107)
+        Me.Label3.Location = New System.Drawing.Point(683, 151)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(227, 16)
+        Me.Label3.Size = New System.Drawing.Size(200, 13)
         Me.Label3.TabIndex = 320
         Me.Label3.Text = "* Centang Untuk Melakukan Insert Retur"
         '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(32, 125)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(82, 20)
+        Me.Label6.TabIndex = 482
+        Me.Label6.Text = "QR Code"
+        '
+        'Txt_ScanBarcode
+        '
+        Me.Txt_ScanBarcode.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_ScanBarcode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_ScanBarcode.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_ScanBarcode.Location = New System.Drawing.Point(129, 124)
+        Me.Txt_ScanBarcode.MaxLength = 50
+        Me.Txt_ScanBarcode.Name = "Txt_ScanBarcode"
+        Me.Txt_ScanBarcode.Size = New System.Drawing.Size(387, 26)
+        Me.Txt_ScanBarcode.TabIndex = 481
+        '
+        'Panel8
+        '
+        Me.Panel8.BackColor = System.Drawing.Color.Red
+        Me.Panel8.Location = New System.Drawing.Point(25, 152)
+        Me.Panel8.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel8.Name = "Panel8"
+        Me.Panel8.Size = New System.Drawing.Size(1276, 12)
+        Me.Panel8.TabIndex = 315
+        Me.Panel8.Visible = False
+        '
+        'Btn_Scan
+        '
+        Me.Btn_Scan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Scan.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Btn_Scan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Scan.ForeColor = System.Drawing.Color.White
+        Me.Btn_Scan.Location = New System.Drawing.Point(520, 121)
+        Me.Btn_Scan.Name = "Btn_Scan"
+        Me.Btn_Scan.Size = New System.Drawing.Size(87, 32)
+        Me.Btn_Scan.TabIndex = 483
+        Me.Btn_Scan.Text = "&Scan"
+        Me.Btn_Scan.UseVisualStyleBackColor = False
+        '
         'DataGridViewTextBoxColumn1
         '
-        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle12
+        DataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle30
         Me.DataGridViewTextBoxColumn1.HeaderText = "Kode Barang"
         Me.DataGridViewTextBoxColumn1.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
         Me.DataGridViewTextBoxColumn1.ReadOnly = True
+        Me.DataGridViewTextBoxColumn1.Visible = False
         Me.DataGridViewTextBoxColumn1.Width = 130
         '
         'DataGridViewTextBoxColumn2
         '
-        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle13
+        DataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle31
         Me.DataGridViewTextBoxColumn2.HeaderText = "Nama Barang"
         Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
         Me.DataGridViewTextBoxColumn2.ReadOnly = True
+        Me.DataGridViewTextBoxColumn2.Visible = False
         Me.DataGridViewTextBoxColumn2.Width = 200
         '
         'DataGridViewTextBoxColumn3
         '
-        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle14
+        DataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle32
         Me.DataGridViewTextBoxColumn3.HeaderText = "Barcode"
         Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
         Me.DataGridViewTextBoxColumn3.ReadOnly = True
@@ -398,8 +443,8 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         '
         'DataGridViewTextBoxColumn4
         '
-        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle15
+        DataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle33
         Me.DataGridViewTextBoxColumn4.HeaderText = "Jumlah"
         Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
         Me.DataGridViewTextBoxColumn4.ReadOnly = True
@@ -407,8 +452,8 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         '
         'DataGridViewTextBoxColumn5
         '
-        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.DataGridViewTextBoxColumn5.DefaultCellStyle = DataGridViewCellStyle16
+        DataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn5.DefaultCellStyle = DataGridViewCellStyle34
         Me.DataGridViewTextBoxColumn5.HeaderText = "Satuan"
         Me.DataGridViewTextBoxColumn5.Name = "DataGridViewTextBoxColumn5"
         Me.DataGridViewTextBoxColumn5.ReadOnly = True
@@ -416,17 +461,26 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         '
         'DataGridViewTextBoxColumn6
         '
-        DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn6.DefaultCellStyle = DataGridViewCellStyle17
+        DataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn6.DefaultCellStyle = DataGridViewCellStyle35
         Me.DataGridViewTextBoxColumn6.HeaderText = "Jumlah Retur"
         Me.DataGridViewTextBoxColumn6.Name = "DataGridViewTextBoxColumn6"
         Me.DataGridViewTextBoxColumn6.ReadOnly = True
         Me.DataGridViewTextBoxColumn6.Width = 130
         '
+        'DataGridViewTextBoxColumn7
+        '
+        DataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn7.DefaultCellStyle = DataGridViewCellStyle36
+        Me.DataGridViewTextBoxColumn7.HeaderText = "Jumlah Retur"
+        Me.DataGridViewTextBoxColumn7.Name = "DataGridViewTextBoxColumn7"
+        Me.DataGridViewTextBoxColumn7.ReadOnly = True
+        Me.DataGridViewTextBoxColumn7.Width = 130
+        '
         'jns_transfer_input
         '
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.jns_transfer_input.DefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.jns_transfer_input.DefaultCellStyle = DataGridViewCellStyle21
         Me.jns_transfer_input.HeaderText = "Kode Barang"
         Me.jns_transfer_input.MinimumWidth = 6
         Me.jns_transfer_input.Name = "jns_transfer_input"
@@ -436,8 +490,8 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         '
         'Column1
         '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column1.DefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column1.DefaultCellStyle = DataGridViewCellStyle22
         Me.Column1.HeaderText = "Nama Barang"
         Me.Column1.Name = "Column1"
         Me.Column1.ReadOnly = True
@@ -446,8 +500,8 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         '
         'Column2
         '
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column2.DefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column2.DefaultCellStyle = DataGridViewCellStyle23
         Me.Column2.HeaderText = "Barcode"
         Me.Column2.Name = "Column2"
         Me.Column2.ReadOnly = True
@@ -455,8 +509,8 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         '
         'Column3
         '
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column3.DefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column3.DefaultCellStyle = DataGridViewCellStyle24
         Me.Column3.HeaderText = "Jumlah"
         Me.Column3.Name = "Column3"
         Me.Column3.ReadOnly = True
@@ -464,8 +518,8 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         '
         'Column7
         '
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column7.DefaultCellStyle = DataGridViewCellStyle7
+        DataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column7.DefaultCellStyle = DataGridViewCellStyle25
         Me.Column7.HeaderText = "Max Retur"
         Me.Column7.Name = "Column7"
         Me.Column7.ReadOnly = True
@@ -473,34 +527,44 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         '
         'Column4
         '
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column4.DefaultCellStyle = DataGridViewCellStyle8
+        DataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column4.DefaultCellStyle = DataGridViewCellStyle26
         Me.Column4.HeaderText = "Satuan"
         Me.Column4.Name = "Column4"
         Me.Column4.ReadOnly = True
         Me.Column4.Width = 90
         '
-        'Column5
-        '
-        Me.Column5.HeaderText = ""
-        Me.Column5.Name = "Column5"
-        Me.Column5.Width = 50
-        '
         'Column6
         '
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column6.DefaultCellStyle = DataGridViewCellStyle9
+        DataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column6.DefaultCellStyle = DataGridViewCellStyle27
         Me.Column6.HeaderText = "Jumlah Retur"
         Me.Column6.Name = "Column6"
         Me.Column6.ReadOnly = True
         Me.Column6.Width = 130
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(902, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'N_EMI_SD_Retur_DO_Reseller_Sementara
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(904, 611)
+        Me.Controls.Add(Me.Btn_Scan)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.Txt_ScanBarcode)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Btn_Refresh)
         Me.Controls.Add(Me.Btn_Insert)
@@ -514,11 +578,12 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.Panel7)
+        Me.Controls.Add(Me.Panel8)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel1)
         Me.DoubleBuffered = True
-        Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "N_EMI_SD_Retur_DO_Reseller_Sementara"
@@ -571,4 +636,9 @@ Partial Class N_EMI_SD_Retur_DO_Reseller_Sementara
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewCheckBoxColumn
     Friend WithEvents Column6 As DataGridViewTextBoxColumn
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Txt_ScanBarcode As TextBox
+    Friend WithEvents Panel8 As Panel
+    Friend WithEvents Btn_Scan As Button
+    Friend WithEvents DataGridViewTextBoxColumn7 As DataGridViewTextBoxColumn
 End Class

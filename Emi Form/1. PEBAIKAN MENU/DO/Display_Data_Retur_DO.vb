@@ -108,15 +108,19 @@ Public Class Display_Data_Retur_DO
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
 
-        ListView1.Columns.Add("No Retur", 110, HorizontalAlignment.Center)
-        ListView1.Columns.Add("No DO", 110, HorizontalAlignment.Center)
-        ListView1.Columns.Add("No Faktur", 110, HorizontalAlignment.Center)
-        ListView1.Columns.Add("Tanggal DO", 70, HorizontalAlignment.Center)
-        ListView1.Columns.Add("Jam", 70, HorizontalAlignment.Center)
-        ListView1.Columns.Add("Kode Customer", 100, HorizontalAlignment.Center)
-        ListView1.Columns.Add("Customer", 210, HorizontalAlignment.Left)
-        ListView1.Columns.Add("User ID", 120, HorizontalAlignment.Left)
+        ListView1.Columns.Add("No Retur Sementara", 120, HorizontalAlignment.Left) '0
+        ListView1.Columns.Add("No DO", 120, HorizontalAlignment.Left) '1
+        ListView1.Columns.Add("No Faktur", 120, HorizontalAlignment.Left) '2
+        ListView1.Columns.Add("Tanggal DO", 70, HorizontalAlignment.Center) '3
+        ListView1.Columns.Add("Jam", 70, HorizontalAlignment.Center) '4
+        ListView1.Columns.Add("Kode Customer", 100, HorizontalAlignment.Left) '5
+        ListView1.Columns.Add("Customer", 210, HorizontalAlignment.Left) '6
+        ListView1.Columns.Add("User ID", 120, HorizontalAlignment.Center) '7
+        ListView1.Columns.Add("Status", 120, HorizontalAlignment.Center) '8
+        ListView1.Columns.Add("No Retur", 120, HorizontalAlignment.Left) '9
         ListView1.View = View.Details
+
+        ListView1.Columns(9).DisplayIndex = 3
 
         ListView2.Columns.Add("Stock Owner", 0, HorizontalAlignment.Center)
         ListView2.Columns.Add("Kode Barang", 120, HorizontalAlignment.Left)
@@ -125,25 +129,22 @@ Public Class Display_Data_Retur_DO
         ListView2.Columns.Add("Satuan", 100, HorizontalAlignment.Left)
         ListView2.View = View.Details
 
-        ListView4.Columns.Add("Barcode Barang", 210, HorizontalAlignment.Left)
-        ListView4.Columns.Add("Good Stock", 60, HorizontalAlignment.Right)
+        ListView4.Columns.Add("Barcode Barang", 280, HorizontalAlignment.Left)
+        ListView4.Columns.Add("Good Stock", 100, HorizontalAlignment.Right)
         ListView4.View = View.Details
 
         CheckBox1.Checked = False : CheckBox2.Checked = False
         ComboBox1.Items.Clear() : ComboBox1.Text = "" : Arr1.Clear()
-        ComboBox1.Items.Add("Tanggal") : Arr1.Add("b.Tanggal")
-        'ComboBox1.Items.Add("Tgl Jatuh Tempo") : Arr1.Add("b.Tgl_Jatuh_Tempo")
-        'ComboBox1.Items.Add("Tgl Lunas") : Arr1.Add("b.Tgl_Lunas")
-        ' SQL = SQL & "from barang a, retur_do b, detail_r_do c, Customers d, penjualan e, do_new f where "
+        ComboBox1.Items.Add("Tanggal") : Arr1.Add("a.tanggal")
 
         ComboBox2.Items.Clear() : ComboBox2.Text = "" : Arr2.Clear()
-        ComboBox2.Items.Add("No Retur") : Arr2.Add("b.No_retur_jual")
-        ComboBox2.Items.Add("No DO") : Arr2.Add("b.no_do")
-        ComboBox2.Items.Add("No Faktur") : Arr2.Add("e.No_faktur")
-        ComboBox2.Items.Add("Kode Customer") : Arr2.Add("e.Kode_customer")
-        ComboBox2.Items.Add("Nama Customer") : Arr2.Add("d.Nama")
-        ComboBox2.Items.Add("Kode Barang") : Arr2.Add("c.Kode_Barang")
-        ComboBox2.Items.Add("Nama Barang") : Arr2.Add("a.Nama") 
+        ComboBox2.Items.Add("No Retur") : Arr2.Add("a.No_Retur_Jual_Sementara")
+        ComboBox2.Items.Add("No DO") : Arr2.Add("a.No_DO")
+        ComboBox2.Items.Add("No Faktur Jual") : Arr2.Add("c.No_Faktur")
+        ComboBox2.Items.Add("Kode Customer") : Arr2.Add("d.Kode_Customer")
+        ComboBox2.Items.Add("Nama Customer") : Arr2.Add("d.nama")
+        'ComboBox2.Items.Add("Kode Barang") : Arr2.Add("c.Kode_Barang")
+        'ComboBox2.Items.Add("Nama Barang") : Arr2.Add("a.Nama") 
 
         DateTimePicker1.Value = Now.Date : DateTimePicker2.Value = Now.Date
         TextBox1.Text = ""
@@ -251,51 +252,108 @@ Public Class Display_Data_Retur_DO
             End If
         End If
 
-        SQL = "select "
-        SQL = SQL & "b.lokasi, b.kode_perusahaan, b.no_retur_jual, b.no_do, e.no_faktur, b.tanggal, b.jam, "
-        SQL = SQL & "b.userid, b.status, e.kode_customer, d.nama "
-        SQL = SQL & "from barang a, retur_do b, detail_r_do c, Customers d, penjualan e, do_new f where "
-        SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and b.kode_perusahaan = c.kode_perusahaan and c.kode_perusahaan = d.kode_perusahaan and d.kode_perusahaan = e.kode_perusahaan and e.kode_perusahaan = f.kode_perusahaan and "
-        SQL = SQL & "a.kode_barang = c.kode_barang and a.kode_stock_owner = c.kode_stock_owner and b.no_retur_jual = c.no_retur_jual and "
-        SQL = SQL & "b.no_do = f.no_do and e.no_faktur = f.no_faktur and "
-        SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and d.kode_customer = e.kode_customer "
 
-        If CheckBox3.Checked Then
-            'Pasang And
-            If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
-
-            SQL = SQL & " b.tanggal between '"
-            SQL = SQL & Format(Now, "yyyy-MM-dd") & "' and '" & Format(Now, "yyyy-MM-dd") & "' "
-        End If
-
-        If CheckBox1.Checked Then
-            'Pasang And
-            If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
-
-            SQL = SQL & Arr1.Item(ComboBox1.SelectedIndex) & " between '"
-            SQL = SQL & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "' and '" & Format(DateTimePicker2.Value, "yyyy-MM-dd") & "' "
-        End If
-
-        If CheckBox2.Checked Then
-            'Pasang And
-            If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
-
-            SQL = SQL & Arr2.Item(ComboBox2.SelectedIndex) & " like '%" & Trim(TextBox1.Text) & "%' "
-        End If
-
-        If ComboBox6.SelectedIndex <> 0 Then
-            SQL = SQL & " and b.lokasi = '" & ComboBox6.Text & "' "
-        End If
-
-        SQL = SQL & "group by b.lokasi, b.kode_perusahaan, b.no_retur_jual, b.no_do, e.no_faktur, b.tanggal, b.jam, "
-        SQL = SQL & "b.userid, b.status, e.kode_customer, d.nama "
-
-        SQL = SQL & "Order by b.no_retur_jual Desc"
         Try
 
             OpenConn()
 
             ListView1.Items.Clear() : ListView2.Items.Clear()
+            'SQL = "select "
+            'SQL = SQL & "b.lokasi, b.kode_perusahaan, b.no_retur_jual, b.no_do, e.no_faktur, b.tanggal, b.jam, "
+            'SQL = SQL & "b.userid, b.status, e.kode_customer, d.nama "
+            'SQL = SQL & "from barang a, retur_do b, detail_r_do c, Customers d, penjualan e, do_new f where "
+            'SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and b.kode_perusahaan = c.kode_perusahaan and c.kode_perusahaan = d.kode_perusahaan and d.kode_perusahaan = e.kode_perusahaan and e.kode_perusahaan = f.kode_perusahaan and "
+            'SQL = SQL & "a.kode_barang = c.kode_barang and a.kode_stock_owner = c.kode_stock_owner and b.no_retur_jual = c.no_retur_jual and "
+            'SQL = SQL & "b.no_do = f.no_do and e.no_faktur = f.no_faktur and "
+            'SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and d.kode_customer = e.kode_customer "
+
+            'If CheckBox3.Checked Then
+            '    'Pasang And
+            '    If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+            '    SQL = SQL & " b.tanggal between '"
+            '    SQL = SQL & Format(Now, "yyyy-MM-dd") & "' and '" & Format(Now, "yyyy-MM-dd") & "' "
+            'End If
+
+            'If CheckBox1.Checked Then
+            '    'Pasang And
+            '    If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+            '    SQL = SQL & Arr1.Item(ComboBox1.SelectedIndex) & " between '"
+            '    SQL = SQL & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "' and '" & Format(DateTimePicker2.Value, "yyyy-MM-dd") & "' "
+            'End If
+
+            'If CheckBox2.Checked Then
+            '    'Pasang And
+            '    If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+            '    SQL = SQL & Arr2.Item(ComboBox2.SelectedIndex) & " like '%" & Trim(TextBox1.Text) & "%' "
+            'End If
+
+            'If ComboBox6.SelectedIndex <> 0 Then
+            '    SQL = SQL & " and b.lokasi = '" & ComboBox6.Text & "' "
+            'End If
+
+            'SQL = SQL & "group by b.lokasi, b.kode_perusahaan, b.no_retur_jual, b.no_do, e.no_faktur, b.tanggal, b.jam, "
+            'SQL = SQL & "b.userid, b.status, e.kode_customer, d.nama "
+
+            'SQL = SQL & "Order by b.no_retur_jual Desc"
+
+
+
+            SQL = "SELECT a.lokasi, a.kode_perusahaan, a.No_Retur_Jual_Sementara AS no_retur_jual, a.No_DO, c.No_Faktur, "
+            SQL = SQL & "a.tanggal, a.jam, a.UserId_Release AS userid, a.Status, d.Kode_Customer, d.nama, "
+            SQL = SQL & "isnull(( "
+            SQL = SQL & "SELECT z.No_Retur_Jual "
+            SQL = SQL & "FROM retur_do z "
+            SQL = SQL & "WHERE z.Kode_Perusahaan = a.Kode_Perusahaan "
+            SQL = SQL & "AND z.No_Retur_Sementara = a.No_Retur_Jual_Sementara "
+            SQL = SQL & "AND z.Status is null "
+            SQL = SQL & "), '-') as No_Validasi, "
+            SQL = SQL & "CASE WHEN EXISTS ( SELECT 1 FROM retur_do z WHERE z.Kode_Perusahaan = a.Kode_Perusahaan "
+            SQL = SQL & "AND z.No_Retur_Sementara = a.No_Retur_Jual_Sementara and z.Status is null ) THEN 'Validasi Accounting' "
+            SQL = SQL & "WHEN EXISTS ( SELECT 1 FROM detail_r_do_sementara z INNER JOIN det_r_do_sementara x  "
+            SQL = SQL & "ON z.Kode_Perusahaan = x.Kode_Perusahaan AND z.No_Retur_Jual_Sementara = x.No_Retur_Jual_Sementara "
+            SQL = SQL & "AND z.No_Urut = x.Urut_Detail "
+            SQL = SQL & "WHERE z.Kode_Perusahaan = a.Kode_Perusahaan "
+            SQL = SQL & "AND z.No_Retur_Jual_Sementara = a.No_Retur_Jual_Sementara) THEN 'Validasi Warehouse' "
+            SQL = SQL & "ELSE 'Retur Marketing' END AS Status_Retur "
+            SQL = SQL & "FROM retur_do_sementara a "
+            SQL = SQL & "INNER JOIN do_new b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_DO = b.No_DO "
+            SQL = SQL & "INNER JOIN penjualan c on b.Kode_Perusahaan = c.Kode_Perusahaan AND b.no_faktur = c.No_Faktur "
+            SQL = SQL & "INNER JOIN Customers d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.Kode_Customer = d.Kode_Customer "
+            SQL = SQL & "WHERE a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "AND b.Status is null AND c.Status is null "
+
+            If CheckBox3.Checked Then
+                'Pasang And
+                If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+                SQL = SQL & " a.tanggal between '"
+                SQL = SQL & Format(Now, "yyyy-MM-dd") & "' and '" & Format(Now, "yyyy-MM-dd") & "' "
+            End If
+
+            If CheckBox1.Checked Then
+                'Pasang And
+                If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+                SQL = SQL & Arr1.Item(ComboBox1.SelectedIndex) & " between '"
+                SQL = SQL & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "' and '" & Format(DateTimePicker2.Value, "yyyy-MM-dd") & "' "
+            End If
+
+            If CheckBox2.Checked Then
+                'Pasang And
+                If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+                SQL = SQL & Arr2.Item(ComboBox2.SelectedIndex) & " like '%" & Trim(TextBox1.Text) & "%' "
+            End If
+
+            If ComboBox6.SelectedIndex <> 0 Then
+                SQL = SQL & " and a.lokasi = '" & ComboBox6.Text & "' "
+            End If
+            SQL = SQL & "Order by a.tanggal, a.Jam "
+
+
             Ds = New DataSet
             Ds = Binding(SQL)
             Dim NomorFaktur As String = ""
@@ -311,19 +369,33 @@ Public Class Display_Data_Retur_DO
                     'If NomorFaktur = .Item("No_Faktur") Then
                     'Else
                     Dim Lvw As ListViewItem
-                    Lvw = ListView1.Items.Add(.Item("no_retur_jual"))
-                    Lvw.SubItems.Add(.Item("no_do"))
-                    Lvw.SubItems.Add(.Item("no_faktur"))
-                    Lvw.SubItems.Add(Format(.Item("tanggal"), "dd MMM yyyy"))
-                    Lvw.SubItems.Add(.Item("jam"))
-                    Lvw.SubItems.Add(.Item("kode_customer"))
-                    Lvw.SubItems.Add(.Item("nama"))
-                    Lvw.SubItems.Add(.Item("Userid"))
+                    Lvw = ListView1.Items.Add(.Item("no_retur_jual")) '0
+                    Lvw.SubItems.Add(.Item("no_do")) '1
+                    Lvw.SubItems.Add(.Item("no_faktur")) '2
+                    Lvw.SubItems.Add(Format(.Item("tanggal"), "dd MMM yyyy")) '3
+                    Lvw.SubItems.Add(.Item("jam")) '4
+                    Lvw.SubItems.Add(.Item("kode_customer")) '5
+                    Lvw.SubItems.Add(.Item("nama")) '6
+                    Lvw.SubItems.Add(If(General_Class.CekNULL(.Item("Userid")) = "", "-", .Item("Userid"))) '7
+                    Lvw.SubItems.Add(.Item("Status_Retur")) '8
+                    Lvw.SubItems.Add(.Item("No_Validasi")) '9
                     If Not IsDBNull(.Item("status")) Then
-                        ListView1.Items(j).BackColor = Color.DarkRed
-                        ListView1.Items(j).ForeColor = Color.White
+                        Lvw.BackColor = Color.DarkRed
+                        Lvw.ForeColor = Color.White
                     Else
-                        ListView1.Items(j).ForeColor = Color.Black
+                        Lvw.ForeColor = Color.Black
+                    End If
+
+
+                    If General_Class.CekNULL(.Item("Status_Retur")).Trim.ToUpper = "Validasi Accounting".Trim.ToUpper Then
+                        Lvw.BackColor = Color.LightGreen
+                        Lvw.ForeColor = Color.Black
+                    ElseIf General_Class.CekNULL(.Item("Status_Retur")).Trim.ToUpper = "Validasi Warehouse".Trim.ToUpper Then
+                        Lvw.BackColor = Color.LightGray
+                        Lvw.ForeColor = Color.Black
+                    Else
+                        Lvw.BackColor = Color.White
+                        Lvw.ForeColor = Color.Black
                     End If
 
                     j += 1
@@ -717,7 +789,7 @@ Public Class Display_Data_Retur_DO
             Dim noRetur As String = ListView1.SelectedItems(0).Text
 
             OpenConn()
-            ListView2.Items.Clear()
+            ListView2.Items.Clear() : ListView4.Items.Clear()
 
             SQL = $"
                 SELECT 
@@ -726,13 +798,13 @@ Public Class Display_Data_Retur_DO
                     b.nama,
                     a.good_stock,
                     b.satuan
-                FROM detail_r_do a
+                FROM detail_r_do_sementara a
                 JOIN barang b 
                     ON a.kode_perusahaan = b.kode_perusahaan
                     AND a.kode_barang = b.kode_barang
                     AND a.kode_stock_owner = b.kode_stock_owner
                 WHERE a.kode_perusahaan = '{KodePerusahaan}'
-                  AND a.no_retur_jual = '{noRetur}'
+                  AND a.No_Retur_Jual_Sementara = '{noRetur}'
             "
 
             Using Dr = OpenTrans(SQL)
@@ -772,9 +844,9 @@ Public Class Display_Data_Retur_DO
                 SELECT 
                     barcode,
                     good_stock
-                FROM det_r_do
+                FROM det_r_do_sementara
                 WHERE kode_perusahaan = '{KodePerusahaan}'
-                  AND no_retur_jual = '{noRetur}'
+                  AND No_Retur_Jual_Sementara = '{noRetur}'
                   AND kode_stock_owner = '{kodeStockOwner}'
                   AND kode_barang = '{kodeBarang}'
             "

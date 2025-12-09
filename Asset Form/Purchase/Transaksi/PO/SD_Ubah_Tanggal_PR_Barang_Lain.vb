@@ -7,6 +7,20 @@ Public Class SD_Ubah_Tanggal_PR_Barang_Lain
     Dim no_formula, no_inquiry, kode_customer, kode_barang As String
 
     Public kodeSupplier As String
+    Public EstTiba As Integer
+
+    Private Sub DTP_Delivery_ValueChanged(sender As Object, e As EventArgs) Handles DTP_Delivery.ValueChanged
+        Dim Diff As Integer = DateDiff(DateInterval.Day, tgl_skg, DTP_Delivery.Value)
+
+
+        If Diff < EstTiba Then
+            Dim Msg As String = MessageBox.Show("Tanggal Dibutuhkan Kurang dari Estimasi Tiba,  Tetap Lanjutkan ? ", Base_Language.Lang_Global_Perhatian, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If Msg = vbNo Then
+                DTP_Delivery.Value = DateAdd(DateInterval.Day, EstTiba + 1, tgl_skg)
+            End If
+        End If
+    End Sub
+
     Public kodeBarang As String
     Public rowDgv As Integer
     Public cellDgv As Integer

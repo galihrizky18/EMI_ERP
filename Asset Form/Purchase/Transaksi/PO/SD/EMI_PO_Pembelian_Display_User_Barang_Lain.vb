@@ -857,7 +857,7 @@
         Try
             OpenConn()
 
-            If CekButtonRole("Pengajuan_Batal_PR") = "T" Then
+            If CekButtonRole("Pengajuan_Batal_PR_Barang_Lain") = "T" Then
                 MessageBox.Show("User Tidak Ada Akses Pengajuan Selesai PR", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             End If

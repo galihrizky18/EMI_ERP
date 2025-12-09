@@ -612,6 +612,12 @@
     <Compile Include="Asset Form\Purchase\Transaksi\PO\Transaksi\EMI_Validasi_Pengajuan_Selesai_PR_Barang_Lain.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Asset Form\Purchase\Transaksi\PO\Transaksi\N_EMI_Transaksi_Validasi_Pengajuan_Selesai_PR_Barang_Lain.Designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Validasi_Pengajuan_Selesai_PR_Barang_Lain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Asset Form\Purchase\Transaksi\PO\Transaksi\N_EMI_Transaksi_Validasi_Pengajuan_Selesai_PR_Barang_Lain.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Asset Form\Purchase\Transaksi\PO\Transaksi_Biaya_Lokal_Barang_Lain.Designer.vb">
       <DependentUpon>Transaksi_Biaya_Lokal_Barang_Lain.vb</DependentUpon>
     </Compile>
@@ -646,6 +652,12 @@
       <DependentUpon>N_EMI_Purchase_Requisition_Barang_Lain_Departement.vb</DependentUpon>
     </Compile>
     <Compile Include="Asset Form\Purchase\Transaksi\PR\N_EMI_Purchase_Requisition_Barang_Lain_Departement.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Asset Form\Purchase\Transaksi\PR\N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.Designer.vb">
+      <DependentUpon>N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Asset Form\Purchase\Transaksi\PR\N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Asset Form\Purchase\Transaksi\PR\N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.designer.vb">
@@ -1024,6 +1036,18 @@
     <Compile Include="Emi Form\1. PEBAIKAN MENU\2. Inventory\Transaksi\N_EMI_Transaksi_Konfigurasi_Harga_Jual.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\1. Master Data\Estimasi Barang Masuk\N_EMI_Master_Estimasi_Barang_Masuk.Designer.vb">
+      <DependentUpon>N_EMI_Master_Estimasi_Barang_Masuk.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\1. Master Data\Estimasi Barang Masuk\N_EMI_Master_Estimasi_Barang_Masuk.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\1. Master Data\Estimasi Barang Masuk\N_EMI_Master_Estimasi_Barang_Masuk_Barang_Lain.Designer.vb">
+      <DependentUpon>N_EMI_Master_Estimasi_Barang_Masuk_Barang_Lain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\1. Master Data\Estimasi Barang Masuk\N_EMI_Master_Estimasi_Barang_Masuk_Barang_Lain.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\1. Master Data\Master_Detail_Biaya_Lokal.designer.vb">
       <DependentUpon>Master_Detail_Biaya_Lokal.vb</DependentUpon>
     </Compile>
@@ -1331,12 +1355,6 @@
     <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\EMI_PO_Pembelian_Display2.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\Purchase_Requisition.Designer.vb">
-      <DependentUpon>Purchase_Requisition.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\Purchase_Requisition.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\Rpt\Faktur_Purchase_Order2_Induk.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1361,12 +1379,6 @@
     <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\SD\EMI_PO_Pembelian_Display_User.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\SD\SD_Pengajuan_Selesai_PR.Designer.vb">
-      <DependentUpon>SD_Pengajuan_Selesai_PR.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\SD\SD_Pengajuan_Selesai_PR.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\SD\EMI_PO_Pembelian_Display_View.designer.vb">
       <DependentUpon>EMI_PO_Pembelian_Display_View.vb</DependentUpon>
     </Compile>
@@ -1389,12 +1401,6 @@
       <DependentUpon>SD_Detail_PajakPO.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\SD\SD_Detail_PajakPO.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\SD\SD_Pilih_Harga_PO.designer.vb">
-      <DependentUpon>SD_Pilih_Harga_PO.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\SD\SD_Pilih_Harga_PO.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\Sub PO\EMI_PO_Pembelian_Display_Sub.designer.vb">
@@ -1499,6 +1505,60 @@
     <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Penjualan\Penjualan_New.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\Display\EMI_Pembelian_PR_Summary_Data.designer.vb">
+      <DependentUpon>EMI_Pembelian_PR_Summary_Data.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\Display\EMI_Pembelian_PR_Summary_Data.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\N_EMI_Purchase_Requisition_Penawaran.Designer.vb">
+      <DependentUpon>N_EMI_Purchase_Requisition_Penawaran.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\N_EMI_Purchase_Requisition_Penawaran.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\Purchase_Requisition.Designer.vb">
+      <DependentUpon>Purchase_Requisition.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\Purchase_Requisition.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\SD\SD_Data_PR.designer.vb">
+      <DependentUpon>SD_Data_PR.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\SD\SD_Data_PR.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\SD\SD_Pengajuan_Selesai_PR.Designer.vb">
+      <DependentUpon>SD_Pengajuan_Selesai_PR.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\SD\SD_Pengajuan_Selesai_PR.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\SD\SD_Pilih_Harga_PO.designer.vb">
+      <DependentUpon>SD_Pilih_Harga_PO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\SD\SD_Pilih_Harga_PO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\SD\SD_Tambah_PR.designer.vb">
+      <DependentUpon>SD_Tambah_PR.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\SD\SD_Tambah_PR.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\SD\SD_Ubah_Tanggal_PR.designer.vb">
+      <DependentUpon>SD_Ubah_Tanggal_PR.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\SD\SD_Ubah_Tanggal_PR.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\Validasi PR\N_EMI_Validasi_Proc_Purchase_Requisition.designer.vb">
+      <DependentUpon>N_EMI_Validasi_Proc_Purchase_Requisition.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\Validasi PR\N_EMI_Validasi_Proc_Purchase_Requisition.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Retur Pembelian\Emi_Display_Retur_Pembelian.Designer.vb">
       <DependentUpon>Emi_Display_Retur_Pembelian.vb</DependentUpon>
     </Compile>
@@ -1516,12 +1576,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_CR_Transaksi_Retur_Pembelian.rpt</DependentUpon>
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Validasi PR\N_EMI_Validasi_Proc_Purchase_Requisition.designer.vb">
-      <DependentUpon>N_EMI_Validasi_Proc_Purchase_Requisition.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Validasi PR\N_EMI_Validasi_Proc_Purchase_Requisition.vb">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\3. Display\Pelunasan\Display_Emi_Pelunasan.designer.vb">
       <DependentUpon>Display_Emi_Pelunasan.vb</DependentUpon>
@@ -1563,12 +1617,6 @@
       <DependentUpon>EMI_Pembelian_PO_Summary_Data.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\3. Display\Pembelian\EMI_Pembelian_PO_Summary_Data.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\3. Display\Pembelian\EMI_Pembelian_PR_Summary_Data.designer.vb">
-      <DependentUpon>EMI_Pembelian_PR_Summary_Data.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\3. Display\Pembelian\EMI_Pembelian_PR_Summary_Data.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\3. Display\Pembelian\Forecast\EMI_Display_ForecastOrder.designer.vb">
@@ -1659,12 +1707,6 @@
       <DependentUpon>Display_Barang.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\4. Warehouse\Display\Display_Barang.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\4. Warehouse\Display\N_EMI_Display_Validasi_GR_3.Designer.vb">
-      <DependentUpon>N_EMI_Display_Validasi_GR_3.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\4. Warehouse\Display\N_EMI_Display_Validasi_GR_3.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\4. Warehouse\Laporan\EMI_Laporan_Outstanding_PO_VS_Stock.Designer.vb">
@@ -2237,6 +2279,12 @@
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Rencana Order\EMI_Production_Order.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Display\N_EMI_Display_Validasi_GR_3.Designer.vb">
+      <DependentUpon>N_EMI_Display_Validasi_GR_3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Display\N_EMI_Display_Validasi_GR_3.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\EMI_Validasi_GR.Designer.vb">
       <DependentUpon>EMI_Validasi_GR.vb</DependentUpon>
     </Compile>
@@ -2285,10 +2333,10 @@
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\SD\SD_ValidasiGR_Split.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Validasi GR 3\N_EMI_Transaksi_Validasi_GR_3_2.Designer.vb">
-      <DependentUpon>N_EMI_Transaksi_Validasi_GR_3_2.vb</DependentUpon>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Validasi GR 3\N_EMI_Transaksi_Validasi_GR_3.Designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Validasi_GR_3.vb</DependentUpon>
     </Compile>
-    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Validasi GR 3\N_EMI_Transaksi_Validasi_GR_3_2.vb">
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Validasi GR 3\N_EMI_Transaksi_Validasi_GR_3.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Validasi Inkubasi\N_EMI_Display_Validasi_Inkubasi_Produksi.Designer.vb">
@@ -4036,24 +4084,6 @@
     <Compile Include="Emi Form\Purchase\Emi_PO_Pembelian2.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emi Form\Purchase\Purchase Requisition Revisi\SD_Data_PR.designer.vb">
-      <DependentUpon>SD_Data_PR.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Purchase\Purchase Requisition Revisi\SD_Data_PR.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Purchase\Purchase Requisition Revisi\SD_Tambah_PR.designer.vb">
-      <DependentUpon>SD_Tambah_PR.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Purchase\Purchase Requisition Revisi\SD_Tambah_PR.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emi Form\Purchase\Purchase Requisition Revisi\SD_Ubah_Tanggal_PR.designer.vb">
-      <DependentUpon>SD_Ubah_Tanggal_PR.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Emi Form\Purchase\Purchase Requisition Revisi\SD_Ubah_Tanggal_PR.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Emi Form\Purchase\Tracking_Kamar_Timbang.Designer.vb">
       <DependentUpon>Tracking_Kamar_Timbang.vb</DependentUpon>
     </Compile>
@@ -4617,6 +4647,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TESPRINTQC.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FOLDER FORM TEST\Testing_Cetak_Barcode.Designer.vb">
+      <DependentUpon>Testing_Cetak_Barcode.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FOLDER FORM TEST\Testing_Cetak_Barcode.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="FOLDER FORM TEST\TESTING_PRINT.Designer.vb">
       <DependentUpon>TESTING_PRINT.vb</DependentUpon>
@@ -5262,6 +5298,9 @@
     <EmbeddedResource Include="Asset Form\Purchase\Transaksi\PO\Transaksi\EMI_Validasi_Pengajuan_Selesai_PR_Barang_Lain.resx">
       <DependentUpon>EMI_Validasi_Pengajuan_Selesai_PR_Barang_Lain.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Asset Form\Purchase\Transaksi\PO\Transaksi\N_EMI_Transaksi_Validasi_Pengajuan_Selesai_PR_Barang_Lain.resx">
+      <DependentUpon>N_EMI_Transaksi_Validasi_Pengajuan_Selesai_PR_Barang_Lain.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Asset Form\Purchase\Transaksi\PO\Transaksi_Biaya_Lokal_Barang_Lain.resx">
       <DependentUpon>Transaksi_Biaya_Lokal_Barang_Lain.vb</DependentUpon>
     </EmbeddedResource>
@@ -5280,6 +5319,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Asset Form\Purchase\Transaksi\PR\N_EMI_Purchase_Requisition_Barang_Lain_Departement.resx">
       <DependentUpon>N_EMI_Purchase_Requisition_Barang_Lain_Departement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset Form\Purchase\Transaksi\PR\N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.resx">
+      <DependentUpon>N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Asset Form\Purchase\Transaksi\PR\N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.resx">
       <DependentUpon>N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.vb</DependentUpon>
@@ -5497,6 +5539,12 @@
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\2. Inventory\Transaksi\N_EMI_Transaksi_Konfigurasi_Harga_Jual.resx">
       <DependentUpon>N_EMI_Transaksi_Konfigurasi_Harga_Jual.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\1. Master Data\Estimasi Barang Masuk\N_EMI_Master_Estimasi_Barang_Masuk.resx">
+      <DependentUpon>N_EMI_Master_Estimasi_Barang_Masuk.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\1. Master Data\Estimasi Barang Masuk\N_EMI_Master_Estimasi_Barang_Masuk_Barang_Lain.resx">
+      <DependentUpon>N_EMI_Master_Estimasi_Barang_Masuk_Barang_Lain.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\1. Master Data\Master_Detail_Biaya_Lokal.resx">
       <DependentUpon>Master_Detail_Biaya_Lokal.vb</DependentUpon>
     </EmbeddedResource>
@@ -5658,9 +5706,6 @@
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\EMI_PO_Pembelian_Display2.resx">
       <DependentUpon>EMI_PO_Pembelian_Display2.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\Purchase_Requisition.resx">
-      <DependentUpon>Purchase_Requisition.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\Rpt\Faktur_Purchase_Order2_Induk.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Faktur_Purchase_Order2_Induk.vb</LastGenOutput>
@@ -5676,9 +5721,6 @@
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\SD\EMI_PO_Pembelian_Display_User.resx">
       <DependentUpon>EMI_PO_Pembelian_Display_User.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\SD\SD_Pengajuan_Selesai_PR.resx">
-      <DependentUpon>SD_Pengajuan_Selesai_PR.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\SD\EMI_PO_Pembelian_Display_View.resx">
       <DependentUpon>EMI_PO_Pembelian_Display_View.vb</DependentUpon>
     </EmbeddedResource>
@@ -5690,9 +5732,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\SD\SD_Detail_PajakPO.resx">
       <DependentUpon>SD_Detail_PajakPO.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\SD\SD_Pilih_Harga_PO.resx">
-      <DependentUpon>SD_Pilih_Harga_PO.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\Sub PO\EMI_PO_Pembelian_Display_Sub.resx">
       <DependentUpon>EMI_PO_Pembelian_Display_Sub.vb</DependentUpon>
@@ -5748,6 +5787,33 @@
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Penjualan\Penjualan_New.resx">
       <DependentUpon>Penjualan_New.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\Display\EMI_Pembelian_PR_Summary_Data.resx">
+      <DependentUpon>EMI_Pembelian_PR_Summary_Data.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\N_EMI_Purchase_Requisition_Penawaran.resx">
+      <DependentUpon>N_EMI_Purchase_Requisition_Penawaran.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\Purchase_Requisition.resx">
+      <DependentUpon>Purchase_Requisition.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\SD\SD_Data_PR.resx">
+      <DependentUpon>SD_Data_PR.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\SD\SD_Pengajuan_Selesai_PR.resx">
+      <DependentUpon>SD_Pengajuan_Selesai_PR.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\SD\SD_Pilih_Harga_PO.resx">
+      <DependentUpon>SD_Pilih_Harga_PO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\SD\SD_Tambah_PR.resx">
+      <DependentUpon>SD_Tambah_PR.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\SD\SD_Ubah_Tanggal_PR.resx">
+      <DependentUpon>SD_Ubah_Tanggal_PR.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Purchase Requisition\Validasi PR\N_EMI_Validasi_Proc_Purchase_Requisition.resx">
+      <DependentUpon>N_EMI_Validasi_Proc_Purchase_Requisition.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Retur Pembelian\Emi_Display_Retur_Pembelian.resx">
       <DependentUpon>Emi_Display_Retur_Pembelian.vb</DependentUpon>
     </EmbeddedResource>
@@ -5757,9 +5823,6 @@
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Retur Pembelian\Laporan\N_EMI_CR_Transaksi_Retur_Pembelian.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_CR_Transaksi_Retur_Pembelian.vb</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Validasi PR\N_EMI_Validasi_Proc_Purchase_Requisition.resx">
-      <DependentUpon>N_EMI_Validasi_Proc_Purchase_Requisition.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\3. Display\Pelunasan\Display_Emi_Pelunasan.resx">
       <DependentUpon>Display_Emi_Pelunasan.vb</DependentUpon>
@@ -5783,9 +5846,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\3. Display\Pembelian\EMI_Pembelian_PO_Summary_Data.resx">
       <DependentUpon>EMI_Pembelian_PO_Summary_Data.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\3. Display\Pembelian\EMI_Pembelian_PR_Summary_Data.resx">
-      <DependentUpon>EMI_Pembelian_PR_Summary_Data.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\3. Display\Pembelian\Forecast\EMI_Display_ForecastOrder.resx">
       <DependentUpon>EMI_Display_ForecastOrder.vb</DependentUpon>
@@ -5834,9 +5894,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\4. Warehouse\Display\Display_Barang.resx">
       <DependentUpon>Display_Barang.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\4. Warehouse\Display\N_EMI_Display_Validasi_GR_3.resx">
-      <DependentUpon>N_EMI_Display_Validasi_GR_3.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\4. Warehouse\Laporan\EMI_Laporan_Outstanding_PO_VS_Stock.resx">
       <DependentUpon>EMI_Laporan_Outstanding_PO_VS_Stock.vb</DependentUpon>
@@ -6134,6 +6191,9 @@
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Rencana Order\EMI_Production_Order.resx">
       <DependentUpon>EMI_Production_Order.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Display\N_EMI_Display_Validasi_GR_3.resx">
+      <DependentUpon>N_EMI_Display_Validasi_GR_3.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\EMI_Validasi_GR.resx">
       <DependentUpon>EMI_Validasi_GR.vb</DependentUpon>
     </EmbeddedResource>
@@ -6162,8 +6222,8 @@
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\SD\SD_ValidasiGR_Split.resx">
       <DependentUpon>SD_ValidasiGR_Split.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Validasi GR 3\N_EMI_Transaksi_Validasi_GR_3_2.resx">
-      <DependentUpon>N_EMI_Transaksi_Validasi_GR_3_2.vb</DependentUpon>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Validasi GR 3\N_EMI_Transaksi_Validasi_GR_3.resx">
+      <DependentUpon>N_EMI_Transaksi_Validasi_GR_3.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Validasi\Validasi Inkubasi\N_EMI_Display_Validasi_Inkubasi_Produksi.resx">
       <DependentUpon>N_EMI_Display_Validasi_Inkubasi_Produksi.vb</DependentUpon>
@@ -7145,15 +7205,6 @@
     <EmbeddedResource Include="Emi Form\Purchase\Emi_PO_Pembelian2.resx">
       <DependentUpon>Emi_PO_Pembelian2.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Purchase\Purchase Requisition Revisi\SD_Data_PR.resx">
-      <DependentUpon>SD_Data_PR.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Purchase\Purchase Requisition Revisi\SD_Tambah_PR.resx">
-      <DependentUpon>SD_Tambah_PR.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Emi Form\Purchase\Purchase Requisition Revisi\SD_Ubah_Tanggal_PR.resx">
-      <DependentUpon>SD_Ubah_Tanggal_PR.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\Purchase\Tracking_Kamar_Timbang.resx">
       <DependentUpon>Tracking_Kamar_Timbang.vb</DependentUpon>
     </EmbeddedResource>
@@ -7442,6 +7493,9 @@
     <EmbeddedResource Include="FOLDER FORM TEST\TESPRINTQC.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>TESPRINTQC.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FOLDER FORM TEST\Testing_Cetak_Barcode.resx">
+      <DependentUpon>Testing_Cetak_Barcode.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FOLDER FORM TEST\TESTING_PRINT.resx">
       <DependentUpon>TESTING_PRINT.vb</DependentUpon>

@@ -61,10 +61,10 @@
 
         Cmb_Lain.Items.Clear() : arrParamLain.Clear()
         Cmb_Lain.Items.Add(OpsiSeluruh) : arrParamLain.Add(OpsiSeluruh)
-        Cmb_Lain.Items.Add("No Split") : arrParamLain.Add("b.No_Production_Order")
-        Cmb_Lain.Items.Add("Lokasi") : arrParamLain.Add("a.Lokasi_Gudang")
-        Cmb_Lain.Items.Add("Barcode") : arrParamLain.Add("(a.Qr_Code + '-' + a.Kode_Unik_Berjalan)")
-        Cmb_Lain.Items.Add("Kode Barang") : arrParamLain.Add("c.Kode_Barang")
+        Cmb_Lain.Items.Add("No Split") : arrParamLain.Add("a.No_Production_Order")
+        Cmb_Lain.Items.Add("Lokasi") : arrParamLain.Add("b.Kode_Stock_Owner_Tujuan")
+        Cmb_Lain.Items.Add("Barcode") : arrParamLain.Add("(c.Qr_Code + '-' + c.Kode_Unik_Berjalan)")
+        Cmb_Lain.Items.Add("Kode Barang") : arrParamLain.Add("b.Kode_Barang")
         Cmb_Lain.Items.Add("Nama Barang") : arrParamLain.Add("d.Nama")
         Cmb_Lain.Items.Add("Kualitas") : arrParamLain.Add("e.Keterangan")
         Cmb_Lain.SelectedIndex = 0
@@ -114,11 +114,13 @@
             SQL = SQL & "d.Nama as Nama_Barang, b.Jenis, c.Qr_Code, c.Kode_Unik_Berjalan, c.Batch_Number, "
             SQL = SQL & "c.Tgl_Produksi, c.Tgl_Expired, a.UserID, "
 
-            SQL = SQL & "isnull(((isnull(sum(c.Jumlah), 0)) - "
-            SQL = SQL & "ISNULL((select isnull(sum(z.jumlah), 0) from N_EMI_Validation_GR_3_Detail z, N_EMI_Validation_GR_3 x "
-            SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and z.Kode_Perusahaan = a.Kode_Perusahaan "
-            SQL = SQL & "and z.No_Transaksi = x.No_Transaksi and z.No_Transaksi_GR2 = a.No_Transaksi and x.status is null "
-            SQL = SQL & "),0)), 0) as Jumlah, "
+            'SQL = SQL & "isnull(((isnull(sum(c.Jumlah), 0)) - "
+            'SQL = SQL & "ISNULL((select isnull(sum(z.jumlah), 0) from N_EMI_Validation_GR_3_Detail z, N_EMI_Validation_GR_3 x "
+            'SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and z.Kode_Perusahaan = a.Kode_Perusahaan "
+            'SQL = SQL & "and z.No_Transaksi = x.No_Transaksi and z.No_Transaksi_GR2 = a.No_Transaksi and x.status is null "
+            'SQL = SQL & "),0)), 0) as Jumlah, "
+
+            SQL = SQL & "isnull(sum(c.Jumlah), 0) as Jumlah, "
 
             SQL = SQL & "b.Satuan, b.Warna, e.Keterangan as Kualitas, (c.Qr_Code + '-' + c.Kode_Unik_Berjalan) as Barcode, b.nomor "
             SQL = SQL & "from Emi_Production_Results_Validation a, Emi_Production_Results_Validation_Detail b, Barang_SN c, barang d, EMI_Master_Warna e "
@@ -207,7 +209,7 @@
             SelectedSplit = ""
         End If
 
-        Dim SelectedSplitParent As String = N_EMI_Transaksi_Validasi_GR_3_2.Txt_NoSplit.Text
+        Dim SelectedSplitParent As String = N_EMI_Transaksi_Validasi_GR_3.Txt_NoSplit.Text
 
         If Not Lv_Data.FocusedItem Is Nothing AndAlso Lv_Data.FocusedItem.Checked Then
             If SelectedSplitParent = "" Then
@@ -238,8 +240,8 @@
             If Lv_Data.Items(i).Checked = True Then
                 Get_Data_Listview(i)
 
-                If N_EMI_Transaksi_Validasi_GR_3_2.Txt_NoSplit.Text.Trim.Length = 0 Then
-                    N_EMI_Transaksi_Validasi_GR_3_2.Txt_NoSplit.Text = Lv_NoSplit
+                If N_EMI_Transaksi_Validasi_GR_3.Txt_NoSplit.Text.Trim.Length = 0 Then
+                    N_EMI_Transaksi_Validasi_GR_3.Txt_NoSplit.Text = Lv_NoSplit
                 Else
                     If N_EMI_Transaksi_Validasi_GR_3.Txt_NoSplit.Text.Trim.ToUpper <> Lv_NoSplit.Trim.ToUpper Then
                         Continue For
@@ -262,8 +264,8 @@
             Lv_Data.Focus() : Exit Sub
         End If
 
-        N_EMI_Transaksi_Validasi_GR_3_2.arrBarcodeFromSD = arrSelectedBarcode
-        N_EMI_Transaksi_Validasi_GR_3_2.LoadFromSD()
+        N_EMI_Transaksi_Validasi_GR_3.arrBarcodeFromSD = arrSelectedBarcode
+        N_EMI_Transaksi_Validasi_GR_3.LoadFromSD()
 
         'Kosong()
         Me.Close()

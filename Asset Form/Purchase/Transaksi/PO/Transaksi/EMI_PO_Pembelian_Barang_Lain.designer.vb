@@ -32,6 +32,8 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         Me.Label7 = New System.Windows.Forms.Label()
         Me.sat = New System.Windows.Forms.TextBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.DTPPO_ETA = New System.Windows.Forms.DateTimePicker()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.TxtPO_NmSupplier = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
@@ -70,6 +72,7 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.LblPO_Judul = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -137,7 +140,6 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.GroupBox1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -238,6 +240,8 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Label10)
+        Me.GroupBox1.Controls.Add(Me.DTPPO_ETA)
         Me.GroupBox1.Controls.Add(Me.Button1)
         Me.GroupBox1.Controls.Add(Me.TxtPO_NmSupplier)
         Me.GroupBox1.Controls.Add(Me.Label9)
@@ -262,6 +266,26 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         Me.GroupBox1.Size = New System.Drawing.Size(1280, 124)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label10.Location = New System.Drawing.Point(310, 39)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(35, 17)
+        Me.Label10.TabIndex = 336
+        Me.Label10.Text = "ETA"
+        '
+        'DTPPO_ETA
+        '
+        Me.DTPPO_ETA.CustomFormat = "dd MMMM yyyy"
+        Me.DTPPO_ETA.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DTPPO_ETA.Location = New System.Drawing.Point(390, 38)
+        Me.DTPPO_ETA.Margin = New System.Windows.Forms.Padding(2)
+        Me.DTPPO_ETA.Name = "DTPPO_ETA"
+        Me.DTPPO_ETA.Size = New System.Drawing.Size(185, 21)
+        Me.DTPPO_ETA.TabIndex = 335
         '
         'Button1
         '
@@ -390,7 +414,7 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         '
         Me.LblPO_NoNota.AutoSize = True
         Me.LblPO_NoNota.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblPO_NoNota.Location = New System.Drawing.Point(310, 39)
+        Me.LblPO_NoNota.Location = New System.Drawing.Point(308, 15)
         Me.LblPO_NoNota.Name = "LblPO_NoNota"
         Me.LblPO_NoNota.Size = New System.Drawing.Size(82, 17)
         Me.LblPO_NoNota.TabIndex = 219
@@ -411,7 +435,7 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         Me.TxtPO_NoNota.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TxtPO_NoNota.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtPO_NoNota.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtPO_NoNota.Location = New System.Drawing.Point(398, 38)
+        Me.TxtPO_NoNota.Location = New System.Drawing.Point(390, 13)
         Me.TxtPO_NoNota.MaxLength = 100
         Me.TxtPO_NoNota.Name = "TxtPO_NoNota"
         Me.TxtPO_NoNota.Size = New System.Drawing.Size(185, 21)
@@ -683,6 +707,19 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         Me.Panel1.Size = New System.Drawing.Size(1316, 51)
         Me.Panel1.TabIndex = 1
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1316, 2)
+        Me.PanelGradient1.TabIndex = 0
+        '
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
@@ -763,6 +800,7 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         Me.Groupbox.Controls.Add(Me.LblPO_Pembayaran)
         Me.Groupbox.Controls.Add(Me.LblPO_TotalMUA)
         Me.Groupbox.Controls.Add(Me.TxtPO_Total)
+        Me.Groupbox.Controls.Add(Me.LblPO_Hrg)
         Me.Groupbox.Controls.Add(Me.TxtPO_Kurs)
         Me.Groupbox.Controls.Add(Me.LblPO_Kurs)
         Me.Groupbox.Controls.Add(Me.Label25)
@@ -781,7 +819,6 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         Me.Groupbox.Controls.Add(Me.LblPO_Diskon)
         Me.Groupbox.Controls.Add(Me.LblPO_Jml)
         Me.Groupbox.Controls.Add(Me.LblPO_NmBarang)
-        Me.Groupbox.Controls.Add(Me.LblPO_Hrg)
         Me.Groupbox.Controls.Add(Me.LblPO_KdBarang)
         Me.Groupbox.Controls.Add(Me.RdoPO_Persen)
         Me.Groupbox.Controls.Add(Me.RdoPO_Rp)
@@ -875,7 +912,7 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         Me.cmb_pr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmb_pr.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.cmb_pr.FormattingEnabled = True
-        Me.cmb_pr.Location = New System.Drawing.Point(610, 41)
+        Me.cmb_pr.Location = New System.Drawing.Point(477, 40)
         Me.cmb_pr.Name = "cmb_pr"
         Me.cmb_pr.Size = New System.Drawing.Size(130, 23)
         Me.cmb_pr.TabIndex = 2
@@ -884,7 +921,7 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         '
         Me.Label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label2.Location = New System.Drawing.Point(610, 13)
+        Me.Label2.Location = New System.Drawing.Point(477, 12)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(130, 25)
         Me.Label2.TabIndex = 354
@@ -966,7 +1003,7 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         Me.CmbPO_Harga.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CmbPO_Harga.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.CmbPO_Harga.FormattingEnabled = True
-        Me.CmbPO_Harga.Location = New System.Drawing.Point(477, 41)
+        Me.CmbPO_Harga.Location = New System.Drawing.Point(611, 40)
         Me.CmbPO_Harga.Name = "CmbPO_Harga"
         Me.CmbPO_Harga.Size = New System.Drawing.Size(130, 23)
         Me.CmbPO_Harga.TabIndex = 1
@@ -1261,7 +1298,7 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         '
         Me.LblPO_Hrg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LblPO_Hrg.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblPO_Hrg.Location = New System.Drawing.Point(477, 13)
+        Me.LblPO_Hrg.Location = New System.Drawing.Point(611, 12)
         Me.LblPO_Hrg.Name = "LblPO_Hrg"
         Me.LblPO_Hrg.Size = New System.Drawing.Size(130, 25)
         Me.LblPO_Hrg.TabIndex = 315
@@ -1508,19 +1545,6 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         Me.Panel7.TabIndex = 308
         Me.Panel7.Visible = False
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1316, 2)
-        Me.PanelGradient1.TabIndex = 0
-        '
         'EMI_PO_Pembelian_Barang_Lain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
@@ -1697,4 +1721,6 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
     Friend WithEvents Txt_GrandPPH As TextBox
     Friend WithEvents Label9 As Label
     Friend WithEvents Txt_IDPPH As TextBox
+    Friend WithEvents Label10 As Label
+    Friend WithEvents DTPPO_ETA As DateTimePicker
 End Class

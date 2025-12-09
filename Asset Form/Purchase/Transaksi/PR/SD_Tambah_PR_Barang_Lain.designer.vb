@@ -75,6 +75,9 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.TxtTiba = New System.Windows.Forms.TextBox()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -86,7 +89,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(576, 51)
+        Me.Panel1.Size = New System.Drawing.Size(577, 51)
         Me.Panel1.TabIndex = 22
         '
         'PanelGradient1
@@ -99,7 +102,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(576, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(577, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'LblPilihBarang_Judul
@@ -136,7 +139,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(559, 63)
+        Me.Panel5.Location = New System.Drawing.Point(556, 86)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(19, 270)
@@ -149,7 +152,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.CmbPilihBarang_Lokasi.Enabled = False
         Me.CmbPilihBarang_Lokasi.FormattingEnabled = True
         Me.CmbPilihBarang_Lokasi.Items.AddRange(New Object() {"HEAD OFFICE"})
-        Me.CmbPilihBarang_Lokasi.Location = New System.Drawing.Point(183, 402)
+        Me.CmbPilihBarang_Lokasi.Location = New System.Drawing.Point(180, 434)
         Me.CmbPilihBarang_Lokasi.Name = "CmbPilihBarang_Lokasi"
         Me.CmbPilihBarang_Lokasi.Size = New System.Drawing.Size(80, 21)
         Me.CmbPilihBarang_Lokasi.TabIndex = 6
@@ -158,7 +161,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(22, 320)
+        Me.Panel4.Location = New System.Drawing.Point(25, 350)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1028, 15)
@@ -170,7 +173,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.BtnPilihBarang_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnPilihBarang_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnPilihBarang_Refresh.ForeColor = System.Drawing.Color.White
-        Me.BtnPilihBarang_Refresh.Location = New System.Drawing.Point(119, 284)
+        Me.BtnPilihBarang_Refresh.Location = New System.Drawing.Point(115, 313)
         Me.BtnPilihBarang_Refresh.Name = "BtnPilihBarang_Refresh"
         Me.BtnPilihBarang_Refresh.Size = New System.Drawing.Size(84, 36)
         Me.BtnPilihBarang_Refresh.TabIndex = 8
@@ -182,7 +185,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.BtnPilihBarang_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnPilihBarang_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnPilihBarang_Simpan.ForeColor = System.Drawing.Color.White
-        Me.BtnPilihBarang_Simpan.Location = New System.Drawing.Point(29, 284)
+        Me.BtnPilihBarang_Simpan.Location = New System.Drawing.Point(25, 313)
         Me.BtnPilihBarang_Simpan.Name = "BtnPilihBarang_Simpan"
         Me.BtnPilihBarang_Simpan.Size = New System.Drawing.Size(84, 36)
         Me.BtnPilihBarang_Simpan.TabIndex = 5
@@ -248,7 +251,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.LvPilihBarang_DataBarang.FullRowSelect = True
         Me.LvPilihBarang_DataBarang.GridLines = True
         Me.LvPilihBarang_DataBarang.HideSelection = False
-        Me.LvPilihBarang_DataBarang.Location = New System.Drawing.Point(566, 110)
+        Me.LvPilihBarang_DataBarang.Location = New System.Drawing.Point(757, 110)
         Me.LvPilihBarang_DataBarang.Name = "LvPilihBarang_DataBarang"
         Me.LvPilihBarang_DataBarang.Size = New System.Drawing.Size(400, 130)
         Me.LvPilihBarang_DataBarang.TabIndex = 358
@@ -280,7 +283,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         '
         Me.LblPilihBarang_Lokasi.AutoSize = True
         Me.LblPilihBarang_Lokasi.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblPilihBarang_Lokasi.Location = New System.Drawing.Point(54, 415)
+        Me.LblPilihBarang_Lokasi.Location = New System.Drawing.Point(51, 447)
         Me.LblPilihBarang_Lokasi.Name = "LblPilihBarang_Lokasi"
         Me.LblPilihBarang_Lokasi.Size = New System.Drawing.Size(58, 17)
         Me.LblPilihBarang_Lokasi.TabIndex = 359
@@ -313,7 +316,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label1.Location = New System.Drawing.Point(24, 223)
+        Me.Label1.Location = New System.Drawing.Point(24, 250)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(101, 17)
         Me.Label1.TabIndex = 363
@@ -321,7 +324,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         '
         'DateTimePicker1
         '
-        Me.DateTimePicker1.Location = New System.Drawing.Point(139, 220)
+        Me.DateTimePicker1.Location = New System.Drawing.Point(139, 247)
         Me.DateTimePicker1.Name = "DateTimePicker1"
         Me.DateTimePicker1.Size = New System.Drawing.Size(213, 20)
         Me.DateTimePicker1.TabIndex = 4
@@ -330,7 +333,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         '
         Me.Lbl_Jumlah.AutoSize = True
         Me.Lbl_Jumlah.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Lbl_Jumlah.Location = New System.Drawing.Point(306, 367)
+        Me.Lbl_Jumlah.Location = New System.Drawing.Point(303, 399)
         Me.Lbl_Jumlah.Name = "Lbl_Jumlah"
         Me.Lbl_Jumlah.Size = New System.Drawing.Size(53, 17)
         Me.Lbl_Jumlah.TabIndex = 365
@@ -343,7 +346,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.txtJumlah.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtJumlah.Enabled = False
         Me.txtJumlah.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.txtJumlah.Location = New System.Drawing.Point(367, 365)
+        Me.txtJumlah.Location = New System.Drawing.Point(364, 397)
         Me.txtJumlah.MaxLength = 50
         Me.txtJumlah.Name = "txtJumlah"
         Me.txtJumlah.Size = New System.Drawing.Size(123, 21)
@@ -354,7 +357,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label3.Location = New System.Drawing.Point(51, 392)
+        Me.Label3.Location = New System.Drawing.Point(48, 424)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(82, 17)
         Me.Label3.TabIndex = 367
@@ -366,7 +369,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.txtKeterangan.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.txtKeterangan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtKeterangan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.txtKeterangan.Location = New System.Drawing.Point(139, 393)
+        Me.txtKeterangan.Location = New System.Drawing.Point(136, 425)
         Me.txtKeterangan.MaxLength = 50
         Me.txtKeterangan.Name = "txtKeterangan"
         Me.txtKeterangan.Size = New System.Drawing.Size(38, 21)
@@ -405,7 +408,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.Txt_Order.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_Order.Enabled = False
         Me.Txt_Order.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_Order.Location = New System.Drawing.Point(433, 437)
+        Me.Txt_Order.Location = New System.Drawing.Point(430, 469)
         Me.Txt_Order.MaxLength = 50
         Me.Txt_Order.Name = "Txt_Order"
         Me.Txt_Order.Size = New System.Drawing.Size(110, 21)
@@ -431,7 +434,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.Txt_PR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_PR.Enabled = False
         Me.Txt_PR.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_PR.Location = New System.Drawing.Point(199, 437)
+        Me.Txt_PR.Location = New System.Drawing.Point(196, 469)
         Me.Txt_PR.MaxLength = 50
         Me.Txt_PR.Name = "Txt_PR"
         Me.Txt_PR.Size = New System.Drawing.Size(110, 21)
@@ -457,7 +460,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.Lbl_GetKdBrg.BackColor = System.Drawing.Color.White
         Me.Lbl_GetKdBrg.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
         Me.Lbl_GetKdBrg.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Lbl_GetKdBrg.Location = New System.Drawing.Point(329, 395)
+        Me.Lbl_GetKdBrg.Location = New System.Drawing.Point(326, 427)
         Me.Lbl_GetKdBrg.Name = "Lbl_GetKdBrg"
         Me.Lbl_GetKdBrg.Size = New System.Drawing.Size(70, 17)
         Me.Lbl_GetKdBrg.TabIndex = 374
@@ -469,7 +472,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.Txt_KDSo.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_KDSo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_KDSo.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_KDSo.Location = New System.Drawing.Point(119, 416)
+        Me.Txt_KDSo.Location = New System.Drawing.Point(116, 448)
         Me.Txt_KDSo.MaxLength = 50
         Me.Txt_KDSo.Name = "Txt_KDSo"
         Me.Txt_KDSo.Size = New System.Drawing.Size(38, 21)
@@ -534,11 +537,11 @@ Partial Class SD_Tambah_PR_Barang_Lain
         '
         'Lv_CostCenter
         '
-        Me.Lv_CostCenter.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Lv_CostCenter.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.Lv_CostCenter.FullRowSelect = True
         Me.Lv_CostCenter.GridLines = True
         Me.Lv_CostCenter.HideSelection = False
-        Me.Lv_CostCenter.Location = New System.Drawing.Point(600, 190)
+        Me.Lv_CostCenter.Location = New System.Drawing.Point(791, 190)
         Me.Lv_CostCenter.Name = "Lv_CostCenter"
         Me.Lv_CostCenter.Size = New System.Drawing.Size(394, 181)
         Me.Lv_CostCenter.TabIndex = 384
@@ -547,11 +550,11 @@ Partial Class SD_Tambah_PR_Barang_Lain
         '
         'Lv_Gedung
         '
-        Me.Lv_Gedung.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Lv_Gedung.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.Lv_Gedung.FullRowSelect = True
         Me.Lv_Gedung.GridLines = True
         Me.Lv_Gedung.HideSelection = False
-        Me.Lv_Gedung.Location = New System.Drawing.Point(600, 216)
+        Me.Lv_Gedung.Location = New System.Drawing.Point(791, 216)
         Me.Lv_Gedung.Name = "Lv_Gedung"
         Me.Lv_Gedung.Size = New System.Drawing.Size(394, 181)
         Me.Lv_Gedung.TabIndex = 384
@@ -577,7 +580,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.Txt_LokasiGudang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_LokasiGudang.Enabled = False
         Me.Txt_LokasiGudang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_LokasiGudang.Location = New System.Drawing.Point(494, 292)
+        Me.Txt_LokasiGudang.Location = New System.Drawing.Point(489, 313)
         Me.Txt_LokasiGudang.MaxLength = 50
         Me.Txt_LokasiGudang.Name = "Txt_LokasiGudang"
         Me.Txt_LokasiGudang.Size = New System.Drawing.Size(60, 21)
@@ -602,7 +605,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.Cmb_Stock.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cmb_Stock.FormattingEnabled = True
         Me.Cmb_Stock.Items.AddRange(New Object() {"KG", "TON"})
-        Me.Cmb_Stock.Location = New System.Drawing.Point(388, 292)
+        Me.Cmb_Stock.Location = New System.Drawing.Point(383, 313)
         Me.Cmb_Stock.Name = "Cmb_Stock"
         Me.Cmb_Stock.Size = New System.Drawing.Size(60, 21)
         Me.Cmb_Stock.TabIndex = 4
@@ -612,7 +615,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label5.Location = New System.Drawing.Point(273, 293)
+        Me.Label5.Location = New System.Drawing.Point(268, 314)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(43, 17)
         Me.Label5.TabIndex = 356
@@ -646,7 +649,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label8.Location = New System.Drawing.Point(24, 248)
+        Me.Label8.Location = New System.Drawing.Point(24, 275)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(34, 17)
         Me.Label8.TabIndex = 391
@@ -657,18 +660,51 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.TextBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TextBox1.Location = New System.Drawing.Point(139, 246)
+        Me.TextBox1.Location = New System.Drawing.Point(139, 273)
         Me.TextBox1.MaxLength = 300
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(344, 21)
         Me.TextBox1.TabIndex = 392
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label7.Location = New System.Drawing.Point(236, 222)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(33, 17)
+        Me.Label7.TabIndex = 395
+        Me.Label7.Text = "Day"
+        '
+        'TxtTiba
+        '
+        Me.TxtTiba.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtTiba.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtTiba.Enabled = False
+        Me.TxtTiba.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.TxtTiba.Location = New System.Drawing.Point(139, 220)
+        Me.TxtTiba.MaxLength = 50
+        Me.TxtTiba.Name = "TxtTiba"
+        Me.TxtTiba.Size = New System.Drawing.Size(91, 21)
+        Me.TxtTiba.TabIndex = 394
+        Me.TxtTiba.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label9.Location = New System.Drawing.Point(22, 222)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(60, 17)
+        Me.Label9.TabIndex = 393
+        Me.Label9.Text = "Est Tiba"
         '
         'SD_Tambah_PR_Barang_Lain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(576, 337)
+        Me.ClientSize = New System.Drawing.Size(577, 365)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Lv_Gedung)
         Me.Controls.Add(Me.Lv_CostCenter)
@@ -716,7 +752,11 @@ Partial Class SD_Tambah_PR_Barang_Lain
         Me.Controls.Add(Me.CmbPilihBarang_Satuan)
         Me.Controls.Add(Me.txtJumlah)
         Me.Controls.Add(Me.TextBox1)
+        Me.Controls.Add(Me.Label7)
+        Me.Controls.Add(Me.TxtTiba)
+        Me.Controls.Add(Me.Label9)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.ForeColor = System.Drawing.SystemColors.ControlText
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "SD_Tambah_PR_Barang_Lain"
@@ -781,4 +821,7 @@ Partial Class SD_Tambah_PR_Barang_Lain
     Friend WithEvents Label6 As Label
     Friend WithEvents Label8 As Label
     Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents Label7 As Label
+    Friend WithEvents TxtTiba As TextBox
+    Friend WithEvents Label9 As Label
 End Class

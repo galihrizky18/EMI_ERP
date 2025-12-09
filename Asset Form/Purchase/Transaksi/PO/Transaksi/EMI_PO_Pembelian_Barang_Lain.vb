@@ -11,6 +11,7 @@
     Dim arrTempoPenawaran, arrJatuhTempo As New ArrayList
     Dim arrEkspedisi As New ArrayList
     Dim arrNoUrutPr As New ArrayList
+    Dim arrNoPenawaranPR As New ArrayList
 
     Dim fakturSubmitPO As String = ""
     Dim arrInisialFakturSubmitPO As String = ""
@@ -69,7 +70,7 @@
 
     Private Sub get_no_faktur()
         Dim fPOi_EMI As String = "POI"
-        TxtPO_NoFaktur.Text = fPOi_EMI & "-" & Format(DtpPO_Tgl.Value, "MM/yy") & "-" &
+        TxtPO_NoFaktur.Text = fPOi_EMI & arrInisialFaktur.Item(CmbPO_Lokasi.SelectedIndex) & "-" & Format(DtpPO_Tgl.Value, "MM/yy") & "-" &
                                      General_Class.Get_Last_Number2("EMI_Pembelian_PO_Induk_Barang_Lain", "no_faktur", Jumlah_Digit,
                                      "Kode_perusahaan", KodePerusahaan,
                                      "And", "substring(no_faktur,1," & Len(fPOi_EMI) + Len(arrInisialFaktur.Item(CmbPO_Lokasi.SelectedIndex)) + 6 & ")", fPOi_EMI & arrInisialFaktur.Item(CmbPO_Lokasi.SelectedIndex) & "-" & Format(DtpPO_Tgl.Value, "MM/yy"))
@@ -361,6 +362,15 @@
         BtnPO_Simpan.Text = Base_Language.Lang_Global_Simpan
 
         LblPO_Judul.Text = Base_Language.Lang_PO_Bahan_Judul
+
+        'kosongkan etd dan eta 
+
+        DtpPO_ETD.Format = DateTimePickerFormat.Custom
+        DtpPO_ETD.CustomFormat = " "
+
+        DTPPO_ETA.Format = DateTimePickerFormat.Custom
+        DTPPO_ETA.CustomFormat = " "
+
 
         Txt_GrandPPH.Text = ""
         Txt_IDPPH.Text = ""
@@ -704,46 +714,53 @@
 
                     CmbPO_Harga.Items.Clear() : arrNoPenawaran.Clear() : arrSatuanPenawaran.Clear() : arrHargaPenawaran.Clear()
                     arrTempoPenawaran.Clear() : arrJatuhTempo.Clear() : arrFakPenawaran.Clear()
-                    SQL = "select a.No_Faktur, a.no_penawaran,a.Kode_Supplier, c.Nama,b.satuan, b.Nilai_Barang,b.harga_satuan, b.satuan_Barang,  "
+                    'SQL = "select a.No_Faktur, a.no_penawaran,a.Kode_Supplier, c.Nama,b.satuan, b.Nilai_Barang,b.harga_satuan, b.satuan_Barang,  "
 
-                    SQL = SQL & "isnull((select x.Lama_Pembayaran from EMI_Master_Penawaran_Jatuh_Tempo_Barang_Lain x where a.Kode_Perusahaan = x.Kode_Perusahaan "
-                    SQL = SQL & "and a.No_Faktur = x.No_Faktur), 0) as jatuh_Tempo,"
+                    'SQL = SQL & "isnull((select x.Lama_Pembayaran from EMI_Master_Penawaran_Jatuh_Tempo_Barang_Lain x where a.Kode_Perusahaan = x.Kode_Perusahaan "
+                    'SQL = SQL & "and a.No_Faktur = x.No_Faktur), 0) as jatuh_Tempo,"
 
-                    SQL = SQL & "isnull((select x.Tempo_Pembayaran from EMI_Master_Penawaran_Jatuh_Tempo_Barang_Lain x where a.Kode_Perusahaan = x.Kode_Perusahaan "
-                    SQL = SQL & "and a.No_Faktur = x.No_Faktur), null) as Tempo_Pembayaran "
+                    'SQL = SQL & "isnull((select x.Tempo_Pembayaran from EMI_Master_Penawaran_Jatuh_Tempo_Barang_Lain x where a.Kode_Perusahaan = x.Kode_Perusahaan "
+                    'SQL = SQL & "and a.No_Faktur = x.No_Faktur), null) as Tempo_Pembayaran "
 
-                    SQL = SQL & "from EMI_Master_Penawaran_Barang_Lain a, EMI_Master_Penawaran_Detail_Barang_Lain b, Suppliers c "
-                    SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-                    SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Supplier = c.Kode_Supplier "
-                    SQL = SQL & "and b.kode_barang = '" & TxtPO_KdBrg.Text & "' and a.Kode_Supplier='" & TxtPO_KdSupplier.Text & "' "
-                    SQL = SQL & "and flag_release = 'Y' and status is null and b.mata_uang = '" & CmbPO_MataUang.Text & "' and a.Selesai is null and '" & Format(tgl_skg, "yyyy-MM-dd") & "' between a.Tgl_Penawaran_Hrg and a.Periode_Akhir_Penawaran  "
-                    Using dr2 = OpenTrans(SQL)
-                        Do While dr2.Read
-                            CmbPO_Harga.Items.Add(Format(dr2("harga_satuan"), "N4") & "/" & dr2("satuan").ToString.Trim & "-" & dr2("nama"))
+                    'SQL = SQL & "from EMI_Master_Penawaran_Barang_Lain a, EMI_Master_Penawaran_Detail_Barang_Lain b, Suppliers c "
+                    'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+                    'SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Supplier = c.Kode_Supplier "
+                    'SQL = SQL & "and b.kode_barang = '" & TxtPO_KdBrg.Text & "' and a.Kode_Supplier='" & TxtPO_KdSupplier.Text & "' "
+                    'SQL = SQL & "and flag_release = 'Y' and status is null and b.mata_uang = '" & CmbPO_MataUang.Text & "' and a.Selesai is null and '" & Format(tgl_skg, "yyyy-MM-dd") & "' between a.Tgl_Penawaran_Hrg and a.Periode_Akhir_Penawaran  "
+                    'Using dr2 = OpenTrans(SQL)
+                    '    Do While dr2.Read
+                    '        CmbPO_Harga.Items.Add(Format(dr2("harga_satuan"), "N4") & "/" & dr2("satuan").ToString.Trim & "-" & dr2("nama"))
 
-                            arrFakPenawaran.Add(dr2("No_Faktur")) : arrNoPenawaran.Add(dr2("no_penawaran"))
-                            arrSatuanPenawaran.Add(dr2("satuan_Barang")) : arrHargaPenawaran.Add(dr2("Nilai_Barang"))
-                            arrJatuhTempo.Add(dr2("jatuh_tempo"))
-                            If General_Class.CekNULL(dr2("tempo_pembayaran")) = "" Then
-                                arrTempoPenawaran.Add("-")
-                            Else
-                                arrTempoPenawaran.Add(dr2("tempo_pembayaran"))
-                            End If
-                        Loop
-                    End Using
+                    '        arrFakPenawaran.Add(dr2("No_Faktur")) : arrNoPenawaran.Add(dr2("no_penawaran"))
+                    '        arrSatuanPenawaran.Add(dr2("satuan_Barang")) : arrHargaPenawaran.Add(dr2("Nilai_Barang"))
+                    '        arrJatuhTempo.Add(dr2("jatuh_tempo"))
+                    '        If General_Class.CekNULL(dr2("tempo_pembayaran")) = "" Then
+                    '            arrTempoPenawaran.Add("-")
+                    '        Else
+                    '            arrTempoPenawaran.Add(dr2("tempo_pembayaran"))
+                    '        End If
+                    '    Loop
+                    'End Using
 
                     cmb_pr.Items.Clear() : arrNoUrutPr.Clear()
-                    SQL = "select a.No_Faktur, b.no_Urut,b.tanggal_delivery  From EMI_Purchase_Requisition_Barang_Lain a, EMI_Purchase_Requisition_Barang_Lain_Detail b "
+                    SQL = "select a.No_Faktur, b.no_Urut,b.tanggal_delivery, b.No_Penawaran From EMI_Purchase_Requisition_Barang_Lain a, EMI_Purchase_Requisition_Barang_Lain_Detail b "
                     SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
                     SQL = SQL & "and a.Status is null and flag_release = 'Y' and b.Kode_Barang = '" & TxtPO_KdBrg.Text & "' and b.flag_sudah_po is null and b.Flag_Pengajuan_Selesai is null "
+                    SQL = SQL & "AND b.No_Penawaran is not null "
                     '   SQL = SQL & "group by a.no_faktur"
                     Using dr3 = OpenTrans(SQL)
                         Do While dr3.Read
                             cmb_pr.Items.Add(dr3("no_faktur") & " / " & dr3("tanggal_delivery")) : arrNoUrutPr.Add(dr3("no_urut"))
+                            arrNoPenawaranPR.Add(dr3("No_Penawaran"))
                         Loop
                     End Using
 
                     CmbPO_Harga.Focus()
+
+
+                    cmb_pr.DroppedDown = True
+                    cmb_pr.Focus()
+
                 Else
                     bersihsebagian()
                     TxtPO_KdBrg.Focus()
@@ -854,6 +871,22 @@
 
         End If
 
+
+        If DtpPO_ETD.CustomFormat = " " Then
+            MessageBox.Show("ETD harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        If DTPPO_ETA.CustomFormat = " " Then
+            MessageBox.Show("ETA harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        If DTPPO_ETA.Value < DtpPO_ETD.Value Then
+            MessageBox.Show("ETA tidak boleh lebih kecil dari ETD!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
         get_jam()
 
         Dim cb As String = ""
@@ -914,7 +947,7 @@
                 SQL = "insert into EMI_Pembelian_PO_Induk_Barang_Lain(Kode_Perusahaan, No_Faktur, No_Nota, Tanggal, Jam, UserID, "
                 SQL = SQL & "Kode_Supplier, Lokasi,Jenis_Pembayaran, Mata_Uang, Kurs, Cara_Bayar, Total_MUA, "
                 SQL = SQL & "Total_IDR, Grand_Sebelum_PPN, PPN,Grand, No_Prepare_Bahan, ETD_Simulasi, "
-                SQL = SQL & "Tgl_Jatuh_Tempo,ekspedisi,biaya, Flag_Import, tempo_pembayaran, Lama_Pembayaran, Grand_Total_Terbilang, Grand_PPH) values( "
+                SQL = SQL & "Tgl_Jatuh_Tempo,ekspedisi,biaya, Flag_Import, tempo_pembayaran, Lama_Pembayaran, Grand_Total_Terbilang, Grand_PPH, Eta_Simulasi ) values( "
                 SQL = SQL & "'" & KodePerusahaan & "', '" & TxtPO_NoFaktur.Text & "', '" & TxtPO_NoNota.Text & "', "
                 SQL = SQL & "'" & Format(DtpPO_Tgl.Value, " yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
                 SQL = SQL & "'" & UserID & "', '" & TxtPO_KdSupplier.Text & "', '" & CmbPO_Lokasi.Text & "', "
@@ -925,8 +958,18 @@
                 SQL = SQL & "'" & HilangkanTanda(TxtPO_GrandTotal.Text) & "', " & no_po & ", "
                 SQL = SQL & "'" & Format(DtpPO_ETD.Value, "yyyy-MM-dd") & "'," & Tgl_Jatuh_Tempo & ", "
                 SQL = SQL & "'" & CmbPO_JnsEkspedisi.Text & "', '" & TxtPO_Biaya.Text & "', " & Import & ", '" & cmbJenisPengiriman.Text & "', "
-                SQL = SQL & Val(HilangkanTanda(txtJatuhTempo.Text)) & ", '" & terbilang & "', '" & HilangkanTanda(Txt_GrandPPH.Text) & "' )"
+                SQL = SQL & Val(HilangkanTanda(txtJatuhTempo.Text)) & ", '" & terbilang & "', '" & HilangkanTanda(Txt_GrandPPH.Text) & "', '" & Format(DTPPO_ETA.Value, "yyyy-MM-dd") & "' )"
                 ExecuteTrans(SQL)
+
+
+                SQL = "insert into N_EMI_LOG_PO_INDUK_ETA_ETD_Barang_lain(kode_perusahaan,no_faktur,tanggal,jam,userid,eta,etd) "
+                SQL = SQL & "values( "
+                SQL = SQL & "'" & KodePerusahaan & "', '" & TxtPO_NoFaktur.Text & "', '" & Format(tgl_skg, "yyyy-MMM-dd") & "',"
+                SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "',"
+                SQL = SQL & "'" & Format(DTPPO_ETA.Value, "yyyy-MM-dd") & "', '" & Format(DtpPO_ETD.Value, "yyyy-MM-dd") & "' )"
+                ExecuteTrans(SQL)
+
+
 
 
 
@@ -1066,6 +1109,7 @@
                 'update po pembelian
                 SQL = "update  EMI_Pembelian_PO_Induk_Barang_Lain set "
                 SQL = SQL & "etd_simulasi = '" & Format(DtpPO_ETD.Value, "yyyy-MM-dd") & "',"
+                SQL = SQL & "eta_simulasi = '" & Format(DTPPO_ETA.Value, "yyyy-MM-dd") & "',"
                 SQL = SQL & "no_nota = '" & TxtPO_NoNota.Text.Trim & "',"
                 SQL = SQL & "jenis_pembayaran = '" & arrPembayaran.Item(CmbPO_JnsBayar.SelectedIndex) & "', "
                 SQL = SQL & "tgl_jatuh_tempo = '" & Format(DtpPO_TglBayar.Value, "yyyy-MM-dd") & "',"
@@ -1665,6 +1709,7 @@
 
             '        Else
 
+
             'If Not LvPO_DataPO.Items(0).SubItems(cellPO_JnsKategori).Text = Dr("Jenis_Kategori") ThenS
             '                Dr.Close()
             '                CloseConn()
@@ -1676,6 +1721,26 @@
             '        End If
             '    End If
             'End Using
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             Dim lvw As ListViewItem
@@ -1840,6 +1905,40 @@
                 End If
             End Using
 
+
+            CmbPO_Harga.Items.Clear() : arrNoPenawaran.Clear() : arrSatuanPenawaran.Clear() : arrHargaPenawaran.Clear()
+            arrTempoPenawaran.Clear() : arrJatuhTempo.Clear() : arrFakPenawaran.Clear()
+            SQL = "select a.No_Faktur, a.no_penawaran,a.Kode_Supplier, c.Nama,b.satuan, b.Nilai_Barang,b.harga_satuan, b.satuan_Barang,  "
+
+            SQL = SQL & "isnull((select x.Lama_Pembayaran from EMI_Master_Penawaran_Jatuh_Tempo_Barang_Lain x where a.Kode_Perusahaan = x.Kode_Perusahaan "
+            SQL = SQL & "and a.No_Faktur = x.No_Faktur), 0) as jatuh_Tempo,"
+
+            SQL = SQL & "isnull((select x.Tempo_Pembayaran from EMI_Master_Penawaran_Jatuh_Tempo_Barang_Lain x where a.Kode_Perusahaan = x.Kode_Perusahaan "
+            SQL = SQL & "and a.No_Faktur = x.No_Faktur), null) as Tempo_Pembayaran "
+
+            SQL = SQL & "from EMI_Master_Penawaran_Barang_Lain a, EMI_Master_Penawaran_Detail_Barang_Lain b, Suppliers c "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Supplier = c.Kode_Supplier "
+            SQL = SQL & "and b.kode_barang = '" & TxtPO_KdBrg.Text & "' and a.Kode_Supplier='" & TxtPO_KdSupplier.Text & "' "
+            SQL = SQL & "AND a.No_Faktur = '" & arrNoPenawaranPR(cmb_pr.SelectedIndex) & "' "
+            SQL = SQL & "and flag_release = 'Y' and status is null and b.mata_uang = '" & CmbPO_MataUang.Text & "' and a.Selesai is null and '" & Format(tgl_skg, "yyyy-MM-dd") & "' between a.Tgl_Penawaran_Hrg and a.Periode_Akhir_Penawaran  "
+            Using dr2 = OpenTrans(SQL)
+                Do While dr2.Read
+                    CmbPO_Harga.Items.Add(Format(dr2("harga_satuan"), "N4") & "/" & dr2("satuan").ToString.Trim & "-" & dr2("nama"))
+
+                    arrFakPenawaran.Add(dr2("No_Faktur")) : arrNoPenawaran.Add(dr2("no_penawaran"))
+                    arrSatuanPenawaran.Add(dr2("satuan_Barang")) : arrHargaPenawaran.Add(dr2("Nilai_Barang"))
+                    arrJatuhTempo.Add(dr2("jatuh_tempo"))
+                    If General_Class.CekNULL(dr2("tempo_pembayaran")) = "" Then
+                        arrTempoPenawaran.Add("-")
+                    Else
+                        arrTempoPenawaran.Add(dr2("tempo_pembayaran"))
+                    End If
+                Loop
+            End Using
+
+
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -1852,6 +1951,8 @@
         TxtPO_NoNota.Enabled = False
         DtpPO_ETD.Enabled = False
         DtpPO_Tgl.Enabled = False
+        DTPPO_ETA.Enabled = False
+
         DtpPO_TglBayar.Enabled = False
         TxtPO_NoPO.Enabled = False
         TxtPO_KdSupplier.Enabled = False
@@ -1893,6 +1994,7 @@
         DtpPO_ETD.Enabled = True
         DtpPO_Tgl.Enabled = False
         DtpPO_TglBayar.Enabled = True
+        DTPPO_ETA.Enabled = True
         TxtPO_NoPO.Enabled = False
         TxtPO_KdSupplier.Enabled = True
         TxtPO_NmSupplier.Enabled = True
@@ -2146,7 +2248,7 @@
             Dim checkFlagRelease As String = ""
             SQL = "select a.status,a.No_Nota,a.Kode_Supplier, b.Nama_Supplier as nama,lokasi,a.tanggal, "
             SQL = SQL & "a.Jenis_Pembayaran,a.Cara_Bayar, a.lama_pembayaran, Tgl_Jatuh_Tempo,Total_MUA, Mata_Uang,kurs, "
-            SQL = SQL & "Total_IDR,Grand_Sebelum_PPN,a.ppn,Grand,ETD_Simulasi, ekspedisi,biaya, flag_release "
+            SQL = SQL & "Total_IDR,Grand_Sebelum_PPN,a.ppn,Grand,ETD_Simulasi,eta_simulasi, ekspedisi,biaya, flag_release "
             SQL = SQL & "from EMI_Pembelian_PO_Induk_Barang_Lain a, Suppliers b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan  "
             SQL = SQL & "and a.Kode_Supplier = b.Kode_Supplier  "
@@ -2161,79 +2263,103 @@
 
                     CmbPO_MataUang.Text = Dr("Mata_Uang")
                     DtpPO_Tgl.Value = Dr("tanggal")
-                    DtpPO_ETD.Value = Dr("etd_simulasi")
-                    TxtPO_NoNota.Text = Dr("no_nota")
-                    TxtPO_KdSupplier.Text = Dr("kode_supplier")
-                    TxtPO_NmSupplier.Text = Dr("nama")
+                    '   DtpPO_ETD.Value = Dr("etd_simulasi")
 
-                    LvSupplier2.Items.Clear()
-                    LvSupplier2.Visible = False
-
-                    If Dr("jenis_pembayaran") = "N" Then
-                        DtpPO_TglBayar.Value = Dr("tgl_jatuh_Tempo")
-                    End If
-
-                    CmbPO_JnsEkspedisi.Text = Dr("ekspedisi")
-                    TxtPO_Biaya.Text = Dr("biaya")
-                    'CmbPO_CaraBayar.Text = Dr("cara_bayar")
-
-                    CmbPO_JnsBayar.Text = Dr("jenis_pembayaran")
-
-                    For i As Integer = 0 To arrPembayaran.Count - 1
-
-                        If arrPembayaran.Item(i) = Dr("jenis_pembayaran") Then
-                            CmbPO_JnsBayar.SelectedIndex = i
-                            CmbPO_JnsBayar_SelectedIndexChanged(TxtPO_NoFaktur, e)
-                            txtJatuhTempo.Text = General_Class.CekNULL(Dr("lama_pembayaran"))
-                            Exit For
-                        End If
-
-                    Next
-
-                    If Dr("jenis_pembayaran") = "T" Then
-                        If General_Class.CekNULL(Dr("cara_bayar")) = "" Then
-                            CmbPO_CaraBayar.SelectedIndex = 0
-                        Else
-                            CmbPO_CaraBayar.Text = Dr("cara_bayar")
-                        End If
-
-                    End If
-
-                    For i As Integer = 0 To arrEkspedisi.Count - 1
-                        If arrEkspedisi.Item(i) = Dr("ekspedisi") Then
-                            CmbPO_JnsEkspedisi.SelectedIndex = i
-                            CmbPO_JnsEkspedisi_SelectedIndexChanged(TxtPO_NoFaktur, e)
-                        End If
-                    Next
-
-                    'CmbPO_CaraBayar.Text = Dr("cara_bayar")
-                    checkPPN = Dr("ppn")
-
-                    If General_Class.CekNULL(Dr("flag_release")) = "" Then
-                        checkFlagRelease = "T"
+                    If General_Class.CekNULL(Dr("etd_simulasi")) = "" Then
+                        DtpPO_ETD.Format = DateTimePickerFormat.Custom
+                        DtpPO_ETD.CustomFormat = " "
                     Else
-                        checkFlagRelease = "Y"
+                        'DtpPO_ETD.Format = DateTimePickerFormat.Custom
+
+                        'DtpPO_ETD.Value = Format(Dr("etd_simulasi"), "dd MMMM yyyy")
+                        DtpPO_ETD.Value = Dr("etd_simulasi")
+                        DtpPO_ETD.CustomFormat = "dd MMMM yyyy"
                     End If
 
-                    If Fstatus = "Y" Then
-                        If checkFlagRelease = "Y" Then
-                            disableSebagian()
-                        Else
-                            enableSebagian()
-                            TxtPO_KdSupplier.Enabled = False
-                            TxtPO_NmSupplier.Enabled = False
-                            Btn_Release.Enabled = True
-                            CmbPO_JnsEkspedisi.Enabled = False
 
-                            Btn_Release.Visible = True
-                            Btn_Release.Enabled = True
+                    If General_Class.CekNULL(Dr("eta_simulasi")) = "" Then
+                        DTPPO_ETA.Format = DateTimePickerFormat.Custom
+                        DTPPO_ETA.CustomFormat = " "
+                    Else
+                        'DtpPO_ETD.Format = DateTimePickerFormat.Custom
+                        'DTPPO_ETA.Value = Format(Dr("eta_simulasi"), "dd MMMM yyyy")
+                        DTPPO_ETA.Value = Dr("eta_simulasi")
+                        DTPPO_ETA.CustomFormat = "dd MMMM yyyy"
+                    End If
+
+
+                    TxtPO_NoNota.Text = Dr("no_nota")
+                        TxtPO_KdSupplier.Text = Dr("kode_supplier")
+                        TxtPO_NmSupplier.Text = Dr("nama")
+
+                        LvSupplier2.Items.Clear()
+                        LvSupplier2.Visible = False
+
+                        If Dr("jenis_pembayaran") = "N" Then
+                            DtpPO_TglBayar.Value = Dr("tgl_jatuh_Tempo")
                         End If
 
-                    ElseIf Fstatus = "T" Then
-                        disableSebagian()
-                    End If
-                Else
-                    Dr.Close()
+                        CmbPO_JnsEkspedisi.Text = Dr("ekspedisi")
+                        TxtPO_Biaya.Text = Dr("biaya")
+                        'CmbPO_CaraBayar.Text = Dr("cara_bayar")
+
+                        CmbPO_JnsBayar.Text = Dr("jenis_pembayaran")
+
+                        For i As Integer = 0 To arrPembayaran.Count - 1
+
+                            If arrPembayaran.Item(i) = Dr("jenis_pembayaran") Then
+                                CmbPO_JnsBayar.SelectedIndex = i
+                                CmbPO_JnsBayar_SelectedIndexChanged(TxtPO_NoFaktur, e)
+                                txtJatuhTempo.Text = General_Class.CekNULL(Dr("lama_pembayaran"))
+                                Exit For
+                            End If
+
+                        Next
+
+                        If Dr("jenis_pembayaran") = "T" Then
+                            If General_Class.CekNULL(Dr("cara_bayar")) = "" Then
+                                CmbPO_CaraBayar.SelectedIndex = 0
+                            Else
+                                CmbPO_CaraBayar.Text = Dr("cara_bayar")
+                            End If
+
+                        End If
+
+                        For i As Integer = 0 To arrEkspedisi.Count - 1
+                            If arrEkspedisi.Item(i) = Dr("ekspedisi") Then
+                                CmbPO_JnsEkspedisi.SelectedIndex = i
+                                CmbPO_JnsEkspedisi_SelectedIndexChanged(TxtPO_NoFaktur, e)
+                            End If
+                        Next
+
+                        'CmbPO_CaraBayar.Text = Dr("cara_bayar")
+                        checkPPN = Dr("ppn")
+
+                        If General_Class.CekNULL(Dr("flag_release")) = "" Then
+                            checkFlagRelease = "T"
+                        Else
+                            checkFlagRelease = "Y"
+                        End If
+
+                        If Fstatus = "Y" Then
+                            If checkFlagRelease = "Y" Then
+                                disableSebagian()
+                            Else
+                                enableSebagian()
+                                TxtPO_KdSupplier.Enabled = False
+                                TxtPO_NmSupplier.Enabled = False
+                                Btn_Release.Enabled = True
+                                CmbPO_JnsEkspedisi.Enabled = False
+
+                                Btn_Release.Visible = True
+                                Btn_Release.Enabled = True
+                            End If
+
+                        ElseIf Fstatus = "T" Then
+                            disableSebagian()
+                        End If
+                    Else
+                        Dr.Close()
                     get_no_faktur()
                     CloseConn()
 
@@ -2486,14 +2612,14 @@
     End Sub
 
     Private Sub CmbPO_Harga_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbPO_Harga.KeyPress
-        If e.KeyChar = Chr(13) Then cmb_pr.Focus()
-        If cmb_pr.Items.Count <> 0 Then
-            cmb_pr.DroppedDown = True
-        End If
+        If e.KeyChar = Chr(13) Then TxtPO_Jml.Focus()
     End Sub
 
     Private Sub cmb_pr_KeyPress(sender As Object, e As KeyPressEventArgs) Handles cmb_pr.KeyPress
-        If e.KeyChar = Chr(13) Then TxtPO_Jml.Focus()
+        If e.KeyChar = Chr(13) Then
+            CmbPO_Harga.DroppedDown = True
+            CmbPO_Harga.Focus()
+        End If
     End Sub
 
     Private Sub cmbJenisPengiriman_KeyPress(sender As Object, e As KeyPressEventArgs) Handles cmbJenisPengiriman.KeyPress
@@ -2508,6 +2634,24 @@
     Private Sub DtpPO_ETD_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DtpPO_ETD.KeyPress
         If e.KeyChar = Chr(13) Then TxtPO_NoNota.Focus()
     End Sub
+
+    Private Sub DtpPO_ETD_ValueChanged(sender As Object, e As EventArgs) Handles DtpPO_ETD.ValueChanged
+        DtpPO_ETD.Format = DateTimePickerFormat.Custom
+        DtpPO_ETD.CustomFormat = "dd MMMM yyyy"
+    End Sub
+
+    Private Sub DTPPO_ETA_ValueChanged(sender As Object, e As EventArgs) Handles DTPPO_ETA.ValueChanged
+        DTPPO_ETA.Format = DateTimePickerFormat.Custom
+        DTPPO_ETA.CustomFormat = "dd MMMM yyyy"
+    End Sub
+
+    Private Sub CmbPO_Harga_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbPO_Harga.SelectedIndexChanged
+        If CmbPO_Harga.SelectedIndex = -1 Then Exit Sub
+
+        'CmbPO_Satuan.DroppedDown = True
+        'CmbPO_Satuan.Focus()
+    End Sub
+
     Private Sub TxtPO_KdSupplier_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtPO_KdSupplier.KeyPress
         If e.KeyChar = Chr(13) Then CmbPO_MataUang.Focus()
     End Sub

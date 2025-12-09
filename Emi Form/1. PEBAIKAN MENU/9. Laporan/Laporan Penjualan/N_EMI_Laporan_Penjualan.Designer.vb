@@ -66,7 +66,7 @@ Partial Class N_EMI_Laporan_Penjualan
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(704, 45)
+        Me.Panel1.Size = New System.Drawing.Size(707, 45)
         Me.Panel1.TabIndex = 28
         '
         'PanelGradient1
@@ -79,17 +79,17 @@ Partial Class N_EMI_Laporan_Penjualan
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(704, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(707, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.Location = New System.Drawing.Point(20, 7)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(223, 30)
+        Me.Label1.Size = New System.Drawing.Size(225, 25)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Laporan - Penjualan"
         '
@@ -165,7 +165,7 @@ Partial Class N_EMI_Laporan_Penjualan
         Me.Cmb_Jenis_Laporan.FormattingEnabled = True
         Me.Cmb_Jenis_Laporan.Location = New System.Drawing.Point(105, 46)
         Me.Cmb_Jenis_Laporan.Name = "Cmb_Jenis_Laporan"
-        Me.Cmb_Jenis_Laporan.Size = New System.Drawing.Size(332, 24)
+        Me.Cmb_Jenis_Laporan.Size = New System.Drawing.Size(332, 21)
         Me.Cmb_Jenis_Laporan.TabIndex = 3
         '
         'Cmb_Tanggal
@@ -174,7 +174,7 @@ Partial Class N_EMI_Laporan_Penjualan
         Me.Cmb_Tanggal.FormattingEnabled = True
         Me.Cmb_Tanggal.Location = New System.Drawing.Point(105, 16)
         Me.Cmb_Tanggal.Name = "Cmb_Tanggal"
-        Me.Cmb_Tanggal.Size = New System.Drawing.Size(163, 24)
+        Me.Cmb_Tanggal.Size = New System.Drawing.Size(163, 21)
         Me.Cmb_Tanggal.TabIndex = 0
         '
         'Txt_KdBarang
@@ -201,10 +201,10 @@ Partial Class N_EMI_Laporan_Penjualan
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label6.Location = New System.Drawing.Point(8, 131)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(70, 17)
+        Me.Label6.Size = New System.Drawing.Size(66, 15)
         Me.Label6.TabIndex = 4
         Me.Label6.Text = "Customers"
         '
@@ -218,30 +218,30 @@ Partial Class N_EMI_Laporan_Penjualan
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label4.Location = New System.Drawing.Point(8, 105)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(46, 17)
+        Me.Label4.Size = New System.Drawing.Size(44, 15)
         Me.Label4.TabIndex = 4
         Me.Label4.Text = "No DO"
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label5.Location = New System.Drawing.Point(8, 157)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(44, 17)
+        Me.Label5.Size = New System.Drawing.Size(43, 15)
         Me.Label5.TabIndex = 4
         Me.Label5.Text = "Bahan"
         '
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label7.Location = New System.Drawing.Point(8, 79)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(84, 17)
+        Me.Label7.Size = New System.Drawing.Size(82, 15)
         Me.Label7.TabIndex = 4
         Me.Label7.Text = "No Penjualan"
         '
@@ -260,7 +260,7 @@ Partial Class N_EMI_Laporan_Penjualan
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(445, 21)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(25, 16)
+        Me.Label3.Size = New System.Drawing.Size(23, 13)
         Me.Label3.TabIndex = 2
         Me.Label3.Text = "s/d"
         '
@@ -292,10 +292,10 @@ Partial Class N_EMI_Laporan_Penjualan
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label8.Location = New System.Drawing.Point(8, 49)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(90, 17)
+        Me.Label8.Size = New System.Drawing.Size(85, 15)
         Me.Label8.TabIndex = 0
         Me.Label8.Text = "Jenis Laporan"
         '
@@ -310,10 +310,10 @@ Partial Class N_EMI_Laporan_Penjualan
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Label2.Location = New System.Drawing.Point(8, 23)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(52, 17)
+        Me.Label2.Size = New System.Drawing.Size(50, 15)
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "Periode"
         '
@@ -321,7 +321,7 @@ Partial Class N_EMI_Laporan_Penjualan
         '
         Me.BtnCetak.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnCetak.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnCetak.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnCetak.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnCetak.ForeColor = System.Drawing.Color.White
         Me.BtnCetak.Location = New System.Drawing.Point(507, 254)
         Me.BtnCetak.Name = "BtnCetak"
@@ -334,7 +334,7 @@ Partial Class N_EMI_Laporan_Penjualan
         '
         Me.BtnExit.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnExit.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnExit.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnExit.ForeColor = System.Drawing.Color.White
         Me.BtnExit.Location = New System.Drawing.Point(594, 254)
         Me.BtnExit.Name = "BtnExit"
@@ -401,10 +401,10 @@ Partial Class N_EMI_Laporan_Penjualan
         '
         'N_EMI_Laporan_Penjualan
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(704, 301)
+        Me.ClientSize = New System.Drawing.Size(707, 301)
         Me.Controls.Add(Me.Lv_Barang)
         Me.Controls.Add(Me.Lv_Customer)
         Me.Controls.Add(Me.Lv_DO)
@@ -417,7 +417,7 @@ Partial Class N_EMI_Laporan_Penjualan
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel1)
-        Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "N_EMI_Laporan_Penjualan"

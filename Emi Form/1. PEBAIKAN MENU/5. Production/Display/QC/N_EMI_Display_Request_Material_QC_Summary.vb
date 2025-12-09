@@ -1990,7 +1990,7 @@ Public Class N_EMI_Display_Request_Material_QC_Summary
                                 If Dr.Read Then
                                     Dr.Close()
                                     SQL = $"
-                                        update N_EMI_Transaksi_Material_Requisition_QC_Validasi set Status  = 'Y', Flag_Retur = 'Y',
+                                        update N_EMI_Transaksi_Material_Requisition_QC_Validasi set Flag_Retur = 'Y', Kode_Voucher_Retur = '{Kode_voucher}', 
 	                                        Tanggal_Batal = '{Format(tgl_skg, "yyyy-MM-dd")}', Jam_Batal = '{Format(tgl_skg, "HH:mm:ss")}', 
                                             User_Batal = '{UserID}', Sn_Regenerate = '{SN_Regenerate}'
                                         where Kode_Perusahaan = '{KodePerusahaan}'
