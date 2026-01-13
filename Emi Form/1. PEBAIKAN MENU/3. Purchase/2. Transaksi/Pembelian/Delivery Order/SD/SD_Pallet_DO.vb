@@ -31,10 +31,18 @@
     Dim itemDGVBarcode As Integer = 19
     Dim itemDGVFlagBlokSN As Integer = 20
 
+    Dim Default_Jumlah_Input_Scan As Integer = 1
+
+    Private Sub SD_Pallet_DO_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        My.Application.ChangeCulture("en-us")
+        My.Application.ChangeUICulture("en-us")
+    End Sub
+
     Private Sub SD_Pallet_DO_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
 
+        kosong()
     End Sub
 
     Private Sub get_grid_view(ByVal index As Integer)
@@ -83,11 +91,15 @@
         dataSementara.Clear()
         LoadDataPallet()
 
+        Lbl_Jumlah_Input_Scan.Text = Default_Jumlah_Input_Scan
+
+        Txt_QR.Focus()
+
     End Sub
 
     Private Sub LoadDataPallet()
         If Txt_KdBarang.Text.Trim.Length = 0 Or Txt_KdSO.Text.Trim.Length = 0 Then
-            MessageBox.Show("Barang Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show("Kode barang tidak ditumukan, harap pastikan pilih barang yang sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Me.Close()
         End If
 
@@ -103,7 +115,7 @@
             SQL = SQL & "(select top 1 satuan from Barang_Detail_Satuan where Kode_Perusahaan = a.Kode_Perusahaan and Kode_barang = a.Kode_Barang and Flag_Tampil_Display = 'Y'), "
             SQL = SQL & "sum(a.jumlah)) as jumlah_Besar, "
             SQL = SQL & "(select top 1 satuan from Barang_Detail_Satuan where Kode_Perusahaan = a.Kode_Perusahaan and Kode_barang = a.Kode_Barang and Flag_Tampil_Display = 'Y') as Satuan_Besar, "
-            SQL = SQL & "sum(a.Jumlah) as Jumlah, b.satuan as Satuan_Kecil, a.nomor_pallet, isNull(sum(a.Jumlah_Bags), 0) As stock_bags, a.warna, b.Metode_Pengeluaran_Stok, "
+            SQL = SQL & "sum(a.Jumlah) as Jumlah, b.satuan as Satuan_Kecil, 0 as nomor_pallet, isNull(sum(a.Jumlah_Bags), 0) As stock_bags, a.warna, b.Metode_Pengeluaran_Stok, "
             SQL = SQL & "b.Jenis_Kemasan, isnull(b.Isi_Per_Bags,0) as Isi_Per_Bags, b.Satuan_Isi_Bags, a.Tgl_Expired, a.Tgl_Produksi, "
             SQL = SQL & "isNull((select x.keterangan from emi_master_warna x "
             SQL = SQL & "where x.kode_Perusahaan = a.kode_Perusahaan And x.kode_warna = a.warna),NULL) As Ket_Warna, "
@@ -141,7 +153,7 @@
             SQL = SQL & "And b.Kode_Barang='" & Txt_KdBarang.Text & "' "
             SQL = SQL & "And a.Jumlah <> 0 "
             SQL = SQL & "group by a.kode_perusahaan, a.Kode_Stock_Owner, a.Kode_Barang, b.Nama, a.Id_Warehouse, c.Keterangan, a.Id_Nametag_pallet, "
-            SQL = SQL & "b.satuan, a.nomor_pallet, a.warna, b.Metode_Pengeluaran_Stok, b.Jenis_Kemasan, b.Isi_Per_Bags, b.Satuan_Isi_Bags, "
+            SQL = SQL & "b.satuan, a.warna, b.Metode_Pengeluaran_Stok, b.Jenis_Kemasan, b.Isi_Per_Bags, b.Satuan_Isi_Bags, "
             SQL = SQL & "a.Tgl_Expired, a.Tgl_Produksi, (a.Qr_Code + '-' + a.Kode_Unik_Berjalan), a.blok_sn, a.tgl_masuk  "
             SQL = SQL & "order by case "
             SQL = SQL & "when Metode_Pengeluaran_Stok='FIFO' then a.Tgl_Masuk "
@@ -215,9 +227,17 @@
                                 If Dr.Read Then
                                     DGV_Data_Pallet.Rows(rows).Cells(itemDgvJumlah).Value = Format(If(General_Class.CekNULL(Dr("Jumlah")) = "", 0, Dr("Jumlah")), "N2")
                                     DGV_Data_Pallet.Rows(rows).Cells(itemDgvBags).Value = Format(If(General_Class.CekNULL(Dr("Bags")) = "", 0, Dr("Bags")), "N2")
+                                    If Val(HilangkanTanda(General_Class.CekNULL(Dr("Jumlah")))) <> 0 Then
+                                        DGV_Data_Pallet.Rows(rows).DefaultCellStyle.BackColor = Color.LightGreen
+                                    Else
+                                        DGV_Data_Pallet.Rows(rows).DefaultCellStyle.BackColor = Color.White
+                                    End If
+
+
                                 Else
                                     DGV_Data_Pallet.Rows(rows).Cells(itemDgvJumlah).Value = 0
                                     DGV_Data_Pallet.Rows(rows).Cells(itemDgvBags).Value = 0
+                                    DGV_Data_Pallet.Rows(rows).DefaultCellStyle.BackColor = Color.White
                                 End If
                             End Using
 
@@ -252,7 +272,12 @@
         If currentCell = itemDgvJumlah Or currentCell = itemDgvBags Then
             Dim cellValue As Object = HilangkanTanda(DGV_Data_Pallet.Rows(currentRow).Cells(currentCell).Value)
 
-            DGV_Data_Pallet.Rows(currentRow).DefaultCellStyle.BackColor = Color.White
+            If HilangkanTanda(DGV_Data_Pallet.Rows(currentRow).Cells(itemDgvJumlah).Value) <> 0 Then
+                DGV_Data_Pallet.Rows(currentRow).DefaultCellStyle.BackColor = Color.LightGreen
+            Else
+                DGV_Data_Pallet.Rows(currentRow).DefaultCellStyle.BackColor = Color.White
+            End If
+
             Dim cellKuantity As String = HilangkanTanda(DGV_Data_Pallet.CurrentCell.Value)
 
             If cellKuantity = "" Then
@@ -270,117 +295,124 @@
     Private Sub DGV_Data_Pallet_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Data_Pallet.CellEndEdit
         If DGV_Data_Pallet.Rows.Count = 0 Then Exit Sub
 
-        Dim indexRow As Integer = DGV_Data_Pallet.CurrentRow.Index
+        ProsesCellEndEdit(e.RowIndex, e.ColumnIndex, False)
 
-        Dim currentColumn As Integer = DGV_Data_Pallet.CurrentCell.ColumnIndex
-        Dim currentRow As Integer = DGV_Data_Pallet.CurrentRow.Index
-        Dim cellValue As Object = DGV_Data_Pallet.CurrentRow.Cells(currentColumn).Value
+#Region "Kode Lama"
 
-        Dim TempArray As New ArrayList
+        'Dim indexRow As Integer = DGV_Data_Pallet.CurrentRow.Index
 
-        TempArray.Clear()
-        For i As Integer = 0 To DGV_Data_Pallet.Columns.Count - 1
+        'Dim currentColumn As Integer = DGV_Data_Pallet.CurrentCell.ColumnIndex
+        'Dim currentRow As Integer = DGV_Data_Pallet.CurrentRow.Index
+        'Dim cellValue As Object = DGV_Data_Pallet.CurrentRow.Cells(currentColumn).Value
 
-            If i <> Val(itemDgvJumlah) AndAlso i <> Val(itemDgvBags) AndAlso i <> Val(itemDGVTglExp) AndAlso i <> Val(itemDGVFlagBlokSN) Then
-                TempArray.Add(DGV_Data_Pallet.Rows(indexRow).Cells(i).Value)
-            End If
+        'Dim TempArray As New ArrayList
 
-        Next
-        If TempArray.Contains("") Then
-            MessageBox.Show("Terdapat Data Pada Barang yang Belum Lengkap")
-            DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = ""
-            DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = ""
-            Exit Sub
-        End If
+        'TempArray.Clear()
+        'For i As Integer = 0 To DGV_Data_Pallet.Columns.Count - 1
 
-        If DGV_Data_Pallet.CurrentRow.Cells(itemDgvWarna).Value.ToString.ToUpper <> "HIJAU" Then
-            DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = ""
-            DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = ""
-            MessageBox.Show("Data Tidak bisa di kirim . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Exit Sub
-        End If
+        '    If i <> Val(itemDgvJumlah) AndAlso i <> Val(itemDgvBags) AndAlso i <> Val(itemDGVTglExp) AndAlso i <> Val(itemDGVFlagBlokSN) Then
+        '        TempArray.Add(DGV_Data_Pallet.Rows(indexRow).Cells(i).Value)
+        '    End If
 
-        If currentColumn = itemDgvBags OrElse currentColumn = itemDgvJumlah Then
-            If Not IsNumeric(cellValue) Then
-                DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = ""
-                DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = ""
-                Exit Sub
-            End If
-        End If
+        'Next
+        'If TempArray.Contains("") Then
+        '    DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = ""
+        '    DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = ""
+        '    Exit Sub
+        'End If
 
-        If DGV_Data_Pallet.CurrentRow.Cells(itemJenisKemasan).Value.ToString.ToUpper = "ORIGINAL BAGS" Then
-            DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).ReadOnly = True
+        'If DGV_Data_Pallet.CurrentRow.Cells(itemDgvWarna).Value.ToString.ToUpper <> "HIJAU" Then
+        '    DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = ""
+        '    DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = ""
+        '    MessageBox.Show("Data Tidak bisa di kirim . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '    Exit Sub
+        'End If
 
-            If Not DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = "" Then
+        'If currentColumn = itemDgvBags OrElse currentColumn = itemDgvJumlah Then
+        '    If Not IsNumeric(cellValue) Then
+        '        DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = ""
+        '        DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = ""
+        '        Exit Sub
+        '    End If
+        'End If
 
-                Dim stockBags As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvStockBags).Value))
-                Dim jumlahInputBags As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value))
-                Dim isiPerbags As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDGVIsiPerBags).Value))
-                Dim jumlahStock As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvGoodStock).Value))
+        'If DGV_Data_Pallet.CurrentRow.Cells(itemJenisKemasan).Value.ToString.ToUpper = "ORIGINAL BAGS" Then
+        '    DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).ReadOnly = True
 
-                'cek apakah input melebihi
-                If jumlahInputBags > stockBags Then
-                    MessageBox.Show("Bags Tidak Boleh Melebihi Stock Bags", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = ""
-                    DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = ""
-                    Exit Sub
-                End If
+        '    If Not DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = "" Then
 
-                Dim valueJumlah As Double = isiPerbags * jumlahInputBags
+        '        Dim stockBags As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvStockBags).Value))
+        '        Dim jumlahInputBags As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value))
+        '        Dim isiPerbags As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDGVIsiPerBags).Value))
+        '        Dim jumlahStock As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvGoodStock).Value))
 
-                DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = Format(valueJumlah, "N2")
-                If valueJumlah > jumlahStock Then
-                    DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = Format(jumlahStock, "N2")
-                    'DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = Math.Floor(jumlahStock / isiPerbags)
-                Else
-                    DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = Format(valueJumlah, "N2")
-                End If
+        '        'cek apakah input melebihi
+        '        If jumlahInputBags > stockBags Then
+        '            MessageBox.Show("Bags Tidak Boleh Melebihi Stock Bags", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '            DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = ""
+        '            DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = ""
+        '            Exit Sub
+        '        End If
 
-            End If
-        Else
-            DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).ReadOnly = False
+        '        Dim valueJumlah As Double = isiPerbags * jumlahInputBags
 
-            Dim jumlahStock As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvGoodStock).Value))
-            Dim jumlahInput As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value))
-            Dim stockBags As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvStockBags).Value))
-            Dim jumlahInputBags As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value))
+        '        DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = Format(valueJumlah, "N2")
+        '        If valueJumlah > jumlahStock Then
+        '            DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = Format(jumlahStock, "N2")
+        '            'DGV_Data_TF.CurrentRow.Cells(itemDgvBags).Value = Math.Floor(jumlahStock / isiPerbags)
+        '        Else
+        '            DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = Format(valueJumlah, "N2")
+        '        End If
 
-            If jumlahInput > jumlahStock Then
-                MessageBox.Show("Jumlah Tidak Boleh Melebihi Stock ", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = ""
-                DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = ""
-                Exit Sub
-            End If
+        '    End If
+        'Else
+        '    DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).ReadOnly = False
 
-            'cek apakah input melebihi
-            If jumlahInputBags > stockBags Then
-                MessageBox.Show("Bags Tidak Boleh Melebihi Stock Bags", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = ""
-                Exit Sub
-            End If
+        '    Dim jumlahStock As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvGoodStock).Value))
+        '    Dim jumlahInput As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value))
+        '    Dim stockBags As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvStockBags).Value))
+        '    Dim jumlahInputBags As Double = Val(HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value))
 
-        End If
+        '    If jumlahInput > jumlahStock Then
+        '        MessageBox.Show("Jumlah Tidak Boleh Melebihi Stock ", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = ""
+        '        DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = ""
+        '        Exit Sub
+        '    End If
 
-        DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).ReadOnly = False
+        '    'cek apakah input melebihi
+        '    If jumlahInputBags > stockBags Then
+        '        MessageBox.Show("Bags Tidak Boleh Melebihi Stock Bags", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = ""
+        '        Exit Sub
+        '    End If
 
-        If currentColumn = itemDgvBags OrElse currentColumn = itemDgvJumlah Then
+        'End If
 
-            Dim jumlahValue As Object = HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value)
-            If jumlahValue IsNot Nothing AndAlso IsNumeric(jumlahValue) Then
-                DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = Convert.ToDecimal(jumlahValue).ToString("N2")
-            Else
-                DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = ""
-            End If
+        'DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).ReadOnly = False
 
-            Dim bagsValue As Object = HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value)
-            If bagsValue IsNot Nothing AndAlso IsNumeric(bagsValue) Then
-                DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = Convert.ToDecimal(bagsValue).ToString("N2")
-            Else
-                DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = ""
-            End If
-        End If
+        'If currentColumn = itemDgvBags OrElse currentColumn = itemDgvJumlah Then
 
-        HitungGrand()
+        '    Dim jumlahValue As Object = HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value)
+        '    If jumlahValue IsNot Nothing AndAlso IsNumeric(jumlahValue) Then
+        '        DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = Convert.ToDecimal(jumlahValue).ToString("N2")
+        '    Else
+        '        DGV_Data_Pallet.CurrentRow.Cells(itemDgvJumlah).Value = ""
+        '    End If
+
+        '    Dim bagsValue As Object = HilangkanTanda(DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value)
+        '    If bagsValue IsNot Nothing AndAlso IsNumeric(bagsValue) Then
+        '        DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = Convert.ToDecimal(bagsValue).ToString("N2")
+        '    Else
+        '        DGV_Data_Pallet.CurrentRow.Cells(itemDgvBags).Value = ""
+        '    End If
+        'End If
+
+        'HitungGrand()
+
+#End Region
+
+
     End Sub
 
     Private Sub DGV_Data_Pallet_CellLeave(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Data_Pallet.CellLeave
@@ -428,16 +460,51 @@
 
                 If targetIndex < DGV_Data_Pallet.Rows.Count Then
                     DGV_Data_Pallet.FirstDisplayedScrollingRowIndex = targetIndex
+
+
+                    Dim JmlhInputScan As Double = Val(HilangkanTanda(Lbl_Jumlah_Input_Scan.Text.Trim))
+                    Dim HslInputScan As Double = Val(HilangkanTanda(DGV_Data_Pallet.Rows(i).Cells(itemDgvBags).Value)) + JmlhInputScan
+                    DGV_Data_Pallet.Rows(i).Cells(itemDgvBags).Value = Convert.ToDecimal(HslInputScan).ToString("N2")
+
+
+                    ProsesCellEndEdit(i, itemDgvBags, True)
+                    Lbl_Jumlah_Input_Scan.Text = Default_Jumlah_Input_Scan
+                    Txt_QR.Focus()
+
+#Region "Kode jika 1 dianggap jumlah default"
+
+                    'If Lbl_Jumlah_Input_Scan.Text.Trim <> Default_Jumlah_Input_Scan Then
+                    '    'DGV_Data_Pallet.Rows(i).Cells(itemDgvBags).Value = Convert.ToDecimal(Lbl_Jumlah_Input_Scan.Text.Trim).ToString("N2")
+
+                    '    Dim JmlhInputScan As Double = Val(HilangkanTanda(Lbl_Jumlah_Input_Scan.Text.Trim))
+                    '    Dim HslInputScan As Double = Val(HilangkanTanda(DGV_Data_Pallet.Rows(i).Cells(itemDgvBags).Value)) + JmlhInputScan
+                    '    DGV_Data_Pallet.Rows(i).Cells(itemDgvBags).Value = Convert.ToDecimal(HslInputScan).ToString("N2")
+
+
+                    '    ProsesCellEndEdit(i, itemDgvBags)
+                    '    Lbl_Jumlah_Input_Scan.Text = Default_Jumlah_Input_Scan
+                    '    Txt_QR.Focus()
+                    'Else
+                    '    With DGV_Data_Pallet
+                    '        .ClearSelection()
+                    '        .CurrentCell = .Rows(i).Cells(itemDgvBags)
+                    '        .Focus()
+                    '    End With
+                    'End If
+#End Region
+
+
+                    Exit Sub
                 Else
-                    MessageBox.Show("Jumlah data melebihi data yang tersedia!", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    MessageBox.Show("Posisi barcode melebihi total data barcode yang tampil", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Exit Sub
                 End If
 
-                Exit Sub
             End If
 
         Next
 
-        MessageBox.Show("Barcode Tidak Ditemukan", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        MessageBox.Show($"Barcode {Txt_QR.Text.Trim.Length} tidak ditemukan pada list barcode", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Exit Sub
     End Sub
 
@@ -445,14 +512,14 @@
         If DGV_Data_Pallet.Rows.Count = 0 Then Exit Sub
 
         Dim total As Double = 0
-        Dim totalBags As Double = 0
+        'Dim totalBags As Double = 0
 
         For i As Integer = 0 To DGV_Data_Pallet.Rows.Count - 1
             get_grid_view(i)
 
 
             total = total + Val(HilangkanTanda(If(dgv_Jumlah = "", 0, dgv_Jumlah)))
-            totalBags = totalBags + Val(HilangkanTanda(If(dgv_JmlhBags = "", 0, dgv_JmlhBags)))
+            'totalBags = totalBags + Val(HilangkanTanda(If(dgv_JmlhBags = "", 0, dgv_JmlhBags)))
 
         Next
 
@@ -464,36 +531,55 @@
 
         Txt_Total.Text = ""
         Txt_QR.Text = ""
+        Lbl_Jumlah_Input_Scan.Text = Default_Jumlah_Input_Scan
 
         dataSementara.Clear()
         LoadDataPallet()
         HitungGrand()
     End Sub
 
-    Private Sub Btn_Cari_Click(sender As Object, e As EventArgs) Handles Btn_Cari.Click
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        If MessageBox.Show("Yakin Ingin Mengosongkan Jumlah pada Semua Barcode Ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) = vbNo Then Exit Sub
+
+        Lbl_Jumlah_Input_Scan.Text = Default_Jumlah_Input_Scan
+
+        For i As Integer = 0 To DGV_Data_Pallet.Rows.Count - 1
+            DGV_Data_Pallet.Rows(i).Cells(itemDgvBags).Value = Convert.ToDecimal(0).ToString("N2")
+            ProsesCellEndEdit(i, itemDgvBags, True)
+        Next
+
+
+    End Sub
+
+    Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
 
         If DGV_Data_Pallet.Rows.Count = 0 Then Exit Sub
 
         Dim hasData As Boolean = False
         For i As Integer = 0 To DGV_Data_Pallet.Rows.Count - 1
-            If Not DGV_Data_Pallet.Rows(i).Cells(itemDgvJumlah).Value = "" Or Not DGV_Data_Pallet.Rows(i).Cells(itemDgvBags).Value = "" Then
+            If Not DGV_Data_Pallet.Rows(i).Cells(itemDgvJumlah).Value = 0 OrElse Not DGV_Data_Pallet.Rows(i).Cells(itemDgvBags).Value = 0 Then
                 hasData = True
                 Exit For
             End If
         Next
 
         If Not hasData Then
-            MessageBox.Show("Tidak Ada Data yang Akan Disimpan", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Exit Sub
+            If MessageBox.Show(
+                $"Tidak ada data yang akan disimpan.{vbCrLf}{vbCrLf}" &
+                "Apakah Anda ingin tetap melanjutkan proses ini?",
+                JudulForm,
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            ) = DialogResult.No Then Exit Sub
         End If
 
         If Txt_NoPenjualan.Text.Trim.Length = 0 Then
-            MessageBox.Show("Penjualan Tidak Ditemukan", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show("Nomor Penjualan Tidak Ditemukan, harap pastikan memastikan nomor penjualan dipilih", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         End If
 
         If Val(HilangkanTanda(Txt_Total.Text)) > Val(HilangkanTanda(Txt_Sisa.Text)) Then
-            MessageBox.Show("Total Tidak Boleh Lebih Besar dari Sisa", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show("Total input tidak boleh lebih besar dari sisa kebutuhan", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             DGV_Data_Pallet.Focus()
             Exit Sub
         End If
@@ -501,44 +587,19 @@
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
 
-            Dim isUpdate As String = ""
 
-            '==========================================
-            '=     CEK APAKAH SEMENTARA SUDAH ADA     =
-            '==========================================
-            dataSementara.Clear()
-            SQL = "select No_FakturPenjualan, Serial_Number, Kd_So, Kd_Barang from Emi_DO_Pallet_Sementara "
-            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_FakturPenjualan = '" & Txt_NoPenjualan.Text & "' and userid = '" & UserID & "'"
-            Using Ds = BindingTrans(SQL)
-                With Ds.Tables("MyTable")
-                    If .Rows.Count <> 0 Then
-                        isUpdate = "Y"
-                        For i As Integer = 0 To .Rows.Count - 1
-
-                            Dim isiList As New Dictionary(Of String, Object)
-                            isiList("KdSo") = .Rows(i).Item("Kd_So")
-                            isiList("KdBarang") = .Rows(i).Item("Kd_Barang")
-                            isiList("Serial_Number") = .Rows(i).Item("Serial_Number")
-
-                            dataSementara.Add(isiList)
-
-                        Next
-                    Else
-                        isUpdate = "T"
-                    End If
-                End With
-            End Using
-
-            If isUpdate = "" Then
-                CloseTrans()
-                CloseConn()
-                MessageBox.Show("Terjadi Kesalahan pada Form", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Exit Sub
-            End If
+            '============================
+            '=     DELETE DATA TEMP     =
+            '============================
+            SQL = "delete Emi_DO_Pallet_Sementara where Kode_Perusahaan = '" & KodePerusahaan & "' and No_FakturPenjualan = '" & Txt_NoPenjualan.Text & "' and Kd_Barang = '" & Txt_KdBarang.Text.Trim & "' "
+            ExecuteTrans(SQL)
 
             For i As Integer = 0 To DGV_Data_Pallet.Rows.Count - 1
-
                 get_grid_view(i)
+
+                If Val(HilangkanTanda(dgv_Jumlah)) = 0 Then
+                    Continue For
+                End If
 
                 Dim sisaPotong As Double = 0
                 Dim JumlahDipotong As Double = 0
@@ -560,7 +621,7 @@
                                 ElseIf sisaPotong < 0 Then
                                     CloseTrans()
                                     CloseConn()
-                                    MessageBox.Show("Terdapat Kesalahan saat Potong Barang Produksi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    MessageBox.Show($"Terdapat Kesalahan saat Potong Barang Produksi, Harap hubungi tim IT", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     Exit Sub
                                 End If
 
@@ -588,52 +649,158 @@
                                 Else
                                     CloseTrans()
                                     CloseConn()
-                                    MessageBox.Show("Terjadi Kesalaham pada Barang SN untuk Kode Barang !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    MessageBox.Show("Terjadi Kesalahan pada Barang SN, Harap hubungi tim IT!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     Exit Sub
                                 End If
 
-                                Dim hasFoundData As Boolean = False
-                                Dim asdada = dataSementara.Count
-                                For j As Integer = 0 To dataSementara.Count - 1
-                                    Dim Data As Dictionary(Of String, Object) = dataSementara(j)
-
-                                    If dgv_Lokasi = Data("KdSo") And dgv_KodeBarang = Data("KdBarang") And Data_SN = Data("Serial_Number") Then
-
-                                        isUpdate = "Y"
-                                        hasFoundData = True
-                                        SQL = "update Emi_DO_Pallet_Sementara set Jumlah = '" & HilangkanTanda(dgv_Jumlah) & "', bags = '" & HilangkanTanda(dgv_JmlhBags) & "' "
-                                        SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_FakturPenjualan = '" & Txt_NoPenjualan.Text & "' "
-                                        SQL = SQL & "and Kd_SO = '" & dgv_Lokasi & "' and Kd_Barang = '" & dgv_KodeBarang & "' and Serial_Number = '" & Data_SN & "' and userid = '" & UserID & "'"
-                                        ExecuteTrans(SQL)
-
-                                    End If
-
-                                Next
-
-                                If isUpdate = "T" Or (isUpdate = "Y" And hasFoundData = False) Then
-
-                                    SQL = "insert into Emi_DO_Pallet_Sementara (Kode_Perusahaan, No_FakturPenjualan, Kd_SO, Kd_Barang, Serial_Number, Jumlah, Bags, UserId) "
-                                    SQL = SQL & "values ('" & KodePerusahaan & "', '" & Txt_NoPenjualan.Text & "', '" & dgv_Lokasi & "', '" & dgv_KodeBarang & "',  "
-                                    SQL = SQL & "'" & Data_SN & "', '" & HilangkanTanda(dgv_Jumlah) & "', '" & HilangkanTanda(dgv_JmlhBags) & "', '" & UserID & "')"
-                                    ExecuteTrans(SQL)
-
-                                End If
+                                SQL = "insert into Emi_DO_Pallet_Sementara (Kode_Perusahaan, No_FakturPenjualan, Kd_SO, Kd_Barang, Serial_Number, Jumlah, Bags, UserId) "
+                                SQL = SQL & "values ('" & KodePerusahaan & "', '" & Txt_NoPenjualan.Text & "', '" & dgv_Lokasi & "', '" & dgv_KodeBarang & "',  "
+                                SQL = SQL & "'" & Data_SN & "', '" & JumlahInsert & "', '" & JumlahInsert & "', '" & UserID & "')"
+                                ExecuteTrans(SQL)
 
                             Next
                         Else
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Terjadi Kesalahan Pada Barang !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            MessageBox.Show("Data barang terhadap barcode tidak ditemukan di sistem, Harap hubungi tim IT", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
                     End With
                 End Using
-
-
-
-
             Next
 
+#Region "Kode Lama 18-12-25"
+
+            'Dim isUpdate As String = ""
+
+            ''==========================================
+            ''=     CEK APAKAH SEMENTARA SUDAH ADA     =
+            ''==========================================
+            'dataSementara.Clear()
+            'SQL = "select No_FakturPenjualan, Serial_Number, Kd_So, Kd_Barang from Emi_DO_Pallet_Sementara "
+            'SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_FakturPenjualan = '" & Txt_NoPenjualan.Text & "' and userid = '" & UserID & "'"
+            'Using Ds = BindingTrans(SQL)
+            '    With Ds.Tables("MyTable")
+            '        If .Rows.Count <> 0 Then
+            '            isUpdate = "Y"
+            '            For i As Integer = 0 To .Rows.Count - 1
+
+            '                Dim isiList As New Dictionary(Of String, Object)
+            '                isiList("KdSo") = .Rows(i).Item("Kd_So")
+            '                isiList("KdBarang") = .Rows(i).Item("Kd_Barang")
+            '                isiList("Serial_Number") = .Rows(i).Item("Serial_Number")
+
+            '                dataSementara.Add(isiList)
+
+            '            Next
+            '        Else
+            '            isUpdate = "T"
+            '        End If
+            '    End With
+            'End Using
+
+            'If isUpdate = "" Then
+            '    CloseTrans()
+            '    CloseConn()
+            '    MessageBox.Show("Terjadi Kesalahan pada Form", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '    Exit Sub
+            'End If
+
+            'For i As Integer = 0 To DGV_Data_Pallet.Rows.Count - 1
+
+            '    get_grid_view(i)
+
+            '    Dim sisaPotong As Double = 0
+            '    Dim JumlahDipotong As Double = 0
+            '    SQL = "select a.Jumlah as Stock_SN, a.serial_number "
+            '    SQL = SQL & "from Barang_SN a where "
+            '    SQL = SQL & "a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            '    SQL = SQL & "and a.qr_Code+'-'+a.kode_unik_berjalan = '" & dgv_Barcode & "' "
+            '    SQL = SQL & "and a.Kode_stock_owner = '" & dgv_Lokasi & "' and a.jumlah<>0 "
+            '    SQL = SQL & "order by a.Tgl_Expired "
+            '    Using Ds = BindingTrans(SQL)
+            '        With Ds.Tables("MyTable")
+            '            If .Rows.Count <> 0 Then
+
+            '                sisaPotong = Val(HilangkanTanda(dgv_Jumlah))
+
+            '                For Index As Integer = 0 To .Rows.Count - 1
+            '                    If sisaPotong = 0 Then
+            '                        Exit For
+            '                    ElseIf sisaPotong < 0 Then
+            '                        CloseTrans()
+            '                        CloseConn()
+            '                        MessageBox.Show("Terdapat Kesalahan saat Potong Barang Produksi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '                        Exit Sub
+            '                    End If
+
+            '                    Dim JumlahInsert As Double = 0
+            '                    Dim Satuan As String = ""
+
+            '                    Dim Data_SN As String = .Rows(Index).Item("serial_number")
+
+            '                    If sisaPotong < Val(HilangkanTanda(.Rows(Index).Item("Stock_SN"))) Or sisaPotong = Val(HilangkanTanda(.Rows(Index).Item("Stock_SN"))) Then
+
+            '                        JumlahInsert = sisaPotong
+            '                        ' Satuan = .Rows(Index).Item("Satuan").ToString.Trim
+
+
+            '                        JumlahDipotong += sisaPotong
+            '                        sisaPotong = 0
+
+            '                    ElseIf sisaPotong > Val(HilangkanTanda(.Rows(Index).Item("Stock_SN"))) Then
+
+            '                        JumlahInsert = Val(HilangkanTanda(Format(.Rows(Index).Item("Stock_SN"), "N4")))
+            '                        'Satuan = .Rows(Index).Item("Satuan").ToString.Trim
+
+            '                        JumlahDipotong += Val(HilangkanTanda(Format(.Rows(Index).Item("Stock_SN"), "N4")))
+            '                        sisaPotong = sisaPotong - Val(HilangkanTanda(Format(.Rows(Index).Item("Stock_SN"), "N4")))
+            '                    Else
+            '                        CloseTrans()
+            '                        CloseConn()
+            '                        MessageBox.Show("Terjadi Kesalaham pada Barang SN untuk Kode Barang !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '                        Exit Sub
+            '                    End If
+
+            '                    Dim hasFoundData As Boolean = False
+            '                    Dim asdada = dataSementara.Count
+            '                    For j As Integer = 0 To dataSementara.Count - 1
+            '                        Dim Data As Dictionary(Of String, Object) = dataSementara(j)
+
+            '                        If dgv_Lokasi = Data("KdSo") And dgv_KodeBarang = Data("KdBarang") And Data_SN = Data("Serial_Number") Then
+
+            '                            isUpdate = "Y"
+            '                            hasFoundData = True
+            '                            SQL = "update Emi_DO_Pallet_Sementara set Jumlah = '" & JumlahInsert & "', bags = '" & JumlahInsert & "' "
+            '                            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_FakturPenjualan = '" & Txt_NoPenjualan.Text & "' "
+            '                            SQL = SQL & "and Kd_SO = '" & dgv_Lokasi & "' and Kd_Barang = '" & dgv_KodeBarang & "' and Serial_Number = '" & Data_SN & "' and userid = '" & UserID & "'"
+            '                            ExecuteTrans(SQL)
+
+            '                        End If
+
+            '                    Next
+
+            '                    If isUpdate = "T" Or (isUpdate = "Y" And hasFoundData = False) Then
+
+            '                        SQL = "insert into Emi_DO_Pallet_Sementara (Kode_Perusahaan, No_FakturPenjualan, Kd_SO, Kd_Barang, Serial_Number, Jumlah, Bags, UserId) "
+            '                        SQL = SQL & "values ('" & KodePerusahaan & "', '" & Txt_NoPenjualan.Text & "', '" & dgv_Lokasi & "', '" & dgv_KodeBarang & "',  "
+            '                        SQL = SQL & "'" & Data_SN & "', '" & JumlahInsert & "', '" & JumlahInsert & "', '" & UserID & "')"
+            '                        ExecuteTrans(SQL)
+
+            '                    End If
+
+            '                Next
+            '            Else
+            '                CloseTrans()
+            '                CloseConn()
+            '                MessageBox.Show("Terjadi Kesalahan Pada Barang !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '                Exit Sub
+            '            End If
+            '        End With
+            '    End Using
+            'Next
+
+#End Region
 
             Cmd.Transaction.Commit()
             CloseTrans()
@@ -645,6 +812,8 @@
             Exit Sub
         End Try
 
+        Lbl_Jumlah_Input_Scan.Text = Default_Jumlah_Input_Scan
+
         MessageBox.Show("Data Berhasil Disimpan", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Information)
         DO_Reseller_New.GetJumlahKirim(Txt_KdSO.Text, Txt_KdBarang.Text)
         Me.Close()
@@ -652,7 +821,189 @@
     End Sub
 
 
+    Private Sub ProsesCellEndEdit(rowIndex As Integer, columnIndex As Integer, isScan As Boolean)
+        If DGV_Data_Pallet.Rows.Count = 0 Then Exit Sub
+        If DGV_Data_Pallet.Rows(rowIndex) Is Nothing Then Exit Sub
 
+        Dim indexRow As Integer = DGV_Data_Pallet.Rows(rowIndex).Index
+
+        Dim currentColumn As Integer = DGV_Data_Pallet.CurrentCell.ColumnIndex
+        'Dim rows(rowIndex) As Integer = DGV_Data_Pallet.rows(rowIndex).Index
+        Dim cellValue As Object = DGV_Data_Pallet.Rows(rowIndex).Cells(currentColumn).Value
+
+
+        '====================================================================
+        '=     CEK APAKAH JML KIRIM DAN HRG MUAT ADALAH "" ATAU NOTHING     =
+        '====================================================================
+        For Each colIndexx As Integer In {10, 11}
+            With DGV_Data_Pallet.Rows(rowIndex).Cells(colIndexx)
+                If .Value Is Nothing OrElse String.IsNullOrWhiteSpace(.Value.ToString()) OrElse IsDBNull(.Value) Then
+                    .Value = Convert.ToDecimal(0).ToString("N2")
+                End If
+            End With
+        Next
+
+
+        Dim TempArray As New ArrayList
+        TempArray.Clear()
+
+        For i As Integer = 0 To DGV_Data_Pallet.Columns.Count - 1
+
+            If i <> Val(itemDgvJumlah) AndAlso i <> Val(itemDgvBags) AndAlso i <> Val(itemDGVTglExp) AndAlso i <> Val(itemDGVFlagBlokSN) Then
+                TempArray.Add(DGV_Data_Pallet.Rows(indexRow).Cells(i).Value)
+            End If
+
+        Next
+        If TempArray.Contains("") Then
+            DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value = Convert.ToDecimal(0).ToString("N2")
+            DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).Value = Convert.ToDecimal(0).ToString("N2")
+            Exit Sub
+        End If
+
+        If DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvWarna).Value.ToString.ToUpper <> "HIJAU" Then
+            DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value = Convert.ToDecimal(0).ToString("N2")
+            DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).Value = Convert.ToDecimal(0).ToString("N2")
+            MessageBox.Show($"Data Tidak bisa di kirim . . ! !. {vbCrLf} Kualitas barang tidak valid", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        If currentColumn = itemDgvBags OrElse currentColumn = itemDgvJumlah Then
+            If Not IsNumeric(cellValue) Then
+                DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).Value = Convert.ToDecimal(0).ToString("N2")
+                DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value = Convert.ToDecimal(0).ToString("N2")
+                Exit Sub
+            End If
+        End If
+
+        Dim jumlahInputBags As Double = Val(HilangkanTanda(DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).Value))
+
+        DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value = Convert.ToDecimal(jumlahInputBags).ToString("N2")
+
+        DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).ReadOnly = True
+        DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).ReadOnly = False
+
+#Region "Kode Lama"
+
+        'If DGV_Data_Pallet.Rows(rowIndex).Cells(itemJenisKemasan).Value.ToString.ToUpper = "ORIGINAL BAGS" Then
+
+        '    Dim asda = DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).Value
+        '    If Not DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).Value = 0 Then
+
+        '        Dim stockBags As Double = Val(HilangkanTanda(DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvStockBags).Value))
+        '        Dim jumlahInputBags As Double = Val(HilangkanTanda(DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).Value))
+        '        Dim isiPerbags As Double = Val(HilangkanTanda(DGV_Data_Pallet.Rows(rowIndex).Cells(itemDGVIsiPerBags).Value))
+        '        Dim jumlahStock As Double = Val(HilangkanTanda(DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvGoodStock).Value))
+
+
+
+
+        '        ''cek apakah input melebihi
+        '        'If jumlahInputBags > stockBags Then
+        '        '    MessageBox.Show("Bags Tidak Boleh Melebihi Stock Bags", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        '    DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value = Convert.ToDecimal(0).ToString("N2")
+        '        '    DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).Value = Convert.ToDecimal(0).ToString("N2")
+        '        '    Exit Sub
+        '        'End If
+
+        '        'Dim valueJumlah As Double = isiPerbags * jumlahInputBags
+        '        DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value = Format(jumlahInputBags, "N2")
+
+
+        '        'If valueJumlah > jumlahStock Then
+        '        '    DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value = Format(jumlahStock, "N2")
+        '        '    'DGV_Data_TF.rows(rowIndex).Cells(itemDgvBags).Value = Math.Floor(jumlahStock / isiPerbags)
+        '        'Else
+        '        '    DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value = Format(valueJumlah, "N2")
+        '        'End If
+
+        '    Else
+        '        DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value = Convert.ToDecimal(0).ToString("N2")
+        '    End If
+        'Else
+        '    DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).ReadOnly = False
+
+        '    Dim jumlahStock As Double = Val(HilangkanTanda(DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvGoodStock).Value))
+        '    Dim jumlahInput As Double = Val(HilangkanTanda(DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value))
+        '    Dim stockBags As Double = Val(HilangkanTanda(DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvStockBags).Value))
+        '    Dim jumlahInputBags As Double = Val(HilangkanTanda(DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).Value))
+
+        '    If jumlahInput > jumlahStock Then
+        '        MessageBox.Show("Jumlah Tidak Boleh Melebihi Stock ", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value = Convert.ToDecimal(0).ToString("N2")
+        '        DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).Value = Convert.ToDecimal(0).ToString("N2")
+        '        Exit Sub
+        '    End If
+
+        '    'cek apakah input melebihi
+        '    'If jumlahInputBags > stockBags Then
+        '    '    MessageBox.Show("Bags Tidak Boleh Melebihi Stock Bags", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '    '    DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).Value = Convert.ToDecimal(0).ToString("N2")
+        '    '    Exit Sub
+        '    'End If
+
+        'End If
+
+#End Region
+
+
+
+        Dim jumlahValue As Object = HilangkanTanda(DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value)
+        If jumlahValue IsNot Nothing AndAlso IsNumeric(jumlahValue) Then
+            If jumlahValue < 0 Then
+                DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value = Convert.ToDecimal(0).ToString("N2")
+            Else
+                DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value = Convert.ToDecimal(jumlahValue).ToString("N2")
+            End If
+        Else
+            DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value = Convert.ToDecimal(0).ToString("N2")
+        End If
+
+        Dim bagsValue As Object = HilangkanTanda(DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).Value)
+        If bagsValue IsNot Nothing AndAlso IsNumeric(bagsValue) Then
+            If bagsValue < 0 Then
+                DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).Value = Convert.ToDecimal(0).ToString("N2")
+            Else
+                DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).Value = Convert.ToDecimal(bagsValue).ToString("N2")
+            End If
+        Else
+            DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvBags).Value = Convert.ToDecimal(0).ToString("N2")
+        End If
+
+        'If currentColumn = itemDgvBags OrElse currentColumn = itemDgvJumlah Then
+
+
+        'End If
+
+        If Not isScan Then
+            If DGV_Data_Pallet.Rows(rowIndex).Cells(itemDgvJumlah).Value <> 0 Then
+
+                DGV_Data_Pallet.Rows(rowIndex).DefaultCellStyle.BackColor = Color.LightGreen
+            Else
+                DGV_Data_Pallet.Rows(rowIndex).DefaultCellStyle.BackColor = Color.White
+            End If
+        End If
+
+        HitungGrand()
+    End Sub
+
+    Private Sub Txt_QR_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_QR.KeyDown
+        If Txt_QR.Text.Trim.Length = 0 Then Exit Sub
+
+        If e.KeyCode = Keys.F1 Then
+
+            If Not IsNumeric(Txt_QR.Text.Trim) Then
+                MessageBox.Show("Input tidak valid. Harap masukkan angka saja.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            Lbl_Jumlah_Input_Scan.Text = Txt_QR.Text.Trim
+            Txt_QR.Text = ""
+            Txt_QR.Focus()
+
+        End If
+
+
+    End Sub
 
 
 End Class

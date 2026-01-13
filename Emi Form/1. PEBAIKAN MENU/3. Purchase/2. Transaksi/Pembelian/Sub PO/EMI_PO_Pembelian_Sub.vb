@@ -294,6 +294,12 @@ Public Class EMI_PO_Pembelian_Sub
         LblPO_Satuan.Text = Base_Language.Lang_Global_Satuan
         LblPO_satBarang.Text = Base_Language.Lang_Global_Satuan_Barang
 
+        DtpPO_ETD.Format = DateTimePickerFormat.Custom
+        DtpPO_ETD.CustomFormat = " "
+
+        DtpPO_ETA.Format = DateTimePickerFormat.Custom
+        DtpPO_ETA.CustomFormat = " "
+
         BtnPO_Clear.Text = "Clear"
         BtnPO_Ok.Text = "OK"
         BtnPO_Refresh.Text = Base_Language.Lang_Global_Refresh
@@ -824,6 +830,21 @@ Public Class EMI_PO_Pembelian_Sub
 
         End If
 
+        If DtpPO_ETD.CustomFormat = " " Then
+            MessageBox.Show("ETD harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        If DtpPO_ETA.CustomFormat = " " Then
+            MessageBox.Show("ETA harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        If DtpPO_ETA.Value < DtpPO_ETD.Value Then
+            MessageBox.Show("ETA tidak boleh lebih kecil dari ETD!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
         If Cmb_Ekspedisi.SelectedIndex = 1 Then
             If Val(HilangkanTanda(Txt_BiayaEkspedisi.Text)) = 0 Then
                 MessageBox.Show("Expedisi Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -894,7 +915,7 @@ Public Class EMI_PO_Pembelian_Sub
                 SQL = "insert into emi_pembelian_PO(Kode_Perusahaan, No_Faktur, No_Faktur_Induk, No_Nota, Tanggal, Jam, UserID, "
                 SQL = SQL & "Kode_Supplier, Lokasi,Jenis_Pembayaran, Mata_Uang, Kurs, Cara_Bayar, Total_MUA, "
                 SQL = SQL & "Total_IDR, Grand_Sebelum_PPN, PPN,Grand, No_Prepare_Bahan, ETD_Simulasi, "
-                SQL = SQL & "Tgl_Jatuh_Tempo,ekspedisi,biaya, Flag_Import, tempo_pembayaran, Lama_Pembayaran, Grand_Total_Terbilang, Grand_PPH) values( "
+                SQL = SQL & "Tgl_Jatuh_Tempo,ekspedisi,biaya, Flag_Import, tempo_pembayaran, Lama_Pembayaran, Grand_Total_Terbilang, Grand_PPH, ETA) values( "
                 SQL = SQL & "'" & KodePerusahaan & "', '" & TxtPO_NoFaktur.Text & "', NULL, '" & TxtPO_NoNota.Text & "', "
                 SQL = SQL & "'" & Format(DtpPO_Tgl.Value, " yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
                 SQL = SQL & "'" & UserID & "', '" & TxtPO_KdSupplier.Text & "', '" & CmbPO_Lokasi.Text & "', "
@@ -905,7 +926,7 @@ Public Class EMI_PO_Pembelian_Sub
                 SQL = SQL & "'" & HilangkanTanda(TxtPO_GrandTotal.Text) & "', " & no_po & ", "
                 SQL = SQL & "'" & Format(DtpPO_ETD.Value, "yyyy-MM-dd") & "'," & Tgl_Jatuh_Tempo & ", "
                 SQL = SQL & "'" & CmbPO_JnsEkspedisi.Text & "', '" & TxtPO_Biaya.Text & "', " & Import & ", '" & cmbJenisPengiriman.Text & "', "
-                SQL = SQL & Val(HilangkanTanda(txtJatuhTempo.Text)) & ", '" & terbilang & "', '" & HilangkanTanda(Txt_GrandPPH.Text) & "' )"
+                SQL = SQL & Val(HilangkanTanda(txtJatuhTempo.Text)) & ", '" & terbilang & "', '" & HilangkanTanda(Txt_GrandPPH.Text) & "', '" & Format(DtpPO_ETA.Value, "yyyy-MM-dd") & "' )"
                 ExecuteTrans(SQL)
 
                 '==========================
@@ -2638,7 +2659,7 @@ Public Class EMI_PO_Pembelian_Sub
             If LvPO_DataPO.CurrentCell.ColumnIndex = cellPO_Jumlah Then
 
                 Dim cellKuantity As String = LvPO_DataPO.CurrentCell.Value.ToString()
-                Dim sisa As Double = Format(Val(HilangkanTanda(LvPO_DataPO.CurrentRow.Cells(cellPO_Sisa).Value)), "N4")
+                Dim sisa As Double = LvPO_DataPO.CurrentRow.Cells(cellPO_Sisa).Value
 
                 If cellKuantity.Contains(",") Then
                     MessageBox.Show("Kuantity Tidak Boleh Koma, Ganti dengan Titik", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -2765,6 +2786,15 @@ Public Class EMI_PO_Pembelian_Sub
         End If
     End Sub
 
+    Private Sub DtpPO_ETD_ValueChanged(sender As Object, e As EventArgs) Handles DtpPO_ETD.ValueChanged
+        DtpPO_ETD.Format = DateTimePickerFormat.Custom
+        DtpPO_ETD.CustomFormat = "dd MMMM yyyy"
+    End Sub
+
+    Private Sub DtpPO_ETA_ValueChanged(sender As Object, e As EventArgs) Handles DtpPO_ETA.ValueChanged
+        DtpPO_ETA.Format = DateTimePickerFormat.Custom
+        DtpPO_ETA.CustomFormat = "dd MMMM yyyy"
+    End Sub
 
     Private Sub Btn_Ekspedisi_Click(sender As Object, e As EventArgs) Handles Btn_Ekspedisi.Click
 

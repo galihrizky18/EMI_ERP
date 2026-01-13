@@ -1,0 +1,2 @@
+alter TABLE Stock_Owner_Gudang add Flag_GR2_Produksi char(1) NULL
+alter TABLE Stock_Owner_Gudang add Flag_GR2_Finish_Goods char(1) null

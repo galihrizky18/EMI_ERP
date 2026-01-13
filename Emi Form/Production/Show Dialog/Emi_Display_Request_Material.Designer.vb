@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Emi_Display_Request_Material
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class Emi_Display_Request_Material
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -51,6 +51,7 @@ Partial Class Emi_Display_Request_Material
         Me.BtnNext = New System.Windows.Forms.Button()
         Me.CmbOrder = New System.Windows.Forms.ComboBox()
         Me.Label4 = New System.Windows.Forms.Label()
+        Me.Txt_Pages_1 = New System.Windows.Forms.TextBox()
         Me.Panel1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -231,7 +232,7 @@ Partial Class Emi_Display_Request_Material
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label2.Location = New System.Drawing.Point(26, 100)
+        Me.Label2.Location = New System.Drawing.Point(26, 101)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(39, 17)
         Me.Label2.TabIndex = 433
@@ -240,10 +241,11 @@ Partial Class Emi_Display_Request_Material
         'Cmb_Filter
         '
         Me.Cmb_Filter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Filter.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Cmb_Filter.FormattingEnabled = True
         Me.Cmb_Filter.Location = New System.Drawing.Point(153, 98)
         Me.Cmb_Filter.Name = "Cmb_Filter"
-        Me.Cmb_Filter.Size = New System.Drawing.Size(156, 21)
+        Me.Cmb_Filter.Size = New System.Drawing.Size(156, 23)
         Me.Cmb_Filter.TabIndex = 496
         '
         'Txt_Value_Filter
@@ -272,11 +274,12 @@ Partial Class Emi_Display_Request_Material
         'Chk_Belum_Selesai
         '
         Me.Chk_Belum_Selesai.AutoSize = True
-        Me.Chk_Belum_Selesai.Location = New System.Drawing.Point(553, 67)
+        Me.Chk_Belum_Selesai.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.Chk_Belum_Selesai.Location = New System.Drawing.Point(466, 72)
         Me.Chk_Belum_Selesai.Name = "Chk_Belum_Selesai"
-        Me.Chk_Belum_Selesai.Size = New System.Drawing.Size(92, 17)
+        Me.Chk_Belum_Selesai.Size = New System.Drawing.Size(129, 19)
         Me.Chk_Belum_Selesai.TabIndex = 0
-        Me.Chk_Belum_Selesai.Text = "Belum Selesai"
+        Me.Chk_Belum_Selesai.Text = "RM Belum Selesai"
         Me.Chk_Belum_Selesai.UseVisualStyleBackColor = True
         '
         'BtnFirst
@@ -298,7 +301,7 @@ Partial Class Emi_Display_Request_Material
         Me.BtnPrev.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnPrev.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnPrev.ForeColor = System.Drawing.Color.White
-        Me.BtnPrev.Location = New System.Drawing.Point(274, 597)
+        Me.BtnPrev.Location = New System.Drawing.Point(138, 597)
         Me.BtnPrev.Name = "BtnPrev"
         Me.BtnPrev.Size = New System.Drawing.Size(86, 32)
         Me.BtnPrev.TabIndex = 498
@@ -311,7 +314,7 @@ Partial Class Emi_Display_Request_Material
         Me.BtnNext.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnNext.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnNext.ForeColor = System.Drawing.Color.White
-        Me.BtnNext.Location = New System.Drawing.Point(366, 597)
+        Me.BtnNext.Location = New System.Drawing.Point(318, 597)
         Me.BtnNext.Name = "BtnNext"
         Me.BtnNext.Size = New System.Drawing.Size(86, 32)
         Me.BtnNext.TabIndex = 499
@@ -337,12 +340,26 @@ Partial Class Emi_Display_Request_Material
         Me.Label4.TabIndex = 500
         Me.Label4.Text = "Order By"
         '
+        'Txt_Pages_1
+        '
+        Me.Txt_Pages_1.BackColor = System.Drawing.Color.White
+        Me.Txt_Pages_1.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.Txt_Pages_1.Enabled = False
+        Me.Txt_Pages_1.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Txt_Pages_1.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.Txt_Pages_1.Location = New System.Drawing.Point(228, 605)
+        Me.Txt_Pages_1.Name = "Txt_Pages_1"
+        Me.Txt_Pages_1.Size = New System.Drawing.Size(86, 16)
+        Me.Txt_Pages_1.TabIndex = 505
+        Me.Txt_Pages_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
         'Emi_Display_Request_Material
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1130, 641)
+        Me.Controls.Add(Me.Txt_Pages_1)
         Me.Controls.Add(Me.CmbOrder)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.BtnNext)
@@ -407,4 +424,5 @@ Partial Class Emi_Display_Request_Material
     Friend WithEvents BtnNext As Button
     Friend WithEvents CmbOrder As ComboBox
     Friend WithEvents Label4 As Label
+    Friend WithEvents Txt_Pages_1 As TextBox
 End Class

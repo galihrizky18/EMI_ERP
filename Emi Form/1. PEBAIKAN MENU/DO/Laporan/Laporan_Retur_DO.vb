@@ -10,8 +10,8 @@ Public Class Laporan_Retur_DO
         ComboBox1.Items.Add("Retur lewat Bulan dengan PI")
         ComboBox1.SelectedIndex = 0
 
-        DateTimePicker1.Value = fmenu.ToolStripStatusLabel3.Text
-        DateTimePicker2.Value = fmenu.ToolStripStatusLabel3.Text
+        DateTimePicker1.Value = FMenuDevFix.ToolStripStatusLabel3.Text
+        DateTimePicker2.Value = FMenuDevFix.ToolStripStatusLabel3.Text
 
         Try
             OpenConn()

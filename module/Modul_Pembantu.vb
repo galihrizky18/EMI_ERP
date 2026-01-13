@@ -388,6 +388,51 @@ Public Class Modul_Pembantu
     End Sub
 
     '======================================================================================================================================================
+    '=     HANDLE FUTURE TEXT
+    '======================================================================================================================================================
+    'Private Sub Txt_Limit_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Limit.KeyPress
+
+    '    If e.KeyChar = Chr(13) Then
+    '        Btn_Simpan.PerformClick()
+    '        e.Handled = True
+    '        Exit Sub
+    '    End If
+
+    '    If Char.IsControl(e.KeyChar) Then
+    '        e.Handled = True
+    '        Exit Sub
+    '    End If
+
+    '    If Not Char.IsDigit(e.KeyChar) Then
+    '        e.Handled = True
+    '        Exit Sub
+    '    End If
+
+    '    Chk_Belum_Selesai.Checked = False
+
+    '    Dim txt As TextBox = DirectCast(sender, TextBox)
+
+    '    Dim futureText As String = txt.Text.Substring(0, txt.SelectionStart) & e.KeyChar & txt.Text.Substring(txt.SelectionStart + txt.SelectionLength)
+
+    '    If futureText.Length > 1 AndAlso futureText.StartsWith("0") Then
+    '        e.Handled = True
+    '        Exit Sub
+    '    End If
+
+    '    Dim value As Integer
+    '    If Integer.TryParse(futureText, value) Then
+    '        If value < 0 OrElse value > 10000 Then
+    '            e.Handled = True
+    '           Exit Sub
+    '        End If
+    '    Else
+    '        e.Handled = True
+    '        Exit Sub
+    '    End If
+
+    'End Sub
+
+    '======================================================================================================================================================
     '=     UNTUK KONTEKS MENU MUNCUL HANYA KETIKA ITEMS ADA ATAU DI SELECT
     '======================================================================================================================================================
     ' Event On Oppening of Context Menu
@@ -396,7 +441,6 @@ Public Class Modul_Pembantu
         '    e.Cancel = True
         '    Exit Sub
         'End If
-
 
         ''=========================================================
         ''=     CEK APAKAH MOUSE BERADA DI ATAS ROWS LISTVIEW     =
@@ -413,6 +457,83 @@ Public Class Modul_Pembantu
         'info.Item.Selected = True
     End Sub
 
+    '======================================================================================================================================================
+    '=     UNTUK HANDLE POSISI LISTVIEW 
+    '======================================================================================================================================================
+    ' SYARATNYA OWNERDRAW PADA LISTVIEW = TRUE
+    'Private Sub Letakan_Di_Function_Load()
+    '    Private ReadOnly BodyAlignments As New Dictionary(Of Integer, StringAlignment) 'Bagian ini di letakan barisan code initial
+    '       Lv_Display_Kendaraan.Columns.Clear()  BodyAlignments.Clear()
+    '       Lv_Display_Kendaraan.Columns.Add("", 0) : BodyAlignments(1) = StringAlignment.Near
+    '       Lv_Display_Kendaraan.Columns.Add("Plat Kendaraan", 150) : BodyAlignments(2) = StringAlignment.Far
+    '       Lv_Display_Kendaraan.Columns.Add("Kapasitas Muatan", 130) : BodyAlignments(3) = StringAlignment.Near
+    '       Lv_Display_Kendaraan.Columns.Add("Jenis Kendaraan", 150) : BodyAlignments(4) = StringAlignment.Center
+    '       Lv_Display_Kendaraan.Columns.Add("STNK Sendiri", 150) : BodyAlignments(1) = StringAlignment.Near
+    '       Lv_Display_Kendaraan.View = View.Details
+    'End Sub
+
+    'Private Sub Lv_Display_Kendaraan_DrawColumnHeader(sender As Object, e As DrawListViewColumnHeaderEventArgs) Handles Lv_Display_Kendaraan.DrawColumnHeader
+
+    '    ' Background gradient
+    '    Using bgBrush As New Drawing2D.LinearGradientBrush(
+    '        e.Bounds,
+    '        Color.FromArgb(245, 245, 245),
+    '        Color.FromArgb(220, 220, 220),
+    '        Drawing2D.LinearGradientMode.Vertical)
+
+    '        e.Graphics.FillRectangle(bgBrush, e.Bounds)
+    '    End Using
+
+    '    ' Border bawah (lebih modern dari full border)
+    '    Using borderPen As New Pen(Color.FromArgb(180, 180, 180))
+    '        e.Graphics.DrawLine(
+    '            borderPen,
+    '            e.Bounds.Left,
+    '            e.Bounds.Bottom - 1,
+    '            e.Bounds.Right,
+    '            e.Bounds.Bottom - 1)
+    '    End Using
+
+    '    ' Teks header
+    '    Using sf As New StringFormat()
+    '        sf.Alignment = StringAlignment.Center
+    '        sf.LineAlignment = StringAlignment.Center
+    '        sf.Trimming = StringTrimming.EllipsisCharacter
+
+    '        ' Padding teks
+    '        Dim textRect As Rectangle = Rectangle.Inflate(e.Bounds, -4, -2)
+
+    '        e.Graphics.DrawString(
+    '            e.Header.Text,
+    '            Lv_Display_Kendaraan.Font,
+    '            Brushes.Black,
+    '            textRect,
+    '            sf)
+    '    End Using
+
+    'End Sub
+
+    'Private Sub Lv_Display_Kendaraan_DrawSubItem(sender As Object, e As DrawListViewSubItemEventArgs) Handles Lv_Display_Kendaraan.DrawSubItem
+
+    '    Using sf As New StringFormat()
+    '        sf.LineAlignment = StringAlignment.Center
+
+    '        If BodyAlignments.ContainsKey(e.ColumnIndex) Then
+    '            sf.Alignment = BodyAlignments(e.ColumnIndex)
+    '        Else
+    '            sf.Alignment = StringAlignment.Near ' default
+    '        End If
+
+    '        If e.Item.Selected Then
+    '            e.Graphics.FillRectangle(SystemBrushes.Highlight, e.Bounds)
+    '            e.Graphics.DrawString(e.SubItem.Text, Lv_Display_Kendaraan.Font, SystemBrushes.HighlightText, e.Bounds, sf)
+    '        Else
+    '            e.Graphics.FillRectangle(SystemBrushes.Window, e.Bounds)
+    '            e.Graphics.DrawString(e.SubItem.Text, Lv_Display_Kendaraan.Font, Brushes.Black, e.Bounds, sf)
+    '        End If
+    '    End Using
+
+    'End Sub
 
 
     '======================================================================================================================================================

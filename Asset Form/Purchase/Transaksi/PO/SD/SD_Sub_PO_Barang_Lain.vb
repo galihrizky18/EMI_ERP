@@ -24,6 +24,7 @@
         End If
     End Sub
 
+
     Private Sub Kosong()
 
         Lv_Data_Induk.Items.Clear()
@@ -57,8 +58,8 @@
             SQL = SQL & "isnull((select top(1) 'T' from EMI_Pembelian_PO_Detail_Induk_Barang_Lain x where x.Kode_Perusahaan=a.Kode_Perusahaan and x.No_Faktur=a.no_Faktur and x.Flag_loading is null),'Y') as Selesai_ETA , "
             SQL = SQL & "isnull((select top(1) 'Y' from EMI_Pembelian_Loading_detail_Barang_Lain x, EMI_Pembelian_Loading y where x.Kode_Perusahaan=y.Kode_Perusahaan and x.No_faktur=y.No_Faktur and y.status is null and x.Kode_Perusahaan=a.Kode_Perusahaan and x.no_PO=a.no_Faktur),null) as Flag_ETA , "
             SQL = SQL & "isnull((select top(1) ETA from EMI_Pembelian_Loading_detail_Barang_Lain x, EMI_Pembelian_Loading y where x.Kode_Perusahaan=y.Kode_Perusahaan and x.No_faktur=y.No_Faktur and y.status is null and x.Kode_Perusahaan=a.Kode_Perusahaan and x.no_PO=a.no_Faktur),null) as ETA, "
-            SQL = SQL & "isnull(( select count(*) from EMI_Pembelian_PO_Barang_Lain z where a.Kode_Perusahaan = z.Kode_Perusahaan and a.No_Faktur = z.No_Faktur_Induk ), 0) as PO_Berjalan "
-            SQL = SQL & "from EMI_Pembelian_PO_Induk_Barang_Lain a, Suppliers c, Suppliers_Kategori d where Selesai is null and Status is null and "
+            SQL = SQL & "isnull(( select count(*) from EMI_Pembelian_PO_Barang_Lain z where a.Kode_Perusahaan = z.Kode_Perusahaan and a.No_Faktur = z.No_Faktur_Induk and z.status is null ), 0) as PO_Berjalan "
+            SQL = SQL & "from EMI_Pembelian_PO_Induk_Barang_Lain a, Suppliers c, Suppliers_Kategori d where Selesai is null and a.Status is null and "
             SQL = SQL & "a.Kode_Perusahaan=c.Kode_Perusahaan and a.Kode_Supplier=c.Kode_Supplier and a.Kode_Perusahaan='" & KodePerusahaan & "' and "
             'SQL = SQL & "c.ID_Kategori_Suppliers=d.ID_Kategori_Suppliers and (d.Flag_Jenis_Lokal='Y' or d.Flag_Jenis_import='Y' ) and a.flag_pembelian is null and Flag_Selesai_SubPO is null "
             SQL = SQL & "c.ID_Kategori_Suppliers=d.ID_Kategori_Suppliers and (d.Flag_Jenis_Lokal='Y' or d.Flag_Jenis_import='Y' ) and Flag_Selesai_SubPO is null and a.Flag_Release='Y' "
@@ -156,6 +157,7 @@
             SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan and b.kode_perusahaan = c.kode_perusahaan "
             SQL = SQL & "and a.no_faktur = b.no_faktur "
             SQL = SQL & "and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.kode_barang = c.kode_barang "
+            SQL = SQL & "and a.status is null "
             SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.no_faktur = '" & Lv_NoFak & "' "
             Using Dr = OpenTrans(SQL)

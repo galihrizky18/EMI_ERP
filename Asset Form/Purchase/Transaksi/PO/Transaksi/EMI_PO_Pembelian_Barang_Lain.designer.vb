@@ -800,7 +800,6 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         Me.Groupbox.Controls.Add(Me.LblPO_Pembayaran)
         Me.Groupbox.Controls.Add(Me.LblPO_TotalMUA)
         Me.Groupbox.Controls.Add(Me.TxtPO_Total)
-        Me.Groupbox.Controls.Add(Me.LblPO_Hrg)
         Me.Groupbox.Controls.Add(Me.TxtPO_Kurs)
         Me.Groupbox.Controls.Add(Me.LblPO_Kurs)
         Me.Groupbox.Controls.Add(Me.Label25)
@@ -819,6 +818,7 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         Me.Groupbox.Controls.Add(Me.LblPO_Diskon)
         Me.Groupbox.Controls.Add(Me.LblPO_Jml)
         Me.Groupbox.Controls.Add(Me.LblPO_NmBarang)
+        Me.Groupbox.Controls.Add(Me.LblPO_Hrg)
         Me.Groupbox.Controls.Add(Me.LblPO_KdBarang)
         Me.Groupbox.Controls.Add(Me.RdoPO_Persen)
         Me.Groupbox.Controls.Add(Me.RdoPO_Rp)
@@ -912,7 +912,7 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         Me.cmb_pr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmb_pr.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.cmb_pr.FormattingEnabled = True
-        Me.cmb_pr.Location = New System.Drawing.Point(477, 40)
+        Me.cmb_pr.Location = New System.Drawing.Point(610, 41)
         Me.cmb_pr.Name = "cmb_pr"
         Me.cmb_pr.Size = New System.Drawing.Size(130, 23)
         Me.cmb_pr.TabIndex = 2
@@ -921,7 +921,7 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         '
         Me.Label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label2.Location = New System.Drawing.Point(477, 12)
+        Me.Label2.Location = New System.Drawing.Point(610, 13)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(130, 25)
         Me.Label2.TabIndex = 354
@@ -1003,7 +1003,7 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         Me.CmbPO_Harga.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CmbPO_Harga.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.CmbPO_Harga.FormattingEnabled = True
-        Me.CmbPO_Harga.Location = New System.Drawing.Point(611, 40)
+        Me.CmbPO_Harga.Location = New System.Drawing.Point(477, 41)
         Me.CmbPO_Harga.Name = "CmbPO_Harga"
         Me.CmbPO_Harga.Size = New System.Drawing.Size(130, 23)
         Me.CmbPO_Harga.TabIndex = 1
@@ -1298,7 +1298,7 @@ Partial Class EMI_PO_Pembelian_Barang_Lain
         '
         Me.LblPO_Hrg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LblPO_Hrg.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblPO_Hrg.Location = New System.Drawing.Point(611, 12)
+        Me.LblPO_Hrg.Location = New System.Drawing.Point(477, 13)
         Me.LblPO_Hrg.Name = "LblPO_Hrg"
         Me.LblPO_Hrg.Size = New System.Drawing.Size(130, 25)
         Me.LblPO_Hrg.TabIndex = 315

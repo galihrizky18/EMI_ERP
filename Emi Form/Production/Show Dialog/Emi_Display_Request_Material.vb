@@ -58,8 +58,6 @@
         If CurrentPage < totalpage Then
             CurrentPage += 1
             Kosong(filter, CurrentPage)
-
-
         End If
 
         If totalpage = CurrentPage Then
@@ -205,13 +203,13 @@
 
     Private Sub Kosong(Optional ByVal filter As Boolean = False, Optional ByVal page As Integer = 1)
 
-        If filter = True Then
-            If Cmb_Filter.SelectedIndex <> 1 Then
-                PageSize = 22
-            Else
-                PageSize = 5
-            End If
-        End If
+        'If filter = True Then
+        '    If Cmb_Filter.SelectedIndex <> 1 Then
+        '        PageSize = 22
+        '    Else
+        '        PageSize = 5
+        '    End If
+        'End If
 
 
         Try
@@ -227,47 +225,49 @@
                     End If
                 End If
             End Using
-            Lv_Data.Items.Clear()
 
-            ' Kode Lama Tanggal 23-10-2025
-#Region "Kode Lama Tanggal 23-10-2025"
 
-            'SQL = "select a.no_faktur_order, a.keterangan, d.Metode_Pengeluaran_Stok, d.jenis_kemasan, c.Kode_Stock_Owner, c.Kode_Barang, d.Nama, b.Kode_Group_Jenis, a.Tanggal, a.Jam, c.Jumlah,  a.UserId, c.warna, "
-            'SQL = SQL & "dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, d.satuan, c.satuan, d.good_stock) as Good_Stock, d.Satuan, c.Satuan as Satuan_Display, "
-            'SQL = SQL & "ISNULL(d.Jumlah_Bags, 0) as Jumlah_Bags, d.Satuan_Isi_Bags, c.Urut_Oto, "
+            '================================
+            '=     GET TOTAL COUNT DATA     =
+            '================================
+            Dim Tot_Data As Double = 0
+            SQL = ";WITH cte AS ("
+            SQL = SQL & "SELECT a.No_Faktur_Order FROM Emi_Material_Requisition a "
+            SQL = SQL & "INNER JOIN EMI_Group_Jenis b ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.Id_Group_Jenis = b.Id_Group_Jenis "
+            SQL = SQL & "INNER JOIN Emi_Material_Requisition_Det_Convert c ON a.Kode_Perusahaan = c.Kode_Perusahaan AND a.No_Faktur = c.No_Faktur "
+            SQL = SQL & "INNER JOIN Emi_Material_Requisition_Det e ON c.Kode_Perusahaan = e.Kode_Perusahaan AND c.No_Faktur = e.No_Faktur AND c.Kode_Stock_Owner = e.Kode_Stock_Owner "
+            SQL = SQL & "AND c.Kode_Barang = e.Kode_Barang AND c.No_Urut_Det = e.Urut_Oto "
+            SQL = SQL & "INNER JOIN Barang d ON d.Kode_Perusahaan = e.Kode_Perusahaan AND d.Kode_Stock_Owner = e.Kode_Stock_Owner_Tujuan AND d.Kode_Barang = e.Kode_Barang "
+            SQL = SQL & "WHERE a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "AND d.Kode_Stock_Owner = '" & lokasi_kirim & "'"
+            SQL = SQL & "AND a.Flag_Process = 'Y' "
+            SQL = SQL & "AND a.Status IS NULL "
+            SQL = SQL & "AND c.Flag_Transfer IS NULL "
+            SQL = SQL & "AND c.Jumlah > 0 "
+            SQL = SQL & "AND c.Jumlah_Barang > 0 "
+            SQL = SQL & "AND d.Id_Kategori_Gudang = ( SELECT TOP 1 z.Id_Kategori_Gudang FROM EMI_Kategori_Gudang_PerLokasi z WHERE z.Kode_Perusahaan = a.Kode_Perusahaan AND z.Lokasi_Gudang = d.Kode_Stock_Owner ) "
+            If Not Chk_Belum_Selesai.Checked Then
+                If filter Then
+                    If Cmb_Filter.SelectedIndex <> 0 Then
+                        SQL = SQL & "and " & arrFilter(Cmb_Filter.SelectedIndex) & " like '%" & Txt_Value_Filter.Text.Trim & "%'  "
+                    End If
+                End If
+            End If
+            SQL = SQL & "GROUP BY a.No_Faktur_Order, a.Tanggal, a.Jam) "
+            SQL = SQL & "SELECT COUNT(*) AS TotalData FROM cte "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Tot_Data = Dr("TotalData")
+                End If
+            End Using
 
-            'SQL = SQL & "ISNULL(( isnull( (select sum(w.jumlah) from tf_stock_parent x, Tf_Stock y, Tf_Stock_det z, Tf_Stock_det2 w  where "
-            'SQL = SQL & "x.kode_Perusahaan=y.kode_perusahaan and x.no_faktur=y.no_faktur and x.status is null and "
-            'SQL = SQL & "y.kode_Perusahaan=z.kode_perusahaan and y.no_faktur=z.no_faktur and y.urut_oto=z.urut_tf and (z.selesai is null or z.selesai='Y') and "
-            'SQL = SQL & "z.kode_Perusahaan=w.kode_perusahaan and z.no_faktur=w.no_faktur and z.urut_oto=w.Urut_Det and "
-            'SQL = SQL & "c.Kode_Perusahaan = y.Kode_Perusahaan and c.Urut_Oto = y.urut_material_requisition_convert  and y.Flag_Jenis_Request = 'PRODUKSI'),0) "
-            'SQL = SQL & "+ "
-            'SQL = SQL & "isnull( (select sum(w.jumlah) from Tf_Stock_QC x, Tf_Stock_QC_Detail y, Tf_Stock_QC_Det z, Tf_Stock_QC_Det2 w  where "
-            'SQL = SQL & "x.kode_Perusahaan=y.kode_perusahaan and x.no_faktur=y.no_faktur and x.status is null and "
-            'SQL = SQL & "y.kode_Perusahaan=z.kode_perusahaan and y.no_faktur=z.no_faktur and y.urut_oto=z.urut_tf and (z.selesai is null or z.selesai='Y') and "
-            'SQL = SQL & "z.kode_Perusahaan=w.kode_perusahaan and z.no_faktur=w.no_faktur and z.urut_oto=w.Urut_Det and "
-            'SQL = SQL & "c.Kode_Perusahaan = y.Kode_Perusahaan and c.Urut_Oto = y.urut_material_requisition_convert  and y.Flag_Jenis_Request = 'PRODUKSI'),0)), '0') as Total_TF, "
 
-            'SQL = SQL & "(c.jumlah - (c.Jumlah * (d.Toleransi_Tf_Min / 100))) as Toleransi_Min, "
-            'SQL = SQL & "(c.jumlah + (c.Jumlah * (d.Toleransi_Tf_Max / 100))) as Toleransi_Max "
-            'SQL = SQL & "from Emi_Material_Requisition a, EMI_Group_Jenis b, Emi_Material_Requisition_Det_Convert c, barang d  "
-            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan "
-            'SQL = SQL & "and a.Id_Group_Jenis = b.Id_Group_Jenis "
-            'SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' and a.No_Faktur = c.No_Faktur "
-            'SQL = SQL & "and c.kode_barang = d.kode_barang and d.kode_stock_owner='" & lokasi_kirim & "' "
-            'SQL = SQL & "and a.Flag_Process = 'Y' and a.status is null "
-            'SQL = SQL & "and c.Flag_Transfer is null "
-            'SQL = SQL & "and c.jumlah > 0 and c.jumlah_barang > 0"
-            'SQL = SQL & "and d.Id_Kategori_Gudang = ( "
-            'SQL = SQL & "select top 1 z.Id_Kategori_Gudang "
-            'SQL = SQL & "from EMI_Kategori_Gudang_PerLokasi z "
-            'SQL = SQL & "where a.Kode_Perusahaan = z.kode_perusahaan and z.Lokasi_Gudang = d.kode_stock_owner ) "
-            'SQL = SQL & "and case when a.flag_tambah = 'Y' then a.Flag_Validasi_Tambah else 'Y' end = 'Y' "
-            'SQL = SQL & "order by a.no_faktur_order, c.Kode_Barang, a.keterangan "
 
-#End Region
+            Dim totalPages As Integer = Math.Ceiling(Tot_Data / PageSize)
             Dim offset As Integer = (page - 1) * PageSize
+            totalpage = totalPages
 
+            Lv_Data.Items.Clear()
             SQL = ";with cte as ( "
             SQL = SQL & "select distinct "
             SQL = SQL & "No_Faktur_Order, tanggal, jam "
@@ -304,6 +304,7 @@
             End If
 
             SQL = SQL & "order by Tanggal " & CmbOrder.Text & ", Jam " & CmbOrder.Text & " "
+
             SQL = SQL & "offset " & offset & " ROWS "
             SQL = SQL & "FETCH NEXT " & PageSize & " ROWS ONLY "
             SQL = SQL & ") "
@@ -429,6 +430,8 @@
 
             End Using
 
+            Txt_Pages_1.Text = $"{page} of {totalPages}"
+
 
             CloseConn()
         Catch ex As Exception
@@ -541,6 +544,7 @@
             Transfer_Stock_3.Txt_Jenis_Transfer.Text = "PRODUKSI"
             Transfer_Stock_3.TxtMetPotStok.Text = Lv_MetPotStok
             Transfer_Stock_3.Txt_Urut_Request.Text = Lv_Oto
+            Transfer_Stock_3.Txt_Split_Req.Text = lv_NoSplit
 
 
             Try
@@ -616,6 +620,7 @@
             Emi_Split_Stock_QC.Txt_OtoMaterial_req.Text = Lv_Oto
             Emi_Split_Stock_QC.Txt_Jenis_Transfer.Text = "PRODUKSI"
             Emi_Split_Stock_QC.Txt_Urut_Request.Text = Lv_Oto
+            Emi_Split_Stock_QC.Txt_Split_Req.Text = lv_NoSplit
 
             Try
                 OpenConn()
@@ -689,7 +694,6 @@
 
     Private Sub Txt_Limit_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Limit.KeyPress
 
-
         If e.KeyChar = Chr(13) Then
             Btn_Simpan.PerformClick()
             Return
@@ -723,8 +727,6 @@
         Else
             e.Handled = True
         End If
-
-
 
     End Sub
 

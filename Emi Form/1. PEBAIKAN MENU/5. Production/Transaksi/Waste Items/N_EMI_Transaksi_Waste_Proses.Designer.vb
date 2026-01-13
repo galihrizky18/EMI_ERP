@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class N_EMI_Transaksi_Waste_Proses
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class N_EMI_Transaksi_Waste_Proses
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
@@ -49,6 +49,9 @@ Partial Class N_EMI_Transaksi_Waste_Proses
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Txt_Keterangan = New System.Windows.Forms.TextBox()
         Me.Panel11 = New System.Windows.Forms.Panel()
+        Me.Cmb_Gudang = New System.Windows.Forms.ComboBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.Panel4.SuspendLayout()
@@ -86,9 +89,9 @@ Partial Class N_EMI_Transaksi_Waste_Proses
         Me.Label3.Location = New System.Drawing.Point(18, 8)
         Me.Label3.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(248, 29)
+        Me.Label3.Size = New System.Drawing.Size(428, 29)
         Me.Label3.TabIndex = 0
-        Me.Label3.Text = "Transaksi Waste Proses"
+        Me.Label3.Text = "Transaksi - Pengajuan Pemusnahan Waste"
         '
         'Panel3
         '
@@ -158,10 +161,10 @@ Partial Class N_EMI_Transaksi_Waste_Proses
         Me.Lv_Data.FullRowSelect = True
         Me.Lv_Data.GridLines = True
         Me.Lv_Data.HideSelection = False
-        Me.Lv_Data.Location = New System.Drawing.Point(20, 186)
+        Me.Lv_Data.Location = New System.Drawing.Point(20, 157)
         Me.Lv_Data.Name = "Lv_Data"
-        Me.Lv_Data.Size = New System.Drawing.Size(1145, 330)
-        Me.Lv_Data.TabIndex = 1
+        Me.Lv_Data.Size = New System.Drawing.Size(1145, 299)
+        Me.Lv_Data.TabIndex = 3
         Me.Lv_Data.UseCompatibleStateImageBehavior = False
         Me.Lv_Data.View = System.Windows.Forms.View.Details
         '
@@ -175,10 +178,10 @@ Partial Class N_EMI_Transaksi_Waste_Proses
         Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        Me.GroupBox1.Location = New System.Drawing.Point(20, 88)
+        Me.GroupBox1.Location = New System.Drawing.Point(20, 467)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1145, 86)
-        Me.GroupBox1.TabIndex = 0
+        Me.GroupBox1.Size = New System.Drawing.Size(653, 86)
+        Me.GroupBox1.TabIndex = 4
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Filter"
         '
@@ -198,14 +201,15 @@ Partial Class N_EMI_Transaksi_Waste_Proses
         'Txt_No_Split
         '
         Me.Txt_No_Split.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_No_Split.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Txt_No_Split.Font = New System.Drawing.Font("Work Sans", 9.0!)
         Me.Txt_No_Split.Location = New System.Drawing.Point(90, 52)
         Me.Txt_No_Split.Name = "Txt_No_Split"
-        Me.Txt_No_Split.Size = New System.Drawing.Size(247, 23)
+        Me.Txt_No_Split.Size = New System.Drawing.Size(247, 22)
         Me.Txt_No_Split.TabIndex = 2
         '
         'Dtp_2
         '
+        Me.Dtp_2.CalendarFont = New System.Drawing.Font("Work Sans", 8.0!)
         Me.Dtp_2.Location = New System.Drawing.Point(388, 21)
         Me.Dtp_2.Name = "Dtp_2"
         Me.Dtp_2.Size = New System.Drawing.Size(247, 22)
@@ -213,6 +217,7 @@ Partial Class N_EMI_Transaksi_Waste_Proses
         '
         'Dtp_1
         '
+        Me.Dtp_1.CalendarFont = New System.Drawing.Font("Work Sans", 8.0!)
         Me.Dtp_1.Location = New System.Drawing.Point(90, 21)
         Me.Dtp_1.Name = "Dtp_1"
         Me.Dtp_1.Size = New System.Drawing.Size(247, 22)
@@ -221,37 +226,37 @@ Partial Class N_EMI_Transaksi_Waste_Proses
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label2.Font = New System.Drawing.Font("Work Sans", 9.0!)
         Me.Label2.Location = New System.Drawing.Point(345, 23)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(34, 20)
+        Me.Label2.Size = New System.Drawing.Size(30, 17)
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "S/D"
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label4.Font = New System.Drawing.Font("Work Sans", 9.0!)
         Me.Label4.Location = New System.Drawing.Point(12, 54)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(64, 20)
+        Me.Label4.Size = New System.Drawing.Size(56, 17)
         Me.Label4.TabIndex = 0
         Me.Label4.Text = "No Split"
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Work Sans", 10.0!)
+        Me.Label1.Font = New System.Drawing.Font("Work Sans", 9.0!)
         Me.Label1.Location = New System.Drawing.Point(12, 23)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(59, 20)
+        Me.Label1.Size = New System.Drawing.Size(51, 17)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Tanggal"
         '
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(20, 174)
+        Me.Panel6.Location = New System.Drawing.Point(15, 145)
         Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(1087, 12)
@@ -267,7 +272,7 @@ Partial Class N_EMI_Transaksi_Waste_Proses
         Me.Btn_Simpan.Location = New System.Drawing.Point(20, 563)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(103, 35)
-        Me.Btn_Simpan.TabIndex = 3
+        Me.Btn_Simpan.TabIndex = 5
         Me.Btn_Simpan.Text = "&Simpan"
         Me.Btn_Simpan.UseVisualStyleBackColor = False
         '
@@ -280,7 +285,7 @@ Partial Class N_EMI_Transaksi_Waste_Proses
         Me.Btn_Refresh.Location = New System.Drawing.Point(128, 563)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(103, 35)
-        Me.Btn_Refresh.TabIndex = 4
+        Me.Btn_Refresh.TabIndex = 6
         Me.Btn_Refresh.Text = "&Refresh"
         Me.Btn_Refresh.UseVisualStyleBackColor = False
         '
@@ -318,32 +323,64 @@ Partial Class N_EMI_Transaksi_Waste_Proses
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Label5.Location = New System.Drawing.Point(22, 530)
+        Me.Label5.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label5.Location = New System.Drawing.Point(22, 94)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(86, 20)
+        Me.Label5.Size = New System.Drawing.Size(73, 17)
         Me.Label5.TabIndex = 0
         Me.Label5.Text = "Keterangan"
         '
         'Txt_Keterangan
         '
         Me.Txt_Keterangan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_Keterangan.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Txt_Keterangan.Location = New System.Drawing.Point(114, 528)
+        Me.Txt_Keterangan.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Txt_Keterangan.Location = New System.Drawing.Point(124, 92)
         Me.Txt_Keterangan.MaxLength = 100
         Me.Txt_Keterangan.Name = "Txt_Keterangan"
-        Me.Txt_Keterangan.Size = New System.Drawing.Size(541, 23)
-        Me.Txt_Keterangan.TabIndex = 2
+        Me.Txt_Keterangan.Size = New System.Drawing.Size(541, 22)
+        Me.Txt_Keterangan.TabIndex = 0
         '
         'Panel11
         '
         Me.Panel11.BackColor = System.Drawing.Color.Red
-        Me.Panel11.Location = New System.Drawing.Point(23, 515)
+        Me.Panel11.Location = New System.Drawing.Point(27, 456)
         Me.Panel11.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel11.Name = "Panel11"
         Me.Panel11.Size = New System.Drawing.Size(1087, 12)
         Me.Panel11.TabIndex = 490
         Me.Panel11.Visible = False
+        '
+        'Cmb_Gudang
+        '
+        Me.Cmb_Gudang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Gudang.FormattingEnabled = True
+        Me.Cmb_Gudang.Location = New System.Drawing.Point(124, 120)
+        Me.Cmb_Gudang.Name = "Cmb_Gudang"
+        Me.Cmb_Gudang.Size = New System.Drawing.Size(209, 24)
+        Me.Cmb_Gudang.TabIndex = 1
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label6.Location = New System.Drawing.Point(22, 122)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(86, 17)
+        Me.Label6.TabIndex = 495
+        Me.Label6.Text = "Lokasi Tujuan"
+        '
+        'Button1
+        '
+        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Button1.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Button1.Font = New System.Drawing.Font("Work Sans Medium", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.ForeColor = System.Drawing.Color.White
+        Me.Button1.Location = New System.Drawing.Point(339, 117)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(80, 30)
+        Me.Button1.TabIndex = 2
+        Me.Button1.Text = "&Get"
+        Me.Button1.UseVisualStyleBackColor = False
         '
         'N_EMI_Transaksi_Waste_Proses
         '
@@ -351,6 +388,9 @@ Partial Class N_EMI_Transaksi_Waste_Proses
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1184, 611)
+        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.Cmb_Gudang)
+        Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Txt_No_Transaksi)
         Me.Controls.Add(Me.Txt_Keterangan)
         Me.Controls.Add(Me.Btn_Refresh)
@@ -410,4 +450,7 @@ Partial Class N_EMI_Transaksi_Waste_Proses
     Friend WithEvents Label5 As Label
     Friend WithEvents Txt_Keterangan As TextBox
     Friend WithEvents Panel11 As Panel
+    Friend WithEvents Cmb_Gudang As ComboBox
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Button1 As Button
 End Class

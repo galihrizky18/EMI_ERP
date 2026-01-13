@@ -278,7 +278,7 @@ Public Class EMI_Display_Pallet_Masuk_Data_Lain
                     Dim lvw As ListViewItem
                     lvw = Lv_BM_PerPallet.Items.Add(Dr("No_Faktur"))
                     lvw.SubItems.Add(Dr("No_Pembelian_Loading"))
-                    lvw.SubItems.Add(General_Class.CekNULL(Dr("Id_Nametag_Pallet")))
+                    lvw.SubItems.Add(Dr("Id_Nametag_Pallet"))
                     lvw.SubItems.Add(Dr("No_SJ"))
                     lvw.SubItems.Add(Dr("No_Plat"))
                     lvw.SubItems.Add(Dr("nama_supplier"))
@@ -427,13 +427,22 @@ Public Class EMI_Display_Pallet_Masuk_Data_Lain
             '''SQL = SQL & "and Status is null "
 
             '''-----------------------------------
-            SQL = "select a.qr_code + '-' + a.kode_unik_Berjalan as QR_Code, a.sdh_cetak, a.No_Faktur, a.No_Pembelian_Loading, a.Id_Nametag_Pallet, a.No_SJ, a.No_Plat, c.Nama as nama_supplier, "
+            SQL = "select a.qr_code + '-' + a.kode_unik_Berjalan as QR_Code, a.sdh_cetak, a.No_Faktur, a.No_Pembelian_Loading, isnull(a.Id_Nametag_Pallet,'-') as Id_Nametag_Pallet , a.No_SJ, a.No_Plat, c.Nama as nama_supplier, "
             SQL = SQL & "a.tanggal, a.jam, a.userid, b.kode_stock_owner, b.kode_barang, d.nama as nama_barang, a.tgl_produksi_real as Tgl_Produksi, a.Tgl_expired_real as tgl_expired, "
             SQL = SQL & "a.jumlah, a.jumlah_bags, b.satuan, b.nilai_pengali, a.nilai_barang, a.satuan_barang, b.urut_oto, a.Status "
             SQL = SQL & "from EMI_Barang_Masuk_Perpallet_barang_lain a, EMI_Barang_Masuk_Perpallet_Detail_Barang_Lain b, Suppliers c, Barang_Lain d "
+
+            SQL = SQL & ", View_Kategori_Turunan e, N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain f "
+
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Perusahaan = d.Kode_Perusahaan "
             SQL = SQL & "and a.No_Faktur = b.No_Faktur and a.Kode_Supplier = c.Kode_Supplier "
             SQL = SQL & "and b.Kode_Barang = d.Kode_Barang and b.Kode_Stock_Owner = d.Kode_Stock_Owner "
+
+            SQL = SQL & "and d.Kode_Perusahaan = e.Kode_Perusahaan and e.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3 "
+            SQL = SQL & "and e.Kode_Perusahaan = f.kode_perusahaan and e.Id_Kategori_Jenis = f.id_kategori_jenis and e.Id_Sub_Kategori_Jenis = f.Id_Sub_Kategori_Jenis  "
+            SQL = SQL & "and f.user_id = '" & UserID & "' "
+
+
             '   SQL = SQL & "and a.flag_angkut is null "
             'SQL = SQL & "and a.sdh_cetak is null "
             SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.lokasi = '" & Lokasi & "' "
@@ -480,7 +489,7 @@ Public Class EMI_Display_Pallet_Masuk_Data_Lain
                     Dim lvw As ListViewItem
                     lvw = Lv_BM_PerPallet.Items.Add(Dr("No_Faktur"))
                     lvw.SubItems.Add(Dr("No_Pembelian_Loading"))
-                    lvw.SubItems.Add("")
+                    lvw.SubItems.Add(Dr("id_nametag_pallet"))
                     lvw.SubItems.Add(Dr("No_SJ"))
                     lvw.SubItems.Add(Dr("No_Plat"))
                     lvw.SubItems.Add(Dr("nama_supplier"))
@@ -668,7 +677,7 @@ Public Class EMI_Display_Pallet_Masuk_Data_Lain
             Dim sudahCetak As Boolean = False
 
             SQL = "Select a.no_faktur, a.No_Pembelian_Loading, b.kode_stock_owner, b.Kode_Barang, c.Nama, a.tgl_produksi_real as Tgl_Produksi, a.Tgl_expired_real as tgl_expired, "
-            SQL = SQL & "b.Jumlah, b.Satuan, b.Jumlah_Bags, b.Nilai_Pengali, b.Nilai_Barang, b.Satuan_Barang, b.urut_oto, "
+            SQL = SQL & "b.Jumlah, b.Satuan, b.Jumlah_Bags, b.Nilai_Pengali, b.Nilai_Barang, b.Satuan_Barang, b.urut_oto, a.Sdh_Cetak, "
             SQL = SQL & "a.no_sj, a.no_plat, b.Urut_Loading, a.kode_supplier, a.Sdh_Cetak, a.Metode_Timbang, a.Flag_Timbang, "
             SQL = SQL & "c.Metode_Pengeluaran_Stok, d.Tanggal as Tanggal_Masuk, a.Qr_Code, a.Kode_Unik_Berjalan "
             SQL = SQL & "From EMI_Barang_Masuk_Perpallet_barang_lain a,EMI_Barang_Masuk_Perpallet_Detail_barang_lain b, Barang_lain c, EMI_Pembelian_Loading_Barang_Lain d "
@@ -686,10 +695,18 @@ Public Class EMI_Display_Pallet_Masuk_Data_Lain
                     'Cmd.Connection = Cn
                     'Cmd.CommandType = CommandType.Text
 
+
+
                     Dim batch As String = ""
                     Dim Qr As String = ""
 
                     For i As Integer = 0 To Ds.Tables("MyTable").Rows.Count - 1
+                        If General_Class.CekNULL(Ds.Tables("MyTable").Rows(i).Item("Sdh_Cetak")) = "" Then
+                            CloseConn()
+                            MessageBox.Show("tidak dapat dicetak, harap cetak dahulu pada Cetak Barcode Aset", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+
                         Dim kodeUnikBerjalan As String = ""
                         Dim kodeUnikAsal As String = ""
                         Dim Jumlah As String = ""
@@ -877,14 +894,14 @@ Public Class EMI_Display_Pallet_Masuk_Data_Lain
                         'ExecuteTrans(SQL)
 
                         ''''update
-                        If Is2ndPrint = False Then
-                            SQL = "update EMI_Barang_Masuk_Perpallet_barang_lain set Sdh_Cetak = 'Y', "
-                            SQL = SQL & "batch_number='" & batch & "', QR_Code='" & Qr & "', "
-                            SQL = SQL & "kode_unik_berjalan='" & kodeUnikBerjalan & "', kode_unik_asal='" & kodeUnikAsal & "' "
-                            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
-                            'SQL = SQL & "and userid = '" & UserID & "' "
-                            ExecuteTrans(SQL)
-                        End If
+                        'If Is2ndPrint = False Then
+                        '    SQL = "update EMI_Barang_Masuk_Perpallet_barang_lain set Sdh_Cetak = 'Y', "
+                        '    SQL = SQL & "batch_number='" & batch & "', QR_Code='" & Qr & "', "
+                        '    SQL = SQL & "kode_unik_berjalan='" & kodeUnikBerjalan & "', kode_unik_asal='" & kodeUnikAsal & "' "
+                        '    SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
+                        '    'SQL = SQL & "and userid = '" & UserID & "' "
+                        '    ExecuteTrans(SQL)
+                        'End If
                     Next
                 Else
                     CloseConn()
@@ -905,33 +922,90 @@ Public Class EMI_Display_Pallet_Masuk_Data_Lain
             OpenConn()
             'Dim CrDoc As New Object
 
-            SQL = "select kode_perusahaan from Cetak_Barang_Masuk_Perpallet_barang_lain "
+            Dim kertas As String = "BarcodeFG"
+
+            SQL = "select kode_perusahaan from Cetak_Barang_Masuk_Perpallet_Barang_Lain "
             SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_barang_masuk_per_pallet = '" & Lv_BM_PerPallet.FocusedItem.Text & "' "
+            '''SQL = "select a.kode_perusahaan, a.userid, b.no_faktur, b.sdh_cetak "
+            '''SQL = SQL & "from Cetak_Barang_Masuk_Perpallet_Barang_Lain a, EMI_Barang_Masuk_Perpallet_Barang_Lain b "
+            '''SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan and a.no_barang_masuk_per_pallet = b.No_Faktur "
+            '''SQL = SQL & "and b.Sdh_Cetak is null and a.no_barang_masuk_per_pallet = '" & Lv_BM_PerPallet.FocusedItem.Text & "'"
+            '''SQL = SQL & "and a.userid = '" & UserID & "' "
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
 
-                    Dim CrDoc As New BM_Perpallet_Lain
+
+
+                    'Dim CrDoc = New BM_PerPallet_Barang_Lain
+                    'Dim kertas As String = "Barcode TSC"
+
+                    'CrDoc.SetDataSource(Ds)
+                    'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    'CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet_Barang_Lain.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet_Barang_Lain.no_barang_masuk_per_pallet} = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and {Cetak_Barang_Masuk_Perpallet_Barang_Lain.Kode_Unik_Print} = '" & kode_unik_print & "' "
+                    'CrDoc.PrintOptions.PrinterName = PrinterBarcode
+
+                    'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    'doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+                    ''SET KERTAS
+                    'Dim rawKind As Integer
+                    'Dim kertasDitemukan As Boolean = False
+                    'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    'For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                    '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                    '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                    '        CrDoc.PrintOptions.PaperSize = rawKind
+                    '        kertasDitemukan = True
+                    '        Exit For
+                    '    End If
+                    'Next
+
+                    'If Not kertasDitemukan Then
+                    '    CloseConn()
+                    '    MessageBox.Show("Kertas Tidak diTemukan", "Cetak", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    '    Exit Sub
+                    'End If
+
+                    'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    'CrDoc.PrintToPrinter(1, False, 1, 2500)
+
+                    Dim CrDoc As New BM_PerPallet_Barang_Lain
 
                     CrDoc.SetDataSource(Ds)
                     CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and {Cetak_Barang_Masuk_Perpallet.Kode_Unik_Print} = '" & kode_unik_print & "' "
+                    CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet_Barang_Lain.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet_Barang_Lain.no_barang_masuk_per_pallet} = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and {Cetak_Barang_Masuk_Perpallet_Barang_Lain.Kode_Unik_Print} = '" & kode_unik_print & "' "
 
                     CrDoc.PrintOptions.PrinterName = PrinterBarcode
 
                     Dim doctoprint As New System.Drawing.Printing.PrintDocument()
                     doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+                    Dim rawKind As Integer = -1
+
+                    ' Loop mencari ukuran kertas yang cocok
+                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                            rawKind = doctoprint.PrinterSettings.PaperSizes(i).RawKind
+                            Exit For
+                        End If
+                    Next
+
+                    ' Jika kertas ditemukan, gunakan ukurannya
+                    If rawKind <> -1 Then
+                        CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    Else
+                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        Debug.Print("Ukuran kertas tidak ditemukan, menggunakan default.")
+                    End If
 
                     CrDoc.PrintToPrinter(1, False, 1, 2500)
 
-                    '============================================================================================================================================
-                    '============================================================================================================================================
 
                     'KODE LAMA
+                    'CrDoc = New BM_PerPallet_Barang_Lain
                     'With A_Place_For_Printing2
                     '    CrDoc.SetDataSource(Ds)
                     '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                     '    CrDoc.PrintOptions.PrinterName = ""
-                    '    CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet.no_barang_masuk_per_pallet} = '" & Lv_BM_PerPallet.FocusedItem.Text & "' and {Cetak_Barang_Masuk_Perpallet.Kode_Unik_Print} = '" & kode_unik_print & "' "
+                    '    CrDoc.RecordSelectionFormula = "{Cetak_Barang_Masuk_Perpallet_Barang_Lain.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_Barang_Masuk_Perpallet_Barang_Lain.no_barang_masuk_per_pallet} = '" & Lv_BM_PerPallet.FocusedItem.Text & "'" 'and IsNull({EMI_Barang_Masuk_Perpallet_Barang_Lain.Sdh_Cetak}) "
                     '    CrDoc.SummaryInfo.ReportTitle = "Barang Masuk Per Pallet"
                     '    .Text = "Barang Masuk Per Pallet"
                     '    .CrystalReportViewer1.ReportSource = CrDoc

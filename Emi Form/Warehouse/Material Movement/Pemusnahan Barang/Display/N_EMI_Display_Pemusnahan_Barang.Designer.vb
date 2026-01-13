@@ -24,6 +24,7 @@ Partial Class N_EMI_Display_Pemusnahan_Barang
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -32,6 +33,9 @@ Partial Class N_EMI_Display_Pemusnahan_Barang
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Panel9 = New System.Windows.Forms.Panel()
         Me.Lv_Data = New System.Windows.Forms.ListView()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SalinToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CetakFakturToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.Btn_Cari = New System.Windows.Forms.Button()
         Me.Cmb_Lokasi = New System.Windows.Forms.ComboBox()
@@ -51,13 +55,10 @@ Partial Class N_EMI_Display_Pemusnahan_Barang
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Panel10 = New System.Windows.Forms.Panel()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.SalinToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
-        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -68,8 +69,21 @@ Partial Class N_EMI_Display_Pemusnahan_Barang
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(822, 43)
+        Me.Panel1.Size = New System.Drawing.Size(984, 43)
         Me.Panel1.TabIndex = 23
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(984, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -105,7 +119,7 @@ Partial Class N_EMI_Display_Pemusnahan_Barang
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(803, 53)
+        Me.Panel4.Location = New System.Drawing.Point(965, 54)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(19, 780)
@@ -125,7 +139,7 @@ Partial Class N_EMI_Display_Pemusnahan_Barang
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(737, 52)
+        Me.Label8.Location = New System.Drawing.Point(899, 52)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(64, 16)
         Me.Label8.TabIndex = 350
@@ -135,7 +149,7 @@ Partial Class N_EMI_Display_Pemusnahan_Barang
         '
         Me.Panel9.BackColor = System.Drawing.Color.DarkRed
         Me.Panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel9.Location = New System.Drawing.Point(721, 54)
+        Me.Panel9.Location = New System.Drawing.Point(883, 54)
         Me.Panel9.Name = "Panel9"
         Me.Panel9.Size = New System.Drawing.Size(12, 12)
         Me.Panel9.TabIndex = 349
@@ -149,10 +163,28 @@ Partial Class N_EMI_Display_Pemusnahan_Barang
         Me.Lv_Data.HideSelection = False
         Me.Lv_Data.Location = New System.Drawing.Point(18, 72)
         Me.Lv_Data.Name = "Lv_Data"
-        Me.Lv_Data.Size = New System.Drawing.Size(785, 175)
+        Me.Lv_Data.Size = New System.Drawing.Size(947, 175)
         Me.Lv_Data.TabIndex = 1
         Me.Lv_Data.UseCompatibleStateImageBehavior = False
         Me.Lv_Data.View = System.Windows.Forms.View.Details
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalinToolStripMenuItem, Me.CetakFakturToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(155, 48)
+        '
+        'SalinToolStripMenuItem
+        '
+        Me.SalinToolStripMenuItem.Name = "SalinToolStripMenuItem"
+        Me.SalinToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SalinToolStripMenuItem.Text = "Salin No Faktur"
+        '
+        'CetakFakturToolStripMenuItem
+        '
+        Me.CetakFakturToolStripMenuItem.Name = "CetakFakturToolStripMenuItem"
+        Me.CetakFakturToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CetakFakturToolStripMenuItem.Text = "Cetak Faktur"
         '
         'GroupBox3
         '
@@ -335,7 +367,7 @@ Partial Class N_EMI_Display_Pemusnahan_Barang
         Me.Lv_Detail.HideSelection = False
         Me.Lv_Detail.Location = New System.Drawing.Point(5, 21)
         Me.Lv_Detail.Name = "Lv_Detail"
-        Me.Lv_Detail.Size = New System.Drawing.Size(772, 165)
+        Me.Lv_Detail.Size = New System.Drawing.Size(934, 165)
         Me.Lv_Detail.TabIndex = 0
         Me.Lv_Detail.UseCompatibleStateImageBehavior = False
         Me.Lv_Detail.View = System.Windows.Forms.View.Details
@@ -356,7 +388,7 @@ Partial Class N_EMI_Display_Pemusnahan_Barang
         Me.GroupBox1.Font = New System.Drawing.Font("Work Sans", 9.0!)
         Me.GroupBox1.Location = New System.Drawing.Point(20, 258)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(783, 192)
+        Me.GroupBox1.Size = New System.Drawing.Size(945, 192)
         Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Detail"
@@ -365,7 +397,7 @@ Partial Class N_EMI_Display_Pemusnahan_Barang
         '
         Me.Panel10.BackColor = System.Drawing.Color.LightGreen
         Me.Panel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel10.Location = New System.Drawing.Point(640, 54)
+        Me.Panel10.Location = New System.Drawing.Point(802, 54)
         Me.Panel10.Name = "Panel10"
         Me.Panel10.Size = New System.Drawing.Size(12, 12)
         Me.Panel10.TabIndex = 349
@@ -373,43 +405,18 @@ Partial Class N_EMI_Display_Pemusnahan_Barang
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(656, 52)
+        Me.Label3.Location = New System.Drawing.Point(818, 52)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(58, 16)
         Me.Label3.TabIndex = 350
         Me.Label3.Text = "Divalidasi"
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalinToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(155, 26)
-        '
-        'SalinToolStripMenuItem
-        '
-        Me.SalinToolStripMenuItem.Name = "SalinToolStripMenuItem"
-        Me.SalinToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
-        Me.SalinToolStripMenuItem.Text = "Salin No Faktur"
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(822, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'N_EMI_Display_Pemusnahan_Barang
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(822, 611)
+        Me.ClientSize = New System.Drawing.Size(984, 611)
         Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.GroupBox3)
@@ -431,10 +438,10 @@ Partial Class N_EMI_Display_Pemusnahan_Barang
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
-        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -471,4 +478,5 @@ Partial Class N_EMI_Display_Pemusnahan_Barang
     Friend WithEvents Label3 As Label
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents SalinToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CetakFakturToolStripMenuItem As ToolStripMenuItem
 End Class

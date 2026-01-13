@@ -86,7 +86,6 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Txt_SatuanKecil = New System.Windows.Forms.TextBox()
         Me.UNIX = New System.Windows.Forms.TextBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -103,6 +102,7 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Cb_Tb2 = New System.Windows.Forms.CheckBox()
         Me.Cb_Tb3 = New System.Windows.Forms.CheckBox()
         Me.Label15 = New System.Windows.Forms.Label()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         GroupBox1 = New System.Windows.Forms.GroupBox()
         GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -683,6 +683,7 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         'Btn_ShowList
         '
         Me.Btn_ShowList.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_ShowList.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_ShowList.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_ShowList.ForeColor = System.Drawing.Color.White
         Me.Btn_ShowList.Location = New System.Drawing.Point(348, 351)
@@ -695,6 +696,7 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         'Btn_Refresh
         '
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Refresh.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
         Me.Btn_Refresh.Location = New System.Drawing.Point(112, 351)
@@ -707,6 +709,7 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         'Btn_Simpan
         '
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Simpan.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
         Me.Btn_Simpan.Location = New System.Drawing.Point(12, 351)
@@ -956,19 +959,6 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Panel1.Size = New System.Drawing.Size(822, 45)
         Me.Panel1.TabIndex = 22
         '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(822, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
         'Lbl_Judul
         '
         Me.Lbl_Judul.AutoSize = True
@@ -1121,6 +1111,19 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Label15.TabIndex = 501
         Me.Label15.Text = "Timbangan:"
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(822, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'N_EMI_Transaksi_Request_Material_QC_Validasi
         '

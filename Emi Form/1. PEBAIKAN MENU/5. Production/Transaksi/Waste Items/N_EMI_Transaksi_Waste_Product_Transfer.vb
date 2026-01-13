@@ -61,13 +61,22 @@
     End Sub
 
     Private Sub get_no_faktur_pemusnahan()
-        Dim FPro_Results As String = "PMB-"
+        Dim FPro_Results As String = "PBP-"
         Txt_No_Transaksi.Text = FPro_Results & Initial_Faktur & "-" & Format(tgl_skg, "MM/yy") & "-" &
                                       General_Class.Get_Last_Number2("N_EMI_Transaksi_Transfer_Waste_Produk", "no_faktur", JumlahDigit,
                                       "Kode_perusahaan", KodePerusahaan,
                                       "And", "substring(no_faktur,1," & Len(FPro_Results) + Len(Initial_Faktur) + 6 & ")", FPro_Results & Initial_Faktur & "-" & Format(tgl_skg, "MM/yy"))
 
     End Sub
+
+    Private Function get_no_faktur_approval_pemusnahan() As String
+        Dim FPro_Results As String = "AWP"
+        Return FPro_Results & Format(tgl_skg, "MMyy") & "-" &
+                             General_Class.Get_Last_Number2("N_EMI_Transaksi_Approval_Waste", "No_Transaksi", 5,
+                             "Kode_perusahaan", KodePerusahaan,
+                             "And", "substring(No_Transaksi, 1, " & Len(FPro_Results) + 4 & ")", FPro_Results & Format(tgl_skg, "MMyy"))
+
+    End Function
 
     Private Sub Kosong()
 
@@ -144,13 +153,14 @@
 
             End If
 
-            SQL = SQL & "and c.Serial_Number not in ( "
-            SQL = SQL & "select y.Serial_Number_Awal "
-            SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk z, N_EMI_Transaksi_Transfer_Waste_Produk_Detail x, N_EMI_Transaksi_Transfer_Waste_Produk_Det y "
-            SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan "
+            SQL = SQL & "and (c.Qr_Code +'-'+c.Kode_Unik_Berjalan) not in ( "
+            SQL = SQL & "select (k.Qr_Code +'-'+k.Kode_Unik_Berjalan) "
+            SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk z, N_EMI_Transaksi_Transfer_Waste_Produk_Detail x, N_EMI_Transaksi_Transfer_Waste_Produk_Det y, barang_sn k "
+            SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan and y.Kode_Perusahaan = k.Kode_Perusahaan "
             SQL = SQL & "and z.No_Faktur = x.No_Faktur "
             SQL = SQL & "and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF "
             SQL = SQL & "and z.Status is null and z.Flag_Waste_Product = 'Y' "
+            SQL = SQL & "and z.Kode_Stock_Owner = k.Kode_Stock_Owner and x.Kode_Barang = k.Kode_Barang and y.Serial_Number_Awal = k.Serial_Number "
             'SQL = SQL & "and y.Selesai ='Y' and y.Selesai is null and z.Flag_Validasi is null "
             SQL = SQL & "and z.Kode_Perusahaan = a.Kode_Perusahaan) "
             SQL = SQL & "group by a.No_Transaksi, a.No_Production_Order, g.Tanggal, g.Jam, (c.Qr_Code +'-'+c.Kode_Unik_Berjalan), d.Kode_Stock_Owner, d.Kode_Barang, e.Nama, c.Satuan "
@@ -177,13 +187,14 @@
                 End If
 
             End If
-            SQL = SQL & "and b.Serial_Number_Tujuan not in ( "
-            SQL = SQL & "select y.Serial_Number_Awal "
-            SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk z, N_EMI_Transaksi_Transfer_Waste_Produk_Detail x, N_EMI_Transaksi_Transfer_Waste_Produk_Det y "
-            SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan "
+            SQL = SQL & "and (c.Qr_Code +'-'+c.Kode_Unik_Berjalan) not in ( "
+            SQL = SQL & "select (k.Qr_Code +'-'+k.Kode_Unik_Berjalan) "
+            SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk z, N_EMI_Transaksi_Transfer_Waste_Produk_Detail x, N_EMI_Transaksi_Transfer_Waste_Produk_Det y, barang_sn k "
+            SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan and y.Kode_Perusahaan = k.Kode_Perusahaan "
             SQL = SQL & "and z.No_Faktur = x.No_Faktur "
             SQL = SQL & "and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF "
             SQL = SQL & "and z.Status is null and z.Flag_Waste_Product = 'Y' "
+            SQL = SQL & "and z.Kode_Stock_Owner = k.Kode_Stock_Owner and x.Kode_Barang = k.Kode_Barang and y.Serial_Number_Awal = k.Serial_Number "
             SQL = SQL & "and z.Kode_Perusahaan = a.Kode_Perusahaan) "
             SQL = SQL & "group by  a.No_Transaksi, a.No_Production_Order, a.Tanggal, a.Jam, (c.Qr_Code +'-'+c.Kode_Unik_Berjalan), b.Kode_Stock_Owner_Tujuan, b.Kode_Barang, d.Nama, b.Satuan "
 
@@ -379,6 +390,13 @@
             SQL = SQL & "'" & Ket_Lokasi_HO & "', '" & Keterangan & "', 'Y')"
             ExecuteTrans(SQL)
 
+
+            If Not Add_Transaksi_Approval() Then
+                CloseTrans()
+                CloseConn()
+                Exit Sub
+            End If
+
             For i As Integer = 0 To arr_Rekap_Data.Count - 1
 
                 Dim data = arr_Rekap_Data(i)
@@ -422,12 +440,12 @@
                 End Using
 
                 Dim Jumlah_Bags As Double = 0
-                If Jenis_kemasan.ToUpper = "ORIGINAL BAGS" Then
-                    Jumlah_Bags = Math.Ceiling(Val(HilangkanTanda(data.jumlah)) / Val(HilangkanTanda(Berat_Per_Bags)))
-                Else
-                    Jumlah_Bags = 0
+                'If Jenis_kemasan.ToUpper = "ORIGINAL BAGS" Then
+                '    Jumlah_Bags = Math.Ceiling(Val(HilangkanTanda(data.jumlah)) / Val(HilangkanTanda(Berat_Per_Bags)))
+                'Else
+                '    Jumlah_Bags = 0
 
-                End If
+                'End If
 
                 Dim Flag_Timbang As String = "T"
 
@@ -910,14 +928,6 @@
                         End If
 
                     End If
-
-
-
-
-
-
-
-
 
 
 
@@ -1553,6 +1563,83 @@
         Kosong()
 
     End Sub
+
+    Private Function Add_Transaksi_Approval() As Boolean
+
+        Dim No_Faktur_Approval As String = get_no_faktur_approval_pemusnahan()
+
+        Dim No_BA As String = Get_No_Berita_Acara()
+
+        '==============================
+        '=     GET APPROVAL LEVEL     =
+        '==============================
+        SQL = $"
+            select ID_User_Android, Approval_Level, Peran, Jenis_Approval, ID_User_Desktop, Jabatan 
+            from N_EMI_Master_Hierarchy_Approval_Waste 
+            where Kode_Perusahaan = '{KodePerusahaan}' and Jenis_Approval = 'Waste_Produk' and isActive = 'Y'
+            order by Approval_Level
+        "
+        Using Ds9 = BindingTrans(SQL)
+            If Ds9.Tables("MyTable").Rows.Count <> 0 Then
+                For y As Integer = 0 To Ds9.Tables("MyTable").Rows.Count - 1
+
+                    Dim Flag_Approve As String = "NULL"
+                    Dim Flag_Sudah_Kirim_WA As String = "NULL"
+                    Dim UserID_Desktop As String = "NULL"
+
+                    If Ds9.Tables("MyTable").Rows(y).Item("Approval_Level") = "1" Then
+                        If General_Class.CekNULL(Ds9.Tables("MyTable").Rows(y).Item("ID_User_Desktop")) <> "" AndAlso Ds9.Tables("MyTable").Rows(y).Item("ID_User_Desktop").ToString.ToUpper = UserID.ToUpper Then
+                            Flag_Approve = "'Y'"
+                            Flag_Sudah_Kirim_WA = "'Y'"
+                            UserID_Desktop = $"'{UserID}'"
+                        Else
+                            MessageBox.Show($"User {UserID} tidak ditemukan pada hierarchy level waste proses", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Return False
+                        End If
+                    End If
+
+                    SQL = $"
+                        insert into N_EMI_Transaksi_Approval_Waste (Kode_Perusahaan, No_Transaksi, No_Faktur_Waste, Tanggal, Jam, ID_User_Android_Approve, Approval_Level, Jabatan, Jenis_Approval, Flag_Approve, Flag_Sudah_Kirim_WA, Peran, Tanggal_Approve, Jam_Approve, User_ID_Desktop, No_Berita_Acara)
+                        values ('{KodePerusahaan}', '{No_Faktur_Approval}', '{Txt_No_Transaksi.Text}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 
+                            '{Ds9.Tables("MyTable").Rows(y).Item("ID_User_Android")}', '{Ds9.Tables("MyTable").Rows(y).Item("Approval_Level")}', 
+                            '{Ds9.Tables("MyTable").Rows(y).Item("Jabatan")}', '{Ds9.Tables("MyTable").Rows(y).Item("Jenis_Approval")}', {Flag_Approve}, {Flag_Sudah_Kirim_WA}, '{Ds9.Tables("MyTable").Rows(y).Item("Peran")}',
+                            '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', {UserID_Desktop}, '{No_BA}' )
+                    "
+                    ExecuteTrans(SQL)
+
+                Next
+            End If
+        End Using
+
+        Return True
+
+    End Function
+
+    Private Function Get_No_Berita_Acara() As String
+        Dim No_Ba As String = "-"
+
+        SQL = "SELECT "
+        SQL &= $"CAST((COUNT(*) + 1) AS VARCHAR) "
+        SQL &= $"+ '/BATWP/PROD/' "
+        SQL &= $"+ CASE MONTH('{Format(tgl_skg, "yyyy-MM-dd")}') "
+        SQL &= $"WHEN 1 THEN 'I' WHEN 2 THEN 'II' WHEN 3 THEN 'III' WHEN 4 THEN 'IV' "
+        SQL &= $"WHEN 5 THEN 'V' WHEN 6 THEN 'VI' WHEN 7 THEN 'VII' WHEN 8 THEN 'VIII' "
+        SQL &= $"WHEN 9 THEN 'IX' WHEN 10 THEN 'X' WHEN 11 THEN 'XI' WHEN 12 THEN 'XII' "
+        SQL &= $"END "
+        SQL &= $"+ '/' + CAST(YEAR('{Format(tgl_skg, "yyyy-MM-dd")}') AS VARCHAR) AS No_Surat "
+        SQL &= $"FROM N_EMI_Transaksi_Transfer_Waste_Produk "
+        SQL &= $"WHERE MONTH(Tanggal) = MONTH('{Format(tgl_skg, "yyyy-MM-dd")}') "
+        SQL &= $"AND YEAR(Tanggal) = YEAR('{Format(tgl_skg, "yyyy-MM-dd")}') "
+        Using Dr123 = OpenTrans(SQL)
+            If Dr123.Read Then
+                No_Ba = Dr123("No_Surat").ToString.Trim
+            End If
+        End Using
+
+        Return No_Ba
+
+    End Function
+
 
     Private Sub Dtp_1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Dtp_1.KeyPress
         If e.KeyChar = Chr(13) Then Dtp_2.Focus()

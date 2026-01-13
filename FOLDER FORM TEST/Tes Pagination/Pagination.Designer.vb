@@ -22,82 +22,92 @@ Partial Class Pagination
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Btn_Prev = New System.Windows.Forms.Panel()
-        Me.Lbl_Prev = New System.Windows.Forms.Label()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.Btn_Next = New System.Windows.Forms.Label()
-        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
-        Me.Btn_Prev.SuspendLayout()
-        Me.Panel1.SuspendLayout()
+        Me.btnPrev = New System.Windows.Forms.Button()
+        Me.btnFirst = New System.Windows.Forms.Button()
+        Me.btnNext = New System.Windows.Forms.Button()
+        Me.btnLast = New System.Windows.Forms.Button()
+        Me.lblInfo = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
-        'Btn_Prev
+        'btnPrev
         '
-        Me.Btn_Prev.Controls.Add(Me.Lbl_Prev)
-        Me.Btn_Prev.Location = New System.Drawing.Point(95, 57)
-        Me.Btn_Prev.Name = "Btn_Prev"
-        Me.Btn_Prev.Size = New System.Drawing.Size(49, 30)
-        Me.Btn_Prev.TabIndex = 0
+        Me.btnPrev.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btnPrev.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.btnPrev.ForeColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(203, Byte), Integer))
+        Me.btnPrev.Location = New System.Drawing.Point(45, 6)
+        Me.btnPrev.Name = "btnPrev"
+        Me.btnPrev.Size = New System.Drawing.Size(30, 30)
+        Me.btnPrev.TabIndex = 2
+        Me.btnPrev.Text = "<"
+        Me.btnPrev.UseVisualStyleBackColor = True
         '
-        'Lbl_Prev
+        'btnFirst
         '
-        Me.Lbl_Prev.AutoSize = True
-        Me.Lbl_Prev.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Lbl_Prev.ForeColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(203, Byte), Integer))
-        Me.Lbl_Prev.Location = New System.Drawing.Point(5, 5)
-        Me.Lbl_Prev.Name = "Lbl_Prev"
-        Me.Lbl_Prev.Size = New System.Drawing.Size(39, 20)
-        Me.Lbl_Prev.TabIndex = 0
-        Me.Lbl_Prev.Text = "Prev"
+        Me.btnFirst.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btnFirst.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.btnFirst.ForeColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(203, Byte), Integer))
+        Me.btnFirst.Location = New System.Drawing.Point(5, 6)
+        Me.btnFirst.Name = "btnFirst"
+        Me.btnFirst.Size = New System.Drawing.Size(38, 30)
+        Me.btnFirst.TabIndex = 2
+        Me.btnFirst.Text = "<<"
+        Me.btnFirst.UseVisualStyleBackColor = True
         '
-        'Panel1
+        'btnNext
         '
-        Me.Panel1.Controls.Add(Me.Btn_Next)
-        Me.Panel1.Location = New System.Drawing.Point(352, 57)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(49, 30)
-        Me.Panel1.TabIndex = 0
+        Me.btnNext.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btnNext.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.btnNext.ForeColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(203, Byte), Integer))
+        Me.btnNext.Location = New System.Drawing.Point(203, 6)
+        Me.btnNext.Name = "btnNext"
+        Me.btnNext.Size = New System.Drawing.Size(30, 30)
+        Me.btnNext.TabIndex = 2
+        Me.btnNext.Text = ">"
+        Me.btnNext.UseVisualStyleBackColor = True
         '
-        'Btn_Next
+        'btnLast
         '
-        Me.Btn_Next.AutoSize = True
-        Me.Btn_Next.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.Btn_Next.ForeColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(203, Byte), Integer))
-        Me.Btn_Next.Location = New System.Drawing.Point(5, 5)
-        Me.Btn_Next.Name = "Btn_Next"
-        Me.Btn_Next.Size = New System.Drawing.Size(40, 20)
-        Me.Btn_Next.TabIndex = 0
-        Me.Btn_Next.Text = "Next"
+        Me.btnLast.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btnLast.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.btnLast.ForeColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(203, Byte), Integer))
+        Me.btnLast.Location = New System.Drawing.Point(235, 6)
+        Me.btnLast.Name = "btnLast"
+        Me.btnLast.Size = New System.Drawing.Size(38, 30)
+        Me.btnLast.TabIndex = 2
+        Me.btnLast.Text = ">>"
+        Me.btnLast.UseVisualStyleBackColor = True
         '
-        'FlowLayoutPanel1
+        'lblInfo
         '
-        Me.FlowLayoutPanel1.Font = New System.Drawing.Font("Work Sans", 10.0!)
-        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(145, 57)
-        Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(206, 30)
-        Me.FlowLayoutPanel1.TabIndex = 1
+        Me.lblInfo.BackColor = System.Drawing.Color.White
+        Me.lblInfo.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.lblInfo.Font = New System.Drawing.Font("Work Sans SemiBold", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.lblInfo.Location = New System.Drawing.Point(79, 14)
+        Me.lblInfo.Name = "lblInfo"
+        Me.lblInfo.ReadOnly = True
+        Me.lblInfo.Size = New System.Drawing.Size(120, 15)
+        Me.lblInfo.TabIndex = 3
+        Me.lblInfo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Pagination
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.White
-        Me.Controls.Add(Me.FlowLayoutPanel1)
-        Me.Controls.Add(Me.Panel1)
-        Me.Controls.Add(Me.Btn_Prev)
+        Me.BackColor = System.Drawing.Color.Transparent
+        Me.Controls.Add(Me.lblInfo)
+        Me.Controls.Add(Me.btnFirst)
+        Me.Controls.Add(Me.btnLast)
+        Me.Controls.Add(Me.btnNext)
+        Me.Controls.Add(Me.btnPrev)
         Me.Name = "Pagination"
-        Me.Size = New System.Drawing.Size(503, 143)
-        Me.Btn_Prev.ResumeLayout(False)
-        Me.Btn_Prev.PerformLayout()
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
+        Me.Size = New System.Drawing.Size(281, 41)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents Btn_Prev As Panel
-    Friend WithEvents Lbl_Prev As Label
-    Friend WithEvents Panel1 As Panel
-    Friend WithEvents Btn_Next As Label
-    Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
+    Friend WithEvents btnPrev As Button
+    Friend WithEvents btnFirst As Button
+    Friend WithEvents btnNext As Button
+    Friend WithEvents btnLast As Button
+    Friend WithEvents lblInfo As TextBox
 End Class

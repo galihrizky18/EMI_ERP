@@ -379,48 +379,51 @@ Public Class N_EMI_Transaksi_Cetak_Barcode_Stock_Per_Gudang
                                     kertasBarcode = "BarcodeFG"
 
 
-                                    'With A_Place_For_Printing2
-                                    '    CrDoc.SetDataSource(Ds2)
-                                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                                    '    CrDoc.PrintOptions.PrinterName = ""
-                                    '    CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_TransferStock.kode_unik_print} = '" & kode_unik_print & "' and {Cetak_TransferStock.batch} = '" & batchLama & "' "
-                                    '    CrDoc.SummaryInfo.ReportTitle = "New Barcode Transfer Stock"
-                                    '    .Text = "New Barcode Transfer Stock"
-                                    '    .CrystalReportViewer1.ReportSource = CrDoc
-                                    '    .Refresh()
-                                    '    .Show()
-                                    'End With
+                                    Dim Batchh As String = .Rows(i).Item("Batch_Number").ToString.Trim
+                                    With A_Place_For_Printing2
+                                        CrDoc.SetDataSource(Ds2)
+                                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                                        CrDoc.PrintOptions.PrinterName = ""
+                                        CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_TransferStock.kode_unik_print} = '" & kode_unik_print & "' and {Cetak_TransferStock.batch} = '" & Batchh & "' "
+                                        CrDoc.SummaryInfo.ReportTitle = "New Barcode Transfer Stock"
+                                        .Text = "New Barcode Transfer Stock"
+                                        .CrystalReportViewer1.ReportSource = CrDoc
+                                        .Refresh()
+                                        .Show()
+                                    End With
 
                                     '=================================================================================================================================================================
 
-                                    CrDoc.SetDataSource(Ds2)
-                                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                                    CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_TransferStock.kode_unik_print} = '" & kode_unik_print & "' and {Cetak_TransferStock.batch} = '" & .Rows(i).Item("Batch_Number").ToString.Trim & "' "
+                                    'CrDoc.SetDataSource(Ds2)
+                                    'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                                    'CrDoc.RecordSelectionFormula = "{Cetak_TransferStock.Kode_Perusahaan} = '" & KodePerusahaan & "' and {Cetak_TransferStock.kode_unik_print} = '" & kode_unik_print & "' and {Cetak_TransferStock.batch} = '" & .Rows(i).Item("Batch_Number").ToString.Trim & "'"
 
-                                    CrDoc.PrintOptions.PrinterName = PrinterBarcode
+                                    'CrDoc.PrintOptions.PrinterName = PrinterBarcode
 
-                                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                                    doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+                                    'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                                    'doctoprint.PrinterSettings.PrinterName = PrinterBarcode
 
-                                    Dim rawKind As Integer
-                                    Dim isPaperFound As Boolean = False
-                                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                                    For j = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                                        If doctoprint.PrinterSettings.PaperSizes(j).PaperName = kertasBarcode Then
-                                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(j).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(j)))
-                                            CrDoc.PrintOptions.PaperSize = rawKind
-                                            isPaperFound = True
-                                            Exit For
-                                        End If
-                                    Next
+                                    'Dim rawKind As Integer
+                                    'Dim isPaperFound As Boolean = False
+                                    'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                                    'For j = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                                    '    If doctoprint.PrinterSettings.PaperSizes(j).PaperName = kertasBarcode Then
+                                    '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(j).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(j)))
+                                    '        CrDoc.PrintOptions.PaperSize = rawKind
+                                    '        isPaperFound = True
+                                    '        Exit For
+                                    '    End If
+                                    'Next
 
-                                    If Not isPaperFound Then
-                                        MessageBox.Show("Kertas Tidak DiTemukan, Kertas di set ke default", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                                    End If
+                                    'If Not isPaperFound Then
+                                    '    MessageBox.Show("Kertas Tidak DiTemukan, Kertas di set ke default", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    '    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                                    'End If
 
-                                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                                    CrDoc.PrintToPrinter(1, False, 1, 99)
+                                    'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                                    'CrDoc.PrintToPrinter(1, False, 1, 99)
+
+
                                 End If
                             End Using
 

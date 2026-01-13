@@ -222,7 +222,7 @@ Public Class EMI_Validasi_GR_Display
                             Lv.SubItems.Add(.Rows(i).Item("Jam"))
                             Lv.SubItems.Add(.Rows(i).Item("Kode_Barang"))
                             Lv.SubItems.Add(.Rows(i).Item("Nama_Barang"))
-                            Lv.SubItems.Add(.Rows(i).Item("Keterangan"))
+                            Lv.SubItems.Add(If(General_Class.CekNULL(.Rows(i).Item("Keterangan")) = "", "-", .Rows(i).Item("Keterangan")))
                             'Lv.SubItems.Add(Format(.Rows(i).Item("JumlahValidasi"), "N2"))
                             'Lv.SubItems.Add(.Rows(i).Item("Satuan"))
                             Lv.SubItems.Add(.Rows(i).Item("UserID"))
@@ -349,7 +349,14 @@ Public Class EMI_Validasi_GR_Display
                     Txt_Barcode.Text = $"{Dr("Qr_Code")}-{Dr("Kode_Unik_Berjalan")}"
                     Txt_Jenis.Text = Dr("Jenis")
                     Dtp_Produksi.Value = Dr("Tgl_Produksi") : Dtp_Expired.Value = Dr("Tgl_Expired")
-                    Txt_Jumlah.Text = Format(Dr("Jumlah"), "N0") : Cmb_Satuan.Text = Dr("Satuan")
+
+                    If Dr("Jenis").ToString.ToUpper.Trim = "FINISHED GOOD" Then
+                        Txt_Jumlah.Text = Format(Dr("Jumlah"), "N0")
+                    Else
+                        Txt_Jumlah.Text = Format(Dr("Jumlah"), "N4")
+                    End If
+
+                    Cmb_Satuan.Text = Dr("Satuan")
 
                 End If
             End Using
@@ -588,9 +595,20 @@ Public Class EMI_Validasi_GR_Display
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
 
+            '====================
+            '=     CEK ROLE     =
+            '====================
+            If CekButtonRole("Cetak_Ulang_Barcode_GR_2") = "T" Then
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("Anda Tidak Memiliki Akses Untuk Cetak Ulang Barcode", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
             Dim selectedSplit As String = Lv_Validation.FocusedItem.SubItems(item_NoSplit).Text
             Dim selectedFaktur As String = Lv_Validation.FocusedItem.SubItems(item_NoTransaksi).Text
             Dim SelectedBarcode As String = Lv_Detail.FocusedItem.SubItems(itemDetail_Barode).Text
+
 
             SQL = "select Kode_Perusahaan from Emi_Production_Results_Validation "
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
@@ -667,7 +685,7 @@ Public Class EMI_Validasi_GR_Display
             SQL = SQL & "case when c.jenis = 'REJECTED' then 'Disqualified ' else c.jenis end as Jenis, "
             SQL = SQL & "c.nomor as Number, "
 
-            SQL = SQL & "e.Kode_Unik_Berjalan, g.Id_Routing, h.Keterangan as Routing "
+            SQL = SQL & "e.Kode_Unik_Berjalan, g.Id_Routing, h.Keterangan as Routing, b.jam AS Jam_Transaksi "
 
             SQL = SQL & "from Emi_Production_Results_Validation b, Emi_Production_Results_Validation_Detail c, Barang d, Barang_SN e, Emi_Split_Production_Order f, EMI_Order_Produksi g, EMI_Master_Routing h "
             SQL = SQL & "where  b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Perusahaan = e.Kode_Perusahaan "
@@ -681,6 +699,7 @@ Public Class EMI_Validasi_GR_Display
             SQL = SQL & "and b.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and b.No_Production_Order = '" & selectedSplit & "' "
             SQL = SQL & "and b.No_Transaksi = '" & selectedFaktur & "'  and c.Jenis<>'Finished Good' "
+            SQL = SQL & "AND (e.Qr_Code +'-' +e.Kode_Unik_Berjalan) = '" & SelectedBarcode & "' "
 
             SQL = SQL & "union all "
 
@@ -689,7 +708,7 @@ Public Class EMI_Validasi_GR_Display
             SQL = SQL & "case when c.jenis = 'REJECTED' then 'Disqualified ' else c.jenis end as Jenis, "
             SQL = SQL & "c.nomor as Number, "
 
-            SQL = SQL & "e.Kode_Unik_Berjalan, g.Id_Routing, h.Keterangan as Routing "
+            SQL = SQL & "e.Kode_Unik_Berjalan, g.Id_Routing, h.Keterangan as Routing, b.jam AS Jam_Transaksi "
 
             SQL = SQL & "from Emi_Production_Results_Validation b, Emi_Production_Results_Validation_Detail c, Barang d, Barang_SN_sementara e, Emi_Split_Production_Order f, EMI_Order_Produksi g, EMI_Master_Routing h "
             SQL = SQL & "where  b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Perusahaan = e.Kode_Perusahaan "
@@ -703,6 +722,7 @@ Public Class EMI_Validasi_GR_Display
             SQL = SQL & "and b.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and b.No_Production_Order = '" & selectedSplit & "' "
             SQL = SQL & "and b.No_Transaksi = '" & selectedFaktur & "'  and c.Jenis='Finished Good' "
+            SQL = SQL & "AND (e.Qr_Code +'-' +e.Kode_Unik_Berjalan) = '" & SelectedBarcode & "' "
 
             'KODE LAMA
             'SQL = SQL & ") select kode_perusahaan, no_production_order, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired, sum(Jumlah) as Jumlah, Satuan, Jenis, Number, Id_Routing, Routing "
@@ -711,9 +731,9 @@ Public Class EMI_Validasi_GR_Display
             SQL = SQL & ") select a.kode_perusahaan, a.no_production_order, a.Lokasi_Tujuan, a.Kode_Barang, a.Nama_Barang, a.Kode_Unik_Berjalan, a.Batch_Number, a.Qr_Code,  "
             SQL = SQL & "isnull((select top 1 z.Tgl_Produksi from cte z where a.Kode_Perusahaan = z.Kode_Perusahaan and a.No_Production_Order = z.No_Production_Order and a.Kode_Unik_Berjalan = z.Kode_Unik_Berjalan), '') as Tgl_Produksi, "
             SQL = SQL & "isnull((select top 1 z.Tgl_Expired from cte z where a.Kode_Perusahaan = z.Kode_Perusahaan and a.No_Production_Order = z.No_Production_Order and a.Kode_Unik_Berjalan = z.Kode_Unik_Berjalan), '') as Tgl_Expired, "
-            SQL = SQL & "sum(a.Jumlah) as Jumlah, a.Satuan, a.Jenis, a.Number, a.Id_Routing, a.Routing "
+            SQL = SQL & "sum(a.Jumlah) as Jumlah, a.Satuan, a.Jenis, a.Number, a.Id_Routing, a.Routing, a.Jam_Transaksi "
             SQL = SQL & "from cte a "
-            SQL = SQL & "group by a.kode_perusahaan, a.no_production_order, a.Lokasi_Tujuan, a.Kode_Barang, a.Nama_Barang, a.Kode_Unik_Berjalan, a.Batch_Number, a.Qr_Code, a.Satuan, a.Jenis, a.Number, a.Nomor, a.Id_Routing, a.Routing "
+            SQL = SQL & "group by a.kode_perusahaan, a.no_production_order, a.Lokasi_Tujuan, a.Kode_Barang, a.Nama_Barang, a.Kode_Unik_Berjalan, a.Batch_Number, a.Qr_Code, a.Satuan, a.Jenis, a.Number, a.Nomor, a.Id_Routing, a.Routing, a.Jam_Transaksi "
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
@@ -775,14 +795,14 @@ Public Class EMI_Validasi_GR_Display
                             fs1.Close()
                             Cmd.Parameters.Add("@newBarcode" & kode_unik_print, SqlDbType.Image).Value = rawData1
 
-                            Dim asdada As String = .Rows(i).Item("Jenis").ToString.ToUpper
+                            Dim asdada As String = .Rows(i).Item("Jenis").ToString.ToUpper.Trim
 
-                            If .Rows(i).Item("Jenis").ToString.ToUpper.Trim = "FINISHED GOOOD" Then
+                            If .Rows(i).Item("Jenis").ToString.ToUpper.Trim = "FINISHED GOOD" Then
 
                                 SQL = "insert into N_EMI_Barcode_Label_Barcode_GR_2 (Kode_Perusahaan, No_Split, Kode_Barang, Barcode, Nama_Barang, Batch_Number, QrUtuh, Qr, Tgl_Produksi, Jam_Produksi, Tgl_Expired, Jam_Expired, Jumlah, Satuan, Jenis, Number, Kode_Unik_Print) "
                                 SQL = SQL & "values ('" & KodePerusahaan & "', '" & .Rows(i).Item("no_production_order") & "', '" & .Rows(i).Item("Kode_Barang") & "', @newBarcode" & kode_unik_print & ", "
-                                SQL = SQL & "'" & .Rows(i).Item("Nama_Barang") & "', '" & .Rows(i).Item("Batch_Number") & "', '" & fullNewQrScrap & "', '" & .Rows(i).Item("Qr_Code") & "', '" & .Rows(i).Item("Tgl_Produksi") & "', "
-                                SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & .Rows(i).Item("Tgl_Expired") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & .Rows(i).Item("Jumlah") & "', '" & .Rows(i).Item("Satuan") & "', "
+                                SQL = SQL & "'" & .Rows(i).Item("Nama_Barang") & "', '" & .Rows(i).Item("Batch_Number") & "', '" & fullNewQrScrap & "', '" & .Rows(i).Item("Qr_Code") & "', '" & Format(.Rows(i).Item("Tgl_Produksi"), "yyyy-MM-dd") & "', "
+                                SQL = SQL & "'" & .Rows(i).Item("Jam_Transaksi") & "', '" & Format(.Rows(i).Item("Tgl_Expired"), "yyyy-MM-dd") & "', '" & .Rows(i).Item("Jam_Transaksi") & "', '" & .Rows(i).Item("Jumlah") & "', '" & .Rows(i).Item("Satuan") & "', "
                                 SQL = SQL & "'" & .Rows(i).Item("Jenis") & "', '" & .Rows(i).Item("Number") & "', '" & kode_unik_print & "') "
                                 ExecuteTrans(SQL)
 
@@ -791,8 +811,8 @@ Public Class EMI_Validasi_GR_Display
                             ElseIf .Rows(i).Item("Jenis").ToString.ToUpper.Trim = "DISQUALIFIED" Then
                                 SQL = "insert into N_EMI_Barcode_Label_Barcode_GR_2 (Kode_Perusahaan, No_Split, Kode_Barang, Barcode, Nama_Barang, Batch_Number, QrUtuh, Qr, Tgl_Produksi, Jam_Produksi, Tgl_Expired, Jam_Expired, Jumlah, Satuan, Jenis, Number, Kode_Unik_Print) "
                                 SQL = SQL & "values ('" & KodePerusahaan & "', '" & .Rows(i).Item("no_production_order") & "', '" & .Rows(i).Item("Kode_Barang") & "', @newBarcode" & kode_unik_print & ", "
-                                SQL = SQL & "'" & .Rows(i).Item("Nama_Barang") & "', '" & .Rows(i).Item("Batch_Number") & "', '" & fullNewQrScrap & "', '" & .Rows(i).Item("Qr_Code") & "', '" & .Rows(i).Item("Tgl_Produksi") & "', "
-                                SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & .Rows(i).Item("Tgl_Expired") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & .Rows(i).Item("Jumlah") & "', '" & .Rows(i).Item("Satuan") & "', "
+                                SQL = SQL & "'" & .Rows(i).Item("Nama_Barang") & "', '" & .Rows(i).Item("Batch_Number") & "', '" & fullNewQrScrap & "', '" & .Rows(i).Item("Qr_Code") & "', '" & Format(.Rows(i).Item("Tgl_Produksi"), "yyyy-MM-dd") & "', "
+                                SQL = SQL & "'" & .Rows(i).Item("Jam_Transaksi") & "', '" & Format(.Rows(i).Item("Tgl_Expired"), "yyyy-MM-dd") & "', '" & .Rows(i).Item("Jam_Transaksi") & "', '" & .Rows(i).Item("Jumlah") & "', '" & .Rows(i).Item("Satuan") & "', "
                                 SQL = SQL & "'" & .Rows(i).Item("Jenis") & "', '" & .Rows(i).Item("Number") & "', '" & kode_unik_print & "') "
                                 ExecuteTrans(SQL)
 
@@ -805,7 +825,7 @@ Public Class EMI_Validasi_GR_Display
                                 SQL = "insert into N_EMI_Barcode_Label_Barcode_GR_2_Scrap (kode_perusahaan, no_split, Barcode, Kode_barang, Nama_Barang, QrUtuh, Qr, Tgl_Produksi, Jam_Produksi, "
                                 SQL = SQL & "Proses, Jumlah, Satuan, Nomor, id_routing, routing, Kode_unik_print)  "
                                 SQL = SQL & "values ('" & KodePerusahaan & "', '" & selectedSplit & "', @newBarcode" & kode_unik_print & ", '" & .Rows(i).Item("Kode_Barang") & "', '" & .Rows(i).Item("Nama_Barang") & "', '" & fullNewQrScrap & "', '" & .Rows(i).Item("Qr_Code") & "', "
-                                SQL = SQL & "'" & .Rows(i).Item("Tgl_Produksi") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', 'X', '" & .Rows(i).Item("Jumlah") & "', '" & .Rows(i).Item("Satuan") & "', "
+                                SQL = SQL & "'" & Format(.Rows(i).Item("Tgl_Produksi"), "yyyy-MM-dd") & "', '" & .Rows(i).Item("Jam_Transaksi") & "', 'X', '" & .Rows(i).Item("Jumlah") & "', '" & .Rows(i).Item("Satuan") & "', "
                                 SQL = SQL & "'" & .Rows(i).Item("Number") & "', '" & .Rows(i).Item("Id_Routing") & "', '" & .Rows(i).Item("Routing") & "', '" & kode_unik_print & "') "
                                 ExecuteTrans(SQL)
 
@@ -820,13 +840,6 @@ Public Class EMI_Validasi_GR_Display
                 End With
             End Using
 
-
-            If True Then
-                CloseTrans()
-                CloseConn()
-                MessageBox.Show("Tahan")
-                Exit Sub
-            End If
 
 
 

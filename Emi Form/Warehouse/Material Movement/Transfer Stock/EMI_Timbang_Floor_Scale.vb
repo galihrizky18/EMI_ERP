@@ -840,6 +840,37 @@ Public Class EMI_Timbang_Floor_Scale
                     '=       POTONG STOCK       =
                     '============================
 
+#Region "POTONG STOCK"
+
+                    '======================================
+                    '=     GET STOCK SEBELUM DIPOTONG     =
+                    '======================================
+                    Dim Stock_SblmPotong As Double = 0
+                    Dim Stock_SN_SblmPotong As Double = 0
+                    SQL = "select isnull(sum(Good_Stock), 0) as Stock from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoAwal & "' and kode_barang = '" & GetDataKdBrg & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            Stock_SblmPotong = Math.Round(Dr("Stock"), 4)
+                        End If
+                    End Using
+
+                    SQL = "select isnull(sum(Jumlah), 0) as Stock_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoAwal & "' and kode_barang = '" & GetDataKdBrg & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            Stock_SN_SblmPotong = Math.Round(Dr("Stock_SN"), 4)
+                        End If
+                    End Using
+
+                    If Stock_SblmPotong <> Stock_SN_SblmPotong Then
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show($"Jumlah Stock {GetDataKdBrg} pada Gudang {GetSoAwal} Tidak Sesuai Sebelum Dipotong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
                     Dim nilai_persediaan_min As Double = 0
                     SQL = "select round(dbo.get_hpp(serial_number) * " & nilai_kecildetail & ", 2) as rp_persediaan_min from barang_sn where "
                     SQL = SQL & "Kode_Stock_Owner='" & GetSoAwal & "' and Kode_Barang='" & GetDataKdBrg & "' "
@@ -882,6 +913,13 @@ Public Class EMI_Timbang_Floor_Scale
                                 SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & GetSoAwal & "' "
                                 SQL = SQL & " and Kode_Barang='" & GetDataKdBrg & "'"
                                 ExecuteTrans(SQL)
+
+                                SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock_Floor_Scale "
+                                SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
+                                SQL &= $"values ('{KodePerusahaan}', '{GetDataKodeTransfer}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
+                                SQL &= $"'POTONG STOCK BARANG', '{GetSoAwal}', '{GetDataKdBrg}', '-', '{Stock_SblmPotong}', 0, '{nilai_kecildetail}', 0) "
+                                ExecuteTrans(SQL)
+
                             End If
                         Else
                             dr.Close()
@@ -915,6 +953,12 @@ Public Class EMI_Timbang_Floor_Scale
                                 SQL = SQL & "Jumlah_Bags = Jumlah_Bags - " & Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) & " "
                                 SQL = SQL & "where Kode_Stock_Owner='" & GetSoAwal & "' and Kode_Barang='" & GetDataKdBrg & "' "
                                 SQL = SQL & "and Serial_Number='" & GetSnAwal & "'"
+                                ExecuteTrans(SQL)
+
+                                SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock_Floor_Scale "
+                                SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
+                                SQL &= $"values ('{KodePerusahaan}', '{GetDataKodeTransfer}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
+                                SQL &= $"'POTONG STOCK BARANG SN', '{GetSoAwal}', '{GetDataKdBrg}', '{GetSnAwal}', '{Stock_SblmPotong}', 0, '{nilai_kecildetail}', 0) "
                                 ExecuteTrans(SQL)
                             End If
                         Else
@@ -956,6 +1000,54 @@ Public Class EMI_Timbang_Floor_Scale
                         End With
                     End Using
 
+
+                    '=======================================
+                    '=     CEK STOCK SETELAH DI POTONG     =
+                    '=======================================
+                    Dim Stock_Setelah_Potong As Double = 0
+                    Dim Stock_SN_Setelah_Potong As Double = 0
+                    SQL = "select isnull(sum(Good_Stock), 0) as Stock from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoAwal & "' and kode_barang = '" & GetDataKdBrg & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            Stock_Setelah_Potong = Math.Round(Dr("Stock"), 4)
+                        End If
+                    End Using
+
+                    SQL = "select isnull(sum(Jumlah), 0) as Stock_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoAwal & "' and kode_barang = '" & GetDataKdBrg & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            Stock_SN_Setelah_Potong = Math.Round(Dr("Stock_SN"), 4)
+                        End If
+                    End Using
+
+                    If Stock_Setelah_Potong <> Stock_SN_Setelah_Potong Then
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show($"Jumlah Stock {GetDataKdBrg} pada Gudang {GetSoAwal} Tidak Sesuai Setelah Di Potong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                    If Math.Round((Stock_SblmPotong - Stock_Setelah_Potong), 4) <> Math.Round(nilai_kecildetail, 4) Then
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show($"Jumlah Stock Sebelum dan Sesudah Di potong Pada Gudang {GetSoAwal}, Barang {GetDataKdBrg} Tidak Sesuai Setelah Di Potong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                    If Math.Round((Stock_SN_SblmPotong - Stock_SN_Setelah_Potong), 4) <> Math.Round(nilai_kecildetail, 4) Then
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show($"Jumlah Stock Sebelum dan Sesudah Di potong Pada Gudang {GetSoAwal}, Barang {GetDataKdBrg} Tidak Sesuai Setelah Di Potong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+#End Region
+
                     '==========================================
                     '=       GET NOMOR REQUEST MATERIAL       =
                     '==========================================
@@ -977,6 +1069,41 @@ Public Class EMI_Timbang_Floor_Scale
                     '==============================
                     '=       INSERT SN BARU       =
                     '==============================
+
+#Region "INSERT SN BARU"
+
+                    '===========================================
+                    '=       GET STOCK SEBELUM DIINSERT       =
+                    '===========================================
+                    Dim Stock_Sebelum_Insert As Double = 0
+                    Dim Stock_SN_Sebelum_Insert As Double = 0
+                    Dim Bags_Sebelum_Insert As Double = 0
+                    Dim Bags_SN_Sebelum_Insert As Double = 0
+                    SQL = "select isnull(sum(Good_Stock), 0) as Stock, sum(Jumlah_Bags) as Stock_Bags from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoTujuan & "' and kode_barang = '" & GetDataKdBrg & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            Stock_Sebelum_Insert = Math.Round(Dr("Stock"), 4)
+                            Bags_Sebelum_Insert = Math.Round(Dr("Stock_Bags"), 4)
+                        End If
+                    End Using
+
+                    SQL = "select isnull(sum(Jumlah), 0) as Stock_SN, sum(Jumlah_Bags) as Stock_Bags_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoTujuan & "' and kode_barang = '" & GetDataKdBrg & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            Stock_SN_Sebelum_Insert = Math.Round(Dr("Stock_SN"), 4)
+                            Bags_SN_Sebelum_Insert = Math.Round(Dr("Stock_Bags_SN"), 4)
+                        End If
+                    End Using
+
+                    If Stock_Sebelum_Insert <> Stock_SN_Sebelum_Insert Then
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show($"Jumlah Stock {GetDataKdBrg} pada Gudang {GetSoTujuan} Tidak Sesuai Sebelum Diinsert", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
 
                     Dim hargaIsn As String = ""
                     Dim warnaLama As String = ""
@@ -1023,14 +1150,26 @@ Public Class EMI_Timbang_Floor_Scale
                     SQL = SQL & "and Serial_Number='" & GetSnAwal & "' "
                     ExecuteTrans(SQL)
 
+                    SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock_Floor_Scale "
+                    SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
+                    SQL &= $"values ('{KodePerusahaan}', '{GetDataKodeTransfer}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
+                    SQL &= $"'INSERT STOCK BARANG SN', '{GetSoTujuan}', '{GetDataKdBrg}', '{SN_Baru}', '{Stock_Sebelum_Insert}', 0, '{nilai_kecildetail}', 0) "
+                    ExecuteTrans(SQL)
+
                     '============================
                     '=       TAMBAH STOCK       =
                     '============================
-
                     SQL = "update barang set Good_Stock= Good_Stock + Round(" & nilai_kecildetail & ",4), Jumlah_Bags = Jumlah_Bags + " & Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) & " "
                     SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & GetSoTujuan & "' "
                     SQL = SQL & " and Kode_Barang='" & GetDataKdBrg & "'"
                     ExecuteTrans(SQL)
+
+                    SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock_Floor_Scale "
+                    SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
+                    SQL &= $"values ('{KodePerusahaan}', '{GetDataKodeTransfer}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
+                    SQL &= $"'INSERT STOCK BARANG', '{GetSoTujuan}', '{GetDataKdBrg}', '-', '{Stock_Sebelum_Insert}', 0, '{nilai_kecildetail}', 0) "
+                    ExecuteTrans(SQL)
+
 
                     'CEK KESESUAIAN STOCK
                     SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_sn x "
@@ -1059,6 +1198,69 @@ Public Class EMI_Timbang_Floor_Scale
                             End If
                         End With
                     End Using
+
+                    '=======================
+                    '=     CEK SN BARU     =
+                    '=======================
+                    SQL = "SELECT Kode_Perusahaan from Barang_SN where Kode_Perusahaan = '" & KodePerusahaan & "' AND Serial_Number = '" & SN_Baru & "'"
+                    Using Dr = OpenTrans(SQL)
+                        If Not Dr.Read Then
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Data SN Baru Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
+
+                    '=======================================
+                    '=     CEK STOCK SETELAH DIINSERT     =
+                    '=======================================
+                    Dim Stock_Setelah_Insert As Double = 0
+                    Dim Stock_SN_Setelah_Insert As Double = 0
+                    SQL = "select isnull(sum(Good_Stock), 0) as Stock from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoTujuan & "' and kode_barang = '" & GetDataKdBrg & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            Stock_Setelah_Insert = Math.Round(Dr("Stock"), 4)
+                        End If
+                    End Using
+
+                    SQL = "select isnull(sum(Jumlah), 0) as Stock_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoTujuan & "' and kode_barang = '" & GetDataKdBrg & "' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            Stock_SN_Setelah_Insert = Math.Round(Dr("Stock_SN"), 4)
+                        End If
+                    End Using
+
+                    If Stock_Setelah_Insert <> Stock_SN_Setelah_Insert Then
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show($"Jumlah Stock {GetDataKdBrg} pada Gudang {GetSoTujuan} Tidak Sesuai Setelah Diinsert", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+
+                    If Math.Round((Stock_Setelah_Insert - Stock_Sebelum_Insert), 4) <> Math.Round(nilai_kecildetail, 4) Then
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show($"Jumlah Stock Sebelum dan Sesudah Di Insert Pada Gudang {GetSoTujuan}, Barang {GetDataKdBrg} Tidak Sesuai Setelah Di Potong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                    If Math.Round((Stock_SN_Setelah_Insert - Stock_SN_Sebelum_Insert), 4) <> Math.Round(nilai_kecildetail, 4) Then
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show($"Jumlah Stock Sebelum dan Sesudah Di Insert Pada Gudang {GetSoTujuan}, Barang {GetDataKdBrg} Tidak Sesuai Setelah Di Potong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+
+#End Region
 
 #Region "JURNAL"
 

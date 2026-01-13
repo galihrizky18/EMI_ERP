@@ -49,11 +49,10 @@
         End Try
 
         If asal = "PR_PENAWARAN" Then
-            N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.TxtPO_KdSupplier.Text = ""
-            N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.TxtPO_NmSupplier.Text = ""
+            N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.ComboBox_Filter.SelectedIndex = -1
+            N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.Filter_Text.Text = ""
             N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.Fetch_PR_Offered()
-            N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.Fetch_PR_Waiting_Offer_All()
-            N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.LvSupplier2.Visible = False
+            N_EMI_Purchase_Requisition_Penawaran_Barang_Lain.Fetch_PR_Waiting_Offer()
         End If
 
         Me.Close()

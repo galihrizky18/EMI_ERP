@@ -41,7 +41,7 @@ Partial Class N_EMI_SD_Ubah_Tanggal_PR_Barang_Lain_Departement
         Me.Label3.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Label3.Location = New System.Drawing.Point(42, 67)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(74, 25)
+        Me.Label3.Size = New System.Drawing.Size(59, 20)
         Me.Label3.TabIndex = 359
         Me.Label3.Text = "Tanggal"
         '
@@ -92,9 +92,9 @@ Partial Class N_EMI_SD_Ubah_Tanggal_PR_Barang_Lain_Departement
         Me.Label1.Location = New System.Drawing.Point(5, 11)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(452, 32)
+        Me.Label1.Size = New System.Drawing.Size(378, 30)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Set Tanggal Delivery Barang Lain"
+        Me.Label1.Text = "Set Tanggal Kebutuhan Barang Lain"
         '
         'PanelGradient1
         '
@@ -125,7 +125,7 @@ Partial Class N_EMI_SD_Ubah_Tanggal_PR_Barang_Lain_Departement
         Me.DTP_Delivery.CustomFormat = "dd MMM yyyy"
         Me.DTP_Delivery.Location = New System.Drawing.Point(122, 71)
         Me.DTP_Delivery.Name = "DTP_Delivery"
-        Me.DTP_Delivery.Size = New System.Drawing.Size(294, 23)
+        Me.DTP_Delivery.Size = New System.Drawing.Size(294, 20)
         Me.DTP_Delivery.TabIndex = 377
         '
         'Btn_Simpan
@@ -140,9 +140,9 @@ Partial Class N_EMI_SD_Ubah_Tanggal_PR_Barang_Lain_Departement
         Me.Btn_Simpan.Text = "&Simpan"
         Me.Btn_Simpan.UseVisualStyleBackColor = False
         '
-        'SD_Ubah_Tanggal_PR_Barang_Lain
+        'N_EMI_SD_Ubah_Tanggal_PR_Barang_Lain_Departement
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(455, 162)
@@ -157,7 +157,7 @@ Partial Class N_EMI_SD_Ubah_Tanggal_PR_Barang_Lain_Departement
         Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "SD_Ubah_Tanggal_PR_Barang_Lain"
+        Me.Name = "N_EMI_SD_Ubah_Tanggal_PR_Barang_Lain_Departement"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()

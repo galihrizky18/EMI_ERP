@@ -794,7 +794,7 @@ Public Class Transaksi_Penawaran_Barang_Lain
                 'Save Master Penawaran
                 SQL = "Insert into EMI_Master_Penawaran_Barang_Lain "
                 SQL = SQL & "(Kode_Perusahaan, No_Faktur, No_Penawaran, Tgl_Penawaran_Hrg, Periode_Akhir_Penawaran, Kode_Supplier, lokasi, tanggal, jam, iduser) "
-                SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & saveNoPenawaran & "', "
+                SQL = SQL & "Values ('" & KodePerusahaan & "', '" & TxtPenawaran_NoFaktur.Text.Trim & "', '" & Txt_NoPenawaran.Text.Trim & "', "
                 SQL = SQL & "'" & Format(Dtp_Tgl.Value, "yyyy-MM-dd") & "', '" & Format(Dtp_PeriodAkhir.Value, "yyyy-MM-dd") & "', "
                 SQL = SQL & "'" & saveSupplier & "', '" & Lokasi & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "' "
                 SQL = SQL & ")"
@@ -802,7 +802,7 @@ Public Class Transaksi_Penawaran_Barang_Lain
 
 
                 SQL = "insert into EMI_Master_Penawaran_Jatuh_Tempo_Barang_Lain(Kode_Perusahaan,No_Faktur,No_Penawaran,Jenis_Pembayaran,Tempo_Pembayaran,Lama_Pembayaran) values("
-                SQL = SQL & "'" & KodePerusahaan & "', '" & saveFaktur & "', '" & saveNoPenawaran & "', '" & arrPembayaran.Item(cmb_JenisBayar.SelectedIndex) & "',"
+                SQL = SQL & "'" & KodePerusahaan & "', '" & TxtPenawaran_NoFaktur.Text.Trim & "', '" & Txt_NoPenawaran.Text.Trim & "', '" & arrPembayaran.Item(cmb_JenisBayar.SelectedIndex) & "',"
                 SQL = SQL & "'" & cmbJenisPengiriman.Text & "', '" & txtJatuhTempo.Text & "') "
                 ExecuteTrans(SQL)
 
@@ -872,7 +872,7 @@ Public Class Transaksi_Penawaran_Barang_Lain
                         SQL = "Insert into EMI_Master_Penawaran_Detail_Barang_Lain "
                         SQL = SQL & "(Kode_Perusahaan, No_Faktur, Kode_Barang, "
                         SQL = SQL & "Min_Order, Satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang) "
-                        SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & lvKdBrg & "', "
+                        SQL = SQL & "Values ('" & KodePerusahaan & "', '" & TxtPenawaran_NoFaktur.Text.Trim & "', '" & lvKdBrg & "', "
                         SQL = SQL & "'" & HilangkanTanda(lvMinOrder) & "', '" & lvSatuan & "', '" & HilangkanTanda(lvHrgSatuan) & "', "
                         SQL = SQL & " '" & harga_satuan_kecil & "','" & Satuan_Barang & "', '" & lvMUA & "') "
                         ExecuteTrans(SQL)
@@ -974,7 +974,7 @@ Public Class Transaksi_Penawaran_Barang_Lain
                                     SQL = "Insert into EMI_Master_Penawaran_Detail_Barang_Lain "
                                     SQL = SQL & "(Kode_Perusahaan, No_Faktur, Kode_Barang, "
                                     SQL = SQL & "Min_Order, Satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang) "
-                                    SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & lvKdBrg & "', "
+                                    SQL = SQL & "Values ('" & KodePerusahaan & "', '" & TxtPenawaran_NoFaktur.Text.Trim & "', '" & lvKdBrg & "', "
                                     SQL = SQL & "'" & HilangkanTanda(lvMinOrder) & "', '" & lvSatuan & "', '" & HilangkanTanda(lvHrgSatuan) & "', "
                                     SQL = SQL & " '" & harga_satuan_kecil & "', '" & Satuan_Barang & "', '" & lvMUA & "') "
                                     ExecuteTrans(SQL)
@@ -1030,7 +1030,7 @@ Public Class Transaksi_Penawaran_Barang_Lain
             SQL = "select b.kode_supplier, b.ID_Kategori_Suppliers, c.flag_jenis_import  from  Suppliers b, Suppliers_Kategori c "
             SQL = SQL & "where "
             SQL = SQL & "b.kode_perusahaan = c.kode_perusahaan and b.id_kategori_suppliers = c.id_kategori_suppliers "
-            SQL = SQL & "and b.kode_perusahaan = '" & KodePerusahaan & "'  and b.Kode_Supplier = '" & saveSupplier & "' "
+            SQL = SQL & "and b.kode_perusahaan = '" & KodePerusahaan & "'  and b.Kode_Supplier = '" & TxtPO_KdSupplier.Text.Trim & "' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     flag_kategori_Supplier = General_Class.CekNULL(Dr("flag_jenis_import"))

@@ -218,13 +218,13 @@
 
     Private Sub kosong()
         rv = 0
-
+        get_jam()
         TextBox17.Text = "0"
         TextBox18.Text = "0"
         TextBox19.Text = "0"
         TxtTotal.Text = "0"
 
-        DateTimePicker1.Value = CDate(FMenuDevFix.ToolStripStatusLabel3.Text)
+        DateTimePicker1.Value = tgl_skg
         TextBox3.Text = ""
         ComboBox2.Items.Clear() : ComboBox2.SelectedIndex = -1
         ComboBox2.Items.Add("Tunai")
@@ -704,8 +704,9 @@
             MessageBox.Show("No DO belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         End If
+        get_jam()
 
-        If Format(DateTimePicker1.Value, "yyyyMM") <> Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "yyyyMM") Then
+        If Format(DateTimePicker1.Value, "yyyyMM") <> Format(tgl_skg, "yyyyMM") Then
             MessageBox.Show("Retur tidak boleh dibulan mundur!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             DateTimePicker1.Focus()
             Exit Sub
@@ -910,7 +911,7 @@
             SQL = "insert into retur_do(Kode_Perusahaan, No_Retur_jual, No_do, Tanggal, "
             SQL = SQL & "Jam, UserID, lokasi, metode_pot_stock, NTotal, NPPN, NNilai_PPN, NGrand, hrs_updatex, xtermsc, flag_opm,nilai_satu_poin,total_poin, No_Retur_Sementara) values "
             SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TextBox4.Text) & "', '" & Trim(TextBox1.Text) & "', "
-            SQL = SQL & "'" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
+            SQL = SQL & "'" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
             SQL = SQL & "'" & UserID & "', '" & ComboBox1.Text & "', '" & metode_pot_Stock & "', "
             SQL = SQL & "'" & HilangkanTanda(TextBox17.Text) & "', "
             SQL = SQL & "'" & HilangkanTanda(TextBox18.Text) & "', "
@@ -956,6 +957,7 @@
 
 
             Dim x As Integer = 1
+            Dim lksi_gudang As String = ""
             For i As Integer = 0 To ListView2.Items.Count - 1
                 Dim y_jml_jual As Double = 0
                 Dim y_pernah_retur As Double = 0
@@ -977,6 +979,7 @@
                 'SQL = SQL & "a.kode_stock_owner = '" & ListView2.Items(i).Text & "' and a.kode_barang = '" & ListView2.Items(i).SubItems(1).Text & "' and "
                 'SQL = SQL & "c.no_urut = '" & ListView2.Items(i).SubItems(9).Text & "'"
 
+                lksi_gudang = ListView2.Items(i).Text
 
                 SQL = "Select a.no_do, a.kode_stock_owner, a.Kode_barang, b.nama, b.satuan, "
                 SQL = SQL & "sdh_selesai_validasi, no_urut, urut_oto, "
@@ -1515,7 +1518,7 @@
                 Dim coa_hpp As String = ""
                 Dim coa_ppn_penjualan As String = ""
 
-                SQL = "select retur_penjualan, hpp_tk_sdr, ppn_penjualan, ppn_penjualan, retur_penjualan_reseller, hpp, inisial_faktur, piutang, kas from "
+                SQL = "select ppn_penjualan, retur_penjualan_reseller, hpp, inisial_faktur, kas from "
                 SQL = SQL & "stock_owner where kode_perusahaan = '" & KodePerusahaan & "' and "
                 SQL = SQL & "kode_stock_owner = '" & ComboBox1.Text & "'"
                 Using dr = OpenTrans(SQL)
@@ -1533,10 +1536,11 @@
                     End If
                 End Using
 
-                SQL = "select persediaan_Brg_Blm_Krm, Brg_Blm_Krm, persediaan_sementara, persediaan from "
-                SQL = SQL & "stock_owner where kode_perusahaan = '" & KodePerusahaan & "' and "
-                'SQL = SQL & "kode_stock_owner = '" & y_lokasi_gudang & "'"
-                SQL = SQL & "kode_stock_owner = '" & ComboBox1.Text & "'"
+
+                SQL = "select top(1) persediaan_Brg_Blm_Krm, Brg_Blm_Krm, persediaan, "
+                SQL = SQL & "persediaan_sementara, persediaan_sementara_agency from stock_owner_gudang where "
+                SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
+                SQL = SQL & "kode_Stock_owner = '" & lksi_gudang & "'"
                 Using dr = OpenTrans(SQL)
                     If dr.Read Then
                         coa_persediaan = dr("persediaan")
@@ -1544,7 +1548,7 @@
                         dr.Close()
                         CloseTrans()
                         CloseConn()
-                        MessageBox.Show("Data lokasi gudang tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        MessageBox.Show($"Terjadi kesalahan data lokasi {lksi_gudang} tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
                 End Using
@@ -1556,7 +1560,7 @@
                 SQL = SQL & "Keterangan, JudulBank, KetDK, userid, lokasi) values("
                 SQL = SQL & "'" & Kode_Voucher & "', "
                 SQL = SQL & "'" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                SQL = SQL & "'" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
+                SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
                 SQL = SQL & "'" & KodeProyek & "', 'Retur DO " & TextBox4.Text & ";" & TextBox1.Text.Trim & ";" & xnofak & ";" & Strings.Left(TextBox3.Text.Trim, 20) & "', '', "
                 SQL = SQL & "'-', '" & UserID & "', '" & ComboBox1.Text & "')"
                 ExecuteTrans(SQL)
@@ -1608,7 +1612,7 @@
                     SQL = SQL & "Keterangan, JudulBank, KetDK, userid, lokasi) values("
                     SQL = SQL & "'" & Kode_Voucher2 & "', "
                     SQL = SQL & "'" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                    SQL = SQL & "'" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
+                    SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
                     SQL = SQL & "'" & KodeProyek & "', 'Retur DO " & TextBox4.Text & ";" & TextBox1.Text.Trim & ";" & xnofak & ";" & Strings.Left(TextBox3.Text.Trim, 20) & "', '', "
                     SQL = SQL & "'-', '" & UserID & "', '" & ComboBox1.Text & "')"
                     ExecuteTrans(SQL)
@@ -1617,7 +1621,7 @@
                     SQL = Get_Detail_Jurnal(Kode_Voucher2, Strings.Left(coa_persediaan, 1),
                                   Strings.Mid(coa_persediaan, 2, 1),
                                   Strings.Mid(Ganti(coa_persediaan), 3),
-                                  KodePerusahaan, KodeProyek, "Retur DO " & TextBox4.Text & ";" & TextBox1.Text.Trim & ";" & xnofak & ";" & Strings.Left(TextBox3.Text.Trim, 20), total_hpp, "0", pagenumber, y_lokasi_gudang, Cost_center:=Ket_Cost_Center_HO)
+                                  KodePerusahaan, KodeProyek, "Retur DO " & TextBox4.Text & ";" & TextBox1.Text.Trim & ";" & xnofak & ";" & Strings.Left(TextBox3.Text.Trim, 20), total_hpp, "0", pagenumber, lksi_gudang, Cost_center:=Ket_Cost_Center_HO)
                     ExecuteTrans(SQL)
                     pagenumber = pagenumber + 1
 
@@ -1717,7 +1721,7 @@
                                 SQL = "update penjualan set "
                                 SQL = SQL & "Flag_Lunas_Tunai = 'Y', "
                                 SQL = SQL & "Tgl_Lunas_Tunai = '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                                SQL = SQL & "Jam_Lunas_Tunai = '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
+                                SQL = SQL & "Jam_Lunas_Tunai = '" & Format(tgl_skg, "HH:mm:ss") & "', "
                                 SQL = SQL & "UserValidasi_Tunai = '" & UserID & "' where "
                                 SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & xnofak & "' "
                                 ExecuteTrans(SQL)
@@ -1725,7 +1729,7 @@
                                 SQL = "update penjualan set "
                                 SQL = SQL & "Flag_Lunas = 'Y', "
                                 SQL = SQL & "Tgl_Lunas = '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                                SQL = SQL & "Jam_Lunas = '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
+                                SQL = SQL & "Jam_Lunas = '" & Format(tgl_skg, "HH:mm:ss") & "', "
                                 SQL = SQL & "UserValidasi = '" & UserID & "' where "
                                 SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & xnofak & "' "
                                 ExecuteTrans(SQL)
@@ -1747,7 +1751,7 @@
                         If .Rows(0).Item("flag_lns") = "Y" Then
                             SQL = "Update do_new set flag_lunas_do = 'Y', "
                             SQL = SQL & "nTgl_lunas = '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                            SQL = SQL & "njam_lunas = '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
+                            SQL = SQL & "njam_lunas = '" & Format(tgl_skg, "HH:mm:ss") & "', "
                             SQL = SQL & "nuservalidasi = '" & UserID & "' where kode_perusahaan = '" & KodePerusahaan & "' and "
                             SQL = SQL & "no_do = '" & TextBox1.Text.Trim & "'"
                             ExecuteTrans(SQL)

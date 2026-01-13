@@ -16,6 +16,30 @@
     Public xurut_departement, xid_cost, xid_gedung, xlink As String
 
 
+    Dim isCheck_2, isCheck_3, isCheck_4, isCheck_5 As Boolean
+
+
+    Dim PageSize_1 As Integer = 50
+    Dim CurrentPage_1 As Integer = 1
+    Dim totalpage_1 As Integer
+
+    Dim PageSize_2 As Integer = 50
+    Dim CurrentPage_2 As Integer = 1
+    Dim totalpage_2 As Integer
+
+    Dim PageSize_3 As Integer = 50
+    Dim CurrentPage_3 As Integer = 1
+    Dim totalpage_3 As Integer
+
+    Dim PageSize_4 As Integer = 50
+    Dim CurrentPage_4 As Integer = 1
+    Dim totalpage_4 As Integer
+
+    Dim PageSize_5 As Integer = 50
+    Dim CurrentPage_5 As Integer = 1
+    Dim totalpage_5 As Integer
+
+
 
     Private Sub get_no_prefix()
         SQL = "SELECT RIGHT('0' + CAST(ISNULL(MAX(CAST(Prefix AS INT)), 0) + 1 AS VARCHAR(1)), 1) AS NextPrefix "
@@ -71,25 +95,104 @@
         End Using
     End Sub
     Private Sub BtnSatuan_Cari_Click(sender As Object, e As EventArgs) Handles BtnCari.Click
-        If CmbSatuan_Kolom.Text.Trim.Length = 0 Then Exit Sub
-        If TxtSatuan_Value.Text.Trim.Length = 0 Then Exit Sub
+        If CmbSatuan_Kolom.SelectedIndex = -1 Then
+            MessageBox.Show("ComboBox Filter Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            CmbSatuan_Kolom.DroppedDown = True
+            CmbSatuan_Kolom.Focus()
+            Exit Sub
+        ElseIf TxtSatuan_Value.Text.Trim.Length = 0 Then
+            MessageBox.Show("Value Filter Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TxtSatuan_Value.Focus()
+            Exit Sub
+        End If
 
-        Cari("T")
+        Load_Data_Tab_1()
+
+        'If CmbSatuan_Kolom.Text.Trim.Length = 0 Then Exit Sub
+        'If TxtSatuan_Value.Text.Trim.Length = 0 Then Exit Sub
+
+        'Cari("T")
     End Sub
 
-    Private Sub Cari(ByVal semua As String)
+    Private Sub Cari_X(ByVal semua As String)
+        'Try
+        '    OpenConn()
+
+        '    ListView1.Items.Clear()
+        '    SQL = "select Kode_Kategori_Jenis, Keterangan, Prefix, Id_Kategori_Jenis, Flag_Aktif from N_EMI_Master_Kategori_Jenis "
+        '    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+        '    If semua = "T" Then
+        '        SQL = SQL & "and " & arrcari.Item(CmbSatuan_Kolom.SelectedIndex) & " like '%" & TxtSatuan_Value.Text & "%' "
+        '        SQL = SQL & "order by " & arrcari.Item(CmbSatuan_Kolom.SelectedIndex) & " "
+        '    Else
+        '        SQL = SQL & "order by Keterangan"
+        '    End If
+        '    Using dr = OpenTrans(SQL)
+        '        Do While dr.Read
+        '            Dim Lvw As ListViewItem
+        '            Lvw = ListView1.Items.Add(dr("Id_Kategori_Jenis"))
+        '            Lvw.SubItems.Add(dr("Kode_Kategori_Jenis"))
+        '            Lvw.SubItems.Add(dr("Keterangan"))
+        '            Lvw.SubItems.Add(dr("Prefix"))
+        '            Lvw.SubItems.Add(dr("Flag_Aktif"))
+        '        Loop
+        '    End Using
+
+        '    CloseConn()
+        'Catch ex As Exception
+        '    CloseConn()
+        '    MessageBox.Show(ex.Message)
+        '    Exit Sub
+        'End Try
+    End Sub
+
+    Private Sub Load_Data_Tab_1(Optional ByVal page As Integer = 1)
         Try
             OpenConn()
+
+            '==========================
+            '=     GET TOTAL DATA     =
+            '==========================
+            Dim Tot_Data As Integer = 0
+            SQL = "select COUNT(*) AS TotalData "
+            SQL = SQL & "FROM N_EMI_Master_Kategori_Jenis "
+            SQL = SQL & "WHERE Kode_Perusahaan = '" & KodePerusahaan & "' "
+            If CmbSatuan_Kolom.SelectedIndex <> -1 Then
+                SQL = SQL & "and " & arrcari.Item(CmbSatuan_Kolom.SelectedIndex) & " like '%" & TxtSatuan_Value.Text & "%' "
+            End If
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Tot_Data = Dr("TotalData")
+                End If
+            End Using
+
+            '==========================
+            '=     SET PAGINATION     =
+            '==========================
+            Dim totalPages As Integer = Math.Ceiling(Tot_Data / PageSize_1)
+            Dim offset As Integer = (page - 1) * PageSize_1
+            totalpage_1 = totalPages
+            Txt_Pages_1.Text = $"{page} of {totalPages}"
+
+            If totalpage_1 = 1 Then
+                BtnPrev_1.Enabled = False
+                BtnNext_1.Enabled = False
+            Else
+                BtnPrev_1.Enabled = True
+                BtnNext_1.Enabled = True
+            End If
+
+
 
             ListView1.Items.Clear()
             SQL = "select Kode_Kategori_Jenis, Keterangan, Prefix, Id_Kategori_Jenis, Flag_Aktif from N_EMI_Master_Kategori_Jenis "
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-            If semua = "T" Then
+            If CmbSatuan_Kolom.SelectedIndex <> -1 Then
                 SQL = SQL & "and " & arrcari.Item(CmbSatuan_Kolom.SelectedIndex) & " like '%" & TxtSatuan_Value.Text & "%' "
-                SQL = SQL & "order by " & arrcari.Item(CmbSatuan_Kolom.SelectedIndex) & " "
-            Else
-                SQL = SQL & "order by Keterangan"
             End If
+            SQL = SQL & "order by Keterangan "
+            SQL = SQL & "OFFSET " & offset & " ROWS "
+            SQL = SQL & "FETCH NEXT " & PageSize_1 & " ROWS ONLY "
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
                     Dim Lvw As ListViewItem
@@ -109,9 +212,87 @@
         End Try
     End Sub
 
-    Private Sub Cari2(ByVal semua As String)
+    'Private Sub Cari2(ByVal semua As String)
+    '    Try
+    '        OpenConn()
+
+    '        ListView2.Items.Clear()
+    '        SQL = "select b.Kode_Kategori_Jenis, b.Keterangan as Kategori_Jenis, a.Kode_Sub_Kategori_Jenis, a.Keterangan as Sub_Kategori_Jenis, "
+    '        SQL = SQL & "a.Prefix, a.Id_Sub_Kategori_Jenis, a.Id_Kategori_Jenis "
+    '        SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis a, N_EMI_Master_Kategori_Jenis b "
+    '        SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Kategori_Jenis = b.Id_Kategori_Jenis "
+    '        SQL = SQL & "and a.Kode_Perusahaan =  '" & KodePerusahaan & "' "
+    '        If semua = "T" Then
+    '            SQL = SQL & "and " & arrcari2.Item(ComboBox2.SelectedIndex) & " like '%" & TextBox5.Text & "%' "
+    '            SQL = SQL & "order by " & arrcari2.Item(ComboBox2.SelectedIndex) & " "
+    '        Else
+    '            SQL = SQL & "order by a.Keterangan "
+    '        End If
+    '        Using dr = OpenTrans(SQL)
+    '            Do While dr.Read
+    '                Dim Lvw As ListViewItem
+    '                Lvw = ListView2.Items.Add(dr("Id_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Kode_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Sub_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Prefix"))
+    '            Loop
+    '        End Using
+
+    '        CloseConn()
+    '    Catch ex As Exception
+    '        CloseConn()
+    '        MessageBox.Show(ex.Message)
+    '        Exit Sub
+    '    End Try
+    'End Sub
+
+    Private Sub Load_Data_Tab_2(Optional ByVal page As Integer = 1)
         Try
             OpenConn()
+
+            '==========================
+            '=     GET TOTAL DATA     =
+            '==========================
+            Dim Tot_Data As Integer = 0
+            'SQL = "select COUNT(*) AS TotalData "
+            'SQL = SQL & "FROM N_EMI_Master_Sub_Kategori_Jenis "
+            'SQL = SQL & "WHERE Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = "select COUNT(*) AS TotalData "
+            SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis a, N_EMI_Master_Kategori_Jenis b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Kategori_Jenis = b.Id_Kategori_Jenis "
+            SQL = SQL & "and a.Kode_Perusahaan =  '" & KodePerusahaan & "' "
+            If ComboBox2.SelectedIndex <> -1 Then
+                SQL = SQL & "and " & arrcari2.Item(ComboBox2.SelectedIndex) & " like '%" & TextBox5.Text & "%' "
+            End If
+            If isCheck_2 Then
+                SQL = SQL & "and a.Id_Kategori_Jenis = '" & arrid(ComboBox1.SelectedIndex) & "' "
+            End If
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Tot_Data = Dr("TotalData")
+                End If
+            End Using
+
+            '==========================
+            '=     SET PAGINATION     =
+            '==========================
+            Dim totalPages As Integer = Math.Ceiling(Tot_Data / PageSize_2)
+            Dim offset As Integer = (page - 1) * PageSize_2
+            totalpage_2 = totalPages
+            Txt_Pages_2.Text = $"{page} of {totalPages}"
+
+            If totalpage_2 = 1 Then
+                BtnPrev_2.Enabled = False
+                BtnNext_2.Enabled = False
+            Else
+                BtnPrev_2.Enabled = True
+                BtnNext_2.Enabled = True
+            End If
+
+
 
             ListView2.Items.Clear()
             SQL = "select b.Kode_Kategori_Jenis, b.Keterangan as Kategori_Jenis, a.Kode_Sub_Kategori_Jenis, a.Keterangan as Sub_Kategori_Jenis, "
@@ -119,12 +300,16 @@
             SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis a, N_EMI_Master_Kategori_Jenis b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Kategori_Jenis = b.Id_Kategori_Jenis "
             SQL = SQL & "and a.Kode_Perusahaan =  '" & KodePerusahaan & "' "
-            If semua = "T" Then
+            If ComboBox2.SelectedIndex <> -1 Then
                 SQL = SQL & "and " & arrcari2.Item(ComboBox2.SelectedIndex) & " like '%" & TextBox5.Text & "%' "
-                SQL = SQL & "order by " & arrcari2.Item(ComboBox2.SelectedIndex) & " "
-            Else
-                SQL = SQL & "order by a.Keterangan "
             End If
+            If isCheck_2 Then
+                SQL = SQL & "and a.Id_Kategori_Jenis = '" & arrid(ComboBox1.SelectedIndex) & "' "
+            End If
+            SQL = SQL & "order by a.Keterangan "
+            SQL = SQL & "OFFSET " & offset & " ROWS "
+            SQL = SQL & "FETCH NEXT " & PageSize_2 & " ROWS ONLY "
+
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
                     Dim Lvw As ListViewItem
@@ -138,6 +323,8 @@
                 Loop
             End Using
 
+
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -146,9 +333,98 @@
         End Try
     End Sub
 
-    Private Sub Cari3(ByVal semua As String)
+    'Private Sub Cari3(ByVal semua As String)
+    '    Try
+    '        OpenConn()
+
+    '        ListView3.Items.Clear()
+    '        SQL = "select  c.Kode_Kategori_Jenis, c.Keterangan as Kategori_Jenis, b.Kode_Sub_Kategori_Jenis, b.Keterangan as Sub_Kategori_Jenis,"
+    '        SQL = SQL & "a.Kode_Sub_Kategori_Jenis_1, a.Keterangan as Sub_Kategori_Jenis1, a.Prefix, "
+    '        SQL = SQL & "a.Id_Sub_Kategori_Jenis_1, a.Id_Sub_Kategori_Jenis, b.Id_Kategori_Jenis "
+    '        SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis_1 a, N_EMI_Master_Sub_Kategori_Jenis b, N_EMI_Master_Kategori_Jenis c "
+    '        SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis = b.Id_Sub_Kategori_Jenis "
+    '        SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Kategori_Jenis = c.Id_Kategori_Jenis "
+    '        SQL = SQL & "and a.Kode_Perusahaan =  '" & KodePerusahaan & "' "
+    '        If semua = "T" Then
+    '            SQL = SQL & "and " & arrcari3.Item(ComboBox5.SelectedIndex) & " like '%" & TextBox11.Text & "%' "
+    '            SQL = SQL & "order by " & arrcari3.Item(ComboBox5.SelectedIndex) & " "
+    '        Else
+    '            SQL = SQL & "order by a.Keterangan "
+    '        End If
+    '        Using dr = OpenTrans(SQL)
+    '            Do While dr.Read
+    '                Dim Lvw As ListViewItem
+    '                Lvw = ListView3.Items.Add(dr("Id_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Kode_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Sub_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_1"))
+    '                Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_1"))
+    '                Lvw.SubItems.Add(dr("Sub_Kategori_Jenis1"))
+    '                Lvw.SubItems.Add(dr("Prefix"))
+    '            Loop
+    '        End Using
+
+    '        CloseConn()
+    '    Catch ex As Exception
+    '        CloseConn()
+    '        MessageBox.Show(ex.Message)
+    '        Exit Sub
+    '    End Try
+    'End Sub
+
+    Private Sub Load_Data_Tab_3(Optional ByVal page As Integer = 1)
         Try
             OpenConn()
+
+            '==========================
+            '=     GET TOTAL DATA     =
+            '==========================
+            Dim Tot_Data As Integer = 0
+            'SQL = "select COUNT(*) AS TotalData "
+            'SQL = SQL & "FROM N_EMI_Master_Sub_Kategori_Jenis "
+            'SQL = SQL & "WHERE Kode_Perusahaan = '" & KodePerusahaan & "' "
+
+            SQL = "select COUNT(*) AS TotalData "
+            SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis_1 a, N_EMI_Master_Sub_Kategori_Jenis b, N_EMI_Master_Kategori_Jenis c "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis = b.Id_Sub_Kategori_Jenis "
+            SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Kategori_Jenis = c.Id_Kategori_Jenis "
+            SQL = SQL & "and a.Kode_Perusahaan =  '" & KodePerusahaan & "' "
+            If ComboBox5.SelectedIndex <> -1 Then
+                SQL = SQL & "and " & arrcari3.Item(ComboBox5.SelectedIndex) & " like '%" & TextBox11.Text & "%' "
+            End If
+            If isCheck_3 Then
+                If ComboBox3.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND b.Id_Kategori_Jenis = '" & arrid2(ComboBox3.SelectedIndex) & "' "
+                End If
+                If ComboBox4.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND a.Id_Sub_Kategori_Jenis = '" & arridsub2(ComboBox4.SelectedIndex) & "' "
+                End If
+            End If
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Tot_Data = Dr("TotalData")
+                End If
+            End Using
+
+            '==========================
+            '=     SET PAGINATION     =
+            '==========================
+            Dim totalPages As Integer = Math.Ceiling(Tot_Data / PageSize_3)
+            Dim offset As Integer = (page - 1) * PageSize_3
+            totalpage_3 = totalPages
+            Txt_Pages_3.Text = $"{page} of {totalPages}"
+
+            If totalpage_3 = 1 Then
+                BtnPrev_3.Enabled = False
+                BtnNext_3.Enabled = False
+            Else
+                BtnPrev_3.Enabled = True
+                BtnNext_3.Enabled = True
+            End If
+
 
             ListView3.Items.Clear()
             SQL = "select  c.Kode_Kategori_Jenis, c.Keterangan as Kategori_Jenis, b.Kode_Sub_Kategori_Jenis, b.Keterangan as Sub_Kategori_Jenis,"
@@ -158,12 +434,20 @@
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis = b.Id_Sub_Kategori_Jenis "
             SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Kategori_Jenis = c.Id_Kategori_Jenis "
             SQL = SQL & "and a.Kode_Perusahaan =  '" & KodePerusahaan & "' "
-            If semua = "T" Then
+            If ComboBox5.SelectedIndex <> -1 Then
                 SQL = SQL & "and " & arrcari3.Item(ComboBox5.SelectedIndex) & " like '%" & TextBox11.Text & "%' "
-                SQL = SQL & "order by " & arrcari3.Item(ComboBox5.SelectedIndex) & " "
-            Else
-                SQL = SQL & "order by a.Keterangan "
             End If
+            If isCheck_3 Then
+                If ComboBox3.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND b.Id_Kategori_Jenis = '" & arrid2(ComboBox3.SelectedIndex) & "' "
+                End If
+                If ComboBox4.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND a.Id_Sub_Kategori_Jenis = '" & arridsub2(ComboBox4.SelectedIndex) & "' "
+                End If
+            End If
+            SQL = SQL & "order by a.Keterangan "
+            SQL = SQL & "OFFSET " & offset & " ROWS "
+            SQL = SQL & "FETCH NEXT " & PageSize_3 & " ROWS ONLY "
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
                     Dim Lvw As ListViewItem
@@ -180,6 +464,8 @@
                 Loop
             End Using
 
+
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -188,9 +474,110 @@
         End Try
     End Sub
 
-    Private Sub Cari4(ByVal semua As String)
+    'Private Sub Cari4(ByVal semua As String)
+    '    Try
+    '        OpenConn()
+
+    '        ListView4.Items.Clear()
+    '        SQL = "select d.Kode_Kategori_Jenis, d.Keterangan as Kategori_Jenis, c.Kode_Sub_Kategori_Jenis, c.Keterangan as Sub_Kategori_Jenis, "
+    '        SQL = SQL & "b.Kode_Sub_Kategori_Jenis_1, b.Keterangan as Sub_Kategori_Jenis_1, a.Kode_Sub_Kategori_Jenis_2, a.Keterangan as Sub_Kategori_Jenis_2, a.Prefix, "
+    '        SQL = SQL & "a.Id_Sub_Kategori_Jenis_2, a.Id_Sub_Kategori_Jenis_1, b.Id_Sub_Kategori_Jenis, c.Id_Kategori_Jenis "
+    '        SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis_2 a, N_EMI_Master_Sub_Kategori_Jenis_1 b, "
+    '        SQL = SQL & "N_EMI_Master_Sub_Kategori_Jenis c, N_EMI_Master_Kategori_Jenis d "
+    '        SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_1 = b.Id_Sub_Kategori_Jenis_1 "
+    '        SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Sub_Kategori_Jenis = c.Id_Sub_Kategori_Jenis "
+    '        SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Kategori_Jenis = d.Id_Kategori_Jenis "
+    '        SQL = SQL & "and a.Kode_Perusahaan =  '" & KodePerusahaan & "' "
+    '        If semua = "T" Then
+    '            SQL = SQL & "and " & arrcari4.Item(ComboBox9.SelectedIndex) & " like '%" & TextBox15.Text & "%' "
+    '            SQL = SQL & "order by " & arrcari4.Item(ComboBox9.SelectedIndex) & " "
+    '        Else
+    '            SQL = SQL & "order by a.Keterangan "
+    '        End If
+    '        Using dr = OpenTrans(SQL)
+    '            Do While dr.Read
+    '                Dim Lvw As ListViewItem
+    '                Lvw = ListView4.Items.Add(dr("Id_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Kode_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Sub_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_1"))
+    '                Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_1"))
+    '                Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_1"))
+    '                Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_2"))
+    '                Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_2"))
+    '                Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_2"))
+    '                Lvw.SubItems.Add(dr("Prefix"))
+
+    '            Loop
+    '        End Using
+
+    '        CloseConn()
+    '    Catch ex As Exception
+    '        CloseConn()
+    '        MessageBox.Show(ex.Message)
+    '        Exit Sub
+    '    End Try
+    'End Sub
+
+
+    Private Sub Load_Data_Tab_4(Optional ByVal page As Integer = 1)
         Try
             OpenConn()
+
+            '==========================
+            '=     GET TOTAL DATA     =
+            '==========================
+            Dim Tot_Data As Integer = 0
+            'SQL = "select COUNT(*) AS TotalData "
+            'SQL = SQL & "FROM N_EMI_Master_Sub_Kategori_Jenis "
+            'SQL = SQL & "WHERE Kode_Perusahaan = '" & KodePerusahaan & "' "
+
+            SQL = "select COUNT(*) AS TotalData "
+            SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis_2 a, N_EMI_Master_Sub_Kategori_Jenis_1 b, "
+            SQL = SQL & "N_EMI_Master_Sub_Kategori_Jenis c, N_EMI_Master_Kategori_Jenis d "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_1 = b.Id_Sub_Kategori_Jenis_1 "
+            SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Sub_Kategori_Jenis = c.Id_Sub_Kategori_Jenis "
+            SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Kategori_Jenis = d.Id_Kategori_Jenis "
+            SQL = SQL & "and a.Kode_Perusahaan =  '" & KodePerusahaan & "' "
+            If ComboBox9.SelectedIndex <> -1 Then
+                SQL = SQL & "and " & arrcari4.Item(ComboBox9.SelectedIndex) & " like '%" & TextBox15.Text & "%' "
+            End If
+            If isCheck_4 Then
+                If ComboBox6.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND c.Id_Kategori_Jenis = '" & arrid3(ComboBox6.SelectedIndex) & "' "
+                End If
+                If ComboBox7.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND b.Id_Sub_Kategori_Jenis = '" & arridsub3(ComboBox7.SelectedIndex) & "' "
+                End If
+                If ComboBox8.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND a.Id_Sub_Kategori_Jenis_1 = '" & arrid2sub3(ComboBox8.SelectedIndex) & "' "
+                End If
+            End If
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Tot_Data = Dr("TotalData")
+                End If
+            End Using
+
+            '==========================
+            '=     SET PAGINATION     =
+            '==========================
+            Dim totalPages As Integer = Math.Ceiling(Tot_Data / PageSize_4)
+            Dim offset As Integer = (page - 1) * PageSize_4
+            totalpage_4 = totalPages
+            Txt_Pages_4.Text = $"{page} of {totalPages}"
+
+            If totalpage_4 = 1 Then
+                BtnPrev_4.Enabled = False
+                BtnNext_4.Enabled = False
+            Else
+                BtnPrev_4.Enabled = True
+                BtnNext_4.Enabled = True
+            End If
+
 
             ListView4.Items.Clear()
             SQL = "select d.Kode_Kategori_Jenis, d.Keterangan as Kategori_Jenis, c.Kode_Sub_Kategori_Jenis, c.Keterangan as Sub_Kategori_Jenis, "
@@ -202,12 +589,24 @@
             SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Sub_Kategori_Jenis = c.Id_Sub_Kategori_Jenis "
             SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Kategori_Jenis = d.Id_Kategori_Jenis "
             SQL = SQL & "and a.Kode_Perusahaan =  '" & KodePerusahaan & "' "
-            If semua = "T" Then
+
+            If ComboBox9.SelectedIndex <> -1 Then
                 SQL = SQL & "and " & arrcari4.Item(ComboBox9.SelectedIndex) & " like '%" & TextBox15.Text & "%' "
-                SQL = SQL & "order by " & arrcari4.Item(ComboBox9.SelectedIndex) & " "
-            Else
-                SQL = SQL & "order by a.Keterangan "
             End If
+            If isCheck_4 Then
+                If ComboBox6.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND c.Id_Kategori_Jenis = '" & arrid3(ComboBox6.SelectedIndex) & "' "
+                End If
+                If ComboBox7.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND b.Id_Sub_Kategori_Jenis = '" & arridsub3(ComboBox7.SelectedIndex) & "' "
+                End If
+                If ComboBox8.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND a.Id_Sub_Kategori_Jenis_1 = '" & arrid2sub3(ComboBox8.SelectedIndex) & "' "
+                End If
+            End If
+            SQL = SQL & "order by a.Keterangan "
+            SQL = SQL & "OFFSET " & offset & " ROWS "
+            SQL = SQL & "FETCH NEXT " & PageSize_4 & " ROWS ONLY "
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
                     Dim Lvw As ListViewItem
@@ -228,6 +627,7 @@
                 Loop
             End Using
 
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -236,15 +636,108 @@
         End Try
     End Sub
 
-    Private Sub Cari5(ByVal semua As String)
+
+    'Private Sub Cari5(ByVal semua As String)
+    '    Try
+    '        OpenConn()
+
+    '        ListView5.Items.Clear()
+    '        SQL = "select e.Kode_Kategori_Jenis, e.Keterangan as Kategori_Jenis, d.Kode_Sub_Kategori_Jenis, d.Keterangan as Sub_Kategori_Jenis, "
+    '        SQL = SQL & "c.Kode_Sub_Kategori_Jenis_1, c.Keterangan as Sub_Kategori_Jenis_1, b.Kode_Sub_Kategori_Jenis_2, b.Keterangan as Sub_Kategori_Jenis_2, "
+    '        SQL = SQL & "a.Kode_Sub_Kategori_Jenis_3, a.Keterangan as Sub_Kategori_Jenis_3, a.Prefix, "
+    '        SQL = SQL & "a.Id_Sub_Kategori_Jenis_3, a.Id_Sub_Kategori_Jenis_2, b.Id_Sub_Kategori_Jenis_1, c.Id_Sub_Kategori_Jenis, d.Id_Kategori_Jenis, "
+    '        SQL = SQL & "a.Satuan, a.Stock_Minimum, a.Berat, a.Berat_Kotor, a.Panjang, a.Lebar, a.Tinggi, a.Metode_Pengeluaran_Stok "
+    '        SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis_3 a, N_EMI_Master_Sub_Kategori_Jenis_2 b, N_EMI_Master_Sub_Kategori_Jenis_1 c, "
+    '        SQL = SQL & "N_EMI_Master_Sub_Kategori_Jenis d, N_EMI_Master_Kategori_Jenis e "
+    '        SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_2 = b.Id_Sub_Kategori_Jenis_2 "
+    '        SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Sub_Kategori_Jenis_1 = c.Id_Sub_Kategori_Jenis_1 "
+    '        SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Sub_Kategori_Jenis = d.Id_Sub_Kategori_Jenis "
+    '        SQL = SQL & "and d.Kode_Perusahaan = e.Kode_Perusahaan and d.Id_Kategori_Jenis = e.Id_Kategori_Jenis "
+    '        SQL = SQL & "and a.Kode_Perusahaan =  '" & KodePerusahaan & "' "
+    '        If semua = "T" Then
+    '            SQL = SQL & "and " & arrcari5.Item(ComboBox15.SelectedIndex) & " like '%" & TextBox19.Text & "%' "
+
+    '        Else
+    '            SQL = SQL & "order by a.Keterangan "
+    '        End If
+    '        Using dr = OpenTrans(SQL)
+    '            Do While dr.Read
+    '                Dim Lvw As ListViewItem
+    '                Lvw = ListView5.Items.Add(dr("Id_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Kode_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Sub_Kategori_Jenis"))
+    '                Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_1"))
+    '                Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_1"))
+    '                Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_1"))
+    '                Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_2"))
+    '                Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_2"))
+    '                Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_2"))
+    '                Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_3"))
+    '                Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_3"))
+    '                Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_3"))
+    '                Lvw.SubItems.Add(dr("Prefix"))
+    '                If General_Class.CekNULL(dr("Satuan")) = "" Then
+    '                    Lvw.SubItems.Add("-")
+    '                Else
+    '                    Lvw.SubItems.Add(dr("Satuan"))
+    '                End If
+
+    '                If General_Class.CekNULL(dr("Stock_Minimum")) = "" Then
+    '                    Lvw.SubItems.Add("-")
+    '                Else
+    '                    Lvw.SubItems.Add(dr("Stock_Minimum"))
+    '                End If
+
+    '                If General_Class.CekNULL(dr("Berat")) = "" Then
+    '                    Lvw.SubItems.Add("-")
+    '                Else
+    '                    Lvw.SubItems.Add(dr("Berat"))
+    '                End If
+
+    '                If General_Class.CekNULL(dr("Berat_Kotor")) = "" Then
+    '                    Lvw.SubItems.Add("-")
+    '                Else
+    '                    Lvw.SubItems.Add(dr("Berat_Kotor"))
+    '                End If
+
+    '                If General_Class.CekNULL(dr("Panjang")) = "" Then
+    '                    Lvw.SubItems.Add("-")
+    '                Else
+    '                    Lvw.SubItems.Add(dr("Panjang") & " X " & dr("Lebar") & " X " & dr("Tinggi"))
+    '                End If
+
+    '                If General_Class.CekNULL(dr("Metode_Pengeluaran_Stok")) = "" Then
+    '                    Lvw.SubItems.Add("-")
+    '                Else
+    '                    Lvw.SubItems.Add(dr("Metode_Pengeluaran_Stok"))
+    '                End If
+    '            Loop
+    '        End Using
+
+    '        CloseConn()
+    '    Catch ex As Exception
+    '        CloseConn()
+    '        MessageBox.Show(ex.Message)
+    '        Exit Sub
+    '    End Try
+    'End Sub
+
+    Private Sub Load_Data_Tab_5(Optional ByVal page As Integer = 1)
         Try
             OpenConn()
 
-            ListView5.Items.Clear()
-            SQL = "select e.Kode_Kategori_Jenis, e.Keterangan as Kategori_Jenis, d.Kode_Sub_Kategori_Jenis, d.Keterangan as Sub_Kategori_Jenis, "
-            SQL = SQL & "c.Kode_Sub_Kategori_Jenis_1, c.Keterangan as Sub_Kategori_Jenis_1, b.Kode_Sub_Kategori_Jenis_2, b.Keterangan as Sub_Kategori_Jenis_2, "
-            SQL = SQL & "a.Kode_Sub_Kategori_Jenis_3, a.Keterangan as Sub_Kategori_Jenis_3, a.Prefix, "
-            SQL = SQL & "a.Id_Sub_Kategori_Jenis_3, a.Id_Sub_Kategori_Jenis_2, b.Id_Sub_Kategori_Jenis_1, c.Id_Sub_Kategori_Jenis, d.Id_Kategori_Jenis "
+            '==========================
+            '=     GET TOTAL DATA     =
+            '==========================
+            Dim Tot_Data As Integer = 0
+            'SQL = "select COUNT(*) AS TotalData "
+            'SQL = SQL & "FROM N_EMI_Master_Sub_Kategori_Jenis "
+            'SQL = SQL & "WHERE Kode_Perusahaan = '" & KodePerusahaan & "' "
+
+            SQL = "select COUNT(*) AS TotalData "
             SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis_3 a, N_EMI_Master_Sub_Kategori_Jenis_2 b, N_EMI_Master_Sub_Kategori_Jenis_1 c, "
             SQL = SQL & "N_EMI_Master_Sub_Kategori_Jenis d, N_EMI_Master_Kategori_Jenis e "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_2 = b.Id_Sub_Kategori_Jenis_2 "
@@ -252,12 +745,86 @@
             SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Sub_Kategori_Jenis = d.Id_Sub_Kategori_Jenis "
             SQL = SQL & "and d.Kode_Perusahaan = e.Kode_Perusahaan and d.Id_Kategori_Jenis = e.Id_Kategori_Jenis "
             SQL = SQL & "and a.Kode_Perusahaan =  '" & KodePerusahaan & "' "
-            If semua = "T" Then
-                SQL = SQL & "and " & arrcari5.Item(ComboBox15.SelectedIndex) & " like '%" & TextBox19.Text & "%' "
 
-            Else
-                SQL = SQL & "order by a.Keterangan "
+            If ComboBox15.SelectedIndex <> -1 Then
+                SQL = SQL & "and " & arrcari5.Item(ComboBox15.SelectedIndex) & " like '%" & TextBox19.Text & "%' "
             End If
+
+            If isCheck_5 Then
+                If CmbSK3_Jenis.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND d.Id_Kategori_Jenis = '" & arrid4(CmbSK3_Jenis.SelectedIndex) & "' "
+                End If
+                If CmbSK3_JenisSub.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND c.Id_Sub_Kategori_Jenis = '" & arridsub4(CmbSK3_JenisSub.SelectedIndex) & "' "
+                End If
+                If CmbSK3_JenisSub1.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND b.Id_Sub_Kategori_Jenis_1 = '" & arrid2sub4(CmbSK3_JenisSub1.SelectedIndex) & "' "
+                End If
+                If CmbSK3_JenisSub2.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND a.Id_Sub_Kategori_Jenis_2 = '" & arrid3sub4(CmbSK3_JenisSub2.SelectedIndex) & "' "
+                End If
+            End If
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Tot_Data = Dr("TotalData")
+                End If
+            End Using
+
+            '==========================
+            '=     SET PAGINATION     =
+            '==========================
+            Dim totalPages As Integer = Math.Ceiling(Tot_Data / PageSize_5)
+            Dim offset As Integer = (page - 1) * PageSize_5
+            totalpage_5 = totalPages
+            Txt_Pages_5.Text = $"{page} of {totalPages}"
+
+            If totalpage_5 = 1 Then
+                BtnPrev_5.Enabled = False
+                BtnNext_5.Enabled = False
+            Else
+                BtnPrev_5.Enabled = True
+                BtnNext_5.Enabled = True
+            End If
+
+
+
+
+            ListView5.Items.Clear()
+            SQL = "select e.Kode_Kategori_Jenis, e.Keterangan as Kategori_Jenis, d.Kode_Sub_Kategori_Jenis, d.Keterangan as Sub_Kategori_Jenis, "
+            SQL = SQL & "c.Kode_Sub_Kategori_Jenis_1, c.Keterangan as Sub_Kategori_Jenis_1, b.Kode_Sub_Kategori_Jenis_2, b.Keterangan as Sub_Kategori_Jenis_2, "
+            SQL = SQL & "a.Kode_Sub_Kategori_Jenis_3, a.Keterangan as Sub_Kategori_Jenis_3, a.Prefix, "
+            SQL = SQL & "a.Id_Sub_Kategori_Jenis_3, a.Id_Sub_Kategori_Jenis_2, b.Id_Sub_Kategori_Jenis_1, c.Id_Sub_Kategori_Jenis, d.Id_Kategori_Jenis, "
+            SQL = SQL & "a.Satuan, a.Stock_Minimum, a.Berat, a.Berat_Kotor, a.Panjang, a.Lebar, a.Tinggi, a.Metode_Pengeluaran_Stok "
+            SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis_3 a, N_EMI_Master_Sub_Kategori_Jenis_2 b, N_EMI_Master_Sub_Kategori_Jenis_1 c, "
+            SQL = SQL & "N_EMI_Master_Sub_Kategori_Jenis d, N_EMI_Master_Kategori_Jenis e "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_2 = b.Id_Sub_Kategori_Jenis_2 "
+            SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Sub_Kategori_Jenis_1 = c.Id_Sub_Kategori_Jenis_1 "
+            SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Sub_Kategori_Jenis = d.Id_Sub_Kategori_Jenis "
+            SQL = SQL & "and d.Kode_Perusahaan = e.Kode_Perusahaan and d.Id_Kategori_Jenis = e.Id_Kategori_Jenis "
+            SQL = SQL & "and a.Kode_Perusahaan =  '" & KodePerusahaan & "' "
+
+            If ComboBox15.SelectedIndex <> -1 Then
+                SQL = SQL & "and " & arrcari5.Item(ComboBox15.SelectedIndex) & " like '%" & TextBox19.Text & "%' "
+            End If
+
+            If isCheck_5 Then
+                If CmbSK3_Jenis.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND d.Id_Kategori_Jenis = '" & arrid4(CmbSK3_Jenis.SelectedIndex) & "' "
+                End If
+                If CmbSK3_JenisSub.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND c.Id_Sub_Kategori_Jenis = '" & arridsub4(CmbSK3_JenisSub.SelectedIndex) & "' "
+                End If
+                If CmbSK3_JenisSub1.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND b.Id_Sub_Kategori_Jenis_1 = '" & arrid2sub4(CmbSK3_JenisSub1.SelectedIndex) & "' "
+                End If
+                If CmbSK3_JenisSub2.SelectedIndex <> -1 Then
+                    SQL = SQL & "AND a.Id_Sub_Kategori_Jenis_2 = '" & arrid3sub4(CmbSK3_JenisSub2.SelectedIndex) & "' "
+                End If
+            End If
+
+            SQL = SQL & "order by a.Keterangan "
+            SQL = SQL & "OFFSET " & offset & " ROWS "
+            SQL = SQL & "FETCH NEXT " & PageSize_5 & " ROWS ONLY "
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
                     Dim Lvw As ListViewItem
@@ -277,8 +844,44 @@
                     Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_3"))
                     Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_3"))
                     Lvw.SubItems.Add(dr("Prefix"))
+                    If General_Class.CekNULL(dr("Satuan")) = "" Then
+                        Lvw.SubItems.Add("-")
+                    Else
+                        Lvw.SubItems.Add(dr("Satuan"))
+                    End If
+
+                    If General_Class.CekNULL(dr("Stock_Minimum")) = "" Then
+                        Lvw.SubItems.Add("-")
+                    Else
+                        Lvw.SubItems.Add(dr("Stock_Minimum"))
+                    End If
+
+                    If General_Class.CekNULL(dr("Berat")) = "" Then
+                        Lvw.SubItems.Add("-")
+                    Else
+                        Lvw.SubItems.Add(dr("Berat"))
+                    End If
+
+                    If General_Class.CekNULL(dr("Berat_Kotor")) = "" Then
+                        Lvw.SubItems.Add("-")
+                    Else
+                        Lvw.SubItems.Add(dr("Berat_Kotor"))
+                    End If
+
+                    If General_Class.CekNULL(dr("Panjang")) = "" Then
+                        Lvw.SubItems.Add("-")
+                    Else
+                        Lvw.SubItems.Add(dr("Panjang") & " X " & dr("Lebar") & " X " & dr("Tinggi"))
+                    End If
+
+                    If General_Class.CekNULL(dr("Metode_Pengeluaran_Stok")) = "" Then
+                        Lvw.SubItems.Add("-")
+                    Else
+                        Lvw.SubItems.Add(dr("Metode_Pengeluaran_Stok"))
+                    End If
                 Loop
             End Using
+
 
             CloseConn()
         Catch ex As Exception
@@ -304,7 +907,7 @@
         ListView2.Columns.Add("id sub Kategori", 0, HorizontalAlignment.Left)
         ListView2.Columns.Add("Kode Sub Kategori", 140, HorizontalAlignment.Left)
         ListView2.Columns.Add("Sub Kategori", 490, HorizontalAlignment.Left)
-        ListView2.Columns.Add("Prefix", 140, HorizontalAlignment.Left)
+        ListView2.Columns.Add("Prefix", 139, HorizontalAlignment.Left)
 
         ListView3.Columns.Add("id Kategori", 0, HorizontalAlignment.Left)
         ListView3.Columns.Add("kode Kategori", 0, HorizontalAlignment.Left)
@@ -315,7 +918,7 @@
         ListView3.Columns.Add("id sub Kategori 1", 0, HorizontalAlignment.Left)
         ListView3.Columns.Add("Kode Sub Kategori 1", 140, HorizontalAlignment.Left)
         ListView3.Columns.Add("Sub Kategori 1", 350, HorizontalAlignment.Left)
-        ListView3.Columns.Add("Prefix", 140, HorizontalAlignment.Left)
+        ListView3.Columns.Add("Prefix", 139, HorizontalAlignment.Left)
 
         ListView4.Columns.Add("id Kategori", 0, HorizontalAlignment.Left)
         ListView4.Columns.Add("kode Kategori", 0, HorizontalAlignment.Left)
@@ -329,7 +932,7 @@
         ListView4.Columns.Add("id sub Kategori 2", 0, HorizontalAlignment.Left)
         ListView4.Columns.Add("Kode Sub Kategori 2", 140, HorizontalAlignment.Left)
         ListView4.Columns.Add("Sub Kategori 2", 250, HorizontalAlignment.Left)
-        ListView4.Columns.Add("Prefix", 100, HorizontalAlignment.Left)
+        ListView4.Columns.Add("Prefix", 99, HorizontalAlignment.Left)
 
         ListView5.Columns.Add("id Kategori", 0, HorizontalAlignment.Left)
         ListView5.Columns.Add("kode Kategori", 0, HorizontalAlignment.Left)
@@ -346,7 +949,13 @@
         ListView5.Columns.Add("id sub Kategori 3", 0, HorizontalAlignment.Left)
         ListView5.Columns.Add("Kode Sub Kategori 3", 140, HorizontalAlignment.Left)
         ListView5.Columns.Add("Sub Kategori 3", 250, HorizontalAlignment.Left)
-        ListView5.Columns.Add("Prefix", 100, HorizontalAlignment.Left)
+        ListView5.Columns.Add("Prefix", 99, HorizontalAlignment.Left)
+        ListView5.Columns.Add("Satuan", 0, HorizontalAlignment.Left)
+        ListView5.Columns.Add("Stock Min", 0, HorizontalAlignment.Left)
+        ListView5.Columns.Add("Berat Bersih", 0, HorizontalAlignment.Left)
+        ListView5.Columns.Add("Berat Kotor", 0, HorizontalAlignment.Left)
+        ListView5.Columns.Add("Ukuran", 0, HorizontalAlignment.Left)
+        ListView5.Columns.Add("Metode Pot Stock", 0, HorizontalAlignment.Left)
 
         kosong()
         kosong2()
@@ -360,7 +969,7 @@
             CmbSK3_JenisSub1.Enabled = True
             CmbSK3_JenisSub2.Enabled = True
 
-            TabControl1.SelectedIndex = 0
+            TabControl1.SelectedIndex = 2
 
             TabControl1.TabPages(0).Show()
             TabControl1.TabPages(1).Show()
@@ -380,7 +989,8 @@
             CmbSK3_JenisSub1.Enabled = True
             CmbSK3_JenisSub2.Enabled = True
 
-            TabControl1.SelectedIndex = 1
+
+            TabControl1.SelectedIndex = 2
 
             kosong5()
 
@@ -390,7 +1000,7 @@
             CmbSK3_JenisSub1.Enabled = True
             CmbSK3_JenisSub2.Enabled = True
 
-            TabControl1.SelectedIndex = 1
+            TabControl1.SelectedIndex = 2
 
             TabControl1.TabPages(0).Hide()
             TabControl1.TabPages(1).Show()
@@ -430,6 +1040,8 @@
         Try
             OpenConn()
 
+            CurrentPage_1 = 1
+
             TextBox1.Enabled = True
             TextBox1.Text = ""
             TextBox2.Text = ""
@@ -453,19 +1065,19 @@
             BtnSimpan.Tag = "&Simpan"
             BtnHapus.Enabled = False
 
-            ListView1.Items.Clear()
-            SQL = "select Kode_Kategori_Jenis, Keterangan, Prefix, Id_Kategori_Jenis, Flag_Aktif from N_EMI_Master_Kategori_Jenis "
-            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' order by Keterangan "
-            Using dr = OpenTrans(SQL)
-                Do While dr.Read
-                    Dim Lvw As ListViewItem
-                    Lvw = ListView1.Items.Add(dr("Id_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Kode_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Keterangan"))
-                    Lvw.SubItems.Add(dr("Prefix"))
-                    Lvw.SubItems.Add(dr("Flag_Aktif"))
-                Loop
-            End Using
+            'ListView1.Items.Clear()
+            'SQL = "select Kode_Kategori_Jenis, Keterangan, Prefix, Id_Kategori_Jenis, Flag_Aktif from N_EMI_Master_Kategori_Jenis "
+            'SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' order by Keterangan "
+            'Using dr = OpenTrans(SQL)
+            '    Do While dr.Read
+            '        Dim Lvw As ListViewItem
+            '        Lvw = ListView1.Items.Add(dr("Id_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Kode_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Keterangan"))
+            '        Lvw.SubItems.Add(dr("Prefix"))
+            '        Lvw.SubItems.Add(dr("Flag_Aktif"))
+            '    Loop
+            'End Using
 
             CloseConn()
         Catch ex As Exception
@@ -473,11 +1085,18 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+        Load_Data_Tab_1()
+
+
     End Sub
 
     Private Sub kosong2()
         Try
             OpenConn()
+
+            isCheck_2 = False
+            CurrentPage_2 = 1
 
             TextBox7.Enabled = True
             TextBox7.Text = ""
@@ -499,24 +1118,24 @@
             BtnSimpan2.Tag = "&Simpan"
             BtnHapus2.Enabled = False
 
-            ListView2.Items.Clear()
-            SQL = "select b.Kode_Kategori_Jenis, b.Keterangan as Kategori_Jenis, a.Kode_Sub_Kategori_Jenis, a.Keterangan as Sub_Kategori_Jenis, "
-            SQL = SQL & "a.Prefix, a.Id_Sub_Kategori_Jenis, a.Id_Kategori_Jenis "
-            SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis a, N_EMI_Master_Kategori_Jenis b "
-            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Kategori_Jenis = b.Id_Kategori_Jenis "
-            SQL = SQL & "and a.Kode_Perusahaan =  '" & KodePerusahaan & "' order by a.Keterangan "
-            Using dr = OpenTrans(SQL)
-                Do While dr.Read
-                    Dim Lvw As ListViewItem
-                    Lvw = ListView2.Items.Add(dr("Id_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Kode_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Sub_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Prefix"))
-                Loop
-            End Using
+            'ListView2.Items.Clear()
+            'SQL = "select b.Kode_Kategori_Jenis, b.Keterangan as Kategori_Jenis, a.Kode_Sub_Kategori_Jenis, a.Keterangan as Sub_Kategori_Jenis, "
+            'SQL = SQL & "a.Prefix, a.Id_Sub_Kategori_Jenis, a.Id_Kategori_Jenis "
+            'SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis a, N_EMI_Master_Kategori_Jenis b "
+            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Kategori_Jenis = b.Id_Kategori_Jenis "
+            'SQL = SQL & "and a.Kode_Perusahaan =  '" & KodePerusahaan & "' order by a.Keterangan "
+            'Using dr = OpenTrans(SQL)
+            '    Do While dr.Read
+            '        Dim Lvw As ListViewItem
+            '        Lvw = ListView2.Items.Add(dr("Id_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Kode_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Sub_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Prefix"))
+            '    Loop
+            'End Using
 
             ComboBox1.Items.Clear() : arrkateogori.Clear() : arrid.Clear()
             SQL = "select Kode_Kategori_Jenis, Keterangan, Id_Kategori_Jenis from N_EMI_Master_Kategori_Jenis "
@@ -537,11 +1156,17 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+        Load_Data_Tab_2()
+
     End Sub
 
     Private Sub kosong3()
         Try
             OpenConn()
+
+            isCheck_3 = False
+            CurrentPage_3 = 1
 
             TextBox8.Enabled = True
             TextBox8.Text = ""
@@ -565,28 +1190,28 @@
             BtnSimpan3.Tag = "&Simpan"
             BtnHapus3.Enabled = False
 
-            ListView3.Items.Clear()
-            SQL = "select  c.Kode_Kategori_Jenis, c.Keterangan as Kategori_Jenis, b.Kode_Sub_Kategori_Jenis, b.Keterangan as Sub_Kategori_Jenis,"
-            SQL = SQL & "a.Kode_Sub_Kategori_Jenis_1, a.Keterangan as Sub_Kategori_Jenis1, a.Prefix, "
-            SQL = SQL & "a.Id_Sub_Kategori_Jenis_1, a.Id_Sub_Kategori_Jenis, b.Id_Kategori_Jenis "
-            SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis_1 a, N_EMI_Master_Sub_Kategori_Jenis b, N_EMI_Master_Kategori_Jenis c "
-            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis = b.Id_Sub_Kategori_Jenis "
-            SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Kategori_Jenis = c.Id_Kategori_Jenis order by a.Keterangan "
-            Using dr = OpenTrans(SQL)
-                Do While dr.Read
-                    Dim Lvw As ListViewItem
-                    Lvw = ListView3.Items.Add(dr("Id_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Kode_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Sub_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_1"))
-                    Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_1"))
-                    Lvw.SubItems.Add(dr("Sub_Kategori_Jenis1"))
-                    Lvw.SubItems.Add(dr("Prefix"))
-                Loop
-            End Using
+            'ListView3.Items.Clear()
+            'SQL = "select  c.Kode_Kategori_Jenis, c.Keterangan as Kategori_Jenis, b.Kode_Sub_Kategori_Jenis, b.Keterangan as Sub_Kategori_Jenis,"
+            'SQL = SQL & "a.Kode_Sub_Kategori_Jenis_1, a.Keterangan as Sub_Kategori_Jenis1, a.Prefix, "
+            'SQL = SQL & "a.Id_Sub_Kategori_Jenis_1, a.Id_Sub_Kategori_Jenis, b.Id_Kategori_Jenis "
+            'SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis_1 a, N_EMI_Master_Sub_Kategori_Jenis b, N_EMI_Master_Kategori_Jenis c "
+            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis = b.Id_Sub_Kategori_Jenis "
+            'SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Kategori_Jenis = c.Id_Kategori_Jenis order by a.Keterangan "
+            'Using dr = OpenTrans(SQL)
+            '    Do While dr.Read
+            '        Dim Lvw As ListViewItem
+            '        Lvw = ListView3.Items.Add(dr("Id_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Kode_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Sub_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_1"))
+            '        Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_1"))
+            '        Lvw.SubItems.Add(dr("Sub_Kategori_Jenis1"))
+            '        Lvw.SubItems.Add(dr("Prefix"))
+            '    Loop
+            'End Using
 
             ComboBox3.Items.Clear() : arrkateogori3.Clear() : arrid2.Clear()
             ComboBox4.Items.Clear() : arrsubkateogori3.Clear() : arridsub2.Clear()
@@ -610,11 +1235,16 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+        Load_Data_Tab_3()
     End Sub
 
     Private Sub kosong4()
         Try
             OpenConn()
+
+            isCheck_4 = False
+            CurrentPage_4 = 1
 
             TextBox12.Enabled = True
             TextBox12.Text = ""
@@ -640,34 +1270,34 @@
             BtnSimpan4.Tag = "&Simpan"
             BtnHapus4.Enabled = False
 
-            ListView4.Items.Clear()
-            SQL = "select d.Kode_Kategori_Jenis, d.Keterangan as Kategori_Jenis, c.Kode_Sub_Kategori_Jenis, c.Keterangan as Sub_Kategori_Jenis, "
-            SQL = SQL & "b.Kode_Sub_Kategori_Jenis_1, b.Keterangan as Sub_Kategori_Jenis_1, a.Kode_Sub_Kategori_Jenis_2, a.Keterangan as Sub_Kategori_Jenis_2, a.Prefix, "
-            SQL = SQL & "a.Id_Sub_Kategori_Jenis_2, a.Id_Sub_Kategori_Jenis_1, b.Id_Sub_Kategori_Jenis, c.Id_Kategori_Jenis "
-            SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis_2 a, N_EMI_Master_Sub_Kategori_Jenis_1 b, "
-            SQL = SQL & "N_EMI_Master_Sub_Kategori_Jenis c, N_EMI_Master_Kategori_Jenis d "
-            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_1 = b.Id_Sub_Kategori_Jenis_1 "
-            SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Sub_Kategori_Jenis = c.Id_Sub_Kategori_Jenis "
-            SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Kategori_Jenis = d.Id_Kategori_Jenis "
-            SQL = SQL & "order by a.Keterangan "
-            Using dr = OpenTrans(SQL)
-                Do While dr.Read
-                    Dim Lvw As ListViewItem
-                    Lvw = ListView4.Items.Add(dr("Id_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Kode_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Sub_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_1"))
-                    Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_1"))
-                    Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_1"))
-                    Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_2"))
-                    Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_2"))
-                    Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_2"))
-                    Lvw.SubItems.Add(dr("Prefix"))
-                Loop
-            End Using
+            'ListView4.Items.Clear()
+            'SQL = "select d.Kode_Kategori_Jenis, d.Keterangan as Kategori_Jenis, c.Kode_Sub_Kategori_Jenis, c.Keterangan as Sub_Kategori_Jenis, "
+            'SQL = SQL & "b.Kode_Sub_Kategori_Jenis_1, b.Keterangan as Sub_Kategori_Jenis_1, a.Kode_Sub_Kategori_Jenis_2, a.Keterangan as Sub_Kategori_Jenis_2, a.Prefix, "
+            'SQL = SQL & "a.Id_Sub_Kategori_Jenis_2, a.Id_Sub_Kategori_Jenis_1, b.Id_Sub_Kategori_Jenis, c.Id_Kategori_Jenis "
+            'SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis_2 a, N_EMI_Master_Sub_Kategori_Jenis_1 b, "
+            'SQL = SQL & "N_EMI_Master_Sub_Kategori_Jenis c, N_EMI_Master_Kategori_Jenis d "
+            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_1 = b.Id_Sub_Kategori_Jenis_1 "
+            'SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Sub_Kategori_Jenis = c.Id_Sub_Kategori_Jenis "
+            'SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Kategori_Jenis = d.Id_Kategori_Jenis "
+            'SQL = SQL & "order by a.Keterangan "
+            'Using dr = OpenTrans(SQL)
+            '    Do While dr.Read
+            '        Dim Lvw As ListViewItem
+            '        Lvw = ListView4.Items.Add(dr("Id_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Kode_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Sub_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_1"))
+            '        Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_1"))
+            '        Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_1"))
+            '        Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_2"))
+            '        Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_2"))
+            '        Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_2"))
+            '        Lvw.SubItems.Add(dr("Prefix"))
+            '    Loop
+            'End Using
 
             ComboBox6.Items.Clear() : arrkateogori4.Clear() : arrid3.Clear()
             ComboBox7.Items.Clear() : arrsubkateogori4.Clear() : arridsub3.Clear()
@@ -694,11 +1324,16 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+        Load_Data_Tab_4()
     End Sub
 
     Public Sub kosong5()
         Try
             OpenConn()
+
+            isCheck_5 = False
+            CurrentPage_5 = 1
 
             TextBox16.Enabled = True
             TextBox16.Text = ""
@@ -709,9 +1344,30 @@
             xid_sub_kategori3 = ""
             xprefix5 = ""
 
+            TextBox20.Text = ""
+            TextBox21.Text = ""
+            TextBox22.Text = ""
+            TextBox23.Text = ""
+            TextBox24.Text = ""
+            TextBox25.Text = ""
+
+            cmbSatuan.Items.Clear()
+            SQL = "select satuan from emi_satuan where kode_perusahaan = '" & KodePerusahaan & "' And Flag_Barang='Y' "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    cmbSatuan.Items.Add(Dr("satuan"))
+                Loop
+            End Using
+            cmbSatuan.SelectedIndex = -1
+
+            ComboBox11.Items.Clear()
+            ComboBox11.Items.Add("FIFO")
+            ComboBox11.Items.Add("FEFO")
+            ComboBox11.SelectedIndex = -1
+
             ComboBox15.Items.Clear() : arrcari5.Clear()
-            ComboBox15.Items.Add("Kode kategori") : arrcari5.Add("3.Kode_Kategori_Jenis")
-            ComboBox15.Items.Add("Keterangan Kategori") : arrcari5.Add("3.Keterangan")
+            ComboBox15.Items.Add("Kode kategori") : arrcari5.Add("e.Kode_Kategori_Jenis")
+            ComboBox15.Items.Add("Keterangan Kategori") : arrcari5.Add("e.Keterangan")
             ComboBox15.Items.Add("Kode Sub kategori") : arrcari5.Add("d.Kode_Sub_Kategori_Jenis")
             ComboBox15.Items.Add("Keterangan Sub") : arrcari5.Add("d.Keterangan")
             ComboBox15.Items.Add("Kode Sub kategori 1") : arrcari5.Add("c.Kode_Sub_Kategori_Jenis_1")
@@ -727,39 +1383,76 @@
             BtnSimpan5.Tag = "&Simpan"
             BtnHapus5.Enabled = False
 
-            ListView5.Items.Clear()
-            SQL = "select e.Kode_Kategori_Jenis, e.Keterangan as Kategori_Jenis, d.Kode_Sub_Kategori_Jenis, d.Keterangan as Sub_Kategori_Jenis, "
-            SQL = SQL & "c.Kode_Sub_Kategori_Jenis_1, c.Keterangan as Sub_Kategori_Jenis_1, b.Kode_Sub_Kategori_Jenis_2, b.Keterangan as Sub_Kategori_Jenis_2, "
-            SQL = SQL & "a.Kode_Sub_Kategori_Jenis_3, a.Keterangan as Sub_Kategori_Jenis_3, a.Prefix, "
-            SQL = SQL & "a.Id_Sub_Kategori_Jenis_3, a.Id_Sub_Kategori_Jenis_2, b.Id_Sub_Kategori_Jenis_1, c.Id_Sub_Kategori_Jenis, d.Id_Kategori_Jenis "
-            SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis_3 a, N_EMI_Master_Sub_Kategori_Jenis_2 b, N_EMI_Master_Sub_Kategori_Jenis_1 c, "
-            SQL = SQL & "N_EMI_Master_Sub_Kategori_Jenis d, N_EMI_Master_Kategori_Jenis e "
-            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_2 = b.Id_Sub_Kategori_Jenis_2 "
-            SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Sub_Kategori_Jenis_1 = c.Id_Sub_Kategori_Jenis_1 "
-            SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Sub_Kategori_Jenis = d.Id_Sub_Kategori_Jenis "
-            SQL = SQL & "and d.Kode_Perusahaan = e.Kode_Perusahaan and d.Id_Kategori_Jenis = e.Id_Kategori_Jenis "
-            SQL = SQL & "order by a.Keterangan "
-            Using dr = OpenTrans(SQL)
-                Do While dr.Read
-                    Dim Lvw As ListViewItem
-                    Lvw = ListView5.Items.Add(dr("Id_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Kode_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Sub_Kategori_Jenis"))
-                    Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_1"))
-                    Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_1"))
-                    Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_1"))
-                    Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_2"))
-                    Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_2"))
-                    Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_2"))
-                    Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_3"))
-                    Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_3"))
-                    Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_3"))
-                    Lvw.SubItems.Add(dr("Prefix"))
-                Loop
-            End Using
+            'ListView5.Items.Clear()
+            'SQL = "select e.Kode_Kategori_Jenis, e.Keterangan as Kategori_Jenis, d.Kode_Sub_Kategori_Jenis, d.Keterangan as Sub_Kategori_Jenis, "
+            'SQL = SQL & "c.Kode_Sub_Kategori_Jenis_1, c.Keterangan as Sub_Kategori_Jenis_1, b.Kode_Sub_Kategori_Jenis_2, b.Keterangan as Sub_Kategori_Jenis_2, "
+            'SQL = SQL & "a.Kode_Sub_Kategori_Jenis_3, a.Keterangan as Sub_Kategori_Jenis_3, a.Prefix, "
+            'SQL = SQL & "a.Id_Sub_Kategori_Jenis_3, a.Id_Sub_Kategori_Jenis_2, b.Id_Sub_Kategori_Jenis_1, c.Id_Sub_Kategori_Jenis, d.Id_Kategori_Jenis, "
+            'SQL = SQL & "a.Satuan, a.Stock_Minimum, a.Berat, a.Berat_Kotor, a.Panjang, a.Lebar, a.Tinggi, a.Metode_Pengeluaran_Stok "
+            'SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis_3 a, N_EMI_Master_Sub_Kategori_Jenis_2 b, N_EMI_Master_Sub_Kategori_Jenis_1 c, "
+            'SQL = SQL & "N_EMI_Master_Sub_Kategori_Jenis d, N_EMI_Master_Kategori_Jenis e "
+            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_2 = b.Id_Sub_Kategori_Jenis_2 "
+            'SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Sub_Kategori_Jenis_1 = c.Id_Sub_Kategori_Jenis_1 "
+            'SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Sub_Kategori_Jenis = d.Id_Sub_Kategori_Jenis "
+            'SQL = SQL & "and d.Kode_Perusahaan = e.Kode_Perusahaan and d.Id_Kategori_Jenis = e.Id_Kategori_Jenis "
+            'SQL = SQL & "order by a.Keterangan "
+            'Using dr = OpenTrans(SQL)
+            '    Do While dr.Read
+            '        Dim Lvw As ListViewItem
+            '        Lvw = ListView5.Items.Add(dr("Id_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Kode_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Sub_Kategori_Jenis"))
+            '        Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_1"))
+            '        Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_1"))
+            '        Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_1"))
+            '        Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_2"))
+            '        Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_2"))
+            '        Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_2"))
+            '        Lvw.SubItems.Add(dr("Id_Sub_Kategori_Jenis_3"))
+            '        Lvw.SubItems.Add(dr("Kode_Sub_Kategori_Jenis_3"))
+            '        Lvw.SubItems.Add(dr("Sub_Kategori_Jenis_3"))
+            '        Lvw.SubItems.Add(dr("Prefix"))
+            '        If General_Class.CekNULL(dr("Satuan")) = "" Then
+            '            Lvw.SubItems.Add("-")
+            '        Else
+            '            Lvw.SubItems.Add(dr("Satuan"))
+            '        End If
+
+            '        If General_Class.CekNULL(dr("Stock_Minimum")) = "" Then
+            '            Lvw.SubItems.Add("-")
+            '        Else
+            '            Lvw.SubItems.Add(dr("Stock_Minimum"))
+            '        End If
+
+            '        If General_Class.CekNULL(dr("Berat")) = "" Then
+            '            Lvw.SubItems.Add("-")
+            '        Else
+            '            Lvw.SubItems.Add(dr("Berat"))
+            '        End If
+
+            '        If General_Class.CekNULL(dr("Berat_Kotor")) = "" Then
+            '            Lvw.SubItems.Add("-")
+            '        Else
+            '            Lvw.SubItems.Add(dr("Berat_Kotor"))
+            '        End If
+
+            '        If General_Class.CekNULL(dr("Panjang")) = "" Then
+            '            Lvw.SubItems.Add("-")
+            '        Else
+            '            Lvw.SubItems.Add(dr("Panjang") & " X " & dr("Lebar") & " X " & dr("Tinggi"))
+            '        End If
+
+            '        If General_Class.CekNULL(dr("Metode_Pengeluaran_Stok")) = "" Then
+            '            Lvw.SubItems.Add("-")
+            '        Else
+            '            Lvw.SubItems.Add(dr("Metode_Pengeluaran_Stok"))
+            '        End If
+
+            '    Loop
+            'End Using
 
             CmbSK3_Jenis.Items.Clear() : arrkateogori5.Clear() : arrid4.Clear()
             CmbSK3_JenisSub.Items.Clear() : arrsubkateogori5.Clear() : arridsub4.Clear()
@@ -789,6 +1482,8 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+        Load_Data_Tab_5()
     End Sub
 
     Private Sub TextBox1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox1.KeyPress
@@ -976,10 +1671,24 @@
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If ComboBox2.Text.Trim.Length = 0 Then Exit Sub
-        If TextBox5.Text.Trim.Length = 0 Then Exit Sub
+        If ComboBox2.SelectedIndex = -1 Then
+            MessageBox.Show("ComboBox Filter Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            ComboBox2.DroppedDown = True
+            ComboBox2.Focus()
+            Exit Sub
+        ElseIf TextBox5.Text.Trim.Length = 0 Then
+            MessageBox.Show("Value Filter Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox5.Focus()
+            Exit Sub
+        End If
 
-        Cari2("T")
+        isCheck_2 = False
+        Load_Data_Tab_2()
+
+        'If ComboBox2.Text.Trim.Length = 0 Then Exit Sub
+        'If TextBox5.Text.Trim.Length = 0 Then Exit Sub
+
+        'Cari2("T")
     End Sub
 
     Private Sub TextBox1_Leave(sender As Object, e As EventArgs) Handles TextBox1.Leave
@@ -1087,11 +1796,21 @@
             Cmd.Transaction() = Cn.BeginTransaction
 
             If BtnSimpan2.Tag = "&Simpan" Then
-                SQL = "select Kode_Sub_Kategori_Jenis, Keterangan from N_EMI_Master_Sub_Kategori_Jenis "
-                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and  (upper(Kode_Sub_Kategori_Jenis) = '" & TextBox7.Text.Trim.ToUpper & "' "
-                '    SQL = SQL & "and upper(Keterangan) = '" & TextBox6.Text.Trim.ToUpper & "' "
-                SQL = SQL & "and id_kategori_jenis  = '" & arrid.Item(ComboBox1.SelectedIndex) & "' or "
-                SQL = SQL & " id_kategori_jenis  = '" & arrid.Item(ComboBox1.SelectedIndex) & "' and prefix = '" & TextBox4.Text.Trim & "' ) "
+                'SQL = "select Kode_Sub_Kategori_Jenis, Keterangan from N_EMI_Master_Sub_Kategori_Jenis "
+                'SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and  (upper(Kode_Sub_Kategori_Jenis) = '" & TextBox7.Text.Trim.ToUpper & "' "
+                ''    SQL = SQL & "and upper(Keterangan) = '" & TextBox6.Text.Trim.ToUpper & "' "
+                'SQL = SQL & "and id_kategori_jenis  = '" & arrid.Item(ComboBox1.SelectedIndex) & "' or "
+                'SQL = SQL & " id_kategori_jenis  = '" & arrid.Item(ComboBox1.SelectedIndex) & "' and prefix = '" & TextBox4.Text.Trim & "' ) "
+
+                SQL = $"
+                    SELECT Kode_Sub_Kategori_Jenis, Keterangan
+                    FROM N_EMI_Master_Sub_Kategori_Jenis
+                    WHERE Kode_Perusahaan = '{KodePerusahaan}'
+                    AND id_kategori_jenis = '{arrid.Item(ComboBox1.SelectedIndex)}' 
+                    AND (
+	                    Kode_Sub_Kategori_Jenis = '{TextBox7.Text.Trim}' OR prefix = '{TextBox4.Text.Trim}'
+                    )
+                "
                 Using dr = OpenTrans(SQL)
                     If dr.Read Then
                         dr.Close()
@@ -1112,6 +1831,7 @@
                     MessageBox.Show("Jumlah Prefix untuk sub kategori sudah maximal", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
+
                 TextBox4.Text = xprefix2
 
                 SQL = "insert into N_EMI_Master_Sub_Kategori_Jenis(Kode_Perusahaan, Id_Kategori_Jenis, Kode_Sub_Kategori_Jenis, Keterangan, Prefix) values("
@@ -1319,10 +2039,24 @@
     End Sub
 
     Private Sub BtnCari3_Click(sender As Object, e As EventArgs) Handles BtnCari3.Click
-        If ComboBox5.Text.Trim.Length = 0 Then Exit Sub
-        If TextBox11.Text.Trim.Length = 0 Then Exit Sub
+        If ComboBox5.SelectedIndex = -1 Then
+            MessageBox.Show("ComboBox Filter Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            ComboBox2.DroppedDown = True
+            ComboBox2.Focus()
+            Exit Sub
+        ElseIf TextBox11.Text.Trim.Length = 0 Then
+            MessageBox.Show("Value Filter Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox5.Focus()
+            Exit Sub
+        End If
 
-        Cari3("T")
+        isCheck_3 = False
+        Load_Data_Tab_3()
+
+        'If ComboBox5.Text.Trim.Length = 0 Then Exit Sub
+        'If TextBox11.Text.Trim.Length = 0 Then Exit Sub
+
+        'Cari3("T")
     End Sub
 
     Private Sub ComboBox3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox3.SelectedIndexChanged
@@ -1358,10 +2092,24 @@
     End Sub
 
     Private Sub BtnCari4_Click(sender As Object, e As EventArgs) Handles BtnCari4.Click
-        If ComboBox9.Text.Trim.Length = 0 Then Exit Sub
-        If TextBox15.Text.Trim.Length = 0 Then Exit Sub
+        If ComboBox9.SelectedIndex = -1 Then
+            MessageBox.Show("ComboBox Filter Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            ComboBox9.DroppedDown = True
+            ComboBox9.Focus()
+            Exit Sub
+        ElseIf TextBox15.Text.Trim.Length = 0 Then
+            MessageBox.Show("Value Filter Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox15.Focus()
+            Exit Sub
+        End If
 
-        Cari4("T")
+        isCheck_4 = False
+        Load_Data_Tab_4()
+
+        'If ComboBox9.Text.Trim.Length = 0 Then Exit Sub
+        'If TextBox15.Text.Trim.Length = 0 Then Exit Sub
+
+        'Cari4("T")
     End Sub
 
     Private Sub ComboBox3_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox3.KeyPress
@@ -1401,6 +2149,17 @@
                 SQL = SQL & "AND upper(id_sub_kategori_jenis) = '" & arridsub2.Item(ComboBox4.SelectedIndex) & "' or "
                 SQL = SQL & "upper(id_sub_kategori_jenis) = '" & arridsub2.Item(ComboBox4.SelectedIndex) & "' and "
                 SQL = SQL & "prefix = '" & TextBox10.Text.Trim & "' ) "
+
+                'SQL = $"
+                '    SELECT Kode_Sub_Kategori_Jenis_1, Keterangan
+                '    FROM N_EMI_Master_Sub_Kategori_Jenis_1
+                '    WHERE Kode_Perusahaan = '{KodePerusahaan}'
+                '    AND id_sub_kategori_jenis = '{arridsub2.Item(ComboBox4.SelectedIndex)}'
+                '    AND (
+                '     Kode_Sub_Kategori_Jenis_1 = '{TextBox8.Text.Trim}'
+                '     OR prefix = '{TextBox10.Text.Trim}'
+                '    )
+                '"
                 Using dr = OpenTrans(SQL)
                     If dr.Read Then
                         dr.Close()
@@ -1482,10 +2241,25 @@
     End Sub
 
     Private Sub BtnCari5_Click(sender As Object, e As EventArgs) Handles BtnCari5.Click
-        If ComboBox15.Text.Trim.Length = 0 Then Exit Sub
-        If TextBox19.Text.Trim.Length = 0 Then Exit Sub
 
-        Cari5("T")
+        If ComboBox15.SelectedIndex = -1 Then
+            MessageBox.Show("ComboBox Filter Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            ComboBox15.DroppedDown = True
+            ComboBox15.Focus()
+            Exit Sub
+        ElseIf TextBox19.Text.Trim.Length = 0 Then
+            MessageBox.Show("Value Filter Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox19.Focus()
+            Exit Sub
+        End If
+
+        isCheck_5 = False
+        Load_Data_Tab_5()
+
+        'If ComboBox15.Text.Trim.Length = 0 Then Exit Sub
+        'If TextBox19.Text.Trim.Length = 0 Then Exit Sub
+
+        'Cari5("T")
     End Sub
 
     Private Sub BtnHapus3_Click(sender As Object, e As EventArgs) Handles BtnHapus3.Click
@@ -1590,6 +2364,30 @@
         ElseIf TextBox18.Text.Trim.Length <> 3 Then
             MessageBox.Show("Prefix Harus 3 Digit Angka", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TextBox18.Focus() : Exit Sub
+        ElseIf ComboBox11.Text.Trim.Length = 0 Then
+            MessageBox.Show("Metode Potong Stock Belum diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            ComboBox11.Focus() : Exit Sub
+        ElseIf cmbSatuan.Text.Trim.Length = 0 Then
+            MessageBox.Show("Satuan Belum diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            cmbSatuan.Focus() : Exit Sub
+        ElseIf TextBox20.Text.Trim.Length = 0 Then
+            MessageBox.Show("Stock Minimum Belum diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox20.Focus() : Exit Sub
+        ElseIf TextBox21.Text.Trim.Length = 0 Then
+            MessageBox.Show("Berat Bersih Belum diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox21.Focus() : Exit Sub
+        ElseIf TextBox22.Text.Trim.Length = 0 Then
+            MessageBox.Show("Berat Kotor Belum diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox22.Focus() : Exit Sub
+        ElseIf TextBox23.Text.Trim.Length = 0 Then
+            MessageBox.Show("Ukuran Panjang Belum diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox23.Focus() : Exit Sub
+        ElseIf TextBox24.Text.Trim.Length = 0 Then
+            MessageBox.Show("Ukuran Lebar Belum diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox24.Focus() : Exit Sub
+        ElseIf TextBox25.Text.Trim.Length = 0 Then
+            MessageBox.Show("Ukuran Tinggi Belum diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            TextBox25.Focus() : Exit Sub
         End If
 
         get_jam()
@@ -1635,9 +2433,13 @@
                 TextBox14.Text = xprefix4
 
                 SQL = "insert into N_EMI_Master_Sub_Kategori_Jenis_3"
-                SQL = SQL & "(Kode_Perusahaan,Id_Sub_Kategori_Jenis_2,Kode_Sub_Kategori_Jenis_3,Keterangan,Prefix) "
+                SQL = SQL & "(Kode_Perusahaan, Id_Sub_Kategori_Jenis_2, Kode_Sub_Kategori_Jenis_3, Keterangan, Prefix, "
+                SQL = SQL & "Satuan, Stock_Minimum, Berat, Berat_Kotor, Panjang, Lebar, Tinggi, Metode_Pengeluaran_Stok) "
                 SQL = SQL & "values('" & KodePerusahaan & "', '" & arrid3sub4.Item(CmbSK3_JenisSub2.SelectedIndex) & "', "
-                SQL = SQL & "'" & TextBox16.Text.Trim.ToUpper & "', '" & TextBox17.Text.Trim.ToUpper & "', '" & TextBox18.Text.Trim & "' )"
+                SQL = SQL & "'" & TextBox16.Text.Trim.ToUpper & "', '" & TextBox17.Text.Trim.ToUpper & "', '" & TextBox18.Text.Trim & "', "
+                SQL = SQL & "'" & cmbSatuan.Text.Trim & "', '" & TextBox20.Text.Trim & "', '" & TextBox21.Text.Trim & "', "
+                SQL = SQL & "'" & TextBox22.Text.Trim & "', '" & TextBox23.Text.Trim & "', '" & TextBox24.Text.Trim & "', "
+                SQL = SQL & "'" & TextBox25.Text.Trim & "', '" & ComboBox11.Text.Trim & "') "
                 ExecuteTrans(SQL)
 
                 SQL = "select IDENT_CURRENT('N_EMI_Master_Sub_Kategori_Jenis_3') as urut"
@@ -1726,7 +2528,15 @@
                 'End Using
 
                 SQL = "update N_EMI_Master_Sub_Kategori_Jenis_3 set "
-                SQL = SQL & "Keterangan = '" & TextBox17.Text.ToUpper & "' "
+                SQL = SQL & "Keterangan = '" & TextBox17.Text.ToUpper & "', "
+                SQL = SQL & "Satuan = '" & cmbSatuan.Text & "', "
+                SQL = SQL & "Stock_Minimum = '" & TextBox20.Text & "', "
+                SQL = SQL & "Berat = '" & TextBox21.Text & "', "
+                SQL = SQL & "Berat_Kotor = '" & TextBox22.Text & "', "
+                SQL = SQL & "Panjang = '" & TextBox23.Text & "', "
+                SQL = SQL & "Lebar = '" & TextBox24.Text & "', "
+                SQL = SQL & "Tinggi = '" & TextBox25.Text & "', "
+                SQL = SQL & "Metode_Pengeluaran_Stok = '" & ComboBox11.Text & "' "
                 'SQL = SQL & "Prefix = '" & TextBox14.Text.Trim & "' "
                 SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
                 SQL = SQL & "and Id_Sub_Kategori_Jenis_3 = '" & xid_sub_kategori3 & "' "
@@ -2147,9 +2957,6 @@
 
     End Sub
 
-    Private Sub ComboBox14_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbSK3_JenisSub2.SelectedIndexChanged
-
-    End Sub
 
     Private Sub TextBox12_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox12.KeyPress
         If e.KeyChar = Chr(13) Then TextBox13.Focus()
@@ -2245,6 +3052,8 @@
         TextBox12_Leave(ListView4, e)
     End Sub
 
+
+
     Private Sub ComboBox6_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox6.SelectedIndexChanged
         If ComboBox6.Text.Trim.Length = 0 Then Exit Sub
 
@@ -2274,6 +3083,8 @@
         End Try
     End Sub
 
+
+
     Private Sub ComboBox7_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox7.SelectedIndexChanged
         If ComboBox7.Text.Trim.Length = 0 Then Exit Sub
         If ComboBox6.SelectedIndex = -1 Then
@@ -2283,21 +3094,37 @@
         Try
             OpenConn()
 
-            SQL = "select  b.Id_Sub_Kategori_Jenis, b.Id_Kategori_Jenis "
-            SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis b, N_EMI_Master_Kategori_Jenis c, N_EMI_Master_Role_Sub_Kategori g "
-            SQL = SQL & "where b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Kategori_Jenis = c.Id_Kategori_Jenis "
-            SQL = SQL & "and b.Kode_Perusahaan = g.Kode_Perusahaan and b.Id_Kategori_Jenis = g.Id_Kategori_Jenis "
-            SQL = SQL & "and b.Id_Sub_Kategori_Jenis = g.Id_Sub_Kategori_Jenis and g.UserID = '" & UserID & "' "
-            SQL = SQL & "and b.Kode_Perusahaan =  '" & KodePerusahaan & "' and b.Id_Kategori_Jenis = '" & arrid3.Item(ComboBox6.SelectedIndex) & "' "
-            SQL = SQL & "and b.Id_Sub_Kategori_Jenis = '" & arridsub3.Item(ComboBox7.SelectedIndex) & "' "
-            Using dr = OpenTrans(SQL)
-                If Not dr.Read Then
-                    dr.Close()
-                    CloseConn()
-                    MessageBox.Show("anda tidak Memiliki akses ke kategori dan sub kategori ini ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    ComboBox7.SelectedIndex = -1 : Exit Sub
+            'SQL = "select  b.Id_Sub_Kategori_Jenis, b.Id_Kategori_Jenis "
+            'SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis b, N_EMI_Master_Kategori_Jenis c, N_EMI_Master_Role_Sub_Kategori g "
+            'SQL = SQL & "where b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Kategori_Jenis = c.Id_Kategori_Jenis "
+            'SQL = SQL & "and b.Kode_Perusahaan = g.Kode_Perusahaan and b.Id_Kategori_Jenis = g.Id_Kategori_Jenis "
+            'SQL = SQL & "and b.Id_Sub_Kategori_Jenis = g.Id_Sub_Kategori_Jenis and g.UserID = '" & UserID & "' "
+            'SQL = SQL & "and b.Kode_Perusahaan =  '" & KodePerusahaan & "' and b.Id_Kategori_Jenis = '" & arrid3.Item(ComboBox6.SelectedIndex) & "' "
+            'SQL = SQL & "and b.Id_Sub_Kategori_Jenis = '" & arridsub3.Item(ComboBox7.SelectedIndex) & "' "
+
+            If Asal_proses IsNot Nothing Then
+                If Asal_proses.ToUpper <> "MASTER" AndAlso Not (Asal_proses = "" OrElse Asal_proses = "N_EMI_SD_Tambah_PR_Barang_Lain_Departement") Then
+                    SQL = "select a.Id_Sub_Kategori_Jenis, a.Id_Kategori_Jenis "
+                    SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis a "
+                    SQL = SQL & "inner JOIN N_EMI_Master_Kategori_Jenis b on a.kode_perusahaan = b.Kode_Perusahaan AND a.Id_Kategori_Jenis = b.Id_Kategori_Jenis "
+                    SQL = SQL & "inner JOIN N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain c ON a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Jenis = c.id_kategori_jenis and a.Id_Sub_Kategori_Jenis = c.id_sub_kategori_jenis "
+                    SQL = SQL & "WHERE a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "AND c.user_id = '" & UserID & "' "
+                    SQL = SQL & "and a.Id_Kategori_Jenis = '" & arrid3.Item(ComboBox6.SelectedIndex) & "' "
+                    SQL = SQL & "and a.Id_Sub_Kategori_Jenis = '" & arridsub3.Item(ComboBox7.SelectedIndex) & "' "
+                    Using dr = OpenTrans(SQL)
+                        If Not dr.Read Then
+                            dr.Close()
+                            CloseConn()
+                            MessageBox.Show("anda tidak Memiliki akses ke kategori dan sub kategori ini ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            ComboBox7.SelectedIndex = -1 : Exit Sub
+                        End If
+                    End Using
                 End If
-            End Using
+            End If
+
+
+
 
             ComboBox8.Items.Clear() : arrsub1kateogori4.Clear() : arrid2sub3.Clear() : TextBox14.Text = ""
             SQL = "select a.Kode_Sub_Kategori_Jenis_1, a.Keterangan as Sub_Kategori_Jenis_1, a.Id_Sub_Kategori_Jenis_1 "
@@ -2325,9 +3152,13 @@
         End Try
     End Sub
 
+
+
     Private Sub ComboBox10_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox10.KeyPress
         If e.KeyChar = Chr(13) Then BtnSimpan.Focus()
     End Sub
+
+
 
     Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
         TextBox4.Text = ""
@@ -2336,6 +3167,8 @@
             TextBox7_Leave(ComboBox1, e)
         End If
     End Sub
+
+
 
     Private Sub ComboBox4_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox4.SelectedIndexChanged
         TextBox10.Text = ""
@@ -2348,21 +3181,38 @@
         Try
             OpenConn()
 
-            SQL = "select  b.Id_Sub_Kategori_Jenis, b.Id_Kategori_Jenis "
-            SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis b, N_EMI_Master_Kategori_Jenis c, N_EMI_Master_Role_Sub_Kategori g "
-            SQL = SQL & "where b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Kategori_Jenis = c.Id_Kategori_Jenis "
-            SQL = SQL & "and b.Kode_Perusahaan = g.Kode_Perusahaan and b.Id_Kategori_Jenis = g.Id_Kategori_Jenis "
-            SQL = SQL & "and b.Id_Sub_Kategori_Jenis = g.Id_Sub_Kategori_Jenis and g.UserID = '" & UserID & "' "
-            SQL = SQL & "and b.Kode_Perusahaan =  '" & KodePerusahaan & "' and b.Id_Kategori_Jenis = '" & arrid2.Item(ComboBox3.SelectedIndex) & "' "
-            SQL = SQL & "and b.Id_Sub_Kategori_Jenis = '" & arridsub2.Item(ComboBox4.SelectedIndex) & "' "
-            Using dr = OpenTrans(SQL)
-                If Not dr.Read Then
-                    dr.Close()
-                    CloseConn()
-                    MessageBox.Show("anda tidak Memiliki akses ke kategori dan sub kategori ini ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    ComboBox4.SelectedIndex = -1 : Exit Sub
+            'SQL = "select  b.Id_Sub_Kategori_Jenis, b.Id_Kategori_Jenis "
+            'SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis b, N_EMI_Master_Kategori_Jenis c, N_EMI_Master_Role_Sub_Kategori g "
+            'SQL = SQL & "where b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Kategori_Jenis = c.Id_Kategori_Jenis "
+            'SQL = SQL & "and b.Kode_Perusahaan = g.Kode_Perusahaan and b.Id_Kategori_Jenis = g.Id_Kategori_Jenis "
+            'SQL = SQL & "and b.Id_Sub_Kategori_Jenis = g.Id_Sub_Kategori_Jenis and g.UserID = '" & UserID & "' "
+            'SQL = SQL & "and b.Kode_Perusahaan =  '" & KodePerusahaan & "' and b.Id_Kategori_Jenis = '" & arrid2.Item(ComboBox3.SelectedIndex) & "' "
+            'SQL = SQL & "and b.Id_Sub_Kategori_Jenis = '" & arridsub2.Item(ComboBox4.SelectedIndex) & "' "
+
+            If Asal_proses IsNot Nothing Then
+                If Asal_proses.ToUpper <> "MASTER" AndAlso Not (Asal_proses = "" OrElse Asal_proses = "N_EMI_SD_Tambah_PR_Barang_Lain_Departement") Then
+                    SQL = "select a.Id_Sub_Kategori_Jenis, a.Id_Kategori_Jenis "
+                    SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis a "
+                    SQL = SQL & "inner JOIN N_EMI_Master_Kategori_Jenis b on a.kode_perusahaan = b.Kode_Perusahaan AND a.Id_Kategori_Jenis = b.Id_Kategori_Jenis "
+                    SQL = SQL & "inner JOIN N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain c ON a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Jenis = c.id_kategori_jenis and a.Id_Sub_Kategori_Jenis = c.id_sub_kategori_jenis "
+                    SQL = SQL & "WHERE a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "AND c.user_id = '" & UserID & "' "
+                    SQL = SQL & "and a.Id_Kategori_Jenis = '" & arrid2.Item(ComboBox3.SelectedIndex) & "' "
+                    SQL = SQL & "and a.Id_Sub_Kategori_Jenis = '" & arridsub2.Item(ComboBox4.SelectedIndex) & "' "
+                    Using dr = OpenTrans(SQL)
+                        If Not dr.Read Then
+                            dr.Close()
+                            CloseConn()
+                            MessageBox.Show("anda tidak Memiliki akses ke kategori dan sub kategori ini ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            ComboBox4.SelectedIndex = -1 : Exit Sub
+                        End If
+                    End Using
                 End If
-            End Using
+            End If
+
+
+
+
 
             CloseConn()
         Catch ex As Exception
@@ -2376,6 +3226,8 @@
         End If
     End Sub
 
+
+
     Private Sub ComboBox8_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox8.SelectedIndexChanged
         TextBox14.Text = ""
 
@@ -2383,6 +3235,8 @@
             TextBox12_Leave(ComboBox8, e)
         End If
     End Sub
+
+
 
     Public Sub ComboBox11_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbSK3_Jenis.SelectedIndexChanged
         If CmbSK3_Jenis.Text.Trim.Length = 0 Then Exit Sub
@@ -2414,6 +3268,8 @@
         End Try
     End Sub
 
+
+
     Public Sub ComboBox12_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbSK3_JenisSub.SelectedIndexChanged
         If CmbSK3_JenisSub.Text.Trim.Length = 0 Then Exit Sub
         If CmbSK3_Jenis.SelectedIndex = -1 Then
@@ -2423,21 +3279,46 @@
         Try
             OpenConn()
 
-            SQL = "select  b.Id_Sub_Kategori_Jenis, b.Id_Kategori_Jenis "
-            SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis b, N_EMI_Master_Kategori_Jenis c, N_EMI_Master_Role_Sub_Kategori g "
-            SQL = SQL & "where b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Kategori_Jenis = c.Id_Kategori_Jenis "
-            SQL = SQL & "and b.Kode_Perusahaan = g.Kode_Perusahaan and b.Id_Kategori_Jenis = g.Id_Kategori_Jenis "
-            SQL = SQL & "and b.Id_Sub_Kategori_Jenis = g.Id_Sub_Kategori_Jenis and g.UserID = '" & UserID & "' "
-            SQL = SQL & "and b.Kode_Perusahaan =  '" & KodePerusahaan & "' and b.Id_Kategori_Jenis = '" & arrid4.Item(CmbSK3_Jenis.SelectedIndex) & "' "
-            SQL = SQL & "and b.Id_Sub_Kategori_Jenis = '" & arridsub4.Item(CmbSK3_JenisSub.SelectedIndex) & "' "
-            Using dr = OpenTrans(SQL)
-                If Not dr.Read Then
-                    dr.Close()
-                    CloseConn()
-                    MessageBox.Show("anda tidak Memiliki akses ke kategori dan sub kategori ini ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    CmbSK3_JenisSub.SelectedIndex = -1 : Exit Sub
+            'SQL = "select  b.Id_Sub_Kategori_Jenis, b.Id_Kategori_Jenis "
+            'SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis b, N_EMI_Master_Kategori_Jenis c, N_EMI_Master_Role_Sub_Kategori g "
+            'SQL = SQL & "where b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Kategori_Jenis = c.Id_Kategori_Jenis "
+            'SQL = SQL & "and b.Kode_Perusahaan = g.Kode_Perusahaan and b.Id_Kategori_Jenis = g.Id_Kategori_Jenis "
+            'SQL = SQL & "and b.Id_Sub_Kategori_Jenis = g.Id_Sub_Kategori_Jenis and g.UserID = '" & UserID & "' "
+            'SQL = SQL & "and b.Kode_Perusahaan =  '" & KodePerusahaan & "' and b.Id_Kategori_Jenis = '" & arrid4.Item(CmbSK3_Jenis.SelectedIndex) & "' "
+            'SQL = SQL & "and b.Id_Sub_Kategori_Jenis = '" & arridsub4.Item(CmbSK3_JenisSub.SelectedIndex) & "' "
+            'Using dr = OpenTrans(SQL)
+            '    If Not dr.Read Then
+            '        dr.Close()
+            '        CloseConn()
+            '        MessageBox.Show("anda tidak Memiliki akses ke kategori dan sub kategori ini ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '        CmbSK3_JenisSub.SelectedIndex = -1 : Exit Sub
+            '    End If
+            'End Using
+
+            If Asal_proses IsNot Nothing Then
+                If Asal_proses.ToUpper <> "MASTER" AndAlso Not (Asal_proses = "" OrElse Asal_proses = "N_EMI_SD_Tambah_PR_Barang_Lain_Departement") Then
+                    SQL = "select a.Id_Sub_Kategori_Jenis, a.Id_Kategori_Jenis "
+                    SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis a "
+                    SQL = SQL & "inner JOIN N_EMI_Master_Kategori_Jenis b on a.kode_perusahaan = b.Kode_Perusahaan AND a.Id_Kategori_Jenis = b.Id_Kategori_Jenis "
+                    SQL = SQL & "inner JOIN N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain c ON a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Jenis = c.id_kategori_jenis and a.Id_Sub_Kategori_Jenis = c.id_sub_kategori_jenis "
+                    SQL = SQL & "WHERE a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "AND c.user_id = '" & UserID & "' "
+                    SQL = SQL & "and a.Id_Kategori_Jenis = '" & arrid4.Item(CmbSK3_Jenis.SelectedIndex) & "' "
+                    SQL = SQL & "and a.Id_Sub_Kategori_Jenis = '" & arridsub4.Item(CmbSK3_JenisSub.SelectedIndex) & "' "
+                    Using dr = OpenTrans(SQL)
+                        If Not dr.Read Then
+                            dr.Close()
+                            CloseConn()
+                            MessageBox.Show("anda tidak Memiliki akses ke kategori dan sub kategori ini ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            CmbSK3_JenisSub.SelectedIndex = -1 : Exit Sub
+                        End If
+                    End Using
                 End If
-            End Using
+            End If
+
+
+
+
 
             CmbSK3_JenisSub1.Items.Clear() : arrsub1kateogori5.Clear() : arrid2sub4.Clear() : TextBox18.Text = ""
             CmbSK3_JenisSub2.Items.Clear() : arrsub2kateogori5.Clear() : arrid3sub4.Clear()
@@ -2465,6 +3346,8 @@
             Exit Sub
         End Try
     End Sub
+
+
 
     Public Sub ComboBox13_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbSK3_JenisSub1.SelectedIndexChanged
         If CmbSK3_JenisSub1.Text.Trim.Length = 0 Then Exit Sub
@@ -2497,6 +3380,8 @@
         End Try
     End Sub
 
+
+
     Private Sub TextBox16_Leave(sender As Object, e As EventArgs) Handles TextBox16.Leave
         If TextBox16.Text.Trim.Length = 0 Then
             Exit Sub
@@ -2508,7 +3393,8 @@
             SQL = "select e.Kode_Kategori_Jenis, e.Keterangan as Kategori_Jenis, d.Kode_Sub_Kategori_Jenis, d.Keterangan as Sub_Kategori_Jenis, "
             SQL = SQL & "c.Kode_Sub_Kategori_Jenis_1, c.Keterangan as Sub_Kategori_Jenis_1, b.Kode_Sub_Kategori_Jenis_2, b.Keterangan as Sub_Kategori_Jenis_2, "
             SQL = SQL & "a.Kode_Sub_Kategori_Jenis_3, a.Keterangan as Sub_Kategori_Jenis_3, a.Prefix, "
-            SQL = SQL & "a.Id_Sub_Kategori_Jenis_3, a.Id_Sub_Kategori_Jenis_2, b.Id_Sub_Kategori_Jenis_1, c.Id_Sub_Kategori_Jenis, d.Id_Kategori_Jenis "
+            SQL = SQL & "a.Id_Sub_Kategori_Jenis_3, a.Id_Sub_Kategori_Jenis_2, b.Id_Sub_Kategori_Jenis_1, c.Id_Sub_Kategori_Jenis, d.Id_Kategori_Jenis, "
+            SQL = SQL & "a.Satuan, a.Stock_Minimum, a.Berat, a.Berat_Kotor, a.Panjang, a.Lebar, a.Tinggi, a.Metode_Pengeluaran_Stok "
             SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis_3 a, N_EMI_Master_Sub_Kategori_Jenis_2 b, N_EMI_Master_Sub_Kategori_Jenis_1 c, "
             SQL = SQL & "N_EMI_Master_Sub_Kategori_Jenis d, N_EMI_Master_Kategori_Jenis e "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_2 = b.Id_Sub_Kategori_Jenis_2 "
@@ -2527,6 +3413,54 @@
                     CmbSK3_JenisSub1.Enabled = False
                     CmbSK3_JenisSub2.Enabled = False
 
+                    If General_Class.CekNULL(dr("Satuan")) = "" Then
+                        cmbSatuan.SelectedIndex = -1
+                    Else
+                        cmbSatuan.Text = dr("Satuan")
+                    End If
+
+                    If General_Class.CekNULL(dr("Metode_Pengeluaran_Stok")) = "" Then
+                        ComboBox11.SelectedIndex = -1
+                    Else
+                        ComboBox11.Text = dr("Metode_Pengeluaran_Stok")
+                    End If
+
+                    If General_Class.CekNULL(dr("Stock_Minimum")) = "" Then
+                        TextBox20.Text = ""
+                    Else
+                        TextBox20.Text = dr("Stock_Minimum")
+                    End If
+
+                    If General_Class.CekNULL(dr("Berat")) = "" Then
+                        TextBox21.Text = ""
+                    Else
+                        TextBox21.Text = dr("Berat")
+                    End If
+
+                    If General_Class.CekNULL(dr("Berat_Kotor")) = "" Then
+                        TextBox22.Text = ""
+                    Else
+                        TextBox22.Text = dr("Berat_Kotor")
+                    End If
+
+                    If General_Class.CekNULL(dr("Panjang")) = "" Then
+                        TextBox23.Text = ""
+                    Else
+                        TextBox23.Text = dr("Panjang")
+                    End If
+
+                    If General_Class.CekNULL(dr("Lebar")) = "" Then
+                        TextBox24.Text = ""
+                    Else
+                        TextBox24.Text = dr("Lebar")
+                    End If
+
+                    If General_Class.CekNULL(dr("Tinggi")) = "" Then
+                        TextBox25.Text = ""
+                    Else
+                        TextBox25.Text = dr("Tinggi")
+                    End If
+
                     BtnSimpan5.Text = "&Update"
                     BtnHapus5.Enabled = True
                     BtnSimpan5.Tag = "&Update"
@@ -2539,6 +3473,16 @@
                     xid_sub_kategori3 = ""
                     TextBox17.Text = ""
                     'TextBox18.Text = ""
+
+                    cmbSatuan.SelectedIndex = -1
+                    ComboBox11.SelectedIndex = -1
+                    TextBox20.Text = ""
+                    TextBox21.Text = ""
+                    TextBox22.Text = ""
+                    TextBox23.Text = ""
+                    TextBox24.Text = ""
+                    TextBox25.Text = ""
+
                     BtnSimpan5.Text = "&Simpan"
                     BtnHapus5.Enabled = False
                     BtnSimpan5.Tag = "&Simpan"
@@ -2579,28 +3523,38 @@
         TextBox16_Leave(ListView5, e)
     End Sub
 
-    Private Sub ComboBox11_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbSK3_Jenis.KeyPress
-        If e.KeyChar = Chr(13) Then CmbSK3_JenisSub.Focus()
-    End Sub
+
+
+    'Private Sub ComboBox11_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbSK3_Jenis.KeyPress
+    '    If e.KeyChar = Chr(13) Then CmbSK3_JenisSub.Focus()
+    'End Sub
 
     Private Sub ComboBox13_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbSK3_JenisSub1.KeyPress
         If e.KeyChar = Chr(13) Then CmbSK3_JenisSub2.Focus()
     End Sub
 
+
+
     Private Sub ComboBox12_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbSK3_JenisSub.KeyPress
         If e.KeyChar = Chr(13) Then CmbSK3_JenisSub1.Focus()
     End Sub
+
+
 
     Private Sub ComboBox14_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbSK3_JenisSub2.KeyPress
         If e.KeyChar = Chr(13) Then TextBox16.Focus()
     End Sub
 
+
+
     Private Sub TextBox16_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox16.KeyPress
         If e.KeyChar = Chr(13) Then TextBox17.Focus()
     End Sub
 
+
+
     Private Sub TextBox17_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox17.KeyPress
-        If e.KeyChar = Chr(13) Then TextBox18.Focus()
+        If e.KeyChar = Chr(13) Then ComboBox11.Focus()
     End Sub
 
     Private Sub TextBox18_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox18.KeyPress
@@ -2617,16 +3571,423 @@
 
         'End If
         If Asal_proses = "pengajuan_barang_baru" Then
-            If e.TabPageIndex = 0 Then
+
+            If e.TabPageIndex < 2 Then
                 e.Cancel = True
             End If
 
+            'If e.TabPageIndex = 0 Then
+            '    e.Cancel = True
+            'End If
 
+
+        ElseIf Asal_proses = "N_EMI_SD_Tambah_PR_Barang_Lain_Departement" Then
+
+
+            If e.TabPageIndex < 2 Then
+                e.Cancel = True
+            End If
         ElseIf Not (Asal_proses = "" Or Asal_proses = "N_EMI_SD_Tambah_PR_Barang_Lain_Departement") Then
             If e.TabPageIndex <> 4 Then
                 e.Cancel = True
             End If
 
+        Else
+            If e.TabPageIndex < 2 Then
+                e.Cancel = True
+            End If
+
         End If
     End Sub
+
+    Private Sub ComboBox11_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox11.KeyPress
+        If e.KeyChar = Chr(13) Then cmbSatuan.Focus()
+    End Sub
+
+    Private Sub cmbSatuan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles cmbSatuan.KeyPress
+        If e.KeyChar = Chr(13) Then TextBox20.Focus()
+    End Sub
+
+    Private Sub TextBox20_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox20.KeyPress
+        If e.KeyChar = Chr(13) Then TextBox21.Focus()
+        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
+    End Sub
+
+    Private Sub TextBox21_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox21.KeyPress
+        If e.KeyChar = Chr(13) Then TextBox22.Focus()
+        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
+    End Sub
+
+    Private Sub TextBox22_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox22.KeyPress
+        If e.KeyChar = Chr(13) Then TextBox23.Focus()
+        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
+    End Sub
+
+    Private Sub TextBox23_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox23.KeyPress
+        If e.KeyChar = Chr(13) Then TextBox24.Focus()
+        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
+    End Sub
+
+    Private Sub TextBox24_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox24.KeyPress
+        If e.KeyChar = Chr(13) Then TextBox25.Focus()
+        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
+    End Sub
+
+    Private Sub TextBox25_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox25.KeyPress
+        If e.KeyChar = Chr(13) Then BtnSimpan5.Focus()
+        If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
+    End Sub
+
+
+    '=========================================================================================================================================================
+    '=     HANDLE BUTTON CHECK
+    '=========================================================================================================================================================
+    Private Sub Btn_Check_2_Click(sender As Object, e As EventArgs) Handles Btn_Check_2.Click
+        If ComboBox1.SelectedIndex = -1 Then
+            MessageBox.Show("Harap Pilih Dahulu Kode Kategori", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            ComboBox1.DroppedDown = True
+            ComboBox1.Focus()
+            Exit Sub
+        End If
+
+        isCheck_2 = True
+        ComboBox2.SelectedIndex = -1
+        TextBox5.Text = ""
+        Load_Data_Tab_2()
+
+    End Sub
+
+    Private Sub Btn_Check_3_Click(sender As Object, e As EventArgs) Handles Btn_Check_3.Click
+        If ComboBox3.SelectedIndex = -1 Then
+            MessageBox.Show("Harap Pilih Dahulu Kode Kategori", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            ComboBox3.DroppedDown = True
+            ComboBox3.Focus()
+            Exit Sub
+        End If
+
+        isCheck_3 = True
+        ComboBox5.SelectedIndex = -1
+        TextBox11.Text = ""
+        Load_Data_Tab_3()
+    End Sub
+
+    Private Sub Btn_Check_4_Click(sender As Object, e As EventArgs) Handles Btn_Check_4.Click
+        If ComboBox6.SelectedIndex = -1 Then
+            MessageBox.Show("Harap Pilih Dahulu Kode Kategori", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            ComboBox6.DroppedDown = True
+            ComboBox6.Focus()
+            Exit Sub
+        End If
+
+        isCheck_4 = True
+        ComboBox9.SelectedIndex = -1
+        TextBox15.Text = ""
+        Load_Data_Tab_4()
+    End Sub
+    Private Sub Btn_Check_5_Click(sender As Object, e As EventArgs) Handles Btn_Check_5.Click
+        If CmbSK3_Jenis.SelectedIndex = -1 Then
+            MessageBox.Show("Harap Pilih Dahulu Kode Kategori", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            CmbSK3_Jenis.DroppedDown = True
+            CmbSK3_Jenis.Focus()
+            Exit Sub
+        End If
+
+        isCheck_5 = True
+        ComboBox15.SelectedIndex = -1
+        TextBox19.Text = ""
+        Load_Data_Tab_5()
+    End Sub
+
+
+    '=========================================================================================================================================================
+    '=     HANDLE PAGINATION
+    '=========================================================================================================================================================
+    Private Sub BtnNext_GI_Click(sender As Object, e As EventArgs) Handles BtnNext_1.Click
+
+        If CurrentPage_1 < totalpage_1 Then
+            CurrentPage_1 += 1
+            Load_Data_Tab_1(CurrentPage_1)
+
+        End If
+
+        If totalpage_1 = CurrentPage_1 Then
+            BtnNext_1.Enabled = False
+        Else
+            BtnNext_1.Enabled = True
+        End If
+
+        If 1 = CurrentPage_1 Then
+            BtnPrev_1.Enabled = False
+        Else
+            BtnPrev_1.Enabled = True
+        End If
+
+    End Sub
+
+    Private Sub BtnPrev_1_Click(sender As Object, e As EventArgs) Handles BtnPrev_1.Click
+
+        If CurrentPage_1 > 1 Then
+            CurrentPage_1 -= 1
+            Load_Data_Tab_1(CurrentPage_1)
+        End If
+
+        If totalpage_1 = CurrentPage_1 Then
+            BtnNext_1.Enabled = False
+        Else
+            BtnNext_1.Enabled = True
+        End If
+
+        If 1 = CurrentPage_1 Then
+            BtnPrev_1.Enabled = False
+        Else
+            BtnPrev_1.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnFirst_1_Click(sender As Object, e As EventArgs) Handles BtnFirst_1.Click
+
+        CurrentPage_1 = 1
+        Load_Data_Tab_1(CurrentPage_1)
+
+        If totalpage_1 = CurrentPage_1 Then
+            BtnNext_1.Enabled = False
+        Else
+            BtnNext_1.Enabled = True
+        End If
+
+        If 1 = CurrentPage_1 Then
+            BtnPrev_1.Enabled = False
+        Else
+            BtnPrev_1.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnNext_2_Click(sender As Object, e As EventArgs) Handles BtnNext_2.Click
+        If CurrentPage_2 < totalpage_2 Then
+            CurrentPage_2 += 1
+            Load_Data_Tab_2(CurrentPage_2)
+
+        End If
+
+        If totalpage_2 = CurrentPage_2 Then
+            BtnNext_2.Enabled = False
+        Else
+            BtnNext_2.Enabled = True
+        End If
+
+        If 1 = CurrentPage_2 Then
+            BtnPrev_2.Enabled = False
+        Else
+            BtnPrev_2.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnPrev_2_Click(sender As Object, e As EventArgs) Handles BtnPrev_2.Click
+        If CurrentPage_2 > 1 Then
+            CurrentPage_2 -= 1
+            Load_Data_Tab_2(CurrentPage_2)
+        End If
+
+        If totalpage_2 = CurrentPage_2 Then
+            BtnNext_2.Enabled = False
+        Else
+            BtnNext_2.Enabled = True
+        End If
+
+        If 1 = CurrentPage_2 Then
+            BtnPrev_2.Enabled = False
+        Else
+            BtnPrev_2.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnFirst_2_Click(sender As Object, e As EventArgs) Handles BtnFirst_2.Click
+        CurrentPage_2 = 1
+        Load_Data_Tab_2(CurrentPage_2)
+
+        If totalpage_2 = CurrentPage_2 Then
+            BtnNext_2.Enabled = False
+        Else
+            BtnNext_2.Enabled = True
+        End If
+
+        If 1 = CurrentPage_2 Then
+            BtnPrev_2.Enabled = False
+        Else
+            BtnPrev_2.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnNext_3_Click(sender As Object, e As EventArgs) Handles BtnNext_3.Click
+        If CurrentPage_3 < totalpage_3 Then
+            CurrentPage_3 += 1
+            Load_Data_Tab_3(CurrentPage_3)
+
+        End If
+
+        If totalpage_3 = CurrentPage_3 Then
+            BtnNext_3.Enabled = False
+        Else
+            BtnNext_3.Enabled = True
+        End If
+
+        If 1 = CurrentPage_3 Then
+            BtnPrev_3.Enabled = False
+        Else
+            BtnPrev_3.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnPrev_3_Click(sender As Object, e As EventArgs) Handles BtnPrev_3.Click
+        If CurrentPage_3 > 1 Then
+            CurrentPage_3 -= 1
+            Load_Data_Tab_3(CurrentPage_3)
+        End If
+
+        If totalpage_3 = CurrentPage_3 Then
+            BtnNext_3.Enabled = False
+        Else
+            BtnNext_3.Enabled = True
+        End If
+
+        If 1 = CurrentPage_3 Then
+            BtnPrev_3.Enabled = False
+        Else
+            BtnPrev_3.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnFirst_3_Click(sender As Object, e As EventArgs) Handles BtnFirst_3.Click
+        CurrentPage_3 = 1
+        Load_Data_Tab_3(CurrentPage_3)
+
+        If totalpage_3 = CurrentPage_3 Then
+            BtnNext_3.Enabled = False
+        Else
+            BtnNext_3.Enabled = True
+        End If
+
+        If 1 = CurrentPage_3 Then
+            BtnPrev_3.Enabled = False
+        Else
+            BtnPrev_3.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnNext_4_Click(sender As Object, e As EventArgs) Handles BtnNext_4.Click
+        If CurrentPage_4 < totalpage_4 Then
+            CurrentPage_4 += 1
+            Load_Data_Tab_4(CurrentPage_4)
+
+        End If
+
+        If totalpage_4 = CurrentPage_4 Then
+            BtnNext_4.Enabled = False
+        Else
+            BtnNext_4.Enabled = True
+        End If
+
+        If 1 = CurrentPage_4 Then
+            BtnPrev_4.Enabled = False
+        Else
+            BtnPrev_4.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnPrev_4_Click(sender As Object, e As EventArgs) Handles BtnPrev_4.Click
+        If CurrentPage_4 > 1 Then
+            CurrentPage_4 -= 1
+            Load_Data_Tab_4(CurrentPage_4)
+        End If
+
+        If totalpage_4 = CurrentPage_4 Then
+            BtnNext_4.Enabled = False
+        Else
+            BtnNext_4.Enabled = True
+        End If
+
+        If 1 = CurrentPage_4 Then
+            BtnPrev_4.Enabled = False
+        Else
+            BtnPrev_4.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnFirst_4_Click(sender As Object, e As EventArgs) Handles BtnFirst_4.Click
+        CurrentPage_4 = 1
+        Load_Data_Tab_4(CurrentPage_4)
+
+        If totalpage_4 = CurrentPage_4 Then
+            BtnNext_4.Enabled = False
+        Else
+            BtnNext_4.Enabled = True
+        End If
+
+        If 1 = CurrentPage_4 Then
+            BtnPrev_4.Enabled = False
+        Else
+            BtnPrev_4.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnNext_5_Click(sender As Object, e As EventArgs) Handles BtnNext_5.Click
+        If CurrentPage_5 < totalpage_5 Then
+            CurrentPage_5 += 1
+            Load_Data_Tab_5(CurrentPage_5)
+
+        End If
+
+        If totalpage_5 = CurrentPage_5 Then
+            BtnNext_5.Enabled = False
+        Else
+            BtnNext_5.Enabled = True
+        End If
+
+        If 1 = CurrentPage_5 Then
+            BtnPrev_5.Enabled = False
+        Else
+            BtnPrev_5.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnPrev_5_Click(sender As Object, e As EventArgs) Handles BtnPrev_5.Click
+        If CurrentPage_5 > 1 Then
+            CurrentPage_5 -= 1
+            Load_Data_Tab_5(CurrentPage_5)
+        End If
+
+        If totalpage_5 = CurrentPage_5 Then
+            BtnNext_5.Enabled = False
+        Else
+            BtnNext_5.Enabled = True
+        End If
+
+        If 1 = CurrentPage_5 Then
+            BtnPrev_5.Enabled = False
+        Else
+            BtnPrev_5.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnFirst_5_Click(sender As Object, e As EventArgs) Handles BtnFirst_5.Click
+        CurrentPage_5 = 1
+        Load_Data_Tab_5(CurrentPage_5)
+
+        If totalpage_5 = CurrentPage_5 Then
+            BtnNext_5.Enabled = False
+        Else
+            BtnNext_5.Enabled = True
+        End If
+
+        If 1 = CurrentPage_5 Then
+            BtnPrev_5.Enabled = False
+        Else
+            BtnPrev_5.Enabled = True
+        End If
+    End Sub
+
+
+
+
+
 End Class

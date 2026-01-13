@@ -51,9 +51,9 @@
             Dim Total As Double = 0
 
             Dgv_Data_Barcode.Rows.Clear()
-            SQL = "select a.Kode_Barang, a.Nama as Nama_Barang, (e.Qr_Code+'-'+e.Kode_Unik_Berjalan) as Barcode, d.Jumlah, a.satuan, "
+            SQL = "select a.Kode_Barang, a.Nama as Nama_Barang, (e.Qr_Code+'-'+e.Kode_Unik_Berjalan) as Barcode, sum(d.Jumlah) as Jumlah, a.satuan, "
 
-            SQL = SQL & "isnull(( d.Jumlah - isnull(( "
+            SQL = SQL & "isnull(( sum(d.Jumlah) - isnull(( "
             SQL = SQL & "select isnull(sum(y.Good_Stock + y.Bad_Stock), 0) as Jumlah_Pernah_Retur "
             SQL = SQL & "from retur_do_sementara z "
             SQL = SQL & "inner join detail_r_do_sementara x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Retur_Jual_Sementara = x.No_Retur_Jual_Sementara "
@@ -66,22 +66,24 @@
             SQL = SQL & "and y.Barcode = (e.Qr_Code+'-'+e.Kode_Unik_Berjalan) "
             SQL = SQL & "group by x.kode_barang), 0)), 0) as Max_Retur, "
 
-            SQL = SQL & "z.isSaved, z.Good_Stock "
+            SQL = SQL & "MAX(z.isSaved) as isSaved, sum(z.Good_Stock) as Good_Stock "
 
             SQL = SQL & "from sub_invoice a "
             SQL = SQL & "inner join DO_New b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.no_do = b.No_DO     "
-            SQL = SQL & "inner join Detail_DO_New c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_DO = c.No_DO "
+            SQL = SQL & "inner join Detail_DO_New c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_DO = c.No_DO and a.Urut_Oto = c.Urut_Oto "
             SQL = SQL & "and a.kode_stock_owner = c.Kode_Stock_Owner and a.Kode_barang = c.Kode_Barang "
             SQL = SQL & "inner join Det_DO_New d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_DO = d.No_Faktur and c.Urut_Oto = d.No_Urut_DO and c.No_Urut = d.No_Urut_Det_Penj "
             SQL = SQL & "inner join Barang_SN e on d.kode_perusahaan = e.kode_perusahaan and d.Kode_Stock_Owner = e.Kode_Stock_Owner and d.Kode_Barang = e.Kode_Barang and d.Serial_Number = e.Serial_Number "
 
             SQL = SQL & "left join ( "
-            SQL = SQL & "select z.No_DO, z.No_Retur_Jual_Sementara , 'Y' as isSaved, y.Barcode, y.Good_Stock, x.Kode_Stock_Owner, x.Kode_Barang, x.Urut_DO "
+            SQL = SQL & "select z.No_DO, z.No_Retur_Jual_Sementara , 'Y' as isSaved, y.Barcode, sum(y.Good_Stock) as Good_Stock, x.Kode_Stock_Owner, x.Kode_Barang, x.Urut_DO "
             SQL = SQL & "from retur_do_sementara z "
             SQL = SQL & "inner join detail_r_do_sementara x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Retur_Jual_Sementara = x.No_Retur_Jual_Sementara "
             SQL = SQL & "inner join det_r_do_sementara y on x.kode_perusahaan = y.kode_perusahaan and x.No_Retur_Jual_Sementara = y.No_Retur_Jual_Sementara and x.kode_stock_owner = y.Kode_Stock_Owner and x.Kode_Barang = y.Kode_Barang "
             SQL = SQL & "and x.No_Urut = y.Urut_Detail "
-            SQL = SQL & "where z.Status is null) as z "
+            SQL = SQL & "where z.Status is null "
+            SQL = SQL & "group by z.No_DO, z.No_Retur_Jual_Sementara, y.Barcode, x.Kode_Stock_Owner, x.Kode_Barang, x.Urut_DO "
+            SQL = SQL & ") as z "
             SQL = SQL & "on z.Barcode = (e.Qr_Code+'-'+e.Kode_Unik_Berjalan) and z.Kode_Stock_Owner = a.Kode_Stock_Owner and z.Kode_Barang = a.Kode_Barang "
             SQL = SQL & "and z.Urut_DO = a.urut_oto "
             SQL = SQL & "and z.No_DO = a.no_do "
@@ -91,6 +93,7 @@
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.no_do = '" & Txt_No_DO.Text & "' "
             SQL = SQL & "and a.Kode_barang = '" & Txt_KdBarang.Text & "' "
+            SQL = SQL & "group by (e.Qr_Code+'-'+e.Kode_Unik_Berjalan), a.kode_perusahaan, a.kode_stock_owner, a.Urut_Oto, a.Kode_Barang, a.Nama, a.satuan "
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then

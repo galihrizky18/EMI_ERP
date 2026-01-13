@@ -38,11 +38,11 @@
         'Lv_PO.Columns.Add(Base_Language.Lang_Global_No_Nota, 120, HorizontalAlignment.Left)
         Lv_PO.Columns.Add(Base_Language.Lang_Global_Supplier, 0, HorizontalAlignment.Left)
         Lv_PO.Columns.Add(Base_Language.lang_global_Nama_Supplier, 300, HorizontalAlignment.Left)
-        Lv_PO.Columns.Add("PO Created", 150, HorizontalAlignment.Center)
-        Lv_PO.Columns.Add("PO Released", 150, HorizontalAlignment.Center)
-        Lv_PO.Columns.Add("ETD", 150, HorizontalAlignment.Center)
-        Lv_PO.Columns.Add("Status PO", 120, HorizontalAlignment.Center)
-        Lv_PO.Columns.Add("User ID", 100, HorizontalAlignment.Center)
+        Lv_PO.Columns.Add("PO Created", 130, HorizontalAlignment.Center)
+        Lv_PO.Columns.Add("PO Released", 130, HorizontalAlignment.Center)
+        Lv_PO.Columns.Add("ETD", 130, HorizontalAlignment.Center)
+        Lv_PO.Columns.Add("Status PO", 130, HorizontalAlignment.Center)
+        Lv_PO.Columns.Add("User ID", 140, HorizontalAlignment.Left)
         'Lv_PO.Columns.Add("Jenis Pembayaran", 100, HorizontalAlignment.Center)
         'Lv_PO.Columns.Add("Cara Bayar", 150, HorizontalAlignment.Left)
         'Lv_PO.Columns.Add("Tanggal Jatuh Tempo", 120, HorizontalAlignment.Center)
@@ -496,11 +496,15 @@
         get_jam()
         Try
             OpenConn()
+            OpenConnB2B()
             Cmd.Transaction = Cn.BeginTransaction
+            CmdB2B.Transaction = CnB2B.BeginTransaction
 
             If CekButtonRole("Pembatalan_PO") = "T" Then
                 CloseTrans()
+                CloseTransB2B()
                 CloseConn()
+                CloseConnB2B()
                 MessageBox.Show("Anda Tidak Memiliki Akses Untuk Pembatalan PO", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             End If
@@ -508,7 +512,9 @@
             Dim tanya As String = MessageBox.Show("Yakin akan membatalkan Purhcase Order ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If tanya = vbNo Then
                 CloseTrans()
+                CloseTransB2B()
                 CloseConn()
+                CloseConnB2B()
                 Exit Sub
             End If
 
@@ -519,14 +525,18 @@
                     If General_Class.CekNULL(Dr("Status")) <> "" Then
                         Dr.Close()
                         CloseTrans()
+                        CloseTransB2B()
                         CloseConn()
+                        CloseConnB2B()
                         MessageBox.Show("Purhcase Order sudah dibatalkan sebelumnya!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
                 Else
                     Dr.Close()
                     CloseTrans()
+                    CloseTransB2B()
                     CloseConn()
+                    CloseConnB2B()
                     MessageBox.Show("Purhcase Order tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
@@ -544,11 +554,35 @@
                 If Dr.Read Then
                     Dr.Close()
                     CloseTrans()
+                    CloseTransB2B()
                     CloseConn()
+                    CloseConnB2B()
                     MessageBox.Show("Purhcase Order tidak bisa dibatalkan,karena sudah masuk tahap Loading Barang!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
             End Using
+
+
+
+            SQL = "UPDATE EMI_Pembelian_PO_det_Induk SET Flag_Selesai = NULL "
+            SQL = SQL & "WHERE No_Urut IN ( "
+            SQL = SQL & "SELECT urut_det_induk from EMI_Pembelian_PO_Det "
+            SQL = SQL & "WHERE No_Faktur = '" & Lv_PO.FocusedItem.Text & "' "
+            SQL = SQL & "and Kode_perusahaan = '" & KodePerusahaan & "' ) "
+            ExecuteTrans(SQL)
+
+            SQL = "update EMI_Pembelian_PO_Induk SET flag_selesai_subpo = NULL "
+            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "AND status is NULL "
+            SQL = SQL & "and flag_release = 'Y' "
+            SQL = SQL & "AND no_faktur = ( "
+            SQL = SQL & "SELECT DISTINCT z.no_faktur FROM EMI_Pembelian_PO_det_Induk z "
+            SQL = SQL & "WHERE z.No_Urut IN ( "
+            SQL = SQL & "SELECT x.urut_det_induk from EMI_Pembelian_PO_Det x "
+            SQL = SQL & "WHERE x.No_Faktur = '" & Lv_PO.FocusedItem.Text & "' "
+            SQL = SQL & "and x.kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & ")) "
+            ExecuteTrans(SQL)
 
 
             SQL = "Update EMI_Pembelian_PO set Status = 'Y' where "
@@ -556,13 +590,46 @@
             SQL = SQL & "No_Faktur = '" & Lv_PO.FocusedItem.Text & "' "
             ExecuteTrans(SQL)
 
+            '========================
+
+
+            SQLB2B = "UPDATE EMI_Pembelian_PO_det_Induk SET Flag_Selesai = NULL "
+            SQLB2B = SQLB2B & "WHERE No_Urut IN ( "
+            SQLB2B = SQLB2B & "SELECT urut_det_induk from EMI_Pembelian_PO_Det "
+            SQLB2B = SQLB2B & "WHERE No_Faktur = '" & Lv_PO.FocusedItem.Text & "' "
+            SQLB2B = SQLB2B & "and Kode_perusahaan = '" & KodePerusahaan & "' ) "
+            ExecuteTrans(SQLB2B)
+
+            SQLB2B = "update EMI_Pembelian_PO_Induk SET flag_selesai_subpo = NULL "
+            SQLB2B = SQLB2B & "where kode_perusahaan = '" & KodePerusahaan & "' "
+            SQLB2B = SQLB2B & "AND status is NULL "
+            SQLB2B = SQLB2B & "and flag_release = 'Y' "
+            SQLB2B = SQLB2B & "AND no_faktur = ( "
+            SQLB2B = SQLB2B & "SELECT DISTINCT z.no_faktur FROM EMI_Pembelian_PO_det_Induk z "
+            SQLB2B = SQLB2B & "WHERE z.No_Urut IN ( "
+            SQLB2B = SQLB2B & "SELECT x.urut_det_induk from EMI_Pembelian_PO_Det x "
+            SQLB2B = SQLB2B & "WHERE x.No_Faktur = '" & Lv_PO.FocusedItem.Text & "' "
+            SQLB2B = SQLB2B & "and x.kode_perusahaan = '" & KodePerusahaan & "' "
+            SQLB2B = SQLB2B & ")) "
+            ExecuteTrans(SQLB2B)
+
+
+            SQLB2B = "Update EMI_Pembelian_PO set Status = 'Y' where "
+            SQLB2B = SQLB2B & "Kode_Perusahaan = '" & KodePerusahaan & "' and "
+            SQLB2B = SQLB2B & "No_Faktur = '" & Lv_PO.FocusedItem.Text & "' "
+            ExecuteTrans(SQLB2B)
+
             Cmd.Transaction.Commit()
             CloseTrans()
+            CloseTransB2B()
             CloseConn()
+            CloseConnB2B()
             MessageBox.Show("Purhcase Order berhasil dibatalkan.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
             CloseTrans()
+            CloseTransB2B()
             CloseConn()
+            CloseConnB2B()
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try

@@ -79,6 +79,7 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         Me.TextBox6 = New System.Windows.Forms.TextBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.Keypad1 = New ERP_EMI.Keypad_Numeric()
         Me.Dgv_HslProduction = New System.Windows.Forms.DataGridView()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -125,7 +126,16 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         Me.DataGridViewTextBoxColumn16 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn17 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Keypad1 = New ERP_EMI.Keypad_Numeric()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.Panel9 = New System.Windows.Forms.Panel()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.Panel10 = New System.Windows.Forms.Panel()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Panel11 = New System.Windows.Forms.Panel()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -133,6 +143,9 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         CType(Me.Dgv_HslProduction, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         CType(Me.Dgv_Hasil_Production_Packaging, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel9.SuspendLayout()
+        Me.Panel10.SuspendLayout()
+        Me.Panel11.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -242,11 +255,11 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         Me.TextBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox1.Enabled = False
-        Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox1.Location = New System.Drawing.Point(334, 58)
+        Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox1.Location = New System.Drawing.Point(301, 58)
         Me.TextBox1.MaxLength = 50
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(104, 28)
+        Me.TextBox1.Size = New System.Drawing.Size(104, 26)
         Me.TextBox1.TabIndex = 3
         '
         'TextBox4
@@ -254,20 +267,20 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         Me.TextBox4.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox4.Enabled = False
-        Me.TextBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox4.Location = New System.Drawing.Point(172, 19)
+        Me.TextBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox4.Location = New System.Drawing.Point(139, 19)
         Me.TextBox4.MaxLength = 50
         Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(422, 28)
+        Me.TextBox4.Size = New System.Drawing.Size(422, 26)
         Me.TextBox4.TabIndex = 1
         '
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.Location = New System.Drawing.Point(7, 63)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(134, 24)
+        Me.Label7.Size = New System.Drawing.Size(113, 20)
         Me.Label7.TabIndex = 351
         Me.Label7.Text = "Tgl Prod/Batch"
         '
@@ -275,11 +288,11 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         '
         Me.DateTimePicker1.CustomFormat = "dd MMM yyyy"
         Me.DateTimePicker1.Enabled = False
-        Me.DateTimePicker1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DateTimePicker1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker1.Location = New System.Drawing.Point(172, 58)
+        Me.DateTimePicker1.Location = New System.Drawing.Point(139, 58)
         Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.Size = New System.Drawing.Size(149, 28)
+        Me.DateTimePicker1.Size = New System.Drawing.Size(149, 26)
         Me.DateTimePicker1.TabIndex = 2
         '
         'ComboBox3
@@ -298,11 +311,11 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         '
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Simpan.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(20, 680)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(20, 648)
         Me.Btn_Simpan.Name = "Btn_Simpan"
-        Me.Btn_Simpan.Size = New System.Drawing.Size(135, 37)
+        Me.Btn_Simpan.Size = New System.Drawing.Size(135, 33)
         Me.Btn_Simpan.TabIndex = 10
         Me.Btn_Simpan.Text = "&Simpan"
         Me.Btn_Simpan.UseVisualStyleBackColor = False
@@ -379,7 +392,7 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(19, 717)
+        Me.Panel4.Location = New System.Drawing.Point(19, 680)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1329, 12)
@@ -405,11 +418,11 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         '
         Me.BtnFormulator_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnFormulator_Refresh.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnFormulator_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnFormulator_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnFormulator_Refresh.ForeColor = System.Drawing.Color.White
-        Me.BtnFormulator_Refresh.Location = New System.Drawing.Point(225, 680)
+        Me.BtnFormulator_Refresh.Location = New System.Drawing.Point(225, 648)
         Me.BtnFormulator_Refresh.Name = "BtnFormulator_Refresh"
-        Me.BtnFormulator_Refresh.Size = New System.Drawing.Size(134, 37)
+        Me.BtnFormulator_Refresh.Size = New System.Drawing.Size(134, 33)
         Me.BtnFormulator_Refresh.TabIndex = 11
         Me.BtnFormulator_Refresh.Text = "&Refresh"
         Me.BtnFormulator_Refresh.UseVisualStyleBackColor = False
@@ -417,10 +430,10 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label10.Location = New System.Drawing.Point(618, 21)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(125, 24)
+        Me.Label10.Size = New System.Drawing.Size(107, 20)
         Me.Label10.TabIndex = 397
         Me.Label10.Text = "Nama Barang"
         '
@@ -429,34 +442,47 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         Me.TextBox6.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox6.Enabled = False
-        Me.TextBox6.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox6.Location = New System.Drawing.Point(751, 19)
+        Me.TextBox6.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox6.Location = New System.Drawing.Point(742, 19)
         Me.TextBox6.MaxLength = 50
         Me.TextBox6.Multiline = True
         Me.TextBox6.Name = "TextBox6"
-        Me.TextBox6.Size = New System.Drawing.Size(546, 73)
+        Me.TextBox6.Size = New System.Drawing.Size(555, 73)
         Me.TextBox6.TabIndex = 4
         '
         'TabControl1
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
-        Me.TabControl1.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TabControl1.Location = New System.Drawing.Point(21, 225)
+        Me.TabControl1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TabControl1.Location = New System.Drawing.Point(21, 214)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1307, 449)
+        Me.TabControl1.Size = New System.Drawing.Size(1307, 422)
         Me.TabControl1.TabIndex = 401
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.Keypad1)
         Me.TabPage1.Controls.Add(Me.Dgv_HslProduction)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 35)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 29)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(1299, 410)
+        Me.TabPage1.Size = New System.Drawing.Size(1299, 389)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Bahan Baku"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'Keypad1
+        '
+        Me.Keypad1.AutoSize = True
+        Me.Keypad1.BackColor = System.Drawing.SystemColors.ControlLightLight
+        Me.Keypad1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Keypad1.Location = New System.Drawing.Point(932, -12)
+        Me.Keypad1.Name = "Keypad1"
+        Me.Keypad1.Size = New System.Drawing.Size(270, 329)
+        Me.Keypad1.TabIndex = 497
+        Me.Keypad1.Value = "0"
+        Me.Keypad1.Visible = False
         '
         'Dgv_HslProduction
         '
@@ -467,7 +493,7 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         Me.Dgv_HslProduction.BorderStyle = System.Windows.Forms.BorderStyle.None
         DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
         DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
         DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
@@ -483,7 +509,7 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         Me.Dgv_HslProduction.RowsDefaultCellStyle = DataGridViewCellStyle8
         Me.Dgv_HslProduction.RowTemplate.Height = 30
         Me.Dgv_HslProduction.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.Dgv_HslProduction.Size = New System.Drawing.Size(1293, 404)
+        Me.Dgv_HslProduction.Size = New System.Drawing.Size(1293, 383)
         Me.Dgv_HslProduction.TabIndex = 10
         '
         'Column1
@@ -594,20 +620,20 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.Location = New System.Drawing.Point(6, 21)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(125, 24)
+        Me.Label6.Size = New System.Drawing.Size(105, 20)
         Me.Label6.TabIndex = 349
         Me.Label6.Text = "No. Transaksi"
         '
         'Label23
         '
         Me.Label23.AutoSize = True
-        Me.Label23.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label23.Location = New System.Drawing.Point(27, 190)
+        Me.Label23.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label23.Location = New System.Drawing.Point(27, 177)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(96, 24)
+        Me.Label23.Size = New System.Drawing.Size(82, 20)
         Me.Label23.TabIndex = 492
         Me.Label23.Text = "QR Code"
         '
@@ -615,22 +641,22 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         '
         Me.Txt_QR.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_QR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_QR.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_QR.Location = New System.Drawing.Point(192, 186)
+        Me.Txt_QR.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_QR.Location = New System.Drawing.Point(159, 173)
         Me.Txt_QR.MaxLength = 50
         Me.Txt_QR.Name = "Txt_QR"
-        Me.Txt_QR.Size = New System.Drawing.Size(422, 31)
+        Me.Txt_QR.Size = New System.Drawing.Size(422, 26)
         Me.Txt_QR.TabIndex = 491
         '
         'Btn_Scan
         '
         Me.Btn_Scan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Scan.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Btn_Scan.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Scan.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Scan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Scan.Location = New System.Drawing.Point(620, 183)
+        Me.Btn_Scan.Location = New System.Drawing.Point(589, 169)
         Me.Btn_Scan.Name = "Btn_Scan"
-        Me.Btn_Scan.Size = New System.Drawing.Size(100, 37)
+        Me.Btn_Scan.Size = New System.Drawing.Size(100, 33)
         Me.Btn_Scan.TabIndex = 493
         Me.Btn_Scan.Text = "&Scan"
         Me.Btn_Scan.UseVisualStyleBackColor = False
@@ -651,7 +677,7 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Location = New System.Drawing.Point(20, 53)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1308, 117)
+        Me.GroupBox1.Size = New System.Drawing.Size(1308, 106)
         Me.GroupBox1.TabIndex = 494
         Me.GroupBox1.TabStop = False
         '
@@ -660,20 +686,20 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         Me.Txt_Batch.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_Batch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_Batch.Enabled = False
-        Me.Txt_Batch.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_Batch.Location = New System.Drawing.Point(516, 58)
+        Me.Txt_Batch.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_Batch.Location = New System.Drawing.Point(483, 58)
         Me.Txt_Batch.MaxLength = 50
         Me.Txt_Batch.Name = "Txt_Batch"
-        Me.Txt_Batch.Size = New System.Drawing.Size(78, 28)
+        Me.Txt_Batch.Size = New System.Drawing.Size(78, 26)
         Me.Txt_Batch.TabIndex = 3
         '
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(452, 60)
+        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.Location = New System.Drawing.Point(419, 60)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(57, 24)
+        Me.Label8.Size = New System.Drawing.Size(51, 20)
         Me.Label8.TabIndex = 227
         Me.Label8.Text = "Batch"
         '
@@ -694,7 +720,7 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         Me.Dgv_Hasil_Production_Packaging.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle9
         Me.Dgv_Hasil_Production_Packaging.ColumnHeadersHeight = 45
         Me.Dgv_Hasil_Production_Packaging.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn18, Me.DataGridViewTextBoxColumn19, Me.DataGridViewTextBoxColumn20, Me.DataGridViewTextBoxColumn21, Me.DataGridViewTextBoxColumn22, Me.DataGridViewTextBoxColumn23, Me.DataGridViewTextBoxColumn24})
-        Me.Dgv_Hasil_Production_Packaging.Location = New System.Drawing.Point(453, 705)
+        Me.Dgv_Hasil_Production_Packaging.Location = New System.Drawing.Point(453, 724)
         Me.Dgv_Hasil_Production_Packaging.Name = "Dgv_Hasil_Production_Packaging"
         Me.Dgv_Hasil_Production_Packaging.RowHeadersWidth = 21
         DataGridViewCellStyle15.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -778,11 +804,11 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         '
         Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button1.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!, System.Drawing.FontStyle.Bold)
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(1182, 680)
+        Me.Button1.Location = New System.Drawing.Point(1182, 648)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(146, 37)
+        Me.Button1.Size = New System.Drawing.Size(146, 33)
         Me.Button1.TabIndex = 496
         Me.Button1.Text = "&Kembali"
         Me.Button1.UseVisualStyleBackColor = False
@@ -975,25 +1001,125 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         Me.Column4.Visible = False
         Me.Column4.Width = 125
         '
-        'Keypad1
+        'Label2
         '
-        Me.Keypad1.AutoSize = True
-        Me.Keypad1.BackColor = System.Drawing.SystemColors.ControlLightLight
-        Me.Keypad1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Keypad1.Location = New System.Drawing.Point(926, 229)
-        Me.Keypad1.Name = "Keypad1"
-        Me.Keypad1.Size = New System.Drawing.Size(270, 329)
-        Me.Keypad1.TabIndex = 497
-        Me.Keypad1.Value = "0"
-        Me.Keypad1.Visible = False
+        Me.Label2.AutoSize = True
+        Me.Label2.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Label2.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(1259, 173)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(62, 16)
+        Me.Label2.TabIndex = 500
+        Me.Label2.Text = "Memenuhi"
         '
-        'EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Label9.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.Location = New System.Drawing.Point(1187, 173)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(44, 16)
+        Me.Label9.TabIndex = 501
+        Me.Label9.Text = "Kurang"
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Label11.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label11.Location = New System.Drawing.Point(1115, 173)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(51, 16)
+        Me.Label11.TabIndex = 502
+        Me.Label11.Text = "Melebihi"
+        '
+        'Panel9
+        '
+        Me.Panel9.BackColor = System.Drawing.Color.Red
+        Me.Panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel9.Controls.Add(Me.Label12)
+        Me.Panel9.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Panel9.Enabled = False
+        Me.Panel9.Location = New System.Drawing.Point(1099, 175)
+        Me.Panel9.Name = "Panel9"
+        Me.Panel9.Size = New System.Drawing.Size(13, 13)
+        Me.Panel9.TabIndex = 497
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(0, 0)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(0, 13)
+        Me.Label12.TabIndex = 0
+        '
+        'Panel10
+        '
+        Me.Panel10.BackColor = System.Drawing.Color.LightGreen
+        Me.Panel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel10.Controls.Add(Me.Label13)
+        Me.Panel10.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Panel10.Enabled = False
+        Me.Panel10.Location = New System.Drawing.Point(1237, 175)
+        Me.Panel10.Name = "Panel10"
+        Me.Panel10.Size = New System.Drawing.Size(13, 13)
+        Me.Panel10.TabIndex = 498
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(0, 0)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(0, 13)
+        Me.Label13.TabIndex = 0
+        '
+        'Panel11
+        '
+        Me.Panel11.BackColor = System.Drawing.Color.LightYellow
+        Me.Panel11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel11.Controls.Add(Me.Label14)
+        Me.Panel11.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Panel11.Enabled = False
+        Me.Panel11.Location = New System.Drawing.Point(1172, 175)
+        Me.Panel11.Name = "Panel11"
+        Me.Panel11.Size = New System.Drawing.Size(13, 13)
+        Me.Panel11.TabIndex = 499
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(0, 0)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(0, 13)
+        Me.Label14.TabIndex = 0
+        '
+        'Button2
+        '
+        Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Button2.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button2.ForeColor = System.Drawing.Color.White
+        Me.Button2.Location = New System.Drawing.Point(370, 648)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(134, 33)
+        Me.Button2.TabIndex = 503
+        Me.Button2.Text = "&Lihat PO"
+        Me.Button2.UseVisualStyleBackColor = False
+        '
+        'EMI_Hasil_Pengeluaran_Bahan_Baku
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1348, 729)
-        Me.Controls.Add(Me.Keypad1)
+        Me.ClientSize = New System.Drawing.Size(1348, 691)
+        Me.Controls.Add(Me.Button2)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.Label9)
+        Me.Controls.Add(Me.Label11)
+        Me.Controls.Add(Me.Panel9)
+        Me.Controls.Add(Me.Panel10)
+        Me.Controls.Add(Me.Panel11)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.BtnFormulator_Refresh)
@@ -1016,17 +1142,24 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "EMI_Hasil_Pengeluaran_Bahan_Baku_Baru"
+        Me.Name = "EMI_Hasil_Pengeluaran_Bahan_Baku"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.Panel3.ResumeLayout(False)
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
+        Me.TabPage1.PerformLayout()
         CType(Me.Dgv_HslProduction, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         CType(Me.Dgv_Hasil_Production_Packaging, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel9.ResumeLayout(False)
+        Me.Panel9.PerformLayout()
+        Me.Panel10.ResumeLayout(False)
+        Me.Panel10.PerformLayout()
+        Me.Panel11.ResumeLayout(False)
+        Me.Panel11.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1107,4 +1240,14 @@ Partial Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
     Friend WithEvents Column10 As DataGridViewTextBoxColumn
     Friend WithEvents Column11 As DataGridViewTextBoxColumn
     Friend WithEvents Column12 As DataGridViewTextBoxColumn
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label9 As Label
+    Friend WithEvents Label11 As Label
+    Friend WithEvents Panel9 As Panel
+    Friend WithEvents Label12 As Label
+    Friend WithEvents Panel10 As Panel
+    Friend WithEvents Label13 As Label
+    Friend WithEvents Panel11 As Panel
+    Friend WithEvents Label14 As Label
+    Friend WithEvents Button2 As Button
 End Class

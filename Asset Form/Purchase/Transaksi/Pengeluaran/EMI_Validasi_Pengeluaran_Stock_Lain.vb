@@ -424,14 +424,36 @@ Public Class EMI_Validasi_Pengeluaran_Stock_Lain
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
 
-                    If Barang_Reject = "Y" Then
-                        akun_biaya = Dr("Biaya_Pengeluaran_Barang_Reject")
-                    Else
-                        akun_biaya = Dr("Biaya_Pengeluaran_Barang")
-                    End If
+                    'If Barang_Reject = "Y" Then
+                    '    akun_biaya = Dr("Biaya_Pengeluaran_Barang_Reject")
+                    'Else
+                    '    akun_biaya = Dr("Biaya_Pengeluaran_Barang")
+                    'End If
 
                     inisial_faktur_dari = Dr("inisial_faktur")
 
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            SQL = "select Kode_Account from EMI_Pengeluaran_Stock_parent_barang_lain where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and No_Faktur = '" & GetDataKodeTransfer & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("")) <> "" Then
+                        akun_biaya = Dr("Kode_Account")
+                    Else
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Data akun belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
                 Else
                     Dr.Close()
                     CloseTrans()
@@ -603,6 +625,7 @@ Public Class EMI_Validasi_Pengeluaran_Stock_Lain
             Lv_List_Barang.Columns.Add(Base_Language.Lang_Global_Satuan, 120, HorizontalAlignment.Center) '6
             Lv_List_Barang.Columns.Add("Lokasi RAK", 200, HorizontalAlignment.Left) '7
             Lv_List_Barang.Columns.Add("barangSn", 0, HorizontalAlignment.Left) '8
+            Lv_List_Barang.Columns.Add("Kode Account", 0, HorizontalAlignment.Left) '9
 
             Lv_List_Barang.View = View.Details
 
@@ -676,6 +699,7 @@ Public Class EMI_Validasi_Pengeluaran_Stock_Lain
             SQL = SQL & "And b.Kode_Barang=d.Kode_Barang And a.Kode_Stock_Owner=d.kode_stock_Owner And b.kode_Perusahaan=d.Kode_Perusahaan "
             SQL = SQL & "And a.status Is null and c.selesai is null "
             SQL = SQL & "and  c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number "
+            SQL = SQL & "and a.userid = '" & UserID & "' "
             SQL = SQL & "order by a.no_faktur, a.tanggal,a.jam "
 
             Using dr = OpenTrans(SQL)
@@ -1029,24 +1053,21 @@ Public Class EMI_Validasi_Pengeluaran_Stock_Lain
                     End If
                 End Using
 
-
-#Region "Jurnal"
-
                 'dari
                 Dim inisial_faktur_dari As String = ""
                 Dim akun_biaya As String = ""
                 Dim akun_persediaan_dari As String = ""
 
-                SQL = "select inisial_faktur,Persediaan_Bahan_Baku, Biaya_Pengeluaran_Stock, Persediaan,Persediaan_Bahan_Setengah_Jadi,Persediaan_Scrap, Persediaan_Packaging, Biaya_Pengeluaran_Barang, Biaya_Pengeluaran_Barang_Reject from stock_owner_gudang_lain "
+                SQL = "select inisial_faktur,Persediaan_Bahan_Baku,Persediaan,Persediaan_Bahan_Setengah_Jadi,Persediaan_Scrap, Persediaan_Packaging, Biaya_Pengeluaran_Barang, Biaya_Pengeluaran_Barang_Reject from stock_owner_gudang_lain "
                 SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & GetSoAwal & "' "
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
 
-                        If Barang_Reject = "Y" Then
-                            akun_biaya = Dr("Biaya_Pengeluaran_Barang_Reject")
-                        Else
-                            akun_biaya = Dr("Biaya_Pengeluaran_Stock")
-                        End If
+                        'If Barang_Reject = "Y" Then
+                        '    akun_biaya = Dr("Biaya_Pengeluaran_Barang_Reject")
+                        'Else
+                        '    akun_biaya = Dr("Biaya_Pengeluaran_Barang")
+                        'End If
 
                         inisial_faktur_dari = Dr("inisial_faktur")
 
@@ -1058,6 +1079,29 @@ Public Class EMI_Validasi_Pengeluaran_Stock_Lain
                         Exit Sub
                     End If
                 End Using
+
+                SQL = "select Kode_Account from EMI_Pengeluaran_Stock_parent_barang_lain where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and No_Faktur = '" & GetDataKodeTransfer & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        If General_Class.CekNULL(Dr("Kode_Account")) <> "" Then
+                            akun_biaya = Dr("Kode_Account")
+                        Else
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Data akun belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    Else
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
 
                 SQL = "select c.akun_Persediaan "
                 SQL = SQL & "from emi_group_jenis_lain a, Barang_lain b, EMI_Group_Jenis_Akun_lain c where "
@@ -1095,14 +1139,14 @@ Public Class EMI_Validasi_Pengeluaran_Stock_Lain
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_biaya, 1),
                           Strings.Mid(akun_biaya, 2, 1),
                           Strings.Mid(Ganti(akun_biaya), 3),
-                          KodePerusahaan, KodeProyek, "Persedian " & GetDataKodeTransfer, "0", nilai_persediaan_min, pagenumber, GetSoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                          KodePerusahaan, KodeProyek, "Biaya " & GetDataKodeTransfer, nilai_persediaan_min, "0", pagenumber, GetSoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_persediaan_dari, 1),
                          Strings.Mid(akun_persediaan_dari, 2, 1),
                          Strings.Mid(Ganti(akun_persediaan_dari), 3),
-                         KodePerusahaan, KodeProyek, "Persedian " & GetDataKodeTransfer, nilai_persediaan_min, "0", pagenumber, GetSoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                         KodePerusahaan, KodeProyek, "Persedian " & GetDataKodeTransfer, "0", nilai_persediaan_min, pagenumber, GetSoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
@@ -1127,7 +1171,6 @@ Public Class EMI_Validasi_Pengeluaran_Stock_Lain
                     End If
                 End Using
 
-#End Region
 
                 SQL = "update EMI_Pengeluaran_Stock_Det_Barang_Lain set  "
                 SQL = SQL & "Selesai = 'Y',Kode_Voucher='" & Kode_voucher & "'  "

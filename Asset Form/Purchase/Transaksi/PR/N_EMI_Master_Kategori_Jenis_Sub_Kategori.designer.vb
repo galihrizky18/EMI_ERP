@@ -51,9 +51,18 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.Txt_Pages_1 = New System.Windows.Forms.TextBox()
+        Me.BtnFirst_1 = New System.Windows.Forms.Button()
+        Me.BtnPrev_1 = New System.Windows.Forms.Button()
+        Me.BtnNext_1 = New System.Windows.Forms.Button()
         Me.ComboBox10 = New System.Windows.Forms.ComboBox()
         Me.Label25 = New System.Windows.Forms.Label()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.Txt_Pages_2 = New System.Windows.Forms.TextBox()
+        Me.BtnFirst_2 = New System.Windows.Forms.Button()
+        Me.BtnPrev_2 = New System.Windows.Forms.Button()
+        Me.BtnNext_2 = New System.Windows.Forms.Button()
+        Me.Btn_Check_2 = New System.Windows.Forms.Button()
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
@@ -74,6 +83,11 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.Txt_Pages_3 = New System.Windows.Forms.TextBox()
+        Me.BtnFirst_3 = New System.Windows.Forms.Button()
+        Me.BtnPrev_3 = New System.Windows.Forms.Button()
+        Me.BtnNext_3 = New System.Windows.Forms.Button()
+        Me.Btn_Check_3 = New System.Windows.Forms.Button()
         Me.ListView3 = New System.Windows.Forms.ListView()
         Me.BtnCari3 = New System.Windows.Forms.Button()
         Me.Label16 = New System.Windows.Forms.Label()
@@ -96,6 +110,11 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.ComboBox3 = New System.Windows.Forms.ComboBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
+        Me.Txt_Pages_4 = New System.Windows.Forms.TextBox()
+        Me.BtnFirst_4 = New System.Windows.Forms.Button()
+        Me.BtnPrev_4 = New System.Windows.Forms.Button()
+        Me.BtnNext_4 = New System.Windows.Forms.Button()
+        Me.Btn_Check_4 = New System.Windows.Forms.Button()
         Me.ListView4 = New System.Windows.Forms.ListView()
         Me.BtnCari4 = New System.Windows.Forms.Button()
         Me.Label24 = New System.Windows.Forms.Label()
@@ -120,6 +139,27 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.ComboBox6 = New System.Windows.Forms.ComboBox()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.TabPage5 = New System.Windows.Forms.TabPage()
+        Me.Btn_Check_5 = New System.Windows.Forms.Button()
+        Me.Label46 = New System.Windows.Forms.Label()
+        Me.TextBox25 = New System.Windows.Forms.TextBox()
+        Me.Label45 = New System.Windows.Forms.Label()
+        Me.TextBox24 = New System.Windows.Forms.TextBox()
+        Me.Label44 = New System.Windows.Forms.Label()
+        Me.TextBox23 = New System.Windows.Forms.TextBox()
+        Me.Label43 = New System.Windows.Forms.Label()
+        Me.Label42 = New System.Windows.Forms.Label()
+        Me.Label41 = New System.Windows.Forms.Label()
+        Me.TextBox22 = New System.Windows.Forms.TextBox()
+        Me.Label40 = New System.Windows.Forms.Label()
+        Me.Label39 = New System.Windows.Forms.Label()
+        Me.TextBox21 = New System.Windows.Forms.TextBox()
+        Me.Label38 = New System.Windows.Forms.Label()
+        Me.TextBox20 = New System.Windows.Forms.TextBox()
+        Me.Label37 = New System.Windows.Forms.Label()
+        Me.cmbSatuan = New System.Windows.Forms.ComboBox()
+        Me.Label36 = New System.Windows.Forms.Label()
+        Me.ComboBox11 = New System.Windows.Forms.ComboBox()
+        Me.Label35 = New System.Windows.Forms.Label()
         Me.ListView5 = New System.Windows.Forms.ListView()
         Me.BtnCari5 = New System.Windows.Forms.Button()
         Me.Label33 = New System.Windows.Forms.Label()
@@ -145,6 +185,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.Label27 = New System.Windows.Forms.Label()
         Me.CmbSK3_Jenis = New System.Windows.Forms.ComboBox()
         Me.Label26 = New System.Windows.Forms.Label()
+        Me.Txt_Pages_5 = New System.Windows.Forms.TextBox()
+        Me.BtnFirst_5 = New System.Windows.Forms.Button()
+        Me.BtnPrev_5 = New System.Windows.Forms.Button()
+        Me.BtnNext_5 = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -218,7 +262,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(20, 541)
+        Me.Panel4.Location = New System.Drawing.Point(20, 599)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1231, 12)
         Me.Panel4.TabIndex = 38
@@ -227,7 +271,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'Panel17
         '
         Me.Panel17.BackColor = System.Drawing.Color.Red
-        Me.Panel17.Location = New System.Drawing.Point(-8, 166)
+        Me.Panel17.Location = New System.Drawing.Point(-8, 158)
         Me.Panel17.Name = "Panel17"
         Me.Panel17.Size = New System.Drawing.Size(1264, 10)
         Me.Panel17.TabIndex = 35
@@ -298,9 +342,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnRefresh
         '
         Me.BtnRefresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnRefresh.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnRefresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnRefresh.ForeColor = System.Drawing.Color.White
-        Me.BtnRefresh.Location = New System.Drawing.Point(188, 124)
+        Me.BtnRefresh.Location = New System.Drawing.Point(200, 122)
         Me.BtnRefresh.Name = "BtnRefresh"
         Me.BtnRefresh.Size = New System.Drawing.Size(84, 36)
         Me.BtnRefresh.TabIndex = 4
@@ -310,9 +355,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnHapus
         '
         Me.BtnHapus.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnHapus.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnHapus.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnHapus.ForeColor = System.Drawing.Color.White
-        Me.BtnHapus.Location = New System.Drawing.Point(98, 124)
+        Me.BtnHapus.Location = New System.Drawing.Point(112, 122)
         Me.BtnHapus.Name = "BtnHapus"
         Me.BtnHapus.Size = New System.Drawing.Size(84, 36)
         Me.BtnHapus.TabIndex = 3
@@ -322,9 +368,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnSimpan
         '
         Me.BtnSimpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnSimpan.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnSimpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnSimpan.ForeColor = System.Drawing.Color.White
-        Me.BtnSimpan.Location = New System.Drawing.Point(8, 124)
+        Me.BtnSimpan.Location = New System.Drawing.Point(24, 122)
         Me.BtnSimpan.Name = "BtnSimpan"
         Me.BtnSimpan.Size = New System.Drawing.Size(84, 36)
         Me.BtnSimpan.TabIndex = 2
@@ -337,7 +384,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.CmbSatuan_Kolom.DropDownWidth = 150
         Me.CmbSatuan_Kolom.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.9!)
         Me.CmbSatuan_Kolom.FormattingEnabled = True
-        Me.CmbSatuan_Kolom.Location = New System.Drawing.Point(70, 181)
+        Me.CmbSatuan_Kolom.Location = New System.Drawing.Point(63, 169)
         Me.CmbSatuan_Kolom.Margin = New System.Windows.Forms.Padding(2)
         Me.CmbSatuan_Kolom.Name = "CmbSatuan_Kolom"
         Me.CmbSatuan_Kolom.Size = New System.Drawing.Size(195, 23)
@@ -346,9 +393,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnCari
         '
         Me.BtnCari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnCari.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnCari.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnCari.ForeColor = System.Drawing.Color.White
-        Me.BtnCari.Location = New System.Drawing.Point(530, 179)
+        Me.BtnCari.Location = New System.Drawing.Point(507, 167)
         Me.BtnCari.Name = "BtnCari"
         Me.BtnCari.Size = New System.Drawing.Size(80, 28)
         Me.BtnCari.TabIndex = 7
@@ -359,7 +407,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.LblSatuan_Value.AutoSize = True
         Me.LblSatuan_Value.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblSatuan_Value.Location = New System.Drawing.Point(286, 183)
+        Me.LblSatuan_Value.Location = New System.Drawing.Point(263, 172)
         Me.LblSatuan_Value.Name = "LblSatuan_Value"
         Me.LblSatuan_Value.Size = New System.Drawing.Size(44, 17)
         Me.LblSatuan_Value.TabIndex = 393
@@ -369,18 +417,18 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.LblSatuan_Kolom.AutoSize = True
         Me.LblSatuan_Kolom.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblSatuan_Kolom.Location = New System.Drawing.Point(9, 184)
+        Me.LblSatuan_Kolom.Location = New System.Drawing.Point(11, 172)
         Me.LblSatuan_Kolom.Name = "LblSatuan_Kolom"
-        Me.LblSatuan_Kolom.Size = New System.Drawing.Size(47, 17)
+        Me.LblSatuan_Kolom.Size = New System.Drawing.Size(39, 17)
         Me.LblSatuan_Kolom.TabIndex = 392
-        Me.LblSatuan_Kolom.Text = "Kolom"
+        Me.LblSatuan_Kolom.Text = "Filter"
         '
         'TxtSatuan_Value
         '
         Me.TxtSatuan_Value.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TxtSatuan_Value.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtSatuan_Value.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtSatuan_Value.Location = New System.Drawing.Point(338, 182)
+        Me.TxtSatuan_Value.Location = New System.Drawing.Point(315, 170)
         Me.TxtSatuan_Value.MaxLength = 50
         Me.TxtSatuan_Value.Name = "TxtSatuan_Value"
         Me.TxtSatuan_Value.Size = New System.Drawing.Size(189, 21)
@@ -392,9 +440,9 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.ListView1.FullRowSelect = True
         Me.ListView1.GridLines = True
         Me.ListView1.HideSelection = False
-        Me.ListView1.Location = New System.Drawing.Point(1, 211)
+        Me.ListView1.Location = New System.Drawing.Point(3, 199)
         Me.ListView1.Name = "ListView1"
-        Me.ListView1.Size = New System.Drawing.Size(930, 235)
+        Me.ListView1.Size = New System.Drawing.Size(930, 270)
         Me.ListView1.TabIndex = 395
         Me.ListView1.UseCompatibleStateImageBehavior = False
         Me.ListView1.View = System.Windows.Forms.View.Details
@@ -403,7 +451,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label3.Location = New System.Drawing.Point(4, 59)
+        Me.Label3.Location = New System.Drawing.Point(4, 58)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(43, 17)
         Me.Label3.TabIndex = 396
@@ -415,7 +463,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TextBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox3.Enabled = False
         Me.TextBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TextBox3.Location = New System.Drawing.Point(112, 58)
+        Me.TextBox3.Location = New System.Drawing.Point(112, 57)
         Me.TextBox3.MaxLength = 1
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.Size = New System.Drawing.Size(228, 21)
@@ -432,11 +480,15 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TabControl1.Location = New System.Drawing.Point(19, 63)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(944, 477)
+        Me.TabControl1.Size = New System.Drawing.Size(944, 536)
         Me.TabControl1.TabIndex = 398
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.Txt_Pages_1)
+        Me.TabPage1.Controls.Add(Me.BtnFirst_1)
+        Me.TabPage1.Controls.Add(Me.BtnPrev_1)
+        Me.TabPage1.Controls.Add(Me.BtnNext_1)
         Me.TabPage1.Controls.Add(Me.ComboBox10)
         Me.TabPage1.Controls.Add(Me.Label25)
         Me.TabPage1.Controls.Add(Me.LblSatuan_Kode)
@@ -458,16 +510,68 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TabPage1.Controls.Add(Me.BtnRefresh)
         Me.TabPage1.Location = New System.Drawing.Point(4, 24)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Size = New System.Drawing.Size(936, 449)
+        Me.TabPage1.Size = New System.Drawing.Size(936, 508)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Kategori"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'Txt_Pages_1
+        '
+        Me.Txt_Pages_1.BackColor = System.Drawing.Color.White
+        Me.Txt_Pages_1.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.Txt_Pages_1.Enabled = False
+        Me.Txt_Pages_1.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Txt_Pages_1.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.Txt_Pages_1.Location = New System.Drawing.Point(754, 482)
+        Me.Txt_Pages_1.Name = "Txt_Pages_1"
+        Me.Txt_Pages_1.Size = New System.Drawing.Size(73, 15)
+        Me.Txt_Pages_1.TabIndex = 507
+        Me.Txt_Pages_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'BtnFirst_1
+        '
+        Me.BtnFirst_1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnFirst_1.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnFirst_1.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnFirst_1.ForeColor = System.Drawing.Color.White
+        Me.BtnFirst_1.Location = New System.Drawing.Point(524, 475)
+        Me.BtnFirst_1.Name = "BtnFirst_1"
+        Me.BtnFirst_1.Size = New System.Drawing.Size(102, 30)
+        Me.BtnFirst_1.TabIndex = 506
+        Me.BtnFirst_1.Text = "&First"
+        Me.BtnFirst_1.UseVisualStyleBackColor = False
+        '
+        'BtnPrev_1
+        '
+        Me.BtnPrev_1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnPrev_1.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnPrev_1.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnPrev_1.ForeColor = System.Drawing.Color.White
+        Me.BtnPrev_1.Location = New System.Drawing.Point(649, 475)
+        Me.BtnPrev_1.Name = "BtnPrev_1"
+        Me.BtnPrev_1.Size = New System.Drawing.Size(102, 30)
+        Me.BtnPrev_1.TabIndex = 505
+        Me.BtnPrev_1.Text = "&Prev"
+        Me.BtnPrev_1.UseVisualStyleBackColor = False
+        '
+        'BtnNext_1
+        '
+        Me.BtnNext_1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnNext_1.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnNext_1.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnNext_1.ForeColor = System.Drawing.Color.White
+        Me.BtnNext_1.Location = New System.Drawing.Point(830, 475)
+        Me.BtnNext_1.Name = "BtnNext_1"
+        Me.BtnNext_1.Size = New System.Drawing.Size(102, 30)
+        Me.BtnNext_1.TabIndex = 501
+        Me.BtnNext_1.Text = "&Next"
+        Me.BtnNext_1.UseVisualStyleBackColor = False
         '
         'ComboBox10
         '
         Me.ComboBox10.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox10.FormattingEnabled = True
-        Me.ComboBox10.Location = New System.Drawing.Point(112, 85)
+        Me.ComboBox10.Location = New System.Drawing.Point(112, 84)
         Me.ComboBox10.Name = "ComboBox10"
         Me.ComboBox10.Size = New System.Drawing.Size(228, 23)
         Me.ComboBox10.TabIndex = 400
@@ -476,7 +580,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.Label25.AutoSize = True
         Me.Label25.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label25.Location = New System.Drawing.Point(4, 87)
+        Me.Label25.Location = New System.Drawing.Point(4, 86)
         Me.Label25.Name = "Label25"
         Me.Label25.Size = New System.Drawing.Size(35, 17)
         Me.Label25.TabIndex = 398
@@ -484,6 +588,11 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.Txt_Pages_2)
+        Me.TabPage2.Controls.Add(Me.BtnFirst_2)
+        Me.TabPage2.Controls.Add(Me.BtnPrev_2)
+        Me.TabPage2.Controls.Add(Me.BtnNext_2)
+        Me.TabPage2.Controls.Add(Me.Btn_Check_2)
         Me.TabPage2.Controls.Add(Me.TextBox4)
         Me.TabPage2.Controls.Add(Me.Label4)
         Me.TabPage2.Controls.Add(Me.ComboBox1)
@@ -505,10 +614,75 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TabPage2.Controls.Add(Me.Label9)
         Me.TabPage2.Location = New System.Drawing.Point(4, 24)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Size = New System.Drawing.Size(936, 449)
+        Me.TabPage2.Size = New System.Drawing.Size(936, 508)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Sub Kategori"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'Txt_Pages_2
+        '
+        Me.Txt_Pages_2.BackColor = System.Drawing.Color.White
+        Me.Txt_Pages_2.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.Txt_Pages_2.Enabled = False
+        Me.Txt_Pages_2.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Txt_Pages_2.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.Txt_Pages_2.Location = New System.Drawing.Point(754, 482)
+        Me.Txt_Pages_2.Name = "Txt_Pages_2"
+        Me.Txt_Pages_2.Size = New System.Drawing.Size(73, 15)
+        Me.Txt_Pages_2.TabIndex = 511
+        Me.Txt_Pages_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'BtnFirst_2
+        '
+        Me.BtnFirst_2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnFirst_2.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnFirst_2.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnFirst_2.ForeColor = System.Drawing.Color.White
+        Me.BtnFirst_2.Location = New System.Drawing.Point(524, 475)
+        Me.BtnFirst_2.Name = "BtnFirst_2"
+        Me.BtnFirst_2.Size = New System.Drawing.Size(102, 30)
+        Me.BtnFirst_2.TabIndex = 510
+        Me.BtnFirst_2.Text = "&First"
+        Me.BtnFirst_2.UseVisualStyleBackColor = False
+        '
+        'BtnPrev_2
+        '
+        Me.BtnPrev_2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnPrev_2.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnPrev_2.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnPrev_2.ForeColor = System.Drawing.Color.White
+        Me.BtnPrev_2.Location = New System.Drawing.Point(649, 475)
+        Me.BtnPrev_2.Name = "BtnPrev_2"
+        Me.BtnPrev_2.Size = New System.Drawing.Size(102, 30)
+        Me.BtnPrev_2.TabIndex = 509
+        Me.BtnPrev_2.Text = "&Prev"
+        Me.BtnPrev_2.UseVisualStyleBackColor = False
+        '
+        'BtnNext_2
+        '
+        Me.BtnNext_2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnNext_2.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnNext_2.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnNext_2.ForeColor = System.Drawing.Color.White
+        Me.BtnNext_2.Location = New System.Drawing.Point(830, 475)
+        Me.BtnNext_2.Name = "BtnNext_2"
+        Me.BtnNext_2.Size = New System.Drawing.Size(102, 30)
+        Me.BtnNext_2.TabIndex = 508
+        Me.BtnNext_2.Text = "&Next"
+        Me.BtnNext_2.UseVisualStyleBackColor = False
+        '
+        'Btn_Check_2
+        '
+        Me.Btn_Check_2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Check_2.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Btn_Check_2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Check_2.ForeColor = System.Drawing.Color.White
+        Me.Btn_Check_2.Location = New System.Drawing.Point(288, 122)
+        Me.Btn_Check_2.Name = "Btn_Check_2"
+        Me.Btn_Check_2.Size = New System.Drawing.Size(84, 36)
+        Me.Btn_Check_2.TabIndex = 440
+        Me.Btn_Check_2.Text = "&Check"
+        Me.Btn_Check_2.UseVisualStyleBackColor = False
         '
         'TextBox4
         '
@@ -516,17 +690,17 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TextBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox4.Enabled = False
         Me.TextBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TextBox4.Location = New System.Drawing.Point(114, 96)
+        Me.TextBox4.Location = New System.Drawing.Point(112, 84)
         Me.TextBox4.MaxLength = 2
         Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(228, 21)
+        Me.TextBox4.Size = New System.Drawing.Size(261, 21)
         Me.TextBox4.TabIndex = 402
         '
         'Label4
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label4.Location = New System.Drawing.Point(6, 97)
+        Me.Label4.Location = New System.Drawing.Point(4, 86)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(43, 17)
         Me.Label4.TabIndex = 417
@@ -536,16 +710,16 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(114, 3)
+        Me.ComboBox1.Location = New System.Drawing.Point(112, 3)
         Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(228, 23)
+        Me.ComboBox1.Size = New System.Drawing.Size(261, 23)
         Me.ComboBox1.TabIndex = 399
         '
         'Label5
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label5.Location = New System.Drawing.Point(6, 3)
+        Me.Label5.Location = New System.Drawing.Point(4, 5)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(98, 17)
         Me.Label5.TabIndex = 416
@@ -557,9 +731,9 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.ListView2.FullRowSelect = True
         Me.ListView2.GridLines = True
         Me.ListView2.HideSelection = False
-        Me.ListView2.Location = New System.Drawing.Point(3, 223)
+        Me.ListView2.Location = New System.Drawing.Point(3, 199)
         Me.ListView2.Name = "ListView2"
-        Me.ListView2.Size = New System.Drawing.Size(930, 223)
+        Me.ListView2.Size = New System.Drawing.Size(930, 270)
         Me.ListView2.TabIndex = 415
         Me.ListView2.UseCompatibleStateImageBehavior = False
         Me.ListView2.View = System.Windows.Forms.View.Details
@@ -570,7 +744,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.ComboBox2.DropDownWidth = 150
         Me.ComboBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.9!)
         Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(72, 195)
+        Me.ComboBox2.Location = New System.Drawing.Point(63, 169)
         Me.ComboBox2.Margin = New System.Windows.Forms.Padding(2)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(195, 23)
@@ -579,9 +753,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'Button1
         '
         Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Button1.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(532, 193)
+        Me.Button1.Location = New System.Drawing.Point(507, 167)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(80, 28)
         Me.Button1.TabIndex = 408
@@ -592,7 +767,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label6.Location = New System.Drawing.Point(288, 197)
+        Me.Label6.Location = New System.Drawing.Point(263, 172)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(44, 17)
         Me.Label6.TabIndex = 414
@@ -602,18 +777,18 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label7.Location = New System.Drawing.Point(11, 198)
+        Me.Label7.Location = New System.Drawing.Point(11, 172)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(47, 17)
+        Me.Label7.Size = New System.Drawing.Size(39, 17)
         Me.Label7.TabIndex = 413
-        Me.Label7.Text = "Kolom"
+        Me.Label7.Text = "Filter"
         '
         'TextBox5
         '
         Me.TextBox5.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TextBox5.Location = New System.Drawing.Point(340, 196)
+        Me.TextBox5.Location = New System.Drawing.Point(315, 170)
         Me.TextBox5.MaxLength = 50
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(189, 21)
@@ -622,9 +797,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'Button2
         '
         Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Button2.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(190, 138)
+        Me.Button2.Location = New System.Drawing.Point(200, 122)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(84, 36)
         Me.Button2.TabIndex = 405
@@ -634,9 +810,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnHapus2
         '
         Me.BtnHapus2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnHapus2.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnHapus2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnHapus2.ForeColor = System.Drawing.Color.White
-        Me.BtnHapus2.Location = New System.Drawing.Point(100, 138)
+        Me.BtnHapus2.Location = New System.Drawing.Point(112, 122)
         Me.BtnHapus2.Name = "BtnHapus2"
         Me.BtnHapus2.Size = New System.Drawing.Size(84, 36)
         Me.BtnHapus2.TabIndex = 404
@@ -646,9 +823,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnSimpan2
         '
         Me.BtnSimpan2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnSimpan2.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnSimpan2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnSimpan2.ForeColor = System.Drawing.Color.White
-        Me.BtnSimpan2.Location = New System.Drawing.Point(10, 138)
+        Me.BtnSimpan2.Location = New System.Drawing.Point(24, 122)
         Me.BtnSimpan2.Name = "BtnSimpan2"
         Me.BtnSimpan2.Size = New System.Drawing.Size(84, 36)
         Me.BtnSimpan2.TabIndex = 403
@@ -658,7 +836,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(-6, 180)
+        Me.Panel7.Location = New System.Drawing.Point(-8, 158)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(1264, 10)
         Me.Panel7.TabIndex = 409
@@ -667,7 +845,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'Panel8
         '
         Me.Panel8.BackColor = System.Drawing.Color.Red
-        Me.Panel8.Location = New System.Drawing.Point(-13, 124)
+        Me.Panel8.Location = New System.Drawing.Point(-15, 110)
         Me.Panel8.Name = "Panel8"
         Me.Panel8.Size = New System.Drawing.Size(949, 10)
         Me.Panel8.TabIndex = 412
@@ -678,10 +856,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TextBox6.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TextBox6.Location = New System.Drawing.Point(114, 65)
+        Me.TextBox6.Location = New System.Drawing.Point(112, 57)
         Me.TextBox6.MaxLength = 50
         Me.TextBox6.Name = "TextBox6"
-        Me.TextBox6.Size = New System.Drawing.Size(228, 21)
+        Me.TextBox6.Size = New System.Drawing.Size(261, 21)
         Me.TextBox6.TabIndex = 401
         '
         'TextBox7
@@ -689,17 +867,17 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TextBox7.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox7.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TextBox7.Location = New System.Drawing.Point(114, 35)
+        Me.TextBox7.Location = New System.Drawing.Point(112, 30)
         Me.TextBox7.MaxLength = 50
         Me.TextBox7.Name = "TextBox7"
-        Me.TextBox7.Size = New System.Drawing.Size(228, 21)
+        Me.TextBox7.Size = New System.Drawing.Size(261, 21)
         Me.TextBox7.TabIndex = 400
         '
         'Label8
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label8.Location = New System.Drawing.Point(6, 66)
+        Me.Label8.Location = New System.Drawing.Point(4, 58)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(82, 17)
         Me.Label8.TabIndex = 411
@@ -709,7 +887,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label9.Location = New System.Drawing.Point(6, 36)
+        Me.Label9.Location = New System.Drawing.Point(4, 31)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(70, 17)
         Me.Label9.TabIndex = 410
@@ -717,6 +895,11 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.Txt_Pages_3)
+        Me.TabPage3.Controls.Add(Me.BtnFirst_3)
+        Me.TabPage3.Controls.Add(Me.BtnPrev_3)
+        Me.TabPage3.Controls.Add(Me.BtnNext_3)
+        Me.TabPage3.Controls.Add(Me.Btn_Check_3)
         Me.TabPage3.Controls.Add(Me.ListView3)
         Me.TabPage3.Controls.Add(Me.BtnCari3)
         Me.TabPage3.Controls.Add(Me.Label16)
@@ -740,10 +923,75 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TabPage3.Controls.Add(Me.Label10)
         Me.TabPage3.Location = New System.Drawing.Point(4, 24)
         Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(936, 449)
+        Me.TabPage3.Size = New System.Drawing.Size(936, 508)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Sub Kategori 1"
         Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'Txt_Pages_3
+        '
+        Me.Txt_Pages_3.BackColor = System.Drawing.Color.White
+        Me.Txt_Pages_3.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.Txt_Pages_3.Enabled = False
+        Me.Txt_Pages_3.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Txt_Pages_3.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.Txt_Pages_3.Location = New System.Drawing.Point(754, 482)
+        Me.Txt_Pages_3.Name = "Txt_Pages_3"
+        Me.Txt_Pages_3.Size = New System.Drawing.Size(73, 15)
+        Me.Txt_Pages_3.TabIndex = 515
+        Me.Txt_Pages_3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'BtnFirst_3
+        '
+        Me.BtnFirst_3.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnFirst_3.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnFirst_3.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnFirst_3.ForeColor = System.Drawing.Color.White
+        Me.BtnFirst_3.Location = New System.Drawing.Point(524, 475)
+        Me.BtnFirst_3.Name = "BtnFirst_3"
+        Me.BtnFirst_3.Size = New System.Drawing.Size(102, 30)
+        Me.BtnFirst_3.TabIndex = 514
+        Me.BtnFirst_3.Text = "&First"
+        Me.BtnFirst_3.UseVisualStyleBackColor = False
+        '
+        'BtnPrev_3
+        '
+        Me.BtnPrev_3.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnPrev_3.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnPrev_3.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnPrev_3.ForeColor = System.Drawing.Color.White
+        Me.BtnPrev_3.Location = New System.Drawing.Point(649, 475)
+        Me.BtnPrev_3.Name = "BtnPrev_3"
+        Me.BtnPrev_3.Size = New System.Drawing.Size(102, 30)
+        Me.BtnPrev_3.TabIndex = 513
+        Me.BtnPrev_3.Text = "&Prev"
+        Me.BtnPrev_3.UseVisualStyleBackColor = False
+        '
+        'BtnNext_3
+        '
+        Me.BtnNext_3.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnNext_3.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnNext_3.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnNext_3.ForeColor = System.Drawing.Color.White
+        Me.BtnNext_3.Location = New System.Drawing.Point(830, 475)
+        Me.BtnNext_3.Name = "BtnNext_3"
+        Me.BtnNext_3.Size = New System.Drawing.Size(102, 30)
+        Me.BtnNext_3.TabIndex = 512
+        Me.BtnNext_3.Text = "&Next"
+        Me.BtnNext_3.UseVisualStyleBackColor = False
+        '
+        'Btn_Check_3
+        '
+        Me.Btn_Check_3.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Check_3.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Btn_Check_3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Check_3.ForeColor = System.Drawing.Color.White
+        Me.Btn_Check_3.Location = New System.Drawing.Point(288, 147)
+        Me.Btn_Check_3.Name = "Btn_Check_3"
+        Me.Btn_Check_3.Size = New System.Drawing.Size(84, 36)
+        Me.Btn_Check_3.TabIndex = 441
+        Me.Btn_Check_3.Text = "&Check"
+        Me.Btn_Check_3.UseVisualStyleBackColor = False
         '
         'ListView3
         '
@@ -753,7 +1001,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.ListView3.HideSelection = False
         Me.ListView3.Location = New System.Drawing.Point(3, 226)
         Me.ListView3.Name = "ListView3"
-        Me.ListView3.Size = New System.Drawing.Size(930, 220)
+        Me.ListView3.Size = New System.Drawing.Size(930, 243)
         Me.ListView3.TabIndex = 437
         Me.ListView3.UseCompatibleStateImageBehavior = False
         Me.ListView3.View = System.Windows.Forms.View.Details
@@ -761,9 +1009,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnCari3
         '
         Me.BtnCari3.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnCari3.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnCari3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnCari3.ForeColor = System.Drawing.Color.White
-        Me.BtnCari3.Location = New System.Drawing.Point(530, 194)
+        Me.BtnCari3.Location = New System.Drawing.Point(507, 194)
         Me.BtnCari3.Name = "BtnCari3"
         Me.BtnCari3.Size = New System.Drawing.Size(80, 28)
         Me.BtnCari3.TabIndex = 435
@@ -774,7 +1023,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.Label16.AutoSize = True
         Me.Label16.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label16.Location = New System.Drawing.Point(286, 198)
+        Me.Label16.Location = New System.Drawing.Point(263, 198)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(44, 17)
         Me.Label16.TabIndex = 436
@@ -785,7 +1034,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TextBox11.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox11.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TextBox11.Location = New System.Drawing.Point(338, 197)
+        Me.TextBox11.Location = New System.Drawing.Point(315, 197)
         Me.TextBox11.MaxLength = 50
         Me.TextBox11.Name = "TextBox11"
         Me.TextBox11.Size = New System.Drawing.Size(189, 21)
@@ -797,7 +1046,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.ComboBox5.DropDownWidth = 150
         Me.ComboBox5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.9!)
         Me.ComboBox5.FormattingEnabled = True
-        Me.ComboBox5.Location = New System.Drawing.Point(74, 196)
+        Me.ComboBox5.Location = New System.Drawing.Point(63, 196)
         Me.ComboBox5.Margin = New System.Windows.Forms.Padding(2)
         Me.ComboBox5.Name = "ComboBox5"
         Me.ComboBox5.Size = New System.Drawing.Size(195, 23)
@@ -809,9 +1058,9 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.Label15.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
         Me.Label15.Location = New System.Drawing.Point(4, 198)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(47, 17)
+        Me.Label15.Size = New System.Drawing.Size(39, 17)
         Me.Label15.TabIndex = 433
-        Me.Label15.Text = "Kolom"
+        Me.Label15.Text = "Filter"
         '
         'Panel10
         '
@@ -825,9 +1074,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnSimpan3
         '
         Me.BtnSimpan3.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnSimpan3.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnSimpan3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnSimpan3.ForeColor = System.Drawing.Color.White
-        Me.BtnSimpan3.Location = New System.Drawing.Point(5, 145)
+        Me.BtnSimpan3.Location = New System.Drawing.Point(24, 147)
         Me.BtnSimpan3.Name = "BtnSimpan3"
         Me.BtnSimpan3.Size = New System.Drawing.Size(84, 36)
         Me.BtnSimpan3.TabIndex = 428
@@ -837,9 +1087,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnHapus3
         '
         Me.BtnHapus3.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnHapus3.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnHapus3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnHapus3.ForeColor = System.Drawing.Color.White
-        Me.BtnHapus3.Location = New System.Drawing.Point(95, 145)
+        Me.BtnHapus3.Location = New System.Drawing.Point(112, 147)
         Me.BtnHapus3.Name = "BtnHapus3"
         Me.BtnHapus3.Size = New System.Drawing.Size(84, 36)
         Me.BtnHapus3.TabIndex = 429
@@ -849,9 +1100,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnRefresh3
         '
         Me.BtnRefresh3.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnRefresh3.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnRefresh3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnRefresh3.ForeColor = System.Drawing.Color.White
-        Me.BtnRefresh3.Location = New System.Drawing.Point(185, 145)
+        Me.BtnRefresh3.Location = New System.Drawing.Point(200, 147)
         Me.BtnRefresh3.Name = "BtnRefresh3"
         Me.BtnRefresh3.Size = New System.Drawing.Size(84, 36)
         Me.BtnRefresh3.TabIndex = 430
@@ -873,17 +1125,17 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TextBox10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox10.Enabled = False
         Me.TextBox10.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TextBox10.Location = New System.Drawing.Point(112, 109)
+        Me.TextBox10.Location = New System.Drawing.Point(112, 111)
         Me.TextBox10.MaxLength = 2
         Me.TextBox10.Name = "TextBox10"
-        Me.TextBox10.Size = New System.Drawing.Size(228, 21)
+        Me.TextBox10.Size = New System.Drawing.Size(262, 21)
         Me.TextBox10.TabIndex = 425
         '
         'Label14
         '
         Me.Label14.AutoSize = True
         Me.Label14.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label14.Location = New System.Drawing.Point(4, 110)
+        Me.Label14.Location = New System.Drawing.Point(4, 112)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(43, 17)
         Me.Label14.TabIndex = 426
@@ -897,14 +1149,14 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TextBox9.Location = New System.Drawing.Point(112, 84)
         Me.TextBox9.MaxLength = 50
         Me.TextBox9.Name = "TextBox9"
-        Me.TextBox9.Size = New System.Drawing.Size(228, 21)
+        Me.TextBox9.Size = New System.Drawing.Size(262, 21)
         Me.TextBox9.TabIndex = 424
         '
         'Label13
         '
         Me.Label13.AutoSize = True
         Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label13.Location = New System.Drawing.Point(4, 85)
+        Me.Label13.Location = New System.Drawing.Point(4, 86)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(82, 17)
         Me.Label13.TabIndex = 423
@@ -915,17 +1167,17 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TextBox8.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox8.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TextBox8.Location = New System.Drawing.Point(112, 59)
+        Me.TextBox8.Location = New System.Drawing.Point(112, 57)
         Me.TextBox8.MaxLength = 50
         Me.TextBox8.Name = "TextBox8"
-        Me.TextBox8.Size = New System.Drawing.Size(228, 21)
+        Me.TextBox8.Size = New System.Drawing.Size(262, 21)
         Me.TextBox8.TabIndex = 422
         '
         'Label12
         '
         Me.Label12.AutoSize = True
         Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label12.Location = New System.Drawing.Point(4, 60)
+        Me.Label12.Location = New System.Drawing.Point(4, 58)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(82, 17)
         Me.Label12.TabIndex = 421
@@ -935,16 +1187,16 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.ComboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox4.FormattingEnabled = True
-        Me.ComboBox4.Location = New System.Drawing.Point(112, 33)
+        Me.ComboBox4.Location = New System.Drawing.Point(112, 30)
         Me.ComboBox4.Name = "ComboBox4"
-        Me.ComboBox4.Size = New System.Drawing.Size(228, 23)
+        Me.ComboBox4.Size = New System.Drawing.Size(262, 23)
         Me.ComboBox4.TabIndex = 420
         '
         'Label11
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label11.Location = New System.Drawing.Point(4, 35)
+        Me.Label11.Location = New System.Drawing.Point(4, 31)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(70, 17)
         Me.Label11.TabIndex = 419
@@ -954,16 +1206,16 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox3.FormattingEnabled = True
-        Me.ComboBox3.Location = New System.Drawing.Point(112, 7)
+        Me.ComboBox3.Location = New System.Drawing.Point(112, 3)
         Me.ComboBox3.Name = "ComboBox3"
-        Me.ComboBox3.Size = New System.Drawing.Size(228, 23)
+        Me.ComboBox3.Size = New System.Drawing.Size(262, 23)
         Me.ComboBox3.TabIndex = 417
         '
         'Label10
         '
         Me.Label10.AutoSize = True
         Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label10.Location = New System.Drawing.Point(4, 7)
+        Me.Label10.Location = New System.Drawing.Point(4, 5)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(98, 17)
         Me.Label10.TabIndex = 418
@@ -971,6 +1223,11 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         'TabPage4
         '
+        Me.TabPage4.Controls.Add(Me.Txt_Pages_4)
+        Me.TabPage4.Controls.Add(Me.BtnFirst_4)
+        Me.TabPage4.Controls.Add(Me.BtnPrev_4)
+        Me.TabPage4.Controls.Add(Me.BtnNext_4)
+        Me.TabPage4.Controls.Add(Me.Btn_Check_4)
         Me.TabPage4.Controls.Add(Me.ListView4)
         Me.TabPage4.Controls.Add(Me.BtnCari4)
         Me.TabPage4.Controls.Add(Me.Label24)
@@ -996,10 +1253,75 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TabPage4.Controls.Add(Me.Label17)
         Me.TabPage4.Location = New System.Drawing.Point(4, 24)
         Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Size = New System.Drawing.Size(936, 449)
+        Me.TabPage4.Size = New System.Drawing.Size(936, 508)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Sub Kategori 2"
         Me.TabPage4.UseVisualStyleBackColor = True
+        '
+        'Txt_Pages_4
+        '
+        Me.Txt_Pages_4.BackColor = System.Drawing.Color.White
+        Me.Txt_Pages_4.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.Txt_Pages_4.Enabled = False
+        Me.Txt_Pages_4.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Txt_Pages_4.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.Txt_Pages_4.Location = New System.Drawing.Point(754, 482)
+        Me.Txt_Pages_4.Name = "Txt_Pages_4"
+        Me.Txt_Pages_4.Size = New System.Drawing.Size(73, 15)
+        Me.Txt_Pages_4.TabIndex = 519
+        Me.Txt_Pages_4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'BtnFirst_4
+        '
+        Me.BtnFirst_4.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnFirst_4.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnFirst_4.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnFirst_4.ForeColor = System.Drawing.Color.White
+        Me.BtnFirst_4.Location = New System.Drawing.Point(524, 475)
+        Me.BtnFirst_4.Name = "BtnFirst_4"
+        Me.BtnFirst_4.Size = New System.Drawing.Size(102, 30)
+        Me.BtnFirst_4.TabIndex = 518
+        Me.BtnFirst_4.Text = "&First"
+        Me.BtnFirst_4.UseVisualStyleBackColor = False
+        '
+        'BtnPrev_4
+        '
+        Me.BtnPrev_4.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnPrev_4.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnPrev_4.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnPrev_4.ForeColor = System.Drawing.Color.White
+        Me.BtnPrev_4.Location = New System.Drawing.Point(649, 475)
+        Me.BtnPrev_4.Name = "BtnPrev_4"
+        Me.BtnPrev_4.Size = New System.Drawing.Size(102, 30)
+        Me.BtnPrev_4.TabIndex = 517
+        Me.BtnPrev_4.Text = "&Prev"
+        Me.BtnPrev_4.UseVisualStyleBackColor = False
+        '
+        'BtnNext_4
+        '
+        Me.BtnNext_4.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnNext_4.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnNext_4.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnNext_4.ForeColor = System.Drawing.Color.White
+        Me.BtnNext_4.Location = New System.Drawing.Point(830, 475)
+        Me.BtnNext_4.Name = "BtnNext_4"
+        Me.BtnNext_4.Size = New System.Drawing.Size(102, 30)
+        Me.BtnNext_4.TabIndex = 516
+        Me.BtnNext_4.Text = "&Next"
+        Me.BtnNext_4.UseVisualStyleBackColor = False
+        '
+        'Btn_Check_4
+        '
+        Me.Btn_Check_4.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Check_4.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Btn_Check_4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Check_4.ForeColor = System.Drawing.Color.White
+        Me.Btn_Check_4.Location = New System.Drawing.Point(288, 173)
+        Me.Btn_Check_4.Name = "Btn_Check_4"
+        Me.Btn_Check_4.Size = New System.Drawing.Size(84, 36)
+        Me.Btn_Check_4.TabIndex = 442
+        Me.Btn_Check_4.Text = "&Check"
+        Me.Btn_Check_4.UseVisualStyleBackColor = False
         '
         'ListView4
         '
@@ -1007,9 +1329,9 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.ListView4.FullRowSelect = True
         Me.ListView4.GridLines = True
         Me.ListView4.HideSelection = False
-        Me.ListView4.Location = New System.Drawing.Point(3, 239)
+        Me.ListView4.Location = New System.Drawing.Point(3, 254)
         Me.ListView4.Name = "ListView4"
-        Me.ListView4.Size = New System.Drawing.Size(930, 207)
+        Me.ListView4.Size = New System.Drawing.Size(930, 215)
         Me.ListView4.TabIndex = 441
         Me.ListView4.UseCompatibleStateImageBehavior = False
         Me.ListView4.View = System.Windows.Forms.View.Details
@@ -1017,9 +1339,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnCari4
         '
         Me.BtnCari4.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnCari4.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnCari4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnCari4.ForeColor = System.Drawing.Color.White
-        Me.BtnCari4.Location = New System.Drawing.Point(519, 209)
+        Me.BtnCari4.Location = New System.Drawing.Point(507, 220)
         Me.BtnCari4.Name = "BtnCari4"
         Me.BtnCari4.Size = New System.Drawing.Size(80, 28)
         Me.BtnCari4.TabIndex = 439
@@ -1030,7 +1353,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.Label24.AutoSize = True
         Me.Label24.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label24.Location = New System.Drawing.Point(275, 213)
+        Me.Label24.Location = New System.Drawing.Point(263, 224)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(44, 17)
         Me.Label24.TabIndex = 440
@@ -1041,7 +1364,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TextBox15.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox15.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TextBox15.Location = New System.Drawing.Point(327, 212)
+        Me.TextBox15.Location = New System.Drawing.Point(315, 223)
         Me.TextBox15.MaxLength = 50
         Me.TextBox15.Name = "TextBox15"
         Me.TextBox15.Size = New System.Drawing.Size(189, 21)
@@ -1053,7 +1376,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.ComboBox9.DropDownWidth = 150
         Me.ComboBox9.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.9!)
         Me.ComboBox9.FormattingEnabled = True
-        Me.ComboBox9.Location = New System.Drawing.Point(74, 211)
+        Me.ComboBox9.Location = New System.Drawing.Point(63, 222)
         Me.ComboBox9.Margin = New System.Windows.Forms.Padding(2)
         Me.ComboBox9.Name = "ComboBox9"
         Me.ComboBox9.Size = New System.Drawing.Size(195, 23)
@@ -1063,16 +1386,16 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.Label23.AutoSize = True
         Me.Label23.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label23.Location = New System.Drawing.Point(3, 213)
+        Me.Label23.Location = New System.Drawing.Point(4, 224)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(47, 17)
+        Me.Label23.Size = New System.Drawing.Size(39, 17)
         Me.Label23.TabIndex = 437
-        Me.Label23.Text = "Kolom"
+        Me.Label23.Text = "Filter"
         '
         'Panel12
         '
         Me.Panel12.BackColor = System.Drawing.Color.Red
-        Me.Panel12.Location = New System.Drawing.Point(-299, 199)
+        Me.Panel12.Location = New System.Drawing.Point(-299, 210)
         Me.Panel12.Name = "Panel12"
         Me.Panel12.Size = New System.Drawing.Size(1264, 10)
         Me.Panel12.TabIndex = 435
@@ -1081,9 +1404,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnSimpan4
         '
         Me.BtnSimpan4.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnSimpan4.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnSimpan4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnSimpan4.ForeColor = System.Drawing.Color.White
-        Me.BtnSimpan4.Location = New System.Drawing.Point(5, 162)
+        Me.BtnSimpan4.Location = New System.Drawing.Point(24, 173)
         Me.BtnSimpan4.Name = "BtnSimpan4"
         Me.BtnSimpan4.Size = New System.Drawing.Size(84, 36)
         Me.BtnSimpan4.TabIndex = 432
@@ -1093,9 +1417,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnHapus4
         '
         Me.BtnHapus4.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnHapus4.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnHapus4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnHapus4.ForeColor = System.Drawing.Color.White
-        Me.BtnHapus4.Location = New System.Drawing.Point(95, 162)
+        Me.BtnHapus4.Location = New System.Drawing.Point(112, 173)
         Me.BtnHapus4.Name = "BtnHapus4"
         Me.BtnHapus4.Size = New System.Drawing.Size(84, 36)
         Me.BtnHapus4.TabIndex = 433
@@ -1105,9 +1430,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnRefresh4
         '
         Me.BtnRefresh4.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnRefresh4.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnRefresh4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnRefresh4.ForeColor = System.Drawing.Color.White
-        Me.BtnRefresh4.Location = New System.Drawing.Point(185, 162)
+        Me.BtnRefresh4.Location = New System.Drawing.Point(200, 173)
         Me.BtnRefresh4.Name = "BtnRefresh4"
         Me.BtnRefresh4.Size = New System.Drawing.Size(84, 36)
         Me.BtnRefresh4.TabIndex = 434
@@ -1117,7 +1443,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'Panel11
         '
         Me.Panel11.BackColor = System.Drawing.Color.Red
-        Me.Panel11.Location = New System.Drawing.Point(-5, 151)
+        Me.Panel11.Location = New System.Drawing.Point(-5, 162)
         Me.Panel11.Name = "Panel11"
         Me.Panel11.Size = New System.Drawing.Size(941, 10)
         Me.Panel11.TabIndex = 431
@@ -1129,17 +1455,17 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TextBox14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox14.Enabled = False
         Me.TextBox14.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TextBox14.Location = New System.Drawing.Point(111, 126)
+        Me.TextBox14.Location = New System.Drawing.Point(112, 138)
         Me.TextBox14.MaxLength = 2
         Me.TextBox14.Name = "TextBox14"
-        Me.TextBox14.Size = New System.Drawing.Size(228, 21)
+        Me.TextBox14.Size = New System.Drawing.Size(260, 21)
         Me.TextBox14.TabIndex = 429
         '
         'Label22
         '
         Me.Label22.AutoSize = True
         Me.Label22.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label22.Location = New System.Drawing.Point(3, 127)
+        Me.Label22.Location = New System.Drawing.Point(4, 139)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(43, 17)
         Me.Label22.TabIndex = 430
@@ -1150,17 +1476,17 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TextBox13.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox13.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TextBox13.Location = New System.Drawing.Point(111, 102)
+        Me.TextBox13.Location = New System.Drawing.Point(112, 111)
         Me.TextBox13.MaxLength = 50
         Me.TextBox13.Name = "TextBox13"
-        Me.TextBox13.Size = New System.Drawing.Size(228, 21)
+        Me.TextBox13.Size = New System.Drawing.Size(260, 21)
         Me.TextBox13.TabIndex = 428
         '
         'Label21
         '
         Me.Label21.AutoSize = True
         Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label21.Location = New System.Drawing.Point(3, 103)
+        Me.Label21.Location = New System.Drawing.Point(4, 112)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(82, 17)
         Me.Label21.TabIndex = 427
@@ -1171,17 +1497,17 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TextBox12.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox12.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TextBox12.Location = New System.Drawing.Point(111, 78)
+        Me.TextBox12.Location = New System.Drawing.Point(112, 84)
         Me.TextBox12.MaxLength = 50
         Me.TextBox12.Name = "TextBox12"
-        Me.TextBox12.Size = New System.Drawing.Size(228, 21)
+        Me.TextBox12.Size = New System.Drawing.Size(260, 21)
         Me.TextBox12.TabIndex = 426
         '
         'Label20
         '
         Me.Label20.AutoSize = True
         Me.Label20.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label20.Location = New System.Drawing.Point(3, 79)
+        Me.Label20.Location = New System.Drawing.Point(4, 86)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(82, 17)
         Me.Label20.TabIndex = 425
@@ -1191,16 +1517,16 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.ComboBox8.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox8.FormattingEnabled = True
-        Me.ComboBox8.Location = New System.Drawing.Point(111, 53)
+        Me.ComboBox8.Location = New System.Drawing.Point(112, 57)
         Me.ComboBox8.Name = "ComboBox8"
-        Me.ComboBox8.Size = New System.Drawing.Size(228, 23)
+        Me.ComboBox8.Size = New System.Drawing.Size(260, 23)
         Me.ComboBox8.TabIndex = 424
         '
         'Label19
         '
         Me.Label19.AutoSize = True
         Me.Label19.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label19.Location = New System.Drawing.Point(3, 55)
+        Me.Label19.Location = New System.Drawing.Point(4, 58)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(82, 17)
         Me.Label19.TabIndex = 423
@@ -1210,16 +1536,16 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.ComboBox7.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox7.FormattingEnabled = True
-        Me.ComboBox7.Location = New System.Drawing.Point(111, 28)
+        Me.ComboBox7.Location = New System.Drawing.Point(112, 30)
         Me.ComboBox7.Name = "ComboBox7"
-        Me.ComboBox7.Size = New System.Drawing.Size(228, 23)
+        Me.ComboBox7.Size = New System.Drawing.Size(260, 23)
         Me.ComboBox7.TabIndex = 422
         '
         'Label18
         '
         Me.Label18.AutoSize = True
         Me.Label18.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label18.Location = New System.Drawing.Point(3, 30)
+        Me.Label18.Location = New System.Drawing.Point(4, 31)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(70, 17)
         Me.Label18.TabIndex = 421
@@ -1229,16 +1555,16 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.ComboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox6.FormattingEnabled = True
-        Me.ComboBox6.Location = New System.Drawing.Point(111, 3)
+        Me.ComboBox6.Location = New System.Drawing.Point(112, 3)
         Me.ComboBox6.Name = "ComboBox6"
-        Me.ComboBox6.Size = New System.Drawing.Size(228, 23)
+        Me.ComboBox6.Size = New System.Drawing.Size(260, 23)
         Me.ComboBox6.TabIndex = 419
         '
         'Label17
         '
         Me.Label17.AutoSize = True
         Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label17.Location = New System.Drawing.Point(3, 3)
+        Me.Label17.Location = New System.Drawing.Point(4, 5)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(98, 17)
         Me.Label17.TabIndex = 420
@@ -1246,6 +1572,31 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         'TabPage5
         '
+        Me.TabPage5.Controls.Add(Me.Txt_Pages_5)
+        Me.TabPage5.Controls.Add(Me.BtnFirst_5)
+        Me.TabPage5.Controls.Add(Me.BtnPrev_5)
+        Me.TabPage5.Controls.Add(Me.BtnNext_5)
+        Me.TabPage5.Controls.Add(Me.Btn_Check_5)
+        Me.TabPage5.Controls.Add(Me.Label46)
+        Me.TabPage5.Controls.Add(Me.TextBox25)
+        Me.TabPage5.Controls.Add(Me.Label45)
+        Me.TabPage5.Controls.Add(Me.TextBox24)
+        Me.TabPage5.Controls.Add(Me.Label44)
+        Me.TabPage5.Controls.Add(Me.TextBox23)
+        Me.TabPage5.Controls.Add(Me.Label43)
+        Me.TabPage5.Controls.Add(Me.Label42)
+        Me.TabPage5.Controls.Add(Me.Label41)
+        Me.TabPage5.Controls.Add(Me.TextBox22)
+        Me.TabPage5.Controls.Add(Me.Label40)
+        Me.TabPage5.Controls.Add(Me.Label39)
+        Me.TabPage5.Controls.Add(Me.TextBox21)
+        Me.TabPage5.Controls.Add(Me.Label38)
+        Me.TabPage5.Controls.Add(Me.TextBox20)
+        Me.TabPage5.Controls.Add(Me.Label37)
+        Me.TabPage5.Controls.Add(Me.cmbSatuan)
+        Me.TabPage5.Controls.Add(Me.Label36)
+        Me.TabPage5.Controls.Add(Me.ComboBox11)
+        Me.TabPage5.Controls.Add(Me.Label35)
         Me.TabPage5.Controls.Add(Me.ListView5)
         Me.TabPage5.Controls.Add(Me.BtnCari5)
         Me.TabPage5.Controls.Add(Me.Label33)
@@ -1273,10 +1624,232 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TabPage5.Controls.Add(Me.Label26)
         Me.TabPage5.Location = New System.Drawing.Point(4, 24)
         Me.TabPage5.Name = "TabPage5"
-        Me.TabPage5.Size = New System.Drawing.Size(936, 449)
+        Me.TabPage5.Size = New System.Drawing.Size(936, 508)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Sub Kategori 3"
         Me.TabPage5.UseVisualStyleBackColor = True
+        '
+        'Btn_Check_5
+        '
+        Me.Btn_Check_5.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Check_5.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Btn_Check_5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Check_5.ForeColor = System.Drawing.Color.White
+        Me.Btn_Check_5.Location = New System.Drawing.Point(288, 208)
+        Me.Btn_Check_5.Name = "Btn_Check_5"
+        Me.Btn_Check_5.Size = New System.Drawing.Size(84, 36)
+        Me.Btn_Check_5.TabIndex = 467
+        Me.Btn_Check_5.Text = "&Check"
+        Me.Btn_Check_5.UseVisualStyleBackColor = False
+        '
+        'Label46
+        '
+        Me.Label46.AutoSize = True
+        Me.Label46.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label46.Location = New System.Drawing.Point(460, 171)
+        Me.Label46.Name = "Label46"
+        Me.Label46.Size = New System.Drawing.Size(28, 17)
+        Me.Label46.TabIndex = 466
+        Me.Label46.Text = "Cm"
+        '
+        'TextBox25
+        '
+        Me.TextBox25.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TextBox25.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox25.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.TextBox25.Location = New System.Drawing.Point(374, 169)
+        Me.TextBox25.MaxLength = 50
+        Me.TextBox25.Name = "TextBox25"
+        Me.TextBox25.Size = New System.Drawing.Size(77, 21)
+        Me.TextBox25.TabIndex = 465
+        Me.TextBox25.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label45
+        '
+        Me.Label45.AutoSize = True
+        Me.Label45.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label45.Location = New System.Drawing.Point(351, 171)
+        Me.Label45.Name = "Label45"
+        Me.Label45.Size = New System.Drawing.Size(17, 17)
+        Me.Label45.TabIndex = 464
+        Me.Label45.Text = "T"
+        '
+        'TextBox24
+        '
+        Me.TextBox24.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TextBox24.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox24.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.TextBox24.Location = New System.Drawing.Point(254, 169)
+        Me.TextBox24.MaxLength = 50
+        Me.TextBox24.Name = "TextBox24"
+        Me.TextBox24.Size = New System.Drawing.Size(77, 21)
+        Me.TextBox24.TabIndex = 463
+        Me.TextBox24.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label44
+        '
+        Me.Label44.AutoSize = True
+        Me.Label44.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label44.Location = New System.Drawing.Point(228, 171)
+        Me.Label44.Name = "Label44"
+        Me.Label44.Size = New System.Drawing.Size(16, 17)
+        Me.Label44.TabIndex = 462
+        Me.Label44.Text = "L"
+        '
+        'TextBox23
+        '
+        Me.TextBox23.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TextBox23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox23.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.TextBox23.Location = New System.Drawing.Point(134, 169)
+        Me.TextBox23.MaxLength = 50
+        Me.TextBox23.Name = "TextBox23"
+        Me.TextBox23.Size = New System.Drawing.Size(77, 21)
+        Me.TextBox23.TabIndex = 461
+        Me.TextBox23.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label43
+        '
+        Me.Label43.AutoSize = True
+        Me.Label43.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label43.Location = New System.Drawing.Point(109, 171)
+        Me.Label43.Name = "Label43"
+        Me.Label43.Size = New System.Drawing.Size(17, 17)
+        Me.Label43.TabIndex = 460
+        Me.Label43.Text = "P"
+        '
+        'Label42
+        '
+        Me.Label42.AutoSize = True
+        Me.Label42.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label42.Location = New System.Drawing.Point(4, 171)
+        Me.Label42.Name = "Label42"
+        Me.Label42.Size = New System.Drawing.Size(54, 17)
+        Me.Label42.TabIndex = 459
+        Me.Label42.Text = "Ukuran"
+        '
+        'Label41
+        '
+        Me.Label41.AutoSize = True
+        Me.Label41.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label41.Location = New System.Drawing.Point(399, 144)
+        Me.Label41.Name = "Label41"
+        Me.Label41.Size = New System.Drawing.Size(43, 17)
+        Me.Label41.TabIndex = 458
+        Me.Label41.Text = "Gram"
+        '
+        'TextBox22
+        '
+        Me.TextBox22.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TextBox22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox22.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.TextBox22.Location = New System.Drawing.Point(307, 142)
+        Me.TextBox22.MaxLength = 50
+        Me.TextBox22.Name = "TextBox22"
+        Me.TextBox22.Size = New System.Drawing.Size(77, 21)
+        Me.TextBox22.TabIndex = 457
+        Me.TextBox22.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label40
+        '
+        Me.Label40.AutoSize = True
+        Me.Label40.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label40.Location = New System.Drawing.Point(256, 144)
+        Me.Label40.Name = "Label40"
+        Me.Label40.Size = New System.Drawing.Size(42, 17)
+        Me.Label40.TabIndex = 456
+        Me.Label40.Text = "Kotor"
+        '
+        'Label39
+        '
+        Me.Label39.AutoSize = True
+        Me.Label39.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label39.Location = New System.Drawing.Point(109, 144)
+        Me.Label39.Name = "Label39"
+        Me.Label39.Size = New System.Drawing.Size(48, 17)
+        Me.Label39.TabIndex = 455
+        Me.Label39.Text = "Bersih"
+        '
+        'TextBox21
+        '
+        Me.TextBox21.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TextBox21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox21.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.TextBox21.Location = New System.Drawing.Point(163, 142)
+        Me.TextBox21.MaxLength = 50
+        Me.TextBox21.Name = "TextBox21"
+        Me.TextBox21.Size = New System.Drawing.Size(77, 21)
+        Me.TextBox21.TabIndex = 454
+        Me.TextBox21.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label38
+        '
+        Me.Label38.AutoSize = True
+        Me.Label38.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label38.Location = New System.Drawing.Point(4, 144)
+        Me.Label38.Name = "Label38"
+        Me.Label38.Size = New System.Drawing.Size(42, 17)
+        Me.Label38.TabIndex = 453
+        Me.Label38.Text = "Berat"
+        '
+        'TextBox20
+        '
+        Me.TextBox20.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TextBox20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox20.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.TextBox20.Location = New System.Drawing.Point(492, 115)
+        Me.TextBox20.MaxLength = 50
+        Me.TextBox20.Name = "TextBox20"
+        Me.TextBox20.Size = New System.Drawing.Size(228, 21)
+        Me.TextBox20.TabIndex = 452
+        '
+        'Label37
+        '
+        Me.Label37.AutoSize = True
+        Me.Label37.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label37.Location = New System.Drawing.Point(368, 117)
+        Me.Label37.Name = "Label37"
+        Me.Label37.Size = New System.Drawing.Size(73, 17)
+        Me.Label37.TabIndex = 451
+        Me.Label37.Text = "Stock Min."
+        '
+        'cmbSatuan
+        '
+        Me.cmbSatuan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbSatuan.FormattingEnabled = True
+        Me.cmbSatuan.Location = New System.Drawing.Point(112, 114)
+        Me.cmbSatuan.Name = "cmbSatuan"
+        Me.cmbSatuan.Size = New System.Drawing.Size(228, 23)
+        Me.cmbSatuan.TabIndex = 450
+        '
+        'Label36
+        '
+        Me.Label36.AutoSize = True
+        Me.Label36.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label36.Location = New System.Drawing.Point(4, 117)
+        Me.Label36.Name = "Label36"
+        Me.Label36.Size = New System.Drawing.Size(53, 17)
+        Me.Label36.TabIndex = 449
+        Me.Label36.Text = "Satuan"
+        '
+        'ComboBox11
+        '
+        Me.ComboBox11.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox11.FormattingEnabled = True
+        Me.ComboBox11.Location = New System.Drawing.Point(492, 87)
+        Me.ComboBox11.Name = "ComboBox11"
+        Me.ComboBox11.Size = New System.Drawing.Size(228, 23)
+        Me.ComboBox11.TabIndex = 448
+        '
+        'Label35
+        '
+        Me.Label35.AutoSize = True
+        Me.Label35.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label35.Location = New System.Drawing.Point(368, 90)
+        Me.Label35.Name = "Label35"
+        Me.Label35.Size = New System.Drawing.Size(119, 17)
+        Me.Label35.TabIndex = 447
+        Me.Label35.Text = "Metode Pot Stock"
         '
         'ListView5
         '
@@ -1284,9 +1857,9 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.ListView5.FullRowSelect = True
         Me.ListView5.GridLines = True
         Me.ListView5.HideSelection = False
-        Me.ListView5.Location = New System.Drawing.Point(3, 237)
+        Me.ListView5.Location = New System.Drawing.Point(3, 289)
         Me.ListView5.Name = "ListView5"
-        Me.ListView5.Size = New System.Drawing.Size(930, 207)
+        Me.ListView5.Size = New System.Drawing.Size(930, 180)
         Me.ListView5.TabIndex = 446
         Me.ListView5.UseCompatibleStateImageBehavior = False
         Me.ListView5.View = System.Windows.Forms.View.Details
@@ -1294,9 +1867,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnCari5
         '
         Me.BtnCari5.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnCari5.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnCari5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnCari5.ForeColor = System.Drawing.Color.White
-        Me.BtnCari5.Location = New System.Drawing.Point(524, 206)
+        Me.BtnCari5.Location = New System.Drawing.Point(524, 258)
         Me.BtnCari5.Name = "BtnCari5"
         Me.BtnCari5.Size = New System.Drawing.Size(80, 28)
         Me.BtnCari5.TabIndex = 444
@@ -1307,7 +1881,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.Label33.AutoSize = True
         Me.Label33.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label33.Location = New System.Drawing.Point(280, 210)
+        Me.Label33.Location = New System.Drawing.Point(280, 262)
         Me.Label33.Name = "Label33"
         Me.Label33.Size = New System.Drawing.Size(44, 17)
         Me.Label33.TabIndex = 445
@@ -1318,7 +1892,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TextBox19.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox19.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TextBox19.Location = New System.Drawing.Point(332, 209)
+        Me.TextBox19.Location = New System.Drawing.Point(332, 261)
         Me.TextBox19.MaxLength = 50
         Me.TextBox19.Name = "TextBox19"
         Me.TextBox19.Size = New System.Drawing.Size(189, 21)
@@ -1330,7 +1904,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.ComboBox15.DropDownWidth = 150
         Me.ComboBox15.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.9!)
         Me.ComboBox15.FormattingEnabled = True
-        Me.ComboBox15.Location = New System.Drawing.Point(79, 208)
+        Me.ComboBox15.Location = New System.Drawing.Point(79, 260)
         Me.ComboBox15.Margin = New System.Windows.Forms.Padding(2)
         Me.ComboBox15.Name = "ComboBox15"
         Me.ComboBox15.Size = New System.Drawing.Size(195, 23)
@@ -1340,7 +1914,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.Label34.AutoSize = True
         Me.Label34.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label34.Location = New System.Drawing.Point(8, 210)
+        Me.Label34.Location = New System.Drawing.Point(8, 262)
         Me.Label34.Name = "Label34"
         Me.Label34.Size = New System.Drawing.Size(47, 17)
         Me.Label34.TabIndex = 442
@@ -1349,7 +1923,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'Panel14
         '
         Me.Panel14.BackColor = System.Drawing.Color.Red
-        Me.Panel14.Location = New System.Drawing.Point(-296, 193)
+        Me.Panel14.Location = New System.Drawing.Point(-296, 245)
         Me.Panel14.Name = "Panel14"
         Me.Panel14.Size = New System.Drawing.Size(1264, 10)
         Me.Panel14.TabIndex = 439
@@ -1358,9 +1932,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnSimpan5
         '
         Me.BtnSimpan5.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnSimpan5.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnSimpan5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnSimpan5.ForeColor = System.Drawing.Color.White
-        Me.BtnSimpan5.Location = New System.Drawing.Point(8, 156)
+        Me.BtnSimpan5.Location = New System.Drawing.Point(24, 208)
         Me.BtnSimpan5.Name = "BtnSimpan5"
         Me.BtnSimpan5.Size = New System.Drawing.Size(84, 36)
         Me.BtnSimpan5.TabIndex = 436
@@ -1370,9 +1945,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnHapus5
         '
         Me.BtnHapus5.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnHapus5.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnHapus5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnHapus5.ForeColor = System.Drawing.Color.White
-        Me.BtnHapus5.Location = New System.Drawing.Point(98, 156)
+        Me.BtnHapus5.Location = New System.Drawing.Point(112, 208)
         Me.BtnHapus5.Name = "BtnHapus5"
         Me.BtnHapus5.Size = New System.Drawing.Size(84, 36)
         Me.BtnHapus5.TabIndex = 437
@@ -1382,9 +1958,10 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'BtnRefresh5
         '
         Me.BtnRefresh5.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnRefresh5.Cursor = System.Windows.Forms.Cursors.Hand
         Me.BtnRefresh5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnRefresh5.ForeColor = System.Drawing.Color.White
-        Me.BtnRefresh5.Location = New System.Drawing.Point(188, 156)
+        Me.BtnRefresh5.Location = New System.Drawing.Point(200, 208)
         Me.BtnRefresh5.Name = "BtnRefresh5"
         Me.BtnRefresh5.Size = New System.Drawing.Size(84, 36)
         Me.BtnRefresh5.TabIndex = 438
@@ -1394,7 +1971,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         'Panel13
         '
         Me.Panel13.BackColor = System.Drawing.Color.Red
-        Me.Panel13.Location = New System.Drawing.Point(-2, 144)
+        Me.Panel13.Location = New System.Drawing.Point(-2, 196)
         Me.Panel13.Name = "Panel13"
         Me.Panel13.Size = New System.Drawing.Size(941, 10)
         Me.Panel13.TabIndex = 435
@@ -1406,7 +1983,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.TextBox18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox18.Enabled = False
         Me.TextBox18.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TextBox18.Location = New System.Drawing.Point(112, 116)
+        Me.TextBox18.Location = New System.Drawing.Point(492, 62)
         Me.TextBox18.MaxLength = 3
         Me.TextBox18.Name = "TextBox18"
         Me.TextBox18.Size = New System.Drawing.Size(228, 21)
@@ -1416,7 +1993,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.Label32.AutoSize = True
         Me.Label32.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label32.Location = New System.Drawing.Point(4, 117)
+        Me.Label32.Location = New System.Drawing.Point(368, 63)
         Me.Label32.Name = "Label32"
         Me.Label32.Size = New System.Drawing.Size(43, 17)
         Me.Label32.TabIndex = 434
@@ -1468,7 +2045,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.CmbSK3_JenisSub2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CmbSK3_JenisSub2.FormattingEnabled = True
-        Me.CmbSK3_JenisSub2.Location = New System.Drawing.Point(476, 34)
+        Me.CmbSK3_JenisSub2.Location = New System.Drawing.Point(492, 34)
         Me.CmbSK3_JenisSub2.Name = "CmbSK3_JenisSub2"
         Me.CmbSK3_JenisSub2.Size = New System.Drawing.Size(228, 23)
         Me.CmbSK3_JenisSub2.TabIndex = 428
@@ -1506,7 +2083,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.CmbSK3_JenisSub.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CmbSK3_JenisSub.FormattingEnabled = True
-        Me.CmbSK3_JenisSub.Location = New System.Drawing.Point(476, 7)
+        Me.CmbSK3_JenisSub.Location = New System.Drawing.Point(492, 7)
         Me.CmbSK3_JenisSub.Name = "CmbSK3_JenisSub"
         Me.CmbSK3_JenisSub.Size = New System.Drawing.Size(228, 23)
         Me.CmbSK3_JenisSub.TabIndex = 424
@@ -1540,12 +2117,64 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
         Me.Label26.TabIndex = 422
         Me.Label26.Text = "Kode Kategori"
         '
+        'Txt_Pages_5
+        '
+        Me.Txt_Pages_5.BackColor = System.Drawing.Color.White
+        Me.Txt_Pages_5.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.Txt_Pages_5.Enabled = False
+        Me.Txt_Pages_5.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Txt_Pages_5.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.Txt_Pages_5.Location = New System.Drawing.Point(754, 482)
+        Me.Txt_Pages_5.Name = "Txt_Pages_5"
+        Me.Txt_Pages_5.Size = New System.Drawing.Size(73, 15)
+        Me.Txt_Pages_5.TabIndex = 523
+        Me.Txt_Pages_5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'BtnFirst_5
+        '
+        Me.BtnFirst_5.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnFirst_5.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnFirst_5.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnFirst_5.ForeColor = System.Drawing.Color.White
+        Me.BtnFirst_5.Location = New System.Drawing.Point(524, 475)
+        Me.BtnFirst_5.Name = "BtnFirst_5"
+        Me.BtnFirst_5.Size = New System.Drawing.Size(102, 30)
+        Me.BtnFirst_5.TabIndex = 522
+        Me.BtnFirst_5.Text = "&First"
+        Me.BtnFirst_5.UseVisualStyleBackColor = False
+        '
+        'BtnPrev_5
+        '
+        Me.BtnPrev_5.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnPrev_5.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnPrev_5.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnPrev_5.ForeColor = System.Drawing.Color.White
+        Me.BtnPrev_5.Location = New System.Drawing.Point(649, 475)
+        Me.BtnPrev_5.Name = "BtnPrev_5"
+        Me.BtnPrev_5.Size = New System.Drawing.Size(102, 30)
+        Me.BtnPrev_5.TabIndex = 521
+        Me.BtnPrev_5.Text = "&Prev"
+        Me.BtnPrev_5.UseVisualStyleBackColor = False
+        '
+        'BtnNext_5
+        '
+        Me.BtnNext_5.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.BtnNext_5.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnNext_5.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnNext_5.ForeColor = System.Drawing.Color.White
+        Me.BtnNext_5.Location = New System.Drawing.Point(830, 475)
+        Me.BtnNext_5.Name = "BtnNext_5"
+        Me.BtnNext_5.Size = New System.Drawing.Size(102, 30)
+        Me.BtnNext_5.TabIndex = 520
+        Me.BtnNext_5.Text = "&Next"
+        Me.BtnNext_5.UseVisualStyleBackColor = False
+        '
         'N_EMI_Master_Kategori_Jenis_Sub_Kategori
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(979, 553)
+        Me.ClientSize = New System.Drawing.Size(979, 611)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.Panel5)
@@ -1693,4 +2322,48 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
     Friend WithEvents TextBox19 As TextBox
     Friend WithEvents ComboBox15 As ComboBox
     Friend WithEvents Label34 As Label
+    Friend WithEvents Label35 As Label
+    Friend WithEvents cmbSatuan As ComboBox
+    Friend WithEvents Label36 As Label
+    Friend WithEvents ComboBox11 As ComboBox
+    Friend WithEvents Label37 As Label
+    Friend WithEvents TextBox20 As TextBox
+    Friend WithEvents Label38 As Label
+    Friend WithEvents Label39 As Label
+    Friend WithEvents TextBox21 As TextBox
+    Friend WithEvents Label40 As Label
+    Friend WithEvents Label41 As Label
+    Friend WithEvents TextBox22 As TextBox
+    Friend WithEvents Label42 As Label
+    Friend WithEvents TextBox24 As TextBox
+    Friend WithEvents Label44 As Label
+    Friend WithEvents TextBox23 As TextBox
+    Friend WithEvents Label43 As Label
+    Friend WithEvents Label46 As Label
+    Friend WithEvents TextBox25 As TextBox
+    Friend WithEvents Label45 As Label
+    Friend WithEvents BtnNext_1 As Button
+    Friend WithEvents Txt_Pages_1 As TextBox
+    Friend WithEvents BtnFirst_1 As Button
+    Friend WithEvents BtnPrev_1 As Button
+    Friend WithEvents Btn_Check_2 As Button
+    Friend WithEvents Txt_Pages_2 As TextBox
+    Friend WithEvents BtnFirst_2 As Button
+    Friend WithEvents BtnPrev_2 As Button
+    Friend WithEvents BtnNext_2 As Button
+    Friend WithEvents Btn_Check_3 As Button
+    Friend WithEvents Txt_Pages_3 As TextBox
+    Friend WithEvents BtnFirst_3 As Button
+    Friend WithEvents BtnPrev_3 As Button
+    Friend WithEvents BtnNext_3 As Button
+    Friend WithEvents Btn_Check_4 As Button
+    Friend WithEvents Txt_Pages_4 As TextBox
+    Friend WithEvents BtnFirst_4 As Button
+    Friend WithEvents BtnPrev_4 As Button
+    Friend WithEvents BtnNext_4 As Button
+    Friend WithEvents Btn_Check_5 As Button
+    Friend WithEvents Txt_Pages_5 As TextBox
+    Friend WithEvents BtnFirst_5 As Button
+    Friend WithEvents BtnPrev_5 As Button
+    Friend WithEvents BtnNext_5 As Button
 End Class

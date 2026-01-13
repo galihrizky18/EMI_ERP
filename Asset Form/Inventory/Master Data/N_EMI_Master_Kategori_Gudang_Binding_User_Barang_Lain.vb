@@ -99,7 +99,7 @@
                 from N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain
                 where Kode_Perusahaan = '{KodePerusahaan}'
                 and status is null
-                order by User_ID, tanggal, Jam
+                order by tanggal, Jam
             "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
@@ -542,52 +542,6 @@
 
             If Btn_Simpan.Tag.ToString.ToUpper = "SIMPAN" Then
 
-
-
-                '===============================================================
-                '=      CEK CEK APAKAH KATEGORI WAREHOUSE ATAU DEPARTEMENT     =
-                '===============================================================
-                SQL = $"
-                    select Jenis_Gudang
-                    from N_EMI_Master_Kategori_Gudang_Barang_Lain
-                    where Kode_Perusahaan = '{KodePerusahaan}'
-                    and status is null
-                    and Urut_Oto = '{Txt_ID_Kategori.Text.Trim}'
-                "
-                Using DS = BindingTrans(SQL)
-                    With DS.Tables("MYTable")
-                        If .Rows.Count <> 0 Then
-
-                            If .Rows(0).Item("Jenis_Gudang") = "Warehouse" Then
-
-                                '========================================================
-                                '=      CEK CEK APAKAH USER SUDAH BINDING WAREHOUSE     =
-                                '========================================================
-                                SQL = $"
-                                    select a.Kode_Perusahaan
-                                    from N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain a
-	                                    inner join N_EMI_Master_Kategori_Gudang_Barang_Lain b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Kategori_Gudang = b.Urut_Oto
-                                    where a.Status is null
-                                    and a.Kode_Perusahaan = '{KodePerusahaan}'
-                                    and a.User_ID = '{Txt_UserID.Text}'
-                                    and b.Jenis_Gudang = 'Warehouse'
-                                "
-                                Using Dr = OpenTrans(SQL)
-                                    If Dr.Read Then
-                                        Dr.Close()
-                                        CloseTrans()
-                                        CloseConn()
-                                        MessageBox.Show($"User {Txt_UserID.Text.Trim} Telah Memiliki Binding Ke Gudang Warehouse", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                        Exit Sub
-                                    End If
-                                End Using
-
-                            End If
-
-                        End If
-                    End With
-                End Using
-
                 '======================================
                 '=      CEK APAKAH DATA SUDAH ADA     =
                 '======================================
@@ -609,14 +563,11 @@
                     End If
                 End Using
 
-
-
-
                 If Rb_Desktop.Checked Then
 
                     SQL = $"
-                        insert into N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain (Kode_Perusahaan, Kode_Kategori_Gudang, User_ID, User_Id_Android, Keterangan, Tanggal, Jam, Id_Kategori_Gudang)
-                        values ('{KodePerusahaan}', '{Txt_Kd_Kategori.Text.Trim}', '{Txt_UserID.Text.Trim}', '-', '{Txt_Keterangan.Text.Trim}', 
+                        insert into N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain (Kode_Perusahaan, Kode_Kategori_Gudang, User_ID,user_id_android, Keterangan, Tanggal, Jam, Id_Kategori_Gudang)
+                        values ('{KodePerusahaan}', '{Txt_Kd_Kategori.Text.Trim}', '{Txt_UserID.Text.Trim}','-', '{Txt_Keterangan.Text.Trim}', 
                         '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', '{Txt_ID_Kategori.Text.Trim}')
                     "
                     ExecuteTrans(SQL)
@@ -660,14 +611,14 @@
                     End Using
 
                     SQL = $"
-                        update N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain
-                        set Keterangan = '{Txt_Keterangan.Text.Trim}' 
-                        where Kode_Perusahaan = '{KodePerusahaan}'
-                        and status is null
-                        and Kode_Kategori_Gudang = '{Txt_Kd_Kategori.Text.Trim}'
-                        and User_ID = '{Txt_UserID.Text.Trim}'
-                        and Urut_Oto = '{SelectedUrut}'
-                    "
+                    update N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain
+                    set Keterangan = '{Txt_Keterangan.Text.Trim}' 
+                    where Kode_Perusahaan = '{KodePerusahaan}'
+                    and status is null
+                    and Kode_Kategori_Gudang = '{Txt_Kd_Kategori.Text.Trim}'
+                    and User_ID = '{Txt_UserID.Text.Trim}'
+                    and Urut_Oto = '{SelectedUrut}'
+                "
                     ExecuteTrans(SQL)
 
                 Else

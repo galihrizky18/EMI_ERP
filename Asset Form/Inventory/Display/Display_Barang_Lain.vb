@@ -153,6 +153,10 @@
         ComboBox2.Items.Clear()
         ComboBox2.Items.Add("like") : ComboBox2.Items.Add("=") : ComboBox2.SelectedIndex = 0
 
+
+
+
+
         ComboBox1.Enabled = False : ComboBox2.Enabled = False
         ComboBox3.Enabled = False : ComboBox4.Enabled = False
         ComboBox5.Enabled = False : ComboBox6.Enabled = False
@@ -172,7 +176,6 @@
         'ComboBox1b.Items.Add("Stock Minimum") : arrcarib.Add("x.Stock_Minimum") : arrcaribsf.Add("{barang.Stock_Minimum}")
         'ComboBox1b.Items.Add("Lemari") : arrcarib.Add("Lemari") 
         'ComboBox1b.Items.Add("Kategori") : arrcarib.Add("x.kode_kategori") : arrcaribsf.Add("{barang.kode_kategori}")
-        ComboBox1b.SelectedIndex = 0
 
         ComboBox7b.Items.Clear() : arrcari2b.Clear() : arrcari2bsf.Clear()
         'ComboBox7b.Items.Add("Lokasi") : arrcari2b.Add("x.kode_stock_owner") : arrcari2bsf.Add("{barang.kode_stock_owner}")
@@ -186,6 +189,11 @@
         'ComboBox7b.Items.Add("Stock Minimum") : arrcari2b.Add("x.Stock_Minimum") : arrcari2bsf.Add("{barang.Stock_Minimum}")
         'ComboBox7b.Items.Add("Lemari") : arrcari2b.Add("Lemari")
         'ComboBox7b.Items.Add("Kategori") : arrcari2b.Add("x.kode_kategori") : arrcari2bsf.Add("{barang.kode_kategori}")
+
+        ComboBox1b.Enabled = False : TextBox7b.Enabled = False
+        ComboBox1b.SelectedIndex = -1 : TextBox7b.Text = ""
+        ComboBox1.Enabled = False : ComboBox3.Enabled = False : ComboBox4.Enabled = False
+        ComboBox1.SelectedIndex = 0 : ComboBox3.SelectedIndex = 1 : ComboBox4.SelectedIndex = 1
 
         arrSO.Clear()
 
@@ -216,8 +224,16 @@
 
             ComboBox7.Items.Clear()
             ComboBox7.Items.Add("---SELURUH---")
-            SQL = "select Kode_Stock_Owner from Stock_Owner_Gudang_lain where "
-            SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' order by Kode_Stock_Owner"
+            'SQL = "select Kode_Stock_Owner from Stock_Owner_Gudang_lain where "
+            'SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' order by Kode_Stock_Owner"
+
+            SQL = "select Kode_Stock_Owner "
+            SQL = SQL & "FROM Stock_Owner_Gudang_lain a "
+            SQL = SQL & "inner JOIN N_EMI_Master_Kategori_Gudang_Barang_Lain b on a.Kode_Perusahaan = b.kode_perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner_Gudang "
+            SQL = SQL & "inner JOIN N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain c ON b.Kode_Perusahaan = c.Kode_Perusahaan and b.Urut_Oto = c.Id_Kategori_Gudang "
+            SQL = SQL & "WHERE a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and c.User_ID = '" & UserID & "' "
+            SQL = SQL & "ORDER BY a.Kode_Stock_Owner "
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
                     ComboBox7.Items.Add(dr("Kode_Stock_Owner"))
@@ -415,6 +431,8 @@
             SQL = "select a.*, dbo.get_hpp(a.serial_number) as HPP "
             SQL = SQL & "from Stock_Barang_Lain_SN_Per_Rak as a inner join EMI_Group_Jenis_Lain as gj on a.id_group_jenis = gj.id_group_jenis "
             SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.user_id = '" & UserID & "' "
+
 
             'SQL = SQL & "gj.Flag_Packaging = '" & Flag_Packaging & "' and gj.Flag_Raw_Material = '" & Flag_Raw_Material & "' and "
             'SQL = SQL & "gj.Flag_Finished_Good = '" & Flag_Finished_Good & "' and gj.Flag_Sample = '" & Flag_Sample & "' and "
@@ -535,6 +553,7 @@
             SQL = "select a.* "
             SQL = SQL & "from Stock_Barang_lain_SN_Per_lokasi as a inner join emi_group_jenis_lain as gj on a.kode_group_jenis = gj.kode_group_jenis "
             SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "AND a.user_id = '" & UserID & "' "
 
             'SQL = SQL & "gj.Flag_Packaging = '" & Flag_Packaging & "' and gj.Flag_Raw_Material = '" & Flag_Raw_Material & "' and "
             'SQL = SQL & "gj.Flag_Finished_Good = '" & Flag_Finished_Good & "' and gj.Flag_Sample = '" & Flag_Sample & "' and "
@@ -660,6 +679,7 @@
             SQL = "select a.*, dbo.get_hpp(a.serial_number) as HPP "
             SQL = SQL & "from Stock_Barang_Lain_SN_Per_Rak as a inner join emi_group_jenis_lain as gj on a.id_group_jenis = gj.id_group_jenis "
             SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.user_id = '" & UserID & "' "
 
             'SQL = SQL & "gj.Flag_Packaging = '" & Flag_Packaging & "' and gj.Flag_Raw_Material = '" & Flag_Raw_Material & "' and "
             'SQL = SQL & "gj.Flag_Finished_Good = '" & Flag_Finished_Good & "' and gj.Flag_Sample = '" & Flag_Sample & "' and "
@@ -670,6 +690,7 @@
             SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
 
             SF = "{Stock_Barang_Lain_SN_Per_Rak.Kode_Perusahaan} = '" & KodePerusahaan & "' "
+            SF = SF & "AND {Stock_Barang_Lain_SN_Per_Rak.user_id} = '" & UserID & "' "
             'SF = SF & "{EMI_Group_Jenis.Flag_Packaging} = 'T' and "
             'SF = SF & "{EMI_Group_Jenis.Flag_Raw_Material} = 'T' and {EMI_Group_Jenis.Flag_Finished_Good} = 'T' and "
             'SF = SF & "{EMI_Group_Jenis.Flag_Sample} = 'T' and {EMI_Group_Jenis.Flag_Semi_FG} = 'T' and "
@@ -858,6 +879,7 @@
             SQL = "select a.*, dbo.get_hpp(a.serial_number) as HPP "
             SQL = SQL & "from Stock_Barang_Lain_SN_Per_Rak as a inner join emi_group_jenis_lain as gj on a.id_group_jenis = gj.id_group_jenis "
             SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.user_id = '" & UserID & "' "
 
             'SQL = SQL & "gj.Flag_Packaging = '" & Flag_Packaging & "' and gj.Flag_Raw_Material = '" & Flag_Raw_Material & "' and "
             'SQL = SQL & "gj.Flag_Finished_Good = '" & Flag_Finished_Good & "' and gj.Flag_Sample = '" & Flag_Sample & "' and "
@@ -868,6 +890,7 @@
             SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
 
             SF = "{Stock_Barang_Lain_SN_Per_Rak.Kode_Perusahaan} = '" & KodePerusahaan & "' "
+            SF = SF & "AND {Stock_Barang_Lain_SN_Per_Rak.user_id} = '" & UserID & "' "
             'SF = SF & "{EMI_Group_Jenis.Flag_Packaging} = 'T' and "
             'SF = SF & "{EMI_Group_Jenis.Flag_Raw_Material} = 'T' and {EMI_Group_Jenis.Flag_Finished_Good} = 'T' and "
             'SF = SF & "{EMI_Group_Jenis.Flag_Sample} = 'T' and {EMI_Group_Jenis.Flag_Semi_FG} = 'T' and "
@@ -1043,6 +1066,8 @@
             SQL = SQL & "from Stock_Barang_lain_SN_Per_Lokasi as a inner join emi_group_jenis_Lain as gj on a.kode_group_jenis = gj.kode_group_jenis "
 
             SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.user_id = '" & UserID & "' "
+
             'SQL = SQL & "gj.Flag_Packaging = '" & Flag_Packaging & "' and gj.Flag_Raw_Material = '" & Flag_Raw_Material & "' and "
             'SQL = SQL & "gj.Flag_Finished_Good = '" & Flag_Finished_Good & "' and gj.Flag_Sample = '" & Flag_Sample & "' and "
             'SQL = SQL & "gj.Flag_Semi_FG = '" & Flag_Semi_FG & "' and gj.Flag_Scrap = '" & Flag_Scrap & "' and "
@@ -1052,6 +1077,7 @@
             SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
 
             SF = "{Stock_Barang_Lain_SN_Per_lokasi.Kode_Perusahaan} = '" & KodePerusahaan & "' "
+            SF = SF & "AND {Stock_Barang_Lain_SN_Per_lokasi.user_id} = '" & UserID & "' "
             'SF = SF & "{EMI_Group_Jenis.Flag_Packaging} = '" & Flag_Packaging & "' and "
             'SF = SF & "{EMI_Group_Jenis.Flag_Raw_Material} = '" & Flag_Raw_Material & "' and {EMI_Group_Jenis.Flag_Finished_Good} = '" & Flag_Finished_Good & "' and "
             'SF = SF & "{EMI_Group_Jenis.Flag_Sample} = '" & Flag_Sample & "' and {EMI_Group_Jenis.Flag_Semi_FG} = '" & Flag_Semi_FG & "' and "
@@ -1071,7 +1097,7 @@
             If CheckBox2.Checked = True Then
                 SQL = SQL & " and a." & arrcari2b.Item(ComboBox7b.SelectedIndex) & " " & ComboBox2.Text & " '" & ComboBox5.Text & TextBox6b.Text & ComboBox6.Text & "' "
 
-                SF = SF & " and {Stock_Barang_Lain_SN_Per_lokasi." & arrcari2b.Item(ComboBox7b.SelectedIndex) & "} " & ComboBox2.Text & "' "
+                SF = SF & " and {Stock_Barang_Lain_SN_Per_lokasi." & arrcari2b.Item(ComboBox7b.SelectedIndex) & "} " & ComboBox2.Text & " '"
                 SF = SF & Strings.Replace(ComboBox5.Text, "%", "*") & TextBox6b.Text & Strings.Replace(ComboBox6.Text, "%", "*") & "' "
             End If
 

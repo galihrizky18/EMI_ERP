@@ -49,6 +49,12 @@ Partial Class EMI_PO_Pembelian_Display_User_Barang_Lain
         Me.Btn_Cari = New System.Windows.Forms.Button()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Dgv_Pr = New System.Windows.Forms.DataGridView()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.TolakPrToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CmbPO_JnsBayar = New System.Windows.Forms.ComboBox()
+        Me.btnRefresh = New System.Windows.Forms.Button()
+        Me.btnPilih = New System.Windows.Forms.Button()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -66,12 +72,7 @@ Partial Class EMI_PO_Pembelian_Display_User_Barang_Lain
         Me.Column16 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column17 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.TolakPrToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CmbPO_JnsBayar = New System.Windows.Forms.ComboBox()
-        Me.btnRefresh = New System.Windows.Forms.Button()
-        Me.btnPilih = New System.Windows.Forms.Button()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.Column18 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         CType(Me.Dgv_Pr, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -195,7 +196,7 @@ Partial Class EMI_PO_Pembelian_Display_User_Barang_Lain
         DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.Dgv_Pr.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.Dgv_Pr.ColumnHeadersHeight = 35
-        Me.Dgv_Pr.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column2, Me.Column7, Me.Column8, Me.Column9, Me.Column10, Me.Column11, Me.Column1, Me.Column4, Me.Column5, Me.Column6, Me.Column12, Me.Column13, Me.Column14, Me.Column15, Me.Column16, Me.Column3, Me.Column17})
+        Me.Dgv_Pr.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column2, Me.Column7, Me.Column8, Me.Column9, Me.Column10, Me.Column11, Me.Column1, Me.Column4, Me.Column5, Me.Column6, Me.Column12, Me.Column13, Me.Column14, Me.Column15, Me.Column16, Me.Column3, Me.Column17, Me.Column18})
         Me.Dgv_Pr.ContextMenuStrip = Me.ContextMenuStrip1
         DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window
@@ -214,6 +215,66 @@ Partial Class EMI_PO_Pembelian_Display_User_Barang_Lain
         Me.Dgv_Pr.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.Dgv_Pr.Size = New System.Drawing.Size(1224, 568)
         Me.Dgv_Pr.TabIndex = 458
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TolakPrToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(169, 26)
+        '
+        'TolakPrToolStripMenuItem
+        '
+        Me.TolakPrToolStripMenuItem.Name = "TolakPrToolStripMenuItem"
+        Me.TolakPrToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
+        Me.TolakPrToolStripMenuItem.Text = "Pengajuan Selesai"
+        '
+        'CmbPO_JnsBayar
+        '
+        Me.CmbPO_JnsBayar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CmbPO_JnsBayar.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.CmbPO_JnsBayar.FormattingEnabled = True
+        Me.CmbPO_JnsBayar.Location = New System.Drawing.Point(97, 49)
+        Me.CmbPO_JnsBayar.Margin = New System.Windows.Forms.Padding(2)
+        Me.CmbPO_JnsBayar.Name = "CmbPO_JnsBayar"
+        Me.CmbPO_JnsBayar.Size = New System.Drawing.Size(192, 23)
+        Me.CmbPO_JnsBayar.TabIndex = 459
+        '
+        'btnRefresh
+        '
+        Me.btnRefresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.btnRefresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.btnRefresh.ForeColor = System.Drawing.Color.White
+        Me.btnRefresh.Location = New System.Drawing.Point(293, 47)
+        Me.btnRefresh.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnRefresh.Name = "btnRefresh"
+        Me.btnRefresh.Size = New System.Drawing.Size(85, 27)
+        Me.btnRefresh.TabIndex = 461
+        Me.btnRefresh.Text = "Refresh"
+        Me.btnRefresh.UseVisualStyleBackColor = False
+        '
+        'btnPilih
+        '
+        Me.btnPilih.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.btnPilih.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.btnPilih.ForeColor = System.Drawing.Color.White
+        Me.btnPilih.Location = New System.Drawing.Point(26, 668)
+        Me.btnPilih.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnPilih.Name = "btnPilih"
+        Me.btnPilih.Size = New System.Drawing.Size(81, 27)
+        Me.btnPilih.TabIndex = 462
+        Me.btnPilih.Text = "Pilih"
+        Me.btnPilih.UseVisualStyleBackColor = False
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Location = New System.Drawing.Point(20, 77)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(81, 17)
+        Me.CheckBox1.TabIndex = 463
+        Me.CheckBox1.Text = "Pilih Semua"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        Me.CheckBox1.Visible = False
         '
         'Column2
         '
@@ -369,8 +430,9 @@ Partial Class EMI_PO_Pembelian_Display_User_Barang_Lain
         '
         DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
         Me.Column16.DefaultCellStyle = DataGridViewCellStyle12
-        Me.Column16.HeaderText = "Tanggal Delivery"
+        Me.Column16.HeaderText = "Tanggal Kebutuhan"
         Me.Column16.Name = "Column16"
+        Me.Column16.ReadOnly = True
         Me.Column16.Width = 120
         '
         'Column3
@@ -388,67 +450,14 @@ Partial Class EMI_PO_Pembelian_Display_User_Barang_Lain
         Me.Column17.ReadOnly = True
         Me.Column17.Width = 120
         '
-        'ContextMenuStrip1
+        'Column18
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TolakPrToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(169, 26)
+        Me.Column18.HeaderText = "Kd_Sup"
+        Me.Column18.Name = "Column18"
+        Me.Column18.ReadOnly = True
+        Me.Column18.Visible = False
         '
-        'TolakPrToolStripMenuItem
-        '
-        Me.TolakPrToolStripMenuItem.Name = "TolakPrToolStripMenuItem"
-        Me.TolakPrToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
-        Me.TolakPrToolStripMenuItem.Text = "Pengajuan Selesai"
-        '
-        'CmbPO_JnsBayar
-        '
-        Me.CmbPO_JnsBayar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CmbPO_JnsBayar.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.CmbPO_JnsBayar.FormattingEnabled = True
-        Me.CmbPO_JnsBayar.Location = New System.Drawing.Point(97, 49)
-        Me.CmbPO_JnsBayar.Margin = New System.Windows.Forms.Padding(2)
-        Me.CmbPO_JnsBayar.Name = "CmbPO_JnsBayar"
-        Me.CmbPO_JnsBayar.Size = New System.Drawing.Size(192, 23)
-        Me.CmbPO_JnsBayar.TabIndex = 459
-        '
-        'btnRefresh
-        '
-        Me.btnRefresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.btnRefresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.btnRefresh.ForeColor = System.Drawing.Color.White
-        Me.btnRefresh.Location = New System.Drawing.Point(293, 47)
-        Me.btnRefresh.Margin = New System.Windows.Forms.Padding(2)
-        Me.btnRefresh.Name = "btnRefresh"
-        Me.btnRefresh.Size = New System.Drawing.Size(85, 27)
-        Me.btnRefresh.TabIndex = 461
-        Me.btnRefresh.Text = "Refresh"
-        Me.btnRefresh.UseVisualStyleBackColor = False
-        '
-        'btnPilih
-        '
-        Me.btnPilih.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.btnPilih.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.btnPilih.ForeColor = System.Drawing.Color.White
-        Me.btnPilih.Location = New System.Drawing.Point(26, 668)
-        Me.btnPilih.Margin = New System.Windows.Forms.Padding(2)
-        Me.btnPilih.Name = "btnPilih"
-        Me.btnPilih.Size = New System.Drawing.Size(81, 27)
-        Me.btnPilih.TabIndex = 462
-        Me.btnPilih.Text = "Pilih"
-        Me.btnPilih.UseVisualStyleBackColor = False
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(20, 77)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(81, 17)
-        Me.CheckBox1.TabIndex = 463
-        Me.CheckBox1.Text = "Pilih Semua"
-        Me.CheckBox1.UseVisualStyleBackColor = True
-        Me.CheckBox1.Visible = False
-        '
-        'EMI_PO_Pembelian_Display_User
+        'EMI_PO_Pembelian_Display_User_Barang_Lain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -469,7 +478,7 @@ Partial Class EMI_PO_Pembelian_Display_User_Barang_Lain
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "EMI_PO_Pembelian_Display_User"
+        Me.Name = "EMI_PO_Pembelian_Display_User_Barang_Lain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
@@ -513,4 +522,5 @@ Partial Class EMI_PO_Pembelian_Display_User_Barang_Lain
     Friend WithEvents Column16 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
     Friend WithEvents Column17 As DataGridViewTextBoxColumn
+    Friend WithEvents Column18 As DataGridViewTextBoxColumn
 End Class

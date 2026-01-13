@@ -33,6 +33,7 @@
     Dim LvTglDeliv As String
     Dim LvWaktuPabrikasi As String
     Dim LvTglActDelivery As String
+    Dim LvKdSupplier As String
 
 
     Dim cellNoPR As Integer = 0
@@ -52,6 +53,7 @@
     Dim cellTglDeliv As Integer = 14
     Dim cellWktPabrikasi As Integer = 15
     Dim cellTglActDelivery As Integer = 16
+    Dim cellKdSupplier As Integer = 17
 
     Public asal_data As String = ""
 
@@ -73,6 +75,7 @@
         LvTglDeliv = Dgv_Pr.Rows(No_Index).Cells(cellTglDeliv).Value.ToString
         LvWaktuPabrikasi = Dgv_Pr.Rows(No_Index).Cells(cellWktPabrikasi).Value.ToString
         LvTglActDelivery = Dgv_Pr.Rows(No_Index).Cells(cellTglActDelivery).Value.ToString
+        LvKdSupplier = Dgv_Pr.Rows(No_Index).Cells(cellKdSupplier).Value.ToString
     End Sub
 
 
@@ -178,8 +181,8 @@
             Dgv_Pr.Rows.Clear()
 
             SQL = "With cte As ( "
-            SQL = SQL & "Select a.No_Faktur,b.Kode_Stock_Owner,b.Kode_Barang,c.Nama,c.satuan As satuan_kecil_barang, "
-            SQL = SQL & "b.Satuan, b.tanggal_delivery, b.no_urut, b.Jumlah, "
+            SQL = SQL & "Select a.No_Faktur,b.Kode_Stock_Owner,b.Kode_Barang,c.Nama,c.satuan As satuan_kecil_barang, e.Kode_Supplier, "
+            SQL = SQL & "b.Satuan, b.tanggal_delivery, b.no_urut, b.Jumlah, b.No_Penawaran, "
 
             SQL = SQL & "isnull((select  sum(y.Jumlah) from  EMI_Pembelian_PO_Induk_Barang_Lain x, EMI_Pembelian_PO_Det_Induk_Barang_Lain y where "
             SQL = SQL & "x.Kode_Perusahaan = y.Kode_Perusahaan And x.No_Faktur = y.No_Faktur And "
@@ -189,31 +192,47 @@
             SQL = SQL & "x.Kode_Perusahaan = y.Kode_Perusahaan And x.No_Faktur = y.No_Faktur And "
             SQL = SQL & "y.Kode_Perusahaan = a.Kode_Perusahaan And y.no_urut_pr = b.No_Urut And x.status Is null And x.Flag_Release ='Y' ),0) as jumlah_Release, "
 
-            SQL = SQL & "ISNULL((select waktu_pabrikasi from emi_detail_proses_pengiriman_po_Barang_Lain x, Suppliers y where "
-            SQL = SQL & "b.Kode_Perusahaan = x.Kode_Perusahaan And b.Kode_Barang = x.kode_barang And "
-            SQL = SQL & "x.Kode_Perusahaan = y.Kode_Perusahaan And x.Id_Kategori_Supplier = y.ID_Kategori_Suppliers "
-            SQL = SQL & "And y.Kode_Supplier = '" & EMI_PO_Pembelian_Barang_Lain.TxtPO_KdSupplier.Text & "'),0) as Waktu_Pabrikasi,  "
+            'SQL = SQL & "ISNULL((select waktu_pabrikasi from emi_detail_proses_pengiriman_po_Barang_Lain x, Suppliers y where "
+            'SQL = SQL & "b.Kode_Perusahaan = x.Kode_Perusahaan And b.Kode_Barang = x.kode_barang And "
+            'SQL = SQL & "x.Kode_Perusahaan = y.Kode_Perusahaan And x.Id_Kategori_Supplier = y.ID_Kategori_Suppliers "
+            'SQL = SQL & "And y.Kode_Supplier = '" & EMI_PO_Pembelian_Barang_Lain.TxtPO_KdSupplier.Text & "'),0) as Waktu_Pabrikasi,  "
+            SQL = SQL & "0 as Waktu_Pabrikasi,  "
 
-            SQL = SQL & "ISNULL((select  Waktu_Pengiriman from emi_detail_proses_pengiriman_po_Barang_Lain x, Suppliers y "
-            SQL = SQL & "where b.Kode_Perusahaan = x.Kode_Perusahaan And b.Kode_Barang = x.kode_barang And "
-            SQL = SQL & "x.Kode_Perusahaan = y.Kode_Perusahaan And x.Id_Kategori_Supplier = y.ID_Kategori_Suppliers "
-            SQL = SQL & "And y.Kode_Supplier = '" & EMI_PO_Pembelian_Barang_Lain.TxtPO_KdSupplier.Text & "' ),0) as Waktu_Pengiriman "
+            'SQL = SQL & "ISNULL((select  Waktu_Pengiriman from emi_detail_proses_pengiriman_po_Barang_Lain x, Suppliers y "
+            'SQL = SQL & "where b.Kode_Perusahaan = x.Kode_Perusahaan And b.Kode_Barang = x.kode_barang And "
+            'SQL = SQL & "x.Kode_Perusahaan = y.Kode_Perusahaan And x.Id_Kategori_Supplier = y.ID_Kategori_Suppliers "
+            'SQL = SQL & "And y.Kode_Supplier = '" & EMI_PO_Pembelian_Barang_Lain.TxtPO_KdSupplier.Text & "' ),0) as Waktu_Pengiriman "
+            SQL = SQL & "0 as Waktu_Pengiriman, "
 
-            SQL = SQL & "From EMI_Purchase_Requisition_Barang_Lain a, EMI_Purchase_Requisition_Barang_Lain_Detail b , barang_Lain c, Emi_Role_Kategori_PO d "
+            SQL = SQL & "ISNULL((select CASE WHEN b.No_Penawaran IS NULL THEN 0 ELSE z.Harga_Satuan END "
+            SQL = SQL & "from EMI_Master_Penawaran_Detail_Barang_Lain z where "
+            SQL = SQL & "z.No_Faktur = b.No_Penawaran And z.Kode_Barang = b.Kode_Barang And z.Mata_Uang = '" & MataUang & "'),0) as Harga_Satuan, "
+
+            SQL = SQL & "ISNULL((select CASE WHEN b.No_Penawaran IS NULL THEN 0 ELSE z.Nilai_Barang END "
+            SQL = SQL & "from EMI_Master_Penawaran_Detail_Barang_Lain z where "
+            SQL = SQL & "z.No_Faktur = b.No_Penawaran And z.Kode_Barang = b.Kode_Barang And z.Mata_Uang = '" & MataUang & "'),0) as Nilai_Barang, "
+
+            SQL = SQL & "(select Satuan_Barang "
+            SQL = SQL & "from EMI_Master_Penawaran_Detail_Barang_Lain z where "
+            SQL = SQL & "z.No_Faktur = b.No_Penawaran And z.Kode_Barang = b.Kode_Barang And z.Mata_Uang = '" & MataUang & "') as Satuan_Barang "
+
+            SQL = SQL & "From EMI_Purchase_Requisition_Barang_Lain a, EMI_Purchase_Requisition_Barang_Lain_Detail b , barang_Lain c, Emi_Role_Kategori_PO d, EMI_Master_Penawaran_Barang_Lain e "
             SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Faktur = b.No_Faktur And "
             SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan And b.Kode_Barang = c.Kode_Barang And "
-            SQL = SQL & "b.Kode_Stock_Owner = c.Kode_Stock_Owner And a.kode_perusahaan = '" & KodePerusahaan & "' and a.Status is null "
-            SQL = SQL & " And flag_release = 'Y' and c.kode_Perusahaan=d.kode_Perusahaan and "
+            SQL = SQL & "b.Kode_Stock_Owner = c.Kode_Stock_Owner And a.kode_perusahaan = '" & KodePerusahaan & "' and a.Status is null and e.status is null And b.No_Penawaran is not null "
+            SQL = SQL & "And a.flag_release = 'Y' and c.kode_Perusahaan=d.kode_Perusahaan and "
+            SQL = SQL & "e.flag_release = 'Y' and e.kode_Perusahaan=a.kode_Perusahaan and e.No_Faktur=b.No_Penawaran and CAST(e.Periode_Akhir_Penawaran AS DATE) >= CAST(GETDATE() AS DATE) and "
             SQL = SQL & "c.id_kategori_PO = d.kategori_po And d.userid = '" & UserID & "' and b.flag_sudah_po is null and b.Flag_Pengajuan_Selesai is null "
             SQL = SQL & ") "
 
-            SQL = SQL & "Select No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama, satuan_kecil_barang, Satuan, Tanggal_Delivery, No_Urut, "
-            SQL = SQL & "jumlah-(jumlah_Sementara + jumlah_Release) As Jumlah, Waktu_Pabrikasi, Waktu_Pengiriman, "
+            SQL = SQL & "Select No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama, satuan_kecil_barang, Satuan, Tanggal_Delivery, No_Urut, No_Penawaran, Kode_Supplier, "
+            SQL = SQL & "jumlah-(jumlah_Sementara + jumlah_Release) As Jumlah, Waktu_Pabrikasi, Waktu_Pengiriman, Harga_Satuan, Nilai_Barang, Satuan_Barang, "
             SQL = SQL & "DateDiff(Day, Tanggal_Delivery, DateAdd(Day, Waktu_Pabrikasi + Waktu_Pengiriman, '" & Format(tgl_skg, "yyyy-MM-dd") & "') ) as  Waktu_Proses_Pengiriman, "
             SQL = SQL & "DateAdd(Day, Waktu_Pabrikasi + Waktu_Pengiriman, '" & Format(tgl_skg, "yyyy-MM-dd") & "') as tanggal_actual_delivery "
 
             SQL = SQL & "From cte "
             SQL = SQL & "Where jumlah - (jumlah_Sementara + jumlah_Release) <> 0 "
+            SQL = SQL & "AND Kode_Supplier = '" & KdSupp & "' "
             If CmbPO_JnsBayar.SelectedIndex = -1 Then
                 SQL = SQL & "order by no_faktur"
             Else
@@ -238,18 +257,19 @@
                         Dgv_Pr.Rows(i).Cells(cellNmBarang).Value = .Rows(i).Item("nama")
                         Dgv_Pr.Rows(i).Cells(cellSisa).Value = Format(.Rows(i).Item("jumlah"), "N2")
                         Dgv_Pr.Rows(i).Cells(cellSatuan).Value = .Rows(i).Item("satuan")
-                        Dgv_Pr.Rows(i).Cells(cellHarga).Value = Format(0, "N2")
+                        Dgv_Pr.Rows(i).Cells(cellHarga).Value = Format(.Rows(i).Item("Harga_Satuan"), "N2")
                         Dgv_Pr.Rows(i).Cells(cellJumlah).Value = Format(0, "N2")
                         Dgv_Pr.Rows(i).Cells(cellSatuanPO).Value = .Rows(i).Item("satuan")
-                        Dgv_Pr.Rows(i).Cells(cellNoPenawaran).Value = ""
+                        Dgv_Pr.Rows(i).Cells(cellNoPenawaran).Value = .Rows(i).Item("No_Penawaran")
                         Dgv_Pr.Rows(i).Cells(cellNoUrutPR).Value = .Rows(i).Item("no_urut")
-                        Dgv_Pr.Rows(i).Cells(cellSatuanHarga).Value = ""
-                        Dgv_Pr.Rows(i).Cells(cellHargaId).Value = ""
+                        Dgv_Pr.Rows(i).Cells(cellSatuanHarga).Value = .Rows(i).Item("Satuan_Barang")
+                        Dgv_Pr.Rows(i).Cells(cellHargaId).Value = .Rows(i).Item("Nilai_Barang")
                         Dgv_Pr.Rows(i).Cells(cellSkBrg).Value = .Rows(i).Item("satuan_kecil_barang")
                         Dgv_Pr.Rows(i).Cells(cellTglDeliv).Value = Format(.Rows(i).Item("tanggal_delivery"), "dd MMM yyyy")
                         Dgv_Pr.Rows(i).Cells(cellSkBrg).Value = .Rows(i).Item("satuan_kecil_barang")
                         Dgv_Pr.Rows(i).Cells(cellWktPabrikasi).Value = .Rows(i).Item("Waktu_Proses_Pengiriman")
                         Dgv_Pr.Rows(i).Cells(cellTglActDelivery).Value = Format(.Rows(i).Item("tanggal_actual_delivery"), "dd MMM yyyy")
+                        Dgv_Pr.Rows(i).Cells(cellKdSupplier).Value = .Rows(i).Item("Kode_Supplier")
 
 
                         If Jenismenu = "Display" Then
@@ -292,52 +312,32 @@
         Cari()
     End Sub
 
-    Private Sub Dgv_Pr_DoubleClick(sender As Object, e As EventArgs) Handles Dgv_Pr.DoubleClick
-        If Dgv_Pr.Rows.Count = 0 Then
-            Exit Sub
-        End If
-
-        Dim currentRow = Dgv_Pr.CurrentRow.Index
-        Dim currentCell = Dgv_Pr.CurrentCellAddress.X
-
-        Dim data = Dgv_Pr.Rows(currentRow).Cells(currentCell)
-
-
-        If currentCell = cellHarga Then
-            SD_Pilih_Harga_PO_Barang_Lain.kodeSupplier = KdSupp
-            SD_Pilih_Harga_PO_Barang_Lain.kodeBarang = Dgv_Pr.Rows(currentRow).Cells(cellKdBarang).Value
-            SD_Pilih_Harga_PO_Barang_Lain.cellDgv = currentCell
-            SD_Pilih_Harga_PO_Barang_Lain.cellNoPenawaran = cellNoPenawaran
-            SD_Pilih_Harga_PO_Barang_Lain.cellSatuanHarga = cellSatuanHarga
-            SD_Pilih_Harga_PO_Barang_Lain.cellHargaID = cellHargaId
-            SD_Pilih_Harga_PO_Barang_Lain.MataUang = MataUang
-            SD_Pilih_Harga_PO_Barang_Lain.rowDgv = currentRow
-            SD_Pilih_Harga_PO_Barang_Lain.ShowDialog()
-        End If
-
-    End Sub
-
     Private Sub btnPilih_Click(sender As Object, e As EventArgs) Handles btnPilih.Click
         Dim Kode_Kategori_Besar As String = ""
+        Dim Count_Valid_Data As Integer = 0
+
         For indexDisplayUserPO As Integer = 0 To Dgv_Pr.Rows.Count - 1
 
             Get_Isi_Listview(indexDisplayUserPO)
 
+            '======================================
+            '     CEK APAKAH SUPPLIER BERBEDA     =
+            '======================================
+            If KdSupp.Trim.ToUpper <> LvKdSupplier.Trim.ToUpper Then
+                MessageBox.Show("Kode Supplier pada Baris -" & indexDisplayUserPO + 1 & " Berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
             '=======================================
             '     CEK APAKAH ADA DATA TERLEWAT     =
             '=======================================
-            If Not Val(HilangkanTanda(lvHarga)) = 0 Then
-                If Val(HilangkanTanda(lvJumlah)) = 0 Then
-                    MessageBox.Show("Jumlah pada Baris ke -" & indexDisplayUserPO + 1 & " Tidak Boleh 0", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
+            If Not Val(HilangkanTanda(lvJumlah)) = 0 Then
+                Count_Valid_Data += 1
 
-            ElseIf Not Val(HilangkanTanda(lvJumlah)) = 0 Then
                 If Val(HilangkanTanda(lvHarga)) = 0 Then
                     MessageBox.Show("Harga pada Baris ke -" & indexDisplayUserPO + 1 & " Tidak Boleh 0", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
-
             End If
 
             'If Dgv_Pr.Rows(indexDisplayUserPO).Cells(7).Value = "" Then
@@ -351,6 +351,9 @@
             '    Exit Sub
             'End If
 
+            If Val(HilangkanTanda(Dgv_Pr.Rows(indexDisplayUserPO).Cells(cellJumlah).Value)) = 0 Then
+                Continue For
+            End If
 
             For i As Integer = 0 To EMI_PO_Pembelian_Barang_Lain.LvPO_DataPO.Items.Count - 1
 
@@ -378,14 +381,19 @@
 
         Next
 
-
+        If Count_Valid_Data = 0 Then
+            MessageBox.Show("Minimal ada 1 baris data yang harus diinputkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
 
         Try
             OpenConn()
 
             Dim cekLanjutPO As Boolean = True
 
-            Dim pesan As String = "Berikut Data yang akan datang terlambat dari estimasi delivery " & vbNewLine
+            '   Dim pesan As String = "Berikut Data yang akan datang terlambat dari estimasi delivery " & vbNewLine
+
+            Dim pesan As String = "Berikut data yang akan datang terlambat dari tanggal kebutuhan " & vbNewLine
             Dim flag_stok_cukup As Boolean = True
 
             For indexDisplayUserPO As Integer = 0 To Dgv_Pr.Rows.Count - 1
@@ -400,7 +408,7 @@
 
                     If LvWaktuPabrikasi > 0 Then
                         cekLanjutPO = False
-                        pesan = pesan & lvNmBarang & vbNewLine & " - Tanggal Estimasi Delivery  " & LvTglDeliv & vbNewLine & " - Tanggal Actual Delivery " & LvTglActDelivery & vbNewLine & vbNewLine
+                        pesan = pesan & lvNmBarang & vbNewLine & " - Tanggal Kebutuhan  " & LvTglDeliv & vbNewLine & " - Tanggal Estimasi diterima " & LvTglActDelivery & vbNewLine & vbNewLine
                     End If
 
 
@@ -594,7 +602,7 @@
 
                     SQL = SQL & "from EMI_Master_Penawaran_Barang_Lain a, EMI_Master_Penawaran_Detail_Barang_Lain b, Suppliers c "
                     SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-                    SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Supplier = c.Kode_Supplier "
+                    SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Supplier = c.Kode_Supplier and a.status is null "
                     SQL = SQL & "and b.kode_barang = '" & lvKdBarang & "' and a.no_faktur='" & lvNoPenawaran & "' "
                     Using dr2 = OpenTrans(SQL)
                         Do While dr2.Read
@@ -857,7 +865,7 @@
         Try
             OpenConn()
 
-            If CekButtonRole("Pengajuan_Batal_PR_Barang_Lain") = "T" Then
+            If CekButtonRole("Pengajuan_Batal_PR") = "T" Then
                 MessageBox.Show("User Tidak Ada Akses Pengajuan Selesai PR", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             End If
@@ -901,6 +909,16 @@
 
 
 
+    End Sub
+
+
+    Protected Overrides Sub WndProc(ByRef m As Message)
+        ' WM_NCLBUTTONDBLCLK = 0xA3 (double click di title bar)
+        If m.Msg = &HA3 Then
+            Return  ' Abaikan pesan, sehingga form tidak maximize
+        End If
+
+        MyBase.WndProc(m)
     End Sub
 
 

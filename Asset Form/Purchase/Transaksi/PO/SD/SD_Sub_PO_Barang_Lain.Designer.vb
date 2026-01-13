@@ -188,7 +188,7 @@ Partial Class SD_Sub_PO_Barang_Lain
         Me.Panel7.TabIndex = 39
         Me.Panel7.Visible = False
         '
-        'SD_Sub_PO
+        'SD_Sub_PO_Barang_Lain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -203,7 +203,7 @@ Partial Class SD_Sub_PO_Barang_Lain
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
-        Me.Name = "SD_Sub_PO"
+        Me.Name = "SD_Sub_PO_Barang_Lain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()

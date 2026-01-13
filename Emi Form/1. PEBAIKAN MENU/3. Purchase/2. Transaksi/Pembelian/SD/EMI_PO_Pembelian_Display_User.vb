@@ -35,6 +35,7 @@
     Dim LvTglActDelivery As String
     Dim LvSatuanInput As String
     Dim LvJumlahInput As String
+    Dim LvKdSupplier As String
 
     Dim cellNoPR As Integer = 0
     Dim cellgudang As Integer = 1
@@ -55,6 +56,7 @@
     Dim cellTglActDelivery As Integer = 16
     Dim cellSatuanInput As Integer = 17
     Dim cellJumlahInput As Integer = 18
+    Dim cellKdSupplier As Integer = 19
 
     Public asal_data As String = ""
 
@@ -80,6 +82,7 @@
         LvTglActDelivery = Dgv_Pr.Rows(No_Index).Cells(cellTglActDelivery).Value.ToString
         LvSatuanInput = Dgv_Pr.Rows(No_Index).Cells(cellSatuanInput).Value.ToString
         LvJumlahInput = Dgv_Pr.Rows(No_Index).Cells(cellJumlahInput).Value.ToString
+        LvKdSupplier = Dgv_Pr.Rows(No_Index).Cells(cellKdSupplier).Value.ToString
     End Sub
 
     Dim lvPO_Lokasi As String
@@ -183,7 +186,7 @@
 
             SQL = "With cte As ( "
             SQL = SQL & "Select a.No_Faktur,b.Kode_Stock_Owner,b.Kode_Barang,c.Nama,c.satuan As satuan_kecil_barang, "
-            SQL = SQL & "b.Satuan, b.tanggal_delivery, b.no_urut, b.Jumlah, b.No_Penawaran, "
+            SQL = SQL & "b.Satuan, b.tanggal_delivery, b.no_urut, b.Jumlah, b.No_Penawaran, e.Kode_Supplier, "
 
             SQL = SQL & "isnull((select  sum(y.Jumlah) from  EMI_Pembelian_PO_Induk x, EMI_Pembelian_PO_Det_Induk y where "
             SQL = SQL & "x.Kode_Perusahaan = y.Kode_Perusahaan And x.No_Faktur = y.No_Faktur And "
@@ -215,21 +218,23 @@
             SQL = SQL & "from EMI_Master_Penawaran_Detail z where "
             SQL = SQL & "z.No_Faktur = b.No_Penawaran And z.Kode_Barang = b.Kode_Barang And z.Mata_Uang = '" & MataUang & "') as Satuan_Barang "
 
-            SQL = SQL & "From EMI_Purchase_Requisition a, EMI_Purchase_Requisition_Detail b , barang c, Emi_Role_Kategori_PO d "
+            SQL = SQL & "From EMI_Purchase_Requisition a, EMI_Purchase_Requisition_Detail b , barang c, Emi_Role_Kategori_PO d, EMI_Master_Penawaran e "
             SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Faktur = b.No_Faktur And "
             SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan And b.Kode_Barang = c.Kode_Barang And "
             SQL = SQL & "b.Kode_Stock_Owner = c.Kode_Stock_Owner And a.kode_perusahaan = '" & KodePerusahaan & "' and a.Status is null And b.No_Penawaran is not null "
-            SQL = SQL & " And flag_release = 'Y' and c.kode_Perusahaan=d.kode_Perusahaan and "
-            SQL = SQL & "c.id_kategori_PO = d.kategori_po And d.userid = '" & UserID & "' and b.flag_sudah_po is null and b.Flag_Pengajuan_Selesai is null "
+            SQL = SQL & "And a.flag_release = 'Y' and c.kode_Perusahaan=d.kode_Perusahaan "
+            SQL = SQL & "AND b.Kode_Perusahaan = e.Kode_Perusahaan and b.No_Penawaran = e.No_Faktur and e.flag_release = 'Y' and e.status is null "
+            SQL = SQL & "and c.id_kategori_PO = d.kategori_po And d.userid = '" & UserID & "' and b.flag_sudah_po is null and b.Flag_Pengajuan_Selesai is null "
             SQL = SQL & ") "
 
-            SQL = SQL & "Select No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama, satuan_kecil_barang, Satuan, Tanggal_Delivery, No_Urut, No_Penawaran, "
+            SQL = SQL & "Select No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama, satuan_kecil_barang, Satuan, Tanggal_Delivery, No_Urut, No_Penawaran, Kode_Supplier, "
             SQL = SQL & "jumlah-(jumlah_Sementara + jumlah_Release) As Jumlah, Waktu_Pabrikasi, Waktu_Pengiriman, Harga_Satuan, Nilai_Barang, Satuan_Barang, "
             SQL = SQL & "DateDiff(Day, Tanggal_Delivery, DateAdd(Day, Waktu_Pabrikasi + Waktu_Pengiriman, '" & Format(tgl_skg, "yyyy-MM-dd") & "') ) as  Waktu_Proses_Pengiriman, "
             SQL = SQL & "DateAdd(Day, Waktu_Pabrikasi + Waktu_Pengiriman, '" & Format(tgl_skg, "yyyy-MM-dd") & "') as tanggal_actual_delivery "
 
             SQL = SQL & "From cte "
             SQL = SQL & "Where jumlah - (jumlah_Sementara + jumlah_Release) <> 0 "
+            SQL = SQL & "AND Kode_Supplier = '" & EMI_PO_Pembelian.TxtPO_KdSupplier.Text & "' "
             If CmbPO_JnsBayar.SelectedIndex = -1 Then
                 SQL = SQL & "order by no_faktur"
             Else
@@ -266,6 +271,7 @@
                         Dgv_Pr.Rows(i).Cells(cellSkBrg).Value = .Rows(i).Item("satuan_kecil_barang")
                         Dgv_Pr.Rows(i).Cells(cellWktPabrikasi).Value = .Rows(i).Item("Waktu_Proses_Pengiriman")
                         Dgv_Pr.Rows(i).Cells(cellTglActDelivery).Value = Format(.Rows(i).Item("tanggal_actual_delivery"), "dd MMM yyyy")
+                        Dgv_Pr.Rows(i).Cells(cellKdSupplier).Value = .Rows(i).Item("Kode_Supplier")
 
                         Dim subArrSatuanInput As New List(Of String)
                         subArrSatuanInput.Clear()
@@ -335,9 +341,18 @@
         Dim Kode_Kategori_Besar As String = ""
         Dim Count_Valid_Data As Integer = 0
 
+
         For indexDisplayUserPO As Integer = 0 To Dgv_Pr.Rows.Count - 1
 
             Get_Isi_Listview(indexDisplayUserPO)
+
+            '======================================
+            '     CEK APAKAH SUPPLIER BERBEDA     =
+            '======================================
+            If KdSupp.Trim.ToUpper <> LvKdSupplier.Trim.ToUpper Then
+                MessageBox.Show("Kode Supplier pada Baris -" & indexDisplayUserPO + 1 & " Berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
 
             '=======================================
             '     CEK APAKAH ADA DATA TERLEWAT     =
@@ -370,7 +385,6 @@
             If Val(HilangkanTanda(Dgv_Pr.Rows(indexDisplayUserPO).Cells(cellJumlah).Value)) = 0 Then
                 Continue For
             End If
-
 
             For i As Integer = 0 To EMI_PO_Pembelian.LvPO_DataPO.Items.Count - 1
 
@@ -466,7 +480,7 @@
                     Dim Jumlah_satuan_Kecil As Double = 0
                     SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & lvKdBarang & "',"
                     SQL = SQL & "'" & lvSatuanPo & "','" & LvSKBrg & "',"
-                    SQL = SQL & "" & lvJumlah & ") as Hasil "
+                    SQL = SQL & "" & Val(HilangkanTanda(lvJumlah)) & ") as Hasil "
                     Using dr = OpenTrans(SQL)
                         If dr.Read Then
 
@@ -780,7 +794,7 @@
                 Dim Jumlah_satuan_Kecil As Double = 0
                 SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & lvKdBarang & "',"
                 SQL = SQL & "'" & lvSatuanPo & "','" & LvSKBrg & "',"
-                SQL = SQL & "" & lvJumlah & ") as Hasil "
+                SQL = SQL & "" & Val(HilangkanTanda(lvJumlah)) & ") as Hasil "
                 Using dr = OpenTrans(SQL)
                     If dr.Read Then
 

@@ -47,6 +47,8 @@ Partial Class EMI_PO_Pembelian_Sub_Barang_Lain
         Me.Label7 = New System.Windows.Forms.Label()
         Me.sat = New System.Windows.Forms.TextBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.DtpPO_ETA = New System.Windows.Forms.DateTimePicker()
+        Me.Label10 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.TxtPO_NmSupplier = New System.Windows.Forms.TextBox()
         Me.LblPO_NoPO = New System.Windows.Forms.Label()
@@ -284,6 +286,8 @@ Partial Class EMI_PO_Pembelian_Sub_Barang_Lain
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.DtpPO_ETA)
+        Me.GroupBox1.Controls.Add(Me.Label10)
         Me.GroupBox1.Controls.Add(Me.Button1)
         Me.GroupBox1.Controls.Add(Me.TxtPO_NmSupplier)
         Me.GroupBox1.Controls.Add(Me.LblPO_NoPO)
@@ -306,6 +310,26 @@ Partial Class EMI_PO_Pembelian_Sub_Barang_Lain
         Me.GroupBox1.Size = New System.Drawing.Size(1280, 122)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
+        '
+        'DtpPO_ETA
+        '
+        Me.DtpPO_ETA.CustomFormat = "dd MMMM yyyy"
+        Me.DtpPO_ETA.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DtpPO_ETA.Location = New System.Drawing.Point(396, 41)
+        Me.DtpPO_ETA.Margin = New System.Windows.Forms.Padding(2)
+        Me.DtpPO_ETA.Name = "DtpPO_ETA"
+        Me.DtpPO_ETA.Size = New System.Drawing.Size(192, 21)
+        Me.DtpPO_ETA.TabIndex = 336
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label10.Location = New System.Drawing.Point(310, 42)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(35, 17)
+        Me.Label10.TabIndex = 335
+        Me.Label10.Text = "ETA"
         '
         'Button1
         '
@@ -408,7 +432,7 @@ Partial Class EMI_PO_Pembelian_Sub_Barang_Lain
         '
         Me.LblPO_NoNota.AutoSize = True
         Me.LblPO_NoNota.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblPO_NoNota.Location = New System.Drawing.Point(310, 39)
+        Me.LblPO_NoNota.Location = New System.Drawing.Point(310, 16)
         Me.LblPO_NoNota.Name = "LblPO_NoNota"
         Me.LblPO_NoNota.Size = New System.Drawing.Size(82, 17)
         Me.LblPO_NoNota.TabIndex = 219
@@ -429,10 +453,10 @@ Partial Class EMI_PO_Pembelian_Sub_Barang_Lain
         Me.TxtPO_NoNota.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TxtPO_NoNota.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtPO_NoNota.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtPO_NoNota.Location = New System.Drawing.Point(398, 38)
+        Me.TxtPO_NoNota.Location = New System.Drawing.Point(398, 15)
         Me.TxtPO_NoNota.MaxLength = 75
         Me.TxtPO_NoNota.Name = "TxtPO_NoNota"
-        Me.TxtPO_NoNota.Size = New System.Drawing.Size(185, 21)
+        Me.TxtPO_NoNota.Size = New System.Drawing.Size(190, 21)
         Me.TxtPO_NoNota.TabIndex = 2
         '
         'DtpPO_Tgl
@@ -2046,4 +2070,6 @@ Partial Class EMI_PO_Pembelian_Sub_Barang_Lain
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
+    Friend WithEvents DtpPO_ETA As DateTimePicker
+    Friend WithEvents Label10 As Label
 End Class

@@ -26,14 +26,6 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle27 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle28 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle29 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle30 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle40 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle41 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -46,6 +38,22 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle27 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle28 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle21 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle22 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle23 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle24 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle25 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle26 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle29 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle30 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle40 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle41 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle31 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle32 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle33 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -55,15 +63,25 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Dim DataGridViewCellStyle37 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle38 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle39 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle21 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle22 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle23 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle24 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle25 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle26 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle42 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle43 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle44 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle45 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle46 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle47 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle48 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle49 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle50 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle51 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle52 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle53 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle54 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle55 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle56 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle57 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle58 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel9 = New System.Windows.Forms.Panel()
@@ -113,37 +131,6 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.Label17 = New System.Windows.Forms.Label()
         Me.Txt_OtoMaterial_req = New System.Windows.Forms.TextBox()
         Me.DGV_Data_TF = New System.Windows.Forms.DataGridView()
-        Me.Label18 = New System.Windows.Forms.Label()
-        Me.TxtjmlPermintaanDisplay = New System.Windows.Forms.TextBox()
-        Me.TxtStockDisplay = New System.Windows.Forms.TextBox()
-        Me.Label19 = New System.Windows.Forms.Label()
-        Me.TxtMetPotStok = New System.Windows.Forms.TextBox()
-        Me.Label20 = New System.Windows.Forms.Label()
-        Me.TxtJenisBags = New System.Windows.Forms.TextBox()
-        Me.Label21 = New System.Windows.Forms.Label()
-        Me.TabControl1 = New System.Windows.Forms.TabControl()
-        Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.Btn_Scan = New System.Windows.Forms.Button()
-        Me.Btn_SimpanSementara = New System.Windows.Forms.Button()
-        Me.TxtsisaRequest = New System.Windows.Forms.TextBox()
-        Me.Label25 = New System.Windows.Forms.Label()
-        Me.Label22 = New System.Windows.Forms.Label()
-        Me.Txt_QR = New System.Windows.Forms.TextBox()
-        Me.TabPage3 = New System.Windows.Forms.TabPage()
-        Me.Dgv_DataRekap = New System.Windows.Forms.DataGridView()
-        Me.TabPage2 = New System.Windows.Forms.TabPage()
-        Me.Dgv_DataDetail = New System.Windows.Forms.DataGridView()
-        Me.TxtjmlPermintaanBersih = New System.Windows.Forms.TextBox()
-        Me.Cmb_Lokasi = New System.Windows.Forms.ComboBox()
-        Me.Label23 = New System.Windows.Forms.Label()
-        Me.TxtKodeCost = New System.Windows.Forms.TextBox()
-        Me.LvCost = New System.Windows.Forms.ListView()
-        Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.ColumnHeader8 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.TxtIDCost = New System.Windows.Forms.TextBox()
-        Me.Cmb_JenisPengeluaran = New System.Windows.Forms.ComboBox()
-        Me.Label24 = New System.Windows.Forms.Label()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -168,6 +155,35 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.Column21 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.barcode = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.flag_BlokSn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.TxtjmlPermintaanDisplay = New System.Windows.Forms.TextBox()
+        Me.TxtStockDisplay = New System.Windows.Forms.TextBox()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.TxtMetPotStok = New System.Windows.Forms.TextBox()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.TxtJenisBags = New System.Windows.Forms.TextBox()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.Btn_Scan = New System.Windows.Forms.Button()
+        Me.Btn_SimpanSementara = New System.Windows.Forms.Button()
+        Me.TxtsisaRequest = New System.Windows.Forms.TextBox()
+        Me.Label25 = New System.Windows.Forms.Label()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.Txt_QR = New System.Windows.Forms.TextBox()
+        Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.Dgv_DataRekap = New System.Windows.Forms.DataGridView()
+        Me.DataGridViewTextBoxColumn21 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn22 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn24 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn28 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn30 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column22 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column23 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column24 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column25 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.Dgv_DataDetail = New System.Windows.Forms.DataGridView()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -185,15 +201,47 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.DataGridViewTextBoxColumn19 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn20 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.detail_barcode = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn21 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn22 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn24 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn28 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn30 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column22 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column23 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column24 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column25 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TxtjmlPermintaanBersih = New System.Windows.Forms.TextBox()
+        Me.Cmb_Lokasi = New System.Windows.Forms.ComboBox()
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.TxtKodeCost = New System.Windows.Forms.TextBox()
+        Me.LvCost = New System.Windows.Forms.ListView()
+        Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader8 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.TxtIDCost = New System.Windows.Forms.TextBox()
+        Me.Cmb_JenisPengeluaran = New System.Windows.Forms.ComboBox()
+        Me.Label24 = New System.Windows.Forms.Label()
+        Me.Label26 = New System.Windows.Forms.Label()
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
+        Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.DataGridViewTextBoxColumn8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn9 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn16 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn17 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn23 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn25 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn26 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn27 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn29 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn31 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn32 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn33 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn34 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn35 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn36 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn37 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn38 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn39 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn40 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn41 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn42 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn43 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn44 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn45 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn46 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn47 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn48 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         CType(Me.DGV_Data_TF, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -216,6 +264,19 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.Panel1.Size = New System.Drawing.Size(1183, 44)
         Me.Panel1.TabIndex = 24
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 42)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1183, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'Lbl_Judul
         '
         Me.Lbl_Judul.AutoSize = True
@@ -223,9 +284,9 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.Lbl_Judul.Location = New System.Drawing.Point(15, 7)
         Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Lbl_Judul.Name = "Lbl_Judul"
-        Me.Lbl_Judul.Size = New System.Drawing.Size(257, 29)
+        Me.Lbl_Judul.Size = New System.Drawing.Size(315, 29)
         Me.Lbl_Judul.TabIndex = 0
-        Me.Lbl_Judul.Text = "Pengeluaran Stock Asset"
+        Me.Lbl_Judul.Text = "Pengeluaran Stock Barang Lain"
         '
         'Panel3
         '
@@ -360,7 +421,7 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.TxtNm_Barang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtNm_Barang.Enabled = False
         Me.TxtNm_Barang.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.TxtNm_Barang.Location = New System.Drawing.Point(186, 33)
+        Me.TxtNm_Barang.Location = New System.Drawing.Point(186, 28)
         Me.TxtNm_Barang.MaxLength = 50
         Me.TxtNm_Barang.Name = "TxtNm_Barang"
         Me.TxtNm_Barang.ReadOnly = True
@@ -372,7 +433,7 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.TxtKd_Barang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TxtKd_Barang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtKd_Barang.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.TxtKd_Barang.Location = New System.Drawing.Point(10, 32)
+        Me.TxtKd_Barang.Location = New System.Drawing.Point(10, 27)
         Me.TxtKd_Barang.MaxLength = 50
         Me.TxtKd_Barang.Name = "TxtKd_Barang"
         Me.TxtKd_Barang.Size = New System.Drawing.Size(172, 20)
@@ -382,7 +443,7 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         '
         Me.Label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label6.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.Label6.Location = New System.Drawing.Point(10, 8)
+        Me.Label6.Location = New System.Drawing.Point(10, 3)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(172, 21)
         Me.Label6.TabIndex = 436
@@ -393,7 +454,7 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         '
         Me.Label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label7.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.Label7.Location = New System.Drawing.Point(186, 9)
+        Me.Label7.Location = New System.Drawing.Point(186, 4)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(351, 21)
         Me.Label7.TabIndex = 437
@@ -415,9 +476,9 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.Lv_DetBarang.FullRowSelect = True
         Me.Lv_DetBarang.GridLines = True
         Me.Lv_DetBarang.HideSelection = False
-        Me.Lv_DetBarang.Location = New System.Drawing.Point(1246, 277)
+        Me.Lv_DetBarang.Location = New System.Drawing.Point(1278, 277)
         Me.Lv_DetBarang.Name = "Lv_DetBarang"
-        Me.Lv_DetBarang.Size = New System.Drawing.Size(530, 250)
+        Me.Lv_DetBarang.Size = New System.Drawing.Size(530, 195)
         Me.Lv_DetBarang.TabIndex = 466
         Me.Lv_DetBarang.UseCompatibleStateImageBehavior = False
         Me.Lv_DetBarang.View = System.Windows.Forms.View.Details
@@ -451,7 +512,7 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans SemiBold", 8.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(113, 563)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(113, 559)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(84, 36)
         Me.Btn_Refresh.TabIndex = 463
@@ -463,7 +524,7 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Simpan.Font = New System.Drawing.Font("Work Sans SemiBold", 8.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(26, 563)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(26, 559)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(84, 36)
         Me.Btn_Simpan.TabIndex = 462
@@ -485,7 +546,7 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.Btn_GetData.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_GetData.Font = New System.Drawing.Font("Work Sans SemiBold", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_GetData.ForeColor = System.Drawing.Color.White
-        Me.Btn_GetData.Location = New System.Drawing.Point(713, 7)
+        Me.Btn_GetData.Location = New System.Drawing.Point(713, 2)
         Me.Btn_GetData.Name = "Btn_GetData"
         Me.Btn_GetData.Size = New System.Drawing.Size(65, 47)
         Me.Btn_GetData.TabIndex = 462
@@ -789,7 +850,7 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.DGV_Data_TF.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Work Sans", 8.0!)
         DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
         DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
         DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
@@ -799,435 +860,21 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.DGV_Data_TF.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4, Me.Column5, Me.Column6, Me.Column7, Me.Column8, Me.Column9, Me.Column10, Me.Column11, Me.Column12, Me.Column13, Me.rak_tujuan, Me.Column15, Me.Column16, Me.Column17, Me.Column18, Me.Column19, Me.Column14, Me.Column20, Me.Column21, Me.barcode, Me.flag_BlokSn})
         DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle15.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        DataGridViewCellStyle15.Font = New System.Drawing.Font("Work Sans", 8.0!)
         DataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.ControlText
         DataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight
         DataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText
         DataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DGV_Data_TF.DefaultCellStyle = DataGridViewCellStyle15
-        Me.DGV_Data_TF.Location = New System.Drawing.Point(9, 85)
+        Me.DGV_Data_TF.Location = New System.Drawing.Point(9, 78)
         Me.DGV_Data_TF.MultiSelect = False
         Me.DGV_Data_TF.Name = "DGV_Data_TF"
         Me.DGV_Data_TF.RowHeadersWidth = 21
         DataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DGV_Data_TF.RowsDefaultCellStyle = DataGridViewCellStyle16
         Me.DGV_Data_TF.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.DGV_Data_TF.Size = New System.Drawing.Size(1117, 207)
+        Me.DGV_Data_TF.Size = New System.Drawing.Size(1117, 168)
         Me.DGV_Data_TF.TabIndex = 478
-        '
-        'Label18
-        '
-        Me.Label18.AutoSize = True
-        Me.Label18.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label18.Location = New System.Drawing.Point(562, 750)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(129, 17)
-        Me.Label18.TabIndex = 479
-        Me.Label18.Text = "Jumlah Permintaan"
-        Me.Label18.Visible = False
-        '
-        'TxtjmlPermintaanDisplay
-        '
-        Me.TxtjmlPermintaanDisplay.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtjmlPermintaanDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtjmlPermintaanDisplay.Enabled = False
-        Me.TxtjmlPermintaanDisplay.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtjmlPermintaanDisplay.Location = New System.Drawing.Point(697, 750)
-        Me.TxtjmlPermintaanDisplay.MaxLength = 50
-        Me.TxtjmlPermintaanDisplay.Name = "TxtjmlPermintaanDisplay"
-        Me.TxtjmlPermintaanDisplay.Size = New System.Drawing.Size(177, 21)
-        Me.TxtjmlPermintaanDisplay.TabIndex = 480
-        Me.TxtjmlPermintaanDisplay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtjmlPermintaanDisplay.Visible = False
-        '
-        'TxtStockDisplay
-        '
-        Me.TxtStockDisplay.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtStockDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtStockDisplay.Enabled = False
-        Me.TxtStockDisplay.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.TxtStockDisplay.Location = New System.Drawing.Point(541, 32)
-        Me.TxtStockDisplay.MaxLength = 50
-        Me.TxtStockDisplay.Name = "TxtStockDisplay"
-        Me.TxtStockDisplay.Size = New System.Drawing.Size(167, 20)
-        Me.TxtStockDisplay.TabIndex = 482
-        Me.TxtStockDisplay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Label19
-        '
-        Me.Label19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label19.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.Label19.Location = New System.Drawing.Point(541, 8)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(167, 21)
-        Me.Label19.TabIndex = 481
-        Me.Label19.Text = "Stock"
-        Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TxtMetPotStok
-        '
-        Me.TxtMetPotStok.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtMetPotStok.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtMetPotStok.Enabled = False
-        Me.TxtMetPotStok.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtMetPotStok.Location = New System.Drawing.Point(717, 109)
-        Me.TxtMetPotStok.MaxLength = 50
-        Me.TxtMetPotStok.Name = "TxtMetPotStok"
-        Me.TxtMetPotStok.Size = New System.Drawing.Size(166, 21)
-        Me.TxtMetPotStok.TabIndex = 484
-        Me.TxtMetPotStok.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.TxtMetPotStok.Visible = False
-        '
-        'Label20
-        '
-        Me.Label20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label20.Location = New System.Drawing.Point(717, 85)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(166, 21)
-        Me.Label20.TabIndex = 483
-        Me.Label20.Text = "Met. Stock"
-        Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.Label20.Visible = False
-        '
-        'TxtJenisBags
-        '
-        Me.TxtJenisBags.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtJenisBags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtJenisBags.Enabled = False
-        Me.TxtJenisBags.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtJenisBags.Location = New System.Drawing.Point(887, 109)
-        Me.TxtJenisBags.MaxLength = 50
-        Me.TxtJenisBags.Name = "TxtJenisBags"
-        Me.TxtJenisBags.Size = New System.Drawing.Size(160, 21)
-        Me.TxtJenisBags.TabIndex = 486
-        Me.TxtJenisBags.Visible = False
-        '
-        'Label21
-        '
-        Me.Label21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label21.Location = New System.Drawing.Point(887, 85)
-        Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(160, 21)
-        Me.Label21.TabIndex = 485
-        Me.Label21.Text = "Jenis Bags"
-        Me.Label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.Label21.Visible = False
-        '
-        'TabControl1
-        '
-        Me.TabControl1.Controls.Add(Me.TabPage1)
-        Me.TabControl1.Controls.Add(Me.TabPage3)
-        Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        Me.TabControl1.Location = New System.Drawing.Point(23, 196)
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1140, 360)
-        Me.TabControl1.TabIndex = 487
-        '
-        'TabPage1
-        '
-        Me.TabPage1.Controls.Add(Me.Btn_Scan)
-        Me.TabPage1.Controls.Add(Me.Btn_SimpanSementara)
-        Me.TabPage1.Controls.Add(Me.TxtsisaRequest)
-        Me.TabPage1.Controls.Add(Me.Label25)
-        Me.TabPage1.Controls.Add(Me.Label22)
-        Me.TabPage1.Controls.Add(Me.Label7)
-        Me.TabPage1.Controls.Add(Me.Txt_QR)
-        Me.TabPage1.Controls.Add(Me.DGV_Data_TF)
-        Me.TabPage1.Controls.Add(Me.Label6)
-        Me.TabPage1.Controls.Add(Me.TxtKd_Barang)
-        Me.TabPage1.Controls.Add(Me.TxtStockDisplay)
-        Me.TabPage1.Controls.Add(Me.Btn_GetData)
-        Me.TabPage1.Controls.Add(Me.TxtNm_Barang)
-        Me.TabPage1.Controls.Add(Me.Label19)
-        Me.TabPage1.Controls.Add(Me.TxtTotalTransfer)
-        Me.TabPage1.Controls.Add(Me.TxtTotalTransferBags)
-        Me.TabPage1.Controls.Add(Me.Label5)
-        Me.TabPage1.Controls.Add(Me.Label12)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 26)
-        Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(1132, 330)
-        Me.TabPage1.TabIndex = 0
-        Me.TabPage1.Text = "Input"
-        Me.TabPage1.UseVisualStyleBackColor = True
-        '
-        'Btn_Scan
-        '
-        Me.Btn_Scan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_Scan.Font = New System.Drawing.Font("Work Sans SemiBold", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.Btn_Scan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Scan.Location = New System.Drawing.Point(591, 55)
-        Me.Btn_Scan.Name = "Btn_Scan"
-        Me.Btn_Scan.Size = New System.Drawing.Size(117, 26)
-        Me.Btn_Scan.TabIndex = 494
-        Me.Btn_Scan.Text = "&Scan"
-        Me.Btn_Scan.UseVisualStyleBackColor = False
-        '
-        'Btn_SimpanSementara
-        '
-        Me.Btn_SimpanSementara.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-        Me.Btn_SimpanSementara.Font = New System.Drawing.Font("Work Sans SemiBold", 8.0!, System.Drawing.FontStyle.Bold)
-        Me.Btn_SimpanSementara.ForeColor = System.Drawing.Color.White
-        Me.Btn_SimpanSementara.Location = New System.Drawing.Point(9, 294)
-        Me.Btn_SimpanSementara.Name = "Btn_SimpanSementara"
-        Me.Btn_SimpanSementara.Size = New System.Drawing.Size(145, 32)
-        Me.Btn_SimpanSementara.TabIndex = 488
-        Me.Btn_SimpanSementara.Text = "&Simpan Sementara"
-        Me.Btn_SimpanSementara.UseVisualStyleBackColor = False
-        '
-        'TxtsisaRequest
-        '
-        Me.TxtsisaRequest.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtsisaRequest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtsisaRequest.Enabled = False
-        Me.TxtsisaRequest.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtsisaRequest.Location = New System.Drawing.Point(1059, 436)
-        Me.TxtsisaRequest.MaxLength = 50
-        Me.TxtsisaRequest.Name = "TxtsisaRequest"
-        Me.TxtsisaRequest.Size = New System.Drawing.Size(147, 21)
-        Me.TxtsisaRequest.TabIndex = 488
-        Me.TxtsisaRequest.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Label25
-        '
-        Me.Label25.AutoSize = True
-        Me.Label25.Font = New System.Drawing.Font("Work Sans SemiBold", 10.0!, System.Drawing.FontStyle.Bold)
-        Me.Label25.Location = New System.Drawing.Point(12, 59)
-        Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(68, 20)
-        Me.Label25.TabIndex = 493
-        Me.Label25.Text = "QR Code"
-        '
-        'Label22
-        '
-        Me.Label22.AutoSize = True
-        Me.Label22.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label22.Location = New System.Drawing.Point(964, 438)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(92, 17)
-        Me.Label22.TabIndex = 487
-        Me.Label22.Text = "Sisa Request"
-        '
-        'Txt_QR
-        '
-        Me.Txt_QR.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.Txt_QR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_QR.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.Txt_QR.Location = New System.Drawing.Point(102, 59)
-        Me.Txt_QR.MaxLength = 50
-        Me.Txt_QR.Name = "Txt_QR"
-        Me.Txt_QR.Size = New System.Drawing.Size(484, 20)
-        Me.Txt_QR.TabIndex = 492
-        '
-        'TabPage3
-        '
-        Me.TabPage3.Controls.Add(Me.Dgv_DataRekap)
-        Me.TabPage3.Location = New System.Drawing.Point(4, 26)
-        Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(1132, 330)
-        Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "Rekap"
-        Me.TabPage3.UseVisualStyleBackColor = True
-        '
-        'Dgv_DataRekap
-        '
-        Me.Dgv_DataRekap.AllowUserToAddRows = False
-        Me.Dgv_DataRekap.AllowUserToResizeColumns = False
-        Me.Dgv_DataRekap.AllowUserToResizeRows = False
-        DataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_DataRekap.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle17
-        Me.Dgv_DataRekap.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        Me.Dgv_DataRekap.BackgroundColor = System.Drawing.Color.White
-        Me.Dgv_DataRekap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        DataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle18.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        DataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_DataRekap.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle18
-        Me.Dgv_DataRekap.ColumnHeadersHeight = 40
-        Me.Dgv_DataRekap.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn21, Me.DataGridViewTextBoxColumn22, Me.DataGridViewTextBoxColumn24, Me.DataGridViewTextBoxColumn28, Me.DataGridViewTextBoxColumn30, Me.Column22, Me.Column23, Me.Column24, Me.Column25})
-        DataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle27.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle27.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        DataGridViewCellStyle27.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle27.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle27.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_DataRekap.DefaultCellStyle = DataGridViewCellStyle27
-        Me.Dgv_DataRekap.Location = New System.Drawing.Point(0, 3)
-        Me.Dgv_DataRekap.MultiSelect = False
-        Me.Dgv_DataRekap.Name = "Dgv_DataRekap"
-        Me.Dgv_DataRekap.RowHeadersWidth = 21
-        DataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_DataRekap.RowsDefaultCellStyle = DataGridViewCellStyle28
-        Me.Dgv_DataRekap.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.Dgv_DataRekap.Size = New System.Drawing.Size(1129, 324)
-        Me.Dgv_DataRekap.TabIndex = 480
-        '
-        'TabPage2
-        '
-        Me.TabPage2.Controls.Add(Me.Dgv_DataDetail)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 26)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1132, 330)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Detail"
-        Me.TabPage2.UseVisualStyleBackColor = True
-        '
-        'Dgv_DataDetail
-        '
-        Me.Dgv_DataDetail.AllowUserToAddRows = False
-        Me.Dgv_DataDetail.AllowUserToResizeColumns = False
-        Me.Dgv_DataDetail.AllowUserToResizeRows = False
-        DataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_DataDetail.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle29
-        Me.Dgv_DataDetail.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        Me.Dgv_DataDetail.BackgroundColor = System.Drawing.Color.White
-        Me.Dgv_DataDetail.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        DataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle30.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle30.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        DataGridViewCellStyle30.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle30.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle30.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_DataDetail.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle30
-        Me.Dgv_DataDetail.ColumnHeadersHeight = 40
-        Me.Dgv_DataDetail.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.DataGridViewTextBoxColumn4, Me.DataGridViewTextBoxColumn5, Me.DataGridViewTextBoxColumn6, Me.DataGridViewTextBoxColumn7, Me.DataGridViewTextBoxColumn11, Me.DataGridViewTextBoxColumn12, Me.DataGridViewComboBoxColumn1, Me.DataGridViewTextBoxColumn13, Me.DataGridViewTextBoxColumn14, Me.DataGridViewTextBoxColumn15, Me.DataGridViewTextBoxColumn18, Me.DataGridViewTextBoxColumn19, Me.DataGridViewTextBoxColumn20, Me.detail_barcode})
-        DataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle40.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle40.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        DataGridViewCellStyle40.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle40.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle40.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle40.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_DataDetail.DefaultCellStyle = DataGridViewCellStyle40
-        Me.Dgv_DataDetail.Location = New System.Drawing.Point(0, 3)
-        Me.Dgv_DataDetail.MultiSelect = False
-        Me.Dgv_DataDetail.Name = "Dgv_DataDetail"
-        Me.Dgv_DataDetail.RowHeadersWidth = 21
-        DataGridViewCellStyle41.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_DataDetail.RowsDefaultCellStyle = DataGridViewCellStyle41
-        Me.Dgv_DataDetail.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.Dgv_DataDetail.Size = New System.Drawing.Size(1129, 324)
-        Me.Dgv_DataDetail.TabIndex = 479
-        '
-        'TxtjmlPermintaanBersih
-        '
-        Me.TxtjmlPermintaanBersih.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtjmlPermintaanBersih.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtjmlPermintaanBersih.Enabled = False
-        Me.TxtjmlPermintaanBersih.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.TxtjmlPermintaanBersih.Location = New System.Drawing.Point(880, 750)
-        Me.TxtjmlPermintaanBersih.MaxLength = 50
-        Me.TxtjmlPermintaanBersih.Name = "TxtjmlPermintaanBersih"
-        Me.TxtjmlPermintaanBersih.Size = New System.Drawing.Size(81, 21)
-        Me.TxtjmlPermintaanBersih.TabIndex = 480
-        Me.TxtjmlPermintaanBersih.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtjmlPermintaanBersih.Visible = False
-        '
-        'Cmb_Lokasi
-        '
-        Me.Cmb_Lokasi.FormattingEnabled = True
-        Me.Cmb_Lokasi.Location = New System.Drawing.Point(798, 777)
-        Me.Cmb_Lokasi.Name = "Cmb_Lokasi"
-        Me.Cmb_Lokasi.Size = New System.Drawing.Size(121, 21)
-        Me.Cmb_Lokasi.TabIndex = 488
-        Me.Cmb_Lokasi.Visible = False
-        '
-        'Label23
-        '
-        Me.Label23.AutoSize = True
-        Me.Label23.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.Label23.Location = New System.Drawing.Point(20, 143)
-        Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(73, 16)
-        Me.Label23.TabIndex = 490
-        Me.Label23.Text = "Cost Center"
-        '
-        'TxtKodeCost
-        '
-        Me.TxtKodeCost.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtKodeCost.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtKodeCost.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.TxtKodeCost.Location = New System.Drawing.Point(129, 141)
-        Me.TxtKodeCost.MaxLength = 50
-        Me.TxtKodeCost.Name = "TxtKodeCost"
-        Me.TxtKodeCost.Size = New System.Drawing.Size(293, 20)
-        Me.TxtKodeCost.TabIndex = 489
-        '
-        'LvCost
-        '
-        Me.LvCost.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader6, Me.ColumnHeader8})
-        Me.LvCost.FullRowSelect = True
-        Me.LvCost.GridLines = True
-        Me.LvCost.HideSelection = False
-        Me.LvCost.Location = New System.Drawing.Point(1246, 165)
-        Me.LvCost.Name = "LvCost"
-        Me.LvCost.Size = New System.Drawing.Size(445, 161)
-        Me.LvCost.TabIndex = 491
-        Me.LvCost.UseCompatibleStateImageBehavior = False
-        Me.LvCost.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader6
-        '
-        Me.ColumnHeader6.Text = "ID"
-        Me.ColumnHeader6.Width = 0
-        '
-        'ColumnHeader8
-        '
-        Me.ColumnHeader8.Text = "Kode Cost Center"
-        Me.ColumnHeader8.Width = 413
-        '
-        'TxtIDCost
-        '
-        Me.TxtIDCost.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.TxtIDCost.Location = New System.Drawing.Point(426, 140)
-        Me.TxtIDCost.Name = "TxtIDCost"
-        Me.TxtIDCost.ReadOnly = True
-        Me.TxtIDCost.Size = New System.Drawing.Size(62, 20)
-        Me.TxtIDCost.TabIndex = 492
-        Me.TxtIDCost.Visible = False
-        '
-        'Cmb_JenisPengeluaran
-        '
-        Me.Cmb_JenisPengeluaran.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Cmb_JenisPengeluaran.Enabled = False
-        Me.Cmb_JenisPengeluaran.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.Cmb_JenisPengeluaran.FormattingEnabled = True
-        Me.Cmb_JenisPengeluaran.Location = New System.Drawing.Point(129, 168)
-        Me.Cmb_JenisPengeluaran.Name = "Cmb_JenisPengeluaran"
-        Me.Cmb_JenisPengeluaran.Size = New System.Drawing.Size(293, 24)
-        Me.Cmb_JenisPengeluaran.TabIndex = 429
-        '
-        'Label24
-        '
-        Me.Label24.AutoSize = True
-        Me.Label24.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.Label24.Location = New System.Drawing.Point(20, 172)
-        Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(104, 16)
-        Me.Label24.TabIndex = 434
-        Me.Label24.Text = "Jenis Pengeluaran"
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 42)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1183, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Column1
         '
@@ -1428,6 +1075,390 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.flag_BlokSn.ReadOnly = True
         Me.flag_BlokSn.Visible = False
         '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label18.Location = New System.Drawing.Point(562, 750)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(129, 17)
+        Me.Label18.TabIndex = 479
+        Me.Label18.Text = "Jumlah Permintaan"
+        Me.Label18.Visible = False
+        '
+        'TxtjmlPermintaanDisplay
+        '
+        Me.TxtjmlPermintaanDisplay.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtjmlPermintaanDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtjmlPermintaanDisplay.Enabled = False
+        Me.TxtjmlPermintaanDisplay.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.TxtjmlPermintaanDisplay.Location = New System.Drawing.Point(697, 750)
+        Me.TxtjmlPermintaanDisplay.MaxLength = 50
+        Me.TxtjmlPermintaanDisplay.Name = "TxtjmlPermintaanDisplay"
+        Me.TxtjmlPermintaanDisplay.Size = New System.Drawing.Size(177, 21)
+        Me.TxtjmlPermintaanDisplay.TabIndex = 480
+        Me.TxtjmlPermintaanDisplay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TxtjmlPermintaanDisplay.Visible = False
+        '
+        'TxtStockDisplay
+        '
+        Me.TxtStockDisplay.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtStockDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtStockDisplay.Enabled = False
+        Me.TxtStockDisplay.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.TxtStockDisplay.Location = New System.Drawing.Point(541, 27)
+        Me.TxtStockDisplay.MaxLength = 50
+        Me.TxtStockDisplay.Name = "TxtStockDisplay"
+        Me.TxtStockDisplay.Size = New System.Drawing.Size(167, 20)
+        Me.TxtStockDisplay.TabIndex = 482
+        Me.TxtStockDisplay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label19
+        '
+        Me.Label19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label19.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Label19.Location = New System.Drawing.Point(541, 3)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(167, 21)
+        Me.Label19.TabIndex = 481
+        Me.Label19.Text = "Stock"
+        Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TxtMetPotStok
+        '
+        Me.TxtMetPotStok.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtMetPotStok.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtMetPotStok.Enabled = False
+        Me.TxtMetPotStok.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.TxtMetPotStok.Location = New System.Drawing.Point(717, 109)
+        Me.TxtMetPotStok.MaxLength = 50
+        Me.TxtMetPotStok.Name = "TxtMetPotStok"
+        Me.TxtMetPotStok.Size = New System.Drawing.Size(166, 21)
+        Me.TxtMetPotStok.TabIndex = 484
+        Me.TxtMetPotStok.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.TxtMetPotStok.Visible = False
+        '
+        'Label20
+        '
+        Me.Label20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label20.Location = New System.Drawing.Point(717, 85)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(166, 21)
+        Me.Label20.TabIndex = 483
+        Me.Label20.Text = "Met. Stock"
+        Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label20.Visible = False
+        '
+        'TxtJenisBags
+        '
+        Me.TxtJenisBags.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtJenisBags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtJenisBags.Enabled = False
+        Me.TxtJenisBags.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.TxtJenisBags.Location = New System.Drawing.Point(887, 109)
+        Me.TxtJenisBags.MaxLength = 50
+        Me.TxtJenisBags.Name = "TxtJenisBags"
+        Me.TxtJenisBags.Size = New System.Drawing.Size(160, 21)
+        Me.TxtJenisBags.TabIndex = 486
+        Me.TxtJenisBags.Visible = False
+        '
+        'Label21
+        '
+        Me.Label21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label21.Location = New System.Drawing.Point(887, 85)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(160, 21)
+        Me.Label21.TabIndex = 485
+        Me.Label21.Text = "Jenis Bags"
+        Me.Label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label21.Visible = False
+        '
+        'TabControl1
+        '
+        Me.TabControl1.Controls.Add(Me.TabPage1)
+        Me.TabControl1.Controls.Add(Me.TabPage3)
+        Me.TabControl1.Controls.Add(Me.TabPage2)
+        Me.TabControl1.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.TabControl1.Location = New System.Drawing.Point(23, 242)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(1140, 313)
+        Me.TabControl1.TabIndex = 487
+        '
+        'TabPage1
+        '
+        Me.TabPage1.Controls.Add(Me.Btn_Scan)
+        Me.TabPage1.Controls.Add(Me.Btn_SimpanSementara)
+        Me.TabPage1.Controls.Add(Me.TxtsisaRequest)
+        Me.TabPage1.Controls.Add(Me.Label25)
+        Me.TabPage1.Controls.Add(Me.Label22)
+        Me.TabPage1.Controls.Add(Me.Label7)
+        Me.TabPage1.Controls.Add(Me.Txt_QR)
+        Me.TabPage1.Controls.Add(Me.DGV_Data_TF)
+        Me.TabPage1.Controls.Add(Me.Label6)
+        Me.TabPage1.Controls.Add(Me.TxtKd_Barang)
+        Me.TabPage1.Controls.Add(Me.TxtStockDisplay)
+        Me.TabPage1.Controls.Add(Me.Btn_GetData)
+        Me.TabPage1.Controls.Add(Me.TxtNm_Barang)
+        Me.TabPage1.Controls.Add(Me.Label19)
+        Me.TabPage1.Controls.Add(Me.TxtTotalTransfer)
+        Me.TabPage1.Controls.Add(Me.TxtTotalTransferBags)
+        Me.TabPage1.Controls.Add(Me.Label5)
+        Me.TabPage1.Controls.Add(Me.Label12)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage1.Size = New System.Drawing.Size(1132, 284)
+        Me.TabPage1.TabIndex = 0
+        Me.TabPage1.Text = "Input"
+        Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'Btn_Scan
+        '
+        Me.Btn_Scan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Scan.Font = New System.Drawing.Font("Work Sans SemiBold", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Scan.ForeColor = System.Drawing.Color.White
+        Me.Btn_Scan.Location = New System.Drawing.Point(591, 50)
+        Me.Btn_Scan.Name = "Btn_Scan"
+        Me.Btn_Scan.Size = New System.Drawing.Size(117, 26)
+        Me.Btn_Scan.TabIndex = 494
+        Me.Btn_Scan.Text = "&Scan"
+        Me.Btn_Scan.UseVisualStyleBackColor = False
+        '
+        'Btn_SimpanSementara
+        '
+        Me.Btn_SimpanSementara.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_SimpanSementara.Font = New System.Drawing.Font("Work Sans SemiBold", 8.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_SimpanSementara.ForeColor = System.Drawing.Color.White
+        Me.Btn_SimpanSementara.Location = New System.Drawing.Point(9, 248)
+        Me.Btn_SimpanSementara.Name = "Btn_SimpanSementara"
+        Me.Btn_SimpanSementara.Size = New System.Drawing.Size(145, 32)
+        Me.Btn_SimpanSementara.TabIndex = 488
+        Me.Btn_SimpanSementara.Text = "&Simpan Sementara"
+        Me.Btn_SimpanSementara.UseVisualStyleBackColor = False
+        '
+        'TxtsisaRequest
+        '
+        Me.TxtsisaRequest.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtsisaRequest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtsisaRequest.Enabled = False
+        Me.TxtsisaRequest.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.TxtsisaRequest.Location = New System.Drawing.Point(1059, 436)
+        Me.TxtsisaRequest.MaxLength = 50
+        Me.TxtsisaRequest.Name = "TxtsisaRequest"
+        Me.TxtsisaRequest.Size = New System.Drawing.Size(147, 21)
+        Me.TxtsisaRequest.TabIndex = 488
+        Me.TxtsisaRequest.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label25
+        '
+        Me.Label25.AutoSize = True
+        Me.Label25.Font = New System.Drawing.Font("Work Sans SemiBold", 10.0!, System.Drawing.FontStyle.Bold)
+        Me.Label25.Location = New System.Drawing.Point(12, 54)
+        Me.Label25.Name = "Label25"
+        Me.Label25.Size = New System.Drawing.Size(68, 20)
+        Me.Label25.TabIndex = 493
+        Me.Label25.Text = "QR Code"
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label22.Location = New System.Drawing.Point(964, 438)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(92, 17)
+        Me.Label22.TabIndex = 487
+        Me.Label22.Text = "Sisa Request"
+        '
+        'Txt_QR
+        '
+        Me.Txt_QR.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_QR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_QR.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Txt_QR.Location = New System.Drawing.Point(102, 54)
+        Me.Txt_QR.MaxLength = 50
+        Me.Txt_QR.Name = "Txt_QR"
+        Me.Txt_QR.Size = New System.Drawing.Size(484, 20)
+        Me.Txt_QR.TabIndex = 492
+        '
+        'TabPage3
+        '
+        Me.TabPage3.Controls.Add(Me.Dgv_DataRekap)
+        Me.TabPage3.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage3.Name = "TabPage3"
+        Me.TabPage3.Size = New System.Drawing.Size(1132, 284)
+        Me.TabPage3.TabIndex = 2
+        Me.TabPage3.Text = "Rekap"
+        Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'Dgv_DataRekap
+        '
+        Me.Dgv_DataRekap.AllowUserToAddRows = False
+        Me.Dgv_DataRekap.AllowUserToResizeColumns = False
+        Me.Dgv_DataRekap.AllowUserToResizeRows = False
+        DataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_DataRekap.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle17
+        Me.Dgv_DataRekap.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
+        Me.Dgv_DataRekap.BackgroundColor = System.Drawing.Color.White
+        Me.Dgv_DataRekap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        DataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle18.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        DataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_DataRekap.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle18
+        Me.Dgv_DataRekap.ColumnHeadersHeight = 40
+        Me.Dgv_DataRekap.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn21, Me.DataGridViewTextBoxColumn22, Me.DataGridViewTextBoxColumn24, Me.DataGridViewTextBoxColumn28, Me.DataGridViewTextBoxColumn30, Me.Column22, Me.Column23, Me.Column24, Me.Column25})
+        DataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle27.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle27.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        DataGridViewCellStyle27.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle27.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle27.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_DataRekap.DefaultCellStyle = DataGridViewCellStyle27
+        Me.Dgv_DataRekap.Location = New System.Drawing.Point(0, 3)
+        Me.Dgv_DataRekap.MultiSelect = False
+        Me.Dgv_DataRekap.Name = "Dgv_DataRekap"
+        Me.Dgv_DataRekap.RowHeadersWidth = 21
+        DataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_DataRekap.RowsDefaultCellStyle = DataGridViewCellStyle28
+        Me.Dgv_DataRekap.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
+        Me.Dgv_DataRekap.Size = New System.Drawing.Size(1129, 278)
+        Me.Dgv_DataRekap.TabIndex = 480
+        '
+        'DataGridViewTextBoxColumn21
+        '
+        DataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn21.DefaultCellStyle = DataGridViewCellStyle19
+        Me.DataGridViewTextBoxColumn21.HeaderText = "Lokasi"
+        Me.DataGridViewTextBoxColumn21.Name = "DataGridViewTextBoxColumn21"
+        Me.DataGridViewTextBoxColumn21.ReadOnly = True
+        Me.DataGridViewTextBoxColumn21.Visible = False
+        Me.DataGridViewTextBoxColumn21.Width = 560
+        '
+        'DataGridViewTextBoxColumn22
+        '
+        DataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn22.DefaultCellStyle = DataGridViewCellStyle20
+        Me.DataGridViewTextBoxColumn22.HeaderText = "Kode Barang"
+        Me.DataGridViewTextBoxColumn22.Name = "DataGridViewTextBoxColumn22"
+        Me.DataGridViewTextBoxColumn22.ReadOnly = True
+        Me.DataGridViewTextBoxColumn22.Width = 270
+        '
+        'DataGridViewTextBoxColumn24
+        '
+        DataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn24.DefaultCellStyle = DataGridViewCellStyle21
+        Me.DataGridViewTextBoxColumn24.HeaderText = "Nama"
+        Me.DataGridViewTextBoxColumn24.Name = "DataGridViewTextBoxColumn24"
+        Me.DataGridViewTextBoxColumn24.ReadOnly = True
+        Me.DataGridViewTextBoxColumn24.Width = 450
+        '
+        'DataGridViewTextBoxColumn28
+        '
+        DataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn28.DefaultCellStyle = DataGridViewCellStyle22
+        Me.DataGridViewTextBoxColumn28.HeaderText = "Jumlah"
+        Me.DataGridViewTextBoxColumn28.Name = "DataGridViewTextBoxColumn28"
+        Me.DataGridViewTextBoxColumn28.ReadOnly = True
+        Me.DataGridViewTextBoxColumn28.Width = 250
+        '
+        'DataGridViewTextBoxColumn30
+        '
+        DataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn30.DefaultCellStyle = DataGridViewCellStyle23
+        Me.DataGridViewTextBoxColumn30.HeaderText = "Jumlah Bags"
+        Me.DataGridViewTextBoxColumn30.Name = "DataGridViewTextBoxColumn30"
+        Me.DataGridViewTextBoxColumn30.ReadOnly = True
+        Me.DataGridViewTextBoxColumn30.Visible = False
+        Me.DataGridViewTextBoxColumn30.Width = 200
+        '
+        'Column22
+        '
+        DataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column22.DefaultCellStyle = DataGridViewCellStyle24
+        Me.Column22.HeaderText = "Jumlah_Bersih"
+        Me.Column22.Name = "Column22"
+        Me.Column22.ReadOnly = True
+        Me.Column22.Visible = False
+        '
+        'Column23
+        '
+        DataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column23.DefaultCellStyle = DataGridViewCellStyle25
+        Me.Column23.HeaderText = "Satuan"
+        Me.Column23.Name = "Column23"
+        Me.Column23.ReadOnly = True
+        Me.Column23.Width = 130
+        '
+        'Column24
+        '
+        DataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column24.DefaultCellStyle = DataGridViewCellStyle26
+        Me.Column24.HeaderText = "Satuan Kecil"
+        Me.Column24.Name = "Column24"
+        Me.Column24.ReadOnly = True
+        Me.Column24.Visible = False
+        '
+        'Column25
+        '
+        Me.Column25.HeaderText = "Oto"
+        Me.Column25.Name = "Column25"
+        Me.Column25.ReadOnly = True
+        Me.Column25.Visible = False
+        '
+        'TabPage2
+        '
+        Me.TabPage2.Controls.Add(Me.Dgv_DataDetail)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage2.Size = New System.Drawing.Size(1132, 284)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "Detail"
+        Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'Dgv_DataDetail
+        '
+        Me.Dgv_DataDetail.AllowUserToAddRows = False
+        Me.Dgv_DataDetail.AllowUserToResizeColumns = False
+        Me.Dgv_DataDetail.AllowUserToResizeRows = False
+        DataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_DataDetail.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle29
+        Me.Dgv_DataDetail.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
+        Me.Dgv_DataDetail.BackgroundColor = System.Drawing.Color.White
+        Me.Dgv_DataDetail.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        DataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle30.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle30.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        DataGridViewCellStyle30.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle30.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle30.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_DataDetail.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle30
+        Me.Dgv_DataDetail.ColumnHeadersHeight = 40
+        Me.Dgv_DataDetail.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.DataGridViewTextBoxColumn4, Me.DataGridViewTextBoxColumn5, Me.DataGridViewTextBoxColumn6, Me.DataGridViewTextBoxColumn7, Me.DataGridViewTextBoxColumn11, Me.DataGridViewTextBoxColumn12, Me.DataGridViewComboBoxColumn1, Me.DataGridViewTextBoxColumn13, Me.DataGridViewTextBoxColumn14, Me.DataGridViewTextBoxColumn15, Me.DataGridViewTextBoxColumn18, Me.DataGridViewTextBoxColumn19, Me.DataGridViewTextBoxColumn20, Me.detail_barcode})
+        DataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle40.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle40.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        DataGridViewCellStyle40.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle40.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle40.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle40.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_DataDetail.DefaultCellStyle = DataGridViewCellStyle40
+        Me.Dgv_DataDetail.Location = New System.Drawing.Point(0, 3)
+        Me.Dgv_DataDetail.MultiSelect = False
+        Me.Dgv_DataDetail.Name = "Dgv_DataDetail"
+        Me.Dgv_DataDetail.RowHeadersWidth = 21
+        DataGridViewCellStyle41.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_DataDetail.RowsDefaultCellStyle = DataGridViewCellStyle41
+        Me.Dgv_DataDetail.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
+        Me.Dgv_DataDetail.Size = New System.Drawing.Size(1129, 274)
+        Me.Dgv_DataDetail.TabIndex = 479
+        '
         'DataGridViewTextBoxColumn1
         '
         Me.DataGridViewTextBoxColumn1.HeaderText = "Lokasi"
@@ -1542,6 +1573,7 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.DataGridViewTextBoxColumn18.HeaderText = "Tanggal Produksi"
         Me.DataGridViewTextBoxColumn18.Name = "DataGridViewTextBoxColumn18"
         Me.DataGridViewTextBoxColumn18.ReadOnly = True
+        Me.DataGridViewTextBoxColumn18.Visible = False
         Me.DataGridViewTextBoxColumn18.Width = 140
         '
         'DataGridViewTextBoxColumn19
@@ -1573,85 +1605,379 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.detail_barcode.ReadOnly = True
         Me.detail_barcode.Width = 360
         '
-        'DataGridViewTextBoxColumn21
+        'TxtjmlPermintaanBersih
         '
-        DataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn21.DefaultCellStyle = DataGridViewCellStyle19
-        Me.DataGridViewTextBoxColumn21.HeaderText = "Lokasi"
-        Me.DataGridViewTextBoxColumn21.Name = "DataGridViewTextBoxColumn21"
-        Me.DataGridViewTextBoxColumn21.ReadOnly = True
-        Me.DataGridViewTextBoxColumn21.Visible = False
+        Me.TxtjmlPermintaanBersih.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtjmlPermintaanBersih.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtjmlPermintaanBersih.Enabled = False
+        Me.TxtjmlPermintaanBersih.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.TxtjmlPermintaanBersih.Location = New System.Drawing.Point(880, 750)
+        Me.TxtjmlPermintaanBersih.MaxLength = 50
+        Me.TxtjmlPermintaanBersih.Name = "TxtjmlPermintaanBersih"
+        Me.TxtjmlPermintaanBersih.Size = New System.Drawing.Size(81, 21)
+        Me.TxtjmlPermintaanBersih.TabIndex = 480
+        Me.TxtjmlPermintaanBersih.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TxtjmlPermintaanBersih.Visible = False
         '
-        'DataGridViewTextBoxColumn22
+        'Cmb_Lokasi
         '
-        DataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn22.DefaultCellStyle = DataGridViewCellStyle20
-        Me.DataGridViewTextBoxColumn22.HeaderText = "Kode Barang"
-        Me.DataGridViewTextBoxColumn22.Name = "DataGridViewTextBoxColumn22"
-        Me.DataGridViewTextBoxColumn22.ReadOnly = True
-        Me.DataGridViewTextBoxColumn22.Width = 270
+        Me.Cmb_Lokasi.FormattingEnabled = True
+        Me.Cmb_Lokasi.Location = New System.Drawing.Point(798, 777)
+        Me.Cmb_Lokasi.Name = "Cmb_Lokasi"
+        Me.Cmb_Lokasi.Size = New System.Drawing.Size(121, 21)
+        Me.Cmb_Lokasi.TabIndex = 488
+        Me.Cmb_Lokasi.Visible = False
         '
-        'DataGridViewTextBoxColumn24
+        'Label23
         '
-        DataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn24.DefaultCellStyle = DataGridViewCellStyle21
-        Me.DataGridViewTextBoxColumn24.HeaderText = "Nama"
-        Me.DataGridViewTextBoxColumn24.Name = "DataGridViewTextBoxColumn24"
-        Me.DataGridViewTextBoxColumn24.ReadOnly = True
-        Me.DataGridViewTextBoxColumn24.Width = 450
+        Me.Label23.AutoSize = True
+        Me.Label23.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Label23.Location = New System.Drawing.Point(20, 143)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(73, 16)
+        Me.Label23.TabIndex = 490
+        Me.Label23.Text = "Cost Center"
         '
-        'DataGridViewTextBoxColumn28
+        'TxtKodeCost
         '
-        DataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn28.DefaultCellStyle = DataGridViewCellStyle22
-        Me.DataGridViewTextBoxColumn28.HeaderText = "Jumlah"
-        Me.DataGridViewTextBoxColumn28.Name = "DataGridViewTextBoxColumn28"
-        Me.DataGridViewTextBoxColumn28.ReadOnly = True
-        Me.DataGridViewTextBoxColumn28.Width = 250
+        Me.TxtKodeCost.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtKodeCost.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtKodeCost.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.TxtKodeCost.Location = New System.Drawing.Point(129, 141)
+        Me.TxtKodeCost.MaxLength = 50
+        Me.TxtKodeCost.Name = "TxtKodeCost"
+        Me.TxtKodeCost.Size = New System.Drawing.Size(293, 20)
+        Me.TxtKodeCost.TabIndex = 489
         '
-        'DataGridViewTextBoxColumn30
+        'LvCost
         '
-        DataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.DataGridViewTextBoxColumn30.DefaultCellStyle = DataGridViewCellStyle23
-        Me.DataGridViewTextBoxColumn30.HeaderText = "Jumlah Bags"
-        Me.DataGridViewTextBoxColumn30.Name = "DataGridViewTextBoxColumn30"
-        Me.DataGridViewTextBoxColumn30.ReadOnly = True
-        Me.DataGridViewTextBoxColumn30.Visible = False
-        Me.DataGridViewTextBoxColumn30.Width = 200
+        Me.LvCost.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader6, Me.ColumnHeader8})
+        Me.LvCost.FullRowSelect = True
+        Me.LvCost.GridLines = True
+        Me.LvCost.HideSelection = False
+        Me.LvCost.Location = New System.Drawing.Point(1246, 165)
+        Me.LvCost.Name = "LvCost"
+        Me.LvCost.Size = New System.Drawing.Size(445, 161)
+        Me.LvCost.TabIndex = 491
+        Me.LvCost.UseCompatibleStateImageBehavior = False
+        Me.LvCost.View = System.Windows.Forms.View.Details
         '
-        'Column22
+        'ColumnHeader6
         '
-        DataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column22.DefaultCellStyle = DataGridViewCellStyle24
-        Me.Column22.HeaderText = "Jumlah_Bersih"
-        Me.Column22.Name = "Column22"
-        Me.Column22.ReadOnly = True
-        Me.Column22.Visible = False
+        Me.ColumnHeader6.Text = "ID"
+        Me.ColumnHeader6.Width = 0
         '
-        'Column23
+        'ColumnHeader8
         '
-        DataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column23.DefaultCellStyle = DataGridViewCellStyle25
-        Me.Column23.HeaderText = "Satuan"
-        Me.Column23.Name = "Column23"
-        Me.Column23.ReadOnly = True
-        Me.Column23.Width = 130
+        Me.ColumnHeader8.Text = "Kode Cost Center"
+        Me.ColumnHeader8.Width = 413
         '
-        'Column24
+        'TxtIDCost
         '
-        DataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column24.DefaultCellStyle = DataGridViewCellStyle26
-        Me.Column24.HeaderText = "Satuan Kecil"
-        Me.Column24.Name = "Column24"
-        Me.Column24.ReadOnly = True
-        Me.Column24.Visible = False
+        Me.TxtIDCost.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.TxtIDCost.Location = New System.Drawing.Point(426, 140)
+        Me.TxtIDCost.Name = "TxtIDCost"
+        Me.TxtIDCost.ReadOnly = True
+        Me.TxtIDCost.Size = New System.Drawing.Size(62, 20)
+        Me.TxtIDCost.TabIndex = 492
+        Me.TxtIDCost.Visible = False
         '
-        'Column25
+        'Cmb_JenisPengeluaran
         '
-        Me.Column25.HeaderText = "Oto"
-        Me.Column25.Name = "Column25"
-        Me.Column25.ReadOnly = True
-        Me.Column25.Visible = False
+        Me.Cmb_JenisPengeluaran.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_JenisPengeluaran.Enabled = False
+        Me.Cmb_JenisPengeluaran.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Cmb_JenisPengeluaran.FormattingEnabled = True
+        Me.Cmb_JenisPengeluaran.Location = New System.Drawing.Point(129, 168)
+        Me.Cmb_JenisPengeluaran.Name = "Cmb_JenisPengeluaran"
+        Me.Cmb_JenisPengeluaran.Size = New System.Drawing.Size(293, 24)
+        Me.Cmb_JenisPengeluaran.TabIndex = 429
+        '
+        'Label24
+        '
+        Me.Label24.AutoSize = True
+        Me.Label24.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Label24.Location = New System.Drawing.Point(20, 172)
+        Me.Label24.Name = "Label24"
+        Me.Label24.Size = New System.Drawing.Size(104, 16)
+        Me.Label24.TabIndex = 434
+        Me.Label24.Text = "Jenis Pengeluaran"
+        '
+        'Label26
+        '
+        Me.Label26.AutoSize = True
+        Me.Label26.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Label26.Location = New System.Drawing.Point(20, 201)
+        Me.Label26.Name = "Label26"
+        Me.Label26.Size = New System.Drawing.Size(104, 16)
+        Me.Label26.TabIndex = 493
+        Me.Label26.Text = "Biaya Pengeluaran"
+        '
+        'ComboBox1
+        '
+        Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox1.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Location = New System.Drawing.Point(129, 198)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(293, 24)
+        Me.ComboBox1.TabIndex = 494
+        '
+        'Panel5
+        '
+        Me.Panel5.BackColor = System.Drawing.Color.Red
+        Me.Panel5.Location = New System.Drawing.Point(20, 226)
+        Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel5.Name = "Panel5"
+        Me.Panel5.Size = New System.Drawing.Size(1041, 12)
+        Me.Panel5.TabIndex = 495
+        Me.Panel5.Visible = False
+        '
+        'DataGridViewTextBoxColumn8
+        '
+        DataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn8.DefaultCellStyle = DataGridViewCellStyle42
+        Me.DataGridViewTextBoxColumn8.HeaderText = "Stok"
+        Me.DataGridViewTextBoxColumn8.Name = "DataGridViewTextBoxColumn8"
+        Me.DataGridViewTextBoxColumn8.ReadOnly = True
+        Me.DataGridViewTextBoxColumn8.Width = 200
+        '
+        'DataGridViewTextBoxColumn9
+        '
+        DataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn9.DefaultCellStyle = DataGridViewCellStyle43
+        Me.DataGridViewTextBoxColumn9.HeaderText = "Satuan"
+        Me.DataGridViewTextBoxColumn9.Name = "DataGridViewTextBoxColumn9"
+        Me.DataGridViewTextBoxColumn9.ReadOnly = True
+        '
+        'DataGridViewTextBoxColumn10
+        '
+        DataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn10.DefaultCellStyle = DataGridViewCellStyle44
+        Me.DataGridViewTextBoxColumn10.HeaderText = "Stok Bags"
+        Me.DataGridViewTextBoxColumn10.Name = "DataGridViewTextBoxColumn10"
+        Me.DataGridViewTextBoxColumn10.ReadOnly = True
+        Me.DataGridViewTextBoxColumn10.Visible = False
+        Me.DataGridViewTextBoxColumn10.Width = 120
+        '
+        'DataGridViewTextBoxColumn16
+        '
+        Me.DataGridViewTextBoxColumn16.HeaderText = "Isi Bags"
+        Me.DataGridViewTextBoxColumn16.Name = "DataGridViewTextBoxColumn16"
+        Me.DataGridViewTextBoxColumn16.ReadOnly = True
+        Me.DataGridViewTextBoxColumn16.Visible = False
+        '
+        'DataGridViewTextBoxColumn17
+        '
+        Me.DataGridViewTextBoxColumn17.HeaderText = "Satuan Isi Bags"
+        Me.DataGridViewTextBoxColumn17.Name = "DataGridViewTextBoxColumn17"
+        Me.DataGridViewTextBoxColumn17.ReadOnly = True
+        Me.DataGridViewTextBoxColumn17.Visible = False
+        '
+        'DataGridViewTextBoxColumn23
+        '
+        DataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn23.DefaultCellStyle = DataGridViewCellStyle45
+        Me.DataGridViewTextBoxColumn23.HeaderText = "Lokasi"
+        Me.DataGridViewTextBoxColumn23.Name = "DataGridViewTextBoxColumn23"
+        Me.DataGridViewTextBoxColumn23.ReadOnly = True
+        Me.DataGridViewTextBoxColumn23.Visible = False
+        Me.DataGridViewTextBoxColumn23.Width = 560
+        '
+        'DataGridViewTextBoxColumn25
+        '
+        DataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn25.DefaultCellStyle = DataGridViewCellStyle46
+        Me.DataGridViewTextBoxColumn25.HeaderText = "Nama"
+        Me.DataGridViewTextBoxColumn25.Name = "DataGridViewTextBoxColumn25"
+        Me.DataGridViewTextBoxColumn25.ReadOnly = True
+        Me.DataGridViewTextBoxColumn25.Visible = False
+        Me.DataGridViewTextBoxColumn25.Width = 450
+        '
+        'DataGridViewTextBoxColumn26
+        '
+        DataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn26.DefaultCellStyle = DataGridViewCellStyle47
+        Me.DataGridViewTextBoxColumn26.HeaderText = "Jumlah"
+        Me.DataGridViewTextBoxColumn26.Name = "DataGridViewTextBoxColumn26"
+        Me.DataGridViewTextBoxColumn26.ReadOnly = True
+        Me.DataGridViewTextBoxColumn26.Visible = False
+        Me.DataGridViewTextBoxColumn26.Width = 250
+        '
+        'DataGridViewTextBoxColumn27
+        '
+        DataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn27.DefaultCellStyle = DataGridViewCellStyle48
+        Me.DataGridViewTextBoxColumn27.HeaderText = "Jumlah Bags"
+        Me.DataGridViewTextBoxColumn27.Name = "DataGridViewTextBoxColumn27"
+        Me.DataGridViewTextBoxColumn27.ReadOnly = True
+        Me.DataGridViewTextBoxColumn27.Visible = False
+        Me.DataGridViewTextBoxColumn27.Width = 200
+        '
+        'DataGridViewTextBoxColumn29
+        '
+        DataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn29.DefaultCellStyle = DataGridViewCellStyle49
+        Me.DataGridViewTextBoxColumn29.HeaderText = "Satuan"
+        Me.DataGridViewTextBoxColumn29.Name = "DataGridViewTextBoxColumn29"
+        Me.DataGridViewTextBoxColumn29.ReadOnly = True
+        Me.DataGridViewTextBoxColumn29.Width = 130
+        '
+        'DataGridViewTextBoxColumn31
+        '
+        Me.DataGridViewTextBoxColumn31.HeaderText = "Oto"
+        Me.DataGridViewTextBoxColumn31.Name = "DataGridViewTextBoxColumn31"
+        Me.DataGridViewTextBoxColumn31.ReadOnly = True
+        Me.DataGridViewTextBoxColumn31.Visible = False
+        '
+        'DataGridViewTextBoxColumn32
+        '
+        Me.DataGridViewTextBoxColumn32.HeaderText = "Lokasi"
+        Me.DataGridViewTextBoxColumn32.Name = "DataGridViewTextBoxColumn32"
+        Me.DataGridViewTextBoxColumn32.ReadOnly = True
+        Me.DataGridViewTextBoxColumn32.Visible = False
+        '
+        'DataGridViewTextBoxColumn33
+        '
+        DataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn33.DefaultCellStyle = DataGridViewCellStyle50
+        Me.DataGridViewTextBoxColumn33.HeaderText = "Kode Barang"
+        Me.DataGridViewTextBoxColumn33.Name = "DataGridViewTextBoxColumn33"
+        Me.DataGridViewTextBoxColumn33.ReadOnly = True
+        Me.DataGridViewTextBoxColumn33.Visible = False
+        Me.DataGridViewTextBoxColumn33.Width = 150
+        '
+        'DataGridViewTextBoxColumn34
+        '
+        Me.DataGridViewTextBoxColumn34.HeaderText = "SN"
+        Me.DataGridViewTextBoxColumn34.Name = "DataGridViewTextBoxColumn34"
+        Me.DataGridViewTextBoxColumn34.ReadOnly = True
+        Me.DataGridViewTextBoxColumn34.Visible = False
+        '
+        'DataGridViewTextBoxColumn35
+        '
+        DataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn35.DefaultCellStyle = DataGridViewCellStyle51
+        Me.DataGridViewTextBoxColumn35.HeaderText = "Nama"
+        Me.DataGridViewTextBoxColumn35.Name = "DataGridViewTextBoxColumn35"
+        Me.DataGridViewTextBoxColumn35.ReadOnly = True
+        Me.DataGridViewTextBoxColumn35.Visible = False
+        Me.DataGridViewTextBoxColumn35.Width = 300
+        '
+        'DataGridViewTextBoxColumn36
+        '
+        Me.DataGridViewTextBoxColumn36.HeaderText = "ID Warehouse"
+        Me.DataGridViewTextBoxColumn36.Name = "DataGridViewTextBoxColumn36"
+        Me.DataGridViewTextBoxColumn36.ReadOnly = True
+        Me.DataGridViewTextBoxColumn36.Visible = False
+        '
+        'DataGridViewTextBoxColumn37
+        '
+        Me.DataGridViewTextBoxColumn37.HeaderText = "Kode Rak"
+        Me.DataGridViewTextBoxColumn37.Name = "DataGridViewTextBoxColumn37"
+        Me.DataGridViewTextBoxColumn37.ReadOnly = True
+        Me.DataGridViewTextBoxColumn37.Visible = False
+        '
+        'DataGridViewTextBoxColumn38
+        '
+        Me.DataGridViewTextBoxColumn38.HeaderText = "ID Pallet"
+        Me.DataGridViewTextBoxColumn38.Name = "DataGridViewTextBoxColumn38"
+        Me.DataGridViewTextBoxColumn38.ReadOnly = True
+        Me.DataGridViewTextBoxColumn38.Visible = False
+        '
+        'DataGridViewTextBoxColumn39
+        '
+        DataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn39.DefaultCellStyle = DataGridViewCellStyle52
+        Me.DataGridViewTextBoxColumn39.HeaderText = "Jumlah"
+        Me.DataGridViewTextBoxColumn39.Name = "DataGridViewTextBoxColumn39"
+        Me.DataGridViewTextBoxColumn39.ReadOnly = True
+        Me.DataGridViewTextBoxColumn39.Visible = False
+        Me.DataGridViewTextBoxColumn39.Width = 150
+        '
+        'DataGridViewTextBoxColumn40
+        '
+        DataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn40.DefaultCellStyle = DataGridViewCellStyle53
+        Me.DataGridViewTextBoxColumn40.HeaderText = "Bags"
+        Me.DataGridViewTextBoxColumn40.Name = "DataGridViewTextBoxColumn40"
+        Me.DataGridViewTextBoxColumn40.ReadOnly = True
+        Me.DataGridViewTextBoxColumn40.Visible = False
+        Me.DataGridViewTextBoxColumn40.Width = 150
+        '
+        'DataGridViewTextBoxColumn41
+        '
+        DataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn41.DefaultCellStyle = DataGridViewCellStyle54
+        Me.DataGridViewTextBoxColumn41.HeaderText = "Rak Tujuan"
+        Me.DataGridViewTextBoxColumn41.Name = "DataGridViewTextBoxColumn41"
+        Me.DataGridViewTextBoxColumn41.ReadOnly = True
+        Me.DataGridViewTextBoxColumn41.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewTextBoxColumn41.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.DataGridViewTextBoxColumn41.Visible = False
+        Me.DataGridViewTextBoxColumn41.Width = 180
+        '
+        'DataGridViewTextBoxColumn42
+        '
+        Me.DataGridViewTextBoxColumn42.HeaderText = "ID Warehouse Tujuan"
+        Me.DataGridViewTextBoxColumn42.Name = "DataGridViewTextBoxColumn42"
+        Me.DataGridViewTextBoxColumn42.ReadOnly = True
+        Me.DataGridViewTextBoxColumn42.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewTextBoxColumn42.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.DataGridViewTextBoxColumn42.Visible = False
+        '
+        'DataGridViewTextBoxColumn43
+        '
+        Me.DataGridViewTextBoxColumn43.HeaderText = "Warna"
+        Me.DataGridViewTextBoxColumn43.Name = "DataGridViewTextBoxColumn43"
+        Me.DataGridViewTextBoxColumn43.ReadOnly = True
+        Me.DataGridViewTextBoxColumn43.Visible = False
+        '
+        'DataGridViewTextBoxColumn44
+        '
+        Me.DataGridViewTextBoxColumn44.HeaderText = "Jenis Kemasan"
+        Me.DataGridViewTextBoxColumn44.Name = "DataGridViewTextBoxColumn44"
+        Me.DataGridViewTextBoxColumn44.ReadOnly = True
+        Me.DataGridViewTextBoxColumn44.Visible = False
+        '
+        'DataGridViewTextBoxColumn45
+        '
+        DataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn45.DefaultCellStyle = DataGridViewCellStyle55
+        Me.DataGridViewTextBoxColumn45.HeaderText = "Tanggal Produksi"
+        Me.DataGridViewTextBoxColumn45.Name = "DataGridViewTextBoxColumn45"
+        Me.DataGridViewTextBoxColumn45.ReadOnly = True
+        Me.DataGridViewTextBoxColumn45.Visible = False
+        Me.DataGridViewTextBoxColumn45.Width = 140
+        '
+        'DataGridViewTextBoxColumn46
+        '
+        DataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn46.DefaultCellStyle = DataGridViewCellStyle56
+        Me.DataGridViewTextBoxColumn46.HeaderText = "Tanggal Expired"
+        Me.DataGridViewTextBoxColumn46.Name = "DataGridViewTextBoxColumn46"
+        Me.DataGridViewTextBoxColumn46.ReadOnly = True
+        Me.DataGridViewTextBoxColumn46.Visible = False
+        Me.DataGridViewTextBoxColumn46.Width = 140
+        '
+        'DataGridViewTextBoxColumn47
+        '
+        DataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn47.DefaultCellStyle = DataGridViewCellStyle57
+        Me.DataGridViewTextBoxColumn47.HeaderText = "Jenis Kualitas"
+        Me.DataGridViewTextBoxColumn47.Name = "DataGridViewTextBoxColumn47"
+        Me.DataGridViewTextBoxColumn47.ReadOnly = True
+        Me.DataGridViewTextBoxColumn47.Visible = False
+        Me.DataGridViewTextBoxColumn47.Width = 150
+        '
+        'DataGridViewTextBoxColumn48
+        '
+        DataGridViewCellStyle58.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn48.DefaultCellStyle = DataGridViewCellStyle58
+        Me.DataGridViewTextBoxColumn48.HeaderText = "Barcode"
+        Me.DataGridViewTextBoxColumn48.Name = "DataGridViewTextBoxColumn48"
+        Me.DataGridViewTextBoxColumn48.ReadOnly = True
+        Me.DataGridViewTextBoxColumn48.Width = 360
         '
         'EMI_Pengeluaran_Stock_Barang_Lain
         '
@@ -1659,6 +1985,8 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1183, 611)
+        Me.Controls.Add(Me.Panel5)
+        Me.Controls.Add(Me.Label26)
         Me.Controls.Add(Me.TxtIDCost)
         Me.Controls.Add(Me.LvCost)
         Me.Controls.Add(Me.Label23)
@@ -1712,6 +2040,7 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.ComboBox1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "EMI_Pengeluaran_Stock_Barang_Lain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -1836,6 +2165,46 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
     Friend WithEvents Column21 As DataGridViewTextBoxColumn
     Friend WithEvents barcode As DataGridViewTextBoxColumn
     Friend WithEvents flag_BlokSn As DataGridViewTextBoxColumn
+    Friend WithEvents Label26 As Label
+    Friend WithEvents ComboBox1 As ComboBox
+    Friend WithEvents Panel5 As Panel
+    Friend WithEvents DataGridViewTextBoxColumn8 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn9 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn10 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn16 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn17 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn23 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn25 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn26 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn27 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn29 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn31 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn32 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn33 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn34 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn35 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn36 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn37 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn38 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn39 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn40 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn41 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn42 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn43 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn44 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn45 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn46 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn47 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn48 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn21 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn22 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn24 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn28 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn30 As DataGridViewTextBoxColumn
+    Friend WithEvents Column22 As DataGridViewTextBoxColumn
+    Friend WithEvents Column23 As DataGridViewTextBoxColumn
+    Friend WithEvents Column24 As DataGridViewTextBoxColumn
+    Friend WithEvents Column25 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
@@ -1853,13 +2222,4 @@ Partial Class EMI_Pengeluaran_Stock_Barang_Lain
     Friend WithEvents DataGridViewTextBoxColumn19 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn20 As DataGridViewTextBoxColumn
     Friend WithEvents detail_barcode As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn21 As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn22 As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn24 As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn28 As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn30 As DataGridViewTextBoxColumn
-    Friend WithEvents Column22 As DataGridViewTextBoxColumn
-    Friend WithEvents Column23 As DataGridViewTextBoxColumn
-    Friend WithEvents Column24 As DataGridViewTextBoxColumn
-    Friend WithEvents Column25 As DataGridViewTextBoxColumn
 End Class

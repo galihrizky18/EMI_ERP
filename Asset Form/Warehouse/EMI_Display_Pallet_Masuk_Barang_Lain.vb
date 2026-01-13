@@ -177,11 +177,17 @@ Public Class EMI_Display_Pallet_Masuk_Barang_Lain
             SQL = "select a.No_Faktur, a.No_Pembelian_Loading, a.Id_Nametag_Pallet, a.No_SJ, a.No_Plat, c.Nama as nama_supplier, "
             SQL = SQL & "a.tanggal, a.jam, a.userid, a.kode_stock_owner, a.kode_barang, d.nama as nama_barang, a.tgl_produksi_real, a.tgl_expired_real, "
             SQL = SQL & "a.jumlah, a.jumlah_bags, a.satuan, a.nilai_barang, a.satuan_barang,  a.sdh_cetak, a.metode_Timbang "
-            SQL = SQL & "from EMI_Barang_Masuk_Perpallet_Barang_Lain a, Suppliers c, Barang_Lain d, EMI_Group_Jenis_Lain e "
+            SQL = SQL & "from EMI_Barang_Masuk_Perpallet_Barang_Lain a, Suppliers c, Barang_Lain d, EMI_Group_Jenis_Lain e, "
+            SQL = SQL & " View_Kategori_Turunan f,N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain g "
             SQL = SQL & "where a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Perusahaan = d.Kode_Perusahaan "
             SQL = SQL & "and a.Kode_Supplier = c.Kode_Supplier "
             SQL = SQL & "and a.Kode_Barang = d.Kode_Barang and a.Kode_Stock_Owner = d.Kode_Stock_Owner "
             SQL = SQL & "and d.Kode_Perusahaan = e.kode_Perusahaan and d.id_group_jenis = e.id_group_jenis and e.flag_asset='Y' "
+
+            SQL = SQL & "and d.Kode_Perusahaan = f.Kode_Perusahaan and d.Id_Sub_Kategori_Jenis_3 = f.Id_Sub_Kategori_Jenis_3 "
+            SQL = SQL & "and f.Kode_Perusahaan = g.kode_perusahaan and f.Id_Sub_Kategori_Jenis = g.id_sub_kategori_jenis "
+            SQL = SQL & "and f.Id_Kategori_Jenis = g.id_kategori_jenis and g.user_id = '" & UserID & "'"
+
             SQL = SQL & "and a.sdh_cetak is null "
             SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.lokasi = '" & Lokasi & "' "
             Using Dr = OpenTrans(SQL)
@@ -452,10 +458,13 @@ Public Class EMI_Display_Pallet_Masuk_Barang_Lain
                         '=====================================
                         '=       GET DATA KODE KATEGORI      =
                         '=====================================
-                        SQL = "select Kode_Kategori from N_EMI_Master_Kategori_Barang_Lain where Kode_Perusahaan = '" & KodePerusahaan & "' and ID_Kategori = '" & ID_Kategori & "' "
+                        ' SQL = "select Kode_Kategori from n_emi_master_kategori_jenis where Kode_Perusahaan = '" & KodePerusahaan & "' and ID_Kategori = '" & ID_Kategori & "' "
+                        SQL = "select Kode_Sub_Kategori_Jenis from N_EMI_Master_Sub_Kategori_Jenis where Kode_Perusahaan = '" & KodePerusahaan & "' and Id_Sub_Kategori_Jenis = '" & ID_Kategori & "' "
                         Using Dr = OpenTrans(SQL)
+                            'Using Dr = OpenTrans(SQL)
+
                             If Dr.Read Then
-                                Kode_Kategori = Dr("Kode_Kategori")
+                                Kode_Kategori = Dr("Kode_Sub_Kategori_Jenis")
                             Else
                                 Dr.Close()
                                 CloseTrans()
@@ -468,10 +477,11 @@ Public Class EMI_Display_Pallet_Masuk_Barang_Lain
                         '=====================================
                         '=       GET DATA KODE KELOMPOK      =
                         '=====================================
-                        SQL = "select Kode_Kelompok from N_EMI_Master_Kelompok_Barang_Lain where Kode_Perusahaan = '" & KodePerusahaan & "' and ID_Kelompok = '" & ID_Kelompok & "' "
+                        SQL = "select Kode_Sub_Kategori_Jenis_1 from N_EMI_Master_Sub_Kategori_Jenis_1 where Kode_Perusahaan = '" & KodePerusahaan & "' and Id_Sub_Kategori_Jenis_1 = '" & ID_Kelompok & "' "
+                        '    SQL = "select Kode_Kelompok from N_EMI_Master_Kelompok_Barang_Lain where Kode_Perusahaan = '" & KodePerusahaan & "' and ID_Kelompok = '" & ID_Kelompok & "' "
                         Using Dr = OpenTrans(SQL)
                             If Dr.Read Then
-                                Kode_Kelompok = Dr("Kode_Kelompok")
+                                Kode_Kelompok = Dr("Kode_Sub_Kategori_Jenis_1")
                             Else
                                 Dr.Close()
                                 CloseTrans()

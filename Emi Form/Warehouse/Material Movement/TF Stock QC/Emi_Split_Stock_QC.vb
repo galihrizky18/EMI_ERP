@@ -16,7 +16,7 @@ Public Class Emi_Split_Stock_QC
     Dim dgv_IsiPerBags, dgv_SatuanIsiBags, dgv_TglProd, dgv_TglExp, dgv_KetWarna, dgv_jmlhBagi, dgv_hslBagi, dgv_Barcode, dgv_FlagBlokSN, dgv_JnsTransfer As String
     Dim dgv_CheckBox As Boolean
 
-    Dim dgv_Rekap_lokasi, dgv_Rekap_KdBarang, dgv_Rekap_NmBarang, dgv_Rekap_Jumlah, dgv_Rekap_JumlahBags, dgv_Rekap_JumlahBersih, dgv_Rekap_Satuan, dgv_Rekap_SatuanKecil, dgv_Rekap_Oto, dgv_Rekap_JnsTransfer As String
+    Dim dgv_Rekap_lokasi, dgv_Rekap_KdBarang, dgv_Rekap_NmBarang, dgv_Rekap_Jumlah, dgv_Rekap_JumlahBags, dgv_Rekap_JumlahBersih, dgv_Rekap_Satuan, dgv_Rekap_SatuanKecil, dgv_Rekap_Oto, dgv_Rekap_JnsTransfer, dgv_Rekap_NoSplit As String
 
     Dim dgv_detail_lokasi, dgv_detail_KdBarang, dgv_detail_SN, dgv_detail_NmBarang, dgv_detail_IDWarehouseAwal, dgv_detail_KodeRakAwal As String
     Dim dgv_detail_IDPalletAwal, dgv_detail_Jumlah, dgv_detail_JumlahBags, dgv_detail_KodeRakTujuan, dgv_detail_IDWarehouseTujuan As String
@@ -76,6 +76,7 @@ Public Class Emi_Split_Stock_QC
     Dim itemDgvRekap_SatuanKecil As Integer = 7
     Dim itemDgvRekap_Oto As Integer = 8
     Dim itemDgvRekapJnsTransfer As Integer = 9
+    Dim itemDgvRekap_NoSplit As Integer = 10
 
     'Tab 3
     Dim itemDgvDetail_lokasi As Integer = 0
@@ -191,6 +192,8 @@ Public Class Emi_Split_Stock_QC
         dgv_Rekap_SatuanKecil = Dgv_DataRekap.Rows(index).Cells(itemDgvRekap_SatuanKecil).Value
         dgv_Rekap_Oto = Dgv_DataRekap.Rows(index).Cells(itemDgvRekap_Oto).Value
         dgv_Rekap_JnsTransfer = Dgv_DataRekap.Rows(index).Cells(itemDgvRekapJnsTransfer).Value
+        dgv_Rekap_NoSplit = Dgv_DataRekap.Rows(index).Cells(itemDgvRekap_NoSplit).Value
+
 
     End Sub
     Private Sub get_grid_view_Detail(ByVal index As Integer)
@@ -331,6 +334,7 @@ Public Class Emi_Split_Stock_QC
         TxtBags.Text = ""
         TxtTotalTransferBags.Text = ""
 
+        Txt_Split_Req.Text = ""
         TxtjmlPermintaanDisplay.Text = ""
         TxtjmlPermintaanBersih.Text = ""
         TxtStockDisplay.Text = ""
@@ -364,6 +368,7 @@ Public Class Emi_Split_Stock_QC
         TxtTotalTransfer.Text = ""
         TxtTotalTransferBags.Text = ""
 
+        Txt_Split_Req.Text = ""
         TxtjmlPermintaanDisplay.Text = ""
         TxtjmlPermintaanBersih.Text = ""
         Txt_Jenis_Transfer.Text = ""
@@ -1361,10 +1366,10 @@ Public Class Emi_Split_Stock_QC
                 End Using
 
 
-                SQL = "insert into Tf_Stock_QC_Detail (Kode_Perusahaan, No_Faktur, Kode_Barang, Total, Satuan, Total_Barang, Satuan_Barang, Total_Bags, Urut_Material_Requisition_Convert, Flag_Jenis_Request, Total_Input, Satuan_Input) values "
+                SQL = "insert into Tf_Stock_QC_Detail (Kode_Perusahaan, No_Faktur, Kode_Barang, Total, Satuan, Total_Barang, Satuan_Barang, Total_Bags, Urut_Material_Requisition_Convert, Flag_Jenis_Request, Total_Input, Satuan_Input, No_Split) values "
                 SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & dgv_Rekap_KdBarang & "', '" & HilangkanTanda(dgv_Rekap_JumlahBersih) & "', "
                 SQL = SQL & "'" & TxtSatuan.Text & "', '" & nilai_kecil_jumlah_bersih & "', '" & TxtSatuanKecil.Text & "', '" & HilangkanTanda(0) & "', '" & dgv_Rekap_Oto & "', " & dgv_Rekap_JnsTransfer & ", "
-                SQL = SQL & HilangkanTanda(dgv_Rekap_JumlahBags) & ", '" & dgv_Rekap_SatuanKecil & "') "
+                SQL = SQL & HilangkanTanda(dgv_Rekap_JumlahBags) & ", '" & dgv_Rekap_SatuanKecil & "', '" & dgv_Rekap_NoSplit & "') "
                 ExecuteTrans(SQL)
 
 
@@ -2575,6 +2580,7 @@ Public Class Emi_Split_Stock_QC
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_Satuan).Value = TxtSatuan.Text
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_SatuanKecil).Value = Cmb_Satuan_Barang.Text
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_Oto).Value = Txt_OtoMaterial_req.Text
+            Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_NoSplit).Value = Txt_Split_Req.Text
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekapJnsTransfer).Value = JnsTransfer
         Else
 

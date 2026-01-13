@@ -272,8 +272,8 @@
         TextBox18.Text = "0"
         TextBox19.Text = "0"
         TxtTotal.Text = "0"
-
-        DateTimePicker1.Value = CDate(FMenuDevFix.ToolStripStatusLabel3.Text)
+        get_jam()
+        DateTimePicker1.Value = tgl_skg
         TextBox3.Text = ""
         ComboBox2.Items.Clear() : ComboBox2.SelectedIndex = -1
         ComboBox2.Items.Add("Tunai")
@@ -822,7 +822,7 @@
             Exit Sub
         End If
 
-        If Format(DateTimePicker1.Value, "yyyyMM") <> Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "yyyyMM") Then
+        If Format(DateTimePicker1.Value, "yyyyMM") <> Format(tgl_skg, "yyyyMM") Then
             MessageBox.Show("Retur tidak boleh dibulan mundur!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             DateTimePicker1.Focus()
             Exit Sub

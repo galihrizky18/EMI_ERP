@@ -212,7 +212,10 @@ Public Class EMI_PO_Pembelian_Sub_Barang_Lain
 
         TxtPO_NoFaktur.Enabled = False
         DtpPO_Tgl.Enabled = False
+
         DtpPO_ETD.Enabled = False
+        DtpPO_ETA.Enabled = False
+
         TxtPO_NoNota.Enabled = False
         TxtPO_KdSupplier.Enabled = True
         TxtPO_NmSupplier.Enabled = True
@@ -296,6 +299,16 @@ Public Class EMI_PO_Pembelian_Sub_Barang_Lain
 
         LblPO_Judul.Text = Base_Language.Lang_PO_Bahan_Judul
 
+
+
+        'kosongkan etd dan eta 
+
+        DtpPO_ETD.Format = DateTimePickerFormat.Custom
+        DtpPO_ETD.CustomFormat = " "
+
+        DtpPO_ETA.Format = DateTimePickerFormat.Custom
+        DtpPO_ETA.CustomFormat = " "
+
         Txt_GrandPPH.Text = ""
         No_SJ = ""
         No_Plat = ""
@@ -322,10 +335,10 @@ Public Class EMI_PO_Pembelian_Sub_Barang_Lain
         ListView1.Visible = False
 
         If Asal = "" Then
-            CmbPO_MataUang.Enabled = True
+            'CmbPO_MataUang.Enabled = True
         End If
 
-        CmbPO_MataUang.Enabled = True
+        'CmbPO_MataUang.Enabled = True
 
 
 
@@ -650,7 +663,7 @@ Public Class EMI_PO_Pembelian_Sub_Barang_Lain
                     SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
                     SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Supplier = c.Kode_Supplier "
                     SQL = SQL & "and b.kode_barang = '" & TxtPO_KdBrg.Text & "' and a.Kode_Supplier='" & TxtPO_KdSupplier.Text & "' "
-                    SQL = SQL & "and flag_release = 'Y' and status is null and b.mata_uang = '" & CmbPO_MataUang.Text & "' and a.Selesai is null and '" & Format(tgl_skg, "yyyy-MM-dd") & "' between a.Tgl_Penawaran_Hrg and a.Periode_Akhir_Penawaran  "
+                    SQL = SQL & "and flag_release = 'Y' and a.status is null and b.mata_uang = '" & CmbPO_MataUang.Text & "' and a.Selesai is null and '" & Format(tgl_skg, "yyyy-MM-dd") & "' between a.Tgl_Penawaran_Hrg and a.Periode_Akhir_Penawaran  "
                     Using dr2 = OpenTrans(SQL)
                         Do While dr2.Read
                             CmbPO_Harga.Items.Add(Format(dr2("harga_satuan")) & "/" & dr2("satuan").ToString.Trim & "-" & dr2("nama"))
@@ -823,6 +836,23 @@ Public Class EMI_PO_Pembelian_Sub_Barang_Lain
 
         End If
 
+
+        If DtpPO_ETD.CustomFormat = " " Then
+            MessageBox.Show("ETD harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        If DtpPO_ETA.CustomFormat = " " Then
+            MessageBox.Show("ETA harus diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        If DtpPO_ETA.Value < DtpPO_ETD.Value Then
+            MessageBox.Show("ETA tidak boleh lebih kecil dari ETD!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+
         If Cmb_Ekspedisi.SelectedIndex = 1 Then
             If Val(HilangkanTanda(Txt_BiayaEkspedisi.Text)) = 0 Then
                 MessageBox.Show("Expedisi Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -892,7 +922,7 @@ Public Class EMI_PO_Pembelian_Sub_Barang_Lain
 
                 SQL = "insert into emi_pembelian_PO_Barang_Lain(Kode_Perusahaan, No_Faktur, No_Faktur_Induk, No_Nota, Tanggal, Jam, UserID, "
                 SQL = SQL & "Kode_Supplier, Lokasi,Jenis_Pembayaran, Mata_Uang, Kurs, Cara_Bayar, Total_MUA, "
-                SQL = SQL & "Total_IDR, Grand_Sebelum_PPN, PPN,Grand, No_Prepare_Bahan, ETD_Simulasi, "
+                SQL = SQL & "Total_IDR, Grand_Sebelum_PPN, PPN,Grand, No_Prepare_Bahan, ETD_Simulasi,eta_simulasi, "
                 SQL = SQL & "Tgl_Jatuh_Tempo,ekspedisi,biaya, Flag_Import, tempo_pembayaran, Lama_Pembayaran, Grand_Total_Terbilang, Grand_PPH) values( "
                 SQL = SQL & "'" & KodePerusahaan & "', '" & TxtPO_NoFaktur.Text & "', NULL, '" & TxtPO_NoNota.Text & "', "
                 SQL = SQL & "'" & Format(DtpPO_Tgl.Value, " yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
@@ -902,9 +932,16 @@ Public Class EMI_PO_Pembelian_Sub_Barang_Lain
                 SQL = SQL & "'" & HilangkanTanda(TxtPO_Total.Text) & "', '" & HilangkanTanda(TxtPO_Total.Text) & "', "
                 SQL = SQL & "'" & HilangkanTanda(TxtPO_TotalSblmPPN.Text) & "', '" & TxtPO_PersenPPN.Text & "', "
                 SQL = SQL & "'" & HilangkanTanda(TxtPO_GrandTotal.Text) & "', " & no_po & ", "
-                SQL = SQL & "'" & Format(DtpPO_ETD.Value, "yyyy-MM-dd") & "'," & Tgl_Jatuh_Tempo & ", "
+                SQL = SQL & "'" & Format(DtpPO_ETD.Value, "yyyy-MM-dd") & "','" & Format(DtpPO_ETA.Value, "yyyy-MM-dd") & "'," & Tgl_Jatuh_Tempo & ", "
                 SQL = SQL & "'" & CmbPO_JnsEkspedisi.Text & "', '" & TxtPO_Biaya.Text & "', " & Import & ", '" & cmbJenisPengiriman.Text & "', "
                 SQL = SQL & Val(HilangkanTanda(txtJatuhTempo.Text)) & ", '" & terbilang & "', '" & HilangkanTanda(Txt_GrandPPH.Text) & "' )"
+                ExecuteTrans(SQL)
+
+                SQL = "insert into N_EMI_LOG_PO_SUB_ETA_ETD_Barang_lain(kode_perusahaan,no_faktur,tanggal,jam,userid,eta,etd) "
+                SQL = SQL & "values( "
+                SQL = SQL & "'" & KodePerusahaan & "', '" & TxtPO_NoFaktur.Text & "', '" & Format(tgl_skg, "yyyy-MMM-dd") & "',"
+                SQL = SQL & "'" & Format(tgl_skg, "HH:mmm:ss") & "', '" & UserID & "',"
+                SQL = SQL & "'" & Format(DtpPO_ETA.Value, "yyyy-MMM-dd") & "', '" & Format(DtpPO_ETD.Value, "yyyy-MMM-dd") & "' )"
                 ExecuteTrans(SQL)
 
                 SQL = "insert into emi_pembelian_loading_barang_Lain(Kode_Perusahaan, No_Faktur, Kode_Supplier, Lokasi, Tanggal, Jam,"
@@ -1111,6 +1148,7 @@ Public Class EMI_PO_Pembelian_Sub_Barang_Lain
                     SQL = SQL & "from EMI_Pembelian_PO_Induk_Barang_Lain a, EMI_Pembelian_PO_Det_Induk_Barang_Lain b "
                     SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
                     SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+                    SQL = SQL & "and a.status is null "
                     SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
                     SQL = SQL & "and a.no_faktur = '" & LvPO_Fakinduk & "' "
                     SQL = SQL & "and b.No_Urut = '" & LvPO_UrutDet & "'"
@@ -1713,7 +1751,7 @@ Public Class EMI_PO_Pembelian_Sub_Barang_Lain
 
 
             If LvPO_DataPO.Rows.Count = 0 Then
-                CmbPO_MataUang.Enabled = True
+                'CmbPO_MataUang.Enabled = True
             End If
 
         End If
@@ -1795,8 +1833,10 @@ Public Class EMI_PO_Pembelian_Sub_Barang_Lain
         BtnPO_Simpan.Visible = True
 
         DtpPO_ETD.Enabled = True
+
+        DtpPO_ETA.Enabled = True
         LvPO_DataPO.Enabled = True
-        CmbPO_MataUang.Enabled = True
+        'CmbPO_MataUang.Enabled = True
 
         TxtPO_KdSupplier.Enabled = False
         TxtPO_NmSupplier.Enabled = False
@@ -1841,6 +1881,7 @@ Public Class EMI_PO_Pembelian_Sub_Barang_Lain
 
         TxtPO_NoNota.Enabled = True
         DtpPO_ETD.Enabled = True
+        DtpPO_ETA.Enabled = True
         DtpPO_Tgl.Enabled = False
         DtpPO_TglBayar.Enabled = True
         TxtPO_NoPO.Enabled = False
@@ -1970,7 +2011,8 @@ Public Class EMI_PO_Pembelian_Sub_Barang_Lain
 
 
                 SQL = "select id_rencana from rencana_order_Barang_Lain where "
-                SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & " '"
+                SQL = SQL & "status is null "
+                SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & " '"
                 SQL = SQL & "and kode_supplier = '" & TxtPO_KdSupplier.Text.Trim & "' "
                 SQL = SQL & "and no_po ='" & TxtPO_NoFaktur.Text & "' "
                 SQL = SQL & "and kode_kontainer = '" & kode_kontainer & "' "
@@ -2168,6 +2210,7 @@ Public Class EMI_PO_Pembelian_Sub_Barang_Lain
             SQL = SQL & "a.kode_stock_owner = b.kode_stock_owner and "
             SQL = SQL & "a.kode_barang = b.kode_Barang and "
             SQL = SQL & "a.id_rencana = c.id_rencana and "
+            SQL = SQL & "c.status is null and "
             SQL = SQL & "Jumlah_PO <> 0 and "
             SQL = SQL & "a.id_rencana = '" & idRencana_Order & "' "
             SQL = SQL & "order by b.nama"
@@ -2598,9 +2641,22 @@ Public Class EMI_PO_Pembelian_Sub_Barang_Lain
 
     Private Sub LvPO_DataPO_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles LvPO_DataPO.CellEndEdit
 
-        If Not IsNumeric(LvPO_DataPO.CurrentRow.Cells(cellPO_Jumlah).Value) Then
+        'If Not IsNumeric(LvPO_DataPO.CurrentRow.Cells(cellPO_Jumlah).Value) Then
+        '    LvPO_DataPO.CurrentRow.Cells(cellPO_Jumlah).Value = Format(0, "N2")
+        '    LvPO_DataPO.CurrentRow.Cells(cellPO_Total).Value = Format(0, "N2")
+        '    HitungGrandTotal()
+        '    Exit Sub
+        'End If
+
+        Dim xnilai As Decimal
+
+        ' Cek apakah bukan angka atau angka negatif
+        If Not Decimal.TryParse(LvPO_DataPO.CurrentRow.Cells(cellPO_Jumlah).Value, xnilai) OrElse xnilai < 0 Then
+
+            ' Jika bukan angka atau minus → set menjadi 0,00
             LvPO_DataPO.CurrentRow.Cells(cellPO_Jumlah).Value = Format(0, "N2")
             LvPO_DataPO.CurrentRow.Cells(cellPO_Total).Value = Format(0, "N2")
+
             HitungGrandTotal()
             Exit Sub
         End If
@@ -2739,12 +2795,25 @@ Public Class EMI_PO_Pembelian_Sub_Barang_Lain
         End If
     End Sub
 
+    Private Sub DtpPO_ETD_ValueChanged(sender As Object, e As EventArgs) Handles DtpPO_ETD.ValueChanged
+        DtpPO_ETD.Format = DateTimePickerFormat.Custom
+        DtpPO_ETD.CustomFormat = "dd MMMM yyyy"
+    End Sub
+
+    Private Sub DtpPO_ETA_ValueChanged(sender As Object, e As EventArgs) Handles DtpPO_ETA.ValueChanged
+        DtpPO_ETA.Format = DateTimePickerFormat.Custom
+        DtpPO_ETA.CustomFormat = "dd MMMM yyyy"
+    End Sub
+
+    Private Sub TxtPO_NoFaktur_TextChanged(sender As Object, e As EventArgs) Handles TxtPO_NoFaktur.TextChanged
+
+    End Sub
 
     Private Sub Btn_Ekspedisi_Click(sender As Object, e As EventArgs) Handles Btn_Ekspedisi.Click
 
 
-        SD_Expedisi_PO.NoSubPO = TxtPO_NoFaktur.Text
-        SD_Expedisi_PO.Show()
+        'SD_Pilih_Harga_PO.NoSubPO = TxtPO_NoFaktur.Text
+        SD_Pilih_Harga_PO_Barang_Lain.Show()
 
 
     End Sub

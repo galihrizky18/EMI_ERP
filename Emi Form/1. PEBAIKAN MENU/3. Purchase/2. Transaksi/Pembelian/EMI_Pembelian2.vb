@@ -840,7 +840,7 @@
             SQL = SQL & "select sum(x.nilai) from EMI_Transaksi_Pembayaran_Dimuka_Pajak x "
             SQL = SQL & "where x.kode_perusahaan=a.kode_perusahaan and x.no_faktur = a.No_Transaksi and x.flag_ppn is null ),0)) - "
             SQL = SQL & "ISNULL(( "
-            SQL = SQL & "select z.nilai from EMI_Pelunasan_Detail_DP z, emi_pelunasan w "
+            SQL = SQL & "select sum(z.nilai) from EMI_Pelunasan_Detail_DP z, emi_pelunasan w "
             SQL = SQL & "where z.Kode_Perusahaan = a.Kode_Perusahaan and z.urut_DP = a.No_Urut and "
             SQL = SQL & "z.kode_perusahaan=w.kode_Perusahaan and z.no_val=w.no_val and w.status is null "
             SQL = SQL & "), 0) ) as Sisa "
@@ -1349,7 +1349,7 @@
             SQL = SQL & "select sum(x.nilai) from EMI_Transaksi_Pembayaran_Dimuka_Pajak x "
             SQL = SQL & "where x.kode_perusahaan=a.kode_perusahaan and x.no_faktur = a.No_Transaksi and x.flag_ppn is null ),0)) - "
             SQL = SQL & "ISNULL(( "
-            SQL = SQL & "select z.nilai from EMI_Pelunasan_Detail_DP z, emi_pelunasan w "
+            SQL = SQL & "select sum(z.nilai) from EMI_Pelunasan_Detail_DP z, emi_pelunasan w "
             SQL = SQL & "where z.Kode_Perusahaan = a.Kode_Perusahaan and z.urut_DP = a.No_Urut and "
             SQL = SQL & "z.kode_perusahaan=w.kode_Perusahaan and z.no_val=w.no_val and w.status is null "
             SQL = SQL & "), 0) ) as Sisa "
@@ -4636,16 +4636,21 @@
         Dim TotDebit As Double = 0
         Dim TotKredit As Double = 0
 
+        Dim ket_lokal As String
+
         For index = 0 To LvPembelian_DataPembelian.Items.Count - 1
             'Get_Isi_Listview(index)
             Get_Isi_Listview(index)
+
+
 
             Dim akun_persediaan_dari As String = ""
             Dim akun_ppn As String = ""
             Dim akun_hutang_sup As String = ""
             Dim akun_hutang_ppn As String = ""
+            Dim Ket_Nm_Barang As String = ""
 
-            SQL = "select c.akun_Persediaan "
+            SQL = "select c.akun_Persediaan, b.nama "
             SQL = SQL & "from EMI_Group_Jenis a, Barang b, EMI_Group_Jenis_Akun c where "
             SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Group_Jenis = b.Id_Group_Jenis and "
             SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Group_Jenis = c.Id_Group_Jenis and "
@@ -4654,6 +4659,7 @@
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     akun_persediaan_dari = Dr("akun_Persediaan")
+                    Ket_Nm_Barang = Dr("nama")
                 Else
                     Dr.Close()
                     CloseTrans()
@@ -4662,6 +4668,8 @@
                     Exit Sub
                 End If
             End Using
+
+            ket_lokal = Strings.Left($" {Ket_Nm_Barang}", 180)
 
             SQL = "select Hutang_Supplier, Hutang_Perjalanan, Hutang_PPN, PPN_Pembelian, Selisih_Pembulatan "
             SQL = SQL & "from stock_owner "
@@ -4709,7 +4717,7 @@
             'JURNAL PERSEDIAAN
             If NilaiPersediaan <> 0 Then
 
-                If Not Insert_Jurnal(Kode_voucher, akun_persediaan_dari, "Persediaan; ", TxtPembelian_NmSupplier.Text.Trim, NilaiPersediaan, pagenumber, LvSo, "D") Then
+                If Not Insert_Jurnal(Kode_voucher, akun_persediaan_dari, "Persediaan", ket_lokal & "; " & TxtPembelian_NmSupplier.Text.Trim, NilaiPersediaan, pagenumber, LvSo, "D") Then
                     isError = False
                     Exit Sub
                 End If
@@ -4728,7 +4736,7 @@
                 Next
 
 
-                If Not Insert_Jurnal(Kode_voucher, akun_ppn, "PPN; ", TxtPembelian_NmSupplier.Text.Trim, NilaiPPN, pagenumber, CmbPembelian_Lokasi.Text, "D") Then
+                If Not Insert_Jurnal(Kode_voucher, akun_ppn, "PPN", ket_lokal & "; " & TxtPembelian_NmSupplier.Text.Trim, NilaiPPN, pagenumber, CmbPembelian_Lokasi.Text, "D") Then
                     isError = False
                     Exit Sub
                 End If
@@ -4736,7 +4744,7 @@
 
             'JURNAL HUTANG SUPPLIER
             If NilaiHutang <> 0 Then
-                If Not Insert_Jurnal(Kode_voucher, akun_hutang_sup, "Hutang Supplier; ", TxtPembelian_NmSupplier.Text.Trim, NilaiHutang, pagenumber, CmbPembelian_Lokasi.Text, "K") Then
+                If Not Insert_Jurnal(Kode_voucher, akun_hutang_sup, "Hutang Supplier", ket_lokal & "; " & TxtPembelian_NmSupplier.Text.Trim, NilaiHutang, pagenumber, CmbPembelian_Lokasi.Text, "K") Then
                     isError = False
                     Exit Sub
                 End If
@@ -4766,12 +4774,12 @@
                 End Using
 
                 If selisih > 0 Then
-                    If Not Insert_Jurnal(Kode_voucher, akun_hutang_sup_selisih, "Selisih Hutang; ", TxtPembelian_NmSupplier.Text.Trim, NilaiSelisihHutang, pagenumber, CmbPembelian_Lokasi.Text, "D") Then
+                    If Not Insert_Jurnal(Kode_voucher, akun_hutang_sup_selisih, "Selisih Hutang", ket_lokal & "; " & TxtPembelian_NmSupplier.Text.Trim, NilaiSelisihHutang, pagenumber, CmbPembelian_Lokasi.Text, "D") Then
                         isError = False
                         Exit Sub
                     End If
                 ElseIf selisih < 0 Then
-                    If Not Insert_Jurnal(Kode_voucher, akun_hutang_sup_selisih, "Selisih Hutang; ", TxtPembelian_NmSupplier.Text.Trim, Math.Abs(NilaiSelisihHutang), pagenumber, CmbPembelian_Lokasi.Text, "K") Then
+                    If Not Insert_Jurnal(Kode_voucher, akun_hutang_sup_selisih, "Selisih Hutang", ket_lokal & "; " & TxtPembelian_NmSupplier.Text.Trim, Math.Abs(NilaiSelisihHutang), pagenumber, CmbPembelian_Lokasi.Text, "K") Then
                         isError = False
                         Exit Sub
                     End If
@@ -4873,7 +4881,7 @@
                         SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(Arr_Akun2.Item(indexKategoriImport), 1),
                                     Strings.Mid(Arr_Akun2.Item(indexKategoriImport), 2, 1),
                                     Strings.Mid(Ganti(Arr_Akun2.Item(indexKategoriImport)), 3),
-                                    KodePerusahaan, KodeProyek, "Hutang " & Arr_Biaya_Lokal_Kategori.Item(indexKategoriImport) & "; " & TxtPembelian_NoFaktur.Text & "; " & TxtPembelian_NmSupplier.Text.Trim, "0", Arr_Biaya_Lokal.Item(indexKategoriImport), pagenumber, CmbPembelian_Lokasi.Text, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                                    KodePerusahaan, KodeProyek, "Hutang; " & TxtPembelian_NoFaktur.Text & "; " & Arr_Biaya_Lokal_Kategori.Item(indexKategoriImport) & "; " & ket_lokal & "; " & TxtPembelian_NmSupplier.Text.Trim, "0", Arr_Biaya_Lokal.Item(indexKategoriImport), pagenumber, CmbPembelian_Lokasi.Text, Bahasa_Pilihan, Ket_Cost_Center_HO)
                         ExecuteTrans(SQL)
                         pagenumber = pagenumber + 1
 
@@ -4921,14 +4929,14 @@
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_Selisih_pembulatan, 1),
                         Strings.Mid(akun_Selisih_pembulatan, 2, 1),
                         Strings.Mid(Ganti(akun_Selisih_pembulatan), 3),
-                        KodePerusahaan, KodeProyek, "Selisih Pembulatan; " & TxtPembelian_NmSupplier.Text.Trim, Math.Abs(nilai_selisih), "0", pagenumber, CmbPembelian_Lokasi.Text, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                        KodePerusahaan, KodeProyek, "Selisih Pembulatan" & TxtPembelian_NoFaktur.Text & "; " & TxtPembelian_NmSupplier.Text.Trim & "; " & ket_lokal & "; ", Math.Abs(nilai_selisih), "0", pagenumber, CmbPembelian_Lokasi.Text, Bahasa_Pilihan, Ket_Cost_Center_HO)
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
             Else
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_Selisih_pembulatan, 1),
                         Strings.Mid(akun_Selisih_pembulatan, 2, 1),
                         Strings.Mid(Ganti(akun_Selisih_pembulatan), 3),
-                        KodePerusahaan, KodeProyek, "Selisih Pembulatan; " & TxtPembelian_NmSupplier.Text.Trim, "0", nilai_selisih, pagenumber, CmbPembelian_Lokasi.Text, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                        KodePerusahaan, KodeProyek, "Selisih Pembulatan; " & TxtPembelian_NoFaktur.Text & "; " & ket_lokal & "; " & TxtPembelian_NmSupplier.Text.Trim & "; ", "0", nilai_selisih, pagenumber, CmbPembelian_Lokasi.Text, Bahasa_Pilihan, Ket_Cost_Center_HO)
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
 
@@ -5130,7 +5138,7 @@
             SQL = SQL & "select sum(x.nilai) from EMI_Transaksi_Pembayaran_Dimuka_Pajak x "
             SQL = SQL & "where x.kode_perusahaan=a.kode_perusahaan and x.no_faktur = a.No_Transaksi and x.flag_ppn is null ),0)) - "
             SQL = SQL & "ISNULL(( "
-            SQL = SQL & "select z.nilai from EMI_Pelunasan_Detail_DP z, emi_pelunasan w "
+            SQL = SQL & "select sum(z.nilai) from EMI_Pelunasan_Detail_DP z, emi_pelunasan w "
             SQL = SQL & "where z.Kode_Perusahaan = a.Kode_Perusahaan and z.urut_DP = a.No_Urut and "
             SQL = SQL & "z.kode_perusahaan=w.kode_Perusahaan and z.no_val=w.no_val and w.status is null "
             SQL = SQL & "), 0) ) as Sisa "
@@ -5401,7 +5409,7 @@
             SQL = "with Cte as ( select a.Nilai as Nilai_DP, a.no_urut, a.no_transaksi as No_DP,  ( "
             SQL = SQL & "(a.Nilai-isnull((select sum(x.nilai) from EMI_Transaksi_Pembayaran_Dimuka_Pajak x where "
             SQL = SQL & "x.kode_perusahaan=a.kode_perusahaan and x.no_faktur=a.No_Transaksi and x.flag_ppn is null ),0)) -  "
-            SQL = SQL & "ISNULL(( select z.nilai from EMI_Pelunasan_Detail_DP z, emi_pelunasan w where "
+            SQL = SQL & "ISNULL(( select sum(z.nilai) from EMI_Pelunasan_Detail_DP z, emi_pelunasan w where "
             SQL = SQL & "z.Kode_Perusahaan = a.Kode_Perusahaan and z.urut_DP = a.No_Urut and "
             SQL = SQL & "z.kode_perusahaan=w.kode_Perusahaan and z.no_val=w.no_val and w.status is null "
             SQL = SQL & " ), 0) ) as Sisa "

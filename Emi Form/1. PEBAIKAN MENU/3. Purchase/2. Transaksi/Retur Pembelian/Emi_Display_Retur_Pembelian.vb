@@ -29,7 +29,7 @@
         Lv_Retur.Columns.Add("Tanggal Pembelian", 130, HorizontalAlignment.Center) '5
         Lv_Retur.Columns.Add("Jam Pembelian", 110, HorizontalAlignment.Center) '6
         Lv_Retur.Columns.Add("Tanggal Retur", 130, HorizontalAlignment.Center) '7
-        Lv_Retur.Columns.Add("Jam Retur", 110, HorizontalAlignment.Center) '8
+        Lv_Retur.Columns.Add("Jam Retur", 110, HorizontalAlignment.Center) '8 
         Lv_Retur.Columns.Add("User", 130, HorizontalAlignment.Center) '9
         Lv_Retur.View = View.Details
 

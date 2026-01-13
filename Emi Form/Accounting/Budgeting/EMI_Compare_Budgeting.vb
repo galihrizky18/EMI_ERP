@@ -479,8 +479,6 @@
             NIlai_PersentaseBudgetBaru = Format(Val(HilangkanTanda((Val(HilangkanTanda(Nilai_BudgetBaru)) - Val(HilangkanTanda(Nilai_BudgetLama))) / Val(HilangkanTanda(Nilai_BudgetLama)) * 100)), "N2")
 
 
-#Region "Jurnal"
-
             'dari
             Dim inisial_faktur_dari As String = ""
             Dim akun_biaya As String = ""
@@ -569,8 +567,6 @@
                     Exit Sub
                 End If
             End Using
-
-#End Region
 
             '========================
             '=     INSERT INDUK     =

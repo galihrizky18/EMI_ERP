@@ -92,9 +92,9 @@ Partial Class SD_Ubah_Tanggal_PR_Barang_Lain
         Me.Label1.Location = New System.Drawing.Point(5, 11)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(366, 25)
+        Me.Label1.Size = New System.Drawing.Size(393, 25)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Set Tanggal Delivery Barang Lain"
+        Me.Label1.Text = "Set Tanggal Kebutuhan Barang Lain"
         '
         'PanelGradient1
         '

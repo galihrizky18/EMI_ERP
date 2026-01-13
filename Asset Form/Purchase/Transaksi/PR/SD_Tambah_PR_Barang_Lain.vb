@@ -266,11 +266,10 @@ Public Class SD_Tambah_PR_Barang_Lain
 
                     SQL = "select a.Kode_Barang,a.Nama, a.Satuan, c.lokasi_gudang "
                     SQL = SQL & "from Barang_Lain a, EMI_Group_Jenis_Lain b, EMI_Kategori_Gudang_PerLokasi_Barang_Lain c "
-                    'SQL = SQL & "View_Kategori_Turunan d, N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain e "
+
                     SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
                     SQL = SQL & "and a.Id_Group_Jenis = b.Id_Group_Jenis and a.Kode_Perusahaan='" & KodePerusahaan & "'  "
-                    'SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3 "
-                    'SQL = SQL & "and d.Id_Kategori_Jenis = e.Id_Kategori_Jenis and d.Id_Sub_Kategori_Jenis = e.Id_Sub_Kategori_Jenis and e.User_ID = '" & UserID & "' "
+
                     SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Gudang = c.ID_Kategori_Gudang and a.Flag_Barang_Lama is null "
                     SQL = SQL & "and Nama like '%" & TxtPilihBarang_KodeBarang.Text & "%' and aktif = 'Y' " & filter_tambahan & " "
                     SQL = SQL & "group by a.Kode_Barang,a.Nama, a.Satuan,c.lokasi_gudang "
@@ -306,7 +305,7 @@ Public Class SD_Tambah_PR_Barang_Lain
             OpenConn()
 
             Dim hasData As Boolean = False
-            SQL = "select a.Kode_Barang,a.Nama, a.Satuan, c.lokasi_gudang "
+            SQL = "select a.Kode_Barang,a.Nama, a.Satuan, c.lokasi_gudang, e.Kode_Stock_Owner_Gudang "
             SQL = SQL & "from Barang_Lain a, EMI_Group_Jenis_Lain b, EMI_Kategori_Gudang_PerLokasi_Barang_Lain c, "
             SQL = SQL & "View_Kategori_Turunan d, N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain e "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
@@ -315,10 +314,10 @@ Public Class SD_Tambah_PR_Barang_Lain
             SQL = SQL & "and d.Id_Kategori_Jenis = e.Id_Kategori_Jenis and d.Id_Sub_Kategori_Jenis = e.Id_Sub_Kategori_Jenis and e.User_ID = '" & UserID & "' "
             SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Gudang = c.ID_Kategori_Gudang and a.Flag_Barang_Lama is null "
             SQL = SQL & "and a.kode_barang = '" & TxtPilihBarang_KodeBarang.Text & "' and aktif = 'Y' " & filter_tambahan & " "
-            SQL = SQL & "group by a.Kode_Barang,a.Nama, a.Satuan,c.lokasi_gudang"
+            SQL = SQL & "group by a.Kode_Barang,a.Nama, a.Satuan,c.lokasi_gudang, e.Kode_Stock_Owner_Gudang "
             Using dr = OpenTrans(SQL)
                 If dr.Read Then
-                    CmbPilihBarang_Lokasi.Text = dr("lokasi_gudang")
+                    CmbPilihBarang_Lokasi.Text = dr("Kode_Stock_Owner_Gudang")
                     TxtPilihBarang_KodeBarang.Text = dr("kode_barang")
                     TxtPilihBarang_NamaBarang.Text = dr("nama")
                     TxtPilihBarang_Satuan.Text = dr("Satuan")
@@ -355,7 +354,7 @@ Public Class SD_Tambah_PR_Barang_Lain
 
                     'ambil gudang departmenet berdasrkan user login 
 
-                    SQL = "select top(1) Kode_Stock_Owner_Gudang from barang_lain a , View_Kategori_Turunan b,N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain c "
+                    SQL = "select  Kode_Stock_Owner_Gudang from barang_lain a , View_Kategori_Turunan b,N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain c "
                     SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_3 =b.Id_Sub_Kategori_Jenis_3 "
                     SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Kategori_Jenis = c.id_kategori_jenis "
                     SQL = SQL & "and b.Id_Sub_Kategori_Jenis = c.id_sub_kategori_jenis  "
@@ -804,6 +803,10 @@ Public Class SD_Tambah_PR_Barang_Lain
             Purchase_Requisition_Barang_Lain.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(4).ReadOnly = True
             Purchase_Requisition_Barang_Lain.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(5).ReadOnly = True
             Purchase_Requisition_Barang_Lain.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(6).ReadOnly = False
+
+
+
+            Purchase_Requisition_Barang_Lain.HasData_DGV()
 
             'Dim pengali As Double = 0
             'Try

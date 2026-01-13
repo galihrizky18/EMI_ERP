@@ -76,7 +76,7 @@ Partial Class EMI_Display_Pallet_Masuk_Barang_Lain
         Me.Lbl_Title.Location = New System.Drawing.Point(5, 9)
         Me.Lbl_Title.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Lbl_Title.Name = "Lbl_Title"
-        Me.Lbl_Title.Size = New System.Drawing.Size(312, 30)
+        Me.Lbl_Title.Size = New System.Drawing.Size(311, 30)
         Me.Lbl_Title.TabIndex = 0
         Me.Lbl_Title.Text = "Display - Cetak Barcode Aset"
         '
@@ -117,7 +117,7 @@ Partial Class EMI_Display_Pallet_Masuk_Barang_Lain
         Me.Lv_BM_PerPallet.FullRowSelect = True
         Me.Lv_BM_PerPallet.GridLines = True
         Me.Lv_BM_PerPallet.HideSelection = False
-        Me.Lv_BM_PerPallet.Location = New System.Drawing.Point(21, 58)
+        Me.Lv_BM_PerPallet.Location = New System.Drawing.Point(21, 64)
         Me.Lv_BM_PerPallet.MultiSelect = False
         Me.Lv_BM_PerPallet.Name = "Lv_BM_PerPallet"
         Me.Lv_BM_PerPallet.Size = New System.Drawing.Size(1237, 561)
@@ -130,18 +130,18 @@ Partial Class EMI_Display_Pallet_Masuk_Barang_Lain
         Me.ContextMenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakToolStripMenuItem, Me.SalinNoFakturToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(155, 48)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 70)
         '
         'CetakToolStripMenuItem
         '
         Me.CetakToolStripMenuItem.Name = "CetakToolStripMenuItem"
-        Me.CetakToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
+        Me.CetakToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CetakToolStripMenuItem.Text = "Cetak"
         '
         'SalinNoFakturToolStripMenuItem
         '
         Me.SalinNoFakturToolStripMenuItem.Name = "SalinNoFakturToolStripMenuItem"
-        Me.SalinNoFakturToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
+        Me.SalinNoFakturToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SalinNoFakturToolStripMenuItem.Text = "Salin No Faktur"
         '
         'Panel6
@@ -213,7 +213,7 @@ Partial Class EMI_Display_Pallet_Masuk_Barang_Lain
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1281, 674)
+        Me.ClientSize = New System.Drawing.Size(1281, 680)
         Me.Controls.Add(Me.Btn_Refresh)
         Me.Controls.Add(Me.PictureBoxTracking)
         Me.Controls.Add(Me.PictureBoxKdBrg)

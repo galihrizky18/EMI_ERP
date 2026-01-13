@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class N_EMI_Display_Request_Material_QC_Summary
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,11 +20,10 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -79,26 +78,30 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.Txt_LainQC = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.ComboBox3 = New System.Windows.Forms.ComboBox()
+        Me.Cmb_Lain_QC = New System.Windows.Forms.ComboBox()
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         Me.DateTimePicker4 = New System.Windows.Forms.DateTimePicker()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.DateTimePicker3 = New System.Windows.Forms.DateTimePicker()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
-        Me.ComboBox2 = New System.Windows.Forms.ComboBox()
+        Me.Cmb_Tanggal_QC = New System.Windows.Forms.ComboBox()
         Me.Panel16 = New System.Windows.Forms.Panel()
         Me.Panel14 = New System.Windows.Forms.Panel()
         Me.Lv_DetQC = New System.Windows.Forms.ListView()
         Me.Lv_DetailQC = New System.Windows.Forms.ListView()
+        Me.CM_Batal_TF_Material_QC = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.BatalBatchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CetakUlangFakturBatchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel15 = New System.Windows.Forms.Panel()
         Me.Panel13 = New System.Windows.Forms.Panel()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Lv_ParentQC = New System.Windows.Forms.ListView()
+        Me.Cm_ParentQC = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SalinNoFakturToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel11 = New System.Windows.Forms.Panel()
         Me.Panel12 = New System.Windows.Forms.Panel()
         Me.Txt_ActiveMenu = New System.Windows.Forms.TextBox()
-        Me.CM_Batal_TF_Material_QC = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.BatalBatchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -111,6 +114,7 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         Me.Panel_QC.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.CM_Batal_TF_Material_QC.SuspendLayout()
+        Me.Cm_ParentQC.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -123,19 +127,6 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1184, 43)
         Me.Panel1.TabIndex = 23
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -197,7 +188,7 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(20, 596)
+        Me.Panel5.Location = New System.Drawing.Point(6, 511)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(1304, 15)
@@ -566,7 +557,7 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(997, 62)
+        Me.Label2.Location = New System.Drawing.Point(1018, 62)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(60, 16)
         Me.Label2.TabIndex = 363
@@ -584,7 +575,7 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         'Panel10
         '
         Me.Panel10.BackColor = System.Drawing.Color.LimeGreen
-        Me.Panel10.Location = New System.Drawing.Point(987, 65)
+        Me.Panel10.Location = New System.Drawing.Point(1008, 65)
         Me.Panel10.Name = "Panel10"
         Me.Panel10.Size = New System.Drawing.Size(12, 12)
         Me.Panel10.TabIndex = 362
@@ -611,6 +602,7 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         Me.Panel_QC.Controls.Add(Me.Lv_ParentQC)
         Me.Panel_QC.Controls.Add(Me.Panel11)
         Me.Panel_QC.Controls.Add(Me.Panel12)
+        Me.Panel_QC.Controls.Add(Me.Panel5)
         Me.Panel_QC.Location = New System.Drawing.Point(20, 81)
         Me.Panel_QC.Name = "Panel_QC"
         Me.Panel_QC.Size = New System.Drawing.Size(1150, 527)
@@ -636,15 +628,15 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         Me.GroupBox1.Controls.Add(Me.CheckBox1)
         Me.GroupBox1.Controls.Add(Me.Txt_LainQC)
         Me.GroupBox1.Controls.Add(Me.Label5)
-        Me.GroupBox1.Controls.Add(Me.ComboBox3)
+        Me.GroupBox1.Controls.Add(Me.Cmb_Lain_QC)
         Me.GroupBox1.Controls.Add(Me.CheckBox3)
         Me.GroupBox1.Controls.Add(Me.DateTimePicker4)
         Me.GroupBox1.Controls.Add(Me.Label9)
         Me.GroupBox1.Controls.Add(Me.DateTimePicker3)
         Me.GroupBox1.Controls.Add(Me.CheckBox2)
-        Me.GroupBox1.Controls.Add(Me.ComboBox2)
+        Me.GroupBox1.Controls.Add(Me.Cmb_Tanggal_QC)
         Me.GroupBox1.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        Me.GroupBox1.Location = New System.Drawing.Point(5, 384)
+        Me.GroupBox1.Location = New System.Drawing.Point(5, 371)
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(2, 3, 2, 3)
@@ -709,17 +701,17 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         Me.Label5.TabIndex = 8
         Me.Label5.Text = "Value"
         '
-        'ComboBox3
+        'Cmb_Lain_QC
         '
-        Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBox3.Enabled = False
-        Me.ComboBox3.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.ComboBox3.FormattingEnabled = True
-        Me.ComboBox3.Location = New System.Drawing.Point(138, 109)
-        Me.ComboBox3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.ComboBox3.Name = "ComboBox3"
-        Me.ComboBox3.Size = New System.Drawing.Size(123, 24)
-        Me.ComboBox3.TabIndex = 7
+        Me.Cmb_Lain_QC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Lain_QC.Enabled = False
+        Me.Cmb_Lain_QC.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Cmb_Lain_QC.FormattingEnabled = True
+        Me.Cmb_Lain_QC.Location = New System.Drawing.Point(138, 109)
+        Me.Cmb_Lain_QC.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.Cmb_Lain_QC.Name = "Cmb_Lain_QC"
+        Me.Cmb_Lain_QC.Size = New System.Drawing.Size(123, 24)
+        Me.Cmb_Lain_QC.TabIndex = 7
         '
         'CheckBox3
         '
@@ -780,17 +772,17 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         Me.CheckBox2.Text = "Parameter Tanggal"
         Me.CheckBox2.UseVisualStyleBackColor = True
         '
-        'ComboBox2
+        'Cmb_Tanggal_QC
         '
-        Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBox2.Enabled = False
-        Me.ComboBox2.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(138, 79)
-        Me.ComboBox2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.ComboBox2.Name = "ComboBox2"
-        Me.ComboBox2.Size = New System.Drawing.Size(123, 24)
-        Me.ComboBox2.TabIndex = 3
+        Me.Cmb_Tanggal_QC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Tanggal_QC.Enabled = False
+        Me.Cmb_Tanggal_QC.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Cmb_Tanggal_QC.FormattingEnabled = True
+        Me.Cmb_Tanggal_QC.Location = New System.Drawing.Point(138, 79)
+        Me.Cmb_Tanggal_QC.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.Cmb_Tanggal_QC.Name = "Cmb_Tanggal_QC"
+        Me.Cmb_Tanggal_QC.Size = New System.Drawing.Size(123, 24)
+        Me.Cmb_Tanggal_QC.TabIndex = 3
         '
         'Panel16
         '
@@ -840,6 +832,24 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         Me.Lv_DetailQC.UseCompatibleStateImageBehavior = False
         Me.Lv_DetailQC.View = System.Windows.Forms.View.Details
         '
+        'CM_Batal_TF_Material_QC
+        '
+        Me.CM_Batal_TF_Material_QC.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BatalBatchToolStripMenuItem, Me.CetakUlangFakturBatchToolStripMenuItem})
+        Me.CM_Batal_TF_Material_QC.Name = "CM_Batal_TF_Material_QC"
+        Me.CM_Batal_TF_Material_QC.Size = New System.Drawing.Size(238, 48)
+        '
+        'BatalBatchToolStripMenuItem
+        '
+        Me.BatalBatchToolStripMenuItem.Name = "BatalBatchToolStripMenuItem"
+        Me.BatalBatchToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.BatalBatchToolStripMenuItem.Text = "Batal Batch"
+        '
+        'CetakUlangFakturBatchToolStripMenuItem
+        '
+        Me.CetakUlangFakturBatchToolStripMenuItem.Name = "CetakUlangFakturBatchToolStripMenuItem"
+        Me.CetakUlangFakturBatchToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.CetakUlangFakturBatchToolStripMenuItem.Text = "Cetak Ulang Barcode Per Batch"
+        '
         'Panel15
         '
         Me.Panel15.BackColor = System.Drawing.Color.Red
@@ -871,6 +881,7 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         '
         'Lv_ParentQC
         '
+        Me.Lv_ParentQC.ContextMenuStrip = Me.Cm_ParentQC
         Me.Lv_ParentQC.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.Lv_ParentQC.FullRowSelect = True
         Me.Lv_ParentQC.GridLines = True
@@ -881,6 +892,18 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         Me.Lv_ParentQC.TabIndex = 363
         Me.Lv_ParentQC.UseCompatibleStateImageBehavior = False
         Me.Lv_ParentQC.View = System.Windows.Forms.View.Details
+        '
+        'Cm_ParentQC
+        '
+        Me.Cm_ParentQC.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalinNoFakturToolStripMenuItem1})
+        Me.Cm_ParentQC.Name = "CM_Batal_TF_Material_QC"
+        Me.Cm_ParentQC.Size = New System.Drawing.Size(155, 26)
+        '
+        'SalinNoFakturToolStripMenuItem1
+        '
+        Me.SalinNoFakturToolStripMenuItem1.Name = "SalinNoFakturToolStripMenuItem1"
+        Me.SalinNoFakturToolStripMenuItem1.Size = New System.Drawing.Size(154, 22)
+        Me.SalinNoFakturToolStripMenuItem1.Text = "Salin No Faktur"
         '
         'Panel11
         '
@@ -901,23 +924,24 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         'Txt_ActiveMenu
         '
         Me.Txt_ActiveMenu.BackColor = System.Drawing.Color.DarkGray
-        Me.Txt_ActiveMenu.Location = New System.Drawing.Point(793, 58)
+        Me.Txt_ActiveMenu.Location = New System.Drawing.Point(614, 57)
         Me.Txt_ActiveMenu.Name = "Txt_ActiveMenu"
         Me.Txt_ActiveMenu.Size = New System.Drawing.Size(34, 20)
         Me.Txt_ActiveMenu.TabIndex = 509
         Me.Txt_ActiveMenu.Visible = False
         '
-        'CM_Batal_TF_Material_QC
+        'PanelGradient1
         '
-        Me.CM_Batal_TF_Material_QC.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BatalBatchToolStripMenuItem})
-        Me.CM_Batal_TF_Material_QC.Name = "CM_Batal_TF_Material_QC"
-        Me.CM_Batal_TF_Material_QC.Size = New System.Drawing.Size(181, 48)
-        '
-        'BatalBatchToolStripMenuItem
-        '
-        Me.BatalBatchToolStripMenuItem.Name = "BatalBatchToolStripMenuItem"
-        Me.BatalBatchToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.BatalBatchToolStripMenuItem.Text = "Batal Batch"
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'N_EMI_Display_Request_Material_QC_Summary
         '
@@ -940,7 +964,6 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         Me.Controls.Add(Me.Barcode)
         Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.Panel3)
-        Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
         Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
@@ -964,6 +987,7 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.CM_Batal_TF_Material_QC.ResumeLayout(False)
+        Me.Cm_ParentQC.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1022,13 +1046,13 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
     Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents Txt_LainQC As TextBox
     Friend WithEvents Label5 As Label
-    Friend WithEvents ComboBox3 As ComboBox
+    Friend WithEvents Cmb_Lain_QC As ComboBox
     Friend WithEvents CheckBox3 As CheckBox
     Friend WithEvents DateTimePicker4 As DateTimePicker
     Friend WithEvents Label9 As Label
     Friend WithEvents DateTimePicker3 As DateTimePicker
     Friend WithEvents CheckBox2 As CheckBox
-    Friend WithEvents ComboBox2 As ComboBox
+    Friend WithEvents Cmb_Tanggal_QC As ComboBox
     Friend WithEvents Panel14 As Panel
     Friend WithEvents Lv_DetQC As ListView
     Friend WithEvents Lv_DetailQC As ListView
@@ -1045,4 +1069,7 @@ Partial Class N_EMI_Display_Request_Material_QC_Summary
     Friend WithEvents CetakUlangFakturToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CM_Batal_TF_Material_QC As ContextMenuStrip
     Friend WithEvents BatalBatchToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Cm_ParentQC As ContextMenuStrip
+    Friend WithEvents SalinNoFakturToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents CetakUlangFakturBatchToolStripMenuItem As ToolStripMenuItem
 End Class

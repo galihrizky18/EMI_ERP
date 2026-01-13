@@ -27,20 +27,6 @@ Partial Class EMI_PO_Pembelian_Sub
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle21 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle22 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle23 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle24 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle25 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle26 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle27 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle28 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle29 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle30 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle31 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle32 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle33 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -56,6 +42,20 @@ Partial Class EMI_PO_Pembelian_Sub
         Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle21 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle22 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle23 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle24 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle25 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle26 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle27 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle28 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle29 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle30 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle31 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle32 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle33 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(EMI_PO_Pembelian_Sub))
         Me.LblPO_TotalBiaya = New System.Windows.Forms.Label()
         Me.ket = New System.Windows.Forms.TextBox()
@@ -102,6 +102,7 @@ Partial Class EMI_PO_Pembelian_Sub
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.LblPO_Judul = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -109,6 +110,33 @@ Partial Class EMI_PO_Pembelian_Sub
         Me.TxtPO_SatuanBarang = New System.Windows.Forms.TextBox()
         Me.Groupbox = New System.Windows.Forms.GroupBox()
         Me.LvPO_DataPO = New System.Windows.Forms.DataGridView()
+        Me.lokasi = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.kode_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.nama_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.harga = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.jumlah_po = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.sisa = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Jumlah = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Satuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Harga_SB = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Jumlah_SB = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Satuan_SB = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.No_PEnawaran = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ID = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Total = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.urut = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.NoPR = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TempoBayar = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.jatuhTempo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.noFakPenawaran = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.HapusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Label8 = New System.Windows.Forms.Label()
@@ -204,34 +232,8 @@ Partial Class EMI_PO_Pembelian_Sub
         Me.DataGridViewTextBoxColumn24 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn25 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn26 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
-        Me.lokasi = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.kode_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.nama_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.harga = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.jumlah_po = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.sisa = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Jumlah = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Satuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Harga_SB = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Jumlah_SB = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Satuan_SB = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.No_PEnawaran = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ID = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Total = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.urut = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.NoPR = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TempoBayar = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.jatuhTempo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.noFakPenawaran = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DtpPO_ETA = New System.Windows.Forms.DateTimePicker()
+        Me.Label10 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -334,6 +336,8 @@ Partial Class EMI_PO_Pembelian_Sub
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.DtpPO_ETA)
+        Me.GroupBox1.Controls.Add(Me.Label10)
         Me.GroupBox1.Controls.Add(Me.Button1)
         Me.GroupBox1.Controls.Add(Me.TxtPO_NmSupplier)
         Me.GroupBox1.Controls.Add(Me.LblPO_NoPO)
@@ -457,7 +461,7 @@ Partial Class EMI_PO_Pembelian_Sub
         '
         Me.LblPO_NoNota.AutoSize = True
         Me.LblPO_NoNota.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.LblPO_NoNota.Location = New System.Drawing.Point(310, 39)
+        Me.LblPO_NoNota.Location = New System.Drawing.Point(308, 14)
         Me.LblPO_NoNota.Name = "LblPO_NoNota"
         Me.LblPO_NoNota.Size = New System.Drawing.Size(82, 17)
         Me.LblPO_NoNota.TabIndex = 219
@@ -478,10 +482,10 @@ Partial Class EMI_PO_Pembelian_Sub
         Me.TxtPO_NoNota.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TxtPO_NoNota.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtPO_NoNota.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtPO_NoNota.Location = New System.Drawing.Point(398, 38)
+        Me.TxtPO_NoNota.Location = New System.Drawing.Point(396, 13)
         Me.TxtPO_NoNota.MaxLength = 75
         Me.TxtPO_NoNota.Name = "TxtPO_NoNota"
-        Me.TxtPO_NoNota.Size = New System.Drawing.Size(185, 21)
+        Me.TxtPO_NoNota.Size = New System.Drawing.Size(192, 21)
         Me.TxtPO_NoNota.TabIndex = 2
         '
         'DtpPO_Tgl
@@ -749,6 +753,19 @@ Partial Class EMI_PO_Pembelian_Sub
         Me.Panel1.Size = New System.Drawing.Size(1314, 51)
         Me.Panel1.TabIndex = 1
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1314, 2)
+        Me.PanelGradient1.TabIndex = 0
+        '
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
@@ -907,6 +924,230 @@ Partial Class EMI_PO_Pembelian_Sub
         Me.LvPO_DataPO.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.LvPO_DataPO.Size = New System.Drawing.Size(1272, 208)
         Me.LvPO_DataPO.TabIndex = 0
+        '
+        'lokasi
+        '
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.lokasi.DefaultCellStyle = DataGridViewCellStyle3
+        Me.lokasi.HeaderText = "Lokasi"
+        Me.lokasi.Name = "lokasi"
+        Me.lokasi.ReadOnly = True
+        Me.lokasi.Width = 130
+        '
+        'kode_barang
+        '
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.kode_barang.DefaultCellStyle = DataGridViewCellStyle4
+        Me.kode_barang.HeaderText = "Kode Barang"
+        Me.kode_barang.Name = "kode_barang"
+        Me.kode_barang.ReadOnly = True
+        Me.kode_barang.Width = 130
+        '
+        'nama_barang
+        '
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.nama_barang.DefaultCellStyle = DataGridViewCellStyle5
+        Me.nama_barang.HeaderText = "Nama Barang"
+        Me.nama_barang.Name = "nama_barang"
+        Me.nama_barang.ReadOnly = True
+        Me.nama_barang.Width = 200
+        '
+        'harga
+        '
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.harga.DefaultCellStyle = DataGridViewCellStyle6
+        Me.harga.HeaderText = "Harga Input"
+        Me.harga.Name = "harga"
+        Me.harga.ReadOnly = True
+        Me.harga.Visible = False
+        Me.harga.Width = 130
+        '
+        'jumlah_po
+        '
+        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.jumlah_po.DefaultCellStyle = DataGridViewCellStyle7
+        Me.jumlah_po.HeaderText = "Jumlah PO"
+        Me.jumlah_po.Name = "jumlah_po"
+        Me.jumlah_po.ReadOnly = True
+        Me.jumlah_po.Visible = False
+        Me.jumlah_po.Width = 120
+        '
+        'sisa
+        '
+        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.sisa.DefaultCellStyle = DataGridViewCellStyle8
+        Me.sisa.HeaderText = "Sisa"
+        Me.sisa.Name = "sisa"
+        Me.sisa.ReadOnly = True
+        Me.sisa.Visible = False
+        Me.sisa.Width = 120
+        '
+        'Jumlah
+        '
+        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Jumlah.DefaultCellStyle = DataGridViewCellStyle9
+        Me.Jumlah.HeaderText = "Jumlah"
+        Me.Jumlah.Name = "Jumlah"
+        Me.Jumlah.Width = 120
+        '
+        'Satuan
+        '
+        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Satuan.DefaultCellStyle = DataGridViewCellStyle10
+        Me.Satuan.HeaderText = "Satuan Input"
+        Me.Satuan.Name = "Satuan"
+        Me.Satuan.ReadOnly = True
+        Me.Satuan.Visible = False
+        Me.Satuan.Width = 80
+        '
+        'Harga_SB
+        '
+        Me.Harga_SB.HeaderText = "Harga SB"
+        Me.Harga_SB.Name = "Harga_SB"
+        Me.Harga_SB.ReadOnly = True
+        Me.Harga_SB.Visible = False
+        '
+        'Jumlah_SB
+        '
+        Me.Jumlah_SB.HeaderText = "Jumlah SB"
+        Me.Jumlah_SB.Name = "Jumlah_SB"
+        Me.Jumlah_SB.ReadOnly = True
+        Me.Jumlah_SB.Visible = False
+        '
+        'Satuan_SB
+        '
+        Me.Satuan_SB.HeaderText = "Satuan SB"
+        Me.Satuan_SB.Name = "Satuan_SB"
+        Me.Satuan_SB.ReadOnly = True
+        Me.Satuan_SB.Visible = False
+        '
+        'No_PEnawaran
+        '
+        Me.No_PEnawaran.HeaderText = "No Penawaran"
+        Me.No_PEnawaran.Name = "No_PEnawaran"
+        Me.No_PEnawaran.ReadOnly = True
+        Me.No_PEnawaran.Visible = False
+        Me.No_PEnawaran.Width = 150
+        '
+        'ID
+        '
+        Me.ID.HeaderText = "ID"
+        Me.ID.Name = "ID"
+        Me.ID.ReadOnly = True
+        Me.ID.Visible = False
+        '
+        'Total
+        '
+        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Total.DefaultCellStyle = DataGridViewCellStyle11
+        Me.Total.HeaderText = "Total"
+        Me.Total.Name = "Total"
+        Me.Total.ReadOnly = True
+        Me.Total.Width = 130
+        '
+        'urut
+        '
+        Me.urut.HeaderText = "Urut"
+        Me.urut.Name = "urut"
+        Me.urut.ReadOnly = True
+        Me.urut.Visible = False
+        '
+        'NoPR
+        '
+        Me.NoPR.HeaderText = "NoPR"
+        Me.NoPR.Name = "NoPR"
+        Me.NoPR.ReadOnly = True
+        Me.NoPR.Visible = False
+        '
+        'TempoBayar
+        '
+        Me.TempoBayar.HeaderText = "Tempo Pembayaran"
+        Me.TempoBayar.Name = "TempoBayar"
+        Me.TempoBayar.ReadOnly = True
+        Me.TempoBayar.Visible = False
+        '
+        'jatuhTempo
+        '
+        Me.jatuhTempo.HeaderText = "Jatuh Tempo"
+        Me.jatuhTempo.Name = "jatuhTempo"
+        Me.jatuhTempo.ReadOnly = True
+        Me.jatuhTempo.Visible = False
+        '
+        'noFakPenawaran
+        '
+        Me.noFakPenawaran.HeaderText = "Fak Penawaran"
+        Me.noFakPenawaran.Name = "noFakPenawaran"
+        Me.noFakPenawaran.ReadOnly = True
+        Me.noFakPenawaran.Visible = False
+        '
+        'Column1
+        '
+        Me.Column1.HeaderText = "Faktur Induk"
+        Me.Column1.Name = "Column1"
+        Me.Column1.ReadOnly = True
+        Me.Column1.Width = 120
+        '
+        'Column2
+        '
+        Me.Column2.HeaderText = "urut_det"
+        Me.Column2.Name = "Column2"
+        Me.Column2.ReadOnly = True
+        Me.Column2.Visible = False
+        '
+        'Column3
+        '
+        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column3.DefaultCellStyle = DataGridViewCellStyle12
+        Me.Column3.HeaderText = "Jenis Kategori"
+        Me.Column3.Name = "Column3"
+        Me.Column3.ReadOnly = True
+        Me.Column3.Width = 150
+        '
+        'Column4
+        '
+        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column4.DefaultCellStyle = DataGridViewCellStyle13
+        Me.Column4.HeaderText = "Jumlah PO"
+        Me.Column4.Name = "Column4"
+        Me.Column4.ReadOnly = True
+        Me.Column4.Width = 120
+        '
+        'Column5
+        '
+        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column5.DefaultCellStyle = DataGridViewCellStyle14
+        Me.Column5.HeaderText = "Satuan"
+        Me.Column5.Name = "Column5"
+        Me.Column5.ReadOnly = True
+        Me.Column5.Width = 80
+        '
+        'Column6
+        '
+        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column6.DefaultCellStyle = DataGridViewCellStyle15
+        Me.Column6.HeaderText = "Harga Penawaran"
+        Me.Column6.Name = "Column6"
+        Me.Column6.ReadOnly = True
+        Me.Column6.Visible = False
+        Me.Column6.Width = 130
+        '
+        'Column7
+        '
+        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column7.DefaultCellStyle = DataGridViewCellStyle16
+        Me.Column7.HeaderText = "Sisa"
+        Me.Column7.Name = "Column7"
+        Me.Column7.ReadOnly = True
+        Me.Column7.Width = 120
+        '
+        'Column8
+        '
+        DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column8.DefaultCellStyle = DataGridViewCellStyle17
+        Me.Column8.HeaderText = "Harga"
+        Me.Column8.Name = "Column8"
+        Me.Column8.ReadOnly = True
+        Me.Column8.Width = 130
         '
         'ContextMenuStrip1
         '
@@ -1911,242 +2152,25 @@ Partial Class EMI_PO_Pembelian_Sub
         Me.DataGridViewTextBoxColumn26.ReadOnly = True
         Me.DataGridViewTextBoxColumn26.Width = 120
         '
-        'PanelGradient1
+        'DtpPO_ETA
         '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1314, 2)
-        Me.PanelGradient1.TabIndex = 0
+        Me.DtpPO_ETA.CustomFormat = "dd MMMM yyyy"
+        Me.DtpPO_ETA.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DtpPO_ETA.Location = New System.Drawing.Point(396, 38)
+        Me.DtpPO_ETA.Margin = New System.Windows.Forms.Padding(2)
+        Me.DtpPO_ETA.Name = "DtpPO_ETA"
+        Me.DtpPO_ETA.Size = New System.Drawing.Size(192, 21)
+        Me.DtpPO_ETA.TabIndex = 338
         '
-        'lokasi
+        'Label10
         '
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.lokasi.DefaultCellStyle = DataGridViewCellStyle3
-        Me.lokasi.HeaderText = "Lokasi"
-        Me.lokasi.Name = "lokasi"
-        Me.lokasi.ReadOnly = True
-        Me.lokasi.Width = 130
-        '
-        'kode_barang
-        '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.kode_barang.DefaultCellStyle = DataGridViewCellStyle4
-        Me.kode_barang.HeaderText = "Kode Barang"
-        Me.kode_barang.Name = "kode_barang"
-        Me.kode_barang.ReadOnly = True
-        Me.kode_barang.Width = 130
-        '
-        'nama_barang
-        '
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.nama_barang.DefaultCellStyle = DataGridViewCellStyle5
-        Me.nama_barang.HeaderText = "Nama Barang"
-        Me.nama_barang.Name = "nama_barang"
-        Me.nama_barang.ReadOnly = True
-        Me.nama_barang.Width = 200
-        '
-        'harga
-        '
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.harga.DefaultCellStyle = DataGridViewCellStyle6
-        Me.harga.HeaderText = "Harga Input"
-        Me.harga.Name = "harga"
-        Me.harga.ReadOnly = True
-        Me.harga.Visible = False
-        Me.harga.Width = 130
-        '
-        'jumlah_po
-        '
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.jumlah_po.DefaultCellStyle = DataGridViewCellStyle7
-        Me.jumlah_po.HeaderText = "Jumlah PO"
-        Me.jumlah_po.Name = "jumlah_po"
-        Me.jumlah_po.ReadOnly = True
-        Me.jumlah_po.Visible = False
-        Me.jumlah_po.Width = 120
-        '
-        'sisa
-        '
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.sisa.DefaultCellStyle = DataGridViewCellStyle8
-        Me.sisa.HeaderText = "Sisa"
-        Me.sisa.Name = "sisa"
-        Me.sisa.ReadOnly = True
-        Me.sisa.Visible = False
-        Me.sisa.Width = 120
-        '
-        'Jumlah
-        '
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Jumlah.DefaultCellStyle = DataGridViewCellStyle9
-        Me.Jumlah.HeaderText = "Jumlah"
-        Me.Jumlah.Name = "Jumlah"
-        Me.Jumlah.Width = 120
-        '
-        'Satuan
-        '
-        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Satuan.DefaultCellStyle = DataGridViewCellStyle10
-        Me.Satuan.HeaderText = "Satuan Input"
-        Me.Satuan.Name = "Satuan"
-        Me.Satuan.ReadOnly = True
-        Me.Satuan.Visible = False
-        Me.Satuan.Width = 80
-        '
-        'Harga_SB
-        '
-        Me.Harga_SB.HeaderText = "Harga SB"
-        Me.Harga_SB.Name = "Harga_SB"
-        Me.Harga_SB.ReadOnly = True
-        Me.Harga_SB.Visible = False
-        '
-        'Jumlah_SB
-        '
-        Me.Jumlah_SB.HeaderText = "Jumlah SB"
-        Me.Jumlah_SB.Name = "Jumlah_SB"
-        Me.Jumlah_SB.ReadOnly = True
-        Me.Jumlah_SB.Visible = False
-        '
-        'Satuan_SB
-        '
-        Me.Satuan_SB.HeaderText = "Satuan SB"
-        Me.Satuan_SB.Name = "Satuan_SB"
-        Me.Satuan_SB.ReadOnly = True
-        Me.Satuan_SB.Visible = False
-        '
-        'No_PEnawaran
-        '
-        Me.No_PEnawaran.HeaderText = "No Penawaran"
-        Me.No_PEnawaran.Name = "No_PEnawaran"
-        Me.No_PEnawaran.ReadOnly = True
-        Me.No_PEnawaran.Visible = False
-        Me.No_PEnawaran.Width = 150
-        '
-        'ID
-        '
-        Me.ID.HeaderText = "ID"
-        Me.ID.Name = "ID"
-        Me.ID.ReadOnly = True
-        Me.ID.Visible = False
-        '
-        'Total
-        '
-        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Total.DefaultCellStyle = DataGridViewCellStyle11
-        Me.Total.HeaderText = "Total"
-        Me.Total.Name = "Total"
-        Me.Total.ReadOnly = True
-        Me.Total.Width = 130
-        '
-        'urut
-        '
-        Me.urut.HeaderText = "Urut"
-        Me.urut.Name = "urut"
-        Me.urut.ReadOnly = True
-        Me.urut.Visible = False
-        '
-        'NoPR
-        '
-        Me.NoPR.HeaderText = "NoPR"
-        Me.NoPR.Name = "NoPR"
-        Me.NoPR.ReadOnly = True
-        Me.NoPR.Visible = False
-        '
-        'TempoBayar
-        '
-        Me.TempoBayar.HeaderText = "Tempo Pembayaran"
-        Me.TempoBayar.Name = "TempoBayar"
-        Me.TempoBayar.ReadOnly = True
-        Me.TempoBayar.Visible = False
-        '
-        'jatuhTempo
-        '
-        Me.jatuhTempo.HeaderText = "Jatuh Tempo"
-        Me.jatuhTempo.Name = "jatuhTempo"
-        Me.jatuhTempo.ReadOnly = True
-        Me.jatuhTempo.Visible = False
-        '
-        'noFakPenawaran
-        '
-        Me.noFakPenawaran.HeaderText = "Fak Penawaran"
-        Me.noFakPenawaran.Name = "noFakPenawaran"
-        Me.noFakPenawaran.ReadOnly = True
-        Me.noFakPenawaran.Visible = False
-        '
-        'Column1
-        '
-        Me.Column1.HeaderText = "Faktur Induk"
-        Me.Column1.Name = "Column1"
-        Me.Column1.ReadOnly = True
-        Me.Column1.Width = 120
-        '
-        'Column2
-        '
-        Me.Column2.HeaderText = "urut_det"
-        Me.Column2.Name = "Column2"
-        Me.Column2.ReadOnly = True
-        Me.Column2.Visible = False
-        '
-        'Column3
-        '
-        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column3.DefaultCellStyle = DataGridViewCellStyle12
-        Me.Column3.HeaderText = "Jenis Kategori"
-        Me.Column3.Name = "Column3"
-        Me.Column3.ReadOnly = True
-        Me.Column3.Width = 150
-        '
-        'Column4
-        '
-        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column4.DefaultCellStyle = DataGridViewCellStyle13
-        Me.Column4.HeaderText = "Jumlah PO"
-        Me.Column4.Name = "Column4"
-        Me.Column4.ReadOnly = True
-        Me.Column4.Width = 120
-        '
-        'Column5
-        '
-        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column5.DefaultCellStyle = DataGridViewCellStyle14
-        Me.Column5.HeaderText = "Satuan"
-        Me.Column5.Name = "Column5"
-        Me.Column5.ReadOnly = True
-        Me.Column5.Width = 80
-        '
-        'Column6
-        '
-        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column6.DefaultCellStyle = DataGridViewCellStyle15
-        Me.Column6.HeaderText = "Harga Penawaran"
-        Me.Column6.Name = "Column6"
-        Me.Column6.ReadOnly = True
-        Me.Column6.Visible = False
-        Me.Column6.Width = 130
-        '
-        'Column7
-        '
-        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column7.DefaultCellStyle = DataGridViewCellStyle16
-        Me.Column7.HeaderText = "Sisa"
-        Me.Column7.Name = "Column7"
-        Me.Column7.ReadOnly = True
-        Me.Column7.Width = 120
-        '
-        'Column8
-        '
-        DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column8.DefaultCellStyle = DataGridViewCellStyle17
-        Me.Column8.HeaderText = "Harga"
-        Me.Column8.Name = "Column8"
-        Me.Column8.ReadOnly = True
-        Me.Column8.Width = 130
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label10.Location = New System.Drawing.Point(310, 39)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(35, 17)
+        Me.Label10.TabIndex = 337
+        Me.Label10.Text = "ETA"
         '
         'EMI_PO_Pembelian_Sub
         '
@@ -2387,4 +2411,6 @@ Partial Class EMI_PO_Pembelian_Sub
     Friend WithEvents DataGridViewTextBoxColumn24 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn25 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn26 As DataGridViewTextBoxColumn
+    Friend WithEvents DtpPO_ETA As DateTimePicker
+    Friend WithEvents Label10 As Label
 End Class

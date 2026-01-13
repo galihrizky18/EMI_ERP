@@ -83,6 +83,12 @@
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
 
+        If asal = "HASIL_PENGELUARAN_BAHAN_BAKU" Then
+            Lbl_tab2.Visible = False
+            Pnl_Tab2.Visible = False
+            Lv_GI.ContextMenuStrip = Nothing
+        End If
+
         ' LvGR_Det.Items.Clear()
 
         Me.Size = New Size(1200, 670)
@@ -555,6 +561,10 @@
     End Sub
 
     Private Sub Lv_GI_DoubleClick(sender As Object, e As EventArgs) Handles Lv_GI.DoubleClick
+        If asal = "HASIL_PENGELUARAN_BAHAN_BAKU" Then
+            Exit Sub
+        End If
+
         If Lv_GI.Items.Count = 0 Or Lv_GI.SelectedItems.Count = 0 Then
             MessageBox.Show("Tidak Ada Data", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
@@ -801,6 +811,8 @@
             Dim jumlah_batch As Double = 0
             Dim jumlah_batch_selesai As Double = 0
             Dim jumlah_Loss As Double = 0
+            Dim Jumlah_Persentase As Double = 0
+            Dim Jumlah_Presentase_Loss As Double = 0
 
             SQL = "Select round(isnull(sum(jumlah_dosing),0),4) as Jumlah_Dosing, round(isnull(sum(jumlah_Terpakai),0),4) as Jumlah_GR  from Emi_Production_Results a, Emi_Production_Results_HPP b  "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Transaksi = b.No_Transaksi And a.status Is null "
@@ -810,13 +822,23 @@
                     jumlah_batch = dr("Jumlah_Dosing")
                     jumlah_batch_selesai = dr("Jumlah_GR")
                     jumlah_Loss = dr("Jumlah_Dosing") - dr("Jumlah_GR")
+                    Dim pembagi As Double = Val(HilangkanTanda(dr("Jumlah_Dosing")))
+                    If pembagi > 0 Then
+                        Jumlah_Persentase = (Val(HilangkanTanda(dr("Jumlah_GR"))) / pembagi) * 100
+                        Jumlah_Presentase_Loss = (Val(HilangkanTanda(jumlah_Loss)) / pembagi) * 100
+                    Else
+                        Jumlah_Persentase = 0
+                        Jumlah_Presentase_Loss = 0
+                    End If
                 End If
             End Using
 
             Dim Kata As String = "Berikut Detail GI-GR. " & vbNewLine
             Kata += " - Jumlah Goods Issue (Kg) : " & Format(jumlah_batch, "N4") & vbNewLine
             Kata += " - Jumlah Goods Received (Kg) : " & Format(jumlah_batch_selesai, "N4") & vbNewLine
-            Kata += " - Jumlah Production Loss (Kg) : " & Format(jumlah_Loss, "N4") & vbNewLine & vbNewLine
+            Kata += " - Jumlah Production Loss (Kg) : " & Format(jumlah_Loss, "N4") & vbNewLine
+            Kata += " - Persentase Goods Received (%) : " & Format(Jumlah_Persentase, "N4") & vbNewLine
+            Kata += " - Persentase Production Loss (%) : " & Format(Jumlah_Presentase_Loss, "N4") & vbNewLine & vbNewLine
             Kata += " Lanjutkan . . ? "
 
             Dim tanya2 As String = MessageBox.Show(Kata, Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)

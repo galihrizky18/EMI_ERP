@@ -182,7 +182,7 @@ Public Class EMI_Validasi_Pengeluaran_Stock
                     GetDataKdBrg = Dr("Kode_Barang")
                     GetDataNmBrg = Dr("Nama")
                     GetDataBrgSN = Dr("Serial_Number_Awal")
-                    GetDataJmlEstimasi = HilangkanTanda(Format(Dr("jumlah"), "N2"))
+                    GetDataJmlEstimasi = HilangkanTanda(Format(Dr("jumlah"), "N4"))
                     GetDataSatuanKecil = Dr("Satuan_Barang")
                     GetDataSatuanBesar = Dr("Satuan")
                     GetDataUrutOto = Dr("urut_oto")
@@ -406,7 +406,22 @@ Public Class EMI_Validasi_Pengeluaran_Stock
             End Using
 
 
+            Dim Barang_Reject As String = ""
+            SQL = "select isnull(Flag_Stock_Rejected, 'T') as Flag_Reject from emi_pengeluaran_stock_parent "
+            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & GetDataKodeTransfer & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
 
+                    Barang_Reject = Dr("Flag_Reject")
+
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Data Transfer tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
 
 
             'dari
@@ -414,11 +429,17 @@ Public Class EMI_Validasi_Pengeluaran_Stock
             Dim akun_biaya As String = ""
             Dim akun_persediaan_dari As String = ""
 
-            SQL = "select inisial_faktur,Persediaan_Bahan_Baku,Persediaan,Persediaan_Bahan_Setengah_Jadi,Persediaan_Scrap, Persediaan_Packaging, Biaya_Pengeluaran_Barang from stock_owner_gudang "
+            SQL = "select inisial_faktur,Persediaan_Bahan_Baku,Persediaan,Persediaan_Bahan_Setengah_Jadi,Persediaan_Scrap, Persediaan_Packaging, Biaya_Pengeluaran_Barang2, Biaya_Pengeluaran_Barang_Reject from stock_owner_gudang "
             SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & GetSoAwal & "' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
-                    akun_biaya = Dr("Biaya_Pengeluaran_Barang")
+
+                    If Barang_Reject = "Y" Then
+                        akun_biaya = Dr("Biaya_Pengeluaran_Barang_Reject")
+                    Else
+                        akun_biaya = Dr("Biaya_Pengeluaran_Barang2")
+                    End If
+
                     inisial_faktur_dari = Dr("inisial_faktur")
 
                 Else
@@ -459,21 +480,21 @@ Public Class EMI_Validasi_Pengeluaran_Stock
             SQL = SQL & "'" & Kode_voucher & "', "
             SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', "
             SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
-            SQL = SQL & "'" & KodeProyek & "', 'Transfer Stock " & GetDataKodeTransfer & "', '', "
+            SQL = SQL & "'" & KodeProyek & "', 'Pengeluaran Stock " & GetDataKodeTransfer & "', '', "
             SQL = SQL & "'-', '" & UserID & "')"
             ExecuteTrans(SQL)
 
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_biaya, 1),
                       Strings.Mid(akun_biaya, 2, 1),
                       Strings.Mid(Ganti(akun_biaya), 3),
-                      KodePerusahaan, KodeProyek, "Persedian " & GetDataKodeTransfer, "0", nilai_persediaan_min, pagenumber, GetSoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                      KodePerusahaan, KodeProyek, "Biaya " & GetDataKodeTransfer, nilai_persediaan_min, "0", pagenumber, GetSoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
 
             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_persediaan_dari, 1),
                      Strings.Mid(akun_persediaan_dari, 2, 1),
                      Strings.Mid(Ganti(akun_persediaan_dari), 3),
-                     KodePerusahaan, KodeProyek, "Persedian " & GetDataKodeTransfer, nilai_persediaan_min, "0", pagenumber, GetSoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                     KodePerusahaan, KodeProyek, "Persedian " & GetDataKodeTransfer, "0", nilai_persediaan_min, pagenumber, GetSoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
             ExecuteTrans(SQL)
             pagenumber = pagenumber + 1
 
@@ -691,7 +712,7 @@ Public Class EMI_Validasi_Pengeluaran_Stock
                     Lvw.SubItems.Add(Format(dr("jumlah"), "N2")) '7
                     Lvw.SubItems.Add(dr("satuan")) '8
                     Lvw.SubItems.Add(dr("Rak_Awal")) '9
-                    Lvw.SubItems.Add(dr("Serial_Number_Awal")) '10
+                    Lvw.SubItems.Add("X") '10
                     Lvw.SubItems.Add(dr("Satuan_Barang")) '11
                 Loop
             End Using

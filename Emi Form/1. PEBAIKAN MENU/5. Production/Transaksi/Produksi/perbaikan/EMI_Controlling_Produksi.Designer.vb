@@ -71,7 +71,9 @@ Partial Class EMI_Controlling_Produksi
         Me.Pnl_Tab1 = New System.Windows.Forms.Panel()
         Me.Lbl_tab1 = New System.Windows.Forms.Label()
         Me.Panel_GR = New System.Windows.Forms.Panel()
+        Me.Txt_Pages_2 = New System.Windows.Forms.TextBox()
         Me.Panel_GI = New System.Windows.Forms.Panel()
+        Me.Txt_Pages_1 = New System.Windows.Forms.TextBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Btn_Refresh = New System.Windows.Forms.Button()
@@ -79,8 +81,6 @@ Partial Class EMI_Controlling_Produksi
         Me.Txt_FilterValue = New System.Windows.Forms.TextBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Cmb_Filter = New System.Windows.Forms.ComboBox()
-        Me.Txt_Pages_1 = New System.Windows.Forms.TextBox()
-        Me.Txt_Pages_2 = New System.Windows.Forms.TextBox()
         Me.Panel1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         Me.Panel9.SuspendLayout()
@@ -601,6 +601,19 @@ Partial Class EMI_Controlling_Produksi
         Me.Panel_GR.Size = New System.Drawing.Size(1159, 529)
         Me.Panel_GR.TabIndex = 420
         '
+        'Txt_Pages_2
+        '
+        Me.Txt_Pages_2.BackColor = System.Drawing.Color.White
+        Me.Txt_Pages_2.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.Txt_Pages_2.Enabled = False
+        Me.Txt_Pages_2.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Txt_Pages_2.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.Txt_Pages_2.Location = New System.Drawing.Point(977, 504)
+        Me.Txt_Pages_2.Name = "Txt_Pages_2"
+        Me.Txt_Pages_2.Size = New System.Drawing.Size(73, 15)
+        Me.Txt_Pages_2.TabIndex = 516
+        Me.Txt_Pages_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
         'Panel_GI
         '
         Me.Panel_GI.Controls.Add(Me.Txt_Pages_1)
@@ -615,6 +628,19 @@ Partial Class EMI_Controlling_Produksi
         Me.Panel_GI.Name = "Panel_GI"
         Me.Panel_GI.Size = New System.Drawing.Size(1159, 529)
         Me.Panel_GI.TabIndex = 421
+        '
+        'Txt_Pages_1
+        '
+        Me.Txt_Pages_1.BackColor = System.Drawing.Color.White
+        Me.Txt_Pages_1.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.Txt_Pages_1.Enabled = False
+        Me.Txt_Pages_1.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Txt_Pages_1.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.Txt_Pages_1.Location = New System.Drawing.Point(977, 504)
+        Me.Txt_Pages_1.Name = "Txt_Pages_1"
+        Me.Txt_Pages_1.Size = New System.Drawing.Size(73, 15)
+        Me.Txt_Pages_1.TabIndex = 504
+        Me.Txt_Pages_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'GroupBox1
         '
@@ -701,32 +727,6 @@ Partial Class EMI_Controlling_Produksi
         Me.Cmb_Filter.Name = "Cmb_Filter"
         Me.Cmb_Filter.Size = New System.Drawing.Size(127, 26)
         Me.Cmb_Filter.TabIndex = 412
-        '
-        'Txt_Pages_1
-        '
-        Me.Txt_Pages_1.BackColor = System.Drawing.Color.White
-        Me.Txt_Pages_1.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.Txt_Pages_1.Enabled = False
-        Me.Txt_Pages_1.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        Me.Txt_Pages_1.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.Txt_Pages_1.Location = New System.Drawing.Point(977, 504)
-        Me.Txt_Pages_1.Name = "Txt_Pages_1"
-        Me.Txt_Pages_1.Size = New System.Drawing.Size(73, 15)
-        Me.Txt_Pages_1.TabIndex = 504
-        Me.Txt_Pages_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'Txt_Pages_2
-        '
-        Me.Txt_Pages_2.BackColor = System.Drawing.Color.White
-        Me.Txt_Pages_2.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.Txt_Pages_2.Enabled = False
-        Me.Txt_Pages_2.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        Me.Txt_Pages_2.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.Txt_Pages_2.Location = New System.Drawing.Point(977, 504)
-        Me.Txt_Pages_2.Name = "Txt_Pages_2"
-        Me.Txt_Pages_2.Size = New System.Drawing.Size(73, 15)
-        Me.Txt_Pages_2.TabIndex = 516
-        Me.Txt_Pages_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'EMI_Controlling_Produksi
         '

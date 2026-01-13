@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class N_EMI_Display_Selisih_Barang_Masuk
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class N_EMI_Display_Selisih_Barang_Masuk
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -33,6 +33,9 @@ Partial Class N_EMI_Display_Selisih_Barang_Masuk
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Panel9 = New System.Windows.Forms.Panel()
         Me.Lv_Data = New System.Windows.Forms.ListView()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SalinNoFakturToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BatalSelisihBMToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.BtnBarangMasuk_Cari = New System.Windows.Forms.Button()
         Me.ComboBox6 = New System.Windows.Forms.ComboBox()
@@ -49,12 +52,9 @@ Partial Class N_EMI_Display_Selisih_Barang_Masuk
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Lv_Detail = New System.Windows.Forms.ListView()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.SalinNoFakturToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BatalSelisihBMToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1.SuspendLayout()
-        Me.GroupBox3.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -158,6 +158,24 @@ Partial Class N_EMI_Display_Selisih_Barang_Masuk
         Me.Lv_Data.TabIndex = 351
         Me.Lv_Data.UseCompatibleStateImageBehavior = False
         Me.Lv_Data.View = System.Windows.Forms.View.Details
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalinNoFakturToolStripMenuItem, Me.BatalSelisihBMToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 70)
+        '
+        'SalinNoFakturToolStripMenuItem
+        '
+        Me.SalinNoFakturToolStripMenuItem.Name = "SalinNoFakturToolStripMenuItem"
+        Me.SalinNoFakturToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SalinNoFakturToolStripMenuItem.Text = "Salin No Faktur"
+        '
+        'BatalSelisihBMToolStripMenuItem
+        '
+        Me.BatalSelisihBMToolStripMenuItem.Name = "BatalSelisihBMToolStripMenuItem"
+        Me.BatalSelisihBMToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.BatalSelisihBMToolStripMenuItem.Text = "Batal Selisih BM"
         '
         'GroupBox3
         '
@@ -352,24 +370,6 @@ Partial Class N_EMI_Display_Selisih_Barang_Masuk
         Me.Lv_Detail.UseCompatibleStateImageBehavior = False
         Me.Lv_Detail.View = System.Windows.Forms.View.Details
         '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalinNoFakturToolStripMenuItem, Me.BatalSelisihBMToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 70)
-        '
-        'SalinNoFakturToolStripMenuItem
-        '
-        Me.SalinNoFakturToolStripMenuItem.Name = "SalinNoFakturToolStripMenuItem"
-        Me.SalinNoFakturToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.SalinNoFakturToolStripMenuItem.Text = "Salin No Faktur"
-        '
-        'BatalSelisihBMToolStripMenuItem
-        '
-        Me.BatalSelisihBMToolStripMenuItem.Name = "BatalSelisihBMToolStripMenuItem"
-        Me.BatalSelisihBMToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.BatalSelisihBMToolStripMenuItem.Text = "Batal Selisih BM"
-        '
         'N_EMI_Display_Selisih_Barang_Masuk
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
@@ -395,9 +395,9 @@ Partial Class N_EMI_Display_Selisih_Barang_Masuk
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
-        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

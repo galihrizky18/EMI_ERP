@@ -1,24 +1,18 @@
-﻿Imports System.Reflection
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-
-Public Class Display_Formula_Binding
+﻿Public Class Display_Formula_Binding
     Dim Jenis = "Transaksi_Binding_Formula"
 
     Dim arrCmbKb, arrCmbKK, arrParam As New ArrayList
 
-    Dim lvNo As String
-    Dim lvKdProduk As String
-    Dim lvNmProduk As String
-    Dim lvStockOwner As String
-    Dim lvBindingFormula As String
+    Dim Lv_Kd_Produk, Lv_Kd_Barang, Lv_Nm_Produk, Lv_Kd_Formula, Lv_Tgl_Formula, Lv_Jumlah, Lv_Satuan As String
 
-    Dim cellNo As Integer = 0
-    Dim cellKdProduk As Integer = 1
-    Dim cellNmProduk As Integer = 2
-    Dim cellStockOwner As Integer = 3
-    Dim cellBindingFormula As Integer = 4
+    Dim item_Kd_Produk As Integer = 0
+    Dim item_Kd_Barang As Integer = 1
+    Dim item_Nm_Produk As Integer = 2
+    Dim item_Kd_Formula As Integer = 3
+    Dim item_Tgl_Formula As Integer = 4
+    Dim item_Jumlah As Integer = 5
+    Dim item_Satuan As Integer = 6
+
 
     'Private Sub get_no_faktur()
     '    TxtFormulator_NoFaktur.Text = fTransFormulaBinding & Format(tgl_skg, "MMyy") & "-" &
@@ -74,25 +68,27 @@ Public Class Display_Formula_Binding
             'DgvBindingFormulator_BindingFormulator.Columns(cellNmProduk).HeaderText = Base_Language.Lang_TransFormulaBinding_DGV_NamaProduk
             'DgvBindingFormulator_BindingFormulator.Columns(cellBindingFormula).HeaderText = Base_Language.Lang_TransFormulaBinding_DGV_BindingFormula
 
+            ListView1.Columns.Add("Kode Produk", 150, HorizontalAlignment.Left)
+            ListView1.Columns.Add("Kode Barang", 150, HorizontalAlignment.Left)
+            ListView1.Columns.Add("Nama Produk", 250, HorizontalAlignment.Left)
+            ListView1.Columns.Add("Kode Formula", 150, HorizontalAlignment.Left)
+            ListView1.Columns.Add("Tanggal Formula", 120, HorizontalAlignment.Center)
+            ListView1.Columns.Add("Jumlah", 130, HorizontalAlignment.Right)
+            ListView1.Columns.Add("Satuan", 80, HorizontalAlignment.Center)
+            ListView1.View = View.Details
 
 
-            ListView1.Columns.Add(Base_Language.Lang_Global_KodeBarang, 200, HorizontalAlignment.Left)
-            ListView1.Columns.Add(Base_Language.Lang_Global_NamaBarang, 380, HorizontalAlignment.Left)
-            ListView1.Columns.Add(Base_Language.Lang_Global_Jumlah, 150, HorizontalAlignment.Center)
-
-            ListView1.Columns.Add(Base_Language.Lang_Global_NoFormula, 150, HorizontalAlignment.Center)
-
-            ListView4.Columns.Add(Base_Language.Lang_Global_KodeBarang, 170, HorizontalAlignment.Left)
-            ListView4.Columns.Add(Base_Language.Lang_Global_NamaBarang, 300, HorizontalAlignment.Left)
-            ListView4.Columns.Add(Base_Language.Lang_Global_Jumlah, 180, HorizontalAlignment.Center)
-            ListView4.Columns.Add(Base_Language.Lang_Global_Satuan, 150, HorizontalAlignment.Center)
-            ListView4.Columns.Add(Base_Language.Lang_Global_Persentase & " (%)", 150, HorizontalAlignment.Center)
+            'ListView4.Columns.Add(Base_Language.Lang_Global_KodeBarang, 170, HorizontalAlignment.Left)
+            'ListView4.Columns.Add(Base_Language.Lang_Global_NamaBarang, 300, HorizontalAlignment.Left)
+            'ListView4.Columns.Add(Base_Language.Lang_Global_Jumlah, 180, HorizontalAlignment.Center)
+            'ListView4.Columns.Add(Base_Language.Lang_Global_Satuan, 150, HorizontalAlignment.Center)
+            'ListView4.Columns.Add(Base_Language.Lang_Global_Persentase & " (%)", 150, HorizontalAlignment.Center)
 
 
-            LvwPackaging.Columns.Add(Base_Language.Lang_Global_KodeBarang, 170, HorizontalAlignment.Left)
-            LvwPackaging.Columns.Add(Base_Language.Lang_Global_NamaBarang, 350, HorizontalAlignment.Left)
-            LvwPackaging.Columns.Add(Base_Language.Lang_Global_Jumlah, 180, HorizontalAlignment.Center)
-            LvwPackaging.Columns.Add(Base_Language.Lang_Global_Satuan, 150, HorizontalAlignment.Center)
+            'LvwPackaging.Columns.Add(Base_Language.Lang_Global_KodeBarang, 170, HorizontalAlignment.Left)
+            'LvwPackaging.Columns.Add(Base_Language.Lang_Global_NamaBarang, 350, HorizontalAlignment.Left)
+            'LvwPackaging.Columns.Add(Base_Language.Lang_Global_Jumlah, 180, HorizontalAlignment.Center)
+            'LvwPackaging.Columns.Add(Base_Language.Lang_Global_Satuan, 150, HorizontalAlignment.Center)
 
 
             ListView2.Columns.Add(Base_Language.Lang_Global_KodeBarang, 150, HorizontalAlignment.Left)
@@ -128,7 +124,10 @@ Public Class Display_Formula_Binding
 
         '  ComboBox1.Items.Clear()
         ' TextBox5.Text = ""
-        ListView4.Items.Clear()
+        'ListView4.Items.Clear()
+
+        Dgv_Detail_Formula.Rows.Clear()
+        Dgv_Detail_Packaging.Rows.Clear()
 
         Try
             OpenConn()
@@ -145,12 +144,13 @@ Public Class Display_Formula_Binding
                     cmbKategori_Besar.Items.Add(Dr("keterangan")) : arrCmbKb.Add(Dr("kode_kategori_besar"))
                 Loop
             End Using
-
             cmbKategori_Besar.SelectedIndex = 0
 
+            cmbParamter.Items.Clear() : arrParam.Clear()
+            cmbParamter.Items.Add("Kode Produk") : arrParam.Add("a.Kode_Barang_inq")
             cmbParamter.Items.Add("Kode Barang") : arrParam.Add("a.kode_barang")
-            cmbParamter.Items.Add("nama") : arrParam.Add("a.nama")
-
+            cmbParamter.Items.Add("Nama Barang") : arrParam.Add("a.nama")
+            cmbParamter.Items.Add("Kode Formula") : arrParam.Add("c.kode_formula")
             cmbParamter.SelectedIndex = 0
 
 
@@ -535,44 +535,52 @@ Public Class Display_Formula_Binding
     Private Sub ListView1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListView1.SelectedIndexChanged
         Try
             OpenConn()
-            ListView4.Items.Clear()
+            Dgv_Detail_Formula.Rows.Clear()
             SQL = "select a.Kode_Barang,b.nama,a.Jumlah,a.Persentase,a.satuan "
             SQL = SQL & "from EMI_Transaksi_Formulator_Detail_Bahan a, barang b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner "
             SQL = SQL & "and a.Kode_Barang = b.Kode_Barang_Inq and "
             SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_faktur = '" & ListView1.FocusedItem.SubItems(3).Text & "' "
-            Using Dr = OpenTrans(SQL)
-                Do While Dr.Read
-                    Dim lv As ListViewItem
-                    lv = ListView4.Items.Add(Dr("kode_barang"))
-                    lv.SubItems.Add(Dr("nama"))
-                    lv.SubItems.Add(Format(Dr("jumlah"), "N2"))
-                    lv.SubItems.Add(Dr("satuan"))
-                    lv.SubItems.Add(Format(Dr("persentase"), "N2"))
-
-                Loop
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
+                            Dgv_Detail_Formula.Rows.Add(1)
+                            Dgv_Detail_Formula.Rows(i).Cells(0).Value = .Rows(i).Item("Kode_Barang")
+                            Dgv_Detail_Formula.Rows(i).Cells(1).Value = .Rows(i).Item("nama")
+                            Dgv_Detail_Formula.Rows(i).Cells(2).Value = Format(Val(HilangkanTanda(.Rows(i).Item("Jumlah"))), "N4")
+                            Dgv_Detail_Formula.Rows(i).Cells(3).Value = .Rows(i).Item("satuan")
+                            Dgv_Detail_Formula.Rows(i).Cells(4).Value = Format(Val(HilangkanTanda(.Rows(i).Item("Persentase"))), "N2")
+                        Next
+                    End If
+                End With
             End Using
 
-            LvwPackaging.Items.Clear()
-            SQL = "select  a.Kode_Bahan,b.nama, b.Satuan,a.Jumlah_Bahan from  Barang_Detail_Bahan_Penolong a, barang b where  "
+
+
+            Dgv_Detail_Packaging.Rows.Clear()
+            SQL = "select  a.Kode_Bahan,b.nama, b.Satuan,a.Jumlah_Bahan, a.Jumlah_Barang from Barang_Detail_Bahan_Penolong a, barang b where  "
             SQL = SQL & "a.Kode_Bahan = b.Kode_Barang "
             SQL = SQL & "and a.Kode_Barang = '" & ListView1.FocusedItem.SubItems(0).Text & "' "
-
-            SQL = SQL & "group by a.Kode_Bahan,b.nama, b.Satuan,a.Jumlah_Bahan "
+            SQL = SQL & "group by a.Kode_Bahan,b.nama, b.Satuan,a.Jumlah_Bahan, a.Jumlah_Barang, a.Jumlah_Barang "
             SQL = SQL & "order by b.nama "
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
-                    For indexBahan = 0 To .Rows.Count - 1
-                        Dim lvwItem As ListViewItem
-                        lvwItem = LvwPackaging.Items.Add(.Rows(indexBahan).Item("Kode_Bahan"))
-                        lvwItem.SubItems.Add(.Rows(indexBahan).Item("nama"))
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
+                            Dgv_Detail_Packaging.Rows.Add(1)
+                            Dgv_Detail_Packaging.Rows(i).Cells(0).Value = .Rows(i).Item("Kode_Bahan")
+                            Dgv_Detail_Packaging.Rows(i).Cells(1).Value = .Rows(i).Item("nama")
+                            Dgv_Detail_Packaging.Rows(i).Cells(2).Value = Format(Val(HilangkanTanda(.Rows(i).Item("Jumlah_Bahan"))), "N4")
+                            Dgv_Detail_Packaging.Rows(i).Cells(3).Value = Format(Val(HilangkanTanda(.Rows(i).Item("Jumlah_Barang"))), "N4")
+                            Dgv_Detail_Packaging.Rows(i).Cells(4).Value = .Rows(i).Item("Satuan")
 
-                        lvwItem.SubItems.Add(Format(.Rows(indexBahan).Item("Jumlah_Bahan"), "N2"))
-                        lvwItem.SubItems.Add(.Rows(indexBahan).Item("satuan"))
 
-                    Next
+                        Next
+                    End If
                 End With
             End Using
+
 
             CloseConn()
         Catch ex As Exception
@@ -622,18 +630,26 @@ Public Class Display_Formula_Binding
         Try
             OpenConn()
             ListView1.Items.Clear()
-            SQL = "select a.Kode_Barang_inq as Kode_Barang, a.Nama, "
-            SQL = SQL & "isnull((select kode_formula from EMI_Transaksi_Formulator_Binding x where "
-            SQL = SQL & "a.Kode_Perusahaan = x.Kode_Perusahaan and a.Kode_Barang_inq = x.Kode_Barang and x.status is null and x.aktif='Y'), NULL) as Kode_Formula, "
-            SQL = SQL & "isnull((select y.hasil from EMI_Transaksi_Formulator_Binding x, Emi_Transaksi_Formulator y "
-            SQL = SQL & "where a.Kode_Perusahaan = x.Kode_Perusahaan and a.Kode_Barang_inq = x.Kode_Barang "
-            SQL = SQL & "and x.kode_perusahaan = y.kode_perusahaan and x.Kode_Formula = y.No_Faktur and x.status is null and x.aktif='Y'), NULL) as Jumlah_Satuan, "
-            SQL = SQL & "isnull((select y.Satuan_Hasil from EMI_Transaksi_Formulator_Binding x, Emi_Transaksi_Formulator y "
-            SQL = SQL & "where a.Kode_Perusahaan = x.Kode_Perusahaan and a.Kode_Barang_inq = x.Kode_Barang "
-            SQL = SQL & "and x.kode_perusahaan = y.kode_perusahaan and x.Kode_Formula = y.No_Faktur and x.status is null and x.aktif='Y' ), NULL) as satuan "
-            SQL = SQL & "from Barang a, EMI_Group_Jenis b where a.kode_perusahaan = '" & KodePerusahaan & "' and "
-            SQL = SQL & "a.Id_Group_Jenis=b.Id_Group_Jenis "
-            SQL = SQL & "and (Flag_Finished_Good='Y' or Flag_Sample='Y' or Flag_Tampil_Inquiry='Y') "
+            'SQL = "select a.Kode_Barang_inq as Kode_Barang, a.Nama, "
+            'SQL = SQL & "isnull((select kode_formula from EMI_Transaksi_Formulator_Binding x where "
+            'SQL = SQL & "a.Kode_Perusahaan = x.Kode_Perusahaan and a.Kode_Barang_inq = x.Kode_Barang and x.status is null and x.aktif='Y'), NULL) as Kode_Formula, "
+            'SQL = SQL & "isnull((select y.hasil from EMI_Transaksi_Formulator_Binding x, Emi_Transaksi_Formulator y "
+            'SQL = SQL & "where a.Kode_Perusahaan = x.Kode_Perusahaan and a.Kode_Barang_inq = x.Kode_Barang "
+            'SQL = SQL & "and x.kode_perusahaan = y.kode_perusahaan and x.Kode_Formula = y.No_Faktur and x.status is null and x.aktif='Y'), NULL) as Jumlah_Satuan, "
+            'SQL = SQL & "isnull((select y.Satuan_Hasil from EMI_Transaksi_Formulator_Binding x, Emi_Transaksi_Formulator y "
+            'SQL = SQL & "where a.Kode_Perusahaan = x.Kode_Perusahaan and a.Kode_Barang_inq = x.Kode_Barang "
+            'SQL = SQL & "and x.kode_perusahaan = y.kode_perusahaan and x.Kode_Formula = y.No_Faktur and x.status is null and x.aktif='Y' ), NULL) as satuan "
+            'SQL = SQL & "from Barang a, EMI_Group_Jenis b where a.kode_perusahaan = '" & KodePerusahaan & "' and "
+            'SQL = SQL & "a.Id_Group_Jenis=b.Id_Group_Jenis "
+            'SQL = SQL & "and (Flag_Finished_Good='Y' or Flag_Sample='Y' or Flag_Tampil_Inquiry='Y') "
+
+            SQL = "select a.Kode_Barang_inq as Kode_Barang_Product, a.kode_barang, a.Nama, c.kode_formula, c.Tanggal as Tanggal_Input_Formula, d.hasil, d.Satuan_Hasil "
+            SQL = SQL & "from Barang a "
+            SQL = SQL & "inner join EMI_Group_Jenis b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Group_Jenis = b.Id_Group_Jenis "
+            SQL = SQL & "left join EMI_Transaksi_Formulator_Binding c on a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Barang_Inq = c.Kode_Barang and c.Status is null and c.Aktif = 'Y' "
+            SQL = SQL & "left join Emi_Transaksi_Formulator d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.Kode_Formula = d.No_Faktur "
+            SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and (b.Flag_Finished_Good='Y' or b.Flag_Sample='Y' or b.Flag_Tampil_Inquiry='Y') "
 
             If cmbKategori_Besar.SelectedIndex <> 0 Then
                 SQL = SQL & "and a.kode_kategori_besar = '" & cmbKategori_Besar.Text & "' "
@@ -647,19 +663,25 @@ Public Class Display_Formula_Binding
                 SQL = SQL & " and " & arrParam.Item(cmbParamter.SelectedIndex) & "  like '%" & txtValParamter.Text & "%' "
             End If
 
-            SQL = SQL & "group by a.kode_perusahaan,Kode_Barang_inq,Nama,a.satuan order by Nama"
+            SQL = SQL & "group by a.kode_perusahaan,a.Kode_Barang_inq,a.Nama,a.satuan,a.kode_barang, c.kode_formula, c.Tanggal, d.hasil, d.Satuan_Hasil "
+            SQL = SQL & "order by Nama "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Dim lv As ListViewItem
-                    lv = ListView1.Items.Add(Dr("Kode_Barang"))
+                    lv = ListView1.Items.Add(Dr("Kode_Barang_Product"))
+                    lv.SubItems.Add(Dr("kode_barang"))
                     lv.SubItems.Add(Dr("Nama"))
 
                     If General_Class.CekNULL(Dr("kode_formula")) = "" Then
                         lv.SubItems.Add("-")
                         lv.SubItems.Add("-")
+                        lv.SubItems.Add("-")
+                        lv.SubItems.Add("-")
                     Else
-                        lv.SubItems.Add(Format(Dr("jumlah_satuan"), "N2") & " " & Dr("satuan"))
-                        lv.SubItems.Add(Dr("Kode_Formula"))
+                        lv.SubItems.Add(Dr("kode_formula"))
+                        lv.SubItems.Add(Format(Dr("Tanggal_Input_Formula"), "dd MMM yyyy"))
+                        lv.SubItems.Add(Dr("hasil"))
+                        lv.SubItems.Add(Dr("Satuan_Hasil"))
                     End If
                 Loop
             End Using

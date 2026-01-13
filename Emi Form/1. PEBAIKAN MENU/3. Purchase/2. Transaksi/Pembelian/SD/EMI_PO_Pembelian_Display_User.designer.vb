@@ -76,6 +76,7 @@ Partial Class EMI_PO_Pembelian_Display_User
         Me.Column17 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column18 = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.Column19 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.KdSupplier = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         CType(Me.Dgv_Pr, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -199,7 +200,7 @@ Partial Class EMI_PO_Pembelian_Display_User
         DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.Dgv_Pr.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.Dgv_Pr.ColumnHeadersHeight = 35
-        Me.Dgv_Pr.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column2, Me.Column7, Me.Column8, Me.Column9, Me.Column10, Me.Column11, Me.Column1, Me.Column4, Me.Column5, Me.Column6, Me.Column12, Me.Column13, Me.Column14, Me.Column15, Me.Column16, Me.Column3, Me.Column17, Me.Column18, Me.Column19})
+        Me.Dgv_Pr.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column2, Me.Column7, Me.Column8, Me.Column9, Me.Column10, Me.Column11, Me.Column1, Me.Column4, Me.Column5, Me.Column6, Me.Column12, Me.Column13, Me.Column14, Me.Column15, Me.Column16, Me.Column3, Me.Column17, Me.Column18, Me.Column19, Me.KdSupplier})
         Me.Dgv_Pr.ContextMenuStrip = Me.ContextMenuStrip1
         DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Window
@@ -473,6 +474,13 @@ Partial Class EMI_PO_Pembelian_Display_User
         Me.Column19.Name = "Column19"
         Me.Column19.Width = 120
         '
+        'KdSupplier
+        '
+        Me.KdSupplier.HeaderText = "KdSupplier"
+        Me.KdSupplier.Name = "KdSupplier"
+        Me.KdSupplier.ReadOnly = True
+        Me.KdSupplier.Visible = False
+        '
         'EMI_PO_Pembelian_Display_User
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -540,4 +548,5 @@ Partial Class EMI_PO_Pembelian_Display_User
     Friend WithEvents Column17 As DataGridViewTextBoxColumn
     Friend WithEvents Column18 As DataGridViewComboBoxColumn
     Friend WithEvents Column19 As DataGridViewTextBoxColumn
+    Friend WithEvents KdSupplier As DataGridViewTextBoxColumn
 End Class

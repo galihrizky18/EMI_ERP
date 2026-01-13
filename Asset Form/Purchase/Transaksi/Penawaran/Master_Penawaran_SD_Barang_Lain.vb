@@ -123,6 +123,7 @@ Public Class Master_Penawaran_SD_Barang_Lain
                 SQL = SQL & "a.Kode_Perusahaan=b.Kode_Perusahaan and a.Id_Group_Jenis=b.Id_Group_Jenis "
                 SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' and a.Kode_Stock_Owner='" & CmbPilihBarang_Lokasi.Text & "' "
                 SQL = SQL & "and Nama like '%" & TxtPilihBarang_KodeBarang.Text & "%' and aktif = 'Y' " & filter_tambahan & " "
+                SQL = SQL & "and a.flag_barang_lama is null  "
                 Using dr = OpenTrans(SQL)
                     Do While dr.Read
                         Lvw = LvPilihBarang_DataBarang.Items.Add(dr("kode_stock_owner"))
@@ -161,6 +162,7 @@ Public Class Master_Penawaran_SD_Barang_Lain
             SQL = SQL & "a.Kode_Perusahaan=b.Kode_Perusahaan and a.Id_Group_Jenis=b.Id_Group_Jenis "
             SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' and a.Kode_Stock_Owner='" & CmbPilihBarang_Lokasi.Text & "' "
             SQL = SQL & "and kode_barang = '" & Trim(TxtPilihBarang_KodeBarang.Text) & "' and aktif = 'Y' " & filter_tambahan & " "
+            SQL = SQL & "and a.flag_barang_lama is null "
             Using dr = OpenTrans(SQL)
                 If dr.Read Then
                     TxtPilihBarang_KodeBarang.Text = dr("kode_barang")

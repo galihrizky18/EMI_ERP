@@ -241,9 +241,11 @@ Public Class EMI_Validasi_GR
             SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and aktif = 'Y' "
             'SQL = SQL & "and (flag_produksi='Y' or Flag_Penyimpanan='Y') "
             If isProduksi Then
-                SQL = SQL & "and Flag_Produksi = 'Y' "
+                'SQL = SQL & "and Flag_Produksi = 'Y' "
+                SQL = SQL & "and Flag_GR2_Produksi = 'Y' "
             Else
-                SQL = SQL & "and Flag_Finish_Goods = 'Y' "
+                'SQL = SQL & "and Flag_Finish_Goods = 'Y' "
+                SQL = SQL & "and Flag_GR2_Finish_Goods = 'Y' "
             End If
             SQL = SQL & "order by kode_stock_owner"
             Using dr = OpenTrans(SQL)
@@ -396,6 +398,45 @@ Public Class EMI_Validasi_GR
 
             For i As Integer = 0 To Lv_Data.Items.Count - 1
                 Get_Lv_Data_GR(i)
+
+                '============================================
+                '=     CEK NO SPLIT BERDASARKAN BARCODE     =
+                '============================================
+                Dim TotDataSplit As Integer = 0
+                SQL = "select distinct b.No_Production_Order "
+                SQL &= $"from Emi_Production_Results_Detail_Pallet a "
+                SQL &= $"inner join Emi_Production_Results b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi "
+                SQL &= $"where b.Status is NULL "
+                SQL &= $"and a.Kode_Perusahaan = '{KodePerusahaan}' "
+                SQL &= $"and (a.Qr_Code+'-'+a.Kode_Unik_Berjalan) = '{LvData_Barcode.Trim}' "
+                Using Dr = OpenTrans(SQL)
+                    Do While Dr.Read
+
+                        If Dr("No_Production_Order").ToString.Trim <> Txt_NoSplit.Text.Trim Then
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show($"No Split Berdasarkan Barcode {LvData_Barcode.Trim} Tidak Sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+
+                        TotDataSplit += 1
+                    Loop
+                End Using
+
+                If TotDataSplit = 0 Then
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show($"No Split Berdasarkan Barcode {LvData_Barcode.Trim} Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                ElseIf TotDataSplit > 1 Then
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show($"Terjadi Kesalahan No Split pada Barcode {LvData_Barcode.Trim} Lebih dari 1", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+
+
 
                 SQL = "insert into N_EMI_Validation_GR_Temp(Kode_perusahaan, No_production_Order, UserID, Nomor, Barcode, Jenis, "
                 SQL = SQL & "Jumlah, Lokasi_Tujuan, Nomor_Sebelum, Satuan, Batch, Tahap, Id_Jenis_Kategori, Jenis_Kategori)  "
@@ -1498,6 +1539,43 @@ Public Class EMI_Validasi_GR
                                     Dim BatchNumber As String = ""
                                     Dim Warna As String = ""
 
+                                    '========================
+                                    '=     CEK NO SPLIT     =
+                                    '========================
+                                    Dim TotDataSplit As Integer = 0
+                                    SQL = "select distinct b.No_Production_Order "
+                                    SQL &= $"from Emi_Production_Results_Detail_Pallet a "
+                                    SQL &= $"inner join Emi_Production_Results b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi "
+                                    SQL &= $"where b.Status is NULL "
+                                    SQL &= $"and a.Kode_Perusahaan = '{KodePerusahaan}' "
+                                    SQL &= $"and (a.Qr_Code+'-'+a.Kode_Unik_Berjalan) = '{Barcode_Pallet.Trim}' "
+                                    Using Dr = OpenTrans(SQL)
+
+                                        Do While Dr.Read
+                                            If Dr("No_Production_Order").ToString.Trim <> Txt_NoSplit.Text.Trim Then
+                                                Dr.Close()
+                                                CloseTrans()
+                                                CloseConn()
+                                                MessageBox.Show($"No Split Berdasarkan Barcode {Barcode_Pallet.Trim} Tidak Sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                Exit Sub
+                                            End If
+
+                                            TotDataSplit += 1
+                                        Loop
+                                    End Using
+
+                                    If TotDataSplit = 0 Then
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show($"No Split Berdasarkan Barcode {Barcode_Pallet.Trim} Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    ElseIf TotDataSplit > 1 Then
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show($"Terjadi Kesalahan No Split pada Barcode {Barcode_Pallet.Trim} Lebih dari 1", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+
 
                                     'Ini Ambil data barang yg berubah kode atau nggak
                                     If dsPallet.Tables("MyTable").Rows(IndPallet).Item("Jenis").ToString.ToUpper.Trim = "FINISHED GOOD" Or
@@ -1763,6 +1841,8 @@ Public Class EMI_Validasi_GR
                                                             NoUrut_DetailResult = Dr("urutan")
                                                         End If
                                                     End Using
+
+
 
                                                     '===================================
                                                     '=     GET KODE BARANG INQUIRY     =
@@ -2099,7 +2179,6 @@ Public Class EMI_Validasi_GR
                                                     '============================
                                                     '=     INSERT BARANG SN     =
                                                     '============================
-
                                                     If Jenis_Nomor.ToUpper = "FINISHED GOOD" Then
 
                                                         'Kalo Finished Good Data Harus Validasi Android
@@ -2187,6 +2266,79 @@ Public Class EMI_Validasi_GR
                                                     SQL = SQL & "where No_Transaksi = '" & TxtNo_Transaksi.Text.Trim & "' and Urut = '" & NoUrut_DetailResult & "'"
                                                     ExecuteTrans(SQL)
 
+
+                                                    '======================================================================
+                                                    '=     CEK APAKAH SN AWAL DAN SN TUJUAN TERINSERT DI TABEL DETAIL     =
+                                                    '======================================================================
+                                                    SQL = "select No_Transaksi, Serial_Number_Awal, Serial_Number_Tujuan from Emi_Production_Results_Validation_Detail "
+                                                    SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+                                                    SQL &= $"and Urut = '{NoUrut_DetailResult}' "
+                                                    Using Dr = OpenTrans(SQL)
+                                                        If Dr.Read Then
+
+                                                            If Dr("No_Transaksi").ToString.Trim <> TxtNo_Transaksi.Text.Trim Then
+                                                                Dr.Close()
+                                                                CloseTrans()
+                                                                CloseConn()
+                                                                MessageBox.Show($"Terjadi Kesalahan No Transaksi pada Data Tabel Detail Dengan Urut {NoUrut_DetailResult} Tidak Sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                                Exit Sub
+                                                            ElseIf General_Class.CekNULL(Dr("Serial_Number_Awal")) = "" Then
+                                                                Dr.Close()
+                                                                CloseTrans()
+                                                                CloseConn()
+                                                                MessageBox.Show($"Terjadi Kesalahan SN Awal pada Data Tabel Detail Dengan Urut {NoUrut_DetailResult} Tidak Sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                                Exit Sub
+                                                            ElseIf General_Class.CekNULL(Dr("Serial_Number_Tujuan")) = "" Then
+                                                                Dr.Close()
+                                                                CloseTrans()
+                                                                CloseConn()
+                                                                MessageBox.Show($"Terjadi Kesalahan SN Tujuan pada Data Tabel Detail Dengan Urut {NoUrut_DetailResult} Tidak Sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                                Exit Sub
+                                                            Else
+                                                                '=================================================
+                                                                '=     CEK DATA SN TUJUAN DI TABEL BARANG_SN     =
+                                                                '=================================================
+                                                                Dr.Close()
+                                                                SQL = "select jumlah "
+                                                                If Jenis_Nomor.ToUpper = "FINISHED GOOD" Then
+                                                                    SQL &= $"from Barang_SN_sementara "
+                                                                Else
+                                                                    SQL &= $"from barang_sn "
+                                                                End If
+                                                                SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+                                                                SQL &= $"and Kode_Stock_Owner = '{Lks_tujuan_Nomor}' "
+                                                                SQL &= $"and Kode_Barang = '{kd_barang}' "
+                                                                SQL &= $"and Serial_Number = '{SN_Baru}' "
+                                                                Using Dr1 = OpenTrans(SQL)
+                                                                    If Dr1.Read Then
+
+                                                                        If Val(HilangkanTanda(Dr1("jumlah"))) <> Val(HilangkanTanda(JumlahInsert)) Then
+                                                                            Dr1.Close()
+                                                                            CloseTrans()
+                                                                            CloseConn()
+                                                                            MessageBox.Show($"Terjadi Kesalahan Jumlah pada Barang SN tidak sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                                            Exit Sub
+                                                                        End If
+
+                                                                    Else
+                                                                        Dr1.Close()
+                                                                        CloseTrans()
+                                                                        CloseConn()
+                                                                        MessageBox.Show($"Terjadi Kesalahan Data SN Tujuan Tidak Ditemukan pada Barang SN", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                                        Exit Sub
+                                                                    End If
+                                                                End Using
+
+                                                            End If
+
+                                                        Else
+                                                            Dr.Close()
+                                                            CloseTrans()
+                                                            CloseConn()
+                                                            MessageBox.Show($"Terjadi Kesalahan Data pada Tabel Detail Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                            Exit Sub
+                                                        End If
+                                                    End Using
 
 #End Region
 

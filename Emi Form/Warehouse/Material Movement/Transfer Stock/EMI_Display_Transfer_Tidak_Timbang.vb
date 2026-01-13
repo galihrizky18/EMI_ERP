@@ -1,8 +1,13 @@
 ﻿Imports System.IO
 
 Public Class EMI_Display_Transfer_Tidak_Timbang
+
+    Private Cn9 As SqlClient.SqlConnection
+    Private Cmd9 As SqlClient.SqlCommand
+
     Dim arrcari As New ArrayList
     Dim Jenis = "ETA"
+
 
     Dim ValueBarcode As String = ""
     Public Property filter_tambahan As String
@@ -116,6 +121,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
         Dim Urut_Det_Convert As String = ""
         Try
             OpenConn()
+            OpenConn9()
             Cmd.Transaction = Cn.BeginTransaction
 
 
@@ -138,6 +144,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
             If ada_data = False Then
                 CloseTrans()
                 CloseConn()
+                CloseConn9()
                 MessageBox.Show("Data Barcode Tidak di temukan . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 kosong()
                 Exit Sub
@@ -186,6 +193,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                                     If General_Class.CekNULL(.Rows(i).Item("Blok_SN")) = "Y" Then
                                         CloseTrans()
                                         CloseConn()
+                                        CloseConn9()
                                         MessageBox.Show("SN Pada Pallet di Block, Validasi di Batalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                         kosong()
                                         Exit Sub
@@ -210,6 +218,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                         Else
                             CloseTrans()
                             CloseConn()
+                            CloseConn9()
                             MessageBox.Show("Barang Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             kosong()
                             Exit Sub
@@ -264,6 +273,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                         Dr.Close()
                         CloseTrans()
                         CloseConn()
+                        CloseConn9()
                         MessageBox.Show("Barang tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         kosong()
                         Exit Sub
@@ -283,18 +293,21 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
+                            CloseConn9()
                             MessageBox.Show("Proses tidak bisa dilanjutkan, barang sudah dibatalkan!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         ElseIf General_Class.CekNULL(Dr("selesai")) = "Y" Then
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
+                            CloseConn9()
                             MessageBox.Show("Terjadi kesalahan, barang sudah selesai diproses!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         ElseIf General_Class.CekNULL(Dr("Flag_Timbang")) = "Y" Then
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
+                            CloseConn9()
                             MessageBox.Show("Terjadi kesalahan, ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
@@ -303,6 +316,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                         Dr.Close()
                         CloseTrans()
                         CloseConn()
+                        CloseConn9()
                         MessageBox.Show("Data barang tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
@@ -362,6 +376,37 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 '============================
                 '=       POTONG STOCK       =
                 '============================
+#Region "Potong Stock"
+
+                '======================================
+                '=     GET STOCK SEBELUM DIPOTONG     =
+                '======================================
+                Dim Stock_SblmPotong As Double = 0
+                Dim Stock_SN_SblmPotong As Double = 0
+                SQL = "select isnull(sum(Good_Stock), 0) as Stock from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoAwal & "' and kode_barang = '" & GetDataKdBrg & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Stock_SblmPotong = Math.Round(Dr("Stock"), 4)
+                    End If
+                End Using
+
+                SQL = "select isnull(sum(Jumlah), 0) as Stock_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoAwal & "' and kode_barang = '" & GetDataKdBrg & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Stock_SN_SblmPotong = Math.Round(Dr("Stock_SN"), 4)
+                    End If
+                End Using
+
+                If Stock_SblmPotong <> Stock_SN_SblmPotong Then
+                    CloseTrans()
+                    CloseConn()
+                    CloseConn9()
+                    MessageBox.Show($"Jumlah Stock {GetDataKdBrg} pada Gudang {GetSoAwal} Tidak Sesuai Sebelum Dipotong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
 
                 Dim nilai_persediaan_min As Double = 0
                 SQL = "select round(dbo.get_hpp(serial_number) * " & nilai_kecildetail & ", 2) as rp_persediaan_min from barang_sn where "
@@ -374,6 +419,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                         dr.Close()
                         CloseTrans()
                         CloseConn()
+                        CloseConn9()
                         MessageBox.Show("Data SN tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
@@ -390,25 +436,36 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                             dr.Close()
                             CloseTrans()
                             CloseConn()
+                            CloseConn9()
                             MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat stock " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Exit Sub
                         ElseIf dr("Jumlah_Bags") < GetJumlahBags Then
                             dr.Close()
                             CloseTrans()
                             CloseConn()
+                            CloseConn9()
                             MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat jumlah bags " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Exit Sub
                         Else
                             dr.Close()
-                            SQL = "update barang set Good_Stock = Good_Stock - " & nilai_kecildetail & ", Jumlah_Bags = Jumlah_Bags - " & GetJumlahBags & " "
+                            SQL = "update barang set Good_Stock = Round(Good_Stock - " & nilai_kecildetail & ", 4), Jumlah_Bags = Round(Jumlah_Bags - " & GetJumlahBags & ", 4) "
                             SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & GetSoAwal & "' "
                             SQL = SQL & " and Kode_Barang='" & GetDataKdBrg & "'"
                             ExecuteTrans(SQL)
+
+                            SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock "
+                            SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
+                            SQL &= $"values ('{KodePerusahaan}', '{GetDataKodeTransfer}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
+                            SQL &= $"'POTONG STOCK BARANG', '{GetSoAwal}', '{GetDataKdBrg}', '-', '{Stock_SblmPotong}', 0, '{nilai_kecildetail}', 0) "
+                            ExecuteTrans(SQL)
+
+
                         End If
                     Else
                         dr.Close()
                         CloseTrans()
                         CloseConn()
+                        CloseConn9()
                         MessageBox.Show("Barang " & Nama & " tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
@@ -423,25 +480,35 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                             dr.Close()
                             CloseTrans()
                             CloseConn()
+                            CloseConn9()
                             MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat stock " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Exit Sub
                         ElseIf dr("Jumlah_Bags") < GetJumlahBags Then
                             dr.Close()
                             CloseTrans()
                             CloseConn()
+                            CloseConn9()
                             MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat jumlah bags " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Exit Sub
                         Else
                             dr.Close()
-                            SQL = "update barang_sn set jumlah = jumlah - " & nilai_kecildetail & ", Jumlah_Bags = Jumlah_Bags - " & GetJumlahBags & " "
+                            SQL = "update barang_sn set jumlah = Round(jumlah - " & nilai_kecildetail & ", 4), Jumlah_Bags = Round(Jumlah_Bags - " & GetJumlahBags & ", 4) "
                             SQL = SQL & "where Kode_Stock_Owner='" & GetSoAwal & "' and Kode_Barang='" & GetDataKdBrg & "' "
                             SQL = SQL & "and Serial_Number='" & GetSnAwal & "'"
                             ExecuteTrans(SQL)
+
+                            SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock "
+                            SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
+                            SQL &= $"values ('{KodePerusahaan}', '{GetDataKodeTransfer}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
+                            SQL &= $"'POTONG STOCK BARANG SN', '{GetSoAwal}', '{GetDataKdBrg}', '{GetSnAwal}', '{Stock_SN_SblmPotong}', 0, '{nilai_kecildetail}', 0) "
+                            ExecuteTrans(SQL)
+
                         End If
                     Else
                         dr.Close()
                         CloseTrans()
                         CloseConn()
+                        CloseConn9()
                         MessageBox.Show("Barang " & Nama & " tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
@@ -465,39 +532,111 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                             If .Rows(0).Item("good_stock") <> .Rows(0).Item("Jumlah_sn") Or .Rows(0).Item("jumlah_bags_barang") <> .Rows(0).Item("jumlah_bags_sn") Then
                                 CloseTrans()
                                 CloseConn()
+                                CloseConn9()
                                 MessageBox.Show("Terjadi Kesalahan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 Exit Sub
                             End If
                         Else
                             CloseTrans()
                             CloseConn()
+                            CloseConn9()
                             MessageBox.Show("Data tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
                     End With
                 End Using
 
-                '==========================================
-                '=       GET NOMOR REQUEST MATERIAL       =
-                '==========================================
-                Dim No_Reservasi_Split As String = "NULL"
-                SQL = "select a.No_Faktur, a.No_Faktur_Order "
-                SQL = SQL & "from Emi_Material_Requisition a "
-                SQL = SQL & "inner join Emi_Material_Requisition_Det b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-                SQL = SQL & "inner join Emi_Material_Requisition_Det_Convert c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur and b.Urut_Oto = c.No_Urut_Det "
-                SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-                SQL = SQL & "and a.Status is null "
-                SQL = SQL & "and c.Urut_Oto = '" & Urut_Det_Convert & "' "
+
+                '=======================================
+                '=     CEK STOCK SETELAH DI POTONG     =
+                '=======================================
+                Dim Stock_Setelah_Potong As Double = 0
+                Dim Stock_SN_Setelah_Potong As Double = 0
+                SQL = "select isnull(sum(Good_Stock), 0) as Stock from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoAwal & "' and kode_barang = '" & GetDataKdBrg & "' "
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
-                        No_Reservasi_Split = $"'{Dr("No_Faktur_Order")}'"
+                        Stock_Setelah_Potong = Math.Round(Dr("Stock"), 4)
                     End If
                 End Using
+
+                SQL = "select isnull(sum(Jumlah), 0) as Stock_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoAwal & "' and kode_barang = '" & GetDataKdBrg & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Stock_SN_Setelah_Potong = Math.Round(Dr("Stock_SN"), 4)
+                    End If
+                End Using
+
+                If Stock_Setelah_Potong <> Stock_SN_Setelah_Potong Then
+                    CloseTrans()
+                    CloseConn()
+                    CloseConn9()
+                    MessageBox.Show($"Jumlah Stock {GetDataKdBrg} pada Gudang {GetSoAwal} Tidak Sesuai Setelah Di Potong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+
+                If Math.Round((Stock_SblmPotong - Stock_Setelah_Potong), 4) <> Math.Round(nilai_kecildetail, 4) Then
+                    CloseTrans()
+                    CloseConn()
+                    CloseConn9()
+                    MessageBox.Show($"Jumlah Stock Sebelum dan Sesudah Di potong Pada Gudang {GetSoAwal}, Barang {GetDataKdBrg} Tidak Sesuai Setelah Di Potong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+
+                If Math.Round((Stock_SN_SblmPotong - Stock_SN_Setelah_Potong), 4) <> Math.Round(nilai_kecildetail, 4) Then
+                    CloseTrans()
+                    CloseConn()
+                    CloseConn9()
+                    MessageBox.Show($"Jumlah Stock Sebelum dan Sesudah Di potong Pada Gudang {GetSoAwal}, Barang {GetDataKdBrg} Tidak Sesuai Setelah Di Potong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+
+#End Region
 
 
                 '==============================
                 '=       INSERT SN BARU       =
                 '==============================
+#Region "Insert SN Baru"
+
+                '===========================================
+                '=       GET STOCK SEBELUM DIINSERT       =
+                '===========================================
+                Dim Stock_Sebelum_Insert As Double = 0
+                Dim Stock_SN_Sebelum_Insert As Double = 0
+                Dim Bags_Sebelum_Insert As Double = 0
+                Dim Bags_SN_Sebelum_Insert As Double = 0
+                SQL = "select isnull(sum(Good_Stock), 0) as Stock, sum(Jumlah_Bags) as Stock_Bags from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoTujuan & "' and kode_barang = '" & GetDataKdBrg & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Stock_Sebelum_Insert = Math.Round(Dr("Stock"), 4)
+                        Bags_Sebelum_Insert = Math.Round(Dr("Stock_Bags"), 4)
+                    End If
+                End Using
+
+                SQL = "select isnull(sum(Jumlah), 0) as Stock_SN, sum(Jumlah_Bags) as Stock_Bags_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoTujuan & "' and kode_barang = '" & GetDataKdBrg & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Stock_SN_Sebelum_Insert = Math.Round(Dr("Stock_SN"), 4)
+                        Bags_SN_Sebelum_Insert = Math.Round(Dr("Stock_Bags_SN"), 4)
+                    End If
+                End Using
+
+                If Stock_Sebelum_Insert <> Stock_SN_Sebelum_Insert Then
+                    CloseTrans()
+                    CloseConn()
+                    CloseConn9()
+                    MessageBox.Show($"Jumlah Stock {GetDataKdBrg} pada Gudang {GetSoTujuan} Tidak Sesuai Sebelum Diinsert", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+
                 Dim hargaIsn As String = ""
                 Dim warnaLama As String = ""
 
@@ -532,10 +671,10 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
 
                 'INSERT BARANG SN BARU  
                 SQL = "insert into Barang_SN (Kode_Perusahaan, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah,  Jumlah_Bags, "
-                SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, id_Susunan, Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number, Warna, Tgl_masuk, Blok_SN, id_jenis_kategori_produksi, No_Reservasi) "
+                SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, id_Susunan, Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number, Warna, Tgl_masuk, Blok_SN, id_jenis_kategori_produksi) "
                 SQL = SQL & "select Kode_Perusahaan, '" & GetSoTujuan & "', Kode_Barang, '" & SN_Baru & "', '" & nilai_kecildetail & "', " & GetJumlahBags & ", "
                 SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, '" & GetRakTujuan & "', id_Susunan , Qr_Code, '" & newKodeUnikBerjalan & "', "
-                SQL = SQL & "Kode_Unik_Asal, '" & GetPalletTujuan & "', batch_number, '" & warnaLama & "', Tgl_Masuk, NULL, " & Id_Jenis_Kategori_Produksi & ", " & No_Reservasi_Split & " "
+                SQL = SQL & "Kode_Unik_Asal, '" & GetPalletTujuan & "', batch_number, '" & warnaLama & "', Tgl_Masuk, NULL, " & Id_Jenis_Kategori_Produksi & " "
                 SQL = SQL & "from Barang_SN "
                 SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' "
                 SQL = SQL & "and Kode_Stock_Owner='" & GetSoAwal & "' "
@@ -543,13 +682,25 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 SQL = SQL & "and Serial_Number='" & GetSnAwal & "' "
                 ExecuteTrans(SQL)
 
+                SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock "
+                SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
+                SQL &= $"values ('{KodePerusahaan}', '{GetDataKodeTransfer}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
+                SQL &= $"'INSERT STOCK BARANG SN', '{GetSoTujuan}', '{GetDataKdBrg}', '{SN_Baru}', '{Stock_Sebelum_Insert}', 0, '{nilai_kecildetail}', 0) "
+                ExecuteTrans(SQL)
+
                 '============================
                 '=       TAMBAH STOCK       =
                 '============================
 
-                SQL = "update barang set Good_Stock= Good_Stock + " & nilai_kecildetail & ", Jumlah_Bags = Jumlah_Bags + " & GetJumlahBags & " "
+                SQL = "update barang set Good_Stock= Round(Good_Stock + " & nilai_kecildetail & ", 4), Jumlah_Bags = Jumlah_Bags + " & GetJumlahBags & " "
                 SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & GetSoTujuan & "' "
                 SQL = SQL & " and Kode_Barang='" & GetDataKdBrg & "'"
+                ExecuteTrans(SQL)
+
+                SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock "
+                SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
+                SQL &= $"values ('{KodePerusahaan}', '{GetDataKodeTransfer}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
+                SQL &= $"'INSERT STOCK BARANG', '{GetSoTujuan}', '{GetDataKdBrg}', '-', '{Stock_Sebelum_Insert}', 0, '{nilai_kecildetail}', 0) "
                 ExecuteTrans(SQL)
 
                 'CEK KESESUAIAN STOCK
@@ -568,18 +719,87 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                             If .Rows(0).Item("good_stock") <> .Rows(0).Item("Jumlah_sn") Or .Rows(0).Item("jumlah_bags_barang") <> .Rows(0).Item("jumlah_bags_sn") Then
                                 CloseTrans()
                                 CloseConn()
+                                CloseConn9()
                                 MessageBox.Show("Terjadi Kesalahan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 Exit Sub
                             End If
                         Else
                             CloseTrans()
                             CloseConn()
+                            CloseConn9()
                             MessageBox.Show("Data tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
                     End With
                 End Using
 
+
+                '=======================
+                '=     CEK SN BARU     =
+                '=======================
+                SQL = "SELECT Kode_Perusahaan from Barang_SN where Kode_Perusahaan = '" & KodePerusahaan & "' AND Serial_Number = '" & SN_Baru & "'"
+                Using Dr = OpenTrans(SQL)
+                    If Not Dr.Read Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        CloseConn9()
+                        MessageBox.Show("Data SN Baru Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
+                '=======================================
+                '=     CEK STOCK SETELAH DIINSERT     =
+                '=======================================
+                Dim Stock_Setelah_Insert As Double = 0
+                Dim Stock_SN_Setelah_Insert As Double = 0
+                SQL = "select isnull(sum(Good_Stock), 0) as Stock from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoTujuan & "' and kode_barang = '" & GetDataKdBrg & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Stock_Setelah_Insert = Math.Round(Dr("Stock"), 4)
+                    End If
+                End Using
+
+                SQL = "select isnull(sum(Jumlah), 0) as Stock_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoTujuan & "' and kode_barang = '" & GetDataKdBrg & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Stock_SN_Setelah_Insert = Math.Round(Dr("Stock_SN"), 4)
+                    End If
+                End Using
+
+                If Stock_Setelah_Insert <> Stock_SN_Setelah_Insert Then
+                    CloseTrans()
+                    CloseConn()
+                    CloseConn9()
+                    MessageBox.Show($"Jumlah Stock {GetDataKdBrg} pada Gudang {GetSoTujuan} Tidak Sesuai Setelah Diinsert", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+
+
+                If Math.Round((Stock_Setelah_Insert - Stock_Sebelum_Insert), 4) <> Math.Round(nilai_kecildetail, 4) Then
+                    CloseTrans()
+                    CloseConn()
+                    CloseConn9()
+                    MessageBox.Show($"Jumlah Stock Sebelum dan Sesudah Di Insert Pada Gudang {GetSoTujuan}, Barang {GetDataKdBrg} Tidak Sesuai Setelah Di Potong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+
+                If Math.Round((Stock_SN_Setelah_Insert - Stock_SN_Sebelum_Insert), 4) <> Math.Round(nilai_kecildetail, 4) Then
+                    CloseTrans()
+                    CloseConn()
+                    CloseConn9()
+                    MessageBox.Show($"Jumlah Stock Sebelum dan Sesudah Di Insert Pada Gudang {GetSoTujuan}, Barang {GetDataKdBrg} Tidak Sesuai Setelah Di Potong", Judul,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+
+
+#End Region
 
 
                 'dari
@@ -598,6 +818,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                         Dr.Close()
                         CloseTrans()
                         CloseConn()
+                        CloseConn9()
                         MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
@@ -616,6 +837,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                         Dr.Close()
                         CloseTrans()
                         CloseConn()
+                        CloseConn9()
                         MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
@@ -634,6 +856,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                         Dr.Close()
                         CloseTrans()
                         CloseConn()
+                        CloseConn9()
                         MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
@@ -675,6 +898,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
+                            CloseConn9()
                             MessageBox.Show("Jurnal salah!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
@@ -682,6 +906,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                         Dr.Close()
                         CloseTrans()
                         CloseConn()
+                        CloseConn9()
                         MessageBox.Show("Data jurnal tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
@@ -838,6 +1063,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 If Jumlah_Sudah_Transfer > nilai_toleransi_max Then
                     CloseTrans()
                     CloseConn()
+                    CloseConn9()
                     MessageBox.Show("Jumlah Sudah Transfer Lebih Dari Jumlah Request", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
@@ -872,6 +1098,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                                 Dr.Close()
                                 CloseTrans()
                                 CloseConn()
+                                CloseConn9()
                                 MessageBox.Show("Data Request Material Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 Exit Sub
                             End If
@@ -906,6 +1133,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                                 Dr.Close()
                                 CloseTrans()
                                 CloseConn()
+                                CloseConn9()
                                 MessageBox.Show("Data Request Material Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 Exit Sub
                             End If
@@ -961,9 +1189,11 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
             Cmd.Transaction.Commit()
             CloseTrans()
             CloseConn()
+            CloseConn9()
         Catch ex As Exception
             CloseTrans()
             CloseConn()
+            CloseConn9()
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
@@ -1101,6 +1331,8 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                         CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
                         'Exit Sub
                     End If
+
+                    CrDoc.PrintToPrinter(1, False, 1, 99)
 
                 End If
             End Using
@@ -1285,7 +1517,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                     Lvw.SubItems.Add(Format(dr("jumlah"), "N4") & " " & dr("satuan"))
                     Lvw.SubItems.Add(dr("satuan"))
                     Lvw.SubItems.Add(dr("Rak_Awal"))
-                    Lvw.SubItems.Add(dr("Serial_Number_Awal"))
+                    Lvw.SubItems.Add("X")
                     Lvw.SubItems.Add(dr("Satuan_Barang"))
                 Loop
             End Using
@@ -1474,4 +1706,35 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
 
         End If
     End Sub
+
+
+
+    '===============================================================================================================================================================
+    '=     KONEKSI DATABASE KE 2
+    '===============================================================================================================================================================
+    Private Sub OpenConn9()
+        General_Class.SetConnectionString(CServer, CDatabase, CUserId, CPassword)
+        Cn9 = New SqlClient.SqlConnection
+        Cn9.ConnectionString = "Data Source=" & CServer & ";Initial Catalog=" & CDatabase &
+                        ";User Id=" & CUserId & ";Password=" & CPassword & ";" &
+                        ";Connect Timeout=30;Max Pool Size=400"
+        Cn9.Open()
+        Cmd9 = New SqlClient.SqlCommand
+        Cmd9.Connection = Cn9
+        Cmd9.CommandType = CommandType.Text
+        Cmd9.CommandTimeout = 300000
+    End Sub
+
+    Private Sub ExecuteTrans9(ByVal Query As String)
+        Cmd9.CommandText = Query
+        Cmd9.ExecuteNonQuery()
+        'Cmd = Nothing
+    End Sub
+    Public Sub CloseConn9()
+        If Not Cn9 Is Nothing Then
+            Cn9.Close()
+            Cn9 = Nothing
+        End If
+    End Sub
+
 End Class

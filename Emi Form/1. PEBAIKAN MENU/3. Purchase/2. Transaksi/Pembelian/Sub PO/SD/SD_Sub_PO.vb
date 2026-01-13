@@ -291,6 +291,7 @@
             SQL = SQL & "select (d.Jumlah - sum(x.Jumlah)) "
             SQL = SQL & "from EMI_Pembelian_PO z, EMI_Pembelian_PO_Det x "
             SQL = SQL & "where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Kode_Perusahaan = x.Kode_Perusahaan "
+            SQL = SQL & "and z.status is null "
             SQL = SQL & "and x.No_FakInduk = a.No_Faktur and z.No_Faktur = x.No_Faktur and x.Kode_Stock_Owner = d.Kode_Stock_Owner and x.Kode_Barang = d.Kode_Barang "
             SQL = SQL & "and x.no_urut_pr=d.no_urut_pr and x.urut_det_induk = d.No_Urut), d.Jumlah) as Sisa, d.No_Urut as Urut_det, e.Jenis_Kategori, "
 
@@ -303,6 +304,7 @@
 
             SQL = SQL & "ISNULL(( select (d.Jumlah_Input - sum(x.Jumlah_input)) from EMI_Pembelian_PO z, EMI_Pembelian_PO_Det x "
             SQL = SQL & "where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Kode_Perusahaan = x.Kode_Perusahaan  "
+            SQL = SQL & "and z.status is null "
             SQL = SQL & "and x.No_FakInduk = a.No_Faktur and z.No_Faktur = x.No_Faktur and x.Kode_Stock_Owner = d.Kode_Stock_Owner and x.Kode_Barang = d.Kode_Barang  "
             SQL = SQL & "and x.no_urut_pr=d.no_urut_pr and x.urut_det_induk = d.No_Urut) "
             SQL = SQL & ", d.Jumlah_Input) as Sisa_Input "

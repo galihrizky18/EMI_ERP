@@ -8,20 +8,20 @@
         Lv_Data.Columns.Add("No Faktur", 130, HorizontalAlignment.Left)
         Lv_Data.Columns.Add("Tanggal", 110, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("Jam", 100, HorizontalAlignment.Center)
-        Lv_Data.Columns.Add("Keterangan", 180, HorizontalAlignment.Left)
+        Lv_Data.Columns.Add("Keterangan", 200, HorizontalAlignment.Left)
         Lv_Data.Columns.Add("Kode Barang", 120, HorizontalAlignment.Left)
-        Lv_Data.Columns.Add("Nama Barang", 200, HorizontalAlignment.Left)
+        Lv_Data.Columns.Add("Nama Barang", 250, HorizontalAlignment.Left)
         Lv_Data.Columns.Add("Jumlah", 130, HorizontalAlignment.Right)
-        Lv_Data.Columns.Add("Jumlah Bags", 110, HorizontalAlignment.Center)
+        Lv_Data.Columns.Add("Jumlah Bags", 100, HorizontalAlignment.Right)
         Lv_Data.Columns.Add("Satuan", 90, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("User ID", 110, HorizontalAlignment.Center)
         Lv_Data.View = View.Details
 
         Lv_Detail.Columns.Clear() : Lv_Detail.Items.Clear()
-        Lv_Detail.Columns.Add("Barcode Awal", 180, HorizontalAlignment.Left)
-        Lv_Detail.Columns.Add("Barcode Akhir", 180, HorizontalAlignment.Left)
+        Lv_Detail.Columns.Add("Barcode Awal", 240, HorizontalAlignment.Left)
+        Lv_Detail.Columns.Add("Barcode Akhir", 240, HorizontalAlignment.Left)
         Lv_Detail.Columns.Add("Jumlah", 150, HorizontalAlignment.Right)
-        Lv_Detail.Columns.Add("Jumlah Bags", 130, HorizontalAlignment.Center)
+        Lv_Detail.Columns.Add("Jumlah Bags", 130, HorizontalAlignment.Right)
         Lv_Detail.Columns.Add("Satuan", 90, HorizontalAlignment.Center)
         Lv_Detail.View = View.Details
 
@@ -275,6 +275,125 @@
         Clipboard.SetText(Lv_Data.FocusedItem.Text)
     End Sub
 
+
+    Private Sub CetakFakturToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CetakFakturToolStripMenuItem.Click
+        If Lv_Data.Items.Count = 0 Or Lv_Data.FocusedItem Is Nothing Then
+            MessageBox.Show("Pilih dahulu no faktur yang akan di Cetak!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+
+        Dim NoTransaksi As String = Lv_Data.FocusedItem.Text
+
+        Try
+            OpenConn()
+
+
+            '==============================================
+            '=     CEK APAKAH FAKTUR SUDAH DIBATALKAN     =
+            '==============================================
+            SQL = "select status from N_EMI_Transaksi_Transfer_Waste "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and No_Faktur = '" & NoTransaksi & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+
+                    If General_Class.CekNULL(Dr("status")) = "Y" Then
+                        CloseConn()
+                        MessageBox.Show("Proses tidak dapat dilanjutkan karena No Faktur sudah dibatalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                Else
+                    CloseConn()
+                    MessageBox.Show("No Faktur tidak ditemukan, Harap hubungi tim IT", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+
+            Dim isPrinted As Boolean = False
+            Dim CrDoc As New Object
+            Dim kertas As String = ""
+
+            SQL = "select a.Kode_Perusahaan "
+            SQL = SQL & "from N_EMI_View_Transfer_Waste a where "
+            SQL = SQL & "a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.No_Faktur = '" & Trim(NoTransaksi) & "' "
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                    CrDoc = New N_EMI_CR_Faktur_Transaksi_Pemusnahan_Barang
+                    kertas = "Faktur"
+
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = "{N_EMI_View_Transfer_Waste.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_View_Transfer_Waste.No_Faktur}='" & Trim(NoTransaksi) & "' "
+                    '    CrDoc.SummaryInfo.ReportTitle = "Faktur Pengajuan Pemusnahan Barang"
+                    '    .Text = "Faktur Pengajuan Pemusnahan Barang"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
+
+                    '============================================================================================================================================
+                    '============================================================================================================================================
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.PrintOptions.PrinterName = PrinterNameTS
+                    CrDoc.RecordSelectionFormula = "{N_EMI_View_Transfer_Waste.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_View_Transfer_Waste.No_Faktur}='" & Trim(NoTransaksi) & "' "
+                    'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    doctoprint.PrinterSettings.PrinterName = PrinterNameTS
+                    'doctoprint.DefaultPageSettings.Landscape = True
+                    Dim rawKind As Integer
+                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                            CrDoc.PrintOptions.PaperSize = rawKind
+                            Exit For
+                        End If
+                    Next
+
+                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    CrDoc.PrintToPrinter(1, False, 1, 99)
+
+                    isPrinted = True
+
+                Else
+                    CloseConn()
+                    MessageBox.Show($"No Faktur {Trim(NoTransaksi)} tidak ada didalam View cetak ulang. Harap hubungi tim IT")
+                    Exit Sub
+
+                End If
+            End Using
+
+            If isPrinted Then
+                MessageBox.Show("Faktur Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                MessageBox.Show("Faktur Gagal Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End If
+
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
+    End Sub
+
+
+
+
+
     '===============================================================================================================================================
     '=     HANDLE KEYPRESS
     '===============================================================================================================================================
@@ -327,6 +446,7 @@
             End If
         End If
     End Sub
+
 
     Private Sub Cmb_Lain_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Lain.KeyPress
         If e.KeyChar = Chr(13) Then

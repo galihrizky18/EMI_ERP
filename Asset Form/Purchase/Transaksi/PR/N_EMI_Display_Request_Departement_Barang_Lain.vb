@@ -3,14 +3,19 @@
     Dim arrcari, arrcari2 As New ArrayList
     Dim Jenis = "N_EMI_Display_Request_Departement_Barang_Lain"
     Public asal As String = ""
-    Public KdSoKategori As String = ""
-
+    Public xCmb_Kategori_Gudang As String = ""
     Private Sub N_EMI_Display_Request_Departement_Barang_Lain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
 
         kosong()
-        Cari("Y")
+
+        If asal = "Purchase_Requisition_Barang_Lain" Then
+            Cari("Y")
+        Else
+            Cari2("Y")
+        End If
+
         Cari3("Y")
         'Cari2("Y")
     End Sub
@@ -42,8 +47,6 @@
             SQL = SQL & "and a.Flag_Sudah_PR is null  "
             '  SQL = SQL & "and a.Kode_Barang <> '-'"
             SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.No_Faktur = d.No_Faktur and d.Flag_Release = 'Y' and d.Flag_PR is null "
-
-            SQL = SQL & "AND g.Kode_Stock_Owner_Gudang = '" & KdSoKategori.Trim & "'  "
 
             If semua = "T" Then
                 If CheckBox1.Checked Then
@@ -137,11 +140,209 @@
             OpenConn()
 
             DataGridView1.Rows.Clear()
+            ''SQL = "select a.No_Faktur,a.Kode_Stock_Owner, a.Kode_Barang, a.Nama_Barang, a.Jumlah, a.Jmlh_PR, a.Satuan, b.Keterangan as Cost_Center, a.No_Urut, d.Lokasi, a.Flag_Ajukan, a.Link, d.UserId, "
+            ''SQL = SQL & "isnull(( select c.Keterangan from N_EMI_Master_Gedung_Barang_Lain c where "
+            ''SQL = SQL & "a.Kode_Perusahaan = c.Kode_Perusahaan and a.ID_Gedung = c.ID_Gedung ), NULL) as Gedung, a.Id_Cost_Center, a.Alasan_Tolak, "
+            ''SQL = SQL & "isnull((select sum(e.Jumlah) from Barang_Lain_SN e where a.Kode_Perusahaan = e.Kode_Perusahaan and a.Kode_Stock_Owner = e.Kode_Stock_Owner "
+            ''SQL = SQL & "and a.Kode_Barang = e.Kode_Barang),0) as stock, "
+            ''SQL = SQL & "isnull((select sum(f.Jumlah) from N_EMI_Keep_Stock_Barang_Lain_Departement f where a.Kode_Perusahaan = f.Kode_Perusahaan and a.Kode_Stock_Owner = f.Kode_Stock_Owner "
+            ''SQL = SQL & "and a.Kode_Barang = f.Kode_Barang and a.No_Urut = f.Urut_Departement and f.Flag_Selesai_Pengeluaran_Barang is null and f.Status is null),0) as Jumlah_Keep_Stock, "
+            ''SQL = SQL & "isnull((select sum(f.Jumlah) from N_EMI_Keep_Stock_Barang_Lain_Departement f where a.Kode_Perusahaan = f.Kode_Perusahaan and "
+            ''SQL = SQL & "a.Kode_Barang = f.Kode_Barang and a.Kode_Stock_Owner = f.Kode_Stock_Owner and f.Flag_Selesai_Pengeluaran_Barang is null and f.Status is null),0) as Jumlah_Keep_Stock_2, "
+            '''  SQL = SQL & ",a.Id_Sub_Kategori_Jenis, a.Sub_Kategori_Jenis "
+            '''SQL = SQL & ",isnull(( select c.Keterangan from N_EMI_Master_Gedung_Barang_Lain c where "
+            '''SQL = SQL & "a.Kode_Perusahaan = c.Kode_Perusahaan and a.ID_Gedung = c.ID_Gedung ), NULL) as Gedung, a.Id_Cost_Center, a.Alasan_Tolak, "
+            ''SQL = SQL & "ISNULL(CAST(a.Id_Sub_Kategori_Jenis AS VARCHAR(20)), null) as Id_Sub_Kategori_Jenis, "
+            ''SQL = SQL & "isnull((select z.Keterangan + ' - ' + x.Keterangan as Sub_Kategori_Jenis from N_EMI_Master_Sub_Kategori_Jenis z, N_EMI_Master_Kategori_Jenis x "
+            ''SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and z.Id_Kategori_Jenis = x.Id_Kategori_Jenis and z.Id_Sub_Kategori_Jenis = a.Id_Sub_Kategori_Jenis "
+            ''SQL = SQL & "),null) as Sub_Kategori_Jenis, g.kode_kategori_gudang "
+
+
+            ''SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail a, EMI_Master_Cost_Center b, N_EMI_Purchase_Requisition_Barang_Lain_Departement d, "
+            ''' SQL = SQL & "Barang_Lain e, View_Kategori_Turunan f, N_EMI_Master_Role_Sub_Kategori g "
+
+            ''SQL = SQL & " N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain g "
+            '''SQL = SQL & " N_EMI_View_Master_Kategori_Gudang_Binding_Departement_Barang_Lain g "
+
+
+            ''SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and d.Status is null and g.Kode_Kategori_Gudang = '" & xCmb_Kategori_Gudang & "' "
+            ''SQL = SQL & "and a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Cost_Center = b.Id_Cost_Center  "
+
+            '''  SQL = SQL & "and a.Kode_Perusahaan = e.Kode_Perusahaan and a.Kode_Stock_Owner = e.Kode_Stock_Owner and a.Kode_Barang = e.Kode_Barang and e.Kode_Perusahaan = f.Kode_Perusahaan and "
+            ''' SQL = SQL & "e.Id_Sub_Kategori_Jenis_3 = f.Id_Sub_Kategori_Jenis_3 and f.Id_Kategori_Jenis = g.Id_Kategori_Jenis "
+            '''SQL = SQL & "and f.Id_Sub_Kategori_Jenis = g.Id_Sub_Kategori_Jenis and g.UserID = '" & UserID & "' "
+
+            ''SQL = SQL & "and a.kode_perusahaan = g.kode_perusahaan and a.Id_Sub_Kategori_Jenis = g.Id_Sub_Kategori_Jenis and g.User_ID = '" & UserID & "' "
+            ''SQL = SQL & "and a.Flag_Sudah_PR is null  "
+            '''SQL = SQL & "and g.Kode_Stock_Owner_Gudang = a.Kode_Stock_Owner "
+            '''SQL = SQL & "and a.Kode_Barang <> '-'"
+            ''SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.No_Faktur = d.No_Faktur and d.Flag_Release = 'Y' and d.Flag_PR is null "
+
+            SQL = "select a.No_Faktur,a.Kode_Stock_Owner, a.Kode_Barang, a.Nama_Barang, a.Jumlah, a.Jmlh_PR, a.Satuan, b.Keterangan as Cost_Center, d.kode_kategori_gudang,d.tanggal,"
+            SQL = SQL & "a.No_Urut, d.Lokasi, a.Flag_Ajukan, a.Link, d.UserId, a.id_sub_kategori_jenis, a.Id_Cost_Center, a.Alasan_Tolak, "
+
+            SQL = SQL & "isnull(( select c.Keterangan from N_EMI_Master_Gedung_Barang_Lain c "
+            SQL = SQL & "where a.Kode_Perusahaan = c.Kode_Perusahaan and a.ID_Gedung = c.ID_Gedung ), NULL) as Gedung, "
+
+            SQL = SQL & "isnull((select sum(e.Jumlah) from Barang_Lain_SN e where a.Kode_Perusahaan = e.Kode_Perusahaan "
+            SQL = SQL & "and a.Kode_Stock_Owner = e.Kode_Stock_Owner and a.Kode_Barang = e.Kode_Barang),0) as stock, "
+
+            SQL = SQL & "isnull((select sum(f.Jumlah) from N_EMI_Keep_Stock_Barang_Lain_Departement f where "
+            SQL = SQL & "a.Kode_Perusahaan = f.Kode_Perusahaan and a.Kode_Stock_Owner = f.Kode_Stock_Owner and a.Kode_Barang = f.Kode_Barang "
+            SQL = SQL & "and a.No_Urut = f.Urut_Departement and f.Flag_Selesai_Pengeluaran_Barang is null and f.Status is null),0) as Jumlah_Keep_Stock, "
+
+            SQL = SQL & "isnull((select sum(f.Jumlah) from N_EMI_Keep_Stock_Barang_Lain_Departement f where "
+            SQL = SQL & "a.Kode_Perusahaan = f.Kode_Perusahaan and a.Kode_Barang = f.Kode_Barang and a.Kode_Stock_Owner = f.Kode_Stock_Owner "
+            SQL = SQL & "and f.Flag_Selesai_Pengeluaran_Barang is null and f.Status is null),0) as Jumlah_Keep_Stock_2, "
+
+            SQL = SQL & "ISNULL(CAST(a.Id_Sub_Kategori_Jenis AS VARCHAR(20)), null) as Id_Sub_Kategori_Jenis, "
+
+            SQL = SQL & "isnull((select z.Keterangan + ' - ' + x.Keterangan as Sub_Kategori_Jenis "
+            SQL = SQL & "from N_EMI_Master_Sub_Kategori_Jenis z, N_EMI_Master_Kategori_Jenis x "
+            SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and z.Id_Kategori_Jenis = x.Id_Kategori_Jenis "
+            SQL = SQL & "and z.Id_Sub_Kategori_Jenis = a.Id_Sub_Kategori_Jenis ),null) as Sub_Kategori_Jenis "
+
+            SQL = SQL & "From N_EMI_Purchase_Requisition_Barang_Lain_Departement d, N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail a, "
+            SQL = SQL & "N_EMI_Master_Kategori_Gudang_Binding_Barang_Lain c, N_EMI_Master_Kategori_Gudang_Barang_Lain e, "
+            SQL = SQL & "N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain f, EMI_Master_Cost_Center b "
+            SQL = SQL & "where a.Kode_Perusahaan = d.Kode_Perusahaan and a.No_Faktur = d.No_Faktur "
+            SQL = SQL & "and a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Cost_Center = b.Id_Cost_Center "
+            SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis = c.Id_Sub_Kategori_Jenis "
+            SQL = SQL & "and c.Kode_Perusahaan = e.Kode_Perusahaan and c.Id_Kategori_Gudang = e.Urut_Oto "
+            SQL = SQL & "and e.Kode_Perusahaan = f.Kode_Perusahaan and e.Urut_Oto = f.Id_Kategori_Gudang "
+            SQL = SQL & "and d.Status is null and d.Flag_Release = 'Y' and d.Flag_PR is null and a.Flag_Sudah_PR is null "
+            SQL = SQL & "and e.Jenis_Gudang = 'Warehouse' and f.User_ID = '" & UserID & "' and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+
+            If semua = "T" Then
+                If CheckBox1.Checked Then
+                    'Pasang And
+                    If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+                    SQL = SQL & "d.Tanggal between '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "' and '" & Format(DateTimePicker2.Value, "yyyy-MM-dd") & "' "
+                End If
+
+                If CheckBox2.Checked Then
+                    'Pasang And
+                    If CmbSatuan_Kolom.Text = "Barang dalam pengajuan" Then
+                        If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+                        SQL = SQL & arrcari.Item(CmbSatuan_Kolom.SelectedIndex) & " = 'Y' "
+                    Else
+                        If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+                        SQL = SQL & arrcari.Item(CmbSatuan_Kolom.SelectedIndex) & " like '%" & TxtSatuan_Value.Text & "%' "
+                    End If
+
+                End If
+
+                If CheckBox3.Checked Then
+                    'Pasang And
+                    If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+                    SQL = SQL & " d.tanggal between '"
+                    SQL = SQL & Format(Now, "yyyy-MM-dd") & "' and '" & Format(Now, "yyyy-MM-dd") & "' "
+                End If
+            End If
+            SQL = SQL & "order by d .tanggal asc, d.jam asc "
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
+                            'Dim Kategori_Gudang As String = .Rows(i).Item("kode_kategori_gudang")
+
+                            'Dim Kategori_Gudang As String = ""
+                            ''SQL = "select top(1) kode_kategori_gudang From N_EMI_View_Master_Kategori_Gudang_Binding_Departement_Barang_Lain  "
+                            ''SQL = SQL & "where user_id = '" & .Rows(i).Item("userid") & "' and kode_perusahaan = '" & KodePerusahaan & "' "
+                            ''SQL = SQL & "and Kode_Kategori_Gudang = '" & xCmb_Kategori_Gudang & "' "
+
+                            'SQL = "select top(1) kode_kategori_gudang From N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain  "
+                            'SQL = SQL & "where user_id = '" & .Rows(i).Item("userid") & "' and kode_perusahaan = '" & KodePerusahaan & "' "
+                            'SQL = SQL & "and id_sub_kategori_jenis = '" & .Rows(i).Item("id_sub_kategori_jenis") & "' "
+                            'Using Dr = OpenTrans(SQL)
+                            '    If Dr.Read Then
+                            '        Kategori_Gudang = Dr("kode_kategori_gudang")
+                            '    End If
+                            'End Using
+
+                            DataGridView1.Rows.Add(1)
+                            'DataGridView1.Rows.Item(i).Cells(0).Value = "" Jumlah_Keep_Stock
 
 
 
+                            DataGridView1.Rows.Item(i).Cells(1).Value = .Rows(i).Item("No_Faktur") & " - " & .Rows(i).Item("kode_kategori_gudang")
+                            DataGridView1.Rows.Item(i).Cells(2).Value = .Rows(i).Item("Kode_Stock_Owner")
+                            DataGridView1.Rows.Item(i).Cells(3).Value = .Rows(i).Item("Kode_Barang")
+                            DataGridView1.Rows.Item(i).Cells(4).Value = .Rows(i).Item("Nama_Barang")
+                            DataGridView1.Rows.Item(i).Cells(5).Value = (Format(.Rows(i).Item("jumlah") - .Rows(i).Item("Jmlh_PR") - .Rows(i).Item("Jumlah_Keep_Stock"), "N2"))
+                            DataGridView1.Rows.Item(i).Cells(6).Value = (Format(.Rows(i).Item("stock") - .Rows(i).Item("Jumlah_Keep_Stock_2"), "N2"))
+                            DataGridView1.Rows.Item(i).Cells(7).Value = .Rows(i).Item("Satuan")
+                            DataGridView1.Rows.Item(i).Cells(8).Value = .Rows(i).Item("Cost_Center")
+                            DataGridView1.Rows.Item(i).Cells(9).Value = .Rows(i).Item("Gedung")
+                            DataGridView1.Rows.Item(i).Cells(10).Value = .Rows(i).Item("No_Urut")
+                            DataGridView1.Rows.Item(i).Cells(11).Value = .Rows(i).Item("Lokasi")
+                            DataGridView1.Rows.Item(i).Cells(13).Value = .Rows(i).Item("Link")
+                            DataGridView1.Rows.Item(i).Cells(14).Value = .Rows(i).Item("Id_Cost_Center")
 
-            SQL = "select a.No_Faktur,a.Kode_Stock_Owner, a.Kode_Barang, a.Nama_Barang, a.Jumlah, a.Jmlh_PR, a.Satuan, b.Keterangan as Cost_Center, a.No_Urut, d.Lokasi, a.Flag_Ajukan, a.Link, d.UserId, "
+                            If .Rows(i).Item("Kode_Stock_Owner") = "-" Then
+                                DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.LightSteelBlue
+                            End If
+
+                            If General_Class.CekNULL(.Rows(i).Item("Flag_Ajukan")) = "Y" Then
+                                DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.NavajoWhite
+                            End If
+
+                            If General_Class.CekNULL(.Rows(i).Item("Alasan_Tolak")) = "" Then
+                                DataGridView1.Rows.Item(i).Cells(15).Value = "-"
+                            Else
+                                DataGridView1.Rows.Item(i).Cells(15).Value = .Rows(i).Item("Alasan_Tolak")
+                            End If
+
+                            DataGridView1.Rows.Item(i).Cells(16).Value = .Rows(i).Item("UserId")
+
+                            If General_Class.CekNULL(.Rows(i).Item("Sub_Kategori_Jenis")) = "" Then
+                                DataGridView1.Rows.Item(i).Cells(17).Value = "-"
+                            Else
+                                DataGridView1.Rows.Item(i).Cells(17).Value = .Rows(i).Item("Sub_Kategori_Jenis")
+                            End If
+
+
+                            If General_Class.CekNULL(.Rows(i).Item("Id_Sub_Kategori_Jenis")) = "" Then
+                                DataGridView1.Rows.Item(i).Cells(18).Value = "-"
+                            Else
+                                DataGridView1.Rows.Item(i).Cells(18).Value = .Rows(i).Item("Id_Sub_Kategori_Jenis")
+                            End If
+
+                            DataGridView1.Rows.Item(i).Cells(19).Value = Format(.Rows(i).Item("tanggal"), "dd MMM yyyy")
+
+
+
+                            If General_Class.CekNULL(.Rows(i).Item("Alasan_Tolak")) <> "" And .Rows(i).Item("Kode_Stock_Owner") = "-" Then
+                                DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.RosyBrown
+                            End If
+                        Next
+                        'Else
+                        '    CloseConn()
+                        '    MessageBox.Show("Data tidak ditemuakan !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        '    Exit Sub
+                    End If
+                End With
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Cari2(ByVal semua As String)
+        Try
+            OpenConn()
+
+            DataGridView1.Rows.Clear()
+
+            SQL = "select DISTINCT a.No_Faktur,a.Kode_Stock_Owner, a.Kode_Barang, a.Nama_Barang, a.Jumlah, a.Jmlh_PR, a.Satuan, b.Keterangan as Cost_Center, a.No_Urut, d.Lokasi, a.Flag_Ajukan, a.Link, d.UserId, "
             SQL = SQL & "isnull(( select c.Keterangan from N_EMI_Master_Gedung_Barang_Lain c where "
             SQL = SQL & "a.Kode_Perusahaan = c.Kode_Perusahaan and a.ID_Gedung = c.ID_Gedung ), NULL) as Gedung, a.Id_Cost_Center, a.Alasan_Tolak, "
             SQL = SQL & "isnull((select sum(e.Jumlah) from Barang_Lain_SN e where a.Kode_Perusahaan = e.Kode_Perusahaan and a.Kode_Stock_Owner = e.Kode_Stock_Owner "
@@ -158,12 +359,10 @@
             SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and z.Id_Kategori_Jenis = x.Id_Kategori_Jenis and z.Id_Sub_Kategori_Jenis = a.Id_Sub_Kategori_Jenis "
             SQL = SQL & "),null) as Sub_Kategori_Jenis "
 
-
             SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail a, EMI_Master_Cost_Center b, N_EMI_Purchase_Requisition_Barang_Lain_Departement d, "
             ' SQL = SQL & "Barang_Lain e, View_Kategori_Turunan f, N_EMI_Master_Role_Sub_Kategori g "
 
             SQL = SQL & " N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain g "
-
 
             SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and d.Status is null "
             SQL = SQL & "and a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Cost_Center = b.Id_Cost_Center  "
@@ -172,16 +371,10 @@
             ' SQL = SQL & "e.Id_Sub_Kategori_Jenis_3 = f.Id_Sub_Kategori_Jenis_3 and f.Id_Kategori_Jenis = g.Id_Kategori_Jenis "
             'SQL = SQL & "and f.Id_Sub_Kategori_Jenis = g.Id_Sub_Kategori_Jenis and g.UserID = '" & UserID & "' "
 
-
-
             SQL = SQL & "and a.kode_perusahaan = g.kode_perusahaan and a.Id_Sub_Kategori_Jenis = g.Id_Sub_Kategori_Jenis and g.User_ID = '" & UserID & "' "
-
-
             SQL = SQL & "and a.Flag_Sudah_PR is null  "
             'SQL = SQL & "and a.Kode_Barang <> '-'"
             SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.No_Faktur = d.No_Faktur and d.Flag_Release = 'Y' and d.Flag_PR is null "
-
-            SQL = SQL & "AND g.Kode_Stock_Owner_Gudang = '" & KdSoKategori.Trim & "'  "
 
             If semua = "T" Then
                 If CheckBox1.Checked Then
@@ -670,8 +863,10 @@
             OpenConn()
 
             For i As Integer = 0 To DataGridView1.Rows.Count - 1
-                If DataGridView1.Rows(i).Cells(0).Value = True And DataGridView1.Rows(i).Cells(5).Value = 0 Then
-                    SQL = "select a.No_Faktur,a.Kode_Stock_Owner, a.Kode_Barang, a.Nama_Barang, a.Jumlah, a.Jmlh_PR, a.Satuan, b.Keterangan as Cost_Center, a.No_Urut, d.Lokasi, a.Flag_Ajukan, "
+                Dim xuserid As String = ""
+                'If DataGridView1.Rows(i).Cells(0).Value = True And DataGridView1.Rows(i).Cells(5).Value = 0 Then
+                If DataGridView1.Rows(i).Cells(0).Value = True Then
+                    SQL = "select a.No_Faktur,a.Kode_Stock_Owner, a.Kode_Barang, a.Nama_Barang, a.Jumlah, a.Jmlh_PR, a.Satuan, b.Keterangan as Cost_Center, a.No_Urut, d.Lokasi, a.Flag_Ajukan, d.UserId, "
                     SQL = SQL & "isnull(( select c.Keterangan from N_EMI_Master_Gedung_Barang_Lain c where "
                     SQL = SQL & "a.Kode_Perusahaan = c.Kode_Perusahaan and a.ID_Gedung = c.ID_Gedung ), NULL) as Gedung, a.Id_Cost_Center, a.Alasan_Tolak, "
                     SQL = SQL & "isnull((select sum(e.Jumlah) from Barang_Lain_SN e where a.Kode_Perusahaan = e.Kode_Perusahaan and a.Kode_Stock_Owner = e.Kode_Stock_Owner "
@@ -687,9 +882,56 @@
                     SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.No_Faktur = d.No_Faktur and d.Flag_Release = 'Y' and d.Flag_PR is null "
                     Using dr = OpenTrans(SQL)
                         If dr.Read Then
-                            If dr("Jumlah") - dr("Jmlh_PR") - dr("Jumlah_Keep_Stock") <> 0 Then
+                            If DataGridView1.Rows(i).Cells(5).Value = 0 Then
+                                If dr("Jumlah") - dr("Jmlh_PR") - dr("Jumlah_Keep_Stock") <> 0 Then
+                                    dr.Close()
+                                    MessageBox.Show("jumlah yang di input salah!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    CloseTrans()
+                                    CloseConn()
+                                    Exit Sub
+                                End If
+                            End If
+                            xuserid = dr("userid")
+                        End If
+                    End Using
+
+                    'Dim Kategori_Gudang As String = ""
+                    ''SQL = "select top(1) kode_kategori_gudang From N_EMI_View_Master_Kategori_Gudang_Binding_Departement_Barang_Lain  "
+                    ''SQL = SQL & "where user_id = '" & xuserid & "' and kode_perusahaan = '" & KodePerusahaan & "' "
+                    'SQL = "select top(1) kode_kategori_gudang From N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain "
+                    'SQL = SQL & "where user_id = '" & xuserid & "' and kode_perusahaan = '" & KodePerusahaan & "' "
+                    'Using Ds = BindingTrans(SQL)
+                    '    With Ds.Tables("MyTable")
+                    '        If .Rows.Count <> 0 Then
+                    '            For z As Integer = 0 To .Rows.Count - 1
+                    '                Kategori_Gudang = .Rows(z).Item("kode_kategori_gudang")
+                    '            Next
+                    '        End If
+                    '    End With
+                    'End Using
+
+                    'If Kategori_Gudang <> xCmb_Kategori_Gudang Then
+                    '    MessageBox.Show("data tidak bisa ditambahkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    '    CloseConn()
+                    '    Exit Sub
+                    'End If
+
+                    SQL = "select b.kode_kategori_gudang from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail a, "
+                    SQL = SQL & "N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain b "
+                    SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis = b.id_sub_kategori_jenis "
+                    SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and a.No_Urut = '" & DataGridView1.Rows(i).Cells(10).Value & "' and b.user_id = '" & UserID & "' "
+                    Using dr = OpenTrans(SQL)
+                        If Not dr.Read Then
+                            dr.Close()
+                            MessageBox.Show("anda tidak memiliki akses untuk melakukan purchase requisition barang ini!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            CloseTrans()
+                            CloseConn()
+                            Exit Sub
+                        Else
+                            If dr("kode_kategori_gudang") <> xCmb_Kategori_Gudang Then
                                 dr.Close()
-                                MessageBox.Show("jumlah yang di input salah!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                MessageBox.Show("kategori gudang harus sama !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 CloseTrans()
                                 CloseConn()
                                 Exit Sub
@@ -697,7 +939,10 @@
                         End If
                     End Using
                 End If
+
             Next
+
+
 
             CloseConn()
         Catch ex As Exception
@@ -782,7 +1027,12 @@
             End If
         End If
 
-        Cari("T")
+        If asal = "Purchase_Requisition_Barang_Lain" Then
+            Cari("T")
+        Else
+            Cari2("T")
+        End If
+
         '  Cari2("T")
 
         'Try
@@ -942,6 +1192,7 @@
                 N_EMI_SD_Tambah_PR_Barang_Lain_Departement.TxtPilihBarang_NamaBarang.Visible = True
                 N_EMI_SD_Tambah_PR_Barang_Lain_Departement.LblPilihBarang_NamaBarang.Visible = True
                 N_EMI_SD_Tambah_PR_Barang_Lain_Departement.LblPilihBarang_KodeBarang.Visible = True
+
                 N_EMI_SD_Tambah_PR_Barang_Lain_Departement.CheckBox1.Checked = True
                 N_EMI_SD_Tambah_PR_Barang_Lain_Departement.TxtPilihBarang_NamaBarang.Text = DataGridView1.CurrentRow.Cells(4).Value
                 N_EMI_SD_Tambah_PR_Barang_Lain_Departement.TextBox1.Text = DataGridView1.CurrentRow.Cells(13).Value
@@ -976,6 +1227,10 @@
                 N_EMI_SD_Tambah_PR_Barang_Lain_Departement.Txt_CostCenter.Text = DataGridView1.CurrentRow.Cells(7).Value
                 N_EMI_SD_Tambah_PR_Barang_Lain_Departement.Txt_Id_CostCenter.Text = DataGridView1.CurrentRow.Cells(12).Value
                 N_EMI_SD_Tambah_PR_Barang_Lain_Departement.Txt_Gedung.Text = DataGridView1.CurrentRow.Cells(8).Value
+
+                N_EMI_SD_Tambah_PR_Barang_Lain_Departement.SO_Kategori_Gudang_Pilih = xCmb_Kategori_Gudang
+
+
                 N_EMI_SD_Tambah_PR_Barang_Lain_Departement.Lv_CostCenter.Visible = False
                 N_EMI_SD_Tambah_PR_Barang_Lain_Departement.Lv_Gedung.Visible = False
                 N_EMI_SD_Tambah_PR_Barang_Lain_Departement.Size = New Size(595, 409)

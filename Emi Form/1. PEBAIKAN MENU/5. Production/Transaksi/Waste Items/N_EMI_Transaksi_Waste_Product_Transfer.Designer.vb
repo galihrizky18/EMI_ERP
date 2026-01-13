@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class N_EMI_Transaksi_Waste_Product_Transfer
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class N_EMI_Transaksi_Waste_Product_Transfer
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
@@ -65,7 +65,7 @@ Partial Class N_EMI_Transaksi_Waste_Product_Transfer
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1184, 45)
+        Me.Panel1.Size = New System.Drawing.Size(1183, 45)
         Me.Panel1.TabIndex = 488
         '
         'PanelGradient1
@@ -78,7 +78,7 @@ Partial Class N_EMI_Transaksi_Waste_Product_Transfer
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1183, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label3
@@ -88,9 +88,9 @@ Partial Class N_EMI_Transaksi_Waste_Product_Transfer
         Me.Label3.Location = New System.Drawing.Point(18, 8)
         Me.Label3.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(347, 29)
+        Me.Label3.Size = New System.Drawing.Size(424, 29)
         Me.Label3.TabIndex = 0
-        Me.Label3.Text = "Transaksi Transfer Waste Product"
+        Me.Label3.Text = "Transaksi - Pengajuan Pemindahan Waste"
         '
         'Panel3
         '
@@ -371,7 +371,7 @@ Partial Class N_EMI_Transaksi_Waste_Product_Transfer
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1184, 611)
+        Me.ClientSize = New System.Drawing.Size(1183, 611)
         Me.Controls.Add(Me.Cmb_Gudang_Tujuan)
         Me.Controls.Add(Me.Txt_No_Transaksi)
         Me.Controls.Add(Me.Txt_Keterangan)

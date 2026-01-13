@@ -20,7 +20,8 @@ Public Class Transfer_Stock_3
     Dim dgv_IsiPerBags, dgv_SatuanIsiBags, dgv_TglProd, dgv_TglExp, dgv_KetWarna, dgv_Barcode, dgv_FlagBlokSN, dgv_JnsTransfer As String
     Dim dgv_CheckBox As Boolean
 
-    Dim dgv_Rekap_lokasi, dgv_Rekap_KdBarang, dgv_Rekap_NmBarang, dgv_Rekap_Jumlah, dgv_Rekap_JumlahBags, dgv_Rekap_JumlahBersih, dgv_Rekap_Satuan, dgv_Rekap_SatuanKecil, dgv_Rekap_Oto, dgv_Rekap_JnsTransfer, dgv_rekap_otoReqGen As String
+    Dim dgv_Rekap_lokasi, dgv_Rekap_KdBarang, dgv_Rekap_NmBarang, dgv_Rekap_Jumlah, dgv_Rekap_JumlahBags, dgv_Rekap_JumlahBersih, dgv_Rekap_Satuan As String
+    Dim dgv_Rekap_SatuanKecil, dgv_Rekap_Oto, dgv_Rekap_JnsTransfer, dgv_rekap_otoReqGen, dgv_rekap_nosplit As String
 
     Dim dgv_detail_lokasi, dgv_detail_KdBarang, dgv_detail_SN, dgv_detail_NmBarang, dgv_detail_IDWarehouseAwal, dgv_detail_KodeRakAwal As String
     Dim dgv_detail_IDPalletAwal, dgv_detail_Jumlah, dgv_detail_JumlahBags, dgv_detail_KodeRakTujuan, dgv_detail_IDWarehouseTujuan As String
@@ -79,6 +80,7 @@ Public Class Transfer_Stock_3
     Dim itemDgvRekap_Oto As Integer = 8
     Dim itemDgvRekap_JnsTransfer As Integer = 9
     Dim itemDgvRekap_OtoGen As Integer = 10
+    Dim itemDgvRekap_NoSplit As Integer = 11
 
 
 
@@ -176,6 +178,7 @@ Public Class Transfer_Stock_3
         dgv_Rekap_Oto = Dgv_DataRekap.Rows(index).Cells(itemDgvRekap_Oto).Value
         dgv_Rekap_JnsTransfer = Dgv_DataRekap.Rows(index).Cells(itemDgvRekap_JnsTransfer).Value
         dgv_rekap_otoReqGen = Dgv_DataRekap.Rows(index).Cells(itemDgvRekap_OtoGen).Value
+        dgv_rekap_nosplit = Dgv_DataRekap.Rows(index).Cells(itemDgvRekap_NoSplit).Value
     End Sub
 
     Private Sub get_grid_view_Detail(ByVal index As Integer)
@@ -349,7 +352,9 @@ Public Class Transfer_Stock_3
         TxtBags.Text = ""
         TxtTotalTransferBags.Text = ""
 
+
         TxtjmlPermintaanDisplay.Text = ""
+        Txt_Split_Req.Text = ""
         TxtStockDisplay.Text = ""
         TxtMetPotStok.Text = ""
         TxtjmlPermintaanBersih.Text = ""
@@ -419,6 +424,7 @@ Public Class Transfer_Stock_3
 
         Txt_Jenis_Transfer.Text = ""
 
+        Txt_Split_Req.Text = ""
         TxtjmlPermintaanDisplay.Text = ""
         TxtKd_Barang.Text = ""
         TxtNm_Barang.Text = ""
@@ -1345,12 +1351,12 @@ Public Class Transfer_Stock_3
                 End If
 
                 SQL = "insert into Tf_Stock (Kode_Perusahaan, No_faktur, Kode_Barang, Total, Satuan, "
-                SQL = SQL & "Total_Barang, Satuan_Barang, Total_Bags, urut_material_requisition_convert, Flag_Timbang, Flag_Jenis_Request, Total_Input, Satuan_Input) values "
+                SQL = SQL & "Total_Barang, Satuan_Barang, Total_Bags, urut_material_requisition_convert, Flag_Timbang, Flag_Jenis_Request, Total_Input, Satuan_Input, No_Split) values "
                 SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & dgv_Rekap_KdBarang & "', "
                 SQL = SQL & "'" & HilangkanTanda(nilai_kecil) & "', '" & Satuan_Kecil & "', "
                 SQL = SQL & "'" & nilai_kecil & "', '" & Satuan_Kecil & "', "
                 SQL = SQL & "'" & HilangkanTanda(0) & "', '" & dgv_Rekap_Oto & "', '" & Flag_Timbang & "', " & dgv_Rekap_JnsTransfer & ", "
-                SQL = SQL & HilangkanTanda(dgv_Rekap_JumlahBags) & ", '" & dgv_Rekap_Satuan & "')"
+                SQL = SQL & HilangkanTanda(dgv_Rekap_JumlahBags) & ", '" & dgv_Rekap_Satuan & "', '" & dgv_rekap_nosplit & "')"
                 ExecuteTrans(SQL)
 
                 Dim x_ident_current As Integer = 0
@@ -2622,6 +2628,7 @@ Public Class Transfer_Stock_3
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_Oto).Value = Txt_OtoMaterial_req.Text
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_JnsTransfer).Value = JnsTransfer
             Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_OtoGen).Value = ""
+            Dgv_DataRekap.Rows(DgvTab2_Rows).Cells(itemDgvRekap_NoSplit).Value = Txt_Split_Req.Text.Trim
         Else
 
             MessageBox.Show("Tidak Ada Data Yang Di Pilih", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -2684,8 +2691,14 @@ Public Class Transfer_Stock_3
         Dim keyword As String = Txt_QR.Text.Trim().ToUpper()
 
         For i As Integer = 0 To DGV_Data_TF.Rows.Count - 1
-            DGV_Data_TF.Rows(i).DefaultCellStyle.BackColor = Color.White
+            get_grid_view(i)
+            If dgv_FlagBlokSN <> "Y" Then
+                DGV_Data_TF.Rows(i).DefaultCellStyle.BackColor = Color.White
+                DGV_Data_TF.Rows(i).DefaultCellStyle.ForeColor = Color.Black
+            End If
         Next
+
+
 
         For i As Integer = 0 To DGV_Data_TF.Rows.Count - 1
             get_grid_view(i)
@@ -2694,6 +2707,7 @@ Public Class Transfer_Stock_3
 
                 'DGV_Data_TF.Rows(i).Cells(itemDgvCheckBox).Value = "True"
                 DGV_Data_TF.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+                DGV_Data_TF.Rows(i).DefaultCellStyle.ForeColor = Color.Black
 
                 If Not foundMatch Then
                     DGV_Data_TF.FirstDisplayedScrollingRowIndex = i ' Scroll ke hasil pertama

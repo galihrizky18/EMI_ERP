@@ -9,8 +9,8 @@
         Lv_DataPengajuan.Columns.Add("No Faktur", 180, HorizontalAlignment.Left)
         Lv_DataPengajuan.Columns.Add("Lokasi", 150, HorizontalAlignment.Left)
         Lv_DataPengajuan.Columns.Add("Tanggal", 130, HorizontalAlignment.Center)
-        Lv_DataPengajuan.Columns.Add("Keterangan", 300, HorizontalAlignment.Left)
-        Lv_DataPengajuan.Columns.Add("User ID", 100, HorizontalAlignment.Center)
+        Lv_DataPengajuan.Columns.Add("Keterangan", 340, HorizontalAlignment.Left)
+        Lv_DataPengajuan.Columns.Add("User ID", 120, HorizontalAlignment.Center)
         Lv_DataPengajuan.View = View.Details
 
         Lv_DetailPallet.Columns.Clear()
@@ -19,7 +19,7 @@
         Lv_DetailPallet.Columns.Add("Barode", 280, HorizontalAlignment.Left)
         Lv_DetailPallet.Columns.Add("Jumlah", 130, HorizontalAlignment.Right)
         Lv_DetailPallet.Columns.Add("Jumlah Bags", 100, HorizontalAlignment.Center)
-        Lv_DetailPallet.Columns.Add("Satuan", 90, HorizontalAlignment.Center)
+        Lv_DetailPallet.Columns.Add("Satuan", 80, HorizontalAlignment.Center)
         Lv_DetailPallet.View = View.Details
 
 
@@ -238,6 +238,7 @@
             SQL = SQL & "and b.No_Faktur = c.No_Faktur and b.Urut_Oto = c.Urut_TF "
             SQL = SQL & "and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det "
             SQL = SQL & "and a.status is null and a.Flag_Validasi is null and c.Selesai = 'Y' "
+            SQL = SQL & "and d.Flag_Validasi is null " 'tuk memastikan data di det2 belum divalidasi
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.No_Faktur = '" & SelectedFaktur & "' "
             Using Ds = BindingTrans(SQL)

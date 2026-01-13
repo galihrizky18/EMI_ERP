@@ -407,8 +407,8 @@ Public Class DO_Reseller_New
 
         TxtMbl.Visible = False
         TxtMbl.Text = ""
-        TxtMbl.Location = New Point(237, 12)
-        CmbEkspedisi.Location = New Point(173, 12)
+        TxtMbl.Location = New Point(332, 9)
+        CmbEkspedisi.Location = New Point(242, 7)
         CmbJnsDriver.Items.Clear()
         CmbJnsDriver.Items.Add("Sendiri")
         CmbJnsDriver.Items.Add("Lain")
@@ -418,7 +418,7 @@ Public Class DO_Reseller_New
 
         TxtDriver.Visible = False
         TxtDriver.Text = ""
-        TxtDriver.Location = New Point(173, 37)
+        TxtDriver.Location = New Point(242, 38)
 
         TextBox3.Text = ""
         TextBox4.Text = ""
@@ -426,7 +426,7 @@ Public Class DO_Reseller_New
 
         CmbMbl.Visible = True
         CmbDriver.Visible = True
-        CmbMbl.Location = New Point(173, 12)
+        CmbMbl.Location = New Point(242, 7)
 
         CmbMbl.Items.Clear()
         CmbDriver.Items.Clear()
@@ -457,7 +457,6 @@ Public Class DO_Reseller_New
                     CmbMbl.Items.Add(Dr("kode_mobil"))
                 Loop
             End Using
-
             SQL = "select kode_karyawan from karyawan where kode_perusahaan = '" & KodePerusahaan & "' and jenis = 'D' order by kode_karyawan"
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
@@ -1010,13 +1009,13 @@ Public Class DO_Reseller_New
         ListView2.Columns.Clear()
         DataGridView1.Rows.Clear()
 
-        ListView1.Columns.Add("No Faktur", 105, HorizontalAlignment.Center)
-        ListView1.Columns.Add("Tanggal", 85, HorizontalAlignment.Center)
-        ListView1.Columns.Add("Jam", 60, HorizontalAlignment.Center)
-        ListView1.Columns.Add("Kode Customer", 120, HorizontalAlignment.Left)
-        ListView1.Columns.Add("Customer", 480, HorizontalAlignment.Left)
+        ListView1.Columns.Add("No Faktur", 150, HorizontalAlignment.Center)
+        ListView1.Columns.Add("Tanggal", 100, HorizontalAlignment.Center)
+        ListView1.Columns.Add("Jam", 90, HorizontalAlignment.Center)
+        ListView1.Columns.Add("Kode Customer", 150, HorizontalAlignment.Left)
+        ListView1.Columns.Add("Customer", 430, HorizontalAlignment.Left)
         'ListView1.Columns.Add("Total Jml", 80, HorizontalAlignment.Right)
-        ListView1.Columns.Add("No. ", 40, HorizontalAlignment.Right).DisplayIndex = 0
+        ListView1.Columns.Add("No. ", 40, HorizontalAlignment.Center).DisplayIndex = 0
         ListView1.Columns.Add("#", 0, HorizontalAlignment.Right)
         ListView1.Columns.Add("PPN", 0, HorizontalAlignment.Right)
         ListView1.Columns.Add("Lokasi", 160, HorizontalAlignment.Left)
@@ -1034,7 +1033,7 @@ Public Class DO_Reseller_New
         ListView2.View = View.Details
 
         ListView2.Visible = False
-        ListView1.Size = New Size(1070, 239)
+        ListView1.Size = New Size(1131, 161)
         Label12.Visible = False
 
         CheckBox1.Checked = False : CheckBox2.Checked = False
@@ -1135,7 +1134,7 @@ Public Class DO_Reseller_New
                 With Ds.Tables("MyTable")
                     For i As Integer = 0 To .Rows.Count - 1
                         Lvw = ListView1.Items.Add(.Rows(i).Item("no_faktur"))
-                        Lvw.SubItems.Add(Format(.Rows(i).Item("tanggal"), "dd-MMM-yyyy"))
+                        Lvw.SubItems.Add(Format(.Rows(i).Item("tanggal"), "dd MMM yyyy"))
                         Lvw.SubItems.Add(.Rows(i).Item("jam"))
                         Lvw.SubItems.Add(.Rows(i).Item("kode_customer"))
                         Lvw.SubItems.Add(.Rows(i).Item("nama"))
@@ -1171,14 +1170,14 @@ Public Class DO_Reseller_New
 
                     If General_Class.CekNULL(Dr("Flag_Mulai_DO_Opm")) = "Y" Then
                         ListView2.Visible = True
-                        ListView1.Size = New Size(751, 239)
-                        ListView1.Location = New Point(3, 14)
-                        ListView2.Size = New Size(395, 239)
-                        ListView2.Location = New Point(758, 14)
+                        ListView1.Size = New Size(670, 161)
+                        ListView1.Location = New Point(6, 16)
+                        ListView2.Size = New Size(457, 161)
+                        ListView2.Location = New Point(682, 16)
                         Label12.Visible = True
                     Else
                         ListView2.Visible = False
-                        ListView1.Size = New Size(1150, 239)
+                        ListView1.Size = New Size(1131, 161)
                         Label12.Visible = False
                     End If
 
@@ -1456,6 +1455,14 @@ Public Class DO_Reseller_New
             SQL = SQL & "x.Urut_Oto=a.Id_Gudang and x.Id_Provinsi=y.Id_Provinsi and x.Id_Kabupaten_Kota=z.id_kabupaten_kota "
             SQL = SQL & "and x.Id_Kecamatan=v.id_kecamatan and x.Id_Kelurahan=w.id_kelurahan),'-') as Lokasi_Tujuan, a.Id_Gudang "
 
+            SQL = SQL & ",isnull(( "
+            SQL = SQL & "select ISNULL(sum(z.Jumlah), 0) as Jumlah from Emi_DO_Pallet_Sementara z "
+            SQL = SQL & "where z.Kode_Perusahaan = a.Kode_Perusahaan "
+            SQL = SQL & "and z.No_FakturPenjualan = a.no_faktur "
+            SQL = SQL & "and z.kd_so = a.Kode_Stock_Owner "
+            SQL = SQL & "and z.Kd_Barang = a.Kode_Barang "
+            SQL = SQL & "), 0) AS Jumlah_Sementara "
+
 
             'SQL = SQL & "isnull((select top(1)((case when Y.Lapis_Sudah_Opname is not null then 'Sudah Hitung' else 'Belum Hitung' end)) "
             'SQL = SQL & "from Detail_Proforma_Saat_Opname Y where a.no_faktur = Y.No_Proforma and a.kode_Barang= Y.kode_barang "
@@ -1539,7 +1546,7 @@ Public Class DO_Reseller_New
                     DataGridView1.Rows.Item(no).Cells(10).Value = Dr("sedang_kirim")
                     DataGridView1.Rows.Item(no).Cells(11).Value = Dr("kurang_kirim_approve")
                     DataGridView1.Rows.Item(no).Cells(12).Value = Dr("jumlah") - Dr("sdh_selesai_validasi") - Dr("rtr") - Dr("sedang_kirim") ' + Dr("kurang_kirim_approve")
-                    DataGridView1.Rows.Item(no).Cells(13).Value = "0"
+                    DataGridView1.Rows.Item(no).Cells(13).Value = Dr("Jumlah_Sementara")
 
                     'If Dr("flag_opname") = "Y" Then
                     '    'DataGridView1.Cells(13).ReadOnly = True
@@ -1617,6 +1624,15 @@ Public Class DO_Reseller_New
 
 
                     DataGridView1.Rows.Item(no).Cells(item_JmlhKirim).ReadOnly = True
+
+                    '================================
+                    '=     TRIGER CELL END EDIT     =
+                    '================================
+                    DataGridView1.CurrentCell = DataGridView1.Rows(no).Cells(17)
+                    DataGridView1.BeginEdit(True)
+                    DataGridView1.EndEdit()
+
+                    DataGridView1.CurrentCell = DataGridView1.Rows(no).Cells(13)
 
                     no = no + 1
 
@@ -1733,8 +1749,16 @@ Public Class DO_Reseller_New
         Try
             OpenConn()
 
-            SQL = "delete Emi_DO_Pallet_Sementara where Kode_Perusahaan = '" & KodePerusahaan & "' and userid = '" & UserID & "' "
-            ExecuteTrans(SQL)
+            'SQL = "delete Emi_DO_Pallet_Sementara where Kode_Perusahaan = '" & KodePerusahaan & "' and userid = '" & UserID & "' "
+            'ExecuteTrans(SQL)
+
+
+
+
+
+
+
+
 
             CloseConn()
         Catch ex As Exception
@@ -1742,11 +1766,10 @@ Public Class DO_Reseller_New
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+
     End Sub
 
-    Private Sub Display_Data_Transfer_Stock_SizeChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.SizeChanged
-        Label1.Size = New Point(Me.Width, 33)
-    End Sub
 
     Private Sub ComboBox2_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles CmbMbl.KeyPress
 
@@ -1856,68 +1879,68 @@ Public Class DO_Reseller_New
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
         If CmbJnsMbl.SelectedIndex = -1 Then
-            MessageBox.Show("Jenis kendaraan belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show($"Jenis kendaraan belum diisi!. {vbCrLf}Harap isi dahulu detail kendaraan pada tab 1", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             CmbJnsMbl.Focus()
             Exit Sub
         End If
 
         If CmbJnsMbl.SelectedIndex = 0 Then 'sendiri
             If CmbMbl.SelectedIndex = -1 Then
-                MessageBox.Show("Mobil belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show($"Mobil belum diisi!. {vbCrLf}Harap isi dahulu detail kendaraan pada tab 1", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 CmbMbl.Focus()
                 Exit Sub
             End If
         Else
             If TxtMbl.Text.Trim.Length = 0 Then
-                MessageBox.Show("Mobil belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show($"Mobil belum diisi!. {vbCrLf}Harap isi dahulu detail kendaraan pada tab 1", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 TxtMbl.Focus()
                 Exit Sub
             End If
 
             If CmbEkspedisi.SelectedIndex = -1 Then
-                MessageBox.Show("Ekspedisi belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show($"Ekspedisi belum diisi!. {vbCrLf}Harap isi dahulu detail kendaraan pada tab 1", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 CmbEkspedisi.Focus()
                 Exit Sub
             End If
         End If
 
         If CmbJnsDriver.SelectedIndex = -1 Then
-            MessageBox.Show("Jenis driver belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show($"Jenis driver belum diisi!. {vbCrLf}Harap isi dahulu detail kendaraan pada tab 1", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             CmbJnsDriver.Focus()
             Exit Sub
         End If
 
         If CmbJnsDriver.SelectedIndex = 0 Then 'sendiri
             If CmbDriver.SelectedIndex = -1 Then
-                MessageBox.Show("Driver belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show($"Driver belum diisi!. {vbCrLf}Harap isi dahulu detail kendaraan pada tab 1", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 CmbDriver.Focus()
                 Exit Sub
             End If
         Else
             If TxtDriver.Text.Trim.Length = 0 Then
-                MessageBox.Show("Driver belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show($"Driver belum diisi!. {vbCrLf}Harap isi dahulu detail kendaraan pada tab 1", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 TxtDriver.Focus()
                 Exit Sub
             End If
         End If
 
         If TextBox3.Text.Trim.Length = 0 Then
-            MessageBox.Show("Tujuan belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show($"Tujuan belum diisi!. {vbCrLf}Harap isi dahulu detail kendaraan pada tab 1", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TextBox3.Focus()
             Exit Sub
         ElseIf TextBox4.Text.Trim.Length = 0 Then
-            MessageBox.Show("HP belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show($"HP belum diisi!. {vbCrLf}Harap isi dahulu detail kendaraan pada tab 1", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TextBox4.Focus()
             Exit Sub
         ElseIf TextBox5.Text.Trim.Length = 0 Then
-            MessageBox.Show("Keterangan belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show($"Keterangan belum diisi!. {vbCrLf}Harap isi dahulu detail kendaraan pada tab 1", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TextBox5.Focus()
             Exit Sub
         End If
 
         If CmbJnsMbl.SelectedIndex = 0 And ListView1.FocusedItem.SubItems(9).Text = "Y" Then 'sendiri
             If CmbHelper.SelectedIndex = -1 Then
-                MessageBox.Show("Helper belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show($"Helper belum diisi!. {vbCrLf}Harap isi dahulu detail kendaraan pada tab 1", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 CmbHelper.Focus()
                 Exit Sub
             End If
@@ -1925,7 +1948,7 @@ Public Class DO_Reseller_New
 
         If CheckBox4.Checked = True And ComboBox3.Enabled = True Then
             If ComboBox3.SelectedIndex = -1 Then
-                MessageBox.Show("Customer belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show($"Customer belum diisi!. {vbCrLf}Harap isi dahulu detail kendaraan pada tab 1", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 TextBox5.Focus()
                 Exit Sub
             End If
@@ -1943,19 +1966,19 @@ Public Class DO_Reseller_New
 
 
             If LvJmlKrm.ToString = "" Then
-                MessageBox.Show("Masih ada jml kirim yang belum diisi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show($"Barang {LvKB} belum input jumlah kirim.{vbCrLf}Harap lakukan input jumlah terlebih dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             End If
 
             If IsNumeric(LvJmlKrm) = False Then
                 CloseTrans()
                 CloseConn()
-                MessageBox.Show("Jml kirim yg diisi bukan angka!", Judul, MessageBoxButtons.OK)
+                MessageBox.Show($"Jumlah kirim pada barang {LvKB} yang diisi bukan angka! {vbCrLf} harap isi jumlah kirim hanya menggunakan angka", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             End If
 
             If Val(LvJmlKrm) > Val(LvSisa) Then
-                MessageBox.Show("Jml kirim lebih besar dari sisa!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show($"Jumlah kirim pada barang {LvKB} tidak boleh lebih besar dari sisa!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             End If
 
@@ -1965,7 +1988,7 @@ Public Class DO_Reseller_New
                 End If
 
                 If LvIdGudang <> Id_Gudang Then
-                    MessageBox.Show("Lokasi Tujuan Tidak Boleh Berbeda!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MessageBox.Show($"Lokasi tujuan pada barang {LvKB} berbeda!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
                 indexAdaBarang += 1
@@ -2248,6 +2271,8 @@ Public Class DO_Reseller_New
                 End If
             End Using
 
+#Region "Komen"
+
             ''----------------------------------------
             ''cek penjualan kalo tgl proforma di atas bulan 2 baru masuk pengecekan barang do
             'Dim cek_tanggal As String
@@ -2343,6 +2368,8 @@ Public Class DO_Reseller_New
             'End If
             ''----------------------------
 
+#End Region
+
             Dim flag_lagi_opname As String = ""
             SQL = "select flag_opname from stock_owner  "
             SQL = SQL & "where Kode_Stock_Owner ='" & ListView1.FocusedItem.SubItems(8).Text & "' "
@@ -2353,7 +2380,7 @@ Public Class DO_Reseller_New
                     Dr.Close()
                     CloseTrans()
                     CloseConn()
-                    MessageBox.Show("Lokasi tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MessageBox.Show($"Lokasi gudang {ListView1.FocusedItem.SubItems(8).Text} tidak ditemukan!. Harap hubungi tim IT", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
             End Using
@@ -2413,19 +2440,19 @@ Public Class DO_Reseller_New
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Proses tidak dapat dilanjutkan karena transaksi ini sudah dibatalkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("Proses tidak dapat dilanjutkan karena no transaksi " & ListView1.FocusedItem.Text & " sudah dibatalkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Exit Sub
                         ElseIf General_Class.CekNULL(Dr("flag_do_selesai")) = "Y" Then
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Proses tidak dapat dilanjutkan karena transaksi ini sudah selesai dibuat DO!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("Proses tidak dapat dilanjutkan karena no transaksi " & ListView1.FocusedItem.Text & " sudah selesai dibuat DO!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Exit Sub
                         ElseIf Dr("flag_cabang_sendiri") = "Y" Then
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Proses tidak dapat dilanjutkan karena transaksi ini bukan reseller!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("Proses tidak dapat dilanjutkan karena no transaksi " & ListView1.FocusedItem.Text & " bukan reseller!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Exit Sub
                         ElseIf Dr("rvx") <> Val(ListView1.FocusedItem.SubItems(6).Text) Then
                             Dr.Close()
@@ -2450,7 +2477,7 @@ Public Class DO_Reseller_New
                         Dr.Close()
                         CloseTrans()
                         CloseConn()
-                        MessageBox.Show("No faktur tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MessageBox.Show($"Data faktur {ListView1.FocusedItem.Text} tidak ditemukan pada transaksi penjualan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Exit Sub
                     End If
                 End Using
@@ -2581,13 +2608,13 @@ Public Class DO_Reseller_New
                                         Dr.Close()
                                         CloseTrans()
                                         CloseConn()
-                                        MessageBox.Show("Plafon Masih Menunggu DI ACC!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        MessageBox.Show("Proses tidak dapat dilanjutkan karena Plafon Masih Menunggu DI ACC!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                         Exit Sub
                                     ElseIf General_Class.CekNULL(Dr("Validasi_ACC")) = "T" Then
                                         Dr.Close()
                                         CloseTrans()
                                         CloseConn()
-                                        MessageBox.Show("Plafon Tidak DI ACC!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        MessageBox.Show("Proses tidak dapat dilanjutkan karena Plafon Tidak DI ACC!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                         Exit Sub
                                     ElseIf Dr("Total_Transaksi") <> HilangkanTanda(Format((f_ttl_jual_kredit - f_ttl_retur_kredit - f_ttl_validasi_kredit - f_ttl_validasi_do_kredit) + (f_ttl_jual_tunai - f_ttl_retur_tunai - f_ttl_validasi_tunai - f_ttl_validasi_do_tunai) + Val(HilangkanTanda(TxtTotal.Text)), "N0")) Then
 
@@ -2663,7 +2690,7 @@ Public Class DO_Reseller_New
                         Dr.Close()
                         CloseTrans()
                         CloseConn()
-                        MessageBox.Show("Lokasi tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        MessageBox.Show($"Lokasi gudang {ListView1.FocusedItem.SubItems(8).Text} tidak ditemukan!. Harap hubungi tim IT", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
                 End Using
@@ -2684,7 +2711,7 @@ Public Class DO_Reseller_New
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Terjadi Kesalahan, Silahkan Refresh!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            MessageBox.Show("Terjadi Kesalahan, Silahkan Lakukan Refresh Form!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
                     End If
@@ -2699,14 +2726,14 @@ Public Class DO_Reseller_New
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Terjadi Kesalahan, Silahkan Refresh!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            MessageBox.Show("Terjadi Kesalahan, Silahkan Lakukan Refresh Form!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
                     Else
                         Dr.Close()
                         CloseTrans()
                         CloseConn()
-                        MessageBox.Show("Terjadi Kesalahan, Silahkan Refresh!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        MessageBox.Show("Terjadi Kesalahan, Silahkan Lakukan Refresh Form!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
                 End Using
@@ -2721,7 +2748,7 @@ Public Class DO_Reseller_New
                         Dr.Close()
                         CloseTrans()
                         CloseConn()
-                        MessageBox.Show("Terjadi Kesalahan, Silahkan Refresh!!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        MessageBox.Show("Terjadi Kesalahan, Silahkan Lakukan Refresh Form!!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
                 End Using
@@ -2829,19 +2856,19 @@ Public Class DO_Reseller_New
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Proses tidak dapat dilanjutkan karena transaksi ini sudah dibatalkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("Proses tidak dapat dilanjutkan karena no transaksi " & ListView1.FocusedItem.Text & " sudah dibatalkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Exit Sub
                         ElseIf General_Class.CekNULL(Dr("flag_do_selesai")) = "Y" Then
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Proses tidak dapat dilanjutkan karena transaksi ini sudah selesai dibuat DO!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("Proses tidak dapat dilanjutkan karena no transaksi " & ListView1.FocusedItem.Text & " sudah selesai dibuat DO!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Exit Sub
                         ElseIf Dr("flag_cabang_sendiri") = "Y" Then
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Proses tidak dapat dilanjutkan karena transaksi ini bukan reseller!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("Proses tidak dapat dilanjutkan karena no transaksi " & ListView1.FocusedItem.Text & " bukan reseller!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Exit Sub
                         ElseIf Dr("rvx") <> Val(ListView1.FocusedItem.SubItems(6).Text) Then
                             Dr.Close()
@@ -2866,7 +2893,7 @@ Public Class DO_Reseller_New
                         Dr.Close()
                         CloseTrans()
                         CloseConn()
-                        MessageBox.Show("No faktur tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MessageBox.Show($"faktur {ListView1.FocusedItem.Text} tidak ditemukan, pada transaksi penjualan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Exit Sub
                     End If
                 End Using
@@ -2943,7 +2970,7 @@ Public Class DO_Reseller_New
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Detail barang tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            MessageBox.Show("Data detail barang tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
                     End Using
@@ -3087,24 +3114,26 @@ Public Class DO_Reseller_New
                                         Dr.Close()
                                         CloseTrans()
                                         CloseConn()
-                                        MessageBox.Show("Plafon Masih Menunggu DI ACC!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        MessageBox.Show("Proses tidak dapat dilanjutkan karena Plafon Masih Menunggu DI ACC!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                         Exit Sub
                                     ElseIf General_Class.CekNULL(Dr("Validasi_ACC")) = "T" Then
                                         Dr.Close()
                                         CloseTrans()
                                         CloseConn()
-                                        MessageBox.Show("Plafon Tidak DI ACC!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        MessageBox.Show("Proses tidak dapat dilanjutkan karena Plafon Tidak DI ACC!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                         Exit Sub
                                     ElseIf Dr("Total_Transaksi") <> HilangkanTanda(Format((f_ttl_jual_kredit - f_ttl_retur_kredit - f_ttl_validasi_kredit - f_ttl_validasi_do_kredit) + (f_ttl_jual_tunai - f_ttl_retur_tunai - f_ttl_validasi_tunai - f_ttl_validasi_do_tunai) + Val(HilangkanTanda(TxtTotal.Text)), "N0")) Then
 
                                         SQL = "Update Plafon_Acc_DO set Pakai = 'T' "
                                         SQL = SQL & "Where Kode_Perusahaan = '" & KodePerusahaan & "' and Urut = '" & Dr("Urut") & "' "
+
                                         Dr.Close()
                                         CloseTrans()
                                         ExecuteTrans(SQL)
                                         CloseConn()
                                         MessageBox.Show("Terdapat perbedaan Total Dalam List ACC! Silahkan ACC Ulang.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                         Exit Sub
+
                                     End If
 
                                     SQL = "Update Plafon_Acc_DO set Pakai = 'Y' "
@@ -3235,7 +3264,7 @@ Public Class DO_Reseller_New
                         Dr.Close()
                         CloseTrans()
                         CloseConn()
-                        MessageBox.Show("Terjadi Kesalahan, Silahkan Refresh", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        MessageBox.Show("Terjadi Kesalahan, Silahkan Lakukan Refresh Form!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
                 End Using
@@ -3251,14 +3280,14 @@ Public Class DO_Reseller_New
                                 Dr.Close()
                                 CloseTrans()
                                 CloseConn()
-                                MessageBox.Show("Terjadi Kesalahan, Silahkan Refresh!!!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                MessageBox.Show("Terjadi Kesalahan, Silahkan Lakukan Refresh Form!!!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 Exit Sub
                             End If
                         Else
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Terjadi Kesalahan, Silahkan Refresh!!!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            MessageBox.Show("Terjadi Kesalahan, Silahkan Lakukan Refresh Form!!!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
                     End Using
@@ -3272,14 +3301,14 @@ Public Class DO_Reseller_New
                                 Dr.Close()
                                 CloseTrans()
                                 CloseConn()
-                                MessageBox.Show("Terjadi Kesalahan, Silahkan Refresh!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                MessageBox.Show("Terjadi Kesalahan, Silahkan Lakukan Refresh Form!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 Exit Sub
                             End If
                         Else
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Terjadi Kesalahan, Silahkan Refresh!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            MessageBox.Show("Terjadi Kesalahan, Silahkan Lakukan Refresh Form!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
                     End Using
@@ -3293,14 +3322,14 @@ Public Class DO_Reseller_New
                                 Dr.Close()
                                 CloseTrans()
                                 CloseConn()
-                                MessageBox.Show("Terjadi Kesalahan, Silahkan Refresh!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                MessageBox.Show("Terjadi Kesalahan, Silahkan Lakukan Refresh Form!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 Exit Sub
                             End If
                         Else
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Terjadi Kesalahan, Silahkan Refresh!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            MessageBox.Show("Terjadi Kesalahan, Silahkan Lakukan Refresh Form!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
                     End Using
@@ -3315,7 +3344,7 @@ Public Class DO_Reseller_New
                             Dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Terjadi Kesalahan, Silahkan Refresh!!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            MessageBox.Show("Terjadi Kesalahan, Silahkan Lakukan Refresh Form!!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
                     End Using
@@ -3405,7 +3434,7 @@ Public Class DO_Reseller_New
                         Dr.Close()
                         CloseTrans()
                         CloseConn()
-                        MessageBox.Show("Customer tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        MessageBox.Show($"Data customer {f_kd_customer} tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
                 End Using
@@ -3422,13 +3451,15 @@ Public Class DO_Reseller_New
                 Dim total_hpp_metode_B As Double = 0
 
 
-
                 'TODO : Loop DGV
                 For i As Integer = 0 To DataGridView1.RowCount - 1
 
                     Get_Isi_Listview(i)
 
                     If Val(HilangkanTanda(LvJmlKrm)) <> 0 Then
+
+                        Dim TotalBarang As Double = 0
+                        Dim TotalBarangSN As Double = 0
 
                         Dim xflag_budgeting1 As String = "NULL"
                         Dim xflag_budgetingMbl As String = "NULL"
@@ -3729,9 +3760,6 @@ Public Class DO_Reseller_New
                             End If
                         End Using
 
-                        Dim TotalBarang As Double = 0
-                        Dim TotalBarangSN As Double = 0
-
                         If metode_pot_stock = "A" Then
                             SQL = "select Stock_Blm_Kirim from barang where "
                             SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
@@ -3745,6 +3773,7 @@ Public Class DO_Reseller_New
                                             CloseTrans()
                                             CloseConn()
                                             MessageBox.Show("Proses membuat stock blm terkirim menjadi negatif untuk barang " & LvKB & ". " & Chr(13) & "Proses tidak dapat dilanjutkan.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            MessageBox.Show($"Harap lakukan cek detail barcode semua barang untuk memastikan jumlah sudah sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                             Exit Sub
                                         Else
                                             SQL = "Update barang set Stock_Blm_Kirim = Stock_Blm_Kirim - " & HilangkanTanda(LvJmlKrm) & " where "
@@ -3763,15 +3792,24 @@ Public Class DO_Reseller_New
                             End Using
                         Else
 
-                            SQL = "select Kd_SO, Kd_Barang, Serial_Number, Bags, Jumlah "
-                            SQL = SQL & "from Emi_DO_Pallet_Sementara "
-                            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_FakturPenjualan = '" & LvNoPenjualan & "' "
-                            SQL = SQL & "and Kd_SO = '" & LvSO & "' and Kd_Barang = '" & LvKB & "' and userid = '" & UserID & "' "
+                            'SQL = "select Kd_SO, Kd_Barang, Serial_Number, Bags, Jumlah "
+                            'SQL = SQL & "from Emi_DO_Pallet_Sementara "
+                            'SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_FakturPenjualan = '" & LvNoPenjualan & "' "
+                            'SQL = SQL & "and Kd_SO = '" & LvSO & "' and Kd_Barang = '" & LvKB & "' and userid = '" & UserID & "' "
+
+                            SQL = "select a.Kd_SO, a.Kd_Barang, a.Serial_Number, a.Bags, a.Jumlah, "
+                            SQL = SQL & "(b.Qr_Code+'-'+b.Kode_Unik_Berjalan) as Barcode "
+                            SQL = SQL & "from Emi_DO_Pallet_Sementara a "
+                            SQL = SQL & "inner join Barang_SN b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Serial_Number = b.Serial_Number and a.Kd_SO = b.Kode_Stock_Owner and a.Kd_Barang = b.Kode_Barang "
+                            SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                            SQL = SQL & "and a.No_FakturPenjualan = '" & LvNoPenjualan & "' "
+                            SQL = SQL & "and a.Kd_SO = '" & LvSO & "' and a.Kd_Barang = '" & LvKB & "' "
                             Using Ds7 = BindingTrans(SQL)
                                 If Ds7.Tables("MyTable").Rows.Count <> 0 Then
                                     For j As Integer = 0 To Ds7.Tables("MyTable").Rows.Count - 1
 
                                         Dim Potong = Ds7.Tables("MyTable").Rows(j).Item("Jumlah")
+                                        Dim Barcode_Pallet_Sementara As String = Ds7.Tables("MyTable").Rows(j).Item("Barcode")
 
                                         TotalBarang += Potong
 
@@ -3787,7 +3825,8 @@ Public Class DO_Reseller_New
                                                     If .Rows(0).Item("good_stock") - Potong < BolehNegatif Then
                                                         CloseTrans()
                                                         CloseConn()
-                                                        MessageBox.Show("Proses membuat stock menjadi negatif untuk barang " & LvNm & ". " & Chr(13) & "Proses tidak dapat dilanjutkan.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                        MessageBox.Show("Proses membuat stock menjadi negatif untuk barang " & LvNm & " dengan barcode " & Barcode_Pallet_Sementara & ". " & Chr(13) & Chr(13) & "Proses tidak dapat dilanjutkan.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                        MessageBox.Show($"Harap lakukan cek detail barcode semua barang untuk memastikan jumlah sudah sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                                         Exit Sub
                                                     ElseIf .Rows(0).Item("flag_ppn") <> flag_ppn Then
                                                         CloseTrans()
@@ -3798,7 +3837,7 @@ Public Class DO_Reseller_New
 
                                                         'TODO : Update Barang
                                                         SQL = "Update barang set good_stock = good_stock - " & Potong & ", "
-                                                        SQL = SQL & "Jumlah_Bags = Jumlah_Bags - " & HilangkanTanda(Ds7.Tables("MyTable").Rows(j).Item("Bags")) & " "
+                                                        SQL = SQL & "Jumlah_Bags = Jumlah_Bags - 0 "
                                                         SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
                                                         SQL = SQL & "kode_stock_owner = '" & Ds7.Tables("MyTable").Rows(j).Item("Kd_SO") & "' and "
                                                         SQL = SQL & "kode_barang = '" & Ds7.Tables("MyTable").Rows(j).Item("Kd_Barang") & "' "
@@ -3842,15 +3881,23 @@ Public Class DO_Reseller_New
                                 Dim sisa As Double = 0
                                 sisa = HilangkanTanda(LvJmlKrm)
 
-                                SQL = "select Kd_SO, Kd_Barang, Serial_Number, Bags, Jumlah "
-                                SQL = SQL & "from Emi_DO_Pallet_Sementara "
-                                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_FakturPenjualan = '" & LvNoPenjualan & "' "
-                                SQL = SQL & "and Kd_SO = '" & LvSO & "' and Kd_Barang = '" & LvKB & "' and userid = '" & UserID & "' "
+                                'SQL = "select Kd_SO, Kd_Barang, Serial_Number, Bags, Jumlah "
+                                'SQL = SQL & "from Emi_DO_Pallet_Sementara "
+                                'SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_FakturPenjualan = '" & LvNoPenjualan & "' "
+                                'SQL = SQL & "and Kd_SO = '" & LvSO & "' and Kd_Barang = '" & LvKB & "' and userid = '" & UserID & "' "
+
+                                SQL = "select a.Kd_SO, a.Kd_Barang, a.Serial_Number, a.Bags, a.Jumlah, "
+                                SQL = SQL & "(b.Qr_Code+'-'+b.Kode_Unik_Berjalan) as Barcode "
+                                SQL = SQL & "from Emi_DO_Pallet_Sementara a "
+                                SQL = SQL & "inner join Barang_SN b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Serial_Number = b.Serial_Number and a.Kd_SO = b.Kode_Stock_Owner and a.Kd_Barang = b.Kode_Barang "
+                                SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_FakturPenjualan = '" & LvNoPenjualan & "' "
+                                SQL = SQL & "and a.Kd_SO = '" & LvSO & "' and a.Kd_Barang = '" & LvKB & "'  "
                                 Using Ds8 = BindingTrans(SQL)
                                     If Ds8.Tables("MyTable").Rows.Count <> 0 Then
                                         For j As Integer = 0 To Ds8.Tables("MyTable").Rows.Count - 1
 
                                             Dim Potong As Double = Ds8.Tables("MyTable").Rows(j).Item("Jumlah")
+                                            Dim Barcode_Pallet_Sementara As String = Ds8.Tables("MyTable").Rows(j).Item("Barcode")
 
                                             TotalBarangSN += Potong
 
@@ -3863,24 +3910,43 @@ Public Class DO_Reseller_New
                                             Using Ds = BindingTrans(SQL)
                                                 With Ds.Tables("MyTable")
                                                     If .Rows.Count <> 0 Then
-
-
                                                         For h As Integer = 0 To .Rows.Count - 1
                                                             If sisa = 0 Then
                                                                 Exit For
                                                             ElseIf sisa < 0 Then
                                                                 CloseTrans()
                                                                 CloseConn()
-                                                                MessageBox.Show("Sisa < 0", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                                MessageBox.Show("Terjadi kesalahan Sisa < 0, Harap hubungi tim IT", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                                                 Exit Sub
                                                             End If
+
+
+                                                            '=====================
+                                                            '=     KODE LAMA     =
+                                                            '=====================
+                                                            'If Ds.Tables("MyTable").Rows(h).Item("jumlah") - sisa < 0 Then
+                                                            '    CloseTrans()
+                                                            '    CloseConn()
+                                                            '    MessageBox.Show("Proses membuat stock menjadi negatif untuk barang " & LvNm & ". " & Chr(13) & "Proses tidak dapat dilanjutkan.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                            '    MessageBox.Show($"Harap lakukan cek detail barcode semua barang untuk memastikan jumlah sudah sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                            '    Exit Sub
+                                                            'End If
+
 
                                                             'TODO Ambnil serial number darti table smeentara
 
                                                             If sisa < Potong Or sisa = Potong Then
 
+                                                                If Ds.Tables("MyTable").Rows(h).Item("jumlah") - sisa < 0 Then
+                                                                    CloseTrans()
+                                                                    CloseConn()
+                                                                    MessageBox.Show("Proses membuat stock menjadi negatif untuk barang " & LvNm & " dengan barcode " & Barcode_Pallet_Sementara & ". " & Chr(13) & Chr(13) & "Proses tidak dapat dilanjutkan.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                                    MessageBox.Show($"Harap lakukan cek detail barcode semua barang untuk memastikan jumlah sudah sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                                    Exit Sub
+                                                                End If
+
                                                                 SQL = "Update barang_sn set jumlah = jumlah - " & sisa & ", "
-                                                                SQL = SQL & "Jumlah_Bags = Jumlah_Bags - " & Val(HilangkanTanda(Ds8.Tables("MyTable").Rows(j).Item("Bags"))) & " "
+                                                                SQL = SQL & "Jumlah_Bags = Jumlah_Bags - 0 "
                                                                 SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
                                                                 SQL = SQL & "kode_stock_owner = '" & .Rows(h).Item("kode_stock_owner") & "' and "
                                                                 SQL = SQL & "kode_barang = '" & .Rows(h).Item("kode_barang") & "' and "
@@ -3902,6 +3968,14 @@ Public Class DO_Reseller_New
                                                                 sisa = 0
                                                             ElseIf sisa > Potong Then
 
+                                                                If Ds.Tables("MyTable").Rows(h).Item("jumlah") - HilangkanTanda(Potong) < 0 Then
+                                                                    CloseTrans()
+                                                                    CloseConn()
+                                                                    MessageBox.Show("Proses membuat stock menjadi negatif untuk barang " & LvNm & " dengan barcode " & Barcode_Pallet_Sementara & ". " & Chr(13) & Chr(13) & "Proses tidak dapat dilanjutkan.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                                    MessageBox.Show($"Harap lakukan cek detail barcode semua barang untuk memastikan jumlah sudah sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                                    Exit Sub
+                                                                End If
+
                                                                 SQL = "insert into det_do_new(kode_perusahaan, no_faktur, "
                                                                 SQL = SQL & "kode_stock_owner, kode_barang, serial_number, no_urut_do, "
                                                                 SQL = SQL & "jumlah, no_urut_det_penj) values('" & KodePerusahaan & "', "
@@ -3913,7 +3987,9 @@ Public Class DO_Reseller_New
                                                                 SQL = SQL & "'" & Potong & "', '" & LvUrut & "')"
                                                                 ExecuteTrans(SQL)
 
-                                                                SQL = "Update barang_sn set jumlah = jumlah - " & HilangkanTanda(Potong) & " where "
+                                                                SQL = "Update barang_sn set jumlah = jumlah - " & HilangkanTanda(Potong) & ", "
+                                                                SQL = SQL & "Jumlah_Bags = Jumlah_Bags - 0 "
+                                                                SQL = SQL & "where "
                                                                 SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
                                                                 SQL = SQL & "kode_stock_owner = '" & .Rows(h).Item("kode_stock_owner") & "' and "
                                                                 SQL = SQL & "kode_barang = '" & .Rows(h).Item("kode_barang") & "' and "
@@ -3926,7 +4002,7 @@ Public Class DO_Reseller_New
                                                             Else
                                                                 CloseTrans()
                                                                 CloseConn()
-                                                                MessageBox.Show("Barang SN terjadi kesalahan untuk barang " & LvNm & "!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                                MessageBox.Show("Barang SN terjadi kesalahan untuk barang " & LvNm & " dengan barcode " & Barcode_Pallet_Sementara & "!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                                                 Exit Sub
                                                             End If
 
@@ -3942,7 +4018,7 @@ Public Class DO_Reseller_New
                                                                     If boleh_jual_rugi = "T" Then
                                                                         CloseTrans()
                                                                         CloseConn()
-                                                                        MessageBox.Show("Barang " & LvNm & " harus diinput pusat!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                                        MessageBox.Show("Barang " & LvNm & " dengan barcode " & Barcode_Pallet_Sementara & " harus diinput pusat!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                                                         Exit Sub
                                                                     End If
                                                                 End If
@@ -3951,7 +4027,7 @@ Public Class DO_Reseller_New
                                                     Else
                                                         CloseTrans()
                                                         CloseConn()
-                                                        MessageBox.Show("SN untuk barang " & LvNm & " tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                        MessageBox.Show("SN untuk barang " & LvNm & " dengan barcode " & Barcode_Pallet_Sementara & " tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                                         Exit Sub
                                                     End If
                                                 End With
@@ -3962,7 +4038,7 @@ Public Class DO_Reseller_New
                                     Else
                                         CloseTrans()
                                         CloseConn()
-                                        MessageBox.Show("Terjadi Kesalahan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Stop)
+                                        MessageBox.Show("Terjadi Kesalahan!, data sementara tidak ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Stop)
                                         Exit Sub
                                     End If
                                 End Using
@@ -3996,7 +4072,7 @@ Public Class DO_Reseller_New
                         If Not TotalBarang = HilangkanTanda(LvJmlKrm) Or Not TotalBarangSN = HilangkanTanda(LvJmlKrm) Then
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Terjadi Kesalahan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Stop)
+                            MessageBox.Show("Terjadi Kesalahan, Jumlah yang di insert tidak sesuai dengan jumlah pada datagridview", Judul, MessageBoxButtons.OK, MessageBoxIcon.Stop)
                             Exit Sub
                         End If
                     End If
@@ -4045,7 +4121,7 @@ Public Class DO_Reseller_New
                             Else
                                 CloseTrans()
                                 CloseConn()
-                                MessageBox.Show("DO tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                MessageBox.Show($"DO {nofakdo} tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 Exit Sub
                             End If
                         End With
@@ -4075,7 +4151,7 @@ Public Class DO_Reseller_New
                                         ElseIf sisa < 0 Then
                                             CloseTrans()
                                             CloseConn()
-                                            MessageBox.Show("Sisa < 0", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            MessageBox.Show("Terjadi Kesalaham Sisa < 0, Harap hubungi tim IT", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                             Exit Sub
                                         End If
 
@@ -4141,7 +4217,7 @@ Public Class DO_Reseller_New
                                 Else
                                     CloseTrans()
                                     CloseConn()
-                                    MessageBox.Show("SN tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    MessageBox.Show("Terjadi Kesalahan SN tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     Exit Sub
                                 End If
                             End With
@@ -4163,7 +4239,7 @@ Public Class DO_Reseller_New
                             dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Data lokasi tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            MessageBox.Show($"Terjadi Kesalahan lokasi {lksi_gudang} tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
                     End Using
@@ -4261,7 +4337,7 @@ Public Class DO_Reseller_New
                             dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Data lokasi tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            MessageBox.Show($"Terjadi kesalahan data lokasi {lksi_gudang} tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
                     End Using
@@ -4288,7 +4364,7 @@ Public Class DO_Reseller_New
                             dr.Close()
                             CloseTrans()
                             CloseConn()
-                            MessageBox.Show("Data lokasi tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            MessageBox.Show($"Terjadi kesalahan data lokasi {lksi_gudang} tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Exit Sub
                         End If
                     End Using
@@ -5383,7 +5459,11 @@ Public Class DO_Reseller_New
             End If
 
 
-            SQL = "delete Emi_DO_Pallet_Sementara where Kode_Perusahaan = '" & KodePerusahaan & "' and userid = '" & UserID & "' "
+            '=======================
+            '=     DELETE TEMP     =
+            '=======================
+
+            SQL = "delete Emi_DO_Pallet_Sementara where Kode_Perusahaan = '" & KodePerusahaan & "' and No_FakturPenjualan = '" & ListView1.FocusedItem.Text & "' "
             ExecuteTrans(SQL)
 
             'If True Then
@@ -5392,6 +5472,9 @@ Public Class DO_Reseller_New
             '    MessageBox.Show("Tahan")
             '    Exit Sub
             'End If
+
+
+
 
 
 
@@ -5474,6 +5557,20 @@ Public Class DO_Reseller_New
     End Sub
 
     Private Sub DataGridView1_CellEndEdit(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles DataGridView1.CellEndEdit
+        If DataGridView1.Rows.Count = 0 Then Exit Sub
+        If DataGridView1.CurrentRow Is Nothing Then Exit Sub
+
+        '====================================================================
+        '=     CEK APAKAH JML KIRIM DAN HRG MUAT ADALAH "" ATAU NOTHING     =
+        '====================================================================
+        For Each colIndex As Integer In {13, 17}
+            With DataGridView1.CurrentRow.Cells(colIndex)
+                If .Value Is Nothing OrElse String.IsNullOrWhiteSpace(.Value.ToString()) OrElse IsDBNull(.Value) Then
+                    .Value = 0
+                End If
+            End With
+        Next
+
         Get_Isi_Listview(DataGridView1.CurrentRow.Index)
         'MessageBox.Show(DataGridView1.CurrentRow.Index)
         If IsNumeric(LvHrgMuat) = False Or Val(LvHrgMuat) < 0 Then
@@ -5647,20 +5744,9 @@ Public Class DO_Reseller_New
         '  If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
     End Sub
 
-    Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub GroupBox1_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GroupBox1.Enter
-
-    End Sub
 
     Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
         Cek_Sementara()
-    End Sub
-
-    Private Sub CmbHelper_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbHelper.SelectedIndexChanged
-
     End Sub
 
     Private Sub MengetahuiToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MengetahuiToolStripMenuItem.Click
@@ -5804,7 +5890,7 @@ Public Class DO_Reseller_New
 
             SD_Pallet_DO.Txt_JmlhReq.Text = Format(Val(HilangkanTanda(DataGridView1.CurrentRow.Cells(item_JmlhOrder).Value)), "N2")
             SD_Pallet_DO.Txt_Sisa.Text = Format(Val(HilangkanTanda(DataGridView1.CurrentRow.Cells(item_Sisa).Value)), "N2")
-            SD_Pallet_DO.kosong()
+            'SD_Pallet_DO.kosong()
             SD_Pallet_DO.ShowDialog()
 
         End If
@@ -5849,6 +5935,14 @@ Public Class DO_Reseller_New
 
     Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
 
+    End Sub
+
+    Private Sub GroupBox1_Enter(sender As Object, e As EventArgs) Handles GroupBox1.Enter
+
+    End Sub
+
+    Private Sub Btn_Tambah_Kendaraan_Click(sender As Object, e As EventArgs) Handles Btn_Tambah_Kendaraan.Click
+        N_EMI_SD_Master_Kendaraan_DO.ShowDialog()
     End Sub
 
     Private Sub CmbHelper_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbHelper.KeyPress
@@ -5909,10 +6003,94 @@ Public Class DO_Reseller_New
                 Exit Sub
             End Try
 
-        Else
-            DataGridView1.Rows(indexDgv).Cells(item_JmlhKirim).Value = 0
         End If
 
+        If DataGridView1.CurrentRow Is Nothing Then Exit Sub
+
+        '====================================================================
+        '=     CEK APAKAH JML KIRIM DAN HRG MUAT ADALAH "" ATAU NOTHING     =
+        '====================================================================
+        For Each colIndex As Integer In {13, 17}
+            With DataGridView1.CurrentRow.Cells(colIndex)
+                If .Value Is Nothing OrElse String.IsNullOrWhiteSpace(.Value.ToString()) OrElse IsDBNull(.Value) Then
+                    .Value = 0
+                End If
+            End With
+        Next
+
+
+        Get_Isi_Listview(indexDgv)
+        'MessageBox.Show(DataGridView1.CurrentRow.Index)
+        If IsNumeric(LvHrgMuat) = False Or Val(LvHrgMuat) < 0 Then
+            DataGridView1.Rows(indexDgv).Cells(CellHrgMuat).Value = 0
+        ElseIf IsNumeric(LvJmlKrm) = False Or Val(LvJmlKrm) < 0 Then
+            DataGridView1.Rows(indexDgv).Cells(CellJmlKrm).Value = 0
+        End If
+
+
+        If Math.Ceiling(Val(LvHrgMuat)) <> Val(LvHrgMuat) Then
+            DataGridView1.Rows(indexDgv).Cells(CellHrgMuat).Value = 0
+        ElseIf Math.Floor(Val(LvHrgMuat)) <> Val(LvHrgMuat) Then
+            DataGridView1.Rows(indexDgv).Cells(CellHrgMuat).Value = 0
+        End If
+
+        If Math.Ceiling(Val(LvJmlKrm)) <> Val(LvJmlKrm) Then
+            DataGridView1.Rows(indexDgv).Cells(CellJmlKrm).Value = 0
+        ElseIf Math.Floor(Val(LvJmlKrm)) <> Val(LvJmlKrm) Then
+            DataGridView1.Rows(indexDgv).Cells(CellJmlKrm).Value = 0
+        End If
+
+        Get_Isi_Listview(indexDgv)
+
+        Dim sat_besar As Double = 0
+        sat_besar = Math.Floor(Val(LvJmlKrm) / Val(LvIsiBsr))
+
+        Dim sat_kecil As Double = 0
+        sat_kecil = Val(LvJmlKrm) - (Math.Floor((Val(LvJmlKrm) / Val(LvIsiBsr)) * Val(LvIsiBsr)))
+
+        Dim hrg_sat_besar As Double = Val(LvHrgMuat) * sat_besar
+        Dim hrg_sat_kecil As Double = Val(HilangkanTanda(Format(Val(LvHrgMuat) / Val(LvIsiBsr), "N0"))) * sat_kecil
+
+        DataGridView1.Rows(indexDgv).Cells(CellTtlMuat).Value = hrg_sat_besar + hrg_sat_kecil
+        ' total = (Val(HilangkanTanda(hrg.Text)) * Val(HilangkanTanda(jml.Text))) - (Val(HilangkanTanda(hrg.Text)) * Val(HilangkanTanda(jml.Text)) * Val(disc.Text) / 100)
+
+        Dim y_hrg As Double = Val(HilangkanTanda(LvHrg))
+        Dim y_disc As Double = Val(HilangkanTanda(Format(Val(LvDiscP), "N2")))
+        Dim y_jml As Double = Val(HilangkanTanda(LvJmlKrm))
+
+        Dim subttl As Double
+
+        If LvMetPer = "A" Then
+            subttl = (Val(HilangkanTanda(LvHrg)) * Val(HilangkanTanda(LvJmlKrm))) - (Val(HilangkanTanda(LvHrg)) * Val(HilangkanTanda(LvJmlKrm)) * Val(LvDiscP) / 100)
+            DataGridView1.Rows(indexDgv).Cells(CellSubttl).Value = Format(subttl, "N0")
+
+        ElseIf LvMetPer = "B" Then
+            subttl = Hitung_Subtotal(y_hrg, y_disc, y_jml)
+
+        Else
+            MessageBox.Show("error perhitungan")
+
+        End If
+
+
+        DataGridView1.Rows(indexDgv).Cells(CellSubttl).Value = Format(subttl, "N0")
+
+        Dim total As Double = 0
+        Dim nilai_ppn As Double = 0
+        Dim grandttl As Double = 0
+
+        For i As Integer = 0 To DataGridView1.Rows.Count - 1
+            Get_Isi_Listview(i)
+
+            total = total + Val(HilangkanTanda(LvSubttl))
+        Next
+        TextBox17.Text = Format(total, "N0")
+        nilai_ppn = total * Val(TextBox18.Text) / 100
+        nilai_ppn = Val(HilangkanTanda(Format(nilai_ppn, "N0")))
+        TextBox19.Text = Format(nilai_ppn, "N0")
+
+        grandttl = total + nilai_ppn
+        TxtTotal.Text = Format(grandttl, "N0")
 
     End Sub
 
@@ -5926,8 +6104,8 @@ Public Class DO_Reseller_New
         Try
             OpenConn()
 
-            SQL = "delete Emi_DO_Pallet_Sementara where Kode_Perusahaan = '" & KodePerusahaan & "' and userid = '" & UserID & "' "
-            ExecuteTrans(SQL)
+            'SQL = "delete Emi_DO_Pallet_Sementara where Kode_Perusahaan = '" & KodePerusahaan & "' and userid = '" & UserID & "' "
+            'ExecuteTrans(SQL)
 
             CloseConn()
         Catch ex As Exception

@@ -599,6 +599,12 @@ Public Class FMenu
             Case "EMI_Pengeluaran_Stock"
                 Return EMI_Pengeluaran_Stock
 
+            Case "N_EMI_Display_Barcode_Merge"
+                Return N_EMI_Display_Barcode_Merge
+
+
+
+
             'Case "Acc_Bongkar"
             '    Return Acc_Bongkar
 

@@ -772,9 +772,9 @@ Public Class Transaksi_Penawaran
             Exit Sub
         End If
 
-        Dim saveFaktur = TxtPenawaran_NoFaktur.Text
-        Dim saveSupplier = Lbl_KdSupplier.Text
-        Dim saveNoPenawaran = Txt_NoPenawaran.Text
+        'Dim saveFaktur = TxtPenawaran_NoFaktur.Text
+        'Dim saveSupplier = Lbl_KdSupplier.Text
+        'Dim saveNoPenawaran = Txt_NoPenawaran.Text
 
         If TxtPenawaran_NoFaktur.Text.Trim.Length = 0 Then
             MessageBox.Show(Base_Language.Lang_Global_NoFaktur & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -822,15 +822,15 @@ Public Class Transaksi_Penawaran
                 'Save Master Penawaran
                 SQL = "Insert into EMI_Master_Penawaran "
                 SQL = SQL & "(Kode_Perusahaan, No_Faktur, No_Penawaran, Tgl_Penawaran_Hrg, Periode_Akhir_Penawaran, Kode_Supplier, lokasi, tanggal, jam, iduser) "
-                SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & saveNoPenawaran & "', "
+                SQL = SQL & "Values ('" & KodePerusahaan & "', '" & TxtPenawaran_NoFaktur.Text & "', '" & Txt_NoPenawaran.Text & "', "
                 SQL = SQL & "'" & Format(Dtp_Tgl.Value, "yyyy-MM-dd") & "', '" & Format(Dtp_PeriodAkhir.Value, "yyyy-MM-dd") & "', "
-                SQL = SQL & "'" & saveSupplier & "', '" & Lokasi & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "' "
+                SQL = SQL & "'" & Lbl_KdSupplier.Text & "', '" & Lokasi & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "' "
                 SQL = SQL & ")"
                 ExecuteTrans(SQL)
 
 
                 SQL = "insert into EMI_Master_Penawaran_Jatuh_Tempo(Kode_Perusahaan,No_Faktur,No_Penawaran,Jenis_Pembayaran,Tempo_Pembayaran,Lama_Pembayaran) values("
-                SQL = SQL & "'" & KodePerusahaan & "', '" & saveFaktur & "', '" & saveNoPenawaran & "', '" & arrPembayaran.Item(cmb_JenisBayar.SelectedIndex) & "',"
+                SQL = SQL & "'" & KodePerusahaan & "', '" & TxtPenawaran_NoFaktur.Text & "', '" & Txt_NoPenawaran.Text & "', '" & arrPembayaran.Item(cmb_JenisBayar.SelectedIndex) & "',"
                 SQL = SQL & "'" & cmbJenisPengiriman.Text & "', '" & txtJatuhTempo.Text & "') "
                 ExecuteTrans(SQL)
 
@@ -948,7 +948,7 @@ Public Class Transaksi_Penawaran
                         SQL = "Insert into EMI_Master_Penawaran_Detail "
                         SQL = SQL & "(Kode_Perusahaan, No_Faktur, Kode_Barang, "
                         SQL = SQL & "Min_Order, Satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang, Min_Order_Input, Satuan_Input) "
-                        SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & lvKdBrg & "', "
+                        SQL = SQL & "Values ('" & KodePerusahaan & "', '" & TxtPenawaran_NoFaktur.Text & "', '" & lvKdBrg & "', "
                         SQL = SQL & "'" & HilangkanTanda(min_order_satuan_kecil) & "', '" & Satuan_Dasar & "', '" & HilangkanTanda(Val(HilangkanTanda(lvHrgSatuan))) & "', "
                         SQL = SQL & " '" & HilangkanTanda(Val(HilangkanTanda(harga_per_satuan_dasar))) & "','" & Satuan_Barang & "', '" & lvMUA & "', '" & HilangkanTanda(lvMinOrder) & "', '" & lvSatuan & "') "
                         ExecuteTrans(SQL)
@@ -961,7 +961,7 @@ Public Class Transaksi_Penawaran
                 '================================
                 '=     CEK APAKAH ADA DATA?     =
                 '================================
-                SQL = "select No_Faktur from EMI_Master_Penawaran where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & saveFaktur & "'"
+                SQL = "select No_Faktur from EMI_Master_Penawaran where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & Txt_NoPenawaran.Text & "'"
                 Using Ds = BindingTrans(SQL)
                     With Ds.Tables("MyTable")
                         If .Rows.Count <> 0 Then
@@ -976,7 +976,7 @@ Public Class Transaksi_Penawaran
 
 
                             SQL = "insert into EMI_Master_Penawaran_Jatuh_Tempo(Kode_Perusahaan,No_Faktur,No_Penawaran,Jenis_Pembayaran,Tempo_Pembayaran,Lama_Pembayaran) values("
-                            SQL = SQL & "'" & KodePerusahaan & "', '" & saveFaktur & "', '" & saveNoPenawaran & "', '" & arrPembayaran.Item(cmb_JenisBayar.SelectedIndex) & "',"
+                            SQL = SQL & "'" & KodePerusahaan & "', '" & TxtPenawaran_NoFaktur.Text & "', '" & Txt_NoPenawaran.Text & "', '" & arrPembayaran.Item(cmb_JenisBayar.SelectedIndex) & "',"
                             SQL = SQL & "'" & cmbJenisPengiriman.Text & "', '" & txtJatuhTempo.Text & "') "
 
                             For i As Integer = 0 To .Rows.Count - 1
@@ -985,7 +985,7 @@ Public Class Transaksi_Penawaran
                                 '=     DELETE DATA SEBELUMNYA     =
                                 '==================================
 
-                                SQL = "delete from EMI_Master_Penawaran_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & saveFaktur & "' "
+                                SQL = "delete from EMI_Master_Penawaran_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & TxtPenawaran_NoFaktur.Text & "' "
                                 ExecuteTrans(SQL)
 
                                 For index = 0 To DgvMaster_Penawaran.Rows.Count - 1
@@ -1103,7 +1103,7 @@ Public Class Transaksi_Penawaran
                                     SQL = "Insert into EMI_Master_Penawaran_Detail "
                                     SQL = SQL & "(Kode_Perusahaan, No_Faktur, Kode_Barang, "
                                     SQL = SQL & "Min_Order, Satuan, Harga_Satuan, Nilai_Barang, Satuan_Barang, Mata_Uang, Min_Order_Input, Satuan_Input) "
-                                    SQL = SQL & "Values ('" & KodePerusahaan & "', '" & saveFaktur & "', '" & lvKdBrg & "', "
+                                    SQL = SQL & "Values ('" & KodePerusahaan & "', '" & TxtPenawaran_NoFaktur.Text & "', '" & lvKdBrg & "', "
                                     SQL = SQL & "'" & HilangkanTanda(min_order_satuan_kecil) & "', '" & Satuan_Dasar & "', '" & HilangkanTanda(Val(HilangkanTanda(lvHrgSatuan))) & "', "
                                     SQL = SQL & " '" & HilangkanTanda(Val(HilangkanTanda(harga_per_satuan_dasar))) & "','" & Satuan_Barang & "', '" & lvMUA & "', '" & HilangkanTanda(lvMinOrder) & "', '" & lvSatuan & "') "
                                     ExecuteTrans(SQL)

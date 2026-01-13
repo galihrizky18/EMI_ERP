@@ -1,6 +1,4 @@
 ﻿Public Class N_EMI_Purchase_Requisition_Penawaran_Barang_Lain
-
-
     Dim Lv_ChkBox, Lv_No_Urut, Lv_No_Pr, Lv_Kd_Barang, Lv_Nm_Barang, Lv_Nm_Supplier, Lv_No_Penawaran, Lv_Mata_Uang, Lv_Harga, Lv_Keterangan_PR, Lv_Keterangan As String
 
     Dim item_ChkBox As Integer = 0
@@ -15,37 +13,19 @@
     Dim item_Keterangan_PR As Integer = 9
     Dim item_Keterangan As Integer = 10
 
+    Dim item2_Chekbox As Integer = 0
+    Dim item2_No_Urut As Integer = 1
+    Dim item2_No_PR As Integer = 2
+    Dim item2_Kd_Barang As Integer = 3
+    Dim item2_Nm_Barang As Integer = 4
+    Dim item2_No_Penawaran As Integer = 6
+    Dim item2_Mata_Uang As Integer = 7
+    Dim item2_Harga As Integer = 8
+    Dim item2_Keterangan_PR As Integer = 9
+    Dim item2_Keterangan As Integer = 10
+
     Private Sub N_EMI_Purchase_Requisition_Penawaran_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         TabControl1.SelectedTab = TabPage2
-    End Sub
-
-    Private Sub Fetch_Suppliers(searchText As String)
-        Try
-            OpenConn()
-
-            Dim SQL As String = If(searchText.Length = 0,
-                "SELECT TOP 10 Kode_Supplier, Nama FROM Suppliers ORDER BY Kode_Supplier",
-                "SELECT TOP 10 Kode_Supplier, Nama FROM Suppliers WHERE Kode_Supplier LIKE @Search OR Nama LIKE @Search ORDER BY Kode_Supplier")
-
-            If searchText.Length > 0 Then
-                Cmd.Parameters.Clear()
-                Cmd.Parameters.AddWithValue("@Search", "%" & searchText & "%")
-            End If
-
-            LvSuppliers.Items.Clear()
-            Using Dr = OpenTrans(SQL)
-                While Dr.Read()
-                    Dim item As New ListViewItem(Dr("Kode_Supplier").ToString())
-                    item.SubItems.Add(Dr("Nama").ToString())
-                    LvSuppliers.Items.Add(item)
-                End While
-            End Using
-
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MsgBox("Error: " & ex.Message, MsgBoxStyle.Critical)
-        End Try
     End Sub
 
     Private Sub Get_Lv_Data(ByVal index As Integer)
@@ -60,19 +40,6 @@
         Lv_Harga = DataGridView1.Rows(index).Cells(item_Harga).Value
         Lv_Keterangan_PR = DataGridView1.Rows(index).Cells(item_Keterangan_PR).Value
         Lv_Keterangan = DataGridView1.Rows(index).Cells(item_Keterangan).Value
-    End Sub
-
-    Private Sub TxtKodeSupplier_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtPO_KdSupplier.KeyDown
-        If e.KeyCode = Keys.Down AndAlso LvSuppliers.Visible AndAlso LvSuppliers.Items.Count > 0 Then
-            e.Handled = True
-            LvSuppliers.Focus()
-            If LvSuppliers.SelectedItems.Count = 0 Then
-                LvSuppliers.Items(0).Selected = True
-            End If
-        ElseIf e.KeyCode = Keys.Return Then
-            e.Handled = True
-            LvSuppliers.Visible = False
-        End If
     End Sub
 
     Public Sub Fetch_PR_Offered()
@@ -100,33 +67,62 @@
                   AND b.Flag_Pengajuan_Selesai is null
             "
 
+            If Not String.IsNullOrWhiteSpace(ComboBox_Filter.Text) AndAlso Not String.IsNullOrWhiteSpace(Filter_Text.Text) Then
+                Select Case ComboBox_Filter.Text
+                    Case "No PR"
+                        SQL &= " AND a.No_Faktur LIKE @FilterValue"
+                    Case "Kode Barang"
+                        SQL &= " AND b.Kode_Barang LIKE @FilterValue"
+                    Case "Nama Barang"
+                        SQL &= " AND c.Nama LIKE @FilterValue"
+                    Case "No Penawaran"
+                        SQL &= " AND b.No_Penawaran LIKE @FilterValue"
+                    Case "Kode Supplier"
+                        SQL &= " AND e.Kode_Supplier LIKE @FilterValue"
+                    Case "Nama Supplier"
+                        SQL &= " AND f.Nama LIKE @FilterValue"
+                    Case "Mata Uang"
+                        SQL &= " AND d.Mata_Uang LIKE @FilterValue"
+                End Select
+            End If
+
+            SQL &= " ORDER BY
+                a.No_Faktur,
+                b.Kode_Barang,
+                c.Nama,
+                f.Kode_Supplier,
+                f.Nama
+            "
+
             Cmd.Parameters.Clear()
             Cmd.Parameters.AddWithValue("@KodePerusahaan", KodePerusahaan)
 
+            If Not String.IsNullOrWhiteSpace(ComboBox_Filter.Text) AndAlso Not String.IsNullOrWhiteSpace(Filter_Text.Text) Then
+                Cmd.Parameters.AddWithValue("@FilterValue", "%" & Filter_Text.Text & "%")
+            End If
+
             DataGridView1.SuspendLayout()
             DataGridView1.Rows.Clear()
-
             Dim hariIni As DateTime = DateTime.Now.Date
             Using Dr = OpenTrans(SQL)
                 While Dr.Read()
                     DataGridView1.Rows.Add(
-                        False,
-                        Dr("No_Urut"),
-                        Dr("No_PR"),
-                        Dr("Kode_Barang"),
-                        Dr("Nama_Barang"),
-                        Dr("Nama_Supplier"),
-                        Dr("No_Penawaran"),
-                        Dr("Mata_Uang"),
-                        Dr("Harga_Satuan"),
-                        Dr("Keterangan"),
-                        Dr("Keterangan_Penawaran"))
-
+                    False,
+                    Dr("No_Urut"),
+                    Dr("No_PR"),
+                    Dr("Kode_Barang"),
+                    Dr("Nama_Barang"),
+                    Dr("Nama_Supplier"),
+                    Dr("No_Penawaran"),
+                    Dr("Mata_Uang"),
+                    Dr("Harga_Satuan"),
+                    Dr("Keterangan"),
+                    Dr("Keterangan_Penawaran"))
                     If Not IsDBNull(Dr("Periode_Akhir_Penawaran")) Then
                         Dim periodeAkhir As DateTime = CDate(Dr("Periode_Akhir_Penawaran")).Date
                         If hariIni > periodeAkhir Then
                             Dim rowIndex As Integer = DataGridView1.Rows.Count - 1
-                            DataGridView1.Rows(rowIndex).DefaultCellStyle.BackColor = Color.IndianRed
+                            DataGridView1.Rows(rowIndex).DefaultCellStyle.BackColor = Color.Red
                             DataGridView1.Rows(rowIndex).DefaultCellStyle.ForeColor = Color.White
                         End If
                     End If
@@ -141,50 +137,123 @@
         End Try
     End Sub
 
-    Private Sub Fetch_PR_Waiting_Offer()
+    Private Sub BtnRefresh_Click(sender As Object, e As EventArgs) Handles BtnRefresh.Click
+        ComboBox_Filter.SelectedIndex = -1
+        Filter_Text.Text = ""
+
+        If TabControl1.SelectedTab Is TabPage1 Then
+            Fetch_PR_Offered()
+        ElseIf TabControl1.SelectedTab Is TabPage2 Then
+            Fetch_PR_Waiting_Offer()
+        End If
+    End Sub
+
+    Public Sub Fetch_PR_Waiting_Offer()
         Try
             OpenConn()
 
             Dim SQL As String = "
-                SELECT b.No_Urut, a.No_Faktur AS No_PR, b.Kode_Barang, c.Nama AS Nama_Barang,
-                       b.Jumlah AS Qty, b.Keterangan, b.Keterangan_Penawaran,
-                       ISNULL(p.No_Penawaran, '') AS No_Penawaran, ISNULL(p.Mata_Uang, '') AS Mata_Uang,
-                       ISNULL(p.Harga_Satuan, '') AS Harga_Satuan,
-                       CASE WHEN p.No_Penawaran IS NOT NULL THEN 0 ELSE 1 END AS Sort_Order
-                FROM EMI_Purchase_Requisition_Barang_Lain a
-                JOIN EMI_Purchase_Requisition_Barang_Lain_Detail b
-                    ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.No_Faktur = b.No_Faktur
-                JOIN Barang_Lain c
-                    ON b.Kode_Barang = c.Kode_Barang AND c.Kode_Perusahaan = b.Kode_Perusahaan
-                    AND c.Kode_Stock_Owner = b.Kode_Stock_Owner
-                LEFT JOIN (
-                    SELECT f.Kode_Perusahaan, f.Kode_Barang, f.Harga_Satuan, f.Mata_Uang, f.No_Faktur AS No_Penawaran
-                    FROM EMI_Master_Penawaran_Detail_Barang_Lain f
-                    JOIN EMI_Master_Penawaran_Barang_Lain e
-                        ON f.Kode_Perusahaan = e.Kode_Perusahaan AND f.No_Faktur = e.No_Faktur
-                    WHERE e.Kode_Supplier = @KodeSupplier AND e.Selesai IS NULL AND e.Flag_Release = 'Y'
-                      AND e.Status IS NULL AND CAST(e.Periode_Akhir_Penawaran AS DATE) >= CAST(GETDATE() AS DATE)
-                ) p ON p.Kode_Perusahaan = b.Kode_Perusahaan AND p.Kode_Barang = b.Kode_Barang
-                WHERE a.Kode_Perusahaan = @KodePerusahaan AND b.Flag_Sudah_PO IS NULL 
-                  AND a.Status IS NULL AND b.No_Penawaran IS NULL
-                ORDER BY Sort_Order, b.No_Urut"
+            SELECT
+                b.No_Urut,
+                a.No_Faktur AS No_PR,
+                b.Kode_Barang,
+                c.Nama AS Nama_Barang,
+                b.Jumlah AS Qty,
+                b.Keterangan,
+                b.Keterangan_Penawaran,
+                p.No_Penawaran,
+                p.Mata_Uang,
+                p.Harga_Satuan,
+                p.Kode_Supplier,
+                p.Nama_Supplier,
+                CASE
+                    WHEN p.No_Penawaran IS NOT NULL THEN 0
+                    ELSE 1
+                END AS Sort_Order
+            FROM EMI_Purchase_Requisition_Barang_Lain a
+            INNER JOIN EMI_Purchase_Requisition_Barang_Lain_Detail b
+                ON a.Kode_Perusahaan = b.Kode_Perusahaan
+               AND a.No_Faktur       = b.No_Faktur
+            INNER JOIN Barang_Lain c
+                ON b.Kode_Barang      = c.Kode_Barang
+               AND c.Kode_Perusahaan  = b.Kode_Perusahaan
+               AND c.Kode_Stock_Owner = b.Kode_Stock_Owner
+            LEFT JOIN (
+                SELECT
+                    f.Kode_Perusahaan,
+                    f.Kode_Barang,
+                    f.Harga_Satuan,
+                    f.Mata_Uang,
+                    f.No_Faktur AS No_Penawaran,
+                    g.Kode_Supplier,
+                    g.Nama AS Nama_Supplier
+                FROM EMI_Master_Penawaran_Detail_Barang_Lain f
+                INNER JOIN EMI_Master_Penawaran_Barang_Lain e
+                    ON f.Kode_Perusahaan = e.Kode_Perusahaan
+                   AND f.No_Faktur       = e.No_Faktur
+                INNER JOIN Suppliers g
+                    ON g.Kode_Perusahaan = e.Kode_Perusahaan
+                    AND g.Kode_Supplier = e.Kode_Supplier
+                WHERE e.Selesai IS NULL
+                  AND e.Flag_Release = 'Y'
+                  AND e.Status IS NULL
+                  AND CAST(e.Periode_Akhir_Penawaran AS DATE) >= CAST(GETDATE() AS DATE)
+            ) p
+                ON p.Kode_Perusahaan = b.Kode_Perusahaan
+               AND p.Kode_Barang     = b.Kode_Barang
+            WHERE a.Kode_Perusahaan = @KodePerusahaan
+              AND a.Status IS NULL
+              AND a.Flag_Release = 'Y'
+              AND b.Flag_Sudah_PO IS NULL
+              AND b.No_Penawaran IS NULL
+              AND b.Flag_Pengajuan_Selesai IS NULL
+            "
+
+            If Not String.IsNullOrWhiteSpace(ComboBox_Filter.Text) AndAlso Not String.IsNullOrWhiteSpace(Filter_Text.Text) Then
+                Select Case ComboBox_Filter.Text
+                    Case "No PR"
+                        SQL &= " AND a.No_Faktur LIKE @FilterValue"
+                    Case "Kode Barang"
+                        SQL &= " AND b.Kode_Barang LIKE @FilterValue"
+                    Case "Nama Barang"
+                        SQL &= " AND c.Nama LIKE @FilterValue"
+                    Case "No Penawaran"
+                        SQL &= " AND p.No_Penawaran LIKE @FilterValue"
+                    Case "Kode Supplier"
+                        SQL &= " AND p.Kode_Supplier LIKE @FilterValue"
+                    Case "Nama Supplier"
+                        SQL &= " AND p.Nama_Supplier LIKE @FilterValue"
+                    Case "Mata Uang"
+                        SQL &= " AND p.Mata_Uang LIKE @FilterValue"
+                End Select
+            End If
+
+            SQL &= " ORDER BY
+                Sort_Order,
+                a.No_Faktur,
+                b.Kode_Barang,
+                c.Nama,
+                p.Kode_Supplier,
+                p.Nama_Supplier
+                "
 
             Cmd.Parameters.Clear()
             Cmd.Parameters.AddWithValue("@KodePerusahaan", KodePerusahaan)
-            Cmd.Parameters.AddWithValue("@KodeSupplier", TxtPO_KdSupplier.Text)
+
+            If Not String.IsNullOrWhiteSpace(ComboBox_Filter.Text) AndAlso Not String.IsNullOrWhiteSpace(Filter_Text.Text) Then
+                Cmd.Parameters.AddWithValue("@FilterValue", "%" & Filter_Text.Text & "%")
+            End If
 
             DataGridView2.SuspendLayout()
             DataGridView2.Rows.Clear()
-
             Using Dr = OpenTrans(SQL)
                 While Dr.Read()
                     DataGridView2.Rows.Add(
-                        False, Dr("No_Urut"), Dr("No_PR"), Dr("Kode_Barang"), Dr("Nama_Barang"),
-                        Dr("No_Penawaran"), Dr("Mata_Uang"), Dr("Harga_Satuan"),
-                        Dr("Keterangan"), Dr("Keterangan_Penawaran"))
+                    False, Dr("No_Urut"), Dr("No_PR"), Dr("Kode_Barang"), Dr("Nama_Barang"),
+                    Dr("Nama_Supplier"), Dr("No_Penawaran"), Dr("Mata_Uang"), Dr("Harga_Satuan"),
+                    Dr("Keterangan"), Dr("Keterangan_Penawaran"))
                 End While
             End Using
-
             DataGridView2.ResumeLayout()
             CloseConn()
         Catch ex As Exception
@@ -193,43 +262,26 @@
         End Try
     End Sub
 
-    Public Sub Fetch_PR_Waiting_Offer_All()
-        Try
-            OpenConn()
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
-            Dim SQL As String = "
-                SELECT b.No_Urut, a.No_Faktur AS No_PR, b.Kode_Barang, c.Nama AS Nama_Barang,
-                       b.Jumlah AS Qty, b.Keterangan, b.Keterangan_Penawaran
-                FROM EMI_Purchase_Requisition_Barang_Lain a
-                JOIN EMI_Purchase_Requisition_Barang_Lain_Detail b
-                    ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.No_Faktur = b.No_Faktur
-                JOIN Barang_Lain c
-                    ON b.Kode_Barang = c.Kode_Barang AND c.Kode_Perusahaan = b.Kode_Perusahaan
-                    AND c.Kode_Stock_Owner = b.Kode_Stock_Owner
-                WHERE a.Kode_Perusahaan = @KodePerusahaan AND b.Flag_Sudah_PO IS NULL 
-                  AND a.Status IS NULL AND b.No_Penawaran IS NULL
-                ORDER BY b.No_Urut"
+        If ComboBox_Filter.SelectedIndex = -1 Then
 
-            Cmd.Parameters.Clear()
-            Cmd.Parameters.AddWithValue("@KodePerusahaan", KodePerusahaan)
+            MessageBox.Show(
+            "Filter tidak valid." & vbCrLf &
+            "Silakan pilih filter terlebih dahulu.",
+            "Informasi",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information
+        )
 
-            DataGridView2.SuspendLayout()
-            DataGridView2.Rows.Clear()
+            Exit Sub
+        End If
 
-            Using Dr = OpenTrans(SQL)
-                While Dr.Read()
-                    DataGridView2.Rows.Add(
-                        False, Dr("No_Urut"), Dr("No_PR"), Dr("Kode_Barang"), Dr("Nama_Barang"),
-                        "", "", "", Dr("Keterangan"), Dr("Keterangan_Penawaran"))
-                End While
-            End Using
-
-            DataGridView2.ResumeLayout()
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MsgBox("Error: " & ex.Message, MsgBoxStyle.Critical)
-        End Try
+        If TabControl1.SelectedTab Is TabPage1 Then
+            Fetch_PR_Offered()
+        ElseIf TabControl1.SelectedTab Is TabPage2 Then
+            Fetch_PR_Waiting_Offer()
+        End If
     End Sub
 
     Private Sub DataGridView2_CurrentCellDirtyStateChanged(sender As Object, e As EventArgs) Handles DataGridView2.CurrentCellDirtyStateChanged
@@ -271,19 +323,13 @@
             For i As Integer = 0 To DataGridView2.Rows.Count - 1
                 If Not CBool(DataGridView2.Rows(i).Cells(0).Value) Then Continue For
 
-                Dim noPenawaran = DataGridView2.Rows(i).Cells(5).Value
-
+                Dim noPenawaran = DataGridView2.Rows(i).Cells(6).Value
+                If noPenawaran Is Nothing OrElse noPenawaran.ToString.Trim = "" Then Continue For
 
                 Dim noUrut = DataGridView2.Rows(i).Cells(1).Value
                 Dim noPR = DataGridView2.Rows(i).Cells(2).Value
                 Dim kodeBarang = DataGridView2.Rows(i).Cells(3).Value
-                Dim keterangan = If(DataGridView2.Rows(i).Cells(9).Value IsNot Nothing, DataGridView2.Rows(i).Cells(9).Value, "")
-
-                If noPenawaran Is Nothing OrElse noPenawaran.ToString.Trim = "" Then
-                    CloseConn()
-                    MessageBox.Show($"Error: No Penawaran Pada Kode Barang {kodeBarang} Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
+                Dim keterangan = If(IsDBNull(DataGridView2.Rows(i).Cells(10).Value), DBNull.Value, DataGridView2.Rows(i).Cells(10).Value.ToString().Trim())
 
                 Dim sqlSelect = "SELECT No_Penawaran, Keterangan_Penawaran FROM EMI_Purchase_Requisition_Barang_Lain_Detail WHERE No_Urut = @NoUrut AND Kode_Barang = @KodeBarang"
                 Cmd.Parameters.Clear()
@@ -303,25 +349,21 @@
                 Dim sqlUpdate = "UPDATE EMI_Purchase_Requisition_Barang_Lain_Detail SET Status_Validasi = 'Y', No_Penawaran = @NoPenawaran, Keterangan_Penawaran = @Keterangan_Penawaran WHERE No_Urut = @NoUrut AND Kode_Barang = @KodeBarang"
                 Cmd.Parameters.Clear()
                 Cmd.Parameters.AddWithValue("@NoPenawaran", noPenawaran)
-                Cmd.Parameters.AddWithValue("@Keterangan_Penawaran", If(String.IsNullOrEmpty(keterangan.ToString.Trim), DBNull.Value, keterangan.ToString.Trim))
+                Cmd.Parameters.AddWithValue("@Keterangan_Penawaran", keterangan)
                 Cmd.Parameters.AddWithValue("@NoUrut", noUrut)
                 Cmd.Parameters.AddWithValue("@KodeBarang", kodeBarang)
                 Cmd.CommandText = sqlUpdate
                 Cmd.ExecuteNonQuery()
                 cntUpdated += 1
 
-                InsertLog(KodePerusahaan, tanggal, jam, UserID, noPR, noUrut, noPenawaranLama, noPenawaran, keteranganLama, DBNull.Value)
+                InsertLog(KodePerusahaan, tanggal, jam, UserID, noPR, noUrut, noPenawaranLama, noPenawaran, keteranganLama, keterangan)
             Next
 
             CloseConn()
 
             If cntUpdated > 0 Then
                 Fetch_PR_Offered()
-                If Not String.IsNullOrEmpty(TxtPO_KdSupplier.Text) Then
-                    Fetch_PR_Waiting_Offer()
-                Else
-                    Fetch_PR_Waiting_Offer_All()
-                End If
+                Fetch_PR_Waiting_Offer()
                 MessageBox.Show($"Berhasil menambahkan {cntUpdated} data penawaran!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
 
@@ -349,39 +391,22 @@
     End Sub
 
     Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
+        ComboBox_Filter.SelectedIndex = -1
+        Filter_Text.Text = ""
+
         Try
             If TabControl1.SelectedTab Is TabPage1 Then
                 Fetch_PR_Offered()
                 BtnBatalkan.Visible = True
                 BtnSimpan.Visible = False
             ElseIf TabControl1.SelectedTab Is TabPage2 Then
-                If Not String.IsNullOrEmpty(TxtPO_KdSupplier.Text) Then
-                    Fetch_PR_Waiting_Offer()
-                Else
-                    Fetch_PR_Waiting_Offer_All()
-                End If
+                Fetch_PR_Waiting_Offer()
                 BtnBatalkan.Visible = False
                 BtnSimpan.Visible = True
             End If
         Catch ex As Exception
             MsgBox("Error: " & ex.Message, MsgBoxStyle.Critical)
         End Try
-    End Sub
-
-    Private Sub Form_Click(sender As Object, e As EventArgs) Handles Me.Click
-        If LvSuppliers.Visible Then
-            LvSuppliers.Visible = False
-            Me.ActiveControl = Nothing
-        End If
-    End Sub
-
-    Private Sub BtnRefresh_Click(sender As Object, e As EventArgs) Handles BtnRefresh.Click
-        TxtPO_KdSupplier.Text = ""
-        TxtPO_NmSupplier.Text = ""
-        LvSuppliers.Visible = False
-        TabControl1.SelectedTab = TabPage2
-        Fetch_PR_Waiting_Offer_All()
-        Fetch_PR_Offered()
     End Sub
 
     Private Sub BtnBatalkan_Click(sender As Object, e As EventArgs) Handles BtnBatalkan.Click
@@ -434,8 +459,8 @@
                 Cmd.ExecuteNonQuery()
                 cntUpdated += 1
 
-                Dim keteranganBaru As String = If(DataGridView1.Rows(i).Cells(10).Value IsNot Nothing, DataGridView1.Rows(i).Cells(10).Value.ToString().Trim(), "")
-                InsertLog(KodePerusahaan, tanggal, jam, UserID, noPR, noUrut, noPenawaranLama, DBNull.Value, keteranganLama, If(String.IsNullOrEmpty(keteranganBaru), DBNull.Value, keteranganBaru))
+                Dim keteranganBaru = If(IsDBNull(DataGridView1.Rows(i).Cells(10).Value), DBNull.Value, DataGridView1.Rows(i).Cells(10).Value.ToString().Trim())
+                InsertLog(KodePerusahaan, tanggal, jam, UserID, noPR, noUrut, noPenawaranLama, DBNull.Value, keteranganLama, keteranganBaru)
             Next
 
             CloseConn()
@@ -451,68 +476,6 @@
         End Try
     End Sub
 
-    Private Sub TxtPO_KdSupplier_TextChanged(sender As Object, e As EventArgs) Handles TxtPO_KdSupplier.TextChanged
-        If TxtPO_KdSupplier.Text.Trim.Length = 0 Then
-            LvSupplier2.Visible = False
-            Exit Sub
-        End If
-
-        LvSupplier2.Location = New Point(80, 94)
-        LvSupplier2.Visible = True
-        LvSupplier2.Items.Clear()
-
-        Try
-            OpenConn()
-
-            Dim SQL = "SELECT b.kode_supplier, b.nama FROM suppliers b 
-                       WHERE b.kode_perusahaan = @KodePerusahaan AND b.kode_supplier LIKE @KodeSupplier 
-                       ORDER BY b.kode_supplier"
-
-            Cmd.Parameters.Clear()
-            Cmd.Parameters.AddWithValue("@KodePerusahaan", KodePerusahaan)
-            Cmd.Parameters.AddWithValue("@KodeSupplier", "%" & TxtPO_KdSupplier.Text & "%")
-
-            Using Dr = OpenTrans(SQL)
-                While Dr.Read
-                    Dim lv As New ListViewItem(Dr("kode_supplier").ToString())
-                    lv.SubItems.Add(Dr("nama").ToString())
-                    LvSupplier2.Items.Add(lv)
-                End While
-            End Using
-
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MessageBox.Show(ex.Message)
-        End Try
-    End Sub
-
-    Private Sub LvSupplier2_KeyDown(sender As Object, e As KeyEventArgs) Handles LvSupplier2.KeyDown
-        If e.KeyCode = Keys.Enter Then
-            LvSupplier2_DoubleClick(LvSupplier2, e)
-        End If
-    End Sub
-
-    Private Sub LvSupplier2_DoubleClick(sender As Object, e As EventArgs) Handles LvSupplier2.DoubleClick
-        If LvSupplier2.Items.Count = 0 Then Exit Sub
-
-        Dim Kode As String = LvSupplier2.FocusedItem.Text
-        Dim Nama As String = LvSupplier2.FocusedItem.SubItems(1).Text
-
-        TxtPO_KdSupplier.Text = Kode
-        TxtPO_NmSupplier.Text = Nama
-        LvSupplier2.Visible = False
-
-        DataGridView1.Focus()
-        Fetch_PR_Waiting_Offer()
-    End Sub
-
-    Private Sub TxtPO_KdSupplier_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtPO_KdSupplier.KeyDown
-        If e.KeyCode = Keys.Down Then
-            LvSupplier2.Focus()
-        End If
-    End Sub
-
     Private Sub PengajuanSelesaiToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PengajuanSelesaiToolStripMenuItem.Click
         If DataGridView1.Rows.Count = 0 Then Exit Sub
         Dim currentRow = DataGridView1.CurrentRow.Index
@@ -521,7 +484,7 @@
         Try
             OpenConn()
 
-            If CekButtonRole("Pengajuan_Batal_PR_Barang_Lain") = "T" Then
+            If CekButtonRole("Penyelesaian_PR_Offered_Barang_Lain") = "T" Then
                 MessageBox.Show("User Tidak Ada Akses Pengajuan Selesai PR", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             End If
@@ -541,23 +504,26 @@
         Dim Dtp_TglDelivery As String = ""
         Dim Dtp_TglEstimasi As String = ""
 
+        get_jam()
+
         Try
             OpenConn()
 
             SQL = $"
                 select Kode_Stock_Owner, jumlah, Satuan, tanggal_delivery,
-	                DateAdd(Day, c.Waktu_Pabrikasi + c.Waktu_Pengiriman, '2025-12-06') as tanggal_actual_delivery
+	                DateAdd(Day, isnull(c.Waktu_Pabrikasi,0) + isnull(c.Waktu_Pabrikasi,0), '{Format(tgl_skg, "yyyy-MM-dd")}') as tanggal_actual_delivery
                 FROM EMI_Purchase_Requisition_barang_lain a
 	                inner join EMI_Purchase_Requisition_barang_lain_Detail b on a.kode_perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
 	                outer APPLY (
 		                SELECT top 1 z.Waktu_Pabrikasi, z.Waktu_Pengiriman
-		                FROM emi_detail_proses_pengiriman_po_Barang_Lain z
+		                FROM emi_detail_proses_pengiriman_po_barang_lain z
 		                WHERE z.Kode_Perusahaan = a.Kode_Perusahaan
 		                and z.Kode_Barang = b.Kode_Barang
 	                ) AS c
                 where a.Kode_Perusahaan = '{KodePerusahaan}'
                 and a.Status is NULL
                 and a.No_Faktur = '{DataGridView1.CurrentRow.Cells(item_No_PR).Value}'
+                and b.no_urut = '{DataGridView1.CurrentRow.Cells(item_No_Urut).Value}'
             "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
@@ -585,6 +551,105 @@
         Dim UrutPR As String = DataGridView1.Rows(currentRow).Cells(item_No_Urut).Value
         Dim KdBarang As String = DataGridView1.Rows(currentRow).Cells(item_Kd_Barang).Value
         Dim NmBarang As String = DataGridView1.Rows(currentRow).Cells(item_Nm_Barang).Value
+
+
+        If Not String.IsNullOrEmpty(UrutPR) Then
+            SD_Pengajuan_Selesai_PR_Barang_Lain.UrutPR = UrutPR
+            SD_Pengajuan_Selesai_PR_Barang_Lain.Txt_NoPR.Text = NoPR
+            SD_Pengajuan_Selesai_PR_Barang_Lain.Txt_KdSo.Text = Lokasi
+            SD_Pengajuan_Selesai_PR_Barang_Lain.Txt_KdBrang.Text = KdBarang
+            SD_Pengajuan_Selesai_PR_Barang_Lain.Txt_NmBarang.Text = NmBarang
+            SD_Pengajuan_Selesai_PR_Barang_Lain.Txt_SisaPR.Text = Format(Val(HilangkanTanda(SisaPR)), "N2")
+            SD_Pengajuan_Selesai_PR_Barang_Lain.DTP_TglDelivery.Value = Dtp_TglDelivery
+            SD_Pengajuan_Selesai_PR_Barang_Lain.DTP_TglEstimasi.Value = Dtp_TglEstimasi
+
+            SD_Pengajuan_Selesai_PR_Barang_Lain.Cmd_SatuanSisa.Items.Add(SatuanPR)
+            SD_Pengajuan_Selesai_PR_Barang_Lain.Cmd_SatuanSisa.SelectedIndex = 0
+
+            SD_Pengajuan_Selesai_PR_Barang_Lain.asal = "PR_PENAWARAN"
+
+            SD_Pengajuan_Selesai_PR_Barang_Lain.ShowDialog()
+        Else
+            MessageBox.Show("Pilih Dahulu Data yang Ingin di Ajukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+    End Sub
+
+    Private Sub PengajuanSelesaiToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles PengajuanSelesaiToolStripMenuItem1.Click
+        If DataGridView2.Rows.Count = 0 Then Exit Sub
+        Dim currentRow = DataGridView2.CurrentRow.Index
+        Dim currentCell = DataGridView2.CurrentCellAddress.X
+
+        Try
+            OpenConn()
+
+            If CekButtonRole("Penyelesaian_PR_Waiting_Offer_Barang_Lain") = "T" Then
+                MessageBox.Show("User Tidak Ada Akses Pengajuan Selesai PR", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        If (MessageBox.Show("Yakin ingin melakukan penyelesaian PR ini??", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)) = vbNo Then Exit Sub
+
+        Dim Lokasi As String = ""
+        Dim SisaPR As String = ""
+        Dim SatuanPR As String = ""
+        Dim Dtp_TglDelivery As String = ""
+        Dim Dtp_TglEstimasi As String = ""
+
+        get_jam()
+
+        Try
+            OpenConn()
+
+            SQL = $"
+                select Kode_Stock_Owner, jumlah, Satuan, tanggal_delivery,
+	                DateAdd(Day, isnull(c.Waktu_Pabrikasi,0) + isnull(c.Waktu_Pabrikasi,0), '{Format(tgl_skg, "yyyy-MM-dd")}') as tanggal_actual_delivery
+                FROM EMI_Purchase_Requisition_barang_lain a
+	                inner join EMI_Purchase_Requisition_barang_lain_Detail b on a.kode_perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+	                outer APPLY (
+		                SELECT top 1 z.Waktu_Pabrikasi, z.Waktu_Pengiriman
+		                FROM emi_detail_proses_pengiriman_po_barang_lain z
+		                WHERE z.Kode_Perusahaan = a.Kode_Perusahaan
+		                and z.Kode_Barang = b.Kode_Barang
+	                ) AS c
+                where a.Kode_Perusahaan = '{KodePerusahaan}'
+                and a.Status is NULL
+                and a.No_Faktur = '{DataGridView2.CurrentRow.Cells(item2_No_PR).Value}'
+                and b.no_urut = '{DataGridView2.CurrentRow.Cells(item2_No_Urut).Value}'
+            "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Lokasi = Dr("Kode_Stock_Owner")
+                    SisaPR = Dr("jumlah")
+                    SatuanPR = Dr("Satuan")
+                    Dtp_TglDelivery = Dr("tanggal_delivery")
+                    Dtp_TglEstimasi = Dr("tanggal_actual_delivery")
+                Else
+                    CloseConn()
+                    MessageBox.Show("Data PR Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
+        Dim NoPR As String = DataGridView2.Rows(currentRow).Cells(item2_No_PR).Value
+        Dim UrutPR As String = DataGridView2.Rows(currentRow).Cells(item2_No_Urut).Value
+        Dim KdBarang As String = DataGridView2.Rows(currentRow).Cells(item2_Kd_Barang).Value
+        Dim NmBarang As String = DataGridView2.Rows(currentRow).Cells(item2_Nm_Barang).Value
 
 
         If Not String.IsNullOrEmpty(UrutPR) Then

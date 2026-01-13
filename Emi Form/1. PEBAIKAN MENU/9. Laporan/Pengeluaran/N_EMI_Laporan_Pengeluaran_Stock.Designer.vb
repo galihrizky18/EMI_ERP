@@ -23,7 +23,6 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -49,6 +48,7 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock
         Me.BtnExit = New System.Windows.Forms.Button()
         Me.Lv_Barang = New System.Windows.Forms.ListView()
         Me.Lv_CostCenter = New System.Windows.Forms.ListView()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -61,21 +61,8 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(833, 43)
+        Me.Panel1.Size = New System.Drawing.Size(632, 43)
         Me.Panel1.TabIndex = 29
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(833, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -329,12 +316,25 @@ Partial Class N_EMI_Laporan_Pengeluaran_Stock
         Me.Lv_CostCenter.View = System.Windows.Forms.View.Details
         Me.Lv_CostCenter.Visible = False
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(632, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'N_EMI_Laporan_Pengeluaran_Stock
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(833, 271)
+        Me.ClientSize = New System.Drawing.Size(632, 271)
         Me.Controls.Add(Me.Lv_Barang)
         Me.Controls.Add(Me.Lv_CostCenter)
         Me.Controls.Add(Me.BtnCetak)

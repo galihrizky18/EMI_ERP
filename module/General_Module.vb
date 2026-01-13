@@ -8,7 +8,9 @@ Module General_Module
 
     Public lblLoading As Label
 
-    Public Lokasi_Proyek As String = "GUDANG CENTRAL"
+    'Public Lokasi_Proyek As String = "HEAD OFFICE"
+    Public Lokasi_Proyek As String = "DISTRIBUTOR"
+
     Public OpsiSeluruh As String = "--- SELURUH ---"
 
     Public fPurchaseRequisitionDP As String = "AD"
@@ -17,6 +19,13 @@ Module General_Module
     Public Tanggal_Default As DateTime = "1900-01-01"
 
     Public ColorHighlight As Color = Color.FromArgb(104, 146, 225)
+
+    Public token_wa As String = ""
+    Public uid_wa As String = ""
+
+    Public Url_WA_Business As String = "https://graph.facebook.com/v17.0/802912569574729/messages"
+    Public Token_WA_Business As String = "Bearer EAAJUF5om26gBPvBcuIujYeJD9Sq3i3S4ZBhtqfEWc3WfYlKDXyAUnhl4CgoOrsnwZCnZBZBeKB5SmrIUDJ2cv58F0xfVBOza1drW6E0unCP49GWATZAqpDXUXVXg6FJoyGn8xPZBx12uWArjAgOjmRfUWXYlba25vp08vkviDfjaMrEkXLam59goZCujtv3USLy2QZDZD"
+
 
     Public fSBL As String = "SADS"
     Public fMasterPenawaranLain As String = "PL"
@@ -39,8 +48,6 @@ Module General_Module
     Public Pass_IPCAM_1 As String = ""
     Public User_IPCAM_2 As String = ""
     Public Pass_IPCAM_2 As String = ""
-    Public Url_WA_Business As String = ""
-    Public Token_WA_Business As String = ""
     Public fDownPay As String = "DP"
     Public Data_User_App2 As New ArrayList
     Public Ket_Cost_Center_HO As String = "0"
@@ -170,6 +177,12 @@ Module General_Module
 
 
 
+    'Public UserID As String = "GARIX"
+    'Public UserID As String = "GARIX DEPT"
+
+    'Public UserID As String = "FAUZI"
+    'Public UserID As String = "FAUZI DEPT"
+
 
     Public UserID As String = "Art Di"
     'Public UserID As String = "Hendry"
@@ -188,6 +201,7 @@ Module General_Module
     Public FHPP As String
 
     Public SQL As String
+    Public SQLMySQL As String
     Public xSplit() As String
     Public xSplit2() As String
     '---------------------------------------------
@@ -2352,6 +2366,112 @@ Module General_Module
 
         'CloseConn()
     End Sub
+
+    Public Sub Get_Data_Acc_Proyek()
+        SQL = "select * from stock_owner where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & Lokasi & "'"
+        Using Dr = OpenTrans(SQL)
+            If Dr.Read Then
+                X_Kas = Dr("kas")
+                X_Modal = Dr("modal")
+
+                X_Persediaan = Dr("persediaan")
+                X_Persediaan_Sementara = Dr("Persediaan_Sementara")
+                X_Persediaan_Sementara_Agency = Dr("Persediaan_Sementara_Agency")
+
+                X_Hutang = Dr("hutang")
+                X_Diskon_Pembelian = Dr("Diskon_Pembelian")
+
+                X_HPP = Dr("hpp")
+                X_HPP_Tk_Sdr = Dr("HPP_Tk_Sdr")
+                X_HPP_Sementara_Tk_Sdr = Dr("HPP_Sementara_Tk_Sdr")
+                X_HPP_Agency = Dr("HPP_Agency")
+                X_HPP_Sementara_Agency = Dr("HPP_Sementara_Agency")
+
+                X_Penjualan = Dr("Penjualan")
+                X_Penjualan_Tk_Sdr = Dr("Penjualan_Tk_Sdr")
+                X_Penjualan_Agency = Dr("Penjualan_Agency")
+                X_Penjualan_Sementara_Tk_Sdr = Dr("Penjualan_Sementara_Tk_Sdr")
+                X_Penjualan_Sementara_Agency = Dr("Penjualan_Sementara_Agency")
+
+                X_Diskon_Penjualan = Dr("diskon_penjualan")
+
+                X_PPN_Pembelian = Dr("ppn_pembelian")
+                X_PPN_Penjualan = Dr("ppn_penjualan")
+                X_PPN_Penjualan_Sementara = Dr("PPN_Penjualan_Sementara")
+                X_PPN_Penjualan_Sementara_Agency = Dr("PPN_Penjualan_Sementara_Agency")
+
+                X_Pendapatan_Salon = Dr("pendapatan_salon")
+                X_Pendapatan_Member = Dr("pendapatan_member")
+                X_Pending_Persediaan = Dr("pending_persediaan")
+                X_Retur_Penjualan = Dr("retur_penjualan")
+
+                X_Piutang = Dr("piutang")
+                X_Piutang_Cabang_Sendiri = Dr("piutang_cabang_sendiri")
+                X_Piutang_Agency = Dr("piutang_agency")
+
+                X_Piutang_Sementara_Cabang_Sendiri = Dr("Piutang_Sementara_Cabang_Sendiri")
+                X_Piutang_Sementara_Agency = Dr("Piutang_Sementara_Agency")
+
+                X_Biaya_Flever = Dr("biaya_flever")
+                X_Penjualan_Lainnya = Dr("penjualan_lainnya")
+                X_Retur_Jual_Lainnya = Dr("retur_lainnya")
+
+                X_Persediaan_Brg_Blm_Krm = Dr("Persediaan_Brg_Blm_Krm")
+                X_Brg_Blm_Krm = Dr("Brg_Blm_Krm")
+                X_Pelunasan_Dimuka = Dr("pelunasan_dimuka")
+
+            Else
+                X_Kas = ""
+                X_Modal = ""
+                X_Persediaan = ""
+                X_Persediaan_Sementara = ""
+                X_Persediaan_Sementara_Agency = ""
+
+                X_Hutang = ""
+                X_Diskon_Pembelian = ""
+
+                X_HPP = ""
+                X_HPP_Tk_Sdr = ""
+                X_HPP_Sementara_Tk_Sdr = ""
+                X_HPP_Agency = ""
+                X_HPP_Sementara_Agency = ""
+
+                X_Penjualan = ""
+                X_Penjualan_Tk_Sdr = ""
+                X_Penjualan_Agency = ""
+                X_Penjualan_Sementara_Tk_Sdr = ""
+                X_Penjualan_Sementara_Agency = ""
+
+                X_Diskon_Penjualan = ""
+
+                X_PPN_Pembelian = ""
+                X_PPN_Penjualan = ""
+                X_PPN_Penjualan_Sementara = ""
+                X_PPN_Penjualan_Sementara_Agency = ""
+
+                X_Pendapatan_Salon = ""
+                X_Pendapatan_Member = ""
+                X_Pending_Persediaan = ""
+                X_Retur_Penjualan = ""
+
+                X_Piutang = ""
+                X_Piutang_Cabang_Sendiri = ""
+                X_Piutang_Agency = ""
+
+                X_Piutang_Sementara_Cabang_Sendiri = ""
+                X_Piutang_Sementara_Agency = ""
+
+                X_Biaya_Flever = ""
+                X_Penjualan_Lainnya = ""
+                X_Retur_Jual_Lainnya = ""
+
+                X_Persediaan_Brg_Blm_Krm = ""
+                X_Brg_Blm_Krm = ""
+                X_Pelunasan_Dimuka = ""
+
+            End If
+        End Using
+    End Sub
     Public Sub Execute(ByVal Query As String)
         Try
             Cmd = New SqlClient.SqlCommand

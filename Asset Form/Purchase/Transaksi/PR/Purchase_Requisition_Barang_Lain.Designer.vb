@@ -23,20 +23,20 @@ Partial Class Purchase_Requisition_Barang_Lain
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Public Sub InitializeComponent()
-        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle27 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle28 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle21 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle22 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle23 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle24 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle25 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle26 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
@@ -97,6 +97,8 @@ Partial Class Purchase_Requisition_Barang_Lain
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Cmb_Kategori_Gudang = New System.Windows.Forms.ComboBox()
         Me.Label4 = New System.Windows.Forms.Label()
+        Me.Panel6 = New System.Windows.Forms.Panel()
+        Me.Btn_Unrelease = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         CType(Me.Dgv_DataBarang, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -132,9 +134,9 @@ Partial Class Purchase_Requisition_Barang_Lain
         Me.Lbl_Judul.Location = New System.Drawing.Point(15, 11)
         Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Lbl_Judul.Name = "Lbl_Judul"
-        Me.Lbl_Judul.Size = New System.Drawing.Size(370, 25)
+        Me.Lbl_Judul.Size = New System.Drawing.Size(437, 25)
         Me.Lbl_Judul.TabIndex = 0
-        Me.Lbl_Judul.Text = "Purchase Requisition Barang Lain"
+        Me.Lbl_Judul.Text = "Purchase Requisition Barang Lain 17-12"
         '
         'Panel2
         '
@@ -425,36 +427,36 @@ Partial Class Purchase_Requisition_Barang_Lain
         Me.Dgv_DataBarang.AllowUserToAddRows = False
         Me.Dgv_DataBarang.AllowUserToResizeColumns = False
         Me.Dgv_DataBarang.AllowUserToResizeRows = False
-        DataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_DataBarang.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle15
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_DataBarang.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         Me.Dgv_DataBarang.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.Dgv_DataBarang.BackgroundColor = System.Drawing.Color.White
         Me.Dgv_DataBarang.BorderStyle = System.Windows.Forms.BorderStyle.None
-        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle16.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        DataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_DataBarang.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle16
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_DataBarang.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.Dgv_DataBarang.ColumnHeadersHeight = 45
         Me.Dgv_DataBarang.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.Satuan, Me.TglDelivery, Me.Column2, Me.sisa, Me.QtyByForecast, Me.Column11, Me.Column3, Me.Column4, Me.Column7, Me.Column5, Me.Column6, Me.Column8, Me.Column9, Me.Column10, Me.Column12, Me.Column13})
-        DataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle27.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle27.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle27.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle27.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle27.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_DataBarang.DefaultCellStyle = DataGridViewCellStyle27
-        Me.Dgv_DataBarang.Location = New System.Drawing.Point(20, 183)
+        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle13.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_DataBarang.DefaultCellStyle = DataGridViewCellStyle13
+        Me.Dgv_DataBarang.Location = New System.Drawing.Point(20, 160)
         Me.Dgv_DataBarang.Name = "Dgv_DataBarang"
         Me.Dgv_DataBarang.RowHeadersWidth = 21
-        DataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_DataBarang.RowsDefaultCellStyle = DataGridViewCellStyle28
+        DataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_DataBarang.RowsDefaultCellStyle = DataGridViewCellStyle14
         Me.Dgv_DataBarang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.Dgv_DataBarang.Size = New System.Drawing.Size(923, 374)
+        Me.Dgv_DataBarang.Size = New System.Drawing.Size(923, 387)
         Me.Dgv_DataBarang.TabIndex = 393
         '
         'Column1
@@ -468,8 +470,8 @@ Partial Class Purchase_Requisition_Barang_Lain
         '
         'DataGridViewTextBoxColumn1
         '
-        DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle17
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle3
         Me.DataGridViewTextBoxColumn1.HeaderText = "Kode Barang"
         Me.DataGridViewTextBoxColumn1.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
@@ -479,9 +481,9 @@ Partial Class Purchase_Requisition_Barang_Lain
         '
         'DataGridViewTextBoxColumn2
         '
-        DataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle18
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle4
         Me.DataGridViewTextBoxColumn2.HeaderText = "Nama Barang"
         Me.DataGridViewTextBoxColumn2.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
@@ -490,9 +492,9 @@ Partial Class Purchase_Requisition_Barang_Lain
         '
         'DataGridViewTextBoxColumn3
         '
-        DataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        DataGridViewCellStyle19.NullValue = Nothing
-        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle19
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle5.NullValue = Nothing
+        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle5
         Me.DataGridViewTextBoxColumn3.HeaderText = "Qty"
         Me.DataGridViewTextBoxColumn3.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
@@ -500,8 +502,8 @@ Partial Class Purchase_Requisition_Barang_Lain
         '
         'Satuan
         '
-        DataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Satuan.DefaultCellStyle = DataGridViewCellStyle20
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Satuan.DefaultCellStyle = DataGridViewCellStyle6
         Me.Satuan.HeaderText = "Satuan"
         Me.Satuan.MinimumWidth = 6
         Me.Satuan.Name = "Satuan"
@@ -510,8 +512,8 @@ Partial Class Purchase_Requisition_Barang_Lain
         '
         'TglDelivery
         '
-        DataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.TglDelivery.DefaultCellStyle = DataGridViewCellStyle21
+        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.TglDelivery.DefaultCellStyle = DataGridViewCellStyle7
         Me.TglDelivery.HeaderText = "Tanggal Kebutuhan"
         Me.TglDelivery.MinimumWidth = 6
         Me.TglDelivery.Name = "TglDelivery"
@@ -572,8 +574,8 @@ Partial Class Purchase_Requisition_Barang_Lain
         '
         'Column5
         '
-        DataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column5.DefaultCellStyle = DataGridViewCellStyle22
+        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column5.DefaultCellStyle = DataGridViewCellStyle8
         Me.Column5.HeaderText = "Cost Center"
         Me.Column5.Name = "Column5"
         Me.Column5.ReadOnly = True
@@ -581,8 +583,8 @@ Partial Class Purchase_Requisition_Barang_Lain
         '
         'Column6
         '
-        DataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column6.DefaultCellStyle = DataGridViewCellStyle23
+        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column6.DefaultCellStyle = DataGridViewCellStyle9
         Me.Column6.HeaderText = "Gedung"
         Me.Column6.Name = "Column6"
         Me.Column6.ReadOnly = True
@@ -590,8 +592,8 @@ Partial Class Purchase_Requisition_Barang_Lain
         '
         'Column8
         '
-        DataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column8.DefaultCellStyle = DataGridViewCellStyle24
+        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column8.DefaultCellStyle = DataGridViewCellStyle10
         Me.Column8.HeaderText = "Stock"
         Me.Column8.Name = "Column8"
         Me.Column8.ReadOnly = True
@@ -614,16 +616,16 @@ Partial Class Purchase_Requisition_Barang_Lain
         '
         'Column12
         '
-        DataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column12.DefaultCellStyle = DataGridViewCellStyle25
+        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column12.DefaultCellStyle = DataGridViewCellStyle11
         Me.Column12.HeaderText = "Est. Harga"
         Me.Column12.Name = "Column12"
         Me.Column12.Width = 130
         '
         'Column13
         '
-        DataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column13.DefaultCellStyle = DataGridViewCellStyle26
+        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column13.DefaultCellStyle = DataGridViewCellStyle12
         Me.Column13.HeaderText = "Est. Tiba (Hari)"
         Me.Column13.Name = "Column13"
         Me.Column13.ReadOnly = True
@@ -659,7 +661,7 @@ Partial Class Purchase_Requisition_Barang_Lain
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(23, 154)
+        Me.Label5.Location = New System.Drawing.Point(23, 131)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(155, 16)
         Me.Label5.TabIndex = 423
@@ -669,7 +671,7 @@ Partial Class Purchase_Requisition_Barang_Lain
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Label7.Location = New System.Drawing.Point(193, 155)
+        Me.Label7.Location = New System.Drawing.Point(193, 132)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(126, 16)
         Me.Label7.TabIndex = 424
@@ -679,7 +681,7 @@ Partial Class Purchase_Requisition_Barang_Lain
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label2.Location = New System.Drawing.Point(20, 122)
+        Me.Label2.Location = New System.Drawing.Point(961, 72)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(176, 17)
         Me.Label2.TabIndex = 379
@@ -691,10 +693,10 @@ Partial Class Purchase_Requisition_Barang_Lain
         Me.Txt_Faktur_MaterialReq.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_Faktur_MaterialReq.Enabled = False
         Me.Txt_Faktur_MaterialReq.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_Faktur_MaterialReq.Location = New System.Drawing.Point(227, 120)
+        Me.Txt_Faktur_MaterialReq.Location = New System.Drawing.Point(964, 90)
         Me.Txt_Faktur_MaterialReq.MaxLength = 50
         Me.Txt_Faktur_MaterialReq.Name = "Txt_Faktur_MaterialReq"
-        Me.Txt_Faktur_MaterialReq.Size = New System.Drawing.Size(261, 21)
+        Me.Txt_Faktur_MaterialReq.Size = New System.Drawing.Size(92, 21)
         Me.Txt_Faktur_MaterialReq.TabIndex = 380
         '
         'Button1
@@ -702,7 +704,7 @@ Partial Class Purchase_Requisition_Barang_Lain
         Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(784, 145)
+        Me.Button1.Location = New System.Drawing.Point(784, 122)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(148, 32)
         Me.Button1.TabIndex = 428
@@ -713,7 +715,7 @@ Partial Class Purchase_Requisition_Barang_Lain
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label3.Location = New System.Drawing.Point(696, 595)
+        Me.Label3.Location = New System.Drawing.Point(983, 544)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(51, 17)
         Me.Label3.TabIndex = 429
@@ -739,6 +741,29 @@ Partial Class Purchase_Requisition_Barang_Lain
         Me.Label4.Size = New System.Drawing.Size(116, 17)
         Me.Label4.TabIndex = 379
         Me.Label4.Text = "Kategori Gudang"
+        '
+        'Panel6
+        '
+        Me.Panel6.BackColor = System.Drawing.Color.Red
+        Me.Panel6.Location = New System.Drawing.Point(53, 115)
+        Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
+        Me.Panel6.Name = "Panel6"
+        Me.Panel6.Size = New System.Drawing.Size(942, 12)
+        Me.Panel6.TabIndex = 35
+        Me.Panel6.Visible = False
+        '
+        'Btn_Unrelease
+        '
+        Me.Btn_Unrelease.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Unrelease.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.Btn_Unrelease.ForeColor = System.Drawing.Color.White
+        Me.Btn_Unrelease.Location = New System.Drawing.Point(200, 595)
+        Me.Btn_Unrelease.Name = "Btn_Unrelease"
+        Me.Btn_Unrelease.Size = New System.Drawing.Size(94, 36)
+        Me.Btn_Unrelease.TabIndex = 431
+        Me.Btn_Unrelease.Text = "UnRelease"
+        Me.Btn_Unrelease.UseVisualStyleBackColor = False
+        Me.Btn_Unrelease.Visible = False
         '
         'Purchase_Requisition_Barang_Lain
         '
@@ -782,8 +807,10 @@ Partial Class Purchase_Requisition_Barang_Lain
         Me.Controls.Add(Me.Txt_Kd)
         Me.Controls.Add(Me.Lbl_Kd)
         Me.Controls.Add(Me.Panel3)
+        Me.Controls.Add(Me.Panel6)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.Btn_Unrelease)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "Purchase_Requisition_Barang_Lain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -855,4 +882,6 @@ Partial Class Purchase_Requisition_Barang_Lain
     Friend WithEvents Column10 As DataGridViewTextBoxColumn
     Friend WithEvents Column12 As DataGridViewTextBoxColumn
     Friend WithEvents Column13 As DataGridViewTextBoxColumn
+    Friend WithEvents Panel6 As Panel
+    Friend WithEvents Btn_Unrelease As Button
 End Class

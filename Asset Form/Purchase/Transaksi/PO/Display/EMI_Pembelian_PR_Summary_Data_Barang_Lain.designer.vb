@@ -57,6 +57,7 @@ Partial Class EMI_Pembelian_PR_Summary_Data_Barang_Lain
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.Lv_Detail = New System.Windows.Forms.ListView()
+        Me.CopyNoPRToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -96,7 +97,7 @@ Partial Class EMI_Pembelian_PR_Summary_Data_Barang_Lain
         Me.Label1.Location = New System.Drawing.Point(5, 9)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(469, 30)
+        Me.Label1.Size = New System.Drawing.Size(468, 30)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Summary Data - Purchase Requisition Asset"
         '
@@ -156,20 +157,20 @@ Partial Class EMI_Pembelian_PR_Summary_Data_Barang_Lain
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakUlangToolStripMenuItem, Me.BatalToolStripMenuItem})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyNoPRToolStripMenuItem, Me.CetakUlangToolStripMenuItem, Me.BatalToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(139, 48)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 92)
         '
         'CetakUlangToolStripMenuItem
         '
         Me.CetakUlangToolStripMenuItem.Name = "CetakUlangToolStripMenuItem"
-        Me.CetakUlangToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.CetakUlangToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CetakUlangToolStripMenuItem.Text = "Cetak Ulang"
         '
         'BatalToolStripMenuItem
         '
         Me.BatalToolStripMenuItem.Name = "BatalToolStripMenuItem"
-        Me.BatalToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.BatalToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.BatalToolStripMenuItem.Text = "Batal"
         '
         'Panel6
@@ -423,6 +424,12 @@ Partial Class EMI_Pembelian_PR_Summary_Data_Barang_Lain
         Me.Lv_Detail.UseCompatibleStateImageBehavior = False
         Me.Lv_Detail.View = System.Windows.Forms.View.Details
         '
+        'CopyNoPRToolStripMenuItem
+        '
+        Me.CopyNoPRToolStripMenuItem.Name = "CopyNoPRToolStripMenuItem"
+        Me.CopyNoPRToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CopyNoPRToolStripMenuItem.Text = "Copy No PR"
+        '
         'EMI_Pembelian_PR_Summary_Data_Barang_Lain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
@@ -494,4 +501,5 @@ Partial Class EMI_Pembelian_PR_Summary_Data_Barang_Lain
     Friend WithEvents TabPage1 As TabPage
     Friend WithEvents TabPage2 As TabPage
     Friend WithEvents Lv_Detail As ListView
+    Friend WithEvents CopyNoPRToolStripMenuItem As ToolStripMenuItem
 End Class

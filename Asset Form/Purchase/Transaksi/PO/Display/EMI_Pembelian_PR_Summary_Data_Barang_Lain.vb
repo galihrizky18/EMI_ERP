@@ -25,18 +25,34 @@
             Exit Sub
         End Try
 
-        Lv_PR.Items.Clear() : Lv_PR.Columns.Clear()
-        Lv_PR.Columns.Add(Base_Language.Lang_Global_NoFaktur, 170, HorizontalAlignment.Left)
-        Lv_PR.Columns.Add("PR Created", 110, HorizontalAlignment.Center)
-        Lv_PR.Columns.Add("PR Released", 110, HorizontalAlignment.Center)
-        Lv_PR.Columns.Add("Keterangan", 300, HorizontalAlignment.Center)
-        Lv_PR.Columns.Add("Status PR", 100, HorizontalAlignment.Center)
-        Lv_PR.Columns.Add("User ID", 100, HorizontalAlignment.Left)
-        Lv_PR.Columns.Add("Status", 100, HorizontalAlignment.Center)
-        Lv_PR.Columns.Add("Gudang", 120, HorizontalAlignment.Center)
-        Lv_PR.View = View.Details
+        'Lv_PR.Items.Clear() : Lv_PR.Columns.Clear()
+        'Lv_PR.Columns.Add(Base_Language.Lang_Global_NoFaktur, 170, HorizontalAlignment.Left)
+        'Lv_PR.Columns.Add("PR Created", 110, HorizontalAlignment.Center)
+        'Lv_PR.Columns.Add("PR Released", 110, HorizontalAlignment.Center)
+        'Lv_PR.Columns.Add("Keterangan", 300, HorizontalAlignment.Center)
+        'Lv_PR.Columns.Add("Status PR", 100, HorizontalAlignment.Center)
+        'Lv_PR.Columns.Add("User ID", 100, HorizontalAlignment.Left)
+        ''    Lv_PR.Columns.Add("Status", 100, HorizontalAlignment.Center)
+        'Lv_PR.Columns.Add("Gudang", 120, HorizontalAlignment.Center).DisplayIndex = 1
+        'Lv_PR.View = View.Details
 
-        Lv_PR.Columns(7).DisplayIndex = 1
+
+
+        Lv_PR.Items.Clear() : Lv_PR.Columns.Clear()
+        Lv_PR.Columns.Add("No PR", 110, HorizontalAlignment.Left)
+        Lv_PR.Columns.Add("User Created", 100, HorizontalAlignment.Left)
+        Lv_PR.Columns.Add("PR Created", 100, HorizontalAlignment.Center)
+        Lv_PR.Columns.Add("User Released", 100, HorizontalAlignment.Left)
+        Lv_PR.Columns.Add("PR Released", 100, HorizontalAlignment.Center)
+        Lv_PR.Columns.Add("Keterangan", 200, HorizontalAlignment.Left)
+        Lv_PR.Columns.Add("Status PR", 100, HorizontalAlignment.Center)
+
+        'Lv_PR.Columns.Add("Status", 100, HorizontalAlignment.Center)
+        Lv_PR.Columns.Add("Jenis", 0, HorizontalAlignment.Center)
+        Lv_PR.Columns.Add("Kategori Gudang", 120, HorizontalAlignment.Center).DisplayIndex = 1
+        Lv_PR.Columns.Add("User Batal", 100, HorizontalAlignment.Left)
+        Lv_PR.Columns.Add("Tanggal Batal", 100, HorizontalAlignment.Center)
+        Lv_PR.View = View.Details
 
         Lv_PRDetail.Items.Clear() : Lv_PRDetail.Columns.Clear()
         Lv_PRDetail.Columns.Add(Base_Language.Lang_Global_KodeBarang, 150, HorizontalAlignment.Left)
@@ -117,6 +133,9 @@
 
             ComboBox2.Items.Clear() : ComboBox2.Text = "" : Arr2.Clear()
             ComboBox2.Items.Add("No Faktur") : Arr2.Add("a.no_faktur")
+            ComboBox2.Items.Add("Kategori Gudang") : Arr2.Add("a.kode_kategori_gudang")
+            ComboBox2.Items.Add("User Created") : Arr2.Add("a.userid")
+            ComboBox2.Items.Add("User Released") : Arr2.Add("a.user_release")
             'ComboBox2.Items.Add("NO Nota") : Arr2.Add("a.no_nota")
             'ComboBox2.Items.Add("Kode Supplier") : Arr2.Add("a.kode_supplier")
 
@@ -326,7 +345,8 @@
             ' --- Ambil daftar gudang ---
             Dim listGudang As New List(Of String)
 
-            SQL = "select Kode_Kategori_Gudang From N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain where User_ID = '" & UserID & "'"
+            SQL = "select Kode_Kategori_Gudang from N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain where user_id = '" & UserID & "' "
+            SQL = SQL & "and Kode_Perusahaan = '" & KodePerusahaan & "' group by Kode_Kategori_Gudang"
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     listGudang.Add("'" & Dr("Kode_Kategori_Gudang").ToString() & "'")
@@ -342,16 +362,39 @@
             Dim inGudang As String = String.Join(",", listGudang)
 
 
-            SQL = "select a.No_Faktur, a.Kode_Kategori_Gudang, a.tanggal, a.tanggal_release, a.keterangan, a.userid, a.Flag_Release, a.Status "
-            SQL = SQL & "from EMI_Purchase_Requisition_Barang_Lain a, EMI_Purchase_Requisition_Barang_Lain_Detail b, "
-            SQL = SQL & "Barang_Lain c, View_Kategori_Turunan d, N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain e "
-            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-            SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
-            SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3 "
-            SQL = SQL & "and d.Id_Kategori_Jenis = e.Id_Kategori_Jenis and d.Id_Sub_Kategori_Jenis = e.Id_Sub_Kategori_Jenis  "
+            'SQL = "select   a.No_Faktur, a.tanggal, a.tanggal_release, a.keterangan, a.userid, a.Flag_Release, a.Status, e.kode_kategori_gudang "
+            'SQL = SQL & "from EMI_Purchase_Requisition_Barang_Lain a, EMI_Purchase_Requisition_Barang_Lain_Detail b, "
+            'SQL = SQL & "Barang_Lain c, View_Kategori_Turunan d, N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain e "
+            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            'SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
+            'SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3 "
+            'SQL = SQL & "and d.Id_Kategori_Jenis = e.Id_Kategori_Jenis and d.Id_Sub_Kategori_Jenis = e.Id_Sub_Kategori_Jenis  "
 
-            SQL = SQL & "and e.Kode_Kategori_Gudang in (" & inGudang & ")"
+            'SQL = SQL & "and a.kode_kategori_gudang = e.kode_kategori_gudang and a.kode_perusahaan = e.kode_perusahaan "
 
+
+            'SQL = SQL & "and e.Kode_Kategori_Gudang in (" & inGudang & ")"
+
+
+            'SQL = "select a.No_Faktur, a.tanggal, a.tanggal_release, a.keterangan, a.userid, a.Flag_Release, a.Status "
+            'SQL = SQL & "from EMI_Purchase_Requisition_Barang_Lain a, EMI_Purchase_Requisition_Barang_Lain_Detail b, "
+            'SQL = SQL & "Barang_Lain c, View_Kategori_Turunan d, N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain e "
+            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            'SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
+            'SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3 "
+            'SQL = SQL & "and d.Id_Kategori_Jenis = e.Id_Kategori_Jenis and d.Id_Sub_Kategori_Jenis = e.Id_Sub_Kategori_Jenis and e.User_ID = '" & UserID & "' "
+
+            'SQL = SQL & "and e.User_Id = '" & UserID & "' "
+
+
+            'SQL = "select   a.No_Faktur, a.tanggal, a.tanggal_release, a.keterangan, a.userid, a.Flag_Release, a.Status, a.kode_kategori_gudang "
+            'SQL = SQL & "from EMI_Purchase_Requisition_Barang_Lain a "
+            SQL = "select a.No_Faktur, a.tanggal,a.keterangan,a.user_release, a.tanggal_release, a.keterangan, isnull((a.kode_kategori_gudang),'-') as Kode_Kategori_Gudang,a.userid, a.Flag_Release, a.Status, 'tidak ada kode' as Jenis "
+            SQL = SQL & ",userid_batal, tanggal_batal "
+            SQL = SQL & "from EMI_Purchase_Requisition_Barang_Lain a "
+
+
+            SQL = SQL & " where a.Kode_Kategori_Gudang in (" & inGudang & ")"
 
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
 
@@ -392,7 +435,7 @@
                 SQL = SQL & " and a.Lokasi = '" & ComboBox6.Text & "' "
             End If
 
-            SQL = SQL & "group by a.No_Faktur, a.tanggal, a.tanggal_release, a.keterangan, a.userid, a.Flag_Release, a.Status, a.Kode_Kategori_Gudang "
+            '    SQL = SQL & "group by a.No_Faktur, a.tanggal, a.tanggal_release, a.keterangan, a.userid, a.Flag_Release, a.Status, e.kode_kategori_gudang "
             SQL = SQL & "order by a.No_Faktur, a.Tanggal, a.Tanggal_Release, a.UserId"
 
 
@@ -403,14 +446,32 @@
                     If .Rows.Count <> 0 Then
                         For i As Integer = 0 To .Rows.Count - 1
                             Lvw = Lv_PR.Items.Add(.Rows(i).Item("no_faktur"))
+                            Lvw.SubItems.Add(.Rows(i).Item("userid"))
                             Lvw.SubItems.Add(Format(.Rows(i).Item("tanggal"), "dd MMM yyyy"))
+
+
+                            If General_Class.CekNULL(.Rows(i).Item("user_release")) = "" Then
+                                Lvw.SubItems.Add("-")
+                            Else
+                                Lvw.SubItems.Add(.Rows(i).Item("user_release"))
+                            End If
+
                             If General_Class.CekNULL(.Rows(i).Item("tanggal_release")) = "" Then
                                 Lvw.SubItems.Add("-")
                             Else
                                 Lvw.SubItems.Add(Format(.Rows(i).Item("tanggal_release"), "dd MMM yyyy"))
                             End If
 
-                            Lvw.SubItems.Add(.Rows(i).Item("keterangan"))
+                            If General_Class.CekNULL(.Rows(i).Item("keterangan")) = "" Then
+                                Lvw.SubItems.Add("-")
+                            Else
+                                Lvw.SubItems.Add(.Rows(i).Item("keterangan"))
+                            End If
+
+
+
+
+
 
                             If General_Class.CekNULL(.Rows(i).Item("Flag_Release")) = "Y" Then
                                 Lvw.SubItems.Add("SUBMITTED")
@@ -418,17 +479,64 @@
                                 Lvw.SubItems.Add("UNSUBMITTED")
                             End If
 
-                            Lvw.SubItems.Add(.Rows(i).Item("userid"))
+
+
+
+                            Lvw.SubItems.Add(.Rows(i).Item("Jenis"))
+                            Lvw.SubItems.Add(.Rows(i).Item("kode_kategori_gudang"))
+                            If General_Class.CekNULL(.Rows(i).Item("UserId_Batal")) = "" Then
+                                Lvw.SubItems.Add("-")
+                            Else
+                                Lvw.SubItems.Add(.Rows(i).Item("UserId_Batal"))
+                            End If
+
+                            If General_Class.CekNULL(.Rows(i).Item("Tanggal_Batal")) = "" Then
+                                Lvw.SubItems.Add("-")
+                            Else
+                                Lvw.SubItems.Add(Format(.Rows(i).Item("Tanggal_Batal"), "dd MMM yyyy"))
+                            End If
+
+
 
                             If General_Class.CekNULL(.Rows(i).Item("Status")) <> "" Then
-                                Lvw.BackColor = Color.FromArgb(139, 0, 0)
+                                Lvw.BackColor = Color.FromArgb(128, 64, 64)
                                 Lvw.ForeColor = Color.White
                             End If
 
 
-                            Lvw.SubItems.Add("")
+                            'Lvw = Lv_PR.Items.Add(.Rows(i).Item("no_faktur"))
+                            'Lvw.SubItems.Add(Format(.Rows(i).Item("tanggal"), "dd MMM yyyy"))
+                            'If General_Class.CekNULL(.Rows(i).Item("tanggal_release")) = "" Then
+                            '    Lvw.SubItems.Add("-")
+                            'Else
+                            '    Lvw.SubItems.Add(Format(.Rows(i).Item("tanggal_release"), "dd MMM yyyy"))
+                            'End If
 
-                            Lvw.SubItems.Add(If(General_Class.CekNULL(.Rows(i).Item("Kode_Kategori_Gudang")) = "", "-", .Rows(i).Item("Kode_Kategori_Gudang")))
+                            'If General_Class.CekNULL(.Rows(i).Item("keterangan")) = "" Then
+                            '    Lvw.SubItems.Add("-")
+                            'Else
+                            '    Lvw.SubItems.Add(.Rows(i).Item("keterangan"))
+                            'End If
+
+                            'If General_Class.CekNULL(.Rows(i).Item("Flag_Release")) = "Y" Then
+                            '    Lvw.SubItems.Add("SUBMITTED")
+                            'Else
+                            '    Lvw.SubItems.Add("UNSUBMITTED")
+                            'End If
+
+                            'Lvw.SubItems.Add(.Rows(i).Item("userid"))
+
+                            'If General_Class.CekNULL(.Rows(i).Item("kode_kategori_gudang")) = "" Then
+                            '    Lvw.SubItems.Add("-")
+                            'Else
+                            '    Lvw.SubItems.Add(.Rows(i).Item("kode_kategori_gudang"))
+                            'End If
+
+
+                            'If General_Class.CekNULL(.Rows(i).Item("Status")) <> "" Then
+                            '    Lvw.BackColor = Color.FromArgb(139, 0, 0)
+                            '    Lvw.ForeColor = Color.White
+                            'End If
 
                         Next
                     End If
@@ -507,24 +615,29 @@
             Dim tanya As String = MessageBox.Show("Yakin akan membatalkan Purhcase Requisition ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If tanya = vbNo Then Exit Sub
 
-            Dim Kategori_gudang As String = ""
-            '===================== Ambil gudang kode kategori gudang by user =====================
-            SQL = "select top(1) kode_kategori_gudang from N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain a "
-            SQL = SQL & "where user_ID='" & UserID & "' and a.kode_perusahaan = '" & KodePerusahaan & "' "
+            ' --- Ambil daftar gudang ---
+            Dim listGudang As New List(Of String)
+
+            SQL = "select Kode_Kategori_Gudang From N_EMI_View_Master_Kategori_Gudang_Binding_Barang_Lain where User_ID = '" & UserID & "'"
+
+            SQL = SQL & "group by kode_kategori_gudang "
             Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    Kategori_gudang = Dr("kode_kategori_gudang")
-                Else
-                    Dr.Close()
-                    CloseConn()
-                    MessageBox.Show("Gagal, Kategori Gudang belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
+                Do While Dr.Read
+                    listGudang.Add("'" & Dr("Kode_Kategori_Gudang").ToString() & "'")
+                Loop
             End Using
+
+            ' Jika kosong, kasih nilai palsu biar IN() tidak error
+            If listGudang.Count = 0 Then
+                listGudang.Add("'0'")
+            End If
+
+            ' Gabungkan hasil jadi 1 string
+            Dim inGudang As String = String.Join(",", listGudang)
 
 
             SQL = "select Status,userid, kode_kategori_gudang from EMI_Purchase_Requisition_Barang_Lain where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-            SQL = SQL & "No_Faktur = '" & Lv_PR.FocusedItem.Text & "' "
+            SQL = SQL & "No_Faktur = '" & Lv_PR.FocusedItem.Text & "' and kode_kategori_gudang in (" & inGudang & ") "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     If General_Class.CekNULL(Dr("Status")) <> "" Then
@@ -533,12 +646,7 @@
                         CloseConn()
                         MessageBox.Show("Purhcase Requisition sudah dibatalkan sebelumnya!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
-                    ElseIf General_Class.CekNULL(Dr("kode_kategori_gudang")) <> Kategori_gudang Then
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("Anda tidak ada akses untuk membatalkan PR yang bukan gudang anda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
+
                     End If
                 Else
                     Dr.Close()
@@ -566,23 +674,44 @@
                 End If
             End Using
 
-            SQL = "select a.No_Faktur, a.tanggal, a.tanggal_release, a.keterangan, a.userid, a.Flag_Release, a.Status "
-            SQL = SQL & "from EMI_Purchase_Requisition_Barang_Lain a, EMI_Purchase_Requisition_Barang_Lain_Detail b, "
-            SQL = SQL & "Barang_Lain c, View_Kategori_Turunan d, N_EMI_Master_Role_Sub_Kategori e "
-            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-            SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
-            SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3 "
-            SQL = SQL & "and d.Id_Kategori_Jenis = e.Id_Kategori_Jenis and d.Id_Sub_Kategori_Jenis = e.Id_Sub_Kategori_Jenis and e.UserID = '" & UserID & "' "
-            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Faktur = '" & Lv_PR.FocusedItem.Text & "' "
-            SQL = SQL & "group by a.No_Faktur, a.tanggal, a.tanggal_release, a.keterangan, a.userid, a.Flag_Release, a.Status "
-            SQL = SQL & "order by a.No_Faktur, a.Tanggal, a.Tanggal_Release, a.UserId"
+            'SQL = "select a.No_Faktur, a.tanggal, a.tanggal_release, a.keterangan, a.userid, a.Flag_Release, a.Status "
+            'SQL = SQL & "from EMI_Purchase_Requisition_Barang_Lain a, EMI_Purchase_Requisition_Barang_Lain_Detail b, "
+            'SQL = SQL & "Barang_Lain c, View_Kategori_Turunan d, N_EMI_Master_Role_Sub_Kategori e "
+            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            'SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
+            'SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3 "
+            'SQL = SQL & "and d.Id_Kategori_Jenis = e.Id_Kategori_Jenis and d.Id_Sub_Kategori_Jenis = e.Id_Sub_Kategori_Jenis and e.UserID = '" & UserID & "' "
+            'SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Faktur = '" & Lv_PR.FocusedItem.Text & "' "
+            'SQL = SQL & "group by a.No_Faktur, a.tanggal, a.tanggal_release, a.keterangan, a.userid, a.Flag_Release, a.Status "
+            'SQL = SQL & "order by a.No_Faktur, a.Tanggal, a.Tanggal_Release, a.UserId"
+            'Using Dr = OpenTrans(SQL)
+            '    If Not Dr.Read Then
+            '        Dr.Close()
+            '        CloseTrans()
+            '        CloseConn()
+            '        MessageBox.Show("Purhcase Requisition tidak bisa dibatalkan,karena tidak memiliki akses di kategori jenis ini!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '        Exit Sub
+            '    End If
+            'End Using
+
+
+            SQL = "select top(1) isnull(( "
+            SQL = SQL & "select 'Y' from EMI_Pembelian_PO_Induk_Barang_Lain x , EMI_Pembelian_PO_Det_Induk_Barang_Lain y "
+            SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur "
+            SQL = SQL & "and y.Kode_Perusahaan = b.Kode_Perusahaan and y.No_Urut_PR = b.No_Urut  "
+            SQL = SQL & "and x.Status is null "
+            SQL = SQL & "),'T') as sudah_po From EMI_Purchase_Requisition_Barang_Lain a, EMI_Purchase_Requisition_Barang_Lain_Detail b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and "
+            SQL = SQL & "a.No_Faktur = '" & Lv_PR.FocusedItem.Text & "' and a.kode_perusahaan = '" & KodePerusahaan & "'  "
             Using Dr = OpenTrans(SQL)
-                If Not Dr.Read Then
-                    Dr.Close()
-                    CloseTrans()
-                    CloseConn()
-                    MessageBox.Show("Purhcase Requisition tidak bisa dibatalkan,karena tidak memiliki akses di kategori jenis ini!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
+                If Dr.Read Then
+                    If Dr("sudah_po") = "Y" Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("PR tidak bisa dibatalkan karena sudah dalam tahapan PO!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
                 End If
             End Using
 
@@ -605,6 +734,15 @@
             Exit Sub
         End Try
         BtnBarangMasuk_Cari_Click(BatalToolStripMenuItem, e)
+    End Sub
+
+    Private Sub CopyNoPRToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyNoPRToolStripMenuItem.Click
+        If Lv_PR.Items.Count = 0 Or Lv_PR.SelectedItems.Count = 0 Then
+            MessageBox.Show("Pilih dahulu no pr yang mau copy!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        Clipboard.SetText(Lv_PR.FocusedItem.Text)
     End Sub
 
     Private Sub DisplayRakToolStripMenuItem_Click(sender As Object, e As EventArgs)

@@ -841,18 +841,29 @@ Public Class N_EMI_Transaksi_Pemusnahan_Barang
             WarehosePosition.Clear()
 
 
-            SQL = "Select a.Id_WMS_Warehouse_Position, a.Keterangan from "
-            SQL = SQL & "view_warehouse_position a "
-            SQL = SQL & "where a.kode_perusahaan='" & KodePerusahaan & "' "
+            'SQL = "Select a.Id_WMS_Warehouse_Position, a.Keterangan from "
+            'SQL = SQL & "view_warehouse_position a "
+            'SQL = SQL & "where a.kode_perusahaan='" & KodePerusahaan & "' "
 
+            'If CmbJnsTransfer.SelectedIndex = 0 Then
+            '    SQL = SQL & "and a.Kode_Stock_Owner='" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
+            'ElseIf CmbJnsTransfer.SelectedIndex = 1 Then
+            '    SQL = SQL & "and a.Kode_Stock_Owner='" & arrSO(CmbSo_Tujuan.SelectedIndex) & "' "
+            'End If
+            'SQL = SQL & "and isnull((select top(1)  'Y' from view_warehouse_position_detail b where "
+            'SQL = SQL & "a.id_wms_warehouse_position = b.id_wms_warehouse_position And a.Kode_Perusahaan = b.KOde_Perusahaan "
+            'SQL = SQL & "And b.kode_Barang Is null ),null) ='Y' "
+            'SQL = SQL & "order by a.Keterangan "
+
+            SQL = "Select a.Id_WMS_Warehouse_Position, a.Keterangan "
+            SQL = SQL & "FROM view_warehouse_position a "
+            SQL = SQL & "where a.kode_perusahaan='" & KodePerusahaan & "' "
             If CmbJnsTransfer.SelectedIndex = 0 Then
                 SQL = SQL & "and a.Kode_Stock_Owner='" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
             ElseIf CmbJnsTransfer.SelectedIndex = 1 Then
                 SQL = SQL & "and a.Kode_Stock_Owner='" & arrSO(CmbSo_Tujuan.SelectedIndex) & "' "
             End If
-            SQL = SQL & "and isnull((select top(1)  'Y' from view_warehouse_position_detail b where "
-            SQL = SQL & "a.id_wms_warehouse_position = b.id_wms_warehouse_position And a.Kode_Perusahaan = b.KOde_Perusahaan "
-            SQL = SQL & "And b.kode_Barang Is null ),null) ='Y' "
+            SQL = SQL & "group by a.Id_WMS_Warehouse_Position, a.Keterangan "
             SQL = SQL & "order by a.Keterangan "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
@@ -884,7 +895,7 @@ Public Class N_EMI_Transaksi_Pemusnahan_Barang
             'SQL = SQL & "and a.Jumlah <> 0 "
             'SQL = SQL & "order by a.Kode_Barang "
 
-            SQL = "Select a.Kode_Stock_Owner, a.Kode_Barang, 'X' as Serial_Number, b.Nama, a.Id_Warehouse, c.Keterangan As kode_rak, a.Id_Nametag_pallet, "
+            SQL = "Select top(40) a.Kode_Stock_Owner, a.Kode_Barang, 'X' as Serial_Number, b.Nama, a.Id_Warehouse, c.Keterangan As kode_rak, a.Id_Nametag_pallet, "
 
             SQL = SQL & "dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, b.satuan, '" & TxtSatuan.Text & "', sum(a.jumlah)) as jumlah, "
 
@@ -1072,8 +1083,6 @@ Public Class N_EMI_Transaksi_Pemusnahan_Barang
                 get_grid_view_Rekap(i)
 
                 hasData = True
-
-
 
                 Dim nilai_kecil As Double = 0
                 SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & dgv_Rekap_KdBarang & "', '" & dgv_Rekap_Satuan & "',"
@@ -1930,43 +1939,43 @@ Public Class N_EMI_Transaksi_Pemusnahan_Barang
                     CrDoc = New N_EMI_CR_Faktur_Transaksi_Pemusnahan_Barang
                     kertas = "Faktur"
 
-                    With A_Place_For_Printing2
-                        CrDoc.SetDataSource(Ds)
-                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.PrintOptions.PrinterName = ""
-                        CrDoc.RecordSelectionFormula = "{N_EMI_View_Transfer_Waste.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_View_Transfer_Waste.No_Faktur}='" & Trim(TxtNo_Transaksi.Text) & "' "
-                        CrDoc.SummaryInfo.ReportTitle = "TF"
-                        .Text = "TF"
-                        .CrystalReportViewer1.ReportSource = CrDoc
-                        .Refresh()
-                        .Show()
-                    End With
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = "{N_EMI_View_Transfer_Waste.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_View_Transfer_Waste.No_Faktur}='" & Trim(TxtNo_Transaksi.Text) & "' "
+                    '    CrDoc.SummaryInfo.ReportTitle = "TF"
+                    '    .Text = "TF"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
 
                     '============================================================================================================================================
                     '============================================================================================================================================
-                    'CrDoc.SetDataSource(Ds)
-                    'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                    'CrDoc.PrintOptions.PrinterName = PrinterNameTS
-                    'CrDoc.RecordSelectionFormula = "{N_EMI_View_Transfer_Waste.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_View_Transfer_Waste.No_Faktur}='" & Trim(TxtNo_Transaksi.Text) & "' "
-                    ''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
+                    CrDoc.SetDataSource(Ds)
+                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    CrDoc.PrintOptions.PrinterName = PrinterNameTS
+                    CrDoc.RecordSelectionFormula = "{N_EMI_View_Transfer_Waste.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_View_Transfer_Waste.No_Faktur}='" & Trim(TxtNo_Transaksi.Text) & "' "
+                    'CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
-                    'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                    'doctoprint.PrinterSettings.PrinterName = PrinterNameTS
-                    ''doctoprint.DefaultPageSettings.Landscape = True
-                    'Dim rawKind As Integer
-                    'CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                    'For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                    '    If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
-                    '        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
-                    '        CrDoc.PrintOptions.PaperSize = rawKind
-                    '        Exit For
-                    '    End If
-                    'Next
+                    Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                    doctoprint.PrinterSettings.PrinterName = PrinterNameTS
+                    'doctoprint.DefaultPageSettings.Landscape = True
+                    Dim rawKind As Integer
+                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                    For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint.PrinterSettings.PaperSizes(i).PaperName = kertas Then
+                            rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                            CrDoc.PrintOptions.PaperSize = rawKind
+                            Exit For
+                        End If
+                    Next
 
-                    'CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                    'CrDoc.PrintToPrinter(1, False, 1, 99)
+                    CrDoc.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                    CrDoc.PrintToPrinter(1, False, 1, 99)
 
-                    'MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
                 End If
             End Using
@@ -2218,16 +2227,22 @@ Public Class N_EMI_Transaksi_Pemusnahan_Barang
                 '=     GET WAREHOUSE DAN PALLET KOSONG     =
                 '===========================================
                 Dim available_Id_Warehouse As String = ""
-                Dim available_NoPallet As String = ""
-                SQL = "select top(1) a.id_wms_warehouse_position, b.nomor_urut from "
-                SQL = SQL & "view_warehouse_position a, view_warehouse_position_detail b "
-                SQL = SQL & "where a.Id_WMS_Warehouse_Position=b.Id_WMS_Warehouse_Position "
-                SQL = SQL & " And a.kode_Perusahaan = b.kode_Perusahaan And a.kode_Perusahaan ='" & KodePerusahaan & "' "
-                SQL = SQL & "and a.Kode_Stock_Owner='" & arrSO(CmbSO_Asal.SelectedIndex) & "' and b.Kode_Barang is null"
+                'Dim available_NoPallet As String = ""
+                'SQL = "select top(1) a.id_wms_warehouse_position, b.nomor_urut from "
+                'SQL = SQL & "view_warehouse_position a, view_warehouse_position_detail b "
+                'SQL = SQL & "where a.Id_WMS_Warehouse_Position=b.Id_WMS_Warehouse_Position "
+                'SQL = SQL & " And a.kode_Perusahaan = b.kode_Perusahaan And a.kode_Perusahaan ='" & KodePerusahaan & "' "
+                'SQL = SQL & "and a.Kode_Stock_Owner='" & arrSO(CmbSO_Asal.SelectedIndex) & "' and b.Kode_Barang is null"
+
+                SQL = "select top(1) a.id_wms_warehouse_position "
+                SQL = SQL & "FROM view_warehouse_position a "
+                SQL = SQL & "WHERE a.kode_Perusahaan ='" & KodePerusahaan & "' "
+                SQL = SQL & "and a.Kode_Stock_Owner='" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
+                SQL = SQL & "group by a.id_wms_warehouse_position "
                 Using Dr2 = OpenTrans(SQL)
                     Do While Dr2.Read
                         available_Id_Warehouse = Dr2("id_wms_warehouse_position")
-                        available_NoPallet = Dr2("nomor_urut")
+                        'available_NoPallet = Dr2("nomor_urut")
                     Loop
                 End Using
 
@@ -2269,6 +2284,8 @@ Public Class N_EMI_Transaksi_Pemusnahan_Barang
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+
         If hasDataSelected Then
 
             'tab 2
@@ -2340,18 +2357,24 @@ Public Class N_EMI_Transaksi_Pemusnahan_Barang
         Dim foundMatch As Boolean = False
         Dim keyword As String = Txt_QR.Text.Trim().ToUpper()
 
-        ' Bersihkan warna latar sebelumnya
         For i As Integer = 0 To DGV_Data_TF.Rows.Count - 1
-            DGV_Data_TF.Rows(i).DefaultCellStyle.BackColor = Color.White
+            get_grid_view(i)
+            If dgv_FlagBlokSN <> "Y" Then
+                DGV_Data_TF.Rows(i).DefaultCellStyle.BackColor = Color.White
+                DGV_Data_TF.Rows(i).DefaultCellStyle.ForeColor = Color.Black
+            End If
         Next
 
-        ' Mulai pencarian
+
+
         For i As Integer = 0 To DGV_Data_TF.Rows.Count - 1
-            get_grid_view(i) ' Ambil nilai dari grid ke variabel dgv_Barcode, dll.
+            get_grid_view(i)
 
             If dgv_Barcode.Trim().ToUpper().Contains(keyword) Then
-                DGV_Data_TF.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
 
+                DGV_Data_TF.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+                DGV_Data_TF.Rows(i).DefaultCellStyle.ForeColor = Color.Black
+                'DGV_Data_TF.Rows(i).Cells(itemDgvCheckBox).Value = "True"
                 If Not foundMatch Then
                     DGV_Data_TF.FirstDisplayedScrollingRowIndex = i ' Scroll ke hasil pertama
                 End If
@@ -2359,11 +2382,157 @@ Public Class N_EMI_Transaksi_Pemusnahan_Barang
                 foundMatch = True
 
             End If
+
         Next
 
+#Region "Kode Lama"
+
+        '' Mulai pencarian
+        'For i As Integer = 0 To DGV_Data_TF.Rows.Count - 1
+        '    get_grid_view(i) ' Ambil nilai dari grid ke variabel dgv_Barcode, dll.
+
+        '    If dgv_Barcode.Trim().ToUpper().Contains(keyword) Then
+        '        DGV_Data_TF.Rows(i).DefaultCellStyle.BackColor = Color.LightBlue
+
+        '        If Not foundMatch Then
+        '            DGV_Data_TF.FirstDisplayedScrollingRowIndex = i ' Scroll ke hasil pertama
+        '        End If
+
+        '        foundMatch = True
+
+        '    End If
+        'Next
+
+        'If Not foundMatch Then
+        '    MessageBox.Show("Data tidak ditemukan.", "Pencarian", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        'End If
+
+#End Region
+
+
+
         If Not foundMatch Then
-            MessageBox.Show("Data tidak ditemukan.", "Pencarian", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            Try
+                OpenConn()
+
+                Dim rows As Integer = DGV_Data_TF.Rows.Count
+
+                SQL = "Select top(1) a.Kode_Stock_Owner, a.Kode_Barang, 'X' as Serial_Number, b.Nama, a.Id_Warehouse, c.Keterangan As kode_rak, a.Id_Nametag_pallet, "
+
+                SQL = SQL & "dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, b.satuan, '" & TxtSatuan.Text & "', sum(a.jumlah)) as jumlah, "
+
+                SQL = SQL & "b.satuan, 0 As nomor_pallet, isNull(sum(a.Jumlah_Bags), 0) As stock_bags, a.warna, b.Metode_Pengeluaran_Stok, "
+                SQL = SQL & "b.Jenis_Kemasan, isNull(b.Isi_Per_Bags, 0) As Isi_Per_Bags, b.Satuan_Isi_Bags, a.Tgl_Expired, a.Tgl_Produksi, a.Tgl_Masuk "
+
+                SQL = SQL & ",isnull((select x.keterangan from emi_master_warna x where "
+                SQL = SQL & "x.kode_Perusahaan = a.kode_Perusahaan And x.kode_warna = a.warna),NULL) As Ket_Warna, "
+
+                SQL = SQL & "(a.Qr_Code + '-' + a.Kode_Unik_Berjalan) as Barcode, a.Blok_SN "
+
+                SQL = SQL & "From barang_sn a, barang b, View_Warehouse_Position c "
+                SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.Kode_Barang = b.Kode_Barang And "
+                SQL = SQL & "a.Kode_Stock_Owner = b.Kode_Stock_Owner And a.Kode_Perusahaan = c.Kode_Perusahaan And "
+                SQL = SQL & "a.Id_Warehouse = c.Id_WMS_Warehouse_Position And a.Jumlah <> 0 And "
+                SQL = SQL & "a.Kode_Perusahaan ='" & KodePerusahaan & "' And b.Kode_Stock_Owner ='" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
+                SQL = SQL & "And b.Kode_Barang ='" & TxtKd_Barang.Text & "' "
+
+                SQL = SQL & "And round(a.Jumlah,4) <> 0 and (a.Qr_Code + '-' + a.Kode_Unik_Berjalan) like '%" & Txt_QR.Text.Trim().ToUpper() & "%'"
+
+                SQL = SQL & "group by a.Kode_Perusahaan, a.Kode_Stock_Owner, a.Kode_Barang, b.Nama, b.Satuan, a.Id_Warehouse, "
+                SQL = SQL & "c.Keterangan, a.Id_Nametag_pallet, a.warna, b.Metode_Pengeluaran_Stok, b.Jenis_Kemasan, "
+                SQL = SQL & "b.Isi_Per_Bags, b.Satuan_Isi_Bags, a.Tgl_Expired, a.Tgl_Produksi, a.warna, "
+                SQL = SQL & "a.Qr_Code, a.Kode_Unik_Berjalan, a.Blok_SN, a.Tgl_Masuk "
+
+                SQL = SQL & "order by case when Metode_Pengeluaran_Stok='FIFO' then a.Tgl_Masuk "
+                SQL = SQL & "Else a.Tgl_Expired End "
+
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+
+                        Dim subArr As New List(Of String)
+
+                        DGV_Data_TF.Rows.Add(1)
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvLokasi).Value = General_Class.CekNULL(Dr("Kode_Stock_Owner"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvKodeBarang).Value = General_Class.CekNULL(Dr("Kode_Barang"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvSerialNumber).Value = General_Class.CekNULL(Dr("Serial_Number"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvNama).Value = "X"
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvIDWareHose).Value = General_Class.CekNULL(Dr("Id_Warehouse"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvKodeRak).Value = General_Class.CekNULL(Dr("kode_rak"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvIDPallet).Value = General_Class.CekNULL(Dr("nomor_pallet"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvGoodStock).Value = If(General_Class.CekNULL(Dr("jumlah")) = "", "", Format(Dr("jumlah"), "N4"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvStockBags).Value = If(General_Class.CekNULL(Dr("stock_bags")) = "", "", Format(Dr("stock_bags"), "N0"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvWarna).Value = General_Class.CekNULL(Dr("warna"))
+                        DGV_Data_TF.Rows(rows).Cells(itemJenisKemasan).Value = General_Class.CekNULL(Dr("Jenis_Kemasan"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDGVIsiPerBags).Value = General_Class.CekNULL(Dr("Isi_Per_Bags"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDGVSatuanIsiBags).Value = General_Class.CekNULL(Dr("Satuan_Isi_Bags"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDGVKetWarna).Value = General_Class.CekNULL(Dr("Ket_Warna"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDGVTglProd).Value = If(General_Class.CekNULL(Dr("Tgl_Produksi")) = "", "", Format(Dr("Tgl_Produksi"), "dd MMM yyyy"))
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvSatuan).Value = TxtSatuan.Text
+
+                        If Txt_Jenis_Transfer.Text = "GENERAL" Then
+                            DGV_Data_TF.Rows(rows).Cells(itemDGVJnsTransfer).Value = "'GENERAL'"
+                        ElseIf Txt_Jenis_Transfer.Text = "PRODUKSI" Then
+                            DGV_Data_TF.Rows(rows).Cells(itemDGVJnsTransfer).Value = "'PRODUKSI'"
+                        Else
+                            DGV_Data_TF.Rows(rows).Cells(itemDGVJnsTransfer).Value = "NULL"
+                        End If
+
+                        Dim dgvCmbValueRak As DataGridViewComboBoxCell
+                        dgvCmbValueRak = DGV_Data_TF.Rows(rows).Cells(itemDgvRakTujuan)
+                        dgvCmbValueRak.Items.Clear()
+
+                        'dgvCmbValueRak.Items.Add("-- Tidak Berubah --") : subArr.Add(Dr("Id_Warehouse"))
+                        For i As Integer = 0 To WarehosePosition.Count - 1
+                            dgvCmbValueRak.Items.Add(WarehosePosition(i)) : subArr.Add(arrIdWMSWarehouse(i))
+                        Next
+
+                        arr2RakTujuan.Add(subArr)
+
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvJumlah).ReadOnly = True
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvBags).ReadOnly = True
+                        DGV_Data_TF.Rows(rows).Cells(itemDgvRakTujuan).ReadOnly = True
+
+                        If Dr("Jenis_Kemasan").ToString.ToUpper = "ORIGINAL BAGS" Then
+                            DGV_Data_TF.Rows(rows).Cells(itemDgvJumlah).ReadOnly = True
+                        End If
+
+                        If Dr("Metode_Pengeluaran_Stok").ToString.ToUpper = "FIFO" Then
+                            DGV_Data_TF.Rows(rows).Cells(itemDGVTglExp).Value = "-"
+                        Else
+                            DGV_Data_TF.Rows(rows).Cells(itemDGVTglExp).Value = If(General_Class.CekNULL(Dr("Tgl_Expired")) = "", "", Format(Dr("Tgl_Expired"), "dd MMM yyyy"))
+                        End If
+
+                        DGV_Data_TF.Rows(rows).Cells(itemDGVBarcode).Value = Dr("Barcode")
+                        DGV_Data_TF.Rows(rows).Cells(itemDGVFlagBlokSN).Value = General_Class.CekNULL(Dr("Blok_SN"))
+
+                        If General_Class.CekNULL(Dr("Blok_SN")) = "Y" Then
+                            DGV_Data_TF.Rows(rows).DefaultCellStyle.BackColor = Color.DarkRed
+                            DGV_Data_TF.Rows(rows).DefaultCellStyle.ForeColor = Color.White
+                        End If
+
+
+                        rows = rows + 1
+
+                    Else
+                        Dr.Close()
+                        CloseConn()
+                        MessageBox.Show("Data tidak ditemukan.", "Pencarian", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                End Using
+
+                CloseConn()
+            Catch ex As Exception
+                CloseConn()
+                MessageBox.Show(ex.Message)
+                Exit Sub
+            End Try
+
+
         End If
+
+        Txt_QR.Text = ""
+
 
     End Sub
 

@@ -297,10 +297,12 @@
             Dim No_Transaksi As String = Lv_Process_NoTransaksiApproval
 
             Lv_Process_User_Approve.Items.Clear()
-            SQL = "select c.username, b.Approval_Level, b.Flag_Approve, b.Tanggal_Approve, b.Jam_Approve, b.Id_User_Android_Approve, b.jabatan "
+            SQL = "select case when b.User_ID_Desktop is null then c.username else d.UserName end as username, "
+            SQL = SQL & "b.Approval_Level, b.Flag_Approve, b.Tanggal_Approve, b.Jam_Approve, b.Id_User_Android_Approve, b.jabatan "
             SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste a "
             SQL = SQL & "inner join N_EMI_Transaksi_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur_Waste "
-            SQL = SQL & "inner join Emi_Users c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_User_Android_Approve = c.id "
+            SQL = SQL & "left join Emi_Users c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_User_Android_Approve = c.id "
+            SQL = SQL & "left join users d on b.Kode_Perusahaan = d.Kode_Perusahaan and b.User_ID_Desktop = d.UserID "
             SQL = SQL & "where a.Status is null and b.Status is null "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.Flag_Waste_Proses = 'Y' "
@@ -489,7 +491,7 @@
                     'CrDoc.SetDataSource(Ds)
                     'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                     'CrDoc.PrintOptions.PrinterName = PrinterNameTS
-                    'CrDoc.RecordSelectionFormula = "{N_EMI_View_Berita_Acara_Waste_Process.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_View_Berita_Acara_Waste_Process.no_faktur}='" & Faktur_Pemusnahaan & "' "
+                    'CrDoc.RecordSelectionFormula = "{N_EMI_View_Berita_Acara_Waste_Process.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_View_Berita_Acara_Waste_Process.no_faktur}='" & No_Faktur & "' and {N_EMI_View_Berita_Acara_Waste_Process.Jenis_Approval}='Waste_Process' "
                     ''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
                     'Dim doctoprint As New System.Drawing.Printing.PrintDocument()
@@ -624,10 +626,13 @@
             Dim No_Transaksi As String = Lv_Product_NoTransaksiApproval
 
             Lv_Product_User_Approve.Items.Clear()
-            SQL = "select c.username, b.Approval_Level, b.Flag_Approve, b.Tanggal_Approve, b.Jam_Approve, b.Id_User_Android_Approve, b.jabatan "
+            SQL = "select case when b.User_ID_Desktop is null then c.username else d.UserName end as username, "
+
+            SQL = SQL & "b.Approval_Level, b.Flag_Approve, b.Tanggal_Approve, b.Jam_Approve, b.Id_User_Android_Approve, b.jabatan "
             SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk a "
             SQL = SQL & "inner join N_EMI_Transaksi_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur_Waste "
-            SQL = SQL & "inner join Emi_Users c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_User_Android_Approve = c.id "
+            SQL = SQL & "left join Emi_Users c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_User_Android_Approve = c.id "
+            SQL = SQL & "left join users d on b.Kode_Perusahaan = d.Kode_Perusahaan and b.User_ID_Desktop = d.UserID "
             SQL = SQL & "where a.Status is null and b.Status is null "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.Flag_Waste_Product = 'Y' "
@@ -726,12 +731,14 @@
 
             SQL = "select top 1 a.Kode_Perusahaan "
             SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste a "
-            SQL = SQL & "inner join N_EMI_Transaksi_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur_Waste "
-            SQL = SQL & "where a.Status is null and b.status is null "
+            SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Det c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur and b.Urut_Oto = c.Urut_TF "
+            SQL = SQL & "inner join N_EMI_Transaksi_Approval_Waste d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur_Produk = d.No_Faktur_Waste "
+            SQL = SQL & "where a.Status is null and d.status is null "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and a.Flag_Waste_Product = 'Y' "
-            SQL = SQL & "and a.No_Faktur = '" & No_Faktur & "' "
-            SQL = SQL & "and b.no_transaksi = '" & No_Approval & "' "
+            'SQL = SQL & "and a.Flag_Waste_Product = 'Y' "
+            SQL = SQL & "and c.No_Faktur_Produk = '" & No_Faktur & "' "
+            SQL = SQL & "and d.no_transaksi = '" & No_Approval & "' "
             Using Dr = OpenTrans(SQL)
                 If Not Dr.Read Then
                     CloseConn()
@@ -821,7 +828,7 @@
                     'CrDoc.SetDataSource(Ds)
                     'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
                     'CrDoc.PrintOptions.PrinterName = PrinterNameTS
-                    'CrDoc.RecordSelectionFormula = "{N_EMI_View_Berita_Acara_Waste_Process.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_View_Berita_Acara_Waste_Process.no_faktur}='" & Faktur_Pemusnahaan & "' "
+                    'CrDoc.RecordSelectionFormula = "{N_EMI_View_Berita_Acara_pemusnahan_waste_produk.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_View_Berita_Acara_pemusnahan_waste_produk.no_faktur}='" & No_Faktur & "' and {N_EMI_View_Berita_Acara_pemusnahan_waste_produk.Jenis_Approval}='Waste_Produk' "
                     ''CrDoc.SummaryInfo.ReportTitle = "Halaman : " & min & "/" & max
 
                     'Dim doctoprint As New System.Drawing.Printing.PrintDocument()

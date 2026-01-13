@@ -360,10 +360,10 @@
             SQL = "select a.No_Faktur, c.Kode_Stock_Owner_Tujuan, c.Kode_Barang, d.Nama as Nama_Barang, c.Kebutuhan as Kebutuhan_Request, "
             SQL = SQL & "(isnull(sum(c.Jumlah_Per_Batch), 0) + isnull((sum(c.Jumlah_Tambah)), 0)) as Jumlah_Kebutuhan_Barang_PerBatch, "
             SQL = SQL & "isnull((select sum(z.Jumlah) from N_EMI_Transaksi_Material_Requisition_QC_Validasi z "
-            SQL = SQL & "where z.Kode_Perusahaan = c.Kode_Perusahaan and z.No_Faktur_RM = c.No_Faktur and z.Urut_Det_RM = c.Urut_Oto "
+            SQL = SQL & "where z.Kode_Perusahaan = c.Kode_Perusahaan and z.No_Faktur_RM = c.No_Faktur and z.Urut_Det_RM = c.Urut_Oto and z.Flag_Retur is null "
             SQL = SQL & "), 0) as Jumlah_Transfer, "
             SQL = SQL & "isnull((select sum(z.Jumlah_Bags) from N_EMI_Transaksi_Material_Requisition_QC_Validasi z "
-            SQL = SQL & "where z.Kode_Perusahaan = c.Kode_Perusahaan and z.No_Faktur_RM = c.No_Faktur and z.Urut_Det_RM = c.Urut_Oto "
+            SQL = SQL & "where z.Kode_Perusahaan = c.Kode_Perusahaan and z.No_Faktur_RM = c.No_Faktur and z.Urut_Det_RM = c.Urut_Oto and z.Flag_Retur is null "
             SQL = SQL & "), 0) as Jumlah_Transfer_Bags, c.Satuan, c.Flag_Terpenuhi "
             SQL = SQL & "from N_EMI_Transaksi_Material_Requisition_QC a, N_EMI_Transaksi_Material_Requisition_QC_Detail b, N_EMI_Transaksi_Material_Requisition_QC_Det c, Barang d "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan "
@@ -386,11 +386,10 @@
 
                     If General_Class.CekNULL(Dr("Flag_Terpenuhi")) = "Y" Then
                         Lv.BackColor = Color.LightGreen
-                        Lv.ForeColor = Color.Gray
                     Else
                         Lv.BackColor = Color.White
-                        Lv.ForeColor = Color.Black
                     End If
+                    Lv.ForeColor = Color.Black
 
                 Loop
             End Using

@@ -108,7 +108,7 @@
             SQL = "select a.kode_kategori_gudang, b.Kode_Stock_Owner_Gudang "
             SQL = SQL & "from N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain a "
             SQL = SQL & "inner JOIN N_EMI_Master_Kategori_Gudang_Barang_Lain b on a.kode_perusahaan = b.Kode_Perusahaan and a.Id_Kategori_Gudang = b.Urut_Oto "
-            SQL = SQL & "where user_ID='" & UserID & "' and a.kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "where user_ID='" & UserID & "' and a.kode_perusahaan = '" & KodePerusahaan & "' and b.Jenis_Gudang = 'Warehouse' "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Cmb_Kategori_Gudang.Items.Add(Dr("kode_kategori_gudang")) : arrKategoriGudang.Add(Dr("kode_kategori_gudang"))
@@ -164,6 +164,11 @@
         Txt_Faktur_MaterialReq.Visible = False
         Label2.Visible = False
 
+        If Cmb_Kategori_Gudang.Items.Count <> 0 Then
+            Cmb_Kategori_Gudang.SelectedIndex = 0
+        End If
+        Cmb_Kategori_Gudang.Enabled = True
+
         Lbl_IDBiaya.Text = ""
         Txt_Kd.Text = ""
         Txt_Keterangan.Text = ""
@@ -173,11 +178,14 @@
         Txt_Faktur_MaterialReq.Text = ""
         TextBox2.ReadOnly = False
 
-        Cmb_Kategori_Gudang.SelectedIndex = 0
+        '  Cmb_Kategori_Gudang.SelectedIndex = 0
 
         BtnPR_Simpan.Enabled = True
         BtnPR_Release.Visible = True
         BtnPR_Release.Enabled = True
+        Btn_Unrelease.Visible = False
+        Btn_Unrelease.Enabled = False
+
         Button2.Enabled = True
 
         Dgv_DataBarang.Rows.Clear()
@@ -233,6 +241,18 @@
         Else
             BtnPR_Release.Enabled = False
         End If
+
+        Try
+            OpenConn()
+
+            get_no_faktur()
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
 
     End Sub
 
@@ -380,8 +400,13 @@
 
                 SQL = "insert into EMI_Purchase_Requisition_Barang_Lain(Kode_Perusahaan,No_Faktur,Lokasi,Tanggal,Jam,UserId,Keterangan, kode_kategori_gudang) values("
                 SQL = SQL & "'" & KodePerusahaan & "','" & Txt_NoFaktur.Text & "', '" & cmb_lokasi.Text & "', "
-                SQL = SQL & "'" & Format(DtpFormulator_Tanggal.Value, "yyyy-MM-dd") & "', '" & Format(DtpFormulator_Tanggal.Value, "HH:MM:ss") & "',"
+                SQL = SQL & "'" & Format(DtpFormulator_Tanggal.Value, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:MM:ss") & "',"
                 SQL = SQL & "'" & UserID & "', '" & TextBox2.Text.Trim & "', '" & Kategori_gudang & "' )"
+                ExecuteTrans(SQL)
+
+                SQL = "insert into EMI_Purchase_Requisition_Barang_Lain_log(Kode_Perusahaan, No_Faktur, Lokasi, Status, Tanggal, Jam, UserId, Keterangan) "
+                SQL = SQL & "select Kode_Perusahaan,No_Faktur,Lokasi,Status,Tanggal,Jam,UserId,Keterangan from EMI_Purchase_Requisition_Barang_Lain "
+                SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text & "' "
                 ExecuteTrans(SQL)
 
                 For i As Integer = 0 To Dgv_DataBarang.Rows.Count - 2
@@ -463,12 +488,17 @@
                         'SQL = SQL & "and f.Status is null),0) as Jumlah_Keep_Stock "
                         'SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail a "
                         'SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Faktur = '" & xNo_Faktur & "' "
-                        SQL = "select sum(a.Jumlah) as Jumlah, sum(a.Jmlh_PR) as Jmlh_PR, sum(isnull(f.Jumlah,0)) as Jumlah_Keep_Stock "
+                        'SQL = "select sum(a.Jumlah) as Jumlah, sum(a.Jmlh_PR) as Jmlh_PR, sum(isnull(f.Jumlah,0)) as Jumlah_Keep_Stock "
+
+                        'awal stenly 15-12
+                        SQL = "with cte as(select a.Jumlah as Jumlah, a.Jmlh_PR as Jmlh_PR, sum(isnull(f.Jumlah,0)) as Jumlah_Keep_Stock "
                         SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail a left join N_EMI_Keep_Stock_Barang_Lain_Departement f "
                         SQL = SQL & "on a.Kode_Perusahaan = f.Kode_Perusahaan and a.Kode_Stock_Owner = f.Kode_Stock_Owner "
                         SQL = SQL & "and a.Kode_Barang = f.Kode_Barang and a.No_Urut = f.Urut_Departement "
                         SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Faktur = '" & xNo_Faktur & "' "
                         SQL = SQL & "and f.Flag_Selesai_Pengeluaran_Barang is null and f.Status is null "
+                        SQL = SQL & "group by a.Jumlah , a.Jmlh_PR )"
+                        SQL = SQL & "select sum(Jumlah) as Jumlah, sum(Jmlh_PR) as Jmlh_PR, sum(Jumlah_Keep_Stock) as Jumlah_Keep_Stock from cte"
                         Using dr = OpenTrans(SQL)
                             If dr.Read Then
                                 If dr("Jumlah") = dr("Jmlh_PR") + dr("Jumlah_Keep_Stock") Then
@@ -480,8 +510,18 @@
                                 End If
                             End If
                         End Using
+                        'akhir stenly 15-12
                     End If
                 Next
+
+                SQL = "insert into EMI_Purchase_Requisition_Barang_Lain_Detail_log(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, "
+                SQL = SQL & "Kode_Barang, Jumlah, Satuan, Tanggal_Delivery, keterangan, Urut_Departement, Link, Estimasi_Harga, "
+                SQL = SQL & "UserID_Ubah, Tanggal_Ubah, Jam_Ubah) "
+                SQL = SQL & "select Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Barang, Jumlah,Satuan, Tanggal_Delivery, "
+                SQL = SQL & "keterangan, Urut_Departement, Link, Estimasi_Harga, "
+                SQL = SQL & "'" & UserID & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:MM:ss") & "' "
+                SQL = SQL & "from EMI_Purchase_Requisition_Barang_Lain_Detail where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text & "'"
+                ExecuteTrans(SQL)
             Else
 
                 SQL = "select status,flag_po,flag_release from EMI_Purchase_Requisition_Barang_Lain "
@@ -517,27 +557,44 @@
                     End If
                 End Using
 
+
+                SQL = "select Kode_Perusahaan, status from EMI_Purchase_Requisition_Barang_Lain "
+                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and No_Faktur = '" & Txt_NoFaktur.Text.Trim & "' "
+                SQL = SQL & "and userid = '" & UserID & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+
+                        If General_Class.CekNULL(Dr("status")) = "Y" Then
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Proses tidak dapat dilanjutkan karena no faktur sudah di batalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+
+                        SQL = "update EMI_Purchase_Requisition_Barang_Lain set keterangan = '" & TextBox2.Text.Trim & "' "
+                        SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text.Trim & "' "
+                        SQL = SQL & "and userid = '" & UserID & "' "
+                        ExecuteTrans(SQL)
+
+                    End If
+                End Using
+
+                'SQL = "update EMI_Purchase_Requisition_Barang_Lain set keterangan = '" & TextBox2.Text.Trim & "', "
+                'SQL = SQL & "tanggal = '" & Format(DtpFormulator_Tanggal.Value, "yyyy-MM-dd") & "', "
+                'SQL = SQL & "jam = '" & Format(tgl_skg, "HH:MM:ss") & "',"
+                'SQL = SQL & "userid = '" & UserID & "' where "
+                'SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text.Trim & "'"
+                'ExecuteTrans(SQL)
+
                 SQL = "insert into EMI_Purchase_Requisition_Barang_Lain_log(Kode_Perusahaan, No_Faktur, Lokasi, Status, Tanggal, Jam, UserId, Keterangan) "
                 SQL = SQL & "select Kode_Perusahaan,No_Faktur,Lokasi,Status,Tanggal,Jam,UserId,Keterangan from EMI_Purchase_Requisition_Barang_Lain "
                 SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text & "' "
                 ExecuteTrans(SQL)
 
-                SQL = "insert into EMI_Purchase_Requisition_Barang_Lain_Detail_log(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Barang, Jumlah, Satuan, Tanggal_Delivery, keterangan, Urut_Departement, Link, Estimasi_Harga) "
-                SQL = SQL & "select Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Barang, Jumlah,Satuan, Tanggal_Delivery, keterangan, Urut_Departement, Link, Estimasi_Harga "
-                SQL = SQL & "from EMI_Purchase_Requisition_Barang_Lain_Detail where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text & "'"
-                ExecuteTrans(SQL)
-
-                SQL = "update EMI_Purchase_Requisition_Barang_Lain set keterangan = '" & TextBox2.Text.Trim & "', "
-                SQL = SQL & "tanggal = '" & Format(DtpFormulator_Tanggal.Value, "yyyy-MM-dd") & "', "
-                SQL = SQL & "jam = '" & Format(DtpFormulator_Tanggal.Value, "HH:MM:ss") & "',"
-                SQL = SQL & "userid = '" & UserID & "' where "
-                SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text.Trim & "'"
-                ExecuteTrans(SQL)
-
                 SQL = "delete EMI_Purchase_Requisition_Barang_Lain_Detail where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text & "'"
                 ExecuteTrans(SQL)
-
-
 
                 For i As Integer = 0 To Dgv_DataBarang.Rows.Count - 2
                     Get_Isi_Listview(i)
@@ -654,6 +711,17 @@
                             End If
                         End Using
 
+                        'SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail_Log(Kode_Perusahaan, No_Faktur, "
+                        'SQL = SQL & "Kode_Stock_Owner, Kode_Barang, Nama_Barang, Jumlah, Satuan, Tanggal_Delivery, keterangan, Link, "
+                        'SQL = SQL & "No_Urut, Id_Sub_Kategori_Jenis, Estimasi_Harga, "
+                        'SQL = SQL & "UserID_Ubah, Tanggal_Ubah, Jam_Ubah) "
+                        'SQL = SQL & "select Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama_Barang, Jumlah,Satuan, "
+                        'SQL = SQL & "Tanggal_Delivery, keterangan, Link, No_Urut, Id_Sub_Kategori_Jenis, Estimasi_Harga, "
+                        'SQL = SQL & "'" & UserID & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:MM:ss") & "' "
+                        'SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail where "
+                        'SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and No_Urut = '" & LvUrut_Departement & "' "
+                        'ExecuteTrans(SQL)
+
                         'SQL = "select sum(a.Jumlah) as Jumlah, sum(a.Jmlh_PR) as Jmlh_PR "
                         'SQL = SQL & "isnull((select sum(f.Jumlah) from N_EMI_Keep_Stock_Barang_Lain_Departement f where "
                         'SQL = SQL & "a.Kode_Perusahaan = f.Kode_Perusahaan and a.Kode_Stock_Owner = f.Kode_Stock_Owner "
@@ -662,12 +730,15 @@
                         'SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail a "
                         'SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & xNo_Faktur & "' "
 
-                        SQL = "select sum(a.Jumlah) as Jumlah, sum(a.Jmlh_PR) as Jmlh_PR, sum(isnull(f.Jumlah,0)) as Jumlah_Keep_Stock "
+                        'awal stenly 15-12
+                        SQL = "with cte as(select a.Jumlah as Jumlah, a.Jmlh_PR as Jmlh_PR, sum(isnull(f.Jumlah,0)) as Jumlah_Keep_Stock "
                         SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail a left join N_EMI_Keep_Stock_Barang_Lain_Departement f "
                         SQL = SQL & "on a.Kode_Perusahaan = f.Kode_Perusahaan and a.Kode_Stock_Owner = f.Kode_Stock_Owner "
                         SQL = SQL & "and a.Kode_Barang = f.Kode_Barang and a.No_Urut = f.Urut_Departement "
                         SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Faktur = '" & xNo_Faktur & "' "
                         SQL = SQL & "and f.Flag_Selesai_Pengeluaran_Barang is null and f.Status is null "
+                        SQL = SQL & "group by a.Jumlah , a.Jmlh_PR )"
+                        SQL = SQL & "select sum(Jumlah) as Jumlah, sum(Jmlh_PR) as Jmlh_PR, sum(Jumlah_Keep_Stock) as Jumlah_Keep_Stock from cte"
                         Using dr = OpenTrans(SQL)
                             If dr.Read Then
                                 If dr("Jumlah") = dr("Jmlh_PR") + dr("Jumlah_Keep_Stock") Then
@@ -679,9 +750,17 @@
                                 End If
                             End If
                         End Using
+                        'akhir stenly 15-12
                     End If
                 Next
-
+                SQL = "insert into EMI_Purchase_Requisition_Barang_Lain_Detail_log(Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, "
+                SQL = SQL & "Kode_Barang, Jumlah, Satuan, Tanggal_Delivery, keterangan, Urut_Departement, Link, Estimasi_Harga, "
+                SQL = SQL & "UserID_Ubah, Tanggal_Ubah, Jam_Ubah) "
+                SQL = SQL & "select Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Barang, Jumlah,Satuan, Tanggal_Delivery, "
+                SQL = SQL & "keterangan, Urut_Departement, Link, Estimasi_Harga, "
+                SQL = SQL & "'" & UserID & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:MM:ss") & "' "
+                SQL = SQL & "from EMI_Purchase_Requisition_Barang_Lain_Detail where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text & "'"
+                ExecuteTrans(SQL)
             End If
 
             SQL = "select no_faktur From  EMI_Purchase_Requisition_Barang_Lain_Detail where kode_perusahaan = '" & KodePerusahaan & "' "
@@ -762,11 +841,85 @@
         Try
             OpenConn()
             publicFlagRelease = "T"
-
             TextBox2.Text = ""
-
             BtnPR_Release.Visible = True
+
+
             Dim ada_data As String = ""
+
+            Dim Kategori_gudang As String = ""
+            ada_data = "Y"
+            '===================== Ambil gudang kode kategori gudang by user =====================
+            SQL = "select kode_kategori_gudang from EMI_Purchase_Requisition_Barang_Lain "
+            SQL = SQL & "where no_faktur  = '" & Txt_NoFaktur.Text.Trim & "'  and kode_perusahaan = '" & KodePerusahaan & "'  "
+            '     SQL = SQL & "and kode_kategori_gudang = '" & Cmb_Kategori_Gudang.Text.Trim & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("kode_kategori_gudang")) = "" Then
+                        Dr.Close()
+                        CloseConn()
+                        ada_data = "T"
+                        MessageBox.Show("Terjadi kesalahan pada kategori gudang!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        kosong()
+                        Exit Sub
+                    Else
+
+                        If Dr("kode_kategori_gudang") <> Cmb_Kategori_Gudang.Text.Trim Then
+                            Dr.Close()
+                            CloseConn()
+                            ada_data = "T"
+                            MessageBox.Show("anda Tidak ada Akses ke PR Ini !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            kosong()
+                            Exit Sub
+                        End If
+
+                        Cmb_Kategori_Gudang.Text = Dr("kode_kategori_gudang")
+                        Cmb_Kategori_Gudang.Enabled = False
+                    End If
+                Else
+                    Dr.Close()
+                    CloseConn()
+                    ada_data = "T"
+
+                    kosong()
+                    Exit Sub
+                End If
+            End Using
+
+
+
+
+            '=====================================
+            '=     CEK AKSES KATEGORI GUDANG     =
+            '=====================================
+            SQL = "select a.Kode_Perusahaan, a.Status "
+            SQL = SQL & "FROM EMI_Purchase_Requisition_Barang_Lain a "
+            SQL = SQL & "WHERE a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.Status IS NULL "
+            SQL = SQL & "and a.No_Faktur = '" & Txt_NoFaktur.Text & "' "
+            SQL = SQL & "AND a.Kode_Kategori_Gudang in ( "
+            SQL = SQL & "select z.kode_kategori_gudang "
+            SQL = SQL & "from N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain z "
+            SQL = SQL & "inner JOIN N_EMI_Master_Kategori_Gudang_Barang_Lain x on z.kode_perusahaan = x.Kode_Perusahaan and z.Id_Kategori_Gudang = x.Urut_Oto "
+            SQL = SQL & "where z.user_ID = '" & UserID & "' and z.kode_perusahaan = a.Kode_Perusahaan) "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Status")) = "Y" Then
+                        Dr.Close()
+                        CloseConn()
+                        MessageBox.Show("PR Sudah Dibatalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                Else
+                    Dr.Close()
+                    CloseConn()
+                    MessageBox.Show("Data tidak ditemukan atau Anda Tidak Memiliki Akses Kategori Gudang", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+
+
             Dim flag_release_fix As String = ""
             SQL = "select no_faktur, lokasi ,tanggal, jam, userId, keterangan, flag_release,status, No_Fak_Material_Requisition,kode_kategori_gudang from EMI_Purchase_Requisition_Barang_Lain where "
             SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text & "' "
@@ -777,34 +930,36 @@
 
                         For i As Integer = 0 To .Rows.Count - 1
 
-                            ada_data = "Y"
+                            'ada_data = "Y"
 
-                            Dim Kategori_gudang As String = ""
-                            '===================== Ambil gudang kode kategori gudang by user =====================
-                            SQL = "select top(1) kode_kategori_gudang from N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain a "
-                            SQL = SQL & "where user_ID='" & UserID & "' and a.kode_perusahaan = '" & KodePerusahaan & "' and "
-                            SQL = SQL & "a.kode_kategori_gudang='" & .Rows(i).Item("kode_kategori_gudang") & "' "
-                            Using Dr = OpenTrans(SQL)
-                                If Dr.Read Then
-                                    Kategori_gudang = Dr("kode_kategori_gudang")
-                                Else
-                                    Dr.Close()
-                                    CloseConn()
-                                    ada_data = "T"
-                                    MessageBox.Show("anda Tidak ada Akses ke PR Ini !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                    kosong()
-                                    Exit Sub
-                                End If
-                            End Using
+                            'Dim Kategori_gudang As String = ""
+                            ''===================== Ambil gudang kode kategori gudang by user =====================
+                            'SQL = "select top(1) kode_kategori_gudang from N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain a "
+                            'SQL = SQL & "where user_ID='" & UserID & "' and a.kode_perusahaan = '" & KodePerusahaan & "' and "
+                            'SQL = SQL & "a.kode_kategori_gudang='" & .Rows(i).Item("kode_kategori_gudang") & "' "
+                            'Using Dr = OpenTrans(SQL)
+                            '    If Dr.Read Then
+                            '        Kategori_gudang = Dr("kode_kategori_gudang")
+                            '    Else
+                            '        Dr.Close()
+                            '        CloseConn()
+                            '        ada_data = "T"
+                            '        MessageBox.Show("anda Tidak ada Akses ke PR Ini !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            '        kosong()
+                            '        Exit Sub
+                            '    End If
+                            'End Using
 
-                            If General_Class.CekNULL(.Rows(i).Item("kode_kategori_gudang")) <> Kategori_gudang Then
-                                CloseConn()
-                                ada_data = "T"
-                                MessageBox.Show("anda Tidak ada Akses ke PR Ini !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                kosong()
-                                Exit Sub
-                            End If
+                            'If General_Class.CekNULL(.Rows(i).Item("kode_kategori_gudang")) <> Kategori_gudang Then
+                            '    CloseConn()
+                            '    ada_data = "T"
+                            '    MessageBox.Show("anda Tidak ada Akses ke PR Ini !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            '    kosong()
+                            '    Exit Sub
+                            'End If
 
+                            Cmb_Kategori_Gudang.Text = Kategori_gudang
+                            Cmb_Kategori_Gudang.Enabled = False
 
                             Txt_NoFaktur.Text = .Rows(i).Item("no_faktur")
                             cmb_lokasi.Text = .Rows(i).Item("lokasi")
@@ -829,11 +984,44 @@
                                 Exit Sub
                             End If
 
-                            If General_Class.CekNULL(.Rows(i).Item("flag_release")) = "Y" Then
+                            'If General_Class.CekNULL(.Rows(i).Item("flag_release")) = "Y" Then
+                            '    publicFlagRelease = "Y"
+                            '    BtnPR_Simpan.Enabled = False
+                            '    BtnPR_Release.Visible = False
+                            '    BtnPR_Release.Enabled = False
+                            '    Button2.Enabled = False
+                            '    TextBox2.ReadOnly = True
+                            'Else
+                            '    publicFlagRelease = "T"
+
+                            '    If AksesSimpanPR = "Y" Then
+                            '        BtnPR_Simpan.Enabled = True
+                            '    Else
+                            '        BtnPR_Simpan.Enabled = False
+                            '    End If
+
+                            '    If AksesReleasePR = "Y" Then
+                            '        BtnPR_Release.Enabled = True
+                            '    Else
+                            '        BtnPR_Release.Enabled = False
+                            '    End If
+
+                            '    BtnPR_Release.Visible = True
+
+                            '    Button2.Enabled = True
+                            '    TextBox2.ReadOnly = False
+                            'End If
+
+                            'awal stenly 15-12
+                            If General_Class.CekNULL(.Rows(i).Item("flag_release")) = "Y" Or General_Class.CekNULL(.Rows(i).Item("flag_release")) = "P" Then
                                 publicFlagRelease = "Y"
                                 BtnPR_Simpan.Enabled = False
                                 BtnPR_Release.Visible = False
                                 BtnPR_Release.Enabled = False
+
+                                Btn_Unrelease.Visible = True
+                                Btn_Unrelease.Enabled = True
+
                                 Button2.Enabled = False
                                 TextBox2.ReadOnly = True
                             Else
@@ -851,11 +1039,15 @@
                                     BtnPR_Release.Enabled = False
                                 End If
 
+                                Btn_Unrelease.Visible = False
+                                Btn_Unrelease.Enabled = False
+
                                 BtnPR_Release.Visible = True
 
                                 Button2.Enabled = True
                                 TextBox2.ReadOnly = False
                             End If
+                            'akhir stenly 15-12
 
                             'If General_Class.CekNULL(.Rows(i).Item("flag_release")) = "Y" Then
                             '    BtnFormulator_Simpan.Enabled = False
@@ -898,41 +1090,73 @@
             Dgv_DataBarang.Rows.Clear()
             If ada_data = "Y" Then
 
-                SQL = "select a.kode_perusahaan, a.kode_stock_owner, a.kode_barang, b.nama, a.jumlah, a.satuan, a.tanggal_delivery, a.keterangan, a.Link, a.Estimasi_Harga, "
+#Region "Kode Lama"
 
-                SQL = SQL & "ISNULL((select sum(x.Nilai_PPIC) from EMI_Transaksi_Material_Requsition_detail x "
-                SQL = SQL & "where x.Kode_Perusahaan = a.Kode_Perusahaan and x.Kode_Stock_Owner = a.Kode_Stock_Owner and x.Kode_Barang = a.Kode_Barang "
+                'SQL = "select a.kode_perusahaan, a.kode_stock_owner, a.kode_barang, b.nama, a.jumlah, a.satuan, a.tanggal_delivery, a.keterangan, a.Link, a.Estimasi_Harga, "
+
+                'SQL = SQL & "ISNULL((select sum(x.Nilai_PPIC) from EMI_Transaksi_Material_Requsition_detail x "
+                'SQL = SQL & "where x.Kode_Perusahaan = a.Kode_Perusahaan and x.Kode_Stock_Owner = a.Kode_Stock_Owner and x.Kode_Barang = a.Kode_Barang "
+                'SQL = SQL & "and x.No_Faktur = '" & Txt_Faktur_MaterialReq.Text & "' "
+                'SQL = SQL & "), 0) as Nilai_PPIC, "
+
+                ''SQL = SQL & "ISNULL(( select (SUM(z.jumlah) - a.jumlah) from EMI_Purchase_Requisition_Barang_Lain_Detail z where z.Kode_Perusahaan = a.Kode_Perusahaan "
+                ''SQL = SQL & "and z.Kode_Stock_Owner = a.Kode_Stock_Owner and z.Kode_Barang = a.Kode_Barang"
+                ''SQL = SQL & "), 0) as jumlahPR "
+
+                'SQL = SQL & "isnull((select "
+
+                'If Txt_Faktur_MaterialReq.Visible = True And Not Txt_Faktur_MaterialReq.Text.Trim.Length = 0 Then
+                '    SQL = SQL & "sum(y.jumlah) - a.jumlah "
+                'Else
+                '    SQL = SQL & "sum(y.jumlah) "
+                'End If
+
+                'SQL = SQL & "from EMI_Purchase_Requisition_Barang_Lain x, EMI_Purchase_Requisition_Barang_Lain_Detail y "
+                'SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and y.Kode_Perusahaan = a.Kode_Perusahaan "
+                'SQL = SQL & "and y.Kode_Stock_Owner = a.Kode_Stock_Owner "
+                'SQL = SQL & "and y.Kode_Barang = a.Kode_Barang and x.Status is null "
+                'SQL = SQL & "and x.no_fak_material_requisition  = '" & Txt_Faktur_MaterialReq.Text & "' "
+                'SQL = SQL & "), 0) as jumlahPR, "
+
+                'SQL = SQL & "a.ID_Cost_Center, a.Id_Gedung, a.Flag_Stock, a.Urut_Departement, a.No_Urut, a.estimasi "
+
+                'SQL = SQL & "from EMI_Purchase_Requisition_Barang_Lain_Detail a, barang_lain b where "
+                'SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.kode_stock_owner = b.kode_stock_owner "
+                'SQL = SQL & "and a.kode_barang = b.kode_barang "
+                'SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
+                'SQL = SQL & "and a.no_faktur = '" & Txt_NoFaktur.Text & "'  "
+                'SQL = SQL & "and b.Kode_Stock_Owner = '" & arrKdSOGudang(Cmb_Kategori_Gudang.SelectedIndex) & "' "
+
+#End Region
+
+
+                SQL = "select a.Kode_Kategori_Gudang, a.kode_perusahaan, b.kode_stock_owner, b.kode_barang, c.nama, b.jumlah, b.satuan, b.tanggal_delivery, b.keterangan, b.Link, b.Estimasi_Harga, "
+                SQL = SQL & "b.ID_Cost_Center, b.Id_Gedung, b.Flag_Stock, b.Urut_Departement, b.No_Urut, b.estimasi, "
+                SQL = SQL & "ISNULL(( "
+                SQL = SQL & "select sum(x.Nilai_PPIC) from EMI_Transaksi_Material_Requsition_detail x "
+                SQL = SQL & "where x.Kode_Perusahaan = b.Kode_Perusahaan and x.Kode_Stock_Owner = b.Kode_Stock_Owner and x.Kode_Barang = b.Kode_Barang "
                 SQL = SQL & "and x.No_Faktur = '" & Txt_Faktur_MaterialReq.Text & "' "
                 SQL = SQL & "), 0) as Nilai_PPIC, "
-
-                'SQL = SQL & "ISNULL(( select (SUM(z.jumlah) - a.jumlah) from EMI_Purchase_Requisition_Barang_Lain_Detail z where z.Kode_Perusahaan = a.Kode_Perusahaan "
-                'SQL = SQL & "and z.Kode_Stock_Owner = a.Kode_Stock_Owner and z.Kode_Barang = a.Kode_Barang"
-                'SQL = SQL & "), 0) as jumlahPR "
-
-                SQL = SQL & "isnull((select "
-
+                SQL = SQL & "isnull(( "
+                SQL = SQL & "SELECT "
                 If Txt_Faktur_MaterialReq.Visible = True And Not Txt_Faktur_MaterialReq.Text.Trim.Length = 0 Then
                     SQL = SQL & "sum(y.jumlah) - a.jumlah "
                 Else
                     SQL = SQL & "sum(y.jumlah) "
                 End If
-
                 SQL = SQL & "from EMI_Purchase_Requisition_Barang_Lain x, EMI_Purchase_Requisition_Barang_Lain_Detail y "
                 SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and y.Kode_Perusahaan = a.Kode_Perusahaan "
-                SQL = SQL & "and y.Kode_Stock_Owner = a.Kode_Stock_Owner "
-                SQL = SQL & "and y.Kode_Barang = a.Kode_Barang and x.Status is null "
+                SQL = SQL & "and y.Kode_Stock_Owner = b.Kode_Stock_Owner "
+                SQL = SQL & "and y.Kode_Barang = b.Kode_Barang and x.Status is null "
                 SQL = SQL & "and x.no_fak_material_requisition  = '" & Txt_Faktur_MaterialReq.Text & "' "
-                SQL = SQL & "), 0) as jumlahPR, "
-
-                SQL = SQL & "a.ID_Cost_Center, a.Id_Gedung, a.Flag_Stock, a.Urut_Departement, a.No_Urut, a.estimasi "
-
-                SQL = SQL & "from EMI_Purchase_Requisition_Barang_Lain_Detail a, barang_lain b where "
-                SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.kode_stock_owner = b.kode_stock_owner "
-                SQL = SQL & "and a.kode_barang = b.kode_barang "
-                SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
-                SQL = SQL & "and a.no_faktur = '" & Txt_NoFaktur.Text & "'  "
-                SQL = SQL & "and b.Kode_Stock_Owner = '" & arrKdSOGudang(Cmb_Kategori_Gudang.SelectedIndex) & "' "
-
+                SQL = SQL & "), 0) as jumlahPR "
+                SQL = SQL & "FROM EMI_Purchase_Requisition_Barang_Lain a "
+                SQL = SQL & "inner JOIN EMI_Purchase_Requisition_Barang_Lain_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+                SQL = SQL & "inner JOIN barang_lain c ON b.Kode_Perusahaan = c.Kode_Perusahaan AND b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.kode_barang = c.Kode_Barang "
+                SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.status is null "
+                SQL = SQL & "and a.no_faktur = '" & Txt_NoFaktur.Text & "' "
+                SQL = SQL & "and a.Kode_Kategori_Gudang = '" & arrKategoriGudang(Cmb_Kategori_Gudang.SelectedIndex) & "' "
                 Using Ds = BindingTrans(SQL)
                     With Ds.Tables("MyTable")
                         If .Rows.Count <> 0 Then
@@ -1088,12 +1312,92 @@
 
     End Sub
 
+    'awal stenly 15-12
+    Private Sub Btn_Unrelease_Click(sender As Object, e As EventArgs) Handles Btn_Unrelease.Click
+        If Txt_NoFaktur.Text.Trim.Length = 0 Then Exit Sub
+
+        Try
+            OpenConn()
+            Cmd.Transaction = Cn.BeginTransaction
+
+            If CekButtonRole("UnRelease_Purchase_Requisition_Barang_Lain") = "T" Then
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("Anda Tidak Memiliki Akses Untuk Unrelease PR Warehouse", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
+            Dim tanya As String = MessageBox.Show("Yakin akan Unrelease Purhcase Requisition ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If tanya = vbNo Then Exit Sub
+
+            SQL = "select Status from EMI_Purchase_Requisition_Barang_Lain where Kode_Perusahaan = '" & KodePerusahaan & "' and "
+            SQL = SQL & "No_Faktur = '" & Txt_NoFaktur.Text & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Status")) <> "" Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Purhcase Requisition sudah dibatalkan sebelumnya!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Purhcase Requisition tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            SQL = "select a.No_Faktur from EMI_Purchase_Requisition_Barang_Lain a,"
+            SQL = SQL & "EMI_Purchase_Requisition_Barang_Lain_Detail b, EMI_Pembelian_PO_Det_Induk_Barang_Lain c,"
+            SQL = SQL & "EMI_Pembelian_PO_Induk_Barang_Lain d "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            SQL = SQL & "and a.Status is null and b.Kode_Perusahaan = c.Kode_Perusahaan "
+            SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur "
+            SQL = SQL & "and b.No_Urut = c.No_Urut_PR and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and d.Status is null and a.No_Faktur = '" & Txt_NoFaktur.Text & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Purhcase Requisition tidak bisa diunrelease, karena sudah masuk tahap Purhcase Order!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            SQL = "update EMI_Purchase_Requisition_Barang_Lain set Flag_Release = NULL, "
+            SQL = SQL & "tanggal_release = NULL, "
+            SQL = SQL & "jam_release = NULL, "
+            SQL = SQL & "user_release = NULL "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & Txt_NoFaktur.Text & "' "
+            ExecuteTrans(SQL)
+
+            Cmd.Transaction.Commit()
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show("Purhcase Requisition berhasil diunrelease.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+        Txt_NoFaktur_Leave(Btn_Unrelease, e)
+    End Sub
+    'akhir stenly 15-12
+
     Private Sub Dgv_DataBarang_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles Dgv_DataBarang.CellContentClick
 
     End Sub
 
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles BtnPR_Release.Click
+        get_jam()
+
         Try
             OpenConn()
 
@@ -1109,12 +1413,34 @@
             Using Dr = OpenTrans(SQL)
                 If Not Dr.Read Then
                     Dr.Close()
-                    CloseTrans()
                     CloseConn()
                     MessageBox.Show("Gagal Release, barang harus di isi terlebih dahulu.")
                     Exit Sub
                 End If
             End Using
+
+            'awal stenly 15-12
+            For i As Integer = 0 To Dgv_DataBarang.Rows.Count - 2
+                Get_Isi_Listview(i)
+                SQL = "select Jumlah from EMI_Purchase_Requisition_Barang_Lain_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and No_Urut = '" & LvUrut & "' "
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+                        If Val(HilangkanTanda(LvQty)) <> dr("Jumlah") Then
+                            dr.Close()
+                            CloseConn()
+                            MessageBox.Show("Jumlah Purchase Requisition ada yang berbeda! " & LvNmBrg, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    Else
+                        dr.Close()
+                        CloseConn()
+                        MessageBox.Show("Data Purchase Requisition tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+            Next
+            'akhir stenly 15-12
 
             no_Faktur_Sementara = String.Empty
 
@@ -1151,7 +1477,7 @@
 
             SQL = "update EMI_Purchase_Requisition_Barang_Lain set flag_release = 'Y', "
             SQL = SQL & "tanggal_release = '" & Format(DtpFormulator_Tanggal.Value, "yyyy-MM-dd") & "', "
-            SQL = SQL & "jam_release = '" & Format(DtpFormulator_Tanggal.Value, "HH:MM:ss") & "',"
+            SQL = SQL & "jam_release = '" & Format(tgl_skg, "HH:MM:ss") & "',"
             SQL = SQL & "user_release = '" & UserID & "' "
             SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & Txt_NoFaktur.Text & "'"
             ExecuteTrans(SQL)
@@ -1335,9 +1661,11 @@
             If currentCell = 5 Then
 
                 SD_Ubah_Tanggal_PR_Barang_Lain.DTP_Delivery.Value = Dgv_DataBarang.Rows(currentRow).Cells(currentCell).Value
+
                 SD_Ubah_Tanggal_PR_Barang_Lain.rowDgv = currentRow
                 SD_Ubah_Tanggal_PR_Barang_Lain.cellDgv = currentCell
                 SD_Ubah_Tanggal_PR_Barang_Lain.EstTiba = Dgv_DataBarang.Rows(currentRow).Cells(CellEstTiba).Value
+
 
                 SD_Ubah_Tanggal_PR_Barang_Lain.ShowDialog()
 
@@ -1347,8 +1675,15 @@
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        If Cmb_Kategori_Gudang.SelectedIndex = -1 Then
+            MessageBox.Show("Kategori Gudang belum dipilih!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Cmb_Kategori_Gudang.Focus()
+            Exit Sub
+        End If
+
         N_EMI_Display_Request_Departement_Barang_Lain.asal = "Purchase_Requisition_Barang_Lain"
-        N_EMI_Display_Request_Departement_Barang_Lain.KdSoKategori = arrKdSOGudang(Cmb_Kategori_Gudang.SelectedIndex)
+        N_EMI_Display_Request_Departement_Barang_Lain.xCmb_Kategori_Gudang = Cmb_Kategori_Gudang.Text
+        'N_EMI_Display_Request_Departement_Barang_Lain.KdSoKategori = arrKdSOGudang(Cmb_Kategori_Gudang.SelectedIndex) 'ini harusnya tidak di comment
         N_EMI_Display_Request_Departement_Barang_Lain.ShowDialog()
         'N_EMI_SD_Purchase_Requisition_Barang_Lain_Departement.ShowDialog()
     End Sub
@@ -1682,6 +2017,16 @@
                             End If
 
 
+                            SQL = "select top(1) Waktu_Pengiriman from emi_detail_proses_pengiriman_po_Barang_Lain where Kode_Barang= '" & .Rows(i).Item("kode_barang") & "' "
+                            SQL = SQL & "order by Waktu_Pengiriman Desc "
+                            Using dr2 = OpenTrans(SQL)
+                                If dr2.Read Then
+                                    Dgv_DataBarang.Rows(i).Cells(CellEstTiba).Value = dr2("Waktu_Pengiriman")
+                                Else
+                                    Dgv_DataBarang.Rows(i).Cells(CellEstTiba).Value = 0
+                                End If
+                            End Using
+
 
                             Dgv_DataBarang.Rows(i).Cells(0).ReadOnly = True
                             Dgv_DataBarang.Rows(i).Cells(1).ReadOnly = True
@@ -1700,6 +2045,7 @@
                     End If
                 End With
             End Using
+            Cmb_Kategori_Gudang.Enabled = False
 
             CloseConn()
         Catch ex As Exception
@@ -1708,5 +2054,28 @@
             Exit Sub
         End Try
     End Sub
+
+    Public Sub HasData_DGV()
+        If Dgv_DataBarang.Rows.Count <> 0 Then
+            Cmb_Kategori_Gudang.Enabled = False
+        Else
+            Cmb_Kategori_Gudang.Enabled = True
+        End If
+    End Sub
+
+
+
+    '======================================================================================================================================================
+    '=     CEGAH AGAR KETIKA TITLE BAR DOUBLE KLIK TIDAK MAXIMIZED
+    '======================================================================================================================================================
+    Protected Overrides Sub WndProc(ByRef m As Message)
+        ' WM_NCLBUTTONDBLCLK = 0xA3 (double click di title bar)
+        If m.Msg = &HA3 Then
+            Return  ' Abaikan pesan, sehingga form tidak maximize
+        End If
+
+        MyBase.WndProc(m)
+    End Sub
+
 
 End Class

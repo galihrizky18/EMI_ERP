@@ -1,5 +1,4 @@
 ﻿Imports System.IO
-Imports iTextSharp.text.pdf
 
 Public Class Testing_Cetak_Barcode
 
@@ -32,67 +31,53 @@ Public Class Testing_Cetak_Barcode
             Dim TextBarcodeBatch As String = ""
 
             For k As Integer = 1 To 10
-                Dim randomChar As Char = Chr(rnd.Next(65, 91)) ' ASCII 65–90 = A–Z
+                Dim randomChar As Char = Chr(rnd.Next(65, 91))
                 TextBarcodeBatch &= randomChar
             Next
 
             kode_unik_print = Format(tgl_skg, "MMddHHmmss") & Format(Random.Next(0, 10000), "00000")
-            Dim fullNewQr As String = "Testing"
+            Dim fullNewQr As String = "Testing Tes"
 
-            ' Generate gambar barcode
-            Dim ImgBarcode As Image = Generate_QR_QC(fullNewQr)
-            Barcode.Image = ImgBarcode   ' jika Anda tetap ingin menampilkan di PictureBox
+            '=====================================================
+            '  CONVERT IMAGE TO BYTE ARRAY (TANPA SAVE FILE)     =
+            '=====================================================
+            Cmd.Parameters.Clear()
+            Using ImgBarcode1 As Image = Generate_QR_QC(fullNewQr)
+                Using ms1 As New MemoryStream()
+                    ImgBarcode1.Save(ms1, Imaging.ImageFormat.Jpeg)
+                    Dim rawData1 As Byte() = ms1.ToArray()
 
-            '=====================================
-            '  CONVERT IMAGE TO BYTE ARRAY (TANPA SAVE FILE)
-            '=====================================
-            Dim ms As New MemoryStream()
-            ImgBarcode.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg)
-            Dim rawData3 As Byte() = ms.ToArray()
-            ms.Close()
+                    Dim param1 As String = "@newBarcodeBatch" & kode_unik_print
+                    Cmd.Parameters.Add(param1, SqlDbType.Image).Value = rawData1
+                End Using
+            End Using
 
-            '=====================================
-            '  MASUKKAN BYTE ARRAY KE SQL
-            '=====================================
-            Cmd.Parameters.Add("@newBarcodeBatch" & kode_unik_print, SqlDbType.Image).Value = rawData3
+            Using ImgBarcode2 As Image = Generate_QR_QC(fullNewQr & "_PSS")
+                Using ms2 As New MemoryStream()
+                    ImgBarcode2.Save(ms2, Imaging.ImageFormat.Jpeg)
+                    Dim rawData2 As Byte() = ms2.ToArray()
 
-            'asdasd
+                    Dim param2 As String = "@newBarcodeBatchPSS" & kode_unik_print
+                    Cmd.Parameters.Add(param2, SqlDbType.Image).Value = rawData2
+                End Using
+            End Using
 
-
-
-
-
-
-            'kode_unik_print = Format(tgl_skg, "MMddHHmmss") & Format(Random.Next(0, 10000), "00000")
-            'Dim fullNewQr As String = "Testing"
-
-            'Barcode.Image = Generate_QR_QC(fullNewQr)
-
-            'Dim FileToSaveAs1 As String = System.IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "newBarcodeValidasiRMQC" & kode_unik_print & ".jpg")
-
-            ''If Not (System.IO.File.Exists(FileToSaveAs1)) Then
-            'Barcode.Image.Save(FileToSaveAs1, System.Drawing.Imaging.ImageFormat.Jpeg)
-            ''End If
-
-            'fs1 = New FileStream(FileToSaveAs1, FileMode.Open, FileAccess.Read)
-            'FileSize1 = fs1.Length
-            'rawData1 = New Byte(FileSize1) {}
-            'fs1.Read(rawData1, 0, FileSize1)
-            'fs1.Close()
-            'Cmd.Parameters.Add("@newBarcodeBatch" & kode_unik_print, SqlDbType.Image).Value = rawData1
-
-
-
+            Dim barcode1 As String = "@newBarcodeBatch" & kode_unik_print
+            Dim barcode2 As String = "@newBarcodeBatchPSS" & kode_unik_print
 
             SQL = "INSERT INTO N_EMI_CR_Transaksi_Request_Material_QC_Barcode_Cetak "
             SQL = SQL & "(Kode_Perusahaan, Barcode, Barcode_PSS, Kode_Bahan, NamaBahan, NamaBarang, Tgl_Input, Jam_Input, Batch_Number, Jumlah_Input, Satuan_Input, "
             SQL = SQL & "No, Dari, QrUtuh, Qr, Tanggal_Cetak, Kode_Unik_Print, No_Split, Batch) "
-            SQL = SQL & "VALUES('" & KodePerusahaan & "', @newBarcodeBatch" & kode_unik_print & ", @newBarcodeBatch" & kode_unik_print & ",'Testing', 'Testing', "
+            SQL = SQL & "VALUES('" & KodePerusahaan & "', " & barcode1 & ", " & barcode2 & ",'Testing', 'Testing', "
             SQL = SQL & "'Testing', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', 'Testing', "
             SQL = SQL & "12345, 'Testing', 2, 0, "
             SQL = SQL & "'" & fullNewQr & "', 'Testing', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & kode_unik_print & "', "
             SQL = SQL & "'Testing', 'Testing'); "
             ExecuteTrans(SQL)
+
+
+
+
 
 
             CloseConn()

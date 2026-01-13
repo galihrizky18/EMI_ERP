@@ -391,7 +391,7 @@
                     Lvw.SubItems.Add(dr("satuan"))
 
                     Lvw.SubItems.Add(dr("Rak_Awal"))
-                    Lvw.SubItems.Add(dr("Serial_Number_Awal"))
+                    Lvw.SubItems.Add("X")
                     Lvw.SubItems.Add(dr("Satuan_Barang"))
                 Loop
             End Using

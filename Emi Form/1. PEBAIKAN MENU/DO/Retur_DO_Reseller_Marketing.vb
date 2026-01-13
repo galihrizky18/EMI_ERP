@@ -224,8 +224,8 @@
         TextBox18.Text = "0"
         TextBox19.Text = "0"
         TxtTotal.Text = "0"
-
-        DateTimePicker1.Value = CDate(FMenuDevFix.ToolStripStatusLabel3.Text)
+        get_jam()
+        DateTimePicker1.Value = tgl_skg
         TextBox3.Text = ""
         ComboBox2.Items.Clear() : ComboBox2.SelectedIndex = -1
         ComboBox2.Items.Add("Tunai")
@@ -802,7 +802,7 @@
             Exit Sub
         End If
 
-        If Format(DateTimePicker1.Value, "yyyyMM") <> Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "yyyyMM") Then
+        If Format(DateTimePicker1.Value, "yyyyMM") <> Format(tgl_skg, "yyyyMM") Then
             MessageBox.Show("Retur tidak boleh dibulan mundur!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             DateTimePicker1.Focus()
             Exit Sub
@@ -810,6 +810,7 @@
 
         Dim rand As New Random
         Dim get_unik As String = "RJ" & Format(Now, "MMddHHmmss") & Format(rand.Next(0, 100000), "00000")
+        get_jam()
 
         Try
             OpenConn()
@@ -955,7 +956,7 @@
             SQL = "insert into retur_do_sementara(Kode_Perusahaan, No_Retur_jual_sementara, No_do, Tanggal, "
             SQL = SQL & "Jam, UserID, lokasi, metode_pot_stock, NTotal, NPPN, NNilai_PPN, NGrand, hrs_updatex, xtermsc, flag_opm,nilai_satu_poin,total_poin) values "
             SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TextBox4.Text) & "', '" & Trim(TextBox1.Text) & "', "
-            SQL = SQL & "'" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
+            SQL = SQL & "'" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
             SQL = SQL & "'" & UserID & "', '" & ComboBox1.Text & "', '" & metode_pot_Stock & "', "
             SQL = SQL & "'" & HilangkanTanda(TextBox17.Text) & "', "
             SQL = SQL & "'" & HilangkanTanda(TextBox18.Text) & "', "

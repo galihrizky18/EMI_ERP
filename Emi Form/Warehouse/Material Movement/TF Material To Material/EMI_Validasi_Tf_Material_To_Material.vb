@@ -122,7 +122,7 @@ Public Class EMI_Validasi_Tf_Material_To_Material
             SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan And a.Kode_Transfer = b.Kode_Transfer "
             SQL = SQL & "And a.status Is null And b.Flag_Validasi is null "
             SQL = SQL & "And b.kode_perusahaan=c.kode_Perusahaan And b.serial_number_awal=c.serial_number "
-            SQL = SQL & "And c.kode_perusahaan='" & KodePerusahaan & "' and c.qr_code+'-'+c.kode_unik_berjalan='" & Txt_Barcode.Text & "' "
+            SQL = SQL & "And c.kode_perusahaan='001' and c.qr_code+'-'+kode_unik_berjalan='" & Txt_Barcode.Text & "' "
             SQL = SQL & "order by c.Tgl_Expired "
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
@@ -191,8 +191,8 @@ Public Class EMI_Validasi_Tf_Material_To_Material
 
 
                 Dim warnaLama As String = ""
-
-
+                Dim JmlhBarang As Double
+                Dim harga_new As Double
                 '====================
                 '=     CEK DATA     =
                 '====================
@@ -215,7 +215,7 @@ Public Class EMI_Validasi_Tf_Material_To_Material
                                 KdBarangAwal = .Rows(i).Item("Kode_Barang_Awal")
                                 KdBarangTujuan = .Rows(i).Item("Kode_Barang_Tujuan")
                                 Dim SN_Awal As String = .Rows(i).Item("Serial_Number_Awal")
-                                Dim JmlhBarang As Double = Val(HilangkanTanda(.Rows(i).Item("Jumlah_Barang")))
+                                JmlhBarang = Val(HilangkanTanda(.Rows(i).Item("Jumlah_Barang")))
                                 Dim JmlhBags As Double = Val(HilangkanTanda(.Rows(i).Item("Jumlah_Bags")))
                                 Dim SatuanBesar As String = .Rows(i).Item("satuan")
                                 Dim SatuanKecil As String = .Rows(i).Item("Satuan_Barang")
@@ -368,12 +368,13 @@ Public Class EMI_Validasi_Tf_Material_To_Material
                                     End If
                                 End Using
 
+                                harga_new = Math.Round((hargaIsn * JmlhBarang) / JumlahTambah, 0)
 
 
                                 'GENERATE SN BARU
                                 Dim str As String = Format(Random.Next(0, 999), "000") & Format(tgl_skg, "HHmmss")
                                 Dim Kode_Unik As String = str.Substring(0, 5) & "BB" & Chr(64 + str.Substring(6, 1)) & str.Substring(6, Len(str) - 6)
-                                SN_Baru = Kode_Unik & Tanda_SN & "01" & Tanda_SN & hargaIsn & Tanda_SN & "02" & Tanda_SN & Format(tgl_skg, "yyyy-MM-dd")
+                                SN_Baru = Kode_Unik & Tanda_SN & "01" & Tanda_SN & harga_new & Tanda_SN & "02" & Tanda_SN & Format(tgl_skg, "yyyy-MM-dd")
 
                                 'Dim newKodeUnikBerjalan As String = Generate_Random_Kode(10)
 
@@ -528,9 +529,32 @@ Public Class EMI_Validasi_Tf_Material_To_Material
                     End If
                 End Using
 
+
+                Dim akun_Selisih_pembulatan As String = ""
+                SQL = "select Hutang_Supplier, Hutang_Perjalanan, Hutang_PPN, PPN_Pembelian, Selisih_Pembulatan "
+                SQL = SQL & "from stock_owner "
+                SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & Lokasi & "' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+
+                        akun_Selisih_pembulatan = Dr("Selisih_Pembulatan")
+                    Else
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
+                Dim Total_Min As Double = Math.Round(hargaIsn * JmlhBarang, 0)
+                Dim Total_Plus As Double = Math.Round(harga_new * JumlahTambah, 0)
+
+                Dim selisih_pembulatan As Double = Math.Round(Total_Plus - Total_Min, 0)
                 Dim Kode_voucher As String = ""
                 Kode_voucher = GetLastNumberJurnal(Format(tgl_skg, "yyyyMM"), "JS" & inisial_faktur_dari, KodePerusahaan)
                 Dim pagenumber As Integer = 1
+
 
 
                 SQL = "Insert Into Jurnal(Kode_Voucher, Tanggal, Jam, Kode_Perusahaan, Kode_Proyek, "
@@ -542,21 +566,43 @@ Public Class EMI_Validasi_Tf_Material_To_Material
                 SQL = SQL & "'-', '" & UserID & "')"
                 ExecuteTrans(SQL)
 
-                'Jurnal Barang Lama
-                SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_persediaan_dari, 1),
-                      Strings.Mid(akun_persediaan_dari, 2, 1),
-                      Strings.Mid(Ganti(akun_persediaan_dari), 3),
-                      KodePerusahaan, KodeProyek, "Persedian " & Kode_Transfer, "0", hargaIsn, pagenumber, SoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
-                ExecuteTrans(SQL)
-                pagenumber = pagenumber + 1
-
                 'Jurnal Barang Baru
                 SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_persediaan_tujuan, 1),
                      Strings.Mid(akun_persediaan_tujuan, 2, 1),
                      Strings.Mid(Ganti(akun_persediaan_tujuan), 3),
-                     KodePerusahaan, KodeProyek, "Persedian " & Kode_Transfer, hargaIsn, "0", pagenumber, SoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                     KodePerusahaan, KodeProyek, "Persedian " & Kode_Transfer, Total_Plus, "0", pagenumber, SoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
                 ExecuteTrans(SQL)
                 pagenumber = pagenumber + 1
+
+                'Jurnal Barang Lama
+                SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_persediaan_dari, 1),
+                      Strings.Mid(akun_persediaan_dari, 2, 1),
+                      Strings.Mid(Ganti(akun_persediaan_dari), 3),
+                      KodePerusahaan, KodeProyek, "Persedian " & Kode_Transfer, "0", Total_Min, pagenumber, SoAwal, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                ExecuteTrans(SQL)
+                pagenumber = pagenumber + 1
+
+                If selisih_pembulatan <> 0 Then
+
+                    If selisih_pembulatan < 0 Then
+                        SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_Selisih_pembulatan, 1),
+                            Strings.Mid(akun_Selisih_pembulatan, 2, 1),
+                            Strings.Mid(Ganti(akun_Selisih_pembulatan), 3),
+                            KodePerusahaan, KodeProyek, "Selisih Pembulatan; " & Kode_Transfer, Math.Abs(selisih_pembulatan), "0", pagenumber, Lokasi, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                        ExecuteTrans(SQL)
+                            pagenumber = pagenumber + 1
+                        Else
+                        SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_Selisih_pembulatan, 1),
+                            Strings.Mid(akun_Selisih_pembulatan, 2, 1),
+                            Strings.Mid(Ganti(akun_Selisih_pembulatan), 3),
+                            KodePerusahaan, KodeProyek, "Selisih Pembulatan; " & Kode_Transfer, "0", selisih_pembulatan, pagenumber, Lokasi, Bahasa_Pilihan, Ket_Cost_Center_HO)
+                        ExecuteTrans(SQL)
+                            pagenumber = pagenumber + 1
+
+                    End If
+                End If
+
+
 
 
                 SQL = "select sum(debit) as debit, sum(kredit) as kredit from detail_jurnal where "
@@ -585,7 +631,8 @@ Public Class EMI_Validasi_Tf_Material_To_Material
                     '=     UPDATE     =
                     '==================
                     SQL = "update EMI_TF_Material_To_Material_Detail set Serial_Number_Akhir = '" & SN_Baru & "', Id_Warehouse_Tujuan = '" & id_WarehusTujuan & "',  "
-                    SQL = SQL & "Nomor_Pallet_Tujuan = '" & No_PalletTujuan & "', Flag_Validasi = 'Y', Jumlah_Akhir = '" & JumlahTambah & "', Kode_Voucher = '" & Kode_voucher & "' "
+                    SQL = SQL & "Nomor_Pallet_Tujuan = '" & No_PalletTujuan & "', Flag_Validasi = 'Y', Jumlah_Akhir = '" & JumlahTambah & "', Kode_Voucher = '" & Kode_voucher & "', "
+                    SQL = SQL & "Tanggal_Validasi='" & Format(tgl_skg, "yyyy-MM-dd") & "', Jam_Validasi='" & Format(tgl_skg, "HH:mm:ss") & "', UserID_Validasi='" & UserID & "'"
                     SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Transfer = '" & Kode_Transfer & "' and Serial_Number_Awal = '" & SerialNumberAwal & "'  "
                     ExecuteTrans(SQL)
 

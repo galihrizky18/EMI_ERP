@@ -24,7 +24,6 @@ Partial Class N_EMI_Display_Approval_Waste_Process
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -46,6 +45,8 @@ Partial Class N_EMI_Display_Approval_Waste_Process
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Lv_Process_User_Approve = New System.Windows.Forms.ListView()
         Me.Lv_Process_Data = New System.Windows.Forms.ListView()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.CetakFakturToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.Panel10 = New System.Windows.Forms.Panel()
@@ -55,8 +56,8 @@ Partial Class N_EMI_Display_Approval_Waste_Process
         Me.Lv_Product_User_Approve = New System.Windows.Forms.ListView()
         Me.Panel11 = New System.Windows.Forms.Panel()
         Me.Lv_Product_Data = New System.Windows.Forms.ListView()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.CetakFakturToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.CetakFakturToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Panel8 = New System.Windows.Forms.Panel()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
@@ -65,20 +66,19 @@ Partial Class N_EMI_Display_Approval_Waste_Process
         Me.Txt_Filter_Tab_2 = New System.Windows.Forms.TextBox()
         Me.Cmb_Filter_Tab_2 = New System.Windows.Forms.ComboBox()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.CetakFakturToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
-        Me.ContextMenuStrip1.SuspendLayout()
-        Me.GroupBox4.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -91,19 +91,6 @@ Partial Class N_EMI_Display_Approval_Waste_Process
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1184, 45)
         Me.Panel1.TabIndex = 490
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Label3
         '
@@ -341,6 +328,18 @@ Partial Class N_EMI_Display_Approval_Waste_Process
         Me.Lv_Process_Data.UseCompatibleStateImageBehavior = False
         Me.Lv_Process_Data.View = System.Windows.Forms.View.Details
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakFakturToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 48)
+        '
+        'CetakFakturToolStripMenuItem
+        '
+        Me.CetakFakturToolStripMenuItem.Name = "CetakFakturToolStripMenuItem"
+        Me.CetakFakturToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CetakFakturToolStripMenuItem.Text = "Cetak Faktur"
+        '
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
@@ -449,17 +448,17 @@ Partial Class N_EMI_Display_Approval_Waste_Process
         Me.Lv_Product_Data.UseCompatibleStateImageBehavior = False
         Me.Lv_Product_Data.View = System.Windows.Forms.View.Details
         '
-        'ContextMenuStrip1
+        'ContextMenuStrip2
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakFakturToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(141, 26)
+        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakFakturToolStripMenuItem1})
+        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
+        Me.ContextMenuStrip2.Size = New System.Drawing.Size(141, 26)
         '
-        'CetakFakturToolStripMenuItem
+        'CetakFakturToolStripMenuItem1
         '
-        Me.CetakFakturToolStripMenuItem.Name = "CetakFakturToolStripMenuItem"
-        Me.CetakFakturToolStripMenuItem.Size = New System.Drawing.Size(140, 22)
-        Me.CetakFakturToolStripMenuItem.Text = "Cetak Faktur"
+        Me.CetakFakturToolStripMenuItem1.Name = "CetakFakturToolStripMenuItem1"
+        Me.CetakFakturToolStripMenuItem1.Size = New System.Drawing.Size(140, 22)
+        Me.CetakFakturToolStripMenuItem1.Text = "Cetak Faktur"
         '
         'Label4
         '
@@ -548,17 +547,18 @@ Partial Class N_EMI_Display_Approval_Waste_Process
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "Filter"
         '
-        'ContextMenuStrip2
+        'PanelGradient1
         '
-        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakFakturToolStripMenuItem1})
-        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
-        Me.ContextMenuStrip2.Size = New System.Drawing.Size(181, 48)
-        '
-        'CetakFakturToolStripMenuItem1
-        '
-        Me.CetakFakturToolStripMenuItem1.Name = "CetakFakturToolStripMenuItem1"
-        Me.CetakFakturToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
-        Me.CetakFakturToolStripMenuItem1.Text = "Cetak Faktur"
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'N_EMI_Display_Approval_Waste_Process
         '
@@ -586,14 +586,14 @@ Partial Class N_EMI_Display_Approval_Waste_Process
         Me.GroupBox2.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox6.ResumeLayout(False)
-        Me.ContextMenuStrip1.ResumeLayout(False)
+        Me.ContextMenuStrip2.ResumeLayout(False)
         Me.GroupBox4.ResumeLayout(False)
         Me.GroupBox4.PerformLayout()
-        Me.ContextMenuStrip2.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
