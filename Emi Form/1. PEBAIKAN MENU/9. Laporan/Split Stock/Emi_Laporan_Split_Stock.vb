@@ -77,7 +77,7 @@
         Lbl_Panah.Visible = False
         Cmb_SOTujuan.Visible = False
 
-        Me.Size = New Size(645, 366)
+        Me.Size = New Size(645, 401)
 
 
 
@@ -112,7 +112,7 @@
     '============================================================================================================================================================================================================
     Private Sub Txt_KdBarang_TextChanged(sender As Object, e As EventArgs) Handles Txt_KdBarang.TextChanged
         If Txt_KdBarang.Text.Trim.Length = 0 Then
-            Me.Size = New Size(645, 366)
+            Me.Size = New Size(645, 401)
             Lv_Barang.Location = New Point(650, 234)
             Lv_Barang.Visible = False
             Txt_KdBarang.Text = ""
@@ -153,7 +153,7 @@
 
     Private Sub Txt_NmBarang_TextChanged(sender As Object, e As EventArgs) Handles Txt_NmBarang.TextChanged
         If Txt_NmBarang.Text.Trim.Length = 0 Then
-            Me.Size = New Size(645, 366)
+            Me.Size = New Size(645, 401)
             Lv_Barang.Location = New Point(650, 234)
             Lv_Barang.Visible = False
             Txt_KdBarang.Text = ""
@@ -228,7 +228,7 @@
                         Txt_KdBarang.Focus()
                     End If
 
-                    Me.Size = New Size(645, 366)
+                    Me.Size = New Size(645, 401)
                     Lv_Barang.Location = New Point(650, 234)
                     Lv_Barang.Visible = False
                 End Using
@@ -268,7 +268,7 @@
         Txt_KdBarang.Text = KdBarang
         Txt_NmBarang.Text = NmBarang
 
-        Me.Size = New Size(645, 366)
+        Me.Size = New Size(645, 401)
         Lv_Barang.Location = New Point(650, 234)
         Lv_Barang.Visible = False
 
@@ -317,7 +317,7 @@
             If Txt_KdBarang.Text.Trim.Length = 0 Then Txt_KdBarang.Focus()
             Txt_KdBarang_Leave(Txt_KdBarang, e)
 
-            Me.Size = New Size(645, 366)
+            Me.Size = New Size(645, 401)
             Lv_Barang.Location = New Point(650, 234)
             Lv_Barang.Visible = False
 
@@ -338,7 +338,7 @@
             Txt_KdBarang_Leave(Txt_NmBarang, e)
 
 
-            Me.Size = New Size(645, 366)
+            Me.Size = New Size(645, 401)
             Lv_Barang.Location = New Point(650, 234)
             Lv_Barang.Visible = False
 
@@ -403,7 +403,117 @@
     '============================================================================================================================================================================================================
     '=     BUTTON
     '============================================================================================================================================================================================================
+    'Private Sub BtnCetak_Click(sender As Object, e As EventArgs) Handles BtnCetak.Click
+    '    If Tgl1.Value > Tgl2.Value Then
+    '        MessageBox.Show("Periode I tidak boleh lebih dari periode II!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '        Tgl1.Value = Now.Date : Tgl2.Value = Now.Date
+    '        Tgl1.Focus() : Exit Sub
+    '    ElseIf Txt_KdBarang.Text.Trim.Length = 0 Then
+    '        MessageBox.Show("Kode Barang harus diisi!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '        Txt_KdBarang.Focus() : Exit Sub
+    '    ElseIf Txt_NmBarang.Text.Trim.Length = 0 Then
+    '        MessageBox.Show("Nama Barang harus diisi!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '        Txt_NmBarang.Focus() : Exit Sub
+    '    ElseIf Cmb_GroupJenis.SelectedIndex = -1 Then
+    '        MessageBox.Show("Group Jenis harus diisi!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '        Cmb_GroupJenis.Focus() : Exit Sub
+    '    ElseIf Cmb_SOAwal.SelectedIndex <> 0 Or Cmb_SOTujuan.SelectedIndex <> 0 Then
+    '        If Cmb_SOAwal.SelectedIndex = Cmb_SOTujuan.SelectedIndex Then
+    '            MessageBox.Show("Lokasi Awal dan Tujuang Tidak Boleh Sama", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '            Cmb_SOAwal.Focus() : Exit Sub
+    '        End If
+    '    End If
+
+    '    If Cmb_ParamLain.SelectedIndex <> 0 Then
+    '        If Txt_ParamLain.Text.Trim.Length = 0 Then
+    '            MessageBox.Show("Parameter lain harus diisi!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '            Txt_ParamLain.Focus() : Exit Sub
+    '        End If
+    '    End If
+
+    '    Try
+    '        OpenConn()
+
+    '        Dim SF As String = ""
+
+    '        SQL = "select Kode_Perusahaan from View_Laporan_Split_Stock "
+    '        SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+    '        SQL = SQL & "and Tanggal between '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' and '" & Format(Tgl2.Value, "yyyy-MM-dd") & "' "
+
+    '        SF = "{View_Laporan_Split_Stock.Kode_Perusahaan} = '" & KodePerusahaan & "' "
+    '        SF = SF & "and {View_Laporan_Split_Stock.Tanggal} >= #" & Format(Tgl1.Value, "yyyy-MM-dd") & "# and "
+    '        SF = SF & "{View_Laporan_Split_Stock.Tanggal} <= #" & Format(Tgl2.Value, "yyyy-MM-dd") & "# "
+
+    '        If Not Cmb_JenisTransfer.SelectedIndex = 0 Then
+    '            SQL = SQL & "and Jenis_Transfer = '" & Cmb_JenisTransfer.SelectedItem & "' "
+    '            SF = SF & "And {View_Laporan_Split_Stock.Jenis_Transfer} = '" & Cmb_JenisTransfer.SelectedItem & "' "
+    '        End If
+
+    '        If Not Cmb_SOAwal.SelectedIndex = 0 Then
+    '            SQL = SQL & "and Lokasi_Awal = '" & Cmb_SOAwal.SelectedItem & "' "
+    '            SF = SF & "And {View_Laporan_Split_Stock.Lokasi_Awal} = '" & Cmb_SOAwal.SelectedItem & "' "
+    '        End If
+
+    '        If Not Cmb_SOTujuan.SelectedIndex = 0 Then
+    '            SQL = SQL & "and Lokasi_Tujuan = '" & Cmb_SOTujuan.SelectedItem & "' "
+    '            SF = SF & "And {View_Laporan_Split_Stock.Lokasi_Tujuan} = '" & Cmb_SOTujuan.SelectedItem & "' "
+    '        End If
+
+    '        If Not Cmb_GroupJenis.SelectedIndex = 0 Then
+    '            SQL = SQL & "and Kode_Group_Jenis = '" & Cmb_GroupJenis.SelectedItem & "' "
+    '            SF = SF & "And {View_Laporan_Split_Stock.Kode_Group_Jenis} = '" & Cmb_GroupJenis.SelectedItem & "' "
+    '        End If
+
+    '        If Not Txt_KdBarang.Text.ToUpper = OpsiSeluruh.ToUpper Then
+    '            SQL = SQL & "and Kode_Barang = '" & Txt_KdBarang.Text & "' "
+    '            SF = SF & "And {View_Laporan_Split_Stock.Kode_Barang} = '" & Txt_KdBarang.Text & "'"
+    '        End If
+
+    '        If Not Cmb_ParamLain.SelectedIndex = 0 Then
+    '            'Pasang And
+    '            If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+    '            If Not Strings.Right(UCase(SF), 6) = "WHERE " Then SF = SF & "AND "
+
+    '            SQL = SQL & arrParamLain.Item(Cmb_ParamLain.SelectedIndex) & " like '%" & Trim(Txt_ParamLain.Text) & "%' "
+    '            SF = SF & arrParamLainSF.Item(Cmb_ParamLain.SelectedIndex) & " like '*" & Trim(Txt_ParamLain.Text) & "*' "
+    '        End If
+    '        Using DS = BindingTrans(SQL)
+    '            With DS.Tables("MyTable")
+    '                If .Rows.Count <> 0 Then
+
+    '                    Dim CrDoc As New Rpt_Laporan_Split_Stock
+
+    '                    CrDoc.SetDataSource(DS)
+    '                    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+    '                    CrDoc.SummaryInfo.ReportTitle = "Periode : " & Format(Tgl1.Value, "dd/MMM/yyyy") & " s/d " &
+    '                                                                        Format(Tgl2.Value, "dd/MMM/yyyy")
+    '                    CrDoc.RecordSelectionFormula = SF
+
+    '                    With A_Place_For_Printing2
+    '                        .Text = JudulForm
+    '                        .CrystalReportViewer1.ReportSource = CrDoc
+    '                        .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
+    '                        .Refresh()
+    '                        .Show()
+    '                    End With
+    '                Else
+
+    '                    CloseConn()
+    '                    MessageBox.Show("Split Stock Tidak Ditemukan", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '                    Exit Sub
+    '                End If
+    '            End With
+    '        End Using
+
+    '        CloseConn()
+    '    Catch ex As Exception
+    '        CloseConn()
+    '        MessageBox.Show(ex.Message)
+    '        Exit Sub
+    '    End Try
+    'End Sub
     Private Sub BtnCetak_Click(sender As Object, e As EventArgs) Handles BtnCetak.Click
+        ' Validasi input
         If Tgl1.Value > Tgl2.Value Then
             MessageBox.Show("Periode I tidak boleh lebih dari periode II!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Tgl1.Value = Now.Date : Tgl2.Value = Now.Date
@@ -431,62 +541,82 @@
             End If
         End If
 
+        If ComboBox1.SelectedIndex = -1 Then
+            MessageBox.Show("Jenis Laporan harus dipilih!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            ComboBox1.Focus() : Exit Sub
+        End If
+
         Try
             OpenConn()
 
+            Dim viewName As String = ""
+            Dim reportName As String = ""
+
+            Select Case ComboBox1.SelectedItem.ToString()
+                Case "Laporan Ringkasan"
+                    viewName = "View_Laporan_Split_Stock"
+                    reportName = "Rpt_Laporan_Split_Stock"
+                Case "Laporan Detail"
+                    viewName = "View_Laporan_Split_Stock_Detail"
+                    reportName = "Rpt_Laporan_Split_Stock_Detail"
+            End Select
+
             Dim SF As String = ""
+            Dim SQL As String = "SELECT Kode_Perusahaan FROM " & viewName & " WHERE Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "AND Tanggal BETWEEN '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' AND '" & Format(Tgl2.Value, "yyyy-MM-dd") & "' "
 
-            SQL = "select Kode_Perusahaan from View_Laporan_Split_Stock "
-            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and Tanggal between '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' and '" & Format(Tgl2.Value, "yyyy-MM-dd") & "' "
-
-            SF = "{View_Laporan_Split_Stock.Kode_Perusahaan} = '" & KodePerusahaan & "' "
-            SF = SF & "and {View_Laporan_Split_Stock.Tanggal} >= #" & Format(Tgl1.Value, "yyyy-MM-dd") & "# and "
-            SF = SF & "{View_Laporan_Split_Stock.Tanggal} <= #" & Format(Tgl2.Value, "yyyy-MM-dd") & "# "
+            SF = "{" & viewName & ".Kode_Perusahaan} = '" & KodePerusahaan & "' "
+            SF = SF & "AND {" & viewName & ".Tanggal} >= #" & Format(Tgl1.Value, "yyyy-MM-dd") & "# AND "
+            SF = SF & "{" & viewName & ".Tanggal} <= #" & Format(Tgl2.Value, "yyyy-MM-dd") & "# "
 
             If Not Cmb_JenisTransfer.SelectedIndex = 0 Then
-                SQL = SQL & "and Jenis_Transfer = '" & Cmb_JenisTransfer.SelectedItem & "' "
-                SF = SF & "And {View_Laporan_Split_Stock.Jenis_Transfer} = '" & Cmb_JenisTransfer.SelectedItem & "' "
+                SQL = SQL & "AND Jenis_Transfer = '" & Cmb_JenisTransfer.SelectedItem & "' "
+                SF = SF & "AND {" & viewName & ".Jenis_Transfer} = '" & Cmb_JenisTransfer.SelectedItem & "' "
             End If
 
             If Not Cmb_SOAwal.SelectedIndex = 0 Then
-                SQL = SQL & "and Lokasi_Awal = '" & Cmb_SOAwal.SelectedItem & "' "
-                SF = SF & "And {View_Laporan_Split_Stock.Lokasi_Awal} = '" & Cmb_SOAwal.SelectedItem & "' "
+                SQL = SQL & "AND Lokasi_Awal = '" & Cmb_SOAwal.SelectedItem & "' "
+                SF = SF & "AND {" & viewName & ".Lokasi_Awal} = '" & Cmb_SOAwal.SelectedItem & "' "
             End If
 
             If Not Cmb_SOTujuan.SelectedIndex = 0 Then
-                SQL = SQL & "and Lokasi_Tujuan = '" & Cmb_SOTujuan.SelectedItem & "' "
-                SF = SF & "And {View_Laporan_Split_Stock.Lokasi_Tujuan} = '" & Cmb_SOTujuan.SelectedItem & "' "
+                SQL = SQL & "AND Lokasi_Tujuan = '" & Cmb_SOTujuan.SelectedItem & "' "
+                SF = SF & "AND {" & viewName & ".Lokasi_Tujuan} = '" & Cmb_SOTujuan.SelectedItem & "' "
             End If
 
             If Not Cmb_GroupJenis.SelectedIndex = 0 Then
-                SQL = SQL & "and Kode_Group_Jenis = '" & Cmb_GroupJenis.SelectedItem & "' "
-                SF = SF & "And {View_Laporan_Split_Stock.Kode_Group_Jenis} = '" & Cmb_GroupJenis.SelectedItem & "' "
+                SQL = SQL & "AND Kode_Group_Jenis = '" & Cmb_GroupJenis.SelectedItem & "' "
+                SF = SF & "AND {" & viewName & ".Kode_Group_Jenis} = '" & Cmb_GroupJenis.SelectedItem & "' "
             End If
 
             If Not Txt_KdBarang.Text.ToUpper = OpsiSeluruh.ToUpper Then
-                SQL = SQL & "and Kode_Barang = '" & Txt_KdBarang.Text & "' "
-                SF = SF & "And {View_Laporan_Split_Stock.Kode_Barang} = '" & Txt_KdBarang.Text & "'"
+                SQL = SQL & "AND Kode_Barang = '" & Txt_KdBarang.Text & "' "
+                SF = SF & "AND {" & viewName & ".Kode_Barang} = '" & Txt_KdBarang.Text & "'"
             End If
 
             If Not Cmb_ParamLain.SelectedIndex = 0 Then
-                'Pasang And
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
                 If Not Strings.Right(UCase(SF), 6) = "WHERE " Then SF = SF & "AND "
 
-                SQL = SQL & arrParamLain.Item(Cmb_ParamLain.SelectedIndex) & " like '%" & Trim(Txt_ParamLain.Text) & "%' "
-                SF = SF & arrParamLainSF.Item(Cmb_ParamLain.SelectedIndex) & " like '*" & Trim(Txt_ParamLain.Text) & "*' "
+                SQL = SQL & arrParamLain.Item(Cmb_ParamLain.SelectedIndex) & " LIKE '%" & Trim(Txt_ParamLain.Text) & "%' "
+                SF = SF & arrParamLainSF.Item(Cmb_ParamLain.SelectedIndex) & " LIKE '*" & Trim(Txt_ParamLain.Text) & "*' "
             End If
+
             Using DS = BindingTrans(SQL)
                 With DS.Tables("MyTable")
                     If .Rows.Count <> 0 Then
+                        Dim CrDoc As Object
 
-                        Dim CrDoc As New Rpt_Laporan_Split_Stock
+                        Select Case reportName
+                            Case "Rpt_Laporan_Split_Stock"
+                                CrDoc = New Rpt_Laporan_Split_Stock
+                            Case "Rpt_Laporan_Split_Stock_Detail"
+                                CrDoc = New Rpt_Laporan_Split_Stock_Detail
+                        End Select
 
                         CrDoc.SetDataSource(DS)
                         CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                        CrDoc.SummaryInfo.ReportTitle = "Periode : " & Format(Tgl1.Value, "dd/MMM/yyyy") & " s/d " &
-                                                                            Format(Tgl2.Value, "dd/MMM/yyyy")
+                        CrDoc.SummaryInfo.ReportTitle = "Periode : " & Format(Tgl1.Value, "dd/MMM/yyyy") & " s/d " & Format(Tgl2.Value, "dd/MMM/yyyy")
                         CrDoc.RecordSelectionFormula = SF
 
                         With A_Place_For_Printing2
@@ -497,7 +627,6 @@
                             .Show()
                         End With
                     Else
-
                         CloseConn()
                         MessageBox.Show("Split Stock Tidak Ditemukan", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
@@ -505,30 +634,16 @@
                 End With
             End Using
 
-
-
-
-
-
-
             CloseConn()
         Catch ex As Exception
             CloseConn()
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
-
-
-
-
-
     End Sub
 
     Private Sub BtnExit_Click(sender As Object, e As EventArgs) Handles BtnExit.Click
         Me.Close()
     End Sub
-
-
-
 
 End Class

@@ -22,10 +22,10 @@ Partial Class Emi_Production_Barcode
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle33 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle36 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle34 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle35 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -52,6 +52,7 @@ Partial Class Emi_Production_Barcode
         Me.CmbJenis = New System.Windows.Forms.ComboBox()
         Me.DtpExpired = New System.Windows.Forms.DateTimePicker()
         Me.Label9 = New System.Windows.Forms.Label()
+        Me.Cmb_Tahapan = New System.Windows.Forms.ComboBox()
         Me.DtpProduksi = New System.Windows.Forms.DateTimePicker()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
@@ -88,7 +89,6 @@ Partial Class Emi_Production_Barcode
         Me.Button1 = New System.Windows.Forms.Button()
         Me.TxtFormulator_NoFaktur = New System.Windows.Forms.TextBox()
         Me.Barcode = New System.Windows.Forms.PictureBox()
-        Me.Cmb_Tahapan = New System.Windows.Forms.ComboBox()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -282,29 +282,29 @@ Partial Class Emi_Production_Barcode
         Me.Dgv_Packaging.AllowUserToResizeRows = False
         Me.Dgv_Packaging.BackgroundColor = System.Drawing.Color.White
         Me.Dgv_Packaging.BorderStyle = System.Windows.Forms.BorderStyle.None
-        DataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle33.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle33.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        DataGridViewCellStyle33.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle33.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle33.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle33.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Dgv_Packaging.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle33
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Dgv_Packaging.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.Dgv_Packaging.ColumnHeadersHeight = 35
         Me.Dgv_Packaging.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column3, Me.Column2})
         Me.Dgv_Packaging.Location = New System.Drawing.Point(25, 442)
         Me.Dgv_Packaging.Name = "Dgv_Packaging"
         Me.Dgv_Packaging.RowHeadersWidth = 21
-        DataGridViewCellStyle36.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Dgv_Packaging.RowsDefaultCellStyle = DataGridViewCellStyle36
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Dgv_Packaging.RowsDefaultCellStyle = DataGridViewCellStyle4
         Me.Dgv_Packaging.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.Dgv_Packaging.Size = New System.Drawing.Size(581, 112)
         Me.Dgv_Packaging.TabIndex = 425
         '
         'Column1
         '
-        DataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column1.DefaultCellStyle = DataGridViewCellStyle34
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column1.DefaultCellStyle = DataGridViewCellStyle2
         Me.Column1.HeaderText = "Kode Bahan Packaging"
         Me.Column1.Name = "Column1"
         Me.Column1.ReadOnly = True
@@ -319,8 +319,8 @@ Partial Class Emi_Production_Barcode
         '
         'Column2
         '
-        DataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column2.DefaultCellStyle = DataGridViewCellStyle35
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column2.DefaultCellStyle = DataGridViewCellStyle3
         Me.Column2.HeaderText = "Qty"
         Me.Column2.Name = "Column2"
         Me.Column2.ReadOnly = True
@@ -424,6 +424,17 @@ Partial Class Emi_Production_Barcode
         Me.Label9.Size = New System.Drawing.Size(76, 16)
         Me.Label9.TabIndex = 380
         Me.Label9.Text = "Tgl Expired"
+        '
+        'Cmb_Tahapan
+        '
+        Me.Cmb_Tahapan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Tahapan.Enabled = False
+        Me.Cmb_Tahapan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmb_Tahapan.FormattingEnabled = True
+        Me.Cmb_Tahapan.Location = New System.Drawing.Point(155, 143)
+        Me.Cmb_Tahapan.Name = "Cmb_Tahapan"
+        Me.Cmb_Tahapan.Size = New System.Drawing.Size(165, 24)
+        Me.Cmb_Tahapan.TabIndex = 422
         '
         'DtpProduksi
         '
@@ -816,17 +827,6 @@ Partial Class Emi_Production_Barcode
         Me.Barcode.TabIndex = 377
         Me.Barcode.TabStop = False
         Me.Barcode.Visible = False
-        '
-        'Cmb_Tahapan
-        '
-        Me.Cmb_Tahapan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Cmb_Tahapan.Enabled = False
-        Me.Cmb_Tahapan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmb_Tahapan.FormattingEnabled = True
-        Me.Cmb_Tahapan.Location = New System.Drawing.Point(155, 143)
-        Me.Cmb_Tahapan.Name = "Cmb_Tahapan"
-        Me.Cmb_Tahapan.Size = New System.Drawing.Size(165, 24)
-        Me.Cmb_Tahapan.TabIndex = 422
         '
         'Emi_Production_Barcode
         '

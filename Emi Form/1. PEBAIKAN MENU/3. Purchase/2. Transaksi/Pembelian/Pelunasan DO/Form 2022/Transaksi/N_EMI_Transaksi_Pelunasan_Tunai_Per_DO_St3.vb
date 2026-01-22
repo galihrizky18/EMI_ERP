@@ -218,7 +218,7 @@
     End Sub
 
     Private Sub Kosong()
-        DateTimePicker1.Value = CDate(FMenuDevFix.ToolStripStatusLabel3.Text)
+        DateTimePicker1.Value = CDate(FMenu.ToolStripStatusLabel3.Text)
         DateTimePicker1.Enabled = True
         persendiskoncash = 0
         'CheckBox1.Checked = False
@@ -335,7 +335,7 @@
 
     Private Sub get_unik()
         Dim rand As New Random
-        Label23.Text = Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "MMddHHmmss") & Format(rand.Next(0, 100000), "00000") & Format(rand.Next(0, 10000000), "0000000")
+        Label23.Text = Format(CDate(FMenu.ToolStripStatusLabel3.Text), "MMddHHmmss") & Format(rand.Next(0, 100000), "00000") & Format(rand.Next(0, 10000000), "0000000")
     End Sub
 
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
@@ -974,8 +974,8 @@
 
                 SQL = "INSERT INTO Check_In_Pelunasan(Kode_Perusahaan,Kode_Unik,Tgl_Masuk,Jam_Masuk,"
                 SQL = SQL & "UserId_Masuk) VALUES('" & KodePerusahaan & "','" & Label23.Text & "',"
-                SQL = SQL & "'" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "',"
-                SQL = SQL & "'" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "',"
+                SQL = SQL & "'" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "',"
+                SQL = SQL & "'" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "',"
                 SQL = SQL & "'" & UserID & "')"
                 ExecuteTrans(SQL)
 
@@ -1019,7 +1019,7 @@
                 SQL = SQL & "Keterangan, JudulBank, KetDK, userid) values("
                 SQL = SQL & "'" & Kode_Voucher & "', "
                 SQL = SQL & "'" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                SQL = SQL & "'" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
+                SQL = SQL & "'" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
                 SQL = SQL & "'" & KodeProyek & "', 'Pelunasan piutang " & TxtFaktur.Text.Trim & "', '', "
                 SQL = SQL & "'-', '" & UserID & "')"
                 ExecuteTrans(SQL)
@@ -1059,7 +1059,7 @@
                     SQL = SQL & "Keterangan, JudulBank, KetDK, userid) values("
                     SQL = SQL & "'" & Kode_Voucher2 & "', "
                     SQL = SQL & "'" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                    SQL = SQL & "'" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
+                    SQL = SQL & "'" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
                     SQL = SQL & "'" & KodeProyek & "', 'Pelunasan piutang " & TxtFaktur.Text.Trim & "', '', "
                     SQL = SQL & "'-', '" & UserID & "')"
                     ExecuteTrans(SQL)
@@ -1330,7 +1330,7 @@
                                 MessageBox.Show("Customer bukan reseller. Pelunasan tidak dapat di lanjutkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 Exit Sub
                             ElseIf Dr("flag_cabang_sendiri") = "T" Then
-                                If Format(DateTimePicker1.Value, "yyyyMM") <> Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "yyyyMM") Then
+                                If Format(DateTimePicker1.Value, "yyyyMM") <> Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyyMM") Then
                                     Dr.Close()
                                     CloseTrans()
                                     CloseConn()
@@ -2347,7 +2347,7 @@
                         RRRRRR = 38
                         SQL = "Update do_new set flag_lunas_do = 'Y', "
                         SQL = SQL & "nTgl_lunas = '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                        SQL = SQL & "njam_lunas = '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
+                        SQL = SQL & "njam_lunas = '" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
                         SQL = SQL & "nuservalidasi = '" & UserID & "' where kode_perusahaan = '" & KodePerusahaan & "' and "
                         SQL = SQL & "no_do = '" & LvFak.Trim & "'"
                         ExecuteTrans(SQL)
@@ -2381,7 +2381,7 @@
                     'If nilai_dpp_diskon_cash_per_faktur <> 0 Then
                     '    SQL = "update penjualan set val_diskon_cash = 'Y', "
                     '    SQL = SQL & "tgl_val_diskon_cash = '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                    '    SQL = SQL & "jam_val_diskon_cash = '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
+                    '    SQL = SQL & "jam_val_diskon_cash = '" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
                     '    SQL = SQL & "user_val_diskon_cash = '" & UserID & "', "
                     '    SQL = SQL & "nilai_val_diskon_cash = '" & nilai_dpp_diskon_cash_per_faktur & "', "
                     '    SQL = SQL & "ppn_val_diskon_cash = '" & nilai_ppn_diskon_cash_per_faktur & "', "
@@ -2408,7 +2408,7 @@
                 SQL = "insert into val_do_tunai(kode_perusahaan, no_val, tanggal, jam, "
                 SQL = SQL & "keterangan, uservalidasi, cara_bayar, grand, kode_voucher, grand_disc_cash, hrs_update, kode_unik, Kode_VOucher2) values('" & KodePerusahaan & "', "
                 SQL = SQL & "'" & TxtFaktur.Text.Trim & "', '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                SQL = SQL & "'" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
+                SQL = SQL & "'" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
                 SQL = SQL & "'" & TextBox2.Text.Trim & "', '" & UserID & "', "
                 SQL = SQL & "'" & arrCrByr.Item(ComboBoxCb1.SelectedIndex) & "', "
                 SQL = SQL & "" & HilangkanTanda(TextBoxa.Text) & ", '" & Kode_Voucher & "', '" & HilangkanTanda(TextBoxZ.Text) & "', 'Y', '" & Label23.Text & "', " & Kode_voucher2_ & ")"
@@ -2477,7 +2477,7 @@
 
                                     SQL = "Update penjualan set flag_lunas_tunai = 'Y', "
                                     SQL = SQL & "Tgl_lunas_tunai = '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                                    SQL = SQL & "jam_lunas_tunai = '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
+                                    SQL = SQL & "jam_lunas_tunai = '" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
                                     SQL = SQL & "uservalidasi_tunai = '" & UserID & "' where kode_perusahaan = '" & KodePerusahaan & "' and "
                                     SQL = SQL & "no_faktur = '" & LvFak.Trim & "'"
                                     ExecuteTrans(SQL)
@@ -2488,7 +2488,7 @@
 
                                     SQL = "Update penjualan set flag_lunas = 'Y', "
                                     SQL = SQL & "Tgl_lunas = '" & Format(DateTimePicker1.Value, "yyyy-MM-dd") & "', "
-                                    SQL = SQL & "jam_lunas = '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
+                                    SQL = SQL & "jam_lunas = '" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "', "
                                     SQL = SQL & "uservalidasi = '" & UserID & "' where kode_perusahaan = '" & KodePerusahaan & "' and "
                                     SQL = SQL & "no_faktur = '" & LvFak.Trim & "'"
                                     ExecuteTrans(SQL)
@@ -2559,119 +2559,119 @@
                     '=================================================
 #Region "DI KOMEN SEMENTARA (07 JANURARI 2025)"
 
-                    'For z As Integer = 0 To ArrUrut.Count - 1
+                    For z As Integer = 0 To ArrUrut.Count - 1
 
 
-                    '    SQL = "select a.kode_cb, a.no_val, a.sisa as total from "
-                    '    SQL = SQL & "um_global a where "
-                    '    SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and "
-                    '    SQL = SQL & "sisa > 0 and "
-                    '    SQL = SQL & "a.kode_cb = '" & arrCrByr.Item(ComboBoxCb1.SelectedIndex) & "' and "
-                    '    SQL = SQL & "a.urut in (" & ArrUrut.Item(z).ToString & ") "
-                    '    SQL = SQL & "order by a.urut"
-                    '    Using Ds = BindingTrans(SQL)
-                    '        With Ds.Tables("MyTable")
-                    '            If .Rows.Count <> 0 Then
+                        SQL = "select a.kode_cb, a.no_val, a.sisa as total from "
+                        SQL = SQL & "um_global a where "
+                        SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and "
+                        SQL = SQL & "sisa > 0 and "
+                        SQL = SQL & "a.kode_cb = '" & arrCrByr.Item(ComboBoxCb1.SelectedIndex) & "' and "
+                        SQL = SQL & "a.urut in (" & ArrUrut.Item(z).ToString & ") "
+                        SQL = SQL & "order by a.urut"
+                        Using Ds = BindingTrans(SQL)
+                            With Ds.Tables("MyTable")
+                                If .Rows.Count <> 0 Then
 
 
-                    '                For h As Integer = 0 To .Rows.Count - 1
+                                    For h As Integer = 0 To .Rows.Count - 1
 
 
-                    '                    If .Rows(h).Item("total") - Val(ArrNilai.Item(z)) < 0 Then
-                    '                        CloseTrans()
-                    '                        CloseConn()
-                    '                        MessageBox.Show("Nilai UM/Deposit Tidak Cukup . . .!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                    '                        Exit Sub
-                    '                    End If
+                                        If .Rows(h).Item("total") - Val(ArrNilai.Item(z)) < 0 Then
+                                            CloseTrans()
+                                            CloseConn()
+                                            MessageBox.Show("Nilai UM/Deposit Tidak Cukup . . .!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                                            Exit Sub
+                                        End If
 
-                    '                    SQL = "Update um_global set sisa = sisa - " & ArrNilai.Item(z) & " where "
-                    '                    SQL = SQL & "urut = '" & ArrUrut.Item(z) & "' "
-                    '                    ExecuteTrans(SQL)
+                                        SQL = "Update um_global set sisa = sisa - " & ArrNilai.Item(z) & " where "
+                                        SQL = SQL & "urut = '" & ArrUrut.Item(z) & "' "
+                                        ExecuteTrans(SQL)
 
-                    '                    SQL = "insert into det_do_um(kode_perusahaan, no_do, "
-                    '                    SQL = SQL & "no_val, jumlah, no_pelunasan) values('" & KodePerusahaan & "', "
-                    '                    SQL = SQL & "'" & LvFak & "', '" & .Rows(h).Item("no_val") & "', "
-                    '                    SQL = SQL & "'" & ArrNilai.Item(z) & "', '" & TxtFaktur.Text.Trim & "')"
-                    '                    ExecuteTrans(SQL)
-                    '                    'akhir coding stenly
+                                        SQL = "insert into det_do_um(kode_perusahaan, no_do, "
+                                        SQL = SQL & "no_val, jumlah, no_pelunasan) values('" & KodePerusahaan & "', "
+                                        SQL = SQL & "'" & LvFak & "', '" & .Rows(h).Item("no_val") & "', "
+                                        SQL = SQL & "'" & ArrNilai.Item(z) & "', '" & TxtFaktur.Text.Trim & "')"
+                                        ExecuteTrans(SQL)
+                                        'akhir coding stenly
 
-                    '                    sisa = sisa - Val(ArrNilai.Item(z))
-                    '                Next
-                    '            Else
-                    '                CloseTrans()
-                    '                CloseConn()
-                    '                MessageBox.Show("Data uang masuk tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    '                Exit Sub
-                    '            End If
-                    '        End With
-                    '    End Using
-
-
-                    'Next
-
-                    'For z As Integer = 0 To ArrUrutDpt.Count - 1
+                                        sisa = sisa - Val(ArrNilai.Item(z))
+                                    Next
+                                Else
+                                    CloseTrans()
+                                    CloseConn()
+                                    MessageBox.Show("Data uang masuk tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End With
+                        End Using
 
 
-                    '    SQL = "select a.no_Klaim, a.sisa as total from "
-                    '    SQL = SQL & "deposit_customers a where "
-                    '    SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and "
-                    '    SQL = SQL & "round(sisa,0) > 0 and "
-                    '    SQL = SQL & "a.urut in (" & ArrUrutDpt.Item(z).ToString & ") "
-                    '    SQL = SQL & "order by a.urut"
-                    '    Using Ds = BindingTrans(SQL)
-                    '        With Ds.Tables("MyTable")
-                    '            If .Rows.Count <> 0 Then
+                    Next
+
+                    For z As Integer = 0 To ArrUrutDpt.Count - 1
 
 
-                    '                For h As Integer = 0 To .Rows.Count - 1
-
-                    '                    If .Rows(h).Item("total") - Val(ArrNilaiDpt.Item(z)) < 0 Then
-                    '                        CloseTrans()
-                    '                        CloseConn()
-                    '                        MessageBox.Show("Nilai UM/Deposit Tidak Cukup . . .!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                    '                        Exit Sub
-                    '                    End If
-
-                    '                    SQL = "Update deposit_customers set sisa = sisa - " & ArrNilaiDpt.Item(z) & " where "
-                    '                    SQL = SQL & "urut = '" & ArrUrutDpt.Item(z) & "' "
-                    '                    ExecuteTrans(SQL)
-
-                    '                    Dim flag_reimburse As String = "NULL"
-                    '                    If ArrDptFlagReimburse.Item(z) = "Y" Then
-                    '                        flag_reimburse = "'Y'"
-                    '                    End If
-
-                    '                    SQL = "insert into deposit_customers_log(kode_perusahaan, no_do_Tagihan, "
-                    '                    SQL = SQL & "no_Klaim, nilai, no_pelunasan_Tagihan, Kode_Customer, userid, Tanggal, Jam, Urut_Deposit, Jenis, PersenPPH, NilaiPPH, PersenPPN, NilaiPPN, Flag_Reimburse, Total_Klaim)"
-                    '                    SQL = SQL & " values('" & KodePerusahaan & "', "
-                    '                    SQL = SQL & "'" & LvFak & "', '" & .Rows(h).Item("no_Klaim") & "', "
-                    '                    SQL = SQL & "'" & ArrNilaiDpt.Item(z) & "', '" & TxtFaktur.Text.Trim & "', '" & LvKdCus & "', "
-                    '                    SQL = SQL & "'" & UserID & "', '" & Format(Tanggal_Sekarang, "yyyy-MM-dd") & "', '" & Format(Tanggal_Sekarang, "HH:mm:ss") & "', '" & ArrUrutDpt.Item(z) & "', 'POT TAGIHAN', "
-                    '                    SQL = SQL & "'" & ArrDptPPH.Item(z) & "', '" & ArrDptNilaiPPH.Item(z) & "', '" & ArrDptPPN.Item(z) & "', '" & ArrDptNilaiPPN.Item(z) & "', " & flag_reimburse & ", '" & ArrNilaiKlaimDpt.Item(z) & "')"
-                    '                    ExecuteTrans(SQL)
+                        SQL = "select a.no_Klaim, a.sisa as total from "
+                        SQL = SQL & "deposit_customers a where "
+                        SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and "
+                        SQL = SQL & "round(sisa,0) > 0 and "
+                        SQL = SQL & "a.urut in (" & ArrUrutDpt.Item(z).ToString & ") "
+                        SQL = SQL & "order by a.urut"
+                        Using Ds = BindingTrans(SQL)
+                            With Ds.Tables("MyTable")
+                                If .Rows.Count <> 0 Then
 
 
-                    '                    'akhir coding stenly
-                    '                    sisa = sisa - Val(ArrNilaiKlaimDpt.Item(z))
-                    '                Next
-                    '            Else
-                    '                CloseTrans()
-                    '                CloseConn()
-                    '                MessageBox.Show("Data uang masuk tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    '                Exit Sub
-                    '            End If
-                    '        End With
-                    '    End Using
+                                    For h As Integer = 0 To .Rows.Count - 1
+
+                                        If .Rows(h).Item("total") - Val(ArrNilaiDpt.Item(z)) < 0 Then
+                                            CloseTrans()
+                                            CloseConn()
+                                            MessageBox.Show("Nilai UM/Deposit Tidak Cukup . . .!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                                            Exit Sub
+                                        End If
+
+                                        SQL = "Update deposit_customers set sisa = sisa - " & ArrNilaiDpt.Item(z) & " where "
+                                        SQL = SQL & "urut = '" & ArrUrutDpt.Item(z) & "' "
+                                        ExecuteTrans(SQL)
+
+                                        Dim flag_reimburse As String = "NULL"
+                                        If ArrDptFlagReimburse.Item(z) = "Y" Then
+                                            flag_reimburse = "'Y'"
+                                        End If
+
+                                        SQL = "insert into deposit_customers_log(kode_perusahaan, no_do_Tagihan, "
+                                        SQL = SQL & "no_Klaim, nilai, no_pelunasan_Tagihan, Kode_Customer, userid, Tanggal, Jam, Urut_Deposit, Jenis, PersenPPH, NilaiPPH, PersenPPN, NilaiPPN, Flag_Reimburse, Total_Klaim)"
+                                        SQL = SQL & " values('" & KodePerusahaan & "', "
+                                        SQL = SQL & "'" & LvFak & "', '" & .Rows(h).Item("no_Klaim") & "', "
+                                        SQL = SQL & "'" & ArrNilaiDpt.Item(z) & "', '" & TxtFaktur.Text.Trim & "', '" & LvKdCus & "', "
+                                        SQL = SQL & "'" & UserID & "', '" & Format(Tanggal_Sekarang, "yyyy-MM-dd") & "', '" & Format(Tanggal_Sekarang, "HH:mm:ss") & "', '" & ArrUrutDpt.Item(z) & "', 'POT TAGIHAN', "
+                                        SQL = SQL & "'" & ArrDptPPH.Item(z) & "', '" & ArrDptNilaiPPH.Item(z) & "', '" & ArrDptPPN.Item(z) & "', '" & ArrDptNilaiPPN.Item(z) & "', " & flag_reimburse & ", '" & ArrNilaiKlaimDpt.Item(z) & "')"
+                                        ExecuteTrans(SQL)
 
 
-                    'Next
+                                        'akhir coding stenly
+                                        sisa = sisa - Val(ArrNilaiKlaimDpt.Item(z))
+                                    Next
+                                Else
+                                    CloseTrans()
+                                    CloseConn()
+                                    MessageBox.Show("Data uang masuk tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End With
+                        End Using
 
-                    'If sisa <> 0 Then
-                    '    CloseTrans()
-                    '    CloseConn()
-                    '    MessageBox.Show("Nilai DO lebih besar dari nilai input  . .  !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                    '    Exit Sub
-                    'End If
+
+                    Next
+
+                    If sisa <> 0 Then
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Nilai DO lebih besar dari nilai input  . .  !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        Exit Sub
+                    End If
 
 #End Region
 
@@ -2729,8 +2729,8 @@
                 End If
 
                 SQL = "update Check_In_Pelunasan set "
-                SQL = SQL & "Tgl_Keluar = '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "',"
-                SQL = SQL & "Jam_Keluar = '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "HH:mm:ss") & "',"
+                SQL = SQL & "Tgl_Keluar = '" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "',"
+                SQL = SQL & "Jam_Keluar = '" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "HH:mm:ss") & "',"
                 SQL = SQL & "UserId_Keluar = '" & UserID & "' where kode_perusahaan = '" & KodePerusahaan & "' "
                 SQL = SQL & "and Kode_Unik = '" & Label23.Text & "'"
                 ExecuteTrans(SQL)
@@ -2930,53 +2930,53 @@
             Next
 
             cek_data = False
-            'Display_Pilih_Uang_Masuk.LabelDari.Text = "TN3"
-            'Display_Pilih_Uang_Masuk.TextBox2.Text = TextBox9.Text
-            'Display_Pilih_Uang_Masuk.Cara_Bayar()
-            'Display_Pilih_Uang_Masuk.ComboBoxCb1.Text = ComboBoxCb1.Text
-            'Display_Pilih_Uang_Masuk.TextBox3.Text = TextBox7.Text
-            'Display_Pilih_Uang_Masuk.TextBox1.Text = TextBox6.Text
-            'Display_Pilih_Uang_Masuk.Label4.Text = Label23.Text
-            'Display_Pilih_Uang_Masuk.ShowDialog()
+            Display_Pilih_Uang_Masuk.LabelDari.Text = "TN3"
+            Display_Pilih_Uang_Masuk.TextBox2.Text = TextBox9.Text
+            Display_Pilih_Uang_Masuk.Cara_Bayar()
+            Display_Pilih_Uang_Masuk.ComboBoxCb1.Text = ComboBoxCb1.Text
+            Display_Pilih_Uang_Masuk.TextBox3.Text = TextBox7.Text
+            Display_Pilih_Uang_Masuk.TextBox1.Text = TextBox6.Text
+            Display_Pilih_Uang_Masuk.Label4.Text = Label23.Text
+            Display_Pilih_Uang_Masuk.ShowDialog()
 
             get_jam()
             '==============================================================
             '=     LANGSUNG INSERT TANPA MALALUI SD (07 JANUARI 2025)     =
             '==============================================================
+
 #Region "LANGSUNG INSERT TANPA MALALUI SD (07 JANUARI 2025)"
 
+            'Try
+            '    OpenConn()
+            '    Cmd.Transaction = Cn.BeginTransaction
 
+            '    SQL = "INSERT INTO Perlunasan_Per_Step_Sementara (Kode_Perusahaan,No_DO,Kode_Unik,No_Val,"
+            '    SQL = SQL & "Tanggal,Nilai_Yang_Diinput,Urut_UM,kode_cb,kode_customer) VALUES('" & KodePerusahaan & "',"
+            '    SQL = SQL & "'" & TextBox9.Text & "','" & Label23.Text & "','-', "
+            '    SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "','" & HilangkanTanda(TextBox6.Text) & "'"
+            '    SQL = SQL & ",'" & HilangkanTanda(0) & "','" & arrCrByr.Item(ComboBoxCb1.SelectedIndex) & "'"
+            '    SQL = SQL & ",'" & TextBox7.Text & "')"
+            '    ExecuteTrans(SQL)
 
-            Try
-                OpenConn()
-                Cmd.Transaction = Cn.BeginTransaction
+            '    'SQL = "INSERT INTO Perlunasan_Per_Step_Sementara_Deposit (Kode_Perusahaan,No_DO,Kode_Unik,No_Klaim,"
+            '    'SQL = SQL & "Tanggal,Nilai_Yang_Diinput,Urut_Dpt,kode_customer, PersenPPN, PersenPPH, NilaiPPN, NilaiPPH, Flag_reimburse, Nilai_Yang_DiKlaim, Flag_B2B, Asal, Jenis_Klaim) VALUES('" & KodePerusahaan & "',"
+            '    'SQL = SQL & "'" & TextBox9.Text & "','" & Label23.Text & "','-',"
+            '    'SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "','" & HilangkanTanda(TextBox6.Text) & "', "
+            '    'SQL = SQL & "'0','" & TextBox7.Text & "','0','0', "
+            '    'SQL = SQL & "'0','0',NULL, '" & HilangkanTanda(TextBox6.Text) & "', NULL,'-','-') "
+            '    'ExecuteTrans(SQL)
 
-                SQL = "INSERT INTO Perlunasan_Per_Step_Sementara (Kode_Perusahaan,No_DO,Kode_Unik,No_Val,"
-                SQL = SQL & "Tanggal,Nilai_Yang_Diinput,Urut_UM,kode_cb,kode_customer) VALUES('" & KodePerusahaan & "',"
-                SQL = SQL & "'" & TextBox9.Text & "','" & Label23.Text & "','-', "
-                SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "','" & HilangkanTanda(TextBox6.Text) & "'"
-                SQL = SQL & ",'" & HilangkanTanda(0) & "','" & arrCrByr.Item(ComboBoxCb1.SelectedIndex) & "'"
-                SQL = SQL & ",'" & TextBox7.Text & "')"
-                ExecuteTrans(SQL)
+            '    cek_data = True
 
-                'SQL = "INSERT INTO Perlunasan_Per_Step_Sementara_Deposit (Kode_Perusahaan,No_DO,Kode_Unik,No_Klaim,"
-                'SQL = SQL & "Tanggal,Nilai_Yang_Diinput,Urut_Dpt,kode_customer, PersenPPN, PersenPPH, NilaiPPN, NilaiPPH, Flag_reimburse, Nilai_Yang_DiKlaim, Flag_B2B, Asal, Jenis_Klaim) VALUES('" & KodePerusahaan & "',"
-                'SQL = SQL & "'" & TextBox9.Text & "','" & Label23.Text & "','-',"
-                'SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "','" & HilangkanTanda(TextBox6.Text) & "', "
-                'SQL = SQL & "'0','" & TextBox7.Text & "','0','0', "
-                'SQL = SQL & "'0','0',NULL, '" & HilangkanTanda(TextBox6.Text) & "', NULL,'-','-') "
-                'ExecuteTrans(SQL)
+            '    Cmd.Transaction.Commit()
+            '    CloseConn()
+            'Catch ex As Exception
+            '    CloseTrans()
+            '    CloseConn()
+            '    MessageBox.Show(ex.Message)
+            '    Exit Sub
+            'End Try
 
-                cek_data = True
-
-                Cmd.Transaction.Commit()
-                CloseConn()
-            Catch ex As Exception
-                CloseTrans()
-                CloseConn()
-                MessageBox.Show(ex.Message)
-                Exit Sub
-            End Try
 
 #End Region
 

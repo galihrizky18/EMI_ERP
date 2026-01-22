@@ -2998,12 +2998,13 @@ Public Class Server_Sinkronasi_B2B
                 SQL = SQL & "when b.Jenis_Approval = 'Waste_Produk' then 'Waste Produk' end as Jenis_Pemusnahan, "
                 SQL = SQL & "a.No_Berita_Acara "
                 SQL = SQL & "from N_EMI_Transaksi_Approval_Waste a "
-                SQL = SQL & "inner join N_EMI_Master_Hierarchy_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.ID_User_Android_Approve = b.ID_User_Android and a.Jenis_Approval = b.Jenis_Approval "
+                SQL = SQL & "inner join N_EMI_Master_Hierarchy_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.ID_User_Android_Approve = b.ID_User_Android and a.Jenis_Approval = b.Jenis_Approval and a.kode_Stock_owner = b.kode_Stock_owner "
                 SQL = SQL & "where a.Status is null "
                 SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
                 SQL = SQL & "and a.Approval_Level = " & i & " "
                 SQL = SQL & "and a.Flag_Approve is null "
                 SQL = SQL & "and a.Jenis_Approval = 'Waste_Process' "
+                SQL = SQL & "order by a.approval_Level, a.No_Transaksi "
                 Using Ds = BindingTrans(SQL)
                     With Ds.Tables("MyTable")
                         If .Rows.Count <> 0 Then
@@ -3018,7 +3019,7 @@ Public Class Server_Sinkronasi_B2B
 
                                     SQL = "select top 1 a.No_Transaksi, a.No_Faktur_Waste, a.ID_User_Android_Approve, b.No_HP, a.Flag_Approve, a.Flag_Sudah_Kirim_WA "
                                     SQL = SQL & "from N_EMI_Transaksi_Approval_Waste a "
-                                    SQL = SQL & "inner join N_EMI_Master_Hierarchy_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.ID_User_Android_Approve = b.ID_User_Android and a.Jenis_Approval = b.Jenis_Approval "
+                                    SQL = SQL & "inner join N_EMI_Master_Hierarchy_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.ID_User_Android_Approve = b.ID_User_Android and a.Jenis_Approval = b.Jenis_Approval and a.kode_Stock_owner = b.kode_Stock_owner "
                                     SQL = SQL & "where a.Status is null "
                                     SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
                                     SQL = SQL & "and a.Approval_Level = " & i - 1 & " "
@@ -3039,9 +3040,9 @@ Public Class Server_Sinkronasi_B2B
 
                                     Dim NoHp As String = .Rows(j).Item("No_HP")
                                     'Dim NoHp As String = "6285117547880"
-                                    Dim Jenis_Pemusnahan As String = .Rows(j).Item("Jenis_Pemusnahan")
-                                    Dim No_Ba As String = .Rows(j).Item("No_Berita_Acara")
-                                    Dim No_Faktur_Waste As String = .Rows(j).Item("No_Faktur_Waste")
+                                    Dim Jenis_Pemusnahan As String = If(General_Class.CekNULL(.Rows(j).Item("Jenis_Pemusnahan")) = "", "-", .Rows(j).Item("Jenis_Pemusnahan"))
+                                    Dim No_Ba As String = If(General_Class.CekNULL(.Rows(j).Item("No_Berita_Acara")) = "", "-", .Rows(j).Item("No_Berita_Acara"))
+                                    Dim No_Faktur_Waste As String = If(General_Class.CekNULL(.Rows(j).Item("No_Faktur_Waste")) = "", "-", .Rows(j).Item("No_Faktur_Waste"))
 
                                     Dim Total As Double = 0
                                     Dim Satuan As String = ""
@@ -3704,7 +3705,7 @@ Public Class Server_Sinkronasi_B2B
                 SQL = SQL & "when b.Jenis_Approval = 'Waste_Produk' then 'Waste Produk' end as Jenis_Pemusnahan, "
                 SQL = SQL & "a.No_Berita_Acara "
                 SQL = SQL & "from N_EMI_Transaksi_Approval_Waste a "
-                SQL = SQL & "inner join N_EMI_Master_Hierarchy_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.ID_User_Android_Approve = b.ID_User_Android and a.Jenis_Approval = b.Jenis_Approval "
+                SQL = SQL & "inner join N_EMI_Master_Hierarchy_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.ID_User_Android_Approve = b.ID_User_Android and a.Jenis_Approval = b.Jenis_Approval and a.kode_Stock_owner = b.kode_Stock_owner "
                 SQL = SQL & "where a.Status is null "
                 SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
                 SQL = SQL & "and a.Approval_Level = " & i & " "
@@ -3722,7 +3723,7 @@ Public Class Server_Sinkronasi_B2B
                                     '=====================================================
                                     SQL = "select top 1 a.No_Transaksi, a.No_Faktur_Waste, a.ID_User_Android_Approve, b.No_HP, a.Flag_Approve, a.Flag_Sudah_Kirim_WA "
                                     SQL = SQL & "from N_EMI_Transaksi_Approval_Waste a "
-                                    SQL = SQL & "inner join N_EMI_Master_Hierarchy_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.ID_User_Android_Approve = b.ID_User_Android and a.Jenis_Approval = b.Jenis_Approval "
+                                    SQL = SQL & "inner join N_EMI_Master_Hierarchy_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.ID_User_Android_Approve = b.ID_User_Android and a.Jenis_Approval = b.Jenis_Approval and a.kode_Stock_owner = b.kode_Stock_owner "
                                     SQL = SQL & "where a.Status is null "
                                     SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
                                     SQL = SQL & "and a.Approval_Level = " & i - 1 & " "
@@ -3743,9 +3744,13 @@ Public Class Server_Sinkronasi_B2B
 
                                     Dim NoHp As String = .Rows(j).Item("No_HP")
                                     'Dim NoHp As String = "6285117547880"
-                                    Dim Jenis_Pemusnahan As String = .Rows(j).Item("Jenis_Pemusnahan")
-                                    Dim No_Ba As String = .Rows(j).Item("No_Berita_Acara")
-                                    Dim No_Faktur_Waste As String = .Rows(j).Item("No_Faktur_Waste")
+                                    'Dim Jenis_Pemusnahan As String = .Rows(j).Item("Jenis_Pemusnahan")
+                                    'Dim No_Ba As String = .Rows(j).Item("No_Berita_Acara")
+                                    'Dim No_Faktur_Waste As String = .Rows(j).Item("No_Faktur_Waste")
+
+                                    Dim Jenis_Pemusnahan As String = If(General_Class.CekNULL(.Rows(j).Item("Jenis_Pemusnahan")) = "", "-", .Rows(j).Item("Jenis_Pemusnahan"))
+                                    Dim No_Ba As String = If(General_Class.CekNULL(.Rows(j).Item("No_Berita_Acara")) = "", "-", .Rows(j).Item("No_Berita_Acara"))
+                                    Dim No_Faktur_Waste As String = If(General_Class.CekNULL(.Rows(j).Item("No_Faktur_Waste")) = "", "-", .Rows(j).Item("No_Faktur_Waste"))
 
                                     Dim Total As Double = 0
                                     Dim Satuan As String = ""

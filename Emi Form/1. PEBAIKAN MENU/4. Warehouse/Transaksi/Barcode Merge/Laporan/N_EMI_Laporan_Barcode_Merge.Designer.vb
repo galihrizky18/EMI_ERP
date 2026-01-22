@@ -58,7 +58,7 @@ Partial Class N_EMI_Laporan_Barcode_Merge
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(632, 45)
+        Me.Panel1.Size = New System.Drawing.Size(872, 45)
         Me.Panel1.TabIndex = 89
         '
         'Label11
@@ -295,7 +295,7 @@ Partial Class N_EMI_Laporan_Barcode_Merge
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(632, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(872, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'N_EMI_Laporan_Barcode_Merge
@@ -303,7 +303,7 @@ Partial Class N_EMI_Laporan_Barcode_Merge
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(632, 236)
+        Me.ClientSize = New System.Drawing.Size(872, 236)
         Me.Controls.Add(Me.Lv_Barang)
         Me.Controls.Add(Me.Lv_NoFaktur)
         Me.Controls.Add(Me.Panel2)

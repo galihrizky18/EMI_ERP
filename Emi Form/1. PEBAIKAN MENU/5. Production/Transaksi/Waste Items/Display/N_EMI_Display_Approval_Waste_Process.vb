@@ -1,6 +1,7 @@
 ﻿Public Class N_EMI_Display_Approval_Waste_Process
 
-
+    Dim arrFilterLokasiGudang, arrFilterTanggal, arrFilterParamLain As New ArrayList
+    Dim arrFilterTanggal_2, arrFilterParamLain_2 As New ArrayList
 
     Dim Lv_Process_NoTransaksiApproval, Lv_Process_NoFaktur, Lv_Process_KdStock_Owner, Lv_Process_Lokasi, Lv_Process_Tanggal, Lv_Process_Jam, Lv_Process_Keterangan, Lv_Process_UserInput As String
 
@@ -37,7 +38,6 @@
     Dim Item_Product_UserInput As Integer = 7
 
 
-
     Dim arrFilterTab2 As New ArrayList
 
 
@@ -47,10 +47,30 @@
         My.Application.ChangeUICulture("en-us")
     End Sub
 
+
+
     Private Sub N_EMI_Display_Approval_Waste_Process_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
+
+#Region "HANDLE ADD HANDLER"
+
+        AddHandler Lv_Process_Data.MouseMove, AddressOf ListView_MouseMove
+        AddHandler Lv_Process_User_Approve.MouseMove, AddressOf ListView_MouseMove
+        AddHandler Lv_Process_Detail_Barang.MouseMove, AddressOf ListView_MouseMove
+        AddHandler Lv_Product_Data.MouseMove, AddressOf ListView_MouseMove
+        AddHandler Lv_Product_User_Approve.MouseMove, AddressOf ListView_MouseMove
+        AddHandler Lv_Product_Detail_Barang.MouseMove, AddressOf ListView_MouseMove
+
+        AddHandler Lv_Process_Data.MouseLeave, AddressOf ListView_MouseLeave
+        AddHandler Lv_Process_User_Approve.MouseLeave, AddressOf ListView_MouseLeave
+        AddHandler Lv_Process_Detail_Barang.MouseLeave, AddressOf ListView_MouseLeave
+        AddHandler Lv_Product_Data.MouseLeave, AddressOf ListView_MouseLeave
+        AddHandler Lv_Product_User_Approve.MouseLeave, AddressOf ListView_MouseLeave
+        AddHandler Lv_Product_Detail_Barang.MouseLeave, AddressOf ListView_MouseLeave
+
+#End Region
 
 #Region "WASTE PROCESS"
 
@@ -64,14 +84,6 @@
         Lv_Process_Data.Columns.Add("Keterangan", 200, HorizontalAlignment.Left)
         Lv_Process_Data.Columns.Add("User Input", 130, HorizontalAlignment.Left)
         Lv_Process_Data.View = View.Details
-
-        Cmb_Filter.Items.Clear() : arrFilterTab1.Clear()
-        Cmb_Filter.Items.Add(OpsiSeluruh) : arrFilterTab1.Add(OpsiSeluruh)
-        Cmb_Filter.Items.Add("No Approval") : arrFilterTab1.Add("b.No_Transaksi")
-        Cmb_Filter.Items.Add("No Faktur") : arrFilterTab1.Add("a.No_Faktur")
-        Cmb_Filter.Items.Add("Lokasi") : arrFilterTab1.Add("a.Lokasi")
-        Cmb_Filter.Items.Add("Kode Stock Owner") : arrFilterTab1.Add("a.Kode_Stock_Owner")
-        Cmb_Filter.Items.Add("User Input") : arrFilterTab1.Add("a.UserID")
 
         Lv_Process_User_Approve.Columns.Clear()
         Lv_Process_User_Approve.Columns.Add("Username", 200, HorizontalAlignment.Left)
@@ -109,13 +121,6 @@
         Lv_Product_Data.Columns.Add("User Input", 130, HorizontalAlignment.Left)
         Lv_Product_Data.View = View.Details
 
-        Cmb_Filter_Tab_2.Items.Clear() : arrFilterTab2.Clear()
-        Cmb_Filter_Tab_2.Items.Add(OpsiSeluruh) : arrFilterTab2.Add(OpsiSeluruh)
-        Cmb_Filter_Tab_2.Items.Add("No Approval") : arrFilterTab2.Add("b.No_Transaksi")
-        Cmb_Filter_Tab_2.Items.Add("No Faktur") : arrFilterTab2.Add("a.No_Faktur")
-        Cmb_Filter_Tab_2.Items.Add("Lokasi") : arrFilterTab2.Add("a.Lokasi")
-        Cmb_Filter_Tab_2.Items.Add("Kode Stock Owner") : arrFilterTab2.Add("a.Kode_Stock_Owner")
-        Cmb_Filter_Tab_2.Items.Add("User Input") : arrFilterTab2.Add("a.UserID")
 
         Lv_Product_User_Approve.Columns.Clear()
         Lv_Product_User_Approve.Columns.Add("Username", 200, HorizontalAlignment.Left)
@@ -140,10 +145,57 @@
 #End Region
 
 
-        Kosong_Tab_1()
-        'Kosong_Tab_2()
+        Try
+            OpenConn()
+
+            Cmb_Lokasi.Items.Clear() : Cmb_Lokasi2.Items.Clear() : arrFilterLokasiGudang.Clear()
+            SQL = "select Kode_Stock_Owner from stock_owner where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Cmb_Lokasi.Items.Add(Dr("Kode_Stock_Owner"))
+                    Cmb_Lokasi2.Items.Add(Dr("Kode_Stock_Owner"))
+                    arrFilterLokasiGudang.Add(Dr("Kode_Stock_Owner"))
+                Loop
+            End Using
+
+            Cmb_Tanggal.Items.Clear() : arrFilterTanggal.Clear()
+            Cmb_Tanggal.Items.Add("Tanggal Transaksi") : arrFilterTanggal.Add("a.Tanggal")
+
+            Cmb_Param_Lain.Items.Clear() : arrFilterParamLain.Clear()
+            Cmb_Param_Lain.Items.Add("No Approval") : arrFilterParamLain.Add("b.No_Transaksi")
+            Cmb_Param_Lain.Items.Add("No Faktur") : arrFilterParamLain.Add("a.No_Faktur")
+            Cmb_Param_Lain.Items.Add("Lokasi") : arrFilterParamLain.Add("a.Lokasi")
+            Cmb_Param_Lain.Items.Add("Kode Stock Owner") : arrFilterParamLain.Add("a.Kode_Stock_Owner")
+            Cmb_Param_Lain.Items.Add("User Input") : arrFilterParamLain.Add("a.UserID")
+
+
+            Cmb_Tanggal2.Items.Clear() : arrFilterTanggal_2.Clear()
+            Cmb_Tanggal2.Items.Add("Tanggal Transaksi") : arrFilterTanggal_2.Add("a.Tanggal")
+
+            Cmb_Param_Lain2.Items.Clear() : arrFilterParamLain_2.Clear()
+            Cmb_Param_Lain2.Items.Add("No Approval") : arrFilterParamLain_2.Add("b.No_Transaksi")
+            Cmb_Param_Lain2.Items.Add("No Faktur") : arrFilterParamLain_2.Add("a.No_Faktur")
+            Cmb_Param_Lain2.Items.Add("Lokasi") : arrFilterParamLain_2.Add("a.Lokasi")
+            Cmb_Param_Lain2.Items.Add("Kode Stock Owner") : arrFilterParamLain_2.Add("a.Kode_Stock_Owner")
+            Cmb_Param_Lain2.Items.Add("User Input") : arrFilterParamLain_2.Add("a.UserID")
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
+        'Kosong_Tab_1()
+        Kosong_Tab_2()
+
+
 
     End Sub
+
+
 
     Private Sub Tab1_Get_Lv_Process_Data(ByVal index As Integer)
         Lv_Process_NoTransaksiApproval = Lv_Process_Data.Items(index).SubItems(Item_Process_NoTransaksiApproval).Text
@@ -156,6 +208,8 @@
         Lv_Process_UserInput = Lv_Process_Data.Items(index).SubItems(Item_Process_UserInput).Text
     End Sub
 
+
+
     Private Sub Tab1_Get_Lv_Process_User(ByVal index As Integer)
         Lv_User_Approve_Username = Lv_Process_User_Approve.Items(index).SubItems(item_User_Approve_Username).Text
         Lv_User_Approve_Level = Lv_Process_User_Approve.Items(index).SubItems(item_User_Approve_Level).Text
@@ -164,6 +218,8 @@
         Lv_User_Approve_JamApprove = Lv_Process_User_Approve.Items(index).SubItems(item_User_Approve_JamApprove).Text
         Lv_User_Approve_iduser = Lv_Process_User_Approve.Items(index).SubItems(item_User_Approve_iduser).Text
     End Sub
+
+
 
     Private Sub Tab2_Get_Lv_Product_Data(ByVal index As Integer)
         Lv_Product_NoTransaksiApproval = Lv_Product_Data.Items(index).SubItems(Item_Product_NoTransaksiApproval).Text
@@ -177,70 +233,63 @@
     End Sub
 
 
+
     Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
         If TabControl1.SelectedIndex = 0 Then
-            Kosong_Tab_1()
-        ElseIf TabControl1.SelectedIndex = 1 Then
             Kosong_Tab_2()
+
+        ElseIf TabControl1.SelectedIndex = 1 Then
+            Kosong_Tab_1()
+
         Else
             Kosong_Tab_1()
             Kosong_Tab_2()
         End If
     End Sub
+
+
 
     Private Sub Kosong_Tab_1()
 
         Lv_Process_Data.Items.Clear()
         Lv_Process_User_Approve.Items.Clear()
         Lv_Process_Detail_Barang.Items.Clear()
-        Cmb_Filter.SelectedIndex = 0
-        Txt_Filter.Text = ""
 
-        Load_Data_Process_Waste()
+        Cmb_Lokasi.SelectedItem = Ket_Lokasi_HO
+
+        'Load_Data_Process_Waste()
+        Cb_Hari_Ini.Checked = True
+        Rd_Cetak_Semua.Checked = True
+        Btn_Cari.PerformClick()
 
     End Sub
+
+
 
     Private Sub Kosong_Tab_2()
 
         Lv_Product_Data.Items.Clear()
         Lv_Product_User_Approve.Items.Clear()
         Lv_Product_Detail_Barang.Items.Clear()
-        Cmb_Filter_Tab_2.SelectedIndex = 0
-        Txt_Filter_Tab_2.Text = ""
 
-        Load_Data_Product_Waste()
+        Cmb_Lokasi2.SelectedItem = Ket_Lokasi_HO
 
-    End Sub
-
-    Private Sub Btn_Cari_Click(sender As Object, e As EventArgs) Handles Btn_Cari.Click
-        If Cmb_Filter.SelectedIndex = 0 Or Cmb_Filter.SelectedIndex = -1 Then
-            MessageBox.Show("Pilih Dahulu yang Mau Difilter", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Cmb_Filter.DroppedDown = True
-            Cmb_Filter.Focus()
-            Exit Sub
-        Else
-            If Txt_Filter.Text.Trim.Length = 0 Then
-                MessageBox.Show("Value Filter Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Txt_Filter.Focus()
-                Exit Sub
-            End If
-        End If
-
-        Load_Data_Process_Waste(Filter:=True)
+        'Load_Data_Product_Waste()
+        Cb_Hari_Ini2.Checked = True
+        Rd_Cetak_Semua2.Checked = True
+        Btn_Cari2.PerformClick()
 
     End Sub
 
-    Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
-        Kosong_Tab_1()
-    End Sub
 
-    Private Sub Load_Data_Process_Waste(ByVal Optional Filter As Boolean = False)
+
+    Private Sub Load_Data_Process_Waste()
         Try
             OpenConn()
 
             Lv_Process_Data.Items.Clear() : Lv_Process_User_Approve.Items.Clear() : Lv_Process_Detail_Barang.Items.Clear()
             SQL = "select distinct b.No_Transaksi, a.No_Faktur, a.Lokasi, a.Kode_Stock_Owner, a.Tanggal, a.Jam, a.Keterangan, a.UserID as User_Input, "
-            SQL = SQL & "isnull((x.isCompleted), 'Y') as isCompleted "
+            SQL = SQL & "isnull((x.isCompleted), 'Y') as isCompleted, a.Flag_Cetak_Faktur "
             SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste a "
             SQL = SQL & "inner join N_EMI_Transaksi_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur_Waste "
             SQL = SQL & "outer apply( "
@@ -253,9 +302,45 @@
             SQL = SQL & "where a.Status is null and b.Status is null "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.Flag_Waste_Proses = 'Y' "
-            If Filter Then
-                SQL = SQL & "and " & arrFilterTab1(Cmb_Filter.SelectedIndex) & " like '%" & Txt_Filter.Text & "%' "
+
+            If Cmb_Lokasi.SelectedIndex <> 0 Then
+                If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+                SQL &= $" a.Lokasi = '{arrFilterLokasiGudang.Item(Cmb_Lokasi.SelectedIndex)}' "
             End If
+
+            If Cb_Hari_Ini.Checked Then
+                'Pasang And
+                If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+                SQL &= $" a.tanggal between '"
+                SQL &= Format(Now, "yyyy-MM-dd") & "' and '" & Format(Now, "yyyy-MM-dd") & "' "
+            End If
+
+            If Cb_Tanggal.Checked Then
+                'Pasang And
+                If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+                SQL &= arrFilterTanggal.Item(Cmb_Tanggal.SelectedIndex) & " between ' "
+                SQL &= Format(Tgl_1.Value, "yyyy-MM-dd") & "' and '" & Format(Tgl_2.Value, "yyyy-MM-dd") & "' "
+            End If
+
+            If Cb_Param_Lain.Checked Then
+                'Pasang And
+                If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+                SQL &= arrFilterParamLain.Item(Cmb_Param_Lain.SelectedIndex) & " like '%" & Trim(Txt_Param_Lain.Text) & "%' "
+            End If
+
+            If Not Rd_Cetak_Semua.Checked Then
+                If Rd_Cetak_Belum.Checked Then
+                    SQL = SQL & "and a.Flag_Cetak_Faktur is null "
+                ElseIf Rd_Cetak_Sudah.Checked Then
+                    SQL = SQL & "and a.Flag_Cetak_Faktur = 'Y' "
+                End If
+            End If
+
+            SQL = SQL & "order by a.Tanggal, a.Jam "
+
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Dim Lv As ListViewItem
@@ -275,6 +360,12 @@
                     Else
                         Lv.BackColor = Color.White
                     End If
+
+                    If Dr("isCompleted") = "Y" And General_Class.CekNULL(Dr("Flag_Cetak_Faktur")) = "Y" Then
+                        Lv.BackColor = Color.Goldenrod
+                    End If
+
+
                 Loop
             End Using
 
@@ -285,6 +376,8 @@
             Exit Sub
         End Try
     End Sub
+
+
 
     Private Sub Lv_Process_Data_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lv_Process_Data.SelectedIndexChanged
         If Lv_Process_Data.Items.Count = 0 OrElse Lv_Process_Data.FocusedItem Is Nothing Then Exit Sub
@@ -326,7 +419,7 @@
                         Lv.SubItems.Add("On Process")
                     End If
 
-                    Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Tanggal_Approve")) = "", "-", Dr("Tanggal_Approve")))
+                    Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Tanggal_Approve")) = "", "-", Format(Dr("Tanggal_Approve"), "dd MMM yyyy")))
                     Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Jam_Approve")) = "", "-", Dr("Jam_Approve")))
                     Lv.SubItems.Add(Dr("Id_User_Android_Approve"))
                     Lv.SubItems.Add(Dr("jabatan"))
@@ -361,17 +454,7 @@
         End Try
     End Sub
 
-    Private Sub Cmb_Filter_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Filter.SelectedIndexChanged
-        If Cmb_Filter.Items.Count = 0 OrElse Cmb_Filter.SelectedIndex = -1 Then Exit Sub
 
-        If Cmb_Filter.SelectedIndex = 0 Then
-            Txt_Filter.Enabled = False
-        Else
-            Txt_Filter.Enabled = True
-        End If
-        Txt_Filter.Text = ""
-
-    End Sub
 
     Private Sub CetakFakturToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CetakFakturToolStripMenuItem.Click
         If Lv_Process_Data.Items.Count = 0 AndAlso Lv_Process_Data.FocusedItem Is Nothing Then Exit Sub
@@ -512,8 +595,21 @@
 
                     'MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
+                Else
+                    CloseConn()
+                    MessageBox.Show($"Faktur BA dengan Nomor {No_Faktur} Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
                 End If
             End Using
+
+
+            '=======================
+            '=     UPDATE FLAG     =
+            '=======================
+            SQL = "update N_EMI_Transaksi_Transfer_Waste set Flag_Cetak_Faktur = 'Y' "
+            SQL &= $"where status is null and Kode_Perusahaan = '{KodePerusahaan}' and No_Faktur = '{No_Faktur}' "
+            ExecuteTrans(SQL)
+
 
             CloseConn()
         Catch ex As Exception
@@ -526,47 +622,15 @@
     End Sub
 
 
-    Private Sub Btn_Cari_2_Click(sender As Object, e As EventArgs) Handles Btn_Cari_2.Click
-        If Cmb_Filter_Tab_2.SelectedIndex = 0 Or Cmb_Filter_Tab_2.SelectedIndex = -1 Then
-            MessageBox.Show("Pilih Dahulu yang Mau Difilter", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Cmb_Filter_Tab_2.DroppedDown = True
-            Cmb_Filter_Tab_2.Focus()
-            Exit Sub
-        Else
-            If Txt_Filter_Tab_2.Text.Trim.Length = 0 Then
-                MessageBox.Show("Value Filter Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Txt_Filter_Tab_2.Focus()
-                Exit Sub
-            End If
-        End If
 
-        Load_Data_Product_Waste(Filter:=True)
-    End Sub
-
-    Private Sub Btn_Refresh_2_Click(sender As Object, e As EventArgs) Handles Btn_Refresh_2.Click
-        Kosong_Tab_2()
-    End Sub
-
-
-    Private Sub Cmb_Filter_Tab_2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Filter_Tab_2.SelectedIndexChanged
-        If Cmb_Filter_Tab_2.Items.Count = 0 OrElse Cmb_Filter_Tab_2.SelectedIndex = -1 Then Exit Sub
-
-        If Cmb_Filter_Tab_2.SelectedIndex = 0 Then
-            Txt_Filter_Tab_2.Enabled = False
-        Else
-            Txt_Filter_Tab_2.Enabled = True
-        End If
-        Txt_Filter_Tab_2.Text = ""
-    End Sub
-
-    Private Sub Load_Data_Product_Waste(ByVal Optional Filter As Boolean = False)
+    Private Sub Load_Data_Product_Waste()
         Try
             OpenConn()
 
             Lv_Product_Data.Items.Clear() : Lv_Product_User_Approve.Items.Clear() : Lv_Product_Detail_Barang.Items.Clear()
 
             SQL = "select distinct b.No_Transaksi, a.No_Faktur, a.Lokasi, a.Kode_Stock_Owner, a.Tanggal, a.Jam, a.Keterangan, a.UserID as User_Input, "
-            SQL = SQL & "isnull((x.isCompleted), 'Y') as isCompleted "
+            SQL = SQL & "isnull((x.isCompleted), 'Y') as isCompleted, a.Flag_Cetak_Faktur "
             SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk a "
             SQL = SQL & "inner join N_EMI_Transaksi_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur_Waste "
             SQL = SQL & "outer apply( "
@@ -582,9 +646,44 @@
             SQL = SQL & "and b.Jenis_Approval = 'Waste_Produk' "
             SQL = SQL & "and a.Flag_Waste_Product = 'Y'	"
 
-            If Filter Then
-                SQL = SQL & "and " & arrFilterTab2(Cmb_Filter_Tab_2.SelectedIndex) & " like '%" & Txt_Filter_Tab_2.Text & "%' "
+            If Cmb_Lokasi2.SelectedIndex <> 0 Then
+                If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+                SQL &= $" a.Lokasi = '{arrFilterLokasiGudang.Item(Cmb_Lokasi2.SelectedIndex)}' "
             End If
+
+            If Cb_Hari_Ini2.Checked Then
+                'Pasang And
+                If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+                SQL &= $" a.tanggal between '"
+                SQL &= Format(Now, "yyyy-MM-dd") & "' and '" & Format(Now, "yyyy-MM-dd") & "' "
+            End If
+
+            If Cb_Tanggal2.Checked Then
+                'Pasang And
+                If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+                SQL &= arrFilterTanggal_2.Item(Cmb_Tanggal2.SelectedIndex) & " between ' "
+                SQL &= Format(Tgl_1_2.Value, "yyyy-MM-dd") & "' and '" & Format(Tgl_2_2.Value, "yyyy-MM-dd") & "' "
+            End If
+
+            If Cb_Param_Lain2.Checked Then
+                'Pasang And
+                If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+                SQL &= arrFilterParamLain_2.Item(Cmb_Param_Lain2.SelectedIndex) & " like '%" & Trim(Txt_Param_Lain2.Text) & "%' "
+            End If
+
+            If Not Rd_Cetak_Semua2.Checked Then
+                If Rd_Cetak_Belum2.Checked Then
+                    SQL = SQL & "and a.Flag_Cetak_Faktur is null "
+                ElseIf Rd_Cetak_Sudah2.Checked Then
+                    SQL = SQL & "and a.Flag_Cetak_Faktur = 'Y' "
+                End If
+            End If
+
+            SQL = SQL & "order by a.Tanggal, a.Jam "
+
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
                     Dim Lv As ListViewItem
@@ -604,6 +703,11 @@
                     Else
                         Lv.BackColor = Color.White
                     End If
+
+                    If Dr("isCompleted") = "Y" And General_Class.CekNULL(Dr("Flag_Cetak_Faktur")) = "Y" Then
+                        Lv.BackColor = Color.Goldenrod
+                    End If
+
                 Loop
             End Using
 
@@ -614,6 +718,8 @@
             Exit Sub
         End Try
     End Sub
+
+
 
     Private Sub Lv_Product_Data_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lv_Product_Data.SelectedIndexChanged
         If Lv_Product_Data.Items.Count = 0 OrElse Lv_Product_Data.FocusedItem Is Nothing Then Exit Sub
@@ -656,7 +762,7 @@
                         Lv.SubItems.Add("On Process")
                     End If
 
-                    Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Tanggal_Approve")) = "", "-", Dr("Tanggal_Approve")))
+                    Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Tanggal_Approve")) = "", "-", Format(Dr("Tanggal_Approve"), "dd MMM yyyy")))
                     Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Jam_Approve")) = "", "-", Dr("Jam_Approve")))
                     Lv.SubItems.Add(Dr("Id_User_Android_Approve"))
                     Lv.SubItems.Add(Dr("jabatan"))
@@ -690,6 +796,9 @@
             Exit Sub
         End Try
     End Sub
+
+
+
     Private Sub CetakFakturToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles CetakFakturToolStripMenuItem1.Click
         If Lv_Product_Data.Items.Count = 0 AndAlso Lv_Product_Data.FocusedItem Is Nothing Then Exit Sub
 
@@ -729,23 +838,23 @@
                 End If
             End Using
 
-            SQL = "select top 1 a.Kode_Perusahaan "
-            SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste a "
-            SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-            SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Det c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur and b.Urut_Oto = c.Urut_TF "
-            SQL = SQL & "inner join N_EMI_Transaksi_Approval_Waste d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur_Produk = d.No_Faktur_Waste "
-            SQL = SQL & "where a.Status is null and d.status is null "
-            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            'SQL = SQL & "and a.Flag_Waste_Product = 'Y' "
-            SQL = SQL & "and c.No_Faktur_Produk = '" & No_Faktur & "' "
-            SQL = SQL & "and d.no_transaksi = '" & No_Approval & "' "
-            Using Dr = OpenTrans(SQL)
-                If Not Dr.Read Then
-                    CloseConn()
-                    MessageBox.Show("No Transaksi Belum Melakukan Pengajuan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
-            End Using
+            'SQL = "select top 1 a.Kode_Perusahaan "
+            'SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste a "
+            'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Det c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur and b.Urut_Oto = c.Urut_TF "
+            'SQL = SQL & "inner join N_EMI_Transaksi_Approval_Waste d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur_Produk = d.No_Faktur_Waste "
+            'SQL = SQL & "where a.Status is null and d.status is null "
+            'SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+            ''SQL = SQL & "and a.Flag_Waste_Product = 'Y' "
+            'SQL = SQL & "and c.No_Faktur_Produk = '" & No_Faktur & "' "
+            'SQL = SQL & "and d.no_transaksi = '" & No_Approval & "' "
+            'Using Dr = OpenTrans(SQL)
+            '    If Not Dr.Read Then
+            '        CloseConn()
+            '        MessageBox.Show("No Transaksi Belum Melakukan Pengajuan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '        Exit Sub
+            '    End If
+            'End Using
 
             '===============================================
             '=     CEK APAKAH SEMUA USER SUDAH APPROVE     =
@@ -849,8 +958,20 @@
 
                     'MessageBox.Show("Berhasil Print", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
+                Else
+                    CloseConn()
+                    MessageBox.Show($"Faktur BA dengan Nomor {No_Faktur} Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+
                 End If
             End Using
+
+            '=======================
+            '=     UPDATE FLAG     =
+            '=======================
+            SQL = "update N_EMI_Transaksi_Transfer_Waste_Produk set Flag_Cetak_Faktur = 'Y' "
+            SQL &= $"where status is null and Kode_Perusahaan = '{KodePerusahaan}' and No_Faktur = '{No_Faktur}' "
+            ExecuteTrans(SQL)
 
             CloseConn()
         Catch ex As Exception
@@ -858,13 +979,317 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+
+    End Sub
+
+
+
+    Private Sub Btn_Cari_Click(sender As Object, e As EventArgs) Handles Btn_Cari.Click
+        If Cb_Hari_Ini.Checked = False And Cb_Tanggal.Checked = False And Cb_Param_Lain.Checked = False Then
+            MessageBox.Show("Check salah satu filter dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Cb_Hari_Ini.Focus() : Exit Sub
+        End If
+
+        If Cb_Tanggal.Checked Then
+            If Cmb_Tanggal.SelectedIndex = -1 Then
+                MessageBox.Show("Parameter Tanggal Harus Dipilih", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Cmb_Tanggal.DroppedDown = True : Cmb_Tanggal.Focus() : Exit Sub
+            ElseIf Tgl_1.Value > Tgl_2.Value Then
+                MessageBox.Show("Periode I Tidak Boleh Lebih Dari periode II!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Tgl_1.Value = Now.Date : Tgl_2.Value = Now.Date
+                Exit Sub
+            End If
+        End If
+
+        If Cb_Param_Lain.Checked Then
+            If Cmb_Param_Lain.SelectedIndex = -1 Then
+                MessageBox.Show("Parameter Lain Harus Dipilih", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Cmb_Param_Lain.DroppedDown = True : Cmb_Param_Lain.Focus() : Exit Sub
+            ElseIf Txt_Param_Lain.Text.Trim.Length = 0 Then
+                MessageBox.Show("Value Filter Harus Dipilih", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Txt_Param_Lain.Focus() : Exit Sub
+            End If
+        End If
+
+        Load_Data_Process_Waste()
+    End Sub
+
+
+
+    Private Sub Btn_Cari2_Click(sender As Object, e As EventArgs) Handles Btn_Cari2.Click
+        If Cb_Hari_Ini2.Checked = False And Cb_Tanggal2.Checked = False And Cb_Param_Lain2.Checked = False Then
+            MessageBox.Show("Check salah satu filter dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Cb_Hari_Ini2.Focus() : Exit Sub
+        End If
+
+        If Cb_Tanggal2.Checked Then
+            If Cmb_Tanggal2.SelectedIndex = -1 Then
+                MessageBox.Show("Parameter Tanggal Harus Dipilih", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Cmb_Tanggal2.DroppedDown = True : Cmb_Tanggal2.Focus() : Exit Sub
+            ElseIf Tgl_1_2.Value > Tgl_2_2.Value Then
+                MessageBox.Show("Periode I Tidak Boleh Lebih Dari periode II!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Tgl_1_2.Value = Now.Date : Tgl_2_2.Value = Now.Date
+                Exit Sub
+            End If
+        End If
+
+        If Cb_Param_Lain2.Checked Then
+            If Cmb_Param_Lain2.SelectedIndex = -1 Then
+                MessageBox.Show("Parameter Lain Harus Dipilih", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Cmb_Param_Lain2.DroppedDown = True : Cmb_Param_Lain2.Focus() : Exit Sub
+            ElseIf Txt_Param_Lain2.Text.Trim.Length = 0 Then
+                MessageBox.Show("Value Filter Harus Dipilih", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Txt_Param_Lain2.Focus() : Exit Sub
+            End If
+        End If
+
+
+        Load_Data_Product_Waste()
+
     End Sub
 
 
 
 
+    '====================================================================================================================================================================================
+#Region "HANDLE KEYPRESS TAB 1"
+    Private Sub Cb_Hari_Ini_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_Hari_Ini.CheckedChanged
+        If Cb_Hari_Ini.Checked = True Then
+            Cb_Tanggal.Checked = False
+            Btn_Cari.PerformClick()
+        End If
+    End Sub
 
 
+
+    Private Sub Cb_Tanggal_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_Tanggal.CheckedChanged
+        If Cb_Tanggal.Checked Then
+            Cmb_Tanggal.Enabled = True : Tgl_1.Enabled = True : Tgl_2.Enabled = True
+            Cb_Hari_Ini.Checked = False
+        Else
+            Cmb_Tanggal.Enabled = False : Tgl_1.Enabled = False : Tgl_2.Enabled = False
+            Cmb_Tanggal.SelectedIndex = -1 : Tgl_1.Value = Now.Date : Tgl_2.Value = Now.Date
+        End If
+    End Sub
+
+
+
+    Private Sub Cb_Param_Lain_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_Param_Lain.CheckedChanged
+        If Cb_Param_Lain.Checked Then
+            Cmb_Param_Lain.Enabled = True : Txt_Param_Lain.Enabled = True
+        Else
+            Cmb_Param_Lain.Enabled = False : Txt_Param_Lain.Enabled = False
+            Cmb_Param_Lain.SelectedIndex = -1 : Txt_Param_Lain.Text = ""
+        End If
+    End Sub
+
+
+
+    Private Sub Cmb_Lokasi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Lokasi.KeyPress
+        If e.KeyChar = Chr(13) Then Cb_Hari_Ini.Focus()
+    End Sub
+
+
+
+    Private Sub Cb_Hari_Ini_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cb_Hari_Ini.KeyPress
+        If e.KeyChar = Chr(13) Then Cb_Tanggal.Focus()
+    End Sub
+
+
+
+    Private Sub Cb_Tanggal_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cb_Tanggal.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If Cb_Tanggal.Checked Then
+                Cmb_Tanggal.DroppedDown = True
+                Cmb_Tanggal.Focus()
+            Else
+                Cb_Param_Lain.Focus()
+            End If
+
+        End If
+    End Sub
+
+
+
+    Private Sub Cb_Param_Lain_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cb_Param_Lain.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If Cb_Param_Lain.Checked Then
+                Cmb_Param_Lain.DroppedDown = True
+                Cmb_Param_Lain.Focus()
+            Else
+                Btn_Cari.Focus()
+            End If
+
+        End If
+    End Sub
+
+
+
+    Private Sub Cmb_Tanggal_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Tanggal.KeyPress
+        If e.KeyChar = Chr(13) Then Tgl_1.Focus()
+    End Sub
+
+
+
+    Private Sub Tgl_1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tgl_1.KeyPress
+        If e.KeyChar = Chr(13) Then Tgl_2.Focus()
+    End Sub
+
+
+
+    Private Sub Tgl_2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tgl_2.KeyPress
+        If e.KeyChar = Chr(13) Then Cb_Param_Lain.Focus()
+    End Sub
+
+
+
+    Private Sub Cmb_Param_Lain_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Param_Lain.KeyPress
+        If e.KeyChar = Chr(13) Then Txt_Param_Lain.Focus()
+    End Sub
+
+    Private Sub Txt_Param_Lain_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Param_Lain.KeyPress
+        If e.KeyChar = Chr(13) Then Btn_Cari.Focus()
+    End Sub
+#End Region
+
+    '====================================================================================================================================================================================
+#Region "HANDLE KEYPRESS TAB 2"
+
+    Private Sub Cmb_Lokasi2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Lokasi2.KeyPress
+        If e.KeyChar = Chr(13) Then Cb_Hari_Ini2.Focus()
+    End Sub
+
+    Private Sub Cb_Hari_Ini2_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_Hari_Ini2.CheckedChanged
+        If Cb_Hari_Ini2.Checked = True Then
+            Cb_Tanggal2.Checked = False
+            Btn_Cari2.PerformClick()
+        End If
+    End Sub
+
+    Private Sub Cb_Tanggal2_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_Tanggal2.CheckedChanged
+        If Cb_Tanggal2.Checked Then
+            Cmb_Tanggal2.Enabled = True : Tgl_1_2.Enabled = True : Tgl_2_2.Enabled = True
+            Cb_Hari_Ini2.Checked = False
+        Else
+            Cmb_Tanggal2.Enabled = False : Tgl_1_2.Enabled = False : Tgl_2_2.Enabled = False
+            Cmb_Tanggal2.SelectedIndex = -1 : Tgl_1_2.Value = Now.Date : Tgl_2_2.Value = Now.Date
+        End If
+    End Sub
+
+    Private Sub Cb_Param_Lain2_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_Param_Lain2.CheckedChanged
+        If Cb_Param_Lain2.Checked Then
+            Cmb_Param_Lain2.Enabled = True : Txt_Param_Lain2.Enabled = True
+        Else
+            Cmb_Param_Lain2.Enabled = False : Txt_Param_Lain2.Enabled = False
+            Cmb_Param_Lain2.SelectedIndex = -1 : Txt_Param_Lain2.Text = ""
+        End If
+
+
+    End Sub
+
+    Private Sub Cb_Hari_Ini2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cb_Hari_Ini2.KeyPress
+        If e.KeyChar = Chr(13) Then Cb_Tanggal2.Focus()
+    End Sub
+
+    Private Sub Cb_Tanggal2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cb_Tanggal2.KeyPress
+        If e.KeyChar = Chr(13) Then
+            If Cb_Tanggal2.Checked Then
+                Cmb_Tanggal2.DroppedDown = True
+                Cmb_Tanggal2.Focus()
+            Else
+                Cb_Param_Lain2.Focus()
+            End If
+
+        End If
+    End Sub
+
+    Private Sub Cmb_Tanggal2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Tanggal2.KeyPress
+        If e.KeyChar = Chr(13) Then Tgl_1_2.Focus()
+    End Sub
+
+    Private Sub Tgl_1_2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tgl_1_2.KeyPress
+        If e.KeyChar = Chr(13) Then Tgl_2_2.Focus()
+    End Sub
+
+    Private Sub Tgl_2_2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tgl_2_2.KeyPress
+        If e.KeyChar = Chr(13) Then Cb_Param_Lain2.Focus()
+    End Sub
+
+    Private Sub Cmb_Param_Lain2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Param_Lain2.KeyPress
+        If e.KeyChar = Chr(13) Then Txt_Param_Lain2.Focus()
+    End Sub
+
+    Private Sub Txt_Param_Lain2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Param_Lain2.KeyPress
+        If e.KeyChar = Chr(13) Then Btn_Cari2.Focus()
+    End Sub
+
+
+
+#End Region
+
+
+
+    Private Sub ListView_MouseLeave(sender As Object, e As EventArgs)
+        DirectCast(sender, ListView).Cursor = Cursors.Default
+    End Sub
+
+    Private Sub ListView_MouseMove(sender As Object, e As MouseEventArgs)
+
+        Dim lv As ListView = DirectCast(sender, ListView)
+
+        Dim info As ListViewHitTestInfo = lv.HitTest(e.Location)
+
+        If info.Item IsNot Nothing Then
+            lv.Cursor = Cursors.Hand
+        Else
+            lv.Cursor = Cursors.Default
+        End If
+
+    End Sub
+
+
+    Private Sub ContextMenuStrip1_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip1.Opening
+        If Lv_Process_Data.Items.Count = 0 Then
+            e.Cancel = True
+            Exit Sub
+        End If
+
+        '=========================================================
+        '=     CEK APAKAH MOUSE BERADA DI ATAS ROWS LISTVIEW     =
+        '=========================================================
+        Dim mousePos As Point = Lv_Process_Data.PointToClient(Cursor.Position)
+        Dim info As ListViewHitTestInfo = Lv_Process_Data.HitTest(mousePos)
+
+        If info.Item Is Nothing Then
+            e.Cancel = True
+            Exit Sub
+        End If
+
+        Lv_Process_Data.FocusedItem = info.Item
+        info.Item.Selected = True
+    End Sub
+
+    Private Sub ContextMenuStrip2_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip2.Opening
+        If Lv_Product_Data.Items.Count = 0 Then
+            e.Cancel = True
+            Exit Sub
+        End If
+
+        '=========================================================
+        '=     CEK APAKAH MOUSE BERADA DI ATAS ROWS LISTVIEW     =
+        '=========================================================
+        Dim mousePos As Point = Lv_Product_Data.PointToClient(Cursor.Position)
+        Dim info As ListViewHitTestInfo = Lv_Product_Data.HitTest(mousePos)
+
+        If info.Item Is Nothing Then
+            e.Cancel = True
+            Exit Sub
+        End If
+
+        Lv_Product_Data.FocusedItem = info.Item
+        info.Item.Selected = True
+    End Sub
 
 
 

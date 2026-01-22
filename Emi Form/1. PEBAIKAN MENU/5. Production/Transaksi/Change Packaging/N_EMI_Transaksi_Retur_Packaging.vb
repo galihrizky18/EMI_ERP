@@ -1,4 +1,5 @@
-﻿Imports System.Globalization
+﻿Imports System.Drawing.Printing
+Imports System.Globalization
 Imports System.IO
 
 Public Class N_EMI_Transaksi_Retur_Packaging
@@ -21,11 +22,8 @@ Public Class N_EMI_Transaksi_Retur_Packaging
     Private rawData1() As Byte
     Private fs1 As FileStream
 
-
-
     Dim arrGudang_Packaging, arrBarang_Req_Packaging, arrBarang_Req_Packaging_Satuan, arrBarang_Scrap_Req_Packaging, arrBarang_Scrap_Satuan_Req_Packaging, arrSatuan_Req_Packaging As New ArrayList
-
-
+    Dim arrFilter As New ArrayList
 
     Dim Lokasi_Produksi As String
     Dim Txt_NoFaktur_ReqMaterial, Txt_NoTransaksi As String
@@ -34,22 +32,35 @@ Public Class N_EMI_Transaksi_Retur_Packaging
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
     End Sub
+
     Private Sub N_EMI_Transaksi_Retur_Packaging_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         My.Application.ChangeCulture("en-us")
         My.Application.ChangeUICulture("en-us")
 
+
         Lv_Data_Split.Columns.Clear()
         Lv_Data_Split.Columns.Add("No Split", 130, HorizontalAlignment.Left)
         Lv_Data_Split.Columns.Add("Tanggal", 110, HorizontalAlignment.Center)
-        Lv_Data_Split.Columns.Add("Routing", 0, HorizontalAlignment.Left)
+        Lv_Data_Split.Columns.Add("Routing", 0, HorizontalAlignment.Right)
         Lv_Data_Split.Columns.Add("Keterangan", 280, HorizontalAlignment.Left)
-        Lv_Data_Split.Columns.Add("Kode Barang", 130, HorizontalAlignment.Left)
         Lv_Data_Split.Columns.Add("Barang", 300, HorizontalAlignment.Left)
         Lv_Data_Split.Columns.Add("Jumlah", 130, HorizontalAlignment.Right)
         Lv_Data_Split.Columns.Add("Satuan", 90, HorizontalAlignment.Center)
-        Lv_Data_Split.Columns.Add("FlagGI", 0, HorizontalAlignment.Left)
+        Lv_Data_Split.Columns.Add("FlagGI", 0, HorizontalAlignment.Center)
         Lv_Data_Split.View = View.Details
+
+
+
+        Cmb_Filter.Items.Clear() : arrFilter.Clear()
+        Cmb_Filter.Items.Add(OpsiSeluruh) : arrFilter.Add(OpsiSeluruh)
+        Cmb_Filter.Items.Add("No Split") : arrFilter.Add("a.No_Transaksi")
+        'Cmb_Filter.Items.Add("Routing") : arrFilter.Add("d.Keterangan")
+        Cmb_Filter.Items.Add("Kode Barang") : arrFilter.Add("a.Kode_Barang")
+        Cmb_Filter.Items.Add("Nama Barang") : arrFilter.Add("c.Nama")
+        Cmb_Filter.Items.Add("Keterangan") : arrFilter.Add("b.Keterangan")
+
+
 
         Try
             OpenConn()
@@ -115,72 +126,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
         Kosong()
     End Sub
 
-    Private Sub Txt_Jumlah_Retur_TextChanged(sender As Object, e As EventArgs) Handles Txt_Jumlah_Retur.TextChanged
-        If Txt_Jumlah_Retur.Text.Trim.Length = 0 Then Exit Sub
-
-        If Cmb_Lokasi_Retur.SelectedIndex = -1 Then
-            MessageBox.Show("Lokasi Retur Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Txt_Jumlah_Retur.Text = ""
-            Cmb_Lokasi_Retur.DroppedDown = True
-            Cmb_Lokasi_Retur.Focus() : Exit Sub
-        ElseIf Cmb_Barang_Retur.SelectedIndex = -1 Then
-            MessageBox.Show("Barang Retur Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Txt_Jumlah_Retur.Text = ""
-            Cmb_Barang_Retur.DroppedDown = True
-            Cmb_Barang_Retur.Focus() : Exit Sub
-        ElseIf Cmb_Barang_Scrap.SelectedIndex = -1 Then
-            MessageBox.Show("Barang Scrap Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Txt_Jumlah_Retur.Text = ""
-            Cmb_Barang_Scrap.DroppedDown = True
-            Cmb_Barang_Scrap.Focus() : Exit Sub
-        End If
-
-
-
-        Try
-            OpenConn()
-
-
-            ''================================
-            ''=     CONVER MENJADI SCRAP     =
-            ''================================
-            Dim Jumlah_Convert_Scrap As Double = 0
-            'SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & arrBarang_Req_Packaging(Cmb_Barang_Retur.SelectedIndex) & "', "
-            'SQL = SQL & "'" & arrBarang_Req_Packaging_Satuan(Cmb_Barang_Retur.SelectedIndex) & "', '" & arrBarang_Scrap_Satuan_Req_Packaging(Cmb_Barang_Scrap.SelectedIndex) & "', '" & HilangkanTanda(Txt_Jumlah_Retur.Text) & "' ) as hasil "
-            'Using Dr = OpenTrans(SQL)
-            '    If Dr.Read Then
-            '        Jumlah_Convert_Scrap = Dr("hasil")
-            '    End If
-            'End Using
-
-
-            SQL = "select Berat from Barang where Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and Kode_Stock_Owner = '" & arrGudang_Packaging(Cmb_Lokasi_Retur.SelectedIndex) & "' and Kode_Barang = '" & arrBarang_Req_Packaging(Cmb_Barang_Retur.SelectedIndex) & "' "
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    'Jumlah_Convert_Scrap = Dr("hasil")
-                    Jumlah_Convert_Scrap = Math.Round(Val(HilangkanTanda(Txt_Jumlah_Retur.Text)) * (Val(HilangkanTanda(Dr("Berat"))) / 1000), 4)
-                End If
-            End Using
-
-            Txt_Jumlah_Retur_Satuan_Scrap.Text = $"{Jumlah_Convert_Scrap} {arrBarang_Scrap_Satuan_Req_Packaging(Cmb_Barang_Scrap.SelectedIndex)}"
-
-            CloseConn()
-        Catch ex As Exception
-            CloseConn()
-            MessageBox.Show(ex.Message)
-            Exit Sub
-        End Try
-    End Sub
-
-
-
-    Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
-        Kosong()
-    End Sub
-
-
-
     Private Sub Kosong()
 
         Txt_NoSplit.Text = ""
@@ -196,6 +141,9 @@ Public Class N_EMI_Transaksi_Retur_Packaging
 
         Txt_NoFaktur_ReqMaterial = ""
         Txt_NoTransaksi = ""
+
+        Cmb_Filter.SelectedIndex = 0
+        Txt_Filter.Text = ""
 
         Cmb_Satuan_Tot_Retur.Items.Clear()
 
@@ -221,7 +169,63 @@ Public Class N_EMI_Transaksi_Retur_Packaging
         Load_Data_Split()
     End Sub
 
+    Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
+        Kosong()
+    End Sub
 
+    Private Sub Txt_Jumlah_Retur_TextChanged(sender As Object, e As EventArgs) Handles Txt_Jumlah_Retur.TextChanged
+        If Txt_Jumlah_Retur.Text.Trim.Length = 0 Then Exit Sub
+
+        If Cmb_Lokasi_Retur.SelectedIndex = -1 Then
+            MessageBox.Show("Lokasi Retur Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Txt_Jumlah_Retur.Text = ""
+            Cmb_Lokasi_Retur.DroppedDown = True
+            Cmb_Lokasi_Retur.Focus() : Exit Sub
+        ElseIf Cmb_Barang_Retur.SelectedIndex = -1 Then
+            MessageBox.Show("Barang Retur Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Txt_Jumlah_Retur.Text = ""
+            Cmb_Barang_Retur.DroppedDown = True
+            Cmb_Barang_Retur.Focus() : Exit Sub
+        ElseIf Cmb_Barang_Scrap.SelectedIndex = -1 Then
+            MessageBox.Show("Barang Scrap Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Txt_Jumlah_Retur.Text = ""
+            Cmb_Barang_Scrap.DroppedDown = True
+            Cmb_Barang_Scrap.Focus() : Exit Sub
+        End If
+
+        Try
+            OpenConn()
+
+            ''================================
+            ''=     CONVER MENJADI SCRAP     =
+            ''================================
+            Dim Jumlah_Convert_Scrap As Double = 0
+            'SQL = "select dbo.ubah_satuan('" & KodePerusahaan & "', 'masa','" & arrBarang_Req_Packaging(Cmb_Barang_Retur.SelectedIndex) & "', "
+            'SQL = SQL & "'" & arrBarang_Req_Packaging_Satuan(Cmb_Barang_Retur.SelectedIndex) & "', '" & arrBarang_Scrap_Satuan_Req_Packaging(Cmb_Barang_Scrap.SelectedIndex) & "', '" & HilangkanTanda(Txt_Jumlah_Retur.Text) & "' ) as hasil "
+            'Using Dr = OpenTrans(SQL)
+            '    If Dr.Read Then
+            '        Jumlah_Convert_Scrap = Dr("hasil")
+            '    End If
+            'End Using
+
+            SQL = "select Berat from Barang where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and Kode_Stock_Owner = '" & arrGudang_Packaging(Cmb_Lokasi_Retur.SelectedIndex) & "' and Kode_Barang = '" & arrBarang_Req_Packaging(Cmb_Barang_Retur.SelectedIndex) & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    'Jumlah_Convert_Scrap = Dr("hasil")
+                    Jumlah_Convert_Scrap = Math.Round(Val(HilangkanTanda(Txt_Jumlah_Retur.Text)) * (Val(HilangkanTanda(Dr("Berat"))) / 1000), 4)
+                End If
+            End Using
+
+            Txt_Jumlah_Retur_Satuan_Scrap.Text = $"{Jumlah_Convert_Scrap} {arrBarang_Scrap_Satuan_Req_Packaging(Cmb_Barang_Scrap.SelectedIndex)}"
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
 
     Private Sub Get_Data_Lv(ByVal index As Integer)
         With Lv_Data_Split.Items(index)
@@ -236,6 +240,35 @@ Public Class N_EMI_Transaksi_Retur_Packaging
             Lv_Flag_GI = .SubItems(item_Flag_GI).Text
         End With
     End Sub
+
+    Private Sub Btn_Cari_Click(sender As Object, e As EventArgs) Handles Btn_Cari.Click
+        If Cmb_Filter.SelectedIndex = -1 Then
+            MessageBox.Show("Pilih Dahulu Kategori yang Ingin Difilter", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Cmb_Filter.DroppedDown = True
+            Cmb_Filter.Focus()
+            Exit Sub
+        ElseIf Cmb_Filter.SelectedIndex <> 0 Then
+            If Txt_Filter.Text.Trim.Length = 0 Then
+                MessageBox.Show("Value Filter Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Txt_Filter.Focus()
+                Exit Sub
+            End If
+        End If
+
+        Load_Data_Split()
+
+    End Sub
+
+    Private Sub Cmb_Filter_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Filter.SelectedIndexChanged
+        If Cmb_Filter.SelectedIndex = 0 Then
+            Txt_Filter.Enabled = False
+        Else
+            Txt_Filter.Enabled = True
+        End If
+        Txt_Filter.Text = ""
+    End Sub
+
+
 
     Private Sub Load_Data_Split()
         Try
@@ -259,8 +292,20 @@ Public Class N_EMI_Transaksi_Retur_Packaging
             SQL = SQL & "and a.Status is null and b.Status is null "
             SQL = SQL & "and a.Flag_Produksi = 'Y' "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and not exists ( select 1 from N_EMI_Validation_GR_3 z where a.Kode_Perusahaan = z.Kode_Perusahaan "
-            SQL = SQL & "and a.No_Transaksi = z.No_Production_Order and z.Status is null) "
+            SQL = SQL & "and a.Flag_Hasil_Produksi_GR2 is null "
+            If Cmb_Filter.SelectedIndex <> 0 Then
+                If Txt_Filter.Text.Trim.Length = 0 Then
+                    CloseConn()
+                    MessageBox.Show($"ValueFilter tidak boleh kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Txt_Filter.Focus()
+                    Exit Sub
+                Else
+                    SQL = SQL & "and " & arrFilter(Cmb_Filter.SelectedIndex).ToString.Trim & " like '%" & Txt_Filter.Text.Trim & "%' "
+                End If
+            End If
+
+            'SQL = SQL & "and not exists ( select 1 from N_EMI_Validation_GR_3 z where a.Kode_Perusahaan = z.Kode_Perusahaan "
+            'SQL = SQL & "and a.No_Transaksi = z.No_Production_Order and z.Status is null) "
             SQL = SQL & "order by a.Tanggal, a.Jam, a.No_Transaksi "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
@@ -292,6 +337,8 @@ Public Class N_EMI_Transaksi_Retur_Packaging
             Exit Sub
         End Try
     End Sub
+
+
 
     Private Sub Lv_Data_Split_DoubleClick(sender As Object, e As EventArgs) Handles Lv_Data_Split.DoubleClick
         If Lv_Data_Split.Items.Count = 0 Or Lv_Data_Split.FocusedItem Is Nothing Then Exit Sub
@@ -359,13 +406,10 @@ Public Class N_EMI_Transaksi_Retur_Packaging
 
         Txt_Jumlah_Retur.Text = ""
 
-
         Cmb_Lokasi_Retur.DroppedDown = True
         Cmb_Lokasi_Retur.Focus()
 
     End Sub
-
-
 
     Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
         If Txt_NoSplit.Text.Trim.Length = 0 Then
@@ -394,10 +438,11 @@ Public Class N_EMI_Transaksi_Retur_Packaging
 
         get_jam()
 
+        Dim kode_unik_print As String
+
         Try
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
-
 
             If Val(Txt_Jumlah_Retur.Text) > 0 Then
 
@@ -483,9 +528,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                     End If
                 End Using
 
-
-
-
                 '===================================================================
                 '=     CEK APAKAH ADA SISA STOCK PADA SPLIT YANG SUDAH SELESAI     =
                 '===================================================================
@@ -540,7 +582,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                                         CloseConn()
                                         MessageBox.Show("Proses Ganti Packaging Tidak Bisa Dilakukan, Karena Barang " & .Rows(i).Item("Nama_Barang") & " Masih Ada Sisa pada Split Sebelumnya", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                         Exit Sub
-
                                     Else
                                         Jumlah_Ganti = Val(HilangkanTanda(Txt_Jumlah_Retur.Text)) - (sisaPakai + Jumlah_Pada_diri)
                                         Satuan_Ganti = .Rows(i).Item("satuan")
@@ -553,8 +594,8 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                     End With
                 End Using
 
-
                 If Not foundData Then
+
 
                     Dim fReturPackaging As String = "RTP"
                     Txt_NoTransaksi = fReturPackaging & Format(tgl_skg, "MMyy") & "-" &
@@ -565,6 +606,7 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                     '=================================
                     '=     AUTO REQUEST MATERIAL     =
                     '=================================
+
 #Region "Auto Request Material"
 
                     'If Jumlah_Ganti <> 0 Then
@@ -573,7 +615,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                     '         General_Class.Get_Last_Number2("Emi_Material_Requisition", "No_Faktur", 5,
                     '         "Kode_perusahaan", KodePerusahaan,
                     '         "And", "substring(No_Faktur, 1, " & Len(fRequestMaterial) + 4 & ")", fRequestMaterial & Format(tgl_skg, "MMyy"))
-
 
                     '    Dim Keterangan_RM As String = "Request Retur Material from Production Order " & Txt_NoSplit.Text
 
@@ -612,8 +653,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                     '    SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', 'Y', '" & UserID & "', NULL, '" & Keterangan_RM & "', '" & Ket_Lokasi_HO_Proyek & "')"
                     '    ExecuteTrans(SQL)
 
-
-
                     '    '==============================
                     '    '=     INSERT TABEL DET     =
                     '    '==============================
@@ -624,7 +663,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                     '    SQL = SQL & "'" & HilangkanTanda(Jumlah_Ganti) & "', "
                     '    SQL = SQL & "'" & arrSatuan_Req_Packaging(Cmb_Satuan_Retur.SelectedIndex) & "', '" & HilangkanTanda(Jumlah_Ganti) & "', '" & arrSatuan_Req_Packaging(Cmb_Satuan_Retur.SelectedIndex) & "', 'Packaging')"
                     '    ExecuteTrans(SQL)
-
 
                     '    Dim x_ident_currentPackaging As Integer = 0
                     '    SQL = "select IDENT_CURRENT('Emi_Material_Requisition_det') as urutan"
@@ -692,7 +730,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
 
 #End Region
 
-
                     '================================
                     '=     CONVER MENJADI SCRAP     =
                     '================================
@@ -709,12 +746,10 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                         End If
                     End Using
 
-
-
-
                     '========================
                     '=     TAMBAH STOCK     =
                     '========================
+
 #Region "Tambah Stock"
 
                     '========================================
@@ -770,7 +805,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                                         SQL = SQL & "serial_number = '" & Ds.Tables("MyTable").Rows(i).Item("serial_number") & "'"
                                         ExecuteTrans(SQL)
 
-
                                         Nilai_Packaging = Nilai_Packaging + (HppPackaging * sisa)
                                         JumlahPotong += sisa
                                         sisa = 0
@@ -798,7 +832,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                                         MessageBox.Show("Jumlah stock tidak mencukupi untuk kode barang " & arrBarang_Req_Packaging(Cmb_Barang_Retur.SelectedIndex) & "!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                         Exit Sub
                                     End If
-
 
                                 Next
                             End If
@@ -896,8 +929,102 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                     SQL = SQL & "kode_stock_owner = '" & Lks_tujuan_Nomor & "' and kode_barang = '" & kd_barang & "'"
                     ExecuteTrans(SQL)
 
-
 #End Region
+
+
+                    '==================================
+                    '=      GENERATE NEW BARCODE      =
+                    '==================================
+                    Dim Kd_Barang_Scrap As String = arrBarang_Scrap_Req_Packaging(Cmb_Barang_Scrap.SelectedIndex)
+
+                    'HAPUS TABEL SEMENTARA
+                    'SQL = "truncate table Cetak_Finish_Good "
+                    SQL = "delete N_EMI_Barcode_Label_Retur_Packaging "
+                    ExecuteTrans(SQL)
+
+                    kode_unik_print = Format(tgl_skg, "MMddHHmmss") & Format(random.Next(0, 10000), "00000")
+                    Dim fullNewQr As String = newQrCode & "-" & Kode_Berjalan
+
+                    Cmd.Parameters.Clear()
+                    Using ImgBarcode1 As Image = Generate_QR_NoPadding(fullNewQr)
+                        Using ms1 As New MemoryStream()
+                            ImgBarcode1.Save(ms1, Imaging.ImageFormat.Jpeg)
+                            Dim rawData1 As Byte() = ms1.ToArray()
+
+                            Dim param1 As String = "@newBarcode" & kode_unik_print
+                            Cmd.Parameters.Add(param1, SqlDbType.Image).Value = rawData1
+                        End Using
+                    End Using
+
+                    Dim barcode As String = "@newBarcode" & kode_unik_print
+
+                    '=============================
+                    '=      GET NAMA BARANG      =
+                    '=============================
+                    Dim Nama_Scrap As String = ""
+                    SQL = "select Nama from barang "
+                    SQL &= $"where kode_perusahaan = '{KodePerusahaan}' "
+                    SQL &= $"and kode_stock_owner = '{arrGudang_Packaging(Cmb_Lokasi_Retur.SelectedIndex)}' "
+                    SQL &= $"and kode_barang = '{arrBarang_Scrap_Req_Packaging(Cmb_Barang_Scrap.SelectedIndex)}' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            Nama_Scrap = Dr("Nama")
+                        Else
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Data Barang Scrap Tidak Ditemukan di Tabel Barang", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
+
+                    Dim ID_Routing As String = ""
+                    Dim Routing As String = ""
+                    SQL = "Select a.Id_Routing, c.Keterangan as Routing "
+                    SQL &= $"From EMI_Order_Produksi a "
+                    SQL &= $"inner join Emi_Split_Production_Order b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_PO "
+                    SQL &= $"inner join EMI_Master_Routing c on a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Routing = c.Id_Routing "
+                    SQL &= $"Where b.No_Transaksi ='{Txt_NoSplit.Text}' and a.kode_Perusahaan ='{KodePerusahaan}' "
+                    Using dr = OpenTrans(SQL)
+                        If dr.Read Then
+                            ID_Routing = dr("Id_Routing")
+                            Routing = dr("Routing")
+                        End If
+                    End Using
+
+                    '===========================
+                    '=     GET TOTAL SCRAP     =
+                    '===========================
+                    Dim TotalCountScrap As Double = 0
+                    'SQL = "select distinct top(1) Nomor from Emi_Production_Results_Detail_Scrap where "
+                    'SQL = SQL & "no_transaksi = '" & TxtFormulator_NoFaktur.Text & "' and Kode_Perusahaan='" & KodePerusahaan & "' "
+                    'SQL = SQL & "order by Nomor Desc "
+
+                    SQL = "select distinct top(1) b.Nomor "
+                    SQL &= $"from Emi_Production_Results a "
+                    SQL &= $"inner join Emi_Production_Results_Detail_Scrap b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi "
+                    SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
+                    'SQL &= $"and a.Status is null "
+                    SQL &= $"and a.No_Production_Order = '{Txt_NoSplit.Text}' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            If General_Class.CekNULL(Dr("Nomor")) = "" Then
+                                TotalCountScrap = 1
+                            Else
+                                TotalCountScrap = Dr("Nomor") + 1
+                            End If
+                        Else
+                            TotalCountScrap = 1
+                        End If
+                    End Using
+
+                    SQL = "insert into N_EMI_Barcode_Label_Retur_Packaging (kode_perusahaan, no_split, Barcode, Kode_barang, Nama_Barang, QrUtuh, Qr, Tgl_Produksi, Jam_Produksi, "
+                    SQL = SQL & "Proses, Jumlah, Satuan, Nomor, id_routing, routing, Kode_unik_print)  "
+                    SQL = SQL & "values ('" & KodePerusahaan & "', '" & Txt_NoSplit.Text & "', " & barcode & ", '" & Kd_Barang_Scrap & "', '" & Nama_Scrap & "', '" & fullNewQr & "', '" & newQrCode & "', "
+                    SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '0', '" & HilangkanTanda(Jumlah_Convert_Scrap) & "', '" & arrBarang_Scrap_Satuan_Req_Packaging(Cmb_Barang_Scrap.SelectedIndex) & "', "
+                    SQL = SQL & "'" & TotalCountScrap & "', '" & ID_Routing & "', '" & Routing & "', '" & kode_unik_print & "') "
+                    ExecuteTrans(SQL)
+
 
 
                     SQL = "insert into EMI_Production_Results_Detail_Change_Packaging (Kode_Perusahaan, No_Transaksi, No_Split, Proses, Jumlah, Satuan, Tanggal, Jam) "
@@ -906,20 +1033,17 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                     ExecuteTrans(SQL)
 
                     SQL = "insert into EMI_Production_Results_Detail_Change_Packaging_Detail "
-                    SQL = SQL & "(kode_perusahaan, no_transaksi, Proses, Kode_Stock_Owner, Kode_Barang_Awal, Kode_Barang_Tujuan, Jumlah_Awal, Satuan_Awal, Jumlah_Tujuan, Satuan_Tujuan, Jumlah_Request, Qr_Code, Kode_Unik_Berjalan, SN_Scrap) "
+                    SQL = SQL & "(kode_perusahaan, no_transaksi, Proses, Kode_Stock_Owner, Kode_Barang_Awal, Kode_Barang_Tujuan, Jumlah_Awal, Satuan_Awal, Jumlah_Tujuan, Satuan_Tujuan, Jumlah_Request, Qr_Code, Kode_Unik_Berjalan, SN_Scrap, Nomor_Scrap) "
                     SQL = SQL & "values ('" & KodePerusahaan & "', '" & Txt_NoTransaksi & "', NULL, '" & arrGudang_Packaging(Cmb_Lokasi_Retur.SelectedIndex) & "', "
                     SQL = SQL & "'" & arrBarang_Req_Packaging(Cmb_Barang_Retur.SelectedIndex) & "', '" & arrBarang_Scrap_Req_Packaging(Cmb_Barang_Scrap.SelectedIndex) & "', "
                     SQL = SQL & Val(HilangkanTanda(Txt_Jumlah_Retur.Text)) & " ,'" & arrSatuan_Req_Packaging(Cmb_Satuan_Retur.SelectedIndex) & "', " & HilangkanTanda(Jumlah_Convert_Scrap) & ", "
                     SQL = SQL & "'" & arrBarang_Scrap_Satuan_Req_Packaging(Cmb_Barang_Scrap.SelectedIndex) & "', " & HilangkanTanda(Jumlah_Ganti) & ", "
-                    SQL = SQL & "'" & newQrCode & "', '" & Kode_Berjalan & "', '" & SN_Baru & "')"
+                    SQL = SQL & "'" & newQrCode & "', '" & Kode_Berjalan & "', '" & SN_Baru & "', '" & TotalCountScrap & "')"
                     ExecuteTrans(SQL)
 
 
 
                 End If
-
-
-
 
             End If
 
@@ -930,6 +1054,10 @@ Public Class N_EMI_Transaksi_Retur_Packaging
             '    Exit Sub
             'End If
 
+
+
+
+            N_EMI_SD_Transaksi_Retur_Packaging.Faktur_Retur = Txt_NoTransaksi
             N_EMI_SD_Transaksi_Retur_Packaging.Txt_NoSplit.Text = Txt_NoSplit.Text
             N_EMI_SD_Transaksi_Retur_Packaging.Txt_Kd_Barang.Text = arrBarang_Req_Packaging(Cmb_Barang_Retur.SelectedIndex)
             N_EMI_SD_Transaksi_Retur_Packaging.Txt_Nm_Barang.Text = Cmb_Barang_Retur.Text
@@ -954,15 +1082,8 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                     N_EMI_SD_Transaksi_Retur_Packaging.Cmb_Satuan_Request.SelectedItem = Dr("Satuan")
                 Loop
             End Using
+
             N_EMI_SD_Transaksi_Retur_Packaging.ShowDialog()
-
-
-
-
-
-
-
-
 
             Cmd.Transaction.Commit()
             CloseTrans()
@@ -975,8 +1096,99 @@ Public Class N_EMI_Transaksi_Retur_Packaging
             Exit Sub
         End Try
 
+        Try
+            OpenConn()
+            Dim CrDoc As New Object
+
+            Dim KertasBesar As String = "BarcodeFG"
+
+            SQL = "select Kode_Perusahaan from N_EMI_Barcode_Label_Retur_Packaging where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Barang='" & arrBarang_Scrap_Req_Packaging(Cmb_Barang_Scrap.SelectedIndex) & "' and Kode_Unik_Print = '" & kode_unik_print & "' "
+            Using Ds = BindingTrans(SQL)
+                If Ds.Tables("MyTable").Rows.Count <> 0 Then
+
+                    Dim printerDitemukan As Boolean = False
+                    '==========================
+                    '=     BARCODEE BESAR     =
+                    '==========================
+                    For Each printer As String In PrinterSettings.InstalledPrinters
+                        If printer.ToLower() = PrinterBarcode.ToLower() Then
+                            printerDitemukan = True
+                            Exit For
+                        End If
+                    Next
+
+                    printerDitemukan = True
+
+                    CrDoc = New N_EMI_Barcode_Retur_Packaging
+
+                    'With A_Place_For_Printing2
+                    '    CrDoc.SetDataSource(Ds)
+                    '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                    '    CrDoc.PrintOptions.PrinterName = ""
+                    '    CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Retur_Packaging.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_Barcode_Label_Retur_Packaging.Kode_Barang} = '" & arrBarang_Scrap_Req_Packaging(Cmb_Barang_Scrap.SelectedIndex) & "' and {N_EMI_Barcode_Label_Retur_Packaging.Kode_Unik_Print} = '" & kode_unik_print & "'  "
+                    '    CrDoc.SummaryInfo.ReportTitle = "New Barcode Finish Good"
+                    '    .Text = "New Barcode Finish Good"
+                    '    .CrystalReportViewer1.ReportSource = CrDoc
+                    '    .Refresh()
+                    '    .Show()
+                    'End With
+
+                    If printerDitemukan Then
+                        CrDoc = New N_EMI_Barcode_Retur_Packaging
+
+                        'With A_Place_For_Printing2
+                        '    CrDoc.SetDataSource(Ds)
+                        '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        '    CrDoc.PrintOptions.PrinterName = ""
+                        '    CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Retur_Packaging.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_Barcode_Label_Retur_Packaging.Kode_Barang} = '" & arrBarang_Scrap_Req_Packaging(Cmb_Barang_Scrap.SelectedIndex) & "' and {N_EMI_Barcode_Label_Retur_Packaging.Kode_Unik_Print} = '" & kode_unik_print & "'  "
+                        '    CrDoc.SummaryInfo.ReportTitle = "New Barcode Finish Good"
+                        '    .Text = "New Barcode Finish Good"
+                        '    .CrystalReportViewer1.ReportSource = CrDoc
+                        '    .Refresh()
+                        '    .Show()
+                        'End With
+
+                        '============================================
+
+                        Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+                        CrDoc.SetDataSource(Ds)
+                        CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                        CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Retur_Packaging.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_Barcode_Label_Retur_Packaging.Kode_Barang} = '" & arrBarang_Scrap_Req_Packaging(Cmb_Barang_Scrap.SelectedIndex) & "' and {N_EMI_Barcode_Label_Retur_Packaging.Kode_Unik_Print} = '" & kode_unik_print & "'  "
+                        CrDoc.PrintOptions.PrinterName = PrinterBarcode
+
+                        doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+
+                        Dim rawKind As Integer
+                        CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+                        For i = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                            If doctoprint.PrinterSettings.PaperSizes(i).PaperName = KertasBesar Then
+                                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(i).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(i)))
+                                CrDoc.PrintOptions.PaperSize = rawKind
+                                Exit For
+                            End If
+                        Next
+
+                        CrDoc.PrintToPrinter(1, False, 1, 2500)
 
 
+
+
+                    Else
+                        MessageBox.Show("Printer FG Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+                    End If
+
+
+
+                End If
+            End Using
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
 
         Kosong()
 
@@ -986,7 +1198,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
 
     Private Sub Cmb_Lokasi_Retur_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Lokasi_Retur.SelectedIndexChanged
         If Cmb_Lokasi_Retur.Items.Count = 0 Or Cmb_Lokasi_Retur.SelectedIndex = -1 Then Exit Sub
-
 
         Try
             OpenConn()
@@ -1009,7 +1220,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                 Loop
             End Using
 
-
             Cmb_Barang_Scrap.Items.Clear() : arrBarang_Scrap_Req_Packaging.Clear() : arrBarang_Scrap_Satuan_Req_Packaging.Clear()
             SQL = "select a.kode_barang_Scrap, b.nama, b.satuan as satuan_kecil, c.satuan from "
             SQL = SQL & "emi_binding_scrap a, barang b, barang_detail_satuan c "
@@ -1017,9 +1227,13 @@ Public Class N_EMI_Transaksi_Retur_Packaging
             SQL = SQL & "and b.kode_Perusahaan=c.Kode_Perusahaan and b.Kode_Barang=c.Kode_Barang "
             SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and b.kode_stock_Owner='" & Lokasi_Produksi & "' "
             SQL = SQL & "and c.flag_tampil_display = 'Y' "
+            'SQL = SQL & "and a.Kode_Barang_Scrap <> 'SFD0001' " 'INI SEMENTARA UNTUK DEMO
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
-                    Cmb_Barang_Scrap.Items.Add(Dr("nama")) : arrBarang_Scrap_Req_Packaging.Add(Dr("kode_barang_Scrap"))
+
+
+                    Cmb_Barang_Scrap.Items.Add(Dr("nama"))
+                    arrBarang_Scrap_Req_Packaging.Add(Dr("kode_barang_Scrap"))
                     arrBarang_Scrap_Satuan_Req_Packaging.Add(Dr("satuan"))
                 Loop
             End Using
@@ -1031,7 +1245,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
             Txt_Jumlah_Retur.Enabled = False
             Cmb_Satuan_Retur.Enabled = False
 
-
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -1040,10 +1253,10 @@ Public Class N_EMI_Transaksi_Retur_Packaging
         End Try
     End Sub
 
+
+
     Private Sub Cmb_Barang_Retur_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Barang_Retur.SelectedIndexChanged
         If Cmb_Barang_Retur.Items.Count = 0 Or Cmb_Barang_Retur.SelectedIndex = -1 Then Exit Sub
-
-
 
         Try
             OpenConn()
@@ -1073,7 +1286,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
             Txt_Jumlah_Retur.Enabled = True
             Cmb_Satuan_Retur.Enabled = False
 
-
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -1094,7 +1306,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                     Cmb_Satuan_Tot_Retur.Items.Add(Dr("Satuan"))
                 Loop
             End Using
-
 
             '=========================================
             '=     GET JUMLAH YANG SUDAH DIRETUR     =
@@ -1118,7 +1329,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
                 End If
             End Using
 
-
             SQL = "select isnull(sum(b.Nilai_Produksi), 0) as Nilai from Emi_Production_Results a, Emi_Production_Results_Packaging_Detail b where "
             SQL = SQL & "a.No_Transaksi=b.No_Transaksi and a.Kode_Perusahaan=b.Kode_Perusahaan and a.Status is null "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
@@ -1127,7 +1337,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     TxtJumlahPakai.Text = Format(Dr("Nilai"), "N4")
-
                 Else
                     TxtJumlahPakai.Text = Format(0, "N4")
                 End If
@@ -1140,13 +1349,10 @@ Public Class N_EMI_Transaksi_Retur_Packaging
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     TxtBerat.Text = Format(Dr("berat") / 1000, "N4")
-
                 Else
                     TxtBerat.Text = Format(0, "N4")
                 End If
             End Using
-
-
 
             CloseConn()
         Catch ex As Exception
@@ -1171,6 +1377,7 @@ Public Class N_EMI_Transaksi_Retur_Packaging
 
         End If
     End Sub
+
     Private Sub Cmb_Barang_Retur_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Barang_Retur.KeyPress
         If e.KeyChar = Chr(13) Then
             If Cmb_Barang_Retur.SelectedIndex = -1 Then
@@ -1224,7 +1431,6 @@ Public Class N_EMI_Transaksi_Retur_Packaging
             Exit Sub
         End If
 
-
         Dim nilai As Decimal = Decimal.Parse(cellKuantity)
         Dim formattedValue As String = nilai.ToString("N4", culture)
 
@@ -1259,6 +1465,7 @@ Public Class N_EMI_Transaksi_Retur_Packaging
             Cmb_Lokasi_Retur.Focus()
         End If
     End Sub
+
     Private Sub Cmb_Barang_Retur_DropDownClosed(sender As Object, e As EventArgs) Handles Cmb_Barang_Retur.DropDownClosed
         If Cmb_Barang_Retur.SelectedIndex <> -1 Then
             Cmb_Barang_Scrap.DroppedDown = True
@@ -1268,6 +1475,7 @@ Public Class N_EMI_Transaksi_Retur_Packaging
             Cmb_Barang_Retur.Focus()
         End If
     End Sub
+
     Private Sub Cmb_Barang_Scrap_DropDownClosed(sender As Object, e As EventArgs) Handles Cmb_Barang_Scrap.DropDownClosed
         If Cmb_Barang_Scrap.SelectedIndex <> -1 Then
             Txt_Jumlah_Retur.Focus()
@@ -1278,4 +1486,56 @@ Public Class N_EMI_Transaksi_Retur_Packaging
     End Sub
 
 
+
+
+
+    '============================================================================================================
+    '=     UTILITY
+    '============================================================================================================
+
+    Private Sub Lv_Data_Split_MouseMove(sender As Object, e As MouseEventArgs) Handles Lv_Data_Split.MouseMove
+        Dim info As ListViewHitTestInfo = Lv_Data_Split.HitTest(e.Location)
+
+        If info.Item IsNot Nothing Then
+            ' Mouse sedang berada di atas row
+            Lv_Data_Split.Cursor = Cursors.Hand
+        Else
+            ' Mouse tidak mengenai row
+            Lv_Data_Split.Cursor = Cursors.Default
+        End If
+    End Sub
+
+    Private Sub Lv_Data_Split_MouseLeave(sender As Object, e As EventArgs) Handles Lv_Data_Split.MouseLeave
+        Lv_Data_Split.Cursor = Cursors.Default
+    End Sub
+
+
+
+    Protected Overrides Sub WndProc(ByRef m As Message)
+        ' WM_NCLBUTTONDBLCLK = 0xA3 (double click di title bar)
+        If m.Msg = &HA3 Then
+            Return  ' Abaikan pesan, sehingga form tidak maximize
+        End If
+
+        MyBase.WndProc(m)
+    End Sub
+
+    Private Function Generate_QR_NoPadding(ByVal isi As String)
+
+        Dim options As New ZXing.QrCode.QrCodeEncodingOptions()
+
+        options.DisableECI = True
+        options.CharacterSet = "UTF-8"
+        options.Width = 80
+        options.Height = 80
+        options.Margin = 0
+
+        Dim qr As New ZXing.BarcodeWriter()
+        qr.Format = ZXing.BarcodeFormat.QR_CODE
+        qr.Options = options
+
+        Dim result As New Bitmap(qr.Write(isi))
+        Return result
+    End Function
 End Class
+

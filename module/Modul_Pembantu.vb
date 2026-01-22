@@ -513,25 +513,40 @@ Public Class Modul_Pembantu
 
     'End Sub
 
+
+    'KETIKA MAU MENAMPILKAN STATUS BATAL ATAU TIDAK GUNAKAN ITEM TAG
+    'Lv.Tag = General_Class.CekNULL(Dr("status"))
+
     'Private Sub Lv_Display_Kendaraan_DrawSubItem(sender As Object, e As DrawListViewSubItemEventArgs) Handles Lv_Display_Kendaraan.DrawSubItem
 
-    '    Using sf As New StringFormat()
-    '        sf.LineAlignment = StringAlignment.Center
+    '    Dim sf As New StringFormat()
+    '    sf.LineAlignment = StringAlignment.Center
 
-    '        If BodyAlignments.ContainsKey(e.ColumnIndex) Then
-    '            sf.Alignment = BodyAlignments(e.ColumnIndex)
-    '        Else
-    '            sf.Alignment = StringAlignment.Near ' default
-    '        End If
+    '    If BodyAlignments.ContainsKey(e.ColumnIndex) Then
+    '        sf.Alignment = BodyAlignments(e.ColumnIndex)
+    '    Else
+    '        sf.Alignment = StringAlignment.Near
+    '    End If
 
-    '        If e.Item.Selected Then
-    '            e.Graphics.FillRectangle(SystemBrushes.Highlight, e.Bounds)
-    '            e.Graphics.DrawString(e.SubItem.Text, Lv_Display_Kendaraan.Font, SystemBrushes.HighlightText, e.Bounds, sf)
-    '        Else
-    '            e.Graphics.FillRectangle(SystemBrushes.Window, e.Bounds)
-    '            e.Graphics.DrawString(e.SubItem.Text, Lv_Display_Kendaraan.Font, Brushes.Black, e.Bounds, sf)
-    '        End If
-    '    End Using
+    '    Dim status As String = CStr(e.Item.Tag)
+
+    '    Dim bgBrush As Brush = Brushes.White
+    '    Dim fgBrush As Brush = Brushes.Black
+
+    '    If status = "Y" Then
+    '        bgBrush = Brushes.DarkRed
+    '        fgBrush = Brushes.White
+    '    End If
+
+    '    If e.Item.Selected Then
+    '        bgBrush = SystemBrushes.Highlight
+    '        fgBrush = SystemBrushes.HighlightText
+    '    End If
+
+    '    e.Graphics.FillRectangle(bgBrush, e.Bounds)
+    '    e.Graphics.DrawString(e.SubItem.Text, Lv_Detail_RM.Font, fgBrush, e.Bounds, sf)
+
+    '    sf.Dispose()
 
     'End Sub
 
@@ -568,5 +583,80 @@ Public Class Modul_Pembantu
     '    Lv_Data.Cursor = Cursors.Default
     'End Sub
 
+    '=========================================
+    '=     PAKAI HANDLER LEBIH FLEKSIBEL     =
+    '=========================================
+
+    'Private Sub ListView_MouseLeave(sender As Object, e As EventArgs)
+    '    DirectCast(sender, ListView).Cursor = Cursors.Default
+    'End Sub
+
+    'Private Sub ListView_MouseMove(sender As Object, e As MouseEventArgs)
+
+    '    Dim lv As ListView = DirectCast(sender, ListView)
+
+    '    Dim info As ListViewHitTestInfo = lv.HitTest(e.Location)
+
+    '    If info.Item IsNot Nothing Then
+    '        lv.Cursor = Cursors.Hand
+    '    Else
+    '        lv.Cursor = Cursors.Default
+    '    End If
+
+    'End Sub
+
+
+
+    '====================================
+    '=     FUNGSI UNTUK PLACEHOLDER     =
+    '====================================
+
+    'Imports System.Runtime.InteropServices
+
+    'Private Sub N_EMI_Master_Approval_Hierarchy_Waste_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    '    'Fungsi Set PlaceHolder
+    '    SetCueBanner(Txt_Filter_Lokasi_Pengajuan, "Filter Lokasi")
+    '    SetCueBanner(Txt_Filter_Lokasi_Pemindahan, "Filter Lokasi")
+
+    'End Sub
+
+    '<DllImport("user32.dll", CharSet:=CharSet.Unicode)>
+    'Private Shared Function SendMessage(hWnd As IntPtr, msg As Integer, wParam As IntPtr, lParam As String) As IntPtr
+    'End Function
+
+    'Private Const EM_SETCUEBANNER As Integer = &H1501
+
+    'Private Sub SetCueBanner(tb As TextBox, text As String)
+    '    SendMessage(tb.Handle, EM_SETCUEBANNER, CType(1, IntPtr), text)
+    'End Sub
+
+
+
+    '======================================
+    '=     MENERAPKAN KONSEP DEBOUNCE     =
+    '======================================
+
+    'TAMBAHKAN INI PAD ABAGIAN INTIAL DI FORM
+    'Private WithEvents TypingTimer As New Timer()
+
+    'Private Sub Txt_Filter_Lokasi_Pengajuan_TextChanged(sender As Object, e As EventArgs) Handles Txt_Filter_Lokasi_Pengajuan.TextChanged
+    '    ' Reset timer setiap ada ketikan
+    '    TypingTimer.Stop()
+    '    TypingTimer.Start()
+    'End Sub
+
+    'Private Sub TypingTimer_Tick(sender As Object, e As EventArgs) Handles TypingTimer.Tick
+    '    TypingTimer.Stop()
+
+    '    Dim keyword As String = Txt_Filter_Lokasi_Pengajuan.Text.Trim()
+
+    '    '==============================================
+    '    '=     FUNGSI RELOAD TAMPILKAN DATA ULANG     =
+    '    '==============================================
+    '    Load_Data_Tab1()
+    '    Load_Data_Tab2()
+
+    'End Sub
 
 End Class

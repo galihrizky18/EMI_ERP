@@ -28,6 +28,7 @@ Partial Class Emi_Laporan_Split_Stock
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Label7 = New System.Windows.Forms.Label()
         Me.Cmb_ParamLain = New System.Windows.Forms.ComboBox()
         Me.Cmb_SOTujuan = New System.Windows.Forms.ComboBox()
         Me.Cmb_GroupJenis = New System.Windows.Forms.ComboBox()
@@ -51,6 +52,7 @@ Partial Class Emi_Laporan_Split_Stock
         Me.BtnExit = New System.Windows.Forms.Button()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Lv_Barang = New System.Windows.Forms.ListView()
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -112,6 +114,8 @@ Partial Class Emi_Laporan_Split_Stock
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.ComboBox1)
+        Me.GroupBox1.Controls.Add(Me.Label7)
         Me.GroupBox1.Controls.Add(Me.Cmb_ParamLain)
         Me.GroupBox1.Controls.Add(Me.Cmb_SOTujuan)
         Me.GroupBox1.Controls.Add(Me.Cmb_GroupJenis)
@@ -132,9 +136,18 @@ Partial Class Emi_Laporan_Split_Stock
         Me.GroupBox1.Controls.Add(Me.Txt_NmBarang)
         Me.GroupBox1.Location = New System.Drawing.Point(12, 63)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(606, 213)
+        Me.GroupBox1.Size = New System.Drawing.Size(606, 246)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(8, 212)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(96, 18)
+        Me.Label7.TabIndex = 10
+        Me.Label7.Text = "Jenis Laporan"
         '
         'Cmb_ParamLain
         '
@@ -310,7 +323,7 @@ Partial Class Emi_Laporan_Split_Stock
         Me.BtnCetak.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnCetak.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnCetak.ForeColor = System.Drawing.Color.White
-        Me.BtnCetak.Location = New System.Drawing.Point(445, 282)
+        Me.BtnCetak.Location = New System.Drawing.Point(445, 317)
         Me.BtnCetak.Name = "BtnCetak"
         Me.BtnCetak.Size = New System.Drawing.Size(84, 33)
         Me.BtnCetak.TabIndex = 1
@@ -322,7 +335,7 @@ Partial Class Emi_Laporan_Split_Stock
         Me.BtnExit.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.BtnExit.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnExit.ForeColor = System.Drawing.Color.White
-        Me.BtnExit.Location = New System.Drawing.Point(528, 282)
+        Me.BtnExit.Location = New System.Drawing.Point(528, 317)
         Me.BtnExit.Name = "BtnExit"
         Me.BtnExit.Size = New System.Drawing.Size(84, 33)
         Me.BtnExit.TabIndex = 2
@@ -332,7 +345,7 @@ Partial Class Emi_Laporan_Split_Stock
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(15, 315)
+        Me.Panel4.Location = New System.Drawing.Point(15, 350)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(942, 12)
@@ -353,12 +366,22 @@ Partial Class Emi_Laporan_Split_Stock
         Me.Lv_Barang.View = System.Windows.Forms.View.Details
         Me.Lv_Barang.Visible = False
         '
+        'ComboBox1
+        '
+        Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Items.AddRange(New Object() {"Laporan Ringkasan", "Laporan Detail"})
+        Me.ComboBox1.Location = New System.Drawing.Point(112, 208)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(163, 26)
+        Me.ComboBox1.TabIndex = 11
+        '
         'Emi_Laporan_Split_Stock
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(629, 327)
+        Me.ClientSize = New System.Drawing.Size(629, 362)
         Me.Controls.Add(Me.Lv_Barang)
         Me.Controls.Add(Me.BtnCetak)
         Me.Controls.Add(Me.BtnExit)
@@ -410,4 +433,6 @@ Partial Class Emi_Laporan_Split_Stock
     Friend WithEvents Lv_Barang As ListView
     Friend WithEvents Cmb_GroupJenis As ComboBox
     Friend WithEvents Label5 As Label
+    Friend WithEvents Label7 As Label
+    Friend WithEvents ComboBox1 As ComboBox
 End Class

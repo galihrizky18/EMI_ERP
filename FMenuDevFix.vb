@@ -2788,19 +2788,19 @@
     End Sub
 
     Private Sub LaporanDPCutOffToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanDPCutOffToolStripMenuItem.Click
-        'N_EMI_Laporan_Pembayaran_Di_Muka_CutOff.StartPosition = FormStartPosition.CenterScreen
+        N_EMI_Laporan_Down_Payment_CutOff.StartPosition = FormStartPosition.CenterScreen
 
-        'N_EMI_Laporan_Pembayaran_Di_Muka_CutOff.MdiParent = Me
-        'N_EMI_Laporan_Pembayaran_Di_Muka_CutOff.Show()
-        'N_EMI_Laporan_Pembayaran_Di_Muka_CutOff.Focus()
+        N_EMI_Laporan_Down_Payment_CutOff.MdiParent = Me
+        N_EMI_Laporan_Down_Payment_CutOff.Show()
+        N_EMI_Laporan_Down_Payment_CutOff.Focus()
     End Sub
 
     Private Sub LaporanDPCutOffAssetToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanDPCutOffAssetToolStripMenuItem.Click
-        'N_EMI_Laporan_Pembayaran_Di_Muka_CutOff_Barang_Lain.StartPosition = FormStartPosition.CenterScreen
+        N_EMI_Laporan_Down_Payment_CutOff_Barang_Lain.StartPosition = FormStartPosition.CenterScreen
 
-        'N_EMI_Laporan_Pembayaran_Di_Muka_CutOff_Barang_Lain.MdiParent = Me
-        'N_EMI_Laporan_Pembayaran_Di_Muka_CutOff_Barang_Lain.Show()
-        'N_EMI_Laporan_Pembayaran_Di_Muka_CutOff_Barang_Lain.Focus()
+        N_EMI_Laporan_Down_Payment_CutOff_Barang_Lain.MdiParent = Me
+        N_EMI_Laporan_Down_Payment_CutOff_Barang_Lain.Show()
+        N_EMI_Laporan_Down_Payment_CutOff_Barang_Lain.Focus()
     End Sub
 
     Private Sub CetakSaldoAkhirToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CetakSaldoAkhirToolStripMenuItem.Click
@@ -2836,11 +2836,11 @@
     End Sub
 
     Private Sub LaporanDPCutOffProyekToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanDPCutOffProyekToolStripMenuItem.Click
-        'N_EMI_Laporan_Pembayaran_Di_Muka_CutOff_Proyek.StartPosition = FormStartPosition.CenterScreen
+        N_EMI_Laporan_Pembayaran_Di_Muka_CutOff_Proyek.StartPosition = FormStartPosition.CenterScreen
 
-        'N_EMI_Laporan_Pembayaran_Di_Muka_CutOff_Proyek.MdiParent = Me
-        'N_EMI_Laporan_Pembayaran_Di_Muka_CutOff_Proyek.Show()
-        'N_EMI_Laporan_Pembayaran_Di_Muka_CutOff_Proyek.Focus()
+        N_EMI_Laporan_Pembayaran_Di_Muka_CutOff_Proyek.MdiParent = Me
+        N_EMI_Laporan_Pembayaran_Di_Muka_CutOff_Proyek.Show()
+        N_EMI_Laporan_Pembayaran_Di_Muka_CutOff_Proyek.Focus()
     End Sub
 
 
@@ -3310,5 +3310,30 @@
         Tes_Sync_Approval_Waste.MdiParent = Me
         Tes_Sync_Approval_Waste.Show()
         Tes_Sync_Approval_Waste.Focus()
+    End Sub
+
+    Private Sub MasterApprovalLevelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterApprovalLevelToolStripMenuItem.Click
+        N_EMI_Master_Approval_Hierarchy_Waste.StartPosition = FormStartPosition.CenterScreen
+
+        N_EMI_Master_Approval_Hierarchy_Waste.MdiParent = Me
+        N_EMI_Master_Approval_Hierarchy_Waste.Show()
+        N_EMI_Master_Approval_Hierarchy_Waste.Focus()
+
+    End Sub
+
+    Private Sub DisplayReturPaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayReturPaToolStripMenuItem.Click
+        N_EMI_Display_Retur_Packaging.StartPosition = FormStartPosition.CenterScreen
+
+        N_EMI_Display_Retur_Packaging.MdiParent = Me
+        N_EMI_Display_Retur_Packaging.Show()
+        N_EMI_Display_Retur_Packaging.Focus()
+    End Sub
+
+    Private Sub LaporanReturPackagingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanReturPackagingToolStripMenuItem.Click
+        N_EMI_Laporan_Retur_Packaging.StartPosition = FormStartPosition.CenterScreen
+
+        N_EMI_Laporan_Retur_Packaging.MdiParent = Me
+        N_EMI_Laporan_Retur_Packaging.Show()
+        N_EMI_Laporan_Retur_Packaging.Focus()
     End Sub
 End Class

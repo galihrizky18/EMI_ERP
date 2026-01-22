@@ -826,11 +826,13 @@
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
 
+                    Dim SelectionRecord As String = ""
                     Dim CrDoc As Object
                     If Cmb_JenisLaporan.SelectedIndex = 0 Then
                         CrDoc = New N_EMI_CR_Laporan_Pelunasan_Cut_Off
                     Else
                         CrDoc = New N_EMI_CR_Laporan_Pelunasan_Cut_Off_Rekap
+                        SelectionRecord = "(({SP_EMI_Pelunasan;1.SaldoIDR}+{SP_EMI_Pelunasan;1.HutangIDR}) - {SP_EMI_Pelunasan;1.sudah_bayarIDR}) <> 0"
                     End If
 
                     With A_Place_For_Printing2
@@ -868,7 +870,7 @@
                         CrDoc.SetParameterValue("@tanggal_akhir", Format(Tgl2.Value, "yyyy-MM-dd"))
 
                         CrDoc.SummaryInfo.ReportTitle = "Periode: " & Format(Tgl1.Value, "yyyy-MM-dd") & " s/d " & Format(Tgl2.Value, "yyyy-MM-dd") & Chr(13) & " "
-
+                        CrDoc.RecordSelectionFormula = SelectionRecord
                         .Text = "Laporan Pelunasan Cut Off"
                         .CrystalReportViewer1.ReportSource = CrDoc
                         '.CrystalReportViewer1.DisplayGroupTree = False

@@ -56,9 +56,9 @@
             SQL &= $"from Stock_Owner_Gudang "
             SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
             If asal_menu.ToString.ToUpper = "PROCESS" Then
-                SQL &= $"and (Flag_Produksi = 'Y' or Flag_GR2_Produksi = 'Y') "
+                SQL &= $"and Flag_Waste_Process = 'Y' "
             ElseIf asal_menu.ToString.ToUpper = "PRODUCT" Then
-                SQL &= $"and flag_waste = 'Y' "
+                SQL &= $"and Flag_Waste_Process_Product = 'Y' "
             End If
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
@@ -363,12 +363,12 @@
             Dim currentValue As String = currentItem.SubItems(item_Lokasi).Text
             Dim currentValue2 As String = currentItem.SubItems(item_NoSplit).Text
 
-            If refValue2.ToUpper() <> currentValue2.ToUpper() Then
-                e.NewValue = CheckState.Unchecked '
+            'If refValue2.ToUpper() <> currentValue2.ToUpper() Then
+            '    e.NewValue = CheckState.Unchecked '
 
-                MessageBox.Show("Hanya bisa memilih item dengan Split yang sama.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Exit Sub
-            End If
+            '    MessageBox.Show("Hanya bisa memilih item dengan Split yang sama.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            '    Exit Sub
+            'End If
 
             If refValue.ToUpper() <> currentValue.ToUpper() Then
                 e.NewValue = CheckState.Unchecked '
@@ -785,6 +785,9 @@
 
             ElseIf asal_menu.ToString.ToUpper = "PRODUCT" Then
 
+#Region "Proses Product"
+
+
                 SQL = "Select kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan From Stock_Owner_Gudang where "
                 SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and aktif = 'Y' and kode_Stock_owner = '" & Cmb_Gudang.Text & "' "
                 SQL = SQL & "order by kode_stock_owner"
@@ -814,6 +817,7 @@
                     CloseConn()
                     Exit Sub
                 End If
+
 
 
                 For i As Integer = 0 To Lv_Data.Items.Count - 1
@@ -872,13 +876,35 @@
                     '========================================================
                     '=     INSERT N_EMI_Transaksi_Transfer_Waste_Detail     =
                     '========================================================
-                    SQL = "insert into N_EMI_Transaksi_Transfer_Waste_Detail (Kode_Perusahaan, No_faktur, Kode_Barang, Total, Satuan, "
-                    SQL = SQL & "Total_Barang, Satuan_Barang, Total_Bags, Flag_Timbang) values "
-                    SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(Txt_No_Transaksi.Text) & "', '" & Lv_Kd_Barang & "', "
-                    SQL = SQL & "'" & HilangkanTanda(Lv_Jumlah) & "', '" & Lv_Satuan & "', "
-                    SQL = SQL & "'" & HilangkanTanda(Lv_Jumlah) & "', '" & Lv_Satuan & "', "
-                    SQL = SQL & "'" & HilangkanTanda(Jumlah_Bags) & "', '" & Flag_Timbang & "')"
-                    ExecuteTrans(SQL)
+                    SQL = "select 1 from N_EMI_Transaksi_Transfer_Waste a "
+                    SQL &= $"inner join N_EMI_Transaksi_Transfer_Waste_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+                    SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
+                    SQL &= $"and a.Status is NULL "
+                    SQL &= $"and a.No_Faktur = '{Trim(Txt_No_Transaksi.Text)}' "
+                    SQL &= $"and b.Kode_Barang = '{Lv_Kd_Barang}' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            Dr.Close()
+                            SQL = $"update N_EMI_Transaksi_Transfer_Waste_Detail set Total += '{HilangkanTanda(Lv_Jumlah)}', "
+                            SQL = SQL & $"Total_Barang += '{HilangkanTanda(Lv_Jumlah)}', Total_Bags += '{HilangkanTanda(Jumlah_Bags)}' "
+                            SQL = SQL & $"where Kode_Perusahaan = '{KodePerusahaan}' "
+                            SQL = SQL & $"and No_Faktur = '{Trim(Txt_No_Transaksi.Text)}' "
+                            SQL = SQL & $"and Kode_Barang = '{Lv_Kd_Barang}' "
+                            ExecuteTrans(SQL)
+
+                        Else
+                            Dr.Close()
+                            SQL = "insert into N_EMI_Transaksi_Transfer_Waste_Detail (Kode_Perusahaan, No_faktur, Kode_Barang, Total, Satuan, "
+                            SQL = SQL & "Total_Barang, Satuan_Barang, Total_Bags, Flag_Timbang) values "
+                            SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(Txt_No_Transaksi.Text) & "', '" & Lv_Kd_Barang & "', "
+                            SQL = SQL & "'" & HilangkanTanda(Lv_Jumlah) & "', '" & Lv_Satuan & "', "
+                            SQL = SQL & "'" & HilangkanTanda(Lv_Jumlah) & "', '" & Lv_Satuan & "', "
+                            SQL = SQL & "'" & HilangkanTanda(Jumlah_Bags) & "', '" & Flag_Timbang & "')"
+                            ExecuteTrans(SQL)
+                        End If
+                    End Using
+
+
 
                     Dim x_ident_current As Integer = 0
                     SQL = "select IDENT_CURRENT('N_EMI_Transaksi_Transfer_Waste_Detail') as urutan"
@@ -918,8 +944,10 @@
                     SQL &= $"select 1 from N_EMI_Transaksi_Transfer_Waste z "
                     SQL &= $"inner join N_EMI_Transaksi_Transfer_Waste_Detail x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur "
                     SQL &= $"inner join N_EMI_Transaksi_Transfer_Waste_Det y on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur "
+                    SQL &= $"inner join barang_sn k on z.Kode_Perusahaan = k.Kode_Perusahaan and z.Kode_Stock_Owner = k.Kode_Stock_Owner and x.Kode_Barang = k.Kode_Barang and y.Serial_Number_Awal = k.Serial_Number "
                     SQL &= $"where z.Kode_Perusahaan = a.Kode_Perusahaan "
                     SQL &= $"and z.status is null "
+                    SQL &= $"and (k.Qr_Code+'-'+k.Kode_Unik_Berjalan) = '{Lv_Barcode}' "
                     SQL &= $"and y.No_Faktur_Produk = a.No_Faktur_Waste)) "
                     SQL &= $"select 'PENGAJUAN PEMINDAHAN WASTE' as Asal, a.No_Faktur as No_Transaksi, e.No_Split as No_Production_Order, a.Tanggal, a.Jam, a.Kode_Stock_Owner as Kode_Stock_Awal, "
                     SQL &= $"(i.Qr_Code+'-'+i.Kode_Unik_Berjalan) as Barcode_Awal, (f.Qr_Code+'-'+f.Kode_Unik_Berjalan) as Barcode, a.Kode_Stock_Owner_Tujuan as Kode_Stock_Owner, b.Kode_Barang, g.Nama as Nama_Barang, sum(d.Jumlah) as Jumlah, b.Satuan "
@@ -1128,6 +1156,8 @@
                     End Using
 
                 Next
+
+#End Region
 
             End If
 
@@ -1765,7 +1795,7 @@
         SQL = $"
             select ID_User_Android, Approval_Level, Peran, Jenis_Approval, ID_User_Desktop, Jabatan 
             from N_EMI_Master_Hierarchy_Approval_Waste 
-            where Kode_Perusahaan = '{KodePerusahaan}' and Jenis_Approval = 'Waste_Process' and isActive = 'Y'
+            where Kode_Perusahaan = '{KodePerusahaan}' and Jenis_Approval = 'Waste_Process' and isActive = 'Y' and Kode_Stock_Owner = '{Cmb_Gudang.Text}'
             order by Approval_Level
         "
         Using Ds9 = BindingTrans(SQL)
@@ -1788,15 +1818,19 @@
                     End If
 
                     SQL = $"
-                        insert into N_EMI_Transaksi_Approval_Waste (Kode_Perusahaan, No_Transaksi, No_Faktur_Waste, Tanggal, Jam, ID_User_Android_Approve, Approval_Level, Jabatan, Jenis_Approval, Flag_Approve, Flag_Sudah_Kirim_WA, Peran, Tanggal_Approve, Jam_Approve, User_ID_Desktop, No_Berita_Acara)
+                        insert into N_EMI_Transaksi_Approval_Waste (Kode_Perusahaan, No_Transaksi, No_Faktur_Waste, Tanggal, Jam, ID_User_Android_Approve, Approval_Level, Jabatan, Jenis_Approval, Flag_Approve, Flag_Sudah_Kirim_WA, Peran, Tanggal_Approve, Jam_Approve, User_ID_Desktop, No_Berita_Acara, Kode_Stock_Owner)
                         values ('{KodePerusahaan}', '{No_Faktur_Approval}', '{Txt_No_Transaksi.Text}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 
                             '{Ds9.Tables("MyTable").Rows(y).Item("ID_User_Android")}', '{Ds9.Tables("MyTable").Rows(y).Item("Approval_Level")}', 
                             '{Ds9.Tables("MyTable").Rows(y).Item("Jabatan")}', '{Ds9.Tables("MyTable").Rows(y).Item("Jenis_Approval")}', {Flag_Approve}, {Flag_Sudah_Kirim_WA}, '{Ds9.Tables("MyTable").Rows(y).Item("Peran")}',
-                            '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', {UserID_Desktop}, '{No_BA}' )
+                            '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', {UserID_Desktop}, '{No_BA}', '{Cmb_Gudang.Text}' )
                     "
                     ExecuteTrans(SQL)
 
                 Next
+
+            Else
+                MessageBox.Show($"User Approval Belum Diset", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
             End If
         End Using
 

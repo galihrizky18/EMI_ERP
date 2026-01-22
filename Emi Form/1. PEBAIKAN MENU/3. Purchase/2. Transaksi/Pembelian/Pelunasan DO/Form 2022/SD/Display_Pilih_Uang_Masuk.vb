@@ -517,11 +517,4 @@
 
     End Sub
 
-    Private Sub Button1_DragLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button1.DragLeave
-
-    End Sub
-
-    Private Sub Display_Pilih_Uang_Masuk_SizeChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.SizeChanged
-        Label1.Size = New Point(Me.Width, 33)
-    End Sub
 End Class

@@ -397,11 +397,13 @@
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
 
+                    Dim SelectionRecord As String = ""
                     Dim CrDoc As Object
                     If Cmb_Jenis_Laporan.SelectedIndex = 0 Then
                         CrDoc = New N_EMI_CR_Laporan_Pelunasan_Proyek_Cut_Off
                     ElseIf Cmb_Jenis_Laporan.SelectedIndex = 1 Then
                         CrDoc = New N_EMI_CR_Laporan_Pelunasan_Proyek_Cut_Off_Rekap
+                        SelectionRecord = "{N_EMI_SP_Pelunasan_Proyek_Cut_Off;1.sisa_pelunasan} <> 0"
                     End If
 
                     With A_Place_For_Printing2
@@ -435,7 +437,7 @@
                         CrDoc.SetParameterValue("@Auth_SP", Auth)
 
                         CrDoc.SummaryInfo.ReportTitle = "Periode: s/d " & Format(Tgl2.Value, "yyyy-MM-dd") & Chr(13) & " "
-
+                        CrDoc.RecordSelectionFormula = SelectionRecord
                         .Text = "Laporan Cutoff Pelunasan Proyek"
                         .CrystalReportViewer1.ReportSource = CrDoc
                         '.CrystalReportViewer1.DisplayGroupTree = False

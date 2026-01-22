@@ -64,8 +64,11 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
     Private isClosing As Boolean = False
     Private lastCheckedCheckBoxIndex As Integer = -1
 
-    Private Cn9 As SqlClient.SqlConnection
-    Private Cmd9 As SqlClient.SqlCommand
+    Private Cn_Premix As SqlClient.SqlConnection
+    Private Cmd_Premix As SqlClient.SqlCommand
+    Private Da_Premix As SqlClient.SqlDataAdapter
+    Private Dr_Premix As SqlClient.SqlDataReader
+    Private Ds_Premix As DataSet
 
     Private Function CobaKoneksi(portName As String) As Boolean
         Try
@@ -948,9 +951,9 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
         get_jam()
 
         Try
-            OpenConn()
-            OpenConn9()
-            Cmd.Transaction = Cn.BeginTransaction
+            OpenConn_Premix()
+            Cmd_Premix.Transaction = Cn_Premix.BeginTransaction
+
             get_no_faktur()
 
             '=========================
@@ -971,32 +974,30 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             SQL = SQL & "and a.Kode_Perusahaan='" & KodePerusahaan & "' "
             SQL = SQL & "and a.Jumlah <> 0 "
             SQL = SQL & "and a.qr_code + '-' + a.kode_unik_berjalan ='" & Txt_Barcode.Text & "' "
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
+            Using Dr_Premix = OpenTrans_Premix(SQL)
+                If Dr_Premix.Read Then
 
-                    If General_Class.CekNULL(Dr("Blok_SN")) = "Y" Then
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        CloseConn9()
-                        MessageBox.Show("Barang Tidak Bisa Di Pakai, Karena SN Terlah Di Blok", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    If General_Class.CekNULL(Dr_Premix("Blok_SN")) = "Y" Then
+                        Dr_Premix.Close()
+                        CloseTrans_Premix()
+                        CloseConn_Premix()
+                        MessageBox.Show("Barang Tidak Bisa Di Pakai, Karena SN Telah Di Blok", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                             GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
                         End If
                         Exit Sub
                     End If
 
-                    QrLama = General_Class.CekNULL(Dr("Qr_Code"))
-                    batchLama = General_Class.CekNULL(Dr("Batch_Number"))
-                    SN_Awal = Dr("serial_number")
-                    expDate = General_Class.CekNULL(Dr("Tgl_Expired"))
-                    tglMsk = General_Class.CekNULL(Dr("tgl_masuk"))
-                    metodePengeluaranStock = Dr("Metode_Pengeluaran_Stok")
+                    QrLama = General_Class.CekNULL(Dr_Premix("Qr_Code"))
+                    batchLama = General_Class.CekNULL(Dr_Premix("Batch_Number"))
+                    SN_Awal = Dr_Premix("serial_number")
+                    expDate = General_Class.CekNULL(Dr_Premix("Tgl_Expired"))
+                    tglMsk = General_Class.CekNULL(Dr_Premix("tgl_masuk"))
+                    metodePengeluaranStock = Dr_Premix("Metode_Pengeluaran_Stok")
                 Else
-                    Dr.Close()
-                    CloseTrans()
-                    CloseConn()
-                    CloseConn9()
+                    Dr_Premix.Close()
+                    CloseTrans_Premix()
+                    CloseConn_Premix()
                     MessageBox.Show("Barang Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                         GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1011,18 +1012,17 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                 insert into N_EMI_Temp_Waktu_Timbang_Premix (Kode_Perusahaan, No_faktur, Tanggal, Jam, Keterangan, Waktu)
                 values ('{KodePerusahaan}', '{Txt_NoFaktur.Text.Trim}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 'Get Data Detail Barcode', '{sw1.Elapsed.TotalMilliseconds} ms')
             "
-            ExecuteTrans9(SQL)
+            ExecuteTrans_Premix(SQL)
 
             '============================
             '=     CEK DATA SN AWAL     =
             '============================
             SQL = "SELECT Kode_Perusahaan from Barang_SN where Kode_Perusahaan = '" & KodePerusahaan & "' AND Serial_Number = '" & SN_Awal & "'"
-            Using Dr = OpenTrans(SQL)
-                If Not Dr.Read Then
-                    Dr.Close()
-                    CloseTrans()
-                    CloseConn()
-                    CloseConn9()
+            Using Dr_Premix = OpenTrans_Premix(SQL)
+                If Not Dr_Premix.Read Then
+                    Dr_Premix.Close()
+                    CloseTrans_Premix()
+                    CloseConn_Premix()
                     MessageBox.Show("Data SN Awal Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                         GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1039,9 +1039,9 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and Kode_Stock_Owner = '" & Txt_KdSOBarang.Text & "' "
             SQL = SQL & "and kode_barang = '" & Txt_KDBarang.Text & "'"
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    BeratIsiPerBag = Dr("Isi_Per_Bags")
+            Using Dr_Premix = OpenTrans_Premix(SQL)
+                If Dr_Premix.Read Then
+                    BeratIsiPerBag = Dr_Premix("Isi_Per_Bags")
                 End If
             End Using
 
@@ -1056,14 +1056,14 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
 
             SQL = "delete from N_EMI_CR_Transaksi_Request_Material_QC_Barcode_Cetak where Kode_Perusahaan = '" & KodePerusahaan & "' and "
             SQL = SQL & "Tanggal_Cetak between '" & Format(tglDuaHariSebelum, "yyyy-MM-dd") & "' and '" & Format(tgl_skg, "yyyy-MM-dd") & "' "
-            ExecuteTrans(SQL)
+            ExecuteTrans_Premix(SQL)
 #End Region
             sw2.Stop()
             SQL = $"
                 insert into N_EMI_Temp_Waktu_Timbang_Premix (Kode_Perusahaan, No_faktur, Tanggal, Jam, Keterangan, Waktu)
                 values ('{KodePerusahaan}', '{Txt_NoFaktur.Text.Trim}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 'Delete Data Tabel Temp Cetak Barcode', '{sw2.Elapsed.TotalMilliseconds} ms')
             "
-            ' ExecuteTrans9(SQL)
+            ExecuteTrans_Premix(SQL)
 
             '=======================================
             '=     CEK APAKAH RM TELAH SELESAI     =
@@ -1088,8 +1088,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             SQL = SQL & "and c.Kode_Stock_Owner = '" & Txt_SORequest.Text & "' "
             SQL = SQL & "and b.Batch = '" & HilangkanTanda(TXt_Batch.Text) & "' "
             SQL = SQL & "order by b.Batch ASC "
-            Using Ds = BindingTrans(SQL)
-                With Ds.Tables("MyTable")
+            Using Ds_Premix = BindingTrans_Premix(SQL)
+                With Ds_Premix.Tables("MyTable")
                     If .Rows.Count <> 0 Then
 
                         Dim JumlahInput As Double = Val(HilangkanTanda(TxtBeratBersih.Text))
@@ -1126,10 +1126,10 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                         SQL = SQL & "and a.Kode_Stock_Owner_Tujuan = '" & Txt_SORequest.Text & "' "
                         SQL = SQL & "and a.Kode_Barang = '" & Txt_KDBarang.Text & "' and a.Urut_Det_RM = '" & Txt_Urut_DetRM.Text & "' "
                         SQL = SQL & "group by a.Kode_Perusahaan, a.Kode_Barang, a.Satuan, a.Satuan_Barang "
-                        Using Dr = OpenTrans(SQL)
-                            If Dr.Read Then
-                                JumlahValidasi = Val(HilangkanTanda(If(General_Class.CekNULL(Dr("Jumlah")) = "", 0, General_Class.CekNULL(Dr("Jumlah")))))
-                                JumlahValidasiBesar = Val(HilangkanTanda(If(General_Class.CekNULL(Dr("JumlahBesar")) = "", 0, General_Class.CekNULL(Dr("JumlahBesar")))))
+                        Using Dr_Premix = OpenTrans_Premix(SQL)
+                            If Dr_Premix.Read Then
+                                JumlahValidasi = Val(HilangkanTanda(If(General_Class.CekNULL(Dr_Premix("Jumlah")) = "", 0, General_Class.CekNULL(Dr_Premix("Jumlah")))))
+                                JumlahValidasiBesar = Val(HilangkanTanda(If(General_Class.CekNULL(Dr_Premix("JumlahBesar")) = "", 0, General_Class.CekNULL(Dr_Premix("JumlahBesar")))))
                             End If
                         End Using
 
@@ -1138,16 +1138,15 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             insert into N_EMI_Temp_Waktu_Timbang_Premix (Kode_Perusahaan, No_faktur, Tanggal, Jam, Keterangan, Waktu)
                             values ('{KodePerusahaan}', '{Txt_NoFaktur.Text.Trim}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 'Get Jumlah Sudah Validasi', '{sw3.Elapsed.TotalMilliseconds} ms')
                         "
-                        ExecuteTrans9(SQL)
+                        ExecuteTrans_Premix(SQL)
 
                         For i As Integer = 0 To .Rows.Count - 1
 
-                            Dim NoSplit As String = Ds.Tables("MyTable").Rows(i).Item("No_Faktur_Order")
+                            Dim NoSplit As String = Ds_Premix.Tables("MyTable").Rows(i).Item("No_Faktur_Order")
 
                             If JumlahInsert <= 0 Then
-                                CloseTrans()
-                                CloseConn()
-                                CloseConn9()
+                                CloseTrans_Premix()
+                                CloseConn_Premix()
                                 MessageBox.Show("Terjadi Kesalahan Saat Pembagian Batch", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                     GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1189,9 +1188,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
 
                             If JumlahInsert > Math.Round(((JumlahPerDosing - JumlahValidasi) + ((JumlahPerDosing - JumlahValidasi) * (PersenToleransiMAX / 100))), 4) Then
                                 Dim abs As Double = ((JumlahPerDosing - JumlahValidasi) + ((JumlahPerDosing - JumlahValidasi) * (PersenToleransiMAX / 100)))
-                                CloseTrans()
-                                CloseConn()
-                                CloseConn9()
+                                CloseTrans_Premix()
+                                CloseConn_Premix()
                                 MessageBox.Show("Jumlah Input Tidak Boleh Lebih Dari Kebutuhan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 txt_Jumlah_Timbang.Focus()
                                 If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
@@ -1204,9 +1202,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                 Dim hasil As DialogResult = MessageBox.Show("Jumlah Input Lebih Kecil dari Jumlah Kebutuhan, Apakah Ingin Tetap Simpan?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                                 If hasil = DialogResult.No Then
-                                    CloseTrans()
-                                    CloseConn()
-                                    CloseConn9()
+                                    CloseTrans_Premix()
+                                    CloseConn_Premix()
                                     If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                         GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
                                     End If
@@ -1215,9 +1212,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             End If
 
                             If JumlahInsert = 0 Then
-                                CloseTrans()
-                                CloseConn()
-                                CloseConn9()
+                                CloseTrans_Premix()
+                                CloseConn_Premix()
                                 MessageBox.Show("Jumlah Input Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 txt_Jumlah_Timbang.Focus()
                                 If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
@@ -1240,7 +1236,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             Dim available_NoPallet As String = ""
                             SQL = "select top 1 id_wms_warehouse_position, 0 as nomor_urut from view_warehouse_position where "
                             SQL = SQL & "kode_stock_Owner='" & Txt_SORequest.Text & "' "
-                            Using Dr2 = OpenTrans(SQL)
+                            Using Dr2 = OpenTrans_Premix(SQL)
                                 Do While Dr2.Read
                                     available_Id_Warehouse = Dr2("id_wms_warehouse_position")
                                     available_NoPallet = Dr2("nomor_urut")
@@ -1255,24 +1251,23 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             Dim Stock_SN_SblmPotong As Double = 0
                             SQL = "select isnull(sum(Good_Stock), 0) as Stock from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
                             SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_KdSOBarang.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
-                            Using Dr = OpenTrans(SQL)
-                                If Dr.Read Then
-                                    Stock_SblmPotong = Math.Round(Dr("Stock"), 4)
+                            Using Dr_Premix = OpenTrans_Premix(SQL)
+                                If Dr_Premix.Read Then
+                                    Stock_SblmPotong = Math.Round(Dr_Premix("Stock"), 4)
                                 End If
                             End Using
 
                             SQL = "select isnull(sum(Jumlah), 0) as Stock_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
                             SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_KdSOBarang.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
-                            Using Dr = OpenTrans(SQL)
+                            Using Dr = OpenTrans_Premix(SQL)
                                 If Dr.Read Then
                                     Stock_SN_SblmPotong = Math.Round(Dr("Stock_SN"), 4)
                                 End If
                             End Using
 
                             If Stock_SblmPotong <> Stock_SN_SblmPotong Then
-                                CloseTrans()
-                                CloseConn()
-                                CloseConn9()
+                                CloseTrans_Premix()
+                                CloseConn_Premix()
                                 MessageBox.Show($"Jumlah Stock {Txt_KDBarang.Text} pada Gudang {Txt_KdSOBarang.Text} Tidak Sesuai Sebelum Dipotong", Judul,
                                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
@@ -1293,14 +1288,13 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             Dim Nama As String = ""
                             SQL = "select Nama,round(good_stock,4) as good_stock, Jumlah_Bags from Barang where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Txt_KdSOBarang.Text & "' "
                             SQL = SQL & "and Kode_Barang='" & Txt_KDBarang.Text & "' "
-                            Using dr = OpenTrans(SQL)
+                            Using dr = OpenTrans_Premix(SQL)
                                 If dr.Read Then
                                     Nama = dr("nama")
                                     If dr("good_stock") < JumlahInputDB Then
                                         dr.Close()
-                                        CloseTrans()
-                                        CloseConn()
-                                        CloseConn9()
+                                        CloseTrans_Premix()
+                                        CloseConn_Premix()
                                         MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat stock " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                                         If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                             GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1308,9 +1302,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                         Exit Sub
                                     ElseIf dr("Jumlah_Bags") < Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) Then
                                         dr.Close()
-                                        CloseTrans()
-                                        CloseConn()
-                                        CloseConn9()
+                                        CloseTrans_Premix()
+                                        CloseConn_Premix()
                                         MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat jumlah bags " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                                         If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                             GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1329,7 +1322,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                         SQL = SQL & "Jumlah_Bags = Jumlah_Bags - " & BagsTerpakai & " "
                                         SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Txt_KdSOBarang.Text & "' "
                                         SQL = SQL & " and Kode_Barang='" & Txt_KDBarang.Text & "'"
-                                        ExecuteTrans(SQL)
+                                        ExecuteTrans_Premix(SQL)
 
 
                                         SQL = "insert INTO N_EMI_Log_Transaksi_Request_Material_QC_Validasi (Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, "
@@ -1337,20 +1330,19 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                         SQL = SQL & "VALUES ('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text.Trim & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
                                         SQL = SQL & "'POTONG STOCK; Barang', '" & Txt_KdSOBarang.Text & "', '" & Txt_KDBarang.Text & "', '-', "
                                         SQL = SQL & "'" & jmlh1 & "', '" & jmlhbgs & "', '" & JumlahInputDB & "', '" & BagsTerpakai & "')"
-                                        ExecuteTrans(SQL)
+                                        ExecuteTrans_Premix(SQL)
 
                                         sw4.Stop()
                                         SQL = $"
                                             insert into N_EMI_Temp_Waktu_Timbang_Premix (Kode_Perusahaan, No_faktur, Tanggal, Jam, Keterangan, Waktu)
                                             values ('{KodePerusahaan}', '{Txt_NoFaktur.Text.Trim}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 'Potong Stock Barang', '{sw4.Elapsed.TotalMilliseconds} ms')
                                         "
-                                        ExecuteTrans9(SQL)
+                                        ExecuteTrans_Premix(SQL)
                                     End If
                                 Else
                                     dr.Close()
-                                    CloseTrans()
-                                    CloseConn()
-                                    CloseConn9()
+                                    CloseTrans_Premix()
+                                    CloseConn_Premix()
                                     MessageBox.Show("Barang " & Nama & " tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                         GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1362,12 +1354,12 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = "select round(jumlah,4) as jumlah, Jumlah_Bags from Barang_SN where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Txt_KdSOBarang.Text & "' "
                             SQL = SQL & "and Kode_Barang='" & Txt_KDBarang.Text & "' "
                             SQL = SQL & "and Serial_Number='" & SN_Awal & "'"
-                            Using dr = OpenTrans(SQL)
+                            Using dr = OpenTrans_Premix(SQL)
                                 If dr.Read Then
                                     If dr("jumlah") < JumlahInputDB Then
                                         dr.Close()
-                                        CloseTrans()
-                                        CloseConn()
+                                        CloseTrans_Premix()
+                                        CloseConn_Premix()
                                         MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat stock " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                                         If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                             GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1375,9 +1367,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                         Exit Sub
                                     ElseIf dr("Jumlah_Bags") < Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) Then
                                         dr.Close()
-                                        CloseTrans()
-                                        CloseConn()
-                                        CloseConn9()
+                                        CloseTrans_Premix()
+                                        CloseConn_Premix()
                                         MessageBox.Show("Proses tidak dapat dilanjutkan karena akan membuat jumlah bags " & Nama & " menjadi negatif.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
                                         If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                             GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1395,28 +1386,27 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                         SQL = SQL & "Jumlah_Bags = Jumlah_Bags - " & BagsTerpakai & " "
                                         SQL = SQL & "where Kode_Stock_Owner='" & Txt_KdSOBarang.Text & "' and Kode_Barang='" & Txt_KDBarang.Text & "' "
                                         SQL = SQL & "and Serial_Number='" & SN_Awal & "'"
-                                        ExecuteTrans(SQL)
+                                        ExecuteTrans_Premix(SQL)
 
                                         SQL = "insert INTO N_EMI_Log_Transaksi_Request_Material_QC_Validasi (Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, "
                                         SQL = SQL & "Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
                                         SQL = SQL & "VALUES ('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text.Trim & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
                                         SQL = SQL & "'POTONG STOCK; Barang SN', '" & Txt_KdSOBarang.Text & "', '" & Txt_KDBarang.Text & "', '" & SN_Awal & "', "
                                         SQL = SQL & "'" & jmlh1 & "', '" & jmlhbags & "', '" & JumlahInputDB & "', '" & BagsTerpakai & "')"
-                                        ExecuteTrans(SQL)
+                                        ExecuteTrans_Premix(SQL)
 
                                         sw20.Stop()
                                         SQL = $"
                                             insert into N_EMI_Temp_Waktu_Timbang_Premix (Kode_Perusahaan, No_faktur, Tanggal, Jam, Keterangan, Waktu)
                                             values ('{KodePerusahaan}', '{Txt_NoFaktur.Text.Trim}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 'Potong Stock Barang SN', '{sw20.Elapsed.TotalMilliseconds} ms')
                                         "
-                                        ExecuteTrans9(SQL)
+                                        ExecuteTrans_Premix(SQL)
 
                                     End If
                                 Else
                                     dr.Close()
-                                    CloseTrans()
-                                    CloseConn()
-                                    CloseConn9()
+                                    CloseTrans_Premix()
+                                    CloseConn_Premix()
                                     MessageBox.Show("Barang " & Nama & " tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                         GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1437,12 +1427,11 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = SQL & "FROM barang a WHERE a.Kode_Stock_Owner = '" & Txt_KdSOBarang.Text & "' "
                             SQL = SQL & "AND a.Kode_Barang = '" & Txt_KDBarang.Text & "' and a.Kode_Perusahaan='" & KodePerusahaan & "' "
                             SQL = SQL & "group by a.kode_Barang, a.Kode_Stock_Owner, a.kode_Perusahaan "
-                            Using Ds1 = BindingTrans(SQL)
+                            Using Ds1 = BindingTrans_Premix(SQL)
                                 If Ds1.Tables("MyTable").Rows.Count <> 0 Then
                                     If Ds1.Tables("MyTable").Rows(0).Item("good_stock") <> Ds1.Tables("MyTable").Rows(0).Item("Jumlah_sn") Or Ds1.Tables("MyTable").Rows(0).Item("jumlah_bags_barang") <> Ds1.Tables("MyTable").Rows(0).Item("jumlah_bags_sn") Then
-                                        CloseTrans()
-                                        CloseConn()
-                                        CloseConn9()
+                                        CloseTrans_Premix()
+                                        CloseConn_Premix()
                                         MessageBox.Show("Terjadi Kesalahan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                         If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                             GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1450,9 +1439,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                         Exit Sub
                                     End If
                                 Else
-                                    CloseTrans()
-                                    CloseConn()
-                                    CloseConn9()
+                                    CloseTrans_Premix()
+                                    CloseConn_Premix()
                                     MessageBox.Show("Data tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                         GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1470,7 +1458,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             Dim Stock_SN_Setelah_Potong As Double = 0
                             SQL = "select isnull(sum(Good_Stock), 0) as Stock from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
                             SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_KdSOBarang.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
-                            Using Dr = OpenTrans(SQL)
+                            Using Dr = OpenTrans_Premix(SQL)
                                 If Dr.Read Then
                                     Stock_Setelah_Potong = Math.Round(Dr("Stock"), 4)
                                 End If
@@ -1478,16 +1466,15 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
 
                             SQL = "select isnull(sum(Jumlah), 0) as Stock_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
                             SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_KdSOBarang.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
-                            Using Dr = OpenTrans(SQL)
+                            Using Dr = OpenTrans_Premix(SQL)
                                 If Dr.Read Then
                                     Stock_SN_Setelah_Potong = Math.Round(Dr("Stock_SN"), 4)
                                 End If
                             End Using
 
                             If Stock_Setelah_Potong <> Stock_SN_Setelah_Potong Then
-                                CloseTrans()
-                                CloseConn()
-                                CloseConn9()
+                                CloseTrans_Premix()
+                                CloseConn_Premix()
                                 MessageBox.Show($"Jumlah Stock {Txt_KDBarang.Text} pada Gudang {Txt_KdSOBarang.Text} Tidak Sesuai Setelah Di Potong", Judul,
                                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
@@ -1497,9 +1484,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             End If
 
                             If Math.Round((Stock_Setelah_Potong + JumlahInputDB), 4) <> Stock_SblmPotong Then
-                                CloseTrans()
-                                CloseConn()
-                                CloseConn9()
+                                CloseTrans_Premix()
+                                CloseConn_Premix()
                                 MessageBox.Show($"Jumlah Stock {Txt_KDBarang.Text} pada Gudang {Txt_KdSOBarang.Text} Tidak Sesuai Berdasarkan Stock DiPotong", Judul,
                                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
@@ -1509,9 +1495,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             End If
 
                             If Math.Round((Stock_SN_Setelah_Potong + JumlahInputDB), 4) <> Stock_SN_SblmPotong Then
-                                CloseTrans()
-                                CloseConn()
-                                CloseConn9()
+                                CloseTrans_Premix()
+                                CloseConn_Premix()
                                 MessageBox.Show($"Jumlah Stock SN {Txt_KDBarang.Text} pada Gudang {Txt_KdSOBarang.Text} Tidak Sesuai Berdasarkan Stock DiPotong", Judul,
                                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
@@ -1531,7 +1516,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             Dim Bags_SN_Sebelum_Insert As Double = 0
                             SQL = "select isnull(sum(Good_Stock), 0) as Stock, sum(Jumlah_Bags) as Stock_Bags from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
                             SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_SORequest.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
-                            Using Dr = OpenTrans(SQL)
+                            Using Dr = OpenTrans_Premix(SQL)
                                 If Dr.Read Then
                                     Stock_Sebelum_Insert = Math.Round(Dr("Stock"), 4)
                                     Bags_Sebelum_Insert = Math.Round(Dr("Stock_Bags"), 4)
@@ -1540,7 +1525,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
 
                             SQL = "select isnull(sum(Jumlah), 0) as Stock_SN, sum(Jumlah_Bags) as Stock_Bags_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
                             SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_SORequest.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
-                            Using Dr = OpenTrans(SQL)
+                            Using Dr = OpenTrans_Premix(SQL)
                                 If Dr.Read Then
                                     Stock_SN_Sebelum_Insert = Math.Round(Dr("Stock_SN"), 4)
                                     Bags_SN_Sebelum_Insert = Math.Round(Dr("Stock_Bags_SN"), 4)
@@ -1548,9 +1533,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             End Using
 
                             If Stock_Sebelum_Insert <> Stock_SN_Sebelum_Insert Then
-                                CloseTrans()
-                                CloseConn()
-                                CloseConn9()
+                                CloseTrans_Premix()
+                                CloseConn_Premix()
                                 MessageBox.Show($"Jumlah Stock {Txt_KDBarang.Text} pada Gudang {Txt_SORequest.Text} Tidak Sesuai Sebelum Diinsert", Judul,
                                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
@@ -1570,21 +1554,21 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = "update barang set Good_Stock= Good_Stock + " & JumlahInputDB & ", Jumlah_Bags = Jumlah_Bags + " & BagsTerpakai & " "
                             SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Txt_SORequest.Text & "' "
                             SQL = SQL & " and Kode_Barang='" & Txt_KDBarang.Text & "'"
-                            ExecuteTrans(SQL)
+                            ExecuteTrans_Premix(SQL)
 
                             SQL = "insert INTO N_EMI_Log_Transaksi_Request_Material_QC_Validasi (Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, "
                             SQL = SQL & "Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
                             SQL = SQL & "VALUES ('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text.Trim & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
                             SQL = SQL & "'TAMBAH STOCK; Barang', '" & Txt_SORequest.Text & "', '" & Txt_KDBarang.Text & "', '-', "
                             SQL = SQL & "'" & Stock_Sebelum_Insert & "', '" & Bags_Sebelum_Insert & "', '" & JumlahInputDB & "', '" & BagsTerpakai & "')"
-                            ExecuteTrans(SQL)
+                            ExecuteTrans_Premix(SQL)
 
                             sw5.Stop()
                             SQL = $"
                                 insert into N_EMI_Temp_Waktu_Timbang_Premix (Kode_Perusahaan, No_faktur, Tanggal, Jam, Keterangan, Waktu)
                                 values ('{KodePerusahaan}', '{Txt_NoFaktur.Text.Trim}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 'Tambah Stock Barang', '{sw5.Elapsed.TotalMilliseconds} ms')
                             "
-                            ExecuteTrans9(SQL)
+                            ExecuteTrans_Premix(SQL)
 
                             '==============================
                             '=       INSERT SN BARU       =
@@ -1605,7 +1589,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = SQL & "and a.Kode_Barang ='" & Txt_KDBarang.Text & "' "
                             SQL = SQL & "and a.Serial_Number='" & SN_Awal & "' "
                             'SQL = SQL & "and a.Jumlah <> 0 "
-                            Using Dr = OpenTrans(SQL)
+                            Using Dr = OpenTrans_Premix(SQL)
                                 Do While Dr.Read
                                     hargaIsn = Get_Harga_SN(Dr("Serial_Number"))
                                     QrLama = General_Class.CekNULL(Dr("Qr_Code"))
@@ -1636,21 +1620,21 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = SQL & "and Kode_Stock_Owner='" & Txt_KdSOBarang.Text & "' "
                             SQL = SQL & "and Kode_Barang='" & Txt_KDBarang.Text & "' "
                             SQL = SQL & "and Serial_Number='" & SN_Awal & "' "
-                            ExecuteTrans(SQL)
+                            ExecuteTrans_Premix(SQL)
 
                             SQL = "insert INTO N_EMI_Log_Transaksi_Request_Material_QC_Validasi (Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, "
                             SQL = SQL & "Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update, No_Reservasi) "
                             SQL = SQL & "VALUES ('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text.Trim & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
                             SQL = SQL & "'TAMBAH STOCK; Barang SN', '" & Txt_SORequest.Text & "', '" & Txt_KDBarang.Text & "', '" & SN_Baru & "', "
                             SQL = SQL & "'" & Stock_SN_Sebelum_Insert & "', '" & Bags_SN_Sebelum_Insert & "', '" & JumlahInputDB & "', '" & BagsTerpakai & "', '" & NoSplit & "')"
-                            ExecuteTrans(SQL)
+                            ExecuteTrans_Premix(SQL)
 
                             sw21.Stop()
                             SQL = $"
                                 insert into N_EMI_Temp_Waktu_Timbang_Premix (Kode_Perusahaan, No_faktur, Tanggal, Jam, Keterangan, Waktu)
                                 values ('{KodePerusahaan}', '{Txt_NoFaktur.Text.Trim}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 'Tambah Stock Barang SN', '{sw21.Elapsed.TotalMilliseconds} ms')
                             "
-                            ExecuteTrans9(SQL)
+                            ExecuteTrans_Premix(SQL)
 
                             '====================================
                             '=       CEK KESESUAIAN STOCK       =
@@ -1664,12 +1648,11 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = SQL & "FROM barang a WHERE a.Kode_Stock_Owner = '" & Txt_SORequest.Text & "' "
                             SQL = SQL & "AND a.Kode_Barang = '" & Txt_KDBarang.Text & "' and a.Kode_Perusahaan='" & KodePerusahaan & "' "
                             SQL = SQL & "group by a.kode_Barang, a.Kode_Stock_Owner, a.kode_Perusahaan "
-                            Using Ds1 = BindingTrans(SQL)
+                            Using Ds1 = BindingTrans_Premix(SQL)
                                 If Ds1.Tables("MyTable").Rows.Count <> 0 Then
                                     If Ds1.Tables("MyTable").Rows(0).Item("good_stock") <> Ds1.Tables("MyTable").Rows(0).Item("Jumlah_sn") Or Ds1.Tables("MyTable").Rows(0).Item("jumlah_bags_barang") <> Ds1.Tables("MyTable").Rows(0).Item("jumlah_bags_sn") Then
-                                        CloseTrans()
-                                        CloseConn()
-                                        CloseConn9()
+                                        CloseTrans_Premix()
+                                        CloseConn_Premix()
                                         MessageBox.Show("Terjadi Kesalahan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                         If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                             GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1677,9 +1660,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                         Exit Sub
                                     End If
                                 Else
-                                    CloseTrans()
-                                    CloseConn()
-                                    CloseConn9()
+                                    CloseTrans_Premix()
+                                    CloseConn_Premix()
                                     MessageBox.Show("Data tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                         GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1695,12 +1677,11 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             '=     CEK SN BARU     =
                             '=======================
                             SQL = "SELECT Kode_Perusahaan from Barang_SN where Kode_Perusahaan = '" & KodePerusahaan & "' AND Serial_Number = '" & SN_Baru & "'"
-                            Using Dr = OpenTrans(SQL)
+                            Using Dr = OpenTrans_Premix(SQL)
                                 If Not Dr.Read Then
                                     Dr.Close()
-                                    CloseTrans()
-                                    CloseConn()
-                                    CloseConn9()
+                                    CloseTrans_Premix()
+                                    CloseConn_Premix()
                                     MessageBox.Show("Data SN Tujuan Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                         GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1716,7 +1697,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             Dim Stock_SN_Setelah_Insert As Double = 0
                             SQL = "select isnull(sum(Good_Stock), 0) as Stock from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
                             SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_SORequest.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
-                            Using Dr = OpenTrans(SQL)
+                            Using Dr = OpenTrans_Premix(SQL)
                                 If Dr.Read Then
                                     Stock_Setelah_Insert = Math.Round(Dr("Stock"), 4)
                                 End If
@@ -1724,16 +1705,15 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
 
                             SQL = "select isnull(sum(Jumlah), 0) as Stock_SN from barang_sn WHERE kode_perusahaan = '" & KodePerusahaan & "' "
                             SQL = SQL & "AND Kode_Stock_Owner = '" & Txt_SORequest.Text & "' and kode_barang = '" & Txt_KDBarang.Text & "' "
-                            Using Dr = OpenTrans(SQL)
+                            Using Dr = OpenTrans_Premix(SQL)
                                 If Dr.Read Then
                                     Stock_SN_Setelah_Insert = Math.Round(Dr("Stock_SN"), 4)
                                 End If
                             End Using
 
                             If Stock_Setelah_Insert <> Stock_SN_Setelah_Insert Then
-                                CloseTrans()
-                                CloseConn()
-                                CloseConn9()
+                                CloseTrans_Premix()
+                                CloseConn_Premix()
                                 MessageBox.Show($"Jumlah Stock {Txt_KDBarang.Text} pada Gudang {Txt_KdSOBarang.Text} Tidak Sesuai Setelah Diinsert", Judul,
                                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
@@ -1743,9 +1723,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             End If
 
                             If Math.Round((Stock_Setelah_Insert - JumlahInputDB), 4) <> Stock_Sebelum_Insert Then
-                                CloseTrans()
-                                CloseConn()
-                                CloseConn9()
+                                CloseTrans_Premix()
+                                CloseConn_Premix()
                                 MessageBox.Show($"Jumlah Stock {Txt_KDBarang.Text} pada Gudang {Txt_KdSOBarang.Text} Tidak Sesuai Berdasarkan Stock DiInsert", Judul,
                                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
@@ -1755,9 +1734,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             End If
 
                             If Math.Round((Stock_SN_Setelah_Insert - JumlahInputDB), 4) <> Stock_SN_Sebelum_Insert Then
-                                CloseTrans()
-                                CloseConn()
-                                CloseConn9()
+                                CloseTrans_Premix()
+                                CloseConn_Premix()
                                 MessageBox.Show($"Jumlah Stock SN {Txt_KDBarang.Text} pada Gudang {Txt_KdSOBarang.Text} Tidak Sesuai Berdasarkan Stock DiInsert", Judul,
                                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                 If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
@@ -1774,13 +1752,12 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                 and kode_barang = '{Txt_KDBarang.Text}'
                                 AND Serial_Number = '{SN_Baru}'
                             "
-                            Using Dr = OpenTrans(SQL)
+                            Using Dr = OpenTrans_Premix(SQL)
                                 If Dr.Read Then
                                     If Val(HilangkanTanda(Dr("Jumlah"))) <> Val(HilangkanTanda(TxtBeratBersih.Text)) Then
                                         Dr.Close()
-                                        CloseTrans()
-                                        CloseConn()
-                                        CloseConn9()
+                                        CloseTrans_Premix()
+                                        CloseConn_Premix()
                                         MessageBox.Show("Jumlah Insert Tidak Sesuai . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                         If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                             GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1817,16 +1794,15 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
 
                             SQL = "select inisial_faktur,Persediaan_Bahan_Baku,Persediaan,Persediaan_Bahan_Setengah_Jadi,Persediaan_Scrap, Persediaan_Packaging from stock_owner_gudang "
                             SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & Txt_KdSOBarang.Text & "' "
-                            Using Dr = OpenTrans(SQL)
+                            Using Dr = OpenTrans_Premix(SQL)
                                 If Dr.Read Then
                                     'akun_persediaan_dari = Dr("persediaan")
                                     inisial_faktur_dari = Dr("inisial_faktur")
 
                                 Else
                                     Dr.Close()
-                                    CloseTrans()
-                                    CloseConn()
-                                    CloseConn9()
+                                    CloseTrans_Premix()
+                                    CloseConn_Premix()
                                     MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                         GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1841,14 +1817,13 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Group_Jenis = c.Id_Group_Jenis and "
                             SQL = SQL & "b.kode_stock_owner = c.kode_stock_owner and b.Kode_Perusahaan = '" & KodePerusahaan & "' "
                             SQL = SQL & "and b.kode_stock_owner = '" & Txt_KdSOBarang.Text & "' and b.Kode_Barang='" & Txt_KDBarang.Text & "' "
-                            Using Dr = OpenTrans(SQL)
+                            Using Dr = OpenTrans_Premix(SQL)
                                 If Dr.Read Then
                                     akun_persediaan_dari = Dr("akun_Persediaan")
                                 Else
                                     Dr.Close()
-                                    CloseTrans()
-                                    CloseConn()
-                                    CloseConn9()
+                                    CloseTrans_Premix()
+                                    CloseConn_Premix()
                                     MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                         GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1863,14 +1838,13 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Group_Jenis = c.Id_Group_Jenis and "
                             SQL = SQL & "b.kode_stock_owner = c.kode_stock_owner and b.Kode_Perusahaan = '" & KodePerusahaan & "' "
                             SQL = SQL & "and b.kode_stock_owner = '" & Txt_SORequest.Text & "' and b.Kode_Barang='" & Txt_KDBarang.Text & "' "
-                            Using Dr = OpenTrans(SQL)
+                            Using Dr = OpenTrans_Premix(SQL)
                                 If Dr.Read Then
                                     akun_persediaan_tujuan = Dr("akun_Persediaan")
                                 Else
                                     Dr.Close()
-                                    CloseTrans()
-                                    CloseConn()
-                                    CloseConn9()
+                                    CloseTrans_Premix()
+                                    CloseConn_Premix()
                                     MessageBox.Show("Data akun tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                         GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1883,14 +1857,13 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = "select round(dbo.get_hpp(serial_number) * " & JumlahInputDB & ", 2) as rp_persediaan_min from barang_sn where "
                             SQL = SQL & "Kode_Stock_Owner='" & Txt_KdSOBarang.Text & "' and Kode_Barang='" & Txt_KDBarang.Text & "' "
                             SQL = SQL & "and Serial_Number='" & SN_Awal & "'"
-                            Using dr = OpenTrans(SQL)
+                            Using dr = OpenTrans_Premix(SQL)
                                 If dr.Read Then
                                     nilai_persediaan_min = dr("rp_persediaan_min")
                                 Else
                                     dr.Close()
-                                    CloseTrans()
-                                    CloseConn()
-                                    CloseConn9()
+                                    CloseTrans_Premix()
+                                    CloseConn_Premix()
                                     MessageBox.Show("Data SN tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                         GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1910,32 +1883,31 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & KodePerusahaan.ToUpper & "', "
                             SQL = SQL & "'" & KodeProyek & "', 'Transfer Stock " & Txt_NoFaktur.Text & "', '', "
                             SQL = SQL & "'-', '" & UserID & "')"
-                            ExecuteTrans(SQL)
+                            ExecuteTrans_Premix(SQL)
 
                             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_persediaan_dari, 1),
                                   Strings.Mid(akun_persediaan_dari, 2, 1),
                                   Strings.Mid(Ganti(akun_persediaan_dari), 3),
                                   KodePerusahaan, KodeProyek, "Persedian " & Txt_NoFaktur.Text, "0", nilai_persediaan_min, pagenumber, Txt_KdSOBarang.Text, Bahasa_Pilihan, Ket_Cost_Center_HO)
-                            ExecuteTrans(SQL)
+                            ExecuteTrans_Premix(SQL)
                             pagenumber = pagenumber + 1
 
                             SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_persediaan_tujuan, 1),
                                  Strings.Mid(akun_persediaan_tujuan, 2, 1),
                                  Strings.Mid(Ganti(akun_persediaan_tujuan), 3),
                                  KodePerusahaan, KodeProyek, "Persedian " & Txt_NoFaktur.Text, nilai_persediaan_min, "0", pagenumber, Txt_SORequest.Text, Bahasa_Pilihan, Ket_Cost_Center_HO)
-                            ExecuteTrans(SQL)
+                            ExecuteTrans_Premix(SQL)
                             pagenumber = pagenumber + 1
 
                             SQL = "select sum(debit) as debit, sum(kredit) as kredit from detail_jurnal where "
                             SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
                             SQL = SQL & "kode_voucher = '" & Kode_voucher & "'"
-                            Using Dr = OpenTrans(SQL)
+                            Using Dr = OpenTrans_Premix(SQL)
                                 If Dr.Read Then
                                     If Dr("debit") <> Dr("kredit") Then
                                         Dr.Close()
-                                        CloseTrans()
-                                        CloseConn()
-                                        CloseConn9()
+                                        CloseTrans_Premix()
+                                        CloseConn_Premix()
                                         MessageBox.Show("Jurnal salah!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                         If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                             GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1944,9 +1916,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                     End If
                                 Else
                                     Dr.Close()
-                                    CloseTrans()
-                                    CloseConn()
-                                    CloseConn9()
+                                    CloseTrans_Premix()
+                                    CloseConn_Premix()
                                     MessageBox.Show("Data jurnal tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                         GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -1961,7 +1932,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                 insert into N_EMI_Temp_Waktu_Timbang_Premix (Kode_Perusahaan, No_faktur, Tanggal, Jam, Keterangan, Waktu)
                                 values ('{KodePerusahaan}', '{Txt_NoFaktur.Text.Trim}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 'Jurnal', '{sw6.Elapsed.TotalMilliseconds} ms')
                             "
-                            ExecuteTrans9(SQL)
+                            ExecuteTrans_Premix(SQL)
 
                             '=====================================
                             '=     UBAH MENJADI SATUAN BESAR     =
@@ -2003,7 +1974,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = SQL & "VALUES('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', '" & arrNoFakturRM(Cmb_Faktur_RM.SelectedIndex) & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
                             SQL = SQL & "'" & Txt_KdSOBarang.Text & "', '" & Txt_SORequest.Text & "', '" & Txt_KDBarang.Text & "', '" & SN_Awal & "', '" & SN_Baru & "', " & JumlahBesar & ", "
                             SQL = SQL & "'" & SatuanBesar & "', " & JumlahInputDB & ", '" & SatuanKecil & "', '" & Kode_voucher & "', '" & UrutDetRM & "', '" & TextBarcodePSS & "', '" & Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) & "'); "
-                            ExecuteTrans(SQL)
+                            ExecuteTrans_Premix(SQL)
 
 #End Region
                             sw7.Stop()
@@ -2011,7 +1982,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                 insert into N_EMI_Temp_Waktu_Timbang_Premix (Kode_Perusahaan, No_faktur, Tanggal, Jam, Keterangan, Waktu)
                                 values ('{KodePerusahaan}', '{Txt_NoFaktur.Text.Trim}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 'Insert Data Validasi Premix', '{sw7.Elapsed.TotalMilliseconds} ms')
                             "
-                            ExecuteTrans9(SQL)
+                            ExecuteTrans_Premix(SQL)
 
 
                             '=====================================
@@ -2023,14 +1994,14 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             kode_unik_print = Format(tgl_skg, "MMddHHmmss") & Format(Random.Next(0, 10000), "00000")
                             Dim fullNewQr As String = QrLama & "-" & newKodeUnikBerjalan
 
-                            Cmd.Parameters.Clear()
+                            Cmd_Premix.Parameters.Clear()
                             Using ImgBarcode1 As Image = Generate_QR_QC(fullNewQr)
                                 Using ms1 As New MemoryStream()
                                     ImgBarcode1.Save(ms1, Imaging.ImageFormat.Jpeg)
                                     Dim rawData1 As Byte() = ms1.ToArray()
 
                                     Dim param1 As String = "@newBarcode" & kode_unik_print
-                                    Cmd.Parameters.Add(param1, SqlDbType.Image).Value = rawData1
+                                    Cmd_Premix.Parameters.Add(param1, SqlDbType.Image).Value = rawData1
                                 End Using
                             End Using
 
@@ -2040,7 +2011,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                     Dim rawData2 As Byte() = ms2.ToArray()
 
                                     Dim param2 As String = "@newBarcodePSS" & kode_unik_print
-                                    Cmd.Parameters.Add(param2, SqlDbType.Image).Value = rawData2
+                                    Cmd_Premix.Parameters.Add(param2, SqlDbType.Image).Value = rawData2
                                 End Using
                             End Using
 
@@ -2081,7 +2052,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = "select count(*) as urut from N_EMI_Transaksi_Material_Requisition_QC_Validasi "
                             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Flag_Retur is null and No_Faktur_RM = '" & arrNoFakturRM(Cmb_Faktur_RM.SelectedIndex) & "' "
                             SQL = SQL & "and Kode_Barang = '" & Txt_KDBarang.Text & "' and Urut_Det_RM = '" & UrutDetRM & "' "
-                            Using Dr = OpenTrans(SQL)
+                            Using Dr = OpenTrans_Premix(SQL)
                                 If Dr.Read Then
                                     If Val(Dr("urut")) = 0 Then
                                         UrutBarcode = 1
@@ -2102,7 +2073,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = SQL & "" & HilangkanTanda(JumlahBesar) & ", '" & SatuanBesar & "', " & UrutBarcode & ", 0, "
                             SQL = SQL & "'" & fullNewQr & "', '" & QrLama & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & kode_unik_print & "', "
                             SQL = SQL & "'" & Txt_NoSplitProduction.Text & "', '" & TXt_Batch.Text & "'); "
-                            ExecuteTrans(SQL)
+                            ExecuteTrans_Premix(SQL)
 
                             arrKdUnikPrint.Add(kode_unik_print)
 
@@ -2112,7 +2083,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                 insert into N_EMI_Temp_Waktu_Timbang_Premix (Kode_Perusahaan, No_faktur, Tanggal, Jam, Keterangan, Waktu)
                                 values ('{KodePerusahaan}', '{Txt_NoFaktur.Text.Trim}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 'Generate Barcode Baru dan Barcode PSS', '{sw8.Elapsed.TotalMilliseconds} ms')
                             "
-                            ExecuteTrans9(SQL)
+                            ExecuteTrans_Premix(SQL)
 
 
                             '==========================================
@@ -2127,7 +2098,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = SQL & "and a.kode_Stock_Owner_Tujuan = '" & Txt_SORequest.Text & "' "
                             SQL = SQL & "and a.kode_barang = '" & Txt_KDBarang.Text & "' "
                             SQL = SQL & "and a.Urut_Det_RM = '" & UrutDetRM & "' "
-                            Using Ds1 = BindingTrans(SQL)
+                            Using Ds1 = BindingTrans_Premix(SQL)
 
                                 If Ds1.Tables("MyTable").Rows.Count <> 0 Then
 
@@ -2138,15 +2109,14 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                     Dim JumlahMAXTambah As Double = 0
                                     SQL = "select Jumlah_Per_Batch, isnull(Jumlah_Tambah, 0) as Jumlah_Tambah from N_EMI_Transaksi_Material_Requisition_QC_Det "
                                     SQL = SQL & "where No_Faktur = '" & arrNoFakturRM(Cmb_Faktur_RM.SelectedIndex) & "' and Urut_Oto = '" & UrutDetRM & "' "
-                                    Using Dr = OpenTrans(SQL)
+                                    Using Dr = OpenTrans_Premix(SQL)
                                         If Dr.Read Then
                                             JumlahMAXPerBatch = Dr("Jumlah_Per_Batch")
                                             JumlahMAXTambah = Dr("Jumlah_Tambah")
                                         Else
                                             Dr.Close()
-                                            CloseTrans()
-                                            CloseConn()
-                                            CloseConn9()
+                                            CloseTrans_Premix()
+                                            CloseConn_Premix()
                                             MessageBox.Show("Data Request Det Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                             If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                                 GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -2170,9 +2140,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                     'End If
 
                                     If JumlahSdhValidasi > NilaiToleransiMAX Then
-                                        CloseTrans()
-                                        CloseConn()
-                                        CloseConn9()
+                                        CloseTrans_Premix()
+                                        CloseConn_Premix()
                                         MessageBox.Show("Jumlah Validasi Melebihi Dari Toleransi Maximum", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                         If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                                             GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -2185,7 +2154,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                         SQL = SQL & "Flag_Terpenuhi = 'Y' "
                                         SQL = SQL & "Where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & arrNoFakturRM(Cmb_Faktur_RM.SelectedIndex) & "' "
                                         SQL = SQL & "and Kode_Barang = '" & Txt_KDBarang.Text & "' and Urut_Oto = '" & UrutDetRM & "' "
-                                        ExecuteTrans(SQL)
+                                        ExecuteTrans_Premix(SQL)
 
                                     End If
 
@@ -2198,15 +2167,14 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                 insert into N_EMI_Temp_Waktu_Timbang_Premix (Kode_Perusahaan, No_faktur, Tanggal, Jam, Keterangan, Waktu)
                                 values ('{KodePerusahaan}', '{Txt_NoFaktur.Text.Trim}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 'Pengecekan Rm Terpenuhi?', '{sw9.Elapsed.TotalMilliseconds} ms')
                             "
-                            ExecuteTrans9(SQL)
+                            ExecuteTrans_Premix(SQL)
 
                         Next
 
 
                     Else
-                        CloseTrans()
-                        CloseConn()
-                        CloseConn9()
+                        CloseTrans_Premix()
+                        CloseConn_Premix()
                         MessageBox.Show("Data Request Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                             GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -2227,7 +2195,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             SQL = "select Kode_Perusahaan from N_EMI_Transaksi_Material_Requisition_QC_Detail "
             SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & arrNoFakturRM(Cmb_Faktur_RM.SelectedIndex) & "'  "
             SQL = SQL & "and Urut_Oto = '" & Txt_UrutDetail.Text & "' and Flag_Terpenuhi is null "
-            Using Ds = BindingTrans(SQL)
+            Using Ds = BindingTrans_Premix(SQL)
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
 
@@ -2241,7 +2209,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                         SQL = SQL & "and a.No_Faktur = '" & arrNoFakturRM(Cmb_Faktur_RM.SelectedIndex) & "' "
                         SQL = SQL & "and c.Urut_Detail = '" & Txt_UrutDetail.Text & "' "
                         SQL = SQL & "), 'Y') as selesai "
-                        Using Dr = OpenTrans(SQL)
+                        Using Dr = OpenTrans_Premix(SQL)
                             If Dr.Read Then
                                 If Dr("selesai") = "Y" Then
 
@@ -2282,7 +2250,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                     SQL = SQL & "Qr_Code = '" & fullNewQr & "', Barcode_Batch = " & barcodeBatch & " "
                                     SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
                                     SQL = SQL & "and No_Faktur = '" & arrNoFakturRM(Cmb_Faktur_RM.SelectedIndex) & "' and Urut_Oto = '" & Txt_UrutDetail.Text & "'  "
-                                    ExecuteTrans(SQL)
+                                    ExecuteTrans_Premix(SQL)
 
 #End Region
                                     sw11.Stop()
@@ -2290,7 +2258,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                         insert into N_EMI_Temp_Waktu_Timbang_Premix (Kode_Perusahaan, No_faktur, Tanggal, Jam, Keterangan, Waktu)
                                         values ('{KodePerusahaan}', '{Txt_NoFaktur.Text.Trim}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 'Generate Barcode Batch', '{sw11.Elapsed.TotalMilliseconds} ms')
                                     "
-                                    ExecuteTrans9(SQL)
+                                    ExecuteTrans_Premix(SQL)
 
 #Region "Generate Lama"
                                     'Dim rnd As New Random()
@@ -2326,9 +2294,8 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             End If
                         End Using
                     Else
-                        CloseTrans()
-                        CloseConn()
-                        CloseConn9()
+                        CloseTrans_Premix()
+                        CloseConn_Premix()
                         MessageBox.Show("Terjadi Kesalahan, Data Request Detail Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                             GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -2344,7 +2311,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                 insert into N_EMI_Temp_Waktu_Timbang_Premix (Kode_Perusahaan, No_faktur, Tanggal, Jam, Keterangan, Waktu)
                 values ('{KodePerusahaan}', '{Txt_NoFaktur.Text.Trim}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 'Pengecekan Batch Terpenuhi?', '{sw10.Elapsed.TotalMilliseconds} ms')
             "
-            ExecuteTrans9(SQL)
+            ExecuteTrans_Premix(SQL)
 
 
             Dim sw12 As New Stopwatch()
@@ -2357,7 +2324,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             SQL = SQL & "and a.Status is null "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.No_Faktur = '" & arrNoFakturRM(Cmb_Faktur_RM.SelectedIndex) & "' "
-            Using Ds = BindingTrans(SQL)
+            Using Ds = BindingTrans_Premix(SQL)
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
 
@@ -2367,19 +2334,18 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                         SQL = SQL & "and a.Status is null and b.Flag_Terpenuhi is null "
                         SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
                         SQL = SQL & "and a.No_Faktur = '" & arrNoFakturRM(Cmb_Faktur_RM.SelectedIndex) & "' "
-                        Using Dr = OpenTrans(SQL)
+                        Using Dr = OpenTrans_Premix(SQL)
                             If Not Dr.Read Then
                                 Dr.Close()
 
                                 SQL = "update N_EMI_Transaksi_Material_Requisition_QC set Flag_Selesai = 'Y' "
                                 SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and  No_Faktur = '" & arrNoFakturRM(Cmb_Faktur_RM.SelectedIndex) & "' "
-                                ExecuteTrans(SQL)
+                                ExecuteTrans_Premix(SQL)
                             End If
                         End Using
                     Else
-                        CloseTrans()
-                        CloseConn()
-                        CloseConn9()
+                        CloseTrans_Premix()
+                        CloseConn_Premix()
                         MessageBox.Show("Terjadi Kesalahan, Data Request Detail Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                             GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -2395,20 +2361,18 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                 insert into N_EMI_Temp_Waktu_Timbang_Premix (Kode_Perusahaan, No_faktur, Tanggal, Jam, Keterangan, Waktu)
                 values ('{KodePerusahaan}', '{Txt_NoFaktur.Text.Trim}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 'Pengecekan Apakah RM Selesai Semua?', '{sw12.Elapsed.TotalMilliseconds} ms')
             "
-            ExecuteTrans9(SQL)
+            ExecuteTrans_Premix(SQL)
 
 
 
 
-            Cmd.Transaction.Commit()
-            CloseTrans()
-            CloseConn()
-            CloseConn9()
+            Cmd_Premix.Transaction.Commit()
+            CloseTrans_Premix()
+            CloseConn_Premix()
             MessageBox.Show("Data Berhasil Di Simpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
-            CloseTrans()
-            CloseConn()
-            CloseConn9()
+            CloseTrans_Premix()
+            CloseConn_Premix()
             MessageBox.Show(ex.Message)
             If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
                 GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
@@ -2866,31 +2830,51 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
     '===============================================================================================================================================================
     '=     KONEKSI DATABASE KE 2
     '===============================================================================================================================================================
-    Private Sub OpenConn9()
+
+
+    Private Sub OpenConn_Premix()
         General_Class.SetConnectionString(CServer, CDatabase, CUserId, CPassword)
-        Cn9 = New SqlClient.SqlConnection
-        Cn9.ConnectionString = "Data Source=" & CServer & ";Initial Catalog=" & CDatabase &
+        Cn_Premix = New SqlClient.SqlConnection
+        Cn_Premix.ConnectionString = "Data Source=" & CServer & ";Initial Catalog=" & CDatabase &
                         ";User Id=" & CUserId & ";Password=" & CPassword & ";" &
                         ";Connect Timeout=30;Max Pool Size=400"
-        Cn9.Open()
-        Cmd9 = New SqlClient.SqlCommand
-        Cmd9.Connection = Cn9
-        Cmd9.CommandType = CommandType.Text
-        Cmd9.CommandTimeout = 300000
+        Cn_Premix.Open()
+        Cmd_Premix = New SqlClient.SqlCommand
+        Cmd_Premix.Connection = Cn_Premix
+        Cmd_Premix.CommandType = CommandType.Text
+        Cmd_Premix.CommandTimeout = 300000
     End Sub
 
-    Private Sub ExecuteTrans9(ByVal Query As String)
-        Cmd9.CommandText = Query
-        Cmd9.ExecuteNonQuery()
+    Private Sub ExecuteTrans_Premix(ByVal Query As String)
+        Cmd_Premix.CommandText = Query
+        Cmd_Premix.ExecuteNonQuery()
         'Cmd = Nothing
     End Sub
-    Public Sub CloseConn9()
-        If Not Cn9 Is Nothing Then
-            Cn9.Close()
-            Cn9 = Nothing
+    Public Sub CloseConn_Premix()
+        If Not Cn_Premix Is Nothing Then
+            Cn_Premix.Close()
+            Cn_Premix = Nothing
         End If
     End Sub
 
+    Public Function OpenTrans_Premix(ByVal Query As String) As SqlClient.SqlDataReader
+        Cmd_Premix.CommandText = Query
+        Return Cmd_Premix.ExecuteReader
+    End Function
 
+    Public Function BindingTrans_Premix(ByVal Query As String) As DataSet
+        Cmd_Premix.CommandText = Query
+        Da_Premix = New SqlClient.SqlDataAdapter
+        Da_Premix.SelectCommand = Cmd_Premix
+        BindingTrans_Premix = New DataSet
+        BindingTrans_Premix.Clear()
+        Da_Premix.Fill(BindingTrans_Premix, "MyTable")
+    End Function
+
+    Public Sub CloseTrans_Premix()
+        If Not (Cmd_Premix.Transaction Is Nothing) Then
+            Cmd_Premix.Transaction.Rollback()
+        End If
+    End Sub
 
 End Class

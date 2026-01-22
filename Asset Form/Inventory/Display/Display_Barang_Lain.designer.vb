@@ -904,7 +904,7 @@ Partial Class Display_Barang_Lain
         'Btn_Cetak_Detail_HPP
         '
         Me.Btn_Cetak_Detail_HPP.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Btn_Cetak_Detail_HPP.Location = New System.Drawing.Point(849, 52)
+        Me.Btn_Cetak_Detail_HPP.Location = New System.Drawing.Point(857, 51)
         Me.Btn_Cetak_Detail_HPP.Margin = New System.Windows.Forms.Padding(5, 4, 5, 4)
         Me.Btn_Cetak_Detail_HPP.Name = "Btn_Cetak_Detail_HPP"
         Me.Btn_Cetak_Detail_HPP.Size = New System.Drawing.Size(139, 28)

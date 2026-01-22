@@ -383,7 +383,7 @@ Public Class EMI_Validasi_GR_Display
             'SQL = SQL & "and b.Nomor = " & LvKeranjang_Keranjang & " and b.Jenis='Finished Good'"
 
             SQL = ";with cte as( "
-            SQL = SQL & "select Distinct b.Kode_Perusahaan, b.No_Production_Order, c.Nomor, c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code, e.Tgl_Produksi, c. Kode_Stock_Owner_Tujuan as Lokasi_Tujuan,  "
+            SQL = SQL & "select b.Kode_Perusahaan, b.No_Production_Order, c.Nomor, c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code, e.Tgl_Produksi, c. Kode_Stock_Owner_Tujuan as Lokasi_Tujuan,  "
             SQL = SQL & "e.Tgl_Expired, c.Jumlah as jumlah, d.Satuan,  "
             SQL = SQL & "case when c.jenis = 'REJECTED' then 'Disqualified ' else c.jenis end as Jenis, "
             SQL = SQL & "c.nomor as Number, "
@@ -404,7 +404,7 @@ Public Class EMI_Validasi_GR_Display
 
             SQL = SQL & "union all "
 
-            SQL = SQL & "select Distinct b.Kode_Perusahaan, b.No_Production_Order, c.Nomor, c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code, e.Tgl_Produksi, c. Kode_Stock_Owner_Tujuan as Lokasi_Tujuan,  "
+            SQL = SQL & "select b.Kode_Perusahaan, b.No_Production_Order, c.Nomor, c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code, e.Tgl_Produksi, c. Kode_Stock_Owner_Tujuan as Lokasi_Tujuan,  "
             SQL = SQL & "e.Tgl_Expired, c.Jumlah as jumlah, d.Satuan,  "
             SQL = SQL & "case when c.jenis = 'REJECTED' then 'Disqualified ' else c.jenis end as Jenis, "
             SQL = SQL & "c.nomor as Number, "
@@ -703,7 +703,7 @@ Public Class EMI_Validasi_GR_Display
 
             SQL = SQL & "union all "
 
-            SQL = SQL & "select Distinct b.Kode_Perusahaan, b.No_Production_Order, c.Nomor, c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code, e.Tgl_Produksi, c. Kode_Stock_Owner_Tujuan as Lokasi_Tujuan, "
+            SQL = SQL & "select b.Kode_Perusahaan, b.No_Production_Order, c.Nomor, c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code, e.Tgl_Produksi, c. Kode_Stock_Owner_Tujuan as Lokasi_Tujuan, "
             SQL = SQL & "e.Tgl_Expired, c.Jumlah as jumlah, d.Satuan,  "
             SQL = SQL & "case when c.jenis = 'REJECTED' then 'Disqualified ' else c.jenis end as Jenis, "
             SQL = SQL & "c.nomor as Number, "

@@ -1256,6 +1256,12 @@
     <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\Pelunasan DO\Form 2022\SD\Display_Pilih_Uang_Masuk.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\Pelunasan DO\Form 2022\Transaksi\Jf_Uang_Masuk_Global_St.designer.vb">
+      <DependentUpon>Jf_Uang_Masuk_Global_St.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\Pelunasan DO\Form 2022\Transaksi\Jf_Uang_Masuk_Global_St.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\Pelunasan DO\Form 2022\Transaksi\N_EMI_Transaksi_Pelunasan_Kredit_Per_DO_St2.Designer.vb">
       <DependentUpon>N_EMI_Transaksi_Pelunasan_Kredit_Per_DO_St2.vb</DependentUpon>
     </Compile>
@@ -2120,6 +2126,18 @@
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\ByPass Miliatary Sampling\N_EMI_Transaksi_Bypass_Military_Sampling.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\Display\N_EMI_Display_Retur_Packaging.Designer.vb">
+      <DependentUpon>N_EMI_Display_Retur_Packaging.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\Display\N_EMI_Display_Retur_Packaging.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\Laporan\N_EMI_Laporan_Retur_Packaging.Designer.vb">
+      <DependentUpon>N_EMI_Laporan_Retur_Packaging.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\Laporan\N_EMI_Laporan_Retur_Packaging.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\N_EMI_Transaksi_Retur_Packaging.Designer.vb">
       <DependentUpon>N_EMI_Transaksi_Retur_Packaging.vb</DependentUpon>
     </Compile>
@@ -2131,6 +2149,18 @@
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\N_EMI_Transaksi_Retur_Packaging_Backup_151025.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\Rpt\N_EMI_Barcode_Retur_Packaging.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_Barcode_Retur_Packaging.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\Rpt\N_EMI_CR_Laporan_Retur_Packaging.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_CR_Laporan_Retur_Packaging.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\SD\N_EMI_SD_Transaksi_Retur_Packaging.Designer.vb">
       <DependentUpon>N_EMI_SD_Transaksi_Retur_Packaging.vb</DependentUpon>
@@ -2480,6 +2510,12 @@
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Waste Items\Display\N_EMI_Display_Approval_Waste_Process.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Waste Items\N_EMI_Master_Approval_Hierarchy_Waste.Designer.vb">
+      <DependentUpon>N_EMI_Master_Approval_Hierarchy_Waste.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Waste Items\N_EMI_Master_Approval_Hierarchy_Waste.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Waste Items\N_EMI_Transaksi_Waste_Product_Received.Designer.vb">
       <DependentUpon>N_EMI_Transaksi_Waste_Product_Received.vb</DependentUpon>
     </Compile>
@@ -2556,6 +2592,12 @@
       <DependentUpon>N_EMI_Transaksi_Request_Material_QC_Validasi.vb</DependentUpon>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\6. Quality Control\Transaksi\N_EMI_Transaksi_Request_Material_QC_Validasi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\6. Quality Control\Transaksi\N_EMI_Transaksi_Request_Material_QC_Validasi_BACKUP_210125.designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Request_Material_QC_Validasi_BACKUP_210125.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\6. Quality Control\Transaksi\N_EMI_Transaksi_Request_Material_QC_Validasi_BACKUP_210125.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\6. Quality Control\Transaksi\SD\N_EMI_SD_Request_Material_QC_Validasi.Designer.vb">
@@ -2994,6 +3036,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Laporan_Split_Stock.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Split Stock\Rpt_Laporan_Split_Stock_Detail.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Laporan_Split_Stock_Detail.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Transfer Stock\Emi_Laporan_Transfer_Stock.Designer.vb">
@@ -5867,6 +5915,9 @@
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\Pelunasan DO\Form 2022\SD\Display_Pilih_Uang_Masuk.resx">
       <DependentUpon>Display_Pilih_Uang_Masuk.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\Pelunasan DO\Form 2022\Transaksi\Jf_Uang_Masuk_Global_St.resx">
+      <DependentUpon>Jf_Uang_Masuk_Global_St.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pembelian\Pelunasan DO\Form 2022\Transaksi\N_EMI_Transaksi_Pelunasan_Kredit_Per_DO_St2.resx">
       <DependentUpon>N_EMI_Transaksi_Pelunasan_Kredit_Per_DO_St2.vb</DependentUpon>
     </EmbeddedResource>
@@ -6328,11 +6379,25 @@
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\ByPass Miliatary Sampling\N_EMI_Transaksi_Bypass_Military_Sampling.resx">
       <DependentUpon>N_EMI_Transaksi_Bypass_Military_Sampling.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\Display\N_EMI_Display_Retur_Packaging.resx">
+      <DependentUpon>N_EMI_Display_Retur_Packaging.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\Laporan\N_EMI_Laporan_Retur_Packaging.resx">
+      <DependentUpon>N_EMI_Laporan_Retur_Packaging.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\N_EMI_Transaksi_Retur_Packaging.resx">
       <DependentUpon>N_EMI_Transaksi_Retur_Packaging.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\N_EMI_Transaksi_Retur_Packaging_Backup_151025.resx">
       <DependentUpon>N_EMI_Transaksi_Retur_Packaging_Backup_151025.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\Rpt\N_EMI_Barcode_Retur_Packaging.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_Barcode_Retur_Packaging.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\Rpt\N_EMI_CR_Laporan_Retur_Packaging.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_CR_Laporan_Retur_Packaging.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Change Packaging\SD\N_EMI_SD_Transaksi_Retur_Packaging.resx">
       <DependentUpon>N_EMI_SD_Transaksi_Retur_Packaging.vb</DependentUpon>
@@ -6516,6 +6581,9 @@
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Waste Items\Display\N_EMI_Display_Approval_Waste_Process.resx">
       <DependentUpon>N_EMI_Display_Approval_Waste_Process.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Waste Items\N_EMI_Master_Approval_Hierarchy_Waste.resx">
+      <DependentUpon>N_EMI_Master_Approval_Hierarchy_Waste.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Waste Items\N_EMI_Transaksi_Waste_Product_Received.resx">
       <DependentUpon>N_EMI_Transaksi_Waste_Product_Received.vb</DependentUpon>
     </EmbeddedResource>
@@ -6561,6 +6629,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\6. Quality Control\Transaksi\N_EMI_Transaksi_Request_Material_QC_Validasi.resx">
       <DependentUpon>N_EMI_Transaksi_Request_Material_QC_Validasi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\6. Quality Control\Transaksi\N_EMI_Transaksi_Request_Material_QC_Validasi_BACKUP_210125.resx">
+      <DependentUpon>N_EMI_Transaksi_Request_Material_QC_Validasi_BACKUP_210125.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\6. Quality Control\Transaksi\SD\N_EMI_SD_Request_Material_QC_Validasi.resx">
       <DependentUpon>N_EMI_SD_Request_Material_QC_Validasi.vb</DependentUpon>
@@ -6825,6 +6896,10 @@
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Split Stock\Rpt_Laporan_Split_Stock.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Laporan_Split_Stock.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Split Stock\Rpt_Laporan_Split_Stock_Detail.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Laporan_Split_Stock_Detail.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Emi Form\1. PEBAIKAN MENU\9. Laporan\Transfer Stock\Emi_Laporan_Transfer_Stock.resx">
       <DependentUpon>Emi_Laporan_Transfer_Stock.vb</DependentUpon>
@@ -8093,6 +8168,7 @@
     <Folder Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\2. Transaksi\Pengeluaran\Asset\" />
     <Folder Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\3. Display\Penawaran\" />
     <Folder Include="Emi Form\1. PEBAIKAN MENU\3. Purchase\4. Laporan\Forecast\" />
+    <Folder Include="Emi Form\1. PEBAIKAN MENU\5. Production\Transaksi\Waste Items\Laporan\" />
     <Folder Include="Emi Form\1. PEBAIKAN MENU\RPT\3\" />
     <Folder Include="Emi Form\Accounting\BIAYA 2008\Laporan\" />
     <Folder Include="Emi Form\Accounting\BIAYA 2022\Show Dialog\" />

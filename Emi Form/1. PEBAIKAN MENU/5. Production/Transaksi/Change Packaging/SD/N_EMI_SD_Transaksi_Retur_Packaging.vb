@@ -1,6 +1,6 @@
 ﻿Public Class N_EMI_SD_Transaksi_Retur_Packaging
 
-    Public Lokasi_Gudang_Transfer As String
+    Public Lokasi_Gudang_Transfer, Faktur_Retur As String
     Private sistemClose As Boolean = False
 
     Dim JumlahMaksimalRequest As Double = 0
@@ -41,10 +41,10 @@
         SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
         SQL = SQL & "and a.No_Faktur = b.No_Faktur "
         SQL = SQL & "and a.Status is null "
-        SQL = SQL & "and a.Kode_Perusahaan = '001' "
-        SQL = SQL & "and a.No_Faktur_Order = 'PR0925-00004-1' "
-        SQL = SQL & "and b.Kode_Stock_Owner = 'PRODUCTION' "
-        SQL = SQL & "and b.Kode_Barang = 'PCH-85GR' "
+        SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+        SQL = SQL & "and a.No_Faktur_Order = '" & Txt_NoSplit.Text.Trim & "' "
+        SQL = SQL & "and b.Kode_Stock_Owner = '" & Lokasi_Gudang_Transfer & "' "
+        SQL = SQL & "and b.Kode_Barang = '" & Txt_Kd_Barang.Text.Trim & "' "
         SQL = SQL & "and a.Flag_Otomatis = 'Y' "
         Using Ds = BindingTrans(SQL)
             With Ds.Tables("MyTable")
@@ -140,10 +140,11 @@
             '=========================
             '=     INSERT PARENT     =
             '=========================
-            SQL = "insert into Emi_Material_Requisition (Kode_Perusahaan, No_Faktur, No_Faktur_Order, Kode_Stock_Owner, Kode_Barang, Id_Group_Jenis, Tanggal, Jam, Flag_Process, UserId, Status, Keterangan, Lokasi) values "
+            SQL = "insert into Emi_Material_Requisition (Kode_Perusahaan, No_Faktur, No_Faktur_Order, Kode_Stock_Owner, Kode_Barang, Id_Group_Jenis, Tanggal, Jam, Flag_Process, UserId, Status, Keterangan, Lokasi, Flag_Retur_Packaging, No_Faktur_Retur_Packaging) values "
             SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_NoFaktur_ReqMaterial & "', '" & Txt_NoSplit.Text & "', "
             SQL = SQL & "'" & Lokasi_Gudang_Transfer & "', '" & Txt_Kd_Barang.Text & "', '" & Id_Group_Jenis & "', "
-            SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', 'Y', '" & UserID & "', NULL, '" & Keterangan_RM & "', '" & Ket_Lokasi_HO_Proyek & "')"
+            SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', 'Y', '" & UserID & "', NULL, '" & Keterangan_RM & "', '" & Ket_Lokasi_HO_Proyek & "', "
+            SQL = SQL & "'Y', '" & Faktur_Retur & "') "
             ExecuteTrans(SQL)
 
 

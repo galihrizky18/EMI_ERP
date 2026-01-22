@@ -425,7 +425,7 @@
 
             OpenConn()
 
-            Cek_Flagging()
+            Cek_Flagging_Barang_Lain()
 
             DataGridView1.Rows.Clear()
             SQL = "select a.*, dbo.get_hpp(a.serial_number) as HPP "
@@ -439,9 +439,10 @@
             'SQL = SQL & "gj.Flag_Semi_FG = '" & Flag_Semi_FG & "' and gj.Flag_Scrap = '" & Flag_Scrap & "' and "
             'SQL = SQL & "gj.Flag_Bahan_Bakar = '" & Flag_Bahan_Bakar & "' and gj.Flag_Peralatan = '" & Flag_Peralatan & "' "
             '6
-            ' SQL = SQL & FilterPengeluaranCostCenter
+            'SQL = SQL & FilterPengeluaranCostCenter
             '            SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "' or gj.flag_peralatan = '" & fPeralatan & "'") "
-            SQL = SQL & FilterPengeluaranCostCenter
+
+            'SQL = SQL & FilterPengeluaranCostCenter
 
             If CheckBox1.Checked = True Then
                 SQL = SQL & " And a." & arrcarib.Item(ComboBox1b.SelectedIndex) & " " & ComboBox1.Text & " '" & ComboBox3.Text & TextBox7b.Text & ComboBox4.Text & "' "
@@ -1060,7 +1061,7 @@
 
             OpenConn()
 
-            Cek_Flagging()
+            Cek_Flagging_Barang_Lain()
 
             SQL = "select a.* "
             SQL = SQL & "from Stock_Barang_lain_SN_Per_Lokasi as a inner join emi_group_jenis_Lain as gj on a.kode_group_jenis = gj.kode_group_jenis "
@@ -1073,7 +1074,7 @@
             'SQL = SQL & "gj.Flag_Semi_FG = '" & Flag_Semi_FG & "' and gj.Flag_Scrap = '" & Flag_Scrap & "' and "
             'SQL = SQL & "gj.Flag_Bahan_Bakar = '" & Flag_Bahan_Bakar & "' and gj.Flag_Peralatan = '" & Flag_Peralatan & "' "
             '4
-            '        SQL = SQL & FilterPengeluaranCostCenter
+            'SQL = SQL & FilterPengeluaranCostCenter
             SQL = SQL & "AND (gj.flag_ATK = '" & fATK & "' OR gj.flag_asset = '" & fAsset & "' OR gj.flag_sparepart = '" & fSparepart & "') "
 
             SF = "{Stock_Barang_Lain_SN_Per_lokasi.Kode_Perusahaan} = '" & KodePerusahaan & "' "

@@ -32,6 +32,8 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.Label10 = New System.Windows.Forms.Label()
         Me.lblJumlahTimbang = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
+        Me.Txt_Sisa_Request = New System.Windows.Forms.TextBox()
+        Me.Label11 = New System.Windows.Forms.Label()
         Me.Txt_Sisa_Jumlah = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.TxtBeratBersih = New System.Windows.Forms.TextBox()
@@ -77,8 +79,6 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.TxtBeratAlas_Bersih = New System.Windows.Forms.TextBox()
         Me.Txt_Jumlah_Sisa_Bersih = New System.Windows.Forms.TextBox()
         Me.Txt_Bags_Sisa_Bersih = New System.Windows.Forms.TextBox()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.Txt_Sisa_Request = New System.Windows.Forms.TextBox()
         GroupBox1 = New System.Windows.Forms.GroupBox()
         GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -171,6 +171,7 @@ Partial Class EMI_Timbang_Floor_Scale
         '
         Me.txt_Jumlah_Timbang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.txt_Jumlah_Timbang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txt_Jumlah_Timbang.Enabled = False
         Me.txt_Jumlah_Timbang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
         Me.txt_Jumlah_Timbang.Location = New System.Drawing.Point(115, 69)
         Me.txt_Jumlah_Timbang.MaxLength = 50
@@ -235,6 +236,29 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.Label8.Size = New System.Drawing.Size(91, 17)
         Me.Label8.TabIndex = 496
         Me.Label8.Text = "Bags Simpan"
+        '
+        'Txt_Sisa_Request
+        '
+        Me.Txt_Sisa_Request.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_Sisa_Request.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_Sisa_Request.Enabled = False
+        Me.Txt_Sisa_Request.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
+        Me.Txt_Sisa_Request.Location = New System.Drawing.Point(115, 15)
+        Me.Txt_Sisa_Request.MaxLength = 50
+        Me.Txt_Sisa_Request.Name = "Txt_Sisa_Request"
+        Me.Txt_Sisa_Request.Size = New System.Drawing.Size(124, 21)
+        Me.Txt_Sisa_Request.TabIndex = 9
+        Me.Txt_Sisa_Request.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.Label11.Location = New System.Drawing.Point(8, 17)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(92, 17)
+        Me.Label11.TabIndex = 488
+        Me.Label11.Text = "Sisa Request"
         '
         'Txt_Sisa_Jumlah
         '
@@ -745,29 +769,6 @@ Partial Class EMI_Timbang_Floor_Scale
         Me.Txt_Bags_Sisa_Bersih.Size = New System.Drawing.Size(68, 20)
         Me.Txt_Bags_Sisa_Bersih.TabIndex = 498
         Me.Txt_Bags_Sisa_Bersih.Visible = False
-        '
-        'Label11
-        '
-        Me.Label11.AutoSize = True
-        Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label11.Location = New System.Drawing.Point(8, 17)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(92, 17)
-        Me.Label11.TabIndex = 488
-        Me.Label11.Text = "Sisa Request"
-        '
-        'Txt_Sisa_Request
-        '
-        Me.Txt_Sisa_Request.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.Txt_Sisa_Request.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_Sisa_Request.Enabled = False
-        Me.Txt_Sisa_Request.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-        Me.Txt_Sisa_Request.Location = New System.Drawing.Point(115, 15)
-        Me.Txt_Sisa_Request.MaxLength = 50
-        Me.Txt_Sisa_Request.Name = "Txt_Sisa_Request"
-        Me.Txt_Sisa_Request.Size = New System.Drawing.Size(124, 21)
-        Me.Txt_Sisa_Request.TabIndex = 9
-        Me.Txt_Sisa_Request.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'EMI_Timbang_Floor_Scale
         '

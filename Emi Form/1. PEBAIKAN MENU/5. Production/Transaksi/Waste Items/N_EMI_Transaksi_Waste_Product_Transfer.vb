@@ -41,7 +41,7 @@
 
             Cmb_Gudang_Tujuan.Items.Clear()
 
-            SQL = "select Kode_Stock_Owner from Stock_Owner_Gudang where kode_perusahaan = '" & KodePerusahaan & "' and flag_waste = 'Y' "
+            SQL = "select Kode_Stock_Owner from Stock_Owner_Gudang where kode_perusahaan = '" & KodePerusahaan & "' and Flag_Waste_Product = 'Y' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     Cmb_Gudang_Tujuan.Items.Add(Dr("Kode_Stock_Owner"))
@@ -270,12 +270,12 @@
             Dim currentValue As String = currentItem.SubItems(item_Lokasi).Text
             Dim currentValue2 As String = currentItem.SubItems(item_NoSplit).Text
 
-            If refValue2.ToUpper() <> currentValue2.ToUpper() Then
-                e.NewValue = CheckState.Unchecked '
+            'If refValue2.ToUpper() <> currentValue2.ToUpper() Then
+            '    e.NewValue = CheckState.Unchecked '
 
-                MessageBox.Show("Hanya bisa memilih item dengan Split yang sama.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Exit Sub
-            End If
+            '    MessageBox.Show("Hanya bisa memilih item dengan Split yang sama.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            '    Exit Sub
+            'End If
 
             If refValue.ToUpper() <> currentValue.ToUpper() Then
                 e.NewValue = CheckState.Unchecked '
@@ -391,7 +391,10 @@
             ExecuteTrans(SQL)
 
 
-            If Not Add_Transaksi_Approval() Then
+            Dim refItem As ListViewItem = Lv_Data.CheckedItems(0)
+            Dim GudangAsal As String = refItem.SubItems(item_Lokasi).Text
+
+            If Not Add_Transaksi_Approval(GudangAsal) Then
                 CloseTrans()
                 CloseConn()
                 Exit Sub
@@ -1564,7 +1567,7 @@
 
     End Sub
 
-    Private Function Add_Transaksi_Approval() As Boolean
+    Private Function Add_Transaksi_Approval(ByVal Gudang As String) As Boolean
 
         Dim No_Faktur_Approval As String = get_no_faktur_approval_pemusnahan()
 
@@ -1576,7 +1579,7 @@
         SQL = $"
             select ID_User_Android, Approval_Level, Peran, Jenis_Approval, ID_User_Desktop, Jabatan 
             from N_EMI_Master_Hierarchy_Approval_Waste 
-            where Kode_Perusahaan = '{KodePerusahaan}' and Jenis_Approval = 'Waste_Produk' and isActive = 'Y'
+            where Kode_Perusahaan = '{KodePerusahaan}' and Jenis_Approval = 'Waste_Produk' and isActive = 'Y' and Kode_Stock_Owner = '{Gudang}'
             order by Approval_Level
         "
         Using Ds9 = BindingTrans(SQL)
@@ -1599,15 +1602,19 @@
                     End If
 
                     SQL = $"
-                        insert into N_EMI_Transaksi_Approval_Waste (Kode_Perusahaan, No_Transaksi, No_Faktur_Waste, Tanggal, Jam, ID_User_Android_Approve, Approval_Level, Jabatan, Jenis_Approval, Flag_Approve, Flag_Sudah_Kirim_WA, Peran, Tanggal_Approve, Jam_Approve, User_ID_Desktop, No_Berita_Acara)
+                        insert into N_EMI_Transaksi_Approval_Waste (Kode_Perusahaan, No_Transaksi, No_Faktur_Waste, Tanggal, Jam, ID_User_Android_Approve, Approval_Level, Jabatan, Jenis_Approval, Flag_Approve, Flag_Sudah_Kirim_WA, Peran, Tanggal_Approve, Jam_Approve, User_ID_Desktop, No_Berita_Acara, Kode_Stock_Owner)
                         values ('{KodePerusahaan}', '{No_Faktur_Approval}', '{Txt_No_Transaksi.Text}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', 
                             '{Ds9.Tables("MyTable").Rows(y).Item("ID_User_Android")}', '{Ds9.Tables("MyTable").Rows(y).Item("Approval_Level")}', 
                             '{Ds9.Tables("MyTable").Rows(y).Item("Jabatan")}', '{Ds9.Tables("MyTable").Rows(y).Item("Jenis_Approval")}', {Flag_Approve}, {Flag_Sudah_Kirim_WA}, '{Ds9.Tables("MyTable").Rows(y).Item("Peran")}',
-                            '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', {UserID_Desktop}, '{No_BA}' )
+                            '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', {UserID_Desktop}, '{No_BA}', '{Gudang}' )
                     "
                     ExecuteTrans(SQL)
 
                 Next
+
+            Else
+                MessageBox.Show($"User Approval Belum Diset", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
             End If
         End Using
 

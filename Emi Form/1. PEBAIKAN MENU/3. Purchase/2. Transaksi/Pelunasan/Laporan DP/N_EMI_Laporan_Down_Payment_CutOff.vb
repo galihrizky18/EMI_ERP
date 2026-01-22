@@ -295,12 +295,13 @@ Public Class N_EMI_Laporan_Down_Payment_CutOff
                 With DS.Tables("MyTable")
                     If .Rows.Count <> 0 Then
 
+                        Dim SelectionRecord As String = ""
                         Dim CrDoc As Object
                         If Cmb_JenisLaporan.SelectedIndex = 0 Then
                             CrDoc = New N_EMI_CR_Laporan_Down_Payment_CutOff
                         Else
                             CrDoc = New N_EMI_CR_Laporan_Down_Payment_CutOff_Rekap
-
+                            SelectionRecord = "{N_EMI_SP_Down_Payment_Cut_Off.Sisa} <> 0"
                         End If
 
                         CrDoc.SetDataSource(DS)
@@ -373,6 +374,7 @@ Public Class N_EMI_Laporan_Down_Payment_CutOff
                             CrDoc.SummaryInfo.ReportTitle = "Periode: " & TglDari & " s/d " & TglSampai
 
                             '.Text = "Laporan Down Payment Cut Off"
+                            CrDoc.RecordSelectionFormula = SelectionRecord
                             .CrystalReportViewer1.ReportSource = CrDoc
                             .CrystalReportViewer1.DisplayGroupTree = False
                             .Refresh()

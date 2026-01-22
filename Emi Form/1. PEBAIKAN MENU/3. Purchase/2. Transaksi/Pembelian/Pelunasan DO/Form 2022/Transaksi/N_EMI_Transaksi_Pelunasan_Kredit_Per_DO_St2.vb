@@ -1762,7 +1762,7 @@
 
                                     RRRRRR = 33
 
-                                    SQL = "Update    set Kode_Member ='" & Ds2.Tables("MyTable").Rows(index3).Item("Kode_Member") & "', "
+                                    SQL = "Update Customers set Kode_Member ='" & Ds2.Tables("MyTable").Rows(index3).Item("Kode_Member") & "', "
                                     SQL = SQL & "Kode_Kategori_Member = '" & Ds2.Tables("MyTable").Rows(index3).Item("Kode_Kategori") & "', "
                                     SQL = SQL & "Plafon = plafon + " & Tambahan_Plafon & ", Number_Member = '" & Number_Member & "' "
                                     SQL = SQL & "where Kode_customer ='" & LvKdCus & "' "
@@ -1996,118 +1996,118 @@
                     '=================================================
 #Region "DI KOMEN SEMENTARA (07 JANURARI 2025)"
 
-                    'For z As Integer = 0 To ArrUrut.Count - 1
+                    For z As Integer = 0 To ArrUrut.Count - 1
 
 
-                    '    SQL = "select a.kode_cb, a.no_val, a.sisa as total from "
-                    '    SQL = SQL & "um_global a where "
-                    '    SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and "
-                    '    SQL = SQL & "sisa > 0 and "
-                    '    SQL = SQL & "a.kode_cb = '" & arrCrByr.Item(ComboBoxCb1.SelectedIndex) & "' and "
-                    '    SQL = SQL & "a.urut in (" & ArrUrut.Item(z).ToString & ") "
-                    '    SQL = SQL & "order by a.urut"
-                    '    Using Ds = BindingTrans(SQL)
-                    '        With Ds.Tables("MyTable")
-                    '            If .Rows.Count <> 0 Then
+                        SQL = "select a.kode_cb, a.no_val, a.sisa as total from "
+                        SQL = SQL & "um_global a where "
+                        SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and "
+                        SQL = SQL & "sisa > 0 and "
+                        SQL = SQL & "a.kode_cb = '" & arrCrByr.Item(ComboBoxCb1.SelectedIndex) & "' and "
+                        SQL = SQL & "a.urut in (" & ArrUrut.Item(z).ToString & ") "
+                        SQL = SQL & "order by a.urut"
+                        Using Ds = BindingTrans(SQL)
+                            With Ds.Tables("MyTable")
+                                If .Rows.Count <> 0 Then
 
 
-                    '                For h As Integer = 0 To .Rows.Count - 1
+                                    For h As Integer = 0 To .Rows.Count - 1
 
-                    '                    If .Rows(h).Item("total") - Val(ArrNilai.Item(z)) < 0 Then
-                    '                        CloseTrans()
-                    '                        CloseConn()
-                    '                        MessageBox.Show("Nilai UM/Deposit Tidak Cukup . . .!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                    '                        Exit Sub
-                    '                    End If
+                                        If .Rows(h).Item("total") - Val(ArrNilai.Item(z)) < 0 Then
+                                            CloseTrans()
+                                            CloseConn()
+                                            MessageBox.Show("Nilai UM/Deposit Tidak Cukup . . .!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                                            Exit Sub
+                                        End If
 
-                    '                    SQL = "Update um_global set sisa = sisa - " & ArrNilai.Item(z) & " where "
-                    '                    SQL = SQL & "urut = '" & ArrUrut.Item(z) & "' "
-                    '                    ExecuteTrans(SQL)
+                                        SQL = "Update um_global set sisa = sisa - " & ArrNilai.Item(z) & " where "
+                                        SQL = SQL & "urut = '" & ArrUrut.Item(z) & "' "
+                                        ExecuteTrans(SQL)
 
-                    '                    SQL = "insert into det_do_um(kode_perusahaan, no_do, "
-                    '                    SQL = SQL & "no_val, jumlah, no_pelunasan) values('" & KodePerusahaan & "', "
-                    '                    SQL = SQL & "'" & LvFak & "', '" & .Rows(h).Item("no_val") & "', "
-                    '                    SQL = SQL & "'" & ArrNilai.Item(z) & "', '" & TxtFaktur.Text.Trim & "')"
-                    '                    ExecuteTrans(SQL)
-                    '                    'akhir coding stenly
+                                        SQL = "insert into det_do_um(kode_perusahaan, no_do, "
+                                        SQL = SQL & "no_val, jumlah, no_pelunasan) values('" & KodePerusahaan & "', "
+                                        SQL = SQL & "'" & LvFak & "', '" & .Rows(h).Item("no_val") & "', "
+                                        SQL = SQL & "'" & ArrNilai.Item(z) & "', '" & TxtFaktur.Text.Trim & "')"
+                                        ExecuteTrans(SQL)
+                                        'akhir coding stenly
 
-                    '                    sisa = sisa - Val(ArrNilai.Item(z))
-                    '                Next
-                    '            Else
-                    '                CloseTrans()
-                    '                CloseConn()
-                    '                MessageBox.Show("Data uang masuk tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    '                Exit Sub
-                    '            End If
-                    '        End With
-                    '    End Using
-
-
-                    'Next
-
-                    'For z As Integer = 0 To ArrUrutDpt.Count - 1
+                                        sisa = sisa - Val(ArrNilai.Item(z))
+                                    Next
+                                Else
+                                    CloseTrans()
+                                    CloseConn()
+                                    MessageBox.Show("Data uang masuk tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End With
+                        End Using
 
 
-                    '    SQL = "select a.no_Klaim, a.sisa as total from "
-                    '    SQL = SQL & "deposit_customers a where "
-                    '    SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and "
-                    '    SQL = SQL & "round(sisa,0) > 0 and "
-                    '    SQL = SQL & "a.urut in (" & ArrUrutDpt.Item(z).ToString & ") "
-                    '    SQL = SQL & "order by a.urut"
-                    '    Using Ds = BindingTrans(SQL)
-                    '        With Ds.Tables("MyTable")
-                    '            If .Rows.Count <> 0 Then
+                    Next
+
+                    For z As Integer = 0 To ArrUrutDpt.Count - 1
 
 
-                    '                For h As Integer = 0 To .Rows.Count - 1
-
-                    '                    If .Rows(h).Item("total") - Val(ArrNilaiDpt.Item(z)) < 0 Then
-                    '                        CloseTrans()
-                    '                        CloseConn()
-                    '                        MessageBox.Show("Nilai UM/Deposit Tidak Cukup . . .!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                    '                        Exit Sub
-                    '                    End If
-
-                    '                    SQL = "Update deposit_customers set sisa = sisa - " & ArrNilaiDpt.Item(z) & " where "
-                    '                    SQL = SQL & "urut = '" & ArrUrutDpt.Item(z) & "' "
-                    '                    ExecuteTrans(SQL)
-
-                    '                    Dim flag_reimburse As String = "NULL"
-                    '                    If ArrDptFlagReimburse.Item(z) = "Y" Then
-                    '                        flag_reimburse = "'Y'"
-                    '                    End If
-
-                    '                    SQL = "insert into deposit_customers_log(kode_perusahaan, no_do_Tagihan, "
-                    '                    SQL = SQL & "no_Klaim, nilai, no_pelunasan_Tagihan, Kode_Customer, userid, Tanggal, Jam, Urut_Deposit, Jenis, PersenPPH, NilaiPPH, PersenPPN, NilaiPPN, Flag_Reimburse, Total_Klaim)"
-                    '                    SQL = SQL & " values('" & KodePerusahaan & "', "
-                    '                    SQL = SQL & "'" & LvFak & "', '" & .Rows(h).Item("no_Klaim") & "', "
-                    '                    SQL = SQL & "'" & ArrNilaiDpt.Item(z) & "', '" & TxtFaktur.Text.Trim & "', '" & LvKdCus & "', "
-                    '                    SQL = SQL & "'" & UserID & "', '" & Format(Tanggal_Sekarang, "yyyy-MM-dd") & "', '" & Format(Tanggal_Sekarang, "HH:mm:ss") & "', '" & ArrUrutDpt.Item(z) & "', 'POT TAGIHAN', "
-                    '                    SQL = SQL & "'" & ArrDptPPH.Item(z) & "', '" & ArrDptNilaiPPH.Item(z) & "', '" & ArrDptPPN.Item(z) & "', '" & ArrDptNilaiPPN.Item(z) & "', " & flag_reimburse & ", '" & ArrNilaiKlaimDpt.Item(z) & "')"
-                    '                    ExecuteTrans(SQL)
+                        SQL = "select a.no_Klaim, a.sisa as total from "
+                        SQL = SQL & "deposit_customers a where "
+                        SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and "
+                        SQL = SQL & "round(sisa,0) > 0 and "
+                        SQL = SQL & "a.urut in (" & ArrUrutDpt.Item(z).ToString & ") "
+                        SQL = SQL & "order by a.urut"
+                        Using Ds = BindingTrans(SQL)
+                            With Ds.Tables("MyTable")
+                                If .Rows.Count <> 0 Then
 
 
-                    '                    'akhir coding stenly
-                    '                    sisa = sisa - Val(ArrNilaiKlaimDpt.Item(z))
-                    '                Next
-                    '            Else
-                    '                CloseTrans()
-                    '                CloseConn()
-                    '                MessageBox.Show("Data uang masuk tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    '                Exit Sub
-                    '            End If
-                    '        End With
-                    '    End Using
+                                    For h As Integer = 0 To .Rows.Count - 1
+
+                                        If .Rows(h).Item("total") - Val(ArrNilaiDpt.Item(z)) < 0 Then
+                                            CloseTrans()
+                                            CloseConn()
+                                            MessageBox.Show("Nilai UM/Deposit Tidak Cukup . . .!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                                            Exit Sub
+                                        End If
+
+                                        SQL = "Update deposit_customers set sisa = sisa - " & ArrNilaiDpt.Item(z) & " where "
+                                        SQL = SQL & "urut = '" & ArrUrutDpt.Item(z) & "' "
+                                        ExecuteTrans(SQL)
+
+                                        Dim flag_reimburse As String = "NULL"
+                                        If ArrDptFlagReimburse.Item(z) = "Y" Then
+                                            flag_reimburse = "'Y'"
+                                        End If
+
+                                        SQL = "insert into deposit_customers_log(kode_perusahaan, no_do_Tagihan, "
+                                        SQL = SQL & "no_Klaim, nilai, no_pelunasan_Tagihan, Kode_Customer, userid, Tanggal, Jam, Urut_Deposit, Jenis, PersenPPH, NilaiPPH, PersenPPN, NilaiPPN, Flag_Reimburse, Total_Klaim)"
+                                        SQL = SQL & " values('" & KodePerusahaan & "', "
+                                        SQL = SQL & "'" & LvFak & "', '" & .Rows(h).Item("no_Klaim") & "', "
+                                        SQL = SQL & "'" & ArrNilaiDpt.Item(z) & "', '" & TxtFaktur.Text.Trim & "', '" & LvKdCus & "', "
+                                        SQL = SQL & "'" & UserID & "', '" & Format(Tanggal_Sekarang, "yyyy-MM-dd") & "', '" & Format(Tanggal_Sekarang, "HH:mm:ss") & "', '" & ArrUrutDpt.Item(z) & "', 'POT TAGIHAN', "
+                                        SQL = SQL & "'" & ArrDptPPH.Item(z) & "', '" & ArrDptNilaiPPH.Item(z) & "', '" & ArrDptPPN.Item(z) & "', '" & ArrDptNilaiPPN.Item(z) & "', " & flag_reimburse & ", '" & ArrNilaiKlaimDpt.Item(z) & "')"
+                                        ExecuteTrans(SQL)
 
 
-                    'Next
+                                        'akhir coding stenly
+                                        sisa = sisa - Val(ArrNilaiKlaimDpt.Item(z))
+                                    Next
+                                Else
+                                    CloseTrans()
+                                    CloseConn()
+                                    MessageBox.Show("Data uang masuk tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End With
+                        End Using
 
-                    'If sisa <> 0 Then
-                    '    CloseTrans()
-                    '    CloseConn()
-                    '    MessageBox.Show("Nilai DO lebih besar dari nilai input  . .  !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                    '    Exit Sub
-                    'End If
+
+                    Next
+
+                    If sisa <> 0 Then
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Nilai DO lebih besar dari nilai input  . .  !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        Exit Sub
+                    End If
 
 #End Region
 
@@ -2516,14 +2516,14 @@
 
 
             cek_data = False
-            'Display_Pilih_Uang_Masuk.LabelDari.Text = "KR"
-            'Display_Pilih_Uang_Masuk.TextBox2.Text = TextBox9.Text
-            'Display_Pilih_Uang_Masuk.Cara_Bayar()
-            'Display_Pilih_Uang_Masuk.ComboBoxCb1.Text = ComboBoxCb1.Text
-            'Display_Pilih_Uang_Masuk.TextBox3.Text = TextBox7.Text
-            'Display_Pilih_Uang_Masuk.TextBox1.Text = TextBox6.Text
-            'Display_Pilih_Uang_Masuk.Label4.Text = Label11.Text
-            'Display_Pilih_Uang_Masuk.ShowDialog()
+            Display_Pilih_Uang_Masuk.LabelDari.Text = "KR"
+            Display_Pilih_Uang_Masuk.TextBox2.Text = TextBox9.Text
+            Display_Pilih_Uang_Masuk.Cara_Bayar()
+            Display_Pilih_Uang_Masuk.ComboBoxCb1.Text = ComboBoxCb1.Text
+            Display_Pilih_Uang_Masuk.TextBox3.Text = TextBox7.Text
+            Display_Pilih_Uang_Masuk.TextBox1.Text = TextBox6.Text
+            Display_Pilih_Uang_Masuk.Label4.Text = Label11.Text
+            Display_Pilih_Uang_Masuk.ShowDialog()
 
             get_jam()
             '==============================================================
@@ -2531,36 +2531,36 @@
             '==============================================================
 #Region "LANGSUNG INSERT TANPA MALALUI SD (07 JANUARI 2025)"
 
-            Try
-                OpenConn()
-                Cmd.Transaction = Cn.BeginTransaction
+            'Try
+            '    OpenConn()
+            '    Cmd.Transaction = Cn.BeginTransaction
 
-                SQL = "INSERT INTO Perlunasan_Per_Step_Sementara (Kode_Perusahaan,No_DO,Kode_Unik,No_Val,"
-                SQL = SQL & "Tanggal,Nilai_Yang_Diinput,Urut_UM,kode_cb,kode_customer) VALUES('" & KodePerusahaan & "',"
-                SQL = SQL & "'" & TextBox9.Text & "','" & Label11.Text & "','-', "
-                SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "','" & HilangkanTanda(TextBox6.Text) & "'"
-                SQL = SQL & ",'" & HilangkanTanda(0) & "','" & arrCrByr.Item(ComboBoxCb1.SelectedIndex) & "'"
-                SQL = SQL & ",'" & TextBox7.Text & "')"
-                ExecuteTrans(SQL)
+            '    SQL = "INSERT INTO Perlunasan_Per_Step_Sementara (Kode_Perusahaan,No_DO,Kode_Unik,No_Val,"
+            '    SQL = SQL & "Tanggal,Nilai_Yang_Diinput,Urut_UM,kode_cb,kode_customer) VALUES('" & KodePerusahaan & "',"
+            '    SQL = SQL & "'" & TextBox9.Text & "','" & Label11.Text & "','-', "
+            '    SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "','" & HilangkanTanda(TextBox6.Text) & "'"
+            '    SQL = SQL & ",'" & HilangkanTanda(0) & "','" & arrCrByr.Item(ComboBoxCb1.SelectedIndex) & "'"
+            '    SQL = SQL & ",'" & TextBox7.Text & "')"
+            '    ExecuteTrans(SQL)
 
-                'SQL = "INSERT INTO Perlunasan_Per_Step_Sementara_Deposit (Kode_Perusahaan,No_DO,Kode_Unik,No_Klaim,"
-                'SQL = SQL & "Tanggal,Nilai_Yang_Diinput,Urut_Dpt,kode_customer, PersenPPN, PersenPPH, NilaiPPN, NilaiPPH, Flag_reimburse, Nilai_Yang_DiKlaim, Flag_B2B, Asal, Jenis_Klaim) VALUES('" & KodePerusahaan & "',"
-                'SQL = SQL & "'" & TextBox9.Text & "','" & Label11.Text & "','-',"
-                'SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "','" & HilangkanTanda(TextBox6.Text) & "', "
-                'SQL = SQL & "'0','" & TextBox7.Text & "','0','0', "
-                'SQL = SQL & "'0','0',NULL, '" & HilangkanTanda(TextBox6.Text) & "', NULL,'-','-') "
-                'ExecuteTrans(SQL)
+            '    'SQL = "INSERT INTO Perlunasan_Per_Step_Sementara_Deposit (Kode_Perusahaan,No_DO,Kode_Unik,No_Klaim,"
+            '    'SQL = SQL & "Tanggal,Nilai_Yang_Diinput,Urut_Dpt,kode_customer, PersenPPN, PersenPPH, NilaiPPN, NilaiPPH, Flag_reimburse, Nilai_Yang_DiKlaim, Flag_B2B, Asal, Jenis_Klaim) VALUES('" & KodePerusahaan & "',"
+            '    'SQL = SQL & "'" & TextBox9.Text & "','" & Label11.Text & "','-',"
+            '    'SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "','" & HilangkanTanda(TextBox6.Text) & "', "
+            '    'SQL = SQL & "'0','" & TextBox7.Text & "','0','0', "
+            '    'SQL = SQL & "'0','0',NULL, '" & HilangkanTanda(TextBox6.Text) & "', NULL,'-','-') "
+            '    'ExecuteTrans(SQL)
 
-                cek_data = True
+            '    cek_data = True
 
-                Cmd.Transaction.Commit()
-                CloseConn()
-            Catch ex As Exception
-                CloseTrans()
-                CloseConn()
-                MessageBox.Show(ex.Message)
-                Exit Sub
-            End Try
+            '    Cmd.Transaction.Commit()
+            '    CloseConn()
+            'Catch ex As Exception
+            '    CloseTrans()
+            '    CloseConn()
+            '    MessageBox.Show(ex.Message)
+            '    Exit Sub
+            'End Try
 
 #End Region
 

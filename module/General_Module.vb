@@ -118,7 +118,9 @@ Module General_Module
     Public PrinterName2 As String = "EPSON LX-310 ESC/P"
     Public PrinterName As String = "EPSON LX-310 ESC/P"
     Public PrinterNameTS As String = "EPSON LX-310 ESC/P"
+
     Public PrinterBarcode As String = "TSC TE210"
+
     Public PrinterQC As String = ""
     Public PrinterBarcodeQC As String = "TSC TE210 (LAN)"
 
@@ -547,18 +549,7 @@ Module General_Module
     End Function
 
     '-------------------------------------------------
-    Public Sub OpenConn()
-        General_Class.SetConnectionString(CServer, CDatabase, CUserId, CPassword)
-        Cn = New SqlClient.SqlConnection
-        Cn.ConnectionString = "Data Source=" & CServer & ";Initial Catalog=" & CDatabase &
-                        ";User Id=" & CUserId & ";Password=" & CPassword & ";" &
-                        ";Connect Timeout=30;Max Pool Size=400"
-        Cn.Open()
-        Cmd = New SqlClient.SqlCommand
-        Cmd.Connection = Cn
-        Cmd.CommandType = CommandType.Text
-        Cmd.CommandTimeout = 300000
-    End Sub
+
 
     Public Sub OpenConn2(ByVal db As String)
         Cn2 = New SqlClient.SqlConnection
@@ -571,12 +562,7 @@ Module General_Module
         Cmd2.CommandType = CommandType.Text
     End Sub
 
-    Public Sub CloseConn()
-        If Not Cn Is Nothing Then
-            Cn.Close()
-            Cn = Nothing
-        End If
-    End Sub
+
 
     Public Sub CloseConnBizOff()
         If Not Cn Is Nothing Then
@@ -611,11 +597,7 @@ Module General_Module
         End If
     End Sub
 
-    Public Sub ExecuteTrans(ByVal Query As String)
-        Cmd.CommandText = Query
-        Cmd.ExecuteNonQuery()
-        'Cmd = Nothing
-    End Sub
+
 
     Public Sub ExecuteTransBizOff(ByVal Query As String)
         CmdBizOff.CommandText = Query
@@ -637,10 +619,7 @@ Module General_Module
         End Try
     End Sub
 
-    Public Function OpenTrans(ByVal Query As String) As SqlClient.SqlDataReader
-        Cmd.CommandText = Query
-        Return Cmd.ExecuteReader
-    End Function
+
 
     Public Function OpenTransBizOff(ByVal Query As String) As SqlClient.SqlDataReader
         CmdBizOff.CommandText = Query
@@ -652,11 +631,7 @@ Module General_Module
         Return Cmd2.ExecuteReader
     End Function
 
-    Public Sub CloseTrans()
-        If Not (Cmd.Transaction Is Nothing) Then
-            Cmd.Transaction.Rollback()
-        End If
-    End Sub
+
 
     Public Sub CloseTransBizOff()
         If Not (CmdBizOff.Transaction Is Nothing) Then
@@ -804,14 +779,7 @@ Module General_Module
         End If
     End Function
 
-    Public Function BindingTrans(ByVal Query As String) As DataSet
-        Cmd.CommandText = Query
-        Da = New SqlClient.SqlDataAdapter
-        Da.SelectCommand = Cmd
-        BindingTrans = New DataSet
-        BindingTrans.Clear()
-        Da.Fill(BindingTrans, "MyTable")
-    End Function
+
 
     Public Function BindingTransBizOff(ByVal Query As String) As DataSet
         CmdBizOff.CommandText = Query
@@ -2496,6 +2464,54 @@ Module General_Module
     End Structure
     Public Accounts As New List(Of AccountInfo)
 
+
+
+    '========================================================================================================================================================
+    '========================================================================================================================================================
+    Public Sub OpenConn()
+        General_Class.SetConnectionString(CServer, CDatabase, CUserId, CPassword)
+        Cn = New SqlClient.SqlConnection
+        Cn.ConnectionString = "Data Source=" & CServer & ";Initial Catalog=" & CDatabase &
+                        ";User Id=" & CUserId & ";Password=" & CPassword & ";" &
+                        ";Connect Timeout=30;Max Pool Size=400"
+        Cn.Open()
+        Cmd = New SqlClient.SqlCommand
+        Cmd.Connection = Cn
+        Cmd.CommandType = CommandType.Text
+        Cmd.CommandTimeout = 300000
+    End Sub
+
+    Public Sub CloseConn()
+        If Not Cn Is Nothing Then
+            Cn.Close()
+            Cn = Nothing
+        End If
+    End Sub
+
+    Public Function OpenTrans(ByVal Query As String) As SqlClient.SqlDataReader
+        Cmd.CommandText = Query
+        Return Cmd.ExecuteReader
+    End Function
+
+    Public Sub CloseTrans()
+        If Not (Cmd.Transaction Is Nothing) Then
+            Cmd.Transaction.Rollback()
+        End If
+    End Sub
+    Public Sub ExecuteTrans(ByVal Query As String)
+        Cmd.CommandText = Query
+        Cmd.ExecuteNonQuery()
+        'Cmd = Nothing
+    End Sub
+
+    Public Function BindingTrans(ByVal Query As String) As DataSet
+        Cmd.CommandText = Query
+        Da = New SqlClient.SqlDataAdapter
+        Da.SelectCommand = Cmd
+        BindingTrans = New DataSet
+        BindingTrans.Clear()
+        Da.Fill(BindingTrans, "MyTable")
+    End Function
 
 
 End Module

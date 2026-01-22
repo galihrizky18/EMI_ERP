@@ -662,7 +662,7 @@
                     If LvUrut_Departement <> "" Then
                         SQL = SQL & ", '" & LvUrut_Departement & "' "
                     End If
-                    SQL = SQL & ", '" & LvLink & "', '" & HilangkanTanda(LvQty) & "', '" & LvEst_Tiba & "')"
+                    SQL = SQL & ", '" & LvLink & "', '" & HilangkanTanda(LvEst) & "', '" & LvEst_Tiba & "')"
                     ExecuteTrans(SQL)
 
                     'stenly

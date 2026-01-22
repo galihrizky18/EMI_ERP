@@ -844,7 +844,7 @@
                                     End If
                                 End Using
 
-                                SQL = "insert into Emi_Material_Requisition_det_convert(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Jumlah_Barang,Satuan_Barang,Warna,No_Urut_Det)"
+                                SQL = "insert into Emi_Material_Requisition_det_convert(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Jumlah_Barang,Satuan_Barang,Warna,No_Urut_Det) "
                                 SQL = SQL & "values("
                                 SQL = SQL & "'" & KodePerusahaan & "', '" & Txt_NoFaktur_ReqMaterial & "', '" & KdSo & "', '" & KdBarang & "', "
                                 SQL = SQL & "'" & HilangkanTanda(JumlahRequest) & "', "

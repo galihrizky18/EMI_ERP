@@ -365,9 +365,9 @@ Partial Class N_EMI_Transaksi_Waste_Proses
         Me.Label6.Font = New System.Drawing.Font("Work Sans", 9.0!)
         Me.Label6.Location = New System.Drawing.Point(22, 122)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(86, 17)
+        Me.Label6.Size = New System.Drawing.Size(45, 17)
         Me.Label6.TabIndex = 495
-        Me.Label6.Text = "Lokasi Tujuan"
+        Me.Label6.Text = "Lokasi"
         '
         'Button1
         '
