@@ -316,19 +316,19 @@ Partial Class N_EMI_Transaksi_Validasi_GR_3
         Me.ContextMenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DetailPackagingToolStripMenuItem, Me.HapusToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(163, 48)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 70)
         '
         'DetailPackagingToolStripMenuItem
         '
         Me.DetailPackagingToolStripMenuItem.Name = "DetailPackagingToolStripMenuItem"
-        Me.DetailPackagingToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.DetailPackagingToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.DetailPackagingToolStripMenuItem.Text = "Detail Packaging"
         Me.DetailPackagingToolStripMenuItem.Visible = False
         '
         'HapusToolStripMenuItem
         '
         Me.HapusToolStripMenuItem.Name = "HapusToolStripMenuItem"
-        Me.HapusToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.HapusToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.HapusToolStripMenuItem.Text = "Hapus"
         '
         'Panel8
@@ -871,6 +871,7 @@ Partial Class N_EMI_Transaksi_Validasi_GR_3
         Me.DetailPackagingToolStripMenuItem1.Name = "DetailPackagingToolStripMenuItem1"
         Me.DetailPackagingToolStripMenuItem1.Size = New System.Drawing.Size(162, 22)
         Me.DetailPackagingToolStripMenuItem1.Text = "Detail Packaging"
+        Me.DetailPackagingToolStripMenuItem1.Visible = False
         '
         'HapusToolStripMenuItem1
         '
