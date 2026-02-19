@@ -106,6 +106,54 @@
     <Compile Include="0. Root\Main_Menu.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="1. Purchase Order\1_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.Designer.vb">
+      <DependentUpon>1_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="1. Purchase Order\1_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Production\1. Production Order\2_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.Designer.vb">
+      <DependentUpon>2_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Production\1. Production Order\2_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Production\2. Split Production\3_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.Designer.vb">
+      <DependentUpon>3_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Production\2. Split Production\3_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Production\3. Controlling Production\1. Good Issue\5_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.Designer.vb">
+      <DependentUpon>5_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Production\3. Controlling Production\1. Good Issue\5_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Production\3. Controlling Production\2. Good Received\6_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.Designer.vb">
+      <DependentUpon>6_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Production\3. Controlling Production\2. Good Received\6_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Production\3. Controlling Production\4_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.Designer.vb">
+      <DependentUpon>4_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Production\3. Controlling Production\4_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Material Movement\RFID\1. Master\7_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.Designer.vb">
+      <DependentUpon>7_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Material Movement\RFID\1. Master\7_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Material Movement\RFID\2. Transaksi\8_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.Designer.vb">
+      <DependentUpon>8_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Material Movement\RFID\2. Transaksi\8_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Readers.Designer.vb">
       <DependentUpon>N_EMI_Display_RFID_Readers.vb</DependentUpon>
     </Compile>
@@ -289,15 +337,7 @@
     </None>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="1. Purchase Order\" />
-    <Folder Include="2. Production\1. Production Order\" />
-    <Folder Include="2. Production\2. Split Production\" />
-    <Folder Include="2. Production\3. Controlling Production\1. Good Issue\" />
-    <Folder Include="2. Production\3. Controlling Production\2. Good Received\" />
-    <Folder Include="3. Material Movement\RFID\1. Master\" />
-    <Folder Include="3. Material Movement\RFID\2. Transaksi\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
