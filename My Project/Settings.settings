@@ -1,7 +1,51 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" UseMySettingsClassName="true">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="Port_Timbangan" Type="System.String" Scope="User">
+      <Value Profile="(Default)">COM1</Value>
+    </Setting>
+    <Setting Name="Lokasi" Type="System.String" Scope="User">
+      <Value Profile="(Default)">HEAD OFFICE</Value>
+    </Setting>
+    <Setting Name="Punya" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MS</Value>
+    </Setting>
+    <Setting Name="Prt_Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XXX</Value>
+    </Setting>
+    <Setting Name="Prt_Name_TS" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XXX</Value>
+    </Setting>
+    <Setting Name="Prt_Name_SPB" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XXX</Value>
+    </Setting>
+    <Setting Name="Prt_Name_BPB" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XXX</Value>
+    </Setting>
+    <Setting Name="Prt_Name_Bukti_Timbang" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XXX</Value>
+    </Setting>
+    <Setting Name="Prt_Name_2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XXX</Value>
+    </Setting>
+    <Setting Name="Prt_QC" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XXX</Value>
+    </Setting>
+    <Setting Name="Prt_Barcode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XXX</Value>
+    </Setting>
+    <Setting Name="Prt_Barcode_QC" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XXX</Value>
+    </Setting>
+    <Setting Name="Port_Timbangan1" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Port_Timbangan2" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Port_Timbangan3" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
 </SettingsFile>
