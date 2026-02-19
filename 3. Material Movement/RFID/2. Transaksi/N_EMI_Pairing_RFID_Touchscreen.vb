@@ -3018,17 +3018,17 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     If General_Class.CekNULL(Dr("No_Production_Order")).Trim <> SelectedNoFaktur.Trim Then
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("No Split Master Data RFID Tidak Sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
+                        'Dr.Close()
+                        'CloseTrans()
+                        'CloseConn()
+                        'MessageBox.Show("No Split Master Data RFID Tidak Sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        'Exit Sub
                     ElseIf General_Class.CekNULL(Dr("Batch")).Trim <> SelectedBatch.Trim Then
-                        Dr.Close()
-                        CloseTrans()
-                        CloseConn()
-                        MessageBox.Show("BatchS Master Data RFID Tidak Sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Exit Sub
+                        'Dr.Close()
+                        'CloseTrans()
+                        'CloseConn()
+                        'MessageBox.Show("Batch Master Data RFID Tidak Sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        'Exit Sub
                     End If
                 Else
                     Dr.Close()
@@ -3062,8 +3062,6 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
                     SQL &= $"and batch = '{SelectedBatch}' "
                     SQL &= $"and RFID_Tag = '{RfidTag}' "
                     ExecuteTrans(SQL)
-
-
 
 
                 Else
