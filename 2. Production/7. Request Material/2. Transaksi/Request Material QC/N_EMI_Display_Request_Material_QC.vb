@@ -85,7 +85,8 @@ Public Class N_EMI_Display_Request_Material_QC
             SQL = SQL & "And a.Kode_Perusahaan=d.Kode_Perusahaan And a.Id_Routing=d.Id_Routing "
             SQL = SQL & "And a.status Is null And b.status Is null And a.kode_perusahaan='" & KodePerusahaan & "' "
             SQL = SQL & "And b.Flag_Selesai_Request_Material Is null And b.Flag_Hasil_Produksi_GI Is null "
-            SQL = SQL & "order by b.tgl_produksi+b.Jam_Produksi "
+            'SQL = SQL & "order by b.tgl_produksi+b.Jam_Produksi "
+            SQL = SQL & "order by b.tgl_produksi, b.Jam_Produksi "
             Using Dr = OpenTrans(SQL)
                 Dim row As Integer = 0
                 Do While Dr.Read
