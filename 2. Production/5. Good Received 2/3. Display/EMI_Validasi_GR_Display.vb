@@ -123,6 +123,7 @@ Public Class EMI_Validasi_GR_Display
         Cmb_Tanggal.Enabled = False : DateTimePicker1.Enabled = False : DateTimePicker2.Enabled = False
         Cmb_Lain.Enabled = False : Txt_ValuLain.Enabled = False : Txt_ValuLain.Text = ""
 
+        Chk_HariIni.Checked = True
 
         LoadDataValidation()
 
@@ -221,7 +222,7 @@ Public Class EMI_Validasi_GR_Display
             SQL &= $"inner join Emi_Split_Production_Order c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Split = c.No_Transaksi and c.Status is NULL "
             SQL &= $"inner join Barang d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.Kode_Stock_Owner = d.Kode_Stock_Owner and c.Kode_Barang = d.Kode_Barang "
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
-            SQL &= $"and a.Status is NULl "
+            'SQL &= $"and a.Status is NULl "
             If Chk_HariIni.Checked Then
                 'Pasang And
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
@@ -252,7 +253,7 @@ Public Class EMI_Validasi_GR_Display
             SQL &= $"and a.No_Transaksi = b.No_Transaksi "
             SQL &= $"and a.No_Production_Order = c.No_Transaksi "
             SQL &= $"and c.Kode_Stock_Owner = d.Kode_Stock_Owner and c.Kode_Barang = d.Kode_Barang "
-            SQL &= $"and c.Status is null "
+            'SQL &= $"and c.Status is null "
             SQL &= $"and a.Kode_Perusahaan = '{KodePerusahaan}' "
             If Chk_HariIni.Checked Then
                 'Pasang And
@@ -429,7 +430,7 @@ Public Class EMI_Validasi_GR_Display
             SQL &= $"inner join Barang c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
             SQL &= $"inner join barang_sn d on b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = d.Kode_Stock_Owner and b.Kode_Barang = d.Kode_Barang and b.Serial_Number_Akhir = d.Serial_Number "
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
-            SQL &= $"and a.Status is null "
+            'SQL &= $"and a.Status is null "
             SQL &= $"and a.No_Transaksi = '{LvKeranjang_NoTransaksi}' "
             SQL &= $"and b.Nomor = '{LvKeranjang_Keranjang}' "
             SQL &= $"group by a.Kode_Perusahaan, b.Kode_Stock_Owner_Tujuan, b.Kode_Barang, c.Nama, d.Qr_Code, d.Kode_Unik_Berjalan, d.Batch_Number, d.Tgl_Produksi, d.Tgl_Expired, b.Satuan, b.jenis, b.Nomor "
@@ -1474,7 +1475,7 @@ Public Class EMI_Validasi_GR_Display
                                 '=========================================
                                 '=     CEK APAKAH STOCK PADA SN UTUH     =
                                 '=========================================
-                                SQL = "select Jumlah from Barang_SN_sementara "
+                                SQL = "select Jumlah from Barang_SN "
                                 SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
                                 SQL = SQL & "and Kode_Stock_Owner = '" & So_Tujuan & "' "
                                 SQL = SQL & "and Kode_Barang = '" & Kd_Barang & "' "
@@ -1494,12 +1495,36 @@ Public Class EMI_Validasi_GR_Display
                                         '=======================
                                         '=     UPDATE DATA     =
                                         '=======================
-                                        SQL = "update Barang_SN_sementara set Jumlah = Jumlah - " & HilangkanTanda(Jumlah) & ", Jumlah_Bags = Jumlah_Bags - " & HilangkanTanda(Jumlah) & " "
+                                        SQL = "update Barang_SN set Jumlah = Jumlah - " & HilangkanTanda(Jumlah) & ", Jumlah_Bags = Jumlah_Bags - " & HilangkanTanda(Jumlah) & " "
                                         SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
                                         SQL = SQL & "and Kode_Stock_Owner = '" & So_Tujuan & "' "
                                         SQL = SQL & "and Kode_Barang = '" & Kd_Barang & "' "
                                         SQL = SQL & "and Serial_Number = '" & Sn_Tujuan & "' "
                                         ExecuteTrans(SQL)
+
+                                        SQL = "select Kode_Perusahaan from barang "
+                                        SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                        SQL = SQL & "and Kode_Stock_Owner = '" & So_Tujuan & "' "
+                                        SQL = SQL & "and Kode_Barang = '" & Kd_Barang & "' "
+                                        Using Dr2 = OpenTrans(SQL)
+                                            If Dr2.Read Then
+
+                                                Dr2.Close()
+                                                SQL = "update barang set Good_Stock = Good_Stock - " & HilangkanTanda(Jumlah_Kecil) & ", Jumlah_Bags = Jumlah_Bags - " & HilangkanTanda(Jumlah_Kecil) & " "
+                                                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                                SQL = SQL & "and Kode_Stock_Owner = '" & So_Tujuan & "' "
+                                                SQL = SQL & "and Kode_Barang = '" & Kd_Barang & "' "
+                                                ExecuteTrans(SQL)
+
+                                            Else
+                                                Dr2.Close()
+                                                CloseTrans()
+                                                CloseConn()
+                                                MessageBox.Show("Data Barang Tidak Ditemukan", JudulNotif, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                Exit Sub
+                                            End If
+                                        End Using
+
 
                                         SQL = "update Barang_SN set Jumlah = Jumlah + " & HilangkanTanda(Jumlah_Kecil) & ", Jumlah_Bags = Jumlah_Bags + " & HilangkanTanda(Jumlah) & " "
                                         SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "

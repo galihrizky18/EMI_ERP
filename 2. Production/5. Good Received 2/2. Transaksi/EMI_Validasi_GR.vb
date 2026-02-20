@@ -2275,6 +2275,16 @@ Public Class EMI_Validasi_GR
                                                         SQL = SQL & " '" & Tanggal_Produksi_Pertama & "', '" & Tanggal_Expired_Pertama & "', '" & Tanggal_Masuk_Pertama & "', '" & Id_Jenis_Kategori & "')"
                                                         ExecuteTrans(SQL)
 
+                                                        '=========================
+                                                        '=     INSERT BARANG     =
+                                                        '=========================
+                                                        SQL = "Update barang set "
+                                                        SQL = SQL & "Good_Stock = Good_Stock + " & HilangkanTanda(JumlahInsert) & " ,  Jumlah_Bags=Jumlah_Bags+" & HilangkanTanda(JumlahInsert) & " "
+                                                        SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
+                                                        SQL = SQL & "kode_stock_owner = '" & Lks_Awal & "' and kode_barang = '" & kd_barang & "'"
+                                                        ExecuteTrans(SQL)
+
+
                                                     Else
 
                                                         Dim jumlah_bags As Double = 0
