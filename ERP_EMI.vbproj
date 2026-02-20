@@ -373,72 +373,72 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="OPTIONAL\A_Place_For_Printing.designer.vb">
+    <Compile Include="0. Root\Modul\A_Place_For_Printing.designer.vb">
       <DependentUpon>A_Place_For_Printing.vb</DependentUpon>
     </Compile>
-    <Compile Include="OPTIONAL\A_Place_For_Printing.vb">
+    <Compile Include="0. Root\Modul\A_Place_For_Printing.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OPTIONAL\A_Place_For_Printing2.Designer.vb">
+    <Compile Include="0. Root\Modul\A_Place_For_Printing2.Designer.vb">
       <DependentUpon>A_Place_For_Printing2.vb</DependentUpon>
     </Compile>
-    <Compile Include="OPTIONAL\A_Place_For_Printing2.vb">
+    <Compile Include="0. Root\Modul\A_Place_For_Printing2.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OPTIONAL\A_Place_For_Printing3.Designer.vb">
+    <Compile Include="0. Root\Modul\A_Place_For_Printing3.Designer.vb">
       <DependentUpon>A_Place_For_Printing3.vb</DependentUpon>
     </Compile>
-    <Compile Include="OPTIONAL\A_Place_For_Printing3.vb">
+    <Compile Include="0. Root\Modul\A_Place_For_Printing3.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OPTIONAL\Base_Language.vb" />
-    <Compile Include="OPTIONAL\CalendarCell.vb" />
-    <Compile Include="OPTIONAL\CustomControl.vb">
+    <Compile Include="0. Root\Modul\Base_Language.vb" />
+    <Compile Include="0. Root\Modul\CalendarCell.vb" />
+    <Compile Include="0. Root\Modul\CustomControl.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="OPTIONAL\FMenu.Designer.vb">
+    <Compile Include="0. Root\Modul\FMenu.Designer.vb">
       <DependentUpon>FMenu.vb</DependentUpon>
     </Compile>
-    <Compile Include="OPTIONAL\FMenu.vb">
+    <Compile Include="0. Root\Modul\FMenu.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OPTIONAL\FMenu2.Designer.vb">
+    <Compile Include="0. Root\Modul\FMenu2.Designer.vb">
       <DependentUpon>FMenu2.vb</DependentUpon>
     </Compile>
-    <Compile Include="OPTIONAL\FMenu2.vb">
+    <Compile Include="0. Root\Modul\FMenu2.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OPTIONAL\FMenuDev.Designer.vb">
+    <Compile Include="0. Root\Modul\FMenuDev.Designer.vb">
       <DependentUpon>FMenuDev.vb</DependentUpon>
     </Compile>
-    <Compile Include="OPTIONAL\FMenuDev.vb">
+    <Compile Include="0. Root\Modul\FMenuDev.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OPTIONAL\FMenuDevFix.Designer.vb">
+    <Compile Include="0. Root\Modul\FMenuDevFix.Designer.vb">
       <DependentUpon>FMenuDevFix.vb</DependentUpon>
     </Compile>
-    <Compile Include="OPTIONAL\FMenuDevFix.vb">
+    <Compile Include="0. Root\Modul\FMenuDevFix.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OPTIONAL\FormDictionary.vb" />
+    <Compile Include="0. Root\Modul\FormDictionary.vb" />
     <Compile Include="OPTIONAL\General_Class.vb" />
     <Compile Include="OPTIONAL\General_Module.vb" />
     <Compile Include="OPTIONAL\General_Module_B2B.vb" />
-    <Compile Include="OPTIONAL\Global_Setting.Designer.vb">
+    <Compile Include="0. Root\Modul\Global_Setting.Designer.vb">
       <DependentUpon>Global_Setting.vb</DependentUpon>
     </Compile>
-    <Compile Include="OPTIONAL\Global_Setting.vb">
+    <Compile Include="0. Root\Modul\Global_Setting.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OPTIONAL\Helper_API.vb" />
-    <Compile Include="OPTIONAL\Module1.vb" />
+    <Compile Include="0. Root\Modul\Helper_API.vb" />
+    <Compile Include="0. Root\Modul\Module1.vb" />
     <Compile Include="OPTIONAL\Module_Connection.vb" />
-    <Compile Include="OPTIONAL\Module_fcm.vb" />
-    <Compile Include="OPTIONAL\Module_MySQL.vb" />
-    <Compile Include="OPTIONAL\Module_SQL_ke_server_lain.vb" />
+    <Compile Include="0. Root\Modul\Module_fcm.vb" />
+    <Compile Include="0. Root\Modul\Module_MySQL.vb" />
+    <Compile Include="0. Root\Modul\Module_SQL_ke_server_lain.vb" />
     <Compile Include="OPTIONAL\Modul_Pembantu.vb" />
-    <Compile Include="OPTIONAL\TimeCell.vb" />
-    <Compile Include="OPTIONAL\TimeEditingControl.vb">
+    <Compile Include="0. Root\Modul\TimeCell.vb" />
+    <Compile Include="0. Root\Modul\TimeEditingControl.vb">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
@@ -586,28 +586,28 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="OPTIONAL\A_Place_For_Printing.resx">
+    <EmbeddedResource Include="0. Root\Modul\A_Place_For_Printing.resx">
       <DependentUpon>A_Place_For_Printing.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OPTIONAL\A_Place_For_Printing2.resx">
+    <EmbeddedResource Include="0. Root\Modul\A_Place_For_Printing2.resx">
       <DependentUpon>A_Place_For_Printing2.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OPTIONAL\A_Place_For_Printing3.resx">
+    <EmbeddedResource Include="0. Root\Modul\A_Place_For_Printing3.resx">
       <DependentUpon>A_Place_For_Printing3.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OPTIONAL\FMenu.resx">
+    <EmbeddedResource Include="0. Root\Modul\FMenu.resx">
       <DependentUpon>FMenu.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OPTIONAL\FMenu2.resx">
+    <EmbeddedResource Include="0. Root\Modul\FMenu2.resx">
       <DependentUpon>FMenu2.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OPTIONAL\FMenuDev.resx">
+    <EmbeddedResource Include="0. Root\Modul\FMenuDev.resx">
       <DependentUpon>FMenuDev.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OPTIONAL\FMenuDevFix.resx">
+    <EmbeddedResource Include="0. Root\Modul\FMenuDevFix.resx">
       <DependentUpon>FMenuDevFix.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OPTIONAL\Global_Setting.resx">
+    <EmbeddedResource Include="0. Root\Modul\Global_Setting.resx">
       <DependentUpon>Global_Setting.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
