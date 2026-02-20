@@ -1,5 +1,4 @@
-﻿Imports System.Drawing.Printing
-Imports System.IO
+﻿Imports System.IO
 
 Public Class EMI_Validasi_GR_Display
 
@@ -191,7 +190,7 @@ Public Class EMI_Validasi_GR_Display
             '    If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
 
             '    SQL = SQL & "a.Tanggal between '"
-            '    SQL = SQL & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "' and '" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "' "
+            '    SQL = SQL & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "' and '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "' "
             'End If
 
             'If Chk_Tanggal.Checked Then
@@ -228,7 +227,7 @@ Public Class EMI_Validasi_GR_Display
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
 
                 SQL = SQL & "a.Tanggal between '"
-                SQL = SQL & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "' and '" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "' "
+                SQL = SQL & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "' and '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "' "
             End If
 
             If Chk_Tanggal.Checked Then
@@ -260,7 +259,7 @@ Public Class EMI_Validasi_GR_Display
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
 
                 SQL = SQL & "a.Tanggal between '"
-                SQL = SQL & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "' and '" & Format(CDate(FMenu.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "' "
+                SQL = SQL & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "' and '" & Format(CDate(FMenuDevFix.ToolStripStatusLabel3.Text), "yyyy-MM-dd") & "' "
             End If
 
             If Chk_Tanggal.Checked Then
@@ -898,8 +897,29 @@ Public Class EMI_Validasi_GR_Display
 
 
 
-
-
+            SQL = ";with Cte as( "
+            SQL &= $"select a.Kode_Perusahaan, a.No_Transaksi, b.No_Split as No_Production_Order, b.Nomor, b.Kode_Stock_Owner_Tujuan as Lokasi_Tujuan, b.Kode_Barang, c.Nama as Nama_Barang, "
+            SQL &= $"b.Batch_Number, d.Qr_Code, d.Kode_Unik_Berjalan, d.Tgl_Produksi, d.Tgl_Expired, sum(b.Jumlah) as Jumlah, c.Satuan, "
+            SQL &= $"case when b.jenis = 'REJECTED' then 'Disqualified ' else b.jenis end as Jenis, "
+            SQL &= $"b.Nomor as Number, f.Id_Routing, g.Keterangan as Routing, a.jam AS Jam_Transaksi "
+            SQL &= $"from Emi_Production_Results_Validation a "
+            SQL &= $"inner join Emi_Production_Results_Validation_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi "
+            SQL &= $"inner join Barang c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
+            SQL &= $"inner join barang_sn d on b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = d.Kode_Stock_Owner and b.Kode_Barang = d.Kode_Barang and b.Serial_Number_Akhir = d.Serial_Number "
+            SQL &= $"inner join Emi_Split_Production_Order e on b.Kode_Perusahaan = e.Kode_Perusahaan and b.No_Split = e.No_Transaksi and e.Status is NULL "
+            SQL &= $"inner join EMI_Order_Produksi f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_PO = f.No_Faktur and f.Status is NULL "
+            SQL &= $"inner join EMI_Master_Routing g on f.Kode_Perusahaan = g.Kode_Perusahaan and f.Id_Routing = g.Id_Routing "
+            SQL &= $"group by a.Kode_Perusahaan, b.No_Split, b.Nomor, b.Kode_Stock_Owner_Tujuan, b.Kode_Barang, c.Nama, b.Batch_Number, d.Qr_Code, d.Kode_Unik_Berjalan, d.Tgl_Produksi, d.Tgl_Expired, c.Satuan, b.jenis, "
+            SQL &= $"b.Nomor, f.Id_Routing, g.Keterangan, a.jam, a.No_Transaksi) "
+            SQL &= $"select Kode_Perusahaan, String_AGG(No_Production_Order, ', ') as No_Production_Order, nomor, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Batch_Number, Qr_Code,  "
+            SQL &= $"Kode_Unik_Berjalan, Tgl_Produksi, Tgl_Expired, sum(Jumlah) as Jumlah, Satuan, Jenis, Number, Id_Routing, Routing, Jam_Transaksi "
+            SQL &= $"from cte "
+            SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+            SQL &= $"and No_Transaksi = '{selectedFaktur}' "
+            SQL &= $"and Nomor = '{SelectedKeranjang}' "
+            SQL &= $"and (Qr_Code+'-'+Kode_Unik_Berjalan) = '{SelectedBarcode}' "
+            SQL &= $"group by Kode_Perusahaan, nomor, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Batch_Number, Qr_Code, Kode_Unik_Berjalan, Tgl_Produksi, Tgl_Expired, "
+            SQL &= $"Satuan, Jenis, Number, Id_Routing, Routing, Jam_Transaksi "
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
@@ -988,12 +1008,12 @@ Public Class EMI_Validasi_GR_Display
 
 
 
-                                'SQL = "insert into N_EMI_Barcode_Label_Barcode_GR_2_Scrap (kode_perusahaan, no_split, Barcode, Kode_barang, Nama_Barang, QrUtuh, Qr, Tgl_Produksi, Jam_Produksi, "
-                                'SQL = SQL & "Proses, Jumlah, Satuan, Nomor, id_routing, routing, Kode_unik_print)  "
-                                'SQL = SQL & "values ('" & KodePerusahaan & "', '" & selectedSplit & "', @newBarcode" & kode_unik_print & ", '" & .Rows(i).Item("Kode_Barang") & "', '" & .Rows(i).Item("Nama_Barang") & "', '" & fullNewQrScrap & "', '" & .Rows(i).Item("Qr_Code") & "', "
-                                'SQL = SQL & "'" & Format(.Rows(i).Item("Tgl_Produksi"), "yyyy-MM-dd") & "', '" & .Rows(i).Item("Jam_Transaksi") & "', 'X', '" & .Rows(i).Item("Jumlah") & "', '" & .Rows(i).Item("Satuan") & "', "
-                                'SQL = SQL & "'" & .Rows(i).Item("Number") & "', '" & .Rows(i).Item("Id_Routing") & "', '" & .Rows(i).Item("Routing") & "', '" & kode_unik_print & "') "
-                                'ExecuteTrans(SQL)
+                                SQL = "insert into N_EMI_Barcode_Label_Barcode_GR_2_Scrap (kode_perusahaan, no_split, Barcode, Kode_barang, Nama_Barang, QrUtuh, Qr, Tgl_Produksi, Jam_Produksi, "
+                                SQL = SQL & "Proses, Jumlah, Satuan, Nomor, id_routing, routing, Kode_unik_print)  "
+                                SQL = SQL & "values ('" & KodePerusahaan & "', '" & .Rows(i).Item("no_production_order") & "', @newBarcode" & kode_unik_print & ", '" & .Rows(i).Item("Kode_Barang") & "', '" & .Rows(i).Item("Nama_Barang") & "', '" & fullNewQrScrap & "', '" & .Rows(i).Item("Qr_Code") & "', "
+                                SQL = SQL & "'" & Format(.Rows(i).Item("Tgl_Produksi"), "yyyy-MM-dd") & "', '" & .Rows(i).Item("Jam_Transaksi") & "', 'X', '" & .Rows(i).Item("Jumlah") & "', '" & .Rows(i).Item("Satuan") & "', "
+                                SQL = SQL & "'" & .Rows(i).Item("Number") & "', '" & .Rows(i).Item("Id_Routing") & "', '" & .Rows(i).Item("Routing") & "', '" & kode_unik_print & "') "
+                                ExecuteTrans(SQL)
 
                                 KdUnikPrintScrap.Add(kode_unik_print)
                             End If
@@ -1026,6 +1046,28 @@ Public Class EMI_Validasi_GR_Display
 
             Dim KertasBesar As String = "BarcodeFG"
             Dim KertasKecil As String = "BarcodeQC"
+
+
+            For i As Integer = 0 To KdUnikPrint.Count - 1
+
+                SQL = "select kode_perusahaan from N_EMI_Barcode_Label_Barcode_GR_2 where kode_perusahaan = '" & KodePerusahaan & "' and Kode_Unik_Print = '" & KdUnikPrint(i) & "'"
+                Dim SelectionFormula As String = "{N_EMI_Barcode_Label_Barcode_GR_2.Kode_Perusahaan} = '" & KodePerusahaan & "'and {N_EMI_Barcode_Label_Barcode_GR_2.Kode_Unik_Print} = '" & KdUnikPrint(i) & "' "
+
+                Cetak_Barcode(New N_EMI_Label_Barcode_GR_2, "Label Good Received 2", SQL, SelectionFormula, PrinterBarcode, KertasBesar)
+
+            Next
+
+            For i As Integer = 0 To KdUnikPrintScrap.Count - 1
+
+                SQL = "select kode_perusahaan from N_EMI_Barcode_Label_Barcode_GR_2_Scrap where kode_perusahaan = '" & KodePerusahaan & "' and Kode_Unik_Print = '" & KdUnikPrintScrap(i) & "'"
+                Dim SelectionFormula As String = "{N_EMI_Barcode_Label_Barcode_GR_2_Scrap.Kode_Perusahaan} = '" & KodePerusahaan & "'and {N_EMI_Barcode_Label_Barcode_GR_2_Scrap.Kode_Unik_Print} = '" & KdUnikPrintScrap(i) & "' "
+
+                Cetak_Barcode(New N_EMI_Label_Barcode_GR_2_Scrap, "Label Good Received 2 Scrap", SQL, SelectionFormula, PrinterBarcode, KertasBesar)
+
+            Next
+
+
+#Region "Kode Lama"
 
             'SQL = "select kode_perusahaan from N_EMI_Barcode_Label_Barcode_GR_2 where kode_perusahaan = '" & KodePerusahaan & "' and Kode_Unik_Print = '" & kode_unik_print & "'"
             'Using Ds = BindingTrans(SQL)
@@ -1104,171 +1146,172 @@ Public Class EMI_Validasi_GR_Display
             'End Using
 
 
-            For i As Integer = 0 To KdUnikPrint.Count - 1
+            'For i As Integer = 0 To KdUnikPrint.Count - 1
 
-                SQL = "select kode_perusahaan from N_EMI_Barcode_Label_Barcode_GR_2 where kode_perusahaan = '" & KodePerusahaan & "' and Kode_Unik_Print = '" & KdUnikPrint(i) & "'"
-                Using Ds = BindingTrans(SQL)
-                    If Ds.Tables("MyTable").Rows.Count <> 0 Then
+            '    SQL = "select kode_perusahaan from N_EMI_Barcode_Label_Barcode_GR_2 where kode_perusahaan = '" & KodePerusahaan & "' and Kode_Unik_Print = '" & KdUnikPrint(i) & "'"
+            '    Using Ds = BindingTrans(SQL)
+            '        If Ds.Tables("MyTable").Rows.Count <> 0 Then
 
-                        '==========================
-                        '=     BARCODEE BESAR     =
-                        '==========================
-                        Dim printerDitemukan As Boolean = False
-                        For Each printer As String In PrinterSettings.InstalledPrinters
-                            If printer.ToLower() = PrinterBarcode.ToLower() Then
-                                printerDitemukan = True
-                                Exit For
-                            End If
-                        Next
+            '            '==========================
+            '            '=     BARCODEE BESAR     =
+            '            '==========================
+            '            Dim printerDitemukan As Boolean = False
+            '            For Each printer As String In PrinterSettings.InstalledPrinters
+            '                If printer.ToLower() = PrinterBarcode.ToLower() Then
+            '                    printerDitemukan = True
+            '                    Exit For
+            '                End If
+            '            Next
 
-                        If printerDitemukan Then
+            '            If printerDitemukan Then
 
-                            CrDoc = New N_EMI_Label_Barcode_GR_2
+            '                CrDoc = New N_EMI_Label_Barcode_GR_2
 
-                            'With A_Place_For_Printing2
-                            '    CrDoc.SetDataSource(Ds)
-                            '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            '    CrDoc.PrintOptions.PrinterName = ""
-                            '    CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Barcode_GR_2.Kode_Perusahaan} = '" & KodePerusahaan & "'and {N_EMI_Barcode_Label_Barcode_GR_2.Kode_Unik_Print} = '" & KdUnikPrint(i) & "' "
-                            '    CrDoc.SummaryInfo.ReportTitle = "Label Good Received 2"
-                            '    .Text = "Label Good Received 2"
-                            '    .CrystalReportViewer1.ReportSource = CrDoc
-                            '    .Refresh()
-                            '    .Show()
-                            'End With
+            '                'With A_Place_For_Printing2
+            '                '    CrDoc.SetDataSource(Ds)
+            '                '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+            '                '    CrDoc.PrintOptions.PrinterName = ""
+            '                '    CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Barcode_GR_2.Kode_Perusahaan} = '" & KodePerusahaan & "'and {N_EMI_Barcode_Label_Barcode_GR_2.Kode_Unik_Print} = '" & KdUnikPrint(i) & "' "
+            '                '    CrDoc.SummaryInfo.ReportTitle = "Label Good Received 2"
+            '                '    .Text = "Label Good Received 2"
+            '                '    .CrystalReportViewer1.ReportSource = CrDoc
+            '                '    .Refresh()
+            '                '    .Show()
+            '                'End With
 
-                            '=====================================================
+            '                '=====================================================
 
-                            Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                            CrDoc.SetDataSource(Ds)
-                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Barcode_GR_2.Kode_Perusahaan} = '" & KodePerusahaan & "'and {N_EMI_Barcode_Label_Barcode_GR_2.Kode_Unik_Print} = '" & KdUnikPrint(i) & "' "
-                            CrDoc.PrintOptions.PrinterName = PrinterBarcode
+            '                Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+            '                CrDoc.SetDataSource(Ds)
+            '                CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+            '                CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Barcode_GR_2.Kode_Perusahaan} = '" & KodePerusahaan & "'and {N_EMI_Barcode_Label_Barcode_GR_2.Kode_Unik_Print} = '" & KdUnikPrint(i) & "' "
+            '                CrDoc.PrintOptions.PrinterName = PrinterBarcode
 
-                            doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+            '                doctoprint.PrinterSettings.PrinterName = PrinterBarcode
 
-                            Dim rawKind As Integer
-                            Dim foundPaper As Boolean = False
-                            CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                            For j = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                                If doctoprint.PrinterSettings.PaperSizes(j).PaperName = KertasBesar Then
-                                    rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(j).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(j)))
-                                    CrDoc.PrintOptions.PaperSize = rawKind
-                                    foundPaper = True
-                                    Exit For
-                                End If
-                            Next
+            '                Dim rawKind As Integer
+            '                Dim foundPaper As Boolean = False
+            '                CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+            '                For j = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+            '                    If doctoprint.PrinterSettings.PaperSizes(j).PaperName = KertasBesar Then
+            '                        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(j).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(j)))
+            '                        CrDoc.PrintOptions.PaperSize = rawKind
+            '                        foundPaper = True
+            '                        Exit For
+            '                    End If
+            '                Next
 
-                            If Not foundPaper Then
-                                CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                                MessageBox.Show("Kertas Tidak Ditemukan, Menggunakan Kertas Default", "Cetak Ulang Barcode", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '                If Not foundPaper Then
+            '                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+            '                    MessageBox.Show("Kertas Tidak Ditemukan, Menggunakan Kertas Default", "Cetak Ulang Barcode", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
-                            End If
+            '                End If
 
-                            CrDoc.PrintToPrinter(1, False, 1, 2500)
+            '                CrDoc.PrintToPrinter(1, False, 1, 2500)
 
-                        Else
-                            MessageBox.Show("Printer FG Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        End If
+            '            Else
+            '                MessageBox.Show("Printer FG Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '            End If
 
-                        printerDitemukan = False
-
-
-                    Else
-                        MessageBox.Show("Printer Q Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-
-                    End If
+            '            printerDitemukan = False
 
 
-                End Using
+            '        Else
+            '            MessageBox.Show("Printer Q Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+            '        End If
 
 
+            '    End Using
 
-            Next
-
-
-            For i As Integer = 0 To KdUnikPrintScrap.Count - 1
-
-                SQL = "select kode_perusahaan from N_EMI_Barcode_Label_Barcode_GR_2_Scrap where kode_perusahaan = '" & KodePerusahaan & "' and Kode_Unik_Print = '" & KdUnikPrintScrap(i) & "'"
-                Using Ds = BindingTrans(SQL)
-                    If Ds.Tables("MyTable").Rows.Count <> 0 Then
-
-                        '==========================
-                        '=     BARCODEE BESAR     =
-                        '==========================
-                        Dim printerDitemukan As Boolean = False
-                        For Each printer As String In PrinterSettings.InstalledPrinters
-                            If printer.ToLower() = PrinterBarcode.ToLower() Then
-                                printerDitemukan = True
-                                Exit For
-                            End If
-                        Next
-
-                        If printerDitemukan Then
-
-                            CrDoc = New N_EMI_Label_Barcode_GR_2_Scrap
-
-                            'With A_Place_For_Printing2
-                            '    CrDoc.SetDataSource(Ds)
-                            '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            '    CrDoc.PrintOptions.PrinterName = ""
-                            '    CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Barcode_GR_2_Scrap.Kode_Perusahaan} = '" & KodePerusahaan & "'and {N_EMI_Barcode_Label_Barcode_GR_2_Scrap.Kode_Unik_Print} = '" & KdUnikPrintScrap(i) & "' "
-                            '    CrDoc.SummaryInfo.ReportTitle = "Label Good Received 2 Scrap"
-                            '    .Text = "Label Good Received 2"
-                            '    .CrystalReportViewer1.ReportSource = CrDoc
-                            '    .Refresh()
-                            '    .Show()
-                            'End With
-
-                            '=====================================================
-
-                            Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-                            CrDoc.SetDataSource(Ds)
-                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-                            CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Barcode_GR_2_Scrap.Kode_Perusahaan} = '" & KodePerusahaan & "'and {N_EMI_Barcode_Label_Barcode_GR_2_Scrap.Kode_Unik_Print} = '" & KdUnikPrintScrap(i) & "' "
-                            CrDoc.PrintOptions.PrinterName = PrinterBarcode
-
-                            doctoprint.PrinterSettings.PrinterName = PrinterBarcode
-
-                            Dim rawKind As Integer
-                            Dim foundPaper As Boolean = False
-                            CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                            For j = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                                If doctoprint.PrinterSettings.PaperSizes(j).PaperName = KertasBesar Then
-                                    rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(j).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(j)))
-                                    CrDoc.PrintOptions.PaperSize = rawKind
-                                    foundPaper = True
-                                    Exit For
-                                End If
-                            Next
-
-                            If Not foundPaper Then
-                                CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
-                                MessageBox.Show("Kertas Tidak Ditemukan, Menggunakan Kertas Default", "Cetak Ulang Barcode", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-
-                            End If
+            'Next
 
 
-                            CrDoc.PrintToPrinter(1, False, 1, 2500)
+            'For i As Integer = 0 To KdUnikPrintScrap.Count - 1
 
-                        Else
-                            MessageBox.Show("Printer FG Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        End If
+            '    SQL = "select kode_perusahaan from N_EMI_Barcode_Label_Barcode_GR_2_Scrap where kode_perusahaan = '" & KodePerusahaan & "' and Kode_Unik_Print = '" & KdUnikPrintScrap(i) & "'"
+            '    Using Ds = BindingTrans(SQL)
+            '        If Ds.Tables("MyTable").Rows.Count <> 0 Then
 
-                        printerDitemukan = False
+            '            '==========================
+            '            '=     BARCODEE BESAR     =
+            '            '==========================
+            '            Dim printerDitemukan As Boolean = False
+            '            For Each printer As String In PrinterSettings.InstalledPrinters
+            '                If printer.ToLower() = PrinterBarcode.ToLower() Then
+            '                    printerDitemukan = True
+            '                    Exit For
+            '                End If
+            '            Next
+
+            '            If printerDitemukan Then
+
+            '                CrDoc = New N_EMI_Label_Barcode_GR_2_Scrap
+
+            '                'With A_Place_For_Printing2
+            '                '    CrDoc.SetDataSource(Ds)
+            '                '    CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+            '                '    CrDoc.PrintOptions.PrinterName = ""
+            '                '    CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Barcode_GR_2_Scrap.Kode_Perusahaan} = '" & KodePerusahaan & "'and {N_EMI_Barcode_Label_Barcode_GR_2_Scrap.Kode_Unik_Print} = '" & KdUnikPrintScrap(i) & "' "
+            '                '    CrDoc.SummaryInfo.ReportTitle = "Label Good Received 2 Scrap"
+            '                '    .Text = "Label Good Received 2"
+            '                '    .CrystalReportViewer1.ReportSource = CrDoc
+            '                '    .Refresh()
+            '                '    .Show()
+            '                'End With
+
+            '                '=====================================================
+
+            '                Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+            '                CrDoc.SetDataSource(Ds)
+            '                CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+            '                CrDoc.RecordSelectionFormula = "{N_EMI_Barcode_Label_Barcode_GR_2_Scrap.Kode_Perusahaan} = '" & KodePerusahaan & "'and {N_EMI_Barcode_Label_Barcode_GR_2_Scrap.Kode_Unik_Print} = '" & KdUnikPrintScrap(i) & "' "
+            '                CrDoc.PrintOptions.PrinterName = PrinterBarcode
+
+            '                doctoprint.PrinterSettings.PrinterName = PrinterBarcode
+
+            '                Dim rawKind As Integer
+            '                Dim foundPaper As Boolean = False
+            '                CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+            '                For j = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+            '                    If doctoprint.PrinterSettings.PaperSizes(j).PaperName = KertasBesar Then
+            '                        rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(j).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(j)))
+            '                        CrDoc.PrintOptions.PaperSize = rawKind
+            '                        foundPaper = True
+            '                        Exit For
+            '                    End If
+            '                Next
+
+            '                If Not foundPaper Then
+            '                    CrDoc.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.DefaultPaperSize
+            '                    MessageBox.Show("Kertas Tidak Ditemukan, Menggunakan Kertas Default", "Cetak Ulang Barcode", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+            '                End If
 
 
-                    Else
-                        MessageBox.Show("Printer Q Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '                CrDoc.PrintToPrinter(1, False, 1, 2500)
 
-                    End If
+            '            Else
+            '                MessageBox.Show("Printer FG Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '            End If
+
+            '            printerDitemukan = False
 
 
-                End Using
+            '        Else
+            '            MessageBox.Show("Printer Q Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+            '        End If
+
+
+            '    End Using
 
 
 
-            Next
+            'Next
+
+#End Region
+
 
             CloseConn()
         Catch ex As Exception
@@ -1374,7 +1417,7 @@ Public Class EMI_Validasi_GR_Display
             '=     ROLLBACK DATA     =
             '=========================
             SQL = "select a.No_Transaksi, a.No_Production_Order, b.Kode_Stock_Owner_Awal, b.Kode_Stock_Owner_Tujuan, b.Kode_Barang,  "
-            SQL = SQL & "b.Serial_Number_Awal, b.Serial_Number_Tujuan, b.Jumlah, b.Satuan, b.Jenis "
+            SQL = SQL & "b.Serial_Number_Awal, b.Serial_Number_Tujuan, b.Serial_Number_Akhir, b.Jumlah, b.Satuan, b.Jenis "
             SQL = SQL & "from Emi_Production_Results_Validation a, Emi_Production_Results_Validation_Detail b "
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
             SQL = SQL & "and a.No_Transaksi = b.No_Transaksi "
@@ -1391,14 +1434,10 @@ Public Class EMI_Validasi_GR_Display
                             Dim So_Tujuan As String = .Rows(i).Item("Kode_Stock_Owner_Tujuan")
                             Dim Kd_Barang As String = .Rows(i).Item("Kode_Barang")
                             Dim Sn_Awal As String = .Rows(i).Item("Serial_Number_Awal")
-                            Dim Sn_Tujuan As String = .Rows(i).Item("Serial_Number_Tujuan")
+                            Dim Sn_Tujuan As String = .Rows(i).Item("Serial_Number_Akhir")
                             Dim Jenis As String = .Rows(i).Item("Jenis")
                             Dim Jumlah As String = .Rows(i).Item("Jumlah")
                             Dim Satuan As String = .Rows(i).Item("Satuan")
-
-
-
-
 
 
                             If Jenis.ToUpper = "FINISHED GOOD" Then
