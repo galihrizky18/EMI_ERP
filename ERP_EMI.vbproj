@@ -304,6 +304,84 @@
     <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material\SD\N_EMI_SD_Request_Material.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Laporan_Biaya_Produksi.Designer.vb">
+      <DependentUpon>Laporan_Biaya_Produksi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Laporan_Biaya_Produksi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Laporan_Validasi_GR_3.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_CR_Laporan_Validasi_GR_3.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Packaging_Sekunder.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_CR_Packaging_Sekunder.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Packaging_Sekunder_Nominal.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_CR_Packaging_Sekunder_Nominal.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Transaksi_Validasi_GR_3_Summary.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_CR_Transaksi_Validasi_GR_3_Summary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Transaksi_Validasi_GR_3_Summary_Nominal.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_CR_Transaksi_Validasi_GR_3_Summary_Nominal.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Biaya_Produksi.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Laporan_Biaya_Produksi.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_GI_Detail.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Laporan_GI_Detail.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_GI_Detail_Nominal.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Laporan_GI_Detail_Nominal.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Hasil_Produksi.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Laporan_Hasil_Produksi.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Hasil_Produksi_Nominal.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Laporan_Hasil_Produksi_Nominal.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Validasi_GR.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Laporan_Validasi_GR.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Validasi_GR_Nominal.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Laporan_Validasi_GR_Nominal.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="3. Material Movement\RFID\1. Master\N_EMI_Registrasi_RFID_Reader.Designer.vb">
       <DependentUpon>N_EMI_Registrasi_RFID_Reader.vb</DependentUpon>
     </Compile>
@@ -554,6 +632,57 @@
     <EmbeddedResource Include="2. Production\7. Request Material\2. Transaksi\Request Material\SD\N_EMI_SD_Request_Material.resx">
       <DependentUpon>N_EMI_SD_Request_Material.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Laporan_Biaya_Produksi.resx">
+      <DependentUpon>Laporan_Biaya_Produksi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Laporan_Validasi_GR_3.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_CR_Laporan_Validasi_GR_3.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Packaging_Sekunder.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_CR_Packaging_Sekunder.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Packaging_Sekunder_Nominal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_CR_Packaging_Sekunder_Nominal.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Transaksi_Validasi_GR_3_Summary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_CR_Transaksi_Validasi_GR_3_Summary.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Transaksi_Validasi_GR_3_Summary_Nominal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_CR_Transaksi_Validasi_GR_3_Summary_Nominal.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Biaya_Produksi.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Laporan_Biaya_Produksi.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_GI_Detail.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Laporan_GI_Detail.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_GI_Detail_Nominal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Laporan_GI_Detail_Nominal.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Hasil_Produksi.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Laporan_Hasil_Produksi.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Hasil_Produksi_Nominal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Laporan_Hasil_Produksi_Nominal.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Validasi_GR.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Laporan_Validasi_GR.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Validasi_GR_Nominal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Laporan_Validasi_GR_Nominal.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="3. Material Movement\RFID\1. Master\N_EMI_Registrasi_RFID_Reader.resx">
       <DependentUpon>N_EMI_Registrasi_RFID_Reader.vb</DependentUpon>
     </EmbeddedResource>
@@ -653,6 +782,9 @@
     <Folder Include="2. Production\7. Request Material\2. Transaksi\Request Material QC\Temp\" />
     <Folder Include="2. Production\7. Request Material\3. Display\" />
     <Folder Include="2. Production\7. Request Material\4. Laporan\" />
+    <Folder Include="2. Production\8. Laporan Modul Produksi\1. Master\" />
+    <Folder Include="2. Production\8. Laporan Modul Produksi\2. Transaksi\" />
+    <Folder Include="2. Production\8. Laporan Modul Produksi\3. Display\" />
     <Folder Include="3. Material Movement\Transfer Stock Sementara\1. Master\" />
     <Folder Include="3. Material Movement\Transfer Stock Sementara\2. Transaksi\" />
     <Folder Include="3. Material Movement\Transfer Stock Sementara\4. Laporan\" />

@@ -434,6 +434,23 @@ Public Class EMI_Validasi_GR_Display
             SQL &= $"and a.No_Transaksi = '{LvKeranjang_NoTransaksi}' "
             SQL &= $"and b.Nomor = '{LvKeranjang_Keranjang}' "
             SQL &= $"group by a.Kode_Perusahaan, b.Kode_Stock_Owner_Tujuan, b.Kode_Barang, c.Nama, d.Qr_Code, d.Kode_Unik_Berjalan, d.Batch_Number, d.Tgl_Produksi, d.Tgl_Expired, b.Satuan, b.jenis, b.Nomor "
+
+            SQL &= $"union all "
+
+            SQL &= "select a.Kode_Perusahaan, b.Kode_Stock_Owner_Tujuan, b.Kode_Barang, c.Nama as Nama_Barang, d.Qr_Code, d.Kode_Unik_Berjalan, d.Batch_Number,  "
+            SQL &= $"d.Tgl_Produksi, d.Tgl_Expired, sum(b.Jumlah) as Jumlah, b.Satuan, "
+            SQL &= $"case when b.jenis = 'REJECTED' then 'Disqualified ' else b.jenis end as Jenis, "
+            SQL &= $"b.Nomor as Number "
+            SQL &= $"from Emi_Production_Results_Validation a "
+            SQL &= $"inner join Emi_Production_Results_Validation_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi "
+            SQL &= $"inner join Barang c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
+            SQL &= $"inner join barang_sn d on b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = d.Kode_Stock_Owner and b.Kode_Barang = d.Kode_Barang and b.Serial_Number_Tujuan = d.Serial_Number "
+            SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
+            'SQL &= $"and a.Status is null "
+            SQL &= $"and a.No_Transaksi = '{LvKeranjang_NoTransaksi}' "
+            SQL &= $"and b.Nomor = '{LvKeranjang_Keranjang}' "
+            SQL &= $"group by a.Kode_Perusahaan, b.Kode_Stock_Owner_Tujuan, b.Kode_Barang, c.Nama, d.Qr_Code, d.Kode_Unik_Berjalan, d.Batch_Number, d.Tgl_Produksi, d.Tgl_Expired, b.Satuan, b.jenis, b.Nomor "
+
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
 
@@ -536,6 +553,25 @@ Public Class EMI_Validasi_GR_Display
             SQL &= $"inner join Emi_Production_Results_Validation_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi "
             SQL &= $"inner join Barang c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
             SQL &= $"inner join barang_sn d on b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = d.Kode_Stock_Owner and b.Kode_Barang = d.Kode_Barang and b.Serial_Number_Akhir = d.Serial_Number "
+            SQL &= $"inner join Emi_Split_Production_Order e on b.Kode_Perusahaan = e.Kode_Perusahaan and b.No_Split = e.No_Transaksi and e.Status is NULL "
+            SQL &= $"inner join EMI_Order_Produksi f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_PO = f.No_Faktur and f.Status is NULL "
+            SQL &= $"inner join EMI_Master_Routing g on f.Kode_Perusahaan = g.Kode_Perusahaan and f.Id_Routing = g.Id_Routing "
+            SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
+            SQL &= $"and a.No_Transaksi = '{LvKeranjang_NoTransaksi}' "
+            SQL &= $"and b.Nomor = '{LvKeranjang_Keranjang}' "
+            SQL &= $"group by a.Kode_Perusahaan, b.No_Split, b.Nomor, b.Kode_Stock_Owner_Tujuan, b.Kode_Barang, c.Nama, b.Batch_Number, d.Qr_Code, d.Kode_Unik_Berjalan, d.Tgl_Produksi, d.Tgl_Expired, c.Satuan, b.jenis, "
+            SQL &= $"b.Nomor, f.Id_Routing, g.Keterangan "
+
+            SQL &= $"union all "
+
+            SQL &= "select a.Kode_Perusahaan, b.No_Split as No_Production_Order, b.Nomor, b.Kode_Stock_Owner_Tujuan as Lokasi_Tujuan, b.Kode_Barang, c.Nama as Nama_Barang,  "
+            SQL &= $"b.Batch_Number, d.Qr_Code, d.Kode_Unik_Berjalan, d.Tgl_Produksi, d.Tgl_Expired, sum(b.Jumlah) as Jumlah, c.Satuan, "
+            SQL &= $"case when b.jenis = 'REJECTED' then 'Disqualified ' else b.jenis end as Jenis, "
+            SQL &= $"b.Nomor as Number, f.Id_Routing, g.Keterangan as Routing "
+            SQL &= $"from Emi_Production_Results_Validation a "
+            SQL &= $"inner join Emi_Production_Results_Validation_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi "
+            SQL &= $"inner join Barang c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
+            SQL &= $"inner join barang_sn d on b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = d.Kode_Stock_Owner and b.Kode_Barang = d.Kode_Barang and b.Serial_Number_Tujuan = d.Serial_Number "
             SQL &= $"inner join Emi_Split_Production_Order e on b.Kode_Perusahaan = e.Kode_Perusahaan and b.No_Split = e.No_Transaksi and e.Status is NULL "
             SQL &= $"inner join EMI_Order_Produksi f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_PO = f.No_Faktur and f.Status is NULL "
             SQL &= $"inner join EMI_Master_Routing g on f.Kode_Perusahaan = g.Kode_Perusahaan and f.Id_Routing = g.Id_Routing "
@@ -899,6 +935,7 @@ Public Class EMI_Validasi_GR_Display
 
 
             SQL = ";with Cte as( "
+
             SQL &= $"select a.Kode_Perusahaan, a.No_Transaksi, b.No_Split as No_Production_Order, b.Nomor, b.Kode_Stock_Owner_Tujuan as Lokasi_Tujuan, b.Kode_Barang, c.Nama as Nama_Barang, "
             SQL &= $"b.Batch_Number, d.Qr_Code, d.Kode_Unik_Berjalan, d.Tgl_Produksi, d.Tgl_Expired, sum(b.Jumlah) as Jumlah, c.Satuan, "
             SQL &= $"case when b.jenis = 'REJECTED' then 'Disqualified ' else b.jenis end as Jenis, "
@@ -911,7 +948,22 @@ Public Class EMI_Validasi_GR_Display
             SQL &= $"inner join EMI_Order_Produksi f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_PO = f.No_Faktur and f.Status is NULL "
             SQL &= $"inner join EMI_Master_Routing g on f.Kode_Perusahaan = g.Kode_Perusahaan and f.Id_Routing = g.Id_Routing "
             SQL &= $"group by a.Kode_Perusahaan, b.No_Split, b.Nomor, b.Kode_Stock_Owner_Tujuan, b.Kode_Barang, c.Nama, b.Batch_Number, d.Qr_Code, d.Kode_Unik_Berjalan, d.Tgl_Produksi, d.Tgl_Expired, c.Satuan, b.jenis, "
-            SQL &= $"b.Nomor, f.Id_Routing, g.Keterangan, a.jam, a.No_Transaksi) "
+            SQL &= $"b.Nomor, f.Id_Routing, g.Keterangan, a.jam, a.No_Transaksi "
+            SQL &= $"union all "
+            SQL &= $"select a.Kode_Perusahaan, a.No_Transaksi, b.No_Split as No_Production_Order, b.Nomor, b.Kode_Stock_Owner_Tujuan as Lokasi_Tujuan, b.Kode_Barang, c.Nama as Nama_Barang, "
+            SQL &= $"b.Batch_Number, d.Qr_Code, d.Kode_Unik_Berjalan, d.Tgl_Produksi, d.Tgl_Expired, sum(b.Jumlah) as Jumlah, c.Satuan, "
+            SQL &= $"case when b.jenis = 'REJECTED' then 'Disqualified ' else b.jenis end as Jenis, "
+            SQL &= $"b.Nomor as Number, f.Id_Routing, g.Keterangan as Routing, a.jam AS Jam_Transaksi "
+            SQL &= $"from Emi_Production_Results_Validation a "
+            SQL &= $"inner join Emi_Production_Results_Validation_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi "
+            SQL &= $"inner join Barang c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
+            SQL &= $"inner join barang_sn d on b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = d.Kode_Stock_Owner and b.Kode_Barang = d.Kode_Barang and b.Serial_Number_Tujuan = d.Serial_Number "
+            SQL &= $"inner join Emi_Split_Production_Order e on b.Kode_Perusahaan = e.Kode_Perusahaan and b.No_Split = e.No_Transaksi and e.Status is NULL "
+            SQL &= $"inner join EMI_Order_Produksi f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_PO = f.No_Faktur and f.Status is NULL "
+            SQL &= $"inner join EMI_Master_Routing g on f.Kode_Perusahaan = g.Kode_Perusahaan and f.Id_Routing = g.Id_Routing "
+            SQL &= $"group by a.Kode_Perusahaan, b.No_Split, b.Nomor, b.Kode_Stock_Owner_Tujuan, b.Kode_Barang, c.Nama, b.Batch_Number, d.Qr_Code, d.Kode_Unik_Berjalan, d.Tgl_Produksi, d.Tgl_Expired, c.Satuan, b.jenis, "
+            SQL &= $"b.Nomor, f.Id_Routing, g.Keterangan, a.jam, a.No_Transaksi "
+            SQL &= $") "
             SQL &= $"select Kode_Perusahaan, String_AGG(No_Production_Order, ', ') as No_Production_Order, nomor, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Batch_Number, Qr_Code,  "
             SQL &= $"Kode_Unik_Berjalan, Tgl_Produksi, Tgl_Expired, sum(Jumlah) as Jumlah, Satuan, Jenis, Number, Id_Routing, Routing, Jam_Transaksi "
             SQL &= $"from cte "
@@ -1435,7 +1487,8 @@ Public Class EMI_Validasi_GR_Display
                             Dim So_Tujuan As String = .Rows(i).Item("Kode_Stock_Owner_Tujuan")
                             Dim Kd_Barang As String = .Rows(i).Item("Kode_Barang")
                             Dim Sn_Awal As String = .Rows(i).Item("Serial_Number_Awal")
-                            Dim Sn_Tujuan As String = .Rows(i).Item("Serial_Number_Akhir")
+                            Dim Sn_Tujuan As String = If(General_Class.CekNULL(.Rows(i).Item("Serial_Number_Akhir")) = "", "", .Rows(i).Item("Serial_Number_Akhir"))
+                            Dim Sn_Tujuan_Scrap As String = .Rows(i).Item("Serial_Number_Tujuan")
                             Dim Jenis As String = .Rows(i).Item("Jenis")
                             Dim Jumlah As String = .Rows(i).Item("Jumlah")
                             Dim Satuan As String = .Rows(i).Item("Satuan")
@@ -1650,9 +1703,9 @@ Public Class EMI_Validasi_GR_Display
                                 '=================================
 
                                 SQL = "select Jumlah from Barang_SN where Kode_Perusahaan = '" & KodePerusahaan & "' "
-                                SQL = SQL & "and Kode_Stock_Owner = 'FINISHED GOODS' "
+                                SQL = SQL & "and Kode_Stock_Owner = '" & So_Tujuan & "' "
                                 SQL = SQL & "and Kode_Barang = '" & Kd_Barang & "' "
-                                SQL = SQL & "and Serial_Number = '" & Sn_Tujuan & "' "
+                                SQL = SQL & "and Serial_Number = '" & Sn_Tujuan_Scrap & "' "
                                 Using Dr = OpenTrans(SQL)
                                     If Dr.Read Then
 
@@ -1672,7 +1725,7 @@ Public Class EMI_Validasi_GR_Display
                                         SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
                                         SQL = SQL & "and Kode_Stock_Owner = '" & So_Tujuan & "' "
                                         SQL = SQL & "and Kode_Barang = '" & Kd_Barang & "' "
-                                        SQL = SQL & "and Serial_Number = '" & Sn_Tujuan & "' "
+                                        SQL = SQL & "and Serial_Number = '" & Sn_Tujuan_Scrap & "' "
                                         ExecuteTrans(SQL)
 
                                         SQL = "select Kode_Perusahaan from barang "
