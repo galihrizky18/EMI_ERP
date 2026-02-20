@@ -2142,13 +2142,13 @@
     '    N_EMI_Display_Barang_Masuk_Asset.Focus()
     'End Sub
 
-    'Private Sub DisplayGr3ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayGr3ToolStripMenuItem.Click
-    '    N_EMI_Display_Validasi_GR_3.StartPosition = FormStartPosition.CenterScreen
+    Private Sub DisplayGr3ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayGr3ToolStripMenuItem.Click
+        N_EMI_Display_Validasi_GR_3.StartPosition = FormStartPosition.CenterScreen
 
-    '    N_EMI_Display_Validasi_GR_3.MdiParent = Me
-    '    N_EMI_Display_Validasi_GR_3.Show()
-    '    N_EMI_Display_Validasi_GR_3.Focus()
-    'End Sub
+        N_EMI_Display_Validasi_GR_3.MdiParent = Me
+        N_EMI_Display_Validasi_GR_3.Show()
+        N_EMI_Display_Validasi_GR_3.Focus()
+    End Sub
 
     'Private Sub LaporanKaryawanPerTahapanToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanKaryawanPerTahapanToolStripMenuItem.Click
     '    N_EMI_Laporan_List_Karyawan_Per_Tahapan.StartPosition = FormStartPosition.CenterScreen
@@ -3144,13 +3144,13 @@
     '    Pembelian_Pry.Focus()
     'End Sub
 
-    'Private Sub DisplayGR3ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles DisplayGR3ToolStripMenuItem1.Click
-    '    N_EMI_Display_Validasi_GR_3.StartPosition = FormStartPosition.CenterScreen
+    Private Sub DisplayGR3ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles DisplayGR3ToolStripMenuItem1.Click
+        N_EMI_Display_Validasi_GR_3.StartPosition = FormStartPosition.CenterScreen
 
-    '    N_EMI_Display_Validasi_GR_3.MdiParent = Me
-    '    N_EMI_Display_Validasi_GR_3.Show()
-    '    N_EMI_Display_Validasi_GR_3.Focus()
-    'End Sub
+        N_EMI_Display_Validasi_GR_3.MdiParent = Me
+        N_EMI_Display_Validasi_GR_3.Show()
+        N_EMI_Display_Validasi_GR_3.Focus()
+    End Sub
 
     'Private Sub PRDepartementToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PRDepartementToolStripMenuItem.Click
     '    N_EMI_Display_Purchase_Requisition_Barang_Lain_Departement.StartPosition = FormStartPosition.CenterScreen

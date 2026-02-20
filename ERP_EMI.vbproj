@@ -244,6 +244,12 @@
     <Compile Include="2. Production\6. Good Received 3\2. Transaksi\SD\N_EMI_SD_Validasi_GR_3.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="2. Production\6. Good Received 3\3. DIsplay\N_EMI_Display_Validasi_GR_3.Designer.vb">
+      <DependentUpon>N_EMI_Display_Validasi_GR_3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Production\6. Good Received 3\3. DIsplay\N_EMI_Display_Validasi_GR_3.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\Faktur\N_EMI_CR_Transaksi_Request_Material_QC_Barcode.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -599,6 +605,9 @@
     <EmbeddedResource Include="2. Production\6. Good Received 3\2. Transaksi\SD\N_EMI_SD_Validasi_GR_3.resx">
       <DependentUpon>N_EMI_SD_Validasi_GR_3.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="2. Production\6. Good Received 3\3. DIsplay\N_EMI_Display_Validasi_GR_3.resx">
+      <DependentUpon>N_EMI_Display_Validasi_GR_3.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\Faktur\N_EMI_CR_Transaksi_Request_Material_QC_Barcode.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_CR_Transaksi_Request_Material_QC_Barcode.vb</LastGenOutput>
@@ -776,7 +785,6 @@
     <Folder Include="2. Production\5. Good Received 2\1. Master\" />
     <Folder Include="2. Production\5. Good Received 2\4. Laporan\" />
     <Folder Include="2. Production\6. Good Received 3\1. Master\" />
-    <Folder Include="2. Production\6. Good Received 3\3. DIsplay\" />
     <Folder Include="2. Production\6. Good Received 3\4. Laporan\" />
     <Folder Include="2. Production\7. Request Material\1. Master\" />
     <Folder Include="2. Production\7. Request Material\2. Transaksi\Request Material QC\Temp\" />
