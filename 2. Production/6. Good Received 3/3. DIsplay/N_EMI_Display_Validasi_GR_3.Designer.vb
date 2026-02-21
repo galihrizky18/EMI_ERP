@@ -24,6 +24,7 @@ Partial Class N_EMI_Display_Validasi_GR_3
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -33,6 +34,8 @@ Partial Class N_EMI_Display_Validasi_GR_3
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Lv_Data = New System.Windows.Forms.ListView()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SalinNoTransaksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.Btn_Cari = New System.Windows.Forms.Button()
         Me.Cmb_Lokasi = New System.Windows.Forms.ComboBox()
@@ -52,16 +55,14 @@ Partial Class N_EMI_Display_Validasi_GR_3
         Me.Lv_Detail = New System.Windows.Forms.ListView()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Panel10 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.SalinNoTransaksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BatalkanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.Panel4.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
-        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -74,6 +75,19 @@ Partial Class N_EMI_Display_Validasi_GR_3
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1184, 42)
         Me.Panel1.TabIndex = 25
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 40)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Label1
         '
@@ -174,6 +188,18 @@ Partial Class N_EMI_Display_Validasi_GR_3
         Me.Lv_Data.UseCompatibleStateImageBehavior = False
         Me.Lv_Data.View = System.Windows.Forms.View.Details
         '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalinNoTransaksiToolStripMenuItem, Me.BatalkanToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 70)
+        '
+        'SalinNoTransaksiToolStripMenuItem
+        '
+        Me.SalinNoTransaksiToolStripMenuItem.Name = "SalinNoTransaksiToolStripMenuItem"
+        Me.SalinNoTransaksiToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
+        Me.SalinNoTransaksiToolStripMenuItem.Text = "Salin No Transaksi"
+        '
         'GroupBox3
         '
         Me.GroupBox3.Controls.Add(Me.Btn_Cari)
@@ -201,6 +227,7 @@ Partial Class N_EMI_Display_Validasi_GR_3
         'Btn_Cari
         '
         Me.Btn_Cari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+        Me.Btn_Cari.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_Cari.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Cari.ForeColor = System.Drawing.Color.White
         Me.Btn_Cari.Location = New System.Drawing.Point(523, 91)
@@ -212,6 +239,7 @@ Partial Class N_EMI_Display_Validasi_GR_3
         '
         'Cmb_Lokasi
         '
+        Me.Cmb_Lokasi.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Cmb_Lokasi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cmb_Lokasi.Enabled = False
         Me.Cmb_Lokasi.FormattingEnabled = True
@@ -255,6 +283,7 @@ Partial Class N_EMI_Display_Validasi_GR_3
         '
         'Cmb_ParamLain
         '
+        Me.Cmb_ParamLain.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Cmb_ParamLain.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cmb_ParamLain.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.Cmb_ParamLain.FormattingEnabled = True
@@ -280,11 +309,12 @@ Partial Class N_EMI_Display_Validasi_GR_3
         '
         Me.DateTimePicker2.CalendarFont = New System.Drawing.Font("Work Sans", 8.0!)
         Me.DateTimePicker2.CustomFormat = "dd MMMM yyyy"
+        Me.DateTimePicker2.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.DateTimePicker2.Location = New System.Drawing.Point(475, 66)
         Me.DateTimePicker2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.DateTimePicker2.Name = "DateTimePicker2"
-        Me.DateTimePicker2.Size = New System.Drawing.Size(156, 22)
+        Me.DateTimePicker2.Size = New System.Drawing.Size(156, 20)
         Me.DateTimePicker2.TabIndex = 4
         '
         'Label7
@@ -301,11 +331,12 @@ Partial Class N_EMI_Display_Validasi_GR_3
         '
         Me.DateTimePicker1.CalendarFont = New System.Drawing.Font("Work Sans", 8.0!)
         Me.DateTimePicker1.CustomFormat = "dd MMMM yyyy"
+        Me.DateTimePicker1.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.DateTimePicker1.Location = New System.Drawing.Point(284, 67)
         Me.DateTimePicker1.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.Size = New System.Drawing.Size(158, 22)
+        Me.DateTimePicker1.Size = New System.Drawing.Size(158, 20)
         Me.DateTimePicker1.TabIndex = 3
         '
         'Chk_ParamTgl
@@ -322,6 +353,7 @@ Partial Class N_EMI_Display_Validasi_GR_3
         '
         'Cmb_ParamTgl
         '
+        Me.Cmb_ParamTgl.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Cmb_ParamTgl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cmb_ParamTgl.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.Cmb_ParamTgl.FormattingEnabled = True
@@ -393,30 +425,11 @@ Partial Class N_EMI_Display_Validasi_GR_3
         Me.Panel10.Size = New System.Drawing.Size(12, 12)
         Me.Panel10.TabIndex = 349
         '
-        'PanelGradient1
+        'BatalkanToolStripMenuItem
         '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 40)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalinNoTransaksiToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 48)
-        '
-        'SalinNoTransaksiToolStripMenuItem
-        '
-        Me.SalinNoTransaksiToolStripMenuItem.Name = "SalinNoTransaksiToolStripMenuItem"
-        Me.SalinNoTransaksiToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.SalinNoTransaksiToolStripMenuItem.Text = "Salin No Transaksi"
+        Me.BatalkanToolStripMenuItem.Name = "BatalkanToolStripMenuItem"
+        Me.BatalkanToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.BatalkanToolStripMenuItem.Text = "Batalkan"
         '
         'N_EMI_Display_Validasi_GR_3
         '
@@ -446,10 +459,10 @@ Partial Class N_EMI_Display_Validasi_GR_3
         Me.Panel3.ResumeLayout(False)
         Me.Panel4.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
-        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -487,4 +500,5 @@ Partial Class N_EMI_Display_Validasi_GR_3
     Friend WithEvents Panel10 As Panel
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents SalinNoTransaksiToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents BatalkanToolStripMenuItem As ToolStripMenuItem
 End Class

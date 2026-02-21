@@ -1,16 +1,16 @@
 ﻿Public Class N_EMI_Display_Validasi_GR_3
 
-    Dim ArrTanggal, ArrParamLain As New ArrayList
+    Dim ArrTanggal, ArrParamLain, ArrParamLainLama As New ArrayList
 
     Private Sub N_EMI_Display_Validasi_GR_3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
 
         Lv_Data.Columns.Clear()
         Lv_Data.Columns.Add("No Transaksi", 130, HorizontalAlignment.Left)
-        Lv_Data.Columns.Add("No Split", 130, HorizontalAlignment.Left)
+        Lv_Data.Columns.Add("No Split", 0, HorizontalAlignment.Left)
         Lv_Data.Columns.Add("Kode Barang", 130, HorizontalAlignment.Left)
-        Lv_Data.Columns.Add("Barang", 300, HorizontalAlignment.Left)
-        Lv_Data.Columns.Add("Keterangan", 200, HorizontalAlignment.Left)
+        Lv_Data.Columns.Add("Barang", 310, HorizontalAlignment.Left)
+        Lv_Data.Columns.Add("Keterangan", 300, HorizontalAlignment.Left)
         Lv_Data.Columns.Add("Tanggal", 120, HorizontalAlignment.Center)
         Lv_Data.Columns.Add("UserID", 120, HorizontalAlignment.Center)
         Lv_Data.View = View.Details
@@ -54,12 +54,13 @@
         Cmb_ParamTgl.Items.Clear() : ArrTanggal.Clear()
         Cmb_ParamTgl.Items.Add("Tanggal") : ArrTanggal.Add("a.Tanggal")
 
-        Cmb_ParamLain.Items.Clear() : Cmb_ParamLain.Text = "" : ArrParamLain.Clear()
-        Cmb_ParamLain.Items.Add("No Transaksi") : ArrParamLain.Add("a.no_transaksi")
+
+        Cmb_ParamLain.Items.Clear() : Cmb_ParamLain.Text = "" : ArrParamLain.Clear() : ArrParamLainLama.Clear()
+        Cmb_ParamLain.Items.Add("No Transaksi") : ArrParamLain.Add("a.no_transaksi") : ArrParamLainLama.Add("a.No_Transaksi")
         'Cmb_ParamLain.Items.Add("No Split") : ArrParamLain.Add("a.No_Production_Order")
-        Cmb_ParamLain.Items.Add("Kode Barang") : ArrParamLain.Add("d.Kode_Barang")
-        Cmb_ParamLain.Items.Add("Nama Barang") : ArrParamLain.Add("e.Nama")
-        Cmb_ParamLain.Items.Add("User ID") : ArrParamLain.Add("a.UserID")
+        Cmb_ParamLain.Items.Add("Kode Barang") : ArrParamLain.Add("d.Kode_Barang") : ArrParamLainLama.Add("b.Kode_Barang")
+        Cmb_ParamLain.Items.Add("Nama Barang") : ArrParamLain.Add("e.Nama") : ArrParamLainLama.Add("c.Nama")
+        Cmb_ParamLain.Items.Add("User ID") : ArrParamLain.Add("a.UserID") : ArrParamLainLama.Add("a.UserID")
 
 
         Kosong()
@@ -78,6 +79,7 @@
         DateTimePicker1.Value = Now.Date : DateTimePicker2.Value = Now.Date
         Txt_ParamValue.Text = ""
 
+        Chk_TransaksiHrIni.Checked = True
 
         LoadData()
 
@@ -123,7 +125,7 @@
             OpenConn()
 
             Lv_Data.Items.Clear() : Lv_Detail.Items.Clear()
-            SQL = "select a.No_Transaksi, a.No_Production_Order, b.Kode_Barang, c.Nama as Nama_Barang, a.Keterangan, a.Tanggal, a.Jam, a.UserID, a.Status "
+            SQL = "select a.No_Transaksi, b.Kode_Barang, c.Nama as Nama_Barang, a.Keterangan, a.Tanggal, a.Jam, a.UserID, a.Status "
             SQL = SQL & "from N_EMI_Validation_GR_3 a, Emi_Split_Production_Order b, barang c "
             SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan and b.kode_perusahaan = c.kode_perusahaan "
             SQL = SQL & "and a.No_Production_Order = b.No_Transaksi "
@@ -148,14 +150,14 @@
 
             If Chk_ParamLain.Checked Then
                 If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
-                SQL = SQL & ArrParamLain(Cmb_ParamLain.SelectedIndex) & " like '%" & Txt_ParamValue.Text & "%' "
+                SQL = SQL & ArrParamLainLama(Cmb_ParamLain.SelectedIndex) & " like '%" & Txt_ParamValue.Text & "%' "
             End If
 
-            SQL = SQL & "order by a.Tanggal, a.Jam, a.No_Transaksi "
+            'SQL = SQL & "order by a.Tanggal, a.Jam, a.No_Transaksi "
 
+            SQL &= $"Union All "
 
-
-            SQL = "select distinct a.No_Transaksi, d.Kode_Barang, e.Nama as Nama_Barang, a.Keterangan, a.Tanggal, a.Jam, a.UserID, a.Status "
+            SQL &= "select distinct a.No_Transaksi, d.Kode_Barang, e.Nama as Nama_Barang, a.Keterangan, a.Tanggal, a.Jam, a.UserID, a.Status "
             SQL &= $"from N_EMI_Validation_GR_3 a "
             SQL &= $"inner join N_EMI_Validation_GR_3_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi "
             SQL &= $"inner join Emi_Production_Results_Validation_Detail c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner_Awal = c.Kode_Stock_Owner_Tujuan and b.Serial_Number_Awal = c.Serial_Number_Akhir "
@@ -190,7 +192,7 @@
                 Do While Dr.Read
                     Dim Lv As ListViewItem
                     Lv = Lv_Data.Items.Add(Dr("No_Transaksi"))
-                    Lv.SubItems.Add(Dr("No_Production_Order"))
+                    Lv.SubItems.Add("-")
                     Lv.SubItems.Add(Dr("Kode_Barang"))
                     Lv.SubItems.Add(Dr("Nama_Barang"))
                     Lv.SubItems.Add(Dr("Keterangan"))
@@ -257,7 +259,7 @@
                     Lv.SubItems.Add(Dr("Kode_Barang"))
                     Lv.SubItems.Add(Dr("Nama_Barang"))
                     Lv.SubItems.Add(Dr("Batch_Number"))
-                    Lv.SubItems.Add(Format(Dr("Jumlah"), "N0"))
+                    Lv.SubItems.Add(Format(Dr("Jumlah"), "N4"))
                     Lv.SubItems.Add(Dr("Satuan"))
                     Lv.SubItems.Add(Dr("Barcode_Awal"))
                     Lv.SubItems.Add(Dr("Barcode_Tujuan"))
@@ -284,6 +286,95 @@
 
         Clipboard.SetText(Lv_Data.FocusedItem.Text)
     End Sub
+
+    Private Sub BatalkanToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BatalkanToolStripMenuItem.Click
+        If Lv_Data.Items.Count = 0 Or Lv_Data.SelectedItems.Count = 0 Then
+            MessageBox.Show("Pilih Dahulu Transaksi Yang Ingin Dibatalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        Dim JudulNotif As String = "Pembatalan Validasi Penerimaan Barang Warehouse"
+
+        If (MessageBox.Show("Yakin Ingin Membatalkan No Transaksi Ini?", JudulNotif, MessageBoxButtons.YesNo, MessageBoxIcon.Question)) = vbNo Then Exit Sub
+
+        Try
+            OpenConn()
+            Cmd.Transaction = Cn.BeginTransaction
+
+            '====================
+            '=     CEK ROLE     =
+            '====================
+            If CekButtonRole("Batal_Validasi_Penerimaan_Barang_Warehouse") = "T" Then
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("Anda Tidak Memiliki Akses Untuk Pembatalan Vallidasi Penerimaan Barang Warehouse", JudulNotif, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
+            Dim No_Transaksi As String = Lv_Data.FocusedItem.Text
+
+            '=======================================================
+            '=     CEK APAKAH DATA SUDAH DIBATALKAN SEBELUMNYA     =
+            '=======================================================
+            SQL = "select top 1 a.Status "
+            SQL &= $"from N_EMI_Validation_GR_3 a "
+            SQL &= $"inner join N_EMI_Validation_GR_3_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.no_transaksi = b.No_Transaksi "
+            SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
+            SQL &= $"and a.No_Transaksi = '{No_Transaksi}' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+
+                    If General_Class.CekNULL(Dr("Status")) = "Y" Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Pembatalan Tidak Bisa Dilakukan, Karena Data Sudah Dibatalkan Sebelumnya", JudulNotif, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Pembatalan Tidak Bisa Dilakukan, Karena Data tidak ditemukan", JudulNotif, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+
+                End If
+            End Using
+
+            '=======================================
+            '=     CEK APAKAH STOCK MASIH UTUH     =
+            '=======================================
+
+
+
+            '=========================
+            '=     ROLLBACK DATA     =
+            '=========================
+
+
+
+
+
+            Cmd.Transaction.Commit()
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show("Data Berhasil Dibatalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            CloseTrans()
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+
+
+        Chk_TransaksiHrIni.Checked = True
+        LoadData()
+
+
+    End Sub
+
+
     '==========================================================================================================================================================
     '=     HANDLE KEYPRESS
     '==========================================================================================================================================================
@@ -332,6 +423,7 @@
     Private Sub Txt_ParamValue_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_ParamValue.KeyPress
         If e.KeyChar = Chr(13) Then Btn_Cari.Focus()
     End Sub
+
 
 
     Private Sub Chk_ParamTgl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Chk_ParamTgl.KeyPress

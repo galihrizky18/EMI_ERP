@@ -14,7 +14,7 @@ Public Class N_EMI_Transaksi_Validasi_GR_3
 
     Dim Kode_Unik_Transaksi As String = ""
 
-    Public Property SelectedVariant As String = ""
+    'Public Property SelectedVariant As String = ""
     Dim isCombine As Boolean = False
     Dim NoSplitTemp As String = ""
 

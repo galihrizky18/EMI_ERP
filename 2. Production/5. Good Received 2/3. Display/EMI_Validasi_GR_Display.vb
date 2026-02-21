@@ -88,7 +88,7 @@ Public Class EMI_Validasi_GR_Display
 
         arr_Lain.Clear() : Cmb_Lain.Items.Clear()
         Cmb_Lain.Items.Add("No Transaksi") : arr_Lain.Add("a.No_Transaksi")
-        Cmb_Lain.Items.Add("No Split") : arr_Lain.Add("a.No_Production_Order")
+        'Cmb_Lain.Items.Add("No Split") : arr_Lain.Add("a.No_Production_Order")
         Cmb_Lain.Items.Add("Kode Barang") : arr_Lain.Add("c.Kode_Barang")
         Cmb_Lain.Items.Add("User") : arr_Lain.Add("a.UserID")
 

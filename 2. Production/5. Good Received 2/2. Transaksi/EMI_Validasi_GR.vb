@@ -573,16 +573,16 @@ Public Class EMI_Validasi_GR
         Lv_DataPallet.Columns.Add("Tanggal Produksi", 110, HorizontalAlignment.Center) '3
         Lv_DataPallet.Columns.Add("Tanggal Expired", 0, HorizontalAlignment.Center) '4
         Lv_DataPallet.Columns.Add("Kode Barang", 130, HorizontalAlignment.Left) '5
-        Lv_DataPallet.Columns.Add("Nama Barang", 280, HorizontalAlignment.Left) '6
-        Lv_DataPallet.Columns.Add("Jumlah", 130, HorizontalAlignment.Right) '7
+        Lv_DataPallet.Columns.Add("Nama Barang", 250, HorizontalAlignment.Left) '6
+        Lv_DataPallet.Columns.Add("Jumlah", 110, HorizontalAlignment.Right) '7
         Lv_DataPallet.Columns.Add("Satuan", 70, HorizontalAlignment.Center) '8
         Lv_DataPallet.Columns.Add("Kualitas", 0, HorizontalAlignment.Center) '9
         Lv_DataPallet.Columns.Add("warna", 0, HorizontalAlignment.Center) '10
         Lv_DataPallet.Columns.Add("ID", 0, HorizontalAlignment.Center) '11
         Lv_DataPallet.Columns.Add("QR", 0, HorizontalAlignment.Center) '12
         Lv_DataPallet.Columns.Add("KdUnikBerjalan", 0, HorizontalAlignment.Center) '13
-        Lv_DataPallet.Columns.Add("Nomor", 70, HorizontalAlignment.Center).DisplayIndex = 2 '14
-        Lv_DataPallet.Columns.Add("Batch", 70, HorizontalAlignment.Center).DisplayIndex = 3 '15
+        Lv_DataPallet.Columns.Add("Nomor", 60, HorizontalAlignment.Center).DisplayIndex = 2 '14
+        Lv_DataPallet.Columns.Add("Batch", 60, HorizontalAlignment.Center).DisplayIndex = 3 '15
         Lv_DataPallet.Columns.Add("No Split", 130, HorizontalAlignment.Left).DisplayIndex = 3 '16
         Lv_DataPallet.View = View.Details
         Lv_DataPallet.Columns(itemPallet_No_Split).DisplayIndex = 1
@@ -780,18 +780,7 @@ Public Class EMI_Validasi_GR
                 Loop
             End Using
 
-            Dim KdBarang As String = SelectedVariant
-            'SQL = "select distinct top 1 b.Kode_Barang, b.Nama, b.Berat "
-            'SQL = SQL & "from Barang_SN a, barang b, N_EMI_Validation_GR_Temp c "
-            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
-            'SQL = SQL & "and a.kode_Perusahaan = '" & KodePerusahaan & "' "
-            'SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and (qr_code +'-'+Kode_Unik_Berjalan ) = c.Barcode "
-            'SQL = SQL & "and c.No_Production_Order = '" & NoSplit & "' and c.jenis='FINISHED GOOD' and c.userid='" & UserID & "' "
-            'Using Dr = OpenTrans(SQL)
-            '    If Dr.Read Then
-            '        KdBarang = Dr("Kode_Barang")
-            '    End If
-            'End Using
+
 
             '==========================
             '=     LOAD PACKAGING     =
@@ -808,14 +797,7 @@ Public Class EMI_Validasi_GR
 
             Next
 
-            Dim kd_inq As String = ""
-            SQL = "select top(1) kode_barang_inq from barang a where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.kode_barang = '" & KdBarang & "'  "
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-                    kd_inq = Dr("kode_barang_inq")
 
-                End If
-            End Using
 
 
             '======================================
@@ -835,6 +817,28 @@ Public Class EMI_Validasi_GR
                 If Ds9.Tables("MyTable").Rows.Count <> 0 Then
                     For zz As Integer = 0 To Ds9.Tables("MyTable").Rows.Count - 1
 
+                        Dim KdBarang As String = SelectedVariant
+                        SQL = "select distinct top 1 b.Kode_Barang, b.Nama, b.Berat "
+                        SQL = SQL & "from Barang_SN a, barang b, N_EMI_Validation_GR_Temp c "
+                        SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
+                        SQL = SQL & "and a.kode_Perusahaan = '" & KodePerusahaan & "' "
+                        SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and (qr_code +'-'+Kode_Unik_Berjalan ) = c.Barcode "
+                        SQL = SQL & "and c.No_Production_Order = '" & Ds9.Tables("MyTable").Rows(zz).Item("No_Production_Order") & "' and c.jenis='FINISHED GOOD' and c.userid='" & UserID & "' "
+                        Using Dr = OpenTrans(SQL)
+                            If Dr.Read Then
+                                KdBarang = Dr("Kode_Barang")
+                            End If
+                        End Using
+
+                        Dim kd_inq As String = ""
+                        SQL = "select top(1) kode_barang_inq from barang a where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.kode_barang = '" & KdBarang & "'  "
+                        Using Dr = OpenTrans(SQL)
+                            If Dr.Read Then
+                                kd_inq = Dr("kode_barang_inq")
+
+                            End If
+                        End Using
+
 
                         SQL = "Select a.No_Transaksi, b.Jumlah_Bahan, b.Jumlah_Barang, "
                         SQL = SQL & "b.Kode_Stock_Owner, a.Kode_Barang, b.Kode_Barang As Kode_Bahan, c.Nama ,b.Jumlah, b.Satuan, c.flag_potong_stok, "
@@ -849,24 +853,30 @@ Public Class EMI_Validasi_GR
                             With Ds.Tables("MyTable")
                                 If .Rows.Count <> 0 Then
                                     For i As Integer = 0 To .Rows.Count - 1
+
                                         '================================
                                         '=     GET JUMLAH KEBUTUHAN     =
                                         '================================
                                         Dim KebutuhanBarang As Double = 0
                                         Dim KebutuhanBahan As Double = 0
-                                        SQL = "select a.Kode_Bahan, a.Jumlah_Bahan, a.Jumlah_Barang "
-                                        SQL = SQL & "from Barang_Detail_Bahan_Penolong a "
-                                        SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-                                        SQL = SQL & "and Kode_Barang = '" & kd_inq & "' "
-                                        SQL = SQL & "and Kode_Bahan = '" & .Rows(i).Item("Kode_Bahan") & "' "
-                                        Using Dr = OpenTrans(SQL)
-                                            If Dr.Read Then
-                                                KebutuhanBarang = Val(HilangkanTanda(Format(Dr("Jumlah_Barang"), "N4")))
-                                                KebutuhanBahan = Val(HilangkanTanda(Format(Dr("Jumlah_Bahan"), "N4")))
-                                            End If
-                                        End Using
+                                        'SQL = "select a.Kode_Bahan, a.Jumlah_Bahan, a.Jumlah_Barang "
+                                        'SQL = SQL & "from Barang_Detail_Bahan_Penolong a "
+                                        'SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                        'SQL = SQL & "and Kode_Barang = '" & kd_inq & "' "
+                                        'SQL = SQL & "and Kode_Bahan = '" & .Rows(i).Item("Kode_Bahan") & "' "
+                                        'Using Dr = OpenTrans(SQL)
+                                        '    If Dr.Read Then
+                                        '        KebutuhanBarang = Val(HilangkanTanda(Format(Dr("Jumlah_Barang"), "N4")))
+                                        '        KebutuhanBahan = Val(HilangkanTanda(Format(Dr("Jumlah_Bahan"), "N4")))
+                                        '    End If
+                                        'End Using
 
+                                        KebutuhanBarang = Val(HilangkanTanda(Format(.Rows(i).Item("Jumlah_Barang"), "N4")))
+                                        KebutuhanBahan = Val(HilangkanTanda(Format(.Rows(i).Item("Jumlah_Bahan"), "N4")))
+
+                                        'Hitung Kebutuhan Packaging Untuk 1 Data
                                         Dim PackagingDigunakan As Double = Val(HilangkanTanda(Format((Val(HilangkanTanda(TotalInput)) / KebutuhanBarang) * KebutuhanBahan, "N4")))
+
 
                                         If .Rows(i).Item("Flag_Pembulatan_Produksi") = "Y" Then
                                             PackagingDigunakan = Math.Ceiling(PackagingDigunakan)
@@ -1089,6 +1099,7 @@ Public Class EMI_Validasi_GR
 
                         'Txt_NoSplit.Text = Dr("No_Split")
                         Txt_ScanBarcode.Text = ""
+                        SelectedVariant = Dr("kode_barang")
 
                         If Fitur_Military_Sampling Then
                             If General_Class.CekNULL(Dr("Status_Split")).ToUpper = "DITOLAK" Then
@@ -3289,6 +3300,7 @@ Public Class EMI_Validasi_GR
 
                         'Txt_NoSplit.Text = Dr("No_Split")
                         Txt_ScanBarcode.Text = ""
+                        SelectedVariant = Dr("kode_barang")
 
                         If Fitur_Military_Sampling Then
 
@@ -3619,6 +3631,14 @@ Public Class EMI_Validasi_GR
         Return result
     End Function
 
+    Protected Overrides Sub WndProc(ByRef m As Message)
+        ' WM_NCLBUTTONDBLCLK = 0xA3 (double click di title bar)
+        If m.Msg = &HA3 Then
+            Return  ' Abaikan pesan, sehingga form tidak maximize
+        End If
+
+        MyBase.WndProc(m)
+    End Sub
 
 
 End Class
