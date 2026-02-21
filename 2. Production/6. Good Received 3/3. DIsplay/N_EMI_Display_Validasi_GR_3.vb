@@ -374,13 +374,221 @@
                 End With
             End Using
 
-
-
             '=========================
             '=     ROLLBACK DATA     =
             '=========================
+            SQL = "select b.Kode_Stock_Owner_Awal, b.Kode_Stock_Owner_Tujuan, b.Kode_Barang as Kd_Barang_Tujuan,  "
+            SQL &= $"isnull((select z.kode_barang from barang_sn z where z.kode_perusahaan = b.Kode_Perusahaan and z.serial_number = b.Serial_Number_Awal), NULL) as Kd_Barang_Awal, "
+            SQL &= $"b.Serial_Number_Awal, b.Serial_Number_Tujuan, b.Jumlah, b.jumlah_awal, b.Satuan, "
+            SQL &= $"isnull((select x.satuan from barang_sn z "
+            SQL &= $"inner join barang x on z.kode_perusahaan = x.kode_perusahaan and z.kode_Stock_owner = x.kode_Stock_Owner and z.kode_barang = x.kode_barang "
+            SQL &= $"where z.kode_perusahaan = b.Kode_Perusahaan and z.serial_number = b.Serial_Number_Awal), NULL) as Satuan_Awal "
+            SQL &= $"from N_EMI_Validation_GR_3 a "
+            SQL &= $"inner join N_EMI_Validation_GR_3_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.no_transaksi = b.No_Transaksi "
+            SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
+            SQL &= $"and a.No_Transaksi = '{No_Transaksi}' "
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
+
+                            Dim KdBarangAwal As String = .Rows(i).Item("Kd_Barang_Awal")
+                            Dim KdBarangTujuan As String = .Rows(i).Item("Kd_Barang_Tujuan")
+                            Dim Kd_So_Awal As String = .Rows(i).Item("Kode_Stock_Owner_Awal")
+                            Dim Kd_So_Tujuan As String = .Rows(i).Item("Kode_Stock_Owner_Tujuan")
+                            Dim Sn_Awal As String = .Rows(i).Item("Serial_Number_Awal")
+                            Dim Sn_Tujuan As String = .Rows(i).Item("Serial_Number_Tujuan")
+                            Dim Jumlah_Awal As Double = Val(HilangkanTanda(.Rows(i).Item("jumlah_awal")))
+                            Dim Jumlah_Tujuan As Double = Val(HilangkanTanda(.Rows(i).Item("Jumlah")))
+                            Dim Satuan_Awal As String = .Rows(i).Item("Satuan_Awal")
+                            Dim Satuan_Tujuan As String = .Rows(i).Item("Serial_Number_Tujuan")
 
 
+                            '=========================================
+                            '=     CEK APAKAH STOCK PADA SN UTUH     =
+                            '=========================================
+                            SQL = "select Jumlah from Barang_SN "
+                            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                            SQL = SQL & "and Kode_Stock_Owner = '" & Kd_So_Tujuan & "' "
+                            SQL = SQL & "and Kode_Barang = '" & KdBarangTujuan & "' "
+                            SQL = SQL & "and Serial_Number = '" & Sn_Tujuan & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+
+                                    If HilangkanTanda(Dr("Jumlah")) <> HilangkanTanda(Jumlah_Tujuan) Then
+                                        Dr.Close()
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Pembatalan Tidak Bisa Dilakukan, Karena Data Barang Sudah Digunakan", JudulNotif, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+
+                                    Dr.Close()
+                                    '=======================
+                                    '=     UPDATE DATA     =
+                                    '=======================
+                                    SQL = "update Barang_SN set Jumlah = Jumlah - " & HilangkanTanda(Jumlah_Tujuan) & ", Jumlah_Bags = Jumlah_Bags - 0 "
+                                    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                    SQL = SQL & "and Kode_Stock_Owner = '" & Kd_So_Tujuan & "' "
+                                    SQL = SQL & "and Kode_Barang = '" & KdBarangTujuan & "' "
+                                    SQL = SQL & "and Serial_Number = '" & Sn_Tujuan & "' "
+                                    ExecuteTrans(SQL)
+
+                                    SQL = "select Kode_Perusahaan from barang "
+                                    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                    SQL = SQL & "and Kode_Stock_Owner = '" & Kd_So_Tujuan & "' "
+                                    SQL = SQL & "and Kode_Barang = '" & KdBarangTujuan & "' "
+                                    Using Dr2 = OpenTrans(SQL)
+                                        If Dr2.Read Then
+
+                                            Dr2.Close()
+                                            SQL = "update barang set Good_Stock = Good_Stock - " & HilangkanTanda(Jumlah_Tujuan) & ", Jumlah_Bags = Jumlah_Bags - 0 "
+                                            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                            SQL = SQL & "and Kode_Stock_Owner = '" & Kd_So_Tujuan & "' "
+                                            SQL = SQL & "and Kode_Barang = '" & KdBarangTujuan & "' "
+                                            ExecuteTrans(SQL)
+
+                                        Else
+                                            Dr2.Close()
+                                            CloseTrans()
+                                            CloseConn()
+                                            MessageBox.Show("Data Barang Tidak Ditemukan", JudulNotif, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            Exit Sub
+                                        End If
+                                    End Using
+
+
+                                    SQL = "update Barang_SN set Jumlah = Jumlah + " & HilangkanTanda(Jumlah_Awal) & ", Jumlah_Bags = Jumlah_Bags + 0 "
+                                    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                    SQL = SQL & "and Kode_Stock_Owner = '" & Kd_So_Awal & "' "
+                                    SQL = SQL & "and Kode_Barang = '" & KdBarangAwal & "' "
+                                    SQL = SQL & "and Serial_Number = '" & Sn_Awal & "' "
+                                    ExecuteTrans(SQL)
+
+                                    SQL = "select Kode_Perusahaan from barang "
+                                    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                    SQL = SQL & "and Kode_Stock_Owner = '" & Kd_So_Awal & "' "
+                                    SQL = SQL & "and Kode_Barang = '" & KdBarangAwal & "' "
+                                    Using Dr2 = OpenTrans(SQL)
+                                        If Dr2.Read Then
+
+                                            Dr2.Close()
+                                            SQL = "update barang set Good_Stock = Good_Stock + " & HilangkanTanda(Jumlah_Awal) & ", Jumlah_Bags = Jumlah_Bags + 0 "
+                                            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                            SQL = SQL & "and Kode_Stock_Owner = '" & Kd_So_Awal & "' "
+                                            SQL = SQL & "and Kode_Barang = '" & KdBarangAwal & "' "
+                                            ExecuteTrans(SQL)
+
+                                        Else
+                                            Dr2.Close()
+                                            CloseTrans()
+                                            CloseConn()
+                                            MessageBox.Show("Data Barang Tidak Ditemukan", JudulNotif, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                            Exit Sub
+                                        End If
+                                    End Using
+
+                                Else
+                                    Dr.Close()
+                                    CloseTrans()
+                                    CloseConn()
+                                    MessageBox.Show("Data Barang Tidak Ditemukan", JudulNotif, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End Using
+
+                            '====================================
+                            '=       CEK KESESUAIAN STOCK       =
+                            '====================================
+                            SQL = "SELECT round(SUM(good_stock),4) AS good_stock, isnull((select round(sum(jumlah),4) from Barang_sn x "
+                            SQL = SQL & "where a.kode_Barang=x.kode_Barang and a.Kode_Stock_Owner=x.kode_Stock_Owner "
+                            SQL = SQL & "and a.kode_Perusahaan=x.kode_Perusahaan ),0) as Jumlah_sn, "
+                            SQL = SQL & "isnull(round(SUM(jumlah_bags), 4), 0) AS jumlah_bags_barang, "
+                            SQL = SQL & "isnull((select round(sum(Jumlah_Bags), 4) from Barang_sn y "
+                            SQL = SQL & "where a.kode_Barang=y.kode_Barang and a.Kode_Stock_Owner=y.kode_Stock_Owner and a.kode_Perusahaan=y.kode_Perusahaan ), 0) as jumlah_bags_sn "
+                            SQL = SQL & "FROM barang a WHERE a.Kode_Stock_Owner = '" & Kd_So_Awal & "' "
+                            SQL = SQL & "AND a.Kode_Barang = '" & KdBarangAwal & "' and a.Kode_Perusahaan='" & KodePerusahaan & "' "
+                            SQL = SQL & "group by a.kode_Barang, a.Kode_Stock_Owner, a.kode_Perusahaan "
+                            Using D2 = BindingTrans(SQL)
+
+                                If D2.Tables("MyTable").Rows.Count <> 0 Then
+                                    If D2.Tables("MyTable").Rows(0).Item("good_stock") <> D2.Tables("MyTable").Rows(0).Item("Jumlah_sn") Or
+                                            D2.Tables("MyTable").Rows(0).Item("jumlah_bags_barang") <> D2.Tables("MyTable").Rows(0).Item("jumlah_bags_sn") Then
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Terjadi Kesalahan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+                                Else
+                                    CloseTrans()
+                                    CloseConn()
+                                    MessageBox.Show("Data tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End Using
+
+                            SQL = "SELECT round(SUM(good_stock),4) AS good_stock, isnull((select round(sum(jumlah),4) from Barang_sn x "
+                            SQL = SQL & "where a.kode_Barang=x.kode_Barang and a.Kode_Stock_Owner=x.kode_Stock_Owner "
+                            SQL = SQL & "and a.kode_Perusahaan=x.kode_Perusahaan ),0) as Jumlah_sn, "
+                            SQL = SQL & "isnull(round(SUM(jumlah_bags), 4), 0) AS jumlah_bags_barang, "
+                            SQL = SQL & "isnull((select round(sum(Jumlah_Bags), 4) from Barang_sn y "
+                            SQL = SQL & "where a.kode_Barang=y.kode_Barang and a.Kode_Stock_Owner=y.kode_Stock_Owner and a.kode_Perusahaan=y.kode_Perusahaan ), 0) as jumlah_bags_sn "
+                            SQL = SQL & "FROM barang a WHERE a.Kode_Stock_Owner = '" & Kd_So_Tujuan & "' "
+                            SQL = SQL & "AND a.Kode_Barang = '" & KdBarangTujuan & "' and a.Kode_Perusahaan='" & KodePerusahaan & "' "
+                            SQL = SQL & "group by a.kode_Barang, a.Kode_Stock_Owner, a.kode_Perusahaan "
+                            Using D2 = BindingTrans(SQL)
+
+                                If D2.Tables("MyTable").Rows.Count <> 0 Then
+                                    If D2.Tables("MyTable").Rows(0).Item("good_stock") <> D2.Tables("MyTable").Rows(0).Item("Jumlah_sn") Or
+                                            D2.Tables("MyTable").Rows(0).Item("jumlah_bags_barang") <> D2.Tables("MyTable").Rows(0).Item("jumlah_bags_sn") Then
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Terjadi Kesalahan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+                                Else
+                                    CloseTrans()
+                                    CloseConn()
+                                    MessageBox.Show("Data tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End Using
+
+
+
+
+
+                        Next
+                    End If
+                End With
+            End Using
+
+
+            '=======================
+            '=     UPDATE FLAG     =
+            '=======================
+            SQL = "select Kode_Perusahaan from N_EMI_Validation_GR_3 "
+            SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+            SQL &= $"and Status is null "
+            SQL &= $"and No_Transaksi = '{No_Transaksi}' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+
+                    Dr.Close()
+                    SQL = "update N_EMI_Validation_GR_3 set status = 'Y' "
+                    SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+                    SQL &= $"and Status is null "
+                    SQL &= $"and No_Transaksi = '{No_Transaksi}' "
+                    ExecuteTrans(SQL)
+
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Pembatalan Tidak Bisa Dilakukan, Karena Data Transaksi Tidak Ditemukan", JudulNotif, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
 
 
 

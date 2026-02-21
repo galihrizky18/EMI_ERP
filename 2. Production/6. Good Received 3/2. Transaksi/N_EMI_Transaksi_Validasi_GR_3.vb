@@ -1373,6 +1373,12 @@ Public Class N_EMI_Transaksi_Validasi_GR_3
                 If Ds0.Tables("MyTable").Rows.Count <> 0 Then
                     For z As Integer = 0 To Ds0.Tables("MyTable").Rows.Count - 1
 
+                        ArrHPP_GroupJenisID.Clear()
+                        ArrHPP_GroupJenisNm.Clear()
+                        ArrHPP_Lokasi.Clear()
+                        ArrHPP_Akun.Clear()
+                        ArrHPP_Nilai.Clear()
+
                         Dim NoTransaksiGR2 As String = Ds0.Tables("MyTable").Rows(z).Item("No_Transaksi_GR2")
                         Dim CurrentBarcode As String = $"{Ds0.Tables("MyTable").Rows(z).Item("Qr_Code")}-{Ds0.Tables("MyTable").Rows(z).Item("Kode_Unik_Berjalan")}"
 
@@ -1655,6 +1661,47 @@ Public Class N_EMI_Transaksi_Validasi_GR_3
                                             MessageBox.Show("Terjadi Kesalaham pada Barang SN untuk Kode Barang " & Temp_KdBarang & "!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                             Exit Sub
                                         End If
+
+
+                                        '====================================
+                                        '=     CEK APAKAH JUMLAH SESUAI     =
+                                        '====================================
+                                        SQL = "SELECT "
+                                        SQL = SQL & "ROUND(SUM(good_stock), 4) AS good_stock, "
+                                        SQL = SQL & "ISNULL((SELECT ROUND(SUM(jumlah), 4) FROM Barang_sn x WHERE a.kode_Barang = x.kode_Barang AND a.Kode_Stock_Owner = x.Kode_Stock_Owner AND a.kode_Perusahaan = x.kode_Perusahaan), 0) AS Jumlah_sn, "
+                                        SQL = SQL & "ISNULL(ROUND(SUM(jumlah_bags), 4), 0) AS jumlah_bags_barang, "
+                                        SQL = SQL & "ISNULL((SELECT ROUND(SUM(Jumlah_Bags), 4) FROM Barang_sn y WHERE a.kode_Barang = y.kode_Barang AND a.Kode_Stock_Owner = y.Kode_Stock_Owner AND a.kode_Perusahaan = y.Kode_Perusahaan), 0) AS jumlah_bags_sn "
+                                        SQL = SQL & "FROM "
+                                        SQL = SQL & "barang a "
+                                        SQL = SQL & "WHERE "
+                                        SQL = SQL & "a.Kode_Perusahaan = '" & KodePerusahaan & "' And a.Kode_Stock_Owner = '" & .Rows(j).Item("Kode_Stock_Owner_Tujuan") & "' AND a.Kode_Barang = '" & .Rows(j).Item("kode_barang") & "' "
+                                        SQL = SQL & "GROUP BY "
+                                        SQL = SQL & "a.kode_Barang, a.Kode_Stock_Owner, a.kode_Perusahaan"
+                                        Using Ds2 = BindingTrans(SQL)
+                                            If Ds2.Tables("MyTable").Rows.Count <> 0 Then
+
+                                                Dim Stock_Barang As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("good_stock"), "N4")))
+                                                Dim Stock_Sn As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("Jumlah_sn"), "N4")))
+                                                Dim Bags_Barang As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("jumlah_bags_barang"), "N4")))
+                                                Dim Bags_Sn As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("jumlah_bags_sn"), "N4")))
+
+                                                If Stock_Barang <> Stock_Sn Or Bags_Barang <> Bags_Sn Then
+                                                    CloseTrans()
+                                                    CloseConn()
+                                                    MessageBox.Show("Terjadi Kesalahan Pada SN . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                    Exit Sub
+                                                End If
+                                            Else
+                                                CloseTrans()
+                                                CloseConn()
+                                                MessageBox.Show("Data tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                Exit Sub
+
+                                            End If
+
+                                        End Using
+
+
 
                                         Dim KualitasBarang As String = ""
                                         If Temp_Jenis.ToUpper = "REJECTED" Then
@@ -1946,7 +1993,8 @@ Public Class N_EMI_Transaksi_Validasi_GR_3
                                         sumPackaging += Nilai_Packaging
 
                                         ' GENEREATE SN BARU
-                                        Dim hppSekarang As Double = Get_Harga_SN(.Rows(j).Item("Serial_Number_Akhir")) * JumlahKurang / JumlahInsert
+                                        Dim hppSekarang As Double = Math.Round(Get_Harga_SN(.Rows(j).Item("Serial_Number_Akhir")) * JumlahKurang / JumlahInsert, 0)
+
 
                                         If JumlahInsert = 0 Then
 

@@ -108,12 +108,12 @@ Public Class EMI_Validasi_GR
             Dim KdUnikTransaksi As String = Kode_Unik_Transaksi
 
             LvBarcodeDetail.Items.Clear()
-            SQL = "select Barcode, Nomor_Sebelum, sum(jumlah) as Jumlah "
+            SQL = "select Barcode, Nomor_Sebelum, sum(jumlah) as Jumlah, No_Production_Order "
             SQL = SQL & "from N_EMI_Validation_GR_Temp "
             'SQL = SQL & "where kode_Perusahaan ='" & KodePerusahaan & "' and No_production_Order='" & NoSplit & "' and userID='" & UserID & "' "
             SQL = SQL & "where kode_Perusahaan ='" & KodePerusahaan & "' and Kode_Unik_Transaksi='" & KdUnikTransaksi & "' and userID='" & UserID & "' "
             SQL = SQL & "and Nomor='" & LvBarcode_ID & "' "
-            SQL = SQL & "group by Barcode, Nomor_Sebelum "
+            SQL = SQL & "group by Barcode, Nomor_Sebelum, No_Production_Order "
             SQL = SQL & "order by Nomor_Sebelum "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
@@ -122,6 +122,7 @@ Public Class EMI_Validasi_GR
                     Lv = LvBarcodeDetail.Items.Add(Dr("Barcode"))
                     Lv.SubItems.Add(Dr("Nomor_Sebelum"))
                     Lv.SubItems.Add(Dr("Jumlah"))
+                    Lv.SubItems.Add(Dr("No_Production_Order"))
 
                 Loop
             End Using
@@ -619,9 +620,12 @@ Public Class EMI_Validasi_GR
 
         LvBarcodeDetail.Columns.Clear() : LvBarcodeDetail.Items.Clear()
         LvBarcodeDetail.Columns.Add("Barcode", 250, HorizontalAlignment.Left)
-        LvBarcodeDetail.Columns.Add("Nomor Lama", 100, HorizontalAlignment.Center)
+        LvBarcodeDetail.Columns.Add("Nomor Lama", 90, HorizontalAlignment.Center)
         LvBarcodeDetail.Columns.Add("Jumlah", 120, HorizontalAlignment.Center)
+        LvBarcodeDetail.Columns.Add("No Split", 120, HorizontalAlignment.Left)
         LvBarcodeDetail.View = View.Details
+
+        LvBarcodeDetail.Columns(3).DisplayIndex = 0
 
 
         Lv_SummaryPackaging.Columns.Clear() : Lv_SummaryPackaging.Items.Clear()
@@ -804,10 +808,10 @@ Public Class EMI_Validasi_GR
             '=     HITUNG KEBUTUHAN PACKAGING     =
             '======================================
 
-            Dim DetailPackaging As New List(Of (Kd_So As String, KdBahan As String, NmBahan As String, jumlah As Double, Satuan As String))
+            Dim DetailPackaging As New List(Of (Kd_So As String, KdBahan As String, NmBahan As String, jumlah As Double, Satuan As String, Flag_Pembulatan_Produksi As Boolean))
             Lv_SummaryPackaging.Items.Clear()
 
-            SQL = "select Kode_Unik_Transaksi, No_Production_Order "
+            SQL = "select Kode_Unik_Transaksi, No_Production_Order, Jumlah, Jenis_Kategori "
             SQL &= $"from N_EMI_Validation_GR_Temp a "
             SQL &= $"where kode_Perusahaan ='{KodePerusahaan}' "
             SQL &= $"and Kode_Unik_Transaksi='{Kode_Unik_Transaksi}' "
@@ -839,69 +843,72 @@ Public Class EMI_Validasi_GR
                             End If
                         End Using
 
+                        If Ds9.Tables("MyTable").Rows(zz).Item("Jenis_Kategori").ToString.ToUpper = "FINISHED GOOD" Then
 
-                        SQL = "Select a.No_Transaksi, b.Jumlah_Bahan, b.Jumlah_Barang, "
-                        SQL = SQL & "b.Kode_Stock_Owner, a.Kode_Barang, b.Kode_Barang As Kode_Bahan, c.Nama ,b.Jumlah, b.Satuan, c.flag_potong_stok, "
-                        SQL = SQL & "isnull(c.standar_price,0) As standar_price, isnull(c.Flag_Pembulatan_Produksi,'T') as Flag_Pembulatan_Produksi "
-                        SQL = SQL & "from Emi_Split_Production_Order a, Emi_Split_Production_Order_Detail_Packaging b, barang c "
-                        SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Faktur "
-                        SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Barang = c.Kode_Barang and c.Kode_Stock_Owner = b.Kode_Stock_Owner "
-                        SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_transaksi = '" & Ds9.Tables("MyTable").Rows(zz).Item("No_Production_Order") & "' "
-                        SQL = SQL & "and a.Status is null and b.jenis <> 'KEMASAN UTAMA' "
-                        SQL = SQL & "order by c.nama "
-                        Using Ds = BindingTrans(SQL)
-                            With Ds.Tables("MyTable")
-                                If .Rows.Count <> 0 Then
-                                    For i As Integer = 0 To .Rows.Count - 1
+                            SQL = "Select a.No_Transaksi, b.Jumlah_Bahan, b.Jumlah_Barang, "
+                            SQL = SQL & "b.Kode_Stock_Owner, a.Kode_Barang, b.Kode_Barang As Kode_Bahan, c.Nama ,b.Jumlah, b.Satuan, c.flag_potong_stok, "
+                            SQL = SQL & "isnull(c.standar_price,0) As standar_price, isnull(c.Flag_Pembulatan_Produksi,'T') as Flag_Pembulatan_Produksi "
+                            SQL = SQL & "from Emi_Split_Production_Order a, Emi_Split_Production_Order_Detail_Packaging b, barang c "
+                            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Faktur "
+                            SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Barang = c.Kode_Barang and c.Kode_Stock_Owner = b.Kode_Stock_Owner "
+                            SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_transaksi = '" & Ds9.Tables("MyTable").Rows(zz).Item("No_Production_Order") & "' "
+                            SQL = SQL & "and a.Status is null and b.jenis <> 'KEMASAN UTAMA' "
+                            SQL = SQL & "order by c.nama "
+                            Using Ds = BindingTrans(SQL)
+                                With Ds.Tables("MyTable")
+                                    If .Rows.Count <> 0 Then
+                                        For i As Integer = 0 To .Rows.Count - 1
 
-                                        '================================
-                                        '=     GET JUMLAH KEBUTUHAN     =
-                                        '================================
-                                        Dim KebutuhanBarang As Double = 0
-                                        Dim KebutuhanBahan As Double = 0
-                                        'SQL = "select a.Kode_Bahan, a.Jumlah_Bahan, a.Jumlah_Barang "
-                                        'SQL = SQL & "from Barang_Detail_Bahan_Penolong a "
-                                        'SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-                                        'SQL = SQL & "and Kode_Barang = '" & kd_inq & "' "
-                                        'SQL = SQL & "and Kode_Bahan = '" & .Rows(i).Item("Kode_Bahan") & "' "
-                                        'Using Dr = OpenTrans(SQL)
-                                        '    If Dr.Read Then
-                                        '        KebutuhanBarang = Val(HilangkanTanda(Format(Dr("Jumlah_Barang"), "N4")))
-                                        '        KebutuhanBahan = Val(HilangkanTanda(Format(Dr("Jumlah_Bahan"), "N4")))
-                                        '    End If
-                                        'End Using
+                                            '================================
+                                            '=     GET JUMLAH KEBUTUHAN     =
+                                            '================================
+                                            Dim KebutuhanBarang As Double = 0
+                                            Dim KebutuhanBahan As Double = 0
+                                            'SQL = "select a.Kode_Bahan, a.Jumlah_Bahan, a.Jumlah_Barang "
+                                            'SQL = SQL & "from Barang_Detail_Bahan_Penolong a "
+                                            'SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+                                            'SQL = SQL & "and Kode_Barang = '" & kd_inq & "' "
+                                            'SQL = SQL & "and Kode_Bahan = '" & .Rows(i).Item("Kode_Bahan") & "' "
+                                            'Using Dr = OpenTrans(SQL)
+                                            '    If Dr.Read Then
+                                            '        KebutuhanBarang = Val(HilangkanTanda(Format(Dr("Jumlah_Barang"), "N4")))
+                                            '        KebutuhanBahan = Val(HilangkanTanda(Format(Dr("Jumlah_Bahan"), "N4")))
+                                            '    End If
+                                            'End Using
 
-                                        KebutuhanBarang = Val(HilangkanTanda(Format(.Rows(i).Item("Jumlah_Barang"), "N4")))
-                                        KebutuhanBahan = Val(HilangkanTanda(Format(.Rows(i).Item("Jumlah_Bahan"), "N4")))
+                                            KebutuhanBarang = Val(HilangkanTanda(Format(.Rows(i).Item("Jumlah_Barang"), "N4")))
+                                            KebutuhanBahan = Val(HilangkanTanda(Format(.Rows(i).Item("Jumlah_Bahan"), "N4")))
 
-                                        'Hitung Kebutuhan Packaging Untuk 1 Data
-                                        Dim PackagingDigunakan As Double = Val(HilangkanTanda(Format((Val(HilangkanTanda(TotalInput)) / KebutuhanBarang) * KebutuhanBahan, "N4")))
+                                            'Hitung Kebutuhan Packaging Untuk 1 Data
+                                            Dim PackagingDigunakan As Double = Val(HilangkanTanda(Format((Val(HilangkanTanda(Ds9.Tables("MyTable").Rows(zz).Item("Jumlah"))) / KebutuhanBarang) * KebutuhanBahan, "N4")))
 
+                                            Dim IsPembulatan As Boolean = False
+                                            If .Rows(i).Item("Flag_Pembulatan_Produksi") = "Y" Then
+                                                'PackagingDigunakan = Math.Ceiling(PackagingDigunakan)
+                                                IsPembulatan = True
+                                            End If
 
-                                        If .Rows(i).Item("Flag_Pembulatan_Produksi") = "Y" Then
-                                            PackagingDigunakan = Math.Ceiling(PackagingDigunakan)
-                                        End If
+                                            Dim IndexDetailPackaging As Integer = DetailPackaging.FindIndex(Function(x) x.KdBahan = .Rows(i).Item("Kode_Bahan").ToString.Trim)
 
-                                        Dim IndexDetailPackaging As Integer = DetailPackaging.FindIndex(Function(x) x.KdBahan = .Rows(i).Item("Kode_Bahan").ToString.Trim)
+                                            'TODO Show Detail Packaing Summary
 
-                                        'TODO Show Detail Packaing Summary
+                                            If IndexDetailPackaging <> -1 Then
+                                                Dim Data = DetailPackaging(IndexDetailPackaging)
+                                                Data.jumlah += Val(Format(PackagingDigunakan, "N2"))
+                                                DetailPackaging(IndexDetailPackaging) = Data
+                                            Else
+                                                'Dim DetailPackaging As New List(Of (Kd_So As String, KdBahan As String, NmBahan As String, jumlah As Double, Satuan As String))
+                                                DetailPackaging.Add((Kd_So:= .Rows(i).Item("Kode_Stock_Owner").ToString.Trim, KdBahan:= .Rows(i).Item("Kode_Bahan").ToString.Trim,
+                                                                    NmBahan:= .Rows(i).Item("Nama").ToString.Trim, jumlah:=Val(Format(PackagingDigunakan, "N2")),
+                                                                    Satuan:= .Rows(i).Item("Satuan").ToString.Trim, Flag_Pembulatan_Produksi:=IsPembulatan))
+                                            End If
 
-                                        If IndexDetailPackaging <> -1 Then
-                                            Dim Data = DetailPackaging(IndexDetailPackaging)
-                                            Data.jumlah += Val(Format(PackagingDigunakan, "N2"))
-                                            DetailPackaging(IndexDetailPackaging) = Data
-                                        Else
-                                            'Dim DetailPackaging As New List(Of (Kd_So As String, KdBahan As String, NmBahan As String, jumlah As Double, Satuan As String))
-                                            DetailPackaging.Add((Kd_So:= .Rows(i).Item("Kode_Stock_Owner").ToString.Trim, KdBahan:= .Rows(i).Item("Kode_Bahan").ToString.Trim,
-                                                                NmBahan:= .Rows(i).Item("Nama").ToString.Trim, jumlah:=Val(Format(PackagingDigunakan, "N2")),
-                                                                Satuan:= .Rows(i).Item("Satuan").ToString.Trim))
-                                        End If
+                                        Next
+                                    End If
+                                End With
+                            End Using
 
-
-                                    Next
-                                End If
-                            End With
-                        End Using
+                        End If
                     Next
                 End If
             End Using
@@ -910,12 +917,19 @@ Public Class EMI_Validasi_GR
 
                 Dim Data = DetailPackaging(i)
 
+                Dim Jumlah As Double = 0
+                If Data.Flag_Pembulatan_Produksi Then
+                    Jumlah = Math.Ceiling(Data.jumlah)
+                Else
+                    Jumlah = Data.jumlah
+                End If
+
                 Dim Lv2 As ListViewItem
                 Lv2 = Lv_SummaryPackaging.Items.Add(Data.Kd_So)
                 Lv2.SubItems.Add(Data.KdBahan)
                 Lv2.SubItems.Add(Data.NmBahan)
                 'Lv2.SubItems.Add(Format(.Rows(i).Item("JumlahStock"), "N2"))
-                Lv2.SubItems.Add(Data.jumlah)
+                Lv2.SubItems.Add(Jumlah)
                 Lv2.SubItems.Add(Data.Satuan)
             Next
 
@@ -1880,6 +1894,45 @@ Public Class EMI_Validasi_GR
 #End Region
 
 
+                                                    '====================================
+                                                    '=     CEK APAKAH JUMLAH SESUAI     =
+                                                    '====================================
+                                                    SQL = "SELECT "
+                                                    SQL = SQL & "ROUND(SUM(good_stock), 4) AS good_stock, "
+                                                    SQL = SQL & "ISNULL((SELECT ROUND(SUM(jumlah), 4) FROM Barang_sn x WHERE a.kode_Barang = x.kode_Barang AND a.Kode_Stock_Owner = x.Kode_Stock_Owner AND a.kode_Perusahaan = x.kode_Perusahaan), 0) AS Jumlah_sn, "
+                                                    SQL = SQL & "ISNULL(ROUND(SUM(jumlah_bags), 4), 0) AS jumlah_bags_barang, "
+                                                    SQL = SQL & "ISNULL((SELECT ROUND(SUM(Jumlah_Bags), 4) FROM Barang_sn y WHERE a.kode_Barang = y.kode_Barang AND a.Kode_Stock_Owner = y.Kode_Stock_Owner AND a.kode_Perusahaan = y.Kode_Perusahaan), 0) AS jumlah_bags_sn "
+                                                    SQL = SQL & "FROM "
+                                                    SQL = SQL & "barang a "
+                                                    SQL = SQL & "WHERE "
+                                                    SQL = SQL & "a.Kode_Perusahaan = '" & KodePerusahaan & "' And a.Kode_Stock_Owner = '" & .Rows(j).Item("kode_stock_owner") & "' AND a.Kode_Barang = '" & .Rows(j).Item("kode_barang") & "' "
+                                                    SQL = SQL & "GROUP BY "
+                                                    SQL = SQL & "a.kode_Barang, a.Kode_Stock_Owner, a.kode_Perusahaan"
+                                                    Using Ds2 = BindingTrans(SQL)
+                                                        If Ds2.Tables("MyTable").Rows.Count <> 0 Then
+
+                                                            Dim Stock_Barang As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("good_stock"), "N4")))
+                                                            Dim Stock_Sn As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("Jumlah_sn"), "N4")))
+                                                            Dim Bags_Barang As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("jumlah_bags_barang"), "N4")))
+                                                            Dim Bags_Sn As String = Val(HilangkanTanda(Format(Ds2.Tables("MyTable").Rows(0).Item("jumlah_bags_sn"), "N4")))
+
+                                                            If Stock_Barang <> Stock_Sn Or Bags_Barang <> Bags_Sn Then
+                                                                CloseTrans()
+                                                                CloseConn()
+                                                                MessageBox.Show("Terjadi Kesalahan Pada SN . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                                Exit Sub
+                                                            End If
+                                                        Else
+                                                            CloseTrans()
+                                                            CloseConn()
+                                                            MessageBox.Show("Data tidak ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                                            Exit Sub
+
+                                                        End If
+
+                                                    End Using
+
+
                                                     Dim KualitasBarang As String = ""
                                                     If Jenis_Nomor.ToUpper = "REJECTED" Then
                                                         If Jenis_Nomor.ToUpper = "REJECTED" Then
@@ -2838,49 +2891,45 @@ Public Class EMI_Validasi_GR
 
             SQL = $"
                 with cte as(
-	                select b.Kode_Perusahaan, c.No_Split, c.Nomor, c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code, e.Tgl_Produksi, c. Kode_Stock_Owner_Tujuan as Lokasi_Tujuan,
-	                e.Tgl_Expired, c.Jumlah as jumlah, d.Satuan,  
-	                case when c.jenis = 'REJECTED' then 'Blocked ' else c.jenis end as Jenis,
-	                c.nomor as Number,
-	                e.Kode_Unik_Berjalan, g.Id_Routing, h.Keterangan as Routing
-	                from Emi_Production_Results_Validation b, Emi_Production_Results_Validation_Detail c, Barang d, Barang_SN e, Emi_Split_Production_Order f, EMI_Order_Produksi g, EMI_Master_Routing h
-	                where  b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Perusahaan = e.Kode_Perusahaan
-	                and b.kode_perusahaan = f.Kode_Perusahaan and f.Kode_Perusahaan = g.Kode_Perusahaan and g.Kode_Perusahaan = h.Kode_Perusahaan
-	                and b.No_Transaksi = c.No_Transaksi
-	                and c.Kode_Stock_Owner_Tujuan = d.Kode_Stock_Owner and c.Kode_Barang = d.Kode_Barang
-	                and c.Kode_Barang = e.Kode_Barang and c.Serial_Number_Tujuan=e.Serial_Number
-	                and b.No_Production_Order = f.No_Transaksi
-	                and f.No_PO = g.No_Faktur
-	                and g.Id_Routing = h.Id_Routing
-	                and b.Kode_Perusahaan = '{KodePerusahaan}'
-	                and b.No_Transaksi = '{TxtNo_Transaksi.Text}'  and c.Jenis<>'Finished Good'
+	                select b.Kode_Perusahaan, c.No_Split,  c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code, e.Tgl_Produksi, c.Kode_Stock_Owner_Tujuan as Lokasi_Tujuan,
+		                e.Tgl_Expired, c.Jumlah as jumlah, d.Satuan, 
+		                case when c.jenis = 'REJECTED' then 'Blocked ' else c.jenis end as Jenis,
+		                c.nomor as Number,
+		                e.Kode_Unik_Berjalan, g.Id_Routing, h.Keterangan as Routing
+	                from Emi_Production_Results_Validation b
+		                inner join Emi_Production_Results_Validation_Detail c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Transaksi = c.No_Transaksi
+		                inner join Barang d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.Kode_Stock_Owner_Awal = d.Kode_Stock_Owner and c.Kode_Barang = d.Kode_Barang
+		                inner join Barang_SN e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Kode_Stock_Owner_Awal = e.Kode_Stock_Owner and c.Kode_Barang = e.Kode_Barang and c.Serial_Number_Tujuan = e.Serial_Number
+		                inner join Emi_Split_Production_Order f on c.Kode_Perusahaan = f.Kode_Perusahaan and c.No_Split = f.No_Transaksi and f.Status is null
+		                inner join EMI_Order_Produksi g on f.Kode_Perusahaan = g.kode_perusahaan and f.No_PO = g.no_faktur and g.status is null
+		                inner join EMI_Master_Routing h on g.kode_perusahaan = h.kode_perusahaan and g.Id_Routing = h.Id_Routing
+	                where b.Kode_Perusahaan = '{KodePerusahaan}'
+	                and b.No_Transaksi = '{TxtNo_Transaksi.Text}'
 	
 	                union all
 	
-	                select b.Kode_Perusahaan, c.No_Split, c.Nomor, c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code, e.Tgl_Produksi, c. Kode_Stock_Owner_Tujuan as Lokasi_Tujuan,
-	                e.Tgl_Expired, c.Jumlah as jumlah, d.Satuan, 
-	                case when c.jenis = 'REJECTED' then 'Blocked ' else c.jenis end as Jenis,
-	                c.nomor as Number,
-	                e.Kode_Unik_Berjalan, g.Id_Routing, h.Keterangan as Routing
-	                from Emi_Production_Results_Validation b, Emi_Production_Results_Validation_Detail c, Barang d, Barang_SN e, Emi_Split_Production_Order f, EMI_Order_Produksi g, EMI_Master_Routing h
-	                where  b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Perusahaan = e.Kode_Perusahaan
-	                and b.kode_perusahaan = f.Kode_Perusahaan and f.Kode_Perusahaan = g.Kode_Perusahaan and g.Kode_Perusahaan = h.Kode_Perusahaan
-	                and b.No_Transaksi = c.No_Transaksi
-	                and c.Kode_Stock_Owner_AWal = d.Kode_Stock_Owner and c.Kode_Barang = d.Kode_Barang
-	                and c.Kode_Barang = e.Kode_Barang and c.Serial_Number_Tujuan=e.Serial_Number
-	                and c.no_split = f.No_Transaksi
-	                and f.No_PO = g.No_Faktur
-	                and g.Id_Routing = h.Id_Routing
-	                and b.Kode_Perusahaan = '{KodePerusahaan}'
-	                and b.No_Transaksi = '{TxtNo_Transaksi.Text}'  and c.Jenis='Finished Good'
+	                select b.Kode_Perusahaan, c.No_Split,  c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code, e.Tgl_Produksi, c.Kode_Stock_Owner_Tujuan as Lokasi_Tujuan,
+		                e.Tgl_Expired, c.Jumlah as jumlah, d.Satuan, 
+		                case when c.jenis = 'REJECTED' then 'Blocked ' else c.jenis end as Jenis,
+		                c.nomor as Number,
+		                e.Kode_Unik_Berjalan, g.Id_Routing, h.Keterangan as Routing
+	                from Emi_Production_Results_Validation b
+		                inner join Emi_Production_Results_Validation_Detail c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Transaksi = c.No_Transaksi
+		                inner join Barang d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.Kode_Stock_Owner_Awal = d.Kode_Stock_Owner and c.Kode_Barang = d.Kode_Barang
+		                inner join Barang_SN e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Kode_Stock_Owner_Tujuan = e.Kode_Stock_Owner and c.Kode_Barang = e.Kode_Barang and c.Serial_Number_Tujuan = e.Serial_Number
+		                inner join Emi_Split_Production_Order f on c.Kode_Perusahaan = f.Kode_Perusahaan and c.No_Split = f.No_Transaksi and f.Status is null
+		                inner join EMI_Order_Produksi g on f.Kode_Perusahaan = g.kode_perusahaan and f.No_PO = g.no_faktur and g.status is null
+		                inner join EMI_Master_Routing h on g.kode_perusahaan = h.kode_perusahaan and g.Id_Routing = h.Id_Routing
+	                where b.Kode_Perusahaan = '{KodePerusahaan}'
+	                and b.No_Transaksi = '{TxtNo_Transaksi.Text}'
                 ),Cte_Group AS (
                     select kode_perusahaan, No_Split, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired, sum(Jumlah) as Jumlah, Satuan, Jenis, Number, Id_Routing, Routing
-	                from cte
-	                group by kode_perusahaan, No_Split, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired, Satuan, Jenis, Number, Id_Routing, Routing
+                    from cte
+                    group by kode_perusahaan, No_Split, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired, Satuan, Jenis, Number, Id_Routing, Routing
                 )
                 select kode_perusahaan, 
-	                STRING_AGG(No_Split, ', ') AS No_Split,
-	                Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired, sum(Jumlah) as Jumlah, Satuan, Jenis, Number, Id_Routing, Routing
+                    STRING_AGG(No_Split, ', ') AS No_Split,
+                    Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired, sum(Jumlah) as Jumlah, Satuan, Jenis, Number, Id_Routing, Routing
                 from Cte_Group
                 group by kode_perusahaan, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired, Satuan, Jenis, Number, Id_Routing, Routing
             "
@@ -3486,7 +3535,9 @@ Public Class EMI_Validasi_GR
                 Dim NoSplit As String = Lv_Data.FocusedItem.SubItems(itemData_NoSplit).Text
 
                 Hitung_Data()
-                CekMilitarySampling(NoSplit)
+                If Fitur_Military_Sampling Then
+                    CekMilitarySampling(NoSplit)
+                End If
             ElseIf lv Is Lv_DataPallet Then
                 If Lv_DataPallet.SelectedItems.Count > 0 Then
 

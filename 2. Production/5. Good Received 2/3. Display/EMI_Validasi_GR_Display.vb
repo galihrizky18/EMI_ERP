@@ -618,7 +618,7 @@ Public Class EMI_Validasi_GR_Display
                     Lv = Lv_Detail_Packaging.Items.Add(Dr("Kode_Stock_Owner"))
                     Lv.SubItems.Add(Dr("Kode_Barang"))
                     Lv.SubItems.Add(Dr("Nama_Barang"))
-                    Lv.SubItems.Add(Format(Dr("Jumlah"), "N0"))
+                    Lv.SubItems.Add(Format(Dr("Jumlah"), "N2"))
                     Lv.SubItems.Add(Dr("Satuan"))
 
                 Loop
@@ -1947,8 +1947,6 @@ Public Class EMI_Validasi_GR_Display
                     End If
                 End With
             End Using
-
-
 
 
 
