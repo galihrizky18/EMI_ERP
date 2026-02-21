@@ -1,11 +1,13 @@
-# Visual Studio files
+# Folder internal Visual Studio (Penyebab error Permission Denied)
 .vs/
+
+# Folder hasil build
 [Bb]in/
 [Oo]bj/
+
+# Folder yang ingin Anda sembunyikan dari GitLab
+OPTIONAL/
+
+# File konfigurasi user
 *.user
 *.suo
-*.userosscache
-*.sln.docstates
-
-# Folder buatan Anda
-OPTIONAL/

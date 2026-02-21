@@ -947,8 +947,8 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
                         Cmd.Parameters.AddWithValue("@KodeStockOwner", Lokasi)
                         Cmd.Parameters.AddWithValue("@LokasiPairing", Lokasi)
                         Cmd.Parameters.AddWithValue("@RFID_Tag", rfid_tag)
-                        Cmd.Parameters.AddWithValue("@TanggalPairing", Date.Now)
-                        Cmd.Parameters.AddWithValue("@JamPairing", Date.Now.ToString("HH:mm:ss"))
+                        Cmd.Parameters.AddWithValue("@TanggalPairing", Format(tgl_skg, "yyyy-MM-dd"))
+                        Cmd.Parameters.AddWithValue("@JamPairing", Format(tgl_skg, "HH:mm:ss"))
                         Cmd.Parameters.AddWithValue("@UserIDPairing", UserID)
                         Cmd.Parameters.AddWithValue("@Batchh", NoBatchh)
 
@@ -1312,6 +1312,8 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
             RFIDReader.Disconnect()
         End If
 
+        get_jam()
+
         Try
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
@@ -1401,8 +1403,8 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
                 Cmd.Parameters.AddWithValue("KodeStockOwner", Lokasi)
                 Cmd.Parameters.AddWithValue("RFID_Tag", tag.Text)
                 Cmd.Parameters.AddWithValue("UrutPairing", urutPairingBaru)
-                Cmd.Parameters.AddWithValue("TanggalPairing", Date.Now)
-                Cmd.Parameters.AddWithValue("JamPairing", Date.Now.ToString("HH:mm:ss"))
+                Cmd.Parameters.AddWithValue("TanggalPairing", Format(tgl_skg, "yyyy-MM-dd"))
+                Cmd.Parameters.AddWithValue("JamPairing", Format(tgl_skg, "HH:mm:ss"))
                 Cmd.Parameters.AddWithValue("UserIDPairing", UserID)
 
                 Cmd.Parameters.AddWithValue("LokasiPairing", Lokasi)
