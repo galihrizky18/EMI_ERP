@@ -151,9 +151,6 @@
     <Compile Include="3. Material Movement\RFID\2. Transaksi\8_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.Designer.vb">
       <DependentUpon>8_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb</DependentUpon>
     </Compile>
-<<<<<<< HEAD
-    <Compile Include="3. Material Movement\RFID\2. Transaksi\8_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb">
-=======
     <Compile Include="2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\SD\EMI_Display_Pengeluaran_Bahan_Baku.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -389,7 +386,6 @@
       <DependentUpon>N_EMI_Pairing_RFID_Touchscreen.vb</DependentUpon>
     </Compile>
     <Compile Include="3. Material Movement\RFID\2. Transaksi\N_EMI_Pairing_RFID_Touchscreen.vb">
->>>>>>> e2984760275c8afa898c123e38704d141bd621a0
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Readers.Designer.vb">
