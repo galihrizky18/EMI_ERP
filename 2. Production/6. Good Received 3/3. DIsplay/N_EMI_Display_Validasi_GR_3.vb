@@ -345,6 +345,34 @@
             '=======================================
             '=     CEK APAKAH STOCK MASIH UTUH     =
             '=======================================
+            SQL = "select c.Kode_Stock_Owner, c.Kode_Barang, b.Jumlah as Jumlah_Transaksi, c.Jumlah as Jumlah_Barang_SN "
+            SQL &= $"from N_EMI_Validation_GR_3 a "
+            SQL &= $"inner join N_EMI_Validation_GR_3_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.no_transaksi = b.No_Transaksi "
+            SQL &= $"inner join barang_sn c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = c.Kode_Stock_Owner and b.Serial_Number_Tujuan = c.Serial_Number "
+            SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
+            SQL &= $"and a.No_Transaksi = '{No_Transaksi}' "
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("Mytable")
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
+
+                            Dim KdBarang As String = .Rows(i).Item("Kode_Barang")
+
+                            Dim JumlahTransakssi As Double = Val(HilangkanTanda(.Rows(i).Item("Jumlah_Transaksi")))
+                            Dim JumlahStock As Double = Val(HilangkanTanda(.Rows(i).Item("Jumlah_Barang_SN")))
+
+                            If JumlahTransakssi <> JumlahStock Then
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show($"Terjadi Kesalahan, Stock pada Barang {KdBarang} sudah Digunakan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+
+
+                        Next
+                    End If
+                End With
+            End Using
 
 
 
