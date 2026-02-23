@@ -574,6 +574,7 @@ Partial Class FMenuDevFix
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
+        Me.ValidasiPenerimaanBarangMergeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -2249,7 +2250,7 @@ Partial Class FMenuDevFix
         '
         'TransaksiToolStripMenuItem1
         '
-        Me.TransaksiToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RencanaProduksiToolStripMenuItem, Me.BiayaToolStripMenuItem, Me.ProduksiToolStripMenuItem, Me.QualityControlToolStripMenuItem1, Me.ValidasiPenerimaanBarangToolStripMenuItem, Me.ValidasiInkubasiToolStripMenuItem, Me.ValidasiGR3ToolStripMenuItem})
+        Me.TransaksiToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RencanaProduksiToolStripMenuItem, Me.BiayaToolStripMenuItem, Me.ProduksiToolStripMenuItem, Me.QualityControlToolStripMenuItem1, Me.ValidasiPenerimaanBarangToolStripMenuItem, Me.ValidasiPenerimaanBarangMergeToolStripMenuItem, Me.ValidasiInkubasiToolStripMenuItem, Me.ValidasiGR3ToolStripMenuItem})
         Me.TransaksiToolStripMenuItem1.Name = "TransaksiToolStripMenuItem1"
         Me.TransaksiToolStripMenuItem1.Size = New System.Drawing.Size(263, 22)
         Me.TransaksiToolStripMenuItem1.Text = "Transaksi"
@@ -2258,7 +2259,7 @@ Partial Class FMenuDevFix
         '
         Me.RencanaProduksiToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OrderProduksiToolStripMenuItem, Me.OrderIndependentToolStripMenuItem, Me.JadwalProduksiToolStripMenuItem})
         Me.RencanaProduksiToolStripMenuItem.Name = "RencanaProduksiToolStripMenuItem"
-        Me.RencanaProduksiToolStripMenuItem.Size = New System.Drawing.Size(219, 22)
+        Me.RencanaProduksiToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.RencanaProduksiToolStripMenuItem.Text = "Rencana Produksi"
         '
         'OrderProduksiToolStripMenuItem
@@ -2283,7 +2284,7 @@ Partial Class FMenuDevFix
         '
         Me.BiayaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CompareWorkCenterToolStripMenuItem, Me.HPPProduksiToolStripMenuItem, Me.ActualBiayaProduksiToolStripMenuItem, Me.WorkCenterToolStripMenuItem, Me.WorkCenterPerbulanToolStripMenuItem})
         Me.BiayaToolStripMenuItem.Name = "BiayaToolStripMenuItem"
-        Me.BiayaToolStripMenuItem.Size = New System.Drawing.Size(219, 22)
+        Me.BiayaToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.BiayaToolStripMenuItem.Text = "Biaya"
         '
         'CompareWorkCenterToolStripMenuItem
@@ -2320,7 +2321,7 @@ Partial Class FMenuDevFix
         '
         Me.ProduksiToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RequestMaterialToolStripMenuItem, Me.ProduksiToolStripMenuItem1, Me.TransferQualityToolStripMenuItem, Me.HasilPengeluaranBahanBakuToolStripMenuItem, Me.HasilProduksiToolStripMenuItem, Me.HasilProduksiFGToolStripMenuItem, Me.BarcodeProduksiToolStripMenuItem, Me.ReturPackagingToolStripMenuItem})
         Me.ProduksiToolStripMenuItem.Name = "ProduksiToolStripMenuItem"
-        Me.ProduksiToolStripMenuItem.Size = New System.Drawing.Size(219, 22)
+        Me.ProduksiToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.ProduksiToolStripMenuItem.Text = "Produksi"
         '
         'RequestMaterialToolStripMenuItem
@@ -2375,7 +2376,7 @@ Partial Class FMenuDevFix
         '
         Me.QualityControlToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RequestMaterialQCToolStripMenuItem})
         Me.QualityControlToolStripMenuItem1.Name = "QualityControlToolStripMenuItem1"
-        Me.QualityControlToolStripMenuItem1.Size = New System.Drawing.Size(219, 22)
+        Me.QualityControlToolStripMenuItem1.Size = New System.Drawing.Size(256, 22)
         Me.QualityControlToolStripMenuItem1.Text = "Quality Control"
         '
         'RequestMaterialQCToolStripMenuItem
@@ -2387,19 +2388,19 @@ Partial Class FMenuDevFix
         'ValidasiPenerimaanBarangToolStripMenuItem
         '
         Me.ValidasiPenerimaanBarangToolStripMenuItem.Name = "ValidasiPenerimaanBarangToolStripMenuItem"
-        Me.ValidasiPenerimaanBarangToolStripMenuItem.Size = New System.Drawing.Size(219, 22)
+        Me.ValidasiPenerimaanBarangToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.ValidasiPenerimaanBarangToolStripMenuItem.Text = "Validasi Penerimaan Barang"
         '
         'ValidasiInkubasiToolStripMenuItem
         '
         Me.ValidasiInkubasiToolStripMenuItem.Name = "ValidasiInkubasiToolStripMenuItem"
-        Me.ValidasiInkubasiToolStripMenuItem.Size = New System.Drawing.Size(219, 22)
+        Me.ValidasiInkubasiToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.ValidasiInkubasiToolStripMenuItem.Text = "Validasi Inkubasi"
         '
         'ValidasiGR3ToolStripMenuItem
         '
         Me.ValidasiGR3ToolStripMenuItem.Name = "ValidasiGR3ToolStripMenuItem"
-        Me.ValidasiGR3ToolStripMenuItem.Size = New System.Drawing.Size(219, 22)
+        Me.ValidasiGR3ToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.ValidasiGR3ToolStripMenuItem.Text = "Validasi GR 3"
         '
         'DisplayToolStripMenuItem1
@@ -2681,7 +2682,7 @@ Partial Class FMenuDevFix
         'RFIDTAGToolStripMenuItem
         '
         Me.RFIDTAGToolStripMenuItem.Name = "RFIDTAGToolStripMenuItem"
-        Me.RFIDTAGToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.RFIDTAGToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.RFIDTAGToolStripMenuItem.Text = "RFID TAG"
         '
         'TransaksiToolStripMenuItem7
@@ -4004,6 +4005,12 @@ Partial Class FMenuDevFix
         Me.Timer2.Enabled = True
         Me.Timer2.Interval = 1800000
         '
+        'ValidasiPenerimaanBarangMergeToolStripMenuItem
+        '
+        Me.ValidasiPenerimaanBarangMergeToolStripMenuItem.Name = "ValidasiPenerimaanBarangMergeToolStripMenuItem"
+        Me.ValidasiPenerimaanBarangMergeToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
+        Me.ValidasiPenerimaanBarangMergeToolStripMenuItem.Text = "Validasi Penerimaan Barang Merge"
+        '
         'FMenuDevFix
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4577,4 +4584,5 @@ Partial Class FMenuDevFix
     Friend WithEvents LaporanSplitStockToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents MasterDataToolStripMenuItem6 As ToolStripMenuItem
     Friend WithEvents RFIDTAGToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ValidasiPenerimaanBarangMergeToolStripMenuItem As ToolStripMenuItem
 End Class

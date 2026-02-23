@@ -790,6 +790,7 @@
     <Folder Include="2. Production\4. Good Received 1\4. Laporan\" />
     <Folder Include="2. Production\5. Good Received 2\1. Master\" />
     <Folder Include="2. Production\5. Good Received 2\4. Laporan\" />
+    <Folder Include="2. Production\5. Good Received 2\6. Backup\" />
     <Folder Include="2. Production\6. Good Received 3\1. Master\" />
     <Folder Include="2. Production\6. Good Received 3\4. Laporan\" />
     <Folder Include="2. Production\7. Request Material\1. Master\" />
@@ -800,7 +801,7 @@
     <Folder Include="2. Production\8. Laporan Modul Produksi\2. Transaksi\" />
     <Folder Include="2. Production\8. Laporan Modul Produksi\3. Display\" />
     <Folder Include="3. Material Movement\Transfer Stock Sementara\1. Master\" />
-    <Folder Include="3. Material Movement\Transfer Stock Sementara\2. Transaksi\" />
+    <Folder Include="3. Material Movement\Transfer Stock Sementara\2. Transaksi\Faktur\" />
     <Folder Include="3. Material Movement\Transfer Stock Sementara\4. Laporan\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

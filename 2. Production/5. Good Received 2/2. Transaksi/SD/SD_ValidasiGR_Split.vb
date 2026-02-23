@@ -4,6 +4,7 @@
 
     Dim arrSelectedBarcode As New List(Of Dictionary(Of String, String))
     Public arrBarcodeFromParent As New List(Of Dictionary(Of String, String))
+    Public MenuAsal As String
 
     Dim Fitur_Military_Sampling As Boolean = False
 
@@ -25,7 +26,7 @@
     Dim item_KdUnikBerjalan As Integer = 13
     Dim item_StatMilitarySampling As Integer = 14
 
-    'Dim SelectedSplit As String = ""
+    Dim SelectedSplit As String = ""
 
     Dim CurrentVariant As String = ""
 
@@ -80,7 +81,7 @@
         Txt_ValueLain.Text = ""
         arrSelectedBarcode.Clear()
 
-        'SelectedSplit = ""
+        SelectedSplit = ""
         CurrentVariant = ""
 
         Tgl1.Enabled = False : Tgl2.Enabled = False
@@ -243,13 +244,13 @@
         If Lv_Data.Items.Count = 0 Then Exit Sub
 
         If Lv_Data.CheckedItems.Count = 0 Then
-            'SelectedSplit = ""
+            SelectedSplit = ""
             CurrentVariant = ""
         End If
 
 
 
-        'Dim SelectedSplitParent As String = EMI_Validasi_GR.Txt_NoSplit.Text
+        Dim SelectedSplitParent As String = EMI_Validasi_GR.SelectedCurrentSplit
         Dim SelectedVarian As String = EMI_Validasi_GR.SelectedVariant
 
 
@@ -264,19 +265,22 @@
                 End If
             End If
 
-            'If SelectedSplitParent = "" Then
-            '    If SelectedSplit = "" Then
-            '        SelectedSplit = Lv_Data.FocusedItem.Text
-            '    Else
-            '        If Lv_Data.FocusedItem.Text <> SelectedSplit Then
-            '            Lv_Data.FocusedItem.Checked = False
-            '        End If
-            '    End If
-            'Else
-            '    If Lv_Data.FocusedItem.Text <> SelectedSplitParent Then
-            '        Lv_Data.FocusedItem.Checked = False
-            '    End If
-            'End If
+            If MenuAsal <> "VALIDASI_GR_MERGE" Then
+                If SelectedSplitParent = "" Then
+                    If SelectedSplit = "" Then
+                        SelectedSplit = Lv_Data.FocusedItem.Text
+                    Else
+                        If Lv_Data.FocusedItem.Text <> SelectedSplit Then
+                            Lv_Data.FocusedItem.Checked = False
+                        End If
+                    End If
+                Else
+                    If Lv_Data.FocusedItem.Text <> SelectedSplitParent Then
+                        Lv_Data.FocusedItem.Checked = False
+                    End If
+                End If
+            End If
+
 
             If SelectedVarian = "" Then
                 If CurrentVariant = "" Then
@@ -306,13 +310,15 @@
             If Lv_Data.Items(i).Checked = True Then
                 Get_Data_Listview(i)
 
-                'If EMI_Validasi_GR.Txt_NoSplit.Text.Trim.Length = 0 Then
-                '    EMI_Validasi_GR.Txt_NoSplit.Text = Lv_NoSplit
-                'Else
-                '    If EMI_Validasi_GR.Txt_NoSplit.Text.Trim.ToUpper <> Lv_NoSplit.Trim.ToUpper Then
-                '        Continue For
-                '    End If
-                'End If
+                If MenuAsal <> "VALIDASI_GR_MERGE" Then
+                    If EMI_Validasi_GR.SelectedCurrentSplit.Trim.Length = 0 Then
+                        EMI_Validasi_GR.SelectedCurrentSplit = Lv_NoSplit
+                    Else
+                        If EMI_Validasi_GR.SelectedCurrentSplit.Trim.ToUpper <> Lv_NoSplit.Trim.ToUpper Then
+                            Continue For
+                        End If
+                    End If
+                End If
 
                 hasData = True
 

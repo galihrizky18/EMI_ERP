@@ -1593,6 +1593,7 @@
     Private Sub ValidasiPenerimaanBarangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ValidasiPenerimaanBarangToolStripMenuItem.Click
         EMI_Validasi_GR.StartPosition = FormStartPosition.CenterScreen
 
+        EMI_Validasi_GR.MenuAsal = "VALIDASI_GR"
         EMI_Validasi_GR.MdiParent = Me
         EMI_Validasi_GR.Show()
         EMI_Validasi_GR.Focus()
@@ -3385,6 +3386,15 @@
         N_EMI_Display_Transfer_Stock_Sementara.MdiParent = Me
         N_EMI_Display_Transfer_Stock_Sementara.Show()
         N_EMI_Display_Transfer_Stock_Sementara.Focus()
+    End Sub
+
+    Private Sub ValidasiPenerimaanBarangMergeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ValidasiPenerimaanBarangMergeToolStripMenuItem.Click
+        EMI_Validasi_GR.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Validasi_GR.MenuAsal = "VALIDASI_GR_MERGE"
+        EMI_Validasi_GR.MdiParent = Me
+        EMI_Validasi_GR.Show()
+        EMI_Validasi_GR.Focus()
     End Sub
 
 

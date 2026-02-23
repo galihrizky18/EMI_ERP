@@ -212,6 +212,8 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
                     FROM N_EMI_Master_Data_RFID_Tags
                     WHERE RFID_Tag = @RFID_Tag
                       AND Status IS NULL
+                      and No_Production_Order is null
+                      and Batch is null
                 )
             "
 

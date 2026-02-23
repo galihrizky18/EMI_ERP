@@ -4,6 +4,8 @@ Imports System.IO
 
 Public Class EMI_Validasi_GR
 
+    Public Property MenuAsal As String
+
     Dim JudulForm As String = "Validasi Penerimaan Barang"
     Dim arrLokasiAsal, arrLokasiTujuan, arrSO As New ArrayList
     Dim arrKdBarangSrap, arrNamaScrap, arrSatuanScrap, arrSatuanKecilScrap, arrIdJenisKategori As New ArrayList
@@ -11,8 +13,11 @@ Public Class EMI_Validasi_GR
     Dim Fitur_Military_Sampling As Boolean = False
 
     Public Property SelectedVariant As String = ""
+
+
     Dim isCombine As Boolean = False
     Dim NoSplitTemp As String = ""
+    Public SelectedCurrentSplit As String = ""
 
     Private random As New Random()
     Private imageBytes1 As Byte = Nothing
@@ -488,6 +493,7 @@ Public Class EMI_Validasi_GR
         isCombine = False
 
         NoSplitTemp = ""
+        SelectedCurrentSplit = ""
 
         TxtKeterangan.Text = ""
         'Txt_NoSplit.Text = ""
@@ -538,25 +544,28 @@ Public Class EMI_Validasi_GR
             Cmb_Jenis.Items.Add("SAMPLE") : arrKdBarangSrap.Add("SAMPLE") : arrNamaScrap.Add("SAMPLE") : arrSatuanScrap.Add("SAMPLE") : arrSatuanKecilScrap.Add("SAMPLE")
             Cmb_Jenis.Items.Add(" ----------------------- ") : arrKdBarangSrap.Add("-------") : arrNamaScrap.Add("-------") : arrSatuanScrap.Add("-------") : arrSatuanKecilScrap.Add("-------")
 
-            arrGudangProduksi.Clear()
-            arrSatuanKecilScrap.Add("Finished Good")
-            SQL = "select distinct a.kode_barang_Scrap, b.nama, b.satuan as satuan_kecil, c.satuan "
-            SQL = SQL & "from emi_binding_scrap a, barang b, barang_detail_satuan c "
-            SQL = SQL & "where a.kode_Perusahaan=b.Kode_Perusahaan and a.Kode_Barang_scrap=B.Kode_Barang "
-            SQL = SQL & "and b.kode_Perusahaan=c.Kode_Perusahaan and b.Kode_Barang=c.Kode_Barang "
-            SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
-            'SQL = SQL & "and b.kode_stock_Owner='" & LvPallet_KdSO & "' "
-            SQL = SQL & "and c.flag_tampil_display = 'Y' and a.Flag_GR2='Y' "
-            Using Dr = OpenTrans(SQL)
-                Do While Dr.Read
-                    Cmb_Jenis.Items.Add(Dr("nama")) : arrKdBarangSrap.Add(Dr("kode_barang_Scrap"))
-                    arrNamaScrap.Add(Dr("nama")) : arrSatuanScrap.Add(Dr("satuan"))
-                    arrSatuanKecilScrap.Add(Dr("satuan_kecil"))
-                    arrGudangProduksi.Add(Dr("kode_barang_Scrap"))
-                Loop
-            End Using
-            Cmb_Jenis.SelectedIndex = -1
-            Cmb_Jenis.Enabled = True
+            If MenuAsal <> "VALIDASI_GR_MERGE" Then
+                arrGudangProduksi.Clear()
+                arrSatuanKecilScrap.Add("Finished Good")
+                SQL = "select distinct a.kode_barang_Scrap, b.nama, b.satuan as satuan_kecil, c.satuan "
+                SQL = SQL & "from emi_binding_scrap a, barang b, barang_detail_satuan c "
+                SQL = SQL & "where a.kode_Perusahaan=b.Kode_Perusahaan and a.Kode_Barang_scrap=B.Kode_Barang "
+                SQL = SQL & "and b.kode_Perusahaan=c.Kode_Perusahaan and b.Kode_Barang=c.Kode_Barang "
+                SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
+                'SQL = SQL & "and b.kode_stock_Owner='" & LvPallet_KdSO & "' "
+                SQL = SQL & "and c.flag_tampil_display = 'Y' and a.Flag_GR2='Y' "
+                Using Dr = OpenTrans(SQL)
+                    Do While Dr.Read
+                        Cmb_Jenis.Items.Add(Dr("nama")) : arrKdBarangSrap.Add(Dr("kode_barang_Scrap"))
+                        arrNamaScrap.Add(Dr("nama")) : arrSatuanScrap.Add(Dr("satuan"))
+                        arrSatuanKecilScrap.Add(Dr("satuan_kecil"))
+                        arrGudangProduksi.Add(Dr("kode_barang_Scrap"))
+                    Loop
+                End Using
+                Cmb_Jenis.SelectedIndex = -1
+                Cmb_Jenis.Enabled = True
+            End If
+
 
             ExecuteTrans("Delete From N_EMI_Validation_GR_Temp where UserID='" & UserID & "'")
 
@@ -981,10 +990,10 @@ Public Class EMI_Validasi_GR
             Try
                 OpenConn()
 
-                Dim NoSplit As String = ""
+                'Dim NoSplit As String = ""
                 Dim CurrentSplit As String = ""
 
-                'Dim NoSplit As String = Txt_NoSplit.Text.Trim
+                Dim NoSplit As String = SelectedCurrentSplit
 
                 'SQL = "select b.No_Production_Order as No_Split, a.Lokasi_Gudang as Kode_Stock_Owner, a.Qr_Code, a.Kode_Unik_Berjalan, (a.Qr_Code + '-' + a.Kode_Unik_Berjalan) as Barcode, a.Batch_Number,  "
                 'SQL = SQL & "a.Tgl_Produksi, a.Tgl_Expired, b.UserID, c.Kode_Barang, d.Nama as Nama_Barang, "
@@ -1068,15 +1077,17 @@ Public Class EMI_Validasi_GR
                         End If
 
                         If NoSplit = "" Then
-                            NoSplit = Dr("No_Split")
+                            SelectedCurrentSplit = Dr("No_Split")
                         Else
 
                             If NoSplit <> Dr("No_Split") Then
                                 isCombine = True
-                                'Dr.Close()
-                                'CloseConn()
-                                'MessageBox.Show("No Split Tidak Boleh Berbeda", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                'Exit Sub
+                                If MenuAsal <> "VALIDASI_GR_MERGE" Then
+                                    Dr.Close()
+                                    CloseConn()
+                                    MessageBox.Show("No Split Tidak Boleh Berbeda", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
                             End If
                         End If
 
@@ -1218,6 +1229,7 @@ Public Class EMI_Validasi_GR
                 dataBarcode.Add(dic)
             Next
 
+            SD_ValidasiGR_Split.MenuAsal = MenuAsal
             SD_ValidasiGR_Split.arrBarcodeFromParent.Clear()
             SD_ValidasiGR_Split.arrBarcodeFromParent = dataBarcode
             SD_ValidasiGR_Split.ShowDialog()
@@ -1535,6 +1547,7 @@ Public Class EMI_Validasi_GR
 
 
             Dim arrNoSplitInput As New ArrayList
+            Dim CurrentNoSplit As String = ""
 
             'Pastikan Semua Data Di dalamny tersummary
             'Berdasarkan data Temp yang di ambil, Petakan Berdasarkan Barcode Baru
@@ -1594,6 +1607,7 @@ Public Class EMI_Validasi_GR
 
                                     If Top1NoSplit = "" Then
                                         Top1NoSplit = dsPallet.Tables("MyTable").Rows(IndPallet).Item("No_Production_Order")
+                                        CurrentNoSplit = dsPallet.Tables("MyTable").Rows(IndPallet).Item("No_Production_Order")
                                     End If
 
                                     Dim NoSplitt As String = dsPallet.Tables("MyTable").Rows(IndPallet).Item("No_Production_Order")
@@ -2729,7 +2743,6 @@ Public Class EMI_Validasi_GR
             End Using
 
             'Ini Cek klo ada data SPlit lain kemasuk!
-            ' INI RAGU KALAU DI COMMENT
             'SQL = "select c.Kode_perusahaan from "
             'SQL = SQL & "emi_production_results_validation_detail a, Emi_Production_Results_Detail_Pallet b, Emi_Production_Results c "
             'SQL = SQL & "where a.no_transaksi='" & TxtNo_Transaksi.Text.Trim & "' and a.kode_perusahaan='" & KodePerusahaan & "' and c.no_production_order<>'" & Txt_NoSplit.Text & "' and "
@@ -2745,15 +2758,68 @@ Public Class EMI_Validasi_GR
             '    End If
             'End Using
 
+
+
+
+            If MenuAsal <> "VALIDASI_GR_MERGE" Then
+
+                'Ini Cek klo ada data SPlit lain kemasuk!
+                SQL = "select c.Kode_perusahaan from "
+                SQL = SQL & "emi_production_results_validation_detail a, Emi_Production_Results_Detail_Pallet b, Emi_Production_Results c "
+                SQL = SQL & "where a.no_transaksi='" & TxtNo_Transaksi.Text.Trim & "' and a.kode_perusahaan='" & KodePerusahaan & "' and c.no_production_order<>'" & CurrentNoSplit & "' and "
+                SQL = SQL & "a.kode_perusahaan=b.kode_perusahaan and a.serial_number_awal=b.sn_baru and "
+                SQL = SQL & "b.kode_perusahaan=c.kode_perusahaan and b.no_transaksi=c.no_transaksi"
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Terjadi Kesalahan Pada data, Silahkan Ulangi Proses!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
+                '=========================
+                '=     UPDATE PARENT     =
+                '=========================
+
+                SQL = $"select 1 from Emi_Production_Results_Validation where Kode_Perusahaan = '{KodePerusahaan}' and No_Transaksi = '{TxtNo_Transaksi.Text.Trim}' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+
+                        Dr.Close()
+                        SQL = $"update Emi_Production_Results_Validation set No_Production_Order = '{CurrentNoSplit}' where Kode_Perusahaan = '{KodePerusahaan}' and No_Transaksi = '{TxtNo_Transaksi.Text.Trim}' "
+                        ExecuteTrans(SQL)
+
+
+                    Else
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Data Transaksi tidak ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
+
+            End If
+
+
+
+
+
+
+
+
             '=======================
             '=     UPDATE DATA     =
             '=======================
             For i As Integer = 0 To arrNoSplitInput.Count - 1
                 Dim NoSplittt As String = arrNoSplitInput(i)
 
-                SQL = "select flag_hasil_Produksi_GR, b.no_transaksi from Emi_Split_Production_Order a, emi_production_results b "
-                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Production_Order "
-                SQL = SQL & "and a.status is null and b.status is null and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Transaksi = '" & NoSplittt & "'"
+                SQL = "Select flag_hasil_Produksi_GR, b.no_transaksi from Emi_Split_Production_Order a, emi_production_results b "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Transaksi = b.No_Production_Order "
+                SQL = SQL & "And a.status Is null And b.status Is null And a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Transaksi = '" & NoSplittt & "'"
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
 
@@ -3220,7 +3286,7 @@ Public Class EMI_Validasi_GR
         Try
             OpenConn()
 
-            Dim NoSplit As String = ""
+            Dim NoSplit As String = SelectedCurrentSplit
 
             Lv_DataPallet.Items.Clear()
             For i As Integer = 0 To arrBarcodeFromSD.Count - 1
@@ -3300,16 +3366,17 @@ Public Class EMI_Validasi_GR
                     If Dr.Read Then
 
                         If NoSplit = "" Then
-                            NoSplit = Dr("No_Split")
+                            SelectedCurrentSplit = Dr("No_Split")
                         Else
 
                             If NoSplit <> Dr("No_Split") Then
                                 isCombine = True
-
-                                'Dr.Close()
-                                'CloseConn()
-                                'MessageBox.Show("No Split Tidak Boleh Berbeda", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                'Exit Sub
+                                If MenuAsal <> "VALIDASI_GR_MERGE" Then
+                                    Dr.Close()
+                                    CloseConn()
+                                    MessageBox.Show("No Split Tidak Boleh Berbeda", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
                             End If
                         End If
 
