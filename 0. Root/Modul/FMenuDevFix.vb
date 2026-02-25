@@ -3405,6 +3405,10 @@
         N_EMI_Transaksi_Pengajuan_Barang_Baru.Focus()
     End Sub
 
+    Private Sub LaporanWasteProductToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanWasteProductToolStripMenuItem.Click
+
+    End Sub
+
 
     'Private Sub LaporanTransferStoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanTransferStoToolStripMenuItem.Click
     '    N_EMI_Laporan_Transfer_Stock_Sementara.StartPosition = FormStartPosition.CenterScreen

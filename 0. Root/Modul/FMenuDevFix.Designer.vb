@@ -215,6 +215,8 @@ Partial Class FMenuDevFix
         Me.PelunasanCutOffToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PembelianToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem()
         Me.FormulatorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TransaksiToolStripMenuItem8 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PengajuanBarangBaruToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AccountingToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MasterDataToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -574,8 +576,6 @@ Partial Class FMenuDevFix
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
-        Me.TransaksiToolStripMenuItem8 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.PengajuanBarangBaruToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -1776,6 +1776,19 @@ Partial Class FMenuDevFix
         Me.FormulatorToolStripMenuItem.Size = New System.Drawing.Size(78, 20)
         Me.FormulatorToolStripMenuItem.Text = "Formulator"
         '
+        'TransaksiToolStripMenuItem8
+        '
+        Me.TransaksiToolStripMenuItem8.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PengajuanBarangBaruToolStripMenuItem})
+        Me.TransaksiToolStripMenuItem8.Name = "TransaksiToolStripMenuItem8"
+        Me.TransaksiToolStripMenuItem8.Size = New System.Drawing.Size(122, 22)
+        Me.TransaksiToolStripMenuItem8.Text = "Transaksi"
+        '
+        'PengajuanBarangBaruToolStripMenuItem
+        '
+        Me.PengajuanBarangBaruToolStripMenuItem.Name = "PengajuanBarangBaruToolStripMenuItem"
+        Me.PengajuanBarangBaruToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
+        Me.PengajuanBarangBaruToolStripMenuItem.Text = "Pengajuan Barang Baru"
+        '
         'AccountingToolStripMenuItem1
         '
         Me.AccountingToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterDataToolStripMenuItem1})
@@ -2415,7 +2428,7 @@ Partial Class FMenuDevFix
         '
         Me.BiayaToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActualBiayaProduksiToolStripMenuItem1})
         Me.BiayaToolStripMenuItem1.Name = "BiayaToolStripMenuItem1"
-        Me.BiayaToolStripMenuItem1.Size = New System.Drawing.Size(168, 22)
+        Me.BiayaToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.BiayaToolStripMenuItem1.Text = "Biaya"
         '
         'ActualBiayaProduksiToolStripMenuItem1
@@ -2428,7 +2441,7 @@ Partial Class FMenuDevFix
         '
         Me.ProduksiToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HasilProduksiToolStripMenuItem1, Me.SplitProduksiToolStripMenuItem, Me.RequestMaterialToolStripMenuItem1, Me.DisplayValidasiPenerimaanBarangToolStripMenuItem, Me.DisplayGR3ToolStripMenuItem1, Me.DisplayReturPaToolStripMenuItem})
         Me.ProduksiToolStripMenuItem2.Name = "ProduksiToolStripMenuItem2"
-        Me.ProduksiToolStripMenuItem2.Size = New System.Drawing.Size(168, 22)
+        Me.ProduksiToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
         Me.ProduksiToolStripMenuItem2.Text = "Produksi"
         '
         'HasilProduksiToolStripMenuItem1
@@ -2471,7 +2484,7 @@ Partial Class FMenuDevFix
         '
         Me.RencanaProduksiToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OrderProduksiToolStripMenuItem1})
         Me.RencanaProduksiToolStripMenuItem1.Name = "RencanaProduksiToolStripMenuItem1"
-        Me.RencanaProduksiToolStripMenuItem1.Size = New System.Drawing.Size(168, 22)
+        Me.RencanaProduksiToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.RencanaProduksiToolStripMenuItem1.Text = "Rencana Produksi"
         '
         'OrderProduksiToolStripMenuItem1
@@ -2484,7 +2497,7 @@ Partial Class FMenuDevFix
         '
         Me.QCToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RequestMaterialQCToolStripMenuItem1})
         Me.QCToolStripMenuItem1.Name = "QCToolStripMenuItem1"
-        Me.QCToolStripMenuItem1.Size = New System.Drawing.Size(168, 22)
+        Me.QCToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.QCToolStripMenuItem1.Text = "QC"
         '
         'RequestMaterialQCToolStripMenuItem1
@@ -2496,7 +2509,7 @@ Partial Class FMenuDevFix
         'FormulaBindingToolStripMenuItem
         '
         Me.FormulaBindingToolStripMenuItem.Name = "FormulaBindingToolStripMenuItem"
-        Me.FormulaBindingToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
+        Me.FormulaBindingToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.FormulaBindingToolStripMenuItem.Text = "Formula Binding"
         '
         'LaporanToolStripMenuItem1
@@ -4005,19 +4018,6 @@ Partial Class FMenuDevFix
         '
         Me.Timer2.Enabled = True
         Me.Timer2.Interval = 1800000
-        '
-        'TransaksiToolStripMenuItem8
-        '
-        Me.TransaksiToolStripMenuItem8.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PengajuanBarangBaruToolStripMenuItem})
-        Me.TransaksiToolStripMenuItem8.Name = "TransaksiToolStripMenuItem8"
-        Me.TransaksiToolStripMenuItem8.Size = New System.Drawing.Size(180, 22)
-        Me.TransaksiToolStripMenuItem8.Text = "Transaksi"
-        '
-        'PengajuanBarangBaruToolStripMenuItem
-        '
-        Me.PengajuanBarangBaruToolStripMenuItem.Name = "PengajuanBarangBaruToolStripMenuItem"
-        Me.PengajuanBarangBaruToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
-        Me.PengajuanBarangBaruToolStripMenuItem.Text = "Pengajuan Barang Baru"
         '
         'FMenuDevFix
         '

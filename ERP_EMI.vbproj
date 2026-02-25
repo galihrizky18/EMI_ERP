@@ -14,6 +14,21 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -106,356 +121,386 @@
     <Compile Include="0. Root\Main_Menu.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="1. Purchase Order\1_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.Designer.vb">
+    <Compile Include="2. Produksi\1. Purchase Order\1_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.Designer.vb">
       <DependentUpon>1_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb</DependentUpon>
     </Compile>
-    <Compile Include="1. Purchase Order\1_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb">
+    <Compile Include="2. Produksi\1. Purchase Order\1_Bisa_Di_Hapus_Jika_Folder_Sudah_Terisi.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\1. Production Order\2. Transaksi\EMI_Production_Order.designer.vb">
+    <Compile Include="2. Produksi\2. Production\1. Production Order\2. Transaksi\EMI_Production_Order.designer.vb">
       <DependentUpon>EMI_Production_Order.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\1. Production Order\2. Transaksi\EMI_Production_Order.vb">
+    <Compile Include="2. Produksi\2. Production\1. Production Order\2. Transaksi\EMI_Production_Order.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\1. Production Order\2. Transaksi\SD\EMI_Independent_Order.designer.vb">
+    <Compile Include="2. Produksi\2. Production\1. Production Order\2. Transaksi\SD\EMI_Independent_Order.designer.vb">
       <DependentUpon>EMI_Independent_Order.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\1. Production Order\2. Transaksi\SD\EMI_Independent_Order.vb">
+    <Compile Include="2. Produksi\2. Production\1. Production Order\2. Transaksi\SD\EMI_Independent_Order.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\2. Split Production\2. Transaksi\EMI_Display_Mulai_Produksi.designer.vb">
+    <Compile Include="2. Produksi\2. Production\2. Split Production\2. Transaksi\EMI_Display_Mulai_Produksi.designer.vb">
       <DependentUpon>EMI_Display_Mulai_Produksi.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\2. Split Production\2. Transaksi\EMI_Display_Mulai_Produksi.vb">
+    <Compile Include="2. Produksi\2. Production\2. Split Production\2. Transaksi\EMI_Display_Mulai_Produksi.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\2. Split Production\2. Transaksi\EMI_Produksi.designer.vb">
+    <Compile Include="2. Produksi\2. Production\2. Split Production\2. Transaksi\EMI_Produksi.designer.vb">
       <DependentUpon>EMI_Produksi.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\2. Split Production\2. Transaksi\EMI_Produksi.vb">
+    <Compile Include="2. Produksi\2. Production\2. Split Production\2. Transaksi\EMI_Produksi.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\2. Split Production\2. Transaksi\SD\N_EMI_SD_Produksi.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\2. Split Production\2. Transaksi\SD\N_EMI_SD_Produksi.Designer.vb">
       <DependentUpon>N_EMI_SD_Produksi.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\2. Split Production\2. Transaksi\SD\N_EMI_SD_Produksi.vb">
+    <Compile Include="2. Produksi\2. Production\2. Split Production\2. Transaksi\SD\N_EMI_SD_Produksi.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\2. Split Production\5. Faktur\Faktur_Request_Material_EMI.vb">
+    <Compile Include="2. Produksi\2. Production\2. Split Production\5. Faktur\Faktur_Request_Material_EMI.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Faktur_Request_Material_EMI.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\2. Split Production\5. Faktur\Rpt_Laporan_Request_Material.vb">
+    <Compile Include="2. Produksi\2. Production\2. Split Production\5. Faktur\Rpt_Laporan_Request_Material.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Laporan_Request_Material.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\EMI_Hasil_Pengeluaran_Bahan_Baku.designer.vb">
+    <Compile Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\EMI_Hasil_Pengeluaran_Bahan_Baku.designer.vb">
       <DependentUpon>EMI_Hasil_Pengeluaran_Bahan_Baku.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\EMI_Hasil_Pengeluaran_Bahan_Baku.vb">
+    <Compile Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\EMI_Hasil_Pengeluaran_Bahan_Baku.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\SD\EMI_Display_Pengeluaran_Bahan_Baku.designer.vb">
+    <Compile Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\SD\EMI_Display_Pengeluaran_Bahan_Baku.designer.vb">
       <DependentUpon>EMI_Display_Pengeluaran_Bahan_Baku.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\SD\EMI_Display_Pengeluaran_Bahan_Baku.vb">
+    <Compile Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\SD\EMI_Display_Pengeluaran_Bahan_Baku.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\4. Good Received 1\2. Transaksi\1. Good Received\Emi_Production_Barcode.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\4. Good Received 1\2. Transaksi\1. Good Received\Emi_Production_Barcode.Designer.vb">
       <DependentUpon>Emi_Production_Barcode.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\4. Good Received 1\2. Transaksi\1. Good Received\Emi_Production_Barcode.vb">
+    <Compile Include="2. Produksi\2. Production\4. Good Received 1\2. Transaksi\1. Good Received\Emi_Production_Barcode.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\3. Controlling Production\2. Transaksi\EMI_Controlling_Produksi.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\EMI_Controlling_Produksi.Designer.vb">
       <DependentUpon>EMI_Controlling_Produksi.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\3. Controlling Production\2. Transaksi\EMI_Controlling_Produksi.vb">
+    <Compile Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\EMI_Controlling_Produksi.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\3. Controlling Production\2. Transaksi\SD\SD_Detail_Batch.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\SD\SD_Detail_Batch.Designer.vb">
       <DependentUpon>SD_Detail_Batch.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\3. Controlling Production\2. Transaksi\SD\SD_Detail_Batch.vb">
+    <Compile Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\SD\SD_Detail_Batch.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\4. Good Received 1\5. Faktur\N_EMI_Label_Barcode_GR_1.vb">
+    <Compile Include="2. Produksi\2. Production\4. Good Received 1\5. Faktur\N_EMI_Label_Barcode_GR_1.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_Label_Barcode_GR_1.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\4. Good Received 1\5. Faktur\N_EMI_Label_Barcode_GR_1_Scrap.vb">
+    <Compile Include="2. Produksi\2. Production\4. Good Received 1\5. Faktur\N_EMI_Label_Barcode_GR_1_Scrap.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_Label_Barcode_GR_1_Scrap.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\5. Good Received 2\5. Faktur\N_EMI_Label_Barcode_GR_2.vb">
+    <Compile Include="2. Produksi\2. Production\5. Good Received 2\5. Faktur\N_EMI_Label_Barcode_GR_2.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_Label_Barcode_GR_2.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\5. Good Received 2\5. Faktur\N_EMI_Label_Barcode_GR_2_Scrap.vb">
+    <Compile Include="2. Produksi\2. Production\5. Good Received 2\5. Faktur\N_EMI_Label_Barcode_GR_2_Scrap.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_Label_Barcode_GR_2_Scrap.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\5. Good Received 2\2. Transaksi\EMI_Validasi_GR.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\5. Good Received 2\2. Transaksi\EMI_Validasi_GR.Designer.vb">
       <DependentUpon>EMI_Validasi_GR.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\5. Good Received 2\2. Transaksi\EMI_Validasi_GR.vb">
+    <Compile Include="2. Produksi\2. Production\5. Good Received 2\2. Transaksi\EMI_Validasi_GR.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\5. Good Received 2\2. Transaksi\SD\SD_ValidasiGR_Detail_Packaging.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\5. Good Received 2\2. Transaksi\SD\SD_ValidasiGR_Detail_Packaging.Designer.vb">
       <DependentUpon>SD_ValidasiGR_Detail_Packaging.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\5. Good Received 2\2. Transaksi\SD\SD_ValidasiGR_Detail_Packaging.vb">
+    <Compile Include="2. Produksi\2. Production\5. Good Received 2\2. Transaksi\SD\SD_ValidasiGR_Detail_Packaging.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\5. Good Received 2\2. Transaksi\SD\SD_ValidasiGR_Split.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\5. Good Received 2\2. Transaksi\SD\SD_ValidasiGR_Split.Designer.vb">
       <DependentUpon>SD_ValidasiGR_Split.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\5. Good Received 2\2. Transaksi\SD\SD_ValidasiGR_Split.vb">
+    <Compile Include="2. Produksi\2. Production\5. Good Received 2\2. Transaksi\SD\SD_ValidasiGR_Split.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\5. Good Received 2\3. Display\EMI_Validasi_GR_Display.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\5. Good Received 2\3. Display\EMI_Validasi_GR_Display.Designer.vb">
       <DependentUpon>EMI_Validasi_GR_Display.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\5. Good Received 2\3. Display\EMI_Validasi_GR_Display.vb">
+    <Compile Include="2. Produksi\2. Production\5. Good Received 2\3. Display\EMI_Validasi_GR_Display.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\6. Good Received 3\2. Transaksi\N_EMI_Transaksi_Validasi_GR_3.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\6. Good Received 3\2. Transaksi\N_EMI_Transaksi_Validasi_GR_3.Designer.vb">
       <DependentUpon>N_EMI_Transaksi_Validasi_GR_3.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\6. Good Received 3\2. Transaksi\N_EMI_Transaksi_Validasi_GR_3.vb">
+    <Compile Include="2. Produksi\2. Production\6. Good Received 3\2. Transaksi\N_EMI_Transaksi_Validasi_GR_3.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\6. Good Received 3\2. Transaksi\SD\N_EMI_SD_Validasi_GR_3.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\6. Good Received 3\2. Transaksi\SD\N_EMI_SD_Validasi_GR_3.Designer.vb">
       <DependentUpon>N_EMI_SD_Validasi_GR_3.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\6. Good Received 3\2. Transaksi\SD\N_EMI_SD_Validasi_GR_3.vb">
+    <Compile Include="2. Produksi\2. Production\6. Good Received 3\2. Transaksi\SD\N_EMI_SD_Validasi_GR_3.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\6. Good Received 3\3. DIsplay\N_EMI_Display_Validasi_GR_3.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\6. Good Received 3\3. DIsplay\N_EMI_Display_Validasi_GR_3.Designer.vb">
       <DependentUpon>N_EMI_Display_Validasi_GR_3.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\6. Good Received 3\3. DIsplay\N_EMI_Display_Validasi_GR_3.vb">
+    <Compile Include="2. Produksi\2. Production\6. Good Received 3\3. DIsplay\N_EMI_Display_Validasi_GR_3.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\Faktur\N_EMI_CR_Transaksi_Request_Material_QC_Barcode.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\Faktur\N_EMI_CR_Transaksi_Request_Material_QC_Barcode.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_CR_Transaksi_Request_Material_QC_Barcode.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\Faktur\N_EMI_CR_Transaksi_Request_Material_QC_Premix_Label.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\Faktur\N_EMI_CR_Transaksi_Request_Material_QC_Premix_Label.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_CR_Transaksi_Request_Material_QC_Premix_Label.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\N_EMI_Transaksi_Request_Material_QC_Validasi.designer.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\N_EMI_Transaksi_Request_Material_QC_Validasi.designer.vb">
       <DependentUpon>N_EMI_Transaksi_Request_Material_QC_Validasi.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\N_EMI_Transaksi_Request_Material_QC_Validasi.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\N_EMI_Transaksi_Request_Material_QC_Validasi.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\SD\N_EMI_SD_Request_Material_QC_Validasi.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\SD\N_EMI_SD_Request_Material_QC_Validasi.Designer.vb">
       <DependentUpon>N_EMI_SD_Request_Material_QC_Validasi.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\SD\N_EMI_SD_Request_Material_QC_Validasi.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\SD\N_EMI_SD_Request_Material_QC_Validasi.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material QC\Faktur\N_EMI_CR_Faktur_Request_Material_QC.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC\Faktur\N_EMI_CR_Faktur_Request_Material_QC.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_CR_Faktur_Request_Material_QC.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material QC\N_EMI_Display_Request_Material_QC.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC\N_EMI_Display_Request_Material_QC.Designer.vb">
       <DependentUpon>N_EMI_Display_Request_Material_QC.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material QC\N_EMI_Display_Request_Material_QC.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC\N_EMI_Display_Request_Material_QC.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material QC\N_EMI_Transaksi_Request_Material_QC.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC\N_EMI_Transaksi_Request_Material_QC.Designer.vb">
       <DependentUpon>N_EMI_Transaksi_Request_Material_QC.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material QC\N_EMI_Transaksi_Request_Material_QC.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC\N_EMI_Transaksi_Request_Material_QC.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material QC\SD\Emi_Request_Material_Display.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC\SD\Emi_Request_Material_Display.Designer.vb">
       <DependentUpon>Emi_Request_Material_Display.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material QC\SD\Emi_Request_Material_Display.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC\SD\Emi_Request_Material_Display.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material\Emi_Request_Material.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material\Emi_Request_Material.Designer.vb">
       <DependentUpon>Emi_Request_Material.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material\Emi_Request_Material.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material\Emi_Request_Material.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material\SD\N_EMI_SD_Request_Material.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material\SD\N_EMI_SD_Request_Material.Designer.vb">
       <DependentUpon>N_EMI_SD_Request_Material.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\7. Request Material\2. Transaksi\Request Material\SD\N_EMI_SD_Request_Material.vb">
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material\SD\N_EMI_SD_Request_Material.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Laporan_Biaya_Produksi.Designer.vb">
+    <Compile Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Laporan_Biaya_Produksi.Designer.vb">
       <DependentUpon>Laporan_Biaya_Produksi.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Laporan_Biaya_Produksi.vb">
+    <Compile Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Laporan_Biaya_Produksi.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Laporan_Validasi_GR_3.vb">
+    <Compile Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Laporan_Validasi_GR_3.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_CR_Laporan_Validasi_GR_3.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Packaging_Sekunder.vb">
+    <Compile Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Packaging_Sekunder.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_CR_Packaging_Sekunder.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Packaging_Sekunder_Nominal.vb">
+    <Compile Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Packaging_Sekunder_Nominal.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_CR_Packaging_Sekunder_Nominal.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Transaksi_Validasi_GR_3_Summary.vb">
+    <Compile Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Transaksi_Validasi_GR_3_Summary.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_CR_Transaksi_Validasi_GR_3_Summary.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Transaksi_Validasi_GR_3_Summary_Nominal.vb">
+    <Compile Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Transaksi_Validasi_GR_3_Summary_Nominal.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_CR_Transaksi_Validasi_GR_3_Summary_Nominal.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Biaya_Produksi.vb">
+    <Compile Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Biaya_Produksi.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Laporan_Biaya_Produksi.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_GI_Detail.vb">
+    <Compile Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_GI_Detail.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Laporan_GI_Detail.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_GI_Detail_Nominal.vb">
+    <Compile Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_GI_Detail_Nominal.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Laporan_GI_Detail_Nominal.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Hasil_Produksi.vb">
+    <Compile Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Hasil_Produksi.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Laporan_Hasil_Produksi.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Hasil_Produksi_Nominal.vb">
+    <Compile Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Hasil_Produksi_Nominal.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Laporan_Hasil_Produksi_Nominal.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Validasi_GR.vb">
+    <Compile Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Validasi_GR.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Laporan_Validasi_GR.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Validasi_GR_Nominal.vb">
+    <Compile Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Validasi_GR_Nominal.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Laporan_Validasi_GR_Nominal.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="3. Material Movement\RFID\1. Master\N_EMI_Registrasi_RFID_Reader.Designer.vb">
+    <Compile Include="2. Produksi\3. Material Movement\RFID\1. Master\N_EMI_Registrasi_RFID_Reader.Designer.vb">
       <DependentUpon>N_EMI_Registrasi_RFID_Reader.vb</DependentUpon>
     </Compile>
-    <Compile Include="3. Material Movement\RFID\1. Master\N_EMI_Registrasi_RFID_Reader.vb">
+    <Compile Include="2. Produksi\3. Material Movement\RFID\1. Master\N_EMI_Registrasi_RFID_Reader.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="3. Material Movement\RFID\2. Transaksi\N_EMI_Pairing_RFID_Touchscreen.Designer.vb">
+    <Compile Include="2. Produksi\3. Material Movement\RFID\2. Transaksi\N_EMI_Pairing_RFID_Touchscreen.Designer.vb">
       <DependentUpon>N_EMI_Pairing_RFID_Touchscreen.vb</DependentUpon>
     </Compile>
-    <Compile Include="3. Material Movement\RFID\2. Transaksi\N_EMI_Pairing_RFID_Touchscreen.vb">
+    <Compile Include="2. Produksi\3. Material Movement\RFID\2. Transaksi\N_EMI_Pairing_RFID_Touchscreen.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Readers.Designer.vb">
+    <Compile Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Readers.Designer.vb">
       <DependentUpon>N_EMI_Display_RFID_Readers.vb</DependentUpon>
     </Compile>
-    <Compile Include="3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Readers.vb">
+    <Compile Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Readers.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Tags.Designer.vb">
+    <Compile Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Tags.Designer.vb">
       <DependentUpon>N_EMI_Display_RFID_Tags.vb</DependentUpon>
     </Compile>
-    <Compile Include="3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Tags.vb">
+    <Compile Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Tags.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="3. Material Movement\Tes.Designer.vb">
+    <Compile Include="2. Produksi\3. Material Movement\Tes.Designer.vb">
       <DependentUpon>Tes.vb</DependentUpon>
     </Compile>
-    <Compile Include="3. Material Movement\Tes.vb">
+    <Compile Include="2. Produksi\3. Material Movement\Tes.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="3. Material Movement\Transfer Stock Sementara\5. Faktur\N_EMI_Barcode_Transfer_Stock_Sementara.vb">
+    <Compile Include="2. Produksi\3. Material Movement\Transfer Stock Sementara\5. Faktur\N_EMI_Barcode_Transfer_Stock_Sementara.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_Barcode_Transfer_Stock_Sementara.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="3. Material Movement\RFID\4. Laporan\1. Rpt\N_EMI_CR_Laporan_Transfer_Stock_Sementara.vb">
+    <Compile Include="2. Produksi\3. Material Movement\RFID\4. Laporan\1. Rpt\N_EMI_CR_Laporan_Transfer_Stock_Sementara.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_CR_Laporan_Transfer_Stock_Sementara.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="3. Material Movement\RFID\5. Helper\HW_VX6336\HW_VX6336_Native.vb" />
-    <Compile Include="3. Material Movement\RFID\5. Helper\HW_VX6336\HW_VX6336_Reader.vb" />
-    <Compile Include="3. Material Movement\RFID\5. Helper\HW_VX6346KL\HW_VX6346KL_Native.vb" />
-    <Compile Include="3. Material Movement\RFID\5. Helper\HW_VX6346KL\HW_VX6346KL_Reader.vb" />
-    <Compile Include="3. Material Movement\Transfer Stock Sementara\3. Display\N_EMI_Display_Transfer_Stock_Sementara.Designer.vb">
+    <Compile Include="2. Produksi\3. Material Movement\RFID\5. Helper\HW_VX6336\HW_VX6336_Native.vb" />
+    <Compile Include="2. Produksi\3. Material Movement\RFID\5. Helper\HW_VX6336\HW_VX6336_Reader.vb" />
+    <Compile Include="2. Produksi\3. Material Movement\RFID\5. Helper\HW_VX6346KL\HW_VX6346KL_Native.vb" />
+    <Compile Include="2. Produksi\3. Material Movement\RFID\5. Helper\HW_VX6346KL\HW_VX6346KL_Reader.vb" />
+    <Compile Include="2. Produksi\3. Material Movement\Transfer Stock Sementara\3. Display\N_EMI_Display_Transfer_Stock_Sementara.Designer.vb">
       <DependentUpon>N_EMI_Display_Transfer_Stock_Sementara.vb</DependentUpon>
     </Compile>
-    <Compile Include="3. Material Movement\Transfer Stock Sementara\3. Display\N_EMI_Display_Transfer_Stock_Sementara.vb">
+    <Compile Include="2. Produksi\3. Material Movement\Transfer Stock Sementara\3. Display\N_EMI_Display_Transfer_Stock_Sementara.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="4. Formulator\Bestmix\2. Request New Material\2. Transaksi\N_EMI_Transaksi_Pengajuan_Barang_Baru.Designer.vb">
+    <Compile Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\2. Transaksi\N_EMI_Transaksi_Pengajuan_Barang_Baru.Designer.vb">
       <DependentUpon>N_EMI_Transaksi_Pengajuan_Barang_Baru.vb</DependentUpon>
     </Compile>
-    <Compile Include="4. Formulator\Bestmix\2. Request New Material\2. Transaksi\N_EMI_Transaksi_Pengajuan_Barang_Baru.vb">
+    <Compile Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\2. Transaksi\N_EMI_Transaksi_Pengajuan_Barang_Baru.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="5. Inventori\Master Barang\1. Master\Master_Barang_New.designer.vb">
+    <Compile Include="2. Produksi\5. Inventori\Adjustment Stock\2. Transaksi\Emi_Adj_Stock.Designer.vb">
+      <DependentUpon>Emi_Adj_Stock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\5. Inventori\Adjustment Stock\2. Transaksi\Emi_Adj_Stock.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\5. Inventori\Adjustment Stock\2. Transaksi\Validasi\N_EMI_Transaksi_Validasi_Adjustment_Stock.Designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Validasi_Adjustment_Stock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\5. Inventori\Adjustment Stock\2. Transaksi\Validasi\N_EMI_Transaksi_Validasi_Adjustment_Stock.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\5. Inventori\Adjustment Stock\3. Display\Emi_Display_Adjusment_Stock.Designer.vb">
+      <DependentUpon>Emi_Display_Adjusment_Stock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\5. Inventori\Adjustment Stock\3. Display\Emi_Display_Adjusment_Stock.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\5. Inventori\Master Barang\1. Master\Master_Barang_New.designer.vb">
       <DependentUpon>Master_Barang_New.vb</DependentUpon>
     </Compile>
-    <Compile Include="5. Inventori\Master Barang\1. Master\Master_Barang_New.vb">
+    <Compile Include="2. Produksi\5. Inventori\Master Barang\1. Master\Master_Barang_New.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="5. Inventori\Master Barang\1. Master\SD\SD_Pilih_Satuan_Turunan.designer.vb">
+    <Compile Include="2. Produksi\5. Inventori\Master Barang\1. Master\SD\SD_Pilih_Satuan_Turunan.designer.vb">
       <DependentUpon>SD_Pilih_Satuan_Turunan.vb</DependentUpon>
     </Compile>
-    <Compile Include="5. Inventori\Master Barang\1. Master\SD\SD_Pilih_Satuan_Turunan.vb">
+    <Compile Include="2. Produksi\5. Inventori\Master Barang\1. Master\SD\SD_Pilih_Satuan_Turunan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\99. Form Mutual\Display Request Material General\Emi_Display_Request_General.Designer.vb">
+      <DependentUpon>Emi_Display_Request_General.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\99. Form Mutual\Display Request Material General\Emi_Display_Request_General.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\99. Form Mutual\Display Request Material\Emi_Display_Request_Material.Designer.vb">
+      <DependentUpon>Emi_Display_Request_Material.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\99. Form Mutual\Display Request Material\Emi_Display_Request_Material.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.vb">
@@ -557,196 +602,211 @@
     <EmbeddedResource Include="0. Root\Main_Menu.resx">
       <DependentUpon>Main_Menu.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\1. Production Order\2. Transaksi\EMI_Production_Order.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\1. Production Order\2. Transaksi\EMI_Production_Order.resx">
       <DependentUpon>EMI_Production_Order.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\1. Production Order\2. Transaksi\SD\EMI_Independent_Order.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\1. Production Order\2. Transaksi\SD\EMI_Independent_Order.resx">
       <DependentUpon>EMI_Independent_Order.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\2. Split Production\2. Transaksi\EMI_Display_Mulai_Produksi.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\2. Split Production\2. Transaksi\EMI_Display_Mulai_Produksi.resx">
       <DependentUpon>EMI_Display_Mulai_Produksi.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\2. Split Production\2. Transaksi\EMI_Produksi.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\2. Split Production\2. Transaksi\EMI_Produksi.resx">
       <DependentUpon>EMI_Produksi.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\2. Split Production\2. Transaksi\SD\N_EMI_SD_Produksi.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\2. Split Production\2. Transaksi\SD\N_EMI_SD_Produksi.resx">
       <DependentUpon>N_EMI_SD_Produksi.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\2. Split Production\5. Faktur\Faktur_Request_Material_EMI.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\2. Split Production\5. Faktur\Faktur_Request_Material_EMI.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Faktur_Request_Material_EMI.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\2. Split Production\5. Faktur\Rpt_Laporan_Request_Material.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\2. Split Production\5. Faktur\Rpt_Laporan_Request_Material.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Laporan_Request_Material.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\EMI_Hasil_Pengeluaran_Bahan_Baku.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\EMI_Hasil_Pengeluaran_Bahan_Baku.resx">
       <DependentUpon>EMI_Hasil_Pengeluaran_Bahan_Baku.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\SD\EMI_Display_Pengeluaran_Bahan_Baku.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\SD\EMI_Display_Pengeluaran_Bahan_Baku.resx">
       <DependentUpon>EMI_Display_Pengeluaran_Bahan_Baku.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\4. Good Received 1\2. Transaksi\1. Good Received\Emi_Production_Barcode.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\4. Good Received 1\2. Transaksi\1. Good Received\Emi_Production_Barcode.resx">
       <DependentUpon>Emi_Production_Barcode.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\3. Controlling Production\2. Transaksi\EMI_Controlling_Produksi.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\EMI_Controlling_Produksi.resx">
       <DependentUpon>EMI_Controlling_Produksi.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\3. Controlling Production\2. Transaksi\SD\SD_Detail_Batch.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\SD\SD_Detail_Batch.resx">
       <DependentUpon>SD_Detail_Batch.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\4. Good Received 1\5. Faktur\N_EMI_Label_Barcode_GR_1.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\4. Good Received 1\5. Faktur\N_EMI_Label_Barcode_GR_1.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_Label_Barcode_GR_1.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\4. Good Received 1\5. Faktur\N_EMI_Label_Barcode_GR_1_Scrap.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\4. Good Received 1\5. Faktur\N_EMI_Label_Barcode_GR_1_Scrap.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_Label_Barcode_GR_1_Scrap.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\5. Good Received 2\5. Faktur\N_EMI_Label_Barcode_GR_2.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\5. Good Received 2\5. Faktur\N_EMI_Label_Barcode_GR_2.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_Label_Barcode_GR_2.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\5. Good Received 2\5. Faktur\N_EMI_Label_Barcode_GR_2_Scrap.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\5. Good Received 2\5. Faktur\N_EMI_Label_Barcode_GR_2_Scrap.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_Label_Barcode_GR_2_Scrap.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\5. Good Received 2\2. Transaksi\EMI_Validasi_GR.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\5. Good Received 2\2. Transaksi\EMI_Validasi_GR.resx">
       <DependentUpon>EMI_Validasi_GR.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\5. Good Received 2\2. Transaksi\SD\SD_ValidasiGR_Detail_Packaging.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\5. Good Received 2\2. Transaksi\SD\SD_ValidasiGR_Detail_Packaging.resx">
       <DependentUpon>SD_ValidasiGR_Detail_Packaging.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\5. Good Received 2\2. Transaksi\SD\SD_ValidasiGR_Split.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\5. Good Received 2\2. Transaksi\SD\SD_ValidasiGR_Split.resx">
       <DependentUpon>SD_ValidasiGR_Split.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\5. Good Received 2\3. Display\EMI_Validasi_GR_Display.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\5. Good Received 2\3. Display\EMI_Validasi_GR_Display.resx">
       <DependentUpon>EMI_Validasi_GR_Display.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\6. Good Received 3\2. Transaksi\N_EMI_Transaksi_Validasi_GR_3.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\6. Good Received 3\2. Transaksi\N_EMI_Transaksi_Validasi_GR_3.resx">
       <DependentUpon>N_EMI_Transaksi_Validasi_GR_3.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\6. Good Received 3\2. Transaksi\SD\N_EMI_SD_Validasi_GR_3.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\6. Good Received 3\2. Transaksi\SD\N_EMI_SD_Validasi_GR_3.resx">
       <DependentUpon>N_EMI_SD_Validasi_GR_3.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\6. Good Received 3\3. DIsplay\N_EMI_Display_Validasi_GR_3.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\6. Good Received 3\3. DIsplay\N_EMI_Display_Validasi_GR_3.resx">
       <DependentUpon>N_EMI_Display_Validasi_GR_3.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\Faktur\N_EMI_CR_Transaksi_Request_Material_QC_Barcode.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\Faktur\N_EMI_CR_Transaksi_Request_Material_QC_Barcode.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_CR_Transaksi_Request_Material_QC_Barcode.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\Faktur\N_EMI_CR_Transaksi_Request_Material_QC_Premix_Label.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\Faktur\N_EMI_CR_Transaksi_Request_Material_QC_Premix_Label.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_CR_Transaksi_Request_Material_QC_Premix_Label.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\N_EMI_Transaksi_Request_Material_QC_Validasi.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\N_EMI_Transaksi_Request_Material_QC_Validasi.resx">
       <DependentUpon>N_EMI_Transaksi_Request_Material_QC_Validasi.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\SD\N_EMI_SD_Request_Material_QC_Validasi.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\SD\N_EMI_SD_Request_Material_QC_Validasi.resx">
       <DependentUpon>N_EMI_SD_Request_Material_QC_Validasi.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\7. Request Material\2. Transaksi\Request Material QC\Faktur\N_EMI_CR_Faktur_Request_Material_QC.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC\Faktur\N_EMI_CR_Faktur_Request_Material_QC.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_CR_Faktur_Request_Material_QC.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\7. Request Material\2. Transaksi\Request Material QC\N_EMI_Display_Request_Material_QC.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC\N_EMI_Display_Request_Material_QC.resx">
       <DependentUpon>N_EMI_Display_Request_Material_QC.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\7. Request Material\2. Transaksi\Request Material QC\N_EMI_Transaksi_Request_Material_QC.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC\N_EMI_Transaksi_Request_Material_QC.resx">
       <DependentUpon>N_EMI_Transaksi_Request_Material_QC.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\7. Request Material\2. Transaksi\Request Material QC\SD\Emi_Request_Material_Display.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC\SD\Emi_Request_Material_Display.resx">
       <DependentUpon>Emi_Request_Material_Display.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\7. Request Material\2. Transaksi\Request Material\Emi_Request_Material.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material\Emi_Request_Material.resx">
       <DependentUpon>Emi_Request_Material.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\7. Request Material\2. Transaksi\Request Material\SD\N_EMI_SD_Request_Material.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material\SD\N_EMI_SD_Request_Material.resx">
       <DependentUpon>N_EMI_SD_Request_Material.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Laporan_Biaya_Produksi.resx">
+    <EmbeddedResource Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Laporan_Biaya_Produksi.resx">
       <DependentUpon>Laporan_Biaya_Produksi.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Laporan_Validasi_GR_3.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Laporan_Validasi_GR_3.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_CR_Laporan_Validasi_GR_3.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Packaging_Sekunder.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Packaging_Sekunder.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_CR_Packaging_Sekunder.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Packaging_Sekunder_Nominal.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Packaging_Sekunder_Nominal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_CR_Packaging_Sekunder_Nominal.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Transaksi_Validasi_GR_3_Summary.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Transaksi_Validasi_GR_3_Summary.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_CR_Transaksi_Validasi_GR_3_Summary.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Transaksi_Validasi_GR_3_Summary_Nominal.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\N_EMI_CR_Transaksi_Validasi_GR_3_Summary_Nominal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_CR_Transaksi_Validasi_GR_3_Summary_Nominal.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Biaya_Produksi.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Biaya_Produksi.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Laporan_Biaya_Produksi.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_GI_Detail.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_GI_Detail.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Laporan_GI_Detail.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_GI_Detail_Nominal.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_GI_Detail_Nominal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Laporan_GI_Detail_Nominal.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Hasil_Produksi.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Hasil_Produksi.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Laporan_Hasil_Produksi.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Hasil_Produksi_Nominal.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Hasil_Produksi_Nominal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Laporan_Hasil_Produksi_Nominal.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Validasi_GR.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Validasi_GR.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Laporan_Validasi_GR.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Validasi_GR_Nominal.rpt">
+    <EmbeddedResource Include="2. Produksi\2. Production\8. Laporan Modul Produksi\4. Laporan\Rpt\Rpt_Laporan_Validasi_GR_Nominal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Laporan_Validasi_GR_Nominal.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="3. Material Movement\RFID\1. Master\N_EMI_Registrasi_RFID_Reader.resx">
+    <EmbeddedResource Include="2. Produksi\3. Material Movement\RFID\1. Master\N_EMI_Registrasi_RFID_Reader.resx">
       <DependentUpon>N_EMI_Registrasi_RFID_Reader.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="3. Material Movement\RFID\2. Transaksi\N_EMI_Pairing_RFID_Touchscreen.resx">
+    <EmbeddedResource Include="2. Produksi\3. Material Movement\RFID\2. Transaksi\N_EMI_Pairing_RFID_Touchscreen.resx">
       <DependentUpon>N_EMI_Pairing_RFID_Touchscreen.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Readers.resx">
+    <EmbeddedResource Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Readers.resx">
       <DependentUpon>N_EMI_Display_RFID_Readers.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Tags.resx">
+    <EmbeddedResource Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Tags.resx">
       <DependentUpon>N_EMI_Display_RFID_Tags.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="3. Material Movement\Transfer Stock Sementara\5. Faktur\N_EMI_Barcode_Transfer_Stock_Sementara.rpt">
+    <EmbeddedResource Include="2. Produksi\3. Material Movement\Transfer Stock Sementara\5. Faktur\N_EMI_Barcode_Transfer_Stock_Sementara.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_Barcode_Transfer_Stock_Sementara.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="3. Material Movement\RFID\4. Laporan\1. Rpt\N_EMI_CR_Laporan_Transfer_Stock_Sementara.rpt">
+    <EmbeddedResource Include="2. Produksi\3. Material Movement\RFID\4. Laporan\1. Rpt\N_EMI_CR_Laporan_Transfer_Stock_Sementara.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_CR_Laporan_Transfer_Stock_Sementara.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="3. Material Movement\Transfer Stock Sementara\3. Display\N_EMI_Display_Transfer_Stock_Sementara.resx">
+    <EmbeddedResource Include="2. Produksi\3. Material Movement\Transfer Stock Sementara\3. Display\N_EMI_Display_Transfer_Stock_Sementara.resx">
       <DependentUpon>N_EMI_Display_Transfer_Stock_Sementara.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="4. Formulator\Bestmix\2. Request New Material\2. Transaksi\N_EMI_Transaksi_Pengajuan_Barang_Baru.resx">
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\2. Transaksi\N_EMI_Transaksi_Pengajuan_Barang_Baru.resx">
       <DependentUpon>N_EMI_Transaksi_Pengajuan_Barang_Baru.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="5. Inventori\Master Barang\1. Master\Master_Barang_New.resx">
+    <EmbeddedResource Include="2. Produksi\5. Inventori\Adjustment Stock\2. Transaksi\Emi_Adj_Stock.resx">
+      <DependentUpon>Emi_Adj_Stock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\5. Inventori\Adjustment Stock\2. Transaksi\Validasi\N_EMI_Transaksi_Validasi_Adjustment_Stock.resx">
+      <DependentUpon>N_EMI_Transaksi_Validasi_Adjustment_Stock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\5. Inventori\Adjustment Stock\3. Display\Emi_Display_Adjusment_Stock.resx">
+      <DependentUpon>Emi_Display_Adjusment_Stock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\5. Inventori\Master Barang\1. Master\Master_Barang_New.resx">
       <DependentUpon>Master_Barang_New.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="5. Inventori\Master Barang\1. Master\SD\SD_Pilih_Satuan_Turunan.resx">
+    <EmbeddedResource Include="2. Produksi\5. Inventori\Master Barang\1. Master\SD\SD_Pilih_Satuan_Turunan.resx">
       <DependentUpon>SD_Pilih_Satuan_Turunan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\99. Form Mutual\Display Request Material General\Emi_Display_Request_General.resx">
+      <DependentUpon>Emi_Display_Request_General.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\99. Form Mutual\Display Request Material\Emi_Display_Request_Material.resx">
+      <DependentUpon>Emi_Display_Request_Material.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
@@ -795,48 +855,64 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="3. Material Movement\RFID\5. Helper\SDK\Basic.dll" />
-    <Content Include="3. Material Movement\RFID\5. Helper\SDK\UHFReader18.dll" />
+    <Content Include="2. Produksi\3. Material Movement\RFID\5. Helper\SDK\Basic.dll" />
+    <Content Include="2. Produksi\3. Material Movement\RFID\5. Helper\SDK\UHFReader18.dll" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="2. Production\1. Production Order\1. Master\" />
-    <Folder Include="2. Production\1. Production Order\3. Display\" />
-    <Folder Include="2. Production\1. Production Order\4. Laporan\" />
-    <Folder Include="2. Production\2. Split Production\1. Master\" />
-    <Folder Include="2. Production\2. Split Production\3. Display\" />
-    <Folder Include="2. Production\2. Split Production\4. Laporan\" />
-    <Folder Include="2. Production\3. Controlling Production\1. Master\" />
-    <Folder Include="2. Production\3. Controlling Production\3. Display\" />
-    <Folder Include="2. Production\3. Controlling Production\4. Laporan\" />
-    <Folder Include="2. Production\3. Controlling Production\5. Faktur\" />
-    <Folder Include="2. Production\4. Good Received 1\1. Master\" />
-    <Folder Include="2. Production\4. Good Received 1\3. Display\" />
-    <Folder Include="2. Production\4. Good Received 1\4. Laporan\" />
-    <Folder Include="2. Production\5. Good Received 2\1. Master\" />
-    <Folder Include="2. Production\5. Good Received 2\4. Laporan\" />
-    <Folder Include="2. Production\5. Good Received 2\6. Backup\" />
-    <Folder Include="2. Production\6. Good Received 3\1. Master\" />
-    <Folder Include="2. Production\6. Good Received 3\4. Laporan\" />
-    <Folder Include="2. Production\7. Request Material\1. Master\" />
-    <Folder Include="2. Production\7. Request Material\2. Transaksi\Request Material QC\Temp\" />
-    <Folder Include="2. Production\7. Request Material\3. Display\" />
-    <Folder Include="2. Production\7. Request Material\4. Laporan\" />
-    <Folder Include="2. Production\8. Laporan Modul Produksi\1. Master\" />
-    <Folder Include="2. Production\8. Laporan Modul Produksi\2. Transaksi\" />
-    <Folder Include="2. Production\8. Laporan Modul Produksi\3. Display\" />
-    <Folder Include="3. Material Movement\Transfer Stock Sementara\1. Master\" />
-    <Folder Include="3. Material Movement\Transfer Stock Sementara\2. Transaksi\Faktur\" />
-    <Folder Include="3. Material Movement\Transfer Stock Sementara\4. Laporan\" />
-    <Folder Include="4. Formulator\Bestmix\1.Sync Formula Bestmix\" />
-    <Folder Include="4. Formulator\Bestmix\2. Request New Material\1. Master\" />
-    <Folder Include="4. Formulator\Bestmix\2. Request New Material\3. Display\" />
-    <Folder Include="4. Formulator\Bestmix\2. Request New Material\4. Laporan\" />
-    <Folder Include="5. Inventori\Master Barang\2. Transaksi\" />
-    <Folder Include="5. Inventori\Master Barang\3. Display\" />
-    <Folder Include="5. Inventori\Master Barang\4.. Laporan\" />
+    <Folder Include="1. Barang Lain\" />
+    <Folder Include="2. Produksi\2. Production\1. Production Order\1. Master\" />
+    <Folder Include="2. Produksi\2. Production\1. Production Order\3. Display\" />
+    <Folder Include="2. Produksi\2. Production\1. Production Order\4. Laporan\" />
+    <Folder Include="2. Produksi\2. Production\2. Split Production\1. Master\" />
+    <Folder Include="2. Produksi\2. Production\2. Split Production\3. Display\" />
+    <Folder Include="2. Produksi\2. Production\2. Split Production\4. Laporan\" />
+    <Folder Include="2. Produksi\2. Production\3. Controlling Production\1. Master\" />
+    <Folder Include="2. Produksi\2. Production\3. Controlling Production\3. Display\" />
+    <Folder Include="2. Produksi\2. Production\3. Controlling Production\4. Laporan\" />
+    <Folder Include="2. Produksi\2. Production\3. Controlling Production\5. Faktur\" />
+    <Folder Include="2. Produksi\2. Production\4. Good Received 1\1. Master\" />
+    <Folder Include="2. Produksi\2. Production\4. Good Received 1\3. Display\" />
+    <Folder Include="2. Produksi\2. Production\4. Good Received 1\4. Laporan\" />
+    <Folder Include="2. Produksi\2. Production\5. Good Received 2\1. Master\" />
+    <Folder Include="2. Produksi\2. Production\5. Good Received 2\4. Laporan\" />
+    <Folder Include="2. Produksi\2. Production\5. Good Received 2\6. Backup\" />
+    <Folder Include="2. Produksi\2. Production\6. Good Received 3\1. Master\" />
+    <Folder Include="2. Produksi\2. Production\6. Good Received 3\4. Laporan\" />
+    <Folder Include="2. Produksi\2. Production\7. Request Material\1. Master\" />
+    <Folder Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC\Temp\" />
+    <Folder Include="2. Produksi\2. Production\7. Request Material\3. Display\" />
+    <Folder Include="2. Produksi\2. Production\7. Request Material\4. Laporan\" />
+    <Folder Include="2. Produksi\2. Production\8. Laporan Modul Produksi\1. Master\" />
+    <Folder Include="2. Produksi\2. Production\8. Laporan Modul Produksi\2. Transaksi\" />
+    <Folder Include="2. Produksi\2. Production\8. Laporan Modul Produksi\3. Display\" />
+    <Folder Include="2. Produksi\3. Material Movement\Transfer Stock Sementara\1. Master\" />
+    <Folder Include="2. Produksi\3. Material Movement\Transfer Stock Sementara\2. Transaksi\Faktur\" />
+    <Folder Include="2. Produksi\3. Material Movement\Transfer Stock Sementara\4. Laporan\" />
+    <Folder Include="2. Produksi\4. Formulator\Bestmix\1.Sync Formula Bestmix\" />
+    <Folder Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\1. Master\" />
+    <Folder Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\3. Display\" />
+    <Folder Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\4. Laporan\" />
+    <Folder Include="2. Produksi\5. Inventori\Adjustment Stock\1. Master\" />
+    <Folder Include="2. Produksi\5. Inventori\Adjustment Stock\2. Transaksi\SD\" />
+    <Folder Include="2. Produksi\5. Inventori\Adjustment Stock\4. Laporan\" />
+    <Folder Include="2. Produksi\5. Inventori\Master Barang\2. Transaksi\" />
+    <Folder Include="2. Produksi\5. Inventori\Master Barang\3. Display\" />
+    <Folder Include="2. Produksi\5. Inventori\Master Barang\4.. Laporan\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
