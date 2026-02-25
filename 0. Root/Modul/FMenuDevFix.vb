@@ -3412,6 +3412,22 @@
         N_EMI_Transaksi_Adjustment_Stock_Barang_Lain.Focus()
     End Sub
 
+    Private Sub ValidasiAdjustmentStockBarangLainToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ValidasiAdjustmentStockBarangLainToolStripMenuItem.Click
+        N_EMI_Transaksi_Validasi_Adjustment_Stock_Barang_Lain.StartPosition = FormStartPosition.CenterScreen
+
+        N_EMI_Transaksi_Validasi_Adjustment_Stock_Barang_Lain.MdiParent = Me
+        N_EMI_Transaksi_Validasi_Adjustment_Stock_Barang_Lain.Show()
+        N_EMI_Transaksi_Validasi_Adjustment_Stock_Barang_Lain.Focus()
+    End Sub
+
+    Private Sub DisplayAdjustmentStockBarangLainToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplayAdjustmentStockBarangLainToolStripMenuItem.Click
+        N_EMI_Display_Adjustment_Stock_Barang_Lain.StartPosition = FormStartPosition.CenterScreen
+
+        N_EMI_Display_Adjustment_Stock_Barang_Lain.MdiParent = Me
+        N_EMI_Display_Adjustment_Stock_Barang_Lain.Show()
+        N_EMI_Display_Adjustment_Stock_Barang_Lain.Focus()
+    End Sub
+
 
     'Private Sub LaporanTransferStoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanTransferStoToolStripMenuItem.Click
     '    N_EMI_Laporan_Transfer_Stock_Sementara.StartPosition = FormStartPosition.CenterScreen

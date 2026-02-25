@@ -1,4 +1,4 @@
-﻿Public Class N_EMI_Transaksi_Validasi_Adjustment_Stock_Barang_Lain
+﻿Public Class N_EMI_Transaksi_Validasi_Adjustment_Stock
 
     Private ReadOnly BodyAlignments, BodyAlignments2, BodyAlignments3 As New Dictionary(Of Integer, StringAlignment)
     Dim arrFilter As New ArrayList

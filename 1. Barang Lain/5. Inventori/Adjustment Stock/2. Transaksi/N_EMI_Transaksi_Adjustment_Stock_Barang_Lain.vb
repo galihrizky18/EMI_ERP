@@ -279,9 +279,18 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
             CmbSo_Tujuan.Items.Clear() : CmbSo_Tujuan.SelectedIndex = -1
             CmbSO_Asal.Items.Clear() : CmbSO_Asal.SelectedIndex = -1
             Cmb_LokasiAdj.Items.Clear() : arrLokasiAdj.Clear()
-            SQL = "Select kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan From Stock_Owner_Gudang where "
-            SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and aktif = 'Y' and (flag_produksi='Y' or Flag_Penyimpanan='Y') "
-            SQL = SQL & "order by kode_stock_owner"
+            'SQL = "Select kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan From Stock_Owner_Gudang where "
+            'SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and aktif = 'Y' and (flag_produksi='Y' or Flag_Penyimpanan='Y') "
+            'SQL = SQL & "order by kode_stock_owner"
+
+            SQL = "Select a.kode_stock_owner, a.inisial_faktur, a.pending_persediaan, a.persediaan, a.Keterangan "
+            SQL &= $"From Stock_Owner_Gudang_Lain a "
+            SQL &= $"where a.kode_perusahaan = '{KodePerusahaan}' and a.aktif = 'Y' "
+            SQL &= $"and EXISTS ( "
+            SQL &= $"select kode_stock_owner_gudang from N_EMI_Master_Kategori_Gudang_Barang_Lain z "
+            SQL &= $"where a.Kode_Perusahaan = z.kode_perusahaan and a.Kode_Stock_Owner = z.kode_stock_owner_gudang "
+            SQL &= $"and z.jenis_gudang = 'Warehouse') "
+            SQL &= $"order by a.kode_stock_owner "
             Using dr = OpenTrans(SQL)
                 Do While dr.Read
                     CmbSo_Tujuan.Items.Add(dr("Keterangan")) : arrSO.Add(dr("kode_stock_owner"))
@@ -337,6 +346,8 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
         Txt_QR.Text = ""
         Txt_QR.Enabled = False
 
+        Cmb_Jenis_Adjustment.SelectedIndex = -1
+
         'CmbJnsTransfer.Enabled = True
         CmbSO_Asal.Enabled = False
         CmbSo_Tujuan.Enabled = False
@@ -379,7 +390,7 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
                 CmbSo_Tujuan.Items.Clear() : CmbSo_Tujuan.SelectedIndex = -1
                 CmbSO_Asal.Items.Clear() : CmbSO_Asal.SelectedIndex = -1
                 Cmb_LokasiAdj.Items.Clear() : arrLokasiAdj.Clear()
-                SQL = "Select kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan From Stock_Owner_Gudang where "
+                SQL = "Select kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan From Stock_Owner_Gudang_Lain where "
                 SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and aktif = 'Y' and Flag_QI = 'Y' "
                 SQL = SQL & "order by kode_stock_owner"
                 Using dr = OpenTrans(SQL)
@@ -393,7 +404,7 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
                 CmbSo_Tujuan.Items.Clear() : CmbSo_Tujuan.SelectedIndex = -1
                 CmbSO_Asal.Items.Clear() : CmbSO_Asal.SelectedIndex = -1
                 Cmb_LokasiAdj.Items.Clear() : arrLokasiAdj.Clear()
-                SQL = "Select kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan From Stock_Owner_Gudang where "
+                SQL = "Select kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan From Stock_Owner_Gudang_Lain where "
                 SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and aktif = 'Y' and (flag_produksi='Y' or Flag_Penyimpanan='Y') "
                 SQL = SQL & "order by kode_stock_owner"
                 Using dr = OpenTrans(SQL)
@@ -656,9 +667,9 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
     End Sub
 
     Private Sub get_no_faktur()
-        Dim FPro_Results As String = "ADJ-"
+        Dim FPro_Results As String = "ASBL-"
         TxtNo_Transaksi.Text = FPro_Results & arrInisialFaktur.Item(Cmb_LokasiAdj.SelectedIndex) & "-" & Format(tgl_skg, "MM/yy") & "-" &
-                                      General_Class.Get_Last_Number2("Emi_Adjustment_Stock", "no_faktur", JumlahDigit,
+                                      General_Class.Get_Last_Number2("Emi_Adjustment_Stock_Barang_Lain", "no_faktur", JumlahDigit,
                                       "Kode_perusahaan", KodePerusahaan,
                                       "And", "substring(no_faktur,1," & Len(FPro_Results) + Len(arrInisialFaktur.Item(Cmb_LokasiAdj.SelectedIndex)) + 6 & ")", FPro_Results & arrInisialFaktur.Item(Cmb_LokasiAdj.SelectedIndex) & "-" & Format(tgl_skg, "MM/yy"))
 
@@ -742,16 +753,6 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
 
 #End Region
 
-        ' If TxtKd_Barang.Text.Trim.Length = 0 Then Exit Sub
-        'If CmbJnsTransfer.SelectedIndex = -1 Then Exit Sub
-        'If CmbJnsTransfer.SelectedIndex = 0 Then
-        '    If CmbSO_Asal.SelectedIndex = -1 Then Exit Sub
-
-        'ElseIf CmbJnsTransfer.SelectedIndex = 1 Then
-        '    If CmbSO_Asal.SelectedIndex = -1 Then Exit Sub
-        '    If CmbSo_Tujuan.SelectedIndex = -1 Then Exit Sub
-        'End If
-
         If Cmb_LokasiAdj.SelectedIndex = -1 Then Exit Sub
 
         If Not TxtKd_Barang.Text.Trim.Count = 0 Then
@@ -770,7 +771,7 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
 
             SQL = "select top(20) a.kode_stock_owner, a.kode_barang, a.nama, dbo.ubah_satuan(a.kode_Perusahaan, 'masa', a.kode_barang, a.satuan, "
             SQL = SQL & "b.satuan, a.good_stock) as Good_Stock, a.Satuan, b.satuan as satuan_display, ISNULL(a.Jumlah_Bags, 0) as Jumlah_Bags, "
-            SQL = SQL & "a.Satuan_Isi_Bags, a.Metode_Pengeluaran_Stok, a.Jenis_Kemasan from barang a, barang_detail_satuan b "
+            SQL = SQL & "a.Satuan_Isi_Bags, a.Metode_Pengeluaran_Stok, a.Jenis_Kemasan from barang_lain a, Barang_Detail_Satuan_Lain b "
             SQL = SQL & "where a.Kode_Perusahaan='" & KodePerusahaan & "' and a.Kode_Stock_Owner='" & arrLokasiAdj(Cmb_LokasiAdj.SelectedIndex) & "' "
             SQL = SQL & "and a.kode_barang like '%" & TxtKd_Barang.Text & "%' and a.Kode_Barang=b.kode_barang "
             SQL = SQL & "And a.kode_Perusahaan = b.kode_Perusahaan And b.flag_tampil_display ='Y'  "
@@ -906,12 +907,12 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
 
 
             SQL = "Select a.Id_WMS_Warehouse_Position, a.Keterangan from "
-            SQL = SQL & "view_warehouse_position a "
+            SQL = SQL & "View_Warehouse_Position_Barang_Lain a "
             SQL = SQL & "where a.kode_perusahaan='" & KodePerusahaan & "' "
 
             SQL = SQL & "and a.Kode_Stock_Owner='" & arrLokasiAdj(Cmb_LokasiAdj.SelectedIndex) & "' "
 
-            SQL = SQL & "and isnull((select top(1)  'Y' from view_warehouse_position_detail b where "
+            SQL = SQL & "and isnull((select top(1)  'Y' from View_Warehouse_Position_Detail_Barang_Lain b where "
             SQL = SQL & "a.id_wms_warehouse_position = b.id_wms_warehouse_position And a.Kode_Perusahaan = b.KOde_Perusahaan "
             SQL = SQL & "And b.kode_Barang Is null ),null) ='Y' "
             SQL = SQL & "order by a.Keterangan "
@@ -958,7 +959,7 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
 
             SQL = SQL & "(a.Qr_Code + '-' + a.Kode_Unik_Berjalan) as Barcode, a.Blok_SN "
 
-            SQL = SQL & "From barang_sn a, barang b, View_Warehouse_Position c  "
+            SQL = SQL & "From Barang_Lain_SN a, Barang_Lain b, View_Warehouse_Position_Barang_Lain c  "
             SQL = SQL & "Where a.Kode_Perusahaan = b.Kode_Perusahaan And a.Kode_Barang = b.Kode_Barang And "
             SQL = SQL & "a.Kode_Stock_Owner = b.Kode_Stock_Owner And a.Kode_Perusahaan = c.Kode_Perusahaan And "
             SQL = SQL & "a.Id_Warehouse = c.Id_WMS_Warehouse_Position And "
@@ -1169,7 +1170,7 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
             'SQL = SQL & "'-', '" & UserID & "')"
             'ExecuteTrans(SQL)
 
-            SQL = "insert into Emi_Adjustment_Stock (Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Tanggal, Jam, UserID, Lokasi, Keterangan, Kode_Voucher, Jenis_Adjustment) Values "
+            SQL = "insert into Emi_Adjustment_Stock_Barang_Lain (Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Tanggal, Jam, UserID, Lokasi, Keterangan, Kode_Voucher, Jenis_Adjustment) Values "
             SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & arrLokasiAdj(Cmb_LokasiAdj.SelectedIndex) & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
             SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "', '" & Cmb_Lokasi.Text & "', '" & TxtKeterangan.Text & "', NULL, '" & arrJenisAdjustment(Cmb_Jenis_Adjustment.SelectedIndex) & "') "
             ExecuteTrans(SQL)
@@ -1245,7 +1246,7 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
                 End Using
 
                 Dim Jenis_kemasan As String = ""
-                SQL = "Select Jenis_Kemasan from barang where "
+                SQL = "Select Jenis_Kemasan from Barang_Lain where "
                 SQL = SQL & "Kode_Barang='" & dgv_Rekap_KdBarang & "' and kode_perusahaan='" & KodePerusahaan & "' "
                 Using dr = OpenTrans(SQL)
                     If dr.Read Then
@@ -1274,7 +1275,7 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
                 'SQL = SQL & "'" & HilangkanTanda(dgv_Rekap_JumlahBags) & "', '" & dgv_Rekap_Oto & "', '" & Flag_Timbang & "', " & dgv_Rekap_JnsTransfer & " )"
                 'ExecuteTrans(SQL)
 
-                SQL = "insert into Emi_Adjustment_Stock_Detail (Kode_Perusahaan, No_Faktur, Kode_Barang, Total_Tambah, Total_Barang_Tambah, Total_Bags_Tambah, "
+                SQL = "insert into Emi_Adjustment_Stock_Detail_Barang_Lain (Kode_Perusahaan, No_Faktur, Kode_Barang, Total_Tambah, Total_Barang_Tambah, Total_Bags_Tambah, "
                 SQL = SQL & "Total_Minus, Total_Barang_Minus, Total_Bags_Minus, Satuan, Satuan_Barang) Values  "
                 SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & dgv_Rekap_KdBarang & "', '" & Val(HilangkanTanda(dgv_Rekap_JumlahBersih)) & "', "
                 SQL = SQL & "'" & Val(HilangkanTanda(nilai_kecil_tambah)) & "', '0', '" & Val(HilangkanTanda(dgv_rekap_JumlahBersihMinus)) & "', "
@@ -1284,14 +1285,14 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
 
 
                 Dim x_ident_current As Integer = 0
-                SQL = "select IDENT_CURRENT('Emi_Adjustment_Stock_Detail') as urutan"
+                SQL = "select IDENT_CURRENT('Emi_Adjustment_Stock_Detail_Barang_Lain') as urutan"
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
                         x_ident_current = Dr("urutan")
                     End If
                 End Using
 
-                SQL = "select kode_Perusahaan from Emi_Adjustment_Stock_Detail where "
+                SQL = "select kode_Perusahaan from Emi_Adjustment_Stock_Detail_Barang_Lain where "
                 SQL = SQL & "kode_Perusahaan='" & KodePerusahaan & "' and "
                 SQL = SQL & "No_Faktur='" & TxtNo_Transaksi.Text & "' and "
                 SQL = SQL & "Kode_barang='" & dgv_Rekap_KdBarang & "' and "
@@ -1370,7 +1371,7 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
                         'ExecuteTrans(SQL)
 
 
-                        SQL = "insert into Emi_Adjustment_Stock_Det (Kode_Perusahaan, No_Faktur, Id_Wms, No_Pallet, Serial_Number, Jumlah, Jumlah_Barang, Jumlah_Bags, Warna, Urut_Adj) Values "
+                        SQL = "insert into Emi_Adjustment_Stock_Det_Barang_Lain (Kode_Perusahaan, No_Faktur, Id_Wms, No_Pallet, Serial_Number, Jumlah, Jumlah_Barang, Jumlah_Bags, Warna, Urut_Adj) Values "
                         SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & dgv_detail_IDWarehouseAwal & "', "
                         SQL = SQL & "'" & dgv_detail_IDPalletAwal & "', '" & dgv_detail_SN & "', '" & Val(HilangkanTanda(dgv_detail_Jumlah.ToString)) & "', '" & Val(HilangkanTanda(nilai_kecildetail)) & "', "
                         SQL = SQL & "'0', '" & dgv_detail_Warna & "', '" & x_ident_current & "')"
@@ -1385,7 +1386,7 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
 
                         Dim Nama As String = ""
                         'Dim jumlahAkhir As Double = Val(dgv_GoodStock) - Val(dgv_Jumlah)
-                        SQL = "select Nama,round(good_stock,2) as good_stock, Jumlah_Bags from Barang where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & dgv_detail_lokasi & "' "
+                        SQL = "select Nama,round(good_stock,2) as good_stock, Jumlah_Bags from Barang_Lain where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & dgv_detail_lokasi & "' "
                         SQL = SQL & "and Kode_Barang='" & dgv_detail_KdBarang & "' "
                         Using dr = OpenTrans(SQL)
                             If dr.Read Then
@@ -1430,7 +1431,7 @@ Public Class N_EMI_Transaksi_Adjustment_Stock_Barang_Lain
                             End If
                         End Using
 
-                        SQL = "select round(jumlah,2) as jumlah, Jumlah_Bags, dbo.get_HPP(serial_number) as Harga from Barang_SN where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & dgv_detail_lokasi & "' "
+                        SQL = "select round(jumlah,2) as jumlah, Jumlah_Bags, dbo.get_HPP(serial_number) as Harga from Barang_Lain_SN where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & dgv_detail_lokasi & "' "
                         SQL = SQL & "and Kode_Barang='" & dgv_detail_KdBarang & "' "
                         SQL = SQL & "and Serial_Number='" & dgv_detail_SN & "'"
                         Using dr = OpenTrans(SQL)

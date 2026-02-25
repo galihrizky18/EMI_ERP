@@ -121,6 +121,54 @@
     <Compile Include="0. Root\Main_Menu.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="1. Barang Lain\3. Material Movement\Transfer Stock\2. Transaksi\1. Validasi\Tidak Timbang\N_EMI_Display_Transfer_Tidak_Timbang_Barang_Lain.designer.vb">
+      <DependentUpon>N_EMI_Display_Transfer_Tidak_Timbang_Barang_Lain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="1. Barang Lain\3. Material Movement\Transfer Stock\2. Transaksi\1. Validasi\Tidak Timbang\N_EMI_Display_Transfer_Tidak_Timbang_Barang_Lain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="1. Barang Lain\3. Material Movement\Transfer Stock\2. Transaksi\N_EMI_Transfer_Stock_Barang_Lain.Designer.vb">
+      <DependentUpon>N_EMI_Transfer_Stock_Barang_Lain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="1. Barang Lain\3. Material Movement\Transfer Stock\2. Transaksi\N_EMI_Transfer_Stock_Barang_Lain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="1. Barang Lain\3. Material Movement\Transfer Stock\2. Transaksi\SD\N_EMI_SD_List_Keep_Stock_Barang_Lain.Designer.vb">
+      <DependentUpon>N_EMI_SD_List_Keep_Stock_Barang_Lain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="1. Barang Lain\3. Material Movement\Transfer Stock\2. Transaksi\SD\N_EMI_SD_List_Keep_Stock_Barang_Lain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="1. Barang Lain\3. Material Movement\Transfer Stock\3. Display\N_EMI_Display_Transfer_Stock_Barang_Lain.Designer.vb">
+      <DependentUpon>N_EMI_Display_Transfer_Stock_Barang_Lain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="1. Barang Lain\3. Material Movement\Transfer Stock\3. Display\N_EMI_Display_Transfer_Stock_Barang_Lain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="1. Barang Lain\3. Material Movement\Transfer Stock\4. Laporan\N_EMI_Laporan_Transfer_Stock_Barang_Lain.Designer.vb">
+      <DependentUpon>N_EMI_Laporan_Transfer_Stock_Barang_Lain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="1. Barang Lain\3. Material Movement\Transfer Stock\4. Laporan\N_EMI_Laporan_Transfer_Stock_Barang_Lain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="1. Barang Lain\3. Material Movement\Transfer Stock\5. Faktur\N_EMI_CR_Faktur_Transfer_Stock_Barang_Lain.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_CR_Faktur_Transfer_Stock_Barang_Lain.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="1. Barang Lain\3. Material Movement\Transfer Stock\5. Faktur\N_EMI_CR_Laporan_Transfer_Stock_Barang_Lain.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_CR_Laporan_Transfer_Stock_Barang_Lain.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="1. Barang Lain\3. Material Movement\Transfer Stock\5. Faktur\N_EMI_CR_New_Barcode_Transfer_Stock_Barang_Lain.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_CR_New_Barcode_Transfer_Stock_Barang_Lain.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="1. Barang Lain\5. Inventori\Adjustment Stock\2. Transaksi\N_EMI_Transaksi_Adjustment_Stock_Barang_Lain.Designer.vb">
       <DependentUpon>N_EMI_Transaksi_Adjustment_Stock_Barang_Lain.vb</DependentUpon>
     </Compile>
@@ -156,6 +204,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_EMI_Faktur_Transfer_Stock.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\5. Inventori\Adjustment Stock\2. Transaksi\Validasi\N_EMI_Transaksi_Validasi_Adjustment_Stock.Designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Validasi_Adjustment_Stock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\5. Inventori\Adjustment Stock\2. Transaksi\Validasi\N_EMI_Transaksi_Validasi_Adjustment_Stock.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="2. Produksi\5. Inventori\Adjustment Stock\3. Display\Emi_Display_Adjusment_Stock.Designer.vb">
       <DependentUpon>Emi_Display_Adjusment_Stock.vb</DependentUpon>
@@ -509,12 +563,6 @@
     <Compile Include="2. Produksi\5. Inventori\Adjustment Stock\2. Transaksi\Emi_Adj_Stock.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Produksi\5. Inventori\Adjustment Stock\2. Transaksi\Validasi\N_EMI_Transaksi_Validasi_Adjustment_Stock.Designer.vb">
-      <DependentUpon>N_EMI_Transaksi_Validasi_Adjustment_Stock.vb</DependentUpon>
-    </Compile>
-    <Compile Include="2. Produksi\5. Inventori\Adjustment Stock\2. Transaksi\Validasi\N_EMI_Transaksi_Validasi_Adjustment_Stock.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="1. Barang Lain\5. Inventori\Adjustment Stock\3. Display\N_EMI_Display_Adjustment_Stock_Barang_Lain.Designer.vb">
       <DependentUpon>N_EMI_Display_Adjustment_Stock_Barang_Lain.vb</DependentUpon>
     </Compile>
@@ -644,6 +692,33 @@
     <EmbeddedResource Include="0. Root\Main_Menu.resx">
       <DependentUpon>Main_Menu.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="1. Barang Lain\3. Material Movement\Transfer Stock\2. Transaksi\1. Validasi\Tidak Timbang\N_EMI_Display_Transfer_Tidak_Timbang_Barang_Lain.resx">
+      <DependentUpon>N_EMI_Display_Transfer_Tidak_Timbang_Barang_Lain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="1. Barang Lain\3. Material Movement\Transfer Stock\2. Transaksi\N_EMI_Transfer_Stock_Barang_Lain.resx">
+      <DependentUpon>N_EMI_Transfer_Stock_Barang_Lain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="1. Barang Lain\3. Material Movement\Transfer Stock\2. Transaksi\SD\N_EMI_SD_List_Keep_Stock_Barang_Lain.resx">
+      <DependentUpon>N_EMI_SD_List_Keep_Stock_Barang_Lain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="1. Barang Lain\3. Material Movement\Transfer Stock\3. Display\N_EMI_Display_Transfer_Stock_Barang_Lain.resx">
+      <DependentUpon>N_EMI_Display_Transfer_Stock_Barang_Lain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="1. Barang Lain\3. Material Movement\Transfer Stock\4. Laporan\N_EMI_Laporan_Transfer_Stock_Barang_Lain.resx">
+      <DependentUpon>N_EMI_Laporan_Transfer_Stock_Barang_Lain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="1. Barang Lain\3. Material Movement\Transfer Stock\5. Faktur\N_EMI_CR_Faktur_Transfer_Stock_Barang_Lain.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_CR_Faktur_Transfer_Stock_Barang_Lain.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="1. Barang Lain\3. Material Movement\Transfer Stock\5. Faktur\N_EMI_CR_Laporan_Transfer_Stock_Barang_Lain.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_CR_Laporan_Transfer_Stock_Barang_Lain.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="1. Barang Lain\3. Material Movement\Transfer Stock\5. Faktur\N_EMI_CR_New_Barcode_Transfer_Stock_Barang_Lain.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_CR_New_Barcode_Transfer_Stock_Barang_Lain.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="1. Barang Lain\5. Inventori\Adjustment Stock\2. Transaksi\N_EMI_Transaksi_Adjustment_Stock_Barang_Lain.resx">
       <DependentUpon>N_EMI_Transaksi_Adjustment_Stock_Barang_Lain.vb</DependentUpon>
     </EmbeddedResource>
@@ -663,6 +738,9 @@
     <EmbeddedResource Include="2. Produksi\3. Material Movement\Transfer Stock\5. Faktur\Rpt_EMI_Faktur_Transfer_Stock.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_EMI_Faktur_Transfer_Stock.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\5. Inventori\Adjustment Stock\2. Transaksi\Validasi\N_EMI_Transaksi_Validasi_Adjustment_Stock.resx">
+      <DependentUpon>N_EMI_Transaksi_Validasi_Adjustment_Stock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\5. Inventori\Adjustment Stock\3. Display\Emi_Display_Adjusment_Stock.resx">
       <DependentUpon>Emi_Display_Adjusment_Stock.vb</DependentUpon>
@@ -855,9 +933,6 @@
     <EmbeddedResource Include="2. Produksi\5. Inventori\Adjustment Stock\2. Transaksi\Emi_Adj_Stock.resx">
       <DependentUpon>Emi_Adj_Stock.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\5. Inventori\Adjustment Stock\2. Transaksi\Validasi\N_EMI_Transaksi_Validasi_Adjustment_Stock.resx">
-      <DependentUpon>N_EMI_Transaksi_Validasi_Adjustment_Stock.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="1. Barang Lain\5. Inventori\Adjustment Stock\3. Display\N_EMI_Display_Adjustment_Stock_Barang_Lain.resx">
       <DependentUpon>N_EMI_Display_Adjustment_Stock_Barang_Lain.vb</DependentUpon>
     </EmbeddedResource>
@@ -927,6 +1002,11 @@
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="0. Root\Template\1. Master\" />
+    <Folder Include="0. Root\Template\2. Transaksi\" />
+    <Folder Include="0. Root\Template\3. Display\" />
+    <Folder Include="0. Root\Template\4. Laporan\" />
+    <Folder Include="1. Barang Lain\3. Material Movement\Transfer Stock\1. Master\" />
     <Folder Include="1. Barang Lain\5. Inventori\Adjustment Stock\1. Master\" />
     <Folder Include="1. Barang Lain\5. Inventori\Adjustment Stock\2. Transaksi\SD\" />
     <Folder Include="1. Barang Lain\5. Inventori\Adjustment Stock\4. Laporan\" />

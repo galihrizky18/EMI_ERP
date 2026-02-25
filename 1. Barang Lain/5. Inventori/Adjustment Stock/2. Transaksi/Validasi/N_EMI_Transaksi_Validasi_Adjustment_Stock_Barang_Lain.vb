@@ -1,4 +1,4 @@
-﻿Public Class N_EMI_Transaksi_Validasi_Adjustment_Stock
+﻿Public Class N_EMI_Transaksi_Validasi_Adjustment_Stock_Barang_Lain
 
     Private ReadOnly BodyAlignments, BodyAlignments2, BodyAlignments3 As New Dictionary(Of Integer, StringAlignment)
     Dim arrFilter As New ArrayList
@@ -32,7 +32,7 @@
         Lv_Data.Columns.Clear()
         Lv_Data.Columns.Add("Lokasi", 120) : BodyAlignments(0) = StringAlignment.Center
         Lv_Data.Columns.Add("No Faktur", 140) : BodyAlignments(1) = StringAlignment.Near
-        Lv_Data.Columns.Add("Kode Stock Owner", 130) : BodyAlignments(2) = StringAlignment.Near
+        Lv_Data.Columns.Add("Kode Stock Owner", 150) : BodyAlignments(2) = StringAlignment.Near
         Lv_Data.Columns.Add("Tanggal", 110) : BodyAlignments(3) = StringAlignment.Center
         Lv_Data.Columns.Add("Jam", 100) : BodyAlignments(4) = StringAlignment.Center
         Lv_Data.Columns.Add("Jenis Adjustment", 130) : BodyAlignments(5) = StringAlignment.Center
@@ -102,7 +102,7 @@
             Lv_Data.BeginUpdate()
             Lv_Data.Items.Clear() : Lv_Detail_Barang.Items.Clear() : Lv_Detail_Barcode.Items.Clear()
             SQL = "select a.Lokasi, a.No_Faktur, a.Kode_Stock_Owner, a.Tanggal, a.Jam, a.Jenis_Adjustment, a.Keterangan, a.UserID "
-            SQL &= $"from Emi_Adjustment_Stock a "
+            SQL &= $"from Emi_Adjustment_Stock_Barang_Lain a "
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
             SQL &= $"and a.status is NULL "
             SQL &= $"and a.Flag_Validation_Accounting is NULL "
@@ -166,9 +166,9 @@
             Lv_Detail_Barang.BeginUpdate()
             Lv_Detail_Barang.Items.Clear() : Lv_Detail_Barcode.Items.Clear()
             SQL = "select b.Kode_Barang, c.nama as nama_barang, b.Total_Tambah, b.Total_Minus, b.Satuan, b.Urut "
-            SQL &= $"from Emi_Adjustment_Stock a "
-            SQL &= $"inner join Emi_Adjustment_Stock_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-            SQL &= $"inner join barang c on b.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
+            SQL &= $"from Emi_Adjustment_Stock_Barang_Lain a "
+            SQL &= $"inner join Emi_Adjustment_Stock_Detail_Barang_Lain b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            SQL &= $"inner join Barang_Lain c on b.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
             SQL &= $"and a.status is NULL "
             SQL &= $"and a.Flag_Validation_Accounting is NULL "
@@ -211,10 +211,10 @@
             Lv_Detail_Barcode.BeginUpdate()
             Lv_Detail_Barcode.Items.Clear()
             SQL = "select (d.Qr_Code+'-'+d.Kode_Unik_Berjalan) as Barcode, c.Jumlah, b.Satuan "
-            SQL &= $"from Emi_Adjustment_Stock a "
-            SQL &= $"inner join Emi_Adjustment_Stock_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-            SQL &= $"inner join Emi_Adjustment_Stock_Det c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur and b.Urut = c.Urut_Adj "
-            SQL &= $"inner join barang_sn d on c.Kode_Perusahaan = d.Kode_Perusahaan and a.Kode_Stock_Owner = d.Kode_Stock_Owner and b.Kode_Barang = d.Kode_Barang and c.Serial_Number = d.Serial_Number "
+            SQL &= $"from Emi_Adjustment_Stock_Barang_Lain a "
+            SQL &= $"inner join Emi_Adjustment_Stock_Detail_Barang_Lain b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            SQL &= $"inner join Emi_Adjustment_Stock_Det_Barang_Lain c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur and b.Urut = c.Urut_Adj "
+            SQL &= $"inner join Barang_Lain_SN d on c.Kode_Perusahaan = d.Kode_Perusahaan and a.Kode_Stock_Owner = d.Kode_Stock_Owner and b.Kode_Barang = d.Kode_Barang and c.Serial_Number = d.Serial_Number "
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
             SQL &= $"and a.status is NULL "
             SQL &= $"and a.Flag_Validation_Accounting is NULL "
@@ -245,7 +245,7 @@
             Exit Sub
         End If
 
-        Clipboard.SetText(Lv_Data.FocusedItem.Text)
+        Clipboard.SetText(Lv_Data.FocusedItem.SubItems(Item_No_Faktur).Text)
     End Sub
 
 
@@ -266,7 +266,7 @@
             '====================
             '=     CEK ROLE     =
             '====================
-            If CekButtonRole("Validasi_Adjustment_Stock_Accounting") = "T" Then
+            If CekButtonRole("Validasi_Adjustment_Barang_Lain_Stock_Accounting") = "T" Then
                 CloseTrans()
                 CloseConn()
                 MessageBox.Show("Anda Tidak Memiliki Akses Untuk Validasi Adjustment Stock", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -277,7 +277,7 @@
             '=     CEK APAKAH SEMUA DATA SUDAH DI VALIDASI     =
             '===================================================
             Dim Kd_SO_Parent As String = ""
-            SQL = "select Flag_Validation_Accounting, Kode_Stock_Owner from Emi_Adjustment_Stock "
+            SQL = "select Flag_Validation_Accounting, Kode_Stock_Owner from Emi_Adjustment_Stock_Barang_Lain "
             SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
             SQL &= $"and status is null "
             SQL &= $"and no_faktur = '{SelectedFaktur}' "
@@ -308,7 +308,7 @@
             Dim akun_adj_plus As String = ""
             Dim akun_adj_min As String = ""
 
-            SQL = "select inisial_faktur,Persediaan_Bahan_Baku,Persediaan,Persediaan_Bahan_Setengah_Jadi,Persediaan_Scrap, Persediaan_Packaging, Adjustment_Stock_Kurang, Adjustment_Stock_Tambah from stock_owner_gudang "
+            SQL = "select inisial_faktur,Persediaan_Bahan_Baku,Persediaan,Persediaan_Bahan_Setengah_Jadi,Persediaan_Scrap, Persediaan_Packaging, Adjustment_Stock_Kurang, Adjustment_Stock_Tambah from Stock_Owner_Gudang_Lain "
             SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & Kd_SO_Parent & "' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
@@ -346,9 +346,9 @@
             '=     GET DETAIL DATA PENGAJUAN     =
             '=====================================
             SQL = "select a.No_Faktur, a.Kode_Stock_Owner, b.Kode_Barang, c.Serial_Number, c.Jumlah, c.Jumlah_Bags, b.Satuan, c.Urut_Oto "
-            SQL &= $"from Emi_Adjustment_Stock a "
-            SQL &= $"inner join Emi_Adjustment_Stock_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-            SQL &= $"inner join Emi_Adjustment_Stock_Det c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur and b.Urut = c.Urut_Adj "
+            SQL &= $"from Emi_Adjustment_Stock_Barang_Lain a "
+            SQL &= $"inner join Emi_Adjustment_Stock_Detail_Barang_Lain b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            SQL &= $"inner join Emi_Adjustment_Stock_Det_Barang_Lain c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur and b.Urut = c.Urut_Adj "
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
             SQL &= $"and a.status is NULL "
             SQL &= $"and a.Flag_Validation_Accounting is NULL "
@@ -379,13 +379,13 @@
                             '===============================
                             '=     CEK KESESUAIAN DATA     =
                             '===============================
-                            SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_sn x "
+                            SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_Lain_SN x "
                             SQL = SQL & "where a.kode_Barang=x.kode_Barang and a.Kode_Stock_Owner=x.kode_Stock_Owner "
                             SQL = SQL & "and a.kode_Perusahaan=x.kode_Perusahaan ),0) as Jumlah_sn, "
                             SQL = SQL & "isnull(round(SUM(jumlah_bags), 2), 0) AS jumlah_bags_barang, "
-                            SQL = SQL & "isnull((select round(sum(Jumlah_Bags), 2) from Barang_sn y "
+                            SQL = SQL & "isnull((select round(sum(Jumlah_Bags), 2) from Barang_Lain_SN y "
                             SQL = SQL & "where a.kode_Barang=y.kode_Barang and a.Kode_Stock_Owner=y.kode_Stock_Owner and a.kode_Perusahaan=y.kode_Perusahaan ), 0) as jumlah_bags_sn "
-                            SQL = SQL & "FROM barang a WHERE a.Kode_Stock_Owner = '" & Kd_So & "' "
+                            SQL = SQL & "FROM Barang_Lain a WHERE a.Kode_Stock_Owner = '" & Kd_So & "' "
                             SQL = SQL & "AND a.Kode_Barang = '" & Kd_Barang & "' and a.Kode_Perusahaan='" & KodePerusahaan & "' "
                             SQL = SQL & "group by a.kode_Barang, a.Kode_Stock_Owner, a.kode_Perusahaan "
                             Using Ds1 = BindingTrans(SQL)
@@ -411,11 +411,12 @@
 
                             Dim Nama As String = ""
                             'Dim jumlahAkhir As Double = Val(dgv_GoodStock) - Val(dgv_Jumlah)
-                            SQL = "select Nama,round(good_stock,2) as good_stock, Jumlah_Bags from Barang where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Kd_So & "' "
+                            SQL = "select Nama,round(good_stock,2) as good_stock, Jumlah_Bags from Barang_Lain where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Kd_So & "' "
                             SQL = SQL & "and Kode_Barang='" & Kd_Barang & "' "
                             Using dr = OpenTrans(SQL)
                                 If dr.Read Then
                                     Nama = dr("nama")
+                                    Dim jumlah_sn As Double = dr("good_stock")
 
                                     dr.Close()
 
@@ -424,7 +425,7 @@
 
                                     If Val(HilangkanTanda(Jumlah.ToString)) < 0 Then
 
-                                        If dr("good_stock") < Jumlah Then
+                                        If jumlah_sn < Jumlah Then
                                             dr.Close()
                                             CloseTrans()
                                             CloseConn()
@@ -438,15 +439,13 @@
                                             '    Exit Sub
                                         End If
 
-
-                                        SQL = "update barang set Good_Stock = Good_Stock - " & GoodTemp & ", Jumlah_Bags = Jumlah_Bags - 0 "
+                                        SQL = "update Barang_Lain set Good_Stock = Good_Stock - " & GoodTemp & ", Jumlah_Bags = Jumlah_Bags - 0 "
                                         SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Kd_So & "' "
                                         SQL = SQL & " and Kode_Barang='" & Kd_Barang & "'"
                                         ExecuteTrans(SQL)
 
                                     Else
-
-                                        SQL = "update barang set Good_Stock = Good_Stock + " & GoodTemp & ", Jumlah_Bags = Jumlah_Bags + 0 "
+                                        SQL = "update Barang_Lain set Good_Stock = Good_Stock + " & GoodTemp & ", Jumlah_Bags = Jumlah_Bags + 0 "
                                         SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Kd_So & "' "
                                         SQL = SQL & " and Kode_Barang='" & Kd_Barang & "'"
                                         ExecuteTrans(SQL)
@@ -462,7 +461,7 @@
                                 End If
                             End Using
 
-                            SQL = "select round(jumlah,2) as jumlah, Jumlah_Bags, dbo.get_HPP(serial_number) as Harga from Barang_SN where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Kd_So & "' "
+                            SQL = "select round(jumlah,2) as jumlah, Jumlah_Bags, dbo.get_HPP(serial_number) as Harga from Barang_Lain_SN where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Kd_So & "' "
                             SQL = SQL & "and Kode_Barang='" & Kd_Barang & "' "
                             SQL = SQL & "and Serial_Number='" & SN & "'"
                             Using dr = OpenTrans(SQL)
@@ -486,7 +485,7 @@
                                             Exit Sub
                                         End If
 
-                                        SQL = "update barang_sn set jumlah = jumlah - " & GoodTemp & ", Jumlah_Bags = Jumlah_Bags - 0 "
+                                        SQL = "update Barang_Lain_SN set jumlah = jumlah - " & GoodTemp & ", Jumlah_Bags = Jumlah_Bags - 0 "
                                         SQL = SQL & "where Kode_Stock_Owner='" & Kd_So & "' and Kode_Barang='" & Kd_Barang & "' "
                                         SQL = SQL & "and Serial_Number='" & SN & "'"
                                         ExecuteTrans(SQL)
@@ -496,7 +495,7 @@
 
 
                                         SQL = "select c.akun_Persediaan "
-                                        SQL = SQL & "from EMI_Group_Jenis a, Barang b, EMI_Group_Jenis_Akun c where "
+                                        SQL = SQL & "from EMI_Group_Jenis_Lain a, Barang_Lain b, EMI_Group_Jenis_Akun_lain c where "
                                         SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Group_Jenis = b.Id_Group_Jenis and "
                                         SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Group_Jenis = c.Id_Group_Jenis and "
                                         SQL = SQL & "b.kode_stock_owner = c.kode_stock_owner and b.Kode_Perusahaan = '" & KodePerusahaan & "' "
@@ -569,7 +568,7 @@
                                         End Using
 
                                     Else
-                                        SQL = "update barang_sn set jumlah = jumlah + " & GoodTemp & ", Jumlah_Bags = Jumlah_Bags + 0 "
+                                        SQL = "update Barang_Lain_SN set jumlah = jumlah + " & GoodTemp & ", Jumlah_Bags = Jumlah_Bags + 0 "
                                         SQL = SQL & "where Kode_Stock_Owner='" & Kd_So & "' and Kode_Barang='" & Kd_Barang & "' "
                                         SQL = SQL & "and Serial_Number='" & SN & "'"
                                         ExecuteTrans(SQL)
@@ -577,7 +576,7 @@
                                         nilai_adjustplus += nilai_jurnal
 
                                         SQL = "select c.akun_Persediaan "
-                                        SQL = SQL & "from EMI_Group_Jenis a, Barang b, EMI_Group_Jenis_Akun c where "
+                                        SQL = SQL & "from EMI_Group_Jenis_Lain a, Barang_Lain b, EMI_Group_Jenis_Akun_lain c where "
                                         SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Group_Jenis = b.Id_Group_Jenis and "
                                         SQL = SQL & "b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Group_Jenis = c.Id_Group_Jenis and "
                                         SQL = SQL & "b.kode_stock_owner = c.kode_stock_owner and b.Kode_Perusahaan = '" & KodePerusahaan & "' "
@@ -663,13 +662,13 @@
                             '====================================
                             '=       CEK KESESUAIAN STOCK       =
                             '====================================
-                            SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_sn x "
+                            SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_Lain_SN x "
                             SQL = SQL & "where a.kode_Barang=x.kode_Barang and a.Kode_Stock_Owner=x.kode_Stock_Owner "
                             SQL = SQL & "and a.kode_Perusahaan=x.kode_Perusahaan ),0) as Jumlah_sn, "
                             SQL = SQL & "isnull(round(SUM(jumlah_bags), 2), 0) AS jumlah_bags_barang, "
-                            SQL = SQL & "isnull((select round(sum(Jumlah_Bags), 2) from Barang_sn y "
+                            SQL = SQL & "isnull((select round(sum(Jumlah_Bags), 2) from Barang_Lain_SN y "
                             SQL = SQL & "where a.kode_Barang=y.kode_Barang and a.Kode_Stock_Owner=y.kode_Stock_Owner and a.kode_Perusahaan=y.kode_Perusahaan ), 0) as jumlah_bags_sn "
-                            SQL = SQL & "FROM barang a WHERE a.Kode_Stock_Owner = '" & Kd_So & "' "
+                            SQL = SQL & "FROM Barang_Lain a WHERE a.Kode_Stock_Owner = '" & Kd_So & "' "
                             SQL = SQL & "AND a.Kode_Barang = '" & Kd_Barang & "' and a.Kode_Perusahaan='" & KodePerusahaan & "' "
                             SQL = SQL & "group by a.kode_Barang, a.Kode_Stock_Owner, a.kode_Perusahaan "
                             Using D2 = BindingTrans(SQL)
@@ -692,7 +691,7 @@
                             '==========================
                             '=       UPDATE DET       =
                             '==========================
-                            SQL = "select Kode_Perusahaan from Emi_Adjustment_Stock_Det "
+                            SQL = "select Kode_Perusahaan from Emi_Adjustment_Stock_Det_Barang_Lain "
                             SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
                             SQL &= $"and No_Faktur = '{SelectedFaktur}' "
                             SQL &= $"and Urut_Oto = '{Urut_Det}' "
@@ -700,7 +699,7 @@
                                 If Dr.Read Then
 
                                     Dr.Close()
-                                    SQL = "update Emi_Adjustment_Stock_Det set Flag_Validation_Accounting = 'Y' "
+                                    SQL = "update Emi_Adjustment_Stock_Det_Barang_Lain set Flag_Validation_Accounting = 'Y' "
                                     SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
                                     SQL &= $"and No_Faktur = '{SelectedFaktur}' "
                                     SQL &= $"and Urut_Oto = '{Urut_Det}' "
@@ -752,8 +751,8 @@
             '=       CEK APAKAH SEMUA SUDAH DI VALIDASI       =
             '==================================================
             SQL = "select (b.Qr_Code+'-'+b.Kode_Unik_Berjalan) as Barcode "
-            SQL &= $"from Emi_Adjustment_Stock_Det a "
-            SQL &= $"inner join barang_sn b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Serial_Number = b.Serial_Number "
+            SQL &= $"from Emi_Adjustment_Stock_Det_Barang_Lain a "
+            SQL &= $"inner join Barang_Lain_SN b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Serial_Number = b.Serial_Number "
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
             SQL &= $"and a.No_Faktur = '{SelectedFaktur}' "
             SQL &= $"and a.Flag_Validation_Accounting is null "
@@ -766,7 +765,7 @@
                         MessageBox.Show($"Terjadi Kesalahan, Barcode {BarcodeGagal} Gagal Divalidasi.{vbCrLf & vbCrLf}Harap Ulangi Transaksi atau Hubungi Tim IT", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     Else
-                        SQL = $"update Emi_Adjustment_Stock set Kode_Voucher = '{Kode_voucher}', Flag_Validation_Accounting = 'Y', "
+                        SQL = $"update Emi_Adjustment_Stock_Barang_Lain set Kode_Voucher = '{Kode_voucher}', Flag_Validation_Accounting = 'Y', "
                         SQL &= $"Tanggal_Validasi = '{Format(tgl_skg, "yyyy-MM-dd")}', Jam_Validasi = '{Format(tgl_skg, "HH:mm:ss")}', user_Validasi = '{UserID}' "
                         SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
                         SQL &= $"and No_Faktur = '{SelectedFaktur}' "

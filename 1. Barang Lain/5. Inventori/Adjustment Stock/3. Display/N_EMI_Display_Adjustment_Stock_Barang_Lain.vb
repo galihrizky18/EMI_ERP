@@ -13,32 +13,32 @@
 
     Private Sub Kosong()
         Lv_Adjustment.Columns.Clear()
-        Lv_Adjustment.Columns.Add("No Faktur", 200, HorizontalAlignment.Left)
-        Lv_Adjustment.Columns.Add("Lokasi", 200, HorizontalAlignment.Left)
-        Lv_Adjustment.Columns.Add("Kode SO", 200, HorizontalAlignment.Left)
+        Lv_Adjustment.Columns.Add("No Faktur", 170, HorizontalAlignment.Left)
+        Lv_Adjustment.Columns.Add("Lokasi", 150, HorizontalAlignment.Center)
+        Lv_Adjustment.Columns.Add("Kode SO", 170, HorizontalAlignment.Left)
         Lv_Adjustment.Columns.Add("Keterangan", 350, HorizontalAlignment.Left)
-        Lv_Adjustment.Columns.Add("Tanggal", 180, HorizontalAlignment.Center)
-        Lv_Adjustment.Columns.Add("User ID", 150, HorizontalAlignment.Center)
+        Lv_Adjustment.Columns.Add("Tanggal", 120, HorizontalAlignment.Center)
+        Lv_Adjustment.Columns.Add("User ID", 140, HorizontalAlignment.Left)
         Lv_Adjustment.View = View.Details
 
         Lv_Retur_Detail.Columns.Clear()
-        Lv_Retur_Detail.Columns.Add("Kode Barang", 150, HorizontalAlignment.Left)
-        Lv_Retur_Detail.Columns.Add("Nama", 400, HorizontalAlignment.Left)
-        Lv_Retur_Detail.Columns.Add("Total Tambah", 150, HorizontalAlignment.Right)
-        Lv_Retur_Detail.Columns.Add("Total Kurang", 150, HorizontalAlignment.Right)
-        Lv_Retur_Detail.Columns.Add("Total Bags Tambah", 150, HorizontalAlignment.Right)
-        Lv_Retur_Detail.Columns.Add("Total Bags Kurang", 150, HorizontalAlignment.Right)
+        Lv_Retur_Detail.Columns.Add("Kode Barang", 130, HorizontalAlignment.Left)
+        Lv_Retur_Detail.Columns.Add("Nama", 250, HorizontalAlignment.Left)
+        Lv_Retur_Detail.Columns.Add("Total Tambah", 130, HorizontalAlignment.Right)
+        Lv_Retur_Detail.Columns.Add("Total Kurang", 130, HorizontalAlignment.Right)
+        Lv_Retur_Detail.Columns.Add("Total Bags Tambah", 130, HorizontalAlignment.Right)
+        Lv_Retur_Detail.Columns.Add("Total Bags Kurang", 130, HorizontalAlignment.Right)
         Lv_Retur_Detail.Columns.Add("Satuan", 80, HorizontalAlignment.Center)
         'Hide
         Lv_Retur_Detail.Columns.Add("urut", 0, HorizontalAlignment.Center)
         Lv_Retur_Detail.View = View.Details
 
         Lv_Retur_Mobil.Columns.Clear()
-        Lv_Retur_Mobil.Columns.Add("Rak", 150, HorizontalAlignment.Left)
-        Lv_Retur_Mobil.Columns.Add("Jumlah", 150, HorizontalAlignment.Right)
-        Lv_Retur_Mobil.Columns.Add("Jumlah Bags", 140, HorizontalAlignment.Right)
+        Lv_Retur_Mobil.Columns.Add("Rak", 130, HorizontalAlignment.Left)
+        Lv_Retur_Mobil.Columns.Add("Jumlah", 120, HorizontalAlignment.Right)
+        Lv_Retur_Mobil.Columns.Add("Jumlah Bags", 120, HorizontalAlignment.Right)
         Lv_Retur_Mobil.Columns.Add("Satuan", 80, HorizontalAlignment.Center)
-        Lv_Retur_Mobil.Columns.Add("Kualitas", 150, HorizontalAlignment.Center)
+        Lv_Retur_Mobil.Columns.Add("Kualitas", 130, HorizontalAlignment.Center)
         Lv_Retur_Mobil.View = View.Details
 
         Try
@@ -86,7 +86,7 @@
 
             Lv_Adjustment.Items.Clear() : Lv_Retur_Detail.Items.Clear() : Lv_Retur_Mobil.Items.Clear()
             SQL = "Select a.Kode_Perusahaan, a.Lokasi, a.No_Faktur, a.Kode_Stock_Owner, a.Tanggal, a.Jam, a.Keterangan, a.UserID "
-            SQL = SQL & "from Emi_Adjustment_Stock a "
+            SQL = SQL & "from Emi_Adjustment_Stock_Barang_Lain a "
             SQL = SQL & "where  a.kode_perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.status is null "
 
@@ -156,7 +156,7 @@
             Lv_Retur_Detail.Items.Clear() : Lv_Retur_Mobil.Items.Clear()
 
             SQL = "select a.No_Faktur, b.Kode_Barang, c.Nama, b.Total_Tambah, b.Total_Minus, b.Total_Bags_Tambah, b.Total_Bags_Minus, b.Satuan, b.Urut "
-            SQL = SQL & "from Emi_Adjustment_Stock a, Emi_Adjustment_Stock_Detail b, barang c "
+            SQL = SQL & "from Emi_Adjustment_Stock_Barang_Lain a, Emi_Adjustment_Stock_Detail_Barang_Lain b, Barang_Lain c "
             SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan and b.kode_perusahaan = c.Kode_Perusahaan "
             SQL = SQL & "and a.No_Faktur = b.No_Faktur "
             SQL = SQL & "and a.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
@@ -198,7 +198,7 @@
 
             Lv_Retur_Mobil.Items.Clear()
             SQL = "select a.No_Faktur, c.Id_Wms, d.Keterangan as Rak, c.Jumlah, c.Jumlah_Bags, e.Keterangan as Kualitas, b.Satuan "
-            SQL = SQL & "from Emi_Adjustment_Stock a, Emi_Adjustment_Stock_Detail b, Emi_Adjustment_Stock_Det c, View_Warehouse_Position d, EMI_Master_Warna e "
+            SQL = SQL & "from Emi_Adjustment_Stock_Barang_Lain a, Emi_Adjustment_Stock_Detail_Barang_Lain b, Emi_Adjustment_Stock_Det_Barang_Lain c, View_Warehouse_Position_Barang_Lain d, EMI_Master_Warna e "
             SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan and c.Kode_Perusahaan = e.Kode_Perusahaan "
             SQL = SQL & "and a.No_Faktur = b.No_Faktur "
             SQL = SQL & "and b.No_Faktur = c.No_Faktur and b.Urut = c.Urut_Adj "

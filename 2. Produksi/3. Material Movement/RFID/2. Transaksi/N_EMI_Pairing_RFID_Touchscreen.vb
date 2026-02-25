@@ -947,7 +947,7 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
                         Cmd.Parameters.AddWithValue("@KodePerusahaan", KodePerusahaan)
                         Cmd.Parameters.AddWithValue("@NoFaktur", NoFakturOrder)
                         Cmd.Parameters.AddWithValue("@KodeStockOwner", Lokasi)
-                        Cmd.Parameters.AddWithValue("@LokasiPairing", Lokasi)
+                        Cmd.Parameters.AddWithValue("@LokasiPairing", "COLD_STORAGE")
                         Cmd.Parameters.AddWithValue("@RFID_Tag", rfid_tag)
                         Cmd.Parameters.AddWithValue("@TanggalPairing", Format(tgl_skg, "yyyy-MM-dd"))
                         Cmd.Parameters.AddWithValue("@JamPairing", Format(tgl_skg, "HH:mm:ss"))

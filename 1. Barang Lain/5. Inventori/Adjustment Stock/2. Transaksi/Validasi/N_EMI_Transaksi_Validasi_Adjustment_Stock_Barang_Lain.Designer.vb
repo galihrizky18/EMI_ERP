@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class N_EMI_Transaksi_Validasi_Adjustment_Stock
+Partial Class N_EMI_Transaksi_Validasi_Adjustment_Stock_Barang_Lain
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -82,13 +82,13 @@ Partial Class N_EMI_Transaksi_Validasi_Adjustment_Stock
         'Lbl_Judul
         '
         Me.Lbl_Judul.AutoSize = True
-        Me.Lbl_Judul.Font = New System.Drawing.Font("Work Sans SemiBold", 15.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_Judul.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold)
         Me.Lbl_Judul.Location = New System.Drawing.Point(20, 7)
         Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Lbl_Judul.Name = "Lbl_Judul"
-        Me.Lbl_Judul.Size = New System.Drawing.Size(192, 29)
+        Me.Lbl_Judul.Size = New System.Drawing.Size(424, 30)
         Me.Lbl_Judul.TabIndex = 0
-        Me.Lbl_Judul.Text = "Adjustment Stock"
+        Me.Lbl_Judul.Text = "Display - Adjustment Stock Barang Lain"
         '
         'Panel3
         '
@@ -188,7 +188,7 @@ Partial Class N_EMI_Transaksi_Validasi_Adjustment_Stock
         '
         Me.Btn_Cari.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Cari.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Btn_Cari.Font = New System.Drawing.Font("Work Sans Medium", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Cari.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Cari.ForeColor = System.Drawing.Color.White
         Me.Btn_Cari.Location = New System.Drawing.Point(492, 58)
         Me.Btn_Cari.Name = "Btn_Cari"
@@ -211,7 +211,7 @@ Partial Class N_EMI_Transaksi_Validasi_Adjustment_Stock
         '
         Me.Txt_NoFaktur.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_NoFaktur.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_NoFaktur.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_NoFaktur.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.Txt_NoFaktur.Location = New System.Drawing.Point(218, 62)
         Me.Txt_NoFaktur.MaxLength = 50
         Me.Txt_NoFaktur.Name = "Txt_NoFaktur"
@@ -221,10 +221,10 @@ Partial Class N_EMI_Transaksi_Validasi_Adjustment_Stock
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Font = New System.Drawing.Font("Work Sans", 7.0!)
         Me.Label3.Location = New System.Drawing.Point(1010, 69)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(155, 16)
+        Me.Label3.Size = New System.Drawing.Size(142, 14)
         Me.Label3.TabIndex = 487
         Me.Label3.Text = "* Klik kanan untuk validasi."
         '
@@ -289,7 +289,7 @@ Partial Class N_EMI_Transaksi_Validasi_Adjustment_Stock
         '
         Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Button1.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Button1.Font = New System.Drawing.Font("Work Sans Medium", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Button1.ForeColor = System.Drawing.Color.White
         Me.Button1.Location = New System.Drawing.Point(576, 58)
         Me.Button1.Name = "Button1"
