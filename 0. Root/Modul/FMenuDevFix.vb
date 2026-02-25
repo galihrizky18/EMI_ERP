@@ -3404,9 +3404,12 @@
         N_EMI_Transaksi_Pengajuan_Barang_Baru.Show()
         N_EMI_Transaksi_Pengajuan_Barang_Baru.Focus()
     End Sub
+    Private Sub AdjustmentBarangLainToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AdjustmentBarangLainToolStripMenuItem.Click
+        N_EMI_Transaksi_Adjustment_Stock_Barang_Lain.StartPosition = FormStartPosition.CenterScreen
 
-    Private Sub LaporanWasteProductToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LaporanWasteProductToolStripMenuItem.Click
-
+        N_EMI_Transaksi_Adjustment_Stock_Barang_Lain.MdiParent = Me
+        N_EMI_Transaksi_Adjustment_Stock_Barang_Lain.Show()
+        N_EMI_Transaksi_Adjustment_Stock_Barang_Lain.Focus()
     End Sub
 
 

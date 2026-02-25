@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class N_EMI_Transaksi_Validasi_Adjustment_Stock_Barang_Lain
+Partial Class N_EMI_Transaksi_Validasi_Adjustment_Stock
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.

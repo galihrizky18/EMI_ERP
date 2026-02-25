@@ -576,6 +576,8 @@ Partial Class FMenuDevFix
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
+        Me.TransaksiToolStripMenuItem9 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AdjustmentBarangLainToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -647,9 +649,9 @@ Partial Class FMenuDevFix
         '
         'AsdToolStripMenuItem
         '
-        Me.AsdToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterDataToolStripMenuItem4, Me.DisplayToolStripMenuItem9})
+        Me.AsdToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterDataToolStripMenuItem4, Me.DisplayToolStripMenuItem9, Me.TransaksiToolStripMenuItem9})
         Me.AsdToolStripMenuItem.Name = "AsdToolStripMenuItem"
-        Me.AsdToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
+        Me.AsdToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.AsdToolStripMenuItem.Text = "Inventory"
         '
         'MasterDataToolStripMenuItem4
@@ -4019,6 +4021,19 @@ Partial Class FMenuDevFix
         Me.Timer2.Enabled = True
         Me.Timer2.Interval = 1800000
         '
+        'TransaksiToolStripMenuItem9
+        '
+        Me.TransaksiToolStripMenuItem9.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AdjustmentBarangLainToolStripMenuItem})
+        Me.TransaksiToolStripMenuItem9.Name = "TransaksiToolStripMenuItem9"
+        Me.TransaksiToolStripMenuItem9.Size = New System.Drawing.Size(180, 22)
+        Me.TransaksiToolStripMenuItem9.Text = "Transaksi"
+        '
+        'AdjustmentBarangLainToolStripMenuItem
+        '
+        Me.AdjustmentBarangLainToolStripMenuItem.Name = "AdjustmentBarangLainToolStripMenuItem"
+        Me.AdjustmentBarangLainToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.AdjustmentBarangLainToolStripMenuItem.Text = "Adjustment Stock Barang Lain"
+        '
         'FMenuDevFix
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4594,4 +4609,6 @@ Partial Class FMenuDevFix
     Friend WithEvents FormulatorToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents TransaksiToolStripMenuItem8 As ToolStripMenuItem
     Friend WithEvents PengajuanBarangBaruToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TransaksiToolStripMenuItem9 As ToolStripMenuItem
+    Friend WithEvents AdjustmentBarangLainToolStripMenuItem As ToolStripMenuItem
 End Class
