@@ -374,6 +374,46 @@
                 End With
             End Using
 
+            '========================================
+            '=     CEK APAKAH SUDAH TUTUP SALDO     =
+            '========================================
+            Dim HasData As Boolean = False
+            Dim TglTransaksi As DateTime
+            SQL = "select Tanggal from N_EMI_Validation_GR_3 "
+            SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+            SQL &= $"and Status is NULL "
+            SQL &= $"and No_Transaksi = '{No_Transaksi}' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    HasData = True
+                    TglTransaksi = Dr("Tanggal")
+                Else
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Data Transaksi Tidak Ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            If HasData Then
+                If CekSudahTutupSaldo(TglTransaksi) = "Y" Then
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Pembatalan tidak dapat dilakukan karena No Transaksi Sudah Tutup Saldo", JudulNotif, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End If
+
+            '=====================
+            '=     CEK BULAN     =
+            '=====================
+            If Not tgl_skg.Month = TglTransaksi.Month Then
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("Pembatalan tidak dapat dilakukan karena Sudah Melewati Bulan", JudulNotif, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
             '=========================
             '=     ROLLBACK DATA     =
             '=========================

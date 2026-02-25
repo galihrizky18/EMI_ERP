@@ -881,13 +881,13 @@
     '    EMI_Display_Validasi_HPP_Produksi.Focus()
     'End Sub
 
-    'Private Sub MasterBarangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterBarangToolStripMenuItem.Click
-    '    Master_Barang_New.StartPosition = FormStartPosition.CenterScreen
+    Private Sub MasterBarangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterBarangToolStripMenuItem.Click
+        Master_Barang_New.StartPosition = FormStartPosition.CenterScreen
 
-    '    Master_Barang_New.MdiParent = Me
-    '    Master_Barang_New.Show()
-    '    Master_Barang_New.Focus()
-    'End Sub
+        Master_Barang_New.MdiParent = Me
+        Master_Barang_New.Show()
+        Master_Barang_New.Focus()
+    End Sub
 
     'Private Sub CompareBudgetingWorkCenterFIXToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CompareBudgetingWorkCenterFIXToolStripMenuItem.Click
     '    EMI_Compare_Budgeting.StartPosition = FormStartPosition.CenterScreen
@@ -2636,13 +2636,13 @@
     '    Global_Setting.Focus()
     'End Sub
 
-    'Private Sub MasterBarangToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles MasterBarangToolStripMenuItem2.Click
-    '    Master_Barang_New.StartPosition = FormStartPosition.CenterScreen
+    Private Sub MasterBarangToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles MasterBarangToolStripMenuItem2.Click
+        Master_Barang_New.StartPosition = FormStartPosition.CenterScreen
 
-    '    Master_Barang_New.MdiParent = Me
-    '    Master_Barang_New.Show()
-    '    Master_Barang_New.Focus()
-    'End Sub
+        Master_Barang_New.MdiParent = Me
+        Master_Barang_New.Show()
+        Master_Barang_New.Focus()
+    End Sub
 
     'Private Sub TesToolTipToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TesToolTipToolStripMenuItem.Click
     '    Testing_ToolTip.StartPosition = FormStartPosition.CenterScreen
@@ -3395,6 +3395,14 @@
         EMI_Validasi_GR.MdiParent = Me
         EMI_Validasi_GR.Show()
         EMI_Validasi_GR.Focus()
+    End Sub
+
+    Private Sub PengajuanBarangBaruToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PengajuanBarangBaruToolStripMenuItem.Click
+        N_EMI_Transaksi_Pengajuan_Barang_Baru.StartPosition = FormStartPosition.CenterScreen
+
+        N_EMI_Transaksi_Pengajuan_Barang_Baru.MdiParent = Me
+        N_EMI_Transaksi_Pengajuan_Barang_Baru.Show()
+        N_EMI_Transaksi_Pengajuan_Barang_Baru.Focus()
     End Sub
 
 

@@ -440,6 +440,24 @@
     <Compile Include="3. Material Movement\Transfer Stock Sementara\3. Display\N_EMI_Display_Transfer_Stock_Sementara.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="4. Formulator\Bestmix\2. Request New Material\2. Transaksi\N_EMI_Transaksi_Pengajuan_Barang_Baru.Designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Pengajuan_Barang_Baru.vb</DependentUpon>
+    </Compile>
+    <Compile Include="4. Formulator\Bestmix\2. Request New Material\2. Transaksi\N_EMI_Transaksi_Pengajuan_Barang_Baru.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="5. Inventori\Master Barang\1. Master\Master_Barang_New.designer.vb">
+      <DependentUpon>Master_Barang_New.vb</DependentUpon>
+    </Compile>
+    <Compile Include="5. Inventori\Master Barang\1. Master\Master_Barang_New.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="5. Inventori\Master Barang\1. Master\SD\SD_Pilih_Satuan_Turunan.designer.vb">
+      <DependentUpon>SD_Pilih_Satuan_Turunan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="5. Inventori\Master Barang\1. Master\SD\SD_Pilih_Satuan_Turunan.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -721,6 +739,15 @@
     <EmbeddedResource Include="3. Material Movement\Transfer Stock Sementara\3. Display\N_EMI_Display_Transfer_Stock_Sementara.resx">
       <DependentUpon>N_EMI_Display_Transfer_Stock_Sementara.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="4. Formulator\Bestmix\2. Request New Material\2. Transaksi\N_EMI_Transaksi_Pengajuan_Barang_Baru.resx">
+      <DependentUpon>N_EMI_Transaksi_Pengajuan_Barang_Baru.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="5. Inventori\Master Barang\1. Master\Master_Barang_New.resx">
+      <DependentUpon>Master_Barang_New.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="5. Inventori\Master Barang\1. Master\SD\SD_Pilih_Satuan_Turunan.resx">
+      <DependentUpon>SD_Pilih_Satuan_Turunan.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
     </EmbeddedResource>
@@ -803,6 +830,13 @@
     <Folder Include="3. Material Movement\Transfer Stock Sementara\1. Master\" />
     <Folder Include="3. Material Movement\Transfer Stock Sementara\2. Transaksi\Faktur\" />
     <Folder Include="3. Material Movement\Transfer Stock Sementara\4. Laporan\" />
+    <Folder Include="4. Formulator\Bestmix\1.Sync Formula Bestmix\" />
+    <Folder Include="4. Formulator\Bestmix\2. Request New Material\1. Master\" />
+    <Folder Include="4. Formulator\Bestmix\2. Request New Material\3. Display\" />
+    <Folder Include="4. Formulator\Bestmix\2. Request New Material\4. Laporan\" />
+    <Folder Include="5. Inventori\Master Barang\2. Transaksi\" />
+    <Folder Include="5. Inventori\Master Barang\3. Display\" />
+    <Folder Include="5. Inventori\Master Barang\4.. Laporan\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
