@@ -67,6 +67,12 @@
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="Guna.Charts.WinForms, Version=1.1.0.0, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
+      <HintPath>packages\Guna.Charts.WinForms.1.1.0\lib\net472\Guna.Charts.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Guna.UI2, Version=2.0.4.7, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
+      <HintPath>packages\Guna.UI2.WinForms.2.0.4.7\lib\net472\Guna.UI2.dll</HintPath>
+    </Reference>
     <Reference Include="ILovePdf, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Release\ILovePdf.dll</HintPath>
@@ -78,7 +84,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
@@ -88,11 +96,13 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
     <Reference Include="UHFReader18CSharp">
-      <HintPath>..\..\MODUL\EMI Form\Production\Transaksi\Laporan Split\Asdad\Master Data RFID Tags\UHFReader18CSharp.dll</HintPath>
+      <HintPath>..\..\EMI_ERP\Master Data RFID Tags\UHFReader18CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="zxing, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\MODUL\EMI Form\Purchase\Transaksi\DO\Pelunasan DO\asdsad\zxing.dll</HintPath>
+    <Reference Include="zxing, Version=0.16.11.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>packages\ZXing.Net.0.16.11\lib\net47\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.16.11.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>packages\ZXing.Net.0.16.11\lib\net47\zxing.presentation.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +281,31 @@
     <Compile Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\EMI_Controlling_Produksi.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Readers.Designer.vb">
+      <DependentUpon>N_EMI_Display_RFID_Readers.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Readers.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Tags.Designer.vb">
+      <DependentUpon>N_EMI_Display_RFID_Tags.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Tags.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\3. Material Movement\RFID\1. Master\N_EMI_Registrasi_RFID_Tag.Designer.vb">
+      <DependentUpon>N_EMI_Registrasi_RFID_Tag.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\3. Material Movement\RFID\1. Master\N_EMI_Registrasi_RFID_Tag.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\3. Material Movement\RFID\4. Laporan\1. Rpt\N_EMI_Template_Tags.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_Template_Tags.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\3. Material Movement\RFID\5. Helper\UHF18ReaderHelper.vb" />
     <Compile Include="2. Produksi\3. Material Movement\Split Stock\2. Transaksi\Emi_Split_Stock_QC.Designer.vb">
       <DependentUpon>Emi_Split_Stock_QC.vb</DependentUpon>
     </Compile>
@@ -709,18 +744,6 @@
     <Compile Include="2. Produksi\3. Material Movement\RFID\2. Transaksi\N_EMI_Pairing_RFID_Touchscreen.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Readers.Designer.vb">
-      <DependentUpon>N_EMI_Display_RFID_Readers.vb</DependentUpon>
-    </Compile>
-    <Compile Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Readers.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Tags.Designer.vb">
-      <DependentUpon>N_EMI_Display_RFID_Tags.vb</DependentUpon>
-    </Compile>
-    <Compile Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Tags.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="2. Produksi\3. Material Movement\Tes.Designer.vb">
       <DependentUpon>Tes.vb</DependentUpon>
     </Compile>
@@ -789,6 +812,102 @@
       <DependentUpon>Emi_Display_Request_Material.vb</DependentUpon>
     </Compile>
     <Compile Include="2. Produksi\99. Form Mutual\Display Request Material\Emi_Display_Request_Material.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_Dashboard_Procurment_Barang_Lain.Designer.vb">
+      <DependentUpon>N_EMI_Dashboard_Procurment_Barang_Lain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_Dashboard_Procurment_Barang_Lain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_Detail.Designer.vb">
+      <DependentUpon>N_EMI_SD_Procurement_Barang_Lain_Detail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_Detail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_Loading.Designer.vb">
+      <DependentUpon>N_EMI_SD_Procurement_Barang_Lain_Loading.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_Loading.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_Penawaran.Designer.vb">
+      <DependentUpon>N_EMI_SD_Procurement_Barang_Lain_Penawaran.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_Penawaran.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_PO.Designer.vb">
+      <DependentUpon>N_EMI_SD_Procurement_Barang_Lain_PO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_PO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_POValue.Designer.vb">
+      <DependentUpon>N_EMI_SD_Procurement_Barang_Lain_POValue.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_POValue.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_PR.Designer.vb">
+      <DependentUpon>N_EMI_SD_Procurement_Barang_Lain_PR.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_PR.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_SubPO.Designer.vb">
+      <DependentUpon>N_EMI_SD_Procurement_Barang_Lain_SubPO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_SubPO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_Dashboard_Procurment.Designer.vb">
+      <DependentUpon>N_EMI_Dashboard_Procurment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_Dashboard_Procurment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_Detail.Designer.vb">
+      <DependentUpon>N_EMI_SD_Procurement_Detail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_Detail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_Loading.Designer.vb">
+      <DependentUpon>N_EMI_SD_Procurement_Loading.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_Loading.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_Penawaran.Designer.vb">
+      <DependentUpon>N_EMI_SD_Procurement_Penawaran.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_Penawaran.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_PO.Designer.vb">
+      <DependentUpon>N_EMI_SD_Procurement_PO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_PO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_POValue.Designer.vb">
+      <DependentUpon>N_EMI_SD_Procurement_POValue.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_POValue.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_PR.Designer.vb">
+      <DependentUpon>N_EMI_SD_Procurement_PR.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_PR.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_SubPO.Designer.vb">
+      <DependentUpon>N_EMI_SD_Procurement_SubPO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_SubPO.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.vb">
@@ -862,9 +981,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="0. Root\Modul\FormDictionary.vb" />
-    <Compile Include="OPTIONAL\General_Class.vb" />
-    <Compile Include="OPTIONAL\General_Module.vb" />
-    <Compile Include="OPTIONAL\General_Module_B2B.vb" />
     <Compile Include="0. Root\Modul\Global_Setting.Designer.vb">
       <DependentUpon>Global_Setting.vb</DependentUpon>
     </Compile>
@@ -873,15 +989,19 @@
     </Compile>
     <Compile Include="0. Root\Modul\Helper_API.vb" />
     <Compile Include="0. Root\Modul\Module1.vb" />
-    <Compile Include="OPTIONAL\Module_Connection.vb" />
     <Compile Include="0. Root\Modul\Module_fcm.vb" />
     <Compile Include="0. Root\Modul\Module_MySQL.vb" />
     <Compile Include="0. Root\Modul\Module_SQL_ke_server_lain.vb" />
-    <Compile Include="OPTIONAL\Modul_Pembantu.vb" />
     <Compile Include="0. Root\Modul\TimeCell.vb" />
     <Compile Include="0. Root\Modul\TimeEditingControl.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="OPTIONAL\General_Class.vb" />
+    <Compile Include="OPTIONAL\General_Module.vb" />
+    <Compile Include="OPTIONAL\General_Module_B2B.vb" />
+    <Compile Include="OPTIONAL\Module1.vb" />
+    <Compile Include="OPTIONAL\Module_Connection.vb" />
+    <Compile Include="OPTIONAL\Modul_Pembantu.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="0. Root\Form_Login.resx">
@@ -968,6 +1088,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\EMI_Controlling_Produksi.resx">
       <DependentUpon>EMI_Controlling_Produksi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Readers.resx">
+      <DependentUpon>N_EMI_Display_RFID_Readers.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Tags.resx">
+      <DependentUpon>N_EMI_Display_RFID_Tags.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\3. Material Movement\RFID\1. Master\N_EMI_Registrasi_RFID_Tag.resx">
+      <DependentUpon>N_EMI_Registrasi_RFID_Tag.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\3. Material Movement\RFID\4. Laporan\1. Rpt\N_EMI_Template_Tags.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_Template_Tags.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\3. Material Movement\Split Stock\2. Transaksi\Emi_Split_Stock_QC.resx">
       <DependentUpon>Emi_Split_Stock_QC.vb</DependentUpon>
@@ -1215,12 +1348,6 @@
     <EmbeddedResource Include="2. Produksi\3. Material Movement\RFID\2. Transaksi\N_EMI_Pairing_RFID_Touchscreen.resx">
       <DependentUpon>N_EMI_Pairing_RFID_Touchscreen.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Readers.resx">
-      <DependentUpon>N_EMI_Display_RFID_Readers.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\3. Material Movement\RFID\3. Display\N_EMI_Display_RFID_Tags.resx">
-      <DependentUpon>N_EMI_Display_RFID_Tags.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\3. Material Movement\Transfer Stock Sementara\5. Faktur\N_EMI_Barcode_Transfer_Stock_Sementara.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_Barcode_Transfer_Stock_Sementara.vb</LastGenOutput>
@@ -1252,6 +1379,54 @@
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\99. Form Mutual\Display Request Material\Emi_Display_Request_Material.resx">
       <DependentUpon>Emi_Display_Request_Material.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Barang Lain\N_EMI_Dashboard_Procurment_Barang_Lain.resx">
+      <DependentUpon>N_EMI_Dashboard_Procurment_Barang_Lain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_Detail.resx">
+      <DependentUpon>N_EMI_SD_Procurement_Barang_Lain_Detail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_Loading.resx">
+      <DependentUpon>N_EMI_SD_Procurement_Barang_Lain_Loading.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_Penawaran.resx">
+      <DependentUpon>N_EMI_SD_Procurement_Barang_Lain_Penawaran.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_PO.resx">
+      <DependentUpon>N_EMI_SD_Procurement_Barang_Lain_PO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_POValue.resx">
+      <DependentUpon>N_EMI_SD_Procurement_Barang_Lain_POValue.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_PR.resx">
+      <DependentUpon>N_EMI_SD_Procurement_Barang_Lain_PR.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Barang Lain\N_EMI_SD_Procurement_Barang_Lain_SubPO.resx">
+      <DependentUpon>N_EMI_SD_Procurement_Barang_Lain_SubPO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Produksi\N_EMI_Dashboard_Procurment.resx">
+      <DependentUpon>N_EMI_Dashboard_Procurment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_Detail.resx">
+      <DependentUpon>N_EMI_SD_Procurement_Detail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_Loading.resx">
+      <DependentUpon>N_EMI_SD_Procurement_Loading.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_Penawaran.resx">
+      <DependentUpon>N_EMI_SD_Procurement_Penawaran.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_PO.resx">
+      <DependentUpon>N_EMI_SD_Procurement_PO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_POValue.resx">
+      <DependentUpon>N_EMI_SD_Procurement_POValue.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_PR.resx">
+      <DependentUpon>N_EMI_SD_Procurement_PR.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3. Dashboard\Produksi\N_EMI_SD_Procurement_SubPO.resx">
+      <DependentUpon>N_EMI_SD_Procurement_SubPO.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
@@ -1298,6 +1473,7 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="2. Produksi\3. Material Movement\RFID\5. Helper\SDK\Basic.dll" />
@@ -1390,6 +1566,35 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>9</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
