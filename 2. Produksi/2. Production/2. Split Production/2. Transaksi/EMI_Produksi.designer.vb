@@ -115,7 +115,7 @@ Partial Class EMI_Produksi
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1184, 53)
+        Me.Panel1.Size = New System.Drawing.Size(1184, 63)
         Me.Panel1.TabIndex = 22
         '
         'PanelGradient1
@@ -125,7 +125,7 @@ Partial Class EMI_Produksi
         Me.PanelGradient1.cuteTransparent1 = 100
         Me.PanelGradient1.cuteTransparent2 = 64
         Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 51)
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 61)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
         Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
@@ -145,7 +145,7 @@ Partial Class EMI_Produksi
         'Panel2
         '
         Me.Panel2.BackColor = System.Drawing.Color.Red
-        Me.Panel2.Location = New System.Drawing.Point(0, 53)
+        Me.Panel2.Location = New System.Drawing.Point(0, 63)
         Me.Panel2.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(1099, 15)
@@ -235,7 +235,7 @@ Partial Class EMI_Produksi
         Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(42, 523)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(42, 533)
         Me.Btn_Simpan.Margin = New System.Windows.Forms.Padding(4)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(98, 44)
@@ -246,7 +246,7 @@ Partial Class EMI_Produksi
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(22, 513)
+        Me.Panel7.Location = New System.Drawing.Point(22, 523)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(1251, 12)
@@ -408,7 +408,7 @@ Partial Class EMI_Produksi
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(23, 566)
+        Me.Panel6.Location = New System.Drawing.Point(23, 576)
         Me.Panel6.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(1251, 15)
@@ -605,7 +605,7 @@ Partial Class EMI_Produksi
         Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
         Me.Btn_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(147, 523)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(147, 533)
         Me.Btn_Refresh.Margin = New System.Windows.Forms.Padding(4)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(98, 44)
@@ -703,7 +703,7 @@ Partial Class EMI_Produksi
         'Panel9
         '
         Me.Panel9.BackColor = System.Drawing.Color.Red
-        Me.Panel9.Location = New System.Drawing.Point(635, 59)
+        Me.Panel9.Location = New System.Drawing.Point(635, 69)
         Me.Panel9.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel9.Name = "Panel9"
         Me.Panel9.Size = New System.Drawing.Size(14, 602)
@@ -748,7 +748,7 @@ Partial Class EMI_Produksi
         Me.GroupBox1.Controls.Add(Me.Cmb_Lokasi)
         Me.GroupBox1.Controls.Add(Me.DateTimePicker2)
         Me.GroupBox1.Controls.Add(Me.Label3)
-        Me.GroupBox1.Location = New System.Drawing.Point(20, 61)
+        Me.GroupBox1.Location = New System.Drawing.Point(20, 71)
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
@@ -761,7 +761,7 @@ Partial Class EMI_Produksi
         Me.GroupBox2.Controls.Add(Me.Label18)
         Me.GroupBox2.Controls.Add(Me.TabControl1)
         Me.GroupBox2.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        Me.GroupBox2.Location = New System.Drawing.Point(650, 61)
+        Me.GroupBox2.Location = New System.Drawing.Point(650, 71)
         Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4)
@@ -947,7 +947,7 @@ Partial Class EMI_Produksi
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1184, 582)
+        Me.ClientSize = New System.Drawing.Size(1184, 591)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Btn_Refresh)

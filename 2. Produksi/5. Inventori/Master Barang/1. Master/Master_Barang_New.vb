@@ -277,6 +277,7 @@
         arrprefix_Klasifikasi_Bahan2.Clear()
         arrId_Klasifikasi_Bahan2.Clear()
 
+
         Try
             OpenConn()
 
@@ -603,8 +604,8 @@
                             Dgv_Pengejuan_Barang_Baru.Rows(i).Cells(item_Pengajuan_Kode_Barang).Value = .Rows(i).Item("Kode_Barang")
                             Dgv_Pengejuan_Barang_Baru.Rows(i).Cells(item_Pengajuan_Nama_Barang).Value = .Rows(i).Item("Nama_Barang")
                             Dgv_Pengejuan_Barang_Baru.Rows(i).Cells(item_Pengajuan_Group_Jenis).Value = .Rows(i).Item("Kode_Group_Jenis")
-                            Dgv_Pengejuan_Barang_Baru.Rows(i).Cells(item_Pengajuan_Klasifikasi_Bahan).Value = .Rows(i).Item("Klasifikasi_Bahan")
-                            Dgv_Pengejuan_Barang_Baru.Rows(i).Cells(item_Pengajuan_Klasifikasi_Bahan_2).Value = .Rows(i).Item("Klasifikasi_Bahan_2")
+                            Dgv_Pengejuan_Barang_Baru.Rows(i).Cells(item_Pengajuan_Klasifikasi_Bahan).Value = If(General_Class.CekNULL(.Rows(i).Item("Klasifikasi_Bahan")) = "", "-", .Rows(i).Item("Klasifikasi_Bahan"))
+                            Dgv_Pengejuan_Barang_Baru.Rows(i).Cells(item_Pengajuan_Klasifikasi_Bahan_2).Value = If(General_Class.CekNULL(.Rows(i).Item("Klasifikasi_Bahan_2")) = "", "-", .Rows(i).Item("Klasifikasi_Bahan_2"))
                         Next
                     End If
                 End With
@@ -728,7 +729,6 @@
         Cmb_ParamLain.Items.Add("Kode Group Jenis") : ArrParamLain.Add("Kode_Group_Jenis")
         Cmb_ParamLain.Items.Add("Klasifikasi Bahan") : ArrParamLain.Add("Klasifikasi_Bahan")
         Cmb_ParamLain.Items.Add("Klasifikasi Bahan 2") : ArrParamLain.Add("Klasifikasi_Bahan_2")
-
 
         Cari("Y")
         TextBox1.Focus()
@@ -1406,6 +1406,8 @@
         'End If
         ' ComboBox5.SelectedIndex = 0
 
+        get_jam()
+
         Try
 
             OpenConn()
@@ -1413,6 +1415,25 @@
             Cmd.Transaction = Cn.BeginTransaction
 
             Dim Msg As String = ""
+
+
+            '=======================================
+            '=     CEK APAKAH BARANG PENGAJUAN     =
+            '=======================================
+            Dim IsRequestNewMaterial As Boolean = False
+            SQL = "select top 1 Flag_Request_Barang_Baru, * from barang "
+            SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+            SQL &= $"and Kode_Barang = '{TextBox1.Text.Trim}' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Flag_Request_Barang_Baru")) = "Y" Then
+                        IsRequestNewMaterial = True
+                    Else
+                        IsRequestNewMaterial = False
+                    End If
+
+                End If
+            End Using
 
             If Button1.Text = "&Simpan" Then
 
@@ -1826,6 +1847,65 @@
 
                 Msg = "Barang Berhasil Diupdate"
             End If
+
+
+            If IsRequestNewMaterial Then
+
+                SQL = "select 1 from N_EMI_Transaksi_Pengajuan_Barang_Baru "
+                SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+                SQL &= $"and Kode_Barang = '{TextBox1.Text.Trim}' "
+                SQL &= $"and Flag_Validasi_Procurement is null "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+
+                        Dr.Close()
+                        SQL = $"update N_EMI_Transaksi_Pengajuan_Barang_Baru set Flag_Validasi_Procurement = 'Y', "
+                        SQL &= $"Tanggal_Validasi_Procurement = '{Format(tgl_skg, "yyyy-MM-dd")}', Jam_Validasi_Procurement = '{Format(tgl_skg, "HH:mm:ss")}', "
+                        SQL &= $"User_Validasi_Procurement = '{UserID}' "
+                        SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+                        SQL &= $"and Kode_Barang = '{TextBox1.Text.Trim}' "
+                        SQL &= $"and Flag_Validasi_Procurement is null "
+                        ExecuteTrans(SQL)
+
+
+                    Else
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show($"Kode Barang {TextBox1.Text.Trim} Tidak Ditemukan pada Transaksi Pengajuan Barang Baru", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
+                SQL = "select Flag_Request_Barang_Baru "
+                SQL &= $"from barang "
+                SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+                SQL &= $"and Kode_Barang = '{TextBox1.Text.Trim}' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+
+                        Dr.Close()
+                        SQL = "update barang set Flag_Request_Barang_Baru = NULL "
+                        SQL &= $"from barang "
+                        SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+                        SQL &= $"and Kode_Barang = '{TextBox1.Text.Trim}' "
+                        ExecuteTrans(SQL)
+
+                    Else
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show($"Kode Barang {TextBox1.Text.Trim} Tidak Ditemukan ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
+
+
+            End If
+
+
+
 
             Cmd.Transaction.Commit()
             CloseConn()
@@ -2575,7 +2655,9 @@
     End Sub
 
     Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
-        If TabControl1.SelectedIndex = 2 Then
+        If TabControl1.SelectedIndex = 1 Then
+            'Cari("Y")
+        ElseIf TabControl1.SelectedIndex = 2 Then
             Chk_ParamTgl.Checked = False : Cmb_ParamTgl.Enabled = False : DateTimePicker1.Enabled = False : DateTimePicker2.Enabled = False
             Chk_ParamLain.Checked = False : Cmb_ParamLain.Enabled = False : Txt_ParamValue.Enabled = False
 
@@ -2587,6 +2669,8 @@
 
             LoadDataPengajuanBarangBaru()
         End If
+
+
     End Sub
 
     Private Sub TextBox3_Leave(sender As Object, e As EventArgs) Handles TextBox3.Leave

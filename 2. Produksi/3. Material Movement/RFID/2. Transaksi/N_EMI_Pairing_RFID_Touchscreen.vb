@@ -1777,6 +1777,7 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
                             Using dr = OpenTrans(SQL)
                                 If dr.Read Then
                                     Nama = dr("Kode_Barang")
+                                    Dim StockSblmPotong As Double = dr("good_stock")
                                     If dr("good_stock") < Jumlah Then
                                         dr.Close()
                                         CloseTrans()
@@ -1798,11 +1799,11 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
                                         SQL = SQL & " and Kode_Barang='" & Kd_Barang & "'"
                                         ExecuteTrans(SQL)
 
-                                        'SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock "
-                                        'SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
-                                        'SQL &= $"values ('{KodePerusahaan}', '{GetDataKodeTransfer}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
-                                        'SQL &= $"'POTONG STOCK BARANG', '{GetSoAwal}', '{GetDataKdBrg}', '-', '{Stock_SblmPotong}', 0, '{nilai_kecildetail}', 0) "
-                                        'ExecuteTrans(SQL)
+                                        SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock "
+                                        SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
+                                        SQL &= $"values ('{KodePerusahaan}', '{NoSplit}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
+                                        SQL &= $"'POTONG STOCK BARANG', '{Kd_So_Awal}', '{Kd_Barang}', '-', '{StockSblmPotong}', 0, '{Jumlah}', 0) "
+                                        ExecuteTrans(SQL)
 
 
                                     End If
@@ -1821,6 +1822,7 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
                             SQL = SQL & "and Serial_Number='" & Sn_Awal & "'"
                             Using dr = OpenTrans(SQL)
                                 If dr.Read Then
+                                    Dim StockSblmPotong As Double = dr("jumlah")
                                     If dr("jumlah") < Jumlah Then
                                         dr.Close()
                                         CloseTrans()
@@ -1842,11 +1844,12 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
                                         SQL = SQL & "and Serial_Number='" & Sn_Awal & "'"
                                         ExecuteTrans(SQL)
 
-                                        'SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock "
-                                        'SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
-                                        'SQL &= $"values ('{KodePerusahaan}', '{GetDataKodeTransfer}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
-                                        'SQL &= $"'POTONG STOCK BARANG SN', '{GetSoAwal}', '{GetDataKdBrg}', '{GetSnAwal}', '{Stock_SN_SblmPotong}', 0, '{nilai_kecildetail}', 0) "
-                                        'ExecuteTrans(SQL)
+
+                                        SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock "
+                                        SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
+                                        SQL &= $"values ('{KodePerusahaan}', '{NoSplit}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
+                                        SQL &= $"'POTONG STOCK BARANG SN', '{Kd_So_Awal}', '{Kd_Barang}', '{Sn_Awal}', '{StockSblmPotong}', 0, '{Jumlah}', 0) "
+                                        ExecuteTrans(SQL)
 
                                     End If
                                 Else
@@ -1952,6 +1955,19 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
 
                             Dim newKodeUnikBerjalan As String = Generate_Random_Kode(10)
 
+                            Dim Stock_Sebelum_Insert As Double = 0
+                            Dim Stock_SN_Sebelum_Insert As Double = 0
+                            Dim Bags_Sebelum_Insert As Double = 0
+                            Dim Bags_SN_Sebelum_Insert As Double = 0
+                            SQL = "select isnull(sum(Good_Stock), 0) as Stock, sum(Jumlah_Bags) as Stock_Bags from barang WHERE kode_perusahaan = '" & KodePerusahaan & "' "
+                            SQL = SQL & "AND Kode_Stock_Owner = '" & Kd_So_Tujuan & "' and kode_barang = '" & Kd_Barang & "' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    Stock_Sebelum_Insert = Math.Round(Dr("Stock"), 4)
+                                    Bags_Sebelum_Insert = Math.Round(Dr("Stock_Bags"), 4)
+                                End If
+                            End Using
+
                             'INSERT BARANG SN BARU  
                             SQL = "insert into Barang_SN (Kode_Perusahaan, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah,  Jumlah_Bags, "
                             SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, id_Susunan, Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number, Warna, Tgl_masuk, Blok_SN, id_jenis_kategori_produksi, No_Reservasi) "
@@ -1965,10 +1981,24 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
                             SQL = SQL & "and Serial_Number='" & Sn_Awal & "' "
                             ExecuteTrans(SQL)
 
+                            SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock "
+                            SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
+                            SQL &= $"values ('{KodePerusahaan}', '{NoSplit}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
+                            SQL &= $"'INSERT STOCK BARANG SN', '{Kd_So_Tujuan}', '{Kd_Barang}', '{SN_Baru}', '{Stock_Sebelum_Insert}', 0, '{Jumlah}', 0) "
+                            ExecuteTrans(SQL)
+
+
                             SQL = "update barang set Good_Stock= Round(Good_Stock + " & Jumlah & ", 4), Jumlah_Bags = Jumlah_Bags + " & Jumlah_Bags & " "
                             SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Kd_So_Tujuan & "' "
                             SQL = SQL & " and Kode_Barang='" & Kd_Barang & "'"
                             ExecuteTrans(SQL)
+
+                            SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock "
+                            SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
+                            SQL &= $"values ('{KodePerusahaan}', '{NoSplit}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
+                            SQL &= $"'INSERT STOCK BARANG', '{Kd_So_Tujuan}', '{Kd_Barang}', '-', '{Stock_Sebelum_Insert}', 0, '{Jumlah}', 0) "
+                            ExecuteTrans(SQL)
+
 
                             'CEK KESESUAIAN STOCK
                             SQL = "SELECT round(SUM(good_stock),4) AS good_stock, isnull((select round(sum(jumlah),4) from Barang_sn x "

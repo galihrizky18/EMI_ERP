@@ -133,11 +133,12 @@
             '=     LOAD DATA DGV BAHAN     =
             '===============================
             Dgv_Data_Bahan.Rows.Clear()
-            SQL = "select c.lokasi_gudang, a.kode_barang, b.nama "
-            SQL = SQL & "from Emi_Order_Produksi_Detail_Bahan a, barang b, EMI_Kategori_Gudang_PerLokasi c "
+            SQL = "select c.lokasi_gudang, a.kode_barang, b.nama, isnull(d.Flag_Gudang_Default, 'T') as Flag_Gudang_Default "
+            SQL = SQL & "from Emi_Order_Produksi_Detail_Bahan a, barang b, EMI_Kategori_Gudang_PerLokasi c, stock_owner_gudang d "
             SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan and b.kode_perusahaan = c.kode_perusahaan "
             SQL = SQL & "and a.kode_stock_owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
             SQL = SQL & "and b.ID_Kategori_Gudang = c.ID_Kategori_Gudang "
+            SQL = SQL & "and c.kode_perusahaan = d.kode_perusahaan and c.lokasi_gudang = d.Kode_Stock_Owner "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.No_Faktur = '" & no_po & "' "
             Using Ds = BindingTrans(SQL)
@@ -150,6 +151,9 @@
                             Dgv_Data_Bahan.Rows(i).Cells(Cell_Bahan_Kode_Barang).Value = .Rows(i).Item("Kode_Barang")
                             Dgv_Data_Bahan.Rows(i).Cells(Cell_Bahan_Nama_Barang).Value = .Rows(i).Item("Nama")
 
+                            If .Rows(i).Item("Flag_Gudang_Default") = "Y" Then
+                                Dgv_Data_Bahan.Rows(i).DefaultCellStyle.BackColor = Color.LightYellow
+                            End If
 
 
 
@@ -163,11 +167,12 @@
             '=     LOAD DATA DGV PACKAGING     =
             '===================================
             Dgv_Data_Packaging.Rows.Clear()
-            SQL = "select c.lokasi_gudang, a.kode_barang, b.nama "
-            SQL = SQL & "from Emi_Order_Produksi_Detail_Packaging a, barang b, EMI_Kategori_Gudang_PerLokasi c "
+            SQL = "select c.lokasi_gudang, a.kode_barang, b.nama, isnull(d.Flag_Gudang_Default, 'T') as Flag_Gudang_Default "
+            SQL = SQL & "from Emi_Order_Produksi_Detail_Packaging a, barang b, EMI_Kategori_Gudang_PerLokasi c, stock_owner_gudang d "
             SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan and b.kode_perusahaan = c.kode_perusahaan "
             SQL = SQL & "and a.kode_stock_owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
             SQL = SQL & "and b.ID_Kategori_Gudang = c.ID_Kategori_Gudang "
+            SQL = SQL & "and c.kode_perusahaan = d.kode_perusahaan and c.lokasi_gudang = d.Kode_Stock_Owner "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.No_Faktur = '" & no_po & "' "
             Using Ds = BindingTrans(SQL)
@@ -180,7 +185,9 @@
                             Dgv_Data_Packaging.Rows(i).Cells(Cell_Bahan_Kode_Barang).Value = .Rows(i).Item("Kode_Barang")
                             Dgv_Data_Packaging.Rows(i).Cells(Cell_Bahan_Nama_Barang).Value = .Rows(i).Item("Nama")
 
-
+                            If .Rows(i).Item("Flag_Gudang_Default") = "Y" Then
+                                Dgv_Data_Packaging.Rows(i).DefaultCellStyle.BackColor = Color.LightYellow
+                            End If
 
 
                         Next
@@ -799,6 +806,27 @@
 
                                 Dim LokasiTujuan As String = .Rows(i).Item("lokasi_gudang")
 
+                                SQL = "select isnull(flag_gudang_default, 'T') as flag_gudang_default "
+                                SQL = SQL & "from stock_owner_gudang where kode_perusahaan='" & KodePerusahaan & "' and kode_stock_owner='" & LokasiTujuan & "' "
+                                Using Dr1 = OpenTrans(SQL)
+                                    If Dr1.Read Then
+
+                                        If Dr1("flag_gudang_default") = "Y" Then
+                                            Dr1.Close()
+                                            CloseTrans()
+                                            CloseConn()
+                                            MessageBox.Show("Gudang Tujuan Belum di sesuaikan ! ")
+                                            Exit Sub
+                                        End If
+                                    Else
+                                        Dr1.Close()
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("data gudang tidak ada ")
+                                        Exit Sub
+                                    End If
+                                End Using
+
                                 '================================
                                 '=     CONVERT SATUAN KECIL     =
                                 '================================
@@ -844,7 +872,7 @@
                                     End If
                                 End Using
 
-                                SQL = "insert into Emi_Material_Requisition_det_convert(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Jumlah_Barang,Satuan_Barang,Warna,No_Urut_Det) "
+                                SQL = "insert into Emi_Material_Requisition_det_convert(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Jumlah_Barang,Satuan_Barang,Warna,No_Urut_Det)"
                                 SQL = SQL & "values("
                                 SQL = SQL & "'" & KodePerusahaan & "', '" & Txt_NoFaktur_ReqMaterial & "', '" & KdSo & "', '" & KdBarang & "', "
                                 SQL = SQL & "'" & HilangkanTanda(JumlahRequest) & "', "
@@ -1102,6 +1130,27 @@
 
                             Dim LokasiTujuan As String = .Rows(i).Item("lokasi_gudang")
 
+                            SQL = "select isnull(flag_gudang_default, 'T') as flag_gudang_default "
+                            SQL = SQL & "from stock_owner_gudang where kode_perusahaan='" & KodePerusahaan & "' and kode_stock_owner='" & LokasiTujuan & "' "
+                            Using Dr1 = OpenTrans(SQL)
+                                If Dr1.Read Then
+
+                                    If Dr1("flag_gudang_default") = "Y" Then
+                                        Dr1.Close()
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show("Gudang Tujuan Belum di sesuaikan ! ")
+                                        Exit Sub
+                                    End If
+                                Else
+                                    Dr1.Close()
+                                    CloseTrans()
+                                    CloseConn()
+                                    MessageBox.Show("data gudang tidak ada ")
+                                    Exit Sub
+                                End If
+                            End Using
+
 
                             '================================
                             '=     CONVERT SATUAN KECIL     =
@@ -1351,6 +1400,10 @@
 
     End Sub
 
+    Private Sub Dgv_Data_Bahan_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles Dgv_Data_Bahan.CellContentClick
+
+    End Sub
+
     Private Sub Txt_Qty_TextChanged(sender As Object, e As EventArgs) Handles Txt_Qty.TextChanged
         If Txt_Qty.Text.Trim.Length = 0 Or Txt_JumlahBatch.Text.Trim.Length = 0 Then
             Txt_QtyBatch.Text = 0
@@ -1359,6 +1412,10 @@
 
         Txt_QtyBatch.Text = ((Val(HilangkanTanda(Txt_Qty.Text)) * Val(HilangkanTanda(TxtBerat.Text))) / Val(HilangkanTanda(Txt_JumlahBatch.Text))) / 1000
 
+
+    End Sub
+
+    Private Sub Dgv_Data_Packaging_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles Dgv_Data_Packaging.CellContentClick
 
     End Sub
 
@@ -1593,8 +1650,7 @@
 
     End Sub
 
+    Private Sub Dgv_Data_Bahan_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles Dgv_Data_Bahan.CellDoubleClick
 
-
-
-
+    End Sub
 End Class

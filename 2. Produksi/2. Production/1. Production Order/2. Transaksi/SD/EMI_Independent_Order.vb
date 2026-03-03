@@ -1,4 +1,9 @@
-﻿Public Class EMI_Independent_Order
+﻿Imports System.Web.UI.WebControls
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
+
+
+Public Class EMI_Independent_Order
     Public filter_tambahan, filter_kdSupplier As String
     Public asal As String
     Dim arrcari, arrJenis, arrInisialFaktur As New ArrayList
@@ -200,6 +205,8 @@
                 SQL = SQL & "from barang a, EMI_Group_Jenis b, EMI_Kategori_Gudang_PerLokasi c  "
                 SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan and a.Id_Group_Jenis=b.Id_Group_Jenis and a.Kode_Perusahaan='" & KodePerusahaan & "'  "
                 SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Gudang = c.ID_Kategori_Gudang "
+
+
 
                 SQL = SQL & "and Kode_Barang like '%" & TxtPilihBarang_KodeBarang.Text & "%' and aktif = 'Y'  " & filter_tambahan & " "
                 SQL = SQL & "group by a.Kode_Barang,a.Nama, a.Satuan,c.lokasi_gudang "

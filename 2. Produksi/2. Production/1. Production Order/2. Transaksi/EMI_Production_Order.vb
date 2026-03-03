@@ -868,7 +868,14 @@
                 SQL = SQL & "kode_stock_owner = '" & kode_so & "', "
                 SQL = SQL & "kode_barang = '" & kode_brg & "', "
                 SQL = SQL & "jumlah = '" & jumlah & "', "
-                SQL = SQL & "satuan = '" & sat & "' "
+                SQL = SQL & "satuan = '" & sat & "', "
+
+                If Cmb_Jenis.SelectedIndex = 0 Then
+                    SQL = SQL & "Flag_Commercial='Y' "
+                Else
+                    SQL = SQL & "Flag_Commercial=NULL "
+                End If
+
                 SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
                 SQL = SQL & "and no_faktur = '" & txtNoFaktur.Text & "' "
                 ExecuteTrans(SQL)
@@ -1313,13 +1320,14 @@
                     SQL = "select a.no_faktur,a.kode_stock_owner,a.kode_barang, c.nama, c.flag_potong_stok,"
                     '   SQL = SQL & " isnull((select top(1) Nama From barang x where a.Kode_Perusahaan = x.Kode_Perusahaan and a.Kode_Barang  = x.Kode_Barang),null) as Nama,  "
                     SQL = SQL & "a.nilai_barang,a.persentase,a.satuan_barang, "
-                    SQL = SQL & "isnull((select sum(Good_Stock) From barang x where a.Kode_Perusahaan = x.Kode_Perusahaan and a.Kode_Barang  = x.Kode_Barang),null) as stock, "
+                    SQL = SQL & "isnull((select sum(jumlah) From barang_sn x where a.Kode_Perusahaan = x.Kode_Perusahaan and a.Kode_Barang  = x.Kode_Barang and x.warna='HIJAU'),0) as stock, "
                     SQL = SQL & "isnull((select sum(x.jumlah) from Emi_Order_Produksi_Detail_Bahan x, emi_order_produksi y where x.Kode_Perusahaan = a.Kode_Perusahaan and a.Kode_Barang = x.Kode_Barang "
                     SQL = SQL & "and x.kode_perusahaan = y.kode_perusahaan and x.no_faktur = y.no_faktur and y.status is null and y.flag_release='Y' ),0) as Keep_Stock  "
                     SQL = SQL & "From EMI_Transaksi_Formulator_Detail_Bahan a, Emi_Transaksi_Formulator b,barang c  "
                     SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and b.Status is null "
                     SQL = SQL & "and a.kode_perusahaan = c.kode_perusahaan and a.kode_stock_owner = c.kode_stock_owner and a.kode_barang = c.kode_barang "
                     SQL = SQL & "and b.kode_perusahaan = '" & KodePerusahaan & "' and b.no_faktur = '" & kode_formula & "' "
+                    SQL = SQL & "Order by a.kode_barang "
                     Using ds = BindingTrans(SQL)
                         With ds.Tables("MyTable")
                             If .Rows.Count <> 0 Then
@@ -1448,7 +1456,7 @@
 
                     SQL = "select a.kode_Barang,b.nama, b.Satuan as Satuan_Barang, a.Jumlah_Barang, a.Kode_Bahan, c.Nama as nama_bahan, c.flag_potong_stok, "
                     SQL = SQL & "c.satuan as satuan_bahan, A.Jumlah_Bahan "
-                    SQL = SQL & ",isnull((select sum(good_stock) from barang x where x.kode_perusahaan = a.kode_perusahaan and  x.Kode_Barang = a.Kode_Bahan "
+                    SQL = SQL & ",isnull((select sum(jumlah) from barang_sn x where x.kode_perusahaan = a.kode_perusahaan and  x.Kode_Barang = a.Kode_Bahan and x.warna='HIJAU' "
                     SQL = SQL & "),0) as good_stock, "
                     SQL = SQL & "isnull((select sum(x.Jumlah) from EMI_Order_Produksi_Detail_Packaging x, EMI_Order_Produksi y "
                     SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and x.Kode_Perusahaan = a.Kode_Perusahaan "
@@ -1459,6 +1467,7 @@
                     SQL = SQL & "And a.kode_Perusahaan = c.kode_Perusahaan And a.Kode_Bahan = c.Kode_Barang And c.Kode_Stock_Owner ='" & lks & "' "
                     'SQL = SQL & "and a.kode_Perusahaan=b.kode_Perusahaan and a.Kode_Barang=b.Kode_Barang_Inq and b.Kode_Stock_Owner='" & lks & "' "
                     'SQL = SQL & " And a.kode_Perusahaan = c.kode_Perusahaan And a.Kode_Bahan = c.Kode_Barang And c.Kode_Stock_Owner ='" & lks & "' "
+                    SQL = SQL & "Order by a.kode_barang "
                     Using Ds = BindingTrans(SQL)
                         With Ds.Tables("MyTable")
                             For indexBahan = 0 To .Rows.Count - 1
@@ -1753,8 +1762,8 @@
             End Using
 
             SQL = "select a.kode_stock_owner,a.kode_barang,b.nama,a.jumlah,a.satuan as satuan_display,a.nilai_barang,a.satuan_barang,b.flag_potong_stok, "
-            SQL = SQL & "isnull((select sum(good_stock) from barang x where a.kode_perusahaan = x.kode_perusahaan "
-            SQL = SQL & "and x.kode_barang = a.kode_barang),0) as stock "
+            SQL = SQL & "isnull((select sum(Jumlah) from barang_sn x where a.kode_perusahaan = x.kode_perusahaan "
+            SQL = SQL & "and x.kode_barang = a.kode_barang and x.warna='HIJAU'),0) as stock "
             SQL = SQL & ",b.satuan,  "
             SQL = SQL & "isnull((select sum(x.jumlah) from Emi_Order_Produksi_Detail_Bahan x, EMI_Order_Produksi y "
             SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.no_faktur and y.Status is null "
@@ -1763,6 +1772,7 @@
             SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan  and a.kode_stock_owner = b.Kode_Stock_Owner "
             SQL = SQL & "and a.kode_barang = b.kode_barang and a.kode_perusahaan = '" & KodePerusahaan & "' and "
             SQL = SQL & "a.no_faktur = '" & txtNoFaktur.Text & "' "
+            SQL = SQL & "Order by a.kode_barang "
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
@@ -1836,8 +1846,8 @@
 
             'packaging
             SQL = "select a.kode_stock_owner,a.kode_barang,b.nama,a.jumlah,a.satuan as satuan_display,a.nilai_barang,a.satuan_barang,b.flag_potong_stok, "
-            SQL = SQL & "isnull((select sum(good_stock) from barang x where a.kode_perusahaan = x.kode_perusahaan "
-            SQL = SQL & "and x.kode_barang = a.kode_barang),0) as stock "
+            SQL = SQL & "isnull((select sum(jumlah) from barang_sn x where a.kode_perusahaan = x.kode_perusahaan "
+            SQL = SQL & "and x.kode_barang = a.kode_barang and x.warna='HIJAU'),0) as stock "
             SQL = SQL & ",b.satuan,"
             SQL = SQL & "isnull((select sum(x.jumlah) from EMI_Order_Produksi_Detail_Packaging x, EMI_Order_Produksi y "
             SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.no_faktur and y.Status is null "
@@ -1846,6 +1856,7 @@
             SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan  and a.kode_stock_owner = b.Kode_Stock_Owner "
             SQL = SQL & "and a.kode_barang = b.kode_barang and a.kode_perusahaan = '" & KodePerusahaan & "' and "
             SQL = SQL & "a.no_faktur = '" & txtNoFaktur.Text & "' "
+            SQL = SQL & "Order by a.kode_barang "
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
@@ -1982,7 +1993,7 @@
     End Sub
 
     Private Sub txtNoFaktur_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtNoFaktur.KeyPress
-        If e.KeyChar = Chr(13) Then LvData.Focus()
+        If e.KeyChar = Chr(13) Then btnRefresh.Focus()
     End Sub
 
     Private Sub display_summary()
@@ -2190,11 +2201,13 @@
             End Using
 
 
-            SQL = "select a.no_faktur,a.kode_stock_owner,a.kode_barang,b.nama,a.nilai_barang,a.persentase,a.satuan_barang, b.good_stock as stock "
+            SQL = "select a.no_faktur,a.kode_stock_owner,a.kode_barang,b.nama,a.nilai_barang,a.persentase,a.satuan_barang, "
+            SQL = SQL & "isnull((select sum(x.jumlah) from barang_sn x where x.kode_barang=b.kode_barang and x.warna='HIJAU'),0) as stock "
             SQL = SQL & "from EMI_Transaksi_Formulator_Detail_Bahan a, barang b where  "
-            SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.kode_stock_owner = b.kode_stock_owner "
-            SQL = SQL & "and a.kode_barang = b.kode_barang "
-            SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_faktur = '" & kode_formula & "' "
+            SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan And a.kode_stock_owner = b.kode_stock_owner "
+            SQL = SQL & "And a.kode_barang = b.kode_barang "
+            SQL = SQL & "And a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_faktur = '" & kode_formula & "' "
+            SQL = SQL & "Order by a.kode_barang "
             Using ds = BindingTrans(SQL)
                 With ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
@@ -2314,15 +2327,17 @@
 
             'packaging
 
-            SQL = "select a.kode_Barang,b.nama, b.Satuan as Satuan_Barang, a.Jumlah_Barang, a.Kode_Bahan, c.Nama as nama_bahan, c.satuan as satuan_bahan, A.Jumlah_Bahan, c.good_stock, a.jenis, c.flag_potong_stok, "
+            SQL = "select a.kode_Barang,b.nama, b.Satuan as Satuan_Barang, a.Jumlah_Barang, a.Kode_Bahan, c.Nama as nama_bahan, c.satuan as satuan_bahan, A.Jumlah_Bahan, "
+            SQL = SQL & "isnull((select sum(x.jumlah) from barang_sn x where x.kode_barang=c.kode_barang and x.warna='HIJAU'),0) as good_stock, a.jenis, c.flag_potong_stok, "
 
             SQL = SQL & "isnull((select sum(x.Jumlah) from EMI_Order_Produksi_Detail_Packaging x, EMI_Order_Produksi y "
-            SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and x.Kode_Perusahaan = a.Kode_Perusahaan "
-            SQL = SQL & "and x.Kode_Barang = a.Kode_Bahan and y.status is null and y.flag_release='Y'),0) as keep_stock "
+            SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan And x.No_Faktur = y.No_Faktur And x.Kode_Perusahaan = a.Kode_Perusahaan "
+            SQL = SQL & "And x.Kode_Barang = a.Kode_Bahan And y.status Is null And y.flag_release='Y'),0) as keep_stock "
 
             SQL = SQL & "from barang_detail_Bahan_Penolong a, barang b, barang c where b.Kode_barang='" & kodeBarang & "' "
             SQL = SQL & "and a.kode_Perusahaan=b.kode_Perusahaan and a.Kode_Barang=b.Kode_Barang_Inq and b.Kode_Stock_Owner='" & lks & "' "
             SQL = SQL & " And a.kode_Perusahaan = c.kode_Perusahaan And a.Kode_Bahan = c.Kode_Barang And c.Kode_Stock_Owner ='" & lks & "' "
+            SQL = SQL & "Order by a.kode_barang "
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
                     For indexBahan = 0 To .Rows.Count - 1

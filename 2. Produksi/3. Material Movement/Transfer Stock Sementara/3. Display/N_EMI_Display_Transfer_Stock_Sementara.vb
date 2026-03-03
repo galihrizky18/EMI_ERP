@@ -1211,6 +1211,36 @@ Public Class N_EMI_Display_Transfer_Stock_Sementara
             '===========================
             '=     UPDATE TF STOCK     =
             '===========================
+            SQL = "select b.No_Faktur "
+            SQL &= $"from N_EMI_Transaksi_Transfer_Stock_Sementara a "
+            SQL &= $"inner join Tf_Stock_Parent b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transfer_Stock = b.No_Faktur and b.Status is NULL "
+            SQL &= $"where a.Kode_Perusahaan = '001' "
+            SQL &= $"and a.No_Faktur = 'TSS-CS-02/26-0031' "
+            SQL &= $"and a.Status is null "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+
+                    Dim No_faktur_parent As String = Dr("No_Faktur")
+
+                    Dr.Close()
+                    SQL = $"update Tf_Stock_Parent set status = 'Y', UserID_Batal = '{UserID}', Tanggal_Batal = '{Format(tgl_skg, "yyyy-MM-dd")}', Jam_Batal = '{Format(tgl_skg, "HH:mm:ss")}' "
+                    SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' and No_Faktur = '{No_faktur_parent}' and Status is null "
+                    ExecuteTrans(SQL)
+
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("No Transfer Stock Parent Tidak Ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+
+
+            '=====================================
+            '=     UPDATE TF STOCK SEMENTARA     =
+            '=====================================
             SQL = "select Kode_Perusahaan from N_EMI_Transaksi_Transfer_Stock_Sementara where Kode_Perusahaan = '" & KodePerusahaan & "'  "
             SQL = SQL & "and No_Faktur = '" & NoTransfer & "' and status is null "
             Using Dr = OpenTrans(SQL)
@@ -1221,6 +1251,7 @@ Public Class N_EMI_Display_Transfer_Stock_Sementara
                     SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & NoTransfer & "' and status is null"
                     ExecuteTrans(SQL)
                 Else
+                    Dr.Close()
                     CloseTrans()
                     CloseConn()
                     MessageBox.Show("No Transfer Stock Tidak Ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

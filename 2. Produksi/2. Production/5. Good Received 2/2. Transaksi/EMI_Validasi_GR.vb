@@ -2995,9 +2995,9 @@ Public Class EMI_Validasi_GR
                 )
                 select kode_perusahaan, 
                     STRING_AGG(No_Split, ', ') AS No_Split,
-                    Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired, sum(Jumlah) as Jumlah, Satuan, Jenis, Number, Id_Routing, Routing
+                    Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, max(Batch_Number) as Batch_Number, Qr_Code, min(Tgl_Produksi) as Tgl_Produksi, min(Tgl_Expired) as Tgl_Expired, sum(Jumlah) as Jumlah, Satuan, Jenis, Number, Id_Routing, Routing
                 from Cte_Group
-                group by kode_perusahaan, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired, Satuan, Jenis, Number, Id_Routing, Routing
+                group by kode_perusahaan, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, Qr_Code, Satuan, Jenis, Number, Id_Routing, Routing
             "
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
@@ -3641,6 +3641,8 @@ Public Class EMI_Validasi_GR
         Get_Lv_Data_Barcode(SelectedIndex)
 
         Dim KdBarang As String = ""
+
+        Dim ListNoSplit As String = ""
         Try
             OpenConn()
 
@@ -3650,9 +3652,23 @@ Public Class EMI_Validasi_GR
             SQL = SQL & "and a.kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and (qr_code +'-'+Kode_Unik_Berjalan ) = c.Barcode "
             SQL = SQL & "and c.Nomor = '" & LvBarcode_ID & "' and c.userid='" & UserID & "' "
+            SQL = SQL & "and c.Kode_Unik_Transaksi = '" & Kode_Unik_Transaksi & "' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     KdBarang = Dr("Kode_Barang")
+                End If
+            End Using
+
+            SQL = ";with cte as( "
+            SQL &= $"select distinct No_Production_Order "
+            SQL &= $"from N_EMI_Validation_GR_Temp "
+            SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+            SQL &= $"and UserID = '{UserID}' "
+            SQL &= $"and Kode_Unik_Transaksi = '{Kode_Unik_Transaksi}' "
+            SQL &= $")select STRING_AGG(QUOTENAME(No_Production_Order, ''''), ', ') AS List_No_Production_Order from cte  "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    ListNoSplit = Dr("List_No_Production_Order")
                 End If
             End Using
 
@@ -3666,7 +3682,7 @@ Public Class EMI_Validasi_GR
 
         If LvBarcode_Jenis.ToUpper = "FINISHED GOOD" Then
 
-            'SD_ValidasiGR_Detail_Packaging.No_Split = LvBarcode_No_Split
+            SD_ValidasiGR_Detail_Packaging.No_Split = ListNoSplit
             SD_ValidasiGR_Detail_Packaging.Kd_Barang = KdBarang
             SD_ValidasiGR_Detail_Packaging.JumlahInput = LvBarcode_Total
 

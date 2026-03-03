@@ -738,6 +738,45 @@
                 End If
             End If
 
+            '=====================================
+            '=    GET NILAI TOLERANSI FORMULA    =
+            '=====================================
+            Dim IsAutomaticValidation As Boolean = True
+            Dim ToleransiFormulaMin As Double = 0
+            Dim ToleransiFormulaMax As Double = 0
+            SQL = "select Toleransi_Formula_GI_Min, Toleransi_Formula_GI_Max from init "
+            SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+
+                    If General_Class.CekNULL(Dr("Toleransi_Formula_GI_Min")) = "" Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Terjadi Kesalahan Pada Tabel Init, Nilai Toleransi Formula GI Min Belum Diset", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    ElseIf General_Class.CekNULL(Dr("Toleransi_Formula_GI_Max")) = "" Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Terjadi Kesalahan Pada Tabel Init, Nilai Toleransi Formula GI Max Belum Diset", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                    ToleransiFormulaMin = Val(HilangkanTanda(Dr("Toleransi_Formula_GI_Min")))
+                    ToleransiFormulaMin = Val(HilangkanTanda(Dr("Toleransi_Formula_GI_Max")))
+
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show("Terjadi Kesalahan Pada Tabel Init", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+
+
             '=======================================
             '=     CEK APAKAH PO SUDAH SELESAI     =
             '=======================================
@@ -1186,6 +1225,7 @@
         Lbl_tab1.ForeColor = Warna_Hover
         Pnl_Tab1.BackColor = Warna_Hover
     End Sub
+
 
     Private Sub Lbl_tab1_MouseLeave(sender As Object, e As EventArgs) Handles Lbl_tab1.MouseLeave, Pnl_Tab1.MouseEnter
         If CurrentTab = 0 Then

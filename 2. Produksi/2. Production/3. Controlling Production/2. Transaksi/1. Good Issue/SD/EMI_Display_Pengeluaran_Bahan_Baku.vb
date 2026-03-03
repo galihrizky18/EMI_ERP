@@ -1,4 +1,7 @@
-﻿Public Class EMI_Display_Pengeluaran_Bahan_Baku
+﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
+
+Public Class EMI_Display_Pengeluaran_Bahan_Baku
     Dim Jenis = "Display_Production_Order"
     Public asal As String
     Dim arrcari As New ArrayList
