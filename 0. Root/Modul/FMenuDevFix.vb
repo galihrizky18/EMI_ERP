@@ -962,13 +962,13 @@
     '    Server_Sinkronasi_B2B.Focus()
     'End Sub
 
-    'Private Sub TFQualityToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TFQualityToolStripMenuItem.Click
-    '    EMI_Transfer_Quality_QC.StartPosition = FormStartPosition.CenterScreen
+    Private Sub TFQualityToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TFQualityToolStripMenuItem.Click
+        EMI_Transfer_Quality_QC.StartPosition = FormStartPosition.CenterScreen
 
-    '    EMI_Transfer_Quality_QC.MdiParent = Me
-    '    EMI_Transfer_Quality_QC.Show()
-    '    EMI_Transfer_Quality_QC.Focus()
-    'End Sub
+        EMI_Transfer_Quality_QC.MdiParent = Me
+        EMI_Transfer_Quality_QC.Show()
+        EMI_Transfer_Quality_QC.Focus()
+    End Sub
 
     'Private Sub PengeluaranBarangToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PengeluaranBarangToolStripMenuItem.Click
     '    Pengeluaran_Barang.StartPosition = FormStartPosition.CenterScreen
@@ -2297,13 +2297,13 @@
     '    EMI_Transfer_Bahan_Bakar.Focus()
     'End Sub
 
-    'Private Sub TfQualityToolStripMenuItem1_Click(sender As Object, e As EventArgs)
-    '    EMI_Transfer_Quality_QC.StartPosition = FormStartPosition.CenterScreen
+    Private Sub TfQualityToolStripMenuItem1_Click(sender As Object, e As EventArgs)
+        EMI_Transfer_Quality_QC.StartPosition = FormStartPosition.CenterScreen
 
-    '    EMI_Transfer_Quality_QC.MdiParent = Me
-    '    EMI_Transfer_Quality_QC.Show()
-    '    EMI_Transfer_Quality_QC.Focus()
-    'End Sub
+        EMI_Transfer_Quality_QC.MdiParent = Me
+        EMI_Transfer_Quality_QC.Show()
+        EMI_Transfer_Quality_QC.Focus()
+    End Sub
 
     'Private Sub PemusnahanBarangToolStripMenuItem_Click(sender As Object, e As EventArgs)
     '    N_EMI_Transaksi_Pemusnahan_Barang.StartPosition = FormStartPosition.CenterScreen
@@ -3474,6 +3474,14 @@
         N_EMI_Transaksi_Validasi_Formula.MdiParent = Me
         N_EMI_Transaksi_Validasi_Formula.Show()
         N_EMI_Transaksi_Validasi_Formula.Focus()
+    End Sub
+
+    Private Sub TransferQualityToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles TransferQualityToolStripMenuItem2.Click
+        EMI_Transfer_Quality_QC.StartPosition = FormStartPosition.CenterScreen
+
+        EMI_Transfer_Quality_QC.MdiParent = Me
+        EMI_Transfer_Quality_QC.Show()
+        EMI_Transfer_Quality_QC.Focus()
     End Sub
 
 

@@ -283,6 +283,18 @@
       <DependentUpon>Rpt_EMI_Faktur_Transfer_Stock_QC.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="2. Produksi\3. Material Movement\Tranfer Quality\2. Transaksi\EMI_Transfer_Quality_QC.Designer.vb">
+      <DependentUpon>EMI_Transfer_Quality_QC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\3. Material Movement\Tranfer Quality\2. Transaksi\EMI_Transfer_Quality_QC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\3. Material Movement\Tranfer Quality\5. Faktur\NewBarcodeTransferQuality.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NewBarcodeTransferQuality.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="2. Produksi\3. Material Movement\Transfer Stock\2. Transaksi\Transfer_Stock_3.Designer.vb">
       <DependentUpon>Transfer_Stock_3.vb</DependentUpon>
     </Compile>
@@ -976,6 +988,13 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_EMI_Faktur_Transfer_Stock_QC.vb</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\3. Material Movement\Tranfer Quality\2. Transaksi\EMI_Transfer_Quality_QC.resx">
+      <DependentUpon>EMI_Transfer_Quality_QC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\3. Material Movement\Tranfer Quality\5. Faktur\NewBarcodeTransferQuality.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>NewBarcodeTransferQuality.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\3. Material Movement\Transfer Stock\2. Transaksi\Transfer_Stock_3.resx">
       <DependentUpon>Transfer_Stock_3.vb</DependentUpon>
     </EmbeddedResource>
@@ -1346,6 +1365,9 @@
     <Folder Include="2. Produksi\3. Material Movement\Split Stock\1. Master\" />
     <Folder Include="2. Produksi\3. Material Movement\Split Stock\3. Display\" />
     <Folder Include="2. Produksi\3. Material Movement\Split Stock\4. Laporan\" />
+    <Folder Include="2. Produksi\3. Material Movement\Tranfer Quality\1. Master\" />
+    <Folder Include="2. Produksi\3. Material Movement\Tranfer Quality\3. Display\" />
+    <Folder Include="2. Produksi\3. Material Movement\Tranfer Quality\4. Laporan\" />
     <Folder Include="2. Produksi\3. Material Movement\Transfer Stock Sementara\1. Master\" />
     <Folder Include="2. Produksi\3. Material Movement\Transfer Stock Sementara\2. Transaksi\Faktur\" />
     <Folder Include="2. Produksi\3. Material Movement\Transfer Stock Sementara\4. Laporan\" />

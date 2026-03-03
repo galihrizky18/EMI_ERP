@@ -73,6 +73,7 @@
                     Lv.SubItems.Add(Dr("Nama_Barang"))
                     Lv.SubItems.Add(Format(Val(HilangkanTanda(Dr("Hasil"))), "N4"))
                     Lv.SubItems.Add(Dr("Satuan_Hasil"))
+
                 Loop
             End Using
 
