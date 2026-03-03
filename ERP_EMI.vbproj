@@ -1011,7 +1011,6 @@
     <Compile Include="OPTIONAL\General_Class.vb" />
     <Compile Include="OPTIONAL\General_Module.vb" />
     <Compile Include="OPTIONAL\General_Module_B2B.vb" />
-    <Compile Include="OPTIONAL\Module1.vb" />
     <Compile Include="OPTIONAL\Module_Connection.vb" />
     <Compile Include="OPTIONAL\Modul_Pembantu.vb" />
   </ItemGroup>
