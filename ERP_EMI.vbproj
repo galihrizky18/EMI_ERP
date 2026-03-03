@@ -1478,6 +1478,41 @@
   <ItemGroup>
     <Content Include="2. Produksi\3. Material Movement\RFID\5. Helper\SDK\Basic.dll" />
     <Content Include="2. Produksi\3. Material Movement\RFID\5. Helper\SDK\UHFReader18.dll" />
+    <None Include="Resources\statistics.png" />
+    <None Include="Resources\calendar.png" />
+    <None Include="Resources\stopwatch.png" />
+    <None Include="Resources\presentation.png" />
+    <None Include="Resources\requisition.png" />
+    <None Include="Resources\order-fulfillment.png" />
+    <None Include="Resources\purchase-order.png" />
+    <None Include="Resources\offer.png" />
+    <None Include="Resources\purchase-order %281%29.png" />
+    <None Include="Resources\delivery.png" />
+    <None Include="Resources\rates.png" />
+    <None Include="Resources\cancel-order.png" />
+    <None Include="Resources\circle-info-solid-full.png" />
+    <None Include="Resources\circle-info-solid-full1.png" />
+    <None Include="Resources\circle-info-solid-full2.png" />
+    <None Include="Resources\expense1.png" />
+    <None Include="Resources\expense.png" />
+    <None Include="Resources\file.png" />
+    <None Include="Resources\cancel.png" />
+    <None Include="Resources\hierarchical-structure.png" />
+    <None Include="Resources\department.png" />
+    <None Include="Resources\hierarchy.png" />
+    <None Include="Resources\hierarchical-structure %281%29.png" />
+    <None Include="Resources\boss.png" />
+    <None Include="Resources\employee.png" />
+    <None Include="Resources\image.png" />
+    <None Include="Resources\company.png" />
+    <None Include="Resources\company-department.png" />
+    <None Include="Resources\department-store.png" />
+    <None Include="Resources\bell.png" />
+    <None Include="Resources\budget.png" />
+    <None Include="Resources\calculator.png" />
+    <None Include="Resources\add-to-cart.png" />
+    <None Include="Resources\payment.png" />
+    <None Include="Resources\progressive.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
