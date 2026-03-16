@@ -1,10 +1,4 @@
-﻿Imports System.Net.Mime.MediaTypeNames
-Imports System.Reflection
-Imports System.Reflection.Emit
-Imports System.Threading
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-Imports MS.Internal
+﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 
 Public Class Transaksi_Formula
@@ -59,7 +53,7 @@ Public Class Transaksi_Formula
 
     Private Sub get_no_faktur_binding()
         Txt_No_Faktur_Binding.Text = fTransFormulaBinding & Format(tgl_skg, "MMyy") & "-" &
-                             General_Class.Get_Last_Number2("Emi_Transaksi_Formulator_Binding", "No_Faktur", 5,
+                             General_Class.Get_Last_Number2("EMI_Transaksi_Formulator_Binding", "No_Faktur", 5,
                              "Kode_perusahaan", KodePerusahaan,
                              "And", "substring(no_Faktur, 1, " & Len(fTransFormulaBinding) + 4 & ")", fTransFormulaBinding & Format(tgl_skg, "MMyy"))
     End Sub

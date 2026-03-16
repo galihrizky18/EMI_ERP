@@ -1140,7 +1140,7 @@ Public Class EMI_Timbang_Floor_Scale
                     'INSERT BARANG SN BARU  
                     SQL = "insert into Barang_SN (Kode_Perusahaan, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah,  Jumlah_Bags, "
                     SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, id_Susunan, Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number, Warna, Tgl_masuk, Blok_SN, id_jenis_kategori_produksi, No_Reservasi) "
-                    SQL = SQL & "select Kode_Perusahaan, '" & GetSoTujuan & "', Kode_Barang, '" & SN_Baru & "', '" & nilai_kecildetail & "', " & Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) & ", "
+                    SQL = SQL & "select Kode_Perusahaan, '" & GetSoTujuan & "', Kode_Barang, '" & SN_Baru & "', '" & Val(HilangkanTanda(Format(nilai_kecildetail, "N4"))) & "', " & Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) & ", "
                     SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, '" & GetRakTujuan & "', id_Susunan , Qr_Code, '" & newKodeUnikBerjalan & "', "
                     SQL = SQL & "Kode_Unik_Asal, '" & GetPalletTujuan & "', batch_number, '" & warnaLama & "', Tgl_Masuk, NULL, " & Id_Jenis_Kategori_Produksi & ", " & No_Reservasi_Split & " "
                     SQL = SQL & "from Barang_SN "
@@ -1599,6 +1599,131 @@ Public Class EMI_Timbang_Floor_Scale
 
 
                 End If
+
+
+
+
+                '===============================================================
+                '=     CEK APAKAH DATA RM GENERAL DAN CEK JUMLAH KEBUTUHAN     =
+                '===============================================================
+                Dim IsRequestGeneral As Boolean = False
+                Dim Jumlah_Kebutuhan_Request_General As Double = 0
+                Dim NoRequestGeneral As String = ""
+                SQL = "select b.Jumlah as Jumlah_Kebutuhan, a.No_Faktur "
+                SQL &= $"from Emi_Material_Requisition_General a "
+                SQL &= $"inner join Emi_Material_Requisition_General_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+                SQL &= $"where a.Status is NULL "
+                SQL &= $"and a.Kode_Perusahaan = '{KodePerusahaan}' "
+                SQL &= $"and b.Urut_Oto = '{Urut_Det_Convert}' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Jumlah_Kebutuhan_Request_General = Val(HilangkanTanda(Dr("Jumlah_Kebutuhan")))
+                        NoRequestGeneral = Dr("No_Faktur")
+                        IsRequestGeneral = True
+                    Else
+                        IsRequestGeneral = False
+                    End If
+                End Using
+
+                If IsRequestGeneral Then
+                    '=====================================
+                    '=     CEK JUMLAH SUDAH TRANSFER     =
+                    '=====================================
+                    Dim Jumlah_Sudah_Transfer_General As Double = 0
+                    SQL = "select isnull(sum(d.Jumlah), 0) as Jumlah_Transfer "
+                    SQL = SQL & "from Tf_Stock_Parent a, Tf_Stock b, Tf_Stock_Det c, Tf_Stock_Det2 d "
+                    SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan "
+                    SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+                    SQL = SQL & "and b.No_Faktur = c.No_Faktur and b.Urut_Oto = c.Urut_TF "
+                    SQL = SQL & "and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det "
+                    SQL = SQL & "and a.Status is null "
+                    SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and b.Urut_Material_Requisition_Convert = " & Urut_Det_Convert & " "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+                            Jumlah_Sudah_Transfer_General = Val(HilangkanTanda(Dr("Jumlah_Transfer")))
+                        End If
+                    End Using
+
+                    '================================
+                    '=     CEK APAKAH LAST DATA     =
+                    '================================
+                    Dim isLastData_General As Boolean = False
+                    SQL = "select c.Serial_Number_Awal, (d.Qr_Code+'-'+d.Kode_Unik_Berjalan) as barcode "
+                    SQL = SQL & "from Tf_Stock_Parent a, Tf_Stock b, Tf_Stock_Det c, barang_sn d "
+                    SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan "
+                    SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+                    SQL = SQL & "and b.No_Faktur = c.No_Faktur and b.Urut_Oto = c.Urut_TF "
+                    SQL = SQL & "and c.Serial_Number_Awal = d.Serial_Number "
+                    SQL = SQL & "and a.Status is null "
+                    SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                    SQL = SQL & "and a.No_Faktur = '" & GetDataKodeTransfer & "' "
+
+                    SQL = SQL & "and not exists ( "
+                    SQL = SQL & "select 1 from TF_Stock_Det2 z where z.kode_perusahaan = c.Kode_Perusahaan and z.no_faktur = c.No_Faktur and z.Urut_Det = c.Urut_Oto) "
+                    Using Dr = OpenTrans(SQL)
+                        If Not Dr.Read Then
+                            isLastData_General = True
+                        End If
+                    End Using
+
+                    If Jumlah_Sudah_Transfer_General >= Jumlah_Kebutuhan_Request_General Then
+
+                        '================================
+                        '=       UPDATE DATA FLAG       =
+                        '================================
+                        SQL = "select a.Kode_Perusahaan "
+                        SQL &= $"from Emi_Material_Requisition_General a "
+                        SQL &= $"inner join Emi_Material_Requisition_General_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+                        SQL &= $"where a.Status is NULL "
+                        SQL &= $"and a.Kode_Perusahaan = '{KodePerusahaan}' "
+                        SQL &= $"and b.Urut_Oto = '{Urut_Det_Convert}' "
+                        Using Dr = OpenTrans(SQL)
+                            If Dr.Read Then
+
+                                Dr.Close()
+                                SQL = "update Emi_Material_Requisition_General_Detail set flag_terpenuhi = 'Y', "
+                                SQL = SQL & "tanggal_terpenuhi = '" & Format(tgl_skg, "yyyy-MM-dd") & "', jam_terpenuhi = '" & Format(tgl_skg, "HH:mm:ss") & "', user_terpenuhi = '" & UserID & "' "
+                                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Urut_Oto = '" & Urut_Det_Convert & "' "
+                                ExecuteTrans(SQL)
+
+                            Else
+                                Dr.Close()
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("Data Request Material Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
+                        End Using
+
+
+
+                    End If
+
+                    '================================================
+                    '=       CEK APAKAH SUDAH TERPENUHI SEMUA       =
+                    '================================================
+                    SQL = "select a.Kode_Perusahaan "
+                    SQL &= $"from Emi_Material_Requisition_General a "
+                    SQL &= $"inner join Emi_Material_Requisition_General_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+                    SQL &= $"where a.Status is NULL and b.Flag_Terpenuhi is null "
+                    SQL &= $"and a.Kode_Perusahaan = '{KodePerusahaan}' "
+                    SQL &= $"and a.No_Faktur = '{NoRequestGeneral}' "
+                    Using Dr = OpenTrans(SQL)
+                        If Not Dr.Read Then
+
+                            Dr.Close()
+                            SQL = "update Emi_Material_Requisition_General set flag_terpenuhi = 'Y', flag_selesai = 'Y', "
+                            SQL = SQL & "tanggal_terpenuhi = '" & Format(tgl_skg, "yyyy-MM-dd") & "', jam_terpenuhi = '" & Format(tgl_skg, "HH:mm:ss") & "', user_terpenuhi = '" & UserID & "' "
+                            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & NoRequestGeneral & "' "
+                            ExecuteTrans(SQL)
+
+                        End If
+                    End Using
+
+                End If
+
+
 
 #End Region
 

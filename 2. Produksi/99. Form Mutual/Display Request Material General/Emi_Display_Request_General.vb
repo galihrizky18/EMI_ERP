@@ -80,7 +80,8 @@
             SQL = SQL & "and a.No_Faktur = b.No_Faktur "
             SQL = SQL & "and b.Kode_Barang = c.Kode_Barang and a.Kode_Stock_Owner_Sup = c.Kode_Stock_Owner "
             SQL = SQL & "and a.Status is null  "
-            SQL = SQL & "and a.flag_selesai is null "
+            SQL = SQL & "and a.flag_terpenuhi is null "
+            SQL = SQL & "and b.flag_terpenuhi is null "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.Kode_Stock_Owner_Req = '" & Lokasi_Req & "' "
             SQL = SQL & "and a.Kode_Stock_Owner_Sup = '" & Lokasi_Sup & "' "
@@ -154,6 +155,21 @@
             Try
                 OpenConn()
 
+                '======================
+                '=     GET SATUAN     =
+                '======================
+                Transfer_Stock_3.Cmb_Satuan_Barang.Items.Clear()
+                SQL = "select Satuan, Flag_Default from N_EMI_Master_Satuan where Kode_Perusahaan = '" & KodePerusahaan & "' and Kode_Barang = '" & Lv_KdBarang & "' order by Satuan"
+                Using Dr = OpenTrans(SQL)
+                    Do While Dr.Read
+                        Transfer_Stock_3.Cmb_Satuan_Barang.Items.Add(Dr("Satuan"))
+                        If General_Class.CekNULL(Dr("Flag_Default")) = "Y" Then
+                            Transfer_Stock_3.Cmb_Satuan_Barang.Text = Dr("Satuan")
+                        End If
+                    Loop
+                End Using
+
+
                 '===========================
                 '=     GET DATA BARANG     =
                 '===========================
@@ -180,7 +196,7 @@
                             Next
                         Else
                             CloseConn()
-                            MessageBox.Show("Data Tidak Ditemukan")
+                            MessageBox.Show($"Stock Barang TIdak Ada, Kode Stock Owner {Lokasi_Sup} Kode Barang {Lv_KdBarang}")
                             Exit Sub
                         End If
                     End With
@@ -194,12 +210,16 @@
                 Exit Sub
             End Try
 
+
+            Dim JumlahRequest As Double = Val(HilangkanTanda(Lv_Jumlah)) - Val(HilangkanTanda(Lv_JumlahTransfer))
+
+
             Transfer_Stock_3.Txt_Jenis_Transfer.Text = "GENERAL"
             Transfer_Stock_3.TxtSatuan.Text = Lv_Satuan
             Transfer_Stock_3.TxtSatuanKecil.Text = Lv_SatuanKecil
             Transfer_Stock_3.Txt_OtoMaterial_req.Text = Lv_UrutOto
-            Transfer_Stock_3.TxtjmlPermintaanDisplay.Text = Format(Val(HilangkanTanda(Lv_Jumlah)), "N2") + " " + Lv_Satuan
-            Transfer_Stock_3.TxtjmlPermintaanBersih.Text = HilangkanTanda(Format(Val(HilangkanTanda(Lv_Jumlah)), "N2"))
+            Transfer_Stock_3.TxtjmlPermintaanDisplay.Text = Format(Val(HilangkanTanda(JumlahRequest)), "N2") + " " + Lv_Satuan
+            Transfer_Stock_3.TxtjmlPermintaanBersih.Text = HilangkanTanda(Format(Val(HilangkanTanda(JumlahRequest)), "N2"))
             Transfer_Stock_3.Lv_DetBarang.Visible = False
             Transfer_Stock_3.Btn_Insert_Click(Lv_Data, e)
             'Transfer_Stock_3.DGV_Data_TF.Rows.Clear()
@@ -263,12 +283,15 @@
                 Exit Sub
             End Try
 
+
+            Dim JumlahRequest As Double = Val(HilangkanTanda(Lv_Jumlah)) - Val(HilangkanTanda(Lv_JumlahTransfer))
+
             Emi_Split_Stock_QC.Txt_Jenis_Transfer.Text = "GENERAL"
             Emi_Split_Stock_QC.TxtSatuan.Text = Lv_Satuan
             Emi_Split_Stock_QC.Txt_OtoMaterial_req.Text = Lv_UrutOto
             Emi_Split_Stock_QC.TxtSatuanKecil.Text = Lv_SatuanKecil
-            Emi_Split_Stock_QC.TxtjmlPermintaanDisplay.Text = Format(Val(HilangkanTanda(Lv_Jumlah)), "N2") + " " + Lv_Satuan
-            Emi_Split_Stock_QC.TxtjmlPermintaanBersih.Text = HilangkanTanda(Format(Val(HilangkanTanda(Lv_Jumlah)), "N2"))
+            Emi_Split_Stock_QC.TxtjmlPermintaanDisplay.Text = Format(Val(HilangkanTanda(JumlahRequest)), "N2") + " " + Lv_Satuan
+            Emi_Split_Stock_QC.TxtjmlPermintaanBersih.Text = HilangkanTanda(Format(Val(HilangkanTanda(JumlahRequest)), "N2"))
             Emi_Split_Stock_QC.Lv_DetBarang.Visible = False
             Emi_Split_Stock_QC.Btn_Insert_Click(Lv_Data, e)
             'Transfer_Stock_3.DGV_Data_TF.Rows.Clear()

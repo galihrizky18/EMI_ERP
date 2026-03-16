@@ -152,6 +152,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
 
             Dim newKodeUnikBerjalan As String = Generate_Random_Kode(10)
             Dim namaBarang As String = ""
+            Dim Count As Integer = 0
             For Indxx = 0 To arr_Sn.Count - 1
 
                 Dim Id_Jenis_Kategori_Produksi As String = ""
@@ -387,7 +388,12 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoAwal & "' and kode_barang = '" & GetDataKdBrg & "' "
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
-                        Stock_SblmPotong = Math.Round(Dr("Stock"), 4)
+                        If General_Class.CekNULL(Dr("Stock")) = "" Then
+                            Stock_SblmPotong = 0
+                        Else
+                            Stock_SblmPotong = Math.Round(Dr("Stock"), 4)
+                        End If
+
                     End If
                 End Using
 
@@ -395,7 +401,11 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoAwal & "' and kode_barang = '" & GetDataKdBrg & "' "
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
-                        Stock_SN_SblmPotong = Math.Round(Dr("Stock_SN"), 4)
+                        If General_Class.CekNULL(Dr("Stock_SN")) = "" Then
+                            Stock_SN_SblmPotong = 0
+                        Else
+                            Stock_SN_SblmPotong = Math.Round(Dr("Stock_SN"), 4)
+                        End If
                     End If
                 End Using
 
@@ -414,7 +424,11 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 SQL = SQL & "and Serial_Number='" & GetSnAwal & "'"
                 Using dr = OpenTrans(SQL)
                     If dr.Read Then
-                        nilai_persediaan_min = dr("rp_persediaan_min")
+                        If General_Class.CekNULL(dr("rp_persediaan_min")) = "" Then
+                            nilai_persediaan_min = 0
+                        Else
+                            nilai_persediaan_min = dr("rp_persediaan_min")
+                        End If
                     Else
                         dr.Close()
                         CloseTrans()
@@ -456,7 +470,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                             SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock "
                             SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
                             SQL &= $"values ('{KodePerusahaan}', '{GetDataKodeTransfer}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
-                            SQL &= $"'POTONG STOCK BARANG', '{GetSoAwal}', '{GetDataKdBrg}', '-', '{Stock_SblmPotong}', 0, '{nilai_kecildetail}', 0) "
+                            SQL &= $"'POTONG STOCK BARANG-{Count}', '{GetSoAwal}', '{GetDataKdBrg}', '-', '{Stock_SblmPotong}', 0, '{nilai_kecildetail}', 0) "
                             ExecuteTrans(SQL)
 
 
@@ -556,7 +570,11 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoAwal & "' and kode_barang = '" & GetDataKdBrg & "' "
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
-                        Stock_Setelah_Potong = Math.Round(Dr("Stock"), 4)
+                        If General_Class.CekNULL(Dr("Stock")) = "" Then
+                            Stock_Setelah_Potong = 0
+                        Else
+                            Stock_Setelah_Potong = Math.Round(Dr("Stock"), 4)
+                        End If
                     End If
                 End Using
 
@@ -564,7 +582,11 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoAwal & "' and kode_barang = '" & GetDataKdBrg & "' "
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
-                        Stock_SN_Setelah_Potong = Math.Round(Dr("Stock_SN"), 4)
+                        If General_Class.CekNULL(Dr("Stock_SN")) = "" Then
+                            Stock_SN_Setelah_Potong = 0
+                        Else
+                            Stock_SN_Setelah_Potong = Math.Round(Dr("Stock_SN"), 4)
+                        End If
                     End If
                 End Using
 
@@ -614,8 +636,17 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoTujuan & "' and kode_barang = '" & GetDataKdBrg & "' "
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
-                        Stock_Sebelum_Insert = Math.Round(Dr("Stock"), 4)
-                        Bags_Sebelum_Insert = Math.Round(Dr("Stock_Bags"), 4)
+                        If General_Class.CekNULL(Dr("Stock")) = "" Then
+                            Stock_Sebelum_Insert = 0
+                        Else
+                            Stock_Sebelum_Insert = Math.Round(Dr("Stock"), 4)
+                        End If
+
+                        If General_Class.CekNULL(Dr("Stock_Bags")) = "" Then
+                            Bags_Sebelum_Insert = 0
+                        Else
+                            Bags_Sebelum_Insert = Math.Round(Dr("Stock_Bags"), 4)
+                        End If
                     End If
                 End Using
 
@@ -623,8 +654,8 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoTujuan & "' and kode_barang = '" & GetDataKdBrg & "' "
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
-                        Stock_SN_Sebelum_Insert = Math.Round(Dr("Stock_SN"), 4)
-                        Bags_SN_Sebelum_Insert = Math.Round(Dr("Stock_Bags_SN"), 4)
+                        Stock_SN_Sebelum_Insert = If(General_Class.CekNULL(Dr("Stock_SN")) = "", 0, Math.Round(Dr("Stock_SN"), 4))
+                        Bags_SN_Sebelum_Insert = If(General_Class.CekNULL(Dr("Stock_Bags_SN")) = "", 0, Math.Round(Dr("Stock_Bags_SN"), 4))
                     End If
                 End Using
 
@@ -672,7 +703,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 'INSERT BARANG SN BARU  
                 SQL = "insert into Barang_SN (Kode_Perusahaan, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah,  Jumlah_Bags, "
                 SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, Id_Warehouse, id_Susunan, Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Nomor_Pallet, batch_number, Warna, Tgl_masuk, Blok_SN, id_jenis_kategori_produksi) "
-                SQL = SQL & "select Kode_Perusahaan, '" & GetSoTujuan & "', Kode_Barang, '" & SN_Baru & "', '" & nilai_kecildetail & "', " & GetJumlahBags & ", "
+                SQL = SQL & "select Kode_Perusahaan, '" & GetSoTujuan & "', Kode_Barang, '" & SN_Baru & "', '" & Val(HilangkanTanda(Format(nilai_kecildetail, "N4"))) & "', " & GetJumlahBags & ", "
                 SQL = SQL & "Tgl_Expired, Tgl_Produksi, Stock_PO, Stock_Inquiry, '" & GetRakTujuan & "', id_Susunan , Qr_Code, '" & newKodeUnikBerjalan & "', "
                 SQL = SQL & "Kode_Unik_Asal, '" & GetPalletTujuan & "', batch_number, '" & warnaLama & "', Tgl_Masuk, NULL, " & Id_Jenis_Kategori_Produksi & " "
                 SQL = SQL & "from Barang_SN "
@@ -700,7 +731,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 SQL = "insert into N_EMI_LOG_Transaksi_Validasi_Transfer_Stock "
                 SQL &= $"(Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
                 SQL &= $"values ('{KodePerusahaan}', '{GetDataKodeTransfer}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', "
-                SQL &= $"'INSERT STOCK BARANG', '{GetSoTujuan}', '{GetDataKdBrg}', '-', '{Stock_Sebelum_Insert}', 0, '{nilai_kecildetail}', 0) "
+                SQL &= $"'INSERT STOCK BARANG-{Count}', '{GetSoTujuan}', '{GetDataKdBrg}', '-', '{Stock_Sebelum_Insert}', 0, '{nilai_kecildetail}', 0) "
                 ExecuteTrans(SQL)
 
                 'CEK KESESUAIAN STOCK
@@ -758,6 +789,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoTujuan & "' and kode_barang = '" & GetDataKdBrg & "' "
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
+
                         Stock_Setelah_Insert = Math.Round(Dr("Stock"), 4)
                     End If
                 End Using
@@ -926,6 +958,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 SQL = SQL & "and urut_oto = '" & GetDataUrutOto & "' "
                 ExecuteTrans(SQL)
 
+                Count += 1
 
             Next
 
@@ -1144,6 +1177,133 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
 
 
             End If
+
+
+
+
+            '===============================================================
+            '=     CEK APAKAH DATA RM GENERAL DAN CEK JUMLAH KEBUTUHAN     =
+            '===============================================================
+            Dim IsRequestGeneral As Boolean = False
+            Dim Jumlah_Kebutuhan_Request_General As Double = 0
+            Dim NoRequestGeneral As String = ""
+            SQL = "select b.Jumlah as Jumlah_Kebutuhan, a.No_Faktur "
+            SQL &= $"from Emi_Material_Requisition_General a "
+            SQL &= $"inner join Emi_Material_Requisition_General_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            SQL &= $"where a.Status is NULL "
+            SQL &= $"and a.Kode_Perusahaan = '{KodePerusahaan}' "
+            SQL &= $"and b.Urut_Oto = '{Urut_Det_Convert}' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    Jumlah_Kebutuhan_Request_General = Val(HilangkanTanda(Dr("Jumlah_Kebutuhan")))
+                    NoRequestGeneral = Dr("No_Faktur")
+                    IsRequestGeneral = True
+                Else
+                    IsRequestGeneral = False
+                End If
+            End Using
+
+            If IsRequestGeneral Then
+                '=====================================
+                '=     CEK JUMLAH SUDAH TRANSFER     =
+                '=====================================
+                Dim Jumlah_Sudah_Transfer_General As Double = 0
+                SQL = "select isnull(sum(d.Jumlah), 0) as Jumlah_Transfer "
+                SQL = SQL & "from Tf_Stock_Parent a, Tf_Stock b, Tf_Stock_Det c, Tf_Stock_Det2 d "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan "
+                SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+                SQL = SQL & "and b.No_Faktur = c.No_Faktur and b.Urut_Oto = c.Urut_TF "
+                SQL = SQL & "and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det "
+                SQL = SQL & "and a.Status is null "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and b.Urut_Material_Requisition_Convert = " & Urut_Det_Convert & " "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Jumlah_Sudah_Transfer_General = Val(HilangkanTanda(Dr("Jumlah_Transfer")))
+                    End If
+                End Using
+
+                '================================
+                '=     CEK APAKAH LAST DATA     =
+                '================================
+                Dim isLastData_General As Boolean = False
+                SQL = "select c.Serial_Number_Awal, (d.Qr_Code+'-'+d.Kode_Unik_Berjalan) as barcode "
+                SQL = SQL & "from Tf_Stock_Parent a, Tf_Stock b, Tf_Stock_Det c, barang_sn d "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan "
+                SQL = SQL & "and a.No_Faktur = b.No_Faktur "
+                SQL = SQL & "and b.No_Faktur = c.No_Faktur and b.Urut_Oto = c.Urut_TF "
+                SQL = SQL & "and c.Serial_Number_Awal = d.Serial_Number "
+                SQL = SQL & "and a.Status is null "
+                SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and a.No_Faktur = '" & GetDataKodeTransfer & "' "
+
+                SQL = SQL & "and not exists ( "
+                SQL = SQL & "select 1 from TF_Stock_Det2 z where z.kode_perusahaan = c.Kode_Perusahaan and z.no_faktur = c.No_Faktur and z.Urut_Det = c.Urut_Oto) "
+                Using Dr = OpenTrans(SQL)
+                    If Not Dr.Read Then
+                        isLastData_General = True
+                    End If
+                End Using
+
+                If Jumlah_Sudah_Transfer_General >= Jumlah_Kebutuhan_Request_General Then
+
+                    '================================
+                    '=       UPDATE DATA FLAG       =
+                    '================================
+                    SQL = "select a.Kode_Perusahaan "
+                    SQL &= $"from Emi_Material_Requisition_General a "
+                    SQL &= $"inner join Emi_Material_Requisition_General_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+                    SQL &= $"where a.Status is NULL "
+                    SQL &= $"and a.Kode_Perusahaan = '{KodePerusahaan}' "
+                    SQL &= $"and b.Urut_Oto = '{Urut_Det_Convert}' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+
+                            Dr.Close()
+                            SQL = "update Emi_Material_Requisition_General_Detail set flag_terpenuhi = 'Y', "
+                            SQL = SQL & "tanggal_terpenuhi = '" & Format(tgl_skg, "yyyy-MM-dd") & "', jam_terpenuhi = '" & Format(tgl_skg, "HH:mm:ss") & "', user_terpenuhi = '" & UserID & "' "
+                            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Urut_Oto = '" & Urut_Det_Convert & "' "
+                            ExecuteTrans(SQL)
+
+                        Else
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            CloseConn9()
+                            MessageBox.Show("Data Request Material Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+                        End If
+                    End Using
+
+
+
+                End If
+                '================================================
+                '=       CEK APAKAH SUDAH TERPENUHI SEMUA       =
+                '================================================
+                SQL = "select a.Kode_Perusahaan "
+                SQL &= $"from Emi_Material_Requisition_General a "
+                SQL &= $"inner join Emi_Material_Requisition_General_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+                SQL &= $"where a.Status is NULL and b.Flag_Terpenuhi is null "
+                SQL &= $"and a.Kode_Perusahaan = '{KodePerusahaan}' "
+                SQL &= $"and a.No_Faktur = '{NoRequestGeneral}' "
+                Using Dr = OpenTrans(SQL)
+                    If Not Dr.Read Then
+
+                        Dr.Close()
+                        SQL = "update Emi_Material_Requisition_General set flag_terpenuhi = 'Y', flag_selesai = 'Y', "
+                        SQL = SQL & "tanggal_terpenuhi = '" & Format(tgl_skg, "yyyy-MM-dd") & "', jam_terpenuhi = '" & Format(tgl_skg, "HH:mm:ss") & "', user_terpenuhi = '" & UserID & "' "
+                        SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & NoRequestGeneral & "' "
+                        ExecuteTrans(SQL)
+
+                    End If
+                End Using
+
+            End If
+
+
+
+
 
 #End Region
 

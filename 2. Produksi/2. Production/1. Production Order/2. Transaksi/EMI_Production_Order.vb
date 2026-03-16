@@ -2,6 +2,8 @@
 
     Dim arrIdLine, arrInisialFaktur, arrInisialRouting As New ArrayList
 
+    Dim RV_Parent_Formula, RV_Parent_Transaksi As String
+
     Dim arrOrderBy As New ArrayList
 
     Dim jumlah_po As Double = 0
@@ -115,11 +117,11 @@
     Dim LvSatuanBrg3 As String
     Dim LvStockBrg3 As String
     Dim LvFlagPotStok3 As String
+    Dim LvRV As String
 
 
     Dim cellNoSo3 As Integer = 0
     Dim cellKdBhn3 As Integer = 1
-
     Dim cellJmlh3 As Integer = 2
     Dim cellSatuan3 As Integer = 3
     Dim cellStock3 As Integer = 4
@@ -128,6 +130,7 @@
     Dim cellSatuanBrg3 As Integer = 7
     Dim cellStockBrg3 As Integer = 8
     Dim cellFlagPotStok3 As Integer = 9
+    Dim cellRV As Integer = 11
 
     Private Sub Get_Isi_Listview_Bahan(ByVal index As Integer)
 
@@ -141,6 +144,8 @@
         LvSatuanBrg3 = LvBahan.Items(index).SubItems(cellSatuanBrg3).Text '7
         LvStockBrg3 = LvBahan.Items(index).SubItems(cellStockBrg3).Text '8
         LvFlagPotStok3 = LvBahan.Items(index).SubItems(cellFlagPotStok3).Text
+        LvRV = LvBahan.Items(index).SubItems(cellRV).Text
+
     End Sub
 
     Dim LvNoSo4 As String
@@ -288,6 +293,7 @@
         LvBahan.Columns.Add("satuan_barang", 0, HorizontalAlignment.Center) '8
         LvBahan.Columns.Add("stock_barang", 0, HorizontalAlignment.Right) '9
         LvBahan.Columns.Add("Keep Stock", 133, HorizontalAlignment.Right).DisplayIndex = 6
+        LvBahan.Columns.Add("RV", 0, HorizontalAlignment.Right) '11
 
         LvPackaging.Columns.Add("kode_stock_owner", 0, HorizontalAlignment.Left) '0
         LvPackaging.Columns.Add("Kode Bahan", 200, HorizontalAlignment.Left) '1
@@ -325,6 +331,9 @@
         jumlah_po = 0
         display_default()
         get_jam()
+
+        RV_Parent_Formula = ""
+        RV_Parent_Transaksi = ""
 
         Try
             OpenConn()
@@ -725,6 +734,27 @@
                     End If
                 Next
 
+
+                '==========================
+                '=     CEK RV FORMULA     =
+                '==========================
+                SQL = "select cast(RV as bigint) as RV from EMI_Transaksi_Formulator "
+                SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+                SQL &= $"and No_Faktur = '{TextBox1.Text.Trim}' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+
+                        If Dr("RV") <> RV_Parent_Formula.Trim Then
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+                            MessageBox.Show("Proses tidak dapat dilanjutkan karena formula ini sudah pernah diubah sebelumnya! Ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Exit Sub
+                        End If
+
+                    End If
+                End Using
+
                 For i As Integer = 0 To LvBahan.Items.Count - 1
                     Get_Isi_Listview_Bahan(i)
                     ' MessageBox.Show(HilangkanTanda(ListView3.Items(i).SubItems(7).Text) & " - " & HilangkanTanda(ListView3.Items(i).SubItems(9).Text))
@@ -741,6 +771,28 @@
                         'MessageBox.Show("Terjadi kesalahan, Stock dengan kode barang " & LvKdBhn3 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         'Exit Sub
                     End If
+
+                    '==========================
+                    '=     CEK RV FORMULA     =
+                    '==========================
+                    SQL = "select cast(RV as bigint) as RV from EMI_Transaksi_Formulator_Detail_Bahan "
+                    SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+                    SQL &= $"and No_Faktur = '{TextBox1.Text.Trim}' "
+                    SQL &= $"and Kode_Barang = '{LvKdBhn3.Trim}' "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read Then
+
+                            If Dr("RV").ToString.Trim <> LvRV.Trim Then
+                                Dr.Close()
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("Proses tidak dapat dilanjutkan karena formula ini sudah pernah diubah sebelumnya! Ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Exit Sub
+                            End If
+
+                        End If
+                    End Using
+
 
                     SQL = "insert into emi_order_produksi_detail_bahan(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) values("
                     SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text & "' ,'" & SoProduction & "', '" & LvKdBhn3 & "', "
@@ -920,6 +972,27 @@
 
                 Next
 
+
+                ''==========================
+                ''=     CEK RV FORMULA     =
+                ''==========================
+                'SQL = "select cast(RV as bigint) as RV from Emi_Order_Produksi "
+                'SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+                'SQL &= $"and No_Faktur = '{txtNoFaktur.Text.Trim}' "
+                'Using Dr = OpenTrans(SQL)
+                '    If Dr.Read Then
+
+                '        If Dr("RV").ToString.Trim <> RV_Parent_Transaksi Then
+                '            Dr.Close()
+                '            CloseTrans()
+                '            CloseConn()
+                '            MessageBox.Show("Proses tidak dapat dilanjutkan karena formula ini sudah pernah diubah sebelumnya! Ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                '            Exit Sub
+                '        End If
+
+                '    End If
+                'End Using
+
                 For i As Integer = 0 To LvBahan.Items.Count - 1
 
                     Get_Isi_Listview_Bahan(i)
@@ -934,6 +1007,27 @@
                         'MessageBox.Show("Terjadi kesalahan, Stock " & LvKdBrg2 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         'Exit Sub
                     End If
+
+                    ''==========================
+                    ''=     CEK RV FORMULA     =
+                    ''==========================
+                    'SQL = "select cast(RV as bigint) as RV from Emi_Order_Produksi_Detail_bahan "
+                    'SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+                    'SQL &= $"and No_Faktur = '{txtNoFaktur.Text.Trim}' "
+                    'SQL &= $"and Kode_Barang = '{LvKdBhn3.Trim}' "
+                    'Using Dr = OpenTrans(SQL)
+                    '    If Dr.Read Then
+
+                    '        If Dr("RV").ToString.Trim <> LvRV.Trim Then
+                    '            Dr.Close()
+                    '            CloseTrans()
+                    '            CloseConn()
+                    '            MessageBox.Show("Proses tidak dapat dilanjutkan karena formula ini sudah pernah diubah sebelumnya! Ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    '            Exit Sub
+                    '        End If
+
+                    '    End If
+                    'End Using
 
                     SQL = "insert into emi_order_produksi_detail_bahan(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) values("
                     SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text & "' ,'" & SoProduction & "', '" & LvKdBhn3 & "', "
@@ -1317,12 +1411,13 @@
                     End Using
 
 
-                    SQL = "select a.no_faktur,a.kode_stock_owner,a.kode_barang, c.nama, c.flag_potong_stok,"
+                    SQL = "select a.no_faktur,a.kode_stock_owner,a.kode_barang, c.nama, c.flag_potong_stok, "
                     '   SQL = SQL & " isnull((select top(1) Nama From barang x where a.Kode_Perusahaan = x.Kode_Perusahaan and a.Kode_Barang  = x.Kode_Barang),null) as Nama,  "
                     SQL = SQL & "a.nilai_barang,a.persentase,a.satuan_barang, "
                     SQL = SQL & "isnull((select sum(jumlah) From barang_sn x where a.Kode_Perusahaan = x.Kode_Perusahaan and a.Kode_Barang  = x.Kode_Barang and x.warna='HIJAU'),0) as stock, "
                     SQL = SQL & "isnull((select sum(x.jumlah) from Emi_Order_Produksi_Detail_Bahan x, emi_order_produksi y where x.Kode_Perusahaan = a.Kode_Perusahaan and a.Kode_Barang = x.Kode_Barang "
-                    SQL = SQL & "and x.kode_perusahaan = y.kode_perusahaan and x.no_faktur = y.no_faktur and y.status is null and y.flag_release='Y' ),0) as Keep_Stock  "
+                    SQL = SQL & "and x.kode_perusahaan = y.kode_perusahaan and x.no_faktur = y.no_faktur and y.status is null and y.flag_release='Y' ),0) as Keep_Stock, "
+                    SQL = SQL & "cast(b.RV as bigint) as RV_Parent, cast(a.RV as bigint) as RV_Detail "
                     SQL = SQL & "From EMI_Transaksi_Formulator_Detail_Bahan a, Emi_Transaksi_Formulator b,barang c  "
                     SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and b.Status is null "
                     SQL = SQL & "and a.kode_perusahaan = c.kode_perusahaan and a.kode_stock_owner = c.kode_stock_owner and a.kode_barang = c.kode_barang "
@@ -1438,9 +1533,12 @@
                                     Else
                                         lvwFormulator.SubItems.Add(Format(.Rows(indexFormulator).Item("flag_potong_stok")))
                                     End If
+                                    lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("RV_Detail"))
+
 
                                     TextBox1.Text = kode_formula
                                     DateTimePicker3.Value = tanggal_formula
+                                    RV_Parent_Formula = .Rows(indexFormulator).Item("RV_Parent")
 
                                 Next
                             Else
@@ -1767,11 +1865,12 @@
             SQL = SQL & ",b.satuan,  "
             SQL = SQL & "isnull((select sum(x.jumlah) from Emi_Order_Produksi_Detail_Bahan x, EMI_Order_Produksi y "
             SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.no_faktur and y.Status is null "
-            SQL = SQL & "and x.Kode_Perusahaan = a.Kode_Perusahaan and x.Kode_Barang = a.Kode_Barang),0) as Keep_Stock "
-            SQL = SQL & "from Emi_Order_Produksi_Detail_bahan a,barang b "
+            SQL = SQL & "and x.Kode_Perusahaan = a.Kode_Perusahaan and x.Kode_Barang = a.Kode_Barang),0) as Keep_Stock, cast(a.RV as bigint) as RV_Detail, cast(c.RV as bigint) as RV_Parent "
+            SQL = SQL & "from Emi_Order_Produksi_Detail_bahan a,barang b, Emi_Order_Produksi c "
             SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan  and a.kode_stock_owner = b.Kode_Stock_Owner "
-            SQL = SQL & "and a.kode_barang = b.kode_barang and a.kode_perusahaan = '" & KodePerusahaan & "' and "
-            SQL = SQL & "a.no_faktur = '" & txtNoFaktur.Text & "' "
+            SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.No_Faktur = c.No_Faktur "
+            SQL = SQL & "and a.kode_barang = b.kode_barang and a.kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and a.no_faktur = '" & txtNoFaktur.Text & "' "
             SQL = SQL & "Order by a.kode_barang "
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
@@ -1833,6 +1932,10 @@
                             Else
                                 lvw.SubItems.Add(Format(.Rows(i).Item("flag_potong_stok")))
                             End If
+
+                            lvw.SubItems.Add(.Rows(i).Item("RV_Detail"))
+
+                            RV_Parent_Transaksi = .Rows(i).Item("RV_Parent")
 
                         Next
                         'Else

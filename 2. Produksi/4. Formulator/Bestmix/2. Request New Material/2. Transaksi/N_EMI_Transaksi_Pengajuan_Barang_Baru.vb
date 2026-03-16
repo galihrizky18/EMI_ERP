@@ -35,6 +35,8 @@
             End Using
 
 
+
+
             CloseConn()
         Catch ex As Exception
             CloseConn()
@@ -355,7 +357,7 @@
                     Else
                         No_Urut = "001"
                     End If
-                    Txt_Kd_Barang.Text = arrIDKlasifikasiBahan.Item(Cmb_Klasifikasi_Bahan.SelectedIndex) & arrIDKlasifikasiBahan2.Item(Cmb_Klasifikasi_Bahan_2.SelectedIndex) & No_Urut
+                    Txt_Kd_Barang.Text = arrPrefixKlasifikasiBahan.Item(Cmb_Klasifikasi_Bahan.SelectedIndex) & arrPrefixKlasifikasiBahan2.Item(Cmb_Klasifikasi_Bahan_2.SelectedIndex) & No_Urut
                 End Using
 
                 CloseConn()

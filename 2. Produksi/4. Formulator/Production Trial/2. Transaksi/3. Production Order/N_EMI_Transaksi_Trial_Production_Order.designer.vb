@@ -26,6 +26,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -92,7 +93,6 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         Me.Btn_UnRelease = New System.Windows.Forms.Button()
         Me.Cmb_Jenis = New System.Windows.Forms.ComboBox()
         Me.Label10 = New System.Windows.Forms.Label()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.ContextMenuStrip3.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -115,6 +115,19 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         Me.Panel1.Size = New System.Drawing.Size(1160, 35)
         Me.Panel1.TabIndex = 22
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 33)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1160, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'Label1
         '
         Me.Label1.AutoSize = True
@@ -122,9 +135,9 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         Me.Label1.Location = New System.Drawing.Point(11, 5)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(436, 25)
+        Me.Label1.Size = New System.Drawing.Size(370, 25)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Transaksi - Production Order Formulator"
+        Me.Label1.Text = "Transaksi - Production Order Trial"
         '
         'Panel2
         '
@@ -605,7 +618,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label2.Location = New System.Drawing.Point(789, 49)
+        Me.Label2.Location = New System.Drawing.Point(887, 52)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(49, 17)
         Me.Label2.TabIndex = 416
@@ -618,7 +631,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         Me.CmbLokasi.Enabled = False
         Me.CmbLokasi.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.CmbLokasi.FormattingEnabled = True
-        Me.CmbLokasi.Location = New System.Drawing.Point(860, 47)
+        Me.CmbLokasi.Location = New System.Drawing.Point(958, 50)
         Me.CmbLokasi.Name = "CmbLokasi"
         Me.CmbLokasi.Size = New System.Drawing.Size(179, 23)
         Me.CmbLokasi.TabIndex = 415
@@ -649,7 +662,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         Me.DateTimePicker3.DropDownAlign = System.Windows.Forms.LeftRightAlignment.Right
         Me.DateTimePicker3.Enabled = False
         Me.DateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker3.Location = New System.Drawing.Point(387, 200)
+        Me.DateTimePicker3.Location = New System.Drawing.Point(387, 204)
         Me.DateTimePicker3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.DateTimePicker3.Name = "DateTimePicker3"
         Me.DateTimePicker3.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -660,7 +673,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label7.Location = New System.Drawing.Point(295, 198)
+        Me.Label7.Location = New System.Drawing.Point(295, 202)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(83, 17)
         Me.Label7.TabIndex = 420
@@ -670,7 +683,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label4.Location = New System.Drawing.Point(6, 200)
+        Me.Label4.Location = New System.Drawing.Point(6, 204)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(81, 17)
         Me.Label4.TabIndex = 419
@@ -694,7 +707,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         Me.TextBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
-        Me.TextBox1.Location = New System.Drawing.Point(100, 199)
+        Me.TextBox1.Location = New System.Drawing.Point(100, 203)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.ReadOnly = True
         Me.TextBox1.Size = New System.Drawing.Size(189, 21)
@@ -709,6 +722,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         Me.Label5.Size = New System.Drawing.Size(57, 17)
         Me.Label5.TabIndex = 420
         Me.Label5.Text = "Routing"
+        Me.Label5.Visible = False
         '
         'cmb_routing
         '
@@ -721,6 +735,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         Me.cmb_routing.Name = "cmb_routing"
         Me.cmb_routing.Size = New System.Drawing.Size(271, 23)
         Me.cmb_routing.TabIndex = 419
+        Me.cmb_routing.Visible = False
         '
         'txt_IdJenisProduk
         '
@@ -835,6 +850,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         Me.Cmb_Jenis.Name = "Cmb_Jenis"
         Me.Cmb_Jenis.Size = New System.Drawing.Size(234, 23)
         Me.Cmb_Jenis.TabIndex = 419
+        Me.Cmb_Jenis.Visible = False
         '
         'Label10
         '
@@ -845,19 +861,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         Me.Label10.Size = New System.Drawing.Size(41, 17)
         Me.Label10.TabIndex = 420
         Me.Label10.Text = "Jenis"
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 33)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1160, 2)
-        Me.PanelGradient1.TabIndex = 22
+        Me.Label10.Visible = False
         '
         'N_EMI_Transaksi_Trial_Production_Order
         '

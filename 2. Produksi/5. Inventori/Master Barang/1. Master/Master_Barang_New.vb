@@ -554,6 +554,12 @@
 
         lvwSatuan.Visible = False
 
+        cmbJenis.Enabled = True
+        'ComboBox11.Enabled = True
+        'ComboBox19.Enabled = True
+        TextBox1.Enabled = True
+        TextBox2.Enabled = True
+
         TxtToleransiTimbangMin.Text = ""
         TxtToleransiTimbangMax.Text = ""
         TxtToleransiTFMin.Text = ""
@@ -803,6 +809,8 @@
         If TextBox1.Text.Trim.Length = 0 Then Exit Sub
 
         Dim boleh_edit_hj As String = ""
+
+
 
         Try
             OpenConn()
@@ -1182,6 +1190,13 @@
 
                     ListView10.Visible = False
                     TextBox2.Focus()
+
+
+                    cmbJenis.Enabled = False
+                    ComboBox11.Enabled = False
+                    ComboBox19.Enabled = False
+                    TextBox1.Enabled = False
+                    TextBox2.Enabled = False
                 Else
                     TextBox2.Text = "" : cmbSatuan.SelectedIndex = -1 : TextBox5.Text = ""
 
@@ -1205,8 +1220,20 @@
 
                     Button1.Text = "&Simpan" 'Button2.Enabled = False
                     Button1.Enabled = True
+
+
+                    cmbJenis.Enabled = True
+                    'ComboBox11.Enabled = True
+                    'ComboBox19.Enabled = True
+                    TextBox1.Enabled = True
+                    TextBox2.Enabled = True
                 End If
             End Using
+
+
+
+
+
 
             CloseConn()
         Catch ex As Exception
@@ -1226,6 +1253,9 @@
             ComboBox18.SelectedIndex = 0
 
         End If
+
+
+
 
     End Sub
 
@@ -2665,7 +2695,7 @@
             DateTimePicker1.Value = Now.Date : DateTimePicker2.Value = Now.Date
             Txt_ParamValue.Text = ""
 
-            Chk_TransaksiHrIni.Checked = True
+            'Chk_TransaksiHrIni.Checked = True
 
             LoadDataPengajuanBarangBaru()
         End If

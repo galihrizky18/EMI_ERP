@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
@@ -31,8 +31,7 @@ Partial Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
         Me.Txt_KdBarang = New System.Windows.Forms.TextBox()
         Me.Txt_NmBarang = New System.Windows.Forms.TextBox()
         Me.Btn_Get_Formula = New System.Windows.Forms.Button()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.Lv_Data_Formula = New System.Windows.Forms.ListView()
+        Me.Lv_Data_Formula_Pending = New System.Windows.Forms.ListView()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Lv_Detail_Bahan = New System.Windows.Forms.ListView()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
@@ -49,9 +48,18 @@ Partial Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
         Me.cmb_Lokasi_Init_Faktur = New System.Windows.Forms.ComboBox()
         Me.Txt_Keterangan = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Txt_TanggaFormula = New System.Windows.Forms.TextBox()
+        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.Lv_Data_Formula_Completed = New System.Windows.Forms.ListView()
+        Me.ListView1 = New System.Windows.Forms.ListView()
         Me.Panel1.SuspendLayout()
-        Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
+        Me.TabControl1.SuspendLayout()
+        Me.TabPage1.SuspendLayout()
+        Me.TabPage2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -62,7 +70,7 @@ Partial Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1084, 45)
+        Me.Panel1.Size = New System.Drawing.Size(1004, 45)
         Me.Panel1.TabIndex = 23
         '
         'PanelGradient1
@@ -75,7 +83,7 @@ Partial Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1084, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1004, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'LblPilihBarang_Judul
@@ -154,28 +162,18 @@ Partial Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
         Me.Btn_Get_Formula.Text = "Get Formula"
         Me.Btn_Get_Formula.UseVisualStyleBackColor = False
         '
-        'GroupBox1
+        'Lv_Data_Formula_Pending
         '
-        Me.GroupBox1.Controls.Add(Me.Lv_Data_Formula)
-        Me.GroupBox1.Location = New System.Drawing.Point(24, 107)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(308, 486)
-        Me.GroupBox1.TabIndex = 3
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Formula"
-        '
-        'Lv_Data_Formula
-        '
-        Me.Lv_Data_Formula.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Lv_Data_Formula.FullRowSelect = True
-        Me.Lv_Data_Formula.GridLines = True
-        Me.Lv_Data_Formula.HideSelection = False
-        Me.Lv_Data_Formula.Location = New System.Drawing.Point(3, 16)
-        Me.Lv_Data_Formula.Name = "Lv_Data_Formula"
-        Me.Lv_Data_Formula.Size = New System.Drawing.Size(302, 467)
-        Me.Lv_Data_Formula.TabIndex = 0
-        Me.Lv_Data_Formula.UseCompatibleStateImageBehavior = False
-        Me.Lv_Data_Formula.View = System.Windows.Forms.View.Details
+        Me.Lv_Data_Formula_Pending.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Lv_Data_Formula_Pending.FullRowSelect = True
+        Me.Lv_Data_Formula_Pending.GridLines = True
+        Me.Lv_Data_Formula_Pending.HideSelection = False
+        Me.Lv_Data_Formula_Pending.Location = New System.Drawing.Point(3, 3)
+        Me.Lv_Data_Formula_Pending.Name = "Lv_Data_Formula_Pending"
+        Me.Lv_Data_Formula_Pending.Size = New System.Drawing.Size(291, 435)
+        Me.Lv_Data_Formula_Pending.TabIndex = 0
+        Me.Lv_Data_Formula_Pending.UseCompatibleStateImageBehavior = False
+        Me.Lv_Data_Formula_Pending.View = System.Windows.Forms.View.Details
         '
         'Panel4
         '
@@ -195,7 +193,7 @@ Partial Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
         Me.Lv_Detail_Bahan.HideSelection = False
         Me.Lv_Detail_Bahan.Location = New System.Drawing.Point(3, 16)
         Me.Lv_Detail_Bahan.Name = "Lv_Detail_Bahan"
-        Me.Lv_Detail_Bahan.Size = New System.Drawing.Size(707, 362)
+        Me.Lv_Detail_Bahan.Size = New System.Drawing.Size(626, 321)
         Me.Lv_Detail_Bahan.TabIndex = 0
         Me.Lv_Detail_Bahan.UseCompatibleStateImageBehavior = False
         Me.Lv_Detail_Bahan.View = System.Windows.Forms.View.Details
@@ -203,9 +201,9 @@ Partial Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.Lv_Detail_Bahan)
-        Me.GroupBox2.Location = New System.Drawing.Point(349, 107)
+        Me.GroupBox2.Location = New System.Drawing.Point(349, 148)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(713, 381)
+        Me.GroupBox2.Size = New System.Drawing.Size(632, 340)
         Me.GroupBox2.TabIndex = 4
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Detail Bahan"
@@ -301,7 +299,7 @@ Partial Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
         'Panel8
         '
         Me.Panel8.BackColor = System.Drawing.Color.Red
-        Me.Panel8.Location = New System.Drawing.Point(1064, 80)
+        Me.Panel8.Location = New System.Drawing.Point(985, 62)
         Me.Panel8.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel8.Name = "Panel8"
         Me.Panel8.Size = New System.Drawing.Size(19, 582)
@@ -323,7 +321,7 @@ Partial Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
         'cmb_Lokasi_Init_Faktur
         '
         Me.cmb_Lokasi_Init_Faktur.FormattingEnabled = True
-        Me.cmb_Lokasi_Init_Faktur.Location = New System.Drawing.Point(936, 58)
+        Me.cmb_Lokasi_Init_Faktur.Location = New System.Drawing.Point(857, 62)
         Me.cmb_Lokasi_Init_Faktur.Name = "cmb_Lokasi_Init_Faktur"
         Me.cmb_Lokasi_Init_Faktur.Size = New System.Drawing.Size(121, 24)
         Me.cmb_Lokasi_Init_Faktur.TabIndex = 410
@@ -350,22 +348,104 @@ Partial Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
         Me.Label3.TabIndex = 402
         Me.Label3.Text = "Keterangan"
         '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label4.Location = New System.Drawing.Point(355, 123)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(102, 17)
+        Me.Label4.TabIndex = 402
+        Me.Label4.Text = "Tanggal Formula"
+        '
+        'Txt_TanggaFormula
+        '
+        Me.Txt_TanggaFormula.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_TanggaFormula.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_TanggaFormula.Font = New System.Drawing.Font("Work Sans", 8.0!)
+        Me.Txt_TanggaFormula.Location = New System.Drawing.Point(485, 122)
+        Me.Txt_TanggaFormula.MaxLength = 50
+        Me.Txt_TanggaFormula.Name = "Txt_TanggaFormula"
+        Me.Txt_TanggaFormula.Size = New System.Drawing.Size(183, 20)
+        Me.Txt_TanggaFormula.TabIndex = 1
+        Me.Txt_TanggaFormula.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TabControl1
+        '
+        Me.TabControl1.Controls.Add(Me.TabPage1)
+        Me.TabControl1.Controls.Add(Me.TabPage2)
+        Me.TabControl1.Location = New System.Drawing.Point(24, 123)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(305, 470)
+        Me.TabControl1.TabIndex = 411
+        '
+        'TabPage1
+        '
+        Me.TabPage1.BackColor = System.Drawing.Color.White
+        Me.TabPage1.Controls.Add(Me.Lv_Data_Formula_Pending)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage1.Size = New System.Drawing.Size(297, 441)
+        Me.TabPage1.TabIndex = 0
+        Me.TabPage1.Text = "Pending Trial"
+        '
+        'TabPage2
+        '
+        Me.TabPage2.Controls.Add(Me.Lv_Data_Formula_Completed)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage2.Size = New System.Drawing.Size(297, 441)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "Completed Trial"
+        Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'Lv_Data_Formula_Completed
+        '
+        Me.Lv_Data_Formula_Completed.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Lv_Data_Formula_Completed.FullRowSelect = True
+        Me.Lv_Data_Formula_Completed.GridLines = True
+        Me.Lv_Data_Formula_Completed.HideSelection = False
+        Me.Lv_Data_Formula_Completed.Location = New System.Drawing.Point(3, 3)
+        Me.Lv_Data_Formula_Completed.Name = "Lv_Data_Formula_Completed"
+        Me.Lv_Data_Formula_Completed.Size = New System.Drawing.Size(291, 435)
+        Me.Lv_Data_Formula_Completed.TabIndex = 1
+        Me.Lv_Data_Formula_Completed.UseCompatibleStateImageBehavior = False
+        Me.Lv_Data_Formula_Completed.View = System.Windows.Forms.View.Details
+        '
+        'ListView1
+        '
+        Me.ListView1.FullRowSelect = True
+        Me.ListView1.GridLines = True
+        Me.ListView1.HideSelection = False
+        Me.ListView1.Location = New System.Drawing.Point(1011, 80)
+        Me.ListView1.Name = "ListView1"
+        Me.ListView1.Size = New System.Drawing.Size(522, 231)
+        Me.ListView1.TabIndex = 409
+        Me.ListView1.UseCompatibleStateImageBehavior = False
+        Me.ListView1.View = System.Windows.Forms.View.Details
+        '
         'N_EMI_SD_Trial_Production_Order_Pilih_Formula
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1084, 611)
-        Me.Controls.Add(Me.cmb_Lokasi_Init_Faktur)
+        Me.ClientSize = New System.Drawing.Size(1004, 611)
+        Me.Controls.Add(Me.ListView1)
         Me.Controls.Add(Me.Lv_Barang)
+        Me.Controls.Add(Me.TabControl1)
+        Me.Controls.Add(Me.cmb_Lokasi_Init_Faktur)
         Me.Controls.Add(Me.Cmb_Satuan)
-        Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Btn_Refresh)
         Me.Controls.Add(Me.Btn_Simpan)
         Me.Controls.Add(Me.Btn_Get_Formula)
         Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.Txt_TanggaFormula)
         Me.Controls.Add(Me.Txt_NmBarang)
         Me.Controls.Add(Me.Txt_Keterangan)
         Me.Controls.Add(Me.Txt_Jumlah)
@@ -386,8 +466,10 @@ Partial Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
+        Me.TabControl1.ResumeLayout(False)
+        Me.TabPage1.ResumeLayout(False)
+        Me.TabPage2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -402,9 +484,8 @@ Partial Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
     Friend WithEvents Txt_KdBarang As TextBox
     Friend WithEvents Txt_NmBarang As TextBox
     Friend WithEvents Btn_Get_Formula As Button
-    Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents Panel4 As Panel
-    Friend WithEvents Lv_Data_Formula As ListView
+    Friend WithEvents Lv_Data_Formula_Pending As ListView
     Friend WithEvents Lv_Detail_Bahan As ListView
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents Panel5 As Panel
@@ -420,4 +501,11 @@ Partial Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
     Friend WithEvents cmb_Lokasi_Init_Faktur As ComboBox
     Friend WithEvents Txt_Keterangan As TextBox
     Friend WithEvents Label3 As Label
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Txt_TanggaFormula As TextBox
+    Friend WithEvents TabControl1 As TabControl
+    Friend WithEvents TabPage1 As TabPage
+    Friend WithEvents TabPage2 As TabPage
+    Friend WithEvents Lv_Data_Formula_Completed As ListView
+    Friend WithEvents ListView1 As ListView
 End Class

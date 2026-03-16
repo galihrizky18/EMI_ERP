@@ -101,7 +101,7 @@ Partial Class EMI_Controlling_Produksi
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1184, 50)
+        Me.Panel1.Size = New System.Drawing.Size(1236, 50)
         Me.Panel1.TabIndex = 25
         '
         'PanelGradient1
@@ -114,7 +114,7 @@ Partial Class EMI_Controlling_Produksi
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 48)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1236, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
@@ -733,7 +733,7 @@ Partial Class EMI_Controlling_Produksi
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1184, 631)
+        Me.ClientSize = New System.Drawing.Size(1236, 631)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Pnl_Tab2)
         Me.Controls.Add(Me.Lbl_tab2)

@@ -61,6 +61,7 @@
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
             SQL &= $"and a.Status is NULL "
             SQL &= $"and a.Flag_Validasi is null "
+            SQL &= $"and a.Flag_Validasi_Main is null "
             If Cmb_Kolom_Filter.SelectedIndex <> -1 And Txt_Value_Filter.Text <> "" Then
                 SQL &= $"and {ArrFilter(Cmb_Kolom_Filter.SelectedIndex)} like '%{Txt_Value_Filter.Text}%' "
             End If

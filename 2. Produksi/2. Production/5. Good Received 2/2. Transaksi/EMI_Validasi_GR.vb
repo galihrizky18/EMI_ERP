@@ -452,7 +452,7 @@ Public Class EMI_Validasi_GR
                 SQL = SQL & "values ('" & KodePerusahaan & "', '" & LvData_NoSplit & "', '" & UserID & "', '" & Nomor & "', "
                 SQL = SQL & "'" & LvData_Barcode & "', '" & arrKdBarangSrap(Cmb_Jenis.SelectedIndex) & "', '" & HilangkanTanda(LvData_Jumlah) & "', "
                 SQL = SQL & "'" & arrSO.Item(Cmb_LokasiTujuan.SelectedIndex) & "', '" & LvData_Nomor & "', '" & LvData_Satuan & "', '" & LvData_Batch & "', '" & LvData_Tahap & "', "
-                SQL = SQL & "'" & arrIdJenisKategori(Cmb_Jenis_Kategori.SelectedIndex) & "', '" & Cmb_Jenis_Kategori.Text & "', '" & Kode_Unik_Transaksi & "')"
+                SQL = SQL & "'" & arrIdJenisKategori(Cmb_Jenis_Kategori.SelectedIndex) & "', '" & Cmb_Jenis.Text & "', '" & Kode_Unik_Transaksi & "')"
                 ExecuteTrans(SQL)
 
             Next
@@ -908,8 +908,8 @@ Public Class EMI_Validasi_GR
                                             Else
                                                 'Dim DetailPackaging As New List(Of (Kd_So As String, KdBahan As String, NmBahan As String, jumlah As Double, Satuan As String))
                                                 DetailPackaging.Add((Kd_So:= .Rows(i).Item("Kode_Stock_Owner").ToString.Trim, KdBahan:= .Rows(i).Item("Kode_Bahan").ToString.Trim,
-                                                                    NmBahan:= .Rows(i).Item("Nama").ToString.Trim, jumlah:=Val(Format(PackagingDigunakan, "N2")),
-                                                                    Satuan:= .Rows(i).Item("Satuan").ToString.Trim, Flag_Pembulatan_Produksi:=IsPembulatan))
+                                                                NmBahan:= .Rows(i).Item("Nama").ToString.Trim, jumlah:=Val(Format(PackagingDigunakan, "N2")),
+                                                                Satuan:= .Rows(i).Item("Satuan").ToString.Trim, Flag_Pembulatan_Produksi:=IsPembulatan))
                                             End If
 
                                         Next

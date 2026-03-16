@@ -192,15 +192,15 @@
 
     Private Sub get_no_faktur()
 
-        txtNoFaktur.Text = fProduksi & Format(tgl_skg, "MMyy") & "-" &
+        txtNoFaktur.Text = "PRT" & Format(tgl_skg, "MMyy") & "-" &
                      General_Class.Get_Last_Number2("N_EMI_Transaksi_Trial_Order_Produksi", "no_Faktur", 5,
                      "Kode_perusahaan", KodePerusahaan,
-                     "And", "substring(no_Faktur, 1, " & Len(fProduksi) + 4 & ")", fProduksi & Format(tgl_skg, "MMyy"))
+                     "And", "substring(no_Faktur, 1, " & Len("PRT") + 4 & ")", "PRT" & Format(tgl_skg, "MMyy"))
 
-        txt_faktur_bayangan.Text = fProduksi & Format(tgl_skg, "MMyy") & "-" &
+        txt_faktur_bayangan.Text = "PRT" & Format(tgl_skg, "MMyy") & "-" &
                    General_Class.Get_Last_Number2("N_EMI_Transaksi_Trial_Order_Produksi", "no_Faktur", 5,
                    "Kode_perusahaan", KodePerusahaan,
-                   "And", "substring(no_Faktur, 1, " & Len(fProduksi) + 4 & ")", fProduksi & Format(tgl_skg, "MMyy"))
+                   "And", "substring(no_Faktur, 1, " & Len("PRT") + 4 & ")", "PRT" & Format(tgl_skg, "MMyy"))
     End Sub
 
     Private Sub EMI_Production_Order_Activated(sender As Object, e As EventArgs) Handles Me.Activated
@@ -246,16 +246,16 @@
 
 
         ' ListView1.Columns.Add(Base_Language.Lang_Global_NO, 40, HorizontalAlignment.Center)
-        LvData.Columns.Add("No SO", 130, HorizontalAlignment.Left) '0
+        LvData.Columns.Add("No Independent Order", 150, HorizontalAlignment.Left) '0
         LvData.Columns.Add(Base_Language.Lang_Global_Lokasi, 0, HorizontalAlignment.Left) '1
-        LvData.Columns.Add(Base_Language.Lang_Global_KodeCustomer, 125, HorizontalAlignment.Left) '2
-        LvData.Columns.Add(Base_Language.Lang_Global_NamaCustomer, 200, HorizontalAlignment.Left) '3
-        LvData.Columns.Add(Base_Language.Lang_Global_KodeBarang, 125, HorizontalAlignment.Left) '4
-        LvData.Columns.Add(Base_Language.Lang_Global_NamaBarang, 200, HorizontalAlignment.Left) '5
-        LvData.Columns.Add(Base_Language.Lang_Global_Jumlah, 100, HorizontalAlignment.Right) '6
+        LvData.Columns.Add(Base_Language.Lang_Global_KodeCustomer, 0, HorizontalAlignment.Left) '2
+        LvData.Columns.Add(Base_Language.Lang_Global_NamaCustomer, 0, HorizontalAlignment.Left) '3
+        LvData.Columns.Add(Base_Language.Lang_Global_KodeBarang, 150, HorizontalAlignment.Left) '4
+        LvData.Columns.Add(Base_Language.Lang_Global_NamaBarang, 450, HorizontalAlignment.Left) '5
+        LvData.Columns.Add(Base_Language.Lang_Global_Jumlah, 130, HorizontalAlignment.Right) '6
         LvData.Columns.Add(Base_Language.Lang_Global_Jumlah_Sisa, 0, HorizontalAlignment.Center) '7
         LvData.Columns.Add(Base_Language.Lang_Global_Satuan, 90, HorizontalAlignment.Center) '8
-        LvData.Columns.Add(Base_Language.Lang_Global_Jenis, 100, HorizontalAlignment.Center) '9
+        LvData.Columns.Add(Base_Language.Lang_Global_Jenis, 110, HorizontalAlignment.Center) '9
         LvData.Columns.Add("Urut", 0, HorizontalAlignment.Center) '10
         LvData.Columns.Add("id Jenis Produk", 0, HorizontalAlignment.Center) '11
 
@@ -310,7 +310,7 @@
         Cmb_Jenis.Items.Clear()
         Cmb_Jenis.Items.Add("Commercial")
         Cmb_Jenis.Items.Add("Trial")
-        'Cmb_Jenis.SelectedIndex = 0
+        Cmb_Jenis.SelectedIndex = 1
 
 
         kosong()
@@ -353,6 +353,7 @@
                     cmb_routing.Items.Add(dr("keterangan")) : arrInisialRouting.Add(dr("id_routing"))
                 Loop
             End Using
+            cmb_routing.SelectedIndex = 0
 
             'DateTimePicker2.ResetText()
             DateTimePicker3.ResetText()
@@ -377,7 +378,7 @@
         cmbLine.Items.Clear() : arrIdLine.Clear()
         LvOrder.Items.Clear()
         LvBahan.Items.Clear()
-        Cmb_Jenis.SelectedIndex = -1
+        Cmb_Jenis.SelectedIndex = 1
         Button3.Visible = False
         Btn_UnRelease.Visible = False
 
@@ -620,7 +621,7 @@
             Dim SoProduction As String
 
             SQL = "select Kode_Stock_Owner From Stock_Owner_Gudang "
-            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Flag_Produksi = 'Y' "
+            SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Flag_Gudang_Lab = 'Y' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     SoProduction = Dr("kode_stock_owner")
@@ -1258,7 +1259,8 @@
 
 
                     SQL = "select kode_formula, tanggal from EMI_Transaksi_Formulator_Binding where  "
-                    SQL = SQL & "Kode_Barang = '" & kd_barangINq & "' and Aktif = 'Y'"
+                    SQL = SQL & "Kode_Barang = '" & kd_barangINq & "' "
+                    'SQL = SQL & $"and Aktif = 'Y' "
                     If SelectedFormula.Trim <> "" Then
                         SQL = SQL & "and Kode_Formula = '" & SelectedFormula & "' "
                     End If
@@ -2138,7 +2140,8 @@
             Dim tanggal_formula As String = ""
 
             SQL = "select kode_formula,tanggal from EMI_Transaksi_Formulator_Binding where  "
-            SQL = SQL & "Kode_Barang = '" & kd_barangINq & "' and Aktif = 'Y'"
+            SQL = SQL & "Kode_Barang = '" & kd_barangINq & "' "
+            'SQL = SQL & "and Aktif = 'Y' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     If General_Class.CekNULL(Dr("kode_formula")) = "" Then
@@ -2960,34 +2963,35 @@
 
     Public Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
         LvData.Items.Clear()
-        SQL = "select a.No_Faktur,b.kode_stock_owner,a.Kode_Customer,c.Nama as nama_customer,b.Kode_Stock_Owner,b.Kode_Produk,d.Nama,b.Jumlah_Produksi, "
-        SQL = SQL & "b.Jumlah_Produksi-ISNULL((select sum(y.Jumlah) from N_EMI_Transaksi_Trial_Order_Produksi x,N_EMI_Transaksi_Trial_Order_Produksi_Detail y  "
-        SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan "
-        SQL = SQL & "and x.No_Faktur = y.No_Faktur and y.Kode_Perusahaan = b.Kode_Perusahaan "
-        SQL = SQL & "and y.Kode_Stock_Owner = b.Kode_Stock_Owner and y.Kode_Barang = b.Kode_Produk "
-        SQL = SQL & "and x.Status is null ),0) as Jumlah_Sisa "
-        SQL = SQL & ",b.Jenis_Satuan,f.Id_Jenis_Produk,f.Keterangan as Jenis,a.Tanggal ,b.No_Urut  "
+        'SQL = "select a.No_Faktur,b.kode_stock_owner,a.Kode_Customer,c.Nama as nama_customer,b.Kode_Stock_Owner,b.Kode_Produk,d.Nama,b.Jumlah_Produksi, "
+        'SQL = SQL & "b.Jumlah_Produksi-ISNULL((select sum(y.Jumlah) from N_EMI_Transaksi_Trial_Order_Produksi x,N_EMI_Transaksi_Trial_Order_Produksi_Detail y  "
+        'SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan "
+        'SQL = SQL & "and x.No_Faktur = y.No_Faktur and y.Kode_Perusahaan = b.Kode_Perusahaan "
+        'SQL = SQL & "and y.Kode_Stock_Owner = b.Kode_Stock_Owner and y.Kode_Barang = b.Kode_Produk "
+        'SQL = SQL & "and x.Status is null ),0) as Jumlah_Sisa "
+        'SQL = SQL & ",b.Jenis_Satuan,f.Id_Jenis_Produk,f.Keterangan as Jenis,a.Tanggal ,b.No_Urut  "
 
-        SQL = SQL & "from emi_po a,Emi_PO_Detail b, Customers c, Barang d, emi_varian e, EMI_Jenis_Produk f where  "
-        SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.no_faktur = b.no_faktur and a.kode_perusahaan = c.Kode_Perusahaan  "
-        SQL = SQL & "and a.Kode_Customer = c.Kode_Customer and b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Produk = d.Kode_Barang  "
-        SQL = SQL & "and b.Kode_Stock_Owner = d.Kode_Stock_Owner and d.id_varian = e.Id_Varian and d.Kode_Perusahaan = e.Kode_Perusahaan "
-        SQL = SQL & "and e.Id_Jenis_Produk = f.Id_Jenis_Produk and e.Kode_Perusahaan = f.Kode_Perusahaan and b.flag_sudah_produksi is null "
+        'SQL = SQL & "from emi_po a,Emi_PO_Detail b, Customers c, Barang d, emi_varian e, EMI_Jenis_Produk f where  "
+        'SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.no_faktur = b.no_faktur and a.kode_perusahaan = c.Kode_Perusahaan  "
+        'SQL = SQL & "and a.Kode_Customer = c.Kode_Customer and b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Produk = d.Kode_Barang  "
+        'SQL = SQL & "and b.Kode_Stock_Owner = d.Kode_Stock_Owner and d.id_varian = e.Id_Varian and d.Kode_Perusahaan = e.Kode_Perusahaan "
+        'SQL = SQL & "and e.Id_Jenis_Produk = f.Id_Jenis_Produk and e.Kode_Perusahaan = f.Kode_Perusahaan and b.flag_sudah_produksi is null "
 
-        SQL = SQL & "union all "
+        'SQL = SQL & "union all "
 
-        SQL = SQL & "select a.No_Faktur,b.kode_stock_owner,'-' as Kode_Customer,'-' as nama_customer,b.Kode_Stock_Owner,b.Kode_Barang "
+        SQL = "select a.No_Faktur,b.kode_stock_owner,'-' as Kode_Customer,'-' as nama_customer, b.Kode_Stock_Owner, b.Kode_Barang as Kode_Produk "
         SQL = SQL & ",d.Nama,b.Jumlah_Produksi, "
         SQL = SQL & "b.Jumlah_Produksi-ISNULL((select  sum(y.Jumlah)  from N_EMI_Transaksi_Trial_Order_Produksi x,N_EMI_Transaksi_Trial_Order_Produksi_Detail y  "
         SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan "
         SQL = SQL & "and x.No_Faktur = y.No_Faktur and y.Kode_Perusahaan = b.Kode_Perusahaan "
         SQL = SQL & "and y.Kode_Stock_Owner = b.Kode_Stock_Owner and y.Kode_Barang = b.Kode_Barang "
         SQL = SQL & "and x.Status is null ),0) as Jumlah_Sisa "
-        SQL = SQL & ",b.satuan,f.Id_Jenis_Produk,f.Keterangan as Jenis,a.Tanggal ,b.No_Urut  "
+        SQL = SQL & ",b.satuan as Jenis_Satuan,f.Id_Jenis_Produk,f.Keterangan as Jenis,a.Tanggal ,b.No_Urut  "
         SQL = SQL & "from N_EMI_Transaksi_Trial_Independent_Order a,N_EMI_Transaksi_Trial_Independent_Order_Detail b, Barang d, emi_varian e, EMI_Jenis_Produk f where  "
         SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.no_faktur = b.no_faktur  and b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Barang = d.Kode_Barang  "
         SQL = SQL & "and b.Kode_Stock_Owner = d.Kode_Stock_Owner and d.id_varian = e.Id_Varian and d.Kode_Perusahaan = e.Kode_Perusahaan "
         SQL = SQL & "and e.Id_Jenis_Produk = f.Id_Jenis_Produk and e.Kode_Perusahaan = f.Kode_Perusahaan and b.flag_sudah_produksi is null "
+        SQL = SQL & "and a.status is null "
 
         'SQL = SQL & "select a.No_Faktur,a.lokasi,'-' as Kode_Customer,'-' as nama_customer,b.Kode_Stock_Owner,b.Kode_Barang "
         'SQL = SQL & ",d.Nama,b.Jumlah_Produksi, "
@@ -3001,7 +3005,8 @@
         'SQL = SQL & "order by a.No_Faktur,a.Kode_Customer,b.Kode_Produk,a.Tanggal  "
 
         If ComboBox2.SelectedIndex = -1 Then
-            SQL = SQL & "order by a.No_Faktur,a.Kode_Customer,b.Kode_Produk,a.Tanggal  "
+            'SQL = SQL & "order by a.No_Faktur,a.Kode_Customer,b.Kode_Produk,a.Tanggal  "
+            SQL = SQL & "order by a.No_Faktur,a.Tanggal  "
         Else
             SQL = SQL & "order by " & arrOrderBy.Item(ComboBox2.SelectedIndex) & ""
         End If

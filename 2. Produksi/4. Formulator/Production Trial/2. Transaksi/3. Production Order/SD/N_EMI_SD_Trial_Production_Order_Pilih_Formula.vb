@@ -11,19 +11,25 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
 
     Private Sub N_EMI_SD_Trial_Production_Order_Pilih_Formula_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Lv_Data_Formula.Columns.Clear()
-        Lv_Data_Formula.Columns.Add("No Faktur", 130, HorizontalAlignment.Left) '0
-        Lv_Data_Formula.Columns.Add("Jumlah", 90, HorizontalAlignment.Right) '1
-        Lv_Data_Formula.Columns.Add("Satuan", 70, HorizontalAlignment.Center) '2
-        Lv_Data_Formula.View = View.Details
+        Lv_Data_Formula_Pending.Columns.Clear()
+        Lv_Data_Formula_Pending.Columns.Add("No Transaksi", 130, HorizontalAlignment.Left) '0
+        Lv_Data_Formula_Pending.Columns.Add("Jumlah", 90, HorizontalAlignment.Right) '1
+        Lv_Data_Formula_Pending.Columns.Add("Satuan", 70, HorizontalAlignment.Center) '2
+        Lv_Data_Formula_Pending.View = View.Details
+
+        Lv_Data_Formula_Completed.Columns.Clear()
+        Lv_Data_Formula_Completed.Columns.Add("No Transaksi", 130, HorizontalAlignment.Left) '0
+        Lv_Data_Formula_Completed.Columns.Add("Jumlah", 90, HorizontalAlignment.Right) '1
+        Lv_Data_Formula_Completed.Columns.Add("Satuan", 70, HorizontalAlignment.Center) '2
+        Lv_Data_Formula_Completed.View = View.Details
 
 
         Lv_Detail_Bahan.Columns.Clear()
-        Lv_Detail_Bahan.Columns.Add("Kode Bahan", 130, HorizontalAlignment.Left) '0
-        Lv_Detail_Bahan.Columns.Add("Nama Bahan", 260, HorizontalAlignment.Left) '1
-        Lv_Detail_Bahan.Columns.Add("Persentase", 100, HorizontalAlignment.Left) '2
-        Lv_Detail_Bahan.Columns.Add("Jumlah", 130, HorizontalAlignment.Right) '3
-        Lv_Detail_Bahan.Columns.Add("Satuan", 80, HorizontalAlignment.Left) '4
+        Lv_Detail_Bahan.Columns.Add("Kode Bahan", 200, HorizontalAlignment.Left) '0
+        Lv_Detail_Bahan.Columns.Add("Nama Bahan", 0, HorizontalAlignment.Left) '1
+        Lv_Detail_Bahan.Columns.Add("Persentase", 150, HorizontalAlignment.Center) '2
+        Lv_Detail_Bahan.Columns.Add("Jumlah", 180, HorizontalAlignment.Right) '3
+        Lv_Detail_Bahan.Columns.Add("Satuan", 80, HorizontalAlignment.Center) '4
         Lv_Detail_Bahan.View = View.Details
 
         Lv_Barang.Columns.Clear()
@@ -67,7 +73,7 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
     End Sub
 
     Private Sub get_no_faktur()
-        Dim fIO = "IO"
+        Dim fIO = "IT"
         NoFakturIndependent = fIO & arrInisialFaktur.Item(cmb_Lokasi_Init_Faktur.SelectedIndex) & "-" & Format(tgl_skg, "MM/yy") & "-" &
                                      General_Class.Get_Last_Number2("N_EMI_Transaksi_Trial_Independent_Order", "no_faktur", Jumlah_Digit,
                                      "Kode_perusahaan", KodePerusahaan,
@@ -84,15 +90,20 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
         Txt_NmBarang.Text = ""
         SwitchAutoComplete = False
 
-        Lv_Data_Formula.Items.Clear()
+        Lv_Data_Formula_Pending.Items.Clear()
+        Lv_Data_Formula_Completed.Items.Clear()
         Lv_Detail_Bahan.Items.Clear()
         Txt_Jumlah.Text = ""
         Txt_Keterangan.Text = ""
         Cmb_Satuan.SelectedIndex = -1
 
+        Txt_TanggaFormula.Text = ""
+
         cmb_Lokasi_Init_Faktur.SelectedIndex = 0
 
         Txt_KdBarang.Focus()
+
+        TabControl1.SelectedIndex = 0
 
     End Sub
 
@@ -265,7 +276,7 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
         If e.KeyCode = Keys.Down Then Lv_Barang.Focus()
     End Sub
 
-    Private Sub Lv_Barang_DoubleClick(sender As Object, e As EventArgs) Handles Lv_Barang.DoubleClick
+    Private Sub Lv_Barang_DoubleClick(sender As Object, e As EventArgs) Handles Lv_Barang.DoubleClick, ListView1.DoubleClick
         If Lv_Barang.Items.Count = 0 Or Lv_Barang.FocusedItem.Index = -1 Then Exit Sub
 
         Dim KdBarang As String = Lv_Barang.FocusedItem.SubItems(0).Text
@@ -282,7 +293,7 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
         Btn_Get_Formula.Focus()
     End Sub
 
-    Private Sub Lv_Barang_KeyDown(sender As Object, e As KeyEventArgs) Handles Lv_Barang.KeyDown
+    Private Sub Lv_Barang_KeyDown(sender As Object, e As KeyEventArgs) Handles Lv_Barang.KeyDown, ListView1.KeyDown
         If e.KeyCode = Keys.Enter Then
             Lv_Barang_DoubleClick(Lv_Barang, e)
         End If
@@ -295,14 +306,20 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
             Exit Sub
         End If
 
+        TabControl1_SelectedIndexChanged(sender, New EventArgs)
+
+    End Sub
+
+    Private Sub GetDataFormulaPending()
 
         Try
             OpenConn()
 
             Dim Kode_Barang As String = Txt_KdBarang.Text.Trim
 
-            Lv_Data_Formula.Items.Clear() : Lv_Detail_Bahan.Items.Clear()
+            Lv_Data_Formula_Pending.Items.Clear() : Lv_Detail_Bahan.Items.Clear()
             Txt_Jumlah.Text = "" : Txt_Keterangan.Text = ""
+            Txt_TanggaFormula.Text = ""
             'Cmb_Satuan.SelectedIndex = -1
             SQL = "select a.No_Faktur, a.Kode_Barang, b.nama as Nama_Barang, a.Hasil, a.Satuan_Hasil "
             SQL &= $"from Emi_Transaksi_Formulator a "
@@ -310,22 +327,18 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
             SQL &= $"and a.Status is NULL "
             SQL &= $"and a.Kode_Barang = '{Kode_Barang}' "
-            SQL &= $"and a.Flag_Validasi = 'Y' "
+            SQL &= $"and a.Flag_Validasi_Main = 'Y' "
+            SQL &= $"and a.hasTrial is null "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
 
                     Dim Lv As ListViewItem
-                    Lv = Lv_Data_Formula.Items.Add(Dr("No_Faktur"))
+                    Lv = Lv_Data_Formula_Pending.Items.Add(Dr("No_Faktur"))
                     Lv.SubItems.Add(Format(Dr("Hasil"), "N0"))
                     Lv.SubItems.Add(Dr("Satuan_Hasil"))
 
                 Loop
             End Using
-
-
-
-
-
 
 
             CloseConn()
@@ -338,18 +351,82 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
 
     End Sub
 
-    Private Sub Lv_Data_Formula_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lv_Data_Formula.SelectedIndexChanged
-        If Lv_Data_Formula.Items.Count = 0 Or Lv_Data_Formula.FocusedItem.Index = -1 Then Exit Sub
+    Private Sub GetDataFormulaCompleted()
 
         Try
             OpenConn()
 
-            Dim SelectedNoFaktur As String = Lv_Data_Formula.FocusedItem.SubItems(0).Text
+            Dim Kode_Barang As String = Txt_KdBarang.Text.Trim
+
+            Lv_Data_Formula_Completed.Items.Clear() : Lv_Detail_Bahan.Items.Clear()
+            Txt_Jumlah.Text = "" : Txt_Keterangan.Text = ""
+            Txt_TanggaFormula.Text = ""
+            'Cmb_Satuan.SelectedIndex = -1
+            SQL = "select a.No_Faktur, a.Kode_Barang, b.nama as Nama_Barang, a.Hasil, a.Satuan_Hasil "
+            SQL &= $"from Emi_Transaksi_Formulator a "
+            SQL &= $"inner join barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
+            SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
+            SQL &= $"and a.Status is NULL "
+            SQL &= $"and a.Kode_Barang = '{Kode_Barang}' "
+            SQL &= $"and a.Flag_Validasi_Main = 'Y' "
+            SQL &= $"and a.hasTrial = 'Y' "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+
+                    Dim Lv As ListViewItem
+                    Lv = Lv_Data_Formula_Completed.Items.Add(Dr("No_Faktur"))
+                    Lv.SubItems.Add(Format(Dr("Hasil"), "N0"))
+                    Lv.SubItems.Add(Dr("Satuan_Hasil"))
+
+                Loop
+            End Using
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Lv_Data_Formula_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lv_Data_Formula_Pending.SelectedIndexChanged
+        If Lv_Data_Formula_Pending.Items.Count = 0 Or Lv_Data_Formula_Pending.FocusedItem.Index = -1 Then Exit Sub
+
+        Try
+            OpenConn()
+
+            Dim SelectedNoFaktur As String = Lv_Data_Formula_Pending.FocusedItem.SubItems(0).Text
+
+            Txt_TanggaFormula.Text = ""
+            SQL = "Select status, tanggal From Emi_Transaksi_Formulator "
+            SQL &= $"where kode_perusahaan = {KodePerusahaan} "
+            SQL &= $"and no_faktur = '{SelectedNoFaktur}' "
+            SQL &= $"and hasTrial is null "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+
+                    If General_Class.CekNULL(Dr("status")) = "Y" Then
+                        Dr.Close()
+                        CloseConn()
+                        MessageBox.Show($"Formula Sudah Dibatalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                    Txt_TanggaFormula.Text = Format(Dr("Tanggal"), "dd MMM yyyy")
+
+                Else
+                    Dr.Close()
+                    CloseConn()
+                    MessageBox.Show($"Formula Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
 
             Lv_Detail_Bahan.Items.Clear()
             Txt_Jumlah.Text = "" : Txt_Keterangan.Text = ""
             'Cmb_Satuan.SelectedIndex = -1
-            SQL = "select b.Kode_Barang as Kode_Bahan, c.nama as Nama_Bahan, b.Persentase, b.Jumlah, b.satuan, a.Satuan_Hasil, d.Satuan as Satuan_Barang "
+            SQL = "select b.Kode_Barang as Kode_Bahan, c.nama as Nama_Bahan, b.Persentase, b.Jumlah, b.satuan, a.Satuan_Hasil, d.Satuan as Satuan_Barang, a.Tanggal "
             SQL &= $"from Emi_Transaksi_Formulator a "
             SQL &= $"inner join EMI_Transaksi_Formulator_Detail_Bahan b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
             SQL &= $"inner join barang c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
@@ -357,6 +434,7 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
             SQL &= $"and a.Status is NULL "
             SQL &= $"and a.Flag_Validasi = 'Y' "
+            SQL &= $"and a.hasTrial is null "
             SQL &= $"and a.No_Faktur = '{SelectedNoFaktur}' "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
@@ -450,7 +528,17 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
 
             get_no_faktur()
 
-            Dim SelectedFormulaFaktur As String = Lv_Data_Formula.FocusedItem.SubItems(0).Text
+            Dim SelectedFormulaFaktur As String = ""
+            If TabControl1.SelectedIndex = 0 Then
+                SelectedFormulaFaktur = Lv_Data_Formula_Pending.FocusedItem.SubItems(0).Text
+            ElseIf TabControl1.SelectedIndex = 1 Then
+                SelectedFormulaFaktur = Lv_Data_Formula_Completed.FocusedItem.SubItems(0).Text
+            Else
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show("Terjadi Kesalahan, Harap Pilih No Formula Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
 
             SQL = "insert into N_EMI_Transaksi_Trial_Independent_Order(kode_perusahaan, no_faktur, lokasi, tanggal, jam, userid, keterangan, No_Faktur_Formula) values ("
             SQL = SQL & "'" & KodePerusahaan & "', '" & NoFakturIndependent & "', '" & lokasi_asal & "' , '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
@@ -502,6 +590,30 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
             ExecuteTrans(SQL)
 
 
+            SQL = "select 1 from Emi_Transaksi_Formulator "
+            SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+            SQL &= $"and Status is null "
+            SQL &= $"and No_Faktur = '{SelectedFormulaFaktur}' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+
+                    Dr.Close()
+                    SQL = "update Emi_Transaksi_Formulator set hasTrial = 'Y' "
+                    SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+                    SQL &= $"and Status is null "
+                    SQL &= $"and No_Faktur = '{SelectedFormulaFaktur}' "
+                    ExecuteTrans(SQL)
+
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show($"No Formula {SelectedFormulaFaktur} tidak ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+
 
 
 
@@ -529,6 +641,93 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
     End Sub
 
 
+    Private Sub Lv_Data_Formula_Completed_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lv_Data_Formula_Completed.SelectedIndexChanged
+        If Lv_Data_Formula_Completed.Items.Count = 0 Or Lv_Data_Formula_Completed.FocusedItem.Index = -1 Then Exit Sub
+
+        Try
+            OpenConn()
+
+            Dim SelectedNoFaktur As String = Lv_Data_Formula_Completed.FocusedItem.SubItems(0).Text
+
+            Txt_TanggaFormula.Text = ""
+            SQL = "Select status, tanggal From Emi_Transaksi_Formulator "
+            SQL &= $"where kode_perusahaan = {KodePerusahaan} "
+            SQL &= $"and no_faktur = '{SelectedNoFaktur}' "
+            SQL &= $"and hasTrial = 'Y' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+
+                    If General_Class.CekNULL(Dr("status")) = "Y" Then
+                        Dr.Close()
+                        CloseConn()
+                        MessageBox.Show($"Formula Sudah Dibatalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+
+                    Txt_TanggaFormula.Text = Format(Dr("Tanggal"), "dd MMM yyyy")
+
+                Else
+                    Dr.Close()
+                    CloseConn()
+                    MessageBox.Show($"Formula Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+            Lv_Detail_Bahan.Items.Clear()
+            Txt_Jumlah.Text = "" : Txt_Keterangan.Text = ""
+            'Cmb_Satuan.SelectedIndex = -1
+            SQL = "select b.Kode_Barang as Kode_Bahan, c.nama as Nama_Bahan, b.Persentase, b.Jumlah, b.satuan, a.Satuan_Hasil, d.Satuan as Satuan_Barang, a.Tanggal "
+            SQL &= $"from Emi_Transaksi_Formulator a "
+            SQL &= $"inner join EMI_Transaksi_Formulator_Detail_Bahan b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            SQL &= $"inner join barang c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
+            SQL &= $"inner join barang d on a.Kode_Perusahaan = d.Kode_Perusahaan and a.Kode_Stock_Owner = d.Kode_Stock_Owner and a.Kode_Barang = d.Kode_Barang "
+            SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
+            SQL &= $"and a.Status is NULL "
+            SQL &= $"and a.Flag_Validasi = 'Y' "
+            SQL &= $"and a.hasTrial = 'Y' "
+            SQL &= $"and a.No_Faktur = '{SelectedNoFaktur}' "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Dim Lv As ListViewItem
+                    Lv = Lv_Detail_Bahan.Items.Add(Dr("Kode_Bahan"))
+                    Lv.SubItems.Add(Dr("Nama_Bahan"))
+                    Lv.SubItems.Add(Format(Dr("Persentase"), "N2"))
+                    Lv.SubItems.Add(Format(Dr("Jumlah"), "N4"))
+                    Lv.SubItems.Add(Dr("satuan"))
+
+                    Cmb_Satuan.SelectedItem = Dr("Satuan_Barang").ToString.Trim
+                Loop
+            End Using
+
+
+
+
+            CloseConn()
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+
+    Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
+        If TabControl1.SelectedIndex = -1 Or Txt_KdBarang.Text.Trim.Length = 0 Then Exit Sub
+
+        If TabControl1.SelectedIndex = 0 Then
+
+            GetDataFormulaPending()
+
+        ElseIf TabControl1.SelectedIndex = 1 Then
+
+            GetDataFormulaCompleted()
+
+
+        End If
+
+
+    End Sub
 
 
 
@@ -547,23 +746,25 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
 
 
 
-    Private Sub Lv_Data_Formula_MouseMove(sender As Object, e As MouseEventArgs) Handles Lv_Data_Formula.MouseMove
-        Dim info As ListViewHitTestInfo = Lv_Data_Formula.HitTest(e.Location)
+    Private Sub Lv_Data_Formula_MouseMove(sender As Object, e As MouseEventArgs) Handles Lv_Data_Formula_Pending.MouseMove, Lv_Data_Formula_Completed.MouseMove
+        Dim info As ListViewHitTestInfo = Lv_Data_Formula_Pending.HitTest(e.Location)
 
         If info.Item IsNot Nothing Then
             ' Mouse sedang berada di atas row
-            Lv_Data_Formula.Cursor = Cursors.Hand
+            Lv_Data_Formula_Pending.Cursor = Cursors.Hand
         Else
             ' Mouse tidak mengenai row
-            Lv_Data_Formula.Cursor = Cursors.Default
+            Lv_Data_Formula_Pending.Cursor = Cursors.Default
         End If
     End Sub
 
-
-
-    Private Sub Lv_Data_Formula_MouseLeave(sender As Object, e As EventArgs) Handles Lv_Data_Formula.MouseLeave
-        Lv_Data_Formula.Cursor = Cursors.Default
+    Private Sub Lv_Data_Formula_MouseLeave(sender As Object, e As EventArgs) Handles Lv_Data_Formula_Pending.MouseLeave, Lv_Data_Formula_Completed.MouseLeave
+        Lv_Data_Formula_Pending.Cursor = Cursors.Default
     End Sub
+
+
+
+
 
     Private Sub Lv_Detail_Bahan_MouseMove(sender As Object, e As MouseEventArgs) Handles Lv_Detail_Bahan.MouseMove
         Dim info As ListViewHitTestInfo = Lv_Detail_Bahan.HitTest(e.Location)

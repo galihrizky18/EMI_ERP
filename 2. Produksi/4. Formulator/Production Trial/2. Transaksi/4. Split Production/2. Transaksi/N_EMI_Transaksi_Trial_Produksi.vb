@@ -629,8 +629,85 @@
                 End With
             End Using
 
-            'Akhir penentu bahan baku dan packaging
 
+            '========================================================
+            '=     CEK APAKAH BAHAN MENCUKUPI UNTUK SEMUA BATCH     =
+            '========================================================
+            SQL = "Select a.No_Faktur, a.Kode_Stock_Owner, a.Kode_Barang, b.Nama, a.Jumlah, a.Satuan, a.Nilai_Barang, a.Satuan_Barang, "
+            SQL &= $"isnull(( "
+            SQL &= $"select isnull((( "
+            SQL &= $"(dbo.ubah_satuan(z.Kode_Perusahaan, 'masa', z.Kode_Barang, z.Satuan_Batch, 'KG', z.Qty_Batch * {Val(HilangkanTanda(Txt_JumlahBatch.Text.Trim))})) / "
+            SQL &= $"(select dbo.ubah_satuan(z.Kode_Perusahaan, 'masa', z.Kode_Barang, r.Satuan_Hasil, 'KG', r.Hasil) "
+            SQL &= $"from Emi_Transaksi_Formulator r "
+            SQL &= $"where r.Kode_Perusahaan = x.Kode_Perusahaan and r.No_Faktur = x.Kode_Formula and z.Status is null) ) * y.Jumlah "
+            SQL &= $"), 0) as Nilai_PerBatch "
+            SQL &= $"from N_EMI_Transaksi_Trial_Split_Production_Order z, N_EMI_Transaksi_Trial_Order_Produksi x, EMI_Transaksi_Formulator_Detail_Bahan y "
+            SQL &= $"where z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan "
+            SQL &= $"and z.No_PO = x.No_Faktur "
+            SQL &= $"and x.Kode_Formula = y.No_Faktur "
+            SQL &= $"and z.Kode_Perusahaan = a.Kode_Perusahaan "
+            SQL &= $"and z.No_Transaksi = a.no_faktur "
+            SQL &= $"and y.Kode_Barang = a.Kode_Barang and y.Satuan = a.satuan ), 0) as Nilai_Per_Batch "
+            SQL &= $"from N_EMI_Transaksi_Trial_Split_Production_Order_Detail_Bahan a, Barang b, EMI_Kategori_Gudang_PerLokasi c, Stock_Owner_Gudang d "
+            SQL &= $"where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
+            SQL &= $"and b.Kode_Perusahaan = c.kode_perusahaan and b.ID_Kategori_Gudang = c.Id_Kategori_Gudang "
+            SQL &= $"and c.kode_perusahaan = d.kode_Perusahaan and c.lokasi_gudang = d.kode_Stock_owner "
+            SQL &= $"and a.kode_Perusahaan = '{KodePerusahaan}' and a.No_Faktur = '{Txt_NoFaktur.Text.Trim}' "
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
+
+                            SQL = "select a.Kode_Stock_Owner, a.Kode_Barang, a.Nama, a.Good_Stock, sum(b.Jumlah) as Jumlah_Sn "
+                            SQL &= $"from Barang a "
+                            SQL &= $"inner join Barang_SN b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
+                            SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
+                            SQL &= $"and a.Kode_Stock_Owner = '{ .Rows(i).Item("Kode_Stock_Owner")}' "
+                            SQL &= $"and a.Kode_Barang = '{ .Rows(i).Item("Kode_Barang")}' "
+                            SQL &= $"group by a.Kode_Stock_Owner, a.Kode_Barang, a.Nama, a.Good_Stock "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+
+                                    If Val(HilangkanTanda(Dr("Good_Stock"))) <> Val(HilangkanTanda(Dr("Jumlah_Sn"))) Then
+                                        Dr.Close()
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show($"Jumlah Pada Kode Barang { .Rows(i).Item("Kode_Barang")} Tidak Sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+
+                                    If Val(HilangkanTanda(.Rows(i).Item("Nilai_Per_Batch"))) > Val(HilangkanTanda(Dr("Good_Stock"))) Then
+                                        Dr.Close()
+                                        CloseTrans()
+                                        CloseConn()
+                                        MessageBox.Show($"Stock Pada Kode Barang { .Rows(i).Item("Kode_Barang")} Tidak Mencukupi untuk Memenuhi Jumlah Batch", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                        Exit Sub
+                                    End If
+
+                                Else
+                                    Dr.Close()
+                                    CloseTrans()
+                                    CloseConn()
+                                    MessageBox.Show($"Data Kode Barang { .Rows(i).Item("Kode_Barang")} Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+                            End Using
+
+
+                        Next
+                    End If
+                End With
+            End Using
+
+
+
+
+
+
+
+
+
+            'Akhir penentu bahan baku dan packaging
             '=================================
             '=     AUTO REQUEST MATERIAL     =
             '=================================
@@ -682,104 +759,104 @@
             '                ExecuteTrans(SQL)
 
 
-            '                SQL = "Select a.No_Faktur, a.Kode_Stock_Owner, a.Kode_Barang, b.Nama, a.Jumlah, a.Satuan, a.Nilai_Barang, a.Satuan_Barang, 'Bahan' as tipe, c.lokasi_gudang, "
-            '                SQL = SQL & "(ISNULL( (select sum(z.jumlah) from Emi_Material_Requisition_det z, Emi_Material_Requisition x where a.Kode_Perusahaan = z.Kode_Perusahaan "
-            '                SQL = SQL & "and a.Kode_Stock_Owner =z.Kode_Stock_Owner and a.Kode_Barang = z.Kode_Barang "
-            '                SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur and a.No_Faktur = x.No_Faktur_Order and x.Status is null ) "
-            '                SQL = SQL & ", 0)) as Jumlah_Diproduksi, "
-            '                SQL = SQL & "(a.Jumlah - ISNULL( "
-            '                SQL = SQL & "(select sum(z.jumlah) "
-            '                SQL = SQL & "from Emi_Material_Requisition_det z, Emi_Material_Requisition x "
-            '                SQL = SQL & "where a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Stock_Owner =z.Kode_Stock_Owner and a.Kode_Barang = z.Kode_Barang "
-            '                SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur and a.No_Faktur = x.No_Faktur_Order and x.status is null ) "
-            '                SQL = SQL & ", 0)) as sisa, "
-            '                SQL = SQL & "'BAHAN' as Jenis_Bahan, "
-            '                SQL = SQL & "ISNULL(( select dbo.ubah_satuan(a.Kode_Perusahaan, 'masa',a.Kode_Barang, a.Satuan_Barang, a.Satuan, sum(z.Jumlah)) "
-            '                SQL = SQL & "from Barang_SN z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Kode_Stock_Owner = a.Kode_Stock_Owner and z.Kode_Barang = a.Kode_Barang "
-            '                SQL = SQL & "), 0) as Stock_Gudang_Produksi, "
-            '                SQL = SQL & "ISNULL( (select sum(w.jumlah) from tf_stock_parent x, Tf_Stock y, Tf_Stock_det z, Tf_Stock_det2 w, "
-            '                SQL = SQL & "emi_material_requisition_det_convert m, emi_material_requisition n "
-            '                SQL = SQL & "where x.kode_Perusahaan = y.kode_perusahaan And x.no_faktur = y.no_faktur And x.status Is null "
-            '                SQL = SQL & "And y.kode_Perusahaan = z.kode_perusahaan And y.no_faktur = z.no_faktur And y.urut_oto = z.urut_tf And (z.selesai Is null Or z.selesai ='Y') "
-            '                SQL = SQL & "and z.kode_Perusahaan = w.kode_perusahaan And z.no_faktur = w.no_faktur And z.urut_oto = w.Urut_Det "
-            '                SQL = SQL & "And m.Kode_Perusahaan = y.Kode_Perusahaan And m.Urut_Oto = y.urut_material_requisition_convert "
-            '                SQL = SQL & "and y.Flag_Jenis_Request = 'PRODUKSI' "
-            '                SQL = SQL & "and m.kode_Perusahaan = n.kode_perusahaan And m.no_faktur = n.no_faktur and n.status is null "
-            '                SQL = SQL & "and a.Kode_Perusahaan = m.Kode_Perusahaan and a.Kode_Stock_Owner = m.Kode_Stock_Owner and a.Kode_Barang = m.Kode_Barang "
-            '                SQL = SQL & "and a.Kode_Perusahaan = n.Kode_Perusahaan and a.No_Faktur = n.No_Faktur_Order and n.Status is null "
-            '                SQL = SQL & "), '0') as Total_TF, "
+            'SQL = "Select a.No_Faktur, a.Kode_Stock_Owner, a.Kode_Barang, b.Nama, a.Jumlah, a.Satuan, a.Nilai_Barang, a.Satuan_Barang, 'Bahan' as tipe, c.lokasi_gudang, "
+            'SQL = SQL & "(ISNULL( (select sum(z.jumlah) from Emi_Material_Requisition_det z, Emi_Material_Requisition x where a.Kode_Perusahaan = z.Kode_Perusahaan "
+            'SQL = SQL & "and a.Kode_Stock_Owner =z.Kode_Stock_Owner and a.Kode_Barang = z.Kode_Barang "
+            'SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur and a.No_Faktur = x.No_Faktur_Order and x.Status is null ) "
+            'SQL = SQL & ", 0)) as Jumlah_Diproduksi, "
+            'SQL = SQL & "(a.Jumlah - ISNULL( "
+            'SQL = SQL & "(select sum(z.jumlah) "
+            'SQL = SQL & "from Emi_Material_Requisition_det z, Emi_Material_Requisition x "
+            'SQL = SQL & "where a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Stock_Owner =z.Kode_Stock_Owner and a.Kode_Barang = z.Kode_Barang "
+            'SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur and a.No_Faktur = x.No_Faktur_Order and x.status is null ) "
+            'SQL = SQL & ", 0)) as sisa, "
+            'SQL = SQL & "'BAHAN' as Jenis_Bahan, "
+            'SQL = SQL & "ISNULL(( select dbo.ubah_satuan(a.Kode_Perusahaan, 'masa',a.Kode_Barang, a.Satuan_Barang, a.Satuan, sum(z.Jumlah)) "
+            'SQL = SQL & "from Barang_SN z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Kode_Stock_Owner = a.Kode_Stock_Owner and z.Kode_Barang = a.Kode_Barang "
+            'SQL = SQL & "), 0) as Stock_Gudang_Produksi, "
+            'SQL = SQL & "ISNULL( (select sum(w.jumlah) from tf_stock_parent x, Tf_Stock y, Tf_Stock_det z, Tf_Stock_det2 w, "
+            'SQL = SQL & "emi_material_requisition_det_convert m, emi_material_requisition n "
+            'SQL = SQL & "where x.kode_Perusahaan = y.kode_perusahaan And x.no_faktur = y.no_faktur And x.status Is null "
+            'SQL = SQL & "And y.kode_Perusahaan = z.kode_perusahaan And y.no_faktur = z.no_faktur And y.urut_oto = z.urut_tf And (z.selesai Is null Or z.selesai ='Y') "
+            'SQL = SQL & "and z.kode_Perusahaan = w.kode_perusahaan And z.no_faktur = w.no_faktur And z.urut_oto = w.Urut_Det "
+            'SQL = SQL & "And m.Kode_Perusahaan = y.Kode_Perusahaan And m.Urut_Oto = y.urut_material_requisition_convert "
+            'SQL = SQL & "and y.Flag_Jenis_Request = 'PRODUKSI' "
+            'SQL = SQL & "and m.kode_Perusahaan = n.kode_perusahaan And m.no_faktur = n.no_faktur and n.status is null "
+            'SQL = SQL & "and a.Kode_Perusahaan = m.Kode_Perusahaan and a.Kode_Stock_Owner = m.Kode_Stock_Owner and a.Kode_Barang = m.Kode_Barang "
+            'SQL = SQL & "and a.Kode_Perusahaan = n.Kode_Perusahaan and a.No_Faktur = n.No_Faktur_Order and n.Status is null "
+            'SQL = SQL & "), '0') as Total_TF, "
 
-            '                SQL = SQL & "isnull(( select "
-            '                SQL = SQL & "isnull(( ( (dbo.ubah_satuan(z.Kode_Perusahaan, 'masa',z.Kode_Barang, z.Satuan_Batch, 'KG', z.Qty_Batch)) / " 'DISINI UNTUK KALI SESUAI BATCH
-            '                SQL = SQL & "(select dbo.ubah_satuan(z.Kode_Perusahaan, 'masa',z.Kode_Barang, r.Satuan_Hasil, 'KG', r.Hasil) "
-            '                SQL = SQL & "from Emi_Transaksi_Formulator r "
-            '                SQL = SQL & "where r.Kode_Perusahaan = x.Kode_Perusahaan and r.No_Faktur = x.Kode_Formula and z.Status is null) "
-            '                SQL = SQL & ") * y.Jumlah ), 0) as Nilai_PerBatch "
-            '                SQL = SQL & "from N_EMI_Transaksi_Trial_Split_Production_Order z, N_EMI_Transaksi_Trial_Order_Produksi x, EMI_Transaksi_Formulator_Detail_Bahan y "
-            '                SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan "
-            '                SQL = SQL & "and z.No_PO = x.No_Faktur "
-            '                SQL = SQL & "and x.Kode_Formula = y.No_Faktur "
-            '                SQL = SQL & "and z.Kode_Perusahaan = a.Kode_Perusahaan "
-            '                SQL = SQL & "and z.No_Transaksi = a.no_faktur "
-            '                SQL = SQL & "and y.Kode_Barang = a.Kode_Barang and y.Satuan = a.satuan "
-            '                SQL = SQL & "),0) as Nilai_Per_Batch "
-            '                SQL = SQL & "from N_EMI_Transaksi_Trial_Split_Production_Order_Detail_Bahan a, Barang b, EMI_Kategori_Gudang_PerLokasi c, Stock_Owner_Gudang d "
-            '                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
-            '                SQL = SQL & "and b.Kode_Perusahaan = c.kode_perusahaan and b.ID_Kategori_Gudang = c.Id_Kategori_Gudang "
-            '                SQL = SQL & "and c.kode_perusahaan = d.kode_Perusahaan and c.lokasi_gudang = d.kode_Stock_owner "
-            '                SQL = SQL & "and a.kode_Perusahaan = '" & KodePerusahaan & "' "
-            '                SQL = SQL & "and a.No_Faktur='" & Txt_NoFaktur.Text & "' "
+            'SQL = SQL & "isnull(( select "
+            'SQL = SQL & "isnull(( ( (dbo.ubah_satuan(z.Kode_Perusahaan, 'masa',z.Kode_Barang, z.Satuan_Batch, 'KG', z.Qty_Batch)) / " 'DISINI UNTUK KALI SESUAI BATCH
+            'SQL = SQL & "(select dbo.ubah_satuan(z.Kode_Perusahaan, 'masa',z.Kode_Barang, r.Satuan_Hasil, 'KG', r.Hasil) "
+            'SQL = SQL & "from Emi_Transaksi_Formulator r "
+            'SQL = SQL & "where r.Kode_Perusahaan = x.Kode_Perusahaan and r.No_Faktur = x.Kode_Formula and z.Status is null) "
+            'SQL = SQL & ") * y.Jumlah ), 0) as Nilai_PerBatch "
+            'SQL = SQL & "from N_EMI_Transaksi_Trial_Split_Production_Order z, N_EMI_Transaksi_Trial_Order_Produksi x, EMI_Transaksi_Formulator_Detail_Bahan y "
+            'SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan "
+            'SQL = SQL & "and z.No_PO = x.No_Faktur "
+            'SQL = SQL & "and x.Kode_Formula = y.No_Faktur "
+            'SQL = SQL & "and z.Kode_Perusahaan = a.Kode_Perusahaan "
+            'SQL = SQL & "and z.No_Transaksi = a.no_faktur "
+            'SQL = SQL & "and y.Kode_Barang = a.Kode_Barang and y.Satuan = a.satuan "
+            'SQL = SQL & "),0) as Nilai_Per_Batch "
+            'SQL = SQL & "from N_EMI_Transaksi_Trial_Split_Production_Order_Detail_Bahan a, Barang b, EMI_Kategori_Gudang_PerLokasi c, Stock_Owner_Gudang d "
+            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
+            'SQL = SQL & "and b.Kode_Perusahaan = c.kode_perusahaan and b.ID_Kategori_Gudang = c.Id_Kategori_Gudang "
+            'SQL = SQL & "and c.kode_perusahaan = d.kode_Perusahaan and c.lokasi_gudang = d.kode_Stock_owner "
+            'SQL = SQL & "and a.kode_Perusahaan = '" & KodePerusahaan & "' "
+            'SQL = SQL & "and a.No_Faktur='" & Txt_NoFaktur.Text & "' "
 
-            '                'SQL = SQL & "union all "
+            'SQL = SQL & "union all "
 
-            '                'SQL = SQL & "select a.No_Faktur, a.Kode_Stock_Owner, a.kode_barang, b.Nama, a.Jumlah, a.Satuan, a.Nilai_Barang, a.Satuan_Barang, 'Packaging' as tipe, c.lokasi_gudang, "
-            '                'SQL = SQL & "(ISNULL((select sum(z.jumlah) from Emi_Material_Requisition_det z, Emi_Material_Requisition x where a.Kode_Perusahaan = z.Kode_Perusahaan "
-            '                'SQL = SQL & "and a.Kode_Stock_Owner =z.Kode_Stock_Owner and a.Kode_Barang = z.Kode_Barang "
-            '                'SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur and a.No_Faktur = x.No_Faktur_Order and x.status is null) "
-            '                'SQL = SQL & ", 0)) as Jumlah_Diproduksi, "
-            '                'SQL = SQL & "(a.Jumlah - ISNULL( "
-            '                'SQL = SQL & "(select sum(z.jumlah) "
-            '                'SQL = SQL & "from Emi_Material_Requisition_det z, Emi_Material_Requisition x "
-            '                'SQL = SQL & "where a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Stock_Owner =z.Kode_Stock_Owner and a.Kode_Barang = z.Kode_Barang "
-            '                'SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur and a.No_Faktur = x.No_Faktur_Order and x.status is null) "
-            '                'SQL = SQL & ", 0)) as sisa, "
-            '                'SQL = SQL & "'PACKAGING' as Jenis_Bahan, "
-            '                'SQL = SQL & "ISNULL(( select dbo.ubah_satuan(a.Kode_Perusahaan, 'masa',a.Kode_Barang, a.Satuan_Barang, a.Satuan, sum(z.Jumlah)) "
-            '                'SQL = SQL & "from Barang_SN z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Kode_Stock_Owner = a.Kode_Stock_Owner and z.Kode_Barang = a.Kode_Barang) "
-            '                'SQL = SQL & ", 0) as Stock_Gudang_Produksi, "
-            '                'SQL = SQL & "ISNULL((select sum(w.jumlah) from tf_stock_parent x, Tf_Stock y, Tf_Stock_det z, Tf_Stock_det2 w, "
-            '                'SQL = SQL & "emi_material_requisition_det_convert m, emi_material_requisition n "
-            '                'SQL = SQL & "where x.kode_Perusahaan = y.kode_perusahaan And x.no_faktur = y.no_faktur And x.status Is null "
-            '                'SQL = SQL & "And y.kode_Perusahaan = z.kode_perusahaan And y.no_faktur = z.no_faktur And y.urut_oto = z.urut_tf And (z.selesai Is null Or z.selesai ='Y') "
-            '                'SQL = SQL & "and z.kode_Perusahaan = w.kode_perusahaan And z.no_faktur = w.no_faktur And z.urut_oto = w.Urut_Det "
-            '                'SQL = SQL & "And m.Kode_Perusahaan = y.Kode_Perusahaan And m.Urut_Oto = y.urut_material_requisition_convert "
-            '                'SQL = SQL & "and y.Flag_Jenis_Request = 'PRODUKSI' "
-            '                'SQL = SQL & "and m.kode_Perusahaan = n.kode_perusahaan And m.no_faktur = n.no_faktur and n.status is null "
-            '                'SQL = SQL & "and a.Kode_Perusahaan = m.Kode_Perusahaan and a.Kode_Stock_Owner = m.Kode_Stock_Owner and a.Kode_Barang = m.Kode_Barang "
-            '                'SQL = SQL & "and a.Kode_Perusahaan = n.Kode_Perusahaan and a.No_Faktur = n.No_Faktur_Order and n.status is null "
-            '                'SQL = SQL & "), '0') as Total_TF, "
+            'SQL = SQL & "select a.No_Faktur, a.Kode_Stock_Owner, a.kode_barang, b.Nama, a.Jumlah, a.Satuan, a.Nilai_Barang, a.Satuan_Barang, 'Packaging' as tipe, c.lokasi_gudang, "
+            'SQL = SQL & "(ISNULL((select sum(z.jumlah) from Emi_Material_Requisition_det z, Emi_Material_Requisition x where a.Kode_Perusahaan = z.Kode_Perusahaan "
+            'SQL = SQL & "and a.Kode_Stock_Owner =z.Kode_Stock_Owner and a.Kode_Barang = z.Kode_Barang "
+            'SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur and a.No_Faktur = x.No_Faktur_Order and x.status is null) "
+            'SQL = SQL & ", 0)) as Jumlah_Diproduksi, "
+            'SQL = SQL & "(a.Jumlah - ISNULL( "
+            'SQL = SQL & "(select sum(z.jumlah) "
+            'SQL = SQL & "from Emi_Material_Requisition_det z, Emi_Material_Requisition x "
+            'SQL = SQL & "where a.Kode_Perusahaan = z.Kode_Perusahaan and a.Kode_Stock_Owner =z.Kode_Stock_Owner and a.Kode_Barang = z.Kode_Barang "
+            'SQL = SQL & "and z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur and a.No_Faktur = x.No_Faktur_Order and x.status is null) "
+            'SQL = SQL & ", 0)) as sisa, "
+            'SQL = SQL & "'PACKAGING' as Jenis_Bahan, "
+            'SQL = SQL & "ISNULL(( select dbo.ubah_satuan(a.Kode_Perusahaan, 'masa',a.Kode_Barang, a.Satuan_Barang, a.Satuan, sum(z.Jumlah)) "
+            'SQL = SQL & "from Barang_SN z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Kode_Stock_Owner = a.Kode_Stock_Owner and z.Kode_Barang = a.Kode_Barang) "
+            'SQL = SQL & ", 0) as Stock_Gudang_Produksi, "
+            'SQL = SQL & "ISNULL((select sum(w.jumlah) from tf_stock_parent x, Tf_Stock y, Tf_Stock_det z, Tf_Stock_det2 w, "
+            'SQL = SQL & "emi_material_requisition_det_convert m, emi_material_requisition n "
+            'SQL = SQL & "where x.kode_Perusahaan = y.kode_perusahaan And x.no_faktur = y.no_faktur And x.status Is null "
+            'SQL = SQL & "And y.kode_Perusahaan = z.kode_perusahaan And y.no_faktur = z.no_faktur And y.urut_oto = z.urut_tf And (z.selesai Is null Or z.selesai ='Y') "
+            'SQL = SQL & "and z.kode_Perusahaan = w.kode_perusahaan And z.no_faktur = w.no_faktur And z.urut_oto = w.Urut_Det "
+            'SQL = SQL & "And m.Kode_Perusahaan = y.Kode_Perusahaan And m.Urut_Oto = y.urut_material_requisition_convert "
+            'SQL = SQL & "and y.Flag_Jenis_Request = 'PRODUKSI' "
+            'SQL = SQL & "and m.kode_Perusahaan = n.kode_perusahaan And m.no_faktur = n.no_faktur and n.status is null "
+            'SQL = SQL & "and a.Kode_Perusahaan = m.Kode_Perusahaan and a.Kode_Stock_Owner = m.Kode_Stock_Owner and a.Kode_Barang = m.Kode_Barang "
+            'SQL = SQL & "and a.Kode_Perusahaan = n.Kode_Perusahaan and a.No_Faktur = n.No_Faktur_Order and n.status is null "
+            'SQL = SQL & "), '0') as Total_TF, "
 
-            '                'SQL = SQL & "isnull((select ISNULL((( (dbo.ubah_satuan(z.kode_perusahaan, 'masa',z.kode_barang, 'KG', 'PCS', "
-            '                'SQL = SQL & "(ISNULL(( select r.Qty_Batch from Emi_Split_Production_Order r where r.Kode_Perusahaan = x.Kode_Perusahaan And r.No_Transaksi = z.No_Transaksi ), 0)))) " ' DISINI UNTUK BAGI SESUAI BATCH
-            '                'SQL = SQL & "/ "
-            '                'SQL = SQL & "(select r.jumlah_barang from Barang_Detail_Bahan_Penolong r where r.kode_barang= z.Kode_Barang and r.kode_Bahan = x.Kode_Barang)) "
-            '                'SQL = SQL & "* "
-            '                'SQL = SQL & "((select r.jumlah_bahan from Barang_Detail_Bahan_Penolong r where r.kode_barang= z.Kode_Barang and r.kode_Bahan = x.Kode_Barang)) ), 0) as Nilai_PerBatch "
-            '                'SQL = SQL & "from Emi_Split_Production_Order z, Emi_Split_Production_Order_Detail_Packaging x, EMI_Order_Produksi y "
-            '                'SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and z.kode_perusahaan = y.kode_perusahaan "
-            '                'SQL = SQL & "and z.No_Transaksi = x.No_Faktur "
-            '                'SQL = SQL & "and z.No_PO = y.No_Faktur "
-            '                'SQL = SQL & "and z.Kode_Perusahaan = a.Kode_Perusahaan "
-            '                'SQL = SQL & "and z.No_Transaksi = a.No_Faktur "
-            '                'SQL = SQL & "and x.Kode_Barang = a.Kode_Barang "
-            '                'SQL = SQL & "and x.Satuan = a.Satuan "
-            '                'SQL = SQL & "), 0) as Nilai_Per_Batch "
-            '                'SQL = SQL & "from Emi_Split_Production_Order_Detail_Packaging a, Barang b, EMI_Kategori_Gudang_PerLokasi c, Stock_Owner_Gudang d "
-            '                'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
-            '                'SQL = SQL & "and b.Kode_Perusahaan = c.kode_perusahaan and b.ID_Kategori_Gudang = c.Id_Kategori_Gudang "
-            '                'SQL = SQL & "and c.kode_perusahaan = d.kode_Perusahaan and c.lokasi_gudang = d.kode_Stock_owner "
-            '                'SQL = SQL & "and a.kode_Perusahaan = '" & KodePerusahaan & "' "
-            '                'SQL = SQL & "and a.No_Faktur='" & Txt_NoFaktur.Text & "' "
+            'SQL = SQL & "isnull((select ISNULL((( (dbo.ubah_satuan(z.kode_perusahaan, 'masa',z.kode_barang, 'KG', 'PCS', "
+            'SQL = SQL & "(ISNULL(( select r.Qty_Batch from Emi_Split_Production_Order r where r.Kode_Perusahaan = x.Kode_Perusahaan And r.No_Transaksi = z.No_Transaksi ), 0)))) " ' DISINI UNTUK BAGI SESUAI BATCH
+            'SQL = SQL & "/ "
+            'SQL = SQL & "(select r.jumlah_barang from Barang_Detail_Bahan_Penolong r where r.kode_barang= z.Kode_Barang and r.kode_Bahan = x.Kode_Barang)) "
+            'SQL = SQL & "* "
+            'SQL = SQL & "((select r.jumlah_bahan from Barang_Detail_Bahan_Penolong r where r.kode_barang= z.Kode_Barang and r.kode_Bahan = x.Kode_Barang)) ), 0) as Nilai_PerBatch "
+            'SQL = SQL & "from Emi_Split_Production_Order z, Emi_Split_Production_Order_Detail_Packaging x, EMI_Order_Produksi y "
+            'SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and z.kode_perusahaan = y.kode_perusahaan "
+            'SQL = SQL & "and z.No_Transaksi = x.No_Faktur "
+            'SQL = SQL & "and z.No_PO = y.No_Faktur "
+            'SQL = SQL & "and z.Kode_Perusahaan = a.Kode_Perusahaan "
+            'SQL = SQL & "and z.No_Transaksi = a.No_Faktur "
+            'SQL = SQL & "and x.Kode_Barang = a.Kode_Barang "
+            'SQL = SQL & "and x.Satuan = a.Satuan "
+            'SQL = SQL & "), 0) as Nilai_Per_Batch "
+            'SQL = SQL & "from Emi_Split_Production_Order_Detail_Packaging a, Barang b, EMI_Kategori_Gudang_PerLokasi c, Stock_Owner_Gudang d "
+            'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
+            'SQL = SQL & "and b.Kode_Perusahaan = c.kode_perusahaan and b.ID_Kategori_Gudang = c.Id_Kategori_Gudang "
+            'SQL = SQL & "and c.kode_perusahaan = d.kode_Perusahaan and c.lokasi_gudang = d.kode_Stock_owner "
+            'SQL = SQL & "and a.kode_Perusahaan = '" & KodePerusahaan & "' "
+            'SQL = SQL & "and a.No_Faktur='" & Txt_NoFaktur.Text & "' "
             '                Using Ds = BindingTrans(SQL)
             '                    With Ds.Tables("MyTable")
             '                        If .Rows.Count - 1 Then
@@ -1306,7 +1383,7 @@
 
         'CetakFaktur(arrFakturRM)
 
-        EMI_Display_Mulai_Produksi.Btn_Cari_Click(Btn_Simpan, e)
+        N_EMI_Display_Trial_Mulai_Produksi.Button1_Click(Btn_Simpan, e)
         Me.Close()
     End Sub
 
