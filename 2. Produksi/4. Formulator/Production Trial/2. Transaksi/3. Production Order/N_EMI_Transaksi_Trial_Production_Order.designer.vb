@@ -87,7 +87,6 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         Me.Button3 = New System.Windows.Forms.Button()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.LvPackaging = New System.Windows.Forms.ListView()
         Me.txt_faktur_bayangan = New System.Windows.Forms.TextBox()
         Me.Btn_UnRelease = New System.Windows.Forms.Button()
@@ -101,7 +100,6 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         Me.ContextMenuStrip2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
-        Me.TabPage2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -766,7 +764,6 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         'TabControl1
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
-        Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Location = New System.Drawing.Point(398, 385)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -788,24 +785,13 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         Me.TabPage1.Text = "Material"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
-        'TabPage2
-        '
-        Me.TabPage2.Controls.Add(Me.LvPackaging)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(731, 230)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Packaging"
-        Me.TabPage2.UseVisualStyleBackColor = True
-        '
         'LvPackaging
         '
         Me.LvPackaging.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.LvPackaging.FullRowSelect = True
         Me.LvPackaging.GridLines = True
         Me.LvPackaging.HideSelection = False
-        Me.LvPackaging.Location = New System.Drawing.Point(4, 3)
+        Me.LvPackaging.Location = New System.Drawing.Point(1167, 414)
         Me.LvPackaging.Name = "LvPackaging"
         Me.LvPackaging.Size = New System.Drawing.Size(723, 194)
         Me.LvPackaging.TabIndex = 382
@@ -869,6 +855,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1160, 726)
+        Me.Controls.Add(Me.LvPackaging)
         Me.Controls.Add(Me.txt_faktur_bayangan)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Btn_UnRelease)
@@ -927,7 +914,6 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
-        Me.TabPage2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -989,7 +975,6 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
     Friend WithEvents Button3 As Button
     Friend WithEvents TabControl1 As TabControl
     Friend WithEvents TabPage1 As TabPage
-    Friend WithEvents TabPage2 As TabPage
     Friend WithEvents LvPackaging As ListView
     Friend WithEvents txt_faktur_bayangan As TextBox
     Friend WithEvents Label9 As Label

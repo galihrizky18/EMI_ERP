@@ -658,7 +658,7 @@
                     If .Rows.Count <> 0 Then
                         For i As Integer = 0 To .Rows.Count - 1
 
-                            SQL = "select a.Kode_Stock_Owner, a.Kode_Barang, a.Nama, a.Good_Stock, sum(b.Jumlah) as Jumlah_Sn "
+                            SQL = "select a.Kode_Stock_Owner, a.Kode_Barang, a.Nama, Round(a.Good_Stock, 4) as Good_Stock, round(sum(b.Jumlah), 4) as Jumlah_Sn "
                             SQL &= $"from Barang a "
                             SQL &= $"inner join Barang_SN b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
                             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
@@ -676,6 +676,7 @@
                                         Exit Sub
                                     End If
 
+                                    Dim asa As Double = Val(HilangkanTanda(.Rows(i).Item("Nilai_Per_Batch")))
                                     If Val(HilangkanTanda(.Rows(i).Item("Nilai_Per_Batch"))) > Val(HilangkanTanda(Dr("Good_Stock"))) Then
                                         Dr.Close()
                                         CloseTrans()
@@ -1484,6 +1485,7 @@
     End Sub
 
 
+
     Private Sub Txt_JumlahBatch_TextChanged(sender As Object, e As EventArgs) Handles Txt_JumlahBatch.TextChanged
         If Txt_Qty.Text.Trim.Length = 0 Or Txt_JumlahBatch.Text.Trim.Length = 0 Then
             Txt_QtyBatch.Text = 0
@@ -1539,6 +1541,7 @@
 
 
     Private Sub Handle_Ubah_Lokasi_Tujuan_Bahan(sender As Object, e As EventArgs) Handles Dgv_Data_Bahan.DoubleClick, Dgv_Data_Packaging.DoubleClick
+        Exit Sub
         Try
             OpenConn()
 
@@ -1731,6 +1734,5 @@
 
         MyBase.WndProc(m)
     End Sub
-
 
 End Class

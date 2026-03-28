@@ -1083,8 +1083,8 @@ Public Class EMI_Timbang_Floor_Scale
                     SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoTujuan & "' and kode_barang = '" & GetDataKdBrg & "' "
                     Using Dr = OpenTrans(SQL)
                         If Dr.Read Then
-                            Stock_Sebelum_Insert = Math.Round(Dr("Stock"), 4)
-                            Bags_Sebelum_Insert = Math.Round(Dr("Stock_Bags"), 4)
+                            Stock_Sebelum_Insert = Math.Round(If(General_Class.CekNULL(Dr("Stock")) = "", 0, Dr("Stock")), 4)
+                            Bags_Sebelum_Insert = Math.Round(If(General_Class.CekNULL(Dr("Stock_Bags")) = "", 0, Dr("Stock_Bags")), 4)
                         End If
                     End Using
 
@@ -1092,8 +1092,8 @@ Public Class EMI_Timbang_Floor_Scale
                     SQL = SQL & "AND Kode_Stock_Owner = '" & GetSoTujuan & "' and kode_barang = '" & GetDataKdBrg & "' "
                     Using Dr = OpenTrans(SQL)
                         If Dr.Read Then
-                            Stock_SN_Sebelum_Insert = Math.Round(Dr("Stock_SN"), 4)
-                            Bags_SN_Sebelum_Insert = Math.Round(Dr("Stock_Bags_SN"), 4)
+                            Stock_SN_Sebelum_Insert = Math.Round(If(General_Class.CekNULL(Dr("Stock_SN")) = "", 0, Dr("Stock_SN")), 4)
+                            Bags_SN_Sebelum_Insert = Math.Round(If(General_Class.CekNULL(Dr("Stock_Bags_SN")) = "", 0, Dr("Stock_Bags_SN")), 4)
                         End If
                     End Using
 
@@ -2304,7 +2304,7 @@ Public Class EMI_Timbang_Floor_Scale
                 Cmd.Transaction.Commit()
                 CloseTrans()
                 CloseConn()
-                MessageBox.Show(Base_Language.Lang_Global_Sukses_Simpan, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show(Base_Language.Lang_Global_Sukses_Simpan, Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             Catch ex As Exception
                 CloseTrans()

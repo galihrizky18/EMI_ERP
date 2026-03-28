@@ -86,6 +86,7 @@
         SwitchAutoComplete = False
 
         Lv_Data_Formula_Pending.Items.Clear()
+        Lv_Data_Formula_Completed.Items.Clear()
         Lv_Detail_Bahan.Items.Clear()
         Lv_Barang.Items.Clear()
 
@@ -196,9 +197,19 @@
         Try
             OpenConn()
 
-
-            Dim SelectedFaktur As String = Lv_Data_Formula_Pending.FocusedItem.Text
+            Dim SelectedFaktur As String = ""
+            If TabControl1.SelectedIndex = 0 Then
+                SelectedFaktur = Lv_Data_Formula_Pending.FocusedItem.Text
+            ElseIf TabControl1.SelectedIndex = 1 Then
+                SelectedFaktur = Lv_Data_Formula_Completed.FocusedItem.Text
+            Else
+                CloseConn()
+                MessageBox.Show("Terjadi Kesalahan, Harap Pilih No Formula Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
             Dim JumlahKebutuhan As Double = Val(HilangkanTanda(Txt_Jumlah_Kebutuhan.Text.Trim))
+
+
 
             Dim SatuanTotal As String = ""
             Lv_Detail_Bahan.Items.Clear()
@@ -281,18 +292,15 @@
             Lv_Barang.Items.Clear()
 
             Dim Lv As ListViewItem
-            Lv = Lv_Barang.Items.Add(OpsiSeluruh)
-            Lv.SubItems.Add(OpsiSeluruh)
-
-            SQL = "select a.Kode_Barang,a.Nama, a.Satuan, c.lokasi_gudang  "
+            SQL = "select a.Kode_Barang_inq,a.Nama, a.Satuan, c.lokasi_gudang  "
             SQL = SQL & "from barang a, EMI_Group_Jenis b, EMI_Kategori_Gudang_PerLokasi c  "
             SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan and a.Id_Group_Jenis=b.Id_Group_Jenis and a.Kode_Perusahaan='" & KodePerusahaan & "'  "
             SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Gudang = c.ID_Kategori_Gudang "
-            SQL = SQL & "and a.Kode_Barang like '%" & Txt_KdBarang.Text & "%' and aktif = 'Y' and flag_finished_good= 'Y' "
-            SQL = SQL & "group by a.Kode_Barang,a.Nama, a.Satuan,c.lokasi_gudang "
+            SQL = SQL & "and a.Kode_Barang_inq like '%" & Txt_KdBarang.Text & "%' and aktif = 'Y' and flag_finished_good= 'Y' "
+            SQL = SQL & "group by a.Kode_Barang_inq,a.Nama, a.Satuan,c.lokasi_gudang "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
-                    Lv = Lv_Barang.Items.Add(Dr("Kode_Barang"))
+                    Lv = Lv_Barang.Items.Add(Dr("Kode_Barang_inq"))
                     Lv.SubItems.Add(Dr("Nama"))
                 Loop
             End Using
@@ -314,15 +322,15 @@
 
             If Not Txt_KdBarang.Text = OpsiSeluruh Then
 
-                SQL = "select a.Kode_Barang,a.Nama, a.Satuan, c.lokasi_gudang  "
+                SQL = "select a.Kode_Barang_inq,a.Nama, a.Satuan, c.lokasi_gudang  "
                 SQL = SQL & "from barang a, EMI_Group_Jenis b, EMI_Kategori_Gudang_PerLokasi c  "
                 SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan and a.Id_Group_Jenis=b.Id_Group_Jenis and a.Kode_Perusahaan='" & KodePerusahaan & "'  "
                 SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Gudang = c.ID_Kategori_Gudang "
-                SQL = SQL & "and a.Kode_Barang = '" & Txt_KdBarang.Text & "' and aktif = 'Y' and flag_finished_good= 'Y' "
-                SQL = SQL & "group by a.Kode_Barang,a.Nama, a.Satuan,c.lokasi_gudang "
+                SQL = SQL & "and a.Kode_Barang_inq = '" & Txt_KdBarang.Text & "' and aktif = 'Y' and flag_finished_good= 'Y' "
+                SQL = SQL & "group by a.Kode_Barang_inq,a.Nama, a.Satuan,c.lokasi_gudang "
                 Using Dr = Open(SQL)
                     If Dr.Read Then
-                        Txt_KdBarang.Text = Dr("Kode_Barang")
+                        Txt_KdBarang.Text = Dr("Kode_Barang_inq")
                         Txt_NmBarang.Text = Dr("Nama")
                         Btn_Get_Formula.Focus()
                     Else
@@ -383,18 +391,15 @@
             Lv_Barang.Items.Clear()
 
             Dim Lv As ListViewItem
-            Lv = Lv_Barang.Items.Add(OpsiSeluruh)
-            Lv.SubItems.Add(OpsiSeluruh)
-
-            SQL = "select a.Kode_Barang,a.Nama, a.Satuan, c.lokasi_gudang  "
+            SQL = "select a.Kode_Barang_inq,a.Nama, a.Satuan, c.lokasi_gudang  "
             SQL = SQL & "from barang a, EMI_Group_Jenis b, EMI_Kategori_Gudang_PerLokasi c  "
             SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan and a.Id_Group_Jenis=b.Id_Group_Jenis and a.Kode_Perusahaan='" & KodePerusahaan & "'  "
             SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Gudang = c.ID_Kategori_Gudang "
             SQL = SQL & "and a.Nama like '%" & Txt_NmBarang.Text & "%' and aktif = 'Y' and flag_finished_good= 'Y' "
-            SQL = SQL & "group by a.Kode_Barang,a.Nama, a.Satuan,c.lokasi_gudang "
+            SQL = SQL & "group by a.Kode_Barang_inq,a.Nama, a.Satuan,c.lokasi_gudang "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
-                    Lv = Lv_Barang.Items.Add(Dr("Kode_Barang"))
+                    Lv = Lv_Barang.Items.Add(Dr("Kode_Barang_inq"))
                     Lv.SubItems.Add(Dr("Nama"))
                 Loop
             End Using
@@ -523,6 +528,11 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+    End Sub
+
+    Private Sub Txt_Jumlah_Kebutuhan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Jumlah_Kebutuhan.KeyPress
+        If e.KeyChar = Chr(13) Then Btn_Get_Data.Focus()
+        If Not (e.KeyChar >= "0"c And e.KeyChar <= "9"c Or e.KeyChar = Chr(8) Or e.KeyChar = "."c) Then e.KeyChar = Chr(0)
     End Sub
 
     Private Sub Txt_NmBarang_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_NmBarang.KeyDown

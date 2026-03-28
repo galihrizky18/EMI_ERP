@@ -27,10 +27,20 @@ Partial Class Master_Barang_New
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Master_Barang_New))
         Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -42,17 +52,8 @@ Partial Class Master_Barang_New
         Dim DataGridViewCellStyle26 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle27 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle28 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Labeljudul = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -133,7 +134,10 @@ Partial Class Master_Barang_New
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.DgvSatuanTerpilih = New System.Windows.Forms.DataGridView()
+        Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.Flag_General = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.lblValue = New System.Windows.Forms.Label()
@@ -187,6 +191,14 @@ Partial Class Master_Barang_New
         Me.Chk_ParamTgl = New System.Windows.Forms.CheckBox()
         Me.Cmb_ParamTgl = New System.Windows.Forms.ComboBox()
         Me.Dgv_Pengejuan_Barang_Baru = New System.Windows.Forms.DataGridView()
+        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column11 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column12 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column9 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -200,18 +212,6 @@ Partial Class Master_Barang_New
         Me.DataGridViewTextBoxColumn9 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn11 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Flag_General = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column11 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column12 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column9 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         CType(Me.DgvSatuanTerpilih, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControl1.SuspendLayout()
@@ -231,6 +231,19 @@ Partial Class Master_Barang_New
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1259, 40)
         Me.Panel1.TabIndex = 22
+        '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 38)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1259, 2)
+        Me.PanelGradient1.TabIndex = 22
         '
         'Labeljudul
         '
@@ -1079,12 +1092,42 @@ Partial Class Master_Barang_New
         Me.DgvSatuanTerpilih.Size = New System.Drawing.Size(550, 211)
         Me.DgvSatuanTerpilih.TabIndex = 459
         '
+        'Column8
+        '
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column8.DefaultCellStyle = DataGridViewCellStyle3
+        Me.Column8.HeaderText = "Satuan"
+        Me.Column8.MinimumWidth = 6
+        Me.Column8.Name = "Column8"
+        Me.Column8.ReadOnly = True
+        Me.Column8.Width = 150
+        '
+        'Column1
+        '
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column1.DefaultCellStyle = DataGridViewCellStyle4
+        Me.Column1.HeaderText = "Nilai"
+        Me.Column1.MinimumWidth = 6
+        Me.Column1.Name = "Column1"
+        Me.Column1.Width = 120
+        '
         'Column2
         '
         Me.Column2.HeaderText = "Flag Default"
         Me.Column2.MinimumWidth = 6
         Me.Column2.Name = "Column2"
         Me.Column2.Width = 120
+        '
+        'Flag_General
+        '
+        Me.Flag_General.HeaderText = "Column3"
+        Me.Flag_General.MinimumWidth = 6
+        Me.Flag_General.Name = "Flag_General"
+        Me.Flag_General.ReadOnly = True
+        Me.Flag_General.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Flag_General.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.Flag_General.Visible = False
+        Me.Flag_General.Width = 125
         '
         'Column3
         '
@@ -1815,6 +1858,77 @@ Partial Class Master_Barang_New
         Me.Dgv_Pengejuan_Barang_Baru.Size = New System.Drawing.Size(1206, 424)
         Me.Dgv_Pengejuan_Barang_Baru.TabIndex = 460
         '
+        'Column4
+        '
+        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column4.DefaultCellStyle = DataGridViewCellStyle9
+        Me.Column4.HeaderText = "No Transaksi"
+        Me.Column4.Name = "Column4"
+        Me.Column4.ReadOnly = True
+        Me.Column4.Width = 150
+        '
+        'Column5
+        '
+        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column5.DefaultCellStyle = DataGridViewCellStyle10
+        Me.Column5.HeaderText = "Tanggal"
+        Me.Column5.Name = "Column5"
+        Me.Column5.ReadOnly = True
+        Me.Column5.Width = 120
+        '
+        'Column6
+        '
+        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column6.DefaultCellStyle = DataGridViewCellStyle11
+        Me.Column6.HeaderText = "Jam"
+        Me.Column6.Name = "Column6"
+        Me.Column6.ReadOnly = True
+        '
+        'Column11
+        '
+        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column11.DefaultCellStyle = DataGridViewCellStyle12
+        Me.Column11.HeaderText = "Kode Barang"
+        Me.Column11.Name = "Column11"
+        Me.Column11.ReadOnly = True
+        Me.Column11.Width = 150
+        '
+        'Column12
+        '
+        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column12.DefaultCellStyle = DataGridViewCellStyle13
+        Me.Column12.HeaderText = "Nama Barang"
+        Me.Column12.Name = "Column12"
+        Me.Column12.ReadOnly = True
+        Me.Column12.Width = 350
+        '
+        'Column7
+        '
+        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column7.DefaultCellStyle = DataGridViewCellStyle14
+        Me.Column7.HeaderText = "Group Jenis"
+        Me.Column7.Name = "Column7"
+        Me.Column7.ReadOnly = True
+        Me.Column7.Width = 200
+        '
+        'Column9
+        '
+        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column9.DefaultCellStyle = DataGridViewCellStyle15
+        Me.Column9.HeaderText = "Klasifikasi Bahan"
+        Me.Column9.Name = "Column9"
+        Me.Column9.ReadOnly = True
+        Me.Column9.Width = 200
+        '
+        'Column10
+        '
+        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column10.DefaultCellStyle = DataGridViewCellStyle16
+        Me.Column10.HeaderText = "Klasifikasi Bahan 2"
+        Me.Column10.Name = "Column10"
+        Me.Column10.ReadOnly = True
+        Me.Column10.Width = 200
+        '
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
@@ -1936,120 +2050,6 @@ Partial Class Master_Barang_New
         Me.DataGridViewTextBoxColumn11.Name = "DataGridViewTextBoxColumn11"
         Me.DataGridViewTextBoxColumn11.ReadOnly = True
         Me.DataGridViewTextBoxColumn11.Width = 200
-        '
-        'Column8
-        '
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column8.DefaultCellStyle = DataGridViewCellStyle3
-        Me.Column8.HeaderText = "Satuan"
-        Me.Column8.MinimumWidth = 6
-        Me.Column8.Name = "Column8"
-        Me.Column8.ReadOnly = True
-        Me.Column8.Width = 150
-        '
-        'Column1
-        '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column1.DefaultCellStyle = DataGridViewCellStyle4
-        Me.Column1.HeaderText = "Nilai"
-        Me.Column1.MinimumWidth = 6
-        Me.Column1.Name = "Column1"
-        Me.Column1.Width = 120
-        '
-        'Flag_General
-        '
-        Me.Flag_General.HeaderText = "Column3"
-        Me.Flag_General.MinimumWidth = 6
-        Me.Flag_General.Name = "Flag_General"
-        Me.Flag_General.ReadOnly = True
-        Me.Flag_General.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Flag_General.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        Me.Flag_General.Visible = False
-        Me.Flag_General.Width = 125
-        '
-        'Column4
-        '
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column4.DefaultCellStyle = DataGridViewCellStyle9
-        Me.Column4.HeaderText = "No Transaksi"
-        Me.Column4.Name = "Column4"
-        Me.Column4.ReadOnly = True
-        Me.Column4.Width = 150
-        '
-        'Column5
-        '
-        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column5.DefaultCellStyle = DataGridViewCellStyle10
-        Me.Column5.HeaderText = "Tanggal"
-        Me.Column5.Name = "Column5"
-        Me.Column5.ReadOnly = True
-        Me.Column5.Width = 120
-        '
-        'Column6
-        '
-        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column6.DefaultCellStyle = DataGridViewCellStyle11
-        Me.Column6.HeaderText = "Jam"
-        Me.Column6.Name = "Column6"
-        Me.Column6.ReadOnly = True
-        '
-        'Column11
-        '
-        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column11.DefaultCellStyle = DataGridViewCellStyle12
-        Me.Column11.HeaderText = "Kode Barang"
-        Me.Column11.Name = "Column11"
-        Me.Column11.ReadOnly = True
-        Me.Column11.Width = 150
-        '
-        'Column12
-        '
-        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column12.DefaultCellStyle = DataGridViewCellStyle13
-        Me.Column12.HeaderText = "Nama Barang"
-        Me.Column12.Name = "Column12"
-        Me.Column12.ReadOnly = True
-        Me.Column12.Width = 350
-        '
-        'Column7
-        '
-        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column7.DefaultCellStyle = DataGridViewCellStyle14
-        Me.Column7.HeaderText = "Group Jenis"
-        Me.Column7.Name = "Column7"
-        Me.Column7.ReadOnly = True
-        Me.Column7.Width = 200
-        '
-        'Column9
-        '
-        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column9.DefaultCellStyle = DataGridViewCellStyle15
-        Me.Column9.HeaderText = "Klasifikasi Bahan"
-        Me.Column9.Name = "Column9"
-        Me.Column9.ReadOnly = True
-        Me.Column9.Width = 200
-        '
-        'Column10
-        '
-        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column10.DefaultCellStyle = DataGridViewCellStyle16
-        Me.Column10.HeaderText = "Klasifikasi Bahan 2"
-        Me.Column10.Name = "Column10"
-        Me.Column10.ReadOnly = True
-        Me.Column10.Width = 200
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 38)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1259, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Master_Barang_New
         '

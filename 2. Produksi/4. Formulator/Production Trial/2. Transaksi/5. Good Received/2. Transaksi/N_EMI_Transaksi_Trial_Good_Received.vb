@@ -193,6 +193,36 @@
                 End If
             End Using
 
+
+            '==========================================================
+            '=     CEK APAKAH DATA SUDAH REQUEST PENYEDIAAN BAHAN     =
+            '==========================================================
+            Dim hasDataPenyediaanBahan As Boolean = False
+            SQL = "select Kode_Barang, Flag_Validasi from N_EMI_Transaksi_Trial_Penyediaan_Bahan_Baku "
+            SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+            SQL &= $"and No_Split = '{NoSplit}' "
+            SQL &= $"and Status is null "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    Dim KdBahan As String = Dr("Kode_Barang")
+                    If General_Class.CekNULL(Dr("Flag_Validasi")) = "" Then
+                        Dr.Close()
+                        CloseConn()
+                        MessageBox.Show($"Terjadi Kesalagan Kode Bahan {KdBahan} Belum Divalidasi Penyediaan Bahan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                    hasDataPenyediaanBahan = True
+                Loop
+            End Using
+
+            If Not hasDataPenyediaanBahan Then
+                CloseConn()
+                MessageBox.Show($"No Split {NoSplit} Belum melakukan request penyediaan bahan baku", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+
+
+
             CloseConn()
         Catch ex As Exception
             CloseConn()

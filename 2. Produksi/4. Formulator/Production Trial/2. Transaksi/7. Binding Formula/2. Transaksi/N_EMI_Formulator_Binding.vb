@@ -1,4 +1,5 @@
 ﻿Public Class N_EMI_Formulator_Binding
+    Private SelectedKodeBarang As String = ""
     Private Sub N_EMI_Formulator_Binding_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         With LvBarang
             .View = View.Details
@@ -60,16 +61,16 @@
             End If
 
             If TxtCariBarang.Text.Trim <> "" Then
-                filterCari = $"AND (Brg.Kode_Barang LIKE '%{TxtCariBarang.Text.Trim}%' 
-                   OR Brg.Nama LIKE '%{TxtCariBarang.Text.Trim}%')"
+                filterCari = $"AND (Brg.Kode_Barang_Inq LIKE '%{TxtCariBarang.Text.Trim}%' 
+                   OR Brg.Nama_Inq LIKE '%{TxtCariBarang.Text.Trim}%')"
             End If
 
             SQL = $"
                 WITH BarangFG AS (
                     SELECT 
                         b.Kode_Perusahaan,
-                        b.Kode_Barang,
-                        MAX(b.Nama) AS Nama
+                        b.Kode_Barang_Inq,
+                        MAX(b.Nama_Inq) AS Nama_Inq
                     FROM Barang b
                     JOIN EMI_Group_Jenis g 
                         ON g.Kode_Perusahaan = b.Kode_Perusahaan
@@ -78,12 +79,12 @@
                     WHERE b.Kode_Perusahaan = '{KodePerusahaan}'
                     GROUP BY 
                         b.Kode_Perusahaan,
-                        b.Kode_Barang
+                        b.Kode_Barang_Inq
                 )
 
                 SELECT 
-                    Brg.Kode_Barang,
-                    Brg.Nama AS Nama_Barang,
+                    Brg.Kode_Barang_Inq,
+                    Brg.Nama_Inq AS Nama_Barang,
                     COUNT(DISTINCT F.No_Faktur) AS Total_Formula,
                     CASE 
                         WHEN B.Kode_Barang IS NULL THEN 0
@@ -92,19 +93,19 @@
                 FROM BarangFG Brg
                 LEFT JOIN Emi_Transaksi_Formulator F
                     ON F.Kode_Perusahaan = Brg.Kode_Perusahaan
-                    AND F.Kode_Barang = Brg.Kode_Barang
+                    AND F.Kode_Barang = Brg.Kode_Barang_Inq
                     AND F.Flag_Validasi = 'Y'
                     AND F.Status IS NULL
                 LEFT JOIN N_EMI_Transaksi_Formulator_Binding B
                     ON B.Kode_Perusahaan = Brg.Kode_Perusahaan
-                    AND B.Kode_Barang = Brg.Kode_Barang
+                    AND B.Kode_Barang = Brg.Kode_Barang_Inq
                     AND B.Status IS NULL
                 WHERE 1=1
                     {filterBinding}
                     {filterCari}
                 GROUP BY 
-                    Brg.Kode_Barang,
-                    Brg.Nama,
+                    Brg.Kode_Barang_Inq,
+                    Brg.Nama_Inq,
                     B.Kode_Barang
                 ORDER BY 
                     IsBinding DESC,
@@ -117,7 +118,7 @@
             Using Dr = OpenTrans(SQL)
                 While Dr.Read()
 
-                    Dim kode As String = If(IsDBNull(Dr("Kode_Barang")), "", Dr("Kode_Barang").ToString)
+                    Dim kode As String = If(IsDBNull(Dr("Kode_Barang_Inq")), "", Dr("Kode_Barang_Inq").ToString)
                     Dim nama As String = If(IsDBNull(Dr("Nama_Barang")), "", Dr("Nama_Barang").ToString)
                     Dim total As Integer = If(IsDBNull(Dr("Total_Formula")), 0, Convert.ToInt32(Dr("Total_Formula")))
                     Dim isBinding As Integer = If(IsDBNull(Dr("IsBinding")), 0, Convert.ToInt32(Dr("IsBinding")))
@@ -390,9 +391,10 @@
 
     Private Sub LvBarang_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LvBarang.SelectedIndexChanged
         If LvBarang.SelectedItems.Count > 0 Then
-            Dim KodeBarang = LvBarang.SelectedItems(0).Text
-            Fetch_LvFormulaTersedia(KodeBarang)
-            Fetch_LvBindingFormula(KodeBarang)
+            SelectedKodeBarang = LvBarang.SelectedItems(0).Text
+
+            Fetch_LvFormulaTersedia(SelectedKodeBarang)
+            Fetch_LvBindingFormula(SelectedKodeBarang)
         End If
     End Sub
 
@@ -562,9 +564,9 @@
                 .Columns.Add("Keterangan", 250)
             End With
 
-            If LvBarang.SelectedItems.Count > 0 Then
-                Fetch_LvFormulaTersedia(LvBarang.SelectedItems(0).Text)
-                Fetch_LvBindingFormula(LvBarang.SelectedItems(0).Text)
+            If String.IsNullOrEmpty(SelectedKodeBarang) Then
+                Fetch_LvFormulaTersedia(SelectedKodeBarang)
+                Fetch_LvBindingFormula(SelectedKodeBarang)
             End If
         End If
     End Sub
@@ -613,8 +615,8 @@
                 .Columns.Add("Keterangan", 250)
             End With
 
-            If LvBarang.SelectedItems.Count > 0 Then
-                Fetch_LvFormulaTersedia(LvBarang.SelectedItems(0).Text)
+            If String.IsNullOrEmpty(SelectedKodeBarang) Then
+                Fetch_LvFormulaTersedia(SelectedKodeBarang)
             End If
         End If
     End Sub
@@ -646,6 +648,7 @@
         RbBelumBinding.Checked = False
 
         TxtCariBarang.Text = ""
+        SelectedKodeBarang = ""
 
         LvFormulaTersedia.Items.Clear()
         LvBindingFormula.Items.Clear()
@@ -673,6 +676,11 @@
             Exit Sub
         End If
 
+        If String.IsNullOrEmpty(SelectedKodeBarang) Then
+            MessageBox.Show("Pilih barang terlebih dahulu.", "Peringatan")
+            Exit Sub
+        End If
+
         get_jam()
 
         Try
@@ -680,7 +688,7 @@
             Cmd.Transaction = Cn.BeginTransaction
 
             Dim NoFaktur = get_no_faktur()
-            Dim KodeBarang = LvBarang.SelectedItems(0).Text
+            Dim KodeBarang = SelectedKodeBarang
             Dim Tanggal = Format(tgl_skg, " yyyy-MM-dd")
             Dim Jam = Format(tgl_skg, "HH:mm:ss")
 

@@ -1021,7 +1021,6 @@ Public Class N_EMI_SD_Trial_Good_Received
 
                                             JumlahInsert = sisa
 
-
                                             Nilai_Bahan = Nilai_Bahan + (Math.Round(hpp * sisa, 0))
                                             sisa = 0
                                         ElseIf sisa > .Rows(h).Item("jumlah") Then
@@ -1400,8 +1399,6 @@ Public Class N_EMI_SD_Trial_Good_Received
 
 
                         If ftotal_barang_Dalam_Proses = 0 Then
-
-
                             MessageBox.Show("tidak ada data yang di jurnal...!!!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             Return False
                         End If
@@ -1616,6 +1613,28 @@ Public Class N_EMI_SD_Trial_Good_Received
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
 
+
+
+            '==========================
+            '=     GET DATA BATCH     =
+            '==========================
+            Dim arrBatchPersediaan As New ArrayList
+            SQL = "select distinct Batch from N_EMI_Transaksi_Trial_Penyediaan_Bahan_Baku "
+            SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+            SQL &= $"and No_Split = '{Txt_NoSplit.Text}' "
+            SQL &= $"and Status is null "
+            Using Dr = OpenTrans(SQL)
+                Do While Dr.Read
+                    arrBatchPersediaan.Add(Dr("Batch"))
+                Loop
+            End Using
+
+
+
+
+
+
+
             'HAPUS TABEL SEMENTARA
             'SQL = "truncate table Cetak_Finish_Good "
             SQL = "delete N_EMI_Transaksi_Trial_Barcode_Label_Barcode_GR_1 "
@@ -1668,6 +1687,12 @@ Public Class N_EMI_SD_Trial_Good_Received
                 If Not CurrentCheckBox Then Continue For
 
 
+                If Not arrBatchPersediaan.Contains(CurrentBatch) Then
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show($"Terjadi Kesalahan Batch {CurrentBatch} Belum Melakukan Persediaan Bahan Baku", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
 
                 '===============================
                 '=     INPUT GR DETAIL HPP     =

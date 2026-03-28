@@ -373,6 +373,7 @@ Partial Class N_EMI_SD_Trial_Request_Material
         '
         Me.Txt_Kode_Formula.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_Kode_Formula.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_Kode_Formula.Enabled = False
         Me.Txt_Kode_Formula.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.Txt_Kode_Formula.Location = New System.Drawing.Point(461, 128)
         Me.Txt_Kode_Formula.MaxLength = 50
@@ -400,6 +401,7 @@ Partial Class N_EMI_SD_Trial_Request_Material
         Me.Txt_Jumlah_Kebutuhan.Name = "Txt_Jumlah_Kebutuhan"
         Me.Txt_Jumlah_Kebutuhan.Size = New System.Drawing.Size(191, 20)
         Me.Txt_Jumlah_Kebutuhan.TabIndex = 4
+        Me.Txt_Jumlah_Kebutuhan.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Label4
         '

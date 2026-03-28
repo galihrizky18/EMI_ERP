@@ -1436,6 +1436,11 @@
         'End If
         ' ComboBox5.SelectedIndex = 0
 
+        '============================
+        '=     PESAN KONFIRMASI     =
+        '============================
+        If MessageBox.Show("Yakin Ingin Simpan Data Ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = vbNo Then Exit Sub
+
         get_jam()
 
         Try

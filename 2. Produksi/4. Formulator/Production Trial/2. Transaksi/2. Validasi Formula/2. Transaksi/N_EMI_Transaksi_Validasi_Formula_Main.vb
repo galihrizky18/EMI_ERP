@@ -57,7 +57,7 @@
             Lv_Data.Items.Clear()
             SQL = "select a.No_Faktur, a.Kode_Barang, b.Nama as Nama_Barang, a.Hasil, a.Satuan_Hasil "
             SQL &= $"from Emi_Transaksi_Formulator a "
-            SQL &= $"inner join barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
+            SQL &= $"inner join barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang_Inq "
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
             SQL &= $"and a.Status is NULL "
             SQL &= $"and a.Flag_Validasi = 'Y' "

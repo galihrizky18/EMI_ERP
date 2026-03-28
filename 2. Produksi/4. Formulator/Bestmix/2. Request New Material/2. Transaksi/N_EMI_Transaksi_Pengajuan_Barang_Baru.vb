@@ -11,8 +11,8 @@
             OpenConn()
 
             Cmb_Group_Jenis.Items.Clear() : arrIDGroupJenis.Clear() : arrGudangRawMaterial.Clear()
-            SQL = "select id_group_jenis,kode_group_jenis, Flag_Raw_Material from EMI_GROUP_JENIS where "
-            SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = "select id_group_jenis,kode_group_jenis, Flag_Raw_Material from EMI_GROUP_JENIS "
+            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and Flag_Raw_Material = 'Y' "
             SQL = SQL & "order by kode_group_jenis"
             Using dr = OpenTrans(SQL)
                 Do While dr.Read

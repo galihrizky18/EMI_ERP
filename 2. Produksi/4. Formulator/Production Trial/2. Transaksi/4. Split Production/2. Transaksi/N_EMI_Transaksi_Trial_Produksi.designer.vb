@@ -89,7 +89,6 @@ Partial Class N_EMI_Transaksi_Trial_Produksi
         Me.lokasi_tujuan = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.kode_barang = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.Dgv_Data_Packaging = New System.Windows.Forms.DataGridView()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -103,7 +102,6 @@ Partial Class N_EMI_Transaksi_Trial_Produksi
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.Dgv_Data_Bahan, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage2.SuspendLayout()
         CType(Me.Dgv_Data_Packaging, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -115,7 +113,7 @@ Partial Class N_EMI_Transaksi_Trial_Produksi
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1184, 45)
+        Me.Panel1.Size = New System.Drawing.Size(1180, 45)
         Me.Panel1.TabIndex = 22
         '
         'PanelGradient1
@@ -128,7 +126,7 @@ Partial Class N_EMI_Transaksi_Trial_Produksi
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1180, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
@@ -780,11 +778,11 @@ Partial Class N_EMI_Transaksi_Trial_Produksi
         Me.Label18.Size = New System.Drawing.Size(200, 14)
         Me.Label18.TabIndex = 349
         Me.Label18.Text = "*Double Klik Untuk Ganti Lokasi Tujuan"
+        Me.Label18.Visible = False
         '
         'TabControl1
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
-        Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.TabControl1.Location = New System.Drawing.Point(4, 19)
@@ -855,17 +853,6 @@ Partial Class N_EMI_Transaksi_Trial_Produksi
         Me.Column3.ReadOnly = True
         Me.Column3.Width = 210
         '
-        'TabPage2
-        '
-        Me.TabPage2.Controls.Add(Me.Dgv_Data_Packaging)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 25)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(494, 400)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Packaging"
-        Me.TabPage2.UseVisualStyleBackColor = True
-        '
         'Dgv_Data_Packaging
         '
         Me.Dgv_Data_Packaging.AllowUserToAddRows = False
@@ -883,8 +870,7 @@ Partial Class N_EMI_Transaksi_Trial_Produksi
         Me.Dgv_Data_Packaging.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
         Me.Dgv_Data_Packaging.ColumnHeadersHeight = 35
         Me.Dgv_Data_Packaging.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3})
-        Me.Dgv_Data_Packaging.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Dgv_Data_Packaging.Location = New System.Drawing.Point(3, 3)
+        Me.Dgv_Data_Packaging.Location = New System.Drawing.Point(1189, 116)
         Me.Dgv_Data_Packaging.MultiSelect = False
         Me.Dgv_Data_Packaging.Name = "Dgv_Data_Packaging"
         Me.Dgv_Data_Packaging.RowHeadersWidth = 15
@@ -947,7 +933,8 @@ Partial Class N_EMI_Transaksi_Trial_Produksi
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1184, 577)
+        Me.ClientSize = New System.Drawing.Size(1180, 577)
+        Me.Controls.Add(Me.Dgv_Data_Packaging)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Btn_Refresh)
@@ -976,7 +963,6 @@ Partial Class N_EMI_Transaksi_Trial_Produksi
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         CType(Me.Dgv_Data_Bahan, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.TabPage2.ResumeLayout(False)
         CType(Me.Dgv_Data_Packaging, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1037,7 +1023,6 @@ Partial Class N_EMI_Transaksi_Trial_Produksi
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents TabControl1 As TabControl
     Friend WithEvents TabPage1 As TabPage
-    Friend WithEvents TabPage2 As TabPage
     Friend WithEvents Dgv_Data_Bahan As DataGridView
     Friend WithEvents Dgv_Data_Packaging As DataGridView
     Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn

@@ -127,18 +127,15 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
             Lv_Barang.Items.Clear()
 
             Dim Lv As ListViewItem
-            Lv = Lv_Barang.Items.Add(OpsiSeluruh)
-            Lv.SubItems.Add(OpsiSeluruh)
-
-            SQL = "select a.Kode_Barang,a.Nama, a.Satuan, c.lokasi_gudang  "
+            SQL = "select a.Kode_Barang_inq,a.Nama, a.Satuan, c.lokasi_gudang  "
             SQL = SQL & "from barang a, EMI_Group_Jenis b, EMI_Kategori_Gudang_PerLokasi c  "
             SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan and a.Id_Group_Jenis=b.Id_Group_Jenis and a.Kode_Perusahaan='" & KodePerusahaan & "'  "
             SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Gudang = c.ID_Kategori_Gudang "
-            SQL = SQL & "and a.Kode_Barang like '%" & Txt_KdBarang.Text & "%' and aktif = 'Y' and flag_finished_good= 'Y' "
-            SQL = SQL & "group by a.Kode_Barang,a.Nama, a.Satuan,c.lokasi_gudang "
+            SQL = SQL & "and a.Kode_Barang_inq like '%" & Txt_KdBarang.Text & "%' and aktif = 'Y' and flag_finished_good= 'Y' "
+            SQL = SQL & "group by a.Kode_Barang_inq,a.Nama, a.Satuan,c.lokasi_gudang "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
-                    Lv = Lv_Barang.Items.Add(Dr("Kode_Barang"))
+                    Lv = Lv_Barang.Items.Add(Dr("Kode_Barang_inq"))
                     Lv.SubItems.Add(Dr("Nama"))
                 Loop
             End Using
@@ -171,19 +168,15 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
             Lv_Barang.Items.Clear()
 
             Dim Lv As ListViewItem
-            Lv = Lv_Barang.Items.Add(OpsiSeluruh)
-            Lv.SubItems.Add(OpsiSeluruh)
-
-
-            SQL = "select a.Kode_Barang,a.Nama, a.Satuan, c.lokasi_gudang  "
+            SQL = "select a.Kode_Barang_inq,a.Nama, a.Satuan, c.lokasi_gudang  "
             SQL = SQL & "from barang a, EMI_Group_Jenis b, EMI_Kategori_Gudang_PerLokasi c  "
             SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan and a.Id_Group_Jenis=b.Id_Group_Jenis and a.Kode_Perusahaan='" & KodePerusahaan & "'  "
             SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Gudang = c.ID_Kategori_Gudang "
             SQL = SQL & "and a.Nama like '%" & Txt_NmBarang.Text & "%' and aktif = 'Y' and flag_finished_good= 'Y' "
-            SQL = SQL & "group by a.Kode_Barang,a.Nama, a.Satuan,c.lokasi_gudang "
+            SQL = SQL & "group by a.Kode_Barang_inq,a.Nama, a.Satuan,c.lokasi_gudang "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
-                    Lv = Lv_Barang.Items.Add(Dr("Kode_Barang"))
+                    Lv = Lv_Barang.Items.Add(Dr("Kode_Barang_inq"))
                     Lv.SubItems.Add(Dr("Nama"))
                 Loop
             End Using
@@ -205,22 +198,15 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
 
             If Not Txt_KdBarang.Text = OpsiSeluruh Then
 
-                SQL = "select a.Kode_Barang,a.Nama, a.Satuan, c.lokasi_gudang  "
+                SQL = "select a.Kode_Barang_inq,a.Nama, a.Satuan, c.lokasi_gudang  "
                 SQL = SQL & "from barang a, EMI_Group_Jenis b, EMI_Kategori_Gudang_PerLokasi c  "
                 SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan and a.Id_Group_Jenis=b.Id_Group_Jenis and a.Kode_Perusahaan='" & KodePerusahaan & "'  "
                 SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Gudang = c.ID_Kategori_Gudang "
-                SQL = SQL & "and a.Kode_Barang = '" & Txt_KdBarang.Text & "' and aktif = 'Y' and flag_finished_good= 'Y' "
-                SQL = SQL & "group by a.Kode_Barang,a.Nama, a.Satuan,c.lokasi_gudang "
-                Using Dr = OpenTrans(SQL)
-                    Do While Dr.Read
-                        Dim Lv As ListViewItem
-                        Lv = Lv_Barang.Items.Add(Dr("Kode_Barang"))
-                        Lv.SubItems.Add(Dr("Nama"))
-                    Loop
-                End Using
+                SQL = SQL & "and a.Kode_Barang_inq = '" & Txt_KdBarang.Text & "' and aktif = 'Y' and flag_finished_good= 'Y' "
+                SQL = SQL & "group by a.Kode_Barang_inq,a.Nama, a.Satuan,c.lokasi_gudang "
                 Using Dr = Open(SQL)
                     If Dr.Read Then
-                        Txt_KdBarang.Text = Dr("Kode_Barang")
+                        Txt_KdBarang.Text = Dr("Kode_Barang_inq")
                         Txt_NmBarang.Text = Dr("Nama")
                         Btn_Get_Formula.Focus()
                     Else
@@ -323,7 +309,7 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
             'Cmb_Satuan.SelectedIndex = -1
             SQL = "select a.No_Faktur, a.Kode_Barang, b.nama as Nama_Barang, a.Hasil, a.Satuan_Hasil "
             SQL &= $"from Emi_Transaksi_Formulator a "
-            SQL &= $"inner join barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
+            SQL &= $"inner join barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang_inq "
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
             SQL &= $"and a.Status is NULL "
             SQL &= $"and a.Kode_Barang = '{Kode_Barang}' "
@@ -364,7 +350,7 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
             'Cmb_Satuan.SelectedIndex = -1
             SQL = "select a.No_Faktur, a.Kode_Barang, b.nama as Nama_Barang, a.Hasil, a.Satuan_Hasil "
             SQL &= $"from Emi_Transaksi_Formulator a "
-            SQL &= $"inner join barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
+            SQL &= $"inner join barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang_inq "
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
             SQL &= $"and a.Status is NULL "
             SQL &= $"and a.Kode_Barang = '{Kode_Barang}' "
@@ -430,7 +416,7 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
             SQL &= $"from Emi_Transaksi_Formulator a "
             SQL &= $"inner join EMI_Transaksi_Formulator_Detail_Bahan b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
             SQL &= $"inner join barang c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
-            SQL &= $"inner join barang d on a.Kode_Perusahaan = d.Kode_Perusahaan and a.Kode_Stock_Owner = d.Kode_Stock_Owner and a.Kode_Barang = d.Kode_Barang "
+            SQL &= $"inner join barang d on a.Kode_Perusahaan = d.Kode_Perusahaan and a.Kode_Stock_Owner = d.Kode_Stock_Owner and a.Kode_Barang = d.Kode_Barang_inq "
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
             SQL &= $"and a.Status is NULL "
             SQL &= $"and a.Flag_Validasi = 'Y' "
@@ -540,6 +526,25 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
                 Exit Sub
             End If
 
+            '=================================================
+            '=     CONVERT KD BARANG IQ+NQ = KODE BARANG     =
+            '=================================================
+            Dim kode_barang_biasa As String = ""
+            SQL = $"select top 1 Kode_Barang from Barang where Kode_Perusahaan = '{KodePerusahaan}' and (Kode_Barang_Inq = '{Txt_KdBarang.Text.Trim}' or Kode_Barang = '{Txt_KdBarang.Text.Trim}')"
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    kode_barang_biasa = Dr("Kode_Barang")
+                Else
+                    Dr.Close()
+                    CloseTrans()
+                    CloseConn()
+                    MessageBox.Show($"Kode Barang {Txt_KdBarang.Text.Trim} Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End Using
+
+
+
             SQL = "insert into N_EMI_Transaksi_Trial_Independent_Order(kode_perusahaan, no_faktur, lokasi, tanggal, jam, userid, keterangan, No_Faktur_Formula) values ("
             SQL = SQL & "'" & KodePerusahaan & "', '" & NoFakturIndependent & "', '" & lokasi_asal & "' , '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
             SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "',"
@@ -571,7 +576,7 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
             SQL &= $"inner join EMI_Varian b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Varian = b.Id_Varian "
             SQL &= $"inner join EMI_Jenis_Produk c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Jenis_Produk = c.Id_Jenis_Produk "
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
-            SQL &= $"and a.Kode_Barang = '{Txt_KdBarang.Text.Trim}' "
+            SQL &= $"and a.Kode_Barang = '{kode_barang_biasa.Trim}' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
                     jenis_produk = Dr("Id_Jenis_Produk")
@@ -585,35 +590,9 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
             End Using
 
             SQL = "insert into N_EMI_Transaksi_Trial_Independent_Order_Detail(kode_perusahaan,no_faktur,kode_stock_owner,kode_barang,jumlah_produksi,satuan,id_jenis_produk) values ( "
-            SQL = SQL & "'" & KodePerusahaan & "', '" & NoFakturIndependent & "', '" & lokasi_barang & "' ,'" & Txt_KdBarang.Text.Trim & "',  "
+            SQL = SQL & "'" & KodePerusahaan & "', '" & NoFakturIndependent & "', '" & lokasi_barang & "' ,'" & kode_barang_biasa.Trim & "',  "
             SQL = SQL & "'" & HilangkanTanda(Txt_Jumlah.Text) & "', '" & Cmb_Satuan.Text & "'," & jenis_produk & ") "
             ExecuteTrans(SQL)
-
-
-            SQL = "select 1 from Emi_Transaksi_Formulator "
-            SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
-            SQL &= $"and Status is null "
-            SQL &= $"and No_Faktur = '{SelectedFormulaFaktur}' "
-            Using Dr = OpenTrans(SQL)
-                If Dr.Read Then
-
-                    Dr.Close()
-                    SQL = "update Emi_Transaksi_Formulator set hasTrial = 'Y' "
-                    SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
-                    SQL &= $"and Status is null "
-                    SQL &= $"and No_Faktur = '{SelectedFormulaFaktur}' "
-                    ExecuteTrans(SQL)
-
-                Else
-                    Dr.Close()
-                    CloseTrans()
-                    CloseConn()
-                    MessageBox.Show($"No Formula {SelectedFormulaFaktur} tidak ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
-            End Using
-
-
 
 
 
@@ -681,7 +660,7 @@ Public Class N_EMI_SD_Trial_Production_Order_Pilih_Formula
             SQL &= $"from Emi_Transaksi_Formulator a "
             SQL &= $"inner join EMI_Transaksi_Formulator_Detail_Bahan b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
             SQL &= $"inner join barang c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
-            SQL &= $"inner join barang d on a.Kode_Perusahaan = d.Kode_Perusahaan and a.Kode_Stock_Owner = d.Kode_Stock_Owner and a.Kode_Barang = d.Kode_Barang "
+            SQL &= $"inner join barang d on a.Kode_Perusahaan = d.Kode_Perusahaan and a.Kode_Stock_Owner = d.Kode_Stock_Owner and a.Kode_Barang = d.Kode_Barang_inq "
             SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
             SQL &= $"and a.Status is NULL "
             SQL &= $"and a.Flag_Validasi = 'Y' "

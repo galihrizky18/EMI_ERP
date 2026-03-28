@@ -24,25 +24,31 @@ Partial Class N_EMI_SD_Trial_Good_Received
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Dgv_Batch = New System.Windows.Forms.DataGridView()
+        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column5 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column7 = New System.Windows.Forms.DataGridViewComboBoxColumn()
+        Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.DtpExpired = New System.Windows.Forms.DateTimePicker()
@@ -67,6 +73,9 @@ Partial Class N_EMI_SD_Trial_Good_Received
         Me.Txt_NoSplit = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Dgv_Packaging = New System.Windows.Forms.DataGridView()
+        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.CmbSisaProduksi = New System.Windows.Forms.ComboBox()
         Me.Label14 = New System.Windows.Forms.Label()
@@ -93,15 +102,6 @@ Partial Class N_EMI_SD_Trial_Good_Received
         Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
-        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column5 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column7 = New System.Windows.Forms.DataGridViewComboBoxColumn()
-        Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -124,11 +124,24 @@ Partial Class N_EMI_SD_Trial_Good_Received
         Me.Panel1.Size = New System.Drawing.Size(685, 43)
         Me.Panel1.TabIndex = 23
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(685, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(15, 11)
+        Me.Label1.Location = New System.Drawing.Point(22, 8)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(398, 25)
@@ -217,6 +230,50 @@ Partial Class N_EMI_SD_Trial_Good_Received
         Me.Dgv_Batch.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.Dgv_Batch.Size = New System.Drawing.Size(609, 194)
         Me.Dgv_Batch.TabIndex = 432
+        '
+        'Column4
+        '
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column4.DefaultCellStyle = DataGridViewCellStyle2
+        Me.Column4.HeaderText = "Batch"
+        Me.Column4.Name = "Column4"
+        Me.Column4.ReadOnly = True
+        Me.Column4.Width = 70
+        '
+        'Column5
+        '
+        Me.Column5.HeaderText = ""
+        Me.Column5.Name = "Column5"
+        Me.Column5.Width = 50
+        '
+        'Column6
+        '
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column6.DefaultCellStyle = DataGridViewCellStyle3
+        Me.Column6.HeaderText = "Jumlah Input"
+        Me.Column6.Name = "Column6"
+        Me.Column6.ReadOnly = True
+        Me.Column6.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Column6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.Column6.Width = 150
+        '
+        'Column7
+        '
+        Me.Column7.HeaderText = "Jenis Quality"
+        Me.Column7.Name = "Column7"
+        Me.Column7.ReadOnly = True
+        Me.Column7.Visible = False
+        Me.Column7.Width = 250
+        '
+        'Column8
+        '
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column8.DefaultCellStyle = DataGridViewCellStyle4
+        Me.Column8.HeaderText = "Trolly"
+        Me.Column8.Name = "Column8"
+        Me.Column8.ReadOnly = True
+        Me.Column8.Visible = False
+        Me.Column8.Width = 110
         '
         'GroupBox2
         '
@@ -488,6 +545,31 @@ Partial Class N_EMI_SD_Trial_Good_Received
         Me.Dgv_Packaging.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.Dgv_Packaging.Size = New System.Drawing.Size(578, 135)
         Me.Dgv_Packaging.TabIndex = 425
+        '
+        'Column1
+        '
+        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.Column1.DefaultCellStyle = DataGridViewCellStyle7
+        Me.Column1.HeaderText = "Kode Bahan Packaging"
+        Me.Column1.Name = "Column1"
+        Me.Column1.ReadOnly = True
+        Me.Column1.Width = 150
+        '
+        'Column3
+        '
+        Me.Column3.HeaderText = "Nama"
+        Me.Column3.Name = "Column3"
+        Me.Column3.ReadOnly = True
+        Me.Column3.Width = 232
+        '
+        'Column2
+        '
+        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column2.DefaultCellStyle = DataGridViewCellStyle8
+        Me.Column2.HeaderText = "Qty"
+        Me.Column2.Name = "Column2"
+        Me.Column2.ReadOnly = True
+        Me.Column2.Width = 147
         '
         'GroupBox4
         '
@@ -774,88 +856,6 @@ Partial Class N_EMI_SD_Trial_Good_Received
         Me.DataGridViewTextBoxColumn6.Name = "DataGridViewTextBoxColumn6"
         Me.DataGridViewTextBoxColumn6.ReadOnly = True
         Me.DataGridViewTextBoxColumn6.Width = 147
-        '
-        'Column1
-        '
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.Column1.DefaultCellStyle = DataGridViewCellStyle7
-        Me.Column1.HeaderText = "Kode Bahan Packaging"
-        Me.Column1.Name = "Column1"
-        Me.Column1.ReadOnly = True
-        Me.Column1.Width = 150
-        '
-        'Column3
-        '
-        Me.Column3.HeaderText = "Nama"
-        Me.Column3.Name = "Column3"
-        Me.Column3.ReadOnly = True
-        Me.Column3.Width = 232
-        '
-        'Column2
-        '
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column2.DefaultCellStyle = DataGridViewCellStyle8
-        Me.Column2.HeaderText = "Qty"
-        Me.Column2.Name = "Column2"
-        Me.Column2.ReadOnly = True
-        Me.Column2.Width = 147
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(685, 2)
-        Me.PanelGradient1.TabIndex = 22
-        '
-        'Column4
-        '
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column4.DefaultCellStyle = DataGridViewCellStyle2
-        Me.Column4.HeaderText = "Batch"
-        Me.Column4.Name = "Column4"
-        Me.Column4.ReadOnly = True
-        Me.Column4.Width = 70
-        '
-        'Column5
-        '
-        Me.Column5.HeaderText = ""
-        Me.Column5.Name = "Column5"
-        Me.Column5.Width = 50
-        '
-        'Column6
-        '
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column6.DefaultCellStyle = DataGridViewCellStyle3
-        Me.Column6.HeaderText = "Jumlah Input"
-        Me.Column6.Name = "Column6"
-        Me.Column6.ReadOnly = True
-        Me.Column6.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Column6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        Me.Column6.Width = 150
-        '
-        'Column7
-        '
-        Me.Column7.HeaderText = "Jenis Quality"
-        Me.Column7.Name = "Column7"
-        Me.Column7.ReadOnly = True
-        Me.Column7.Visible = False
-        Me.Column7.Width = 250
-        '
-        'Column8
-        '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column8.DefaultCellStyle = DataGridViewCellStyle4
-        Me.Column8.HeaderText = "Trolly"
-        Me.Column8.Name = "Column8"
-        Me.Column8.ReadOnly = True
-        Me.Column8.Visible = False
-        Me.Column8.Width = 110
         '
         'N_EMI_SD_Trial_Good_Received
         '

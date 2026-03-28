@@ -75,9 +75,9 @@ Partial Class N_EMI_Transaksi_Trial_Good_Received
         Me.LblPilihBarang_Judul.Location = New System.Drawing.Point(15, 7)
         Me.LblPilihBarang_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.LblPilihBarang_Judul.Name = "LblPilihBarang_Judul"
-        Me.LblPilihBarang_Judul.Size = New System.Drawing.Size(339, 30)
+        Me.LblPilihBarang_Judul.Size = New System.Drawing.Size(350, 30)
         Me.LblPilihBarang_Judul.TabIndex = 0
-        Me.LblPilihBarang_Judul.Text = "Transaksi - Good Received Trial"
+        Me.LblPilihBarang_Judul.Text = "Transaksi - Goods Received Trial"
         '
         'Panel2
         '
