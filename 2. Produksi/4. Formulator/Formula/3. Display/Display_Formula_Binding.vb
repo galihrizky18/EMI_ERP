@@ -1,4 +1,6 @@
-﻿Public Class Display_Formula_Binding
+﻿Imports Excel = Microsoft.Office.Interop.Excel
+
+Public Class Display_Formula_Binding
     Dim Jenis = "Transaksi_Binding_Formula"
 
     Dim arrCmbKb, arrCmbKK, arrParam As New ArrayList
@@ -367,6 +369,185 @@
         End If
     End Sub
 
+
+    Private Sub BtnExportExcel_Click(sender As Object, e As EventArgs) Handles BtnExportExcel.Click
+
+        Dim xlApp As New Excel.Application()
+
+        If xlApp Is Nothing Then
+            MsgBox("Excel is not properly installed!", MsgBoxStyle.Critical)
+            Return
+        End If
+
+        Dim misValue As Object = System.Reflection.Missing.Value
+        Dim format_akhir As String = Now.ToString("dd_MM_yyyy_HH_mm")
+        Dim nama_file As String = "Laporan_Formula_" & format_akhir & ".xlsx"
+
+        Dim xlWorkBook As Excel.Workbook
+        Dim xlWorkSheet As Excel.Worksheet
+
+        xlWorkBook = xlApp.Workbooks.Add(misValue)
+        xlWorkSheet = xlWorkBook.Sheets("Sheet1")
+
+        xlApp.ScreenUpdating = False
+        xlApp.Calculation = Excel.XlCalculation.xlCalculationManual
+
+        Try
+            ' =======================
+            ' 1. AMBIL DATA
+            ' =======================
+            OpenConn()
+
+            SQL = "SELECT * FROM N_EMI_View_Laporan_Formula"
+            Dim ds As DataSet = BindingTrans(SQL)
+
+            If ds.Tables.Count = 0 OrElse ds.Tables(0).Rows.Count = 0 Then
+                MsgBox("Tidak ada data untuk di-export!", MsgBoxStyle.Information)
+                Exit Sub
+            End If
+
+            Dim dt As DataTable = ds.Tables(0)
+
+            Dim rows As Integer = dt.Rows.Count
+            Dim cols As Integer = dt.Columns.Count
+
+            ' =======================
+            ' 2. HEADER (FORMAT BAGUS)
+            ' =======================
+            For i As Integer = 0 To cols - 1
+                Dim colName As String = dt.Columns(i).ColumnName
+
+                ' Replace underscore → spasi
+                colName = colName.Replace("_", " ")
+
+                ' Proper Case (Kapital tiap kata)
+                colName = Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(colName.ToLower())
+
+                xlWorkSheet.Cells(1, i + 1).Value = colName
+            Next
+
+            ' =======================
+            ' 3. ARRAY DATA
+            ' =======================
+            Dim dataArr(rows - 1, cols - 1) As Object
+
+            For r As Integer = 0 To rows - 1
+                For c As Integer = 0 To cols - 1
+                    Dim value = dt.Rows(r)(c)
+                    dataArr(r, c) = If(value IsNot Nothing AndAlso Not IsDBNull(value), value.ToString(), "")
+                Next
+            Next
+
+            ' =======================
+            ' 4. WRITE KE EXCEL
+            ' =======================
+            Dim startCell = xlWorkSheet.Cells(2, 1)
+            Dim endCell = xlWorkSheet.Cells(rows + 1, cols)
+            Dim writeRange = xlWorkSheet.Range(startCell, endCell)
+
+            writeRange.Value = dataArr
+
+            Dim lastRow As Integer = rows + 1
+
+            ' =======================
+            ' 5. FORMAT KOLOM
+            ' =======================
+            Dim rangeText As String =
+            "A2:C" & lastRow & ";" &
+            "D2:D" & lastRow & ";" &
+            "G2:H" & lastRow & ";" &
+            "J2:J" & lastRow
+
+            Dim rangeNumber As String =
+            "E2:E" & lastRow & ";" &
+            "I2:I" & lastRow & ";" &
+            "K2:K" & lastRow
+
+            xlWorkSheet.Range(rangeText).NumberFormat = "@"
+            xlWorkSheet.Range(rangeText).HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft
+
+            xlWorkSheet.Range(rangeNumber).NumberFormat = "#,##0.00"
+            xlWorkSheet.Range(rangeNumber).HorizontalAlignment = Excel.XlHAlign.xlHAlignRight
+
+            ' =======================
+            ' 6. STYLE
+            ' =======================
+            xlWorkSheet.Cells.EntireColumn.AutoFit()
+
+            Dim dataRange = xlWorkSheet.Range(xlWorkSheet.Cells(1, 1), xlWorkSheet.Cells(lastRow, cols))
+            With dataRange.Borders
+                .LineStyle = Excel.XlLineStyle.xlContinuous
+                .Weight = Excel.XlBorderWeight.xlThin
+            End With
+
+            ' Styling Header
+            Dim headerRange = xlWorkSheet.Range(xlWorkSheet.Cells(1, 1), xlWorkSheet.Cells(1, cols))
+
+            With headerRange
+                .Font.Bold = True
+                .HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter
+                .VerticalAlignment = Excel.XlVAlign.xlVAlignCenter
+                .WrapText = True
+
+                ' Background warna (biru muda)
+                .Interior.Color = RGB(180, 198, 231)
+
+                ' Optional: warna font
+                .Font.Color = RGB(0, 0, 0)
+            End With
+
+            xlApp.ScreenUpdating = True
+            xlApp.Calculation = Excel.XlCalculation.xlCalculationAutomatic
+
+        Catch ex As Exception
+            MsgBox("Error: " & ex.Message, MsgBoxStyle.Critical)
+            xlApp.ScreenUpdating = True
+            xlApp.Calculation = Excel.XlCalculation.xlCalculationAutomatic
+            xlWorkBook.Close(False)
+            xlApp.Quit()
+            releaseObject(xlWorkSheet)
+            releaseObject(xlWorkBook)
+            releaseObject(xlApp)
+            Exit Sub
+        End Try
+
+        ' =======================
+        ' 7. SAVE FILE
+        ' =======================
+        Dim saveFileDialog As New SaveFileDialog()
+        saveFileDialog.Filter = "Excel Files (*.xlsx)|*.xlsx"
+        saveFileDialog.FileName = nama_file
+
+        If saveFileDialog.ShowDialog() = DialogResult.OK Then
+            Try
+                Dim filePath As String = saveFileDialog.FileName
+                xlWorkBook.SaveAs(filePath, Excel.XlFileFormat.xlOpenXMLWorkbook)
+                MsgBox("Laporan Formula berhasil di-export!", MsgBoxStyle.Information)
+
+                xlWorkBook.Close()
+                xlApp.Quit()
+                releaseObject(xlWorkSheet)
+                releaseObject(xlWorkBook)
+                releaseObject(xlApp)
+
+            Catch ex As Exception
+                MsgBox("Error saat menyimpan file: " & ex.Message, MsgBoxStyle.Critical)
+                xlWorkBook.Close(False)
+                xlApp.Quit()
+                releaseObject(xlWorkSheet)
+                releaseObject(xlWorkBook)
+                releaseObject(xlApp)
+            End Try
+        Else
+            xlWorkBook.Close(False)
+            xlApp.Quit()
+            releaseObject(xlWorkSheet)
+            releaseObject(xlWorkBook)
+            releaseObject(xlApp)
+        End If
+
+    End Sub
+
     'Private Sub TextBox1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox1.KeyPress
     '    If e.KeyChar = Chr(13) Then
     '        If TextBox3.Text.Trim.Length = 0 Then
@@ -643,10 +824,21 @@
             'SQL = SQL & "a.Id_Group_Jenis=b.Id_Group_Jenis "
             'SQL = SQL & "and (Flag_Finished_Good='Y' or Flag_Sample='Y' or Flag_Tampil_Inquiry='Y') "
 
-            SQL = "select a.Kode_Barang_inq as Kode_Barang_Product, a.kode_barang, a.Nama, c.kode_formula, c.Tanggal as Tanggal_Input_Formula, d.hasil, d.Satuan_Hasil "
+            SQL = ";with cte as (select isnull((select top 1 c.No_Faktur "
+            SQL = SQL & "from N_EMI_Transaksi_Formulator_Binding a "
+            SQL = SQL & "inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+            SQL = SQL & "inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null "
+            SQL = SQL & "where a.Status is NULL "
+            SQL = SQL & "and a.Flag_Validasi_Main = 'Y' "
+            SQL = SQL & "and a.Kode_Perusahaan = x.kode_perusahaan "
+            SQL = SQL & "and a.Kode_Barang = x.kode_barang_inq "
+            SQL = SQL & "order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC),'') as kode_formula, x.kode_barang_inq, x.kode_perusahaan "
+            SQL = SQL & "from barang x, emI_group_jenis y where x.kode_perusahaan=y.kode_perusahaan and x.id_group_jenis=y.id_group_jenis and (y.Flag_Finished_Good='Y' or y.Flag_Sample='Y' or y.Flag_Tampil_Inquiry='Y') "
+            SQL = SQL & ")"
+            SQL = SQL & "select a.Kode_Barang_inq as Kode_Barang_Product, a.kode_barang, a.Nama, c.kode_formula, d.Tanggal as Tanggal_Input_Formula, d.hasil, d.Satuan_Hasil "
             SQL = SQL & "from Barang a "
             SQL = SQL & "inner join EMI_Group_Jenis b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Group_Jenis = b.Id_Group_Jenis "
-            SQL = SQL & "left join EMI_Transaksi_Formulator_Binding c on a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Barang_Inq = c.Kode_Barang and c.Status is null and c.Aktif = 'Y' "
+            SQL = SQL & "left join cte c on a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Barang_Inq = c.kode_barang_inq   "
             SQL = SQL & "left join Emi_Transaksi_Formulator d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.Kode_Formula = d.No_Faktur "
             SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and (b.Flag_Finished_Good='Y' or b.Flag_Sample='Y' or b.Flag_Tampil_Inquiry='Y') "
@@ -663,7 +855,7 @@
                 SQL = SQL & " and " & arrParam.Item(cmbParamter.SelectedIndex) & "  like '%" & txtValParamter.Text & "%' "
             End If
 
-            SQL = SQL & "group by a.kode_perusahaan,a.Kode_Barang_inq,a.Nama,a.satuan,a.kode_barang, c.kode_formula, c.Tanggal, d.hasil, d.Satuan_Hasil "
+            SQL = SQL & "group by a.kode_perusahaan,a.Kode_Barang_inq,a.Nama,a.satuan,a.kode_barang, c.kode_formula, d.Tanggal, d.hasil, d.Satuan_Hasil "
             SQL = SQL & "order by Nama "
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read

@@ -68,12 +68,12 @@ Partial Class N_EMI_Transaksi_Validasi_Formula_Main
 		'
 		Me.Label1.AutoSize = True
 		Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold)
-		Me.Label1.Location = New System.Drawing.Point(18, 7)
+		Me.Label1.Location = New System.Drawing.Point(20, 7)
 		Me.Label1.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
 		Me.Label1.Name = "Label1"
-		Me.Label1.Size = New System.Drawing.Size(420, 30)
+		Me.Label1.Size = New System.Drawing.Size(374, 30)
 		Me.Label1.TabIndex = 0
-		Me.Label1.Text = "Transaksi - Approval HPP Formula Trial"
+		Me.Label1.Text = "Transaksi Validasi Formula Tahap 2"
 		'
 		'Panel2
 		'
@@ -114,10 +114,10 @@ Partial Class N_EMI_Transaksi_Validasi_Formula_Main
 		Me.Btn_Refresh.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
 		Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-		Me.Btn_Refresh.Location = New System.Drawing.Point(648, 10)
+		Me.Btn_Refresh.Location = New System.Drawing.Point(644, 12)
 		Me.Btn_Refresh.Margin = New System.Windows.Forms.Padding(4)
 		Me.Btn_Refresh.Name = "Btn_Refresh"
-		Me.Btn_Refresh.Size = New System.Drawing.Size(98, 30)
+		Me.Btn_Refresh.Size = New System.Drawing.Size(98, 28)
 		Me.Btn_Refresh.TabIndex = 38
 		Me.Btn_Refresh.Text = "&Refresh"
 		Me.Btn_Refresh.UseVisualStyleBackColor = False
@@ -128,10 +128,10 @@ Partial Class N_EMI_Transaksi_Validasi_Formula_Main
 		Me.Btn_Cari.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Btn_Cari.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
 		Me.Btn_Cari.ForeColor = System.Drawing.Color.White
-		Me.Btn_Cari.Location = New System.Drawing.Point(542, 10)
+		Me.Btn_Cari.Location = New System.Drawing.Point(542, 12)
 		Me.Btn_Cari.Margin = New System.Windows.Forms.Padding(4)
 		Me.Btn_Cari.Name = "Btn_Cari"
-		Me.Btn_Cari.Size = New System.Drawing.Size(98, 30)
+		Me.Btn_Cari.Size = New System.Drawing.Size(98, 28)
 		Me.Btn_Cari.TabIndex = 38
 		Me.Btn_Cari.Text = "&Cari"
 		Me.Btn_Cari.UseVisualStyleBackColor = False

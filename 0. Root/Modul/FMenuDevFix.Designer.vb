@@ -1,37 +1,41 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FMenuDevFix
-    Inherits System.Windows.Forms.Form
+	Inherits System.Windows.Forms.Form
 
-    'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()>
-    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
-        Try
-            If disposing AndAlso components IsNot Nothing Then
-                components.Dispose()
-            End If
-        Finally
-            MyBase.Dispose(disposing)
-        End Try
-    End Sub
+	'Form overrides dispose to clean up the component list.
+	<System.Diagnostics.DebuggerNonUserCode()>
+	Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+		Try
+			If disposing AndAlso components IsNot Nothing Then
+				components.Dispose()
+			End If
+		Finally
+			MyBase.Dispose(disposing)
+		End Try
+	End Sub
 
-    'Required by the Windows Form Designer
-    Private components As System.ComponentModel.IContainer
+	'Required by the Windows Form Designer
+	Private components As System.ComponentModel.IContainer
 
-    'NOTE: The following procedure is required by the Windows Form Designer
-    'It can be modified using the Windows Form Designer.  
-    'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()>
-    Private Sub InitializeComponent()
+	'NOTE: The following procedure is required by the Windows Form Designer
+	'It can be modified using the Windows Form Designer.  
+	'Do not modify it using the code editor.
+	<System.Diagnostics.DebuggerStepThrough()>
+	Private Sub InitializeComponent()
 		Me.components = New System.ComponentModel.Container()
 		Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
 		Me.MASTERToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.MaterInputMenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.InputMenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.InputMenu2ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.InputRoleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.TransferTableDatabaseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.SYNCToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.MasterMenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.GlobalSettingToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.TesSyncApprovalWasteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.StandarCodingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.UpdateAPILaporanHasilProduksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.AssetToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.AsdToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.MasterDataToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem()
@@ -46,6 +50,7 @@ Partial Class FMenuDevFix
 		Me.MasterKategoriJenis5LayerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.DisplayToolStripMenuItem9 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.DisplayBarangToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
+		Me.DisplayAdjustmentStockToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.TransaksiToolStripMenuItem9 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.AdjustmentBarangLainToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.ValidasiAdjustmentStockBarangLainToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -89,6 +94,7 @@ Partial Class FMenuDevFix
 		Me.LaporanBarangMasukToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.LaporanPengeluaranToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.LaporanMutasiBahanToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+		Me.LaporanTransferStockToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.PurchaseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.MasterDataToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.MasterEkspedisiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -234,8 +240,13 @@ Partial Class FMenuDevFix
 		Me.PenyediaanBahanBakuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.ValidasiLIMSToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.ValidasiBindingFormulaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.ReformulasiFormulaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.ValidaiTrialFormulaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.DisplayToolStripMenuItem11 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.PengajuanBarangBaruToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+		Me.PenyediaanBahanBakuToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+		Me.DisplayValidasiFormulaTrialToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.DisplayValidasiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.AccountingToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.MasterDataToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.MToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -248,17 +259,28 @@ Partial Class FMenuDevFix
 		Me.MasterBarangToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.MasterEstimasiBarangMasukToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.MasterEstimasiBarangMasukBarangLainToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.MasterKlasifikasiBahanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.MasterKlasifikasiBahan0ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.MasterKlasifikasiBahan1ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.MasterKlasifikasiBahan2ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.MasterJenisBarangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.TransaksiToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.KonfigurasiHargaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.CetakBarcodeStockGudangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-		Me.FleverToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+		Me.AdjustmentStockToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+		Me.ValidasiAdjustmentStockToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.DisplayToolStripMenuItem8 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.DisplayBarangToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+		Me.DisplayAdjustmentStockToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+		Me.LaporanToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem()
+		Me.LaporanAdjustmentStockToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.FleverToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.QualityControlToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.MasterDataToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.QualityControlBarangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.MasterQCToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.FormulaProduksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.MasterQCBacToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.TransaksiToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.QCBarangMasukToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.TransferStockToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
@@ -315,6 +337,15 @@ Partial Class FMenuDevFix
 		Me.OrderProduksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.OrderIndependentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.JadwalProduksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.ProductionPlanToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+		Me.ProductoinPlanSalesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.ProductionPlanSummaryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.ProductionPlanScheduleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.MRPToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.MRPSalesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.ProductionPlanBackupdToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.ProductoinPlanSalesBackupToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.MRPBackupToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.BiayaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.CompareWorkCenterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.HPPProduksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -351,6 +382,7 @@ Partial Class FMenuDevFix
 		Me.QCToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.RequestMaterialQCToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.FormulaBindingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.RFIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.LaporanToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.ProduksiToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.LaporanGIGRToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -383,6 +415,14 @@ Partial Class FMenuDevFix
 		Me.RFIDTAGToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.TransaksiToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.MergeBarcodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.DisplayToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
+		Me.DisplayBarangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.BarangMasukPerpalletToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.DisplayBarangMasukToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.DisplayGr3ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.DisplayMergeBarcodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.DisplayTransferStockSementaraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.DisplayRequestMaterialGeneralToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.MaterialMovementToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.TransferQualityToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.DisplayTransferStockToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
@@ -408,13 +448,6 @@ Partial Class FMenuDevFix
 		Me.CetakToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.CetakBarcodeFloorScaleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.DisplayFloorScaleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-		Me.DisplayToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
-		Me.DisplayBarangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-		Me.BarangMasukPerpalletToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-		Me.DisplayBarangMasukToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-		Me.DisplayGr3ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-		Me.DisplayMergeBarcodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-		Me.DisplayTransferStockSementaraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.AdjustmentStockToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.ValidasiAdustmentStockToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.DisplayAdjustmentStockToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -529,6 +562,7 @@ Partial Class FMenuDevFix
 		Me.LaporanWasteProductToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.LaporanTransferStoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.LaporanSplitStockToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+		Me.LaporanProductionOrderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.LaporanBiayaProduksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.LaporanGIGRToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.LaporanHPPPerBatchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -589,6 +623,8 @@ Partial Class FMenuDevFix
 		Me.TesCetakBarcodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.TesTabControlToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.TesLoadingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.TesAsyncToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.TesDEsignDGVToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
 		Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
 		Me.ToolStripStatusLabel4 = New System.Windows.Forms.ToolStripStatusLabel()
@@ -596,6 +632,7 @@ Partial Class FMenuDevFix
 		Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
 		Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
 		Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
+		Me.DisplayTrackgingRFIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.MenuStrip1.SuspendLayout()
 		Me.StatusStrip1.SuspendLayout()
 		Me.SuspendLayout()
@@ -611,52 +648,76 @@ Partial Class FMenuDevFix
 		'
 		'MASTERToolStripMenuItem
 		'
-		Me.MASTERToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InputMenuToolStripMenuItem, Me.InputRoleToolStripMenuItem, Me.TransferTableDatabaseToolStripMenuItem, Me.SYNCToolStripMenuItem, Me.MasterMenuToolStripMenuItem, Me.GlobalSettingToolStripMenuItem1, Me.TesSyncApprovalWasteToolStripMenuItem})
+		Me.MASTERToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MaterInputMenuToolStripMenuItem, Me.InputMenuToolStripMenuItem, Me.InputMenu2ToolStripMenuItem, Me.InputRoleToolStripMenuItem, Me.TransferTableDatabaseToolStripMenuItem, Me.SYNCToolStripMenuItem, Me.MasterMenuToolStripMenuItem, Me.GlobalSettingToolStripMenuItem1, Me.TesSyncApprovalWasteToolStripMenuItem, Me.StandarCodingToolStripMenuItem, Me.UpdateAPILaporanHasilProduksiToolStripMenuItem})
 		Me.MASTERToolStripMenuItem.Name = "MASTERToolStripMenuItem"
 		Me.MASTERToolStripMenuItem.Size = New System.Drawing.Size(64, 20)
 		Me.MASTERToolStripMenuItem.Text = "MASTER"
 		'
+		'MaterInputMenuToolStripMenuItem
+		'
+		Me.MaterInputMenuToolStripMenuItem.Name = "MaterInputMenuToolStripMenuItem"
+		Me.MaterInputMenuToolStripMenuItem.Size = New System.Drawing.Size(257, 22)
+		Me.MaterInputMenuToolStripMenuItem.Text = "Mater Input Menu"
+		'
 		'InputMenuToolStripMenuItem
 		'
 		Me.InputMenuToolStripMenuItem.Name = "InputMenuToolStripMenuItem"
-		Me.InputMenuToolStripMenuItem.Size = New System.Drawing.Size(205, 22)
-		Me.InputMenuToolStripMenuItem.Text = "Input Menu"
+		Me.InputMenuToolStripMenuItem.Size = New System.Drawing.Size(257, 22)
+		Me.InputMenuToolStripMenuItem.Text = "Input Role Menu"
+		'
+		'InputMenu2ToolStripMenuItem
+		'
+		Me.InputMenu2ToolStripMenuItem.Name = "InputMenu2ToolStripMenuItem"
+		Me.InputMenu2ToolStripMenuItem.Size = New System.Drawing.Size(257, 22)
+		Me.InputMenu2ToolStripMenuItem.Text = "Input Role Menu Multi"
 		'
 		'InputRoleToolStripMenuItem
 		'
 		Me.InputRoleToolStripMenuItem.Name = "InputRoleToolStripMenuItem"
-		Me.InputRoleToolStripMenuItem.Size = New System.Drawing.Size(205, 22)
-		Me.InputRoleToolStripMenuItem.Text = "Input Role"
+		Me.InputRoleToolStripMenuItem.Size = New System.Drawing.Size(257, 22)
+		Me.InputRoleToolStripMenuItem.Text = "Input Role Button"
 		'
 		'TransferTableDatabaseToolStripMenuItem
 		'
 		Me.TransferTableDatabaseToolStripMenuItem.Name = "TransferTableDatabaseToolStripMenuItem"
-		Me.TransferTableDatabaseToolStripMenuItem.Size = New System.Drawing.Size(205, 22)
+		Me.TransferTableDatabaseToolStripMenuItem.Size = New System.Drawing.Size(257, 22)
 		Me.TransferTableDatabaseToolStripMenuItem.Text = "Sync Menu"
 		'
 		'SYNCToolStripMenuItem
 		'
 		Me.SYNCToolStripMenuItem.Name = "SYNCToolStripMenuItem"
-		Me.SYNCToolStripMenuItem.Size = New System.Drawing.Size(205, 22)
+		Me.SYNCToolStripMenuItem.Size = New System.Drawing.Size(257, 22)
 		Me.SYNCToolStripMenuItem.Text = "SYNC"
 		'
 		'MasterMenuToolStripMenuItem
 		'
 		Me.MasterMenuToolStripMenuItem.Name = "MasterMenuToolStripMenuItem"
-		Me.MasterMenuToolStripMenuItem.Size = New System.Drawing.Size(205, 22)
+		Me.MasterMenuToolStripMenuItem.Size = New System.Drawing.Size(257, 22)
 		Me.MasterMenuToolStripMenuItem.Text = "Master Menu"
 		'
 		'GlobalSettingToolStripMenuItem1
 		'
 		Me.GlobalSettingToolStripMenuItem1.Name = "GlobalSettingToolStripMenuItem1"
-		Me.GlobalSettingToolStripMenuItem1.Size = New System.Drawing.Size(205, 22)
+		Me.GlobalSettingToolStripMenuItem1.Size = New System.Drawing.Size(257, 22)
 		Me.GlobalSettingToolStripMenuItem1.Text = "Global Setting"
 		'
 		'TesSyncApprovalWasteToolStripMenuItem
 		'
 		Me.TesSyncApprovalWasteToolStripMenuItem.Name = "TesSyncApprovalWasteToolStripMenuItem"
-		Me.TesSyncApprovalWasteToolStripMenuItem.Size = New System.Drawing.Size(205, 22)
+		Me.TesSyncApprovalWasteToolStripMenuItem.Size = New System.Drawing.Size(257, 22)
 		Me.TesSyncApprovalWasteToolStripMenuItem.Text = "Tes Sync Approval Waste"
+		'
+		'StandarCodingToolStripMenuItem
+		'
+		Me.StandarCodingToolStripMenuItem.Name = "StandarCodingToolStripMenuItem"
+		Me.StandarCodingToolStripMenuItem.Size = New System.Drawing.Size(257, 22)
+		Me.StandarCodingToolStripMenuItem.Text = "Standar Coding"
+		'
+		'UpdateAPILaporanHasilProduksiToolStripMenuItem
+		'
+		Me.UpdateAPILaporanHasilProduksiToolStripMenuItem.Name = "UpdateAPILaporanHasilProduksiToolStripMenuItem"
+		Me.UpdateAPILaporanHasilProduksiToolStripMenuItem.Size = New System.Drawing.Size(257, 22)
+		Me.UpdateAPILaporanHasilProduksiToolStripMenuItem.Text = "Update API Laporan Hasil Produksi"
 		'
 		'AssetToolStripMenuItem1
 		'
@@ -669,14 +730,14 @@ Partial Class FMenuDevFix
 		'
 		Me.AsdToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterDataToolStripMenuItem4, Me.DisplayToolStripMenuItem9, Me.TransaksiToolStripMenuItem9})
 		Me.AsdToolStripMenuItem.Name = "AsdToolStripMenuItem"
-		Me.AsdToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+		Me.AsdToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
 		Me.AsdToolStripMenuItem.Text = "Inventory"
 		'
 		'MasterDataToolStripMenuItem4
 		'
 		Me.MasterDataToolStripMenuItem4.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KategoriBarangAssetToolStripMenuItem, Me.KelompokBarangAssetToolStripMenuItem, Me.MasterBarangToolStripMenuItem1, Me.MasterGedungAssetToolStripMenuItem, Me.MasterAreaBarangAssetToolStripMenuItem, Me.MasterKategoriGudangToolStripMenuItem, Me.MasterBindingKategoriGudangToolStripMenuItem, Me.MasterBindingUserKategoriGudangToolStripMenuItem, Me.MasterKategoriJenis5LayerToolStripMenuItem})
 		Me.MasterDataToolStripMenuItem4.Name = "MasterDataToolStripMenuItem4"
-		Me.MasterDataToolStripMenuItem4.Size = New System.Drawing.Size(180, 22)
+		Me.MasterDataToolStripMenuItem4.Size = New System.Drawing.Size(137, 22)
 		Me.MasterDataToolStripMenuItem4.Text = "Master Data"
 		'
 		'KategoriBarangAssetToolStripMenuItem
@@ -735,22 +796,28 @@ Partial Class FMenuDevFix
 		'
 		'DisplayToolStripMenuItem9
 		'
-		Me.DisplayToolStripMenuItem9.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DisplayBarangToolStripMenuItem2})
+		Me.DisplayToolStripMenuItem9.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DisplayBarangToolStripMenuItem2, Me.DisplayAdjustmentStockToolStripMenuItem2})
 		Me.DisplayToolStripMenuItem9.Name = "DisplayToolStripMenuItem9"
-		Me.DisplayToolStripMenuItem9.Size = New System.Drawing.Size(180, 22)
+		Me.DisplayToolStripMenuItem9.Size = New System.Drawing.Size(137, 22)
 		Me.DisplayToolStripMenuItem9.Text = "Display"
 		'
 		'DisplayBarangToolStripMenuItem2
 		'
 		Me.DisplayBarangToolStripMenuItem2.Name = "DisplayBarangToolStripMenuItem2"
-		Me.DisplayBarangToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
+		Me.DisplayBarangToolStripMenuItem2.Size = New System.Drawing.Size(209, 22)
 		Me.DisplayBarangToolStripMenuItem2.Text = "Display Barang"
+		'
+		'DisplayAdjustmentStockToolStripMenuItem2
+		'
+		Me.DisplayAdjustmentStockToolStripMenuItem2.Name = "DisplayAdjustmentStockToolStripMenuItem2"
+		Me.DisplayAdjustmentStockToolStripMenuItem2.Size = New System.Drawing.Size(209, 22)
+		Me.DisplayAdjustmentStockToolStripMenuItem2.Text = "Display Adjustment Stock"
 		'
 		'TransaksiToolStripMenuItem9
 		'
 		Me.TransaksiToolStripMenuItem9.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AdjustmentBarangLainToolStripMenuItem, Me.ValidasiAdjustmentStockBarangLainToolStripMenuItem, Me.DisplayAdjustmentStockBarangLainToolStripMenuItem})
 		Me.TransaksiToolStripMenuItem9.Name = "TransaksiToolStripMenuItem9"
-		Me.TransaksiToolStripMenuItem9.Size = New System.Drawing.Size(180, 22)
+		Me.TransaksiToolStripMenuItem9.Size = New System.Drawing.Size(137, 22)
 		Me.TransaksiToolStripMenuItem9.Text = "Transaksi"
 		'
 		'AdjustmentBarangLainToolStripMenuItem
@@ -775,14 +842,14 @@ Partial Class FMenuDevFix
 		'
 		Me.PurchaseToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TransaksiToolStripMenuItem4, Me.DisplayToolStripMenuItem7})
 		Me.PurchaseToolStripMenuItem2.Name = "PurchaseToolStripMenuItem2"
-		Me.PurchaseToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
+		Me.PurchaseToolStripMenuItem2.Size = New System.Drawing.Size(133, 22)
 		Me.PurchaseToolStripMenuItem2.Text = "Purchase"
 		'
 		'TransaksiToolStripMenuItem4
 		'
 		Me.TransaksiToolStripMenuItem4.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PToolStripMenuItem, Me.PurchaseRequisitionDepartemtnToolStripMenuItem, Me.PenawaranToolStripMenuItem6, Me.POIndukToolStripMenuItem1, Me.SubPOToolStripMenuItem1, Me.TransaksiBiayaLokalToolStripMenuItem1, Me.PembelianAssetToolStripMenuItem1, Me.PenyelesaianPRToolStripMenuItem, Me.PRPenawranToolStripMenuItem, Me.PenyelesaianPR2ToolStripMenuItem})
 		Me.TransaksiToolStripMenuItem4.Name = "TransaksiToolStripMenuItem4"
-		Me.TransaksiToolStripMenuItem4.Size = New System.Drawing.Size(180, 22)
+		Me.TransaksiToolStripMenuItem4.Size = New System.Drawing.Size(122, 22)
 		Me.TransaksiToolStripMenuItem4.Text = "Transaksi"
 		'
 		'PToolStripMenuItem
@@ -849,7 +916,7 @@ Partial Class FMenuDevFix
 		'
 		Me.DisplayToolStripMenuItem7.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PRToolStripMenuItem2, Me.PRDepartementToolStripMenuItem, Me.HutangToolStripMenuItem1, Me.POIndukToolStripMenuItem2, Me.POToolStripMenuItem1})
 		Me.DisplayToolStripMenuItem7.Name = "DisplayToolStripMenuItem7"
-		Me.DisplayToolStripMenuItem7.Size = New System.Drawing.Size(180, 22)
+		Me.DisplayToolStripMenuItem7.Size = New System.Drawing.Size(122, 22)
 		Me.DisplayToolStripMenuItem7.Text = "Display"
 		'
 		'PRToolStripMenuItem2
@@ -886,14 +953,14 @@ Partial Class FMenuDevFix
 		'
 		Me.WarehouseToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TransaksiToolStripMenuItem5, Me.DisplayToolStripMenuItem6})
 		Me.WarehouseToolStripMenuItem1.Name = "WarehouseToolStripMenuItem1"
-		Me.WarehouseToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+		Me.WarehouseToolStripMenuItem1.Size = New System.Drawing.Size(133, 22)
 		Me.WarehouseToolStripMenuItem1.Text = "Warehouse"
 		'
 		'TransaksiToolStripMenuItem5
 		'
 		Me.TransaksiToolStripMenuItem5.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PengeluaranStockAssetToolStripMenuItem, Me.PengeluaranStockAssetRejectedToolStripMenuItem, Me.PemakaianStockAssetToolStripMenuItem, Me.ValidasiPengeluaranStockAssetToolStripMenuItem, Me.ValidasiPemakaianStockAssetToolStripMenuItem, Me.TransferStockToolStripMenuItem3, Me.ValiidasiTransferStockTimbangToolStripMenuItem, Me.ValidasiTransferStockToolStripMenuItem})
 		Me.TransaksiToolStripMenuItem5.Name = "TransaksiToolStripMenuItem5"
-		Me.TransaksiToolStripMenuItem5.Size = New System.Drawing.Size(180, 22)
+		Me.TransaksiToolStripMenuItem5.Size = New System.Drawing.Size(122, 22)
 		Me.TransaksiToolStripMenuItem5.Text = "Transaksi"
 		'
 		'PengeluaranStockAssetToolStripMenuItem
@@ -948,7 +1015,7 @@ Partial Class FMenuDevFix
 		'
 		Me.DisplayToolStripMenuItem6.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarangMasukToolStripMenuItem, Me.ValToolStripMenuItem, Me.SummaryPalletMasukToolStripMenuItem})
 		Me.DisplayToolStripMenuItem6.Name = "DisplayToolStripMenuItem6"
-		Me.DisplayToolStripMenuItem6.Size = New System.Drawing.Size(180, 22)
+		Me.DisplayToolStripMenuItem6.Size = New System.Drawing.Size(122, 22)
 		Me.DisplayToolStripMenuItem6.Text = "Display"
 		'
 		'BarangMasukToolStripMenuItem
@@ -971,9 +1038,9 @@ Partial Class FMenuDevFix
 		'
 		'LaporanToolStripMenuItem5
 		'
-		Me.LaporanToolStripMenuItem5.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LaporanPelunasanToolStripMenuItem1, Me.LaporanPelunasanCutoffToolStripMenuItem1, Me.LaporanPembelianToolStripMenuItem1, Me.LaporanBarangMasukToolStripMenuItem1, Me.LaporanPengeluaranToolStripMenuItem, Me.LaporanMutasiBahanToolStripMenuItem1})
+		Me.LaporanToolStripMenuItem5.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LaporanPelunasanToolStripMenuItem1, Me.LaporanPelunasanCutoffToolStripMenuItem1, Me.LaporanPembelianToolStripMenuItem1, Me.LaporanBarangMasukToolStripMenuItem1, Me.LaporanPengeluaranToolStripMenuItem, Me.LaporanMutasiBahanToolStripMenuItem1, Me.LaporanTransferStockToolStripMenuItem1})
 		Me.LaporanToolStripMenuItem5.Name = "LaporanToolStripMenuItem5"
-		Me.LaporanToolStripMenuItem5.Size = New System.Drawing.Size(180, 22)
+		Me.LaporanToolStripMenuItem5.Size = New System.Drawing.Size(133, 22)
 		Me.LaporanToolStripMenuItem5.Text = "Laporan"
 		'
 		'LaporanPelunasanToolStripMenuItem1
@@ -1011,6 +1078,12 @@ Partial Class FMenuDevFix
 		Me.LaporanMutasiBahanToolStripMenuItem1.Name = "LaporanMutasiBahanToolStripMenuItem1"
 		Me.LaporanMutasiBahanToolStripMenuItem1.Size = New System.Drawing.Size(211, 22)
 		Me.LaporanMutasiBahanToolStripMenuItem1.Text = "Laporan Mutasi Bahan"
+		'
+		'LaporanTransferStockToolStripMenuItem1
+		'
+		Me.LaporanTransferStockToolStripMenuItem1.Name = "LaporanTransferStockToolStripMenuItem1"
+		Me.LaporanTransferStockToolStripMenuItem1.Size = New System.Drawing.Size(211, 22)
+		Me.LaporanTransferStockToolStripMenuItem1.Text = "Laporan Transfer Stock"
 		'
 		'PurchaseToolStripMenuItem
 		'
@@ -1823,34 +1896,34 @@ Partial Class FMenuDevFix
 		'
 		'TransaksiToolStripMenuItem8
 		'
-		Me.TransaksiToolStripMenuItem8.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PengajuanBarangBaruToolStripMenuItem, Me.RequestMaterialGeneralToolStripMenuItem1, Me.PurchaseRequisitionTrialToolStripMenuItem, Me.ProduksiToolStripMenuItem4, Me.CreateFormulaToolStripMenuItem, Me.ValidasiFormulaToolStripMenuItem, Me.ValidasiFornulaTrialMainToolStripMenuItem, Me.BindingFormulaToolStripMenuItem, Me.PenyediaanBahanBakuToolStripMenuItem, Me.ValidasiLIMSToolStripMenuItem, Me.ValidasiBindingFormulaToolStripMenuItem})
+		Me.TransaksiToolStripMenuItem8.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PengajuanBarangBaruToolStripMenuItem, Me.RequestMaterialGeneralToolStripMenuItem1, Me.PurchaseRequisitionTrialToolStripMenuItem, Me.ProduksiToolStripMenuItem4, Me.CreateFormulaToolStripMenuItem, Me.ValidasiFormulaToolStripMenuItem, Me.ValidasiFornulaTrialMainToolStripMenuItem, Me.BindingFormulaToolStripMenuItem, Me.PenyediaanBahanBakuToolStripMenuItem, Me.ValidasiLIMSToolStripMenuItem, Me.ValidasiBindingFormulaToolStripMenuItem, Me.ReformulasiFormulaToolStripMenuItem, Me.ValidaiTrialFormulaToolStripMenuItem})
 		Me.TransaksiToolStripMenuItem8.Name = "TransaksiToolStripMenuItem8"
-		Me.TransaksiToolStripMenuItem8.Size = New System.Drawing.Size(122, 22)
+		Me.TransaksiToolStripMenuItem8.Size = New System.Drawing.Size(180, 22)
 		Me.TransaksiToolStripMenuItem8.Text = "Transaksi"
 		'
 		'PengajuanBarangBaruToolStripMenuItem
 		'
 		Me.PengajuanBarangBaruToolStripMenuItem.Name = "PengajuanBarangBaruToolStripMenuItem"
-		Me.PengajuanBarangBaruToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
+		Me.PengajuanBarangBaruToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
 		Me.PengajuanBarangBaruToolStripMenuItem.Text = "Pengajuan Barang Baru"
 		'
 		'RequestMaterialGeneralToolStripMenuItem1
 		'
 		Me.RequestMaterialGeneralToolStripMenuItem1.Name = "RequestMaterialGeneralToolStripMenuItem1"
-		Me.RequestMaterialGeneralToolStripMenuItem1.Size = New System.Drawing.Size(211, 22)
+		Me.RequestMaterialGeneralToolStripMenuItem1.Size = New System.Drawing.Size(214, 22)
 		Me.RequestMaterialGeneralToolStripMenuItem1.Text = "Request Material General"
 		'
 		'PurchaseRequisitionTrialToolStripMenuItem
 		'
 		Me.PurchaseRequisitionTrialToolStripMenuItem.Name = "PurchaseRequisitionTrialToolStripMenuItem"
-		Me.PurchaseRequisitionTrialToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
+		Me.PurchaseRequisitionTrialToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
 		Me.PurchaseRequisitionTrialToolStripMenuItem.Text = "Purchase Requisition Trial"
 		'
 		'ProduksiToolStripMenuItem4
 		'
 		Me.ProduksiToolStripMenuItem4.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProductionOrderToolStripMenuItem, Me.SplitProduksiToolStripMenuItem1, Me.GoodReceivedToolStripMenuItem})
 		Me.ProduksiToolStripMenuItem4.Name = "ProduksiToolStripMenuItem4"
-		Me.ProduksiToolStripMenuItem4.Size = New System.Drawing.Size(211, 22)
+		Me.ProduksiToolStripMenuItem4.Size = New System.Drawing.Size(214, 22)
 		Me.ProduksiToolStripMenuItem4.Text = "Produksi"
 		'
 		'ProductionOrderToolStripMenuItem
@@ -1874,57 +1947,87 @@ Partial Class FMenuDevFix
 		'CreateFormulaToolStripMenuItem
 		'
 		Me.CreateFormulaToolStripMenuItem.Name = "CreateFormulaToolStripMenuItem"
-		Me.CreateFormulaToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
+		Me.CreateFormulaToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
 		Me.CreateFormulaToolStripMenuItem.Text = "Create Formula"
 		'
 		'ValidasiFormulaToolStripMenuItem
 		'
 		Me.ValidasiFormulaToolStripMenuItem.Name = "ValidasiFormulaToolStripMenuItem"
-		Me.ValidasiFormulaToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
+		Me.ValidasiFormulaToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
 		Me.ValidasiFormulaToolStripMenuItem.Text = "Validasi Formula Trial"
 		'
 		'ValidasiFornulaTrialMainToolStripMenuItem
 		'
 		Me.ValidasiFornulaTrialMainToolStripMenuItem.Name = "ValidasiFornulaTrialMainToolStripMenuItem"
-		Me.ValidasiFornulaTrialMainToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
+		Me.ValidasiFornulaTrialMainToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
 		Me.ValidasiFornulaTrialMainToolStripMenuItem.Text = "Validasi Fornula Trial Main"
 		'
 		'BindingFormulaToolStripMenuItem
 		'
 		Me.BindingFormulaToolStripMenuItem.Name = "BindingFormulaToolStripMenuItem"
-		Me.BindingFormulaToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
+		Me.BindingFormulaToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
 		Me.BindingFormulaToolStripMenuItem.Text = "Binding Formula"
 		'
 		'PenyediaanBahanBakuToolStripMenuItem
 		'
 		Me.PenyediaanBahanBakuToolStripMenuItem.Name = "PenyediaanBahanBakuToolStripMenuItem"
-		Me.PenyediaanBahanBakuToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
+		Me.PenyediaanBahanBakuToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
 		Me.PenyediaanBahanBakuToolStripMenuItem.Text = "Penyediaan Bahan Baku"
 		'
 		'ValidasiLIMSToolStripMenuItem
 		'
 		Me.ValidasiLIMSToolStripMenuItem.Name = "ValidasiLIMSToolStripMenuItem"
-		Me.ValidasiLIMSToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
+		Me.ValidasiLIMSToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
 		Me.ValidasiLIMSToolStripMenuItem.Text = "Validasi LIMS"
 		'
 		'ValidasiBindingFormulaToolStripMenuItem
 		'
 		Me.ValidasiBindingFormulaToolStripMenuItem.Name = "ValidasiBindingFormulaToolStripMenuItem"
-		Me.ValidasiBindingFormulaToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
+		Me.ValidasiBindingFormulaToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
 		Me.ValidasiBindingFormulaToolStripMenuItem.Text = "Validasi Binding Formula"
+		'
+		'ReformulasiFormulaToolStripMenuItem
+		'
+		Me.ReformulasiFormulaToolStripMenuItem.Name = "ReformulasiFormulaToolStripMenuItem"
+		Me.ReformulasiFormulaToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+		Me.ReformulasiFormulaToolStripMenuItem.Text = "Reformulasi Formula"
+		'
+		'ValidaiTrialFormulaToolStripMenuItem
+		'
+		Me.ValidaiTrialFormulaToolStripMenuItem.Name = "ValidaiTrialFormulaToolStripMenuItem"
+		Me.ValidaiTrialFormulaToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+		Me.ValidaiTrialFormulaToolStripMenuItem.Text = "Validasi Hasil Trial Formula"
 		'
 		'DisplayToolStripMenuItem11
 		'
-		Me.DisplayToolStripMenuItem11.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PengajuanBarangBaruToolStripMenuItem1})
+		Me.DisplayToolStripMenuItem11.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PengajuanBarangBaruToolStripMenuItem1, Me.PenyediaanBahanBakuToolStripMenuItem1, Me.DisplayValidasiFormulaTrialToolStripMenuItem, Me.DisplayValidasiToolStripMenuItem})
 		Me.DisplayToolStripMenuItem11.Name = "DisplayToolStripMenuItem11"
-		Me.DisplayToolStripMenuItem11.Size = New System.Drawing.Size(122, 22)
+		Me.DisplayToolStripMenuItem11.Size = New System.Drawing.Size(180, 22)
 		Me.DisplayToolStripMenuItem11.Text = "Display"
 		'
 		'PengajuanBarangBaruToolStripMenuItem1
 		'
 		Me.PengajuanBarangBaruToolStripMenuItem1.Name = "PengajuanBarangBaruToolStripMenuItem1"
-		Me.PengajuanBarangBaruToolStripMenuItem1.Size = New System.Drawing.Size(197, 22)
+		Me.PengajuanBarangBaruToolStripMenuItem1.Size = New System.Drawing.Size(226, 22)
 		Me.PengajuanBarangBaruToolStripMenuItem1.Text = "Pengajuan Barang Baru"
+		'
+		'PenyediaanBahanBakuToolStripMenuItem1
+		'
+		Me.PenyediaanBahanBakuToolStripMenuItem1.Name = "PenyediaanBahanBakuToolStripMenuItem1"
+		Me.PenyediaanBahanBakuToolStripMenuItem1.Size = New System.Drawing.Size(226, 22)
+		Me.PenyediaanBahanBakuToolStripMenuItem1.Text = "Penyediaan Bahan Baku"
+		'
+		'DisplayValidasiFormulaTrialToolStripMenuItem
+		'
+		Me.DisplayValidasiFormulaTrialToolStripMenuItem.Name = "DisplayValidasiFormulaTrialToolStripMenuItem"
+		Me.DisplayValidasiFormulaTrialToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+		Me.DisplayValidasiFormulaTrialToolStripMenuItem.Text = "Display Validasi Formula Trial"
+		'
+		'DisplayValidasiToolStripMenuItem
+		'
+		Me.DisplayValidasiToolStripMenuItem.Name = "DisplayValidasiToolStripMenuItem"
+		Me.DisplayValidasiToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+		Me.DisplayValidasiToolStripMenuItem.Text = "Display Validasi Trial Formula"
 		'
 		'AccountingToolStripMenuItem1
 		'
@@ -1960,14 +2063,14 @@ Partial Class FMenuDevFix
 		'
 		'InventoriToolStripMenuItem
 		'
-		Me.InventoriToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterDataToolStripMenuItem5, Me.TransaksiToolStripMenuItem6, Me.FleverToolStripMenuItem1, Me.DisplayToolStripMenuItem8})
+		Me.InventoriToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterDataToolStripMenuItem5, Me.TransaksiToolStripMenuItem6, Me.DisplayToolStripMenuItem8, Me.LaporanToolStripMenuItem6, Me.FleverToolStripMenuItem1})
 		Me.InventoriToolStripMenuItem.Name = "InventoriToolStripMenuItem"
 		Me.InventoriToolStripMenuItem.Size = New System.Drawing.Size(66, 20)
 		Me.InventoriToolStripMenuItem.Text = "Inventori"
 		'
 		'MasterDataToolStripMenuItem5
 		'
-		Me.MasterDataToolStripMenuItem5.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PersentaseMarginBarangToolStripMenuItem, Me.PersentasePenentuBarangToolStripMenuItem, Me.MasterBarangToolStripMenuItem2, Me.MasterEstimasiBarangMasukToolStripMenuItem, Me.MasterEstimasiBarangMasukBarangLainToolStripMenuItem})
+		Me.MasterDataToolStripMenuItem5.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PersentaseMarginBarangToolStripMenuItem, Me.PersentasePenentuBarangToolStripMenuItem, Me.MasterBarangToolStripMenuItem2, Me.MasterEstimasiBarangMasukToolStripMenuItem, Me.MasterEstimasiBarangMasukBarangLainToolStripMenuItem, Me.MasterKlasifikasiBahanToolStripMenuItem, Me.MasterJenisBarangToolStripMenuItem})
 		Me.MasterDataToolStripMenuItem5.Name = "MasterDataToolStripMenuItem5"
 		Me.MasterDataToolStripMenuItem5.Size = New System.Drawing.Size(137, 22)
 		Me.MasterDataToolStripMenuItem5.Text = "Master Data"
@@ -2002,9 +2105,40 @@ Partial Class FMenuDevFix
 		Me.MasterEstimasiBarangMasukBarangLainToolStripMenuItem.Size = New System.Drawing.Size(299, 22)
 		Me.MasterEstimasiBarangMasukBarangLainToolStripMenuItem.Text = "Master Estimasi Barang Masuk Barang Lain"
 		'
+		'MasterKlasifikasiBahanToolStripMenuItem
+		'
+		Me.MasterKlasifikasiBahanToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterKlasifikasiBahan0ToolStripMenuItem, Me.MasterKlasifikasiBahan1ToolStripMenuItem, Me.MasterKlasifikasiBahan2ToolStripMenuItem})
+		Me.MasterKlasifikasiBahanToolStripMenuItem.Name = "MasterKlasifikasiBahanToolStripMenuItem"
+		Me.MasterKlasifikasiBahanToolStripMenuItem.Size = New System.Drawing.Size(299, 22)
+		Me.MasterKlasifikasiBahanToolStripMenuItem.Text = "Master Klasifikasi Bahan"
+		'
+		'MasterKlasifikasiBahan0ToolStripMenuItem
+		'
+		Me.MasterKlasifikasiBahan0ToolStripMenuItem.Name = "MasterKlasifikasiBahan0ToolStripMenuItem"
+		Me.MasterKlasifikasiBahan0ToolStripMenuItem.Size = New System.Drawing.Size(209, 22)
+		Me.MasterKlasifikasiBahan0ToolStripMenuItem.Text = "Master Klasifikasi Bahan 0"
+		'
+		'MasterKlasifikasiBahan1ToolStripMenuItem
+		'
+		Me.MasterKlasifikasiBahan1ToolStripMenuItem.Name = "MasterKlasifikasiBahan1ToolStripMenuItem"
+		Me.MasterKlasifikasiBahan1ToolStripMenuItem.Size = New System.Drawing.Size(209, 22)
+		Me.MasterKlasifikasiBahan1ToolStripMenuItem.Text = "Master Klasifikasi Bahan 1"
+		'
+		'MasterKlasifikasiBahan2ToolStripMenuItem
+		'
+		Me.MasterKlasifikasiBahan2ToolStripMenuItem.Name = "MasterKlasifikasiBahan2ToolStripMenuItem"
+		Me.MasterKlasifikasiBahan2ToolStripMenuItem.Size = New System.Drawing.Size(209, 22)
+		Me.MasterKlasifikasiBahan2ToolStripMenuItem.Text = "Master Klasifikasi Bahan 2"
+		'
+		'MasterJenisBarangToolStripMenuItem
+		'
+		Me.MasterJenisBarangToolStripMenuItem.Name = "MasterJenisBarangToolStripMenuItem"
+		Me.MasterJenisBarangToolStripMenuItem.Size = New System.Drawing.Size(299, 22)
+		Me.MasterJenisBarangToolStripMenuItem.Text = "Master Jenis Barang"
+		'
 		'TransaksiToolStripMenuItem6
 		'
-		Me.TransaksiToolStripMenuItem6.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KonfigurasiHargaToolStripMenuItem, Me.CetakBarcodeStockGudangToolStripMenuItem})
+		Me.TransaksiToolStripMenuItem6.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KonfigurasiHargaToolStripMenuItem, Me.CetakBarcodeStockGudangToolStripMenuItem, Me.AdjustmentStockToolStripMenuItem1, Me.ValidasiAdjustmentStockToolStripMenuItem})
 		Me.TransaksiToolStripMenuItem6.Name = "TransaksiToolStripMenuItem6"
 		Me.TransaksiToolStripMenuItem6.Size = New System.Drawing.Size(137, 22)
 		Me.TransaksiToolStripMenuItem6.Text = "Transaksi"
@@ -2021,15 +2155,21 @@ Partial Class FMenuDevFix
 		Me.CetakBarcodeStockGudangToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
 		Me.CetakBarcodeStockGudangToolStripMenuItem.Text = "Cetak Barcode Stock Gudang"
 		'
-		'FleverToolStripMenuItem1
+		'AdjustmentStockToolStripMenuItem1
 		'
-		Me.FleverToolStripMenuItem1.Name = "FleverToolStripMenuItem1"
-		Me.FleverToolStripMenuItem1.Size = New System.Drawing.Size(137, 22)
-		Me.FleverToolStripMenuItem1.Text = "Flever"
+		Me.AdjustmentStockToolStripMenuItem1.Name = "AdjustmentStockToolStripMenuItem1"
+		Me.AdjustmentStockToolStripMenuItem1.Size = New System.Drawing.Size(227, 22)
+		Me.AdjustmentStockToolStripMenuItem1.Text = "Adjustment Stock"
+		'
+		'ValidasiAdjustmentStockToolStripMenuItem
+		'
+		Me.ValidasiAdjustmentStockToolStripMenuItem.Name = "ValidasiAdjustmentStockToolStripMenuItem"
+		Me.ValidasiAdjustmentStockToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+		Me.ValidasiAdjustmentStockToolStripMenuItem.Text = "Validasi Adjustment Stock"
 		'
 		'DisplayToolStripMenuItem8
 		'
-		Me.DisplayToolStripMenuItem8.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DisplayBarangToolStripMenuItem1})
+		Me.DisplayToolStripMenuItem8.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DisplayBarangToolStripMenuItem1, Me.DisplayAdjustmentStockToolStripMenuItem1})
 		Me.DisplayToolStripMenuItem8.Name = "DisplayToolStripMenuItem8"
 		Me.DisplayToolStripMenuItem8.Size = New System.Drawing.Size(137, 22)
 		Me.DisplayToolStripMenuItem8.Text = "Display"
@@ -2037,8 +2177,33 @@ Partial Class FMenuDevFix
 		'DisplayBarangToolStripMenuItem1
 		'
 		Me.DisplayBarangToolStripMenuItem1.Name = "DisplayBarangToolStripMenuItem1"
-		Me.DisplayBarangToolStripMenuItem1.Size = New System.Drawing.Size(152, 22)
+		Me.DisplayBarangToolStripMenuItem1.Size = New System.Drawing.Size(209, 22)
 		Me.DisplayBarangToolStripMenuItem1.Text = "Display Barang"
+		'
+		'DisplayAdjustmentStockToolStripMenuItem1
+		'
+		Me.DisplayAdjustmentStockToolStripMenuItem1.Name = "DisplayAdjustmentStockToolStripMenuItem1"
+		Me.DisplayAdjustmentStockToolStripMenuItem1.Size = New System.Drawing.Size(209, 22)
+		Me.DisplayAdjustmentStockToolStripMenuItem1.Text = "Display Adjustment Stock"
+		'
+		'LaporanToolStripMenuItem6
+		'
+		Me.LaporanToolStripMenuItem6.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LaporanAdjustmentStockToolStripMenuItem})
+		Me.LaporanToolStripMenuItem6.Name = "LaporanToolStripMenuItem6"
+		Me.LaporanToolStripMenuItem6.Size = New System.Drawing.Size(137, 22)
+		Me.LaporanToolStripMenuItem6.Text = "Laporan"
+		'
+		'LaporanAdjustmentStockToolStripMenuItem
+		'
+		Me.LaporanAdjustmentStockToolStripMenuItem.Name = "LaporanAdjustmentStockToolStripMenuItem"
+		Me.LaporanAdjustmentStockToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+		Me.LaporanAdjustmentStockToolStripMenuItem.Text = "Laporan Adjustment Stock"
+		'
+		'FleverToolStripMenuItem1
+		'
+		Me.FleverToolStripMenuItem1.Name = "FleverToolStripMenuItem1"
+		Me.FleverToolStripMenuItem1.Size = New System.Drawing.Size(137, 22)
+		Me.FleverToolStripMenuItem1.Text = "Flever"
 		'
 		'QualityControlToolStripMenuItem
 		'
@@ -2049,7 +2214,7 @@ Partial Class FMenuDevFix
 		'
 		'MasterDataToolStripMenuItem3
 		'
-		Me.MasterDataToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.QualityControlBarangToolStripMenuItem, Me.MasterQCToolStripMenuItem, Me.FormulaProduksiToolStripMenuItem})
+		Me.MasterDataToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.QualityControlBarangToolStripMenuItem, Me.MasterQCToolStripMenuItem, Me.FormulaProduksiToolStripMenuItem, Me.MasterQCBacToolStripMenuItem})
 		Me.MasterDataToolStripMenuItem3.Name = "MasterDataToolStripMenuItem3"
 		Me.MasterDataToolStripMenuItem3.Size = New System.Drawing.Size(253, 22)
 		Me.MasterDataToolStripMenuItem3.Text = "Master Data"
@@ -2071,6 +2236,12 @@ Partial Class FMenuDevFix
 		Me.FormulaProduksiToolStripMenuItem.Name = "FormulaProduksiToolStripMenuItem"
 		Me.FormulaProduksiToolStripMenuItem.Size = New System.Drawing.Size(195, 22)
 		Me.FormulaProduksiToolStripMenuItem.Text = "Formula Produksi"
+		'
+		'MasterQCBacToolStripMenuItem
+		'
+		Me.MasterQCBacToolStripMenuItem.Name = "MasterQCBacToolStripMenuItem"
+		Me.MasterQCBacToolStripMenuItem.Size = New System.Drawing.Size(195, 22)
+		Me.MasterQCBacToolStripMenuItem.Text = "Master QC Bac"
 		'
 		'TransaksiToolStripMenuItem3
 		'
@@ -2402,7 +2573,7 @@ Partial Class FMenuDevFix
 		'
 		'RencanaProduksiToolStripMenuItem
 		'
-		Me.RencanaProduksiToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OrderProduksiToolStripMenuItem, Me.OrderIndependentToolStripMenuItem, Me.JadwalProduksiToolStripMenuItem})
+		Me.RencanaProduksiToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OrderProduksiToolStripMenuItem, Me.OrderIndependentToolStripMenuItem, Me.JadwalProduksiToolStripMenuItem, Me.ProductionPlanToolStripMenuItem1, Me.ProductoinPlanSalesToolStripMenuItem, Me.ProductionPlanSummaryToolStripMenuItem, Me.ProductionPlanScheduleToolStripMenuItem, Me.MRPToolStripMenuItem, Me.MRPSalesToolStripMenuItem, Me.ProductionPlanBackupdToolStripMenuItem, Me.ProductoinPlanSalesBackupToolStripMenuItem, Me.MRPBackupToolStripMenuItem})
 		Me.RencanaProduksiToolStripMenuItem.Name = "RencanaProduksiToolStripMenuItem"
 		Me.RencanaProduksiToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
 		Me.RencanaProduksiToolStripMenuItem.Text = "Rencana Produksi"
@@ -2410,20 +2581,74 @@ Partial Class FMenuDevFix
 		'OrderProduksiToolStripMenuItem
 		'
 		Me.OrderProduksiToolStripMenuItem.Name = "OrderProduksiToolStripMenuItem"
-		Me.OrderProduksiToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+		Me.OrderProduksiToolStripMenuItem.Size = New System.Drawing.Size(230, 22)
 		Me.OrderProduksiToolStripMenuItem.Text = "Order Produksi"
 		'
 		'OrderIndependentToolStripMenuItem
 		'
 		Me.OrderIndependentToolStripMenuItem.Name = "OrderIndependentToolStripMenuItem"
-		Me.OrderIndependentToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+		Me.OrderIndependentToolStripMenuItem.Size = New System.Drawing.Size(230, 22)
 		Me.OrderIndependentToolStripMenuItem.Text = "Order Independent"
 		'
 		'JadwalProduksiToolStripMenuItem
 		'
 		Me.JadwalProduksiToolStripMenuItem.Name = "JadwalProduksiToolStripMenuItem"
-		Me.JadwalProduksiToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+		Me.JadwalProduksiToolStripMenuItem.Size = New System.Drawing.Size(230, 22)
 		Me.JadwalProduksiToolStripMenuItem.Text = "Jadwal Produksi"
+		'
+		'ProductionPlanToolStripMenuItem1
+		'
+		Me.ProductionPlanToolStripMenuItem1.Name = "ProductionPlanToolStripMenuItem1"
+		Me.ProductionPlanToolStripMenuItem1.Size = New System.Drawing.Size(230, 22)
+		Me.ProductionPlanToolStripMenuItem1.Text = "Production Plan PPIC"
+		'
+		'ProductoinPlanSalesToolStripMenuItem
+		'
+		Me.ProductoinPlanSalesToolStripMenuItem.Name = "ProductoinPlanSalesToolStripMenuItem"
+		Me.ProductoinPlanSalesToolStripMenuItem.Size = New System.Drawing.Size(230, 22)
+		Me.ProductoinPlanSalesToolStripMenuItem.Text = "Productoin Plan Sales"
+		'
+		'ProductionPlanSummaryToolStripMenuItem
+		'
+		Me.ProductionPlanSummaryToolStripMenuItem.Name = "ProductionPlanSummaryToolStripMenuItem"
+		Me.ProductionPlanSummaryToolStripMenuItem.Size = New System.Drawing.Size(230, 22)
+		Me.ProductionPlanSummaryToolStripMenuItem.Text = "Production Plan Summary"
+		'
+		'ProductionPlanScheduleToolStripMenuItem
+		'
+		Me.ProductionPlanScheduleToolStripMenuItem.Name = "ProductionPlanScheduleToolStripMenuItem"
+		Me.ProductionPlanScheduleToolStripMenuItem.Size = New System.Drawing.Size(230, 22)
+		Me.ProductionPlanScheduleToolStripMenuItem.Text = "Production Plan Schedule"
+		'
+		'MRPToolStripMenuItem
+		'
+		Me.MRPToolStripMenuItem.Name = "MRPToolStripMenuItem"
+		Me.MRPToolStripMenuItem.Size = New System.Drawing.Size(230, 22)
+		Me.MRPToolStripMenuItem.Text = "MRP PPIC"
+		'
+		'MRPSalesToolStripMenuItem
+		'
+		Me.MRPSalesToolStripMenuItem.Name = "MRPSalesToolStripMenuItem"
+		Me.MRPSalesToolStripMenuItem.Size = New System.Drawing.Size(230, 22)
+		Me.MRPSalesToolStripMenuItem.Text = "MRP Formulator"
+		'
+		'ProductionPlanBackupdToolStripMenuItem
+		'
+		Me.ProductionPlanBackupdToolStripMenuItem.Name = "ProductionPlanBackupdToolStripMenuItem"
+		Me.ProductionPlanBackupdToolStripMenuItem.Size = New System.Drawing.Size(230, 22)
+		Me.ProductionPlanBackupdToolStripMenuItem.Text = "Production Plan PPIC Backup"
+		'
+		'ProductoinPlanSalesBackupToolStripMenuItem
+		'
+		Me.ProductoinPlanSalesBackupToolStripMenuItem.Name = "ProductoinPlanSalesBackupToolStripMenuItem"
+		Me.ProductoinPlanSalesBackupToolStripMenuItem.Size = New System.Drawing.Size(230, 22)
+		Me.ProductoinPlanSalesBackupToolStripMenuItem.Text = "Productoin Plan Sales Backup"
+		'
+		'MRPBackupToolStripMenuItem
+		'
+		Me.MRPBackupToolStripMenuItem.Name = "MRPBackupToolStripMenuItem"
+		Me.MRPBackupToolStripMenuItem.Size = New System.Drawing.Size(230, 22)
+		Me.MRPBackupToolStripMenuItem.Text = "MRP Backup"
 		'
 		'BiayaToolStripMenuItem
 		'
@@ -2556,7 +2781,7 @@ Partial Class FMenuDevFix
 		'
 		'DisplayToolStripMenuItem1
 		'
-		Me.DisplayToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BiayaToolStripMenuItem1, Me.ProduksiToolStripMenuItem2, Me.RencanaProduksiToolStripMenuItem1, Me.QCToolStripMenuItem1, Me.FormulaBindingToolStripMenuItem})
+		Me.DisplayToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BiayaToolStripMenuItem1, Me.ProduksiToolStripMenuItem2, Me.RencanaProduksiToolStripMenuItem1, Me.QCToolStripMenuItem1, Me.FormulaBindingToolStripMenuItem, Me.RFIDToolStripMenuItem})
 		Me.DisplayToolStripMenuItem1.Name = "DisplayToolStripMenuItem1"
 		Me.DisplayToolStripMenuItem1.Size = New System.Drawing.Size(263, 22)
 		Me.DisplayToolStripMenuItem1.Text = "Display"
@@ -2565,7 +2790,7 @@ Partial Class FMenuDevFix
 		'
 		Me.BiayaToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActualBiayaProduksiToolStripMenuItem1})
 		Me.BiayaToolStripMenuItem1.Name = "BiayaToolStripMenuItem1"
-		Me.BiayaToolStripMenuItem1.Size = New System.Drawing.Size(168, 22)
+		Me.BiayaToolStripMenuItem1.Size = New System.Drawing.Size(183, 22)
 		Me.BiayaToolStripMenuItem1.Text = "Biaya"
 		'
 		'ActualBiayaProduksiToolStripMenuItem1
@@ -2578,7 +2803,7 @@ Partial Class FMenuDevFix
 		'
 		Me.ProduksiToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HasilProduksiToolStripMenuItem1, Me.SplitProduksiToolStripMenuItem, Me.RequestMaterialToolStripMenuItem1, Me.DisplayValidasiPenerimaanBarangToolStripMenuItem, Me.DisplayGR3ToolStripMenuItem1, Me.DisplayReturPaToolStripMenuItem})
 		Me.ProduksiToolStripMenuItem2.Name = "ProduksiToolStripMenuItem2"
-		Me.ProduksiToolStripMenuItem2.Size = New System.Drawing.Size(168, 22)
+		Me.ProduksiToolStripMenuItem2.Size = New System.Drawing.Size(183, 22)
 		Me.ProduksiToolStripMenuItem2.Text = "Produksi"
 		'
 		'HasilProduksiToolStripMenuItem1
@@ -2621,7 +2846,7 @@ Partial Class FMenuDevFix
 		'
 		Me.RencanaProduksiToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OrderProduksiToolStripMenuItem1})
 		Me.RencanaProduksiToolStripMenuItem1.Name = "RencanaProduksiToolStripMenuItem1"
-		Me.RencanaProduksiToolStripMenuItem1.Size = New System.Drawing.Size(168, 22)
+		Me.RencanaProduksiToolStripMenuItem1.Size = New System.Drawing.Size(183, 22)
 		Me.RencanaProduksiToolStripMenuItem1.Text = "Rencana Produksi"
 		'
 		'OrderProduksiToolStripMenuItem1
@@ -2634,7 +2859,7 @@ Partial Class FMenuDevFix
 		'
 		Me.QCToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RequestMaterialQCToolStripMenuItem1})
 		Me.QCToolStripMenuItem1.Name = "QCToolStripMenuItem1"
-		Me.QCToolStripMenuItem1.Size = New System.Drawing.Size(168, 22)
+		Me.QCToolStripMenuItem1.Size = New System.Drawing.Size(183, 22)
 		Me.QCToolStripMenuItem1.Text = "QC"
 		'
 		'RequestMaterialQCToolStripMenuItem1
@@ -2646,8 +2871,14 @@ Partial Class FMenuDevFix
 		'FormulaBindingToolStripMenuItem
 		'
 		Me.FormulaBindingToolStripMenuItem.Name = "FormulaBindingToolStripMenuItem"
-		Me.FormulaBindingToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
+		Me.FormulaBindingToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
 		Me.FormulaBindingToolStripMenuItem.Text = "Formula Binding"
+		'
+		'RFIDToolStripMenuItem
+		'
+		Me.RFIDToolStripMenuItem.Name = "RFIDToolStripMenuItem"
+		Me.RFIDToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
+		Me.RFIDToolStripMenuItem.Text = "Tracking RFID dan GI"
 		'
 		'LaporanToolStripMenuItem1
 		'
@@ -2818,7 +3049,7 @@ Partial Class FMenuDevFix
 		'
 		'WarehouseToolStripMenuItem
 		'
-		Me.WarehouseToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterDataToolStripMenuItem6, Me.TransaksiToolStripMenuItem7, Me.MaterialMovementToolStripMenuItem, Me.MaterialIncomiingToolStripMenuItem, Me.DisplayToolStripMenuItem3, Me.AdjustmentStockToolStripMenuItem, Me.ValidasiAdustmentStockToolStripMenuItem, Me.DisplayAdjustmentStockToolStripMenuItem, Me.DisplayAdustmentStockToolStripMenuItem, Me.SelisihBarangMasukToolStripMenuItem1, Me.SelisihBarangMasukBarangLainToolStripMenuItem, Me.DisplaySelisihBarangMasukToolStripMenuItem})
+		Me.WarehouseToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterDataToolStripMenuItem6, Me.TransaksiToolStripMenuItem7, Me.DisplayToolStripMenuItem3, Me.MaterialMovementToolStripMenuItem, Me.MaterialIncomiingToolStripMenuItem, Me.AdjustmentStockToolStripMenuItem, Me.ValidasiAdustmentStockToolStripMenuItem, Me.DisplayAdjustmentStockToolStripMenuItem, Me.DisplayAdustmentStockToolStripMenuItem, Me.SelisihBarangMasukToolStripMenuItem1, Me.SelisihBarangMasukBarangLainToolStripMenuItem, Me.DisplaySelisihBarangMasukToolStripMenuItem})
 		Me.WarehouseToolStripMenuItem.Name = "WarehouseToolStripMenuItem"
 		Me.WarehouseToolStripMenuItem.Size = New System.Drawing.Size(78, 20)
 		Me.WarehouseToolStripMenuItem.Text = "Warehouse"
@@ -2833,7 +3064,7 @@ Partial Class FMenuDevFix
 		'RFIDTAGToolStripMenuItem
 		'
 		Me.RFIDTAGToolStripMenuItem.Name = "RFIDTAGToolStripMenuItem"
-		Me.RFIDTAGToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+		Me.RFIDTAGToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
 		Me.RFIDTAGToolStripMenuItem.Text = "RFID TAG"
 		'
 		'TransaksiToolStripMenuItem7
@@ -2846,12 +3077,61 @@ Partial Class FMenuDevFix
 		'MergeBarcodeToolStripMenuItem
 		'
 		Me.MergeBarcodeToolStripMenuItem.Name = "MergeBarcodeToolStripMenuItem"
-		Me.MergeBarcodeToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
+		Me.MergeBarcodeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
 		Me.MergeBarcodeToolStripMenuItem.Text = "Merge Barcode"
+		'
+		'DisplayToolStripMenuItem3
+		'
+		Me.DisplayToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DisplayBarangToolStripMenuItem, Me.BarangMasukPerpalletToolStripMenuItem, Me.DisplayBarangMasukToolStripMenuItem, Me.DisplayGr3ToolStripMenuItem, Me.DisplayMergeBarcodeToolStripMenuItem, Me.DisplayTransferStockSementaraToolStripMenuItem, Me.DisplayRequestMaterialGeneralToolStripMenuItem})
+		Me.DisplayToolStripMenuItem3.Name = "DisplayToolStripMenuItem3"
+		Me.DisplayToolStripMenuItem3.Size = New System.Drawing.Size(250, 22)
+		Me.DisplayToolStripMenuItem3.Text = "Display"
+		'
+		'DisplayBarangToolStripMenuItem
+		'
+		Me.DisplayBarangToolStripMenuItem.Name = "DisplayBarangToolStripMenuItem"
+		Me.DisplayBarangToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+		Me.DisplayBarangToolStripMenuItem.Text = "Display Barang"
+		'
+		'BarangMasukPerpalletToolStripMenuItem
+		'
+		Me.BarangMasukPerpalletToolStripMenuItem.Name = "BarangMasukPerpalletToolStripMenuItem"
+		Me.BarangMasukPerpalletToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+		Me.BarangMasukPerpalletToolStripMenuItem.Text = "Barang Masuk Perpallet"
+		'
+		'DisplayBarangMasukToolStripMenuItem
+		'
+		Me.DisplayBarangMasukToolStripMenuItem.Name = "DisplayBarangMasukToolStripMenuItem"
+		Me.DisplayBarangMasukToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+		Me.DisplayBarangMasukToolStripMenuItem.Text = "Display Barang Masuk"
+		'
+		'DisplayGr3ToolStripMenuItem
+		'
+		Me.DisplayGr3ToolStripMenuItem.Name = "DisplayGr3ToolStripMenuItem"
+		Me.DisplayGr3ToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+		Me.DisplayGr3ToolStripMenuItem.Text = "Display GR 3"
+		'
+		'DisplayMergeBarcodeToolStripMenuItem
+		'
+		Me.DisplayMergeBarcodeToolStripMenuItem.Name = "DisplayMergeBarcodeToolStripMenuItem"
+		Me.DisplayMergeBarcodeToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+		Me.DisplayMergeBarcodeToolStripMenuItem.Text = "Display Merge Barcode"
+		'
+		'DisplayTransferStockSementaraToolStripMenuItem
+		'
+		Me.DisplayTransferStockSementaraToolStripMenuItem.Name = "DisplayTransferStockSementaraToolStripMenuItem"
+		Me.DisplayTransferStockSementaraToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+		Me.DisplayTransferStockSementaraToolStripMenuItem.Text = "Display Transfer Stock Sementara"
+		'
+		'DisplayRequestMaterialGeneralToolStripMenuItem
+		'
+		Me.DisplayRequestMaterialGeneralToolStripMenuItem.Name = "DisplayRequestMaterialGeneralToolStripMenuItem"
+		Me.DisplayRequestMaterialGeneralToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+		Me.DisplayRequestMaterialGeneralToolStripMenuItem.Text = "Display Request Material General"
 		'
 		'MaterialMovementToolStripMenuItem
 		'
-		Me.MaterialMovementToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TransferQualityToolStripMenuItem1, Me.DisplayTransferStockToolStripMenuItem1, Me.TfStockToolStripMenuItem, Me.PengajuanPemusnahanBarangToolStripMenuItem, Me.ValidasiTimbangPemusnahanBarangToolStripMenuItem, Me.ValidasiTimbangPemusnahanBarangTidakTimbangToolStripMenuItem, Me.ValidasiPemusnahanBarangToolStripMenuItem, Me.DisplayPemusnahanBarangToolStripMenuItem, Me.TToolStripMenuItem, Me.PengeluaranStockToolStripMenuItem5, Me.ValidasiPengeluaranStockToolStripMenuItem, Me.TransferStockSementaraToolStripMenuItem, Me.ValidasiTransferStockSementaraTidakTimbangToolStripMenuItem, Me.ValidasiTransferStockSementaraTimbangToolStripMenuItem, Me.PairingRFIDToolStripMenuItem, Me.TransferQualityToolStripMenuItem2})
+		Me.MaterialMovementToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TransferQualityToolStripMenuItem1, Me.DisplayTransferStockToolStripMenuItem1, Me.TfStockToolStripMenuItem, Me.PengajuanPemusnahanBarangToolStripMenuItem, Me.ValidasiTimbangPemusnahanBarangToolStripMenuItem, Me.ValidasiTimbangPemusnahanBarangTidakTimbangToolStripMenuItem, Me.ValidasiPemusnahanBarangToolStripMenuItem, Me.DisplayPemusnahanBarangToolStripMenuItem, Me.TToolStripMenuItem, Me.PengeluaranStockToolStripMenuItem5, Me.ValidasiPengeluaranStockToolStripMenuItem, Me.TransferStockSementaraToolStripMenuItem, Me.ValidasiTransferStockSementaraTidakTimbangToolStripMenuItem, Me.ValidasiTransferStockSementaraTimbangToolStripMenuItem, Me.PairingRFIDToolStripMenuItem, Me.TransferQualityToolStripMenuItem2, Me.DisplayTrackgingRFIDToolStripMenuItem})
 		Me.MaterialMovementToolStripMenuItem.Name = "MaterialMovementToolStripMenuItem"
 		Me.MaterialMovementToolStripMenuItem.Size = New System.Drawing.Size(250, 22)
 		Me.MaterialMovementToolStripMenuItem.Text = "Material Movement"
@@ -3000,49 +3280,6 @@ Partial Class FMenuDevFix
 		Me.DisplayFloorScaleToolStripMenuItem.Name = "DisplayFloorScaleToolStripMenuItem"
 		Me.DisplayFloorScaleToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
 		Me.DisplayFloorScaleToolStripMenuItem.Text = "Display FloorScale"
-		'
-		'DisplayToolStripMenuItem3
-		'
-		Me.DisplayToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DisplayBarangToolStripMenuItem, Me.BarangMasukPerpalletToolStripMenuItem, Me.DisplayBarangMasukToolStripMenuItem, Me.DisplayGr3ToolStripMenuItem, Me.DisplayMergeBarcodeToolStripMenuItem, Me.DisplayTransferStockSementaraToolStripMenuItem})
-		Me.DisplayToolStripMenuItem3.Name = "DisplayToolStripMenuItem3"
-		Me.DisplayToolStripMenuItem3.Size = New System.Drawing.Size(250, 22)
-		Me.DisplayToolStripMenuItem3.Text = "Display"
-		'
-		'DisplayBarangToolStripMenuItem
-		'
-		Me.DisplayBarangToolStripMenuItem.Name = "DisplayBarangToolStripMenuItem"
-		Me.DisplayBarangToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
-		Me.DisplayBarangToolStripMenuItem.Text = "Display Barang"
-		'
-		'BarangMasukPerpalletToolStripMenuItem
-		'
-		Me.BarangMasukPerpalletToolStripMenuItem.Name = "BarangMasukPerpalletToolStripMenuItem"
-		Me.BarangMasukPerpalletToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
-		Me.BarangMasukPerpalletToolStripMenuItem.Text = "Barang Masuk Perpallet"
-		'
-		'DisplayBarangMasukToolStripMenuItem
-		'
-		Me.DisplayBarangMasukToolStripMenuItem.Name = "DisplayBarangMasukToolStripMenuItem"
-		Me.DisplayBarangMasukToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
-		Me.DisplayBarangMasukToolStripMenuItem.Text = "Display Barang Masuk"
-		'
-		'DisplayGr3ToolStripMenuItem
-		'
-		Me.DisplayGr3ToolStripMenuItem.Name = "DisplayGr3ToolStripMenuItem"
-		Me.DisplayGr3ToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
-		Me.DisplayGr3ToolStripMenuItem.Text = "Display GR 3"
-		'
-		'DisplayMergeBarcodeToolStripMenuItem
-		'
-		Me.DisplayMergeBarcodeToolStripMenuItem.Name = "DisplayMergeBarcodeToolStripMenuItem"
-		Me.DisplayMergeBarcodeToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
-		Me.DisplayMergeBarcodeToolStripMenuItem.Text = "Display Merge Barcode"
-		'
-		'DisplayTransferStockSementaraToolStripMenuItem
-		'
-		Me.DisplayTransferStockSementaraToolStripMenuItem.Name = "DisplayTransferStockSementaraToolStripMenuItem"
-		Me.DisplayTransferStockSementaraToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
-		Me.DisplayTransferStockSementaraToolStripMenuItem.Text = "Display Transfer Stock Sementara"
 		'
 		'AdjustmentStockToolStripMenuItem
 		'
@@ -3703,7 +3940,7 @@ Partial Class FMenuDevFix
 		'
 		'PAGE2ToolStripMenuItem
 		'
-		Me.PAGE2ToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LaporanPenjualanToolStripMenuItem, Me.LaporanCompareBudgetingToolStripMenuItem1, Me.LaporanBarcodeMergeToolStripMenuItem, Me.LaporanReturPackagingToolStripMenuItem, Me.LaporanWasteProductToolStripMenuItem, Me.LaporanTransferStoToolStripMenuItem, Me.LaporanSplitStockToolStripMenuItem1})
+		Me.PAGE2ToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LaporanPenjualanToolStripMenuItem, Me.LaporanCompareBudgetingToolStripMenuItem1, Me.LaporanBarcodeMergeToolStripMenuItem, Me.LaporanReturPackagingToolStripMenuItem, Me.LaporanWasteProductToolStripMenuItem, Me.LaporanTransferStoToolStripMenuItem, Me.LaporanSplitStockToolStripMenuItem1, Me.LaporanProductionOrderToolStripMenuItem})
 		Me.PAGE2ToolStripMenuItem.Name = "PAGE2ToolStripMenuItem"
 		Me.PAGE2ToolStripMenuItem.Size = New System.Drawing.Size(266, 22)
 		Me.PAGE2ToolStripMenuItem.Text = "PAGE 2"
@@ -3749,6 +3986,12 @@ Partial Class FMenuDevFix
 		Me.LaporanSplitStockToolStripMenuItem1.Name = "LaporanSplitStockToolStripMenuItem1"
 		Me.LaporanSplitStockToolStripMenuItem1.Size = New System.Drawing.Size(253, 22)
 		Me.LaporanSplitStockToolStripMenuItem1.Text = "Laporan Split Stock"
+		'
+		'LaporanProductionOrderToolStripMenuItem
+		'
+		Me.LaporanProductionOrderToolStripMenuItem.Name = "LaporanProductionOrderToolStripMenuItem"
+		Me.LaporanProductionOrderToolStripMenuItem.Size = New System.Drawing.Size(253, 22)
+		Me.LaporanProductionOrderToolStripMenuItem.Text = "Laporan Production Order"
 		'
 		'LaporanBiayaProduksiToolStripMenuItem
 		'
@@ -4033,7 +4276,7 @@ Partial Class FMenuDevFix
 		'
 		'AsdasdaToolStripMenuItem
 		'
-		Me.AsdasdaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AsdaToolStripMenuItem1, Me.UpdateJurnalPembelianToolStripMenuItem, Me.ExportToExcelToolStripMenuItem, Me.TesPrintToolStripMenuItem1, Me.TesTransaction2FormToolStripMenuItem, Me.TesToolTipToolStripMenuItem, Me.TesReportTandaTanganToolStripMenuItem, Me.TesPaginationToolStripMenuItem, Me.TesSuncronizeToolStripMenuItem, Me.TesMODALToolStripMenuItem, Me.TesCetakBarcodeToolStripMenuItem, Me.TesTabControlToolStripMenuItem, Me.TesLoadingToolStripMenuItem})
+		Me.AsdasdaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AsdaToolStripMenuItem1, Me.UpdateJurnalPembelianToolStripMenuItem, Me.ExportToExcelToolStripMenuItem, Me.TesPrintToolStripMenuItem1, Me.TesTransaction2FormToolStripMenuItem, Me.TesToolTipToolStripMenuItem, Me.TesReportTandaTanganToolStripMenuItem, Me.TesPaginationToolStripMenuItem, Me.TesSuncronizeToolStripMenuItem, Me.TesMODALToolStripMenuItem, Me.TesCetakBarcodeToolStripMenuItem, Me.TesTabControlToolStripMenuItem, Me.TesLoadingToolStripMenuItem, Me.TesAsyncToolStripMenuItem, Me.TesDEsignDGVToolStripMenuItem})
 		Me.AsdasdaToolStripMenuItem.Name = "AsdasdaToolStripMenuItem"
 		Me.AsdasdaToolStripMenuItem.Size = New System.Drawing.Size(38, 20)
 		Me.AsdasdaToolStripMenuItem.Text = "TES"
@@ -4116,6 +4359,18 @@ Partial Class FMenuDevFix
 		Me.TesLoadingToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
 		Me.TesLoadingToolStripMenuItem.Text = "Tes Loading"
 		'
+		'TesAsyncToolStripMenuItem
+		'
+		Me.TesAsyncToolStripMenuItem.Name = "TesAsyncToolStripMenuItem"
+		Me.TesAsyncToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+		Me.TesAsyncToolStripMenuItem.Text = "Tes Async"
+		'
+		'TesDEsignDGVToolStripMenuItem
+		'
+		Me.TesDEsignDGVToolStripMenuItem.Name = "TesDEsignDGVToolStripMenuItem"
+		Me.TesDEsignDGVToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+		Me.TesDEsignDGVToolStripMenuItem.Text = "Tes DEsign DGV"
+		'
 		'StatusStrip1
 		'
 		Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel4, Me.ToolStripStatusLabel2, Me.ToolStripStatusLabel3})
@@ -4162,6 +4417,12 @@ Partial Class FMenuDevFix
 		Me.Timer2.Enabled = True
 		Me.Timer2.Interval = 1800000
 		'
+		'DisplayTrackgingRFIDToolStripMenuItem
+		'
+		Me.DisplayTrackgingRFIDToolStripMenuItem.Name = "DisplayTrackgingRFIDToolStripMenuItem"
+		Me.DisplayTrackgingRFIDToolStripMenuItem.Size = New System.Drawing.Size(367, 22)
+		Me.DisplayTrackgingRFIDToolStripMenuItem.Text = "Display Trackging RFID"
+		'
 		'FMenuDevFix
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4185,576 +4446,613 @@ Partial Class FMenuDevFix
 	End Sub
 
 	Friend WithEvents MenuStrip1 As MenuStrip
-    Friend WithEvents StatusStrip1 As StatusStrip
-    Friend WithEvents ToolStripStatusLabel1 As ToolStripStatusLabel
-    Friend WithEvents ToolStripStatusLabel4 As ToolStripStatusLabel
-    Friend WithEvents ToolStripStatusLabel2 As ToolStripStatusLabel
-    Friend WithEvents ToolStripStatusLabel3 As ToolStripStatusLabel
-    Friend WithEvents Timer1 As Timer
-    Friend WithEvents Timer2 As Timer
-    Friend WithEvents PurchaseToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterDataToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransaksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterEkspedisiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterSelisihJenisToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterKategoriHargaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterKategoriHargaDetailToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterKateToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterKategoriPORoleToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterMediaKirimToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterJatuhTempoToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterSupplierToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MASTERToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents InputMenuToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents InputRoleToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PenawaranToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PembelianToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PelunasanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PenawaranToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents POToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PurcahseRequisitionToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PelunasanBiayaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PembayaranDimukaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BindingPembayaranDimukaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PenawaranToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents PembelianToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents PelunasanToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents DataPenawaranToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PenawaranToolStripMenuItem3 As ToolStripMenuItem
-    Friend WithEvents PenawaranBerakhirToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PurchaseOrderToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PurchaseRequisitionToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PelunasanToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents PelunasanHutangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HutangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SupplierToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AgentToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HPPToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PembelianToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents LaporanPurchaseOrderToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanPurchaseRequisitionToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PelunasanToolStripMenuItem3 As ToolStripMenuItem
-    Friend WithEvents HPPImportToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HPPLokalToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PembelianToolStripMenuItem3 As ToolStripMenuItem
-    Friend WithEvents ValidasiBarangMasukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ProductionToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransaksiToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents RencanaProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents OrderProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents OrderIndependentToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents JadwalProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BiayaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents CompareWorkCenterToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HPPProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ActualBiayaProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents WorkCenterToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents WorkCenterPerbulanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ProduksiToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents RequestMaterialToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransferQualityToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HasilPengeluaranBahanBakuToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HasilProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HasilProduksiFGToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BarcodeProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents BiayaToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents ProduksiToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents RencanaProduksiToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents ActualBiayaProduksiToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents HasilProduksiToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents SplitProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents RequestMaterialToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents OrderProduksiToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents LaporanToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents BiayaToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents ActualBiayaProduksiToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents ProduksiToolStripMenuItem3 As ToolStripMenuItem
-    Friend WithEvents LaporanGIGRToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanPenggunaanBahanBakuToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents RencanaProduksiToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents HPPToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents ImportToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LoadingBarangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents WarehouseToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MaterialMovementToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransferQualityToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents ForecastToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayForecastOrderToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayLogForecastToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayLogMaterialRequisitionToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayOrderPlanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ForecastToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents ForecastToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents ForecastToolStripMenuItem3 As ToolStripMenuItem
-    Friend WithEvents ForecastOrderToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SalesForecastingByPPICToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MaterialRequisitionByPPICToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MaterialRequisitionToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BiayaToolStripMenuItem3 As ToolStripMenuItem
-    Friend WithEvents KategoriBiayaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BiayaToolStripMenuItem4 As ToolStripMenuItem
-    Friend WithEvents DetailBiaya1ToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DetailBiaya2ToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DetailBiaya3ToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PerjalananToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents VendorToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransaksiToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents DisplayToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents LaporanToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents HSCodeToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterBiayaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents StorageToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BarangPerKontainerToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BarangImportToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PelabuhanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SupplierPerPelabuhanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ShipperToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents KategoriPerusahaanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SupplierPerFreightToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PerusahaanImportToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents RekeningPerusahaanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BIayaToolStripMenuItem5 As ToolStripMenuItem
-    Friend WithEvents BiayaImportPerPOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiBiayaImportPerPOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiBiayaImportToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HitungBillingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HitungHPPToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransaksiBiayaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransaksiBiayaFreightToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PerjalananToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents RencanaOrderToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BiayaToolStripMenuItem6 As ToolStripMenuItem
-    Friend WithEvents DisplayBillingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransaksiBiayaImportToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PerjalananToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents LoadingBarangToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents SubmitPOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents FormDebugToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ImportToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents DisplayTransaksiBiayaLokalToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AccountingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BudgetingWorkCenterToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterMesinToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterWorkCenterToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents QCToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SplitStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplaySplitStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HPPToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents ValidasiHPPToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransferTableDatabaseToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MaterialIncomiingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayPalletMasukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents CetakUlangPalletMasukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents CompareBudgetingWorkCenterFIXToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AccountingToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents MasterDataToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents MToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BindingMeteranToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PersentaseBudgetingWorkCenterToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiBudgetWorkCenterToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayValidasiBudgetWorkCenterToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ProductionToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents MasterJenisBiayaProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayToolStripMenuItem3 As ToolStripMenuItem
-    Friend WithEvents DisplayBarangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiMaterialToMaterialToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransferStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SummaryBarangMasukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PengeluaranBahanBakuToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ControllingProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents WorkCenterToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents MasterRoutingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiHPPToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents InventoryToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterBarangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents CompareBudgetingWorkCenterBiayaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MaterialMovementToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents TransferStockToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents DisplayTransferStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayTransferStockTidakTimbangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DipToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SplitBarangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SplitBarangToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents ValidasiSplitToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplaySplitBarangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SYNCToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TFQualityToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PengeluaranBarangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ReportToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanBiayaProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanGIGRToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents LaporanHPPPerBatchToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents RequestMaterialGeneralToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AsdasdaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AsdaToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents LaporanBiayaProduksiToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents PurchaseOrderSUBToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PurchaseToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents LaporanSummarySubPOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayPOIndukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SelisihBarangMasukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanPurchaseOrderIndukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayProductionResultToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PengeluaranStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PelunasanToolStripMenuItem4 As ToolStripMenuItem
-    Friend WithEvents MasterDataToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents RoutingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiPelunasanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents Pembelian2ToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents IncomingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ScanPalletDesktopToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TimbangKeluarToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanBiayaProduksiToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents UpdateJurnalPembelianToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PAJAKToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MutasiBahanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MulaiProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplaySplitToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HasilProduksiToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents HasilProduksiGIToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HasilProduksiGRToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HasilProduksiToolStripMenuItem3 As ToolStripMenuItem
-    Friend WithEvents LaporanPersediaanBahanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiPengajuanSelesaiPRToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ReturPembelianToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayTransferStockToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents DisplayReturPembelianToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AdjustmentStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayAdustmentStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TmibangUnloadingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BindingAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TfStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MaterialMovementToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents PengeluaranStockToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents RestockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiPelunasanToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents BarangLainToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PembelianBarangLainToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PRToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PenawaranToolStripMenuItem4 As ToolStripMenuItem
-    Friend WithEvents LaporanToolStripMenuItem3 As ToolStripMenuItem
-    Friend WithEvents LaporanPenambahanStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PembatalanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PRToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents POIndukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SubPOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AsdasdassdToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PalletMasukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PerjalananLokalToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SyncToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents MasterBiayaLokalToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterKendaraanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransaksiBiayaLokalToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DelivaryOrderToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DownPaymentToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DownPaymentPembelianToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayDownPaymentToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DownPaymentAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DownPaymentProyekToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayDownPaymentAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayDownPaymentProyekToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanBarangMasukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanPembelianToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayToolStripMenuItem4 As ToolStripMenuItem
-    Friend WithEvents DisplayPOIndukToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents DisplaySubPOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayPOIndukToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents ControllingProduksiLamaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanPelunasanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanPOIndukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanSubPOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PenawaranToolStripMenuItem5 As ToolStripMenuItem
-    Friend WithEvents RequestMaterialSplitToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanRequestMaterialToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BarangMasukPerpalletToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanTransferStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PelunasanProyekToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiPeneToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PengeluaranStockRejectedToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PembelianAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanFinalGIGRToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanSplitStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PelunasanAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DetailAccountToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AccountConstToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PelunasanAssetToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents DisplayValidasiPenerimaanBarangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiPenerimaanBarangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayBarangMasukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PengeluaranStockToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents PengeluaranStockToolStripMenuItem3 As ToolStripMenuItem
-    Friend WithEvents PengeluaranStockRejectedToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents DisplayQCToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TimbangMasukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TimbangKeluarToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents QualityControlToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransaksiToolStripMenuItem3 As ToolStripMenuItem
-    Friend WithEvents QCBarangMasukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents CetakToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents CetakBarcodeFloorScaleToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterDataToolStripMenuItem3 As ToolStripMenuItem
-    Friend WithEvents QualityControlBarangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterMenuToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LoadingBarangImportToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanToolStripMenuItem4 As ToolStripMenuItem
-    Friend WithEvents LaporanSummaryToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents RestockToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents DisplayRestockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BahanBakarToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TFBahanBakarToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents DisplayBahanBakarToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayPengeluaranStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents VallidasiPengeluaranStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HRToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents CetakSaldoToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ExportToExcelToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents Material2MaterialToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TFMaterial2MaterialToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayToolStripMenuItem5 As ToolStripMenuItem
-    Friend WithEvents LaporanPengeluaranStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PengajuanPemusnahanBarangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiPemusnahanBarangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiTimbangPemusnahanBarangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiTimbangPemusnahanBarangTidakTimbangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayPemusnahanBarangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AssetToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents AsdToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterDataToolStripMenuItem4 As ToolStripMenuItem
-    Friend WithEvents MasterBarangToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents KategoriBarangAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents KelompokBarangAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterGedungAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterAreaBarangAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PurchaseToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents TransaksiToolStripMenuItem4 As ToolStripMenuItem
-    Friend WithEvents PToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents WarehouseToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents DisplayToolStripMenuItem6 As ToolStripMenuItem
-    Friend WithEvents BarangMasukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransaksiToolStripMenuItem5 As ToolStripMenuItem
-    Friend WithEvents PengeluaranStockAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PemakaianStockAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PengeluaranStockAssetRejectedToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiPengeluaranStockAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiPemakaianStockAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents POIndukToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents SubPOToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents PenawaranToolStripMenuItem6 As ToolStripMenuItem
-    Friend WithEvents ValToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransaksiBiayaLokalToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents PembelianAssetToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents LaporanFinalGIGRToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents LaporanHPPProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransferStockToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents QualityControlToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents RequestMaterialQCToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterQCToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HCISToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SampleToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TesPrintToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents LaporanFinalGIGRMainToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents QCToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents RequestMaterialQCToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents LaporanRequestMaterialQCToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiInkubasiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AssetToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents PengeluaranStockToolStripMenuItem4 As ToolStripMenuItem
-    Friend WithEvents PemakaianStockToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents PembelianAssetToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents ProductionProcessTrackerToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiGR3ToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayGr3ToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanPelunasanCutOffToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ProductionTrackHarianToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanMilitarySamplingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayToolStripMenuItem7 As ToolStripMenuItem
-    Friend WithEvents PRToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents SelisihBarangMasukToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents DisplaySelisihBarangMasukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanDownPaymentToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanDownPaymentAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanDownPaymentProyekToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanMutasiBahanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HutangToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents LaporanMutasiBahanDalamProsesToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents NominalStockBySplitToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiHPPProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiHPPToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents LaporanPelunasanCutOffAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanToolStripMenuItem5 As ToolStripMenuItem
-    Friend WithEvents LaporanPelunasanToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents LaporanPembelianToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents LaporanBarangMasukToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents BypassMilitarySamplingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanHPPToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents FleverToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanPengeluaranToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanMutasiBahanToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents InventoriToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransaksiToolStripMenuItem6 As ToolStripMenuItem
-    Friend WithEvents KonfigurasiHargaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents FleverToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents WasteItemsToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents WasteProsesToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents WasteProductToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents WasteProductReceivedToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents IndependentGoodIssueToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents RequestMaterialTambahanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiRequestMaterialTambahanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SummaryPalletMasukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ReturPembelianToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents MasterDataToolStripMenuItem5 As ToolStripMenuItem
-    Friend WithEvents PersentaseMarginBarangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PersentasePenentuBarangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransferStockBaruToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayToolStripMenuItem8 As ToolStripMenuItem
-    Friend WithEvents DisplayBarangToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents PenjualanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PenjualanToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents PengeluaranStockToolStripMenuItem5 As ToolStripMenuItem
-    Friend WithEvents ValidasiPengeluaranStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayFloorScaleToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents FormulaProduksiToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TesTransaction2FormToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents GlobalSettingToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents MasterBarangToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents TesToolTipToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TesReportTandaTanganToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayAdjustmentStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TesPaginationToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DOToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents BarangTerkirimToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BarangTerkirimGudangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayToolStripMenuItem9 As ToolStripMenuItem
-    Friend WithEvents DisplayBarangToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents BarangTerkirimPerbarcodeToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BarangTerkirimPerbarcodeWarehouseToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DOToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents DisplayPenjualanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanPelunasanCutoffToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents DisplayApprovalToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiPemusnahanBarangToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents TesSuncronizeToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ReturDOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ReturDOSementaraToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ReturDOToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents DisplatReturDOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TesMODALToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanReturDOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanDPCutOffToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanDPCutOffAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HRToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents CetakSaldoAkhirToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents CetakSaldoAkhirAssetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanHRToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ProyekToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PurchaseToolStripMenuItem4 As ToolStripMenuItem
-    Friend WithEvents PelunasanCutOffToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiPRToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanDPCutOffProyekToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BudgetingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents CompareBudgetingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiCompareToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanCompareBudgetingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PemBaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PembayaranDimukaBarangLainCutOffToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PembayaranDimukaProyekCutOffToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SelisihBarangMasukBarangLainToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterKategoriGudangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterBindingKategoriGudangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterBindingUserKategoriGudangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PurchaseRequisitionDepartemtnToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransferStockToolStripMenuItem3 As ToolStripMenuItem
-    Friend WithEvents ValidasiTransferStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents CetakBarcodeStockGudangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayToolStripMenuItem10 As ToolStripMenuItem
-    Friend WithEvents ValidasiTransferMaterialRequisitionToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ReturDOMarketingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BalikStockPremixBukanTanamToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanPemakaianBahanBakuToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PAGE2ToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanPenjualanToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PenyelesaianPRToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiProsesPRToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PRPenawaranToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterEstimasiBarangMasukToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayPRToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PRPenawranToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterEstimasiBarangMasukBarangLainToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanCompareBudgetingToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents TesCetakBarcodeToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterKategoriJenis5LayerToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValiidasiTransferStockTimbangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PelunasanKreditDOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DOToolStripMenuItem3 As ToolStripMenuItem
-    Friend WithEvents DOResselerToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PelunasnaKreditDOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PelunasToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayPelunasanKreditDOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayPelunasanTunaiDOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents CompareBudgeting2ToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PembelianToolStripMenuItem4 As ToolStripMenuItem
-    Friend WithEvents DisplayGR3ToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents PRDepartementToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents POIndukToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents TransaksiToolStripMenuItem7 As ToolStripMenuItem
-    Friend WithEvents MergeBarcodeToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayMergeBarcodeToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PenyelesaianPR2ToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanBarcodeMergeToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents POToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents InputOtomatisPengajuanWasteToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ReturPackagingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TesTabControlToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TesLoadingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiAdustmentStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ReturDOBarcodeToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayReturDOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents FormulaBindingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PelunasanTunaiDOToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents WasteProsesProductToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TesSyncApprovalWasteToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MasterApprovalLevelToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayReturPaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanReturPackagingToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanWasteProductToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransferStockSementaraToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiTransferStockSementaraTidakTimbangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiTransferStockSementaraTimbangToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PairingRFIDToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayTransferStockSementaraToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanTransferStoToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LaporanSplitStockToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents MasterDataToolStripMenuItem6 As ToolStripMenuItem
-    Friend WithEvents RFIDTAGToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiPenerimaanBarangMergeToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents FormulatorToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransaksiToolStripMenuItem8 As ToolStripMenuItem
-    Friend WithEvents PengajuanBarangBaruToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransaksiToolStripMenuItem9 As ToolStripMenuItem
-    Friend WithEvents AdjustmentBarangLainToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiAdjustmentStockBarangLainToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayAdjustmentStockBarangLainToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents DisplayToolStripMenuItem11 As ToolStripMenuItem
-    Friend WithEvents PengajuanBarangBaruToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents PurchaseRequisitionTrialToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ProduksiToolStripMenuItem4 As ToolStripMenuItem
-    Friend WithEvents ProductionOrderToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SplitProduksiToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents ValidasiFormulaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents CreateFormulaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents TransferQualityToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents RequestMaterialGeneralToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents GoodReceivedToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiFornulaTrialMainToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BindingFormulaToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PenyediaanBahanBakuToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiLIMSToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ValidasiBindingFormulaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents StatusStrip1 As StatusStrip
+	Friend WithEvents ToolStripStatusLabel1 As ToolStripStatusLabel
+	Friend WithEvents ToolStripStatusLabel4 As ToolStripStatusLabel
+	Friend WithEvents ToolStripStatusLabel2 As ToolStripStatusLabel
+	Friend WithEvents ToolStripStatusLabel3 As ToolStripStatusLabel
+	Friend WithEvents Timer1 As Timer
+	Friend WithEvents Timer2 As Timer
+	Friend WithEvents PurchaseToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterDataToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransaksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterEkspedisiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterSelisihJenisToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterKategoriHargaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterKategoriHargaDetailToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterKateToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterKategoriPORoleToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterMediaKirimToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterJatuhTempoToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterSupplierToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MASTERToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents InputMenuToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents InputRoleToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PenawaranToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PembelianToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PelunasanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PenawaranToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents POToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PurcahseRequisitionToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PelunasanBiayaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PembayaranDimukaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BindingPembayaranDimukaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PenawaranToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents PembelianToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents PelunasanToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents DataPenawaranToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PenawaranToolStripMenuItem3 As ToolStripMenuItem
+	Friend WithEvents PenawaranBerakhirToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PurchaseOrderToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PurchaseRequisitionToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PelunasanToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents PelunasanHutangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HutangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SupplierToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents AgentToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HPPToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PembelianToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents LaporanPurchaseOrderToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanPurchaseRequisitionToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PelunasanToolStripMenuItem3 As ToolStripMenuItem
+	Friend WithEvents HPPImportToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HPPLokalToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PembelianToolStripMenuItem3 As ToolStripMenuItem
+	Friend WithEvents ValidasiBarangMasukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ProductionToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransaksiToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents RencanaProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents OrderProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents OrderIndependentToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents JadwalProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BiayaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents CompareWorkCenterToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HPPProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ActualBiayaProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents WorkCenterToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents WorkCenterPerbulanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ProduksiToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents RequestMaterialToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransferQualityToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HasilPengeluaranBahanBakuToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HasilProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HasilProduksiFGToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BarcodeProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents BiayaToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents ProduksiToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents RencanaProduksiToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents ActualBiayaProduksiToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents HasilProduksiToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents SplitProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents RequestMaterialToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents OrderProduksiToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents LaporanToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents BiayaToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents ActualBiayaProduksiToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents ProduksiToolStripMenuItem3 As ToolStripMenuItem
+	Friend WithEvents LaporanGIGRToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanPenggunaanBahanBakuToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents RencanaProduksiToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents HPPToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents ImportToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LoadingBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents WarehouseToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MaterialMovementToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransferQualityToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents ForecastToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayForecastOrderToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayLogForecastToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayLogMaterialRequisitionToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayOrderPlanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ForecastToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents ForecastToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents ForecastToolStripMenuItem3 As ToolStripMenuItem
+	Friend WithEvents ForecastOrderToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SalesForecastingByPPICToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MaterialRequisitionByPPICToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MaterialRequisitionToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BiayaToolStripMenuItem3 As ToolStripMenuItem
+	Friend WithEvents KategoriBiayaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BiayaToolStripMenuItem4 As ToolStripMenuItem
+	Friend WithEvents DetailBiaya1ToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DetailBiaya2ToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DetailBiaya3ToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PerjalananToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents VendorToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransaksiToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents DisplayToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents LaporanToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents HSCodeToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterBiayaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents StorageToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BarangPerKontainerToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BarangImportToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PelabuhanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SupplierPerPelabuhanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ShipperToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents KategoriPerusahaanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SupplierPerFreightToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PerusahaanImportToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents RekeningPerusahaanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BIayaToolStripMenuItem5 As ToolStripMenuItem
+	Friend WithEvents BiayaImportPerPOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiBiayaImportPerPOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiBiayaImportToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HitungBillingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HitungHPPToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransaksiBiayaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransaksiBiayaFreightToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PerjalananToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents RencanaOrderToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BiayaToolStripMenuItem6 As ToolStripMenuItem
+	Friend WithEvents DisplayBillingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransaksiBiayaImportToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PerjalananToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents LoadingBarangToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents SubmitPOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents FormDebugToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ImportToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents DisplayTransaksiBiayaLokalToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents AccountingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BudgetingWorkCenterToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterMesinToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterWorkCenterToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents QCToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SplitStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplaySplitStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HPPToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents ValidasiHPPToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransferTableDatabaseToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MaterialIncomiingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayPalletMasukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents CetakUlangPalletMasukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents CompareBudgetingWorkCenterFIXToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents AccountingToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents MasterDataToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents MToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BindingMeteranToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PersentaseBudgetingWorkCenterToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiBudgetWorkCenterToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayValidasiBudgetWorkCenterToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ProductionToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents MasterJenisBiayaProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayToolStripMenuItem3 As ToolStripMenuItem
+	Friend WithEvents DisplayBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiMaterialToMaterialToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransferStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SummaryBarangMasukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PengeluaranBahanBakuToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ControllingProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents WorkCenterToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents MasterRoutingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiHPPToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents InventoryToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents CompareBudgetingWorkCenterBiayaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MaterialMovementToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents TransferStockToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents DisplayTransferStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayTransferStockTidakTimbangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DipToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SplitBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SplitBarangToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents ValidasiSplitToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplaySplitBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SYNCToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TFQualityToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PengeluaranBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ReportToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanBiayaProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanGIGRToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents LaporanHPPPerBatchToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents RequestMaterialGeneralToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents AsdasdaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents AsdaToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents LaporanBiayaProduksiToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents PurchaseOrderSUBToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PurchaseToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents LaporanSummarySubPOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayPOIndukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SelisihBarangMasukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanPurchaseOrderIndukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayProductionResultToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PengeluaranStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PelunasanToolStripMenuItem4 As ToolStripMenuItem
+	Friend WithEvents MasterDataToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents RoutingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiPelunasanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents Pembelian2ToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents IncomingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ScanPalletDesktopToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TimbangKeluarToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanBiayaProduksiToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents UpdateJurnalPembelianToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PAJAKToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MutasiBahanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MulaiProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplaySplitToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HasilProduksiToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents HasilProduksiGIToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HasilProduksiGRToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HasilProduksiToolStripMenuItem3 As ToolStripMenuItem
+	Friend WithEvents LaporanPersediaanBahanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiPengajuanSelesaiPRToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ReturPembelianToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayTransferStockToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents DisplayReturPembelianToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents AdjustmentStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayAdustmentStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TmibangUnloadingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents AssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BindingAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TfStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MaterialMovementToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents PengeluaranStockToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents RestockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiPelunasanToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents BarangLainToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PembelianBarangLainToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PRToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PenawaranToolStripMenuItem4 As ToolStripMenuItem
+	Friend WithEvents LaporanToolStripMenuItem3 As ToolStripMenuItem
+	Friend WithEvents LaporanPenambahanStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PembatalanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PRToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents POIndukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SubPOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents AsdasdassdToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PalletMasukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PerjalananLokalToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SyncToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents MasterBiayaLokalToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterKendaraanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransaksiBiayaLokalToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DelivaryOrderToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DownPaymentToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DownPaymentPembelianToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayDownPaymentToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DownPaymentAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DownPaymentProyekToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayDownPaymentAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayDownPaymentProyekToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanBarangMasukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanPembelianToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayToolStripMenuItem4 As ToolStripMenuItem
+	Friend WithEvents DisplayPOIndukToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents DisplaySubPOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayPOIndukToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents ControllingProduksiLamaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanPelunasanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanPOIndukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanSubPOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PenawaranToolStripMenuItem5 As ToolStripMenuItem
+	Friend WithEvents RequestMaterialSplitToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanRequestMaterialToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BarangMasukPerpalletToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanTransferStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PelunasanProyekToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiPeneToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PengeluaranStockRejectedToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PembelianAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanFinalGIGRToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanSplitStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PelunasanAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DetailAccountToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents AccountConstToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PelunasanAssetToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents DisplayValidasiPenerimaanBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiPenerimaanBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayBarangMasukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PengeluaranStockToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents PengeluaranStockToolStripMenuItem3 As ToolStripMenuItem
+	Friend WithEvents PengeluaranStockRejectedToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents DisplayQCToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TimbangMasukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TimbangKeluarToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents QualityControlToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransaksiToolStripMenuItem3 As ToolStripMenuItem
+	Friend WithEvents QCBarangMasukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents CetakToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents CetakBarcodeFloorScaleToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterDataToolStripMenuItem3 As ToolStripMenuItem
+	Friend WithEvents QualityControlBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterMenuToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LoadingBarangImportToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanToolStripMenuItem4 As ToolStripMenuItem
+	Friend WithEvents LaporanSummaryToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents RestockToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents DisplayRestockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BahanBakarToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TFBahanBakarToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents DisplayBahanBakarToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayPengeluaranStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents VallidasiPengeluaranStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HRToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents CetakSaldoToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ExportToExcelToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents Material2MaterialToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TFMaterial2MaterialToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayToolStripMenuItem5 As ToolStripMenuItem
+	Friend WithEvents LaporanPengeluaranStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PengajuanPemusnahanBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiPemusnahanBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiTimbangPemusnahanBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiTimbangPemusnahanBarangTidakTimbangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayPemusnahanBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents AssetToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents AsdToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterDataToolStripMenuItem4 As ToolStripMenuItem
+	Friend WithEvents MasterBarangToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents KategoriBarangAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents KelompokBarangAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterGedungAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterAreaBarangAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PurchaseToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents TransaksiToolStripMenuItem4 As ToolStripMenuItem
+	Friend WithEvents PToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents WarehouseToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents DisplayToolStripMenuItem6 As ToolStripMenuItem
+	Friend WithEvents BarangMasukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransaksiToolStripMenuItem5 As ToolStripMenuItem
+	Friend WithEvents PengeluaranStockAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PemakaianStockAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PengeluaranStockAssetRejectedToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiPengeluaranStockAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiPemakaianStockAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents POIndukToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents SubPOToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents PenawaranToolStripMenuItem6 As ToolStripMenuItem
+	Friend WithEvents ValToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransaksiBiayaLokalToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents PembelianAssetToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents LaporanFinalGIGRToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents LaporanHPPProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransferStockToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents QualityControlToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents RequestMaterialQCToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterQCToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HCISToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SampleToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TesPrintToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents LaporanFinalGIGRMainToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents QCToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents RequestMaterialQCToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents LaporanRequestMaterialQCToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiInkubasiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents AssetToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents PengeluaranStockToolStripMenuItem4 As ToolStripMenuItem
+	Friend WithEvents PemakaianStockToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents PembelianAssetToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents ProductionProcessTrackerToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiGR3ToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayGr3ToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanPelunasanCutOffToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ProductionTrackHarianToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanMilitarySamplingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayToolStripMenuItem7 As ToolStripMenuItem
+	Friend WithEvents PRToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents SelisihBarangMasukToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents DisplaySelisihBarangMasukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanDownPaymentToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanDownPaymentAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanDownPaymentProyekToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanMutasiBahanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HutangToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents LaporanMutasiBahanDalamProsesToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents NominalStockBySplitToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiHPPProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiHPPToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents LaporanPelunasanCutOffAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanToolStripMenuItem5 As ToolStripMenuItem
+	Friend WithEvents LaporanPelunasanToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents LaporanPembelianToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents LaporanBarangMasukToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents BypassMilitarySamplingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanHPPToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents FleverToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanPengeluaranToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanMutasiBahanToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents InventoriToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransaksiToolStripMenuItem6 As ToolStripMenuItem
+	Friend WithEvents KonfigurasiHargaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents FleverToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents WasteItemsToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents WasteProsesToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents WasteProductToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents WasteProductReceivedToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents IndependentGoodIssueToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents RequestMaterialTambahanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiRequestMaterialTambahanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SummaryPalletMasukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ReturPembelianToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents MasterDataToolStripMenuItem5 As ToolStripMenuItem
+	Friend WithEvents PersentaseMarginBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PersentasePenentuBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransferStockBaruToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayToolStripMenuItem8 As ToolStripMenuItem
+	Friend WithEvents DisplayBarangToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents PenjualanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PenjualanToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents PengeluaranStockToolStripMenuItem5 As ToolStripMenuItem
+	Friend WithEvents ValidasiPengeluaranStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayFloorScaleToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents FormulaProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TesTransaction2FormToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents GlobalSettingToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents MasterBarangToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents TesToolTipToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TesReportTandaTanganToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayAdjustmentStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TesPaginationToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DOToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents BarangTerkirimToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BarangTerkirimGudangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayToolStripMenuItem9 As ToolStripMenuItem
+	Friend WithEvents DisplayBarangToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents BarangTerkirimPerbarcodeToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BarangTerkirimPerbarcodeWarehouseToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DOToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents DisplayPenjualanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanPelunasanCutoffToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents DisplayApprovalToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiPemusnahanBarangToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents TesSuncronizeToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ReturDOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ReturDOSementaraToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ReturDOToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents DisplatReturDOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TesMODALToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanReturDOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanDPCutOffToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanDPCutOffAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents HRToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents CetakSaldoAkhirToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents CetakSaldoAkhirAssetToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanHRToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ProyekToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PurchaseToolStripMenuItem4 As ToolStripMenuItem
+	Friend WithEvents PelunasanCutOffToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiPRToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanDPCutOffProyekToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BudgetingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents CompareBudgetingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiCompareToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanCompareBudgetingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PemBaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PembayaranDimukaBarangLainCutOffToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PembayaranDimukaProyekCutOffToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SelisihBarangMasukBarangLainToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterKategoriGudangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterBindingKategoriGudangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterBindingUserKategoriGudangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PurchaseRequisitionDepartemtnToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransferStockToolStripMenuItem3 As ToolStripMenuItem
+	Friend WithEvents ValidasiTransferStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents CetakBarcodeStockGudangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayToolStripMenuItem10 As ToolStripMenuItem
+	Friend WithEvents ValidasiTransferMaterialRequisitionToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ReturDOMarketingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BalikStockPremixBukanTanamToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanPemakaianBahanBakuToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PAGE2ToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanPenjualanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PenyelesaianPRToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiProsesPRToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PRPenawaranToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterEstimasiBarangMasukToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayPRToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PRPenawranToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterEstimasiBarangMasukBarangLainToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanCompareBudgetingToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents TesCetakBarcodeToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterKategoriJenis5LayerToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValiidasiTransferStockTimbangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PelunasanKreditDOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DOToolStripMenuItem3 As ToolStripMenuItem
+	Friend WithEvents DOResselerToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PelunasnaKreditDOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PelunasToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayPelunasanKreditDOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayPelunasanTunaiDOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents CompareBudgeting2ToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PembelianToolStripMenuItem4 As ToolStripMenuItem
+	Friend WithEvents DisplayGR3ToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents PRDepartementToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents POIndukToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents TransaksiToolStripMenuItem7 As ToolStripMenuItem
+	Friend WithEvents MergeBarcodeToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayMergeBarcodeToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PenyelesaianPR2ToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanBarcodeMergeToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents POToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents InputOtomatisPengajuanWasteToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ReturPackagingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TesTabControlToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TesLoadingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiAdustmentStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ReturDOBarcodeToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayReturDOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents FormulaBindingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PelunasanTunaiDOToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents WasteProsesProductToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TesSyncApprovalWasteToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterApprovalLevelToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayReturPaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanReturPackagingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanWasteProductToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransferStockSementaraToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiTransferStockSementaraTidakTimbangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiTransferStockSementaraTimbangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PairingRFIDToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayTransferStockSementaraToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanTransferStoToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanSplitStockToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents MasterDataToolStripMenuItem6 As ToolStripMenuItem
+	Friend WithEvents RFIDTAGToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiPenerimaanBarangMergeToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents FormulatorToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransaksiToolStripMenuItem8 As ToolStripMenuItem
+	Friend WithEvents PengajuanBarangBaruToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransaksiToolStripMenuItem9 As ToolStripMenuItem
+	Friend WithEvents AdjustmentBarangLainToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiAdjustmentStockBarangLainToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayAdjustmentStockBarangLainToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayToolStripMenuItem11 As ToolStripMenuItem
+	Friend WithEvents PengajuanBarangBaruToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents PurchaseRequisitionTrialToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ProduksiToolStripMenuItem4 As ToolStripMenuItem
+	Friend WithEvents ProductionOrderToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SplitProduksiToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents ValidasiFormulaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents CreateFormulaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TransferQualityToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents RequestMaterialGeneralToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents GoodReceivedToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiFornulaTrialMainToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BindingFormulaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PenyediaanBahanBakuToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiLIMSToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ValidasiBindingFormulaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TesAsyncToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ReformulasiFormulaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents RFIDToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents TesDEsignDGVToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PenyediaanBahanBakuToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents ValidaiTrialFormulaToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayValidasiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterKlasifikasiBahanToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterKlasifikasiBahan1ToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterKlasifikasiBahan2ToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterKlasifikasiBahan0ToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterJenisBarangToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents LaporanTransferStockToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents LaporanProductionOrderToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayValidasiFormulaTrialToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents AdjustmentStockToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents ValidasiAdjustmentStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayAdjustmentStockToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents LaporanToolStripMenuItem6 As ToolStripMenuItem
+	Friend WithEvents LaporanAdjustmentStockToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayRequestMaterialGeneralToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MasterQCBacToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayAdjustmentStockToolStripMenuItem2 As ToolStripMenuItem
+	Friend WithEvents InputMenu2ToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MaterInputMenuToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ProductionPlanToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents ProductionPlanSummaryToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ProductoinPlanSalesToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ProductionPlanScheduleToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MRPToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ProductionPlanBackupdToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents ProductoinPlanSalesBackupToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MRPBackupToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents MRPSalesToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents StandarCodingToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents UpdateAPILaporanHasilProduksiToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents DisplayTrackgingRFIDToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -23,17 +23,19 @@ Partial Class N_EMI_Transaksi_Trial_Request_Material
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
 		Me.Panel1 = New System.Windows.Forms.Panel()
+		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Lbl_Judul = New System.Windows.Forms.Label()
 		Me.TxtNoFaktur = New System.Windows.Forms.TextBox()
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
 		Me.Btn_Get_Forumla = New System.Windows.Forms.Button()
 		Me.Label4 = New System.Windows.Forms.Label()
 		Me.Label1 = New System.Windows.Forms.Label()
-		Me.CmbSo_Sup = New System.Windows.Forms.ComboBox()
 		Me.CmbSO_Req = New System.Windows.Forms.ComboBox()
 		Me.Txt_Ket = New System.Windows.Forms.TextBox()
 		Me.Label3 = New System.Windows.Forms.Label()
+		Me.CmbSo_Sup = New System.Windows.Forms.ComboBox()
 		Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+		Me.Label6 = New System.Windows.Forms.Label()
 		Me.TxtJlh = New System.Windows.Forms.TextBox()
 		Me.Label5 = New System.Windows.Forms.Label()
 		Me.TxtSatuan = New System.Windows.Forms.TextBox()
@@ -60,8 +62,6 @@ Partial Class N_EMI_Transaksi_Trial_Request_Material
 		Me.Panel4 = New System.Windows.Forms.Panel()
 		Me.Panel5 = New System.Windows.Forms.Panel()
 		Me.Panel6 = New System.Windows.Forms.Panel()
-		Me.Label6 = New System.Windows.Forms.Label()
-		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Panel1.SuspendLayout()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
@@ -80,6 +80,19 @@ Partial Class N_EMI_Transaksi_Trial_Request_Material
 		Me.Panel1.Size = New System.Drawing.Size(1184, 45)
 		Me.Panel1.TabIndex = 233
 		'
+		'PanelGradient1
+		'
+		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+		Me.PanelGradient1.cuteTransparent1 = 100
+		Me.PanelGradient1.cuteTransparent2 = 64
+		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+		Me.PanelGradient1.Location = New System.Drawing.Point(0, 42)
+		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+		Me.PanelGradient1.Name = "PanelGradient1"
+		Me.PanelGradient1.Size = New System.Drawing.Size(1184, 3)
+		Me.PanelGradient1.TabIndex = 22
+		'
 		'Lbl_Judul
 		'
 		Me.Lbl_Judul.AutoSize = True
@@ -87,9 +100,9 @@ Partial Class N_EMI_Transaksi_Trial_Request_Material
 		Me.Lbl_Judul.Location = New System.Drawing.Point(20, 7)
 		Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(7, 0, 7, 0)
 		Me.Lbl_Judul.Name = "Lbl_Judul"
-		Me.Lbl_Judul.Size = New System.Drawing.Size(290, 30)
+		Me.Lbl_Judul.Size = New System.Drawing.Size(431, 30)
 		Me.Lbl_Judul.TabIndex = 0
-		Me.Lbl_Judul.Text = "Request Material (General)"
+		Me.Lbl_Judul.Text = "Transaksi Request Material Trial Kitchen"
 		'
 		'TxtNoFaktur
 		'
@@ -150,16 +163,6 @@ Partial Class N_EMI_Transaksi_Trial_Request_Material
 		Me.Label1.TabIndex = 438
 		Me.Label1.Text = "Lokasi Transfer"
 		'
-		'CmbSo_Sup
-		'
-		Me.CmbSo_Sup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-		Me.CmbSo_Sup.Font = New System.Drawing.Font("Work Sans", 8.0!)
-		Me.CmbSo_Sup.FormattingEnabled = True
-		Me.CmbSo_Sup.Location = New System.Drawing.Point(196, 38)
-		Me.CmbSo_Sup.Name = "CmbSo_Sup"
-		Me.CmbSo_Sup.Size = New System.Drawing.Size(143, 24)
-		Me.CmbSo_Sup.TabIndex = 437
-		'
 		'CmbSO_Req
 		'
 		Me.CmbSO_Req.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
@@ -191,6 +194,16 @@ Partial Class N_EMI_Transaksi_Trial_Request_Material
 		Me.Label3.TabIndex = 4
 		Me.Label3.Text = "Keterangan"
 		'
+		'CmbSo_Sup
+		'
+		Me.CmbSo_Sup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.CmbSo_Sup.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		Me.CmbSo_Sup.FormattingEnabled = True
+		Me.CmbSo_Sup.Location = New System.Drawing.Point(196, 38)
+		Me.CmbSo_Sup.Name = "CmbSo_Sup"
+		Me.CmbSo_Sup.Size = New System.Drawing.Size(143, 24)
+		Me.CmbSo_Sup.TabIndex = 437
+		'
 		'GroupBox2
 		'
 		Me.GroupBox2.Controls.Add(Me.Label6)
@@ -215,6 +228,16 @@ Partial Class N_EMI_Transaksi_Trial_Request_Material
 		Me.GroupBox2.Size = New System.Drawing.Size(1137, 393)
 		Me.GroupBox2.TabIndex = 237
 		Me.GroupBox2.TabStop = False
+		'
+		'Label6
+		'
+		Me.Label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+		Me.Label6.Location = New System.Drawing.Point(196, 16)
+		Me.Label6.Name = "Label6"
+		Me.Label6.Size = New System.Drawing.Size(143, 20)
+		Me.Label6.TabIndex = 438
+		Me.Label6.Text = "Gudang Tujuan"
+		Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
 		'
 		'TxtJlh
 		'
@@ -501,29 +524,6 @@ Partial Class N_EMI_Transaksi_Trial_Request_Material
 		Me.Panel6.Size = New System.Drawing.Size(951, 15)
 		Me.Panel6.TabIndex = 240
 		Me.Panel6.Visible = False
-		'
-		'Label6
-		'
-		Me.Label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-		Me.Label6.Location = New System.Drawing.Point(196, 16)
-		Me.Label6.Name = "Label6"
-		Me.Label6.Size = New System.Drawing.Size(143, 20)
-		Me.Label6.TabIndex = 438
-		Me.Label6.Text = "Gudang Tujuan"
-		Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-		'
-		'PanelGradient1
-		'
-		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-		Me.PanelGradient1.cuteTransparent1 = 100
-		Me.PanelGradient1.cuteTransparent2 = 64
-		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-		Me.PanelGradient1.Location = New System.Drawing.Point(0, 42)
-		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-		Me.PanelGradient1.Name = "PanelGradient1"
-		Me.PanelGradient1.Size = New System.Drawing.Size(1184, 3)
-		Me.PanelGradient1.TabIndex = 22
 		'
 		'N_EMI_Transaksi_Trial_Request_Material
 		'

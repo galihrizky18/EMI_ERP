@@ -160,6 +160,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 		Me.DataGridViewTextBoxColumn21 = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.DataGridViewTextBoxColumn22 = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.DataGridViewTextBoxColumn23 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Btn_Validasi_Produksi = New System.Windows.Forms.Button()
 		Me.Panel1.SuspendLayout()
 		CType(Me.DgvFormulator_StepFormulator, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.TabControl1.SuspendLayout()
@@ -207,12 +208,12 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 		'
 		Me.LblFormulator_Judul.AutoSize = True
 		Me.LblFormulator_Judul.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.LblFormulator_Judul.Location = New System.Drawing.Point(15, 11)
+		Me.LblFormulator_Judul.Location = New System.Drawing.Point(20, 11)
 		Me.LblFormulator_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
 		Me.LblFormulator_Judul.Name = "LblFormulator_Judul"
-		Me.LblFormulator_Judul.Size = New System.Drawing.Size(420, 30)
+		Me.LblFormulator_Judul.Size = New System.Drawing.Size(386, 30)
 		Me.LblFormulator_Judul.TabIndex = 0
-		Me.LblFormulator_Judul.Text = "Transaksi - Approval HPP Formula Trial"
+		Me.LblFormulator_Judul.Text = "Transaksi Approval Validasi Formula"
 		'
 		'Panel2
 		'
@@ -559,7 +560,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 		Me.Column11.Name = "Column11"
 		Me.Column11.ReadOnly = True
 		Me.Column11.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-		Me.Column11.Width = 140
+		Me.Column11.Width = 120
 		'
 		'Column12
 		'
@@ -571,7 +572,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 		Me.Column12.Name = "Column12"
 		Me.Column12.ReadOnly = True
 		Me.Column12.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-		Me.Column12.Width = 365
+		Me.Column12.Width = 430
 		'
 		'Column13
 		'
@@ -639,7 +640,6 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 		Me.Column15.Name = "Column15"
 		Me.Column15.ReadOnly = True
 		Me.Column15.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-		Me.Column15.Width = 120
 		'
 		'Column16
 		'
@@ -678,7 +678,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 		Me.Column6.HeaderText = "Harga"
 		Me.Column6.Name = "Column6"
 		Me.Column6.ReadOnly = True
-		Me.Column6.Width = 130
+		Me.Column6.Width = 120
 		'
 		'Column7
 		'
@@ -687,7 +687,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 		Me.Column7.HeaderText = "Est. Hpp Pcs"
 		Me.Column7.Name = "Column7"
 		Me.Column7.ReadOnly = True
-		Me.Column7.Width = 130
+		Me.Column7.Width = 120
 		'
 		'ListView1
 		'
@@ -757,7 +757,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 		Me.Btn_Validasi.Name = "Btn_Validasi"
 		Me.Btn_Validasi.Size = New System.Drawing.Size(170, 36)
 		Me.Btn_Validasi.TabIndex = 400
-		Me.Btn_Validasi.Text = "&Validasi"
+		Me.Btn_Validasi.Text = "&Validasi Trial"
 		Me.Btn_Validasi.UseVisualStyleBackColor = False
 		'
 		'Btn_Tolak
@@ -766,7 +766,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 		Me.Btn_Tolak.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Btn_Tolak.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
 		Me.Btn_Tolak.ForeColor = System.Drawing.Color.White
-		Me.Btn_Tolak.Location = New System.Drawing.Point(201, 594)
+		Me.Btn_Tolak.Location = New System.Drawing.Point(379, 593)
 		Me.Btn_Tolak.Name = "Btn_Tolak"
 		Me.Btn_Tolak.Size = New System.Drawing.Size(170, 36)
 		Me.Btn_Tolak.TabIndex = 400
@@ -890,7 +890,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 		Me.Column17.HeaderText = "Jenis Analisa"
 		Me.Column17.Name = "Column17"
 		Me.Column17.ReadOnly = True
-		Me.Column17.Width = 450
+		Me.Column17.Width = 455
 		'
 		'Column18
 		'
@@ -1195,12 +1195,26 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 		Me.DataGridViewTextBoxColumn23.ReadOnly = True
 		Me.DataGridViewTextBoxColumn23.Width = 165
 		'
+		'Btn_Validasi_Produksi
+		'
+		Me.Btn_Validasi_Produksi.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+		Me.Btn_Validasi_Produksi.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Btn_Validasi_Produksi.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+		Me.Btn_Validasi_Produksi.ForeColor = System.Drawing.Color.White
+		Me.Btn_Validasi_Produksi.Location = New System.Drawing.Point(203, 593)
+		Me.Btn_Validasi_Produksi.Name = "Btn_Validasi_Produksi"
+		Me.Btn_Validasi_Produksi.Size = New System.Drawing.Size(170, 36)
+		Me.Btn_Validasi_Produksi.TabIndex = 450
+		Me.Btn_Validasi_Produksi.Text = "&Validasi Produksi"
+		Me.Btn_Validasi_Produksi.UseVisualStyleBackColor = False
+		'
 		'N_EMI_SD_Transaksi_Validasi_Formula_Main
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.White
 		Me.ClientSize = New System.Drawing.Size(1142, 646)
+		Me.Controls.Add(Me.Btn_Validasi_Produksi)
 		Me.Controls.Add(Me.Label4)
 		Me.Controls.Add(Me.CmbFormulator_SatuanHasil)
 		Me.Controls.Add(Me.Label8)
@@ -1323,6 +1337,16 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Main
     Friend WithEvents DataGridViewTextBoxColumn21 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn22 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn23 As DataGridViewTextBoxColumn
+	Friend WithEvents Column8 As DataGridViewTextBoxColumn
+	Friend WithEvents Column10 As DataGridViewTextBoxColumn
+	Friend WithEvents Column17 As DataGridViewTextBoxColumn
+	Friend WithEvents Column18 As DataGridViewTextBoxColumn
+	Friend WithEvents Column19 As DataGridViewTextBoxColumn
+	Friend WithEvents Column23 As DataGridViewTextBoxColumn
+	Friend WithEvents Column22 As DataGridViewTextBoxColumn
+	Friend WithEvents Column20 As DataGridViewTextBoxColumn
+	Friend WithEvents Column21 As DataGridViewTextBoxColumn
+	Friend WithEvents Column24 As DataGridViewTextBoxColumn
 	Friend WithEvents Column9 As DataGridViewTextBoxColumn
 	Friend WithEvents Column11 As DataGridViewTextBoxColumn
 	Friend WithEvents Column12 As DataGridViewTextBoxColumn
@@ -1337,14 +1361,5 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 	Friend WithEvents Column5 As DataGridViewTextBoxColumn
 	Friend WithEvents Column6 As DataGridViewTextBoxColumn
 	Friend WithEvents Column7 As DataGridViewTextBoxColumn
-	Friend WithEvents Column8 As DataGridViewTextBoxColumn
-	Friend WithEvents Column10 As DataGridViewTextBoxColumn
-	Friend WithEvents Column17 As DataGridViewTextBoxColumn
-	Friend WithEvents Column18 As DataGridViewTextBoxColumn
-	Friend WithEvents Column19 As DataGridViewTextBoxColumn
-	Friend WithEvents Column23 As DataGridViewTextBoxColumn
-	Friend WithEvents Column22 As DataGridViewTextBoxColumn
-	Friend WithEvents Column20 As DataGridViewTextBoxColumn
-	Friend WithEvents Column21 As DataGridViewTextBoxColumn
-	Friend WithEvents Column24 As DataGridViewTextBoxColumn
+	Friend WithEvents Btn_Validasi_Produksi As Button
 End Class

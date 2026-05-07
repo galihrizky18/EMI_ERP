@@ -1,6 +1,7 @@
 ﻿Public Class N_EMI_SD_Compare_Formulator
 	Property NoFaktur As String
 	Property ArrNoFaktur As List(Of String)
+	Property ArrHierarki As List(Of String)
 	Property ArrKeterangan As List(Of String)
 
 	Private Sub N_EMI_SD_Compare_Formulator_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -124,6 +125,7 @@
 		End If
 
 		If ArrNoFaktur.Count = 0 Then
+			TbPosisiSekarang.Text = "-"
 			TbPosisiTujuan.Text = "1"
 			TbPosisiTujuan.Enabled = False
 			TbKeterangan.Focus()
@@ -142,6 +144,24 @@
 
 		'LbF1EstHpp.Text = "Est. HPP: " & FormatNumber(totalEstHPP, 4) & " | " & "Est. HPP Per Pcs: " & FormatNumber(totalEstHPPPerPcs, 4)
 		LbF1EstHpp.Text = "Est. HPP Per Pcs: " & FormatNumber(totalEstHPPPerPcs, 4)
+
+		TlpF1.Controls.Add(New Label With {.Text = "No Formula", .AutoSize = True}, column:=0, row:=0)
+		TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=0)
+		TlpF1.Controls.Add(New Label With {.Text = "Kode Barang", .AutoSize = True}, column:=0, row:=1)
+		TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=1)
+		TlpF1.Controls.Add(New Label With {.Text = "Nama Barang", .AutoSize = True}, column:=0, row:=2)
+		TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=2)
+		TlpF1.Controls.Add(New Label With {.Text = "Hasil", .AutoSize = True}, column:=0, row:=3)
+		TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=3)
+
+		TlpF2.Controls.Add(New Label With {.Text = "No Formula", .AutoSize = True}, column:=0, row:=0)
+		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=0)
+		TlpF2.Controls.Add(New Label With {.Text = "Kode Barang", .AutoSize = True}, column:=0, row:=1)
+		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=1)
+		TlpF2.Controls.Add(New Label With {.Text = "Nama Barang", .AutoSize = True}, column:=0, row:=2)
+		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=2)
+		TlpF2.Controls.Add(New Label With {.Text = "Hasil", .AutoSize = True}, column:=0, row:=3)
+		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=3)
 	End Sub
 
 	Private Sub Fetch_Compare()
@@ -171,29 +191,17 @@
 			OpenConn()
 
 			SQL = $"
-				SELECT a.*, b.Nama AS Nama_Barang
-				FROM Emi_Transaksi_Formulator a
-				JOIN Barang b ON b.Kode_Perusahaan = a.Kode_Perusahaan AND b.Kode_Barang = a.Kode_Barang AND b.Kode_Stock_Owner = a.Kode_Stock_Owner
-				WHERE a.Kode_Perusahaan = '{KodePerusahaan}' AND a.No_Faktur = '{NoFaktur}'
-
+					SELECT a.*, b.Nama AS Nama_Barang
+					FROM Emi_Transaksi_Formulator a
+					JOIN Barang b ON b.Kode_Perusahaan = a.Kode_Perusahaan AND b.Kode_Barang_Inq = a.Kode_Barang AND b.Kode_Stock_Owner = a.Kode_Stock_Owner
+					WHERE a.Kode_Perusahaan = '{KodePerusahaan}' AND a.No_Faktur = '{NoFaktur}'
 			"
 			Using Dr = OpenTrans(SQL)
 				If Dr.Read() Then
-					TlpF1.Controls.Add(New Label With {.Text = "No Formula", .AutoSize = True}, 0, 0)
-					TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 0)
-					TlpF1.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("No_Faktur")), "", Dr("No_Faktur").ToString), .AutoSize = True}, 2, 0)
-
-					TlpF1.Controls.Add(New Label With {.Text = "Kode Barang", .AutoSize = True}, 0, 1)
-					TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 1)
-					TlpF1.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("Kode_Barang")), "", Dr("Kode_Barang").ToString), .AutoSize = True}, 2, 1)
-
-					TlpF1.Controls.Add(New Label With {.Text = "Nama Barang", .AutoSize = True}, 0, 2)
-					TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 2)
-					TlpF1.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("Nama_Barang")), "", Dr("Nama_Barang").ToString), .AutoSize = True}, 2, 2)
-
-					TlpF1.Controls.Add(New Label With {.Text = "Hasil", .AutoSize = True}, 0, 3)
-					TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 3)
-					TlpF1.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("Hasil")), "", Dr("Hasil").ToString) & " " & If(IsDBNull(Dr("Satuan_Hasil")), "", Dr("Satuan_Hasil").ToString), .AutoSize = True}, 2, 3)
+					TlpF1.Controls.Add(New Label With {.Text = If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("No_Faktur"))), "", Dr("No_Faktur").ToString), .AutoSize = True}, 2, 0)
+					TlpF1.Controls.Add(New Label With {.Text = If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Kode_Barang"))), "", Dr("Kode_Barang").ToString), .AutoSize = True}, 2, 1)
+					TlpF1.Controls.Add(New Label With {.Text = If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Nama_Barang"))), "", Dr("Nama_Barang").ToString), .AutoSize = True}, 2, 2)
+					TlpF1.Controls.Add(New Label With {.Text = If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Hasil"))), "", Dr("Hasil").ToString) & " " & If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Satuan_Hasil"))), "", Dr("Satuan_Hasil").ToString), .AutoSize = True}, 2, 3)
 				End If
 			End Using
 
@@ -212,29 +220,29 @@
 			LvF1DetailBahan.Items.Clear()
 
 			SQL = $"
-			SELECT a.Kode_Barang, b.Nama AS Nama_Barang, a.Satuan,
-				   a.Jumlah, a.Persentase, a.Est_HPP, a.Est_HPP_Per_Pcs
-			FROM EMI_Transaksi_Formulator_Detail_Bahan a
-			JOIN Barang b
-				ON b.Kode_Perusahaan = a.Kode_Perusahaan
-				AND b.Kode_Barang = a.Kode_Barang
-				AND b.Kode_Stock_Owner = a.Kode_Stock_Owner
-			WHERE a.Kode_Perusahaan = '{KodePerusahaan}'
-			AND a.No_Faktur = '{NoFaktur}'
-		"
+				SELECT a.Kode_Barang, b.Nama AS Nama_Barang, a.Satuan,
+					   a.Jumlah, a.Persentase, a.Est_HPP, a.Est_HPP_Per_Pcs
+				FROM EMI_Transaksi_Formulator_Detail_Bahan a
+				JOIN Barang b
+					ON b.Kode_Perusahaan = a.Kode_Perusahaan
+					AND b.Kode_Barang_Inq = a.Kode_Barang
+					AND b.Kode_Stock_Owner = a.Kode_Stock_Owner
+				WHERE a.Kode_Perusahaan = '{KodePerusahaan}'
+				AND a.No_Faktur = '{NoFaktur}'
+			"
 
 			Using Dr = OpenTrans(SQL)
 				While Dr.Read
 					Dim item As New ListViewItem(Dr("Kode_Barang").ToString)
 
-					item.SubItems.Add(If(IsDBNull(Dr("Nama_Barang")), "", Dr("Nama_Barang").ToString))
-					item.SubItems.Add(If(IsDBNull(Dr("Satuan")), "", Dr("Satuan").ToString))
+					item.SubItems.Add(If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Nama_Barang"))), "", Dr("Nama_Barang").ToString))
+					item.SubItems.Add(If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Satuan"))), "", Dr("Satuan").ToString))
 
-					item.SubItems.Add(If(IsDBNull(Dr("Jumlah")), "0", FormatNumber(Dr("Jumlah"), 2)))
-					item.SubItems.Add(If(IsDBNull(Dr("Persentase")), "0", FormatNumber(Dr("Persentase"), 2)))
+					item.SubItems.Add(If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Jumlah"))), "0", FormatNumber(Dr("Jumlah"), 2)))
+					item.SubItems.Add(If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Persentase"))), "0", FormatNumber(Dr("Persentase"), 2)))
 
-					item.SubItems.Add(If(IsDBNull(Dr("Est_HPP")), "0", FormatNumber(Dr("Est_HPP"), 4)))
-					item.SubItems.Add(If(IsDBNull(Dr("Est_HPP_Per_Pcs")), "0", FormatNumber(Dr("Est_HPP_Per_Pcs"), 4)))
+					item.SubItems.Add(If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Est_HPP"))), "0", FormatNumber(Dr("Est_HPP"), 4)))
+					item.SubItems.Add(If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Est_HPP_Per_Pcs"))), "0", FormatNumber(Dr("Est_HPP_Per_Pcs"), 4)))
 
 					LvF1DetailBahan.Items.Add(item)
 				End While
@@ -244,6 +252,7 @@
 		Catch ex As Exception
 			CloseConn()
 			MessageBox.Show(ex.Message)
+			Exit Sub
 		End Try
 	End Sub
 
@@ -264,8 +273,8 @@
 			'	While Dr.Read
 			'		Dim item As New ListViewItem(Dr("Kode_Uji").ToString)
 
-			'		item.SubItems.Add(If(IsDBNull(Dr("Satuan")), "", Dr("Satuan").ToString))
-			'		item.SubItems.Add(If(IsDBNull(Dr("Hasil")), "", Dr("Hasil").ToString))
+			'		item.SubItems.Add(If(General_Class.CekNULL(Dr("Satuan")), "", Dr("Satuan").ToString))
+			'		item.SubItems.Add(If(General_Class.CekNULL(Dr("Hasil")), "", Dr("Hasil").ToString))
 
 			'		LvF1DetailKandungan.Items.Add(item)
 			'	End While
@@ -275,6 +284,7 @@
 		Catch ex As Exception
 			CloseConn()
 			MessageBox.Show(ex.Message)
+			Exit Sub
 		End Try
 	End Sub
 
@@ -295,10 +305,10 @@
 			'	While Dr.Read
 			'		Dim item As New ListViewItem(Dr("No_Step").ToString)
 
-			'		item.SubItems.Add(If(IsDBNull(Dr("Kode")), "", Dr("Kode").ToString))
-			'		item.SubItems.Add(If(IsDBNull(Dr("Deskripsi")), "", Dr("Deskripsi").ToString))
-			'		item.SubItems.Add(If(IsDBNull(Dr("Jumlah")), "0", FormatNumber(Dr("Jumlah"), 2)))
-			'		item.SubItems.Add(If(IsDBNull(Dr("Persentase")), "0", FormatNumber(Dr("Persentase"), 2)))
+			'		item.SubItems.Add(If(General_Class.CekNULL(Dr("Kode")), "", Dr("Kode").ToString))
+			'		item.SubItems.Add(If(General_Class.CekNULL(Dr("Deskripsi")), "", Dr("Deskripsi").ToString))
+			'		item.SubItems.Add(If(General_Class.CekNULL(Dr("Jumlah")), "0", FormatNumber(Dr("Jumlah"), 2)))
+			'		item.SubItems.Add(If(General_Class.CekNULL(Dr("Persentase")), "0", FormatNumber(Dr("Persentase"), 2)))
 
 			'		LvF1DetailStep.Items.Add(item)
 			'	End While
@@ -308,6 +318,7 @@
 		Catch ex As Exception
 			CloseConn()
 			MessageBox.Show(ex.Message)
+			Exit Sub
 		End Try
 	End Sub
 
@@ -317,23 +328,23 @@
 
 			Lv_Moisture_Content.Items.Clear()
 			SQL = $"
-				select b.id, b.Kode_Analisa, b.Jenis_Analisa, b.Flag_Perhitungan, b.Kode_Aktivitas_Lab, '-' as Value_Combobox, a.Range_Awal, a.Range_Akhir
-				from N_EMI_Transaksi_Trial_Moisture_Content_Standar_Rentang a
-				inner join N_EMI_LAB_Jenis_Analisa b on a.Id_Jenis_Analisa = b.id
-				where a.Kode_Perusahaan = '{KodePerusahaan}'
-				and a.No_Formula = '{NoFaktur}'
-				union all
-				select b.id, b.Kode_Analisa, b.Jenis_Analisa, b.Flag_Perhitungan, b.Kode_Aktivitas_Lab, c.label_keterangan as Value_Combobox, '' as Range_Awal, '' as Range_Akhir
-				from N_EMI_Transaksi_Trial_Moisture_Content_Standar_Rentang_Non_Perhitungan a
-				inner join N_EMI_LAB_Jenis_Analisa b on a.Id_Jenis_Analisa = b.id
-				inner join EMI_Switch c on a.Kode_Perusahaan = c.kode_perusahaan and a.nilai_kriteria = c.keterangan
-				where a.Kode_Perusahaan = '{KodePerusahaan}'
-				and a.No_Formula = '{NoFaktur}'
-			"
+					select b.id, b.Kode_Analisa, b.Jenis_Analisa, b.Flag_Perhitungan, b.Kode_Aktivitas_Lab, '-' as Value_Combobox, a.Range_Awal, a.Range_Akhir
+					from N_EMI_Transaksi_Trial_Moisture_Content_Standar_Rentang a
+					inner join N_EMI_LAB_Jenis_Analisa b on a.Id_Jenis_Analisa = b.id
+					where a.Kode_Perusahaan = '{KodePerusahaan}'
+					and a.No_Formula = '{NoFaktur}'
+					union all
+					select b.id, b.Kode_Analisa, b.Jenis_Analisa, b.Flag_Perhitungan, b.Kode_Aktivitas_Lab, c.label_keterangan as Value_Combobox, '' as Range_Awal, '' as Range_Akhir
+					from N_EMI_Transaksi_Trial_Moisture_Content_Standar_Rentang_Non_Perhitungan a
+					inner join N_EMI_LAB_Jenis_Analisa b on a.Id_Jenis_Analisa = b.id
+					inner join EMI_Switch c on a.Kode_Perusahaan = c.kode_perusahaan and a.nilai_kriteria = c.keterangan
+					where a.Kode_Perusahaan = '{KodePerusahaan}'
+					and a.No_Formula = '{NoFaktur}'
+				"
 			Using Dr = OpenTrans(SQL)
 				Do While Dr.Read
 
-					Dim Flag_Perhitungan_Analisa As String = If(General_Class.CekNULL(Dr("Flag_Perhitungan")) = "", "T", Dr("Flag_Perhitungan"))
+					Dim Flag_Perhitungan_Analisa As String = If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Flag_Perhitungan"))), "T", Dr("Flag_Perhitungan"))
 
 					Dim Lv As ListViewItem
 					Lv = Lv_Moisture_Content.Items.Add(Dr("Kode_Analisa"))
@@ -349,6 +360,7 @@
 		Catch ex As Exception
 			CloseConn()
 			MessageBox.Show(ex.Message)
+			Exit Sub
 		End Try
 	End Sub
 
@@ -375,7 +387,7 @@
 				End If
 
 				If value > maxValue Then
-					MessageBox.Show("Posisi formula tidak boleh lebih dari " & maxValue)
+					MessageBox.Show("Posisi formula tidak boleh lebih dari " & maxValue, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
 					txt.Text = maxValue.ToString()
 					txt.SelectionStart = txt.Text.Length
@@ -393,6 +405,14 @@
 		Lv_Moisture_Content_2.Items.Clear()
 
 		TlpF2.Controls.Clear()
+		TlpF2.Controls.Add(New Label With {.Text = "No Formula", .AutoSize = True}, 0, 0)
+		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 0)
+		TlpF2.Controls.Add(New Label With {.Text = "Kode Barang", .AutoSize = True}, 0, 1)
+		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 1)
+		TlpF2.Controls.Add(New Label With {.Text = "Nama Barang", .AutoSize = True}, 0, 2)
+		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 2)
+		TlpF2.Controls.Add(New Label With {.Text = "Hasil", .AutoSize = True}, 0, 3)
+		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 3)
 
 		If TbPosisiTujuan.Text = "" Then Exit Sub
 		If Not IsNumeric(TbPosisiTujuan.Text) Then Exit Sub
@@ -409,29 +429,29 @@
 			OpenConn()
 
 			SQL = $"
-				SELECT a.*, b.Nama AS Nama_Barang
-				FROM Emi_Transaksi_Formulator a
-				JOIN Barang b ON b.Kode_Perusahaan = a.Kode_Perusahaan AND b.Kode_Barang = a.Kode_Barang AND b.Kode_Stock_Owner = a.Kode_Stock_Owner
-				WHERE a.Kode_Perusahaan = '{KodePerusahaan}' AND a.No_Faktur = '{NoFaktur}'
+					SELECT a.*, b.Nama AS Nama_Barang
+					FROM Emi_Transaksi_Formulator a
+					JOIN Barang b ON b.Kode_Perusahaan = a.Kode_Perusahaan AND b.Kode_Barang_Inq = a.Kode_Barang AND b.Kode_Stock_Owner = a.Kode_Stock_Owner
+					WHERE a.Kode_Perusahaan = '{KodePerusahaan}' AND a.No_Faktur = '{NoFaktur}'
 
-			"
+				"
 			Using Dr = OpenTrans(SQL)
 				If Dr.Read() Then
+					TlpF2.Controls.Clear()
+
 					TlpF2.Controls.Add(New Label With {.Text = "No Formula", .AutoSize = True}, 0, 0)
 					TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 0)
-					TlpF2.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("No_Faktur")), "", Dr("No_Faktur").ToString), .AutoSize = True}, 2, 0)
-
 					TlpF2.Controls.Add(New Label With {.Text = "Kode Barang", .AutoSize = True}, 0, 1)
 					TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 1)
-					TlpF2.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("Kode_Barang")), "", Dr("Kode_Barang").ToString), .AutoSize = True}, 2, 1)
-
 					TlpF2.Controls.Add(New Label With {.Text = "Nama Barang", .AutoSize = True}, 0, 2)
 					TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 2)
-					TlpF2.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("Nama_Barang")), "", Dr("Nama_Barang").ToString), .AutoSize = True}, 2, 2)
-
 					TlpF2.Controls.Add(New Label With {.Text = "Hasil", .AutoSize = True}, 0, 3)
 					TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 3)
-					TlpF2.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("Hasil")), "", Dr("Hasil").ToString) & " " & If(IsDBNull(Dr("Satuan_Hasil")), "", Dr("Satuan_Hasil").ToString), .AutoSize = True}, 2, 3)
+
+					TlpF2.Controls.Add(New Label With {.Text = If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("No_Faktur"))), "", Dr("No_Faktur").ToString), .AutoSize = True}, 2, 0)
+					TlpF2.Controls.Add(New Label With {.Text = If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Kode_Barang"))), "", Dr("Kode_Barang").ToString), .AutoSize = True}, 2, 1)
+					TlpF2.Controls.Add(New Label With {.Text = If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Nama_Barang"))), "", Dr("Nama_Barang").ToString), .AutoSize = True}, 2, 2)
+					TlpF2.Controls.Add(New Label With {.Text = If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Hasil"))), "", Dr("Hasil").ToString) & " " & If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Satuan_Hasil"))), "", Dr("Satuan_Hasil").ToString), .AutoSize = True}, 2, 3)
 				End If
 			End Using
 
@@ -450,29 +470,29 @@
 			LvF2DetailBahan.Items.Clear()
 
 			SQL = $"
-			SELECT a.Kode_Barang, b.Nama AS Nama_Barang, a.Satuan,
-				   a.Jumlah, a.Persentase, a.Est_HPP, a.Est_HPP_Per_Pcs
-			FROM EMI_Transaksi_Formulator_Detail_Bahan a
-			JOIN Barang b
-				ON b.Kode_Perusahaan = a.Kode_Perusahaan
-				AND b.Kode_Barang = a.Kode_Barang
-				AND b.Kode_Stock_Owner = a.Kode_Stock_Owner
-			WHERE a.Kode_Perusahaan = '{KodePerusahaan}'
-			AND a.No_Faktur = '{NoFaktur}'
-		"
+				SELECT a.Kode_Barang, b.Nama AS Nama_Barang, a.Satuan,
+					   a.Jumlah, a.Persentase, a.Est_HPP, a.Est_HPP_Per_Pcs
+				FROM EMI_Transaksi_Formulator_Detail_Bahan a
+				JOIN Barang b
+					ON b.Kode_Perusahaan = a.Kode_Perusahaan
+					AND b.Kode_Barang_Inq = a.Kode_Barang
+					AND b.Kode_Stock_Owner = a.Kode_Stock_Owner
+				WHERE a.Kode_Perusahaan = '{KodePerusahaan}'
+				AND a.No_Faktur = '{NoFaktur}'
+			"
 
 			Using Dr = OpenTrans(SQL)
 				While Dr.Read
 					Dim item As New ListViewItem(Dr("Kode_Barang").ToString)
 
-					item.SubItems.Add(If(IsDBNull(Dr("Nama_Barang")), "", Dr("Nama_Barang").ToString))
-					item.SubItems.Add(If(IsDBNull(Dr("Satuan")), "", Dr("Satuan").ToString))
+					item.SubItems.Add(If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Nama_Barang"))), "", Dr("Nama_Barang").ToString))
+					item.SubItems.Add(If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Satuan"))), "", Dr("Satuan").ToString))
 
-					item.SubItems.Add(If(IsDBNull(Dr("Jumlah")), "0", FormatNumber(Dr("Jumlah"), 2)))
-					item.SubItems.Add(If(IsDBNull(Dr("Persentase")), "0", FormatNumber(Dr("Persentase"), 2)))
+					item.SubItems.Add(If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Jumlah"))), "0", FormatNumber(Dr("Jumlah"), 2)))
+					item.SubItems.Add(If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Persentase"))), "0", FormatNumber(Dr("Persentase"), 2)))
 
-					item.SubItems.Add(If(IsDBNull(Dr("Est_HPP")), "0", FormatNumber(Dr("Est_HPP"), 4)))
-					item.SubItems.Add(If(IsDBNull(Dr("Est_HPP_Per_Pcs")), "0", FormatNumber(Dr("Est_HPP_Per_Pcs"), 4)))
+					item.SubItems.Add(If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Est_HPP"))), "0", FormatNumber(Dr("Est_HPP"), 4)))
+					item.SubItems.Add(If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Est_HPP_Per_Pcs"))), "0", FormatNumber(Dr("Est_HPP_Per_Pcs"), 4)))
 
 					LvF2DetailBahan.Items.Add(item)
 				End While
@@ -482,6 +502,7 @@
 		Catch ex As Exception
 			CloseConn()
 			MessageBox.Show(ex.Message)
+			Exit Sub
 		End Try
 	End Sub
 
@@ -502,8 +523,8 @@
 			'	While Dr.Read
 			'		Dim item As New ListViewItem(Dr("Kode_Uji").ToString)
 
-			'		item.SubItems.Add(If(IsDBNull(Dr("Satuan")), "", Dr("Satuan").ToString))
-			'		item.SubItems.Add(If(IsDBNull(Dr("Hasil")), "", Dr("Hasil").ToString))
+			'		item.SubItems.Add(If(General_Class.CekNULL(Dr("Satuan")), "", Dr("Satuan").ToString))
+			'		item.SubItems.Add(If(General_Class.CekNULL(Dr("Hasil")), "", Dr("Hasil").ToString))
 
 			'		LvF2DetailKandungan.Items.Add(item)
 			'	End While
@@ -513,6 +534,7 @@
 		Catch ex As Exception
 			CloseConn()
 			MessageBox.Show(ex.Message)
+			Exit Sub
 		End Try
 	End Sub
 
@@ -533,10 +555,10 @@
 			'	While Dr.Read
 			'		Dim item As New ListViewItem(Dr("No_Step").ToString)
 
-			'		item.SubItems.Add(If(IsDBNull(Dr("Kode")), "", Dr("Kode").ToString))
-			'		item.SubItems.Add(If(IsDBNull(Dr("Deskripsi")), "", Dr("Deskripsi").ToString))
-			'		item.SubItems.Add(If(IsDBNull(Dr("Jumlah")), "0", FormatNumber(Dr("Jumlah"), 2)))
-			'		item.SubItems.Add(If(IsDBNull(Dr("Persentase")), "0", FormatNumber(Dr("Persentase"), 2)))
+			'		item.SubItems.Add(If(General_Class.CekNULL(Dr("Kode")), "", Dr("Kode").ToString))
+			'		item.SubItems.Add(If(General_Class.CekNULL(Dr("Deskripsi")), "", Dr("Deskripsi").ToString))
+			'		item.SubItems.Add(If(General_Class.CekNULL(Dr("Jumlah")), "0", FormatNumber(Dr("Jumlah"), 2)))
+			'		item.SubItems.Add(If(General_Class.CekNULL(Dr("Persentase")), "0", FormatNumber(Dr("Persentase"), 2)))
 
 			'		LvF2DetailStep.Items.Add(item)
 			'	End While
@@ -555,23 +577,23 @@
 
 			Lv_Moisture_Content_2.Items.Clear()
 			SQL = $"
-				select b.id, b.Kode_Analisa, b.Jenis_Analisa, b.Flag_Perhitungan, b.Kode_Aktivitas_Lab, '-' as Value_Combobox, a.Range_Awal, a.Range_Akhir
-				from N_EMI_Transaksi_Trial_Moisture_Content_Standar_Rentang a
-				inner join N_EMI_LAB_Jenis_Analisa b on a.Id_Jenis_Analisa = b.id
-				where a.Kode_Perusahaan = '{KodePerusahaan}'
-				and a.No_Formula = '{NoFaktur}'
-				union all
-				select b.id, b.Kode_Analisa, b.Jenis_Analisa, b.Flag_Perhitungan, b.Kode_Aktivitas_Lab, c.label_keterangan as Value_Combobox, '' as Range_Awal, '' as Range_Akhir
-				from N_EMI_Transaksi_Trial_Moisture_Content_Standar_Rentang_Non_Perhitungan a
-				inner join N_EMI_LAB_Jenis_Analisa b on a.Id_Jenis_Analisa = b.id
-				inner join EMI_Switch c on a.Kode_Perusahaan = c.kode_perusahaan and a.nilai_kriteria = c.keterangan
-				where a.Kode_Perusahaan = '{KodePerusahaan}'
-				and a.No_Formula = '{NoFaktur}'
-			"
+					select b.id, b.Kode_Analisa, b.Jenis_Analisa, b.Flag_Perhitungan, b.Kode_Aktivitas_Lab, '-' as Value_Combobox, a.Range_Awal, a.Range_Akhir
+					from N_EMI_Transaksi_Trial_Moisture_Content_Standar_Rentang a
+					inner join N_EMI_LAB_Jenis_Analisa b on a.Id_Jenis_Analisa = b.id
+					where a.Kode_Perusahaan = '{KodePerusahaan}'
+					and a.No_Formula = '{NoFaktur}'
+					union all
+					select b.id, b.Kode_Analisa, b.Jenis_Analisa, b.Flag_Perhitungan, b.Kode_Aktivitas_Lab, c.label_keterangan as Value_Combobox, '' as Range_Awal, '' as Range_Akhir
+					from N_EMI_Transaksi_Trial_Moisture_Content_Standar_Rentang_Non_Perhitungan a
+					inner join N_EMI_LAB_Jenis_Analisa b on a.Id_Jenis_Analisa = b.id
+					inner join EMI_Switch c on a.Kode_Perusahaan = c.kode_perusahaan and a.nilai_kriteria = c.keterangan
+					where a.Kode_Perusahaan = '{KodePerusahaan}'
+					and a.No_Formula = '{NoFaktur}'
+				"
 			Using Dr = OpenTrans(SQL)
 				Do While Dr.Read
 
-					Dim Flag_Perhitungan_Analisa As String = If(General_Class.CekNULL(Dr("Flag_Perhitungan")) = "", "T", Dr("Flag_Perhitungan"))
+					Dim Flag_Perhitungan_Analisa As String = If(String.IsNullOrEmpty(General_Class.CekNULL(Dr("Flag_Perhitungan"))), "T", Dr("Flag_Perhitungan"))
 
 					Dim Lv As ListViewItem
 					Lv = Lv_Moisture_Content_2.Items.Add(Dr("Kode_Analisa"))
@@ -587,6 +609,7 @@
 		Catch ex As Exception
 			CloseConn()
 			MessageBox.Show(ex.Message)
+			Exit Sub
 		End Try
 	End Sub
 
@@ -594,61 +617,81 @@
 		Try
 
 			If TbPosisiTujuan.Text = "" OrElse Not IsNumeric(TbPosisiTujuan.Text) Then
-				MessageBox.Show("Posisi tujuan tidak valid")
+				MessageBox.Show("Posisi tujuan tidak valid", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 				Exit Sub
 			End If
 
 			If TbKeterangan.Text = "" Then
-				MessageBox.Show("Keterangan tidak boleh kosong")
+				MessageBox.Show("Keterangan tidak boleh kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 				Exit Sub
 			End If
 
 			Dim posisiTujuan As Integer = CInt(TbPosisiTujuan.Text)
 			Dim posisiSekarang As Integer = 0
 
-			If TbPosisiSekarang.Text <> "-" AndAlso IsNumeric(TbPosisiSekarang.Text) Then
+			If ArrNoFaktur.Count > 0 AndAlso TbPosisiSekarang.Text <> "-" AndAlso IsNumeric(TbPosisiSekarang.Text) Then
 				posisiSekarang = CInt(TbPosisiSekarang.Text)
 			End If
 
 			Dim maxPosisi As Integer = ArrNoFaktur.Count + 1
 
 			If posisiTujuan < 1 Or posisiTujuan > maxPosisi Then
-				MessageBox.Show("Posisi tujuan tidak valid")
+				MessageBox.Show("Posisi tujuan tidak valid", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 				Exit Sub
 			End If
 
 			If posisiTujuan <= ArrNoFaktur.Count Then
 
 				Dim result = MessageBox.Show(
-				"Posisi tersebut sudah ditempati formula lain." & vbCrLf &
-				"Formula setelahnya akan bergeser." & vbCrLf &
-				"Lanjutkan?",
-				"Konfirmasi Perubahan Posisi",
-				MessageBoxButtons.YesNo,
-				MessageBoxIcon.Question)
+					"Posisi tersebut sudah ditempati formula lain." & vbCrLf &
+					"Formula setelahnya akan bergeser." & vbCrLf &
+					"Lanjutkan?",
+					Judul,
+					MessageBoxButtons.YesNo,
+					MessageBoxIcon.Question)
 
 				If result = DialogResult.No Then Exit Sub
 
 			End If
 
-			If posisiSekarang > 0 And posisiSekarang <= ArrNoFaktur.Count Then
+			Dim kodeHierarki As String = ""
 
-				ArrNoFaktur.RemoveAt(posisiSekarang - 1)
-				ArrKeterangan.RemoveAt(posisiSekarang - 1)
-
+			If ArrNoFaktur.Contains(NoFaktur) Then
+				kodeHierarki = ArrHierarki(ArrNoFaktur.IndexOf(NoFaktur))
+			Else
+				If ArrNoFaktur.Count = 0 Then
+					kodeHierarki = "FORMULA UTAMA"
+				Else
+					Dim maxCadangan As Integer = 0
+					For Each h As String In ArrHierarki
+						If h.StartsWith("CADANGAN ") Then
+							Dim parts = h.Split(" ")
+							Dim num As Integer
+							If parts.Length >= 2 AndAlso Integer.TryParse(parts(1), num) Then
+								If num > maxCadangan Then maxCadangan = num
+							End If
+						End If
+					Next
+					kodeHierarki = "CADANGAN " & (maxCadangan + 1)
+				End If
 			End If
+
+			If posisiSekarang > 0 And posisiSekarang <= ArrNoFaktur.Count Then
+				ArrNoFaktur.RemoveAt(posisiSekarang - 1)
+				ArrHierarki.RemoveAt(posisiSekarang - 1)
+				ArrKeterangan.RemoveAt(posisiSekarang - 1)
+			End If
+
 			ArrNoFaktur.Insert(posisiTujuan - 1, NoFaktur)
+			ArrHierarki.Insert(posisiTujuan - 1, kodeHierarki)
 			ArrKeterangan.Insert(posisiTujuan - 1, TbKeterangan.Text)
 
 			Me.DialogResult = DialogResult.OK
 			Me.Close()
 		Catch ex As Exception
 			MessageBox.Show(ex.Message)
+			Exit Sub
 		End Try
-	End Sub
-
-	Private Sub TbKeterangan_TextChanged(sender As Object, e As EventArgs) Handles TbKeterangan.TextChanged
-
 	End Sub
 
 End Class

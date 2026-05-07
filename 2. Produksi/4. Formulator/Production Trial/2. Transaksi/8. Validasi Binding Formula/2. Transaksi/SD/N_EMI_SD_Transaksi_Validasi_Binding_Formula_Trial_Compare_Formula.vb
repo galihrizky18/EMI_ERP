@@ -2,6 +2,9 @@
 
 	Dim arrNoFakturFormula As New ArrayList
 
+	Public SelectedFormula_1 As String = ""
+	Public SelectedFormula_2 As String = ""
+
 	Private Sub N_EMI_SD_Transaksi_Validasi_Binding_Formula_Trial_Compare_Formula_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
 		If Txt_Faktur.Text.Trim.Length = 0 Then
@@ -88,7 +91,24 @@
 		'Kosong_Formula_1()
 		'Kosong_Formula_2()
 
-		Btn_Clear_Click(Txt_Faktur, New EventArgs)
+		If Not String.IsNullOrEmpty(SelectedFormula_1) Then
+			Dim Index As Integer = arrNoFakturFormula.IndexOf(SelectedFormula_1)
+			Cmb_Formula_1.SelectedIndex = Index
+			Load_Formula_1(SelectedFormula_1)
+		Else
+			Kosong_Formula_1()
+		End If
+
+		If Not String.IsNullOrEmpty(SelectedFormula_2) Then
+			Dim Index As Integer = arrNoFakturFormula.IndexOf(SelectedFormula_2)
+			Cmb_Formula_2.SelectedIndex = Index
+			Load_Formula_2(SelectedFormula_2)
+		Else
+			Kosong_Formula_2()
+		End If
+
+		'Btn_Clear_Click(Txt_Faktur, New EventArgs)
+
 	End Sub
 
 	Private Sub Btn_Clear_Click(sender As Object, e As EventArgs) Handles Btn_Clear.Click
@@ -168,7 +188,7 @@
 			SQL = $"
 				select a.No_Faktur, a.Tanggal, a.Jam, a.Kode_Barang, b.Nama, a.Hasil, a.Satuan_Hasil
 				from Emi_Transaksi_Formulator a
-					inner join barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang
+					inner join barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang_inq
 				where a.Status is null
 				and a.Kode_Perusahaan = '{KodePerusahaan}'
 				and a.No_Faktur = '{No_Formula}'
@@ -312,7 +332,7 @@
 			SQL = $"
 				select a.No_Faktur, a.Tanggal, a.Jam, a.Kode_Barang, b.Nama, a.Hasil, a.Satuan_Hasil
 				from Emi_Transaksi_Formulator a
-					inner join barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang
+					inner join barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang_inq
 				where a.Status is null
 				and a.Kode_Perusahaan = '{KodePerusahaan}'
 				and a.No_Faktur = '{No_Formula}'

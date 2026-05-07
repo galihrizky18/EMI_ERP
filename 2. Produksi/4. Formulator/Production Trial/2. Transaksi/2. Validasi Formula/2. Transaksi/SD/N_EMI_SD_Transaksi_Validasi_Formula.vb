@@ -8,6 +8,7 @@
 	Dim arrDataCombobox As New List(Of DataCombobox)
 
 	Dim Jenis = "Transaksi_Formulator"
+	Dim isReformulasi As Boolean = False
 
 	Dim Lv_Moisture_ID, Lv_Moisture_Kode_Analisa, Lv_Moisture_Jenis_Analisa, Lv_Moisture_Flag_Perhitungan, Lv_Moisture_Aktivitas, Lv_Moisture_Range_Awal, Lv_Moisture_Range_Akhir As String
 
@@ -232,7 +233,7 @@
 
 	Public Sub Kosong()
 		DgvFormulator_StepFormulator.Rows.Clear()
-		DgvFormulator_StepFormulator.Rows.Add(1)
+		'DgvFormulator_StepFormulator.Rows.Add(1)
 		TxtFormulator_Total.Text = ""
 		TxtFormulator_TotalPersen.Text = ""
 		TxtFormulator_KodeBarang.Text = ""
@@ -242,6 +243,8 @@
 		Txt_No_Faktur_Binding.Text = ""
 		Txt_Total_Hpp.Text = ""
 		Txt_Total_Hpp_Pcs.Text = ""
+
+		isReformulasi = False
 
 		CmbFormulator_PenanggungJawab.SelectedIndex = -1
 		'CmbFormulator_LokasiInquiry.SelectedIndex = -1
@@ -707,7 +710,7 @@
 	Private Sub TxtFormulator_Hasil_TextChanged(sender As Object, e As EventArgs) Handles TxtFormulator_Hasil.TextChanged
 
 		DgvFormulator_StepFormulator.Rows.Clear()
-		DgvFormulator_StepFormulator.Rows.Add(1)
+		'DgvFormulator_StepFormulator.Rows.Add(1)
 
 	End Sub
 
@@ -864,7 +867,7 @@
 
 	Private Sub CmbFormulator_SatuanHasil_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbFormulator_SatuanHasil.SelectedIndexChanged
 		DgvFormulator_StepFormulator.Rows.Clear()
-		DgvFormulator_StepFormulator.Rows.Add(1)
+		'DgvFormulator_StepFormulator.Rows.Add(1)
 	End Sub
 
 	Private Sub DgvFormulator_StepFormulator_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DgvFormulator_StepFormulator.CellClick
@@ -912,6 +915,36 @@
 
 			Dim No_Faktur As String = TxtFormulator_NoFaktur.Text.Trim
 
+			'=================================================
+			'=     CEK APAKAH FORMULA ADALAH REFORMULASI     =
+			'=================================================
+			SQL = "select Status, Flag_Reformulasi from Emi_Transaksi_Formulator "
+			SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+			SQL = SQL & "and No_Faktur = '" & No_Faktur & "' "
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					If General_Class.CekNULL(Dr("Status")) = "Y" Then
+						Dr.Close()
+						CloseConn()
+						MessageBox.Show($"No Faktur {No_Faktur} Sudah Dibatalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Me.Close()
+						Exit Sub
+					End If
+
+					If General_Class.CekNULL(Dr("Flag_Reformulasi")) = "Y" Then
+						isReformulasi = True
+					Else
+						isReformulasi = False
+					End If
+				Else
+					Dr.Close()
+					CloseConn()
+					MessageBox.Show($"No Faktur {No_Faktur} Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Me.Close()
+					Exit Sub
+				End If
+			End Using
+
 			CmbFormulator_PenanggungJawab.Items.Clear() : arrIdPenanggungJawab.Clear()
 			SQL = "select Nama,Id_Karyawan from Emi_Karyawan a, Emi_Jabatan_Internal b where a.id_jabatan=b.id_jabatan "
 			SQL = SQL & "and b.flag_Tampil_Formulator='Y' and a.kode_perusahaan = '" & KodePerusahaan & "' "
@@ -934,6 +967,7 @@
 			Dim Nomor As Integer = 1
 			SQL = "select a.No_Faktur, a.Tanggal, a.Lokasi, a.Kode_Stock_Owner, a.Kode_Barang, b.Nama as Nama_Barang, a.UserID, a.Hasil, a.Satuan_Hasil, a.Penanggung_Jawab, "
 			SQL &= $"c.Kode_Barang as Kode_Bahan, d.Nama as Nama_Bahan, c.Jumlah, c.satuan, c.Nilai_Pengali, c.Satuan_barang, c.Nilai_Barang, c.Persentase, "
+
 			SQL &= $"case when exists( "
 			SQL &= $"select 1 from Barang_SN z where c.kode_barang = z.kode_barang and z.blok_sn is null and dbo.get_hpp(z.serial_number) <> 0 "
 			SQL &= $") then ( "
@@ -1023,6 +1057,41 @@
 					Exit Sub
 				End If
 			End Using
+
+			'=================================
+			'=     LOAD MOISTURE CONTENT     =
+			'=================================
+			If isReformulasi Then
+				Dgv_Moisture_Content.Rows.Clear()
+				SQL = $"
+				select b.id, b.Kode_Analisa, '-' as Value_Combobox, a.Range_Awal, a.Range_Akhir
+				from N_EMI_Transaksi_Trial_Moisture_Content_Standar_Rentang a
+				inner join N_EMI_LAB_Jenis_Analisa b on a.Id_Jenis_Analisa = b.id
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				and a.No_Formula = '{No_Faktur.Trim}'
+				union all
+				select b.id, b.Kode_Analisa, c.label_keterangan as Value_Combobox, '' as Range_Awal, '' as Range_Akhir
+				from N_EMI_Transaksi_Trial_Moisture_Content_Standar_Rentang_Non_Perhitungan a
+				inner join N_EMI_LAB_Jenis_Analisa b on a.Id_Jenis_Analisa = b.id
+				inner join EMI_Switch c on a.Kode_Perusahaan = c.kode_perusahaan and a.nilai_kriteria = c.keterangan
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				and a.No_Formula = '{No_Faktur.Trim}'
+			"
+				Using Ds999 = BindingTrans(SQL)
+					If Ds999.Tables("MyTable").Rows.Count <> 0 Then
+						For z As Integer = 0 To Ds999.Tables("MyTable").Rows.Count - 1
+
+							Dim KodeAnalisa As String = Ds999.Tables("MyTable").Rows(z).Item("Kode_Analisa")
+							Dim ValueCombobox As String = Ds999.Tables("MyTable").Rows(z).Item("Value_Combobox")
+							Dim RangeAwal As String = Ds999.Tables("MyTable").Rows(z).Item("Range_Awal")
+							Dim RangeAkhir As String = Ds999.Tables("MyTable").Rows(z).Item("Range_Akhir")
+
+							LoadMoistureContent(KodeAnalisa, ValueCombobox, RangeAwal, RangeAkhir)
+
+						Next
+					End If
+				End Using
+			End If
 
 			CloseConn()
 		Catch ex As Exception
@@ -1137,6 +1206,14 @@
 			'==================================
 
 #Region "Moisture Content"
+
+			SQL = "delete N_EMI_Transaksi_Trial_Moisture_Content_Standar_Rentang "
+			SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' and No_Formula = '{TxtFormulator_NoFaktur.Text.Trim}' "
+			ExecuteTrans(SQL)
+
+			SQL = "delete N_EMI_Transaksi_Trial_Moisture_Content_Standar_Rentang_Non_Perhitungan "
+			SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' and No_Formula = '{TxtFormulator_NoFaktur.Text.Trim}' "
+			ExecuteTrans(SQL)
 
 			For i As Integer = 0 To Dgv_Moisture_Content.Rows.Count - 1
 				Get_SD_Moisture(i)
@@ -1656,5 +1733,98 @@
 		Public Property Kode_Analisa As String
 		Public Property Datas As New List(Of (ID_Switch As String, Value As String, Label As String))
 	End Class
+
+	Private Sub LoadMoistureContent(ByVal KodeAnalisa As String, ByVal ValueCombo As String, ByVal RangeAwal As String, ByVal RangeAkhir As String)
+		SQL = "select id, Kode_Analisa, Jenis_Analisa, Flag_Perhitungan, Kode_Aktivitas_Lab "
+		SQL &= $"from N_EMI_LAB_Jenis_Analisa "
+		SQL &= $"where Kode_Analisa = '{KodeAnalisa}' "
+		SQL &= $"order by Jenis_Analisa "
+		Using Ds = BindingTrans(SQL)
+			With Ds.Tables("MyTable")
+				If .Rows.Count <> 0 Then
+					For i As Integer = 0 To .Rows.Count - 1
+
+						Dim n As Integer = Dgv_Moisture_Content.Rows.Add()
+
+						Dim Id_Jenis_Analisa As String = .Rows(i).Item("Id")
+						Dim Kode_Analisa As String = .Rows(i).Item("Kode_Analisa")
+						Dim Jenis_Analisa As String = .Rows(i).Item("Jenis_Analisa")
+						Dim Flag_Perhitungan_Analisa As String = If(General_Class.CekNULL(.Rows(i).Item("Flag_Perhitungan")) = "", "T", .Rows(i).Item("Flag_Perhitungan"))
+						Dim Kode_Aktivitas_Analisa As String = .Rows(i).Item("Kode_Aktivitas_Lab")
+
+						Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_ID).Value = Id_Jenis_Analisa
+						Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Kode_Analisa).Value = Kode_Analisa
+						Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Jenis_Analisa).Value = Jenis_Analisa
+						Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Flag_Perhitungan).Value = Flag_Perhitungan_Analisa
+						Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Kode_Aktivitas).Value = Kode_Aktivitas_Analisa
+						Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Kode_Kategori).Value = If(Flag_Perhitungan_Analisa.Trim = "Y", "Perhitungan", "Non Perhitungan")
+
+						If Flag_Perhitungan_Analisa = "Y" Then
+
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Range_Awal).Style.BackColor = Color.LightYellow
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Range_Akhir).Style.BackColor = Color.LightYellow
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Range_Awal).ReadOnly = False
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Range_Akhir).ReadOnly = False
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Combobox).ReadOnly = True
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Combobox).Style.BackColor = Color.LightGray ' Warna Abu (Terkunci)
+
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Range_Awal).Value = RangeAwal
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Range_Akhir).Value = RangeAkhir
+
+						ElseIf Flag_Perhitungan_Analisa = "T" Then
+
+							Dim arrKriteria As New List(Of (id_switch As String, value As String, Label As String))
+							SQL = "select distinct a.id as Id_Jenis_Analisa, a.Kode_Analisa, a.Jenis_Analisa, c.Id_QC_Formula, d.Id_Switch, d.Keterangan, d.Label_Keterangan "
+							SQL &= $"from N_EMI_LAB_Jenis_Analisa a "
+							SQL &= $"inner join N_EMI_LAB_Binding_Jenis_Analisa b on a.id = b.Id_Jenis_Analisa "
+							SQL &= $"inner join EMI_Quality_Control c on b.Id_Quality_Control = c.Id_QC_Formula "
+							SQL &= $"inner join EMI_Switch d on c.Id_QC_Formula = d.Id_QC_Formula "
+							SQL &= $"where c.Kode_Perusahaan = '{KodePerusahaan}' "
+							SQL &= $"and a.id = '{Id_Jenis_Analisa}' "
+							Using Dr = OpenTrans(SQL)
+								Do While Dr.Read
+									arrKriteria.Add((Dr("Id_Switch"), Dr("Keterangan"), Dr("Label_Keterangan")))
+								Loop
+							End Using
+
+							Dim dataCombo As New DataCombobox With {
+								.ID_Analisa = Id_Jenis_Analisa,
+								.Kode_Analisa = Kode_Analisa,
+								.Datas = arrKriteria
+							}
+							arrDataCombobox.Add(dataCombo)
+
+							' Set sebagai ComboBox
+							Dim CellCmb As New DataGridViewComboBoxCell()
+							CellCmb.Items.AddRange(arrKriteria.Select(Function(x) x.Label).ToArray())
+							CellCmb.Style.BackColor = Color.LightYellow ' Warna Kuning (Wajib Pilih)
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Combobox) = CellCmb
+
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Combobox).ReadOnly = False
+
+							' Set Kolom 2 sebagai TextBox ReadOnly (Tidak Terpakai)
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Range_Awal).ReadOnly = True
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Range_Akhir).ReadOnly = True
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Range_Awal).Style.BackColor = Color.LightGray ' Warna Abu (Terkunci)
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Range_Akhir).Style.BackColor = Color.LightGray ' Warna Abu (Terkunci)
+
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Range_Awal).Value = ""
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Range_Akhir).Value = ""
+							Dgv_Moisture_Content.Rows(n).Cells(Item_Moisture_Combobox).Value = ValueCombo
+						Else
+							CloseConn()
+							MessageBox.Show("Terjadi Kesalahan Kategori Jenis Analisa Tidak Terdefinisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+							Exit Sub
+						End If
+
+					Next
+				Else
+					CloseConn()
+					MessageBox.Show($"Kode Analisa {KodeAnalisa} Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+			End With
+		End Using
+	End Sub
 
 End Class

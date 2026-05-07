@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.ERP_EMI.FMenuDevFix
+            Me.MainForm = Global.ERP_EMI.Main_Menu
         End Sub
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _

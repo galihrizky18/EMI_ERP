@@ -23,30 +23,37 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim GroupBox1 As System.Windows.Forms.GroupBox
+        Me.Txtsatuanbarang = New System.Windows.Forms.TextBox()
         Me.Lb_ActiveTb = New System.Windows.Forms.Label()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.Txt_Barcode = New System.Windows.Forms.TextBox()
-        Me.TxtOriginal_Data_FloorScale = New System.Windows.Forms.TextBox()
-        Me.TxtSatuan_FloorScale = New System.Windows.Forms.TextBox()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.txt_Jumlah_Timbang = New System.Windows.Forms.TextBox()
         Me.Txt_Sisa_Bags = New System.Windows.Forms.TextBox()
         Me.TxtJumlahBagsDetail = New System.Windows.Forms.TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
-        Me.lblJumlahTimbang = New System.Windows.Forms.Label()
+        Me.CmbSatuan = New System.Windows.Forms.ComboBox()
+        Me.Txt_Barcode = New System.Windows.Forms.TextBox()
+        Me.TxtOriginal_Data_FloorScale = New System.Windows.Forms.TextBox()
         Me.Label8 = New System.Windows.Forms.Label()
+        Me.TxtSatuan_FloorScale = New System.Windows.Forms.TextBox()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.TxtSelisihKebutuhan = New System.Windows.Forms.TextBox()
+        Me.Panel10 = New System.Windows.Forms.Panel()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.TxtSatuanBerat = New System.Windows.Forms.TextBox()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.TxtSatuanBeratBersih = New System.Windows.Forms.TextBox()
+        Me.Panel6 = New System.Windows.Forms.Panel()
+        Me.txt_Jumlah_Timbang = New System.Windows.Forms.TextBox()
+        Me.lblJumlahTimbang = New System.Windows.Forms.Label()
         Me.Txt_Sisa_Jumlah = New System.Windows.Forms.TextBox()
+        Me.Panel8 = New System.Windows.Forms.Panel()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.TxtBeratBersih = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.CmbSatuan = New System.Windows.Forms.ComboBox()
-        Me.LblSatuan = New System.Windows.Forms.Label()
         Me.Txt_JmlhKebutuhan = New System.Windows.Forms.TextBox()
         Me.TXt_Batch = New System.Windows.Forms.TextBox()
         Me.Label14 = New System.Windows.Forms.Label()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.TxtBeratBags = New System.Windows.Forms.TextBox()
         Me.Cmb_Faktur_RM = New System.Windows.Forms.ComboBox()
         Me.CmbJenisAlas = New System.Windows.Forms.ComboBox()
         Me.Label11 = New System.Windows.Forms.Label()
@@ -62,8 +69,10 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.TxtBeratBagsBersih = New System.Windows.Forms.TextBox()
         Me.Txt_SORequest = New System.Windows.Forms.TextBox()
         Me.Txt_Sisa = New System.Windows.Forms.TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.Txt_KDBarang = New System.Windows.Forms.TextBox()
         Me.TxtJumlahBags = New System.Windows.Forms.TextBox()
+        Me.TxtBeratBags = New System.Windows.Forms.TextBox()
         Me.Btn_ShowList = New System.Windows.Forms.Button()
         Me.Btn_Refresh = New System.Windows.Forms.Button()
         Me.Btn_Simpan = New System.Windows.Forms.Button()
@@ -86,6 +95,7 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Txt_SatuanKecil = New System.Windows.Forms.TextBox()
         Me.UNIX = New System.Windows.Forms.TextBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -95,29 +105,34 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Txt_Jumlah_Sisa_Bersih = New System.Windows.Forms.TextBox()
         Me.Txt_Bags_Sisa_Bersih = New System.Windows.Forms.TextBox()
         Me.Txt_NoFaktur = New System.Windows.Forms.TextBox()
-        Me.Barcode_PSS = New System.Windows.Forms.PictureBox()
-        Me.Barcode = New System.Windows.Forms.PictureBox()
-        Me.Barcode_Batch = New System.Windows.Forms.PictureBox()
         Me.Cb_Tb1 = New System.Windows.Forms.CheckBox()
         Me.Cb_Tb2 = New System.Windows.Forms.CheckBox()
         Me.Cb_Tb3 = New System.Windows.Forms.CheckBox()
         Me.Label15 = New System.Windows.Forms.Label()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+        Me.Barcode_Batch = New System.Windows.Forms.PictureBox()
+        Me.Barcode_PSS = New System.Windows.Forms.PictureBox()
+        Me.Barcode = New System.Windows.Forms.PictureBox()
         GroupBox1 = New System.Windows.Forms.GroupBox()
         GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        CType(Me.Barcode_Batch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Barcode_PSS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Barcode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Barcode_Batch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GroupBox1
         '
+        GroupBox1.Controls.Add(Me.Txtsatuanbarang)
         GroupBox1.Controls.Add(Me.Lb_ActiveTb)
+        GroupBox1.Controls.Add(Me.Txt_Sisa_Bags)
+        GroupBox1.Controls.Add(Me.TxtJumlahBagsDetail)
         GroupBox1.Controls.Add(Me.Label7)
+        GroupBox1.Controls.Add(Me.Label10)
+        GroupBox1.Controls.Add(Me.CmbSatuan)
         GroupBox1.Controls.Add(Me.Txt_Barcode)
         GroupBox1.Controls.Add(Me.TxtOriginal_Data_FloorScale)
+        GroupBox1.Controls.Add(Me.Label8)
         GroupBox1.Controls.Add(Me.TxtSatuan_FloorScale)
         GroupBox1.Controls.Add(Me.GroupBox2)
         GroupBox1.Controls.Add(Me.Txt_Urut_DetRM)
@@ -129,8 +144,10 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         GroupBox1.Controls.Add(Me.TxtBeratBagsBersih)
         GroupBox1.Controls.Add(Me.Txt_SORequest)
         GroupBox1.Controls.Add(Me.Txt_Sisa)
+        GroupBox1.Controls.Add(Me.Label6)
         GroupBox1.Controls.Add(Me.Txt_KDBarang)
         GroupBox1.Controls.Add(Me.TxtJumlahBags)
+        GroupBox1.Controls.Add(Me.TxtBeratBags)
         GroupBox1.Controls.Add(Me.Btn_ShowList)
         GroupBox1.Controls.Add(Me.Btn_Refresh)
         GroupBox1.Controls.Add(Me.Btn_Simpan)
@@ -151,7 +168,20 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         GroupBox1.Size = New System.Drawing.Size(783, 394)
         GroupBox1.TabIndex = 0
         GroupBox1.TabStop = False
-        GroupBox1.Text = "Data Scales/Timbang"
+        '
+        'Txtsatuanbarang
+        '
+        Me.Txtsatuanbarang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txtsatuanbarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txtsatuanbarang.Enabled = False
+        Me.Txtsatuanbarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txtsatuanbarang.Location = New System.Drawing.Point(401, 97)
+        Me.Txtsatuanbarang.MaxLength = 50
+        Me.Txtsatuanbarang.Name = "Txtsatuanbarang"
+        Me.Txtsatuanbarang.ReadOnly = True
+        Me.Txtsatuanbarang.Size = New System.Drawing.Size(48, 21)
+        Me.Txtsatuanbarang.TabIndex = 501
+        Me.Txtsatuanbarang.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Lb_ActiveTb
         '
@@ -164,6 +194,32 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Lb_ActiveTb.Text = "Timbangan X"
         Me.Lb_ActiveTb.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
+        'Txt_Sisa_Bags
+        '
+        Me.Txt_Sisa_Bags.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.Txt_Sisa_Bags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_Sisa_Bags.Enabled = False
+        Me.Txt_Sisa_Bags.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.Txt_Sisa_Bags.Location = New System.Drawing.Point(660, 360)
+        Me.Txt_Sisa_Bags.MaxLength = 50
+        Me.Txt_Sisa_Bags.Name = "Txt_Sisa_Bags"
+        Me.Txt_Sisa_Bags.ReadOnly = True
+        Me.Txt_Sisa_Bags.Size = New System.Drawing.Size(107, 20)
+        Me.Txt_Sisa_Bags.TabIndex = 6
+        Me.Txt_Sisa_Bags.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'TxtJumlahBagsDetail
+        '
+        Me.TxtJumlahBagsDetail.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtJumlahBagsDetail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtJumlahBagsDetail.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.TxtJumlahBagsDetail.Location = New System.Drawing.Point(660, 386)
+        Me.TxtJumlahBagsDetail.MaxLength = 50
+        Me.TxtJumlahBagsDetail.Name = "TxtJumlahBagsDetail"
+        Me.TxtJumlahBagsDetail.Size = New System.Drawing.Size(107, 20)
+        Me.TxtJumlahBagsDetail.TabIndex = 2
+        Me.TxtJumlahBagsDetail.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
         'Label7
         '
         Me.Label7.AutoSize = True
@@ -175,15 +231,36 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Label7.Text = "Sumber Data: "
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.Label10.Location = New System.Drawing.Point(580, 362)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(54, 13)
+        Me.Label10.TabIndex = 496
+        Me.Label10.Text = "Sisa Bags"
+        '
+        'CmbSatuan
+        '
+        Me.CmbSatuan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CmbSatuan.Enabled = False
+        Me.CmbSatuan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.CmbSatuan.FormattingEnabled = True
+        Me.CmbSatuan.Location = New System.Drawing.Point(483, 324)
+        Me.CmbSatuan.Name = "CmbSatuan"
+        Me.CmbSatuan.Size = New System.Drawing.Size(48, 21)
+        Me.CmbSatuan.TabIndex = 8
+        '
         'Txt_Barcode
         '
         Me.Txt_Barcode.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_Barcode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_Barcode.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Txt_Barcode.Location = New System.Drawing.Point(112, 23)
+        Me.Txt_Barcode.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.Txt_Barcode.Location = New System.Drawing.Point(112, 18)
         Me.Txt_Barcode.MaxLength = 50
         Me.Txt_Barcode.Name = "Txt_Barcode"
-        Me.Txt_Barcode.Size = New System.Drawing.Size(317, 20)
+        Me.Txt_Barcode.Size = New System.Drawing.Size(338, 21)
         Me.Txt_Barcode.TabIndex = 0
         '
         'TxtOriginal_Data_FloorScale
@@ -198,6 +275,16 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.TxtOriginal_Data_FloorScale.TabIndex = 498
         Me.TxtOriginal_Data_FloorScale.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.TxtOriginal_Data_FloorScale.Visible = False
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.Label8.Location = New System.Drawing.Point(579, 390)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(67, 13)
+        Me.Label8.TabIndex = 496
+        Me.Label8.Text = "Jumlah Bags"
         '
         'TxtSatuan_FloorScale
         '
@@ -214,24 +301,25 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.Label16)
+        Me.GroupBox2.Controls.Add(Me.TxtSelisihKebutuhan)
+        Me.GroupBox2.Controls.Add(Me.Panel10)
+        Me.GroupBox2.Controls.Add(Me.Label1)
+        Me.GroupBox2.Controls.Add(Me.TxtSatuanBerat)
+        Me.GroupBox2.Controls.Add(Me.Label17)
+        Me.GroupBox2.Controls.Add(Me.Label18)
+        Me.GroupBox2.Controls.Add(Me.TxtSatuanBeratBersih)
+        Me.GroupBox2.Controls.Add(Me.Panel6)
         Me.GroupBox2.Controls.Add(Me.txt_Jumlah_Timbang)
-        Me.GroupBox2.Controls.Add(Me.Txt_Sisa_Bags)
-        Me.GroupBox2.Controls.Add(Me.TxtJumlahBagsDetail)
-        Me.GroupBox2.Controls.Add(Me.Label10)
         Me.GroupBox2.Controls.Add(Me.lblJumlahTimbang)
-        Me.GroupBox2.Controls.Add(Me.Label8)
         Me.GroupBox2.Controls.Add(Me.Txt_Sisa_Jumlah)
+        Me.GroupBox2.Controls.Add(Me.Panel8)
         Me.GroupBox2.Controls.Add(Me.Label9)
         Me.GroupBox2.Controls.Add(Me.TxtBeratBersih)
         Me.GroupBox2.Controls.Add(Me.Label5)
-        Me.GroupBox2.Controls.Add(Me.CmbSatuan)
-        Me.GroupBox2.Controls.Add(Me.LblSatuan)
         Me.GroupBox2.Controls.Add(Me.Txt_JmlhKebutuhan)
         Me.GroupBox2.Controls.Add(Me.TXt_Batch)
         Me.GroupBox2.Controls.Add(Me.Label14)
-        Me.GroupBox2.Controls.Add(Me.Label6)
-        Me.GroupBox2.Controls.Add(Me.Label1)
-        Me.GroupBox2.Controls.Add(Me.TxtBeratBags)
         Me.GroupBox2.Controls.Add(Me.Cmb_Faktur_RM)
         Me.GroupBox2.Controls.Add(Me.CmbJenisAlas)
         Me.GroupBox2.Controls.Add(Me.Label11)
@@ -240,156 +328,196 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.GroupBox2.Controls.Add(Me.Label3)
         Me.GroupBox2.Location = New System.Drawing.Point(7, 125)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(435, 220)
+        Me.GroupBox2.Size = New System.Drawing.Size(451, 220)
         Me.GroupBox2.TabIndex = 2
         Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Data Scales/Timbang"
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(407, 178)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(32, 15)
+        Me.Label16.TabIndex = 520
+        Me.Label16.Text = "Over"
+        '
+        'TxtSelisihKebutuhan
+        '
+        Me.TxtSelisihKebutuhan.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtSelisihKebutuhan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtSelisihKebutuhan.Enabled = False
+        Me.TxtSelisihKebutuhan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtSelisihKebutuhan.Location = New System.Drawing.Point(105, 176)
+        Me.TxtSelisihKebutuhan.MaxLength = 50
+        Me.TxtSelisihKebutuhan.Name = "TxtSelisihKebutuhan"
+        Me.TxtSelisihKebutuhan.Size = New System.Drawing.Size(173, 21)
+        Me.TxtSelisihKebutuhan.TabIndex = 492
+        Me.TxtSelisihKebutuhan.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Panel10
+        '
+        Me.Panel10.BackColor = System.Drawing.Color.LightCoral
+        Me.Panel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel10.Location = New System.Drawing.Point(392, 178)
+        Me.Panel10.Name = "Panel10"
+        Me.Panel10.Size = New System.Drawing.Size(15, 15)
+        Me.Panel10.TabIndex = 519
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(7, 178)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(79, 15)
+        Me.Label1.TabIndex = 493
+        Me.Label1.Text = "Berat Kurang"
+        '
+        'TxtSatuanBerat
+        '
+        Me.TxtSatuanBerat.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtSatuanBerat.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtSatuanBerat.Enabled = False
+        Me.TxtSatuanBerat.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtSatuanBerat.Location = New System.Drawing.Point(394, 107)
+        Me.TxtSatuanBerat.MaxLength = 50
+        Me.TxtSatuanBerat.Name = "TxtSatuanBerat"
+        Me.TxtSatuanBerat.ReadOnly = True
+        Me.TxtSatuanBerat.Size = New System.Drawing.Size(51, 29)
+        Me.TxtSatuanBerat.TabIndex = 491
+        Me.TxtSatuanBerat.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.Location = New System.Drawing.Point(346, 178)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(41, 15)
+        Me.Label17.TabIndex = 518
+        Me.Label17.Text = "Under"
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Location = New System.Drawing.Point(302, 178)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(22, 15)
+        Me.Label18.TabIndex = 516
+        Me.Label18.Text = "Ok"
+        '
+        'TxtSatuanBeratBersih
+        '
+        Me.TxtSatuanBeratBersih.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtSatuanBeratBersih.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtSatuanBeratBersih.Enabled = False
+        Me.TxtSatuanBeratBersih.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtSatuanBeratBersih.Location = New System.Drawing.Point(394, 141)
+        Me.TxtSatuanBeratBersih.MaxLength = 50
+        Me.TxtSatuanBeratBersih.Name = "TxtSatuanBeratBersih"
+        Me.TxtSatuanBeratBersih.ReadOnly = True
+        Me.TxtSatuanBeratBersih.Size = New System.Drawing.Size(51, 29)
+        Me.TxtSatuanBeratBersih.TabIndex = 490
+        Me.TxtSatuanBeratBersih.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Panel6
+        '
+        Me.Panel6.BackColor = System.Drawing.Color.LightGreen
+        Me.Panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel6.Location = New System.Drawing.Point(285, 178)
+        Me.Panel6.Name = "Panel6"
+        Me.Panel6.Size = New System.Drawing.Size(15, 15)
+        Me.Panel6.TabIndex = 515
         '
         'txt_Jumlah_Timbang
         '
         Me.txt_Jumlah_Timbang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.txt_Jumlah_Timbang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txt_Jumlah_Timbang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.txt_Jumlah_Timbang.Location = New System.Drawing.Point(105, 159)
+        Me.txt_Jumlah_Timbang.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txt_Jumlah_Timbang.Location = New System.Drawing.Point(105, 107)
         Me.txt_Jumlah_Timbang.MaxLength = 50
         Me.txt_Jumlah_Timbang.Name = "txt_Jumlah_Timbang"
-        Me.txt_Jumlah_Timbang.Size = New System.Drawing.Size(124, 20)
+        Me.txt_Jumlah_Timbang.Size = New System.Drawing.Size(283, 29)
         Me.txt_Jumlah_Timbang.TabIndex = 1
         Me.txt_Jumlah_Timbang.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Txt_Sisa_Bags
-        '
-        Me.Txt_Sisa_Bags.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.Txt_Sisa_Bags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_Sisa_Bags.Enabled = False
-        Me.Txt_Sisa_Bags.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Txt_Sisa_Bags.Location = New System.Drawing.Point(315, 133)
-        Me.Txt_Sisa_Bags.MaxLength = 50
-        Me.Txt_Sisa_Bags.Name = "Txt_Sisa_Bags"
-        Me.Txt_Sisa_Bags.ReadOnly = True
-        Me.Txt_Sisa_Bags.Size = New System.Drawing.Size(107, 20)
-        Me.Txt_Sisa_Bags.TabIndex = 6
-        Me.Txt_Sisa_Bags.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'TxtJumlahBagsDetail
-        '
-        Me.TxtJumlahBagsDetail.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtJumlahBagsDetail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtJumlahBagsDetail.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.TxtJumlahBagsDetail.Location = New System.Drawing.Point(315, 159)
-        Me.TxtJumlahBagsDetail.MaxLength = 50
-        Me.TxtJumlahBagsDetail.Name = "TxtJumlahBagsDetail"
-        Me.TxtJumlahBagsDetail.Size = New System.Drawing.Size(107, 20)
-        Me.TxtJumlahBagsDetail.TabIndex = 2
-        Me.TxtJumlahBagsDetail.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Label10
-        '
-        Me.Label10.AutoSize = True
-        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Label10.Location = New System.Drawing.Point(235, 135)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(54, 13)
-        Me.Label10.TabIndex = 496
-        Me.Label10.Text = "Sisa Bags"
         '
         'lblJumlahTimbang
         '
         Me.lblJumlahTimbang.AutoSize = True
-        Me.lblJumlahTimbang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.lblJumlahTimbang.Location = New System.Drawing.Point(7, 161)
+        Me.lblJumlahTimbang.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblJumlahTimbang.Location = New System.Drawing.Point(7, 114)
         Me.lblJumlahTimbang.Name = "lblJumlahTimbang"
-        Me.lblJumlahTimbang.Size = New System.Drawing.Size(76, 13)
+        Me.lblJumlahTimbang.Size = New System.Drawing.Size(88, 15)
         Me.lblJumlahTimbang.TabIndex = 441
         Me.lblJumlahTimbang.Text = "Berat Timbang"
-        '
-        'Label8
-        '
-        Me.Label8.AutoSize = True
-        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Label8.Location = New System.Drawing.Point(234, 163)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(67, 13)
-        Me.Label8.TabIndex = 496
-        Me.Label8.Text = "Jumlah Bags"
         '
         'Txt_Sisa_Jumlah
         '
         Me.Txt_Sisa_Jumlah.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_Sisa_Jumlah.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_Sisa_Jumlah.Enabled = False
-        Me.Txt_Sisa_Jumlah.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Txt_Sisa_Jumlah.Location = New System.Drawing.Point(105, 133)
+        Me.Txt_Sisa_Jumlah.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_Sisa_Jumlah.Location = New System.Drawing.Point(333, 50)
         Me.Txt_Sisa_Jumlah.MaxLength = 50
         Me.Txt_Sisa_Jumlah.Name = "Txt_Sisa_Jumlah"
-        Me.Txt_Sisa_Jumlah.Size = New System.Drawing.Size(124, 20)
+        Me.Txt_Sisa_Jumlah.Size = New System.Drawing.Size(112, 21)
         Me.Txt_Sisa_Jumlah.TabIndex = 5
         Me.Txt_Sisa_Jumlah.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Panel8
+        '
+        Me.Panel8.BackColor = System.Drawing.Color.LightYellow
+        Me.Panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel8.Location = New System.Drawing.Point(331, 178)
+        Me.Panel8.Name = "Panel8"
+        Me.Panel8.Size = New System.Drawing.Size(15, 15)
+        Me.Panel8.TabIndex = 517
         '
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Label9.Location = New System.Drawing.Point(7, 135)
+        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.Location = New System.Drawing.Point(233, 52)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(63, 13)
+        Me.Label9.Size = New System.Drawing.Size(94, 15)
         Me.Label9.TabIndex = 488
-        Me.Label9.Text = "Sisa Jumlah"
+        Me.Label9.Text = "Sisa Kebutuhan"
         '
         'TxtBeratBersih
         '
         Me.TxtBeratBersih.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TxtBeratBersih.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtBeratBersih.Enabled = False
-        Me.TxtBeratBersih.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.TxtBeratBersih.Location = New System.Drawing.Point(105, 185)
+        Me.TxtBeratBersih.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtBeratBersih.Location = New System.Drawing.Point(105, 141)
         Me.TxtBeratBersih.MaxLength = 50
         Me.TxtBeratBersih.Name = "TxtBeratBersih"
-        Me.TxtBeratBersih.Size = New System.Drawing.Size(124, 20)
+        Me.TxtBeratBersih.Size = New System.Drawing.Size(283, 29)
         Me.TxtBeratBersih.TabIndex = 7
         Me.TxtBeratBersih.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TxtBeratBersih.Visible = False
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Label5.Location = New System.Drawing.Point(7, 187)
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(7, 149)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(64, 13)
+        Me.Label5.Size = New System.Drawing.Size(74, 15)
         Me.Label5.TabIndex = 488
         Me.Label5.Text = "Berat Bersih"
-        '
-        'CmbSatuan
-        '
-        Me.CmbSatuan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CmbSatuan.Enabled = False
-        Me.CmbSatuan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.CmbSatuan.FormattingEnabled = True
-        Me.CmbSatuan.Location = New System.Drawing.Point(315, 185)
-        Me.CmbSatuan.Name = "CmbSatuan"
-        Me.CmbSatuan.Size = New System.Drawing.Size(107, 21)
-        Me.CmbSatuan.TabIndex = 8
-        '
-        'LblSatuan
-        '
-        Me.LblSatuan.AutoSize = True
-        Me.LblSatuan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.LblSatuan.Location = New System.Drawing.Point(235, 189)
-        Me.LblSatuan.Name = "LblSatuan"
-        Me.LblSatuan.Size = New System.Drawing.Size(41, 13)
-        Me.LblSatuan.TabIndex = 480
-        Me.LblSatuan.Text = "Satuan"
         '
         'Txt_JmlhKebutuhan
         '
         Me.Txt_JmlhKebutuhan.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_JmlhKebutuhan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_JmlhKebutuhan.Enabled = False
-        Me.Txt_JmlhKebutuhan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Txt_JmlhKebutuhan.Location = New System.Drawing.Point(315, 107)
+        Me.Txt_JmlhKebutuhan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_JmlhKebutuhan.Location = New System.Drawing.Point(105, 50)
         Me.Txt_JmlhKebutuhan.MaxLength = 50
         Me.Txt_JmlhKebutuhan.Name = "Txt_JmlhKebutuhan"
         Me.Txt_JmlhKebutuhan.ReadOnly = True
-        Me.Txt_JmlhKebutuhan.Size = New System.Drawing.Size(107, 20)
+        Me.Txt_JmlhKebutuhan.Size = New System.Drawing.Size(122, 21)
         Me.Txt_JmlhKebutuhan.TabIndex = 4
         Me.Txt_JmlhKebutuhan.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -398,87 +526,53 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.TXt_Batch.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TXt_Batch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TXt_Batch.Enabled = False
-        Me.TXt_Batch.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.TXt_Batch.Location = New System.Drawing.Point(105, 107)
+        Me.TXt_Batch.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TXt_Batch.Location = New System.Drawing.Point(410, 22)
         Me.TXt_Batch.MaxLength = 50
         Me.TXt_Batch.Name = "TXt_Batch"
         Me.TXt_Batch.ReadOnly = True
-        Me.TXt_Batch.Size = New System.Drawing.Size(124, 20)
+        Me.TXt_Batch.Size = New System.Drawing.Size(35, 21)
         Me.TXt_Batch.TabIndex = 3
         Me.TXt_Batch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Label14.Location = New System.Drawing.Point(235, 109)
+        Me.Label14.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label14.Location = New System.Drawing.Point(7, 52)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(59, 13)
+        Me.Label14.Size = New System.Drawing.Size(67, 15)
         Me.Label14.TabIndex = 473
         Me.Label14.Text = "Kebutuhan"
         Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Label6.Location = New System.Drawing.Point(235, 83)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(59, 13)
-        Me.Label6.TabIndex = 491
-        Me.Label6.Text = "Berat Bags"
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Label1.Location = New System.Drawing.Point(7, 109)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(35, 13)
-        Me.Label1.TabIndex = 473
-        Me.Label1.Text = "Batch"
-        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'TxtBeratBags
-        '
-        Me.TxtBeratBags.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-        Me.TxtBeratBags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtBeratBags.Enabled = False
-        Me.TxtBeratBags.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.TxtBeratBags.Location = New System.Drawing.Point(315, 81)
-        Me.TxtBeratBags.MaxLength = 50
-        Me.TxtBeratBags.Name = "TxtBeratBags"
-        Me.TxtBeratBags.Size = New System.Drawing.Size(107, 20)
-        Me.TxtBeratBags.TabIndex = 10
-        Me.TxtBeratBags.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
         'Cmb_Faktur_RM
         '
         Me.Cmb_Faktur_RM.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Cmb_Faktur_RM.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.Cmb_Faktur_RM.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cmb_Faktur_RM.FormattingEnabled = True
         Me.Cmb_Faktur_RM.Location = New System.Drawing.Point(105, 21)
         Me.Cmb_Faktur_RM.Name = "Cmb_Faktur_RM"
-        Me.Cmb_Faktur_RM.Size = New System.Drawing.Size(317, 21)
+        Me.Cmb_Faktur_RM.Size = New System.Drawing.Size(299, 23)
         Me.Cmb_Faktur_RM.TabIndex = 0
         '
         'CmbJenisAlas
         '
         Me.CmbJenisAlas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CmbJenisAlas.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.CmbJenisAlas.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CmbJenisAlas.FormattingEnabled = True
-        Me.CmbJenisAlas.Location = New System.Drawing.Point(105, 51)
+        Me.CmbJenisAlas.Location = New System.Drawing.Point(105, 77)
         Me.CmbJenisAlas.Name = "CmbJenisAlas"
-        Me.CmbJenisAlas.Size = New System.Drawing.Size(317, 21)
+        Me.CmbJenisAlas.Size = New System.Drawing.Size(208, 23)
         Me.CmbJenisAlas.TabIndex = 1
         '
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label11.Location = New System.Drawing.Point(7, 24)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(85, 13)
+        Me.Label11.Size = New System.Drawing.Size(97, 15)
         Me.Label11.TabIndex = 489
         Me.Label11.Text = "No RM Produksi"
         '
@@ -487,31 +581,31 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.TxtBeratAlas.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TxtBeratAlas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtBeratAlas.Enabled = False
-        Me.TxtBeratAlas.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.TxtBeratAlas.Location = New System.Drawing.Point(105, 81)
+        Me.TxtBeratAlas.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtBeratAlas.Location = New System.Drawing.Point(361, 78)
         Me.TxtBeratAlas.MaxLength = 50
         Me.TxtBeratAlas.Name = "TxtBeratAlas"
-        Me.TxtBeratAlas.Size = New System.Drawing.Size(124, 20)
+        Me.TxtBeratAlas.Size = New System.Drawing.Size(84, 21)
         Me.TxtBeratAlas.TabIndex = 9
         Me.TxtBeratAlas.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Label4.Location = New System.Drawing.Point(7, 83)
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Location = New System.Drawing.Point(319, 80)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(55, 13)
+        Me.Label4.Size = New System.Drawing.Size(36, 15)
         Me.Label4.TabIndex = 487
-        Me.Label4.Text = "Berat Alas"
+        Me.Label4.Text = "Berat"
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Label3.Location = New System.Drawing.Point(7, 54)
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(7, 80)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(54, 13)
+        Me.Label3.Size = New System.Drawing.Size(62, 15)
         Me.Label3.TabIndex = 489
         Me.Label3.Text = "Jenis Alas"
         '
@@ -650,6 +744,16 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Txt_Sisa.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.Txt_Sisa.Visible = False
         '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.Label6.Location = New System.Drawing.Point(579, 333)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(59, 13)
+        Me.Label6.TabIndex = 491
+        Me.Label6.Text = "Berat Bags"
+        '
         'Txt_KDBarang
         '
         Me.Txt_KDBarang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
@@ -679,6 +783,19 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.TxtJumlahBags.TabIndex = 492
         Me.TxtJumlahBags.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.TxtJumlahBags.Visible = False
+        '
+        'TxtBeratBags
+        '
+        Me.TxtBeratBags.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TxtBeratBags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtBeratBags.Enabled = False
+        Me.TxtBeratBags.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.TxtBeratBags.Location = New System.Drawing.Point(659, 331)
+        Me.TxtBeratBags.MaxLength = 50
+        Me.TxtBeratBags.Name = "TxtBeratBags"
+        Me.TxtBeratBags.Size = New System.Drawing.Size(107, 20)
+        Me.TxtBeratBags.TabIndex = 10
+        Me.TxtBeratBags.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Btn_ShowList
         '
@@ -722,10 +839,10 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Label2.Location = New System.Drawing.Point(4, 25)
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.Label2.Location = New System.Drawing.Point(16, 20)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(47, 13)
+        Me.Label2.Size = New System.Drawing.Size(53, 15)
         Me.Label2.TabIndex = 475
         Me.Label2.Text = "Barcode"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -733,10 +850,10 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         'Label13
         '
         Me.Label13.AutoSize = True
-        Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Label13.Location = New System.Drawing.Point(4, 102)
+        Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.Label13.Location = New System.Drawing.Point(16, 99)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(71, 13)
+        Me.Label13.Size = New System.Drawing.Size(81, 15)
         Me.Label13.TabIndex = 473
         Me.Label13.Text = "Jumlah Stock"
         Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -746,12 +863,12 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Txt_StockBarang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_StockBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_StockBarang.Enabled = False
-        Me.Txt_StockBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Txt_StockBarang.Location = New System.Drawing.Point(112, 99)
+        Me.Txt_StockBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_StockBarang.Location = New System.Drawing.Point(112, 97)
         Me.Txt_StockBarang.MaxLength = 50
         Me.Txt_StockBarang.Name = "Txt_StockBarang"
         Me.Txt_StockBarang.ReadOnly = True
-        Me.Txt_StockBarang.Size = New System.Drawing.Size(115, 20)
+        Me.Txt_StockBarang.Size = New System.Drawing.Size(283, 21)
         Me.Txt_StockBarang.TabIndex = 7
         Me.Txt_StockBarang.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -774,19 +891,20 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         '
         Me.Label12.AutoSize = True
         Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Label12.Location = New System.Drawing.Point(233, 101)
+        Me.Label12.Location = New System.Drawing.Point(571, 307)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(67, 13)
         Me.Label12.TabIndex = 421
         Me.Label12.Text = "Jumlah Bags"
+        Me.Label12.Visible = False
         '
         'lblLokasi
         '
         Me.lblLokasi.AutoSize = True
-        Me.lblLokasi.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.lblLokasi.Location = New System.Drawing.Point(4, 52)
+        Me.lblLokasi.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.lblLokasi.Location = New System.Drawing.Point(16, 74)
         Me.lblLokasi.Name = "lblLokasi"
-        Me.lblLokasi.Size = New System.Drawing.Size(75, 13)
+        Me.lblLokasi.Size = New System.Drawing.Size(86, 15)
         Me.lblLokasi.TabIndex = 421
         Me.lblLokasi.Text = "Lokasi Barang"
         '
@@ -811,34 +929,35 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Txt_StockBagsBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_StockBagsBarang.Enabled = False
         Me.Txt_StockBagsBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Txt_StockBagsBarang.Location = New System.Drawing.Point(322, 99)
+        Me.Txt_StockBagsBarang.Location = New System.Drawing.Point(660, 305)
         Me.Txt_StockBagsBarang.MaxLength = 50
         Me.Txt_StockBagsBarang.Name = "Txt_StockBagsBarang"
         Me.Txt_StockBagsBarang.ReadOnly = True
         Me.Txt_StockBagsBarang.Size = New System.Drawing.Size(107, 20)
         Me.Txt_StockBagsBarang.TabIndex = 8
         Me.Txt_StockBagsBarang.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.Txt_StockBagsBarang.Visible = False
         '
         'Txt_KdSOBarang
         '
         Me.Txt_KdSOBarang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_KdSOBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_KdSOBarang.Enabled = False
-        Me.Txt_KdSOBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Txt_KdSOBarang.Location = New System.Drawing.Point(112, 49)
+        Me.Txt_KdSOBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_KdSOBarang.Location = New System.Drawing.Point(112, 70)
         Me.Txt_KdSOBarang.MaxLength = 50
         Me.Txt_KdSOBarang.Name = "Txt_KdSOBarang"
         Me.Txt_KdSOBarang.ReadOnly = True
-        Me.Txt_KdSOBarang.Size = New System.Drawing.Size(317, 20)
+        Me.Txt_KdSOBarang.Size = New System.Drawing.Size(338, 21)
         Me.Txt_KdSOBarang.TabIndex = 5
         '
         'lblBarang
         '
         Me.lblBarang.AutoSize = True
-        Me.lblBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.lblBarang.Location = New System.Drawing.Point(4, 78)
+        Me.lblBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.lblBarang.Location = New System.Drawing.Point(16, 46)
         Me.lblBarang.Name = "lblBarang"
-        Me.lblBarang.Size = New System.Drawing.Size(41, 13)
+        Me.lblBarang.Size = New System.Drawing.Size(47, 15)
         Me.lblBarang.TabIndex = 423
         Me.lblBarang.Text = "Barang"
         '
@@ -847,12 +966,12 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Txt_NmBarang.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.Txt_NmBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_NmBarang.Enabled = False
-        Me.Txt_NmBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.Txt_NmBarang.Location = New System.Drawing.Point(112, 75)
+        Me.Txt_NmBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_NmBarang.Location = New System.Drawing.Point(112, 44)
         Me.Txt_NmBarang.MaxLength = 50
         Me.Txt_NmBarang.Name = "Txt_NmBarang"
         Me.Txt_NmBarang.ReadOnly = True
-        Me.Txt_NmBarang.Size = New System.Drawing.Size(317, 20)
+        Me.Txt_NmBarang.Size = New System.Drawing.Size(338, 21)
         Me.Txt_NmBarang.TabIndex = 6
         '
         'Panel7
@@ -959,6 +1078,19 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Panel1.Size = New System.Drawing.Size(822, 45)
         Me.Panel1.TabIndex = 22
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(822, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'Lbl_Judul
         '
         Me.Lbl_Judul.AutoSize = True
@@ -966,9 +1098,9 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Lbl_Judul.Location = New System.Drawing.Point(22, 7)
         Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Lbl_Judul.Name = "Lbl_Judul"
-        Me.Lbl_Judul.Size = New System.Drawing.Size(508, 25)
+        Me.Lbl_Judul.Size = New System.Drawing.Size(448, 25)
         Me.Lbl_Judul.TabIndex = 0
-        Me.Lbl_Judul.Text = "Validasi - Transfer Request Material Quality Control"
+        Me.Lbl_Judul.Text = "Transaksi - Transfer Request Material Premix"
         '
         'Panel2
         '
@@ -1044,33 +1176,6 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Txt_NoFaktur.Size = New System.Drawing.Size(228, 21)
         Me.Txt_NoFaktur.TabIndex = 500
         '
-        'Barcode_PSS
-        '
-        Me.Barcode_PSS.Location = New System.Drawing.Point(833, 134)
-        Me.Barcode_PSS.Name = "Barcode_PSS"
-        Me.Barcode_PSS.Size = New System.Drawing.Size(80, 72)
-        Me.Barcode_PSS.TabIndex = 501
-        Me.Barcode_PSS.TabStop = False
-        Me.Barcode_PSS.Visible = False
-        '
-        'Barcode
-        '
-        Me.Barcode.Location = New System.Drawing.Point(833, 52)
-        Me.Barcode.Name = "Barcode"
-        Me.Barcode.Size = New System.Drawing.Size(80, 72)
-        Me.Barcode.TabIndex = 463
-        Me.Barcode.TabStop = False
-        Me.Barcode.Visible = False
-        '
-        'Barcode_Batch
-        '
-        Me.Barcode_Batch.Location = New System.Drawing.Point(833, 215)
-        Me.Barcode_Batch.Name = "Barcode_Batch"
-        Me.Barcode_Batch.Size = New System.Drawing.Size(80, 72)
-        Me.Barcode_Batch.TabIndex = 502
-        Me.Barcode_Batch.TabStop = False
-        Me.Barcode_Batch.Visible = False
-        '
         'Cb_Tb1
         '
         Me.Cb_Tb1.AutoSize = True
@@ -1112,18 +1217,32 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Label15.Text = "Timbangan:"
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'PanelGradient1
+        'Barcode_Batch
         '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(822, 2)
-        Me.PanelGradient1.TabIndex = 22
+        Me.Barcode_Batch.Location = New System.Drawing.Point(833, 215)
+        Me.Barcode_Batch.Name = "Barcode_Batch"
+        Me.Barcode_Batch.Size = New System.Drawing.Size(80, 72)
+        Me.Barcode_Batch.TabIndex = 502
+        Me.Barcode_Batch.TabStop = False
+        Me.Barcode_Batch.Visible = False
+        '
+        'Barcode_PSS
+        '
+        Me.Barcode_PSS.Location = New System.Drawing.Point(833, 134)
+        Me.Barcode_PSS.Name = "Barcode_PSS"
+        Me.Barcode_PSS.Size = New System.Drawing.Size(80, 72)
+        Me.Barcode_PSS.TabIndex = 501
+        Me.Barcode_PSS.TabStop = False
+        Me.Barcode_PSS.Visible = False
+        '
+        'Barcode
+        '
+        Me.Barcode.Location = New System.Drawing.Point(833, 52)
+        Me.Barcode.Name = "Barcode"
+        Me.Barcode.Size = New System.Drawing.Size(80, 72)
+        Me.Barcode.TabIndex = 463
+        Me.Barcode.TabStop = False
+        Me.Barcode.Visible = False
         '
         'N_EMI_Transaksi_Request_Material_QC_Validasi
         '
@@ -1166,9 +1285,9 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.GroupBox2.PerformLayout()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.Barcode_Batch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Barcode_PSS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Barcode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Barcode_Batch, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1193,7 +1312,6 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
     Friend WithEvents Btn_Refresh As Button
     Friend WithEvents UNIX As TextBox
     Friend WithEvents Label2 As Label
-    Friend WithEvents LblSatuan As Label
     Friend WithEvents CmbSatuan As ComboBox
     Friend WithEvents TxtKdBarang As TextBox
     Friend WithEvents txt_Barang_SN As TextBox
@@ -1238,7 +1356,6 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
     Friend WithEvents Txt_SORequest As TextBox
     Friend WithEvents TxtBeratBagsBersih As TextBox
     Friend WithEvents TxtBeratAlasBersih As TextBox
-    Friend WithEvents Label1 As Label
     Friend WithEvents TXt_Batch As TextBox
     Friend WithEvents Txt_Urut_DetRM As TextBox
     Friend WithEvents Txt_NMBarangProduksi As TextBox
@@ -1254,6 +1371,17 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
     Friend WithEvents Cb_Tb2 As CheckBox
     Friend WithEvents Cb_Tb3 As CheckBox
     Friend WithEvents Label15 As Label
+    Friend WithEvents Txtsatuanbarang As TextBox
+    Friend WithEvents TxtSatuanBerat As TextBox
+    Friend WithEvents TxtSatuanBeratBersih As TextBox
+    Friend WithEvents TxtSelisihKebutuhan As TextBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Label16 As Label
+    Friend WithEvents Panel10 As Panel
+    Friend WithEvents Label17 As Label
+    Friend WithEvents Label18 As Label
+    Friend WithEvents Panel6 As Panel
+    Friend WithEvents Panel8 As Panel
     '''Friend WithEvents StreamPlayerControl1 As WebEye.Controls.WinForms.StreamPlayerControl.StreamPlayerControl
     '''Friend WithEvents StreamPlayerControl2 As WebEye.Controls.WinForms.StreamPlayerControl.StreamPlayerControl
 End Class

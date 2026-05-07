@@ -2,6 +2,8 @@
 
 Public Class N_EMI_Transaksi_Trial_Request_Material
 
+	Dim AksesNamaBahan As Boolean = False
+
 	Dim Flag_Opname As Boolean = False
 
 	Dim judulForm As String = "Request Material General"
@@ -35,15 +37,40 @@ Public Class N_EMI_Transaksi_Trial_Request_Material
 	End Sub
 
 	Private Sub Pengeluaran_Barang_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+		Try
+			OpenConn()
+
+			'====================
+			'=     CEK ROLE     =
+			'====================
+			If CekButtonRole("Akses_Nama_Barang") = "Y" Then
+				AksesNamaBahan = True
+			Else
+				AksesNamaBahan = False
+			End If
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
 		Dim x As New Point(28, 221)
 		LvBrg.Location = x
 
 		LvBarang.Columns.Clear() : LvBarang.Items.Clear()
-		'LvBarang.Columns.Add("Lokasi", 160, HorizontalAlignment.Left)
-		LvBarang.Columns.Add("Kode Barang", 200, HorizontalAlignment.Left)
-		'LvBarang.Columns.Add("Nama ", 330, HorizontalAlignment.Left)
-		LvBarang.Columns.Add("Nama ", 0, HorizontalAlignment.Left)
-		LvBarang.Columns.Add("Jumlah", 200, HorizontalAlignment.Right)
+		If AksesNamaBahan Then
+			LvBarang.Columns.Add("Kode Barang", 130, HorizontalAlignment.Left)
+			LvBarang.Columns.Add("Nama ", 300, HorizontalAlignment.Left)
+			LvBarang.Columns.Add("Jumlah", 150, HorizontalAlignment.Right)
+		Else
+			LvBarang.Columns.Add("Kode Barang", 200, HorizontalAlignment.Left)
+			LvBarang.Columns.Add("Nama ", 0, HorizontalAlignment.Left)
+			LvBarang.Columns.Add("Jumlah", 200, HorizontalAlignment.Right)
+		End If
+
 		LvBarang.Columns.Add("Satuan", 80, HorizontalAlignment.Center)
 		LvBarang.Columns.Add("Keterangan", 480, HorizontalAlignment.Left)
 		LvBarang.Columns.Add("Gudang Tujuan", 150, HorizontalAlignment.Left)
@@ -52,10 +79,15 @@ Public Class N_EMI_Transaksi_Trial_Request_Material
 		LvBarang.Columns(5).DisplayIndex = 0
 
 		LvBrg.Columns.Clear() : LvBrg.Items.Clear()
-		LvBrg.Columns.Add("Kode Barang", 180, HorizontalAlignment.Left)
-		'LvBrg.Columns.Add("Nama", 300, HorizontalAlignment.Left)
-		LvBrg.Columns.Add("Nama", 0, HorizontalAlignment.Left)
-		LvBrg.Columns.Add("Jumlah Stock", 180, HorizontalAlignment.Right)
+		If AksesNamaBahan Then
+			LvBrg.Columns.Add("Kode Barang", 130, HorizontalAlignment.Left)
+			LvBrg.Columns.Add("Nama", 200, HorizontalAlignment.Left)
+			LvBrg.Columns.Add("Jumlah Stock", 130, HorizontalAlignment.Right)
+		Else
+			LvBrg.Columns.Add("Kode Barang", 180, HorizontalAlignment.Left)
+			LvBrg.Columns.Add("Nama", 0, HorizontalAlignment.Left)
+			LvBrg.Columns.Add("Jumlah Stock", 180, HorizontalAlignment.Right)
+		End If
 		LvBrg.Columns.Add("Satuan", 90, HorizontalAlignment.Center)
 		LvBrg.View = View.Details
 
@@ -66,6 +98,26 @@ Public Class N_EMI_Transaksi_Trial_Request_Material
 	Private Sub Kosong()
 
 		get_jam()
+		Try
+			OpenConn()
+
+			'==========================================
+			'=     CEK ROLE BUTTON BUTTON FORMULA     =
+			'==========================================
+			If CekButtonRole("Button_Get_Formula_RM_General_Trial") = "T" Then
+				Btn_Get_Forumla.Visible = False
+				Btn_Get_Forumla.Enabled = False
+			Else
+				Btn_Get_Forumla.Visible = True
+				Btn_Get_Forumla.Enabled = True
+			End If
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
 
 		Try
 			OpenConn()
@@ -175,8 +227,11 @@ Public Class N_EMI_Transaksi_Trial_Request_Material
 			Using Dr = OpenTrans(SQL)
 				Do While Dr.Read
 					lv = LvBrg.Items.Add(Dr("Kode_Barang"))
-					'lv.SubItems.Add(Dr("Nama"))
-					lv.SubItems.Add("X")
+					If AksesNamaBahan Then
+						lv.SubItems.Add(Dr("Nama"))
+					Else
+						lv.SubItems.Add("X")
+					End If
 
 					If Flag_Opname Then
 						lv.SubItems.Add(0)
@@ -448,7 +503,11 @@ Public Class N_EMI_Transaksi_Trial_Request_Material
 		Dim Lv As ListViewItem
 		Lv = LvBarang.Items.Add(TxtKodeBarang.Text)
 		'Lv.SubItems.Add(TxtNamaBarang.Text.Trim)
-		Lv.SubItems.Add("X")
+		If AksesNamaBahan Then
+			Lv.SubItems.Add(TxtNamaBarang.Text.Trim)
+		Else
+			Lv.SubItems.Add("X")
+		End If
 		Lv.SubItems.Add(Format(Val(HilangkanTanda(TxtJlh.Text.Trim)), "N2"))
 		Lv.SubItems.Add(TxtSatuan.Text.Trim)
 		Lv.SubItems.Add(TxtKet.Text.Trim)

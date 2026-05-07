@@ -23,6 +23,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Binding_Formula_Trial_Compare_Formula
 	<System.Diagnostics.DebuggerStepThrough()>
 	Private Sub InitializeComponent()
 		Me.Panel1 = New System.Windows.Forms.Panel()
+		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Lbl_Judul = New System.Windows.Forms.Label()
 		Me.Panel3 = New System.Windows.Forms.Panel()
 		Me.Panel5 = New System.Windows.Forms.Panel()
@@ -54,18 +55,17 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Binding_Formula_Trial_Compare_Formula
 		Me.TabPage2 = New System.Windows.Forms.TabPage()
 		Me.FRM1_Lv_Moisture_Content = New System.Windows.Forms.ListView()
 		Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-		Me.Panel10 = New System.Windows.Forms.Panel()
-		Me.Panel11 = New System.Windows.Forms.Panel()
-		Me.Panel12 = New System.Windows.Forms.Panel()
-		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
-		Me.FRM2_TL = New System.Windows.Forms.TableLayoutPanel()
+		Me.FRM2_Txt_Est_HPP_Pcs = New System.Windows.Forms.TextBox()
+		Me.Label3 = New System.Windows.Forms.Label()
 		Me.TabControl2 = New System.Windows.Forms.TabControl()
 		Me.TabPage3 = New System.Windows.Forms.TabPage()
 		Me.FRM2_Lv_Bahan = New System.Windows.Forms.ListView()
 		Me.TabPage4 = New System.Windows.Forms.TabPage()
 		Me.FRM2_Lv_Moisture_Content = New System.Windows.Forms.ListView()
-		Me.FRM2_Txt_Est_HPP_Pcs = New System.Windows.Forms.TextBox()
-		Me.Label3 = New System.Windows.Forms.Label()
+		Me.FRM2_TL = New System.Windows.Forms.TableLayoutPanel()
+		Me.Panel10 = New System.Windows.Forms.Panel()
+		Me.Panel11 = New System.Windows.Forms.Panel()
+		Me.Panel12 = New System.Windows.Forms.Panel()
 		Me.Panel1.SuspendLayout()
 		Me.Panel5.SuspendLayout()
 		Me.Panel2.SuspendLayout()
@@ -76,10 +76,10 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Binding_Formula_Trial_Compare_Formula
 		Me.TabPage1.SuspendLayout()
 		Me.TabPage2.SuspendLayout()
 		Me.GroupBox3.SuspendLayout()
-		Me.Panel10.SuspendLayout()
 		Me.TabControl2.SuspendLayout()
 		Me.TabPage3.SuspendLayout()
 		Me.TabPage4.SuspendLayout()
+		Me.Panel10.SuspendLayout()
 		Me.SuspendLayout()
 		'
 		'Panel1
@@ -92,6 +92,19 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Binding_Formula_Trial_Compare_Formula
 		Me.Panel1.Name = "Panel1"
 		Me.Panel1.Size = New System.Drawing.Size(1184, 45)
 		Me.Panel1.TabIndex = 31
+		'
+		'PanelGradient1
+		'
+		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+		Me.PanelGradient1.cuteTransparent1 = 100
+		Me.PanelGradient1.cuteTransparent2 = 64
+		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+		Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
+		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+		Me.PanelGradient1.Name = "PanelGradient1"
+		Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
+		Me.PanelGradient1.TabIndex = 22
 		'
 		'Lbl_Judul
 		'
@@ -376,7 +389,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Binding_Formula_Trial_Compare_Formula
 		Me.FRM1_TL.ColumnCount = 3
 		Me.FRM1_TL.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.44275!))
 		Me.FRM1_TL.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.55725!))
-		Me.FRM1_TL.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 451.0!))
+		Me.FRM1_TL.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 452.0!))
 		Me.FRM1_TL.Dock = System.Windows.Forms.DockStyle.Top
 		Me.FRM1_TL.Location = New System.Drawing.Point(3, 18)
 		Me.FRM1_TL.Name = "FRM1_TL"
@@ -461,66 +474,28 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Binding_Formula_Trial_Compare_Formula
 		Me.GroupBox3.TabStop = False
 		Me.GroupBox3.Text = "Formula 2"
 		'
-		'Panel10
+		'FRM2_Txt_Est_HPP_Pcs
 		'
-		Me.Panel10.BackColor = System.Drawing.Color.Red
-		Me.Panel10.Controls.Add(Me.Panel11)
-		Me.Panel10.Location = New System.Drawing.Point(19, 205)
-		Me.Panel10.Margin = New System.Windows.Forms.Padding(4)
-		Me.Panel10.Name = "Panel10"
-		Me.Panel10.Size = New System.Drawing.Size(1325, 12)
-		Me.Panel10.TabIndex = 503
-		Me.Panel10.Visible = False
+		Me.FRM2_Txt_Est_HPP_Pcs.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+		Me.FRM2_Txt_Est_HPP_Pcs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+		Me.FRM2_Txt_Est_HPP_Pcs.Enabled = False
+		Me.FRM2_Txt_Est_HPP_Pcs.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		Me.FRM2_Txt_Est_HPP_Pcs.Location = New System.Drawing.Point(415, 352)
+		Me.FRM2_Txt_Est_HPP_Pcs.MaxLength = 100
+		Me.FRM2_Txt_Est_HPP_Pcs.Name = "FRM2_Txt_Est_HPP_Pcs"
+		Me.FRM2_Txt_Est_HPP_Pcs.Size = New System.Drawing.Size(142, 20)
+		Me.FRM2_Txt_Est_HPP_Pcs.TabIndex = 524
+		Me.FRM2_Txt_Est_HPP_Pcs.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
 		'
-		'Panel11
+		'Label3
 		'
-		Me.Panel11.BackColor = System.Drawing.Color.Red
-		Me.Panel11.Location = New System.Drawing.Point(1167, 8)
-		Me.Panel11.Margin = New System.Windows.Forms.Padding(4)
-		Me.Panel11.Name = "Panel11"
-		Me.Panel11.Size = New System.Drawing.Size(19, 637)
-		Me.Panel11.TabIndex = 495
-		Me.Panel11.Visible = False
-		'
-		'Panel12
-		'
-		Me.Panel12.BackColor = System.Drawing.Color.Red
-		Me.Panel12.Location = New System.Drawing.Point(587, 215)
-		Me.Panel12.Margin = New System.Windows.Forms.Padding(4)
-		Me.Panel12.Name = "Panel12"
-		Me.Panel12.Size = New System.Drawing.Size(12, 637)
-		Me.Panel12.TabIndex = 496
-		Me.Panel12.Visible = False
-		'
-		'PanelGradient1
-		'
-		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-		Me.PanelGradient1.cuteTransparent1 = 100
-		Me.PanelGradient1.cuteTransparent2 = 64
-		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-		Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
-		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-		Me.PanelGradient1.Name = "PanelGradient1"
-		Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
-		Me.PanelGradient1.TabIndex = 22
-		'
-		'FRM2_TL
-		'
-		Me.FRM2_TL.ColumnCount = 3
-		Me.FRM2_TL.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.44275!))
-		Me.FRM2_TL.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.55725!))
-		Me.FRM2_TL.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 451.0!))
-		Me.FRM2_TL.Dock = System.Windows.Forms.DockStyle.Top
-		Me.FRM2_TL.Location = New System.Drawing.Point(3, 18)
-		Me.FRM2_TL.Name = "FRM2_TL"
-		Me.FRM2_TL.RowCount = 4
-		Me.FRM2_TL.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
-		Me.FRM2_TL.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
-		Me.FRM2_TL.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
-		Me.FRM2_TL.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
-		Me.FRM2_TL.Size = New System.Drawing.Size(561, 83)
-		Me.FRM2_TL.TabIndex = 2
+		Me.Label3.AutoSize = True
+		Me.Label3.Font = New System.Drawing.Font("Work Sans", 9.0!)
+		Me.Label3.Location = New System.Drawing.Point(305, 353)
+		Me.Label3.Name = "Label3"
+		Me.Label3.Size = New System.Drawing.Size(104, 17)
+		Me.Label3.TabIndex = 523
+		Me.Label3.Text = "Est. HPP Per Pcs"
 		'
 		'TabControl2
 		'
@@ -581,28 +556,53 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Binding_Formula_Trial_Compare_Formula
 		Me.FRM2_Lv_Moisture_Content.UseCompatibleStateImageBehavior = False
 		Me.FRM2_Lv_Moisture_Content.View = System.Windows.Forms.View.Details
 		'
-		'FRM2_Txt_Est_HPP_Pcs
+		'FRM2_TL
 		'
-		Me.FRM2_Txt_Est_HPP_Pcs.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
-		Me.FRM2_Txt_Est_HPP_Pcs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-		Me.FRM2_Txt_Est_HPP_Pcs.Enabled = False
-		Me.FRM2_Txt_Est_HPP_Pcs.Font = New System.Drawing.Font("Work Sans", 8.0!)
-		Me.FRM2_Txt_Est_HPP_Pcs.Location = New System.Drawing.Point(415, 352)
-		Me.FRM2_Txt_Est_HPP_Pcs.MaxLength = 100
-		Me.FRM2_Txt_Est_HPP_Pcs.Name = "FRM2_Txt_Est_HPP_Pcs"
-		Me.FRM2_Txt_Est_HPP_Pcs.Size = New System.Drawing.Size(142, 20)
-		Me.FRM2_Txt_Est_HPP_Pcs.TabIndex = 524
-		Me.FRM2_Txt_Est_HPP_Pcs.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+		Me.FRM2_TL.ColumnCount = 3
+		Me.FRM2_TL.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.44275!))
+		Me.FRM2_TL.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.55725!))
+		Me.FRM2_TL.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 452.0!))
+		Me.FRM2_TL.Dock = System.Windows.Forms.DockStyle.Top
+		Me.FRM2_TL.Location = New System.Drawing.Point(3, 18)
+		Me.FRM2_TL.Name = "FRM2_TL"
+		Me.FRM2_TL.RowCount = 4
+		Me.FRM2_TL.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
+		Me.FRM2_TL.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
+		Me.FRM2_TL.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
+		Me.FRM2_TL.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
+		Me.FRM2_TL.Size = New System.Drawing.Size(561, 83)
+		Me.FRM2_TL.TabIndex = 2
 		'
-		'Label3
+		'Panel10
 		'
-		Me.Label3.AutoSize = True
-		Me.Label3.Font = New System.Drawing.Font("Work Sans", 9.0!)
-		Me.Label3.Location = New System.Drawing.Point(305, 353)
-		Me.Label3.Name = "Label3"
-		Me.Label3.Size = New System.Drawing.Size(104, 17)
-		Me.Label3.TabIndex = 523
-		Me.Label3.Text = "Est. HPP Per Pcs"
+		Me.Panel10.BackColor = System.Drawing.Color.Red
+		Me.Panel10.Controls.Add(Me.Panel11)
+		Me.Panel10.Location = New System.Drawing.Point(19, 205)
+		Me.Panel10.Margin = New System.Windows.Forms.Padding(4)
+		Me.Panel10.Name = "Panel10"
+		Me.Panel10.Size = New System.Drawing.Size(1325, 12)
+		Me.Panel10.TabIndex = 503
+		Me.Panel10.Visible = False
+		'
+		'Panel11
+		'
+		Me.Panel11.BackColor = System.Drawing.Color.Red
+		Me.Panel11.Location = New System.Drawing.Point(1167, 8)
+		Me.Panel11.Margin = New System.Windows.Forms.Padding(4)
+		Me.Panel11.Name = "Panel11"
+		Me.Panel11.Size = New System.Drawing.Size(19, 637)
+		Me.Panel11.TabIndex = 495
+		Me.Panel11.Visible = False
+		'
+		'Panel12
+		'
+		Me.Panel12.BackColor = System.Drawing.Color.Red
+		Me.Panel12.Location = New System.Drawing.Point(587, 215)
+		Me.Panel12.Margin = New System.Windows.Forms.Padding(4)
+		Me.Panel12.Name = "Panel12"
+		Me.Panel12.Size = New System.Drawing.Size(12, 637)
+		Me.Panel12.TabIndex = 496
+		Me.Panel12.Visible = False
 		'
 		'N_EMI_SD_Transaksi_Validasi_Binding_Formula_Trial_Compare_Formula
 		'
@@ -645,10 +645,10 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Binding_Formula_Trial_Compare_Formula
 		Me.TabPage2.ResumeLayout(False)
 		Me.GroupBox3.ResumeLayout(False)
 		Me.GroupBox3.PerformLayout()
-		Me.Panel10.ResumeLayout(False)
 		Me.TabControl2.ResumeLayout(False)
 		Me.TabPage3.ResumeLayout(False)
 		Me.TabPage4.ResumeLayout(False)
+		Me.Panel10.ResumeLayout(False)
 		Me.ResumeLayout(False)
 		Me.PerformLayout()
 

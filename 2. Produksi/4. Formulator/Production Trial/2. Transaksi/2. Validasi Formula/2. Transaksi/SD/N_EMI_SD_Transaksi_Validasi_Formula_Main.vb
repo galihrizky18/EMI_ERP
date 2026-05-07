@@ -219,7 +219,7 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 
 	Public Sub Kosong()
 		DgvFormulator_StepFormulator.Rows.Clear()
-		DgvFormulator_StepFormulator.Rows.Add(1)
+		'DgvFormulator_StepFormulator.Rows.Add(1)
 		TxtFormulator_Total.Text = ""
 		TxtFormulator_TotalPersen.Text = ""
 		TxtFormulator_KodeBarang.Text = ""
@@ -694,7 +694,7 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 	Private Sub TxtFormulator_Hasil_TextChanged(sender As Object, e As EventArgs) Handles TxtFormulator_Hasil.TextChanged
 
 		DgvFormulator_StepFormulator.Rows.Clear()
-		DgvFormulator_StepFormulator.Rows.Add(1)
+		'DgvFormulator_StepFormulator.Rows.Add(1)
 
 	End Sub
 
@@ -878,7 +878,7 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 
 	Private Sub CmbFormulator_SatuanHasil_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbFormulator_SatuanHasil.SelectedIndexChanged
 		DgvFormulator_StepFormulator.Rows.Clear()
-		DgvFormulator_StepFormulator.Rows.Add(1)
+		'DgvFormulator_StepFormulator.Rows.Add(1)
 	End Sub
 
 	Private Sub DgvFormulator_StepFormulator_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DgvFormulator_StepFormulator.CellClick
@@ -1115,8 +1115,6 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 			Flag_Validasi = "'T'"
 		End If
 
-		If MessageBox.Show($"Yakin ingin {Action} faktur ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = vbNo Then Exit Sub
-
 		'==============================================
 		'=     CEK MINIMAL ADA 1 MOISTURE CONTENT     =
 		'==============================================
@@ -1124,6 +1122,8 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 			MessageBox.Show("Data Moisture Content Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 			Exit Sub
 		End If
+
+		If MessageBox.Show($"Yakin ingin {Action} faktur ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = vbNo Then Exit Sub
 
 		get_jam()
 
@@ -1195,6 +1195,58 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 
 		N_EMI_Transaksi_Validasi_Formula_Main.Kosong()
 		Me.Close()
+
+	End Sub
+
+	Private Sub Btn_Validasi_Produksi_Click(sender As Object, e As EventArgs) Handles Btn_Validasi_Produksi.Click
+		If TxtFormulator_NoFaktur.Text.Trim.Length = 0 Then
+			MessageBox.Show("Gagal Memuat No Faktur", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		ElseIf DgvFormulator_StepFormulator.Rows.Count = 0 Then
+			MessageBox.Show("Detail Bahan Gagal Memuat ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		End If
+
+		'==============================================
+		'=     CEK MINIMAL ADA 1 MOISTURE CONTENT     =
+		'==============================================
+		If Dgv_Moisture_Content.Rows.Count = 0 Then
+			MessageBox.Show("Data Moisture Content Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		End If
+
+		If MessageBox.Show($"Yakin ingin Validasi Produksi Faktur Ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = vbNo Then Exit Sub
+
+		Dim listSatuan As New List(Of String)
+		Try
+			OpenConn()
+
+			listSatuan.Clear()
+			SQL = "select Satuan from EMI_Satuan where Flag_Tampil_Berat='Y' "
+			SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' "
+			Using dr = OpenTrans(SQL)
+				Do While dr.Read
+					listSatuan.Add(dr("Satuan").ToString())
+				Loop
+			End Using
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+		With N_EMI_SD_Transaksi_Validasi_Formula_Main_Produksi
+			.Txt_NoFormula.Text = TxtFormulator_NoFaktur.Text.Trim
+			.Txt_Kd_Barang.Text = TxtFormulator_KodeBarang.Text.Trim
+			.Txt_NmBarang.Text = TxtFormulator_NamaBarang.Text.Trim
+			.Txt_Hasil.Text = Format(Val(HilangkanTanda(TxtFormulator_Hasil.Text)), "N4")
+			.Cmb_Satuan.Items.Clear()
+			.Cmb_Satuan.Items.AddRange(listSatuan.ToArray)
+			.Cmb_Satuan.SelectedItem = CmbFormulator_SatuanHasil.SelectedItem
+			.ShowDialog()
+		End With
 
 	End Sub
 
