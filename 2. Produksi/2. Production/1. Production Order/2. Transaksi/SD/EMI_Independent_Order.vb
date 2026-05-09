@@ -27,6 +27,7 @@
 	Dim Item_Lv_Formula_KdBarang As Integer = 1
 	Dim Item_Lv_Formula_NmBarang As Integer = 2
 	Dim Item_Lv_Formula_NoTranskasi As Integer = 3
+	Dim Item_Lv_Formula_Keterangan As Integer = 4
 
 	Private Sub get_no_faktur()
 		txt_no_faktur.Text = fIO & arrInisialFaktur.Item(cmb_Lokasi_Init_Faktur.SelectedIndex) & "-" & Format(tgl_skg, "MM/yy") & "-" &
@@ -80,6 +81,7 @@
 			Lv_Formula_Trial.Columns.Add("Kode Barang", 100, HorizontalAlignment.Left) '1
 			Lv_Formula_Trial.Columns.Add("Nama Barang", 150, HorizontalAlignment.Left) '2
 			Lv_Formula_Trial.Columns.Add("No Transaksi", 0, HorizontalAlignment.Left) '3
+			Lv_Formula_Trial.Columns.Add("Keterangan", 200, HorizontalAlignment.Left) '3
 			Lv_Formula_Trial.View = View.Details
 
 			'
@@ -176,7 +178,7 @@
 			OpenConn()
 
 			Lv_Formula_Trial.Items.Clear()
-			SQL = "select No_Transaksi, No_Faktur_Formula, Kode_Barang, Nama_Barang "
+			SQL = "select No_Transaksi, No_Faktur_Formula, Kode_Barang, Nama_Barang, Keterangan "
 			SQL = SQL & "from N_EMI_Transaksi_PO_Trial_Produksi "
 			SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
 			SQL = SQL & "and Status is NULL "
@@ -189,6 +191,8 @@
 					Lv.SubItems.Add(Dr("Kode_Barang"))
 					Lv.SubItems.Add(Dr("Nama_Barang"))
 					Lv.SubItems.Add(Dr("No_Transaksi"))
+					Lv.SubItems.Add(Dr("Keterangan"))
+
 				Loop
 			End Using
 
@@ -291,7 +295,6 @@
 			SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Gudang = c.ID_Kategori_Gudang "
 			SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.Id_Varian = d.Id_Varian and d.Kode_Perusahaan = e.Kode_Perusahaan and d.Id_Jenis_Produk = e.Id_Jenis_Produk "
 			SQL = SQL & "and (b.flag_semi_fg='Y' or b.flag_finished_good = 'Y' ) "
-
 			SQL = SQL & "and a.kode_barang like '%" & TxtPilihBarang_KodeBarang.Text & "%' and aktif = 'Y'  " & filter_tambahan & " "
 			SQL = SQL & "group by a.Kode_Barang,b.Kode_Group_Jenis,a.Nama, a.Satuan,c.lokasi_gudang ,e.Keterangan, e.Id_Jenis_Produk"
 
@@ -308,7 +311,6 @@
 				Else
 					TxtPilihBarang_KodeBarang.Text = ""
 					TxtNamaBarang.Text = ""
-					'TxtPilihBarang_NamaBarang.Text = ""
 					TxtPilihBarang_Satuan.Text = ""
 					TxtPilihBarang_KodeBarang.Focus()
 				End If

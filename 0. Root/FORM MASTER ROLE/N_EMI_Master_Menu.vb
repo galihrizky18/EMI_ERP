@@ -1146,6 +1146,7 @@
 						If Cmb_SubMenu.SelectedIndex = -1 Then
 							If Cmb_Menu.SelectedIndex = -1 Then
 								If Cmb_MainMenu.SelectedIndex = -1 Then
+									MessageBox.Show("Tidak Ada Data yang Bisa Dihapus", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
 								Else
 									SQL = "delete RoleMainMenus where MainMenuID = '" & arrMainMenu(Cmb_MainMenu.SelectedIndex) & "'"
 									ExecuteTrans(SQL)

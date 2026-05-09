@@ -26,6 +26,7 @@ Partial Class EMI_Production_Order
     Private Sub InitializeComponent()
 		Me.components = New System.ComponentModel.Container()
 		Me.Panel1 = New System.Windows.Forms.Panel()
+		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Label1 = New System.Windows.Forms.Label()
 		Me.Panel2 = New System.Windows.Forms.Panel()
 		Me.Panel3 = New System.Windows.Forms.Panel()
@@ -95,7 +96,6 @@ Partial Class EMI_Production_Order
 		Me.Cmb_Jenis = New System.Windows.Forms.ComboBox()
 		Me.Label10 = New System.Windows.Forms.Label()
 		Me.Btn_Get_Detail_Formula = New System.Windows.Forms.Button()
-		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Panel1.SuspendLayout()
 		Me.ContextMenuStrip3.SuspendLayout()
 		Me.ContextMenuStrip1.SuspendLayout()
@@ -117,6 +117,19 @@ Partial Class EMI_Production_Order
 		Me.Panel1.Name = "Panel1"
 		Me.Panel1.Size = New System.Drawing.Size(1160, 45)
 		Me.Panel1.TabIndex = 22
+		'
+		'PanelGradient1
+		'
+		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+		Me.PanelGradient1.cuteTransparent1 = 100
+		Me.PanelGradient1.cuteTransparent2 = 64
+		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+		Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
+		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+		Me.PanelGradient1.Name = "PanelGradient1"
+		Me.PanelGradient1.Size = New System.Drawing.Size(1160, 2)
+		Me.PanelGradient1.TabIndex = 22
 		'
 		'Label1
 		'
@@ -651,8 +664,9 @@ Partial Class EMI_Production_Order
 		Me.DateTimePicker3.CustomFormat = "dd MMMM yyyy"
 		Me.DateTimePicker3.DropDownAlign = System.Windows.Forms.LeftRightAlignment.Right
 		Me.DateTimePicker3.Enabled = False
+		Me.DateTimePicker3.Font = New System.Drawing.Font("Work Sans", 8.0!)
 		Me.DateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-		Me.DateTimePicker3.Location = New System.Drawing.Point(392, 165)
+		Me.DateTimePicker3.Location = New System.Drawing.Point(375, 165)
 		Me.DateTimePicker3.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
 		Me.DateTimePicker3.Name = "DateTimePicker3"
 		Me.DateTimePicker3.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -662,20 +676,20 @@ Partial Class EMI_Production_Order
 		'Label7
 		'
 		Me.Label7.AutoSize = True
-		Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-		Me.Label7.Location = New System.Drawing.Point(300, 163)
+		Me.Label7.Font = New System.Drawing.Font("Work Sans", 9.0!)
+		Me.Label7.Location = New System.Drawing.Point(284, 167)
 		Me.Label7.Name = "Label7"
-		Me.Label7.Size = New System.Drawing.Size(83, 17)
+		Me.Label7.Size = New System.Drawing.Size(75, 17)
 		Me.Label7.TabIndex = 420
 		Me.Label7.Text = "Tgl Formula"
 		'
 		'Label4
 		'
 		Me.Label4.AutoSize = True
-		Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-		Me.Label4.Location = New System.Drawing.Point(11, 165)
+		Me.Label4.Font = New System.Drawing.Font("Work Sans", 9.0!)
+		Me.Label4.Location = New System.Drawing.Point(8, 166)
 		Me.Label4.Name = "Label4"
-		Me.Label4.Size = New System.Drawing.Size(81, 17)
+		Me.Label4.Size = New System.Drawing.Size(75, 17)
 		Me.Label4.TabIndex = 419
 		Me.Label4.Text = "No Formula"
 		'
@@ -696,11 +710,11 @@ Partial Class EMI_Production_Order
 		'
 		Me.Txt_No_Formula.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
 		Me.Txt_No_Formula.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-		Me.Txt_No_Formula.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
-		Me.Txt_No_Formula.Location = New System.Drawing.Point(105, 164)
+		Me.Txt_No_Formula.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		Me.Txt_No_Formula.Location = New System.Drawing.Point(89, 165)
 		Me.Txt_No_Formula.Name = "Txt_No_Formula"
 		Me.Txt_No_Formula.ReadOnly = True
-		Me.Txt_No_Formula.Size = New System.Drawing.Size(189, 21)
+		Me.Txt_No_Formula.Size = New System.Drawing.Size(189, 20)
 		Me.Txt_No_Formula.TabIndex = 419
 		'
 		'Label5
@@ -779,14 +793,13 @@ Partial Class EMI_Production_Order
 		'
 		'LvBahanNew
 		'
-		Me.LvBahanNew.Dock = System.Windows.Forms.DockStyle.Fill
 		Me.LvBahanNew.Font = New System.Drawing.Font("Work Sans", 8.0!)
 		Me.LvBahanNew.FullRowSelect = True
 		Me.LvBahanNew.GridLines = True
 		Me.LvBahanNew.HideSelection = False
 		Me.LvBahanNew.Location = New System.Drawing.Point(3, 3)
 		Me.LvBahanNew.Name = "LvBahanNew"
-		Me.LvBahanNew.Size = New System.Drawing.Size(725, 187)
+		Me.LvBahanNew.Size = New System.Drawing.Size(725, 155)
 		Me.LvBahanNew.TabIndex = 422
 		Me.LvBahanNew.UseCompatibleStateImageBehavior = False
 		Me.LvBahanNew.View = System.Windows.Forms.View.Details
@@ -891,19 +904,6 @@ Partial Class EMI_Production_Order
 		Me.Btn_Get_Detail_Formula.TabIndex = 425
 		Me.Btn_Get_Detail_Formula.Text = "&Get Detail Bahan"
 		Me.Btn_Get_Detail_Formula.UseVisualStyleBackColor = False
-		'
-		'PanelGradient1
-		'
-		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-		Me.PanelGradient1.cuteTransparent1 = 100
-		Me.PanelGradient1.cuteTransparent2 = 64
-		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-		Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
-		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-		Me.PanelGradient1.Name = "PanelGradient1"
-		Me.PanelGradient1.Size = New System.Drawing.Size(1160, 2)
-		Me.PanelGradient1.TabIndex = 22
 		'
 		'EMI_Production_Order
 		'

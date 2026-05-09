@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 Imports System.Net
 
-Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
+Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_BACKUP_09052026
 	Public isi_barang As Boolean = False
 	Public StatusDariList As String = ""
 	Dim arrcari, arrIdPenanggungJawab As New ArrayList
@@ -168,10 +168,10 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 
 	Public Sub Transaksi_Formulator_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		My.Application.ChangeCulture("en-us")
-		My.Application.ChangeUICulture("en-us")
+        My.Application.ChangeUICulture("en-us")
 
-		TxtStatus.Text = StatusDariList
-		InitRTBToolbar()
+        TxtStatus.Text = StatusDariList
+        InitRTBToolbar()
 
 		Try
 			OpenConn()
@@ -1662,9 +1662,9 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 			OpenConn()
 
 			SQL = $"
-                SELECT No_Transaksi, No_Faktur, Tanggal
+                SELECT No_Transaksi, No_Faktur, Tanggal 
                 FROM N_EMI_View_Laporan_formula_rpt
-                WHERE Kode_Perusahaan = '{KodePerusahaan}'
+                WHERE Kode_Perusahaan = '{KodePerusahaan}' 
                 AND No_Faktur = '{TxtFormulator_NoFaktur.Text.Trim}'
                 GROUP BY No_Transaksi, No_Faktur, Tanggal
             "
@@ -1818,5 +1818,4 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		ms.Position = 0
 		Return ms
 	End Function
-
 End Class

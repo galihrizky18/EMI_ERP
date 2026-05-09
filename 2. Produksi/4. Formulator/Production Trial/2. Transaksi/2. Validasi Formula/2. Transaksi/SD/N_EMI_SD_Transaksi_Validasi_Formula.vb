@@ -24,6 +24,11 @@
 
 	Dim SwitchAutoComplete As Boolean
 
+	Dim _tsBold As ToolStripButton
+	Dim _tsItalic As ToolStripButton
+	Dim _tsUnderline As ToolStripButton
+	Dim _tsBullet As ToolStripButton
+
 	Dim lvNo As String
 	Dim lvTipe As String
 	Dim lvKdBarang As String
@@ -79,6 +84,85 @@
 	'                         "And", "substring(no_Faktur, 1, " & Len(fTransFormulaBinding) + 4 & ")", fTransFormulaBinding & Format(tgl_skg, "MMyy"))
 	'End Sub
 
+	Private Sub InitRTBToolbar()
+		For Each ctrl As Control In RTBCookingStep.Parent.Controls
+			If TypeOf ctrl Is ToolStrip AndAlso ctrl.Tag?.ToString() = "RTBToolbar" Then Return
+		Next
+
+		Dim ts As New ToolStrip()
+		ts.GripStyle = ToolStripGripStyle.Hidden
+		ts.BackColor = Color.WhiteSmoke
+		ts.Tag = "RTBToolbar"
+
+		_tsBold = New ToolStripButton("B") With {
+			.Font = New Font("Georgia", 10, FontStyle.Bold),
+			.ToolTipText = "Bold (Ctrl+B)",
+			.CheckOnClick = True,
+			.AutoSize = False,
+			.Width = 30,
+			.Height = 26
+		}
+
+		_tsItalic = New ToolStripButton("I") With {
+			.Font = New Font("Georgia", 10, FontStyle.Italic),
+			.ToolTipText = "Italic (Ctrl+I)",
+			.CheckOnClick = True,
+			.AutoSize = False,
+			.Width = 30,
+			.Height = 26
+		}
+
+		_tsUnderline = New ToolStripButton("U") With {
+			.Font = New Font("Georgia", 10, FontStyle.Underline),
+			.ToolTipText = "Underline (Ctrl+U)",
+			.CheckOnClick = True,
+			.AutoSize = False,
+			.Width = 30,
+			.Height = 26
+		}
+
+		_tsBullet = New ToolStripButton("• List") With {
+			.ToolTipText = "Bullet List",
+			.CheckOnClick = True,
+			.AutoSize = True,
+			.Height = 26
+		}
+
+		Dim btnTab As New ToolStripButton("⇥ Tab") With {
+			.ToolTipText = "Indent (Tab)",
+			.AutoSize = True,
+			.Height = 26
+		}
+
+		AddHandler _tsBold.Click, Sub(s, e) ToggleBold()
+		AddHandler _tsItalic.Click, Sub(s, e) ToggleItalic()
+		AddHandler _tsUnderline.Click, Sub(s, e) ToggleUnderline()
+		AddHandler _tsBullet.Click, Sub(s, e) ToggleBullet()
+		AddHandler btnTab.Click, Sub(s, e) IndentRTB(True)
+
+		ts.Items.AddRange({_tsBold, _tsItalic, _tsUnderline,
+					   New ToolStripSeparator(), _tsBullet, btnTab})
+
+		Dim parent = RTBCookingStep.Parent
+
+		Dim rtbTop As Integer = RTBCookingStep.Top
+		Dim rtbLeft As Integer = RTBCookingStep.Left
+		Dim rtbWidth As Integer = RTBCookingStep.Width
+		Dim rtbHeight As Integer = RTBCookingStep.Height
+
+		Const TS_HEIGHT As Integer = 28
+
+		ts.Location = New Point(rtbLeft, rtbTop - TS_HEIGHT)
+		ts.Width = rtbWidth
+		ts.Height = TS_HEIGHT
+
+		RTBCookingStep.Top = rtbTop
+		RTBCookingStep.Height = rtbHeight - TS_HEIGHT
+
+		parent.Controls.Add(ts)
+		ts.BringToFront()
+	End Sub
+
 	Private Sub Transaksi_Formula_Activated(sender As Object, e As EventArgs) Handles Me.Activated
 		My.Application.ChangeCulture("en-us")
 		My.Application.ChangeUICulture("en-us")
@@ -87,6 +171,10 @@
 	Public Sub Transaksi_Formulator_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		My.Application.ChangeCulture("en-us")
 		My.Application.ChangeUICulture("en-us")
+
+		InitRTBToolbar()
+		TabControl1.SelectedIndex = 0
+
 		Try
 			OpenConn()
 
@@ -201,7 +289,7 @@
 		TabControl1.SelectedIndex = 0
 
 		'Kosong()
-
+		LoadCookingStep(TxtFormulator_NoFaktur.Text.Trim)
 	End Sub
 
 	Private Sub Get_SD_Moisture(ByVal index As Integer)
@@ -1087,7 +1175,6 @@
 							Dim RangeAkhir As String = Ds999.Tables("MyTable").Rows(z).Item("Range_Akhir")
 
 							LoadMoistureContent(KodeAnalisa, ValueCombobox, RangeAwal, RangeAkhir)
-
 						Next
 					End If
 				End Using
@@ -1110,6 +1197,9 @@
 			Exit Sub
 		ElseIf DgvFormulator_StepFormulator.Rows.Count = 0 Then
 			MessageBox.Show("Detail Bahan Gagal Memuat ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		ElseIf RTBCookingStep.Text.Trim.Length = 0 Then
+			MessageBox.Show("Harap Input Cooking Step Terlebih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 			Exit Sub
 		End If
 
@@ -1291,6 +1381,9 @@
 
 #End Region
 
+			SQL = $"insert into Emi_Transaksi_Formulator_Cooking_Steps (Kode_Perusahaan, No_Faktur, Status, UserID, Tanggal, Jam, Cooking_Step) values ('{KodePerusahaan}', '{TxtFormulator_NoFaktur.Text.Trim}', NULL, '{UserID}', '{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', '{RTBCookingStep.Rtf.Replace("'", "''")}')"
+			ExecuteTrans(SQL)
+
 			SQL = $"update Emi_Transaksi_Formulator set Flag_Validasi = {Flag_Validasi}, "
 			SQL &= $"Tanggal_Validasi = '{Format(tgl_skg, "yyyy-MM-dd")}', Jam_Validasi = '{Format(tgl_skg, "HH:mm:ss")}', User_Validasi = '{UserID}' "
 			SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' and No_Faktur = '{TxtFormulator_NoFaktur.Text.Trim}' "
@@ -1315,6 +1408,151 @@
 		N_EMI_Transaksi_Validasi_Formula.Kosong()
 		Me.Close()
 
+	End Sub
+
+	Private Sub RTBCookingStep_KeyDown(sender As Object, e As KeyEventArgs) Handles RTBCookingStep.KeyDown
+		If e.Control AndAlso e.KeyCode = Keys.B Then
+			ToggleBold() : e.SuppressKeyPress = True : Return
+		End If
+		If e.Control AndAlso e.KeyCode = Keys.I Then
+			ToggleItalic() : e.SuppressKeyPress = True : Return
+		End If
+		If e.Control AndAlso e.KeyCode = Keys.U Then
+			ToggleUnderline() : e.SuppressKeyPress = True : Return
+		End If
+		If e.KeyCode = Keys.Tab AndAlso Not e.Shift Then
+			IndentRTB(True) : e.SuppressKeyPress = True : Return
+		End If
+		If e.KeyCode = Keys.Back Then
+			Dim lineIndex = RTBCookingStep.GetLineFromCharIndex(RTBCookingStep.SelectionStart)
+			Dim lineStart = RTBCookingStep.GetFirstCharIndexFromLine(lineIndex)
+			Dim cursorPos = RTBCookingStep.SelectionStart
+			If cursorPos = lineStart AndAlso RTBCookingStep.SelectionIndent > 0 Then
+				IndentRTB(False)
+				e.SuppressKeyPress = True : Return
+			End If
+		End If
+	End Sub
+
+	Private Sub RTBCookingStep_SelectionChanged(sender As Object, e As EventArgs) Handles RTBCookingStep.SelectionChanged
+		If RTBCookingStep.SelectionFont Is Nothing Then Return
+		If _tsBold Is Nothing Then Return
+
+		_tsBold.Checked = RTBCookingStep.SelectionFont.Bold
+		_tsItalic.Checked = RTBCookingStep.SelectionFont.Italic
+		_tsUnderline.Checked = RTBCookingStep.SelectionFont.Underline
+
+		Dim lineIdx As Integer = RTBCookingStep.GetLineFromCharIndex(RTBCookingStep.SelectionStart)
+		If lineIdx >= 0 AndAlso lineIdx < RTBCookingStep.Lines.Length Then
+			_tsBullet.Checked = RTBCookingStep.Lines(lineIdx).StartsWith("• ")
+		End If
+	End Sub
+
+	Private Sub IndentRTB(addIndent As Boolean)
+		Const INDENT As Integer = 40
+		Dim firstLine = RTBCookingStep.GetLineFromCharIndex(RTBCookingStep.SelectionStart)
+		Dim lastLine = RTBCookingStep.GetLineFromCharIndex(RTBCookingStep.SelectionStart + RTBCookingStep.SelectionLength)
+		Dim savedStart = RTBCookingStep.SelectionStart
+		Dim savedLen = RTBCookingStep.SelectionLength
+		For i = firstLine To lastLine
+			RTBCookingStep.SelectionStart = RTBCookingStep.GetFirstCharIndexFromLine(i)
+			RTBCookingStep.SelectionLength = 0
+			RTBCookingStep.SelectionIndent = Math.Max(0, RTBCookingStep.SelectionIndent + If(addIndent, INDENT, -INDENT))
+		Next
+		RTBCookingStep.SelectionStart = savedStart
+		RTBCookingStep.SelectionLength = savedLen
+	End Sub
+
+	Private Sub ToggleBold()
+		If RTBCookingStep.SelectionFont Is Nothing Then Return
+		Dim s = RTBCookingStep.SelectionFont.Style
+		RTBCookingStep.SelectionFont = New Font(RTBCookingStep.SelectionFont,
+		If((s And FontStyle.Bold) = FontStyle.Bold, s And Not FontStyle.Bold, s Or FontStyle.Bold))
+	End Sub
+
+	Private Sub ToggleItalic()
+		If RTBCookingStep.SelectionFont Is Nothing Then Return
+		Dim s = RTBCookingStep.SelectionFont.Style
+		RTBCookingStep.SelectionFont = New Font(RTBCookingStep.SelectionFont,
+		If((s And FontStyle.Italic) = FontStyle.Italic, s And Not FontStyle.Italic, s Or FontStyle.Italic))
+	End Sub
+
+	Private Sub ToggleUnderline()
+		If RTBCookingStep.SelectionFont Is Nothing Then Return
+		Dim s = RTBCookingStep.SelectionFont.Style
+		RTBCookingStep.SelectionFont = New Font(RTBCookingStep.SelectionFont,
+		If((s And FontStyle.Underline) = FontStyle.Underline, s And Not FontStyle.Underline, s Or FontStyle.Underline))
+	End Sub
+
+	Private Sub ToggleBullet()
+		Dim selStart As Integer = RTBCookingStep.SelectionStart
+		Dim selLen As Integer = RTBCookingStep.SelectionLength
+		Dim firstLine As Integer = RTBCookingStep.GetLineFromCharIndex(selStart)
+		Dim lastLine As Integer = RTBCookingStep.GetLineFromCharIndex(selStart + selLen)
+		Dim firstLineStart As Integer = RTBCookingStep.GetFirstCharIndexFromLine(firstLine)
+		Dim firstLineText As String = ""
+		If firstLine < RTBCookingStep.Lines.Length Then
+			firstLineText = RTBCookingStep.Lines(firstLine)
+		End If
+		Dim sudahBullet As Boolean = firstLineText.StartsWith("• ")
+
+		RTBCookingStep.SuspendLayout()
+
+		For i As Integer = firstLine To lastLine
+			Dim lineStart As Integer = RTBCookingStep.GetFirstCharIndexFromLine(i)
+			If lineStart < 0 Then Continue For
+			Dim lineText As String = ""
+			If i < RTBCookingStep.Lines.Length Then
+				lineText = RTBCookingStep.Lines(i)
+			End If
+
+			If sudahBullet Then
+				If lineText.StartsWith("• ") Then
+					RTBCookingStep.SelectionStart = lineStart
+					RTBCookingStep.SelectionLength = 2
+					RTBCookingStep.SelectedText = ""
+					RTBCookingStep.SelectionStart = RTBCookingStep.GetFirstCharIndexFromLine(i)
+					RTBCookingStep.SelectionLength = 0
+					RTBCookingStep.SelectionIndent = 0
+					RTBCookingStep.SelectionHangingIndent = 0
+				End If
+			Else
+				RTBCookingStep.SelectionStart = lineStart
+				RTBCookingStep.SelectionLength = 0
+				Dim f As Font = If(RTBCookingStep.SelectionFont, RTBCookingStep.Font)
+				RTBCookingStep.SelectedText = "• "
+				RTBCookingStep.SelectionStart = lineStart
+				RTBCookingStep.SelectionLength = 2
+				RTBCookingStep.SelectionFont = f
+				RTBCookingStep.SelectionIndent = 10
+				RTBCookingStep.SelectionHangingIndent = 0
+				RTBCookingStep.SelectionStart = lineStart + 2
+				RTBCookingStep.SelectionLength = 0
+			End If
+		Next
+
+		If firstLine <> lastLine Then
+			Dim lastLineStart As Integer = RTBCookingStep.GetFirstCharIndexFromLine(lastLine)
+			If lastLineStart >= 0 AndAlso lastLine < RTBCookingStep.Lines.Length Then
+				RTBCookingStep.SelectionStart = lastLineStart + RTBCookingStep.Lines(lastLine).Length
+				RTBCookingStep.SelectionLength = 0
+			End If
+		End If
+
+		RTBCookingStep.ResumeLayout()
+
+		If Not sudahBullet AndAlso firstLine = lastLine Then
+			Dim pos As Integer = RTBCookingStep.GetFirstCharIndexFromLine(firstLine)
+			If pos >= 0 Then
+				RTBCookingStep.SelectionStart = pos + 2
+				RTBCookingStep.SelectionLength = 0
+			End If
+		End If
+
+		If _tsBullet IsNot Nothing Then
+			_tsBullet.Checked = Not sudahBullet
+		End If
+		RTBCookingStep.Focus()
 	End Sub
 
 	Private Sub CmbFormulator_SatuanHasil_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbFormulator_SatuanHasil.KeyPress
@@ -1733,6 +1971,31 @@
 		Public Property Kode_Analisa As String
 		Public Property Datas As New List(Of (ID_Switch As String, Value As String, Label As String))
 	End Class
+
+	Private Sub LoadCookingStep(No_Faktur As String)
+		Try
+			OpenConn()
+
+			RTBCookingStep.Clear()
+			SQL = "select top 1 Cooking_Step from Emi_Transaksi_Formulator_Cooking_Steps "
+			SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+			SQL &= $"and No_Faktur = '{No_Faktur}' "
+			SQL &= $"and Status is null "
+			SQL &= $"order by Tanggal desc, Jam desc "
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					If General_Class.CekNULL(Dr("Cooking_Step")) <> "" Then
+						RTBCookingStep.Rtf = Dr("Cooking_Step")
+					End If
+				End If
+			End Using
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			Exit Sub
+		End Try
+	End Sub
 
 	Private Sub LoadMoistureContent(ByVal KodeAnalisa As String, ByVal ValueCombo As String, ByVal RangeAwal As String, ByVal RangeAkhir As String)
 		SQL = "select id, Kode_Analisa, Jenis_Analisa, Flag_Perhitungan, Kode_Aktivitas_Lab "

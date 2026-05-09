@@ -73,12 +73,12 @@ Partial Class N_EMI_Transaksi_Validasi_Formula
 		'
 		Me.Label1.AutoSize = True
 		Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold)
-		Me.Label1.Location = New System.Drawing.Point(20, 7)
+		Me.Label1.Location = New System.Drawing.Point(18, 7)
 		Me.Label1.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
 		Me.Label1.Name = "Label1"
-		Me.Label1.Size = New System.Drawing.Size(289, 30)
+		Me.Label1.Size = New System.Drawing.Size(185, 30)
 		Me.Label1.TabIndex = 0
-		Me.Label1.Text = "Transaksi Validasi Formula"
+		Me.Label1.Text = "Validasi Formula"
 		'
 		'Panel2
 		'

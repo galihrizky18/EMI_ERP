@@ -1,5 +1,5 @@
-﻿Public Class N_EMI_SD_Transaksi_Validasi_Trial_Formula
-	Private Sub N_EMI_SD_Transaksi_Validasi_Formula_Main_Produksi_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+﻿Public Class N_EMI_SD_Transaksi_Validasi_Formula_Trial_Produksi
+	Private Sub N_EMI_SD_Transaksi_Validasi_Formula_Trial_Produksi_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		Kosong()
 	End Sub
 
@@ -51,7 +51,7 @@
 
 			SQL = $"
                 UPDATE Emi_Transaksi_Formulator
-                SET Flag_Selesai_Trial_Kitchen = 'Y', Tanggal_Selesai_Trial_Kitchen = '{Format(tgl_skg, "yyyy-MM-dd")}', Jam_Selesai_Trial_Kitchen = '{Format(tgl_skg, "HH:mm:ss")}', UserID_Selesai_Trial_Kitchen = '{UserID}'
+                SET Flag_Selesai_Trial_Produksi = 'Y', Tanggal_Selesai_Trial_Produksi = '{Format(tgl_skg, "yyyy-MM-dd")}', Jam_Selesai_Trial_Produksi = '{Format(tgl_skg, "HH:mm:ss")}', UserID_Selesai_Trial_Produksi = '{UserID}'
                 WHERE Kode_Perusahaan = '{KodePerusahaan}' AND No_Faktur = '{NoFormula}'
             "
 			ExecuteTrans(SQL)
@@ -59,14 +59,15 @@
 			SQL = $"
 				;WITH CTE AS (
 					SELECT TOP 1 b.*
-					FROM N_EMI_Transaksi_Trial_Order_Produksi a
-					JOIN N_EMI_Transaksi_Trial_Split_Production_Order b 
+					FROM Emi_Split_Production_Order a
+					JOIN EMI_Order_Produksi b 
 						ON a.Kode_Perusahaan = b.Kode_Perusahaan 
 						AND a.No_Faktur = b.No_PO
 					WHERE a.Kode_Perusahaan = '{KodePerusahaan}'
 						AND a.Kode_Formula = '{NoFormula}'
 						AND a.Status is null
 						AND b.Status is null
+						AND 
 					ORDER BY b.Tanggal DESC, b.Jam DESC
 				)
 				UPDATE CTE
@@ -85,8 +86,7 @@
 			Exit Sub
 		End Try
 
-		N_EMI_Transaksi_Validasi_Trial_Formula.kosong()
+		N_EMI_Transaksi_Validasi_Formula_Trial_Produksi.kosong()
 		Me.Close()
-
 	End Sub
 End Class

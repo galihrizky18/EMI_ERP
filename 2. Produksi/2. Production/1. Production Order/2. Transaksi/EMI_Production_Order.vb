@@ -39,7 +39,7 @@
 	Dim lvIdJenisProduk As String
 	Dim lvKetOrder As String
 	Dim lvKetJenisIO As String
-	Dim lvKetNoFormula As String
+	Dim lvPalletNoFormula As String
 
 	' Dim cellLvNoAntri As Integer = 0
 	Dim cellLvNoPo As Integer = 0
@@ -80,6 +80,7 @@
 	Dim LvIdJnsPrdk2 As String
 	Dim LvFromUpdate2 As String
 	Dim LvDeleted2 As String
+	Dim LvNoFormula As String
 
 	Dim cellNoSo2 As Integer = 0
 	Dim cellLokasi2 As Integer = 1
@@ -93,6 +94,7 @@
 	Dim cellIdJnsPrdk2 As Integer = 9
 	Dim cellFromUpdate2 As Integer = 10
 	Dim cellDeleted2 As Integer = 11
+	Dim cellNoFormula As Integer = 12
 
 	Dim LvNoSo3 As String
 	Dim LvKdBhn3 As String
@@ -308,8 +310,9 @@
 		LvOrder.Columns.Add(Base_Language.Lang_Global_Jenis, 0, HorizontalAlignment.Center) '7
 		LvOrder.Columns.Add("Urut", 0, HorizontalAlignment.Center) '8
 		LvOrder.Columns.Add("Id Jenis Produk", 0, HorizontalAlignment.Center) '9
-		LvOrder.Columns.Add("from update", 100, HorizontalAlignment.Center) '10
-		LvOrder.Columns.Add("deleted", 100, HorizontalAlignment.Center) '11
+		LvOrder.Columns.Add("from update", 0, HorizontalAlignment.Center) '10
+		LvOrder.Columns.Add("deleted", 0, HorizontalAlignment.Center) '11
+		LvOrder.Columns.Add("NoFormula", 0, HorizontalAlignment.Center) '12
 
 		' ListView2.View = View.Details
 		LvBahan.Columns.Add("kode_stock_owner", 0, HorizontalAlignment.Left) '0
@@ -415,7 +418,7 @@
 		lvIdJenisProduk = LvData.Items(index).SubItems(cellLvIdJenisProduk).Text '11
 		lvKetOrder = LvData.Items(index).SubItems(cellLvKetOrder).Text '12
 		lvKetJenisIO = LvData.Items(index).SubItems(cellLvJenisIO).Text '13
-		lvKetNoFormula = LvData.Items(index).SubItems(cellLvNoFormula).Text '14
+		lvPalletNoFormula = LvData.Items(index).SubItems(cellLvNoFormula).Text '14
 	End Sub
 
 	Private Sub Get_Isi_Listview_Bahan(ByVal index As Integer)
@@ -449,6 +452,7 @@
 		LvIdJnsPrdk2 = LvOrder.Items(index).SubItems(cellIdJnsPrdk2).Text '9
 		LvFromUpdate2 = LvOrder.Items(index).SubItems(cellFromUpdate2).Text '10
 		LvDeleted2 = LvOrder.Items(index).SubItems(cellDeleted2).Text '11
+		LvNoFormula = LvOrder.Items(index).SubItems(cellNoFormula).Text '12
 
 	End Sub
 
@@ -851,6 +855,10 @@
 			End If
 		Next
 
+		For i As Integer = 0 To LvOrder.Items.Count - 1
+
+		Next
+
 		get_jam()
 		Try
 			OpenConn()
@@ -917,8 +925,20 @@
 				Dim kode_so As String = ""
 				Dim kode_brg As String = ""
 				Dim sat As String = ""
+				Dim CurrentKodeFormula As String = ""
 				For i As Integer = 0 To LvOrder.Items.Count - 1
 					get_isi_listview_detail(i)
+
+					If String.IsNullOrWhiteSpace(CurrentKodeFormula) Then
+						CurrentKodeFormula = LvNoFormula.Trim
+					Else
+						If CurrentKodeFormula.Trim <> LvNoFormula.Trim Then
+							CloseTrans()
+							CloseConn()
+							MessageBox.Show("Terjadi Kesalahan, Terdapat Formula Yang Berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+							Exit Sub
+						End If
+					End If
 
 					jumlah = jumlah + Val(HilangkanTanda(LvJmlh2))
 					kode_so = LvLokasi2
@@ -1345,13 +1365,18 @@
 			kosong()
 
 			mustUpdate = True
-			Me.Close()
 		Catch ex As Exception
 			CloseTrans()
 			CloseConn()
 			MessageBox.Show(ex.Message)
 			Exit Sub
 		End Try
+
+		If parentForm = "schedule" Then
+			Me.Close()
+		Else
+			kosong()
+		End If
 
 	End Sub
 
@@ -1478,6 +1503,13 @@
 
 					Dim lvw1 As ListViewItem
 
+					Dim NoFormula As String = ""
+					If String.IsNullOrWhiteSpace(LvData.FocusedItem.SubItems(cellLvNoFormula).Text) Then
+						NoFormula = ""
+					Else
+						NoFormula = LvData.FocusedItem.SubItems(cellLvNoFormula).Text.Trim
+					End If
+
 					lvw1 = LvOrder.Items.Add(LvData.FocusedItem.SubItems(cellLvNoPo).Text) '0
 					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvLokasi).Text) '1
 					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvKdCus).Text) '2
@@ -1490,6 +1522,7 @@
 					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvIdJenisProduk).Text) '9
 					lvw1.SubItems.Add("") '10
 					lvw1.SubItems.Add("") '11
+					lvw1.SubItems.Add(NoFormula) '12
 
 					txtKdBrgPO.Text = LvData.FocusedItem.SubItems(cellLvKdBrg).Text
 					txtNmBrgPO.Text = LvData.FocusedItem.SubItems(cellLvNmBrg).Text
@@ -1666,9 +1699,17 @@
 				End If
 			End Using
 
-			SQL = "select a.No_SO,a.Kode_Stock_Owner, a.Kode_Barang,b.Nama,a.Jumlah,a.Satuan,a.jenis_order,urut_po "
-			SQL = SQL & "from Emi_Order_Produksi_detail a, barang b"
-			SQL = SQL & " where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner "
+			SQL = "select a.No_SO,a.Kode_Stock_Owner, a.Kode_Barang,b.Nama,a.Jumlah,a.Satuan,a.jenis_order,urut_po, "
+			SQL = SQL & "isnull(( "
+			SQL = SQL & "select x.No_Formula "
+			SQL = SQL & "from EMI_Independent_Order z "
+			SQL = SQL & "inner join EMI_Independent_Order_Detail x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur "
+			SQL = SQL & "where z.Status is null "
+			SQL = SQL & "and z.Kode_Perusahaan = a.Kode_Perusahaan "
+			SQL = SQL & "and z.No_Faktur = a.No_SO "
+			SQL = SQL & "), null) as No_Formula "
+			SQL = SQL & "from Emi_Order_Produksi_detail a, barang b "
+			SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner "
 			SQL = SQL & "and a.Kode_Barang =  b.Kode_Barang and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_faktur = '" & txtNoFaktur.Text & "' "
 			Using Ds = BindingTrans(SQL)
 				With Ds.Tables("MyTable")
@@ -1696,6 +1737,7 @@
 							lvw.SubItems.Add(id_jenis_produk)
 							lvw.SubItems.Add("Y")
 							lvw.SubItems.Add("")
+							lvw.SubItems.Add(If(General_Class.CekNULL(.Rows(i).Item("No_Formula")) = "", "", .Rows(i).Item("No_Formula")))
 						Next
 					Else
 						CloseConn()
@@ -2054,6 +2096,8 @@
 
 				If LvOrder.Items(i).SubItems(11).Text = "" Then
 
+					Dim IsOrderTrial As Boolean = If(String.IsNullOrWhiteSpace(LvNoFormula), False, True)
+
 					SQL = "insert into N_EMI_Transaksi_Order_Produksi_Temp(Kode_Perusahaan, No_Faktur, Kode_Barang, Kode_Stock_Owner, Jumlah, Satuan, UserID) values("
 					SQL = SQL & "'" & KodePerusahaan & "', '" & LvFaktur2 & "', '" & LvKdBrg2 & "', '" & LvLokasi2 & "', '" & HilangkanTanda(LvJmlh2) & "', '" & HilangkanTanda(LvSatuan2) & "', '" & UserID & "')"
 					ExecuteTrans(SQL)
@@ -2076,30 +2120,34 @@
 						End If
 					End Using
 
-					SQL = "select top 1 c.No_Faktur, c.Tanggal, c.Jam "
-					SQL = SQL & "from N_EMI_Transaksi_Formulator_Binding a "
-					SQL = SQL & "inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-					SQL = SQL & "inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null "
-					SQL = SQL & "where a.Status is NULL "
-					SQL = SQL & "and a.Flag_Validasi_Main = 'Y' "
-					SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-					SQL = SQL & "and a.Kode_Barang = '" & kd_barangINq & "' "
-					SQL = SQL & "order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC "
-					Using Dr = OpenTrans(SQL)
-						If Not Dr.Read Then
+					If Not IsOrderTrial Then
 
-							Dr.Close()
-							ExecuteTrans("delete from N_EMI_Transaksi_Order_Produksi_Temp where userid='" & UserID & "'")
-							CloseConn()
-							LvBahan.Items.Clear()
-							LvBahanNew.Items.Clear()
-							LvPackaging.Items.Clear()
-							LvPackagingNew.Items.Clear()
-							Txt_No_Formula.Text = ""
-							MessageBox.Show("Kode formula untuk " & LvKdBrg2 & " tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-							Exit Sub
-						End If
-					End Using
+						SQL = "select top 1 c.No_Faktur, c.Tanggal, c.Jam "
+						SQL = SQL & "from N_EMI_Transaksi_Formulator_Binding a "
+						SQL = SQL & "inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+						SQL = SQL & "inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null "
+						SQL = SQL & "where a.Status is NULL "
+						SQL = SQL & "and a.Flag_Validasi_Main = 'Y' "
+						SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+						SQL = SQL & "and a.Kode_Barang = '" & kd_barangINq & "' "
+						SQL = SQL & "order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC "
+						Using Dr = OpenTrans(SQL)
+							If Not Dr.Read Then
+
+								Dr.Close()
+								ExecuteTrans("delete from N_EMI_Transaksi_Order_Produksi_Temp where userid='" & UserID & "'")
+								CloseConn()
+								LvBahan.Items.Clear()
+								LvBahanNew.Items.Clear()
+								LvPackaging.Items.Clear()
+								LvPackagingNew.Items.Clear()
+								Txt_No_Formula.Text = ""
+								MessageBox.Show("Kode formula untuk " & LvKdBrg2 & " tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+								Exit Sub
+							End If
+						End Using
+
+					End If
 
 				End If
 
@@ -3404,13 +3452,19 @@
 			kosong()
 
 			mustUpdate = False
-			Me.Close()
+			'Me.Close()
 		Catch ex As Exception
 			CloseTrans()
 			CloseConn()
 			MessageBox.Show(ex.Message)
 			Exit Sub
 		End Try
+
+		If parentForm = "schedule" Then
+			Me.Close()
+		Else
+			kosong()
+		End If
 	End Sub
 
 	Private Sub Btn_UnRelease_Click(sender As Object, e As EventArgs) Handles Btn_UnRelease.Click
@@ -3631,12 +3685,26 @@
 
 			ExecuteTrans("delete from N_EMI_Transaksi_Order_Produksi_Temp where userid='" & UserID & "'")
 
+			'===============================
+			'=     CEK APAKAH IO TRIAL     =
+			'===============================
+			Dim IsPOTrialFormula As Boolean = False
+			Dim NoFormulaPertama As String = ""
+			For Each item As ListViewItem In LvData.CheckedItems
+				IsPOTrialFormula = If(String.IsNullOrWhiteSpace(item.SubItems(cellLvNoFormula).Text), False, True)
+				NoFormulaPertama = If(String.IsNullOrWhiteSpace(item.SubItems(cellLvNoFormula).Text), "", item.SubItems(cellLvNoFormula).Text.Trim)
+				Exit For
+			Next
+
 			For i As Integer = 0 To LvOrder.Items.Count - 1
 
 				get_isi_listview_detail(i)
 
-				SQL = "insert into N_EMI_Transaksi_Order_Produksi_Temp(Kode_Perusahaan, No_Faktur, Kode_Barang, Kode_Stock_Owner, Jumlah, Satuan, UserID) values("
-				SQL = SQL & "'" & KodePerusahaan & "', '" & LvFaktur2 & "', '" & LvKdBrg2 & "', '" & LvLokasi2 & "', '" & HilangkanTanda(LvJmlh2) & "', '" & HilangkanTanda(LvSatuan2) & "', '" & UserID & "')"
+				Dim IsOrderTrial As Boolean = If(String.IsNullOrWhiteSpace(LvNoFormula), False, True)
+				Dim FlagIsFormula As String = If(String.IsNullOrWhiteSpace(LvNoFormula), "NULL", $"'{LvNoFormula}'")
+
+				SQL = "insert into N_EMI_Transaksi_Order_Produksi_Temp(Kode_Perusahaan, No_Faktur, Kode_Barang, Kode_Stock_Owner, Jumlah, Satuan, UserID, NoFormula) values("
+				SQL = SQL & "'" & KodePerusahaan & "', '" & LvFaktur2 & "', '" & LvKdBrg2 & "', '" & LvLokasi2 & "', '" & HilangkanTanda(LvJmlh2) & "', '" & HilangkanTanda(LvSatuan2) & "', '" & UserID & "', " & FlagIsFormula & ")"
 				ExecuteTrans(SQL)
 
 				txt_IdJenisProduk.Text = LvIdJnsPrdk2
@@ -3657,31 +3725,6 @@
 					End If
 				End Using
 
-				SQL = "select top 1 c.No_Faktur, c.Tanggal, c.Jam "
-				SQL = SQL & "from N_EMI_Transaksi_Formulator_Binding a "
-				SQL = SQL & "inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-				SQL = SQL & "inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null "
-				SQL = SQL & "where a.Status is NULL "
-				SQL = SQL & "and a.Flag_Validasi_Main = 'Y' "
-				SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-				SQL = SQL & "and a.Kode_Barang = '" & kd_barangINq & "' "
-				SQL = SQL & "order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC "
-				Using Dr = OpenTrans(SQL)
-					If Not Dr.Read Then
-
-						Dr.Close()
-						ExecuteTrans("delete from N_EMI_Transaksi_Order_Produksi_Temp where userid='" & UserID & "'")
-						CloseConn()
-						LvBahan.Items.Clear()
-						LvBahanNew.Items.Clear()
-						LvPackaging.Items.Clear()
-						LvPackagingNew.Items.Clear()
-						Txt_No_Formula.Text = ""
-						MessageBox.Show("Kode formula untuk " & LvKdBrg2 & " tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						Exit Sub
-					End If
-				End Using
-
 				'If i = 0 Then
 				'	lks = LvLokasi2
 				'	kodeBarang = LvKdBrg2
@@ -3694,54 +3737,187 @@
 				'End If
 
 				'totalJumlahProduksi = totalJumlahProduksi + LvJmlh2
+
+				If Not IsOrderTrial Then
+					SQL = "select top 1 c.No_Faktur, c.Tanggal, c.Jam "
+					SQL = SQL & "from N_EMI_Transaksi_Formulator_Binding a "
+					SQL = SQL & "inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+					SQL = SQL & "inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null "
+					SQL = SQL & "where a.Status is NULL "
+					SQL = SQL & "and a.Flag_Validasi_Main = 'Y' "
+					SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+					SQL = SQL & "and a.Kode_Barang = '" & kd_barangINq & "' "
+					SQL = SQL & "order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC "
+					Using Dr = OpenTrans(SQL)
+						If Not Dr.Read Then
+
+							Dr.Close()
+							ExecuteTrans("delete from N_EMI_Transaksi_Order_Produksi_Temp where userid='" & UserID & "'")
+							CloseConn()
+							LvBahan.Items.Clear()
+							LvBahanNew.Items.Clear()
+							LvPackaging.Items.Clear()
+							LvPackagingNew.Items.Clear()
+							Txt_No_Formula.Text = ""
+							MessageBox.Show("Kode formula untuk " & LvKdBrg2 & " tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+							Exit Sub
+						End If
+					End Using
+				End If
 			Next
 
-			'===============================
-			'=     CEK APAKAH IO TRIAL     =
-			'===============================
-			Dim IsPOTrialFormula As Boolean = False
-			Dim NoFormulaPertama As String = ""
-			For Each item As ListViewItem In LvData.CheckedItems
-				IsPOTrialFormula = If(String.IsNullOrWhiteSpace(item.SubItems(cellLvNoFormula).Text), False, True)
-				NoFormulaPertama = If(String.IsNullOrWhiteSpace(item.SubItems(cellLvNoFormula).Text), "", item.SubItems(cellLvNoFormula).Text.Trim)
-				Exit For
-			Next
+			'SQL = $"
+			'	;WITH cte AS (
+
+			'		SELECT distinct
+			'			x.kode_barang_inq,
+			'			x.kode_perusahaan,
+			'			ISNULL(f.No_Faktur, '') AS kode_formula
+			'		FROM barang x
+			'		INNER JOIN emI_group_jenis y
+			'			ON x.kode_perusahaan = y.kode_perusahaan
+			'		   AND x.id_group_jenis = y.id_group_jenis
+
+			'		OUTER APPLY (
+			'			SELECT TOP 1 c.No_Faktur
+			'			FROM N_EMI_Transaksi_Formulator_Binding a
+			'			INNER JOIN N_EMI_Transaksi_Formulator_Binding_Detail b
+			'				ON a.Kode_Perusahaan = b.Kode_Perusahaan
+			'			   AND a.No_Faktur = b.No_Faktur
+			'			INNER JOIN Emi_Transaksi_Formulator c
+			'				ON b.Kode_Perusahaan = c.Kode_Perusahaan
+			'			   AND b.No_Formulator = c.No_Faktur
+			'			   AND c.Status IS NULL
+			'			WHERE a.Status IS NULL
+			'			  AND a.Flag_Validasi_Main = 'Y'
+			'			  AND a.Kode_Perusahaan = x.kode_perusahaan
+			'			  AND a.Kode_Barang = x.kode_barang_inq
+			'			ORDER BY a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC
+			'		) f
+
+			'		WHERE y.Flag_Finished_Good = 'Y'
+			'		   OR y.Flag_Semi_FG = 'Y'
+
+			'	),cte_b AS (
+
+			'		SELECT
+			'			a.Kode_perusahaan,
+			'			a.Kode_Barang,
+			'			b.Kode_Barang_Inq,
+			'			a.Kode_Stock_Owner,
+			'			SUM(a.jumlah) AS Jumlah,
+			'			a.Satuan,
+			'			SUM(a.jumlah * b.berat / 1000) AS Jumlah_Berat,
+			'			'KG' AS Satuan_Berat,
+			'			c.kode_formula
+			'		FROM N_EMI_Transaksi_Order_Produksi_Temp a
+			'		INNER JOIN barang b
+			'			ON a.Kode_perusahaan = b.Kode_Perusahaan
+			'		   AND a.Kode_Stock_Owner = b.Kode_Stock_Owner
+			'		   AND a.Kode_Barang = b.Kode_Barang
+			'		LEFT JOIN cte c
+			'			ON c.Kode_Perusahaan = a.Kode_perusahaan
+			'		   AND c.Kode_Barang_Inq = b.Kode_Barang_Inq
+
+			'		WHERE a.kode_perusahaan = '{KodePerusahaan}'
+			'		  AND a.userid = '{UserID}'
+
+			'		GROUP BY
+			'			a.Kode_perusahaan, a.Kode_Barang, b.Kode_Barang_Inq,
+			'			a.Kode_Stock_Owner, a.Satuan, c.kode_formula
+
+			'	),cte_c AS (
+
+			'		SELECT
+			'			a.Kode_Perusahaan,
+			'			a.no_faktur,
+			'			b.tanggal,
+			'			a.kode_stock_owner,
+			'			a.kode_barang,
+			'			c.nama,
+			'			c.flag_potong_stok,
+			'			a.nilai_barang,
+			'			a.persentase,
+			'			a.satuan_barang,
+			'			CAST(b.RV AS BIGINT) AS RV_Parent,
+			'			CAST(a.RV AS BIGINT) AS RV_Detail,
+			'			d.Jumlah_Berat,
+			'			d.Jumlah_Berat * a.Persentase / 100 AS Nilai_Kebutuhan
+			'		FROM EMI_Transaksi_Formulator_Detail_Bahan a
+			'		INNER JOIN Emi_Transaksi_Formulator b
+			'			ON a.Kode_Perusahaan = b.Kode_Perusahaan
+			'		   AND a.No_Faktur = b.No_Faktur
+			'		   AND b.Status IS NULL
+			'		INNER JOIN barang c
+			'			ON a.kode_perusahaan = c.kode_perusahaan
+			'		   AND a.kode_stock_owner = c.kode_stock_owner
+			'		   AND a.kode_barang = c.kode_barang
+			'		INNER JOIN cte_b d
+			'			ON b.kode_perusahaan = d.Kode_perusahaan
+			'		   AND b.no_faktur = d.Kode_Formula
+
+			'	),stock AS (
+			'		SELECT
+			'			Kode_Barang,
+			'			(Stock_Wharehouse + Stock_Unloading) AS stock,
+			'			(Gantungan_PO + Gantungan_Split1 + Gantungan_Split2) AS Keep_Stock
+			'		FROM N_Emi_View_Stock_Gantung
+			'	)
+
+			'	SELECT
+			'		MIN(a.no_faktur) AS No_faktur,
+			'		MIN(a.tanggal) AS Tanggal,
+			'		MIN(a.RV_Parent) AS RV_Parent,
+			'		MIN(a.RV_Detail) AS RV_Detail,
+			'		a.Kode_Stock_Owner,
+			'		a.Kode_Barang,
+			'		a.Nama,
+			'		a.Flag_Potong_Stok,
+			'		a.Satuan_barang,
+			'		SUM(a.Nilai_kebutuhan) AS Nilai_kebutuhan,
+			'		ISNULL(s.stock, 0) AS stock,
+			'		ISNULL(s.Keep_Stock, 0) AS Keep_Stock,
+			'		ISNULL(b.Stock_Minimum, 0) AS Min_stock
+
+			'	FROM cte_c a
+			'	LEFT JOIN stock s
+			'		ON a.Kode_Barang = s.Kode_Barang
+			'	LEFT JOIN barang b
+			'		ON a.Kode_Barang = b.Kode_Barang
+			'	   AND a.Kode_Perusahaan = b.kode_perusahaan
+			'	   AND a.Kode_Stock_Owner = b.kode_stock_owner
+
+			'	GROUP BY
+			'		a.Kode_Perusahaan, a.Kode_Stock_Owner, a.Kode_Barang,
+			'		a.Nama, a.Flag_Potong_Stok, a.Satuan_barang,
+			'		s.stock, s.Keep_Stock, b.Stock_Minimum
+
+			'	ORDER BY a.Kode_Barang
+
+			'"
 
 			SQL = $"
-
-				;WITH cte AS (
-
+				WITH cte AS (
 					SELECT distinct
 						x.kode_barang_inq,
 						x.kode_perusahaan,
-						{If(IsPOTrialFormula, $"'{NoFormulaPertama}' AS kode_formula", "ISNULL(f.No_Faktur, '') AS kode_formula")}
+						ISNULL(f.No_Faktur, '') AS kode_formula
 					FROM barang x
-					INNER JOIN emI_group_jenis y
-						ON x.kode_perusahaan = y.kode_perusahaan
-					   AND x.id_group_jenis = y.id_group_jenis
-
+					INNER JOIN emI_group_jenis y ON x.kode_perusahaan = y.kode_perusahaan AND x.id_group_jenis = y.id_group_jenis
 					OUTER APPLY (
 						SELECT TOP 1 c.No_Faktur
 						FROM N_EMI_Transaksi_Formulator_Binding a
-						INNER JOIN N_EMI_Transaksi_Formulator_Binding_Detail b
-							ON a.Kode_Perusahaan = b.Kode_Perusahaan
-						   AND a.No_Faktur = b.No_Faktur
-						INNER JOIN Emi_Transaksi_Formulator c
-							ON b.Kode_Perusahaan = c.Kode_Perusahaan
-						   AND b.No_Formulator = c.No_Faktur
-						   AND c.Status IS NULL
+						INNER JOIN N_EMI_Transaksi_Formulator_Binding_Detail b ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.No_Faktur = b.No_Faktur
+						INNER JOIN Emi_Transaksi_Formulator c ON b.Kode_Perusahaan = c.Kode_Perusahaan AND b.No_Formulator = c.No_Faktur AND c.Status IS NULL
 						WHERE a.Status IS NULL
-						  AND a.Flag_Validasi_Main = 'Y'
-						  AND a.Kode_Perusahaan = x.kode_perusahaan
-						  AND a.Kode_Barang = x.kode_barang_inq
+							AND a.Flag_Validasi_Main = 'Y'
+							AND a.Kode_Perusahaan = x.kode_perusahaan
+							AND a.Kode_Barang = x.kode_barang_inq
 						ORDER BY a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC
 					) f
-
-					WHERE y.Flag_Finished_Good = 'Y'
-					   OR y.Flag_Semi_FG = 'Y'
-
-				),cte_b AS (
-
+					WHERE y.Flag_Finished_Good = 'Y' OR y.Flag_Semi_FG = 'Y'
+				),
+				cte_b AS (
 					SELECT
 						a.Kode_perusahaan,
 						a.Kode_Barang,
@@ -3751,24 +3927,36 @@
 						a.Satuan,
 						SUM(a.jumlah * b.berat / 1000) AS Jumlah_Berat,
 						'KG' AS Satuan_Berat,
-						c.kode_formula
+						c.kode_formula,
+						a.noformula
 					FROM N_EMI_Transaksi_Order_Produksi_Temp a
-					INNER JOIN barang b
-						ON a.Kode_perusahaan = b.Kode_Perusahaan
-					   AND a.Kode_Stock_Owner = b.Kode_Stock_Owner
-					   AND a.Kode_Barang = b.Kode_Barang
-					LEFT JOIN cte c
-						ON c.Kode_Perusahaan = a.Kode_perusahaan
-					   AND c.Kode_Barang_Inq = b.Kode_Barang_Inq
+						INNER JOIN barang b ON a.Kode_perusahaan = b.Kode_Perusahaan AND a.Kode_Stock_Owner = b.Kode_Stock_Owner AND a.Kode_Barang = b.Kode_Barang
+						LEFT JOIN cte c ON c.Kode_Perusahaan = a.Kode_perusahaan AND c.Kode_Barang_Inq = b.Kode_Barang_Inq
+					WHERE a.kode_perusahaan = '{KodePerusahaan}' AND a.userid = '{UserID}'
+					GROUP BY a.Kode_perusahaan, a.Kode_Barang, b.Kode_Barang_Inq, a.Kode_Stock_Owner, a.Satuan, c.kode_formula, a.noformula
+				),
+				cte_c AS (
+					SELECT
+						a.Kode_Perusahaan,
+						a.no_faktur,
+						b.tanggal,
+						a.kode_stock_owner,
+						a.kode_barang,
+						c.nama,
+						c.flag_potong_stok,
+						a.nilai_barang,
+						a.persentase,
+						a.satuan_barang,
+						CAST(b.RV AS BIGINT) AS RV_Parent,
+						CAST(a.RV AS BIGINT) AS RV_Detail,
+						d.Jumlah_Berat,
+						d.Jumlah_Berat * a.Persentase / 100 AS Nilai_Kebutuhan
+					FROM EMI_Transaksi_Formulator_Detail_Bahan a
+						INNER JOIN Emi_Transaksi_Formulator b ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.No_Faktur = b.No_Faktur AND b.Status IS NULL
+						INNER JOIN barang c ON a.kode_perusahaan = c.kode_perusahaan AND a.kode_stock_owner = c.kode_stock_owner AND a.kode_barang = c.kode_barang
+						INNER JOIN cte_b d ON b.kode_perusahaan = d.Kode_perusahaan AND b.no_faktur = d.Kode_Formula and d.noformula is null
 
-					WHERE a.kode_perusahaan = '{KodePerusahaan}'
-					  AND a.userid = '{UserID}'
-
-					GROUP BY
-						a.Kode_perusahaan, a.Kode_Barang, b.Kode_Barang_Inq,
-						a.Kode_Stock_Owner, a.Satuan, c.kode_formula
-
-				),cte_c AS (
+					union all
 
 					SELECT
 						a.Kode_Perusahaan,
@@ -3786,26 +3974,37 @@
 						d.Jumlah_Berat,
 						d.Jumlah_Berat * a.Persentase / 100 AS Nilai_Kebutuhan
 					FROM EMI_Transaksi_Formulator_Detail_Bahan a
-					INNER JOIN Emi_Transaksi_Formulator b
-						ON a.Kode_Perusahaan = b.Kode_Perusahaan
-					   AND a.No_Faktur = b.No_Faktur
-					   AND b.Status IS NULL
-					INNER JOIN barang c
-						ON a.kode_perusahaan = c.kode_perusahaan
-					   AND a.kode_stock_owner = c.kode_stock_owner
-					   AND a.kode_barang = c.kode_barang
-					INNER JOIN cte_b d
-						ON b.kode_perusahaan = d.Kode_perusahaan
-					   AND b.no_faktur = d.Kode_Formula
-
-				),stock AS (
+						INNER JOIN Emi_Transaksi_Formulator b ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.No_Faktur = b.No_Faktur AND b.Status IS NULL
+						INNER JOIN barang c ON a.kode_perusahaan = c.kode_perusahaan AND a.kode_stock_owner = c.kode_stock_owner AND a.kode_barang = c.kode_barang
+						INNER JOIN cte_b d ON b.kode_perusahaan = d.Kode_perusahaan AND b.no_faktur = d.noformula and d.noformula is not null
+				),
+				cte_d as (
+					select
+						Kode_Perusahaan,
+						min(no_faktur) as no_faktur,
+						tanggal,
+						kode_stock_owner,
+						kode_barang,
+						nama,
+						flag_potong_stok,
+						nilai_barang,
+						persentase,
+						satuan_barang,
+						RV_Parent,
+						RV_Detail,
+						sum(Jumlah_Berat) as Jumlah_Berat,
+						sum(Nilai_Kebutuhan) as Nilai_Kebutuhan
+					from cte_c
+					group by Kode_Perusahaan, tanggal, kode_stock_owner, kode_barang, nama, flag_potong_stok,
+						nilai_barang, persentase, satuan_barang, RV_Parent, RV_Detail
+				),
+				stock AS (
 					SELECT
 						Kode_Barang,
 						(Stock_Wharehouse + Stock_Unloading) AS stock,
 						(Gantungan_PO + Gantungan_Split1 + Gantungan_Split2) AS Keep_Stock
 					FROM N_Emi_View_Stock_Gantung
 				)
-
 				SELECT
 					MIN(a.no_faktur) AS No_faktur,
 					MIN(a.tanggal) AS Tanggal,
@@ -3820,23 +4019,14 @@
 					ISNULL(s.stock, 0) AS stock,
 					ISNULL(s.Keep_Stock, 0) AS Keep_Stock,
 					ISNULL(b.Stock_Minimum, 0) AS Min_stock
-
-				FROM cte_c a
-				LEFT JOIN stock s
-					ON a.Kode_Barang = s.Kode_Barang
-				LEFT JOIN barang b
-					ON a.Kode_Barang = b.Kode_Barang
-				   AND a.Kode_Perusahaan = b.kode_perusahaan
-				   AND a.Kode_Stock_Owner = b.kode_stock_owner
-
-				GROUP BY
-					a.Kode_Perusahaan, a.Kode_Stock_Owner, a.Kode_Barang,
-					a.Nama, a.Flag_Potong_Stok, a.Satuan_barang,
-					s.stock, s.Keep_Stock, b.Stock_Minimum
-
+				FROM cte_d a
+					LEFT JOIN stock s ON a.Kode_Barang = s.Kode_Barang
+					LEFT JOIN barang b ON a.Kode_Barang = b.Kode_Barang AND a.Kode_Perusahaan = b.kode_perusahaan AND a.Kode_Stock_Owner = b.kode_stock_owner
+				GROUP BY a.Kode_Perusahaan, a.Kode_Stock_Owner, a.Kode_Barang, a.Nama, a.Flag_Potong_Stok,
+					a.Satuan_barang, s.stock, s.Keep_Stock, b.Stock_Minimum
 				ORDER BY a.Kode_Barang
-
 			"
+
 			Using ds = BindingTrans(SQL)
 				With ds.Tables("MyTable")
 					If .Rows.Count <> 0 Then
@@ -5197,6 +5387,7 @@
 				lvw1.SubItems.Add(lvIdJenisProduk) '9
 				lvw1.SubItems.Add("") '10
 				lvw1.SubItems.Add("") '11
+				lvw1.SubItems.Add(lvPalletNoFormula) '12
 
 				txtKdBrgPO.Text = lvKdBrg
 				txtNmBrgPO.Text = lvNmBrg

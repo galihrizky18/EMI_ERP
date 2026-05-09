@@ -327,7 +327,8 @@
 			SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
 			SQL &= $"and a.Status is NULL "
 			SQL &= $"and a.Kode_Barang = '{Kode_Barang}' "
-			SQL &= $"and a.Flag_Validasi_Main = 'Y' "
+			'SQL &= $"and a.Flag_Validasi_Main = 'Y' "
+			SQL &= $"and a.Flag_Lanjut_Trial_Kitchen = 'Y' "
 			SQL &= $"and a.hasTrial is null "
 			Using Dr = OpenTrans(SQL)
 				Do While Dr.Read
@@ -366,7 +367,8 @@
 			SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
 			SQL &= $"and a.Status is NULL "
 			SQL &= $"and a.Kode_Barang = '{Kode_Barang}' "
-			SQL &= $"and a.Flag_Validasi_Main = 'Y' "
+			'SQL &= $"and a.Flag_Validasi_Main = 'Y' "
+			SQL &= $"and a.Flag_Lanjut_Trial_Kitchen = 'Y' "
 			SQL &= $"and a.hasTrial = 'Y' "
 			Using Dr = OpenTrans(SQL)
 				Do While Dr.Read

@@ -150,7 +150,7 @@
 				select a.No_Faktur, a.Tanggal, a.Jam, a.Kode_Barang, b.Nama as Nama_Barang, c.Nama as Penanggung_Jawab,
 					a.Hasil, a.Satuan_Hasil
 				from Emi_Transaksi_Formulator a
-					inner join barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang
+					inner join barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang_inq
 					inner join Emi_Karyawan c on a.Kode_Perusahaan = c.Kode_Perusahaan and a.Penanggung_Jawab = c.Id_Karyawan
 				where a.Kode_Perusahaan = '{KodePerusahaan}'
 				and a.Status is NULL

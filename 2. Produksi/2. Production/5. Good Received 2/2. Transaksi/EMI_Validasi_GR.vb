@@ -31,7 +31,7 @@ Public Class EMI_Validasi_GR
 	Dim Prefix, Tahun_MulaiProduksi As String
 
 	Dim LvPallet_KdSO, LvPallet_Barcode, LvPallet_BatchNumber, LvPallet_TglProduksi, LvPallet_TglExpired, LvPallet_KdBarang, LvPallet_NmBarang, LvPallet_Jumlah As String
-	Dim LvPallet_Satuan, LvPallet_Kualitas, LvPallet_Warna, LvPallet_ID, LvPallet_QR, LvPallet_KdUnikBerjalan, LvPallet_Nomor, LvPallet_Batch, LvPallet_No_Split As String
+	Dim LvPallet_Satuan, LvPallet_Kualitas, LvPallet_Warna, LvPallet_ID, LvPallet_QR, LvPallet_KdUnikBerjalan, LvPallet_Nomor, LvPallet_Batch, LvPallet_No_Split, LvPallet_BarcodeGR1 As String
 
 	Dim LvData_Barcode, LvData_Nomor, LvData_Jumlah, LvData_Satuan, LvData_Berat, LvData_Tahap, LvData_Batch, LvData_Tgl_Produksi, LvData_Tgl_Expired, LvData_NoSplit As String
 
@@ -60,6 +60,7 @@ Public Class EMI_Validasi_GR
 	Dim itemPallet_Nomor As Integer = 14
 	Dim itemPallet_Batch As Integer = 15
 	Dim itemPallet_No_Split As Integer = 16
+	Dim itemPallet_BarcodeGR1 As Integer = 17
 
 	Dim itemData_Barcode As Integer = 0
 	Dim itemData_Batch As Integer = 1
@@ -565,6 +566,7 @@ Public Class EMI_Validasi_GR
 		Lv_DataPallet.Columns.Add("Nomor", 60, HorizontalAlignment.Center).DisplayIndex = 2 '14
 		Lv_DataPallet.Columns.Add("Batch", 60, HorizontalAlignment.Center).DisplayIndex = 3 '15
 		Lv_DataPallet.Columns.Add("No Split", 130, HorizontalAlignment.Left).DisplayIndex = 3 '16
+		Lv_DataPallet.Columns.Add("BarcodeGR1", 0, HorizontalAlignment.Left).DisplayIndex = 3 '17
 		Lv_DataPallet.View = View.Details
 		Lv_DataPallet.Columns(itemPallet_No_Split).DisplayIndex = 1
 
@@ -677,6 +679,7 @@ Public Class EMI_Validasi_GR
 		LvPallet_Nomor = Lv_DataPallet.Items(index).SubItems(itemPallet_Nomor).Text
 		LvPallet_Batch = Lv_DataPallet.Items(index).SubItems(itemPallet_Batch).Text
 		LvPallet_No_Split = Lv_DataPallet.Items(index).SubItems(itemPallet_No_Split).Text
+		LvPallet_BarcodeGR1 = Lv_DataPallet.Items(index).SubItems(itemPallet_BarcodeGR1).Text
 	End Sub
 
 	Private Sub Get_Lv_Data_GR(ByVal index As Integer)
@@ -3120,7 +3123,7 @@ Public Class EMI_Validasi_GR
 
 	End Sub
 
-	Public Sub LoadFromSD()
+	Public Sub LoadFromSD(ByVal Optional IsPacking As Boolean = False)
 		If Cmb_Barcode.SelectedIndex = 1 Then
 			If arrBarcodeFromSD.Count = 0 Then
 				MessageBox.Show("Tidak Ada Data yang Dipilih", JudulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -3348,6 +3351,63 @@ Public Class EMI_Validasi_GR
 			MessageBox.Show(ex.Message)
 			Exit Sub
 		End Try
+
+		If IsPacking Then
+			Exit Sub
+			For i As Integer = 0 To arrBarcodeFromSD.Count - 1
+				Dim DataDic As Dictionary(Of String, String) = arrBarcodeFromSD.Item(i)
+				Dim barcodeCari As String = $"{DataDic("QrCode")}-{DataDic("KdUnikBerjalan")}"
+
+				Dim rowIndex As Integer = -1
+
+				For Each item As ListViewItem In Lv_DataPallet.Items
+					If item.SubItems(itemPallet_BarcodeGR1).Text.ToString.Trim = barcodeCari.Trim Then
+						rowIndex = item.Index
+						Exit For
+					End If
+				Next
+
+				If rowIndex = -1 Then
+					MessageBox.Show("Barcode Tidak Ditemukan pada Listview", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+
+				Get_LvPallet_Data(rowIndex)
+				SelectedBatch.Text = LvPallet_Batch
+
+				If Not CurrentBatch = "" Then
+					If CurrentBatch <> SelectedBatch.Text Then
+						'MessageBox.Show("Batch yang Diinput Berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						'Exit Sub
+					End If
+				End If
+
+				Txt_Barcode.Text = LvPallet_Barcode
+				Txt_HslProduksi.Text = Format(Val(HilangkanTanda(LvPallet_Jumlah)), "N0")
+				Txt_Satuan.Text = LvPallet_Satuan
+				Txt_Nomor.Text = LvPallet_Nomor
+				NoSplitTemp = LvPallet_No_Split
+
+				ValTemp_TglProduksi = LvPallet_TglProduksi
+				ValTemp_TglExpired = LvPallet_TglExpired
+
+				Txt_Jumlah.Text = 0
+
+				Dim Sisa As Double = 0
+				For j As Integer = 0 To Lv_Data.Items.Count - 1
+					Get_Lv_Data_GR(j)
+					If LvPallet_Barcode = LvData_Barcode Then
+						Sisa += Val(HilangkanTanda(LvData_Jumlah))
+					End If
+				Next
+
+				Dim Jumlah As Double = Val(HilangkanTanda(LvPallet_Jumlah)) - (Sisa)
+				Txt_Sisa.Text = Format((Jumlah), "N0")
+				Txt_Jumlah.Text = Val(HilangkanTanda(Jumlah))
+
+				Btn_Tambah.PerformClick()
+			Next
+		End If
 
 	End Sub
 
