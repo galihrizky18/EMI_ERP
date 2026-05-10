@@ -1,6 +1,6 @@
 ﻿Public Class SD_ValidasiGR_Split
 
-	Dim arrPeriode, arrParamLain As New ArrayList
+	Dim arrPeriode As New ArrayList
 
 	Dim arrSelectedBarcode As New List(Of Dictionary(Of String, String))
 	Public arrBarcodeFromParent As New List(Of Dictionary(Of String, String))
@@ -43,6 +43,25 @@
 
 	Dim CurrentVariant As String = ""
 
+	Dim DataCmbLain_GR1 As New List(Of (Combobox As String, FilterSql As String)) From {
+			(OpsiSeluruh, OpsiSeluruh),
+			("No Split", "b.No_Production_Order"),
+			("Lokasi", "a.Lokasi_Gudang"),
+			("Barcode", "(a.Qr_Code + '-' + a.Kode_Unik_Berjalan)"),
+			("Kode Barang", "c.Kode_Barang"),
+			("Nama Barang", "d.Nama"),
+			("Kualitas", "e.Keterangan")
+		}
+
+	Dim DataCmbLain_PalletPacking As New List(Of (Combobox As String, FilterSql As String)) From {
+			(OpsiSeluruh, OpsiSeluruh),
+			("No Transaksi", "a.No_Transaksi"),
+			("No Split", "h.No_Production_Order"),
+			("Line", "b.Line"),
+			("Barcode GR 1", "(f.Qr_Code+'-'+f.Kode_Unik_Berjalan)"),
+			("Barcode Pallet", "a.Kode_Unik_Print")
+		}
+
 	Private Sub SD_ValidasiGR_Split_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
 		Lv_Data.Columns.Clear() : Lv_Data.Items.Clear()
@@ -69,16 +88,15 @@
 		Lv_Pallet_Packing.Columns.Clear()
 		Lv_Pallet_Packing.Columns.Add("No Transaksi", 120, HorizontalAlignment.Left) '0
 		Lv_Pallet_Packing.Columns.Add("No Split", 120, HorizontalAlignment.Left) '1
-		Lv_Pallet_Packing.Columns.Add("Line", 100, HorizontalAlignment.Left) '2
+		Lv_Pallet_Packing.Columns.Add("Line", 80, HorizontalAlignment.Center) '2
 		Lv_Pallet_Packing.Columns.Add("Barcode", 150, HorizontalAlignment.Left) '3
 		Lv_Pallet_Packing.Columns.Add("Jumlah", 120, HorizontalAlignment.Right) '4
 		Lv_Pallet_Packing.Columns.Add("Satuan", 80, HorizontalAlignment.Center) '5
-		Lv_Pallet_Packing.Columns.Add("BarcodeGR1", 0, HorizontalAlignment.Left) '6
+		Lv_Pallet_Packing.Columns.Add("BarcodeGR1", 150, HorizontalAlignment.Left).DisplayIndex = 4 '6
 		Lv_Pallet_Packing.Columns.Add("QrCode", 0, HorizontalAlignment.Left) '7
 		Lv_Pallet_Packing.Columns.Add("KodeUnikBerjalan", 0, HorizontalAlignment.Left) '8
-		Lv_Pallet_Packing.Columns.Add("Batch", 80, HorizontalAlignment.Left) '9
+		Lv_Pallet_Packing.Columns.Add("Batch", 80, HorizontalAlignment.Center).DisplayIndex = 2 '9
 		Lv_Pallet_Packing.View = View.Details
-		Lv_Pallet_Packing.Columns(9).DisplayIndex = 2
 
 		Cmb_Periode.Items.Clear() : arrPeriode.Clear()
 		Cmb_Periode.Items.Add(OpsiSeluruh) : arrPeriode.Add(OpsiSeluruh)
@@ -86,15 +104,14 @@
 		Cmb_Periode.Items.Add("Tanggal Expired") : arrPeriode.Add("a.Tgl_Expired")
 		Cmb_Periode.SelectedIndex = 0
 
-		Cmb_Lain.Items.Clear() : arrParamLain.Clear()
-		Cmb_Lain.Items.Add(OpsiSeluruh) : arrParamLain.Add(OpsiSeluruh)
-		Cmb_Lain.Items.Add("No Split") : arrParamLain.Add("b.No_Production_Order")
-		Cmb_Lain.Items.Add("Lokasi") : arrParamLain.Add("a.Lokasi_Gudang")
-		Cmb_Lain.Items.Add("Barcode") : arrParamLain.Add("(a.Qr_Code + '-' + a.Kode_Unik_Berjalan)")
-		Cmb_Lain.Items.Add("Kode Barang") : arrParamLain.Add("c.Kode_Barang")
-		Cmb_Lain.Items.Add("Nama Barang") : arrParamLain.Add("d.Nama")
-		Cmb_Lain.Items.Add("Kualitas") : arrParamLain.Add("e.Keterangan")
-		Cmb_Lain.SelectedIndex = 0
+		'Cmb_Lain.Items.Clear() : arrParamLain.Clear()
+		'Cmb_Lain.Items.Add(OpsiSeluruh) : arrParamLain.Add(OpsiSeluruh)
+		'Cmb_Lain.Items.Add("No Split") : arrParamLain.Add("b.No_Production_Order")
+		'Cmb_Lain.Items.Add("Lokasi") : arrParamLain.Add("a.Lokasi_Gudang")
+		'Cmb_Lain.Items.Add("Barcode") : arrParamLain.Add("(a.Qr_Code + '-' + a.Kode_Unik_Berjalan)")
+		'Cmb_Lain.Items.Add("Kode Barang") : arrParamLain.Add("c.Kode_Barang")
+		'Cmb_Lain.Items.Add("Nama Barang") : arrParamLain.Add("d.Nama")
+		'Cmb_Lain.Items.Add("Kualitas") : arrParamLain.Add("e.Keterangan")
 
 		Kosong()
 	End Sub
@@ -110,8 +127,7 @@
 		Tgl1.Enabled = False : Tgl2.Enabled = False
 
 		TabControl1.SelectedIndex = 0
-
-		Btn_Cari_Click(Me, New EventArgs)
+		TabControl1_SelectedIndexChanged(TabControl1, EventArgs.Empty)
 
 	End Sub
 
@@ -160,7 +176,7 @@
 		If TabControl1.SelectedIndex = 0 Then
 			Load_Data_GR_1()
 		ElseIf TabControl1.SelectedIndex = 1 Then
-
+			Load_Data_Pallet_Packing()
 		ElseIf TabControl1.SelectedIndex = 2 Then
 
 		End If
@@ -168,17 +184,33 @@
 	End Sub
 
 	Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
+
+		Cmb_Lain.Items.Clear()
+		Cmb_Lain.SelectedIndex = -1
 		If TabControl1.SelectedIndex = 0 Then
+
+			For Each Datas In DataCmbLain_GR1
+				Cmb_Lain.Items.Add(Datas.Combobox)
+			Next
+
 			If Lv_Data.Items.Count = 0 Then
 				Load_Data_GR_1()
 			End If
 		ElseIf TabControl1.SelectedIndex = 1 Then
+			For Each Datas In DataCmbLain_PalletPacking
+				Cmb_Lain.Items.Add(Datas.Combobox)
+			Next
 			If Lv_Pallet_Packing.Items.Count = 0 Then
 				Load_Data_Pallet_Packing()
 			End If
 		ElseIf TabControl1.SelectedIndex = 2 Then
-
+			For Each Datas In DataCmbLain_PalletPacking
+				Cmb_Lain.Items.Add(Datas.Combobox)
+			Next
 		End If
+
+		Cmb_Lain.SelectedIndex = 0
+		Btn_Cari_Click(Me, New EventArgs)
 	End Sub
 
 	Private Sub Load_Data_GR_1()
@@ -222,17 +254,17 @@
 			SQL = SQL & "and b.Status is null "
 			SQL = SQL & "and a.Lokasi_Gudang in (select Kode_Stock_Owner from Stock_Owner_Gudang z where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Flag_QI = 'Y') "
 
-			If Cmb_Periode.SelectedIndex <> 0 Then
+			If Cmb_Periode.SelectedIndex > 0 Then
 				If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
 
 				SQL = SQL & arrPeriode(Cmb_Periode.SelectedIndex) & " between '"
 				SQL = SQL & Format(Tgl1.Value, "yyyy-MM-dd") & "' and '" & Format(Tgl2.Value, "yyyy-MM-dd") & "' "
 			End If
 
-			If Cmb_Lain.SelectedIndex <> 0 Then
+			If Cmb_Lain.SelectedIndex > 0 Then
 				If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
 
-				SQL = SQL & arrParamLain.Item(Cmb_Lain.SelectedIndex) & " like '%" & Trim(Txt_ValueLain.Text) & "%' "
+				SQL = SQL & DataCmbLain_GR1(Cmb_Lain.SelectedIndex).FilterSql & " like '%" & Trim(Txt_ValueLain.Text) & "%' "
 			End If
 
 			SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and f.jumlah<>0 "
@@ -303,7 +335,8 @@
 			OpenConn()
 
 			Lv_Pallet_Packing.Items.Clear()
-			SQL = "select a.No_Transaksi, h.No_Production_Order as No_Split, a.Kode_Unik_Print as Barcode_Pallet, a.Urut_Oto as Urut_Pallet, b.Line, a.Jumlah, 'Box' as Satuan_Pallet, sum(c.Jumlah) as Jumlah_Pcs, "
+			SQL = "select a.No_Transaksi, h.No_Production_Order as No_Split, a.Kode_Unik_Print as Barcode_Pallet, a.Urut_Oto as Urut_Pallet, b.Line, "
+			SQL = SQL & "a.Jumlah, 'Box' as Satuan_Pallet, sum(c.Jumlah) as Jumlah_Pcs, "
 			SQL = SQL & "a.Tgl_Cetak, a.Jam_Cetak, (f.Qr_Code+'-'+f.Kode_Unik_Berjalan) as Barcode_GR1_Detail_Pallet, f.Qr_Code, f.Kode_Unik_Berjalan, g.tahap "
 			SQL = SQL & "from N_EMI_Transaksi_Packing_Pallet a "
 			SQL = SQL & "inner join N_EMI_Transaksi_Packing_Box b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Urut_Oto = b.Urut_Pallet and b.Status is null "
@@ -314,6 +347,11 @@
 			SQL = SQL & "inner join Emi_Production_Results h on h.Kode_Perusahaan = h.Kode_Perusahaan and g.No_Transaksi = h.No_Transaksi and h.Status is null "
 			SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
 			SQL = SQL & "and a.Status is null "
+			If Cmb_Lain.SelectedIndex > 0 Then
+				If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+
+				SQL = SQL & DataCmbLain_PalletPacking(Cmb_Lain.SelectedIndex).FilterSql & " like '%" & Trim(Txt_ValueLain.Text) & "%' "
+			End If
 			SQL = SQL & "group by a.No_Transaksi, h.No_Production_Order, a.Kode_Unik_Print, a.Urut_Oto, b.Line, a.Jumlah, a.Tgl_Cetak, a.Jam_Cetak, (f.Qr_Code+'-'+f.Kode_Unik_Berjalan), f.Qr_Code, f.Kode_Unik_Berjalan, g.tahap "
 			SQL = SQL & "order by a.Tgl_Cetak, a.Jam_Cetak "
 			Using Dr = OpenTrans(SQL)
@@ -323,8 +361,8 @@
 					Lv.SubItems.Add(Dr("No_Split"))
 					Lv.SubItems.Add(Dr("Line"))
 					Lv.SubItems.Add(Dr("Barcode_Pallet"))
-					Lv.SubItems.Add(Format(Dr("Jumlah"), "N4"))
-					Lv.SubItems.Add(Dr("Satuan_Pallet"))
+					Lv.SubItems.Add(Format(Dr("Jumlah_Pcs"), "N4"))
+					Lv.SubItems.Add("Pcs")
 					Lv.SubItems.Add(Dr("Barcode_GR1_Detail_Pallet"))
 					Lv.SubItems.Add(Dr("Qr_Code"))
 					Lv.SubItems.Add(Dr("Kode_Unik_Berjalan"))

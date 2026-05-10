@@ -111,7 +111,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
 		Me.Panel1.Location = New System.Drawing.Point(0, 0)
 		Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
 		Me.Panel1.Name = "Panel1"
-		Me.Panel1.Size = New System.Drawing.Size(1160, 35)
+		Me.Panel1.Size = New System.Drawing.Size(1160, 45)
 		Me.Panel1.TabIndex = 22
 		'
 		'PanelGradient1
@@ -121,7 +121,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
 		Me.PanelGradient1.cuteTransparent1 = 100
 		Me.PanelGradient1.cuteTransparent2 = 64
 		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-		Me.PanelGradient1.Location = New System.Drawing.Point(0, 33)
+		Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
 		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
 		Me.PanelGradient1.Name = "PanelGradient1"
 		Me.PanelGradient1.Size = New System.Drawing.Size(1160, 2)
@@ -130,18 +130,18 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
 		'Label1
 		'
 		Me.Label1.AutoSize = True
-		Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Label1.Location = New System.Drawing.Point(11, 5)
+		Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold)
+		Me.Label1.Location = New System.Drawing.Point(11, 8)
 		Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
 		Me.Label1.Name = "Label1"
-		Me.Label1.Size = New System.Drawing.Size(441, 25)
+		Me.Label1.Size = New System.Drawing.Size(435, 30)
 		Me.Label1.TabIndex = 0
 		Me.Label1.Text = "Transaksi Production Order Trial Kitchen"
 		'
 		'Panel2
 		'
 		Me.Panel2.BackColor = System.Drawing.Color.Red
-		Me.Panel2.Location = New System.Drawing.Point(0, 35)
+		Me.Panel2.Location = New System.Drawing.Point(27, 44)
 		Me.Panel2.Margin = New System.Windows.Forms.Padding(4)
 		Me.Panel2.Name = "Panel2"
 		Me.Panel2.Size = New System.Drawing.Size(1209, 12)
@@ -188,7 +188,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
 		Me.LvData.HideSelection = False
 		Me.LvData.Location = New System.Drawing.Point(11, 55)
 		Me.LvData.Name = "LvData"
-		Me.LvData.Size = New System.Drawing.Size(1095, 240)
+		Me.LvData.Size = New System.Drawing.Size(1095, 224)
 		Me.LvData.TabIndex = 381
 		Me.LvData.UseCompatibleStateImageBehavior = False
 		Me.LvData.View = System.Windows.Forms.View.Details
@@ -227,9 +227,9 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
 		Me.GroupBox1.Controls.Add(Me.Label6)
 		Me.GroupBox1.Controls.Add(Me.ComboBox2)
 		Me.GroupBox1.Controls.Add(Me.LvData)
-		Me.GroupBox1.Location = New System.Drawing.Point(27, 78)
+		Me.GroupBox1.Location = New System.Drawing.Point(27, 83)
 		Me.GroupBox1.Name = "GroupBox1"
-		Me.GroupBox1.Size = New System.Drawing.Size(1110, 301)
+		Me.GroupBox1.Size = New System.Drawing.Size(1110, 296)
 		Me.GroupBox1.TabIndex = 382
 		Me.GroupBox1.TabStop = False
 		Me.GroupBox1.Text = "Data Order"
@@ -620,7 +620,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
 		Me.txtNoFaktur.BackColor = System.Drawing.Color.Goldenrod
 		Me.txtNoFaktur.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.txtNoFaktur.ForeColor = System.Drawing.SystemColors.Window
-		Me.txtNoFaktur.Location = New System.Drawing.Point(27, 50)
+		Me.txtNoFaktur.Location = New System.Drawing.Point(27, 56)
 		Me.txtNoFaktur.MaxLength = 30
 		Me.txtNoFaktur.Name = "txtNoFaktur"
 		Me.txtNoFaktur.Size = New System.Drawing.Size(211, 21)
@@ -630,7 +630,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
 		'
 		Me.Label2.AutoSize = True
 		Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-		Me.Label2.Location = New System.Drawing.Point(887, 52)
+		Me.Label2.Location = New System.Drawing.Point(887, 60)
 		Me.Label2.Name = "Label2"
 		Me.Label2.Size = New System.Drawing.Size(49, 17)
 		Me.Label2.TabIndex = 416
@@ -643,7 +643,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
 		Me.CmbLokasi.Enabled = False
 		Me.CmbLokasi.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
 		Me.CmbLokasi.FormattingEnabled = True
-		Me.CmbLokasi.Location = New System.Drawing.Point(958, 50)
+		Me.CmbLokasi.Location = New System.Drawing.Point(958, 58)
 		Me.CmbLokasi.Name = "CmbLokasi"
 		Me.CmbLokasi.Size = New System.Drawing.Size(179, 23)
 		Me.CmbLokasi.TabIndex = 415
@@ -817,7 +817,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
 		Me.txt_faktur_bayangan.BackColor = System.Drawing.Color.Goldenrod
 		Me.txt_faktur_bayangan.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.txt_faktur_bayangan.ForeColor = System.Drawing.SystemColors.Window
-		Me.txt_faktur_bayangan.Location = New System.Drawing.Point(244, 50)
+		Me.txt_faktur_bayangan.Location = New System.Drawing.Point(244, 56)
 		Me.txt_faktur_bayangan.MaxLength = 30
 		Me.txt_faktur_bayangan.Name = "txt_faktur_bayangan"
 		Me.txt_faktur_bayangan.ReadOnly = True
@@ -869,6 +869,7 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.White
 		Me.ClientSize = New System.Drawing.Size(1160, 726)
+		Me.Controls.Add(Me.Panel2)
 		Me.Controls.Add(Me.LvPackaging)
 		Me.Controls.Add(Me.txt_faktur_bayangan)
 		Me.Controls.Add(Me.TabControl1)
@@ -908,7 +909,6 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
 		Me.Controls.Add(Me.Panel4)
 		Me.Controls.Add(Me.Panel5)
 		Me.Controls.Add(Me.Panel3)
-		Me.Controls.Add(Me.Panel2)
 		Me.Controls.Add(Me.Panel1)
 		Me.Controls.Add(Me.Btn_Simpan)
 		Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)

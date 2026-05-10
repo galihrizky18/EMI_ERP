@@ -2,8 +2,8 @@
 
 	Dim UserPosition As String = ""
 
-	Dim Status_HeadDept As String() = {"Proses Trial Kitchen", "Proses Trial Produksi", "Proses Produksi Komersial"}
-	Dim Status_BOD As String() = {"Produksi", "Menunggu Validasi BOD"}
+	Dim Status_HeadDept As String() = {"Belum Diproses", "Selesai Trial Kitchen", "Selesai Trial Produksi"}
+	Dim Status_BOD As String() = {"Menunggu Validasi BOD", "Proses Produksi Komersial"}
 
 	Dim DgvParent_NoFormula, DgvParent_TanggalFormula, DgvParent_KdBarang, DgvParent_NmBarang, DgvParent_HPPMin, DgvParent_HPPMax, DgvParent_Jumlah, DgvParent_Satuan,
 		DgvParent_JenisFormula, DgvParent_PosisiBinding, DgvParent_StatusFormula, DgvParent_Deskripsi, DgvParent_BtnValiasi As String
@@ -42,7 +42,7 @@
 
 	End Sub
 
-	Private Sub Kosong()
+	Public Sub Kosong()
 
 		Load_Data_DGV_Parent()
 	End Sub
@@ -96,7 +96,14 @@
 					END AS Status_Formula,
 
                     '-' AS Deskripsi,
-                    'Validasi' AS Validasi
+                    'Validasi' AS Validasi,
+
+					a.Flag_Validasi_Formula_Produksi_BOD,
+					a.Flag_Lanjut_Produksi,
+					a.Flag_Selesai_Trial_Produksi,
+					a.Flag_Lanjut_Trial_Produksi,
+					a.Flag_Selesai_Trial_Kitchen,
+					a.Flag_Lanjut_Trial_Kitchen
 
                 FROM EMI_Transaksi_Formulator a
 
@@ -208,7 +215,7 @@
 				End If
 			ElseIf userPos = "CLEVEL" Then
 				If Status_BOD.Contains(currentStatus) Then
-
+					ShowFormBOD(DgvParent_NoFormula)
 				End If
 			End If
 
@@ -223,6 +230,14 @@
 		N_EMI_SD_Transaksi_Validasi_Formula_Gabungan.TxtFormulator_NoFaktur_Leave(DGV_Formula, New EventArgs)
 		N_EMI_SD_Transaksi_Validasi_Formula_Gabungan.ShowDialog()
 
+	End Sub
+
+	Private Sub ShowFormBOD(ByVal NoFaktur As String)
+
+		Dim frm As New N_EMI_SD_Transaksi_Validasi_Formula_BOD With {
+			.No_Faktur = NoFaktur
+		}
+		frm.ShowDialog()
 	End Sub
 
 	Private Sub CekRoleUser(ByVal RoleName As String, ByVal Value As String)

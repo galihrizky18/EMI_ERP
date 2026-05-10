@@ -1256,7 +1256,8 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 			Exit Sub
 		End Try
 
-		N_EMI_Transaksi_Validasi_Formula_Main.Kosong()
+		'N_EMI_Transaksi_Validasi_Formula_Main.Kosong()
+		N_EMI_Dashboard_Formula.Kosong()
 		Me.Close()
 	End Sub
 
@@ -1404,7 +1405,10 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 			Exit Sub
 		End Try
 
-		N_EMI_Transaksi_Validasi_Formula_Main.Kosong()
+		'N_EMI_Transaksi_Validasi_Formula_Main.Kosong()
+		'Me.Close()
+
+		N_EMI_Dashboard_Formula.Kosong()
 		Me.Close()
 
 	End Sub
@@ -1651,7 +1655,11 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 	Private Sub ArrangeButtons(flagValidasiMain As String, flagTrialKitchen As String,
 						  flagTrialProduksi As String, flagProduksi As String)
 
-		BtnTrialKitchen.Enabled = Not (flagTrialKitchen = "Y")
+		If flagTrialProduksi = "Y" Then
+			BtnTrialKitchen.Enabled = False
+		Else
+			BtnTrialKitchen.Enabled = Not (flagTrialKitchen = "Y")
+		End If
 		BtnTrialProduksi.Enabled = Not (flagTrialProduksi = "Y")
 		BtnProduksi.Enabled = Not (flagProduksi = "Y")
 		Btn_Tolak.Enabled = Not (flagProduksi = "Y")

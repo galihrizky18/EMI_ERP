@@ -174,6 +174,7 @@
 
 		InitRTBToolbar()
 		TabControl1.SelectedIndex = 0
+		RTBCookingStep.Clear()
 
 		Try
 			OpenConn()
