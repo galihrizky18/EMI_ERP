@@ -5443,12 +5443,22 @@
 		Try
 			OpenConn()
 
-			SQL = "select Kode_Perusahaan from EMI_Independent_Order_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & noFaktur & "' and Kode_Barang = '" & KDBarang & "' and No_Urut = '" & noUrut & "'"
+			SQL = "select Kode_Perusahaan, No_Formula from EMI_Independent_Order_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & noFaktur & "' and Kode_Barang = '" & KDBarang & "' and No_Urut = '" & noUrut & "'"
 			Using Ds = BindingTrans(SQL)
 				With Ds.Tables("MyTable")
 					If .Rows.Count <> 0 Then
 						SQL = "update EMI_Independent_Order_Detail set Flag_Sudah_Produksi = 'X' where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & noFaktur & "' and Kode_Barang = '" & KDBarang & "' and No_Urut = '" & noUrut & "'"
 						ExecuteTrans(SQL)
+
+						If Not General_Class.CekNULL(.Rows(0).Item("No_Formula")) = "" Then
+
+							SQL = "update N_EMI_Transaksi_PO_Trial_Produksi set Flag_Mulai_Trial_Produksi = NULL "
+							SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+							SQL = SQL & "and Status is null "
+							SQL = SQL & "and No_Faktur_Formula = '" & .Rows(0).Item("No_Formula") & "' "
+							ExecuteTrans(SQL)
+
+						End If
 					Else
 						CloseConn()
 						MessageBox.Show("Data Tidak Ditemukan")

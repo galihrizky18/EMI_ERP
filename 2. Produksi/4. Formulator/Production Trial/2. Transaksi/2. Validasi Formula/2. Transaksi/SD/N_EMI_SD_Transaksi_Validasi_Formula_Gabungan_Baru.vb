@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 Imports System.Net
 
-Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_BACKUP_09052026
+Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_Baru
 	Public isi_barang As Boolean = False
 	Public StatusDariList As String = ""
 	Dim arrcari, arrIdPenanggungJawab As New ArrayList
@@ -168,10 +168,10 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_BACKUP_09052026
 
 	Public Sub Transaksi_Formulator_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		My.Application.ChangeCulture("en-us")
-        My.Application.ChangeUICulture("en-us")
+		My.Application.ChangeUICulture("en-us")
 
-        TxtStatus.Text = StatusDariList
-        InitRTBToolbar()
+		TxtStatus.Text = StatusDariList
+		InitRTBToolbar()
 
 		Try
 			OpenConn()
@@ -1256,7 +1256,8 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_BACKUP_09052026
 			Exit Sub
 		End Try
 
-		N_EMI_Transaksi_Validasi_Formula_Main.Kosong()
+		'N_EMI_Transaksi_Validasi_Formula_Main.Kosong()
+		'N_EMI_Dashboard_Formula.Kosong()
 		Me.Close()
 	End Sub
 
@@ -1404,7 +1405,10 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_BACKUP_09052026
 			Exit Sub
 		End Try
 
-		N_EMI_Transaksi_Validasi_Formula_Main.Kosong()
+		'N_EMI_Transaksi_Validasi_Formula_Main.Kosong()
+		'Me.Close()
+
+		'N_EMI_Dashboard_Formula.Kosong()
 		Me.Close()
 
 	End Sub
@@ -1651,7 +1655,11 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_BACKUP_09052026
 	Private Sub ArrangeButtons(flagValidasiMain As String, flagTrialKitchen As String,
 						  flagTrialProduksi As String, flagProduksi As String)
 
-		BtnTrialKitchen.Enabled = Not (flagTrialKitchen = "Y")
+		If flagTrialProduksi = "Y" Then
+			BtnTrialKitchen.Enabled = False
+		Else
+			BtnTrialKitchen.Enabled = Not (flagTrialKitchen = "Y")
+		End If
 		BtnTrialProduksi.Enabled = Not (flagTrialProduksi = "Y")
 		BtnProduksi.Enabled = Not (flagProduksi = "Y")
 		Btn_Tolak.Enabled = Not (flagProduksi = "Y")
@@ -1662,9 +1670,9 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_BACKUP_09052026
 			OpenConn()
 
 			SQL = $"
-                SELECT No_Transaksi, No_Faktur, Tanggal 
+                SELECT No_Transaksi, No_Faktur, Tanggal
                 FROM N_EMI_View_Laporan_formula_rpt
-                WHERE Kode_Perusahaan = '{KodePerusahaan}' 
+                WHERE Kode_Perusahaan = '{KodePerusahaan}'
                 AND No_Faktur = '{TxtFormulator_NoFaktur.Text.Trim}'
                 GROUP BY No_Transaksi, No_Faktur, Tanggal
             "
@@ -1818,4 +1826,5 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_BACKUP_09052026
 		ms.Position = 0
 		Return ms
 	End Function
+
 End Class

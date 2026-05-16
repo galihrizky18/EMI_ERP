@@ -131,12 +131,12 @@ Partial Class N_EMI_Transaksi_Trial_Production_Order
 		'
 		Me.Label1.AutoSize = True
 		Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold)
-		Me.Label1.Location = New System.Drawing.Point(11, 8)
+		Me.Label1.Location = New System.Drawing.Point(20, 8)
 		Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
 		Me.Label1.Name = "Label1"
-		Me.Label1.Size = New System.Drawing.Size(435, 30)
+		Me.Label1.Size = New System.Drawing.Size(330, 30)
 		Me.Label1.TabIndex = 0
-		Me.Label1.Text = "Transaksi Production Order Trial Kitchen"
+		Me.Label1.Text = "Production Order Trial Kitchen"
 		'
 		'Panel2
 		'

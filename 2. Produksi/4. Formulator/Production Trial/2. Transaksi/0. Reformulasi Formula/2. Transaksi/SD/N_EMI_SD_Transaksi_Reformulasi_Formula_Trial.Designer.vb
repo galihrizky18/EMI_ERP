@@ -23,6 +23,7 @@ Partial Class N_EMI_SD_Transaksi_Reformulasi_Formula_Trial
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
 		Me.Panel1 = New System.Windows.Forms.Panel()
+		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Panel5 = New System.Windows.Forms.Panel()
 		Me.LblFormulator_Judul = New System.Windows.Forms.Label()
 		Me.Panel2 = New System.Windows.Forms.Panel()
@@ -44,7 +45,6 @@ Partial Class N_EMI_SD_Transaksi_Reformulasi_Formula_Trial
 		Me.Cmb_Filter = New System.Windows.Forms.ComboBox()
 		Me.Txt_Filter = New System.Windows.Forms.TextBox()
 		Me.Label2 = New System.Windows.Forms.Label()
-		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Panel1.SuspendLayout()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
@@ -62,6 +62,19 @@ Partial Class N_EMI_SD_Transaksi_Reformulasi_Formula_Trial
 		Me.Panel1.Size = New System.Drawing.Size(1184, 51)
 		Me.Panel1.TabIndex = 24
 		'
+		'PanelGradient1
+		'
+		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+		Me.PanelGradient1.cuteTransparent1 = 100
+		Me.PanelGradient1.cuteTransparent2 = 64
+		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+		Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
+		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+		Me.PanelGradient1.Name = "PanelGradient1"
+		Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
+		Me.PanelGradient1.TabIndex = 22
+		'
 		'Panel5
 		'
 		Me.Panel5.BackColor = System.Drawing.Color.Red
@@ -76,12 +89,12 @@ Partial Class N_EMI_SD_Transaksi_Reformulasi_Formula_Trial
 		'
 		Me.LblFormulator_Judul.AutoSize = True
 		Me.LblFormulator_Judul.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.LblFormulator_Judul.Location = New System.Drawing.Point(15, 11)
+		Me.LblFormulator_Judul.Location = New System.Drawing.Point(20, 11)
 		Me.LblFormulator_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
 		Me.LblFormulator_Judul.Name = "LblFormulator_Judul"
-		Me.LblFormulator_Judul.Size = New System.Drawing.Size(303, 30)
+		Me.LblFormulator_Judul.Size = New System.Drawing.Size(151, 30)
 		Me.LblFormulator_Judul.TabIndex = 0
-		Me.LblFormulator_Judul.Text = "Show Dialog - Formula Trial"
+		Me.LblFormulator_Judul.Text = "Formula Trial"
 		'
 		'Panel2
 		'
@@ -298,19 +311,6 @@ Partial Class N_EMI_SD_Transaksi_Reformulasi_Formula_Trial
 		Me.Label2.Size = New System.Drawing.Size(39, 17)
 		Me.Label2.TabIndex = 454
 		Me.Label2.Text = "Filter"
-		'
-		'PanelGradient1
-		'
-		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-		Me.PanelGradient1.cuteTransparent1 = 100
-		Me.PanelGradient1.cuteTransparent2 = 64
-		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-		Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
-		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-		Me.PanelGradient1.Name = "PanelGradient1"
-		Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
-		Me.PanelGradient1.TabIndex = 22
 		'
 		'N_EMI_SD_Transaksi_Reformulasi_Formula_Trial
 		'

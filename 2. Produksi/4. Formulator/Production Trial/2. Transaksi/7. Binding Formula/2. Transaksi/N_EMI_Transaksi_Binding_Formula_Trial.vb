@@ -120,7 +120,7 @@ Public Class N_EMI_Transaksi_Binding_Formula_Trial
                     AND F.Kode_Barang = Brg.Kode_Barang_Inq
                     AND F.Flag_Validasi = 'Y'
                     AND F.Status IS NULL 
-                    AND F.Flag_Validasi_Formula_Produksi = 'Y'
+                    AND F.Flag_Validasi_Formula_Produksi_BOD = 'Y'
                 LEFT JOIN BindingTerakhir BT
                     ON BT.Kode_Perusahaan = Brg.Kode_Perusahaan
                     AND BT.Kode_Barang = Brg.Kode_Barang_Inq
@@ -194,13 +194,10 @@ Public Class N_EMI_Transaksi_Binding_Formula_Trial
                         AND F.Flag_Validasi = 'Y'
                         AND F.Status IS NULL
                         
-                        AND (
-                            F.Flag_Validasi_Formula_Produksi = 'Y'
-                            OR (
-                                F.Flag_Validasi_Main = 'Y'
-                                AND F.Kode_Hierarki IS NOT NULL
-                            )
-                        )
+                        AND 
+                            F.Flag_Validasi_Formula_Produksi_BOD = 'Y'
+                            
+                        
 
                         AND NOT EXISTS (
                             SELECT 1

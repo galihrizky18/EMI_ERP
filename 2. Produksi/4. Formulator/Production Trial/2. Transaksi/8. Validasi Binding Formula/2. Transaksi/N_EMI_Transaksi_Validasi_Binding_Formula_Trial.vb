@@ -561,6 +561,7 @@
 				Exit Sub
 			End If
 
+
 			If MessageBox.Show($"Yakin Ingin Melakukan Validasi Faktur yang Dipilih?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = vbNo Then
 				CloseTrans()
 				CloseConn()

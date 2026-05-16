@@ -22,54 +22,54 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-		Dim DataGridViewCellStyle49 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle50 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle57 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle58 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle51 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle52 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle53 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle54 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle55 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle56 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle59 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle60 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle73 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle74 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle61 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle62 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle63 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle64 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle65 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle66 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle67 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle68 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle69 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle70 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle71 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle72 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle75 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle76 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle77 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle78 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle79 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle80 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle81 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle82 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle83 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle84 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle85 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle86 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle87 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle88 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle89 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle90 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle91 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle92 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle93 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle94 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle95 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle96 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle25 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle26 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle21 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle22 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle23 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle24 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle27 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle28 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle29 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle30 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle31 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle32 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle33 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle34 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle35 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle36 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle37 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle38 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle39 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle40 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle41 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle42 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle43 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle44 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle45 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle46 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle47 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle48 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Me.RTBCookingStep = New System.Windows.Forms.RichTextBox()
 		Me.TabPage3 = New System.Windows.Forms.TabPage()
 		Me.Dgv_Moisture_Content = New System.Windows.Forms.DataGridView()
@@ -224,34 +224,34 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		Me.Dgv_Moisture_Content.AllowUserToAddRows = False
 		Me.Dgv_Moisture_Content.AllowUserToResizeColumns = False
 		Me.Dgv_Moisture_Content.AllowUserToResizeRows = False
-		DataGridViewCellStyle49.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.Dgv_Moisture_Content.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle49
+		DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.Dgv_Moisture_Content.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
 		Me.Dgv_Moisture_Content.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
 		Me.Dgv_Moisture_Content.BackgroundColor = System.Drawing.Color.White
-		DataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		DataGridViewCellStyle50.BackColor = System.Drawing.SystemColors.Control
-		DataGridViewCellStyle50.Font = New System.Drawing.Font("Work Sans", 8.0!)
-		DataGridViewCellStyle50.ForeColor = System.Drawing.SystemColors.WindowText
-		DataGridViewCellStyle50.SelectionBackColor = System.Drawing.SystemColors.Highlight
-		DataGridViewCellStyle50.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-		DataGridViewCellStyle50.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.Dgv_Moisture_Content.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle50
+		DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
+		DataGridViewCellStyle2.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
+		DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.Dgv_Moisture_Content.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
 		Me.Dgv_Moisture_Content.ColumnHeadersHeight = 45
 		Me.Dgv_Moisture_Content.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column8, Me.Column10, Me.Column17, Me.Column18, Me.Column19, Me.Column23, Me.Column22, Me.Column20, Me.Column21, Me.Column24})
-		DataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		DataGridViewCellStyle57.BackColor = System.Drawing.SystemColors.Window
-		DataGridViewCellStyle57.Font = New System.Drawing.Font("Work Sans", 8.0!)
-		DataGridViewCellStyle57.ForeColor = System.Drawing.SystemColors.ControlText
-		DataGridViewCellStyle57.SelectionBackColor = System.Drawing.SystemColors.Highlight
-		DataGridViewCellStyle57.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-		DataGridViewCellStyle57.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.Dgv_Moisture_Content.DefaultCellStyle = DataGridViewCellStyle57
+		DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window
+		DataGridViewCellStyle9.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		DataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText
+		DataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.Dgv_Moisture_Content.DefaultCellStyle = DataGridViewCellStyle9
 		Me.Dgv_Moisture_Content.Location = New System.Drawing.Point(5, 6)
 		Me.Dgv_Moisture_Content.MultiSelect = False
 		Me.Dgv_Moisture_Content.Name = "Dgv_Moisture_Content"
 		Me.Dgv_Moisture_Content.RowHeadersWidth = 21
-		DataGridViewCellStyle58.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.Dgv_Moisture_Content.RowsDefaultCellStyle = DataGridViewCellStyle58
+		DataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.Dgv_Moisture_Content.RowsDefaultCellStyle = DataGridViewCellStyle10
 		Me.Dgv_Moisture_Content.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
 		Me.Dgv_Moisture_Content.Size = New System.Drawing.Size(1084, 344)
 		Me.Dgv_Moisture_Content.TabIndex = 6
@@ -265,8 +265,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column10
 		'
-		DataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.Column10.DefaultCellStyle = DataGridViewCellStyle51
+		DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.Column10.DefaultCellStyle = DataGridViewCellStyle3
 		Me.Column10.HeaderText = "Kode Analisa"
 		Me.Column10.Name = "Column10"
 		Me.Column10.ReadOnly = True
@@ -274,8 +274,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column17
 		'
-		DataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.Column17.DefaultCellStyle = DataGridViewCellStyle52
+		DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.Column17.DefaultCellStyle = DataGridViewCellStyle4
 		Me.Column17.HeaderText = "Jenis Analisa"
 		Me.Column17.Name = "Column17"
 		Me.Column17.ReadOnly = True
@@ -297,8 +297,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column23
 		'
-		DataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.Column23.DefaultCellStyle = DataGridViewCellStyle53
+		DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.Column23.DefaultCellStyle = DataGridViewCellStyle5
 		Me.Column23.HeaderText = "Kategori"
 		Me.Column23.Name = "Column23"
 		Me.Column23.ReadOnly = True
@@ -306,8 +306,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column22
 		'
-		DataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.Column22.DefaultCellStyle = DataGridViewCellStyle54
+		DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.Column22.DefaultCellStyle = DataGridViewCellStyle6
 		Me.Column22.HeaderText = "Kriteria"
 		Me.Column22.Name = "Column22"
 		Me.Column22.ReadOnly = True
@@ -316,8 +316,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column20
 		'
-		DataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.Column20.DefaultCellStyle = DataGridViewCellStyle55
+		DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.Column20.DefaultCellStyle = DataGridViewCellStyle7
 		Me.Column20.HeaderText = "Range Awal"
 		Me.Column20.Name = "Column20"
 		Me.Column20.ReadOnly = True
@@ -326,8 +326,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column21
 		'
-		DataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.Column21.DefaultCellStyle = DataGridViewCellStyle56
+		DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.Column21.DefaultCellStyle = DataGridViewCellStyle8
 		Me.Column21.HeaderText = "Range Akhir"
 		Me.Column21.Name = "Column21"
 		Me.Column21.ReadOnly = True
@@ -382,43 +382,43 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		Me.DgvFormulator_StepFormulator.AllowUserToAddRows = False
 		Me.DgvFormulator_StepFormulator.AllowUserToResizeColumns = False
 		Me.DgvFormulator_StepFormulator.AllowUserToResizeRows = False
-		DataGridViewCellStyle59.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.DgvFormulator_StepFormulator.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle59
+		DataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DgvFormulator_StepFormulator.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle11
 		Me.DgvFormulator_StepFormulator.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
 		Me.DgvFormulator_StepFormulator.BackgroundColor = System.Drawing.Color.White
 		Me.DgvFormulator_StepFormulator.BorderStyle = System.Windows.Forms.BorderStyle.None
-		DataGridViewCellStyle60.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		DataGridViewCellStyle60.BackColor = System.Drawing.SystemColors.Control
-		DataGridViewCellStyle60.Font = New System.Drawing.Font("Work Sans", 8.0!)
-		DataGridViewCellStyle60.ForeColor = System.Drawing.SystemColors.WindowText
-		DataGridViewCellStyle60.SelectionBackColor = System.Drawing.SystemColors.Highlight
-		DataGridViewCellStyle60.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-		DataGridViewCellStyle60.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.DgvFormulator_StepFormulator.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle60
+		DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		DataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control
+		DataGridViewCellStyle12.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		DataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText
+		DataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DgvFormulator_StepFormulator.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle12
 		Me.DgvFormulator_StepFormulator.ColumnHeadersHeight = 45
 		Me.DgvFormulator_StepFormulator.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column9, Me.Column11, Me.Column12, Me.Column13, Me.Column14, Me.Column1, Me.Column2, Me.Column3, Me.Column15, Me.Column16, Me.Column4, Me.Column5, Me.Column6, Me.Column7})
-		DataGridViewCellStyle73.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		DataGridViewCellStyle73.BackColor = System.Drawing.SystemColors.Window
-		DataGridViewCellStyle73.Font = New System.Drawing.Font("Work Sans", 8.0!)
-		DataGridViewCellStyle73.ForeColor = System.Drawing.SystemColors.ControlText
-		DataGridViewCellStyle73.SelectionBackColor = System.Drawing.SystemColors.Highlight
-		DataGridViewCellStyle73.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-		DataGridViewCellStyle73.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.DgvFormulator_StepFormulator.DefaultCellStyle = DataGridViewCellStyle73
+		DataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle25.BackColor = System.Drawing.SystemColors.Window
+		DataGridViewCellStyle25.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		DataGridViewCellStyle25.ForeColor = System.Drawing.SystemColors.ControlText
+		DataGridViewCellStyle25.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle25.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DgvFormulator_StepFormulator.DefaultCellStyle = DataGridViewCellStyle25
 		Me.DgvFormulator_StepFormulator.Location = New System.Drawing.Point(3, 6)
 		Me.DgvFormulator_StepFormulator.MultiSelect = False
 		Me.DgvFormulator_StepFormulator.Name = "DgvFormulator_StepFormulator"
 		Me.DgvFormulator_StepFormulator.RowHeadersWidth = 21
-		DataGridViewCellStyle74.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.DgvFormulator_StepFormulator.RowsDefaultCellStyle = DataGridViewCellStyle74
+		DataGridViewCellStyle26.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DgvFormulator_StepFormulator.RowsDefaultCellStyle = DataGridViewCellStyle26
 		Me.DgvFormulator_StepFormulator.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
 		Me.DgvFormulator_StepFormulator.Size = New System.Drawing.Size(1085, 318)
 		Me.DgvFormulator_StepFormulator.TabIndex = 5
 		'
 		'Column9
 		'
-		DataGridViewCellStyle61.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.Column9.DefaultCellStyle = DataGridViewCellStyle61
+		DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.Column9.DefaultCellStyle = DataGridViewCellStyle13
 		Me.Column9.HeaderText = "No"
 		Me.Column9.MinimumWidth = 6
 		Me.Column9.Name = "Column9"
@@ -428,8 +428,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column11
 		'
-		DataGridViewCellStyle62.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.Column11.DefaultCellStyle = DataGridViewCellStyle62
+		DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.Column11.DefaultCellStyle = DataGridViewCellStyle14
 		Me.Column11.HeaderText = "Kode Barang"
 		Me.Column11.MinimumWidth = 6
 		Me.Column11.Name = "Column11"
@@ -439,9 +439,9 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column12
 		'
-		DataGridViewCellStyle63.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		DataGridViewCellStyle63.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.Column12.DefaultCellStyle = DataGridViewCellStyle63
+		DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.Column12.DefaultCellStyle = DataGridViewCellStyle15
 		Me.Column12.HeaderText = "Nama"
 		Me.Column12.MinimumWidth = 6
 		Me.Column12.Name = "Column12"
@@ -451,9 +451,9 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column13
 		'
-		DataGridViewCellStyle64.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		DataGridViewCellStyle64.NullValue = Nothing
-		Me.Column13.DefaultCellStyle = DataGridViewCellStyle64
+		DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		DataGridViewCellStyle16.NullValue = Nothing
+		Me.Column13.DefaultCellStyle = DataGridViewCellStyle16
 		Me.Column13.HeaderText = "Kuantity"
 		Me.Column13.MinimumWidth = 6
 		Me.Column13.Name = "Column13"
@@ -463,8 +463,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column14
 		'
-		DataGridViewCellStyle65.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.Column14.DefaultCellStyle = DataGridViewCellStyle65
+		DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.Column14.DefaultCellStyle = DataGridViewCellStyle17
 		Me.Column14.HeaderText = "Satuan"
 		Me.Column14.MinimumWidth = 6
 		Me.Column14.Name = "Column14"
@@ -475,8 +475,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column1
 		'
-		DataGridViewCellStyle66.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.Column1.DefaultCellStyle = DataGridViewCellStyle66
+		DataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.Column1.DefaultCellStyle = DataGridViewCellStyle18
 		Me.Column1.HeaderText = "Nilai Pengali"
 		Me.Column1.MinimumWidth = 6
 		Me.Column1.Name = "Column1"
@@ -486,8 +486,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column2
 		'
-		DataGridViewCellStyle67.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.Column2.DefaultCellStyle = DataGridViewCellStyle67
+		DataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.Column2.DefaultCellStyle = DataGridViewCellStyle19
 		Me.Column2.HeaderText = "Satuan barang"
 		Me.Column2.MinimumWidth = 6
 		Me.Column2.Name = "Column2"
@@ -497,8 +497,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column3
 		'
-		DataGridViewCellStyle68.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.Column3.DefaultCellStyle = DataGridViewCellStyle68
+		DataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.Column3.DefaultCellStyle = DataGridViewCellStyle20
 		Me.Column3.HeaderText = "Niali Satuan Barang"
 		Me.Column3.MinimumWidth = 6
 		Me.Column3.Name = "Column3"
@@ -508,8 +508,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column15
 		'
-		DataGridViewCellStyle69.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.Column15.DefaultCellStyle = DataGridViewCellStyle69
+		DataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.Column15.DefaultCellStyle = DataGridViewCellStyle21
 		Me.Column15.HeaderText = "Persentase"
 		Me.Column15.MinimumWidth = 6
 		Me.Column15.Name = "Column15"
@@ -518,8 +518,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column16
 		'
-		DataGridViewCellStyle70.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.Column16.DefaultCellStyle = DataGridViewCellStyle70
+		DataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.Column16.DefaultCellStyle = DataGridViewCellStyle22
 		Me.Column16.HeaderText = "Keterangan"
 		Me.Column16.MinimumWidth = 6
 		Me.Column16.Name = "Column16"
@@ -548,8 +548,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column6
 		'
-		DataGridViewCellStyle71.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.Column6.DefaultCellStyle = DataGridViewCellStyle71
+		DataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.Column6.DefaultCellStyle = DataGridViewCellStyle23
 		Me.Column6.HeaderText = "Harga"
 		Me.Column6.Name = "Column6"
 		Me.Column6.ReadOnly = True
@@ -557,8 +557,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'Column7
 		'
-		DataGridViewCellStyle72.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.Column7.DefaultCellStyle = DataGridViewCellStyle72
+		DataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.Column7.DefaultCellStyle = DataGridViewCellStyle24
 		Me.Column7.HeaderText = "Est. Hpp Pcs"
 		Me.Column7.Name = "Column7"
 		Me.Column7.ReadOnly = True
@@ -697,34 +697,34 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		Me.DGVLaporan.AllowUserToAddRows = False
 		Me.DGVLaporan.AllowUserToResizeColumns = False
 		Me.DGVLaporan.AllowUserToResizeRows = False
-		DataGridViewCellStyle75.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.DGVLaporan.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle75
+		DataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DGVLaporan.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle27
 		Me.DGVLaporan.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
 		Me.DGVLaporan.BackgroundColor = System.Drawing.Color.White
-		DataGridViewCellStyle76.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		DataGridViewCellStyle76.BackColor = System.Drawing.SystemColors.Control
-		DataGridViewCellStyle76.Font = New System.Drawing.Font("Work Sans", 8.0!)
-		DataGridViewCellStyle76.ForeColor = System.Drawing.SystemColors.WindowText
-		DataGridViewCellStyle76.SelectionBackColor = System.Drawing.SystemColors.Highlight
-		DataGridViewCellStyle76.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-		DataGridViewCellStyle76.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.DGVLaporan.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle76
+		DataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		DataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Control
+		DataGridViewCellStyle28.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		DataGridViewCellStyle28.ForeColor = System.Drawing.SystemColors.WindowText
+		DataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle28.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DGVLaporan.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle28
 		Me.DGVLaporan.ColumnHeadersHeight = 45
 		Me.DGVLaporan.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column25, Me.Column26, Me.Column28, Me.Column27})
-		DataGridViewCellStyle77.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		DataGridViewCellStyle77.BackColor = System.Drawing.SystemColors.Window
-		DataGridViewCellStyle77.Font = New System.Drawing.Font("Work Sans", 8.0!)
-		DataGridViewCellStyle77.ForeColor = System.Drawing.SystemColors.ControlText
-		DataGridViewCellStyle77.SelectionBackColor = System.Drawing.SystemColors.Highlight
-		DataGridViewCellStyle77.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-		DataGridViewCellStyle77.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.DGVLaporan.DefaultCellStyle = DataGridViewCellStyle77
+		DataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle29.BackColor = System.Drawing.SystemColors.Window
+		DataGridViewCellStyle29.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		DataGridViewCellStyle29.ForeColor = System.Drawing.SystemColors.ControlText
+		DataGridViewCellStyle29.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle29.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DGVLaporan.DefaultCellStyle = DataGridViewCellStyle29
 		Me.DGVLaporan.Location = New System.Drawing.Point(5, 9)
 		Me.DGVLaporan.MultiSelect = False
 		Me.DGVLaporan.Name = "DGVLaporan"
 		Me.DGVLaporan.RowHeadersWidth = 21
-		DataGridViewCellStyle78.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.DGVLaporan.RowsDefaultCellStyle = DataGridViewCellStyle78
+		DataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DGVLaporan.RowsDefaultCellStyle = DataGridViewCellStyle30
 		Me.DGVLaporan.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
 		Me.DGVLaporan.Size = New System.Drawing.Size(1084, 344)
 		Me.DGVLaporan.TabIndex = 7
@@ -998,12 +998,12 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		Me.LblFormulator_Judul.AutoSize = True
 		Me.LblFormulator_Judul.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.LblFormulator_Judul.Location = New System.Drawing.Point(15, 11)
+		Me.LblFormulator_Judul.Location = New System.Drawing.Point(20, 11)
 		Me.LblFormulator_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
 		Me.LblFormulator_Judul.Name = "LblFormulator_Judul"
-		Me.LblFormulator_Judul.Size = New System.Drawing.Size(477, 30)
+		Me.LblFormulator_Judul.Size = New System.Drawing.Size(460, 30)
 		Me.LblFormulator_Judul.TabIndex = 0
-		Me.LblFormulator_Judul.Text = "Transaksi - Approval HPP Formula Gabungan"
+		Me.LblFormulator_Judul.Text = "Transaksi Approval HPP Formula Gabungan"
 		'
 		'LblFormulator_NamaBarang
 		'
@@ -1163,8 +1163,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn1
 		'
-		DataGridViewCellStyle79.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle79
+		DataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle31
 		Me.DataGridViewTextBoxColumn1.HeaderText = "No"
 		Me.DataGridViewTextBoxColumn1.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
@@ -1174,8 +1174,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn2
 		'
-		DataGridViewCellStyle80.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle80
+		DataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle32
 		Me.DataGridViewTextBoxColumn2.HeaderText = "Kode Barang"
 		Me.DataGridViewTextBoxColumn2.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
@@ -1185,9 +1185,9 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn3
 		'
-		DataGridViewCellStyle81.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		DataGridViewCellStyle81.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle81
+		DataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle33.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle33
 		Me.DataGridViewTextBoxColumn3.HeaderText = "Nama"
 		Me.DataGridViewTextBoxColumn3.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
@@ -1197,9 +1197,9 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn4
 		'
-		DataGridViewCellStyle82.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		DataGridViewCellStyle82.NullValue = Nothing
-		Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle82
+		DataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		DataGridViewCellStyle34.NullValue = Nothing
+		Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle34
 		Me.DataGridViewTextBoxColumn4.HeaderText = "Kuantity"
 		Me.DataGridViewTextBoxColumn4.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
@@ -1209,8 +1209,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn5
 		'
-		DataGridViewCellStyle83.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.DataGridViewTextBoxColumn5.DefaultCellStyle = DataGridViewCellStyle83
+		DataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.DataGridViewTextBoxColumn5.DefaultCellStyle = DataGridViewCellStyle35
 		Me.DataGridViewTextBoxColumn5.HeaderText = "Satuan"
 		Me.DataGridViewTextBoxColumn5.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn5.Name = "DataGridViewTextBoxColumn5"
@@ -1221,8 +1221,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn6
 		'
-		DataGridViewCellStyle84.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.DataGridViewTextBoxColumn6.DefaultCellStyle = DataGridViewCellStyle84
+		DataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.DataGridViewTextBoxColumn6.DefaultCellStyle = DataGridViewCellStyle36
 		Me.DataGridViewTextBoxColumn6.HeaderText = "Nilai Pengali"
 		Me.DataGridViewTextBoxColumn6.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn6.Name = "DataGridViewTextBoxColumn6"
@@ -1232,8 +1232,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn7
 		'
-		DataGridViewCellStyle85.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.DataGridViewTextBoxColumn7.DefaultCellStyle = DataGridViewCellStyle85
+		DataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.DataGridViewTextBoxColumn7.DefaultCellStyle = DataGridViewCellStyle37
 		Me.DataGridViewTextBoxColumn7.HeaderText = "Satuan barang"
 		Me.DataGridViewTextBoxColumn7.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn7.Name = "DataGridViewTextBoxColumn7"
@@ -1243,8 +1243,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn8
 		'
-		DataGridViewCellStyle86.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.DataGridViewTextBoxColumn8.DefaultCellStyle = DataGridViewCellStyle86
+		DataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.DataGridViewTextBoxColumn8.DefaultCellStyle = DataGridViewCellStyle38
 		Me.DataGridViewTextBoxColumn8.HeaderText = "Niali Satuan Barang"
 		Me.DataGridViewTextBoxColumn8.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn8.Name = "DataGridViewTextBoxColumn8"
@@ -1254,8 +1254,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn9
 		'
-		DataGridViewCellStyle87.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.DataGridViewTextBoxColumn9.DefaultCellStyle = DataGridViewCellStyle87
+		DataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.DataGridViewTextBoxColumn9.DefaultCellStyle = DataGridViewCellStyle39
 		Me.DataGridViewTextBoxColumn9.HeaderText = "Persentase"
 		Me.DataGridViewTextBoxColumn9.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn9.Name = "DataGridViewTextBoxColumn9"
@@ -1265,8 +1265,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn10
 		'
-		DataGridViewCellStyle88.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.DataGridViewTextBoxColumn10.DefaultCellStyle = DataGridViewCellStyle88
+		DataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.DataGridViewTextBoxColumn10.DefaultCellStyle = DataGridViewCellStyle40
 		Me.DataGridViewTextBoxColumn10.HeaderText = "Keterangan"
 		Me.DataGridViewTextBoxColumn10.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn10.Name = "DataGridViewTextBoxColumn10"
@@ -1295,8 +1295,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn13
 		'
-		DataGridViewCellStyle89.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.DataGridViewTextBoxColumn13.DefaultCellStyle = DataGridViewCellStyle89
+		DataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.DataGridViewTextBoxColumn13.DefaultCellStyle = DataGridViewCellStyle41
 		Me.DataGridViewTextBoxColumn13.HeaderText = "Est. HPP"
 		Me.DataGridViewTextBoxColumn13.Name = "DataGridViewTextBoxColumn13"
 		Me.DataGridViewTextBoxColumn13.ReadOnly = True
@@ -1304,8 +1304,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn14
 		'
-		DataGridViewCellStyle90.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.DataGridViewTextBoxColumn14.DefaultCellStyle = DataGridViewCellStyle90
+		DataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.DataGridViewTextBoxColumn14.DefaultCellStyle = DataGridViewCellStyle42
 		Me.DataGridViewTextBoxColumn14.HeaderText = "Est. Hpp Pcs"
 		Me.DataGridViewTextBoxColumn14.Name = "DataGridViewTextBoxColumn14"
 		Me.DataGridViewTextBoxColumn14.ReadOnly = True
@@ -1320,8 +1320,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn16
 		'
-		DataGridViewCellStyle91.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.DataGridViewTextBoxColumn16.DefaultCellStyle = DataGridViewCellStyle91
+		DataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.DataGridViewTextBoxColumn16.DefaultCellStyle = DataGridViewCellStyle43
 		Me.DataGridViewTextBoxColumn16.HeaderText = "Kode Analisa"
 		Me.DataGridViewTextBoxColumn16.Name = "DataGridViewTextBoxColumn16"
 		Me.DataGridViewTextBoxColumn16.ReadOnly = True
@@ -1329,8 +1329,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn17
 		'
-		DataGridViewCellStyle92.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.DataGridViewTextBoxColumn17.DefaultCellStyle = DataGridViewCellStyle92
+		DataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.DataGridViewTextBoxColumn17.DefaultCellStyle = DataGridViewCellStyle44
 		Me.DataGridViewTextBoxColumn17.HeaderText = "Jenis Analisa"
 		Me.DataGridViewTextBoxColumn17.Name = "DataGridViewTextBoxColumn17"
 		Me.DataGridViewTextBoxColumn17.ReadOnly = True
@@ -1352,8 +1352,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn20
 		'
-		DataGridViewCellStyle93.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.DataGridViewTextBoxColumn20.DefaultCellStyle = DataGridViewCellStyle93
+		DataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.DataGridViewTextBoxColumn20.DefaultCellStyle = DataGridViewCellStyle45
 		Me.DataGridViewTextBoxColumn20.HeaderText = "Kategori"
 		Me.DataGridViewTextBoxColumn20.Name = "DataGridViewTextBoxColumn20"
 		Me.DataGridViewTextBoxColumn20.ReadOnly = True
@@ -1361,8 +1361,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn21
 		'
-		DataGridViewCellStyle94.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.DataGridViewTextBoxColumn21.DefaultCellStyle = DataGridViewCellStyle94
+		DataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.DataGridViewTextBoxColumn21.DefaultCellStyle = DataGridViewCellStyle46
 		Me.DataGridViewTextBoxColumn21.HeaderText = "Kriteria"
 		Me.DataGridViewTextBoxColumn21.Name = "DataGridViewTextBoxColumn21"
 		Me.DataGridViewTextBoxColumn21.ReadOnly = True
@@ -1371,8 +1371,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn22
 		'
-		DataGridViewCellStyle95.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.DataGridViewTextBoxColumn22.DefaultCellStyle = DataGridViewCellStyle95
+		DataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.DataGridViewTextBoxColumn22.DefaultCellStyle = DataGridViewCellStyle47
 		Me.DataGridViewTextBoxColumn22.HeaderText = "Range Awal"
 		Me.DataGridViewTextBoxColumn22.Name = "DataGridViewTextBoxColumn22"
 		Me.DataGridViewTextBoxColumn22.ReadOnly = True
@@ -1381,8 +1381,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'
 		'DataGridViewTextBoxColumn23
 		'
-		DataGridViewCellStyle96.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.DataGridViewTextBoxColumn23.DefaultCellStyle = DataGridViewCellStyle96
+		DataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.DataGridViewTextBoxColumn23.DefaultCellStyle = DataGridViewCellStyle48
 		Me.DataGridViewTextBoxColumn23.HeaderText = "Range Akhir"
 		Me.DataGridViewTextBoxColumn23.Name = "DataGridViewTextBoxColumn23"
 		Me.DataGridViewTextBoxColumn23.ReadOnly = True

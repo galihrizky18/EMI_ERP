@@ -1,5 +1,77 @@
 ﻿Public Class Form_Coding_Standar
 
+	Private Sub Form_Coding_Standar_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+		My.Application.ChangeCulture("en-us")
+		My.Application.ChangeUICulture("en-us")
+	End Sub
+
+	Private Sub Form_Coding_Standar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+		My.Application.ChangeCulture("en-us")
+		My.Application.ChangeUICulture("en-us")
+
+		Listview.Columns.Clear()
+		Listview.Columns.Add("Kode Barang", 120, HorizontalAlignment.Left)
+		Listview.Columns.Add("Nama Barang", 250, HorizontalAlignment.Left)
+		Listview.Columns.Add("Kolom Angka 1", 130, HorizontalAlignment.Right)
+		Listview.Columns.Add("Kolom Angka 2", 130, HorizontalAlignment.Right)
+		Listview.Columns.Add("Kolom Angka 3", 130, HorizontalAlignment.Right)
+		Listview.Columns.Add("Kolom Flag", 0, HorizontalAlignment.Center)
+		Listview.View = View.Details
+
+		ComboBox1.Items.Clear()
+		ComboBox1.Items.Add("Value 1")
+		ComboBox1.Items.Add("Value 2")
+		ComboBox1.Items.Add("Value 3")
+
+		Kosong()
+	End Sub
+
+	Private Sub Kosong()
+
+		TextBox1.Text = ""
+		ComboBox1.SelectedIndex = -1
+
+		LoadDataParent()
+	End Sub
+
+	Private Sub LoadDataParent()
+		Try
+			OpenConn()
+
+			'BUAT MASING MASING MENJADI SNIPPET
+			'=====================
+			'=     SHOW DATA     =
+			'=====================
+			Listview.BeginUpdate()     '--> AGAR MENGHENTIKAN PROSES REPAINTING SAAT DATA DI LOAD (MENINGKATKAN PERFORMA)
+			Listview.Items.Clear()
+			SQL = $"
+				select Kode_Barang, Nama, Good_Stock, Flag_Non_Barcode from barang
+			"
+			Using Dr = OpenTrans(SQL)
+				Do While Dr.Read
+					Dim Lv As ListViewItem
+					Lv = Listview.Items.Add(Dr("Kode_Barang"))
+					Lv.SubItems.Add(Dr("Nama"))
+					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N4"))
+					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N2"))
+					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N0"))
+					If General_Class.CekNULL(Dr("Flag_Non_Barcode")) = "" Then
+						Lv.SubItems.Add("-")
+					Else
+						Lv.SubItems.Add(Dr("Flag_Non_Barcode"))
+					End If
+				Loop
+			End Using
+			Listview.EndUpdate()
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+	End Sub
+
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 		Try
 			OpenConn()
@@ -54,9 +126,9 @@
 					Dim Lv As ListViewItem
 					Lv = Listview.Items.Add(Dr("Kode_Barang"))
 					Lv.SubItems.Add(Dr("Nama"))
-					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N4")) 'asda
-					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N2")) 'asda
-					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N0")) 'asda
+					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N4"))
+					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N2"))
+					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N0"))
 					If General_Class.CekNULL(Dr("Flag_Non_Barcode")) = "" Then
 						Lv.SubItems.Add("-")
 					Else
@@ -119,11 +191,10 @@
 						For i As Integer = 0 To .Rows.Count - 1
 
 							DGV.Rows.Add()
-							DGV.Rows(i).Cells(0).Value = .Rows(i).Item("")
-							DGV.Rows(i).Cells(1).Value = .Rows(i).Item("")
-							DGV.Rows(i).Cells(2).Value = .Rows(i).Item("")
-							DGV.Rows(i).Cells(3).Value = .Rows(i).Item("")
-							DGV.Rows(i).Cells(4).Value = .Rows(i).Item("")
+							DGV.Rows(i).Cells(0).Value = .Rows(i).Item("Kode_Barang")
+							DGV.Rows(i).Cells(1).Value = .Rows(i).Item("Nama")
+							DGV.Rows(i).Cells(2).Value = Format(.Rows(i).Item("Good_Stock"), "N4")
+							DGV.Rows(i).Cells(3).Value = .Rows(i).Item("Satuan")
 
 						Next
 					Else
@@ -155,11 +226,14 @@
 						For i As Integer = 0 To .Rows.Count - 1
 
 							DGV.Rows.Add()
-							DGV.Rows(i).Cells(0).Value = .Rows(i).Item("")
-							DGV.Rows(i).Cells(1).Value = .Rows(i).Item("")
-							DGV.Rows(i).Cells(2).Value = .Rows(i).Item("")
-							DGV.Rows(i).Cells(3).Value = .Rows(i).Item("")
-							DGV.Rows(i).Cells(4).Value = .Rows(i).Item("")
+							DGV.Rows(i).Cells(0).Value = .Rows(i).Item("Kode_Barang")
+							DGV.Rows(i).Cells(1).Value = .Rows(i).Item("Nama")
+							DGV.Rows(i).Cells(2).Value = Format(.Rows(i).Item("Good_Stock"), "N4")
+							If General_Class.CekNULL(.Rows(i).Item("Flag_Non_Barcode")) = "" Then
+								DGV.Rows(i).Cells(3).Value = "-"
+							Else
+								DGV.Rows(i).Cells(3).Value = .Rows(i).Item("Flag_Non_Barcode")
+							End If
 
 						Next
 					Else
@@ -232,7 +306,7 @@
 				Dim Value2 As String = ""
 				Dim Value3 As Double = ""
 				SQL = $"
-					insert into barang (Kode_Perusahaan, Kode_Barang, Nama, Good_Stocks)
+					insert into barangss (Kode_Perusahaan, Kode_Barang, Nama, Good_Stocks)
 					like ('{KodePerusahaan}', '{Value1.Trim}', '{Value2.Trim}', {Val(HilangkanTanda(Value3))})
 				"
 				ExecuteTrans(SQL)
@@ -271,7 +345,7 @@
 				Dim Value2 As String = ""
 				Dim Value3 As Double = ""
 				SQL = $"
-					Update barang Set Nama = '{Value2.Trim}', Good_Stocks = {Val(HilangkanTanda(Value3))}
+					Update barangss Set Nama = '{Value2.Trim}', Good_Stocks = {Val(HilangkanTanda(Value3))}
 					where Kode_Perusahaan = '{KodePerusahaan}' and Kode_Barang = '{TextBox1.Text.Trim}'
 				"
 				ExecuteTrans(SQL)
@@ -290,7 +364,7 @@
 			Exit Sub
 		End Try
 
-		Kosong
+		Kosong()
 	End Sub
 
 	'============================================================================================================================================================
@@ -303,10 +377,6 @@
 							General_Class.Get_Last_Number2("N_EMI_Transaksi_Pengajuan_Barang_Baru", "No_Transaksi", 5,
 							"Kode_perusahaan", KodePerusahaan,
 							"And", "substring(No_Transaksi, 1, " & Len(FRequestNewMaterial) + 4 & ")", FRequestNewMaterial & Format(tgl_skg, "MMyy"))
-	End Sub
-
-	Private Sub Kosong()
-
 	End Sub
 
 End Class

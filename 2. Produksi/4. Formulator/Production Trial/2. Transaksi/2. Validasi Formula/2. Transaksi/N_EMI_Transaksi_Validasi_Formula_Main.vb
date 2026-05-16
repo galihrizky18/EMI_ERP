@@ -57,8 +57,6 @@
 			SQL &= $"and a.Status is NULL "
 			SQL &= $"and a.Flag_Validasi = 'Y' "
 			SQL &= $"and a.Flag_Validasi_Main is null "
-			SQL &= $"and a.Flag_Lanjut_Trial_Produksi is null "
-			SQL &= $"and a.flag_lanjut_produksi is null "
 			SQL &= $"and a.Flag_Validasi_Formula_Produksi is null "
 			If Cmb_Kolom_Filter.SelectedIndex <> -1 And Txt_Value_Filter.Text <> "" Then
 				SQL &= $"and {ArrFilter(Cmb_Kolom_Filter.SelectedIndex)} like '%{Txt_Value_Filter.Text}%' "
@@ -98,15 +96,10 @@
 
 		Dim No_faktur As String = Lv_Data.FocusedItem.SubItems(Item_NoFaktur).Text
 
-		'N_EMI_SD_Transaksi_Validasi_Formula_Main.Kosong()
-		'N_EMI_SD_Transaksi_Validasi_Formula_Main.TxtFormulator_NoFaktur.Text = No_faktur
-		'N_EMI_SD_Transaksi_Validasi_Formula_Main.TxtFormulator_NoFaktur_Leave(sender, New EventArgs)
-		'N_EMI_SD_Transaksi_Validasi_Formula_Main.ShowDialog()
-
-		N_EMI_SD_Transaksi_Validasi_Formula_Gabungan.Kosong()
-		N_EMI_SD_Transaksi_Validasi_Formula_Gabungan.TxtFormulator_NoFaktur.Text = No_faktur
-		N_EMI_SD_Transaksi_Validasi_Formula_Gabungan.TxtFormulator_NoFaktur_Leave(sender, New EventArgs)
-		N_EMI_SD_Transaksi_Validasi_Formula_Gabungan.ShowDialog()
+		N_EMI_SD_Transaksi_Validasi_Formula_Main.Kosong()
+		N_EMI_SD_Transaksi_Validasi_Formula_Main.TxtFormulator_NoFaktur.Text = No_faktur
+		N_EMI_SD_Transaksi_Validasi_Formula_Main.TxtFormulator_NoFaktur_Leave(sender, New EventArgs)
+		N_EMI_SD_Transaksi_Validasi_Formula_Main.ShowDialog()
 
 	End Sub
 

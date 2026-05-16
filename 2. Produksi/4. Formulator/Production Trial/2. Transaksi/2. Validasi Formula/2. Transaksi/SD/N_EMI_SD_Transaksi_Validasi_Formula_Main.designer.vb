@@ -211,9 +211,9 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 		Me.LblFormulator_Judul.Location = New System.Drawing.Point(20, 11)
 		Me.LblFormulator_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
 		Me.LblFormulator_Judul.Name = "LblFormulator_Judul"
-		Me.LblFormulator_Judul.Size = New System.Drawing.Size(386, 30)
+		Me.LblFormulator_Judul.Size = New System.Drawing.Size(403, 30)
 		Me.LblFormulator_Judul.TabIndex = 0
-		Me.LblFormulator_Judul.Text = "Transaksi Approval Validasi Formula"
+		Me.LblFormulator_Judul.Text = "Transaksi Approval HPP Formula Trial"
 		'
 		'Panel2
 		'

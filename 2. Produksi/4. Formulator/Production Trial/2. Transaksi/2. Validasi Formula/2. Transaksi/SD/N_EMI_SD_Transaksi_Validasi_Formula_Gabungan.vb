@@ -1257,7 +1257,7 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		End Try
 
 		'N_EMI_Transaksi_Validasi_Formula_Main.Kosong()
-		N_EMI_Dashboard_Formula.Kosong()
+		'N_EMI_Dashboard_Formula.Kosong()
 		Me.Close()
 	End Sub
 
@@ -1408,7 +1408,7 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Gabungan
 		'N_EMI_Transaksi_Validasi_Formula_Main.Kosong()
 		'Me.Close()
 
-		N_EMI_Dashboard_Formula.Kosong()
+		'N_EMI_Dashboard_Formula.Kosong()
 		Me.Close()
 
 	End Sub

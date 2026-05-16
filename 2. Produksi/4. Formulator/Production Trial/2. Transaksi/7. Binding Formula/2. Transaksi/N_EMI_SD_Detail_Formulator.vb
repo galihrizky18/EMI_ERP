@@ -84,50 +84,46 @@
 			SQL = $"
                 SELECT a.*, b.Nama AS Nama_Barang
                 FROM Emi_Transaksi_Formulator a
-                JOIN Barang b ON b.Kode_Perusahaan = a.Kode_Perusahaan AND b.Kode_Barang = a.Kode_Barang AND b.Kode_Stock_Owner = a.Kode_Stock_Owner
+                JOIN Barang b ON b.Kode_Perusahaan = a.Kode_Perusahaan AND b.Kode_Barang_Inq = a.Kode_Barang AND b.Kode_Stock_Owner = a.Kode_Stock_Owner
                 WHERE a.Kode_Perusahaan = '{KodePerusahaan}' AND a.No_Faktur = '{NoFaktur}'
 
             "
+
+			TlpDetailFormulator.Controls.Clear()
+
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = "No Formula", .AutoSize = True}, 0, 0)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 0)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = "Kode Barang", .AutoSize = True}, 0, 1)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 1)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = "Nama Barang", .AutoSize = True}, 0, 2)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 2)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = "Hasil", .AutoSize = True}, 0, 3)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 3)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = "Tanggal Dibuat", .AutoSize = True}, 4, 0)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 5, 0)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = "Jam Dibuat", .AutoSize = True}, 4, 1)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 5, 1)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = "User", .AutoSize = True}, 4, 2)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 5, 2)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = "Tanggal Validasi", .AutoSize = True}, 8, 0)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 9, 0)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = "Jam Validasi", .AutoSize = True}, 8, 1)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 9, 1)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = "User", .AutoSize = True}, 8, 2)
+			TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 9, 2)
+
+
 			Using Dr = OpenTrans(SQL)
 				If Dr.Read() Then
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = "No Formula", .AutoSize = True}, 0, 0)
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 0)
 					TlpDetailFormulator.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("No_Faktur")), "", Dr("No_Faktur").ToString), .AutoSize = True}, 2, 0)
-
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = "Kode Barang", .AutoSize = True}, 0, 1)
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 1)
 					TlpDetailFormulator.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("Kode_Barang")), "", Dr("Kode_Barang").ToString), .AutoSize = True}, 2, 1)
-
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = "Nama Barang", .AutoSize = True}, 0, 2)
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 2)
 					TlpDetailFormulator.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("Nama_Barang")), "", Dr("Nama_Barang").ToString), .AutoSize = True}, 2, 2)
-
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = "Hasil", .AutoSize = True}, 0, 3)
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 3)
 					TlpDetailFormulator.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("Hasil")), "", Dr("Hasil").ToString) & " " & If(IsDBNull(Dr("Satuan_Hasil")), "", Dr("Satuan_Hasil").ToString), .AutoSize = True}, 2, 3)
-
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = "Tanggal Dibuat", .AutoSize = True}, 4, 0)
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 5, 0)
 					TlpDetailFormulator.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("Tanggal")), "", Convert.ToDateTime(Dr("Tanggal")).ToString("dd MMM yyyy")), .AutoSize = True}, 6, 0)
-
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = "Jam Dibuat", .AutoSize = True}, 4, 1)
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 5, 1)
 					TlpDetailFormulator.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("Jam")), "", Dr("Jam").ToString), .AutoSize = True}, 6, 1)
-
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = "User", .AutoSize = True}, 4, 2)
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 5, 2)
 					TlpDetailFormulator.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("UserID")), "", Dr("UserID").ToString), .AutoSize = True}, 6, 2)
-
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = "Tanggal Validasi", .AutoSize = True}, 8, 0)
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 9, 0)
 					TlpDetailFormulator.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("Tanggal_Validasi")), "", Convert.ToDateTime(Dr("Tanggal_Validasi")).ToString("dd MMM yyyy")), .AutoSize = True}, 10, 0)
-
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = "Jam Validasi", .AutoSize = True}, 8, 1)
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 9, 1)
 					TlpDetailFormulator.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("Jam_Validasi")), "", Dr("Jam_Validasi").ToString), .AutoSize = True}, 10, 1)
-
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = "User", .AutoSize = True}, 8, 2)
-					TlpDetailFormulator.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 9, 2)
 					TlpDetailFormulator.Controls.Add(New Label With {.Text = If(IsDBNull(Dr("User_Validasi")), "", Dr("User_Validasi").ToString), .AutoSize = True}, 10, 2)
 				End If
 			End Using
@@ -152,7 +148,7 @@
             FROM EMI_Transaksi_Formulator_Detail_Bahan a
             JOIN Barang b
                 ON b.Kode_Perusahaan = a.Kode_Perusahaan
-                AND b.Kode_Barang = a.Kode_Barang
+                AND b.Kode_Barang_Inq = a.Kode_Barang
                 AND b.Kode_Stock_Owner = a.Kode_Stock_Owner
             WHERE a.Kode_Perusahaan = '{KodePerusahaan}'
             AND a.No_Faktur = '{NoFaktur}'
@@ -179,6 +175,7 @@
 		Catch ex As Exception
 			CloseConn()
 			MessageBox.Show(ex.Message)
+			Exit Sub
 		End Try
 	End Sub
 
@@ -210,6 +207,7 @@
 		Catch ex As Exception
 			CloseConn()
 			MessageBox.Show(ex.Message)
+			Exit Sub
 		End Try
 	End Sub
 
@@ -243,6 +241,7 @@
 		Catch ex As Exception
 			CloseConn()
 			MessageBox.Show(ex.Message)
+			Exit Sub
 		End Try
 	End Sub
 
@@ -291,5 +290,4 @@
 	Private Sub BtnSimpanSudahBinding_Click(sender As Object, e As EventArgs) Handles BtnSimpanSudahBinding.Click
 		Me.Close()
 	End Sub
-
 End Class

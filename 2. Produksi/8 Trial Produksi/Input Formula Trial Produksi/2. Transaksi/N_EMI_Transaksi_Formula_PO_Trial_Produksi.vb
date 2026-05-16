@@ -90,7 +90,6 @@
 
 		Txt_Keterangan.Text = ""
 
-
 		get_jam()
 
 		Try

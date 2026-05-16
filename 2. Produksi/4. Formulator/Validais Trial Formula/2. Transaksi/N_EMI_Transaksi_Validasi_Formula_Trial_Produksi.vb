@@ -1,8 +1,5 @@
 ﻿Imports System.IO
 Imports System.Net
-Imports System.Security.Cryptography
-Imports System.Windows.Forms.DataVisualization.Charting
-Imports PdfiumViewer
 
 Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 	Dim arrcari As New ArrayList
@@ -90,7 +87,7 @@ Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 			Dgv_Parent.Rows.Clear()
 
 			SQL = "
-				SELECT 
+				SELECT
 					a.No_Faktur AS Kode_Formula,
 					a.Kode_Barang,
 					d.Nama AS Nama_Produk,
@@ -100,17 +97,17 @@ Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 					c.No_Transaksi AS No_Split,
 					FORMAT(c.Tanggal, 'dd MMM yyyy') AS Tanggal_Split,
 
-					CASE 
-						WHEN e.Flag_Selesai = 'Y' THEN 'Sudah Finalisasi' 
-						ELSE 'Belum Finalisasi' 
+					CASE
+						WHEN e.Flag_Selesai = 'Y' THEN 'Sudah Finalisasi'
+						ELSE 'Belum Finalisasi'
 					END AS Status_Finalisasi,
 
 					'Validasi' AS Validasi
 
 				FROM EMI_Transaksi_Formulator a
 
-				JOIN EMI_Order_Produksi b 
-					ON a.Kode_Perusahaan = b.Kode_Perusahaan 
+				JOIN EMI_Order_Produksi b
+					ON a.Kode_Perusahaan = b.Kode_Perusahaan
 					AND a.No_Faktur = b.Kode_Formula
 
 				OUTER APPLY (
@@ -121,15 +118,15 @@ Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 					ORDER BY x.Tanggal DESC, x.Jam DESC
 				) c
 
-				JOIN Barang d 
-					ON d.Kode_Barang_Inq = a.Kode_Barang 
+				JOIN Barang d
+					ON d.Kode_Barang_Inq = a.Kode_Barang
 					AND d.Kode_Stock_Owner = a.Kode_Stock_Owner
 
-				LEFT JOIN N_EMI_LAB_PO_Sampel e 
-					ON e.No_Split_Po = c.No_Transaksi 
+				LEFT JOIN N_EMI_LAB_PO_Sampel e
+					ON e.No_Split_Po = c.No_Transaksi
 					AND e.Kode_Perusahaan = a.Kode_Perusahaan
 
-				WHERE 
+				WHERE
 					a.Flag_Lanjut_Trial_Produksi = 'Y'
 					AND a.Status IS NULL
 "
@@ -139,11 +136,10 @@ Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 				If arrcari(cmb_Formulator.SelectedIndex).ToString.Trim = "TANGGAL_FORMULA" Then
 
 					SQL &= $"
-					AND a.Tanggal BETWEEN 
+					AND a.Tanggal BETWEEN
 						'{Format(DateTimePicker1.Value, "yyyy-MM-dd")}'
 						AND '{Format(DateTimePicker2.Value, "yyyy-MM-dd")}'
 				"
-
 				Else
 
 					Dim fieldCari As String = arrcari.Item(cmb_Formulator.SelectedIndex)
@@ -165,9 +161,9 @@ Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 						Case "STATUS_FINALISASI"
 							SQL &= $"
 								AND (
-									CASE 
-										WHEN e.Flag_Selesai = 'Y' THEN 'Sudah Finalisasi' 
-										ELSE 'Belum Finalisasi' 
+									CASE
+										WHEN e.Flag_Selesai = 'Y' THEN 'Sudah Finalisasi'
+										ELSE 'Belum Finalisasi'
 									END
 								) LIKE '%{TxtValPencarian.Text.Trim}%'
 							"
@@ -179,7 +175,7 @@ Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 			End If
 
 			SQL &= "
-							ORDER BY 
+							ORDER BY
 								c.Tanggal DESC,
 								c.Jam DESC
 							"
@@ -198,7 +194,7 @@ Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 						.Cells(Cell_Satuan).Value = Dr("Satuan_Hasil")
 						.Cells(Cell_TanggalFormula).Value = Dr("Tanggal_Formula")
 						.Cells(Cell_TanggalSplit).Value = Dr("Tanggal_Split")
-						.Cells(Cell_StatusFinalisasi).Value = Dr("Status_Finalisasi")
+						.Cells(Cell_Statusfinalisasi).Value = Dr("Status_Finalisasi")
 						.Cells(Cell_BtnValidasi).Value = Dr("Validasi")
 
 					End With
@@ -208,7 +204,6 @@ Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 			End Using
 
 			CloseConn()
-
 		Catch ex As Exception
 
 			CloseConn()
@@ -698,7 +693,6 @@ Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 				End Using
 
 				CloseConn()
-
 			Catch ex As Exception
 
 				CloseConn()
@@ -727,6 +721,7 @@ Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 		End If
 
 	End Sub
+
 	Private Sub Dgv_Formula_Parent_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles Dgv_Parent.CellDoubleClick
 		If e.RowIndex < 0 Then Exit Sub
 
@@ -753,249 +748,8 @@ Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 			MessageBox.Show(ex.Message)
 			Exit Sub
 		End Try
-
-		'If Dgv_Parent.Rows.Count = 0 Or Dgv_Parent.CurrentRow Is Nothing Then Exit Sub
-
-		'get_jam()
-
-		'Try
-
-		'	OpenConn()
-		'	Cmd.Transaction = Cn.BeginTransaction
-
-		'	Get_Isi_ListView(Dgv_Parent.CurrentRow.Index)
-
-		'	'========================================================
-		'	' =============== CEK STATUS DATA =======================
-		'	'========================================================
-
-		'	'bersihkan dulu temporary
-		'	SQL = "delete from N_EMI_LIMS_Berkas_Uji_Lab_Temp where  userid_cetak = '" & UserID & "' "
-		'	ExecuteTrans(SQL)
-
-		'	Dim listFormula As String = ""
-		'	Dim formulas As New List(Of String)
-		'	SQL = "WITH CTE AS ("
-		'	SQL = SQL & " SELECT U.No_Po_Sampel, "
-
-		'	SQL = SQL & " CASE WHEN SUM(CASE WHEN U.Flag_Approval IS NOT NULL THEN 1 ELSE 0 END) > 0 "
-		'	SQL = SQL & " THEN 1 ELSE 0 END as has_validasi, "
-
-		'	SQL = SQL & " CASE "
-		'	SQL = SQL & " WHEN SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'LCKV' THEN 1 ELSE 0 END) = 0 THEN 'TIDAK ADA' "
-		'	SQL = SQL & " WHEN SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'LCKV' AND U.Flag_Approval = 'T' THEN 1 ELSE 0 END) > 0 THEN 'DITOLAK' "
-		'	SQL = SQL & " WHEN SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'LCKV' THEN 1 ELSE 0 END) = "
-		'	SQL = SQL & "      SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'LCKV' AND U.Flag_Approval = 'Y' THEN 1 ELSE 0 END) THEN 'DISETUJUI' "
-		'	SQL = SQL & " ELSE 'MENUNGGU VALIDASI' END as status_lock_view, "
-
-		'	SQL = SQL & " CASE "
-		'	SQL = SQL & " WHEN SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'ANL' THEN 1 ELSE 0 END) = 0 THEN 'TIDAK ADA' "
-		'	SQL = SQL & " WHEN SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'LCKV' THEN 1 ELSE 0 END) > "
-		'	SQL = SQL & "      SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'LCKV' AND U.Flag_Approval IS NOT NULL THEN 1 ELSE 0 END) THEN 'MENUNGGU LOCK VIEW' "
-		'	SQL = SQL & " WHEN SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'ANL' AND U.Flag_Approval = 'T' THEN 1 ELSE 0 END) > 0 THEN 'DITOLAK' "
-		'	SQL = SQL & " WHEN SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'ANL' THEN 1 ELSE 0 END) = "
-		'	SQL = SQL & "      SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'ANL' AND U.Flag_Approval = 'Y' THEN 1 ELSE 0 END) THEN 'DISETUJUI' "
-		'	SQL = SQL & " ELSE 'MENUNGGU VALIDASI' END as status_analisa_lab, "
-
-		'	SQL = SQL & " CASE "
-		'	SQL = SQL & " WHEN SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'PLT' THEN 1 ELSE 0 END) = 0 THEN 'TIDAK ADA' "
-		'	SQL = SQL & " WHEN SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'ANL' AND U.Flag_Approval = 'T' THEN 1 ELSE 0 END) > 0 THEN 'TERKUNCI' "
-		'	SQL = SQL & " WHEN SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'LCKV' THEN 1 ELSE 0 END) > "
-		'	SQL = SQL & "      SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'LCKV' AND U.Flag_Approval IS NOT NULL THEN 1 ELSE 0 END) THEN 'MENUNGGU LOCK VIEW' "
-		'	SQL = SQL & " WHEN SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'ANL' THEN 1 ELSE 0 END) > "
-		'	SQL = SQL & "      SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'ANL' AND U.Flag_Approval IS NOT NULL THEN 1 ELSE 0 END) THEN 'MENUNGGU HASIL UJI LAB' "
-		'	SQL = SQL & " WHEN SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'PLT' AND U.Flag_Approval = 'T' THEN 1 ELSE 0 END) > 0 THEN 'DITOLAK' "
-		'	SQL = SQL & " WHEN SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'PLT' THEN 1 ELSE 0 END) = "
-		'	SQL = SQL & "      SUM(CASE WHEN B.Kode_Aktivitas_Lab = 'PLT' AND U.Flag_Approval = 'Y' THEN 1 ELSE 0 END) THEN 'DISETUJUI' "
-		'	SQL = SQL & " ELSE 'MENUNGGU VALIDASI' END as status_palatabilitas "
-
-		'	SQL = SQL & " FROM N_EMI_LIMS_Uji_Sampel U "
-		'	SQL = SQL & " JOIN N_EMI_LAB_Jenis_Analisa A ON U.Id_Jenis_Analisa = A.id "
-		'	SQL = SQL & " JOIN N_EMI_LIMS_Klasifikasi_Aktivitas_Lab B ON A.Kode_Aktivitas_Lab = B.Kode_Aktivitas_Lab "
-		'	SQL = SQL & " LEFT JOIN N_EMI_LIMS_Uji_Pra_Final UPF ON U.No_Po_Sampel = UPF.No_Sampel "
-
-		'	SQL = SQL & " WHERE U.Flag_Approval = 'Y' "
-		'	SQL = SQL & " AND EXISTS (SELECT 1 FROM N_EMI_LIMS_Uji_Pra_Final x WHERE x.No_Sampel = U.No_Po_Sampel) "
-		'	SQL = SQL & " AND U.Flag_Selesai = 'Y' "
-		'	SQL = SQL & " AND U.Flag_Resampling IS NULL "
-		'	SQL = SQL & " AND U.Status IS NULL "
-
-		'	SQL = SQL & " GROUP BY U.No_Po_Sampel "
-		'	SQL = SQL & "), Final_Status AS ( "
-
-		'	SQL = SQL & " SELECT b.Kode_Perusahaan, b.No_Transaksi, CTE.status_lock_view, CTE.status_analisa_lab, "
-		'	SQL = SQL & " c.Kode_Formula, d.Tanggal, d.Jam, d.Kode_Barang, e.Nama AS Nama_Produk, d.Hasil, d.Satuan_Hasil, "
-
-		'	SQL = SQL & " CTE.No_Po_Sampel, "
-		'	SQL = SQL & " c.Status as Status_Production, b.Flag_Validasi, b.Status as Status_Split, d.Status, "
-
-		'	SQL = SQL & " SUM(CASE WHEN ISNULL(CTE.status_lock_view, '') <> 'DISETUJUI' "
-		'	SQL = SQL & " OR ISNULL(CTE.status_analisa_lab, '') <> 'DISETUJUI' THEN 1 ELSE 0 END) "
-		'	SQL = SQL & " OVER(PARTITION BY a.No_Split_Po) as Tidak_Disetujui "
-
-		'	SQL = SQL & " FROM CTE "
-		'	SQL = SQL & " JOIN N_LIMS_PO_Sampel a ON a.No_Sampel = CTE.No_Po_Sampel "
-		'	SQL = SQL & " JOIN N_EMI_Transaksi_Trial_Split_Production_Order b ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.No_Split_Po = b.No_Transaksi "
-		'	SQL = SQL & " JOIN N_EMI_Transaksi_Trial_Order_Produksi c ON b.Kode_Perusahaan = c.Kode_Perusahaan AND b.No_PO = c.No_Faktur "
-		'	SQL = SQL & " JOIN Emi_Transaksi_Formulator d ON c.Kode_Perusahaan = d.Kode_Perusahaan AND c.Kode_Formula = d.No_Faktur "
-		'	SQL = SQL & " JOIN barang e ON e.Kode_Perusahaan = d.Kode_Perusahaan AND e.Kode_Stock_Owner = d.Kode_Stock_Owner AND e.Kode_Barang_Inq = d.Kode_Barang "
-
-		'	SQL = SQL & " WHERE a.Status IS NULL AND b.Status IS NULL AND b.Flag_Validasi IS NULL AND c.Status IS NULL AND d.Status IS NULL "
-		'	SQL = SQL & ") "
-
-		'	SQL = SQL & " SELECT Kode_Perusahaan, No_Transaksi, status_lock_view, status_analisa_lab, "
-		'	SQL = SQL & " Kode_Formula, Tanggal, Jam, Kode_Barang, Nama_Produk, Hasil, Satuan_Hasil, "
-		'	SQL = SQL & " No_Po_Sampel, Status_Production, Flag_Validasi, Status_Split, Status "
-
-		'	SQL = SQL & " FROM Final_Status "
-		'	SQL = SQL & " WHERE Tidak_Disetujui = 0 "
-		'	SQL = SQL & " AND No_Transaksi = '" & Dgv_NoSPlit & "' "
-
-		'	SQL = SQL & " GROUP BY Kode_Perusahaan, No_Transaksi, status_lock_view, status_analisa_lab, "
-		'	SQL = SQL & " Kode_Formula, Tanggal, Jam, Kode_Barang, Nama_Produk, Hasil, Satuan_Hasil, "
-		'	SQL = SQL & " No_Po_Sampel, Status_Production, Flag_Validasi, Status_Split, Status "
-
-		'	Using ds = BindingTrans(SQL)
-
-		'		With ds.Tables("MyTable")
-		'			If .Rows.Count <> 0 Then
-
-		'				For i As Integer = 0 To .Rows.Count - 1
-		'					'If General_Class.CekNULL(.Rows(i).Item("Flag_Validasi")) = "Y" Then
-
-		'					'	CloseTrans()
-		'					'	CloseConn()
-		'					'	MessageBox.Show("No Split ini sudah di validasi, tidak bisa validasi ulang", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'					'	Exit Sub
-		'					'End If
-		'					If General_Class.CekNULL(.Rows(i).Item("status")) = "Y" Then
-
-		'						CloseTrans()
-		'						CloseConn()
-		'						MessageBox.Show("Nomor Formula pada split ini telah dibatalkan, coba cek kembali", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'						Exit Sub
-		'					End If
-
-		'					If General_Class.CekNULL(.Rows(i).Item("status_split")) = "Y" Then
-
-		'						CloseTrans()
-		'						CloseConn()
-		'						MessageBox.Show("No Split telah dibatalkan sebelumnya, coba refresh dan cek kembali", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'						Exit Sub
-		'					End If
-
-		'					If General_Class.CekNULL(.Rows(i).Item("Status_Production")) = "Y" Then
-
-		'						CloseTrans()
-		'						CloseConn()
-		'						MessageBox.Show("Production order telah dibatalkan sebelumnya, coba refresh dan cek kembali", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'						Exit Sub
-		'					End If
-
-		'					'formulas.Add(.Rows(i).Item("no_po_sampel"))
-
-		'					'Dim url = ""
-		'					'SQL = "select top(1) file_path From N_EMI_LIMS_BErkas_Uji_lab  "
-		'					'SQL = SQL & "where no_sampel = '" & .Rows(i).Item("no_po_sampel") & "' "
-		'					'Using Dr = OpenTrans(SQL)
-		'					'	If Dr.Read Then
-		'					'		If General_Class.CekNULL(Dr("file_path")) = "" Then
-		'					'			Dr.Close()
-		'					'			CloseTrans()
-		'					'			CloseConn()
-		'					'			MessageBox.Show("Foto lockview NULL", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'					'			Exit Sub
-		'					'		Else
-		'					'			url = Dr("file_path")
-		'					'		End If
-		'					'	Else
-		'					'		Dr.Close()
-		'					'		CloseTrans()
-		'					'		CloseConn()
-		'					'		MessageBox.Show("Foto lockview tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'					'		Exit Sub
-		'					'	End If
-		'					'End Using
-
-		'					'Dim signedUrl As String = GCSHelper.GenerateSignedUrl(bucketFormulator, url, 2)
-		'					'Dim imageBytes As Byte()
-		'					'Using webClient As New WebClient()
-		'					'	imageBytes = webClient.DownloadData(signedUrl)
-		'					'End Using
-
-		'					''==================== COMPRESS IMAGE ====================
-		'					''Dim compressedBytes As Byte() = CompressAndResizeImage(imageBytes, 90, 2000)
-		'					'Dim compressedBytes As Byte() = imageBytes
-
-		'					'Cmd.Parameters.Clear()
-		'					'Cmd.Parameters.Add("@Image", SqlDbType.VarBinary).Value = imageBytes
-
-		'					'SQL = "insert into N_EMI_LIMS_BErkas_Uji_lab_temp (No_Faktur,No_Sampel,Berkas_Key,File_Path,Id_Jenis_Analisa,	Gambar_Convert_Image, tanggal_cetak,jam_cetak,userid_cetak) "
-		'					'SQL = SQL & "select top(1) No_Faktur,No_Sampel,Berkas_Key,File_Path,Id_Jenis_Analisa, @image, '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "' , '" & UserID & "' from N_EMI_LIMS_BErkas_Uji_lab "
-		'					'SQL = SQL & "where no_sampel = '" & .Rows(i).Item("no_po_sampel") & "' order by Id_Berkas_Uji_Lab desc "
-		'					'ExecuteTrans(SQL)
-
-		'				Next
-		'			Else
-
-		'			End If
-		'		End With
-
-		'		listFormula = String.Join(",", formulas)
-
-		'	End Using
-
-		'	Cmd.Transaction.Commit()
-		'	CloseConn()
-		'Catch ex As Exception
-		'	CloseTrans()
-		'	CloseConn()
-		'	MessageBox.Show(ex.Message)
-		'	Exit Sub
-		'End Try
-
-
-
-
-
-
-		'Try
-		'	OpenConn()
-
-		'	Get_Isi_ListView(Dgv_Parent.CurrentRow.Index)
-
-		'	SQL = "select * From N_EMI_View_Laporan_formula_rpt where kode_perusahaan = '" & KodePerusahaan & "' "
-		'	SQL = SQL & "and no_transaksi = '" & Dgv_NoSPlit & "' "
-		'	Using Ds = BindingTrans(SQL)
-		'		If Ds.Tables("MyTable").Rows.Count <> 0 Then
-		'			With Ds.Tables(0)
-		'				Dim CrDoc As New N_EMI_CR_Laporan_Formulator
-		'				With A_Place_For_Printing2
-		'					CrDoc.SetDataSource(Ds)
-		'					CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
-		'					CrDoc.SummaryInfo.ReportTitle = "Laporan Faktur Purchase Requisition Barang Lain"
-		'					CrDoc.RecordSelectionFormula = " {N_EMI_View_Laporan_formula_rpt.Kode_Perusahaan} = '" & KodePerusahaan & "' and {N_EMI_View_Laporan_formula_rpt.no_transaksi} = '" & Dgv_NoSPlit & "'"
-
-		'					.Text = "Laporan Formulator"
-		'					.CrystalReportViewer1.ReportSource = CrDoc
-		'					.CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
-		'					.Refresh()
-		'					.Show()
-		'				End With
-		'			End With
-		'		Else
-		'			MessageBox.Show("Data tidak ditemukan!", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-		'		End If
-
-		'	End Using
-
-		'	CloseConn()
-		'Catch ex As Exception
-		'	CloseConn()
-		'	MessageBox.Show(ex.Message)
-		'	Exit Sub
-		'End Try
 	End Sub
+
 	Public Function GetPdfStream(url As String, no_split As String) As MemoryStream
 		' ----------------------------------------------------------------
 		' 1. Query bahan & hpp dari DB
@@ -1005,8 +759,6 @@ Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 		Dim namaFormula As String = ""
 		Dim kategoriProduk As String = ""
 		Dim tanggalUji As String = ""
-
-		no_split = "PRD0526-00014-1"
 
 		Try
 			OpenConn()
@@ -1020,9 +772,9 @@ Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 					and a.Kode_Barang = b.Kode_Barang
 					order by b.Kode_Stock_Owner
 				) b
-				join Emi_Transaksi_Formulator c 
-					on c.Kode_Perusahaan = a.Kode_Perusahaan 
-					and c.Kode_Barang = b.Kode_Barang_Inq 
+				join Emi_Transaksi_Formulator c
+					on c.Kode_Perusahaan = a.Kode_Perusahaan
+					and c.Kode_Barang = b.Kode_Barang_Inq
 					--and c.Status is null
 				where a.No_Split_Po = '{no_split}'
 			"
@@ -1136,17 +888,5 @@ Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 	Private Sub Dgv_Formula_Parent_MouseLeave(sender As Object, e As EventArgs) Handles Dgv_Parent.MouseLeave
 		Dgv_Parent.Cursor = Cursors.Default
 	End Sub
-
-	'Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged
-	'	If DateTimePicker1.Value <= DateTimePicker2.Value Then
-	'		DateTimePicker2.MinDate = DateTimePicker1.Value
-	'	End If
-	'End Sub
-
-	'Private Sub DateTimePicker2_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker2.ValueChanged
-	'	If DateTimePicker2.Value >= DateTimePicker1.Value Then
-	'		DateTimePicker1.MaxDate = DateTimePicker2.Value
-	'	End If
-	'End Sub
 
 End Class

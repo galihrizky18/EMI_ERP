@@ -3,8 +3,10 @@
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
 		Url_Api_Laporan_Formulator = $"{TextBox1.Text.Trim}/api/laporan-formula"
+		Url_Api_Laporan_Formulator_Trial_Produksi = $"{TextBox2.Text.Trim}/api/laporan-formula-trial-produksi"
 
 		TextBox1.Text = ""
+		TextBox2.Text = ""
 		MessageBox.Show("API Berhasil Diupdate", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
 	End Sub

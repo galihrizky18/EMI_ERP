@@ -99,7 +99,7 @@
 
         Dim No_faktur As String = Lv_Data.FocusedItem.SubItems(0).Text
 
-        Dim frm As New N_EMI_SD_Transaksi_Validasi_Formula_BOD With {
+        Dim frm As New N_EMI_SD_Transaksi_Validasi_Formula_BOD_Baru With {
             .No_Faktur = No_faktur
         }
         frm.ShowDialog()

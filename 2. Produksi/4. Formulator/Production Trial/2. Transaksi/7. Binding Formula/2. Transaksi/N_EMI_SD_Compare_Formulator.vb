@@ -19,7 +19,7 @@
 			.Columns.Add("Jumlah", 100, HorizontalAlignment.Right)
 			.Columns.Add("Persentase", 100, HorizontalAlignment.Right)
 			.Columns.Add("Harga", 100, HorizontalAlignment.Right)
-			.Columns.Add("Est. HPP %", 100, HorizontalAlignment.Right)
+			.Columns.Add("Est. HPP Per Pcs", 100, HorizontalAlignment.Right)
 		End With
 
 		'With LvF1DetailKandungan
@@ -63,8 +63,8 @@
 			.Columns.Add("Satuan", 80, HorizontalAlignment.Center)
 			.Columns.Add("Jumlah", 100, HorizontalAlignment.Right)
 			.Columns.Add("Persentase", 100, HorizontalAlignment.Right)
-			.Columns.Add("Est. HPP", 100, HorizontalAlignment.Right)
-			.Columns.Add("Est. HPP %", 100, HorizontalAlignment.Right)
+			.Columns.Add("Harga", 100, HorizontalAlignment.Right)
+			.Columns.Add("Est. HPP Per Pcs", 100, HorizontalAlignment.Right)
 		End With
 
 		'With LvF2DetailKandungan
@@ -145,23 +145,24 @@
 		'LbF1EstHpp.Text = "Est. HPP: " & FormatNumber(totalEstHPP, 4) & " | " & "Est. HPP Per Pcs: " & FormatNumber(totalEstHPPPerPcs, 4)
 		LbF1EstHpp.Text = "Est. HPP Per Pcs: " & FormatNumber(totalEstHPPPerPcs, 4)
 
-		TlpF1.Controls.Add(New Label With {.Text = "No Formula", .AutoSize = True}, column:=0, row:=0)
-		TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=0)
-		TlpF1.Controls.Add(New Label With {.Text = "Kode Barang", .AutoSize = True}, column:=0, row:=1)
-		TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=1)
-		TlpF1.Controls.Add(New Label With {.Text = "Nama Barang", .AutoSize = True}, column:=0, row:=2)
-		TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=2)
-		TlpF1.Controls.Add(New Label With {.Text = "Hasil", .AutoSize = True}, column:=0, row:=3)
-		TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=3)
+		TlpF1.Controls.Add(New Label With {.Text = "No Formula", .AutoSize = True}, 0, 0)
+		TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 0)
+		TlpF1.Controls.Add(New Label With {.Text = "Kode Barang", .AutoSize = True}, 0, 1)
+		TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 1)
+		TlpF1.Controls.Add(New Label With {.Text = "Nama Barang", .AutoSize = True}, 0, 2)
+		TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 2)
+		TlpF1.Controls.Add(New Label With {.Text = "Hasil", .AutoSize = True}, 0, 3)
+		TlpF1.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 3)
 
-		TlpF2.Controls.Add(New Label With {.Text = "No Formula", .AutoSize = True}, column:=0, row:=0)
-		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=0)
-		TlpF2.Controls.Add(New Label With {.Text = "Kode Barang", .AutoSize = True}, column:=0, row:=1)
-		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=1)
-		TlpF2.Controls.Add(New Label With {.Text = "Nama Barang", .AutoSize = True}, column:=0, row:=2)
-		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=2)
-		TlpF2.Controls.Add(New Label With {.Text = "Hasil", .AutoSize = True}, column:=0, row:=3)
-		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, column:=1, row:=3)
+
+		TlpF2.Controls.Add(New Label With {.Text = "No Formula", .AutoSize = True}, 0, 0)
+		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 0)
+		TlpF2.Controls.Add(New Label With {.Text = "Kode Barang", .AutoSize = True}, 0, 1)
+		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 1)
+		TlpF2.Controls.Add(New Label With {.Text = "Nama Barang", .AutoSize = True}, 0, 2)
+		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 2)
+		TlpF2.Controls.Add(New Label With {.Text = "Hasil", .AutoSize = True}, 0, 3)
+		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 3)
 	End Sub
 
 	Private Sub Fetch_Compare()
@@ -656,9 +657,9 @@
 
 			Dim kodeHierarki As String = ""
 
-			If ArrNoFaktur.Contains(NoFaktur) Then
-				kodeHierarki = ArrHierarki(ArrNoFaktur.IndexOf(NoFaktur))
-			Else
+            If ArrNoFaktur.Contains(NoFaktur) Then
+                kodeHierarki = ArrHierarki(ArrNoFaktur.IndexOf(NoFaktur))
+            Else
 				If ArrNoFaktur.Count = 0 Then
 					kodeHierarki = "FORMULA UTAMA"
 				Else
@@ -693,5 +694,4 @@
 			Exit Sub
 		End Try
 	End Sub
-
 End Class

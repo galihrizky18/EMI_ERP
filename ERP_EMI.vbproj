@@ -480,6 +480,12 @@
     <Compile Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\EMI_Hasil_Pengeluaran_Bahan_Baku_Baru.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\EMI_Hasil_Pengeluaran_Bahan_Baku_Baru_BACKUPRIX_12052026.designer.vb">
+      <DependentUpon>EMI_Hasil_Pengeluaran_Bahan_Baku_Baru_BACKUPRIX_12052026.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\EMI_Hasil_Pengeluaran_Bahan_Baku_Baru_BACKUPRIX_12052026.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="2. Produksi\2. Production\4. Good Received 1\2. Transaksi\1. Good Received\Emi_Production_Barcode.Designer.vb">
       <DependentUpon>Emi_Production_Barcode.vb</DependentUpon>
     </Compile>
@@ -520,6 +526,12 @@
       <DependentUpon>N_EMI_Transaksi_Request_Material_QC_Validasi.vb</DependentUpon>
     </Compile>
     <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\N_EMI_Transaksi_Request_Material_QC_Validasi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\N_EMI_Transaksi_Request_Material_QC_Validasi_BACKUP12052026.designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Request_Material_QC_Validasi_BACKUP12052026.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\N_EMI_Transaksi_Request_Material_QC_Validasi_BACKUP12052026.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\SD\N_EMI_SD_Pairing_RFID_Premix.Designer.vb">
@@ -648,10 +660,22 @@
     <Compile Include="2. Produksi\4. Formulator\0. Dashboard Formulator\2. Transaksi\SD\N_EMI_SD_Validasi_Tahap2_Dashboard_Formula.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Formula BOD\2. Transaksi\N_EMI_SD_Transaksi_Validasi_Formula_BOD.Designer.vb">
-      <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_BOD.vb</DependentUpon>
+    <Compile Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\2. Transaksi\N_EMI_Transaksi_Pengajuan_Barang_Baru.Designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Pengajuan_Barang_Baru.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Formula BOD\2. Transaksi\N_EMI_SD_Transaksi_Validasi_Formula_BOD.vb">
+    <Compile Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\2. Transaksi\N_EMI_Transaksi_Pengajuan_Barang_Baru.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\3. Display\N_EMI_Display_Pengajuan_Barang_Baru.Designer.vb">
+      <DependentUpon>N_EMI_Display_Pengajuan_Barang_Baru.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\3. Display\N_EMI_Display_Pengajuan_Barang_Baru.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Formula BOD\2. Transaksi\N_EMI_SD_Transaksi_Validasi_Formula_BOD_Baru.Designer.vb">
+      <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_BOD_Baru.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Formula BOD\2. Transaksi\N_EMI_SD_Transaksi_Validasi_Formula_BOD_Baru.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="2. Produksi\4. Formulator\Formula BOD\2. Transaksi\N_EMI_SD_Transaksi_Validasi_Formula_Hierarki_BOD.Designer.vb">
@@ -666,10 +690,22 @@
     <Compile Include="2. Produksi\4. Formulator\Formula BOD\2. Transaksi\N_EMI_Transaksi_Validasi_Formula_BOD.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Formula BOD\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_BOD.Designer.vb">
+      <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_BOD.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Formula BOD\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_BOD.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="2. Produksi\4. Formulator\Formula\3. Display\Display_Formula_Binding.designer.vb">
       <DependentUpon>Display_Formula_Binding.vb</DependentUpon>
     </Compile>
     <Compile Include="2. Produksi\4. Formulator\Formula\3. Display\Display_Formula_Binding.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Penyediaan Bahan Baku Trial\2. Transaksi\N_EMI_Transaksi_Trial_Penyediaan_Bahan_Baku.Designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Trial_Penyediaan_Bahan_Baku.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Penyediaan Bahan Baku Trial\2. Transaksi\N_EMI_Transaksi_Trial_Penyediaan_Bahan_Baku.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="2. Produksi\4. Formulator\Penyediaan Bahan Baku Trial\3. Display\N_EMI_Display_Penyediaan_Bahan_Baku_Trial.Designer.vb">
@@ -720,10 +756,16 @@
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Gabungan.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_BACKUP_09052026.Designer.vb">
-      <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_BACKUP_09052026.vb</DependentUpon>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_Baru.Designer.vb">
+      <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_Baru.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_BACKUP_09052026.vb">
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_Baru.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Main.designer.vb">
+      <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_Main.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Main.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Main_Produksi.Designer.vb">
@@ -738,6 +780,36 @@
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\3. Display\N_EMI_Display_Validasi_Formula.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\3. Production Order\N_EMI_Transaksi_Trial_Production_Order.designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Trial_Production_Order.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\3. Production Order\N_EMI_Transaksi_Trial_Production_Order.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\4. Split Production\2. Transaksi\N_EMI_Display_Trial_Mulai_Produksi.designer.vb">
+      <DependentUpon>N_EMI_Display_Trial_Mulai_Produksi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\4. Split Production\2. Transaksi\N_EMI_Display_Trial_Mulai_Produksi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\4. Split Production\2. Transaksi\N_EMI_Transaksi_Trial_Produksi.designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Trial_Produksi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\4. Split Production\2. Transaksi\N_EMI_Transaksi_Trial_Produksi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\5. Good Received\2. Transaksi\N_EMI_Transaksi_Trial_Good_Received.Designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Trial_Good_Received.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\5. Good Received\2. Transaksi\N_EMI_Transaksi_Trial_Good_Received.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\6. Request Material\2. Transaksi\N_EMI_Transaksi_Trial_Request_Material.Designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Trial_Request_Material.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\6. Request Material\2. Transaksi\N_EMI_Transaksi_Trial_Request_Material.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\6. Request Material\3. Display\N_EMI_Display_Request_Material_General.Designer.vb">
       <DependentUpon>N_EMI_Display_Request_Material_General.vb</DependentUpon>
     </Compile>
@@ -750,10 +822,22 @@
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\7. Binding Formula\2. Transaksi\N_EMI_SD_Compare_Formulator.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\7. Binding Formula\2. Transaksi\N_EMI_SD_Detail_Formulator.Designer.vb">
+      <DependentUpon>N_EMI_SD_Detail_Formulator.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\7. Binding Formula\2. Transaksi\N_EMI_SD_Detail_Formulator.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\7. Binding Formula\2. Transaksi\N_EMI_Transaksi_Binding_Formula_Trial.Designer.vb">
       <DependentUpon>N_EMI_Transaksi_Binding_Formula_Trial.vb</DependentUpon>
     </Compile>
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\7. Binding Formula\2. Transaksi\N_EMI_Transaksi_Binding_Formula_Trial.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\7. Binding Formula\2. Transaksi\SD\N_EMI_SD_Tambah_Master_Data_Hierarki_Binding_Formula.Designer.vb">
+      <DependentUpon>N_EMI_SD_Tambah_Master_Data_Hierarki_Binding_Formula.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\7. Binding Formula\2. Transaksi\SD\N_EMI_SD_Tambah_Master_Data_Hierarki_Binding_Formula.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\8. Validasi Binding Formula\2. Transaksi\N_EMI_Transaksi_Validasi_Binding_Formula_Trial.Designer.vb">
@@ -766,6 +850,12 @@
       <DependentUpon>N_EMI_SD_Transaksi_Validasi_Binding_Formula_Trial_Compare_Formula.vb</DependentUpon>
     </Compile>
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\8. Validasi Binding Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Binding_Formula_Trial_Compare_Formula.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Purchase Requisition Trial\2. Transaksi\N_EMI_Transaksi_Purchase_Requisition_Trial.Designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Purchase_Requisition_Trial.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\4. Formulator\Purchase Requisition Trial\2. Transaksi\N_EMI_Transaksi_Purchase_Requisition_Trial.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="2. Produksi\4. Formulator\Validais Trial Formula\2. Transaksi\N_EMI_Transaksi_Validasi_Formula_Trial_Produksi.Designer.vb">
@@ -876,6 +966,12 @@
     <Compile Include="2. Produksi\7. Forcasting\2. Transaksi\N_EMI_Transaksi_Production_Plan.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="2. Produksi\7. Forcasting\2. Transaksi\N_EMI_Transaksi_Production_Plan_Backup_120526.designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Production_Plan_Backup_120526.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\7. Forcasting\2. Transaksi\N_EMI_Transaksi_Production_Plan_Backup_120526.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="2. Produksi\7. Forcasting\2. Transaksi\N_EMI_Transaksi_Production_Plan_Backup_020526.designer.vb">
       <DependentUpon>N_EMI_Transaksi_Production_Plan_Backup_020526.vb</DependentUpon>
     </Compile>
@@ -897,10 +993,10 @@
     <Compile Include="2. Produksi\7. Forcasting\BadgeLabel.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Produksi\8 Trial Produksi\Input Formula Trial Produksi\2. Transaksi\N_EMI_Transaksi_Formula_Trial_Produksi.Designer.vb">
-      <DependentUpon>N_EMI_Transaksi_Formula_Trial_Produksi.vb</DependentUpon>
+    <Compile Include="2. Produksi\8 Trial Produksi\Input Formula Trial Produksi\2. Transaksi\N_EMI_Transaksi_Formula_PO_Trial_Produksi.Designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Formula_PO_Trial_Produksi.vb</DependentUpon>
     </Compile>
-    <Compile Include="2. Produksi\8 Trial Produksi\Input Formula Trial Produksi\2. Transaksi\N_EMI_Transaksi_Formula_Trial_Produksi.vb">
+    <Compile Include="2. Produksi\8 Trial Produksi\Input Formula Trial Produksi\2. Transaksi\N_EMI_Transaksi_Formula_PO_Trial_Produksi.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="2. Produksi\98. Faktur\N_EMI_CR_Faktur_Transfer_Stock_Barang_Lain.vb">
@@ -1192,12 +1288,6 @@
       <DependentUpon>Rpt_Faktur_Transfer_Stock.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\3. Display\N_EMI_Display_Pengajuan_Barang_Baru.Designer.vb">
-      <DependentUpon>N_EMI_Display_Pengajuan_Barang_Baru.vb</DependentUpon>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\3. Display\N_EMI_Display_Pengajuan_Barang_Baru.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="2. Produksi\4. Formulator\Formula\2. Transaksi\SD\SD_Pilih_Barang.designer.vb">
       <DependentUpon>SD_Pilih_Barang.vb</DependentUpon>
     </Compile>
@@ -1208,12 +1298,6 @@
       <DependentUpon>Transaksi_Formula.vb</DependentUpon>
     </Compile>
     <Compile Include="2. Produksi\4. Formulator\Formula\2. Transaksi\Transaksi_Formula.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Penyediaan Bahan Baku Trial\2. Transaksi\N_EMI_Transaksi_Trial_Penyediaan_Bahan_Baku.Designer.vb">
-      <DependentUpon>N_EMI_Transaksi_Trial_Penyediaan_Bahan_Baku.vb</DependentUpon>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Penyediaan Bahan Baku Trial\2. Transaksi\N_EMI_Transaksi_Trial_Penyediaan_Bahan_Baku.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="2. Produksi\4. Formulator\Penyediaan Bahan Baku Trial\N_EMI_CR_Faktur_Penyediaan_Bahan_Baku.vb">
@@ -1234,18 +1318,6 @@
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\5. Good Received\2. Transaksi\N_EMI_SD_Trial_Good_Received.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Main.designer.vb">
-      <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_Main.vb</DependentUpon>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Main.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\3. Production Order\N_EMI_Transaksi_Trial_Production_Order.designer.vb">
-      <DependentUpon>N_EMI_Transaksi_Trial_Production_Order.vb</DependentUpon>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\3. Production Order\N_EMI_Transaksi_Trial_Production_Order.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\3. Production Order\SD\N_EMI_SD_Trial_Independent_Order.designer.vb">
       <DependentUpon>N_EMI_SD_Trial_Independent_Order.vb</DependentUpon>
     </Compile>
@@ -1258,28 +1330,10 @@
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\3. Production Order\SD\N_EMI_SD_Trial_Production_Order_Pilih_Formula.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\4. Split Production\2. Transaksi\N_EMI_Transaksi_Trial_Produksi.designer.vb">
-      <DependentUpon>N_EMI_Transaksi_Trial_Produksi.vb</DependentUpon>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\4. Split Production\2. Transaksi\N_EMI_Transaksi_Trial_Produksi.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\4. Split Production\2. Transaksi\N_EMI_Display_Trial_Mulai_Produksi.designer.vb">
-      <DependentUpon>N_EMI_Display_Trial_Mulai_Produksi.vb</DependentUpon>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\4. Split Production\2. Transaksi\N_EMI_Display_Trial_Mulai_Produksi.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\4. Split Production\2. Transaksi\SD\N_EMI_SD_Trial_Produksi.Designer.vb">
       <DependentUpon>N_EMI_SD_Trial_Produksi.vb</DependentUpon>
     </Compile>
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\4. Split Production\2. Transaksi\SD\N_EMI_SD_Trial_Produksi.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\5. Good Received\2. Transaksi\N_EMI_Transaksi_Trial_Good_Received.Designer.vb">
-      <DependentUpon>N_EMI_Transaksi_Trial_Good_Received.vb</DependentUpon>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\5. Good Received\2. Transaksi\N_EMI_Transaksi_Trial_Good_Received.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\5. Good Received\4. Laporan\N_EMI_Label_Barcode_Trial_GR_1.vb">
@@ -1288,28 +1342,10 @@
       <DependentUpon>N_EMI_Label_Barcode_Trial_GR_1.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\6. Request Material\2. Transaksi\N_EMI_Transaksi_Trial_Request_Material.Designer.vb">
-      <DependentUpon>N_EMI_Transaksi_Trial_Request_Material.vb</DependentUpon>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\6. Request Material\2. Transaksi\N_EMI_Transaksi_Trial_Request_Material.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\6. Request Material\2. Transaksi\SD\N_EMI_SD_Trial_Request_Material.Designer.vb">
       <DependentUpon>N_EMI_SD_Trial_Request_Material.vb</DependentUpon>
     </Compile>
     <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\6. Request Material\2. Transaksi\SD\N_EMI_SD_Trial_Request_Material.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\7. Binding Formula\2. Transaksi\N_EMI_SD_Detail_Formulator.Designer.vb">
-      <DependentUpon>N_EMI_SD_Detail_Formulator.vb</DependentUpon>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\7. Binding Formula\2. Transaksi\N_EMI_SD_Detail_Formulator.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Purchase Requisition Trial\2. Transaksi\N_EMI_Transaksi_Purchase_Requisition_Trial.Designer.vb">
-      <DependentUpon>N_EMI_Transaksi_Purchase_Requisition_Trial.vb</DependentUpon>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Purchase Requisition Trial\2. Transaksi\N_EMI_Transaksi_Purchase_Requisition_Trial.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="2. Produksi\4. Formulator\Purchase Requisition Trial\2. Transaksi\SD\N_EMI_SD_Tambah_PR_Trial.designer.vb">
@@ -1572,12 +1608,6 @@
       <DependentUpon>N_EMI_Display_Transfer_Stock_Sementara.vb</DependentUpon>
     </Compile>
     <Compile Include="2. Produksi\3. Material Movement\Transfer Stock Sementara\3. Display\N_EMI_Display_Transfer_Stock_Sementara.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\2. Transaksi\N_EMI_Transaksi_Pengajuan_Barang_Baru.Designer.vb">
-      <DependentUpon>N_EMI_Transaksi_Pengajuan_Barang_Baru.vb</DependentUpon>
-    </Compile>
-    <Compile Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\2. Transaksi\N_EMI_Transaksi_Pengajuan_Barang_Baru.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="2. Produksi\5. Inventori\Adjustment Stock\4. Laporan\N_EMI_CR_Laporan_Adjustment_Stock.vb">
@@ -1960,6 +1990,9 @@
     <EmbeddedResource Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\EMI_Hasil_Pengeluaran_Bahan_Baku_Baru.resx">
       <DependentUpon>EMI_Hasil_Pengeluaran_Bahan_Baku_Baru.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\2. Production\3. Controlling Production\2. Transaksi\1. Good Issue\EMI_Hasil_Pengeluaran_Bahan_Baku_Baru_BACKUPRIX_12052026.resx">
+      <DependentUpon>EMI_Hasil_Pengeluaran_Bahan_Baku_Baru_BACKUPRIX_12052026.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\2. Production\4. Good Received 1\2. Transaksi\1. Good Received\Emi_Production_Barcode.resx">
       <DependentUpon>Emi_Production_Barcode.vb</DependentUpon>
     </EmbeddedResource>
@@ -1980,6 +2013,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\N_EMI_Transaksi_Request_Material_QC_Validasi.resx">
       <DependentUpon>N_EMI_Transaksi_Request_Material_QC_Validasi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\N_EMI_Transaksi_Request_Material_QC_Validasi_BACKUP12052026.resx">
+      <DependentUpon>N_EMI_Transaksi_Request_Material_QC_Validasi_BACKUP12052026.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\2. Production\7. Request Material\2. Transaksi\Request Material QC Validasi\SD\N_EMI_SD_Pairing_RFID_Premix.resx">
       <DependentUpon>N_EMI_SD_Pairing_RFID_Premix.vb</DependentUpon>
@@ -2043,8 +2079,14 @@
     <EmbeddedResource Include="2. Produksi\4. Formulator\0. Dashboard Formulator\2. Transaksi\N_EMI_Dashboard_Formula.resx">
       <DependentUpon>N_EMI_Dashboard_Formula.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\4. Formulator\Formula BOD\2. Transaksi\N_EMI_SD_Transaksi_Validasi_Formula_BOD.resx">
-      <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_BOD.vb</DependentUpon>
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\2. Transaksi\N_EMI_Transaksi_Pengajuan_Barang_Baru.resx">
+      <DependentUpon>N_EMI_Transaksi_Pengajuan_Barang_Baru.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\3. Display\N_EMI_Display_Pengajuan_Barang_Baru.resx">
+      <DependentUpon>N_EMI_Display_Pengajuan_Barang_Baru.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Formula BOD\2. Transaksi\N_EMI_SD_Transaksi_Validasi_Formula_BOD_Baru.resx">
+      <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_BOD_Baru.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Formula BOD\2. Transaksi\N_EMI_SD_Transaksi_Validasi_Formula_Hierarki_BOD.resx">
       <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_Hierarki_BOD.vb</DependentUpon>
@@ -2052,8 +2094,14 @@
     <EmbeddedResource Include="2. Produksi\4. Formulator\Formula BOD\2. Transaksi\N_EMI_Transaksi_Validasi_Formula_BOD.resx">
       <DependentUpon>N_EMI_Transaksi_Validasi_Formula_BOD.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Formula BOD\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_BOD.resx">
+      <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_BOD.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Formula\3. Display\Display_Formula_Binding.resx">
       <DependentUpon>Display_Formula_Binding.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Penyediaan Bahan Baku Trial\2. Transaksi\N_EMI_Transaksi_Trial_Penyediaan_Bahan_Baku.resx">
+      <DependentUpon>N_EMI_Transaksi_Trial_Penyediaan_Bahan_Baku.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Penyediaan Bahan Baku Trial\3. Display\N_EMI_Display_Penyediaan_Bahan_Baku_Trial.resx">
       <DependentUpon>N_EMI_Display_Penyediaan_Bahan_Baku_Trial.vb</DependentUpon>
@@ -2079,8 +2127,11 @@
     <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Gabungan.resx">
       <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_Gabungan.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_BACKUP_09052026.resx">
-      <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_BACKUP_09052026.vb</DependentUpon>
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_Baru.resx">
+      <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_Gabungan_Baru.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Main.resx">
+      <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_Main.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Main_Produksi.resx">
       <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_Main_Produksi.vb</DependentUpon>
@@ -2088,20 +2139,44 @@
     <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\3. Display\N_EMI_Display_Validasi_Formula.resx">
       <DependentUpon>N_EMI_Display_Validasi_Formula.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\3. Production Order\N_EMI_Transaksi_Trial_Production_Order.resx">
+      <DependentUpon>N_EMI_Transaksi_Trial_Production_Order.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\4. Split Production\2. Transaksi\N_EMI_Display_Trial_Mulai_Produksi.resx">
+      <DependentUpon>N_EMI_Display_Trial_Mulai_Produksi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\4. Split Production\2. Transaksi\N_EMI_Transaksi_Trial_Produksi.resx">
+      <DependentUpon>N_EMI_Transaksi_Trial_Produksi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\5. Good Received\2. Transaksi\N_EMI_Transaksi_Trial_Good_Received.resx">
+      <DependentUpon>N_EMI_Transaksi_Trial_Good_Received.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\6. Request Material\2. Transaksi\N_EMI_Transaksi_Trial_Request_Material.resx">
+      <DependentUpon>N_EMI_Transaksi_Trial_Request_Material.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\6. Request Material\3. Display\N_EMI_Display_Request_Material_General.resx">
       <DependentUpon>N_EMI_Display_Request_Material_General.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\7. Binding Formula\2. Transaksi\N_EMI_SD_Compare_Formulator.resx">
       <DependentUpon>N_EMI_SD_Compare_Formulator.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\7. Binding Formula\2. Transaksi\N_EMI_SD_Detail_Formulator.resx">
+      <DependentUpon>N_EMI_SD_Detail_Formulator.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\7. Binding Formula\2. Transaksi\N_EMI_Transaksi_Binding_Formula_Trial.resx">
       <DependentUpon>N_EMI_Transaksi_Binding_Formula_Trial.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\7. Binding Formula\2. Transaksi\SD\N_EMI_SD_Tambah_Master_Data_Hierarki_Binding_Formula.resx">
+      <DependentUpon>N_EMI_SD_Tambah_Master_Data_Hierarki_Binding_Formula.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\8. Validasi Binding Formula\2. Transaksi\N_EMI_Transaksi_Validasi_Binding_Formula_Trial.resx">
       <DependentUpon>N_EMI_Transaksi_Validasi_Binding_Formula_Trial.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\8. Validasi Binding Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Binding_Formula_Trial_Compare_Formula.resx">
       <DependentUpon>N_EMI_SD_Transaksi_Validasi_Binding_Formula_Trial_Compare_Formula.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\4. Formulator\Purchase Requisition Trial\2. Transaksi\N_EMI_Transaksi_Purchase_Requisition_Trial.resx">
+      <DependentUpon>N_EMI_Transaksi_Purchase_Requisition_Trial.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Validais Trial Formula\2. Transaksi\N_EMI_Transaksi_Validasi_Formula_Trial_Produksi.resx">
       <DependentUpon>N_EMI_Transaksi_Validasi_Formula_Trial_Produksi.vb</DependentUpon>
@@ -2158,6 +2233,9 @@
     <EmbeddedResource Include="2. Produksi\7. Forcasting\2. Transaksi\N_EMI_Transaksi_Production_Plan.resx">
       <DependentUpon>N_EMI_Transaksi_Production_Plan.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\7. Forcasting\2. Transaksi\N_EMI_Transaksi_Production_Plan_Backup_120526.resx">
+      <DependentUpon>N_EMI_Transaksi_Production_Plan_Backup_120526.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\7. Forcasting\2. Transaksi\N_EMI_Transaksi_Production_Plan_Backup_020526.resx">
       <DependentUpon>N_EMI_Transaksi_Production_Plan_Backup_020526.vb</DependentUpon>
     </EmbeddedResource>
@@ -2167,8 +2245,8 @@
     <EmbeddedResource Include="2. Produksi\7. Forcasting\2. Transaksi\SD_Pilih_Produk_Forecasting.resx">
       <DependentUpon>SD_Pilih_Produk_Forecasting.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\8 Trial Produksi\Input Formula Trial Produksi\2. Transaksi\N_EMI_Transaksi_Formula_Trial_Produksi.resx">
-      <DependentUpon>N_EMI_Transaksi_Formula_Trial_Produksi.vb</DependentUpon>
+    <EmbeddedResource Include="2. Produksi\8 Trial Produksi\Input Formula Trial Produksi\2. Transaksi\N_EMI_Transaksi_Formula_PO_Trial_Produksi.resx">
+      <DependentUpon>N_EMI_Transaksi_Formula_PO_Trial_Produksi.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\98. Faktur\N_EMI_CR_Faktur_Transfer_Stock_Barang_Lain.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -2330,17 +2408,11 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Faktur_Transfer_Stock.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\3. Display\N_EMI_Display_Pengajuan_Barang_Baru.resx">
-      <DependentUpon>N_EMI_Display_Pengajuan_Barang_Baru.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Formula\2. Transaksi\SD\SD_Pilih_Barang.resx">
       <DependentUpon>SD_Pilih_Barang.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Formula\2. Transaksi\Transaksi_Formula.resx">
       <DependentUpon>Transaksi_Formula.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\4. Formulator\Penyediaan Bahan Baku Trial\2. Transaksi\N_EMI_Transaksi_Trial_Penyediaan_Bahan_Baku.resx">
-      <DependentUpon>N_EMI_Transaksi_Trial_Penyediaan_Bahan_Baku.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Penyediaan Bahan Baku Trial\N_EMI_CR_Faktur_Penyediaan_Bahan_Baku.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -2352,45 +2424,21 @@
     <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\5. Good Received\2. Transaksi\N_EMI_SD_Trial_Good_Received.resx">
       <DependentUpon>N_EMI_SD_Trial_Good_Received.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\2. Validasi Formula\2. Transaksi\SD\N_EMI_SD_Transaksi_Validasi_Formula_Main.resx">
-      <DependentUpon>N_EMI_SD_Transaksi_Validasi_Formula_Main.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\3. Production Order\N_EMI_Transaksi_Trial_Production_Order.resx">
-      <DependentUpon>N_EMI_Transaksi_Trial_Production_Order.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\3. Production Order\SD\N_EMI_SD_Trial_Independent_Order.resx">
       <DependentUpon>N_EMI_SD_Trial_Independent_Order.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\3. Production Order\SD\N_EMI_SD_Trial_Production_Order_Pilih_Formula.resx">
       <DependentUpon>N_EMI_SD_Trial_Production_Order_Pilih_Formula.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\4. Split Production\2. Transaksi\N_EMI_Transaksi_Trial_Produksi.resx">
-      <DependentUpon>N_EMI_Transaksi_Trial_Produksi.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\4. Split Production\2. Transaksi\N_EMI_Display_Trial_Mulai_Produksi.resx">
-      <DependentUpon>N_EMI_Display_Trial_Mulai_Produksi.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\4. Split Production\2. Transaksi\SD\N_EMI_SD_Trial_Produksi.resx">
       <DependentUpon>N_EMI_SD_Trial_Produksi.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\5. Good Received\2. Transaksi\N_EMI_Transaksi_Trial_Good_Received.resx">
-      <DependentUpon>N_EMI_Transaksi_Trial_Good_Received.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\5. Good Received\4. Laporan\N_EMI_Label_Barcode_Trial_GR_1.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_Label_Barcode_Trial_GR_1.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\6. Request Material\2. Transaksi\N_EMI_Transaksi_Trial_Request_Material.resx">
-      <DependentUpon>N_EMI_Transaksi_Trial_Request_Material.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\6. Request Material\2. Transaksi\SD\N_EMI_SD_Trial_Request_Material.resx">
       <DependentUpon>N_EMI_SD_Trial_Request_Material.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\4. Formulator\Production Trial\2. Transaksi\7. Binding Formula\2. Transaksi\N_EMI_SD_Detail_Formulator.resx">
-      <DependentUpon>N_EMI_SD_Detail_Formulator.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\4. Formulator\Purchase Requisition Trial\2. Transaksi\N_EMI_Transaksi_Purchase_Requisition_Trial.resx">
-      <DependentUpon>N_EMI_Transaksi_Purchase_Requisition_Trial.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\4. Formulator\Purchase Requisition Trial\2. Transaksi\SD\N_EMI_SD_Tambah_PR_Trial.resx">
       <DependentUpon>N_EMI_SD_Tambah_PR_Trial.vb</DependentUpon>
@@ -2543,9 +2591,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\3. Material Movement\Transfer Stock Sementara\3. Display\N_EMI_Display_Transfer_Stock_Sementara.resx">
       <DependentUpon>N_EMI_Display_Transfer_Stock_Sementara.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\2. Transaksi\N_EMI_Transaksi_Pengajuan_Barang_Baru.resx">
-      <DependentUpon>N_EMI_Transaksi_Pengajuan_Barang_Baru.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\5. Inventori\Adjustment Stock\4. Laporan\N_EMI_CR_Laporan_Adjustment_Stock.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -2781,7 +2826,6 @@
     <Folder Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\1. Master\" />
     <Folder Include="2. Produksi\4. Formulator\Bestmix\2. Request New Material\4. Laporan\" />
     <Folder Include="2. Produksi\4. Formulator\Formula BOD\1. Master\" />
-    <Folder Include="2. Produksi\4. Formulator\Formula BOD\2. Transaksi\SD\" />
     <Folder Include="2. Produksi\4. Formulator\Formula BOD\3. Display\" />
     <Folder Include="2. Produksi\4. Formulator\Formula BOD\4. Laporan\" />
     <Folder Include="2. Produksi\4. Formulator\Formula\1. Master\" />

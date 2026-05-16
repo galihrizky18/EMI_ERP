@@ -105,20 +105,20 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Txt_Jumlah_Sisa_Bersih = New System.Windows.Forms.TextBox()
         Me.Txt_Bags_Sisa_Bersih = New System.Windows.Forms.TextBox()
         Me.Txt_NoFaktur = New System.Windows.Forms.TextBox()
+        Me.Barcode_PSS = New System.Windows.Forms.PictureBox()
+        Me.Barcode = New System.Windows.Forms.PictureBox()
+        Me.Barcode_Batch = New System.Windows.Forms.PictureBox()
         Me.Cb_Tb1 = New System.Windows.Forms.CheckBox()
         Me.Cb_Tb2 = New System.Windows.Forms.CheckBox()
         Me.Cb_Tb3 = New System.Windows.Forms.CheckBox()
         Me.Label15 = New System.Windows.Forms.Label()
-        Me.Barcode_Batch = New System.Windows.Forms.PictureBox()
-        Me.Barcode_PSS = New System.Windows.Forms.PictureBox()
-        Me.Barcode = New System.Windows.Forms.PictureBox()
         GroupBox1 = New System.Windows.Forms.GroupBox()
         GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.Panel1.SuspendLayout()
-        CType(Me.Barcode_Batch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Barcode_PSS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Barcode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Barcode_Batch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -207,6 +207,7 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Txt_Sisa_Bags.Size = New System.Drawing.Size(107, 20)
         Me.Txt_Sisa_Bags.TabIndex = 6
         Me.Txt_Sisa_Bags.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.Txt_Sisa_Bags.Visible = False
         '
         'TxtJumlahBagsDetail
         '
@@ -219,6 +220,7 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.TxtJumlahBagsDetail.Size = New System.Drawing.Size(107, 20)
         Me.TxtJumlahBagsDetail.TabIndex = 2
         Me.TxtJumlahBagsDetail.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TxtJumlahBagsDetail.Visible = False
         '
         'Label7
         '
@@ -240,6 +242,7 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Label10.Size = New System.Drawing.Size(54, 13)
         Me.Label10.TabIndex = 496
         Me.Label10.Text = "Sisa Bags"
+        Me.Label10.Visible = False
         '
         'CmbSatuan
         '
@@ -251,6 +254,7 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.CmbSatuan.Name = "CmbSatuan"
         Me.CmbSatuan.Size = New System.Drawing.Size(48, 21)
         Me.CmbSatuan.TabIndex = 8
+        Me.CmbSatuan.Visible = False
         '
         'Txt_Barcode
         '
@@ -285,6 +289,7 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Label8.Size = New System.Drawing.Size(67, 13)
         Me.Label8.TabIndex = 496
         Me.Label8.Text = "Jumlah Bags"
+        Me.Label8.Visible = False
         '
         'TxtSatuan_FloorScale
         '
@@ -495,7 +500,6 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.TxtBeratBersih.Size = New System.Drawing.Size(283, 29)
         Me.TxtBeratBersih.TabIndex = 7
         Me.TxtBeratBersih.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtBeratBersih.Visible = False
         '
         'Label5
         '
@@ -563,7 +567,7 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.CmbJenisAlas.FormattingEnabled = True
         Me.CmbJenisAlas.Location = New System.Drawing.Point(105, 77)
         Me.CmbJenisAlas.Name = "CmbJenisAlas"
-        Me.CmbJenisAlas.Size = New System.Drawing.Size(208, 23)
+        Me.CmbJenisAlas.Size = New System.Drawing.Size(227, 23)
         Me.CmbJenisAlas.TabIndex = 1
         '
         'Label11
@@ -582,10 +586,10 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.TxtBeratAlas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtBeratAlas.Enabled = False
         Me.TxtBeratAlas.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtBeratAlas.Location = New System.Drawing.Point(361, 78)
+        Me.TxtBeratAlas.Location = New System.Drawing.Point(376, 78)
         Me.TxtBeratAlas.MaxLength = 50
         Me.TxtBeratAlas.Name = "TxtBeratAlas"
-        Me.TxtBeratAlas.Size = New System.Drawing.Size(84, 21)
+        Me.TxtBeratAlas.Size = New System.Drawing.Size(69, 21)
         Me.TxtBeratAlas.TabIndex = 9
         Me.TxtBeratAlas.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -593,7 +597,7 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(319, 80)
+        Me.Label4.Location = New System.Drawing.Point(338, 80)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(36, 15)
         Me.Label4.TabIndex = 487
@@ -753,6 +757,7 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Label6.Size = New System.Drawing.Size(59, 13)
         Me.Label6.TabIndex = 491
         Me.Label6.Text = "Berat Bags"
+        Me.Label6.Visible = False
         '
         'Txt_KDBarang
         '
@@ -796,6 +801,7 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.TxtBeratBags.Size = New System.Drawing.Size(107, 20)
         Me.TxtBeratBags.TabIndex = 10
         Me.TxtBeratBags.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TxtBeratBags.Visible = False
         '
         'Btn_ShowList
         '
@@ -1176,6 +1182,33 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Txt_NoFaktur.Size = New System.Drawing.Size(228, 21)
         Me.Txt_NoFaktur.TabIndex = 500
         '
+        'Barcode_PSS
+        '
+        Me.Barcode_PSS.Location = New System.Drawing.Point(833, 134)
+        Me.Barcode_PSS.Name = "Barcode_PSS"
+        Me.Barcode_PSS.Size = New System.Drawing.Size(80, 72)
+        Me.Barcode_PSS.TabIndex = 501
+        Me.Barcode_PSS.TabStop = False
+        Me.Barcode_PSS.Visible = False
+        '
+        'Barcode
+        '
+        Me.Barcode.Location = New System.Drawing.Point(833, 52)
+        Me.Barcode.Name = "Barcode"
+        Me.Barcode.Size = New System.Drawing.Size(80, 72)
+        Me.Barcode.TabIndex = 463
+        Me.Barcode.TabStop = False
+        Me.Barcode.Visible = False
+        '
+        'Barcode_Batch
+        '
+        Me.Barcode_Batch.Location = New System.Drawing.Point(833, 215)
+        Me.Barcode_Batch.Name = "Barcode_Batch"
+        Me.Barcode_Batch.Size = New System.Drawing.Size(80, 72)
+        Me.Barcode_Batch.TabIndex = 502
+        Me.Barcode_Batch.TabStop = False
+        Me.Barcode_Batch.Visible = False
+        '
         'Cb_Tb1
         '
         Me.Cb_Tb1.AutoSize = True
@@ -1216,33 +1249,6 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.Label15.TabIndex = 501
         Me.Label15.Text = "Timbangan:"
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Barcode_Batch
-        '
-        Me.Barcode_Batch.Location = New System.Drawing.Point(833, 215)
-        Me.Barcode_Batch.Name = "Barcode_Batch"
-        Me.Barcode_Batch.Size = New System.Drawing.Size(80, 72)
-        Me.Barcode_Batch.TabIndex = 502
-        Me.Barcode_Batch.TabStop = False
-        Me.Barcode_Batch.Visible = False
-        '
-        'Barcode_PSS
-        '
-        Me.Barcode_PSS.Location = New System.Drawing.Point(833, 134)
-        Me.Barcode_PSS.Name = "Barcode_PSS"
-        Me.Barcode_PSS.Size = New System.Drawing.Size(80, 72)
-        Me.Barcode_PSS.TabIndex = 501
-        Me.Barcode_PSS.TabStop = False
-        Me.Barcode_PSS.Visible = False
-        '
-        'Barcode
-        '
-        Me.Barcode.Location = New System.Drawing.Point(833, 52)
-        Me.Barcode.Name = "Barcode"
-        Me.Barcode.Size = New System.Drawing.Size(80, 72)
-        Me.Barcode.TabIndex = 463
-        Me.Barcode.TabStop = False
-        Me.Barcode.Visible = False
         '
         'N_EMI_Transaksi_Request_Material_QC_Validasi
         '
@@ -1285,9 +1291,9 @@ Partial Class N_EMI_Transaksi_Request_Material_QC_Validasi
         Me.GroupBox2.PerformLayout()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        CType(Me.Barcode_Batch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Barcode_PSS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Barcode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Barcode_Batch, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

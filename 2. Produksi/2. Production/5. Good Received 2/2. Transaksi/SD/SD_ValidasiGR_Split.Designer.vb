@@ -52,9 +52,13 @@ Partial Class SD_ValidasiGR_Split
 		Me.TabControl1 = New System.Windows.Forms.TabControl()
 		Me.TabPage1 = New System.Windows.Forms.TabPage()
 		Me.TabPage2 = New System.Windows.Forms.TabPage()
+		Me.Label7 = New System.Windows.Forms.Label()
+		Me.Label6 = New System.Windows.Forms.Label()
+		Me.Panel11 = New System.Windows.Forms.Panel()
+		Me.Panel12 = New System.Windows.Forms.Panel()
+		Me.Lv_Packing_Pallet = New System.Windows.Forms.ListView()
 		Me.TabPage3 = New System.Windows.Forms.TabPage()
-		Me.Lv_Pallet_Packing = New System.Windows.Forms.ListView()
-		Me.Lv_Waste_Packing = New System.Windows.Forms.ListView()
+		Me.Lv_Packing_Waste = New System.Windows.Forms.ListView()
 		Me.Panel1.SuspendLayout()
 		Me.Panel3.SuspendLayout()
 		Me.Panel4.SuspendLayout()
@@ -265,13 +269,12 @@ Partial Class SD_ValidasiGR_Split
 		'Lv_Data
 		'
 		Me.Lv_Data.CheckBoxes = True
-		Me.Lv_Data.Dock = System.Windows.Forms.DockStyle.Fill
 		Me.Lv_Data.FullRowSelect = True
 		Me.Lv_Data.GridLines = True
 		Me.Lv_Data.HideSelection = False
-		Me.Lv_Data.Location = New System.Drawing.Point(3, 3)
+		Me.Lv_Data.Location = New System.Drawing.Point(3, 22)
 		Me.Lv_Data.Name = "Lv_Data"
-		Me.Lv_Data.Size = New System.Drawing.Size(944, 311)
+		Me.Lv_Data.Size = New System.Drawing.Size(944, 292)
 		Me.Lv_Data.TabIndex = 4
 		Me.Lv_Data.UseCompatibleStateImageBehavior = False
 		Me.Lv_Data.View = System.Windows.Forms.View.Details
@@ -315,7 +318,7 @@ Partial Class SD_ValidasiGR_Split
 		'Label15
 		'
 		Me.Label15.AutoSize = True
-		Me.Label15.Location = New System.Drawing.Point(874, 93)
+		Me.Label15.Location = New System.Drawing.Point(839, 3)
 		Me.Label15.Name = "Label15"
 		Me.Label15.Size = New System.Drawing.Size(105, 13)
 		Me.Label15.TabIndex = 492
@@ -325,7 +328,7 @@ Partial Class SD_ValidasiGR_Split
 		'
 		Me.Panel13.BackColor = System.Drawing.Color.LightBlue
 		Me.Panel13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-		Me.Panel13.Location = New System.Drawing.Point(858, 94)
+		Me.Panel13.Location = New System.Drawing.Point(823, 4)
 		Me.Panel13.Name = "Panel13"
 		Me.Panel13.Size = New System.Drawing.Size(12, 12)
 		Me.Panel13.TabIndex = 491
@@ -333,7 +336,7 @@ Partial Class SD_ValidasiGR_Split
 		'Label2
 		'
 		Me.Label2.AutoSize = True
-		Me.Label2.Location = New System.Drawing.Point(807, 93)
+		Me.Label2.Location = New System.Drawing.Point(772, 3)
 		Me.Label2.Name = "Label2"
 		Me.Label2.Size = New System.Drawing.Size(45, 13)
 		Me.Label2.TabIndex = 493
@@ -343,7 +346,7 @@ Partial Class SD_ValidasiGR_Split
 		'
 		Me.Panel8.BackColor = System.Drawing.Color.Tan
 		Me.Panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-		Me.Panel8.Location = New System.Drawing.Point(789, 94)
+		Me.Panel8.Location = New System.Drawing.Point(754, 4)
 		Me.Panel8.Name = "Panel8"
 		Me.Panel8.Size = New System.Drawing.Size(12, 12)
 		Me.Panel8.TabIndex = 492
@@ -363,6 +366,10 @@ Partial Class SD_ValidasiGR_Split
 		'
 		Me.TabPage1.BackColor = System.Drawing.Color.White
 		Me.TabPage1.Controls.Add(Me.Lv_Data)
+		Me.TabPage1.Controls.Add(Me.Panel8)
+		Me.TabPage1.Controls.Add(Me.Label15)
+		Me.TabPage1.Controls.Add(Me.Label2)
+		Me.TabPage1.Controls.Add(Me.Panel13)
 		Me.TabPage1.Location = New System.Drawing.Point(4, 22)
 		Me.TabPage1.Name = "TabPage1"
 		Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
@@ -373,7 +380,11 @@ Partial Class SD_ValidasiGR_Split
 		'TabPage2
 		'
 		Me.TabPage2.BackColor = System.Drawing.Color.White
-		Me.TabPage2.Controls.Add(Me.Lv_Pallet_Packing)
+		Me.TabPage2.Controls.Add(Me.Label7)
+		Me.TabPage2.Controls.Add(Me.Label6)
+		Me.TabPage2.Controls.Add(Me.Panel11)
+		Me.TabPage2.Controls.Add(Me.Panel12)
+		Me.TabPage2.Controls.Add(Me.Lv_Packing_Pallet)
 		Me.TabPage2.Location = New System.Drawing.Point(4, 22)
 		Me.TabPage2.Name = "TabPage2"
 		Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
@@ -381,9 +392,58 @@ Partial Class SD_ValidasiGR_Split
 		Me.TabPage2.TabIndex = 1
 		Me.TabPage2.Text = "Pallet Packing"
 		'
+		'Label7
+		'
+		Me.Label7.AutoSize = True
+		Me.Label7.Location = New System.Drawing.Point(778, 3)
+		Me.Label7.Name = "Label7"
+		Me.Label7.Size = New System.Drawing.Size(59, 13)
+		Me.Label7.TabIndex = 496
+		Me.Label7.Text = "Repacking"
+		'
+		'Label6
+		'
+		Me.Label6.AutoSize = True
+		Me.Label6.Location = New System.Drawing.Point(862, 3)
+		Me.Label6.Name = "Label6"
+		Me.Label6.Size = New System.Drawing.Size(82, 13)
+		Me.Label6.TabIndex = 496
+		Me.Label6.Text = "Validasi Android"
+		'
+		'Panel11
+		'
+		Me.Panel11.BackColor = System.Drawing.Color.Tan
+		Me.Panel11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+		Me.Panel11.Location = New System.Drawing.Point(762, 4)
+		Me.Panel11.Name = "Panel11"
+		Me.Panel11.Size = New System.Drawing.Size(12, 12)
+		Me.Panel11.TabIndex = 494
+		'
+		'Panel12
+		'
+		Me.Panel12.BackColor = System.Drawing.Color.LightBlue
+		Me.Panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+		Me.Panel12.Location = New System.Drawing.Point(846, 4)
+		Me.Panel12.Name = "Panel12"
+		Me.Panel12.Size = New System.Drawing.Size(12, 12)
+		Me.Panel12.TabIndex = 494
+		'
+		'Lv_Packing_Pallet
+		'
+		Me.Lv_Packing_Pallet.CheckBoxes = True
+		Me.Lv_Packing_Pallet.FullRowSelect = True
+		Me.Lv_Packing_Pallet.GridLines = True
+		Me.Lv_Packing_Pallet.HideSelection = False
+		Me.Lv_Packing_Pallet.Location = New System.Drawing.Point(3, 22)
+		Me.Lv_Packing_Pallet.Name = "Lv_Packing_Pallet"
+		Me.Lv_Packing_Pallet.Size = New System.Drawing.Size(944, 292)
+		Me.Lv_Packing_Pallet.TabIndex = 5
+		Me.Lv_Packing_Pallet.UseCompatibleStateImageBehavior = False
+		Me.Lv_Packing_Pallet.View = System.Windows.Forms.View.Details
+		'
 		'TabPage3
 		'
-		Me.TabPage3.Controls.Add(Me.Lv_Waste_Packing)
+		Me.TabPage3.Controls.Add(Me.Lv_Packing_Waste)
 		Me.TabPage3.Location = New System.Drawing.Point(4, 22)
 		Me.TabPage3.Name = "TabPage3"
 		Me.TabPage3.Size = New System.Drawing.Size(950, 317)
@@ -391,33 +451,19 @@ Partial Class SD_ValidasiGR_Split
 		Me.TabPage3.Text = "Waste Packing"
 		Me.TabPage3.UseVisualStyleBackColor = True
 		'
-		'Lv_Pallet_Packing
+		'Lv_Packing_Waste
 		'
-		Me.Lv_Pallet_Packing.CheckBoxes = True
-		Me.Lv_Pallet_Packing.Dock = System.Windows.Forms.DockStyle.Fill
-		Me.Lv_Pallet_Packing.FullRowSelect = True
-		Me.Lv_Pallet_Packing.GridLines = True
-		Me.Lv_Pallet_Packing.HideSelection = False
-		Me.Lv_Pallet_Packing.Location = New System.Drawing.Point(3, 3)
-		Me.Lv_Pallet_Packing.Name = "Lv_Pallet_Packing"
-		Me.Lv_Pallet_Packing.Size = New System.Drawing.Size(944, 311)
-		Me.Lv_Pallet_Packing.TabIndex = 5
-		Me.Lv_Pallet_Packing.UseCompatibleStateImageBehavior = False
-		Me.Lv_Pallet_Packing.View = System.Windows.Forms.View.Details
-		'
-		'Lv_Waste_Packing
-		'
-		Me.Lv_Waste_Packing.CheckBoxes = True
-		Me.Lv_Waste_Packing.Dock = System.Windows.Forms.DockStyle.Fill
-		Me.Lv_Waste_Packing.FullRowSelect = True
-		Me.Lv_Waste_Packing.GridLines = True
-		Me.Lv_Waste_Packing.HideSelection = False
-		Me.Lv_Waste_Packing.Location = New System.Drawing.Point(0, 0)
-		Me.Lv_Waste_Packing.Name = "Lv_Waste_Packing"
-		Me.Lv_Waste_Packing.Size = New System.Drawing.Size(950, 317)
-		Me.Lv_Waste_Packing.TabIndex = 5
-		Me.Lv_Waste_Packing.UseCompatibleStateImageBehavior = False
-		Me.Lv_Waste_Packing.View = System.Windows.Forms.View.Details
+		Me.Lv_Packing_Waste.CheckBoxes = True
+		Me.Lv_Packing_Waste.Dock = System.Windows.Forms.DockStyle.Fill
+		Me.Lv_Packing_Waste.FullRowSelect = True
+		Me.Lv_Packing_Waste.GridLines = True
+		Me.Lv_Packing_Waste.HideSelection = False
+		Me.Lv_Packing_Waste.Location = New System.Drawing.Point(0, 0)
+		Me.Lv_Packing_Waste.Name = "Lv_Packing_Waste"
+		Me.Lv_Packing_Waste.Size = New System.Drawing.Size(950, 317)
+		Me.Lv_Packing_Waste.TabIndex = 5
+		Me.Lv_Packing_Waste.UseCompatibleStateImageBehavior = False
+		Me.Lv_Packing_Waste.View = System.Windows.Forms.View.Details
 		'
 		'SD_ValidasiGR_Split
 		'
@@ -426,10 +472,6 @@ Partial Class SD_ValidasiGR_Split
 		Me.BackColor = System.Drawing.Color.White
 		Me.ClientSize = New System.Drawing.Size(998, 528)
 		Me.Controls.Add(Me.TabControl1)
-		Me.Controls.Add(Me.Panel8)
-		Me.Controls.Add(Me.Label2)
-		Me.Controls.Add(Me.Label15)
-		Me.Controls.Add(Me.Panel13)
 		Me.Controls.Add(Me.Btn_Close)
 		Me.Controls.Add(Me.Btn_Tambah)
 		Me.Controls.Add(Me.Btn_Cari)
@@ -449,6 +491,7 @@ Partial Class SD_ValidasiGR_Split
 		Me.Controls.Add(Me.Panel2)
 		Me.Controls.Add(Me.Panel1)
 		Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+		Me.MaximizeBox = False
 		Me.Name = "SD_ValidasiGR_Split"
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
 		Me.Panel1.ResumeLayout(False)
@@ -457,7 +500,9 @@ Partial Class SD_ValidasiGR_Split
 		Me.Panel4.ResumeLayout(False)
 		Me.TabControl1.ResumeLayout(False)
 		Me.TabPage1.ResumeLayout(False)
+		Me.TabPage1.PerformLayout()
 		Me.TabPage2.ResumeLayout(False)
+		Me.TabPage2.PerformLayout()
 		Me.TabPage3.ResumeLayout(False)
 		Me.ResumeLayout(False)
 		Me.PerformLayout()
@@ -495,6 +540,10 @@ Partial Class SD_ValidasiGR_Split
     Friend WithEvents TabPage1 As TabPage
     Friend WithEvents TabPage2 As TabPage
 	Friend WithEvents TabPage3 As TabPage
-	Friend WithEvents Lv_Pallet_Packing As ListView
-	Friend WithEvents Lv_Waste_Packing As ListView
+	Friend WithEvents Lv_Packing_Pallet As ListView
+	Friend WithEvents Lv_Packing_Waste As ListView
+	Friend WithEvents Label6 As Label
+	Friend WithEvents Panel12 As Panel
+	Friend WithEvents Label7 As Label
+	Friend WithEvents Panel11 As Panel
 End Class

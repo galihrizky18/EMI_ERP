@@ -86,12 +86,12 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula_Main_Produksi
 		'
 		Me.LblFormulator_Judul.AutoSize = True
 		Me.LblFormulator_Judul.Font = New System.Drawing.Font("Work Sans SemiBold", 15.0!, System.Drawing.FontStyle.Bold)
-		Me.LblFormulator_Judul.Location = New System.Drawing.Point(15, 11)
+		Me.LblFormulator_Judul.Location = New System.Drawing.Point(20, 11)
 		Me.LblFormulator_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
 		Me.LblFormulator_Judul.Name = "LblFormulator_Judul"
-		Me.LblFormulator_Judul.Size = New System.Drawing.Size(389, 29)
+		Me.LblFormulator_Judul.Size = New System.Drawing.Size(246, 29)
 		Me.LblFormulator_Judul.TabIndex = 0
-		Me.LblFormulator_Judul.Text = "Show Dialog - Setup Susunan Formula"
+		Me.LblFormulator_Judul.Text = "Setup Susunan Formula"
 		'
 		'Panel3
 		'

@@ -71,9 +71,9 @@ Partial Class N_EMI_Transaksi_Validasi_Formula_Main
 		Me.Label1.Location = New System.Drawing.Point(20, 7)
 		Me.Label1.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
 		Me.Label1.Name = "Label1"
-		Me.Label1.Size = New System.Drawing.Size(374, 30)
+		Me.Label1.Size = New System.Drawing.Size(270, 30)
 		Me.Label1.TabIndex = 0
-		Me.Label1.Text = "Transaksi Validasi Formula Tahap 2"
+		Me.Label1.Text = "Validasi Formula Tahap 2"
 		'
 		'Panel2
 		'

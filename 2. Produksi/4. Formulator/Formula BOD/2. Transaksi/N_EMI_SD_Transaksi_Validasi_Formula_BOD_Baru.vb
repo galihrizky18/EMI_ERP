@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 Imports System.Net
 
-Public Class N_EMI_SD_Transaksi_Validasi_Formula_BOD
+Public Class N_EMI_SD_Transaksi_Validasi_Formula_BOD_Baru
 	Public Property No_Faktur As String
 
 	Dim lvNo As String
@@ -362,7 +362,7 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_BOD
 			.ShowDialog()
 		End With
 
-		N_EMI_Dashboard_Formula.Kosong()
+		'N_EMI_Dashboard_Formula.Kosong()
 		Me.Close()
 
 	End Sub
@@ -418,7 +418,7 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_BOD
 			Exit Sub
 		End Try
 
-		N_EMI_Dashboard_Formula.Kosong()
+		'N_EMI_Dashboard_Formula.Kosong()
 		Me.Close()
 	End Sub
 

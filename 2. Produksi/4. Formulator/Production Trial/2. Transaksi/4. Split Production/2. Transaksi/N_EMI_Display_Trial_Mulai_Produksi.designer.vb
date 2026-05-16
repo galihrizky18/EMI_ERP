@@ -71,9 +71,9 @@ Partial Class N_EMI_Display_Trial_Mulai_Produksi
 		Me.Label1.Location = New System.Drawing.Point(15, 11)
 		Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
 		Me.Label1.Name = "Label1"
-		Me.Label1.Size = New System.Drawing.Size(410, 30)
+		Me.Label1.Size = New System.Drawing.Size(305, 30)
 		Me.Label1.TabIndex = 0
-		Me.Label1.Text = "Transaksi Mulai Produksi Trial Kitchen"
+		Me.Label1.Text = "Mulai Produksi Trial Kitchen"
 		'
 		'Panel2
 		'

@@ -46,6 +46,7 @@
 			Cmb_Susuan.DroppedDown = True
 			Exit Sub
 		End If
+		get_jam()
 
 		Try
 			OpenConn()
@@ -89,9 +90,11 @@
 				End If
 			End Using
 
-			SQL = $"update Emi_Transaksi_Formulator set Flag_Validasi_Formula_Produksi = 'Y', Kode_Hierarki = '{Cmb_Susuan.Text}' "
+			SQL = $"update Emi_Transaksi_Formulator set Flag_Validasi_Main = 'Y', Flag_Validasi_Formula_Produksi = 'Y', Kode_Hierarki = '{Cmb_Susuan.Text}', "
+			SQL &= $"Tanggal_Validasi_Main = '{Format(tgl_skg, "yyyy-MM-dd")}', Jam_Validasi_Main = '{Format(tgl_skg, "HH:mm:ss")}', User_Validasi_Main = '{UserID}' "
 			SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' and No_Faktur = '{NoFormula}' "
 			ExecuteTrans(SQL)
+
 
 			Cmd.Transaction.Commit()
 			CloseTrans()
@@ -104,8 +107,8 @@
 			Exit Sub
 		End Try
 
-		N_EMI_Transaksi_Validasi_Formula_Main.Kosong()
-		N_EMI_SD_Transaksi_Validasi_Formula_Main.Close()
+		'N_EMI_Transaksi_Validasi_Formula_Main.Kosong()
+		'N_EMI_SD_Transaksi_Validasi_Formula_Main.Close()
 		Me.Close()
 
 	End Sub
