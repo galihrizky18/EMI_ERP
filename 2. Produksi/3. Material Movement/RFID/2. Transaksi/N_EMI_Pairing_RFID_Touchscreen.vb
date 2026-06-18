@@ -180,13 +180,20 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
 	Private Function IsRFIDTagCanBeUsed(rfidTag As String) As Boolean
 		Try
 			Dim RfIDLabel As String = ""
+			Dim noPO As String = ""
+			Dim batch As String = ""
+
 			Try
 				OpenConn()
 
-				SQL = $"select RFID_Tag, RFID_Label from N_EMI_Master_Data_RFID_Tags where Kode_Perusahaan = '{KodePerusahaan}' and RFID_Tag = '{rfidTag}' "
-				Using Dr = OpenTrans(SQL)
-					If Dr.Read Then
-						RfIDLabel = Dr("RFID_Label")
+				SQL = $"SELECT RFID_Tag, RFID_Label
+                   FROM N_EMI_Master_Data_RFID_Tags
+                   WHERE Kode_Perusahaan = '{KodePerusahaan}'
+                   AND RFID_Tag = '{rfidTag}'"
+
+				Using dr = OpenTrans(SQL)
+					If dr.Read() Then
+						RfIDLabel = dr("RFID_Label").ToString()
 					End If
 				End Using
 
@@ -199,33 +206,35 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
 
 			OpenConn()
 
-			' cek master tag
-			Dim sqlMaster As String = $"
+			SQL = $"
                 SELECT No_Production_Order, Batch
                 FROM N_EMI_Master_Data_RFID_Tags
-                WHERE RFID_Tag = @RFID_Tag
+                WHERE RFID_Tag = '{rfidTag}'
             "
 
-			Cmd.Parameters.Clear()
-			Cmd.Parameters.AddWithValue("@RFID_Tag", rfidTag)
-
-			Dim noPO As String = ""
-			Dim batch As String = ""
-
-			Using dr = OpenTrans(sqlMaster)
+			Using dr = OpenTrans(SQL)
 				If dr.Read() Then
 					noPO = dr("No_Production_Order").ToString()
 					batch = dr("Batch").ToString()
+				Else
+					CloseConn()
+
+					MessageBox.Show(
+					$"Box yang terdeteksi tidak terdaftar.",
+					Judul,
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Information)
+
+					Return False
 				End If
 			End Using
 
-			' jika kosong boleh langsung dipakai
 			If String.IsNullOrEmpty(noPO) AndAlso String.IsNullOrEmpty(batch) Then
+				CloseConn()
 				Return True
 			End If
 
-			' cek pairing dan TF
-			Dim sqlCheck As String = "
+			Dim sqlCheck As String = $"
                 SELECT
                     b.Tanggal AS TglTFSementara,
                     c.Tanggal AS TglTFParent
@@ -238,60 +247,46 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
                     ON c.Kode_Perusahaan = a.Kode_Perusahaan
                     AND c.No_Split = a.No_Split_Production_Order
                     AND c.Status IS NULL
-                WHERE a.RFID_Tag = @RFID_Tag
+                WHERE a.RFID_Tag = '{rfidTag}'
                   AND a.Lokasi_IN IS NULL
                   AND a.Tanggal_IN IS NULL
                   AND a.Jam_IN IS NULL
-                  AND a.Lokasi_Pairing = 'COLD_STORAGE'
             "
 
-			Cmd.Parameters.Clear()
-			Cmd.Parameters.AddWithValue("@RFID_Tag", rfidTag)
-
 			Using dr = OpenTrans(sqlCheck)
-
 				If dr.Read() Then
-					' cek TF parent
-					If Not IsDBNull(dr("TglTFParent")) Then
 
-						MessageBox.Show(
-						$"Box {RfIDLabel} sudah dipakai di No Production {noPO} Batch {batch} dan sudah TF Stock.",
-						"Informasi",
-						MessageBoxButtons.OK,
-						MessageBoxIcon.Information)
+					Dim sudahTFParent As Boolean = Not IsDBNull(dr("TglTFParent"))
+					Dim sudahTFSementara As Boolean = Not IsDBNull(dr("TglTFSementara"))
 
-						Return False
+					Dim pesan As String = ""
 
-					ElseIf Not IsDBNull(dr("TglTFSementara")) Then
-
-						MessageBox.Show(
-						$"Box {RfIDLabel} sudah dipakai di No Production {noPO} Batch {batch} dan sudah TF Stock Sementara.",
-						"Informasi",
-						MessageBoxButtons.OK,
-						MessageBoxIcon.Information)
-
-						Return False
+					If sudahTFParent Then
+						pesan = $"Box {RfIDLabel} sudah dipakai di No Production {noPO} Batch {batch} dan sudah TF Stock."
+					ElseIf sudahTFSementara Then
+						pesan = $"Box {RfIDLabel} sudah dipakai di No Production {noPO} Batch {batch} dan sudah TF Stock Sementara."
 					Else
-						Dim res = MessageBox.Show(
-						$"Box {RfIDLabel} sudah dipakai di No Production {noPO} Batch {batch}. Yakin mau pakai box ini?",
-						"Konfirmasi",
-						MessageBoxButtons.YesNo,
-						MessageBoxIcon.Warning)
-
-						If res = DialogResult.No Then
-							Return False
-						End If
-
+						pesan = $"Box {RfIDLabel} sudah dipakai di No Production {noPO} Batch {batch}."
 					End If
 
-				End If
+					Dim res = MessageBox.Show(
+					pesan & " Yakin mau pakai box ini?",
+					Judul,
+					MessageBoxButtons.YesNo,
+					MessageBoxIcon.Warning)
 
+					If res = DialogResult.No Then
+						CloseConn()
+						Return False
+					End If
+				End If
 			End Using
 
+			CloseConn()
 			Return True
 		Catch ex As Exception
 			CloseConn()
-			MessageBox.Show("Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			MessageBox.Show(ex.Message)
 			Return False
 		End Try
 	End Function
@@ -300,7 +295,8 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
 		Dim sqlTotal As String = "
             SELECT COUNT(*) AS Total_Data
             FROM (
-                SELECT a.No_Transaksi
+               SELECT
+                    1 as a
                 FROM Emi_Split_Production_Order a
                 JOIN Emi_Material_Requisition b
                     ON b.Kode_Perusahaan = a.Kode_Perusahaan
@@ -311,18 +307,39 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
                 JOIN Emi_Material_Requisition_Det_Convert d
                     ON d.Kode_Perusahaan = c.Kode_Perusahaan
                     AND d.No_Urut_Det = c.Urut_Oto
-                WHERE NOT EXISTS (
-                    SELECT 1
-                    FROM N_EMI_Pairing_RFID x
-                    WHERE x.No_Split_Production_Order = a.No_Transaksi AND x.Lokasi_Pairing = 'COLD_STORAGE'
-                ) AND NOT EXISTS (
-                    SELECT 1
-                    FROM N_EMI_Pairing_RFID_Log x
-                    WHERE x.No_Split_Production_Order = a.No_Transaksi AND x.Lokasi_Pairing = 'COLD_STORAGE'
+                inner join Stock_Owner_Gudang e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Kode_Stock_Owner_Tujuan = e.Kode_Stock_Owner and e.Flag_Cold_Storage = 'Y'
+                WHERE
+                (
+                    (
+                        NOT EXISTS (
+                            SELECT 1
+                            FROM N_EMI_Pairing_RFID x
+                            WHERE x.No_Split_Production_Order = a.No_Transaksi
+                              AND x.batch = b.batch
+                              AND x.Lokasi_Pairing = 'COLD_STORAGE'
+                        )
+                        AND
+                        NOT EXISTS (
+                            SELECT 1
+                            FROM N_EMI_Pairing_RFID_Log x
+                            WHERE x.No_Split_Production_Order = a.No_Transaksi
+                              AND x.batch = b.batch
+                              AND x.Lokasi_Pairing = 'COLD_STORAGE'
+                        )
+                    )
+                    or not exists (
+                        select 1
+                        from N_EMI_Transaksi_Transfer_Stock_Sementara z
+                            inner join N_EMI_Transaksi_Transfer_Stock_Sementara_Detail x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
+                            inner join N_EMI_Transaksi_Transfer_Stock_Sementara_Det y on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF and y.Flag_Validasi = 'Y'
+                            inner join N_EMI_Transaksi_Transfer_Stock_Sementara_Det2 k on y.kode_perusahaan = k.kode_perusahaan and y.No_Faktur = k.No_Faktur and y.Urut_Oto = k.Urut_Det
+                        where z.Kode_Perusahaan = d.Kode_Perusahaan and z.status is null
+                        and x.Urut_Material_Requisition_Convert = d.Urut_Oto
+                    )
                 )
                 AND a.Kode_Perusahaan = @KodePerusahaan
-                AND a.Status IS NULL
-                GROUP BY a.No_Transaksi, b.batch
+                AND a.Status IS NULL and a.flag_hasil_produksi_GI is null
+                GROUP BY a.No_Transaksi, a.Tgl_Produksi, a.Jam_Produksi, a.No_Batch, a.Flag_Scan_Manual, b.Batch
             ) AS Total_Data;
         "
 
@@ -341,19 +358,18 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
 
 	Private Sub LoadTotalDataSudahPairing()
 		Dim sqlTotal As String = "
-            SELECT COUNT(*) AS Total_Data
-            FROM Emi_Split_Production_Order a
-            WHERE EXISTS (
-                SELECT 1
-                FROM N_EMI_Pairing_RFID b
-                WHERE b.No_Split_Production_Order = a.No_Transaksi AND b.Lokasi_Pairing = 'COLD_STORAGE'
-            ) OR EXISTS (
-                SELECT 1
-                FROM N_EMI_Pairing_RFID_LOg b
-                WHERE b.No_Split_Production_Order = a.No_Transaksi AND b.Lokasi_Pairing = 'COLD_STORAGE'
-            )
-            AND a.Kode_Perusahaan = @KodePerusahaan
-            AND a.Status IS NULL;
+
+        SELECT COUNT(1) AS Total_Data
+      FROM (
+
+           select distinct  a.No_Transaksi AS No_Split_PO, a.Flag_Scan_Manual,
+                a.Tgl_Produksi AS Tanggal_Produksi, a.Jam_Produksi, a.No_Batch, c.batch, c.No_Faktur
+                from N_EMI_Transaksi_Transfer_Stock_Sementara z
+                 inner join Emi_Material_Requisition c on z.Kode_Perusahaan = c.Kode_Perusahaan and z.No_Split = c.No_Faktur_Order and z.Batch=c.Batch
+                 inner join Emi_Split_Production_Order a on c.Kode_Perusahaan = a.Kode_Perusahaan AND c.No_Faktur_Order = a.No_Transaksi
+                where z.Status is null and a.Status IS NULL and a.flag_hasil_produksi_GI is null and z.Flag_Validasi_RFID='Y'
+
+      ) as data
         "
 
 		Cmd.Parameters.Clear()
@@ -383,8 +399,9 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
 
 	Private Sub Fetch_Menunggu_Pairing_RFID()
 		Try
-			OpenConn()
 			Dgv_Menunggu_Pairing.Rows.Clear()
+
+			OpenConn()
 
 			LoadTotalDataMenungguPairing()
 
@@ -438,12 +455,12 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
                             inner join N_EMI_Transaksi_Transfer_Stock_Sementara_Detail x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
                             inner join N_EMI_Transaksi_Transfer_Stock_Sementara_Det y on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF and y.Flag_Validasi = 'Y'
                             inner join N_EMI_Transaksi_Transfer_Stock_Sementara_Det2 k on y.kode_perusahaan = k.kode_perusahaan and y.No_Faktur = k.No_Faktur and y.Urut_Oto = k.Urut_Det
-                        where z.Kode_Perusahaan = d.Kode_Perusahaan
+                        where z.Kode_Perusahaan = d.Kode_Perusahaan and z.status is null
                         and x.Urut_Material_Requisition_Convert = d.Urut_Oto
                     )
                 )
                 AND a.Kode_Perusahaan = @KodePerusahaan
-                AND a.Status IS NULL
+                AND a.Status IS NULL and a.flag_hasil_produksi_GI is null
                 GROUP BY a.No_Transaksi, a.Tgl_Produksi, a.Jam_Produksi, a.No_Batch, a.Flag_Scan_Manual, b.Batch
                 ORDER BY a.Tgl_Produksi DESC, a.Jam_Produksi DESC, a.No_Transaksi, b.Batch
                 OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY
@@ -518,61 +535,14 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
 			'"
 
 			SQL = $"
-                ;with Cte as (
-                    select distinct z.Kode_Perusahaan, p.No_Faktur, p.Urut_Oto, o.batch, o.No_Faktur_Order
-                    from N_EMI_Transaksi_Transfer_Stock_Sementara z
-                        inner join N_EMI_Transaksi_Transfer_Stock_Sementara_Detail x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
-                        inner join N_EMI_Transaksi_Transfer_Stock_Sementara_Det k on x.Kode_Perusahaan = k.Kode_Perusahaan and x.No_Faktur = k.No_Faktur and x.Urut_Oto = k.Urut_TF
-                            and k.Flag_Validasi = 'Y' and k.Selesai = 'Y'
-                        inner join N_EMI_Transaksi_Transfer_Stock_Sementara_Det2 l on k.Kode_Perusahaan = l.Kode_Perusahaan and k.No_Faktur = l.No_Faktur and k.Urut_Oto = l.Urut_Det
-                        inner join Emi_Material_Requisition_Det_Convert p on x.Kode_Perusahaan = p.Kode_Perusahaan and x.Urut_Material_Requisition_Convert = p.Urut_Oto
-                        inner join Emi_Material_Requisition o on p.kode_perusahaan = o.kode_perusahaan and p.no_faktur = o.no_Faktur
-                    where z.Status is null
-                )
-                SELECT
-                    a.No_Transaksi AS No_Split_PO, a.Flag_Scan_Manual,
-                    a.Tgl_Produksi AS Tanggal_Produksi, a.Jam_Produksi, a.No_Batch, c.batch, c.No_Faktur
-                FROM Emi_Split_Production_Order a
-                inner join Emi_Material_Requisition c on a.Kode_Perusahaan = c.Kode_Perusahaan and a.No_Transaksi = c.No_Faktur_Order
-                WHERE
-                (
-                    --EXISTS (
-                        --SELECT 1
-                        --FROM N_EMI_Pairing_RFID p
-                        --WHERE p.No_Split_Production_Order = a.No_Transaksi
-                          --AND p.Batch = c.Batch
-                    --)
-                    (
-		                EXISTS (
-                            SELECT 1
-                            FROM N_EMI_Pairing_RFID_Log x
-            	                inner join Cte z on x.kode_perusahaan = z.kode_perusahaan and x.No_Split_Production_Order = z.No_Faktur_Order
-                            WHERE x.No_Split_Production_Order = a.No_Transaksi
-                              AND x.batch = z.batch
-                              AND x.Lokasi_Pairing = 'COLD_STORAGE'
-                        )
-                        or
-                        EXISTS (
-                            SELECT 1
-                            FROM N_EMI_Pairing_RFID x
-            	                inner join Cte z on x.kode_perusahaan = z.kode_perusahaan and x.No_Split_Production_Order = z.No_Faktur_Order
-                            WHERE x.No_Split_Production_Order = a.No_Transaksi
-                                AND x.batch = z.batch
-                                AND x.Lokasi_Pairing = 'COLD_STORAGE'
-                        )
-
-                    )
-                    and
-                    EXISTS (
-                        SELECT 1
-                        FROM Cte z
-                        WHERE z.Kode_Perusahaan = c.Kode_Perusahaan AND z.No_Faktur = c.No_Faktur
-                    )
-                )
-                AND a.Kode_Perusahaan = @KodePerusahaan
-                AND a.Status IS NULL
-                ORDER BY a.Tgl_Produksi DESC, a.Jam_Produksi DESC
-                OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY
+                      select distinct  a.No_Transaksi AS No_Split_PO, a.Flag_Scan_Manual,
+                      a.Tgl_Produksi AS Tanggal_Produksi, a.Jam_Produksi, a.No_Batch, c.batch, c.No_Faktur
+                      from N_EMI_Transaksi_Transfer_Stock_Sementara z
+		                  inner join Emi_Material_Requisition c on z.Kode_Perusahaan = c.Kode_Perusahaan and z.No_Split = c.No_Faktur_Order and z.Batch=c.Batch
+		                  inner join Emi_Split_Production_Order a on c.Kode_Perusahaan = a.Kode_Perusahaan AND c.No_Faktur_Order = a.No_Transaksi
+                      where z.Status is null and a.Status IS NULL and a.flag_hasil_produksi_GI is null and z.Flag_Validasi_RFID='Y'
+	                  ORDER BY a.Tgl_Produksi DESC, a.Jam_Produksi DESC
+	                  OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY
             "
 
 			Dim Offset As Integer = (CurrentPage - 1) * PageSize
@@ -922,217 +892,231 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
 	End Sub
 
 	Private Sub Btn_Simpan_Pairing_Click(sender As Object, e As EventArgs) Handles Btn_Simpan_Pairing.Click
+		Dim NoFakturOrder As String = SelectedNoFaktur
+		Dim NoBatchh As String = SelectedBatch
+
 		If Lv_RFID_Tags.Items.Count = 0 Then
-			MessageBox.Show("Tidak ada data RFID Tag untuk disimpan.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			MessageBox.Show("Tidak ada data RFID Tag untuk disimpan.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
 			Exit Sub
 		End If
 
-		If RFIDReader.IsConnected Then
-			RFIDReader.Disconnect()
-		End If
+		If RFIDReader.IsConnected Then RFIDReader.Disconnect()
 
-		If SelectedBatch = "" Or String.IsNullOrWhiteSpace(SelectedBatch) Then
-			MessageBox.Show("Batch Tidak Ditemukan Harap ulangi pairing", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		If String.IsNullOrWhiteSpace(SelectedBatch) Then
+			MessageBox.Show("Batch Tidak Ditemukan Harap ulangi pairing", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
 			Exit Sub
 		End If
+
+		Try
+			OpenConn()
+
+			'VALIDASI: jika sudah ada yang masuk GRINDER_IN, tidak boleh pairing lagi
+			SQL = $"
+                SELECT TOP 1 1
+                FROM (
+                    SELECT Lokasi_IN
+                    FROM N_EMI_Pairing_RFID
+                    WHERE Kode_Perusahaan = '{KodePerusahaan}'
+                    AND No_Split_Production_Order = '{NoFakturOrder}'
+                    AND Batch = '{NoBatchh}'
+
+                    UNION ALL
+
+                    SELECT Lokasi_IN
+                    FROM N_EMI_Pairing_RFID_Log
+                    WHERE Kode_Perusahaan = '{KodePerusahaan}'
+                    AND No_Split_Production_Order = '{NoFakturOrder}'
+                    AND Batch = '{NoBatchh}'
+                ) x
+                WHERE x.Lokasi_IN = 'GRINDER_IN'
+            "
+
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					Dr.Close()
+					Throw New Exception("Tidak bisa melakukan pairing. Data sudah masuk ke GRINDER_IN.")
+				End If
+				Dr.Close()
+			End Using
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
 
 		Btn_Disconnect_RFID.PerformClick()
-
 		get_jam()
 
 		Try
 			OpenConn()
 			Cmd.Transaction = Cn.BeginTransaction
 
-			'Store pairing rfid tags
-			Dim NoFakturOrder As String = SelectedNoFaktur
-			Dim NoBatchh As String = SelectedBatch
-
-			If Lv_RFID_Tags.Items.Count = 0 Then
-				CloseTrans()
-				CloseConn()
-
-				MessageBox.Show(
-					"Minimal harus ada 1 tag RFID untuk di pairing!",
-					Judul,
-					MessageBoxButtons.OK,
-					MessageBoxIcon.Exclamation
-				)
-				Exit Sub
-			End If
-
-			' =========================
-			' 3. Insert & Update RFID
-			' =========================
 			For i As Integer = 0 To Lv_RFID_Tags.Items.Count - 1
 
-				Dim rfid_tag As String = Lv_RFID_Tags.Items(i).SubItems(0).Text
+				Dim rfid_tag As String = Lv_RFID_Tags.Items(i).SubItems(0).Text.Replace("'", "''")
 
-				SQL = "select 1 from N_EMI_Pairing_RFID "
-				SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
-				SQL &= $"and No_Split_Production_Order = '{SelectedNoFaktur}' "
-				SQL &= $"and Batch = '{SelectedBatch}' "
-				SQL &= $"and RFID_Tag = '{rfid_tag}' "
-				SQL &= $"and Lokasi_Pairing = 'COLD_STORAGE' "
+				'Cek apakah RFID Tag sudah dipairing dengan No_Split_Production_Order dan Batch yang sama di lokasi COLD_STORAGE
+				SQL = $"
+                    SELECT 1 FROM N_EMI_Pairing_RFID
+                    WHERE Kode_Perusahaan = '{KodePerusahaan}'
+                    AND No_Split_Production_Order = '{NoFakturOrder}'
+                    AND Batch = '{NoBatchh}'
+                    AND RFID_Tag = '{rfid_tag}'
+                    AND Lokasi_Pairing = 'COLD_STORAGE'
+                "
+
 				Using Dr = OpenTrans(SQL)
-					If Not Dr.Read Then
-
-						Dr.Close()
-
-						'===========================================================
-						'=     CEK APAKAH RFID SUDAH DIGUNAKNA PADA BATCH LAIN     =
-						'===========================================================
-						'SQL = "select No_Production_Order, Batch from N_EMI_Master_Data_RFID_Tags "
-						'SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
-						'SQL &= $"and RFID_Tag = '{rfid_tag}' "
-						'Using Dr2 = OpenTrans(SQL)
-						'    If Dr2.Read Then
-						'        If General_Class.CekNULL(Dr2("No_Production_Order")) <> "" Then
-						'            Dr2.Close()
-						'            CloseTrans()
-						'            CloseConn()
-						'            MessageBox.Show($"RDIF Tag {rfid_tag} tidak dapat digunakan karena sudah dipakai untuk batch yang lain", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						'            Exit Sub
-						'        End If
-
-						'    Else
-						'        Dr2.Close()
-						'        CloseTrans()
-						'        CloseConn()
-						'        MessageBox.Show($"RDIF Tag {rfid_tag} tidak ditemukan pada data master", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						'        Exit Sub
-						'    End If
-						'End Using
-
-						' Pindahkan ke log data tag ini yang dipakai di No Split lain
-						SQL = "
-                            INSERT INTO N_EMI_Pairing_RFID_Log
-                            (
-                                Kode_Perusahaan,
-                                No_Split_Production_Order,
-                                Kode_Stock_Owner,
-                                RFID_Tag,
-                                Lokasi_Pairing,
-                                Tanggal_Pairing,
-                                Jam_Pairing,
-                                UserID_Pairing,
-                                Urut_Pairing,
-                                Lokasi_IN,
-                                Tanggal_IN,
-                                Jam_IN,
-                                UserID_IN,
-                                Flag_Pairing_Ulang,
-                                Flag_Scan_Manual,
-                                batch
-                            )
-                            SELECT
-                                Kode_Perusahaan,
-                                No_Split_Production_Order,
-                                Kode_Stock_Owner,
-                                RFID_Tag,
-                                Lokasi_Pairing,
-                                Tanggal_Pairing,
-                                Jam_Pairing,
-                                UserID_Pairing,
-                                Urut_Pairing,
-                                Lokasi_IN,
-                                Tanggal_IN,
-                                Jam_IN,
-                                UserID_IN,
-                                NULL,
-                                Flag_Scan_Manual,
-                                batch
-                            FROM N_EMI_Pairing_RFID
-                            WHERE Kode_Perusahaan = @KodePerusahaan
-                              AND RFID_Tag = @RFID_Tag
-                              AND Lokasi_Pairing = 'COLD_STORAGE'
-                              AND Lokasi_IN IS NULL
-                              AND Tanggal_IN IS NULL
-                              AND Jam_IN IS NULL
-                              AND NOT (
-                                    No_Split_Production_Order = @NoFaktur
-                                    AND Batch = @Batch
-                              )
-                        "
-						Cmd.Parameters.Clear()
-						Cmd.Parameters.AddWithValue("@KodePerusahaan", KodePerusahaan)
-						Cmd.Parameters.AddWithValue("@NoFaktur", NoFakturOrder)
-						Cmd.Parameters.AddWithValue("@Batch", NoBatchh)
-						Cmd.Parameters.AddWithValue("@RFID_Tag", rfid_tag)
-						ExecuteTrans(SQL)
-
-						SQL = "
-                        DELETE N_EMI_Pairing_RFID
-                        WHERE Kode_Perusahaan = @KodePerusahaan
-                              AND No_Split_Production_Order <> @NoFaktur
-                              AND Batch <> @Batch
-                              AND RFID_Tag = @RFID_Tag
-                              AND Lokasi_Pairing = 'COLD_STORAGE'
-                              AND Lokasi_IN IS NULL
-                              AND Tanggal_IN IS NULL
-                              AND Jam_IN IS NULL;
-                        "
-						Cmd.Parameters.Clear()
-						Cmd.Parameters.AddWithValue("@KodePerusahaan", KodePerusahaan)
-						Cmd.Parameters.AddWithValue("@NoFaktur", NoFakturOrder)
-						Cmd.Parameters.AddWithValue("@Batch", NoBatchh)
-						Cmd.Parameters.AddWithValue("@RFID_Tag", rfid_tag)
-						ExecuteTrans(SQL)
-
-						' --- INSERT pairing ---
-						SQL = "
-                            INSERT INTO N_EMI_Pairing_RFID
-                            (Kode_Perusahaan, No_Split_Production_Order, Kode_Stock_Owner, RFID_Tag,
-                             Tanggal_Pairing, Jam_Pairing, UserID_Pairing, Lokasi_Pairing, batch)
-                            VALUES
-                            (@KodePerusahaan, @NoFaktur, @KodeStockOwner, @RFID_Tag,
-                             @TanggalPairing, @JamPairing, @UserIDPairing, @LokasiPairing, @Batchh)
-                        "
-						Cmd.Parameters.Clear()
-						Cmd.Parameters.AddWithValue("@KodePerusahaan", KodePerusahaan)
-						Cmd.Parameters.AddWithValue("@NoFaktur", NoFakturOrder)
-						Cmd.Parameters.AddWithValue("@KodeStockOwner", Lokasi)
-						Cmd.Parameters.AddWithValue("@LokasiPairing", "COLD_STORAGE")
-						Cmd.Parameters.AddWithValue("@RFID_Tag", rfid_tag)
-						Cmd.Parameters.AddWithValue("@TanggalPairing", Format(tgl_skg, "yyyy-MM-dd"))
-						Cmd.Parameters.AddWithValue("@JamPairing", Format(tgl_skg, "HH:mm:ss"))
-						Cmd.Parameters.AddWithValue("@UserIDPairing", UserID)
-						Cmd.Parameters.AddWithValue("@Batchh", NoBatchh)
-
-						ExecuteTrans(SQL)
-
-						' --- UPDATE status tag ---
-						SQL = "UPDATE N_EMI_Master_Data_RFID_Tags
-                                SET No_Production_Order = @NoSplit, Batch = @NoBatch
-                                WHERE RFID_Tag = @RFID_Tag
-                        "
-
-						Cmd.Parameters.Clear()
-						Cmd.Parameters.AddWithValue("@RFID_Tag", rfid_tag)
-						Cmd.Parameters.AddWithValue("@NoSplit", NoFakturOrder)
-						Cmd.Parameters.AddWithValue("@NoBatch", NoBatchh)
-						ExecuteTrans(SQL)
-					End If
+					If Dr.Read Then Continue For
+					Dr.Close()
 				End Using
+
+				Dim oldNoFaktur As String = ""
+				Dim oldBatch As String = ""
+
+				'Cek apakah RFID Tag sudah dipairing dengan No_Split_Production_Order dan Batch yang berbeda dan masih menggantung
+				SQL = $"
+                    SELECT TOP 1 No_Split_Production_Order, Batch
+                    FROM N_EMI_Pairing_RFID
+                    WHERE Kode_Perusahaan = '{KodePerusahaan}'
+                    AND RFID_Tag = '{rfid_tag}'
+                    AND Lokasi_IN IS NULL
+                    AND Tanggal_IN IS NULL
+                    AND Jam_IN IS NULL
+                "
+
+				Using Dr = OpenTrans(SQL)
+					If Dr.Read Then
+						oldNoFaktur = Dr("No_Split_Production_Order").ToString()
+						oldBatch = Dr("Batch").ToString()
+					End If
+					Dr.Close()
+				End Using
+
+				If oldNoFaktur <> "" AndAlso (oldNoFaktur <> NoFakturOrder Or oldBatch <> NoBatchh) Then
+					'Pindahkan data lama ke log
+					SQL = $"
+                        INSERT INTO N_EMI_Pairing_RFID_Log
+                        (
+                            Kode_Perusahaan,
+                            No_Split_Production_Order,
+                            Kode_Stock_Owner,
+                            RFID_Tag,
+                            Lokasi_Pairing,
+                            Tanggal_Pairing,
+                            Jam_Pairing,
+                            UserID_Pairing,
+                            Urut_Pairing,
+                            Lokasi_IN,
+                            Tanggal_IN,
+                            Jam_IN,
+                            UserID_IN,
+                            Flag_Pairing_Ulang,
+                            Flag_Scan_Manual,
+                            Batch
+                        )
+                        SELECT
+                            Kode_Perusahaan,
+                            No_Split_Production_Order,
+                            Kode_Stock_Owner,
+                            RFID_Tag,
+                            Lokasi_Pairing,
+                            Tanggal_Pairing,
+                            Jam_Pairing,
+                            UserID_Pairing,
+                            Urut_Pairing,
+                            Lokasi_IN,
+                            Tanggal_IN,
+                            Jam_IN,
+                            UserID_IN,
+                            NULL AS Flag_Pairing_Ulang,
+                            Flag_Scan_Manual,
+                            Batch
+                        FROM N_EMI_Pairing_RFID
+                        WHERE Kode_Perusahaan = '{KodePerusahaan}'
+                        AND No_Split_Production_Order = '{oldNoFaktur}'
+                        AND Batch = '{oldBatch}'
+                        AND RFID_Tag = '{rfid_tag}'
+                    "
+					ExecuteTrans(SQL)
+
+					'Hapus data lama di tabel pairing
+					SQL = $"
+                        DELETE FROM N_EMI_Pairing_RFID
+                        WHERE Kode_Perusahaan = '{KodePerusahaan}'
+                        AND No_Split_Production_Order = '{oldNoFaktur}'
+                        AND Batch = '{oldBatch}'
+                        AND RFID_Tag = '{rfid_tag}'
+                    "
+					ExecuteTrans(SQL)
+
+					'Set RFID Tag yang lama di master menjadi NULL
+					SQL = $"
+                        UPDATE N_EMI_Master_Data_RFID_Tags
+                        SET No_Production_Order = NULL,
+                            Batch = NULL
+                        WHERE RFID_Tag = '{rfid_tag}'
+                    "
+					ExecuteTrans(SQL)
+				End If
+
+				'Insert data baru ke tabel pairing
+				SQL = $"
+                    INSERT INTO N_EMI_Pairing_RFID
+                    (
+                        Kode_Perusahaan,
+                        No_Split_Production_Order,
+                        Kode_Stock_Owner,
+                        RFID_Tag,
+                        Tanggal_Pairing,
+                        Jam_Pairing,
+                        UserID_Pairing,
+                        Lokasi_Pairing,
+                        batch
+                    )
+                    VALUES
+                    (
+                        '{KodePerusahaan}',
+                        '{NoFakturOrder}',
+                        '{Lokasi}',
+                        '{rfid_tag}',
+                        '{Format(tgl_skg, "yyyy-MM-dd")}',
+                        '{Format(tgl_skg, "HH:mm:ss")}',
+                        '{UserID}',
+                        'COLD_STORAGE',
+                        '{NoBatchh}'
+                    )
+                "
+				ExecuteTrans(SQL)
+
+				'Update RFID Tag di master dengan No_Split_Production_Order dan Batch yang baru
+				SQL = $"
+                    UPDATE N_EMI_Master_Data_RFID_Tags
+                    SET No_Production_Order = '{NoFakturOrder}',
+                        Batch = '{NoBatchh}'
+                    WHERE RFID_Tag = '{rfid_tag}'
+                "
+				ExecuteTrans(SQL)
 
 			Next
 
 			Cmd.Transaction.Commit()
 			CloseTrans()
 			CloseConn()
-			MessageBox.Show("Berhasil Melakukan Set RFID", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+			MessageBox.Show("Berhasil Melakukan Pairing Box RFID.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
 		Catch ex As Exception
+			Cmd.Transaction.Rollback()
 			CloseTrans()
 			CloseConn()
 			MessageBox.Show(ex.Message)
-			Exit Sub
 		End Try
 
 		Fetch_Menunggu_Pairing_RFID()
 		Btn_Simpan.Visible = True
 		Btn_Update.Visible = False
 		Btn_Refresh.Location = New Point(1134, 630)
-
 	End Sub
 
 	Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
@@ -2050,23 +2034,23 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
 								Loop
 							End Using
 
-							Dim GetPalletTujuan As String = ""
-							SQL = "select top 1 id_wms_warehouse_position, nomor_urut from dbo.N_EMI_Wharehouse_Position_Fn('" & KodePerusahaan & "', "
-							SQL = SQL & "'" & Kd_So_Tujuan & "', '" & Rak_Tujuan & "') "
-							SQL = SQL & "where kode_barang is null "
-							SQL = SQL & "order by nomor_urut"
-							Using dr = OpenTrans(SQL)
-								If dr.Read Then
-									GetPalletTujuan = dr("nomor_urut")
-								Else
-									dr.Close()
-									CloseTrans()
-									CloseConn()
-									MessageBox.Show("data Rak Sudah Penuh . . ! ! ")
-									SuccessPotongStock = False
-									Exit Sub
-								End If
-							End Using
+							Dim GetPalletTujuan As String = "0"
+							'SQL = "select top 1 id_wms_warehouse_position, nomor_urut from dbo.N_EMI_Wharehouse_Position_Fn('" & KodePerusahaan & "', "
+							'SQL = SQL & "'" & Kd_So_Tujuan & "', '" & Rak_Tujuan & "') "
+							'SQL = SQL & "where kode_barang is null "
+							'SQL = SQL & "order by nomor_urut"
+							'Using dr = OpenTrans(SQL)
+							'    If dr.Read Then
+							'        GetPalletTujuan = dr("nomor_urut")
+							'    Else
+							'        dr.Close()
+							'        CloseTrans()
+							'        CloseConn()
+							'        MessageBox.Show("data Rak Sudah Penuh . . ! ! ")
+							'        SuccessPotongStock = False
+							'        Exit Sub
+							'    End If
+							'End Using
 
 							'============================
 							'=       TAMBAH STOCK       =
@@ -3226,5 +3210,56 @@ Public Class N_EMI_Pairing_RFID_Touchscreen
 		Dim result As New Bitmap(qr.Write(isi))
 		Return result
 	End Function
+
+	Private Sub Dgv_Menunggu_Pairing_SelectionChanged(sender As Object, e As EventArgs) Handles Dgv_Menunggu_Pairing.SelectionChanged
+		If Dgv_Menunggu_Pairing.Rows.Count = 0 Or Dgv_Menunggu_Pairing.CurrentRow Is Nothing Or SelectedNoFaktur = "" Then
+			Exit Sub
+		End If
+
+		Dim currentRow = Dgv_Menunggu_Pairing.CurrentRow.Index
+		Dim currentCell = Dgv_Menunggu_Pairing.CurrentCellAddress.X
+
+		'Dim NoFakturOrder As String = If(IsDBNull(Dgv_Menunggu_Pairing.Rows(e.RowIndex).Cells("MenungguPairingRFIDNoFakturOrder").Value), "", Dgv_Menunggu_Pairing.Rows(e.RowIndex).Cells("MenungguPairingRFIDNoFakturOrder").Value.ToString())
+		If General_Class.CekNULL(Dgv_Menunggu_Pairing.CurrentRow.Cells(4).Value) = "" Then
+			MessageBox.Show("No Batch Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		End If
+
+		Dim NoFakturOrder As String = If(IsDBNull(Dgv_Menunggu_Pairing.Rows(currentRow).Cells("MenungguPairingRFIDNoFakturOrder").Value), "", Dgv_Menunggu_Pairing.Rows(currentRow).Cells("MenungguPairingRFIDNoFakturOrder").Value.ToString())
+		Dim Batch As String = If(Dgv_Menunggu_Pairing.CurrentRow.Cells(4).Value.ToString = "Packaging", 0, Dgv_Menunggu_Pairing.CurrentRow.Cells(4).Value.ToString)
+
+		If SelectedNoFaktur <> NoFakturOrder Or SelectedBatch <> Batch Then
+			RFIDReader.ResetTagData()
+		End If
+
+		SelectedNoFaktur = NoFakturOrder
+		SelectedBatch = Batch
+
+		Fetch_Dgv_Detail(NoFakturOrder, Batch)
+		Fetch_RFID_Pair(NoFakturOrder, Batch)
+
+	End Sub
+
+	Private Sub Dgv_Sudah_Pairing_SelectionChanged(sender As Object, e As EventArgs) Handles Dgv_Sudah_Pairing.SelectionChanged
+		If Dgv_Sudah_Pairing.Rows.Count = 0 Or Dgv_Sudah_Pairing.CurrentRow Is Nothing Or SelectedNoFaktur = "" Then
+			Exit Sub
+		End If
+
+		Dim currentRow = Dgv_Sudah_Pairing.CurrentRow.Index
+		Dim currentCell = Dgv_Sudah_Pairing.CurrentCellAddress.X
+
+		Dim NoFakturOrder As String = If(IsDBNull(Dgv_Sudah_Pairing.Rows(currentRow).Cells("SudahPairingRFIDNoFakturOrder").Value), "", Dgv_Sudah_Pairing.Rows(currentRow).Cells("SudahPairingRFIDNoFakturOrder").Value.ToString())
+
+		If General_Class.CekNULL(Dgv_Sudah_Pairing.CurrentRow.Cells(4).Value) = "" Then
+			MessageBox.Show("No Batch Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		End If
+
+		Dim Batch As String = If(Dgv_Sudah_Pairing.CurrentRow.Cells(4).Value.ToString = "Packaging", 0, Dgv_Sudah_Pairing.CurrentRow.Cells(4).Value.ToString)
+
+		Fetch_Dgv_Detail(NoFakturOrder, Batch)
+		Fetch_RFID_Pair(NoFakturOrder, Batch)
+
+	End Sub
 
 End Class

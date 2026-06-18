@@ -255,7 +255,6 @@
 				SQL = SQL & "from barang a, EMI_Group_Jenis b, EMI_Kategori_Gudang_PerLokasi c  "
 				SQL = SQL & "where a.Kode_Perusahaan=b.Kode_Perusahaan and a.Id_Group_Jenis=b.Id_Group_Jenis and a.Kode_Perusahaan='" & KodePerusahaan & "'  "
 				SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Kategori_Gudang = c.ID_Kategori_Gudang "
-
 				SQL = SQL & "and Kode_Barang like '%" & TxtPilihBarang_KodeBarang.Text & "%' and aktif = 'Y'  " & filter_tambahan & " "
 				SQL = SQL & "group by a.Kode_Barang,a.Nama, a.Satuan,c.lokasi_gudang "
 
@@ -298,7 +297,7 @@
 			'SQL = SQL & "and a.kode_barang like '%" & TxtPilihBarang_KodeBarang.Text & "%' "
 			SQL = SQL & "and (a.kode_barang like '%" & TxtPilihBarang_KodeBarang.Text.Trim & "%' or a.Kode_Barang_Inq like '%" & TxtPilihBarang_KodeBarang.Text.Trim & "%') "
 			SQL = SQL & "and aktif = 'Y'  " & filter_tambahan & "  "
-			SQL = SQL & "group by a.Kode_Barang,b.Kode_Group_Jenis,a.Nama, a.Satuan,c.lokasi_gudang ,e.Keterangan, e.Id_Jenis_Produk"
+			SQL = SQL & "group by a.Kode_Barang,b.Kode_Group_Jenis,a.Nama, a.Satuan,c.lokasi_gudang ,e.Keterangan, e.Id_Jenis_Produk "
 
 			Using dr = OpenTrans(SQL)
 				If dr.Read Then

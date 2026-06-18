@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing.Drawing2D
+Imports MS.Internal
 'Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 'Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
 
@@ -74,7 +75,21 @@ Public Class N_EMI_SD_Detail_Production_Schedule
 
     Private Sub N_EMI_SD_Edit_Jumlah_Production_Plan_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Btn_Simpan.Location = New Point(300, 543)
+
+        TabControl1.SelectedIndex = 0
+
+        Lv_Data.Columns.Clear()
+
+        Lv_Data.Columns.Add("No PO", 120, HorizontalAlignment.Left)
+        Lv_Data.Columns.Add("Jumlah PO", 120, HorizontalAlignment.Right)
+        Lv_Data.Columns.Add("Satuan", 100, HorizontalAlignment.Center)
+        Lv_Data.Columns.Add("Tanggal", 100, HorizontalAlignment.Center)
+        Lv_Data.Columns.Add("Jam", 100, HorizontalAlignment.Center)
+        Lv_Data.Columns.Add("User", 100, HorizontalAlignment.Center)
+
+        Lv_Data.View = View.Details
+
+        '   Btn_Simpan.Location = New Point(206, 481)
         Panel1.BackColor = Color.FromArgb(232, 238, 246)  ' #E8EEF6 - biru muda
         TxtTanggal.ForeColor = Color.FromArgb(100, 116, 139)   ' abu-abu biru untuk teks
         kosong()
@@ -91,7 +106,7 @@ Public Class N_EMI_SD_Detail_Production_Schedule
             SQL = SQL & "a.satuan,cast(a.rv as bigint) as rvx_Schedule,"
             SQL = SQL & "cast(x.rv as bigint) as rvx_planing, f.no_faktur, "
             SQL = SQL & "a.No_Urut , e.Id_Jenis_Produk,  e.Keterangan as Jenis_produk "
-            SQL = SQL & ", x.Nilai_PPIC, h.nilai , a.tanggal_start, a.tanggal_end,a.keterangan From N_EMI_Production_Plan_Schedule_Detail a "
+            SQL = SQL & ", x.Nilai_PPIC, h.nilai , a.tanggal_start, a.tanggal_end,a.keterangan, i.jumlah_po From N_EMI_Production_Plan_Schedule_Detail a "
             SQL = SQL & "inner join N_EMI_Production_Plan_Schedule b on "
             SQL = SQL & "a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi =b.No_Transaksi "
             SQL = SQL & "inner join barang c on "
@@ -103,9 +118,18 @@ Public Class N_EMI_SD_Detail_Production_Schedule
 
 
             SQL = SQL & "outer apply ( "
-            SQL = SQL & "select sum(b.Jumlah) as nilai from N_EMI_Production_Plan_Schedule_Detail b "
+            SQL = SQL & "select sum(b.Jumlah) as nilai from N_EMI_Production_Plan_Schedule_Detail b,  "
+            SQL = SQL & "n_emi_production_plan_schedule m "
             SQL = SQL & "where b.Urut_Production_Plan = x.urut "
+            SQL = SQL & "and b.no_transaksi = m.no_transaksi and b.kode_perusahaan = m.kode_perusahaan "
             SQL = SQL & ") h "
+
+
+            SQL = SQL & "outer apply ( "
+            SQL = SQL & "select isnull(sum(xy.Jumlah),0) as jumlah_po from emi_order_produksi xy  "
+            SQL = SQL & " where xy.Urut_Production_Schedule  = a.No_Urut  "
+            SQL = SQL & " and xy.Kode_Perusahaan  = a.kode_perusahaan and xy.Status is null "
+            SQL = SQL & ") i "
 
             SQL = SQL & " inner join EMI_Varian d on  c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Varian = d.Id_Varian "
             SQL = SQL & "inner join EMI_Jenis_Produk e on d.Kode_Perusahaan = e.Kode_Perusahaan and e.Id_Jenis_Produk = d.Id_Jenis_Produk "
@@ -122,9 +146,16 @@ Public Class N_EMI_SD_Detail_Production_Schedule
                     ' === isi dari DataReader
                     txtKdBrng.Text = Dr("kode_barang").ToString()
                     txtNamaBarang.Text = Dr("nama").ToString()
+
+                    txtKdBrng2.Text = Dr("kode_barang").ToString()
+                    txtNamaBarang2.Text = Dr("nama").ToString()
+
                     txtJumlahSkrng.Text = Format(Val(Dr("nilai_ppic")), "N2")
                     TextBox1.Text = Format(Val(Dr("jumlah")), "N2")
 
+                    txtJmlhInginProduksi_Tab2.Text = Format(Val(Dr("jumlah")), "N2")
+                    txtSudahPo.Text = Format(Dr("jumlah_po"), "N2")
+                    JmlhSdhPO_TabKedua.Text = Format(Dr("jumlah_po"), "N2")
                     Dim namaBulan As String = New DateTime(2000, CInt(Dr("bulan")), 1).ToString("MMM", New Globalization.CultureInfo("id-ID"))
                     TxtTanggal.Text = Dr("tanggal").ToString() & " " & namaBulan & " " & Dr("tahun").ToString()
 
@@ -149,6 +180,7 @@ Public Class N_EMI_SD_Detail_Production_Schedule
                     txtKdStockOwner.Text = Dr("kode_stock_owner")
                     txtIdJenisProduk.Text = Dr("id_jenis_produk")
                     txtKetJenisProduk.Text = Dr("Jenis_produk")
+                    txtJumlahSdhPO.Text = Format(Dr("jumlah_po"), "N2")
 
                     txtSatuan.Text = Dr("satuan")
 
@@ -282,7 +314,7 @@ Public Class N_EMI_SD_Detail_Production_Schedule
         End If
         txtTanggalStart.Visible = False
         If Not Me.Controls.Contains(dtpTanggalStart) Then
-            Me.Controls.Add(dtpTanggalStart)
+            txtTanggalStart.Parent.Controls.Add(dtpTanggalStart)
         End If
 
         ' === Tanggal End ===
@@ -300,7 +332,7 @@ Public Class N_EMI_SD_Detail_Production_Schedule
         End If
         txtTanggalEnd.Visible = False
         If Not Me.Controls.Contains(dtpTanggalEnd) Then
-            Me.Controls.Add(dtpTanggalEnd)
+            txtTanggalEnd.Parent.Controls.Add(dtpTanggalEnd)
         End If
 
         ' === Tanggal Start ===
@@ -328,7 +360,7 @@ Public Class N_EMI_SD_Detail_Production_Schedule
         End If
         txt_JamStart.Visible = False
         If Not Me.Controls.Contains(dtp_JamStart) Then
-            Me.Controls.Add(dtp_JamStart)
+            txt_JamStart.Parent.Controls.Add(dtp_JamStart)
         End If
 
         ' === Jam End ===
@@ -348,7 +380,7 @@ Public Class N_EMI_SD_Detail_Production_Schedule
         End If
         txtJamEnd.Visible = False
         If Not Me.Controls.Contains(dtpJamEnd) Then
-            Me.Controls.Add(dtpJamEnd)
+            txtJamEnd.Parent.Controls.Add(dtpJamEnd)
         End If
 
         ' === Lainnya ===
@@ -409,12 +441,12 @@ Public Class N_EMI_SD_Detail_Production_Schedule
 
 
         If sudahPO = "Y" Then
-            btnBatal.Visible = True
+            ' btnBatal.Visible = True
 
-            Btn_Simpan.Location = New Point(300, 543)
+            ' Btn_Simpan.Location = New Point(300, 543)
         Else
-            btnBatal.Visible = False
-            Btn_Simpan.Location = New Point(213, 543)
+            ' btnBatal.Visible = False
+            ' Btn_Simpan.Location = New Point(206, 481)
         End If
 
 
@@ -430,168 +462,200 @@ Public Class N_EMI_SD_Detail_Production_Schedule
 
         HideData()
 
-        If sudahPO = "Y" Then
+        'If sudahPO = "Y" Then
 
-            BadgeLabel1.Text = "Production Order"
+        '    BadgeLabel1.Text = "Production Order"
 
-            btnBatal.Enabled = True
+        '    btnBatal.Enabled = True
 
-            FlagbtnShow = False
+        '    FlagbtnShow = False
 
-            btnBatal.Location = New Point(121, 543)
+        '    btnBatal.Location = New Point(101, 483)
 
-            ' btnBatal.Location = New Point(307, 507)
+        '    ' btnBatal.Location = New Point(307, 507)
 
-            Btn_Simpan.Location = New Point(300, 543)
+        '    ' Btn_Simpan.Location = New Point(271, 483)
 
-            badgeReleaser.Visible = True
+        '    badgeReleaser.Visible = True
 
-            Button1.Visible = False
-            BtnEdit.Visible = False
+        '    Button1.Visible = False
+        '    BtnEdit.Visible = False
 
-            If statusRelease = "Y" Then
-                badgeReleaser.Text = "Sudah di Release"
-            Else
-                badgeReleaser.Text = "Belum di Release"
-            End If
+        '    If statusRelease = "Y" Then
+        '        badgeReleaser.Text = "Sudah di Release"
+        '    Else
+        '        badgeReleaser.Text = "Belum di Release"
+        '    End If
 
-        Else
-            BadgeLabel1.Text = "Belum Production Order"
-            badgeReleaser.Visible = False
+        'Else
+        '    BadgeLabel1.Text = "Belum Production Order"
+        '    badgeReleaser.Visible = False
 
-            btnBatal.Visible = False
+        '    ' btnBatal.Visible = False
 
-            Btn_Simpan.Location = New Point(213, 543)
-            Button1.Visible = True
-            BtnEdit.Visible = True
+        '    ' Btn_Simpan.Location = New Point(206, 481)
+        '    Button1.Visible = True
+        '    BtnEdit.Visible = True
 
-            btnBatal.Location = New Point(121, 543)
+        '    ' btnBatal.Location = New Point(101, 483)
 
-        End If
+        'End If
 
     End Sub
 
     Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
-        EMI_Production_Order.parentForm = "schedule"
-
-        EMI_Production_Order.LvData.Columns.Clear()
-        EMI_Production_Order.LvData.Clear()
-
-        EMI_Production_Order.LvOrder.Columns.Clear()
-        EMI_Production_Order.LvOrder.Clear()
-
-        EMI_Production_Order.LvBahan.Columns.Clear()
-        EMI_Production_Order.LvBahan.Clear()
-
-        EMI_Production_Order.LvBahanNew.Columns.Clear()
-        EMI_Production_Order.LvBahanNew.Clear()
 
 
-        EMI_Production_Order.LvPackaging.Columns.Clear()
-        EMI_Production_Order.LvPackaging.Clear()
+        'Dim jumlahInput As String = InputBox("Masukkan jumlah yang ingin di produksi : ")
 
+        'Dim nilai As Decimal
+        'If jumlahInput = "" Then
+        '    Exit Sub
 
+        'ElseIf Not Decimal.TryParse(jumlahInput, nilai) Then
 
-        EMI_Production_Order.LvPackagingNew.Columns.Clear()
-        EMI_Production_Order.LvPackagingNew.Clear()
+        '    MessageBox.Show("Input hanya boleh angka dan titik!", Judul,
+        '            MessageBoxButtons.OK,
+        '            MessageBoxIcon.Exclamation)
+        '    Exit Sub
 
+        'ElseIf nilai < 1 Then
 
+        '    MessageBox.Show("Jumlah input tidak boleh kurang dari satu!", Judul,
+        '            MessageBoxButtons.OK,
+        '            MessageBoxIcon.Exclamation)
+        '    Exit Sub
 
-
-        If sudahPO = "Y" Then
-            EMI_Production_Order.NoFakturFromSchedule = txtNoFakturPO.Text
-            EMI_Production_Order.flagSudahPOSchedule = sudahPO
+        'End If
 
 
 
-        Else
-            Dim lvw As New ListViewItem("PS")
-            lvw.SubItems.Add(txtKdStockOwner.Text) '1
-            lvw.SubItems.Add("-") '2
-            lvw.SubItems.Add("-") '3
-            lvw.SubItems.Add(txtKdBrng.Text) '4
-            lvw.SubItems.Add(txtNamaBarang.Text) '5
-            lvw.SubItems.Add(TextBox1.Text) '6 Barang
-            lvw.SubItems.Add(Format(0, "N2")) '7 Barang
-            lvw.SubItems.Add(txtSatuan.Text) '8
-            lvw.SubItems.Add(txtKetJenisProduk.Text) '9
-            lvw.SubItems.Add(txt_NoUrut.Text) '10
-            lvw.SubItems.Add(txtIdJenisProduk.Text) '11
-            lvw.SubItems.Add(txtKet.Text) '12
 
 
 
-            EMI_Production_Order.LvData.Items.Add(lvw)
 
-            EMI_Production_Order.RV_Schedule = txtNoRvSch.Text
-            EMI_Production_Order.UrutOtoSchedule = txt_NoUrut.Text
+        'EMI_Production_Order.parentForm = "schedule"
 
-            EMI_Production_Order.NoFakturFromSchedule = Nothing
-            EMI_Production_Order.flagSudahPOSchedule = "T"
+        'EMI_Production_Order.LvData.Columns.Clear()
+        'EMI_Production_Order.LvData.Clear()
 
-        End If
+        'EMI_Production_Order.LvOrder.Columns.Clear()
+        'EMI_Production_Order.LvOrder.Clear()
 
-        EMI_Production_Order.ShowDialog()
+        'EMI_Production_Order.LvBahan.Columns.Clear()
+        'EMI_Production_Order.LvBahan.Clear()
 
-
-        If EMI_Production_Order.mustUpdate Then
-            kosong()
-        End If
-
-    End Sub
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnBatal.Click
-
-        get_jam()
-
-        Dim pertanyaan As String = MessageBox.Show("Yakin Ingin membatalkan Production Order ini ? ", "Production Order", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-        If pertanyaan = vbNo Then Exit Sub
+        'EMI_Production_Order.LvBahanNew.Columns.Clear()
+        'EMI_Production_Order.LvBahanNew.Clear()
 
 
+        'EMI_Production_Order.LvPackaging.Columns.Clear()
+        'EMI_Production_Order.LvPackaging.Clear()
+
+
+
+        'EMI_Production_Order.LvPackagingNew.Columns.Clear()
+        'EMI_Production_Order.LvPackagingNew.Clear()
+
+
+
+
+        'If sudahPO = "Y" Then
+        '    EMI_Production_Order.NoFakturFromSchedule = txtNoFakturPO.Text
+        '    EMI_Production_Order.flagSudahPOSchedule = sudahPO
+
+
+
+        'Else
+        '    Dim lvw As New ListViewItem("PS")
+        '    lvw.SubItems.Add(txtKdStockOwner.Text) '1
+        '    lvw.SubItems.Add("-") '2
+        '    lvw.SubItems.Add("-") '3
+        '    lvw.SubItems.Add(txtKdBrng.Text) '4
+        '    lvw.SubItems.Add(txtNamaBarang.Text) '5
+        '    lvw.SubItems.Add(jumlahInput) '6 Barang
+        '    lvw.SubItems.Add(Format(0, "N2")) '7 Barang
+        '    lvw.SubItems.Add(txtSatuan.Text) '8
+        '    lvw.SubItems.Add(txtKetJenisProduk.Text) '9
+        '    lvw.SubItems.Add(txt_NoUrut.Text) '10
+        '    lvw.SubItems.Add(txtIdJenisProduk.Text) '11
+        '    lvw.SubItems.Add(txtKet.Text) '12
+        '    lvw.SubItems.Add("Produksi")
+        '    lvw.SubItems.Add("")
+
+
+
+
+        '    EMI_Production_Order.LvData.Items.Add(lvw)
+
+        '    EMI_Production_Order.RV_Schedule = txtNoRvSch.Text
+        '    EMI_Production_Order.UrutOtoSchedule = txt_NoUrut.Text
+
+        '    EMI_Production_Order.NoFakturFromSchedule = Nothing
+        '    EMI_Production_Order.flagSudahPOSchedule = "T"
+
+        '    EMI_Production_Order.CekPackingSetFromSchedule(txtKdBrng.Text)
+
+        'End If
 
         Try
             OpenConn()
 
-
-
-            SQL = "select flag_release,no_faktur From EMI_Order_Produksi where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & txtNoFakturPO.Text & "'  "
+            SQL = "select isnull(a.Jumlah,0) as Jumlah_Schedule, "
+            SQL = SQL & "isnull((select sum(x.Jumlah) from emi_order_produksi x where x.Kode_Perusahaan = a.Kode_Perusahaan  "
+            SQL = SQL & "and x.Urut_Production_Schedule = a.No_Urut and x.Status is null),0) as Jumlah_PO "
+            SQL = SQL & "From N_EMI_Production_Plan_Schedule_Detail a, N_EMI_Production_Plan_Schedule b "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi "
+            SQL = SQL & "and b.Status is null and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Urut = '" & id & "' "
             Using Dr = OpenTrans(SQL)
                 If Dr.Read Then
-                    If General_Class.CekNULL(Dr("flag_release")) = "Y" Then
+                    If Val(Dr("Jumlah_Schedule")) = Val(Dr("jumlah_po")) Then
+                        Dr.Close()
                         CloseConn()
-                        MessageBox.Show("Production Order sudah direlease, Production order tidak bisa dibatalkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        MessageBox.Show("Tidak bisa melanjutkan, Jumlah PO sudah memenuhi jumlah schedule ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Exit Sub
                     End If
+                Else
+                    Dr.Close()
+                    CloseConn()
+                    MessageBox.Show("Data Schedule tidak ditemukan atau sudah dibatalkan sebelumnya. silah kan refresh dan coba lagi. ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
                 End If
             End Using
 
 
-            SQL = "update EMI_Order_Produksi set status = 'Y' ,"
-            SQL = SQL & "Tanggal_Batal_PO = '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
-            SQL = SQL & "jam_batal_po = '" & Format(tgl_skg, "HH:mm:ss") & "', "
-            SQL = SQL & "userid_batal_po = '" & UserID & "' "
-            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
-            SQL = SQL & "no_faktur = '" & txtNoFakturPO.Text & "'"
-            ExecuteTrans(SQL)
-
-
-            SQL = "update N_EMI_Production_Plan_Schedule_Detail set Flag_Sudah_Production_Order = null "
-            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
-            SQL = SQL & "No_Urut = '" & txt_NoUrut.Text & "' "
-            ExecuteTrans(SQL)
-
-
-
             CloseConn()
-
-            kosong()
-            MessageBox.Show("Production order berhasil dibatalkan. ", "Berhasil batal", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Catch ex As Exception
             CloseConn()
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
+
+
+        N_EMI_SD_Input_Jumlah_PO.txtKodeStockOwner1 = txtKdStockOwner.Text
+        N_EMI_SD_Input_Jumlah_PO.txtKdBrng1 = txtKdBrng.Text
+        N_EMI_SD_Input_Jumlah_PO.txtNamaBarang1 = txtNamaBarang.Text
+        N_EMI_SD_Input_Jumlah_PO.txtSatuan1 = txtSatuan.Text
+        N_EMI_SD_Input_Jumlah_PO.txtKetJenisProduk1 = txtKetJenisProduk.Text
+        N_EMI_SD_Input_Jumlah_PO.txt_NoUrut1 = txt_NoUrut.Text
+        N_EMI_SD_Input_Jumlah_PO.txtIdJenisProduk1 = txtIdJenisProduk.Text
+        N_EMI_SD_Input_Jumlah_PO.txtKet1 = txtKet.Text
+        N_EMI_SD_Input_Jumlah_PO.txtNoRvSch1 = txtNoRvSch.Text
+        N_EMI_SD_Input_Jumlah_PO.txtJmlhSchedule1 = Val(HilangkanTanda(txtJmlhInginProduksi_Tab2.Text))
+        N_EMI_SD_Input_Jumlah_PO.txtJmlhSdhPO1 = Val(HilangkanTanda(txtJumlahSdhPO.Text))
+        N_EMI_SD_Input_Jumlah_PO.ShowDialog()
+        ' EMI_Production_Order.ShowDialog()
+
+
+        If EMI_Production_Order.mustUpdate Then
+            kosong()
+            panggil_data_po()
+        End If
+
     End Sub
+
+
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
 
@@ -624,6 +688,8 @@ Public Class N_EMI_SD_Detail_Production_Schedule
 
         Try
             OpenConn()
+
+            Cmd.Transaction = Cn.BeginTransaction
 
             Dim bulanSchedule As String = ""
             Dim tahunSchedule As String = ""
@@ -688,6 +754,7 @@ Public Class N_EMI_SD_Detail_Production_Schedule
 
 
 
+            Cmd.Transaction.Commit()
             CloseConn()
             MessageBox.Show("Production Schedule berhasil dibatalkan.", "Batal Schedule", MessageBoxButtons.OK, MessageBoxIcon.Information)
             mustUpdate = True
@@ -810,6 +877,276 @@ Public Class N_EMI_SD_Detail_Production_Schedule
     End Sub
 
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
+    End Sub
+
+
+
+
+    Private Sub panggil_data_po()
+        Try
+            OpenConn()
+            DGV_Data.Rows.Clear()
+            'SQL = "select a.No_Transaksi,c.No_Faktur as NO_PO, c.Tanggal,c.Jam,c.UserId, c.Jumlah,c.Satuan From N_EMI_Production_Plan_Schedule_Detail a "
+            'SQL = SQL & "inner join  N_EMI_Production_Plan_Schedule b  on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi "
+            'SQL = SQL & "left join  EMI_Order_Produksi c on a.Kode_Perusahaan = c.Kode_Perusahaan and a.No_Urut = c.Urut_Production_Schedule "
+            'SQL = SQL & "and c.Status is null "
+            'SQL = SQL & "where b.Status is null  and  a.No_Urut = '" & id & "' "
+            'SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' "
+
+            SQL = "select c.Urut_Production_Schedule, c.flag_release,c.No_Faktur as NO_PO, c.Tanggal,c.Jam,c.UserId, c.Jumlah,c.Satuan  "
+            SQL = SQL & "from emi_order_produksi c where c.kode_perusahaan = '" & KodePerusahaan & "' "
+            SQL = SQL & "and c.status is null "
+            SQL = SQL & "and c.Urut_Production_Schedule = '" & id & "' "
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
+
+                            DGV_Data.Rows.Add(1)
+
+                            DGV_Data.Rows(i).Cells(2).Value = .Rows(i).Item("NO_PO")
+                            DGV_Data.Rows(i).Cells(3).Value = Format(Val(.Rows(i).Item("Jumlah")), "N2")
+                            DGV_Data.Rows(i).Cells(4).Value = .Rows(i).Item("satuan")
+                            DGV_Data.Rows(i).Cells(5).Value = Format(.Rows(i).Item("tanggal"), "dd MMM yy")
+                            DGV_Data.Rows(i).Cells(6).Value = .Rows(i).Item("jam")
+                            DGV_Data.Rows(i).Cells(7).Value = .Rows(i).Item("userid")
+                            DGV_Data.Rows(i).Cells(8).Value = .Rows(i).Item("Urut_Production_Schedule")
+                            If General_Class.CekNULL(.Rows(i).Item("flag_release")) <> "" Then
+                                DGV_Data.Rows(i).DefaultCellStyle.BackColor = Color.LightYellow
+
+                            End If
+                        Next
+                    End If
+                End With
+            End Using
+
+
+
+
+            'Using Dr = OpenTrans(SQL)
+            '    Do While Dr.Read
+            '        Dim lvw As ListViewItem
+            '        lvw = Lv_Data.Items.Add(Dr("no_po"))
+            '        lvw.SubItems.Add(Format(Dr("jumlah"), "N2"))
+            '        lvw.SubItems.Add(Dr("satuan"))
+            '        lvw.SubItems.Add(Format(Dr("tanggal"), "dd MMM yyyy"))
+            '        lvw.SubItems.Add(Dr("jam"))
+            '        lvw.SubItems.Add(Dr("userid"))
+
+            '        If General_Class.CekNULL(Dr("flag_release")) <> "" Then
+            '            lvw.BackColor = Color.Green
+            '            lvw.ForeColor = Color.White
+            '        End If
+
+            '    Loop
+            'End Using
+
+            CloseConn()
+
+        Catch ex As Exception
+            CloseConn()
+            MessageBox.Show(ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
+        If TabControl1.SelectedIndex = 1 Then
+
+
+            panggil_data_po()
+
+
+        End If
+    End Sub
+
+    Private Sub DGV_Data_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Data.CellContentClick
+        If e.RowIndex < 0 Then Exit Sub
+
+        Dim no_po As String =
+                DGV_Data.Rows(e.RowIndex).Cells(2).Value.ToString()
+
+        Dim id_det_schedule As String =
+                DGV_Data.Rows(e.RowIndex).Cells(8).Value.ToString()
+
+
+        If e.ColumnIndex = 0 Then
+
+            get_jam()
+
+            Dim pertanyaan As String = MessageBox.Show("Yakin Ingin membatalkan Production Order dengan nomor " & no_po & " ?", "Production Order", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If pertanyaan = vbNo Then Exit Sub
+
+
+
+            Try
+                OpenConn()
+                Cmd.Transaction = Cn.BeginTransaction
+
+
+                SQL = "select top(1) flag_release,status,no_faktur From EMI_Order_Produksi where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & no_po & "'  "
+                SQL = SQL & "and flag_release = 'Y' "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("Production Order dengan nomor " & no_po & " sudah pernah direlease, Production order tidak bisa dibatalkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
+                End Using
+
+
+
+
+                SQL = "update EMI_Order_Produksi set status = 'Y' ,"
+                        SQL = SQL & "Tanggal_Batal_PO = '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
+                SQL = SQL & "jam_batal_po = '" & Format(tgl_skg, "HH:mm:ss") & "', "
+                SQL = SQL & "userid_batal_po = '" & UserID & "' "
+                SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
+                SQL = SQL & "no_faktur = '" & no_po & "'"
+                ExecuteTrans(SQL)
+
+
+                'cek masih ada po apa gk kalau gk ada po flag_pernah_po dan di null
+
+
+                SQL = "select isnull(sum(a.Jumlah),0) as Jumlah_PO, isnull(b.jumlah,0) as Jumlah From emi_order_produksi a, N_EMI_Production_Plan_Schedule_Detail b "
+                SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Urut_Production_Schedule = b.No_Urut   "
+                SQL = SQL & "and a.Status is null and a.kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and b.No_Urut = '" & txt_NoUrut.Text & "' "
+                SQL = SQL & "group by b.Jumlah"
+                Using Dr = OpenTrans(SQL)
+
+                    If Dr.Read Then
+                        If Val(Dr("jumlah_po")) = Val(Dr("jumlah")) Then
+
+                            Dr.Close()
+                            SQL = "update N_EMI_Production_Plan_Schedule_Detail set Flag_Sudah_Production_Order = null ,"
+                            SQL = SQL & "flag_pernah_production_order = 'Y' "
+                            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
+                            SQL = SQL & "No_Urut = '" & txt_NoUrut.Text & "' "
+                            ExecuteTrans(SQL)
+                        ElseIf Val(Dr("jumlah_po")) < Val(Dr("jumlah")) Then
+                            Dr.Close()
+
+                            SQL = "update N_EMI_Production_Plan_Schedule_Detail set Flag_Sudah_Production_Order = null ,"
+                            SQL = SQL & "flag_pernah_production_order = 'Y' "
+                            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
+                            SQL = SQL & "No_Urut = '" & txt_NoUrut.Text & "' "
+                            ExecuteTrans(SQL)
+
+                        End If
+                    Else
+
+                        Dr.Close()
+
+                        SQL = "update N_EMI_Production_Plan_Schedule_Detail set Flag_Sudah_Production_Order = null ,"
+                        SQL = SQL & "flag_pernah_production_order = null "
+                        SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
+                        SQL = SQL & "No_Urut = '" & txt_NoUrut.Text & "' "
+                        ExecuteTrans(SQL)
+
+                    End If
+
+                End Using
+
+
+                'SQL = "select top(1) kode_perusahaan from emi_order_produksi where kode_perusahaan = '" & KodePerusahaan & "' "
+                'SQL = SQL & "and status is null and Urut_Production_Schedule = " & txt_NoUrut.Text & " "
+                'Using Dr = OpenTrans(SQL)
+
+                '    If Not Dr.Read Then
+                '        Dr.Close()
+
+                '        SQL = "update N_EMI_Production_Plan_Schedule_Detail set Flag_Sudah_Production_Order = null ,"
+                '        SQL = SQL & "flag_pernah_production_order = null "
+                '        SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
+                '        SQL = SQL & "No_Urut = '" & txt_NoUrut.Text & "' "
+                '        ExecuteTrans(SQL)
+                '    End If
+
+                'End Using
+
+
+
+
+
+
+
+                'SQL = "update N_EMI_Production_Plan_Schedule_Detail set Flag_Sudah_Production_Order = null "
+                'SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and "
+                'SQL = SQL & "No_Urut = '" & txt_NoUrut.Text & "' "
+                'ExecuteTrans(SQL)
+
+
+                Cmd.Transaction.Commit()
+                CloseConn()
+
+                kosong()
+                panggil_data_po()
+                panggil_data()
+                MessageBox.Show("Production order berhasil dibatalkan. ", "Berhasil batal", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Catch ex As Exception
+                CloseTrans()
+                CloseConn()
+                MessageBox.Show(ex.Message)
+                Exit Sub
+            End Try
+
+        End If
+
+        ' tombol release
+        If e.ColumnIndex = 1 Then
+
+
+            EMI_Production_Order.parentForm = "schedule"
+
+            EMI_Production_Order.LvData.Columns.Clear()
+            EMI_Production_Order.LvData.Clear()
+
+            EMI_Production_Order.LvOrder.Columns.Clear()
+            EMI_Production_Order.LvOrder.Clear()
+
+            EMI_Production_Order.LvBahan.Columns.Clear()
+            EMI_Production_Order.LvBahan.Clear()
+
+            EMI_Production_Order.LvBahanNew.Columns.Clear()
+            EMI_Production_Order.LvBahanNew.Clear()
+
+
+            EMI_Production_Order.LvPackaging.Columns.Clear()
+            EMI_Production_Order.LvPackaging.Clear()
+
+
+
+            EMI_Production_Order.LvPackagingNew.Columns.Clear()
+            EMI_Production_Order.LvPackagingNew.Clear()
+
+
+            EMI_Production_Order.NoFakturFromSchedule = no_po
+            EMI_Production_Order.flagSudahPOSchedule = "Y"
+
+            EMI_Production_Order.cmb_routing.Enabled = False
+            EMI_Production_Order.Cmb_Jenis.Enabled = False
+
+            EMI_Production_Order.ShowDialog()
+
+
+            If EMI_Production_Order.mustUpdate Then
+                kosong()
+                panggil_data_po()
+            End If
+
+        End If
+    End Sub
+
+    Private Sub btnSimpanEdit_Click_1(sender As Object, e As EventArgs) Handles btnSimpanEdit.Click
+
+    End Sub
+
+    Private Sub BtnEdit_Click(sender As Object, e As EventArgs) Handles BtnEdit.Click
 
     End Sub
 End Class

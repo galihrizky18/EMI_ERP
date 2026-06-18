@@ -1193,7 +1193,7 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_Main
 			Exit Sub
 		End Try
 
-		N_EMI_Transaksi_Validasi_Formula_Main.Kosong()
+		'N_EMI_Transaksi_Validasi_Formula_Main.Kosong()
 		Me.Close()
 
 	End Sub

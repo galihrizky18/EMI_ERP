@@ -19,6 +19,36 @@
 			.Columns.Add("Est. HPP Per Pcs", 100, HorizontalAlignment.Right)
 		End With
 
+		With LV_AnalisaLabTrialKitchen
+			.View = View.Details
+			.FullRowSelect = True
+			.GridLines = True
+			.HideSelection = False
+			.Columns.Clear()
+
+			.Columns.Add("Nama Mesin", 100, HorizontalAlignment.Left)
+			.Columns.Add("Jenis Mesin", 200, HorizontalAlignment.Left)
+			.Columns.Add("Standar Min", 100, HorizontalAlignment.Center)
+			.Columns.Add("Standar Max", 100, HorizontalAlignment.Center)
+			.Columns.Add("Avg Hasil", 100, HorizontalAlignment.Center)
+			.Columns.Add("Hasil", 100, HorizontalAlignment.Center)
+		End With
+
+		With LV_AnalisaLabTrialProduksi
+			.View = View.Details
+			.FullRowSelect = True
+			.GridLines = True
+			.HideSelection = False
+			.Columns.Clear()
+
+			.Columns.Add("Nama Mesin", 100, HorizontalAlignment.Left)
+			.Columns.Add("Jenis Mesin", 200, HorizontalAlignment.Left)
+			.Columns.Add("Standar Min", 100, HorizontalAlignment.Center)
+			.Columns.Add("Standar Max", 100, HorizontalAlignment.Center)
+			.Columns.Add("Avg Hasil", 100, HorizontalAlignment.Center)
+			.Columns.Add("Hasil", 100, HorizontalAlignment.Center)
+		End With
+
 		'With LvDetailKandungan
 		'    .View = View.Details
 		'    .FullRowSelect = True
@@ -61,6 +91,8 @@
 		Fetch_LvDetailKandungan()
 		Fetch_LvDetailStep()
 		Fetch_LvDetailMoistureContent()
+		Fetch_LvAnalisaLabTrialKitchen()
+		Fetch_LvAnalisaLabTrialProduksi()
 
 		Dim totalEstHPP As Decimal = 0
 		Dim totalEstHPPPerPcs As Decimal = 0
@@ -75,6 +107,389 @@
 
 		'LbEstHPP.Text = "Est. HPP: " & FormatNumber(totalEstHPP, 4) & " | " & "Est. HPP Per Pcs: " & FormatNumber(totalEstHPPPerPcs, 4)
 		LbEstHPP.Text = "Est. HPP Per Pcs: " & FormatNumber(totalEstHPPPerPcs, 4)
+	End Sub
+
+	Private Sub Fetch_LvAnalisaLabTrialKitchen()
+		Try
+			OpenConn()
+
+			LV_AnalisaLabTrialKitchen.Items.Clear()
+
+			Dim NoSplit As String = ""
+
+			SQL = $"
+				SELECT
+					tk.No_Transaksi AS No_Split_Trial_Kitchen
+				FROM EMI_Transaksi_Formulator a
+				OUTER APPLY (
+                    SELECT TOP 1 y.No_Transaksi
+                    FROM N_EMI_Transaksi_Trial_Order_Produksi x
+                    JOIN N_EMI_Transaksi_Trial_Split_Production_Order y ON y.Kode_Perusahaan = x.Kode_Perusahaan AND y.No_PO = x.No_Faktur
+                    WHERE x.Kode_Formula = a.No_Faktur
+                    ORDER BY y.Tanggal DESC, y.Jam DESC
+                ) tk
+				WHERE a.No_Faktur = '{NoFaktur}'
+			"
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					NoSplit = Dr("No_Split_Trial_Kitchen").ToString()
+				End If
+			End Using
+
+			If NoSplit = "" Then
+				CloseConn()
+				Exit Sub
+			End If
+
+			SQL = $"
+                    WITH cte AS (
+                        SELECT
+                            a.No_Split_Po,
+                            a.No_Batch,
+                            f.Nama_Mesin,
+                            c.Kode_Aktivitas_Lab,
+                            b.Id_Jenis_Analisa,
+                            c.Jenis_Analisa,
+                            b.No_Po_Sampel,
+
+                            CASE
+                                WHEN b.Flag_Perhitungan = 'Y'
+                                    THEN CAST(ROUND(AVG(b.Hasil), 2) AS VARCHAR(50))
+                                ELSE ISNULL(e.Keterangan_Kriteria, '-')
+                            END AS keterangan_kriteria,
+
+                            CASE
+                                WHEN b.Flag_Perhitungan = 'Y'
+                                    THEN ISNULL(CAST(d.Range_Awal AS VARCHAR(30)), '-')
+                                ELSE '-'
+                            END AS Std_Min,
+
+                            CASE
+                                WHEN b.Flag_Perhitungan = 'Y'
+                                    THEN ISNULL(CAST(d.Range_Akhir AS VARCHAR(30)), '-')
+                                ELSE '-'
+                            END AS Std_Max,
+
+                            CASE
+                                WHEN b.Flag_Perhitungan = 'Y'
+                                     AND ROUND(AVG(b.Hasil), 2)
+                                         BETWEEN TRY_CAST(d.Range_Awal AS FLOAT)
+                                         AND TRY_CAST(d.Range_Akhir AS FLOAT)
+                                    THEN 'Lulus'
+
+                                WHEN b.Flag_Perhitungan = 'Y'
+                                     AND (
+                                            ROUND(AVG(b.Hasil), 2) < TRY_CAST(d.Range_Awal AS FLOAT)
+                                            OR ROUND(AVG(b.Hasil), 2) > TRY_CAST(d.Range_Akhir AS FLOAT)
+                                         )
+                                    THEN 'Tidak Lulus'
+
+                                ELSE
+                                    CASE
+                                        WHEN e.Flag_Layak = 'Y'
+                                            THEN 'Lulus'
+                                        ELSE 'Tidak Lulus'
+                                    END
+                            END AS Hasil_Uji,
+
+                            b.Status,
+                            b.Flag_Final,
+                            b.Flag_Approval,
+
+                            CASE
+                                WHEN SUM(
+                                        CASE
+                                            WHEN c.Kode_Aktivitas_Lab = '{KODE_ANALISA_LAB}'
+                                                 AND b.Flag_Approval = 'T'
+                                                THEN 1
+                                            ELSE 0
+                                        END
+                                     ) OVER(PARTITION BY a.No_Split_Po) > 0
+                                    THEN 'DITOLAK'
+
+                                WHEN SUM(
+                                        CASE
+                                            WHEN c.Kode_Aktivitas_Lab = '{KODE_ANALISA_LAB}'
+                                                 AND b.Flag_Approval = 'Y'
+                                                THEN 1
+                                            ELSE 0
+                                        END
+                                     ) OVER(PARTITION BY a.No_Split_Po)
+                                     =
+                                     SUM(
+                                        CASE
+                                            WHEN c.Kode_Aktivitas_Lab = '{KODE_ANALISA_LAB}'
+                                                THEN 1
+                                            ELSE 0
+                                        END
+                                     ) OVER(PARTITION BY a.No_Split_Po)
+                                    THEN 'DISETUJUI'
+
+                                ELSE 'MENUNGGU VALIDASI'
+                            END AS status_lock_view_split,
+
+                            CASE
+                                WHEN SUM(
+                                        CASE
+                                            WHEN c.Kode_Aktivitas_Lab = '{KODE_ANALISA_LAB}'
+                                                 AND b.Flag_Approval = 'T'
+                                                THEN 1
+                                            ELSE 0
+                                        END
+                                     ) OVER(PARTITION BY a.No_Split_Po) > 0
+                                    THEN 'DITOLAK'
+
+                                WHEN SUM(
+                                        CASE
+                                            WHEN c.Kode_Aktivitas_Lab = '{KODE_ANALISA_LAB}'
+                                                 AND b.Flag_Approval = 'Y'
+                                                THEN 1
+                                            ELSE 0
+                                        END
+                                     ) OVER(PARTITION BY a.No_Split_Po)
+                                     =
+                                     SUM(
+                                        CASE
+                                            WHEN c.Kode_Aktivitas_Lab = '{KODE_ANALISA_LAB}'
+                                                THEN 1
+                                            ELSE 0
+                                        END
+                                     ) OVER(PARTITION BY a.No_Split_Po)
+                                    THEN 'DISETUJUI'
+
+                                ELSE 'MENUNGGU VALIDASI'
+                            END AS status_analisa_lab_split
+
+                        FROM N_LIMS_PO_Sampel a
+
+                        JOIN N_EMI_LIMS_Uji_Sampel b
+                            ON a.No_Sampel = b.No_Po_Sampel
+                            AND b.Flag_Resampling IS NULL
+
+                        JOIN N_EMI_LAB_Jenis_Analisa c
+                            ON b.Id_Jenis_Analisa = c.id
+
+                        LEFT JOIN N_EMI_LIMS_Uji_Pra_Final upf
+                            ON b.No_Po_Sampel = upf.No_Sampel
+
+                        LEFT JOIN N_EMI_LAB_Standar_Rentang d
+                            ON b.Id_Jenis_Analisa = d.Id_Jenis_Analisa
+                            AND b.Flag_Perhitungan = 'Y'
+                            AND a.Kode_Barang = d.Kode_Barang
+
+                        LEFT JOIN N_EMI_LAB_Standar_Rentang_Non_Perhitungan e
+                            ON e.Nilai_Kriteria = b.Hasil
+                            AND b.Flag_Perhitungan IS NULL
+                            AND e.Kode_Role = '{KODE_ROLE_FLM}'
+
+                        JOIN EMI_Master_Mesin f
+                            ON a.Kode_Perusahaan = f.Kode_Perusahaan
+                            AND a.Id_Mesin = f.Id_Master_Mesin
+
+                        WHERE
+                            b.Flag_Approval = 'Y'
+                            AND a.Status IS NULL
+                            AND b.Flag_Selesai = 'Y'
+                            AND b.Status IS NULL
+
+                        GROUP BY
+                            a.No_Split_Po,
+                            a.No_Batch,
+                            f.Nama_Mesin,
+                            c.Kode_Aktivitas_Lab,
+                            b.Id_Jenis_Analisa,
+                            c.Jenis_Analisa,
+                            b.No_Po_Sampel,
+                            d.Range_Awal,
+                            d.Range_Akhir,
+                            b.Status,
+                            b.Flag_Final,
+                            b.Flag_Approval,
+                            b.Flag_Perhitungan,
+                            e.Keterangan_Kriteria,
+                            e.Flag_Layak
+                    )
+
+                    SELECT *
+                    FROM cte
+
+                    WHERE
+                        status_lock_view_split = 'DISETUJUI'
+                        AND status_analisa_lab_split = 'DISETUJUI'
+                        AND No_Split_Po = '{NoSplit}'
+                        AND Kode_Aktivitas_Lab = '{KODE_ANALISA_LAB}'
+
+                    ORDER BY
+                        Kode_Aktivitas_Lab
+                "
+
+			Using Dr = OpenTrans(SQL)
+				Do While Dr.Read
+					Dim item As New ListViewItem(Dr("Nama_Mesin").ToString)
+
+					item.SubItems.Add(Dr("Jenis_Analisa").ToString)
+					item.SubItems.Add(Dr("Std_Min").ToString)
+					item.SubItems.Add(Dr("Std_Max").ToString)
+					item.SubItems.Add(Dr("keterangan_kriteria").ToString)
+					item.SubItems.Add(Dr("Hasil_Uji").ToString)
+					LV_AnalisaLabTrialKitchen.Items.Add(item)
+				Loop
+			End Using
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show("Gagal mendapatkan data analisa lab trial kitchen: " & ex.Message, Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			Exit Sub
+		End Try
+	End Sub
+
+	Private Sub Fetch_LvAnalisaLabTrialProduksi()
+		Try
+			OpenConn()
+
+			LV_AnalisaLabTrialProduksi.Items.Clear()
+
+			Dim NoSplit As String = ""
+
+			SQL = $"
+				SELECT
+					tp.No_Transaksi AS No_Split_Trial_Produksi
+				FROM EMI_Transaksi_Formulator a
+				OUTER APPLY (
+					SELECT TOP 1 y.No_Transaksi
+					FROM EMI_Order_Produksi x
+					JOIN Emi_Split_Production_Order y 
+						ON y.Kode_Perusahaan = x.Kode_Perusahaan 
+						AND y.No_PO = x.No_Faktur
+					WHERE x.Kode_Formula = a.No_Faktur 
+						AND x.Flag_Trial_Produksi = 'Y'
+					ORDER BY y.Tanggal DESC, y.Jam DESC
+				) tp
+				WHERE a.No_Faktur = '{NoFaktur}'
+			"
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					NoSplit = Dr("No_Split_Trial_Produksi").ToString()
+				End If
+			End Using
+
+			If NoSplit = "" Then
+				CloseConn()
+				Exit Sub
+			End If
+
+			SQL = $"
+				SELECT 
+					ROW_NUMBER() OVER (ORDER BY parameter, no_sample) AS no,
+					x.*
+				FROM (
+					SELECT
+						d.Jenis_Analisa AS parameter,
+						a.No_Sampel AS no_sample,
+						b.Nama_Mesin AS mesin,
+						CASE
+							WHEN e.Keterangan_Kriteria IS NULL THEN '-'
+							ELSE e.Keterangan_Kriteria
+						END AS hasil,
+						'-' AS std_min,  
+						'-' AS std_max,  
+						CASE
+							WHEN e.Flag_Layak = 'Y' THEN 'Lulus'
+							ELSE 'Tidak Lulus'
+						END AS status              
+					FROM N_EMI_LAB_PO_Sampel a
+					JOIN EMI_Master_Mesin b 
+						ON a.Id_Mesin = b.Id_Master_Mesin
+					JOIN N_EMI_LAB_Uji_Sampel c 
+						ON c.No_Po_Sampel = a.No_Sampel
+						AND c.Flag_Resampling IS NULL
+					JOIN N_EMI_LAB_Jenis_Analisa d 
+						ON d.id = c.Id_Jenis_Analisa
+					LEFT JOIN N_EMI_LAB_Standar_Rentang_Non_Perhitungan e 
+						ON e.Nilai_Kriteria = c.Hasil
+						AND e.Kode_Role = '{KODE_ROLE_LAB}'
+					WHERE a.No_Split_Po = '{NoSplit}' 
+						AND a.Flag_Trial_Produksi = 'Y' 
+						AND c.Flag_Perhitungan IS NULL
+						AND d.Kode_Aktivitas_Lab = '{KODE_ANALISA_LAB}'
+						AND c.Flag_Resampling IS NULL
+
+					UNION 
+
+					SELECT
+						d.Jenis_Analisa AS parameter,
+						a.No_Sampel AS no_sample,
+						b.Nama_Mesin AS mesin,
+						ISNULL(CAST(ROUND(AVG(c.Hasil), 2) AS VARCHAR(30)), '-') AS hasil,
+						ISNULL(CAST(e.Range_Awal AS VARCHAR(30)), '-') AS std_min,                        
+						ISNULL(CAST(e.Range_Akhir AS VARCHAR(30)), '-') AS std_max,
+						CASE
+							WHEN e.Id_Jenis_Analisa IS NULL
+							THEN 'Lulus'
+
+							WHEN d.Flag_Perhitungan = 'Y'
+								AND ROUND(AVG(c.Hasil), 2)
+									BETWEEN TRY_CAST(e.Range_Awal AS FLOAT)
+									AND TRY_CAST(e.Range_Akhir AS FLOAT)
+							THEN 'Lulus'
+
+							WHEN d.Flag_Perhitungan = 'Y'
+								AND (
+										ROUND(AVG(c.Hasil), 2) < TRY_CAST(e.Range_Awal AS FLOAT)
+									OR ROUND(AVG(c.Hasil), 2) > TRY_CAST(e.Range_Awal AS FLOAT)
+									)
+							THEN 'Tidak Lulus'
+
+							ELSE 'Tidak Lulus'
+						END AS status
+					FROM N_EMI_LAB_PO_Sampel a
+					JOIN EMI_Master_Mesin b 
+						ON a.Id_Mesin = b.Id_Master_Mesin
+					JOIN N_EMI_LAB_Uji_Sampel c 
+						ON c.No_Po_Sampel = a.No_Sampel
+						AND c.Flag_Resampling IS NULL
+					JOIN N_EMI_LAB_Jenis_Analisa d 
+						ON d.id = c.Id_Jenis_Analisa
+					LEFT JOIN N_EMI_LAB_Standar_Rentang e 
+						ON e.Id_Jenis_Analisa = c.Id_Jenis_Analisa
+						AND e.Kode_Barang = a.Kode_Barang
+						AND e.Kode_Role = '{KODE_ROLE_LAB}'
+					WHERE a.No_Split_Po = '{NoSplit}' 
+						AND a.Flag_Trial_Produksi = 'Y' 
+						AND c.Flag_Perhitungan = 'Y'
+						AND d.Kode_Aktivitas_Lab = '{KODE_ANALISA_LAB}'
+						AND c.Flag_Resampling IS NULL
+					GROUP BY
+						d.Jenis_Analisa,
+						a.No_Sampel,
+						b.Nama_Mesin,
+						e.Range_Awal,
+						e.Range_Akhir,
+						d.Flag_Perhitungan,
+						e.Id_Jenis_Analisa
+				) x
+			"
+
+			Using Dr = OpenTrans(SQL)
+				Do While Dr.Read
+					Dim item As New ListViewItem(Dr("mesin").ToString)
+
+					item.SubItems.Add(Dr("parameter").ToString)
+					item.SubItems.Add(Dr("std_min").ToString)
+					item.SubItems.Add(Dr("std_max").ToString)
+					item.SubItems.Add(Dr("hasil").ToString)
+					item.SubItems.Add(Dr("status").ToString)
+					LV_AnalisaLabTrialProduksi.Items.Add(item)
+				Loop
+			End Using
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show("Gagal mendapatkan data analisa lab trial produksi: " & ex.Message, Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			Exit Sub
+		End Try
 	End Sub
 
 	Private Sub Fetch_DetailFormula()
@@ -289,5 +704,11 @@
 
 	Private Sub BtnSimpanSudahBinding_Click(sender As Object, e As EventArgs) Handles BtnSimpanSudahBinding.Click
 		Me.Close()
+	End Sub
+
+	Private Sub N_EMI_SD_Detail_Formulator_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+		If e.KeyCode = Keys.Escape Then
+			Me.Close()
+		End If
 	End Sub
 End Class

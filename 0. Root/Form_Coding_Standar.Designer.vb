@@ -22,14 +22,14 @@ Partial Class Form_Coding_Standar
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()>
 	Private Sub InitializeComponent()
-		Dim DataGridViewCellStyle25 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle29 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle26 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle27 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle28 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle30 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle31 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle32 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Me.Panel1 = New System.Windows.Forms.Panel()
 		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Label3 = New System.Windows.Forms.Label()
@@ -55,6 +55,10 @@ Partial Class Form_Coding_Standar
 		Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.Txt_Faktur = New System.Windows.Forms.TextBox()
+		Me.Button4 = New System.Windows.Forms.Button()
+		Me.Button5 = New System.Windows.Forms.Button()
+		Me.Button6 = New System.Windows.Forms.Button()
+		Me.Button7 = New System.Windows.Forms.Button()
 		Me.Panel1.SuspendLayout()
 		Me.Panel3.SuspendLayout()
 		Me.Panel4.SuspendLayout()
@@ -69,7 +73,7 @@ Partial Class Form_Coding_Standar
 		Me.Panel1.Location = New System.Drawing.Point(0, 0)
 		Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
 		Me.Panel1.Name = "Panel1"
-		Me.Panel1.Size = New System.Drawing.Size(1255, 45)
+		Me.Panel1.Size = New System.Drawing.Size(1185, 45)
 		Me.Panel1.TabIndex = 489
 		'
 		'PanelGradient1
@@ -82,7 +86,7 @@ Partial Class Form_Coding_Standar
 		Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
 		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
 		Me.PanelGradient1.Name = "PanelGradient1"
-		Me.PanelGradient1.Size = New System.Drawing.Size(1255, 2)
+		Me.PanelGradient1.Size = New System.Drawing.Size(1185, 2)
 		Me.PanelGradient1.TabIndex = 22
 		'
 		'Label3
@@ -191,29 +195,29 @@ Partial Class Form_Coding_Standar
 		Me.DGV.AllowUserToResizeRows = False
 		Me.DGV.BackgroundColor = System.Drawing.Color.White
 		Me.DGV.BorderStyle = System.Windows.Forms.BorderStyle.None
-		DataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		DataGridViewCellStyle25.BackColor = System.Drawing.SystemColors.Control
-		DataGridViewCellStyle25.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		DataGridViewCellStyle25.ForeColor = System.Drawing.SystemColors.WindowText
-		DataGridViewCellStyle25.SelectionBackColor = System.Drawing.SystemColors.Highlight
-		DataGridViewCellStyle25.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-		DataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.DGV.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle25
+		DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+		DataGridViewCellStyle1.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+		DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DGV.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
 		Me.DGV.ColumnHeadersHeight = 35
 		Me.DGV.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4})
 		Me.DGV.Location = New System.Drawing.Point(561, 499)
 		Me.DGV.Name = "DGV"
 		Me.DGV.RowHeadersWidth = 21
-		DataGridViewCellStyle29.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.DGV.RowsDefaultCellStyle = DataGridViewCellStyle29
+		DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.DGV.RowsDefaultCellStyle = DataGridViewCellStyle5
 		Me.DGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
 		Me.DGV.Size = New System.Drawing.Size(602, 97)
 		Me.DGV.TabIndex = 494
 		'
 		'Column1
 		'
-		DataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.Column1.DefaultCellStyle = DataGridViewCellStyle26
+		DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.Column1.DefaultCellStyle = DataGridViewCellStyle2
 		Me.Column1.HeaderText = "Kode Barang"
 		Me.Column1.Name = "Column1"
 		Me.Column1.ReadOnly = True
@@ -228,8 +232,8 @@ Partial Class Form_Coding_Standar
 		'
 		'Column3
 		'
-		DataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.Column3.DefaultCellStyle = DataGridViewCellStyle27
+		DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.Column3.DefaultCellStyle = DataGridViewCellStyle3
 		Me.Column3.HeaderText = "Jumlah"
 		Me.Column3.Name = "Column3"
 		Me.Column3.ReadOnly = True
@@ -237,8 +241,8 @@ Partial Class Form_Coding_Standar
 		'
 		'Column4
 		'
-		DataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.Column4.DefaultCellStyle = DataGridViewCellStyle28
+		DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.Column4.DefaultCellStyle = DataGridViewCellStyle4
 		Me.Column4.HeaderText = "Satuan"
 		Me.Column4.Name = "Column4"
 		Me.Column4.ReadOnly = True
@@ -263,7 +267,7 @@ Partial Class Form_Coding_Standar
 		Me.Button3.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Button3.Font = New System.Drawing.Font("Work Sans Medium", 8.0!, System.Drawing.FontStyle.Bold)
 		Me.Button3.ForeColor = System.Drawing.Color.White
-		Me.Button3.Location = New System.Drawing.Point(26, 105)
+		Me.Button3.Location = New System.Drawing.Point(385, 64)
 		Me.Button3.Name = "Button3"
 		Me.Button3.Size = New System.Drawing.Size(200, 36)
 		Me.Button3.TabIndex = 492
@@ -288,8 +292,8 @@ Partial Class Form_Coding_Standar
 		'
 		'DataGridViewTextBoxColumn1
 		'
-		DataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle30
+		DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle6
 		Me.DataGridViewTextBoxColumn1.HeaderText = "Kode Barang"
 		Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
 		Me.DataGridViewTextBoxColumn1.ReadOnly = True
@@ -304,8 +308,8 @@ Partial Class Form_Coding_Standar
 		'
 		'DataGridViewTextBoxColumn3
 		'
-		DataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle31
+		DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle7
 		Me.DataGridViewTextBoxColumn3.HeaderText = "Jumlah"
 		Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
 		Me.DataGridViewTextBoxColumn3.ReadOnly = True
@@ -313,8 +317,8 @@ Partial Class Form_Coding_Standar
 		'
 		'DataGridViewTextBoxColumn4
 		'
-		DataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle32
+		DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle8
 		Me.DataGridViewTextBoxColumn4.HeaderText = "Satuan"
 		Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
 		Me.DataGridViewTextBoxColumn4.ReadOnly = True
@@ -327,12 +331,72 @@ Partial Class Form_Coding_Standar
 		Me.Txt_Faktur.Size = New System.Drawing.Size(100, 20)
 		Me.Txt_Faktur.TabIndex = 497
 		'
+		'Button4
+		'
+		Me.Button4.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+		Me.Button4.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Button4.Font = New System.Drawing.Font("Work Sans Medium", 8.0!, System.Drawing.FontStyle.Bold)
+		Me.Button4.ForeColor = System.Drawing.Color.White
+		Me.Button4.Location = New System.Drawing.Point(26, 105)
+		Me.Button4.Name = "Button4"
+		Me.Button4.Size = New System.Drawing.Size(200, 36)
+		Me.Button4.TabIndex = 498
+		Me.Button4.Tag = "SIMPAN"
+		Me.Button4.Text = "&Handle Get Data Listview"
+		Me.Button4.UseVisualStyleBackColor = False
+		'
+		'Button5
+		'
+		Me.Button5.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+		Me.Button5.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Button5.Font = New System.Drawing.Font("Work Sans Medium", 8.0!, System.Drawing.FontStyle.Bold)
+		Me.Button5.ForeColor = System.Drawing.Color.White
+		Me.Button5.Location = New System.Drawing.Point(232, 105)
+		Me.Button5.Name = "Button5"
+		Me.Button5.Size = New System.Drawing.Size(219, 36)
+		Me.Button5.TabIndex = 499
+		Me.Button5.Tag = "SIMPAN"
+		Me.Button5.Text = "&Handle Get Data Datagridview"
+		Me.Button5.UseVisualStyleBackColor = False
+		'
+		'Button6
+		'
+		Me.Button6.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+		Me.Button6.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Button6.Font = New System.Drawing.Font("Work Sans Medium", 8.0!, System.Drawing.FontStyle.Bold)
+		Me.Button6.ForeColor = System.Drawing.Color.White
+		Me.Button6.Location = New System.Drawing.Point(26, 147)
+		Me.Button6.Name = "Button6"
+		Me.Button6.Size = New System.Drawing.Size(232, 36)
+		Me.Button6.TabIndex = 500
+		Me.Button6.Tag = "SIMPAN"
+		Me.Button6.Text = "&Handle Selecteed Index Listview"
+		Me.Button6.UseVisualStyleBackColor = False
+		'
+		'Button7
+		'
+		Me.Button7.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+		Me.Button7.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Button7.Font = New System.Drawing.Font("Work Sans Medium", 8.0!, System.Drawing.FontStyle.Bold)
+		Me.Button7.ForeColor = System.Drawing.Color.White
+		Me.Button7.Location = New System.Drawing.Point(264, 147)
+		Me.Button7.Name = "Button7"
+		Me.Button7.Size = New System.Drawing.Size(258, 36)
+		Me.Button7.TabIndex = 501
+		Me.Button7.Tag = "SIMPAN"
+		Me.Button7.Text = "&Handle Selecteed Index Datagridview"
+		Me.Button7.UseVisualStyleBackColor = False
+		'
 		'Form_Coding_Standar
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.White
-		Me.ClientSize = New System.Drawing.Size(1255, 611)
+		Me.ClientSize = New System.Drawing.Size(1185, 611)
+		Me.Controls.Add(Me.Button7)
+		Me.Controls.Add(Me.Button6)
+		Me.Controls.Add(Me.Button5)
+		Me.Controls.Add(Me.Button4)
 		Me.Controls.Add(Me.Txt_Faktur)
 		Me.Controls.Add(Me.ComboBox1)
 		Me.Controls.Add(Me.TextBox1)
@@ -386,4 +450,8 @@ Partial Class Form_Coding_Standar
 	Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
 	Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
 	Friend WithEvents Txt_Faktur As TextBox
+	Friend WithEvents Button4 As Button
+	Friend WithEvents Button5 As Button
+	Friend WithEvents Button6 As Button
+	Friend WithEvents Button7 As Button
 End Class

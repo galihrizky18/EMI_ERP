@@ -1,12 +1,8 @@
 ﻿Imports Microsoft.Office.Interop
-
 Public Class N_EMI_Transaksi_Production_Plan
 	Public arrBulan, arrBulanMM As New ArrayList
 	Public fRef, fValidasi As String
 	Dim Jenis = "Transaksi_Sales_Forecasting"
-
-	Dim listBulan As New List(Of String)
-	Dim listTahun As New List(Of Integer)
 
 	Private isLoading As Boolean = True
 
@@ -113,6 +109,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 	Public CellStatus As Integer = 40
 	Public CellSatuan As Integer = 41
 
+
 	Public Property fStatus As String = ""
 
 	Public Arrbarang As New ArrayList
@@ -148,7 +145,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 	End Function
 
 	Private Sub get_data()
-		DataGridView1.Columns(CellChkBox).HeaderText = "#"
+		DataGridView1.Columns(CellChkBox).HeaderText = ""
 		DataGridView1.Columns(CellKdBrg).HeaderText = "Kode Barang"
 		DataGridView1.Columns(CellNmBrg).HeaderText = "Nama Barang"
 		DataGridView1.Columns(CellAvg3Bulan).HeaderText = "Avg 3 Bulan (Pcs)"
@@ -159,6 +156,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 		DataGridView1.Columns(CellPersenCurrentMonth).DisplayIndex = 11
 		DataGridView1.Columns(CellActualCurrentMonth).DisplayIndex = 10
 		DataGridView1.Columns(CellForecastCurrentMonth).DisplayIndex = 10
+
 
 		Dim a As Integer = arrBulan.Item(Cmb_Bulan.SelectedIndex)
 		Dim fthn As Integer = Val(Cmb_Tahun.Text)
@@ -1218,12 +1216,15 @@ Public Class N_EMI_Transaksi_Production_Plan
 		'Btn_Realese.Visible = False
 		Btn_Realese.Enabled = False
 
+
+
 		Dim aksesUbahSales As String = ""
 		Dim aksesUbahPPIC As String = ""
 		Dim AksesRealeaseSales As String = ""
 		Dim AksesRealeasePPIC As String = ""
 		Dim AksesUNRealeaseSales As String = ""
 		Dim AksesUNRealeasePPIC As String = ""
+
 
 		isLoading = True
 
@@ -1602,6 +1603,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 
 		DataGridView1.Rows.Clear()
 
+
 		CheckBox1.Checked = False
 		If isRefresh = "REFRESH" Then
 
@@ -1621,7 +1623,98 @@ Public Class N_EMI_Transaksi_Production_Plan
 	Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs)
 		kosong()
 	End Sub
+	' Siapkan slot yang cukup besar untuk menampung status checked berdasarkan indeks kolom DGV
+	' Variabel Global
+	Dim isHeaderChecked(100) As Boolean ' Menampung status checked kolom DGV hingga indeks ke-100
+	Dim kolomCheckboxTahu As New List(Of Integer) ' Menampung indeks kolom Sales Forecast secara dinamis
 
+
+	Private Sub DataGridView1_CellPainting(sender As Object, e As DataGridViewCellPaintingEventArgs) Handles DataGridView1.CellPainting
+		' KUNCI UTAMA: Hanya intervensi jika ini adalah baris HEADER (RowIndex = -1)
+		' Jika ini cell data (RowIndex >= 0), biarkan Windows yang gambar secara normal (Data pasti muncul)
+		If e.RowIndex = -1 Then
+
+			' Pastikan kolom ini valid dan terdaftar di DGV
+			If e.ColumnIndex >= 0 AndAlso e.ColumnIndex < DataGridView1.Columns.Count Then
+				Dim headerText As String = DataGridView1.Columns(e.ColumnIndex).HeaderText
+
+				' Kita HANYA custom drawing untuk kolom yang ada tulisan "Sales" atau "PPIC"
+				If headerText.Contains("Sales") OrElse headerText.Contains("PPIC") Then
+
+					' 1. Gambar background header standar Windows biar warna grid tetep sinkron
+					e.PaintBackground(e.CellBounds, True)
+
+					' 2. ATUR FORMAT TEKS: Dua-duanya (Checkbox / Polos) WAJIB dikunci rata tengah vertikal!
+					Dim textFormat As New StringFormat()
+					textFormat.Alignment = StringAlignment.Near       ' Rata kiri di dalam kotak teks
+					textFormat.LineAlignment = StringAlignment.Center ' KUNCI: Menjaga teks pas di tengah vertikal (Anti-Merosot!)
+					textFormat.Trimming = StringTrimming.Word         ' Potong rapi per kata ke bawah (Word Wrap)
+
+					' -------------------------------------------------------------------
+					' KONDISI A: KOLOM YANG ADA CHECKBOX-NYA (Terdaftar di list saat fStatus aktif)
+					' -------------------------------------------------------------------
+					If kolomCheckboxTahu.Contains(e.ColumnIndex) Then
+						Dim checkboxWidth As Integer = 15
+						Dim checkboxHeight As Integer = 15
+
+						' Koordinat Checkbox
+						Dim checkboxLocation As New Point(
+						e.CellBounds.X + 6,
+						e.CellBounds.Y + (e.CellBounds.Height - checkboxHeight) \ 2
+					)
+
+						' Gambar Checkbox
+						Dim state As VisualStyles.CheckBoxState = If(isHeaderChecked(e.ColumnIndex),
+						VisualStyles.CheckBoxState.CheckedNormal,
+						VisualStyles.CheckBoxState.UncheckedNormal)
+						CheckBoxRenderer.DrawCheckBox(e.Graphics, checkboxLocation, state)
+
+						' RECTANGLE CHECKBOX: Kotak teks digeser ke kanan setelah checkbox (X + 26)
+						Dim textRect As New Rectangle(
+						checkboxLocation.X + checkboxWidth + 5,
+						e.CellBounds.Y,
+						e.CellBounds.Width - checkboxWidth - 14,
+						e.CellBounds.Height - 2
+					)
+
+						' Gambar teks di sebelah checkbox
+						e.Graphics.DrawString(headerText, e.CellStyle.Font, SystemBrushes.ControlText, textRect, textFormat)
+
+						' -------------------------------------------------------------------
+						' KONDISI B: KOLOM YANG POLOS (Lagi gak aktif checkbox-nya pas status diganti)
+						' -------------------------------------------------------------------
+					Else
+						' RECTANGLE POLOS: Kotak teks penuh dari ujung kiri ke kanan sel (Tanpa space checkbox)
+						' Karena dibungkus textFormat LineAlignment CENTER, dia gak bakal bisa amblas ke bawah!
+						Dim textRectPolos As New Rectangle(
+						e.CellBounds.X + 6,
+						e.CellBounds.Y,
+						e.CellBounds.Width - 12,
+						e.CellBounds.Height - 2
+					)
+
+						' Gambar teks murninya pakai kotak penuh
+						e.Graphics.DrawString(headerText, e.CellStyle.Font, SystemBrushes.ControlText, textRectPolos, textFormat)
+					End If
+
+					' Kunci handled HANYA untuk sel header kolom Sales & PPIC ini saja
+					e.Handled = True
+				End If
+			End If
+		End If
+	End Sub
+	' EVENT UNTUK MENERIMA KLIK DAN MENGUBAH STATUS TRUE/FALSE
+	Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+		' Pastikan yang diklik area header dan merupakan kolom Sales Forecast yang terdaftar
+		If e.RowIndex = -1 AndAlso kolomCheckboxTahu.Contains(e.ColumnIndex) Then
+
+			' Balikkan status checked khusus kolom yang sedang diklik tersebut
+			isHeaderChecked(e.ColumnIndex) = Not isHeaderChecked(e.ColumnIndex)
+
+			' Refresh tampilan DataGridView agar centangnya langsung berubah seketika
+			DataGridView1.Invalidate()
+		End If
+	End Sub
 	Private Sub EMI_Transaksi_ForecastOrder_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		My.Application.ChangeCulture("en-us")
 		My.Application.ChangeUICulture("en-us")
@@ -1636,8 +1729,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 
 		kosong()
 		DataGridView1.Columns(CellSatuan).DisplayIndex = 3
-
-		DataGridView1.Columns(CellChkBox).HeaderText = "#"
+		DataGridView1.Columns(CellChkBox).HeaderText = ""
 		DataGridView1.Columns(CellKdBrg).HeaderText = "Kode Barang"
 		DataGridView1.Columns(CellNmBrg).HeaderText = "Nama Barang"
 		DataGridView1.Columns(CellAvg3Bulan).HeaderText = "Avg 3 Bulan (Pcs)"
@@ -1678,26 +1770,32 @@ Public Class N_EMI_Transaksi_Production_Plan
 
 		DataGridView1.Columns(CellChkBox).ReadOnly = False
 
-		'DataGridView1.Columns(CellActualCurrentMonth).DisplayIndex = 4
-		'DataGridView1.Columns(CellForecastCurrentMonth).DisplayIndex = 5
-		'DataGridView1.Columns(CellPersenCurrentMonth).DisplayIndex = 6
 
-		DataGridView1.Columns(4).DisplayIndex = 4
-		DataGridView1.Columns(9).DisplayIndex = 5
-		DataGridView1.Columns(6).DisplayIndex = 6
+		DataGridView1.Columns(CellPersenCurrentMonth).DisplayIndex = 10
+		DataGridView1.Columns(CellActualCurrentMonth).DisplayIndex = 10
+		DataGridView1.Columns(CellForecastCurrentMonth).DisplayIndex = 10
 
-		' 1. Definisikan array yang berisi variabel-variabel kolommu
-		Dim colList() As Integer = {
-			CellSalesForecastBln3, CellPPICForecastBln3, CellUrut_3, CellSpace3,
-		CellSalesForecastBln4, CellPPICForecastBln4, CellUrut_4, CellSpace4,
-		CellSalesForecastBln5, CellPPICForecastBln5, CellUrut_5, CellSpace5,
-		CellSalesForecastBln6, CellPPICForecastBln6, CellUrut_6, CellSpace6
-}
+		' 📌 KUNCI ANTI-KEDIP: Paksa DGV pakai buffer ganda
+		Dim dgvType As Type = DataGridView1.GetType()
+		Dim pi As System.Reflection.PropertyInfo = dgvType.GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance Or System.Reflection.BindingFlags.NonPublic)
+		pi.SetValue(DataGridView1, True, Nothing)
 
-		' 2. Gunakan For i untuk looping berdasarkan jumlah item di array
-		For i As Integer = 0 To colList.Length - 1
-			DataGridView1.Columns(colList(i)).Visible = False
-		Next
+
+		'1. Definisikan array yang berisi variabel-variabel kolommu
+		'Dim colList() As Integer = {
+		'			CellSalesForecastBln3, CellPPICForecastBln3, CellUrut_3, CellSpace3,
+		'		CellSalesForecastBln4, CellPPICForecastBln4, CellUrut_4, CellSpace4,
+		'		CellSalesForecastBln5, CellPPICForecastBln5, CellUrut_5, CellSpace5,
+		'		CellSalesForecastBln6, CellPPICForecastBln6, CellUrut_6, CellSpace6
+		'}
+		'Dim colList() As Integer = {
+		'		CellSalesForecastBln6, CellPPICForecastBln6, CellUrut_6, CellSpace6
+		'}
+
+		'' 2. Gunakan For i untuk looping berdasarkan jumlah item di array
+		'For i As Integer = 0 To colList.Length - 1
+		'	DataGridView1.Columns(colList(i)).Visible = False
+		'Next
 
 		'If Display_Transaksi_ForecastOrder.asal = "isi_lv" Then
 		'    Txt_NoFaktur_Leave(Txt_NoFaktur, e)
@@ -1861,53 +1959,29 @@ Public Class N_EMI_Transaksi_Production_Plan
 	End Sub
 
 	Public Sub Txt_NoFaktur_Leave(sender As Object, e As EventArgs)
-		'If Txt_NoFaktur.Text.Trim.Length = 0 Then
-		'	MessageBox.Show(Base_Language.Lang_Global_Error_No_Transaksi, Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'	Txt_NoFaktur.Focus() : Exit Sub
-		'End If
-
+		If Txt_NoFaktur.Text.Trim.Length = 0 Then
+			MessageBox.Show(Base_Language.Lang_Global_Error_No_Transaksi, Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Txt_NoFaktur.Focus() : Exit Sub
+		End If
 		'UserID
 		Dim ada_data As Boolean = True
 		Try
 			OpenConn()
 
-			SQL = "select No_Faktur, Tanggal, Keterangan, Lokasi, Bulan, Tahun "
-			SQL = SQL & "from EMI_Transaksi_Sales_Forecasting where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			SQL = SQL & "Lokasi = '" & Cmb_Lokasi.Text & "' and Bulan = '" & arrBulanMM.Item(Cmb_Bulan.SelectedIndex) & "' and Tahun = '" & Cmb_Tahun.Text & "'"
-			Using Dr = OpenTrans(SQL)
-				If Dr.Read Then
-					Txt_NoFaktur.Text = Dr("No_Faktur")
-					'fLoad = True
+			SQL = "select No_Faktur,Tanggal,Keterangan,Lokasi,Bulan,Tahun from EMI_Transaksi_Sales_Forecasting where "
+			SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and Status is null and No_Faktur = '" & Txt_NoFaktur.Text & "'"
+			Using dr = OpenTrans(SQL)
+				If dr.Read Then
 
-					Cmb_Lokasi.Text = Dr("Lokasi")
+					Cmb_Lokasi.Text = dr("Lokasi")
 					For index = 0 To arrBulanMM.Count - 1
-						If arrBulanMM.Item(index) = Dr("Bulan") Then
+						If arrBulanMM.Item(index) = dr("Bulan") Then
 							Cmb_Bulan.SelectedIndex = index
 						End If
 					Next
 
-					listBulan.Clear()
-					listTahun.Clear()
-					Dim a1 As Integer = arrBulan.Item(Cmb_Bulan.SelectedIndex)
-					Dim fthn1 As Integer = Val(Cmb_Tahun.Text)
-					Dim tempBulan As Integer = a1
-					Dim tempTahun As Integer = fthn1
-
-					' Buat daftar 3 bulan berurutan mulai dari bulan yang dipilih
-					For j As Integer = 0 To 2
-						Dim bulanStr As String = ""
-						For idx = 0 To arrBulan.Count - 1
-							If arrBulan(idx) = tempBulan Then bulanStr = arrBulanMM(idx)
-						Next
-						listBulan.Add("'" & bulanStr & "'")
-						listTahun.Add(tempTahun)
-						If tempBulan = 12 Then : tempBulan = 1 : tempTahun += 1
-						Else : tempBulan += 1
-						End If
-					Next
-
-					Cmb_Bulan.Text = Dr("Bulan")
-					Cmb_Tahun.Text = Dr("Tahun")
+					Cmb_Bulan.Text = dr("Bulan")
+					Cmb_Tahun.Text = dr("Tahun")
 					'DateTimePicker1.Enabled = False
 					'Cmb_Bulan.Enabled = False
 					'Cmb_Tahun.Enabled = False
@@ -1916,9 +1990,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 
 					ada_data = True
 				Else
-					'fLoad = False
-
-					Dr.Close()
+					dr.Close()
 					get_no_faktur()
 
 					' Cmb_Lokasi.SelectedIndex = -1
@@ -1933,43 +2005,6 @@ Public Class N_EMI_Transaksi_Production_Plan
 					Btn_Realese.Enabled = False
 				End If
 			End Using
-
-			'SQL = "select No_Faktur,Tanggal,Keterangan,Lokasi,Bulan,Tahun from EMI_Transaksi_Sales_Forecasting where "
-			'SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and Status is null and No_Faktur = '" & Txt_NoFaktur.Text & "'"
-			'Using dr = OpenTrans(SQL)
-			'	If dr.Read Then
-			'		Cmb_Lokasi.Text = dr("Lokasi")
-			'		For index = 0 To arrBulanMM.Count - 1
-			'			If arrBulanMM.Item(index) = dr("Bulan") Then
-			'				Cmb_Bulan.SelectedIndex = index
-			'			End If
-			'		Next
-
-			'		Cmb_Bulan.Text = dr("Bulan")
-			'		Cmb_Tahun.Text = dr("Tahun")
-			'		'DateTimePicker1.Enabled = False
-			'		'Cmb_Bulan.Enabled = False
-			'		'Cmb_Tahun.Enabled = False
-			'		Cmb_Lokasi.Enabled = True
-			'		Btn_Simpan.Tag = "&Refresh"
-
-			'		ada_data = True
-			'	Else
-			'		dr.Close()
-			'		get_no_faktur()
-
-			'		' Cmb_Lokasi.SelectedIndex = -1
-			'		'   Cmb_Bulan.SelectedIndex = -1
-			'		'  Cmb_Tahun.SelectedIndex = -1
-
-			'		'Cmb_Bulan.Enabled = False
-			'		'Cmb_Tahun.Enabled = False
-			'		'  Cmb_Lokasi.Enabled = True
-			'		Btn_Simpan.Tag = "&Simpan"
-			'		'Btn_Realese.Visible = False
-			'		Btn_Realese.Enabled = False
-			'	End If
-			'End Using
 
 			DataGridView1.Rows.Clear()
 			Arrbarang.Clear()
@@ -1991,70 +2026,36 @@ Public Class N_EMI_Transaksi_Production_Plan
 			'    SQL = SQL & "group by a.No_Faktur,a.Kode_Barang,b.Nama,a.Kode_Stock_Owner "
 
 			'End If
-			'OpenConn()
+			OpenConn()
+			Dim gudangDefault As String = ""
+			SQL = "select Kode_Stock_Owner_Gudang From Binding_Lokasi_Gudang where "
+			SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and Gudang_Default = 'Y' and Kode_Stock_Owner = '" & Cmb_Lokasi.Text & "' "
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					gudangDefault = Dr("Kode_Stock_Owner_Gudang")
+				Else
+					Dr.Close()
+					CloseConn()
+					MessageBox.Show("Terjadi kesalahan , gudang default tidak ditemukan.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+			End Using
 
-			'Dim gudangDefault As String = ""
-			'SQL = "select Kode_Stock_Owner_Gudang From Binding_Lokasi_Gudang where "
-			'SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and Gudang_Default = 'Y' and Kode_Stock_Owner = '" & Cmb_Lokasi.Text & "' "
-			'Using Dr = OpenTrans(SQL)
-			'	If Dr.Read Then
-			'		gudangDefault = Dr("Kode_Stock_Owner_Gudang")
-			'	Else
-			'		Dr.Close()
-			'		CloseConn()
-			'		MessageBox.Show("Terjadi kesalahan , gudang default tidak ditemukan.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			'		Exit Sub
-			'	End If
-			'End Using
-
-			'SQL = "select distinct a.Kode_Barang,a.Nama From barang a "
-			'SQL = SQL & "inner join EMI_Group_Jenis b on "
-			'SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.id_group_jenis = b.id_group_jenis "
-			'SQL = SQL & "and b.Kode_Perusahaan = '" & KodePerusahaan & "' and b.Flag_Finished_Good = 'Y' "
-			'SQL = SQL & "and a.Aktif = 'Y' and a.Flag_Tampil_Production_Plan = 'Y' "
-			'SQL = SQL & "order by Nama "
-			'Using Ds = BindingTrans(SQL)
-			'	With Ds.Tables("MyTable")
-			'		For i As Integer = 0 To .Rows.Count - 1
-			'			Arrbarang.Add(.Rows(i).Item("Kode_Barang"))
-			'			Arrlokasi.Add(gudangDefault)
-			'			ArrNama.Add(.Rows(i).Item("Nama"))
-			'		Next
-			'	End With
-			'End Using
-
-			SQL = "SELECT a.Kode_Barang, a.Nama, c.Kode_Stock_Owner_Gudang AS Kode_Stock_Owner_Gudang "
-			SQL = SQL & "FROM barang a "
-			SQL = SQL & "INNER JOIN EMI_Group_Jenis b ON  a.kode_perusahaan = b.kode_perusahaan AND a.id_group_jenis = b.id_group_jenis "
-			SQL = SQL & "OUTER APPLY ( "
-			SQL = SQL & "SELECT TOP 1 z.Kode_Stock_Owner_Gudang "
-			SQL = SQL & "FROM Binding_Lokasi_Gudang z "
-			SQL = SQL & "WHERE z.Kode_Perusahaan = b.Kode_Perusahaan "
-			SQL = SQL & "AND z.Gudang_Default = 'Y' "
-			SQL = SQL & "AND z.Kode_Stock_Owner = '" & Cmb_Lokasi.Text.Trim & "' "
-			SQL = SQL & ") AS c  "
-			SQL = SQL & "WHERE b.Kode_Perusahaan = '" & KodePerusahaan & "' "
-			SQL = SQL & "AND b.Flag_Finished_Good = 'Y' "
-			SQL = SQL & "AND a.Aktif = 'Y' "
-			SQL = SQL & "AND a.Flag_Tampil_Production_Plan = 'Y' "
-			SQL = SQL & "GROUP BY a.Kode_Barang, a.Nama, c.Kode_Stock_Owner_Gudang "
-			SQL = SQL & "ORDER BY a.Nama "
+			SQL = "select distinct a.Kode_Barang,a.Nama From barang a "
+			SQL = SQL & "inner join EMI_Group_Jenis b on "
+			SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.id_group_jenis = b.id_group_jenis "
+			SQL = SQL & "and b.Kode_Perusahaan = '" & KodePerusahaan & "' and b.Flag_Finished_Good = 'Y' "
+			SQL = SQL & "and a.Aktif = 'Y' and a.Flag_Tampil_Production_Plan = 'Y' "
+			SQL = SQL & "order by Nama "
 			Using Ds = BindingTrans(SQL)
 				With Ds.Tables("MyTable")
 					For i As Integer = 0 To .Rows.Count - 1
-						If General_Class.CekNULL(.Rows(i).Item("Kode_Stock_Owner_Gudang")) = "" Then
-							CloseConn()
-							MessageBox.Show("Terjadi kesalahan , gudang default tidak ditemukan.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-							Exit Sub
-						End If
-
 						Arrbarang.Add(.Rows(i).Item("Kode_Barang"))
-						Arrlokasi.Add(.Rows(i).Item("Kode_Stock_Owner_Gudang"))
+						Arrlokasi.Add(gudangDefault)
 						ArrNama.Add(.Rows(i).Item("Nama"))
 					Next
 				End With
 			End Using
-
 			CloseConn()
 		Catch ex As Exception
 			CloseConn()
@@ -2071,7 +2072,8 @@ Public Class N_EMI_Transaksi_Production_Plan
 
 	'Versi Optimasi pertama
 	Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
-		'Validasi input
+
+
 		If Txt_NoFaktur.Text.Trim.Length = 0 Then
 			MessageBox.Show(Base_Language.Lang_Global_Error_No_Transaksi, Base_Language.Lang_Global_Perhatian, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 			Txt_NoFaktur.Focus() : Exit Sub
@@ -2123,7 +2125,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 			Dim tempA As Integer = arrBulan.Item(Cmb_Bulan.SelectedIndex)
 			Dim tempThn As Integer = Val(Cmb_Tahun.Text)
 
-			For jj As Integer = 0 To 2
+			For jj As Integer = 0 To 6
 				listBulanProses.Add(dictBulanMM(tempA))
 				listTahunProses.Add(tempThn)
 				If tempA = 12 Then : tempA = 1 : tempThn += 1
@@ -2165,7 +2167,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 			End Using
 
 			'Insert header yang belum ada (maks 3 INSERT, bukan per barang)
-			For jj As Integer = 0 To 2
+			For jj As Integer = 0 To 6
 				Dim bNama As String = listBulanProses(jj)
 				Dim bThn As Integer = listTahunProses(jj)
 				Dim hKey As String = bNama & "|" & bThn
@@ -2214,11 +2216,11 @@ Public Class N_EMI_Transaksi_Production_Plan
 
 				' Ambil nilai per bulan SETELAH Get_Isi_Listview karena fungsi ini
 				' mengisi ulang variabel LvUrut_1/2, lvSalesForecastBln1/2, dll per baris
-				Dim cachedLvUrut(2) As String
-				Dim cachedLvRV(2) As String
-				Dim cachedLvSales(2) As String
-				Dim cachedLvPPIC(2) As String
-				For j As Integer = 1 To 2
+				Dim cachedLvUrut(6) As String
+				Dim cachedLvRV(6) As String
+				Dim cachedLvSales(6) As String
+				Dim cachedLvPPIC(6) As String
+				For j As Integer = 1 To 6
 					cachedLvUrut(j) = CType(Me.GetType().GetField("LvUrut_" & j, bindingFlags).GetValue(Me), String)
 					cachedLvRV(j) = CType(Me.GetType().GetField("LvRV_" & j, bindingFlags).GetValue(Me), String)
 					cachedLvSales(j) = CType(Me.GetType().GetField("lvSalesForecastBln" & j, bindingFlags).GetValue(Me), String)
@@ -2240,7 +2242,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 				End If
 
 				' Bulan ke-1 dan ke-2: INSERT baru atau UPDATE yang sudah ada
-				For j As Integer = 1 To 2
+				For j As Integer = 1 To 6
 					Dim bNama As String = listBulanProses(j)
 					Dim bThn As Integer = listTahunProses(j)
 					Dim noFakturJ As String = dictHeader(bNama & "|" & bThn)
@@ -2257,6 +2259,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 						"('" & KodePerusahaan & "','" & noFakturJ & "','" & bNama & "','" & bThn & "'," &
 						"'" & fSO & "','" & lvKdBrg & "','" & lvSalesBaru & "','" & lvPPICBaru & "','" & lvSatuan & "')")
 						dictDetail(detailKey) = Nothing ' tandai sudah diproses
+
 					Else
 						'Sudah ada -> cek RV dari dictionary, tidak perlu query ke DB
 						If dictDetail.ContainsKey(detailKey) AndAlso dictDetail(detailKey) IsNot Nothing Then
@@ -2377,6 +2380,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 			Cmd.Transaction.Commit()
 			CloseConn()
 			MessageBox.Show("Data berhasil disimpan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
 		Catch ex As Exception
 			Try : CloseTrans() : Catch : End Try
 			CloseConn()
@@ -3194,26 +3198,6 @@ Public Class N_EMI_Transaksi_Production_Plan
 			Exit Sub
 		End If
 
-		listBulan.Clear()
-		listTahun.Clear()
-		Dim a1 As Integer = arrBulan.Item(Cmb_Bulan.SelectedIndex)
-		Dim fthn1 As Integer = Val(Cmb_Tahun.Text)
-		Dim tempBulan As Integer = a1
-		Dim tempTahun As Integer = fthn1
-
-		' Buat daftar 3 bulan berurutan mulai dari bulan yang dipilih
-		For j As Integer = 0 To 2
-			Dim bulanStr As String = ""
-			For idx = 0 To arrBulan.Count - 1
-				If arrBulan(idx) = tempBulan Then bulanStr = arrBulanMM(idx)
-			Next
-			listBulan.Add("'" & bulanStr & "'")
-			listTahun.Add(tempTahun)
-			If tempBulan = 12 Then : tempBulan = 1 : tempTahun += 1
-			Else : tempBulan += 1
-			End If
-		Next
-
 		'DateTimePicker1.Enabled = True
 		'Txt_Keterangan.Enabled = True
 
@@ -3222,8 +3206,77 @@ Public Class N_EMI_Transaksi_Production_Plan
 		Get_Data_Rix()
 		End_Loading(Me)
 	End Sub
+	Private Function IsKolomDicentang(bulanTahunCari As String) As Boolean
+		' Looping sebanyak kolom yang ada di list
+		For i As Integer = 0 To kolomCheckboxTahu.Count - 1
+			Dim indexKolom As Integer = kolomCheckboxTahu(i)
 
+			' Pastikan .Tag tidak kosong
+			If DataGridView1.Columns(indexKolom).Tag IsNot Nothing Then
+				Dim dataTag As String = DataGridView1.Columns(indexKolom).Tag.ToString() ' Isinya "6|2026"
+
+				' 📌 PERBAIKAN DI SINI: Gunakan replace tanda "|" menjadi "-" 
+				' Kalau dataTag isinya "6|2026", dia otomatis berubah jadi "6-2026"
+				Dim formatTag As String = dataTag.Replace("|", "-")
+
+				' Sekarang perbandingannya adil: "6-2026" bertemu dengan "6-2026"
+				If formatTag = bulanTahunCari AndAlso isHeaderChecked(indexKolom) = True Then
+					Return True
+				End If
+			End If
+		Next
+
+		Return False
+	End Function
 	Private Sub Btn_Realese_Click(sender As Object, e As EventArgs) Handles Btn_Realese.Click
+
+		'Dim adaYangDicentang As Boolean = False
+
+		'' 1. Looping berdasarkan jumlah kolom yang ada di list kolomCheckboxTahu
+		'For i As Integer = 0 To kolomCheckboxTahu.Count - 1
+
+		'	' Ambil indeks kolom DataGridView asli dari list
+		'	Dim indexKolom As Integer = kolomCheckboxTahu(i)
+
+		'	' 2. Cek apakah indeks kolom ini sedang dicentang (True)
+		'	If isHeaderChecked(indexKolom) = True Then
+		'		adaYangDicentang = True
+
+		'		' 3. Ambil data Bulan & Tahun asli yang kemarin dititip di properti .Tag
+		'		If DataGridView1.Columns(indexKolom).Tag IsNot Nothing Then
+		'			Dim dataTag As String = DataGridView1.Columns(indexKolom).Tag.ToString()
+		'			Dim splitData As String() = dataTag.Split("-"c)
+
+		'			Dim blnAsli As String = splitData(0) ' Isinya angka bulan (misal: "6")
+		'			Dim thnAsli As String = splitData(1) ' Isinya tahun (misal: "2026")
+
+		'			' ===================================================================
+		'			' 🚀 TINGGAL COCOKKAN SAMA LOGIKA SQL KAMU DI SINI, BRO!
+		'			' ===================================================================
+		'			If fStatus = "Transaksi_ForecastOrder_Sales" Then
+		'				' Jalankan fungsi atau query SQL untuk simpan data Sales
+		'				' Contoh: EksekusiSQLSales(blnAsli, thnAsli)
+		'				MessageBox.Show("Memproses SALES -> Bulan: " & blnAsli & ", Tahun: " & thnAsli)
+
+		'			ElseIf fStatus = "Transaksi_ForecastOrder_PPIC" Then
+		'				' Jalankan fungsi atau query SQL untuk simpan data PPIC
+		'				' Contoh: EksekusiSQLPPIC(blnAsli, thnAsli)
+		'				MessageBox.Show("Memproses PPIC -> Bulan: " & blnAsli & ", Tahun: " & thnAsli)
+		'			End If
+		'			' ===================================================================
+
+		'		End If
+		'	End If
+		'Next
+
+		'' Validasi jika user belum mencentang satu pun kolom bulan
+		'If Not adaYangDicentang Then
+		'	MessageBox.Show("Pilih (centang) kolom bulan terlebih dahulu, bro!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		'End If
+
+		'Exit Sub
+
+
 		get_jam()
 
 		Try
@@ -3247,10 +3300,14 @@ Public Class N_EMI_Transaksi_Production_Plan
 				End If
 			End If
 
+
+
 			Dim a As Integer = arrBulan.Item(Cmb_Bulan.SelectedIndex)
 			Dim fthn As Integer = Val(Cmb_Tahun.Text)
 			Dim b As String = ""
 
+
+			Dim jumlahChecked As Integer = 0
 			Dim daftarProductionPlantDiRelease As String = ""
 			For i As Integer = 0 To DataGridView1.Rows.Count - 1
 				Dim isChecked As Boolean = Convert.ToBoolean(DataGridView1.Rows(i).Cells(CellChkBox).Value)
@@ -3258,7 +3315,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 				If isChecked Then
 					' Ambil nilai kode barang
 					Dim kodeBarang As String = DataGridView1.Rows(i).Cells(CellKdBrg).Value.ToString()
-
+					jumlahChecked = jumlahChecked + 1
 					' Gabungkan dengan format tanda petik untuk SQL
 					If daftarProductionPlantDiRelease = "" Then
 						' Hasil: 'BRG2410001'
@@ -3277,6 +3334,24 @@ Public Class N_EMI_Transaksi_Production_Plan
 				Exit Sub
 			End If
 
+
+			Dim Jumlah_Min_Release_Production_Plan As Integer = 0
+			SQL = "select Jumlah_Min_Release_Production_Plan From Init where "
+			SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' "
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					Jumlah_Min_Release_Production_Plan = Dr("Jumlah_Min_Release_Production_Plan")
+				End If
+			End Using
+
+			If jumlahChecked < Jumlah_Min_Release_Production_Plan Then
+				CloseTrans()
+				CloseConn()
+				MessageBox.Show("Silahkan pilih produk minimal " & Jumlah_Min_Release_Production_Plan & " untuk merelease data...", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				Exit Sub
+			End If
+
+
 			'--- 1
 			'If a = 12 Then
 			'    a = 1
@@ -3285,7 +3360,10 @@ Public Class N_EMI_Transaksi_Production_Plan
 			'    a = a + 1
 			'End If
 
-			For i As Integer = 1 To 2
+
+
+
+			For i As Integer = 1 To 6
 
 				If a = 12 Then
 					a = 1
@@ -3305,8 +3383,22 @@ Public Class N_EMI_Transaksi_Production_Plan
 				'Cek jika data terakhir maka harus di cek apakah sudah pernah di release apa belum .
 				'jika belum maka boleh di release
 
+
+				Dim gabunganBulanTahun As String = a & "-" & fthn
+
+
+				If Not IsKolomDicentang(gabunganBulanTahun) Then
+					Continue For
+				End If
+
+
+
+
+
+
+
 				Dim no_faktur As String = ""
-				SQL = "Select no_faktur from EMI_Transaksi_Sales_Forecasting a where bulan='" & b & "' and tahun ='" & fthn & "' "
+					SQL = "Select no_faktur from EMI_Transaksi_Sales_Forecasting a where bulan='" & b & "' and tahun ='" & fthn & "' "
 				SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
 				Using dr = OpenTrans(SQL)
 					If dr.Read Then
@@ -3327,7 +3419,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 				SQL = SQL & ", '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "' "
 				SQL = SQL & "From  EMI_Transaksi_Sales_Forecasting_Detail a "
 				SQL = SQL & "inner join	EMI_Transaksi_Sales_Forecasting b on a.Kode_Perusahaan  =b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-				SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and b.Bulan = '" & b & "' and b.tahun = '" & fthn & "' and status is null "
+				SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Bulan = '" & b & "' and a.tahun = '" & fthn & "' and status is null "
 				SQL = SQL & "and a.Kode_Barang in (" & daftarProductionPlantDiRelease & ") "
 				ExecuteTrans(SQL)
 
@@ -3374,27 +3466,6 @@ Public Class N_EMI_Transaksi_Production_Plan
 							End With
 						End Using
 
-						'Using Dr = OpenTrans(SQL)
-						'    Do While Dr.Read
-						'        If General_Class.CekNULL(Dr("flag_validasi")) = "" Then
-						'            Dr.Close()
-						'            CloseTrans()
-						'            CloseConn()
-						'            MessageBox.Show("Gagal Release untuk barang " &   , Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						'            Exit Sub
-						'        End If
-
-						'        If General_Class.CekNULL(Dr("flag_validasi_PPIC")) = "Y" Then
-						'            Dr.Close()
-						'            CloseTrans()
-						'            CloseConn()
-						'            MessageBox.Show("Production Plan sudah pernah di release", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						'            Exit Sub
-						'        End If
-						'    Loop
-
-						'End Using
-
 					End If
 
 					SQL = "update EMI_Transaksi_Sales_Forecasting_Detail set "
@@ -3419,13 +3490,13 @@ Public Class N_EMI_Transaksi_Production_Plan
 
 								Dim kode_formula As String = ""
 								Dim namaBarang As String = .Rows(index).Item("nama")
-								SQL = "select top(1) c.No_Faktur
-										from N_EMI_Transaksi_Formulator_Binding a
-										inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
-										inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null
+								SQL = "select top(1) c.No_Faktur 
+										from N_EMI_Transaksi_Formulator_Binding a 
+										inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur 
+										inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null 
 										where a.Status is NULL and a.Flag_Validasi_Main = 'Y' and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Barang ='" & .Rows(index).Item("Kode_Barang") & "'
-										order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC
-
+										order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC 
+										
 									"
 
 								Using dr = OpenTrans(SQL)
@@ -3450,7 +3521,13 @@ Public Class N_EMI_Transaksi_Production_Plan
 						End With
 					End Using
 
+
+
 					' insert barang semi finishgood
+
+
+
+
 
 				ElseIf fStatus = "Transaksi_ForecastOrder_Sales" Then
 					If i = 2 Then
@@ -3521,6 +3598,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 
 			Next
 
+
 			If fStatus = "Transaksi_ForecastOrder_PPIC" Then
 				a = arrBulan.Item(Cmb_Bulan.SelectedIndex)
 				fthn = Val(Cmb_Tahun.Text)
@@ -3529,7 +3607,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 				Dim listFilter As New List(Of String)
 				Dim listFilterDelete As New List(Of String)
 
-				For i As Integer = 0 To 2
+				For i As Integer = 0 To 7
 
 					If a = 12 Then
 						a = 1
@@ -3550,612 +3628,25 @@ Public Class N_EMI_Transaksi_Production_Plan
 					Next
 				Next
 
+
+
+
 				Dim filterBulanTahun As String = String.Join(" OR ", listFilter)
 
+
+				'1
 				RefreshForecastingSemiFG(
 					KodePerusahaan,
 					filterBulanTahun,
-					"Release Insert",
-					UserID
+					UserID,
+					"Release Insert"
 					)
 
-				'SQL = "DELETE FROM EMI_Transaksi_Sales_Forecasting_Detail "
-				'SQL = SQL & "WHERE Kode_Perusahaan = '" & KodePerusahaan & "' "
-				'SQL = SQL & "AND (" & filterBulanTahundelete & ") "
-				'SQL = SQL & "AND flag_semi_fg = 'Y' "
-
-				'ExecuteTrans(SQL)
-
-				'' ================== TEMP TABLE ==================
-				'SQL = "DECLARE @Inserted TABLE ("
-				'SQL = SQL & " Urut_Detail INT,"
-				'SQL = SQL & " No_Faktur VARCHAR(50),"
-				'SQL = SQL & " Nilai_PPIC float,"
-				'SQL = SQL & " Nilai_Sales float"
-
-				'SQL = SQL & ") "
-
-				'' ================== CTE ==================
-				'SQL = SQL & " ;WITH cte AS ( "
-				'SQL = SQL & " SELECT DISTINCT "
-				'SQL = SQL & " ISNULL(( "
-				'SQL = SQL & " SELECT TOP 1 c.No_Faktur "
-				'SQL = SQL & " FROM N_EMI_Transaksi_Formulator_Binding a "
-				'SQL = SQL & " INNER JOIN N_EMI_Transaksi_Formulator_Binding_Detail b "
-				'SQL = SQL & " ON a.Kode_Perusahaan=b.Kode_Perusahaan AND a.No_Faktur=b.No_Faktur "
-				'SQL = SQL & " INNER JOIN Emi_Transaksi_Formulator c "
-				'SQL = SQL & " ON b.Kode_Perusahaan=c.Kode_Perusahaan AND b.No_Formulator=c.No_Faktur AND c.Status IS NULL "
-				'SQL = SQL & " WHERE a.Status IS NULL "
-				'SQL = SQL & " AND a.Flag_Validasi_Main='Y' "
-				'SQL = SQL & " AND a.Kode_Perusahaan=x.kode_perusahaan "
-				'SQL = SQL & " AND a.Kode_Barang=x.kode_barang_inq "
-				'SQL = SQL & " ORDER BY a.Tanggal DESC,a.Jam DESC,b.No_Prioritas ASC "
-				'SQL = SQL & " ),'') AS kode_formula, x.kode_barang_inq,x.kode_perusahaan "
-				'SQL = SQL & " FROM barang x "
-				'SQL = SQL & " INNER JOIN emI_group_jenis y ON x.kode_perusahaan=y.kode_perusahaan AND x.id_group_jenis=y.id_group_jenis "
-				'SQL = SQL & " WHERE (y.Flag_Finished_Good='Y' OR y.Flag_Semi_FG='Y') "
-				'SQL = SQL & "), "
-
-				'' ================== CTE_B ==================
-				'SQL = SQL & "cte_b AS ( "
-
-				'' ===== SELECT 1 =====
-				'SQL = SQL & " SELECT a.Kode_Perusahaan as Kp,a.No_Faktur,b.Kode_Stock_Owner,a.bulan,a.tahun,"
-				'SQL = SQL & " b.kode_Barang as kd_fg,d.kode_barang,d.Nilai_Barang,d.satuan_barang,"
-				'SQL = SQL & " b.Kode_Formula,"
-				'SQL = SQL & " dbo.Ubah_Satuan(a.kode_perusahaan,'MASA',b.kode_Barang,b.satuan,e.satuan_berat,b.nilai_ppic-total_qty) AS nilai_ppic,"
-				'SQL = SQL & " dbo.Ubah_Satuan(a.kode_perusahaan,'MASA',b.kode_Barang,c.satuan_hasil,e.satuan_berat,c.hasil) AS nilai_Formula,"
-				'SQL = SQL & " z.Kode_Perusahaan,z.id_group_jenis "
-
-				'SQL = SQL & " FROM emi_transaksi_sales_forecasting a "
-				'SQL = SQL & " INNER JOIN emi_transaksi_sales_forecasting_detail b ON a.Kode_Perusahaan=b.kode_Perusahaan AND a.no_faktur=b.no_faktur "
-				'SQL = SQL & " INNER JOIN barang bb ON b.kode_perusahaan=bb.kode_perusahaan AND b.kode_barang=bb.kode_barang AND b.kode_stock_owner=bb.kode_stock_owner "
-				'SQL = SQL & " INNER JOIN cte bc ON bb.kode_perusahaan=bc.kode_perusahaan AND bb.kode_barang_inq=bc.kode_barang_inq "
-				'SQL = SQL & " INNER JOIN Emi_Transaksi_Formulator c ON c.Kode_Perusahaan=bc.Kode_Perusahaan AND c.No_Faktur=bc.Kode_Formula "
-				'SQL = SQL & " INNER JOIN emi_transaksi_formulator_detail_Bahan d ON c.Kode_Perusahaan=d.Kode_Perusahaan AND c.no_faktur=d.no_faktur "
-				'SQL = SQL & " INNER JOIN barang z ON d.Kode_Perusahaan=z.Kode_Perusahaan AND d.Kode_Barang=z.Kode_Barang AND d.Kode_Stock_Owner=z.Kode_Stock_Owner "
-				'SQL = SQL & " INNER JOIN init e ON a.kode_Perusahaan=e.kode_Perusahaan "
-
-				'SQL = SQL & " OUTER APPLY (SELECT ISNULL(SUM(f.Jumlah),0) total_qty FROM N_EMI_Production_Plan_Schedule_Detail f "
-				'SQL = SQL & " INNER JOIN N_EMI_Production_Plan_Schedule g ON f.No_Transaksi=g.No_Transaksi AND f.Kode_Perusahaan=g.Kode_Perusahaan "
-				'SQL = SQL & " WHERE g.Status IS NULL AND f.Kode_Perusahaan=b.Kode_Perusahaan AND f.Urut_Production_Plan=b.urut) f_sum "
-
-				'SQL = SQL & " WHERE a.status IS NULL "
-				'SQL = SQL & " AND b.Kode_Perusahaan='" & KodePerusahaan & "' "
-				'SQL = SQL & " AND (" & filterBulanTahun & ") "
-				'SQL = SQL & " AND b.flag_validasi='Y' AND b.flag_validasi_PPIC='Y' AND c.status IS NULL "
-
-				'SQL = SQL & " UNION ALL "
-
-				'' ===== SELECT 2 =====
-				'SQL = SQL & " SELECT a.Kode_Perusahaan,a.No_Faktur,b.Kode_Stock_Owner,a.bulan,a.tahun,"
-				'SQL = SQL & "  b.kode_Barang as kd_fg,d.kode_barang,d.Nilai_Barang,d.satuan_barang,"
-				'SQL = SQL & " f.Kode_Formula,"
-				'SQL = SQL & " dbo.Ubah_Satuan(a.kode_perusahaan,'MASA',b.kode_Barang,b.satuan,e.satuan_berat,f.Jumlah) AS nilai_ppic,"
-				'SQL = SQL & " dbo.Ubah_Satuan(a.kode_perusahaan,'MASA',b.kode_Barang,c.satuan_hasil,e.satuan_berat,c.hasil) AS nilai_Formula,"
-				'SQL = SQL & " z.Kode_Perusahaan,z.id_group_jenis "
-
-				'SQL = SQL & " FROM emi_transaksi_sales_forecasting a "
-				'SQL = SQL & " INNER JOIN emi_transaksi_sales_forecasting_detail b ON a.Kode_Perusahaan=b.kode_Perusahaan AND a.no_faktur=b.no_faktur "
-				'SQL = SQL & " INNER JOIN N_EMI_Production_Plan_Schedule_Detail f ON f.Kode_Perusahaan=b.Kode_Perusahaan AND f.Urut_Production_Plan=b.urut "
-				'SQL = SQL & " INNER JOIN N_EMI_Production_Plan_Schedule g ON f.Kode_Perusahaan=g.Kode_Perusahaan AND f.No_Transaksi=g.No_Transaksi "
-				'SQL = SQL & " INNER JOIN barang bb ON f.kode_perusahaan=bb.kode_perusahaan AND f.kode_barang=bb.kode_barang AND f.kode_stock_owner=bb.kode_stock_owner "
-				'SQL = SQL & " INNER JOIN cte bc ON bb.kode_perusahaan=bc.kode_perusahaan AND bb.kode_barang_inq=bc.kode_barang_inq "
-				'SQL = SQL & " INNER JOIN emi_transaksi_formulator c ON f.Kode_Perusahaan=c.Kode_Perusahaan AND f.Kode_Formula=c.No_Faktur "
-				'SQL = SQL & " INNER JOIN emi_transaksi_formulator_detail_Bahan d ON c.Kode_Perusahaan=d.Kode_Perusahaan AND c.no_faktur=d.no_faktur "
-				'SQL = SQL & " INNER JOIN barang z ON d.Kode_Perusahaan=z.Kode_Perusahaan AND d.Kode_Barang=z.Kode_Barang AND d.Kode_Stock_Owner=z.Kode_Stock_Owner "
-				'SQL = SQL & " INNER JOIN init e ON a.kode_Perusahaan=e.kode_Perusahaan "
-
-				'SQL = SQL & " WHERE a.status IS NULL "
-				'SQL = SQL & " AND b.Kode_Perusahaan='" & KodePerusahaan & "' "
-				'SQL = SQL & " AND (" & filterBulanTahun & ") "
-				'SQL = SQL & " AND b.flag_validasi='Y' AND b.flag_validasi_PPIC='Y' AND c.status IS NULL AND g.Status IS NULL "
-
-				'SQL = SQL & ") "
-
-				'' ================== INSERT + OUTPUT ==================
-				'SQL = SQL & "INSERT INTO EMI_Transaksi_Sales_Forecasting_Detail "
-				'SQL = SQL & "(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Bulan,Tahun,Nilai_Sales,Nilai_PPIC,Flag_Validasi,Flag_Validasi_PPIC, flag_semi_fg) "
-
-				'SQL = SQL & "OUTPUT INSERTED.urut, INSERTED.No_Faktur, INSERTED.Nilai_PPIC, INSERTED.Nilai_Sales  INTO @Inserted "
-
-				'SQL = SQL & "SELECT a.kp,a.no_faktur,a.Kode_Stock_Owner,a.kode_barang,a.bulan,a.tahun,"
-				'SQL = SQL & " ISNULL(SUM(ROUND(a.Nilai_Barang*(a.nilai_ppic/NULLIF(a.nilai_Formula,0)),2)),0),"
-				'SQL = SQL & " ISNULL(SUM(ROUND(a.Nilai_Barang*(a.nilai_ppic/NULLIF(a.nilai_Formula,0)),2)),0),'Y','Y', 'Y' "
-
-				'SQL = SQL & "FROM cte_b a "
-				'SQL = SQL & "INNER JOIN emi_group_jenis m ON a.kode_perusahaan=m.kode_perusahaan AND a.id_group_jenis=m.id_group_jenis "
-				'SQL = SQL & "WHERE m.flag_semi_fg='Y' "
-				'SQL = SQL & "GROUP BY a.kp,a.no_faktur,a.Kode_Stock_Owner,a.kode_barang,a.bulan,a.tahun,a.kode_perusahaan "
-
-				'' ================== INSERT LOG ==================
-				'SQL = SQL & "INSERT INTO EMI_Transaksi_Sales_Forecasting_Log "
-				'SQL = SQL & "(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_Sales,Jenis,UserID,Tanggal,Jam) "
-
-				'SQL = SQL & "SELECT '" & KodePerusahaan & "',No_Faktur,Urut_Detail,Nilai_PPIC,Nilai_Sales,'INSERT','" & UserID & "',"
-				'SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "' FROM @Inserted "
-
-				'ExecuteTrans(SQL)
 
 			End If
 
-			'Dim no_faktur As String = ""
-			'SQL = "Select no_faktur from EMI_Transaksi_Sales_Forecasting a where bulan='" & b & "' and tahun ='" & fthn & "' "
-			'SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
-			'Using dr = OpenTrans(SQL)
-			'    If dr.Read Then
-			'        no_faktur = dr("no_faktur")
-			'    Else
 
-			'        dr.Close()
-			'        CloseConn()
-			'        MessageBox.Show("Production Plan tidak ditemukan...", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			'        Exit Sub
-			'    End If
-			'End Using
 
-			''dari sini
-
-			'If fStatus = "Transaksi_ForecastOrder_PPIC" Then
-			'    SQL = "update EMI_Transaksi_Sales_Forecasting set "
-			'    SQL = SQL & "Flag_Validasi_PPIC = 'Y',User_Validasi_PPIC = '" & UserID & "',"
-			'    SQL = SQL & "Tanggal_Validasi_PPIC = '" & Format(tgl_skg, "yyyy-MM-dd") & "',"
-			'    SQL = SQL & "Jam_Validasi_PPIC = '" & Format(tgl_skg, "HH:mm:ss") & "', "
-			'    SQL = SQL & "Status_Data = 'VERIFICATION' "
-			'    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'    SQL = SQL & "bulan='" & b & "' and tahun ='" & fthn & "' "
-			'    ExecuteTrans(SQL)
-
-			'    SQL = "Select b.kode_barang_inq as Kode_Barang, a.urut from EMI_Transaksi_Sales_Forecasting_detail a, barang b "
-			'    SQL = SQL & "where a.no_faktur ='" & no_faktur & "' "
-			'    SQL = SQL & "And a.kode_perusahaan='" & KodePerusahaan & "' "
-			'    SQL = SQL & "and a.kode_Barang=b.Kode_Barang and a.Kode_stock_owner=b.Kode_stock_owner "
-			'    SQL = SQL & "and a.kode_Perusahaan=b.kode_Perusahaan "
-			'    Using ds = BindingTrans(SQL)
-			'        With ds.Tables("MyTable")
-			'            For index = 0 To .Rows.Count - 1
-
-			'                Dim kode_formula As String = ""
-			'                SQL = "Select Kode_formula from EMI_Transaksi_Formulator_Binding where "
-			'                SQL = SQL & "kode_Barang='" & .Rows(index).Item("Kode_Barang") & "' and Aktif='Y' "
-			'                SQL = SQL & " And kode_perusahaan ='" & KodePerusahaan & "' "
-			'                Using dr = OpenTrans(SQL)
-			'                    If dr.Read Then
-			'                        kode_formula = dr("Kode_formula")
-			'                    Else
-			'                        dr.Close()
-			'                        CloseConn()
-			'                        MessageBox.Show("Barang tidak di temukan . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			'                        Exit Sub
-			'                    End If
-			'                End Using
-
-			'                SQL = "update EMI_Transaksi_Sales_Forecasting_detail set "
-			'                SQL = SQL & "Kode_Formula = '" & kode_formula & "' "
-			'                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'                SQL = SQL & "urut='" & .Rows(index).Item("urut") & "' "
-			'                ExecuteTrans(SQL)
-
-			'            Next
-			'        End With
-			'    End Using
-
-			'ElseIf fStatus = "Transaksi_ForecastOrder_Sales" Then
-			'    SQL = "update EMI_Transaksi_Sales_Forecasting set "
-			'    SQL = SQL & "Flag_Validasi = 'Y',User_Validasi = '" & UserID & "',"
-			'    SQL = SQL & "Tanggal_Validasi = '" & Format(tgl_skg, "yyyy-MM-dd") & "',"
-			'    SQL = SQL & "Jam_Validasi = '" & Format(tgl_skg, "HH:mm:ss") & "', "
-			'    SQL = SQL & "Status_Data = 'SUBMITTED' "
-			'    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'    SQL = SQL & "bulan='" & b & "' and tahun ='" & fthn & "' "
-			'    ExecuteTrans(SQL)
-			'End If
-
-			''--- 2
-			'If a = 12 Then
-			'    a = 1
-			'    fthn = fthn + 1
-			'Else
-			'    a = a + 1
-			'End If
-			'For index = 0 To arrBulan.Count - 1
-			'    If arrBulan.Item(index) = a Then
-			'        b = arrBulanMM.Item(index)
-			'    End If
-			'Next
-
-			'SQL = "Select no_faktur from EMI_Transaksi_Sales_Forecasting a where bulan='" & b & "' and tahun ='" & fthn & "' "
-			'SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
-			'Using dr = OpenTrans(SQL)
-			'    If dr.Read Then
-			'        no_faktur = dr("no_faktur")
-			'    Else
-
-			'        dr.Close()
-			'        CloseConn()
-			'        MessageBox.Show("Terdapat Data Tidak Lengkap . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			'        Exit Sub
-			'    End If
-			'End Using
-
-			'If fStatus = "Transaksi_ForecastOrder_PPIC" Then
-			'    SQL = "update EMI_Transaksi_Sales_Forecasting set "
-			'    SQL = SQL & "Flag_Validasi_PPIC = 'Y',User_Validasi_PPIC = '" & UserID & "',"
-			'    SQL = SQL & "Tanggal_Validasi_PPIC = '" & Format(tgl_skg, "yyyy-MM-dd") & "',"
-			'    SQL = SQL & "Jam_Validasi_PPIC = '" & Format(tgl_skg, "HH:mm:ss") & "', "
-			'    SQL = SQL & "Status_Data = 'VERIFICATION' "
-			'    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'    SQL = SQL & "bulan='" & b & "' and tahun ='" & fthn & "' "
-			'    ExecuteTrans(SQL)
-
-			'    SQL = "Select b.kode_barang_inq as Kode_Barang, a.urut from EMI_Transaksi_Sales_Forecasting_detail a, barang b "
-			'    SQL = SQL & "where a.no_faktur ='" & no_faktur & "' "
-			'    SQL = SQL & "And a.kode_perusahaan='" & KodePerusahaan & "' "
-			'    SQL = SQL & "and a.kode_Barang=b.Kode_Barang and a.Kode_stock_owner=b.Kode_stock_owner "
-			'    SQL = SQL & "and a.kode_Perusahaan=b.kode_Perusahaan "
-			'    Using ds = BindingTrans(SQL)
-			'        With ds.Tables("MyTable")
-			'            For index = 0 To .Rows.Count - 1
-
-			'                Dim kode_formula As String = ""
-			'                SQL = "Select Kode_formula from EMI_Transaksi_Formulator_Binding where "
-			'                SQL = SQL & "kode_Barang='" & .Rows(index).Item("Kode_Barang") & "' and Aktif='Y' "
-			'                SQL = SQL & " And kode_perusahaan ='" & KodePerusahaan & "' "
-			'                Using dr = OpenTrans(SQL)
-			'                    If dr.Read Then
-			'                        kode_formula = dr("Kode_formula")
-			'                    Else
-			'                        dr.Close()
-			'                        CloseConn()
-			'                        MessageBox.Show("Barang tidak di temukan . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			'                        Exit Sub
-			'                    End If
-			'                End Using
-
-			'                SQL = "update EMI_Transaksi_Sales_Forecasting_detail set "
-			'                SQL = SQL & "Kode_Formula = '" & kode_formula & "' "
-			'                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'                SQL = SQL & "urut='" & .Rows(index).Item("urut") & "' "
-			'                ExecuteTrans(SQL)
-
-			'            Next
-			'        End With
-			'    End Using
-			'ElseIf fStatus = "Transaksi_ForecastOrder_Sales" Then
-			'    SQL = "update EMI_Transaksi_Sales_Forecasting set "
-			'    SQL = SQL & "Flag_Validasi = 'Y',User_Validasi = '" & UserID & "',"
-			'    SQL = SQL & "Tanggal_Validasi = '" & Format(tgl_skg, "yyyy-MM-dd") & "',"
-			'    SQL = SQL & "Jam_Validasi = '" & Format(tgl_skg, "HH:mm:ss") & "', "
-			'    SQL = SQL & "Status_Data = 'SUBMITTED' "
-			'    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'    SQL = SQL & "bulan='" & b & "' and tahun ='" & fthn & "' "
-			'    ExecuteTrans(SQL)
-			'End If
-
-			'--- 3
-			'If a = 12 Then
-			'    a = 1
-			'    fthn = fthn + 1
-			'Else
-			'    a = a + 1
-			'End If
-			'For index = 0 To arrBulan.Count - 1
-			'    If arrBulan.Item(index) = a Then
-			'        b = arrBulanMM.Item(index)
-			'    End If
-			'Next
-
-			'SQL = "Select no_faktur from EMI_Transaksi_Sales_Forecasting a where bulan='" & b & "' and tahun ='" & fthn & "' "
-			'SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
-			'Using dr = OpenTrans(SQL)
-			'    If dr.Read Then
-			'        no_faktur = dr("no_faktur")
-			'    Else
-
-			'        dr.Close()
-			'        CloseConn()
-			'        MessageBox.Show("Terdapat Data Tidak Lengkap . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			'        Exit Sub
-			'    End If
-			'End Using
-
-			'If fStatus = "Transaksi_ForecastOrder_PPIC" Then
-			'    SQL = "update EMI_Transaksi_Sales_Forecasting set "
-			'    SQL = SQL & "Flag_Validasi_PPIC = 'Y',User_Validasi_PPIC = '" & UserID & "',"
-			'    SQL = SQL & "Tanggal_Validasi_PPIC = '" & Format(tgl_skg, "yyyy-MM-dd") & "',"
-			'    SQL = SQL & "Jam_Validasi_PPIC = '" & Format(tgl_skg, "HH:mm:ss") & "', "
-			'    SQL = SQL & "Status_Data = 'VERIFICATION' "
-			'    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'    SQL = SQL & "bulan='" & b & "' and tahun ='" & fthn & "' "
-			'    ExecuteTrans(SQL)
-
-			'    SQL = "Select b.kode_barang_inq as Kode_Barang, a.urut from EMI_Transaksi_Sales_Forecasting_detail a, barang b "
-			'    SQL = SQL & "where a.no_faktur ='" & no_faktur & "' "
-			'    SQL = SQL & "And a.kode_perusahaan='" & KodePerusahaan & "' "
-			'    SQL = SQL & "and a.kode_Barang=b.Kode_Barang and a.Kode_stock_owner=b.Kode_stock_owner "
-			'    SQL = SQL & "and a.kode_Perusahaan=b.kode_Perusahaan "
-			'    Using ds = BindingTrans(SQL)
-			'        With ds.Tables("MyTable")
-			'            For index = 0 To .Rows.Count - 1
-
-			'                Dim kode_formula As String = ""
-			'                SQL = "Select Kode_formula from EMI_Transaksi_Formulator_Binding where "
-			'                SQL = SQL & "kode_Barang='" & .Rows(index).Item("Kode_Barang") & "' and Aktif='Y' "
-			'                SQL = SQL & " And kode_perusahaan ='" & KodePerusahaan & "' "
-			'                Using dr = OpenTrans(SQL)
-			'                    If dr.Read Then
-			'                        kode_formula = dr("Kode_formula")
-			'                    Else
-			'                        dr.Close()
-			'                        CloseConn()
-			'                        MessageBox.Show("Barang tidak di temukan . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			'                        Exit Sub
-			'                    End If
-			'                End Using
-
-			'                SQL = "update EMI_Transaksi_Sales_Forecasting_detail set "
-			'                SQL = SQL & "Kode_Formula = '" & kode_formula & "' "
-			'                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'                SQL = SQL & "urut='" & .Rows(index).Item("urut") & "' "
-			'                ExecuteTrans(SQL)
-
-			'            Next
-			'        End With
-			'    End Using
-			'ElseIf fStatus = "Transaksi_ForecastOrder_Sales" Then
-			'    SQL = "update EMI_Transaksi_Sales_Forecasting set "
-			'    SQL = SQL & "Flag_Validasi = 'Y',User_Validasi = '" & UserID & "',"
-			'    SQL = SQL & "Tanggal_Validasi = '" & Format(tgl_skg, "yyyy-MM-dd") & "',"
-			'    SQL = SQL & "Jam_Validasi = '" & Format(tgl_skg, "HH:mm:ss") & "', "
-			'    SQL = SQL & "Status_Data = 'SUBMITTED' "
-			'    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'    SQL = SQL & "bulan='" & b & "' and tahun ='" & fthn & "' "
-			'    ExecuteTrans(SQL)
-			'End If
-
-			''--- 4
-			'If a = 12 Then
-			'    a = 1
-			'    fthn = fthn + 1
-			'Else
-			'    a = a + 1
-			'End If
-			'For index = 0 To arrBulan.Count - 1
-			'    If arrBulan.Item(index) = a Then
-			'        b = arrBulanMM.Item(index)
-			'    End If
-			'Next
-
-			'SQL = "Select no_faktur from EMI_Transaksi_Sales_Forecasting a where bulan='" & b & "' and tahun ='" & fthn & "' "
-			'SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
-			'Using dr = OpenTrans(SQL)
-			'    If dr.Read Then
-			'        no_faktur = dr("no_faktur")
-			'    Else
-
-			'        dr.Close()
-			'        CloseConn()
-			'        MessageBox.Show("Terdapat Data Tidak Lengkap . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			'        Exit Sub
-			'    End If
-			'End Using
-
-			'If fStatus = "Transaksi_ForecastOrder_PPIC" Then
-			'    SQL = "update EMI_Transaksi_Sales_Forecasting set "
-			'    SQL = SQL & "Flag_Validasi_PPIC = 'Y',User_Validasi_PPIC = '" & UserID & "',"
-			'    SQL = SQL & "Tanggal_Validasi_PPIC = '" & Format(tgl_skg, "yyyy-MM-dd") & "',"
-			'    SQL = SQL & "Jam_Validasi_PPIC = '" & Format(tgl_skg, "HH:mm:ss") & "', "
-			'    SQL = SQL & "Status_Data = 'VERIFICATION' "
-			'    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'    SQL = SQL & "bulan='" & b & "' and tahun ='" & fthn & "' "
-			'    ExecuteTrans(SQL)
-
-			'    SQL = "Select b.kode_barang_inq as Kode_Barang, a.urut from EMI_Transaksi_Sales_Forecasting_detail a, barang b "
-			'    SQL = SQL & "where a.no_faktur ='" & no_faktur & "' "
-			'    SQL = SQL & "And a.kode_perusahaan='" & KodePerusahaan & "' "
-			'    SQL = SQL & "and a.kode_Barang=b.Kode_Barang and a.Kode_stock_owner=b.Kode_stock_owner "
-			'    SQL = SQL & "and a.kode_Perusahaan=b.kode_Perusahaan "
-			'    Using ds = BindingTrans(SQL)
-			'        With ds.Tables("MyTable")
-			'            For index = 0 To .Rows.Count - 1
-
-			'                Dim kode_formula As String = ""
-			'                SQL = "Select Kode_formula from EMI_Transaksi_Formulator_Binding where "
-			'                SQL = SQL & "kode_Barang='" & .Rows(index).Item("Kode_Barang") & "' and Aktif='Y' "
-			'                SQL = SQL & " And kode_perusahaan ='" & KodePerusahaan & "' "
-			'                Using dr = OpenTrans(SQL)
-			'                    If dr.Read Then
-			'                        kode_formula = dr("Kode_formula")
-			'                    Else
-			'                        dr.Close()
-			'                        CloseConn()
-			'                        MessageBox.Show("Barang tidak di temukan . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			'                        Exit Sub
-			'                    End If
-			'                End Using
-
-			'                SQL = "update EMI_Transaksi_Sales_Forecasting_detail set "
-			'                SQL = SQL & "Kode_Formula = '" & kode_formula & "' "
-			'                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'                SQL = SQL & "urut='" & .Rows(index).Item("urut") & "' "
-			'                ExecuteTrans(SQL)
-
-			'            Next
-			'        End With
-			'    End Using
-			'ElseIf fStatus = "Transaksi_ForecastOrder_Sales" Then
-			'    SQL = "update EMI_Transaksi_Sales_Forecasting set "
-			'    SQL = SQL & "Flag_Validasi = 'Y',User_Validasi = '" & UserID & "',"
-			'    SQL = SQL & "Tanggal_Validasi = '" & Format(tgl_skg, "yyyy-MM-dd") & "',"
-			'    SQL = SQL & "Jam_Validasi = '" & Format(tgl_skg, "HH:mm:ss") & "', "
-			'    SQL = SQL & "Status_Data = 'SUBMITTED' "
-			'    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'    SQL = SQL & "bulan='" & b & "' and tahun ='" & fthn & "' "
-			'    ExecuteTrans(SQL)
-			'End If
-
-			''--- 5
-			'If a = 12 Then
-			'    a = 1
-			'    fthn = fthn + 1
-			'Else
-			'    a = a + 1
-			'End If
-			'For index = 0 To arrBulan.Count - 1
-			'    If arrBulan.Item(index) = a Then
-			'        b = arrBulanMM.Item(index)
-			'    End If
-			'Next
-
-			'SQL = "Select no_faktur from EMI_Transaksi_Sales_Forecasting a where bulan='" & b & "' and tahun ='" & fthn & "' "
-			'SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
-			'Using dr = OpenTrans(SQL)
-			'    If dr.Read Then
-			'        no_faktur = dr("no_faktur")
-			'    Else
-
-			'        dr.Close()
-			'        CloseConn()
-			'        MessageBox.Show("Terdapat Data Tidak Lengkap . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			'        Exit Sub
-			'    End If
-			'End Using
-
-			'If fStatus = "Transaksi_ForecastOrder_PPIC" Then
-			'    SQL = "update EMI_Transaksi_Sales_Forecasting set "
-			'    SQL = SQL & "Flag_Validasi_PPIC = 'Y',User_Validasi_PPIC = '" & UserID & "',"
-			'    SQL = SQL & "Tanggal_Validasi_PPIC = '" & Format(tgl_skg, "yyyy-MM-dd") & "',"
-			'    SQL = SQL & "Jam_Validasi_PPIC = '" & Format(tgl_skg, "HH:mm:ss") & "', "
-			'    SQL = SQL & "Status_Data = 'VERIFICATION' "
-			'    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'    SQL = SQL & "bulan='" & b & "' and tahun ='" & fthn & "' "
-			'    ExecuteTrans(SQL)
-
-			'    SQL = "Select b.kode_barang_inq as Kode_Barang, a.urut from EMI_Transaksi_Sales_Forecasting_detail a, barang b "
-			'    SQL = SQL & "where a.no_faktur ='" & no_faktur & "' "
-			'    SQL = SQL & "And a.kode_perusahaan='" & KodePerusahaan & "' "
-			'    SQL = SQL & "and a.kode_Barang=b.Kode_Barang and a.Kode_stock_owner=b.Kode_stock_owner "
-			'    SQL = SQL & "and a.kode_Perusahaan=b.kode_Perusahaan "
-			'    Using ds = BindingTrans(SQL)
-			'        With ds.Tables("MyTable")
-			'            For index = 0 To .Rows.Count - 1
-
-			'                Dim kode_formula As String = ""
-			'                SQL = "Select Kode_formula from EMI_Transaksi_Formulator_Binding where "
-			'                SQL = SQL & "kode_Barang='" & .Rows(index).Item("Kode_Barang") & "' and Aktif='Y' "
-			'                SQL = SQL & " And kode_perusahaan ='" & KodePerusahaan & "' "
-			'                Using dr = OpenTrans(SQL)
-			'                    If dr.Read Then
-			'                        kode_formula = dr("Kode_formula")
-			'                    Else
-			'                        dr.Close()
-			'                        CloseConn()
-			'                        MessageBox.Show("Barang tidak di temukan . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			'                        Exit Sub
-			'                    End If
-			'                End Using
-
-			'                SQL = "update EMI_Transaksi_Sales_Forecasting_detail set "
-			'                SQL = SQL & "Kode_Formula = '" & kode_formula & "' "
-			'                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'                SQL = SQL & "urut='" & .Rows(index).Item("urut") & "' "
-			'                ExecuteTrans(SQL)
-
-			'            Next
-			'        End With
-			'    End Using
-			'ElseIf fStatus = "Transaksi_ForecastOrder_Sales" Then
-			'    SQL = "update EMI_Transaksi_Sales_Forecasting set "
-			'    SQL = SQL & "Flag_Validasi = 'Y',User_Validasi = '" & UserID & "',"
-			'    SQL = SQL & "Tanggal_Validasi = '" & Format(tgl_skg, "yyyy-MM-dd") & "',"
-			'    SQL = SQL & "Jam_Validasi = '" & Format(tgl_skg, "HH:mm:ss") & "', "
-			'    SQL = SQL & "Status_Data = 'SUBMITTED' "
-			'    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'    SQL = SQL & "bulan='" & b & "' and tahun ='" & fthn & "' "
-			'    ExecuteTrans(SQL)
-			'End If
-
-			''--- 6
-			'If a = 12 Then
-			'    a = 1
-			'    fthn = fthn + 1
-			'Else
-			'    a = a + 1
-			'End If
-			'For index = 0 To arrBulan.Count - 1
-			'    If arrBulan.Item(index) = a Then
-			'        b = arrBulanMM.Item(index)
-			'    End If
-			'Next
-
-			'SQL = "Select no_faktur from EMI_Transaksi_Sales_Forecasting a where bulan='" & b & "' and tahun ='" & fthn & "' "
-			'SQL = SQL & "And status Is null And kode_perusahaan='" & KodePerusahaan & "' "
-			'Using dr = OpenTrans(SQL)
-			'    If dr.Read Then
-			'        no_faktur = dr("no_faktur")
-			'    Else
-
-			'        dr.Close()
-			'        CloseConn()
-			'        MessageBox.Show("Terdapat Data Tidak Lengkap . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			'        Exit Sub
-			'    End If
-			'End Using
-
-			'If fStatus = "Transaksi_ForecastOrder_PPIC" Then
-			'    SQL = "update EMI_Transaksi_Sales_Forecasting set "
-			'    SQL = SQL & "Flag_Validasi_PPIC = 'Y',User_Validasi_PPIC = '" & UserID & "',"
-			'    SQL = SQL & "Tanggal_Validasi_PPIC = '" & Format(tgl_skg, "yyyy-MM-dd") & "',"
-			'    SQL = SQL & "Jam_Validasi_PPIC = '" & Format(tgl_skg, "HH:mm:ss") & "', "
-			'    SQL = SQL & "Status_Data = 'VERIFICATION' "
-			'    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'    SQL = SQL & "bulan='" & b & "' and tahun ='" & fthn & "' "
-			'    ExecuteTrans(SQL)
-
-			'    SQL = "Select b.kode_barang_inq as Kode_Barang, a.urut from EMI_Transaksi_Sales_Forecasting_detail a, barang b "
-			'    SQL = SQL & "where a.no_faktur ='" & no_faktur & "' "
-			'    SQL = SQL & "And a.kode_perusahaan='" & KodePerusahaan & "' "
-			'    SQL = SQL & "and a.kode_Barang=b.Kode_Barang and a.Kode_stock_owner=b.Kode_stock_owner "
-			'    SQL = SQL & "and a.kode_Perusahaan=b.kode_Perusahaan "
-			'    Using ds = BindingTrans(SQL)
-			'        With ds.Tables("MyTable")
-			'            For index = 0 To .Rows.Count - 1
-
-			'                Dim kode_formula As String = ""
-			'                SQL = "Select Kode_formula from EMI_Transaksi_Formulator_Binding where "
-			'                SQL = SQL & "kode_Barang='" & .Rows(index).Item("Kode_Barang") & "' and Aktif='Y' "
-			'                SQL = SQL & " And kode_perusahaan ='" & KodePerusahaan & "' "
-			'                Using dr = OpenTrans(SQL)
-			'                    If dr.Read Then
-			'                        kode_formula = dr("Kode_formula")
-			'                    Else
-			'                        dr.Close()
-			'                        CloseConn()
-			'                        MessageBox.Show("Barang tidak di temukan . . ! ! ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			'                        Exit Sub
-			'                    End If
-			'                End Using
-
-			'                SQL = "update EMI_Transaksi_Sales_Forecasting_detail set "
-			'                SQL = SQL & "Kode_Formula = '" & kode_formula & "' "
-			'                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'                SQL = SQL & "urut='" & .Rows(index).Item("urut") & "' "
-			'                ExecuteTrans(SQL)
-
-			'            Next
-			'        End With
-			'    End Using
-
-			'ElseIf fStatus = "Transaksi_ForecastOrder_Sales" Then
-			'    SQL = "update EMI_Transaksi_Sales_Forecasting set "
-			'    SQL = SQL & "Flag_Validasi = 'Y',User_Validasi = '" & UserID & "',"
-			'    SQL = SQL & "Tanggal_Validasi = '" & Format(tgl_skg, "yyyy-MM-dd") & "',"
-			'    SQL = SQL & "Jam_Validasi = '" & Format(tgl_skg, "HH:mm:ss") & "', "
-			'    SQL = SQL & "Status_Data = 'SUBMITTED' "
-			'    SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			'    SQL = SQL & "bulan='" & b & "' and tahun ='" & fthn & "' "
-			'    ExecuteTrans(SQL)
-			'End If
 
 			Cmd.Transaction.Commit()
 			CloseConn()
@@ -4256,7 +3747,6 @@ Public Class N_EMI_Transaksi_Production_Plan
 
 			DataGridView1.CurrentCell.Value = nilai
 		End If
-
 	End Sub
 
 	Private Sub DataGridView1_CellLeave(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellLeave
@@ -4281,7 +3771,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 			'Dim nilai As Decimal = Decimal.Parse(cellKuantity)
 			'Dim formattedValue As String = nilai.ToString("N2", Globalization.CultureInfo.GetCultureInfo("en-us"))
 
-			DataGridView1.CurrentCell.Value = Format(Val(HilangkanTanda(cellKuantity)), "N2")
+			DataGridView1.CurrentCell.Value = Val(HilangkanTanda(cellKuantity))
 
 		End If
 	End Sub
@@ -4314,6 +3804,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 			Dim fthn As Integer = Val(Cmb_Tahun.Text)
 			Dim b As String = ""
 
+			Dim jumlahChecked As Integer = 0
 			Dim daftarProductionPlantDiRelease As String = ""
 			For i As Integer = 0 To DataGridView1.Rows.Count - 1
 				Dim isChecked As Boolean = Convert.ToBoolean(DataGridView1.Rows(i).Cells(CellChkBox).Value)
@@ -4321,7 +3812,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 				If isChecked Then
 					' Ambil nilai kode barang
 					Dim kodeBarang As String = DataGridView1.Rows(i).Cells(CellKdBrg).Value.ToString()
-
+					jumlahChecked = jumlahChecked + 1
 					' Gabungkan dengan format tanda petik untuk SQL
 					If daftarProductionPlantDiRelease = "" Then
 						' Hasil: 'BRG2410001'
@@ -4336,11 +3827,27 @@ Public Class N_EMI_Transaksi_Production_Plan
 			If daftarProductionPlantDiRelease.Trim.Length = 0 Then
 				CloseTrans()
 				CloseConn()
-				MessageBox.Show("Silahkan pilih data barang yang ingin di release.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				MessageBox.Show("Silahkan pilih data barang yang ingin di unrelease.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 				Exit Sub
 			End If
 
-			For i As Integer = 1 To 2
+			Dim Jumlah_Min_Release_Production_Plan As Integer = 0
+			SQL = "select Jumlah_Min_Release_Production_Plan From Init where "
+			SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' "
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					Jumlah_Min_Release_Production_Plan = Dr("Jumlah_Min_Release_Production_Plan")
+				End If
+			End Using
+
+			If jumlahChecked < Jumlah_Min_Release_Production_Plan Then
+				CloseTrans()
+				CloseConn()
+				MessageBox.Show("Silahkan pilih produk minimal " & Jumlah_Min_Release_Production_Plan & " untuk unrelease data...", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				Exit Sub
+			End If
+
+			For i As Integer = 1 To 6
 
 				If a = 12 Then
 					a = 1
@@ -4355,8 +3862,19 @@ Public Class N_EMI_Transaksi_Production_Plan
 
 					End If
 				Next
+
+
+				Dim gabunganBulanTahun As String = a & "-" & fthn
+
+
+				If Not IsKolomDicentang(gabunganBulanTahun) Then
+
+					Continue For
+				End If
+
+
 				Dim no_faktur As String = ""
-				SQL = "Select a.no_faktur,a.flag_validasi,a.flag_validasi_ppic from EMI_Transaksi_Sales_Forecasting_detail a, EMI_Transaksi_Sales_Forecasting b where b.bulan='" & b & "' and b.tahun ='" & fthn & "' "
+				SQL = "Select a.no_faktur,a.flag_validasi,a.flag_validasi_ppic from EMI_Transaksi_Sales_Forecasting_detail a, EMI_Transaksi_Sales_Forecasting b where a.bulan='" & b & "' and a.tahun ='" & fthn & "' "
 				SQL = SQL & "And b.status Is null And a.kode_perusahaan='" & KodePerusahaan & "' "
 				SQL = SQL & "and a.kode_perusahaan = b.kode_perusahaan and a.no_faktur = b.no_faktur "
 				SQL = SQL & "and a.Kode_Barang in (" & daftarProductionPlantDiRelease & ") "
@@ -4382,15 +3900,15 @@ Public Class N_EMI_Transaksi_Production_Plan
 							End If
 						End If
 
-						If fStatus = "Transaksi_ForecastOrder_PPIC" Then
-							If General_Class.CekNULL(dr("flag_validasi_ppic")) = "" Then
-								dr.Close()
-								CloseTrans()
-								CloseConn()
-								MessageBox.Show("Data belum pernah di submit!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-								Exit Sub
-							End If
-						End If
+						'If fStatus = "Transaksi_ForecastOrder_PPIC" Then
+						'	If General_Class.CekNULL(dr("flag_validasi_ppic")) = "" Then
+						'		dr.Close()
+						'		CloseTrans()
+						'		CloseConn()
+						'		MessageBox.Show("Data belum pernah di submit!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						'		Exit Sub
+						'	End If
+						'End If
 
 						no_faktur = dr("no_faktur")
 					Else
@@ -4402,6 +3920,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 						Exit Sub
 					End If
 				End Using
+
 
 				SQL = "select a.Kode_Perusahaan,  "
 
@@ -4435,13 +3954,15 @@ Public Class N_EMI_Transaksi_Production_Plan
 					End If
 				End Using
 
+
+
 				SQL = "INSERT INTO EMI_Transaksi_Sales_Forecasting_Log(Kode_Perusahaan,No_Faktur,Urut_Detail,Jumlah_Lama_PPIC,Jumlah_Lama_Sales,Jenis,UserID,"
 				SQL = SQL & "Tanggal,Jam) "
-				SQL = SQL & " select a.Kode_Perusahaan, a.No_Faktur,a.urut,a.Nilai_Sales,a.Nilai_Sales,'RELEASE', '" & UserID & "' "
+				SQL = SQL & " select a.Kode_Perusahaan, a.No_Faktur,a.urut,a.Nilai_Sales,a.Nilai_Sales,'UNRELEASE', '" & UserID & "' "
 				SQL = SQL & ", '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "' "
 				SQL = SQL & "From  EMI_Transaksi_Sales_Forecasting_Detail a "
 				SQL = SQL & "inner join	EMI_Transaksi_Sales_Forecasting b on a.Kode_Perusahaan  =b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-				SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and b.Bulan = '" & b & "' and b.tahun = '" & fthn & "' and status is null "
+				SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Bulan = '" & b & "' and a.tahun = '" & fthn & "' and status is null "
 				SQL = SQL & "and a.Kode_Barang in (" & daftarProductionPlantDiRelease & ") "
 				ExecuteTrans(SQL)
 
@@ -4955,7 +4476,6 @@ Public Class N_EMI_Transaksi_Production_Plan
 
 		End If
 	End Sub
-
 	Private Sub ExportToExcel()
 
 		If fStatus <> "Transaksi_ForecastOrder_PPIC" AndAlso fStatus <> "Transaksi_ForecastOrder_Sales" Then
@@ -4974,31 +4494,15 @@ Public Class N_EMI_Transaksi_Production_Plan
 			CellKdBrg,                    ' Kode Barang
 			CellNmBrg,                    ' Nama Barang
 			CellSatuan,                   ' Satuan
-			CellForecastCurrentMonth,     ' Production Plan Current Month
-			CellJumlahDO,                 ' Delivery Order Current Month
-			CellPersenCurrentMonth,       ' % Current Month
 			CellPersenStockGR1,           ' Stock GR 1
 			CellPersenStockGR2,           ' Stock GR 2
+			CellJumlahDO,                 ' Delivery Order Current Month
+			CellPersenCurrentMonth,       ' % Current Month
+			CellForecastCurrentMonth,     ' Production Plan Current Month
 			CellSalesForecastBln1,        ' Sales Mei
 			CellPPICForecastBln1,         ' PPIC Mei
 			CellSalesForecastBln2,        ' Sales Juni
 			CellPPICForecastBln2,         ' PPIC Juni
-			CellStatus                    ' Status
-		}
-		Dim CellInteger As Integer() = {
-			CellForecastCurrentMonth,     ' Production Plan Current Month
-			CellJumlahDO,                 ' Delivery Order Current Month
-			CellPersenCurrentMonth,       ' % Current Month
-			CellPersenStockGR1,           ' Stock GR 1
-			CellPersenStockGR2,           ' Stock GR 2
-			CellSalesForecastBln1,        ' Sales Mei
-			CellPPICForecastBln1,         ' PPIC Mei
-			CellSalesForecastBln2,        ' Sales Juni
-			CellPPICForecastBln2         ' PPIC Juni
-		}
-
-		Dim CellCenter As Integer() = {
-			CellSatuan,                   ' Satuan
 			CellStatus                    ' Status
 		}
 
@@ -5043,61 +4547,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 		xlWorkSheet.Range(startCell, endCell).Value = data
 
 		' format
-		'xlWorkSheet.Columns(1).NumberFormat = "@"
-		'xlWorkSheet.Columns.AutoFit()
-
-		' 🔥 FORMATTING LOGIC
-		' 1. Default: Semua Kolom Set ke Text (@) dan Rata Kiri
-		Dim allDataRange = xlWorkSheet.Range(xlWorkSheet.Cells(2, 1), xlWorkSheet.Cells(validRowCount + 1, colCount))
-		allDataRange.NumberFormat = "@"
-		allDataRange.HorizontalAlignment = Excel.Constants.xlLeft
-
-		' 🔥 1. FORMAT ACCOUNTING / NUMBER (Rata Kanan)
-		Dim rangeNumeric As Excel.Range = Nothing
-
-		For Each colIdx In CellInteger
-			Dim targetColIndex As Integer = Array.IndexOf(mapping, colIdx) + 1
-			If targetColIndex > 0 Then
-				If rangeNumeric Is Nothing Then
-					rangeNumeric = xlWorkSheet.Columns(targetColIndex)
-				Else
-					rangeNumeric = xlApp.Union(rangeNumeric, xlWorkSheet.Columns(targetColIndex))
-				End If
-			End If
-		Next
-
-		If rangeNumeric IsNot Nothing Then
-			rangeNumeric.NumberFormat = "#,##0.00"
-			rangeNumeric.HorizontalAlignment = Excel.Constants.xlRight
-		End If
-
-		' 🔥 2. FORMAT RATA TENGAH (Center)
-		Dim rangeCenter As Excel.Range = Nothing
-
-		For Each colIdx In CellCenter
-			Dim targetColIndex As Integer = Array.IndexOf(mapping, colIdx) + 1
-			If targetColIndex > 0 Then
-				If rangeCenter Is Nothing Then
-					rangeCenter = xlWorkSheet.Columns(targetColIndex)
-				Else
-					rangeCenter = xlApp.Union(rangeCenter, xlWorkSheet.Columns(targetColIndex))
-				End If
-			End If
-		Next
-
-		If rangeCenter IsNot Nothing Then
-			rangeCenter.HorizontalAlignment = Excel.Constants.xlCenter
-		End If
-
-		' 🔥 3. CLEANUP RANGE OBJECTS
-		If rangeNumeric IsNot Nothing Then releaseObject(rangeNumeric)
-		If rangeCenter IsNot Nothing Then releaseObject(rangeCenter)
-
-		' 3. Header Styling (Opsional: Bold & Center)
-		Dim headerRange = xlWorkSheet.Range(xlWorkSheet.Cells(1, 1), xlWorkSheet.Cells(1, colCount))
-		headerRange.Font.Bold = True
-		headerRange.HorizontalAlignment = Excel.Constants.xlCenter
-
+		xlWorkSheet.Columns(1).NumberFormat = "@"
 		xlWorkSheet.Columns.AutoFit()
 
 		' SAVE
@@ -5116,13 +4566,14 @@ Public Class N_EMI_Transaksi_Production_Plan
 
 		End If
 
+
 		If berhasil Then
 
 			releaseObject(xlWorkSheet)
 			releaseObject(xlWorkBook)
 			releaseObject(xlApp)
 
-			MessageBox.Show("Export berhasil!", "Sukses Simpan", MessageBoxButtons.OK, MessageBoxIcon.Information)
+			MessageBox.Show("Export berhasil!", "Sukses Simpan", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 		Else
 			MessageBox.Show("Export dibatalkan", "Batal", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 		End If
@@ -5139,11 +4590,9 @@ Public Class N_EMI_Transaksi_Production_Plan
 			GC.Collect()
 		End Try
 	End Sub
-
 	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
 		ExportToExcel()
 	End Sub
-
 	Private Sub ImportFromExcel()
 
 		If fStatus <> "Transaksi_ForecastOrder_PPIC" AndAlso fStatus <> "Transaksi_ForecastOrder_Sales" Then
@@ -5217,7 +4666,9 @@ Public Class N_EMI_Transaksi_Production_Plan
 					' 🔥 UPDATE GRID
 					foundRow.Cells(CellSalesForecastBln1).Value = valSales1
 					foundRow.Cells(CellSalesForecastBln2).Value = valSales2
+
 				Else
+
 
 				End If
 
@@ -5226,8 +4677,10 @@ Public Class N_EMI_Transaksi_Production_Plan
 			End While
 
 			MessageBox.Show("Import update berhasil!")
+
 		Catch ex As Exception
 			MessageBox.Show(ex.Message)
+
 		Finally
 			xlWorkBook.Close(False)
 			xlApp.Quit()
@@ -5238,17 +4691,17 @@ Public Class N_EMI_Transaksi_Production_Plan
 		End Try
 
 	End Sub
-
 	Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
 		ImportFromExcel()
 	End Sub
+
 
 	'======================================================================================================
 	'======================================================================================================
 
 	Private Sub Get_Data_Rix()
 
-		DataGridView1.Columns(CellChkBox).HeaderText = "#"
+		DataGridView1.Columns(CellChkBox).HeaderText = ""
 		DataGridView1.Columns(CellKdBrg).HeaderText = "Kode Barang"
 		DataGridView1.Columns(CellNmBrg).HeaderText = "Nama Barang"
 		DataGridView1.Columns(CellAvg3Bulan).HeaderText = "Avg 3 Bulan (Pcs)"
@@ -5257,10 +4710,12 @@ Public Class N_EMI_Transaksi_Production_Plan
 		DataGridView1.Columns(CellPersenCurrentMonth).HeaderText = "% Current Month"
 		Dim a As Integer = arrBulan.Item(Cmb_Bulan.SelectedIndex)
 		Dim fthn As Integer = Val(Cmb_Tahun.Text)
-		'Dim panggil_databulan As String = ""
-		'Dim panggil_datatahun As String = ""
+		Dim panggil_databulan As String = ""
+		Dim panggil_datatahun As String = ""
 
-		For i As Integer = 1 To 2
+		kolomCheckboxTahu.Clear()
+
+		For i As Integer = 1 To 6
 			' Perbarui nilai bulan dan tahun
 			If a = 12 Then
 				a = 1
@@ -5270,109 +4725,123 @@ Public Class N_EMI_Transaksi_Production_Plan
 			End If
 
 			Dim b As String = ""
-			' Temukan nama bulan yang sesuai
-			'For index = 0 To arrBulan.Count - 1
-			'	If arrBulan.Item(index) = a Then
-			'		b = Cmb_Bulan.Items(index)
-			'		If i = 1 Then ' Hanya sekali untuk panggil_databulan di iterasi pertama
-			'			panggil_databulan = arrBulanMM.Item(index)
-			'			panggil_datatahun = fthn
-			'		End If
-			'	End If
-			'Next
-			Dim index As Integer = arrBulan.IndexOf(a) ' LANGSUNG GUNAKAN INDEX OF DARIPADA LOOP 1 1
-			If index <> -1 Then
-				b = Cmb_Bulan.Items(index)
-			End If
 
+			' Temukan nama bulan yang sesuai
+			For index = 0 To arrBulan.Count - 1
+				If arrBulan.Item(index) = a Then
+					b = Cmb_Bulan.Items(index)
+					If i = 1 Then ' Hanya sekali untuk panggil_databulan di iterasi pertama
+						panggil_databulan = arrBulanMM.Item(index)
+						panggil_datatahun = fthn
+					End If
+				End If
+			Next
+
+			' ===================================================================
+			' PAKSA SEMUA KOLOM SINKRON & NGIKUTIN WORD WRAP (VERSI FIX)
+			' ===================================================================
+			' 1. Aktifkan wrap mode untuk seluruh header tanpa kecuali
+			DataGridView1.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True
+
+			' 2. Paksa mode tinggi header ke AutoSize yang beneran ada di VB.NET
+			DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+
+			' Ambil nilai indeks kolom secara dinamis dengan Reflection
 			Dim CellSalesForecastBln As Integer = CType(Me.GetType().GetField("CellSalesForecastBln" & i, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Public Or Reflection.BindingFlags.Instance).GetValue(Me), Integer)
 			Dim CellPPICForecastBln As Integer = CType(Me.GetType().GetField("CellPPICForecastBln" & i, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Public Or Reflection.BindingFlags.Instance).GetValue(Me), Integer)
 			Dim CellUrut As Integer = CType(Me.GetType().GetField("CellUrut_" & i, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Public Or Reflection.BindingFlags.Instance).GetValue(Me), Integer)
 			Dim CellRV As Integer = CType(Me.GetType().GetField("CellRV_" & i, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Public Or Reflection.BindingFlags.Instance).GetValue(Me), Integer)
 			Dim CellSpace As Integer = CType(Me.GetType().GetField("CellSpace" & i, Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Public Or Reflection.BindingFlags.Instance).GetValue(Me), Integer)
 
+			' ========================================================
+			' PROSES PENDAFTARAN KOLOM CHECKBOX (YANG KAMU TANYAKAN)
+			' ========================================================
+			' 📌 KUNCI PENYARINGAN: Cek fStatus sebelum memasukkan kolom ke List
+			If fStatus = "Transaksi_ForecastOrder_Sales" Then
+				' Jika status Sales, hanya kolom Sales yang punya checkbox
+				If Not kolomCheckboxTahu.Contains(CellSalesForecastBln) Then
+					kolomCheckboxTahu.Add(CellSalesForecastBln)
+					isHeaderChecked(CellSalesForecastBln) = True
+				End If
+				' Kolom PPIC lagi polos -> Atur style-nya lewat Windows biar gak amblas bawah
+				DataGridView1.Columns(CellPPICForecastBln).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft
+
+			ElseIf fStatus = "Transaksi_ForecastOrder_PPIC" Then
+				' Jika status PPIC, hanya kolom PPIC yang punya checkbox
+				If Not kolomCheckboxTahu.Contains(CellPPICForecastBln) Then
+					kolomCheckboxTahu.Add(CellPPICForecastBln)
+					isHeaderChecked(CellPPICForecastBln) = True
+				End If
+				' Kolom Sales lagi polos -> Atur style-nya lewat Windows biar gak amblas bawah
+				DataGridView1.Columns(CellSalesForecastBln).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft
+			End If
+			' ========================================================
+
+			' Set Header Text DGV kamu
 			DataGridView1.Columns(CellSalesForecastBln).HeaderText = "Sales - Production Plan " & b & " - " & fthn
 			DataGridView1.Columns(CellPPICForecastBln).HeaderText = "PPIC - Production Plan " & b & " - " & fthn
 			DataGridView1.Columns(CellUrut).HeaderText = i
 			DataGridView1.Columns(CellSpace).HeaderText = ""
+
+			DataGridView1.Columns(CellSalesForecastBln).Tag = a & "-" & fthn
+			DataGridView1.Columns(CellPPICForecastBln).Tag = a & "-" & fthn
+			DataGridView1.Columns(CellSalesForecastBln).HeaderCell.Style.Padding = New Padding(0, 0, 0, 0)
+			' Pastikan text alignment header berada di tengah bawah / tengah center
+			DataGridView1.Columns(CellSalesForecastBln).HeaderCell.Style.Alignment = DataGridViewContentAlignment.BottomCenter
+			DataGridView1.ColumnHeadersHeight = 60 ' Set ke 65 agar ruang vertikalnya lega banget
+
 		Next
 
 		DataGridView1.Columns(CellStatus).HeaderText = "Status"
+		DataGridView1.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True
+		DataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+		DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+		DataGridView1.ColumnHeadersHeight = 60 ' Tinggi pas
 
-		'Dim fLoad As Boolean = False
+		DataGridView1.Invalidate()
 
-		'Dim aksesUbahSales As String = ""
-		'Try
-		'	OpenConn()
+		Dim fLoad As Boolean = False
+		Dim aksesUbahSales As String = ""
 
-		'	If CekButtonRole("EMI_Transaksi_ForecastOrder_Sales") = "Y" Then
-		'		aksesUbahSales = "Y"
-		'	End If
+		Try
+			OpenConn()
 
-		'	CloseConn()
-		'Catch ex As Exception
-		'	CloseConn()
-		'	MessageBox.Show(ex.Message)
-		'	Exit Sub
-		'End Try
+			If CekButtonRole("EMI_Transaksi_ForecastOrder_Sales") = "Y" Then
+				aksesUbahSales = "Y"
+			End If
 
-		'Try
-		'	OpenConn()
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
 
-		'	SQL = "select No_Faktur from EMI_Transaksi_Sales_Forecasting where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-		'	SQL = SQL & "Lokasi = '" & Cmb_Lokasi.Text & "' and Bulan = '" & arrBulanMM.Item(Cmb_Bulan.SelectedIndex) & "' and Tahun = '" & Cmb_Tahun.Text & "'"
-		'	Using Dr = OpenTrans(SQL)
-		'		If Dr.Read Then
-		'			Txt_NoFaktur.Text = Dr("No_Faktur")
-		'			'fLoad = True
-		'		Else
-		'			'fLoad = False
-		'		End If
-		'	End Using
+		Try
+			OpenConn()
 
-		'	'SQL = "select Flag_Validasi from EMI_Transaksi_Sales_Forecasting where Kode_Perusahaan = '" & KodePerusahaan & "' and "
-		'	'SQL = SQL & "Lokasi = '" & Cmb_Lokasi.Text & "' and Bulan = '" & panggil_databulan & "' and Tahun = '" & panggil_datatahun & "'"
-		'	'Using Dr = OpenTrans(SQL)
-		'	'    If Dr.Read Then
-		'	'        If fStatus = "Transaksi_ForecastOrder_Sales" Then
-		'	'            If aksesUbahSales = "Y" Then
-		'	'                If General_Class.CekNULL(Dr("Flag_Validasi")) = "Y" Then
-		'	'                    btn_TambahBarang.Enabled = False
-		'	'                Else
-		'	'                    btn_TambahBarang.Enabled = True
-		'	'                End If
-		'	'            Else
-		'	'                btn_TambahBarang.Enabled = False
-		'	'            End If
-		'	'        Else
-		'	'            btn_TambahBarang.Enabled = False
-		'	'        End If
-		'	'    Else
-		'	'        If fStatus = "Transaksi_ForecastOrder_Sales" Then
-		'	'            If aksesUbahSales = "Y" Then
-		'	'                btn_TambahBarang.Enabled = True
-		'	'            Else
-		'	'                btn_TambahBarang.Enabled = False
-		'	'            End If
-		'	'        Else
-		'	'            btn_TambahBarang.Enabled = False
-		'	'        End If
-		'	'    End If
-		'	'End Using
+			SQL = "select No_Faktur from EMI_Transaksi_Sales_Forecasting where Kode_Perusahaan = '" & KodePerusahaan & "' and "
+			SQL = SQL & "Lokasi = '" & Cmb_Lokasi.Text & "' and Bulan = '" & arrBulanMM.Item(Cmb_Bulan.SelectedIndex) & "' and Tahun = '" & Cmb_Tahun.Text & "'"
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					Txt_NoFaktur.Text = Dr("No_Faktur")
+					fLoad = True
+				Else
+					fLoad = False
+				End If
+			End Using
 
-		'	CloseConn()
-		'Catch ex As Exception
-		'	CloseConn()
-		'	MessageBox.Show(ex.Message)
-		'	Exit Sub
-		'End Try
+
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
 
 		Txt_NoFaktur_Leave(Cmb_Tahun, Nothing)
-		'If fLoad = True Then
-		'    Txt_NoFaktur_Leave(Cmb_Tahun, Nothing)
-		'Else
-		'    DataGridView1.Rows.Clear()
-		'End If
+
 
 	End Sub
 
@@ -5776,25 +5245,26 @@ Public Class N_EMI_Transaksi_Production_Plan
 			DataGridView1.Rows.Clear()
 
 			' Ambil bulan dan tahun yang dipilih user dari combobox
-			'Dim a1 As Integer = arrBulan.Item(Cmb_Bulan.SelectedIndex)
-			'Dim fthn1 As Integer = Val(Cmb_Tahun.Text)
-			'Dim listBulan As New List(Of String)
-			'Dim listTahun As New List(Of Integer)
-			'Dim tempBulan As Integer = a1
-			'Dim tempTahun As Integer = fthn1
+			Dim a1 As Integer = arrBulan.Item(Cmb_Bulan.SelectedIndex)
+			Dim fthn1 As Integer = Val(Cmb_Tahun.Text)
 
-			'' Buat daftar 3 bulan berurutan mulai dari bulan yang dipilih
-			'For j As Integer = 0 To 2
-			'	Dim bulanStr As String = ""
-			'	For idx = 0 To arrBulan.Count - 1
-			'		If arrBulan(idx) = tempBulan Then bulanStr = arrBulanMM(idx)
-			'	Next
-			'	listBulan.Add("'" & bulanStr & "'")
-			'	listTahun.Add(tempTahun)
-			'	If tempBulan = 12 Then : tempBulan = 1 : tempTahun += 1
-			'	Else : tempBulan += 1
-			'	End If
-			'Next
+			Dim listBulan As New List(Of String)
+			Dim listTahun As New List(Of Integer)
+			Dim tempBulan As Integer = a1
+			Dim tempTahun As Integer = fthn1
+
+			' Buat daftar 3 bulan berurutan mulai dari bulan yang dipilih
+			For j As Integer = 0 To 6
+				Dim bulanStr As String = ""
+				For idx = 0 To arrBulan.Count - 1
+					If arrBulan(idx) = tempBulan Then bulanStr = arrBulanMM(idx)
+				Next
+				listBulan.Add("'" & bulanStr & "'")
+				listTahun.Add(tempTahun)
+				If tempBulan = 12 Then : tempBulan = 1 : tempTahun += 1
+				Else : tempBulan += 1
+				End If
+			Next
 
 			Dim bulanSQL As String = String.Join(",", listBulan.Distinct())
 			Dim tahunSQL As String = String.Join(",", listTahun.Distinct())
@@ -5906,17 +5376,17 @@ Public Class N_EMI_Transaksi_Production_Plan
 			' ── OPTIMASI #4: Cache hasil reflection di luar loop barang ───────────────
 			' Reflection itu mahal — jangan panggil ulang setiap iterasi barang × bulan.
 			' Hitung sekali untuk j=1 dan j=2, simpan di array, pakai langsung di loop.
-			Dim cachedCellSalesForecast(2) As Integer
-			Dim cachedCellPPICForecast(2) As Integer
-			Dim cachedCellUrut(2) As Integer
-			Dim cachedCellRV(2) As Integer
-			Dim cachedCellSpace(2) As Integer
+			Dim cachedCellSalesForecast(6) As Integer
+			Dim cachedCellPPICForecast(6) As Integer
+			Dim cachedCellUrut(6) As Integer
+			Dim cachedCellRV(6) As Integer
+			Dim cachedCellSpace(6) As Integer
 			Dim bindingFlags As Reflection.BindingFlags =
 			Reflection.BindingFlags.NonPublic Or
 			Reflection.BindingFlags.Public Or
 			Reflection.BindingFlags.Instance
 
-			For j As Integer = 1 To 2
+			For j As Integer = 1 To 6
 				cachedCellSalesForecast(j) = CType(Me.GetType().GetField("CellSalesForecastBln" & j, bindingFlags).GetValue(Me), Integer)
 				cachedCellPPICForecast(j) = CType(Me.GetType().GetField("CellPPICForecastBln" & j, bindingFlags).GetValue(Me), Integer)
 				cachedCellUrut(j) = CType(Me.GetType().GetField("CellUrut_" & j, bindingFlags).GetValue(Me), Integer)
@@ -5982,7 +5452,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 				Dim a As Integer = arrBulan.Item(Cmb_Bulan.SelectedIndex)
 				Dim fthn As Integer = Val(Cmb_Tahun.Text)
 
-				For j As Integer = 1 To 2
+				For j As Integer = 1 To 6
 
 					' Geser ke bulan berikutnya
 					If a = 12 Then : a = 1 : fthn += 1
@@ -6068,6 +5538,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 			DataGridView1.ResumeLayout()
 			CType(DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
 			CloseConn()
+
 		Catch ex As Exception
 			CloseConn()
 			' Pastikan grid kembali normal walau terjadi error

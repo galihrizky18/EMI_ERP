@@ -70,6 +70,9 @@
 	Public cell2Satuan As Integer = 2
 	Public cell2Hasil As Integer = 3
 
+	Dim TampilHPPPackaging As Boolean = False
+	Dim TampilHPPProduksi As Boolean = False
+
 	'Private Sub get_no_faktur()
 	'    TxtFormulator_NoFaktur.Text = fTransFormula & Format(tgl_skg, "MMyy") & "-" &
 	'                         General_Class.Get_Last_Number2("Emi_Transaksi_Formulator", "no_Faktur", 5,
@@ -174,7 +177,8 @@
 
 		InitRTBToolbar()
 		TabControl1.SelectedIndex = 0
-		RTBCookingStep.Clear()
+		RTBCookingStep.Text = ""
+		RTBCookingStep.Rtf = ""
 
 		Try
 			OpenConn()
@@ -279,6 +283,44 @@
 			Exit Sub
 		End Try
 
+		'Cek Role Button HPP Packaging
+		Try
+			OpenConn()
+
+			If CekButtonRole("Tampil_HPP_Packaging") = "Y" Then
+				LB_HPPPackaging.Visible = False
+				TampilHPPPackaging = True
+				CloseTrans()
+				CloseConn()
+				Exit Try
+			End If
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show("Gagal cek role user: " & ex.Message, Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			Exit Sub
+		End Try
+
+		'Cek Role Button HPP Produksi
+		Try
+			OpenConn()
+
+			If CekButtonRole("Tampil_HPP_Produksi") = "Y" Then
+				LB_HPPProduksi.Visible = False
+				TampilHPPProduksi = True
+				CloseTrans()
+				CloseConn()
+				Exit Try
+			End If
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show("Gagal cek role user: " & ex.Message, Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			Exit Sub
+		End Try
+
 		arrDataCombobox.Clear()
 
 		Btn_Validasi.Enabled = True
@@ -289,8 +331,15 @@
 
 		TabControl1.SelectedIndex = 0
 
+		Txt_Kode_Analisa.Text = ""
+		TXt_Jenis_Analisa.Text = ""
+
+		Dgv_Moisture_Content.Rows.Clear()
+		Lv_Moisture_Content.Items.Clear()
+		Lv_Moisture_Content.Visible = False
+
 		'Kosong()
-		LoadCookingStep(TxtFormulator_NoFaktur.Text.Trim)
+		'LoadCookingStep(TxtFormulator_NoFaktur.Text.Trim)
 	End Sub
 
 	Private Sub Get_SD_Moisture(ByVal index As Integer)
@@ -322,6 +371,11 @@
 
 	Public Sub Kosong()
 		DgvFormulator_StepFormulator.Rows.Clear()
+
+		TabControl1.SelectedIndex = 0
+		RTBCookingStep.Text = ""
+		RTBCookingStep.Rtf = ""
+
 		'DgvFormulator_StepFormulator.Rows.Add(1)
 		TxtFormulator_Total.Text = ""
 		TxtFormulator_TotalPersen.Text = ""
@@ -332,6 +386,13 @@
 		Txt_No_Faktur_Binding.Text = ""
 		Txt_Total_Hpp.Text = ""
 		Txt_Total_Hpp_Pcs.Text = ""
+
+		Txt_Kode_Analisa.Text = ""
+		TXt_Jenis_Analisa.Text = ""
+
+		Dgv_Moisture_Content.Rows.Clear()
+		Lv_Moisture_Content.Items.Clear()
+		Lv_Moisture_Content.Visible = False
 
 		isReformulasi = False
 
@@ -1054,32 +1115,62 @@
 			End Using
 
 			Dim Nomor As Integer = 1
-			SQL = "select a.No_Faktur, a.Tanggal, a.Lokasi, a.Kode_Stock_Owner, a.Kode_Barang, b.Nama as Nama_Barang, a.UserID, a.Hasil, a.Satuan_Hasil, a.Penanggung_Jawab, "
-			SQL &= $"c.Kode_Barang as Kode_Bahan, d.Nama as Nama_Bahan, c.Jumlah, c.satuan, c.Nilai_Pengali, c.Satuan_barang, c.Nilai_Barang, c.Persentase, "
+			'SQL = "select a.No_Faktur, a.Tanggal, a.Lokasi, a.Kode_Stock_Owner, a.Kode_Barang, b.Nama as Nama_Barang, a.UserID, a.Hasil, a.Satuan_Hasil, a.Penanggung_Jawab, "
+			'SQL &= $"c.Kode_Barang as Kode_Bahan, d.Nama as Nama_Bahan, c.Jumlah, c.satuan, c.Nilai_Pengali, c.Satuan_barang, c.Nilai_Barang, c.Persentase, "
 
-			SQL &= $"case when exists( "
-			SQL &= $"select 1 from Barang_SN z where c.kode_barang = z.kode_barang and z.blok_sn is null and dbo.get_hpp(z.serial_number) <> 0 "
-			SQL &= $") then ( "
-			SQL &= $"select top 1 dbo.get_hpp(z.serial_number) from Barang_SN z where c.kode_barang = z.kode_barang and z.blok_sn is null and dbo.get_hpp(z.serial_number) <> 0 "
-			SQL &= $"order by z.tgl_masuk DESC) "
-			SQL &= $"else d.estimasi_harga end Est_HPP, "
+			'SQL &= $"case when exists( "
+			'SQL &= $"select 1 from Barang_SN z where c.kode_barang = z.kode_barang and z.blok_sn is null and dbo.get_hpp(z.serial_number) <> 0 and Flag_Sample is null "
+			'SQL &= $") then ( "
+			'SQL &= $"select top 1 dbo.get_hpp(z.serial_number) from Barang_SN z where c.kode_barang = z.kode_barang and z.blok_sn is null and dbo.get_hpp(z.serial_number) <> 0 and Flag_Sample is null "
+			'SQL &= $"order by z.tgl_masuk DESC) "
+			'SQL &= $"else d.estimasi_harga end Est_HPP, "
 
-			SQL &= $"CASE WHEN EXISTS ( SELECT 1 FROM Barang_SN z WHERE c.kode_barang = z.kode_barang AND z.blok_sn IS NULL and dbo.get_hpp(z.serial_number) <> 0 "
-			SQL &= $") THEN ISNULL( dbo.ubah_satuan(a.kode_perusahaan, 'masa', c.kode_barang, 'gram', d.satuan, (b.berat * (c.persentase / 100)))  "
-			SQL &= $"* (SELECT TOP 1 dbo.get_hpp(z.serial_number)  "
-			SQL &= $"FROM Barang_SN z  "
-			SQL &= $"WHERE c.kode_barang = z.kode_barang  AND z.blok_sn IS NULL and dbo.get_hpp(z.serial_number) <> 0 ORDER BY z.tgl_masuk DESC), 0) "
-			SQL &= $"ELSE ISNULL(dbo.ubah_satuan(a.kode_perusahaan, 'masa', c.kode_barang, 'gram', d.satuan, (b.berat * (c.persentase / 100))) * d.estimasi_harga, 0) "
-			SQL &= $"END AS Est_HPP_Pcs "
+			'SQL &= $"CASE WHEN EXISTS ( SELECT 1 FROM Barang_SN z WHERE c.kode_barang = z.kode_barang AND z.blok_sn IS NULL and dbo.get_hpp(z.serial_number) <> 0 and Flag_Sample is null "
+			'SQL &= $") THEN ISNULL( (b.berat * (c.persentase / 100))/1000  "
+			'SQL &= $"* (SELECT TOP 1 dbo.get_hpp(z.serial_number)  "
+			'SQL &= $"FROM Barang_SN z  "
+			'SQL &= $"WHERE c.kode_barang = z.kode_barang  AND z.blok_sn IS NULL and dbo.get_hpp(z.serial_number) <> 0 and Flag_Sample is null ORDER BY z.tgl_masuk DESC), 0) "
+			'SQL &= $"ELSE ISNULL((b.berat * (c.persentase / 100))/1000 * d.estimasi_harga, 0) "
+			'SQL &= $"END AS Est_HPP_Pcs "
 
-			SQL &= $"from Emi_Transaksi_Formulator a "
-			SQL &= $"inner join Barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang_inq "
-			SQL &= $"inner join EMI_Transaksi_Formulator_Detail_Bahan c on a.Kode_Perusahaan = c.Kode_Perusahaan and a.No_Faktur = c.No_Faktur "
-			SQL &= $"inner join barang d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.Kode_Stock_Owner = d.Kode_Stock_Owner and c.Kode_Barang = d.Kode_Barang "
-			SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
-			SQL &= $"and a.Status is NULL "
-			SQL &= $"and a.No_Faktur = '{No_Faktur}' "
-			SQL &= $"order by d.nama "
+			'SQL &= $"from Emi_Transaksi_Formulator a "
+			'SQL &= $"inner join Barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang_inq "
+			'SQL &= $"inner join EMI_Transaksi_Formulator_Detail_Bahan c on a.Kode_Perusahaan = c.Kode_Perusahaan and a.No_Faktur = c.No_Faktur "
+			'SQL &= $"inner join barang d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.Kode_Stock_Owner = d.Kode_Stock_Owner and c.Kode_Barang = d.Kode_Barang "
+			'SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
+			'SQL &= $"and a.Status is NULL "
+			'SQL &= $"and a.No_Faktur = '{No_Faktur}' "
+			'SQL &= $"order by d.nama "
+
+			SQL = $"
+				select a.No_Faktur, a.Tanggal, a.Lokasi, a.Kode_Stock_Owner, a.Kode_Barang, b.Nama as Nama_Barang, a.UserID, a.Hasil,
+					   a.Satuan_Hasil, a.Penanggung_Jawab,
+					   c.Kode_Barang as Kode_Bahan, d.Nama as Nama_Bahan, c.Jumlah, c.satuan, c.Nilai_Pengali, c.Satuan_barang,
+					   c.Nilai_Barang, c.Persentase,
+					   ISNULL(e.HPP, d.Estimasi_Harga) AS Est_HPP,
+					   ISNULL(((b.berat * (c.persentase / 100)) / 1000), 0) * ISNULL(e.HPP, d.Estimasi_Harga) AS Est_HPP_Pcs
+				from Emi_Transaksi_Formulator a
+					 inner join Barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and
+											a.Kode_Barang = b.Kode_Barang_inq
+					 inner join EMI_Transaksi_Formulator_Detail_Bahan c
+								on a.Kode_Perusahaan = c.Kode_Perusahaan and a.No_Faktur = c.No_Faktur
+					 inner join barang d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.Kode_Stock_Owner = d.Kode_Stock_Owner and
+											c.Kode_Barang = d.Kode_Barang
+						outer apply (
+							select top 1 dbo.get_hpp(z.serial_number) AS HPP
+							from Barang_SN z
+							where c.Kode_Perusahaan = z.Kode_Perusahaan
+							  and c.Kode_Barang = z.Kode_Barang
+							  and z.blok_sn is null
+							  and dbo.get_hpp(z.serial_number) <> 0
+							  and z.Flag_Sample is null
+							order by z.tgl_masuk desc
+						) e
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and a.Status is NULL
+				  and a.No_Faktur = '{No_Faktur}'
+				order by d.nama
+			"
 			Using Ds = BindingTrans(SQL)
 				With Ds.Tables("MyTable")
 					If .Rows.Count <> 0 Then
@@ -1181,6 +1272,177 @@
 				End Using
 			End If
 
+			'=================================
+			'=     LOAD HPP Packaging        =
+			'=================================
+			Dim SQL_Packaging As String = $"
+				WITH cte_bahan AS (
+					SELECT
+						a.Kode_Barang,
+						a.Kode_Bahan,
+						a.Jumlah_Barang,
+
+						ISNULL(
+							(
+								SELECT TOP (1)
+									dbo.get_hpp(x.serial_number)
+								FROM barang_sn x
+								WHERE x.kode_barang = a.kode_bahan
+								  AND x.blok_sn IS NULL
+								  AND dbo.get_hpp(x.serial_number) <> 0 and Flag_Sample is null
+								ORDER BY x.Tgl_masuk DESC
+							),
+							b.estimasi_harga
+						) / NULLIF(a.Jumlah_Barang, 0) AS HPP_Packaging
+
+					FROM Barang_Detail_Bahan_Penolong a
+					INNER JOIN Barang b
+						ON a.Kode_Bahan = b.Kode_Barang
+
+					GROUP BY a.Kode_Bahan, a.Kode_Barang, a.Jumlah_Barang, b.Estimasi_Harga
+				)
+
+				SELECT
+					p.Kode_Bahan,
+					brg.Nama AS Nama_Bahan,
+					p.Jumlah_Barang,
+					p.HPP_Packaging
+				FROM Emi_Transaksi_Formulator f
+				INNER JOIN cte_bahan p
+					ON f.Kode_Barang = p.Kode_Barang
+				INNER JOIN Barang brg
+					ON p.Kode_Bahan = brg.Kode_Barang
+				WHERE f.Kode_Perusahaan = '{KodePerusahaan}' AND f.No_Faktur = '{No_Faktur.Trim}'
+				GROUP BY p.Kode_Bahan, brg.Nama, p.Jumlah_Barang, p.HPP_Packaging
+				ORDER BY brg.Nama;
+			"
+			Dim Total_HPPPackaging As Decimal = 0
+			Using Ds = BindingTrans(SQL_Packaging)
+				With Ds.Tables("MyTable")
+					If .Rows.Count <> 0 Then
+						DGV_HPPPackaging.Rows.Clear()
+
+						For i As Integer = 0 To .Rows.Count - 1
+							If TampilHPPPackaging = True Then
+								DGV_HPPPackaging.Rows.Add(1)
+
+								DGV_HPPPackaging.Rows(i).Cells(0).Value = .Rows(i).Item("Kode_Bahan")
+								DGV_HPPPackaging.Rows(i).Cells(1).Value = .Rows(i).Item("Nama_Bahan")
+								DGV_HPPPackaging.Rows(i).Cells(2).Value = .Rows(i).Item("Jumlah_Barang")
+								DGV_HPPPackaging.Rows(i).Cells(3).Value = .Rows(i).Item("HPP_Packaging")
+							End If
+
+							Total_HPPPackaging += Val(.Rows(i).Item("HPP_Packaging"))
+						Next
+
+						TB_TotalHPPPackaging.Text = Format(Total_HPPPackaging, "N0")
+					End If
+				End With
+			End Using
+
+			'=================================
+			'=     LOAD HPP Produksi         =
+			'=================================
+			Dim SQL_Produksi As String = $"
+				WITH cte_wc AS (
+					SELECT
+						a.Kode_Perusahaan,
+						a.Id_Jenis_Biaya_Produksi,
+						a.Kode_Jenis_Biaya_Produksi,
+
+						(
+							SELECT TOP (1) x.No_Faktur
+							FROM Emi_Transaksi_Work_Center x
+							WHERE x.Status IS NULL
+							  AND x.Kode_Perusahaan = a.Kode_Perusahaan
+							  AND x.Jenis_Biaya = a.Kode_Jenis_Biaya_Produksi
+							ORDER BY x.Id DESC
+						) AS Faktur_WC
+
+					FROM Emi_Jenis_Biaya_Produksi a
+				),
+
+				cte_produksi AS (
+					SELECT
+						c.Id_Routing,
+						a.Kode_Jenis_Biaya_Produksi,
+						c.Id_Work_Center,
+						MAX(c.Nilai_Per_Pcs) AS Nilai_Per_Kg
+
+					FROM cte_wc a
+
+					JOIN Emi_Transaksi_Work_Center b
+						ON a.Kode_Perusahaan = b.Kode_Perusahaan
+					   AND a.Faktur_WC = b.No_Faktur
+
+					JOIN Emi_Transaksi_Work_Center_Detail c
+						ON b.Kode_Perusahaan = c.Kode_Perusahaan
+					   AND b.No_Faktur = c.No_Faktur
+
+					GROUP BY
+						c.Id_Routing,
+						a.Kode_Jenis_Biaya_Produksi,
+						c.Id_Work_Center
+				)
+
+				SELECT
+					x.Kode_Jenis_Biaya_Produksi,
+					w.Keterangan,
+					x.Nilai_Per_Kg,
+					d.Berat,
+					(x.Nilai_Per_Kg / 1000.0) * d.Berat AS HPP_Produksi
+
+				FROM Emi_Transaksi_Formulator b
+
+				INNER JOIN Barang d
+					ON b.Kode_Perusahaan = d.Kode_Perusahaan
+				   AND b.Kode_Stock_Owner = d.Kode_Stock_Owner
+				   AND b.Kode_Barang = d.Kode_Barang_inq
+
+				INNER JOIN cte_produksi x
+					ON d.Id_Routing = x.Id_Routing
+
+				INNER JOIN EMI_Master_Work_Center w
+					ON w.Id_Work_Center =x.Id_Work_Center
+					AND w.Kode_Perusahaan = b.Kode_Perusahaan
+
+				WHERE b.Kode_Perusahaan = '{KodePerusahaan}'
+				  AND b.No_Faktur = '{No_Faktur.Trim}'
+				  AND round(x.Nilai_Per_Kg,0) <>0
+				GROUP BY
+					x.Kode_Jenis_Biaya_Produksi,
+					w.Keterangan,
+					x.Nilai_Per_Kg,
+					d.Berat
+				ORDER BY
+					x.Kode_Jenis_Biaya_Produksi
+
+			"
+			Dim Total_HPPProduksi As Decimal = 0
+			Using Ds = BindingTrans(SQL_Produksi)
+				With Ds.Tables("MyTable")
+					If .Rows.Count <> 0 Then
+						DGV_HPPProduksi.Rows.Clear()
+
+						For i As Integer = 0 To .Rows.Count - 1
+							If TampilHPPProduksi = True Then
+								DGV_HPPProduksi.Rows.Add(1)
+
+								DGV_HPPProduksi.Rows(i).Cells(0).Value = .Rows(i).Item("Kode_Jenis_Biaya_Produksi")
+								DGV_HPPProduksi.Rows(i).Cells(1).Value = .Rows(i).Item("Keterangan")
+								DGV_HPPProduksi.Rows(i).Cells(2).Value = .Rows(i).Item("Nilai_Per_Kg")
+								DGV_HPPProduksi.Rows(i).Cells(3).Value = .Rows(i).Item("Berat")
+								DGV_HPPProduksi.Rows(i).Cells(4).Value = .Rows(i).Item("HPP_Produksi")
+							End If
+
+							Total_HPPProduksi += Val(.Rows(i).Item("HPP_Produksi"))
+						Next
+
+						TB_TotalHPPProduksi.Text = Format(Total_HPPProduksi, "N0")
+					End If
+				End With
+			End Using
+
 			CloseConn()
 		Catch ex As Exception
 			CloseConn()
@@ -1189,8 +1451,206 @@
 		End Try
 
 		Total()
-
 	End Sub
+
+	Private Function Cek_HPP_Formula(NoFormula As String) As Boolean
+		Try
+			OpenConn()
+
+			Dim listError As New List(Of String)
+			Dim adaDataBahanBaku As Boolean = False
+			Dim adaDataPackaging As Boolean = False
+			Dim adaDataProduksi As Boolean = False
+
+			'=================================
+			'=     CEK HPP BAHAN BAKU       =
+			'=================================
+			SQL = $"
+				SELECT
+					d.Kode_Barang,
+					d.Nama AS Nama_Bahan,
+					ISNULL(
+						CASE
+							WHEN EXISTS (
+								SELECT 1 FROM Barang_SN z
+								WHERE z.kode_barang = c.kode_barang
+								  AND z.blok_sn IS NULL
+								  AND dbo.get_hpp(z.serial_number) <> 0 and Flag_Sample is null
+							) THEN (
+								SELECT TOP 1 dbo.get_hpp(z.serial_number)
+								FROM Barang_SN z
+								WHERE z.kode_barang = c.kode_barang
+								  AND z.blok_sn IS NULL
+								  AND dbo.get_hpp(z.serial_number) <> 0 and Flag_Sample is null
+								ORDER BY z.tgl_masuk DESC
+							)
+							ELSE d.estimasi_harga
+						END
+					, 0) AS Est_HPP_Per_Pcs
+				FROM Emi_Transaksi_Formulator b
+				INNER JOIN EMI_Transaksi_Formulator_Detail_Bahan c
+					ON b.Kode_Perusahaan = c.Kode_Perusahaan AND b.No_Faktur = c.No_Faktur
+				INNER JOIN Barang d
+					ON c.Kode_Perusahaan = d.Kode_Perusahaan
+				   AND c.Kode_Stock_Owner = d.Kode_Stock_Owner
+				   AND c.Kode_Barang = d.Kode_Barang
+				WHERE b.No_Faktur = '{NoFormula}'
+			"
+			Using Dr = OpenTrans(SQL)
+				Do While Dr.Read
+					adaDataBahanBaku = True
+					Dim hppVal As Decimal = Val(Dr("Est_HPP_Per_Pcs"))
+					If hppVal <= 0 Then
+						listError.Add($"  - HPP Bahan Baku: {Dr("Kode_Barang")} - {Dr("Nama_Bahan")} (HPP = 0)")
+					End If
+				Loop
+			End Using
+
+			If Not adaDataBahanBaku Then
+				listError.Add("  - HPP Bahan Baku: Tidak ada data")
+			End If
+
+			'=================================
+			'=     CEK HPP PACKAGING        =
+			'=================================
+			SQL = $"
+				WITH cte_bahan AS (
+					SELECT
+						a.Kode_Barang,
+						a.Kode_Bahan,
+						a.Jumlah_Barang,
+						b.Nama AS Nama_Bahan,
+						ISNULL(
+							(
+								SELECT TOP (1) dbo.get_hpp(x.serial_number)
+								FROM barang_sn x
+								WHERE x.kode_barang = a.kode_bahan
+								  AND x.blok_sn IS NULL
+								  AND dbo.get_hpp(x.serial_number) <> 0 and Flag_Sample is null
+								ORDER BY x.Tgl_masuk DESC
+							),
+							b.estimasi_harga
+						) / NULLIF(a.Jumlah_Barang, 0) AS HPP_Packaging
+					FROM Barang_Detail_Bahan_Penolong a
+					INNER JOIN Barang b ON a.Kode_Bahan = b.Kode_Barang
+					GROUP BY a.Kode_Bahan, a.Kode_Barang, a.Jumlah_Barang, b.Estimasi_Harga, b.Nama
+				)
+				SELECT
+					p.Kode_Bahan,
+					brg.Nama AS Nama_Bahan,
+					p.HPP_Packaging
+				FROM Emi_Transaksi_Formulator f
+				INNER JOIN cte_bahan p ON f.Kode_Barang = p.Kode_Barang
+				INNER JOIN Barang brg ON p.Kode_Bahan = brg.Kode_Barang
+				WHERE f.Kode_Perusahaan = '{KodePerusahaan}'
+				  AND f.No_Faktur = '{NoFormula}'
+				GROUP BY p.Kode_Bahan, brg.Nama, p.Jumlah_Barang, p.HPP_Packaging
+				ORDER BY brg.Nama
+			"
+			Using Dr = OpenTrans(SQL)
+				Do While Dr.Read
+					adaDataPackaging = True
+					Dim hppVal As Decimal = Val(Dr("HPP_Packaging"))
+					If hppVal <= 0 Then
+						listError.Add($"  - HPP Packaging: {Dr("Kode_Bahan")} - {Dr("Nama_Bahan")} (HPP = 0)")
+					End If
+				Loop
+			End Using
+
+			If Not adaDataPackaging Then
+				listError.Add("  - HPP Packaging: Tidak ada data")
+			End If
+
+			'=================================
+			'=     CEK HPP PRODUKSI         =
+			'=================================
+			SQL = $"
+				WITH cte_wc AS (
+					SELECT
+						a.Kode_Perusahaan,
+						a.Kode_Jenis_Biaya_Produksi,
+						(
+							SELECT TOP (1) x.No_Faktur
+							FROM Emi_Transaksi_Work_Center x
+							WHERE x.Status IS NULL
+							  AND x.Kode_Perusahaan = a.Kode_Perusahaan
+							  AND x.Jenis_Biaya = a.Kode_Jenis_Biaya_Produksi
+							ORDER BY x.Id DESC
+						) AS Faktur_WC
+					FROM Emi_Jenis_Biaya_Produksi a
+				),
+				cte_produksi AS (
+					SELECT
+						c.Id_Routing,
+						a.Kode_Jenis_Biaya_Produksi,
+						c.Id_Work_Center,
+						MAX(c.Nilai_Per_Pcs) AS Nilai_Per_Kg
+					FROM cte_wc a
+					JOIN Emi_Transaksi_Work_Center b
+						ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.Faktur_WC = b.No_Faktur
+					JOIN Emi_Transaksi_Work_Center_Detail c
+						ON b.Kode_Perusahaan = c.Kode_Perusahaan AND b.No_Faktur = c.No_Faktur
+					GROUP BY c.Id_Routing, a.Kode_Jenis_Biaya_Produksi, c.Id_Work_Center
+				)
+				SELECT
+					x.Kode_Jenis_Biaya_Produksi,
+					w.Keterangan,
+					x.Nilai_Per_Kg,
+					d.Berat,
+					(x.Nilai_Per_Kg / 1000.0) * d.Berat AS HPP_Produksi
+				FROM Emi_Transaksi_Formulator b
+				INNER JOIN Barang d
+					ON b.Kode_Perusahaan = d.Kode_Perusahaan
+				   AND b.Kode_Stock_Owner = d.Kode_Stock_Owner
+				   AND b.Kode_Barang = d.Kode_Barang_inq
+				INNER JOIN cte_produksi x ON d.Id_Routing = x.Id_Routing
+				INNER JOIN EMI_Master_Work_Center w
+					ON w.Id_Work_Center = x.Id_Work_Center
+				   AND w.Kode_Perusahaan = b.Kode_Perusahaan
+				WHERE b.Kode_Perusahaan = '{KodePerusahaan}'
+				  AND b.No_Faktur = '{NoFormula}' and round(x.Nilai_Per_Kg,0) <>0
+				GROUP BY x.Kode_Jenis_Biaya_Produksi, w.Keterangan, x.Nilai_Per_Kg, d.Berat
+				ORDER BY x.Kode_Jenis_Biaya_Produksi
+			"
+			Using Dr = OpenTrans(SQL)
+				Do While Dr.Read
+					adaDataProduksi = True
+					Dim hppVal As Decimal = Val(Dr("HPP_Produksi"))
+					If hppVal <= 0 Then
+						listError.Add($"  - HPP Produksi: {Dr("Keterangan")} (HPP = 0)")
+					End If
+				Loop
+			End Using
+
+			If Not adaDataProduksi Then
+				listError.Add("  - HPP Produksi: Tidak ada data")
+			End If
+
+			CloseConn()
+
+			If listError.Count > 0 Then
+				Dim sb As New System.Text.StringBuilder
+				sb.AppendLine("Tidak bisa validasi formula karena item berikut bermasalah :")
+				sb.AppendLine()
+				For Each e In listError
+					sb.AppendLine(e)
+				Next
+				MessageBox.Show(sb.ToString(), Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+				Return False
+			End If
+
+			Return True
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(
+				$"Gagal cek HPP formula {NoFormula}: {ex.Message}",
+				Judul,
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Warning
+			)
+			Return False
+		End Try
+	End Function
 
 	Private Sub Btn_Validasi_Click(sender As Object, e As EventArgs) Handles Btn_Validasi.Click, Btn_Tolak.Click
 		If TxtFormulator_NoFaktur.Text.Trim.Length = 0 Then
@@ -1201,6 +1661,11 @@
 			Exit Sub
 		ElseIf RTBCookingStep.Text.Trim.Length = 0 Then
 			MessageBox.Show("Harap Input Cooking Step Terlebih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		End If
+
+		Dim noformula As String = TxtFormulator_NoFaktur.Text.Trim
+		If Not Cek_HPP_Formula(noformula) Then
 			Exit Sub
 		End If
 
@@ -1756,10 +2221,11 @@
 		TXt_Jenis_Analisa.Text = JenisAnalisa
 		SwitchAutoComplete = False
 
+		Btn_Moisture_Insert.Focus()
+
 		Lv_Moisture_Content.Visible = False
 		Lv_Moisture_Content.Location = New Point(1160, 258)
 
-		Btn_Moisture_Insert.Focus()
 	End Sub
 
 	Private Sub Btn_Refresh_Moisture_Click(sender As Object, e As EventArgs) Handles Btn_Refresh_Moisture.Click

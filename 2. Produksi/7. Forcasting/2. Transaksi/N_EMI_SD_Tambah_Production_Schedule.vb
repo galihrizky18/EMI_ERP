@@ -919,12 +919,15 @@ Public Class N_EMI_SD_Tambah_Production_Schedule
 
             Dim daftarBarangOverQuota As String = ""
             Dim daftarBarangValid As String = ""
+            Dim daftarMelebihiPO As String = ""
 
             Dim adaMasalah As Boolean = False
+            Dim adaMasalahMelebihiPO As Boolean = False
 
             Dim sudahAdaInduk As Boolean = False
 
             Dim no_faktur_induk_yang_sudah_Ada As String = ""
+            Dim no_urut_sudah_ada As String = ""
             SQL = "select a.no_transaksi,b.no_urut,a.bulan,b.jumlah, a.tahun From N_EMI_Production_Plan_Schedule a, N_EMI_Production_Plan_Schedule_detail b "
             SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan and a.no_transaksi = b.no_transaksi "
             SQL = SQL & "and a.status is null and a.kode_perusahaan = '" & KodePerusahaan & "'  "
@@ -934,10 +937,12 @@ Public Class N_EMI_SD_Tambah_Production_Schedule
                 If Dr.Read Then
                     sudahAdaInduk = True
                     no_faktur_induk_yang_sudah_Ada = Dr("no_transaksi")
+                    no_urut_sudah_ada = Dr("no_urut")
                 Else
                     Dr.Close()
                     sudahAdaInduk = False
                     no_faktur_induk_yang_sudah_Ada = Txt_NoFaktur.Text
+                    no_urut_sudah_ada = "0"
                 End If
             End Using
 
@@ -991,7 +996,7 @@ Public Class N_EMI_SD_Tambah_Production_Schedule
 
 
                 Dim cekSudahPernahInput As Boolean = False
-
+              
                 SQL = "select a.no_transaksi,b.no_urut,a.bulan,b.jumlah, a.tahun From N_EMI_Production_Plan_Schedule a, N_EMI_Production_Plan_Schedule_detail b "
                 SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan and a.no_transaksi = b.no_transaksi "
                 SQL = SQL & "and a.status is null and a.kode_perusahaan = '" & KodePerusahaan & "' and urut_production_plan = " & LvNo_Urut & " "
@@ -1144,6 +1149,41 @@ Public Class N_EMI_SD_Tambah_Production_Schedule
 
 
 
+                'cek jumlah po
+
+                Dim urutDetSchedule As String = ""
+                If cekSudahPernahInput Then
+
+                    SQL = "select b.no_urut From N_EMI_Production_Plan_Schedule a, N_EMI_Production_Plan_Schedule_detail b "
+                    SQL = SQL & "where a.kode_perusahaan = b.kode_perusahaan and a.no_transaksi = b.no_transaksi "
+                    SQL = SQL & "and a.status is null and a.kode_perusahaan = '" & KodePerusahaan & "' and urut_production_plan = " & LvNo_Urut & " "
+                    SQL = SQL & "and  b.tanggal = '" & TanggalDariKalender.ToString("dd") & "'"
+                    Using dr = OpenTrans(SQL)
+                        If dr.Read Then
+                            urutDetSchedule = dr("no_Urut")
+                        Else
+                            dr.Close()
+                            urutDetSchedule = "0"
+                        End If
+                    End Using
+                End If
+
+
+                SQL = "select isnull(sum(a.jumlah),0) as Jumlah_Sdh_PO From emi_order_produksi a "
+                SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' "
+                SQL = SQL & "and  a.Urut_Production_Schedule = '" & urutDetSchedule & "' "
+                SQL = SQL & "and a.status is null "
+                Using Dr = OpenTrans(SQL)
+                    If Dr.Read Then
+                        If Val(HilangkanTanda(LvJumlah)) < Dr("Jumlah_Sdh_PO") Then
+                            adaMasalahMelebihiPO = True
+                            daftarMelebihiPO &= $"- {lvNmBrg} (Gagal, Jumlah Sudah PO : {Dr("Jumlah_Sdh_PO")} , Jumlah Input : {LvJumlah})" & vbCrLf
+
+                        End If
+                    End If
+                End Using
+
+
                 '   daftarBarangValid &= "- " & lvNmBrg & " (Qty: " & LvJumlah & ")" & vbCrLf
 
 
@@ -1159,6 +1199,16 @@ Public Class N_EMI_SD_Tambah_Production_Schedule
                 MessageBox.Show(pesanError, Judul, MessageBoxButtons.OK, MessageBoxIcon.Stop)
 
                 Exit Sub ' 
+            End If
+
+            If adaMasalahMelebihiPO Then
+                CloseTrans()
+                CloseConn()
+
+                Dim pesanError As String = "Data TIDAK DISIMPAN karena jumlah perbulan tidak boleh lebih kecil dari jumlah yang sudah di buat po " & vbCrLf & vbCrLf & daftarMelebihiPO
+                MessageBox.Show(pesanError, Judul, MessageBoxButtons.OK, MessageBoxIcon.Stop)
+
+                Exit Sub
             End If
 
 
@@ -1243,5 +1293,7 @@ Public Class N_EMI_SD_Tambah_Production_Schedule
 
     End Sub
 
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
 
+    End Sub
 End Class

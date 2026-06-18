@@ -24,6 +24,7 @@ Partial Class N_EMI_Display_Approval_Waste_Process
     Private Sub InitializeComponent()
 		Me.components = New System.ComponentModel.Container()
 		Me.Panel1 = New System.Windows.Forms.Panel()
+		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Label3 = New System.Windows.Forms.Label()
 		Me.Panel7 = New System.Windows.Forms.Panel()
 		Me.Panel3 = New System.Windows.Forms.Panel()
@@ -31,12 +32,16 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.Panel4 = New System.Windows.Forms.Panel()
 		Me.TabControl1 = New System.Windows.Forms.TabControl()
 		Me.TabPage2 = New System.Windows.Forms.TabPage()
+		Me.Panel13 = New System.Windows.Forms.Panel()
+		Me.Panel14 = New System.Windows.Forms.Panel()
+		Me.Label9 = New System.Windows.Forms.Label()
 		Me.TabControl2 = New System.Windows.Forms.TabControl()
 		Me.TabPage3 = New System.Windows.Forms.TabPage()
 		Me.Lv_Product_Detail_Barang = New System.Windows.Forms.ListView()
 		Me.TabPage4 = New System.Windows.Forms.TabPage()
 		Me.Lv_Product_Detail_Barcode = New System.Windows.Forms.ListView()
 		Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+		Me.Cmb2_Gudang = New System.Windows.Forms.ComboBox()
 		Me.Rd_Cetak_Belum2 = New System.Windows.Forms.RadioButton()
 		Me.Rd_Cetak_Semua2 = New System.Windows.Forms.RadioButton()
 		Me.Rd_Cetak_Sudah2 = New System.Windows.Forms.RadioButton()
@@ -58,15 +63,21 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.Panel11 = New System.Windows.Forms.Panel()
 		Me.Lv_Product_Data = New System.Windows.Forms.ListView()
 		Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+		Me.SalinNoApprovalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.SalinNoFakturToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.CetakFakturToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.CetakFakturDetailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.TabPage1 = New System.Windows.Forms.TabPage()
+		Me.Panel_Warna_Detail_Process = New System.Windows.Forms.Panel()
+		Me.Panel8 = New System.Windows.Forms.Panel()
+		Me.Label4 = New System.Windows.Forms.Label()
 		Me.TabControl3 = New System.Windows.Forms.TabControl()
 		Me.TabPage5 = New System.Windows.Forms.TabPage()
 		Me.Lv_Process_Detail_Barang = New System.Windows.Forms.ListView()
 		Me.TabPage6 = New System.Windows.Forms.TabPage()
 		Me.Lv_Process_Detail_Barcode = New System.Windows.Forms.ListView()
 		Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+		Me.Cmb_Gudang = New System.Windows.Forms.ComboBox()
 		Me.Rd_Cetak_Belum = New System.Windows.Forms.RadioButton()
 		Me.Rd_Cetak_Semua = New System.Windows.Forms.RadioButton()
 		Me.Rd_Cetak_Sudah = New System.Windows.Forms.RadioButton()
@@ -87,6 +98,8 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.Lv_Process_User_Approve = New System.Windows.Forms.ListView()
 		Me.Lv_Process_Data = New System.Windows.Forms.ListView()
 		Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+		Me.SalinNoApprovalToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+		Me.SalinNoFakturToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.CetakFakturToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.CetakFakturDetailToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.Panel5 = New System.Windows.Forms.Panel()
@@ -94,10 +107,12 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.Label8 = New System.Windows.Forms.Label()
 		Me.Panel12 = New System.Windows.Forms.Panel()
 		Me.Panel9 = New System.Windows.Forms.Panel()
-		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+		Me.Label10 = New System.Windows.Forms.Label()
+		Me.Panel15 = New System.Windows.Forms.Panel()
 		Me.Panel1.SuspendLayout()
 		Me.TabControl1.SuspendLayout()
 		Me.TabPage2.SuspendLayout()
+		Me.Panel13.SuspendLayout()
 		Me.TabControl2.SuspendLayout()
 		Me.TabPage3.SuspendLayout()
 		Me.TabPage4.SuspendLayout()
@@ -105,6 +120,7 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.GroupBox6.SuspendLayout()
 		Me.ContextMenuStrip2.SuspendLayout()
 		Me.TabPage1.SuspendLayout()
+		Me.Panel_Warna_Detail_Process.SuspendLayout()
 		Me.TabControl3.SuspendLayout()
 		Me.TabPage5.SuspendLayout()
 		Me.TabPage6.SuspendLayout()
@@ -123,6 +139,19 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.Panel1.Name = "Panel1"
 		Me.Panel1.Size = New System.Drawing.Size(1184, 45)
 		Me.Panel1.TabIndex = 490
+		'
+		'PanelGradient1
+		'
+		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+		Me.PanelGradient1.cuteTransparent1 = 100
+		Me.PanelGradient1.cuteTransparent2 = 64
+		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+		Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
+		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+		Me.PanelGradient1.Name = "PanelGradient1"
+		Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
+		Me.PanelGradient1.TabIndex = 22
 		'
 		'Label3
 		'
@@ -188,6 +217,7 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		'TabPage2
 		'
 		Me.TabPage2.BackColor = System.Drawing.Color.White
+		Me.TabPage2.Controls.Add(Me.Panel13)
 		Me.TabPage2.Controls.Add(Me.TabControl2)
 		Me.TabPage2.Controls.Add(Me.GroupBox4)
 		Me.TabPage2.Controls.Add(Me.Panel10)
@@ -201,14 +231,41 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.TabPage2.TabIndex = 1
 		Me.TabPage2.Text = "Pemindahan Waste"
 		'
+		'Panel13
+		'
+		Me.Panel13.Controls.Add(Me.Panel14)
+		Me.Panel13.Controls.Add(Me.Label9)
+		Me.Panel13.Location = New System.Drawing.Point(1052, 188)
+		Me.Panel13.Name = "Panel13"
+		Me.Panel13.Size = New System.Drawing.Size(76, 20)
+		Me.Panel13.TabIndex = 506
+		'
+		'Panel14
+		'
+		Me.Panel14.BackColor = System.Drawing.Color.DarkRed
+		Me.Panel14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+		Me.Panel14.Location = New System.Drawing.Point(3, 4)
+		Me.Panel14.Name = "Panel14"
+		Me.Panel14.Size = New System.Drawing.Size(12, 12)
+		Me.Panel14.TabIndex = 494
+		'
+		'Label9
+		'
+		Me.Label9.AutoSize = True
+		Me.Label9.Location = New System.Drawing.Point(21, 2)
+		Me.Label9.Name = "Label9"
+		Me.Label9.Size = New System.Drawing.Size(53, 16)
+		Me.Label9.TabIndex = 495
+		Me.Label9.Text = "Rejected"
+		'
 		'TabControl2
 		'
 		Me.TabControl2.Controls.Add(Me.TabPage3)
 		Me.TabControl2.Controls.Add(Me.TabPage4)
-		Me.TabControl2.Location = New System.Drawing.Point(468, 186)
+		Me.TabControl2.Location = New System.Drawing.Point(471, 186)
 		Me.TabControl2.Name = "TabControl2"
 		Me.TabControl2.SelectedIndex = 0
-		Me.TabControl2.Size = New System.Drawing.Size(664, 187)
+		Me.TabControl2.Size = New System.Drawing.Size(663, 187)
 		Me.TabControl2.TabIndex = 505
 		'
 		'TabPage3
@@ -218,7 +275,7 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.TabPage3.Location = New System.Drawing.Point(4, 25)
 		Me.TabPage3.Name = "TabPage3"
 		Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-		Me.TabPage3.Size = New System.Drawing.Size(656, 158)
+		Me.TabPage3.Size = New System.Drawing.Size(655, 158)
 		Me.TabPage3.TabIndex = 0
 		Me.TabPage3.Text = "Rekap"
 		'
@@ -230,7 +287,7 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.Lv_Product_Detail_Barang.HideSelection = False
 		Me.Lv_Product_Detail_Barang.Location = New System.Drawing.Point(3, 3)
 		Me.Lv_Product_Detail_Barang.Name = "Lv_Product_Detail_Barang"
-		Me.Lv_Product_Detail_Barang.Size = New System.Drawing.Size(650, 152)
+		Me.Lv_Product_Detail_Barang.Size = New System.Drawing.Size(649, 152)
 		Me.Lv_Product_Detail_Barang.TabIndex = 0
 		Me.Lv_Product_Detail_Barang.UseCompatibleStateImageBehavior = False
 		Me.Lv_Product_Detail_Barang.View = System.Windows.Forms.View.Details
@@ -242,7 +299,7 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.TabPage4.Location = New System.Drawing.Point(4, 25)
 		Me.TabPage4.Name = "TabPage4"
 		Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-		Me.TabPage4.Size = New System.Drawing.Size(656, 158)
+		Me.TabPage4.Size = New System.Drawing.Size(655, 158)
 		Me.TabPage4.TabIndex = 1
 		Me.TabPage4.Text = "Detail"
 		'
@@ -254,13 +311,14 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.Lv_Product_Detail_Barcode.HideSelection = False
 		Me.Lv_Product_Detail_Barcode.Location = New System.Drawing.Point(3, 3)
 		Me.Lv_Product_Detail_Barcode.Name = "Lv_Product_Detail_Barcode"
-		Me.Lv_Product_Detail_Barcode.Size = New System.Drawing.Size(650, 155)
+		Me.Lv_Product_Detail_Barcode.Size = New System.Drawing.Size(649, 152)
 		Me.Lv_Product_Detail_Barcode.TabIndex = 1
 		Me.Lv_Product_Detail_Barcode.UseCompatibleStateImageBehavior = False
 		Me.Lv_Product_Detail_Barcode.View = System.Windows.Forms.View.Details
 		'
 		'GroupBox4
 		'
+		Me.GroupBox4.Controls.Add(Me.Cmb2_Gudang)
 		Me.GroupBox4.Controls.Add(Me.Rd_Cetak_Belum2)
 		Me.GroupBox4.Controls.Add(Me.Rd_Cetak_Semua2)
 		Me.GroupBox4.Controls.Add(Me.Rd_Cetak_Sudah2)
@@ -281,16 +339,28 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.GroupBox4.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
 		Me.GroupBox4.Name = "GroupBox4"
 		Me.GroupBox4.Padding = New System.Windows.Forms.Padding(2, 3, 2, 3)
-		Me.GroupBox4.Size = New System.Drawing.Size(638, 141)
+		Me.GroupBox4.Size = New System.Drawing.Size(765, 141)
 		Me.GroupBox4.TabIndex = 504
 		Me.GroupBox4.TabStop = False
 		Me.GroupBox4.Text = "Filter Data"
+		'
+		'Cmb2_Gudang
+		'
+		Me.Cmb2_Gudang.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Cmb2_Gudang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.Cmb2_Gudang.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		Me.Cmb2_Gudang.FormattingEnabled = True
+		Me.Cmb2_Gudang.Location = New System.Drawing.Point(224, 21)
+		Me.Cmb2_Gudang.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+		Me.Cmb2_Gudang.Name = "Cmb2_Gudang"
+		Me.Cmb2_Gudang.Size = New System.Drawing.Size(220, 24)
+		Me.Cmb2_Gudang.TabIndex = 13
 		'
 		'Rd_Cetak_Belum2
 		'
 		Me.Rd_Cetak_Belum2.AutoSize = True
 		Me.Rd_Cetak_Belum2.Cursor = System.Windows.Forms.Cursors.Hand
-		Me.Rd_Cetak_Belum2.Location = New System.Drawing.Point(425, 24)
+		Me.Rd_Cetak_Belum2.Location = New System.Drawing.Point(654, 24)
 		Me.Rd_Cetak_Belum2.Name = "Rd_Cetak_Belum2"
 		Me.Rd_Cetak_Belum2.Size = New System.Drawing.Size(101, 21)
 		Me.Rd_Cetak_Belum2.TabIndex = 0
@@ -302,7 +372,7 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		'
 		Me.Rd_Cetak_Semua2.AutoSize = True
 		Me.Rd_Cetak_Semua2.Cursor = System.Windows.Forms.Cursors.Hand
-		Me.Rd_Cetak_Semua2.Location = New System.Drawing.Point(236, 24)
+		Me.Rd_Cetak_Semua2.Location = New System.Drawing.Point(465, 24)
 		Me.Rd_Cetak_Semua2.Name = "Rd_Cetak_Semua2"
 		Me.Rd_Cetak_Semua2.Size = New System.Drawing.Size(66, 21)
 		Me.Rd_Cetak_Semua2.TabIndex = 0
@@ -314,7 +384,7 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		'
 		Me.Rd_Cetak_Sudah2.AutoSize = True
 		Me.Rd_Cetak_Sudah2.Cursor = System.Windows.Forms.Cursors.Hand
-		Me.Rd_Cetak_Sudah2.Location = New System.Drawing.Point(313, 24)
+		Me.Rd_Cetak_Sudah2.Location = New System.Drawing.Point(542, 24)
 		Me.Rd_Cetak_Sudah2.Name = "Rd_Cetak_Sudah2"
 		Me.Rd_Cetak_Sudah2.Size = New System.Drawing.Size(101, 21)
 		Me.Rd_Cetak_Sudah2.TabIndex = 0
@@ -524,9 +594,21 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		'
 		'ContextMenuStrip2
 		'
-		Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakFakturToolStripMenuItem1, Me.CetakFakturDetailToolStripMenuItem})
+		Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalinNoApprovalToolStripMenuItem, Me.SalinNoFakturToolStripMenuItem, Me.CetakFakturToolStripMenuItem1, Me.CetakFakturDetailToolStripMenuItem})
 		Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
-		Me.ContextMenuStrip2.Size = New System.Drawing.Size(174, 48)
+		Me.ContextMenuStrip2.Size = New System.Drawing.Size(174, 92)
+		'
+		'SalinNoApprovalToolStripMenuItem
+		'
+		Me.SalinNoApprovalToolStripMenuItem.Name = "SalinNoApprovalToolStripMenuItem"
+		Me.SalinNoApprovalToolStripMenuItem.Size = New System.Drawing.Size(173, 22)
+		Me.SalinNoApprovalToolStripMenuItem.Text = "Salin No Approval"
+		'
+		'SalinNoFakturToolStripMenuItem
+		'
+		Me.SalinNoFakturToolStripMenuItem.Name = "SalinNoFakturToolStripMenuItem"
+		Me.SalinNoFakturToolStripMenuItem.Size = New System.Drawing.Size(173, 22)
+		Me.SalinNoFakturToolStripMenuItem.Text = "Salin No Faktur"
 		'
 		'CetakFakturToolStripMenuItem1
 		'
@@ -544,6 +626,7 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		'TabPage1
 		'
 		Me.TabPage1.BackColor = System.Drawing.Color.White
+		Me.TabPage1.Controls.Add(Me.Panel_Warna_Detail_Process)
 		Me.TabPage1.Controls.Add(Me.TabControl3)
 		Me.TabPage1.Controls.Add(Me.GroupBox2)
 		Me.TabPage1.Controls.Add(Me.Panel6)
@@ -556,6 +639,33 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.TabPage1.Size = New System.Drawing.Size(1137, 518)
 		Me.TabPage1.TabIndex = 0
 		Me.TabPage1.Text = "Pemusnahan Waste"
+		'
+		'Panel_Warna_Detail_Process
+		'
+		Me.Panel_Warna_Detail_Process.Controls.Add(Me.Panel8)
+		Me.Panel_Warna_Detail_Process.Controls.Add(Me.Label4)
+		Me.Panel_Warna_Detail_Process.Location = New System.Drawing.Point(1052, 188)
+		Me.Panel_Warna_Detail_Process.Name = "Panel_Warna_Detail_Process"
+		Me.Panel_Warna_Detail_Process.Size = New System.Drawing.Size(76, 20)
+		Me.Panel_Warna_Detail_Process.TabIndex = 496
+		'
+		'Panel8
+		'
+		Me.Panel8.BackColor = System.Drawing.Color.DarkRed
+		Me.Panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+		Me.Panel8.Location = New System.Drawing.Point(3, 4)
+		Me.Panel8.Name = "Panel8"
+		Me.Panel8.Size = New System.Drawing.Size(12, 12)
+		Me.Panel8.TabIndex = 494
+		'
+		'Label4
+		'
+		Me.Label4.AutoSize = True
+		Me.Label4.Location = New System.Drawing.Point(21, 2)
+		Me.Label4.Name = "Label4"
+		Me.Label4.Size = New System.Drawing.Size(53, 16)
+		Me.Label4.TabIndex = 495
+		Me.Label4.Text = "Rejected"
 		'
 		'TabControl3
 		'
@@ -617,6 +727,7 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		'
 		'GroupBox2
 		'
+		Me.GroupBox2.Controls.Add(Me.Cmb_Gudang)
 		Me.GroupBox2.Controls.Add(Me.Rd_Cetak_Belum)
 		Me.GroupBox2.Controls.Add(Me.Rd_Cetak_Semua)
 		Me.GroupBox2.Controls.Add(Me.Rd_Cetak_Sudah)
@@ -637,16 +748,28 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.GroupBox2.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
 		Me.GroupBox2.Name = "GroupBox2"
 		Me.GroupBox2.Padding = New System.Windows.Forms.Padding(2, 3, 2, 3)
-		Me.GroupBox2.Size = New System.Drawing.Size(638, 141)
+		Me.GroupBox2.Size = New System.Drawing.Size(765, 141)
 		Me.GroupBox2.TabIndex = 494
 		Me.GroupBox2.TabStop = False
 		Me.GroupBox2.Text = "Filter Data"
+		'
+		'Cmb_Gudang
+		'
+		Me.Cmb_Gudang.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Cmb_Gudang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.Cmb_Gudang.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		Me.Cmb_Gudang.FormattingEnabled = True
+		Me.Cmb_Gudang.Location = New System.Drawing.Point(224, 21)
+		Me.Cmb_Gudang.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+		Me.Cmb_Gudang.Name = "Cmb_Gudang"
+		Me.Cmb_Gudang.Size = New System.Drawing.Size(220, 24)
+		Me.Cmb_Gudang.TabIndex = 12
 		'
 		'Rd_Cetak_Belum
 		'
 		Me.Rd_Cetak_Belum.AutoSize = True
 		Me.Rd_Cetak_Belum.Cursor = System.Windows.Forms.Cursors.Hand
-		Me.Rd_Cetak_Belum.Location = New System.Drawing.Point(425, 24)
+		Me.Rd_Cetak_Belum.Location = New System.Drawing.Point(654, 24)
 		Me.Rd_Cetak_Belum.Name = "Rd_Cetak_Belum"
 		Me.Rd_Cetak_Belum.Size = New System.Drawing.Size(101, 21)
 		Me.Rd_Cetak_Belum.TabIndex = 9
@@ -658,7 +781,7 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		'
 		Me.Rd_Cetak_Semua.AutoSize = True
 		Me.Rd_Cetak_Semua.Cursor = System.Windows.Forms.Cursors.Hand
-		Me.Rd_Cetak_Semua.Location = New System.Drawing.Point(236, 24)
+		Me.Rd_Cetak_Semua.Location = New System.Drawing.Point(465, 24)
 		Me.Rd_Cetak_Semua.Name = "Rd_Cetak_Semua"
 		Me.Rd_Cetak_Semua.Size = New System.Drawing.Size(66, 21)
 		Me.Rd_Cetak_Semua.TabIndex = 10
@@ -670,7 +793,7 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		'
 		Me.Rd_Cetak_Sudah.AutoSize = True
 		Me.Rd_Cetak_Sudah.Cursor = System.Windows.Forms.Cursors.Hand
-		Me.Rd_Cetak_Sudah.Location = New System.Drawing.Point(313, 24)
+		Me.Rd_Cetak_Sudah.Location = New System.Drawing.Point(542, 24)
 		Me.Rd_Cetak_Sudah.Name = "Rd_Cetak_Sudah"
 		Me.Rd_Cetak_Sudah.Size = New System.Drawing.Size(101, 21)
 		Me.Rd_Cetak_Sudah.TabIndex = 11
@@ -873,9 +996,21 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		'
 		'ContextMenuStrip1
 		'
-		Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CetakFakturToolStripMenuItem, Me.CetakFakturDetailToolStripMenuItem1})
+		Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalinNoApprovalToolStripMenuItem1, Me.SalinNoFakturToolStripMenuItem1, Me.CetakFakturToolStripMenuItem, Me.CetakFakturDetailToolStripMenuItem1})
 		Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-		Me.ContextMenuStrip1.Size = New System.Drawing.Size(174, 48)
+		Me.ContextMenuStrip1.Size = New System.Drawing.Size(174, 92)
+		'
+		'SalinNoApprovalToolStripMenuItem1
+		'
+		Me.SalinNoApprovalToolStripMenuItem1.Name = "SalinNoApprovalToolStripMenuItem1"
+		Me.SalinNoApprovalToolStripMenuItem1.Size = New System.Drawing.Size(173, 22)
+		Me.SalinNoApprovalToolStripMenuItem1.Text = "Salin No Approval"
+		'
+		'SalinNoFakturToolStripMenuItem1
+		'
+		Me.SalinNoFakturToolStripMenuItem1.Name = "SalinNoFakturToolStripMenuItem1"
+		Me.SalinNoFakturToolStripMenuItem1.Size = New System.Drawing.Size(173, 22)
+		Me.SalinNoFakturToolStripMenuItem1.Text = "Salin No Faktur"
 		'
 		'CetakFakturToolStripMenuItem
 		'
@@ -903,7 +1038,7 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		'Label5
 		'
 		Me.Label5.AutoSize = True
-		Me.Label5.Location = New System.Drawing.Point(1084, 62)
+		Me.Label5.Location = New System.Drawing.Point(1010, 62)
 		Me.Label5.Name = "Label5"
 		Me.Label5.Size = New System.Drawing.Size(76, 16)
 		Me.Label5.TabIndex = 496
@@ -912,7 +1047,7 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		'Label8
 		'
 		Me.Label8.AutoSize = True
-		Me.Label8.Location = New System.Drawing.Point(996, 62)
+		Me.Label8.Location = New System.Drawing.Point(922, 62)
 		Me.Label8.Name = "Label8"
 		Me.Label8.Size = New System.Drawing.Size(66, 16)
 		Me.Label8.TabIndex = 496
@@ -922,7 +1057,7 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		'
 		Me.Panel12.BackColor = System.Drawing.Color.Goldenrod
 		Me.Panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-		Me.Panel12.Location = New System.Drawing.Point(1068, 64)
+		Me.Panel12.Location = New System.Drawing.Point(994, 64)
 		Me.Panel12.Name = "Panel12"
 		Me.Panel12.Size = New System.Drawing.Size(12, 12)
 		Me.Panel12.TabIndex = 495
@@ -931,23 +1066,28 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		'
 		Me.Panel9.BackColor = System.Drawing.Color.LightGreen
 		Me.Panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-		Me.Panel9.Location = New System.Drawing.Point(980, 64)
+		Me.Panel9.Location = New System.Drawing.Point(908, 64)
 		Me.Panel9.Name = "Panel9"
 		Me.Panel9.Size = New System.Drawing.Size(12, 12)
 		Me.Panel9.TabIndex = 495
 		'
-		'PanelGradient1
+		'Label10
 		'
-		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-		Me.PanelGradient1.cuteTransparent1 = 100
-		Me.PanelGradient1.cuteTransparent2 = 64
-		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-		Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
-		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-		Me.PanelGradient1.Name = "PanelGradient1"
-		Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
-		Me.PanelGradient1.TabIndex = 22
+		Me.Label10.AutoSize = True
+		Me.Label10.Location = New System.Drawing.Point(1108, 62)
+		Me.Label10.Name = "Label10"
+		Me.Label10.Size = New System.Drawing.Size(53, 16)
+		Me.Label10.TabIndex = 496
+		Me.Label10.Text = "Rejected"
+		'
+		'Panel15
+		'
+		Me.Panel15.BackColor = System.Drawing.Color.DarkRed
+		Me.Panel15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+		Me.Panel15.Location = New System.Drawing.Point(1092, 64)
+		Me.Panel15.Name = "Panel15"
+		Me.Panel15.Size = New System.Drawing.Size(12, 12)
+		Me.Panel15.TabIndex = 495
 		'
 		'N_EMI_Display_Approval_Waste_Process
 		'
@@ -955,6 +1095,8 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.White
 		Me.ClientSize = New System.Drawing.Size(1184, 611)
+		Me.Controls.Add(Me.Panel15)
+		Me.Controls.Add(Me.Label10)
 		Me.Controls.Add(Me.Panel12)
 		Me.Controls.Add(Me.Label5)
 		Me.Controls.Add(Me.Panel9)
@@ -974,6 +1116,8 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.Panel1.PerformLayout()
 		Me.TabControl1.ResumeLayout(False)
 		Me.TabPage2.ResumeLayout(False)
+		Me.Panel13.ResumeLayout(False)
+		Me.Panel13.PerformLayout()
 		Me.TabControl2.ResumeLayout(False)
 		Me.TabPage3.ResumeLayout(False)
 		Me.TabPage4.ResumeLayout(False)
@@ -982,6 +1126,8 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 		Me.GroupBox6.ResumeLayout(False)
 		Me.ContextMenuStrip2.ResumeLayout(False)
 		Me.TabPage1.ResumeLayout(False)
+		Me.Panel_Warna_Detail_Process.ResumeLayout(False)
+		Me.Panel_Warna_Detail_Process.PerformLayout()
 		Me.TabControl3.ResumeLayout(False)
 		Me.TabPage5.ResumeLayout(False)
 		Me.TabPage6.ResumeLayout(False)
@@ -1066,4 +1212,18 @@ Partial Class N_EMI_Display_Approval_Waste_Process
 	Friend WithEvents Lv_Process_Detail_Barcode As ListView
 	Friend WithEvents CetakFakturDetailToolStripMenuItem As ToolStripMenuItem
 	Friend WithEvents CetakFakturDetailToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents Panel8 As Panel
+	Friend WithEvents Label4 As Label
+	Friend WithEvents Panel_Warna_Detail_Process As Panel
+	Friend WithEvents Panel13 As Panel
+	Friend WithEvents Panel14 As Panel
+	Friend WithEvents Label9 As Label
+	Friend WithEvents Label10 As Label
+	Friend WithEvents Panel15 As Panel
+	Friend WithEvents Cmb_Gudang As ComboBox
+	Friend WithEvents Cmb2_Gudang As ComboBox
+	Friend WithEvents SalinNoApprovalToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SalinNoFakturToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents SalinNoApprovalToolStripMenuItem1 As ToolStripMenuItem
+	Friend WithEvents SalinNoFakturToolStripMenuItem1 As ToolStripMenuItem
 End Class

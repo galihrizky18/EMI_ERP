@@ -96,6 +96,9 @@ Partial Class EMI_Production_Order
 		Me.Cmb_Jenis = New System.Windows.Forms.ComboBox()
 		Me.Label10 = New System.Windows.Forms.Label()
 		Me.Btn_Get_Detail_Formula = New System.Windows.Forms.Button()
+		Me.Label11 = New System.Windows.Forms.Label()
+		Me.Panel6 = New System.Windows.Forms.Panel()
+		Me.Cmb_Packing_Set = New System.Windows.Forms.ComboBox()
 		Me.Panel1.SuspendLayout()
 		Me.ContextMenuStrip3.SuspendLayout()
 		Me.ContextMenuStrip1.SuspendLayout()
@@ -287,6 +290,7 @@ Partial Class EMI_Production_Order
 		'ComboBox2
 		'
 		Me.ComboBox2.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+		Me.ComboBox2.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 		Me.ComboBox2.Font = New System.Drawing.Font("Work Sans", 8.0!)
 		Me.ComboBox2.FormattingEnabled = True
@@ -630,6 +634,7 @@ Partial Class EMI_Production_Order
 		'CmbLokasi
 		'
 		Me.CmbLokasi.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+		Me.CmbLokasi.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.CmbLokasi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 		Me.CmbLokasi.Enabled = False
 		Me.CmbLokasi.Font = New System.Drawing.Font("Work Sans", 8.0!)
@@ -746,7 +751,7 @@ Partial Class EMI_Production_Order
 		Me.txt_IdJenisProduk.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.txt_IdJenisProduk.Enabled = False
 		Me.txt_IdJenisProduk.Font = New System.Drawing.Font("Work Sans", 8.0!)
-		Me.txt_IdJenisProduk.Location = New System.Drawing.Point(452, 703)
+		Me.txt_IdJenisProduk.Location = New System.Drawing.Point(1167, 637)
 		Me.txt_IdJenisProduk.Name = "txt_IdJenisProduk"
 		Me.txt_IdJenisProduk.Size = New System.Drawing.Size(150, 20)
 		Me.txt_IdJenisProduk.TabIndex = 421
@@ -770,10 +775,10 @@ Partial Class EMI_Production_Order
 		'
 		Me.TabControl1.Controls.Add(Me.TabPage1)
 		Me.TabControl1.Controls.Add(Me.TabPage2)
-		Me.TabControl1.Location = New System.Drawing.Point(398, 438)
+		Me.TabControl1.Location = New System.Drawing.Point(388, 438)
 		Me.TabControl1.Name = "TabControl1"
 		Me.TabControl1.SelectedIndex = 0
-		Me.TabControl1.Size = New System.Drawing.Size(739, 219)
+		Me.TabControl1.Size = New System.Drawing.Size(749, 219)
 		Me.TabControl1.TabIndex = 423
 		'
 		'TabPage1
@@ -786,7 +791,7 @@ Partial Class EMI_Production_Order
 		Me.TabPage1.Location = New System.Drawing.Point(4, 22)
 		Me.TabPage1.Name = "TabPage1"
 		Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-		Me.TabPage1.Size = New System.Drawing.Size(731, 193)
+		Me.TabPage1.Size = New System.Drawing.Size(741, 193)
 		Me.TabPage1.TabIndex = 0
 		Me.TabPage1.Text = "Material"
 		Me.TabPage1.UseVisualStyleBackColor = True
@@ -810,7 +815,7 @@ Partial Class EMI_Production_Order
 		Me.TabPage2.Location = New System.Drawing.Point(4, 22)
 		Me.TabPage2.Name = "TabPage2"
 		Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-		Me.TabPage2.Size = New System.Drawing.Size(731, 193)
+		Me.TabPage2.Size = New System.Drawing.Size(741, 193)
 		Me.TabPage2.TabIndex = 1
 		Me.TabPage2.Text = "Packaging"
 		Me.TabPage2.UseVisualStyleBackColor = True
@@ -824,7 +829,7 @@ Partial Class EMI_Production_Order
 		Me.LvPackagingNew.HideSelection = False
 		Me.LvPackagingNew.Location = New System.Drawing.Point(3, 3)
 		Me.LvPackagingNew.Name = "LvPackagingNew"
-		Me.LvPackagingNew.Size = New System.Drawing.Size(725, 187)
+		Me.LvPackagingNew.Size = New System.Drawing.Size(735, 187)
 		Me.LvPackagingNew.TabIndex = 383
 		Me.LvPackagingNew.UseCompatibleStateImageBehavior = False
 		Me.LvPackagingNew.View = System.Windows.Forms.View.Details
@@ -898,12 +903,45 @@ Partial Class EMI_Production_Order
 		Me.Btn_Get_Detail_Formula.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Btn_Get_Detail_Formula.Font = New System.Drawing.Font("Work Sans Medium", 8.0!, System.Drawing.FontStyle.Bold)
 		Me.Btn_Get_Detail_Formula.ForeColor = System.Drawing.Color.White
-		Me.Btn_Get_Detail_Formula.Location = New System.Drawing.Point(398, 401)
+		Me.Btn_Get_Detail_Formula.Location = New System.Drawing.Point(699, 403)
 		Me.Btn_Get_Detail_Formula.Name = "Btn_Get_Detail_Formula"
 		Me.Btn_Get_Detail_Formula.Size = New System.Drawing.Size(163, 29)
 		Me.Btn_Get_Detail_Formula.TabIndex = 425
 		Me.Btn_Get_Detail_Formula.Text = "&Get Detail Bahan"
 		Me.Btn_Get_Detail_Formula.UseVisualStyleBackColor = False
+		'
+		'Label11
+		'
+		Me.Label11.AutoSize = True
+		Me.Label11.Font = New System.Drawing.Font("Work Sans", 9.0!)
+		Me.Label11.Location = New System.Drawing.Point(393, 408)
+		Me.Label11.Name = "Label11"
+		Me.Label11.Size = New System.Drawing.Size(76, 17)
+		Me.Label11.TabIndex = 425
+		Me.Label11.Text = "Packing Set"
+		'
+		'Panel6
+		'
+		Me.Panel6.BackColor = System.Drawing.Color.Red
+		Me.Panel6.Location = New System.Drawing.Point(374, 403)
+		Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
+		Me.Panel6.Name = "Panel6"
+		Me.Panel6.Size = New System.Drawing.Size(12, 692)
+		Me.Panel6.TabIndex = 35
+		Me.Panel6.Visible = False
+		'
+		'Cmb_Packing_Set
+		'
+		Me.Cmb_Packing_Set.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+		Me.Cmb_Packing_Set.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Cmb_Packing_Set.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.Cmb_Packing_Set.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		Me.Cmb_Packing_Set.FormattingEnabled = True
+		Me.Cmb_Packing_Set.Items.AddRange(New Object() {"Nama Barang", "Tanggal"})
+		Me.Cmb_Packing_Set.Location = New System.Drawing.Point(485, 406)
+		Me.Cmb_Packing_Set.Name = "Cmb_Packing_Set"
+		Me.Cmb_Packing_Set.Size = New System.Drawing.Size(208, 24)
+		Me.Cmb_Packing_Set.TabIndex = 426
 		'
 		'EMI_Production_Order
 		'
@@ -911,6 +949,8 @@ Partial Class EMI_Production_Order
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.White
 		Me.ClientSize = New System.Drawing.Size(1160, 743)
+		Me.Controls.Add(Me.Cmb_Packing_Set)
+		Me.Controls.Add(Me.Label11)
 		Me.Controls.Add(Me.Btn_Get_Detail_Formula)
 		Me.Controls.Add(Me.LvPackaging)
 		Me.Controls.Add(Me.LvBahan)
@@ -951,6 +991,7 @@ Partial Class EMI_Production_Order
 		Me.Controls.Add(Me.btnRefresh)
 		Me.Controls.Add(Me.Panel4)
 		Me.Controls.Add(Me.Panel5)
+		Me.Controls.Add(Me.Panel6)
 		Me.Controls.Add(Me.Panel3)
 		Me.Controls.Add(Me.Panel2)
 		Me.Controls.Add(Me.Panel1)
@@ -958,6 +999,7 @@ Partial Class EMI_Production_Order
 		Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
 		Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
 		Me.Margin = New System.Windows.Forms.Padding(4)
+		Me.MinimizeBox = False
 		Me.Name = "EMI_Production_Order"
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
 		Me.Panel1.ResumeLayout(False)
@@ -1049,4 +1091,7 @@ Partial Class EMI_Production_Order
     Friend WithEvents LvBahanNew As ListView
     Friend WithEvents LvPackagingNew As ListView
 	Friend WithEvents Btn_Get_Detail_Formula As Button
+	Friend WithEvents Label11 As Label
+	Friend WithEvents Panel6 As Panel
+	Friend WithEvents Cmb_Packing_Set As ComboBox
 End Class

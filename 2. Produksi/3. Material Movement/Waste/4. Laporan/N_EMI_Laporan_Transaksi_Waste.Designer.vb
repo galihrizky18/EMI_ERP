@@ -30,12 +30,12 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		Me.Panel5 = New System.Windows.Forms.Panel()
 		Me.Panel4 = New System.Windows.Forms.Panel()
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-		Me.Rd_Status_Belum_Validasi = New System.Windows.Forms.RadioButton()
-		Me.Rd_Status_Validasi = New System.Windows.Forms.RadioButton()
-		Me.Rd_Status_Seluruh = New System.Windows.Forms.RadioButton()
+		Me.Cmb_Value_Status_Transaksi = New System.Windows.Forms.ComboBox()
+		Me.Cmb_Status_Transaksi = New System.Windows.Forms.ComboBox()
 		Me.Cmb_Jenis_Barang = New System.Windows.Forms.ComboBox()
 		Me.Cmb_Jenis_Transaksi = New System.Windows.Forms.ComboBox()
 		Me.Cmb_Jenis_Laporan = New System.Windows.Forms.ComboBox()
+		Me.Cmb_Lokasi_Asal_Pemusnahan = New System.Windows.Forms.ComboBox()
 		Me.Cmb_Jenis = New System.Windows.Forms.ComboBox()
 		Me.Txt_No_Transaksi = New System.Windows.Forms.TextBox()
 		Me.Txt_No_Split = New System.Windows.Forms.TextBox()
@@ -43,6 +43,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		Me.Txt_Kd_Barang = New System.Windows.Forms.TextBox()
 		Me.Label7 = New System.Windows.Forms.Label()
 		Me.Label1 = New System.Windows.Forms.Label()
+		Me.Label9 = New System.Windows.Forms.Label()
 		Me.Label8 = New System.Windows.Forms.Label()
 		Me.Label4 = New System.Windows.Forms.Label()
 		Me.Label6 = New System.Windows.Forms.Label()
@@ -92,9 +93,9 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		Me.Label11.Location = New System.Drawing.Point(20, 7)
 		Me.Label11.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
 		Me.Label11.Name = "Label11"
-		Me.Label11.Size = New System.Drawing.Size(307, 29)
+		Me.Label11.Size = New System.Drawing.Size(318, 29)
 		Me.Label11.TabIndex = 0
-		Me.Label11.Text = "Laporan - Pemusnhaan Waste"
+		Me.Label11.Text = "Laporan - Pemusnahaan Waste"
 		'
 		'Panel3
 		'
@@ -129,7 +130,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		'Panel4
 		'
 		Me.Panel4.BackColor = System.Drawing.Color.Red
-		Me.Panel4.Location = New System.Drawing.Point(28, 329)
+		Me.Panel4.Location = New System.Drawing.Point(30, 354)
 		Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
 		Me.Panel4.Name = "Panel4"
 		Me.Panel4.Size = New System.Drawing.Size(942, 15)
@@ -138,12 +139,12 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		'
 		'GroupBox1
 		'
-		Me.GroupBox1.Controls.Add(Me.Rd_Status_Belum_Validasi)
-		Me.GroupBox1.Controls.Add(Me.Rd_Status_Validasi)
-		Me.GroupBox1.Controls.Add(Me.Rd_Status_Seluruh)
+		Me.GroupBox1.Controls.Add(Me.Cmb_Value_Status_Transaksi)
+		Me.GroupBox1.Controls.Add(Me.Cmb_Status_Transaksi)
 		Me.GroupBox1.Controls.Add(Me.Cmb_Jenis_Barang)
 		Me.GroupBox1.Controls.Add(Me.Cmb_Jenis_Transaksi)
 		Me.GroupBox1.Controls.Add(Me.Cmb_Jenis_Laporan)
+		Me.GroupBox1.Controls.Add(Me.Cmb_Lokasi_Asal_Pemusnahan)
 		Me.GroupBox1.Controls.Add(Me.Cmb_Jenis)
 		Me.GroupBox1.Controls.Add(Me.Txt_No_Transaksi)
 		Me.GroupBox1.Controls.Add(Me.Txt_No_Split)
@@ -151,6 +152,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		Me.GroupBox1.Controls.Add(Me.Txt_Kd_Barang)
 		Me.GroupBox1.Controls.Add(Me.Label7)
 		Me.GroupBox1.Controls.Add(Me.Label1)
+		Me.GroupBox1.Controls.Add(Me.Label9)
 		Me.GroupBox1.Controls.Add(Me.Label8)
 		Me.GroupBox1.Controls.Add(Me.Label4)
 		Me.GroupBox1.Controls.Add(Me.Label6)
@@ -162,71 +164,57 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		Me.GroupBox1.Controls.Add(Me.Txt_Nm_Barang)
 		Me.GroupBox1.Location = New System.Drawing.Point(19, 55)
 		Me.GroupBox1.Name = "GroupBox1"
-		Me.GroupBox1.Size = New System.Drawing.Size(752, 235)
+		Me.GroupBox1.Size = New System.Drawing.Size(752, 258)
 		Me.GroupBox1.TabIndex = 0
 		Me.GroupBox1.TabStop = False
 		'
-		'Rd_Status_Belum_Validasi
+		'Cmb_Value_Status_Transaksi
 		'
-		Me.Rd_Status_Belum_Validasi.AutoSize = True
-		Me.Rd_Status_Belum_Validasi.Cursor = System.Windows.Forms.Cursors.Hand
-		Me.Rd_Status_Belum_Validasi.Location = New System.Drawing.Point(294, 83)
-		Me.Rd_Status_Belum_Validasi.Name = "Rd_Status_Belum_Validasi"
-		Me.Rd_Status_Belum_Validasi.Size = New System.Drawing.Size(102, 20)
-		Me.Rd_Status_Belum_Validasi.TabIndex = 6
-		Me.Rd_Status_Belum_Validasi.TabStop = True
-		Me.Rd_Status_Belum_Validasi.Tag = "Belum Validasi"
-		Me.Rd_Status_Belum_Validasi.Text = "Belum Validasi"
-		Me.Rd_Status_Belum_Validasi.UseVisualStyleBackColor = True
+		Me.Cmb_Value_Status_Transaksi.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Cmb_Value_Status_Transaksi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.Cmb_Value_Status_Transaksi.Enabled = False
+		Me.Cmb_Value_Status_Transaksi.FormattingEnabled = True
+		Me.Cmb_Value_Status_Transaksi.Location = New System.Drawing.Point(297, 79)
+		Me.Cmb_Value_Status_Transaksi.Name = "Cmb_Value_Status_Transaksi"
+		Me.Cmb_Value_Status_Transaksi.Size = New System.Drawing.Size(163, 24)
+		Me.Cmb_Value_Status_Transaksi.TabIndex = 15
 		'
-		'Rd_Status_Validasi
+		'Cmb_Status_Transaksi
 		'
-		Me.Rd_Status_Validasi.AutoSize = True
-		Me.Rd_Status_Validasi.Cursor = System.Windows.Forms.Cursors.Hand
-		Me.Rd_Status_Validasi.Location = New System.Drawing.Point(212, 83)
-		Me.Rd_Status_Validasi.Name = "Rd_Status_Validasi"
-		Me.Rd_Status_Validasi.Size = New System.Drawing.Size(65, 20)
-		Me.Rd_Status_Validasi.TabIndex = 5
-		Me.Rd_Status_Validasi.TabStop = True
-		Me.Rd_Status_Validasi.Tag = "Sudah Validasi"
-		Me.Rd_Status_Validasi.Text = "Validasi"
-		Me.Rd_Status_Validasi.UseVisualStyleBackColor = True
-		'
-		'Rd_Status_Seluruh
-		'
-		Me.Rd_Status_Seluruh.AutoSize = True
-		Me.Rd_Status_Seluruh.Cursor = System.Windows.Forms.Cursors.Hand
-		Me.Rd_Status_Seluruh.Location = New System.Drawing.Point(130, 83)
-		Me.Rd_Status_Seluruh.Name = "Rd_Status_Seluruh"
-		Me.Rd_Status_Seluruh.Size = New System.Drawing.Size(66, 20)
-		Me.Rd_Status_Seluruh.TabIndex = 4
-		Me.Rd_Status_Seluruh.TabStop = True
-		Me.Rd_Status_Seluruh.Tag = "Seluruh"
-		Me.Rd_Status_Seluruh.Text = "Seluruh"
-		Me.Rd_Status_Seluruh.UseVisualStyleBackColor = True
+		Me.Cmb_Status_Transaksi.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Cmb_Status_Transaksi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.Cmb_Status_Transaksi.Enabled = False
+		Me.Cmb_Status_Transaksi.FormattingEnabled = True
+		Me.Cmb_Status_Transaksi.Location = New System.Drawing.Point(130, 79)
+		Me.Cmb_Status_Transaksi.Name = "Cmb_Status_Transaksi"
+		Me.Cmb_Status_Transaksi.Size = New System.Drawing.Size(163, 24)
+		Me.Cmb_Status_Transaksi.TabIndex = 14
 		'
 		'Cmb_Jenis_Barang
 		'
+		Me.Cmb_Jenis_Barang.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Cmb_Jenis_Barang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 		Me.Cmb_Jenis_Barang.Enabled = False
 		Me.Cmb_Jenis_Barang.FormattingEnabled = True
-		Me.Cmb_Jenis_Barang.Location = New System.Drawing.Point(130, 199)
+		Me.Cmb_Jenis_Barang.Location = New System.Drawing.Point(130, 226)
 		Me.Cmb_Jenis_Barang.Name = "Cmb_Jenis_Barang"
 		Me.Cmb_Jenis_Barang.Size = New System.Drawing.Size(163, 24)
 		Me.Cmb_Jenis_Barang.TabIndex = 11
 		'
 		'Cmb_Jenis_Transaksi
 		'
+		Me.Cmb_Jenis_Transaksi.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Cmb_Jenis_Transaksi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 		Me.Cmb_Jenis_Transaksi.Enabled = False
 		Me.Cmb_Jenis_Transaksi.FormattingEnabled = True
-		Me.Cmb_Jenis_Transaksi.Location = New System.Drawing.Point(130, 142)
+		Me.Cmb_Jenis_Transaksi.Location = New System.Drawing.Point(130, 169)
 		Me.Cmb_Jenis_Transaksi.Name = "Cmb_Jenis_Transaksi"
 		Me.Cmb_Jenis_Transaksi.Size = New System.Drawing.Size(163, 24)
 		Me.Cmb_Jenis_Transaksi.TabIndex = 8
 		'
 		'Cmb_Jenis_Laporan
 		'
+		Me.Cmb_Jenis_Laporan.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Cmb_Jenis_Laporan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 		Me.Cmb_Jenis_Laporan.FormattingEnabled = True
 		Me.Cmb_Jenis_Laporan.Location = New System.Drawing.Point(130, 48)
@@ -234,12 +222,24 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		Me.Cmb_Jenis_Laporan.Size = New System.Drawing.Size(374, 24)
 		Me.Cmb_Jenis_Laporan.TabIndex = 3
 		'
+		'Cmb_Lokasi_Asal_Pemusnahan
+		'
+		Me.Cmb_Lokasi_Asal_Pemusnahan.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Cmb_Lokasi_Asal_Pemusnahan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.Cmb_Lokasi_Asal_Pemusnahan.Enabled = False
+		Me.Cmb_Lokasi_Asal_Pemusnahan.FormattingEnabled = True
+		Me.Cmb_Lokasi_Asal_Pemusnahan.Location = New System.Drawing.Point(130, 109)
+		Me.Cmb_Lokasi_Asal_Pemusnahan.Name = "Cmb_Lokasi_Asal_Pemusnahan"
+		Me.Cmb_Lokasi_Asal_Pemusnahan.Size = New System.Drawing.Size(163, 24)
+		Me.Cmb_Lokasi_Asal_Pemusnahan.TabIndex = 7
+		'
 		'Cmb_Jenis
 		'
+		Me.Cmb_Jenis.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Cmb_Jenis.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 		Me.Cmb_Jenis.Enabled = False
 		Me.Cmb_Jenis.FormattingEnabled = True
-		Me.Cmb_Jenis.Location = New System.Drawing.Point(130, 112)
+		Me.Cmb_Jenis.Location = New System.Drawing.Point(130, 139)
 		Me.Cmb_Jenis.Name = "Cmb_Jenis"
 		Me.Cmb_Jenis.Size = New System.Drawing.Size(163, 24)
 		Me.Cmb_Jenis.TabIndex = 7
@@ -247,7 +247,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		'Txt_No_Transaksi
 		'
 		Me.Txt_No_Transaksi.Enabled = False
-		Me.Txt_No_Transaksi.Location = New System.Drawing.Point(297, 146)
+		Me.Txt_No_Transaksi.Location = New System.Drawing.Point(297, 173)
 		Me.Txt_No_Transaksi.Name = "Txt_No_Transaksi"
 		Me.Txt_No_Transaksi.Size = New System.Drawing.Size(207, 20)
 		Me.Txt_No_Transaksi.TabIndex = 9
@@ -255,7 +255,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		'Txt_No_Split
 		'
 		Me.Txt_No_Split.Enabled = False
-		Me.Txt_No_Split.Location = New System.Drawing.Point(130, 173)
+		Me.Txt_No_Split.Location = New System.Drawing.Point(130, 200)
 		Me.Txt_No_Split.Name = "Txt_No_Split"
 		Me.Txt_No_Split.Size = New System.Drawing.Size(163, 20)
 		Me.Txt_No_Split.TabIndex = 10
@@ -263,7 +263,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		'Label5
 		'
 		Me.Label5.AutoSize = True
-		Me.Label5.Location = New System.Drawing.Point(8, 145)
+		Me.Label5.Location = New System.Drawing.Point(8, 172)
 		Me.Label5.Name = "Label5"
 		Me.Label5.Size = New System.Drawing.Size(76, 16)
 		Me.Label5.TabIndex = 4
@@ -272,7 +272,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		'Txt_Kd_Barang
 		'
 		Me.Txt_Kd_Barang.Enabled = False
-		Me.Txt_Kd_Barang.Location = New System.Drawing.Point(297, 202)
+		Me.Txt_Kd_Barang.Location = New System.Drawing.Point(297, 229)
 		Me.Txt_Kd_Barang.Name = "Txt_Kd_Barang"
 		Me.Txt_Kd_Barang.Size = New System.Drawing.Size(116, 20)
 		Me.Txt_Kd_Barang.TabIndex = 12
@@ -289,11 +289,20 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		'Label1
 		'
 		Me.Label1.AutoSize = True
-		Me.Label1.Location = New System.Drawing.Point(8, 171)
+		Me.Label1.Location = New System.Drawing.Point(8, 198)
 		Me.Label1.Name = "Label1"
 		Me.Label1.Size = New System.Drawing.Size(51, 16)
 		Me.Label1.TabIndex = 4
 		Me.Label1.Text = "No Split"
+		'
+		'Label9
+		'
+		Me.Label9.AutoSize = True
+		Me.Label9.Location = New System.Drawing.Point(8, 112)
+		Me.Label9.Name = "Label9"
+		Me.Label9.Size = New System.Drawing.Size(68, 16)
+		Me.Label9.TabIndex = 4
+		Me.Label9.Text = "Lokasi Asal"
 		'
 		'Label8
 		'
@@ -307,7 +316,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		'Label4
 		'
 		Me.Label4.AutoSize = True
-		Me.Label4.Location = New System.Drawing.Point(8, 115)
+		Me.Label4.Location = New System.Drawing.Point(8, 142)
 		Me.Label4.Name = "Label4"
 		Me.Label4.Size = New System.Drawing.Size(35, 16)
 		Me.Label4.TabIndex = 4
@@ -316,7 +325,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		'Label6
 		'
 		Me.Label6.AutoSize = True
-		Me.Label6.Location = New System.Drawing.Point(8, 197)
+		Me.Label6.Location = New System.Drawing.Point(8, 224)
 		Me.Label6.Name = "Label6"
 		Me.Label6.Size = New System.Drawing.Size(43, 16)
 		Me.Label6.TabIndex = 4
@@ -343,7 +352,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		'Txt_Keterangan_Split
 		'
 		Me.Txt_Keterangan_Split.Enabled = False
-		Me.Txt_Keterangan_Split.Location = New System.Drawing.Point(297, 173)
+		Me.Txt_Keterangan_Split.Location = New System.Drawing.Point(297, 200)
 		Me.Txt_Keterangan_Split.Name = "Txt_Keterangan_Split"
 		Me.Txt_Keterangan_Split.Size = New System.Drawing.Size(441, 20)
 		Me.Txt_Keterangan_Split.TabIndex = 6
@@ -369,7 +378,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		'Txt_Nm_Barang
 		'
 		Me.Txt_Nm_Barang.Enabled = False
-		Me.Txt_Nm_Barang.Location = New System.Drawing.Point(417, 202)
+		Me.Txt_Nm_Barang.Location = New System.Drawing.Point(417, 229)
 		Me.Txt_Nm_Barang.Name = "Txt_Nm_Barang"
 		Me.Txt_Nm_Barang.Size = New System.Drawing.Size(321, 20)
 		Me.Txt_Nm_Barang.TabIndex = 13
@@ -380,7 +389,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		Me.BtnCetak.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.BtnCetak.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
 		Me.BtnCetak.ForeColor = System.Drawing.Color.White
-		Me.BtnCetak.Location = New System.Drawing.Point(589, 296)
+		Me.BtnCetak.Location = New System.Drawing.Point(583, 319)
 		Me.BtnCetak.Name = "BtnCetak"
 		Me.BtnCetak.Size = New System.Drawing.Size(84, 33)
 		Me.BtnCetak.TabIndex = 1
@@ -393,7 +402,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		Me.BtnExit.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.BtnExit.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
 		Me.BtnExit.ForeColor = System.Drawing.Color.White
-		Me.BtnExit.Location = New System.Drawing.Point(678, 296)
+		Me.BtnExit.Location = New System.Drawing.Point(673, 319)
 		Me.BtnExit.Name = "BtnExit"
 		Me.BtnExit.Size = New System.Drawing.Size(84, 33)
 		Me.BtnExit.TabIndex = 2
@@ -406,7 +415,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		Me.Lv_Transaksi.FullRowSelect = True
 		Me.Lv_Transaksi.GridLines = True
 		Me.Lv_Transaksi.HideSelection = False
-		Me.Lv_Transaksi.Location = New System.Drawing.Point(800, 224)
+		Me.Lv_Transaksi.Location = New System.Drawing.Point(800, 251)
 		Me.Lv_Transaksi.Name = "Lv_Transaksi"
 		Me.Lv_Transaksi.Size = New System.Drawing.Size(608, 211)
 		Me.Lv_Transaksi.TabIndex = 98
@@ -420,7 +429,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		Me.Lv_Split.FullRowSelect = True
 		Me.Lv_Split.GridLines = True
 		Me.Lv_Split.HideSelection = False
-		Me.Lv_Split.Location = New System.Drawing.Point(800, 250)
+		Me.Lv_Split.Location = New System.Drawing.Point(800, 278)
 		Me.Lv_Split.Name = "Lv_Split"
 		Me.Lv_Split.Size = New System.Drawing.Size(608, 211)
 		Me.Lv_Split.TabIndex = 98
@@ -434,7 +443,7 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		Me.Lv_Barang.FullRowSelect = True
 		Me.Lv_Barang.GridLines = True
 		Me.Lv_Barang.HideSelection = False
-		Me.Lv_Barang.Location = New System.Drawing.Point(800, 280)
+		Me.Lv_Barang.Location = New System.Drawing.Point(800, 306)
 		Me.Lv_Barang.Name = "Lv_Barang"
 		Me.Lv_Barang.Size = New System.Drawing.Size(608, 211)
 		Me.Lv_Barang.TabIndex = 98
@@ -447,14 +456,14 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.White
-		Me.ClientSize = New System.Drawing.Size(792, 344)
+		Me.ClientSize = New System.Drawing.Size(792, 369)
 		Me.Controls.Add(Me.Lv_Barang)
 		Me.Controls.Add(Me.Lv_Split)
 		Me.Controls.Add(Me.Lv_Transaksi)
 		Me.Controls.Add(Me.BtnCetak)
-		Me.Controls.Add(Me.BtnExit)
 		Me.Controls.Add(Me.GroupBox1)
 		Me.Controls.Add(Me.Panel4)
+		Me.Controls.Add(Me.BtnExit)
 		Me.Controls.Add(Me.Panel5)
 		Me.Controls.Add(Me.Panel2)
 		Me.Controls.Add(Me.Panel3)
@@ -503,8 +512,9 @@ Partial Class N_EMI_Laporan_Transaksi_Waste
     Friend WithEvents Cmb_Jenis_Transaksi As ComboBox
     Friend WithEvents Cmb_Jenis_Laporan As ComboBox
     Friend WithEvents Label7 As Label
-    Friend WithEvents Rd_Status_Seluruh As RadioButton
-    Friend WithEvents Label8 As Label
-    Friend WithEvents Rd_Status_Belum_Validasi As RadioButton
-    Friend WithEvents Rd_Status_Validasi As RadioButton
+	Friend WithEvents Label8 As Label
+	Friend WithEvents Cmb_Lokasi_Asal_Pemusnahan As ComboBox
+	Friend WithEvents Label9 As Label
+	Friend WithEvents Cmb_Status_Transaksi As ComboBox
+	Friend WithEvents Cmb_Value_Status_Transaksi As ComboBox
 End Class

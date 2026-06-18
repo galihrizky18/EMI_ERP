@@ -23,13 +23,16 @@ Partial Class N_EMI_SD_Detail_Formulator
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Lbl_Judul = New System.Windows.Forms.Label()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.LvDetailBahan = New System.Windows.Forms.ListView()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
         Me.Lv_Moisture_Content = New System.Windows.Forms.ListView()
+        Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.LV_AnalisaLabTrialKitchen = New System.Windows.Forms.ListView()
+        Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.LV_AnalisaLabTrialProduksi = New System.Windows.Forms.ListView()
         Me.TlpDetailFormulator = New System.Windows.Forms.TableLayoutPanel()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -37,10 +40,13 @@ Partial Class N_EMI_SD_Detail_Formulator
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.BtnSimpanSudahBinding = New System.Windows.Forms.Button()
         Me.LbEstHPP = New System.Windows.Forms.Label()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Panel1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage4.SuspendLayout()
+        Me.TabPage3.SuspendLayout()
+        Me.TabPage2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -53,19 +59,6 @@ Partial Class N_EMI_SD_Detail_Formulator
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1086, 45)
         Me.Panel1.TabIndex = 29
-        '
-        'PanelGradient1
-        '
-        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-        Me.PanelGradient1.cuteTransparent1 = 100
-        Me.PanelGradient1.cuteTransparent2 = 64
-        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
-        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-        Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1086, 2)
-        Me.PanelGradient1.TabIndex = 22
         '
         'Lbl_Judul
         '
@@ -82,6 +75,8 @@ Partial Class N_EMI_SD_Detail_Formulator
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage4)
+        Me.TabControl1.Controls.Add(Me.TabPage3)
+        Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Location = New System.Drawing.Point(22, 162)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -131,6 +126,53 @@ Partial Class N_EMI_SD_Detail_Formulator
         Me.Lv_Moisture_Content.TabIndex = 2
         Me.Lv_Moisture_Content.UseCompatibleStateImageBehavior = False
         Me.Lv_Moisture_Content.View = System.Windows.Forms.View.Details
+        '
+        'TabPage3
+        '
+        Me.TabPage3.Controls.Add(Me.LV_AnalisaLabTrialKitchen)
+        Me.TabPage3.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage3.Name = "TabPage3"
+        Me.TabPage3.Size = New System.Drawing.Size(1035, 272)
+        Me.TabPage3.TabIndex = 3
+        Me.TabPage3.Text = "Analisa Lab (Trial Kitchen)"
+        Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'LV_AnalisaLabTrialKitchen
+        '
+        Me.LV_AnalisaLabTrialKitchen.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LV_AnalisaLabTrialKitchen.FullRowSelect = True
+        Me.LV_AnalisaLabTrialKitchen.GridLines = True
+        Me.LV_AnalisaLabTrialKitchen.HideSelection = False
+        Me.LV_AnalisaLabTrialKitchen.Location = New System.Drawing.Point(0, 0)
+        Me.LV_AnalisaLabTrialKitchen.Name = "LV_AnalisaLabTrialKitchen"
+        Me.LV_AnalisaLabTrialKitchen.Size = New System.Drawing.Size(1035, 272)
+        Me.LV_AnalisaLabTrialKitchen.TabIndex = 4
+        Me.LV_AnalisaLabTrialKitchen.UseCompatibleStateImageBehavior = False
+        Me.LV_AnalisaLabTrialKitchen.View = System.Windows.Forms.View.Details
+        '
+        'TabPage2
+        '
+        Me.TabPage2.Controls.Add(Me.LV_AnalisaLabTrialProduksi)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage2.Size = New System.Drawing.Size(1035, 272)
+        Me.TabPage2.TabIndex = 2
+        Me.TabPage2.Text = "Analisa Lab (Trial Produksi)"
+        Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'LV_AnalisaLabTrialProduksi
+        '
+        Me.LV_AnalisaLabTrialProduksi.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LV_AnalisaLabTrialProduksi.FullRowSelect = True
+        Me.LV_AnalisaLabTrialProduksi.GridLines = True
+        Me.LV_AnalisaLabTrialProduksi.HideSelection = False
+        Me.LV_AnalisaLabTrialProduksi.Location = New System.Drawing.Point(3, 3)
+        Me.LV_AnalisaLabTrialProduksi.Name = "LV_AnalisaLabTrialProduksi"
+        Me.LV_AnalisaLabTrialProduksi.Size = New System.Drawing.Size(1029, 266)
+        Me.LV_AnalisaLabTrialProduksi.TabIndex = 3
+        Me.LV_AnalisaLabTrialProduksi.UseCompatibleStateImageBehavior = False
+        Me.LV_AnalisaLabTrialProduksi.View = System.Windows.Forms.View.Details
         '
         'TlpDetailFormulator
         '
@@ -217,6 +259,19 @@ Partial Class N_EMI_SD_Detail_Formulator
         Me.LbEstHPP.TabIndex = 502
         Me.LbEstHPP.Text = "Label1"
         '
+        'PanelGradient1
+        '
+        Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+        Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+        Me.PanelGradient1.cuteTransparent1 = 100
+        Me.PanelGradient1.cuteTransparent2 = 64
+        Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
+        Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+        Me.PanelGradient1.Name = "PanelGradient1"
+        Me.PanelGradient1.Size = New System.Drawing.Size(1086, 2)
+        Me.PanelGradient1.TabIndex = 22
+        '
         'N_EMI_SD_Detail_Formulator
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -233,6 +288,7 @@ Partial Class N_EMI_SD_Detail_Formulator
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Panel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.Name = "N_EMI_SD_Detail_Formulator"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -241,6 +297,8 @@ Partial Class N_EMI_SD_Detail_Formulator
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage4.ResumeLayout(False)
+        Me.TabPage3.ResumeLayout(False)
+        Me.TabPage2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -261,4 +319,8 @@ Partial Class N_EMI_SD_Detail_Formulator
     Friend WithEvents LbEstHPP As Label
     Friend WithEvents TabPage4 As TabPage
 	Friend WithEvents Lv_Moisture_Content As ListView
+    Friend WithEvents TabPage2 As TabPage
+    Friend WithEvents LV_AnalisaLabTrialProduksi As ListView
+    Friend WithEvents TabPage3 As TabPage
+    Friend WithEvents LV_AnalisaLabTrialKitchen As ListView
 End Class

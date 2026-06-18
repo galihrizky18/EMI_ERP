@@ -1,8 +1,7 @@
-﻿Imports System.IO
-Imports System.Net
-
-Public Class N_EMI_SD_Transaksi_Validasi_Formula_BOD
-	Public Property No_Faktur As String
+﻿Public Class N_EMI_SD_Transaksi_Validasi_Formula_BOD
+    Public Property No_Faktur As String
+	Public Property StatusBypass As String = "NORMAL"
+	Public Property KeteranganBypass As String = "NORMAL"
 
 	Dim lvNo As String
 	Dim lvTipe As String
@@ -56,7 +55,163 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_BOD
 		Else
 		End If
 
+		If StatusBypass = "NORMAL" Then
+			TB_StatusBypass.Text = "NORMAL - TANPA BYPASS"
+			TB_KeteranganBypass.Text = ""
+
+			LB_StatusBypass.Visible = False
+			LB_KeteranganBypass.Visible = False
+			TB_StatusBypass.Visible = False
+			TB_KeteranganBypass.Visible = False
+
+		ElseIf StatusBypass = "BYPASS_TRIAL" Then
+			TB_StatusBypass.Text = "BYPASS - TANPA TRIAL"
+			TB_KeteranganBypass.Text = KeteranganBypass
+			LB_StatusBypass.Visible = True
+			LB_KeteranganBypass.Visible = True
+			TB_StatusBypass.Visible = True
+			TB_KeteranganBypass.Visible = True
+
+		ElseIf StatusBypass = "BYPASS_TRIAL_PRODUKSI_ON_PROCESS" Then
+			TB_StatusBypass.Text = "BYPASS - TRIAL PRODUKSI BERLANGSUNG"
+			TB_KeteranganBypass.Text = KeteranganBypass
+			LB_StatusBypass.Visible = True
+			LB_KeteranganBypass.Visible = True
+			TB_StatusBypass.Visible = True
+			TB_KeteranganBypass.Visible = True
+		End If
+
+		With LvBindingFormula
+			.View = View.Details
+			.FullRowSelect = True
+			.GridLines = True
+			.MultiSelect = False
+			.HideSelection = False
+			.Columns.Clear()
+
+			.Columns.Add("No Formula", 100)
+			.Columns.Add("Posisi", 120)
+			.Columns.Add("Keterangan", 250)
+		End With
+
 		Load_Detail()
+
+		Try
+			OpenConn()
+
+			Cmb_Susuan_Awal.Items.Clear()
+			Cmb_Susuan_Awal.Items.Add("--- PILIH HIERARKI DEFAULT ---")
+			SQL = $"
+				select Kode_Hierarki
+				from N_EMI_Master_Hierarki_Formula
+				where Kode_Perusahaan = '{KodePerusahaan}'
+				order by Urutan
+			"
+			Using Dr = OpenTrans(SQL)
+				Do While Dr.Read
+					Cmb_Susuan_Awal.Items.Add(Dr("Kode_Hierarki"))
+				Loop
+			End Using
+			Cmb_Susuan_Awal.SelectedIndex = 0
+
+			Dim noFakturAktif As String = ""
+
+			SQL = $"
+                    SELECT TOP 1 No_Faktur
+                    FROM N_EMI_Transaksi_Formulator_Binding
+                    WHERE 
+                        Kode_Perusahaan = '{KodePerusahaan}'
+                        AND Kode_Barang = '{TxtFormulator_KodeBarang.Text.Trim}'
+                        AND Status IS NULL
+                        AND Flag_Validasi_Main = 'Y'
+                    ORDER BY Tanggal DESC, Jam DESC
+                "
+
+			Using drFaktur = OpenTrans(SQL)
+				If drFaktur.Read() Then
+					noFakturAktif = General_Class.CekNULL(drFaktur("No_Faktur"))
+				End If
+			End Using
+
+			GB_BindingFormula.Text = $"Faktur Binding Aktif: {noFakturAktif}"
+
+			SQL = $"
+                    SELECT 
+                        D.No_Faktur,
+                        D.No_Formulator,
+                        D.No_Prioritas,
+                        D.Kode_Hierarki,
+                        D.Keterangan
+                    FROM N_EMI_Transaksi_Formulator_Binding_Detail D
+                    JOIN EMI_Transaksi_Formulator F ON F.Kode_Perusahaan = D.Kode_Perusahaan AND F.No_Faktur = D.No_Formulator
+                    WHERE 
+                        D.Kode_Perusahaan = '{KodePerusahaan}'
+                        AND D.No_Faktur = '{noFakturAktif}'
+                        AND F.Status IS NULL
+                    ORDER BY D.No_Prioritas
+                "
+
+			LvBindingFormula.BeginUpdate()
+			LvBindingFormula.Items.Clear()
+
+			Using Dr = OpenTrans(SQL)
+				While Dr.Read()
+					Dim noFormula As String = General_Class.CekNULL(Dr("No_Formulator"))
+					Dim keterangan As String = General_Class.CekNULL(Dr("Keterangan"))
+					Dim kodeHierarki As String = General_Class.CekNULL(Dr("Kode_Hierarki"))
+
+					Dim item As New ListViewItem(noFormula)
+					item.SubItems.Add(kodeHierarki)
+					item.SubItems.Add(keterangan)
+
+					LvBindingFormula.Items.Add(item)
+				End While
+			End Using
+
+			If LvBindingFormula.Items.Count > 0 Then
+				LvBindingFormula.Items(0).BackColor = Color.LightGreen
+			End If
+
+			LvBindingFormula.EndUpdate()
+
+			Dim totalDetail As Integer = 0
+			Cmb_PosisiBinding.Items.Clear()
+
+			SQL = "
+				SELECT COUNT(*) AS Total_Detail
+				FROM N_EMI_Transaksi_Formulator_Binding_Detail D
+				JOIN EMI_Transaksi_Formulator F
+					ON F.Kode_Perusahaan = D.Kode_Perusahaan
+					AND F.No_Faktur = D.No_Formulator
+				WHERE
+					D.Kode_Perusahaan = '" & KodePerusahaan & "'
+					AND D.No_Faktur = '" & noFakturAktif & "'
+					AND F.Status IS NULL
+			"
+
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					totalDetail = CInt(Dr("Total_Detail"))
+				End If
+			End Using
+
+			Cmb_PosisiBinding.Items.Add("--- PILIH POSISI BINDING ---")
+			For i As Integer = 0 To totalDetail
+				If i = 0 Then
+					Cmb_PosisiBinding.Items.Add("FORMULA UTAMA")
+				Else
+					Cmb_PosisiBinding.Items.Add("CADANGAN " & i)
+				End If
+			Next
+			Cmb_PosisiBinding.SelectedIndex = 0
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
 	End Sub
 
 	Private Sub Load_Detail()
@@ -84,27 +239,8 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_BOD
                     a.No_Faktur, a.Tanggal, a.Lokasi, a.Kode_Stock_Owner, a.Kode_Barang,
                     b.Nama as Nama_Barang, a.UserID, a.Hasil, a.Satuan_Hasil, a.Penanggung_Jawab,
                     c.Kode_Barang as Kode_Bahan, d.Nama as Nama_Bahan, c.Jumlah, c.satuan,
-                    c.Nilai_Pengali, c.Satuan_barang, c.Nilai_Barang, c.Persentase,
-                    CASE WHEN EXISTS (
-                        SELECT 1 FROM Barang_SN z
-                        WHERE c.kode_barang = z.kode_barang AND z.blok_sn IS NULL AND dbo.get_hpp(z.serial_number) <> 0
-                    ) THEN (
-                        SELECT TOP 1 dbo.get_hpp(z.serial_number) FROM Barang_SN z
-                        WHERE c.kode_barang = z.kode_barang AND z.blok_sn IS NULL AND dbo.get_hpp(z.serial_number) <> 0
-                        ORDER BY z.tgl_masuk DESC
-                    ) ELSE d.estimasi_harga END AS Est_HPP,
-                    CASE WHEN EXISTS (
-                        SELECT 1 FROM Barang_SN z
-                        WHERE c.kode_barang = z.kode_barang AND z.blok_sn IS NULL AND dbo.get_hpp(z.serial_number) <> 0
-                    ) THEN ISNULL(
-                        dbo.ubah_satuan(a.kode_perusahaan, 'masa', c.kode_barang, 'gram', d.satuan, (b.berat * (c.persentase / 100)))
-                        * (SELECT TOP 1 dbo.get_hpp(z.serial_number) FROM Barang_SN z
-                           WHERE c.kode_barang = z.kode_barang AND z.blok_sn IS NULL AND dbo.get_hpp(z.serial_number) <> 0
-                           ORDER BY z.tgl_masuk DESC), 0)
-                    ELSE ISNULL(
-                        dbo.ubah_satuan(a.kode_perusahaan, 'masa', c.kode_barang, 'gram', d.satuan, (b.berat * (c.persentase / 100)))
-                        * d.estimasi_harga, 0)
-                    END AS Est_HPP_Pcs
+                    c.Nilai_Pengali, c.Satuan_barang, c.Nilai_Barang, c.Persentase
+
                 FROM Emi_Transaksi_Formulator a
                 INNER JOIN Barang b ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.Kode_Stock_Owner = b.Kode_Stock_Owner AND a.Kode_Barang = b.Kode_Barang_inq
                 INNER JOIN EMI_Transaksi_Formulator_Detail_Bahan c ON a.Kode_Perusahaan = c.Kode_Perusahaan AND a.No_Faktur = c.No_Faktur
@@ -151,145 +287,17 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_BOD
 						CmbFormulator_LokasiInquiry.SelectedItem = lokasi
 						CmbFormulator_LokasiBarang.SelectedItem = lokasiBarang
 						CmbFormulator_SatuanHasil.SelectedItem = satuan
-
-						DgvFormulator_StepFormulator.Rows.Add(1)
-						With DgvFormulator_StepFormulator.Rows(i).Cells
-							.Item(cellNo).Value = Nomor
-							.Item(cellKdBarang).Value = row("Kode_Bahan")
-							.Item(cellNama).Value = row("Nama_Bahan")
-							.Item(cellQty).Value = Format(row("Jumlah"), "N4")
-							.Item(cellSatuan).Value = row("satuan")
-							.Item(cellPengali).Value = Format(row("Nilai_Pengali"), "N4")
-							.Item(cellSatuanBarang).Value = row("Satuan_barang")
-							.Item(cellNilaiBarang).Value = Format(row("Nilai_Barang"), "N4")
-							.Item(cellPersentase).Value = Format(row("Persentase"), "N2")
-							.Item(cellEstHPP).Value = If(General_Class.CekNULL(row("Est_HPP")) = "", 0, Format(row("Est_HPP"), "N2"))
-							.Item(cellEstHPPPcs).Value = If(General_Class.CekNULL(row("Est_HPP_Pcs")) = "", 0, Format(row("Est_HPP_Pcs"), "N2"))
-						End With
-
-						Nomor += 1
 					Next
 				End With
-			End Using
-
-			Dgv_Moisture_Content.Rows.Clear()
-			SQL = $"
-                SELECT
-                    b.id, b.Kode_Analisa, b.Jenis_Analisa, b.Flag_Perhitungan, b.Kode_Aktivitas_Lab,
-                    '-' AS Value_Combobox, a.Range_Awal, a.Range_Akhir
-                FROM N_EMI_Transaksi_Trial_Moisture_Content_Standar_Rentang a
-                INNER JOIN N_EMI_LAB_Jenis_Analisa b ON a.Id_Jenis_Analisa = b.id
-                WHERE a.Kode_Perusahaan = '{KodePerusahaan}' AND a.No_Formula = '{No_Faktur}'
-                UNION ALL
-                SELECT
-                    b.id, b.Kode_Analisa, b.Jenis_Analisa, b.Flag_Perhitungan, b.Kode_Aktivitas_Lab,
-                    c.label_keterangan AS Value_Combobox, '' AS Range_Awal, '' AS Range_Akhir
-                FROM N_EMI_Transaksi_Trial_Moisture_Content_Standar_Rentang_Non_Perhitungan a
-                INNER JOIN N_EMI_LAB_Jenis_Analisa b ON a.Id_Jenis_Analisa = b.id
-                INNER JOIN EMI_Switch c ON a.Kode_Perusahaan = c.kode_perusahaan AND a.nilai_kriteria = c.keterangan
-                WHERE a.Kode_Perusahaan = '{KodePerusahaan}' AND a.No_Formula = '{No_Faktur}'
-            "
-
-			Using Ds = BindingTrans(SQL)
-				With Ds.Tables("MyTable")
-					For i As Integer = 0 To .Rows.Count - 1
-						Dim row = .Rows(i)
-						Dim flagPerhitungan As String = If(General_Class.CekNULL(row("Flag_Perhitungan")) = "", "T", row("Flag_Perhitungan"))
-
-						Dgv_Moisture_Content.Rows.Add()
-
-						Dim cmb As DataGridViewComboBoxCell = CType(Dgv_Moisture_Content.Rows(i).Cells(6), DataGridViewComboBoxCell)
-
-						cmb.Items.Clear()
-						cmb.Items.Add("-")
-
-						If row("Value_Combobox").ToString.Trim <> "-" Then
-							cmb.Items.Add(row("Value_Combobox").ToString.Trim)
-						End If
-
-						With Dgv_Moisture_Content.Rows(i).Cells
-							.Item(Item_Moisture_ID).Value = row("Id")
-							.Item(Item_Moisture_Kode_Analisa).Value = row("Kode_Analisa")
-							.Item(Item_Moisture_Jenis_Analisa).Value = row("Jenis_Analisa")
-							.Item(Item_Moisture_Flag_Perhitungan).Value = flagPerhitungan
-							.Item(Item_Moisture_Kode_Aktivitas).Value = row("Kode_Aktivitas_Lab")
-							.Item(Item_Moisture_Kategori).Value = If(flagPerhitungan.Trim = "Y", "Perhitungan", "Non Perhitungan")
-
-							Dim val As String = row("Value_Combobox").ToString.Trim
-							If cmb.Items.Contains(val) Then
-								cmb.Value = val
-							Else
-								cmb.Value = "-"
-							End If
-
-							.Item(Item_Moisture_Range_Awal).Value = row("Range_Awal")
-							.Item(Item_Moisture_Range_Akhir).Value = row("Range_Akhir")
-						End With
-					Next
-				End With
-			End Using
-
-			RTBCookingStep.Clear()
-			SQL = $"
-                SELECT TOP 1 Cooking_Step
-                FROM Emi_Transaksi_Formulator_Cooking_Steps
-                WHERE Kode_Perusahaan = '{KodePerusahaan}'
-                AND No_Faktur = '{No_Faktur}'
-                AND Status IS NULL
-                ORDER BY Tanggal DESC, Jam DESC
-            "
-
-			Using Dr = OpenTrans(SQL)
-				If Dr.Read AndAlso General_Class.CekNULL(Dr("Cooking_Step")) <> "" Then
-					RTBCookingStep.Rtf = Dr("Cooking_Step")
-				End If
 			End Using
 
 			CloseConn()
 
-			Total()
 		Catch ex As Exception
 			CloseConn()
 			MessageBox.Show("Gagal mendapatkan data: " & ex.Message, Judul, MessageBoxButtons.OK, MessageBoxIcon.Error)
 			Exit Sub
 		End Try
-	End Sub
-
-	Private Sub Total()
-		Dim Total As Double = 0
-		Dim TotalPersen As Double = 0
-		Dim Total_Hpp As Double = 0
-		Dim Total_Hpp_Pcs As Double = 0
-
-		For index = 0 To DgvFormulator_StepFormulator.Rows.Count - 1
-			Get_Isi_Listview(index)
-
-			If IsNumeric(lvQty) = True Then
-				Total += Val(HilangkanTanda(lvQty_SatHasil))
-				TotalPersen += Val(HilangkanTanda(lvPersentase))
-				Total_Hpp += Val(HilangkanTanda(lvEstHPP))
-				Total_Hpp_Pcs += Val(HilangkanTanda(lvEstHPPPcs))
-			End If
-		Next
-
-		TxtFormulator_TotalPersen.Text = Format(TotalPersen, "N2")
-		Txt_Total_Hpp_Pcs.Text = Format(Total_Hpp_Pcs, "N2")
-	End Sub
-
-	Public Sub Get_Isi_Listview(ByVal No_Index As Integer)
-		lvNo = CekNothing(DgvFormulator_StepFormulator.Rows(No_Index).Cells(cellNo).Value)
-		lvKdBarang = CekNothing(DgvFormulator_StepFormulator.Rows(No_Index).Cells(cellKdBarang).Value)
-		lvNama = CekNothing(DgvFormulator_StepFormulator.Rows(No_Index).Cells(cellNama).Value)
-		lvQty = CekNothing(DgvFormulator_StepFormulator.Rows(No_Index).Cells(cellQty).Value)
-		lvSatuan = CekNothing(DgvFormulator_StepFormulator.Rows(No_Index).Cells(cellSatuan).Value)
-		lvPengali = CekNothing(DgvFormulator_StepFormulator.Rows(No_Index).Cells(cellPengali).Value)
-		lvSatuanBarang = CekNothing(DgvFormulator_StepFormulator.Rows(No_Index).Cells(cellSatuanBarang).Value)
-		lvNilaiBarang = CekNothing(DgvFormulator_StepFormulator.Rows(No_Index).Cells(cellNilaiBarang).Value)
-		lvPersentase = CekNothing(DgvFormulator_StepFormulator.Rows(No_Index).Cells(cellPersentase).Value)
-		lvKet = CekNothing(DgvFormulator_StepFormulator.Rows(No_Index).Cells(cellKet).Value)
-		lvQty_SatHasil = CekNothing(DgvFormulator_StepFormulator.Rows(No_Index).Cells(cellQty_SatHasil).Value)
-		lvEstHPP = CekNothing(DgvFormulator_StepFormulator.Rows(No_Index).Cells(cellEstHPP).Value)
-		lvEstHPPPcs = CekNothing(DgvFormulator_StepFormulator.Rows(No_Index).Cells(cellEstHPPPcs).Value)
 	End Sub
 
 	Private Function CekNothing(ByVal str As String) As String
@@ -304,7 +312,21 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_BOD
 		Return hasil
 	End Function
 
+	Private Function get_no_faktur_binding() As String
+		Dim NoFaktur = fBindingFormula & Format(tgl_skg, "MMyy") & "-" &
+							 General_Class.Get_Last_Number2("N_EMI_Transaksi_Formulator_Binding", "No_Faktur", 5,
+							 "Kode_perusahaan", KodePerusahaan,
+							 "And", "substring(No_Faktur, 1, " & Len(fBindingFormula) + 4 & ")", fBindingFormula & Format(tgl_skg, "MMyy"))
+
+		Return NoFaktur
+	End Function
+
 	Private Sub Btn_Validasi_Click(sender As Object, e As EventArgs) Handles Btn_Validasi.Click
+		If Cmb_Susuan_Awal.SelectedIndex = 0 Then
+			MessageBox.Show("Hierarki default harus dipilih!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		End If
+
 		Try
 			OpenConn()
 
@@ -331,40 +353,78 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_BOD
 			Exit Sub
 		End If
 
-		Dim listSatuan As New List(Of String)
+		get_jam()
 		Try
 			OpenConn()
+			Cmd.Transaction = Cn.BeginTransaction
 
-			listSatuan.Clear()
-			SQL = "select Satuan from EMI_Satuan where Flag_Tampil_Berat='Y' "
-			SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' "
-			Using dr = OpenTrans(SQL)
-				Do While dr.Read
-					listSatuan.Add(dr("Satuan").ToString())
-				Loop
-			End Using
+			If Cmb_PosisiBinding.SelectedIndex <> 0 Then
+				Dim NoFaktur = get_no_faktur_binding()
+				Dim KodeBarang = TxtFormulator_KodeBarang.Text.Trim
+				Dim Tanggal = Format(tgl_skg, "yyyy-MM-dd")
+				Dim Jam = Format(tgl_skg, "HH:mm:ss")
+				SQL = $"
+					SELECT 
+						kode_perusahaan
+					FROM N_EMI_Transaksi_Formulator_Binding
+					WHERE 
+						Kode_Perusahaan = '{KodePerusahaan}'
+						AND kode_barang = '{KodeBarang}' and status is null and flag_validasi_main is null
+				"
+				Using Dr = OpenTrans(SQL)
+					If Dr.Read() Then
+						Dr.Close()
+						CloseTrans()
+						CloseConn()
+						MessageBox.Show("Binding Sudah di input, Silahkan Menunggu Validasi ! ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Exit Sub
+					End If
+				End Using
 
+				SQL = $"
+					INSERT INTO N_EMI_Transaksi_Formulator_Binding
+					(Kode_Perusahaan, No_Faktur, Kode_Barang, Tanggal, Jam, UserID, Status, Flag_Validasi_Main, Tanggal_Validasi_Main, Jam_Validasi_Main, User_Validasi_Main)
+					VALUES
+					('{KodePerusahaan}', '{NoFaktur}', '{KodeBarang}', '{Tanggal}', '{Jam}', '{UserID}', NULL, 'Y', '{Tanggal}', '{Jam}', '{UserID}')
+				"
+				ExecuteTrans(SQL)
+				For i = 0 To LvBindingFormula.Items.Count - 1
+					Dim item = LvBindingFormula.Items(i)
+					Dim NoFormulator = item.SubItems(0).Text
+					Dim KodeHierarki = item.SubItems(1).Text
+					Dim Keterangan = item.SubItems(2).Text
+					Dim Prioritas = i + 1
+
+					SQL = $"
+						INSERT INTO N_EMI_Transaksi_Formulator_Binding_Detail
+						(Kode_Perusahaan, No_Faktur, No_Formulator, No_Prioritas, Kode_Hierarki, Tanggal, Jam, UserID, Keterangan)
+						VALUES
+						('{KodePerusahaan}', '{NoFaktur}', '{NoFormulator}', '{Prioritas}', '{KodeHierarki}', '{Tanggal}', '{Jam}', '{UserID}', '{Keterangan}')
+					"
+					ExecuteTrans(SQL)
+				Next
+			End If
+
+			SQL = $"
+				UPDATE Emi_Transaksi_Formulator
+				SET Kode_Hierarki = '{Cmb_Susuan_Awal.Text}', Flag_Validasi_Formula_Produksi_BOD = 'Y', Tanggal_Validasi_Formula_Produksi_BOD = '{Format(tgl_skg, "yyyy-MM-dd")}', Jam_Validasi_Formula_Produksi_BOD = '{Format(tgl_skg, "HH:mm:ss")}', UserID_Validasi_Formula_Produksi_BOD = '{UserID}'
+				WHERE Kode_Perusahaan = '{KodePerusahaan}' AND No_Faktur = '{No_Faktur}'
+			"
+			ExecuteTrans(SQL)
+
+			Cmd.Transaction.Commit()
+			CloseTrans()
+            CloseConn()
+
+            MessageBox.Show("Berhasil memvalidasi formula", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+			CloseTrans()
 			CloseConn()
-		Catch ex As Exception
-			CloseConn()
-			MessageBox.Show(ex.Message)
+			MessageBox.Show(ex.Message, Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
 			Exit Sub
 		End Try
 
-		With N_EMI_SD_Transaksi_Validasi_Formula_Hierarki_BOD
-			.Txt_NoFormula.Text = TxtFormulator_NoFaktur.Text.Trim
-			.Txt_Kd_Barang.Text = TxtFormulator_KodeBarang.Text.Trim
-			.Txt_NmBarang.Text = TxtFormulator_NamaBarang.Text.Trim
-			.Txt_Hasil.Text = Format(Val(HilangkanTanda(TxtFormulator_Hasil.Text.Trim)), "N4")
-			.Cmb_Satuan.Items.Clear()
-			.Cmb_Satuan.Items.AddRange(listSatuan.ToArray)
-			.Cmb_Satuan.SelectedItem = CmbFormulator_SatuanHasil.Text.Trim
-			.ShowDialog()
-		End With
-
-		'N_EMI_Dashboard_Formula.Kosong()
 		Me.Close()
-
 	End Sub
 
 	Private Sub Btn_Tolak_Click(sender As Object, e As EventArgs) Handles Btn_Tolak.Click
@@ -411,103 +471,46 @@ Public Class N_EMI_SD_Transaksi_Validasi_Formula_BOD
 
 			MessageBox.Show("Berhasil menolak formula", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-			'Me.Close()
 		Catch ex As Exception
 			CloseConn()
 			MessageBox.Show("Gagal menolak formula: " & ex.Message, Judul, MessageBoxButtons.OK, MessageBoxIcon.Error)
 			Exit Sub
 		End Try
 
-		'N_EMI_Dashboard_Formula.Kosong()
 		Me.Close()
 	End Sub
 
-	Public Function GetPdfStream(url As String, no_split As String) As MemoryStream
-		' ----------------------------------------------------------------
-		' 1. Query bahan & hpp dari DB
-		' ----------------------------------------------------------------
-		Dim bahan As New List(Of Dictionary(Of String, Object))
-		Dim hpp As New Dictionary(Of String, Object)
-		Dim namaFormula As String = ""
-		Dim kategoriProduk As String = ""
-		Dim tanggalUji As String = ""
+	Private Sub Cmb_PosisiBinding_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_PosisiBinding.SelectedIndexChanged
+        If Cmb_PosisiBinding.SelectedIndex = 0 Then Exit Sub
 
-		Try
-			OpenConn()
+		Dim ListNoFakturBinding As New List(Of String)
+		Dim ListHierarki As New List(Of String)
+		Dim ListKeterangan As New List(Of String)
 
-			SQL = $"SELECT TOP 1 kode_formula, nama_produk, FORMAT(tanggal, 'dd MMM yyyy') AS tanggal_uji FROM N_EMI_View_Laporan_Formula_Rpt WHERE No_Transaksi = '{no_split}'"
-			Using Dr = OpenTrans(SQL)
-				If Dr.Read() Then
-					namaFormula = Dr("kode_formula").ToString()
-					kategoriProduk = Dr("nama_produk").ToString()
-					tanggalUji = Dr("tanggal_uji").ToString()
-				End If
-			End Using
+		For Each item As ListViewItem In LvBindingFormula.Items
+			ListNoFakturBinding.Add(item.Text)
+			ListHierarki.Add(item.SubItems(1).Text)
+			ListKeterangan.Add(item.SubItems(2).Text)
+		Next
 
-			' Query bahan
-			SQL = $"SELECT Nama_bahan, Jumlah, Persentase FROM N_EMI_View_Laporan_Formula_Rpt WHERE No_Transaksi = '{no_split}' GROUP BY kode_formula, nama_produk, tanggal, No_Transaksi, Nama_bahan, Jumlah, Persentase"
-			Using Dr = OpenTrans(SQL)
-				Do While Dr.Read()
-					bahan.Add(New Dictionary(Of String, Object) From {
-					{"Nama_bahan", Dr("Nama_bahan")},
-					{"Jumlah", Dr("Jumlah")},
-					{"Persentase", Dr("Persentase")}
-				})
-				Loop
-			End Using
-
-			' Query hpp
-			SQL = $"SELECT SUM(Est_HPP_Per_Pcs) AS hpp_bahan_baku, HPP_Packaging, HPP_produksi, 'Per ' + satuan AS satuan FROM N_EMI_View_Laporan_Formula_Rpt WHERE No_Transaksi = '{no_split}' GROUP BY kode_formula, nama_produk, tanggal, No_Transaksi, satuan, HPP_Produksi, HPP_Packaging"
-			Using Dr = OpenTrans(SQL)
-				If Dr.Read() Then
-					hpp("hpp_bahan_baku") = Dr("hpp_bahan_baku")
-					hpp("hpp_packaging") = Dr("hpp_packaging")
-					hpp("hpp_produksi") = Dr("hpp_produksi")
-					hpp("satuan") = Dr("satuan")
-				End If
-			End Using
-			CloseConn()
-		Catch ex As Exception
-			CloseConn()
-			MessageBox.Show(ex.Message)
-			Return Nothing
-		End Try
-
-		' ----------------------------------------------------------------
-		' 2. Serialize ke JSON & kirim ke API
-		' ----------------------------------------------------------------
-		Dim payload As New Dictionary(Of String, Object) From {
-			{"no_split", no_split},
-			{"nama_formula", namaFormula},
-			{"kategori_produk", kategoriProduk},
-			{"tanggal_uji", tanggalUji},
-			{"bahan", bahan},
-			{"hpp", hpp}
+		Dim SD As New N_EMI_SD_Compare_Formulator With {
+			.NoFaktur = TxtFormulator_NoFaktur.Text.Trim,
+			.ArrNoFaktur = ListNoFakturBinding,
+			.ArrHierarki = ListHierarki,
+			.ArrKeterangan = ListKeterangan,
+			.PosisiTujuan = Cmb_PosisiBinding.SelectedIndex
 		}
 
-		Dim json As String = Newtonsoft.Json.JsonConvert.SerializeObject(payload)
-		Dim signature As String = GenerateHmac(json, Secret_Api_Laporan_Formulator)
+		If SD.ShowDialog() = DialogResult.OK Then
+			LvBindingFormula.Items.Clear()
 
-		Dim request As HttpWebRequest = CType(WebRequest.Create(url), HttpWebRequest)
-		request.Method = "POST"
-		request.ContentType = "application/json"
-		request.Accept = "*/*"
-		request.UserAgent = "Mozilla/5.0"
-		request.Headers.Add("X-Signature", signature)
+			For i As Integer = 0 To SD.ArrNoFaktur.Count - 1
+				Dim item As New ListViewItem(SD.ArrNoFaktur(i))
+				item.SubItems.Add(SD.ArrHierarki(i))
+				item.SubItems.Add(SD.ArrKeterangan(i))
 
-		Dim bytes As Byte() = System.Text.Encoding.UTF8.GetBytes(json)
-		request.ContentLength = bytes.Length
-		Using stream = request.GetRequestStream()
-			stream.Write(bytes, 0, bytes.Length)
-		End Using
-
-		Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
-		Dim ms As New MemoryStream()
-		Using responseStream = response.GetResponseStream()
-			responseStream.CopyTo(ms)
-		End Using
-		ms.Position = 0
-		Return ms
-	End Function
-
+				LvBindingFormula.Items.Add(item)
+			Next
+		End If
+	End Sub
 End Class

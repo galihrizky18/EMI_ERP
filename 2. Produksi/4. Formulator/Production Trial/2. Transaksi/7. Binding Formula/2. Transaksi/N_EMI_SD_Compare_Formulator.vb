@@ -1,5 +1,6 @@
 ﻿Public Class N_EMI_SD_Compare_Formulator
 	Property NoFaktur As String
+	Property PosisiTujuan As String
 	Property ArrNoFaktur As List(Of String)
 	Property ArrHierarki As List(Of String)
 	Property ArrKeterangan As List(Of String)
@@ -19,7 +20,7 @@
 			.Columns.Add("Jumlah", 100, HorizontalAlignment.Right)
 			.Columns.Add("Persentase", 100, HorizontalAlignment.Right)
 			.Columns.Add("Harga", 100, HorizontalAlignment.Right)
-			.Columns.Add("Est. HPP Per Pcs", 100, HorizontalAlignment.Right)
+			.Columns.Add("Est. HPP %", 100, HorizontalAlignment.Right)
 		End With
 
 		'With LvF1DetailKandungan
@@ -63,8 +64,8 @@
 			.Columns.Add("Satuan", 80, HorizontalAlignment.Center)
 			.Columns.Add("Jumlah", 100, HorizontalAlignment.Right)
 			.Columns.Add("Persentase", 100, HorizontalAlignment.Right)
-			.Columns.Add("Harga", 100, HorizontalAlignment.Right)
-			.Columns.Add("Est. HPP Per Pcs", 100, HorizontalAlignment.Right)
+			.Columns.Add("Est. HPP", 100, HorizontalAlignment.Right)
+			.Columns.Add("Est. HPP %", 100, HorizontalAlignment.Right)
 		End With
 
 		'With LvF2DetailKandungan
@@ -163,6 +164,8 @@
 		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 2)
 		TlpF2.Controls.Add(New Label With {.Text = "Hasil", .AutoSize = True}, 0, 3)
 		TlpF2.Controls.Add(New Label With {.Text = ":", .AutoSize = True}, 1, 3)
+
+		TbPosisiTujuan.Text = PosisiTujuan
 	End Sub
 
 	Private Sub Fetch_Compare()

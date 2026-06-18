@@ -8,46 +8,6 @@ Public Class N_EMI_Laporan_Final_GI_GR_Main
 
 	Dim arrJenis As New ArrayList
 
-	Dim Cell_NoPO As Integer = 0
-	Dim Cell_NoSplit As Integer = 1
-	Dim Cell_KodeBarang As Integer = 2
-	Dim Cell_NamaBarang As Integer = 3
-	Dim Cell_TglProduksi As Integer = 4
-	Dim Cell_JamProduksi As Integer = 5
-	Dim Cell_Routing As Integer = 6
-	Dim Cell_Keterangan As Integer = 7
-	Dim Cell_ProRQ As Integer = 8
-	Dim Cell_Berat As Integer = 9
-	Dim Cell_GI As Integer = 10
-	Dim Cell_ProLineReject As Integer = 11
-	Dim Cell_QcLineReject As Integer = 12
-	Dim Cell_WarehouseLineReject As Integer = 13
-	Dim Cell_TotReject As Integer = 14
-	Dim Cell_ProLineScrap As Integer = 15
-	Dim Cell_QcLineScrap As Integer = 16
-	Dim Cell_WarehouseLineScrap As Integer = 17
-	Dim Cell_TotScrap As Integer = 18
-	Dim Cell_ProLineWaste As Integer = 19
-	Dim Cell_QcLineWaste As Integer = 20
-	Dim Cell_WarehouseLineWaste As Integer = 21
-	Dim Cell_TotWaste As Integer = 22
-	Dim Cell_LossProduction As Integer = 23
-	Dim Cell_GRInspectionKG As Integer = 24
-	Dim Cell_GRInspectionPcs As Integer = 25
-	Dim Cell_FinalGRKG As Integer = 26
-	Dim Cell_RejectPcs As Integer = 27
-	Dim Cell_RejectFinal As Integer = 28
-	Dim Cell_ScrapFinal As Integer = 29
-	Dim Cell_WasteFinal As Integer = 30
-	Dim Cell_LossFinal As Integer = 31
-	Dim Cell_GRInspection As Integer = 32
-	Dim Cell_GRFinal As Integer = 33
-	Dim Cell_TanggalGI As Integer = 34
-	Dim Cell_JamGI As Integer = 35
-	Dim Cell_ScrapPackaging As Integer = 36
-	Dim Cell_FlagPreservative As Integer = 37
-	Dim Cell_Status As Integer = 38
-
 	'Dim LvDetail_No_PO, LvDetail_No_Split, LvDetail_Tgl_Produksi, LvDetail_Jam_Produksi, LvDetail_Routing, LvDetail_Keterangan,
 	'    LvDetail_Kd_Barang, LvDetail_Nm_Barang, LvDetail_Jumlah, LvDetail_Satuan, LvDetail_Batch, LvDetail_Berat_KG, LvDetail_GI_KG,
 	'    LvDetail_GR_1_PCS, LvDetail_GR_1_KG, LvDetail_Scrap_1_KG, LvDetail_Total_1_KG, LvDetail_Loss_1_KG, LvDetail_Loss_1_Persen,
@@ -3219,10 +3179,6 @@ Public Class N_EMI_Laporan_Final_GI_GR_Main
 			xlWorkBook = xlApp.Workbooks.Add(misValue)
 			xlWorkSheet = xlWorkBook.Sheets("Sheet1")
 
-			xlApp.ScreenUpdating = False
-			xlApp.Calculation = excel.XlCalculation.xlCalculationManual
-			xlApp.EnableEvents = False
-
 			'==================================
 			'=     DEFINISIKAN NAMA KOLOM     =
 			'==================================
@@ -3938,7 +3894,7 @@ Public Class N_EMI_Laporan_Final_GI_GR_Main
 						Formula1:="=$AI" & defaultRowIndex & "=""WAREHOUSE""")
 						fc3.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray)
 
-						'dataRange.Columns.AutoFit()
+						dataRange.Columns.AutoFit()
 
 					End With
 				End Using
@@ -3986,10 +3942,6 @@ Public Class N_EMI_Laporan_Final_GI_GR_Main
 			' Set File Filter
 			saveFileDialog.Filter = "Excel Files (*.xlsx)|*.xlsx|All Files (*.*)|*.*"
 			saveFileDialog.Title = "Save As"
-
-			xlApp.ScreenUpdating = True
-			xlApp.Calculation = excel.XlCalculation.xlCalculationAutomatic
-			xlApp.EnableEvents = True
 
 			'Tampilkan Show Dialog Save as
 			If saveFileDialog.ShowDialog() = DialogResult.OK Then
@@ -4080,6 +4032,7 @@ Public Class N_EMI_Laporan_Final_GI_GR_Main
 				New Dictionary(Of String, String) From {{"Identifier", "GR1"}, {"Kolom", "Good Received (PCS)"}, {"Warna", System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(253, 255, 167))}},
 				New Dictionary(Of String, String) From {{"Identifier", "GR1"}, {"Kolom", "Stock Sementara (KG)"}, {"Warna", System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(253, 255, 167))}},
 				New Dictionary(Of String, String) From {{"Identifier", "GR1"}, {"Kolom", "Time (Day)"}, {"Warna", System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(253, 255, 167))}},
+				New Dictionary(Of String, String) From {{"Identifier", "GR1"}, {"Kolom", "Adjustment"}, {"Warna", System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(253, 255, 167))}},
 				New Dictionary(Of String, String) From {{"Identifier", "Val"}, {"Kolom", "Waste (PCS)"}, {"Warna", System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(131, 197, 217))}}, 'Mulai Val
 				New Dictionary(Of String, String) From {{"Identifier", "Val"}, {"Kolom", "Waste PRD (%)"}, {"Warna", System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(131, 197, 217))}},
 				New Dictionary(Of String, String) From {{"Identifier", "Val"}, {"Kolom", "Waste (%)"}, {"Warna", System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(131, 197, 217))}},
@@ -4425,13 +4378,31 @@ Public Class N_EMI_Laporan_Final_GI_GR_Main
 			'=     GENERATE BODY     =
 			'=========================
 
-			Dim stringCenter As New List(Of Integer) From {2, 3, 4, 5, 6, 9, 21, 30, 39, 41, 43}
+			'Dim stringCenter As New List(Of Integer) From {2, 3, 4, 5, 6, 9, 21, 30, 39, 41, 43}
 
-			Dim numberColumn As New List(Of Integer) From {8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 42}
+			'Dim numberColumn As New List(Of Integer) From {8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 42}
 
-			Dim DecimalColumn As New List(Of Integer) From {8, 19, 22, 24, 26, 28, 29, 31, 33, 35, 37, 38}
+			'Dim DecimalColumn As New List(Of Integer) From {8, 19, 22, 24, 26, 28, 29, 31, 33, 35, 37, 38}
 
-			Dim NumberN0 As New List(Of Integer) From {8, 19, 22, 24, 26, 28, 29, 31, 33, 35, 37, 38}
+			'Dim NumberN0 As New List(Of Integer) From {8, 19, 22, 24, 26, 28, 29, 31, 33, 35, 37, 38}
+
+			Dim stringCenter As New List(Of Integer) From {2, 3, 4, 5, 6, 9, 21, 31, 40, 42, 44}
+
+			Dim numberColumn As New List(Of Integer) From {
+				8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+				22, 23, 24, 25, 26, 27, 28, 29,
+				32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 43
+			}
+
+			Dim DecimalColumn As New List(Of Integer) From {
+				8, 19, 22, 24, 25,
+				27, 29, 30, 32, 34, 36, 38, 39
+			}
+
+			Dim NumberN0 As New List(Of Integer) From {
+				8, 19, 22, 24,
+				27, 29, 30, 32, 34, 36, 38, 39
+			}
 
 			Dim defaultRowIndex As Integer = 5
 			Try
@@ -4474,7 +4445,7 @@ Public Class N_EMI_Laporan_Final_GI_GR_Main
 
 				Dim row As Integer = 0
 				SQL = "select No_po, no_split, Tgl_Produksi, Jam_Produksi, Tanggal_GI, Jam_GI, Nama_Routing, Keterangan, Kode_Barang, Nama, Jumlah, batch, Berat_GI, Jumlah_Dosing, "
-				SQL = SQL & "WasteGR1_KG, WasteGR1_Persen, Reject_GR1_KG, ScrapGR1_KG, Loss_Production, Loss_Production_Persen, NilaiGR1_KG, NilaiGR1_Pcs, GR1_StockSementara, WaktuGR1, "
+				SQL = SQL & "WasteGR1_KG, WasteGR1_Persen, Reject_GR1_KG, ScrapGR1_KG, Loss_Production, Loss_Production_Persen, NilaiGR1_KG, NilaiGR1_Pcs, GR1_StockSementara, WaktuGR1, Adjustment,"
 				SQL = SQL & "WasteGR2_Pcs, WasteGR2_Persen, Persentase_Waste_Terhadap_GR2, Reject_GR2_PCS, Reject_GR2_KG, ScrapGR2_PCS, ScrapGR2_KG,NilaiGR2_Pcs, GR2_StockSementara, WaktuGR2, "
 				SQL = SQL & "WasteGR3_Pcs, WasteGR3_Persen, Reject_GR3_PCS, Reject_GR3_KG, ScrapGR3_PCS, ScrapGR3_KG, NilaiGRFinal_Pcs, GR3_StockSementara, WaktuGR3, "
 
@@ -4582,19 +4553,19 @@ Public Class N_EMI_Laporan_Final_GI_GR_Main
 
 							Next
 
-							xlWorkSheet.Range(dataRange.Columns(15), dataRange.Columns(24)).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightYellow)
-							xlWorkSheet.Range(dataRange.Columns(25), dataRange.Columns(34)).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightBlue)
-							xlWorkSheet.Range(dataRange.Columns(35), dataRange.Columns(43)).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray)
+							xlWorkSheet.Range(dataRange.Columns(15), dataRange.Columns(25)).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightYellow)
+							xlWorkSheet.Range(dataRange.Columns(26), dataRange.Columns(35)).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightBlue)
+							xlWorkSheet.Range(dataRange.Columns(36), dataRange.Columns(44)).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray)
 							dataRange.Columns(24).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(252, 105, 108))
-							dataRange.Columns(34).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(181, 230, 162))
-							dataRange.Columns(43).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White)
+							dataRange.Columns(35).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(181, 230, 162))
+							dataRange.Columns(44).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White)
 
 							If isShowScrapPackaging Then
-								dataRange.Columns(44).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(244, 208, 111))
-								dataRange.Columns(45).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(188, 158, 130))
+								dataRange.Columns(45).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(244, 208, 111))
+								dataRange.Columns(46).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(188, 158, 130))
 							Else
 								'dataRange.Columns(44).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(244, 208, 111))
-								dataRange.Columns(44).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(188, 158, 130))
+								dataRange.Columns(45).Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(188, 158, 130))
 							End If
 
 							dataRange.Columns.AutoFit()

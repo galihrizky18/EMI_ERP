@@ -24,16 +24,19 @@ Partial Class Emi_Production_Barcode
     Private Sub InitializeComponent()
 		Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Me.Panel1 = New System.Windows.Forms.Panel()
+		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Label1 = New System.Windows.Forms.Label()
 		Me.Panel2 = New System.Windows.Forms.Panel()
 		Me.Panel3 = New System.Windows.Forms.Panel()
 		Me.Panel6 = New System.Windows.Forms.Panel()
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+		Me.ComboBox1 = New System.Windows.Forms.ComboBox()
+		Me.Label19 = New System.Windows.Forms.Label()
 		Me.GroupBox4 = New System.Windows.Forms.GroupBox()
 		Me.Btn_Get_Sampel_Waste = New System.Windows.Forms.Button()
 		Me.CmbSisaProduksi = New System.Windows.Forms.ComboBox()
@@ -43,8 +46,10 @@ Partial Class Emi_Production_Barcode
 		Me.Label18 = New System.Windows.Forms.Label()
 		Me.Label13 = New System.Windows.Forms.Label()
 		Me.Cmb_Lokasi_Gudang_Sisa = New System.Windows.Forms.ComboBox()
-		Me.Dgv_Packaging = New System.Windows.Forms.DataGridView()
 		Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+		Me.Cmb_Line_Production = New System.Windows.Forms.ComboBox()
+		Me.Label20 = New System.Windows.Forms.Label()
+		Me.CMB_PackingSet = New System.Windows.Forms.ComboBox()
 		Me.Label10 = New System.Windows.Forms.Label()
 		Me.Txt_Jumlah = New System.Windows.Forms.TextBox()
 		Me.Cmb_Satuan = New System.Windows.Forms.ComboBox()
@@ -60,6 +65,15 @@ Partial Class Emi_Production_Barcode
 		Me.Cmb_LokasiSimpan = New System.Windows.Forms.ComboBox()
 		Me.Label15 = New System.Windows.Forms.Label()
 		Me.Label16 = New System.Windows.Forms.Label()
+		Me.Label21 = New System.Windows.Forms.Label()
+		Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+		Me.Button1 = New System.Windows.Forms.Button()
+		Me.Btn_Simpan = New System.Windows.Forms.Button()
+		Me.Btn_Refresh = New System.Windows.Forms.Button()
+		Me.Dgv_Packaging = New System.Windows.Forms.DataGridView()
+		Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.TxtJumlahKeranjang = New System.Windows.Forms.TextBox()
 		Me.Label17 = New System.Windows.Forms.Label()
 		Me.Label12 = New System.Windows.Forms.Label()
@@ -81,28 +95,20 @@ Partial Class Emi_Production_Barcode
 		Me.TxtLifeTime = New System.Windows.Forms.TextBox()
 		Me.Label11 = New System.Windows.Forms.Label()
 		Me.Cmb_Lokasi = New System.Windows.Forms.ComboBox()
-		Me.Btn_Refresh = New System.Windows.Forms.Button()
-		Me.Btn_Simpan = New System.Windows.Forms.Button()
 		Me.Panel5 = New System.Windows.Forms.Panel()
 		Me.Panel7 = New System.Windows.Forms.Panel()
-		Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-		Me.Button1 = New System.Windows.Forms.Button()
 		Me.TxtFormulator_NoFaktur = New System.Windows.Forms.TextBox()
 		Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Barcode = New System.Windows.Forms.PictureBox()
 		Me.Panel1.SuspendLayout()
 		Me.Panel3.SuspendLayout()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox4.SuspendLayout()
-		CType(Me.Dgv_Packaging, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.GroupBox2.SuspendLayout()
 		Me.GroupBox3.SuspendLayout()
+		CType(Me.Dgv_Packaging, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.Barcode, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.SuspendLayout()
 		'
@@ -114,8 +120,21 @@ Partial Class Emi_Production_Barcode
 		Me.Panel1.Location = New System.Drawing.Point(0, 0)
 		Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
 		Me.Panel1.Name = "Panel1"
-		Me.Panel1.Size = New System.Drawing.Size(678, 43)
+		Me.Panel1.Size = New System.Drawing.Size(1184, 43)
 		Me.Panel1.TabIndex = 23
+		'
+		'PanelGradient1
+		'
+		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+		Me.PanelGradient1.cuteTransparent1 = 100
+		Me.PanelGradient1.cuteTransparent2 = 64
+		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+		Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
+		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+		Me.PanelGradient1.Name = "PanelGradient1"
+		Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
+		Me.PanelGradient1.TabIndex = 22
 		'
 		'Label1
 		'
@@ -161,9 +180,12 @@ Partial Class Emi_Production_Barcode
 		'
 		'GroupBox1
 		'
+		Me.GroupBox1.Controls.Add(Me.ComboBox1)
+		Me.GroupBox1.Controls.Add(Me.Label19)
 		Me.GroupBox1.Controls.Add(Me.GroupBox4)
-		Me.GroupBox1.Controls.Add(Me.Dgv_Packaging)
 		Me.GroupBox1.Controls.Add(Me.GroupBox2)
+		Me.GroupBox1.Controls.Add(Me.GroupBox3)
+		Me.GroupBox1.Controls.Add(Me.Dgv_Packaging)
 		Me.GroupBox1.Controls.Add(Me.TxtJumlahKeranjang)
 		Me.GroupBox1.Controls.Add(Me.Label17)
 		Me.GroupBox1.Controls.Add(Me.Label12)
@@ -182,9 +204,30 @@ Partial Class Emi_Production_Barcode
 		Me.GroupBox1.Controls.Add(Me.Label7)
 		Me.GroupBox1.Location = New System.Drawing.Point(23, 75)
 		Me.GroupBox1.Name = "GroupBox1"
-		Me.GroupBox1.Size = New System.Drawing.Size(634, 569)
+		Me.GroupBox1.Size = New System.Drawing.Size(1135, 517)
 		Me.GroupBox1.TabIndex = 37
 		Me.GroupBox1.TabStop = False
+		'
+		'ComboBox1
+		'
+		Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.ComboBox1.Enabled = False
+		Me.ComboBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.ComboBox1.FormattingEnabled = True
+		Me.ComboBox1.Location = New System.Drawing.Point(707, 16)
+		Me.ComboBox1.Name = "ComboBox1"
+		Me.ComboBox1.Size = New System.Drawing.Size(244, 24)
+		Me.ComboBox1.TabIndex = 425
+		'
+		'Label19
+		'
+		Me.Label19.AutoSize = True
+		Me.Label19.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+		Me.Label19.Location = New System.Drawing.Point(594, 19)
+		Me.Label19.Name = "Label19"
+		Me.Label19.Size = New System.Drawing.Size(107, 16)
+		Me.Label19.TabIndex = 424
+		Me.Label19.Text = "Jenis Packaging"
 		'
 		'GroupBox4
 		'
@@ -197,7 +240,7 @@ Partial Class Emi_Production_Barcode
 		Me.GroupBox4.Controls.Add(Me.Label13)
 		Me.GroupBox4.Controls.Add(Me.Cmb_Lokasi_Gudang_Sisa)
 		Me.GroupBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
-		Me.GroupBox4.Location = New System.Drawing.Point(26, 333)
+		Me.GroupBox4.Location = New System.Drawing.Point(8, 370)
 		Me.GroupBox4.Name = "GroupBox4"
 		Me.GroupBox4.Size = New System.Drawing.Size(580, 103)
 		Me.GroupBox4.TabIndex = 431
@@ -221,6 +264,7 @@ Partial Class Emi_Production_Barcode
 		'CmbSisaProduksi
 		'
 		Me.CmbSisaProduksi.BackColor = System.Drawing.SystemColors.Window
+		Me.CmbSisaProduksi.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.CmbSisaProduksi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 		Me.CmbSisaProduksi.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.CmbSisaProduksi.FormattingEnabled = True
@@ -241,6 +285,7 @@ Partial Class Emi_Production_Barcode
 		'
 		'CmbSatScrap
 		'
+		Me.CmbSatScrap.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.CmbSatScrap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 		Me.CmbSatScrap.Enabled = False
 		Me.CmbSatScrap.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -286,6 +331,7 @@ Partial Class Emi_Production_Barcode
 		'Cmb_Lokasi_Gudang_Sisa
 		'
 		Me.Cmb_Lokasi_Gudang_Sisa.BackColor = System.Drawing.SystemColors.Window
+		Me.Cmb_Lokasi_Gudang_Sisa.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Cmb_Lokasi_Gudang_Sisa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 		Me.Cmb_Lokasi_Gudang_Sisa.Enabled = False
 		Me.Cmb_Lokasi_Gudang_Sisa.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -295,34 +341,11 @@ Partial Class Emi_Production_Barcode
 		Me.Cmb_Lokasi_Gudang_Sisa.Size = New System.Drawing.Size(126, 23)
 		Me.Cmb_Lokasi_Gudang_Sisa.TabIndex = 424
 		'
-		'Dgv_Packaging
-		'
-		Me.Dgv_Packaging.AllowUserToAddRows = False
-		Me.Dgv_Packaging.AllowUserToResizeColumns = False
-		Me.Dgv_Packaging.AllowUserToResizeRows = False
-		Me.Dgv_Packaging.BackgroundColor = System.Drawing.Color.White
-		Me.Dgv_Packaging.BorderStyle = System.Windows.Forms.BorderStyle.None
-		DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		DataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control
-		DataGridViewCellStyle7.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-		DataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText
-		DataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight
-		DataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-		DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.Dgv_Packaging.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle7
-		Me.Dgv_Packaging.ColumnHeadersHeight = 35
-		Me.Dgv_Packaging.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column3, Me.Column2})
-		Me.Dgv_Packaging.Location = New System.Drawing.Point(25, 442)
-		Me.Dgv_Packaging.Name = "Dgv_Packaging"
-		Me.Dgv_Packaging.RowHeadersWidth = 21
-		DataGridViewCellStyle10.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Dgv_Packaging.RowsDefaultCellStyle = DataGridViewCellStyle10
-		Me.Dgv_Packaging.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-		Me.Dgv_Packaging.Size = New System.Drawing.Size(581, 112)
-		Me.Dgv_Packaging.TabIndex = 425
-		'
 		'GroupBox2
 		'
+		Me.GroupBox2.Controls.Add(Me.Cmb_Line_Production)
+		Me.GroupBox2.Controls.Add(Me.Label20)
+		Me.GroupBox2.Controls.Add(Me.CMB_PackingSet)
 		Me.GroupBox2.Controls.Add(Me.Label10)
 		Me.GroupBox2.Controls.Add(Me.Txt_Jumlah)
 		Me.GroupBox2.Controls.Add(Me.Cmb_Satuan)
@@ -338,19 +361,52 @@ Partial Class Emi_Production_Barcode
 		Me.GroupBox2.Controls.Add(Me.Cmb_LokasiSimpan)
 		Me.GroupBox2.Controls.Add(Me.Label15)
 		Me.GroupBox2.Controls.Add(Me.Label16)
+		Me.GroupBox2.Controls.Add(Me.Label21)
 		Me.GroupBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
-		Me.GroupBox2.Location = New System.Drawing.Point(25, 155)
+		Me.GroupBox2.Location = New System.Drawing.Point(7, 155)
 		Me.GroupBox2.Name = "GroupBox2"
-		Me.GroupBox2.Size = New System.Drawing.Size(581, 175)
+		Me.GroupBox2.Size = New System.Drawing.Size(581, 209)
 		Me.GroupBox2.TabIndex = 430
 		Me.GroupBox2.TabStop = False
 		Me.GroupBox2.Text = "Input"
+		'
+		'Cmb_Line_Production
+		'
+		Me.Cmb_Line_Production.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Cmb_Line_Production.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.Cmb_Line_Production.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.Cmb_Line_Production.FormattingEnabled = True
+		Me.Cmb_Line_Production.Location = New System.Drawing.Point(136, 171)
+		Me.Cmb_Line_Production.Name = "Cmb_Line_Production"
+		Me.Cmb_Line_Production.Size = New System.Drawing.Size(175, 24)
+		Me.Cmb_Line_Production.TabIndex = 426
+		'
+		'Label20
+		'
+		Me.Label20.AutoSize = True
+		Me.Label20.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+		Me.Label20.Location = New System.Drawing.Point(316, 174)
+		Me.Label20.Name = "Label20"
+		Me.Label20.Size = New System.Drawing.Size(79, 16)
+		Me.Label20.TabIndex = 425
+		Me.Label20.Text = "Packing Set"
+		'
+		'CMB_PackingSet
+		'
+		Me.CMB_PackingSet.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.CMB_PackingSet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.CMB_PackingSet.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.CMB_PackingSet.FormattingEnabled = True
+		Me.CMB_PackingSet.Location = New System.Drawing.Point(406, 171)
+		Me.CMB_PackingSet.Name = "CMB_PackingSet"
+		Me.CMB_PackingSet.Size = New System.Drawing.Size(167, 24)
+		Me.CMB_PackingSet.TabIndex = 424
 		'
 		'Label10
 		'
 		Me.Label10.AutoSize = True
 		Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Label10.Location = New System.Drawing.Point(11, 54)
+		Me.Label10.Location = New System.Drawing.Point(12, 54)
 		Me.Label10.Name = "Label10"
 		Me.Label10.Size = New System.Drawing.Size(83, 16)
 		Me.Label10.TabIndex = 382
@@ -370,6 +426,7 @@ Partial Class Emi_Production_Barcode
 		'
 		'Cmb_Satuan
 		'
+		Me.Cmb_Satuan.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Cmb_Satuan.Enabled = False
 		Me.Cmb_Satuan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.Cmb_Satuan.FormattingEnabled = True
@@ -383,7 +440,7 @@ Partial Class Emi_Production_Barcode
 		Me.Chk_FullPallet.AutoSize = True
 		Me.Chk_FullPallet.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
 		Me.Chk_FullPallet.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Chk_FullPallet.Location = New System.Drawing.Point(12, 81)
+		Me.Chk_FullPallet.Location = New System.Drawing.Point(12, 80)
 		Me.Chk_FullPallet.Name = "Chk_FullPallet"
 		Me.Chk_FullPallet.Size = New System.Drawing.Size(100, 20)
 		Me.Chk_FullPallet.TabIndex = 374
@@ -422,13 +479,14 @@ Partial Class Emi_Production_Barcode
 		'
 		'Cmb_Tahapan
 		'
+		Me.Cmb_Tahapan.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Cmb_Tahapan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 		Me.Cmb_Tahapan.Enabled = False
 		Me.Cmb_Tahapan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.Cmb_Tahapan.FormattingEnabled = True
 		Me.Cmb_Tahapan.Location = New System.Drawing.Point(136, 141)
 		Me.Cmb_Tahapan.Name = "Cmb_Tahapan"
-		Me.Cmb_Tahapan.Size = New System.Drawing.Size(190, 24)
+		Me.Cmb_Tahapan.Size = New System.Drawing.Size(175, 24)
 		Me.Cmb_Tahapan.TabIndex = 422
 		'
 		'DtpProduksi
@@ -454,7 +512,7 @@ Partial Class Emi_Production_Barcode
 		'
 		Me.Label5.AutoSize = True
 		Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Label5.Location = New System.Drawing.Point(11, 25)
+		Me.Label5.Location = New System.Drawing.Point(12, 23)
 		Me.Label5.Name = "Label5"
 		Me.Label5.Size = New System.Drawing.Size(98, 16)
 		Me.Label5.TabIndex = 415
@@ -466,10 +524,10 @@ Partial Class Emi_Production_Barcode
 		Me.Txt_Troli.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.Txt_Troli.Enabled = False
 		Me.Txt_Troli.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-		Me.Txt_Troli.Location = New System.Drawing.Point(385, 142)
+		Me.Txt_Troli.Location = New System.Drawing.Point(406, 142)
 		Me.Txt_Troli.MaxLength = 50
 		Me.Txt_Troli.Name = "Txt_Troli"
-		Me.Txt_Troli.Size = New System.Drawing.Size(188, 21)
+		Me.Txt_Troli.Size = New System.Drawing.Size(167, 21)
 		Me.Txt_Troli.TabIndex = 410
 		Me.Txt_Troli.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
 		'
@@ -488,7 +546,7 @@ Partial Class Emi_Production_Barcode
 		'
 		Me.Label15.AutoSize = True
 		Me.Label15.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-		Me.Label15.Location = New System.Drawing.Point(12, 147)
+		Me.Label15.Location = New System.Drawing.Point(12, 144)
 		Me.Label15.Name = "Label15"
 		Me.Label15.Size = New System.Drawing.Size(41, 16)
 		Me.Label15.TabIndex = 413
@@ -498,11 +556,124 @@ Partial Class Emi_Production_Barcode
 		'
 		Me.Label16.AutoSize = True
 		Me.Label16.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-		Me.Label16.Location = New System.Drawing.Point(332, 144)
+		Me.Label16.Location = New System.Drawing.Point(317, 144)
 		Me.Label16.Name = "Label16"
 		Me.Label16.Size = New System.Drawing.Size(41, 16)
 		Me.Label16.TabIndex = 413
 		Me.Label16.Text = "Trolly"
+		'
+		'Label21
+		'
+		Me.Label21.AutoSize = True
+		Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+		Me.Label21.Location = New System.Drawing.Point(11, 174)
+		Me.Label21.Name = "Label21"
+		Me.Label21.Size = New System.Drawing.Size(99, 16)
+		Me.Label21.TabIndex = 413
+		Me.Label21.Text = "Line Production"
+		'
+		'GroupBox3
+		'
+		Me.GroupBox3.Controls.Add(Me.Button1)
+		Me.GroupBox3.Controls.Add(Me.Btn_Simpan)
+		Me.GroupBox3.Controls.Add(Me.Btn_Refresh)
+		Me.GroupBox3.Location = New System.Drawing.Point(594, 262)
+		Me.GroupBox3.Name = "GroupBox3"
+		Me.GroupBox3.Size = New System.Drawing.Size(535, 53)
+		Me.GroupBox3.TabIndex = 379
+		Me.GroupBox3.TabStop = False
+		'
+		'Button1
+		'
+		Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+		Me.Button1.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.Button1.ForeColor = System.Drawing.Color.White
+		Me.Button1.Location = New System.Drawing.Point(6, 12)
+		Me.Button1.Name = "Button1"
+		Me.Button1.Size = New System.Drawing.Size(187, 35)
+		Me.Button1.TabIndex = 373
+		Me.Button1.Text = "&Primary Packaging only"
+		Me.Button1.UseVisualStyleBackColor = False
+		'
+		'Btn_Simpan
+		'
+		Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+		Me.Btn_Simpan.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Btn_Simpan.Enabled = False
+		Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
+		Me.Btn_Simpan.Location = New System.Drawing.Point(373, 12)
+		Me.Btn_Simpan.Name = "Btn_Simpan"
+		Me.Btn_Simpan.Size = New System.Drawing.Size(156, 35)
+		Me.Btn_Simpan.TabIndex = 373
+		Me.Btn_Simpan.Text = "&Finished Goods"
+		Me.Btn_Simpan.UseVisualStyleBackColor = False
+		Me.Btn_Simpan.Visible = False
+		'
+		'Btn_Refresh
+		'
+		Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+		Me.Btn_Refresh.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Btn_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
+		Me.Btn_Refresh.Location = New System.Drawing.Point(194, 12)
+		Me.Btn_Refresh.Name = "Btn_Refresh"
+		Me.Btn_Refresh.Size = New System.Drawing.Size(126, 35)
+		Me.Btn_Refresh.TabIndex = 373
+		Me.Btn_Refresh.Text = "&Refresh"
+		Me.Btn_Refresh.UseVisualStyleBackColor = False
+		'
+		'Dgv_Packaging
+		'
+		Me.Dgv_Packaging.AllowUserToAddRows = False
+		Me.Dgv_Packaging.AllowUserToResizeColumns = False
+		Me.Dgv_Packaging.AllowUserToResizeRows = False
+		Me.Dgv_Packaging.BackgroundColor = System.Drawing.Color.White
+		Me.Dgv_Packaging.BorderStyle = System.Windows.Forms.BorderStyle.None
+		DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		DataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control
+		DataGridViewCellStyle7.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+		DataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText
+		DataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.Dgv_Packaging.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle7
+		Me.Dgv_Packaging.ColumnHeadersHeight = 35
+		Me.Dgv_Packaging.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column3, Me.Column2})
+		Me.Dgv_Packaging.Location = New System.Drawing.Point(594, 45)
+		Me.Dgv_Packaging.Name = "Dgv_Packaging"
+		Me.Dgv_Packaging.RowHeadersWidth = 21
+		DataGridViewCellStyle10.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.Dgv_Packaging.RowsDefaultCellStyle = DataGridViewCellStyle10
+		Me.Dgv_Packaging.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
+		Me.Dgv_Packaging.Size = New System.Drawing.Size(535, 211)
+		Me.Dgv_Packaging.TabIndex = 425
+		'
+		'Column1
+		'
+		DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.Column1.DefaultCellStyle = DataGridViewCellStyle8
+		Me.Column1.HeaderText = "Kode Bahan Packaging"
+		Me.Column1.Name = "Column1"
+		Me.Column1.ReadOnly = True
+		Me.Column1.Width = 180
+		'
+		'Column3
+		'
+		Me.Column3.HeaderText = "Nama"
+		Me.Column3.Name = "Column3"
+		Me.Column3.ReadOnly = True
+		Me.Column3.Width = 232
+		'
+		'Column2
+		'
+		DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.Column2.DefaultCellStyle = DataGridViewCellStyle9
+		Me.Column2.HeaderText = "Qty"
+		Me.Column2.Name = "Column2"
+		Me.Column2.ReadOnly = True
+		Me.Column2.Width = 147
 		'
 		'TxtJumlahKeranjang
 		'
@@ -510,7 +681,7 @@ Partial Class Emi_Production_Barcode
 		Me.TxtJumlahKeranjang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.TxtJumlahKeranjang.Enabled = False
 		Me.TxtJumlahKeranjang.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.TxtJumlahKeranjang.Location = New System.Drawing.Point(478, 17)
+		Me.TxtJumlahKeranjang.Location = New System.Drawing.Point(460, 17)
 		Me.TxtJumlahKeranjang.Name = "TxtJumlahKeranjang"
 		Me.TxtJumlahKeranjang.Size = New System.Drawing.Size(128, 22)
 		Me.TxtJumlahKeranjang.TabIndex = 429
@@ -520,7 +691,7 @@ Partial Class Emi_Production_Barcode
 		'
 		Me.Label17.AutoSize = True
 		Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Label17.Location = New System.Drawing.Point(358, 19)
+		Me.Label17.Location = New System.Drawing.Point(340, 19)
 		Me.Label17.Name = "Label17"
 		Me.Label17.Size = New System.Drawing.Size(114, 16)
 		Me.Label17.TabIndex = 428
@@ -530,7 +701,7 @@ Partial Class Emi_Production_Barcode
 		'
 		Me.Label12.AutoSize = True
 		Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Label12.Location = New System.Drawing.Point(343, 75)
+		Me.Label12.Location = New System.Drawing.Point(325, 75)
 		Me.Label12.Name = "Label12"
 		Me.Label12.Size = New System.Drawing.Size(57, 16)
 		Me.Label12.TabIndex = 427
@@ -542,7 +713,7 @@ Partial Class Emi_Production_Barcode
 		Me.TxtGroupJenis.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.TxtGroupJenis.Enabled = False
 		Me.TxtGroupJenis.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-		Me.TxtGroupJenis.Location = New System.Drawing.Point(406, 73)
+		Me.TxtGroupJenis.Location = New System.Drawing.Point(388, 73)
 		Me.TxtGroupJenis.MaxLength = 50
 		Me.TxtGroupJenis.Name = "TxtGroupJenis"
 		Me.TxtGroupJenis.Size = New System.Drawing.Size(200, 21)
@@ -550,10 +721,11 @@ Partial Class Emi_Production_Barcode
 		'
 		'Cmb_SatuanProduksi
 		'
+		Me.Cmb_SatuanProduksi.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Cmb_SatuanProduksi.Enabled = False
 		Me.Cmb_SatuanProduksi.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.Cmb_SatuanProduksi.FormattingEnabled = True
-		Me.Cmb_SatuanProduksi.Location = New System.Drawing.Point(480, 129)
+		Me.Cmb_SatuanProduksi.Location = New System.Drawing.Point(462, 129)
 		Me.Cmb_SatuanProduksi.Name = "Cmb_SatuanProduksi"
 		Me.Cmb_SatuanProduksi.Size = New System.Drawing.Size(126, 24)
 		Me.Cmb_SatuanProduksi.TabIndex = 422
@@ -563,7 +735,7 @@ Partial Class Emi_Production_Barcode
 		Me.DateTimePicker1.CustomFormat = "dd MMM yyyy"
 		Me.DateTimePicker1.Enabled = False
 		Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-		Me.DateTimePicker1.Location = New System.Drawing.Point(161, 46)
+		Me.DateTimePicker1.Location = New System.Drawing.Point(143, 46)
 		Me.DateTimePicker1.Name = "DateTimePicker1"
 		Me.DateTimePicker1.Size = New System.Drawing.Size(191, 20)
 		Me.DateTimePicker1.TabIndex = 416
@@ -572,7 +744,7 @@ Partial Class Emi_Production_Barcode
 		'
 		Me.Label6.AutoSize = True
 		Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-		Me.Label6.Location = New System.Drawing.Point(24, 45)
+		Me.Label6.Location = New System.Drawing.Point(6, 45)
 		Me.Label6.Name = "Label6"
 		Me.Label6.Size = New System.Drawing.Size(114, 16)
 		Me.Label6.TabIndex = 418
@@ -584,7 +756,7 @@ Partial Class Emi_Production_Barcode
 		Me.TxtJam.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.TxtJam.Enabled = False
 		Me.TxtJam.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!)
-		Me.TxtJam.Location = New System.Drawing.Point(361, 45)
+		Me.TxtJam.Location = New System.Drawing.Point(343, 45)
 		Me.TxtJam.MaxLength = 50
 		Me.TxtJam.Name = "TxtJam"
 		Me.TxtJam.Size = New System.Drawing.Size(245, 21)
@@ -596,7 +768,7 @@ Partial Class Emi_Production_Barcode
 		Me.Txt_NamaBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.Txt_NamaBarang.Enabled = False
 		Me.Txt_NamaBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Txt_NamaBarang.Location = New System.Drawing.Point(161, 101)
+		Me.Txt_NamaBarang.Location = New System.Drawing.Point(143, 101)
 		Me.Txt_NamaBarang.Name = "Txt_NamaBarang"
 		Me.Txt_NamaBarang.Size = New System.Drawing.Size(445, 22)
 		Me.Txt_NamaBarang.TabIndex = 378
@@ -605,7 +777,7 @@ Partial Class Emi_Production_Barcode
 		'
 		Me.Label4.AutoSize = True
 		Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Label4.Location = New System.Drawing.Point(24, 103)
+		Me.Label4.Location = New System.Drawing.Point(6, 103)
 		Me.Label4.Name = "Label4"
 		Me.Label4.Size = New System.Drawing.Size(91, 16)
 		Me.Label4.TabIndex = 377
@@ -617,7 +789,7 @@ Partial Class Emi_Production_Barcode
 		Me.Txt_KdBarang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.Txt_KdBarang.Enabled = False
 		Me.Txt_KdBarang.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Txt_KdBarang.Location = New System.Drawing.Point(161, 73)
+		Me.Txt_KdBarang.Location = New System.Drawing.Point(143, 73)
 		Me.Txt_KdBarang.Name = "Txt_KdBarang"
 		Me.Txt_KdBarang.Size = New System.Drawing.Size(176, 22)
 		Me.Txt_KdBarang.TabIndex = 375
@@ -626,7 +798,7 @@ Partial Class Emi_Production_Barcode
 		'
 		Me.Label3.AutoSize = True
 		Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Label3.Location = New System.Drawing.Point(24, 75)
+		Me.Label3.Location = New System.Drawing.Point(6, 75)
 		Me.Label3.Name = "Label3"
 		Me.Label3.Size = New System.Drawing.Size(86, 16)
 		Me.Label3.TabIndex = 0
@@ -638,7 +810,7 @@ Partial Class Emi_Production_Barcode
 		Me.Txt_HasilProduksi.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.Txt_HasilProduksi.Enabled = False
 		Me.Txt_HasilProduksi.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Txt_HasilProduksi.Location = New System.Drawing.Point(161, 130)
+		Me.Txt_HasilProduksi.Location = New System.Drawing.Point(143, 130)
 		Me.Txt_HasilProduksi.Name = "Txt_HasilProduksi"
 		Me.Txt_HasilProduksi.Size = New System.Drawing.Size(311, 22)
 		Me.Txt_HasilProduksi.TabIndex = 375
@@ -647,7 +819,7 @@ Partial Class Emi_Production_Barcode
 		'
 		Me.Label2.AutoSize = True
 		Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Label2.Location = New System.Drawing.Point(24, 19)
+		Me.Label2.Location = New System.Drawing.Point(6, 19)
 		Me.Label2.Name = "Label2"
 		Me.Label2.Size = New System.Drawing.Size(54, 16)
 		Me.Label2.TabIndex = 0
@@ -659,7 +831,7 @@ Partial Class Emi_Production_Barcode
 		Me.Txt_NoSplit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.Txt_NoSplit.Enabled = False
 		Me.Txt_NoSplit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Txt_NoSplit.Location = New System.Drawing.Point(161, 17)
+		Me.Txt_NoSplit.Location = New System.Drawing.Point(143, 17)
 		Me.Txt_NoSplit.Name = "Txt_NoSplit"
 		Me.Txt_NoSplit.Size = New System.Drawing.Size(191, 22)
 		Me.Txt_NoSplit.TabIndex = 375
@@ -668,7 +840,7 @@ Partial Class Emi_Production_Barcode
 		'
 		Me.Label7.AutoSize = True
 		Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Label7.Location = New System.Drawing.Point(24, 132)
+		Me.Label7.Location = New System.Drawing.Point(6, 132)
 		Me.Label7.Name = "Label7"
 		Me.Label7.Size = New System.Drawing.Size(106, 16)
 		Me.Label7.TabIndex = 0
@@ -680,7 +852,7 @@ Partial Class Emi_Production_Barcode
 		Me.TxtSatuanKecil.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.TxtSatuanKecil.Enabled = False
 		Me.TxtSatuanKecil.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.TxtSatuanKecil.Location = New System.Drawing.Point(762, 283)
+		Me.TxtSatuanKecil.Location = New System.Drawing.Point(1162, 896)
 		Me.TxtSatuanKecil.Name = "TxtSatuanKecil"
 		Me.TxtSatuanKecil.Size = New System.Drawing.Size(72, 22)
 		Me.TxtSatuanKecil.TabIndex = 421
@@ -692,7 +864,7 @@ Partial Class Emi_Production_Barcode
 		Me.TxtSatScrapKecil.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.TxtSatScrapKecil.Enabled = False
 		Me.TxtSatScrapKecil.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.TxtSatScrapKecil.Location = New System.Drawing.Point(684, 283)
+		Me.TxtSatScrapKecil.Location = New System.Drawing.Point(1084, 896)
 		Me.TxtSatScrapKecil.Name = "TxtSatScrapKecil"
 		Me.TxtSatScrapKecil.Size = New System.Drawing.Size(72, 22)
 		Me.TxtSatScrapKecil.TabIndex = 420
@@ -704,7 +876,7 @@ Partial Class Emi_Production_Barcode
 		Me.TxtLifeTime.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.TxtLifeTime.Enabled = False
 		Me.TxtLifeTime.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.TxtLifeTime.Location = New System.Drawing.Point(750, 340)
+		Me.TxtLifeTime.Location = New System.Drawing.Point(1150, 953)
 		Me.TxtLifeTime.Name = "TxtLifeTime"
 		Me.TxtLifeTime.Size = New System.Drawing.Size(122, 22)
 		Me.TxtLifeTime.TabIndex = 380
@@ -714,7 +886,7 @@ Partial Class Emi_Production_Barcode
 		'
 		Me.Label11.AutoSize = True
 		Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Label11.Location = New System.Drawing.Point(682, 342)
+		Me.Label11.Location = New System.Drawing.Point(1082, 955)
 		Me.Label11.Name = "Label11"
 		Me.Label11.Size = New System.Drawing.Size(62, 16)
 		Me.Label11.TabIndex = 379
@@ -731,38 +903,10 @@ Partial Class Emi_Production_Barcode
 		Me.Cmb_Lokasi.Size = New System.Drawing.Size(214, 24)
 		Me.Cmb_Lokasi.TabIndex = 376
 		'
-		'Btn_Refresh
-		'
-		Me.Btn_Refresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-		Me.Btn_Refresh.Cursor = System.Windows.Forms.Cursors.Hand
-		Me.Btn_Refresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-		Me.Btn_Refresh.Location = New System.Drawing.Point(194, 12)
-		Me.Btn_Refresh.Name = "Btn_Refresh"
-		Me.Btn_Refresh.Size = New System.Drawing.Size(126, 35)
-		Me.Btn_Refresh.TabIndex = 373
-		Me.Btn_Refresh.Text = "&Refresh"
-		Me.Btn_Refresh.UseVisualStyleBackColor = False
-		'
-		'Btn_Simpan
-		'
-		Me.Btn_Simpan.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-		Me.Btn_Simpan.Cursor = System.Windows.Forms.Cursors.Hand
-		Me.Btn_Simpan.Enabled = False
-		Me.Btn_Simpan.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-		Me.Btn_Simpan.Location = New System.Drawing.Point(459, 11)
-		Me.Btn_Simpan.Name = "Btn_Simpan"
-		Me.Btn_Simpan.Size = New System.Drawing.Size(156, 35)
-		Me.Btn_Simpan.TabIndex = 373
-		Me.Btn_Simpan.Text = "&Finished Goods"
-		Me.Btn_Simpan.UseVisualStyleBackColor = False
-		Me.Btn_Simpan.Visible = False
-		'
 		'Panel5
 		'
 		Me.Panel5.BackColor = System.Drawing.Color.Red
-		Me.Panel5.Location = New System.Drawing.Point(658, 61)
+		Me.Panel5.Location = New System.Drawing.Point(1165, 45)
 		Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
 		Me.Panel5.Name = "Panel5"
 		Me.Panel5.Size = New System.Drawing.Size(19, 601)
@@ -772,36 +916,12 @@ Partial Class Emi_Production_Barcode
 		'Panel7
 		'
 		Me.Panel7.BackColor = System.Drawing.Color.Red
-		Me.Panel7.Location = New System.Drawing.Point(685, 561)
+		Me.Panel7.Location = New System.Drawing.Point(25, 599)
 		Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
 		Me.Panel7.Name = "Panel7"
 		Me.Panel7.Size = New System.Drawing.Size(942, 12)
 		Me.Panel7.TabIndex = 35
 		Me.Panel7.Visible = False
-		'
-		'GroupBox3
-		'
-		Me.GroupBox3.Controls.Add(Me.Button1)
-		Me.GroupBox3.Controls.Add(Me.Btn_Simpan)
-		Me.GroupBox3.Controls.Add(Me.Btn_Refresh)
-		Me.GroupBox3.Location = New System.Drawing.Point(23, 647)
-		Me.GroupBox3.Name = "GroupBox3"
-		Me.GroupBox3.Size = New System.Drawing.Size(634, 53)
-		Me.GroupBox3.TabIndex = 379
-		Me.GroupBox3.TabStop = False
-		'
-		'Button1
-		'
-		Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
-		Me.Button1.Cursor = System.Windows.Forms.Cursors.Hand
-		Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Button1.ForeColor = System.Drawing.Color.White
-		Me.Button1.Location = New System.Drawing.Point(6, 12)
-		Me.Button1.Name = "Button1"
-		Me.Button1.Size = New System.Drawing.Size(187, 35)
-		Me.Button1.TabIndex = 373
-		Me.Button1.Text = "&Primary Packaging only"
-		Me.Button1.UseVisualStyleBackColor = False
 		'
 		'TxtFormulator_NoFaktur
 		'
@@ -842,47 +962,9 @@ Partial Class Emi_Production_Barcode
 		Me.DataGridViewTextBoxColumn3.ReadOnly = True
 		Me.DataGridViewTextBoxColumn3.Width = 147
 		'
-		'Column1
-		'
-		DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.Column1.DefaultCellStyle = DataGridViewCellStyle8
-		Me.Column1.HeaderText = "Kode Bahan Packaging"
-		Me.Column1.Name = "Column1"
-		Me.Column1.ReadOnly = True
-		Me.Column1.Width = 180
-		'
-		'Column3
-		'
-		Me.Column3.HeaderText = "Nama"
-		Me.Column3.Name = "Column3"
-		Me.Column3.ReadOnly = True
-		Me.Column3.Width = 232
-		'
-		'Column2
-		'
-		DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.Column2.DefaultCellStyle = DataGridViewCellStyle9
-		Me.Column2.HeaderText = "Qty"
-		Me.Column2.Name = "Column2"
-		Me.Column2.ReadOnly = True
-		Me.Column2.Width = 147
-		'
-		'PanelGradient1
-		'
-		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-		Me.PanelGradient1.cuteTransparent1 = 100
-		Me.PanelGradient1.cuteTransparent2 = 64
-		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-		Me.PanelGradient1.Location = New System.Drawing.Point(0, 41)
-		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-		Me.PanelGradient1.Name = "PanelGradient1"
-		Me.PanelGradient1.Size = New System.Drawing.Size(678, 2)
-		Me.PanelGradient1.TabIndex = 22
-		'
 		'Barcode
 		'
-		Me.Barcode.Location = New System.Drawing.Point(684, 64)
+		Me.Barcode.Location = New System.Drawing.Point(1084, 677)
 		Me.Barcode.Name = "Barcode"
 		Me.Barcode.Size = New System.Drawing.Size(100, 50)
 		Me.Barcode.TabIndex = 377
@@ -894,15 +976,14 @@ Partial Class Emi_Production_Barcode
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.White
-		Me.ClientSize = New System.Drawing.Size(678, 710)
+		Me.ClientSize = New System.Drawing.Size(1184, 611)
+		Me.Controls.Add(Me.Panel5)
 		Me.Controls.Add(Me.TxtFormulator_NoFaktur)
-		Me.Controls.Add(Me.GroupBox3)
 		Me.Controls.Add(Me.Panel7)
 		Me.Controls.Add(Me.TxtSatuanKecil)
 		Me.Controls.Add(Me.TxtSatScrapKecil)
 		Me.Controls.Add(Me.Barcode)
 		Me.Controls.Add(Me.GroupBox1)
-		Me.Controls.Add(Me.Panel5)
 		Me.Controls.Add(Me.Panel3)
 		Me.Controls.Add(Me.Panel2)
 		Me.Controls.Add(Me.Panel1)
@@ -921,10 +1002,10 @@ Partial Class Emi_Production_Barcode
 		Me.GroupBox1.PerformLayout()
 		Me.GroupBox4.ResumeLayout(False)
 		Me.GroupBox4.PerformLayout()
-		CType(Me.Dgv_Packaging, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.GroupBox2.ResumeLayout(False)
 		Me.GroupBox2.PerformLayout()
 		Me.GroupBox3.ResumeLayout(False)
+		CType(Me.Dgv_Packaging, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.Barcode, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.ResumeLayout(False)
 		Me.PerformLayout()
@@ -999,4 +1080,10 @@ Partial Class Emi_Production_Barcode
 	Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
 	Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
 	Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
+    Friend WithEvents ComboBox1 As ComboBox
+    Friend WithEvents Label19 As Label
+    Friend WithEvents Label20 As Label
+    Friend WithEvents CMB_PackingSet As ComboBox
+    Friend WithEvents Cmb_Line_Production As ComboBox
+    Friend WithEvents Label21 As Label
 End Class

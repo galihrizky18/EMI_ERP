@@ -93,7 +93,7 @@
 
 	Dim DataCmbTanggal_GR1 As New List(Of (Combobox As String, FilterSql As String)) From {
 		(OpsiSeluruh, OpsiSeluruh),
-		("Tanggal Produks", "a.Tgl_Produksi"),
+		("Tanggal Produksi", "a.Tgl_Produksi"),
 		("Tanggal Expired", "a.Tgl_Expired")
 	}
 
@@ -103,7 +103,7 @@
 
 	Dim DataCmbTanggal_PackingWaste As New List(Of (Combobox As String, FilterSql As String)) From {
 		(OpsiSeluruh, OpsiSeluruh),
-		("Tanggal Produks", "a.Tgl_Produksi"),
+		("Tanggal Produksi", "a.Tgl_Produksi"),
 		("Tanggal Expired", "a.Tgl_Expired")
 	}
 
@@ -803,6 +803,11 @@
 				Lv_Packing_Pallet.FocusedItem.Checked = False
 				Exit Sub
 			ElseIf IsValidasiAndroid.Trim = "T" Then
+				Lv_Packing_Pallet.FocusedItem.Checked = False
+				Exit Sub
+			End If
+
+			If Lv_Packing_Pallet.CheckedItems.Count > 1 Then
 				Lv_Packing_Pallet.FocusedItem.Checked = False
 				Exit Sub
 			End If

@@ -1238,4 +1238,66 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku
 	'    If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
 	'End Sub
 
+	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
+		Try
+			OpenConn()
+			Cmd.Transaction = Cn.BeginTransaction
+
+			Dim Data As New List(Of (KdBarang As String, jumlah As Double))
+
+			SQL = $"
+				SELECT c.Kode_Barang,
+					   ISNULL((ROUND(   (c.Jumlah /
+										 (
+											 SELECT z.Hasil
+											 FROM Emi_Transaksi_Formulator z
+											 WHERE z.Kode_Perusahaan = c.Kode_Perusahaan
+												   AND z.No_Faktur = c.No_Faktur
+										 )
+										) * (ISNULL((a.Qty_Batch), 0)),
+										4
+									)
+							  ),
+							  0
+							 ) AS Nilai_Formula
+				FROM Emi_Split_Production_Order a,
+					 EMI_Order_Produksi b,
+					 EMI_Transaksi_Formulator_Detail_Bahan c
+				WHERE a.Kode_Perusahaan = b.Kode_Perusahaan
+					  AND b.Kode_Perusahaan = c.Kode_Perusahaan
+					  AND a.No_PO = b.No_Faktur
+					  AND b.Kode_Formula = c.No_Faktur
+					  AND a.No_Transaksi = '{TextBox4.Text.Trim}'
+			"
+			Using Dr = OpenTrans(SQL)
+				If Dr.HasRows Then
+					While Dr.Read
+						Data.Add((Dr("Kode_Barang"), Dr("Nilai_Formula")))
+					End While
+				End If
+			End Using
+
+			For Each row As DataGridViewRow In Dgv_HslProduction.Rows
+				If Not row.IsNewRow Then
+					Dim kdBarang As String = row.Cells(1).Value?.ToString()
+					Dim Jumlah As Double = Data.FirstOrDefault(Function(x) x.KdBarang.Trim = kdBarang.Trim).jumlah
+
+					row.Cells(3).Value = Jumlah
+
+				End If
+			Next
+
+			Cmd.Transaction.Commit()
+			CloseTrans()
+			CloseConn()
+		Catch ex As Exception
+			CloseTrans()
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+	End Sub
+
 End Class

@@ -207,7 +207,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 
 	End Sub
 
-	Private Sub FunTotalJumlahLooping(ByVal jumlahProductionPlan As Double, ByVal jumlah_out_pr As Double, ByVal Jumlah_out_po As Double, ByVal index As Integer, ByVal cells As Integer, ByVal KdBarang As String)
+	Private Sub FunTotalJumlahLooping(ByVal jumlahProductionPlan As Double, ByVal jumlah_out_pr As Double, ByVal Jumlah_out_po As Double, ByVal index As Integer, ByVal cells As Integer, ByVal KdBarang As String, ByVal Bulan As Integer)
 
 		Dim EstJumlahStok As Double = 0
 
@@ -226,7 +226,8 @@ Public Class EMI_Transaksi_MaterialRequisition
 		DataGridView1.Rows(index).Cells(cells).Value = Format(EstJumlahStok - jumlahProductionPlan, "N2")
 
 		If cells = cellRequireStok_1 Then
-			ListEndingStock.Add((KdBarang, (Val(HilangkanTanda(btn_bln0.Tag)) + 2).ToString("00"), "ENDING STOCK M1", Val(HilangkanTanda(EstJumlahStok - jumlahProductionPlan))))
+			'ListEndingStock.Add((KdBarang, (Val(HilangkanTanda(btn_bln0.Tag)) + 2).ToString("00"), "ENDING STOCK M1", Val(HilangkanTanda(EstJumlahStok - jumlahProductionPlan))))
+			ListEndingStock.Add((KdBarang, Bulan, "ENDING STOCK M1", Val(HilangkanTanda(EstJumlahStok - jumlahProductionPlan))))
 		End If
 
 		estreq_awal = EstJumlahStok - (jumlahProductionPlan)
@@ -5644,7 +5645,6 @@ Public Class EMI_Transaksi_MaterialRequisition
 						If arrBulan.Item(index) = a Then
 							b = arrBulanMM.Item(index)
 
-							Dim asdasdas As String = Arrbarang.Item(indexxx)
 							Load_Data_Perbulan1(info.flag_raw_material, info.flag_packaging, indexxx, b, fthn, ind, akses_ubah, "", i, dictSatuanDisplay, dictPRBulanan, dictPOBulanan, dictForecastRM, dictForecastPKG)
 							' Load_Data_Perbulan(Flag_Raw_Material, Flag_Packaging, indexxx, b, fthn, ind, akses_ubah, FValidasi, i, dictSatuanDisplay)
 						End If
@@ -5982,6 +5982,8 @@ Public Class EMI_Transaksi_MaterialRequisition
 
 		'=============================== tampil data PR belum PO ==============================='
 
+#Region " asda"
+
 		'Dim totalPrBelumPOPerbarang As Double = 0
 		'Dim convertSatuanDisplayPr As String = ""
 
@@ -6076,6 +6078,8 @@ Public Class EMI_Transaksi_MaterialRequisition
 		'    End With
 		'End Using
 
+#End Region
+
 		Dim kodeBarang As String = Arrbarang.Item(barangIndex)
 
 		Dim key As String = kodeBarang & "|" & Bln & "|" & CInt(Thn)
@@ -6101,6 +6105,8 @@ Public Class EMI_Transaksi_MaterialRequisition
 		End If
 
 		DataGridView1.Rows(RowIndex).Cells(cellPOoutStanding).Value = Format(totalPRSudahPO, "N2")
+
+#Region "asda"
 
 		'If fstatus = "MRP_PPIC" Then
 
@@ -6167,6 +6173,8 @@ Public Class EMI_Transaksi_MaterialRequisition
 		'    End With
 		'End Using
 
+#End Region
+
 		If ada_data = "T" Then
 
 		End If
@@ -6187,6 +6195,9 @@ Public Class EMI_Transaksi_MaterialRequisition
 		End If
 
 		DataGridView1.Rows(RowIndex).Cells(cellNBom).Value = Format(nilai, "N2")
+
+#Region "asda"
+
 		'If Flag_Raw_Material = "Y" Then
 
 		'    SQL = "WITH cte AS ( "
@@ -6367,7 +6378,10 @@ Public Class EMI_Transaksi_MaterialRequisition
 		'    End Using
 		'End If
 
-		FunTotalJumlahLooping(HilangkanTanda(HilangkanTanda(DataGridView1.Rows(RowIndex).Cells(cellNBom).Value)), totalPrBelumPOPerbarang, totalPRSudahPO, RowIndex, cellRequireStok, kodeBarang)
+#End Region
+
+		Dim bulanssss As String = (Val(HilangkanTanda(btn_bln0.Tag)) + Bln).ToString("00")
+		FunTotalJumlahLooping(HilangkanTanda(HilangkanTanda(DataGridView1.Rows(RowIndex).Cells(cellNBom).Value)), totalPrBelumPOPerbarang, totalPRSudahPO, RowIndex, cellRequireStok, kodeBarang, bulanssss)
 
 	End Sub
 

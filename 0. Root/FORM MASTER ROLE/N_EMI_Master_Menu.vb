@@ -87,10 +87,10 @@
 
 	Private Sub Btn_Cari_Click(sender As Object, e As EventArgs) Handles Btn_Cari.Click
 		If Cmb_Filter.SelectedIndex > -1 Then
-			If Txt_Filter.Text.Trim.Length = 0 Then
-				MessageBox.Show("Value Filter Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				Exit Sub
-			End If
+			'If Txt_Filter.Text.Trim.Length = 0 Then
+			'	MessageBox.Show("Value Filter Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			'	Exit Sub
+			'End If
 		End If
 
 		LoadDataMenu()

@@ -11,7 +11,7 @@ Public Class Emi_Production_Barcode
 	Dim id_routing As String = ""
 	Dim kategoriQuality As New ArrayList({"HIJAU", "MERAH"})
 	Dim kategoriQualityKet As New ArrayList({"Good Stock", "Bad Stock"})
-	Dim arrInisialFaktur, arrSO, arrSoGudangSisa As New ArrayList
+	Dim arrInisialFaktur, arrSO, arrSoGudangSisa, arrLineProduction, arrPackingSet As New ArrayList
 	Dim arrKdBarangSrap, arrNamaScrap, arrSatuanScrap, arrSatuanKecilScrap As New ArrayList
 	Private random As New Random()
 	Private imageBytes1 As Byte = Nothing
@@ -48,6 +48,57 @@ Public Class Emi_Production_Barcode
 							 General_Class.Get_Last_Number2("N_EMI_Transaksi_Waste_Sampel_GR_1", "No_Transaksi", 5,
 							 "Kode_perusahaan", KodePerusahaan,
 							 "And", "substring(No_Transaksi, 1, " & Len(fTransWasteSampel) + 4 & ")", fTransWasteSampel & Format(tgl_skg, "MMyy"))
+	End Sub
+
+	Private Sub Cmb_Line_Production_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Line_Production.SelectedIndexChanged
+		If Cmb_Line_Production.Items.Count = 0 Then Exit Sub
+
+		If Cmb_Line_Production.SelectedIndex = -1 Then
+			CMB_PackingSet.Items.Clear() : arrPackingSet.Clear()
+		End If
+
+		Try
+			OpenConn()
+
+			'============================
+			'=     LOAD PACKING SET     =
+			'============================
+			CMB_PackingSet.Items.Clear() : arrPackingSet.Clear()
+			SQL = $"
+				select distinct c.Deskripsi, c.ID_Packing_Set
+				from N_EMI_Master_Line_Production a
+					inner join N_EMI_Master_Line_Production_Detail_Packaging b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.ID_Line = b.ID_Line and a.kode_barang = b.kode_barang
+					inner join Emi_Split_Production_Order_Detail_Packaging_Packing_Set c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.ID_Packing_Set = c.ID_Packing_Set
+				where a.Status is null
+				and a.Kode_Perusahaan = '{KodePerusahaan}'
+				and a.ID_Line = '{arrLineProduction(Cmb_Line_Production.SelectedIndex)}'
+				and a.kode_barang = '{Txt_KdBarang.Text.Trim}'
+				and c.No_Faktur = '{Txt_NoSplit.Text.Trim}'
+				ORDER BY Deskripsi
+			"
+			CMB_PackingSet.Items.Clear()
+			Using dr = OpenTrans(SQL)
+				Do While dr.Read
+					CMB_PackingSet.Items.Add(dr("Deskripsi").ToString)
+					arrPackingSet.Add(dr("ID_Packing_Set"))
+				Loop
+			End Using
+
+			If CMB_PackingSet.Items.Count >= 1 Then
+				CMB_PackingSet.SelectedIndex = 0
+			End If
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+	End Sub
+
+	Private Sub CMB_PackingSet_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CMB_PackingSet.SelectedIndexChanged
+		get_packaging()
 	End Sub
 
 	Private Sub Chk_FullPallet_CheckedChanged(sender As Object, e As EventArgs) Handles Chk_FullPallet.CheckedChanged
@@ -390,6 +441,31 @@ Public Class Emi_Production_Barcode
 
 			DtpExpired.Value = tglExp
 
+			'================================
+			'=     LOAD LINE PRODUCTION     =
+			'================================
+			Cmb_Line_Production.Items.Clear : arrLineProduction.Clear
+			CMB_PackingSet.Items.Clear() : arrPackingSet.Clear()
+			SQL = $"
+				select distinct a.ID_Line, a.Keterangan
+				from N_EMI_Master_Line_Production a
+					inner join N_EMI_Master_Line_Production_Detail_Packaging b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.ID_Line = b.ID_Line and a.kode_barang = b.kode_barang
+					inner join Emi_Split_Production_Order_Detail_Packaging_Packing_Set c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.ID_Packing_Set = c.ID_Packing_Set
+				where a.Status is null
+				and a.Kode_Perusahaan = '{KodePerusahaan}'
+				and a.Kode_Barang = '{Txt_KdBarang.Text.Trim}'
+				and c.No_Faktur = '{Txt_NoSplit.Text.Trim}'
+			"
+			Using Dr = OpenTrans(SQL)
+				Do While Dr.Read
+					Cmb_Line_Production.Items.Add(Dr("Keterangan")) : arrLineProduction.Add(Dr("ID_Line"))
+				Loop
+			End Using
+
+			If Cmb_Line_Production.Items.Count >= 1 Then
+				Cmb_Line_Production.SelectedIndex = 0
+			End If
+
 			CloseConn()
 		Catch ex As Exception
 			CloseConn()
@@ -397,7 +473,7 @@ Public Class Emi_Production_Barcode
 			Exit Sub
 		End Try
 
-		get_packaging()
+		'get_packaging()
 	End Sub
 
 	Private Sub get_packaging()
@@ -422,16 +498,19 @@ Public Class Emi_Production_Barcode
 				End If
 			End Using
 
+			Dim asda As Boolean = arrPackingSet.Count
+
 			SQL = "select a.No_Transaksi, b.jumlah_barang, b.jumlah_bahan, "
 			SQL = SQL & "isnull(( select z.kode_barang_inq from barang z where a.kode_perusahaan = z.kode_perusahaan "
 			SQL = SQL & "and a.kode_stock_owner = z.kode_stock_owner and a.kode_barang = z.kode_barang "
 			SQL = SQL & "), '-') as Kode_Barang, "
 			SQL = SQL & "b.Kode_Stock_Owner, b.Kode_Barang as Kode_Bahan, c.Nama ,b.Jumlah, b.Satuan, c.flag_potong_stok,isnull(c.standar_price,0) as standar_price, isnull(c.Flag_Pembulatan_Produksi,'T') as Flag_Pembulatan_Produksi "
-			SQL = SQL & "from Emi_Split_Production_Order a, Emi_Split_Production_Order_Detail_Packaging b, barang c "
+			SQL = SQL & "from Emi_Split_Production_Order a, Emi_Split_Production_Order_Detail_Packaging_Packing_Set b, barang c "
 			SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Faktur "
 			SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Barang = c.Kode_Barang and c.Kode_Stock_Owner = b.Kode_Stock_Owner "
 			SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_transaksi = '" & Txt_NoSplit.Text & "' "
-			SQL = SQL & "and  b.jenis = 'KEMASAN UTAMA'"
+			SQL = SQL & "and b.jenis = 'KEMASAN UTAMA' "
+			SQL = SQL & "and b.ID_Packing_Set = '" & arrPackingSet(CMB_PackingSet.SelectedIndex) & "' "
 			SQL = SQL & "order by c.nama "
 			Using Ds = BindingTrans(SQL)
 				With Ds.Tables("MyTable")
@@ -592,6 +671,16 @@ Public Class Emi_Production_Barcode
 			End If
 		End If
 
+		If Cmb_Line_Production.SelectedIndex = -1 Then
+			MessageBox.Show("Line Production Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Cmb_Line_Production.DroppedDown = True : Cmb_Line_Production.Focus()
+			Exit Sub
+		ElseIf CMB_PackingSet.SelectedIndex = -1 Then
+			MessageBox.Show("Packing Set Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			CMB_PackingSet.DroppedDown = True : CMB_PackingSet.Focus()
+			Exit Sub
+		End If
+
 		Simpan_Data(False)
 	End Sub
 
@@ -600,7 +689,7 @@ Public Class Emi_Production_Barcode
 			Exit Sub
 		End If
 
-		get_packaging()
+		'get_packaging()
 
 	End Sub
 
@@ -839,12 +928,12 @@ Public Class Emi_Production_Barcode
 			SQL = SQL & "and a.kode_stock_owner = z.kode_stock_owner and a.kode_barang = z.kode_barang "
 			SQL = SQL & "), '-') as Kode_Barang, "
 			SQL = SQL & "b.Kode_Stock_Owner, b.Kode_Barang as Kode_Bahan, c.Nama ,b.Jumlah, b.Satuan, c.flag_potong_stok,isnull(c.standar_price,0) as standar_price, isnull(c.Flag_Pembulatan_Produksi,'T') as Flag_Pembulatan_Produksi "
-			SQL = SQL & "from Emi_Split_Production_Order a, Emi_Split_Production_Order_Detail_Packaging b, barang c "
+			SQL = SQL & "from Emi_Split_Production_Order a, Emi_Split_Production_Order_Detail_Packaging_Packing_Set b, barang c "
 			SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Faktur "
 			SQL = SQL & "and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Barang = c.Kode_Barang and c.Kode_Stock_Owner = b.Kode_Stock_Owner "
 			SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_transaksi = '" & Txt_NoSplit.Text & "'  "
+			SQL = SQL & "and b.ID_Packing_Set = '" & arrPackingSet(CMB_PackingSet.SelectedIndex) & "'  "
 			If Not isNormalSave Then
-				SQL = SQL & ""
 				SQL = SQL & "and b.jenis = 'KEMASAN UTAMA' "
 			End If
 			SQL = SQL & "order by c.nama "
@@ -1119,7 +1208,7 @@ Public Class Emi_Production_Barcode
 			ExecuteTrans(SQL)
 
 			Dim x_ident_currentBiaya As Integer = 0
-			SQL = "select IDENT_CURRENT('N_Emi_Production_Results_Detail_Biaya') as urutan"
+			SQL = "select IDENT_CURRENT('N_Emi_Production_Results_Detail_Biaya') as urutan "
 			Using Dr = OpenTrans(SQL)
 				If Dr.Read Then
 					x_ident_currentBiaya = Dr("urutan")
@@ -1323,13 +1412,14 @@ Public Class Emi_Production_Barcode
 				'=========================
 				SQL = "insert into Emi_Produksi_Hasil_Perpallet (Kode_Perusahaan, No_Split, Lokasi, Tanggal, Jam, "
 				SQL = SQL & "UserID, Kode_Stock_Owner, Kode_Barang, Jumlah, Satuan, Batch_Number, "
-				SQL = SQL & "Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Jenis, Tgl_Expired, tgl_produksi) values "
+				SQL = SQL & "Qr_Code, Kode_Unik_Berjalan, Kode_Unik_Asal, Jenis, Tgl_Expired, tgl_produksi, ID_Line) values "
 				SQL = SQL & "('" & KodePerusahaan & "', '" & Txt_NoSplit.Text & "', '" & Cmb_Lokasi.SelectedItem & "', "
 				SQL = SQL & " '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "', "
 				SQL = SQL & "'" & arrSO.Item(Cmb_LokasiSimpan.SelectedIndex) & "', '" & Txt_KdBarang.Text & "', '" & Txt_Jumlah.Text & "', "
 				SQL = SQL & " '" & Cmb_Satuan.Text & "', '" & newBatch & "', '" & newQrCode & "', '" & Kode_Berjalan & "', "
 				SQL = SQL & " '" & Kode_Asal & "', '" & kategoriQuality.Item(CmbJenis.SelectedIndex) & "', "
-				SQL = SQL & " '" & Format(DtpExpired.Value, "yyyy-MM-dd") & "',  '" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "') "
+				SQL = SQL & " '" & Format(DtpExpired.Value, "yyyy-MM-dd") & "',  '" & Format(DtpProduksi.Value, "yyyy-MM-dd") & "', "
+				SQL = SQL & " '" & arrLineProduction(Cmb_Line_Production.SelectedIndex) & "' ) "
 				ExecuteTrans(SQL)
 
 				Dim MetodePengeluaranStok As String = ""

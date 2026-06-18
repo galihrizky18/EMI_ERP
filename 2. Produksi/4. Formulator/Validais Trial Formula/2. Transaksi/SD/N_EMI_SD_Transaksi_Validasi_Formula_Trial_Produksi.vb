@@ -1,15 +1,4 @@
 ﻿Public Class N_EMI_SD_Transaksi_Validasi_Formula_Trial_Produksi
-	Private Sub N_EMI_SD_Transaksi_Validasi_Formula_Trial_Produksi_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-		Kosong()
-	End Sub
-
-	Private Sub Kosong()
-	End Sub
-
-	Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
-		Kosong()
-	End Sub
-
 	Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
 		get_jam()
 
@@ -58,20 +47,18 @@
 
 			SQL = $"
 				;WITH CTE AS (
-					SELECT TOP 1 b.*
+					SELECT TOP 1 a.*
 					FROM Emi_Split_Production_Order a
 					JOIN EMI_Order_Produksi b 
-						ON a.Kode_Perusahaan = b.Kode_Perusahaan 
-						AND a.No_Faktur = b.No_PO
-					WHERE a.Kode_Perusahaan = '{KodePerusahaan}'
-						AND a.Kode_Formula = '{NoFormula}'
-						AND a.Status is null
+						ON b.Kode_Perusahaan = a.Kode_Perusahaan 
+						AND b.No_Faktur = a.No_PO
+					WHERE b.Kode_Perusahaan = '{KodePerusahaan}'
+						AND b.Kode_Formula = '{NoFormula}'
 						AND b.Status is null
-						AND 
 					ORDER BY b.Tanggal DESC, b.Jam DESC
 				)
 				UPDATE CTE
-				SET Deskripsi = '{TBDeskripsi.Text.Trim}'
+				SET Deskripsi = '{TBDeskripsi.Text.Trim}', Keterangan = '{TB_Keterangan.Rtf}'
 			"
 			ExecuteTrans(SQL)
 
@@ -88,5 +75,9 @@
 
 		N_EMI_Transaksi_Validasi_Formula_Trial_Produksi.kosong()
 		Me.Close()
+	End Sub
+
+	Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
+		TBDeskripsi.Text = ""
 	End Sub
 End Class

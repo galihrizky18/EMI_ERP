@@ -1,5 +1,8 @@
 ﻿Public Class EMI_Controlling_Produksi
 
+	Private lastHoverItem As ListViewItem = Nothing
+	Private originalItemColor As Color
+
 	Dim arrCari, arrCari_GR As New ArrayList
 	Dim judulForm As String = "Controlling Produksi"
 
@@ -50,6 +53,7 @@
 	Dim LvGR_BatchBerjalan As String
 	Dim LvGR_Routing As String
 	Dim LvGR_TotalDosing As String
+	Dim LvGR_StatusGI As String
 
 	Dim ItemGR_NoFaktur As Integer = 0
 	Dim ItemGR_NoPO As Integer = 1
@@ -63,6 +67,7 @@
 	Dim ItemGR_BatchBerjalan As Integer = 9
 	Dim ItemGR_Routing As Integer = 10
 	Dim ItemGR_TotalDosing As Integer = 11
+	Dim ItemGR_StatusGI As Integer = 12
 
 	Dim PageSize As Integer = 20
 	Dim CurrentPage As Integer = 1
@@ -74,6 +79,12 @@
 	Dim Warna_Hover As Color = ColorHighlight
 	Dim CurrentTab As Integer = -1
 
+	Dim ArrFilterCmbStatusGI As New List(Of (Value_Combo As String, Sql As String)) From {
+		(OpsiSeluruh, OpsiSeluruh),
+		("Validasi", "'Y'"),
+		("Belum Validasi", "NULL")
+	}
+
 	Private Sub EMI_Controlling_Produksi_Activated(sender As Object, e As EventArgs) Handles Me.Activated, Lv_GI.SelectedIndexChanged
 		My.Application.ChangeCulture("en-us")
 		My.Application.ChangeUICulture("en-us")
@@ -82,6 +93,9 @@
 	Private Sub EMI_Controlling_Produksi_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		My.Application.ChangeCulture("en-us")
 		My.Application.ChangeUICulture("en-us")
+
+		EnableDoubleBuffer(Lv_GI)
+		EnableDoubleBuffer(Lv_GR)
 
 		If asal = "HASIL_PENGELUARAN_BAHAN_BAKU" Then
 			Lbl_tab2.Visible = False
@@ -121,6 +135,7 @@
 		Lv_GR.Columns.Add("Batch Berjalan", 100, HorizontalAlignment.Right)
 		Lv_GR.Columns.Add("Routing", 140, HorizontalAlignment.Left)
 		Lv_GR.Columns.Add("Total GR", 120, HorizontalAlignment.Right)
+		Lv_GR.Columns.Add("Status GI", 120, HorizontalAlignment.Center).DisplayIndex = 1
 		Lv_GR.View = View.Details
 
 		'LvGR_Det.Columns.Clear()
@@ -145,6 +160,12 @@
 		'Cmb_FilterGR.Items.Add("No PO") : arrCari_GR.Add("a.no_Po")
 		Cmb_FilterGR.Items.Add("Kode Barang") : arrCari_GR.Add("a.Kode_Barang")
 		Cmb_FilterGR.Items.Add("Nama Barang") : arrCari_GR.Add("b.Nama")
+		Cmb_FilterGR.Items.Add("Status GI") : arrCari_GR.Add("a.flag_hasil_Produksi_GI")
+
+		Cmb_Filter_Status_GI.Items.Clear()
+		For Each Item In ArrFilterCmbStatusGI
+			Cmb_Filter_Status_GI.Items.Add(Item.Value_Combo)
+		Next
 
 		Try
 			OpenConn()
@@ -190,12 +211,14 @@
 			Exit Sub
 		End Try
 
+		Cmb_Filter_Status_GI.Location = New Point(207, 12)
+		Cmb_Filter_Status_GI.Visible = False
+
 		CurrentTab = 0
 		Kosong()
 	End Sub
 
 	Public Sub Kosong()
-
 
 		'LoadLvGI()
 		'LoadGR()
@@ -234,7 +257,7 @@
 			End If
 
 			If Cmb_Filter.SelectedIndex <> -1 Then
-				If Not Strings.Right(UCase(SQL), 6) = "ThenWHERE " Then SQL = SQL & "AND "
+				If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
 				SQL = SQL & arrCari.Item(Cmb_Filter.SelectedIndex) & "  like  '%" & Trim(Txt_FilterValue.Text) & "%' "
 			End If
 			Using Dr = OpenTrans(SQL)
@@ -243,10 +266,9 @@
 				End If
 			End Using
 
-
-			Dim totalPages As Integer = Math.Ceiling(Tot_Data / PageSize)
+			totalpage = Math.Ceiling(Tot_Data / PageSize)
+			Dim totalPages As Integer = totalpage
 			Dim offset As Integer = (page - 1) * PageSize
-
 
 			Lv_GI.Items.Clear()
 			SQL = "Select a.No_Transaksi, a.no_Po, c.Keterangan, a.Tgl_Produksi, a.Jam_Produksi, a.Kode_Barang, "
@@ -267,7 +289,7 @@
 			End If
 
 			If Cmb_Filter.SelectedIndex <> -1 Then
-				If Not Strings.Right(UCase(SQL), 6) = "ThenWHERE " Then SQL = SQL & "AND "
+				If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
 				SQL = SQL & arrCari.Item(Cmb_Filter.SelectedIndex) & "  like  '%" & Trim(Txt_FilterValue.Text) & "%' "
 			End If
 
@@ -321,10 +343,7 @@
 				End With
 			End Using
 
-
 			Txt_Pages_1.Text = $"{page} of {totalPages}"
-
-
 
 			CloseConn()
 		Catch ex As Exception
@@ -365,6 +384,7 @@
 		LvGR_BatchBerjalan = Lv_GR.Items(index).SubItems(ItemGR_BatchBerjalan).Text
 		LvGR_Routing = Lv_GR.Items(index).SubItems(ItemGR_Routing).Text
 		LvGR_TotalDosing = Lv_GR.Items(index).SubItems(ItemGR_TotalDosing).Text
+		LvGR_StatusGI = Lv_GR.Items(index).SubItems(ItemGR_StatusGI).Text
 
 	End Sub
 
@@ -374,8 +394,6 @@
 			OpenConn()
 
 			Dim JumlahBatch As Double = 0
-
-
 
 			Dim Tot_Data As Double = 0
 			SQL = "Select COUNT(*) AS TotalData "
@@ -392,13 +410,21 @@
 			End If
 
 			'If Cmb_Filter.SelectedIndex <> -1 Then
-			'    If Not Strings.Right(UCase(SQL), 6) = "ThenWHERE " Then SQL = SQL & "AND "
+			'    If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
 			'    SQL = SQL & arrCari.Item(Cmb_Filter.SelectedIndex) & "  like  '%" & Trim(Txt_FilterValue.Text) & "%' "
 			'End If
 
 			If Cmb_FilterGR.SelectedIndex <> -1 Then
-				If Not Strings.Right(UCase(SQL), 6) = "ThenWHERE " Then SQL = SQL & "AND "
-				SQL = SQL & arrCari_GR.Item(Cmb_FilterGR.SelectedIndex) & "  like  '%" & Trim(Txt_FilterGR.Text) & "%' "
+				If Cmb_FilterGR.SelectedIndex = 3 Then
+					If Cmb_Filter_Status_GI.SelectedIndex <> 0 Then
+						If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+						SQL = SQL & "a.flag_hasil_Produksi_GI = " & ArrFilterCmbStatusGI(Cmb_Filter_Status_GI.SelectedIndex).Sql & " "
+					End If
+				Else
+					If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+					SQL = SQL & arrCari_GR.Item(Cmb_FilterGR.SelectedIndex) & "  like  '%" & Trim(Txt_FilterGR.Text) & "%' "
+
+				End If
 			End If
 			Using Dr = OpenTrans(SQL)
 				If Dr.Read Then
@@ -406,23 +432,20 @@
 				End If
 			End Using
 
-
-			Dim totalPages As Integer = Math.Ceiling(Tot_Data / PageSize)
+			totalpage_GR = Math.Ceiling(Tot_Data / PageSize)
+			Dim totalPages As Integer = totalpage_GR
 			Dim offset As Integer = (page - 1) * PageSize
-
 
 			Lv_GR.Items.Clear()
 			SQL = "Select a.No_Transaksi, a.no_Po, c.Keterangan, a.Tgl_Produksi, a.Jam_Produksi, a.Kode_Barang, "
 			SQL = SQL & "b.Nama, a.Jumlah, a.Satuan, isnull(a.Qty_Batch, 0) As Qty_PerBatch, d.Id_Routing, d.Keterangan as routing, "
-
 			SQL = SQL & "isnull((select count(y.no_transaksi) from Emi_Production_Results x, Emi_Production_Results_HPP y where "
 			SQL = SQL & "x.kode_perusahaan=y.kode_perusahaan and x.No_Transaksi=y.No_Transaksi and "
 			SQL = SQL & "x.kode_perusahaan=a.kode_perusahaan and x.No_Production_Order=a.No_Transaksi and y.Tanggal is not null ),0) as Jumlah_Batch, "
-
 			SQL = SQL & "isnull((select sum(y.Jumlah_Terpakai) from Emi_Production_Results x, Emi_Production_Results_HPP y where "
 			SQL = SQL & "x.kode_perusahaan=y.kode_perusahaan and x.No_Transaksi=y.No_Transaksi and "
-			SQL = SQL & "x.kode_perusahaan=a.kode_perusahaan and x.No_Production_Order=a.No_Transaksi and y.Tanggal is not null ),0) as Total_dosing "
-
+			SQL = SQL & "x.kode_perusahaan=a.kode_perusahaan and x.No_Production_Order=a.No_Transaksi and y.Tanggal is not null ),0) as Total_dosing, "
+			SQL = SQL & "a.flag_hasil_Produksi_GI "
 			SQL = SQL & "From Emi_Split_Production_Order a, barang b, EMI_Order_Produksi c, emi_master_routing d Where "
 			SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan And a.Kode_Barang = b.Kode_Barang And a.Kode_Stock_Owner = b.Kode_Stock_Owner "
 			SQL = SQL & "And a.kode_perusahaan=c.Kode_Perusahaan And a.no_po=c.no_faktur "
@@ -436,13 +459,21 @@
 			End If
 
 			'If Cmb_Filter.SelectedIndex <> -1 Then
-			'    If Not Strings.Right(UCase(SQL), 6) = "ThenWHERE " Then SQL = SQL & "AND "
+			'    If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
 			'    SQL = SQL & arrCari.Item(Cmb_Filter.SelectedIndex) & "  like  '%" & Trim(Txt_FilterValue.Text) & "%' "
 			'End If
 
 			If Cmb_FilterGR.SelectedIndex <> -1 Then
-				If Not Strings.Right(UCase(SQL), 6) = "ThenWHERE " Then SQL = SQL & "AND "
-				SQL = SQL & arrCari_GR.Item(Cmb_FilterGR.SelectedIndex) & "  like  '%" & Trim(Txt_FilterGR.Text) & "%' "
+				If Cmb_FilterGR.SelectedIndex = 3 Then
+					If Cmb_Filter_Status_GI.SelectedIndex <> 0 Then
+						If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+						SQL = SQL & "a.flag_hasil_Produksi_GI = " & ArrFilterCmbStatusGI(Cmb_Filter_Status_GI.SelectedIndex).Sql & " "
+					End If
+				Else
+					If Not Strings.Right(UCase(SQL), 6) = "WHERE " Then SQL = SQL & "AND "
+					SQL = SQL & arrCari_GR.Item(Cmb_FilterGR.SelectedIndex) & "  like  '%" & Trim(Txt_FilterGR.Text) & "%' "
+
+				End If
 			End If
 
 			SQL = SQL & "order by a.Tgl_Produksi, a.Jam_Produksi "
@@ -495,13 +526,18 @@
 							Lv.SubItems.Add(.Rows(i).Item("routing"))
 							Lv.SubItems.Add(Format(.Rows(i).Item("Total_Dosing"), "N4") + " Kg")
 
+							If General_Class.CekNULL(.Rows(i).Item("flag_hasil_Produksi_GI")).Trim = "Y" Then
+								Lv.SubItems.Add("Validasi")
+							Else
+								Lv.SubItems.Add("Belum Validasi")
+							End If
+
 						Next
 					End If
 				End With
 			End Using
 
 			Txt_Pages_2.Text = $"{page} of {totalPages}"
-
 
 			CloseConn()
 		Catch ex As Exception
@@ -738,45 +774,6 @@
 				End If
 			End If
 
-			'=====================================
-			'=    GET NILAI TOLERANSI FORMULA    =
-			'=====================================
-			Dim IsAutomaticValidation As Boolean = True
-			Dim ToleransiFormulaMin As Double = 0
-			Dim ToleransiFormulaMax As Double = 0
-			SQL = "select Toleransi_Formula_GI_Min, Toleransi_Formula_GI_Max from init "
-			SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
-			Using Dr = OpenTrans(SQL)
-				If Dr.Read Then
-
-					If General_Class.CekNULL(Dr("Toleransi_Formula_GI_Min")) = "" Then
-						Dr.Close()
-						CloseTrans()
-						CloseConn()
-						MessageBox.Show("Terjadi Kesalahan Pada Tabel Init, Nilai Toleransi Formula GI Min Belum Diset", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						Exit Sub
-					ElseIf General_Class.CekNULL(Dr("Toleransi_Formula_GI_Max")) = "" Then
-						Dr.Close()
-						CloseTrans()
-						CloseConn()
-						MessageBox.Show("Terjadi Kesalahan Pada Tabel Init, Nilai Toleransi Formula GI Max Belum Diset", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						Exit Sub
-					End If
-
-					ToleransiFormulaMin = Val(HilangkanTanda(Dr("Toleransi_Formula_GI_Min")))
-					ToleransiFormulaMin = Val(HilangkanTanda(Dr("Toleransi_Formula_GI_Max")))
-
-				Else
-					Dr.Close()
-					CloseTrans()
-					CloseConn()
-					MessageBox.Show("Terjadi Kesalahan Pada Tabel Init", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					Exit Sub
-				End If
-			End Using
-
-
-
 			'=======================================
 			'=     CEK APAKAH PO SUDAH SELESAI     =
 			'=======================================
@@ -961,7 +958,14 @@
 		If Cmb_FilterGR.SelectedIndex = -1 Then
 			MessageBox.Show("Pilih Jenis Filter Dahulu", judulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 			Cmb_FilterGR.Focus() : Exit Sub
-		ElseIf Cmb_FilterGR.SelectedIndex <> -1 Then
+		ElseIf Cmb_FilterGR.SelectedIndex = 3 Then
+			If Cmb_Filter_Status_GI.SelectedIndex = -1 Then
+				MessageBox.Show("Pilih Dahulu Filter Status GI", judulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				Cmb_Filter_Status_GI.DroppedDown = True
+				Cmb_Filter_Status_GI.Focus()
+				Exit Sub
+			End If
+		ElseIf Cmb_FilterGR.SelectedIndex <> -1 And Cmb_FilterGR.SelectedIndex <> 3 Then
 			If Txt_FilterGR.Text.Trim.Length = 0 Then
 				MessageBox.Show("Isi Value Filter Dahulu", judulForm, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 				Txt_FilterGR.Focus() : Exit Sub
@@ -1004,125 +1008,62 @@
 
 	End Sub
 
-	Private Sub BtnNext_GI_Click(sender As Object, e As EventArgs) Handles BtnNext_GI.Click
-
-		If CurrentPage < totalpage Then
-			CurrentPage += 1
-			LoadLvGI(CurrentPage)
-
-		End If
-
-		If totalpage = CurrentPage Then
-			BtnNext_GI.Enabled = False
-		Else
-			BtnNext_GI.Enabled = True
-		End If
-
-		If 1 = CurrentPage Then
-			BtnPrev_GI.Enabled = False
-		Else
-			BtnPrev_GI.Enabled = True
-		End If
+	Private Sub UpdatePaginationButtons()
+		BtnPrev_GI.Enabled = (CurrentPage > 1)
+		BtnNext_GI.Enabled = (CurrentPage < totalpage)
 	End Sub
 
-	Private Sub Btn_RefreshGR_Click(sender As Object, e As EventArgs) Handles Btn_RefreshGR.Click
-		Kosong()
+	Private Sub BtnFirst_GI_Click(sender As Object, e As EventArgs) Handles BtnFirst_GI.Click
+		CurrentPage = 1
+		LoadLvGI(CurrentPage)
+		UpdatePaginationButtons()
 	End Sub
 
 	Private Sub BtnPrev_GI_Click(sender As Object, e As EventArgs) Handles BtnPrev_GI.Click
-
 		If CurrentPage > 1 Then
 			CurrentPage -= 1
 			LoadLvGI(CurrentPage)
 		End If
-
-		If totalpage = CurrentPage Then
-			BtnNext_GI.Enabled = False
-		Else
-			BtnNext_GI.Enabled = True
-		End If
-
-		If 1 = CurrentPage Then
-			BtnPrev_GI.Enabled = False
-		Else
-			BtnPrev_GI.Enabled = True
-		End If
+		UpdatePaginationButtons()
 	End Sub
 
-	Private Sub BtnFirst_GI_Click(sender As Object, e As EventArgs) Handles BtnFirst_GI.Click
-
-		CurrentPage = 1
-		LoadLvGI(CurrentPage)
-
-		If totalpage = CurrentPage Then
-			BtnNext_GI.Enabled = False
-		Else
-			BtnNext_GI.Enabled = True
+	Private Sub BtnNext_GI_Click(sender As Object, e As EventArgs) Handles BtnNext_GI.Click
+		If CurrentPage < totalpage Then
+			CurrentPage += 1
+			LoadLvGI(CurrentPage)
 		End If
-
-		If 1 = CurrentPage Then
-			BtnPrev_GI.Enabled = False
-		Else
-			BtnPrev_GI.Enabled = True
-		End If
+		UpdatePaginationButtons()
 	End Sub
 
-	Private Sub BtnNext_GR_Click(sender As Object, e As EventArgs) Handles BtnNext_GR.Click
-
-		If CurrentPage_GR < totalpage_GR Then
-			CurrentPage_GR += 1
-			LoadGR(CurrentPage_GR)
-
-		End If
-
-		If totalpage_GR = CurrentPage_GR Then
-			BtnNext_GR.Enabled = False
-		Else
-			BtnNext_GR.Enabled = True
-		End If
-
-		If 1 = CurrentPage_GR Then
-			BtnPrev_GR.Enabled = False
-		Else
-			BtnPrev_GR.Enabled = True
-		End If
-	End Sub
-
-	Private Sub BtnPrev_GR_Click(sender As Object, e As EventArgs) Handles BtnPrev_GR.Click
-
-		If CurrentPage_GR > 1 Then
-			CurrentPage_GR -= 1
-			LoadGR(CurrentPage_GR)
-		End If
-
-		If totalpage_GR = CurrentPage_GR Then
-			BtnNext_GR.Enabled = False
-		Else
-			BtnNext_GR.Enabled = True
-		End If
-
-		If 1 = CurrentPage_GR Then
-			BtnPrev_GR.Enabled = False
-		Else
-			BtnPrev_GR.Enabled = True
-		End If
+	Private Sub UpdatePaginationButtons_GR()
+		BtnPrev_GR.Enabled = (CurrentPage_GR > 1)
+		BtnNext_GR.Enabled = (CurrentPage_GR < totalpage_GR)
 	End Sub
 
 	Private Sub BtnFirst_GR_Click(sender As Object, e As EventArgs) Handles BtnFirst_GR.Click
 		CurrentPage_GR = 1
 		LoadGR(CurrentPage_GR)
+		UpdatePaginationButtons_GR()
+	End Sub
 
-		If totalpage_GR = CurrentPage_GR Then
-			BtnNext_GR.Enabled = False
-		Else
-			BtnNext_GR.Enabled = True
+	Private Sub BtnPrev_GR_Click(sender As Object, e As EventArgs) Handles BtnPrev_GR.Click
+		If CurrentPage_GR > 1 Then
+			CurrentPage_GR -= 1
+			LoadGR(CurrentPage_GR)
 		End If
+		UpdatePaginationButtons_GR()
+	End Sub
 
-		If 1 = CurrentPage_GR Then
-			BtnPrev_GR.Enabled = False
-		Else
-			BtnPrev_GR.Enabled = True
+	Private Sub BtnNext_GR_Click(sender As Object, e As EventArgs) Handles BtnNext_GR.Click
+		If CurrentPage_GR < totalpage_GR Then
+			CurrentPage_GR += 1
+			LoadGR(CurrentPage_GR)
 		End If
+		UpdatePaginationButtons_GR()
+	End Sub
+
+	Private Sub Btn_RefreshGR_Click(sender As Object, e As EventArgs) Handles Btn_RefreshGR.Click
+		Kosong()
 	End Sub
 
 	Private Sub CancelGIToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CancelGIToolStripMenuItem.Click
@@ -1220,12 +1161,10 @@
 	'=     HANDLE UI
 	'==================================================================================================================================================================
 
-
 	Private Sub Lbl_tab1_MouseEnter(sender As Object, e As EventArgs) Handles Lbl_tab1.MouseEnter, Pnl_Tab1.MouseEnter
 		Lbl_tab1.ForeColor = Warna_Hover
 		Pnl_Tab1.BackColor = Warna_Hover
 	End Sub
-
 
 	Private Sub Lbl_tab1_MouseLeave(sender As Object, e As EventArgs) Handles Lbl_tab1.MouseLeave, Pnl_Tab1.MouseEnter
 		If CurrentTab = 0 Then
@@ -1300,8 +1239,67 @@
 
 		Cmb_FilterGR.SelectedIndex = -1 : Cmb_FilterGR.Text = ""
 		Txt_FilterGR.Text = ""
+		Txt_FilterGR.Visible = True
+
+		Cmb_Filter_Status_GI.Visible = False
 
 		BtnFirst_GR_Click(sender, e)
+	End Sub
+
+	Private Sub Cmb_FilterGR_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_FilterGR.SelectedIndexChanged
+		If Cmb_FilterGR.Items.Count = 0 Then
+			Exit Sub
+		Else
+			Txt_FilterGR.Text = ""
+			If Cmb_FilterGR.SelectedIndex = 3 Then
+				Txt_FilterGR.Visible = False
+				Cmb_Filter_Status_GI.Visible = True
+			Else
+				Txt_FilterGR.Visible = True
+				Cmb_Filter_Status_GI.Visible = False
+			End If
+		End If
+	End Sub
+
+	Private Sub EnableDoubleBuffer(lvw As ListView)
+		Dim t As Type = lvw.GetType()
+		Dim prop = t.GetProperty("DoubleBuffered", Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Instance)
+		prop.SetValue(lvw, True, Nothing)
+	End Sub
+
+	Private Sub HandleListViewHover(lvw As ListView, e As MouseEventArgs)
+		Dim hit As ListViewHitTestInfo = lvw.HitTest(e.Location)
+
+		' 1. Set Cursor
+		lvw.Cursor = If(hit.Item IsNot Nothing, Cursors.Hand, Cursors.Default)
+
+		If hit.Item IsNot lastHoverItem Then
+			lvw.BeginUpdate()
+
+			If lastHoverItem IsNot Nothing Then
+				lastHoverItem.BackColor = originalItemColor
+			End If
+
+			If hit.Item IsNot Nothing AndAlso hit.Item.Tag Is Nothing Then
+				lastHoverItem = hit.Item
+				originalItemColor = lastHoverItem.BackColor
+
+				Dim amt As Integer = 10
+				lastHoverItem.BackColor = Color.FromArgb(
+				Math.Max(0, originalItemColor.R - amt),
+				Math.Max(0, originalItemColor.G - amt),
+				Math.Max(0, originalItemColor.B - amt)
+			)
+			Else
+				lastHoverItem = Nothing
+			End If
+
+			lvw.EndUpdate()
+		End If
+	End Sub
+
+	Private Sub Lv_GI_MouseMove(sender As Object, e As MouseEventArgs) Handles Lv_GI.MouseMove, Lv_GR.MouseMove
+		HandleListViewHover(sender, e)
 	End Sub
 
 End Class

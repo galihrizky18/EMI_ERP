@@ -50,21 +50,39 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		Dim DataGridViewCellStyle24 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle27 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle28 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle29 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle30 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle31 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle32 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle29 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle30 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle33 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle34 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle38 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle39 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle35 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle36 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle37 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle38 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle39 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle40 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle41 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle42 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Dim DataGridViewCellStyle43 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle44 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle45 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle46 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle47 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle48 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle49 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle50 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle51 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle52 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle53 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle54 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle55 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle56 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle57 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle58 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle59 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle60 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle61 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Me.Panel1 = New System.Windows.Forms.Panel()
 		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Panel5 = New System.Windows.Forms.Panel()
@@ -143,6 +161,25 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		Me.Label4 = New System.Windows.Forms.Label()
 		Me.TabPage3 = New System.Windows.Forms.TabPage()
 		Me.RTBCookingStep = New System.Windows.Forms.RichTextBox()
+		Me.TabPage4 = New System.Windows.Forms.TabPage()
+		Me.LB_HPPPackaging = New System.Windows.Forms.Label()
+		Me.Label6 = New System.Windows.Forms.Label()
+		Me.TB_TotalHPPPackaging = New System.Windows.Forms.TextBox()
+		Me.DGV_HPPPackaging = New System.Windows.Forms.DataGridView()
+		Me.Column24 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Column25 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Column26 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Column27 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.TabPage5 = New System.Windows.Forms.TabPage()
+		Me.LB_HPPProduksi = New System.Windows.Forms.Label()
+		Me.Label7 = New System.Windows.Forms.Label()
+		Me.TB_TotalHPPProduksi = New System.Windows.Forms.TextBox()
+		Me.DGV_HPPProduksi = New System.Windows.Forms.DataGridView()
+		Me.Column28 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Column29 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Column30 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Column31 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Column32 = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.Lv_Moisture_Content = New System.Windows.Forms.ListView()
 		Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -166,6 +203,15 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		Me.DataGridViewTextBoxColumn20 = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.DataGridViewTextBoxColumn21 = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.DataGridViewTextBoxColumn22 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.DataGridViewTextBoxColumn23 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.DataGridViewTextBoxColumn24 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.DataGridViewTextBoxColumn25 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.DataGridViewTextBoxColumn26 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.DataGridViewTextBoxColumn27 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.DataGridViewTextBoxColumn28 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.DataGridViewTextBoxColumn29 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.DataGridViewTextBoxColumn30 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.DataGridViewTextBoxColumn31 = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.Panel1.SuspendLayout()
 		CType(Me.DgvFormulator_StepFormulator, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.TabControl1.SuspendLayout()
@@ -173,6 +219,10 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		Me.TabPage2.SuspendLayout()
 		CType(Me.Dgv_Moisture_Content, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.TabPage3.SuspendLayout()
+		Me.TabPage4.SuspendLayout()
+		CType(Me.DGV_HPPPackaging, System.ComponentModel.ISupportInitialize).BeginInit()
+		Me.TabPage5.SuspendLayout()
+		CType(Me.DGV_HPPProduksi, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.SuspendLayout()
 		'
 		'Panel1
@@ -214,12 +264,12 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		Me.LblFormulator_Judul.AutoSize = True
 		Me.LblFormulator_Judul.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.LblFormulator_Judul.Location = New System.Drawing.Point(20, 11)
+		Me.LblFormulator_Judul.Location = New System.Drawing.Point(15, 11)
 		Me.LblFormulator_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
 		Me.LblFormulator_Judul.Name = "LblFormulator_Judul"
-		Me.LblFormulator_Judul.Size = New System.Drawing.Size(339, 30)
+		Me.LblFormulator_Judul.Size = New System.Drawing.Size(356, 30)
 		Me.LblFormulator_Judul.TabIndex = 0
-		Me.LblFormulator_Judul.Text = "Transaksi Validasi HPP Formula"
+		Me.LblFormulator_Judul.Text = "Transaksi - Validasi HPP Formula"
 		'
 		'Panel2
 		'
@@ -783,7 +833,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		Me.Btn_Validasi.Location = New System.Drawing.Point(27, 590)
 		Me.Btn_Validasi.Name = "Btn_Validasi"
 		Me.Btn_Validasi.Size = New System.Drawing.Size(170, 36)
-		Me.Btn_Validasi.TabIndex = 400
+		Me.Btn_Validasi.TabIndex = 6
 		Me.Btn_Validasi.Text = "&Validasi"
 		Me.Btn_Validasi.UseVisualStyleBackColor = False
 		'
@@ -796,7 +846,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		Me.Btn_Tolak.Location = New System.Drawing.Point(201, 590)
 		Me.Btn_Tolak.Name = "Btn_Tolak"
 		Me.Btn_Tolak.Size = New System.Drawing.Size(170, 36)
-		Me.Btn_Tolak.TabIndex = 400
+		Me.Btn_Tolak.TabIndex = 7
 		Me.Btn_Tolak.Text = "&Tolak"
 		Me.Btn_Tolak.UseVisualStyleBackColor = False
 		'
@@ -824,11 +874,13 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		Me.TabControl1.Controls.Add(Me.TabPage1)
 		Me.TabControl1.Controls.Add(Me.TabPage2)
 		Me.TabControl1.Controls.Add(Me.TabPage3)
+		Me.TabControl1.Controls.Add(Me.TabPage4)
+		Me.TabControl1.Controls.Add(Me.TabPage5)
 		Me.TabControl1.Location = New System.Drawing.Point(20, 199)
 		Me.TabControl1.Name = "TabControl1"
 		Me.TabControl1.SelectedIndex = 0
 		Me.TabControl1.Size = New System.Drawing.Size(1102, 385)
-		Me.TabControl1.TabIndex = 448
+		Me.TabControl1.TabIndex = 5
 		'
 		'TabPage1
 		'
@@ -872,7 +924,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		Me.Btn_Refresh_Moisture.Location = New System.Drawing.Point(679, 8)
 		Me.Btn_Refresh_Moisture.Name = "Btn_Refresh_Moisture"
 		Me.Btn_Refresh_Moisture.Size = New System.Drawing.Size(90, 28)
-		Me.Btn_Refresh_Moisture.TabIndex = 449
+		Me.Btn_Refresh_Moisture.TabIndex = 3
 		Me.Btn_Refresh_Moisture.Text = "&Refresh"
 		Me.Btn_Refresh_Moisture.UseVisualStyleBackColor = False
 		'
@@ -885,7 +937,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		Me.Btn_Moisture_Insert.Location = New System.Drawing.Point(583, 8)
 		Me.Btn_Moisture_Insert.Name = "Btn_Moisture_Insert"
 		Me.Btn_Moisture_Insert.Size = New System.Drawing.Size(90, 28)
-		Me.Btn_Moisture_Insert.TabIndex = 449
+		Me.Btn_Moisture_Insert.TabIndex = 2
 		Me.Btn_Moisture_Insert.Text = "&Insert"
 		Me.Btn_Moisture_Insert.UseVisualStyleBackColor = False
 		'
@@ -898,7 +950,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		Me.TXt_Jenis_Analisa.MaxLength = 50
 		Me.TXt_Jenis_Analisa.Name = "TXt_Jenis_Analisa"
 		Me.TXt_Jenis_Analisa.Size = New System.Drawing.Size(346, 20)
-		Me.TXt_Jenis_Analisa.TabIndex = 449
+		Me.TXt_Jenis_Analisa.TabIndex = 1
 		'
 		'Txt_Kode_Analisa
 		'
@@ -909,7 +961,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		Me.Txt_Kode_Analisa.MaxLength = 50
 		Me.Txt_Kode_Analisa.Name = "Txt_Kode_Analisa"
 		Me.Txt_Kode_Analisa.Size = New System.Drawing.Size(118, 20)
-		Me.Txt_Kode_Analisa.TabIndex = 449
+		Me.Txt_Kode_Analisa.TabIndex = 0
 		'
 		'Dgv_Moisture_Content
 		'
@@ -1054,6 +1106,250 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		Me.RTBCookingStep.TabIndex = 0
 		Me.RTBCookingStep.Text = ""
 		'
+		'TabPage4
+		'
+		Me.TabPage4.BackColor = System.Drawing.Color.White
+		Me.TabPage4.Controls.Add(Me.LB_HPPPackaging)
+		Me.TabPage4.Controls.Add(Me.Label6)
+		Me.TabPage4.Controls.Add(Me.TB_TotalHPPPackaging)
+		Me.TabPage4.Controls.Add(Me.DGV_HPPPackaging)
+		Me.TabPage4.Location = New System.Drawing.Point(4, 25)
+		Me.TabPage4.Name = "TabPage4"
+		Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
+		Me.TabPage4.Size = New System.Drawing.Size(1094, 356)
+		Me.TabPage4.TabIndex = 3
+		Me.TabPage4.Text = "HPP Packaging"
+		'
+		'LB_HPPPackaging
+		'
+		Me.LB_HPPPackaging.AutoSize = True
+		Me.LB_HPPPackaging.Font = New System.Drawing.Font("Work Sans", 10.0!)
+		Me.LB_HPPPackaging.Location = New System.Drawing.Point(313, 60)
+		Me.LB_HPPPackaging.Name = "LB_HPPPackaging"
+		Me.LB_HPPPackaging.Size = New System.Drawing.Size(443, 20)
+		Me.LB_HPPPackaging.TabIndex = 450
+		Me.LB_HPPPackaging.Text = "Anda tidak memiliki akses untuk melihat detail HPP Packaging"
+		'
+		'Label6
+		'
+		Me.Label6.AutoSize = True
+		Me.Label6.Font = New System.Drawing.Font("Work Sans", 10.0!)
+		Me.Label6.Location = New System.Drawing.Point(792, 327)
+		Me.Label6.Name = "Label6"
+		Me.Label6.Size = New System.Drawing.Size(147, 20)
+		Me.Label6.TabIndex = 449
+		Me.Label6.Text = "Total HPP Packaging"
+		'
+		'TB_TotalHPPPackaging
+		'
+		Me.TB_TotalHPPPackaging.Location = New System.Drawing.Point(951, 326)
+		Me.TB_TotalHPPPackaging.Name = "TB_TotalHPPPackaging"
+		Me.TB_TotalHPPPackaging.ReadOnly = True
+		Me.TB_TotalHPPPackaging.Size = New System.Drawing.Size(134, 20)
+		Me.TB_TotalHPPPackaging.TabIndex = 448
+		Me.TB_TotalHPPPackaging.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+		'
+		'DGV_HPPPackaging
+		'
+		Me.DGV_HPPPackaging.AllowUserToAddRows = False
+		Me.DGV_HPPPackaging.AllowUserToResizeColumns = False
+		Me.DGV_HPPPackaging.AllowUserToResizeRows = False
+		DataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DGV_HPPPackaging.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle27
+		Me.DGV_HPPPackaging.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
+		Me.DGV_HPPPackaging.BackgroundColor = System.Drawing.Color.White
+		Me.DGV_HPPPackaging.BorderStyle = System.Windows.Forms.BorderStyle.None
+		DataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		DataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Control
+		DataGridViewCellStyle28.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		DataGridViewCellStyle28.ForeColor = System.Drawing.SystemColors.WindowText
+		DataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle28.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DGV_HPPPackaging.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle28
+		Me.DGV_HPPPackaging.ColumnHeadersHeight = 45
+		Me.DGV_HPPPackaging.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column24, Me.Column25, Me.Column26, Me.Column27})
+		DataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle31.BackColor = System.Drawing.SystemColors.Window
+		DataGridViewCellStyle31.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		DataGridViewCellStyle31.ForeColor = System.Drawing.SystemColors.ControlText
+		DataGridViewCellStyle31.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle31.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle31.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DGV_HPPPackaging.DefaultCellStyle = DataGridViewCellStyle31
+		Me.DGV_HPPPackaging.Dock = System.Windows.Forms.DockStyle.Top
+		Me.DGV_HPPPackaging.Location = New System.Drawing.Point(3, 3)
+		Me.DGV_HPPPackaging.MultiSelect = False
+		Me.DGV_HPPPackaging.Name = "DGV_HPPPackaging"
+		Me.DGV_HPPPackaging.RowHeadersWidth = 21
+		DataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DGV_HPPPackaging.RowsDefaultCellStyle = DataGridViewCellStyle32
+		Me.DGV_HPPPackaging.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
+		Me.DGV_HPPPackaging.Size = New System.Drawing.Size(1088, 314)
+		Me.DGV_HPPPackaging.TabIndex = 6
+		'
+		'Column24
+		'
+		Me.Column24.HeaderText = "Kode Bahan"
+		Me.Column24.MinimumWidth = 100
+		Me.Column24.Name = "Column24"
+		Me.Column24.ReadOnly = True
+		'
+		'Column25
+		'
+		Me.Column25.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+		Me.Column25.HeaderText = "Nama Bahan"
+		Me.Column25.MinimumWidth = 200
+		Me.Column25.Name = "Column25"
+		Me.Column25.ReadOnly = True
+		'
+		'Column26
+		'
+		DataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		DataGridViewCellStyle29.Format = "N0"
+		Me.Column26.DefaultCellStyle = DataGridViewCellStyle29
+		Me.Column26.HeaderText = "Jumlah"
+		Me.Column26.MinimumWidth = 100
+		Me.Column26.Name = "Column26"
+		Me.Column26.ReadOnly = True
+		'
+		'Column27
+		'
+		DataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		DataGridViewCellStyle30.Format = "N0"
+		Me.Column27.DefaultCellStyle = DataGridViewCellStyle30
+		Me.Column27.HeaderText = "HPP Packaging"
+		Me.Column27.MinimumWidth = 150
+		Me.Column27.Name = "Column27"
+		Me.Column27.ReadOnly = True
+		Me.Column27.Width = 150
+		'
+		'TabPage5
+		'
+		Me.TabPage5.BackColor = System.Drawing.Color.White
+		Me.TabPage5.Controls.Add(Me.LB_HPPProduksi)
+		Me.TabPage5.Controls.Add(Me.Label7)
+		Me.TabPage5.Controls.Add(Me.TB_TotalHPPProduksi)
+		Me.TabPage5.Controls.Add(Me.DGV_HPPProduksi)
+		Me.TabPage5.Location = New System.Drawing.Point(4, 25)
+		Me.TabPage5.Name = "TabPage5"
+		Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
+		Me.TabPage5.Size = New System.Drawing.Size(1094, 356)
+		Me.TabPage5.TabIndex = 4
+		Me.TabPage5.Text = "HPP Produksi"
+		'
+		'LB_HPPProduksi
+		'
+		Me.LB_HPPProduksi.AutoSize = True
+		Me.LB_HPPProduksi.Font = New System.Drawing.Font("Work Sans", 10.0!)
+		Me.LB_HPPProduksi.Location = New System.Drawing.Point(321, 60)
+		Me.LB_HPPProduksi.Name = "LB_HPPProduksi"
+		Me.LB_HPPProduksi.Size = New System.Drawing.Size(435, 20)
+		Me.LB_HPPProduksi.TabIndex = 452
+		Me.LB_HPPProduksi.Text = "Anda tidak memiliki akses untuk melihat detail HPP Produksi"
+		'
+		'Label7
+		'
+		Me.Label7.AutoSize = True
+		Me.Label7.Font = New System.Drawing.Font("Work Sans", 10.0!)
+		Me.Label7.Location = New System.Drawing.Point(797, 327)
+		Me.Label7.Name = "Label7"
+		Me.Label7.Size = New System.Drawing.Size(139, 20)
+		Me.Label7.TabIndex = 451
+		Me.Label7.Text = "Total HPP Produksi"
+		'
+		'TB_TotalHPPProduksi
+		'
+		Me.TB_TotalHPPProduksi.Location = New System.Drawing.Point(951, 326)
+		Me.TB_TotalHPPProduksi.Name = "TB_TotalHPPProduksi"
+		Me.TB_TotalHPPProduksi.ReadOnly = True
+		Me.TB_TotalHPPProduksi.Size = New System.Drawing.Size(134, 20)
+		Me.TB_TotalHPPProduksi.TabIndex = 450
+		Me.TB_TotalHPPProduksi.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+		'
+		'DGV_HPPProduksi
+		'
+		Me.DGV_HPPProduksi.AllowUserToAddRows = False
+		Me.DGV_HPPProduksi.AllowUserToResizeColumns = False
+		Me.DGV_HPPProduksi.AllowUserToResizeRows = False
+		DataGridViewCellStyle33.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DGV_HPPProduksi.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle33
+		Me.DGV_HPPProduksi.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
+		Me.DGV_HPPProduksi.BackgroundColor = System.Drawing.Color.White
+		Me.DGV_HPPProduksi.BorderStyle = System.Windows.Forms.BorderStyle.None
+		DataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		DataGridViewCellStyle34.BackColor = System.Drawing.SystemColors.Control
+		DataGridViewCellStyle34.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		DataGridViewCellStyle34.ForeColor = System.Drawing.SystemColors.WindowText
+		DataGridViewCellStyle34.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle34.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle34.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DGV_HPPProduksi.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle34
+		Me.DGV_HPPProduksi.ColumnHeadersHeight = 45
+		Me.DGV_HPPProduksi.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column28, Me.Column29, Me.Column30, Me.Column31, Me.Column32})
+		DataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle38.BackColor = System.Drawing.SystemColors.Window
+		DataGridViewCellStyle38.Font = New System.Drawing.Font("Work Sans", 8.0!)
+		DataGridViewCellStyle38.ForeColor = System.Drawing.SystemColors.ControlText
+		DataGridViewCellStyle38.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle38.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle38.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DGV_HPPProduksi.DefaultCellStyle = DataGridViewCellStyle38
+		Me.DGV_HPPProduksi.Dock = System.Windows.Forms.DockStyle.Top
+		Me.DGV_HPPProduksi.Location = New System.Drawing.Point(3, 3)
+		Me.DGV_HPPProduksi.MultiSelect = False
+		Me.DGV_HPPProduksi.Name = "DGV_HPPProduksi"
+		Me.DGV_HPPProduksi.RowHeadersWidth = 21
+		DataGridViewCellStyle39.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DGV_HPPProduksi.RowsDefaultCellStyle = DataGridViewCellStyle39
+		Me.DGV_HPPProduksi.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
+		Me.DGV_HPPProduksi.Size = New System.Drawing.Size(1088, 314)
+		Me.DGV_HPPProduksi.TabIndex = 6
+		'
+		'Column28
+		'
+		Me.Column28.HeaderText = "Jenis Biaya Produksi"
+		Me.Column28.MinimumWidth = 150
+		Me.Column28.Name = "Column28"
+		Me.Column28.ReadOnly = True
+		Me.Column28.Width = 150
+		'
+		'Column29
+		'
+		Me.Column29.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+		Me.Column29.HeaderText = "Work Center"
+		Me.Column29.Name = "Column29"
+		Me.Column29.ReadOnly = True
+		'
+		'Column30
+		'
+		DataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		DataGridViewCellStyle35.Format = "N0"
+		Me.Column30.DefaultCellStyle = DataGridViewCellStyle35
+		Me.Column30.HeaderText = "Nilai Per Kg"
+		Me.Column30.Name = "Column30"
+		Me.Column30.ReadOnly = True
+		'
+		'Column31
+		'
+		DataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		DataGridViewCellStyle36.Format = "N0"
+		Me.Column31.DefaultCellStyle = DataGridViewCellStyle36
+		Me.Column31.HeaderText = "Berat"
+		Me.Column31.Name = "Column31"
+		Me.Column31.ReadOnly = True
+		'
+		'Column32
+		'
+		DataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		DataGridViewCellStyle37.Format = "N0"
+		Me.Column32.DefaultCellStyle = DataGridViewCellStyle37
+		Me.Column32.HeaderText = "HPP Produksi"
+		Me.Column32.MinimumWidth = 150
+		Me.Column32.Name = "Column32"
+		Me.Column32.ReadOnly = True
+		Me.Column32.Width = 150
+		'
 		'Lv_Moisture_Content
 		'
 		Me.Lv_Moisture_Content.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1069,8 +1365,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn1
 		'
-		DataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle27
+		DataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle40
 		Me.DataGridViewTextBoxColumn1.HeaderText = "No"
 		Me.DataGridViewTextBoxColumn1.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
@@ -1080,8 +1376,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn2
 		'
-		DataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle28
+		DataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle41
 		Me.DataGridViewTextBoxColumn2.HeaderText = "Kode Barang"
 		Me.DataGridViewTextBoxColumn2.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
@@ -1091,9 +1387,9 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn3
 		'
-		DataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		DataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle29
+		DataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle42.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle42
 		Me.DataGridViewTextBoxColumn3.HeaderText = "Nama"
 		Me.DataGridViewTextBoxColumn3.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
@@ -1103,9 +1399,9 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn4
 		'
-		DataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		DataGridViewCellStyle30.NullValue = Nothing
-		Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle30
+		DataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		DataGridViewCellStyle43.NullValue = Nothing
+		Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle43
 		Me.DataGridViewTextBoxColumn4.HeaderText = "Kuantity"
 		Me.DataGridViewTextBoxColumn4.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
@@ -1115,8 +1411,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn5
 		'
-		DataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.DataGridViewTextBoxColumn5.DefaultCellStyle = DataGridViewCellStyle31
+		DataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.DataGridViewTextBoxColumn5.DefaultCellStyle = DataGridViewCellStyle44
 		Me.DataGridViewTextBoxColumn5.HeaderText = "Satuan"
 		Me.DataGridViewTextBoxColumn5.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn5.Name = "DataGridViewTextBoxColumn5"
@@ -1126,8 +1422,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn6
 		'
-		DataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.DataGridViewTextBoxColumn6.DefaultCellStyle = DataGridViewCellStyle32
+		DataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.DataGridViewTextBoxColumn6.DefaultCellStyle = DataGridViewCellStyle45
 		Me.DataGridViewTextBoxColumn6.HeaderText = "Nilai Pengali"
 		Me.DataGridViewTextBoxColumn6.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn6.Name = "DataGridViewTextBoxColumn6"
@@ -1137,8 +1433,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn7
 		'
-		DataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.DataGridViewTextBoxColumn7.DefaultCellStyle = DataGridViewCellStyle33
+		DataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.DataGridViewTextBoxColumn7.DefaultCellStyle = DataGridViewCellStyle46
 		Me.DataGridViewTextBoxColumn7.HeaderText = "Satuan barang"
 		Me.DataGridViewTextBoxColumn7.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn7.Name = "DataGridViewTextBoxColumn7"
@@ -1148,8 +1444,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn8
 		'
-		DataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.DataGridViewTextBoxColumn8.DefaultCellStyle = DataGridViewCellStyle34
+		DataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.DataGridViewTextBoxColumn8.DefaultCellStyle = DataGridViewCellStyle47
 		Me.DataGridViewTextBoxColumn8.HeaderText = "Niali Satuan Barang"
 		Me.DataGridViewTextBoxColumn8.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn8.Name = "DataGridViewTextBoxColumn8"
@@ -1159,8 +1455,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn9
 		'
-		DataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.DataGridViewTextBoxColumn9.DefaultCellStyle = DataGridViewCellStyle35
+		DataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.DataGridViewTextBoxColumn9.DefaultCellStyle = DataGridViewCellStyle48
 		Me.DataGridViewTextBoxColumn9.HeaderText = "Persentase"
 		Me.DataGridViewTextBoxColumn9.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn9.Name = "DataGridViewTextBoxColumn9"
@@ -1170,8 +1466,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn10
 		'
-		DataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.DataGridViewTextBoxColumn10.DefaultCellStyle = DataGridViewCellStyle36
+		DataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.DataGridViewTextBoxColumn10.DefaultCellStyle = DataGridViewCellStyle49
 		Me.DataGridViewTextBoxColumn10.HeaderText = "Keterangan"
 		Me.DataGridViewTextBoxColumn10.MinimumWidth = 6
 		Me.DataGridViewTextBoxColumn10.Name = "DataGridViewTextBoxColumn10"
@@ -1200,8 +1496,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn13
 		'
-		DataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.DataGridViewTextBoxColumn13.DefaultCellStyle = DataGridViewCellStyle37
+		DataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.DataGridViewTextBoxColumn13.DefaultCellStyle = DataGridViewCellStyle50
 		Me.DataGridViewTextBoxColumn13.HeaderText = "Est. HPP"
 		Me.DataGridViewTextBoxColumn13.Name = "DataGridViewTextBoxColumn13"
 		Me.DataGridViewTextBoxColumn13.ReadOnly = True
@@ -1209,8 +1505,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn14
 		'
-		DataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.DataGridViewTextBoxColumn14.DefaultCellStyle = DataGridViewCellStyle38
+		DataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.DataGridViewTextBoxColumn14.DefaultCellStyle = DataGridViewCellStyle51
 		Me.DataGridViewTextBoxColumn14.HeaderText = "Est. Hpp Pcs"
 		Me.DataGridViewTextBoxColumn14.Name = "DataGridViewTextBoxColumn14"
 		Me.DataGridViewTextBoxColumn14.ReadOnly = True
@@ -1225,8 +1521,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn16
 		'
-		DataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.DataGridViewTextBoxColumn16.DefaultCellStyle = DataGridViewCellStyle39
+		DataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.DataGridViewTextBoxColumn16.DefaultCellStyle = DataGridViewCellStyle52
 		Me.DataGridViewTextBoxColumn16.HeaderText = "Kode Analisa"
 		Me.DataGridViewTextBoxColumn16.Name = "DataGridViewTextBoxColumn16"
 		Me.DataGridViewTextBoxColumn16.ReadOnly = True
@@ -1234,8 +1530,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn17
 		'
-		DataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.DataGridViewTextBoxColumn17.DefaultCellStyle = DataGridViewCellStyle40
+		DataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.DataGridViewTextBoxColumn17.DefaultCellStyle = DataGridViewCellStyle53
 		Me.DataGridViewTextBoxColumn17.HeaderText = "Jenis Analisa"
 		Me.DataGridViewTextBoxColumn17.Name = "DataGridViewTextBoxColumn17"
 		Me.DataGridViewTextBoxColumn17.ReadOnly = True
@@ -1257,8 +1553,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn20
 		'
-		DataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.DataGridViewTextBoxColumn20.DefaultCellStyle = DataGridViewCellStyle41
+		DataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.DataGridViewTextBoxColumn20.DefaultCellStyle = DataGridViewCellStyle54
 		Me.DataGridViewTextBoxColumn20.HeaderText = "Value 1"
 		Me.DataGridViewTextBoxColumn20.Name = "DataGridViewTextBoxColumn20"
 		Me.DataGridViewTextBoxColumn20.ReadOnly = True
@@ -1266,8 +1562,8 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn21
 		'
-		DataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.DataGridViewTextBoxColumn21.DefaultCellStyle = DataGridViewCellStyle42
+		DataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.DataGridViewTextBoxColumn21.DefaultCellStyle = DataGridViewCellStyle55
 		Me.DataGridViewTextBoxColumn21.HeaderText = "Value 2"
 		Me.DataGridViewTextBoxColumn21.Name = "DataGridViewTextBoxColumn21"
 		Me.DataGridViewTextBoxColumn21.ReadOnly = True
@@ -1275,12 +1571,92 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		'
 		'DataGridViewTextBoxColumn22
 		'
-		DataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.DataGridViewTextBoxColumn22.DefaultCellStyle = DataGridViewCellStyle43
+		DataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.DataGridViewTextBoxColumn22.DefaultCellStyle = DataGridViewCellStyle56
 		Me.DataGridViewTextBoxColumn22.HeaderText = "Range Akhir"
 		Me.DataGridViewTextBoxColumn22.Name = "DataGridViewTextBoxColumn22"
 		Me.DataGridViewTextBoxColumn22.ReadOnly = True
 		Me.DataGridViewTextBoxColumn22.Width = 165
+		'
+		'DataGridViewTextBoxColumn23
+		'
+		Me.DataGridViewTextBoxColumn23.HeaderText = "Kode Bahan"
+		Me.DataGridViewTextBoxColumn23.MinimumWidth = 100
+		Me.DataGridViewTextBoxColumn23.Name = "DataGridViewTextBoxColumn23"
+		Me.DataGridViewTextBoxColumn23.ReadOnly = True
+		'
+		'DataGridViewTextBoxColumn24
+		'
+		Me.DataGridViewTextBoxColumn24.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+		Me.DataGridViewTextBoxColumn24.HeaderText = "Nama Bahan"
+		Me.DataGridViewTextBoxColumn24.MinimumWidth = 200
+		Me.DataGridViewTextBoxColumn24.Name = "DataGridViewTextBoxColumn24"
+		Me.DataGridViewTextBoxColumn24.ReadOnly = True
+		'
+		'DataGridViewTextBoxColumn25
+		'
+		DataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		DataGridViewCellStyle57.Format = "N0"
+		Me.DataGridViewTextBoxColumn25.DefaultCellStyle = DataGridViewCellStyle57
+		Me.DataGridViewTextBoxColumn25.HeaderText = "Jumlah"
+		Me.DataGridViewTextBoxColumn25.MinimumWidth = 100
+		Me.DataGridViewTextBoxColumn25.Name = "DataGridViewTextBoxColumn25"
+		Me.DataGridViewTextBoxColumn25.ReadOnly = True
+		'
+		'DataGridViewTextBoxColumn26
+		'
+		DataGridViewCellStyle58.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		DataGridViewCellStyle58.Format = "N0"
+		Me.DataGridViewTextBoxColumn26.DefaultCellStyle = DataGridViewCellStyle58
+		Me.DataGridViewTextBoxColumn26.HeaderText = "HPP Packaging"
+		Me.DataGridViewTextBoxColumn26.MinimumWidth = 150
+		Me.DataGridViewTextBoxColumn26.Name = "DataGridViewTextBoxColumn26"
+		Me.DataGridViewTextBoxColumn26.ReadOnly = True
+		Me.DataGridViewTextBoxColumn26.Width = 150
+		'
+		'DataGridViewTextBoxColumn27
+		'
+		Me.DataGridViewTextBoxColumn27.HeaderText = "Jenis Biaya Produksi"
+		Me.DataGridViewTextBoxColumn27.MinimumWidth = 150
+		Me.DataGridViewTextBoxColumn27.Name = "DataGridViewTextBoxColumn27"
+		Me.DataGridViewTextBoxColumn27.ReadOnly = True
+		Me.DataGridViewTextBoxColumn27.Width = 150
+		'
+		'DataGridViewTextBoxColumn28
+		'
+		Me.DataGridViewTextBoxColumn28.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+		Me.DataGridViewTextBoxColumn28.HeaderText = "Work Center"
+		Me.DataGridViewTextBoxColumn28.Name = "DataGridViewTextBoxColumn28"
+		Me.DataGridViewTextBoxColumn28.ReadOnly = True
+		'
+		'DataGridViewTextBoxColumn29
+		'
+		DataGridViewCellStyle59.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		DataGridViewCellStyle59.Format = "N0"
+		Me.DataGridViewTextBoxColumn29.DefaultCellStyle = DataGridViewCellStyle59
+		Me.DataGridViewTextBoxColumn29.HeaderText = "Nilai Per Kg"
+		Me.DataGridViewTextBoxColumn29.Name = "DataGridViewTextBoxColumn29"
+		Me.DataGridViewTextBoxColumn29.ReadOnly = True
+		'
+		'DataGridViewTextBoxColumn30
+		'
+		DataGridViewCellStyle60.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		DataGridViewCellStyle60.Format = "N0"
+		Me.DataGridViewTextBoxColumn30.DefaultCellStyle = DataGridViewCellStyle60
+		Me.DataGridViewTextBoxColumn30.HeaderText = "Berat"
+		Me.DataGridViewTextBoxColumn30.Name = "DataGridViewTextBoxColumn30"
+		Me.DataGridViewTextBoxColumn30.ReadOnly = True
+		'
+		'DataGridViewTextBoxColumn31
+		'
+		DataGridViewCellStyle61.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		DataGridViewCellStyle61.Format = "N0"
+		Me.DataGridViewTextBoxColumn31.DefaultCellStyle = DataGridViewCellStyle61
+		Me.DataGridViewTextBoxColumn31.HeaderText = "HPP Produksi"
+		Me.DataGridViewTextBoxColumn31.MinimumWidth = 150
+		Me.DataGridViewTextBoxColumn31.Name = "DataGridViewTextBoxColumn31"
+		Me.DataGridViewTextBoxColumn31.ReadOnly = True
+		Me.DataGridViewTextBoxColumn31.Width = 150
 		'
 		'N_EMI_SD_Transaksi_Validasi_Formula
 		'
@@ -1337,6 +1713,12 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 		Me.TabPage2.PerformLayout()
 		CType(Me.Dgv_Moisture_Content, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.TabPage3.ResumeLayout(False)
+		Me.TabPage4.ResumeLayout(False)
+		Me.TabPage4.PerformLayout()
+		CType(Me.DGV_HPPPackaging, System.ComponentModel.ISupportInitialize).EndInit()
+		Me.TabPage5.ResumeLayout(False)
+		Me.TabPage5.PerformLayout()
+		CType(Me.DGV_HPPProduksi, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.ResumeLayout(False)
 		Me.PerformLayout()
 
@@ -1443,4 +1825,32 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Formula
 	Friend WithEvents TabPage3 As TabPage
 	Friend WithEvents RTBCookingStep As RichTextBox
     Friend WithEvents DataGridViewTextBoxColumn22 As DataGridViewTextBoxColumn
+    Friend WithEvents TabPage4 As TabPage
+    Friend WithEvents TabPage5 As TabPage
+    Friend WithEvents DGV_HPPPackaging As DataGridView
+    Friend WithEvents DGV_HPPProduksi As DataGridView
+    Friend WithEvents Column24 As DataGridViewTextBoxColumn
+    Friend WithEvents Column25 As DataGridViewTextBoxColumn
+    Friend WithEvents Column26 As DataGridViewTextBoxColumn
+    Friend WithEvents Column27 As DataGridViewTextBoxColumn
+    Friend WithEvents Label6 As Label
+    Friend WithEvents TB_TotalHPPPackaging As TextBox
+    Friend WithEvents Column28 As DataGridViewTextBoxColumn
+    Friend WithEvents Column29 As DataGridViewTextBoxColumn
+    Friend WithEvents Column30 As DataGridViewTextBoxColumn
+    Friend WithEvents Column31 As DataGridViewTextBoxColumn
+    Friend WithEvents Column32 As DataGridViewTextBoxColumn
+    Friend WithEvents Label7 As Label
+    Friend WithEvents TB_TotalHPPProduksi As TextBox
+    Friend WithEvents LB_HPPPackaging As Label
+    Friend WithEvents LB_HPPProduksi As Label
+    Friend WithEvents DataGridViewTextBoxColumn23 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn24 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn25 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn26 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn27 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn28 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn29 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn30 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn31 As DataGridViewTextBoxColumn
 End Class

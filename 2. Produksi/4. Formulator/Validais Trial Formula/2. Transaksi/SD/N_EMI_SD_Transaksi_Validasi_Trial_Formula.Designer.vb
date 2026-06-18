@@ -42,8 +42,11 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Trial_Formula
         Me.Btn_Simpan = New System.Windows.Forms.Button()
         Me.Btn_Refresh = New System.Windows.Forms.Button()
         Me.Panel6 = New System.Windows.Forms.Panel()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.TB_Keterangan = New System.Windows.Forms.RichTextBox()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -85,12 +88,12 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Trial_Formula
         '
         Me.LblFormulator_Judul.AutoSize = True
         Me.LblFormulator_Judul.Font = New System.Drawing.Font("Work Sans SemiBold", 15.0!, System.Drawing.FontStyle.Bold)
-        Me.LblFormulator_Judul.Location = New System.Drawing.Point(15, 11)
+        Me.LblFormulator_Judul.Location = New System.Drawing.Point(15, 10)
         Me.LblFormulator_Judul.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.LblFormulator_Judul.Name = "LblFormulator_Judul"
-        Me.LblFormulator_Judul.Size = New System.Drawing.Size(303, 29)
+        Me.LblFormulator_Judul.Size = New System.Drawing.Size(390, 29)
         Me.LblFormulator_Judul.TabIndex = 0
-        Me.LblFormulator_Judul.Text = "Validasi Trial Formula Kitchen"
+        Me.LblFormulator_Judul.Text = "Validasi Laporan Formula Trial Kitchen"
         '
         'Panel3
         '
@@ -105,10 +108,10 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Trial_Formula
         'Panel2
         '
         Me.Panel2.BackColor = System.Drawing.Color.Red
-        Me.Panel2.Location = New System.Drawing.Point(4, 50)
+        Me.Panel2.Location = New System.Drawing.Point(0, 50)
         Me.Panel2.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(1142, 12)
+        Me.Panel2.Size = New System.Drawing.Size(569, 12)
         Me.Panel2.TabIndex = 35
         Me.Panel2.Visible = False
         '
@@ -218,21 +221,22 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Trial_Formula
         '
         Me.TBDeskripsi.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
         Me.TBDeskripsi.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TBDeskripsi.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TBDeskripsi.Font = New System.Drawing.Font("Work Sans", 8.0!)
-        Me.TBDeskripsi.Location = New System.Drawing.Point(6, 21)
-        Me.TBDeskripsi.MaxLength = 50
+        Me.TBDeskripsi.Location = New System.Drawing.Point(3, 18)
+        Me.TBDeskripsi.MaxLength = 100
         Me.TBDeskripsi.Multiline = True
         Me.TBDeskripsi.Name = "TBDeskripsi"
-        Me.TBDeskripsi.Size = New System.Drawing.Size(504, 67)
+        Me.TBDeskripsi.Size = New System.Drawing.Size(510, 73)
         Me.TBDeskripsi.TabIndex = 378
         '
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.Red
-        Me.Panel4.Location = New System.Drawing.Point(539, 68)
+        Me.Panel4.Location = New System.Drawing.Point(539, 61)
         Me.Panel4.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(19, 574)
+        Me.Panel4.Size = New System.Drawing.Size(19, 412)
         Me.Panel4.TabIndex = 24
         Me.Panel4.Visible = False
         '
@@ -242,7 +246,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Trial_Formula
         Me.Btn_Simpan.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_Simpan.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(22, 250)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(22, 410)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(170, 36)
         Me.Btn_Simpan.TabIndex = 401
@@ -255,7 +259,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Trial_Formula
         Me.Btn_Refresh.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(198, 250)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(198, 410)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(141, 36)
         Me.Btn_Refresh.TabIndex = 402
@@ -265,19 +269,43 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Trial_Formula
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.Red
-        Me.Panel6.Location = New System.Drawing.Point(21, 288)
+        Me.Panel6.Location = New System.Drawing.Point(19, 446)
         Me.Panel6.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(1142, 15)
         Me.Panel6.TabIndex = 35
         Me.Panel6.Visible = False
         '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.TB_Keterangan)
+        Me.GroupBox2.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.GroupBox2.Location = New System.Drawing.Point(22, 250)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(516, 154)
+        Me.GroupBox2.TabIndex = 418
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Keterangan"
+        '
+        'TB_Keterangan
+        '
+        Me.TB_Keterangan.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
+        Me.TB_Keterangan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TB_Keterangan.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TB_Keterangan.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_Keterangan.Location = New System.Drawing.Point(3, 18)
+        Me.TB_Keterangan.Name = "TB_Keterangan"
+        Me.TB_Keterangan.Size = New System.Drawing.Size(510, 133)
+        Me.TB_Keterangan.TabIndex = 0
+        Me.TB_Keterangan.Text = ""
+        '
         'N_EMI_SD_Transaksi_Validasi_Trial_Formula
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(558, 303)
+        Me.ClientSize = New System.Drawing.Size(558, 461)
+        Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.Btn_Refresh)
         Me.Controls.Add(Me.Btn_Simpan)
         Me.Controls.Add(Me.GroupBox1)
@@ -304,6 +332,7 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Trial_Formula
         Me.Panel1.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -329,4 +358,6 @@ Partial Class N_EMI_SD_Transaksi_Validasi_Trial_Formula
 	Friend WithEvents Btn_Refresh As Button
 	Friend WithEvents Panel6 As Panel
     Friend WithEvents TBDeskripsi As TextBox
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents TB_Keterangan As RichTextBox
 End Class

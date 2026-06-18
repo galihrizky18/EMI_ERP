@@ -1,10 +1,33 @@
 ﻿Public Class N_EMI_Laporan_Transaksi_Waste
 
-	Dim ArrJenisBarang, ArrJenis, ArrJenisTransaksi As New ArrayList
+	Dim ArrJenisBarang, ArrJenisTransaksi As New ArrayList
 
 	Dim Switch_Auto_Complete As Boolean = False
 
 	Dim arrIndexRekap As New ArrayList From {0, 2}
+
+	Dim ArrFilterJenis As New List(Of (JenisLaporan As String, ValueCombobox As String, JenisSql As String)) From {
+		("PEMUSNAHAN_PRODUCTION", "Good Received 1", "Good Received 1"),
+		("PEMUSNAHAN_PRODUCTION", "Sampel", "Waste Sampel"),
+		("PEMUSNAHAN_WASTE_STORAGE", "Pemindahan Waste", "Pemindahan Waste"),
+		("PEMINDAHAN", "Good Received 2", "Good Received 2"),
+		("PEMINDAHAN", "Good Received 3", "Good Received 3"),
+		("PEMINDAHAN", "Packaging Waste", "Packaging Waste")
+	}
+
+	Dim ArrFilterStatusTransaksi As New List(Of (JenisLaporan As String, ValueCombobox As String, Sql As String)) From {
+		(OpsiSeluruh, OpsiSeluruh, OpsiSeluruh),
+		("PEMUSNAHAN_PRODUCTION", "Status Approval", "isCompleted"),
+		("PEMUSNAHAN_PRODUCTION", "Status Accounting", "Status_Validasi_Acc"),
+		("PEMINDAHAN", "Status Approval", "Good isCompleted 2"),
+		("PEMINDAHAN", "Status GA", "Status_Validasi_GA")
+	}
+
+	Dim ArrFilterValueStatusTransaksi As New List(Of (ValueCombobox As String, Sql As String)) From {
+		(OpsiSeluruh, OpsiSeluruh),
+		("Sudah Validasi", "Sudah Validasi"),
+		("Belum Validasi", "Belum Validasi")
+	}
 
 	Dim IsRekap As Boolean = False
 
@@ -22,7 +45,7 @@
 		Lv_Split.Columns.Add("No PO", 150, HorizontalAlignment.Left)
 		Lv_Split.Columns.Add("Tanggal", 130, HorizontalAlignment.Center)
 		Lv_Split.Columns.Add("Jam", 110, HorizontalAlignment.Center)
-		Lv_Split.Columns.Add("Keterangan", 250, HorizontalAlignment.Center)
+		Lv_Split.Columns.Add("Keterangan", 278, HorizontalAlignment.Center)
 		Lv_Split.View = View.Details
 
 		Lv_Barang.Columns.Clear()
@@ -35,12 +58,8 @@
 		Cmb_Jenis_Barang.Items.Add("Barang") : ArrJenisBarang.Add("Kode_Barang")
 		'Cmb_Jenis_Barang.Items.Add("Barang Awal") : ArrJenisBarang.Add("Kode_Barang_Awal")
 
-		Cmb_Jenis.Items.Clear() : ArrJenis.Clear()
-		Cmb_Jenis.Items.Add(OpsiSeluruh) : ArrJenis.Add(OpsiSeluruh)
-		Cmb_Jenis.Items.Add("Good Received 1") : ArrJenis.Add("Good Received 1")
-		Cmb_Jenis.Items.Add("Good Received 2") : ArrJenis.Add("Good Received 2")
-		Cmb_Jenis.Items.Add("Packaging Waste") : ArrJenis.Add("Packaging Waste")
-		Cmb_Jenis.Items.Add("Pemindahan Waste") : ArrJenis.Add("Pemindahan Waste")
+		Cmb_Jenis.Items.Clear()
+		Cmb_Jenis.Items.Add(OpsiSeluruh)
 
 		Cmb_Jenis_Transaksi.Items.Clear() : ArrJenisTransaksi.Clear()
 		Cmb_Jenis_Transaksi.Items.Add(OpsiSeluruh) : ArrJenisTransaksi.Add(OpsiSeluruh)
@@ -53,7 +72,20 @@
 		Cmb_Jenis_Laporan.Items.Add("Pemindahan Waste Rekap")
 		Cmb_Jenis_Laporan.Items.Add("Pemindahan Waste")
 
+		Cmb_Lokasi_Asal_Pemusnahan.Items.Clear()
+		Cmb_Lokasi_Asal_Pemusnahan.Items.Add(OpsiSeluruh)
+		Cmb_Lokasi_Asal_Pemusnahan.Items.Add("Production")
+		Cmb_Lokasi_Asal_Pemusnahan.Items.Add("Waste Storage")
+
+		Cmb_Status_Transaksi.Items.Add(OpsiSeluruh)
+
+		Cmb_Value_Status_Transaksi.Items.Clear()
+		For Each item In ArrFilterValueStatusTransaksi
+			Cmb_Value_Status_Transaksi.Items.Add(item.ValueCombobox)
+		Next
+
 		Kosong()
+
 	End Sub
 
 	Private Sub Kosong()
@@ -68,12 +100,17 @@
 		Cmb_Jenis_Barang.SelectedIndex = 0
 		Cmb_Jenis_Transaksi.SelectedIndex = 0
 		Cmb_Jenis_Laporan.SelectedIndex = 0
+		Cmb_Lokasi_Asal_Pemusnahan.SelectedIndex = 0
 		Switch_Auto_Complete = False
 
 		Txt_Kd_Barang.Enabled = False
 		Txt_Nm_Barang.Enabled = False
 
-		Rd_Status_Seluruh.Checked = True
+		Cmb_Status_Transaksi.Enabled = False
+		Cmb_Value_Status_Transaksi.Enabled = False
+
+		Cmb_Status_Transaksi.SelectedIndex = 0
+		Cmb_Value_Status_Transaksi.SelectedIndex = 0
 
 		ResetEnabledComponents()
 		If arrIndexRekap.Contains(Cmb_Jenis_Laporan.SelectedIndex) Then
@@ -82,7 +119,7 @@
 			HandleSelectedDetail()
 		End If
 
-		Me.Size = New Size(808, 380)
+		Me.Size = New Size(808, 407)
 		Tgl1.Focus()
 	End Sub
 
@@ -119,14 +156,14 @@
 		If Switch_Auto_Complete Then Exit Sub
 
 		If Txt_No_Transaksi.Text.Trim.Length = 0 Then
-			Me.Size = New Size(808, 380)
+			Me.Size = New Size(808, 407)
 			Lv_Transaksi.Visible = False
-			Lv_Transaksi.Location = New Point(800, 224)
+			Lv_Transaksi.Location = New Point(800, 251)
 			Txt_No_Transaksi.Text = ""
 			Exit Sub
 		Else
-			Me.Size = New Size(808, 490)
-			Lv_Transaksi.Location = New Point(150, 224)
+			Me.Size = New Size(808, 513)
+			Lv_Transaksi.Location = New Point(150, 251)
 			Lv_Transaksi.Visible = True
 		End If
 
@@ -411,9 +448,9 @@
 						Txt_No_Transaksi.Focus()
 					End If
 
-					Me.Size = New Size(808, 345)
+					Me.Size = New Size(808, 407)
 					Lv_Transaksi.Visible = False
-					Lv_Transaksi.Location = New Point(800, 224)
+					Lv_Transaksi.Location = New Point(800, 251)
 				End Using
 			Else
 				Txt_No_Split.Focus()
@@ -431,15 +468,15 @@
 		If Switch_Auto_Complete Then Exit Sub
 
 		If Txt_No_Split.Text.Trim.Length = 0 Then
-			Me.Size = New Size(808, 380)
+			Me.Size = New Size(808, 407)
 			Lv_Split.Visible = False
-			Lv_Split.Location = New Point(800, 250)
+			Lv_Split.Location = New Point(800, 278)
 			Txt_No_Split.Text = ""
 			Txt_Keterangan_Split.Text = ""
 			Exit Sub
 		Else
-			Me.Size = New Size(808, 512)
-			Lv_Split.Location = New Point(150, 250)
+			Me.Size = New Size(808, 544)
+			Lv_Split.Location = New Point(150, 278)
 			Lv_Split.Visible = True
 		End If
 
@@ -507,9 +544,9 @@
 						Txt_No_Split.Focus()
 					End If
 
-					Me.Size = New Size(808, 345)
+					Me.Size = New Size(808, 407)
 					Lv_Split.Visible = False
-					Lv_Split.Location = New Point(800, 250)
+					Lv_Split.Location = New Point(800, 278)
 				End Using
 			Else
 				Cmb_Jenis_Barang.DroppedDown = True
@@ -548,15 +585,15 @@
 		If Switch_Auto_Complete Then Exit Sub
 
 		If Txt_Kd_Barang.Text.Trim.Length = 0 Then
-			Me.Size = New Size(808, 380)
+			Me.Size = New Size(808, 407)
 			Lv_Barang.Visible = False
-			Lv_Barang.Location = New Point(800, 280)
+			Lv_Barang.Location = New Point(800, 306)
 			Txt_Kd_Barang.Text = ""
 			Txt_Nm_Barang.Text = ""
 			Exit Sub
 		Else
-			Me.Size = New Size(808, 547)
-			Lv_Barang.Location = New Point(150, 280)
+			Me.Size = New Size(808, 567)
+			Lv_Barang.Location = New Point(150, 306)
 			Lv_Barang.Visible = True
 		End If
 
@@ -613,9 +650,9 @@
 						Txt_Kd_Barang.Focus()
 					End If
 
-					Me.Size = New Size(808, 345)
+					Me.Size = New Size(808, 407)
 					Lv_Barang.Visible = False
-					Lv_Barang.Location = New Point(800, 280)
+					Lv_Barang.Location = New Point(800, 306)
 				End Using
 			Else
 				BtnCetak.Focus()
@@ -633,15 +670,15 @@
 		If Switch_Auto_Complete Then Exit Sub
 
 		If Txt_Nm_Barang.Text.Trim.Length = 0 Then
-			Me.Size = New Size(808, 380)
+			Me.Size = New Size(808, 407)
 			Lv_Barang.Visible = False
-			Lv_Barang.Location = New Point(800, 280)
+			Lv_Barang.Location = New Point(800, 306)
 			Txt_Kd_Barang.Text = ""
 			Txt_Nm_Barang.Text = ""
 			Exit Sub
 		Else
-			Me.Size = New Size(808, 547)
-			Lv_Barang.Location = New Point(150, 280)
+			Me.Size = New Size(808, 567)
+			Lv_Barang.Location = New Point(150, 306)
 			Lv_Barang.Visible = True
 		End If
 
@@ -685,9 +722,9 @@
 		Txt_No_Transaksi.Text = NoFaktur
 		Switch_Auto_Complete = False
 
-		Me.Size = New Size(808, 380)
+		Me.Size = New Size(808, 407)
 		Lv_Transaksi.Visible = False
-		Lv_Transaksi.Location = New Point(800, 224)
+		Lv_Transaksi.Location = New Point(800, 251)
 
 		Txt_No_Split.Focus()
 	End Sub
@@ -709,9 +746,9 @@
 		Txt_Keterangan_Split.Text = Ket
 		Switch_Auto_Complete = False
 
-		Me.Size = New Size(808, 380)
+		Me.Size = New Size(808, 407)
 		Lv_Split.Visible = False
-		Lv_Split.Location = New Point(800, 250)
+		Lv_Split.Location = New Point(800, 278)
 
 		Cmb_Jenis_Barang.DroppedDown = True
 		Cmb_Jenis_Barang.Focus()
@@ -734,9 +771,9 @@
 		Txt_Nm_Barang.Text = Ket
 		Switch_Auto_Complete = False
 
-		Me.Size = New Size(808, 380)
+		Me.Size = New Size(808, 407)
 		Lv_Barang.Visible = False
-		Lv_Barang.Location = New Point(800, 280)
+		Lv_Barang.Location = New Point(800, 306)
 
 		BtnCetak.Focus()
 	End Sub
@@ -795,16 +832,9 @@
 
 				'End If
 
-				If Not Rd_Status_Seluruh.Checked Then
-
-					If Rd_Status_Validasi.Checked Then
-						SQL = SQL & "and isCompleted = '" & Rd_Status_Validasi.Tag.ToString.Trim & "' "
-						SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Process_Rekap.isCompleted} = '" & Rd_Status_Validasi.Tag.ToString.Trim & "'"
-					ElseIf Rd_Status_Belum_Validasi.Checked Then
-						SQL = SQL & "and isCompleted = '" & Rd_Status_Belum_Validasi.Tag.ToString.Trim & "' "
-						SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Process_Rekap.isCompleted} = '" & Rd_Status_Belum_Validasi.Tag.ToString.Trim & "'"
-					End If
-
+				If Cmb_Status_Transaksi.SelectedIndex > 0 And Cmb_Value_Status_Transaksi.SelectedIndex > 0 Then
+					SQL = SQL & "and " & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & " = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql & "' "
+					SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Process_Rekap." & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & "} = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql.Trim & "'"
 				End If
 
 				If Not Txt_No_Transaksi.Text.ToUpper.Trim = OpsiSeluruh.ToUpper.Trim Then
@@ -864,22 +894,9 @@
 				SF = SF & "and {N_EMI_View_Laporan_Transaksi_Waste_Process.Tanggal} >= #" & Format(Tgl1.Value, "yyyy-MM-dd") & "# and "
 				SF = SF & "{N_EMI_View_Laporan_Transaksi_Waste_Process.Tanggal} <= #" & Format(Tgl2.Value, "yyyy-MM-dd") & "# "
 
-				If Cmb_Jenis.SelectedIndex <> 0 Then
-					SQL = SQL & "and jenis = '" & ArrJenis(Cmb_Jenis.SelectedIndex) & "' "
-					SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Process.jenis} = '" & ArrJenis(Cmb_Jenis.SelectedIndex) & "'"
-
-				End If
-
-				If Not Rd_Status_Seluruh.Checked Then
-
-					If Rd_Status_Validasi.Checked Then
-						SQL = SQL & "and isCompleted = '" & Rd_Status_Validasi.Tag.ToString.Trim & "' "
-						SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Process.isCompleted} = '" & Rd_Status_Validasi.Tag.ToString.Trim & "'"
-					ElseIf Rd_Status_Belum_Validasi.Checked Then
-						SQL = SQL & "and isCompleted = '" & Rd_Status_Belum_Validasi.Tag.ToString.Trim & "' "
-						SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Process.isCompleted} = '" & Rd_Status_Belum_Validasi.Tag.ToString.Trim & "'"
-					End If
-
+				If Cmb_Status_Transaksi.SelectedIndex > 0 And Cmb_Value_Status_Transaksi.SelectedIndex > 0 Then
+					SQL = SQL & "and " & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & " = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql & "' "
+					SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Process." & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & "} = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql.Trim & "'"
 				End If
 
 				If Not Txt_No_Transaksi.Text.ToUpper.Trim = OpsiSeluruh.ToUpper.Trim Then
@@ -899,6 +916,28 @@
 						SQL = SQL & "and " & Kolom & " = '" & Txt_Kd_Barang.Text & "' "
 						SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Process." & Kolom & "} = '" & Txt_Kd_Barang.Text & "'"
 					End If
+				End If
+
+				If Cmb_Lokasi_Asal_Pemusnahan.SelectedIndex <> 0 Then
+
+					If Cmb_Lokasi_Asal_Pemusnahan.SelectedIndex = 2 Then
+						Dim Kolom As String = "Jenis"
+						SQL = SQL & "and " & Kolom & " = 'Pemindahan Waste' "
+						SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Process." & Kolom & "} = 'Pemindahan Waste'"
+					Else
+						Dim Kolom As String = "Jenis"
+						SQL = SQL & "and " & Kolom & " <> 'Pemindahan Waste' "
+						SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Process." & Kolom & "} <> 'Pemindahan Waste'"
+					End If
+
+					If Cmb_Jenis.SelectedIndex <> 0 Then
+						Dim value As String = ArrFilterJenis.FirstOrDefault(Function(x) x.ValueCombobox.Trim = Cmb_Jenis.Text.Trim).JenisSql
+
+						SQL = SQL & "and jenis = '" & value & "' "
+						SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Process.jenis} = '" & value & "'"
+
+					End If
+
 				End If
 
 				Using DS = BindingTrans(SQL)
@@ -946,16 +985,9 @@
 
 				'End If
 
-				If Not Rd_Status_Seluruh.Checked Then
-
-					If Rd_Status_Validasi.Checked Then
-						SQL = SQL & "and isCompleted = '" & Rd_Status_Validasi.Tag.ToString.Trim & "' "
-						SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Product_Transfer_Rekap.isCompleted} = '" & Rd_Status_Validasi.Tag.ToString.Trim & "'"
-					ElseIf Rd_Status_Belum_Validasi.Checked Then
-						SQL = SQL & "and isCompleted = '" & Rd_Status_Belum_Validasi.Tag.ToString.Trim & "' "
-						SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Product_Transfer_Rekap.isCompleted} = '" & Rd_Status_Belum_Validasi.Tag.ToString.Trim & "'"
-					End If
-
+				If Cmb_Status_Transaksi.SelectedIndex > 0 And Cmb_Value_Status_Transaksi.SelectedIndex > 0 Then
+					SQL = SQL & "and " & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & " = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql & "' "
+					SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Product_Transfer_Rekap." & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & "} = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql.Trim & "'"
 				End If
 
 				If Not Txt_No_Transaksi.Text.ToUpper.Trim = OpsiSeluruh.ToUpper.Trim Then
@@ -1017,21 +1049,17 @@
 				SF = SF & "{N_EMI_View_Laporan_Transaksi_Waste_Product_Transfer.Tanggal} <= #" & Format(Tgl2.Value, "yyyy-MM-dd") & "# "
 
 				If Cmb_Jenis.SelectedIndex <> 0 Then
-					SQL = SQL & "and jenis = '" & ArrJenis(Cmb_Jenis.SelectedIndex) & "' "
-					SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Product_Transfer.jenis} = '" & ArrJenis(Cmb_Jenis.SelectedIndex) & "'"
+
+					Dim value As String = ArrFilterJenis.FirstOrDefault(Function(x) x.ValueCombobox.Trim = Cmb_Jenis.Text.Trim).JenisSql
+
+					SQL = SQL & "and jenis = '" & value & "' "
+					SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Product_Transfer.jenis} = '" & value & "'"
 
 				End If
 
-				If Not Rd_Status_Seluruh.Checked Then
-
-					If Rd_Status_Validasi.Checked Then
-						SQL = SQL & "and isCompleted = '" & Rd_Status_Validasi.Tag.ToString.Trim & "' "
-						SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Product_Transfer.isCompleted} = '" & Rd_Status_Validasi.Tag.ToString.Trim & "'"
-					ElseIf Rd_Status_Belum_Validasi.Checked Then
-						SQL = SQL & "and isCompleted = '" & Rd_Status_Belum_Validasi.Tag.ToString.Trim & "' "
-						SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Product_Transfer.isCompleted} = '" & Rd_Status_Belum_Validasi.Tag.ToString.Trim & "'"
-					End If
-
+				If Cmb_Status_Transaksi.SelectedIndex > 0 And Cmb_Value_Status_Transaksi.SelectedIndex > 0 Then
+					SQL = SQL & "and " & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & " = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql & "' "
+					SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Product_Transfer." & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & "} = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql.Trim & "'"
 				End If
 
 				If Not Txt_No_Transaksi.Text.ToUpper.Trim = OpsiSeluruh.ToUpper.Trim Then
@@ -1105,8 +1133,15 @@
 
 	Private Sub Tgl2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tgl2.KeyPress
 		If e.KeyChar = Chr(13) Then
-			Cmb_Jenis_Laporan.DroppedDown = True
-			Cmb_Jenis_Laporan.Focus()
+			Cmb_Jenis.DroppedDown = True
+			Cmb_Jenis.Focus()
+		End If
+	End Sub
+
+	Private Sub Cmb_Lokasi_Asal_Pemusnahan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Lokasi_Asal_Pemusnahan.KeyPress
+		If e.KeyChar = Chr(13) Then
+			Cmb_Jenis_Transaksi.DroppedDown = True
+			Cmb_Jenis_Transaksi.Focus()
 		End If
 	End Sub
 
@@ -1124,15 +1159,13 @@
 				Switch_Auto_Complete = True
 				Txt_No_Transaksi.Text = ""
 				Switch_Auto_Complete = False
-				Cmb_Jenis_Barang.DroppedDown = True
-				Cmb_Jenis_Barang.Focus()
 			Else
 				Txt_No_Transaksi.Enabled = True
 				Switch_Auto_Complete = True
 				Txt_No_Transaksi.Text = ""
-				Switch_Auto_Complete = False
-				Txt_No_Transaksi.Focus()
 			End If
+			Switch_Auto_Complete = False
+			Txt_No_Transaksi.Focus()
 		Else
 			Txt_No_Transaksi.Enabled = False
 			Switch_Auto_Complete = True
@@ -1146,9 +1179,9 @@
 			If Txt_No_Transaksi.Text.Trim.Length = 0 Then Txt_No_Transaksi.Focus()
 			Txt_No_Transaksi_Leave(Txt_No_Transaksi, e)
 
-			Me.Size = New Size(808, 380)
+			Me.Size = New Size(808, 407)
 			Lv_Transaksi.Visible = False
-			Lv_Transaksi.Location = New Point(800, 224)
+			Lv_Transaksi.Location = New Point(800, 251)
 
 			'Txt_KdKategori.Focus()
 		End If
@@ -1163,9 +1196,9 @@
 			If Txt_No_Split.Text.Trim.Length = 0 Then Txt_No_Split.Focus()
 			Txt_No_Split_Leave(Txt_No_Split, e)
 
-			Me.Size = New Size(808, 380)
+			Me.Size = New Size(808, 407)
 			Lv_Split.Visible = False
-			Lv_Split.Location = New Point(800, 250)
+			Lv_Split.Location = New Point(800, 278)
 
 			'Txt_KdKategori.Focus()
 		End If
@@ -1180,9 +1213,9 @@
 			If Txt_Kd_Barang.Text.Trim.Length = 0 Then Txt_Kd_Barang.Focus()
 			Txt_Kd_Barang_Leave(Txt_Kd_Barang, e)
 
-			Me.Size = New Size(808, 380)
+			Me.Size = New Size(808, 407)
 			Lv_Barang.Visible = False
-			Lv_Barang.Location = New Point(800, 280)
+			Lv_Barang.Location = New Point(800, 306)
 
 			'Txt_KdKategori.Focus()
 		End If
@@ -1197,9 +1230,9 @@
 			If Txt_Nm_Barang.Text.Trim.Length = 0 Then Txt_Nm_Barang.Focus()
 			Txt_Kd_Barang_Leave(Txt_Nm_Barang, e)
 
-			Me.Size = New Size(808, 380)
+			Me.Size = New Size(808, 407)
 			Lv_Barang.Visible = False
-			Lv_Barang.Location = New Point(800, 280)
+			Lv_Barang.Location = New Point(800, 306)
 
 			'Txt_KdKategori.Focus()
 		End If
@@ -1211,38 +1244,72 @@
 
 	Private Sub Cmb_Jenis_Laporan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Jenis_Laporan.KeyPress
 		If e.KeyChar = Chr(13) Then
-			Rd_Status_Seluruh.Focus()
+			Cmb_Status_Transaksi.DroppedDown = True
+			Cmb_Status_Transaksi.Focus()
 		End If
 	End Sub
 
-	Private Sub Rd_Status_Validasi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Rd_Status_Validasi.KeyPress
+	Private Sub Rd_Status_Seluruh_KeyPress(sender As Object, e As KeyPressEventArgs)
 		If e.KeyChar = Chr(13) Then
-			Cmb_Jenis.DroppedDown = True
-			Cmb_Jenis.Focus()
-		End If
-	End Sub
+			Cmb_Lokasi_Asal_Pemusnahan.SelectedIndex = 0
 
-	Private Sub Rd_Status_Belum_Validasi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Rd_Status_Belum_Validasi.KeyPress
-		If e.KeyChar = Chr(13) Then
-			Cmb_Jenis.DroppedDown = True
-			Cmb_Jenis.Focus()
-		End If
-	End Sub
-
-	Private Sub Rd_Status_Seluruh_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Rd_Status_Seluruh.KeyPress
-		If e.KeyChar = Chr(13) Then
 			If IsRekap Then
+				Cmb_Jenis.Enabled = False
 				Cmb_Jenis_Transaksi.DroppedDown = True
 				Cmb_Jenis_Transaksi.Focus()
 			Else
-				Cmb_Jenis.DroppedDown = True
-				Cmb_Jenis.Focus()
+				If Cmb_Jenis_Laporan.SelectedIndex = 1 Then
+					Cmb_Lokasi_Asal_Pemusnahan.Enabled = True
+					Cmb_Lokasi_Asal_Pemusnahan.DroppedDown = True
+					Cmb_Lokasi_Asal_Pemusnahan.Focus()
+				Else
+					Cmb_Lokasi_Asal_Pemusnahan.Enabled = False
+					Cmb_Jenis.Enabled = True
+					Cmb_Jenis.DroppedDown = True
+					Cmb_Jenis.Focus()
+				End If
 			End If
+
 		End If
 	End Sub
 
 	Private Sub Cmb_Jenis_Laporan_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Jenis_Laporan.SelectedIndexChanged
 		If Cmb_Jenis_Laporan.Items.Count = 0 Or Cmb_Jenis_Laporan.SelectedIndex = -1 Then Exit Sub
+
+		Cmb_Lokasi_Asal_Pemusnahan.SelectedIndex = 0
+		Cmb_Jenis.Items.Clear()
+		Cmb_Jenis.Items.Add(OpsiSeluruh)
+
+		If Cmb_Jenis_Laporan.SelectedIndex = 1 Then
+			Cmb_Lokasi_Asal_Pemusnahan.Enabled = True
+
+		ElseIf Cmb_Jenis_Laporan.SelectedIndex = 3 Then
+			Cmb_Lokasi_Asal_Pemusnahan.Enabled = False
+
+			For Each item In ArrFilterJenis.FindAll(Function(x) x.JenisLaporan = "PEMINDAHAN").Select(Of String)(Function(x) x.ValueCombobox).ToList
+				Cmb_Jenis.Items.Add(item)
+			Next
+		Else
+			Cmb_Lokasi_Asal_Pemusnahan.Enabled = False
+
+		End If
+
+		Cmb_Status_Transaksi.Items.Clear()
+		Cmb_Status_Transaksi.Items.Add(OpsiSeluruh)
+		If Cmb_Jenis_Laporan.SelectedIndex <= 1 Then
+			For Each item In ArrFilterStatusTransaksi.FindAll(Function(x) x.JenisLaporan = "PEMUSNAHAN_PRODUCTION").Select(Of String)(Function(x) x.ValueCombobox).ToList
+				Cmb_Status_Transaksi.Items.Add(item)
+			Next
+		Else
+			For Each item In ArrFilterStatusTransaksi.FindAll(Function(x) x.JenisLaporan = "PEMINDAHAN").Select(Of String)(Function(x) x.ValueCombobox).ToList
+				Cmb_Status_Transaksi.Items.Add(item)
+			Next
+		End If
+
+		Cmb_Status_Transaksi.Enabled = True
+		Cmb_Status_Transaksi.SelectedIndex = 0
+
+		Cmb_Jenis.SelectedIndex = 0
 
 		If arrIndexRekap.Contains(Cmb_Jenis_Laporan.SelectedIndex) Then
 			HandleSelectedRekap()
@@ -1257,7 +1324,6 @@
 	'================================================================================================================================================
 	Private Sub HandleSelectedRekap()
 
-		Cmb_Jenis.SelectedIndex = 0
 		Cmb_Jenis_Transaksi.SelectedIndex = 0
 		Cmb_Jenis_Barang.SelectedIndex = 0
 
@@ -1283,7 +1349,7 @@
 	End Sub
 
 	Private Sub HandleSelectedDetail()
-		Cmb_Jenis.SelectedIndex = 0
+
 		Cmb_Jenis_Transaksi.SelectedIndex = 0
 		Cmb_Jenis_Barang.SelectedIndex = 0
 
@@ -1305,6 +1371,42 @@
 		Txt_Nm_Barang.Enabled = False
 
 		IsRekap = False
+
+	End Sub
+
+	Private Sub Cmb_Lokasi_Asal_Pemusnahan_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Lokasi_Asal_Pemusnahan.SelectedIndexChanged
+		If Cmb_Lokasi_Asal_Pemusnahan.Items.Count = 0 Then Exit Sub
+
+		Cmb_Jenis.Items.Clear()
+		Cmb_Jenis.Items.Add(OpsiSeluruh)
+		If Cmb_Lokasi_Asal_Pemusnahan.SelectedIndex = 1 Then
+			For Each item In ArrFilterJenis.FindAll(Function(x) x.JenisLaporan = "PEMUSNAHAN_PRODUCTION").Select(Of String)(Function(x) x.ValueCombobox).ToList
+				Cmb_Jenis.Items.Add(item)
+			Next
+		ElseIf Cmb_Lokasi_Asal_Pemusnahan.SelectedIndex = 2 Then
+			For Each item In ArrFilterJenis.FindAll(Function(x) x.JenisLaporan = "PEMUSNAHAN_WASTE_STORAGE").Select(Of String)(Function(x) x.ValueCombobox).ToList
+				Cmb_Jenis.Items.Add(item)
+			Next
+		End If
+		Cmb_Jenis.SelectedIndex = 0
+	End Sub
+
+	Private Sub Cmb_Status_Transaksi_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Status_Transaksi.SelectedIndexChanged
+		If Cmb_Status_Transaksi.Items.Count = 0 Then Exit Sub
+
+		If Cmb_Status_Transaksi.SelectedIndex = 0 Then
+			Cmb_Value_Status_Transaksi.Enabled = False
+		Else
+			Cmb_Value_Status_Transaksi.Enabled = True
+		End If
+		Cmb_Value_Status_Transaksi.SelectedIndex = 0
+
+	End Sub
+
+	Private Sub Cmb_Value_Status_Transaksi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Value_Status_Transaksi.KeyPress
+		If e.KeyChar = Chr(13) Then
+			Cmb_Lokasi_Asal_Pemusnahan.Focus()
+		End If
 	End Sub
 
 	'================================================================================================================================================

@@ -70,6 +70,7 @@ Partial Class EMI_Controlling_Produksi
 		Me.Pnl_Tab1 = New System.Windows.Forms.Panel()
 		Me.Lbl_tab1 = New System.Windows.Forms.Label()
 		Me.Panel_GR = New System.Windows.Forms.Panel()
+		Me.Cmb_Filter_Status_GI = New System.Windows.Forms.ComboBox()
 		Me.Txt_Pages_2 = New System.Windows.Forms.TextBox()
 		Me.Panel_GI = New System.Windows.Forms.Panel()
 		Me.Txt_Pages_1 = New System.Windows.Forms.TextBox()
@@ -101,17 +102,17 @@ Partial Class EMI_Controlling_Produksi
 		Me.Panel1.Location = New System.Drawing.Point(0, 0)
 		Me.Panel1.Margin = New System.Windows.Forms.Padding(5)
 		Me.Panel1.Name = "Panel1"
-		Me.Panel1.Size = New System.Drawing.Size(1186, 50)
+		Me.Panel1.Size = New System.Drawing.Size(1184, 50)
 		Me.Panel1.TabIndex = 25
 		'
 		'Lbl_Judul
 		'
 		Me.Lbl_Judul.AutoSize = True
-		Me.Lbl_Judul.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Bold)
+		Me.Lbl_Judul.Font = New System.Drawing.Font("Work Sans SemiBold", 15.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.Lbl_Judul.Location = New System.Drawing.Point(15, 12)
 		Me.Lbl_Judul.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
 		Me.Lbl_Judul.Name = "Lbl_Judul"
-		Me.Lbl_Judul.Size = New System.Drawing.Size(316, 25)
+		Me.Lbl_Judul.Size = New System.Drawing.Size(328, 29)
 		Me.Lbl_Judul.TabIndex = 0
 		Me.Lbl_Judul.Text = "Display - Production Controlling"
 		'
@@ -459,7 +460,7 @@ Partial Class EMI_Controlling_Produksi
 		Me.Btn_RefreshGR.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Btn_RefreshGR.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
 		Me.Btn_RefreshGR.ForeColor = System.Drawing.Color.White
-		Me.Btn_RefreshGR.Location = New System.Drawing.Point(597, 9)
+		Me.Btn_RefreshGR.Location = New System.Drawing.Point(597, 10)
 		Me.Btn_RefreshGR.Name = "Btn_RefreshGR"
 		Me.Btn_RefreshGR.Size = New System.Drawing.Size(102, 30)
 		Me.Btn_RefreshGR.TabIndex = 373
@@ -472,7 +473,7 @@ Partial Class EMI_Controlling_Produksi
 		Me.Btn_CariGR.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Btn_CariGR.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
 		Me.Btn_CariGR.ForeColor = System.Drawing.Color.White
-		Me.Btn_CariGR.Location = New System.Drawing.Point(513, 9)
+		Me.Btn_CariGR.Location = New System.Drawing.Point(513, 10)
 		Me.Btn_CariGR.Name = "Btn_CariGR"
 		Me.Btn_CariGR.Size = New System.Drawing.Size(80, 30)
 		Me.Btn_CariGR.TabIndex = 373
@@ -484,7 +485,7 @@ Partial Class EMI_Controlling_Produksi
 		Me.Txt_FilterGR.BackColor = System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer))
 		Me.Txt_FilterGR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.Txt_FilterGR.Font = New System.Drawing.Font("Work Sans", 9.0!)
-		Me.Txt_FilterGR.Location = New System.Drawing.Point(206, 13)
+		Me.Txt_FilterGR.Location = New System.Drawing.Point(206, 14)
 		Me.Txt_FilterGR.MaxLength = 50
 		Me.Txt_FilterGR.Name = "Txt_FilterGR"
 		Me.Txt_FilterGR.Size = New System.Drawing.Size(304, 22)
@@ -496,7 +497,7 @@ Partial Class EMI_Controlling_Produksi
 		Me.Button4.Cursor = System.Windows.Forms.Cursors.Hand
 		Me.Button4.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
 		Me.Button4.ForeColor = System.Drawing.Color.White
-		Me.Button4.Location = New System.Drawing.Point(745, 8)
+		Me.Button4.Location = New System.Drawing.Point(745, 9)
 		Me.Button4.Name = "Button4"
 		Me.Button4.Size = New System.Drawing.Size(102, 30)
 		Me.Button4.TabIndex = 417
@@ -575,6 +576,7 @@ Partial Class EMI_Controlling_Produksi
 		'
 		'Panel_GR
 		'
+		Me.Panel_GR.Controls.Add(Me.Cmb_Filter_Status_GI)
 		Me.Panel_GR.Controls.Add(Me.Txt_Pages_2)
 		Me.Panel_GR.Controls.Add(Me.GroupBox2)
 		Me.Panel_GR.Controls.Add(Me.Lv_GR)
@@ -587,6 +589,17 @@ Partial Class EMI_Controlling_Produksi
 		Me.Panel_GR.Name = "Panel_GR"
 		Me.Panel_GR.Size = New System.Drawing.Size(1159, 529)
 		Me.Panel_GR.TabIndex = 420
+		'
+		'Cmb_Filter_Status_GI
+		'
+		Me.Cmb_Filter_Status_GI.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Cmb_Filter_Status_GI.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.Cmb_Filter_Status_GI.FormattingEnabled = True
+		Me.Cmb_Filter_Status_GI.Location = New System.Drawing.Point(207, 500)
+		Me.Cmb_Filter_Status_GI.Name = "Cmb_Filter_Status_GI"
+		Me.Cmb_Filter_Status_GI.Size = New System.Drawing.Size(303, 26)
+		Me.Cmb_Filter_Status_GI.TabIndex = 517
+		Me.Cmb_Filter_Status_GI.Visible = False
 		'
 		'Txt_Pages_2
 		'
@@ -725,7 +738,7 @@ Partial Class EMI_Controlling_Produksi
 		Me.PanelGradient1.Location = New System.Drawing.Point(0, 48)
 		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
 		Me.PanelGradient1.Name = "PanelGradient1"
-		Me.PanelGradient1.Size = New System.Drawing.Size(1186, 2)
+		Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
 		Me.PanelGradient1.TabIndex = 22
 		'
 		'EMI_Controlling_Produksi
@@ -733,7 +746,7 @@ Partial Class EMI_Controlling_Produksi
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.White
-		Me.ClientSize = New System.Drawing.Size(1186, 631)
+		Me.ClientSize = New System.Drawing.Size(1184, 631)
 		Me.Controls.Add(Me.Label7)
 		Me.Controls.Add(Me.Pnl_Tab2)
 		Me.Controls.Add(Me.Lbl_tab2)
@@ -754,6 +767,7 @@ Partial Class EMI_Controlling_Produksi
 		Me.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
 		Me.Margin = New System.Windows.Forms.Padding(4)
+		Me.MaximizeBox = False
 		Me.Name = "EMI_Controlling_Produksi"
 		Me.Panel1.ResumeLayout(False)
 		Me.Panel1.PerformLayout()
@@ -836,4 +850,5 @@ Partial Class EMI_Controlling_Produksi
     Friend WithEvents Cmb_Filter As ComboBox
     Friend WithEvents Txt_Pages_1 As TextBox
     Friend WithEvents Txt_Pages_2 As TextBox
+	Friend WithEvents Cmb_Filter_Status_GI As ComboBox
 End Class

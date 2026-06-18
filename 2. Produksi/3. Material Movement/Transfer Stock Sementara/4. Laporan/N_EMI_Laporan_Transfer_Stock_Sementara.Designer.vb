@@ -62,7 +62,7 @@ Partial Class N_EMI_Laporan_Transfer_Stock_Sementara
 		Me.Panel1.Location = New System.Drawing.Point(0, 0)
 		Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
 		Me.Panel1.Name = "Panel1"
-		Me.Panel1.Size = New System.Drawing.Size(633, 45)
+		Me.Panel1.Size = New System.Drawing.Size(631, 45)
 		Me.Panel1.TabIndex = 90
 		'
 		'PanelGradient1
@@ -75,7 +75,7 @@ Partial Class N_EMI_Laporan_Transfer_Stock_Sementara
 		Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
 		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
 		Me.PanelGradient1.Name = "PanelGradient1"
-		Me.PanelGradient1.Size = New System.Drawing.Size(633, 2)
+		Me.PanelGradient1.Size = New System.Drawing.Size(631, 2)
 		Me.PanelGradient1.TabIndex = 22
 		'
 		'Label11
@@ -335,7 +335,7 @@ Partial Class N_EMI_Laporan_Transfer_Stock_Sementara
 		Me.Lv_Barang.FullRowSelect = True
 		Me.Lv_Barang.GridLines = True
 		Me.Lv_Barang.HideSelection = False
-		Me.Lv_Barang.Location = New System.Drawing.Point(688, 191)
+		Me.Lv_Barang.Location = New System.Drawing.Point(638, 191)
 		Me.Lv_Barang.Name = "Lv_Barang"
 		Me.Lv_Barang.Size = New System.Drawing.Size(486, 200)
 		Me.Lv_Barang.TabIndex = 96
@@ -348,7 +348,7 @@ Partial Class N_EMI_Laporan_Transfer_Stock_Sementara
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.White
-		Me.ClientSize = New System.Drawing.Size(633, 287)
+		Me.ClientSize = New System.Drawing.Size(631, 303)
 		Me.Controls.Add(Me.Lv_Barang)
 		Me.Controls.Add(Me.Lv_NoFaktur)
 		Me.Controls.Add(Me.Panel2)

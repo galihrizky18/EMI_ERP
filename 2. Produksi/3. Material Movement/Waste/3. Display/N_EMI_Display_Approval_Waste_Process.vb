@@ -1,5 +1,8 @@
 ﻿Public Class N_EMI_Display_Approval_Waste_Process
 
+	Private lastHoverItem As ListViewItem = Nothing
+	Private originalItemColor As Color
+
 	Dim arrFilterLokasiGudang, arrFilterTanggal, arrFilterParamLain As New ArrayList
 	Dim arrFilterTanggal_2, arrFilterParamLain_2 As New ArrayList
 
@@ -47,6 +50,15 @@
 		My.Application.ChangeCulture("en-us")
 		My.Application.ChangeUICulture("en-us")
 
+		EnableDoubleBuffer(Lv_Product_Data)
+		EnableDoubleBuffer(Lv_Product_User_Approve)
+		EnableDoubleBuffer(Lv_Product_Detail_Barang)
+		EnableDoubleBuffer(Lv_Product_Detail_Barcode)
+		EnableDoubleBuffer(Lv_Process_Data)
+		EnableDoubleBuffer(Lv_Process_User_Approve)
+		EnableDoubleBuffer(Lv_Process_Detail_Barang)
+		EnableDoubleBuffer(Lv_Process_Detail_Barcode)
+
 #Region "HANDLE ADD HANDLER"
 
 		AddHandler Lv_Process_Data.MouseMove, AddressOf ListView_MouseMove
@@ -86,6 +98,7 @@
 		Lv_Process_User_Approve.Columns.Add("Jam Approve", 100, HorizontalAlignment.Center)
 		Lv_Process_User_Approve.Columns.Add("id_user", 0, HorizontalAlignment.Left)
 		Lv_Process_User_Approve.Columns.Add("Jabatan", 150, HorizontalAlignment.Left)
+		Lv_Process_User_Approve.Columns.Add("Keterangan Approval", 250, HorizontalAlignment.Left)
 		Lv_Process_User_Approve.View = View.Details
 
 		Lv_Process_User_Approve.Columns(6).DisplayIndex = 3
@@ -106,6 +119,8 @@
 		Lv_Process_Detail_Barcode.Columns.Add("Barcode Tujuan", 180, HorizontalAlignment.Left)
 		Lv_Process_Detail_Barcode.Columns.Add("Jumlah", 130, HorizontalAlignment.Right)
 		Lv_Process_Detail_Barcode.Columns.Add("Satuan", 80, HorizontalAlignment.Center)
+		Lv_Process_Detail_Barcode.Columns.Add("Status", 100, HorizontalAlignment.Center).DisplayIndex = 2
+		Lv_Process_Detail_Barcode.Columns.Add("No Split", 130, HorizontalAlignment.Left).DisplayIndex = 3
 		Lv_Process_Detail_Barcode.View = View.Details
 
 #End Region
@@ -131,6 +146,7 @@
 		Lv_Product_User_Approve.Columns.Add("Jam Approve", 100, HorizontalAlignment.Center)
 		Lv_Product_User_Approve.Columns.Add("id_user", 0, HorizontalAlignment.Left)
 		Lv_Product_User_Approve.Columns.Add("Jabatan", 150, HorizontalAlignment.Left)
+		Lv_Product_User_Approve.Columns.Add("Keterangan Approval", 250, HorizontalAlignment.Left)
 		Lv_Product_User_Approve.View = View.Details
 
 		Lv_Product_User_Approve.Columns(6).DisplayIndex = 3
@@ -150,6 +166,8 @@
 		Lv_Product_Detail_Barcode.Columns.Add("Barcode Tujuan", 180, HorizontalAlignment.Left)
 		Lv_Product_Detail_Barcode.Columns.Add("Jumlah", 130, HorizontalAlignment.Right)
 		Lv_Product_Detail_Barcode.Columns.Add("Satuan", 80, HorizontalAlignment.Center)
+		Lv_Product_Detail_Barcode.Columns.Add("Status", 100, HorizontalAlignment.Center).DisplayIndex = 1
+		Lv_Product_Detail_Barcode.Columns.Add("No Split", 130, HorizontalAlignment.Left).DisplayIndex = 2
 		Lv_Product_Detail_Barcode.View = View.Details
 
 #End Region
@@ -186,6 +204,25 @@
 			Cmb_Param_Lain2.Items.Add("Lokasi") : arrFilterParamLain_2.Add("a.Lokasi")
 			Cmb_Param_Lain2.Items.Add("Kode Stock Owner") : arrFilterParamLain_2.Add("a.Kode_Stock_Owner")
 			Cmb_Param_Lain2.Items.Add("User Input") : arrFilterParamLain_2.Add("a.UserID")
+
+			Cmb2_Gudang.Items.Clear() : Cmb_Gudang.Items.Clear()
+			SQL = $"
+				select a.Kode_Stock_Owner, a.Jenis
+				from N_EMI_Role_Akses_Gudang_Waste a
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				and a.UserID = '{UserID}'
+			"
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					Do
+						If Dr("Jenis").ToString.Trim = "Waste_Produk" Then
+							Cmb2_Gudang.Items.Add(Dr("Kode_Stock_Owner"))
+						ElseIf Dr("Jenis").ToString.Trim = "Waste_Process" Then
+							Cmb_Gudang.Items.Add(Dr("Kode_Stock_Owner"))
+						End If
+					Loop While Dr.Read
+				End If
+			End Using
 
 			CloseConn()
 		Catch ex As Exception
@@ -250,6 +287,12 @@
 
 		Cmb_Lokasi.SelectedItem = Ket_Lokasi_HO
 
+		If Cmb_Gudang.Items.Count > 0 Then
+			Cmb_Gudang.SelectedIndex = 0
+		Else
+			Cmb_Gudang.SelectedIndex = -1
+		End If
+
 		'Load_Data_Process_Waste()
 		Cb_Hari_Ini.Checked = True
 		Rd_Cetak_Semua.Checked = True
@@ -265,6 +308,12 @@
 
 		Cmb_Lokasi2.SelectedItem = Ket_Lokasi_HO
 
+		If Cmb2_Gudang.Items.Count > 0 Then
+			Cmb2_Gudang.SelectedIndex = 0
+		Else
+			Cmb2_Gudang.SelectedIndex = -1
+		End If
+
 		'Load_Data_Product_Waste()
 		Cb_Hari_Ini2.Checked = True
 		Rd_Cetak_Semua2.Checked = True
@@ -278,7 +327,7 @@
 
 			Lv_Process_Data.Items.Clear() : Lv_Process_User_Approve.Items.Clear() : Lv_Process_Detail_Barang.Items.Clear() : Lv_Process_Detail_Barcode.Items.Clear()
 			SQL = "select distinct b.No_Transaksi, a.No_Faktur, a.Lokasi, a.Kode_Stock_Owner, a.Tanggal, a.Jam, a.Keterangan, a.UserID as User_Input, "
-			SQL = SQL & "isnull((x.isCompleted), 'Y') as isCompleted, a.Flag_Cetak_Faktur "
+			SQL = SQL & "isnull((x.isCompleted), 'Y') as isCompleted, a.Flag_Cetak_Faktur, isnull(y.Flag, 'Y') as isAllRejected "
 			SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste a "
 			SQL = SQL & "inner join N_EMI_Transaksi_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur_Waste "
 			SQL = SQL & "outer apply( "
@@ -288,8 +337,13 @@
 			SQL = SQL & "and z.No_Faktur_Waste = a.No_Faktur "
 			SQL = SQL & "and z.Status is null "
 			SQL = SQL & "and z.Flag_Approve is null) x "
+			SQL = SQL & "LEFT JOIN ( "
+			SQL = SQL & "select distinct z.Kode_Perusahaan, z.No_Faktur, 'T' as Flag "
+			SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Det z "
+			SQL = SQL & ") y on a.Kode_Perusahaan = y.Kode_Perusahaan and a.No_Faktur = y.No_Faktur "
 			SQL = SQL & "where a.Status is null and b.Status is null "
 			SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+			SQL = SQL & "and a.Kode_Stock_Owner = '" & Cmb_Gudang.Text.Trim & "' "
 			SQL = SQL & "and a.Flag_Waste_Proses = 'Y' "
 
 			If Cmb_Lokasi.SelectedIndex <> 0 Then
@@ -342,16 +396,22 @@
 					Lv.SubItems.Add(Dr("Keterangan"))
 					Lv.SubItems.Add(Dr("User_Input"))
 
-					If Dr("isCompleted") = "T" Then
+					If Dr("isCompleted").ToString.Trim = "T" Then
 						Lv.BackColor = Color.White
-					ElseIf Dr("isCompleted") = "Y" Then
+					ElseIf Dr("isCompleted").ToString.Trim = "Y" Then
 						Lv.BackColor = Color.LightGreen
 					Else
 						Lv.BackColor = Color.White
 					End If
 
-					If Dr("isCompleted") = "Y" And General_Class.CekNULL(Dr("Flag_Cetak_Faktur")) = "Y" Then
+					If Dr("isCompleted").ToString.Trim = "Y" And General_Class.CekNULL(Dr("Flag_Cetak_Faktur")).Trim = "Y" Then
 						Lv.BackColor = Color.Goldenrod
+					End If
+
+					If Dr("isCompleted").ToString.Trim = "Y" And General_Class.CekNULL(Dr("isAllRejected")).Trim = "Y" Then
+						Lv.BackColor = Color.DarkRed
+						Lv.ForeColor = Color.White
+
 					End If
 
 				Loop
@@ -377,7 +437,8 @@
 
 			Lv_Process_User_Approve.Items.Clear()
 			SQL = "select case when b.Approval_Level<>'1' then c.username else d.UserName end as username, "
-			SQL = SQL & "b.Approval_Level, b.Flag_Approve, b.Tanggal_Approve, b.Jam_Approve, b.Id_User_Android_Approve, b.jabatan "
+			SQL = SQL & "b.Approval_Level, b.Flag_Approve, b.Tanggal_Approve, b.Jam_Approve, b.Id_User_Android_Approve, b.jabatan, "
+			SQL = SQL & "b.Keterangan as Keterangan_Android "
 			SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste a "
 			SQL = SQL & "inner join N_EMI_Transaksi_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur_Waste "
 			SQL = SQL & "left join Emi_Users c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_User_Android_Approve = c.id "
@@ -394,10 +455,10 @@
 					Lv = Lv_Process_User_Approve.Items.Add(Dr("username"))
 					Lv.SubItems.Add(Dr("Approval_Level"))
 
-					If General_Class.CekNULL(Dr("Flag_Approve")) = "Y" Then
+					If General_Class.CekNULL(Dr("Flag_Approve")).Trim = "Y" Then
 						Lv.SubItems.Add("Approved")
 						Lv.BackColor = Color.LightGreen
-					ElseIf General_Class.CekNULL(Dr("Flag_Approve")) = "T" Then
+					ElseIf General_Class.CekNULL(Dr("Flag_Approve")).Trim = "T" Then
 						Lv.SubItems.Add("Rejected")
 						Lv.ForeColor = Color.White
 						Lv.BackColor = Color.DarkRed
@@ -405,10 +466,11 @@
 						Lv.SubItems.Add("On Process")
 					End If
 
-					Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Tanggal_Approve")) = "", "-", Format(Dr("Tanggal_Approve"), "dd MMM yyyy")))
-					Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Jam_Approve")) = "", "-", Dr("Jam_Approve")))
+					Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Tanggal_Approve")).Trim = "", "-", Format(Dr("Tanggal_Approve"), "dd MMM yyyy")))
+					Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Jam_Approve")).Trim = "", "-", Dr("Jam_Approve")))
 					Lv.SubItems.Add(Dr("Id_User_Android_Approve"))
 					Lv.SubItems.Add(Dr("jabatan"))
+					Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Keterangan_Android")).Trim = "", "-", Dr("Keterangan_Android")))
 				Loop
 			End Using
 
@@ -433,67 +495,246 @@
 			End Using
 
 			Lv_Process_Detail_Barcode.Items.Clear()
-			SQL = "with Cte as ( "
-			SQL = SQL & "select a.kode_perusahaan, 'Good Receiver 1' as asal, a.No_Faktur, f.No_Transaksi, "
-			SQL = SQL & "(g.qr_code +'-'+g.kode_unik_berjalan) as Barcode_Awal, "
-			SQL = SQL & "(h.qr_code +'-'+h.kode_unik_berjalan) as Barcode_Akhir, "
-			SQL = SQL & "c.Jumlah, b.Satuan, isnull(i.No_Transaksi, NULL) as No_Transaksi_Waste "
-			SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste a "
-			SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-			SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Det c on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf "
-			SQL = SQL & "left join N_EMI_Transaksi_Transfer_Waste_Det2 d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det "
-			SQL = SQL & "inner join Emi_Production_Results_Detail_Scrap e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number "
-			SQL = SQL & "inner join Emi_Production_Results f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null "
-			SQL = SQL & "inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number "
-			SQL = SQL & "left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number "
-			SQL = SQL & "left join ( "
-			SQL = SQL & "select z.kode_perusahaan, z.No_Transaksi, z.No_Split, z.Proses "
-			SQL = SQL & "from N_EMI_Transaksi_Waste_Sampel_GR_1 z "
-			'SQL = SQL & "inner join N_EMI_Transaksi_Waste_Sampel_GR_1_Detail x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Transaksi = x.No_Transaksi "
-			SQL = SQL & "where z.Status is null "
-			SQL = SQL & ") i on f.Kode_Perusahaan = i.kode_perusahaan and f.No_Production_Order = i.No_Split and i.Proses = e.Proses "
 
-			SQL = SQL & "union all "
+#Region "Kode Lama 23 Mei 2026"
 
-			SQL = SQL & "select a.kode_perusahaan, 'Good Receiver 2' as asal, a.No_Faktur, f.No_Transaksi, "
-			SQL = SQL & "(g.qr_code +'-'+g.kode_unik_berjalan) as Barcode_Awal, "
-			SQL = SQL & "(h.qr_code +'-'+h.kode_unik_berjalan) as Barcode_Akhir, "
-			SQL = SQL & "e.Jumlah, e.Satuan, NULL as No_Transaksi_Waste "
-			SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste a "
-			SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-			SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Det c on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf "
-			SQL = SQL & "left join N_EMI_Transaksi_Transfer_Waste_Det2 d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det "
-			SQL = SQL & "inner join Emi_Production_Results_Validation_Detail e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number_Tujuan "
-			SQL = SQL & "inner join Emi_Production_Results_Validation f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null "
-			SQL = SQL & "inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number "
-			SQL = SQL & "left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number "
+			'SQL = "with Cte as ( "
+			'SQL = SQL & "select a.kode_perusahaan, 'Good Receiver 1' as asal, a.No_Faktur, f.No_Transaksi, "
+			'SQL = SQL & "(g.qr_code +'-'+g.kode_unik_berjalan) as Barcode_Awal, "
+			'SQL = SQL & "(h.qr_code +'-'+h.kode_unik_berjalan) as Barcode_Akhir, "
+			'SQL = SQL & "c.Jumlah, b.Satuan, isnull(i.No_Transaksi, NULL) as No_Transaksi_Waste "
+			'SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste a "
+			'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+			'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Det c on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf "
+			'SQL = SQL & "left join N_EMI_Transaksi_Transfer_Waste_Det2 d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det "
+			'SQL = SQL & "inner join Emi_Production_Results_Detail_Scrap e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number "
+			'SQL = SQL & "inner join Emi_Production_Results f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null "
+			'SQL = SQL & "inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number "
+			'SQL = SQL & "left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number "
+			'SQL = SQL & "left join ( "
+			'SQL = SQL & "select z.kode_perusahaan, z.No_Transaksi, z.No_Split, z.Proses "
+			'SQL = SQL & "from N_EMI_Transaksi_Waste_Sampel_GR_1 z "
+			''SQL = SQL & "inner join N_EMI_Transaksi_Waste_Sampel_GR_1_Detail x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Transaksi = x.No_Transaksi "
+			'SQL = SQL & "where z.Status is null "
+			'SQL = SQL & ") i on f.Kode_Perusahaan = i.kode_perusahaan and f.No_Production_Order = i.No_Split and i.Proses = e.Proses "
 
-			SQL = SQL & "union all "
+			'SQL = SQL & "union all "
 
-			SQL = SQL & "select a.kode_perusahaan, 'Pemindahan Waste' as asal, a.No_Faktur, e.No_Faktur as No_Transaksi, "
-			SQL = SQL & "(g.qr_code +'-'+g.kode_unik_berjalan) as Barcode_Awal, "
-			SQL = SQL & "(h.qr_code +'-'+h.kode_unik_berjalan) as Barcode_Akhir, "
-			SQL = SQL & "j.Jumlah, b.Satuan, NULL as No_Transaksi_Waste "
-			SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste a "
-			SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-			SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Det c on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf "
-			SQL = SQL & "left join N_EMI_Transaksi_Transfer_Waste_Det2 d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det "
-			SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk e on a.Kode_Perusahaan = e.Kode_Perusahaan and c.No_Faktur_Produk = e.No_Faktur "
-			SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 j on e.Kode_Perusahaan = j.Kode_Perusahaan and e.No_Faktur = j.No_Faktur and c.Serial_Number_Awal = j.Serial_Number "
-			SQL = SQL & "inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and j.Serial_Number = g.Serial_Number "
-			SQL = SQL & "left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number ) "
+			'SQL = SQL & "select a.kode_perusahaan, 'Good Receiver 2' as asal, a.No_Faktur, f.No_Transaksi, "
+			'SQL = SQL & "(g.qr_code +'-'+g.kode_unik_berjalan) as Barcode_Awal, "
+			'SQL = SQL & "(h.qr_code +'-'+h.kode_unik_berjalan) as Barcode_Akhir, "
+			'SQL = SQL & "e.Jumlah, e.Satuan, NULL as No_Transaksi_Waste "
+			'SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste a "
+			'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+			'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Det c on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf "
+			'SQL = SQL & "left join N_EMI_Transaksi_Transfer_Waste_Det2 d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det "
+			'SQL = SQL & "inner join Emi_Production_Results_Validation_Detail e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number_Tujuan "
+			'SQL = SQL & "inner join Emi_Production_Results_Validation f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null "
+			'SQL = SQL & "inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number "
+			'SQL = SQL & "left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number "
 
-			SQL = SQL & "select asal, No_Faktur, No_Transaksi, Barcode_Awal, Barcode_Akhir, Jumlah, Satuan, No_Transaksi_Waste "
-			SQL = SQL & "from cte  "
-			SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-			SQL = SQL & "and No_Faktur = '" & No_faktur & "' "
-			SQL = SQL & "order by No_Faktur"
+			'SQL = SQL & "union all "
+
+			'SQL = SQL & "select a.kode_perusahaan, 'Pemindahan Waste' as asal, a.No_Faktur, e.No_Faktur as No_Transaksi, "
+			'SQL = SQL & "(g.qr_code +'-'+g.kode_unik_berjalan) as Barcode_Awal, "
+			'SQL = SQL & "(h.qr_code +'-'+h.kode_unik_berjalan) as Barcode_Akhir, "
+			'SQL = SQL & "j.Jumlah, b.Satuan, NULL as No_Transaksi_Waste "
+			'SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste a "
+			'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+			'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Det c on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf "
+			'SQL = SQL & "left join N_EMI_Transaksi_Transfer_Waste_Det2 d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det "
+			'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk e on a.Kode_Perusahaan = e.Kode_Perusahaan and c.No_Faktur_Produk = e.No_Faktur "
+			'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 j on e.Kode_Perusahaan = j.Kode_Perusahaan and e.No_Faktur = j.No_Faktur and c.Serial_Number_Awal = j.Serial_Number "
+			'SQL = SQL & "inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and j.Serial_Number = g.Serial_Number "
+			'SQL = SQL & "left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number ) "
+
+			'SQL = SQL & "select asal, No_Faktur, No_Transaksi, Barcode_Awal, Barcode_Akhir, Jumlah, Satuan, No_Transaksi_Waste "
+			'SQL = SQL & "from cte  "
+			'SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+			'SQL = SQL & "and No_Faktur = '" & No_faktur & "' "
+			'SQL = SQL & "order by No_Faktur"
+
+#End Region
+
+			SQL = $"
+				select a.kode_perusahaan, 'Good Received 1' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+								   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
+								   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(c.Jumlah) as Jumlah, b.Satuan,
+								   isnull(i.No_Transaksi, NULL) as No_Transaksi_Waste
+				from N_EMI_Transaksi_Transfer_Waste a
+								 inner join N_EMI_Transaksi_Transfer_Waste_Detail b
+											on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+								 inner join N_EMI_Transaksi_Transfer_Waste_Det c
+											on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf
+								 left join N_EMI_Transaksi_Transfer_Waste_Det2 d
+										   on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det
+								 inner join Emi_Production_Results_Detail_Scrap e
+											on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number
+								 inner join Emi_Production_Results f
+											on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null
+								 inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number
+								 left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number
+								 left join (select z.kode_perusahaan, z.No_Transaksi, z.No_Split, z.Proses
+											from N_EMI_Transaksi_Waste_Sampel_GR_1 z
+											where z.Status is null) i
+										   on f.Kode_Perusahaan = i.kode_perusahaan and f.No_Production_Order = i.No_Split and i.Proses = e.Proses
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and a.No_Faktur = '{No_faktur}'
+				group by a.kode_perusahaan, a.No_Faktur, f.No_Transaksi, f.No_Production_Order,
+								   (g.qr_code + '-' + g.kode_unik_berjalan),
+								   (h.qr_code + '-' + h.kode_unik_berjalan), b.Satuan,
+								   isnull(i.No_Transaksi, NULL)
+
+				union all
+
+				select a.kode_perusahaan, 'Good Received 1' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+								   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
+								   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(c.Jumlah) as Jumlah, b.Satuan,
+								   isnull(i.No_Transaksi, NULL) as No_Transaksi_Waste
+				from N_EMI_Transaksi_Transfer_Waste a
+								 inner join N_EMI_Transaksi_Transfer_Waste_Detail b
+											on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+								 inner join N_EMI_Transaksi_Transfer_Waste_Det_Log_Approval c
+											on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf and
+											   c.Status is null
+								 left join N_EMI_Transaksi_Transfer_Waste_Det2 d
+										   on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det
+								 inner join Emi_Production_Results_Detail_Scrap e
+											on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number
+								 inner join Emi_Production_Results f
+											on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null
+								 inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number
+								 left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number
+								 left join (select z.kode_perusahaan, z.No_Transaksi, z.No_Split, z.Proses
+											from N_EMI_Transaksi_Waste_Sampel_GR_1 z
+											where z.Status is null) i
+										   on f.Kode_Perusahaan = i.kode_perusahaan and f.No_Production_Order = i.No_Split and i.Proses = e.Proses
+								 left join N_EMI_Transaksi_Transfer_Waste_Det j
+										   on b.Kode_Perusahaan = j.kode_perusahaan and b.No_Faktur = j.no_faktur and b.Urut_Oto = j.urut_tf and
+											  c.Serial_Number_Awal = j.Serial_Number_Awal
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and a.No_Faktur = '{No_faktur}'
+				  and j.Kode_Perusahaan is null
+				group by a.kode_perusahaan, a.No_Faktur, f.No_Transaksi, f.No_Production_Order,
+								   (g.qr_code + '-' + g.kode_unik_berjalan),
+								   (h.qr_code + '-' + h.kode_unik_berjalan), b.Satuan,
+								   isnull(i.No_Transaksi, NULL)
+
+				union all
+
+				select a.kode_perusahaan, 'Good Received 2' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+								   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
+								   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah) as Jumlah, e.Satuan, NULL as No_Transaksi_Waste
+				from N_EMI_Transaksi_Transfer_Waste a
+								 inner join N_EMI_Transaksi_Transfer_Waste_Detail b
+											on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+								 inner join N_EMI_Transaksi_Transfer_Waste_Det c
+											on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf
+								 left join N_EMI_Transaksi_Transfer_Waste_Det2 d
+										   on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det
+								 inner join Emi_Production_Results_Validation_Detail e
+											on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number_Tujuan
+								 inner join Emi_Production_Results_Validation f
+											on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null
+								 inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number
+								 left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and a.No_Faktur = '{No_faktur}'
+				group by a.kode_perusahaan, a.No_Faktur, f.No_Transaksi, f.No_Production_Order,
+								   (g.qr_code + '-' + g.kode_unik_berjalan),
+								   (h.qr_code + '-' + h.kode_unik_berjalan), e.Satuan
+
+				union all
+
+				select a.kode_perusahaan, 'Good Received 2' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+								   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
+								   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah) as Jumlah, e.Satuan, NULL as No_Transaksi_Waste
+				from N_EMI_Transaksi_Transfer_Waste a
+								 inner join N_EMI_Transaksi_Transfer_Waste_Detail b
+											on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+								 inner join N_EMI_Transaksi_Transfer_Waste_Det_Log_Approval c
+											on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf and
+											   c.Status is null
+								 left join N_EMI_Transaksi_Transfer_Waste_Det2 d
+										   on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det
+								 inner join Emi_Production_Results_Validation_Detail e
+											on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number_Tujuan
+								 inner join Emi_Production_Results_Validation f
+											on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null
+								 inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number
+								 left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number
+								 left join N_EMI_Transaksi_Transfer_Waste_Det i
+										   on b.Kode_Perusahaan = i.kode_perusahaan and b.No_Faktur = i.no_faktur and b.Urut_Oto = i.urut_tf and
+											  c.Serial_Number_Awal = i.Serial_Number_Awal
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and a.No_Faktur = '{No_faktur}'
+				  and i.Kode_Perusahaan is null
+				group by a.kode_perusahaan, a.No_Faktur, f.No_Transaksi, f.No_Production_Order,
+								   (g.qr_code + '-' + g.kode_unik_berjalan),
+								   (h.qr_code + '-' + h.kode_unik_berjalan), e.Satuan
+
+				union all
+
+				select a.kode_perusahaan, 'Pemindahan Waste' as asal, 'Approved' as StatusBarcode, a.No_Faktur, '-' as No_Split,
+								   e.No_Faktur as No_Transaksi, (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
+								   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(j.Jumlah) as Jumlah, b.Satuan, NULL as No_Transaksi_Waste
+				from N_EMI_Transaksi_Transfer_Waste a
+								 inner join N_EMI_Transaksi_Transfer_Waste_Detail b
+											on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+								 inner join N_EMI_Transaksi_Transfer_Waste_Det c
+											on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf
+								 left join N_EMI_Transaksi_Transfer_Waste_Det2 d
+										   on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det
+								 inner join N_EMI_Transaksi_Transfer_Waste_Produk e
+											on a.Kode_Perusahaan = e.Kode_Perusahaan and c.No_Faktur_Produk = e.No_Faktur
+								 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 j
+											on e.Kode_Perusahaan = j.Kode_Perusahaan and e.No_Faktur = j.No_Faktur and
+											   c.Serial_Number_Awal = j.Serial_Number
+								 inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and j.Serial_Number = g.Serial_Number
+								 left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and a.No_Faktur = '{No_faktur}'
+				group by a.kode_perusahaan, a.No_Faktur,
+								   e.No_Faktur, (g.qr_code + '-' + g.kode_unik_berjalan),
+								   (h.qr_code + '-' + h.kode_unik_berjalan), b.Satuan
+
+				union all
+
+				select a.kode_perusahaan, 'Pemindahan Waste' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, '-' as No_Split,
+								   e.No_Faktur as No_Transaksi, (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
+								   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(j.Jumlah) as Jumlah, b.Satuan, NULL as No_Transaksi_Waste
+				from N_EMI_Transaksi_Transfer_Waste a
+								 inner join N_EMI_Transaksi_Transfer_Waste_Detail b
+											on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+								 inner join N_EMI_Transaksi_Transfer_Waste_Det_Log_Approval c
+											on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf and
+											   c.Status is null
+								 left join N_EMI_Transaksi_Transfer_Waste_Det2 d
+										   on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det
+								 inner join N_EMI_Transaksi_Transfer_Waste_Produk e
+											on a.Kode_Perusahaan = e.Kode_Perusahaan and c.No_Faktur_Produk = e.No_Faktur
+								 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 j
+											on e.Kode_Perusahaan = j.Kode_Perusahaan and e.No_Faktur = j.No_Faktur and
+											   c.Serial_Number_Awal = j.Serial_Number
+								 inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and j.Serial_Number = g.Serial_Number
+								 left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number
+								 left join N_EMI_Transaksi_Transfer_Waste_Det i
+										   on b.Kode_Perusahaan = i.kode_perusahaan and b.No_Faktur = i.no_faktur and b.Urut_Oto = i.urut_tf and
+											  c.Serial_Number_Awal = i.Serial_Number_Awal
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and a.No_Faktur = '{No_faktur}'
+				  and i.Kode_Perusahaan is null
+				group by a.kode_perusahaan, a.No_Faktur,
+								   e.No_Faktur, (g.qr_code + '-' + g.kode_unik_berjalan),
+								   (h.qr_code + '-' + h.kode_unik_berjalan), b.Satuan
+			"
+
 			Using Dr = OpenTrans(SQL)
 				Do While Dr.Read
 					Dim Lv As ListViewItem
 					Lv = Lv_Process_Detail_Barcode.Items.Add("")
 
-					If General_Class.CekNULL(Dr("No_Transaksi_Waste")) = "" Then
+					If General_Class.CekNULL(Dr("No_Transaksi_Waste")).Trim = "" Then
 						Lv.SubItems.Add(Dr("asal"))
 					Else
 						Lv.SubItems.Add("Waste Sampel")
@@ -501,9 +742,17 @@
 
 					Lv.SubItems.Add(Dr("No_Transaksi"))
 					Lv.SubItems.Add(Dr("Barcode_Awal"))
-					Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Barcode_Akhir")) = "", "-", Dr("Barcode_Akhir")))
+					Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Barcode_Akhir")).Trim = "", "-", Dr("Barcode_Akhir")))
 					Lv.SubItems.Add(Format(Dr("Jumlah"), "N4"))
 					Lv.SubItems.Add(Dr("Satuan"))
+					Lv.SubItems.Add(Dr("StatusBarcode"))
+					Lv.SubItems.Add(Dr("No_Split"))
+
+					If General_Class.CekNULL(Dr("StatusBarcode")) = "Rejected" Then
+						Lv.BackColor = Color.DarkRed
+						Lv.ForeColor = Color.White
+					End If
+
 				Loop
 			End Using
 
@@ -840,7 +1089,7 @@
 			Lv_Product_Data.Items.Clear() : Lv_Product_User_Approve.Items.Clear() : Lv_Product_Detail_Barang.Items.Clear() : Lv_Product_Detail_Barcode.Items.Clear()
 
 			SQL = "select distinct b.No_Transaksi, a.No_Faktur, a.Lokasi, a.Kode_Stock_Owner, a.Tanggal, a.Jam, a.Keterangan, a.UserID as User_Input, "
-			SQL = SQL & "isnull((x.isCompleted), 'Y') as isCompleted, a.Flag_Cetak_Faktur "
+			SQL = SQL & "isnull((x.isCompleted), 'Y') as isCompleted, a.Flag_Cetak_Faktur , isnull(y.Flag, 'Y') as isAllRejected "
 			SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk a "
 			SQL = SQL & "inner join N_EMI_Transaksi_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur_Waste "
 			SQL = SQL & "outer apply( "
@@ -851,8 +1100,12 @@
 			SQL = SQL & "and z.Status is null "
 			SQL = SQL & "and z.Flag_Approve is null "
 			SQL = SQL & ") x "
+			SQL = SQL & "LEFT JOIN ( select distinct z.Kode_Perusahaan, z.No_Faktur, 'T' as Flag "
+			SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk_Det z "
+			SQL = SQL & ") y on a.Kode_Perusahaan = y.Kode_Perusahaan and a.No_Faktur = y.No_Faktur "
 			SQL = SQL & "where a.Status is null and b.Status is null "
 			SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+			SQL = SQL & "and a.Kode_Stock_Owner = '" & Cmb2_Gudang.Text.Trim & "' "
 			SQL = SQL & "and b.Jenis_Approval = 'Waste_Produk' "
 			SQL = SQL & "and a.Flag_Waste_Product = 'Y'	"
 
@@ -906,16 +1159,21 @@
 					Lv.SubItems.Add(Dr("Keterangan"))
 					Lv.SubItems.Add(Dr("User_Input"))
 
-					If Dr("isCompleted") = "T" Then
+					If Dr("isCompleted").ToString.Trim = "T" Then
 						Lv.BackColor = Color.White
-					ElseIf Dr("isCompleted") = "Y" Then
+					ElseIf Dr("isCompleted").ToString.Trim = "Y" Then
 						Lv.BackColor = Color.LightGreen
 					Else
 						Lv.BackColor = Color.White
 					End If
 
-					If Dr("isCompleted") = "Y" And General_Class.CekNULL(Dr("Flag_Cetak_Faktur")) = "Y" Then
+					If Dr("isCompleted").ToString.Trim = "Y" And General_Class.CekNULL(Dr("Flag_Cetak_Faktur")).Trim = "Y" Then
 						Lv.BackColor = Color.Goldenrod
+					End If
+
+					If Dr("isCompleted").ToString.Trim = "Y" And General_Class.CekNULL(Dr("isAllRejected")).Trim = "Y" Then
+						Lv.BackColor = Color.DarkRed
+						Lv.ForeColor = Color.White
 					End If
 
 				Loop
@@ -927,6 +1185,7 @@
 			MessageBox.Show(ex.Message)
 			Exit Sub
 		End Try
+
 	End Sub
 
 	Private Sub Lv_Product_Data_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lv_Product_Data.SelectedIndexChanged
@@ -941,8 +1200,8 @@
 
 			Lv_Product_User_Approve.Items.Clear()
 			SQL = "select case when b.Approval_Level<>'1' then c.username else d.UserName end as username, "
-
-			SQL = SQL & "b.Approval_Level, b.Flag_Approve, b.Tanggal_Approve, b.Jam_Approve, b.Id_User_Android_Approve, b.jabatan "
+			SQL = SQL & "b.Approval_Level, b.Flag_Approve, b.Tanggal_Approve, b.Jam_Approve, b.Id_User_Android_Approve, b.jabatan, "
+			SQL = SQL & "b.Keterangan as Keterangan_Android "
 			SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk a "
 			SQL = SQL & "inner join N_EMI_Transaksi_Approval_Waste b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur_Waste "
 			SQL = SQL & "left join Emi_Users c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_User_Android_Approve = c.id "
@@ -956,13 +1215,13 @@
 			Using Dr = OpenTrans(SQL)
 				Do While Dr.Read
 					Dim Lv As ListViewItem
-					Lv = Lv_Product_User_Approve.Items.Add(If(General_Class.CekNULL(Dr("username")) = "", "-", Dr("username")))
+					Lv = Lv_Product_User_Approve.Items.Add(If(General_Class.CekNULL(Dr("username")).Trim = "", "-", Dr("username")))
 					Lv.SubItems.Add(Dr("Approval_Level"))
 
-					If General_Class.CekNULL(Dr("Flag_Approve")) = "Y" Then
+					If General_Class.CekNULL(Dr("Flag_Approve")).Trim = "Y" Then
 						Lv.SubItems.Add("Approved")
 						Lv.BackColor = Color.LightGreen
-					ElseIf General_Class.CekNULL(Dr("Flag_Approve")) = "T" Then
+					ElseIf General_Class.CekNULL(Dr("Flag_Approve")).Trim = "T" Then
 						Lv.SubItems.Add("Rejected")
 						Lv.ForeColor = Color.White
 						Lv.BackColor = Color.DarkRed
@@ -970,10 +1229,11 @@
 						Lv.SubItems.Add("On Process")
 					End If
 
-					Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Tanggal_Approve")) = "", "-", Format(Dr("Tanggal_Approve"), "dd MMM yyyy")))
-					Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Jam_Approve")) = "", "-", Dr("Jam_Approve")))
+					Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Tanggal_Approve")).Trim = "", "-", Format(Dr("Tanggal_Approve"), "dd MMM yyyy")))
+					Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Jam_Approve")).Trim = "", "-", Dr("Jam_Approve")))
 					Lv.SubItems.Add(Dr("Id_User_Android_Approve"))
 					Lv.SubItems.Add(Dr("jabatan"))
+					Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Keterangan_Android")).Trim = "", "-", Dr("Keterangan_Android")))
 				Loop
 			End Using
 
@@ -1001,59 +1261,282 @@
 			'=     LOAD DATA DETAIL PERBARCODE     =
 			'=======================================
 			Lv_Product_Detail_Barcode.Items.Clear()
-			SQL = "with Cte as ( "
-			SQL = SQL & "select a.kode_perusahaan, 'Good Receiver 1' as asal, a.No_Faktur, f.No_Transaksi, "
-			SQL = SQL & "(g.qr_code +'-'+g.kode_unik_berjalan) as Barcode_Awal, "
-			SQL = SQL & "(h.qr_code +'-'+h.kode_unik_berjalan) as Barcode_Akhir, "
-			SQL = SQL & "c.Jumlah, b.Satuan "
-			SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk a "
-			SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-			SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det c on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf "
-			SQL = SQL & "left join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det "
-			SQL = SQL & "inner join Emi_Production_Results_Detail_Scrap e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number "
-			SQL = SQL & "inner join Emi_Production_Results f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null "
-			SQL = SQL & "inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number "
-			SQL = SQL & "left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number "
-			SQL = SQL & "union all "
-			SQL = SQL & "select a.kode_perusahaan, 'Good Receiver 2' as asal, a.No_Faktur, f.No_Transaksi, "
-			SQL = SQL & "(g.qr_code +'-'+g.kode_unik_berjalan) as Barcode_Awal, "
-			SQL = SQL & "(h.qr_code +'-'+h.kode_unik_berjalan) as Barcode_Akhir, "
-			SQL = SQL & "e.Jumlah, e.Satuan "
-			SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk a "
-			SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-			SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det c on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf "
-			SQL = SQL & "left join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det "
-			SQL = SQL & "inner join Emi_Production_Results_Validation_Detail e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number_Tujuan "
-			SQL = SQL & "inner join Emi_Production_Results_Validation f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null "
-			SQL = SQL & "inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number "
-			SQL = SQL & "left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number "
-			SQL = SQL & "union all "
-			SQL = SQL & "select a.kode_perusahaan, 'Waste Packaging' as asal, a.No_Faktur, f.No_Transaksi, "
-			SQL = SQL & "(g.qr_code +'-'+g.kode_unik_berjalan) as Barcode_Awal, "
-			SQL = SQL & "(h.qr_code +'-'+h.kode_unik_berjalan) as Barcode_Akhir, "
-			SQL = SQL & "e.Jumlah_Tujuan as Jumlah, e.Satuan_Tujuan as Satuan "
-			SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk a "
-			SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-			SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det c on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf "
-			SQL = SQL & "left join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det "
-			SQL = SQL & "inner join EMI_Production_Results_Detail_Change_Packaging_Detail e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.SN_Scrap "
-			SQL = SQL & "inner join EMI_Production_Results_Detail_Change_Packaging f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.no_transaksi = f.no_transaksi and f.Status is null "
-			SQL = SQL & "inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number "
-			SQL = SQL & "left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number ) "
-			SQL = SQL & "select asal, No_Faktur, No_Transaksi, Barcode_Awal, Barcode_Akhir, Jumlah, Satuan "
-			SQL = SQL & "from cte "
-			SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-			SQL = SQL & "and No_Faktur = '" & No_faktur & "' "
-			SQL = SQL & "order by No_Faktur "
+
+#Region " Kode Lama 24 Mei 2026"
+
+			'SQL = "with Cte as ( "
+			'SQL = SQL & "select a.kode_perusahaan, 'Good Receiver 1' as asal, a.No_Faktur, f.No_Transaksi, "
+			'SQL = SQL & "(g.qr_code +'-'+g.kode_unik_berjalan) as Barcode_Awal, "
+			'SQL = SQL & "(h.qr_code +'-'+h.kode_unik_berjalan) as Barcode_Akhir, "
+			'SQL = SQL & "c.Jumlah, b.Satuan "
+			'SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk a "
+			'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+			'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det c on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf "
+			'SQL = SQL & "left join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det "
+			'SQL = SQL & "inner join Emi_Production_Results_Detail_Scrap e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number "
+			'SQL = SQL & "inner join Emi_Production_Results f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null "
+			'SQL = SQL & "inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number "
+			'SQL = SQL & "left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number "
+			'SQL = SQL & "union all "
+			'SQL = SQL & "select a.kode_perusahaan, 'Good Receiver 2' as asal, a.No_Faktur, f.No_Transaksi, "
+			'SQL = SQL & "(g.qr_code +'-'+g.kode_unik_berjalan) as Barcode_Awal, "
+			'SQL = SQL & "(h.qr_code +'-'+h.kode_unik_berjalan) as Barcode_Akhir, "
+			'SQL = SQL & "e.Jumlah, e.Satuan "
+			'SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk a "
+			'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+			'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det c on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf "
+			'SQL = SQL & "left join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det "
+			'SQL = SQL & "inner join Emi_Production_Results_Validation_Detail e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number_Tujuan "
+			'SQL = SQL & "inner join Emi_Production_Results_Validation f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null "
+			'SQL = SQL & "inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number "
+			'SQL = SQL & "left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number "
+			'SQL = SQL & "union all "
+			'SQL = SQL & "select a.kode_perusahaan, 'Waste Packaging' as asal, a.No_Faktur, f.No_Transaksi, "
+			'SQL = SQL & "(g.qr_code +'-'+g.kode_unik_berjalan) as Barcode_Awal, "
+			'SQL = SQL & "(h.qr_code +'-'+h.kode_unik_berjalan) as Barcode_Akhir, "
+			'SQL = SQL & "e.Jumlah_Tujuan as Jumlah, e.Satuan_Tujuan as Satuan "
+			'SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk a "
+			'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+			'SQL = SQL & "inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det c on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf "
+			'SQL = SQL & "left join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det "
+			'SQL = SQL & "inner join EMI_Production_Results_Detail_Change_Packaging_Detail e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.SN_Scrap "
+			'SQL = SQL & "inner join EMI_Production_Results_Detail_Change_Packaging f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.no_transaksi = f.no_transaksi and f.Status is null "
+			'SQL = SQL & "inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number "
+			'SQL = SQL & "left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number ) "
+			'SQL = SQL & "select asal, No_Faktur, No_Transaksi, Barcode_Awal, Barcode_Akhir, Jumlah, Satuan "
+			'SQL = SQL & "from cte "
+			'SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+			'SQL = SQL & "and No_Faktur = '" & No_faktur & "' "
+			'SQL = SQL & "order by No_Faktur "
+
+#End Region
+
+			SQL = $"
+				select a.kode_perusahaan, 'Good Received 1' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+					   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
+					   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(c.Jumlah) as Jumlah, b.Satuan
+				from N_EMI_Transaksi_Transfer_Waste_Produk a
+					 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail b
+								on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+					 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det c
+								on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf
+					 left join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 d
+							   on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det
+					 inner join Emi_Production_Results_Detail_Scrap e
+								on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number
+					 inner join Emi_Production_Results f
+								on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null
+					 inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number
+					 left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and a.No_Faktur = '{No_faktur}'
+				group by a.kode_perusahaan, a.No_Faktur, f.No_Transaksi, b.Satuan, (g.qr_code + '-' + g.kode_unik_berjalan),
+						 (h.qr_code + '-' + h.kode_unik_berjalan), f.No_Production_Order
+
+				union all
+
+				select a.kode_perusahaan, 'Good Received 1' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order,
+					   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
+					   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(c.Jumlah) as Jumlah, b.Satuan
+				from N_EMI_Transaksi_Transfer_Waste_Produk a
+					 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail b
+								on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+					 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det_Log_Approval c
+								on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf
+					 left join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 d
+							   on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det
+					 inner join Emi_Production_Results_Detail_Scrap e
+								on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number
+					 inner join Emi_Production_Results f
+								on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null
+					 inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number
+					 left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number
+					 left join N_EMI_Transaksi_Transfer_Waste_Produk_Det i
+							   on b.Kode_Perusahaan = i.kode_perusahaan and b.No_Faktur = i.no_faktur and b.Urut_Oto = i.urut_tf and
+								  c.Serial_Number_Awal = i.Serial_Number_Awal
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and a.No_Faktur = '{No_faktur}'
+				  and i.Kode_Perusahaan is null
+				group by a.kode_perusahaan, a.No_Faktur, f.No_Transaksi, b.Satuan, (g.qr_code + '-' + g.kode_unik_berjalan),
+						 (h.qr_code + '-' + h.kode_unik_berjalan), f.No_Production_Order
+
+				union all
+
+				select a.kode_perusahaan, 'Good Received 2' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+					   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
+					   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah) as Jumlah, e.Satuan
+				from N_EMI_Transaksi_Transfer_Waste_Produk a
+					 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail b
+								on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+					 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det c
+								on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf
+					 left join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 d
+							   on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det
+					 inner join Emi_Production_Results_Validation_Detail e
+								on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number_Tujuan
+					 inner join Emi_Production_Results_Validation f
+								on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null
+					 inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number
+					 left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and a.No_Faktur = '{No_faktur}'
+				group by a.kode_perusahaan, a.No_Faktur, f.No_Transaksi, e.Satuan, (g.qr_code + '-' + g.kode_unik_berjalan),
+						 (h.qr_code + '-' + h.kode_unik_berjalan), f.No_Production_Order
+
+				union all
+
+				select a.kode_perusahaan, 'Good Received 2' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+					   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
+					   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah) as Jumlah, e.Satuan
+				from N_EMI_Transaksi_Transfer_Waste_Produk a
+					 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail b
+								on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+					 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det_Log_Approval c
+								on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf
+					 left join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 d
+							   on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det
+					 inner join Emi_Production_Results_Validation_Detail e
+								on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number_Tujuan
+					 inner join Emi_Production_Results_Validation f
+								on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null
+					 inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number
+					 left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number
+					 left join N_EMI_Transaksi_Transfer_Waste_Produk_Det i
+							   on b.Kode_Perusahaan = i.kode_perusahaan and b.No_Faktur = i.no_faktur and b.Urut_Oto = i.urut_tf and
+								  c.Serial_Number_Awal = i.Serial_Number_Awal
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and a.No_Faktur = '{No_faktur}'
+				  and i.Kode_Perusahaan is null
+				group by a.kode_perusahaan, a.No_Faktur, f.No_Transaksi, e.Satuan, (g.qr_code + '-' + g.kode_unik_berjalan),
+						 (h.qr_code + '-' + h.kode_unik_berjalan), f.No_Production_Order
+
+				union all
+
+				  select a.kode_perusahaan, 'Good Received 3' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi,
+						   k.No_Production_Order as No_Split,
+						   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
+						   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah) as Jumlah, e.Satuan
+					from N_EMI_Transaksi_Transfer_Waste_Produk a
+						 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail b
+									on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+						 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det c
+									on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf
+						 left join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 d
+								   on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det
+						 inner join N_EMI_Validation_GR_3_Detail e
+									on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number_Tujuan
+						 inner join N_EMI_Validation_GR_3 f
+									on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null
+						 inner join Emi_Production_Results_Validation_Detail j on e.Kode_Perusahaan = j.Kode_Perusahaan and e.Serial_Number_Awal = j.Serial_Number_Akhir
+						 inner join Emi_Production_Results_Validation k on j.Kode_Perusahaan = k.Kode_Perusahaan and j.No_Transaksi = k.No_Transaksi
+						 inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number
+						 left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number
+					where a.Kode_Perusahaan = '{KodePerusahaan}'
+					  and a.No_Faktur = '{No_faktur}'
+					group by a.kode_perusahaan, a.No_Faktur, f.No_Transaksi, e.Satuan, (g.qr_code + '-' + g.kode_unik_berjalan),
+							 (h.qr_code + '-' + h.kode_unik_berjalan), k.No_Production_Order
+
+					  union all
+
+					  select a.kode_perusahaan, 'Good Received 3' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi,
+						   k.No_Production_Order as No_Split,
+						   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
+						   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah) as Jumlah, e.Satuan
+					from N_EMI_Transaksi_Transfer_Waste_Produk a
+						 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail b
+									on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+						 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det_Log_Approval c
+									on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf
+						 left join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 d
+								   on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det
+						 inner join N_EMI_Validation_GR_3_Detail e
+									on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.Serial_Number_Tujuan
+						 inner join N_EMI_Validation_GR_3 f
+									on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi and f.Status is null
+						 inner join Emi_Production_Results_Validation_Detail j on e.Kode_Perusahaan = j.Kode_Perusahaan and e.Serial_Number_Awal = j.Serial_Number_Akhir
+						 inner join Emi_Production_Results_Validation k on j.Kode_Perusahaan = k.Kode_Perusahaan and j.No_Transaksi = k.No_Transaksi
+						 inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number
+						 left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number
+						 left join N_EMI_Transaksi_Transfer_Waste_Produk_Det i
+								   on b.Kode_Perusahaan = i.kode_perusahaan and b.No_Faktur = i.no_faktur and b.Urut_Oto = i.urut_tf and
+									  c.Serial_Number_Awal = i.Serial_Number_Awal
+					where a.Kode_Perusahaan = '{KodePerusahaan}'
+					  and a.No_Faktur = '{No_faktur}'
+					  and i.Kode_Perusahaan is null
+					group by a.kode_perusahaan, a.No_Faktur, f.No_Transaksi, e.Satuan, (g.qr_code + '-' + g.kode_unik_berjalan),
+							 (h.qr_code + '-' + h.kode_unik_berjalan), k.No_Production_Order
+
+					  union all
+
+				select a.kode_perusahaan, 'Waste Packaging' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Split,
+					   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
+					   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah_Tujuan) as Jumlah,
+					   e.Satuan_Tujuan as Satuan
+				from N_EMI_Transaksi_Transfer_Waste_Produk a
+					 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail b
+								on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+					 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det c
+								on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf
+					 left join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 d
+							   on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det
+					 inner join EMI_Production_Results_Detail_Change_Packaging_Detail e
+								on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.SN_Scrap
+					 inner join EMI_Production_Results_Detail_Change_Packaging f
+								on e.Kode_Perusahaan = f.Kode_Perusahaan and e.no_transaksi = f.no_transaksi and f.Status is null
+					 inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number
+					 left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and a.No_Faktur = '{No_faktur}'
+				group by a.kode_perusahaan, a.No_Faktur, f.No_Transaksi, e.Satuan_Tujuan, (g.qr_code + '-' + g.kode_unik_berjalan),
+						 (h.qr_code + '-' + h.kode_unik_berjalan), f.No_Split
+
+				union all
+
+				select a.kode_perusahaan, 'Waste Packaging' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Split,
+					   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
+					   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah_Tujuan) as Jumlah,
+					   e.Satuan_Tujuan as Satuan
+				from N_EMI_Transaksi_Transfer_Waste_Produk a
+					 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail b
+								on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+					 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det_Log_Approval c
+								on b.Kode_Perusahaan = c.kode_perusahaan and b.No_Faktur = c.no_faktur and b.Urut_Oto = c.urut_tf
+					 left join N_EMI_Transaksi_Transfer_Waste_Produk_Det2 d
+							   on c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur and c.Urut_Oto = d.Urut_Det
+					 inner join EMI_Production_Results_Detail_Change_Packaging_Detail e
+								on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Serial_Number_Awal = e.SN_Scrap
+					 inner join EMI_Production_Results_Detail_Change_Packaging f
+								on e.Kode_Perusahaan = f.Kode_Perusahaan and e.no_transaksi = f.no_transaksi and f.Status is null
+					 inner join Barang_SN g on a.Kode_Perusahaan = g.Kode_Perusahaan and c.Serial_Number_Awal = g.Serial_Number
+					 left join Barang_SN h on a.Kode_Perusahaan = h.Kode_Perusahaan and d.Serial_Number = h.Serial_Number
+					 left join N_EMI_Transaksi_Transfer_Waste_Produk_Det i
+							   on b.Kode_Perusahaan = i.kode_perusahaan and b.No_Faktur = i.no_faktur and b.Urut_Oto = i.urut_tf and
+								  c.Serial_Number_Awal = i.Serial_Number_Awal
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and a.No_Faktur = '{No_faktur}'
+				  and i.Kode_Perusahaan is null
+				group by a.kode_perusahaan, a.No_Faktur, f.No_Transaksi, e.Satuan_Tujuan, (g.qr_code + '-' + g.kode_unik_berjalan),
+						 (h.qr_code + '-' + h.kode_unik_berjalan), f.No_Split
+				order by No_Faktur
+
+			"
 			Using Dr = OpenTrans(SQL)
 				Do While Dr.Read
 					Dim Lv As ListViewItem
 					Lv = Lv_Product_Detail_Barcode.Items.Add(Dr("asal"))
 					Lv.SubItems.Add(Dr("No_Transaksi"))
 					Lv.SubItems.Add(Dr("Barcode_Awal"))
-					Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Barcode_Akhir")) = "", "-", Dr("Barcode_Akhir")))
+					Lv.SubItems.Add(If(General_Class.CekNULL(Dr("Barcode_Akhir")).Trim = "", "-", Dr("Barcode_Akhir")))
 					Lv.SubItems.Add(Format(Dr("Jumlah"), "N4"))
 					Lv.SubItems.Add(Dr("Satuan"))
+					Lv.SubItems.Add(Dr("StatusBarcode"))
+					Lv.SubItems.Add(Dr("No_Split"))
+
+					If General_Class.CekNULL(Dr("StatusBarcode")).Trim = "Rejected" Then
+						Lv.BackColor = Color.DarkRed
+						Lv.ForeColor = Color.White
+					End If
+
 				Loop
 			End Using
 
@@ -1493,13 +1976,17 @@
 	End Sub
 
 	Private Sub Cb_Tanggal_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_Tanggal.CheckedChanged
+
 		If Cb_Tanggal.Checked Then
-			Cmb_Tanggal.Enabled = True : Tgl_1.Enabled = True : Tgl_2.Enabled = True
 			Cb_Hari_Ini.Checked = False
+			Cmb_Tanggal.Enabled = True
 		Else
-			Cmb_Tanggal.Enabled = False : Tgl_1.Enabled = False : Tgl_2.Enabled = False
-			Cmb_Tanggal.SelectedIndex = -1 : Tgl_1.Value = Now.Date : Tgl_2.Value = Now.Date
+			Cmb_Tanggal.Enabled = False
 		End If
+		Tgl_1.Enabled = False : Tgl_2.Enabled = False
+		Tgl_1.Value = Now.Date : Tgl_2.Value = Now.Date
+		Cmb_Tanggal.SelectedIndex = -1
+
 	End Sub
 
 	Private Sub Cb_Param_Lain_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_Param_Lain.CheckedChanged
@@ -1543,6 +2030,61 @@
 		End If
 	End Sub
 
+	Private Sub Cmb2_Gudang_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb2_Gudang.SelectedIndexChanged
+		'Btn_Cari2.PerformClick()
+	End Sub
+
+	Private Sub Cmb_Gudang_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Gudang.SelectedIndexChanged
+		'Btn_Cari.PerformClick()
+	End Sub
+
+	Private Sub Cmb_Tanggal2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Tanggal2.SelectedIndexChanged
+		If Cmb_Tanggal2.Items.Count = 0 Then Exit Sub
+
+		If Cmb_Tanggal2.SelectedIndex <> -1 Then
+			Tgl_1_2.Enabled = True : Tgl_2_2.Enabled = True
+		Else
+			Tgl_1_2.Enabled = False : Tgl_2_2.Enabled = False
+		End If
+		Tgl_1_2.Value = Now.Date : Tgl_2_2.Value = Now.Date
+	End Sub
+
+	Private Sub SalinNoApprovalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SalinNoApprovalToolStripMenuItem.Click
+		If Lv_Product_Data.Items.Count = 0 Or Lv_Product_Data.SelectedItems.Count = 0 Or Lv_Product_Data.FocusedItem Is Nothing Then
+			MessageBox.Show("Pilih dahulu no approval yang mau salin!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		End If
+
+		Clipboard.SetText(Lv_Product_Data.FocusedItem.SubItems(Item_Product_NoTransaksiApproval).Text)
+	End Sub
+
+	Private Sub SalinNoFakturToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SalinNoFakturToolStripMenuItem.Click
+		If Lv_Product_Data.Items.Count = 0 Or Lv_Product_Data.SelectedItems.Count = 0 Or Lv_Product_Data.FocusedItem Is Nothing Then
+			MessageBox.Show("Pilih dahulu no faktur yang mau salin!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		End If
+
+		Clipboard.SetText(Lv_Product_Data.FocusedItem.SubItems(Item_Product_NoFaktur).Text)
+	End Sub
+
+	Private Sub SalinNoApprovalToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SalinNoApprovalToolStripMenuItem1.Click
+		If Lv_Process_Data.Items.Count = 0 Or Lv_Process_Data.SelectedItems.Count = 0 Or Lv_Process_Data.FocusedItem Is Nothing Then
+			MessageBox.Show("Pilih dahulu no faktur yang mau salin!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		End If
+
+		Clipboard.SetText(Lv_Process_Data.FocusedItem.SubItems(Item_Process_NoTransaksiApproval).Text)
+	End Sub
+
+	Private Sub SalinNoFakturToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SalinNoFakturToolStripMenuItem1.Click
+		If Lv_Process_Data.Items.Count = 0 Or Lv_Process_Data.SelectedItems.Count = 0 Or Lv_Process_Data.FocusedItem Is Nothing Then
+			MessageBox.Show("Pilih dahulu no faktur yang mau salin!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		End If
+
+		Clipboard.SetText(Lv_Process_Data.FocusedItem.SubItems(Item_Process_NoFaktur).Text)
+	End Sub
+
 	Private Sub Cmb_Tanggal_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Tanggal.KeyPress
 		If e.KeyChar = Chr(13) Then Tgl_1.Focus()
 	End Sub
@@ -1553,6 +2095,17 @@
 
 	Private Sub Tgl_2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tgl_2.KeyPress
 		If e.KeyChar = Chr(13) Then Cb_Param_Lain.Focus()
+	End Sub
+
+	Private Sub Cmb_Tanggal_SelectedValueChanged(sender As Object, e As EventArgs) Handles Cmb_Tanggal.SelectedValueChanged
+		If Cmb_Tanggal.Items.Count = 0 Then Exit Sub
+
+		If Cmb_Tanggal.SelectedIndex <> -1 Then
+			Tgl_1.Enabled = True : Tgl_2.Enabled = True
+		Else
+			Tgl_1.Enabled = False : Tgl_2.Enabled = False
+		End If
+		Tgl_1.Value = Now.Date : Tgl_2.Value = Now.Date
 	End Sub
 
 	Private Sub Cmb_Param_Lain_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Param_Lain.KeyPress
@@ -1582,12 +2135,15 @@
 
 	Private Sub Cb_Tanggal2_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_Tanggal2.CheckedChanged
 		If Cb_Tanggal2.Checked Then
-			Cmb_Tanggal2.Enabled = True : Tgl_1_2.Enabled = True : Tgl_2_2.Enabled = True
+			'Cmb_Tanggal2.Enabled = True : Tgl_1_2.Enabled = True : Tgl_2_2.Enabled = True
 			Cb_Hari_Ini2.Checked = False
+			Cmb_Tanggal2.Enabled = True
 		Else
-			Cmb_Tanggal2.Enabled = False : Tgl_1_2.Enabled = False : Tgl_2_2.Enabled = False
-			Cmb_Tanggal2.SelectedIndex = -1 : Tgl_1_2.Value = Now.Date : Tgl_2_2.Value = Now.Date
+			Cmb_Tanggal2.Enabled = False
 		End If
+		Tgl_1_2.Enabled = False : Tgl_2_2.Enabled = False
+		Tgl_1_2.Value = Now.Date : Tgl_2_2.Value = Now.Date
+		Cmb_Tanggal2.SelectedIndex = -1
 	End Sub
 
 	Private Sub Cb_Param_Lain2_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_Param_Lain2.CheckedChanged
@@ -1704,6 +2260,55 @@
 		End If
 
 		MyBase.WndProc(m)
+	End Sub
+
+	Private Sub TabControl3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl3.SelectedIndexChanged
+		If TabControl3.SelectedIndex = 0 Then
+			Panel_Warna_Detail_Process.Visible = False
+		ElseIf TabControl3.SelectedIndex = 1 Then
+			Panel_Warna_Detail_Process.Visible = True
+		End If
+	End Sub
+
+	Private Sub EnableDoubleBuffer(lvw As ListView)
+		Dim t As Type = lvw.GetType()
+		Dim prop = t.GetProperty("DoubleBuffered", Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Instance)
+		prop.SetValue(lvw, True, Nothing)
+	End Sub
+
+	Private Sub HandleListViewHover(lvw As ListView, e As MouseEventArgs)
+		Dim hit As ListViewHitTestInfo = lvw.HitTest(e.Location)
+
+		lvw.Cursor = If(hit.Item IsNot Nothing, Cursors.Hand, Cursors.Default)
+
+		If hit.Item IsNot lastHoverItem Then
+			lvw.BeginUpdate()
+
+			If lastHoverItem IsNot Nothing Then
+				lastHoverItem.BackColor = originalItemColor
+			End If
+
+			If hit.Item IsNot Nothing AndAlso hit.Item.Tag Is Nothing Then
+				lastHoverItem = hit.Item
+				originalItemColor = lastHoverItem.BackColor
+
+				Dim amt As Integer = 10
+				lastHoverItem.BackColor = Color.FromArgb(
+				Math.Max(0, originalItemColor.R - amt),
+				Math.Max(0, originalItemColor.G - amt),
+				Math.Max(0, originalItemColor.B - amt)
+			)
+			Else
+				lastHoverItem = Nothing
+			End If
+
+			lvw.EndUpdate()
+		End If
+	End Sub
+
+	Private Sub Lv_Product_Data_MouseMove(sender As Object, e As MouseEventArgs) Handles Lv_Product_Data.MouseMove, Lv_Product_User_Approve.MouseMove, Lv_Product_Detail_Barang.MouseMove, Lv_Product_Detail_Barcode.MouseMove,
+			Lv_Process_Data.MouseMove, Lv_Process_User_Approve.MouseMove, Lv_Process_Detail_Barang.MouseMove, Lv_Process_Detail_Barcode.MouseMove
+		HandleListViewHover(sender, e)
 	End Sub
 
 End Class

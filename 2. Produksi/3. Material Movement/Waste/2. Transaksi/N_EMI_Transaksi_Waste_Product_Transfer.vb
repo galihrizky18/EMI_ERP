@@ -1,6 +1,10 @@
 ﻿Public Class N_EMI_Transaksi_Waste_Product_Transfer
 
-	Dim Lv_NoTransaksi, Lv_NoSplit, Lv_Tanggal, Lv_Jam, Lv_Lokasi, Lv_Kd_Barang, Lv_Nm_Barang, Lv_Barcode, Lv_Jumlah, Lv_Satuan As String
+	Private lastHoverItem As ListViewItem = Nothing
+	Private originalItemColor As Color
+
+	Dim Lv_NoTransaksi, Lv_NoSplit, Lv_Tanggal, Lv_Jam, Lv_Lokasi, Lv_Kd_Barang, Lv_Nm_Barang, Lv_Barcode, Lv_Jumlah, Lv_Satuan,
+		Lv_Asal As String
 
 	Dim item_NoTransaksi As Integer = 0
 	Dim item_NoSplit As Integer = 1
@@ -12,14 +16,28 @@
 	Dim item_Barcode As Integer = 7
 	Dim item_Jumlah As Integer = 8
 	Dim item_Satuan As Integer = 9
+	Dim item_Asal As Integer = 10
 
 	Dim Initial_Faktur As String = ""
 
 	Dim arr_Rekap_Data As New List(Of (kd_Barang As String, jumlah As Double, satuan As String, lokasi As String))
+	Dim arrInitialFaktur As New ArrayList
+	Dim arrInitialFakturAllGudang As New List(Of (Gudang As String, InitialFaktur As String))
 
 	Dim Random As New Random()
 
+	Dim ArrFilter As New List(Of (ValueCombo As String, Sql_GR1 As String, Sql_GR2 As String, Sql_GR3 As String, Sql_ChangePackaging As String)) From {
+		(OpsiSeluruh, OpsiSeluruh, OpsiSeluruh, OpsiSeluruh, OpsiSeluruh),
+		("No Split", "a.No_Production_Order", "a.No_Production_Order", "a.No_Production_Order", "a.No_Split"),
+		("No Transaksi", "a.No_Transaksi", "a.No_Transaksi", "a.No_Transaksi", "a.No_Transaksi"),
+		("Barcode", "(c.Qr_Code + '-' + c.Kode_Unik_Berjalan)", "(c.Qr_Code + '-' + c.Kode_Unik_Berjalan)", "(c.Qr_Code+'-'+c.Kode_Unik_Berjalan)", "(b.Qr_Code + '-' + b.Kode_Unik_Berjalan)"),
+		("Kode Barang", "d.Kode_Barang", "b.Kode_Barang", "b.Kode_Barang", "b.Kode_Barang_Tujuan"),
+		("Nama Barang", "e.Nama", "d.Nama", "d.nama", "c.Nama")
+	}
+
 	Private Sub N_EMI_Transaksi_Waste_Proses_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+		EnableDoubleBuffer(Lv_Data)
 
 		Lv_Data.Columns.Clear()
 		Lv_Data.Columns.Add("No Transaksi", 150, HorizontalAlignment.Left) '0
@@ -32,21 +50,50 @@
 		Lv_Data.Columns.Add("Barcode", 250, HorizontalAlignment.Left) '7
 		Lv_Data.Columns.Add("Jumlah", 140, HorizontalAlignment.Right) '8
 		Lv_Data.Columns.Add("Satuan", 80, HorizontalAlignment.Center) '9
-		'Hide
-		Lv_Data.Columns.Add("sn", 0, HorizontalAlignment.Center) '10
+		Lv_Data.Columns.Add("Asal", 120, HorizontalAlignment.Center).DisplayIndex = 2 '10
 		Lv_Data.View = View.Details
 
 		Try
 			OpenConn()
 
-			Cmb_Gudang_Tujuan.Items.Clear()
-
-			SQL = "select Kode_Stock_Owner from Stock_Owner_Gudang where kode_perusahaan = '" & KodePerusahaan & "' and Flag_Waste_Product = 'Y' "
+			Cmb_Gudang_Tujuan.Items.Clear() : arrInitialFaktur.Clear()
+			SQL = "select Kode_Stock_Owner, inisial_faktur from Stock_Owner_Gudang where kode_perusahaan = '" & KodePerusahaan & "' and Flag_Waste_Product = 'Y' "
 			Using Dr = OpenTrans(SQL)
 				If Dr.Read Then
 					Cmb_Gudang_Tujuan.Items.Add(Dr("Kode_Stock_Owner"))
+					arrInitialFaktur.Add(Dr("inisial_faktur"))
 				End If
 			End Using
+
+			arrInitialFakturAllGudang.Clear()
+			SQL = "Select kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan From Stock_Owner_Gudang where "
+			SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and aktif = 'Y' "
+			SQL = SQL & "order by kode_stock_owner"
+			Using dr = OpenTrans(SQL)
+				Do While dr.Read
+					arrInitialFakturAllGudang.Add((dr("kode_stock_owner"), dr("inisial_faktur")))
+				Loop
+			End Using
+
+			Cmb_Lokasi.Items.Clear()
+			SQL = $"
+				select a.Kode_Stock_Owner, a.Jenis
+				from N_EMI_Role_Akses_Gudang_Waste a
+				where a.Kode_Perusahaan = '{KodePerusahaan}'
+				and Jenis = 'Waste_Produk'
+				and a.UserID = '{UserID}'
+			"
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					Do
+						Cmb_Lokasi.Items.Add(Dr("Kode_Stock_Owner"))
+					Loop While Dr.Read
+				End If
+			End Using
+
+			If Cmb_Lokasi.Items.Count > 0 Then
+				Cmb_Lokasi.SelectedIndex = 0
+			End If
 
 			CloseConn()
 		Catch ex As Exception
@@ -54,6 +101,11 @@
 			MessageBox.Show(ex.Message)
 			Exit Sub
 		End Try
+
+		Cmb_Filter.Items.Clear()
+		For Each item In ArrFilter
+			Cmb_Filter.Items.Add(item.ValueCombo)
+		Next
 
 		Kosong()
 
@@ -80,12 +132,17 @@
 	Private Sub Kosong()
 
 		Dtp_1.Value = Date.Now : Dtp_2.Value = Date.Now
-		Txt_No_Split.Text = ""
+		Txt_Filter.Text = ""
 		Txt_Keterangan.Text = ""
 
 		Cmb_Gudang_Tujuan.SelectedIndex = -1
 
 		arr_Rekap_Data.Clear()
+
+		If Cmb_Filter.Items.Count > 0 Then
+			Cmb_Filter.SelectedIndex = 0
+		End If
+		'Cmb_Filter_SelectedIndexChanged(New Object, New EventArgs)
 
 		get_jam()
 		Try
@@ -119,6 +176,7 @@
 		Lv_Barcode = Lv_Data.Items(index).SubItems(item_Barcode).Text
 		Lv_Jumlah = Lv_Data.Items(index).SubItems(item_Jumlah).Text
 		Lv_Satuan = Lv_Data.Items(index).SubItems(item_Satuan).Text
+		Lv_Asal = Lv_Data.Items(index).SubItems(item_Asal).Text
 
 	End Sub
 
@@ -127,65 +185,33 @@
 			OpenConn()
 
 			Lv_Data.Items.Clear()
-			SQL = "select a.No_Transaksi, a.No_Production_Order, g.Tanggal, g.Jam, (c.Qr_Code +'-'+c.Kode_Unik_Berjalan) as Barcode,  "
-			SQL = SQL & "d.Kode_Stock_Owner, d.Kode_Barang, e.Nama as Nama_Barang, sum(d.Jumlah) as Jumlah, c.Satuan "
-			SQL = SQL & "from Emi_Production_Results a, Emi_Production_Results_HPP b, Emi_Production_Results_Detail_Scrap c, Barang_SN d, barang e, N_EMI_Master_Waste_Items f, emi_production_results_detail_barang g, emi_split_production_order h "
-			SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan and d.Kode_Perusahaan = e.Kode_Perusahaan  "
-			SQL = SQL & "and e.Kode_Perusahaan = f.Kode_Perusahaan and c.Kode_Perusahaan = g.Kode_Perusahaan "
-			SQL = SQL & "and a.No_Transaksi = b.No_Transaksi "
-			SQL = SQL & "and b.No_Transaksi = c.No_Transaksi and b.Urut = c.Urut_HPP "
-			SQL = SQL & "and c.Serial_Number = d.Serial_Number "
-			SQL = SQL & "and d.Kode_Stock_Owner = e.Kode_Stock_Owner and d.Kode_Barang = e.Kode_Barang "
-			SQL = SQL & "and e.Kode_Barang = f.Kode_Barang and f.Flag_Waste_Product = 'Y'  and a.Cutoff_BA_Waste is null and round(d.jumlah,4)<>0  "
-			SQL = SQL & "and c.No_Transaksi = g.No_Transaksi and c.Proses = g.Proses "
-			SQL = SQL & "and a.kode_perusahaan=h.kode_perusahaan and a.no_production_order=h.no_transaksi and h.Cutoff_BA_Waste is null "
-			SQL = SQL & "and a.Status is null and g.status is null "
-			SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
 
-			If filter Then
-				SQL = SQL & "and g.Tanggal between '" & Format(Dtp_1.Value, "yyyy-MM-dd") & "' and '" & Format(Dtp_2.Value, "yyyy-MM-dd") & "' "
+#Region "Kode Lama"
 
-				If Txt_No_Split.Text.Trim.Length <> 0 Then
-					SQL = SQL & "and a.No_Production_Order like '" & Txt_No_Split.Text & "%' "
-				End If
+			'SQL = "select a.No_Transaksi, a.No_Production_Order, g.Tanggal, g.Jam, (c.Qr_Code +'-'+c.Kode_Unik_Berjalan) as Barcode,  "
+			'SQL = SQL & "d.Kode_Stock_Owner, d.Kode_Barang, e.Nama as Nama_Barang, sum(d.Jumlah) as Jumlah, c.Satuan "
+			'SQL = SQL & "from Emi_Production_Results a, Emi_Production_Results_HPP b, Emi_Production_Results_Detail_Scrap c, Barang_SN d, barang e, N_EMI_Master_Waste_Items f, emi_production_results_detail_barang g, emi_split_production_order h "
+			'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan and d.Kode_Perusahaan = e.Kode_Perusahaan  "
+			'SQL = SQL & "and e.Kode_Perusahaan = f.Kode_Perusahaan and c.Kode_Perusahaan = g.Kode_Perusahaan "
+			'SQL = SQL & "and a.No_Transaksi = b.No_Transaksi "
+			'SQL = SQL & "and b.No_Transaksi = c.No_Transaksi and b.Urut = c.Urut_HPP "
+			'SQL = SQL & "and c.Serial_Number = d.Serial_Number "
+			'SQL = SQL & "and d.Kode_Stock_Owner = e.Kode_Stock_Owner and d.Kode_Barang = e.Kode_Barang "
+			'SQL = SQL & "and e.Kode_Barang = f.Kode_Barang and f.Flag_Waste_Product = 'Y'  and a.Cutoff_BA_Waste is null and round(d.jumlah,4)<>0  "
+			'SQL = SQL & "and c.No_Transaksi = g.No_Transaksi and c.Proses = g.Proses "
+			'SQL = SQL & "and a.kode_perusahaan=h.kode_perusahaan and a.no_production_order=h.no_transaksi and h.Cutoff_BA_Waste is null "
+			'SQL = SQL & "and a.Status is null and g.status is null "
+			'SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
 
-			End If
+			'If filter Then
+			'	SQL = SQL & "and g.Tanggal between '" & Format(Dtp_1.Value, "yyyy-MM-dd") & "' and '" & Format(Dtp_2.Value, "yyyy-MM-dd") & "' "
 
-			SQL = SQL & "and (c.Qr_Code +'-'+c.Kode_Unik_Berjalan) not in ( "
-			SQL = SQL & "select (k.Qr_Code +'-'+k.Kode_Unik_Berjalan) "
-			SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk z, N_EMI_Transaksi_Transfer_Waste_Produk_Detail x, N_EMI_Transaksi_Transfer_Waste_Produk_Det y, barang_sn k "
-			SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan and y.Kode_Perusahaan = k.Kode_Perusahaan "
-			SQL = SQL & "and z.No_Faktur = x.No_Faktur "
-			SQL = SQL & "and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF "
-			SQL = SQL & "and z.Status is null and z.Flag_Waste_Product = 'Y' "
-			SQL = SQL & "and z.Kode_Stock_Owner = k.Kode_Stock_Owner and x.Kode_Barang = k.Kode_Barang and y.Serial_Number_Awal = k.Serial_Number "
-			'SQL = SQL & "and y.Selesai ='Y' and y.Selesai is null and z.Flag_Validasi is null "
-			SQL = SQL & "and z.Kode_Perusahaan = a.Kode_Perusahaan and selesai is null) "
-			SQL = SQL & "group by a.No_Transaksi, a.No_Production_Order, g.Tanggal, g.Jam, (c.Qr_Code +'-'+c.Kode_Unik_Berjalan), d.Kode_Stock_Owner, d.Kode_Barang, e.Nama, c.Satuan "
+			'	If Txt_No_Split.Text.Trim.Length <> 0 Then
+			'		SQL = SQL & "and a.No_Production_Order like '" & Txt_No_Split.Text & "%' "
+			'	End If
 
-			'UNION ALL
-			SQL = SQL & "union all "
+			'End If
 
-			SQL = SQL & "select a.No_Transaksi, a.No_Production_Order, a.Tanggal, a.Jam, (c.Qr_Code +'-'+c.Kode_Unik_Berjalan) as Barcode, "
-			SQL = SQL & "b.Kode_Stock_Owner_Tujuan, b.Kode_Barang, d.Nama as Nama_Barang, sum(c.Jumlah) as Jumlah, b.Satuan "
-			SQL = SQL & "from Emi_Production_Results_Validation a, Emi_Production_Results_Validation_Detail b, Barang_SN c, barang d, N_EMI_Master_Waste_Items e, emi_split_production_order h "
-			SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Perusahaan = e.Kode_Perusahaan "
-			SQL = SQL & "and a.No_Transaksi = b.No_Transaksi "
-			SQL = SQL & "and b.Serial_Number_Tujuan = c.Serial_Number and b.Kode_Stock_Owner_Tujuan = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
-			SQL = SQL & "and b.Kode_Stock_Owner_Tujuan = d.Kode_Stock_Owner and b.Kode_Barang = d.Kode_Barang "
-			SQL = SQL & "and b.Kode_Barang = e.Kode_Barang  "
-			SQL = SQL & "and e.Flag_Waste_Product = 'Y'  and a.Cutoff_BA_Waste is null and round(c.jumlah,4)<>0  "
-			SQL = SQL & "and a.kode_perusahaan=h.kode_perusahaan and a.no_production_order=h.no_transaksi and h.Cutoff_BA_Waste is null "
-			SQL = SQL & "and a.Status is null "
-			SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-			If filter Then
-				SQL = SQL & "and a.Tanggal between '" & Format(Dtp_1.Value, "yyyy-MM-dd") & "' and '" & Format(Dtp_2.Value, "yyyy-MM-dd") & "' "
-
-				If Txt_No_Split.Text.Trim.Length <> 0 Then
-					SQL = SQL & "and a.No_Production_Order like '" & Txt_No_Split.Text & "%' "
-				End If
-
-			End If
 			'SQL = SQL & "and (c.Qr_Code +'-'+c.Kode_Unik_Berjalan) not in ( "
 			'SQL = SQL & "select (k.Qr_Code +'-'+k.Kode_Unik_Berjalan) "
 			'SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk z, N_EMI_Transaksi_Transfer_Waste_Produk_Detail x, N_EMI_Transaksi_Transfer_Waste_Produk_Det y, barang_sn k "
@@ -194,44 +220,242 @@
 			'SQL = SQL & "and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF "
 			'SQL = SQL & "and z.Status is null and z.Flag_Waste_Product = 'Y' "
 			'SQL = SQL & "and z.Kode_Stock_Owner = k.Kode_Stock_Owner and x.Kode_Barang = k.Kode_Barang and y.Serial_Number_Awal = k.Serial_Number "
+			''SQL = SQL & "and y.Selesai ='Y' and y.Selesai is null and z.Flag_Validasi is null "
 			'SQL = SQL & "and z.Kode_Perusahaan = a.Kode_Perusahaan and selesai is null) "
+			'SQL = SQL & "group by a.No_Transaksi, a.No_Production_Order, g.Tanggal, g.Jam, (c.Qr_Code +'-'+c.Kode_Unik_Berjalan), d.Kode_Stock_Owner, d.Kode_Barang, e.Nama, c.Satuan "
 
-			SQL = SQL & "and b.Serial_Number_Tujuan not in ( "
-			SQL = SQL & "select y.Serial_Number_Awal "
-			SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk z, N_EMI_Transaksi_Transfer_Waste_Produk_Detail x, N_EMI_Transaksi_Transfer_Waste_Produk_Det y "
-			SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan and z.No_Faktur = x.No_Faktur and x.No_Faktur = y.No_Faktur "
-			SQL = SQL & "and x.Urut_Oto = y.Urut_TF and z.Status is null and z.Flag_Waste_Product = 'Y' and z.Kode_Perusahaan = a.Kode_Perusahaan ) "
-			SQL = SQL & "group by  a.No_Transaksi, a.No_Production_Order, a.Tanggal, a.Jam, (c.Qr_Code +'-'+c.Kode_Unik_Berjalan), b.Kode_Stock_Owner_Tujuan, b.Kode_Barang, d.Nama, b.Satuan "
+			''UNION ALL
+			'SQL = SQL & "union all "
 
-			'UNION ALL
-			SQL = SQL & "union all "
+			'SQL = SQL & "select a.No_Transaksi, a.No_Production_Order, a.Tanggal, a.Jam, (c.Qr_Code +'-'+c.Kode_Unik_Berjalan) as Barcode, "
+			'SQL = SQL & "b.Kode_Stock_Owner_Tujuan, b.Kode_Barang, d.Nama as Nama_Barang, sum(c.Jumlah) as Jumlah, b.Satuan "
+			'SQL = SQL & "from Emi_Production_Results_Validation a, Emi_Production_Results_Validation_Detail b, Barang_SN c, barang d, N_EMI_Master_Waste_Items e, emi_split_production_order h "
+			'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Perusahaan = e.Kode_Perusahaan "
+			'SQL = SQL & "and a.No_Transaksi = b.No_Transaksi "
+			'SQL = SQL & "and b.Serial_Number_Tujuan = c.Serial_Number and b.Kode_Stock_Owner_Tujuan = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
+			'SQL = SQL & "and b.Kode_Stock_Owner_Tujuan = d.Kode_Stock_Owner and b.Kode_Barang = d.Kode_Barang "
+			'SQL = SQL & "and b.Kode_Barang = e.Kode_Barang  "
+			'SQL = SQL & "and e.Flag_Waste_Product = 'Y'  and a.Cutoff_BA_Waste is null and round(c.jumlah,4)<>0  "
+			'SQL = SQL & "and a.kode_perusahaan=h.kode_perusahaan and a.no_production_order=h.no_transaksi and h.Cutoff_BA_Waste is null "
+			'SQL = SQL & "and a.Status is null "
+			'SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+			'If filter Then
+			'	SQL = SQL & "and a.Tanggal between '" & Format(Dtp_1.Value, "yyyy-MM-dd") & "' and '" & Format(Dtp_2.Value, "yyyy-MM-dd") & "' "
 
-			SQL = SQL & "select a.No_Transaksi, a.No_Split as No_Production_Order, a.Tanggal, a.Jam, (b.Qr_Code+'-'+b.Kode_Unik_Berjalan) as Barcode, b.Kode_Stock_Owner, b.Kode_Barang_Tujuan as Kode_Barang, "
-			SQL = SQL & "c.Nama as Nama_Barang, sum(b.Jumlah_Tujuan) as Jumlah, b.Satuan_Tujuan as Satuan "
-			SQL = SQL & "from EMI_Production_Results_Detail_Change_Packaging a, EMI_Production_Results_Detail_Change_Packaging_Detail b, barang c "
-			SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan "
-			SQL = SQL & "and a.No_Transaksi = b.No_Transaksi  "
-			SQL = SQL & "and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang_Tujuan = c.Kode_Barang "
-			SQL = SQL & "and a.Status is null "
-			SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+			'	If Txt_No_Split.Text.Trim.Length <> 0 Then
+			'		SQL = SQL & "and a.No_Production_Order like '" & Txt_No_Split.Text & "%' "
+			'	End If
+
+			'End If
+			''SQL = SQL & "and (c.Qr_Code +'-'+c.Kode_Unik_Berjalan) not in ( "
+			''SQL = SQL & "select (k.Qr_Code +'-'+k.Kode_Unik_Berjalan) "
+			''SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk z, N_EMI_Transaksi_Transfer_Waste_Produk_Detail x, N_EMI_Transaksi_Transfer_Waste_Produk_Det y, barang_sn k "
+			''SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan and y.Kode_Perusahaan = k.Kode_Perusahaan "
+			''SQL = SQL & "and z.No_Faktur = x.No_Faktur "
+			''SQL = SQL & "and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF "
+			''SQL = SQL & "and z.Status is null and z.Flag_Waste_Product = 'Y' "
+			''SQL = SQL & "and z.Kode_Stock_Owner = k.Kode_Stock_Owner and x.Kode_Barang = k.Kode_Barang and y.Serial_Number_Awal = k.Serial_Number "
+			''SQL = SQL & "and z.Kode_Perusahaan = a.Kode_Perusahaan and selesai is null) "
+
+			'SQL = SQL & "and b.Serial_Number_Tujuan not in ( "
+			'SQL = SQL & "select y.Serial_Number_Awal "
+			'SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk z, N_EMI_Transaksi_Transfer_Waste_Produk_Detail x, N_EMI_Transaksi_Transfer_Waste_Produk_Det y "
+			'SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan and z.No_Faktur = x.No_Faktur and x.No_Faktur = y.No_Faktur "
+			'SQL = SQL & "and x.Urut_Oto = y.Urut_TF and z.Status is null and z.Flag_Waste_Product = 'Y' and z.Kode_Perusahaan = a.Kode_Perusahaan ) "
+			'SQL = SQL & "group by  a.No_Transaksi, a.No_Production_Order, a.Tanggal, a.Jam, (c.Qr_Code +'-'+c.Kode_Unik_Berjalan), b.Kode_Stock_Owner_Tujuan, b.Kode_Barang, d.Nama, b.Satuan "
+
+			''UNION ALL
+			'SQL = SQL & "union all "
+
+			'SQL = SQL & "select a.No_Transaksi, a.No_Split as No_Production_Order, a.Tanggal, a.Jam, (b.Qr_Code+'-'+b.Kode_Unik_Berjalan) as Barcode, b.Kode_Stock_Owner, b.Kode_Barang_Tujuan as Kode_Barang, "
+			'SQL = SQL & "c.Nama as Nama_Barang, sum(b.Jumlah_Tujuan) as Jumlah, b.Satuan_Tujuan as Satuan "
+			'SQL = SQL & "from EMI_Production_Results_Detail_Change_Packaging a, EMI_Production_Results_Detail_Change_Packaging_Detail b, barang c "
+			'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan "
+			'SQL = SQL & "and a.No_Transaksi = b.No_Transaksi  "
+			'SQL = SQL & "and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang_Tujuan = c.Kode_Barang "
+			'SQL = SQL & "and a.Status is null "
+			'SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+			'If filter Then
+			'	SQL = SQL & "and a.Tanggal between '" & Format(Dtp_1.Value, "yyyy-MM-dd") & "' and '" & Format(Dtp_2.Value, "yyyy-MM-dd") & "' "
+
+			'	If Txt_No_Split.Text.Trim.Length <> 0 Then
+			'		SQL = SQL & "and a.No_Split like '" & Txt_No_Split.Text & "%' "
+			'	End If
+
+			'End If
+
+			'SQL = SQL & "and b.SN_Scrap not in ( "
+			'SQL = SQL & "select y.Serial_Number_Awal "
+			'SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk z, N_EMI_Transaksi_Transfer_Waste_Produk_Detail x, N_EMI_Transaksi_Transfer_Waste_Produk_Det y "
+			'SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan  "
+			'SQL = SQL & "and z.No_Faktur = x.No_Faktur "
+			'SQL = SQL & "and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF "
+			'SQL = SQL & "and z.Status is null and z.Flag_Waste_Product = 'Y' "
+			'SQL = SQL & "and z.Kode_Perusahaan = a.Kode_Perusahaan and selesai is null) "
+			'SQL = SQL & "group by a.No_Transaksi, a.No_Split, a.Tanggal, a.Jam, (b.Qr_Code+'-'+b.Kode_Unik_Berjalan), b.Kode_Stock_Owner, b.Kode_Barang_Tujuan, c.Nama, b.Satuan_Tujuan "
+
+#End Region
+
+			Dim Filter_Gr1 As String = ""
+			Dim Filter_Gr2 As String = ""
+			Dim Filter_Gr3 As String = ""
+			Dim Filter_ChangePackaging As String = ""
+
 			If filter Then
-				SQL = SQL & "and a.Tanggal between '" & Format(Dtp_1.Value, "yyyy-MM-dd") & "' and '" & Format(Dtp_2.Value, "yyyy-MM-dd") & "' "
+				Filter_Gr1 &= "and g.Tanggal between '" & Format(Dtp_1.Value, "yyyy-MM-dd") & "' and '" & Format(Dtp_2.Value, "yyyy-MM-dd") & "' "
+				Filter_Gr2 &= "and a.Tanggal between '" & Format(Dtp_1.Value, "yyyy-MM-dd") & "' and '" & Format(Dtp_2.Value, "yyyy-MM-dd") & "' "
+				Filter_Gr3 &= Filter_Gr2
+				Filter_ChangePackaging &= "and a.Tanggal between '" & Format(Dtp_1.Value, "yyyy-MM-dd") & "' and '" & Format(Dtp_2.Value, "yyyy-MM-dd") & "' "
 
-				If Txt_No_Split.Text.Trim.Length <> 0 Then
-					SQL = SQL & "and a.No_Split like '" & Txt_No_Split.Text & "%' "
+				'If Txt_Filter.Text.Trim.Length <> 0 Then
+				'	Filter_Gr1 &= "and a.No_Production_Order like '" & Txt_Filter.Text & "%' "
+				'	Filter_Gr2 &= Filter_Gr1
+				'	Filter_Gr3 &= Filter_Gr2
+				'	Filter_ChangePackaging &= "and a.No_Split like '" & Txt_Filter.Text & "%' "
+				'End If
+
+				If Cmb_Filter.SelectedIndex > 0 Then
+					If Txt_Filter.Text.Trim.Length <> 0 Then
+						Filter_Gr1 &= $"{vbCrLf} and {ArrFilter(Cmb_Filter.SelectedIndex).Sql_GR1} like '%" & Txt_Filter.Text & "%' "
+						Filter_Gr2 &= $"{vbCrLf} and {ArrFilter(Cmb_Filter.SelectedIndex).Sql_GR2} like '%" & Txt_Filter.Text & "%' "
+						Filter_Gr3 &= $"{vbCrLf} and {ArrFilter(Cmb_Filter.SelectedIndex).Sql_GR3} like '%" & Txt_Filter.Text & "%' "
+						Filter_ChangePackaging &= $"{vbCrLf} and {ArrFilter(Cmb_Filter.SelectedIndex).Sql_ChangePackaging} like '%" & Txt_Filter.Text & "%' "
+					End If
 				End If
 
 			End If
 
-			SQL = SQL & "and b.SN_Scrap not in ( "
-			SQL = SQL & "select y.Serial_Number_Awal "
-			SQL = SQL & "from N_EMI_Transaksi_Transfer_Waste_Produk z, N_EMI_Transaksi_Transfer_Waste_Produk_Detail x, N_EMI_Transaksi_Transfer_Waste_Produk_Det y "
-			SQL = SQL & "where z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan  "
-			SQL = SQL & "and z.No_Faktur = x.No_Faktur "
-			SQL = SQL & "and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF "
-			SQL = SQL & "and z.Status is null and z.Flag_Waste_Product = 'Y' "
-			SQL = SQL & "and z.Kode_Perusahaan = a.Kode_Perusahaan and selesai is null) "
-			SQL = SQL & "group by a.No_Transaksi, a.No_Split, a.Tanggal, a.Jam, (b.Qr_Code+'-'+b.Kode_Unik_Berjalan), b.Kode_Stock_Owner, b.Kode_Barang_Tujuan, c.Nama, b.Satuan_Tujuan "
+			SQL = $"
+				select 'GR 1' as Asal, a.No_Transaksi, a.No_Production_Order, g.Tanggal, g.Jam, (c.Qr_Code + '-' + c.Kode_Unik_Berjalan) as Barcode,
+					   d.Kode_Stock_Owner, d.Kode_Barang, e.Nama as Nama_Barang, sum(d.Jumlah) as Jumlah, c.Satuan
+				from Emi_Production_Results a
+					inner join Emi_Production_Results_HPP b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi
+					inner join Emi_Production_Results_Detail_Scrap c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Transaksi = c.No_Transaksi and b.Urut = c.Urut_HPP
+					inner join Barang_SN d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.Serial_Number = d.Serial_Number
+					inner join barang e on d.Kode_Perusahaan = e.Kode_Perusahaan and d.Kode_Stock_Owner = e.Kode_Stock_Owner and d.Kode_Barang = e.Kode_Barang
+					inner join N_EMI_Master_Waste_Items f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.Kode_Barang = f.Kode_Barang
+					inner join emi_production_results_detail_barang g on c.Kode_Perusahaan = g.Kode_Perusahaan and c.No_Transaksi = g.No_Transaksi and c.Proses = g.Proses
+					inner join emi_split_production_order h on a.Kode_Perusahaan = h.Kode_Perusahaan and a.no_production_order = h.No_Transaksi
+				where a.Status is null and g.status is null
+				and a.Kode_Perusahaan = '{KodePerusahaan}'
+				and a.Cutoff_BA_Waste is null
+				and f.Flag_Waste_Product = 'Y'
+				and round(d.jumlah, 4) <> 0
+				and h.Cutoff_BA_Waste is null
+				and d.Kode_Stock_Owner = '{Cmb_Lokasi.Text.Trim}'
+				{Filter_Gr1}
+				and not exists(
+						select 1
+						from N_EMI_Transaksi_Transfer_Waste_Produk z
+							inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
+							inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det y on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF
+							inner join barang_sn k on y.Kode_Perusahaan = k.Kode_Perusahaan and z.Kode_Stock_Owner = k.Kode_Stock_Owner and x.Kode_Barang = k.Kode_Barang and y.Serial_Number_Awal = k.Serial_Number
+						where z.Status is null
+						and z.Flag_Waste_Product = 'Y'
+						--and y.Selesai is null
+						and z.Kode_Perusahaan = c.Kode_Perusahaan
+						and (k.Qr_Code + '-' + k.Kode_Unik_Berjalan) = (c.Qr_Code+'-'+c.Kode_Unik_Berjalan)
+							  )
+				group by a.No_Transaksi, a.No_Production_Order, g.Tanggal, g.Jam, (c.Qr_Code + '-' + c.Kode_Unik_Berjalan),
+						 d.Kode_Stock_Owner, d.Kode_Barang, e.Nama, c.Satuan
+
+				union all
+
+				select 'GR 2' as Asal, a.No_Transaksi, a.No_Production_Order, a.Tanggal, a.Jam, (c.Qr_Code + '-' + c.Kode_Unik_Berjalan) as Barcode,
+					   b.Kode_Stock_Owner_Tujuan as Kode_Stock_Owner, b.Kode_Barang, d.Nama as Nama_Barang, sum(c.Jumlah) as Jumlah, b.Satuan
+				from Emi_Production_Results_Validation a
+					inner join Emi_Production_Results_Validation_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi
+					inner join Barang_SN c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = c.Kode_Stock_Owner
+												  and b.Kode_Barang = c.Kode_Barang and b.Serial_Number_Tujuan = c.Serial_Number
+					inner join barang d on b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = d.Kode_Stock_Owner and b.Kode_Barang = d.Kode_Barang
+					inner join N_EMI_Master_Waste_Items e on b.Kode_Perusahaan = e.Kode_Perusahaan and b.Kode_Barang = e.Kode_Barang
+					inner join emi_split_production_order h on a.Kode_Perusahaan = h.Kode_Perusahaan and a.No_Production_Order = h.No_Transaksi
+				where a.Status is null and h.Status is null
+				and a.Cutoff_BA_Waste is null
+				and h.Cutoff_BA_Waste is null
+				and a.Kode_Perusahaan = '{KodePerusahaan}'
+				and e.Flag_Waste_Product = 'Y'
+				and round(c.jumlah, 4) <> 0
+				and b.Kode_Stock_Owner_Tujuan = '{Cmb_Lokasi.Text.Trim}'
+				{Filter_Gr2}
+				and not EXISTS(
+						select 1
+							from N_EMI_Transaksi_Transfer_Waste_Produk z
+								inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
+								inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det y on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF
+							where z.Status is null
+							and z.Flag_Waste_Product = 'Y'
+							--and y.Selesai is null
+        					and z.Kode_Perusahaan = c.Kode_Perusahaan and y.Serial_Number_Awal = b.Serial_Number_Tujuan
+						)
+				group by a.No_Transaksi, a.No_Production_Order, a.Tanggal, a.Jam, (c.Qr_Code + '-' + c.Kode_Unik_Berjalan),
+						 b.Kode_Stock_Owner_Tujuan, b.Kode_Barang, d.Nama, b.Satuan
+
+				union all
+
+				select 'GR 3' as Asal, a.No_Transaksi, f.No_Production_Order, a.Tanggal, a.Jam,
+					   (c.Qr_Code + '-' + c.Kode_Unik_Berjalan) as Barcode, b.Kode_Stock_Owner_Tujuan as Kode_Stock_Owner,
+					   b.Kode_Barang,
+					   d.nama as Nama_Barang, sum(b.Jumlah) as Jumlah, b.Satuan
+				from N_EMI_Validation_GR_3 a
+					 inner join N_EMI_Validation_GR_3_Detail b
+								on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi
+					 inner join barang_sn c
+								on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = c.Kode_Stock_Owner and
+								   b.Kode_Barang = c.Kode_Barang and b.Serial_Number_Tujuan = c.Serial_Number
+					 inner join barang d on b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Stock_Owner_Tujuan = d.Kode_Stock_Owner and
+											b.Kode_Barang = d.Kode_Barang
+					inner join Emi_Production_Results_Validation_Detail e on b.Kode_Perusahaan = e.Kode_Perusahaan and b.Serial_Number_Awal = e.Serial_Number_Akhir
+					inner join Emi_Production_Results_Validation f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.No_Transaksi = f.No_Transaksi
+				where a.Status is null and f.Status is null
+				  and a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and b.Kode_Stock_Owner_Tujuan = '{Cmb_Lokasi.Text.Trim}'
+				  {Filter_Gr3}
+				  and not EXISTS
+					(
+						select 1
+						from N_EMI_Transaksi_Transfer_Waste_Produk z
+							 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail x
+										on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
+							 inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det y
+										on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and
+										   x.Urut_Oto = y.Urut_TF
+						where z.Status is null
+						  and z.Flag_Waste_Product = 'Y'
+						  --and y.Selesai is null
+						  and z.Kode_Perusahaan = c.Kode_Perusahaan
+						  and y.Serial_Number_Awal = b.Serial_Number_Tujuan
+					)
+				group by a.No_Transaksi, f.No_Production_Order, a.Tanggal, a.Jam, (c.Qr_Code + '-' + c.Kode_Unik_Berjalan),
+						 b.Kode_Stock_Owner_Tujuan, b.Kode_Barang,
+						 d.nama, b.Satuan
+
+				union all
+
+				select 'Change Packaging' as Asal,a.No_Transaksi, a.No_Split as No_Production_Order, a.Tanggal, a.Jam,
+					   (b.Qr_Code + '-' + b.Kode_Unik_Berjalan) as Barcode, b.Kode_Stock_Owner, b.Kode_Barang_Tujuan as Kode_Barang,
+					   c.Nama as Nama_Barang, sum(b.Jumlah_Tujuan) as Jumlah, b.Satuan_Tujuan as Satuan
+				from EMI_Production_Results_Detail_Change_Packaging a
+					inner join EMI_Production_Results_Detail_Change_Packaging_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi
+					inner join barang c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang_Tujuan = c.Kode_Barang
+				where a.Status is null
+				and a.Kode_Perusahaan = '{KodePerusahaan}'
+				and b.Kode_Stock_Owner = '{Cmb_Lokasi.Text.Trim}'
+				{Filter_ChangePackaging}
+				and not EXISTS(
+						select 1
+							from N_EMI_Transaksi_Transfer_Waste_Produk z
+								inner join N_EMI_Transaksi_Transfer_Waste_Produk_Detail x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
+								inner join N_EMI_Transaksi_Transfer_Waste_Produk_Det y on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF
+							where z.Status is null
+							and z.Flag_Waste_Product = 'Y'
+							--and y.Selesai is null
+							and z.Kode_Perusahaan = c.Kode_Perusahaan
+							and y.Serial_Number_Awal = b.SN_Scrap
+						)
+				group by a.No_Transaksi, a.No_Split, a.Tanggal, a.Jam, (b.Qr_Code + '-' + b.Kode_Unik_Berjalan), b.Kode_Stock_Owner,
+						 b.Kode_Barang_Tujuan, c.Nama, b.Satuan_Tujuan
+			"
 			Using Dr = OpenTrans(SQL)
 				Do While Dr.Read
 
@@ -246,6 +470,7 @@
 					Lv.SubItems.Add(Dr("Barcode"))
 					Lv.SubItems.Add(Dr("Jumlah"))
 					Lv.SubItems.Add(Dr("Satuan"))
+					Lv.SubItems.Add(Dr("Asal"))
 
 				Loop
 			End Using
@@ -267,28 +492,45 @@
 		If Lv_Data.Items.Count = 0 Then Exit Sub
 		If e.NewValue = CheckState.Unchecked Then Exit Sub
 
-		If Lv_Data.CheckedItems.Count > 0 Then
-			Dim refItem As ListViewItem = Lv_Data.CheckedItems(0)
-			Dim refValue As String = refItem.SubItems(item_Lokasi).Text
-			Dim refValue2 As String = refItem.SubItems(item_NoSplit).Text
+		Dim refItem As ListViewItem = Lv_Data.Items(e.Index)
+		Dim refValue As String = refItem.SubItems(item_Lokasi).Text
+		Dim refValue2 As String = refItem.SubItems(item_NoSplit).Text
 
-			Dim currentItem As ListViewItem = Lv_Data.Items(e.Index)
-			Dim currentValue As String = currentItem.SubItems(item_Lokasi).Text
-			Dim currentValue2 As String = currentItem.SubItems(item_NoSplit).Text
+		Dim currentItem As ListViewItem = Lv_Data.Items(e.Index)
+		Dim currentValue As String = currentItem.SubItems(item_Lokasi).Text
+		Dim currentValue2 As String = currentItem.SubItems(item_NoSplit).Text
+		Dim currentlokasi As String = currentItem.SubItems(item_Lokasi).Text
 
-			'If refValue2.ToUpper() <> currentValue2.ToUpper() Then
-			'    e.NewValue = CheckState.Unchecked '
+		'If refValue2.ToUpper() <> currentValue2.ToUpper() Then
+		'    e.NewValue = CheckState.Unchecked '
 
-			'    MessageBox.Show("Hanya bisa memilih item dengan Split yang sama.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-			'    Exit Sub
-			'End If
+		'    MessageBox.Show("Hanya bisa memilih item dengan Split yang sama.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		'    Exit Sub
+		'End If
 
-			If refValue.ToUpper() <> currentValue.ToUpper() Then
-				e.NewValue = CheckState.Unchecked '
+		Initial_Faktur = arrInitialFakturAllGudang.FirstOrDefault(Function(x) x.Gudang.Trim = currentlokasi.Trim).InitialFaktur
 
-				MessageBox.Show("Hanya bisa memilih item dengan lokasi yang sama.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-				Exit Sub
-			End If
+		Try
+			OpenConn()
+			Cmd.Transaction = Cn.BeginTransaction
+
+			get_no_faktur_pemusnahan()
+
+			Cmd.Transaction.Commit()
+			CloseTrans()
+			CloseConn()
+		Catch ex As Exception
+			CloseTrans()
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+		If refValue.ToUpper() <> currentValue.ToUpper() Then
+			e.NewValue = CheckState.Unchecked '
+
+			MessageBox.Show("Hanya bisa memilih item dengan lokasi yang sama.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			Exit Sub
 		End If
 
 	End Sub
@@ -389,10 +631,10 @@
 			'=================================================
 			'=     INSERT N_EMI_Transaksi_Transfer_Waste     =
 			'=================================================
-			SQL = "insert into N_EMI_Transaksi_Transfer_Waste_Produk (kode_perusahaan, No_faktur, Kode_Stock_Owner, Kode_Stock_Owner_Tujuan, Tanggal, Jam, UserID, Lokasi, Keterangan, Flag_Waste_Product) Values "
+			SQL = "insert into N_EMI_Transaksi_Transfer_Waste_Produk (kode_perusahaan, No_faktur, Kode_Stock_Owner, Kode_Stock_Owner_Tujuan, Tanggal, Jam, UserID, Lokasi, Keterangan, Flag_Waste_Product, Flag_Data_Baru_Validasi_Pemindahan) Values "
 			SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(Txt_No_Transaksi.Text) & "', '" & arr_Rekap_Data(0).lokasi & "', '" & Cmb_Gudang_Tujuan.Text & "', "
 			SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & UserID & "', "
-			SQL = SQL & "'" & Ket_Lokasi_HO & "', '" & Keterangan & "', 'Y')"
+			SQL = SQL & "'" & Ket_Lokasi_HO & "', '" & Keterangan & "', 'Y', 'Y')"
 			ExecuteTrans(SQL)
 
 			Dim refItem As ListViewItem = Lv_Data.CheckedItems(0)
@@ -1597,9 +1839,7 @@
 
 					End If
 
-					SQL &= $"
-                            order by Approval_Level
-                            "
+					SQL &= $"order by Approval_Level "
 					Using Ds10 = BindingTrans(SQL)
 						If Ds10.Tables("MyTable").Rows.Count <> 0 Then
 							For z As Integer = 0 To Ds10.Tables("MyTable").Rows.Count - 1
@@ -1674,10 +1914,10 @@
 	End Sub
 
 	Private Sub Dtp_2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Dtp_2.KeyPress
-		If e.KeyChar = Chr(13) Then Txt_No_Split.Focus()
+		If e.KeyChar = Chr(13) Then Txt_Filter.Focus()
 	End Sub
 
-	Private Sub Txt_No_Split_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_No_Split.KeyPress
+	Private Sub Txt_No_Split_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Filter.KeyPress
 		If e.KeyChar = Chr(13) Then Btn_Cari.Focus()
 	End Sub
 
@@ -1691,6 +1931,59 @@
 
 	Private Sub Txt_Keterangan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Keterangan.KeyPress
 		If e.KeyChar = Chr(13) Then Btn_Simpan.Focus()
+	End Sub
+
+	Private Sub Cmb_Filter_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Filter.SelectedIndexChanged
+		If Cmb_Filter.SelectedIndex = -1 Then Exit Sub
+
+		Txt_Filter.Text = ""
+		If Cmb_Filter.SelectedIndex = 0 Then
+			Txt_Filter.BackColor = Color.FromArgb(235, 235, 235)
+			Txt_Filter.Enabled = False
+		Else
+			Txt_Filter.BackColor = Color.White
+			Txt_Filter.Enabled = True
+		End If
+	End Sub
+
+	Private Sub Lv_Data_MouseMove(sender As Object, e As MouseEventArgs) Handles Lv_Data.MouseMove
+		HandleListViewHover(sender, e)
+	End Sub
+
+	Private Sub EnableDoubleBuffer(lvw As ListView)
+		Dim t As Type = lvw.GetType()
+		Dim prop = t.GetProperty("DoubleBuffered", Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Instance)
+		prop.SetValue(lvw, True, Nothing)
+	End Sub
+
+	Private Sub HandleListViewHover(lvw As ListView, e As MouseEventArgs)
+		Dim hit As ListViewHitTestInfo = lvw.HitTest(e.Location)
+
+		lvw.Cursor = If(hit.Item IsNot Nothing, Cursors.Hand, Cursors.Default)
+
+		If hit.Item IsNot lastHoverItem Then
+			lvw.BeginUpdate()
+
+			If lastHoverItem IsNot Nothing Then
+				lastHoverItem.BackColor = originalItemColor
+			End If
+
+			If hit.Item IsNot Nothing AndAlso hit.Item.Tag Is Nothing Then
+				lastHoverItem = hit.Item
+				originalItemColor = lastHoverItem.BackColor
+
+				Dim amt As Integer = 10
+				lastHoverItem.BackColor = Color.FromArgb(
+				Math.Max(0, originalItemColor.R - amt),
+				Math.Max(0, originalItemColor.G - amt),
+				Math.Max(0, originalItemColor.B - amt)
+			)
+			Else
+				lastHoverItem = Nothing
+			End If
+
+			lvw.EndUpdate()
+		End If
 	End Sub
 
 End Class

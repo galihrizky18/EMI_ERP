@@ -1,8 +1,25 @@
 ﻿Public Class Form_Coding_Standar
 
+	Dim Lv_Kolom_1, Lv_Kolom_2, Lv_Kolom_3, Lv_Kolom_4, Lv_Kolom_5, Lv_Kolom_6 As String
+
+	Dim Item_Lv_Kolom_1 As Integer = 0
+	Dim Item_Lv_Kolom_2 As Integer = 1
+	Dim Item_Lv_Kolom_3 As Integer = 2
+	Dim Item_Lv_Kolom_4 As Integer = 3
+	Dim Item_Lv_Kolom_5 As Integer = 4
+	Dim Item_Lv_Kolom_6 As Integer = 5
+
+	Dim Dgv_KdBarang, Dgv_NmBarang, Dgv_Jumlah, Dgv_Satuan As String
+
+	Dim Cell_KdBarang As Integer = 0
+	Dim Cell_NmBarang As Integer = 1
+	Dim Cell_Jumlah As Integer = 2
+	Dim Cell_Satuan As Integer = 3
+
 	Private Sub Form_Coding_Standar_Activated(sender As Object, e As EventArgs) Handles Me.Activated
 		My.Application.ChangeCulture("en-us")
 		My.Application.ChangeUICulture("en-us")
+
 	End Sub
 
 	Private Sub Form_Coding_Standar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -34,6 +51,23 @@
 		LoadDataParent()
 	End Sub
 
+	Private Sub Get_Data_Lv(ByVal index As Integer)
+		Lv_Kolom_1 = Listview.Items(index).SubItems(Item_Lv_Kolom_1).Text
+		Lv_Kolom_2 = Listview.Items(index).SubItems(Item_Lv_Kolom_2).Text
+		Lv_Kolom_3 = Listview.Items(index).SubItems(Item_Lv_Kolom_3).Text
+		Lv_Kolom_4 = Listview.Items(index).SubItems(Item_Lv_Kolom_4).Text
+		Lv_Kolom_5 = Listview.Items(index).SubItems(Item_Lv_Kolom_5).Text
+		Lv_Kolom_6 = Listview.Items(index).SubItems(Item_Lv_Kolom_6).Text
+	End Sub
+
+	Private Sub Get_Data_Dgv(ByVal index As Integer)
+		Dgv_KdBarang = DGV.Rows(index).Cells(Cell_KdBarang).Value
+		Dgv_NmBarang = DGV.Rows(index).Cells(Cell_NmBarang).Value
+		Dgv_Jumlah = DGV.Rows(index).Cells(Cell_Jumlah).Value
+		Dgv_Satuan = DGV.Rows(index).Cells(Cell_Satuan).Value
+
+	End Sub
+
 	Private Sub LoadDataParent()
 		Try
 			OpenConn()
@@ -48,19 +82,28 @@
 				select Kode_Barang, Nama, Good_Stock, Flag_Non_Barcode from barang
 			"
 			Using Dr = OpenTrans(SQL)
-				Do While Dr.Read
-					Dim Lv As ListViewItem
-					Lv = Listview.Items.Add(Dr("Kode_Barang"))
-					Lv.SubItems.Add(Dr("Nama"))
-					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N4"))
-					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N2"))
-					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N0"))
-					If General_Class.CekNULL(Dr("Flag_Non_Barcode")) = "" Then
-						Lv.SubItems.Add("-")
-					Else
-						Lv.SubItems.Add(Dr("Flag_Non_Barcode"))
-					End If
-				Loop
+				If Dr.Read Then
+					Do
+						Dim Lv As ListViewItem
+						Lv = Listview.Items.Add(Dr("Kode_Barang"))
+						Lv.SubItems.Add(Dr("Nama"))
+						Lv.SubItems.Add(Format(Dr("Good_Stock"), "N4")) 'Jika Stock, Gunakan Format N4
+						Lv.SubItems.Add(Format(Dr("Good_Stock"), "N2")) 'Jika Uang, Gunakan Format N2
+						Lv.SubItems.Add(Format(Dr("Tanggal"), "dd MMM yyyy")) 'Format Tanggal
+						If General_Class.CekNULL(Dr("Flag_Non_Barcode")) = "" Then
+							Lv.SubItems.Add("-")
+						Else
+							Lv.SubItems.Add(Dr("Flag_Non_Barcode"))
+						End If
+					Loop While Dr.Read
+				Else
+					Dr.Close()
+					CloseTrans()
+					CloseConn()
+					MessageBox.Show("Terjadi Kesalahan Data Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+
 			End Using
 			Listview.EndUpdate()
 
@@ -76,7 +119,6 @@
 		Try
 			OpenConn()
 
-			'BUAT MASING MASING MENJADI SNIPPET
 			'=====================
 			'=     SHOW DATA     =
 			'=====================
@@ -86,20 +128,29 @@
 				select Kode_Barang, Nama, Good_Stock, Flag_Non_Barcode from barang
 			"
 			Using Dr = OpenTrans(SQL)
-				Do While Dr.Read
-					Dim Lv As ListViewItem
-					Lv = Listview.Items.Add(Dr("Kode_Barang"))
-					Lv.SubItems.Add(Dr("Nama"))
-					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N4")) 'asda
-					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N2")) 'asda
-					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N0")) 'asda
-					If General_Class.CekNULL(Dr("Flag_Non_Barcode")) = "" Then
-						Lv.SubItems.Add("-")
-					Else
-						Lv.SubItems.Add(Dr("Flag_Non_Barcode"))
-					End If
-				Loop
+				If Dr.Read Then
+					Do
+						Dim Lv As ListViewItem
+						Lv = Listview.Items.Add(Dr("Kode_Barang"))
+						Lv.SubItems.Add(Dr("Nama"))
+						Lv.SubItems.Add(Format(Dr("Good_Stock"), "N4")) 'Jika Stock, Gunakan Format N4
+						Lv.SubItems.Add(Format(Dr("Good_Stock"), "N2")) 'Jika Uang, Gunakan Format N2
+						Lv.SubItems.Add(Format(Dr("Tanggal"), "dd MMM yyyy")) 'Format Tanggal
+						If General_Class.CekNULL(Dr("Flag_Non_Barcode")) = "" Then
+							Lv.SubItems.Add("-")
+						Else
+							Lv.SubItems.Add(Dr("Flag_Non_Barcode"))
+						End If
+					Loop While Dr.Read
+				Else
+					Dr.Close()
+					CloseTrans()
+					CloseConn()
+					MessageBox.Show("Terjadi Kesalahan Data Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
 			End Using
+
 			Listview.EndUpdate()
 
 			'===================================
@@ -122,19 +173,27 @@
 				{Filter}
 			"
 			Using Dr = OpenTrans(SQL)
-				Do While Dr.Read
-					Dim Lv As ListViewItem
-					Lv = Listview.Items.Add(Dr("Kode_Barang"))
-					Lv.SubItems.Add(Dr("Nama"))
-					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N4"))
-					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N2"))
-					Lv.SubItems.Add(Format(Dr("Good_Stock"), "N0"))
-					If General_Class.CekNULL(Dr("Flag_Non_Barcode")) = "" Then
-						Lv.SubItems.Add("-")
-					Else
-						Lv.SubItems.Add(Dr("Flag_Non_Barcode"))
-					End If
-				Loop
+				If Dr.Read Then
+					Do
+						Dim Lv As ListViewItem
+						Lv = Listview.Items.Add(Dr("Kode_Barang"))
+						Lv.SubItems.Add(Dr("Nama"))
+						Lv.SubItems.Add(Format(Dr("Good_Stock"), "N4")) 'Jika Stock, Gunakan Format N4
+						Lv.SubItems.Add(Format(Dr("Good_Stock"), "N2")) 'Jika Uang, Gunakan Format N2
+						Lv.SubItems.Add(Format(Dr("Tanggal"), "dd MMM yyyy")) 'Format Tanggal
+						If General_Class.CekNULL(Dr("Flag_Non_Barcode")) = "" Then
+							Lv.SubItems.Add("-")
+						Else
+							Lv.SubItems.Add(Dr("Flag_Non_Barcode"))
+						End If
+					Loop While Dr.Read
+				Else
+					Dr.Close()
+					CloseTrans()
+					CloseConn()
+					MessageBox.Show("Terjadi Kesalahan Data Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
 			End Using
 			Listview.EndUpdate()
 
@@ -194,7 +253,8 @@
 							DGV.Rows(i).Cells(0).Value = .Rows(i).Item("Kode_Barang")
 							DGV.Rows(i).Cells(1).Value = .Rows(i).Item("Nama")
 							DGV.Rows(i).Cells(2).Value = Format(.Rows(i).Item("Good_Stock"), "N4")
-							DGV.Rows(i).Cells(3).Value = .Rows(i).Item("Satuan")
+							DGV.Rows(i).Cells(3).Value = Format(.Rows(i).Item("Tanggal"), "dd MMM yyyy")
+							DGV.Rows(i).Cells(4).Value = .Rows(i).Item("Satuan")
 
 						Next
 					Else
@@ -270,7 +330,7 @@
 		Try
 			OpenConn()
 			Cmd.Transaction = Cn.BeginTransaction
-			get_no_faktur()
+			Get_No_Faktur()
 
 			Dim Action As String = ""
 			If Button3.Tag = "SIMPAN" Then
@@ -367,16 +427,99 @@
 		Kosong()
 	End Sub
 
+	Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+		Listview_DoubleClick(sender, e)
+	End Sub
+
+	Private Sub Listview_DoubleClick(sender As Object, e As EventArgs) Handles Listview.DoubleClick
+		If Listview.Items.Count = 0 Or Listview.FocusedItem Is Nothing Then Exit Sub
+
+		Dim SelectedIndex As Integer = Listview.FocusedItem.Index
+		Get_Data_Lv(SelectedIndex)
+
+		Txt_Faktur.Text = Lv_Kolom_2.Trim
+		TextBox1.Text = Val(HilangkanTanda(Lv_Kolom_1.Trim))
+		ComboBox1.Text = Lv_Kolom_3.Trim
+
+	End Sub
+
+	Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+		DGV_CellDoubleClick(sender, e)
+	End Sub
+
+	Private Sub DGV_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV.CellDoubleClick
+		If DGV.Rows.Count = 0 Or e.RowIndex < 0 Then Exit Sub
+
+		Dim SelectedIndex As Integer = DGV.CurrentRow.Index
+		Get_Data_Dgv(SelectedIndex)
+
+		Txt_Faktur.Text = Dgv_KdBarang.Trim
+		ComboBox1.Text = Dgv_NmBarang.Trim
+		TextBox1.Text = Val(HilangkanTanda(Dgv_Jumlah.Trim))
+
+	End Sub
+
+	Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+		Listview_SelectedIndexChanged(sender, e)
+	End Sub
+
+	Private Sub Listview_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Listview.SelectedIndexChanged
+		If Listview.Items.Count = 0 Or Listview.FocusedItem Is Nothing Then Exit Sub
+
+		Dim SelectedIndex As Integer = Listview.FocusedItem.Index
+		Get_Data_Lv(SelectedIndex)
+
+		Try
+			OpenConn()
+
+			'=======================================
+			'=     HANDLE SHOW LISTVIEW DETAIL     =
+			'=======================================
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+	End Sub
+
+	Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+		DGV_CellClick(sender, e)
+	End Sub
+
+	Private Sub DGV_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV.CellClick
+		If DGV.Rows.Count = 0 Or e.RowIndex < 0 Then Exit Sub
+
+		Dim SelectedIndex As Integer = DGV.CurrentRow.Index
+		Get_Data_Dgv(SelectedIndex)
+
+		Try
+			OpenConn()
+
+			'===========================================
+			'=     HANDLE SHOW DATAGRIDVIEW DETAIL     =
+			'===========================================
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+	End Sub
+
 	'============================================================================================================================================================
 	'=     UTILITY
 	'============================================================================================================================================================
 
-	Private Sub get_no_faktur()
-		Dim FRequestNewMaterial As String = "RNM-"
-		Txt_Faktur.Text = FRequestNewMaterial & Format(tgl_skg, "MMyy") & "-" &
-							General_Class.Get_Last_Number2("N_EMI_Transaksi_Pengajuan_Barang_Baru", "No_Transaksi", 5,
+	Private Sub Get_No_Faktur()
+		Dim IntialFaktur As String = "3HURUFINITIAL-"
+		Txt_Faktur.Text = IntialFaktur & Format(tgl_skg, "MMyy") & "-" &
+							General_Class.Get_Last_Number2("NAMA_TABEL", "KOLOM_TRANSAKSI/FAKTUR", 5,
 							"Kode_perusahaan", KodePerusahaan,
-							"And", "substring(No_Transaksi, 1, " & Len(FRequestNewMaterial) + 4 & ")", FRequestNewMaterial & Format(tgl_skg, "MMyy"))
+							"And", "substring(KOLOM_TRANSAKSI/FAKTUR, 1, " & Len(IntialFaktur) + 4 & ")", IntialFaktur & Format(tgl_skg, "MMyy"))
 	End Sub
 
 End Class

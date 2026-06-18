@@ -161,6 +161,8 @@ Public Class N_EMI_Transaksi_Trial_Penyediaan_Bahan_Baku
 		Validation_Selected_NoRandom.Clear()
 		Lv_Validation_Detail_Bahan.Items.Clear()
 
+		Txt_ScanBarcode.Focus()
+
 	End Sub
 
 	Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
@@ -905,9 +907,10 @@ Public Class N_EMI_Transaksi_Trial_Penyediaan_Bahan_Baku
 			Exit Sub
 		End Try
 
-		Txt_ScanBarcode.Text = ""
-
 		ShowDataDetailBahan()
+
+		Txt_ScanBarcode.Text = ""
+		Txt_ScanBarcode.Focus()
 
 	End Sub
 
@@ -1325,6 +1328,18 @@ Public Class N_EMI_Transaksi_Trial_Penyediaan_Bahan_Baku
 		Btn_Get_Detail_Bahan_Click(Nothing, Nothing)
 		'Btn_Get_Detail_Bahan().PerformClick()
 
+	End Sub
+
+	Private Sub Txt_ScanBarcode_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_ScanBarcode.KeyPress
+		If e.KeyChar = Chr(13) Then
+
+			If Txt_ScanBarcode.Text.Trim.Length <> 0 Then
+				Btn_Scan_Click(Me, Nothing)
+				Txt_ScanBarcode.Focus()
+			End If
+		Else
+
+		End If
 	End Sub
 
 End Class

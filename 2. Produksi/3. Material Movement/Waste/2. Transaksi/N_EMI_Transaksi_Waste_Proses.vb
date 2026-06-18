@@ -4,6 +4,9 @@
 	'asal_menu = PROCESS
 	'asal_menu = PRODUCT
 
+	Private lastHoverItem As ListViewItem = Nothing
+	Private originalItemColor As Color
+
 	Dim Bulan_Romawi As New List(Of (Bulan As Integer, Romawi As String)) From {
 			(1, "I"), (2, "II"), (3, "III"), (4, "IV"), (5, "V"), (6, "VI"), (7, "VII"),
 			(8, "VIII"), (9, "IX"), (10, "X"), (11, "XI"), (12, "XII")
@@ -29,7 +32,18 @@
 
 	Dim Random As New Random()
 
+	Dim ArrFilter As New List(Of (ValueCombo As String, Process_Sql_GR1 As String, Process_Sql_GR2 As String, Produk_Sql As String)) From {
+		(OpsiSeluruh, OpsiSeluruh, OpsiSeluruh, OpsiSeluruh),
+		("No Transaksi", "a.No_Transaksi", "a.No_Transaksi", "a.No_Faktur"),
+		("No Split", "a.No_Production_Order", "a.No_Production_Order", "e.No_Split"),
+		("Lokasi", "d.Kode_Stock_Owner", "b.Kode_Stock_Owner_Tujuan", "a.Kode_Stock_Owner_Tujuan"),
+		("Kode Barang", "d.Kode_Barang", "b.Kode_Barang", "b.Kode_Barang"),
+		("Nama Barang", "e.Nama", "d.Nama", "g.Nama")
+	}
+
 	Private Sub N_EMI_Transaksi_Waste_Proses_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+		EnableDoubleBuffer(Lv_Data)
 
 		Lv_Data.Columns.Clear()
 		Lv_Data.Columns.Add("No Transaksi", 140, HorizontalAlignment.Left) '0
@@ -46,6 +60,11 @@
 		Lv_Data.View = View.Details
 
 		Lv_Data.Columns(10).DisplayIndex = 2
+
+		Cmb_Filter.Items.Clear()
+		For Each item In ArrFilter
+			Cmb_Filter.Items.Add(item.ValueCombo)
+		Next
 
 		Try
 			OpenConn()
@@ -124,12 +143,16 @@
 		Lv_Data.Items.Clear()
 
 		Dtp_1.Value = Date.Now : Dtp_2.Value = Date.Now
-		Txt_No_Split.Text = ""
+		Txt_Filter.Text = ""
 		Txt_Keterangan.Text = ""
 
 		Cmb_Gudang.SelectedIndex = -1 : Cmb_Gudang.Text = ""
 
 		arr_Rekap_Data.Clear()
+
+		If Cmb_Filter.Items.Count > 0 Then
+			Cmb_Filter.SelectedIndex = 0
+		End If
 
 		get_jam()
 		Try
@@ -144,14 +167,18 @@
 			Exit Sub
 		End Try
 
-		Cmb_Gudang.Focus()
+		If Cmb_Gudang.Items.Count > 0 Then
+			Cmb_Gudang.SelectedIndex = 0
+		End If
+
+		Btn_Cari.PerformClick()
 	End Sub
 
 	Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
 		Kosong()
 	End Sub
 
-	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Btn_Cari.Click
 		If Cmb_Gudang.SelectedIndex = -1 Then
 			MessageBox.Show("Pilih dahulu lokasi gudang", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 			Cmb_Gudang.DroppedDown = True
@@ -192,8 +219,8 @@
 
 			If asal_menu.ToString.ToUpper = "PROCESS" Then
 
-				SQL = "select "
 				'SQL = SQL & "'GOOD RECEIVED' as Asal, "
+				SQL = "select "
 				SQL = SQL & "case when ( select top 1 'Y' from N_EMI_Transaksi_Waste_Sampel_GR_1 z where z.status is null "
 				SQL = SQL & "and a.kode_perusahaan = z.kode_perusahaan "
 				SQL = SQL & "and z.no_split = a.No_Production_Order "
@@ -217,13 +244,13 @@
 				SQL = SQL & "and a.kode_perusahaan=h.kode_perusahaan and a.no_production_order=h.no_transaksi and h.Cutoff_BA_Waste is null "
 				SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
 				SQL = SQL & "and d.Kode_Stock_Owner = '" & Cmb_Gudang.Text.Trim & "' "
-				SQL = SQL & "and c.Flag_Input_Waste is null "
+				SQL = SQL & "And c.Flag_Input_Waste Is null "
 
-				If filter Then
-					SQL = SQL & "and g.Tanggal between '" & Format(Dtp_1.Value, "yyyy-MM-dd") & "' and '" & Format(Dtp_2.Value, "yyyy-MM-dd") & "' "
+				If Cmb_Filter.SelectedIndex > 0 Then
+					SQL = SQL & "And g.Tanggal between '" & Format(Dtp_1.Value, "yyyy-MM-dd") & "' and '" & Format(Dtp_2.Value, "yyyy-MM-dd") & "' "
 
-					If Txt_No_Split.Text.Trim.Length <> 0 Then
-						SQL = SQL & "and a.No_Production_Order like '" & Txt_No_Split.Text & "%' "
+					If Txt_Filter.Text.Trim.Length <> 0 Then
+						SQL = SQL & $"and {ArrFilter(Cmb_Filter.SelectedIndex).Process_Sql_GR1} like '%{Txt_Filter.Text.Trim}%' "
 					End If
 
 				End If
@@ -266,11 +293,12 @@
 				SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
 				SQL = SQL & "and b.Kode_Stock_Owner_Tujuan = '" & Cmb_Gudang.Text.Trim & "' "
 				SQL = SQL & "and b.Flag_Input_Waste is null "
-				If filter Then
+
+				If Cmb_Filter.SelectedIndex > 0 Then
 					SQL = SQL & "and a.Tanggal between '" & Format(Dtp_1.Value, "yyyy-MM-dd") & "' and '" & Format(Dtp_2.Value, "yyyy-MM-dd") & "' "
 
-					If Txt_No_Split.Text.Trim.Length <> 0 Then
-						SQL = SQL & "and a.No_Production_Order like '" & Txt_No_Split.Text & "%' "
+					If Txt_Filter.Text.Trim.Length <> 0 Then
+						SQL = SQL & $"and {ArrFilter(Cmb_Filter.SelectedIndex).Process_Sql_GR2} like '%{Txt_Filter.Text.Trim}%' "
 					End If
 
 				End If
@@ -309,7 +337,6 @@
 				SQL = SQL & "and not exists ( select 1 from N_EMI_Transaksi_Approval_Waste z "
 				SQL = SQL & "where z.Kode_Perusahaan = a.Kode_Perusahaan "
 				SQL = SQL & "and z.No_Transaksi = a.No_Transaksi "
-				SQL = SQL & "and z.No_Transaksi = a.No_Transaksi "
 				SQL = SQL & "and z.Flag_Approve IS NULL) "
 				SQL = SQL & "and not EXISTS ( "
 				SQL = SQL & "select 1 from N_EMI_Transaksi_Transfer_Waste z "
@@ -334,11 +361,11 @@
 				SQL = SQL & "and a.status is null "
 				SQL = SQL & "and a.Kode_Stock_Owner_Tujuan = '" & Cmb_Gudang.Text.Trim & "' "
 
-				If filter Then
+				If Cmb_Filter.SelectedIndex > 0 Then
 					SQL = SQL & "and a.Tanggal between '" & Format(Dtp_1.Value, "yyyy-MM-dd") & "' and '" & Format(Dtp_2.Value, "yyyy-MM-dd") & "' "
 
-					If Txt_No_Split.Text.Trim.Length <> 0 Then
-						SQL = SQL & "and e.No_Split like '" & Txt_No_Split.Text & "%' "
+					If Txt_Filter.Text.Trim.Length <> 0 Then
+						SQL = SQL & $"and {ArrFilter(Cmb_Filter.SelectedIndex).Produk_Sql} like '%{Txt_Filter.Text.Trim}%' "
 					End If
 
 				End If
@@ -371,11 +398,6 @@
 			MessageBox.Show(ex.Message)
 			Exit Sub
 		End Try
-	End Sub
-
-	Private Sub Btn_Cari_Click(sender As Object, e As EventArgs) Handles Btn_Cari.Click
-
-		Get_Data(True)
 	End Sub
 
 	Private Sub Lv_Data_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles Lv_Data.ItemCheck
@@ -504,7 +526,7 @@
 				'Dim No_BA As String = Generate_No_Berita_Acara()
 
 				'=================================================
-				'=     INSERT N_EMI_Transaksi_Transfer_Waste8     =
+				'=     INSERT N_EMI_Transaksi_Transfer_Waste     =
 				'=================================================
 
 				SQL = "insert into N_EMI_Transaksi_Transfer_Waste (kode_perusahaan, No_faktur, Kode_Stock_Owner, Tanggal, Jam, UserID, Lokasi, Keterangan, Flag_Waste_Proses) Values "
@@ -1022,7 +1044,7 @@
 					SQL &= $"inner join Data_Approved h on a.Kode_Perusahaan = h.Kode_Perusahaan and a.No_Faktur = h.No_Faktur_Waste "
 					SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
 					SQL &= $"and a.status is null "
-					SQL &= $"and a.Kode_Stock_Owner_Tujuan = 'Waste Storage' "
+					SQL &= $"and a.Kode_Stock_Owner_Tujuan = '" & Lv_Lokasi & "' "
 					SQL &= $"and a.No_Faktur = '{Lv_NoTransaksi}' "
 					SQL &= $"and e.No_Split = '{Lv_NoSplit}' "
 					SQL &= $"and (i.Qr_Code+'-'+i.Kode_Unik_Berjalan) = '{Lv_Barcode}' "
@@ -1866,7 +1888,7 @@
                             and Jenis_Approval = '{Ds9.Tables("MyTable").Rows(y).Item("Jenis_Approval")}'
                             and Kode_Stock_Owner = '{Ds9.Tables("MyTable").Rows(y).Item("kode_stock_owner")}'
                             and Approval_Level = '{Ds9.Tables("MyTable").Rows(y).Item("Approval_Level")}'
-                           "
+                    "
 					If Ds9.Tables("MyTable").Rows(y).Item("Approval_Level") = "1" Then
 
 						SQL &= $" and ID_User_Desktop='{UserID}' "
@@ -1931,10 +1953,10 @@
 	End Sub
 
 	Private Sub Dtp_2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Dtp_2.KeyPress
-		If e.KeyChar = Chr(13) Then Txt_No_Split.Focus()
+		If e.KeyChar = Chr(13) Then Txt_Filter.Focus()
 	End Sub
 
-	Private Sub Txt_No_Split_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_No_Split.KeyPress
+	Private Sub Txt_No_Split_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_Filter.KeyPress
 		If e.KeyChar = Chr(13) Then Btn_Cari.Focus()
 	End Sub
 
@@ -1976,5 +1998,58 @@
 	'    Return Format_Surat
 
 	'End Function
+
+	Private Sub Cmb_Filter_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Filter.SelectedIndexChanged
+		If Cmb_Filter.SelectedIndex = -1 Then Exit Sub
+
+		Txt_Filter.Text = ""
+		If Cmb_Filter.SelectedIndex = 0 Then
+			Txt_Filter.BackColor = Color.FromArgb(235, 235, 235)
+			Txt_Filter.Enabled = False
+		Else
+			Txt_Filter.BackColor = Color.White
+			Txt_Filter.Enabled = True
+		End If
+	End Sub
+
+	Private Sub Lv_Data_MouseMove(sender As Object, e As MouseEventArgs) Handles Lv_Data.MouseMove
+		HandleListViewHover(sender, e)
+	End Sub
+
+	Private Sub EnableDoubleBuffer(lvw As ListView)
+		Dim t As Type = lvw.GetType()
+		Dim prop = t.GetProperty("DoubleBuffered", Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Instance)
+		prop.SetValue(lvw, True, Nothing)
+	End Sub
+
+	Private Sub HandleListViewHover(lvw As ListView, e As MouseEventArgs)
+		Dim hit As ListViewHitTestInfo = lvw.HitTest(e.Location)
+
+		lvw.Cursor = If(hit.Item IsNot Nothing, Cursors.Hand, Cursors.Default)
+
+		If hit.Item IsNot lastHoverItem Then
+			lvw.BeginUpdate()
+
+			If lastHoverItem IsNot Nothing Then
+				lastHoverItem.BackColor = originalItemColor
+			End If
+
+			If hit.Item IsNot Nothing AndAlso hit.Item.Tag Is Nothing Then
+				lastHoverItem = hit.Item
+				originalItemColor = lastHoverItem.BackColor
+
+				Dim amt As Integer = 10
+				lastHoverItem.BackColor = Color.FromArgb(
+				Math.Max(0, originalItemColor.R - amt),
+				Math.Max(0, originalItemColor.G - amt),
+				Math.Max(0, originalItemColor.B - amt)
+			)
+			Else
+				lastHoverItem = Nothing
+			End If
+
+			lvw.EndUpdate()
+		End If
+	End Sub
 
 End Class

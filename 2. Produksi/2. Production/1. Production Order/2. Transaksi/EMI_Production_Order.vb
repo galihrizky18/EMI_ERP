@@ -1,3565 +1,205 @@
 ﻿Public Class EMI_Production_Order
 
-	Private lastHoverItem As ListViewItem = Nothing
-	Private originalItemColor As Color
-
-	Dim arrIdLine, arrInisialFaktur, arrInisialRouting As New ArrayList
-
-	Dim RV_Parent_Formula, RV_Parent_Transaksi As String
-
+	Public flagSudahPOSchedule As String = "T"
+	Public mustUpdate As Boolean = False
+	Public NoFakturFromSchedule As String = Nothing
+	Public parentForm As String = "default"
 	Public RV_Schedule As String = ""
 	Public UrutOtoSchedule As String = ""
-
+	Dim aksesdata As Boolean = False
+	Dim arrIdLine, arrInisialFaktur, arrInisialRouting, arrBarangHasPaket As New ArrayList
 	Dim arrOrderBy As New ArrayList
+	Dim arrPackingSet As New List(Of (Value_Cmb As String, ID_Packing As Integer, isBundle As Boolean))
+	Dim cellDeleted2 As Integer = 11
+	Dim cellFlagPotStok3 As Integer = 9
+	Dim cellFlagPotStok3New As Integer = 9
+	Dim cellFromUpdate2 As Integer = 10
+	Dim cellIdJnsPrdk2 As Integer = 9
+	Dim cellJenis2 As Integer = 7
+	Dim cellJenis4 As Integer = 11
+	Dim cellJenis4New As Integer = 11
+	Dim cellJmlh2 As Integer = 5
+	Dim cellJmlh3 As Integer = 2
+	Dim cellJmlh3New As Integer = 2
+	Dim cellJmlh4 As Integer = 2
+	Dim cellJmlh4New As Integer = 2
+	Dim cellKdBhn3 As Integer = 1
+	Dim cellKdBhn3New As Integer = 1
+	Dim cellKdBhn4 As Integer = 1
+	Dim cellKdBhn4New As Integer = 1
+	Dim cellKdBrg2 As Integer = 4
+	Dim cellKdCust2 As Integer = 2
+	Dim cellKeepStockBrg4 As Integer = 9
+	Dim cellKeepStockBrg4New As Integer = 9
+	Dim cellLokasi2 As Integer = 1
+	Dim cellLvIdJenisProduk As Integer = 11
+	Dim cellLvJenisIO As Integer = 13
+	Dim cellLvJenisProduk As Integer = 9
+	Dim cellLvJmlh As Integer = 6
+	Dim cellLvJmlhSisa As Integer = 7
+	Dim cellLvKdBrg As Integer = 4
+	Dim cellLvKdCus As Integer = 2
+	Dim cellLvKetOrder As Integer = 12
+	Dim cellLvLokasi As Integer = 1
+	Dim cellLvNmBrg As Integer = 5
+	Dim cellLvNmCus As Integer = 3
+	Dim cellLvNoFormula As Integer = 14
 
-	Dim jumlah_po As Double = 0
-
-	Dim skipCB As String = "Y"
-	Dim Jangan_Lanjut As Boolean = True
-
-	Dim dataListview2Update = "T"
-
-	Dim flag_barang_berbeda As String = "T"
-
-	Dim isProcessing_Check As Boolean = False
-
-	'  Dim lvNoAntri As String
-	Dim lvNoPo As String
-
-	Dim lvLokasi As String
-	Dim lvKdCus As String
-	Dim lvNmCus As String
-	Dim lvKdBrg As String
-	Dim lvNmBrg As String
-	Dim lvJmlh As String
-	Dim lvJmlhSisa As String
-	Dim lvSatuan As String
-	Dim lvJenisProduk As String
-	Dim lvUrut As String
-	Dim lvIdJenisProduk As String
-	Dim lvKetOrder As String
-	Dim lvKetJenisIO As String
-	Dim lvPalletNoFormula As String
+	Dim cellPersentasePacking4 As Integer = 14
+	Dim cellDeskripsiPacking4 As Integer = 15
+	Dim cellIDPacking4 As Integer = 16
 
 	' Dim cellLvNoAntri As Integer = 0
 	Dim cellLvNoPo As Integer = 0
 
-	Dim cellLvLokasi As Integer = 1
-	Dim cellLvKdCus As Integer = 2
-	Dim cellLvNmCus As Integer = 3
-	Dim cellLvKdBrg As Integer = 4
-	Dim cellLvNmBrg As Integer = 5
-	Dim cellLvJmlh As Integer = 6
-	Dim cellLvJmlhSisa As Integer = 7
 	Dim cellLvSatuan As Integer = 8
-	Dim cellLvJenisProduk As Integer = 9
 	Dim cellLvUrut As Integer = 10
-	Dim cellLvIdJenisProduk As Integer = 11
-	Dim cellLvKetOrder As Integer = 12
-	Dim cellLvJenisIO As Integer = 13
-	Dim cellLvNoFormula As Integer = 14
+	Dim cellMasterJumlah_Barang4 As Integer = 12
+	Dim cellMasterJumlah_Barang4New As Integer = 12
+	Dim cellNoFormula As Integer = 12
+	Dim cellMasterJumlah_Bahan4 As Integer = 13
+	Dim cellMasterJumlah_Bahan4New As Integer = 13
+	Dim cellNilaiBrg3 As Integer = 6
+	Dim cellNilaiBrg3New As Integer = 6
+	Dim cellNilaiBrg4 As Integer = 6
+	Dim cellNilaiBrg4New As Integer = 6
+	Dim cellNmCust2 As Integer = 3
+	Dim cellNoSo2 As Integer = 0
+	Dim cellNoSo3 As Integer = 0
+	Dim cellNoSo3New As Integer = 0
+	Dim cellNoSo4 As Integer = 0
+	Dim cellNoSo4New As Integer = 0
+	Dim cellPotStok4 As Integer = 10
+	Dim cellPotStok4New As Integer = 10
+	Dim cellRV As Integer = 10
+	Dim cellRVNew As Integer = 10
+	Dim cellSatuan2 As Integer = 6
+	Dim cellSatuan3 As Integer = 3
+	Dim cellSatuan3New As Integer = 3
+	Dim cellSatuan4 As Integer = 3
+	Dim cellSatuan4New As Integer = 3
+	Dim cellSatuanBrg3 As Integer = 7
+	Dim cellSatuanBrg3New As Integer = 7
+	Dim cellSatuanBrg4 As Integer = 7
+	Dim cellSatuanBrg4New As Integer = 7
+	Dim cellSatuanStock3 As Integer = 5
+	Dim cellSatuanStock3New As Integer = 5
+	Dim cellSatuanStock4 As Integer = 5
+	Dim cellSatuanStock4New As Integer = 5
+	Dim cellStock3 As Integer = 4
+	Dim cellStock3New As Integer = 4
+	Dim cellStock4 As Integer = 4
+	Dim cellStock4New As Integer = 4
+	Dim cellStockBrg3 As Integer = 8
+	Dim cellStockBrg3New As Integer = 8
+	Dim cellStockBrg4 As Integer = 8
+	Dim cellStockBrg4New As Integer = 8
+	Dim cellTotalStockBrg3New As Integer = 11
+	Dim cellUrut2 As Integer = 8
 
+	Dim cellPersentaseNew As Integer = 14
+	Dim cellDeskripsiNew As Integer = 15
+
+	Dim dataListview2Update = "T"
 	Dim fakturBB As String
+	Dim flag_barang_berbeda As String = "T"
+	Dim isProcessing_Check As Boolean = False
+	Dim Jangan_Lanjut As Boolean = True
+	Dim jumlah_po As Double = 0
 	Dim Kode_Unik As String = ""
-	Dim aksesdata As Boolean = False
-
-	Public parentForm As String = "default"
-	Public NoFakturFromSchedule As String = Nothing
-	Public flagSudahPOSchedule As String = "T"
-	Public mustUpdate As Boolean = False
-
-	Dim LvFaktur2 As String
-	Dim LvLokasi2 As String
-	Dim lvKdCust2 As String
-	Dim LvNmCust2 As String
-	Dim LvKdBrg2 As String
-	Dim LvJmlh2 As String
-	Dim LvSatuan2 As String
-	Dim LvJenis2 As String
-	Dim LvUrut2 As String
-	Dim LvIdJnsPrdk2 As String
-	Dim LvFromUpdate2 As String
+	Private lastHoverItem As ListViewItem = Nothing
 	Dim LvDeleted2 As String
+	Dim LvFaktur2 As String
+	Dim LvFlagPotStok3 As String
+	Dim LvFlagPotStok3New As String
+	Dim LvFlagPotStok4 As String
+	Dim LvFlagPotStok4New As String
+	Dim LvFromUpdate2 As String
+	Dim lvIdJenisProduk As String
+	Dim LvIdJnsPrdk2 As String
+	Dim LvJenis2 As String
+	Dim LvJenis4 As String
+	Dim LvJenis4New As String
+	Dim lvJenisProduk As String
+	Dim lvJmlh As String
+	Dim LvJmlh2 As String
+	Dim lvJmlh3 As String
+	Dim lvJmlh3New As String
+	Dim lvJmlh4 As String
+	Dim lvJmlh4New As String
+	Dim lvJmlhSisa As String
+	Dim LvKdBhn3 As String
+	Dim LvKdBhn3New As String
+	Dim LvKdBhn4 As String
+	Dim LvKdBhn4New As String
+	Dim lvKdBrg As String
+	Dim LvKdBrg2 As String
+	Dim lvKdCus As String
+	Dim lvKdCust2 As String
+	Dim LvKeepStockBrg4 As String
+	Dim LvKeepStockBrg4New As String
+	Dim lvKetJenisIO As String
+	Dim lvKetOrder As String
+	Dim lvLokasi As String
+	Dim LvLokasi2 As String
+	Dim LvMasterJumlah_Bahan4 As String
+	Dim LvMasterJumlah_Bahan4New As String
+	Dim LvMasterJumlah_Barang4 As String
+	Dim LvMasterJumlah_Barang4New As String
+	Dim LvNilaiBrg3 As String
+	Dim LvNilaiBrg3New As String
+	Dim LvNilaiBrg4 As String
+	Dim LvNilaiBrg4New As String
+	Dim lvNmBrg As String
+	Dim lvNmCus As String
+	Dim LvNmCust2 As String
 	Dim LvNoFormula As String
 
-	Dim cellNoSo2 As Integer = 0
-	Dim cellLokasi2 As Integer = 1
-	Dim cellKdCust2 As Integer = 2
-	Dim cellNmCust2 As Integer = 3
-	Dim cellKdBrg2 As Integer = 4
-	Dim cellJmlh2 As Integer = 5
-	Dim cellSatuan2 As Integer = 6
-	Dim cellJenis2 As Integer = 7
-	Dim cellUrut2 As Integer = 8
-	Dim cellIdJnsPrdk2 As Integer = 9
-	Dim cellFromUpdate2 As Integer = 10
-	Dim cellDeleted2 As Integer = 11
-	Dim cellNoFormula As Integer = 12
+	Dim LvPersentaseNew As String
+	Dim LvDeskripsiNew As String
+
+	Dim LvPersentasePacking4 As String
+	Dim LvDeskripsiPacking4 As String
+	Dim LvIDPacking4 As String
+
+	'  Dim lvNoAntri As String
+	Dim lvNoPo As String
 
 	Dim LvNoSo3 As String
-	Dim LvKdBhn3 As String
-	Dim lvJmlh3 As String
-	Dim LvSatuan3 As String
-	Dim LvStock3 As String
-	Dim LvSatuanStock3 As String
-	Dim LvNilaiBrg3 As String
-	Dim LvSatuanBrg3 As String
-	Dim LvStockBrg3 As String
-	Dim LvFlagPotStok3 As String
-	Dim LvRV As String
-
-	Dim cellNoSo3 As Integer = 0
-	Dim cellKdBhn3 As Integer = 1
-	Dim cellJmlh3 As Integer = 2
-	Dim cellSatuan3 As Integer = 3
-	Dim cellStock3 As Integer = 4
-	Dim cellSatuanStock3 As Integer = 5
-	Dim cellNilaiBrg3 As Integer = 6
-	Dim cellSatuanBrg3 As Integer = 7
-	Dim cellStockBrg3 As Integer = 8
-	Dim cellFlagPotStok3 As Integer = 9
-	Dim cellRV As Integer = 10
-
 	Dim LvNoSo3New As String
-	Dim LvKdBhn3New As String
-	Dim lvJmlh3New As String
-	Dim LvSatuan3New As String
-	Dim LvStock3New As String
-	Dim LvSatuanStock3New As String
-	Dim LvNilaiBrg3New As String
-	Dim LvSatuanBrg3New As String
-	Dim LvStockBrg3New As String
-	Dim LvFlagPotStok3New As String
-	Dim LvRVNew As String
-	Dim LvTotalStockBrg3New As String
-
-	Dim cellNoSo3New As Integer = 0
-	Dim cellKdBhn3New As Integer = 1
-	Dim cellJmlh3New As Integer = 2
-	Dim cellSatuan3New As Integer = 3
-	Dim cellStock3New As Integer = 4
-	Dim cellSatuanStock3New As Integer = 5
-	Dim cellNilaiBrg3New As Integer = 6
-	Dim cellSatuanBrg3New As Integer = 7
-	Dim cellStockBrg3New As Integer = 8
-	Dim cellFlagPotStok3New As Integer = 9
-	Dim cellRVNew As Integer = 10
-	Dim cellTotalStockBrg3New As Integer = 11
-
 	Dim LvNoSo4 As String
-	Dim LvKdBhn4 As String
-	Dim lvJmlh4 As String
-	Dim LvSatuan4 As String
-	Dim LvStock4 As String
-	Dim LvSatuanStock4 As String
-	Dim LvNilaiBrg4 As String
-	Dim LvSatuanBrg4 As String
-	Dim LvStockBrg4 As String
-	Dim LvKeepStockBrg4 As String
-	Dim LvFlagPotStok4 As String
-	Dim LvJenis4 As String
-	Dim LvMasterJumlah_Barang4 As String
-	Dim LvMasterJumlah_Bahan4 As String
-
-	Dim cellNoSo4 As Integer = 0
-	Dim cellKdBhn4 As Integer = 1
-	Dim cellJmlh4 As Integer = 2
-	Dim cellSatuan4 As Integer = 3
-	Dim cellStock4 As Integer = 4
-	Dim cellSatuanStock4 As Integer = 5
-	Dim cellNilaiBrg4 As Integer = 6
-	Dim cellSatuanBrg4 As Integer = 7
-	Dim cellStockBrg4 As Integer = 8
-	Dim cellKeepStockBrg4 As Integer = 9
-	Dim cellPotStok4 As Integer = 10
-	Dim cellJenis4 As Integer = 11
-	Dim cellMasterJumlah_Barang4 As Integer = 12
-	Dim cellMasterJumlah_Bahan4 As Integer = 13
-
 	Dim LvNoSo4New As String
-	Dim LvKdBhn4New As String
-	Dim lvJmlh4New As String
+	Dim lvPalletNoFormula As String
+	Dim LvRV As String
+	Dim LvRVNew As String
+	Dim lvSatuan As String
+	Dim LvSatuan2 As String
+	Dim LvSatuan3 As String
+	Dim LvSatuan3New As String
+	Dim LvSatuan4 As String
 	Dim LvSatuan4New As String
-	Dim LvStock4New As String
-	Dim LvSatuanStock4New As String
-	Dim LvNilaiBrg4New As String
+	Dim LvSatuanBrg3 As String
+	Dim LvSatuanBrg3New As String
+	Dim LvSatuanBrg4 As String
 	Dim LvSatuanBrg4New As String
+	Dim LvSatuanStock3 As String
+	Dim LvSatuanStock3New As String
+	Dim LvSatuanStock4 As String
+	Dim LvSatuanStock4New As String
+	Dim LvStock3 As String
+	Dim LvStock3New As String
+	Dim LvStock4 As String
+	Dim LvStock4New As String
+	Dim LvStockBrg3 As String
+	Dim LvStockBrg3New As String
+	Dim LvStockBrg4 As String
 	Dim LvStockBrg4New As String
-	Dim LvKeepStockBrg4New As String
-	Dim LvFlagPotStok4New As String
-	Dim LvJenis4New As String
-	Dim LvMasterJumlah_Barang4New As String
-	Dim LvMasterJumlah_Bahan4New As String
-
-	Dim cellNoSo4New As Integer = 0
-	Dim cellKdBhn4New As Integer = 1
-	Dim cellJmlh4New As Integer = 2
-	Dim cellSatuan4New As Integer = 3
-	Dim cellStock4New As Integer = 4
-	Dim cellSatuanStock4New As Integer = 5
-	Dim cellNilaiBrg4New As Integer = 6
-	Dim cellSatuanBrg4New As Integer = 7
-	Dim cellStockBrg4New As Integer = 8
-	Dim cellKeepStockBrg4New As Integer = 9
-	Dim cellPotStok4New As Integer = 10
-	Dim cellJenis4New As Integer = 11
-	Dim cellMasterJumlah_Barang4New As Integer = 12
-	Dim cellMasterJumlah_Bahan4New As Integer = 13
-
-	Private Sub get_no_faktur()
-
-		txtNoFaktur.Text = fProduksi & Format(tgl_skg, "MMyy") & "-" &
-					 General_Class.Get_Last_Number2("emi_order_produksi", "no_Faktur", 5,
-					 "Kode_perusahaan", KodePerusahaan,
-					 "And", "substring(no_Faktur, 1, " & Len(fProduksi) + 4 & ")", fProduksi & Format(tgl_skg, "MMyy"))
-
-		txt_faktur_bayangan.Text = fProduksi & Format(tgl_skg, "MMyy") & "-" &
-				   General_Class.Get_Last_Number2("emi_order_produksi", "no_Faktur", 5,
-				   "Kode_perusahaan", KodePerusahaan,
-				   "And", "substring(no_Faktur, 1, " & Len(fProduksi) + 4 & ")", fProduksi & Format(tgl_skg, "MMyy"))
-	End Sub
-
-	Private Sub EMI_Production_Order_Activated(sender As Object, e As EventArgs) Handles Me.Activated
-		My.Application.ChangeCulture("en-us")
-		My.Application.ChangeUICulture("en-us")
-	End Sub
-
-	Private Sub Master_Gudang_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-		My.Application.ChangeCulture("en-us")
-		My.Application.ChangeUICulture("en-us")
-		get_jam()
-		mustUpdate = False
-
-		EnableDoubleBuffer(LvData)
-		EnableDoubleBuffer(LvOrder)
-		EnableDoubleBuffer(LvBahanNew)
-		EnableDoubleBuffer(LvPackagingNew)
-
-		Try
-			OpenConn()
-			Base_Language.Get_Languages(Bahasa_Pilihan, "GLOBAL")
-			Base_Language.Get_Languages(Bahasa_Pilihan, "Rencana_Produksi")
-			CloseConn()
-		Catch ex As Exception
-			CloseConn()
-			MessageBox.Show(ex.Message)
-			Exit Sub
-		End Try
-
-		Try
-			OpenConn()
-
-			If CekButtonRole("Akses_Formula_PO") = "T" Then
-				aksesdata = False
-			Else
-				aksesdata = True
-			End If
-
-			CloseConn()
-		Catch ex As Exception
-			CloseConn()
-			MessageBox.Show(ex.Message)
-			Exit Sub
-		End Try
-
-		' Label1.Text = Base_Language.Lang_Rencana_Produksi_Judul
-		'LblNoFaktur.Text = Base_Language.Lang_Global_NoFaktur
-		'    lblTanggal.Text = Base_Language.Lang_Global_Tanggal
-		'   lblJam.Text = Base_Language.Lang_Global_Jam
-
-		lbltxtNoPo.Text = Base_Language.Lang_Global_No_PO
-		'lblTxtLokasi.Text = Base_Language.Lang_Global_Lokasi
-		lblTxtKodeCustomer.Text = Base_Language.Lang_Global_KodeCustomer
-		lblTxtNmCust.Text = Base_Language.Lang_Global_NamaCustomer
-		lblTxtKdBrng.Text = Base_Language.Lang_Global_KodeBarang
-		'lblTxtNmBrng.Text = Base_Language.Lang_Global_NamaBarang
-		lblTxtJumlah.Text = Base_Language.Lang_Global_Jumlah
-		lblTxtSatuan.Text = Base_Language.Lang_Global_Satuan
-
-		Btn_Simpan.Text = Base_Language.Lang_Global_Simpan
-
-		' ListView1.Columns.Add(Base_Language.Lang_Global_NO, 40, HorizontalAlignment.Center)
-		LvData.Columns.Add("No SO", 130, HorizontalAlignment.Left) '0
-		LvData.Columns.Add(Base_Language.Lang_Global_Lokasi, 0, HorizontalAlignment.Left) '1
-		LvData.Columns.Add(Base_Language.Lang_Global_KodeCustomer, 0, HorizontalAlignment.Left) '2
-		LvData.Columns.Add(Base_Language.Lang_Global_NamaCustomer, 0, HorizontalAlignment.Left) '3
-		LvData.Columns.Add(Base_Language.Lang_Global_KodeBarang, 125, HorizontalAlignment.Left) '4
-		LvData.Columns.Add(Base_Language.Lang_Global_NamaBarang, 205, HorizontalAlignment.Left) '5
-		LvData.Columns.Add(Base_Language.Lang_Global_Jumlah, 100, HorizontalAlignment.Right) '6
-		LvData.Columns.Add(Base_Language.Lang_Global_Jumlah_Sisa, 0, HorizontalAlignment.Center) '7
-		LvData.Columns.Add(Base_Language.Lang_Global_Satuan, 80, HorizontalAlignment.Center) '8
-		LvData.Columns.Add(Base_Language.Lang_Global_Jenis, 80, HorizontalAlignment.Center) '9
-		LvData.Columns.Add("Urut", 0, HorizontalAlignment.Center) '10
-		LvData.Columns.Add("id Jenis Produk", 0, HorizontalAlignment.Center) '11
-		LvData.Columns.Add(Base_Language.lang_global_keterangan, 250, HorizontalAlignment.Left) '12
-		LvData.Columns.Add("Jenis IO", 100, HorizontalAlignment.Center) '13
-		LvData.Columns.Add("NoFormula", 0, HorizontalAlignment.Left) '14
-		LvData.View = View.Details
-		LvData.Columns(cellLvJenisIO).DisplayIndex = 1
-
-		'  ListView1.View = View.Details
-
-		LvOrder.Columns.Add("No SO", 130, HorizontalAlignment.Left) '0
-		LvOrder.Columns.Add(Base_Language.Lang_Global_Lokasi, 0, HorizontalAlignment.Left) '1
-		LvOrder.Columns.Add(Base_Language.Lang_Global_KodeCustomer, 0, HorizontalAlignment.Left) '2
-		LvOrder.Columns.Add(Base_Language.Lang_Global_NamaCustomer, 0, HorizontalAlignment.Left) '3
-		LvOrder.Columns.Add(Base_Language.Lang_Global_KodeBarang, 0, HorizontalAlignment.Left) '4
-		'LvOrder.Columns.Add(Base_Language.Lang_Global_NamaBarang, 0, HorizontalAlignment.Left) '5
-		LvOrder.Columns.Add(Base_Language.Lang_Global_Jumlah, 100, HorizontalAlignment.Right) '5
-		LvOrder.Columns.Add(Base_Language.Lang_Global_Satuan, 80, HorizontalAlignment.Center) '6
-		LvOrder.Columns.Add(Base_Language.Lang_Global_Jenis, 0, HorizontalAlignment.Center) '7
-		LvOrder.Columns.Add("Urut", 0, HorizontalAlignment.Center) '8
-		LvOrder.Columns.Add("Id Jenis Produk", 0, HorizontalAlignment.Center) '9
-		LvOrder.Columns.Add("from update", 0, HorizontalAlignment.Center) '10
-		LvOrder.Columns.Add("deleted", 0, HorizontalAlignment.Center) '11
-		LvOrder.Columns.Add("NoFormula", 0, HorizontalAlignment.Center) '12
-
-		' ListView2.View = View.Details
-		LvBahan.Columns.Add("kode_stock_owner", 0, HorizontalAlignment.Left) '0
-		LvBahan.Columns.Add("Kode Bahan", 200, HorizontalAlignment.Left) '1
-		'LvBahan.Columns.Add("Nama Bahan", 320, HorizontalAlignment.Left) '2
-		LvBahan.Columns.Add("Jumlah", 130, HorizontalAlignment.Right) '3
-		LvBahan.Columns.Add("Satuan", 0, HorizontalAlignment.Center) '4
-		LvBahan.Columns.Add("Stock", 130, HorizontalAlignment.Right) '5
-		LvBahan.Columns.Add("Satuan", 117, HorizontalAlignment.Center) '6
-		LvBahan.Columns.Add("nilai_barang", 0, HorizontalAlignment.Right) '7
-		LvBahan.Columns.Add("satuan_barang", 0, HorizontalAlignment.Center) '8
-		LvBahan.Columns.Add("stock_barang", 0, HorizontalAlignment.Right) '9
-		LvBahan.Columns.Add("Keep Stock", 0, HorizontalAlignment.Right).DisplayIndex = 6 '10
-		LvBahan.Columns.Add("RV", 0, HorizontalAlignment.Right) '11
-
-		LvPackaging.Columns.Add("kode_stock_owner", 0, HorizontalAlignment.Left) '0
-		LvPackaging.Columns.Add("Kode Bahan", 200, HorizontalAlignment.Left) '1
-
-		LvPackaging.Columns.Add("Jumlah", 130, HorizontalAlignment.Right) '2
-		LvPackaging.Columns.Add("Satuan", 0, HorizontalAlignment.Center) '3
-		LvPackaging.Columns.Add("Stock", 130, HorizontalAlignment.Right) '4
-		LvPackaging.Columns.Add("Satuan", 117, HorizontalAlignment.Center) '5
-		LvPackaging.Columns.Add("nilai_barang", 0, HorizontalAlignment.Right) '6
-		LvPackaging.Columns.Add("satuan_barang", 0, HorizontalAlignment.Center) '7
-		LvPackaging.Columns.Add("stock_barang", 0, HorizontalAlignment.Right) '8
-		LvPackaging.Columns.Add("Keep Stock", 0, HorizontalAlignment.Right).DisplayIndex = 6
-		LvPackaging.Columns.Add("Pot Stock", 0, HorizontalAlignment.Center) '10
-		LvPackaging.Columns.Add("Jenis", 100, HorizontalAlignment.Right) '11
-		LvPackaging.Columns.Add("jumlah_barang", 100, HorizontalAlignment.Right) '12
-		LvPackaging.Columns.Add("Jumlah Bahan", 100, HorizontalAlignment.Right) '13
-
-		' ListView2.View = View.Details
-		LvBahanNew.Columns.Add("kode_stock_owner", 0, HorizontalAlignment.Left) '0
-		LvBahanNew.Columns.Add("Kode Bahan", 140, HorizontalAlignment.Left) '1
-		'LvBahan.Columns.Add("Nama Bahan", 320, HorizontalAlignment.Left) '2
-
-		If aksesdata = True Then
-			LvBahanNew.Columns.Add("Kebutuhan", 120, HorizontalAlignment.Right) '2
-		Else
-			LvBahanNew.Columns.Add("", 0, HorizontalAlignment.Right) '2
-		End If
-
-		LvBahanNew.Columns.Add("Satuan", 0, HorizontalAlignment.Center) '3
-
-		If aksesdata = True Then
-			LvBahanNew.Columns.Add("Stock Whs", 120, HorizontalAlignment.Right) '4
-		Else
-			LvBahanNew.Columns.Add("", 0, HorizontalAlignment.Right) '4
-		End If
-
-		LvBahanNew.Columns.Add("Satuan", 80, HorizontalAlignment.Center).DisplayIndex = 2 '5
-		LvBahanNew.Columns.Add("nilai_barang", 0, HorizontalAlignment.Right) '6
-		LvBahanNew.Columns.Add("satuan_barang", 0, HorizontalAlignment.Center) '7
-		LvBahanNew.Columns.Add("stock_barang", 0, HorizontalAlignment.Right) '8
-
-		If aksesdata = True Then
-			LvBahanNew.Columns.Add("Keep Stock", 120, HorizontalAlignment.Right) '9
-		Else
-			LvBahanNew.Columns.Add("", 0, HorizontalAlignment.Right) '9
-		End If
-
-		LvBahanNew.Columns.Add("RV", 0, HorizontalAlignment.Right) '10
-		LvBahanNew.Columns.Add("Sisa Stock", 120, HorizontalAlignment.Right) '11
-
-		LvPackagingNew.Columns.Add("kode_stock_owner", 0, HorizontalAlignment.Left) '0
-		LvPackagingNew.Columns.Add("Kode Bahan", 200, HorizontalAlignment.Left) '1
-
-		LvPackagingNew.Columns.Add("Jumlah", 130, HorizontalAlignment.Right) '2
-		LvPackagingNew.Columns.Add("Satuan", 0, HorizontalAlignment.Center) '3
-		LvPackagingNew.Columns.Add("Stock", 130, HorizontalAlignment.Right) '4
-		LvPackagingNew.Columns.Add("Satuan", 80, HorizontalAlignment.Center) '5
-		LvPackagingNew.Columns.Add("nilai_barang", 0, HorizontalAlignment.Right) '6
-		LvPackagingNew.Columns.Add("satuan_barang", 0, HorizontalAlignment.Center) '7
-		LvPackagingNew.Columns.Add("stock_barang", 0, HorizontalAlignment.Right) '8
-		LvPackagingNew.Columns.Add("Keep Stock", 0, HorizontalAlignment.Right).DisplayIndex = 6
-		LvPackagingNew.Columns.Add("Pot Stock", 0, HorizontalAlignment.Center) '10
-		LvPackagingNew.Columns.Add("Jenis", 130, HorizontalAlignment.Center) '11
-		LvPackagingNew.Columns.Add("jumlah_barang", 100, HorizontalAlignment.Right) '12
-		LvPackagingNew.Columns.Add("Jumlah Bahan", 100, HorizontalAlignment.Right) '13
-
-		Cmb_Jenis.Items.Clear()
-		Cmb_Jenis.Items.Add("Commercial")
-		Cmb_Jenis.Items.Add("Trial")
-		'Cmb_Jenis.SelectedIndex = 0
-
-		kosong()
-
-	End Sub
-
-	Private Sub get_isi_listview(ByVal index As Integer)
-
-		lvNoPo = LvData.Items(index).SubItems(cellLvNoPo).Text '0
-		lvLokasi = LvData.Items(index).SubItems(cellLvLokasi).Text '1
-		lvKdCus = LvData.Items(index).SubItems(cellLvKdCus).Text '2
-		lvNmCus = LvData.Items(index).SubItems(cellLvNmCus).Text '3
-		lvKdBrg = LvData.Items(index).SubItems(cellLvKdBrg).Text '4
-		lvNmBrg = LvData.Items(index).SubItems(cellLvNmBrg).Text '5
-		lvJmlh = LvData.Items(index).SubItems(cellLvJmlh).Text '6
-		lvJmlhSisa = LvData.Items(index).SubItems(cellLvJmlhSisa).Text '7
-		lvSatuan = LvData.Items(index).SubItems(cellLvSatuan).Text '8
-		lvJenisProduk = LvData.Items(index).SubItems(cellLvJenisProduk).Text '9
-		lvUrut = LvData.Items(index).SubItems(cellLvUrut).Text '10
-		lvIdJenisProduk = LvData.Items(index).SubItems(cellLvIdJenisProduk).Text '11
-		lvKetOrder = LvData.Items(index).SubItems(cellLvKetOrder).Text '12
-		lvKetJenisIO = LvData.Items(index).SubItems(cellLvJenisIO).Text '13
-		lvPalletNoFormula = LvData.Items(index).SubItems(cellLvNoFormula).Text '14
-	End Sub
-
-	Private Sub Get_Isi_Listview_Bahan(ByVal index As Integer)
-
-		LvNoSo3 = LvBahan.Items(index).SubItems(cellNoSo3).Text '0
-		LvKdBhn3 = LvBahan.Items(index).SubItems(cellKdBhn3).Text '1
-		lvJmlh3 = LvBahan.Items(index).SubItems(cellJmlh3).Text '2
-		LvSatuan3 = LvBahan.Items(index).SubItems(cellSatuan3).Text '3
-		LvStock3 = LvBahan.Items(index).SubItems(cellStock3).Text '4
-		LvSatuanStock3 = LvBahan.Items(index).SubItems(cellSatuanStock3).Text '5
-		LvNilaiBrg3 = LvBahan.Items(index).SubItems(cellNilaiBrg3).Text '6
-		LvSatuanBrg3 = LvBahan.Items(index).SubItems(cellSatuanBrg3).Text '7
-		LvStockBrg3 = LvBahan.Items(index).SubItems(cellStockBrg3).Text '8
-		LvFlagPotStok3 = LvBahan.Items(index).SubItems(cellFlagPotStok3).Text
-		LvRV = LvBahan.Items(index).SubItems(cellRV).Text
-
-	End Sub
-
-	Private Sub get_isi_listview_detail(ByVal index As Integer)
-
-		LvFaktur2 = LvOrder.Items(index).SubItems(cellNoSo2).Text '0
-		LvLokasi2 = LvOrder.Items(index).SubItems(cellLokasi2).Text '1
-		lvKdCust2 = LvOrder.Items(index).SubItems(cellKdCust2).Text '2
-		LvNmCust2 = LvOrder.Items(index).SubItems(cellNmCust2).Text '3
-		LvKdBrg2 = LvOrder.Items(index).SubItems(cellKdBrg2).Text '4
-
-		LvJmlh2 = LvOrder.Items(index).SubItems(cellJmlh2).Text '5
-		LvSatuan2 = LvOrder.Items(index).SubItems(cellSatuan2).Text '6
-		LvJenis2 = LvOrder.Items(index).SubItems(cellJenis2).Text '7
-		LvUrut2 = LvOrder.Items(index).SubItems(cellUrut2).Text '8
-		LvIdJnsPrdk2 = LvOrder.Items(index).SubItems(cellIdJnsPrdk2).Text '9
-		LvFromUpdate2 = LvOrder.Items(index).SubItems(cellFromUpdate2).Text '10
-		LvDeleted2 = LvOrder.Items(index).SubItems(cellDeleted2).Text '11
-		LvNoFormula = LvOrder.Items(index).SubItems(cellNoFormula).Text '12
-
-	End Sub
-
-	Private Sub Get_Isi_Listview_BahanNewv(ByVal index As Integer)
-
-		LvNoSo3New = LvBahanNew.Items(index).SubItems(cellNoSo3New).Text '0
-		LvKdBhn3New = LvBahanNew.Items(index).SubItems(cellKdBhn3New).Text '1
-		lvJmlh3New = LvBahanNew.Items(index).SubItems(cellJmlh3New).Text '2
-		LvSatuan3New = LvBahanNew.Items(index).SubItems(cellSatuan3New).Text '3
-		LvStock3New = LvBahanNew.Items(index).SubItems(cellStock3New).Text '4
-		LvSatuanStock3New = LvBahanNew.Items(index).SubItems(cellSatuanStock3New).Text '5
-		LvNilaiBrg3New = LvBahanNew.Items(index).SubItems(cellNilaiBrg3New).Text '6
-		LvSatuanBrg3New = LvBahanNew.Items(index).SubItems(cellSatuanBrg3New).Text '7
-		LvStockBrg3New = LvBahanNew.Items(index).SubItems(cellStockBrg3New).Text '8
-		LvFlagPotStok3New = LvBahanNew.Items(index).SubItems(cellFlagPotStok3New).Text '9
-		LvRVNew = LvBahanNew.Items(index).SubItems(cellRVNew).Text '10
-		LvTotalStockBrg3New = LvBahanNew.Items(index).SubItems(cellTotalStockBrg3New).Text '11
-
-	End Sub
-
-	Private Sub Get_Isi_Listview_Packaging(ByVal index As Integer)
-
-		LvNoSo4 = LvPackaging.Items(index).SubItems(cellNoSo4).Text '0
-		LvKdBhn4 = LvPackaging.Items(index).SubItems(cellKdBhn4).Text '1
-		lvJmlh4 = LvPackaging.Items(index).SubItems(cellJmlh4).Text '2
-		LvSatuan4 = LvPackaging.Items(index).SubItems(cellSatuan4).Text '3
-		LvStock4 = LvPackaging.Items(index).SubItems(cellStock4).Text '4
-		LvSatuanStock4 = LvPackaging.Items(index).SubItems(cellSatuanStock4).Text '5
-		LvNilaiBrg4 = LvPackaging.Items(index).SubItems(cellNilaiBrg4).Text '6
-		LvSatuanBrg4 = LvPackaging.Items(index).SubItems(cellSatuanBrg4).Text '7
-		LvStockBrg4 = LvPackaging.Items(index).SubItems(cellStockBrg4).Text '8
-		LvKeepStockBrg4 = LvPackaging.Items(index).SubItems(cellKeepStockBrg4).Text '9
-		LvFlagPotStok4 = LvPackaging.Items(index).SubItems(cellPotStok4).Text '10
-		LvJenis4 = LvPackaging.Items(index).SubItems(cellJenis4).Text '11
-		LvMasterJumlah_Barang4 = LvPackaging.Items(index).SubItems(cellMasterJumlah_Barang4).Text '12
-		LvMasterJumlah_Bahan4 = LvPackaging.Items(index).SubItems(cellMasterJumlah_Bahan4).Text '13
-	End Sub
-
-	Private Sub Get_Isi_Listview_PackagingNew(ByVal index As Integer)
-
-		LvNoSo4New = LvPackagingNew.Items(index).SubItems(cellNoSo4New).Text '0
-		LvKdBhn4New = LvPackagingNew.Items(index).SubItems(cellKdBhn4New).Text '1
-		lvJmlh4New = LvPackagingNew.Items(index).SubItems(cellJmlh4New).Text '2
-		LvSatuan4New = LvPackagingNew.Items(index).SubItems(cellSatuan4New).Text '3
-		LvStock4New = LvPackagingNew.Items(index).SubItems(cellStock4New).Text '4
-		LvSatuanStock4New = LvPackagingNew.Items(index).SubItems(cellSatuanStock4New).Text '5
-		LvNilaiBrg4New = LvPackagingNew.Items(index).SubItems(cellNilaiBrg4New).Text '6
-		LvSatuanBrg4New = LvPackagingNew.Items(index).SubItems(cellSatuanBrg4New).Text '7
-		LvStockBrg4New = LvPackagingNew.Items(index).SubItems(cellStockBrg4New).Text '8
-		LvKeepStockBrg4New = LvPackagingNew.Items(index).SubItems(cellKeepStockBrg4New).Text '9
-		LvFlagPotStok4New = LvPackagingNew.Items(index).SubItems(cellPotStok4New).Text '10
-		LvJenis4New = LvPackagingNew.Items(index).SubItems(cellJenis4New).Text '11
-		LvMasterJumlah_Barang4New = LvPackagingNew.Items(index).SubItems(cellMasterJumlah_Barang4New).Text '12
-		LvMasterJumlah_Bahan4New = LvPackagingNew.Items(index).SubItems(cellMasterJumlah_Bahan4New).Text '13
-	End Sub
-
-	Private Sub kosong()
-
-		'''Dim Rand As New Random
-		'''Kode_Unik = Format(Rand.Next(0, 999), "000") & Format(tgl_skg, "ddMMyyHHmmss")
-
-		jumlah_po = 0
-		display_default()
-		get_jam()
-
-		RV_Parent_Formula = ""
-		RV_Parent_Transaksi = ""
-
-		Try
-			OpenConn()
-
-			Btn_Simpan.Tag = "&Simpan"
-
-			ComboBox2.Items.Clear() : arrOrderBy.Clear()
-
-			ComboBox2.Items.Add("No Faktur") : arrOrderBy.Add("a.no_faktur")
-			'ComboBox2.Items.Add("Nama Barang") : arrOrderBy.Add("c.nama")
-
-			arrInisialFaktur.Clear() : CmbLokasi.Items.Clear()
-			SQL = "select Kode_Stock_Owner, persediaan ,inisial_faktur from stock_owner where kode_perusahaan = '" & KodePerusahaan & "' "
-			SQL = SQL & "and aktif = 'Y'  and kode_stock_owner = '" & Lokasi & "' order by Kode_Stock_Owner"
-			Using dr = OpenTrans(SQL)
-				Do While dr.Read
-					CmbLokasi.Items.Add(dr("Kode_Stock_Owner")) : arrInisialFaktur.Add(dr("inisial_faktur"))
-				Loop
-			End Using
-			CmbLokasi.Text = Lokasi
-
-			arrInisialRouting.Clear() : cmb_routing.Items.Clear()
-
-			SQL = "select id_routing, keterangan from  emi_master_routing where kode_perusahaan = '" & KodePerusahaan & "'"
-			Using dr = OpenTrans(SQL)
-				Do While dr.Read
-					cmb_routing.Items.Add(dr("keterangan")) : arrInisialRouting.Add(dr("id_routing"))
-				Loop
-			End Using
-
-			Jangan_Lanjut = False
-			'DateTimePicker2.ResetText()
-			DateTimePicker3.ResetText()
-			cb_seluruh.Checked = False
-			TxtCatatan.Text = ""
-			txtKdBrgPO.Text = ""
-			txtNmBrgPO.Text = ""
-			Txt_No_Formula.Text = ""
-
-			OpenConn()
-			get_no_faktur()
-			CloseConn()
-		Catch ex As Exception
-			CloseConn()
-			MessageBox.Show(ex.Message)
-			Exit Sub
-		End Try
-
-		Try
-			OpenConn()
-
-			If CekButtonRole("Akses_Formula_PO") = "T" Then
-				aksesdata = False
-			Else
-				aksesdata = True
-			End If
-
-			CloseConn()
-		Catch ex As Exception
-			CloseConn()
-			MessageBox.Show(ex.Message)
-			Exit Sub
-		End Try
-
-		cmbLine.Items.Clear() : arrIdLine.Clear()
-		LvOrder.Items.Clear()
-		LvBahan.Items.Clear() : LvPackaging.Items.Clear()
-		LvBahanNew.Items.Clear() : LvPackagingNew.Items.Clear()
-		Cmb_Jenis.SelectedIndex = -1
-		Button3.Visible = False
-		Btn_UnRelease.Visible = False
-
-		If parentForm = "schedule" Then
-
-			Button2.Enabled = False
-			LvData.Enabled = False
-			cb_seluruh.Enabled = False
-			Button1.Enabled = False
-			Jangan_Lanjut = False
-
-			'For i As Integer = 0 To LvData.Items.Count - 1
-			'	LvData.Items(i).Selected = True
-			'	LvData.Items(i).Focused = True
-			'	LvData.Items(i).EnsureVisible()
-
-			'	LvData.Items(i).Checked = True
-			'Next
-
-			If flagSudahPOSchedule = "Y" Then
-				txtNoFaktur.Text = NoFakturFromSchedule
-			Else
-				LvData.Items(0).Selected = True
-				LvData.Items(0).Focused = True
-				LvData.Items(0).EnsureVisible()
-				LvData.Items(0).Checked = True
-			End If
-
-			If txtNoFaktur.Text <> txt_faktur_bayangan.Text Then
-				txtNoFaktur_Leave(Me, Nothing)
-			End If
-		Else
-
-			Button1_Click_1(Button1, Nothing)
-			Button2.Enabled = True
-			LvData.Enabled = True
-			cb_seluruh.Enabled = True
-			Button1.Enabled = True
-		End If
-
-	End Sub
-
-	Private Sub kosong_sebagian()
-
-		jumlah_po = 0
-
-		txtNoPo.Clear()
-		'txtLokasi.Clear()
-		txtKodeBarang.Clear()
-		'txtNamaBarang.Clear()
-		txtKodeCustomer.Clear()
-		txtNamaCustomer.Clear()
-		txtJumlah.Clear()
-		txtSatuan.Clear()
-		'txtJenisProduk.Clear()
-	End Sub
-
-	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
-		kosong()
-	End Sub
-
-	'Private Sub ListView1_DoubleClick(sender As Object, e As EventArgs) Handles ListView1.DoubleClick
-	'If ListView1.Items.Count = 0 Or ListView1.SelectedItems.Count = 0 Then
-	'    MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Belum_Pilih, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-	'    Exit Sub
-	'End If
-
-	'If ListView2.Items.Count = 0 Then
-	'    'looping data listview 1
-	'    For indexLv1 As Integer = 0 To ListView1.Items.Count - 1
-	'        get_isi_listview(indexLv1)
-
-	'        If ListView1.FocusedItem.SubItems(1).Text <> lvNoPo Then
-	'            If lvJmlhSisa <> 0 Then
-	'                MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Harus_Sesuai_Antrian & " " & vbNewLine & Base_Language.Lang_Rencana_Produksi_No_Antrian & " :  " & lvNoAntri & vbNewLine & Base_Language.Lang_Rencana_Produksi_No_PO & " : " & lvNoPo & vbNewLine & Base_Language.Lang_Rencana_Produksi_Sisa & ",  : " & lvJmlhSisa)
-	'                kosong_sebagian()
-	'                Exit Sub
-	'            End If
-	'        End If
-
-	'        Exit For
-	'    Next
-	'End If
-
-	'If ListView2.Items.Count <> 0 Then
-	'    If ListView1.FocusedItem.SubItems(cellLvJenisProduk).Text <> ListView2.Items(0).SubItems(cellLvJnsProdukDet).Text Then
-	'        MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Jns_Produk_Beda, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-	'        Exit Sub
-	'    End If
-
-	'    If ListView1.FocusedItem.Text <> ListView2.Items.Count + 1 Then
-	'        MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Hrs_Sesuai)
-	'        Exit Sub
-	'    End If
-
-	'End If
-
-	'For indexLv2 As Integer = 0 To ListView2.Items.Count - 1
-	'    get_isi_listview_detail(indexLv2)
-
-	'    Dim check_sisa As Double = 0
-
-	'    If ListView1.FocusedItem.SubItems(cellLvNoPo).Text = lvNoPoDet Then
-
-	'        check_sisa = Val(HilangkanTanda(ListView1.FocusedItem.SubItems(cellLvJmlhSisa).Text)) - Val(HilangkanTanda(lvJmlhDet))
-
-	'        If (check_sisa <> 0) Then
-	'            MessageBox.Show("Harap selesaikan semua produksi sesuai antrian." & vbNewLine & "No antrian :  " & lvNoAntri & vbNewLine & "No Po : " & lvNoPo & ", sisa : " & check_sisa)
-	'            kosong_sebagian()
-	'            Exit Sub
-	'        End If
-	'    Else
-
-	'        For indexlv1 As Integer = 0 To ListView1.Items.Count - 1
-	'            get_isi_listview(indexlv1)
-
-	'            If lvNoPo = lvNoPoDet Then
-	'                check_sisa = Val(HilangkanTanda(lvJmlhSisa)) - Val(HilangkanTanda(lvJmlhDet))
-
-	'                If (check_sisa <> 0) Then
-	'                    MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Hrs_Selesai_Semua & " " & vbNewLine & Base_Language.Lang_Rencana_Produksi_No_Antrian & " :  " & lvNoAntri & vbNewLine & Base_Language.Lang_Rencana_Produksi_No_PO & " : " & lvNoPo & Base_Language.Lang_Rencana_Produksi_Sisa & ", : " & check_sisa)
-	'                    kosong_sebagian()
-	'                    Exit Sub
-	'                End If
-	'            End If
-
-	'        Next
-
-	'    End If
-
-	'Next
-
-	'jumlah_po = ListView1.FocusedItem.SubItems(cellLvJmlhSisa).Text
-
-	'txtNoPo.Text = ListView1.FocusedItem.SubItems(cellLvNoPo).Text
-	'txtLokasi.Text = ListView1.FocusedItem.SubItems(cellLvLokasi).Text
-	'txtKodeCustomer.Text = ListView1.FocusedItem.SubItems(cellLvKdCus).Text
-	'txtNamaCustomer.Text = ListView1.FocusedItem.SubItems(cellLvNmCus).Text
-	'txtKodeBarang.Text = ListView1.FocusedItem.SubItems(cellLvKdBrg).Text
-	'txtNamaBarang.Text = ListView1.FocusedItem.SubItems(cellLvNmBrg).Text
-	'txtJumlah.Text = HilangkanTanda(ListView1.FocusedItem.SubItems(cellLvJmlhSisa).Text)
-	'txtSatuan.Text = ListView1.FocusedItem.SubItems(cellLvSatuan).Text
-	'txtJenisProduk.Text = ListView1.FocusedItem.SubItems(cellLvJenisProduk).Text
-	'txtIdJenisProduk.Text = ListView1.FocusedItem.SubItems(cellLvIdJenisProduk).Text
-
-	' End Sub
-
-	Private Sub Button2_Click(sender As Object, e As EventArgs) Handles btnOk.Click
-		If txtNoPo.Text.Trim.Length = 0 Then Exit Sub
-
-		If txtJumlah.Text = 0 Or txtJumlah.Text.Trim.Length = 0 Then
-			MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Jumlah_hrs_diisi)
-			Exit Sub
-		End If
-
-		For i As Integer = 0 To LvOrder.Items.Count - 1
-			If LvOrder.Items(i).SubItems(0).Text = LvData.FocusedItem.SubItems(1).Text Then
-				MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_No_PO_Sdh_Ada, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				Exit Sub
-			End If
-		Next
-
-		If txtJumlah.Text > jumlah_po Then
-			MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Jumlah_Lebih_Besar, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			Exit Sub
-		End If
-
-		If LvOrder.Items.Count = 0 Then
-
-			'Try
-			'    OpenConn()
-			'    cmbLine.Items.Clear() : arrIdLine.Clear()
-			'    SQL = "select a.id_line,a.kode_line,a.keterangan,a.Id_Jenis_Produk, b.Keterangan as jenis_produk from emi_line a, EMI_Jenis_Produk b "
-			'    SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan and a.id_jenis_produk = b.Id_Jenis_Produk "
-			'    SQL = SQL & "and a.id_jenis_produk =  '" & txtIdJenisProduk.Text & "' "
-			'    SQL = SQL & "order by a.kode_line "
-			'    Using Dr = OpenTrans(SQL)
-			'        Do While Dr.Read
-			'            cmbLine.Items.Add(Dr("keterangan")) : arrIdLine.Add(Dr("id_line"))
-			'        Loop
-			'    End Using
-
-			'    CloseConn()
-			'Catch ex As Exception
-			'    CloseConn()
-			'    MessageBox.Show(ex.Message)
-			'    Exit Sub
-			'End Try
-
-		End If
-
-		Dim lvw As ListViewItem
-
-		lvw = LvOrder.Items.Add(txtNoPo.Text)
-		' lvw.SubItems.Add(txtLokasi.Text)
-		lvw.SubItems.Add(txtKodeCustomer.Text)
-		lvw.SubItems.Add(txtNamaCustomer.Text)
-		lvw.SubItems.Add(txtKodeBarang.Text)
-		'lvw.SubItems.Add(txtNamaBarang.Text)
-		lvw.SubItems.Add(Format(Val(txtJumlah.Text), "N2"))
-		lvw.SubItems.Add(txtSatuan.Text)
-		' lvw.SubItems.Add(txtJenisProduk.Text)
-		' lvw.SubItems.Add(txtIdJenisProduk.Text)
-
-		kosong_sebagian()
-
-	End Sub
-
-	Private Sub txtJumlah_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtJumlah.KeyPress
-		If e.KeyChar = Chr(13) Then
-			Button2_Click(Me, Nothing)
-		End If
-
-		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
-	End Sub
-
-	Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
-		If txtNoFaktur.Text.Trim.Length = 0 Then
-			MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Faktur, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			Exit Sub
-		ElseIf cmb_routing.Text = "" Then
-			MessageBox.Show("Routing harus di isi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			Exit Sub
-			'ElseIf DateDiff(DateInterval.Day, Tanggal_Sekarang, DateTimePicker2.Value) < 0 Then
-			'    MessageBox.Show("Tanggal tidak boleh lebih kecil dari tanggal sekarang", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			'    Exit Sub
-		ElseIf Cmb_Jenis.SelectedIndex = -1 Then
-			MessageBox.Show("Jenis Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			Cmb_Jenis.DroppedDown = True : Cmb_Jenis.Focus()
-			Exit Sub
-		End If
-
-		If LvOrder.Items.Count = 0 Or LvBahan.Items.Count = 0 Then
-			MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Belum_Pilih, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			Exit Sub
-
-		End If
-
-		Dim IsPOTrialFormula As Boolean = False
-
-		Dim TempJenisIO As String = ""
-		For i As Integer = 0 To LvData.Items.Count - 1
-			get_isi_listview(i)
-
-			If LvData.Items(i).Checked = True Then
-
-				TempJenisIO = LvData.Items(i).SubItems(cellLvJenisIO).Text.Trim
-
-				If LvOrder.Items.Count <> 0 Then
-
-					If LvOrder.Items(0).SubItems(4).Text <> lvKdBrg Then
-						MessageBox.Show("Terjadi Kesalahan Terdapat Barang yang Berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						Exit Sub
-					End If
-				End If
-
-				If LvData.Items(i).SubItems(cellLvJenisIO).Text.Trim <> TempJenisIO Then
-					MessageBox.Show("Terjadi Kesalahan, Jenis IO Tidak Boleh Berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					Exit Sub
-				End If
-
-				IsPOTrialFormula = If(String.IsNullOrWhiteSpace(LvData.Items(i).SubItems(cellLvNoFormula).Text), False, True)
-
-			End If
-		Next
-
-		For i As Integer = 0 To LvOrder.Items.Count - 1
-
-		Next
-
-		get_jam()
-		Try
-			OpenConn()
-			Cmd.Transaction = Cn.BeginTransaction
-
-			'=============================
-			'=     CEK STATUS FAKTUR     =
-			'=============================
-			SQL = "select Status from EMI_Order_Produksi where Kode_Perusahaan = '" & KodePerusahaan & "' and status is not null and No_Faktur = '" & txtNoFaktur.Text & "' "
-			Using Dr = OpenTrans(SQL)
-				If Dr.Read Then
-					Dr.Close()
-					CloseTrans()
-					CloseConn()
-					MessageBox.Show("No Faktur telah Dibatalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					Exit Sub
-				End If
-			End Using
-
-			If parentForm = "Schedule" Then
-				'cek rv 1
-				SQL = "select cast(rv as bigint) as rvx, urut "
-				SQL = SQL & "from EMI_Transaksi_Sales_Forecasting_Detail "
-				SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and  urut = '" & UrutOtoSchedule & "' "
-				Using dr = OpenTrans(SQL)
-					If dr.Read Then
-						If dr("rvx") <> RV_Parent_Transaksi Then
-							dr.Close()
-							CloseTrans()
-							CloseConn()
-							MessageBox.Show("Data ini sudah diubah sebelumnya! silahkan refresh dan coba lagi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-							Exit Sub
-						End If
-					End If
-				End Using
-			End If
-
-			'set stock owner nya menjadi production
-
-			Dim SoProduction As String
-
-			SQL = "select Kode_Stock_Owner From Stock_Owner_Gudang "
-			SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Flag_Produksi = 'Y' "
-			Using Dr = OpenTrans(SQL)
-				If Dr.Read Then
-					SoProduction = Dr("kode_stock_owner")
-				Else
-					Dr.Close()
-					CloseTrans()
-					CloseConn()
-					MessageBox.Show("Lokasi Produksi tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					Exit Sub
-				End If
-			End Using
-
-			Dim pesan As String = "Berikut terdapat bahan yang tidak mencukupi " & vbNewLine
-			Dim flag_stok_cukup As Boolean = True
-
-			If Btn_Simpan.Tag = "&Simpan" Then
-
-				get_no_faktur()
-
-				Dim jumlah As Double = 0
-				Dim kode_so As String = ""
-				Dim kode_brg As String = ""
-				Dim sat As String = ""
-				Dim CurrentKodeFormula As String = ""
-				For i As Integer = 0 To LvOrder.Items.Count - 1
-					get_isi_listview_detail(i)
-
-					If String.IsNullOrWhiteSpace(CurrentKodeFormula) Then
-						CurrentKodeFormula = LvNoFormula.Trim
-					Else
-						If CurrentKodeFormula.Trim <> LvNoFormula.Trim Then
-							CloseTrans()
-							CloseConn()
-							MessageBox.Show("Terjadi Kesalahan, Terdapat Formula Yang Berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-							Exit Sub
-						End If
-					End If
-
-					jumlah = jumlah + Val(HilangkanTanda(LvJmlh2))
-					kode_so = LvLokasi2
-					kode_brg = LvKdBrg2
-					sat = LvSatuan2
-				Next
-
-				Dim berat As Double = 0
-				SQL = "select top(1) berat From barang "
-				SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and kode_barang = '" & kode_brg & "' "
-				Using Dr = OpenTrans(SQL)
-					If Dr.Read Then
-						berat = Dr("berat")
-					Else
-						Dr.Close()
-						CloseTrans()
-						CloseConn()
-						MessageBox.Show("Lokasi Produksi tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						Exit Sub
-					End If
-				End Using
-
-				If berat = 0 Then
-					CloseTrans()
-					CloseConn()
-					MessageBox.Show("Berat Satuan Belum di Set !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					Exit Sub
-				End If
-
-				Dim FlagTrialFormula As String = If(IsPOTrialFormula, $"'Y'", "NULL")
-
-				SQL = "insert into emi_order_produksi(kode_perusahaan, no_faktur, tanggal, jam, userid, keterangan, kode_formula, "
-				SQL = SQL & "id_routing, id_jenis_produk, Lokasi, kode_stock_owner, kode_barang, jumlah, satuan, berat, Flag_Commercial,Urut_Production_Schedule, Flag_Trial_Produksi) values( "
-				SQL = SQL & "'" & KodePerusahaan & "', '" & txtNoFaktur.Text & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "' , "
-				SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & UserID & "','" & TxtCatatan.Text.Trim & "',"
-				SQL = SQL & "'" & Txt_No_Formula.Text.Trim & "', '" & arrInisialRouting.Item(cmb_routing.SelectedIndex) & "',"
-				SQL = SQL & "'" & txt_IdJenisProduk.Text & "','" & CmbLokasi.Text & "',"
-				SQL = SQL & "'" & SoProduction & "', '" & kode_brg & "','" & jumlah & "', '" & sat & "', '" & berat & "', "
-				If Cmb_Jenis.SelectedIndex = 0 Then
-					SQL = SQL & "'Y' "
-				Else
-					SQL = SQL & "NULL "
-				End If
-				SQL = SQL & " ,'" & lvUrut & "', " & FlagTrialFormula & " "
-				SQL = SQL & ")"
-				ExecuteTrans(SQL)
-
-				For i As Integer = 0 To LvOrder.Items.Count - 1
-
-					get_isi_listview_detail(i)
-
-					Dim faktur As String = LvOrder.Items(i).SubItems(0).Text
-
-					SQL = "insert into emi_order_produksi_detail(kode_perusahaan,no_faktur,no_so,kode_stock_owner,kode_barang,jumlah,satuan,jenis_order,urut_po) values ("
-					SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text.Trim & "', '" & LvFaktur2 & "',"
-					SQL = SQL & "'" & SoProduction & "', '" & LvKdBrg2 & "', "
-					SQL = SQL & "'" & HilangkanTanda(LvJmlh2) & "', '" & LvSatuan2 & "', "
-					SQL = SQL & "'" & faktur.Substring(0, 2) & "', '" & LvUrut2 & "' )"
-					ExecuteTrans(SQL)
-
-					If faktur.Substring(0, 2).ToUpper = "PO" Then
-						'selesaikan flag di emi po
-						SQL = "update emi_po_detail set flag_sudah_produksi = 'Y' where kode_perusahaan = '" & KodePerusahaan & "' and "
-						SQL = SQL & "no_faktur = '" & LvFaktur2 & "' and No_Urut='" & LvUrut2 & "' "
-						ExecuteTrans(SQL)
-					Else
-						'selesaikan flag di indepedent order
-						SQL = "update EMI_Independent_Order_detail set flag_sudah_produksi = 'Y' where kode_perusahaan = '" & KodePerusahaan & "' and "
-						SQL = SQL & "no_faktur = '" & LvFaktur2 & "' and No_Urut='" & LvUrut2 & "' "
-						ExecuteTrans(SQL)
-					End If
-				Next
-
-				'==========================
-				'=     CEK RV FORMULA     =
-				'==========================
-				SQL = "select cast(RV as bigint) as RV from EMI_Transaksi_Formulator "
-				SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
-				SQL &= $"and No_Faktur = '{Txt_No_Formula.Text.Trim}' "
-				Using Dr = OpenTrans(SQL)
-					If Dr.Read Then
-
-						If Dr("RV") <> RV_Parent_Formula.Trim Then
-							Dr.Close()
-							CloseTrans()
-							CloseConn()
-							MessageBox.Show("Proses tidak dapat dilanjutkan karena formula ini sudah pernah diubah sebelumnya! Ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-							Exit Sub
-						End If
-
-					End If
-				End Using
-
-				'========== update flaging sudah po di n emi production schedule detail
-
-				SQL = "update N_EMI_Production_Plan_Schedule_detail set "
-				SQL = SQL & "Flag_Sudah_Production_Order = 'Y' "
-				SQL = SQL & "WHERE no_urut = '" & lvUrut & "' and kode_perusahaan = '" & KodePerusahaan & "' "
-				ExecuteTrans(SQL)
-
-				For i As Integer = 0 To LvBahan.Items.Count - 1
-					Get_Isi_Listview_Bahan(i)
-					' MessageBox.Show(HilangkanTanda(ListView3.Items(i).SubItems(7).Text) & " - " & HilangkanTanda(ListView3.Items(i).SubItems(9).Text))
-					'TODO : SIMPAN
-
-					'==========================
-					'=     CEK RV FORMULA     =
-					'==========================
-					SQL = "select cast(RV as bigint) as RV from EMI_Transaksi_Formulator_Detail_Bahan "
-					SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
-					SQL &= $"and No_Faktur = '{Txt_No_Formula.Text.Trim}' "
-					SQL &= $"and Kode_Barang = '{LvKdBhn3.Trim}' "
-					Using Dr = OpenTrans(SQL)
-						If Dr.Read Then
-
-							If Dr("RV").ToString.Trim <> LvRV.Trim Then
-								Dr.Close()
-								CloseTrans()
-								CloseConn()
-								MessageBox.Show("Proses tidak dapat dilanjutkan karena formula ini sudah pernah diubah sebelumnya! Ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-								Exit Sub
-							End If
-
-						End If
-					End Using
-
-					SQL = "insert into emi_order_produksi_detail_bahan(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) values("
-					SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text & "' ,'" & SoProduction & "', '" & LvKdBhn3 & "', "
-					SQL = SQL & "'" & HilangkanTanda(lvJmlh3) & "' , '" & LvSatuan3 & "',  "
-					SQL = SQL & "'" & HilangkanTanda(LvNilaiBrg3) & "', '" & LvSatuanBrg3 & "' )"
-					ExecuteTrans(SQL)
-
-				Next
-
-				For i As Integer = 0 To LvBahanNew.Items.Count - 1
-
-					Get_Isi_Listview_BahanNewv(i)
-
-					flag_stok_cukup = False
-					pesan = pesan & LvKdBhn3New & "   :   " & Format(Val(HilangkanTanda(LvTotalStockBrg3New)), "N4") & LvSatuan3New & vbNewLine
-					'CloseTrans()
-					'CloseConn()
-					''''MessageBox.Show("Terjadi kesalahan, Stock " & LvNmBrg2 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					'MessageBox.Show("Terjadi kesalahan, Stock " & LvKdBrg2 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					'Exit Sub
-
-				Next
-
-				For i As Integer = 0 To LvPackaging.Items.Count - 1
-					Get_Isi_Listview_Packaging(i)
-					' MessageBox.Show(HilangkanTanda(ListView3.Items(i).SubItems(7).Text) & " - " & HilangkanTanda(ListView3.Items(i).SubItems(9).Text))
-
-					If Val(HilangkanTanda(LvNilaiBrg4)) > Val(HilangkanTanda(LvStockBrg4)) Then
-
-						flag_stok_cukup = False
-						pesan = pesan & LvKdBhn4 & "   :   " & Format(Val(HilangkanTanda(LvStock4)) - Val(HilangkanTanda(lvJmlh4)), "N4") & LvSatuan4 & vbNewLine
-						'CloseTrans()
-						'CloseConn()
-						''''MessageBox.Show("Terjadi kesalahan, Stock " & LvNmBhn4 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						'MessageBox.Show("Terjadi kesalahan, Stock dengan kode barang " & LvKdBhn4 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						'Exit Sub
-					End If
-
-					SQL = "insert into emi_order_produksi_detail_Packaging(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang, jenis, jumlah_barang, Jumlah_Bahan) values("
-					SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text & "' ,'" & SoProduction & "', '" & LvKdBhn4 & "', "
-					SQL = SQL & "'" & HilangkanTanda(lvJmlh4) & "' , '" & LvSatuan4 & "',  "
-					SQL = SQL & "'" & HilangkanTanda(LvNilaiBrg4) & "', '" & LvSatuanBrg4 & "', '" & LvJenis4 & "', '" & LvMasterJumlah_Barang4 & "', '" & LvMasterJumlah_Bahan4 & "' )"
-					ExecuteTrans(SQL)
-
-				Next
-
-				'CloseTrans()
-				'CloseConn()
-				'MessageBox.Show("pesan ini harus dikomen!")
-				'Exit Sub
-
-				'For i As Integer = 0 To ListView2.Items.Count - 1
-
-				'Next
-			Else
-
-				SQL = "select status,selesai,flag_release from emi_order_produksi "
-				SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
-				SQL = SQL & "and no_faktur = '" & txtNoFaktur.Text & "' "
-				Using dr = OpenTrans(SQL)
-					If dr.Read Then
-						If General_Class.CekNULL(dr("status")) = "Y" Then
-							dr.Close()
-							CloseTrans()
-							CloseConn()
-							MessageBox.Show(Base_Language.Lang_Global_DataSudahBatal, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-							Exit Sub
-						ElseIf General_Class.CekNULL(dr("selesai")) = "Y" Then
-							dr.Close()
-							CloseTrans()
-							CloseConn()
-							MessageBox.Show("Transaksi untuk no faktur ini telah selesai di produksi, tidak dapat di ubah kembali!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-							Exit Sub
-						ElseIf General_Class.CekNULL(dr("flag_release")) = "Y" Then
-							dr.Close()
-							CloseTrans()
-							CloseConn()
-							MessageBox.Show("Produksi Order sudah pernah direlease!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-							Exit Sub
-						End If
-					Else
-						dr.Close()
-						CloseTrans()
-						CloseConn()
-						MessageBox.Show("Data Produksi Order tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						Exit Sub
-					End If
-				End Using
-
-				'simpan dulu ke log sebelum update
-				SQL = "insert into emi_order_produksi_log(Kode_Perusahaan,No_Faktur,Status,Tanggal,Jam,UserId,Tanggal_Produksi,Jam_Produksi,Id_Routing,selesai,Keterangan,Id_Jenis_Produk	,Kode_Formula) "
-				SQL = SQL & "select Kode_Perusahaan,No_Faktur,Status,Tanggal,Jam,UserId,Tanggal_Produksi,Jam_Produksi,Id_Routing,selesai,Keterangan,Id_Jenis_Produk	,Kode_Formula from  "
-				SQL = SQL & "emi_order_produksi where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "' "
-				ExecuteTrans(SQL)
-
-				SQL = "insert into Emi_Order_Produksi_Detail_log(Kode_Perusahaan,No_Faktur,No_SO,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Jenis_Order,Urut,Urut_PO) "
-				SQL = SQL & "select Kode_Perusahaan,No_Faktur,No_SO,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Jenis_Order,Urut,Urut_PO from Emi_Order_Produksi_Detail  "
-				SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "' "
-				ExecuteTrans(SQL)
-
-				SQL = "insert into Emi_Order_Produksi_Detail_Bahan_log(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) "
-				SQL = SQL & "select Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang  from Emi_Order_Produksi_Detail_Bahan "
-				SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "'"
-				ExecuteTrans(SQL)
-
-				SQL = "insert into EMI_Order_Produksi_Detail_Packaging_log(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) "
-				SQL = SQL & "select Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang  from EMI_Order_Produksi_Detail_Packaging "
-				SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "'"
-				ExecuteTrans(SQL)
-
-				SQL = "delete from emi_order_produksi_detail where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "' "
-				ExecuteTrans(SQL)
-
-				SQL = "delete from emi_order_produksi_detail_bahan where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "' "
-				ExecuteTrans(SQL)
-
-				SQL = "delete from EMI_Order_Produksi_Detail_Packaging where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "' "
-				ExecuteTrans(SQL)
-
-				Dim jumlah As Double = 0
-				Dim kode_so As String = ""
-				Dim kode_brg As String = ""
-				Dim sat As String = ""
-				For i As Integer = 0 To LvOrder.Items.Count - 1
-					'jumlah = jumlah + Val(HilangkanTanda(LvOrder.Items(i).SubItems(6).Text))
-					jumlah = jumlah + Val(HilangkanTanda(LvOrder.Items(i).SubItems(5).Text))
-					kode_so = LvOrder.Items(i).SubItems(1).Text
-					kode_brg = LvOrder.Items(i).SubItems(4).Text
-					'sat = LvOrder.Items(i).SubItems(7).Text
-					sat = LvOrder.Items(i).SubItems(6).Text
-				Next
-
-				SQL = "update emi_order_produksi set "
-				SQL = SQL & "id_routing = '" & arrInisialRouting.Item(cmb_routing.SelectedIndex) & "',"
-				SQL = SQL & "keterangan =  '" & TxtCatatan.Text.Trim & "',"
-				SQL = SQL & "id_jenis_produk = '" & txt_IdJenisProduk.Text & "',"
-				SQL = SQL & "kode_formula = '" & Txt_No_Formula.Text & "', "
-				SQL = SQL & "kode_stock_owner = '" & kode_so & "', "
-				SQL = SQL & "kode_barang = '" & kode_brg & "', "
-				SQL = SQL & "jumlah = '" & jumlah & "', "
-				SQL = SQL & "satuan = '" & sat & "', "
-
-				If Cmb_Jenis.SelectedIndex = 0 Then
-					SQL = SQL & "Flag_Commercial='Y' "
-				Else
-					SQL = SQL & "Flag_Commercial=NULL "
-				End If
-
-				SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
-				SQL = SQL & "and no_faktur = '" & txtNoFaktur.Text & "' "
-				ExecuteTrans(SQL)
-
-				For i As Integer = 0 To LvOrder.Items.Count - 1
-					get_isi_listview_detail(i)
-					Dim faktur As String = LvFaktur2
-					If LvDeleted2 = "Y" Then
-						If faktur.Substring(0, 2) = "PO" Then
-							SQL = "update emi_po_detail set Flag_Sudah_Produksi = null "
-							SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
-							SQL = SQL & "and no_faktur = '" & LvFaktur2 & "'"
-							ExecuteTrans(SQL)
-						ElseIf faktur.Substring(0, 2) = "IO" Then
-							SQL = "update EMI_Independent_Order_detail set Flag_Sudah_Produksi = null "
-							SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
-							SQL = SQL & "and no_faktur = '" & LvFaktur2 & "'"
-							ExecuteTrans(SQL)
-						End If
-					Else
-
-						SQL = "insert into emi_order_produksi_detail(kode_perusahaan,no_faktur,no_so,kode_stock_owner,kode_barang,jumlah,satuan,jenis_order,urut_po) values ("
-						SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text.Trim & "', '" & LvFaktur2 & "',"
-						SQL = SQL & "'" & SoProduction & "', '" & LvKdBrg2 & "', "
-						SQL = SQL & "'" & HilangkanTanda(LvJmlh2) & "', '" & LvSatuan2 & "', "
-						SQL = SQL & "'" & faktur.Substring(0, 2) & "', '" & LvUrut2 & "' )"
-						ExecuteTrans(SQL)
-
-						If faktur.Substring(0, 2).ToUpper = "PO" Then
-							'selesaikan flag di emi po
-							SQL = "update emi_po_detail set flag_sudah_produksi = 'Y' where kode_perusahaan = '" & KodePerusahaan & "' and "
-							SQL = SQL & "no_faktur = '" & LvFaktur2 & "' and No_Urut='" & LvUrut2 & "' "
-							ExecuteTrans(SQL)
-						Else
-							'selesaikan flag di indepedent order
-							SQL = "update EMI_Independent_Order_detail set flag_sudah_produksi = 'Y' where kode_perusahaan = '" & KodePerusahaan & "' and "
-							SQL = SQL & "no_faktur = '" & LvFaktur2 & "' and No_Urut='" & LvUrut2 & "' "
-							ExecuteTrans(SQL)
-						End If
-
-					End If
-
-				Next
-
-				''==========================
-				''=     CEK RV FORMULA     =
-				''==========================
-				'SQL = "select cast(RV as bigint) as RV from Emi_Order_Produksi "
-				'SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
-				'SQL &= $"and No_Faktur = '{txtNoFaktur.Text.Trim}' "
-				'Using Dr = OpenTrans(SQL)
-				'    If Dr.Read Then
-
-				'        If Dr("RV").ToString.Trim <> RV_Parent_Transaksi Then
-				'            Dr.Close()
-				'            CloseTrans()
-				'            CloseConn()
-				'            MessageBox.Show("Proses tidak dapat dilanjutkan karena formula ini sudah pernah diubah sebelumnya! Ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-				'            Exit Sub
-				'        End If
-
-				'    End If
-				'End Using
-
-				For i As Integer = 0 To LvBahan.Items.Count - 1
-
-					Get_Isi_Listview_Bahan(i)
-
-					''==========================
-					''=     CEK RV FORMULA     =
-					''==========================
-					'SQL = "select cast(RV as bigint) as RV from Emi_Order_Produksi_Detail_bahan "
-					'SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
-					'SQL &= $"and No_Faktur = '{txtNoFaktur.Text.Trim}' "
-					'SQL &= $"and Kode_Barang = '{LvKdBhn3.Trim}' "
-					'Using Dr = OpenTrans(SQL)
-					'    If Dr.Read Then
-
-					'        If Dr("RV").ToString.Trim <> LvRV.Trim Then
-					'            Dr.Close()
-					'            CloseTrans()
-					'            CloseConn()
-					'            MessageBox.Show("Proses tidak dapat dilanjutkan karena formula ini sudah pernah diubah sebelumnya! Ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-					'            Exit Sub
-					'        End If
-
-					'    End If
-					'End Using
-
-					SQL = "insert into emi_order_produksi_detail_bahan(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) values("
-					SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text & "' ,'" & SoProduction & "', '" & LvKdBhn3 & "', "
-					SQL = SQL & "'" & HilangkanTanda(lvJmlh3) & "' , '" & LvSatuan3 & "',  "
-					SQL = SQL & "'" & HilangkanTanda(LvNilaiBrg3) & "', '" & LvSatuanBrg3 & "' )"
-					ExecuteTrans(SQL)
-
-				Next
-
-				For i As Integer = 0 To LvBahanNew.Items.Count - 1
-
-					Get_Isi_Listview_BahanNewv(i)
-
-					flag_stok_cukup = False
-					pesan = pesan & LvKdBhn3New & "   :   " & Format(Val(HilangkanTanda(LvTotalStockBrg3New)), "N4") & LvSatuan3New & vbNewLine
-					'CloseTrans()
-					'CloseConn()
-					''''MessageBox.Show("Terjadi kesalahan, Stock " & LvNmBrg2 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					'MessageBox.Show("Terjadi kesalahan, Stock " & LvKdBrg2 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					'Exit Sub
-
-				Next
-
-				For i As Integer = 0 To LvPackaging.Items.Count - 1
-					Get_Isi_Listview_Packaging(i)
-					' MessageBox.Show(HilangkanTanda(ListView3.Items(i).SubItems(7).Text) & " - " & HilangkanTanda(ListView3.Items(i).SubItems(9).Text))
-
-					If Val(HilangkanTanda(LvNilaiBrg4)) > Val(HilangkanTanda(LvStockBrg4)) Then
-
-						flag_stok_cukup = False
-						pesan = pesan & "Kode Bahan : " & LvKdBhn4 & " : " & Format(Val(HilangkanTanda(LvStock4)) - Val(HilangkanTanda(lvJmlh4))) & LvSatuan4 & vbNewLine
-						'CloseTrans()
-						'CloseConn()
-						''''MessageBox.Show("Terjadi kesalahan, Stock " & LvNmBhn4 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						'MessageBox.Show("Terjadi kesalahan, Stock " & LvKdBhn4 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						'Exit Sub
-					End If
-
-					SQL = "insert into emi_order_produksi_detail_Packaging(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang, jenis, jumlah_barang, Jumlah_Bahan) values("
-					SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text & "' ,'" & SoProduction & "', '" & LvKdBhn4 & "', "
-					SQL = SQL & "'" & HilangkanTanda(lvJmlh4) & "' , '" & LvSatuan4 & "',  "
-					SQL = SQL & "'" & HilangkanTanda(LvNilaiBrg4) & "', '" & LvSatuanBrg4 & "', '" & LvJenis4 & "', '" & LvMasterJumlah_Barang4 & "', '" & LvMasterJumlah_Bahan4 & "' )"
-					ExecuteTrans(SQL)
-
-				Next
-
-			End If
-
-			If flag_stok_cukup = False Then
-
-				Dim tanya As String = MessageBox.Show(pesan & vbNewLine & "Apakah ingin melanjutkan transaksi ? ", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-				If tanya = vbNo Then
-					CloseTrans()
-					CloseConn()
-					MessageBox.Show("Transaksi dibatalkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					Exit Sub
-				End If
-			End If
-
-			Cmd.Transaction.Commit()
-			CloseConn()
-			MessageBox.Show(Base_Language.Lang_Global_Sukses_Simpan, Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-			kosong()
-
-			mustUpdate = True
-		Catch ex As Exception
-			CloseTrans()
-			CloseConn()
-			MessageBox.Show(ex.Message)
-			Exit Sub
-		End Try
-
-		If parentForm = "schedule" Then
-			Me.Close()
-		Else
-			kosong()
-		End If
-
-	End Sub
-
-	Private Sub BtnPembelian_Clear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
-		kosong_sebagian()
-	End Sub
-
-	'Private Sub ListView2_DoubleClick(sender As Object, e As EventArgs) Handles LvOrder.DoubleClick
-	'    For i As Integer = 0 To LvOrder.Items.Count - 1
-
-	'        If LvOrder.Items(i).SubItems(11).Text = "" Then
-	'            If LvOrder.FocusedItem.Index <> LvOrder.Items.Count - 1 Then
-	'                MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Hapus_Temp, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-	'                Exit Sub
-	'            End If
-
-	'            LvOrder.FocusedItem.Remove()
-
-	'            If LvOrder.Items.Count = 0 Then
-	'                cmbLine.Items.Clear() : arrIdLine.Clear()
-	'            End If
-	'        End If
-
-	'    Next
-	'End Sub
-
-	Private Sub UbahAntrianToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UbahAntrianToolStripMenuItem.Click
-		'EMI_Perencanaan_Produksi_SD_Antrian.ComboBox1.Items.Clear()
-
-		'For i As Integer = 1 To ListView1.Items.Count
-		'    EMI_Perencanaan_Produksi_SD_Antrian.ComboBox1.Items.Add(i)
-		'Next
-
-		'EMI_Perencanaan_Produksi_SD_Antrian.ComboBox1.Text = ListView1.FocusedItem.Text
-
-		'EMI_Perencanaan_Produksi_SD_Antrian.ShowDialog()
-	End Sub
-
-	Private Sub LvData_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles LvData.ItemCheck
-		'If LvData.Items.Count = 0 Or isProcessing_Check Then Return
-
-		'If e.NewValue = CheckState.Checked Then
-		'	isProcessing_Check = True
-
-		'	Dim SelectedJenis As String = LvData.Items(e.Index).SubItems(cellLvJenisIO).Text.Trim
-
-		'	If LvData.CheckedItems.Count > 0 Then
-		'		Dim existingJenis As String = LvData.CheckedItems(0).SubItems(cellLvJenisIO).Text
-
-		'		If SelectedJenis <> existingJenis Then
-		'			MessageBox.Show("Jenis IO Tidak Boleh Berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-		'			e.NewValue = CheckState.Unchecked
-		'		End If
-		'	End If
-
-		'	isProcessing_Check = False
-		'End If
-	End Sub
-
-	Private Sub ListView1_ItemChecked(sender As Object, e As ItemCheckedEventArgs) Handles LvData.ItemChecked
-		If isProcessing_Check Then Return
-
-		If LvData.FocusedItem Is Nothing AndAlso LvData.Items.Count > 0 Then
-			LvData.Items(0).Selected = True
-			LvData.Items(0).Focused = True
-			LvData.Focus()
-		End If
-
-		'============================================
-		'=     INI UNTUK PENGECEKAN BARANG BEDA     =
-		'============================================
-		'If flag_barang_berbeda = "Y" Then
-		'	flag_barang_berbeda = "T"
-		'	MessageBox.Show("Barang yang ingin diproduksi tidak boleh berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'	Exit Sub
-		'End If
-
-		LvBahan.Items.Clear()
-		LvBahanNew.Items.Clear()
-		LvPackaging.Items.Clear()
-		LvPackagingNew.Items.Clear()
-		Txt_No_Formula.Text = ""
-
-		If skipCB = "Y" Then
-			If LvData.CheckedItems.Count > 0 Then
-
-				'jika jumlah checked tidak sama dengan jumlah datanya
-				If LvData.CheckedItems.Count <> LvData.Items.Count Then
-					'matikan centang seluruh
-					Jangan_Lanjut = False
-					cb_seluruh.Checked = False
-					Jangan_Lanjut = True
-				Else
-					'hidupkan centang seluruh
-					Jangan_Lanjut = False
-					cb_seluruh.Checked = True
-					Jangan_Lanjut = True
-				End If
-
-				' LvOrder.Items.Clear()
-
-				'For i As Integer = 0 To LvData.Items.Count - 1
-				'	get_isi_listview(i)
-
-				'	If LvData.Items(i).Checked = True Then
-
-				'		If LvOrder.Items.Count <> 0 Then
-
-				'			If LvOrder.Items(0).SubItems(4).Text <> lvKdBrg Then
-				'				'flag_barang_berbeda = "Y"
-				'				'LvData.Items(i).Checked = False
-				'				'Exit Sub
-				'			End If
-				'		End If
-
-				'	End If
-				'Next
-
-				Dim indexFocused As Integer = LvData.FocusedItem.Index
-
-				'LvOrder.Items.Clear()
-
-				If LvData.Items(indexFocused).Checked Then
-
-					Dim lvw1 As ListViewItem
-
-					Dim NoFormula As String = ""
-					If String.IsNullOrWhiteSpace(LvData.FocusedItem.SubItems(cellLvNoFormula).Text) Then
-						NoFormula = ""
-					Else
-						NoFormula = LvData.FocusedItem.SubItems(cellLvNoFormula).Text.Trim
-					End If
-
-					lvw1 = LvOrder.Items.Add(LvData.FocusedItem.SubItems(cellLvNoPo).Text) '0
-					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvLokasi).Text) '1
-					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvKdCus).Text) '2
-					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvNmCus).Text) '3
-					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvKdBrg).Text) '4
-					lvw1.SubItems.Add(Format(Val(HilangkanTanda(LvData.FocusedItem.SubItems(cellLvJmlh).Text)), "N2")) '5
-					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvSatuan).Text) '6
-					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvJenisProduk).Text) '7
-					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvUrut).Text) '8
-					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvIdJenisProduk).Text) '9
-					lvw1.SubItems.Add("") '10
-					lvw1.SubItems.Add("") '11
-					lvw1.SubItems.Add(NoFormula) '12
-
-					txtKdBrgPO.Text = LvData.FocusedItem.SubItems(cellLvKdBrg).Text
-					txtNmBrgPO.Text = LvData.FocusedItem.SubItems(cellLvNmBrg).Text
-
-					'Dim cellNoSo2 As Integer = 0
-					'Dim cellLokasi2 As Integer = 1
-					'Dim cellKdCust2 As Integer = 2
-					'Dim cellNmCust2 As Integer = 3
-					'Dim cellKdBrg2 As Integer = 4
-					'Dim cellJmlh2 As Integer = 5
-					'Dim cellSatuan2 As Integer = 6
-					'Dim cellJenis2 As Integer = 7
-					'Dim cellUrut2 As Integer = 8
-					'Dim cellIdJnsPrdk2 As Integer = 9
-					'Dim cellFromUpdate2 As Integer = 10
-					'Dim cellDeleted2 As Integer = 11
-
-					'Dim cellLvNoPo As Integer = 0
-					'Dim cellLvLokasi As Integer = 1
-					'Dim cellLvKdCus As Integer = 2
-					'Dim cellLvNmCus As Integer = 3
-					'Dim cellLvKdBrg As Integer = 4
-					'Dim cellLvJmlh As Integer = 5
-					'Dim cellLvJmlhSisa As Integer = 6
-					'Dim cellLvSatuan As Integer = 7
-					'Dim cellLvJenisProduk As Integer = 8
-					'Dim cellLvUrut As Integer = 9
-					'Dim cellLvIdJenisProduk As Integer = 10
-
-					'LvFaktur2 = LvOrder.Items(Index).SubItems(cellNoSo2).Text '0
-					'LvLokasi2 = LvOrder.Items(Index).SubItems(cellLokasi2).Text '1
-					'lvKdCust2 = LvOrder.Items(Index).SubItems(cellKdCust2).Text '2
-					'LvNmCust2 = LvOrder.Items(Index).SubItems(cellNmCust2).Text '3
-					'LvKdBrg2 = LvOrder.Items(Index).SubItems(cellKdBrg2).Text '4
-					''LvNmBrg2 = LvOrder.Items(index).SubItems(cellNmBrg2).Text
-					'LvJmlh2 = LvOrder.Items(Index).SubItems(cellJmlh2).Text '5
-					'LvSatuan2 = LvOrder.Items(Index).SubItems(cellSatuan2).Text '6
-					'LvJenis2 = LvOrder.Items(Index).SubItems(cellJenis2).Text '7
-					'LvUrut2 = LvOrder.Items(Index).SubItems(cellUrut2).Text '8
-					'LvIdJnsPrdk2 = LvOrder.Items(Index).SubItems(cellIdJnsPrdk2).Text '9
-					'LvFromUpdate2 = LvOrder.Items(Index).SubItems(cellFromUpdate2).Text '10
-					'LvDeleted2 = LvOrder.Items(Index).SubItems(cellDeleted2).Text '11
-				Else
-					RemoveDataLvOrder(LvData.FocusedItem.SubItems(cellLvNoPo).Text, LvData.FocusedItem.SubItems(cellLvKdBrg).Text)
-
-					'Dim ambilIndexYangAkanDihapus As Integer
-
-					'For i As Integer = 0 To LvOrder.Items.Count - 1
-					'	get_isi_listview_detail(i)
-					'	If LvData.FocusedItem.SubItems(0).Text = LvFaktur2 Then
-					'		ambilIndexYangAkanDihapus = i
-					'	End If
-					'Next
-
-					'LvOrder.Items(ambilIndexYangAkanDihapus).Remove()
-
-				End If
-			Else
-				LvOrder.Items.Clear()
-				LvBahan.Items.Clear()
-				LvPackaging.Items.Clear()
-				LvBahanNew.Items.Clear()
-				LvPackagingNew.Items.Clear()
-				txtNmBrgPO.Text = ""
-				txtKdBrgPO.Text = ""
-				Txt_No_Formula.Text = ""
-
-				If txtNoFaktur.Text <> txt_faktur_bayangan.Text Then
-					txtNoFaktur_Leave(Me, Nothing)
-				End If
-
-			End If
-		End If
-
-	End Sub
-
-	Private Sub RemoveDataLvOrder(ByVal Faktur As String, ByVal Kd_barang As String)
-
-		Dim ambilIndexYangAkanDihapus As Integer
-		For i As Integer = 0 To LvOrder.Items.Count - 1
-			get_isi_listview_detail(i)
-			If LvFaktur2 = Faktur And LvKdBrg2 = Kd_barang Then
-				ambilIndexYangAkanDihapus = i
-			End If
-		Next
-
-		LvOrder.Items(ambilIndexYangAkanDihapus).Remove()
-	End Sub
-
-	Private Sub txtNoFaktur_Leave(sender As Object, e As EventArgs) Handles txtNoFaktur.Leave
-
-		For i As Integer = 0 To LvData.Items.Count - 1
-			LvData.Items(i).Checked = False
-		Next
-
-		Try
-			OpenConn()
-
-			If CekButtonRole("Release_PO_Produksi") = "T" Then
-				Button3.Visible = False
-			Else
-				Button3.Visible = True
-			End If
-
-			CloseConn()
-		Catch ex As Exception
-			CloseConn()
-			MessageBox.Show(ex.Message)
-			Exit Sub
-		End Try
-
-		Dim id_jenis_produk As Integer = 0
-		Dim jenis_produk As String = ""
-		Dim flag_release As String = ""
-
-		Try
-			OpenConn()
-
-			LvOrder.Items.Clear()
-			LvBahan.Items.Clear()
-			LvPackaging.Items.Clear()
-			LvBahanNew.Items.Clear()
-			LvPackagingNew.Items.Clear()
-			TxtCatatan.Text = ""
-			'  DateTimePicker1.ResetText()
-			' DateTimePicker2.ResetText()
-
-			Btn_Simpan.Tag = "&Update"
-
-			SQL = "select a.Status,a.Flag_Release, a.Id_Routing,c.Keterangan as routing,a.Id_Jenis_Produk, b.Keterangan as jenis_produk, a.keterangan,a.kode_formula, a.Flag_Commercial "
-			SQL = SQL & "from EMI_Order_Produksi a, EMI_Jenis_Produk b, EMI_Master_Routing c "
-			SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Jenis_Produk = b.Id_Jenis_Produk "
-			SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Routing = c.Id_Routing "
-			SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_faktur = '" & txtNoFaktur.Text & "' "
-			Using Dr = OpenTrans(SQL)
-				If Dr.Read Then
-					If General_Class.CekNULL("status") = "Y" Then
-						kosong()
-						Exit Sub
-					Else
-						If General_Class.CekNULL(Dr("keterangan")) = "" Then
-							TxtCatatan.Text = ""
-						Else
-							TxtCatatan.Text = Dr("keterangan")
-						End If
-
-						' DateTimePicker1.Value = Dr("tanggal_produksi")
-						'  DateTimePicker2.Value = Dr("jam_produksi")
-
-						cmb_routing.Text = Dr("routing")
-
-						id_jenis_produk = Dr("id_jenis_produk")
-						jenis_produk = Dr("jenis_produk")
-						txt_IdJenisProduk.Text = Dr("id_jenis_produk")
-						Txt_No_Formula.Text = Dr("kode_formula")
-						If General_Class.CekNULL(Dr("flag_release")) = "" Then
-							flag_release = ""
-						Else
-							flag_release = Dr("flag_release")
-
-						End If
-
-						If General_Class.CekNULL(Dr("Flag_Commercial")) = "Y" Then
-							Cmb_Jenis.SelectedIndex = 0
-						Else
-							Cmb_Jenis.SelectedIndex = 1
-						End If
-
-					End If
-				Else
-					CloseConn()
-					kosong()
-					Exit Sub
-				End If
-			End Using
-
-			SQL = "select a.No_SO,a.Kode_Stock_Owner, a.Kode_Barang,b.Nama,a.Jumlah,a.Satuan,a.jenis_order,urut_po, "
-			SQL = SQL & "isnull(( "
-			SQL = SQL & "select x.No_Formula "
-			SQL = SQL & "from EMI_Independent_Order z "
-			SQL = SQL & "inner join EMI_Independent_Order_Detail x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur "
-			SQL = SQL & "where z.Status is null "
-			SQL = SQL & "and z.Kode_Perusahaan = a.Kode_Perusahaan "
-			SQL = SQL & "and z.No_Faktur = a.No_SO "
-			SQL = SQL & "), null) as No_Formula "
-			SQL = SQL & "from Emi_Order_Produksi_detail a, barang b "
-			SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner "
-			SQL = SQL & "and a.Kode_Barang =  b.Kode_Barang and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_faktur = '" & txtNoFaktur.Text & "' "
-			Using Ds = BindingTrans(SQL)
-				With Ds.Tables("MyTable")
-					If .Rows.Count <> 0 Then
-
-						For i As Integer = 0 To .Rows.Count - 1
-
-							If i = 0 Then
-								txtNmBrgPO.Text = .Rows(i).Item("nama")
-								txtKdBrgPO.Text = .Rows(i).Item("kode_barang")
-							End If
-
-							Dim lvw As ListViewItem
-
-							lvw = LvOrder.Items.Add(.Rows(i).Item("no_so"))
-							lvw.SubItems.Add(.Rows(i).Item("kode_stock_owner"))
-							lvw.SubItems.Add("-")
-							lvw.SubItems.Add("-")
-							lvw.SubItems.Add(.Rows(i).Item("kode_barang"))
-							''lvw.SubItems.Add(.Rows(i).Item("nama"))
-							lvw.SubItems.Add(Format(.Rows(i).Item("jumlah"), "N2"))
-							lvw.SubItems.Add(.Rows(i).Item("satuan"))
-							lvw.SubItems.Add(.Rows(i).Item("jenis_order"))
-							lvw.SubItems.Add(.Rows(i).Item("urut_po"))
-							lvw.SubItems.Add(id_jenis_produk)
-							lvw.SubItems.Add("Y")
-							lvw.SubItems.Add("")
-							lvw.SubItems.Add(If(General_Class.CekNULL(.Rows(i).Item("No_Formula")) = "", "", .Rows(i).Item("No_Formula")))
-						Next
-					Else
-						CloseConn()
-						MessageBox.Show("Data Production Order tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						kosong()
-						Exit Sub
-					End If
-				End With
-			End Using
-
-			SQL = "select a.kode_stock_owner,a.kode_barang,b.nama,a.jumlah,a.satuan as satuan_display,a.nilai_barang,a.satuan_barang,b.flag_potong_stok, "
-			SQL = SQL & "isnull((select (Stock_Wharehouse+Stock_Unloading)  from N_Emi_View_Stock_Gantung x where  a.Kode_Barang =x.Kode_Barang),0) as stock, "
-			SQL = SQL & "isnull((select (Gantungan_PO+Gantungan_Split1+Gantungan_Split2)  from N_Emi_View_Stock_Gantung x where  a.Kode_Barang =x.Kode_Barang  ),0) as Keep_Stock, "
-			SQL = SQL & "isnull((select top(1) Stock_Minimum from barang x where  a.Kode_Barang =x.Kode_Barang and a.kode_perusahaan=x.kode_perusahaan and a.kode_stock_owner=x.kode_stock_owner),0) as Min_stock, "
-			SQL = SQL & "b.satuan,  "
-			SQL = SQL & "cast(a.RV as bigint) as RV_Detail, cast(c.RV as bigint) as RV_Parent "
-			SQL = SQL & "from Emi_Order_Produksi_Detail_bahan a,barang b, Emi_Order_Produksi c "
-			SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan  and a.kode_stock_owner = b.Kode_Stock_Owner "
-			SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.No_Faktur = c.No_Faktur "
-			SQL = SQL & "and a.kode_barang = b.kode_barang and a.kode_perusahaan = '" & KodePerusahaan & "' "
-			SQL = SQL & "and a.no_faktur = '" & txtNoFaktur.Text & "' "
-			SQL = SQL & "Order by a.kode_barang "
-			Using Ds = BindingTrans(SQL)
-				With Ds.Tables("MyTable")
-					If .Rows.Count <> 0 Then
-
-						Dim converKesatuanAsliBarangStok As String = ""
-						Dim stockConvert As Double = 0
-
-						For i As Integer = 0 To .Rows.Count - 1
-							SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(i).Item("kode_barang") & "' "
-							SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
-							Using Dr3 = OpenTrans(SQL)
-								If Dr3.Read Then
-									converKesatuanAsliBarangStok = Dr3("satuan")
-									SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(i).Item("kode_barang") & "',"
-									SQL = SQL & "'" & .Rows(i).Item("satuan") & "','" & Dr3("satuan") & "',"
-									SQL = SQL & "" & .Rows(i).Item("stock") & ") as Hasil "
-									Dr3.Close()
-
-									Using dr4 = OpenTrans(SQL)
-										If dr4.Read Then
-											If General_Class.CekNULL(dr4("Hasil")) <> "" Then
-
-												stockConvert = dr4("hasil")
-											Else
-												dr4.Close()
-												CloseConn()
-												MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & Dr3("satuan") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-												Exit Sub
-											End If
-										End If
-									End Using
-								Else
-									Dr3.Close()
-									CloseConn()
-									MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-									Exit Sub
-								End If
-							End Using
-
-							Dim lvw As ListViewItem
-							lvw = LvBahan.Items.Add(.Rows(i).Item("kode_stock_owner"))
-							lvw.SubItems.Add(.Rows(i).Item("kode_barang"))
-							''lvw.SubItems.Add(.Rows(i).Item("nama"))
-							lvw.SubItems.Add(Format(.Rows(i).Item("jumlah"), "N4"))
-							lvw.SubItems.Add(.Rows(i).Item("satuan_display"))
-							lvw.SubItems.Add(Format(stockConvert, "N4"))
-							lvw.SubItems.Add(converKesatuanAsliBarangStok)
-							lvw.SubItems.Add(.Rows(i).Item("nilai_barang"))
-							lvw.SubItems.Add(.Rows(i).Item("satuan_barang"))
-							lvw.SubItems.Add(.Rows(i).Item("stock"))
-							lvw.SubItems.Add(Format(.Rows(i).Item("keep_stock"), "N4"))
-							lvw.SubItems.Add(.Rows(i).Item("RV_Detail"))
-
-							If aksesdata = True Then
-
-								Dim lvwNew As ListViewItem
-								lvwNew = LvBahanNew.Items.Add(.Rows(i).Item("kode_stock_owner"))
-								lvwNew.SubItems.Add(.Rows(i).Item("kode_barang"))
-								''lvw.SubItems.Add(.Rows(i).Item("nama"))
-
-								lvwNew.SubItems.Add(Format(.Rows(i).Item("jumlah"), "N4"))
-								lvwNew.SubItems.Add(.Rows(i).Item("satuan_display"))
-								lvwNew.SubItems.Add(Format(stockConvert, "N4"))
-								lvwNew.SubItems.Add(converKesatuanAsliBarangStok)
-								lvwNew.SubItems.Add(.Rows(i).Item("nilai_barang"))
-								lvwNew.SubItems.Add(.Rows(i).Item("satuan_barang"))
-								lvwNew.SubItems.Add(.Rows(i).Item("stock"))
-								lvwNew.SubItems.Add(Format(.Rows(i).Item("keep_stock"), "N4"))
-
-								lvwNew.SubItems.Add(.Rows(i).Item("RV_Detail"))
-								lvwNew.SubItems.Add(Format(Val(HilangkanTanda(Format(stockConvert, "N4"))) - Val(HilangkanTanda(Format(.Rows(i).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(i).Item("jumlah"), "N4"))), "N4"))
-							Else
-								If .Rows(i).Item("Min_stock") >= Val(HilangkanTanda(Format(Val(HilangkanTanda(Format(stockConvert, "N4"))) - Val(HilangkanTanda(Format(.Rows(i).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(i).Item("jumlah"), "N4"))), "N4"))) Then
-
-									Dim lvwNew As ListViewItem
-									lvwNew = LvBahanNew.Items.Add(.Rows(i).Item("kode_stock_owner"))
-									lvwNew.SubItems.Add(.Rows(i).Item("kode_barang"))
-									''lvw.SubItems.Add(.Rows(i).Item("nama"))
-
-									lvwNew.SubItems.Add(Format(0, "N4"))
-									lvwNew.SubItems.Add(.Rows(i).Item("satuan_display"))
-									lvwNew.SubItems.Add(Format(0, "N4"))
-									lvwNew.SubItems.Add(converKesatuanAsliBarangStok)
-									lvwNew.SubItems.Add(0)
-									lvwNew.SubItems.Add(.Rows(i).Item("satuan_barang"))
-									lvwNew.SubItems.Add(0)
-									lvwNew.SubItems.Add(Format(0, "N4"))
-
-									lvwNew.SubItems.Add(.Rows(i).Item("RV_Detail"))
-									lvwNew.SubItems.Add(Format(Val(HilangkanTanda(Format(stockConvert, "N4"))) - Val(HilangkanTanda(Format(.Rows(i).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(i).Item("jumlah"), "N4"))), "N4"))
-
-								End If
-							End If
-
-							RV_Parent_Transaksi = .Rows(i).Item("RV_Parent")
-
-						Next
-						'Else
-						'    CloseConn()
-						'    MessageBox.Show("Data produksi Order tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						'    kosong()
-						'    Exit Sub
-					End If
-				End With
-			End Using
-
-			'packaging
-			SQL = "select a.kode_stock_owner,a.kode_barang,b.nama,a.jumlah,a.satuan as satuan_display,a.nilai_barang,a.satuan_barang,b.flag_potong_stok, "
-			SQL = SQL & "isnull((select sum(jumlah) from barang_sn x, stock_owner_gudang y where x.kode_perusahaan=y.kode_perusahaan and x.kode_stock_owner=y.kode_stock_owner and y.Flag_Wharehouse='Y' and a.kode_perusahaan = x.kode_perusahaan "
-			SQL = SQL & "and x.kode_barang = a.kode_barang and x.warna='HIJAU'),0) as stock "
-			SQL = SQL & ",b.satuan,"
-			SQL = SQL & "isnull((select 0),0) as Keep_Stock, a.jenis, jumlah_barang, Jumlah_Bahan "
-			SQL = SQL & " from EMI_Order_Produksi_Detail_Packaging a,barang b  "
-			SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan  and a.kode_stock_owner = b.Kode_Stock_Owner "
-			SQL = SQL & "and a.kode_barang = b.kode_barang and a.kode_perusahaan = '" & KodePerusahaan & "' and "
-			SQL = SQL & "a.no_faktur = '" & txtNoFaktur.Text & "' "
-			SQL = SQL & "Order by a.kode_barang "
-			Using Ds = BindingTrans(SQL)
-				With Ds.Tables("MyTable")
-					If .Rows.Count <> 0 Then
-
-						Dim converKesatuanAsliBarangStok As String = ""
-						Dim stockConvert As Double = 0
-
-						For i As Integer = 0 To .Rows.Count - 1
-							SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(i).Item("kode_barang") & "' "
-							SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
-							Using Dr3 = OpenTrans(SQL)
-								If Dr3.Read Then
-									converKesatuanAsliBarangStok = Dr3("satuan")
-									SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(i).Item("kode_barang") & "',"
-									SQL = SQL & "'" & .Rows(i).Item("satuan") & "','" & Dr3("satuan") & "',"
-									SQL = SQL & "" & .Rows(i).Item("stock") & ") as Hasil "
-									Dr3.Close()
-
-									Using dr4 = OpenTrans(SQL)
-										If dr4.Read Then
-											If General_Class.CekNULL(dr4("Hasil")) <> "" Then
-
-												stockConvert = dr4("hasil")
-											Else
-												dr4.Close()
-												CloseConn()
-												MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & Dr3("satuan") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-												Exit Sub
-											End If
-										End If
-									End Using
-								Else
-									Dr3.Close()
-									CloseConn()
-									MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-									Exit Sub
-								End If
-							End Using
-
-							Dim lvw As ListViewItem
-							lvw = LvPackaging.Items.Add(.Rows(i).Item("kode_stock_owner"))
-							lvw.SubItems.Add(.Rows(i).Item("kode_barang"))
-							''lvw.SubItems.Add(.Rows(i).Item("nama"))
-							lvw.SubItems.Add(Format(.Rows(i).Item("jumlah"), "N4"))
-							lvw.SubItems.Add(.Rows(i).Item("satuan_display"))
-							lvw.SubItems.Add(Format(stockConvert, "N4"))
-							lvw.SubItems.Add(converKesatuanAsliBarangStok)
-							lvw.SubItems.Add(.Rows(i).Item("nilai_barang"))
-							lvw.SubItems.Add(.Rows(i).Item("satuan_barang"))
-							lvw.SubItems.Add(.Rows(i).Item("stock"))
-							lvw.SubItems.Add(Format(.Rows(i).Item("keep_stock"), "N4"))
-
-							If General_Class.CekNULL(.Rows(i).Item("flag_potong_stok")) = "" Then
-								lvw.SubItems.Add("")
-							Else
-								lvw.SubItems.Add(Format(.Rows(i).Item("flag_potong_stok")))
-							End If
-							lvw.SubItems.Add(.Rows(i).Item("jenis"))
-							lvw.SubItems.Add(.Rows(i).Item("jumlah_barang"))
-							lvw.SubItems.Add(.Rows(i).Item("Jumlah_Bahan"))
-
-							Dim lvwNew As ListViewItem
-							lvwNew = LvPackagingNew.Items.Add(.Rows(i).Item("kode_stock_owner"))
-							lvwNew.SubItems.Add(.Rows(i).Item("kode_barang"))
-							''lnewvw.SubItems.Add(.Rows(i).Item("nama"))
-							lvwNew.SubItems.Add(Format(.Rows(i).Item("jumlah"), "N4"))
-							lvwNew.SubItems.Add(.Rows(i).Item("satuan_display"))
-							lvwNew.SubItems.Add(Format(stockConvert, "N4"))
-							lvwNew.SubItems.Add(converKesatuanAsliBarangStok)
-							lvwNew.SubItems.Add(.Rows(i).Item("nilai_barang"))
-							lvwNew.SubItems.Add(.Rows(i).Item("satuan_barang"))
-							lvwNew.SubItems.Add(.Rows(i).Item("stock"))
-							lvwNew.SubItems.Add(Format(.Rows(i).Item("keep_stock"), "N4"))
-
-							If General_Class.CekNULL(.Rows(i).Item("flag_potong_stok")) = "" Then
-								lvwNew.SubItems.Add("")
-							Else
-								lvwNew.SubItems.Add(Format(.Rows(i).Item("flag_potong_stok")))
-							End If
-							lvwNew.SubItems.Add(.Rows(i).Item("jenis"))
-							lvwNew.SubItems.Add(.Rows(i).Item("jumlah_barang"))
-							lvwNew.SubItems.Add(.Rows(i).Item("Jumlah_Bahan"))
-						Next
-						'Else
-						'    CloseConn()
-						'    MessageBox.Show("Data produksi Order tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						'    kosong()
-						'    Exit Sub
-					End If
-				End With
-			End Using
-
-			'ListView2.Columns.Add(Base_Language.Lang_Global_No_PO, 130, HorizontalAlignment.Left) '0
-			'ListView2.Columns.Add(Base_Language.Lang_Global_Lokasi, 0, HorizontalAlignment.Left) '1
-			'ListView2.Columns.Add(Base_Language.Lang_Global_KodeCustomer, 0, HorizontalAlignment.Left) '2
-			'ListView2.Columns.Add(Base_Language.Lang_Global_NamaCustomer, 0, HorizontalAlignment.Left) '3
-			'ListView2.Columns.Add(Base_Language.Lang_Global_KodeBarang, 135, HorizontalAlignment.Left) '4
-			'ListView2.Columns.Add(Base_Language.Lang_Global_NamaBarang, 200, HorizontalAlignment.Left) '5
-			'ListView2.Columns.Add(Base_Language.Lang_Global_Jumlah, 100, HorizontalAlignment.Center) '6
-			'ListView2.Columns.Add(Base_Language.Lang_Global_Satuan, 90, HorizontalAlignment.Center) '7
-			'ListView2.Columns.Add(Base_Language.Lang_Global_Jenis, 0, HorizontalAlignment.Center) '8
-			'ListView1.Columns.Add("Urut", 0, HorizontalAlignment.Center)
-			'ListView2.Columns.Add("Id Jenis Produk", 0, HorizontalAlignment.Center)
-
-			'' ListView2.View = View.Details
-			'ListView3.Columns.Add("kode_stock_owner", 0, HorizontalAlignment.Left) '0
-			'ListView3.Columns.Add("Kode Bahan", 130, HorizontalAlignment.Left) '1
-			'ListView3.Columns.Add("Nama Bahan", 130, HorizontalAlignment.Left) '2
-			'ListView3.Columns.Add("Jumlah", 130, HorizontalAlignment.Center) '3
-			'ListView3.Columns.Add("Satuan", 90, HorizontalAlignment.Center) '4
-			'ListView3.Columns.Add("Stock", 130, HorizontalAlignment.Center) '5
-			'ListView3.Columns.Add("Satuan", 90, HorizontalAlignment.Center) '6
-			'ListView3.Columns.Add("nilai_barang", 0, HorizontalAlignment.Center) '7
-			'ListView3.Columns.Add("satuan_barang", 0, HorizontalAlignment.Center) '8
-			'ListView3.Columns.Add("stock_barang", 0, HorizontalAlignment.Center) '9
-
-			If flag_release = "Y" Then
-				display_summary()
-			Else
-				display_default()
-			End If
-
-			CloseConn()
-		Catch ex As Exception
-			CloseConn()
-			MessageBox.Show(ex.Message)
-			Exit Sub
-		End Try
-
-		Try
-			OpenConn()
-
-			If flag_release = "Y" Then
-				If CekButtonRole("UnRelease_PO_Produksi") = "T" Then
-					Btn_UnRelease.Visible = False
-				Else
-					Btn_UnRelease.Visible = True
-				End If
-			Else
-				Btn_UnRelease.Visible = False
-			End If
-
-			CloseConn()
-		Catch ex As Exception
-			CloseConn()
-			MessageBox.Show(ex.Message)
-			Exit Sub
-		End Try
-	End Sub
-
-	Private Sub txtNoFaktur_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtNoFaktur.KeyPress
-		If e.KeyChar = Chr(13) Then btnRefresh.Focus()
-	End Sub
-
-	Private Sub display_summary()
-		LvData.Enabled = False
-		LvOrder.Enabled = False
-		' LvBahan.Enabled = False
-		' LvPackaging.Enabled = False
-		Btn_Simpan.Enabled = False
-		Button3.Enabled = False
-
-	End Sub
-
-	Private Sub display_default()
-		LvData.Enabled = True
-		LvOrder.Enabled = True
-		LvBahan.Enabled = True
-		LvPackaging.Enabled = True
-		LvBahanNew.Enabled = True
-		LvPackagingNew.Enabled = True
-		Btn_Simpan.Enabled = True
-
-		Button3.Enabled = True
-
-	End Sub
-
-	Private Sub HapusToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HapusToolStripMenuItem.Click
-		If LvOrder.Items.Count = 0 Then
-			MessageBox.Show("Silahkan pilih data terlebih dahulu untuk dihapus")
-			Exit Sub
-		End If
-
-		If LvOrder.FocusedItem.SubItems(11).Text = "Y" Then
-			LvOrder.FocusedItem.SubItems(11).Text = ""
-		Else
-			LvOrder.FocusedItem.SubItems(11).Text = "Y"
-		End If
-
-		If LvOrder.FocusedItem.SubItems(11).Text = "Y" Then
-			LvOrder.FocusedItem.BackColor = Color.Red
-		Else
-			LvOrder.FocusedItem.BackColor = Color.Transparent
-		End If
-
-		Dim totalJumlahProduksi As Double = 0
-
-		Dim lks As String = ""
-		Dim kodeBarang As String = ""
-		Dim satuan_awal As String = ""
-		Dim id_jenis_produk As String = ""
-		Dim dataYangDiDelete As Integer = 0
-
-		Try
-			OpenConn()
-
-			LvBahan.Items.Clear()
-			LvBahanNew.Items.Clear()
-			LvPackaging.Items.Clear()
-			LvPackagingNew.Items.Clear()
-
-			ExecuteTrans("delete from N_EMI_Transaksi_Order_Produksi_Temp where userid='" & UserID & "'")
-
-			For i As Integer = 0 To LvOrder.Items.Count - 1
-
-				get_isi_listview_detail(i)
-
-				If LvOrder.Items(i).SubItems(11).Text = "" Then
-
-					Dim IsOrderTrial As Boolean = If(String.IsNullOrWhiteSpace(LvNoFormula), False, True)
-
-					SQL = "insert into N_EMI_Transaksi_Order_Produksi_Temp(Kode_Perusahaan, No_Faktur, Kode_Barang, Kode_Stock_Owner, Jumlah, Satuan, UserID) values("
-					SQL = SQL & "'" & KodePerusahaan & "', '" & LvFaktur2 & "', '" & LvKdBrg2 & "', '" & LvLokasi2 & "', '" & HilangkanTanda(LvJmlh2) & "', '" & HilangkanTanda(LvSatuan2) & "', '" & UserID & "')"
-					ExecuteTrans(SQL)
-
-					txt_IdJenisProduk.Text = LvIdJnsPrdk2
-
-					Dim kd_barangINq As String = ""
-					SQL = "select top(1) Kode_Barang_inq from barang "
-					SQL = SQL & "where kode_Perusahaan='" & KodePerusahaan & "' "
-					SQL = SQL & "and Kode_Barang ='" & LvKdBrg2 & "' "
-					Using dr = OpenTrans(SQL)
-						If dr.Read Then
-							kd_barangINq = dr("Kode_Barang_inq")
-						Else
-							dr.Close()
-							CloseTrans()
-							CloseConn()
-							MessageBox.Show(Base_Language.Lang_Global_KodeBarang & " " & Base_Language.Lang_GLOBAL_Tidak_Ditemukan & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-							Exit Sub
-						End If
-					End Using
-
-					If Not IsOrderTrial Then
-
-						SQL = "select top 1 c.No_Faktur, c.Tanggal, c.Jam "
-						SQL = SQL & "from N_EMI_Transaksi_Formulator_Binding a "
-						SQL = SQL & "inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-						SQL = SQL & "inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null "
-						SQL = SQL & "where a.Status is NULL "
-						SQL = SQL & "and a.Flag_Validasi_Main = 'Y' "
-						SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-						SQL = SQL & "and a.Kode_Barang = '" & kd_barangINq & "' "
-						SQL = SQL & "order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC "
-						Using Dr = OpenTrans(SQL)
-							If Not Dr.Read Then
-
-								Dr.Close()
-								ExecuteTrans("delete from N_EMI_Transaksi_Order_Produksi_Temp where userid='" & UserID & "'")
-								CloseConn()
-								LvBahan.Items.Clear()
-								LvBahanNew.Items.Clear()
-								LvPackaging.Items.Clear()
-								LvPackagingNew.Items.Clear()
-								Txt_No_Formula.Text = ""
-								MessageBox.Show("Kode formula untuk " & LvKdBrg2 & " tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-								Exit Sub
-							End If
-						End Using
-
-					End If
-
-				End If
-
-				'If i = 0 Then
-				'	lks = LvLokasi2
-				'	kodeBarang = LvKdBrg2
-				'	satuan_awal = LvSatuan2
-				'	txt_IdJenisProduk.Text = LvIdJnsPrdk2
-				'End If
-
-				'If Not ARR_KdBarang.Contains(LvKdBrg2) Then
-				'	ARR_KdBarang.Add(LvKdBrg2)
-				'End If
-
-				'totalJumlahProduksi = totalJumlahProduksi + LvJmlh2
-			Next
-
-			SQL = $"
-
-				;WITH cte AS (
-
-					SELECT distinct
-						x.kode_barang_inq,
-						x.kode_perusahaan,
-						ISNULL(f.No_Faktur, '') AS kode_formula
-					FROM barang x
-					INNER JOIN emI_group_jenis y
-						ON x.kode_perusahaan = y.kode_perusahaan
-					   AND x.id_group_jenis = y.id_group_jenis
-
-					OUTER APPLY (
-						SELECT TOP 1 c.No_Faktur
-						FROM N_EMI_Transaksi_Formulator_Binding a
-						INNER JOIN N_EMI_Transaksi_Formulator_Binding_Detail b
-							ON a.Kode_Perusahaan = b.Kode_Perusahaan
-						   AND a.No_Faktur = b.No_Faktur
-						INNER JOIN Emi_Transaksi_Formulator c
-							ON b.Kode_Perusahaan = c.Kode_Perusahaan
-						   AND b.No_Formulator = c.No_Faktur
-						   AND c.Status IS NULL
-						WHERE a.Status IS NULL
-						  AND a.Flag_Validasi_Main = 'Y'
-						  AND a.Kode_Perusahaan = x.kode_perusahaan
-						  AND a.Kode_Barang = x.kode_barang_inq
-						ORDER BY a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC
-					) f
-
-					WHERE y.Flag_Finished_Good = 'Y'
-					   OR y.Flag_Semi_FG = 'Y'
-
-				),cte_b AS (
-
-					SELECT
-						a.Kode_perusahaan,
-						a.Kode_Barang,
-						b.Kode_Barang_Inq,
-						a.Kode_Stock_Owner,
-						SUM(a.jumlah) AS Jumlah,
-						a.Satuan,
-						SUM(a.jumlah * b.berat / 1000) AS Jumlah_Berat,
-						'KG' AS Satuan_Berat,
-						c.kode_formula
-					FROM N_EMI_Transaksi_Order_Produksi_Temp a
-					INNER JOIN barang b
-						ON a.Kode_perusahaan = b.Kode_Perusahaan
-					   AND a.Kode_Stock_Owner = b.Kode_Stock_Owner
-					   AND a.Kode_Barang = b.Kode_Barang
-					LEFT JOIN cte c
-						ON c.Kode_Perusahaan = a.Kode_perusahaan
-					   AND c.Kode_Barang_Inq = b.Kode_Barang_Inq
-
-					WHERE a.kode_perusahaan = '{KodePerusahaan}'
-					  AND a.userid = '{UserID}'
-
-					GROUP BY
-						a.Kode_perusahaan, a.Kode_Barang, b.Kode_Barang_Inq,
-						a.Kode_Stock_Owner, a.Satuan, c.kode_formula
-
-				),cte_c AS (
-
-					SELECT
-						a.Kode_Perusahaan,
-						a.no_faktur,
-						b.tanggal,
-						a.kode_stock_owner,
-						a.kode_barang,
-						c.nama,
-						c.flag_potong_stok,
-						a.nilai_barang,
-						a.persentase,
-						a.satuan_barang,
-						CAST(b.RV AS BIGINT) AS RV_Parent,
-						CAST(a.RV AS BIGINT) AS RV_Detail,
-						d.Jumlah_Berat,
-						d.Jumlah_Berat * a.Persentase / 100 AS Nilai_Kebutuhan
-					FROM EMI_Transaksi_Formulator_Detail_Bahan a
-					INNER JOIN Emi_Transaksi_Formulator b
-						ON a.Kode_Perusahaan = b.Kode_Perusahaan
-					   AND a.No_Faktur = b.No_Faktur
-					   AND b.Status IS NULL
-					INNER JOIN barang c
-						ON a.kode_perusahaan = c.kode_perusahaan
-					   AND a.kode_stock_owner = c.kode_stock_owner
-					   AND a.kode_barang = c.kode_barang
-					INNER JOIN cte_b d
-						ON b.kode_perusahaan = d.Kode_perusahaan
-					   AND b.no_faktur = d.Kode_Formula
-
-				),stock AS (
-					SELECT
-						Kode_Barang,
-						(Stock_Wharehouse + Stock_Unloading) AS stock,
-						(Gantungan_PO + Gantungan_Split1 + Gantungan_Split2) AS Keep_Stock
-					FROM N_Emi_View_Stock_Gantung
-				)
-
-				SELECT
-					MIN(a.no_faktur) AS No_faktur,
-					MIN(a.tanggal) AS Tanggal,
-					MIN(a.RV_Parent) AS RV_Parent,
-					MIN(a.RV_Detail) AS RV_Detail,
-					a.Kode_Stock_Owner,
-					a.Kode_Barang,
-					a.Nama,
-					a.Flag_Potong_Stok,
-					a.Satuan_barang,
-					SUM(a.Nilai_kebutuhan) AS Nilai_kebutuhan,
-					ISNULL(s.stock, 0) AS stock,
-					ISNULL(s.Keep_Stock, 0) AS Keep_Stock,
-					ISNULL(b.Stock_Minimum, 0) AS Min_stock
-
-				FROM cte_c a
-				LEFT JOIN stock s
-					ON a.Kode_Barang = s.Kode_Barang
-				LEFT JOIN barang b
-					ON a.Kode_Barang = b.Kode_Barang
-				   AND a.Kode_Perusahaan = b.kode_perusahaan
-				   AND a.Kode_Stock_Owner = b.kode_stock_owner
-
-				GROUP BY
-					a.Kode_Perusahaan, a.Kode_Stock_Owner, a.Kode_Barang,
-					a.Nama, a.Flag_Potong_Stok, a.Satuan_barang,
-					s.stock, s.Keep_Stock, b.Stock_Minimum
-
-				ORDER BY a.Kode_Barang
-
-			"
-			Using ds = BindingTrans(SQL)
-				With ds.Tables("MyTable")
-					If .Rows.Count <> 0 Then
-						For indexFormulator As Integer = 0 To .Rows.Count - 1
-							Dim lvwFormulator As ListViewItem
-							Dim lvwFormulatorNew As ListViewItem
-
-							lvwFormulator = LvBahan.Items.Add(.Rows(indexFormulator).Item("kode_stock_owner"))
-							lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("kode_barang"))
-							''lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("nama"))
-							lvwFormulator.SubItems.Add(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))
-							lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("Satuan_barang"))
-							lvwFormulator.SubItems.Add(Format(.Rows(indexFormulator).Item("stock"), "N4"))
-							lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("Satuan_barang"))
-							lvwFormulator.SubItems.Add(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))
-							lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("satuan_barang"))
-							lvwFormulator.SubItems.Add(Format(.Rows(indexFormulator).Item("stock"), "N4"))
-							lvwFormulator.SubItems.Add(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))
-							lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("RV_Detail"))
-
-							Dim asdsadas As Double = .Rows(indexFormulator).Item("Min_stock")
-							Dim dasdas As Double = Val(HilangkanTanda(Format(Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))), "N4")))
-
-							Dim gfasdsad As Double = .Rows(indexFormulator).Item("stock")
-							Dim gfassdsad As Double = .Rows(indexFormulator).Item("keep_stock")
-							Dim gfassdsasd As Double = .Rows(indexFormulator).Item("Nilai_kebutuhan")
-
-							If aksesdata = True Then
-
-								Dim kodeStockOwner As String = .Rows(indexFormulator).Item("kode_stock_owner").ToString()
-								Dim kodeBahan As String = .Rows(indexFormulator).Item("kode_barang").ToString()
-								Dim rowDitemukan As ListViewItem = Nothing
-
-								'==================================================
-								'=     CEK APAKAH BAHAN SUDAH ADA DI LISTVIEW     =
-								'==================================================
-								For Each item As ListViewItem In LvBahanNew.Items
-									If item.SubItems(0).Text = kodeStockOwner AndAlso item.SubItems(1).Text = kodeBahan Then
-										rowDitemukan = item
-										Exit For
-									End If
-								Next
-
-								lvwFormulatorNew = LvBahanNew.Items.Add(.Rows(indexFormulator).Item("kode_stock_owner"))
-								lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("kode_barang"))
-								lvwFormulatorNew.SubItems.Add(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))
-								lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("Satuan_barang"))
-								lvwFormulatorNew.SubItems.Add(Format(.Rows(indexFormulator).Item("stock"), "N4"))
-								lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("Satuan_barang"))
-								lvwFormulatorNew.SubItems.Add(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))
-								lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("satuan_barang"))
-								lvwFormulatorNew.SubItems.Add(Format(.Rows(indexFormulator).Item("stock"), "N4"))
-								lvwFormulatorNew.SubItems.Add(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))
-
-								lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("RV_Detail"))
-								lvwFormulatorNew.SubItems.Add(Format(Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))), "N4"))
-							Else
-
-								If .Rows(indexFormulator).Item("Min_stock") >= Val(HilangkanTanda(Format(Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))), "N4"))) Then
-
-									Dim kodeStockOwner As String = .Rows(indexFormulator).Item("kode_stock_owner").ToString()
-									Dim kodeBahan As String = .Rows(indexFormulator).Item("kode_barang").ToString()
-									Dim rowDitemukan As ListViewItem = Nothing
-
-									'==================================================
-									'=     CEK APAKAH BAHAN SUDAH ADA DI LISTVIEW     =
-									'==================================================
-									For Each item As ListViewItem In LvBahanNew.Items
-										If item.SubItems(0).Text = kodeStockOwner AndAlso item.SubItems(1).Text = kodeBahan Then
-											rowDitemukan = item
-											Exit For
-										End If
-									Next
-									lvwFormulatorNew = LvBahanNew.Items.Add(.Rows(indexFormulator).Item("kode_stock_owner"))
-									lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("kode_barang"))
-
-									lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
-									lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("Satuan_barang"))
-									lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
-									lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("Satuan_barang"))
-									lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
-									lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("satuan_barang"))
-									lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
-									lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
-
-									lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("RV_Detail"))
-									lvwFormulatorNew.SubItems.Add(Format(Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))), "N4"))
-
-								End If
-							End If
-
-							Txt_No_Formula.Text = .Rows(indexFormulator).Item("no_faktur")
-							DateTimePicker3.Value = .Rows(indexFormulator).Item("Tanggal")
-							RV_Parent_Formula = .Rows(indexFormulator).Item("RV_Parent")
-
-						Next
-					Else
-						CloseConn()
-						MessageBox.Show("Formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						Exit Sub
-					End If
-				End With
-			End Using
-
-			SQL = $"
-					;WITH cte AS (
-
-						SELECT
-							a.Kode_Perusahaan,
-							a.kode_Barang,
-							b.nama,
-							b.Satuan AS Satuan_Barang,
-							a.Jumlah_Barang,
-							a.Kode_Bahan,
-							c.Nama AS nama_bahan,
-							c.flag_potong_stok,
-							c.satuan AS satuan_bahan,
-							a.Jumlah_Bahan,
-							a.Jenis,
-							d.no_faktur,
-							d.jumlah,
-							d.satuan,
-							(d.jumlah / a.Jumlah_Barang) * a.jumlah_bahan AS Kebutuhan_bahan,
-
-							ROW_NUMBER() OVER (
-								PARTITION BY a.Kode_Perusahaan, a.Kode_Bahan
-								ORDER BY d.no_faktur
-							) AS rn
-
-						FROM barang_detail_Bahan_Penolong a
-						INNER JOIN barang b
-							ON a.kode_Perusahaan = b.kode_Perusahaan
-						   AND a.Kode_Barang = b.Kode_Barang_Inq
-						INNER JOIN barang c
-							ON a.kode_Perusahaan = c.kode_Perusahaan
-						   AND a.Kode_Bahan = c.Kode_Barang
-						INNER JOIN N_EMI_Transaksi_Order_Produksi_Temp d
-							ON b.Kode_barang = d.kode_barang
-						   AND b.Kode_Stock_Owner = d.kode_stock_owner
-						   AND b.kode_perusahaan = d.kode_perusahaan
-						   AND c.Kode_Stock_Owner = d.kode_stock_owner
-
-						WHERE d.kode_perusahaan = '{KodePerusahaan}'
-						  AND d.userid = '{UserID}'
-
-					),cte_first AS (
-						SELECT *
-						FROM cte
-						WHERE rn = 1
-					),
-
-					stock AS (
-						SELECT
-							x.kode_perusahaan,
-							x.Kode_Barang,
-							SUM(x.jumlah) AS good_stock
-						FROM barang_sn x
-						INNER JOIN stock_owner_gudang y
-							ON x.kode_perusahaan = y.kode_perusahaan
-						   AND x.kode_stock_owner = y.kode_stock_owner
-						   AND y.Flag_Wharehouse = 'Y'
-						WHERE x.warna = 'HIJAU'
-						GROUP BY x.kode_perusahaan, x.Kode_Barang
-					)
-
-					SELECT
-						a.kode_bahan,
-						a.nama_bahan,
-						a.Flag_Potong_Stok,
-						a.satuan_bahan,
-
-						ISNULL(f.Jumlah_Barang, 0) AS Jumlah_Barang,
-						ISNULL(f.Jumlah_Bahan, 0) AS Jumlah_Bahan,
-						ISNULL(f.Jenis, '-') AS Jenis,
-
-						SUM(a.Jumlah) AS Jumlah,
-						SUM(a.Kebutuhan_bahan) AS Kebutuhan_bahan,
-
-						ISNULL(s.good_stock, 0) AS good_stock,
-						0 AS keep_stock
-
-					FROM cte a
-					LEFT JOIN cte_first f
-						ON a.Kode_Perusahaan = f.Kode_Perusahaan
-					   AND a.Kode_Bahan = f.Kode_Bahan
-
-					LEFT JOIN stock s
-						ON a.kode_perusahaan = s.kode_perusahaan
-					   AND a.Kode_Bahan = s.Kode_Barang
-
-					GROUP BY
-						a.kode_bahan, a.nama_bahan, a.Flag_Potong_Stok,
-						a.satuan_bahan, a.Kode_Perusahaan,
-						f.Jumlah_Barang, f.Jumlah_Bahan, f.Jenis,
-						s.good_stock
-
-					ORDER BY a.kode_bahan
-
-					"
-			Using Ds = BindingTrans(SQL)
-				With Ds.Tables("MyTable")
-					For indexBahan = 0 To .Rows.Count - 1
-
-						Dim lvwPackaging As ListViewItem
-						Dim lvwPackagingNew As ListViewItem
-
-						'TODO : Check
-						lvwPackaging = LvPackaging.Items.Add(lks)
-						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("kode_bahan"))
-						''lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("nama_bahan"))
-						lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
-						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
-						lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("good_stock"), "N4"))
-						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
-						lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
-						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
-						lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("good_stock"), "N4"))
-						lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("keep_stock"), "N4"))
-						If General_Class.CekNULL(.Rows(indexBahan).Item("flag_potong_stok")) = "" Then
-							lvwPackaging.SubItems.Add("")
-						Else
-							lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("flag_potong_stok")))
-						End If
-
-						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("Jenis"))
-						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("Jumlah_barang"))
-						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("Jumlah_bahan"))
-
-						lvwPackagingNew = LvPackagingNew.Items.Add(lks)
-						lvwPackagingNew.SubItems.Add(.Rows(indexBahan).Item("kode_bahan"))
-						''lvwPackaginewng.SubItems.Add(.Rows(indexBahan).Item("nama_bahan"))
-						lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
-						lvwPackagingNew.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
-						lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("good_stock"), "N4"))
-						lvwPackagingNew.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
-						lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
-						lvwPackagingNew.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
-						lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("good_stock"), "N4"))
-						lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("keep_stock"), "N4"))
-						If General_Class.CekNULL(.Rows(indexBahan).Item("flag_potong_stok")) = "" Then
-							lvwPackagingNew.SubItems.Add("")
-						Else
-							lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("flag_potong_stok")))
-						End If
-
-						lvwPackagingNew.SubItems.Add(.Rows(indexBahan).Item("Jenis"))
-						lvwPackagingNew.SubItems.Add(.Rows(indexBahan).Item("Jumlah_barang"))
-						lvwPackagingNew.SubItems.Add(.Rows(indexBahan).Item("Jumlah_bahan"))
-
-					Next
-				End With
-			End Using
-
-			CloseConn()
-		Catch ex As Exception
-			CloseConn()
-			MessageBox.Show(ex.Message)
-			Exit Sub
-		End Try
-
-		'For i As Integer = 0 To LvOrder.Items.Count - 1
-		'	get_isi_listview_detail(i)
-
-		'	If i = 0 Then
-		'		lks = LvLokasi2
-		'		kodeBarang = LvKdBrg2
-		'		satuan_awal = LvSatuan2
-		'		txt_IdJenisProduk.Text = LvIdJnsPrdk2
-		'	End If
-
-		'	If LvOrder.Items(i).SubItems(11).Text = "" Then
-		'		totalJumlahProduksi = totalJumlahProduksi + LvOrder.Items(i).SubItems(6).Text
-		'	End If
-
-		'	If LvOrder.Items(i).SubItems(11).Text = "Y" Then
-		'		dataYangDiDelete = dataYangDiDelete + 1
-		'	End If
-		'Next
-
-		'Dim totalSerapan As Double = 0
-		'Dim nilai_production_order As Double = 0
-		'Dim nilaiPersentase As Double = 0
-		''' mulai baru
-
-		'Try
-		'	OpenConn()
-		'	Cmd.Transaction = Cn.BeginTransaction
-
-		'	Dim satuan_akhir_init_barang As String = ""
-
-		'	LvBahan.Items.Clear()
-		'	LvPackaging.Items.Clear()
-
-		'	LvBahanNew.Items.Clear()
-		'	LvPackagingNew.Items.Clear()
-		'	Dim kd_barangINq As String = ""
-		'	SQL = "select top(1) Kode_Barang_inq from barang "
-		'	SQL = SQL & "where kode_Perusahaan='" & KodePerusahaan & "' "
-		'	SQL = SQL & "and Kode_Barang ='" & kodeBarang & "' "
-		'	Using dr = OpenTrans(SQL)
-		'		If dr.Read Then
-		'			kd_barangINq = dr("Kode_Barang_inq")
-		'		Else
-		'			dr.Close()
-		'			CloseTrans()
-		'			CloseConn()
-		'			MessageBox.Show(Base_Language.Lang_Global_KodeBarang & " " & Base_Language.Lang_GLOBAL_Tidak_Ditemukan & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-		'			Exit Sub
-		'		End If
-		'	End Using
-
-		'	SQL = "select Satuan_Berat From Init "
-		'	Using Dr = OpenTrans(SQL)
-		'		If Dr.Read Then
-		'			satuan_akhir_init_barang = Dr("satuan_berat")
-		'		Else
-		'			Dr.Close()
-		'			CloseTrans()
-		'			CloseConn()
-		'			MessageBox.Show("Data tidak ada", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'			Exit Sub
-		'		End If
-		'	End Using
-
-		'	SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & kodeBarang & "',"
-		'	SQL = SQL & "'" & satuan_awal & "','" & satuan_akhir_init_barang & "',"
-		'	SQL = SQL & "" & totalJumlahProduksi & ") as Hasil "
-		'	Using dr = OpenTrans(SQL)
-		'		If dr.Read Then
-		'			If General_Class.CekNULL(dr("Hasil")) <> "" Then
-		'				If dr("Hasil") = 0 Then
-		'					MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'					Exit Sub
-		'				Else
-		'					nilai_production_order = dr("hasil")
-		'				End If
-		'			Else
-		'				dr.Close()
-		'				CloseTrans()
-		'				CloseConn()
-		'				MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'				Exit Sub
-		'			End If
-		'		End If
-		'	End Using
-
-		'	''=========================     'ambil kode formula============================'
-		'	Dim kode_formula As String = ""
-		'	Dim tanggal_formula As String = ""
-
-		'	SQL = "select top 1 c.No_Faktur, c.Tanggal, c.Jam "
-		'	SQL = SQL & "from N_EMI_Transaksi_Formulator_Binding a "
-		'	SQL = SQL & "inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
-		'	SQL = SQL & "inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null "
-		'	SQL = SQL & "where a.Status is NULL "
-		'	SQL = SQL & "and a.Flag_Validasi_Main = 'Y' "
-		'	SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-		'	SQL = SQL & "and a.Kode_Barang = '" & kd_barangINq & "' "
-		'	SQL = SQL & "order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC "
-		'	Using Dr = OpenTrans(SQL)
-		'		If Dr.Read Then
-		'			kode_formula = Dr("No_Faktur")
-		'			tanggal_formula = Dr("Tanggal")
-		'		Else
-		'			Dr.Close()
-		'			CloseConn()
-		'			LvOrder.Items.Clear()
-		'			Txt_No_Formula.Text = ""
-		'			txtNmBrgPO.Text = ""
-		'			txtKdBrgPO.Text = ""
-
-		'			MessageBox.Show("Kode formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'			Exit Sub
-		'		End If
-		'	End Using
-
-		'	'SQL = "select kode_formula,tanggal from EMI_Transaksi_Formulator_Binding where  "
-		'	'SQL = SQL & "Kode_Barang = '" & kd_barangINq & "' and Aktif = 'Y'"
-		'	'Using Dr = OpenTrans(SQL)
-		'	'	If Dr.Read Then
-		'	'		If General_Class.CekNULL(Dr("kode_formula")) = "" Then
-		'	'			Dr.Close()
-		'	'			CloseTrans()
-		'	'			CloseConn()
-		'	'			MessageBox.Show("terjadi kesalahan, kode_formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'	'			Exit Sub
-		'	'		Else
-		'	'			kode_formula = Dr("kode_formula")
-		'	'			tanggal_formula = Dr("tanggal")
-		'	'		End If
-		'	'	Else
-		'	'		Dr.Close()
-		'	'		CloseTrans()
-		'	'		CloseConn()
-		'	'		MessageBox.Show("Kode formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'	'		Exit Sub
-		'	'	End If
-		'	'End Using
-		'	'=========================================================
-
-		'	SQL = "select hasil,satuan_hasil from Emi_Transaksi_Formulator where "
-		'	SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & kode_formula & "' "
-		'	Using Dr = OpenTrans(SQL)
-		'		If Dr.Read Then
-		'			SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & kodeBarang & "',"
-		'			SQL = SQL & "'" & Dr("satuan_hasil") & "','" & satuan_akhir_init_barang & "',"
-		'			SQL = SQL & "" & Dr("hasil") & ") as Hasil "
-		'			Dr.Close()
-
-		'			Using dr2 = OpenTrans(SQL)
-		'				If dr2.Read Then
-		'					If General_Class.CekNULL(dr2("Hasil")) <> "" Then
-		'						If dr2("Hasil") = 0 Then
-		'							dr2.Close()
-		'							CloseTrans()
-		'							CloseConn()
-		'							MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'							Exit Sub
-		'						Else
-		'							totalSerapan = dr2("hasil")
-		'						End If
-		'					Else
-		'						dr2.Close()
-		'						CloseTrans()
-		'						CloseConn()
-		'						MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'						Exit Sub
-		'					End If
-		'				End If
-		'			End Using
-		'		Else
-		'			Dr.Close()
-		'			CloseTrans()
-		'			CloseConn()
-		'			MessageBox.Show("Formula tidak ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'			Exit Sub
-		'		End If
-		'	End Using
-
-		'	SQL = "select a.no_faktur,a.kode_stock_owner,a.kode_barang,b.nama,a.nilai_barang,a.persentase,a.satuan_barang, "
-		'	SQL = SQL & "isnull((select (Stock_Wharehouse+Stock_Unloading)  from N_Emi_View_Stock_Gantung x where  a.Kode_Barang =x.Kode_Barang),0) as stock, "
-		'	SQL = SQL & "isnull((select (Gantungan_PO+Gantungan_Split1+Gantungan_Split2)  from N_Emi_View_Stock_Gantung x where  a.Kode_Barang =x.Kode_Barang  ),0) as Keep_Stock, "
-		'	SQL = SQL & "isnull((select top(1) Stock_Minimum from barang x where  a.Kode_Barang =x.Kode_Barang and a.kode_perusahaan=x.kode_perusahaan and a.kode_stock_owner=x.kode_stock_owner),0) as Min_stock, "
-		'	SQL = SQL & " cast(a.RV as bigint) as RV_Detail "
-		'	SQL = SQL & "from EMI_Transaksi_Formulator_Detail_Bahan a, barang b where  "
-		'	SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan And a.kode_stock_owner = b.kode_stock_owner "
-		'	SQL = SQL & "And a.kode_barang = b.kode_barang "
-		'	SQL = SQL & "And a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_faktur = '" & kode_formula & "' "
-		'	SQL = SQL & "Order by a.kode_barang "
-		'	Using ds = BindingTrans(SQL)
-		'		With ds.Tables("MyTable")
-		'			If .Rows.Count <> 0 Then
-		'				For indexFormulator As Integer = 0 To .Rows.Count - 1
-		'					Dim lvwFormulator As ListViewItem
-		'					Dim lvwFormulatorNew As ListViewItem
-
-		'					Dim jumlah As Double = 0
-
-		'					nilaiPersentase = nilai_production_order / totalSerapan
-
-		'					jumlah = Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("nilai_barang"), "N4"))) * nilaiPersentase
-
-		'					Dim convertKeSatuanAsli As String = ""
-		'					Dim jumlahBarangDibutuhkan As Double = 0
-
-		'					SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(indexFormulator).Item("kode_barang") & "' "
-		'					SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
-		'					Using Dr3 = OpenTrans(SQL)
-		'						If Dr3.Read Then
-		'							convertKeSatuanAsli = Dr3("satuan")
-		'							SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(indexFormulator).Item("kode_barang") & "',"
-		'							SQL = SQL & "'" & .Rows(indexFormulator).Item("satuan_barang") & "','" & Dr3("satuan") & "',"
-		'							SQL = SQL & "" & jumlah & ") as Hasil "
-		'							Dr3.Close()
-
-		'							Using dr4 = OpenTrans(SQL)
-		'								If dr4.Read Then
-		'									If General_Class.CekNULL(dr4("Hasil")) <> "" Then
-		'										If dr4("Hasil") = 0 Then
-		'											dr4.Close()
-		'											CloseTrans()
-		'											CloseConn()
-		'											MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'											Exit Sub
-		'										Else
-		'											jumlahBarangDibutuhkan = dr4("hasil")
-
-		'										End If
-		'									Else
-		'										dr4.Close()
-		'										CloseTrans()
-		'										CloseConn()
-		'										MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'										Exit Sub
-		'									End If
-		'								End If
-		'							End Using
-		'						Else
-		'							Dr3.Close()
-		'							CloseTrans()
-		'							CloseConn()
-		'							MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'							Exit Sub
-		'						End If
-		'					End Using
-
-		'					Dim stockConvert As Double = 0
-		'					Dim converKesatuanAsliBarangStok As String = ""
-		'					'============= convert nilai dan satuan stock barang ke tampilan display
-		'					SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(indexFormulator).Item("kode_barang") & "' "
-		'					SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
-		'					Using Dr3 = OpenTrans(SQL)
-		'						If Dr3.Read Then
-		'							converKesatuanAsliBarangStok = Dr3("satuan")
-		'							SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(indexFormulator).Item("kode_barang") & "',"
-		'							SQL = SQL & "'" & .Rows(indexFormulator).Item("satuan_barang") & "','" & Dr3("satuan") & "',"
-		'							SQL = SQL & "" & .Rows(indexFormulator).Item("stock") & ") as Hasil "
-		'							Dr3.Close()
-
-		'							Using dr4 = OpenTrans(SQL)
-		'								If dr4.Read Then
-		'									If General_Class.CekNULL(dr4("Hasil")) <> "" Then
-
-		'										stockConvert = dr4("hasil")
-		'									Else
-		'										dr4.Close()
-		'										CloseTrans()
-		'										CloseConn()
-		'										MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'										Exit Sub
-		'									End If
-		'								End If
-		'							End Using
-		'						Else
-		'							Dr3.Close()
-		'							CloseTrans()
-		'							CloseConn()
-		'							MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'							Exit Sub
-		'						End If
-		'					End Using
-
-		'					lvwFormulator = LvBahan.Items.Add(.Rows(indexFormulator).Item("kode_stock_owner"))
-		'					lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("kode_barang"))
-		'					''lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("nama"))
-		'					lvwFormulator.SubItems.Add(Format(jumlahBarangDibutuhkan, "N4"))
-		'					lvwFormulator.SubItems.Add(convertKeSatuanAsli)
-		'					lvwFormulator.SubItems.Add(Format(stockConvert, "N4"))
-		'					lvwFormulator.SubItems.Add(converKesatuanAsliBarangStok)
-		'					lvwFormulator.SubItems.Add(Format(jumlah, "N4"))
-		'					lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("satuan_barang"))
-		'					lvwFormulator.SubItems.Add(Format(.Rows(indexFormulator).Item("stock"), "N4"))
-		'					lvwFormulator.SubItems.Add(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))
-		'					lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("RV_Detail"))
-
-		'					If .Rows(indexFormulator).Item("Min_stock") >= Val(HilangkanTanda(Format(Val(HilangkanTanda(Format(stockConvert, "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(jumlahBarangDibutuhkan, "N4"))), "N4"))) Then
-
-		'						lvwFormulatorNew = LvBahanNew.Items.Add(.Rows(indexFormulator).Item("kode_stock_owner"))
-		'						lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("kode_barang"))
-		'						''lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("nama"))
-
-		'						If aksesdata = True Then
-		'							lvwFormulatorNew.SubItems.Add(Format(jumlahBarangDibutuhkan, "N4"))
-		'							lvwFormulatorNew.SubItems.Add(convertKeSatuanAsli)
-		'							lvwFormulatorNew.SubItems.Add(Format(stockConvert, "N4"))
-		'							lvwFormulatorNew.SubItems.Add(converKesatuanAsliBarangStok)
-		'							lvwFormulatorNew.SubItems.Add(Format(jumlah, "N4"))
-		'							lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("satuan_barang"))
-		'							lvwFormulatorNew.SubItems.Add(Format(.Rows(indexFormulator).Item("stock"), "N4"))
-		'							lvwFormulatorNew.SubItems.Add(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))
-		'						Else
-		'							lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
-		'							lvwFormulatorNew.SubItems.Add(convertKeSatuanAsli)
-		'							lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
-		'							lvwFormulatorNew.SubItems.Add(converKesatuanAsliBarangStok)
-		'							lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
-		'							lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("satuan_barang"))
-		'							lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
-		'							lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
-		'						End If
-
-		'						lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("RV_Detail"))
-
-		'						lvwFormulatorNew.SubItems.Add(Format(Val(HilangkanTanda(Format(stockConvert, "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(jumlahBarangDibutuhkan, "N4"))), "N4"))
-
-		'					End If
-
-		'					Txt_No_Formula.Text = kode_formula
-		'					DateTimePicker3.Value = tanggal_formula
-
-		'				Next
-		'			Else
-		'				CloseConn()
-		'				MessageBox.Show("Formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'				Exit Sub
-		'			End If
-		'		End With
-		'	End Using
-
-		'	'packaging
-
-		'	SQL = "select a.kode_Barang,b.nama, b.Satuan as Satuan_Barang, a.Jumlah_Barang, a.Kode_Bahan, c.Nama as nama_bahan, c.satuan as satuan_bahan, A.Jumlah_Bahan, "
-		'	SQL = SQL & "isnull((select sum(x.jumlah) from barang_sn x , stock_owner_gudang y where x.kode_perusahaan=y.kode_perusahaan and x.kode_stock_owner=y.kode_stock_owner and y.Flag_Wharehouse='Y' and x.kode_barang=c.kode_barang and x.warna='HIJAU'),0) as good_stock, a.jenis, c.flag_potong_stok, "
-
-		'	SQL = SQL & "isnull((select 0),0) as keep_stock "
-
-		'	SQL = SQL & "from barang_detail_Bahan_Penolong a, barang b, barang c where b.Kode_barang='" & kodeBarang & "' "
-		'	SQL = SQL & "and a.kode_Perusahaan=b.kode_Perusahaan and a.Kode_Barang=b.Kode_Barang_Inq and b.Kode_Stock_Owner='" & lks & "' "
-		'	SQL = SQL & " And a.kode_Perusahaan = c.kode_Perusahaan And a.Kode_Bahan = c.Kode_Barang And c.Kode_Stock_Owner ='" & lks & "' "
-		'	SQL = SQL & "Order by a.kode_barang "
-		'	Using Ds = BindingTrans(SQL)
-		'		With Ds.Tables("MyTable")
-		'			For indexBahan = 0 To .Rows.Count - 1
-
-		'				Dim lvwPackaging As ListViewItem
-		'				Dim lvwPackagingNew As ListViewItem
-
-		'				Dim satuan_barang As String = .Rows(indexBahan).Item("Satuan_Barang")
-		'				Dim Kode_bahan As String = .Rows(indexBahan).Item("Kode_Bahan")
-		'				Dim satuan_bahan As String = .Rows(indexBahan).Item("Satuan_Bahan")
-		'				Dim Jenis_bahan As String = .Rows(indexBahan).Item("Jenis_Bahan")
-
-		'				Dim flag_potong_stock As String = .Rows(indexBahan).Item("flag_potong_stok")
-
-		'				Dim jumlah As Double = .Rows(indexBahan).Item("Jumlah_Barang")
-		'				Dim jumlahbahan As Double = Format(.Rows(indexBahan).Item("Jumlah_Bahan"), "N4")
-		'				Dim jumlahstock As Double = Format(.Rows(indexBahan).Item("good_stock"), "N4")
-		'				Dim jumlah_barang_satuan_barang As Double = 0
-
-		'				SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & kodeBarang & "',"
-		'				SQL = SQL & "'" & satuan_awal & "','" & satuan_barang & "',"
-		'				SQL = SQL & "" & totalJumlahProduksi & ") as Hasil "
-		'				Using dr4 = OpenTrans(SQL)
-		'					If dr4.Read Then
-		'						If General_Class.CekNULL(dr4("Hasil")) <> "" Then
-		'							If dr4("Hasil") = 0 Then
-		'								dr4.Close()
-		'								CloseTrans()
-		'								CloseConn()
-		'								MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'								Exit Sub
-		'							Else
-		'								jumlah_barang_satuan_barang = dr4("hasil")
-		'							End If
-		'						Else
-		'							dr4.Close()
-		'							CloseTrans()
-		'							CloseConn()
-		'							MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'							Exit Sub
-		'						End If
-		'					End If
-		'				End Using
-
-		'				Dim jumlahBahan_Total As Double = (jumlah_barang_satuan_barang / jumlah) * jumlahbahan
-
-		'				Dim jumlahBahan_Total_display As Double = 0
-		'				Dim jumlahstock_Total_display As Double = 0
-		'				Dim satuan_display As String = ""
-
-		'				'============= convert nilai dan satuan stock barang ke tampilan display
-		'				SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & Kode_bahan & "' "
-		'				SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
-		'				Using Dr3 = OpenTrans(SQL)
-		'					If Dr3.Read Then
-		'						satuan_display = Dr3("satuan")
-
-		'						'==== Convert NIlai Bahan
-		'						SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Kode_bahan & "',"
-		'						SQL = SQL & "'" & satuan_bahan & "','" & satuan_display & "',"
-		'						SQL = SQL & "" & jumlahBahan_Total & ") as Hasil "
-		'						Dr3.Close()
-
-		'						Using dr4 = OpenTrans(SQL)
-		'							If dr4.Read Then
-		'								If General_Class.CekNULL(dr4("Hasil")) <> "" Then
-
-		'									jumlahBahan_Total_display = dr4("hasil")
-		'								Else
-		'									dr4.Close()
-		'									CloseTrans()
-		'									CloseConn()
-		'									MessageBox.Show("Satuan " & satuan_bahan & " Ke " & satuan_display & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'									Exit Sub
-		'								End If
-		'							End If
-		'						End Using
-
-		'						'==== Convert NIlai Stock
-		'						SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Kode_bahan & "',"
-		'						SQL = SQL & "'" & satuan_bahan & "','" & satuan_display & "',"
-		'						SQL = SQL & "" & jumlahstock & ") as Hasil "
-		'						Dr3.Close()
-
-		'						Using dr4 = OpenTrans(SQL)
-		'							If dr4.Read Then
-		'								If General_Class.CekNULL(dr4("Hasil")) <> "" Then
-
-		'									jumlahstock_Total_display = dr4("hasil")
-		'								Else
-		'									dr4.Close()
-		'									CloseTrans()
-		'									CloseConn()
-		'									MessageBox.Show("Satuan " & satuan_bahan & " Ke " & satuan_display & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'									Exit Sub
-		'								End If
-		'							End If
-		'						End Using
-		'					Else
-		'						Dr3.Close()
-		'						CloseTrans()
-		'						CloseConn()
-		'						MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'						Exit Sub
-		'					End If
-		'				End Using
-
-		'				'TODO  asdasdas()
-
-		'				lvwPackaging = LvPackaging.Items.Add(lks)
-		'				lvwPackaging.SubItems.Add(Kode_bahan)
-		'				''lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("nama_bahan"))
-		'				lvwPackaging.SubItems.Add(Format(jumlahBahan_Total_display, "N4"))
-		'				lvwPackaging.SubItems.Add(satuan_display)
-		'				lvwPackaging.SubItems.Add(Format(jumlahstock_Total_display, "N4"))
-		'				lvwPackaging.SubItems.Add(satuan_display)
-		'				lvwPackaging.SubItems.Add(Format(jumlahBahan_Total, "N4"))
-		'				lvwPackaging.SubItems.Add(satuan_bahan)
-		'				lvwPackaging.SubItems.Add(Format(jumlahstock, "N4"))
-		'				lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("keep_stock"), "N4"))
-		'				If General_Class.CekNULL(.Rows(indexBahan).Item("flag_potong_stok")) = "" Then
-		'					lvwPackaging.SubItems.Add("")
-		'				Else
-		'					lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("flag_potong_stok")))
-		'				End If
-
-		'				lvwPackaging.SubItems.Add(Jenis_bahan)
-		'				lvwPackaging.SubItems.Add(jumlah)
-		'				lvwPackaging.SubItems.Add(jumlahbahan)
-
-		'				lvwPackagingNew = LvPackagingNew.Items.Add(lks)
-		'				lvwPackagingNew.SubItems.Add(Kode_bahan)
-		'				''lvwPackaginewng.SubItems.Add(.Rows(indexBahan).Item("nama_bahan"))
-		'				lvwPackagingNew.SubItems.Add(Format(jumlahBahan_Total_display, "N4"))
-		'				lvwPackagingNew.SubItems.Add(satuan_display)
-		'				lvwPackagingNew.SubItems.Add(Format(jumlahstock_Total_display, "N4"))
-		'				lvwPackagingNew.SubItems.Add(satuan_display)
-		'				lvwPackagingNew.SubItems.Add(Format(jumlahBahan_Total, "N4"))
-		'				lvwPackagingNew.SubItems.Add(satuan_bahan)
-		'				lvwPackagingNew.SubItems.Add(Format(jumlahstock, "N4"))
-		'				lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("keep_stock"), "N4"))
-		'				If General_Class.CekNULL(.Rows(indexBahan).Item("flag_potong_stok")) = "" Then
-		'					lvwPackagingNew.SubItems.Add("")
-		'				Else
-		'					lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("flag_potong_stok")))
-		'				End If
-
-		'				lvwPackagingNew.SubItems.Add(Jenis_bahan)
-		'				lvwPackagingNew.SubItems.Add(jumlah)
-		'				lvwPackagingNew.SubItems.Add(jumlahbahan)
-		'			Next
-		'		End With
-		'	End Using
-
-		'	CloseTrans()
-		'	CloseConn()
-		'Catch ex As Exception
-		'	CloseTrans()
-		'	CloseConn()
-		'	MessageBox.Show(ex.Message)
-		'	Exit Sub
-		'End Try
-
-		''akhir mulai baru
-
-		'Dim dataYangDiDelete As Integer = 0
-		'For index As Integer = 0 To LvOrder.Items.Count - 1
-		'    ' Dim totalJumlahProduksi As Double = 0
-		'    Dim totalSerapan As Double = 0
-		'    Dim nilai_production_order As Double = 0
-		'    Dim nilaiPersentase As Double = 0
-
-		'    'Dim kodeBarang As String = ""
-		'    'Dim satuan_awal As String = ""
-		'    'Dim id_jenis_produk As String = ""
-
-		'    If LvOrder.Items(index).SubItems(11).Text = "" Then
-		'        LvOrder.Items(index).Remove()
-		'    End If
-
-		'    If LvOrder.Items.Count <> 0 Then
-		'        'For i As Integer = 0 To LvOrder.Items.Count - 1
-		'        '    If i = 0 Then
-		'        '        kodeBarang = LvOrder.Items(i).SubItems(4).Text
-		'        '        satuan_awal = LvOrder.Items(i).SubItems(7).Text
-		'        '        txt_IdJenisProduk.Text = LvOrder.Items(i).SubItems(10).Text
-		'        '    End If
-
-		'        '    If LvOrder.Items(i).SubItems(12).Text = "" Then
-		'        '        totalJumlahProduksi = totalJumlahProduksi + LvOrder.Items(i).SubItems(6).Text
-		'        '    End If
-		'        'Next
-
-		'        If LvOrder.Items(index).SubItems(12).Text = "Y" Then
-		'            LvOrder.Items(index).BackColor = Color.Red
-		'        Else
-		'            LvOrder.Items(index).BackColor = Color.Transparent
-		'        End If
-
-		'        If LvOrder.Items(index).SubItems(12).Text = "" Then
-		'            Try
-		'                OpenConn()
-
-		'                Dim satuan_akhir_init_barang As String = ""
-
-		'                LvBahan.Items.Clear()
-		'                LvPackaging.Items.Clear()
-
-		'                SQL = "select Satuan_Berat From Init "
-		'                Using Dr = OpenTrans(SQL)
-		'                    If Dr.Read Then
-		'                        satuan_akhir_init_barang = Dr("satuan_berat")
-		'                    Else
-		'                        Dr.Close()
-		'                        CloseConn()
-		'                        MessageBox.Show("Data tidak ada", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'                        Exit Sub
-		'                    End If
-		'                End Using
-
-		'                SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & kodeBarang & "',"
-		'                SQL = SQL & "'" & satuan_awal & "','" & satuan_akhir_init_barang & "',"
-		'                SQL = SQL & "" & totalJumlahProduksi & ") as Hasil "
-		'                Using dr = OpenTrans(SQL)
-		'                    If dr.Read Then
-		'                        If General_Class.CekNULL(dr("Hasil")) <> "" Then
-		'                            If dr("Hasil") = 0 Then
-		'                                MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'                                Exit Sub
-		'                            Else
-		'                                nilai_production_order = dr("hasil")
-		'                            End If
-		'                        Else
-		'                            dr.Close()
-		'                            CloseConn()
-		'                            MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'                            Exit Sub
-		'                        End If
-		'                    End If
-		'                End Using
-
-		'                ''=========================     'ambil kode formula============================'
-		'                Dim kode_formula As String = ""
-		'                Dim tanggal_formula As String = ""
-
-		'                SQL = "select kode_formula,tanggal from EMI_Transaksi_Formulator_Binding where  "
-		'                SQL = SQL & "Kode_Barang = '" & kodeBarang & "' and Aktif = 'Y'"
-		'                Using Dr = OpenTrans(SQL)
-		'                    If Dr.Read Then
-		'                        If General_Class.CekNULL(Dr("kode_formula")) = "" Then
-		'                            Dr.Close()
-		'                            CloseConn()
-		'                            MessageBox.Show("terjadi kesalahan, kode_formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'                            Exit Sub
-		'                        Else
-		'                            kode_formula = Dr("kode_formula")
-		'                            tanggal_formula = Dr("tanggal")
-		'                        End If
-		'                    Else
-		'                        Dr.Close()
-		'                        CloseConn()
-		'                        MessageBox.Show("Kode formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'                        Exit Sub
-		'                    End If
-		'                End Using
-		'                '=========================================================
-
-		'                SQL = "select hasil,satuan_hasil from Emi_Transaksi_Formulator where "
-		'                SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & kode_formula & "' "
-		'                Using Dr = OpenTrans(SQL)
-		'                    If Dr.Read Then
-		'                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & kodeBarang & "',"
-		'                        SQL = SQL & "'" & Dr("satuan_hasil") & "','" & satuan_akhir_init_barang & "',"
-		'                        SQL = SQL & "" & Dr("hasil") & ") as Hasil "
-		'                        Dr.Close()
-
-		'                        Using dr2 = OpenTrans(SQL)
-		'                            If dr2.Read Then
-		'                                If General_Class.CekNULL(dr2("Hasil")) <> "" Then
-		'                                    If dr2("Hasil") = 0 Then
-		'                                        MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'                                        Exit Sub
-		'                                    Else
-		'                                        totalSerapan = dr2("hasil")
-		'                                    End If
-		'                                Else
-		'                                    dr2.Close()
-		'                                    CloseConn()
-		'                                    MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'                                    Exit Sub
-		'                                End If
-		'                            End If
-		'                        End Using
-		'                    Else
-		'                        Dr.Close()
-		'                        CloseConn()
-		'                        MessageBox.Show("Formula tidak ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'                        Exit Sub
-		'                    End If
-		'                End Using
-
-		'                SQL = "select a.no_faktur,a.kode_stock_owner,a.kode_barang,b.nama,a.nilai_barang,a.persentase,a.satuan_barang, b.good_stock as stock"
-		'                SQL = SQL & " from EMI_Transaksi_Formulator_Detail_Bahan a, barang b where  "
-		'                SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.kode_stock_owner = b.kode_stock_owner "
-		'                SQL = SQL & "and a.kode_barang = b.kode_barang "
-		'                SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_faktur = '" & kode_formula & "' "
-		'                Using ds = BindingTrans(SQL)
-		'                    With ds.Tables("MyTable")
-		'                        If .Rows.Count <> 0 Then
-		'                            For indexFormulator As Integer = 0 To .Rows.Count - 1
-		'                                Dim lvwFormulator As ListViewItem
-
-		'                                Dim jumlah As Double = 0
-
-		'                                nilaiPersentase = nilai_production_order / totalSerapan
-
-		'                                jumlah = .Rows(indexFormulator).Item("nilai_barang") * nilaiPersentase
-
-		'                                Dim convertKeSatuanAsli As String = ""
-		'                                Dim jumlahBarangDibutuhkan As Double = 0
-
-		'                                SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(indexFormulator).Item("kode_barang") & "' "
-		'                                SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
-		'                                Using Dr3 = OpenTrans(SQL)
-		'                                    If Dr3.Read Then
-		'                                        convertKeSatuanAsli = Dr3("satuan")
-		'                                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(indexFormulator).Item("kode_barang") & "',"
-		'                                        SQL = SQL & "'" & .Rows(indexFormulator).Item("satuan_barang") & "','" & Dr3("satuan") & "',"
-		'                                        SQL = SQL & "" & jumlah & ") as Hasil "
-		'                                        Dr3.Close()
-
-		'                                        Using dr4 = OpenTrans(SQL)
-		'                                            If dr4.Read Then
-		'                                                If General_Class.CekNULL(dr4("Hasil")) <> "" Then
-		'                                                    If dr4("Hasil") = 0 Then
-		'                                                        MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'                                                        Exit Sub
-		'                                                    Else
-		'                                                        jumlahBarangDibutuhkan = dr4("hasil")
-
-		'                                                    End If
-		'                                                Else
-		'                                                    dr4.Close()
-		'                                                    CloseConn()
-		'                                                    MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'                                                    Exit Sub
-		'                                                End If
-		'                                            End If
-		'                                        End Using
-		'                                    Else
-		'                                        Dr3.Close()
-		'                                        CloseConn()
-		'                                        MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'                                        Exit Sub
-		'                                    End If
-		'                                End Using
-
-		'                                Dim stockConvert As Double = 0
-		'                                Dim converKesatuanAsliBarangStok As String = ""
-		'                                '============= convert nilai dan satuan stock barang ke tampilan display
-		'                                SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(indexFormulator).Item("kode_barang") & "' "
-		'                                SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
-		'                                Using Dr3 = OpenTrans(SQL)
-		'                                    If Dr3.Read Then
-		'                                        converKesatuanAsliBarangStok = Dr3("satuan")
-		'                                        SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(indexFormulator).Item("kode_barang") & "',"
-		'                                        SQL = SQL & "'" & .Rows(indexFormulator).Item("satuan_barang") & "','" & Dr3("satuan") & "',"
-		'                                        SQL = SQL & "" & .Rows(indexFormulator).Item("stock") & ") as Hasil "
-		'                                        Dr3.Close()
-
-		'                                        Using dr4 = OpenTrans(SQL)
-		'                                            If dr4.Read Then
-		'                                                If General_Class.CekNULL(dr4("Hasil")) <> "" Then
-
-		'                                                    stockConvert = dr4("hasil")
-
-		'                                                Else
-		'                                                    dr4.Close()
-		'                                                    CloseConn()
-		'                                                    MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'                                                    Exit Sub
-		'                                                End If
-		'                                            End If
-		'                                        End Using
-		'                                    Else
-		'                                        Dr3.Close()
-		'                                        CloseConn()
-		'                                        MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'                                        Exit Sub
-		'                                    End If
-		'                                End Using
-		'                                lvwFormulator = LvBahan.Items.Add(.Rows(indexFormulator).Item("kode_stock_owner"))
-		'                                lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("kode_barang"))
-		'                                lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("nama"))
-		'                                lvwFormulator.SubItems.Add(Format(jumlahBarangDibutuhkan, "N2"))
-		'                                lvwFormulator.SubItems.Add(convertKeSatuanAsli)
-		'                                lvwFormulator.SubItems.Add(Format(stockConvert, "N2"))
-		'                                lvwFormulator.SubItems.Add(converKesatuanAsliBarangStok)
-		'                                lvwFormulator.SubItems.Add(jumlah)
-		'                                lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("satuan_barang"))
-		'                                lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("stock"))
-		'                                TextBox1.Text = kode_formula
-		'                                DateTimePicker3.Value = tanggal_formula
-
-		'                            Next
-		'                        Else
-		'                            CloseConn()
-		'                            MessageBox.Show("Formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		'                            Exit Sub
-		'                        End If
-		'                    End With
-		'                End Using
-
-		'                CloseConn()
-		'            Catch ex As Exception
-		'                CloseConn()
-		'                MessageBox.Show(ex.Message)
-		'                Exit Sub
-		'            End Try
-
-		'        End If
-
-		'    End If
-
-		'    If LvOrder.Items(index).SubItems(12).Text = "Y" Then
-		'        dataYangDiDelete = dataYangDiDelete + 1
-		'    End If
-
-		'Next
-
-		If dataYangDiDelete = LvOrder.Items.Count Then
-			LvBahan.Items.Clear()
-			LvPackaging.Items.Clear()
-			LvBahanNew.Items.Clear()
-			LvPackagingNew.Items.Clear()
-		End If
-
-	End Sub
-
-	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-		Try
-			OpenConn()
-			Cmd.Transaction = Cn.BeginTransaction
-
-			If CekButtonRole("Release_PO_Produksi") = "T" Then
-				CloseTrans()
-				CloseConn()
-				MessageBox.Show("anda tidak memiliki akses ! !")
-				Exit Sub
-			End If
-
-			Dim pesan As String = "Berikut terdapat bahan yang tidak mencukupi " & vbNewLine
-			Dim flag_stok_cukup As Boolean = True
-
-			'=============================
-			'=     CEK STATUS FAKTUR     =
-			'=============================
-			SQL = "select Status from EMI_Order_Produksi where Kode_Perusahaan = '" & KodePerusahaan & "' and status is not null and No_Faktur = '" & txtNoFaktur.Text & "' "
-			Using Dr = OpenTrans(SQL)
-				If Dr.Read Then
-					Dr.Close()
-					CloseTrans()
-					CloseConn()
-					MessageBox.Show("No Faktur telah Dibatalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					Exit Sub
-				End If
-			End Using
-
-			SQL = "select status,selesai,flag_release from emi_order_produksi "
-			SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
-			SQL = SQL & "and no_faktur = '" & txtNoFaktur.Text & "' "
-			Using dr = OpenTrans(SQL)
-				If dr.Read Then
-					If General_Class.CekNULL(dr("status")) = "Y" Then
-						dr.Close()
-						CloseTrans()
-						CloseConn()
-						MessageBox.Show(Base_Language.Lang_Global_DataSudahBatal, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						Exit Sub
-						'ElseIf General_Class.CekNULL(dr("selesai")) = "" Then
-						'    dr.Close()
-						'    CloseConn()
-						'    MessageBox.Show("Produksi Order belum selesai untuk direlease!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						'    Exit Sub
-					ElseIf General_Class.CekNULL(dr("flag_release")) = "Y" Then
-						dr.Close()
-						CloseTrans()
-						CloseConn()
-						MessageBox.Show("Produksi Order sudah pernah direlease!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						Exit Sub
-					End If
-				Else
-					dr.Close()
-					CloseTrans()
-					CloseConn()
-					MessageBox.Show("Data Produksi Order tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					Exit Sub
-				End If
-			End Using
-
-			For i As Integer = 0 To LvBahanNew.Items.Count - 1
-
-				Get_Isi_Listview_BahanNewv(i)
-
-				flag_stok_cukup = False
-				pesan = pesan & LvKdBhn3New & "   :   " & Format(Val(HilangkanTanda(LvTotalStockBrg3New)), "N4") & LvSatuan3New & vbNewLine
-
-			Next
-
-			For i As Integer = 0 To LvPackaging.Items.Count - 1
-				Get_Isi_Listview_Packaging(i)
-				' MessageBox.Show(HilangkanTanda(ListView3.Items(i).SubItems(7).Text) & " - " & HilangkanTanda(ListView3.Items(i).SubItems(9).Text))
-
-				If Val(HilangkanTanda(LvNilaiBrg4)) > Val(HilangkanTanda(LvStockBrg4)) Then
-
-					flag_stok_cukup = False
-					pesan = pesan & LvKdBhn4 & "   :   " & Format(Val(HilangkanTanda(LvStock4)) - Val(HilangkanTanda(lvJmlh4)), "N4") & LvSatuan4 & vbNewLine
-
-				End If
-
-			Next
-
-			If flag_stok_cukup = False Then
-
-				Dim tanya As String = MessageBox.Show(pesan & vbNewLine & "Apakah ingin melanjutkan transaksi ? ", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-				If tanya = vbNo Then
-					CloseTrans()
-					CloseConn()
-					MessageBox.Show("Transaksi dibatalkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					Exit Sub
-				End If
-
-			End If
-
-			SQL = "update emi_order_produksi set flag_release = 'Y', "
-			SQL = SQL & "tanggal_release = '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
-			SQL = SQL & "jam_release = '" & Format(tgl_skg, "HH:MM:ss") & "',"
-			SQL = SQL & "userid_release = '" & UserID & "' "
-			SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "'"
-			ExecuteTrans(SQL)
-
-			Cmd.Transaction.Commit()
-			CloseConn()
-			MessageBox.Show("Data berhasil direlease ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			kosong()
-
-			mustUpdate = False
-			'Me.Close()
-		Catch ex As Exception
-			CloseTrans()
-			CloseConn()
-			MessageBox.Show(ex.Message)
-			Exit Sub
-		End Try
-
-		If parentForm = "schedule" Then
-			Me.Close()
-		Else
-			kosong()
-		End If
-	End Sub
-
-	Private Sub Btn_UnRelease_Click(sender As Object, e As EventArgs) Handles Btn_UnRelease.Click
-
-		Dim pertanyaan As String = MessageBox.Show("Yakin Ingin UnRelease", "Production Order", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-		If pertanyaan = vbNo Then Exit Sub
-
-		Try
-			OpenConn()
-			Cmd.Transaction = Cn.BeginTransaction
-
-			If CekButtonRole("UnRelease_PO_Produksi") = "T" Then
-				CloseTrans()
-				CloseConn()
-				MessageBox.Show("anda tidak memiliki akses ! !")
-				Exit Sub
-			End If
-
-			'=============================
-			'=     CEK STATUS FAKTUR     =
-			'=============================
-			SQL = "select Status from EMI_Order_Produksi where Kode_Perusahaan = '" & KodePerusahaan & "' and status is not null and No_Faktur = '" & txtNoFaktur.Text & "' "
-			Using Dr = OpenTrans(SQL)
-				If Dr.Read Then
-					Dr.Close()
-					CloseTrans()
-					CloseConn()
-					MessageBox.Show("No Faktur telah Dibatalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					Exit Sub
-				End If
-			End Using
-
-			'==========================================
-			'=     CEK APAKAH PO SUDAH BERJALANAN     =
-			'==========================================
-			SQL = "select Kode_Perusahaan from Emi_Split_Production_Order where Kode_Perusahaan = '" & KodePerusahaan & "' and No_PO = '" & txtNoFaktur.Text & "' and status is null "
-			Using Ds = BindingTrans(SQL)
-				With Ds.Tables("MyTable")
-					If .Rows.Count <> 0 Then
-						CloseTrans()
-						CloseConn()
-						MessageBox.Show("PO yang Sudah Berjalan tidak bisa Dibatalkan", "Production Order", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						Exit Sub
-					End If
-				End With
-			End Using
-
-			'====================================
-			'=     CEK APAKAH SUDAH RELEASE     =
-			'====================================
-			SQL = "select Kode_Perusahaan from EMI_Order_Produksi where Kode_Perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "' and Flag_Release is null "
-			Using Ds = BindingTrans(SQL)
-				With Ds.Tables("MyTable")
-					If .Rows.Count <> 0 Then
-						CloseTrans()
-						CloseConn()
-						MessageBox.Show("PO Belum Di Release", "Production Order", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						Exit Sub
-					End If
-				End With
-			End Using
-
-			SQL = "Select no_faktur from emi_order_produksi where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "'"
-			Using Ds = BindingTrans(SQL)
-				With Ds.Tables("MyTable")
-					If .Rows.Count <> 0 Then
-						'=======================
-						'=     UPDATE DATA     =
-						'=======================
-						SQL = "update emi_order_produksi set flag_release = NULL, "
-						SQL = SQL & "tanggal_release = NULL, "
-						SQL = SQL & "jam_release = NULL "
-						SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "'"
-						ExecuteTrans(SQL)
-					Else
-						CloseTrans()
-						CloseConn()
-						MessageBox.Show("Data Tidak Ditemukan", "Production Order", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						Exit Sub
-					End If
-				End With
-			End Using
-
-			Cmd.Transaction.Commit()
-			CloseTrans()
-			CloseConn()
-			kosong()
-		Catch ex As Exception
-			CloseTrans()
-			CloseConn()
-			MessageBox.Show(ex.Message)
-			Exit Sub
-		End Try
-
-	End Sub
+	Dim LvTotalStockBrg3New As String
+	Dim lvUrut As String
+	Dim LvUrut2 As String
+	Private originalItemColor As Color
+	Dim RV_Parent_Formula, RV_Parent_Transaksi As String
+	Dim skipCB As String = "Y"
 
 	Public Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
 
@@ -3567,57 +207,92 @@
 			OpenConn()
 
 			isProcessing_Check = True
-			LvData.Items.Clear()
-			'SQL = "select a.No_Faktur,b.kode_stock_owner,a.Kode_Customer,c.Nama as nama_customer,b.Kode_Stock_Owner,b.Kode_Produk,d.Nama,b.Jumlah_Produksi, "
-			'SQL = SQL & "b.Jumlah_Produksi-ISNULL((select sum(y.Jumlah)  from emi_order_produksi x,emi_order_produksi_detail y  "
+			LvData.Items.Clear() : arrBarangHasPaket.Clear()
+
+#Region "Kode Lama"
+
+			''SQL = "select a.No_Faktur,b.kode_stock_owner,a.Kode_Customer,c.Nama as nama_customer,b.Kode_Stock_Owner,b.Kode_Produk,d.Nama,b.Jumlah_Produksi, "
+			''SQL = SQL & "b.Jumlah_Produksi-ISNULL((select sum(y.Jumlah)  from emi_order_produksi x,emi_order_produksi_detail y  "
+			''SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan "
+			''SQL = SQL & "and x.No_Faktur = y.No_Faktur and y.Kode_Perusahaan = b.Kode_Perusahaan "
+			''SQL = SQL & "and y.Kode_Stock_Owner = b.Kode_Stock_Owner and y.Kode_Barang = b.Kode_Produk "
+			''SQL = SQL & "and x.Status is null ),0) as Jumlah_Sisa "
+			''SQL = SQL & ",b.Jenis_Satuan,f.Id_Jenis_Produk,f.Keterangan as Jenis,a.Tanggal ,b.No_Urut  "
+
+			''SQL = SQL & "from emi_po a,Emi_PO_Detail b, Customers c, Barang d, emi_varian e, EMI_Jenis_Produk f where  "
+			''SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.no_faktur = b.no_faktur and a.kode_perusahaan = c.Kode_Perusahaan  "
+			''SQL = SQL & "and a.Kode_Customer = c.Kode_Customer and b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Produk = d.Kode_Barang  "
+			''SQL = SQL & "and b.Kode_Stock_Owner = d.Kode_Stock_Owner and d.id_varian = e.Id_Varian and d.Kode_Perusahaan = e.Kode_Perusahaan "
+			''SQL = SQL & "and e.Id_Jenis_Produk = f.Id_Jenis_Produk and e.Kode_Perusahaan = f.Kode_Perusahaan and b.flag_sudah_produksi is null "
+
+			''SQL = SQL & "union all "
+
+			'SQL = "select a.No_Faktur,b.kode_stock_owner,'-' as Kode_Customer,'-' as nama_customer, b.Kode_Barang as Kode_Produk, b.satuan as Jenis_Satuan, b.Kode_Stock_Owner,b.Kode_Barang "
+			'SQL = SQL & ",d.Nama,b.Jumlah_Produksi, "
+			'SQL = SQL & "b.Jumlah_Produksi-ISNULL((select  sum(y.Jumlah)  from emi_order_produksi x,emi_order_produksi_detail y  "
 			'SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan "
 			'SQL = SQL & "and x.No_Faktur = y.No_Faktur and y.Kode_Perusahaan = b.Kode_Perusahaan "
-			'SQL = SQL & "and y.Kode_Stock_Owner = b.Kode_Stock_Owner and y.Kode_Barang = b.Kode_Produk "
+			'SQL = SQL & "and y.Kode_Stock_Owner = b.Kode_Stock_Owner and y.Kode_Barang = b.Kode_Barang "
 			'SQL = SQL & "and x.Status is null ),0) as Jumlah_Sisa "
-			'SQL = SQL & ",b.Jenis_Satuan,f.Id_Jenis_Produk,f.Keterangan as Jenis,a.Tanggal ,b.No_Urut  "
-
-			'SQL = SQL & "from emi_po a,Emi_PO_Detail b, Customers c, Barang d, emi_varian e, EMI_Jenis_Produk f where  "
-			'SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.no_faktur = b.no_faktur and a.kode_perusahaan = c.Kode_Perusahaan  "
-			'SQL = SQL & "and a.Kode_Customer = c.Kode_Customer and b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Produk = d.Kode_Barang  "
+			'SQL = SQL & ",b.satuan,f.Id_Jenis_Produk,f.Keterangan as Jenis,a.Tanggal ,b.No_Urut, a.keterangan as Ket_Order, "
+			'SQL = SQL & "b.Flag_Trial_Produksi, b.No_Formula "
+			'SQL = SQL & "from EMI_Independent_Order a,EMI_Independent_Order_Detail b, Barang d, emi_varian e, EMI_Jenis_Produk f where "
+			'SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.no_faktur = b.no_faktur  and b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Barang = d.Kode_Barang "
 			'SQL = SQL & "and b.Kode_Stock_Owner = d.Kode_Stock_Owner and d.id_varian = e.Id_Varian and d.Kode_Perusahaan = e.Kode_Perusahaan "
 			'SQL = SQL & "and e.Id_Jenis_Produk = f.Id_Jenis_Produk and e.Kode_Perusahaan = f.Kode_Perusahaan and b.flag_sudah_produksi is null "
 
-			'SQL = SQL & "union all "
+			''SQL = SQL & "select a.No_Faktur,a.lokasi,'-' as Kode_Customer,'-' as nama_customer,b.Kode_Stock_Owner,b.Kode_Barang "
+			''SQL = SQL & ",d.Nama,b.Jumlah_Produksi, "
+			''SQL = SQL & "ISNULL((select b.Jumlah_Produksi - y.Jumlah  from emi_order_produksi x,emi_order_produksi_detail y  "
+			''SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and y.Kode_Perusahaan = b.Kode_Perusahaan  "
+			''SQL = SQL & "and y.Kode_Stock_Owner = b.Kode_Stock_Owner and y.Kode_Barang = b.Kode_Barang and x.Status is null ),0) as Jumlah_Sisa "
+			''SQL = SQL & ",b.satuan,f.Id_Jenis_Produk,f.Keterangan as Jenis,a.Tanggal ,b.No_Urut from EMI_Independent_Order a,EMI_Independent_Order_Detail b, Barang d, emi_varian e, EMI_Jenis_Produk f where   "
+			''SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.no_faktur = b.no_faktur  and b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Barang = d.Kode_Barang  "
+			''SQL = SQL & "and b.Kode_Stock_Owner = d.Kode_Stock_Owner and d.id_varian = e.Id_Varian and d.Kode_Perusahaan = e.Kode_Perusahaan "
+			''SQL = SQL & "and e.Id_Jenis_Produk = f.Id_Jenis_Produk and e.Kode_Perusahaan = f.Kode_Perusahaan and a.flag_sudah_produksi is null "
+			''SQL = SQL & "order by a.No_Faktur,a.Kode_Customer,b.Kode_Produk,a.Tanggal  "
 
-			SQL = "select a.No_Faktur,b.kode_stock_owner,'-' as Kode_Customer,'-' as nama_customer, b.Kode_Barang as Kode_Produk, b.satuan as Jenis_Satuan, b.Kode_Stock_Owner,b.Kode_Barang "
-			SQL = SQL & ",d.Nama,b.Jumlah_Produksi, "
-			SQL = SQL & "b.Jumlah_Produksi-ISNULL((select  sum(y.Jumlah)  from emi_order_produksi x,emi_order_produksi_detail y  "
+			'If ComboBox2.SelectedIndex = -1 Then
+			'	'SQL = SQL & "order by a.No_Faktur,a.Kode_Customer,b.Kode_Produk,a.Tanggal  "
+			'	SQL = SQL & "order by a.No_Faktur,Kode_Customer,Kode_Produk,a.Tanggal  "
+			'Else
+			'	SQL = SQL & "order by " & arrOrderBy.Item(ComboBox2.SelectedIndex) & ""
+			'End If
+
+#End Region
+
+			SQL = "select a.No_Faktur, b.kode_stock_owner, '-' as Kode_Customer, '-' as nama_customer, b.Kode_Barang as Kode_Produk, "
+			SQL = SQL & "b.satuan as Jenis_Satuan, b.Kode_Stock_Owner, b.Kode_Barang, d.Nama, b.Jumlah_Produksi, "
+			SQL = SQL & "b.Jumlah_Produksi - ISNULL((select sum(y.Jumlah) "
+			SQL = SQL & "from emi_order_produksi x, "
+			SQL = SQL & "emi_order_produksi_detail y "
 			SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan "
-			SQL = SQL & "and x.No_Faktur = y.No_Faktur and y.Kode_Perusahaan = b.Kode_Perusahaan "
-			SQL = SQL & "and y.Kode_Stock_Owner = b.Kode_Stock_Owner and y.Kode_Barang = b.Kode_Barang "
-			SQL = SQL & "and x.Status is null ),0) as Jumlah_Sisa "
-			SQL = SQL & ",b.satuan,f.Id_Jenis_Produk,f.Keterangan as Jenis,a.Tanggal ,b.No_Urut, a.keterangan as Ket_Order, "
-			SQL = SQL & "b.Flag_Trial_Produksi, b.No_Formula "
-			SQL = SQL & "from EMI_Independent_Order a,EMI_Independent_Order_Detail b, Barang d, emi_varian e, EMI_Jenis_Produk f where "
-			SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.no_faktur = b.no_faktur  and b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Barang = d.Kode_Barang "
-			SQL = SQL & "and b.Kode_Stock_Owner = d.Kode_Stock_Owner and d.id_varian = e.Id_Varian and d.Kode_Perusahaan = e.Kode_Perusahaan "
-			SQL = SQL & "and e.Id_Jenis_Produk = f.Id_Jenis_Produk and e.Kode_Perusahaan = f.Kode_Perusahaan and b.flag_sudah_produksi is null "
-
-			'SQL = SQL & "select a.No_Faktur,a.lokasi,'-' as Kode_Customer,'-' as nama_customer,b.Kode_Stock_Owner,b.Kode_Barang "
-			'SQL = SQL & ",d.Nama,b.Jumlah_Produksi, "
-			'SQL = SQL & "ISNULL((select b.Jumlah_Produksi - y.Jumlah  from emi_order_produksi x,emi_order_produksi_detail y  "
-			'SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and y.Kode_Perusahaan = b.Kode_Perusahaan  "
-			'SQL = SQL & "and y.Kode_Stock_Owner = b.Kode_Stock_Owner and y.Kode_Barang = b.Kode_Barang and x.Status is null ),0) as Jumlah_Sisa "
-			'SQL = SQL & ",b.satuan,f.Id_Jenis_Produk,f.Keterangan as Jenis,a.Tanggal ,b.No_Urut from EMI_Independent_Order a,EMI_Independent_Order_Detail b, Barang d, emi_varian e, EMI_Jenis_Produk f where   "
-			'SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.no_faktur = b.no_faktur  and b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Barang = d.Kode_Barang  "
-			'SQL = SQL & "and b.Kode_Stock_Owner = d.Kode_Stock_Owner and d.id_varian = e.Id_Varian and d.Kode_Perusahaan = e.Kode_Perusahaan "
-			'SQL = SQL & "and e.Id_Jenis_Produk = f.Id_Jenis_Produk and e.Kode_Perusahaan = f.Kode_Perusahaan and a.flag_sudah_produksi is null "
-			'SQL = SQL & "order by a.No_Faktur,a.Kode_Customer,b.Kode_Produk,a.Tanggal  "
-
+			SQL = SQL & "and x.No_Faktur = y.No_Faktur "
+			SQL = SQL & "and y.Kode_Perusahaan = b.Kode_Perusahaan "
+			SQL = SQL & "and y.Kode_Stock_Owner = b.Kode_Stock_Owner "
+			SQL = SQL & "and y.Kode_Barang = b.Kode_Barang "
+			SQL = SQL & "and x.Status is null), 0) as Jumlah_Sisa, b.satuan, f.Id_Jenis_Produk, "
+			SQL = SQL & "f.Keterangan as Jenis, a.Tanggal, b.No_Urut, a.keterangan as Ket_Order, b.Flag_Trial_Produksi, b.No_Formula, "
+			SQL = SQL & "isnull(g.HasPaket, 'T') as HasPaket "
+			SQL = SQL & "from EMI_Independent_Order a "
+			SQL = SQL & "inner join EMI_Independent_Order_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+			SQL = SQL & "inner join Barang d on b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Stock_Owner = d.Kode_Stock_Owner and b.Kode_Barang = d.Kode_Barang "
+			SQL = SQL & "inner join emi_varian e on d.Kode_Perusahaan = e.Kode_Perusahaan and d.Id_Varian = e.Id_Varian "
+			SQL = SQL & "inner join EMI_Jenis_Produk f on e.Kode_Perusahaan = f.Kode_Perusahaan and e.Id_Jenis_Produk = f.Id_Jenis_Produk "
+			SQL = SQL & "left join (select distinct z.Kode_Perusahaan, z.Kode_Barang, 'Y' as HasPaket "
+			SQL = SQL & "from N_EMI_Detail_Barang_Detail_Bahan_Penolong z "
+			SQL = SQL & "where z.Status is null "
+			SQL = SQL & "and z.Flag_Aktif = 'Y') g on d.Kode_Perusahaan = g.Kode_Perusahaan and d.Kode_Barang_Inq = g.Kode_Barang "
+			SQL = SQL & "where a.Status is null "
+			SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+			SQL = SQL & "and b.flag_sudah_produksi is null "
 			If ComboBox2.SelectedIndex = -1 Then
 				'SQL = SQL & "order by a.No_Faktur,a.Kode_Customer,b.Kode_Produk,a.Tanggal  "
 				SQL = SQL & "order by a.No_Faktur,Kode_Customer,Kode_Produk,a.Tanggal  "
 			Else
 				SQL = SQL & "order by " & arrOrderBy.Item(ComboBox2.SelectedIndex) & ""
 			End If
-
 			LvData.BeginUpdate()
-			LvData.Items.Clear()
 			Using Dr = OpenTrans(SQL)
 				While Dr.Read()
 
@@ -3643,11 +318,17 @@
 						lvw.SubItems.Add("") '14
 					End If
 
+					If General_Class.CekNULL(Dr("HasPaket")) = "Y" Then
+						If Not arrBarangHasPaket.Contains(Dr("Kode_Produk").ToString.Trim) Then
+							arrBarangHasPaket.Add(Dr("Kode_Produk").ToString.Trim)
+						End If
+					End If
+
 					LvData.Items.Add(lvw)
+
 				End While
 			End Using
 			isProcessing_Check = False
-
 			LvData.EndUpdate()
 
 			CloseConn()
@@ -3659,7 +340,111 @@
 
 	End Sub
 
+	'================================================================================================================
+	'=     HELPER
+	'================================================================================================================
+
+	Private Sub BatalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BatalToolStripMenuItem.Click
+		If LvData.Items.Count = 0 Then
+			MessageBox.Show("Silahkan pilih data terlebih dahulu untuk dihapus")
+			Exit Sub
+		End If
+
+		Dim selectedindex As Integer = LvData.FocusedItem.Index
+		Dim faktur As String = LvData.Items(selectedindex).SubItems(0).Text
+		If Not faktur.Substring(0, 2).ToUpper = "IO" Then
+			MessageBox.Show("Data Harus dari Independent Order", "Production Order", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		End If
+
+		Dim pertanyaan As String = MessageBox.Show("Yakin Ingin Menghapus Data?", "Production Order", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+		If pertanyaan = vbNo Then
+			Exit Sub
+		End If
+
+		Dim noFaktur As String = LvData.Items(selectedindex).SubItems(0).Text
+		Dim KDBarang As String = LvData.Items(selectedindex).SubItems(4).Text
+		Dim noUrut As String = LvData.Items(selectedindex).SubItems(10).Text
+
+		Try
+			OpenConn()
+
+			SQL = "select Kode_Perusahaan, No_Formula from EMI_Independent_Order_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & noFaktur & "' and Kode_Barang = '" & KDBarang & "' and No_Urut = '" & noUrut & "'"
+			Using Ds = BindingTrans(SQL)
+				With Ds.Tables("MyTable")
+					If .Rows.Count <> 0 Then
+						SQL = "update EMI_Independent_Order_Detail set Flag_Sudah_Produksi = 'X' where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & noFaktur & "' and Kode_Barang = '" & KDBarang & "' and No_Urut = '" & noUrut & "'"
+						ExecuteTrans(SQL)
+
+						If Not General_Class.CekNULL(.Rows(0).Item("No_Formula")) = "" Then
+
+							SQL = "update N_EMI_Transaksi_PO_Trial_Produksi set Flag_Mulai_Trial_Produksi = NULL "
+							SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+							SQL = SQL & "and Status is null "
+							SQL = SQL & "and No_Faktur_Formula = '" & .Rows(0).Item("No_Formula") & "' "
+							ExecuteTrans(SQL)
+
+						End If
+					Else
+						CloseConn()
+						MessageBox.Show("Data Tidak Ditemukan")
+						Exit Sub
+					End If
+				End With
+			End Using
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+		Button1_Click_1(sender, e)
+
+	End Sub
+
 	Private Sub Btn_Get_Detail_Formula_Click(sender As Object, e As EventArgs) Handles Btn_Get_Detail_Formula.Click
+
+		If LvOrder.Items.Count = 0 Then
+			MessageBox.Show("Pilih Dahulu Indepent Order", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			LvData.Focus()
+			Exit Sub
+		End If
+
+		Dim kodePertama As String = ""
+		Dim adaYangBerbeda As Boolean = False
+		Dim KodeBarangTanpaPackingSet As New ArrayList
+		For Each item As ListViewItem In LvOrder.Items
+			Dim kodeSekarang As String = item.SubItems(cellKdBrg2).Text.Trim
+
+			If kodePertama = "" Then
+				kodePertama = kodeSekarang
+			ElseIf kodeSekarang <> kodePertama Then
+				adaYangBerbeda = True
+				'Exit For
+			End If
+
+			If Not arrBarangHasPaket.Contains(kodeSekarang) AndAlso Not KodeBarangTanpaPackingSet.Contains(kodeSekarang) Then
+				KodeBarangTanpaPackingSet.Add(kodeSekarang)
+			End If
+		Next
+
+		If KodeBarangTanpaPackingSet.Count <> 0 Then
+			Dim daftarBarang As String = String.Join("," & Environment.NewLine, KodeBarangTanpaPackingSet.ToArray())
+			Dim pesan As String = "Kode Barang " & Environment.NewLine & daftarBarang & Environment.NewLine & "Belum Memiliki Packing Set"
+			'MessageBox.Show(pesan, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			'Exit Sub
+		End If
+
+		If Not adaYangBerbeda Then
+			If Cmb_Packing_Set.SelectedIndex = -1 Then
+				'MessageBox.Show("Harap Pilih Dahulu Packing Set", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				'Cmb_Packing_Set.DroppedDown = True
+				'Cmb_Packing_Set.Focus()
+				'Exit Sub
+			End If
+		End If
 
 		Dim ARR_KdBarang, ARR_KdBarang_Inq, ARR_Jumlah As New ArrayList
 
@@ -3765,6 +550,8 @@
 					End Using
 				End If
 			Next
+
+#Region "KOMEN"
 
 			'SQL = $"
 			'	;WITH cte AS (
@@ -3896,6 +683,8 @@
 
 			'"
 
+#End Region
+
 			SQL = $"
 				WITH cte AS (
 					SELECT distinct
@@ -4026,7 +815,6 @@
 					a.Satuan_barang, s.stock, s.Keep_Stock, b.Stock_Minimum
 				ORDER BY a.Kode_Barang
 			"
-
 			Using ds = BindingTrans(SQL)
 				With ds.Tables("MyTable")
 					If .Rows.Count <> 0 Then
@@ -4131,154 +919,318 @@
 				End With
 			End Using
 
-			SQL = $"
-					;WITH cte AS (
+#Region "Query Lama 18 Mei 2026"
 
-						SELECT
-							a.Kode_Perusahaan,
-							a.kode_Barang,
-							b.nama,
-							b.Satuan AS Satuan_Barang,
-							a.Jumlah_Barang,
-							a.Kode_Bahan,
-							c.Nama AS nama_bahan,
-							c.flag_potong_stok,
-							c.satuan AS satuan_bahan,
-							a.Jumlah_Bahan,
-							a.Jenis,
-							d.no_faktur,
-							d.jumlah,
-							d.satuan,
-							(d.jumlah / a.Jumlah_Barang) * a.jumlah_bahan AS Kebutuhan_bahan,
+			'SQL = $"
+			'		;WITH cte AS (
 
-							ROW_NUMBER() OVER (
-								PARTITION BY a.Kode_Perusahaan, a.Kode_Bahan
-								ORDER BY d.no_faktur
-							) AS rn
+			'			SELECT
+			'				a.Kode_Perusahaan,
+			'				a.kode_Barang,
+			'				b.nama,
+			'				b.Satuan AS Satuan_Barang,
+			'				a.Jumlah_Barang,
+			'				a.Kode_Bahan,
+			'				c.Nama AS nama_bahan,
+			'				c.flag_potong_stok,
+			'				c.satuan AS satuan_bahan,
+			'				a.Jumlah_Bahan,
+			'				a.Jenis,
+			'				d.no_faktur,
+			'				d.jumlah,
+			'				d.satuan,
+			'				(d.jumlah / a.Jumlah_Barang) * a.jumlah_bahan AS Kebutuhan_bahan,
 
-						FROM barang_detail_Bahan_Penolong a
-						INNER JOIN barang b
-							ON a.kode_Perusahaan = b.kode_Perusahaan
-						   AND a.Kode_Barang = b.Kode_Barang_Inq
-						INNER JOIN barang c
-							ON a.kode_Perusahaan = c.kode_Perusahaan
-						   AND a.Kode_Bahan = c.Kode_Barang
-						INNER JOIN N_EMI_Transaksi_Order_Produksi_Temp d
-							ON b.Kode_barang = d.kode_barang
-						   AND b.Kode_Stock_Owner = d.kode_stock_owner
-						   AND b.kode_perusahaan = d.kode_perusahaan
-						   AND c.Kode_Stock_Owner = d.kode_stock_owner
+			'				ROW_NUMBER() OVER (
+			'					PARTITION BY a.Kode_Perusahaan, a.Kode_Bahan
+			'					ORDER BY d.no_faktur
+			'				) AS rn
 
-						WHERE d.kode_perusahaan = '{KodePerusahaan}'
-						  AND d.userid = '{UserID}'
+			'			FROM barang_detail_Bahan_Penolong a
+			'			INNER JOIN barang b
+			'				ON a.kode_Perusahaan = b.kode_Perusahaan
+			'			   AND a.Kode_Barang = b.Kode_Barang_Inq
+			'			INNER JOIN barang c
+			'				ON a.kode_Perusahaan = c.kode_Perusahaan
+			'			   AND a.Kode_Bahan = c.Kode_Barang
+			'			INNER JOIN N_EMI_Transaksi_Order_Produksi_Temp d
+			'				ON b.Kode_barang = d.kode_barang
+			'			   AND b.Kode_Stock_Owner = d.kode_stock_owner
+			'			   AND b.kode_perusahaan = d.kode_perusahaan
+			'			   AND c.Kode_Stock_Owner = d.kode_stock_owner
 
-					),cte_first AS (
-						SELECT *
-						FROM cte
-						WHERE rn = 1
-					),
+			'			WHERE d.kode_perusahaan = '{KodePerusahaan}'
+			'			  AND d.userid = '{UserID}'
 
-					stock AS (
-						SELECT
-							x.kode_perusahaan,
-							x.Kode_Barang,
-							SUM(x.jumlah) AS good_stock
-						FROM barang_sn x
-						INNER JOIN stock_owner_gudang y
-							ON x.kode_perusahaan = y.kode_perusahaan
-						   AND x.kode_stock_owner = y.kode_stock_owner
-						   AND y.Flag_Wharehouse = 'Y'
-						WHERE x.warna = 'HIJAU'
-						GROUP BY x.kode_perusahaan, x.Kode_Barang
-					)
+			'		),cte_first AS (
+			'			SELECT *
+			'			FROM cte
+			'			WHERE rn = 1
+			'		),
 
-					SELECT
-						a.kode_bahan,
-						a.nama_bahan,
-						a.Flag_Potong_Stok,
-						a.satuan_bahan,
+			'		stock AS (
+			'			SELECT
+			'				x.kode_perusahaan,
+			'				x.Kode_Barang,
+			'				SUM(x.jumlah) AS good_stock
+			'			FROM barang_sn x
+			'			INNER JOIN stock_owner_gudang y
+			'				ON x.kode_perusahaan = y.kode_perusahaan
+			'			   AND x.kode_stock_owner = y.kode_stock_owner
+			'			   AND y.Flag_Wharehouse = 'Y'
+			'			WHERE x.warna = 'HIJAU'
+			'			GROUP BY x.kode_perusahaan, x.Kode_Barang
+			'		)
 
-						ISNULL(f.Jumlah_Barang, 0) AS Jumlah_Barang,
-						ISNULL(f.Jumlah_Bahan, 0) AS Jumlah_Bahan,
-						ISNULL(f.Jenis, '-') AS Jenis,
+			'		SELECT
+			'			a.kode_bahan,
+			'			a.nama_bahan,
+			'			a.Flag_Potong_Stok,
+			'			a.satuan_bahan,
 
-						SUM(a.Jumlah) AS Jumlah,
-						SUM(a.Kebutuhan_bahan) AS Kebutuhan_bahan,
+			'			ISNULL(f.Jumlah_Barang, 0) AS Jumlah_Barang,
+			'			ISNULL(f.Jumlah_Bahan, 0) AS Jumlah_Bahan,
+			'			ISNULL(f.Jenis, '-') AS Jenis,
 
-						ISNULL(s.good_stock, 0) AS good_stock,
-						0 AS keep_stock
+			'			SUM(a.Jumlah) AS Jumlah,
+			'			SUM(a.Kebutuhan_bahan) AS Kebutuhan_bahan,
 
-					FROM cte a
-					LEFT JOIN cte_first f
-						ON a.Kode_Perusahaan = f.Kode_Perusahaan
-					   AND a.Kode_Bahan = f.Kode_Bahan
+			'			ISNULL(s.good_stock, 0) AS good_stock,
+			'			0 AS keep_stock
 
-					LEFT JOIN stock s
-						ON a.kode_perusahaan = s.kode_perusahaan
-					   AND a.Kode_Bahan = s.Kode_Barang
+			'		FROM cte a
+			'		LEFT JOIN cte_first f
+			'			ON a.Kode_Perusahaan = f.Kode_Perusahaan
+			'		   AND a.Kode_Bahan = f.Kode_Bahan
 
-					GROUP BY
-						a.kode_bahan, a.nama_bahan, a.Flag_Potong_Stok,
-						a.satuan_bahan, a.Kode_Perusahaan,
-						f.Jumlah_Barang, f.Jumlah_Bahan, f.Jenis,
-						s.good_stock
+			'		LEFT JOIN stock s
+			'			ON a.kode_perusahaan = s.kode_perusahaan
+			'		   AND a.Kode_Bahan = s.Kode_Barang
 
-					ORDER BY a.kode_bahan
+			'		GROUP BY
+			'			a.kode_bahan, a.nama_bahan, a.Flag_Potong_Stok,
+			'			a.satuan_bahan, a.Kode_Perusahaan,
+			'			f.Jumlah_Barang, f.Jumlah_Bahan, f.Jenis,
+			'			s.good_stock
 
-					"
-			Using Ds = BindingTrans(SQL)
-				With Ds.Tables("MyTable")
-					For indexBahan = 0 To .Rows.Count - 1
+			'		ORDER BY a.kode_bahan
+			'		"
 
-						Dim lvwPackaging As ListViewItem
-						Dim lvwPackagingNew As ListViewItem
+#End Region
 
-						'TODO : Check
-						lvwPackaging = LvPackaging.Items.Add(lks)
-						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("kode_bahan"))
-						''lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("nama_bahan"))
-						lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
-						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
-						lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("good_stock"), "N4"))
-						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
-						lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
-						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
-						lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("good_stock"), "N4"))
-						lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("keep_stock"), "N4"))
-						If General_Class.CekNULL(.Rows(indexBahan).Item("flag_potong_stok")) = "" Then
-							lvwPackaging.SubItems.Add("")
-						Else
-							lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("flag_potong_stok")))
-						End If
+			If Cmb_Packing_Set.Items.Count > 0 Then
 
-						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("Jenis"))
-						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("Jumlah_barang"))
-						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("Jumlah_bahan"))
+				Dim FilterPackingSet As String = ""
+				If adaYangBerbeda Then
+					FilterPackingSet = $"and a.Flag_Default = 'Y'"
+				Else
+					FilterPackingSet = $"and a.Urut_Oto = '{arrPackingSet(Cmb_Packing_Set.SelectedIndex).ID_Packing}'"
+				End If
 
-						lvwPackagingNew = LvPackagingNew.Items.Add(lks)
-						lvwPackagingNew.SubItems.Add(.Rows(indexBahan).Item("kode_bahan"))
-						''lvwPackaginewng.SubItems.Add(.Rows(indexBahan).Item("nama_bahan"))
-						lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
-						lvwPackagingNew.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
-						lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("good_stock"), "N4"))
-						lvwPackagingNew.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
-						lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
-						lvwPackagingNew.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
-						lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("good_stock"), "N4"))
-						lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("keep_stock"), "N4"))
-						If General_Class.CekNULL(.Rows(indexBahan).Item("flag_potong_stok")) = "" Then
-							lvwPackagingNew.SubItems.Add("")
-						Else
-							lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("flag_potong_stok")))
-						End If
+				Dim DataPackagingTampil As New List(Of (lks As String, kode_bahan As String, KebutuhanBahan As Double,
+								satuan_bahan As String, good_stock As Double, keep_stock As Double, flag_potong_stok As String,
+								Jenis As String, Jumlah_barang As String, Jumlah_bahan As String, Persentase As Double, Deskripsi As String))
 
-						lvwPackagingNew.SubItems.Add(.Rows(indexBahan).Item("Jenis"))
-						lvwPackagingNew.SubItems.Add(.Rows(indexBahan).Item("Jumlah_barang"))
-						lvwPackagingNew.SubItems.Add(.Rows(indexBahan).Item("Jumlah_bahan"))
+				If Cmb_Packing_Set.Items.Count > 0 AndAlso arrPackingSet(Cmb_Packing_Set.SelectedIndex).isBundle Then
+					SQL = $"
+					;with Cte as (select c.Kode_Perusahaan, c.Kode_Barang, e.Nama, e.Satuan as Satuan_Barang, d.Jumlah_Barang, d.Kode_Bahan,
+										g.nama as Nama_Bahan, g.Satuan as Satuan_Bahan, g.Flag_Potong_Stok, d.Jumlah_Bahan, d.jenis,
+										f.No_Faktur, f.Jumlah, f.Satuan,
+										((f.Jumlah / d.Jumlah_Barang) * d.Jumlah_Bahan) * (b.Persentase / 100) as Kebutuhan_bahan,
+										b.Persentase, c.Deskripsi, g.Flag_Pembulatan_Produksi, c.Urut_Oto as ID_Packing_Set
+								 from N_EMI_Bundle_Packing_Set a
+									  inner join N_EMI_Bundle_Packing_Set_Detail b
+												 on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Urut_Oto = b.Id_Parent
+									  inner join N_EMI_Detail_Barang_Detail_Bahan_Penolong c
+												 on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Packing_Set = c.Urut_Oto
+									  inner join N_EMI_Detail_Barang_Detail_Bahan_Penolong_Detail d
+												 on c.Kode_Perusahaan = d.Kode_Perusahaan and c.Urut_Oto = d.Id_Parent and b.Jenis = d.Jenis
+									  inner join barang e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Kode_Barang = e.Kode_Barang_Inq
+									  inner join N_EMI_Transaksi_Order_Produksi_Temp f
+												 on e.Kode_Perusahaan = f.Kode_perusahaan and e.Kode_Stock_Owner = f.Kode_Stock_Owner and
+													e.Kode_Barang = f.Kode_Barang
+									  inner join barang g on d.Kode_Perusahaan = g.Kode_Perusahaan and d.Kode_Bahan = g.Kode_Barang and
+															 f.Kode_Stock_Owner = g.Kode_Stock_Owner
+								 where a.Status is null
+								   and c.Status is null
+								   and a.Kode_Perusahaan = '{KodePerusahaan}'
+								   -- and a.Flag_Aktif = 'Y'
+								   and f.UserID = '{UserID}'
+								   and a.Urut_Oto = '{arrPackingSet(Cmb_Packing_Set.SelectedIndex).ID_Packing}'),
+						 stock AS (SELECT x.kode_perusahaan, x.Kode_Barang, SUM(x.jumlah) AS good_stock
+								   FROM barang_sn x
+										INNER JOIN stock_owner_gudang y
+												   ON x.kode_perusahaan = y.kode_perusahaan AND x.kode_stock_owner = y.kode_stock_owner AND
+													  y.Flag_Wharehouse = 'Y'
+								   WHERE x.warna = 'HIJAU'
+								   GROUP BY x.kode_perusahaan, x.Kode_Barang)
+					select a.Kode_Bahan, a.Nama_Bahan, a.Flag_Potong_Stok, a.Satuan_Bahan, sum(a.Jumlah_Barang) as Jumlah_Barang,
+						   sum(a.Jumlah_Bahan) as Jumlah_Bahan, a.jenis, sum(a.Jumlah) as Jumlah, sum(a.Kebutuhan_bahan) as Kebutuhan_bahan,
+						   isnull(b.good_stock, 0) as good_stock, 0 as Keep_Stock, a.Persentase, a.Deskripsi, a.Flag_Pembulatan_Produksi, a.ID_Packing_Set
+					from cte a
+						 left join stock b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Bahan = b.Kode_Barang
+					group by a.Kode_Bahan, a.Nama_Bahan, a.Flag_Potong_Stok, a.Satuan_Bahan, a.jenis, b.good_stock, a.Persentase,
+						a.Deskripsi, a.Flag_Pembulatan_Produksi, a.ID_Packing_Set
+					order by a.Kode_Bahan, a.Persentase DESC
+				"
+				Else
+					SQL = $"
+				;with cte as (select a.Kode_Perusahaan, a.Kode_Barang, c.nama, c.Satuan as Satuan_Barang, b.Jumlah_Barang, b.Kode_Bahan,
+									d.nama as Nama_Bahan, d.Satuan as Satuan_Bahan, d.Flag_Potong_Stok, b.Jumlah_Bahan, b.jenis,
+									e.No_Faktur, e.jumlah, e.Satuan, (e.Jumlah / b.Jumlah_Barang) * b.Jumlah_Bahan as Kebutuhan_bahan,
+									ROW_NUMBER() OVER ( PARTITION BY b.Kode_Perusahaan, b.Kode_Bahan ORDER BY e.no_faktur ) AS rn,
+									'100' as Persentase, a.Deskripsi, d.Flag_Pembulatan_Produksi, a.Urut_Oto as ID_Packing_Set
+							 from N_EMI_Detail_Barang_Detail_Bahan_Penolong a
+								  inner join N_EMI_Detail_Barang_Detail_Bahan_Penolong_Detail b
+											 on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Urut_Oto = b.Id_Parent
+								  inner join barang c on a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Barang = c.Kode_Barang_Inq
+								  inner join N_EMI_Transaksi_Order_Produksi_Temp e
+											 on c.Kode_Perusahaan = e.Kode_perusahaan and c.Kode_Stock_Owner = e.Kode_Stock_Owner and
+												c.Kode_Barang = e.Kode_Barang
+								  inner join barang d on b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Bahan = d.Kode_Barang and
+														 d.Kode_Stock_Owner = e.Kode_Stock_Owner
+							 where a.Status is null
+							   and a.Kode_Perusahaan = '{KodePerusahaan}'
+							   and a.Flag_Aktif = 'Y'
+							   --and a.Flag_Default = 'Y'
+							   --and a.Urut_Oto = '12'
+							   {FilterPackingSet}
+							   and e.UserID = '{UserID}'),
+					 stock AS (SELECT x.kode_perusahaan, x.Kode_Barang, SUM(x.jumlah) AS good_stock
+							   FROM barang_sn x
+									INNER JOIN stock_owner_gudang y
+											   ON x.kode_perusahaan = y.kode_perusahaan AND x.kode_stock_owner = y.kode_stock_owner AND
+												  y.Flag_Wharehouse = 'Y'
+							   WHERE x.warna = 'HIJAU'
+							   GROUP BY x.kode_perusahaan, x.Kode_Barang)
+				select a.Kode_Bahan, a.Nama_Bahan, a.Flag_Potong_Stok, a.Satuan_Bahan, sum(a.Jumlah_Barang) as Jumlah_Barang,
+					   sum(a.Jumlah_Bahan) as Jumlah_Bahan, a.jenis, sum(a.Jumlah) as Jumlah, sum(a.Kebutuhan_bahan) as Kebutuhan_bahan,
+					   isnull(b.good_stock, 0) as good_stock, 0 as Keep_Stock, a.Persentase, a.Deskripsi, a.Flag_Pembulatan_Produksi, a.ID_Packing_Set
+				from cte a
+					left join stock b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Bahan = b.Kode_Barang
+				group by a.Kode_Bahan, a.Nama_Bahan, a.Flag_Potong_Stok, a.Satuan_Bahan, a.jenis,
+					b.good_stock, a.Persentase, a.Deskripsi, a.Flag_Pembulatan_Produksi, a.ID_Packing_Set
+				order by a.Kode_Bahan, a.Persentase DESC
+			"
+				End If
+				Using Ds = BindingTrans(SQL)
+					With Ds.Tables("MyTable")
+						For indexBahan = 0 To .Rows.Count - 1
 
-					Next
-				End With
-			End Using
+							Dim lvwPackaging As ListViewItem
+
+							Dim IsPembualatan As Boolean = If(General_Class.CekNULL(.Rows(indexBahan).Item("Kebutuhan_bahan")) = "Y", True, False)
+							Dim KebutuhanBahan As Double = 0
+
+							If IsPembualatan Then
+								KebutuhanBahan = Math.Ceiling(Val(HilangkanTanda(.Rows(indexBahan).Item("Kebutuhan_bahan"))))
+							Else
+								KebutuhanBahan = Val(HilangkanTanda(.Rows(indexBahan).Item("Kebutuhan_bahan")))
+							End If
+
+							If Val(HilangkanTanda(.Rows(indexBahan).Item("Persentase"))) = 0 Then
+
+								Dim index As Integer = DataPackagingTampil.FindIndex(Function(x) x.kode_bahan.Trim = .Rows(indexBahan).Item("kode_bahan").ToString.Trim)
+								If index >= 0 Then
+
+									Dim oldData = DataPackagingTampil(index)
+									Dim tambahanKebutuhan As Double = Val(KebutuhanBahan)
+
+									DataPackagingTampil(index) = (
+										lks:=oldData.lks,
+										kode_bahan:=oldData.kode_bahan,
+										KebutuhanBahan:=oldData.KebutuhanBahan + tambahanKebutuhan,
+										satuan_bahan:=oldData.satuan_bahan,
+										good_stock:=oldData.good_stock,
+										keep_stock:=oldData.keep_stock,
+										flag_potong_stok:=oldData.flag_potong_stok,
+										Jenis:=oldData.Jenis,
+										Jumlah_barang:=oldData.Jumlah_barang,
+										Jumlah_bahan:=oldData.Jumlah_bahan,
+										Persentase:=oldData.Persentase + Val(HilangkanTanda(.Rows(indexBahan).Item("Persentase"))),
+										Deskripsi:=oldData.Deskripsi
+									)
+								Else
+
+									DataPackagingTampil.Add((
+																	lks, .Rows(indexBahan).Item("kode_bahan"), KebutuhanBahan, .Rows(indexBahan).Item("satuan_bahan"),
+																	.Rows(indexBahan).Item("good_stock"), .Rows(indexBahan).Item("keep_stock"), .Rows(indexBahan).Item("flag_potong_stok"),
+																	.Rows(indexBahan).Item("Jenis"), .Rows(indexBahan).Item("Jumlah_barang"), .Rows(indexBahan).Item("Jumlah_bahan"),
+																	Val(HilangkanTanda(.Rows(indexBahan).Item("Persentase"))), .Rows(indexBahan).Item("Deskripsi")
+																))
+
+								End If
+							Else
+								DataPackagingTampil.Add((
+																	lks, .Rows(indexBahan).Item("kode_bahan"), KebutuhanBahan, .Rows(indexBahan).Item("satuan_bahan"),
+																	.Rows(indexBahan).Item("good_stock"), .Rows(indexBahan).Item("keep_stock"), .Rows(indexBahan).Item("flag_potong_stok"),
+																	.Rows(indexBahan).Item("Jenis"), .Rows(indexBahan).Item("Jumlah_barang"), .Rows(indexBahan).Item("Jumlah_bahan"),
+																	Val(HilangkanTanda(.Rows(indexBahan).Item("Persentase"))), .Rows(indexBahan).Item("Deskripsi")
+																))
+							End If
+
+							'TODO : Check
+							lvwPackaging = LvPackaging.Items.Add(lks)
+							lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("kode_bahan"))
+							''lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("nama_bahan"))
+							'lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
+							lvwPackaging.SubItems.Add(Format(KebutuhanBahan, "N4"))
+							lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
+							lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("good_stock"), "N4"))
+							lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
+							'lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
+							lvwPackaging.SubItems.Add(Format(KebutuhanBahan, "N4"))
+							lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
+							lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("good_stock"), "N4"))
+							lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("keep_stock"), "N4"))
+							If General_Class.CekNULL(.Rows(indexBahan).Item("flag_potong_stok")) = "" Then
+								lvwPackaging.SubItems.Add("")
+							Else
+								lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("flag_potong_stok")))
+							End If
+
+							lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("Jenis"))
+							lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("Jumlah_barang"))
+							lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("Jumlah_bahan"))
+							lvwPackaging.SubItems.Add(Format(Val(HilangkanTanda(.Rows(indexBahan).Item("Persentase"))), "N2"))
+							lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("Deskripsi"))
+							lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("ID_Packing_Set"))
+
+						Next
+					End With
+				End Using
+
+				For Each item In DataPackagingTampil
+					Dim lvwPackagingNew As ListViewItem
+
+					lvwPackagingNew = LvPackagingNew.Items.Add(item.lks)
+					lvwPackagingNew.SubItems.Add(item.kode_bahan)
+					''lvwPackaginewng.SubItems.Add(.Rows(indexBahan).Item("nama_bahan"))
+					'lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
+					lvwPackagingNew.SubItems.Add(Format(item.KebutuhanBahan, "N4"))
+					lvwPackagingNew.SubItems.Add(item.satuan_bahan)
+					lvwPackagingNew.SubItems.Add(Format(item.good_stock, "N4"))
+					lvwPackagingNew.SubItems.Add(item.satuan_bahan)
+					'lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
+					lvwPackagingNew.SubItems.Add(Format(item.KebutuhanBahan, "N4"))
+					lvwPackagingNew.SubItems.Add(item.satuan_bahan)
+					lvwPackagingNew.SubItems.Add(Format(item.good_stock, "N4"))
+					lvwPackagingNew.SubItems.Add(Format(item.keep_stock, "N4"))
+					If General_Class.CekNULL(item.flag_potong_stok) = "" Then
+						lvwPackagingNew.SubItems.Add("")
+					Else
+						lvwPackagingNew.SubItems.Add(Format(item.flag_potong_stok))
+					End If
+
+					lvwPackagingNew.SubItems.Add(item.Jenis)
+					lvwPackagingNew.SubItems.Add(item.Jumlah_barang)
+					lvwPackagingNew.SubItems.Add(item.Jumlah_bahan)
+					lvwPackagingNew.SubItems.Add(Format(Val(HilangkanTanda(item.Persentase)), "N2"))
+					lvwPackagingNew.SubItems.Add(item.Deskripsi)
+
+				Next
+
+			End If
 
 			CloseConn()
 		Catch ex As Exception
@@ -5351,6 +2303,1021 @@
 
 	End Sub
 
+	Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
+		If txtNoFaktur.Text.Trim.Length = 0 Then
+			MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Faktur, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		ElseIf cmb_routing.Text = "" Then
+			MessageBox.Show("Routing harus di isi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+			'ElseIf DateDiff(DateInterval.Day, Tanggal_Sekarang, DateTimePicker2.Value) < 0 Then
+			'    MessageBox.Show("Tanggal tidak boleh lebih kecil dari tanggal sekarang", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			'    Exit Sub
+		ElseIf Cmb_Jenis.SelectedIndex = -1 Then
+			MessageBox.Show("Jenis Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Cmb_Jenis.DroppedDown = True : Cmb_Jenis.Focus()
+			Exit Sub
+		End If
+
+		If LvOrder.Items.Count = 0 Or LvBahan.Items.Count = 0 Then
+			MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Belum_Pilih, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+
+		End If
+
+		Dim IsPOTrialFormula As Boolean = False
+
+		Dim TempJenisIO As String = ""
+		For i As Integer = 0 To LvData.Items.Count - 1
+			get_isi_listview(i)
+
+			If LvData.Items(i).Checked = True Then
+
+				TempJenisIO = LvData.Items(i).SubItems(cellLvJenisIO).Text.Trim
+
+				If LvOrder.Items.Count <> 0 Then
+
+					If LvOrder.Items(0).SubItems(4).Text <> lvKdBrg Then
+						MessageBox.Show("Terjadi Kesalahan Terdapat Barang yang Berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Exit Sub
+					End If
+				End If
+
+				If LvData.Items(i).SubItems(cellLvJenisIO).Text.Trim <> TempJenisIO Then
+					MessageBox.Show("Terjadi Kesalahan, Jenis IO Tidak Boleh Berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+
+				IsPOTrialFormula = If(String.IsNullOrWhiteSpace(LvData.Items(i).SubItems(cellLvNoFormula).Text), False, True)
+
+			End If
+		Next
+
+		For i As Integer = 0 To LvOrder.Items.Count - 1
+
+		Next
+
+		get_jam()
+		Try
+			OpenConn()
+			Cmd.Transaction = Cn.BeginTransaction
+
+			'=============================
+			'=     CEK STATUS FAKTUR     =
+			'=============================
+			SQL = "select Status from EMI_Order_Produksi where Kode_Perusahaan = '" & KodePerusahaan & "' and status is not null and No_Faktur = '" & txtNoFaktur.Text & "' "
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					Dr.Close()
+					CloseTrans()
+					CloseConn()
+					MessageBox.Show("No Faktur telah Dibatalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+			End Using
+
+			If parentForm = "Schedule" Then
+				'cek rv 1
+				SQL = "select cast(rv as bigint) as rvx, urut "
+				SQL = SQL & "from EMI_Transaksi_Sales_Forecasting_Detail "
+				SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and  urut = '" & UrutOtoSchedule & "' "
+				Using dr = OpenTrans(SQL)
+					If dr.Read Then
+						If dr("rvx") <> RV_Parent_Transaksi Then
+							dr.Close()
+							CloseTrans()
+							CloseConn()
+							MessageBox.Show("Data ini sudah diubah sebelumnya! silahkan refresh dan coba lagi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+							Exit Sub
+						End If
+					End If
+				End Using
+			End If
+
+			'set stock owner nya menjadi production
+
+			Dim SoProduction As String
+
+			SQL = "select Kode_Stock_Owner From Stock_Owner_Gudang "
+			SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Flag_Produksi = 'Y' "
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					SoProduction = Dr("kode_stock_owner")
+				Else
+					Dr.Close()
+					CloseTrans()
+					CloseConn()
+					MessageBox.Show("Lokasi Produksi tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+			End Using
+
+			Dim pesan As String = "Berikut terdapat bahan yang tidak mencukupi " & vbNewLine
+			Dim flag_stok_cukup As Boolean = True
+
+			If Btn_Simpan.Tag = "&Simpan" Then
+
+				get_no_faktur()
+
+				Dim jumlah As Double = 0
+				Dim kode_so As String = ""
+				Dim kode_brg As String = ""
+				Dim sat As String = ""
+				Dim CurrentKodeFormula As String = ""
+				For i As Integer = 0 To LvOrder.Items.Count - 1
+					get_isi_listview_detail(i)
+
+					If String.IsNullOrWhiteSpace(CurrentKodeFormula) Then
+						CurrentKodeFormula = LvNoFormula.Trim
+					Else
+						If CurrentKodeFormula.Trim <> LvNoFormula.Trim Then
+							CloseTrans()
+							CloseConn()
+							MessageBox.Show("Terjadi Kesalahan, Terdapat Formula Yang Berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+							Exit Sub
+						End If
+					End If
+
+					jumlah = jumlah + Val(HilangkanTanda(LvJmlh2))
+					kode_so = LvLokasi2
+					kode_brg = LvKdBrg2
+					sat = LvSatuan2
+				Next
+
+				Dim berat As Double = 0
+				SQL = "select top(1) berat From barang "
+				SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and kode_barang = '" & kode_brg & "' "
+				Using Dr = OpenTrans(SQL)
+					If Dr.Read Then
+						berat = Dr("berat")
+					Else
+						Dr.Close()
+						CloseTrans()
+						CloseConn()
+						MessageBox.Show("Lokasi Produksi tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Exit Sub
+					End If
+				End Using
+
+				If berat = 0 Then
+					CloseTrans()
+					CloseConn()
+					MessageBox.Show("Berat Satuan Belum di Set !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+
+				Dim FlagTrialFormula As String = If(IsPOTrialFormula, $"'Y'", "NULL")
+
+				SQL = "insert into emi_order_produksi(kode_perusahaan, no_faktur, tanggal, jam, userid, keterangan, kode_formula, "
+				SQL = SQL & "id_routing, id_jenis_produk, Lokasi, kode_stock_owner, kode_barang, jumlah, satuan, berat, Flag_Commercial,Urut_Production_Schedule, Flag_Trial_Produksi) values( "
+				SQL = SQL & "'" & KodePerusahaan & "', '" & txtNoFaktur.Text & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "' , "
+				SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "','" & UserID & "','" & TxtCatatan.Text.Trim & "',"
+				SQL = SQL & "'" & Txt_No_Formula.Text.Trim & "', '" & arrInisialRouting.Item(cmb_routing.SelectedIndex) & "',"
+				SQL = SQL & "'" & txt_IdJenisProduk.Text & "','" & CmbLokasi.Text & "',"
+				SQL = SQL & "'" & SoProduction & "', '" & kode_brg & "','" & jumlah & "', '" & sat & "', '" & berat & "', "
+				If Cmb_Jenis.SelectedIndex = 0 Then
+					SQL = SQL & "'Y' "
+				Else
+					SQL = SQL & "NULL "
+				End If
+				SQL = SQL & " ,'" & lvUrut & "', " & FlagTrialFormula & " "
+				SQL = SQL & ")"
+				ExecuteTrans(SQL)
+
+				Dim UrutPackingSet As String = "NULL"
+				Dim UrutPackingSetBundle As String = "NULL"
+
+				If Cmb_Packing_Set.SelectedIndex <> -1 Then
+					If arrPackingSet(Cmb_Packing_Set.SelectedIndex).isBundle Then
+						UrutPackingSetBundle = $"'{arrPackingSet(Cmb_Packing_Set.SelectedIndex).ID_Packing}'"
+					Else
+						UrutPackingSet = $"'{arrPackingSet(Cmb_Packing_Set.SelectedIndex).ID_Packing}'"
+					End If
+				End If
+
+				For i As Integer = 0 To LvOrder.Items.Count - 1
+
+					get_isi_listview_detail(i)
+
+					Dim faktur As String = LvOrder.Items(i).SubItems(0).Text
+
+					SQL = "insert into emi_order_produksi_detail(kode_perusahaan,no_faktur,no_so,kode_stock_owner,kode_barang,jumlah,satuan,jenis_order,urut_po, Urut_Packing_Set, Urut_Packing_Set_Bundle) values ("
+					SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text.Trim & "', '" & LvFaktur2 & "',"
+					SQL = SQL & "'" & SoProduction & "', '" & LvKdBrg2 & "', "
+					SQL = SQL & "'" & HilangkanTanda(LvJmlh2) & "', '" & LvSatuan2 & "', "
+					SQL = SQL & "'" & faktur.Substring(0, 2) & "', '" & LvUrut2 & "', " & UrutPackingSet & ", " & UrutPackingSetBundle & " )"
+					ExecuteTrans(SQL)
+
+					If faktur.Substring(0, 2).ToUpper = "PO" Then
+						'selesaikan flag di emi po
+						SQL = "update emi_po_detail set flag_sudah_produksi = 'Y' where kode_perusahaan = '" & KodePerusahaan & "' and "
+						SQL = SQL & "no_faktur = '" & LvFaktur2 & "' and No_Urut='" & LvUrut2 & "' "
+						ExecuteTrans(SQL)
+					Else
+						'selesaikan flag di indepedent order
+						SQL = "update EMI_Independent_Order_detail set flag_sudah_produksi = 'Y' where kode_perusahaan = '" & KodePerusahaan & "' and "
+						SQL = SQL & "no_faktur = '" & LvFaktur2 & "' and No_Urut='" & LvUrut2 & "' "
+						ExecuteTrans(SQL)
+					End If
+				Next
+
+				'==========================
+				'=     CEK RV FORMULA     =
+				'==========================
+				SQL = "select cast(RV as bigint) as RV from EMI_Transaksi_Formulator "
+				SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+				SQL &= $"and No_Faktur = '{Txt_No_Formula.Text.Trim}' "
+				Using Dr = OpenTrans(SQL)
+					If Dr.Read Then
+
+						If Dr("RV") <> RV_Parent_Formula.Trim Then
+							Dr.Close()
+							CloseTrans()
+							CloseConn()
+							MessageBox.Show("Proses tidak dapat dilanjutkan karena formula ini sudah pernah diubah sebelumnya! Ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+							Exit Sub
+						End If
+
+					End If
+				End Using
+
+				'========== update flaging sudah po di n emi production schedule detail
+
+				'SQL = "update N_EMI_Production_Plan_Schedule_detail set "
+				'SQL = SQL & "Flag_Sudah_Production_Order = 'Y' "
+				'SQL = SQL & "WHERE no_urut = '" & lvUrut & "' and kode_perusahaan = '" & KodePerusahaan & "' "
+				'ExecuteTrans(SQL)
+
+				For i As Integer = 0 To LvBahan.Items.Count - 1
+					Get_Isi_Listview_Bahan(i)
+					' MessageBox.Show(HilangkanTanda(ListView3.Items(i).SubItems(7).Text) & " - " & HilangkanTanda(ListView3.Items(i).SubItems(9).Text))
+					'TODO : SIMPAN
+
+					'==========================
+					'=     CEK RV FORMULA     =
+					'==========================
+					SQL = "select cast(RV as bigint) as RV from EMI_Transaksi_Formulator_Detail_Bahan "
+					SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+					SQL &= $"and No_Faktur = '{Txt_No_Formula.Text.Trim}' "
+					SQL &= $"and Kode_Barang = '{LvKdBhn3.Trim}' "
+					Using Dr = OpenTrans(SQL)
+						If Dr.Read Then
+
+							If Dr("RV").ToString.Trim <> LvRV.Trim Then
+								Dr.Close()
+								CloseTrans()
+								CloseConn()
+								MessageBox.Show("Proses tidak dapat dilanjutkan karena formula ini sudah pernah diubah sebelumnya! Ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+								Exit Sub
+							End If
+
+						End If
+					End Using
+
+					SQL = "insert into emi_order_produksi_detail_bahan(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) values("
+					SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text & "' ,'" & SoProduction & "', '" & LvKdBhn3 & "', "
+					SQL = SQL & "'" & HilangkanTanda(lvJmlh3) & "' , '" & LvSatuan3 & "',  "
+					SQL = SQL & "'" & HilangkanTanda(LvNilaiBrg3) & "', '" & LvSatuanBrg3 & "' )"
+					ExecuteTrans(SQL)
+
+				Next
+
+				For i As Integer = 0 To LvBahanNew.Items.Count - 1
+
+					Get_Isi_Listview_BahanNewv(i)
+
+					flag_stok_cukup = False
+					pesan = pesan & LvKdBhn3New & "   :   " & Format(Val(HilangkanTanda(LvTotalStockBrg3New)), "N4") & LvSatuan3New & vbNewLine
+					'CloseTrans()
+					'CloseConn()
+					''''MessageBox.Show("Terjadi kesalahan, Stock " & LvNmBrg2 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					'MessageBox.Show("Terjadi kesalahan, Stock " & LvKdBrg2 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					'Exit Sub
+
+				Next
+
+				Dim ArrRekapPacking As New List(Of (No_Faktur As String, Kode_Stock_Owner As String, Kode_Barang As String,
+					Jumlah As Double, Satuan As String, Nilai_Barang As Double, Satuan_Barang As String, jenis As String, jumlah_barang As Double,
+					Jumlah_Bahan As Double))
+				For i As Integer = 0 To LvPackaging.Items.Count - 1
+					Get_Isi_Listview_Packaging(i)
+					' MessageBox.Show(HilangkanTanda(ListView3.Items(i).SubItems(7).Text) & " - " & HilangkanTanda(ListView3.Items(i).SubItems(9).Text))
+
+					If Val(HilangkanTanda(LvNilaiBrg4)) > Val(HilangkanTanda(LvStockBrg4)) Then
+
+						flag_stok_cukup = False
+						pesan = pesan & LvKdBhn4 & "   :   " & Format(Val(HilangkanTanda(LvStock4)) - Val(HilangkanTanda(lvJmlh4)), "N4") & LvSatuan4 & vbNewLine
+						'CloseTrans()
+						'CloseConn()
+						''''MessageBox.Show("Terjadi kesalahan, Stock " & LvNmBhn4 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						'MessageBox.Show("Terjadi kesalahan, Stock dengan kode barang " & LvKdBhn4 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						'Exit Sub
+					End If
+
+					Dim index As Integer = ArrRekapPacking.FindIndex(Function(x) x.Kode_Barang = LvKdBhn4)
+					If index >= 0 Then
+
+						Dim oldData = ArrRekapPacking(index)
+
+						ArrRekapPacking(index) = (
+							oldData.No_Faktur,
+							oldData.Kode_Stock_Owner,
+							oldData.Kode_Barang,
+							oldData.Jumlah + Val(HilangkanTanda(lvJmlh4)),
+							oldData.Satuan,
+							oldData.Nilai_Barang + Val(HilangkanTanda(LvNilaiBrg4)),
+							oldData.Satuan_Barang,
+							oldData.jenis,
+							oldData.jumlah_barang,
+							oldData.Jumlah_Bahan
+						)
+					Else
+						ArrRekapPacking.Add((
+							txtNoFaktur.Text,
+							SoProduction,
+							LvKdBhn4,
+							Val(HilangkanTanda(lvJmlh4)),
+							LvSatuan4,
+							Val(HilangkanTanda(LvNilaiBrg4)),
+							LvSatuanBrg4,
+							LvJenis4,
+							Val(HilangkanTanda(LvMasterJumlah_Barang4)),
+							Val(HilangkanTanda(LvMasterJumlah_Bahan4))
+						))
+
+					End If
+
+					SQL = "insert into EMI_Order_Produksi_Detail_Packaging_Packing_Set(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang, jenis, jumlah_barang, Jumlah_Bahan, Persentase, Deskripsi, ID_Packing_Set) values("
+					SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text & "' ,'" & SoProduction & "', '" & LvKdBhn4 & "', "
+					SQL = SQL & "'" & Val(HilangkanTanda(lvJmlh4)) & "' , '" & LvSatuan4 & "',  "
+					SQL = SQL & "'" & Val(HilangkanTanda(LvNilaiBrg4)) & "', '" & LvSatuanBrg4 & "', '" & LvJenis4 & "', '" & LvMasterJumlah_Barang4 & "', '" & LvMasterJumlah_Bahan4 & "', "
+					SQL = SQL & "'" & HilangkanTanda(LvPersentasePacking4) & "', '" & LvDeskripsiPacking4 & "', '" & LvIDPacking4 & "' ) "
+					ExecuteTrans(SQL)
+
+				Next
+
+				For Each item In ArrRekapPacking
+					SQL = "insert into emi_order_produksi_detail_Packaging(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang, jenis, jumlah_barang, Jumlah_Bahan) values("
+					SQL = SQL & "'" & KodePerusahaan & "','" & item.No_Faktur & "' ,'" & item.Kode_Stock_Owner & "', '" & item.Kode_Barang & "', "
+					SQL = SQL & "'" & Val(HilangkanTanda(item.Jumlah)) & "' , '" & item.Satuan & "',  "
+					SQL = SQL & "'" & Val(HilangkanTanda(item.Nilai_Barang)) & "', '" & item.Satuan_Barang & "', '" & item.jenis & "', '" & item.jumlah_barang & "', '" & item.Jumlah_Bahan & "') "
+					ExecuteTrans(SQL)
+				Next
+
+				If parentForm = "schedule" Then
+
+					SQL = "update N_EMI_Production_Plan_Schedule_detail set "
+					SQL = SQL & "Jumlah_Sudah_Production_Order = " & jumlah & " "
+					SQL = SQL & "WHERE no_urut = '" & lvUrut & "' and kode_perusahaan = '" & KodePerusahaan & "' "
+					ExecuteTrans(SQL)
+
+					SQL = "select a.flag_pernah_production_order,isnull(a.Jumlah,0) as Jumlah_Schedule, "
+					SQL = SQL & "isnull((select sum(x.Jumlah) from emi_order_produksi x where x.Kode_Perusahaan = a.Kode_Perusahaan  "
+					SQL = SQL & "and x.Urut_Production_Schedule = a.No_Urut and x.Status is null),0) as Jumlah_PO "
+					SQL = SQL & "From N_EMI_Production_Plan_Schedule_Detail a, N_EMI_Production_Plan_Schedule b "
+					SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Transaksi = b.No_Transaksi "
+					SQL = SQL & "and b.Status is null and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Urut = '" & lvUrut & "' "
+					Using Dr = OpenTrans(SQL)
+						If Dr.Read Then
+							If Val(Dr("Jumlah_Schedule")) = Val(Dr("jumlah_po")) Then
+
+								Dr.Close()
+
+								SQL = "update N_EMI_Production_Plan_Schedule_detail set "
+								SQL = SQL & "Flag_Sudah_Production_Order = 'Y' "
+								SQL = SQL & "WHERE no_urut = '" & lvUrut & "' and kode_perusahaan = '" & KodePerusahaan & "' "
+								ExecuteTrans(SQL)
+							ElseIf General_Class.CekNULL(Dr("flag_pernah_production_order")) = "" Then
+
+								Dr.Close()
+								SQL = "update N_EMI_Production_Plan_Schedule_detail set "
+								SQL = SQL & "flag_pernah_production_order = 'Y' "
+								SQL = SQL & "WHERE no_urut = '" & lvUrut & "' and kode_perusahaan = '" & KodePerusahaan & "' "
+								ExecuteTrans(SQL)
+
+							End If
+						Else
+							Dr.Close()
+							CloseConn()
+							MessageBox.Show("Data Schedule tidak ditemukan atau sudah dibatalkan sebelumnya. silah kan refresh dan coba lagi. ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+							Exit Sub
+						End If
+					End Using
+				End If
+
+				'CloseTrans()
+				'CloseConn()
+				'MessageBox.Show("pesan ini harus dikomen!")
+				'Exit Sub
+
+				'For i As Integer = 0 To ListView2.Items.Count - 1
+
+				'Next
+			Else
+
+				SQL = "select status,selesai,flag_release from emi_order_produksi "
+				SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+				SQL = SQL & "and no_faktur = '" & txtNoFaktur.Text & "' "
+				Using dr = OpenTrans(SQL)
+					If dr.Read Then
+						If General_Class.CekNULL(dr("status")) = "Y" Then
+							dr.Close()
+							CloseTrans()
+							CloseConn()
+							MessageBox.Show(Base_Language.Lang_Global_DataSudahBatal, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+							Exit Sub
+						ElseIf General_Class.CekNULL(dr("selesai")) = "Y" Then
+							dr.Close()
+							CloseTrans()
+							CloseConn()
+							MessageBox.Show("Transaksi untuk no faktur ini telah selesai di produksi, tidak dapat di ubah kembali!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+							Exit Sub
+						ElseIf General_Class.CekNULL(dr("flag_release")) = "Y" Then
+							dr.Close()
+							CloseTrans()
+							CloseConn()
+							MessageBox.Show("Produksi Order sudah pernah direlease!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+							Exit Sub
+						End If
+					Else
+						dr.Close()
+						CloseTrans()
+						CloseConn()
+						MessageBox.Show("Data Produksi Order tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Exit Sub
+					End If
+				End Using
+
+				'simpan dulu ke log sebelum update
+				SQL = "insert into emi_order_produksi_log(Kode_Perusahaan,No_Faktur,Status,Tanggal,Jam,UserId,Tanggal_Produksi,Jam_Produksi,Id_Routing,selesai,Keterangan,Id_Jenis_Produk	,Kode_Formula) "
+				SQL = SQL & "select Kode_Perusahaan,No_Faktur,Status,Tanggal,Jam,UserId,Tanggal_Produksi,Jam_Produksi,Id_Routing,selesai,Keterangan,Id_Jenis_Produk	,Kode_Formula from  "
+				SQL = SQL & "emi_order_produksi where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "' "
+				ExecuteTrans(SQL)
+
+				SQL = "insert into Emi_Order_Produksi_Detail_log(Kode_Perusahaan,No_Faktur,No_SO,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Jenis_Order,Urut,Urut_PO) "
+				SQL = SQL & "select Kode_Perusahaan,No_Faktur,No_SO,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Jenis_Order,Urut,Urut_PO from Emi_Order_Produksi_Detail  "
+				SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "' "
+				ExecuteTrans(SQL)
+
+				SQL = "insert into Emi_Order_Produksi_Detail_Bahan_log(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) "
+				SQL = SQL & "select Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang  from Emi_Order_Produksi_Detail_Bahan "
+				SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "'"
+				ExecuteTrans(SQL)
+
+				SQL = "insert into EMI_Order_Produksi_Detail_Packaging_log(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) "
+				SQL = SQL & "select Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang  from EMI_Order_Produksi_Detail_Packaging "
+				SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "'"
+				ExecuteTrans(SQL)
+
+				SQL = "delete from emi_order_produksi_detail where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "' "
+				ExecuteTrans(SQL)
+
+				SQL = "delete from emi_order_produksi_detail_bahan where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "' "
+				ExecuteTrans(SQL)
+
+				SQL = "delete from EMI_Order_Produksi_Detail_Packaging where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "' "
+				ExecuteTrans(SQL)
+
+				Dim jumlah As Double = 0
+				Dim kode_so As String = ""
+				Dim kode_brg As String = ""
+				Dim sat As String = ""
+				For i As Integer = 0 To LvOrder.Items.Count - 1
+					'jumlah = jumlah + Val(HilangkanTanda(LvOrder.Items(i).SubItems(6).Text))
+					jumlah = jumlah + Val(HilangkanTanda(LvOrder.Items(i).SubItems(5).Text))
+					kode_so = LvOrder.Items(i).SubItems(1).Text
+					kode_brg = LvOrder.Items(i).SubItems(4).Text
+					'sat = LvOrder.Items(i).SubItems(7).Text
+					sat = LvOrder.Items(i).SubItems(6).Text
+				Next
+
+				SQL = "update emi_order_produksi set "
+				SQL = SQL & "id_routing = '" & arrInisialRouting.Item(cmb_routing.SelectedIndex) & "',"
+				SQL = SQL & "keterangan =  '" & TxtCatatan.Text.Trim & "',"
+				SQL = SQL & "id_jenis_produk = '" & txt_IdJenisProduk.Text & "',"
+				SQL = SQL & "kode_formula = '" & Txt_No_Formula.Text & "', "
+				SQL = SQL & "kode_stock_owner = '" & kode_so & "', "
+				SQL = SQL & "kode_barang = '" & kode_brg & "', "
+				SQL = SQL & "jumlah = '" & jumlah & "', "
+				SQL = SQL & "satuan = '" & sat & "', "
+
+				If Cmb_Jenis.SelectedIndex = 0 Then
+					SQL = SQL & "Flag_Commercial='Y' "
+				Else
+					SQL = SQL & "Flag_Commercial=NULL "
+				End If
+
+				SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+				SQL = SQL & "and no_faktur = '" & txtNoFaktur.Text & "' "
+				ExecuteTrans(SQL)
+
+				For i As Integer = 0 To LvOrder.Items.Count - 1
+					get_isi_listview_detail(i)
+					Dim faktur As String = LvFaktur2
+					If LvDeleted2 = "Y" Then
+						If faktur.Substring(0, 2) = "PO" Then
+							SQL = "update emi_po_detail set Flag_Sudah_Produksi = null "
+							SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+							SQL = SQL & "and no_faktur = '" & LvFaktur2 & "'"
+							ExecuteTrans(SQL)
+						ElseIf faktur.Substring(0, 2) = "IO" Then
+							SQL = "update EMI_Independent_Order_detail set Flag_Sudah_Produksi = null "
+							SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+							SQL = SQL & "and no_faktur = '" & LvFaktur2 & "'"
+							ExecuteTrans(SQL)
+						End If
+					Else
+
+						SQL = "insert into emi_order_produksi_detail(kode_perusahaan,no_faktur,no_so,kode_stock_owner,kode_barang,jumlah,satuan,jenis_order,urut_po) values ("
+						SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text.Trim & "', '" & LvFaktur2 & "',"
+						SQL = SQL & "'" & SoProduction & "', '" & LvKdBrg2 & "', "
+						SQL = SQL & "'" & HilangkanTanda(LvJmlh2) & "', '" & LvSatuan2 & "', "
+						SQL = SQL & "'" & faktur.Substring(0, 2) & "', '" & LvUrut2 & "' )"
+						ExecuteTrans(SQL)
+
+						If faktur.Substring(0, 2).ToUpper = "PO" Then
+							'selesaikan flag di emi po
+							SQL = "update emi_po_detail set flag_sudah_produksi = 'Y' where kode_perusahaan = '" & KodePerusahaan & "' and "
+							SQL = SQL & "no_faktur = '" & LvFaktur2 & "' and No_Urut='" & LvUrut2 & "' "
+							ExecuteTrans(SQL)
+						Else
+							'selesaikan flag di indepedent order
+							SQL = "update EMI_Independent_Order_detail set flag_sudah_produksi = 'Y' where kode_perusahaan = '" & KodePerusahaan & "' and "
+							SQL = SQL & "no_faktur = '" & LvFaktur2 & "' and No_Urut='" & LvUrut2 & "' "
+							ExecuteTrans(SQL)
+						End If
+
+					End If
+
+				Next
+
+				''==========================
+				''=     CEK RV FORMULA     =
+				''==========================
+				'SQL = "select cast(RV as bigint) as RV from Emi_Order_Produksi "
+				'SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+				'SQL &= $"and No_Faktur = '{txtNoFaktur.Text.Trim}' "
+				'Using Dr = OpenTrans(SQL)
+				'    If Dr.Read Then
+
+				'        If Dr("RV").ToString.Trim <> RV_Parent_Transaksi Then
+				'            Dr.Close()
+				'            CloseTrans()
+				'            CloseConn()
+				'            MessageBox.Show("Proses tidak dapat dilanjutkan karena formula ini sudah pernah diubah sebelumnya! Ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+				'            Exit Sub
+				'        End If
+
+				'    End If
+				'End Using
+
+				For i As Integer = 0 To LvBahan.Items.Count - 1
+
+					Get_Isi_Listview_Bahan(i)
+
+					''==========================
+					''=     CEK RV FORMULA     =
+					''==========================
+					'SQL = "select cast(RV as bigint) as RV from Emi_Order_Produksi_Detail_bahan "
+					'SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
+					'SQL &= $"and No_Faktur = '{txtNoFaktur.Text.Trim}' "
+					'SQL &= $"and Kode_Barang = '{LvKdBhn3.Trim}' "
+					'Using Dr = OpenTrans(SQL)
+					'    If Dr.Read Then
+
+					'        If Dr("RV").ToString.Trim <> LvRV.Trim Then
+					'            Dr.Close()
+					'            CloseTrans()
+					'            CloseConn()
+					'            MessageBox.Show("Proses tidak dapat dilanjutkan karena formula ini sudah pernah diubah sebelumnya! Ulangi transaksi ini lagi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+					'            Exit Sub
+					'        End If
+
+					'    End If
+					'End Using
+
+					SQL = "insert into emi_order_produksi_detail_bahan(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) values("
+					SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text & "' ,'" & SoProduction & "', '" & LvKdBhn3 & "', "
+					SQL = SQL & "'" & HilangkanTanda(lvJmlh3) & "' , '" & LvSatuan3 & "',  "
+					SQL = SQL & "'" & HilangkanTanda(LvNilaiBrg3) & "', '" & LvSatuanBrg3 & "' )"
+					ExecuteTrans(SQL)
+
+				Next
+
+				For i As Integer = 0 To LvBahanNew.Items.Count - 1
+
+					Get_Isi_Listview_BahanNewv(i)
+
+					flag_stok_cukup = False
+					pesan = pesan & LvKdBhn3New & "   :   " & Format(Val(HilangkanTanda(LvTotalStockBrg3New)), "N4") & LvSatuan3New & vbNewLine
+					'CloseTrans()
+					'CloseConn()
+					''''MessageBox.Show("Terjadi kesalahan, Stock " & LvNmBrg2 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					'MessageBox.Show("Terjadi kesalahan, Stock " & LvKdBrg2 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					'Exit Sub
+
+				Next
+
+				Dim ArrRekapPacking As New List(Of (No_Faktur As String, Kode_Stock_Owner As String, Kode_Barang As String,
+					Jumlah As Double, Satuan As String, Nilai_Barang As Double, Satuan_Barang As String, jenis As String, jumlah_barang As Double,
+					Jumlah_Bahan As Double))
+				For i As Integer = 0 To LvPackaging.Items.Count - 1
+					Get_Isi_Listview_Packaging(i)
+					' MessageBox.Show(HilangkanTanda(ListView3.Items(i).SubItems(7).Text) & " - " & HilangkanTanda(ListView3.Items(i).SubItems(9).Text))
+
+					If Val(HilangkanTanda(LvNilaiBrg4)) > Val(HilangkanTanda(LvStockBrg4)) Then
+
+						flag_stok_cukup = False
+						pesan = pesan & "Kode Bahan : " & LvKdBhn4 & " : " & Format(Val(HilangkanTanda(LvStock4)) - Val(HilangkanTanda(lvJmlh4))) & LvSatuan4 & vbNewLine
+						'CloseTrans()
+						'CloseConn()
+						''''MessageBox.Show("Terjadi kesalahan, Stock " & LvNmBhn4 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						'MessageBox.Show("Terjadi kesalahan, Stock " & LvKdBhn4 & " Tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						'Exit Sub
+					End If
+
+					Dim index As Integer = ArrRekapPacking.FindIndex(Function(x) x.Kode_Barang = LvKdBhn4)
+					If index >= 0 Then
+
+						Dim oldData = ArrRekapPacking(index)
+
+						ArrRekapPacking(index) = (
+							oldData.No_Faktur,
+							oldData.Kode_Stock_Owner,
+							oldData.Kode_Barang,
+							oldData.Jumlah + Val(HilangkanTanda(lvJmlh4)),
+							oldData.Satuan,
+							oldData.Nilai_Barang + Val(HilangkanTanda(LvNilaiBrg4)),
+							oldData.Satuan_Barang,
+							oldData.jenis,
+							oldData.jumlah_barang + Val(HilangkanTanda(LvMasterJumlah_Barang4)),
+							oldData.Jumlah_Bahan + Val(HilangkanTanda(LvMasterJumlah_Bahan4))
+						)
+					Else
+						ArrRekapPacking.Add((
+							txtNoFaktur.Text,
+							SoProduction,
+							LvKdBhn4,
+							Val(HilangkanTanda(lvJmlh4)),
+							LvSatuan4,
+							Val(HilangkanTanda(LvNilaiBrg4)),
+							LvSatuanBrg4,
+							LvJenis4,
+							Val(HilangkanTanda(LvMasterJumlah_Barang4)),
+							Val(HilangkanTanda(LvMasterJumlah_Bahan4))
+						))
+
+					End If
+
+					SQL = "insert into EMI_Order_Produksi_Detail_Packaging_Packing_Set(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang, jenis, jumlah_barang, Jumlah_Bahan, Persentase, Deskripsi) values("
+					SQL = SQL & "'" & KodePerusahaan & "','" & txtNoFaktur.Text & "' ,'" & SoProduction & "', '" & LvKdBhn4 & "', "
+					SQL = SQL & "'" & Val(HilangkanTanda(lvJmlh4)) & "' , '" & LvSatuan4 & "',  "
+					SQL = SQL & "'" & Val(HilangkanTanda(LvNilaiBrg4)) & "', '" & LvSatuanBrg4 & "', '" & LvJenis4 & "', '" & LvMasterJumlah_Barang4 & "', '" & LvMasterJumlah_Bahan4 & "', "
+					SQL = SQL & "'" & HilangkanTanda(LvPersentasePacking4) & "', '" & LvDeskripsiPacking4 & "' ) "
+					ExecuteTrans(SQL)
+
+				Next
+
+				For Each item In ArrRekapPacking
+					SQL = "insert into emi_order_produksi_detail_Packaging(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang, jenis, jumlah_barang, Jumlah_Bahan) values("
+					SQL = SQL & "'" & KodePerusahaan & "','" & item.No_Faktur & "' ,'" & item.Kode_Stock_Owner & "', '" & item.Kode_Barang & "', "
+					SQL = SQL & "'" & Val(HilangkanTanda(item.Jumlah)) & "' , '" & item.Satuan & "',  "
+					SQL = SQL & "'" & Val(HilangkanTanda(item.Nilai_Barang)) & "', '" & item.Satuan_Barang & "', '" & item.jenis & "', '" & item.jumlah_barang & "', '" & item.Jumlah_Bahan & "') "
+					ExecuteTrans(SQL)
+				Next
+
+			End If
+
+			If flag_stok_cukup = False Then
+
+				Dim tanya As String = MessageBox.Show(pesan & vbNewLine & "Apakah ingin melanjutkan transaksi ? ", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+				If tanya = vbNo Then
+					CloseTrans()
+					CloseConn()
+					MessageBox.Show("Transaksi dibatalkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+			End If
+
+			Cmd.Transaction.Commit()
+			CloseConn()
+			MessageBox.Show(Base_Language.Lang_Global_Sukses_Simpan, Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+			kosong()
+
+			mustUpdate = True
+		Catch ex As Exception
+			CloseTrans()
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+		If parentForm = "schedule" Then
+			Me.Close()
+		Else
+			kosong()
+		End If
+
+	End Sub
+
+	Private Sub Btn_UnRelease_Click(sender As Object, e As EventArgs) Handles Btn_UnRelease.Click
+
+		Dim pertanyaan As String = MessageBox.Show("Yakin Ingin UnRelease", "Production Order", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+		If pertanyaan = vbNo Then Exit Sub
+
+		Try
+			OpenConn()
+			Cmd.Transaction = Cn.BeginTransaction
+
+			If CekButtonRole("UnRelease_PO_Produksi") = "T" Then
+				CloseTrans()
+				CloseConn()
+				MessageBox.Show("anda tidak memiliki akses ! !")
+				Exit Sub
+			End If
+
+			'=============================
+			'=     CEK STATUS FAKTUR     =
+			'=============================
+			SQL = "select Status from EMI_Order_Produksi where Kode_Perusahaan = '" & KodePerusahaan & "' and status is not null and No_Faktur = '" & txtNoFaktur.Text & "' "
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					Dr.Close()
+					CloseTrans()
+					CloseConn()
+					MessageBox.Show("No Faktur telah Dibatalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+			End Using
+
+			'==========================================
+			'=     CEK APAKAH PO SUDAH BERJALANAN     =
+			'==========================================
+			SQL = "select Kode_Perusahaan from Emi_Split_Production_Order where Kode_Perusahaan = '" & KodePerusahaan & "' and No_PO = '" & txtNoFaktur.Text & "' and status is null "
+			Using Ds = BindingTrans(SQL)
+				With Ds.Tables("MyTable")
+					If .Rows.Count <> 0 Then
+						CloseTrans()
+						CloseConn()
+						MessageBox.Show("PO yang Sudah Berjalan tidak bisa Dibatalkan", "Production Order", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Exit Sub
+					End If
+				End With
+			End Using
+
+			'====================================
+			'=     CEK APAKAH SUDAH RELEASE     =
+			'====================================
+			SQL = "select Kode_Perusahaan from EMI_Order_Produksi where Kode_Perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "' and Flag_Release is null "
+			Using Ds = BindingTrans(SQL)
+				With Ds.Tables("MyTable")
+					If .Rows.Count <> 0 Then
+						CloseTrans()
+						CloseConn()
+						MessageBox.Show("PO Belum Di Release", "Production Order", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Exit Sub
+					End If
+				End With
+			End Using
+
+			SQL = "Select no_faktur from emi_order_produksi where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "'"
+			Using Ds = BindingTrans(SQL)
+				With Ds.Tables("MyTable")
+					If .Rows.Count <> 0 Then
+						'=======================
+						'=     UPDATE DATA     =
+						'=======================
+						SQL = "update emi_order_produksi set flag_release = NULL, "
+						SQL = SQL & "tanggal_release = NULL, "
+						SQL = SQL & "jam_release = NULL "
+						SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "'"
+						ExecuteTrans(SQL)
+					Else
+						CloseTrans()
+						CloseConn()
+						MessageBox.Show("Data Tidak Ditemukan", "Production Order", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Exit Sub
+					End If
+				End With
+			End Using
+
+			Cmd.Transaction.Commit()
+			CloseTrans()
+			CloseConn()
+		Catch ex As Exception
+			CloseTrans()
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+		If parentForm = "schedule" Then
+			mustUpdate = True
+			Me.Close()
+		Else
+			kosong()
+		End If
+
+	End Sub
+
+	Private Sub BtnPembelian_Clear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
+		kosong_sebagian()
+	End Sub
+
+	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
+		kosong()
+	End Sub
+
+	Private Sub Button2_Click(sender As Object, e As EventArgs) Handles btnOk.Click
+		If txtNoPo.Text.Trim.Length = 0 Then Exit Sub
+
+		If txtJumlah.Text = 0 Or txtJumlah.Text.Trim.Length = 0 Then
+			MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Jumlah_hrs_diisi)
+			Exit Sub
+		End If
+
+		For i As Integer = 0 To LvOrder.Items.Count - 1
+			If LvOrder.Items(i).SubItems(0).Text = LvData.FocusedItem.SubItems(1).Text Then
+				MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_No_PO_Sdh_Ada, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				Exit Sub
+			End If
+		Next
+
+		If txtJumlah.Text > jumlah_po Then
+			MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Jumlah_Lebih_Besar, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		End If
+
+		If LvOrder.Items.Count = 0 Then
+
+			'Try
+			'    OpenConn()
+			'    cmbLine.Items.Clear() : arrIdLine.Clear()
+			'    SQL = "select a.id_line,a.kode_line,a.keterangan,a.Id_Jenis_Produk, b.Keterangan as jenis_produk from emi_line a, EMI_Jenis_Produk b "
+			'    SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan and a.id_jenis_produk = b.Id_Jenis_Produk "
+			'    SQL = SQL & "and a.id_jenis_produk =  '" & txtIdJenisProduk.Text & "' "
+			'    SQL = SQL & "order by a.kode_line "
+			'    Using Dr = OpenTrans(SQL)
+			'        Do While Dr.Read
+			'            cmbLine.Items.Add(Dr("keterangan")) : arrIdLine.Add(Dr("id_line"))
+			'        Loop
+			'    End Using
+
+			'    CloseConn()
+			'Catch ex As Exception
+			'    CloseConn()
+			'    MessageBox.Show(ex.Message)
+			'    Exit Sub
+			'End Try
+
+		End If
+
+		Dim lvw As ListViewItem
+
+		lvw = LvOrder.Items.Add(txtNoPo.Text)
+		' lvw.SubItems.Add(txtLokasi.Text)
+		lvw.SubItems.Add(txtKodeCustomer.Text)
+		lvw.SubItems.Add(txtNamaCustomer.Text)
+		lvw.SubItems.Add(txtKodeBarang.Text)
+		'lvw.SubItems.Add(txtNamaBarang.Text)
+		lvw.SubItems.Add(Format(Val(txtJumlah.Text), "N2"))
+		lvw.SubItems.Add(txtSatuan.Text)
+		' lvw.SubItems.Add(txtJenisProduk.Text)
+		' lvw.SubItems.Add(txtIdJenisProduk.Text)
+
+		kosong_sebagian()
+
+	End Sub
+
+	Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles Button2.Click
+		EMI_Independent_Order.lokasi_asal = CmbLokasi.Text
+		EMI_Independent_Order.asal = "B"
+		EMI_Independent_Order.ShowDialog()
+	End Sub
+
+	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+		Try
+			OpenConn()
+			Cmd.Transaction = Cn.BeginTransaction
+
+			If CekButtonRole("Release_PO_Produksi") = "T" Then
+				CloseTrans()
+				CloseConn()
+				MessageBox.Show("anda tidak memiliki akses ! !")
+				Exit Sub
+			End If
+
+			Dim pesan As String = "Berikut terdapat bahan yang tidak mencukupi " & vbNewLine
+			Dim flag_stok_cukup As Boolean = True
+
+			'=============================
+			'=     CEK STATUS FAKTUR     =
+			'=============================
+			SQL = "select Status from EMI_Order_Produksi where Kode_Perusahaan = '" & KodePerusahaan & "' and status is not null and No_Faktur = '" & txtNoFaktur.Text & "' "
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					Dr.Close()
+					CloseTrans()
+					CloseConn()
+					MessageBox.Show("No Faktur telah Dibatalkan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+			End Using
+
+			SQL = "select status,selesai,flag_release from emi_order_produksi "
+			SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+			SQL = SQL & "and no_faktur = '" & txtNoFaktur.Text & "' "
+			Using dr = OpenTrans(SQL)
+				If dr.Read Then
+					If General_Class.CekNULL(dr("status")) = "Y" Then
+						dr.Close()
+						CloseTrans()
+						CloseConn()
+						MessageBox.Show(Base_Language.Lang_Global_DataSudahBatal, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Exit Sub
+						'ElseIf General_Class.CekNULL(dr("selesai")) = "" Then
+						'    dr.Close()
+						'    CloseConn()
+						'    MessageBox.Show("Produksi Order belum selesai untuk direlease!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						'    Exit Sub
+					ElseIf General_Class.CekNULL(dr("flag_release")) = "Y" Then
+						dr.Close()
+						CloseTrans()
+						CloseConn()
+						MessageBox.Show("Produksi Order sudah pernah direlease!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Exit Sub
+					End If
+				Else
+					dr.Close()
+					CloseTrans()
+					CloseConn()
+					MessageBox.Show("Data Produksi Order tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+			End Using
+
+			For i As Integer = 0 To LvBahanNew.Items.Count - 1
+
+				Get_Isi_Listview_BahanNewv(i)
+
+				flag_stok_cukup = False
+				pesan = pesan & LvKdBhn3New & "   :   " & Format(Val(HilangkanTanda(LvTotalStockBrg3New)), "N4") & LvSatuan3New & vbNewLine
+
+			Next
+
+			For i As Integer = 0 To LvPackaging.Items.Count - 1
+				Get_Isi_Listview_Packaging(i)
+				' MessageBox.Show(HilangkanTanda(ListView3.Items(i).SubItems(7).Text) & " - " & HilangkanTanda(ListView3.Items(i).SubItems(9).Text))
+
+				If Val(HilangkanTanda(LvNilaiBrg4)) > Val(HilangkanTanda(LvStockBrg4)) Then
+
+					flag_stok_cukup = False
+					pesan = pesan & LvKdBhn4 & "   :   " & Format(Val(HilangkanTanda(LvStock4)) - Val(HilangkanTanda(lvJmlh4)), "N4") & LvSatuan4 & vbNewLine
+
+				End If
+
+			Next
+
+			If flag_stok_cukup = False Then
+
+				Dim tanya As String = MessageBox.Show(pesan & vbNewLine & "Apakah ingin melanjutkan transaksi ? ", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+				If tanya = vbNo Then
+					CloseTrans()
+					CloseConn()
+					MessageBox.Show("Transaksi dibatalkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+
+			End If
+
+			SQL = "update emi_order_produksi set flag_release = 'Y', "
+			SQL = SQL & "tanggal_release = '" & Format(tgl_skg, "yyyy-MM-dd") & "', "
+			SQL = SQL & "jam_release = '" & Format(tgl_skg, "HH:MM:ss") & "',"
+			SQL = SQL & "userid_release = '" & UserID & "' "
+			SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & txtNoFaktur.Text & "'"
+			ExecuteTrans(SQL)
+
+			Cmd.Transaction.Commit()
+			CloseConn()
+			MessageBox.Show("Data berhasil direlease ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+			kosong()
+
+			mustUpdate = True
+			'Me.Close()
+		Catch ex As Exception
+			CloseTrans()
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+		If parentForm = "schedule" Then
+			Me.Close()
+		Else
+			kosong()
+		End If
+	End Sub
+
 	Private Sub cb_seluruh_CheckedChanged(sender As Object, e As EventArgs) Handles cb_seluruh.CheckedChanged
 		If Jangan_Lanjut = False Then
 			Jangan_Lanjut = True
@@ -5412,60 +3379,149 @@
 		Jangan_Lanjut = True
 	End Sub
 
-	Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles Button2.Click
-		EMI_Independent_Order.lokasi_asal = CmbLokasi.Text
-		EMI_Independent_Order.asal = "B"
-		EMI_Independent_Order.ShowDialog()
+	Private Sub display_default()
+		LvData.Enabled = True
+		LvOrder.Enabled = True
+		LvBahan.Enabled = True
+		LvPackaging.Enabled = True
+		LvBahanNew.Enabled = True
+		LvPackagingNew.Enabled = True
+		Btn_Simpan.Enabled = True
+
+		Button3.Enabled = True
+
 	End Sub
 
-	Private Sub BatalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BatalToolStripMenuItem.Click
+	Private Sub display_summary()
+		LvData.Enabled = False
+		LvOrder.Enabled = False
+		' LvBahan.Enabled = False
+		' LvPackaging.Enabled = False
+		Btn_Simpan.Enabled = False
+		Button3.Enabled = False
+
+	End Sub
+
+	Private Sub EMI_Production_Order_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+		My.Application.ChangeCulture("en-us")
+		My.Application.ChangeUICulture("en-us")
+	End Sub
+
+	Private Sub EnableDoubleBuffer(lvw As ListView)
+		Dim t As Type = lvw.GetType()
+		Dim prop = t.GetProperty("DoubleBuffered", Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Instance)
+		prop.SetValue(lvw, True, Nothing)
+	End Sub
+
+	Private Sub Get_Data_Packing_Set_From_Lv()
 		If LvData.Items.Count = 0 Then
-			MessageBox.Show("Silahkan pilih data terlebih dahulu untuk dihapus")
+			Cmb_Packing_Set.Items.Clear()
+			Cmb_Packing_Set.Enabled = True
 			Exit Sub
 		End If
 
-		Dim selectedindex As Integer = LvData.FocusedItem.Index
-		Dim faktur As String = LvData.Items(selectedindex).SubItems(0).Text
-		If Not faktur.Substring(0, 2).ToUpper = "IO" Then
-			MessageBox.Show("Data Harus dari Independent Order", "Production Order", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		Dim kodePertama As String = ""
+		Dim adaYangBerbeda As Boolean = False
+		For Each item As ListViewItem In LvOrder.Items
+			Dim kodeSekarang As String = item.SubItems(cellKdBrg2).Text
+
+			If kodePertama = "" Then
+				kodePertama = kodeSekarang
+			ElseIf kodeSekarang <> kodePertama Then
+				adaYangBerbeda = True
+				Exit For
+			End If
+		Next
+
+		If adaYangBerbeda Then
+			Cmb_Packing_Set.Items.Clear()
+			Cmb_Packing_Set.Enabled = False
 			Exit Sub
+		Else
+			Cmb_Packing_Set.Items.Clear()
+			Cmb_Packing_Set.Enabled = True
 		End If
 
-		Dim pertanyaan As String = MessageBox.Show("Yakin Ingin Menghapus Data?", "Production Order", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-		If pertanyaan = vbNo Then
-			Exit Sub
-		End If
-
-		Dim noFaktur As String = LvData.Items(selectedindex).SubItems(0).Text
-		Dim KDBarang As String = LvData.Items(selectedindex).SubItems(4).Text
-		Dim noUrut As String = LvData.Items(selectedindex).SubItems(10).Text
+		Dim Done As Boolean = False
 
 		Try
 			OpenConn()
 
-			SQL = "select Kode_Perusahaan, No_Formula from EMI_Independent_Order_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & noFaktur & "' and Kode_Barang = '" & KDBarang & "' and No_Urut = '" & noUrut & "'"
-			Using Ds = BindingTrans(SQL)
-				With Ds.Tables("MyTable")
-					If .Rows.Count <> 0 Then
-						SQL = "update EMI_Independent_Order_Detail set Flag_Sudah_Produksi = 'X' where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & noFaktur & "' and Kode_Barang = '" & KDBarang & "' and No_Urut = '" & noUrut & "'"
-						ExecuteTrans(SQL)
+			For i As Integer = 0 To LvData.Items.Count - 1
+				If Done Then
+					CloseConn()
+					Exit Try
+				End If
 
-						If Not General_Class.CekNULL(.Rows(0).Item("No_Formula")) = "" Then
+				If LvData.Items(i).Checked Then
 
-							SQL = "update N_EMI_Transaksi_PO_Trial_Produksi set Flag_Mulai_Trial_Produksi = NULL "
-							SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-							SQL = SQL & "and Status is null "
-							SQL = SQL & "and No_Faktur_Formula = '" & .Rows(0).Item("No_Formula") & "' "
-							ExecuteTrans(SQL)
+					If arrBarangHasPaket.Contains(LvData.Items(i).SubItems(cellLvKdBrg).Text.Trim) Then
 
+						'===============================
+						'=     GET KODE BARANG INQ     =
+						'===============================
+						Dim KdBarangINq As String = ""
+						SQL = $"
+							select top 1 Kode_Barang_Inq
+							from barang
+							where Kode_Perusahaan ='{KodePerusahaan}'
+							and Kode_Stock_Owner = '{LvData.Items(i).SubItems(1).Text.Trim}'
+							and Kode_Barang = '{LvData.Items(i).SubItems(cellLvKdBrg).Text.Trim}'
+						"
+						Using Dr = OpenTrans(SQL)
+							If Dr.Read Then
+								KdBarangINq = Dr("Kode_Barang_Inq")
+							End If
+						End Using
+
+						'===========================
+						'=     GET PACKING SET     =
+						'===========================
+						Cmb_Packing_Set.Items.Clear() : arrPackingSet.Clear()
+						Dim HasDataPacking As Boolean = False
+						SQL = "select Urut_Oto, Flag_Default, Deskripsi, 'T' as IsBundle "
+						SQL = SQL & "from N_EMI_Detail_Barang_Detail_Bahan_Penolong "
+						SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+						SQL = SQL & "and Flag_Aktif = 'Y' "
+						SQL = SQL & "and (Kode_Barang = '" & LvData.Items(i).SubItems(cellLvKdBrg).Text.Trim & "' or Kode_Barang = '" & KdBarangINq & "') "
+						SQL = SQL & "union all "
+						SQL = SQL & "select Urut_Oto, NULL as Flag_Default, Deskripsi, 'Y' as IsBundle "
+						SQL = SQL & "from N_EMI_Bundle_Packing_Set "
+						SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+						SQL = SQL & "and Flag_Aktif = 'Y' "
+						SQL = SQL & "and (Kode_Barang = '" & LvData.Items(i).SubItems(cellLvKdBrg).Text.Trim & "' or Kode_Barang = '" & KdBarangINq & "')  "
+						SQL = SQL & "order by IsBundle, Urut_Oto "
+						Using Dr = OpenTrans(SQL)
+							Do While Dr.Read
+								HasDataPacking = True
+								Cmb_Packing_Set.Items.Add(Dr("Deskripsi").ToString.Trim)
+								Dim IsBundle As Boolean = If(Dr("IsBundle").ToString.Trim = "Y", True, False)
+								arrPackingSet.Add((Dr("Deskripsi").ToString.Trim, Dr("Urut_Oto"), IsBundle))
+
+								If General_Class.CekNULL(Dr("Flag_Default")) = "Y" Then
+									Cmb_Packing_Set.Text = Dr("Deskripsi").ToString.Trim
+								End If
+							Loop
+						End Using
+
+						If Not HasDataPacking Then
+							'CloseConn()
+							'MessageBox.Show($"Terjadi Kesalahan, Kode Barang {LvData.Items(i).SubItems(cellLvKdBrg).Text.Trim} Tidak Ada Packing Set", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+							'Exit Sub
 						End If
+
+						Done = True
 					Else
-						CloseConn()
-						MessageBox.Show("Data Tidak Ditemukan")
-						Exit Sub
+						Cmb_Packing_Set.Items.Clear()
+						Cmb_Packing_Set.Enabled = False
+						'CloseConn()
+						'MessageBox.Show($"Terjadi Kesalahan, Kode Barang {LvData.Items(i).SubItems(cellLvKdBrg).Text.Trim} Tidak Ada Packing Set", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						'Exit Sub
 					End If
-				End With
-			End Using
+
+				End If
+
+			Next
 
 			CloseConn()
 		Catch ex As Exception
@@ -5473,30 +3529,131 @@
 			MessageBox.Show(ex.Message)
 			Exit Sub
 		End Try
+	End Sub
 
-		Button1_Click_1(sender, e)
+	Private Sub get_isi_listview(ByVal index As Integer)
+
+		lvNoPo = LvData.Items(index).SubItems(cellLvNoPo).Text '0
+		lvLokasi = LvData.Items(index).SubItems(cellLvLokasi).Text '1
+		lvKdCus = LvData.Items(index).SubItems(cellLvKdCus).Text '2
+		lvNmCus = LvData.Items(index).SubItems(cellLvNmCus).Text '3
+		lvKdBrg = LvData.Items(index).SubItems(cellLvKdBrg).Text '4
+		lvNmBrg = LvData.Items(index).SubItems(cellLvNmBrg).Text '5
+		lvJmlh = LvData.Items(index).SubItems(cellLvJmlh).Text '6
+		lvJmlhSisa = LvData.Items(index).SubItems(cellLvJmlhSisa).Text '7
+		lvSatuan = LvData.Items(index).SubItems(cellLvSatuan).Text '8
+		lvJenisProduk = LvData.Items(index).SubItems(cellLvJenisProduk).Text '9
+		lvUrut = LvData.Items(index).SubItems(cellLvUrut).Text '10
+		lvIdJenisProduk = LvData.Items(index).SubItems(cellLvIdJenisProduk).Text '11
+		lvKetOrder = LvData.Items(index).SubItems(cellLvKetOrder).Text '12
+		lvKetJenisIO = LvData.Items(index).SubItems(cellLvJenisIO).Text '13
+		lvPalletNoFormula = LvData.Items(index).SubItems(cellLvNoFormula).Text '14
+	End Sub
+
+	Private Sub Get_Isi_Listview_Bahan(ByVal index As Integer)
+
+		LvNoSo3 = LvBahan.Items(index).SubItems(cellNoSo3).Text '0
+		LvKdBhn3 = LvBahan.Items(index).SubItems(cellKdBhn3).Text '1
+		lvJmlh3 = LvBahan.Items(index).SubItems(cellJmlh3).Text '2
+		LvSatuan3 = LvBahan.Items(index).SubItems(cellSatuan3).Text '3
+		LvStock3 = LvBahan.Items(index).SubItems(cellStock3).Text '4
+		LvSatuanStock3 = LvBahan.Items(index).SubItems(cellSatuanStock3).Text '5
+		LvNilaiBrg3 = LvBahan.Items(index).SubItems(cellNilaiBrg3).Text '6
+		LvSatuanBrg3 = LvBahan.Items(index).SubItems(cellSatuanBrg3).Text '7
+		LvStockBrg3 = LvBahan.Items(index).SubItems(cellStockBrg3).Text '8
+		LvFlagPotStok3 = LvBahan.Items(index).SubItems(cellFlagPotStok3).Text
+		LvRV = LvBahan.Items(index).SubItems(cellRV).Text
 
 	End Sub
 
-	'================================================================================================================
-	'=     HELPER
-	'================================================================================================================
-	Protected Overrides Sub WndProc(ByRef m As Message)
-		If m.Msg = &HA3 Then
-			Return
-		End If
+	Private Sub Get_Isi_Listview_BahanNewv(ByVal index As Integer)
 
-		MyBase.WndProc(m)
+		LvNoSo3New = LvBahanNew.Items(index).SubItems(cellNoSo3New).Text '0
+		LvKdBhn3New = LvBahanNew.Items(index).SubItems(cellKdBhn3New).Text '1
+		lvJmlh3New = LvBahanNew.Items(index).SubItems(cellJmlh3New).Text '2
+		LvSatuan3New = LvBahanNew.Items(index).SubItems(cellSatuan3New).Text '3
+		LvStock3New = LvBahanNew.Items(index).SubItems(cellStock3New).Text '4
+		LvSatuanStock3New = LvBahanNew.Items(index).SubItems(cellSatuanStock3New).Text '5
+		LvNilaiBrg3New = LvBahanNew.Items(index).SubItems(cellNilaiBrg3New).Text '6
+		LvSatuanBrg3New = LvBahanNew.Items(index).SubItems(cellSatuanBrg3New).Text '7
+		LvStockBrg3New = LvBahanNew.Items(index).SubItems(cellStockBrg3New).Text '8
+		LvFlagPotStok3New = LvBahanNew.Items(index).SubItems(cellFlagPotStok3New).Text '9
+		LvRVNew = LvBahanNew.Items(index).SubItems(cellRVNew).Text '10
+		LvTotalStockBrg3New = LvBahanNew.Items(index).SubItems(cellTotalStockBrg3New).Text '11
+
 	End Sub
 
-	Private Sub LvData_MouseMove(sender As Object, e As MouseEventArgs) Handles LvData.MouseMove, LvOrder.MouseMove, LvBahanNew.MouseMove, LvPackagingNew.MouseMove
-		HandleListViewHover(sender, e)
+	Private Sub get_isi_listview_detail(ByVal index As Integer)
+
+		LvFaktur2 = LvOrder.Items(index).SubItems(cellNoSo2).Text '0
+		LvLokasi2 = LvOrder.Items(index).SubItems(cellLokasi2).Text '1
+		lvKdCust2 = LvOrder.Items(index).SubItems(cellKdCust2).Text '2
+		LvNmCust2 = LvOrder.Items(index).SubItems(cellNmCust2).Text '3
+		LvKdBrg2 = LvOrder.Items(index).SubItems(cellKdBrg2).Text '4
+
+		LvJmlh2 = LvOrder.Items(index).SubItems(cellJmlh2).Text '5
+		LvSatuan2 = LvOrder.Items(index).SubItems(cellSatuan2).Text '6
+		LvJenis2 = LvOrder.Items(index).SubItems(cellJenis2).Text '7
+		LvUrut2 = LvOrder.Items(index).SubItems(cellUrut2).Text '8
+		LvIdJnsPrdk2 = LvOrder.Items(index).SubItems(cellIdJnsPrdk2).Text '9
+		LvFromUpdate2 = LvOrder.Items(index).SubItems(cellFromUpdate2).Text '10
+		LvDeleted2 = LvOrder.Items(index).SubItems(cellDeleted2).Text '11
+		LvNoFormula = LvOrder.Items(index).SubItems(cellNoFormula).Text '12
+
 	End Sub
 
-	Private Sub EnableDoubleBuffer(lvw As ListView)
-		Dim t As Type = lvw.GetType()
-		Dim prop = t.GetProperty("DoubleBuffered", Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Instance)
-		prop.SetValue(lvw, True, Nothing)
+	Private Sub Get_Isi_Listview_Packaging(ByVal index As Integer)
+
+		LvNoSo4 = LvPackaging.Items(index).SubItems(cellNoSo4).Text '0
+		LvKdBhn4 = LvPackaging.Items(index).SubItems(cellKdBhn4).Text '1
+		lvJmlh4 = LvPackaging.Items(index).SubItems(cellJmlh4).Text '2
+		LvSatuan4 = LvPackaging.Items(index).SubItems(cellSatuan4).Text '3
+		LvStock4 = LvPackaging.Items(index).SubItems(cellStock4).Text '4
+		LvSatuanStock4 = LvPackaging.Items(index).SubItems(cellSatuanStock4).Text '5
+		LvNilaiBrg4 = LvPackaging.Items(index).SubItems(cellNilaiBrg4).Text '6
+		LvSatuanBrg4 = LvPackaging.Items(index).SubItems(cellSatuanBrg4).Text '7
+		LvStockBrg4 = LvPackaging.Items(index).SubItems(cellStockBrg4).Text '8
+		LvKeepStockBrg4 = LvPackaging.Items(index).SubItems(cellKeepStockBrg4).Text '9
+		LvFlagPotStok4 = LvPackaging.Items(index).SubItems(cellPotStok4).Text '10
+		LvJenis4 = LvPackaging.Items(index).SubItems(cellJenis4).Text '11
+		LvMasterJumlah_Barang4 = LvPackaging.Items(index).SubItems(cellMasterJumlah_Barang4).Text '12
+		LvMasterJumlah_Bahan4 = LvPackaging.Items(index).SubItems(cellMasterJumlah_Bahan4).Text '13
+		LvPersentasePacking4 = LvPackaging.Items(index).SubItems(cellPersentasePacking4).Text '14
+		LvDeskripsiPacking4 = LvPackaging.Items(index).SubItems(cellDeskripsiPacking4).Text '15
+		LvIDPacking4 = LvPackaging.Items(index).SubItems(cellIDPacking4).Text '16
+	End Sub
+
+	Private Sub Get_Isi_Listview_PackagingNew(ByVal index As Integer)
+
+		LvNoSo4New = LvPackagingNew.Items(index).SubItems(cellNoSo4New).Text '0
+		LvKdBhn4New = LvPackagingNew.Items(index).SubItems(cellKdBhn4New).Text '1
+		lvJmlh4New = LvPackagingNew.Items(index).SubItems(cellJmlh4New).Text '2
+		LvSatuan4New = LvPackagingNew.Items(index).SubItems(cellSatuan4New).Text '3
+		LvStock4New = LvPackagingNew.Items(index).SubItems(cellStock4New).Text '4
+		LvSatuanStock4New = LvPackagingNew.Items(index).SubItems(cellSatuanStock4New).Text '5
+		LvNilaiBrg4New = LvPackagingNew.Items(index).SubItems(cellNilaiBrg4New).Text '6
+		LvSatuanBrg4New = LvPackagingNew.Items(index).SubItems(cellSatuanBrg4New).Text '7
+		LvStockBrg4New = LvPackagingNew.Items(index).SubItems(cellStockBrg4New).Text '8
+		LvKeepStockBrg4New = LvPackagingNew.Items(index).SubItems(cellKeepStockBrg4New).Text '9
+		LvFlagPotStok4New = LvPackagingNew.Items(index).SubItems(cellPotStok4New).Text '10
+		LvJenis4New = LvPackagingNew.Items(index).SubItems(cellJenis4New).Text '11
+		LvMasterJumlah_Barang4New = LvPackagingNew.Items(index).SubItems(cellMasterJumlah_Barang4New).Text '12
+		LvMasterJumlah_Bahan4New = LvPackagingNew.Items(index).SubItems(cellMasterJumlah_Bahan4New).Text '13
+		LvPersentaseNew = LvPackagingNew.Items(index).SubItems(cellPersentaseNew).Text '14
+		LvDeskripsiNew = LvPackagingNew.Items(index).SubItems(cellDeskripsiNew).Text '15
+	End Sub
+
+	Private Sub get_no_faktur()
+
+		txtNoFaktur.Text = fProduksi & Format(tgl_skg, "MMyy") & "-" &
+					 General_Class.Get_Last_Number2("emi_order_produksi", "no_Faktur", 5,
+					 "Kode_perusahaan", KodePerusahaan,
+					 "And", "substring(no_Faktur, 1, " & Len(fProduksi) + 4 & ")", fProduksi & Format(tgl_skg, "MMyy"))
+
+		txt_faktur_bayangan.Text = fProduksi & Format(tgl_skg, "MMyy") & "-" &
+				   General_Class.Get_Last_Number2("emi_order_produksi", "no_Faktur", 5,
+				   "Kode_perusahaan", KodePerusahaan,
+				   "And", "substring(no_Faktur, 1, " & Len(fProduksi) + 4 & ")", fProduksi & Format(tgl_skg, "MMyy"))
 	End Sub
 
 	Private Sub HandleListViewHover(lvw As ListView, e As MouseEventArgs)
@@ -5527,6 +3684,2795 @@
 
 			lvw.EndUpdate()
 		End If
+	End Sub
+
+	Private Sub HapusToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HapusToolStripMenuItem.Click
+		If LvOrder.Items.Count = 0 Or LvOrder.FocusedItem Is Nothing Then
+			MessageBox.Show("Silahkan pilih data terlebih dahulu untuk dihapus")
+			Exit Sub
+		End If
+
+		If LvOrder.FocusedItem.SubItems(11).Text = "Y" Then
+			LvOrder.FocusedItem.SubItems(11).Text = ""
+		Else
+			LvOrder.FocusedItem.SubItems(11).Text = "Y"
+		End If
+
+		If LvOrder.FocusedItem.SubItems(11).Text = "Y" Then
+			LvOrder.FocusedItem.BackColor = Color.Red
+		Else
+			LvOrder.FocusedItem.BackColor = Color.Transparent
+		End If
+
+		Dim totalJumlahProduksi As Double = 0
+
+		Dim lks As String = ""
+		Dim kodeBarang As String = ""
+		Dim satuan_awal As String = ""
+		Dim id_jenis_produk As String = ""
+		Dim dataYangDiDelete As Integer = 0
+
+		Dim noFaktur As String = LvOrder.SelectedItems(0).SubItems(cellNoSo2).Text
+		For Each itemData As ListViewItem In LvData.Items
+
+			If itemData.SubItems(cellLvNoPo).Text.Trim = noFaktur.Trim Then
+				itemData.Checked = False
+				Exit For
+			End If
+
+		Next
+
+		LvOrder.BeginUpdate()
+
+		LvOrder.Items.Remove(LvOrder.SelectedItems(0))
+
+		If LvOrder.Items.Count > 0 Then
+			Get_Data_Packing_Set_From_Lv()
+			get_isi_listview_detail(0)
+		End If
+
+		LvOrder.EndUpdate()
+
+		Try
+			OpenConn()
+
+			LvBahan.Items.Clear()
+			LvBahanNew.Items.Clear()
+			LvPackaging.Items.Clear()
+			LvPackagingNew.Items.Clear()
+
+			ExecuteTrans("delete from N_EMI_Transaksi_Order_Produksi_Temp where userid='" & UserID & "'")
+
+			For i As Integer = 0 To LvOrder.Items.Count - 1
+
+				get_isi_listview_detail(i)
+
+				If LvOrder.Items(i).SubItems(11).Text = "" Then
+
+					Dim IsOrderTrial As Boolean = If(String.IsNullOrWhiteSpace(LvNoFormula), False, True)
+
+					SQL = "insert into N_EMI_Transaksi_Order_Produksi_Temp(Kode_Perusahaan, No_Faktur, Kode_Barang, Kode_Stock_Owner, Jumlah, Satuan, UserID) values("
+					SQL = SQL & "'" & KodePerusahaan & "', '" & LvFaktur2 & "', '" & LvKdBrg2 & "', '" & LvLokasi2 & "', '" & HilangkanTanda(LvJmlh2) & "', '" & HilangkanTanda(LvSatuan2) & "', '" & UserID & "')"
+					ExecuteTrans(SQL)
+
+					txt_IdJenisProduk.Text = LvIdJnsPrdk2
+
+					Dim kd_barangINq As String = ""
+					SQL = "select top(1) Kode_Barang_inq from barang "
+					SQL = SQL & "where kode_Perusahaan='" & KodePerusahaan & "' "
+					SQL = SQL & "and Kode_Barang ='" & LvKdBrg2 & "' "
+					Using dr = OpenTrans(SQL)
+						If dr.Read Then
+							kd_barangINq = dr("Kode_Barang_inq")
+						Else
+							dr.Close()
+							CloseTrans()
+							CloseConn()
+							MessageBox.Show(Base_Language.Lang_Global_KodeBarang & " " & Base_Language.Lang_GLOBAL_Tidak_Ditemukan & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+							Exit Sub
+						End If
+					End Using
+
+					If Not IsOrderTrial Then
+
+						SQL = "select top 1 c.No_Faktur, c.Tanggal, c.Jam "
+						SQL = SQL & "from N_EMI_Transaksi_Formulator_Binding a "
+						SQL = SQL & "inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+						SQL = SQL & "inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null "
+						SQL = SQL & "where a.Status is NULL "
+						SQL = SQL & "and a.Flag_Validasi_Main = 'Y' "
+						SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+						SQL = SQL & "and a.Kode_Barang = '" & kd_barangINq & "' "
+						SQL = SQL & "order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC "
+						Using Dr = OpenTrans(SQL)
+							If Not Dr.Read Then
+
+								Dr.Close()
+								ExecuteTrans("delete from N_EMI_Transaksi_Order_Produksi_Temp where userid='" & UserID & "'")
+								CloseConn()
+								LvBahan.Items.Clear()
+								LvBahanNew.Items.Clear()
+								LvPackaging.Items.Clear()
+								LvPackagingNew.Items.Clear()
+								Txt_No_Formula.Text = ""
+								MessageBox.Show("Kode formula untuk " & LvKdBrg2 & " tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+								Exit Sub
+							End If
+						End Using
+
+					End If
+
+				End If
+
+				'If i = 0 Then
+				'	lks = LvLokasi2
+				'	kodeBarang = LvKdBrg2
+				'	satuan_awal = LvSatuan2
+				'	txt_IdJenisProduk.Text = LvIdJnsPrdk2
+				'End If
+
+				'If Not ARR_KdBarang.Contains(LvKdBrg2) Then
+				'	ARR_KdBarang.Add(LvKdBrg2)
+				'End If
+
+				'totalJumlahProduksi = totalJumlahProduksi + LvJmlh2
+			Next
+
+			SQL = $"
+
+				;WITH cte AS (
+
+					SELECT distinct
+						x.kode_barang_inq,
+						x.kode_perusahaan,
+						ISNULL(f.No_Faktur, '') AS kode_formula
+					FROM barang x
+					INNER JOIN emI_group_jenis y
+						ON x.kode_perusahaan = y.kode_perusahaan
+					   AND x.id_group_jenis = y.id_group_jenis
+
+					OUTER APPLY (
+						SELECT TOP 1 c.No_Faktur
+						FROM N_EMI_Transaksi_Formulator_Binding a
+						INNER JOIN N_EMI_Transaksi_Formulator_Binding_Detail b
+							ON a.Kode_Perusahaan = b.Kode_Perusahaan
+						   AND a.No_Faktur = b.No_Faktur
+						INNER JOIN Emi_Transaksi_Formulator c
+							ON b.Kode_Perusahaan = c.Kode_Perusahaan
+						   AND b.No_Formulator = c.No_Faktur
+						   AND c.Status IS NULL
+						WHERE a.Status IS NULL
+						  AND a.Flag_Validasi_Main = 'Y'
+						  AND a.Kode_Perusahaan = x.kode_perusahaan
+						  AND a.Kode_Barang = x.kode_barang_inq
+						ORDER BY a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC
+					) f
+
+					WHERE y.Flag_Finished_Good = 'Y'
+					   OR y.Flag_Semi_FG = 'Y'
+
+				),cte_b AS (
+
+					SELECT
+						a.Kode_perusahaan,
+						a.Kode_Barang,
+						b.Kode_Barang_Inq,
+						a.Kode_Stock_Owner,
+						SUM(a.jumlah) AS Jumlah,
+						a.Satuan,
+						SUM(a.jumlah * b.berat / 1000) AS Jumlah_Berat,
+						'KG' AS Satuan_Berat,
+						c.kode_formula
+					FROM N_EMI_Transaksi_Order_Produksi_Temp a
+					INNER JOIN barang b
+						ON a.Kode_perusahaan = b.Kode_Perusahaan
+					   AND a.Kode_Stock_Owner = b.Kode_Stock_Owner
+					   AND a.Kode_Barang = b.Kode_Barang
+					LEFT JOIN cte c
+						ON c.Kode_Perusahaan = a.Kode_perusahaan
+					   AND c.Kode_Barang_Inq = b.Kode_Barang_Inq
+
+					WHERE a.kode_perusahaan = '{KodePerusahaan}'
+					  AND a.userid = '{UserID}'
+
+					GROUP BY
+						a.Kode_perusahaan, a.Kode_Barang, b.Kode_Barang_Inq,
+						a.Kode_Stock_Owner, a.Satuan, c.kode_formula
+
+				),cte_c AS (
+
+					SELECT
+						a.Kode_Perusahaan,
+						a.no_faktur,
+						b.tanggal,
+						a.kode_stock_owner,
+						a.kode_barang,
+						c.nama,
+						c.flag_potong_stok,
+						a.nilai_barang,
+						a.persentase,
+						a.satuan_barang,
+						CAST(b.RV AS BIGINT) AS RV_Parent,
+						CAST(a.RV AS BIGINT) AS RV_Detail,
+						d.Jumlah_Berat,
+						d.Jumlah_Berat * a.Persentase / 100 AS Nilai_Kebutuhan
+					FROM EMI_Transaksi_Formulator_Detail_Bahan a
+					INNER JOIN Emi_Transaksi_Formulator b
+						ON a.Kode_Perusahaan = b.Kode_Perusahaan
+					   AND a.No_Faktur = b.No_Faktur
+					   AND b.Status IS NULL
+					INNER JOIN barang c
+						ON a.kode_perusahaan = c.kode_perusahaan
+					   AND a.kode_stock_owner = c.kode_stock_owner
+					   AND a.kode_barang = c.kode_barang
+					INNER JOIN cte_b d
+						ON b.kode_perusahaan = d.Kode_perusahaan
+					   AND b.no_faktur = d.Kode_Formula
+
+				),stock AS (
+					SELECT
+						Kode_Barang,
+						(Stock_Wharehouse + Stock_Unloading) AS stock,
+						(Gantungan_PO + Gantungan_Split1 + Gantungan_Split2) AS Keep_Stock
+					FROM N_Emi_View_Stock_Gantung
+				)
+
+				SELECT
+					MIN(a.no_faktur) AS No_faktur,
+					MIN(a.tanggal) AS Tanggal,
+					MIN(a.RV_Parent) AS RV_Parent,
+					MIN(a.RV_Detail) AS RV_Detail,
+					a.Kode_Stock_Owner,
+					a.Kode_Barang,
+					a.Nama,
+					a.Flag_Potong_Stok,
+					a.Satuan_barang,
+					SUM(a.Nilai_kebutuhan) AS Nilai_kebutuhan,
+					ISNULL(s.stock, 0) AS stock,
+					ISNULL(s.Keep_Stock, 0) AS Keep_Stock,
+					ISNULL(b.Stock_Minimum, 0) AS Min_stock
+
+				FROM cte_c a
+				LEFT JOIN stock s
+					ON a.Kode_Barang = s.Kode_Barang
+				LEFT JOIN barang b
+					ON a.Kode_Barang = b.Kode_Barang
+				   AND a.Kode_Perusahaan = b.kode_perusahaan
+				   AND a.Kode_Stock_Owner = b.kode_stock_owner
+
+				GROUP BY
+					a.Kode_Perusahaan, a.Kode_Stock_Owner, a.Kode_Barang,
+					a.Nama, a.Flag_Potong_Stok, a.Satuan_barang,
+					s.stock, s.Keep_Stock, b.Stock_Minimum
+
+				ORDER BY a.Kode_Barang
+
+			"
+			Using ds = BindingTrans(SQL)
+				With ds.Tables("MyTable")
+					If .Rows.Count <> 0 Then
+						For indexFormulator As Integer = 0 To .Rows.Count - 1
+							Dim lvwFormulator As ListViewItem
+							Dim lvwFormulatorNew As ListViewItem
+
+							lvwFormulator = LvBahan.Items.Add(.Rows(indexFormulator).Item("kode_stock_owner"))
+							lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("kode_barang"))
+							''lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("nama"))
+							lvwFormulator.SubItems.Add(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))
+							lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("Satuan_barang"))
+							lvwFormulator.SubItems.Add(Format(.Rows(indexFormulator).Item("stock"), "N4"))
+							lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("Satuan_barang"))
+							lvwFormulator.SubItems.Add(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))
+							lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("satuan_barang"))
+							lvwFormulator.SubItems.Add(Format(.Rows(indexFormulator).Item("stock"), "N4"))
+							lvwFormulator.SubItems.Add(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))
+							lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("RV_Detail"))
+
+							Dim asdsadas As Double = .Rows(indexFormulator).Item("Min_stock")
+							Dim dasdas As Double = Val(HilangkanTanda(Format(Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))), "N4")))
+
+							Dim gfasdsad As Double = .Rows(indexFormulator).Item("stock")
+							Dim gfassdsad As Double = .Rows(indexFormulator).Item("keep_stock")
+							Dim gfassdsasd As Double = .Rows(indexFormulator).Item("Nilai_kebutuhan")
+
+							If aksesdata = True Then
+
+								Dim kodeStockOwner As String = .Rows(indexFormulator).Item("kode_stock_owner").ToString()
+								Dim kodeBahan As String = .Rows(indexFormulator).Item("kode_barang").ToString()
+								Dim rowDitemukan As ListViewItem = Nothing
+
+								'==================================================
+								'=     CEK APAKAH BAHAN SUDAH ADA DI LISTVIEW     =
+								'==================================================
+								For Each item As ListViewItem In LvBahanNew.Items
+									If item.SubItems(0).Text = kodeStockOwner AndAlso item.SubItems(1).Text = kodeBahan Then
+										rowDitemukan = item
+										Exit For
+									End If
+								Next
+
+								lvwFormulatorNew = LvBahanNew.Items.Add(.Rows(indexFormulator).Item("kode_stock_owner"))
+								lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("kode_barang"))
+								lvwFormulatorNew.SubItems.Add(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))
+								lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("Satuan_barang"))
+								lvwFormulatorNew.SubItems.Add(Format(.Rows(indexFormulator).Item("stock"), "N4"))
+								lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("Satuan_barang"))
+								lvwFormulatorNew.SubItems.Add(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))
+								lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("satuan_barang"))
+								lvwFormulatorNew.SubItems.Add(Format(.Rows(indexFormulator).Item("stock"), "N4"))
+								lvwFormulatorNew.SubItems.Add(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))
+
+								lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("RV_Detail"))
+								lvwFormulatorNew.SubItems.Add(Format(Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))), "N4"))
+							Else
+
+								If .Rows(indexFormulator).Item("Min_stock") >= Val(HilangkanTanda(Format(Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))), "N4"))) Then
+
+									Dim kodeStockOwner As String = .Rows(indexFormulator).Item("kode_stock_owner").ToString()
+									Dim kodeBahan As String = .Rows(indexFormulator).Item("kode_barang").ToString()
+									Dim rowDitemukan As ListViewItem = Nothing
+
+									'==================================================
+									'=     CEK APAKAH BAHAN SUDAH ADA DI LISTVIEW     =
+									'==================================================
+									For Each item As ListViewItem In LvBahanNew.Items
+										If item.SubItems(0).Text = kodeStockOwner AndAlso item.SubItems(1).Text = kodeBahan Then
+											rowDitemukan = item
+											Exit For
+										End If
+									Next
+									lvwFormulatorNew = LvBahanNew.Items.Add(.Rows(indexFormulator).Item("kode_stock_owner"))
+									lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("kode_barang"))
+
+									lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
+									lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("Satuan_barang"))
+									lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
+									lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("Satuan_barang"))
+									lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
+									lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("satuan_barang"))
+									lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
+									lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
+
+									lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("RV_Detail"))
+									lvwFormulatorNew.SubItems.Add(Format(Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("Nilai_kebutuhan"), "N4"))), "N4"))
+
+								End If
+							End If
+
+							Txt_No_Formula.Text = .Rows(indexFormulator).Item("no_faktur")
+							DateTimePicker3.Value = .Rows(indexFormulator).Item("Tanggal")
+							RV_Parent_Formula = .Rows(indexFormulator).Item("RV_Parent")
+
+						Next
+					Else
+						CloseConn()
+						MessageBox.Show("Formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Exit Sub
+					End If
+				End With
+			End Using
+
+#Region "Kode Lama 18 Mei 2026"
+
+			'SQL = $"
+			'		;WITH cte AS (
+
+			'			SELECT
+			'				a.Kode_Perusahaan,
+			'				a.kode_Barang,
+			'				b.nama,
+			'				b.Satuan AS Satuan_Barang,
+			'				a.Jumlah_Barang,
+			'				a.Kode_Bahan,
+			'				c.Nama AS nama_bahan,
+			'				c.flag_potong_stok,
+			'				c.satuan AS satuan_bahan,
+			'				a.Jumlah_Bahan,
+			'				a.Jenis,
+			'				d.no_faktur,
+			'				d.jumlah,
+			'				d.satuan,
+			'				(d.jumlah / a.Jumlah_Barang) * a.jumlah_bahan AS Kebutuhan_bahan,
+
+			'				ROW_NUMBER() OVER (
+			'					PARTITION BY a.Kode_Perusahaan, a.Kode_Bahan
+			'					ORDER BY d.no_faktur
+			'				) AS rn
+
+			'			FROM barang_detail_Bahan_Penolong a
+			'			INNER JOIN barang b
+			'				ON a.kode_Perusahaan = b.kode_Perusahaan
+			'			   AND a.Kode_Barang = b.Kode_Barang_Inq
+			'			INNER JOIN barang c
+			'				ON a.kode_Perusahaan = c.kode_Perusahaan
+			'			   AND a.Kode_Bahan = c.Kode_Barang
+			'			INNER JOIN N_EMI_Transaksi_Order_Produksi_Temp d
+			'				ON b.Kode_barang = d.kode_barang
+			'			   AND b.Kode_Stock_Owner = d.kode_stock_owner
+			'			   AND b.kode_perusahaan = d.kode_perusahaan
+			'			   AND c.Kode_Stock_Owner = d.kode_stock_owner
+
+			'			WHERE d.kode_perusahaan = '{KodePerusahaan}'
+			'			  AND d.userid = '{UserID}'
+
+			'		),cte_first AS (
+			'			SELECT *
+			'			FROM cte
+			'			WHERE rn = 1
+			'		),
+
+			'		stock AS (
+			'			SELECT
+			'				x.kode_perusahaan,
+			'				x.Kode_Barang,
+			'				SUM(x.jumlah) AS good_stock
+			'			FROM barang_sn x
+			'			INNER JOIN stock_owner_gudang y
+			'				ON x.kode_perusahaan = y.kode_perusahaan
+			'			   AND x.kode_stock_owner = y.kode_stock_owner
+			'			   AND y.Flag_Wharehouse = 'Y'
+			'			WHERE x.warna = 'HIJAU'
+			'			GROUP BY x.kode_perusahaan, x.Kode_Barang
+			'		)
+
+			'		SELECT
+			'			a.kode_bahan,
+			'			a.nama_bahan,
+			'			a.Flag_Potong_Stok,
+			'			a.satuan_bahan,
+
+			'			ISNULL(f.Jumlah_Barang, 0) AS Jumlah_Barang,
+			'			ISNULL(f.Jumlah_Bahan, 0) AS Jumlah_Bahan,
+			'			ISNULL(f.Jenis, '-') AS Jenis,
+
+			'			SUM(a.Jumlah) AS Jumlah,
+			'			SUM(a.Kebutuhan_bahan) AS Kebutuhan_bahan,
+
+			'			ISNULL(s.good_stock, 0) AS good_stock,
+			'			0 AS keep_stock
+
+			'		FROM cte a
+			'		LEFT JOIN cte_first f
+			'			ON a.Kode_Perusahaan = f.Kode_Perusahaan
+			'		   AND a.Kode_Bahan = f.Kode_Bahan
+
+			'		LEFT JOIN stock s
+			'			ON a.kode_perusahaan = s.kode_perusahaan
+			'		   AND a.Kode_Bahan = s.Kode_Barang
+
+			'		GROUP BY
+			'			a.kode_bahan, a.nama_bahan, a.Flag_Potong_Stok,
+			'			a.satuan_bahan, a.Kode_Perusahaan,
+			'			f.Jumlah_Barang, f.Jumlah_Bahan, f.Jenis,
+			'			s.good_stock
+
+			'		ORDER BY a.kode_bahan
+
+			'		"
+
+#End Region
+
+			Dim kodePertama As String = ""
+			Dim adaYangBerbeda As Boolean = False
+			Dim KodeBarangTanpaPackingSet As New ArrayList
+			For Each item As ListViewItem In LvOrder.Items
+				Dim kodeSekarang As String = item.SubItems(cellKdBrg2).Text.Trim
+
+				If kodePertama = "" Then
+					kodePertama = kodeSekarang
+				ElseIf kodeSekarang <> kodePertama Then
+					adaYangBerbeda = True
+					'Exit For
+				End If
+
+				If Not arrBarangHasPaket.Contains(kodeSekarang) AndAlso Not KodeBarangTanpaPackingSet.Contains(kodeSekarang) Then
+					KodeBarangTanpaPackingSet.Add(kodeSekarang)
+				End If
+			Next
+
+			If KodeBarangTanpaPackingSet.Count <> 0 Then
+				Dim daftarBarang As String = String.Join("," & Environment.NewLine, KodeBarangTanpaPackingSet.ToArray())
+				Dim pesan As String = "Kode Barang " & Environment.NewLine & daftarBarang & Environment.NewLine & "Belum Memiliki Packing Set"
+				MessageBox.Show(pesan, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+				Exit Sub
+			End If
+
+			If Not adaYangBerbeda Then
+				If Cmb_Packing_Set.SelectedIndex = -1 Then
+					MessageBox.Show("Harap Pilih Dahulu Packing Set", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Cmb_Packing_Set.DroppedDown = True
+					Cmb_Packing_Set.Focus()
+					Exit Sub
+				End If
+			End If
+
+			Dim FilterPackingSet As String = ""
+			If adaYangBerbeda Then
+				FilterPackingSet = $"and a.Flag_Default = 'Y'"
+			Else
+				FilterPackingSet = $"and a.Urut_Oto = '{arrPackingSet(Cmb_Packing_Set.SelectedIndex).ID_Packing}'"
+			End If
+
+			Dim DataPackagingTampil As New List(Of (lks As String, kode_bahan As String, KebutuhanBahan As Double,
+								satuan_bahan As String, good_stock As Double, keep_stock As Double, flag_potong_stok As String,
+								Jenis As String, Jumlah_barang As String, Jumlah_bahan As String, Persentase As Double, Deskripsi As String))
+
+			If Cmb_Packing_Set.Items.Count > 0 AndAlso arrPackingSet(Cmb_Packing_Set.SelectedIndex).isBundle Then
+				SQL = $"
+					;with Cte as (select c.Kode_Perusahaan, c.Kode_Barang, e.Nama, e.Satuan as Satuan_Barang, d.Jumlah_Barang, d.Kode_Bahan,
+										g.nama as Nama_Bahan, g.Satuan as Satuan_Bahan, g.Flag_Potong_Stok, d.Jumlah_Bahan, d.jenis,
+										f.No_Faktur, f.Jumlah, f.Satuan,
+										((f.Jumlah / d.Jumlah_Barang) * d.Jumlah_Bahan) * (b.Persentase / 100) as Kebutuhan_bahan,
+										b.Persentase, c.Deskripsi, g.Flag_Pembulatan_Produksi, c.Urut_Oto as ID_Packing_Set
+								 from N_EMI_Bundle_Packing_Set a
+									  inner join N_EMI_Bundle_Packing_Set_Detail b
+												 on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Urut_Oto = b.Id_Parent
+									  inner join N_EMI_Detail_Barang_Detail_Bahan_Penolong c
+												 on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Packing_Set = c.Urut_Oto
+									  inner join N_EMI_Detail_Barang_Detail_Bahan_Penolong_Detail d
+												 on c.Kode_Perusahaan = d.Kode_Perusahaan and c.Urut_Oto = d.Id_Parent and b.Jenis = d.Jenis
+									  inner join barang e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Kode_Barang = e.Kode_Barang_Inq
+									  inner join N_EMI_Transaksi_Order_Produksi_Temp f
+												 on e.Kode_Perusahaan = f.Kode_perusahaan and e.Kode_Stock_Owner = f.Kode_Stock_Owner and
+													e.Kode_Barang = f.Kode_Barang
+									  inner join barang g on d.Kode_Perusahaan = g.Kode_Perusahaan and d.Kode_Bahan = g.Kode_Barang and
+															 f.Kode_Stock_Owner = g.Kode_Stock_Owner
+								 where a.Status is null
+								   and c.Status is null
+								   and a.Kode_Perusahaan = '{KodePerusahaan}'
+								   -- and a.Flag_Aktif = 'Y'
+								   and f.UserID = '{UserID}'
+								   and a.Urut_Oto = '{arrPackingSet(Cmb_Packing_Set.SelectedIndex).ID_Packing}'),
+						 stock AS (SELECT x.kode_perusahaan, x.Kode_Barang, SUM(x.jumlah) AS good_stock
+								   FROM barang_sn x
+										INNER JOIN stock_owner_gudang y
+												   ON x.kode_perusahaan = y.kode_perusahaan AND x.kode_stock_owner = y.kode_stock_owner AND
+													  y.Flag_Wharehouse = 'Y'
+								   WHERE x.warna = 'HIJAU'
+								   GROUP BY x.kode_perusahaan, x.Kode_Barang)
+					select a.Kode_Bahan, a.Nama_Bahan, a.Flag_Potong_Stok, a.Satuan_Bahan, sum(a.Jumlah_Barang) as Jumlah_Barang,
+						   sum(a.Jumlah_Bahan) as Jumlah_Bahan, a.jenis, sum(a.Jumlah) as Jumlah, sum(a.Kebutuhan_bahan) as Kebutuhan_bahan,
+						   isnull(b.good_stock, 0) as good_stock, 0 as Keep_Stock, a.Persentase, a.Deskripsi, a.Flag_Pembulatan_Produksi, a.ID_Packing_Set
+					from cte a
+						 left join stock b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Bahan = b.Kode_Barang
+					group by a.Kode_Bahan, a.Nama_Bahan, a.Flag_Potong_Stok, a.Satuan_Bahan, a.jenis, b.good_stock,
+						a.Persentase, a.Deskripsi, a.Flag_Pembulatan_Produksi, a.ID_Packing_Set
+				"
+			Else
+				SQL = $"
+				;with cte as (select a.Kode_Perusahaan, a.Kode_Barang, c.nama, c.Satuan as Satuan_Barang, b.Jumlah_Barang, b.Kode_Bahan,
+									d.nama as Nama_Bahan, d.Satuan as Satuan_Bahan, d.Flag_Potong_Stok, b.Jumlah_Bahan, b.jenis,
+									e.No_Faktur, e.jumlah, e.Satuan, (e.Jumlah / b.Jumlah_Barang) * b.Jumlah_Bahan as Kebutuhan_bahan,
+									ROW_NUMBER() OVER ( PARTITION BY b.Kode_Perusahaan, b.Kode_Bahan ORDER BY e.no_faktur ) AS rn,
+									'100' as Persentase, a.Deskripsi, d.Flag_Pembulatan_Produksi, a.Urut_Oto as ID_Packing_Set
+							 from N_EMI_Detail_Barang_Detail_Bahan_Penolong a
+								  inner join N_EMI_Detail_Barang_Detail_Bahan_Penolong_Detail b
+											 on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Urut_Oto = b.Id_Parent
+								  inner join barang c on a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Barang = c.Kode_Barang_Inq
+								  inner join N_EMI_Transaksi_Order_Produksi_Temp e
+											 on c.Kode_Perusahaan = e.Kode_perusahaan and c.Kode_Stock_Owner = e.Kode_Stock_Owner and
+												c.Kode_Barang = e.Kode_Barang
+								  inner join barang d on b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Bahan = d.Kode_Barang and
+														 d.Kode_Stock_Owner = e.Kode_Stock_Owner
+							 where a.Status is null
+							   and a.Kode_Perusahaan = '{KodePerusahaan}'
+							   and a.Flag_Aktif = 'Y'
+							   --and a.Flag_Default = 'Y'
+							   --and a.Urut_Oto = '12'
+							   {FilterPackingSet}
+							   and e.UserID = '{UserID}'),
+					 stock AS (SELECT x.kode_perusahaan, x.Kode_Barang, SUM(x.jumlah) AS good_stock
+							   FROM barang_sn x
+									INNER JOIN stock_owner_gudang y
+											   ON x.kode_perusahaan = y.kode_perusahaan AND x.kode_stock_owner = y.kode_stock_owner AND
+												  y.Flag_Wharehouse = 'Y'
+							   WHERE x.warna = 'HIJAU'
+							   GROUP BY x.kode_perusahaan, x.Kode_Barang)
+				select a.Kode_Bahan, a.Nama_Bahan, a.Flag_Potong_Stok, a.Satuan_Bahan, sum(a.Jumlah_Barang) as Jumlah_Barang,
+					   sum(a.Jumlah_Bahan) as Jumlah_Bahan, a.jenis, sum(a.Jumlah) as Jumlah, sum(a.Kebutuhan_bahan) as Kebutuhan_bahan,
+					   isnull(b.good_stock, 0) as good_stock, 0 as Keep_Stock, a.Persentase, a.Deskripsi, a.Flag_Pembulatan_Produksi, a.ID_Packing_Set
+				from cte a
+					left join stock b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Bahan = b.Kode_Barang
+				group by a.Kode_Bahan, a.Nama_Bahan, a.Flag_Potong_Stok, a.Satuan_Bahan, a.jenis, b.good_stock,
+					a.Persentase, a.Deskripsi, a.Flag_Pembulatan_Produksi, a.ID_Packing_Set
+			"
+			End If
+			Using Ds = BindingTrans(SQL)
+				With Ds.Tables("MyTable")
+					For indexBahan = 0 To .Rows.Count - 1
+
+						Dim lvwPackaging As ListViewItem
+
+						Dim IsPembualatan As Boolean = If(General_Class.CekNULL(.Rows(indexBahan).Item("Kebutuhan_bahan")) = "Y", True, False)
+						Dim KebutuhanBahan As Double = 0
+
+						If IsPembualatan Then
+							KebutuhanBahan = Math.Ceiling(Val(HilangkanTanda(.Rows(indexBahan).Item("Kebutuhan_bahan"))))
+						Else
+							KebutuhanBahan = Val(HilangkanTanda(.Rows(indexBahan).Item("Kebutuhan_bahan")))
+						End If
+
+						If Val(HilangkanTanda(.Rows(indexBahan).Item("Persentase"))) = 0 Then
+
+							Dim index As Integer = DataPackagingTampil.FindIndex(Function(x) x.kode_bahan.Trim = .Rows(indexBahan).Item("satuan_bahan").ToString.Trim)
+							If index >= 0 Then
+
+								Dim oldData = DataPackagingTampil(index)
+								Dim tambahanKebutuhan As Double = Val(KebutuhanBahan)
+
+								DataPackagingTampil(index) = (
+										lks:=oldData.lks,
+										kode_bahan:=oldData.kode_bahan,
+										KebutuhanBahan:=oldData.KebutuhanBahan + tambahanKebutuhan,
+										satuan_bahan:=oldData.satuan_bahan,
+										good_stock:=oldData.good_stock,
+										keep_stock:=oldData.keep_stock,
+										flag_potong_stok:=oldData.flag_potong_stok,
+										Jenis:=oldData.Jenis,
+										Jumlah_barang:=oldData.Jumlah_barang,
+										Jumlah_bahan:=oldData.Jumlah_bahan,
+										Persentase:=oldData.Persentase + Val(HilangkanTanda(.Rows(indexBahan).Item("Persentase"))),
+										Deskripsi:=oldData.Deskripsi
+									)
+							Else
+
+								CloseConn()
+								MessageBox.Show($"Terjadi Kesalahan Saat insert Packaging", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+								Exit Sub
+
+							End If
+						Else
+							DataPackagingTampil.Add((
+																	lks, .Rows(indexBahan).Item("kode_bahan"), KebutuhanBahan, .Rows(indexBahan).Item("satuan_bahan"),
+																	.Rows(indexBahan).Item("good_stock"), .Rows(indexBahan).Item("keep_stock"), .Rows(indexBahan).Item("flag_potong_stok"),
+																	.Rows(indexBahan).Item("Jenis"), .Rows(indexBahan).Item("Jumlah_barang"), .Rows(indexBahan).Item("Jumlah_bahan"),
+																	Val(HilangkanTanda(.Rows(indexBahan).Item("Persentase"))), .Rows(indexBahan).Item("Deskripsi")
+																))
+						End If
+
+						'TODO : Check
+						lvwPackaging = LvPackaging.Items.Add(lks)
+						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("kode_bahan"))
+						''lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("nama_bahan"))
+						lvwPackaging.SubItems.Add(Format(KebutuhanBahan, "N4"))
+						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
+						lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("good_stock"), "N4"))
+						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
+						lvwPackaging.SubItems.Add(Format(KebutuhanBahan, "N4"))
+						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("satuan_bahan"))
+						lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("good_stock"), "N4"))
+						lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("keep_stock"), "N4"))
+						If General_Class.CekNULL(.Rows(indexBahan).Item("flag_potong_stok")) = "" Then
+							lvwPackaging.SubItems.Add("")
+						Else
+							lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("flag_potong_stok")))
+						End If
+
+						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("Jenis"))
+						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("Jumlah_barang"))
+						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("Jumlah_bahan"))
+						lvwPackaging.SubItems.Add(Format(Val(HilangkanTanda(.Rows(indexBahan).Item("Persentase"))), "N2"))
+						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("Deskripsi"))
+						lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("ID_Packing_Set"))
+
+					Next
+				End With
+			End Using
+
+			For Each item In DataPackagingTampil
+				Dim lvwPackagingNew As ListViewItem
+
+				lvwPackagingNew = LvPackagingNew.Items.Add(item.lks)
+				lvwPackagingNew.SubItems.Add(item.kode_bahan)
+				''lvwPackaginewng.SubItems.Add(.Rows(indexBahan).Item("nama_bahan"))
+				'lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
+				lvwPackagingNew.SubItems.Add(Format(item.KebutuhanBahan, "N4"))
+				lvwPackagingNew.SubItems.Add(item.satuan_bahan)
+				lvwPackagingNew.SubItems.Add(Format(item.good_stock, "N4"))
+				lvwPackagingNew.SubItems.Add(item.satuan_bahan)
+				'lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
+				lvwPackagingNew.SubItems.Add(Format(item.KebutuhanBahan, "N4"))
+				lvwPackagingNew.SubItems.Add(item.satuan_bahan)
+				lvwPackagingNew.SubItems.Add(Format(item.good_stock, "N4"))
+				lvwPackagingNew.SubItems.Add(Format(item.keep_stock, "N4"))
+				If General_Class.CekNULL(item.flag_potong_stok) = "" Then
+					lvwPackagingNew.SubItems.Add("")
+				Else
+					lvwPackagingNew.SubItems.Add(Format(item.flag_potong_stok))
+				End If
+
+				lvwPackagingNew.SubItems.Add(item.Jenis)
+				lvwPackagingNew.SubItems.Add(item.Jumlah_barang)
+				lvwPackagingNew.SubItems.Add(item.Jumlah_bahan)
+				lvwPackagingNew.SubItems.Add(Format(Val(HilangkanTanda(item.Persentase)), "N2"))
+				lvwPackagingNew.SubItems.Add(item.Deskripsi)
+
+			Next
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+#Region "Komen"
+
+		'For i As Integer = 0 To LvOrder.Items.Count - 1
+		'	get_isi_listview_detail(i)
+
+		'	If i = 0 Then
+		'		lks = LvLokasi2
+		'		kodeBarang = LvKdBrg2
+		'		satuan_awal = LvSatuan2
+		'		txt_IdJenisProduk.Text = LvIdJnsPrdk2
+		'	End If
+
+		'	If LvOrder.Items(i).SubItems(11).Text = "" Then
+		'		totalJumlahProduksi = totalJumlahProduksi + LvOrder.Items(i).SubItems(6).Text
+		'	End If
+
+		'	If LvOrder.Items(i).SubItems(11).Text = "Y" Then
+		'		dataYangDiDelete = dataYangDiDelete + 1
+		'	End If
+		'Next
+
+		'Dim totalSerapan As Double = 0
+		'Dim nilai_production_order As Double = 0
+		'Dim nilaiPersentase As Double = 0
+		''' mulai baru
+
+		'Try
+		'	OpenConn()
+		'	Cmd.Transaction = Cn.BeginTransaction
+
+		'	Dim satuan_akhir_init_barang As String = ""
+
+		'	LvBahan.Items.Clear()
+		'	LvPackaging.Items.Clear()
+
+		'	LvBahanNew.Items.Clear()
+		'	LvPackagingNew.Items.Clear()
+		'	Dim kd_barangINq As String = ""
+		'	SQL = "select top(1) Kode_Barang_inq from barang "
+		'	SQL = SQL & "where kode_Perusahaan='" & KodePerusahaan & "' "
+		'	SQL = SQL & "and Kode_Barang ='" & kodeBarang & "' "
+		'	Using dr = OpenTrans(SQL)
+		'		If dr.Read Then
+		'			kd_barangINq = dr("Kode_Barang_inq")
+		'		Else
+		'			dr.Close()
+		'			CloseTrans()
+		'			CloseConn()
+		'			MessageBox.Show(Base_Language.Lang_Global_KodeBarang & " " & Base_Language.Lang_GLOBAL_Tidak_Ditemukan & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		'			Exit Sub
+		'		End If
+		'	End Using
+
+		'	SQL = "select Satuan_Berat From Init "
+		'	Using Dr = OpenTrans(SQL)
+		'		If Dr.Read Then
+		'			satuan_akhir_init_barang = Dr("satuan_berat")
+		'		Else
+		'			Dr.Close()
+		'			CloseTrans()
+		'			CloseConn()
+		'			MessageBox.Show("Data tidak ada", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'			Exit Sub
+		'		End If
+		'	End Using
+
+		'	SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & kodeBarang & "',"
+		'	SQL = SQL & "'" & satuan_awal & "','" & satuan_akhir_init_barang & "',"
+		'	SQL = SQL & "" & totalJumlahProduksi & ") as Hasil "
+		'	Using dr = OpenTrans(SQL)
+		'		If dr.Read Then
+		'			If General_Class.CekNULL(dr("Hasil")) <> "" Then
+		'				If dr("Hasil") = 0 Then
+		'					MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'					Exit Sub
+		'				Else
+		'					nilai_production_order = dr("hasil")
+		'				End If
+		'			Else
+		'				dr.Close()
+		'				CloseTrans()
+		'				CloseConn()
+		'				MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'				Exit Sub
+		'			End If
+		'		End If
+		'	End Using
+
+		'	''=========================     'ambil kode formula============================'
+		'	Dim kode_formula As String = ""
+		'	Dim tanggal_formula As String = ""
+
+		'	SQL = "select top 1 c.No_Faktur, c.Tanggal, c.Jam "
+		'	SQL = SQL & "from N_EMI_Transaksi_Formulator_Binding a "
+		'	SQL = SQL & "inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+		'	SQL = SQL & "inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null "
+		'	SQL = SQL & "where a.Status is NULL "
+		'	SQL = SQL & "and a.Flag_Validasi_Main = 'Y' "
+		'	SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+		'	SQL = SQL & "and a.Kode_Barang = '" & kd_barangINq & "' "
+		'	SQL = SQL & "order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC "
+		'	Using Dr = OpenTrans(SQL)
+		'		If Dr.Read Then
+		'			kode_formula = Dr("No_Faktur")
+		'			tanggal_formula = Dr("Tanggal")
+		'		Else
+		'			Dr.Close()
+		'			CloseConn()
+		'			LvOrder.Items.Clear()
+		'			Txt_No_Formula.Text = ""
+		'			txtNmBrgPO.Text = ""
+		'			txtKdBrgPO.Text = ""
+
+		'			MessageBox.Show("Kode formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'			Exit Sub
+		'		End If
+		'	End Using
+
+		'	'SQL = "select kode_formula,tanggal from EMI_Transaksi_Formulator_Binding where  "
+		'	'SQL = SQL & "Kode_Barang = '" & kd_barangINq & "' and Aktif = 'Y'"
+		'	'Using Dr = OpenTrans(SQL)
+		'	'	If Dr.Read Then
+		'	'		If General_Class.CekNULL(Dr("kode_formula")) = "" Then
+		'	'			Dr.Close()
+		'	'			CloseTrans()
+		'	'			CloseConn()
+		'	'			MessageBox.Show("terjadi kesalahan, kode_formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'	'			Exit Sub
+		'	'		Else
+		'	'			kode_formula = Dr("kode_formula")
+		'	'			tanggal_formula = Dr("tanggal")
+		'	'		End If
+		'	'	Else
+		'	'		Dr.Close()
+		'	'		CloseTrans()
+		'	'		CloseConn()
+		'	'		MessageBox.Show("Kode formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'	'		Exit Sub
+		'	'	End If
+		'	'End Using
+		'	'=========================================================
+
+		'	SQL = "select hasil,satuan_hasil from Emi_Transaksi_Formulator where "
+		'	SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & kode_formula & "' "
+		'	Using Dr = OpenTrans(SQL)
+		'		If Dr.Read Then
+		'			SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & kodeBarang & "',"
+		'			SQL = SQL & "'" & Dr("satuan_hasil") & "','" & satuan_akhir_init_barang & "',"
+		'			SQL = SQL & "" & Dr("hasil") & ") as Hasil "
+		'			Dr.Close()
+
+		'			Using dr2 = OpenTrans(SQL)
+		'				If dr2.Read Then
+		'					If General_Class.CekNULL(dr2("Hasil")) <> "" Then
+		'						If dr2("Hasil") = 0 Then
+		'							dr2.Close()
+		'							CloseTrans()
+		'							CloseConn()
+		'							MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'							Exit Sub
+		'						Else
+		'							totalSerapan = dr2("hasil")
+		'						End If
+		'					Else
+		'						dr2.Close()
+		'						CloseTrans()
+		'						CloseConn()
+		'						MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'						Exit Sub
+		'					End If
+		'				End If
+		'			End Using
+		'		Else
+		'			Dr.Close()
+		'			CloseTrans()
+		'			CloseConn()
+		'			MessageBox.Show("Formula tidak ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'			Exit Sub
+		'		End If
+		'	End Using
+
+		'	SQL = "select a.no_faktur,a.kode_stock_owner,a.kode_barang,b.nama,a.nilai_barang,a.persentase,a.satuan_barang, "
+		'	SQL = SQL & "isnull((select (Stock_Wharehouse+Stock_Unloading)  from N_Emi_View_Stock_Gantung x where  a.Kode_Barang =x.Kode_Barang),0) as stock, "
+		'	SQL = SQL & "isnull((select (Gantungan_PO+Gantungan_Split1+Gantungan_Split2)  from N_Emi_View_Stock_Gantung x where  a.Kode_Barang =x.Kode_Barang  ),0) as Keep_Stock, "
+		'	SQL = SQL & "isnull((select top(1) Stock_Minimum from barang x where  a.Kode_Barang =x.Kode_Barang and a.kode_perusahaan=x.kode_perusahaan and a.kode_stock_owner=x.kode_stock_owner),0) as Min_stock, "
+		'	SQL = SQL & " cast(a.RV as bigint) as RV_Detail "
+		'	SQL = SQL & "from EMI_Transaksi_Formulator_Detail_Bahan a, barang b where  "
+		'	SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan And a.kode_stock_owner = b.kode_stock_owner "
+		'	SQL = SQL & "And a.kode_barang = b.kode_barang "
+		'	SQL = SQL & "And a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_faktur = '" & kode_formula & "' "
+		'	SQL = SQL & "Order by a.kode_barang "
+		'	Using ds = BindingTrans(SQL)
+		'		With ds.Tables("MyTable")
+		'			If .Rows.Count <> 0 Then
+		'				For indexFormulator As Integer = 0 To .Rows.Count - 1
+		'					Dim lvwFormulator As ListViewItem
+		'					Dim lvwFormulatorNew As ListViewItem
+
+		'					Dim jumlah As Double = 0
+
+		'					nilaiPersentase = nilai_production_order / totalSerapan
+
+		'					jumlah = Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("nilai_barang"), "N4"))) * nilaiPersentase
+
+		'					Dim convertKeSatuanAsli As String = ""
+		'					Dim jumlahBarangDibutuhkan As Double = 0
+
+		'					SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(indexFormulator).Item("kode_barang") & "' "
+		'					SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
+		'					Using Dr3 = OpenTrans(SQL)
+		'						If Dr3.Read Then
+		'							convertKeSatuanAsli = Dr3("satuan")
+		'							SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(indexFormulator).Item("kode_barang") & "',"
+		'							SQL = SQL & "'" & .Rows(indexFormulator).Item("satuan_barang") & "','" & Dr3("satuan") & "',"
+		'							SQL = SQL & "" & jumlah & ") as Hasil "
+		'							Dr3.Close()
+
+		'							Using dr4 = OpenTrans(SQL)
+		'								If dr4.Read Then
+		'									If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+		'										If dr4("Hasil") = 0 Then
+		'											dr4.Close()
+		'											CloseTrans()
+		'											CloseConn()
+		'											MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'											Exit Sub
+		'										Else
+		'											jumlahBarangDibutuhkan = dr4("hasil")
+
+		'										End If
+		'									Else
+		'										dr4.Close()
+		'										CloseTrans()
+		'										CloseConn()
+		'										MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'										Exit Sub
+		'									End If
+		'								End If
+		'							End Using
+		'						Else
+		'							Dr3.Close()
+		'							CloseTrans()
+		'							CloseConn()
+		'							MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'							Exit Sub
+		'						End If
+		'					End Using
+
+		'					Dim stockConvert As Double = 0
+		'					Dim converKesatuanAsliBarangStok As String = ""
+		'					'============= convert nilai dan satuan stock barang ke tampilan display
+		'					SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(indexFormulator).Item("kode_barang") & "' "
+		'					SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
+		'					Using Dr3 = OpenTrans(SQL)
+		'						If Dr3.Read Then
+		'							converKesatuanAsliBarangStok = Dr3("satuan")
+		'							SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(indexFormulator).Item("kode_barang") & "',"
+		'							SQL = SQL & "'" & .Rows(indexFormulator).Item("satuan_barang") & "','" & Dr3("satuan") & "',"
+		'							SQL = SQL & "" & .Rows(indexFormulator).Item("stock") & ") as Hasil "
+		'							Dr3.Close()
+
+		'							Using dr4 = OpenTrans(SQL)
+		'								If dr4.Read Then
+		'									If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+
+		'										stockConvert = dr4("hasil")
+		'									Else
+		'										dr4.Close()
+		'										CloseTrans()
+		'										CloseConn()
+		'										MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'										Exit Sub
+		'									End If
+		'								End If
+		'							End Using
+		'						Else
+		'							Dr3.Close()
+		'							CloseTrans()
+		'							CloseConn()
+		'							MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'							Exit Sub
+		'						End If
+		'					End Using
+
+		'					lvwFormulator = LvBahan.Items.Add(.Rows(indexFormulator).Item("kode_stock_owner"))
+		'					lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("kode_barang"))
+		'					''lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("nama"))
+		'					lvwFormulator.SubItems.Add(Format(jumlahBarangDibutuhkan, "N4"))
+		'					lvwFormulator.SubItems.Add(convertKeSatuanAsli)
+		'					lvwFormulator.SubItems.Add(Format(stockConvert, "N4"))
+		'					lvwFormulator.SubItems.Add(converKesatuanAsliBarangStok)
+		'					lvwFormulator.SubItems.Add(Format(jumlah, "N4"))
+		'					lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("satuan_barang"))
+		'					lvwFormulator.SubItems.Add(Format(.Rows(indexFormulator).Item("stock"), "N4"))
+		'					lvwFormulator.SubItems.Add(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))
+		'					lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("RV_Detail"))
+
+		'					If .Rows(indexFormulator).Item("Min_stock") >= Val(HilangkanTanda(Format(Val(HilangkanTanda(Format(stockConvert, "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(jumlahBarangDibutuhkan, "N4"))), "N4"))) Then
+
+		'						lvwFormulatorNew = LvBahanNew.Items.Add(.Rows(indexFormulator).Item("kode_stock_owner"))
+		'						lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("kode_barang"))
+		'						''lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("nama"))
+
+		'						If aksesdata = True Then
+		'							lvwFormulatorNew.SubItems.Add(Format(jumlahBarangDibutuhkan, "N4"))
+		'							lvwFormulatorNew.SubItems.Add(convertKeSatuanAsli)
+		'							lvwFormulatorNew.SubItems.Add(Format(stockConvert, "N4"))
+		'							lvwFormulatorNew.SubItems.Add(converKesatuanAsliBarangStok)
+		'							lvwFormulatorNew.SubItems.Add(Format(jumlah, "N4"))
+		'							lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("satuan_barang"))
+		'							lvwFormulatorNew.SubItems.Add(Format(.Rows(indexFormulator).Item("stock"), "N4"))
+		'							lvwFormulatorNew.SubItems.Add(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))
+		'						Else
+		'							lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
+		'							lvwFormulatorNew.SubItems.Add(convertKeSatuanAsli)
+		'							lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
+		'							lvwFormulatorNew.SubItems.Add(converKesatuanAsliBarangStok)
+		'							lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
+		'							lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("satuan_barang"))
+		'							lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
+		'							lvwFormulatorNew.SubItems.Add(Format(0, "N4"))
+		'						End If
+
+		'						lvwFormulatorNew.SubItems.Add(.Rows(indexFormulator).Item("RV_Detail"))
+
+		'						lvwFormulatorNew.SubItems.Add(Format(Val(HilangkanTanda(Format(stockConvert, "N4"))) - Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(jumlahBarangDibutuhkan, "N4"))), "N4"))
+
+		'					End If
+
+		'					Txt_No_Formula.Text = kode_formula
+		'					DateTimePicker3.Value = tanggal_formula
+
+		'				Next
+		'			Else
+		'				CloseConn()
+		'				MessageBox.Show("Formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'				Exit Sub
+		'			End If
+		'		End With
+		'	End Using
+
+		'	'packaging
+
+		'	SQL = "select a.kode_Barang,b.nama, b.Satuan as Satuan_Barang, a.Jumlah_Barang, a.Kode_Bahan, c.Nama as nama_bahan, c.satuan as satuan_bahan, A.Jumlah_Bahan, "
+		'	SQL = SQL & "isnull((select sum(x.jumlah) from barang_sn x , stock_owner_gudang y where x.kode_perusahaan=y.kode_perusahaan and x.kode_stock_owner=y.kode_stock_owner and y.Flag_Wharehouse='Y' and x.kode_barang=c.kode_barang and x.warna='HIJAU'),0) as good_stock, a.jenis, c.flag_potong_stok, "
+
+		'	SQL = SQL & "isnull((select 0),0) as keep_stock "
+
+		'	SQL = SQL & "from barang_detail_Bahan_Penolong a, barang b, barang c where b.Kode_barang='" & kodeBarang & "' "
+		'	SQL = SQL & "and a.kode_Perusahaan=b.kode_Perusahaan and a.Kode_Barang=b.Kode_Barang_Inq and b.Kode_Stock_Owner='" & lks & "' "
+		'	SQL = SQL & " And a.kode_Perusahaan = c.kode_Perusahaan And a.Kode_Bahan = c.Kode_Barang And c.Kode_Stock_Owner ='" & lks & "' "
+		'	SQL = SQL & "Order by a.kode_barang "
+		'	Using Ds = BindingTrans(SQL)
+		'		With Ds.Tables("MyTable")
+		'			For indexBahan = 0 To .Rows.Count - 1
+
+		'				Dim lvwPackaging As ListViewItem
+		'				Dim lvwPackagingNew As ListViewItem
+
+		'				Dim satuan_barang As String = .Rows(indexBahan).Item("Satuan_Barang")
+		'				Dim Kode_bahan As String = .Rows(indexBahan).Item("Kode_Bahan")
+		'				Dim satuan_bahan As String = .Rows(indexBahan).Item("Satuan_Bahan")
+		'				Dim Jenis_bahan As String = .Rows(indexBahan).Item("Jenis_Bahan")
+
+		'				Dim flag_potong_stock As String = .Rows(indexBahan).Item("flag_potong_stok")
+
+		'				Dim jumlah As Double = .Rows(indexBahan).Item("Jumlah_Barang")
+		'				Dim jumlahbahan As Double = Format(.Rows(indexBahan).Item("Jumlah_Bahan"), "N4")
+		'				Dim jumlahstock As Double = Format(.Rows(indexBahan).Item("good_stock"), "N4")
+		'				Dim jumlah_barang_satuan_barang As Double = 0
+
+		'				SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & kodeBarang & "',"
+		'				SQL = SQL & "'" & satuan_awal & "','" & satuan_barang & "',"
+		'				SQL = SQL & "" & totalJumlahProduksi & ") as Hasil "
+		'				Using dr4 = OpenTrans(SQL)
+		'					If dr4.Read Then
+		'						If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+		'							If dr4("Hasil") = 0 Then
+		'								dr4.Close()
+		'								CloseTrans()
+		'								CloseConn()
+		'								MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'								Exit Sub
+		'							Else
+		'								jumlah_barang_satuan_barang = dr4("hasil")
+		'							End If
+		'						Else
+		'							dr4.Close()
+		'							CloseTrans()
+		'							CloseConn()
+		'							MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'							Exit Sub
+		'						End If
+		'					End If
+		'				End Using
+
+		'				Dim jumlahBahan_Total As Double = (jumlah_barang_satuan_barang / jumlah) * jumlahbahan
+
+		'				Dim jumlahBahan_Total_display As Double = 0
+		'				Dim jumlahstock_Total_display As Double = 0
+		'				Dim satuan_display As String = ""
+
+		'				'============= convert nilai dan satuan stock barang ke tampilan display
+		'				SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & Kode_bahan & "' "
+		'				SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
+		'				Using Dr3 = OpenTrans(SQL)
+		'					If Dr3.Read Then
+		'						satuan_display = Dr3("satuan")
+
+		'						'==== Convert NIlai Bahan
+		'						SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Kode_bahan & "',"
+		'						SQL = SQL & "'" & satuan_bahan & "','" & satuan_display & "',"
+		'						SQL = SQL & "" & jumlahBahan_Total & ") as Hasil "
+		'						Dr3.Close()
+
+		'						Using dr4 = OpenTrans(SQL)
+		'							If dr4.Read Then
+		'								If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+
+		'									jumlahBahan_Total_display = dr4("hasil")
+		'								Else
+		'									dr4.Close()
+		'									CloseTrans()
+		'									CloseConn()
+		'									MessageBox.Show("Satuan " & satuan_bahan & " Ke " & satuan_display & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'									Exit Sub
+		'								End If
+		'							End If
+		'						End Using
+
+		'						'==== Convert NIlai Stock
+		'						SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & Kode_bahan & "',"
+		'						SQL = SQL & "'" & satuan_bahan & "','" & satuan_display & "',"
+		'						SQL = SQL & "" & jumlahstock & ") as Hasil "
+		'						Dr3.Close()
+
+		'						Using dr4 = OpenTrans(SQL)
+		'							If dr4.Read Then
+		'								If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+
+		'									jumlahstock_Total_display = dr4("hasil")
+		'								Else
+		'									dr4.Close()
+		'									CloseTrans()
+		'									CloseConn()
+		'									MessageBox.Show("Satuan " & satuan_bahan & " Ke " & satuan_display & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'									Exit Sub
+		'								End If
+		'							End If
+		'						End Using
+		'					Else
+		'						Dr3.Close()
+		'						CloseTrans()
+		'						CloseConn()
+		'						MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'						Exit Sub
+		'					End If
+		'				End Using
+
+		'				'TODO  asdasdas()
+
+		'				lvwPackaging = LvPackaging.Items.Add(lks)
+		'				lvwPackaging.SubItems.Add(Kode_bahan)
+		'				''lvwPackaging.SubItems.Add(.Rows(indexBahan).Item("nama_bahan"))
+		'				lvwPackaging.SubItems.Add(Format(jumlahBahan_Total_display, "N4"))
+		'				lvwPackaging.SubItems.Add(satuan_display)
+		'				lvwPackaging.SubItems.Add(Format(jumlahstock_Total_display, "N4"))
+		'				lvwPackaging.SubItems.Add(satuan_display)
+		'				lvwPackaging.SubItems.Add(Format(jumlahBahan_Total, "N4"))
+		'				lvwPackaging.SubItems.Add(satuan_bahan)
+		'				lvwPackaging.SubItems.Add(Format(jumlahstock, "N4"))
+		'				lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("keep_stock"), "N4"))
+		'				If General_Class.CekNULL(.Rows(indexBahan).Item("flag_potong_stok")) = "" Then
+		'					lvwPackaging.SubItems.Add("")
+		'				Else
+		'					lvwPackaging.SubItems.Add(Format(.Rows(indexBahan).Item("flag_potong_stok")))
+		'				End If
+
+		'				lvwPackaging.SubItems.Add(Jenis_bahan)
+		'				lvwPackaging.SubItems.Add(jumlah)
+		'				lvwPackaging.SubItems.Add(jumlahbahan)
+
+		'				lvwPackagingNew = LvPackagingNew.Items.Add(lks)
+		'				lvwPackagingNew.SubItems.Add(Kode_bahan)
+		'				''lvwPackaginewng.SubItems.Add(.Rows(indexBahan).Item("nama_bahan"))
+		'				lvwPackagingNew.SubItems.Add(Format(jumlahBahan_Total_display, "N4"))
+		'				lvwPackagingNew.SubItems.Add(satuan_display)
+		'				lvwPackagingNew.SubItems.Add(Format(jumlahstock_Total_display, "N4"))
+		'				lvwPackagingNew.SubItems.Add(satuan_display)
+		'				lvwPackagingNew.SubItems.Add(Format(jumlahBahan_Total, "N4"))
+		'				lvwPackagingNew.SubItems.Add(satuan_bahan)
+		'				lvwPackagingNew.SubItems.Add(Format(jumlahstock, "N4"))
+		'				lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("keep_stock"), "N4"))
+		'				If General_Class.CekNULL(.Rows(indexBahan).Item("flag_potong_stok")) = "" Then
+		'					lvwPackagingNew.SubItems.Add("")
+		'				Else
+		'					lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("flag_potong_stok")))
+		'				End If
+
+		'				lvwPackagingNew.SubItems.Add(Jenis_bahan)
+		'				lvwPackagingNew.SubItems.Add(jumlah)
+		'				lvwPackagingNew.SubItems.Add(jumlahbahan)
+		'			Next
+		'		End With
+		'	End Using
+
+		'	CloseTrans()
+		'	CloseConn()
+		'Catch ex As Exception
+		'	CloseTrans()
+		'	CloseConn()
+		'	MessageBox.Show(ex.Message)
+		'	Exit Sub
+		'End Try
+
+		''akhir mulai baru
+
+		'Dim dataYangDiDelete As Integer = 0
+		'For index As Integer = 0 To LvOrder.Items.Count - 1
+		'	' Dim totalJumlahProduksi As Double = 0
+		'	Dim totalSerapan As Double = 0
+		'	Dim nilai_production_order As Double = 0
+		'	Dim nilaiPersentase As Double = 0
+
+		'	'Dim kodeBarang As String = ""
+		'	'Dim satuan_awal As String = ""
+		'	'Dim id_jenis_produk As String = ""
+
+		'	If LvOrder.Items(index).SubItems(11).Text = "" Then
+		'		LvOrder.Items(index).Remove()
+		'	End If
+
+		'	If LvOrder.Items.Count <> 0 Then
+		'		'For i As Integer = 0 To LvOrder.Items.Count - 1
+		'		'    If i = 0 Then
+		'		'        kodeBarang = LvOrder.Items(i).SubItems(4).Text
+		'		'        satuan_awal = LvOrder.Items(i).SubItems(7).Text
+		'		'        txt_IdJenisProduk.Text = LvOrder.Items(i).SubItems(10).Text
+		'		'    End If
+
+		'		'    If LvOrder.Items(i).SubItems(12).Text = "" Then
+		'		'        totalJumlahProduksi = totalJumlahProduksi + LvOrder.Items(i).SubItems(6).Text
+		'		'    End If
+		'		'Next
+
+		'		If LvOrder.Items(index).SubItems(12).Text = "Y" Then
+		'			LvOrder.Items(index).BackColor = Color.Red
+		'		Else
+		'			LvOrder.Items(index).BackColor = Color.Transparent
+		'		End If
+
+		'		If LvOrder.Items(index).SubItems(12).Text = "" Then
+		'			Try
+		'				OpenConn()
+
+		'				Dim satuan_akhir_init_barang As String = ""
+
+		'				LvBahan.Items.Clear()
+		'				LvPackaging.Items.Clear()
+
+		'				SQL = "select Satuan_Berat From Init "
+		'				Using Dr = OpenTrans(SQL)
+		'					If Dr.Read Then
+		'						satuan_akhir_init_barang = Dr("satuan_berat")
+		'					Else
+		'						Dr.Close()
+		'						CloseConn()
+		'						MessageBox.Show("Data tidak ada", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'						Exit Sub
+		'					End If
+		'				End Using
+
+		'				SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & kodeBarang & "',"
+		'				SQL = SQL & "'" & satuan_awal & "','" & satuan_akhir_init_barang & "',"
+		'				SQL = SQL & "" & totalJumlahProduksi & ") as Hasil "
+		'				Using dr = OpenTrans(SQL)
+		'					If dr.Read Then
+		'						If General_Class.CekNULL(dr("Hasil")) <> "" Then
+		'							If dr("Hasil") = 0 Then
+		'								MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'								Exit Sub
+		'							Else
+		'								nilai_production_order = dr("hasil")
+		'							End If
+		'						Else
+		'							dr.Close()
+		'							CloseConn()
+		'							MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'							Exit Sub
+		'						End If
+		'					End If
+		'				End Using
+
+		'				''=========================     'ambil kode formula============================'
+		'				Dim kode_formula As String = ""
+		'				Dim tanggal_formula As String = ""
+
+		'				SQL = "select kode_formula,tanggal from EMI_Transaksi_Formulator_Binding where  "
+		'				SQL = SQL & "Kode_Barang = '" & kodeBarang & "' and Aktif = 'Y'"
+		'				Using Dr = OpenTrans(SQL)
+		'					If Dr.Read Then
+		'						If General_Class.CekNULL(Dr("kode_formula")) = "" Then
+		'							Dr.Close()
+		'							CloseConn()
+		'							MessageBox.Show("terjadi kesalahan, kode_formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'							Exit Sub
+		'						Else
+		'							kode_formula = Dr("kode_formula")
+		'							tanggal_formula = Dr("tanggal")
+		'						End If
+		'					Else
+		'						Dr.Close()
+		'						CloseConn()
+		'						MessageBox.Show("Kode formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'						Exit Sub
+		'					End If
+		'				End Using
+		'				'=========================================================
+
+		'				SQL = "select hasil,satuan_hasil from Emi_Transaksi_Formulator where "
+		'				SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & kode_formula & "' "
+		'				Using Dr = OpenTrans(SQL)
+		'					If Dr.Read Then
+		'						SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & kodeBarang & "',"
+		'						SQL = SQL & "'" & Dr("satuan_hasil") & "','" & satuan_akhir_init_barang & "',"
+		'						SQL = SQL & "" & Dr("hasil") & ") as Hasil "
+		'						Dr.Close()
+
+		'						Using dr2 = OpenTrans(SQL)
+		'							If dr2.Read Then
+		'								If General_Class.CekNULL(dr2("Hasil")) <> "" Then
+		'									If dr2("Hasil") = 0 Then
+		'										MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'										Exit Sub
+		'									Else
+		'										totalSerapan = dr2("hasil")
+		'									End If
+		'								Else
+		'									dr2.Close()
+		'									CloseConn()
+		'									MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'									Exit Sub
+		'								End If
+		'							End If
+		'						End Using
+		'					Else
+		'						Dr.Close()
+		'						CloseConn()
+		'						MessageBox.Show("Formula tidak ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'						Exit Sub
+		'					End If
+		'				End Using
+
+		'				SQL = "select a.no_faktur,a.kode_stock_owner,a.kode_barang,b.nama,a.nilai_barang,a.persentase,a.satuan_barang, b.good_stock as stock"
+		'				SQL = SQL & " from EMI_Transaksi_Formulator_Detail_Bahan a, barang b where  "
+		'				SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan and a.kode_stock_owner = b.kode_stock_owner "
+		'				SQL = SQL & "and a.kode_barang = b.kode_barang "
+		'				SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_faktur = '" & kode_formula & "' "
+		'				Using ds = BindingTrans(SQL)
+		'					With ds.Tables("MyTable")
+		'						If .Rows.Count <> 0 Then
+		'							For indexFormulator As Integer = 0 To .Rows.Count - 1
+		'								Dim lvwFormulator As ListViewItem
+
+		'								Dim jumlah As Double = 0
+
+		'								nilaiPersentase = nilai_production_order / totalSerapan
+
+		'								jumlah = .Rows(indexFormulator).Item("nilai_barang") * nilaiPersentase
+
+		'								Dim convertKeSatuanAsli As String = ""
+		'								Dim jumlahBarangDibutuhkan As Double = 0
+
+		'								SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(indexFormulator).Item("kode_barang") & "' "
+		'								SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
+		'								Using Dr3 = OpenTrans(SQL)
+		'									If Dr3.Read Then
+		'										convertKeSatuanAsli = Dr3("satuan")
+		'										SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(indexFormulator).Item("kode_barang") & "',"
+		'										SQL = SQL & "'" & .Rows(indexFormulator).Item("satuan_barang") & "','" & Dr3("satuan") & "',"
+		'										SQL = SQL & "" & jumlah & ") as Hasil "
+		'										Dr3.Close()
+
+		'										Using dr4 = OpenTrans(SQL)
+		'											If dr4.Read Then
+		'												If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+		'													If dr4("Hasil") = 0 Then
+		'														MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'														Exit Sub
+		'													Else
+		'														jumlahBarangDibutuhkan = dr4("hasil")
+
+		'													End If
+		'												Else
+		'													dr4.Close()
+		'													CloseConn()
+		'													MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'													Exit Sub
+		'												End If
+		'											End If
+		'										End Using
+		'									Else
+		'										Dr3.Close()
+		'										CloseConn()
+		'										MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'										Exit Sub
+		'									End If
+		'								End Using
+
+		'								Dim stockConvert As Double = 0
+		'								Dim converKesatuanAsliBarangStok As String = ""
+		'								'============= convert nilai dan satuan stock barang ke tampilan display
+		'								SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(indexFormulator).Item("kode_barang") & "' "
+		'								SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
+		'								Using Dr3 = OpenTrans(SQL)
+		'									If Dr3.Read Then
+		'										converKesatuanAsliBarangStok = Dr3("satuan")
+		'										SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(indexFormulator).Item("kode_barang") & "',"
+		'										SQL = SQL & "'" & .Rows(indexFormulator).Item("satuan_barang") & "','" & Dr3("satuan") & "',"
+		'										SQL = SQL & "" & .Rows(indexFormulator).Item("stock") & ") as Hasil "
+		'										Dr3.Close()
+
+		'										Using dr4 = OpenTrans(SQL)
+		'											If dr4.Read Then
+		'												If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+
+		'													stockConvert = dr4("hasil")
+
+		'												Else
+		'													dr4.Close()
+		'													CloseConn()
+		'													MessageBox.Show("Satuan " & satuan_awal & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'													Exit Sub
+		'												End If
+		'											End If
+		'										End Using
+		'									Else
+		'										Dr3.Close()
+		'										CloseConn()
+		'										MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'										Exit Sub
+		'									End If
+		'								End Using
+		'								lvwFormulator = LvBahan.Items.Add(.Rows(indexFormulator).Item("kode_stock_owner"))
+		'								lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("kode_barang"))
+		'								lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("nama"))
+		'								lvwFormulator.SubItems.Add(Format(jumlahBarangDibutuhkan, "N2"))
+		'								lvwFormulator.SubItems.Add(convertKeSatuanAsli)
+		'								lvwFormulator.SubItems.Add(Format(stockConvert, "N2"))
+		'								lvwFormulator.SubItems.Add(converKesatuanAsliBarangStok)
+		'								lvwFormulator.SubItems.Add(jumlah)
+		'								lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("satuan_barang"))
+		'								lvwFormulator.SubItems.Add(.Rows(indexFormulator).Item("stock"))
+		'								TextBox1.Text = kode_formula
+		'								DateTimePicker3.Value = tanggal_formula
+
+		'							Next
+		'						Else
+		'							CloseConn()
+		'							MessageBox.Show("Formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'							Exit Sub
+		'						End If
+		'					End With
+		'				End Using
+
+		'				CloseConn()
+		'			Catch ex As Exception
+		'				CloseConn()
+		'				MessageBox.Show(ex.Message)
+		'				Exit Sub
+		'			End Try
+
+		'		End If
+
+		'	End If
+
+		'	If LvOrder.Items(index).SubItems(12).Text = "Y" Then
+		'		dataYangDiDelete = dataYangDiDelete + 1
+		'	End If
+
+		'Next
+
+#End Region
+
+		If dataYangDiDelete = LvOrder.Items.Count Then
+			LvBahan.Items.Clear()
+			LvPackaging.Items.Clear()
+			LvBahanNew.Items.Clear()
+			LvPackagingNew.Items.Clear()
+		End If
+
+	End Sub
+
+	Private Sub kosong()
+
+		'''Dim Rand As New Random
+		'''Kode_Unik = Format(Rand.Next(0, 999), "000") & Format(tgl_skg, "ddMMyyHHmmss")
+
+		jumlah_po = 0
+		display_default()
+		get_jam()
+
+		RV_Parent_Formula = ""
+		RV_Parent_Transaksi = ""
+
+		Try
+			OpenConn()
+
+			Btn_Simpan.Tag = "&Simpan"
+
+			ComboBox2.Items.Clear() : arrOrderBy.Clear()
+
+			ComboBox2.Items.Add("No Faktur") : arrOrderBy.Add("a.no_faktur")
+			'ComboBox2.Items.Add("Nama Barang") : arrOrderBy.Add("c.nama")
+
+			arrInisialFaktur.Clear() : CmbLokasi.Items.Clear()
+			SQL = "select Kode_Stock_Owner, persediaan ,inisial_faktur from stock_owner where kode_perusahaan = '" & KodePerusahaan & "' "
+			SQL = SQL & "and aktif = 'Y'  and kode_stock_owner = '" & Lokasi & "' order by Kode_Stock_Owner"
+			Using dr = OpenTrans(SQL)
+				Do While dr.Read
+					CmbLokasi.Items.Add(dr("Kode_Stock_Owner")) : arrInisialFaktur.Add(dr("inisial_faktur"))
+				Loop
+			End Using
+			CmbLokasi.Text = Lokasi
+
+			arrInisialRouting.Clear() : cmb_routing.Items.Clear()
+
+			SQL = "select id_routing, keterangan from  emi_master_routing where kode_perusahaan = '" & KodePerusahaan & "'"
+			Using dr = OpenTrans(SQL)
+				Do While dr.Read
+					cmb_routing.Items.Add(dr("keterangan")) : arrInisialRouting.Add(dr("id_routing"))
+				Loop
+			End Using
+
+			Jangan_Lanjut = False
+			'DateTimePicker2.ResetText()
+			DateTimePicker3.ResetText()
+			cb_seluruh.Checked = False
+			TxtCatatan.Text = ""
+			txtKdBrgPO.Text = ""
+			txtNmBrgPO.Text = ""
+			Txt_No_Formula.Text = ""
+
+			OpenConn()
+			get_no_faktur()
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+		Try
+			OpenConn()
+
+			If CekButtonRole("Akses_Formula_PO") = "T" Then
+				aksesdata = False
+			Else
+				aksesdata = True
+			End If
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+		cmbLine.Items.Clear() : arrIdLine.Clear()
+		LvOrder.Items.Clear()
+		LvBahan.Items.Clear() : LvPackaging.Items.Clear()
+		LvBahanNew.Items.Clear() : LvPackagingNew.Items.Clear()
+		Cmb_Jenis.SelectedIndex = -1
+		Button3.Visible = False
+		Btn_UnRelease.Visible = False
+
+		Cmb_Packing_Set.Enabled = True
+		arrPackingSet.Clear()
+
+		If parentForm = "schedule" Then
+
+			Button2.Enabled = False
+			LvData.Enabled = False
+			cb_seluruh.Enabled = False
+			Button1.Enabled = False
+			Jangan_Lanjut = False
+
+			'For i As Integer = 0 To LvData.Items.Count - 1
+			'	LvData.Items(i).Selected = True
+			'	LvData.Items(i).Focused = True
+			'	LvData.Items(i).EnsureVisible()
+
+			'	LvData.Items(i).Checked = True
+			'Next
+
+			If flagSudahPOSchedule = "Y" Then
+				txtNoFaktur.Text = NoFakturFromSchedule
+			Else
+				LvData.Items(0).Selected = True
+				LvData.Items(0).Focused = True
+				LvData.Items(0).EnsureVisible()
+				LvData.Items(0).Checked = True
+			End If
+
+			If txtNoFaktur.Text <> txt_faktur_bayangan.Text Then
+				txtNoFaktur_Leave(Me, Nothing)
+			End If
+		Else
+			Cmb_Packing_Set.Items.Clear()
+			arrBarangHasPaket.Clear()
+			Button1_Click_1(Button1, Nothing)
+			Button2.Enabled = True
+			LvData.Enabled = True
+			cb_seluruh.Enabled = True
+			Button1.Enabled = True
+		End If
+
+	End Sub
+
+	Private Sub kosong_sebagian()
+
+		jumlah_po = 0
+
+		txtNoPo.Clear()
+		'txtLokasi.Clear()
+		txtKodeBarang.Clear()
+		'txtNamaBarang.Clear()
+		txtKodeCustomer.Clear()
+		txtNamaCustomer.Clear()
+		txtJumlah.Clear()
+		txtSatuan.Clear()
+		'txtJenisProduk.Clear()
+	End Sub
+
+	Private Sub ListView1_ItemChecked(sender As Object, e As ItemCheckedEventArgs) Handles LvData.ItemChecked
+		If isProcessing_Check Then Return
+
+		If LvData.FocusedItem Is Nothing AndAlso LvData.Items.Count > 0 Then
+			LvData.Items(0).Selected = True
+			LvData.Items(0).Focused = True
+			LvData.Focus()
+		End If
+
+		'============================================
+		'=     INI UNTUK PENGECEKAN BARANG BEDA     =
+		'============================================
+		'If flag_barang_berbeda = "Y" Then
+		'	flag_barang_berbeda = "T"
+		'	MessageBox.Show("Barang yang ingin diproduksi tidak boleh berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+		'	Exit Sub
+		'End If
+
+		LvBahan.Items.Clear()
+		LvBahanNew.Items.Clear()
+		LvPackaging.Items.Clear()
+		LvPackagingNew.Items.Clear()
+		Txt_No_Formula.Text = ""
+
+		If skipCB = "Y" Then
+			If LvData.CheckedItems.Count > 0 Then
+
+				'jika jumlah checked tidak sama dengan jumlah datanya
+				If LvData.CheckedItems.Count <> LvData.Items.Count Then
+					'matikan centang seluruh
+					Jangan_Lanjut = False
+					cb_seluruh.Checked = False
+					Jangan_Lanjut = True
+				Else
+					'hidupkan centang seluruh
+					Jangan_Lanjut = False
+					cb_seluruh.Checked = True
+					Jangan_Lanjut = True
+				End If
+
+				' LvOrder.Items.Clear()
+
+				'For i As Integer = 0 To LvData.Items.Count - 1
+				'	get_isi_listview(i)
+
+				'	If LvData.Items(i).Checked = True Then
+
+				'		If LvOrder.Items.Count <> 0 Then
+
+				'			If LvOrder.Items(0).SubItems(4).Text <> lvKdBrg Then
+				'				'flag_barang_berbeda = "Y"
+				'				'LvData.Items(i).Checked = False
+				'				'Exit Sub
+				'			End If
+				'		End If
+
+				'	End If
+				'Next
+
+				Dim indexFocused As Integer = LvData.FocusedItem.Index
+
+				'LvOrder.Items.Clear()
+
+				If LvData.Items(indexFocused).Checked Then
+
+					Dim lvw1 As ListViewItem
+
+					Dim NoFormula As String = ""
+					If String.IsNullOrWhiteSpace(LvData.FocusedItem.SubItems(cellLvNoFormula).Text) Then
+						NoFormula = ""
+					Else
+						NoFormula = LvData.FocusedItem.SubItems(cellLvNoFormula).Text.Trim
+					End If
+
+					lvw1 = LvOrder.Items.Add(LvData.FocusedItem.SubItems(cellLvNoPo).Text) '0
+					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvLokasi).Text) '1
+					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvKdCus).Text) '2
+					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvNmCus).Text) '3
+					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvKdBrg).Text) '4
+					lvw1.SubItems.Add(Format(Val(HilangkanTanda(LvData.FocusedItem.SubItems(cellLvJmlh).Text)), "N2")) '5
+					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvSatuan).Text) '6
+					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvJenisProduk).Text) '7
+					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvUrut).Text) '8
+					lvw1.SubItems.Add(LvData.FocusedItem.SubItems(cellLvIdJenisProduk).Text) '9
+					lvw1.SubItems.Add("") '10
+					lvw1.SubItems.Add("") '11
+					lvw1.SubItems.Add(NoFormula) '12
+
+					txtKdBrgPO.Text = LvData.FocusedItem.SubItems(cellLvKdBrg).Text
+					txtNmBrgPO.Text = LvData.FocusedItem.SubItems(cellLvNmBrg).Text
+
+					'Dim cellNoSo2 As Integer = 0
+					'Dim cellLokasi2 As Integer = 1
+					'Dim cellKdCust2 As Integer = 2
+					'Dim cellNmCust2 As Integer = 3
+					'Dim cellKdBrg2 As Integer = 4
+					'Dim cellJmlh2 As Integer = 5
+					'Dim cellSatuan2 As Integer = 6
+					'Dim cellJenis2 As Integer = 7
+					'Dim cellUrut2 As Integer = 8
+					'Dim cellIdJnsPrdk2 As Integer = 9
+					'Dim cellFromUpdate2 As Integer = 10
+					'Dim cellDeleted2 As Integer = 11
+
+					'Dim cellLvNoPo As Integer = 0
+					'Dim cellLvLokasi As Integer = 1
+					'Dim cellLvKdCus As Integer = 2
+					'Dim cellLvNmCus As Integer = 3
+					'Dim cellLvKdBrg As Integer = 4
+					'Dim cellLvJmlh As Integer = 5
+					'Dim cellLvJmlhSisa As Integer = 6
+					'Dim cellLvSatuan As Integer = 7
+					'Dim cellLvJenisProduk As Integer = 8
+					'Dim cellLvUrut As Integer = 9
+					'Dim cellLvIdJenisProduk As Integer = 10
+
+					'LvFaktur2 = LvOrder.Items(Index).SubItems(cellNoSo2).Text '0
+					'LvLokasi2 = LvOrder.Items(Index).SubItems(cellLokasi2).Text '1
+					'lvKdCust2 = LvOrder.Items(Index).SubItems(cellKdCust2).Text '2
+					'LvNmCust2 = LvOrder.Items(Index).SubItems(cellNmCust2).Text '3
+					'LvKdBrg2 = LvOrder.Items(Index).SubItems(cellKdBrg2).Text '4
+					''LvNmBrg2 = LvOrder.Items(index).SubItems(cellNmBrg2).Text
+					'LvJmlh2 = LvOrder.Items(Index).SubItems(cellJmlh2).Text '5
+					'LvSatuan2 = LvOrder.Items(Index).SubItems(cellSatuan2).Text '6
+					'LvJenis2 = LvOrder.Items(Index).SubItems(cellJenis2).Text '7
+					'LvUrut2 = LvOrder.Items(Index).SubItems(cellUrut2).Text '8
+					'LvIdJnsPrdk2 = LvOrder.Items(Index).SubItems(cellIdJnsPrdk2).Text '9
+					'LvFromUpdate2 = LvOrder.Items(Index).SubItems(cellFromUpdate2).Text '10
+					'LvDeleted2 = LvOrder.Items(Index).SubItems(cellDeleted2).Text '11
+				Else
+					RemoveDataLvOrder(LvData.FocusedItem.SubItems(cellLvNoPo).Text, LvData.FocusedItem.SubItems(cellLvKdBrg).Text)
+
+					'Dim ambilIndexYangAkanDihapus As Integer
+
+					'For i As Integer = 0 To LvOrder.Items.Count - 1
+					'	get_isi_listview_detail(i)
+					'	If LvData.FocusedItem.SubItems(0).Text = LvFaktur2 Then
+					'		ambilIndexYangAkanDihapus = i
+					'	End If
+					'Next
+
+					'LvOrder.Items(ambilIndexYangAkanDihapus).Remove()
+
+				End If
+			Else
+				LvOrder.Items.Clear()
+				LvBahan.Items.Clear()
+				LvPackaging.Items.Clear()
+				LvBahanNew.Items.Clear()
+				LvPackagingNew.Items.Clear()
+				Cmb_Packing_Set.Items.Clear()
+				Cmb_Packing_Set.Enabled = True
+				arrPackingSet.Clear()
+				txtNmBrgPO.Text = ""
+				txtKdBrgPO.Text = ""
+				Txt_No_Formula.Text = ""
+
+				If txtNoFaktur.Text <> txt_faktur_bayangan.Text Then
+					txtNoFaktur_Leave(Me, Nothing)
+				End If
+
+			End If
+		End If
+
+		Get_Data_Packing_Set_From_Lv()
+
+	End Sub
+
+	Private Sub LvData_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles LvData.ItemCheck
+		'If LvData.Items.Count = 0 Or isProcessing_Check Then Return
+
+		'If e.NewValue = CheckState.Checked Then
+		'	isProcessing_Check = True
+
+		'	Dim SelectedJenis As String = LvData.Items(e.Index).SubItems(cellLvJenisIO).Text.Trim
+
+		'	If LvData.CheckedItems.Count > 0 Then
+		'		Dim existingJenis As String = LvData.CheckedItems(0).SubItems(cellLvJenisIO).Text
+
+		'		If SelectedJenis <> existingJenis Then
+		'			MessageBox.Show("Jenis IO Tidak Boleh Berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		'			e.NewValue = CheckState.Unchecked
+		'		End If
+		'	End If
+
+		'	isProcessing_Check = False
+		'End If
+	End Sub
+
+	Private Sub LvData_MouseMove(sender As Object, e As MouseEventArgs) Handles LvData.MouseMove, LvOrder.MouseMove, LvBahanNew.MouseMove, LvPackagingNew.MouseMove
+		HandleListViewHover(sender, e)
+	End Sub
+
+	Private Sub Master_Gudang_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+		My.Application.ChangeCulture("en-us")
+		My.Application.ChangeUICulture("en-us")
+		get_jam()
+		mustUpdate = False
+
+		EnableDoubleBuffer(LvData)
+		EnableDoubleBuffer(LvOrder)
+		EnableDoubleBuffer(LvBahanNew)
+		EnableDoubleBuffer(LvPackagingNew)
+
+		Try
+			OpenConn()
+			Base_Language.Get_Languages(Bahasa_Pilihan, "GLOBAL")
+			Base_Language.Get_Languages(Bahasa_Pilihan, "Rencana_Produksi")
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+		Try
+			OpenConn()
+
+			If CekButtonRole("Akses_Formula_PO") = "T" Then
+				aksesdata = False
+			Else
+				aksesdata = True
+			End If
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+		' Label1.Text = Base_Language.Lang_Rencana_Produksi_Judul
+		'LblNoFaktur.Text = Base_Language.Lang_Global_NoFaktur
+		'    lblTanggal.Text = Base_Language.Lang_Global_Tanggal
+		'   lblJam.Text = Base_Language.Lang_Global_Jam
+
+		lbltxtNoPo.Text = Base_Language.Lang_Global_No_PO
+		'lblTxtLokasi.Text = Base_Language.Lang_Global_Lokasi
+		lblTxtKodeCustomer.Text = Base_Language.Lang_Global_KodeCustomer
+		lblTxtNmCust.Text = Base_Language.Lang_Global_NamaCustomer
+		lblTxtKdBrng.Text = Base_Language.Lang_Global_KodeBarang
+		'lblTxtNmBrng.Text = Base_Language.Lang_Global_NamaBarang
+		lblTxtJumlah.Text = Base_Language.Lang_Global_Jumlah
+		lblTxtSatuan.Text = Base_Language.Lang_Global_Satuan
+
+		Btn_Simpan.Text = Base_Language.Lang_Global_Simpan
+
+		' ListView1.Columns.Add(Base_Language.Lang_Global_NO, 40, HorizontalAlignment.Center)
+		LvData.Columns.Add("No SO", 130, HorizontalAlignment.Left) '0
+		LvData.Columns.Add(Base_Language.Lang_Global_Lokasi, 0, HorizontalAlignment.Left) '1
+		LvData.Columns.Add(Base_Language.Lang_Global_KodeCustomer, 0, HorizontalAlignment.Left) '2
+		LvData.Columns.Add(Base_Language.Lang_Global_NamaCustomer, 0, HorizontalAlignment.Left) '3
+		LvData.Columns.Add(Base_Language.Lang_Global_KodeBarang, 125, HorizontalAlignment.Left) '4
+		LvData.Columns.Add(Base_Language.Lang_Global_NamaBarang, 205, HorizontalAlignment.Left) '5
+		LvData.Columns.Add(Base_Language.Lang_Global_Jumlah, 100, HorizontalAlignment.Right) '6
+		LvData.Columns.Add(Base_Language.Lang_Global_Jumlah_Sisa, 0, HorizontalAlignment.Center) '7
+		LvData.Columns.Add(Base_Language.Lang_Global_Satuan, 80, HorizontalAlignment.Center) '8
+		LvData.Columns.Add(Base_Language.Lang_Global_Jenis, 80, HorizontalAlignment.Center) '9
+		LvData.Columns.Add("Urut", 0, HorizontalAlignment.Center) '10
+		LvData.Columns.Add("id Jenis Produk", 0, HorizontalAlignment.Center) '11
+		LvData.Columns.Add(Base_Language.lang_global_keterangan, 250, HorizontalAlignment.Left) '12
+		LvData.Columns.Add("Jenis IO", 100, HorizontalAlignment.Center) '13
+		LvData.Columns.Add("NoFormula", 0, HorizontalAlignment.Left) '14
+		LvData.View = View.Details
+		LvData.Columns(cellLvJenisIO).DisplayIndex = 1
+
+		'  ListView1.View = View.Details
+
+		LvOrder.Columns.Add("No SO", 130, HorizontalAlignment.Left) '0
+		LvOrder.Columns.Add(Base_Language.Lang_Global_Lokasi, 0, HorizontalAlignment.Left) '1
+		LvOrder.Columns.Add(Base_Language.Lang_Global_KodeCustomer, 0, HorizontalAlignment.Left) '2
+		LvOrder.Columns.Add(Base_Language.Lang_Global_NamaCustomer, 0, HorizontalAlignment.Left) '3
+		LvOrder.Columns.Add(Base_Language.Lang_Global_KodeBarang, 0, HorizontalAlignment.Left) '4
+		'LvOrder.Columns.Add(Base_Language.Lang_Global_NamaBarang, 0, HorizontalAlignment.Left) '5
+		LvOrder.Columns.Add(Base_Language.Lang_Global_Jumlah, 100, HorizontalAlignment.Right) '5
+		LvOrder.Columns.Add(Base_Language.Lang_Global_Satuan, 80, HorizontalAlignment.Center) '6
+		LvOrder.Columns.Add(Base_Language.Lang_Global_Jenis, 0, HorizontalAlignment.Center) '7
+		LvOrder.Columns.Add("Urut", 0, HorizontalAlignment.Center) '8
+		LvOrder.Columns.Add("Id Jenis Produk", 0, HorizontalAlignment.Center) '9
+		LvOrder.Columns.Add("from update", 0, HorizontalAlignment.Center) '10
+		LvOrder.Columns.Add("deleted", 0, HorizontalAlignment.Center) '11
+		LvOrder.Columns.Add("NoFormula", 0, HorizontalAlignment.Center) '12
+
+		' ListView2.View = View.Details
+		LvBahan.Columns.Add("kode_stock_owner", 0, HorizontalAlignment.Left) '0
+		LvBahan.Columns.Add("Kode Bahan", 200, HorizontalAlignment.Left) '1
+		'LvBahan.Columns.Add("Nama Bahan", 320, HorizontalAlignment.Left) '2
+		LvBahan.Columns.Add("Jumlah", 130, HorizontalAlignment.Right) '3
+		LvBahan.Columns.Add("Satuan", 0, HorizontalAlignment.Center) '4
+		LvBahan.Columns.Add("Stock", 130, HorizontalAlignment.Right) '5
+		LvBahan.Columns.Add("Satuan", 117, HorizontalAlignment.Center) '6
+		LvBahan.Columns.Add("nilai_barang", 0, HorizontalAlignment.Right) '7
+		LvBahan.Columns.Add("satuan_barang", 0, HorizontalAlignment.Center) '8
+		LvBahan.Columns.Add("stock_barang", 0, HorizontalAlignment.Right) '9
+		LvBahan.Columns.Add("Keep Stock", 0, HorizontalAlignment.Right).DisplayIndex = 6 '10
+		LvBahan.Columns.Add("RV", 0, HorizontalAlignment.Right) '11
+
+		LvPackaging.Columns.Add("kode_stock_owner", 0, HorizontalAlignment.Left) '0
+		LvPackaging.Columns.Add("Kode Bahan", 200, HorizontalAlignment.Left) '1
+		LvPackaging.Columns.Add("Jumlah", 130, HorizontalAlignment.Right) '2
+		LvPackaging.Columns.Add("Satuan", 0, HorizontalAlignment.Center) '3
+		LvPackaging.Columns.Add("Stock", 130, HorizontalAlignment.Right) '4
+		LvPackaging.Columns.Add("Satuan", 117, HorizontalAlignment.Center) '5
+		LvPackaging.Columns.Add("nilai_barang", 0, HorizontalAlignment.Right) '6
+		LvPackaging.Columns.Add("satuan_barang", 0, HorizontalAlignment.Center) '7
+		LvPackaging.Columns.Add("stock_barang", 0, HorizontalAlignment.Right) '8
+		LvPackaging.Columns.Add("Keep Stock", 0, HorizontalAlignment.Right).DisplayIndex = 6
+		LvPackaging.Columns.Add("Pot Stock", 0, HorizontalAlignment.Center) '10
+		LvPackaging.Columns.Add("Jenis", 100, HorizontalAlignment.Right) '11
+		LvPackaging.Columns.Add("jumlah_barang", 100, HorizontalAlignment.Right) '12
+		LvPackaging.Columns.Add("Jumlah Bahan", 100, HorizontalAlignment.Right) '13
+		LvPackaging.Columns.Add("Persentase PackingSet", 0, HorizontalAlignment.Right) '14
+		LvPackaging.Columns.Add("Deskripsi", 0, HorizontalAlignment.Right) '15
+		LvPackaging.Columns.Add("IDPacking", 0, HorizontalAlignment.Right) '16
+
+		' ListView2.View = View.Details
+		LvBahanNew.Columns.Add("kode_stock_owner", 0, HorizontalAlignment.Left) '0
+		LvBahanNew.Columns.Add("Kode Bahan", 140, HorizontalAlignment.Left) '1
+		'LvBahan.Columns.Add("Nama Bahan", 320, HorizontalAlignment.Left) '2
+
+		If aksesdata = True Then
+			LvBahanNew.Columns.Add("Kebutuhan", 120, HorizontalAlignment.Right) '2
+		Else
+			LvBahanNew.Columns.Add("", 0, HorizontalAlignment.Right) '2
+		End If
+
+		LvBahanNew.Columns.Add("Satuan", 0, HorizontalAlignment.Center) '3
+
+		If aksesdata = True Then
+			LvBahanNew.Columns.Add("Stock Whs", 120, HorizontalAlignment.Right) '4
+		Else
+			LvBahanNew.Columns.Add("", 0, HorizontalAlignment.Right) '4
+		End If
+
+		LvBahanNew.Columns.Add("Satuan", 80, HorizontalAlignment.Center).DisplayIndex = 2 '5
+		LvBahanNew.Columns.Add("nilai_barang", 0, HorizontalAlignment.Right) '6
+		LvBahanNew.Columns.Add("satuan_barang", 0, HorizontalAlignment.Center) '7
+		LvBahanNew.Columns.Add("stock_barang", 0, HorizontalAlignment.Right) '8
+
+		If aksesdata = True Then
+			LvBahanNew.Columns.Add("Keep Stock", 120, HorizontalAlignment.Right) '9
+		Else
+			LvBahanNew.Columns.Add("", 0, HorizontalAlignment.Right) '9
+		End If
+
+		LvBahanNew.Columns.Add("RV", 0, HorizontalAlignment.Right) '10
+		LvBahanNew.Columns.Add("Sisa Stock", 120, HorizontalAlignment.Right) '11
+
+		LvPackagingNew.Columns.Add("kode_stock_owner", 0, HorizontalAlignment.Left) '0
+		LvPackagingNew.Columns.Add("Kode Bahan", 160, HorizontalAlignment.Left) '1
+		LvPackagingNew.Columns.Add("Jumlah", 150, HorizontalAlignment.Right) '2
+		LvPackagingNew.Columns.Add("Satuan", 0, HorizontalAlignment.Center) '3
+		LvPackagingNew.Columns.Add("Stock", 150, HorizontalAlignment.Right) '4
+		LvPackagingNew.Columns.Add("Satuan", 80, HorizontalAlignment.Center) '5
+		LvPackagingNew.Columns.Add("nilai_barang", 0, HorizontalAlignment.Right) '6
+		LvPackagingNew.Columns.Add("satuan_barang", 0, HorizontalAlignment.Center) '7
+		LvPackagingNew.Columns.Add("stock_barang", 0, HorizontalAlignment.Right) '8
+		LvPackagingNew.Columns.Add("Keep Stock", 0, HorizontalAlignment.Right).DisplayIndex = 6
+		LvPackagingNew.Columns.Add("Pot Stock", 0, HorizontalAlignment.Center) '10
+		LvPackagingNew.Columns.Add("Jenis", 130, HorizontalAlignment.Center) '11
+		LvPackagingNew.Columns.Add("jumlah_barang", 0, HorizontalAlignment.Right) '12
+		LvPackagingNew.Columns.Add("Jumlah Bahan", 0, HorizontalAlignment.Right) '13
+		LvPackagingNew.Columns.Add("Persentase", 90, HorizontalAlignment.Center).DisplayIndex = 3 '14
+		LvPackagingNew.Columns.Add("Paket", 110, HorizontalAlignment.Center).DisplayIndex = 2 '15
+
+		Cmb_Jenis.Items.Clear()
+		Cmb_Jenis.Items.Add("Commercial")
+		Cmb_Jenis.Items.Add("Trial")
+		'Cmb_Jenis.SelectedIndex = 0
+
+		kosong()
+
+	End Sub
+
+	'Private Sub ListView1_DoubleClick(sender As Object, e As EventArgs) Handles ListView1.DoubleClick
+	'If ListView1.Items.Count = 0 Or ListView1.SelectedItems.Count = 0 Then
+	'    MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Belum_Pilih, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+	'    Exit Sub
+	'End If
+
+	'If ListView2.Items.Count = 0 Then
+	'    'looping data listview 1
+	'    For indexLv1 As Integer = 0 To ListView1.Items.Count - 1
+	'        get_isi_listview(indexLv1)
+
+	'        If ListView1.FocusedItem.SubItems(1).Text <> lvNoPo Then
+	'            If lvJmlhSisa <> 0 Then
+	'                MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Harus_Sesuai_Antrian & " " & vbNewLine & Base_Language.Lang_Rencana_Produksi_No_Antrian & " :  " & lvNoAntri & vbNewLine & Base_Language.Lang_Rencana_Produksi_No_PO & " : " & lvNoPo & vbNewLine & Base_Language.Lang_Rencana_Produksi_Sisa & ",  : " & lvJmlhSisa)
+	'                kosong_sebagian()
+	'                Exit Sub
+	'            End If
+	'        End If
+
+	'        Exit For
+	'    Next
+	'End If
+
+	'If ListView2.Items.Count <> 0 Then
+	'    If ListView1.FocusedItem.SubItems(cellLvJenisProduk).Text <> ListView2.Items(0).SubItems(cellLvJnsProdukDet).Text Then
+	'        MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Jns_Produk_Beda, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+	'        Exit Sub
+	'    End If
+
+	'    If ListView1.FocusedItem.Text <> ListView2.Items.Count + 1 Then
+	'        MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Hrs_Sesuai)
+	'        Exit Sub
+	'    End If
+
+	'End If
+
+	'For indexLv2 As Integer = 0 To ListView2.Items.Count - 1
+	'    get_isi_listview_detail(indexLv2)
+
+	'    Dim check_sisa As Double = 0
+
+	'    If ListView1.FocusedItem.SubItems(cellLvNoPo).Text = lvNoPoDet Then
+
+	'        check_sisa = Val(HilangkanTanda(ListView1.FocusedItem.SubItems(cellLvJmlhSisa).Text)) - Val(HilangkanTanda(lvJmlhDet))
+
+	'        If (check_sisa <> 0) Then
+	'            MessageBox.Show("Harap selesaikan semua produksi sesuai antrian." & vbNewLine & "No antrian :  " & lvNoAntri & vbNewLine & "No Po : " & lvNoPo & ", sisa : " & check_sisa)
+	'            kosong_sebagian()
+	'            Exit Sub
+	'        End If
+	'    Else
+
+	'        For indexlv1 As Integer = 0 To ListView1.Items.Count - 1
+	'            get_isi_listview(indexlv1)
+
+	'            If lvNoPo = lvNoPoDet Then
+	'                check_sisa = Val(HilangkanTanda(lvJmlhSisa)) - Val(HilangkanTanda(lvJmlhDet))
+
+	'                If (check_sisa <> 0) Then
+	'                    MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Hrs_Selesai_Semua & " " & vbNewLine & Base_Language.Lang_Rencana_Produksi_No_Antrian & " :  " & lvNoAntri & vbNewLine & Base_Language.Lang_Rencana_Produksi_No_PO & " : " & lvNoPo & Base_Language.Lang_Rencana_Produksi_Sisa & ", : " & check_sisa)
+	'                    kosong_sebagian()
+	'                    Exit Sub
+	'                End If
+	'            End If
+
+	'        Next
+
+	'    End If
+
+	'Next
+
+	'jumlah_po = ListView1.FocusedItem.SubItems(cellLvJmlhSisa).Text
+
+	'txtNoPo.Text = ListView1.FocusedItem.SubItems(cellLvNoPo).Text
+	'txtLokasi.Text = ListView1.FocusedItem.SubItems(cellLvLokasi).Text
+	'txtKodeCustomer.Text = ListView1.FocusedItem.SubItems(cellLvKdCus).Text
+	'txtNamaCustomer.Text = ListView1.FocusedItem.SubItems(cellLvNmCus).Text
+	'txtKodeBarang.Text = ListView1.FocusedItem.SubItems(cellLvKdBrg).Text
+	'txtNamaBarang.Text = ListView1.FocusedItem.SubItems(cellLvNmBrg).Text
+	'txtJumlah.Text = HilangkanTanda(ListView1.FocusedItem.SubItems(cellLvJmlhSisa).Text)
+	'txtSatuan.Text = ListView1.FocusedItem.SubItems(cellLvSatuan).Text
+	'txtJenisProduk.Text = ListView1.FocusedItem.SubItems(cellLvJenisProduk).Text
+	'txtIdJenisProduk.Text = ListView1.FocusedItem.SubItems(cellLvIdJenisProduk).Text
+
+	Private Sub RemoveDataLvOrder(ByVal Faktur As String, ByVal Kd_barang As String)
+
+		Dim ambilIndexYangAkanDihapus As Integer
+		For i As Integer = 0 To LvOrder.Items.Count - 1
+			get_isi_listview_detail(i)
+			If LvFaktur2 = Faktur And LvKdBrg2 = Kd_barang Then
+				ambilIndexYangAkanDihapus = i
+			End If
+		Next
+
+		LvOrder.Items(ambilIndexYangAkanDihapus).Remove()
+	End Sub
+
+	' End Sub
+	Private Sub txtJumlah_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtJumlah.KeyPress
+		If e.KeyChar = Chr(13) Then
+			Button2_Click(Me, Nothing)
+		End If
+
+		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(Asc("."))) Then e.KeyChar = Chr(0)
+	End Sub
+
+	'Private Sub ListView2_DoubleClick(sender As Object, e As EventArgs) Handles LvOrder.DoubleClick
+	'    For i As Integer = 0 To LvOrder.Items.Count - 1
+
+	'        If LvOrder.Items(i).SubItems(11).Text = "" Then
+	'            If LvOrder.FocusedItem.Index <> LvOrder.Items.Count - 1 Then
+	'                MessageBox.Show(Base_Language.Lang_Rencana_Produksi_Err_Hapus_Temp, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+	'                Exit Sub
+	'            End If
+
+	'            LvOrder.FocusedItem.Remove()
+
+	'            If LvOrder.Items.Count = 0 Then
+	'                cmbLine.Items.Clear() : arrIdLine.Clear()
+	'            End If
+	'        End If
+
+	'    Next
+	'End Sub
+
+	Private Sub txtNoFaktur_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtNoFaktur.KeyPress
+		If e.KeyChar = Chr(13) Then btnRefresh.Focus()
+	End Sub
+
+	Private Sub txtNoFaktur_Leave(sender As Object, e As EventArgs) Handles txtNoFaktur.Leave
+
+		For i As Integer = 0 To LvData.Items.Count - 1
+			LvData.Items(i).Checked = False
+		Next
+
+		Try
+			OpenConn()
+
+			If CekButtonRole("Release_PO_Produksi") = "T" Then
+				Button3.Visible = False
+			Else
+				Button3.Visible = True
+			End If
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+		Dim id_jenis_produk As Integer = 0
+		Dim jenis_produk As String = ""
+		Dim flag_release As String = ""
+
+		Try
+			OpenConn()
+
+			LvOrder.Items.Clear()
+			LvBahan.Items.Clear()
+			LvPackaging.Items.Clear()
+			LvBahanNew.Items.Clear()
+			LvPackagingNew.Items.Clear()
+			TxtCatatan.Text = ""
+			'  DateTimePicker1.ResetText()
+			' DateTimePicker2.ResetText()
+
+			Btn_Simpan.Tag = "&Update"
+
+			SQL = "select a.Status,a.Flag_Release, a.Id_Routing,c.Keterangan as routing,a.Id_Jenis_Produk, b.Keterangan as jenis_produk, a.keterangan,a.kode_formula, a.Flag_Commercial "
+			SQL = SQL & "from EMI_Order_Produksi a, EMI_Jenis_Produk b, EMI_Master_Routing c "
+			SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Jenis_Produk = b.Id_Jenis_Produk "
+			SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Id_Routing = c.Id_Routing "
+			SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_faktur = '" & txtNoFaktur.Text & "' "
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					If General_Class.CekNULL("status") = "Y" Then
+						kosong()
+						Exit Sub
+					Else
+						If General_Class.CekNULL(Dr("keterangan")) = "" Then
+							TxtCatatan.Text = ""
+						Else
+							TxtCatatan.Text = Dr("keterangan")
+						End If
+
+						' DateTimePicker1.Value = Dr("tanggal_produksi")
+						'  DateTimePicker2.Value = Dr("jam_produksi")
+
+						cmb_routing.Text = Dr("routing")
+
+						id_jenis_produk = Dr("id_jenis_produk")
+						jenis_produk = Dr("jenis_produk")
+						txt_IdJenisProduk.Text = Dr("id_jenis_produk")
+						Txt_No_Formula.Text = Dr("kode_formula")
+						If General_Class.CekNULL(Dr("flag_release")) = "" Then
+							flag_release = ""
+						Else
+							flag_release = Dr("flag_release")
+
+						End If
+
+						If General_Class.CekNULL(Dr("Flag_Commercial")) = "Y" Then
+							Cmb_Jenis.SelectedIndex = 0
+						Else
+							Cmb_Jenis.SelectedIndex = 1
+						End If
+
+					End If
+				Else
+					CloseConn()
+					kosong()
+					Exit Sub
+				End If
+			End Using
+
+			SQL = "select a.No_SO,a.Kode_Stock_Owner, a.Kode_Barang,b.Nama,a.Jumlah,a.Satuan,a.jenis_order,urut_po, "
+			SQL = SQL & "isnull(( "
+			SQL = SQL & "select top 1 x.No_Formula "
+			SQL = SQL & "from EMI_Independent_Order z "
+			SQL = SQL & "inner join EMI_Independent_Order_Detail x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur "
+			SQL = SQL & "where z.Status is null "
+			SQL = SQL & "and z.Kode_Perusahaan = a.Kode_Perusahaan "
+			SQL = SQL & "and z.No_Faktur = a.No_SO "
+			SQL = SQL & "), null) as No_Formula "
+			SQL = SQL & "from Emi_Order_Produksi_detail a, barang b "
+			SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner "
+			SQL = SQL & "and a.Kode_Barang =  b.Kode_Barang and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_faktur = '" & txtNoFaktur.Text & "' "
+			Using Ds = BindingTrans(SQL)
+				With Ds.Tables("MyTable")
+					If .Rows.Count <> 0 Then
+
+						For i As Integer = 0 To .Rows.Count - 1
+
+							If i = 0 Then
+								txtNmBrgPO.Text = .Rows(i).Item("nama")
+								txtKdBrgPO.Text = .Rows(i).Item("kode_barang")
+							End If
+
+							Dim lvw As ListViewItem
+
+							lvw = LvOrder.Items.Add(.Rows(i).Item("no_so"))
+							lvw.SubItems.Add(.Rows(i).Item("kode_stock_owner"))
+							lvw.SubItems.Add("-")
+							lvw.SubItems.Add("-")
+							lvw.SubItems.Add(.Rows(i).Item("kode_barang"))
+							''lvw.SubItems.Add(.Rows(i).Item("nama"))
+							lvw.SubItems.Add(Format(.Rows(i).Item("jumlah"), "N2"))
+							lvw.SubItems.Add(.Rows(i).Item("satuan"))
+							lvw.SubItems.Add(.Rows(i).Item("jenis_order"))
+							lvw.SubItems.Add(.Rows(i).Item("urut_po"))
+							lvw.SubItems.Add(id_jenis_produk)
+							lvw.SubItems.Add("Y")
+							lvw.SubItems.Add("")
+							lvw.SubItems.Add(If(General_Class.CekNULL(.Rows(i).Item("No_Formula")) = "", "", .Rows(i).Item("No_Formula")))
+						Next
+					Else
+						CloseConn()
+						MessageBox.Show("Data Production Order tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						kosong()
+						Exit Sub
+					End If
+				End With
+			End Using
+
+			SQL = "select a.kode_stock_owner,a.kode_barang,b.nama,a.jumlah,a.satuan as satuan_display,a.nilai_barang,a.satuan_barang,b.flag_potong_stok, "
+			SQL = SQL & "isnull((select (Stock_Wharehouse+Stock_Unloading)  from N_Emi_View_Stock_Gantung x where  a.Kode_Barang =x.Kode_Barang),0) as stock, "
+			SQL = SQL & "isnull((select (Gantungan_PO+Gantungan_Split1+Gantungan_Split2)  from N_Emi_View_Stock_Gantung x where  a.Kode_Barang =x.Kode_Barang  ),0) as Keep_Stock, "
+			SQL = SQL & "isnull((select top(1) Stock_Minimum from barang x where  a.Kode_Barang =x.Kode_Barang and a.kode_perusahaan=x.kode_perusahaan and a.kode_stock_owner=x.kode_stock_owner),0) as Min_stock, "
+			SQL = SQL & "b.satuan,  "
+			SQL = SQL & "cast(a.RV as bigint) as RV_Detail, cast(c.RV as bigint) as RV_Parent "
+			SQL = SQL & "from Emi_Order_Produksi_Detail_bahan a,barang b, Emi_Order_Produksi c "
+			SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan  and a.kode_stock_owner = b.Kode_Stock_Owner "
+			SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.No_Faktur = c.No_Faktur "
+			SQL = SQL & "and a.kode_barang = b.kode_barang and a.kode_perusahaan = '" & KodePerusahaan & "' "
+			SQL = SQL & "and a.no_faktur = '" & txtNoFaktur.Text & "' "
+			SQL = SQL & "Order by a.kode_barang "
+			Using Ds = BindingTrans(SQL)
+				With Ds.Tables("MyTable")
+					If .Rows.Count <> 0 Then
+
+						Dim converKesatuanAsliBarangStok As String = ""
+						Dim stockConvert As Double = 0
+
+						For i As Integer = 0 To .Rows.Count - 1
+							SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(i).Item("kode_barang") & "' "
+							SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
+							Using Dr3 = OpenTrans(SQL)
+								If Dr3.Read Then
+									converKesatuanAsliBarangStok = Dr3("satuan")
+									SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(i).Item("kode_barang") & "',"
+									SQL = SQL & "'" & .Rows(i).Item("satuan") & "','" & Dr3("satuan") & "',"
+									SQL = SQL & "" & .Rows(i).Item("stock") & ") as Hasil "
+									Dr3.Close()
+
+									Using dr4 = OpenTrans(SQL)
+										If dr4.Read Then
+											If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+
+												stockConvert = dr4("hasil")
+											Else
+												dr4.Close()
+												CloseConn()
+												MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & Dr3("satuan") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+												Exit Sub
+											End If
+										End If
+									End Using
+								Else
+									Dr3.Close()
+									CloseConn()
+									MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+									Exit Sub
+								End If
+							End Using
+
+							Dim lvw As ListViewItem
+							lvw = LvBahan.Items.Add(.Rows(i).Item("kode_stock_owner"))
+							lvw.SubItems.Add(.Rows(i).Item("kode_barang"))
+							''lvw.SubItems.Add(.Rows(i).Item("nama"))
+							lvw.SubItems.Add(Format(.Rows(i).Item("jumlah"), "N4"))
+							lvw.SubItems.Add(.Rows(i).Item("satuan_display"))
+							lvw.SubItems.Add(Format(stockConvert, "N4"))
+							lvw.SubItems.Add(converKesatuanAsliBarangStok)
+							lvw.SubItems.Add(.Rows(i).Item("nilai_barang"))
+							lvw.SubItems.Add(.Rows(i).Item("satuan_barang"))
+							lvw.SubItems.Add(.Rows(i).Item("stock"))
+							lvw.SubItems.Add(Format(.Rows(i).Item("keep_stock"), "N4"))
+							lvw.SubItems.Add(.Rows(i).Item("RV_Detail"))
+
+							If aksesdata = True Then
+
+								Dim lvwNew As ListViewItem
+								lvwNew = LvBahanNew.Items.Add(.Rows(i).Item("kode_stock_owner"))
+								lvwNew.SubItems.Add(.Rows(i).Item("kode_barang"))
+								''lvw.SubItems.Add(.Rows(i).Item("nama"))
+
+								lvwNew.SubItems.Add(Format(.Rows(i).Item("jumlah"), "N4"))
+								lvwNew.SubItems.Add(.Rows(i).Item("satuan_display"))
+								lvwNew.SubItems.Add(Format(stockConvert, "N4"))
+								lvwNew.SubItems.Add(converKesatuanAsliBarangStok)
+								lvwNew.SubItems.Add(.Rows(i).Item("nilai_barang"))
+								lvwNew.SubItems.Add(.Rows(i).Item("satuan_barang"))
+								lvwNew.SubItems.Add(.Rows(i).Item("stock"))
+								lvwNew.SubItems.Add(Format(.Rows(i).Item("keep_stock"), "N4"))
+
+								lvwNew.SubItems.Add(.Rows(i).Item("RV_Detail"))
+								lvwNew.SubItems.Add(Format(Val(HilangkanTanda(Format(stockConvert, "N4"))) - Val(HilangkanTanda(Format(.Rows(i).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(i).Item("jumlah"), "N4"))), "N4"))
+							Else
+								If .Rows(i).Item("Min_stock") >= Val(HilangkanTanda(Format(Val(HilangkanTanda(Format(stockConvert, "N4"))) - Val(HilangkanTanda(Format(.Rows(i).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(i).Item("jumlah"), "N4"))), "N4"))) Then
+
+									Dim lvwNew As ListViewItem
+									lvwNew = LvBahanNew.Items.Add(.Rows(i).Item("kode_stock_owner"))
+									lvwNew.SubItems.Add(.Rows(i).Item("kode_barang"))
+									''lvw.SubItems.Add(.Rows(i).Item("nama"))
+
+									lvwNew.SubItems.Add(Format(0, "N4"))
+									lvwNew.SubItems.Add(.Rows(i).Item("satuan_display"))
+									lvwNew.SubItems.Add(Format(0, "N4"))
+									lvwNew.SubItems.Add(converKesatuanAsliBarangStok)
+									lvwNew.SubItems.Add(0)
+									lvwNew.SubItems.Add(.Rows(i).Item("satuan_barang"))
+									lvwNew.SubItems.Add(0)
+									lvwNew.SubItems.Add(Format(0, "N4"))
+
+									lvwNew.SubItems.Add(.Rows(i).Item("RV_Detail"))
+									lvwNew.SubItems.Add(Format(Val(HilangkanTanda(Format(stockConvert, "N4"))) - Val(HilangkanTanda(Format(.Rows(i).Item("keep_stock"), "N4"))) - Val(HilangkanTanda(Format(.Rows(i).Item("jumlah"), "N4"))), "N4"))
+
+								End If
+							End If
+
+							RV_Parent_Transaksi = .Rows(i).Item("RV_Parent")
+
+						Next
+						'Else
+						'    CloseConn()
+						'    MessageBox.Show("Data produksi Order tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						'    kosong()
+						'    Exit Sub
+					End If
+				End With
+			End Using
+
+			'=======================
+			'=     PACKING SET     =
+			'=======================
+			Cmb_Packing_Set.Items.Clear() : arrPackingSet.Clear()
+			SQL = "select top 1 b.Urut_Packing_Set, b.Urut_Packing_Set_Bundle, a.Kode_Barang, a.Kode_stock_Owner "
+			SQL = SQL & "from EMI_Order_Produksi a "
+			SQL = SQL & "inner join emi_order_produksi_detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+			SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+			SQL = SQL & "and a.Status is null "
+			SQL = SQL & "and a.No_Faktur = '" & txtNoFaktur.Text & "' "
+			Using Ds = BindingTrans(SQL)
+				With Ds.Tables("Mytable")
+					If .Rows.Count <> 0 Then
+						For i As Integer = 0 To .Rows.Count - 1
+
+							If General_Class.CekNULL(.Rows(i).Item("Urut_Packing_Set")) = "" And General_Class.CekNULL(.Rows(i).Item("Urut_Packing_Set_Bundle")) = "" Then
+								Continue For
+							End If
+
+							'===============================
+							'=     GET KODE BARANG INQ     =
+							'===============================
+							Dim KdBarangInq As String = ""
+							SQL = $"
+								select Kode_Barang_Inq
+								from barang
+								where Kode_Perusahaan ='{KodePerusahaan}'
+								and Kode_Stock_Owner = '{ .Rows(i).Item("Kode_stock_Owner")}'
+								and Kode_Barang = '{ .Rows(i).Item("Kode_Barang")}'
+							"
+							Using Dr = OpenTrans(SQL)
+								If Dr.Read Then
+									KdBarangInq = Dr("Kode_Barang_Inq")
+								End If
+							End Using
+
+							If Not General_Class.CekNULL(.Rows(i).Item("Urut_Packing_Set")) = "" Then
+								SQL = "select Urut_Oto, Flag_Default, Deskripsi, 'T' as IsBundle "
+								SQL = SQL & "from N_EMI_Detail_Barang_Detail_Bahan_Penolong "
+								SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+								SQL = SQL & "and Flag_Aktif = 'Y' "
+								SQL = SQL & "and (Kode_Barang = '" & .Rows(i).Item("Kode_Barang") & "' or Kode_Barang = '" & KdBarangInq & "') "
+								SQL = SQL & "and Urut_Oto = '" & .Rows(i).Item("Urut_Packing_Set") & "' "
+							ElseIf Not General_Class.CekNULL(.Rows(i).Item("Urut_Packing_Set_Bundle")) = "" Then
+								SQL = "select Urut_Oto, NULL as Flag_Default, Deskripsi, 'Y' as IsBundle "
+								SQL = SQL & "from N_EMI_Bundle_Packing_Set "
+								SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+								SQL = SQL & "and Flag_Aktif = 'Y' "
+								SQL = SQL & "and (Kode_Barang = '" & .Rows(i).Item("Kode_Barang") & "' or Kode_Barang = '" & KdBarangInq & "') "
+								SQL = SQL & "and Urut_Oto = '" & .Rows(i).Item("Urut_Packing_Set_Bundle") & "' "
+							End If
+							Using Dr = OpenTrans(SQL)
+								Do While Dr.Read
+
+									Cmb_Packing_Set.Items.Add(Dr("Deskripsi").ToString.Trim)
+									Dim IsBundle As Boolean = If(Dr("IsBundle").ToString.Trim = "Y", True, False)
+									arrPackingSet.Add((Dr("Deskripsi").ToString.Trim, Dr("Urut_Oto"), IsBundle))
+
+									If General_Class.CekNULL(Dr("Flag_Default")) = "Y" Then
+										Cmb_Packing_Set.Text = Dr("Deskripsi").ToString.Trim
+									End If
+
+								Loop
+							End Using
+
+						Next
+
+					End If
+				End With
+			End Using
+
+			If Cmb_Packing_Set.Items.Count > 0 Then
+				Cmb_Packing_Set.SelectedIndex = 0
+			End If
+
+			Dim DataPackagingTampil As New List(Of (lks As String, kode_bahan As String, KebutuhanBahan As Double,
+								satuan_bahan As String, good_stock As Double, keep_stock As Double, flag_potong_stok As String,
+								Jenis As String, Jumlah_barang As String, Jumlah_bahan As String, Persentase As Double, Deskripsi As String))
+
+			'packaging
+			SQL = "select a.kode_stock_owner,a.kode_barang,b.nama,a.jumlah,a.satuan as satuan_display,a.nilai_barang,a.satuan_barang,b.flag_potong_stok, "
+			SQL = SQL & "isnull((select sum(jumlah) from barang_sn x, stock_owner_gudang y where x.kode_perusahaan=y.kode_perusahaan and x.kode_stock_owner=y.kode_stock_owner and y.Flag_Wharehouse='Y' and a.kode_perusahaan = x.kode_perusahaan "
+			SQL = SQL & "and x.kode_barang = a.kode_barang and x.warna='HIJAU'),0) as stock "
+			SQL = SQL & ",b.satuan, "
+			SQL = SQL & "isnull((select 0),0) as Keep_Stock, a.jenis, jumlah_barang, Jumlah_Bahan, a.Persentase, a.Deskripsi, a.ID_Packing_Set "
+			SQL = SQL & "from EMI_Order_Produksi_Detail_Packaging_Packing_Set a,barang b  "
+			SQL = SQL & "where a.kode_perusahaan = b.Kode_Perusahaan  and a.kode_stock_owner = b.Kode_Stock_Owner and Persentase <> 0 "
+			SQL = SQL & "and a.kode_barang = b.kode_barang and a.kode_perusahaan = '" & KodePerusahaan & "' and "
+			SQL = SQL & "a.no_faktur = '" & txtNoFaktur.Text & "' "
+			SQL = SQL & "Order by a.kode_barang "
+			Using Ds = BindingTrans(SQL)
+				With Ds.Tables("MyTable")
+					If .Rows.Count <> 0 Then
+
+						Dim converKesatuanAsliBarangStok As String = ""
+						Dim stockConvert As Double = 0
+
+						For i As Integer = 0 To .Rows.Count - 1
+							SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(i).Item("kode_barang") & "' "
+							SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
+							Using Dr3 = OpenTrans(SQL)
+								If Dr3.Read Then
+									converKesatuanAsliBarangStok = Dr3("satuan")
+									SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(i).Item("kode_barang") & "',"
+									SQL = SQL & "'" & .Rows(i).Item("satuan") & "','" & Dr3("satuan") & "',"
+									SQL = SQL & "" & .Rows(i).Item("stock") & ") as Hasil "
+									Dr3.Close()
+
+									Using dr4 = OpenTrans(SQL)
+										If dr4.Read Then
+											If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+
+												stockConvert = dr4("hasil")
+											Else
+												dr4.Close()
+												CloseConn()
+												MessageBox.Show("Satuan " & .Rows(i).Item("satuan") & " Ke " & Dr3("satuan") & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+												Exit Sub
+											End If
+										End If
+									End Using
+								Else
+									Dr3.Close()
+									CloseConn()
+									MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+									Exit Sub
+								End If
+							End Using
+
+							Dim KebutuhanBahan As Double = Val(HilangkanTanda(.Rows(i).Item("jumlah")))
+							If Val(HilangkanTanda(.Rows(i).Item("Persentase"))) = 0 Then
+
+								Dim index As Integer = DataPackagingTampil.FindIndex(Function(x) x.kode_bahan.Trim = .Rows(i).Item("satuan_bahan").ToString.Trim)
+								If index >= 0 Then
+
+									Dim oldData = DataPackagingTampil(index)
+									Dim tambahanKebutuhan As Double = Val(KebutuhanBahan)
+
+									DataPackagingTampil(index) = (
+										lks:=oldData.lks,
+										kode_bahan:=oldData.kode_bahan,
+										KebutuhanBahan:=oldData.KebutuhanBahan + tambahanKebutuhan,
+										satuan_bahan:=oldData.satuan_bahan,
+										good_stock:=oldData.good_stock,
+										keep_stock:=oldData.keep_stock,
+										flag_potong_stok:=oldData.flag_potong_stok,
+										Jenis:=oldData.Jenis,
+										Jumlah_barang:=oldData.Jumlah_barang,
+										Jumlah_bahan:=oldData.Jumlah_bahan,
+										Persentase:=oldData.Persentase + Val(HilangkanTanda(.Rows(i).Item("Persentase"))),
+										Deskripsi:=oldData.Deskripsi
+									)
+								Else
+
+									CloseConn()
+									MessageBox.Show($"Terjadi Kesalahan Saat insert Packaging", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+									Exit Sub
+
+								End If
+							Else
+								DataPackagingTampil.Add((
+																	.Rows(i).Item("kode_stock_owner"), .Rows(i).Item("kode_barang"), KebutuhanBahan, .Rows(i).Item("satuan_display"),
+																	stockConvert, .Rows(i).Item("keep_stock"), .Rows(i).Item("flag_potong_stok"),
+																	.Rows(i).Item("Jenis"), .Rows(i).Item("Jumlah_barang"), .Rows(i).Item("Jumlah_bahan"),
+																	Val(HilangkanTanda(.Rows(i).Item("Persentase"))), .Rows(i).Item("Deskripsi")
+																))
+							End If
+
+							Dim lvw As ListViewItem
+							lvw = LvPackaging.Items.Add(.Rows(i).Item("kode_stock_owner"))
+							lvw.SubItems.Add(.Rows(i).Item("kode_barang"))
+							''lvw.SubItems.Add(.Rows(i).Item("nama"))
+							lvw.SubItems.Add(Format(.Rows(i).Item("jumlah"), "N4"))
+							lvw.SubItems.Add(.Rows(i).Item("satuan_display"))
+							lvw.SubItems.Add(Format(stockConvert, "N4"))
+							lvw.SubItems.Add(converKesatuanAsliBarangStok)
+							lvw.SubItems.Add(.Rows(i).Item("nilai_barang"))
+							lvw.SubItems.Add(.Rows(i).Item("satuan_barang"))
+							lvw.SubItems.Add(.Rows(i).Item("stock"))
+							lvw.SubItems.Add(Format(.Rows(i).Item("keep_stock"), "N4"))
+
+							If General_Class.CekNULL(.Rows(i).Item("flag_potong_stok")) = "" Then
+								lvw.SubItems.Add("")
+							Else
+								lvw.SubItems.Add(Format(.Rows(i).Item("flag_potong_stok")))
+							End If
+							lvw.SubItems.Add(.Rows(i).Item("jenis"))
+							lvw.SubItems.Add(.Rows(i).Item("jumlah_barang"))
+							lvw.SubItems.Add(.Rows(i).Item("Jumlah_Bahan"))
+							lvw.SubItems.Add(Format(Val(HilangkanTanda(.Rows(i).Item("Persentase"))), "N2"))
+							lvw.SubItems.Add(.Rows(i).Item("Deskripsi"))
+							lvw.SubItems.Add(.Rows(i).Item("ID_Packing_Set"))
+
+						Next
+					Else
+						Cmb_Packing_Set.Enabled = False
+						'    CloseConn()
+						'    MessageBox.Show("Data produksi Order tidak ada!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						'    kosong()
+						'    Exit Sub
+					End If
+				End With
+			End Using
+
+			For Each item In DataPackagingTampil
+				Dim lvwPackagingNew As ListViewItem
+
+				lvwPackagingNew = LvPackagingNew.Items.Add(item.lks)
+				lvwPackagingNew.SubItems.Add(item.kode_bahan)
+				''lvwPackaginewng.SubItems.Add(.Rows(indexBahan).Item("nama_bahan"))
+				'lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
+				lvwPackagingNew.SubItems.Add(Format(item.KebutuhanBahan, "N4"))
+				lvwPackagingNew.SubItems.Add(item.satuan_bahan)
+				lvwPackagingNew.SubItems.Add(Format(item.good_stock, "N4"))
+				lvwPackagingNew.SubItems.Add(item.satuan_bahan)
+				'lvwPackagingNew.SubItems.Add(Format(.Rows(indexBahan).Item("Kebutuhan_bahan"), "N4"))
+				lvwPackagingNew.SubItems.Add(Format(item.KebutuhanBahan, "N4"))
+				lvwPackagingNew.SubItems.Add(item.satuan_bahan)
+				lvwPackagingNew.SubItems.Add(Format(item.good_stock, "N4"))
+				lvwPackagingNew.SubItems.Add(Format(item.keep_stock, "N4"))
+				If General_Class.CekNULL(item.flag_potong_stok) = "" Then
+					lvwPackagingNew.SubItems.Add("")
+				Else
+					lvwPackagingNew.SubItems.Add(Format(item.flag_potong_stok))
+				End If
+
+				lvwPackagingNew.SubItems.Add(item.Jenis)
+				lvwPackagingNew.SubItems.Add(item.Jumlah_barang)
+				lvwPackagingNew.SubItems.Add(item.Jumlah_bahan)
+				lvwPackagingNew.SubItems.Add(Format(Val(HilangkanTanda(item.Persentase)), "N2"))
+				lvwPackagingNew.SubItems.Add(item.Deskripsi)
+
+			Next
+
+			'ListView2.Columns.Add(Base_Language.Lang_Global_No_PO, 130, HorizontalAlignment.Left) '0
+			'ListView2.Columns.Add(Base_Language.Lang_Global_Lokasi, 0, HorizontalAlignment.Left) '1
+			'ListView2.Columns.Add(Base_Language.Lang_Global_KodeCustomer, 0, HorizontalAlignment.Left) '2
+			'ListView2.Columns.Add(Base_Language.Lang_Global_NamaCustomer, 0, HorizontalAlignment.Left) '3
+			'ListView2.Columns.Add(Base_Language.Lang_Global_KodeBarang, 135, HorizontalAlignment.Left) '4
+			'ListView2.Columns.Add(Base_Language.Lang_Global_NamaBarang, 200, HorizontalAlignment.Left) '5
+			'ListView2.Columns.Add(Base_Language.Lang_Global_Jumlah, 100, HorizontalAlignment.Center) '6
+			'ListView2.Columns.Add(Base_Language.Lang_Global_Satuan, 90, HorizontalAlignment.Center) '7
+			'ListView2.Columns.Add(Base_Language.Lang_Global_Jenis, 0, HorizontalAlignment.Center) '8
+			'ListView1.Columns.Add("Urut", 0, HorizontalAlignment.Center)
+			'ListView2.Columns.Add("Id Jenis Produk", 0, HorizontalAlignment.Center)
+
+			'' ListView2.View = View.Details
+			'ListView3.Columns.Add("kode_stock_owner", 0, HorizontalAlignment.Left) '0
+			'ListView3.Columns.Add("Kode Bahan", 130, HorizontalAlignment.Left) '1
+			'ListView3.Columns.Add("Nama Bahan", 130, HorizontalAlignment.Left) '2
+			'ListView3.Columns.Add("Jumlah", 130, HorizontalAlignment.Center) '3
+			'ListView3.Columns.Add("Satuan", 90, HorizontalAlignment.Center) '4
+			'ListView3.Columns.Add("Stock", 130, HorizontalAlignment.Center) '5
+			'ListView3.Columns.Add("Satuan", 90, HorizontalAlignment.Center) '6
+			'ListView3.Columns.Add("nilai_barang", 0, HorizontalAlignment.Center) '7
+			'ListView3.Columns.Add("satuan_barang", 0, HorizontalAlignment.Center) '8
+			'ListView3.Columns.Add("stock_barang", 0, HorizontalAlignment.Center) '9
+
+			If flag_release = "Y" Then
+				display_summary()
+			Else
+				display_default()
+			End If
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+		Try
+			OpenConn()
+
+			If flag_release = "Y" Then
+				If CekButtonRole("UnRelease_PO_Produksi") = "T" Then
+					Btn_UnRelease.Visible = False
+				Else
+					Btn_UnRelease.Visible = True
+				End If
+			Else
+				Btn_UnRelease.Visible = False
+			End If
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+	End Sub
+
+	Private Sub UbahAntrianToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UbahAntrianToolStripMenuItem.Click
+		'EMI_Perencanaan_Produksi_SD_Antrian.ComboBox1.Items.Clear()
+
+		'For i As Integer = 1 To ListView1.Items.Count
+		'    EMI_Perencanaan_Produksi_SD_Antrian.ComboBox1.Items.Add(i)
+		'Next
+
+		'EMI_Perencanaan_Produksi_SD_Antrian.ComboBox1.Text = ListView1.FocusedItem.Text
+
+		'EMI_Perencanaan_Produksi_SD_Antrian.ShowDialog()
+	End Sub
+
+	Public Sub CekPackingSetFromSchedule(ByVal KdBarang As String)
+		Try
+			OpenConn()
+
+			Dim kd_barangINq As String = ""
+			SQL = "select top(1) Kode_Barang_inq from barang "
+			SQL = SQL & "where kode_Perusahaan='" & KodePerusahaan & "' "
+			SQL = SQL & "and Kode_Barang ='" & KdBarang & "' "
+			Using dr = OpenTrans(SQL)
+				If dr.Read Then
+					kd_barangINq = dr("Kode_Barang_inq")
+				Else
+					dr.Close()
+					CloseTrans()
+					CloseConn()
+					MessageBox.Show("Kode Barang Inq Tidak Ditemukan . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+					Exit Sub
+				End If
+			End Using
+
+			arrBarangHasPaket.Clear()
+			SQL = $"
+					select top 1 'Y' as HasPaket, a.Kode_Barang,
+								 isnull((
+											select top 1 z.Kode_Barang from barang z where a.Kode_Barang = z.Kode_Barang_Inq
+										), NULL) as KdBarang_Biasa
+					from N_EMI_Detail_Barang_Detail_Bahan_Penolong a
+					where a.Status is null
+					  and a.Flag_Aktif = 'Y'
+					  and a.Kode_Perusahaan = '{KodePerusahaan}'
+					  and (a.Kode_Barang = '{KdBarang}' or a.Kode_Barang = '{kd_barangINq}')
+				"
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					If General_Class.CekNULL(Dr("HasPaket")) = "Y" Then
+						If Not arrBarangHasPaket.Contains(Dr("KdBarang_Biasa").ToString.Trim) Then
+							arrBarangHasPaket.Add(Dr("KdBarang_Biasa").ToString.Trim)
+						End If
+					End If
+				End If
+			End Using
+
+			'===========================
+			'=     GET PACKING SET     =
+			'===========================
+			Cmb_Packing_Set.Items.Clear() : arrPackingSet.Clear()
+			Dim HasDataPacking As Boolean = False
+			SQL = "select Urut_Oto, Flag_Default, Deskripsi, 'T' as IsBundle "
+			SQL = SQL & "from N_EMI_Detail_Barang_Detail_Bahan_Penolong "
+			SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+			SQL = SQL & "and Flag_Aktif = 'Y' "
+			SQL = SQL & "and (Kode_Barang = '" & KdBarang & "' or Kode_Barang = '" & kd_barangINq & "') "
+			SQL = SQL & "union all "
+			SQL = SQL & "select Urut_Oto, NULL as Flag_Default, Deskripsi, 'Y' as IsBundle "
+			SQL = SQL & "from N_EMI_Bundle_Packing_Set "
+			SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+			SQL = SQL & "and Flag_Aktif = 'Y' "
+			SQL = SQL & "and (Kode_Barang = '" & KdBarang & "' or Kode_Barang = '" & kd_barangINq & "')  "
+			SQL = SQL & "order by IsBundle, Urut_Oto "
+			Using Dr = OpenTrans(SQL)
+				Do While Dr.Read
+					HasDataPacking = True
+					Cmb_Packing_Set.Items.Add(Dr("Deskripsi").ToString.Trim)
+					Dim IsBundle As Boolean = If(Dr("IsBundle").ToString.Trim = "Y", True, False)
+					arrPackingSet.Add((Dr("Deskripsi").ToString.Trim, Dr("Urut_Oto"), IsBundle))
+
+					If General_Class.CekNULL(Dr("Flag_Default")) = "Y" Then
+						Cmb_Packing_Set.Text = Dr("Deskripsi").ToString.Trim
+					End If
+				Loop
+			End Using
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+		isProcessing_Check = False
+
 	End Sub
 
 End Class

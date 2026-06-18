@@ -22,7 +22,6 @@ Partial Class N_EMI_Transaksi_Validasi_Trial_Formula
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -50,8 +49,6 @@ Partial Class N_EMI_Transaksi_Validasi_Trial_Formula
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ValidasiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Btn_TimbangFloorScale = New System.Windows.Forms.Button()
         Me.Btn_Scan = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -83,7 +80,6 @@ Partial Class N_EMI_Transaksi_Validasi_Trial_Formula
         Me.DataGridViewTextBoxColumn6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
-        Me.ContextMenuStrip1.SuspendLayout()
         Me.Panel9.SuspendLayout()
         CType(Me.Dgv_Parent, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Barcode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -164,18 +160,6 @@ Partial Class N_EMI_Transaksi_Validasi_Trial_Formula
         Me.Panel5.Size = New System.Drawing.Size(19, 703)
         Me.Panel5.TabIndex = 36
         Me.Panel5.Visible = False
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ValidasiToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(114, 26)
-        '
-        'ValidasiToolStripMenuItem
-        '
-        Me.ValidasiToolStripMenuItem.Name = "ValidasiToolStripMenuItem"
-        Me.ValidasiToolStripMenuItem.Size = New System.Drawing.Size(113, 22)
-        Me.ValidasiToolStripMenuItem.Text = "Validasi"
         '
         'Btn_TimbangFloorScale
         '
@@ -544,7 +528,6 @@ Partial Class N_EMI_Transaksi_Validasi_Trial_Formula
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.Panel9.ResumeLayout(False)
         CType(Me.Dgv_Parent, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Barcode, System.ComponentModel.ISupportInitialize).EndInit()
@@ -568,10 +551,8 @@ Partial Class N_EMI_Transaksi_Validasi_Trial_Formula
     Friend WithEvents Label3 As Label
     Friend WithEvents cmb_Formulator As ComboBox
     Friend WithEvents TxtValPencarian As TextBox
-    Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
-    Friend WithEvents ValidasiToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Btn_Refresh As Button
-	Friend WithEvents Panel9 As Panel
+    Friend WithEvents Panel9 As Panel
 	Friend WithEvents Dgv_Parent As DataGridView
 	Friend WithEvents Label2 As Label
 	Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn

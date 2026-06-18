@@ -14,6 +14,8 @@
 
 	Dim flag_barang_berbeda As String = "T"
 
+	Dim NoFakturSplit As String = ""
+
 	'  Dim lvNoAntri As String
 	Dim lvNoPo As String
 
@@ -208,6 +210,24 @@
 				   "And", "substring(no_Faktur, 1, " & Len("PRT") + 4 & ")", "PRT" & Format(tgl_skg, "MMyy"))
 	End Sub
 
+	Private Sub get_no_faktur_Split(ByVal no As String)
+		'Dim fTransSplitPO As String = "SPO"
+		'Txt_NoFaktur.Text = fTransSplitPO & Format(tgl_skg, "MMyy") & "-" &
+		'                     General_Class.Get_Last_Number2("Emi_Split_Production_Order", "no_transaksi", 5,
+		'                     "Kode_perusahaan", KodePerusahaan,
+		'                     "And", "substring(no_transaksi, 1, " & Len(fTransSplitPO) + 4 & ")", fTransSplitPO & Format(tgl_skg, "MMyy"))
+
+		SQL = "select count(kode_Perusahaan) as Jumlah "
+		SQL = SQL & "from N_EMI_Transaksi_Trial_Split_Production_Order where "
+		SQL = SQL & "kode_Perusahaan='" & KodePerusahaan & "' and no_po='" & no & "' "
+		Using dr = OpenTrans(SQL)
+			If dr.Read Then
+				NoFakturSplit = no & "-" & (dr("Jumlah") + 1)
+			End If
+		End Using
+
+	End Sub
+
 	Private Sub EMI_Production_Order_Activated(sender As Object, e As EventArgs) Handles Me.Activated
 		My.Application.ChangeCulture("en-us")
 		My.Application.ChangeUICulture("en-us")
@@ -342,6 +362,8 @@
 		'Kode_Unik = Format(Rand.Next(0, 999), "000") & Format(tgl_skg, "ddMMyyHHmmss"
 
 		Cmb_Data_Sorting.SelectedIndex = 0
+
+		NoFakturSplit = ""
 
 		jumlah_po = 0
 		display_default()
@@ -990,13 +1012,18 @@
 
 			If flag_stok_cukup = False Then
 
-				Dim tanya As String = MessageBox.Show(pesan & vbNewLine & "Apakah ingin melanjutkan transaksi ? ", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-				If tanya = vbNo Then
-					CloseTrans()
-					CloseConn()
-					MessageBox.Show("Transaksi dibatalkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-					Exit Sub
-				End If
+				'Dim tanya As String = MessageBox.Show(pesan & vbNewLine & "Apakah ingin melanjutkan transaksi ? ", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+				'If tanya = vbNo Then
+				'	CloseTrans()
+				'	CloseConn()
+				'	MessageBox.Show("Transaksi dibatalkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				'	Exit Sub
+				'End If
+
+				MessageBox.Show(pesan & vbNewLine & "Transaksi Tidak Dapat Dilanjutkan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				CloseTrans()
+				CloseConn()
+				Exit Sub
 			End If
 
 			SQL = "select 1 from Emi_Transaksi_Formulator "
@@ -1021,14 +1048,28 @@
 				End If
 			End Using
 
+			Dim JumlahPO As Double = 0
+			Dim KdBarang As String = ""
+			Dim Satuan As String = ""
+			For i As Integer = 0 To LvOrder.Items.Count - 1
+				get_isi_listview_detail(i)
+				JumlahPO += Val(HilangkanTanda(LvJmlh2))
+				KdBarang = LvKdBrg2
+				Satuan = LvSatuan2
+			Next
+			'=============================
+			'=     HANDLE STEP SPLIT     =
+			'=============================
+			HandleInsertSplit(SoProduction, KdBarang, JumlahPO, Satuan)
+
 			Cmd.Transaction.Commit()
 			CloseConn()
-			MessageBox.Show(Base_Language.Lang_Global_Sukses_Simpan, Judul, MessageBoxButtons.OK)
+			MessageBox.Show(Base_Language.Lang_Global_Sukses_Simpan, Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
 			kosong()
 		Catch ex As Exception
 			CloseTrans()
 			CloseConn()
-			MessageBox.Show(ex.Message)
+			MessageBox.Show(ex.Message, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 			Exit Sub
 		End Try
 
@@ -1310,6 +1351,7 @@
 							Else
 								kode_formula = Dr("kode_formula")
 								tanggal_formula = Dr("tanggal")
+								TextBox1.Text = Dr("kode_formula")
 							End If
 						Else
 							Dr.Close()
@@ -1642,6 +1684,7 @@
 				LvPackaging.Items.Clear()
 				txtNmBrgPO.Text = ""
 				txtKdBrgPO.Text = ""
+				TextBox1.Text = ""
 
 				If txtNoFaktur.Text <> txt_faktur_bayangan.Text Then
 					txtNoFaktur_Leave(Me, Nothing)
@@ -3090,6 +3133,428 @@
 		End Try
 
 		Button1_Click_1(sender, e)
+
+	End Sub
+
+	Private Sub HandleInsertSplit(ByVal KdStockOwner As String, KdBarang As String, JumlahPO As Double, Satuan As String)
+		If txtNoFaktur.Text.Trim.Length = 0 Then
+			Throw New Exception("No Po Tidak Ditemukan")
+		End If
+
+		get_no_faktur_Split(txtNoFaktur.Text.Trim)
+
+		Dim QtyBatch As Double = 0
+		Dim BeratBarang As Double = 0
+
+		Dim IdKaryawan As String = ""
+		SQL = "select a.Id_Karyawan,a.Nama from Emi_Karyawan a,Emi_Jabatan_Internal b "
+		SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and "
+		SQL = SQL & "a.Kode_Perusahaan = '" & KodePerusahaan & "' and "
+		SQL = SQL & "a.Id_Jabatan = b.Id_Jabatan and b.Flag_Tampil_Produksi = 'Y' "
+		SQL = SQL & "order by Nama"
+		Using Dr = OpenTrans(SQL)
+			If Dr.Read Then
+				IdKaryawan = Dr("Id_Karyawan")
+			Else
+				Dr.Close()
+				Throw New Exception("Terjadi Kesalahan Saat Insert Split, Id Karyawan Tidak Ditemukan")
+			End If
+		End Using
+
+		SQL = "select berat from barang "
+		SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+		SQL = SQL & "and Kode_Stock_Owner = '" & KdStockOwner & "' "
+		SQL = SQL & "and Kode_Barang = '" & KdBarang & "' "
+		Using Dr = OpenTrans(SQL)
+			If Dr.Read Then
+				BeratBarang = Dr("berat")
+			Else
+				Dr.Close()
+				Throw New Exception("Terjadi Kesalahan Saat Insert Split, Data Barang Tidak Ditemukan")
+			End If
+		End Using
+
+		QtyBatch = ((Val(HilangkanTanda(JumlahPO)) * Val(HilangkanTanda(BeratBarang))) / Val(HilangkanTanda(1))) / 1000
+
+		SQL = "INSERT INTO N_EMI_Transaksi_Trial_Split_Production_Order(Kode_Perusahaan,No_Transaksi,No_PO,Lokasi,Tanggal,Jam,UserID,Kode_Stock_Owner,"
+		SQL = SQL & "Kode_Barang,Jumlah,Satuan, "
+		SQL = SQL & "Flag_Produksi,Tgl_Produksi, Jam_Produksi, No_Batch, Operator, Jumlah_Batch, Qty_Batch, Satuan_Batch) "
+		SQL = SQL & "Values ('" & KodePerusahaan & "', '" & NoFakturSplit & "', '" & txtNoFaktur.Text.Trim & "', "
+		SQL = SQL & "'" & CmbLokasi.Text & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
+		SQL = SQL & "'" & UserID & "', '" & KdStockOwner & "', '" & KdBarang & "', '" & JumlahPO & "', "
+		SQL = SQL & "'" & Satuan & "', "
+		SQL = SQL & "'Y', '" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "', "
+		SQL = SQL & "'" & TxtCatatan.Text.Trim & "', '" & IdKaryawan & "', "
+		SQL = SQL & "'1', '" & HilangkanTanda(QtyBatch) & "', 'KG')"
+		ExecuteTrans(SQL)
+
+		SQL = "select a.No_Faktur,a.Kode_Stock_Owner,a.Kode_Barang,c.Nama,a.Jumlah,a.Satuan,d.Keterangan,a.Id_Routing, "
+		SQL = SQL & "ISNULL((select sum(z.Jumlah) from N_EMI_Transaksi_Trial_Split_Production_Order z where z.No_PO = a.No_Faktur and z.status is null"
+		SQL = SQL & "),0) as Jml_Sdh_Split "
+		SQL = SQL & "from N_EMI_Transaksi_Trial_Order_Produksi a,Barang c,EMI_Master_Routing d where "
+		SQL = SQL & "a.Status is null and a.Selesai is null and Flag_Release = 'Y' "
+		SQL = SQL & "and a.Kode_Perusahaan = c.Kode_Perusahaan and a.Kode_Stock_Owner = c.Kode_Stock_Owner and a.Kode_Barang = c.Kode_Barang "
+		SQL = SQL & "and a.Kode_Perusahaan = d.Kode_Perusahaan and a.Id_Routing = d.Id_Routing and a.Flag_Selesai_Split is null "
+		SQL = SQL & "and a.Flag_Selesai_Produksi is null and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Faktur = '" & txtNoFaktur.Text.Trim & "' "
+
+		Using dr = OpenTrans(SQL)
+			If dr.Read Then
+				If dr("Jumlah") = dr("Jml_Sdh_Split") Then
+
+					dr.Close()
+					SQL = "update N_EMI_Transaksi_Trial_Order_Produksi set Flag_Selesai_Split = 'Y' where "
+					SQL = SQL & "Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & txtNoFaktur.Text.Trim & "'"
+					ExecuteTrans(SQL)
+
+				ElseIf dr("Jml_Sdh_Split") > dr("Jumlah") Then
+					dr.Close()
+					'CloseTrans()
+					'CloseConn()
+					'MessageBox.Show("Data Melebihi Produksi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					'Exit Sub
+
+					Throw New Exception("Terjadi Kesalahan Saat Insert Split, Data Melebihi Produksi")
+				End If
+			End If
+		End Using
+
+		'penentu bahan baku dan packaging
+		Dim satuan_akhir_init_barang As String = ""
+		Dim totalSerapan As Double = 0
+		Dim nilai_production_order As Double = 0
+		Dim nilaiPersentase As Double = 0
+
+		Dim kd_barangINq As String = ""
+		SQL = "select top(1) Kode_Barang_inq from barang "
+		SQL = SQL & "where kode_Perusahaan='" & KodePerusahaan & "' "
+		SQL = SQL & "and Kode_Barang ='" & KdBarang & "' "
+		Using dr = OpenTrans(SQL)
+			If dr.Read Then
+				kd_barangINq = dr("Kode_Barang_inq")
+			Else
+				dr.Close()
+				'CloseTrans()
+				'CloseConn()
+				'MessageBox.Show(Base_Language.Lang_Global_KodeBarang & " " & Base_Language.Lang_GLOBAL_Tidak_Ditemukan & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+				'Exit Sub
+
+				Throw New Exception("Terjadi Kesalahan Saat Insert Split, Kode Barang Tidak Ditemukan")
+			End If
+		End Using
+
+		SQL = "select Satuan_Berat From Init "
+		Using Dr = OpenTrans(SQL)
+			If Dr.Read Then
+				satuan_akhir_init_barang = Dr("satuan_berat")
+			Else
+				Dr.Close()
+				'CloseTrans()
+				'CloseConn()
+				'MessageBox.Show("Data tidak ada", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				'Exit Sub
+
+				Throw New Exception("Terjadi Kesalahan Saat Insert Split, Data pada init tidak ada")
+			End If
+		End Using
+
+		SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & KdBarang & "',"
+		SQL = SQL & "'" & Satuan & "','" & satuan_akhir_init_barang & "',"
+		SQL = SQL & "" & JumlahPO & ") as Hasil "
+		Using dr = OpenTrans(SQL)
+			If dr.Read Then
+				If General_Class.CekNULL(dr("Hasil")) <> "" Then
+					If dr("Hasil") = 0 Then
+						dr.Close()
+						'CloseTrans()
+						'CloseConn()
+						'MessageBox.Show("Satuan " & Satuan & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						'Exit Sub
+
+						Throw New Exception("Terjadi Kesalahan Saat Insert Split,, Satuan " & Satuan & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !")
+					Else
+						nilai_production_order = dr("hasil")
+					End If
+				Else
+					dr.Close()
+					'CloseTrans()
+					'CloseConn()
+					'MessageBox.Show("Satuan " & Satuan & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					'Exit Sub
+
+					Throw New Exception("Terjadi Kesalahan Saat Insert Split, Satuan " & Satuan & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !")
+				End If
+			End If
+		End Using
+
+		''=========================Ambil Kode Formula============================'
+		Dim kode_formula As String = ""
+		Dim tanggal_formula As String = ""
+
+		SQL = "select a.Kode_Formula, b.Tanggal from N_EMI_Transaksi_Trial_Order_Produksi a, Emi_Transaksi_Formulator b where "
+		SQL = SQL & "a.no_faktur='" & txtNoFaktur.Text.Trim & "' and a.Kode_Perusahaan='" & KodePerusahaan & "' "
+		SQL = SQL & "and a.Kode_Perusahaan=b.Kode_Perusahaan and a.Kode_Formula=b.No_Faktur "
+		Using Dr = OpenTrans(SQL)
+			If Dr.Read Then
+
+				kode_formula = Dr("Kode_Formula")
+				tanggal_formula = Dr("tanggal")
+			Else
+				Dr.Close()
+				'CloseTrans()
+				'CloseConn()
+				'MessageBox.Show("Kode formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				'Exit Sub
+
+				Throw New Exception("Terjadi Kesalahan Saat Insert Split, Kode formula tidak ditemukan!")
+			End If
+		End Using
+		'=========================================================
+
+		SQL = "select hasil,satuan_hasil from Emi_Transaksi_Formulator where "
+		SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & kode_formula & "' "
+		Using Dr = OpenTrans(SQL)
+			If Dr.Read Then
+
+				SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & KdBarang & "',"
+				SQL = SQL & "'" & Dr("satuan_hasil") & "','" & satuan_akhir_init_barang & "',"
+				SQL = SQL & "" & Dr("hasil") & ") as Hasil "
+				Dr.Close()
+
+				Using dr2 = OpenTrans(SQL)
+					If dr2.Read Then
+						If General_Class.CekNULL(dr2("Hasil")) <> "" Then
+							If dr2("Hasil") = 0 Then
+								dr2.Close()
+								'CloseTrans()
+								'CloseConn()
+								'MessageBox.Show("Satuan " & Satuan & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+								'Exit Sub
+
+								Throw New Exception("Terjadi Kesalahan Saat Insert Split, Satuan " & Satuan & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !")
+							Else
+								totalSerapan = dr2("hasil")
+							End If
+						Else
+							dr2.Close()
+							'CloseTrans()
+							'CloseConn()
+							'MessageBox.Show("Satuan " & Satuan & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+							'Exit Sub
+
+							Throw New Exception("Terjadi Kesalahan Saat Insert Split, Satuan " & Satuan & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !")
+						End If
+					End If
+				End Using
+			Else
+				Dr.Close()
+				'CloseTrans()
+				'CloseConn()
+				'MessageBox.Show("Formula tidak ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				'Exit Sub
+
+				Throw New Exception("Terjadi Kesalahan Saat Insert Split, Formula tidak ditemukan")
+			End If
+		End Using
+
+		'
+		SQL = "select a.no_faktur, a.kode_stock_owner, a.kode_barang, c.nama,"
+		SQL = SQL & "a.nilai_barang, a.persentase, a.satuan_barang, "
+		SQL = SQL & "isnull((select sum(Good_Stock) From barang x where a.Kode_Perusahaan = x.Kode_Perusahaan and a.Kode_Barang  = x.Kode_Barang),null) as stock "
+		SQL = SQL & "From EMI_Transaksi_Formulator_Detail_Bahan a, Emi_Transaksi_Formulator b,barang c  "
+		SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur and b.Status is null "
+		SQL = SQL & "and a.kode_perusahaan = c.kode_perusahaan and a.kode_stock_owner = c.kode_stock_owner and a.kode_barang = c.kode_barang "
+		SQL = SQL & "and b.kode_perusahaan = '" & KodePerusahaan & "' and b.no_faktur = '" & kode_formula & "' "
+
+		Using ds = BindingTrans(SQL)
+			With ds.Tables("MyTable")
+				If .Rows.Count <> 0 Then
+					For indexFormulator As Integer = 0 To .Rows.Count - 1
+
+						Dim jumlah As Double = 0
+
+						nilaiPersentase = nilai_production_order / totalSerapan
+
+						jumlah = Val(HilangkanTanda(Format(.Rows(indexFormulator).Item("nilai_barang"), "N4"))) * nilaiPersentase
+
+						Dim convertKeSatuanAsli As String = ""
+						Dim jumlahBarangDibutuhkan As Double = 0
+
+						SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(indexFormulator).Item("kode_barang") & "' "
+						SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
+						Using Dr3 = OpenTrans(SQL)
+							If Dr3.Read Then
+								convertKeSatuanAsli = Dr3("satuan")
+								SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(indexFormulator).Item("kode_barang") & "',"
+								SQL = SQL & "'" & .Rows(indexFormulator).Item("satuan_barang") & "','" & Dr3("satuan") & "',"
+								SQL = SQL & "" & jumlah & ") as Hasil "
+								Dr3.Close()
+
+								Using dr4 = OpenTrans(SQL)
+									If dr4.Read Then
+										If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+											If dr4("Hasil") = 0 Then
+												dr4.Close()
+												'CloseTrans()
+												'CloseConn()
+												'MessageBox.Show("Satuan " & Satuan & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+												'Exit Sub
+
+												Throw New Exception("Terjadi Kesalahan Saat Insert Split, Satuan " & Satuan & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !")
+											Else
+												jumlahBarangDibutuhkan = dr4("hasil")
+											End If
+										Else
+											dr4.Close()
+											'CloseTrans()
+											'CloseConn()
+											'MessageBox.Show("Satuan " & Satuan & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+											'Exit Sub
+
+											Throw New Exception("Terjadi Kesalahan Saat Insert Split, Satuan " & Satuan & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !")
+										End If
+									End If
+								End Using
+							Else
+								Dr3.Close()
+								'CloseTrans()
+								'CloseConn()
+								'MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+								'Exit Sub
+
+								Throw New Exception("Terjadi Kesalahan Saat Insert Split, Barang detail satuan belum di set!")
+							End If
+						End Using
+
+						Dim stockConvert As Double = 0
+						Dim converKesatuanAsliBarangStok As String = ""
+						'============= convert nilai dan satuan stock barang ke tampilan display
+						SQL = "select satuan From Barang_Detail_Satuan where Kode_barang = '" & .Rows(indexFormulator).Item("kode_barang") & "' "
+						SQL = SQL & "and kode_perusahaan = '" & KodePerusahaan & "' and flag_tampil_display = 'Y' "
+						Using Dr3 = OpenTrans(SQL)
+							If Dr3.Read Then
+								converKesatuanAsliBarangStok = Dr3("satuan")
+								SQL = "select dbo.Ubah_Satuan('" & KodePerusahaan & "','MASA','" & .Rows(indexFormulator).Item("kode_barang") & "',"
+								SQL = SQL & "'" & .Rows(indexFormulator).Item("satuan_barang") & "','" & Dr3("satuan") & "',"
+								SQL = SQL & "" & .Rows(indexFormulator).Item("stock") & ") as Hasil "
+								Dr3.Close()
+
+								Using dr4 = OpenTrans(SQL)
+									If dr4.Read Then
+										If General_Class.CekNULL(dr4("Hasil")) <> "" Then
+											stockConvert = dr4("hasil")
+										Else
+											dr4.Close()
+											'CloseTrans()
+											'CloseConn()
+											'MessageBox.Show("Satuan " & Satuan & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+											'Exit Sub
+
+											Throw New Exception("Terjadi Kesalahan Saat Insert Split, Satuan " & Satuan & " Ke " & satuan_akhir_init_barang & " Tidak ditemukan . . !")
+										End If
+									End If
+								End Using
+							Else
+								Dr3.Close()
+								'CloseTrans()
+								'CloseConn()
+								'MessageBox.Show("Barang detail satuan belum di set!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+								'Exit Sub
+
+								Throw New Exception("Terjadi Kesalahan Saat Insert Split, Barang detail satuan belum di set!")
+							End If
+						End Using
+
+						SQL = "insert into N_EMI_Transaksi_Trial_Split_Production_Order_Detail_Bahan(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner,Kode_Barang,Jumlah,Satuan,Nilai_Barang,Satuan_Barang) values( "
+						SQL = SQL & "'" & KodePerusahaan & "', '" & NoFakturSplit & "' , '" & KdStockOwner & "','" & .Rows(indexFormulator).Item("kode_barang") & "', '" & HilangkanTanda(Format(jumlahBarangDibutuhkan, "N4")) & "', '" & convertKeSatuanAsli & "', "
+						SQL = SQL & "" & HilangkanTanda(Format(jumlah, "N4")) & ", '" & .Rows(indexFormulator).Item("satuan_barang") & "' ) "
+						ExecuteTrans(SQL)
+
+					Next
+				Else
+					'CloseConn()
+					'CloseTrans()
+					'MessageBox.Show("Formula tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					'Exit Sub
+
+					Throw New Exception("Terjadi Kesalahan Saat Insert Split, Formula tidak ditemukan!")
+				End If
+			End With
+		End Using
+
+		'========================================================
+		'=     CEK APAKAH BAHAN MENCUKUPI UNTUK SEMUA BATCH     =
+		'========================================================
+		SQL = "Select a.No_Faktur, a.Kode_Stock_Owner, a.Kode_Barang, b.Nama, a.Jumlah, a.Satuan, a.Nilai_Barang, a.Satuan_Barang, "
+		SQL &= $"isnull(( "
+		SQL &= $"select isnull((( "
+		SQL &= $"(dbo.ubah_satuan(z.Kode_Perusahaan, 'masa', z.Kode_Barang, z.Satuan_Batch, 'KG', z.Qty_Batch * 1)) / "
+		SQL &= $"(select dbo.ubah_satuan(z.Kode_Perusahaan, 'masa', z.Kode_Barang, r.Satuan_Hasil, 'KG', r.Hasil) "
+		SQL &= $"from Emi_Transaksi_Formulator r "
+		SQL &= $"where r.Kode_Perusahaan = x.Kode_Perusahaan and r.No_Faktur = x.Kode_Formula and z.Status is null) ) * y.Jumlah "
+		SQL &= $"), 0) as Nilai_PerBatch "
+		SQL &= $"from N_EMI_Transaksi_Trial_Split_Production_Order z, N_EMI_Transaksi_Trial_Order_Produksi x, EMI_Transaksi_Formulator_Detail_Bahan y "
+		SQL &= $"where z.Kode_Perusahaan = x.Kode_Perusahaan and x.Kode_Perusahaan = y.Kode_Perusahaan "
+		SQL &= $"and z.No_PO = x.No_Faktur "
+		SQL &= $"and x.Kode_Formula = y.No_Faktur "
+		SQL &= $"and z.Kode_Perusahaan = a.Kode_Perusahaan "
+		SQL &= $"and z.No_Transaksi = a.no_faktur "
+		SQL &= $"and y.Kode_Barang = a.Kode_Barang and y.Satuan = a.satuan ), 0) as Nilai_Per_Batch "
+		SQL &= $"from N_EMI_Transaksi_Trial_Split_Production_Order_Detail_Bahan a, Barang b, EMI_Kategori_Gudang_PerLokasi c, Stock_Owner_Gudang d "
+		SQL &= $"where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
+		SQL &= $"and b.Kode_Perusahaan = c.kode_perusahaan and b.ID_Kategori_Gudang = c.Id_Kategori_Gudang "
+		SQL &= $"and c.kode_perusahaan = d.kode_Perusahaan and c.lokasi_gudang = d.kode_Stock_owner "
+		SQL &= $"and a.kode_Perusahaan = '{KodePerusahaan}' and a.No_Faktur = '{NoFakturSplit}' "
+
+		Using Ds = BindingTrans(SQL)
+			With Ds.Tables("MyTable")
+				If .Rows.Count <> 0 Then
+					For i As Integer = 0 To .Rows.Count - 1
+
+						SQL = "select a.Kode_Stock_Owner, a.Kode_Barang, a.Nama, Round(a.Good_Stock, 4) as Good_Stock, round(sum(b.Jumlah), 4) as Jumlah_Sn "
+						SQL &= $"from Barang a "
+						SQL &= $"inner join Barang_SN b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Stock_Owner = b.Kode_Stock_Owner and a.Kode_Barang = b.Kode_Barang "
+						SQL &= $"where a.Kode_Perusahaan = '{KodePerusahaan}' "
+						SQL &= $"and a.Kode_Stock_Owner = '{ .Rows(i).Item("Kode_Stock_Owner")}' "
+						SQL &= $"and a.Kode_Barang = '{ .Rows(i).Item("Kode_Barang")}' "
+						SQL &= $"group by a.Kode_Stock_Owner, a.Kode_Barang, a.Nama, a.Good_Stock "
+						Using Dr = OpenTrans(SQL)
+							If Dr.Read Then
+
+								If Val(HilangkanTanda(Dr("Good_Stock"))) <> Val(HilangkanTanda(Dr("Jumlah_Sn"))) Then
+									Dr.Close()
+									'CloseTrans()
+									'CloseConn()
+									'MessageBox.Show($"Jumlah Pada Kode Barang { .Rows(i).Item("Kode_Barang")} Tidak Sesuai", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+									'Exit Sub
+
+									Throw New Exception($"Terjadi Kesalahan Saat Insert Split, Jumlah Pada Kode Barang { .Rows(i).Item("Kode_Barang")} Tidak Sesuai")
+								End If
+
+								Dim asa As Double = Val(HilangkanTanda(.Rows(i).Item("Nilai_Per_Batch")))
+								If Val(HilangkanTanda(.Rows(i).Item("Nilai_Per_Batch"))) > Val(HilangkanTanda(Dr("Good_Stock"))) Then
+									Dr.Close()
+									'CloseTrans()
+									'CloseConn()
+									'MessageBox.Show($"Stock Pada Kode Barang { .Rows(i).Item("Kode_Barang")} Tidak Mencukupi untuk Memenuhi Jumlah Batch", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+									'Exit Sub
+
+									Throw New Exception($"Terjadi Kesalahan Saat Insert Split, Stock Pada Kode Barang { .Rows(i).Item("Kode_Barang")} Tidak Mencukupi untuk Memenuhi Jumlah Batch")
+								End If
+							Else
+								Dr.Close()
+								'CloseTrans()
+								'CloseConn()
+								'MessageBox.Show($"Data Kode Barang { .Rows(i).Item("Kode_Barang")} Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+								'Exit Sub
+
+								Throw New Exception($"Terjadi Kesalahan Saat Insert Split, Data Kode Barang { .Rows(i).Item("Kode_Barang")} Tidak Ditemukan")
+							End If
+						End Using
+
+					Next
+				End If
+			End With
+		End Using
 
 	End Sub
 

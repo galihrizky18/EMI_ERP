@@ -198,7 +198,7 @@
 							where q.Status is NULL
 								and q.Kode_Perusahaan = z.Kode_Perusahaan
 								and q.No_Faktur_Order = '{SelectedSplit}'
-								and q.Batch = '{SelectedSplit}'
+								and q.Batch = '{SelectedBatch}'
 					)
 				group by z.Kode_Perusahaan, z.SO_Tujuan, x.Kode_Barang, k.Serial_Number
 				) select Kode_Perusahaan, Kode_Barang, sum(Jumlah_TF) as Jumlah_TF, sum(Jumlah_SN) as Jumlah_SN

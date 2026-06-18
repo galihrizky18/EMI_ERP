@@ -115,7 +115,7 @@ Partial Class EMI_Produksi
 		Me.Panel1.Location = New System.Drawing.Point(0, 0)
 		Me.Panel1.Margin = New System.Windows.Forms.Padding(5)
 		Me.Panel1.Name = "Panel1"
-		Me.Panel1.Size = New System.Drawing.Size(1184, 53)
+		Me.Panel1.Size = New System.Drawing.Size(1184, 45)
 		Me.Panel1.TabIndex = 22
 		'
 		'PanelGradient1
@@ -125,7 +125,7 @@ Partial Class EMI_Produksi
 		Me.PanelGradient1.cuteTransparent1 = 100
 		Me.PanelGradient1.cuteTransparent2 = 64
 		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-		Me.PanelGradient1.Location = New System.Drawing.Point(0, 51)
+		Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
 		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
 		Me.PanelGradient1.Name = "PanelGradient1"
 		Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
@@ -134,18 +134,18 @@ Partial Class EMI_Produksi
 		'Label1
 		'
 		Me.Label1.AutoSize = True
-		Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.Label1.Location = New System.Drawing.Point(18, 14)
+		Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.0!, System.Drawing.FontStyle.Bold)
+		Me.Label1.Location = New System.Drawing.Point(20, 7)
 		Me.Label1.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
 		Me.Label1.Name = "Label1"
-		Me.Label1.Size = New System.Drawing.Size(229, 25)
+		Me.Label1.Size = New System.Drawing.Size(216, 29)
 		Me.Label1.TabIndex = 0
 		Me.Label1.Text = "Transaksi - Produksi"
 		'
 		'Panel2
 		'
 		Me.Panel2.BackColor = System.Drawing.Color.Red
-		Me.Panel2.Location = New System.Drawing.Point(0, 55)
+		Me.Panel2.Location = New System.Drawing.Point(0, 44)
 		Me.Panel2.Margin = New System.Windows.Forms.Padding(5)
 		Me.Panel2.Name = "Panel2"
 		Me.Panel2.Size = New System.Drawing.Size(1099, 15)
@@ -703,7 +703,7 @@ Partial Class EMI_Produksi
 		'Panel9
 		'
 		Me.Panel9.BackColor = System.Drawing.Color.Red
-		Me.Panel9.Location = New System.Drawing.Point(635, 69)
+		Me.Panel9.Location = New System.Drawing.Point(635, 58)
 		Me.Panel9.Margin = New System.Windows.Forms.Padding(5)
 		Me.Panel9.Name = "Panel9"
 		Me.Panel9.Size = New System.Drawing.Size(14, 602)
@@ -748,11 +748,11 @@ Partial Class EMI_Produksi
 		Me.GroupBox1.Controls.Add(Me.Cmb_Lokasi)
 		Me.GroupBox1.Controls.Add(Me.DateTimePicker2)
 		Me.GroupBox1.Controls.Add(Me.Label3)
-		Me.GroupBox1.Location = New System.Drawing.Point(20, 71)
+		Me.GroupBox1.Location = New System.Drawing.Point(20, 60)
 		Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
 		Me.GroupBox1.Name = "GroupBox1"
 		Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
-		Me.GroupBox1.Size = New System.Drawing.Size(615, 452)
+		Me.GroupBox1.Size = New System.Drawing.Size(615, 465)
 		Me.GroupBox1.TabIndex = 442
 		Me.GroupBox1.TabStop = False
 		'
@@ -761,11 +761,11 @@ Partial Class EMI_Produksi
 		Me.GroupBox2.Controls.Add(Me.Label18)
 		Me.GroupBox2.Controls.Add(Me.TabControl1)
 		Me.GroupBox2.Font = New System.Drawing.Font("Work Sans", 9.0!)
-		Me.GroupBox2.Location = New System.Drawing.Point(650, 71)
+		Me.GroupBox2.Location = New System.Drawing.Point(650, 60)
 		Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4)
 		Me.GroupBox2.Name = "GroupBox2"
 		Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4)
-		Me.GroupBox2.Size = New System.Drawing.Size(510, 452)
+		Me.GroupBox2.Size = New System.Drawing.Size(510, 465)
 		Me.GroupBox2.TabIndex = 443
 		Me.GroupBox2.TabStop = False
 		Me.GroupBox2.Text = "Detail Bahan"
@@ -790,7 +790,7 @@ Partial Class EMI_Produksi
 		Me.TabControl1.Location = New System.Drawing.Point(4, 19)
 		Me.TabControl1.Name = "TabControl1"
 		Me.TabControl1.SelectedIndex = 0
-		Me.TabControl1.Size = New System.Drawing.Size(502, 429)
+		Me.TabControl1.Size = New System.Drawing.Size(502, 442)
 		Me.TabControl1.TabIndex = 0
 		'
 		'TabPage1
@@ -799,7 +799,7 @@ Partial Class EMI_Produksi
 		Me.TabPage1.Location = New System.Drawing.Point(4, 25)
 		Me.TabPage1.Name = "TabPage1"
 		Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-		Me.TabPage1.Size = New System.Drawing.Size(494, 400)
+		Me.TabPage1.Size = New System.Drawing.Size(494, 413)
 		Me.TabPage1.TabIndex = 0
 		Me.TabPage1.Text = "Bahan"
 		Me.TabPage1.UseVisualStyleBackColor = True
@@ -827,7 +827,7 @@ Partial Class EMI_Produksi
 		Me.Dgv_Data_Bahan.Name = "Dgv_Data_Bahan"
 		Me.Dgv_Data_Bahan.RowHeadersWidth = 15
 		Me.Dgv_Data_Bahan.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-		Me.Dgv_Data_Bahan.Size = New System.Drawing.Size(488, 394)
+		Me.Dgv_Data_Bahan.Size = New System.Drawing.Size(488, 407)
 		Me.Dgv_Data_Bahan.TabIndex = 1
 		'
 		'lokasi_tujuan
@@ -861,7 +861,7 @@ Partial Class EMI_Produksi
 		Me.TabPage2.Location = New System.Drawing.Point(4, 25)
 		Me.TabPage2.Name = "TabPage2"
 		Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-		Me.TabPage2.Size = New System.Drawing.Size(494, 400)
+		Me.TabPage2.Size = New System.Drawing.Size(494, 413)
 		Me.TabPage2.TabIndex = 1
 		Me.TabPage2.Text = "Packaging"
 		Me.TabPage2.UseVisualStyleBackColor = True
@@ -889,7 +889,7 @@ Partial Class EMI_Produksi
 		Me.Dgv_Data_Packaging.Name = "Dgv_Data_Packaging"
 		Me.Dgv_Data_Packaging.RowHeadersWidth = 15
 		Me.Dgv_Data_Packaging.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-		Me.Dgv_Data_Packaging.Size = New System.Drawing.Size(488, 394)
+		Me.Dgv_Data_Packaging.Size = New System.Drawing.Size(488, 407)
 		Me.Dgv_Data_Packaging.TabIndex = 2
 		'
 		'DataGridViewTextBoxColumn1
@@ -965,6 +965,7 @@ Partial Class EMI_Produksi
 		Me.Font = New System.Drawing.Font("Work Sans", 8.0!)
 		Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
 		Me.Margin = New System.Windows.Forms.Padding(5)
+		Me.MaximizeBox = False
 		Me.Name = "EMI_Produksi"
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
 		Me.Panel1.ResumeLayout(False)
