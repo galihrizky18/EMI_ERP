@@ -987,7 +987,7 @@ Public Class N_EMI_SD_Trial_Good_Received
 
 											Nilai_Bahan = Nilai_Bahan + (Math.Round(hpp * sisa, 0))
 											sisa = 0
-										ElseIf sisa > .Rows(h).Item("jumlah") Then
+										ElseIf sisa > Ds1.Tables("MyTable").Rows(h).Item("jumlah") Then
 											SQL = "Update barang_sn set jumlah = jumlah - jumlah where "
 											SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
 											SQL = SQL & "kode_stock_owner = '" & Ds1.Tables("MyTable").Rows(h).Item("kode_stock_owner") & "' and "

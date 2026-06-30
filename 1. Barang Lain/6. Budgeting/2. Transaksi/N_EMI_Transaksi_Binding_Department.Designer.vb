@@ -23,7 +23,6 @@ Partial Class N_EMI_Transaksi_Binding_Department
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
 		Me.Panel1 = New System.Windows.Forms.Panel()
-		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Lbl_Judul = New System.Windows.Forms.Label()
 		Me.Panel5 = New System.Windows.Forms.Panel()
 		Me.Panel6 = New System.Windows.Forms.Panel()
@@ -56,6 +55,7 @@ Partial Class N_EMI_Transaksi_Binding_Department
 		Me.Label1 = New System.Windows.Forms.Label()
 		Me.Lv_Display_Parent = New System.Windows.Forms.ListView()
 		Me.Panel14 = New System.Windows.Forms.Panel()
+		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Panel1.SuspendLayout()
 		Me.Panel5.SuspendLayout()
 		Me.Panel4.SuspendLayout()
@@ -77,19 +77,6 @@ Partial Class N_EMI_Transaksi_Binding_Department
 		Me.Panel1.Name = "Panel1"
 		Me.Panel1.Size = New System.Drawing.Size(934, 45)
 		Me.Panel1.TabIndex = 31
-		'
-		'PanelGradient1
-		'
-		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-		Me.PanelGradient1.cuteTransparent1 = 100
-		Me.PanelGradient1.cuteTransparent2 = 64
-		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-		Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
-		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-		Me.PanelGradient1.Name = "PanelGradient1"
-		Me.PanelGradient1.Size = New System.Drawing.Size(934, 2)
-		Me.PanelGradient1.TabIndex = 22
 		'
 		'Lbl_Judul
 		'
@@ -317,7 +304,7 @@ Partial Class N_EMI_Transaksi_Binding_Department
 		Me.Btn_Get_Data.Name = "Btn_Get_Data"
 		Me.Btn_Get_Data.Size = New System.Drawing.Size(114, 31)
 		Me.Btn_Get_Data.TabIndex = 2
-		Me.Btn_Get_Data.Text = "&Get Data"
+		Me.Btn_Get_Data.Text = "&Get Department"
 		Me.Btn_Get_Data.UseVisualStyleBackColor = False
 		'
 		'Panel12
@@ -463,6 +450,19 @@ Partial Class N_EMI_Transaksi_Binding_Department
 		Me.Panel14.Size = New System.Drawing.Size(12, 637)
 		Me.Panel14.TabIndex = 504
 		Me.Panel14.Visible = False
+		'
+		'PanelGradient1
+		'
+		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+		Me.PanelGradient1.cuteTransparent1 = 100
+		Me.PanelGradient1.cuteTransparent2 = 64
+		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+		Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
+		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+		Me.PanelGradient1.Name = "PanelGradient1"
+		Me.PanelGradient1.Size = New System.Drawing.Size(934, 2)
+		Me.PanelGradient1.TabIndex = 22
 		'
 		'N_EMI_Transaksi_Binding_Department
 		'

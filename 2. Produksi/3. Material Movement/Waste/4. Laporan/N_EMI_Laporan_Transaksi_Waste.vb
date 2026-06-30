@@ -7,11 +7,11 @@
 	Dim arrIndexRekap As New ArrayList From {0, 2}
 
 	Dim ArrFilterJenis As New List(Of (JenisLaporan As String, ValueCombobox As String, JenisSql As String)) From {
-		("PEMUSNAHAN_PRODUCTION", "Good Received 1", "Good Received 1"),
+		("PEMUSNAHAN_PRODUCTION", "Goods Received 1", "Goods Received 1"),
 		("PEMUSNAHAN_PRODUCTION", "Sampel", "Waste Sampel"),
 		("PEMUSNAHAN_WASTE_STORAGE", "Pemindahan Waste", "Pemindahan Waste"),
-		("PEMINDAHAN", "Good Received 2", "Good Received 2"),
-		("PEMINDAHAN", "Good Received 3", "Good Received 3"),
+		("PEMINDAHAN", "Goods Received 2", "Goods Received 2"),
+		("PEMINDAHAN", "Goods Received 3", "Goods Received 3"),
 		("PEMINDAHAN", "Packaging Waste", "Packaging Waste")
 	}
 
@@ -19,7 +19,7 @@
 		(OpsiSeluruh, OpsiSeluruh, OpsiSeluruh),
 		("PEMUSNAHAN_PRODUCTION", "Status Approval", "isCompleted"),
 		("PEMUSNAHAN_PRODUCTION", "Status Accounting", "Status_Validasi_Acc"),
-		("PEMINDAHAN", "Status Approval", "Good isCompleted 2"),
+		("PEMINDAHAN", "Status Approval", "isCompleted"),
 		("PEMINDAHAN", "Status GA", "Status_Validasi_GA")
 	}
 
@@ -833,8 +833,11 @@
 				'End If
 
 				If Cmb_Status_Transaksi.SelectedIndex > 0 And Cmb_Value_Status_Transaksi.SelectedIndex > 0 Then
-					SQL = SQL & "and " & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & " = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql & "' "
-					SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Process_Rekap." & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & "} = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql.Trim & "'"
+
+					Dim listFilterStatus = ArrFilterStatusTransaksi.Where(Function(x) x.JenisLaporan = "PEMUSNAHAN_PRODUCTION").ToList()
+
+					SQL = SQL & "and " & listFilterStatus(Cmb_Status_Transaksi.SelectedIndex - 1).Sql & " = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql & "' "
+					SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Process_Rekap." & listFilterStatus(Cmb_Status_Transaksi.SelectedIndex - 1).Sql & "} = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql.Trim & "'"
 				End If
 
 				If Not Txt_No_Transaksi.Text.ToUpper.Trim = OpsiSeluruh.ToUpper.Trim Then
@@ -895,8 +898,11 @@
 				SF = SF & "{N_EMI_View_Laporan_Transaksi_Waste_Process.Tanggal} <= #" & Format(Tgl2.Value, "yyyy-MM-dd") & "# "
 
 				If Cmb_Status_Transaksi.SelectedIndex > 0 And Cmb_Value_Status_Transaksi.SelectedIndex > 0 Then
-					SQL = SQL & "and " & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & " = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql & "' "
-					SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Process." & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & "} = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql.Trim & "'"
+
+					Dim listFilterStatus = ArrFilterStatusTransaksi.Where(Function(x) x.JenisLaporan = "PEMUSNAHAN_PRODUCTION").ToList()
+
+					SQL = SQL & "and " & listFilterStatus(Cmb_Status_Transaksi.SelectedIndex - 1).Sql & " = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql & "' "
+					SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Process." & listFilterStatus(Cmb_Status_Transaksi.SelectedIndex - 1).Sql & "} = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql.Trim & "'"
 				End If
 
 				If Not Txt_No_Transaksi.Text.ToUpper.Trim = OpsiSeluruh.ToUpper.Trim Then
@@ -986,8 +992,11 @@
 				'End If
 
 				If Cmb_Status_Transaksi.SelectedIndex > 0 And Cmb_Value_Status_Transaksi.SelectedIndex > 0 Then
-					SQL = SQL & "and " & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & " = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql & "' "
-					SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Product_Transfer_Rekap." & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & "} = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql.Trim & "'"
+
+					Dim listFilterStatus = ArrFilterStatusTransaksi.Where(Function(x) x.JenisLaporan = "PEMINDAHAN").ToList()
+
+					SQL = SQL & "and " & listFilterStatus(Cmb_Status_Transaksi.SelectedIndex - 1).Sql & " = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql & "' "
+					SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Product_Transfer_Rekap." & listFilterStatus(Cmb_Status_Transaksi.SelectedIndex - 1).Sql & "} = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql.Trim & "'"
 				End If
 
 				If Not Txt_No_Transaksi.Text.ToUpper.Trim = OpsiSeluruh.ToUpper.Trim Then
@@ -1058,8 +1067,10 @@
 				End If
 
 				If Cmb_Status_Transaksi.SelectedIndex > 0 And Cmb_Value_Status_Transaksi.SelectedIndex > 0 Then
-					SQL = SQL & "and " & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & " = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql & "' "
-					SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Product_Transfer." & ArrFilterStatusTransaksi(Cmb_Status_Transaksi.SelectedIndex).Sql & "} = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql.Trim & "'"
+					Dim listFilterStatus = ArrFilterStatusTransaksi.Where(Function(x) x.JenisLaporan = "PEMINDAHAN").ToList()
+
+					SQL = SQL & "and " & listFilterStatus(Cmb_Status_Transaksi.SelectedIndex - 1).Sql & " = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql & "' "
+					SF = SF & "And {N_EMI_View_Laporan_Transaksi_Waste_Product_Transfer." & listFilterStatus(Cmb_Status_Transaksi.SelectedIndex - 1).Sql & "} = '" & ArrFilterValueStatusTransaksi(Cmb_Value_Status_Transaksi.SelectedIndex).Sql.Trim & "'"
 				End If
 
 				If Not Txt_No_Transaksi.Text.ToUpper.Trim = OpsiSeluruh.ToUpper.Trim Then
@@ -1406,6 +1417,13 @@
 	Private Sub Cmb_Value_Status_Transaksi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Value_Status_Transaksi.KeyPress
 		If e.KeyChar = Chr(13) Then
 			Cmb_Lokasi_Asal_Pemusnahan.Focus()
+		End If
+	End Sub
+
+	Private Sub Cmb_Status_Transaksi_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Status_Transaksi.KeyPress
+		If e.KeyChar = Chr(13) Then
+			Cmb_Value_Status_Transaksi.DroppedDown = True
+			Cmb_Value_Status_Transaksi.Focus()
 		End If
 	End Sub
 

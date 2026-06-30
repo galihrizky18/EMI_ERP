@@ -21,6 +21,10 @@
         TXT_KodeBarang.Text = KodeBarang
         TXT_NamaBarang.Text = NamaBarang
         TXT_QtyHasil.Text = QtyHasil
+        If Not CMB_SatuanHasil.Items.Contains(SatuanHasil) Then
+            CMB_SatuanHasil.Items.Add(SatuanHasil)
+        End If
+
         CMB_SatuanHasil.Text = SatuanHasil
     End Sub
 

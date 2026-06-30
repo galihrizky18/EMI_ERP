@@ -5,6 +5,9 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 	Private currentCell As DataGridViewCell = Nothing
 
 	Public fno_po, fso As String
+
+	Public isBypassTrackingRFID As Boolean = False
+
 	Public Property asal As String = ""
 	Public RFID_SelectedSplit, RFID_SelectedBatch As String
 
@@ -50,6 +53,8 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 	Dim CellNamaBahan As Integer = 10
 
 	Dim Jenis = "Display_Production_Order"
+
+	Dim IsSplitLama As Boolean = False
 
 	Public Sub Get_Isi_Listview(ByVal No_Index As Integer)
 		LvKode_So = Dgv_HslProduction.Rows(No_Index).Cells(CellKode_So).Value
@@ -357,6 +362,8 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 			Arr_Detail_Biaya.Clear()
 			arrBarcodeScan.Clear()
 
+			IsSplitLama = False
+
 			If asal = "CONTROLLING" Then
 
 				'SQL = "select c.Kode_Stock_Owner,c.Kode_Barang,d.Nama,c.Jumlah,c.Persentase,e.Satuan from "
@@ -617,37 +624,37 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 				'===============================
 				arrBarcodeScan.Clear()
 				SQL = $"
-				select x.Kode_Barang, k.Serial_Number
-				from Tf_Stock_Parent z
-					inner join Tf_Stock x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
-					inner join Tf_Stock_det y on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF
-					inner join TF_Stock_Det2 k on y.Kode_Perusahaan = k.Kode_Perusahaan and y.No_Faktur = k.No_Faktur and y.Urut_Oto = k.Urut_Det
-				where z.Status is NULL and z.kode_perusahaan = '{KodePerusahaan}'
-				and x.Urut_Material_Requisition_Convert in (
-					select r.Urut_Oto
-					from Emi_Material_Requisition q
-						inner join Emi_Material_Requisition_Det w on q.Kode_Perusahaan = w.Kode_Perusahaan and q.No_Faktur = w.No_Faktur
-						inner join Emi_Material_Requisition_Det_Convert r on w.Kode_Perusahaan = r.Kode_Perusahaan and w.No_Faktur = r.No_Faktur and w.Urut_Oto = r.No_Urut_Det
-					where q.Status is NULL
-					and q.Kode_Perusahaan = z.Kode_Perusahaan
-					and q.No_Faktur_Order = '{RFID_SelectedSplit}'
-					and q.Batch = '{RFID_SelectedBatch}'
-				)
-				group by z.Kode_Perusahaan, x.Kode_Barang, k.Serial_Number
+					select x.Kode_Barang, k.Serial_Number
+					from Tf_Stock_Parent z
+						inner join Tf_Stock x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
+						inner join Tf_Stock_det y on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF
+						inner join TF_Stock_Det2 k on y.Kode_Perusahaan = k.Kode_Perusahaan and y.No_Faktur = k.No_Faktur and y.Urut_Oto = k.Urut_Det
+					where z.Status is NULL and z.kode_perusahaan = '{KodePerusahaan}'
+					and x.Urut_Material_Requisition_Convert in (
+						select r.Urut_Oto
+						from Emi_Material_Requisition q
+							inner join Emi_Material_Requisition_Det w on q.Kode_Perusahaan = w.Kode_Perusahaan and q.No_Faktur = w.No_Faktur
+							inner join Emi_Material_Requisition_Det_Convert r on w.Kode_Perusahaan = r.Kode_Perusahaan and w.No_Faktur = r.No_Faktur and w.Urut_Oto = r.No_Urut_Det
+						where q.Status is NULL
+						and q.Kode_Perusahaan = z.Kode_Perusahaan
+						and q.No_Faktur_Order = '{RFID_SelectedSplit}'
+						and q.Batch = '{RFID_SelectedBatch}'
+					)
+					group by z.Kode_Perusahaan, x.Kode_Barang, k.Serial_Number
 
-				union all
+					union all
 
-				select r.Kode_Barang, r.SN_Baru as Serial_Number
-				from N_EMI_Transaksi_Material_Requisition_QC z
-					inner join N_EMI_Transaksi_Material_Requisition_QC_Detail x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
-					inner join N_EMI_Transaksi_Material_Requisition_QC_Det y on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_Detail
-					inner join N_EMI_Transaksi_Material_Requisition_QC_Validasi r on y.Kode_Perusahaan = r.Kode_Perusahaan and y.No_Faktur = r.No_Faktur_RM and y.Urut_Oto = r.Urut_Det_RM
-				where z.Status is NULL and r.Status is NULL
-				and z.kode_perusahaan = '{KodePerusahaan}'
-				and z.No_Faktur_Order = '{RFID_SelectedSplit}'
-				and x.Batch = '{RFID_SelectedBatch}'
-				group by r.Kode_Perusahaan, r.Kode_Barang, r.SN_Baru
-			"
+					select r.Kode_Barang, r.SN_Baru as Serial_Number
+					from N_EMI_Transaksi_Material_Requisition_QC z
+						inner join N_EMI_Transaksi_Material_Requisition_QC_Detail x on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
+						inner join N_EMI_Transaksi_Material_Requisition_QC_Det y on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_Detail
+						inner join N_EMI_Transaksi_Material_Requisition_QC_Validasi r on y.Kode_Perusahaan = r.Kode_Perusahaan and y.No_Faktur = r.No_Faktur_RM and y.Urut_Oto = r.Urut_Det_RM
+					where z.Status is NULL and r.Status is NULL
+					and z.kode_perusahaan = '{KodePerusahaan}'
+					and z.No_Faktur_Order = '{RFID_SelectedSplit}'
+					and x.Batch = '{RFID_SelectedBatch}'
+					group by r.Kode_Perusahaan, r.Kode_Barang, r.SN_Baru
+				"
 				Using Ds = BindingTrans(SQL)
 					With Ds.Tables("MyTable")
 						If .Rows.Count <> 0 Then
@@ -659,7 +666,7 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 							Next
 						Else
 							CloseConn()
-							MessageBox.Show($"Terjadi Kesalaham, Detail SN Bahan Baku Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+							MessageBox.Show($"Terjadi Kesalahan, Detail SN Bahan Baku Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 							Exit Sub
 						End If
 					End With
@@ -720,18 +727,15 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 		Dim IsAutomaticValidation As Boolean = True
 
 		Try
-
-#Region "Harusnya Diuncomment"
-
 			Dim txOpt As New TransactionOptions With {
-				.IsolationLevel = IsolationLevel.Serializable,
-				.Timeout = TimeSpan.FromMinutes(3)
-			}
+		.IsolationLevel = IsolationLevel.Serializable,
+		.Timeout = TimeSpan.FromMinutes(3)
+	}
 
 			Using scope As New TransactionScope(
-				TransactionScopeOption.Required,
-				txOpt,
-				TransactionScopeAsyncFlowOption.Enabled)
+		TransactionScopeOption.Required,
+		txOpt,
+		TransactionScopeAsyncFlowOption.Enabled)
 
 				Try
 					OpenConn()
@@ -1089,9 +1093,9 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 							Dim serialList As String = ""
 
 							serialList = String.Join(", ", arrBarcodeScan.
-						Where(Function(x) x.Kd_Barang = LvKode_Bahan).
-						Select(Function(x) $"'{x.Serial_Number}'")
-)
+								Where(Function(x) x.Kd_Barang = LvKode_Bahan).
+								Select(Function(x) $"'{x.Serial_Number}'")
+		)
 							SQL = "select kode_stock_owner, kode_barang, serial_number, dbo.get_hpp(Serial_Number) as HPP, round(jumlah,4) as jumlah from barang_sn where "
 							SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
 							SQL = SQL & "kode_stock_owner = '" & LvKode_So & "' and "
@@ -1195,20 +1199,20 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 												Dim currentItem = Arr_Detail_Biaya(existingItemIndex)
 
 												Arr_Detail_Biaya(existingItemIndex) = (
-												akun:=currentItem.akun,
-												keterangan:=currentItem.keterangan,
-												nilai:=currentItem.nilai + Math.Round((hpp * JumlahInsert), 0),
-												kd_so:=currentItem.kd_so,
-												kd_barang:=currentItem.kd_barang
-											)
+														akun:=currentItem.akun,
+														keterangan:=currentItem.keterangan,
+														nilai:=currentItem.nilai + Math.Round((hpp * JumlahInsert), 0),
+														kd_so:=currentItem.kd_so,
+														kd_barang:=currentItem.kd_barang
+													)
 											Else
 												Arr_Detail_Biaya.Add((
-												akun:=Kd_Akun_Biaya,
-												keterangan:=Ket_Group_Jenis,
-												nilai:=Math.Round((hpp * JumlahInsert), 0),
-												kd_so:=kdSO,
-												kd_barang:=kdBarang
-											))
+														akun:=Kd_Akun_Biaya,
+														keterangan:=Ket_Group_Jenis,
+														nilai:=Math.Round((hpp * JumlahInsert), 0),
+														kd_so:=kdSO,
+														kd_barang:=kdBarang
+													))
 											End If
 
 											If Math.Round(sisa, 4) <> 0 And h = .Rows.Count - 1 Then
@@ -1604,13 +1608,44 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 								End If
 							End Using
 
-							SQL = "update Emi_Split_Production_Order set Flag_Hasil_Produksi_GI = 'Y', UserID_Selesai_GI = 'SYNC', "
-							SQL = SQL & "Tgl_Hasil_Produksi_GI = '" & Format(tgl_skg, "yyyy-MM-dd") & "', Jam_Hasil_Produksi_GI = '" & Format(tgl_skg, "HH:mm:ss") & "'  "
-							SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and no_transaksi = '" & Txt_No_Split_PO.Text.Trim & "' "
-							ExecuteTrans(SQL)
+							Dim flagBypassTrackingRFID As String = ""
+							If isBypassTrackingRFID Then
+								flagBypassTrackingRFID = "Flag_Bypass_Tracking_RFID = 'Y'"
+							Else
+								flagBypassTrackingRFID = "Flag_Bypass_Tracking_RFID = NULL"
+							End If
 
+							SQL = $"
+								UPDATE Emi_Split_Production_Order
+								SET {flagBypassTrackingRFID},
+									Flag_Hasil_Produksi_GI = 'Y',
+									UserID_Selesai_GI = 'SYNC',
+									Tgl_Hasil_Produksi_GI = '{Format(tgl_skg, "yyyy-MM-dd")}',
+									Jam_Hasil_Produksi_GI = '{Format(tgl_skg, "HH:mm:ss")}'
+								WHERE Kode_Perusahaan = '{KodePerusahaan}'
+								  AND no_transaksi = '{Txt_No_Split_PO.Text.Trim}'
+							"
+							ExecuteTrans(SQL)
 						End If
 					End If
+
+					'Flaging bypass by no split and batch
+					SQL = $"
+						UPDATE b
+						SET
+							b.Flag_Bypass_Tracking_RFID = 'Y',
+							b.UserID_Bypass_Tracking_RFID = '{UserID}',
+							b.Tanggal_Bypass_Tracking_RFID = '{Format(tgl_skg, "yyyy-MM-dd")}',
+							b.Jam_Bypass_Tracking_RFID = '{Format(tgl_skg, "HH:mm:ss")}'
+						FROM Emi_Production_Results_HPP b
+						INNER JOIN Emi_Production_Results a
+							ON a.Kode_Perusahaan = b.Kode_Perusahaan
+						   AND a.No_Transaksi = b.No_Transaksi
+						WHERE a.Kode_Perusahaan = '{KodePerusahaan}'
+						  AND a.No_Production_Order = '{Txt_No_Split_PO.Text.Trim}'
+						  AND b.Proses = '{Txt_Batch.Text.Trim}'
+					"
+					ExecuteTrans(SQL)
 
 					'awal stenly jurnal
 
@@ -1689,9 +1724,9 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 					End If
 
 					SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_persedian_brg_dlm_proses, 1),
-					 Strings.Mid(akun_persedian_brg_dlm_proses, 2, 1),
-					 Strings.Mid(Ganti(akun_persedian_brg_dlm_proses), 3),
-					 KodePerusahaan, KodeProyek, ket_persedian_brg_dlm_proses & TxtFormulator_NoFaktur.Text, ftotal_barang_Dalam_Proses, "0", pagenumber, fso, Bahasa_Pilihan, Ket_Cost_Center_HO)
+							 Strings.Mid(akun_persedian_brg_dlm_proses, 2, 1),
+							 Strings.Mid(Ganti(akun_persedian_brg_dlm_proses), 3),
+							 KodePerusahaan, KodeProyek, ket_persedian_brg_dlm_proses & TxtFormulator_NoFaktur.Text, ftotal_barang_Dalam_Proses, "0", pagenumber, fso, Bahasa_Pilihan, Ket_Cost_Center_HO)
 					ExecuteTrans(SQL)
 					pagenumber = pagenumber + 1
 
@@ -1734,9 +1769,9 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 						'TODO : Insert dengan cara loop array detail
 						For i As Integer = 0 To Arr_Detail_Biaya.Count - 1
 							SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(Arr_Detail_Biaya(i).akun, 1),
-						Strings.Mid(Arr_Detail_Biaya(i).akun, 2, 1),
-						Strings.Mid(Ganti(Arr_Detail_Biaya(i).akun), 3),
-						KodePerusahaan, KodeProyek, $"Persediaan {Arr_Detail_Biaya(i).keterangan}" & " " & TxtFormulator_NoFaktur.Text, "0", Math.Round(Arr_Detail_Biaya(i).nilai, 0), pagenumber, Arr_Detail_Biaya(i).kd_so, Bahasa_Pilihan, Ket_Cost_Center_HO)
+								Strings.Mid(Arr_Detail_Biaya(i).akun, 2, 1),
+								Strings.Mid(Ganti(Arr_Detail_Biaya(i).akun), 3),
+								KodePerusahaan, KodeProyek, $"Persediaan {Arr_Detail_Biaya(i).keterangan}" & " " & TxtFormulator_NoFaktur.Text, "0", Math.Round(Arr_Detail_Biaya(i).nilai, 0), pagenumber, Arr_Detail_Biaya(i).kd_so, Bahasa_Pilihan, Ket_Cost_Center_HO)
 							ExecuteTrans(SQL)
 
 							Temp_Nilai_Bahan += Math.Round(Arr_Detail_Biaya(i).nilai, 0)
@@ -1788,9 +1823,9 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 						End Using
 
 						SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_kredit_packaging, 1),
-				   Strings.Mid(akun_kredit_packaging, 2, 1),
-				   Strings.Mid(Ganti(akun_kredit_packaging), 3),
-				   KodePerusahaan, KodeProyek, ket_packaging & TxtFormulator_NoFaktur.Text, "0", Nilai_Packaging, pagenumber, lok_packaging, Bahasa_Pilihan, Ket_Cost_Center_HO)
+						   Strings.Mid(akun_kredit_packaging, 2, 1),
+						   Strings.Mid(Ganti(akun_kredit_packaging), 3),
+						   KodePerusahaan, KodeProyek, ket_packaging & TxtFormulator_NoFaktur.Text, "0", Nilai_Packaging, pagenumber, lok_packaging, Bahasa_Pilihan, Ket_Cost_Center_HO)
 						ExecuteTrans(SQL)
 						pagenumber = pagenumber + 1
 
@@ -1799,9 +1834,9 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 					If Nilai_loss_production <> 0 Then
 
 						SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun_Loss_production, 1),
-						Strings.Mid(akun_Loss_production, 2, 1),
-						Strings.Mid(Ganti(akun_Loss_production), 3),
-						KodePerusahaan, KodeProyek, ket_loss_production & TxtFormulator_NoFaktur.Text, "0", Nilai_loss_production, pagenumber, Lokasi, Bahasa_Pilihan, Ket_Cost_Center_HO)
+								Strings.Mid(akun_Loss_production, 2, 1),
+								Strings.Mid(Ganti(akun_Loss_production), 3),
+								KodePerusahaan, KodeProyek, ket_loss_production & TxtFormulator_NoFaktur.Text, "0", Nilai_loss_production, pagenumber, Lokasi, Bahasa_Pilihan, Ket_Cost_Center_HO)
 						ExecuteTrans(SQL)
 						pagenumber = pagenumber + 1
 
@@ -1821,9 +1856,9 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 										Dim ket As String = .Rows(h).Item("keterangan")
 
 										SQL = Get_Detail_Jurnal(Kode_voucher, Strings.Left(akun, 1),
-									Strings.Mid(akun, 2, 1),
-									Strings.Mid(Ganti(akun), 3),
-									KodePerusahaan, KodeProyek, ket & " " & TxtFormulator_NoFaktur.Text, "0", arr_biaya_Produksi.Item(index), pagenumber, Lokasi, Bahasa_Pilihan, arrID_Work_Center.Item(index))
+											Strings.Mid(akun, 2, 1),
+											Strings.Mid(Ganti(akun), 3),
+											KodePerusahaan, KodeProyek, ket & " " & TxtFormulator_NoFaktur.Text, "0", arr_biaya_Produksi.Item(index), pagenumber, Lokasi, Bahasa_Pilihan, arrID_Work_Center.Item(index))
 										ExecuteTrans(SQL)
 										pagenumber = pagenumber + 1
 
@@ -1880,9 +1915,6 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 				End Try
 
 			End Using
-
-#End Region
-
 		Catch ex As Exception
 			MessageBox.Show(ex.Message, Judul, MessageBoxButtons.OK, MessageBoxIcon.Error)
 		End Try
@@ -1907,6 +1939,7 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 			Dgv_HslProduction.Rows.Clear()
 
 		ElseIf asal = "DISPLAY_RFID" Then
+			N_EMI_Display_Validasi_Tracking_RFID.isDialogOpen = False
 			Me.Close()
 		End If
 	End Sub
@@ -1997,6 +2030,7 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 				Dim Kd_Barang_Scan As String = ""
 				Dim SN As String = ""
 				Dim Qty As Double = 0
+				Dim BarcodeBatch As Integer = 0
 
 				'===================================
 				'=     JIKA SCAN BARCODE BATCH     =
@@ -2004,7 +2038,7 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 				Dim isBarcodeBatch As Boolean = False
 				Dim arrDataBarcodeBatch As New List(Of (Kd_Barang_Scan As String, SN As String, Qty As Double))
 				arrDataBarcodeBatch.Clear()
-				SQL = "select a.No_Faktur_Order, c.Kode_Barang, d.SN_Baru as SN, d.Jumlah_Barang as Qty, f.Tgl_Produksi "
+				SQL = "select a.No_Faktur_Order, b.Batch, c.Kode_Barang, d.SN_Baru as SN, d.Jumlah_Barang as Qty, f.Tgl_Produksi "
 				SQL = SQL & "from N_EMI_Transaksi_Material_Requisition_QC a, N_EMI_Transaksi_Material_Requisition_QC_Detail b, N_EMI_Transaksi_Material_Requisition_QC_Det c, "
 				SQL = SQL & "N_EMI_Transaksi_Material_Requisition_QC_Validasi d, Barang_SN e, Emi_Split_Production_Order f "
 				SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan and a.Kode_Perusahaan = f.Kode_Perusahaan "
@@ -2027,6 +2061,7 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 								Kd_Barang_Scan = .Rows(i).Item("Kode_Barang")
 								SN = .Rows(i).Item("SN")
 								Qty = .Rows(i).Item("Qty")
+								'arrDataBarcodeBatch = .Rows(i).Item("Batch")
 
 								If Txt_No_Split_PO.Text.Trim.Length = 0 Then
 									Txt_No_Split_PO.Text = .Rows(i).Item("No_Faktur_Order")
@@ -2054,7 +2089,7 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 					'=========================
 					'=      GET NO SPLIT     =
 					'=========================
-					SQL = "select a.No_Faktur_Order, c.Kode_Barang, d.Tgl_Produksi, "
+					SQL = "select a.No_Faktur_Order, a.Batch, c.Kode_Barang, d.Tgl_Produksi, "
 
 					SQL = SQL & "isnull((select w.serial_number "
 					SQL = SQL & "from Tf_Stock_Parent z, Tf_Stock x, Tf_Stock_det y, Tf_Stock_det2 w, Barang_SN r "
@@ -2105,7 +2140,7 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 
 					SQL = SQL & "Union All "
 
-					SQL = SQL & "select a.No_Faktur_Order, c.Kode_Barang, d.Tgl_Produksi, "
+					SQL = SQL & "select a.No_Faktur_Order, a.Batch, c.Kode_Barang, d.Tgl_Produksi, "
 
 					SQL = SQL & "isnull((select w.serial_number "
 					SQL = SQL & "from Tf_Stock_QC z, Tf_Stock_QC_Detail x, Tf_Stock_QC_det y, Tf_Stock_QC_det2 w, Barang_SN r "
@@ -2156,7 +2191,7 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 
 					SQL = SQL & "union all "
 
-					SQL = SQL & "select a.No_Faktur_Order, c.Kode_Barang, f.Tgl_Produksi, d.SN_Baru as SN, d.Jumlah_Barang as Qty "
+					SQL = SQL & "select a.No_Faktur_Order, b.Batch, c.Kode_Barang, f.Tgl_Produksi, d.SN_Baru as SN, d.Jumlah_Barang as Qty "
 					SQL = SQL & "from N_EMI_Transaksi_Material_Requisition_QC a, N_EMI_Transaksi_Material_Requisition_QC_Detail b, N_EMI_Transaksi_Material_Requisition_QC_Det c, "
 					SQL = SQL & "N_EMI_Transaksi_Material_Requisition_QC_Validasi d, Barang_SN e, Emi_Split_Production_Order f "
 					SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and b.Kode_Perusahaan = c.Kode_Perusahaan and c.Kode_Perusahaan = d.Kode_Perusahaan and a.Kode_Perusahaan = f.Kode_Perusahaan "
@@ -2183,6 +2218,7 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 									Kd_Barang_Scan = .Rows(i).Item("Kode_Barang")
 									SN = .Rows(i).Item("SN")
 									Qty = .Rows(i).Item("Qty")
+									BarcodeBatch = .Rows(i).Item("Batch")
 
 									If Txt_No_Split_PO.Text.Trim.Length = 0 Then
 										Txt_No_Split_PO.Text = .Rows(i).Item("No_Faktur_Order")
@@ -2213,14 +2249,36 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 
 				If isFirstData Then
 
-					'SQL = "select a.No_Transaksi, b.Kode_Barang, b.Nama, a.Tgl_Produksi, a.Jam_Produksi from  "
-					'SQL = SQL & "Emi_Split_Production_Order a, barang b "
-					'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Barang = b.Kode_Barang and a.Kode_Stock_Owner = b.Kode_Stock_Owner "
-					'SQL = SQL & "and a.kode_perusahaan = '" & KodePerusahaan & "' and a.no_transaksi = '" & NoSplit & "' "
-					'SQL = SQL & "order by b.nama"
+					'==================================================
+					'=     PENGECEKAN APAKAH SPLIT LAMA ATAU BARU     =
+					'==================================================
+					SQL = $"
+						select Flag_Data_Lama_GI from Emi_Split_Production_Order
+						where Status is null
+						and Kode_Perusahaan = '{KodePerusahaan}'
+						and No_Transaksi = '{NoSplit}'
+					"
+					Using Dr = OpenTrans(SQL)
+						If Dr.Read Then
+							If General_Class.CekNULL(Dr("Flag_Data_Lama_GI")) = "Y" Then
+								IsSplitLama = True
+							Else
+								IsSplitLama = False
+							End If
+						Else
+							Dr.Close()
+							CloseTrans()
+							CloseConn()
+							MessageBox.Show($"Terjadi Kesalahan, No Split {NoSplit} Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+							Exit Sub
+						End If
+					End Using
 
+					'==============================================
+					'=     PENGECEKAN APAKAH BATCH GI PERTAMA     =
+					'==============================================
 					SQL = "select a.No_Transaksi, b.Kode_Barang, b.Nama, a.Tgl_Produksi, a.Jam_Produksi, "
-					SQL = SQL & "case when d.Proses is null then 1 else cast(d.proses as float) + 1 end as Batch "
+					SQL = SQL & "case when d.Proses is null then 1 else cast(d.proses as float) + 1 end as Batch, d.proses "
 					SQL = SQL & "from Emi_Split_Production_Order a "
 					SQL = SQL & "inner join barang b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Barang = b.Kode_Barang and a.Kode_Stock_Owner = b.Kode_Stock_Owner "
 					SQL = SQL & "left join Emi_Production_Results c on a.Kode_Perusahaan = c.Kode_Perusahaan and a.No_Transaksi = c.No_Production_Order and c.Status is null "
@@ -2235,6 +2293,7 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 									DateTimePicker1.Value = .Rows(i).Item("Tgl_Produksi")
 									Txt_Jam_Split.Text = .Rows(i).Item("Jam_Produksi")
 									Txt_Batch.Text = .Rows(i).Item("Batch")
+
 								Next
 							End If
 						End With
@@ -2328,6 +2387,18 @@ Public Class EMI_Hasil_Pengeluaran_Bahan_Baku_Baru
 						End With
 					End Using
 
+				End If
+
+				If Not IsSplitLama Then
+					'=======================================================================
+					'=     PENGECEKAN APAKAH SPLIT DAN BATCH BARCODE SESUAI ATAU TIDAK     =
+					'=======================================================================
+					If Txt_Batch.Text.Trim <> BarcodeBatch.ToString.Trim Then
+						CloseTrans()
+						CloseConn()
+						MessageBox.Show($"Terjadi Kesalahan, Batch pada Barcode Berbeda", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Exit Sub
+					End If
 				End If
 
 				'===============================

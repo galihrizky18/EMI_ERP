@@ -5,6 +5,8 @@ Public Class N_EMI_SD_Detail_Transaksi_MaterialRequisition
 	Public arrBulan, arrBulanMM As New ArrayList
 	Dim Jenis = "Master_Jenis_Hewan"
 	Public fRef As String
+	Private lastHeaderColumnIndex As Integer = -1
+	Dim ToolTip1 As New ToolTip
 
 	Public lokasi_mrp As String
 	Public bulanSkrng As String
@@ -239,6 +241,14 @@ Public Class N_EMI_SD_Detail_Transaksi_MaterialRequisition
 			JenisEndingStock = "ENDING STOCK CURRENT"
 		ElseIf BulanKe = 3 Then
 			JenisEndingStock = "ENDING STOCK M1"
+		ElseIf BulanKe = 4 Then
+			JenisEndingStock = "ENDING STOCK M2"
+		ElseIf BulanKe = 5 Then
+			JenisEndingStock = "ENDING STOCK M3"
+		ElseIf BulanKe = 6 Then
+			JenisEndingStock = "ENDING STOCK M4"
+		ElseIf BulanKe = 7 Then
+			JenisEndingStock = "ENDING STOCK M5"
 		End If
 
 		'Try
@@ -393,7 +403,6 @@ Public Class N_EMI_SD_Detail_Transaksi_MaterialRequisition
 
 	Function GetMinggu(tgl As Date) As Integer
 
-		tgl_skg = "2026-05-22"
 
 		Dim day As Integer = 0
 		If tgl_skg > tgl Then
@@ -412,16 +421,134 @@ Public Class N_EMI_SD_Detail_Transaksi_MaterialRequisition
 			Return 4
 		End If
 	End Function
+	Private Sub releaseObject(ByVal obj As Object)
+		Try
+			System.Runtime.InteropServices.Marshal.ReleaseComObject(obj)
+			obj = Nothing
+		Catch
+			obj = Nothing
+		Finally
+			GC.Collect()
+		End Try
+	End Sub
+	Private Sub DataGridView1_CellMouseEnter(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellMouseEnter
+		' Cek jika mouse berada di HEADER kolom yang valid
+		If e.RowIndex = -1 AndAlso e.ColumnIndex >= 0 Then
 
+			If e.ColumnIndex <> lastHeaderColumnIndex Then
+				lastHeaderColumnIndex = e.ColumnIndex
+
+				Dim judulBalon As String = ""
+				Dim isiBalon As String = ""
+
+				' Ambil NAMA objek kolom
+				Dim namaKolom As String = DataGridView1.Columns(e.ColumnIndex).Name
+
+				Dim bulanTahun As String = ""
+				Dim headerText As String = DataGridView1.Columns(e.ColumnIndex).HeaderText
+				If headerText.Contains("-") Then
+					Dim potongan() As String = headerText.Split("-"c)
+
+					' Ambil tahun dari potongan paling terakhir
+					Dim tahun As String = potongan(potongan.Length - 1).Trim()
+
+					' Ambil bagian sebelum tahun, lalu pecah per spasi untuk ambil nama bulannya
+					Dim bagianKiri As String = potongan(potongan.Length - 2).Trim()
+					Dim kataBagianKiri() As String = bagianKiri.Split(" "c)
+					Dim bulan As String = kataBagianKiri(kataBagianKiri.Length - 1).Trim()
+
+					' Satukan jadi format: "Juni - 2026"
+					bulanTahun = bulan & " - " & tahun
+				End If
+
+				' PAKAI SELECT CASE BERDASARKAN NAMA KOLOM
+				Select Case namaKolom
+					Case "Column46"
+						judulBalon = "Finished PRD"
+						isiBalon = "PRD yang telah di GOOD ISSUE"
+
+					Case Else
+						judulBalon = DataGridView1.Columns(e.ColumnIndex).HeaderText
+						isiBalon = "Data " & judulBalon
+				End Select
+
+				' ==========================================================
+				' LOGIKA PEMBAGI KATA BIAR AUTO ENTER
+				' ==========================================================
+				Dim kata() As String = isiBalon.Split(" "c)
+				Dim teksHasil As String = ""
+				For i As Integer = 0 To kata.Length - 1
+					teksHasil &= kata(i) & " "
+					If (i + 1) Mod 6 = 0 Then
+						teksHasil &= vbCrLf
+					End If
+				Next
+				isiBalon = teksHasil.Trim()
+
+				' Hancurkan ToolTip lama agar fresh
+				If ToolTip1 IsNot Nothing Then
+					ToolTip1.Hide(DataGridView1)
+					ToolTip1.Dispose()
+				End If
+
+				' Buat ulang objek ToolTip baru
+				ToolTip1 = New ToolTip()
+				ToolTip1.ToolTipIcon = ToolTipIcon.Info
+				ToolTip1.ToolTipTitle = judulBalon
+				ToolTip1.AutoPopDelay = Int32.MaxValue
+
+				' Ambil kotak area header kolom
+				Dim headerRect As Rectangle = DataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, False)
+
+				Dim centerX As Integer = headerRect.Left + (headerRect.Width \ 2)
+				Dim centerY As Integer = headerRect.Bottom - 5
+
+				' Hitung sisa ruang kanan
+				Dim sisaRuangKanan As Integer = DataGridView1.Width - headerRect.Left
+
+
+				If sisaRuangKanan < 420 Then
+					' --- UNTUK 3 KOLOM UJUNG KANAN ---
+					ToolTip1.IsBalloon = False ' Ubah jadi KOTAK biasa (Anti Meleset)
+
+					' KUNCI: Tetap tembak pakai centerX & centerY biar pas di tengah bawah kolom!
+					ToolTip1.Show(isiBalon, DataGridView1, centerX, centerY)
+				Else
+					' --- UNTUK KOLOM NORMAL (SISA KOLOM SEBELAH KIRI) ---
+					ToolTip1.IsBalloon = True ' Tetap pakai BALON cakep
+
+					ToolTip1.Show(isiBalon, DataGridView1, centerX, centerY)
+				End If
+			End If
+
+		End If
+	End Sub
+	Private Sub DataGridView1_CellMouseLeave(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellMouseLeave
+		' JIKA mouse keluar dari area Header, langsung sembunyikan balonnya
+		If e.RowIndex = -1 Then
+			ToolTip1.Hide(DataGridView1)
+			lastHeaderColumnIndex = -1
+		End If
+	End Sub
 	Private Sub Master_Jenis_Hewan_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		My.Application.ChangeCulture("en-us")
 		My.Application.ChangeUICulture("en-us")
+
+		get_jam()
 
 		kosong()
 
 		For Each col As DataGridViewColumn In DataGridView1.Columns
 			col.SortMode = DataGridViewColumnSortMode.NotSortable
 		Next
+
+		ToolTip1.IsBalloon = True
+
+		ToolTip1.ToolTipIcon = ToolTipIcon.Info
+
+
+		DataGridView1.ShowCellToolTips = False
+
 
 		Me.Dock = DockStyle.Fill
 
@@ -585,7 +712,7 @@ Public Class N_EMI_SD_Detail_Transaksi_MaterialRequisition
 
 		BulanAwal = arrBulanMM.Item(arrBulan.Item(ComboBox1.SelectedIndex) - 1)
 
-		For i As Integer = 1 To 2
+		For i As Integer = 1 To 6
 			' Perbarui nilai bulan dan tahun
 			If a = 12 Then
 				a = 1
@@ -693,66 +820,68 @@ Public Class N_EMI_SD_Detail_Transaksi_MaterialRequisition
 			'SQL = SQL & "order by nama "
 
 			SQL = $"
-                    with cte as (
+					with cte as (
 
-                    select distinct isnull((select top 1 c.No_Faktur
-                    from N_EMI_Transaksi_Formulator_Binding a
-                    inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
-                    inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null
-                    where a.Status is NULL
-                    and a.Flag_Validasi_Main = 'Y'
-                    and a.Kode_Perusahaan = x.kode_perusahaan
-                    and a.Kode_Barang = x.kode_barang_inq
-                    order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC),'') as kode_formula, x.kode_barang_inq, x.kode_perusahaan
-                    from barang x, emI_group_jenis y where x.kode_perusahaan=y.kode_perusahaan and x.id_group_jenis=y.id_group_jenis and (y.Flag_Finished_Good='Y' or y.Flag_Semi_FG='Y')
+					select distinct isnull((select top 1 c.No_Faktur
+					from N_EMI_Transaksi_Formulator_Binding a
+					inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+					inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null
+					where a.Status is NULL
+					and a.Flag_Validasi_Main = 'Y'
+					and c.Flag_Validasi_Formula_Produksi_BOD = 'Y'
+					and no_prioritas = 1
+					and a.Kode_Perusahaan = x.kode_perusahaan
+					and a.Kode_Barang = x.kode_barang_inq
+					order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC),'') as kode_formula, x.kode_barang_inq, x.kode_perusahaan
+					from barang x, emI_group_jenis y where x.kode_perusahaan=y.kode_perusahaan and x.id_group_jenis=y.id_group_jenis and (y.Flag_Finished_Good='Y' or y.Flag_Semi_FG='Y')
+				
+					), cte_b as(
 
-                    ), cte_b as(
+					SELECT e.Kode_Stock_Owner,e.Kode_Barang,c.Nama, c.Kode_Perusahaan, c.Id_Group_Jenis
+					FROM EMI_Transaksi_Sales_Forecasting a
+					INNER JOIN EMI_Transaksi_Sales_Forecasting_Detail b ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.No_Faktur = b.No_Faktur
+					INNER JOIN barang bb ON b.kode_perusahaan=bb.kode_perusahaan and b.kode_barang=bb.kode_barang and b.kode_stock_owner=bb.kode_stock_owner
+					INNER JOIN cte bc ON bb.kode_perusahaan=bc.kode_perusahaan and bb.kode_barang_inq=bc.kode_barang_inq
+					INNER JOIN Emi_Transaksi_Formulator d ON d.Kode_Perusahaan = bc.Kode_Perusahaan AND d.No_Faktur =  bc.Kode_Formula
+					INNER JOIN EMI_Transaksi_Formulator_Detail_Bahan e ON d.Kode_Perusahaan = e.Kode_Perusahaan AND d.No_Faktur = e.No_Faktur
+					INNER JOIN barang c ON e.Kode_Perusahaan = c.Kode_Perusahaan AND e.Kode_Stock_Owner = c.Kode_Stock_Owner AND e.Kode_Barang = c.Kode_Barang
+					WHERE a.Kode_Perusahaan='{KodePerusahaan}' AND a.lokasi= '{ComboBox3.Text}' AND a.tahun = '{tahunSkrng}' and a.bulan = '{bulanSkrng}'
+					AND b.Flag_Validasi='Y'
+					AND b.Flag_Validasi_PPIC='Y'
+					GROUP BY e.Kode_Stock_Owner,e.Kode_Barang,c.Nama, c.Kode_Perusahaan, c.Id_Group_Jenis
 
-                    SELECT e.Kode_Stock_Owner,e.Kode_Barang,c.Nama, c.Kode_Perusahaan, c.Id_Group_Jenis
-                    FROM EMI_Transaksi_Sales_Forecasting a
-                    INNER JOIN EMI_Transaksi_Sales_Forecasting_Detail b ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.No_Faktur = b.No_Faktur
-                    INNER JOIN barang bb ON b.kode_perusahaan=bb.kode_perusahaan and b.kode_barang=bb.kode_barang and b.kode_stock_owner=bb.kode_stock_owner
-                    INNER JOIN cte bc ON bb.kode_perusahaan=bc.kode_perusahaan and bb.kode_barang_inq=bc.kode_barang_inq
-                    INNER JOIN Emi_Transaksi_Formulator d ON d.Kode_Perusahaan = bc.Kode_Perusahaan AND d.No_Faktur =  bc.Kode_Formula
-                    INNER JOIN EMI_Transaksi_Formulator_Detail_Bahan e ON d.Kode_Perusahaan = e.Kode_Perusahaan AND d.No_Faktur = e.No_Faktur
-                    INNER JOIN barang c ON e.Kode_Perusahaan = c.Kode_Perusahaan AND e.Kode_Stock_Owner = c.Kode_Stock_Owner AND e.Kode_Barang = c.Kode_Barang
-                    WHERE a.Kode_Perusahaan='{KodePerusahaan}' AND a.lokasi= '{ComboBox3.Text}' AND a.tahun = '{tahunSkrng}' and a.bulan = '{bulanSkrng}'
-                    AND b.Flag_Validasi='Y'
-                    AND b.Flag_Validasi_PPIC='Y'
-                    GROUP BY e.Kode_Stock_Owner,e.Kode_Barang,c.Nama, c.Kode_Perusahaan, c.Id_Group_Jenis
+					Union all
 
-                    Union all
+					SELECT e.Kode_Stock_Owner,e.Kode_Barang,c.Nama, c.Kode_Perusahaan, c.Id_Group_Jenis
+					FROM EMI_Transaksi_Sales_Forecasting a
+					INNER JOIN EMI_Transaksi_Sales_Forecasting_Detail b ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.No_Faktur = b.No_Faktur
+					INNER JOIN Emi_Transaksi_Formulator d ON d.Kode_Perusahaan = b.Kode_Perusahaan
+					INNER JOIN EMI_Transaksi_Formulator_Detail_Bahan e ON d.Kode_Perusahaan = e.Kode_Perusahaan AND d.No_Faktur = e.No_Faktur
+					INNER JOIN N_EMI_Production_Plan_Schedule_Detail f on b.kode_perusahaan =  f.kode_perusahaan and b.urut = f.urut_production_plan and f.kode_formula = d.no_faktur
+					INNER JOIN N_EMI_Production_Plan_Schedule g on f.kode_perusahaan = g.kode_perusahaan and f.no_transaksi = g.no_transaksi and g.status is null
+					INNER JOIN barang c ON e.Kode_Perusahaan = c.Kode_Perusahaan AND e.Kode_Stock_Owner = c.Kode_Stock_Owner AND e.Kode_Barang = c.Kode_Barang
+					WHERE a.Kode_Perusahaan='{KodePerusahaan}' AND a.lokasi= '{ComboBox3.Text}' AND a.tahun = '{tahunSkrng}' and a.bulan = '{bulanSkrng}'
+					AND b.Flag_Validasi='Y'
+					AND b.Flag_Validasi_PPIC='Y'
+					GROUP BY e.Kode_Stock_Owner,e.Kode_Barang,c.Nama, c.Kode_Perusahaan, c.Id_Group_Jenis
 
-                    SELECT e.Kode_Stock_Owner,e.Kode_Barang,c.Nama, c.Kode_Perusahaan, c.Id_Group_Jenis
-                    FROM EMI_Transaksi_Sales_Forecasting a
-                    INNER JOIN EMI_Transaksi_Sales_Forecasting_Detail b ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.No_Faktur = b.No_Faktur
-                    INNER JOIN Emi_Transaksi_Formulator d ON d.Kode_Perusahaan = b.Kode_Perusahaan
-                    INNER JOIN EMI_Transaksi_Formulator_Detail_Bahan e ON d.Kode_Perusahaan = e.Kode_Perusahaan AND d.No_Faktur = e.No_Faktur
-                    INNER JOIN N_EMI_Production_Plan_Schedule_Detail f on b.kode_perusahaan =  f.kode_perusahaan and b.urut = f.urut_production_plan and f.kode_formula = d.no_faktur
-                    INNER JOIN N_EMI_Production_Plan_Schedule g on f.kode_perusahaan = g.kode_perusahaan and f.no_transaksi = g.no_transaksi and g.status is null
-                    INNER JOIN barang c ON e.Kode_Perusahaan = c.Kode_Perusahaan AND e.Kode_Stock_Owner = c.Kode_Stock_Owner AND e.Kode_Barang = c.Kode_Barang
-                    WHERE a.Kode_Perusahaan='{KodePerusahaan}' AND a.lokasi= '{ComboBox3.Text}' AND a.tahun = '{tahunSkrng}' and a.bulan = '{bulanSkrng}'
-                    AND b.Flag_Validasi='Y'
-                    AND b.Flag_Validasi_PPIC='Y'
-                    GROUP BY e.Kode_Stock_Owner,e.Kode_Barang,c.Nama, c.Kode_Perusahaan, c.Id_Group_Jenis
+					)
+					select distinct a.Kode_Stock_Owner,a.Kode_Barang,a.Nama, '1' as asal from cte_b a, EMI_Group_Jenis b where a.kode_perusahaan=b.Kode_Perusahaan and a.id_group_jenis=b.Id_Group_Jenis
+					and b.Flag_Raw_Material='Y'
 
-                    )
-                    select distinct a.Kode_Stock_Owner,a.Kode_Barang,a.Nama, '1' as asal from cte_b a, EMI_Group_Jenis b where a.kode_perusahaan=b.Kode_Perusahaan and a.id_group_jenis=b.Id_Group_Jenis
-                    and b.Flag_Raw_Material='Y'
+					Union all
 
-                    Union all
+					Select d.Kode_Stock_Owner,c.Kode_Bahan As Kode_Barang,d.Nama, '2' as asal from
+					EMI_Transaksi_Sales_Forecasting a, EMI_Transaksi_Sales_Forecasting_Detail b, barang_detail_bahan_penolong c, barang d, barang e
+					where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Faktur = b.No_Faktur And b.Kode_Perusahaan = c.Kode_Perusahaan
+					And b.Kode_Perusahaan=e.Kode_Perusahaan And b.Kode_barang=e.Kode_Barang And b.kode_stock_owner=e.kode_stock_owner
+					And e.Kode_Barang_inq = c.Kode_Barang And c.Kode_Perusahaan = d.Kode_Perusahaan
+					And c.Kode_Bahan = d.Kode_Barang And b.Kode_Stock_Owner = d.Kode_Stock_Owner And
+					a.Kode_Perusahaan='{KodePerusahaan}' AND a.lokasi= '{ComboBox3.Text}' AND a.tahun = '{tahunSkrng}' and a.bulan = '{bulanSkrng}'
+					and b.Flag_Validasi = 'Y' and b.Flag_Validasi_PPIC = 'Y'
+					group by d.Kode_Stock_Owner, c.Kode_Bahan, d.Nama
 
-                    Select d.Kode_Stock_Owner,c.Kode_Bahan As Kode_Barang,d.Nama, '2' as asal from
-                    EMI_Transaksi_Sales_Forecasting a, EMI_Transaksi_Sales_Forecasting_Detail b, barang_detail_bahan_penolong c, barang d, barang e
-                    where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Faktur = b.No_Faktur And b.Kode_Perusahaan = c.Kode_Perusahaan
-                    And b.Kode_Perusahaan=e.Kode_Perusahaan And b.Kode_barang=e.Kode_Barang And b.kode_stock_owner=e.kode_stock_owner
-                    And e.Kode_Barang_inq = c.Kode_Barang And c.Kode_Perusahaan = d.Kode_Perusahaan
-                    And c.Kode_Bahan = d.Kode_Barang And b.Kode_Stock_Owner = d.Kode_Stock_Owner And
-                    a.Kode_Perusahaan='{KodePerusahaan}' AND a.lokasi= '{ComboBox3.Text}' AND a.tahun = '{tahunSkrng}' and a.bulan = '{bulanSkrng}'
-                    and b.Flag_Validasi = 'Y' and b.Flag_Validasi_PPIC = 'Y'
-                    group by d.Kode_Stock_Owner, c.Kode_Bahan, d.Nama
-
-                    order by asal, nama
+					order by asal, nama
 
 "
 			Using Ds = BindingTrans(SQL)
@@ -828,14 +957,29 @@ Public Class N_EMI_SD_Detail_Transaksi_MaterialRequisition
 			Dim dictPRD As New Dictionary(Of String, Double)
 
 			Dim tglAwal As Date = New Date(tahunSaatIni, bulanSaatIni, 1)
+
 			Dim tglAwalStr As String = Format(tglAwal, "yyyy-MM-dd")
+
+			Dim query As String = ""
+
+			'Kalo di bulan berjalan, ambil data2 sebelum juga
+
+			If tgl_skg.Month = bulanSaatIni And tgl_skg.Year = tahunSaatIni Then
+
+				query = "and ((tahun = '" & tahunSkrng & "' and bulan = '" & bulanSkrng & "') or DATEFROMPARTS(tahun, bulan, tanggal)<'" & tglAwalStr & "' ) "
+			Else
+				query = "and tahun = '" & tahunSkrng & "' and bulan = '" & bulanSkrng & "' "
+			End If
+
 
 			SQL = "SELECT kode_barang,tanggal, bulan, tahun, "
 			SQL = SQL & "isnull(SUM(outstanding_po) ,0) AS total_po, "
 			SQL = SQL & "isnull(sum(outstanding_pr), 0) as total_pr "
 			SQL = SQL & "FROM N_EMI_View_PO_ETA "
 			SQL = SQL & "WHERE kode_perusahaan = '" & KodePerusahaan & "' "
-			SQL = SQL & "and tahun = '" & tahunSkrng & "' and bulan = '" & bulanSkrng & "' "
+
+			SQL = SQL & query
+
 			SQL = SQL & "GROUP BY kode_barang,tanggal, bulan,  tahun "
 			Using ds = BindingTrans(SQL)
 				For i As Integer = 0 To ds.Tables("MyTable").Rows.Count - 1
@@ -849,7 +993,14 @@ Public Class N_EMI_SD_Detail_Transaksi_MaterialRequisition
 					Dim nilai As Double = Val(r("total_po"))
 					Dim nilai_out_pr As Double = Val(r("total_pr"))
 
+
 					Dim tgl As Date = CDate(tahun & "-" & bulan & "-" & hari)
+					If tgl_skg > tgl Then
+						tahun = tgl_skg.Year
+						bulan = Format(tgl_skg.Month, "00")
+						hari = Format(tgl_skg.Day, "00")
+					End If
+
 					Dim minggu As Integer = GetMinggu(tgl)
 
 					Dim key As String = kode & "|" & bulan & "|" & tahun & "|M" & minggu
@@ -957,7 +1108,7 @@ Public Class N_EMI_SD_Detail_Transaksi_MaterialRequisition
 			Dim listBulan As New List(Of String)
 			Dim listTahun As New List(Of String)
 
-			For i As Integer = 0 To 2
+			For i As Integer = 0 To 6
 				Dim dt As Date = New Date(CInt(tahunSaatIni), CInt(bulanSaatIni), 1).AddMonths(i)
 				listBulan.Add(dt.Month.ToString("D2"))
 				listTahun.Add(dt.Year.ToString())
@@ -977,30 +1128,84 @@ Public Class N_EMI_SD_Detail_Transaksi_MaterialRequisition
 
 			SQL = "WITH cte AS ( "
 
+			SQL = SQL & "  SELECT DISTINCT ISNULL(f.No_Faktur,'') AS kode_formula, "
+
+			SQL = SQL & "x.kode_barang_inq,x.kode_perusahaan  FROM barang x  INNER JOIN emI_group_jenis y ON x.kode_perusahaan=y.kode_perusahaan AND x.id_group_jenis=y.id_group_jenis "
+			SQL = SQL & "OUTER APPLY ( "
+			SQL = SQL & "SELECT TOP 1 c.No_Faktur, flag_invalid "
+			SQL = SQL & "FROM N_EMI_Transaksi_Formulator_Binding a "
+			SQL = SQL & "INNER JOIN N_EMI_Transaksi_Formulator_Binding_Detail b "
+			SQL = SQL & "ON a.Kode_Perusahaan=b.Kode_Perusahaan "
+			SQL = SQL & "AND a.No_Faktur=b.No_Faktur "
+			SQL = SQL & "INNER JOIN Emi_Transaksi_Formulator c "
+			SQL = SQL & "ON b.Kode_Perusahaan=c.Kode_Perusahaan "
+			SQL = SQL & "AND b.No_Formulator=c.No_Faktur "
+			SQL = SQL & "AND c.Status IS NULL "
+			SQL = SQL & "WHERE a.Status IS NULL "
+			SQL = SQL & " And a.Flag_Validasi_Main ='Y' "
+			SQL = SQL & " and c.Flag_Validasi_Formula_Produksi_BOD = 'Y' 	and no_prioritas = 1 "
+
+			SQL = SQL & "AND a.Kode_Perusahaan=x.kode_perusahaan "
+			SQL = SQL & "AND a.Kode_Barang=x.kode_barang_inq "
+			SQL = SQL & "ORDER BY a.Tanggal DESC,a.Jam DESC,b.No_Prioritas ASC "
+			SQL = SQL & ") f "
+			SQL = SQL & "WHERE (y.Flag_Finished_Good='Y' OR y.Flag_Semi_FG='Y') and flag_invalid is null "
+
+			SQL = SQL & "), cte_b as( "
+
 			'================= RM =================
 			SQL = SQL & " SELECT "
 			SQL = SQL & " f.tanggal_start, a.bulan, a.tahun, "
 			SQL = SQL & " d.kode_barang AS Kode_Bahan, "
 			SQL = SQL & " d.Nilai_Barang, d.satuan_barang, "
-			SQL = SQL & " f.Jumlah*bb.Berat/1000 AS nilai_ppic, "
+			SQL = SQL & " isnull((f.Jumlah - k.Qty_PO- 0) ,f.Jumlah)* bb.Berat / 1000 AS nilai_ppic, "
 			SQL = SQL & " c.hasil AS nilai_Formula, "
 			SQL = SQL & " 'RM' AS jenis "
 
 			SQL = SQL & " FROM emi_transaksi_sales_forecasting a "
 			SQL = SQL & " INNER JOIN emi_transaksi_sales_forecasting_detail b ON a.Kode_Perusahaan=b.kode_Perusahaan AND a.no_faktur=b.no_faktur "
 			SQL = SQL & " INNER JOIN barang bb ON b.kode_perusahaan=bb.kode_perusahaan and b.kode_barang=bb.kode_barang and b.kode_stock_owner=bb.kode_stock_owner "
+			SQL = SQL & " INNER JOIN cte bc ON bb.kode_perusahaan=bc.kode_perusahaan and bb.kode_barang_inq=bc.kode_barang_inq"
 			SQL = SQL & " INNER JOIN N_EMI_Production_Plan_Schedule_Detail f ON f.Kode_Perusahaan=b.Kode_Perusahaan AND f.Urut_Production_Plan=b.urut "
 			SQL = SQL & " INNER JOIN N_EMI_Production_Plan_Schedule g ON f.Kode_Perusahaan=g.Kode_Perusahaan AND f.No_Transaksi=g.No_Transaksi "
-			SQL = SQL & " INNER JOIN emi_transaksi_formulator c ON f.Kode_Perusahaan=c.Kode_Perusahaan AND f.Kode_Formula=c.No_Faktur "
+			SQL = SQL & "  INNER JOIN emi_transaksi_formulator c ON c.Kode_Perusahaan = b.Kode_Perusahaan  "
+			SQL = SQL & " AND c.No_Faktur = CASE "
+
+			SQL = SQL & " WHEN f.kode_formula IS NULL "
+			SQL = SQL & " THEN bc.Kode_Formula "
+			SQL = SQL & "ELSE f.kode_formula end "
+
 			SQL = SQL & " INNER JOIN emi_transaksi_formulator_detail_Bahan d ON c.Kode_Perusahaan=d.Kode_Perusahaan AND c.no_faktur=d.no_faktur "
 			SQL = SQL & " INNER JOIN barang z ON d.Kode_Perusahaan=z.Kode_Perusahaan and d.Kode_Barang=z.Kode_Barang and d.Kode_Stock_Owner=z.Kode_Stock_Owner "
 			SQL = SQL & " INNER JOIN emi_group_jenis y ON z.Kode_Perusahaan=y.Kode_Perusahaan and z.id_group_jenis=y.id_group_jenis "
 			SQL = SQL & " INNER JOIN init e ON a.kode_Perusahaan=e.kode_Perusahaan "
 
+			SQL = SQL & "outer apply ("
+
+			SQL = SQL & " select sum(xyz.Jumlah) as Qty_PO from EMI_Order_Produksi xyz "
+			SQL = SQL & "where xyz.Kode_Perusahaan = f.Kode_Perusahaan "
+			SQL = SQL & " and xyz.Urut_Production_Schedule = f.No_Urut "
+			SQL = SQL & "	 and xyz.Status is null "
+
+			SQL = SQL & ") k "
+
+			'SQL = SQL & "outer apply ("
+
+			'SQL = SQL & " select sum(xyz.Jumlah) as Qty_PO_Formula_Default from EMI_Order_Produksi xyz ,N_EMI_Production_Plan_Schedule_Detail ab "
+			'SQL = SQL & "where xyz.Kode_Perusahaan = ab.Kode_Perusahaan "
+			'SQL = SQL & " and xyz.Urut_Production_Schedule = ab.No_Urut "
+			'SQL = SQL & "and ab.Kode_Perusahaan=b.Kode_Perusahaan AND ab.Urut_Production_Plan=b.urut "
+			'SQL = SQL & "	 and xyz.Status is null and ab.kode_formula is null "
+
+			'SQL = SQL & ") l "
+
+
+
+
 			SQL = SQL & " WHERE a.status IS NULL "
 			SQL = SQL & " AND b.Kode_Perusahaan='" & KodePerusahaan & "' "
 			SQL = SQL & " AND a.bulan='" & bulanSkrng & "' AND a.tahun='" & tahunSkrng & "' "
-			SQL = SQL & " AND b.flag_validasi='Y' AND b.flag_validasi_PPIC='Y' "
+			SQL = SQL & " AND b.flag_validasi='Y' AND b.flag_validasi_PPIC='Y' and flag_sudah_production_order is null "
 			SQL = SQL & " AND c.status IS NULL AND g.Status IS NULL and y.flag_raw_material='Y' "
 
 			SQL = SQL & " UNION ALL "
@@ -1054,7 +1259,7 @@ Public Class N_EMI_SD_Detail_Transaksi_MaterialRequisition
 			SQL = SQL & " cte.tanggal_start, cte.Kode_Bahan, cte.bulan, cte.tahun, cte.jenis, "
 			SQL = SQL & " ISNULL(SUM(ROUND(cte.Nilai_Barang*(cte.nilai_ppic/cte.nilai_Formula),2)),0) AS Nilai "
 
-			SQL = SQL & " FROM cte "
+			SQL = SQL & " FROM cte_b as cte "
 			SQL = SQL & " GROUP BY cte.Kode_Bahan, cte.bulan, cte.tahun, cte.tanggal_start, cte.jenis "
 
 			Using Ds = BindingTrans(SQL)
@@ -1407,80 +1612,113 @@ Public Class N_EMI_SD_Detail_Transaksi_MaterialRequisition
 
 			SQL = $"
 
-                    WITH cte AS (
+					WITH cte AS (
 
-                    select distinct isnull((select top 1 c.No_Faktur
-                    from N_EMI_Transaksi_Formulator_Binding a
-                    inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
-                    inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null
-                    where a.Status is NULL
-                    and a.Flag_Validasi_Main = 'Y'
-                    and a.Kode_Perusahaan = x.kode_perusahaan
-                    and a.Kode_Barang = x.kode_barang_inq
-                    order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC),'') as kode_formula, x.kode_barang_inq, x.kode_perusahaan
-                    from barang x, emI_group_jenis y where x.kode_perusahaan=y.kode_perusahaan and x.id_group_jenis=y.id_group_jenis and (y.Flag_Finished_Good='Y' or y.Flag_Semi_FG='Y')
+					select distinct isnull((select top 1 c.No_Faktur
+					from N_EMI_Transaksi_Formulator_Binding a
+					inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+					inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null
+					where a.Status is NULL
+					and a.Flag_Validasi_Main = 'Y'
+					and c.Flag_Validasi_Formula_Produksi_BOD = 'Y'
+					and c.Flag_Deprecated_Binding is null
+					and no_prioritas = 1
+					and a.Kode_Perusahaan = x.kode_perusahaan
+					and a.Kode_Barang = x.kode_barang_inq
 
-                    ), cte_b as(
+					order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC),'') as kode_formula, x.kode_barang_inq, x.kode_perusahaan
+					from barang x, emI_group_jenis y where x.kode_perusahaan=y.kode_perusahaan and x.id_group_jenis=y.id_group_jenis and (y.Flag_Finished_Good='Y' or y.Flag_Semi_FG='Y')
+				
+					), cte_b as(
 
-                   SELECT a.bulan,a.tahun, d.kode_barang AS Kode_Bahan, d.Nilai_Barang, d.satuan_barang,
-                   (b.nilai_ppic-total_qty)*bb.Berat/1000 AS nilai_ppic,
-                   c.hasil AS nilai_Formula
+				   SELECT a.bulan,a.tahun, d.kode_barang AS Kode_Bahan, d.Nilai_Barang, d.satuan_barang,
+				   (b.nilai_ppic - f_sum_beda_formula.total_qty_beda_formula - f_sum_sudah_po.total_sudah_po)*bb.Berat/1000 AS nilai_ppic,
+				   c.hasil AS nilai_Formula
 
-                   FROM emi_transaksi_sales_forecasting a
-                   INNER JOIN emi_transaksi_sales_forecasting_detail b ON a.Kode_Perusahaan=b.kode_Perusahaan AND a.no_faktur=b.no_faktur
-                   INNER JOIN barang bb ON b.kode_perusahaan=bb.kode_perusahaan and b.kode_barang=bb.kode_barang and b.kode_stock_owner=bb.kode_stock_owner
-                   INNER JOIN cte bc ON bb.kode_perusahaan=bc.kode_perusahaan and bb.kode_barang_inq=bc.kode_barang_inq
-                   INNER JOIN Emi_Transaksi_Formulator c ON c.Kode_Perusahaan = bc.Kode_Perusahaan AND c.No_Faktur =  bc.Kode_Formula
-                   INNER JOIN emi_transaksi_formulator_detail_Bahan d ON c.Kode_Perusahaan=d.Kode_Perusahaan AND c.no_faktur=d.no_faktur
-                   INNER JOIN barang z ON d.Kode_Perusahaan=z.Kode_Perusahaan and d.Kode_Barang=z.Kode_Barang and d.Kode_Stock_Owner=z.Kode_Stock_Owner
-                   INNER JOIN emi_group_jenis y ON z.Kode_Perusahaan=y.Kode_Perusahaan and z.id_group_jenis=y.id_group_jenis
-                   INNER JOIN init e ON a.kode_Perusahaan=e.kode_Perusahaan
+				   FROM emi_transaksi_sales_forecasting a
+				   INNER JOIN emi_transaksi_sales_forecasting_detail b ON a.Kode_Perusahaan=b.kode_Perusahaan AND a.no_faktur=b.no_faktur
+				   INNER JOIN barang bb ON b.kode_perusahaan=bb.kode_perusahaan and b.kode_barang=bb.kode_barang and b.kode_stock_owner=bb.kode_stock_owner
+				   INNER JOIN cte bc ON bb.kode_perusahaan=bc.kode_perusahaan and bb.kode_barang_inq=bc.kode_barang_inq
+				   INNER JOIN Emi_Transaksi_Formulator c ON c.Kode_Perusahaan = bc.Kode_Perusahaan AND c.No_Faktur =  bc.Kode_Formula
+				   INNER JOIN emi_transaksi_formulator_detail_Bahan d ON c.Kode_Perusahaan=d.Kode_Perusahaan AND c.no_faktur=d.no_faktur
+				   INNER JOIN barang z ON d.Kode_Perusahaan=z.Kode_Perusahaan and d.Kode_Barang=z.Kode_Barang and d.Kode_Stock_Owner=z.Kode_Stock_Owner
+				   INNER JOIN emi_group_jenis y ON z.Kode_Perusahaan=y.Kode_Perusahaan and z.id_group_jenis=y.id_group_jenis
+				   INNER JOIN init e ON a.kode_Perusahaan=e.kode_Perusahaan
 
-                   OUTER APPLY (SELECT isnull(SUM(f.Jumlah),0) AS total_qty FROM N_EMI_Production_Plan_Schedule_Detail f,
-                   N_EMI_Production_Plan_Schedule g
-                   WHERE f.No_Transaksi = g.No_Transaksi AND f.Kode_Perusahaan = g.Kode_Perusahaan
-                   AND g.Status is null
-                   AND f.Kode_Perusahaan=b.Kode_Perusahaan AND f.Urut_Production_Plan=b.urut) f_sum
 
-                   WHERE a.status IS NULL AND b.Kode_Perusahaan='{KodePerusahaan}'
-                   AND a.tahun = '{tahunSkrng}' AND a.bulan = '{bulanSkrng}'
-                   AND b.flag_validasi='Y' AND b.flag_validasi_PPIC='Y' AND c.status IS NULL and y.Flag_raw_material='Y'
+														   OUTER APPLY (SELECT ISNULL(SUM(f.Jumlah - ISNULL(po.Jumlah_PO, 0)), 0) AS total_qty_beda_formula
+                                     FROM N_EMI_Production_Plan_Schedule_Detail f
+                                              INNER JOIN N_EMI_Production_Plan_Schedule g
+                                                         ON f.No_Transaksi = g.No_Transaksi AND
+                                                            f.Kode_Perusahaan = g.Kode_Perusahaan
 
-                   UNION ALL
+															  LEFT JOIN (SELECT Urut_Production_Schedule,
+																				Kode_Perusahaan,
+																				SUM(Jumlah) AS Jumlah_PO
+																		 FROM EMI_Order_Produksi
+																		 WHERE Status IS NULL
+																		 GROUP BY Urut_Production_Schedule, Kode_Perusahaan) po
+																		ON po.Urut_Production_Schedule = f.No_Urut AND
+																		   po.Kode_Perusahaan = f.Kode_Perusahaan
 
-                   SELECT a.bulan,a.tahun, c.Kode_Bahan, c.Jumlah_Bahan AS Nilai_Barang, b.satuan AS satuan_barang,
-                   isnull(( SELECT isnull(b.nilai_ppic,0) - isnull(SUM(f.Jumlah),0)
-                   FROM N_EMI_Production_Plan_Schedule_Detail f, N_EMI_Production_Plan_Schedule g
-                   WHERE f.No_Transaksi = g.No_Transaksi AND f.Kode_Perusahaan = g.Kode_Perusahaan
-                   AND g.Status is null
-                   AND f.Kode_Perusahaan=b.Kode_Perusahaan AND f.Urut_Production_Plan=b.urut),0) AS nilai_ppic,
-                   c.jumlah_barang AS nilai_Formula
+													 WHERE g.Status IS NULL
+													  and  f.kode_formula is not null
+													   AND f.Kode_Perusahaan = b.Kode_Perusahaan
+													   AND f.Urut_Production_Plan = b.urut) f_sum_beda_formula
 
-                   FROM emi_transaksi_sales_forecasting a,
-                   emi_transaksi_sales_forecasting_detail b,
-                   barang_detail_bahan_penolong c, barang d
+										OUTER APPLY (select isnull(sum(y.Jumlah), 0) as total_sudah_po
+													 from N_EMI_Production_Plan_Schedule_Detail x,
+														  emi_order_produksi y,
+														  n_emi_production_plan_schedule z
+													 where x.Urut_Production_Plan = b.urut
+													   and x.Kode_Perusahaan = y.Kode_Perusahaan
+													   and x.No_Urut = y.Urut_Production_Schedule
+													   and y.Status is null
+													   and x.Urut_Production_Plan = b.urut
+													   and x.Kode_Perusahaan = z.Kode_Perusahaan
+													   and x.No_Transaksi = z.No_Transaksi
+													   and y.Status is null) f_sum_sudah_po
 
-                   WHERE a.Kode_Perusahaan = b.kode_Perusahaan AND a.no_faktur = b.no_faktur
-                   AND a.status IS NULL AND b.Kode_Perusahaan = '{KodePerusahaan}'
-                   AND b.Kode_Perusahaan=d.Kode_Perusahaan AND b.Kode_barang=d.Kode_Barang AND b.kode_stock_owner=d.kode_stock_owner
-                   AND a.tahun = '{tahunSkrng}' AND a.bulan = '{bulanSkrng}'
-                   AND b.flag_validasi='Y' AND b.flag_validasi_PPIC='Y'
-                   AND d.Kode_Perusahaan = c.Kode_Perusahaan AND d.kode_barang_inq = c.kode_barang
 
-                   )
-                   SELECT cte.Kode_Bahan, cte.bulan, cte.tahun,
-                   SUM(
-                   ROUND(cte.Nilai_Barang*(cte.nilai_ppic/cte.nilai_Formula),2)) AS hasil,
+				   WHERE a.status IS NULL AND b.Kode_Perusahaan='{KodePerusahaan}'
+				   AND a.tahun = '{tahunSkrng}' AND a.bulan = '{bulanSkrng}'
+				   AND b.flag_validasi='Y' AND b.flag_validasi_PPIC='Y' AND c.status IS NULL and y.Flag_raw_material='Y'
 
-                   CASE WHEN bds.satuan IS NULL THEN 1 ELSE 0 END AS flag_satuan_kosong
+				   UNION ALL
 
-                   FROM cte_b as cte
-                   LEFT JOIN Barang_Detail_Satuan bds ON bds.kode_barang = cte.Kode_Bahan
-                   AND bds.kode_perusahaan = '{KodePerusahaan}' AND bds.flag_tampil_display = 'Y'
+				   SELECT a.bulan,a.tahun, c.Kode_Bahan, c.Jumlah_Bahan AS Nilai_Barang, b.satuan AS satuan_barang,
+				   isnull(( SELECT isnull(b.nilai_ppic,0) - isnull(SUM(f.Jumlah),0)
+				   FROM N_EMI_Production_Plan_Schedule_Detail f, N_EMI_Production_Plan_Schedule g
+				   WHERE f.No_Transaksi = g.No_Transaksi AND f.Kode_Perusahaan = g.Kode_Perusahaan
+				   AND g.Status is null
+				   AND f.Kode_Perusahaan=b.Kode_Perusahaan AND f.Urut_Production_Plan=b.urut),0) AS nilai_ppic,
+				   c.jumlah_barang AS nilai_Formula
 
-                   GROUP BY cte.Kode_Bahan, cte.bulan, cte.tahun,bds.satuan
+				   FROM emi_transaksi_sales_forecasting a,
+				   emi_transaksi_sales_forecasting_detail b,
+				   barang_detail_bahan_penolong c, barang d
 
-            "
+				   WHERE a.Kode_Perusahaan = b.kode_Perusahaan AND a.no_faktur = b.no_faktur
+				   AND a.status IS NULL AND b.Kode_Perusahaan = '{KodePerusahaan}'
+				   AND b.Kode_Perusahaan=d.Kode_Perusahaan AND b.Kode_barang=d.Kode_Barang AND b.kode_stock_owner=d.kode_stock_owner
+				   AND a.tahun = '{tahunSkrng}' AND a.bulan = '{bulanSkrng}'
+				   AND b.flag_validasi='Y' AND b.flag_validasi_PPIC='Y'
+				   AND d.Kode_Perusahaan = c.Kode_Perusahaan AND d.kode_barang_inq = c.kode_barang
+
+				   )
+				   SELECT cte.Kode_Bahan, cte.bulan, cte.tahun,
+				   SUM(
+				   ROUND(cte.Nilai_Barang*(cte.nilai_ppic/cte.nilai_Formula),2)) AS hasil,
+
+				   CASE WHEN bds.satuan IS NULL THEN 1 ELSE 0 END AS flag_satuan_kosong
+
+				   FROM cte_b as cte
+				   LEFT JOIN Barang_Detail_Satuan bds ON bds.kode_barang = cte.Kode_Bahan
+				   AND bds.kode_perusahaan = '{KodePerusahaan}' AND bds.flag_tampil_display = 'Y'
+
+				   GROUP BY cte.Kode_Bahan, cte.bulan, cte.tahun,bds.satuan
+
+			"
 
 			'================ RM =================
 
@@ -1589,6 +1827,11 @@ Public Class N_EMI_SD_Detail_Transaksi_MaterialRequisition
 					DataGridView1.Rows(ind).Cells(cellOutStandingPRD).Value = Format(0, "N2")
 				End If
 
+				Dim ActualStock As Double = Val(HilangkanTanda(DataGridView1.Rows(ind).Cells(cellEndingStock).Value))
+				Dim OutStanding As Double = Val(HilangkanTanda(DataGridView1.Rows(ind).Cells(cellOutStandingPRD).Value))
+				Dim BelumTerjadwal As Double = Val(HilangkanTanda(DataGridView1.Rows(ind).Cells(cell_BelumTerjadwal).Value))
+
+				Dim ending_stock As Double = ActualStock - OutStanding '- BelumTerjadwal
 				For m As Integer = 1 To 4
 
 					' === ambil cell schedule (M1–M4)
@@ -1617,18 +1860,18 @@ Public Class N_EMI_SD_Detail_Transaksi_MaterialRequisition
 					Dim valPR As Double = If(dictPRBulanan.ContainsKey(keyNew), dictPRBulanan(keyNew), 0)
 
 					' hitung request stok
-					Dim req As Double = valM - valPO
+					'Dim req As Double = valM - valPO
 
 					' isi ke grid
 					DataGridView1.Rows(ind).Cells(cellM).Value = Format(valM, "N2")
 					DataGridView1.Rows(ind).Cells(cellPO).Value = Format(valPO, "N2")
 					DataGridView1.Rows(ind).Cells(cellPrIncom).Value = Format(valPR, "N2")
 
-					Dim ActualStock As Double = Val(HilangkanTanda(DataGridView1.Rows(ind).Cells(cellEndingStock).Value))
-					Dim OutStanding As Double = Val(HilangkanTanda(DataGridView1.Rows(ind).Cells(cellOutStandingPRD).Value))
-					Dim BelumTerjadwal As Double = Val(HilangkanTanda(DataGridView1.Rows(ind).Cells(cell_BelumTerjadwal).Value))
 
-					Dim HitungEndingStock As Double = (ActualStock - OutStanding - BelumTerjadwal - valM) + (valPO + valPR)
+
+					Dim HitungEndingStock As Double = (ending_stock + valPO + valPR) - valM
+
+					ending_stock = HitungEndingStock
 					DataGridView1.Rows(ind).Cells(cellReq).Value = Format(HitungEndingStock, "N2")
 
 					If ind = 6 Then

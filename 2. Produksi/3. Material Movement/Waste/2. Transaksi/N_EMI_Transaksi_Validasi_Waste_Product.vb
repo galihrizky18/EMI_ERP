@@ -160,6 +160,7 @@
 				  and b.Jenis_Approval = 'Waste_Produk'
 				  and a.Flag_Waste_Product = 'Y'
 				  and b.Approval_Level = 1
+				  --and b.Flag_Selesai = 'Y'
 				  and b.Flag_Selesai is null
 				  and a.Flag_Data_Baru_Validasi_Pemindahan = 'Y'
 				  {Filter}
@@ -256,6 +257,7 @@
 				  and b.Jenis_Approval = 'Waste_Produk'
 				  and a.Flag_Waste_Product = 'Y'
 				  and b.Approval_Level = 1
+				  --and b.Flag_Selesai = 'Y'
 				  and b.Flag_Selesai is null
 				  and b.No_Transaksi = '{NoTransaksi}'
 				  and a.No_Faktur = '{NoFaktur}'
@@ -413,7 +415,7 @@
 			Lv_Product_Detail_Barcode.Items.Clear()
 
 			SQL = $"
-				select a.kode_perusahaan, 'Good Receiver 1' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+				select a.kode_perusahaan, 'Goods Receiver 1' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
 					   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
 					   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(c.Jumlah) as Jumlah, b.Satuan
 				from N_EMI_Transaksi_Transfer_Waste_Produk a
@@ -436,7 +438,7 @@
 
 				union all
 
-				select a.kode_perusahaan, 'Good Receive 1' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order,
+				select a.kode_perusahaan, 'Goods Receive 1' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order,
 					   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
 					   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(c.Jumlah) as Jumlah, b.Satuan
 				from N_EMI_Transaksi_Transfer_Waste_Produk a
@@ -463,7 +465,7 @@
 
 				union all
 
-				select a.kode_perusahaan, 'Good Receive 2' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+				select a.kode_perusahaan, 'Goods Receive 2' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
 					   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
 					   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah) as Jumlah, e.Satuan
 				from N_EMI_Transaksi_Transfer_Waste_Produk a
@@ -486,7 +488,7 @@
 
 				union all
 
-				select a.kode_perusahaan, 'Good Receive 2' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+				select a.kode_perusahaan, 'Goods Receive 2' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
 					   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
 					   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah) as Jumlah, e.Satuan
 				from N_EMI_Transaksi_Transfer_Waste_Produk a
@@ -513,7 +515,7 @@
 
 				union all
 
-				  select a.kode_perusahaan, 'Good Receive 3' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi,
+				  select a.kode_perusahaan, 'Goods Receive 3' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi,
 						   f.No_Production_Order as No_Split,
 						   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
 						   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah) as Jumlah, e.Satuan

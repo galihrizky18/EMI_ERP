@@ -397,113 +397,123 @@ Public Class N_EMI_Transaksi_Validasi_Formula_Trial_Produksi
 			End Using
 
 			SQL = $"
-                WITH cte_bahan AS (
+                ;WITH cte_hpp_sn AS (
+					SELECT 
+						kode_barang,
+						dbo.get_hpp(serial_number) AS hpp_val,
+						ROW_NUMBER() OVER (
+							PARTITION BY kode_barang 
+							ORDER BY Tgl_masuk DESC
+						) AS rn
+					FROM barang_sn
+					WHERE blok_sn IS NULL
+					  AND dbo.get_hpp(serial_number) <> 0
+				),
+				cte_bahan AS (
 					SELECT 
 						a.Kode_Barang,
 						a.Kode_Bahan,
 						a.Jumlah_Barang,
-
-						(
-							ISNULL(
-								(
-									SELECT TOP (1)
-										dbo.get_hpp(x.serial_number)
-									FROM barang_sn x
-									WHERE x.kode_barang = a.kode_bahan
-									  AND x.blok_sn IS NULL
-									  AND dbo.get_hpp(x.serial_number) <> 0
-									ORDER BY x.Tgl_masuk DESC
-								),
-								b.estimasi_harga
-							)
-						) / NULLIF(a.Jumlah_Barang, 0) AS hpp
-
+						ISNULL(h.hpp_val, b.estimasi_harga) 
+							/ NULLIF(a.Jumlah_Barang, 0) AS hpp
 					FROM Barang_Detail_Bahan_Penolong a
-
 					INNER JOIN Barang b
 						ON a.Kode_Bahan = b.Kode_Barang
-
-					GROUP BY a.Kode_Bahan, a.Kode_Barang, a.Jumlah_Barang, b.Estimasi_Harga
+					LEFT JOIN cte_hpp_sn h
+						ON h.kode_barang = a.kode_bahan
+					   AND h.rn = 1
+					GROUP BY 
+						a.Kode_Bahan, 
+						a.Kode_Barang, 
+						a.Jumlah_Barang, 
+						b.Estimasi_Harga,
+						h.hpp_val
 				),
-
-                cte_wc AS (
-                    SELECT 
-                        a.Kode_Perusahaan,
-                        a.Kode_Jenis_Biaya_Produksi,
-
-                        (
-                            SELECT TOP (1) x.no_faktur
-                            FROM Emi_Transaksi_Work_Center x
-                            WHERE x.status IS NULL
-                              AND x.Kode_Perusahaan = a.Kode_Perusahaan
-                              AND x.jenis_biaya = a.Kode_Jenis_Biaya_Produksi
-                            ORDER BY x.id DESC
-                        ) AS Faktur_WC
-
-                    FROM Emi_Jenis_Biaya_Produksi a
-                ),
-
-                cte_produksi AS (
-                    SELECT 
-                        c.Id_Routing,
-                        c.id_work_center,
-                        MAX(c.Nilai_Per_pcs) AS Nilai_Per_Kg
-
-                    FROM cte_wc a
-
-                    JOIN Emi_Transaksi_Work_Center b
-                        ON a.Kode_Perusahaan = b.Kode_Perusahaan
-                       AND a.Faktur_WC = b.No_Faktur
-
-                    JOIN Emi_Transaksi_Work_Center_detail c
-                        ON b.Kode_Perusahaan = c.Kode_Perusahaan
-                       AND b.No_Faktur = c.No_Faktur
-
-                    GROUP BY 
-                        c.Id_Routing,
-                        c.id_work_center,
+				cte_faktur_ranked AS (
+					SELECT 
+						Kode_Perusahaan,
+						Jenis_Biaya,
+						No_Faktur,
+						ROW_NUMBER() OVER (
+							PARTITION BY Kode_Perusahaan, Jenis_Biaya 
+							ORDER BY Id DESC
+						) AS rn
+					FROM Emi_Transaksi_Work_Center
+					WHERE Status IS NULL
+				),
+				cte_wc AS (
+					SELECT 
+						a.Kode_Perusahaan,
+						a.Id_Jenis_Biaya_Produksi,
+						a.Kode_Jenis_Biaya_Produksi,
+						f.No_Faktur AS Faktur_WC
+					FROM Emi_Jenis_Biaya_Produksi a
+					LEFT JOIN cte_faktur_ranked f
+						ON f.Kode_Perusahaan = a.Kode_Perusahaan
+					   AND f.Jenis_Biaya      = a.Kode_Jenis_Biaya_Produksi
+					   AND f.rn = 1
+				),
+				cte_produksi AS (
+					SELECT 
+						c.Id_Routing,
+						a.Kode_Jenis_Biaya_Produksi,
+						c.Id_Work_Center,
+						MAX(c.Nilai_Per_Pcs) AS Nilai_Per_Kg
+					FROM cte_wc a
+					JOIN Emi_Transaksi_Work_Center b
+						ON a.Kode_Perusahaan = b.Kode_Perusahaan
+					   AND a.Faktur_WC       = b.No_Faktur
+					JOIN Emi_Transaksi_Work_Center_Detail c
+						ON b.Kode_Perusahaan = c.Kode_Perusahaan
+					   AND b.No_Faktur       = c.No_Faktur
+					GROUP BY 
+						c.Id_Routing,
+						c.Id_Work_Center,
 						a.Kode_Jenis_Biaya_Produksi
-                )
-
-                SELECT 
-                    d.Satuan,
-
-                    ISNULL((
-                        SELECT SUM(x.hpp)
-                        FROM cte_bahan x
-                        WHERE x.Kode_Barang = b.Kode_Barang
-                    ), 0) AS HPP_Packaging,
-
-                    ISNULL((
-                        SELECT SUM(x.Nilai_Per_Kg) / 1000 * d.Berat
-                        FROM cte_produksi x
-                        WHERE d.Id_Routing = x.Id_Routing
-                    ), 0) AS HPP_Produksi,
-
-                    ISNULL((
-                        SELECT SUM(ISNULL(x.Est_HPP_Per_Pcs, 0))
-                        FROM EMI_Transaksi_Formulator_Detail_Bahan x
-                        WHERE x.Kode_Perusahaan = b.Kode_Perusahaan
-                          AND x.No_Faktur = b.No_Faktur
-                    ), 0) AS HPP_Bahan_Baku
-
-                FROM Emi_Transaksi_Formulator b
-
-                JOIN Barang d
-                    ON b.Kode_Perusahaan = d.Kode_Perusahaan
-                    AND b.Kode_Barang = d.Kode_Barang_inq
-                    AND b.Kode_Stock_Owner = d.Kode_Stock_Owner
-
-                WHERE b.No_Faktur = '{no_formula}'
-
-                GROUP BY 
-                    b.No_Faktur,
-                    b.Kode_Perusahaan,
-                    b.Kode_Barang,
-                    d.Nama,
-                    d.Satuan,
-                    d.Berat,
-                    d.Id_Routing
+				),
+				cte_packaging_agg AS (
+					SELECT 
+						Kode_Barang,
+						SUM(hpp) AS total_hpp
+					FROM cte_bahan
+					GROUP BY Kode_Barang
+				),
+				cte_produksi_agg AS (
+					SELECT 
+						Id_Routing,
+						SUM(Nilai_Per_Kg) AS total_nilai
+					FROM cte_produksi
+					GROUP BY Id_Routing
+				)
+				SELECT 
+					SUM(ISNULL(c.Est_HPP_Per_Pcs, 0))              AS HPP_Bahan_Baku,
+					ISNULL(pkg.total_hpp, 0)                        AS HPP_Packaging,
+					ISNULL(prod.total_nilai / 1000.0 * d.Berat, 0) AS HPP_Produksi,
+					'Per ' + d.Satuan                               AS Satuan
+				FROM Emi_Transaksi_Formulator b
+				INNER JOIN EMI_Transaksi_Formulator_Detail_Bahan c
+					ON b.Kode_Perusahaan = c.Kode_Perusahaan
+				   AND b.No_Faktur       = c.No_Faktur
+				INNER JOIN Barang d
+					ON b.Kode_Perusahaan  = d.Kode_Perusahaan
+				   AND b.Kode_Stock_Owner = d.Kode_Stock_Owner
+				   AND b.Kode_Barang      = d.Kode_Barang_inq
+				LEFT JOIN cte_packaging_agg pkg
+					ON pkg.Kode_Barang = b.Kode_Barang
+				LEFT JOIN cte_produksi_agg prod
+					ON prod.Id_Routing = d.Id_Routing
+				WHERE b.Kode_Perusahaan = '{KodePerusahaan}'
+				  AND b.No_Faktur       = '{no_formula}'
+				GROUP BY 
+					b.No_Faktur,
+					d.Nama,
+					b.Tanggal,
+					d.Satuan,
+					d.Berat,
+					d.Id_Routing,
+					b.Kode_Barang,
+					pkg.total_hpp,
+					prod.total_nilai;
             "
 			Using Dr = OpenTrans(SQL)
 				If Dr.Read() Then

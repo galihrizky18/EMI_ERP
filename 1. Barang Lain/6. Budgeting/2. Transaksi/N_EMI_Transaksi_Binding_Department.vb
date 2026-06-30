@@ -8,6 +8,7 @@
 	Dim ItemDepartment_JenisGudang As Integer = 2
 	Dim ItemDepartment_Keterangan As Integer = 3
 	Dim ItemDepartment_StatusBinding As Integer = 4
+	Dim ItemDepartment_ID As Integer = 5
 
 	Dim DataFilter As New List(Of (ValueCombo As String, Sql As String)) From {
 		(OpsiSeluruh, OpsiSeluruh),
@@ -36,6 +37,7 @@
 		Lv_Department.Columns.Add("Jenis Gudang", 120, HorizontalAlignment.Center)
 		Lv_Department.Columns.Add("Keterangan", 240, HorizontalAlignment.Left)
 		Lv_Department.Columns.Add("Status Binding", 130, HorizontalAlignment.Center)
+		Lv_Department.Columns.Add("ID", 0, HorizontalAlignment.Center)
 		Lv_Department.View = View.Details
 
 		Lv_Display_Parent.Columns.Clear()
@@ -108,7 +110,7 @@
 			Lv_Department.Items.Clear()
 			SQL = $"
 				select a.Kode_Kategori_Gudang, a.Kode_Stock_Owner_Gudang, a.Jenis_Gudang,
-						a.Keterangan, isnulL(b.HasBinding, 'T') as Status_Binding
+						a.Keterangan, isnulL(b.HasBinding, 'T') as Status_Binding, a.Urut_Oto
 					from N_EMI_Master_Kategori_Gudang_Barang_Lain a
 						left join (
 							select a.Kode_Perusahaan, b.Kode_Kategori_Gudang, 'Y' as HasBinding
@@ -118,6 +120,7 @@
 							where a.Status is null
 						)	b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Kategori_Gudang = b.Kode_Kategori_Gudang
 					where a.Status is null
+					and a.Jenis_Gudang = 'Department'
 					and a.Kode_Perusahaan = '{KodePerusahaan}'
 					order by a.Kode_Stock_Owner_Gudang
 			"
@@ -140,6 +143,7 @@
 								Lv.Checked = True
 							End If
 						End If
+						Lv.SubItems.Add(Dr("Urut_Oto"))
 					Loop While Dr.Read
 				Else
 					Dr.Close()
@@ -274,7 +278,7 @@
 			End If
 		End If
 
-		Dim Action As String = StrConv(Btn_Simpan.Text.Trim, VbStrConv.ProperCase)
+		Dim Action As String = StrConv(Btn_Simpan.Tag.Trim, VbStrConv.ProperCase)
 		If (MessageBox.Show($"Yakin Ingin {Action} Binding Ini?", Judul, MessageBoxButtons.YesNo, MessageBoxIcon.Question)) = vbNo Then Exit Sub
 
 		get_jam()
@@ -315,7 +319,8 @@
 					HasData = True
 
 					Dim Sql As String = $"('{KodePerusahaan}', '{Txt_KodeBinding.Text.Trim}', '{item.SubItems(ItemDepartment_KdKategoriGudang).Text.Trim}',
-										'{item.SubItems(ItemDepartment_KdStockOwnerGudang).Text.Trim}', '{item.SubItems(ItemDepartment_JenisGudang).Text.Trim}')"
+										'{item.SubItems(ItemDepartment_KdStockOwnerGudang).Text.Trim}', '{item.SubItems(ItemDepartment_JenisGudang).Text.Trim}',
+										'{item.SubItems(ItemDepartment_ID).Text.Trim}')"
 
 					SqlInsertList.Add(Sql)
 					ListGudang.Add($"'{item.SubItems(ItemDepartment_KdKategoriGudang).Text.Trim}'")
@@ -363,7 +368,7 @@
 				ExecuteTrans(SQL)
 
 				SQL = $"
-					insert into N_EMI_Binding_Department_Detail (kode_perusahaan, kode_binding, kode_kategori_gudang, kode_stock_owner_gudang, jenis_gudang)
+					insert into N_EMI_Binding_Department_Detail (kode_perusahaan, kode_binding, kode_kategori_gudang, kode_stock_owner_gudang, jenis_gudang, ID_Kode_Kategori_Gudang)
 					values {SqlDetail}
 				"
 				ExecuteTrans(SQL)
@@ -419,10 +424,11 @@
 					HasData = True
 
 					Dim Sql As String = $"('{KodePerusahaan}', '{Txt_KodeBinding.Text.Trim}', '{item.SubItems(ItemDepartment_KdKategoriGudang).Text.Trim}',
-										'{item.SubItems(ItemDepartment_KdStockOwnerGudang).Text.Trim}', '{item.SubItems(ItemDepartment_JenisGudang).Text.Trim}')"
+										'{item.SubItems(ItemDepartment_KdStockOwnerGudang).Text.Trim}', '{item.SubItems(ItemDepartment_JenisGudang).Text.Trim}',
+										'{item.SubItems(ItemDepartment_ID).Text.Trim}')"
 
 					SqlInsertList.Add(Sql)
-					ListGudang.Add($"'{item.SubItems(ItemDepartment_KdKategoriGudang).Text.Trim}'")
+					ListGudang.Add($" '{item.SubItems(ItemDepartment_KdKategoriGudang).Text.Trim}'")
 				Next
 
 				If Not HasData Then
@@ -461,7 +467,7 @@
 				Dim SqlDetail As String = String.Join(", ", SqlInsertList)
 
 				SQL = $"
-					insert into N_EMI_Binding_Department_Detail (kode_perusahaan, kode_binding, kode_kategori_gudang, kode_stock_owner_gudang, jenis_gudang)
+					insert into N_EMI_Binding_Department_Detail (kode_perusahaan, kode_binding, kode_kategori_gudang, kode_stock_owner_gudang, jenis_gudang, ID_Kode_Kategori_Gudang)
 					values {SqlDetail}
 				"
 				ExecuteTrans(SQL)
@@ -518,6 +524,26 @@
 					CloseTrans()
 					CloseConn()
 					MessageBox.Show($"Terjadi Kesalahan, Kode Binding {Txt_KodeBinding.Text.Trim} Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+			End Using
+
+			'=================================================================
+			'=     CEK APAKAH BINDING SUDAH DIPAKAI PADA BUDGET PLANNING     =
+			'=================================================================
+
+			SQL = $"
+				select 1 from N_EMI_Transaksi_Budget_Planning
+				where Status is null
+				and Kode_Perusahaan = '{KodePerusahaan}'
+				and Kode_Binding = '{Txt_KodeBinding.Text.Trim}'
+			"
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					Dr.Close()
+					CloseTrans()
+					CloseConn()
+					MessageBox.Show($"Terjadi Kesalahan, Kode Binding {Txt_KodeBinding.Text.Trim} Sudah Digunakan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 					Exit Sub
 				End If
 			End Using
@@ -612,12 +638,14 @@
 	End Sub
 
 	Private Sub Btn_Cari_Click(sender As Object, e As EventArgs) Handles Btn_Cari.Click
-		If Cmb_Filter.SelectedIndex < 1 Then Exit Sub
+		If Cmb_Filter.SelectedIndex < 0 Then Exit Sub
 
-		If Txt_filter.Text.Trim.Length = 0 Then
-			MessageBox.Show("Harap Isi Dahulu Value Filter", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-			Txt_filter.Focus()
-			Exit Sub
+		If Cmb_Filter.SelectedIndex > 1 Then
+			If Txt_filter.Text.Trim.Length = 0 Then
+				MessageBox.Show("Harap Isi Dahulu Value Filter", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+				Txt_filter.Focus()
+				Exit Sub
+			End If
 		End If
 
 		LoadDisplay()

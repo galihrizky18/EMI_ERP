@@ -1,19 +1,7 @@
-﻿Imports System.Runtime.InteropServices
-
-Public Class Master_Barang_New
-
-	<DllImport("user32.dll", CharSet:=CharSet.Unicode)>
-	Private Shared Function SendMessage(hWnd As IntPtr, msg As Integer, wParam As IntPtr, lParam As String) As IntPtr
-	End Function
-
-	Private Const EM_SETCUEBANNER As Integer = &H1501
+﻿Public Class Master_Barang_New
 
 	Dim arrkolom, arrorder, arrJenisBarang, arrJenisGudang, arrKategoriGudang, arrId_kategori_qc, arrId_kategori_PO, arrId_Klasifikasi_Bahan, arrprefix_Klasifikasi_Bahan, arrid_Routing As New ArrayList
 	Dim arrId_Klasifikasi_Bahan2, arrprefix_Klasifikasi_Bahan2 As New ArrayList
-	Dim arrId_Klasifikasi_Bahan3, arrKode_Klasifikasi_Bahan3, arrprefix_Klasifikasi_Bahan3 As New ArrayList
-	Dim arrId_Jenis_Makanan, arrKode_Jenis_Makanan, arrprefix_Jenis_Makanan As New ArrayList
-	Dim arrId_Jenis_Kemasan, arrKode_Jenis_Kemasan, arrprefix_Jenis_Kemasan As New ArrayList
-	Dim arrId_Jenis_Kualitas, arrKode_Jenis_Kualitas, arrprefix_Jenis_Kualitas As New ArrayList
 	Dim hrg_jual_apa As String
 	Dim text_hrg_jual_apa As String
 	Dim boleh_lihat_global As Boolean
@@ -164,7 +152,7 @@ Public Class Master_Barang_New
 						Lvw.SubItems.Add(dr("keterangan_master_kategori_gudang"))
 					End If
 
-					If General_Class.CekNULL(dr("ID_Kategori_QC")) = "" Then
+					If General_Class.CekNULL(dr("keterangan_QC")) = "" Then
 						Lvw.SubItems.Add("-")
 					Else
 						Lvw.SubItems.Add(dr("keterangan_QC"))
@@ -176,7 +164,7 @@ Public Class Master_Barang_New
 						Lvw.SubItems.Add(dr("ID_Kategori_QC"))
 					End If
 
-					If General_Class.CekNULL(dr("ID_Kategori_PO")) = "" Then
+					If General_Class.CekNULL(dr("keterangan_PO")) = "" Then
 						Lvw.SubItems.Add("-")
 					Else
 						Lvw.SubItems.Add(dr("keterangan_PO"))
@@ -188,7 +176,7 @@ Public Class Master_Barang_New
 						Lvw.SubItems.Add(dr("ID_Kategori_PO"))
 					End If
 
-					If General_Class.CekNULL(dr("ID_Klasifikasi_Bahan")) = "" Then
+					If General_Class.CekNULL(dr("keterangan_bhn")) = "" Then
 						Lvw.SubItems.Add("-")
 					Else
 						Lvw.SubItems.Add(dr("keterangan_bhn"))
@@ -200,7 +188,7 @@ Public Class Master_Barang_New
 						Lvw.SubItems.Add(dr("keterangan_Bhn2"))
 					End If
 
-					If General_Class.CekNULL(dr("Id_Routing")) = "" Then
+					If General_Class.CekNULL(dr("keterangan_Routing")) = "" Then
 						Lvw.SubItems.Add("-")
 					Else
 						Lvw.SubItems.Add(dr("keterangan_Routing"))
@@ -264,10 +252,11 @@ Public Class Master_Barang_New
 		lblBeratKotor.Text = Base_Language.Lang_Global_Berat_Kotor
 		lblKategoriKecil.Text = Base_Language.Lang_Global_Kategori_Kecil
 		lblKategoriBesar.Text = Base_Language.Lang_Global_Kategori_Besar
-		'lblLebar.Text = Base_Language.Lang_Global_Lebar
+		lblLebar.Text = Base_Language.Lang_Global_Lebar
 		Label22.Text = Base_Language.Lang_Barang_Msg_Berat
 		Label33.Text = Base_Language.Lang_Barang_Msg_Uk
 		lblPanjang.Text = Base_Language.Lang_Global_Panjang
+		lblTinggi.Text = Base_Language.Lang_Global_Tinggi
 		lblUkuran.Text = Base_Language.Lang_Global_Ukuran
 		lblJenisGudang.Text = Base_Language.Lang_Global_Jenis_Gudang
 		Lbl_KategoriGudang.Text = Base_Language.Lang_Global_KategoriGudang
@@ -275,22 +264,16 @@ Public Class Master_Barang_New
 		lblStatusAktif.Text = Base_Language.Lang_Global_Aktif
 		Button5.Text = Base_Language.Lang_Global_Cari
 
-		Btn_Simpan.Text = Base_Language.Lang_Global_Simpan
+		Button1.Text = Base_Language.Lang_Global_Simpan
 		Button3.Text = Base_Language.Lang_Global_Refresh
 
-		Cmb_Klasifikasi_Bahan.Enabled = False
-		Cmb_Klasifikasi_Bahan_2.Enabled = False
-		Cmb_Klasifikasi_Bahan_3.Enabled = False
+		ComboBox11.Enabled = False
+		ComboBox19.Enabled = False
 
 		DgvSatuanTerpilih.Rows.Clear()
 
 		arrprefix_Klasifikasi_Bahan2.Clear()
 		arrId_Klasifikasi_Bahan2.Clear()
-
-		Cmb_Klasifikasi_Bahan_3.Items.Clear()
-		arrKode_Klasifikasi_Bahan3.Clear()
-		arrId_Klasifikasi_Bahan3.Clear()
-		arrprefix_Klasifikasi_Bahan3.Clear()
 
 		Try
 			OpenConn()
@@ -311,12 +294,6 @@ Public Class Master_Barang_New
 			Cmb_FlagPotongStok.Items.Add("Y")
 			Cmb_FlagPotongStok.Items.Add("T")
 
-			Cmb_Flag_Preservative.Items.Clear()
-			Cmb_Flag_Preservative.Items.Add("Y")
-			Cmb_Flag_Preservative.Items.Add("T")
-			Cmb_Flag_Preservative.SelectedIndex = -1
-			Cmb_Flag_Preservative.Enabled = False
-
 			ComboBox2.Text = Lokasi
 
 			ComboBox4.Items.Clear()
@@ -326,7 +303,6 @@ Public Class Master_Barang_New
 					ComboBox4.Items.Add(dr("kode_kategori"))
 				Loop
 			End Using
-			If ComboBox4.Items.Count <> 0 Then ComboBox4.SelectedIndex = 0
 
 			ComboBox12.Items.Clear()
 			SQL = "Select Kode_Kategori_Besar From Kategori_Besar where kode_perusahaan = '" & KodePerusahaan & "' order by Kode_Kategori_Besar"
@@ -335,7 +311,6 @@ Public Class Master_Barang_New
 					ComboBox12.Items.Add(dr("Kode_Kategori_Besar"))
 				Loop
 			End Using
-
 			'iniiiii
 			'Dim boleh_lihat_global As Boolean
 
@@ -350,7 +325,7 @@ Public Class Master_Barang_New
 			cmbJenis.Items.Clear() : arrJenisBarang.Clear() : arrGudangRawMaterial.Clear()
 			SQL = "select id_group_jenis,kode_group_jenis, Flag_Raw_Material from EMI_GROUP_JENIS where "
 			SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' "
-			SQL = SQL & "order by kode_group_jenis "
+			SQL = SQL & "order by kode_group_jenis"
 			Using dr = OpenTrans(SQL)
 				Do While dr.Read
 					cmbJenis.Items.Add(dr("kode_group_jenis")) : arrJenisBarang.Add(dr("id_group_jenis"))
@@ -411,20 +386,19 @@ Public Class Master_Barang_New
 					arrId_kategori_PO.Add(Dr("ID_Kategori_PO"))
 				Loop
 			End Using
-			If ComboBox6.Items.Count <> 0 Then ComboBox6.SelectedIndex = 0
 
-			Cmb_Klasifikasi_Bahan.Items.Clear() : arrId_Klasifikasi_Bahan.Clear() : arrprefix_Klasifikasi_Bahan.Clear()
+			ComboBox11.Items.Clear() : arrId_Klasifikasi_Bahan.Clear() : arrprefix_Klasifikasi_Bahan.Clear()
 			SQL = "select ID_Klasifikasi_Bahan,Keterangan, Prefix_Klasifikasi_Bahan from Emi_Klasifikasi_Bahan where kode_perusahaan = '" & KodePerusahaan & "' order by Keterangan"
 			Using Dr = OpenTrans(SQL)
 				Do While Dr.Read
-					Cmb_Klasifikasi_Bahan.Items.Add(Dr("Keterangan"))
+					ComboBox11.Items.Add(Dr("Keterangan"))
 					arrId_Klasifikasi_Bahan.Add(Dr("ID_Klasifikasi_Bahan"))
 					arrprefix_Klasifikasi_Bahan.Add(Dr("Prefix_Klasifikasi_Bahan"))
 				Loop
 			End Using
 
-			Cmb_Klasifikasi_Bahan_2.Items.Clear()
-			Cmb_Klasifikasi_Bahan_2.SelectedIndex = -1
+			ComboBox19.Items.Clear()
+			ComboBox19.SelectedIndex = -1
 			arrId_Klasifikasi_Bahan2.Clear() : arrprefix_Klasifikasi_Bahan2.Clear()
 
 			'ComboBox5.Items.Clear()
@@ -464,6 +438,10 @@ Public Class Master_Barang_New
 			'    ComboBox18.SelectedIndex = 0
 			'End Using
 
+			ComboBox15.Items.Clear()
+			ComboBox15.Items.Add("Original Bags")
+			ComboBox15.Items.Add("Non Original Bags")
+
 			ComboBox16.Items.Clear()
 			ComboBox16.Items.Add("FIFO")
 			ComboBox16.Items.Add("FEFO")
@@ -479,57 +457,6 @@ Public Class Master_Barang_New
 			Cmb_Est_Harga_Mata_Uang.SelectedItem = "RP"
 
 			Txt_Est_Harga.Text = ""
-
-			Cmb_Jenis_Makanan.Items.Clear()
-			arrId_Jenis_Makanan.Clear()
-			arrKode_Jenis_Makanan.Clear()
-			arrprefix_Jenis_Makanan.Clear()
-			SQL = "select Id_Jenis_Makanan, Kode_Jenis_Makanan, Prefix_Jenis_Makanan, Keterangan "
-			SQL = SQL & "from N_EMI_Master_Jenis_Makanan "
-			SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-			SQL = SQL & "order by Keterangan "
-			Using Dr = OpenTrans(SQL)
-				Do While Dr.Read
-					Cmb_Jenis_Makanan.Items.Add(Dr("Keterangan"))
-					arrId_Jenis_Makanan.Add(Dr("Id_Jenis_Makanan"))
-					arrKode_Jenis_Makanan.Add(Dr("Kode_Jenis_Makanan"))
-					arrprefix_Jenis_Makanan.Add(If(General_Class.CekNULL(Dr("Prefix_Jenis_Makanan")) = "", "", Dr("Prefix_Jenis_Makanan")))
-				Loop
-			End Using
-
-			Cmb_Jenis_Kemasan.Items.Clear()
-			arrId_Jenis_Kemasan.Clear()
-			arrKode_Jenis_Kemasan.Clear()
-			arrprefix_Jenis_Kemasan.Clear()
-			SQL = "select Id_Jenis_Kemasan, Kode_Jenis_Kemasan, Prefix_Jenis_Kemasan, Keterangan "
-			SQL = SQL & "from N_EMI_Master_Jenis_Kemasan "
-			SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-			SQL = SQL & "order by Keterangan "
-			Using Dr = OpenTrans(SQL)
-				Do While Dr.Read
-					Cmb_Jenis_Kemasan.Items.Add(Dr("Keterangan"))
-					arrId_Jenis_Kemasan.Add(Dr("Id_Jenis_Kemasan"))
-					arrKode_Jenis_Kemasan.Add(Dr("Kode_Jenis_Kemasan"))
-					arrprefix_Jenis_Kemasan.Add(If(General_Class.CekNULL(Dr("Prefix_Jenis_Kemasan")) = "", "", Dr("Prefix_Jenis_Kemasan")))
-				Loop
-			End Using
-
-			Cmb_Jenis_Kualitas.Items.Clear()
-			arrId_Jenis_Kualitas.Clear()
-			arrKode_Jenis_Kualitas.Clear()
-			arrprefix_Jenis_Kualitas.Clear()
-			SQL = "select Id_Jenis_Kualitas, Kode_Jenis_Kualitas, Prefix_Jenis_Kualitas, Keterangan "
-			SQL = SQL & "from N_EMI_Master_Jenis_Kualitas "
-			SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-			SQL = SQL & "order by Keterangan "
-			Using Dr = OpenTrans(SQL)
-				Do While Dr.Read
-					Cmb_Jenis_Kualitas.Items.Add(Dr("Keterangan"))
-					arrId_Jenis_Kualitas.Add(Dr("Id_Jenis_Kualitas"))
-					arrKode_Jenis_Kualitas.Add(Dr("Kode_Jenis_Kualitas"))
-					arrprefix_Jenis_Kualitas.Add(If(General_Class.CekNULL(Dr("Prefix_Jenis_Kualitas")) = "", "", Dr("Prefix_Jenis_Kualitas")))
-				Loop
-			End Using
 
 			CloseConn()
 		Catch ex As Exception
@@ -569,8 +496,8 @@ Public Class Master_Barang_New
 		ComboBox8.Items.Add("Kode Kategori") : arrorder.Add("Kode_Kategori")
 		ComboBox8.SelectedIndex = 0
 
-		Txt_Kd_Barang.Enabled = False
-		Txt_Kd_Barang.Text = "" : Txt_Nm_Barang.Text = "" : cmbSatuan.SelectedIndex = -1
+		TextBox1.Enabled = False
+		TextBox1.Text = "" : TextBox2.Text = "" : cmbSatuan.SelectedIndex = -1
 		TextBox5.Text = "" : TextBox5.Text = ""
 		TextBox6.Text = ""
 		TextBox7.Text = "" : ComboBox3.SelectedIndex = 0
@@ -598,7 +525,6 @@ Public Class Master_Barang_New
 
 		ComboBox10.Items.Clear()
 		ComboBox10.Items.Add("Y") : ComboBox10.Items.Add("T")
-		ComboBox10.SelectedIndex = 0
 
 		ComboBox3.Items.Clear()
 		ComboBox3.Items.Add("Y") : ComboBox3.Items.Add("T")
@@ -617,16 +543,16 @@ Public Class Master_Barang_New
 
 		Txtket.Text = ""
 
-		Btn_Simpan.Text = "&Simpan" 'Button2.Enabled = False
-		Btn_Simpan.Enabled = True
+		Button1.Text = "&Simpan" 'Button2.Enabled = False
+		Button1.Enabled = True
 
 		lvwSatuan.Visible = False
 
 		cmbJenis.Enabled = True
 		'ComboBox11.Enabled = True
 		'ComboBox19.Enabled = True
-		Txt_Kd_Barang.Enabled = True
-		Txt_Nm_Barang.Enabled = True
+		TextBox1.Enabled = True
+		TextBox2.Enabled = True
 
 		TxtToleransiTimbangMin.Text = ""
 		TxtToleransiTimbangMax.Text = ""
@@ -634,22 +560,7 @@ Public Class Master_Barang_New
 		TxtToleransiTFMax.Text = ""
 		TxtLifeTime.Text = ""
 
-		Txt_Nm_Mandarin.Text = ""
-		Txt_Initial_Barang.Text = ""
-
-		Panel_Klasifikasi.Visible = False
-		Panel_Jenis.Visible = False
-
-		TextBox6.Text = 1
-
-		ComboBox15.Enabled = False
-
-		If ComboBox12.Items.Count <> 0 Then ComboBox12.SelectedIndex = 0
-		If ComboBox13.Items.Count <> 0 Then ComboBox13.SelectedIndex = 0
-		If ComboBox9.Items.Count <> 0 Then ComboBox9.SelectedIndex = 0
-
 		Get_Kategori_Gudang()
-		IsBarangFG(False)
 	End Sub
 
 	Private Sub LoadDataPengajuanBarangBaru()
@@ -744,12 +655,6 @@ Public Class Master_Barang_New
 			Exit Sub
 		End Try
 
-		Panel_Klasifikasi.Location = New Point(289, 2)
-		Panel_Jenis.Location = New Point(289, 2)
-
-		SetCueBanner(Txt_Initial_Barang, "Initial Barang")
-		SetCueBanner(Txt_Nm_Mandarin, "商品名称")
-
 		Kosong()
 
 		ListView1.Columns.Add(Base_Language.Lang_Global_Kode_SO, 0, HorizontalAlignment.Center)
@@ -822,7 +727,7 @@ Public Class Master_Barang_New
 		Cmb_ParamLain.Items.Add("Klasifikasi Bahan 2") : ArrParamLain.Add("Klasifikasi_Bahan_2")
 
 		Cari("Y")
-		Txt_Kd_Barang.Focus()
+		TextBox1.Focus()
 	End Sub
 
 	Private Sub Get_Data_Pengajuan(ByVal index As Integer)
@@ -853,15 +758,18 @@ Public Class Master_Barang_New
 	Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
 		Kosong()
 		TextBox8.Text = ""
-		Txt_Kd_Barang.Focus()
+		TextBox1.Focus()
 	End Sub
 
-	Private Sub TextBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Txt_Kd_Barang.KeyPress
-		If e.KeyChar = Chr(13) Then Txt_Nm_Barang.Focus()
+	Private Sub TextBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox1.KeyPress
+		If e.KeyChar = Chr(13) Then TextBox2.Focus()
 	End Sub
 
-	Private Sub TextBox2_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Txt_Nm_Barang.KeyPress
-		If e.KeyChar = Chr(13) Then cmbSatuan.Focus()
+	Private Sub TextBox2_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox2.KeyPress
+		If e.KeyChar = Chr(13) Then
+			cmbSatuan.DroppedDown = True
+			cmbSatuan.Focus()
+		End If
 	End Sub
 
 	Private Sub TextBox3_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
@@ -887,12 +795,12 @@ Public Class Master_Barang_New
 	End Sub
 
 	Private Sub ComboBox2_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox2.KeyPress
-		If e.KeyChar = Chr(13) Then Txt_Kd_Barang.Focus()
+		If e.KeyChar = Chr(13) Then TextBox1.Focus()
 	End Sub
 
-	Private Sub TextBox1_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Txt_Kd_Barang.Leave
+	Private Sub TextBox1_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBox1.Leave
 		If ComboBox2.Text.Trim.Length = 0 Then Exit Sub
-		If Txt_Kd_Barang.Text.Trim.Length = 0 Then Exit Sub
+		If TextBox1.Text.Trim.Length = 0 Then Exit Sub
 
 		Dim boleh_edit_hj As String = ""
 
@@ -925,58 +833,34 @@ Public Class Master_Barang_New
 				End If
 			End Using
 
-			'========================================
-			'=     LOAD DATA KLSIFIKASI BAHAN 3     =
-			'========================================
-			Cmb_Klasifikasi_Bahan_3.Items.Clear() : arrId_Klasifikasi_Bahan3.Clear() : arrKode_Klasifikasi_Bahan3.Clear()
-			arrprefix_Klasifikasi_Bahan3.Clear()
-			SQL = "select Id_Klasifikasi_Bahan3, Kode_Klasifikasi_Bahan, Prefix_Klasifikasi_Bahan, Keterangan "
-			SQL = SQL & "from N_EMI_Master_Klasifikasi_Bahan_3 "
-			SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-			SQL = SQL & "order by Keterangan "
-			Using Dr = OpenTrans(SQL)
-				Do While Dr.Read
-					Cmb_Klasifikasi_Bahan_3.Items.Add(Dr("Keterangan"))
-					arrKode_Klasifikasi_Bahan3.Add(Dr("Kode_Klasifikasi_Bahan"))
-					arrId_Klasifikasi_Bahan3.Add(Dr("Id_Klasifikasi_Bahan3"))
-					arrprefix_Klasifikasi_Bahan3.Add(If(General_Class.CekNULL(Dr("Prefix_Klasifikasi_Bahan")) = "", "", Dr("Prefix_Klasifikasi_Bahan")))
-				Loop
-			End Using
-
 			lvwSatuan.Items.Clear() : cmbSatuan.SelectedIndex = -1
-			Cmb_Flag_Preservative.SelectedIndex = -1
 			SQL = "Select b.kode_group_jenis, "
 			SQL = SQL & "a.kode_barang, a.satuan, a.flag_potong_stok, isnull(a.standar_price,0) as standar_price, a.Nama, a.harga_beli, a.last_hpp, a.stock_minimum, a.kode_kategori, "
 			SQL = SQL & "a.flag_ppn, a.flag_sendiri, a.berat, a.berat_kotor, a.Panjang, a.Lebar, a.Tinggi, a.Kode_Kategori_Besar, a.Kode_Kategori_Kecil, "
-			SQL = SQL & "a.id_group_jenis, a.id_master_kategori_gudang, a.Jenis_Kemasan, a.Metode_Pengeluaran_Stok, a.Berat_Bags, a.Isi_Per_Bags, a.Id_Kategori_Gudang, a.aktif, "
+			SQL = SQL & "a.id_group_jenis, a.id_master_kategori_gudang, a.Jenis_Kemasan, a.Metode_Pengeluaran_Stok, a.Berat_Bags, a.Isi_Per_Bags, a.Id_Kategori_Gudang, a.aktif,"
 
 			SQL = SQL & "isnull((select kode_kategori_gudang from emi_kategori_gudang x where a.kode_perusahaan = x.kode_perusahaan "
 			SQL = SQL & "and a.id_kategori_gudang = x.id_kategori_gudang),NULL) as kode_kategori_gudang, "
 			SQL = SQL & "isnull((select keterangan from emi_master_kategori_gudang x where a.kode_perusahaan = x.kode_perusahaan "
-			SQL = SQL & "and a.id_master_kategori_gudang = x.Id_Master_Kategori_Gudang),NULL) as keterangan_master_kategori_gudang, "
+			SQL = SQL & "and a.id_master_kategori_gudang = x.Id_Master_Kategori_Gudang),NULL) as keterangan_master_kategori_gudang,"
 			SQL = SQL & "isnull((select keterangan from Emi_Kategori_QC x where a.kode_perusahaan = x.kode_perusahaan "
-			SQL = SQL & "and a.ID_Kategori_QC = x.ID_Kategori_QC),NULL) as Keterangan, "
+			SQL = SQL & "and a.ID_Kategori_QC = x.ID_Kategori_QC),NULL) as Keterangan,"
 			SQL = SQL & "isnull((select keterangan from Emi_Kategori_PO x where a.kode_perusahaan = x.kode_perusahaan "
-			SQL = SQL & "and a.ID_Kategori_PO = x.ID_Kategori_PO),NULL) as KeteranganPO, "
+			SQL = SQL & "and a.ID_Kategori_PO = x.ID_Kategori_PO),NULL) as KeteranganPO,"
 
 			SQL = SQL & "isnull((select keterangan from Emi_Klasifikasi_Bahan x where a.kode_perusahaan = x.kode_perusahaan "
 			SQL = SQL & "and a.ID_Klasifikasi_Bahan = x.ID_Klasifikasi_Bahan),NULL) as KeteranganBhn, "
 			SQL = SQL & "isnull((select keterangan from emi_klasifikasi_bahan2 x where a.kode_perusahaan = x.kode_perusahaan "
 			SQL = SQL & "and a.ID_Klasifikasi_Bahan2 = x.ID_Klasifikasi_Bahan2), null) as keterangan_Bhn2 , "
-			SQL = SQL & "isnull((select keterangan from N_EMI_Master_Klasifikasi_Bahan_3 x where a.kode_perusahaan = x.kode_perusahaan "
-			SQL = SQL & "and a.ID_Klasifikasi_Bahan3 = x.ID_Klasifikasi_Bahan3), null) as keterangan_Bhn3 , "
 
 			SQL = SQL & "isnull((select keterangan from EMI_Master_Routing x where a.kode_perusahaan = x.kode_perusahaan "
 			SQL = SQL & "and a.ID_Routing = x.ID_Routing),NULL) as Keterangan_Routing, a.keterangan as Ket_Barang, ISNULL(a.Toleransi_Timbang_Min,0) as Toleransi_Timbang_Min,  "
 			SQL = SQL & "ISNULL(a.Toleransi_Timbang_Max,0) as Toleransi_Timbang_Max, isnull(a.Toleransi_Tf_Min,0) as Toleransi_Tf_Min, isnull(a.Toleransi_Tf_Max,0) as Toleransi_Tf_Max, isnull(a.Life_Time,0) as Life_Time,  "
-			SQL = SQL & "isnull(a.Estimasi_Harga,0) as Estimasi_Harga, a.Mata_Uang_Estimasi_Harga, "
-
-			SQL = SQL & "a.nama_mandarin, a.Initial_Barang, a.Id_Klasifikasi_Bahan3, a.Id_Jenis_Makanan, a.Id_Jenis_Kemasan, a.Id_Jenis_Kualitas, a.Flag_Preservative "
-
+			SQL = SQL & "isnull(a.Estimasi_Harga,0) as Estimasi_Harga, a.Mata_Uang_Estimasi_Harga "
 			SQL = SQL & "From barang a, EMI_Group_Jenis b, emi_kategori_gudang c,Emi_Kategori_PO e, Emi_Klasifikasi_Bahan f Where "
 			SQL = SQL & "a.kode_perusahaan = b.kode_perusahaan And a.id_group_jenis = b.id_group_jenis "
 			SQL = SQL & "And a.Kode_Perusahaan = '" & KodePerusahaan & "' and "
-			SQL = SQL & "a.kode_stock_owner = '" & lokasi_pergudang & "' and a.kode_barang = '" & Txt_Kd_Barang.Text.Trim & "' "
+			SQL = SQL & "a.kode_stock_owner = '" & lokasi_pergudang & "' and a.kode_barang = '" & TextBox1.Text.Trim & "' "
 			'SQL = SQL & "a.kode_stock_owner = '" & lokasi_pergudang & "' and a.kode_barang = '" & ListView1.FocusedItem.SubItems(1).Text & "' "
 			Using Dr = OpenTrans(SQL)
 				If Dr.Read Then
@@ -992,7 +876,7 @@ Public Class Master_Barang_New
 						CmbJnsGudanng.Text = Dr("kode_kategori_gudang")
 					End If
 
-					Btn_Simpan.Text = "&Update" 'Button2.Enabled = True
+					Button1.Text = "&Update" 'Button2.Enabled = True
 
 					If General_Class.CekNULL(Dr("Mata_Uang_Estimasi_Harga")) = "" Then
 						Cmb_Est_Harga_Mata_Uang.SelectedItem = "RP"
@@ -1011,7 +895,7 @@ Public Class Master_Barang_New
 
 					End If
 
-					Txt_Nm_Barang.Text = Dr("Nama")
+					TextBox2.Text = Dr("Nama")
 
 					If General_Class.CekNULL(Dr("satuan")) = "" Then
 						cmbSatuan.SelectedItem = -1
@@ -1144,15 +1028,15 @@ Public Class Master_Barang_New
 					End If
 
 					If General_Class.CekNULL(Dr("KeteranganBhn")) = "" Then
-						Cmb_Klasifikasi_Bahan.SelectedItem = -1
+						ComboBox11.SelectedItem = -1
 					Else
-						Cmb_Klasifikasi_Bahan.Text = Dr("KeteranganBhn")
+						ComboBox11.Text = Dr("KeteranganBhn")
 					End If
 
 					If General_Class.CekNULL(Dr("keterangan_Bhn2")) = "" Then
-						Cmb_Klasifikasi_Bahan_2.SelectedItem = -1
+						ComboBox19.SelectedItem = -1
 					Else
-						Cmb_Klasifikasi_Bahan_2.Text = (Dr("keterangan_Bhn2"))
+						ComboBox19.Text = (Dr("keterangan_Bhn2"))
 					End If
 
 					If General_Class.CekNULL(Dr("Keterangan_Routing")) = "" Then
@@ -1179,7 +1063,7 @@ Public Class Master_Barang_New
 
 					Txtket.Text = General_Class.CekNULL(Dr("ket_barang"))
 
-					Txt_Kd_Barang.Text = Dr("kode_barang")
+					TextBox1.Text = Dr("kode_barang")
 
 					If General_Class.CekNULL(Dr("Toleransi_Timbang_Min")) = "" Then
 						TxtToleransiTimbangMin.Text = ""
@@ -1214,54 +1098,7 @@ Public Class Master_Barang_New
 					Else
 						TxtLifeTime.Text = Dr("Life_Time")
 					End If
-
-					If General_Class.CekNULL(Dr("nama_mandarin")) = "" Then
-						Txt_Nm_Mandarin.Text = ""
-					Else
-						Txt_Nm_Mandarin.Text = Dr("nama_mandarin")
-					End If
-
-					If General_Class.CekNULL(Dr("Initial_Barang")) = "" Then
-						Txt_Initial_Barang.Text = ""
-					Else
-						Txt_Initial_Barang.Text = Dr("Initial_Barang")
-					End If
-
-					'If General_Class.CekNULL(Dr("Id_Klasifikasi_Bahan3")) = "" Then
-					'	Cmb_Klasifikasi_Bahan_3.SelectedIndex = -1
-					'Else
-					'	Cmb_Klasifikasi_Bahan_3.SelectedIndex = arrId_Klasifikasi_Bahan3.IndexOf(Dr("Id_Klasifikasi_Bahan3"))
-					'End If
-
-					If General_Class.CekNULL(Dr("keterangan_Bhn3")) = "" Then
-						Cmb_Klasifikasi_Bahan_3.SelectedItem = -1
-					Else
-						Cmb_Klasifikasi_Bahan_3.Text = (Dr("keterangan_Bhn3"))
-					End If
-
-					If General_Class.CekNULL(Dr("Id_Jenis_Makanan")) = "" Then
-						Cmb_Jenis_Makanan.SelectedIndex = -1
-					Else
-						Cmb_Jenis_Makanan.SelectedIndex = arrId_Jenis_Makanan.IndexOf(Dr("Id_Jenis_Makanan"))
-					End If
-
-					If General_Class.CekNULL(Dr("Id_Jenis_Kemasan")) = "" Then
-						Cmb_Jenis_Kemasan.SelectedIndex = -1
-					Else
-						Cmb_Jenis_Kemasan.SelectedIndex = arrId_Jenis_Kemasan.IndexOf(Dr("Id_Jenis_Kemasan"))
-					End If
-
-					If General_Class.CekNULL(Dr("Id_Jenis_Kualitas")) = "" Then
-						Cmb_Jenis_Kualitas.SelectedIndex = -1
-					Else
-						Cmb_Jenis_Kualitas.SelectedIndex = arrId_Jenis_Kualitas.IndexOf(Dr("Id_Jenis_Kualitas"))
-					End If
-
-					If General_Class.CekNULL(Dr("Flag_Preservative")) = "" Then
-						Cmb_Flag_Preservative.SelectedItem = -1
-					Else
-						Cmb_Flag_Preservative.Text = (Dr("Flag_Preservative"))
-					End If
+					'TxtLifeTime.Text = Dr("Life_Time")
 
 					Dr.Close()
 
@@ -1341,36 +1178,26 @@ Public Class Master_Barang_New
 					'Next
 
 					ListView10.Visible = False
-					Txt_Nm_Barang.Focus()
+					TextBox2.Focus()
 
 					cmbJenis.Enabled = False
-					Cmb_Klasifikasi_Bahan.Enabled = False
-					Cmb_Klasifikasi_Bahan_2.Enabled = False
-					Cmb_Klasifikasi_Bahan_3.Enabled = False
-
-					Cmb_Jenis_Makanan.Enabled = False
-					Cmb_Jenis_Kemasan.Enabled = False
-					Cmb_Jenis_Kualitas.Enabled = False
-
-					Txt_Kd_Barang.Enabled = False
-					Txt_Nm_Barang.Enabled = False
+					ComboBox11.Enabled = False
+					ComboBox19.Enabled = False
+					TextBox1.Enabled = False
+					TextBox2.Enabled = False
 				Else
-					Txt_Nm_Barang.Text = "" : cmbSatuan.SelectedIndex = -1 : TextBox5.Text = ""
+					TextBox2.Text = "" : cmbSatuan.SelectedIndex = -1 : TextBox5.Text = ""
 
-					'TextBox6.Text = ""
-					'ComboBox10.SelectedIndex = -1
-					'ComboBox4.SelectedIndex = -1
-					'TextBox4.Text = ""
+					TextBox6.Text = "" : TextBox7.Text = "" : ComboBox3.SelectedIndex = 0
+					ComboBox4.SelectedIndex = -1
+					TextBox10.Text = "" : TextBox11.Text = "" : ComboBox10.SelectedIndex = -1
 					ComboBox9.SelectedIndex = 0
-
-					TextBox7.Text = "" : ComboBox3.SelectedIndex = 0
-					TextBox10.Text = "" : TextBox11.Text = ""
 					TextBox12.Text = "" : TextBox15.Text = ""
 
 					ComboBox5.SelectedIndex = -1 : ComboBox14.SelectedIndex = -1
 					ComboBox15.SelectedIndex = -1 : ComboBox16.SelectedIndex = -1
 
-					TextBox3.Text = ""
+					TextBox3.Text = "" : TextBox4.Text = ""
 
 					TextBox16.Text = "" : TextBox17.Text = "" : TextBox18.Text = ""
 					'  ComboBox11.SelectedIndex = -1
@@ -1379,21 +1206,14 @@ Public Class Master_Barang_New
 					Txtket.Text = ""
 					'cmbJenis.SelectedIndex = -1
 
-					Txt_Nm_Mandarin.Text = ""
-					'Txt_Initial_Barang.Text = ""
-					Cmb_Klasifikasi_Bahan_3.SelectedIndex = -1
-					Cmb_Jenis_Makanan.SelectedIndex = -1
-					Cmb_Jenis_Kemasan.SelectedIndex = -1
-					Cmb_Jenis_Kualitas.SelectedIndex = -1
-
-					Btn_Simpan.Text = "&Simpan" 'Button2.Enabled = False
-					Btn_Simpan.Enabled = True
+					Button1.Text = "&Simpan" 'Button2.Enabled = False
+					Button1.Enabled = True
 
 					cmbJenis.Enabled = True
 					'ComboBox11.Enabled = True
 					'ComboBox19.Enabled = True
-					Txt_Kd_Barang.Enabled = True
-					Txt_Nm_Barang.Enabled = True
+					TextBox1.Enabled = True
+					TextBox2.Enabled = True
 				End If
 			End Using
 
@@ -1418,19 +1238,19 @@ Public Class Master_Barang_New
 
 	End Sub
 
-	Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Btn_Simpan.Click
+	Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
 		If cmbJenis.Text.Trim.Length = 0 Then
 			MessageBox.Show("Jenis barang Belum di pilih . .  ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 			cmbJenis.Focus() : Exit Sub
 		ElseIf ComboBox2.Text.Trim.Length = 0 Then
 			MessageBox.Show(Base_Language.Lang_Barang_Err_Kode_Stock_Owner, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 			ComboBox2.Focus() : Exit Sub
-		ElseIf Txt_Kd_Barang.Text.Trim.Length = 0 Then
+		ElseIf TextBox1.Text.Trim.Length = 0 Then
 			MessageBox.Show(Base_Language.Lang_Barang_Err_Kode_Barang, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			Txt_Kd_Barang.Focus() : Exit Sub
-		ElseIf Txt_Nm_Barang.Text.Trim.Length = 0 Then
+			TextBox1.Focus() : Exit Sub
+		ElseIf TextBox2.Text.Trim.Length = 0 Then
 			MessageBox.Show(Base_Language.Lang_Barang_Err_Nama_Barang, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			Txt_Nm_Barang.Focus() : Exit Sub
+			TextBox2.Focus() : Exit Sub
 		ElseIf cmbSatuan.SelectedIndex = -1 Then
 			MessageBox.Show(Base_Language.Lang_Global_Satuan_Barang, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 			cmbSatuan.Focus() : Exit Sub
@@ -1534,18 +1354,9 @@ Public Class Master_Barang_New
 		End If
 
 		If arrGudangRawMaterial.Contains(arrJenisBarang(cmbJenis.SelectedIndex)) Then
-			If Cmb_Klasifikasi_Bahan.SelectedIndex = -1 Then
+			If ComboBox11.SelectedIndex = -1 Then
 				MessageBox.Show("Klasifikasi Bahan harus diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				Cmb_Klasifikasi_Bahan.Focus() : Exit Sub
-				'ElseIf Cmb_Klasifikasi_Bahan_2.SelectedIndex = -1 Then
-				'	MessageBox.Show("Klasifikasi Bahan 2 harus diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				'	Cmb_Klasifikasi_Bahan_2.Focus() : Exit Sub
-				'ElseIf Cmb_Klasifikasi_Bahan_3.SelectedIndex = -1 Then
-				'	MessageBox.Show("Klasifikasi Bahan 3 harus diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				'	Cmb_Klasifikasi_Bahan_3.Focus() : Exit Sub
-			ElseIf Cmb_Flag_Preservative.SelectedIndex = -1 Then
-				MessageBox.Show("Flag Preservative harus diisi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				Cmb_Flag_Preservative.Focus() : Exit Sub
+				ComboBox11.Focus() : Exit Sub
 			End If
 		End If
 
@@ -1625,7 +1436,7 @@ Public Class Master_Barang_New
 			Dim IsRequestNewMaterial As Boolean = False
 			SQL = "select top 1 Flag_Request_Barang_Baru, * from barang "
 			SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
-			SQL &= $"and Kode_Barang = '{Txt_Kd_Barang.Text.Trim}' "
+			SQL &= $"and Kode_Barang = '{TextBox1.Text.Trim}' "
 			Using Dr = OpenTrans(SQL)
 				If Dr.Read Then
 					If General_Class.CekNULL(Dr("Flag_Request_Barang_Baru")) = "Y" Then
@@ -1637,45 +1448,15 @@ Public Class Master_Barang_New
 				End If
 			End Using
 
-			Dim NamaMandarin As String = If(Txt_Nm_Mandarin.Text.Trim.Length = 0, "NULL", $"N'{Txt_Nm_Mandarin.Text.Trim}'")
-			Dim InitialBarang As String = If(Txt_Initial_Barang.Text.Trim.Length = 0, "NULL", $"'{Txt_Initial_Barang.Text.Trim}'")
-			Dim IdKlasifikasiBahan3 As String = If(Cmb_Klasifikasi_Bahan_3.SelectedIndex = -1, "NULL", $"'{arrId_Klasifikasi_Bahan3(Cmb_Klasifikasi_Bahan_3.SelectedIndex).ToString.Trim}'")
-			Dim ID_Jenis_Makanan As String = If(Cmb_Jenis_Makanan.SelectedIndex = -1, "NULL", $"'{arrId_Jenis_Makanan(Cmb_Jenis_Makanan.SelectedIndex).ToString.Trim}'")
-			Dim ID_Jenis_Kemasan As String = If(Cmb_Jenis_Kemasan.SelectedIndex = -1, "NULL", $"'{arrId_Jenis_Kemasan(Cmb_Jenis_Kemasan.SelectedIndex).ToString.Trim}'")
-			Dim ID_Jenis_Kualitas As String = If(Cmb_Jenis_Kualitas.SelectedIndex = -1, "NULL", $"'{arrId_Jenis_Kualitas(Cmb_Jenis_Kualitas.SelectedIndex).ToString.Trim}'")
-
-			If Btn_Simpan.Text = "&Simpan" Then
+			If Button1.Text = "&Simpan" Then
 
 				If arrGudangRawMaterial.Contains(arrJenisBarang(cmbJenis.SelectedIndex)) Then
 
 					Dim No_Urut As String
 
-#Region "Kode Lama"
-
-					'SQL = "select top(1) substring(kode_barang, 5, 3) as no_urut from barang where kode_perusahaan = '" & KodePerusahaan & "' and "
-					'SQL = SQL & "id_klasifikasi_bahan = '" & arrId_Klasifikasi_Bahan.Item(Cmb_Klasifikasi_Bahan.SelectedIndex) & "' and "
-					'SQL = SQL & "id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan2.Item(Cmb_Klasifikasi_Bahan_2.SelectedIndex) & "' "
-					'SQL = SQL & "order by no_urut desc"
-
-					'Using Dr = OpenTrans(SQL)
-					'	If Dr.Read Then
-					'		'If IsDBNull(Dr("No_Urut")) Then
-					'		'    No_Urut = "001"
-					'		'Else
-					'		'
-					'		'End If
-					'		No_Urut = Format(Val(Dr("No_Urut")) + 1, "000")
-					'	Else
-					'		No_Urut = "001"
-					'	End If
-					'	Txt_Kd_Barang.Text = arrprefix_Klasifikasi_Bahan.Item(Cmb_Klasifikasi_Bahan.SelectedIndex) & arrprefix_Klasifikasi_Bahan2.Item(Cmb_Klasifikasi_Bahan_2.SelectedIndex) & No_Urut
-					'End Using
-
-#End Region
-
 					SQL = "select top(1) substring(kode_barang, 5, 3) as no_urut from barang where kode_perusahaan = '" & KodePerusahaan & "' and "
-					SQL = SQL & "id_klasifikasi_bahan = '" & arrId_Klasifikasi_Bahan.Item(Cmb_Klasifikasi_Bahan.SelectedIndex) & "' and "
-					SQL = SQL & "id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan2.Item(Cmb_Klasifikasi_Bahan_2.SelectedIndex) & "' "
+					SQL = SQL & "id_klasifikasi_bahan = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "' and "
+					SQL = SQL & "id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan2.Item(ComboBox19.SelectedIndex) & "' "
 					SQL = SQL & "order by no_urut desc"
 
 					Using Dr = OpenTrans(SQL)
@@ -1689,7 +1470,7 @@ Public Class Master_Barang_New
 						Else
 							No_Urut = "001"
 						End If
-						Txt_Kd_Barang.Text = arrprefix_Klasifikasi_Bahan.Item(Cmb_Klasifikasi_Bahan.SelectedIndex) & arrprefix_Klasifikasi_Bahan2.Item(Cmb_Klasifikasi_Bahan_2.SelectedIndex) & No_Urut
+						TextBox1.Text = arrprefix_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & arrprefix_Klasifikasi_Bahan2.Item(ComboBox19.SelectedIndex) & No_Urut
 					End Using
 
 				End If
@@ -1712,7 +1493,7 @@ Public Class Master_Barang_New
 
 				SQL = "select kode_barang from  barang where kode_perusahaan = '" & KodePerusahaan & "' and "
 				SQL = SQL & "kode_stock_owner = '" & lokasi_pergudang & "' and "
-				SQL = SQL & "kode_barang = '" & Txt_Kd_Barang.Text.Trim & "'"
+				SQL = SQL & "kode_barang = '" & TextBox1.Text.Trim & "'"
 				Using Dr = OpenTrans(SQL)
 					If Dr.Read Then
 						Dr.Close()
@@ -1735,21 +1516,20 @@ Public Class Master_Barang_New
 								SQL = "insert into barang(Kode_Perusahaan,Kode_Stock_Owner,Kode_Barang,Kode_Barang_Inq,Nama,Nama_Inq,Satuan, "
 								SQL = SQL & "harga_beli,last_hpp,Stock_Minimum,aktif,Kode_Kategori,barang_sendiri ,id_group_jenis,Flag_PPN,berat_kotor,berat,Panjang, "
 								SQL = SQL & "Lebar,Tinggi,Kode_Kategori_Besar,Kode_Kategori_Kecil, id_kategori_gudang, id_master_kategori_gudang,ID_Kategori_QC,ID_Kategori_PO"
-								If Cmb_Klasifikasi_Bahan.SelectedIndex = -1 Then
+								If ComboBox11.SelectedIndex = -1 Then
 								Else
 									SQL = SQL & ",ID_Klasifikasi_Bahan"
 								End If
-								If Cmb_Klasifikasi_Bahan_2.SelectedIndex = -1 Then
+								If ComboBox19.SelectedIndex = -1 Then
 								Else
 									SQL = SQL & ",ID_Klasifikasi_Bahan2"
 								End If
 								SQL = SQL & ",ID_Routing, Jenis_Kemasan, Metode_Pengeluaran_Stok, Berat_Bags, Satuan_Berat_Bags, Isi_Per_Bags, Satuan_Isi_Bags,flag_potong_stok,standar_price, "
-								SQL = SQL & "Keterangan, Toleransi_Timbang_Min, Toleransi_Timbang_Max, Toleransi_Tf_Min, Toleransi_Tf_Max, Life_Time, Mata_Uang_Estimasi_Harga, Estimasi_Harga, Nama_Mandarin, "
-								SQL = SQL & "Initial_Barang, Id_Klasifikasi_Bahan3, Id_Jenis_Makanan, Id_Jenis_Kemasan, Id_Jenis_Kualitas, Flag_Preservative ) "
+								SQL = SQL & "Keterangan, Toleransi_Timbang_Min, Toleransi_Timbang_Max, Toleransi_Tf_Min, Toleransi_Tf_Max, Life_Time, Mata_Uang_Estimasi_Harga, Estimasi_Harga ) "
 								SQL = SQL & "values ('" & KodePerusahaan & "', '" & .Rows(i).Item("kode_stock_owner") & "', "
 
-								SQL = SQL & "'" & Txt_Kd_Barang.Text.Trim & "', '" & Txt_Kd_Barang.Text.Trim & "', "
-								SQL = SQL & "'" & Txt_Nm_Barang.Text.Trim & "', '" & Txt_Nm_Barang.Text.Trim & "', "
+								SQL = SQL & "'" & TextBox1.Text.Trim & "', '" & TextBox1.Text.Trim & "', "
+								SQL = SQL & "'" & TextBox2.Text.Trim & "', '" & TextBox2.Text.Trim & "', "
 								SQL = SQL & "'" & cmbSatuan.Text.Trim & "', '" & TextBox5.Text & "', 0, "
 								SQL = SQL & "'" & TextBox7.Text & "','" & ComboBox3.Text & "', '" & ComboBox4.Text & "', "
 								SQL = SQL & "'Y', '" & arrJenisBarang.Item(cmbJenis.SelectedIndex) & "', "
@@ -1758,13 +1538,13 @@ Public Class Master_Barang_New
 								SQL = SQL & "'" & ComboBox12.Text & "', '" & ComboBox13.Text & "', '" & arrJenisGudang.Item(CmbJnsGudanng.SelectedIndex) & "', "
 								SQL = SQL & "'" & arrKategoriGudang.Item(Cmb_KategoriGudang.SelectedIndex) & "','" & arrId_kategori_qc.Item(ComboBox5.SelectedIndex) & "', "
 								SQL = SQL & "'" & arrId_kategori_PO.Item(ComboBox6.SelectedIndex) & "' "
-								If Cmb_Klasifikasi_Bahan.SelectedIndex = -1 Then
+								If ComboBox11.SelectedIndex = -1 Then
 								Else
-									SQL = SQL & ",'" & arrId_Klasifikasi_Bahan.Item(Cmb_Klasifikasi_Bahan.SelectedIndex) & "' "
+									SQL = SQL & ",'" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "' "
 								End If
-								If Cmb_Klasifikasi_Bahan_2.SelectedIndex = -1 Then
+								If ComboBox19.SelectedIndex = -1 Then
 								Else
-									SQL = SQL & ",'" & arrId_Klasifikasi_Bahan2.Item(Cmb_Klasifikasi_Bahan_2.SelectedIndex) & "' "
+									SQL = SQL & ",'" & arrId_Klasifikasi_Bahan2.Item(ComboBox19.SelectedIndex) & "' "
 								End If
 
 								SQL = SQL & ",'" & arrid_Routing.Item(ComboBox14.SelectedIndex) & "', "
@@ -1794,9 +1574,8 @@ Public Class Master_Barang_New
 								SQL = SQL & "'" & TxtToleransiTFMax.Text.Trim & "',"
 								SQL = SQL & "'" & TxtLifeTime.Text.Trim & "', "
 								SQL = SQL & "'" & Cmb_Est_Harga_Mata_Uang.Text.Trim & "', "
-								SQL = SQL & "'" & Val(HilangkanTanda(Txt_Est_Harga.Text.Trim)) & "', "
-								SQL = SQL & NamaMandarin & ", " & InitialBarang & ", " & IdKlasifikasiBahan3 & ", " & ID_Jenis_Makanan & ", " & ID_Jenis_Kemasan & ", " & ID_Jenis_Kualitas & ", "
-								SQL = SQL & "'" & Cmb_Flag_Preservative.Text.Trim & "' "
+								SQL = SQL & "'" & Val(HilangkanTanda(Txt_Est_Harga.Text.Trim)) & "' "
+
 								SQL = SQL & ")"
 								ExecuteTrans(SQL)
 
@@ -1830,15 +1609,15 @@ Public Class Master_Barang_New
 
 								If checkFlagDasar = "'Y'" Then
 									SQL = "insert into Barang_Detail_Satuan(kode_perusahaan,kode_barang,satuan,flag_tampil_display,jumlah,Flag_Kirim) values("
-									SQL = SQL & "'" & KodePerusahaan & "', '" & Txt_Kd_Barang.Text & "', '" & DgvSatuanTerpilih.Rows(i).Cells(0).Value & "',"
+									SQL = SQL & "'" & KodePerusahaan & "', '" & TextBox1.Text & "', '" & DgvSatuanTerpilih.Rows(i).Cells(0).Value & "',"
 									SQL = SQL & "'Y', '" & DgvSatuanTerpilih.Rows(i).Cells(1).Value & "','Y')"
 									ExecuteTrans(SQL)
 								End If
 
 								SQL = "INSERT INTO N_EMI_Master_Satuan (kode_perusahaan, kode_barang, barang, satuan, nilai, flag_dasar, flag_default) VALUES ("
 								SQL &= "'" & KodePerusahaan & "', "
-								SQL &= "'" & Txt_Kd_Barang.Text & "', "
-								SQL &= "'" & Txt_Nm_Barang.Text & "', "
+								SQL &= "'" & TextBox1.Text & "', "
+								SQL &= "'" & TextBox2.Text & "', "
 								SQL &= "'" & DgvSatuanTerpilih.Rows(i).Cells(0).Value & "', "
 								SQL &= DgvSatuanTerpilih.Rows(i).Cells(1).Value & ", "
 								SQL &= checkFlagDasar & ", "
@@ -1882,7 +1661,7 @@ Public Class Master_Barang_New
 					Exit Sub
 				End If
 
-				SQL = "Update a Set a.nama = '" & Txt_Nm_Barang.Text.Trim & "', "
+				SQL = "Update a Set a.nama = '" & TextBox2.Text.Trim & "', "
 				SQL = SQL & "a.satuan = '" & cmbSatuan.Text.Trim & "', "
 				SQL = SQL & "a.harga_beli = '" & TextBox5.Text & "', "
 				SQL = SQL & "a.stock_minimum = '" & TextBox7.Text & "', "
@@ -1911,13 +1690,13 @@ Public Class Master_Barang_New
 				SQL = SQL & "a.Mata_Uang_Estimasi_Harga = '" & Cmb_Est_Harga_Mata_Uang.Text.Trim & "', "
 				SQL = SQL & "a.Estimasi_Harga = '" & Val(HilangkanTanda(Txt_Est_Harga.Text.Trim)) & "', "
 
-				If Cmb_Klasifikasi_Bahan.SelectedIndex = -1 Then
+				If ComboBox11.SelectedIndex = -1 Then
 				Else
-					SQL = SQL & "a.ID_Klasifikasi_Bahan = '" & arrId_Klasifikasi_Bahan.Item(Cmb_Klasifikasi_Bahan.SelectedIndex) & "', "
+					SQL = SQL & "a.ID_Klasifikasi_Bahan = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "', "
 				End If
-				If Cmb_Klasifikasi_Bahan_2.SelectedIndex = -1 Then
+				If ComboBox19.SelectedIndex = -1 Then
 				Else
-					SQL = SQL & "a.ID_Klasifikasi_Bahan2 = '" & arrId_Klasifikasi_Bahan2.Item(Cmb_Klasifikasi_Bahan_2.SelectedIndex) & "', "
+					SQL = SQL & "a.ID_Klasifikasi_Bahan2 = '" & arrId_Klasifikasi_Bahan2.Item(ComboBox19.SelectedIndex) & "', "
 				End If
 
 				SQL = SQL & "a.Jenis_Kemasan='" & ComboBox15.SelectedItem & "', "
@@ -1964,32 +1743,24 @@ Public Class Master_Barang_New
 				End If
 
 				If TxtLifeTime.Text = "" Or String.IsNullOrWhiteSpace(TxtLifeTime.Text) Then
-					SQL = SQL & "a.Life_Time = Null, "
+					SQL = SQL & "a.Life_Time = Null "
 				Else
-					SQL = SQL & "a.Life_Time = '" & TxtLifeTime.Text & "', "
+					SQL = SQL & "a.Life_Time = '" & TxtLifeTime.Text & "'"
 				End If
-
-				SQL = SQL & "a.Nama_Mandarin = " & NamaMandarin & ", "
-				SQL = SQL & "a.Initial_Barang = " & InitialBarang & ", "
-				SQL = SQL & "a.Id_Klasifikasi_Bahan3 = " & IdKlasifikasiBahan3 & ", "
-				SQL = SQL & "a.Id_Jenis_Makanan = " & ID_Jenis_Makanan & ", "
-				SQL = SQL & "a.Id_Jenis_Kemasan = " & ID_Jenis_Kemasan & ", "
-				SQL = SQL & "a.Id_Jenis_Kualitas = " & ID_Jenis_Kualitas & ", "
-				SQL = SQL & "a.Flag_Preservative = " & Cmb_Flag_Preservative.Text.Trim & " "
 
 				'    SQL = SQL & "a.penentu_harga_csi = '" & TextBox5.Text & "' "
 				SQL = SQL & "from barang a, View_Lokasi_Stock b where "
 				SQL = SQL & "a.kode_perusahaan  = b.kode_perusahaan  and "
 				SQL = SQL & "a.kode_stock_owner = b.kode_stock_owner and "
 				SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and "
-				SQL = SQL & "a.kode_barang = '" & Txt_Kd_Barang.Text.Trim & "' "
+				SQL = SQL & "a.kode_barang = '" & TextBox1.Text.Trim & "' "
 
 				ExecuteTrans(SQL)
 
-				SQL = "delete barang_detail_satuan where kode_perusahaan = '" & KodePerusahaan & "' and kode_barang = '" & Txt_Kd_Barang.Text & "' "
+				SQL = "delete barang_detail_satuan where kode_perusahaan = '" & KodePerusahaan & "' and kode_barang = '" & TextBox1.Text & "' "
 				ExecuteTrans(SQL)
 
-				SQL = "delete N_EMI_Master_Satuan where kode_perusahaan = '" & KodePerusahaan & "' and kode_barang = '" & Txt_Kd_Barang.Text & "' "
+				SQL = "delete N_EMI_Master_Satuan where kode_perusahaan = '" & KodePerusahaan & "' and kode_barang = '" & TextBox1.Text & "' "
 				ExecuteTrans(SQL)
 
 				For i As Integer = 0 To DgvSatuanTerpilih.Rows.Count - 1
@@ -2021,15 +1792,15 @@ Public Class Master_Barang_New
 
 					If checkFlagDasar = "'Y'" Then
 						SQL = "insert into Barang_Detail_Satuan(kode_perusahaan,kode_barang,satuan,flag_tampil_display,jumlah,Flag_Kirim) values("
-						SQL = SQL & "'" & KodePerusahaan & "', '" & Txt_Kd_Barang.Text & "', '" & DgvSatuanTerpilih.Rows(i).Cells(0).Value & "',"
+						SQL = SQL & "'" & KodePerusahaan & "', '" & TextBox1.Text & "', '" & DgvSatuanTerpilih.Rows(i).Cells(0).Value & "',"
 						SQL = SQL & "'Y', '" & DgvSatuanTerpilih.Rows(i).Cells(1).Value & "','Y')"
 						ExecuteTrans(SQL)
 					End If
 
 					SQL = "INSERT INTO N_EMI_Master_Satuan (kode_perusahaan, kode_barang, barang, satuan, nilai, flag_dasar, flag_default) VALUES ("
 					SQL &= "'" & KodePerusahaan & "', "
-					SQL &= "'" & Txt_Kd_Barang.Text & "', "
-					SQL &= "'" & Txt_Nm_Barang.Text & "', "
+					SQL &= "'" & TextBox1.Text & "', "
+					SQL &= "'" & TextBox2.Text & "', "
 					SQL &= "'" & DgvSatuanTerpilih.Rows(i).Cells(0).Value & "', "
 					SQL &= DgvSatuanTerpilih.Rows(i).Cells(1).Value & ", "
 					SQL &= checkFlagDasar & ", "
@@ -2089,7 +1860,7 @@ Public Class Master_Barang_New
 
 				SQL = "select 1 from N_EMI_Transaksi_Pengajuan_Barang_Baru "
 				SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
-				SQL &= $"and Kode_Barang = '{Txt_Kd_Barang.Text.Trim}' "
+				SQL &= $"and Kode_Barang = '{TextBox1.Text.Trim}' "
 				SQL &= $"and Flag_Validasi_Procurement is null "
 				Using Dr = OpenTrans(SQL)
 					If Dr.Read Then
@@ -2099,14 +1870,14 @@ Public Class Master_Barang_New
 						SQL &= $"Tanggal_Validasi_Procurement = '{Format(tgl_skg, "yyyy-MM-dd")}', Jam_Validasi_Procurement = '{Format(tgl_skg, "HH:mm:ss")}', "
 						SQL &= $"User_Validasi_Procurement = '{UserID}' "
 						SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
-						SQL &= $"and Kode_Barang = '{Txt_Kd_Barang.Text.Trim}' "
+						SQL &= $"and Kode_Barang = '{TextBox1.Text.Trim}' "
 						SQL &= $"and Flag_Validasi_Procurement is null "
 						ExecuteTrans(SQL)
 					Else
 						Dr.Close()
 						CloseTrans()
 						CloseConn()
-						MessageBox.Show($"Kode Barang {Txt_Kd_Barang.Text.Trim} Tidak Ditemukan pada Transaksi Pengajuan Barang Baru", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						MessageBox.Show($"Kode Barang {TextBox1.Text.Trim} Tidak Ditemukan pada Transaksi Pengajuan Barang Baru", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 						Exit Sub
 					End If
 				End Using
@@ -2114,7 +1885,7 @@ Public Class Master_Barang_New
 				SQL = "select Flag_Request_Barang_Baru "
 				SQL &= $"from barang "
 				SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
-				SQL &= $"and Kode_Barang = '{Txt_Kd_Barang.Text.Trim}' "
+				SQL &= $"and Kode_Barang = '{TextBox1.Text.Trim}' "
 				Using Dr = OpenTrans(SQL)
 					If Dr.Read Then
 
@@ -2122,13 +1893,13 @@ Public Class Master_Barang_New
 						SQL = "update barang set Flag_Request_Barang_Baru = NULL "
 						SQL &= $"from barang "
 						SQL &= $"where Kode_Perusahaan = '{KodePerusahaan}' "
-						SQL &= $"and Kode_Barang = '{Txt_Kd_Barang.Text.Trim}' "
+						SQL &= $"and Kode_Barang = '{TextBox1.Text.Trim}' "
 						ExecuteTrans(SQL)
 					Else
 						Dr.Close()
 						CloseTrans()
 						CloseConn()
-						MessageBox.Show($"Kode Barang {Txt_Kd_Barang.Text.Trim} Tidak Ditemukan ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						MessageBox.Show($"Kode Barang {TextBox1.Text.Trim} Tidak Ditemukan ", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 						Exit Sub
 					End If
 				End Using
@@ -2145,13 +1916,13 @@ Public Class Master_Barang_New
 			Exit Sub
 		End Try
 
-		If Btn_Simpan.Text.ToUpper = "&SIMPAN" Then
+		If Button1.Text.ToUpper = "&SIMPAN" Then
 			TextBox8.Text = ""
 			Cari("Y")
 		End If
 
 		Kosong()
-		Txt_Kd_Barang.Focus()
+		TextBox1.Focus()
 	End Sub
 
 	Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -2162,61 +1933,61 @@ Public Class Master_Barang_New
 				OpenConn()
 
 				'Adjustment
-				Using Dr1 = OpenTrans("Select top 1 kode_perusahaan from adjustment where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & ComboBox2.Text & "' and kode_barang = '" & Txt_Kd_Barang.Text.Trim & "'")
+				Using Dr1 = OpenTrans("Select top 1 kode_perusahaan from adjustment where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & ComboBox2.Text & "' and kode_barang = '" & TextBox1.Text.Trim & "'")
 					If Dr1.Read Then
 						MessageBox.Show("Penghapusan tidak dapat dilakukan, karena masih dipakai di data adjustment", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
 						Kosong()
-						Txt_Kd_Barang.Focus()
+						TextBox1.Focus()
 						CloseConn()
 						Exit Sub
 					End If
 				End Using
 
 				'Detail Penjualan
-				Using Dr1 = OpenTrans("Select top 1 kode_perusahaan from detail_penjualan where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & ComboBox2.Text & "' and kode_barang = '" & Txt_Kd_Barang.Text.Trim & "'")
+				Using Dr1 = OpenTrans("Select top 1 kode_perusahaan from detail_penjualan where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & ComboBox2.Text & "' and kode_barang = '" & TextBox1.Text.Trim & "'")
 					If Dr1.Read Then
 						MessageBox.Show("Penghapusan tidak dapat dilakukan, karena masih dipakai di data penjualan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
 						Kosong()
-						Txt_Kd_Barang.Focus()
+						TextBox1.Focus()
 						CloseConn()
 						Exit Sub
 					End If
 				End Using
 
 				'Detail_R_Penjualan
-				Using Dr1 = OpenTrans("Select top 1 kode_perusahaan from detail_r_penjualan where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & ComboBox2.Text & "' and kode_barang = '" & Txt_Kd_Barang.Text.Trim & "'")
+				Using Dr1 = OpenTrans("Select top 1 kode_perusahaan from detail_r_penjualan where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & ComboBox2.Text & "' and kode_barang = '" & TextBox1.Text.Trim & "'")
 					If Dr1.Read Then
 						MessageBox.Show("Penghapusan tidak dapat dilakukan, karena masih dipakai di data retur penjualan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
 						Kosong()
-						Txt_Kd_Barang.Focus()
+						TextBox1.Focus()
 						CloseConn()
 						Exit Sub
 					End If
 				End Using
 
 				'Detail Pembelian
-				Using Dr1 = OpenTrans("Select top 1 kode_perusahaan from detail_pembelian where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & ComboBox2.Text & "' and kode_barang = '" & Txt_Kd_Barang.Text.Trim & "'")
+				Using Dr1 = OpenTrans("Select top 1 kode_perusahaan from detail_pembelian where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & ComboBox2.Text & "' and kode_barang = '" & TextBox1.Text.Trim & "'")
 					If Dr1.Read Then
 						MessageBox.Show("Penghapusan tidak dapat dilakukan, karena masih dipakai di data pembelian", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
 						Kosong()
-						Txt_Kd_Barang.Focus()
+						TextBox1.Focus()
 						CloseConn()
 						Exit Sub
 					End If
 				End Using
 
 				'Detail_R_Pembelian
-				Using Dr1 = OpenTrans("Select top 1 kode_perusahaan from detail_r_pembelian where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & ComboBox2.Text & "' and kode_barang = '" & Txt_Kd_Barang.Text.Trim & "'")
+				Using Dr1 = OpenTrans("Select top 1 kode_perusahaan from detail_r_pembelian where kode_perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & ComboBox2.Text & "' and kode_barang = '" & TextBox1.Text.Trim & "'")
 					If Dr1.Read Then
 						MessageBox.Show("Penghapusan tidak dapat dilakukan, karena masih dipakai di data retur pembelian", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
 						Kosong()
-						Txt_Kd_Barang.Focus()
+						TextBox1.Focus()
 						CloseConn()
 						Exit Sub
 					End If
 				End Using
 
-				SQL = "Delete From barang_proyek where Kode_Perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & ComboBox2.Text & "' and kode_barang = '" & Txt_Kd_Barang.Text.Trim & "'"
+				SQL = "Delete From barang_proyek where Kode_Perusahaan = '" & KodePerusahaan & "' and kode_stock_owner = '" & ComboBox2.Text & "' and kode_barang = '" & TextBox1.Text.Trim & "'"
 				ExecuteTrans(SQL)
 
 				CloseConn()
@@ -2231,7 +2002,7 @@ Public Class Master_Barang_New
 
 		Kosong()
 		Cari("T")
-		Txt_Kd_Barang.Focus()
+		TextBox1.Focus()
 	End Sub
 
 	Private Sub ComboBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox1.KeyPress
@@ -2253,7 +2024,7 @@ Public Class Master_Barang_New
 			End If
 		Next
 
-		Txt_Kd_Barang.Text = ListView1.FocusedItem.SubItems(1).Text
+		TextBox1.Text = ListView1.FocusedItem.SubItems(1).Text
 		'ComboBox2.Text = ListView1.FocusedItem.Text
 		TextBox1_Leave(ListView1, e)
 		TabControl1.SelectedIndex = 0
@@ -2264,7 +2035,10 @@ Public Class Master_Barang_New
 	End Sub
 
 	Private Sub ComboBox3_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox3.KeyPress
-		If e.KeyChar = Chr(13) Then ComboBox9.Focus()
+		If e.KeyChar = Chr(13) Then
+			ComboBox9.DroppedDown = True
+			ComboBox9.Focus()
+		End If
 	End Sub
 
 	Private Sub TextBox9_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
@@ -2272,15 +2046,24 @@ Public Class Master_Barang_New
 	End Sub
 
 	Private Sub ComboBox4_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox4.KeyPress
-		If e.KeyChar = Chr(13) Then ComboBox3.Focus()
+		If e.KeyChar = Chr(13) Then
+			ComboBox3.DroppedDown = True
+			ComboBox3.Focus()
+		End If
 	End Sub
 
 	Private Sub ComboBox5_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox5.KeyPress
-		If e.KeyChar = Chr(13) Then ComboBox6.Focus()
+		If e.KeyChar = Chr(13) Then
+			ComboBox6.DroppedDown = True
+			ComboBox6.Focus()
+		End If
 	End Sub
 
 	Private Sub ComboBox6_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox6.KeyPress
-		If e.KeyChar = Chr(13) Then Btn_Simpan.Focus()
+		If e.KeyChar = Chr(13) Then
+			ComboBox14.DroppedDown = True
+			ComboBox14.Focus()
+		End If
 	End Sub
 
 	Private Sub TextBox10_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TextBox10.KeyDown
@@ -2433,7 +2216,7 @@ Public Class Master_Barang_New
 
 	End Sub
 
-	Private Sub TextBox1_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Txt_Kd_Barang.TextChanged
+	Private Sub TextBox1_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TextBox1.TextChanged
 
 	End Sub
 
@@ -2450,24 +2233,11 @@ Public Class Master_Barang_New
 		If e.KeyChar = Chr(13) Then TextBox12.Focus()
 	End Sub
 
-	Private Sub Label14_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblKategori.Click
-
-	End Sub
-
-	Private Sub ComboBox4_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBox4.SelectedIndexChanged
-
-	End Sub
-
-	Private Sub Label12_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblStatusAktif.Click
-
-	End Sub
-
 	Private Sub ComboBox10_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox10.KeyPress
-		If e.KeyChar = Chr(13) Then ComboBox4.Focus()
-	End Sub
-
-	Private Sub TextBox5_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TextBox5.TextChanged
-
+		If e.KeyChar = Chr(13) Then
+			ComboBox4.DroppedDown = True
+			ComboBox4.Focus()
+		End If
 	End Sub
 
 	Private Sub TextBox12_KeyPress1(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox12.KeyPress
@@ -2491,12 +2261,18 @@ Public Class Master_Barang_New
 	End Sub
 
 	Private Sub TextBox18_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox18.KeyPress
-		If e.KeyChar = Chr(13) Then ComboBox12.Focus()
+		If e.KeyChar = Chr(13) Then
+			ComboBox12.DroppedDown = True
+			ComboBox12.Focus()
+		End If
 		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
 	End Sub
 
 	Private Sub ComboBox12_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox12.KeyPress
-		If e.KeyChar = Chr(13) Then ComboBox13.Focus()
+		If e.KeyChar = Chr(13) Then
+			ComboBox13.DroppedDown = True
+			ComboBox13.Focus()
+		End If
 	End Sub
 
 	Private Sub ComboBox12_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ComboBox12.SelectedIndexChanged
@@ -2510,7 +2286,6 @@ Public Class Master_Barang_New
 					ComboBox13.Items.Add(dr("Kode_Kategori_Kecil"))
 				Loop
 			End Using
-
 			CloseConn()
 		Catch ex As Exception
 			CloseConn()
@@ -2525,16 +2300,19 @@ Public Class Master_Barang_New
 	End Sub
 
 	Private Sub TextBox7_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox7.KeyPress
-		If e.KeyChar = Chr(13) Then cmbJenis.Focus()
+		If e.KeyChar = Chr(13) Then
+			CmbJnsGudanng.DroppedDown = True
+			CmbJnsGudanng.Focus()
+		End If
 		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
 	End Sub
 
 	Private Sub cmbJenis_KeyPress(sender As Object, e As KeyPressEventArgs) Handles cmbJenis.KeyPress
 		If e.KeyChar = Chr(13) Then
-			If Cmb_Klasifikasi_Bahan.Enabled = True Then
-				Cmb_Klasifikasi_Bahan.Focus()
+			If ComboBox11.Enabled = True Then
+				ComboBox11.Focus()
 			Else
-				Txt_Kd_Barang.Focus()
+				TextBox1.Focus()
 			End If
 		End If
 	End Sub
@@ -2545,11 +2323,17 @@ Public Class Master_Barang_New
 	End Sub
 
 	Private Sub ComboBox13_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox13.KeyPress
-		If e.KeyChar = Chr(13) Then CmbJnsGudanng.Focus()
+		If e.KeyChar = Chr(13) Then
+			Cmb_KategoriGudang.DroppedDown = True
+			Cmb_KategoriGudang.Focus()
+		End If
 	End Sub
 
 	Private Sub CmbJnsGudang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbJnsGudanng.KeyPress
-		If e.KeyChar = Chr(13) Then ComboBox10.Focus()
+		If e.KeyChar = Chr(13) Then
+			ComboBox10.DroppedDown = True
+			ComboBox10.Focus()
+		End If
 		' If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
 
 	End Sub
@@ -2719,52 +2503,43 @@ Public Class Master_Barang_New
 	End Sub
 
 	Private Sub Cmb_KategoriGudang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_KategoriGudang.KeyPress
-		If e.KeyChar = Chr(13) Then ComboBox5.Focus()
-	End Sub
-
-	Private Sub ComboBox19_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Klasifikasi_Bahan_2.KeyPress
 		If e.KeyChar = Chr(13) Then
-			Cmb_Klasifikasi_Bahan_3.DroppedDown = True
-			Cmb_Klasifikasi_Bahan_3.Focus()
+			ComboBox5.DroppedDown = True
+			ComboBox5.Focus()
 		End If
 	End Sub
 
-	Private Sub Cmb_Klasifikasi_Bahan_3_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Klasifikasi_Bahan_3.KeyPress
-		If e.KeyChar = Chr(13) Then Txt_Nm_Barang.Focus()
+	Private Sub ComboBox19_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox19.KeyPress
+		If e.KeyChar = Chr(13) Then TextBox2.Focus()
 	End Sub
 
-	Private Sub ComboBox11_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Klasifikasi_Bahan.SelectedIndexChanged
-		If Cmb_Klasifikasi_Bahan.SelectedIndex = -1 Then Exit Sub
+	Private Sub ComboBox11_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox11.SelectedIndexChanged
+		If ComboBox11.SelectedIndex = -1 Then Exit Sub
 
 		Try
 			OpenConn()
 
-			Cmb_Klasifikasi_Bahan_2.Text = ""
-			Cmb_Klasifikasi_Bahan_2.Items.Clear()
-			Cmb_Klasifikasi_Bahan_2.SelectedIndex = -1
+			ComboBox19.Text = ""
+			ComboBox19.Items.Clear()
+			ComboBox19.SelectedIndex = -1
 
-			Cmb_Klasifikasi_Bahan_3.Items.Clear()
-			Cmb_Klasifikasi_Bahan_3.SelectedIndex = -1
-
-			If Btn_Simpan.Text = "&Simpan" Then
-				Txt_Kd_Barang.Text = String.Empty
-				Txt_Initial_Barang.Text = String.Empty
+			If Button1.Text = "&Simpan" Then
+				TextBox1.Text = String.Empty
 			End If
 
 			arrId_Klasifikasi_Bahan2.Clear() : arrprefix_Klasifikasi_Bahan2.Clear()
-			arrId_Klasifikasi_Bahan3.Clear() : arrKode_Klasifikasi_Bahan3.Clear() : arrprefix_Klasifikasi_Bahan3.Clear()
 			SQL = "select Id_Klasifikasi_Bahan2, Keterangan, Prefix_Klasifikasi_Bahan from EMI_Klasifikasi_Bahan2 "
-			SQL = SQL & "where kode_perusahaan='" & KodePerusahaan & "' and Id_Klasifikasi_Bahan1='" & arrId_Klasifikasi_Bahan(Cmb_Klasifikasi_Bahan.SelectedIndex) & "'"
+			SQL = SQL & "where kode_perusahaan='" & KodePerusahaan & "' and Id_Klasifikasi_Bahan1='" & arrId_Klasifikasi_Bahan(ComboBox11.SelectedIndex) & "'"
 			Using Dr = OpenTrans(SQL)
 				Do While Dr.Read
-					Cmb_Klasifikasi_Bahan_2.Items.Add(Dr("Keterangan"))
+					ComboBox19.Items.Add(Dr("Keterangan"))
 					arrId_Klasifikasi_Bahan2.Add(Dr("Id_Klasifikasi_Bahan2"))
 					arrprefix_Klasifikasi_Bahan2.Add(Dr("Prefix_Klasifikasi_Bahan"))
 				Loop
 
 			End Using
 
-			Cmb_Klasifikasi_Bahan_2.Enabled = True
+			ComboBox19.Enabled = True
 
 			CloseConn()
 		Catch ex As Exception
@@ -2777,7 +2552,7 @@ Public Class Master_Barang_New
 
 	Private Sub TextBox9_KeyPress_1(sender As Object, e As KeyPressEventArgs) Handles txtStandarPrice.KeyPress, Txt_Est_Harga.KeyPress
 		If e.KeyChar = Chr(13) Then
-			Btn_Simpan.Focus()
+			Button1.Focus()
 		End If
 
 		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
@@ -2816,7 +2591,7 @@ Public Class Master_Barang_New
 
 		Dim SelectedKdBarang As String = Dgv_Pengejuan_Barang_Baru.CurrentRow.Cells(item_Pengajuan_Kode_Barang).Value
 
-		Txt_Kd_Barang.Text = SelectedKdBarang.Trim
+		TextBox1.Text = SelectedKdBarang.Trim
 
 		TextBox1_Leave(sender, New EventArgs)
 
@@ -2824,17 +2599,17 @@ Public Class Master_Barang_New
 
 	End Sub
 
-	Private Sub ComboBox21_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_FlagPotongStok.KeyPress, Cmb_Flag_Preservative.KeyPress
+	Private Sub ComboBox21_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_FlagPotongStok.KeyPress
 		If e.KeyChar = Chr(13) Then
 			If Cmb_FlagPotongStok.SelectedIndex = 0 Then
-				Btn_Simpan.Focus()
+				Button1.Focus()
 			Else
 				txtStandarPrice.Focus()
 			End If
 		End If
 	End Sub
 
-	Private Sub Cmb_FlagPotongStok_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_FlagPotongStok.SelectedIndexChanged, Cmb_Flag_Preservative.SelectedIndexChanged
+	Private Sub Cmb_FlagPotongStok_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_FlagPotongStok.SelectedIndexChanged
 		If Cmb_FlagPotongStok.SelectedIndex = 0 Then
 			txtStandarPrice.Enabled = False
 			txtStandarPrice.Text = ""
@@ -2845,62 +2620,53 @@ Public Class Master_Barang_New
 	End Sub
 
 	Private Sub TextBox3_KeyPress_1(sender As Object, e As KeyPressEventArgs) Handles TextBox3.KeyPress
-		If e.KeyChar = Chr(13) Then TextBox7.Focus()
+		If e.KeyChar = Chr(13) Then TextBox4.Focus()
 		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
 	End Sub
 
+	Private Sub ComboBox14_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox14.KeyPress
+		If e.KeyChar = Chr(13) Then
+			ComboBox15.DroppedDown = True
+			ComboBox15.Focus()
+		End If
+	End Sub
+
+	Private Sub ComboBox15_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox15.KeyPress
+		If e.KeyChar = Chr(13) Then
+			ComboBox16.DroppedDown = True
+			ComboBox16.Focus()
+		End If
+
+	End Sub
+
+	Private Sub ComboBox16_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox16.KeyPress
+		If e.KeyChar = Chr(13) Then
+			TextBox3.Focus()
+		End If
+	End Sub
+
 	Private Sub DgvSatuanTerpilih_KeyPress(sender As Object, e As KeyPressEventArgs) Handles DgvSatuanTerpilih.KeyPress
-		If e.KeyChar = Chr(13) Then Cmb_Klasifikasi_Bahan_2.Focus()
+		If e.KeyChar = Chr(13) Then ComboBox19.Focus()
 	End Sub
 
 	Private Sub cmbJenis_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbJenis.SelectedIndexChanged
 		'If cmbJenis.SelectedItem = "RAW MATERIAL" Then
-		Panel_Klasifikasi.Visible = False
-		Panel_Jenis.Visible = False
-
-		Cmb_Flag_Preservative.Enabled = False
-		Cmb_Flag_Preservative.SelectedIndex = -1
-
-		Txt_Kd_Barang.Enabled = True
-
-		ComboBox15.Enabled = False
-		ComboBox15.Items.Clear()
 		If arrGudangRawMaterial.Contains(arrJenisBarang(cmbJenis.SelectedIndex)) Then
-			Cmb_Klasifikasi_Bahan.Enabled = True
-			Cmb_Klasifikasi_Bahan_2.Enabled = True
-			Cmb_Klasifikasi_Bahan_3.Enabled = True
-			Cmb_Klasifikasi_Bahan_2.Text = ""
-			Cmb_Klasifikasi_Bahan_3.Text = ""
-			Txt_Kd_Barang.Enabled = False
-			Cmb_Klasifikasi_Bahan.Focus()
-
-			Panel_Klasifikasi.Visible = True
-			IsBarangFG(False)
-
-			ComboBox15.Items.Add("Original Bags")
-			ComboBox15.Items.Add("Non Original Bags")
-			ComboBox15.SelectedIndex = 0
-			ComboBox15.Enabled = True
-
-			Cmb_Flag_Preservative.Enabled = True
-
-		ElseIf cmbJenis.Text.Trim = "FINISHED GOODS" Then
-
-			Panel_Jenis.Visible = True
-			IsBarangFG(True)
+			ComboBox11.Enabled = True
+			ComboBox19.Enabled = True
+			ComboBox19.Text = ""
+			TextBox1.Enabled = False
+			ComboBox11.Focus()
 		Else
-			Cmb_Klasifikasi_Bahan.Enabled = False
-			Cmb_Klasifikasi_Bahan_2.Enabled = False
-			Cmb_Klasifikasi_Bahan_3.Enabled = False
-			Cmb_Klasifikasi_Bahan_2.Items.Clear()
-			Cmb_Klasifikasi_Bahan_3.Items.Clear()
-			Cmb_Klasifikasi_Bahan.SelectedIndex = -1
-			IsBarangFG(False)
+			ComboBox11.Enabled = False
+			ComboBox19.Enabled = False
+			TextBox1.Enabled = True
+			ComboBox19.Items.Clear()
+			ComboBox11.SelectedIndex = -1
 		End If
 
-		If Btn_Simpan.Text = "&Simpan" Then
-			Txt_Kd_Barang.Text = String.Empty
-			Txt_Initial_Barang.Text = String.Empty
+		If Button1.Text = "&Simpan" Then
+			TextBox1.Text = String.Empty
 		End If
 	End Sub
 
@@ -2913,7 +2679,7 @@ Public Class Master_Barang_New
 			TextBox4.Enabled = True
 		End If
 
-		TextBox4.Text = 0
+		TextBox4.Text = ""
 	End Sub
 
 	Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
@@ -2944,12 +2710,18 @@ Public Class Master_Barang_New
 
 	Private Sub TextBox4_KeyPress_1(sender As Object, e As KeyPressEventArgs) Handles TextBox4.KeyPress
 		If ComboBox15.SelectedIndex = -1 Then e.Handled = True : Exit Sub
-		If e.KeyChar = Chr(13) Then TextBox7.Focus()
+		If e.KeyChar = Chr(13) Then
+			Cmb_FlagPotongStok.DroppedDown = True
+			Cmb_FlagPotongStok.Focus()
+		End If
 		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
 	End Sub
 
-	Private Sub ComboBox11_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Klasifikasi_Bahan.KeyPress
-		If e.KeyChar = Chr(13) Then Cmb_Klasifikasi_Bahan_2.Focus()
+	Private Sub ComboBox11_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox11.KeyPress
+		If e.KeyChar = Chr(13) Then
+			ComboBox19.DroppedDown = True
+			ComboBox19.Focus()
+		End If
 	End Sub
 
 	Private Sub CmbJnsGudanng_Leave(sender As Object, e As EventArgs) Handles CmbJnsGudanng.Leave
@@ -2971,157 +2743,77 @@ Public Class Master_Barang_New
 		CmbJnsGudanng_Leave(CmbJnsGudanng, e)
 	End Sub
 
-	Private Sub ComboBox19_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Klasifikasi_Bahan_2.SelectedIndexChanged
-		If Cmb_Klasifikasi_Bahan.Items.Count = 0 Or Cmb_Klasifikasi_Bahan.SelectedIndex = -1 Then Exit Sub
+	Private Sub ComboBox19_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox19.SelectedIndexChanged
+		If Button1.Text = "&Simpan" Then
+			Try
 
-		If Btn_Simpan.Text = "&Simpan" Then
-			Txt_Kd_Barang.Text = String.Empty
-			Txt_Initial_Barang.Text = String.Empty
-		End If
+				OpenConn()
 
-		Try
+#Region "KodeLama"
 
-			OpenConn()
+				'Dim No_Urut As String
+				'SQL = "SELECT b.Prefix_Klasifikasi_Bahan, (MAX(RIGHT(a.Kode_Barang, 4)) + 1) AS No_Urut "
+				'SQL = SQL & "FROM barang a LEFT JOIN (SELECT Prefix_Klasifikasi_Bahan, id_klasifikasi_bahan2 FROM  EMI_Klasifikasi_Bahan2 WHERE "
+				'SQL = SQL & "id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan2(ComboBox19.SelectedIndex) & "') b ON a.id_klasifikasi_bahan2 = b.id_klasifikasi_bahan2 WHERE SUBSTRING('20210001', 3, 2) = b.Prefix_Klasifikasi_Bahan "
+				'SQL = SQL & "GROUP BY b.Prefix_Klasifikasi_Bahan "
+				'Using Dr = OpenTrans(SQL)
+				'    If Dr.Read Then
+				'        If IsDBNull(Dr("No_Urut")) Then
+				'            No_Urut = "0001"
+				'        Else
+				'            No_Urut = Format(Dr("No_Urut"), "0###")
+				'        End If
+				'    Else
+				'        No_Urut = "0001"
+				'    End If
 
-#Region "KODE LAMA"
+				'End Using
 
-			'#Region "KodeLama"
-
-			'				'Dim No_Urut As String
-			'				'SQL = "SELECT b.Prefix_Klasifikasi_Bahan, (MAX(RIGHT(a.Kode_Barang, 4)) + 1) AS No_Urut "
-			'				'SQL = SQL & "FROM barang a LEFT JOIN (SELECT Prefix_Klasifikasi_Bahan, id_klasifikasi_bahan2 FROM  EMI_Klasifikasi_Bahan2 WHERE "
-			'				'SQL = SQL & "id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan2(ComboBox19.SelectedIndex) & "') b ON a.id_klasifikasi_bahan2 = b.id_klasifikasi_bahan2 WHERE SUBSTRING('20210001', 3, 2) = b.Prefix_Klasifikasi_Bahan "
-			'				'SQL = SQL & "GROUP BY b.Prefix_Klasifikasi_Bahan "
-			'				'Using Dr = OpenTrans(SQL)
-			'				'    If Dr.Read Then
-			'				'        If IsDBNull(Dr("No_Urut")) Then
-			'				'            No_Urut = "0001"
-			'				'        Else
-			'				'            No_Urut = Format(Dr("No_Urut"), "0###")
-			'				'        End If
-			'				'    Else
-			'				'        No_Urut = "0001"
-			'				'    End If
-
-			'				'End Using
-
-			'				'TextBox1.Text = arrprefix_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & arrprefix_Klasifikasi_Bahan2(ComboBox19.SelectedIndex) & No_Urut
-
-			'#End Region
-
-			'				Dim No_Urut As String
-			'				'SQL = " select b.Prefix_Klasifikasi_Bahan, (max(right(a.Kode_Barang,4)) + 1) as No_Urut "
-			'				'SQL = SQL & "from barang a left join (select Prefix_Klasifikasi_Bahan, id_klasifikasi_bahan from emi_klasifikasi_bahan where id_klasifikasi_bahan = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "') b on a.id_klasifikasi_bahan = b.id_klasifikasi_bahan "
-			'				'SQL = SQL & "where left(a.kode_barang,2) = b.Prefix_Klasifikasi_Bahan "
-			'				'SQL = SQL & "group by b.Prefix_Klasifikasi_Bahan "
-
-			'				'SQL = " Select b.Prefix As Prefix_Klasifikasi_Bahan, (max(right(a.Kode_Barang,3)) + 1) As No_Urut "
-			'				'SQL = SQL & "From barang a left Join ( "
-			'				'SQL = SQL & "Select a.Prefix_Klasifikasi_Bahan +''+b.Prefix_Klasifikasi_Bahan as Prefix, b.id_klasifikasi_bahan1 "
-			'				'SQL = SQL & "From EMI_Klasifikasi_Bahan a, EMI_Klasifikasi_Bahan2 b Where "
-			'				'SQL = SQL & "a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 And "
-			'				'SQL = SQL & "b.id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan.Item(Cmb_Klasifikasi_Bahan.SelectedIndex) & "') b "
-			'				'SQL = SQL & "on a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 Where Left(a.kode_barang, 4) = Prefix "
-			'				'SQL = SQL & "Group By b.Prefix "
-
-			'				SQL = "select top(1) substring(kode_barang, 5, 3) as no_urut from barang where kode_perusahaan = '" & KodePerusahaan & "' and "
-			'				SQL = SQL & "id_klasifikasi_bahan = '" & arrId_Klasifikasi_Bahan.Item(Cmb_Klasifikasi_Bahan.SelectedIndex) & "' and "
-			'				SQL = SQL & "id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan2.Item(Cmb_Klasifikasi_Bahan_2.SelectedIndex) & "' "
-			'				SQL = SQL & "order by no_urut desc"
-
-			'				Using Dr = OpenTrans(SQL)
-			'					If Dr.Read Then
-			'						'If IsDBNull(Dr("No_Urut")) Then
-			'						'    No_Urut = "001"
-			'						'Else
-			'						'
-			'						'End If
-			'						No_Urut = Format(Val(Dr("No_Urut")) + 1, "000")
-			'					Else
-			'						No_Urut = "001"
-			'					End If
-			'					TextBox1.Text = arrprefix_Klasifikasi_Bahan.Item(Cmb_Klasifikasi_Bahan.SelectedIndex) & arrprefix_Klasifikasi_Bahan2.Item(Cmb_Klasifikasi_Bahan_2.SelectedIndex) & No_Urut
-			'				End Using
+				'TextBox1.Text = arrprefix_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & arrprefix_Klasifikasi_Bahan2(ComboBox19.SelectedIndex) & No_Urut
 
 #End Region
 
-			'========================================
-			'=     LOAD DATA KLSIFIKASI BAHAN 3     =
-			'========================================
-			Cmb_Klasifikasi_Bahan_3.Items.Clear() : arrId_Klasifikasi_Bahan3.Clear() : arrKode_Klasifikasi_Bahan3.Clear()
-			arrprefix_Klasifikasi_Bahan3.Clear()
-			SQL = "select Id_Klasifikasi_Bahan3, Kode_Klasifikasi_Bahan, Prefix_Klasifikasi_Bahan, Keterangan "
-			SQL = SQL & "from N_EMI_Master_Klasifikasi_Bahan_3 "
-			SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
-			SQL = SQL & "order by Keterangan "
-			Using Dr = OpenTrans(SQL)
-				Do While Dr.Read
-					Cmb_Klasifikasi_Bahan_3.Items.Add(Dr("Keterangan"))
-					arrKode_Klasifikasi_Bahan3.Add(Dr("Kode_Klasifikasi_Bahan"))
-					arrId_Klasifikasi_Bahan3.Add(Dr("Id_Klasifikasi_Bahan3"))
-					arrprefix_Klasifikasi_Bahan3.Add(If(General_Class.CekNULL(Dr("Prefix_Klasifikasi_Bahan")) = "", "", Dr("Prefix_Klasifikasi_Bahan")))
-				Loop
-			End Using
+				Dim No_Urut As String
+				'SQL = " select b.Prefix_Klasifikasi_Bahan, (max(right(a.Kode_Barang,4)) + 1) as No_Urut "
+				'SQL = SQL & "from barang a left join (select Prefix_Klasifikasi_Bahan, id_klasifikasi_bahan from emi_klasifikasi_bahan where id_klasifikasi_bahan = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "') b on a.id_klasifikasi_bahan = b.id_klasifikasi_bahan "
+				'SQL = SQL & "where left(a.kode_barang,2) = b.Prefix_Klasifikasi_Bahan "
+				'SQL = SQL & "group by b.Prefix_Klasifikasi_Bahan "
 
-			CloseConn()
-		Catch ex As Exception
-			CloseConn()
-			MessageBox.Show(ex.Message)
-			Exit Sub
-		End Try
-	End Sub
+				SQL = " Select b.Prefix As Prefix_Klasifikasi_Bahan, (max(right(a.Kode_Barang,3)) + 1) As No_Urut "
+				SQL = SQL & "From barang a left Join ( "
+				SQL = SQL & "Select a.Prefix_Klasifikasi_Bahan +''+b.Prefix_Klasifikasi_Bahan as Prefix, b.id_klasifikasi_bahan1 "
+				SQL = SQL & "From EMI_Klasifikasi_Bahan a, EMI_Klasifikasi_Bahan2 b Where "
+				SQL = SQL & "a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 And "
+				SQL = SQL & "b.id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "') b "
+				SQL = SQL & "on a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 Where Left(a.kode_barang, 4) = Prefix "
+				SQL = SQL & "Group By b.Prefix "
 
-	Private Sub Cmb_Klasifikasi_Bahan_3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Klasifikasi_Bahan_3.SelectedIndexChanged
-		If Cmb_Klasifikasi_Bahan.Items.Count = 0 Or Cmb_Klasifikasi_Bahan.SelectedIndex = -1 Then Exit Sub
+				SQL = "select top(1) substring(kode_barang, 5, 3) as no_urut from barang where kode_perusahaan = '" & KodePerusahaan & "' and "
+				SQL = SQL & "id_klasifikasi_bahan = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "' and "
+				SQL = SQL & "id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan2.Item(ComboBox19.SelectedIndex) & "' "
+				SQL = SQL & "order by no_urut desc"
 
-		Try
-			OpenConn()
+				Using Dr = OpenTrans(SQL)
+					If Dr.Read Then
+						'If IsDBNull(Dr("No_Urut")) Then
+						'    No_Urut = "001"
+						'Else
+						'
+						'End If
+						No_Urut = Format(Val(Dr("No_Urut")) + 1, "000")
+					Else
+						No_Urut = "001"
+					End If
+					TextBox1.Text = arrprefix_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & arrprefix_Klasifikasi_Bahan2.Item(ComboBox19.SelectedIndex) & No_Urut
+				End Using
 
-			If Btn_Simpan.Text = "&Simpan" Then
-				Txt_Kd_Barang.Text = String.Empty
-				Txt_Initial_Barang.Text = String.Empty
-			End If
-
-			Dim No_Urut As String
-			'SQL = " select b.Prefix_Klasifikasi_Bahan, (max(right(a.Kode_Barang,4)) + 1) as No_Urut "
-			'SQL = SQL & "from barang a left join (select Prefix_Klasifikasi_Bahan, id_klasifikasi_bahan from emi_klasifikasi_bahan where id_klasifikasi_bahan = '" & arrId_Klasifikasi_Bahan.Item(ComboBox11.SelectedIndex) & "') b on a.id_klasifikasi_bahan = b.id_klasifikasi_bahan "
-			'SQL = SQL & "where left(a.kode_barang,2) = b.Prefix_Klasifikasi_Bahan "
-			'SQL = SQL & "group by b.Prefix_Klasifikasi_Bahan "
-
-			'SQL = " Select b.Prefix As Prefix_Klasifikasi_Bahan, (max(right(a.Kode_Barang,3)) + 1) As No_Urut "
-			'SQL = SQL & "From barang a left Join ( "
-			'SQL = SQL & "Select a.Prefix_Klasifikasi_Bahan +''+b.Prefix_Klasifikasi_Bahan as Prefix, b.id_klasifikasi_bahan1 "
-			'SQL = SQL & "From EMI_Klasifikasi_Bahan a, EMI_Klasifikasi_Bahan2 b Where "
-			'SQL = SQL & "a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 And "
-			'SQL = SQL & "b.id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan.Item(Cmb_Klasifikasi_Bahan.SelectedIndex) & "') b "
-			'SQL = SQL & "on a.id_klasifikasi_bahan = b.id_klasifikasi_bahan1 Where Left(a.kode_barang, 4) = Prefix "
-			'SQL = SQL & "Group By b.Prefix "
-
-			SQL = "select top(1) substring(kode_barang, 5, 3) as no_urut from barang where kode_perusahaan = '" & KodePerusahaan & "' and "
-			SQL = SQL & "id_klasifikasi_bahan = '" & arrId_Klasifikasi_Bahan.Item(Cmb_Klasifikasi_Bahan.SelectedIndex) & "' and "
-			SQL = SQL & "id_klasifikasi_bahan2 = '" & arrId_Klasifikasi_Bahan2.Item(Cmb_Klasifikasi_Bahan_2.SelectedIndex) & "' "
-			SQL = SQL & "order by no_urut desc"
-
-			Using Dr = OpenTrans(SQL)
-				If Dr.Read Then
-					'If IsDBNull(Dr("No_Urut")) Then
-					'    No_Urut = "001"
-					'Else
-					'
-					'End If
-					No_Urut = Format(Val(Dr("No_Urut")) + 1, "000")
-				Else
-					No_Urut = "001"
-				End If
-				Txt_Kd_Barang.Text = arrprefix_Klasifikasi_Bahan.Item(Cmb_Klasifikasi_Bahan.SelectedIndex) & arrprefix_Klasifikasi_Bahan2.Item(Cmb_Klasifikasi_Bahan_2.SelectedIndex) & No_Urut
-			End Using
-
-			CloseConn()
-		Catch ex As Exception
-			CloseConn()
-			MessageBox.Show(ex.Message)
-			Exit Sub
-		End Try
+				CloseConn()
+			Catch ex As Exception
+				CloseConn()
+				MessageBox.Show(ex.Message)
+				Exit Sub
+			End Try
+		End If
 	End Sub
 
 	Private Sub Master_Barang_New_Activated(sender As Object, e As EventArgs) Handles Me.Activated
@@ -3185,74 +2877,6 @@ Public Class Master_Barang_New
 		End If
 
 		MyBase.WndProc(m)
-	End Sub
-
-	Private Sub IsBarangFG(ByVal FG As Boolean)
-		If FG Then
-			Txt_Initial_Barang.Visible = True
-			Txt_Initial_Barang.Location = New Point(103, 38)
-			Txt_Kd_Barang.Location = New Point(223, 38)
-
-			Label28.Location = New Point(482, 40)
-			ComboBox2.Location = New Point(545, 35)
-
-			Cmb_Jenis_Makanan.Enabled = True
-			Cmb_Jenis_Kemasan.Enabled = True
-			Cmb_Jenis_Kualitas.Enabled = True
-		Else
-
-			Txt_Initial_Barang.Visible = False
-			Txt_Initial_Barang.Location = New Point(655, 38)
-			Txt_Kd_Barang.Location = New Point(103, 38)
-
-			Label28.Location = New Point(362, 38)
-			ComboBox2.Location = New Point(425, 33)
-
-			Cmb_Jenis_Makanan.Enabled = False
-			Cmb_Jenis_Kemasan.Enabled = False
-			Cmb_Jenis_Kualitas.Enabled = False
-
-		End If
-
-		Cmb_Jenis_Makanan.SelectedIndex = -1
-		Cmb_Jenis_Kemasan.SelectedIndex = -1
-		Cmb_Jenis_Kualitas.SelectedIndex = -1
-
-		Txt_Initial_Barang.Text = ""
-	End Sub
-
-	Private Sub SetCueBanner(tb As TextBox, text As String)
-		SendMessage(tb.Handle, EM_SETCUEBANNER, CType(1, IntPtr), text)
-	End Sub
-
-	Private Sub ListView1_MouseMove(sender As Object, e As MouseEventArgs) Handles ListView1.MouseMove
-		Dim info As ListViewHitTestInfo = ListView1.HitTest(e.Location)
-
-		If info.Item IsNot Nothing Then
-			' Mouse sedang berada di atas row
-			ListView1.Cursor = Cursors.Hand
-		Else
-			' Mouse tidak mengenai row
-			ListView1.Cursor = Cursors.Default
-		End If
-	End Sub
-
-	Private Sub ListView1_MouseLeave(sender As Object, e As EventArgs) Handles ListView1.MouseLeave
-		ListView1.Cursor = Cursors.Default
-	End Sub
-
-	Private Sub Dgv_Pengejuan_Barang_Baru_MouseMove(sender As Object, e As MouseEventArgs) Handles Dgv_Pengejuan_Barang_Baru.MouseMove
-		Dim info As DataGridView.HitTestInfo = Dgv_Pengejuan_Barang_Baru.HitTest(e.X, e.Y)
-
-		If info.RowIndex >= 0 AndAlso info.ColumnIndex >= 0 Then
-			Dgv_Pengejuan_Barang_Baru.Cursor = Cursors.Hand
-		Else
-			Dgv_Pengejuan_Barang_Baru.Cursor = Cursors.Default
-		End If
-	End Sub
-
-	Private Sub Dgv_Pengejuan_Barang_Baru_MouseLeave(sender As Object, e As EventArgs) Handles Dgv_Pengejuan_Barang_Baru.MouseLeave
-		Dgv_Pengejuan_Barang_Baru.Cursor = Cursors.Default
 	End Sub
 
 End Class

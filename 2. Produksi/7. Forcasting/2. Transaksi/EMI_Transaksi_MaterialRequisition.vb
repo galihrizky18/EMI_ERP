@@ -7,6 +7,9 @@ Public Class EMI_Transaksi_MaterialRequisition
 	Public arrBulan, arrBulanMM As New ArrayList
 	Dim Jenis = "Master_Jenis_Hewan"
 	Public fRef As String
+	Private lastHeaderColumnIndex As Integer = -1
+	Dim ToolTip1 As New ToolTip
+
 
 	Dim arrCellInputPPIC As New ArrayList
 	Dim ListEndingStock As New List(Of (Kode_Bahan As String, Bulan As String, Jenis As String, Jumlah As Double))
@@ -59,8 +62,30 @@ Public Class EMI_Transaksi_MaterialRequisition
 	Dim LvOPRequesition_2 As String
 	Dim LvOPOrder_2 As String
 
+	Dim LvOPRequesition_3 As String
+	Dim LvOPOrder_3 As String
+
+	Dim LvOPRequesition_4 As String
+	Dim LvOPOrder_4 As String
+
+	Dim LvOPRequesition_5 As String
+	Dim LvOPOrder_5 As String
+
+	Dim LvOPRequesition_6 As String
+	Dim LvOPOrder_6 As String
+
 	Dim LvRequireStok_1 As String
 	Dim LvRequireStok_2 As String
+
+	Dim LvRequireStok_3 As String
+	Dim LvRequireStok_4 As String
+
+	Dim LvRequireStok_5 As String
+	Dim LvRequireStok_6 As String
+	Dim LvEndingStokSebelumPRPO As String
+
+
+
 
 	Dim Cell0 As Integer = 0
 	Dim CellKd_Barang As Integer = 1
@@ -121,6 +146,28 @@ Public Class EMI_Transaksi_MaterialRequisition
 	Dim cellOutstandingPOOrder As Integer = 44
 	Dim cellFinishedPO As Integer = 45
 
+
+	Dim CellOPRequesition_3 As Integer = 46
+	Dim CellOPOrder_3 As Integer = 47
+	Dim cellRequireStok_3 As Integer = 48
+
+	Dim CellOPRequesition_4 As Integer = 49
+	Dim CellOPOrder_4 As Integer = 50
+	Dim cellRequireStok_4 As Integer = 51
+
+	Dim CellOPRequesition_5 As Integer = 52
+	Dim CellOPOrder_5 As Integer = 53
+	Dim cellRequireStok_5 As Integer = 54
+
+	Dim CellOPRequesition_6 As Integer = 55
+	Dim CellOPOrder_6 As Integer = 56
+	Dim cellRequireStok_6 As Integer = 57
+
+	Dim cellEndingStokSebelumPRPO As Integer = 58
+
+
+
+
 	Private dictNBom As New Dictionary(Of Integer, Integer) From {
 		{1, 9},
 		{2, 13},
@@ -159,17 +206,29 @@ Public Class EMI_Transaksi_MaterialRequisition
 
 	Private dictOPRequesition As New Dictionary(Of Integer, Integer) From {
 		{1, 37},
-		{2, 39}
+		{2, 39},
+		{3, 46},
+		{4, 49},
+		{5, 52},
+		{6, 55}
 	}
 
 	Private dictOPOrder As New Dictionary(Of Integer, Integer) From {
 		{1, 38},
-		{2, 40}
+		{2, 40},
+		{3, 47},
+		{4, 50},
+		{5, 53},
+		{6, 56}
 	}
 
 	Private dictRequireStok As New Dictionary(Of Integer, Integer) From {
 		{1, 41},
-		{2, 42}
+		{2, 42},
+		{3, 48},
+		{4, 51},
+		{5, 54},
+		{6, 57}
 	}
 
 	Dim estreq_awal As Double = 0
@@ -187,11 +246,21 @@ Public Class EMI_Transaksi_MaterialRequisition
 		Dim EstJumlahPlan As Double = 0
 		Dim nilaiAkhir As Double = 0
 
+
+
 		EstJumlahStok = (Val(stok) + Val(Jumlah_out_pr) + Val(Jumlah_out_po))
+
+
 
 		EstJumlahPlan = jumlahProductionPlan
 
 		'nilaiAkhir = Val(jumlahProductionPlan) - Val(EstJumlahStok)
+
+
+		Dim estJmlhStokSebagian = (Val(stok) - Val(EstJumlahPlan))
+
+
+		DataGridView1.Rows(index).Cells(cellEndingStokSebelumPRPO).Value = Format(estJmlhStokSebagian, "N2")
 
 		If EstJumlahStok - (EstJumlahPlan) >= 0 Then
 			DataGridView1.Rows(index).Cells(cellRequirmentStok).Style.BackColor = Color.FromArgb(26, 191, 98)
@@ -200,6 +269,15 @@ Public Class EMI_Transaksi_MaterialRequisition
 			DataGridView1.Rows(index).Cells(cellRequirmentStok).Style.BackColor = Color.FromArgb(255, 204, 0)
 		End If
 
+		If estJmlhStokSebagian >= 0 Then
+			DataGridView1.Rows(index).Cells(cellEndingStokSebelumPRPO).Style.BackColor = Color.FromArgb(26, 191, 98)
+		Else
+
+			DataGridView1.Rows(index).Cells(cellEndingStokSebelumPRPO).Style.BackColor = Color.FromArgb(255, 204, 0)
+		End If
+
+
+
 		DataGridView1.Rows(index).Cells(cellRequirmentStok).Value = Format(EstJumlahStok - (EstJumlahPlan), "N2")
 		ListEndingStock.Add((KdBarang, (Val(HilangkanTanda(btn_bln0.Tag)) + 1).ToString("00"), "ENDING STOCK CURRENT", Val(HilangkanTanda((EstJumlahStok - EstJumlahPlan)))))
 
@@ -207,7 +285,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 
 	End Sub
 
-	Private Sub FunTotalJumlahLooping(ByVal jumlahProductionPlan As Double, ByVal jumlah_out_pr As Double, ByVal Jumlah_out_po As Double, ByVal index As Integer, ByVal cells As Integer, ByVal KdBarang As String, ByVal Bulan As Integer)
+	Private Sub FunTotalJumlahLooping(ByVal jumlahProductionPlan As Double, ByVal jumlah_out_pr As Double, ByVal Jumlah_out_po As Double, ByVal index As Integer, ByVal cells As Integer, ByVal KdBarang As String)
 
 		Dim EstJumlahStok As Double = 0
 
@@ -226,8 +304,17 @@ Public Class EMI_Transaksi_MaterialRequisition
 		DataGridView1.Rows(index).Cells(cells).Value = Format(EstJumlahStok - jumlahProductionPlan, "N2")
 
 		If cells = cellRequireStok_1 Then
-			'ListEndingStock.Add((KdBarang, (Val(HilangkanTanda(btn_bln0.Tag)) + 2).ToString("00"), "ENDING STOCK M1", Val(HilangkanTanda(EstJumlahStok - jumlahProductionPlan))))
-			ListEndingStock.Add((KdBarang, Bulan, "ENDING STOCK M1", Val(HilangkanTanda(EstJumlahStok - jumlahProductionPlan))))
+			ListEndingStock.Add((KdBarang, (Val(HilangkanTanda(btn_bln0.Tag)) + 2).ToString("00"), "ENDING STOCK M1", Val(HilangkanTanda(EstJumlahStok - jumlahProductionPlan))))
+		ElseIf cells = cellRequireStok_2 Then
+			ListEndingStock.Add((KdBarang, (Val(HilangkanTanda(btn_bln0.Tag)) + 3).ToString("00"), "ENDING STOCK M2", Val(HilangkanTanda(EstJumlahStok - jumlahProductionPlan))))
+		ElseIf cells = cellRequireStok_3 Then
+			ListEndingStock.Add((KdBarang, (Val(HilangkanTanda(btn_bln0.Tag)) + 4).ToString("00"), "ENDING STOCK M3", Val(HilangkanTanda(EstJumlahStok - jumlahProductionPlan))))
+		ElseIf cells = cellRequireStok_4 Then
+			ListEndingStock.Add((KdBarang, (Val(HilangkanTanda(btn_bln0.Tag)) + 5).ToString("00"), "ENDING STOCK M4", Val(HilangkanTanda(EstJumlahStok - jumlahProductionPlan))))
+		ElseIf cells = cellRequireStok_5 Then
+			ListEndingStock.Add((KdBarang, (Val(HilangkanTanda(btn_bln0.Tag)) + 6).ToString("00"), "ENDING STOCK M5", Val(HilangkanTanda(EstJumlahStok - jumlahProductionPlan))))
+		ElseIf cells = cellRequireStok_6 Then
+			ListEndingStock.Add((KdBarang, (Val(HilangkanTanda(btn_bln0.Tag)) + 7).ToString("00"), "ENDING STOCK M6", Val(HilangkanTanda(EstJumlahStok - jumlahProductionPlan))))
 		End If
 
 		estreq_awal = EstJumlahStok - (jumlahProductionPlan)
@@ -289,12 +376,33 @@ Public Class EMI_Transaksi_MaterialRequisition
 
 		LvOPRequesition_1 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellOPRequesition_1).Value)
 		LvOPOrder_1 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellOPOrder_1).Value)
+		LvRequireStok_1 = CekNothing(DataGridView1.Rows(No_Index).Cells(cellRequireStok_1).Value)
 
 		LvOPRequesition_2 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellOPRequesition_2).Value)
 		LvOPOrder_2 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellOPOrder_2).Value)
-
-		LvRequireStok_1 = CekNothing(DataGridView1.Rows(No_Index).Cells(cellRequireStok_1).Value)
 		LvRequireStok_2 = CekNothing(DataGridView1.Rows(No_Index).Cells(cellRequireStok_2).Value)
+
+		'3
+		LvOPRequesition_3 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellOPRequesition_3).Value)
+		LvOPOrder_3 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellOPOrder_3).Value)
+		LvRequireStok_3 = CekNothing(DataGridView1.Rows(No_Index).Cells(cellRequireStok_3).Value)
+
+		'4
+		LvOPRequesition_4 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellOPRequesition_4).Value)
+		LvOPOrder_4 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellOPOrder_4).Value)
+		LvRequireStok_4 = CekNothing(DataGridView1.Rows(No_Index).Cells(cellRequireStok_4).Value)
+
+		'5
+		LvOPRequesition_5 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellOPRequesition_5).Value)
+		LvOPOrder_5 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellOPOrder_5).Value)
+		LvRequireStok_5 = CekNothing(DataGridView1.Rows(No_Index).Cells(cellRequireStok_5).Value)
+
+		'6
+		LvOPRequesition_6 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellOPRequesition_6).Value)
+		LvOPOrder_6 = CekNothing(DataGridView1.Rows(No_Index).Cells(CellOPOrder_6).Value)
+		LvRequireStok_6 = CekNothing(DataGridView1.Rows(No_Index).Cells(cellRequireStok_6).Value)
+
+		LvEndingStokSebelumPRPO = CekNothing(DataGridView1.Rows(No_Index).Cells(cellEndingStokSebelumPRPO).Value)
 	End Sub
 
 	Private Sub getdata()
@@ -2439,37 +2547,67 @@ Public Class EMI_Transaksi_MaterialRequisition
 					DataGridView1.Columns(CellNPPIC_2).ReadOnly = False
 					DataGridView1.Columns(CellUrut_2).ReadOnly = True
 					DataGridView1.Columns(CellKosong_2).ReadOnly = True
-					'DataGridView1.Columns(CellNBom_3).ReadOnly = True
-					'DataGridView1.Columns(CellNPPIC_3).ReadOnly = False
-					'DataGridView1.Columns(CellUrut_3).ReadOnly = True
-					'DataGridView1.Columns(CellKosong_3).ReadOnly = True
-					'DataGridView1.Columns(CellNBom_4).ReadOnly = True
-					'DataGridView1.Columns(CellNPPIC_4).ReadOnly = False
-					'DataGridView1.Columns(CellUrut_4).ReadOnly = True
-					'DataGridView1.Columns(CellKosong_4).ReadOnly = True
-					'DataGridView1.Columns(CellNBom_5).ReadOnly = True
-					'DataGridView1.Columns(CellNPPIC_5).ReadOnly = False
-					'DataGridView1.Columns(CellUrut_5).ReadOnly = True
-					'DataGridView1.Columns(CellKosong_5).ReadOnly = True
-					'DataGridView1.Columns(CellNBom_6).ReadOnly = True
-					'DataGridView1.Columns(CellNPPIC_6).ReadOnly = False
-					'DataGridView1.Columns(CellUrut_6).ReadOnly = True
-					'DataGridView1.Columns(CellKosong_6).ReadOnly = True
+					DataGridView1.Columns(CellNBom_3).ReadOnly = True
+					DataGridView1.Columns(CellNPPIC_3).ReadOnly = False
+					DataGridView1.Columns(CellUrut_3).ReadOnly = True
+					DataGridView1.Columns(CellKosong_3).ReadOnly = True
+					DataGridView1.Columns(CellNBom_4).ReadOnly = True
+					DataGridView1.Columns(CellNPPIC_4).ReadOnly = False
+					DataGridView1.Columns(CellUrut_4).ReadOnly = True
+					DataGridView1.Columns(CellKosong_4).ReadOnly = True
+					DataGridView1.Columns(CellNBom_5).ReadOnly = True
+					DataGridView1.Columns(CellNPPIC_5).ReadOnly = False
+					DataGridView1.Columns(CellUrut_5).ReadOnly = True
+					DataGridView1.Columns(CellKosong_5).ReadOnly = True
+					DataGridView1.Columns(CellNBom_6).ReadOnly = True
+					DataGridView1.Columns(CellNPPIC_6).ReadOnly = False
+					DataGridView1.Columns(CellUrut_6).ReadOnly = True
+					DataGridView1.Columns(CellKosong_6).ReadOnly = True
 					DataGridView1.Columns(CellStatus).ReadOnly = True
 					DataGridView1.Columns(CellSatuanBarang).ReadOnly = True
 					DataGridView1.Columns(CellSatuanBarang).DisplayIndex = 3
 					DataGridView1.Columns(cellCarryOver).DisplayIndex = 10
 					DataGridView1.Columns(cellRequirmentStok).DisplayIndex = 11
 
+					DataGridView1.Columns(cellEndingStokSebelumPRPO).DisplayIndex = 7
+
 					DataGridView1.Columns(CellOPRequesition_1).DisplayIndex = 13
 					DataGridView1.Columns(CellOPOrder_1).DisplayIndex = 14
 					DataGridView1.Columns(cellRequireStok_1).DisplayIndex = 15
 
 					DataGridView1.Columns(CellNBom_2).DisplayIndex = 18
-
 					DataGridView1.Columns(CellOPRequesition_2).DisplayIndex = 19
 					DataGridView1.Columns(CellOPOrder_2).DisplayIndex = 20
 					DataGridView1.Columns(cellRequireStok_2).DisplayIndex = 21
+
+
+					'3
+					DataGridView1.Columns(CellNBom_3).DisplayIndex = 24
+					DataGridView1.Columns(CellOPRequesition_3).DisplayIndex = 25
+					DataGridView1.Columns(CellOPOrder_3).DisplayIndex = 26
+					DataGridView1.Columns(cellRequireStok_3).DisplayIndex = 27
+
+					'4
+					DataGridView1.Columns(CellNBom_4).DisplayIndex = 30
+					DataGridView1.Columns(CellOPRequesition_4).DisplayIndex = 31
+					DataGridView1.Columns(CellOPOrder_4).DisplayIndex = 32
+					DataGridView1.Columns(cellRequireStok_4).DisplayIndex = 33
+
+					'5
+					DataGridView1.Columns(CellNBom_5).DisplayIndex = 36
+					DataGridView1.Columns(CellOPRequesition_5).DisplayIndex = 37
+					DataGridView1.Columns(CellOPOrder_5).DisplayIndex = 38
+					DataGridView1.Columns(cellRequireStok_5).DisplayIndex = 39
+
+					'6
+					DataGridView1.Columns(CellNBom_6).DisplayIndex = 42
+					DataGridView1.Columns(CellOPRequesition_6).DisplayIndex = 43
+					DataGridView1.Columns(CellOPOrder_6).DisplayIndex = 44
+					DataGridView1.Columns(cellRequireStok_6).DisplayIndex = 45
+
+
+
+
 					CheckBox1.Enabled = False
 					Button1.Enabled = False
 					Btn_Simpan.Enabled = True
@@ -2644,7 +2782,162 @@ Public Class EMI_Transaksi_MaterialRequisition
 							 "Kode_perusahaan", KodePerusahaan,
 							 "And", "substring(No_Faktur, 1, " & Len(FPro_Results) + 4 & ")", FPro_Results & Format(tgl_skg, "MMyy"))
 	End Sub
+	Private Sub DataGridView1_CellMouseEnter(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellMouseEnter
+		' Cek jika mouse berada di HEADER kolom yang valid
+		If e.RowIndex = -1 AndAlso e.ColumnIndex >= 0 Then
 
+			If e.ColumnIndex <> lastHeaderColumnIndex Then
+				lastHeaderColumnIndex = e.ColumnIndex
+
+				Dim judulBalon As String = ""
+				Dim isiBalon As String = ""
+
+				' Ambil NAMA objek kolom
+				Dim namaKolom As String = DataGridView1.Columns(e.ColumnIndex).Name
+
+				Dim bulanTahun As String = ""
+				Dim headerText As String = DataGridView1.Columns(e.ColumnIndex).HeaderText
+				If headerText.Contains("-") Then
+					Dim potongan() As String = headerText.Split("-"c)
+
+					' Ambil tahun dari potongan paling terakhir
+					Dim tahun As String = potongan(potongan.Length - 1).Trim()
+
+					' Ambil bagian sebelum tahun, lalu pecah per spasi untuk ambil nama bulannya
+					Dim bagianKiri As String = potongan(potongan.Length - 2).Trim()
+					Dim kataBagianKiri() As String = bagianKiri.Split(" "c)
+					Dim bulan As String = kataBagianKiri(kataBagianKiri.Length - 1).Trim()
+
+					' Satukan jadi format: "Juni - 2026"
+					bulanTahun = bulan & " - " & tahun
+				End If
+
+				' PAKAI SELECT CASE BERDASARKAN NAMA KOLOM
+				Select Case namaKolom
+					Case "Column46"
+						judulBalon = "Finished PRD"
+						isiBalon = "PRD yang telah di GOOD ISSUE"
+
+					Case "Column45"
+						judulBalon = "Outstanding PRD"
+						isiBalon = "Production Plan yang sudah di buat Production Order"
+
+					Case "Column44"
+						judulBalon = "Outstanding Production Plan"
+						isiBalon = "Production plan yang sudah di schedule tetapi belum di buat Production Order"
+
+					Case "Column26"
+						judulBalon = "MRP"
+						isiBalon = "Jumlah Production Plan yang di butuhkan untuk bulan sekarang"
+
+					Case "Column4"
+						judulBalon = "Stok bahan Baku"
+						isiBalon = "Stok bahan baku yang berjalan sekarang di Gudang Warehouse"
+
+					Case "Column5"
+						judulBalon = "Outstanding PR"
+						isiBalon = "Outstanding Purchase Requisition berdasarkan Tanggal Delivery dibulan berjalan kebawah"
+
+					Case "Column6"
+						judulBalon = "Outstanding PO"
+						isiBalon = "Outstanding Purchase Order berdasrkan ETA dibulan berjalan kebawah"
+
+					Case "Column31"
+						judulBalon = "Ending Stok"
+						isiBalon = "Stok Akhir berdasrkan dari Stok Bahan Baku - Finished PRD - Oustanding PRD + Outstanding PR + Outstanding PO"
+
+					Case "Column8"
+						judulBalon = "PRODUCTION PLAN " & bulanTahun
+						isiBalon = "Production plan di bulan " & bulanTahun
+
+					Case "Column35"
+						judulBalon = "PR Outstanding " & bulanTahun
+						isiBalon = "Outstanding PR berdasarkan Tanggal Delivery di bulan " & bulanTahun
+
+					Case "Column36"
+						judulBalon = "PP Outstanding " & bulanTahun
+						isiBalon = "Outstanding PO berdasarkan Tanggal ETA di bulan " & bulanTahun
+
+					Case "Column40"
+						judulBalon = "PR Outstanding " & bulanTahun
+						isiBalon = "Outstanding PR berdasarkan Tanggal Delivery di bulan " & bulanTahun
+
+					Case "Column41"
+						judulBalon = "PO Outstanding " & bulanTahun
+						isiBalon = "Outstanding PO berdasarkan Tanggal ETA di bulan " & bulanTahun
+
+					Case "Column42"
+						judulBalon = "Ending Stok dibulan  " & bulanTahun
+						isiBalon = "ENDING Stok berdasrkan dari Stok Bahan Baku + Outstanding PR + Outstading PO di " & bulanTahun
+
+					Case "Column43"
+						judulBalon = "Ending Stok dibulan  " & bulanTahun
+						isiBalon = "ENDING Stok berdasrkan dari Stok Bahan Baku + Outstanding PR + Outstading PO di " & bulanTahun
+					Case "Column59"
+						judulBalon = "Ending Stok Sementara"
+						isiBalon = "Stok Akhir berdasrkan dari Stok Bahan Baku - Finished PRD - Oustanding PRD"
+					Case Else
+						judulBalon = DataGridView1.Columns(e.ColumnIndex).HeaderText
+						isiBalon = "Data " & judulBalon
+				End Select
+
+				' ==========================================================
+				' LOGIKA PEMBAGI KATA BIAR AUTO ENTER
+				' ==========================================================
+				Dim kata() As String = isiBalon.Split(" "c)
+				Dim teksHasil As String = ""
+				For i As Integer = 0 To kata.Length - 1
+					teksHasil &= kata(i) & " "
+					If (i + 1) Mod 6 = 0 Then
+						teksHasil &= vbCrLf
+					End If
+				Next
+				isiBalon = teksHasil.Trim()
+
+				' Hancurkan ToolTip lama agar fresh
+				If ToolTip1 IsNot Nothing Then
+					ToolTip1.Hide(DataGridView1)
+					ToolTip1.Dispose()
+				End If
+
+				' Buat ulang objek ToolTip baru
+				ToolTip1 = New ToolTip()
+				ToolTip1.ToolTipIcon = ToolTipIcon.Info
+				ToolTip1.ToolTipTitle = judulBalon
+				ToolTip1.AutoPopDelay = Int32.MaxValue
+
+				' Ambil kotak area header kolom
+				Dim headerRect As Rectangle = DataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, False)
+
+				Dim centerX As Integer = headerRect.Left + (headerRect.Width \ 2)
+				Dim centerY As Integer = headerRect.Bottom - 5
+
+				Dim sisaRuangKanan As Integer = DataGridView1.Width - headerRect.Left
+
+
+				If sisaRuangKanan < 420 Then
+					' --- UNTUK 3 KOLOM UJUNG KANAN ---
+					ToolTip1.IsBalloon = False ' Ubah jadi KOTAK biasa biar GAK PUNYA EKOR (Anti Meleset)
+
+					' Kita pakai centerX dan centerY biar posisinya ngunci pas di tengah bawah kolom!
+					ToolTip1.Show(isiBalon, DataGridView1, centerX, centerY)
+				Else
+					' --- UNTUK KOLOM NORMAL (SISA KOLOM SEBELAH KIRI) ---
+					ToolTip1.IsBalloon = True ' Tetap pakai BALON cakep
+
+					ToolTip1.Show(isiBalon, DataGridView1, centerX, centerY)
+				End If
+			End If
+
+		End If
+	End Sub
+	Private Sub DataGridView1_CellMouseLeave(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellMouseLeave
+		' JIKA mouse keluar dari area Header, langsung sembunyikan balonnya
+		If e.RowIndex = -1 Then
+			ToolTip1.Hide(DataGridView1)
+			lastHeaderColumnIndex = -1
+		End If
+	End Sub
 	Private Sub Master_Jenis_Hewan_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		My.Application.ChangeCulture("en-us")
 		My.Application.ChangeUICulture("en-us")
@@ -2652,6 +2945,17 @@ Public Class EMI_Transaksi_MaterialRequisition
 		For Each col As DataGridViewColumn In DataGridView1.Columns
 			col.SortMode = DataGridViewColumnSortMode.NotSortable
 		Next
+
+
+
+
+
+		ToolTip1.IsBalloon = True
+
+		ToolTip1.ToolTipIcon = ToolTipIcon.Info
+
+
+		DataGridView1.ShowCellToolTips = False
 
 		Dim dgvType As Type = DataGridView1.GetType()
 		Dim pi As PropertyInfo = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance Or BindingFlags.NonPublic)
@@ -2662,6 +2966,14 @@ Public Class EMI_Transaksi_MaterialRequisition
 		btn_bln0.Visible = False
 		btn_bln1.Visible = False
 		btn_bln1.Visible = False
+
+		btn_bln0.Size = New Size(132, 23)
+		btn_bln1.Size = New Size(132, 23)
+		btn_bln2.Size = New Size(132, 23)
+		btn_bln3.Size = New Size(132, 23)
+		btn_bln4.Size = New Size(132, 23)
+		btn_bln5.Size = New Size(132, 23)
+		btn_bln5.Size = New Size(132, 23)
 
 		DataGridView1.Columns(Cell0).HeaderText = "#"
 		DataGridView1.Columns(CellKd_Barang).HeaderText = "Kode Barang"
@@ -2679,21 +2991,21 @@ Public Class EMI_Transaksi_MaterialRequisition
 		DataGridView1.Columns(CellNPPIC_2).HeaderText = "PPIC - Production Plan "
 		DataGridView1.Columns(CellUrut_2).HeaderText = "2"
 		DataGridView1.Columns(CellKosong_2).HeaderText = ""
-		'DataGridView1.Columns(CellNBom_3).HeaderText = "BoM - Production Plan "
-		'DataGridView1.Columns(CellNPPIC_3).HeaderText = "PPIC - Production Plan "
-		'DataGridView1.Columns(CellUrut_3).HeaderText = "3"
-		'DataGridView1.Columns(CellKosong_3).HeaderText = ""
-		'DataGridView1.Columns(CellNBom_4).HeaderText = "BoM - Production Plan "
-		'DataGridView1.Columns(CellNPPIC_4).HeaderText = "PPIC - Production Plan "
-		'DataGridView1.Columns(CellUrut_4).HeaderText = "4"
-		'DataGridView1.Columns(CellKosong_4).HeaderText = ""
-		'DataGridView1.Columns(CellNBom_5).HeaderText = "BoM - Production Plan "
-		'DataGridView1.Columns(CellNPPIC_5).HeaderText = "PPIC - Production Plan "
-		'DataGridView1.Columns(CellUrut_5).HeaderText = "5"
-		'DataGridView1.Columns(CellKosong_5).HeaderText = ""
-		'DataGridView1.Columns(CellNBom_6).HeaderText = "BoM - Production Plan "
-		'DataGridView1.Columns(CellNPPIC_6).HeaderText = "PPIC - Production Plan "
-		'DataGridView1.Columns(CellUrut_6).HeaderText = "6"
+		DataGridView1.Columns(CellNBom_3).HeaderText = "BoM - Production Plan "
+		DataGridView1.Columns(CellNPPIC_3).HeaderText = "PPIC - Production Plan "
+		DataGridView1.Columns(CellUrut_3).HeaderText = "3"
+		DataGridView1.Columns(CellKosong_3).HeaderText = ""
+		DataGridView1.Columns(CellNBom_4).HeaderText = "BoM - Production Plan "
+		DataGridView1.Columns(CellNPPIC_4).HeaderText = "PPIC - Production Plan "
+		DataGridView1.Columns(CellUrut_4).HeaderText = "4"
+		DataGridView1.Columns(CellKosong_4).HeaderText = ""
+		DataGridView1.Columns(CellNBom_5).HeaderText = "BoM - Production Plan "
+		DataGridView1.Columns(CellNPPIC_5).HeaderText = "PPIC - Production Plan "
+		DataGridView1.Columns(CellUrut_5).HeaderText = "5"
+		DataGridView1.Columns(CellKosong_5).HeaderText = ""
+		DataGridView1.Columns(CellNBom_6).HeaderText = "BoM - Production Plan "
+		DataGridView1.Columns(CellNPPIC_6).HeaderText = "PPIC - Production Plan "
+		DataGridView1.Columns(CellUrut_6).HeaderText = "6"
 		DataGridView1.Columns(CellKosong_6).HeaderText = ""
 		'DataGridView1.Columns(CellReferensi).HeaderText = "Referensi"
 		DataGridView1.Columns(CellStatus).HeaderText = "Status"
@@ -4604,7 +4916,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 		btn_bln0.Tag = a.ToString("00") & "|" & fthn
 		btn_bln0.Enabled = True
 
-		For i As Integer = 1 To 2
+		For i As Integer = 1 To 6
 			' Perbarui nilai bulan dan tahun
 			If a = 12 Then
 				a = 1
@@ -4623,16 +4935,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 
 			Dim btn As System.Windows.Forms.Button = CType(Me.Controls("btn_bln" & i), System.Windows.Forms.Button)
 
-			' Temukan nama bulan yang sesuai
-			'For index = 0 To arrBulan.Count - 1
-			'	If arrBulan.Item(index) = a Then
-			'		b = ComboBox1.Items(index)
-			'		If i = 1 Then ' Hanya sekali untuk panggil_databulan di iterasi pertama
-			'			panggil_databulan = arrBulanMM.Item(index)
-			'			panggil_datatahun = fthn
-			'		End If
-			'	End If
-			'Next
+
 
 			Dim index_Bulan2 As Integer = arrBulan.IndexOf(a.ToString) ' LANGSUNG GUNAKAN INDEX OF DARIPADA LOOP 1 1
 			If index_Bulan2 <> -1 Then
@@ -4682,12 +4985,12 @@ Public Class EMI_Transaksi_MaterialRequisition
 
 				listFilter.Add("(a.bulan = " & a.ToString("00") & " AND a.tahun = " & fthn & ")")
 				Dim filterBulanTahun As String = String.Join(" OR ", listFilter)
-
+				'1
 				RefreshForecastingSemiFG(
 						KodePerusahaan,
 						filterBulanTahun,
-						"GET MRP",
-						UserID
+						UserID,
+						"GET MRP"
 				)
 				CloseConn()
 			Catch ex As Exception
@@ -4714,85 +5017,100 @@ Public Class EMI_Transaksi_MaterialRequisition
 			Arrbarang.Clear()
 			Arrlokasi.Clear()
 			ArrNama.Clear()
-			'    SQL = "select  e.Kode_Stock_Owner,e.Kode_Barang,c.Nama from EMI_Transaksi_Sales_Forecasting a,  "
-			'    SQL = SQL & "EMI_Transaksi_Sales_Forecasting_Detail b,barang c, Emi_Transaksi_Formulator d, EMI_Transaksi_Formulator_Detail_Bahan e "
-			'    SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur  "
-			'    SQL = SQL & "and e.Kode_Perusahaan = c.Kode_Perusahaan and e.Kode_Stock_Owner = c.Kode_Stock_Owner and e.Kode_Barang = c.Kode_Barang "
-			'    SQL = SQL & "and b.Kode_Perusahaan = d.Kode_Perusahaan and b.Kode_Formula = d.No_Faktur "
-			'    SQL = SQL & "and d.Kode_Perusahaan = e.Kode_Perusahaan and d.No_Faktur = e.No_Faktur "
-			'    SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "'  "
-			'    SQL = SQL & "and a.lokasi = '" & ComboBox3.Text & "' "
-			'    SQL = SQL & "and b.bulan = '" & panggil_databulan & "' and b.Tahun = '" & panggil_datatahun & "' "
-			'SQL = SQL & "and b.Flag_Validasi = 'Y' and b.Flag_Validasi_PPIC = 'Y'  "
-			'SQL = SQL & "group by e.Kode_Stock_Owner,e.Kode_Barang,c.Nama "
 
-			'SQL = "with cte as ("
-			'SQL = SQL & "SELECT e.Kode_Stock_Owner,e.Kode_Barang,c.Nama "
-			'SQL = SQL & "FROM EMI_Transaksi_Sales_Forecasting a "
-			'SQL = SQL & "INNER JOIN EMI_Transaksi_Sales_Forecasting_Detail b ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.No_Faktur = b.No_Faktur "
 
-			'SQL = SQL & "INNER JOIN Emi_Transaksi_Formulator d ON d.Kode_Perusahaan = b.Kode_Perusahaan AND d.No_Faktur =  b.Kode_Formula "
-			'SQL = SQL & "INNER JOIN EMI_Transaksi_Formulator_Detail_Bahan e ON d.Kode_Perusahaan = e.Kode_Perusahaan AND d.No_Faktur = e.No_Faktur "
-			'SQL = SQL & "INNER JOIN barang c ON e.Kode_Perusahaan = c.Kode_Perusahaan AND e.Kode_Stock_Owner = c.Kode_Stock_Owner AND e.Kode_Barang = c.Kode_Barang "
-			'SQL = SQL & "WHERE a.Kode_Perusahaan='" & KodePerusahaan & "' "
-			''SQL = SQL & "AND a.lokasi= '" & ComboBox3.Text & "' "
-			''SQL = SQL & "AND b.bulan in (" & listBulan & ") "
-			'SQL = SQL & "AND (" & filterSQL & ") "
-			'SQL = SQL & "AND b.Tahun='" & panggil_datatahun & "' "
-			'SQL = SQL & "AND b.Flag_Validasi='Y' "
-			'SQL = SQL & "AND b.Flag_Validasi_PPIC='Y' "
-			'SQL = SQL & "GROUP BY e.Kode_Stock_Owner,e.Kode_Barang,c.Nama "
 
-			'SQL = SQL & "Union all "
+			Dim pesan As String = ""
+			Dim tidakAdaFormula As Boolean = False ' True jika ditemukan ada yang Flag_Invalid = "Y"
 
-			'SQL = SQL & "SELECT e.Kode_Stock_Owner,e.Kode_Barang,c.Nama "
-			'SQL = SQL & "FROM EMI_Transaksi_Sales_Forecasting a "
-			'SQL = SQL & "INNER JOIN EMI_Transaksi_Sales_Forecasting_Detail b ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.No_Faktur = b.No_Faktur "
 
-			'SQL = SQL & "INNER JOIN Emi_Transaksi_Formulator d ON d.Kode_Perusahaan = b.Kode_Perusahaan  "
-			'SQL = SQL & "INNER JOIN EMI_Transaksi_Formulator_Detail_Bahan e ON d.Kode_Perusahaan = e.Kode_Perusahaan AND d.No_Faktur = e.No_Faktur "
-			'SQL = SQL & "INNER JOIN N_EMI_Production_Plan_Schedule_Detail f on b.kode_perusahaan =  f.kode_perusahaan and b.urut = f.urut_production_plan and f.kode_formula = d.no_faktur "
-			'SQL = SQL & "INNER JOIN N_EMI_Production_Plan_Schedule g on f.kode_perusahaan = g.kode_perusahaan and f.no_transaksi = g.no_transaksi and g.status is null "
-			'SQL = SQL & "INNER JOIN barang c ON e.Kode_Perusahaan = c.Kode_Perusahaan AND e.Kode_Stock_Owner = c.Kode_Stock_Owner AND e.Kode_Barang = c.Kode_Barang "
-			'SQL = SQL & "WHERE a.Kode_Perusahaan='" & KodePerusahaan & "' "
-			'SQL = SQL & "AND a.lokasi= '" & ComboBox3.Text & "' "
-			''SQL = SQL & "AND b.bulan in (" & listBulan & ") "
-			''SQL = SQL & "AND b.Tahun='" & panggil_datatahun & "' "
-			'SQL = SQL & "AND (" & filterSQL & ") "
-			'SQL = SQL & "AND b.Flag_Validasi='Y' "
-			'SQL = SQL & "AND b.Flag_Validasi_PPIC='Y' "
-			'SQL = SQL & "GROUP BY e.Kode_Stock_Owner,e.Kode_Barang,c.Nama ) "
 
-			'SQL = SQL & "select distinct Kode_Stock_Owner,Kode_Barang,Nama from cte "
+			Dim SQL As String = $"
+		with cte as  (
+		select distinct a.Kode_Perusahaan,kode_barang,nama,No_Faktur,Flag_Tampil_Production_Plan,  Flag_Raw_Material, Flag_Finished_Good, Flag_Invalid from Barang  a
+		inner join emi_Group_jenis b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Group_Jenis = b.Id_Group_Jenis
+		outer apply (
+			select top(1)  z.no_faktur,y.Flag_Invalid from N_EMI_Transaksi_Formulator_Binding x
+				inner join N_EMI_Transaksi_Formulator_Binding_Detail y  on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur
+				inner join  EMI_Transaksi_Formulator z on y.Kode_Perusahaan = z.Kode_Perusahaan and y.No_Formulator = z.No_Faktur
+							and z.Status is null
+			where x.Status is null
+			and x.Flag_Validasi_Main = 'Y'
+			and x.Kode_Perusahaan = a.Kode_Perusahaan  and x.Kode_Barang = a.Kode_Barang_Inq
+			and z.Flag_Validasi_Formula_Produksi_BOD = 'Y'
+			and y.No_Prioritas = 1
+			and a.Flag_Tampil_Production_Plan = 'Y'
+			and z.Flag_Deprecated_Binding is null
+			order by x.tanggal desc ,x.jam desc ,y.No_Prioritas asc
+		)   c
+		where a.Flag_Tampil_Production_Plan = 'Y'
+		)
+		select kode_perusahaan,kode_barang,nama,no_faktur,flag_tampil_production_plan,flag_invalid From cte a
+		where (flag_raw_material = 'Y' or Flag_Finished_Good =  'Y')
+		and kode_barang in (
+			select a.Kode_Barang from  EMI_Transaksi_Sales_Forecasting_Detail a
+					 inner join EMI_Transaksi_Sales_Forecasting b on a.Kode_Perusahaan = b.Kode_Perusahaan
+					 and a.No_Faktur = b.No_Faktur and b.Status is null
+			and a.Flag_Validasi_PPIC = 'Y'
+			AND ({filterSQL}) and a.kode_perusahaan = '{KodePerusahaan}'
+			)
+	"
 
-			'SQL = SQL & "Union all "
+			Using Dr = OpenTrans(SQL)
+				Do While Dr.Read()
+					If General_Class.CekNULL(Dr("flag_invalid")) = "Y" Then
+						tidakAdaFormula = True
 
-			'SQL = SQL & "Select d.Kode_Stock_Owner,c.Kode_Bahan As Kode_Barang,d.Nama from "
-			'SQL = SQL & "EMI_Transaksi_Sales_Forecasting a, EMI_Transaksi_Sales_Forecasting_Detail b, barang_detail_bahan_penolong c, barang d, barang e "
-			'SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan And a.No_Faktur = b.No_Faktur And b.Kode_Perusahaan = c.Kode_Perusahaan "
-			'SQL = SQL & "And b.Kode_Perusahaan=e.Kode_Perusahaan And b.Kode_barang=e.Kode_Barang And b.kode_stock_owner=e.kode_stock_owner "
-			'SQL = SQL & "And e.Kode_Barang_inq = c.Kode_Barang And c.Kode_Perusahaan = d.Kode_Perusahaan "
-			'SQL = SQL & " And c.Kode_Bahan = d.Kode_Barang And b.Kode_Stock_Owner = d.Kode_Stock_Owner And a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-			'SQL = SQL & "And a.lokasi = '" & ComboBox3.Text & "'  "
-			'SQL = SQL & "AND (" & filterSQL & ") "
-			'SQL = SQL & "and b.Flag_Validasi = 'Y' and b.Flag_Validasi_PPIC = 'Y'  "
-			'SQL = SQL & "group by d.Kode_Stock_Owner, c.Kode_Bahan, d.Nama "
+						pesan &= $"- {Dr("kode_barang")} ({Dr("nama")})" & Environment.NewLine
+					End If
+				Loop
+			End Using
 
-			'SQL = SQL & "order by nama "
+
+			If tidakAdaFormula = True Then
+				CloseTrans()
+				CloseConn()
+				Dim pesanLengkap As String = "Gagal menampilkan karena ada beberapa barang yang belum ada formula default : :" & Environment.NewLine & Environment.NewLine & pesan
+				MessageBox.Show(pesanLengkap, Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+				Exit Sub
+
+			End If
+
+
+
+
+
+
+
+
+			'Dim bolehlewat As Boolean = N_EMI_Fun_Cek_Formula_Default(filterSQL2, KodePerusahaan)
+
+			'' Jika statusAman bernilai False (berarti ada yang invalid dan MessageBox sudah muncul)
+			'If Not bolehlewat Then
+			'	CloseTrans()
+			'	CloseConn()
+			'	Exit Sub ' Stop transaksi di sini
+			'End If
+
+
+
 
 			SQL = $"
 					with cte as (
 
-					select distinct isnull((select top 1 c.No_Faktur
+					select distinct 
+					isnull((select top 1 c.No_Faktur
 					from N_EMI_Transaksi_Formulator_Binding a
 					inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
 					inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null
 					where a.Status is NULL
 					and a.Flag_Validasi_Main = 'Y'
+					and b.no_prioritas = 1
 					and a.Kode_Perusahaan = x.kode_perusahaan
 					and a.Kode_Barang = x.kode_barang_inq
 					order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC),'') as kode_formula, x.kode_barang_inq, x.kode_perusahaan
 					from barang x, emI_group_jenis y where x.kode_perusahaan=y.kode_perusahaan and x.id_group_jenis=y.id_group_jenis and (y.Flag_Finished_Good='Y' or y.Flag_Semi_FG='Y')
+				  
 
 					), cte_b as(
 
@@ -4807,6 +5125,9 @@ Public Class EMI_Transaksi_MaterialRequisition
 					WHERE a.Kode_Perusahaan='{KodePerusahaan}' AND a.lokasi= '{ComboBox3.Text}' AND ({filterSQL})
 					AND b.Flag_Validasi='Y'
 					AND b.Flag_Validasi_PPIC='Y'
+					
+					AND a.status is null 
+					and d.status is null
 					GROUP BY e.Kode_Stock_Owner,e.Kode_Barang,c.Nama, c.Kode_Perusahaan, c.Id_Group_Jenis
 
 					Union all
@@ -4816,12 +5137,20 @@ Public Class EMI_Transaksi_MaterialRequisition
 					INNER JOIN EMI_Transaksi_Sales_Forecasting_Detail b ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.No_Faktur = b.No_Faktur
 					INNER JOIN Emi_Transaksi_Formulator d ON d.Kode_Perusahaan = b.Kode_Perusahaan
 					INNER JOIN EMI_Transaksi_Formulator_Detail_Bahan e ON d.Kode_Perusahaan = e.Kode_Perusahaan AND d.No_Faktur = e.No_Faktur
+
+
 					INNER JOIN N_EMI_Production_Plan_Schedule_Detail f on b.kode_perusahaan =  f.kode_perusahaan and b.urut = f.urut_production_plan and f.kode_formula = d.no_faktur
 					INNER JOIN N_EMI_Production_Plan_Schedule g on f.kode_perusahaan = g.kode_perusahaan and f.no_transaksi = g.no_transaksi and g.status is null
+
+
+
 					INNER JOIN barang c ON e.Kode_Perusahaan = c.Kode_Perusahaan AND e.Kode_Stock_Owner = c.Kode_Stock_Owner AND e.Kode_Barang = c.Kode_Barang
 					WHERE a.Kode_Perusahaan='{KodePerusahaan}' AND a.lokasi= '{ComboBox3.Text}' AND ({filterSQL})
 					AND b.Flag_Validasi='Y'
 					AND b.Flag_Validasi_PPIC='Y'
+					and a.Status is null
+					and d.Status is null 
+					
 					GROUP BY e.Kode_Stock_Owner,e.Kode_Barang,c.Nama, c.Kode_Perusahaan, c.Id_Group_Jenis
 
 					)
@@ -4838,6 +5167,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 					And c.Kode_Bahan = d.Kode_Barang And b.Kode_Stock_Owner = d.Kode_Stock_Owner And
 					a.Kode_Perusahaan='{KodePerusahaan}' AND a.lokasi= '{ComboBox3.Text}' AND ({filterSQL})
 					and b.Flag_Validasi = 'Y' and b.Flag_Validasi_PPIC = 'Y'
+					and a.status is null 
 					group by d.Kode_Stock_Owner, c.Kode_Bahan, d.Nama
 
 					order by asal,nama
@@ -4863,6 +5193,8 @@ Public Class EMI_Transaksi_MaterialRequisition
 			CloseConn()
 			MessageBox.Show(ex.Message)
 			Exit Sub
+
+			End_Loading(Me)
 		End Try
 
 		Get_Barang_Rix(BulanAwal, panggil_datatahun, filterSQL2)
@@ -4904,25 +5236,13 @@ Public Class EMI_Transaksi_MaterialRequisition
 
 			Dim batas As Integer = CInt(tahunSaatIni) * 100 + CInt(bulanSaatIni)
 
-			'SQL = "SELECT kode_barang, "
 
-			'SQL = SQL & "ISNULL(SUM(jumlah),0) AS jumlah "
-
-			'SQL = SQL & "FROM N_EMI_View_Pemakaian_bahan "
-
-			'SQL = SQL & "WHERE kode_perusahaan = '" & KodePerusahaan & "' "
-
-			'SQL = SQL & "AND ( "
-			'SQL = SQL & "    (cast(tahun+'-'+bulan +'-01' as datetime) <= '" & tglAwalStr & "') "
-			'SQL = SQL & ") "
-
-			'SQL = SQL & "GROUP BY kode_barang"
 
 			SQL = "SELECT kode_barang, "
 			SQL = SQL & "ISNULL(SUM(jumlah),0) AS jumlah "
 			SQL = SQL & "FROM N_EMI_View_Pemakaian_bahan "
 			SQL = SQL & "WHERE kode_perusahaan = '" & KodePerusahaan & "' "
-			SQL = SQL & "AND (tahun * 100 + CAST(bulan AS INT)) <= " & batas & " "
+			SQL = SQL & "AND (tahun * 100 + CAST(bulan AS INT)) = " & batas & " "
 			SQL = SQL & "GROUP BY kode_barang"
 			Using ds = BindingTrans(SQL)
 				For i As Integer = 0 To ds.Tables("MyTable").Rows.Count - 1
@@ -4937,20 +5257,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 			Dim dtAkhir As Date = New Date(CInt(tahunSaatIni), CInt(bulanSaatIni), 1).AddMonths(3)
 			Dim akhir As Integer = dtAkhir.Year * 100 + dtAkhir.Month
 
-			' =========================
-			' PR (Tanggal_Delivery)
-			' =========================
-			'SQL = "SELECT kode_barang, bulan,  tahun, "
 
-			'SQL = SQL & "isnull(SUM(OutStanding_PR),0) AS total_pr "
-
-			'SQL = SQL & "FROM N_EMI_View_Material_Requirement_Planning "
-
-			'SQL = SQL & "WHERE kode_perusahaan = '" & KodePerusahaan & "' "
-			'SQL = SQL & "AND cast(tahun+'-'+bulan +'-01' as datetime) >= '" & tglAwalStr & "' "
-			'SQL = SQL & "AND cast(tahun+'-'+bulan +'-01' as datetime)< DATEADD(MONTH,3,'" & tglAwalStr & "') "
-
-			'SQL = SQL & "GROUP BY kode_barang, bulan,  tahun "
 
 			SQL = "SELECT kode_barang, bulan, tahun, "
 			SQL = SQL & "ISNULL(SUM(OutStanding_PR),0) AS total_pr "
@@ -4997,69 +5304,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 			Dim dictPR As New Dictionary(Of String, Double)
 			Dim dictPO As New Dictionary(Of String, Double)
 
-			'SQL = "SELECT kode_barang, "
 
-			'SQL = SQL & "ISNULL(SUM(OutStanding_PR),0) AS total_pr "
-
-			'SQL = SQL & "FROM N_EMI_View_Material_Requirement_Planning "
-
-			'SQL = SQL & "WHERE kode_perusahaan = '" & KodePerusahaan & "' "
-
-			'SQL = SQL & "AND ( "
-			'SQL = SQL & "    (cast(tahun+'-'+bulan +'-01' as datetime) <= '" & tglAwalStr & "') "
-			'SQL = SQL & ") "
-
-			'SQL = SQL & "GROUP BY kode_barang"
-
-			'SQL = "SELECT kode_barang, "
-
-			'SQL = SQL & "ISNULL(SUM(OutStanding_PR),0) AS total_pr "
-
-			'SQL = SQL & "FROM N_EMI_View_Material_Requirement_Planning "
-
-			'SQL = SQL & "WHERE kode_perusahaan = '" & KodePerusahaan & "' "
-
-			'SQL = SQL & "AND (tahun * 100 + CAST(bulan AS INT)) <= " & batas & " "
-
-			'SQL = SQL & "GROUP BY kode_barang"
-
-			'Using ds = BindingTrans(SQL)
-			'    For i As Integer = 0 To ds.Tables("MyTable").Rows.Count - 1
-			'        Dim kode As String = ds.Tables("MyTable").Rows(i)("kode_barang").ToString()
-			'        dictPR(kode) = Val(ds.Tables("MyTable").Rows(i)("total_pr"))
-
-			'    Next
-			'End Using
-
-			'' =========================
-			'' 🔥 PRELOAD 1: PR & PO (GLOBAL) — sudah ada, tetap dipakai
-			'' =========================
-
-			'SQL = "SELECT kode_barang, "
-
-			'SQL = SQL & "ISNULL(SUM(Outstanding_PO),0) AS total_po "
-
-			'SQL = SQL & "FROM N_EMI_View_Material_Requirement_Planning "
-
-			'SQL = SQL & "WHERE kode_perusahaan = '" & KodePerusahaan & "' "
-
-			'SQL = SQL & "AND ( "
-			'SQL = SQL & "    (cast(tahun+'-'+bulan +'-01' as datetime) <= '" & tglAwalStr & "') "
-			'SQL = SQL & ") "
-
-			'SQL = SQL & "GROUP BY kode_barang"
-
-			'SQL = "SELECT kode_barang, "
-
-			'SQL = SQL & "ISNULL(SUM(Outstanding_PO),0) AS total_po "
-
-			'SQL = SQL & "FROM N_EMI_View_Material_Requirement_Planning "
-
-			'SQL = SQL & "WHERE kode_perusahaan = '" & KodePerusahaan & "' "
-
-			'SQL = SQL & "AND (tahun * 100 + CAST(bulan AS INT)) <= " & batas & " "
-
-			'SQL = SQL & "GROUP BY kode_barang"
 
 			SQL = "SELECT kode_barang, "
 			SQL = SQL & "ISNULL(SUM(OutStanding_PR),0) AS total_pr, "
@@ -5078,14 +5323,6 @@ Public Class EMI_Transaksi_MaterialRequisition
 
 				Next
 			End Using
-
-			'Using ds = BindingTrans(SQL)
-			'    For i As Integer = 0 To ds.Tables("MyTable").Rows.Count - 1
-			'        Dim kode As String = ds.Tables("MyTable").Rows(i)("kode_barang").ToString()
-
-			'        dictPO(kode) = Val(ds.Tables("MyTable").Rows(i)("total_po"))
-			'    Next
-			'End Using
 
 			' =========================
 			' 🔥 PRELOAD 2: Info barang (satuan, good_stock, flag) — SATU QUERY untuk semua barang
@@ -5197,7 +5434,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 			Dim listBulan As New List(Of String)
 			Dim listTahun As New List(Of String)
 
-			For i As Integer = 0 To 2
+			For i As Integer = 0 To 6
 				Dim dt As Date = New Date(CInt(tahunSaatIni), CInt(bulanSaatIni), 1).AddMonths(i)
 				listBulan.Add(dt.Month.ToString("D2"))
 				listTahun.Add(dt.Year.ToString())
@@ -5214,148 +5451,203 @@ Public Class EMI_Transaksi_MaterialRequisition
 
 			Dim listErrorSatuan As New List(Of String)
 
-			'SQL = "WITH cte AS ( "
 
-			'SQL = SQL & " SELECT a.bulan,a.tahun,b.kode_Barang AS kode_fg, d.kode_barang AS Kode_Bahan, d.Nilai_Barang, d.satuan_barang,"
-			'SQL = SQL & " b.Kode_Formula,"
-			'SQL = SQL & " dbo.Ubah_Satuan(a.kode_perusahaan,'MASA',b.kode_Barang,b.satuan,e.satuan_berat,b.nilai_ppic-total_qty) AS nilai_ppic,"
-			'SQL = SQL & " dbo.Ubah_Satuan(a.kode_perusahaan,'MASA',b.kode_Barang,c.satuan_hasil,e.satuan_berat,c.hasil) AS nilai_Formula"
-
-			'SQL = SQL & " FROM emi_transaksi_sales_forecasting a"
-			'SQL = SQL & " INNER JOIN emi_transaksi_sales_forecasting_detail b ON a.Kode_Perusahaan=b.kode_Perusahaan AND a.no_faktur=b.no_faktur"
-			'SQL = SQL & " INNER JOIN emi_transaksi_formulator c ON b.Kode_Perusahaan=c.Kode_Perusahaan AND b.Kode_Formula=c.No_faktur"
-			'SQL = SQL & " INNER JOIN emi_transaksi_formulator_detail_Bahan d ON c.Kode_Perusahaan=d.Kode_Perusahaan AND c.no_faktur=d.no_faktur"
-			'SQL = SQL & " INNER JOIN init e ON a.kode_Perusahaan=e.kode_Perusahaan"
-
-			'SQL = SQL & " OUTER APPLY (SELECT isnull(SUM(f.Jumlah),0) AS total_qty FROM N_EMI_Production_Plan_Schedule_Detail f,  "
-			'SQL = SQL & " N_EMI_Production_Plan_Schedule g "
-			'SQL = SQL & "WHERE f.No_Transaksi = g.No_Transaksi and f.Kode_Perusahaan = g.Kode_Perusahaan "
-			'SQL = SQL & "and g.Status is null "
-			'SQL = SQL & " and   f.Kode_Perusahaan=b.Kode_Perusahaan AND f.Urut_Production_Plan=b.urut) f_sum"
-
-			'SQL = SQL & " WHERE a.status IS NULL AND b.Kode_Perusahaan='" & KodePerusahaan & "'"
-
-			'SQL = SQL & "AND (" & filterBulan & ") "
-			'SQL = SQL & " AND b.flag_validasi='Y' AND b.flag_validasi_PPIC='Y' AND c.status IS NULL"
-
-			'SQL = SQL & " UNION ALL"
-
-			'SQL = SQL & " SELECT a.bulan,a.tahun,b.kode_Barang AS kode_fg, d.kode_barang AS Kode_Bahan, d.Nilai_Barang, d.satuan_barang,"
-			'SQL = SQL & " f.Kode_Formula,"
-			'SQL = SQL & " dbo.Ubah_Satuan(a.kode_perusahaan,'MASA',b.kode_Barang,b.satuan,e.satuan_berat,f.Jumlah) AS nilai_ppic,"
-			'SQL = SQL & " dbo.Ubah_Satuan(a.kode_perusahaan,'MASA',b.kode_Barang,c.satuan_hasil,e.satuan_berat,c.hasil) AS nilai_Formula"
-
-			'SQL = SQL & " FROM emi_transaksi_sales_forecasting a"
-			'SQL = SQL & " INNER JOIN emi_transaksi_sales_forecasting_detail b ON a.Kode_Perusahaan=b.kode_Perusahaan AND a.no_faktur=b.no_faktur"
-			'SQL = SQL & " INNER JOIN N_EMI_Production_Plan_Schedule_Detail f ON f.Kode_Perusahaan=b.Kode_Perusahaan AND f.Urut_Production_Plan=b.urut"
-			'SQL = SQL & " INNER JOIN N_EMI_Production_Plan_Schedule g ON f.Kode_Perusahaan=g.Kode_Perusahaan AND f.No_Transaksi=g.No_Transaksi"
-			'SQL = SQL & " INNER JOIN emi_transaksi_formulator c ON f.Kode_Perusahaan=c.Kode_Perusahaan AND f.Kode_Formula=c.No_Faktur"
-			'SQL = SQL & " INNER JOIN emi_transaksi_formulator_detail_Bahan d ON c.Kode_Perusahaan=d.Kode_Perusahaan AND c.no_faktur=d.no_faktur"
-			'SQL = SQL & " INNER JOIN init e ON a.kode_Perusahaan=e.kode_Perusahaan"
-
-			'SQL = SQL & " WHERE a.status IS NULL AND b.Kode_Perusahaan='" & KodePerusahaan & "'"
-			'SQL = SQL & "AND (" & filterBulan & ") "
-			'SQL = SQL & " AND b.flag_validasi='Y' AND b.flag_validasi_PPIC='Y' AND c.status IS NULL AND g.Status IS NULL"
-
-			'SQL = SQL & " )"
-
-			'SQL = SQL & " SELECT cte.Kode_Bahan, cte.satuan_barang, cte.bulan, cte.tahun,"
-			'SQL = SQL & " ISNULL(SUM(ROUND(cte.Nilai_Barang*(cte.nilai_ppic/cte.nilai_Formula),2)),0) AS Nilai,"
-			'SQL = SQL & " bds.satuan AS satuan_display , "
-			'SQL = SQL & "CASE WHEN bds.satuan IS NULL THEN 1 ELSE 0 END AS flag_satuan_kosong "
-
-			'SQL = SQL & " FROM cte"
-			'SQL = SQL & " LEFT JOIN Barang_Detail_Satuan bds ON bds.kode_barang = cte.Kode_Bahan"
-			'SQL = SQL & " AND bds.kode_perusahaan = '" & KodePerusahaan & "' AND bds.flag_tampil_display = 'Y'"
-
-			'SQL = SQL & " GROUP BY cte.Kode_Bahan, cte.satuan_barang, cte.bulan, cte.tahun, bds.satuan"
 
 			SQL = $"
 
-					WITH cte AS (
+															WITH cte AS (SELECT DISTINCT ISNULL(f.No_Faktur, '') AS kode_formula,
 
-				   SELECT DISTINCT ISNULL(f.No_Faktur,'') AS kode_formula,
+																 x.kode_barang_inq,
+																 x.kode_perusahaan
+												 FROM barang x
+														  INNER JOIN emI_group_jenis y
+																	 ON x.kode_perusahaan = y.kode_perusahaan AND x.id_group_jenis = y.id_group_jenis
+														  OUTER APPLY (SELECT TOP 1 c.No_Faktur, flag_invalid
+																	   FROM N_EMI_Transaksi_Formulator_Binding a
+																				INNER JOIN N_EMI_Transaksi_Formulator_Binding_Detail b
+																						   ON a.Kode_Perusahaan = b.Kode_Perusahaan
+																							   AND a.No_Faktur = b.No_Faktur
+																				INNER JOIN Emi_Transaksi_Formulator c
+																						   ON b.Kode_Perusahaan = c.Kode_Perusahaan
+																							   AND b.No_Formulator = c.No_Faktur
+																							   AND c.Status IS NULL
+																	   WHERE a.Status IS NULL
+																		 AND a.Flag_Validasi_Main = 'Y'
+																		 AND a.Kode_Perusahaan = x.kode_perusahaan
+																		 AND a.Kode_Barang = x.kode_barang_inq
+																		 and c.Flag_Validasi_Formula_Produksi_BOD = 'Y'
+																		 and no_prioritas = 1
+																	   ORDER BY a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC) f
+												 WHERE (y.Flag_Finished_Good = 'Y' OR y.Flag_Semi_FG = 'Y')
+												   and flag_invalid is null),
+										 cte_b as (SELECT '1'           as dari,
+														  b.Kode_Barang,
+														  a.bulan,
+														  a.tahun,
+														  b.kode_Barang AS kode_fg,
+														  d.kode_barang AS Kode_Bahan,
+														  d.Nilai_Barang,
+														  d.satuan_barang,
+														  C.No_Faktur   as Kode_Formula,
+														  (b.nilai_ppic - f_sum_beda_formula.total_qty_beda_formula - f_sum_sudah_po.total_sudah_po) *
+														  bb.Berat /
+														  1000          AS nilai_ppic,
+														  c.hasil       AS nilai_Formula,
+														  z.Kode_Perusahaan,
+														  z.id_group_jenis
 
-					x.kode_barang_inq,x.kode_perusahaan  FROM barang x  INNER JOIN emI_group_jenis y ON x.kode_perusahaan=y.kode_perusahaan AND x.id_group_jenis=y.id_group_jenis
-					OUTER APPLY (
-						SELECT TOP 1 c.No_Faktur
-						FROM N_EMI_Transaksi_Formulator_Binding a
-						INNER JOIN N_EMI_Transaksi_Formulator_Binding_Detail b
-							ON a.Kode_Perusahaan=b.Kode_Perusahaan
-							AND a.No_Faktur=b.No_Faktur
-						INNER JOIN Emi_Transaksi_Formulator c
-							ON b.Kode_Perusahaan=c.Kode_Perusahaan
-							AND b.No_Formulator=c.No_Faktur
-							AND c.Status IS NULL
-						WHERE a.Status IS NULL
-							AND a.Flag_Validasi_Main='Y'
-							AND a.Kode_Perusahaan=x.kode_perusahaan
-							AND a.Kode_Barang=x.kode_barang_inq
-						ORDER BY a.Tanggal DESC,a.Jam DESC,b.No_Prioritas ASC
-					) f
-					WHERE (y.Flag_Finished_Good='Y' OR y.Flag_Semi_FG='Y')
+												   FROM emi_transaksi_sales_forecasting a
+															INNER JOIN emi_transaksi_sales_forecasting_detail b
+																	   ON a.Kode_Perusahaan = b.kode_Perusahaan AND a.no_faktur = b.no_faktur
+															INNER JOIN barang bb
+																	   ON b.kode_perusahaan = bb.kode_perusahaan and b.kode_barang = bb.kode_barang and
+																		  b.kode_stock_owner = bb.kode_stock_owner
+															INNER JOIN cte bc ON bb.kode_perusahaan = bc.kode_perusahaan and
+																				 bb.kode_barang_inq = bc.kode_barang_inq
+															INNER JOIN Emi_Transaksi_Formulator c
+																	   ON c.Kode_Perusahaan = bc.Kode_Perusahaan AND c.No_Faktur = bc.Kode_Formula
+															INNER JOIN emi_transaksi_formulator_detail_Bahan d
+																	   ON c.Kode_Perusahaan = d.Kode_Perusahaan AND c.no_faktur = d.no_faktur
+															INNER JOIN barang z
+																	   ON d.Kode_Perusahaan = z.Kode_Perusahaan and d.Kode_Barang = z.Kode_Barang and
+																		  d.Kode_Stock_Owner = z.Kode_Stock_Owner
 
-					), cte_b as(
 
-					SELECT a.bulan,a.tahun,b.kode_Barang AS kode_fg, d.kode_barang AS Kode_Bahan, d.Nilai_Barang, d.satuan_barang,
-					b.Kode_Formula,
-					(b.nilai_ppic-total_qty)*bb.Berat/1000 AS nilai_ppic,
-					c.hasil AS nilai_Formula, z.Kode_Perusahaan, z.id_group_jenis
+														   OUTER APPLY (SELECT ISNULL(SUM(f.Jumlah - ISNULL(po.Jumlah_PO, 0)), 0) AS total_qty_beda_formula
+                                     FROM N_EMI_Production_Plan_Schedule_Detail f
+                                              INNER JOIN N_EMI_Production_Plan_Schedule g
+                                                         ON f.No_Transaksi = g.No_Transaksi AND
+                                                            f.Kode_Perusahaan = g.Kode_Perusahaan
 
-					FROM emi_transaksi_sales_forecasting a
-					INNER JOIN emi_transaksi_sales_forecasting_detail b ON a.Kode_Perusahaan=b.kode_Perusahaan AND a.no_faktur=b.no_faktur
-					INNER JOIN barang bb ON b.kode_perusahaan=bb.kode_perusahaan and b.kode_barang=bb.kode_barang and b.kode_stock_owner=bb.kode_stock_owner
-					INNER JOIN cte bc ON bb.kode_perusahaan=bc.kode_perusahaan and bb.kode_barang_inq=bc.kode_barang_inq
-					INNER JOIN Emi_Transaksi_Formulator c ON c.Kode_Perusahaan = bc.Kode_Perusahaan AND c.No_Faktur =  bc.Kode_Formula
-					INNER JOIN emi_transaksi_formulator_detail_Bahan d ON c.Kode_Perusahaan=d.Kode_Perusahaan AND c.no_faktur=d.no_faktur
-					INNER JOIN barang z ON d.Kode_Perusahaan=z.Kode_Perusahaan and d.Kode_Barang=z.Kode_Barang and d.Kode_Stock_Owner=z.Kode_Stock_Owner
-					INNER JOIN init e ON a.kode_Perusahaan=e.kode_Perusahaan
+															  LEFT JOIN (SELECT Urut_Production_Schedule,
+																				Kode_Perusahaan,
+																				SUM(Jumlah) AS Jumlah_PO
+																		 FROM EMI_Order_Produksi
+																		 WHERE Status IS NULL
+																		 GROUP BY Urut_Production_Schedule, Kode_Perusahaan) po
+																		ON po.Urut_Production_Schedule = f.No_Urut AND
+																		   po.Kode_Perusahaan = f.Kode_Perusahaan
 
-					OUTER APPLY (SELECT isnull(SUM(f.Jumlah),0) AS total_qty FROM N_EMI_Production_Plan_Schedule_Detail f,
-					N_EMI_Production_Plan_Schedule g
-					WHERE f.No_Transaksi = g.No_Transaksi and f.Kode_Perusahaan = g.Kode_Perusahaan
-					and g.Status is null and flag_sudah_production_order is not null
-					and f.Kode_Perusahaan=b.Kode_Perusahaan AND f.Urut_Production_Plan=b.urut) f_sum
+													 WHERE g.Status IS NULL
+													  and  f.kode_formula is not null
+													   AND f.Kode_Perusahaan = b.Kode_Perusahaan
+													   AND f.Urut_Production_Plan = b.urut) f_sum_beda_formula
 
-					WHERE a.status IS NULL AND b.Kode_Perusahaan='{ KodePerusahaan }' AND ({filterBulan})
-					AND b.flag_validasi='Y' AND b.flag_validasi_PPIC='Y' AND c.status IS NULL
+										OUTER APPLY (select isnull(sum(y.Jumlah), 0) as total_sudah_po
+													 from N_EMI_Production_Plan_Schedule_Detail x,
+														  emi_order_produksi y,
+														  n_emi_production_plan_schedule z
+													 where x.Urut_Production_Plan = b.urut
+													   and x.Kode_Perusahaan = y.Kode_Perusahaan
+													   and x.No_Urut = y.Urut_Production_Schedule
+													   and y.Status is null
+													   and x.Urut_Production_Plan = b.urut
+													   and x.Kode_Perusahaan = z.Kode_Perusahaan
+													   and x.No_Transaksi = z.No_Transaksi
+													   and y.Status is null) f_sum_sudah_po
 
-					--UNION ALL
-					--
-					--SELECT a.bulan,a.tahun,b.kode_Barang AS kode_fg, d.kode_barang AS Kode_Bahan, d.Nilai_Barang, d.satuan_barang,
-					--f.Kode_Formula,
-					--f.Jumlah*bb.Berat/1000 AS nilai_ppic,
-					--c.hasil AS nilai_Formula, z.Kode_Perusahaan, z.id_group_jenis
-					--
-					--FROM emi_transaksi_sales_forecasting a
-					--INNER JOIN emi_transaksi_sales_forecasting_detail b ON a.Kode_Perusahaan=b.kode_Perusahaan AND a.no_faktur=b.no_faktur
-					--INNER JOIN barang bb ON b.kode_perusahaan=bb.kode_perusahaan and b.kode_barang=bb.kode_barang and b.kode_stock_owner=bb.kode_stock_owner
-					--INNER JOIN N_EMI_Production_Plan_Schedule_Detail f ON f.Kode_Perusahaan=b.Kode_Perusahaan AND f.Urut_Production_Plan=b.urut
-					--INNER JOIN N_EMI_Production_Plan_Schedule g ON f.Kode_Perusahaan=g.Kode_Perusahaan AND f.No_Transaksi=g.No_Transaksi
-					--INNER JOIN emi_transaksi_formulator c ON f.Kode_Perusahaan=c.Kode_Perusahaan AND f.Kode_Formula=c.No_Faktur
-					--INNER JOIN emi_transaksi_formulator_detail_Bahan d ON c.Kode_Perusahaan=d.Kode_Perusahaan AND c.no_faktur=d.no_faktur
-					--INNER JOIN barang z ON d.Kode_Perusahaan=z.Kode_Perusahaan and d.Kode_Barang=z.Kode_Barang and d.Kode_Stock_Owner=z.Kode_Stock_Owner
-					--INNER JOIN init e ON a.kode_Perusahaan=e.kode_Perusahaan
-					--
-					--WHERE a.status IS NULL AND b.Kode_Perusahaan='{ KodePerusahaan }' AND ({filterBulan})
-					--AND b.flag_validasi='Y' AND b.flag_validasi_PPIC='Y' AND c.status IS NULL AND g.Status IS NULL
+												   WHERE a.status IS NULL
+													 and a.status IS NULL
+											
+													 AND b.Kode_Perusahaan = '{ KodePerusahaan }'
+													 AND ({filterBulan})
+													 AND b.flag_validasi = 'Y'
+													 AND b.flag_validasi_PPIC = 'Y'
+													 AND c.status IS NULL
 
-					)
-					SELECT a.Kode_Bahan, a.satuan_barang, a.bulan, a.tahun,
-					ISNULL((ROUND(sum(a.Nilai_Barang*(a.nilai_ppic/a.nilai_Formula)),2)),0) AS Nilai,
-					b.satuan AS satuan_display ,
-					CASE WHEN b.satuan IS NULL THEN 1 ELSE 0 END AS flag_satuan_kosong
+												   UNION ALL
 
-					FROM cte_b a
-					INNER JOIN emi_group_jenis m ON a.kode_perusahaan=m.kode_perusahaan and a.id_group_jenis=m.id_group_jenis
-					LEFT JOIN Barang_Detail_Satuan b ON b.kode_barang = a.Kode_Bahan
-					AND b.kode_perusahaan = '001' AND b.flag_tampil_display = 'Y'
-					where m.flag_raw_material='Y'
+												   SELECT '2'                                                       as dari,
+														  b.Kode_Barang,
+														  a.bulan,
+														  a.tahun,
+														  b.kode_Barang                                             AS kode_fg,
+														  d.kode_barang                                             AS Kode_Bahan,
+														  d.Nilai_Barang,
+														  d.satuan_barang,
+														  f.Kode_Formula,
+														  isnull((f.Jumlah - k.Qty_PO), f.Jumlah) * bb.Berat / 1000 AS nilai_ppic,
+														  c.hasil                                                   AS nilai_Formula,
+														  z.Kode_Perusahaan,
+														  z.id_group_jenis
 
-					group by a.Kode_Bahan, a.satuan_barang, a.bulan, a.tahun,b.satuan
-					order by a.Bulan, a.tahun, a.Kode_Bahan
+												   FROM emi_transaksi_sales_forecasting a
+															INNER JOIN emi_transaksi_sales_forecasting_detail b
+																	   ON a.Kode_Perusahaan = b.kode_Perusahaan AND a.no_faktur = b.no_faktur
+															INNER JOIN barang bb
+																	   ON b.kode_perusahaan = bb.kode_perusahaan and b.kode_barang = bb.kode_barang and
+																		  b.kode_stock_owner = bb.kode_stock_owner
+															INNER JOIN N_EMI_Production_Plan_Schedule_Detail f
+																	   ON f.Kode_Perusahaan = b.Kode_Perusahaan AND f.Urut_Production_Plan = b.urut
+															INNER JOIN N_EMI_Production_Plan_Schedule g
+																	   ON f.Kode_Perusahaan = g.Kode_Perusahaan AND f.No_Transaksi = g.No_Transaksi
+																		   and g.Status is null
+															INNER JOIN emi_transaksi_formulator c
+																	   ON f.Kode_Perusahaan = c.Kode_Perusahaan AND f.Kode_Formula = c.No_Faktur
+																		   and c.Status is null
+															INNER JOIN emi_transaksi_formulator_detail_Bahan d
+																	   ON c.Kode_Perusahaan = d.Kode_Perusahaan AND c.no_faktur = d.no_faktur
+															INNER JOIN barang z
+																	   ON d.Kode_Perusahaan = z.Kode_Perusahaan and d.Kode_Barang = z.Kode_Barang and
+																		  d.Kode_Stock_Owner = z.Kode_Stock_Owner
+															INNER JOIN init e ON a.kode_Perusahaan = e.kode_Perusahaan
+															outer apply (select sum(xyz.Jumlah) as Qty_PO
+																		 from EMI_Order_Produksi xyz
+																		 where xyz.Kode_Perusahaan = f.Kode_Perusahaan
+																		   and xyz.Urut_Production_Schedule = f.No_Urut
+																		   and xyz.Status is null) k
+
+												   WHERE a.status IS NULL
+													 and a.status IS NULL
+													 AND b.Kode_Perusahaan = '{KodePerusahaan}'
+													 AND ({filterBulan})
+													 AND b.flag_validasi = 'Y'
+													 AND b.flag_validasi_PPIC = 'Y'
+													 AND c.status IS NULL
+													 AND g.Status IS NULL),
+										 hasil_grouping_formula as (SELECT a.Kode_Barang
+																			,
+																		   a.Kode_Bahan,
+																		   a.satuan_barang,
+																		   a.bulan,
+																		   a.tahun,
+																		   ISNULL(
+																				   (ROUND(sum(a.Nilai_Barang * (a.nilai_ppic / a.nilai_Formula)), 2)),
+																				   0)                                   AS Nilai,
+																		   b.satuan                                     AS satuan_display,
+																		   CASE WHEN b.satuan IS NULL THEN 1 ELSE 0 END AS flag_satuan_kosong
+
+																	FROM cte_b a
+																			 INNER JOIN emi_group_jenis m
+																						ON a.kode_perusahaan = m.kode_perusahaan and
+																						   a.id_group_jenis = m.id_group_jenis
+																			 LEFT JOIN Barang_Detail_Satuan b
+																					   ON b.kode_barang = a.Kode_Bahan
+																						   AND b.kode_perusahaan = '{KodePerusahaan}' AND
+																						  b.flag_tampil_display = 'Y'
+																	where m.flag_raw_material = 'Y'
+
+
+																	group by a.Kode_Bahan, a.satuan_barang, a.bulan, a.tahun, b.satuan,
+																			 a.Kode_Barang, a.Kode_Formula)
+									select Kode_Barang,
+										   Kode_Bahan,
+										   Satuan_barang,
+										   Bulan,
+										   a.tahun,
+										   ROUND(sum(a.Nilai), 2) as Nilai,
+										   satuan_display,
+										   flag_satuan_kosong
+									From hasil_grouping_formula a
+									group by Kode_Barang, Kode_Bahan, Satuan_barang, Bulan,
+											 a.tahun,
+											 satuan_display, flag_satuan_kosong
+
+									order by a.Bulan, a.tahun, a.Kode_Bahan
 
 					"
+
+
 			Dim listRM As New List(Of (kb As String, sb As String, sd As String, bln As String, thn As String, nilai As Double))
 
 			Using ds = BindingTrans(SQL)
@@ -5517,19 +5809,19 @@ Public Class EMI_Transaksi_MaterialRequisition
 				DataGridView1.Rows(ind).Cells(CellNBom_2).Style.BackColor = Color.LightYellow
 				DataGridView1.Rows(ind).Cells(CellNPPIC_2).Style.BackColor = Color.LightCyan
 				DataGridView1.Rows(ind).Cells(CellKosong_2).Style.BackColor = Color.LightGray
-				'DataGridView1.Rows(ind).Cells(CellNBom_3).Style.BackColor = Color.LightYellow
-				'DataGridView1.Rows(ind).Cells(CellNPPIC_3).Style.BackColor = Color.LightCyan
-				'DataGridView1.Rows(ind).Cells(CellKosong_3).Style.BackColor = Color.LightGray
-				'DataGridView1.Rows(ind).Cells(CellNBom_4).Style.BackColor = Color.LightYellow
-				'DataGridView1.Rows(ind).Cells(CellNPPIC_4).Style.BackColor = Color.LightCyan
-				'DataGridView1.Rows(ind).Cells(CellKosong_4).Style.BackColor = Color.LightGray
-				'DataGridView1.Rows(ind).Cells(CellNBom_5).Style.BackColor = Color.LightYellow
-				'DataGridView1.Rows(ind).Cells(CellNPPIC_5).Style.BackColor = Color.LightCyan
-				'DataGridView1.Rows(ind).Cells(CellKosong_5).Style.BackColor = Color.LightGray
-				'DataGridView1.Rows(ind).Cells(CellNBom_6).Style.BackColor = Color.LightYellow
-				'DataGridView1.Rows(ind).Cells(CellNPPIC_6).Style.BackColor = Color.LightCyan
-				'DataGridView1.Rows(ind).Cells(CellKosong_6).Style.BackColor = Color.LightGray
-				'DataGridView1.Rows(ind).Cells(CellStatus).Style.BackColor = Color.Yellow
+				DataGridView1.Rows(ind).Cells(CellNBom_3).Style.BackColor = Color.LightYellow
+				DataGridView1.Rows(ind).Cells(CellNPPIC_3).Style.BackColor = Color.LightCyan
+				DataGridView1.Rows(ind).Cells(CellKosong_3).Style.BackColor = Color.LightGray
+				DataGridView1.Rows(ind).Cells(CellNBom_4).Style.BackColor = Color.LightYellow
+				DataGridView1.Rows(ind).Cells(CellNPPIC_4).Style.BackColor = Color.LightCyan
+				DataGridView1.Rows(ind).Cells(CellKosong_4).Style.BackColor = Color.LightGray
+				DataGridView1.Rows(ind).Cells(CellNBom_5).Style.BackColor = Color.LightYellow
+				DataGridView1.Rows(ind).Cells(CellNPPIC_5).Style.BackColor = Color.LightCyan
+				DataGridView1.Rows(ind).Cells(CellKosong_5).Style.BackColor = Color.LightGray
+				DataGridView1.Rows(ind).Cells(CellNBom_6).Style.BackColor = Color.LightYellow
+				DataGridView1.Rows(ind).Cells(CellNPPIC_6).Style.BackColor = Color.LightCyan
+				DataGridView1.Rows(ind).Cells(CellKosong_6).Style.BackColor = Color.LightGray
+				DataGridView1.Rows(ind).Cells(CellStatus).Style.BackColor = Color.Yellow
 
 				DataGridView1.Rows(ind).Cells(CellNBom_1).ReadOnly = True
 				DataGridView1.Rows(ind).Cells(CellNBom_2).ReadOnly = True
@@ -5631,7 +5923,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 				Dim fthn As Integer = Val(ComboBox2.Text)
 				Dim b As String = ""
 
-				For i As Integer = 1 To 2
+				For i As Integer = 1 To 6
 					' Perbarui nilai bulan dan tahun
 					If a = 12 Then
 						a = 1
@@ -5645,6 +5937,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 						If arrBulan.Item(index) = a Then
 							b = arrBulanMM.Item(index)
 
+							Dim asdasdas As String = Arrbarang.Item(indexxx)
 							Load_Data_Perbulan1(info.flag_raw_material, info.flag_packaging, indexxx, b, fthn, ind, akses_ubah, "", i, dictSatuanDisplay, dictPRBulanan, dictPOBulanan, dictForecastRM, dictForecastPKG)
 							' Load_Data_Perbulan(Flag_Raw_Material, Flag_Packaging, indexxx, b, fthn, ind, akses_ubah, FValidasi, i, dictSatuanDisplay)
 						End If
@@ -5659,6 +5952,11 @@ Public Class EMI_Transaksi_MaterialRequisition
 			btn_bln0.Visible = True
 			btn_bln1.Visible = True
 			btn_bln2.Visible = True
+			btn_bln3.Visible = True
+			btn_bln4.Visible = True
+			btn_bln5.Visible = True
+			btn_bln6.Visible = True
+
 			CloseConn()
 		Catch ex As Exception
 			BtnExport.Visible = False
@@ -5666,6 +5964,10 @@ Public Class EMI_Transaksi_MaterialRequisition
 			btn_bln0.Visible = False
 			btn_bln1.Visible = False
 			btn_bln2.Visible = False
+			btn_bln3.Visible = False
+			btn_bln4.Visible = False
+			btn_bln5.Visible = False
+			btn_bln6.Visible = False
 			CloseConn()
 			MessageBox.Show(ex.Message)
 			Exit Sub
@@ -5677,6 +5979,10 @@ Public Class EMI_Transaksi_MaterialRequisition
 		btn_bln0.Visible = False
 		btn_bln1.Visible = False
 		btn_bln2.Visible = False
+		btn_bln3.Visible = False
+		btn_bln4.Visible = False
+		btn_bln5.Visible = False
+		btn_bln6.Visible = False
 		BtnExport.Visible = False
 
 		ListEndingStock.Clear()
@@ -5714,6 +6020,116 @@ Public Class EMI_Transaksi_MaterialRequisition
 		End If
 	End Sub
 
+	Dim bolehlewat As Boolean = True
+	Private Sub Cek_Barang(ByVal bulan As String, ByVal tahun As String)
+		Dim harusCekAkses As Boolean = True
+		Try
+			OpenConn()
+
+			If CekButtonRole("MRP_MINGGUAN") = "Y" Then
+				bolehlewat = True
+				harusCekAkses = False
+			End If
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+
+		If harusCekAkses Then
+			Try
+				OpenConn()
+				Cmd.Transaction = Cn.BeginTransaction
+
+				SQL = $"
+							WITH cte AS (
+						SELECT DISTINCT 
+							a.Kode_Perusahaan, 
+							a.Kode_Barang,
+							b.Bulan,
+							b.Tahun,
+							DAY(a.Tanggal_Full) AS Hari
+						FROM N_EMI_Production_Plan_Schedule_Detail a
+						INNER JOIN N_EMI_Production_Plan_Schedule b 
+							ON a.Kode_Perusahaan = b.Kode_Perusahaan AND a.No_Transaksi = b.No_Transaksi
+						WHERE b.Status IS NULL 
+							AND a.Jumlah <> 0
+							AND b.Kode_Perusahaan = '{KodePerusahaan}' 
+							AND b.Bulan = '{bulan}' 
+							AND b.Tahun = '{tahun}'
+					) 
+					SELECT 
+						COUNT(DISTINCT CASE WHEN a.Hari BETWEEN 1 AND 7 THEN a.Kode_Barang END) AS Jml_M1,
+						COUNT(DISTINCT CASE WHEN a.Hari BETWEEN 8 AND 14 THEN a.Kode_Barang END) AS Jml_M2,
+						COUNT(DISTINCT CASE WHEN a.Hari BETWEEN 15 AND 21 THEN a.Kode_Barang END) AS Jml_M3,
+						COUNT(DISTINCT CASE WHEN a.Hari >= 22 THEN a.Kode_Barang END) AS Jml_M4,
+    
+						ISNULL(b.Jumlah_Min_Release_Production_Plan, 0) AS Target_Min,
+
+						-- PERBAIKAN LOGIKA: Boleh 0, tapi kalau diisi wajib >= Target_Min
+						CASE 
+							WHEN (COUNT(DISTINCT CASE WHEN a.Hari BETWEEN 1 AND 7 THEN a.Kode_Barang END) = 0 OR COUNT(DISTINCT CASE WHEN a.Hari BETWEEN 1 AND 7 THEN a.Kode_Barang END) >= ISNULL(b.Jumlah_Min_Release_Production_Plan, 0))
+							 AND (COUNT(DISTINCT CASE WHEN a.Hari BETWEEN 8 AND 14 THEN a.Kode_Barang END) = 0 OR COUNT(DISTINCT CASE WHEN a.Hari BETWEEN 8 AND 14 THEN a.Kode_Barang END) >= ISNULL(b.Jumlah_Min_Release_Production_Plan, 0))
+							 AND (COUNT(DISTINCT CASE WHEN a.Hari BETWEEN 15 AND 21 THEN a.Kode_Barang END) = 0 OR COUNT(DISTINCT CASE WHEN a.Hari BETWEEN 15 AND 21 THEN a.Kode_Barang END) >= ISNULL(b.Jumlah_Min_Release_Production_Plan, 0))
+							 AND (COUNT(DISTINCT CASE WHEN a.Hari >= 22 THEN a.Kode_Barang END) = 0 OR COUNT(DISTINCT CASE WHEN a.Hari >= 22 THEN a.Kode_Barang END) >= ISNULL(b.Jumlah_Min_Release_Production_Plan, 0))
+							THEN 'Y'
+							ELSE 'T' 
+						END AS Boleh_Lewat
+					FROM Init b 
+					LEFT JOIN cte a ON b.Kode_Perusahaan = a.Kode_Perusahaan
+					WHERE b.Kode_Perusahaan = '{KodePerusahaan}'
+					GROUP BY b.Jumlah_Min_Release_Production_Plan
+			"
+				Using Dr = OpenTrans(SQL)
+					If Dr.Read Then
+						Do
+							If General_Class.CekNULL(Dr("boleh_lewat")) = "T" Then
+								Dr.Close()
+								CloseTrans()
+								CloseConn()
+								MessageBox.Show("Terdapat Data mingguan yang belum lengkap (kurang dari minimal tampil)", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+								bolehlewat = False
+								Exit Sub
+							Else
+								Dr.Close()
+								bolehlewat = True
+
+							End If
+
+						Loop While Dr.Read
+					Else
+						Dr.Close()
+						CloseTrans()
+						CloseConn()
+						bolehlewat = False
+						MessageBox.Show("Terjadi kesalahan pada pengecekan init data", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Exit Sub
+					End If
+				End Using
+
+
+
+
+
+				Cmd.Transaction.Commit()
+				CloseTrans()
+				CloseConn()
+			Catch ex As Exception
+				CloseTrans()
+				CloseConn()
+				MessageBox.Show(ex.Message)
+				Exit Sub
+			End Try
+		End If
+
+
+	End Sub
+
+
+
 	Private Sub btn_bln0_Click(sender As Object, e As EventArgs) Handles btn_bln0.Click
 
 		Dim btn As System.Windows.Forms.Button = CType(sender, System.Windows.Forms.Button)
@@ -5722,6 +6138,13 @@ Public Class EMI_Transaksi_MaterialRequisition
 		Dim arr() As String = btn.Tag.ToString().Split("|"c)
 		Dim bulan As String = arr(0)
 		Dim tahun As String = arr(1)
+
+
+
+		Cek_Barang(bulan, tahun)
+		If bolehlewat <> True Then
+			Exit Sub
+		End If
 
 		' kirim parameter ke form
 		With N_EMI_SD_Detail_Transaksi_MaterialRequisition
@@ -5742,6 +6165,12 @@ Public Class EMI_Transaksi_MaterialRequisition
 		Dim bulan As String = arr(0)
 		Dim tahun As String = arr(1)
 
+		Cek_Barang(bulan, tahun)
+		If bolehlewat <> True Then
+			Exit Sub
+		End If
+
+
 		' kirim parameter ke form
 		With N_EMI_SD_Detail_Transaksi_MaterialRequisition
 			.lokasi_mrp = ComboBox3.Text
@@ -5760,6 +6189,12 @@ Public Class EMI_Transaksi_MaterialRequisition
 		Dim arr() As String = btn.Tag.ToString().Split("|"c)
 		Dim bulan As String = arr(0)
 		Dim tahun As String = arr(1)
+
+
+		Cek_Barang(bulan, tahun)
+		If bolehlewat <> True Then
+			Exit Sub
+		End If
 
 		' kirim parameter ke form
 		With N_EMI_SD_Detail_Transaksi_MaterialRequisition
@@ -5957,6 +6392,101 @@ Public Class EMI_Transaksi_MaterialRequisition
 		ExportToExcel()
 	End Sub
 
+	Private Sub btn_bln3_Click(sender As Object, e As EventArgs) Handles btn_bln3.Click
+		Dim btn As System.Windows.Forms.Button = CType(sender, System.Windows.Forms.Button)
+
+		' ambil bulan & tahun dari Tag
+		Dim arr() As String = btn.Tag.ToString().Split("|"c)
+		Dim bulan As String = arr(0)
+		Dim tahun As String = arr(1)
+
+		Cek_Barang(bulan, tahun)
+		If bolehlewat <> True Then
+			Exit Sub
+		End If
+
+		' kirim parameter ke form
+		With N_EMI_SD_Detail_Transaksi_MaterialRequisition
+			.lokasi_mrp = ComboBox3.Text
+			.bulanSkrng = bulan
+			.tahunSkrng = tahun
+			.BulanKe = 4
+			.ListEndingStock = ListEndingStock
+			.ShowDialog()
+		End With
+	End Sub
+
+	Private Sub btn_bln4_Click(sender As Object, e As EventArgs) Handles btn_bln4.Click
+		Dim btn As System.Windows.Forms.Button = CType(sender, System.Windows.Forms.Button)
+
+		' ambil bulan & tahun dari Tag
+		Dim arr() As String = btn.Tag.ToString().Split("|"c)
+		Dim bulan As String = arr(0)
+		Dim tahun As String = arr(1)
+
+		Cek_Barang(bulan, tahun)
+		If bolehlewat <> True Then
+			Exit Sub
+		End If
+
+		' kirim parameter ke form
+		With N_EMI_SD_Detail_Transaksi_MaterialRequisition
+			.lokasi_mrp = ComboBox3.Text
+			.bulanSkrng = bulan
+			.tahunSkrng = tahun
+			.BulanKe = 5
+			.ListEndingStock = ListEndingStock
+			.ShowDialog()
+		End With
+	End Sub
+
+	Private Sub btn_bln5_Click(sender As Object, e As EventArgs) Handles btn_bln5.Click
+
+		Dim btn As System.Windows.Forms.Button = CType(sender, System.Windows.Forms.Button)
+
+		' ambil bulan & tahun dari Tag
+		Dim arr() As String = btn.Tag.ToString().Split("|"c)
+		Dim bulan As String = arr(0)
+		Dim tahun As String = arr(1)
+
+		Cek_Barang(bulan, tahun)
+		If bolehlewat <> True Then
+			Exit Sub
+		End If
+
+		' kirim parameter ke form
+		With N_EMI_SD_Detail_Transaksi_MaterialRequisition
+			.lokasi_mrp = ComboBox3.Text
+			.bulanSkrng = bulan
+			.tahunSkrng = tahun
+			.BulanKe = 6
+			.ListEndingStock = ListEndingStock
+			.ShowDialog()
+		End With
+	End Sub
+
+	Private Sub btn_bln6_Click(sender As Object, e As EventArgs) Handles btn_bln6.Click
+		Dim btn As System.Windows.Forms.Button = CType(sender, System.Windows.Forms.Button)
+
+		' ambil bulan & tahun dari Tag
+		Dim arr() As String = btn.Tag.ToString().Split("|"c)
+		Dim bulan As String = arr(0)
+		Dim tahun As String = arr(1)
+
+		Cek_Barang(bulan, tahun)
+
+		' kirim parameter ke form
+		With N_EMI_SD_Detail_Transaksi_MaterialRequisition
+			.lokasi_mrp = ComboBox3.Text
+			.bulanSkrng = bulan
+			.tahunSkrng = tahun
+			.BulanKe = 7
+			.ListEndingStock = ListEndingStock
+			.ShowDialog()
+		End With
+	End Sub
+
+
 	Public Sub Load_Data_Perbulan1(ByVal Flag_Raw_Material As String, ByVal Flag_Packaging As String, ByVal barangIndex As Integer, ByVal Bln As String, ByVal Thn As String, ByVal RowIndex As Integer, ByVal aksesUbah As String, ByVal FValidasi As String, ByVal bulanke As Integer, ByRef dictSatuanDisplay As Dictionary(Of String, String), ByRef dictPRBulanan As Dictionary(Of String, Double), ByRef dictPOBulanan As Dictionary(Of String, Double),
 								   ByRef dictRM As Dictionary(Of String, Double), ByRef dictPkg As Dictionary(Of String, Double))
 
@@ -5981,8 +6511,6 @@ Public Class EMI_Transaksi_MaterialRequisition
 		Dim cellRequireStok As Integer = dictRequireStok(bulanke)
 
 		'=============================== tampil data PR belum PO ==============================='
-
-#Region " asda"
 
 		'Dim totalPrBelumPOPerbarang As Double = 0
 		'Dim convertSatuanDisplayPr As String = ""
@@ -6078,8 +6606,6 @@ Public Class EMI_Transaksi_MaterialRequisition
 		'    End With
 		'End Using
 
-#End Region
-
 		Dim kodeBarang As String = Arrbarang.Item(barangIndex)
 
 		Dim key As String = kodeBarang & "|" & Bln & "|" & CInt(Thn)
@@ -6105,8 +6631,6 @@ Public Class EMI_Transaksi_MaterialRequisition
 		End If
 
 		DataGridView1.Rows(RowIndex).Cells(cellPOoutStanding).Value = Format(totalPRSudahPO, "N2")
-
-#Region "asda"
 
 		'If fstatus = "MRP_PPIC" Then
 
@@ -6173,8 +6697,6 @@ Public Class EMI_Transaksi_MaterialRequisition
 		'    End With
 		'End Using
 
-#End Region
-
 		If ada_data = "T" Then
 
 		End If
@@ -6195,9 +6717,6 @@ Public Class EMI_Transaksi_MaterialRequisition
 		End If
 
 		DataGridView1.Rows(RowIndex).Cells(cellNBom).Value = Format(nilai, "N2")
-
-#Region "asda"
-
 		'If Flag_Raw_Material = "Y" Then
 
 		'    SQL = "WITH cte AS ( "
@@ -6378,10 +6897,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 		'    End Using
 		'End If
 
-#End Region
-
-		Dim bulanssss As String = (Val(HilangkanTanda(btn_bln0.Tag)) + Bln).ToString("00")
-		FunTotalJumlahLooping(HilangkanTanda(HilangkanTanda(DataGridView1.Rows(RowIndex).Cells(cellNBom).Value)), totalPrBelumPOPerbarang, totalPRSudahPO, RowIndex, cellRequireStok, kodeBarang, bulanssss)
+		FunTotalJumlahLooping(HilangkanTanda(HilangkanTanda(DataGridView1.Rows(RowIndex).Cells(cellNBom).Value)), totalPrBelumPOPerbarang, totalPRSudahPO, RowIndex, cellRequireStok, kodeBarang)
 
 	End Sub
 

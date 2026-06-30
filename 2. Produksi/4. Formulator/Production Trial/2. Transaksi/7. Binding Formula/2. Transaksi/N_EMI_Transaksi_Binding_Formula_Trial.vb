@@ -1,12 +1,13 @@
 ﻿Public Class N_EMI_Transaksi_Binding_Formula_Trial
     Dim changeNotSaved As Boolean = False
     Dim selectedKodeBarang As String = ""
+    Dim selectedNamaBarang As String = ""
     Dim selectedFakturSusunan As String = ""
     Private lblValueMap As New Dictionary(Of String, Label)
 
     Private Sub N_EMI_Transaksi_Binding_Formula_Trial_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GB_InformasiSusunanFormula.Visible = True
-        GB_BuatSusunanFormula.Visible = False
+        GB_InformasiSusunanFormula.Visible = False
+        GB_BuatSusunanFormula.Visible = True
 
         Load_DGV_Barang()
 
@@ -385,6 +386,15 @@
             Exit Sub
         End Try
 
+        If DGV_SusunanFormula.Rows.Count > 0 Then
+            DGV_SusunanFormula.CurrentCell = DGV_SusunanFormula.Rows(0).Cells(0)
+            DGV_SusunanFormula.Rows(0).Selected = True
+
+            DGV_SusunanFormula_CellDoubleClick(
+                DGV_SusunanFormula,
+                New DataGridViewCellEventArgs(0, 0)
+            )
+        End If
     End Sub
 
     Private Sub Load_BuatSusunanFormula()
@@ -524,6 +534,7 @@
         Dim kodeBarang As String = DGV_Barang.Rows(e.RowIndex).Cells(0).Value.ToString()
         Dim namaBarang As String = DGV_Barang.Rows(e.RowIndex).Cells(1).Value.ToString()
         selectedKodeBarang = kodeBarang
+        selectedNamaBarang = namaBarang
 
         Show_InformasiBarang(kodeBarang, namaBarang)
 
@@ -602,7 +613,6 @@
             MessageBox.Show("Gagal load detail susunan formula: " & ex.Message, Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End Try
-
     End Sub
 
     Private Sub DGV_FormulaTerbinding_CellMouseEnter(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_FormulaTerbinding.CellMouseEnter
@@ -633,17 +643,44 @@
             Dim keterangan As String = DGV_FormulaTerbinding.Rows(e.RowIndex).Cells(2).Value.ToString()
 
             Dim result = MessageBox.Show(
-                $"Hapus Formula No {noFormula}?",
+                $"Anda akan menghapus Formula No. {noFormula}." & vbCrLf & vbCrLf &
+                "Tindakan ini tidak dapat dibatalkan dan formula yang dihapus tidak dapat digunakan kembali." & vbCrLf & vbCrLf &
+                "Apakah Anda yakin ingin melanjutkan?",
                 Judul,
                 MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2
             )
 
             If result = DialogResult.Yes Then
-
                 Try
                     OpenConn()
                     Cmd.Transaction = Cn.BeginTransaction
+
+                    'Cek dahulu apakah sudah dipakai di MRP
+                    SQL = $"
+                        SELECT TOP 1 No_Formula
+                        FROM N_EMI_Transaksi_Schedule_Formulator
+                        WHERE
+                            Kode_Perusahaan = '{KodePerusahaan}'
+                            AND No_Formula = '{noFormula}'
+                    "
+                    Using Dr = OpenTrans(SQL)
+                        If Dr.Read() Then
+                            Dr.Close()
+                            CloseTrans()
+                            CloseConn()
+
+                            MessageBox.Show(
+                                "Formula sudah digunakan pada Schedule Formulator sehingga tidak dapat dihapus.",
+                                Judul,
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation
+                            )
+
+                            Exit Sub
+                        End If
+                    End Using
 
                     SQL = $"UPDATE Emi_Transaksi_Formulator SET Flag_Deprecated_Binding = 'Y' WHERE Kode_Perusahaan = '{KodePerusahaan}' AND No_Faktur = '{noFormula}'"
                     ExecuteTrans(SQL)
@@ -658,12 +695,6 @@
                     Exit Sub
                 End Try
 
-                'Dim idx = DGV_FormulaTersedia.Rows.Add()
-
-                'DGV_FormulaTersedia.Rows(idx).Cells(0).Value = DGV_FormulaTerbinding.Rows(e.RowIndex).Cells(0).Value
-                'DGV_FormulaTersedia.Rows(idx).Cells(1).Value = DGV_FormulaTerbinding.Rows(e.RowIndex).Cells(1).Value
-                'DGV_FormulaTersedia.Rows(idx).Cells(2).Value = DGV_FormulaTerbinding.Rows(e.RowIndex).Cells(2).Value
-                'DGV_FormulaTersedia.Rows(idx).Cells(3).Value = "➕"
                 DGV_FormulaTerbinding.Rows.RemoveAt(e.RowIndex)
                 UpdateButtonState()
             End If
@@ -847,12 +878,66 @@
             Exit Sub
         End If
 
+        Dim FlagPermanent As String = "NULL"
+        Dim FlagExpired As String = "NULL"
+        Dim StartExpired As String = "NULL"
+        Dim EndExpired As String = "NULL"
         get_jam()
 
         Try
-
             OpenConn()
             Cmd.Transaction = Cn.BeginTransaction
+
+            Dim NoFormula As String = If(DGV_FormulaTerbinding.Rows(0).Cells(0).Value Is Nothing, "", DGV_FormulaTerbinding.Rows(0).Cells(0).Value.ToString().Trim())
+            Dim frmExp As New N_EMI_SD_Pengaturan_Expired_Formula
+
+            SQL = $"
+                SELECT TOP 1
+                    f.No_Faktur,
+                    f.Hasil,
+                    f.Satuan_Hasil
+                FROM EMI_Transaksi_Formulator f
+                WHERE
+                    f.Kode_Perusahaan = '{KodePerusahaan}'
+                    AND f.No_Faktur = '{NoFormula}'
+            "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read() Then
+                    With frmExp
+                        .NoFormula = General_Class.CekNULL(Dr("No_Faktur")).Trim()
+                        .KodeBarang = selectedKodeBarang
+                        .NamaBarang = selectedNamaBarang
+                        .QtyHasil = General_Class.CekNULL(Dr("Hasil")).Trim()
+                        .SatuanHasil = General_Class.CekNULL(Dr("Satuan_Hasil")).Trim()
+                    End With
+
+                    If frmExp.ShowDialog() <> DialogResult.OK Then
+                        Dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        Exit Sub
+                    End If
+
+                    If frmExp.JenisExpired = "Permanen" Then
+                        FlagPermanent = "'Y'"
+                    ElseIf frmExp.JenisExpired = "Sementara" Then
+                        FlagExpired = "'Y'"
+                        StartExpired = $"'{Format(frmExp.startExp, "yyyy-MM-dd HH:mm:ss")}'"
+                        EndExpired = $"'{Format(frmExp.endExp, "yyyy-MM-dd HH:mm:ss")}'"
+                    End If
+                Else
+                    CloseTrans()
+                    CloseConn()
+
+                    MessageBox.Show(
+                    "Data formula tidak ditemukan.",
+                    Judul,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation)
+
+                    Exit Sub
+                End If
+            End Using
 
             Dim NoFaktur As String = get_no_faktur()
             Dim KodeBarang As String = selectedKodeBarang
@@ -926,6 +1011,19 @@
                 Dim Keterangan As String =
                 If(row.Cells(2).Value Is Nothing, "", row.Cells(2).Value.ToString())
 
+                Dim sqlFlagPermanent As String = "NULL"
+                Dim sqlFlagExpired As String = "NULL"
+                Dim sqlStartExpired As String = "NULL"
+                Dim sqlEndExpired As String = "NULL"
+
+                'Setting expired hanya untuk formula prioritas pertama
+                If Prioritas = 1 Then
+                    sqlFlagPermanent = FlagPermanent
+                    sqlFlagExpired = FlagExpired
+                    sqlStartExpired = StartExpired
+                    sqlEndExpired = EndExpired
+                End If
+
                 SQL = $"
                     INSERT INTO N_EMI_Transaksi_Formulator_Binding_Detail
                     (
@@ -937,7 +1035,11 @@
                         Tanggal,
                         Jam,
                         UserID,
-                        Keterangan
+                        Keterangan,
+                        Flag_Permanent,
+                        Flag_Expired,
+                        Start_Expired,
+                        End_Expired
                     )
                     VALUES
                     (
@@ -949,10 +1051,13 @@
                         '{Tanggal}',
                         '{Jam}',
                         '{UserID}',
-                        '{Keterangan}'
+                        '{Keterangan}',
+                        {sqlFlagPermanent},
+                        {sqlFlagExpired},
+                        {sqlStartExpired},
+                        {sqlEndExpired}
                     )
                 "
-
                 ExecuteTrans(SQL)
 
                 Prioritas += 1
@@ -1125,6 +1230,11 @@
     End Sub
 
     Private Sub BTN_LihatSusunanFormula_Click(sender As Object, e As EventArgs) Handles BTN_LihatSusunanFormula.Click
+        If selectedKodeBarang = "" Then
+            MessageBox.Show("Silahkan pilih barang terlebih dahulu.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
         If changeNotSaved Then
             Dim result = MessageBox.Show(
                 "Perubahan belum disimpan. Lanjutkan?",
@@ -1144,9 +1254,20 @@
         LB_FormulaAktif.Visible = True
 
         Load_SusunanFormula()
+
+        BTN_LihatSusunanFormula.BackColor = Color.FromArgb(15, 86, 122)
+        BTN_LihatSusunanFormula.ForeColor = Color.FromArgb(255, 255, 255)
+
+        BTN_BuatSusunanFormula.BackColor = Color.FromArgb(255, 255, 255)
+        BTN_BuatSusunanFormula.ForeColor = Color.FromArgb(15, 86, 122)
     End Sub
 
     Private Sub BTN_BuatSusunanFormula_Click(sender As Object, e As EventArgs) Handles BTN_BuatSusunanFormula.Click
+        If selectedKodeBarang = "" Then
+            MessageBox.Show("Silahkan pilih barang terlebih dahulu.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
         GB_BuatSusunanFormula.Visible = True
         GB_InformasiSusunanFormula.Visible = False
         DGV_FormulaTerbinding.Rows.Clear()
@@ -1155,6 +1276,12 @@
         LB_FormulaAktif.Visible = False
 
         Load_BuatSusunanFormula()
+
+        BTN_LihatSusunanFormula.BackColor = Color.FromArgb(255, 255, 255)
+        BTN_LihatSusunanFormula.ForeColor = Color.FromArgb(15, 86, 122)
+
+        BTN_BuatSusunanFormula.BackColor = Color.FromArgb(15, 86, 122)
+        BTN_BuatSusunanFormula.ForeColor = Color.FromArgb(255, 255, 255)
     End Sub
 
     Private Sub NonaktifkanFormulaDefaultToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NonaktifkanFormulaDefaultToolStripMenuItem.Click
@@ -1186,6 +1313,7 @@
             CloseConn()
 
             DGV_DetailSusunanFormula.Rows(0).DefaultCellStyle.BackColor = Color.White
+            Show_InformasiBarang(selectedKodeBarang, selectedNamaBarang)
 
             MessageBox.Show($"Berhasil menonaktifkan formula default untuk faktur susunan '{selectedFakturSusunan}'", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception

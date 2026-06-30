@@ -58,6 +58,11 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Dim DataGridViewCellStyle66 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle67 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle68 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle69 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle70 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle71 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle72 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle73 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -119,6 +124,14 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Panel8 = New System.Windows.Forms.Panel()
         Me.Button3 = New System.Windows.Forms.Button()
+        Me.btn_bln0 = New System.Windows.Forms.Button()
+        Me.btn_bln1 = New System.Windows.Forms.Button()
+        Me.btn_bln2 = New System.Windows.Forms.Button()
+        Me.BtnExport = New System.Windows.Forms.Button()
+        Me.btn_bln3 = New System.Windows.Forms.Button()
+        Me.btn_bln4 = New System.Windows.Forms.Button()
+        Me.btn_bln5 = New System.Windows.Forms.Button()
+        Me.btn_bln6 = New System.Windows.Forms.Button()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -159,10 +172,23 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.DataGridViewTextBoxColumn38 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn39 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn40 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.btn_bln0 = New System.Windows.Forms.Button()
-        Me.btn_bln1 = New System.Windows.Forms.Button()
-        Me.btn_bln2 = New System.Windows.Forms.Button()
-        Me.BtnExport = New System.Windows.Forms.Button()
+        Me.DataGridViewTextBoxColumn41 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn42 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn43 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn44 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn45 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn46 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn47 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn48 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn49 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn50 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn51 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn52 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn53 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn54 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn55 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn56 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn57 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column13 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -209,6 +235,19 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Column44 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column45 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column46 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column47 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column48 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column49 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column50 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column51 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column52 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column53 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column54 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column55 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column56 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column57 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column58 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column59 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel8.SuspendLayout()
@@ -222,7 +261,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1278, 51)
+        Me.Panel1.Size = New System.Drawing.Size(1617, 51)
         Me.Panel1.TabIndex = 22
         '
         'PanelGradient1
@@ -235,7 +274,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 49)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1278, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1617, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label1
@@ -245,9 +284,9 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Label1.Location = New System.Drawing.Point(13, 9)
         Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(347, 25)
+        Me.Label1.Size = New System.Drawing.Size(222, 25)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Transaksi - Material Requisition"
+        Me.Label1.Text = "Material Requisition"
         '
         'Panel2
         '
@@ -272,7 +311,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Red
-        Me.Panel5.Location = New System.Drawing.Point(1459, 53)
+        Me.Panel5.Location = New System.Drawing.Point(1798, 33)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(19, 566)
@@ -327,11 +366,11 @@ Partial Class EMI_Transaksi_MaterialRequisition
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column13, Me.Column1, Me.Column2, Me.Column3, Me.Column26, Me.Column4, Me.Column5, Me.Column6, Me.Column7, Me.Column8, Me.Column11, Me.Column9, Me.Column12, Me.Column14, Me.Column17, Me.Column10, Me.Column18, Me.Column19, Me.Column22, Me.Column15, Me.Column23, Me.Column24, Me.Column27, Me.Column16, Me.Column28, Me.Column29, Me.Column32, Me.Column20, Me.Column33, Me.Column34, Me.Column37, Me.Column21, Me.Column38, Me.Column39, Me.Column25, Me.Column30, Me.Column31, Me.Column35, Me.Column36, Me.Column40, Me.Column41, Me.Column42, Me.Column43, Me.Column44, Me.Column45, Me.Column46})
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column13, Me.Column1, Me.Column2, Me.Column3, Me.Column26, Me.Column4, Me.Column5, Me.Column6, Me.Column7, Me.Column8, Me.Column11, Me.Column9, Me.Column12, Me.Column14, Me.Column17, Me.Column10, Me.Column18, Me.Column19, Me.Column22, Me.Column15, Me.Column23, Me.Column24, Me.Column27, Me.Column16, Me.Column28, Me.Column29, Me.Column32, Me.Column20, Me.Column33, Me.Column34, Me.Column37, Me.Column21, Me.Column38, Me.Column39, Me.Column25, Me.Column30, Me.Column31, Me.Column35, Me.Column36, Me.Column40, Me.Column41, Me.Column42, Me.Column43, Me.Column44, Me.Column45, Me.Column46, Me.Column47, Me.Column48, Me.Column49, Me.Column50, Me.Column51, Me.Column52, Me.Column53, Me.Column54, Me.Column55, Me.Column56, Me.Column57, Me.Column58, Me.Column59})
         Me.DataGridView1.Location = New System.Drawing.Point(22, 122)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RowHeadersWidth = 51
-        Me.DataGridView1.Size = New System.Drawing.Size(1235, 460)
+        Me.DataGridView1.Size = New System.Drawing.Size(1574, 460)
         Me.DataGridView1.TabIndex = 379
         '
         'TxtBarangMasuk_NoFaktur
@@ -340,7 +379,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.TxtBarangMasuk_NoFaktur.Enabled = False
         Me.TxtBarangMasuk_NoFaktur.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtBarangMasuk_NoFaktur.ForeColor = System.Drawing.SystemColors.Window
-        Me.TxtBarangMasuk_NoFaktur.Location = New System.Drawing.Point(1270, 98)
+        Me.TxtBarangMasuk_NoFaktur.Location = New System.Drawing.Point(1609, 78)
         Me.TxtBarangMasuk_NoFaktur.MaxLength = 20
         Me.TxtBarangMasuk_NoFaktur.Name = "TxtBarangMasuk_NoFaktur"
         Me.TxtBarangMasuk_NoFaktur.ReadOnly = True
@@ -352,7 +391,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label2.Location = New System.Drawing.Point(1155, 100)
+        Me.Label2.Location = New System.Drawing.Point(1414, 204)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(96, 17)
         Me.Label2.TabIndex = 382
@@ -363,7 +402,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         '
         Me.DateTimePicker1.CustomFormat = "dd MMMM yyyy"
         Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker1.Location = New System.Drawing.Point(1561, 100)
+        Me.DateTimePicker1.Location = New System.Drawing.Point(1277, 249)
         Me.DateTimePicker1.Name = "DateTimePicker1"
         Me.DateTimePicker1.Size = New System.Drawing.Size(211, 20)
         Me.DateTimePicker1.TabIndex = 381
@@ -373,7 +412,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
-        Me.Label3.Location = New System.Drawing.Point(1496, 100)
+        Me.Label3.Location = New System.Drawing.Point(1475, 201)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(60, 17)
         Me.Label3.TabIndex = 380
@@ -383,7 +422,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         'Button1
         '
         Me.Button1.Enabled = False
-        Me.Button1.Location = New System.Drawing.Point(1143, 72)
+        Me.Button1.Location = New System.Drawing.Point(1448, 201)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(108, 23)
         Me.Button1.TabIndex = 388
@@ -455,7 +494,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.CheckBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.CheckBox1.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.CheckBox1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.CheckBox1.Location = New System.Drawing.Point(1049, 99)
+        Me.CheckBox1.Location = New System.Drawing.Point(1429, 201)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(93, 24)
         Me.CheckBox1.TabIndex = 395
@@ -505,7 +544,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         'Panel7
         '
         Me.Panel7.BackColor = System.Drawing.Color.Red
-        Me.Panel7.Location = New System.Drawing.Point(1258, 71)
+        Me.Panel7.Location = New System.Drawing.Point(1597, 51)
         Me.Panel7.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(19, 565)
@@ -521,7 +560,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Panel8.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.Panel8.Location = New System.Drawing.Point(0, 557)
         Me.Panel8.Name = "Panel8"
-        Me.Panel8.Size = New System.Drawing.Size(1278, 37)
+        Me.Panel8.Size = New System.Drawing.Size(1617, 37)
         Me.Panel8.TabIndex = 403
         Me.Panel8.Visible = False
         '
@@ -533,6 +572,85 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Button3.TabIndex = 404
         Me.Button3.Text = "Get"
         Me.Button3.UseVisualStyleBackColor = True
+        '
+        'btn_bln0
+        '
+        Me.btn_bln0.Location = New System.Drawing.Point(643, 94)
+        Me.btn_bln0.Name = "btn_bln0"
+        Me.btn_bln0.Size = New System.Drawing.Size(132, 23)
+        Me.btn_bln0.TabIndex = 405
+        Me.btn_bln0.Text = "Detail Bulan 4"
+        Me.btn_bln0.UseVisualStyleBackColor = True
+        Me.btn_bln0.Visible = False
+        '
+        'btn_bln1
+        '
+        Me.btn_bln1.Location = New System.Drawing.Point(781, 94)
+        Me.btn_bln1.Name = "btn_bln1"
+        Me.btn_bln1.Size = New System.Drawing.Size(132, 23)
+        Me.btn_bln1.TabIndex = 408
+        Me.btn_bln1.Text = "Detail Bulan 5"
+        Me.btn_bln1.UseVisualStyleBackColor = True
+        Me.btn_bln1.Visible = False
+        '
+        'btn_bln2
+        '
+        Me.btn_bln2.Location = New System.Drawing.Point(915, 94)
+        Me.btn_bln2.Name = "btn_bln2"
+        Me.btn_bln2.Size = New System.Drawing.Size(132, 23)
+        Me.btn_bln2.TabIndex = 409
+        Me.btn_bln2.Text = "Detail Bulan 6"
+        Me.btn_bln2.UseVisualStyleBackColor = True
+        Me.btn_bln2.Visible = False
+        '
+        'BtnExport
+        '
+        Me.BtnExport.Location = New System.Drawing.Point(527, 94)
+        Me.BtnExport.Name = "BtnExport"
+        Me.BtnExport.Size = New System.Drawing.Size(108, 23)
+        Me.BtnExport.TabIndex = 410
+        Me.BtnExport.Text = "Export"
+        Me.BtnExport.UseVisualStyleBackColor = True
+        '
+        'btn_bln3
+        '
+        Me.btn_bln3.Location = New System.Drawing.Point(1050, 94)
+        Me.btn_bln3.Name = "btn_bln3"
+        Me.btn_bln3.Size = New System.Drawing.Size(132, 23)
+        Me.btn_bln3.TabIndex = 411
+        Me.btn_bln3.Text = "Detail Bulan 7"
+        Me.btn_bln3.UseVisualStyleBackColor = True
+        Me.btn_bln3.Visible = False
+        '
+        'btn_bln4
+        '
+        Me.btn_bln4.Location = New System.Drawing.Point(1188, 94)
+        Me.btn_bln4.Name = "btn_bln4"
+        Me.btn_bln4.Size = New System.Drawing.Size(132, 23)
+        Me.btn_bln4.TabIndex = 412
+        Me.btn_bln4.Text = "Detail Bulan 8"
+        Me.btn_bln4.UseVisualStyleBackColor = True
+        Me.btn_bln4.Visible = False
+        '
+        'btn_bln5
+        '
+        Me.btn_bln5.Location = New System.Drawing.Point(1323, 94)
+        Me.btn_bln5.Name = "btn_bln5"
+        Me.btn_bln5.Size = New System.Drawing.Size(132, 23)
+        Me.btn_bln5.TabIndex = 413
+        Me.btn_bln5.Text = "Detail Bulan 9"
+        Me.btn_bln5.UseVisualStyleBackColor = True
+        Me.btn_bln5.Visible = False
+        '
+        'btn_bln6
+        '
+        Me.btn_bln6.Location = New System.Drawing.Point(1458, 94)
+        Me.btn_bln6.Name = "btn_bln6"
+        Me.btn_bln6.Size = New System.Drawing.Size(132, 23)
+        Me.btn_bln6.TabIndex = 414
+        Me.btn_bln6.Text = "Detail Bulan 10"
+        Me.btn_bln6.UseVisualStyleBackColor = True
+        Me.btn_bln6.Visible = False
         '
         'DataGridViewTextBoxColumn1
         '
@@ -564,6 +682,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.DataGridViewTextBoxColumn3.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
         Me.DataGridViewTextBoxColumn3.ReadOnly = True
+        Me.DataGridViewTextBoxColumn3.Visible = False
         Me.DataGridViewTextBoxColumn3.Width = 110
         '
         'DataGridViewTextBoxColumn4
@@ -878,6 +997,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.DataGridViewTextBoxColumn34.HeaderText = "Satuan"
         Me.DataGridViewTextBoxColumn34.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn34.Name = "DataGridViewTextBoxColumn34"
+        Me.DataGridViewTextBoxColumn34.ReadOnly = True
         Me.DataGridViewTextBoxColumn34.Width = 80
         '
         'DataGridViewTextBoxColumn35
@@ -887,6 +1007,7 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.DataGridViewTextBoxColumn35.HeaderText = "Carry Over"
         Me.DataGridViewTextBoxColumn35.Name = "DataGridViewTextBoxColumn35"
         Me.DataGridViewTextBoxColumn35.ReadOnly = True
+        Me.DataGridViewTextBoxColumn35.Visible = False
         Me.DataGridViewTextBoxColumn35.Width = 110
         '
         'DataGridViewTextBoxColumn36
@@ -930,44 +1051,120 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.DataGridViewTextBoxColumn40.Name = "DataGridViewTextBoxColumn40"
         Me.DataGridViewTextBoxColumn40.ReadOnly = True
         '
-        'btn_bln0
+        'DataGridViewTextBoxColumn41
         '
-        Me.btn_bln0.Location = New System.Drawing.Point(643, 94)
-        Me.btn_bln0.Name = "btn_bln0"
-        Me.btn_bln0.Size = New System.Drawing.Size(108, 23)
-        Me.btn_bln0.TabIndex = 405
-        Me.btn_bln0.Text = "Detail Bulan 4"
-        Me.btn_bln0.UseVisualStyleBackColor = True
-        Me.btn_bln0.Visible = False
+        DataGridViewCellStyle69.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn41.DefaultCellStyle = DataGridViewCellStyle69
+        Me.DataGridViewTextBoxColumn41.HeaderText = "Requirement Stok Awal"
+        Me.DataGridViewTextBoxColumn41.Name = "DataGridViewTextBoxColumn41"
+        Me.DataGridViewTextBoxColumn41.ReadOnly = True
         '
-        'btn_bln1
+        'DataGridViewTextBoxColumn42
         '
-        Me.btn_bln1.Location = New System.Drawing.Point(757, 94)
-        Me.btn_bln1.Name = "btn_bln1"
-        Me.btn_bln1.Size = New System.Drawing.Size(108, 23)
-        Me.btn_bln1.TabIndex = 408
-        Me.btn_bln1.Text = "Detail Bulan 5"
-        Me.btn_bln1.UseVisualStyleBackColor = True
-        Me.btn_bln1.Visible = False
+        DataGridViewCellStyle70.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn42.DefaultCellStyle = DataGridViewCellStyle70
+        Me.DataGridViewTextBoxColumn42.HeaderText = "Requirement Stok Kedua"
+        Me.DataGridViewTextBoxColumn42.Name = "DataGridViewTextBoxColumn42"
+        Me.DataGridViewTextBoxColumn42.ReadOnly = True
         '
-        'btn_bln2
+        'DataGridViewTextBoxColumn43
         '
-        Me.btn_bln2.Location = New System.Drawing.Point(871, 94)
-        Me.btn_bln2.Name = "btn_bln2"
-        Me.btn_bln2.Size = New System.Drawing.Size(108, 23)
-        Me.btn_bln2.TabIndex = 409
-        Me.btn_bln2.Text = "Detail Bulan 6"
-        Me.btn_bln2.UseVisualStyleBackColor = True
-        Me.btn_bln2.Visible = False
+        DataGridViewCellStyle71.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn43.DefaultCellStyle = DataGridViewCellStyle71
+        Me.DataGridViewTextBoxColumn43.HeaderText = "Outstanding Production Plan"
+        Me.DataGridViewTextBoxColumn43.Name = "DataGridViewTextBoxColumn43"
+        Me.DataGridViewTextBoxColumn43.ReadOnly = True
+        Me.DataGridViewTextBoxColumn43.Width = 110
         '
-        'BtnExport
+        'DataGridViewTextBoxColumn44
         '
-        Me.BtnExport.Location = New System.Drawing.Point(527, 94)
-        Me.BtnExport.Name = "BtnExport"
-        Me.BtnExport.Size = New System.Drawing.Size(108, 23)
-        Me.BtnExport.TabIndex = 410
-        Me.BtnExport.Text = "Export"
-        Me.BtnExport.UseVisualStyleBackColor = True
+        DataGridViewCellStyle72.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn44.DefaultCellStyle = DataGridViewCellStyle72
+        Me.DataGridViewTextBoxColumn44.HeaderText = "Outstanding PRD"
+        Me.DataGridViewTextBoxColumn44.Name = "DataGridViewTextBoxColumn44"
+        Me.DataGridViewTextBoxColumn44.ReadOnly = True
+        Me.DataGridViewTextBoxColumn44.Width = 110
+        '
+        'DataGridViewTextBoxColumn45
+        '
+        DataGridViewCellStyle73.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn45.DefaultCellStyle = DataGridViewCellStyle73
+        Me.DataGridViewTextBoxColumn45.HeaderText = "Finished PRD"
+        Me.DataGridViewTextBoxColumn45.Name = "DataGridViewTextBoxColumn45"
+        Me.DataGridViewTextBoxColumn45.ReadOnly = True
+        Me.DataGridViewTextBoxColumn45.Width = 110
+        '
+        'DataGridViewTextBoxColumn46
+        '
+        Me.DataGridViewTextBoxColumn46.HeaderText = "PR Outstanding Bulan Ketiga"
+        Me.DataGridViewTextBoxColumn46.Name = "DataGridViewTextBoxColumn46"
+        Me.DataGridViewTextBoxColumn46.ReadOnly = True
+        '
+        'DataGridViewTextBoxColumn47
+        '
+        Me.DataGridViewTextBoxColumn47.HeaderText = "PO Outstanding Bulan Ketiga"
+        Me.DataGridViewTextBoxColumn47.Name = "DataGridViewTextBoxColumn47"
+        Me.DataGridViewTextBoxColumn47.ReadOnly = True
+        '
+        'DataGridViewTextBoxColumn48
+        '
+        Me.DataGridViewTextBoxColumn48.HeaderText = "Requirement Stok Ketiga"
+        Me.DataGridViewTextBoxColumn48.Name = "DataGridViewTextBoxColumn48"
+        Me.DataGridViewTextBoxColumn48.ReadOnly = True
+        '
+        'DataGridViewTextBoxColumn49
+        '
+        Me.DataGridViewTextBoxColumn49.HeaderText = "PR Outstanding Bulan Keempat"
+        Me.DataGridViewTextBoxColumn49.Name = "DataGridViewTextBoxColumn49"
+        Me.DataGridViewTextBoxColumn49.ReadOnly = True
+        '
+        'DataGridViewTextBoxColumn50
+        '
+        Me.DataGridViewTextBoxColumn50.HeaderText = "PO Outstanding Bulan Keempat"
+        Me.DataGridViewTextBoxColumn50.Name = "DataGridViewTextBoxColumn50"
+        Me.DataGridViewTextBoxColumn50.ReadOnly = True
+        '
+        'DataGridViewTextBoxColumn51
+        '
+        Me.DataGridViewTextBoxColumn51.HeaderText = "Requirement Stok Keempat"
+        Me.DataGridViewTextBoxColumn51.Name = "DataGridViewTextBoxColumn51"
+        Me.DataGridViewTextBoxColumn51.ReadOnly = True
+        '
+        'DataGridViewTextBoxColumn52
+        '
+        Me.DataGridViewTextBoxColumn52.HeaderText = "PR Outstanding Bulan Kelima"
+        Me.DataGridViewTextBoxColumn52.Name = "DataGridViewTextBoxColumn52"
+        Me.DataGridViewTextBoxColumn52.ReadOnly = True
+        '
+        'DataGridViewTextBoxColumn53
+        '
+        Me.DataGridViewTextBoxColumn53.HeaderText = "PO Outstanding Bulan kelima"
+        Me.DataGridViewTextBoxColumn53.Name = "DataGridViewTextBoxColumn53"
+        Me.DataGridViewTextBoxColumn53.ReadOnly = True
+        '
+        'DataGridViewTextBoxColumn54
+        '
+        Me.DataGridViewTextBoxColumn54.HeaderText = "Requirement Stok Bulan Kelima"
+        Me.DataGridViewTextBoxColumn54.Name = "DataGridViewTextBoxColumn54"
+        Me.DataGridViewTextBoxColumn54.ReadOnly = True
+        '
+        'DataGridViewTextBoxColumn55
+        '
+        Me.DataGridViewTextBoxColumn55.HeaderText = "PR Outstanding Bulan Keenam"
+        Me.DataGridViewTextBoxColumn55.Name = "DataGridViewTextBoxColumn55"
+        Me.DataGridViewTextBoxColumn55.ReadOnly = True
+        '
+        'DataGridViewTextBoxColumn56
+        '
+        Me.DataGridViewTextBoxColumn56.HeaderText = "PO Outstanding Bulan Keenam"
+        Me.DataGridViewTextBoxColumn56.Name = "DataGridViewTextBoxColumn56"
+        Me.DataGridViewTextBoxColumn56.ReadOnly = True
+        '
+        'DataGridViewTextBoxColumn57
+        '
+        Me.DataGridViewTextBoxColumn57.HeaderText = "Requirement Stok Keenam"
+        Me.DataGridViewTextBoxColumn57.Name = "DataGridViewTextBoxColumn57"
+        Me.DataGridViewTextBoxColumn57.ReadOnly = True
         '
         'Column13
         '
@@ -1141,7 +1338,6 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Column19.HeaderText = "BoM - Forecast Nov-24"
         Me.Column19.MinimumWidth = 6
         Me.Column19.Name = "Column19"
-        Me.Column19.Visible = False
         Me.Column19.Width = 110
         '
         'Column22
@@ -1179,7 +1375,6 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Column24.HeaderText = "BoM - Forecast Dec-24"
         Me.Column24.MinimumWidth = 6
         Me.Column24.Name = "Column24"
-        Me.Column24.Visible = False
         Me.Column24.Width = 110
         '
         'Column27
@@ -1217,7 +1412,6 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Column29.HeaderText = "BoM - Forecast Jan-25"
         Me.Column29.MinimumWidth = 6
         Me.Column29.Name = "Column29"
-        Me.Column29.Visible = False
         Me.Column29.Width = 110
         '
         'Column32
@@ -1255,7 +1449,6 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Column34.HeaderText = "BoM - Forecast Feb-25"
         Me.Column34.MinimumWidth = 6
         Me.Column34.Name = "Column34"
-        Me.Column34.Visible = False
         Me.Column34.Width = 110
         '
         'Column37
@@ -1401,12 +1594,94 @@ Partial Class EMI_Transaksi_MaterialRequisition
         Me.Column46.ReadOnly = True
         Me.Column46.Width = 110
         '
+        'Column47
+        '
+        Me.Column47.HeaderText = "PR Outstanding Bulan Ketiga"
+        Me.Column47.Name = "Column47"
+        Me.Column47.ReadOnly = True
+        '
+        'Column48
+        '
+        Me.Column48.HeaderText = "PO Outstanding Bulan Ketiga"
+        Me.Column48.Name = "Column48"
+        Me.Column48.ReadOnly = True
+        '
+        'Column49
+        '
+        Me.Column49.HeaderText = "Requirement Stok Ketiga"
+        Me.Column49.Name = "Column49"
+        Me.Column49.ReadOnly = True
+        '
+        'Column50
+        '
+        Me.Column50.HeaderText = "PR Outstanding Bulan Keempat"
+        Me.Column50.Name = "Column50"
+        Me.Column50.ReadOnly = True
+        '
+        'Column51
+        '
+        Me.Column51.HeaderText = "PO Outstanding Bulan Keempat"
+        Me.Column51.Name = "Column51"
+        Me.Column51.ReadOnly = True
+        '
+        'Column52
+        '
+        Me.Column52.HeaderText = "Requirement Stok Keempat"
+        Me.Column52.Name = "Column52"
+        Me.Column52.ReadOnly = True
+        '
+        'Column53
+        '
+        Me.Column53.HeaderText = "PR Outstanding Bulan Kelima"
+        Me.Column53.Name = "Column53"
+        Me.Column53.ReadOnly = True
+        '
+        'Column54
+        '
+        Me.Column54.HeaderText = "PO Outstanding Bulan kelima"
+        Me.Column54.Name = "Column54"
+        Me.Column54.ReadOnly = True
+        '
+        'Column55
+        '
+        Me.Column55.HeaderText = "Requirement Stok Bulan Kelima"
+        Me.Column55.Name = "Column55"
+        Me.Column55.ReadOnly = True
+        '
+        'Column56
+        '
+        Me.Column56.HeaderText = "PR Outstanding Bulan Keenam"
+        Me.Column56.Name = "Column56"
+        Me.Column56.ReadOnly = True
+        '
+        'Column57
+        '
+        Me.Column57.HeaderText = "PO Outstanding Bulan Keenam"
+        Me.Column57.Name = "Column57"
+        Me.Column57.ReadOnly = True
+        '
+        'Column58
+        '
+        Me.Column58.HeaderText = "Requirement Stok Keenam"
+        Me.Column58.Name = "Column58"
+        Me.Column58.ReadOnly = True
+        '
+        'Column59
+        '
+        Me.Column59.HeaderText = "Ending Stock Sementara"
+        Me.Column59.Name = "Column59"
+        Me.Column59.ReadOnly = True
+        '
         'EMI_Transaksi_MaterialRequisition
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1278, 594)
+        Me.ClientSize = New System.Drawing.Size(1617, 594)
+        Me.Controls.Add(Me.btn_bln6)
+        Me.Controls.Add(Me.btn_bln5)
+        Me.Controls.Add(Me.btn_bln4)
+        Me.Controls.Add(Me.btn_bln3)
         Me.Controls.Add(Me.BtnExport)
         Me.Controls.Add(Me.btn_bln2)
         Me.Controls.Add(Me.btn_bln1)
@@ -1519,50 +1794,84 @@ Partial Class EMI_Transaksi_MaterialRequisition
     Friend WithEvents btn_bln1 As Button
     Friend WithEvents btn_bln2 As Button
     Friend WithEvents BtnExport As Button
-	Friend WithEvents Column13 As DataGridViewCheckBoxColumn
-	Friend WithEvents Column1 As DataGridViewTextBoxColumn
-	Friend WithEvents Column2 As DataGridViewTextBoxColumn
-	Friend WithEvents Column3 As DataGridViewTextBoxColumn
-	Friend WithEvents Column26 As DataGridViewTextBoxColumn
-	Friend WithEvents Column4 As DataGridViewTextBoxColumn
-	Friend WithEvents Column5 As DataGridViewTextBoxColumn
-	Friend WithEvents Column6 As DataGridViewTextBoxColumn
-	Friend WithEvents Column7 As DataGridViewTextBoxColumn
-	Friend WithEvents Column8 As DataGridViewTextBoxColumn
-	Friend WithEvents Column11 As DataGridViewTextBoxColumn
-	Friend WithEvents Column9 As DataGridViewTextBoxColumn
-	Friend WithEvents Column12 As DataGridViewTextBoxColumn
-	Friend WithEvents Column14 As DataGridViewTextBoxColumn
-	Friend WithEvents Column17 As DataGridViewTextBoxColumn
-	Friend WithEvents Column10 As DataGridViewTextBoxColumn
-	Friend WithEvents Column18 As DataGridViewTextBoxColumn
-	Friend WithEvents Column19 As DataGridViewTextBoxColumn
-	Friend WithEvents Column22 As DataGridViewTextBoxColumn
-	Friend WithEvents Column15 As DataGridViewTextBoxColumn
-	Friend WithEvents Column23 As DataGridViewTextBoxColumn
-	Friend WithEvents Column24 As DataGridViewTextBoxColumn
-	Friend WithEvents Column27 As DataGridViewTextBoxColumn
-	Friend WithEvents Column16 As DataGridViewTextBoxColumn
-	Friend WithEvents Column28 As DataGridViewTextBoxColumn
-	Friend WithEvents Column29 As DataGridViewTextBoxColumn
-	Friend WithEvents Column32 As DataGridViewTextBoxColumn
-	Friend WithEvents Column20 As DataGridViewTextBoxColumn
-	Friend WithEvents Column33 As DataGridViewTextBoxColumn
-	Friend WithEvents Column34 As DataGridViewTextBoxColumn
-	Friend WithEvents Column37 As DataGridViewTextBoxColumn
-	Friend WithEvents Column21 As DataGridViewTextBoxColumn
-	Friend WithEvents Column38 As DataGridViewTextBoxColumn
-	Friend WithEvents Column39 As DataGridViewTextBoxColumn
-	Friend WithEvents Column25 As DataGridViewTextBoxColumn
-	Friend WithEvents Column30 As DataGridViewTextBoxColumn
-	Friend WithEvents Column31 As DataGridViewTextBoxColumn
-	Friend WithEvents Column35 As DataGridViewTextBoxColumn
-	Friend WithEvents Column36 As DataGridViewTextBoxColumn
-	Friend WithEvents Column40 As DataGridViewTextBoxColumn
-	Friend WithEvents Column41 As DataGridViewTextBoxColumn
-	Friend WithEvents Column42 As DataGridViewTextBoxColumn
-	Friend WithEvents Column43 As DataGridViewTextBoxColumn
-	Friend WithEvents Column44 As DataGridViewTextBoxColumn
-	Friend WithEvents Column45 As DataGridViewTextBoxColumn
-	Friend WithEvents Column46 As DataGridViewTextBoxColumn
+    Friend WithEvents btn_bln3 As Button
+    Friend WithEvents btn_bln4 As Button
+    Friend WithEvents btn_bln5 As Button
+    Friend WithEvents DataGridViewTextBoxColumn41 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn42 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn43 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn44 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn45 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn46 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn47 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn48 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn49 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn50 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn51 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn52 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn53 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn54 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn55 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn56 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn57 As DataGridViewTextBoxColumn
+    Friend WithEvents btn_bln6 As Button
+    Friend WithEvents Column13 As DataGridViewCheckBoxColumn
+    Friend WithEvents Column1 As DataGridViewTextBoxColumn
+    Friend WithEvents Column2 As DataGridViewTextBoxColumn
+    Friend WithEvents Column3 As DataGridViewTextBoxColumn
+    Friend WithEvents Column26 As DataGridViewTextBoxColumn
+    Friend WithEvents Column4 As DataGridViewTextBoxColumn
+    Friend WithEvents Column5 As DataGridViewTextBoxColumn
+    Friend WithEvents Column6 As DataGridViewTextBoxColumn
+    Friend WithEvents Column7 As DataGridViewTextBoxColumn
+    Friend WithEvents Column8 As DataGridViewTextBoxColumn
+    Friend WithEvents Column11 As DataGridViewTextBoxColumn
+    Friend WithEvents Column9 As DataGridViewTextBoxColumn
+    Friend WithEvents Column12 As DataGridViewTextBoxColumn
+    Friend WithEvents Column14 As DataGridViewTextBoxColumn
+    Friend WithEvents Column17 As DataGridViewTextBoxColumn
+    Friend WithEvents Column10 As DataGridViewTextBoxColumn
+    Friend WithEvents Column18 As DataGridViewTextBoxColumn
+    Friend WithEvents Column19 As DataGridViewTextBoxColumn
+    Friend WithEvents Column22 As DataGridViewTextBoxColumn
+    Friend WithEvents Column15 As DataGridViewTextBoxColumn
+    Friend WithEvents Column23 As DataGridViewTextBoxColumn
+    Friend WithEvents Column24 As DataGridViewTextBoxColumn
+    Friend WithEvents Column27 As DataGridViewTextBoxColumn
+    Friend WithEvents Column16 As DataGridViewTextBoxColumn
+    Friend WithEvents Column28 As DataGridViewTextBoxColumn
+    Friend WithEvents Column29 As DataGridViewTextBoxColumn
+    Friend WithEvents Column32 As DataGridViewTextBoxColumn
+    Friend WithEvents Column20 As DataGridViewTextBoxColumn
+    Friend WithEvents Column33 As DataGridViewTextBoxColumn
+    Friend WithEvents Column34 As DataGridViewTextBoxColumn
+    Friend WithEvents Column37 As DataGridViewTextBoxColumn
+    Friend WithEvents Column21 As DataGridViewTextBoxColumn
+    Friend WithEvents Column38 As DataGridViewTextBoxColumn
+    Friend WithEvents Column39 As DataGridViewTextBoxColumn
+    Friend WithEvents Column25 As DataGridViewTextBoxColumn
+    Friend WithEvents Column30 As DataGridViewTextBoxColumn
+    Friend WithEvents Column31 As DataGridViewTextBoxColumn
+    Friend WithEvents Column35 As DataGridViewTextBoxColumn
+    Friend WithEvents Column36 As DataGridViewTextBoxColumn
+    Friend WithEvents Column40 As DataGridViewTextBoxColumn
+    Friend WithEvents Column41 As DataGridViewTextBoxColumn
+    Friend WithEvents Column42 As DataGridViewTextBoxColumn
+    Friend WithEvents Column43 As DataGridViewTextBoxColumn
+    Friend WithEvents Column44 As DataGridViewTextBoxColumn
+    Friend WithEvents Column45 As DataGridViewTextBoxColumn
+    Friend WithEvents Column46 As DataGridViewTextBoxColumn
+    Friend WithEvents Column47 As DataGridViewTextBoxColumn
+    Friend WithEvents Column48 As DataGridViewTextBoxColumn
+    Friend WithEvents Column49 As DataGridViewTextBoxColumn
+    Friend WithEvents Column50 As DataGridViewTextBoxColumn
+    Friend WithEvents Column51 As DataGridViewTextBoxColumn
+    Friend WithEvents Column52 As DataGridViewTextBoxColumn
+    Friend WithEvents Column53 As DataGridViewTextBoxColumn
+    Friend WithEvents Column54 As DataGridViewTextBoxColumn
+    Friend WithEvents Column55 As DataGridViewTextBoxColumn
+    Friend WithEvents Column56 As DataGridViewTextBoxColumn
+    Friend WithEvents Column57 As DataGridViewTextBoxColumn
+    Friend WithEvents Column58 As DataGridViewTextBoxColumn
+    Friend WithEvents Column59 As DataGridViewTextBoxColumn
 End Class

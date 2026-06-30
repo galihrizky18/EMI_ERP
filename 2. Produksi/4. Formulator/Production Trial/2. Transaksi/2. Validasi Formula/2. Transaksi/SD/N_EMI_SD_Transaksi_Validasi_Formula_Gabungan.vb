@@ -94,10 +94,6 @@
 			"
 			Using dr = OpenTrans(SQL)
 				If dr.Read AndAlso General_Class.CekNULL(dr("Flag_Bypass_Trial")) = "Y" Then
-					BtnTrialKitchen.Enabled = False
-					BtnTrialProduksi.Enabled = False
-					BtnProduksi.Enabled = True
-
 					FlagBypassGlobal = True
 				End If
 			End Using
@@ -114,10 +110,6 @@
 				"
 				Using dr = OpenTrans(SQL)
 					If dr.Read AndAlso General_Class.CekNULL(dr("Flag_Bypass_Trial")) = "Y" Then
-						BtnTrialKitchen.Enabled = False
-						BtnTrialProduksi.Enabled = False
-						BtnProduksi.Enabled = True
-
 						FlagBypassTrial = True
 					End If
 				End Using
@@ -369,8 +361,8 @@
 			Exit Sub
 		End If
 
-		BtnTrialKitchen.Enabled = String.IsNullOrEmpty(flagTrialKitchen) And Not FlagBypassGlobal And Not FlagBypassTrial
-		BtnTrialProduksi.Enabled = String.IsNullOrEmpty(flagTrialProduksi) And Not FlagBypassGlobal And Not FlagBypassTrial
+		BtnTrialKitchen.Enabled = String.IsNullOrEmpty(flagTrialKitchen)
+		BtnTrialProduksi.Enabled = String.IsNullOrEmpty(flagTrialProduksi)
 		BtnProduksi.Enabled = String.IsNullOrEmpty(flagProduksi)
 
 		Btn_Tolak.Enabled = True
@@ -709,7 +701,12 @@
 			Cmd.Transaction = Cn.BeginTransaction
 
 			Get_NoFaktur_TrialProduksi()
-			ProsesFlag_TrialProduksi("Trial Produksi", "flag_lanjut_trial_produksi")
+			Dim lanjutProses As Boolean = ProsesFlag_TrialProduksi("Trial Produksi", "flag_lanjut_trial_produksi")
+			If Not lanjutProses Then
+				CloseTrans()
+				CloseConn()
+				Exit Sub
+			End If
 			Handle_Trial_Produksi()
 
 			Cmd.Transaction.Commit()
@@ -905,6 +902,10 @@
 			SetFlag(namaKolom, "Y")
 
 			Select Case namaKolom
+				Case "flag_lanjut_trial_produksi"
+					SetFlag("flag_lanjut_trial_kitchen", "B")
+					SetFlag("flag_selesai_trial_kitchen", "B")
+
 				Case "flag_lanjut_produksi"
 					Dim trialProduksiSedangBerjalan As Boolean =
 					flagLanjutTrialProduksi = "Y" AndAlso
@@ -957,9 +958,9 @@
 		Me.Close()
 	End Sub
 
-	Private Sub ProsesFlag_TrialProduksi(namaProses As String, namaKolom As String)
+	Private Function ProsesFlag_TrialProduksi(namaProses As String, namaKolom As String) As Boolean
 		Dim noFaktur As String = TxtFormulator_NoFaktur.Text.Trim
-
+		Dim keteranganBypass As String = ""
 		Dim flagLanjutTrialKitchen As String = ""
 		Dim flagSelesaiTrialKitchen As String = ""
 
@@ -981,35 +982,73 @@
 			flagSelesaiTrialKitchen = General_Class.CekNULL(dr("Flag_Selesai_Trial_Kitchen"))
 		End Using
 
-		Dim isBypassTrial As Boolean =
-		FlagBypassGlobal OrElse FlagBypassTrial
-		If Not isBypassTrial Then
-			If flagLanjutTrialKitchen = "Y" AndAlso
-				flagSelesaiTrialKitchen <> "Y" Then
+		If flagLanjutTrialKitchen = "Y" AndAlso flagSelesaiTrialKitchen <> "Y" AndAlso flagSelesaiTrialKitchen <> "B" Then
+			Dim result As DialogResult = MessageBox.Show(
+							"Trial Kitchen masih berjalan." & vbCrLf & vbCrLf &
+							"Jika dilanjutkan ke Trial Produksi maka Trial Kitchen yang sedang berjalan tetap akan berlangsung hingga selesai." & vbCrLf & vbCrLf &
+							"Apakah Anda yakin ingin melanjutkan?",
+							Judul,
+							MessageBoxButtons.YesNo,
+							MessageBoxIcon.Question
+						)
 
-				Throw New Exception("Trial Kitchen masih berlangsung dan belum selesai.")
+			If result = DialogResult.No Then
+				Return False
 			End If
+
+			Using frm As New N_EMI_SD_Konfirmasi_Bypass_Formula
+				frm.NoFormula = noFaktur
+				frm.KodeBarang = TxtFormulator_KodeBarang.Text.Trim
+				frm.NamaBarang = TxtFormulator_NamaBarang.Text.Trim
+				frm.QtyHasil = TxtFormulator_Hasil.Text.Trim
+				frm.SatuanHasil = CmbFormulator_SatuanHasil.Text.Trim
+
+				If frm.ShowDialog() <> DialogResult.OK Then
+					CloseTrans()
+					CloseConn()
+					Return False
+				End If
+
+				If frm.KeteranganBypass.Trim = "" Then
+					CloseTrans()
+					CloseConn()
+
+					MessageBox.Show(
+							"Keterangan bypass wajib diisi.",
+							Judul,
+							MessageBoxButtons.OK,
+							MessageBoxIcon.Warning
+						)
+					Return False
+				End If
+
+				keteranganBypass = frm.KeteranganBypass.Trim
+			End Using
 		End If
 
 		Dim setSQL As New List(Of String)
 		Dim suffix As String = namaKolom.Replace("flag_", "")
 
+		'Lanjut Trial Produksi
 		setSQL.Add($"{namaKolom} = 'Y'")
 		setSQL.Add($"Tanggal_{suffix} = '{Format(tgl_skg, "yyyy-MM-dd")}'")
 		setSQL.Add($"Jam_{suffix} = '{Format(tgl_skg, "HH:mm:ss")}'")
 		setSQL.Add($"UserID_{suffix} = '{UserID}'")
 
-		If isBypassTrial Then
-			setSQL.Add("Flag_Lanjut_Trial_Kitchen = 'B'")
-			setSQL.Add("Flag_Selesai_Trial_Kitchen = 'B'")
+		'Bypass Trial Kitchen Jika NULL
+		setSQL.Add($"Flag_Lanjut_Trial_Kitchen = CASE WHEN Flag_Lanjut_Trial_Kitchen IS NULL THEN 'B' ELSE Flag_Lanjut_Trial_Kitchen END")
+		setSQL.Add($"Tanggal_Lanjut_Trial_Kitchen = CASE WHEN Flag_Lanjut_Trial_Kitchen IS NULL THEN '{Format(tgl_skg, "yyyy-MM-dd")}' ELSE Tanggal_Lanjut_Trial_Kitchen END")
+		setSQL.Add($"Jam_Lanjut_Trial_Kitchen = CASE WHEN Flag_Lanjut_Trial_Kitchen IS NULL THEN '{Format(tgl_skg, "HH:mm:ss")}' ELSE Jam_Lanjut_Trial_Kitchen END")
+		setSQL.Add($"UserID_Lanjut_Trial_Kitchen = CASE WHEN Flag_Lanjut_Trial_Kitchen IS NULL THEN '{UserID}' ELSE UserID_Lanjut_Trial_Kitchen END")
 
-			setSQL.Add($"Tanggal_Lanjut_Trial_Kitchen = '{Format(tgl_skg, "yyyy-MM-dd")}'")
-			setSQL.Add($"Jam_Lanjut_Trial_Kitchen = '{Format(tgl_skg, "HH:mm:ss")}'")
-			setSQL.Add($"UserID_Lanjut_Trial_Kitchen = '{UserID}'")
-
-			setSQL.Add($"Tanggal_Selesai_Trial_Kitchen = '{Format(tgl_skg, "yyyy-MM-dd")}'")
-			setSQL.Add($"Jam_Selesai_Trial_Kitchen = '{Format(tgl_skg, "HH:mm:ss")}'")
-			setSQL.Add($"UserID_Selesai_Trial_Kitchen = '{UserID}'")
+		If keteranganBypass <> "" Then
+			setSQL.Add($"Flag_Bypass_Trial_Kitchen_On_Process = 'Y'")
+			setSQL.Add($"Keterangan_Bypass_Trial_Kitchen_On_Process = '{keteranganBypass}'")
+		Else
+			setSQL.Add($"Flag_Selesai_Trial_Kitchen = CASE WHEN Flag_Selesai_Trial_Kitchen IS NULL THEN 'B' ELSE Flag_Selesai_Trial_Kitchen END")
+			setSQL.Add($"Tanggal_Selesai_Trial_Kitchen = CASE WHEN Flag_Selesai_Trial_Kitchen IS NULL THEN '{Format(tgl_skg, "yyyy-MM-dd")}' ELSE Tanggal_Selesai_Trial_Kitchen END")
+			setSQL.Add($"Jam_Selesai_Trial_Kitchen = CASE WHEN Flag_Selesai_Trial_Kitchen IS NULL THEN '{Format(tgl_skg, "HH:mm:ss")}' ELSE Jam_Selesai_Trial_Kitchen END")
+			setSQL.Add($"UserID_Selesai_Trial_Kitchen = CASE WHEN Flag_Selesai_Trial_Kitchen IS NULL THEN '{UserID}' ELSE UserID_Selesai_Trial_Kitchen END")
 		End If
 
 		SQL = $"
@@ -1020,7 +1059,9 @@
 				AND No_Faktur = '{noFaktur}'
 		"
 		ExecuteTrans(SQL)
-	End Sub
+
+		Return True
+	End Function
 
 	Public Sub Kosong()
 		TxtFormulator_Total.Text = ""

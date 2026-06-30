@@ -3313,15 +3313,15 @@ Public Class N_EMI_Transaksi_Production_Plan
 				Dim isChecked As Boolean = Convert.ToBoolean(DataGridView1.Rows(i).Cells(CellChkBox).Value)
 
 				If isChecked Then
-					' Ambil nilai kode barang
+
 					Dim kodeBarang As String = DataGridView1.Rows(i).Cells(CellKdBrg).Value.ToString()
 					jumlahChecked = jumlahChecked + 1
-					' Gabungkan dengan format tanda petik untuk SQL
+
 					If daftarProductionPlantDiRelease = "" Then
-						' Hasil: 'BRG2410001'
+
 						daftarProductionPlantDiRelease = "'" & kodeBarang & "'"
 					Else
-						' Hasil: 'BRG2410001','BRG2410002'
+
 						daftarProductionPlantDiRelease &= ",'" & kodeBarang & "'"
 					End If
 				End If
@@ -3335,30 +3335,10 @@ Public Class N_EMI_Transaksi_Production_Plan
 			End If
 
 
-			Dim Jumlah_Min_Release_Production_Plan As Integer = 0
-			SQL = "select Jumlah_Min_Release_Production_Plan From Init where "
-			SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' "
-			Using Dr = OpenTrans(SQL)
-				If Dr.Read Then
-					Jumlah_Min_Release_Production_Plan = Dr("Jumlah_Min_Release_Production_Plan")
-				End If
-			End Using
-
-			If jumlahChecked < Jumlah_Min_Release_Production_Plan Then
-				CloseTrans()
-				CloseConn()
-				MessageBox.Show("Silahkan pilih produk minimal " & Jumlah_Min_Release_Production_Plan & " untuk merelease data...", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				Exit Sub
-			End If
 
 
-			'--- 1
-			'If a = 12 Then
-			'    a = 1
-			'    fthn = fthn + 1
-			'Else
-			'    a = a + 1
-			'End If
+
+
 
 
 
@@ -3390,6 +3370,23 @@ Public Class N_EMI_Transaksi_Production_Plan
 				If Not IsKolomDicentang(gabunganBulanTahun) Then
 					Continue For
 				End If
+
+				Dim jumlahSdhValidasi As Integer = 0
+				SQL = $"
+					select isnull(count(flag_validasi_ppic),0) as Jumlah From EMI_Transaksi_Sales_Forecasting_Detail a, EMI_Transaksi_Sales_Forecasting b
+					where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur 
+					and b.Status is null and a.Bulan = '{b}' and a.tahun = '{fthn}' and a.kode_perusahaan ='{KodePerusahaan}'
+				"
+				Using Dr = OpenTrans(SQL)
+					If Dr.Read Then
+						jumlahSdhValidasi = Dr("jumlah")
+					Else
+						Dr.Close()
+						jumlahSdhValidasi = 0
+					End If
+				End Using
+
+
 
 
 
@@ -3427,9 +3424,28 @@ Public Class N_EMI_Transaksi_Production_Plan
 
 				If fStatus = "Transaksi_ForecastOrder_PPIC" Then
 
-					If i = 2 Then
 
-						SQL = "select flag_validasi_PPIC,flag_validasi,b.nama  From  EMI_Transaksi_Sales_Forecasting_Detail a, barang b where "
+					Dim Jumlah_Min_Release_Production_Plan As Integer = 0
+					SQL = "select Jumlah_Min_Release_Production_Plan From Init where "
+					SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' "
+					Using Dr = OpenTrans(SQL)
+						If Dr.Read Then
+							Jumlah_Min_Release_Production_Plan = Dr("Jumlah_Min_Release_Production_Plan")
+						End If
+					End Using
+
+					If (jumlahChecked + jumlahSdhValidasi) < Jumlah_Min_Release_Production_Plan Then
+						CloseTrans()
+						CloseConn()
+						MessageBox.Show("Silahkan pilih produk minimal " & Jumlah_Min_Release_Production_Plan & " untuk merelease data di bulan " & b & " " & fthn, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Exit Sub
+					End If
+
+
+
+					'	If i = 2 Then
+
+					SQL = "select flag_validasi_PPIC,flag_validasi,b.nama  From  EMI_Transaksi_Sales_Forecasting_Detail a, barang b where "
 						SQL = SQL & "a.kode_perusahaan = '" & KodePerusahaan & "' and "
 						SQL = SQL & "a.kode_barang = b.kode_barang and a.kode_perusahaan = b.kode_perusahaan and a.kode_stock_owner = b.kode_stock_owner "
 						SQL = SQL & "and a.bulan='" & b & "' and a.tahun ='" & fthn & "' "
@@ -3466,7 +3482,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 							End With
 						End Using
 
-					End If
+					'	End If
 
 					SQL = "update EMI_Transaksi_Sales_Forecasting_Detail set "
 					SQL = SQL & "Flag_Validasi_PPIC = 'Y',User_Validasi_PPIC = '" & UserID & "',"
@@ -3477,6 +3493,8 @@ Public Class N_EMI_Transaksi_Production_Plan
 					SQL = SQL & " bulan='" & b & "' and tahun ='" & fthn & "' "
 					SQL = SQL & "and kode_barang in (" & daftarProductionPlantDiRelease & ")"
 					ExecuteTrans(SQL)
+
+
 
 					SQL = "Select b.kode_barang_inq as Kode_Barang, a.urut,b.nama from EMI_Transaksi_Sales_Forecasting_detail a, barang b "
 					SQL = SQL & "where a.no_faktur ='" & no_faktur & "' "
@@ -3490,13 +3508,16 @@ Public Class N_EMI_Transaksi_Production_Plan
 
 								Dim kode_formula As String = ""
 								Dim namaBarang As String = .Rows(index).Item("nama")
-								SQL = "select top(1) c.No_Faktur 
-										from N_EMI_Transaksi_Formulator_Binding a 
-										inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur 
-										inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null 
-										where a.Status is NULL and a.Flag_Validasi_Main = 'Y' and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Barang ='" & .Rows(index).Item("Kode_Barang") & "'
-										order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC 
-										
+								SQL = "
+									with cte as (
+									select top(1) c.No_Faktur ,b.flag_invalid
+																			from N_EMI_Transaksi_Formulator_Binding a 
+																			inner join N_EMI_Transaksi_Formulator_Binding_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur 
+																			inner join Emi_Transaksi_Formulator c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Formulator = c.No_Faktur and c.Status is null 
+																			where a.Status is NULL and a.Flag_Validasi_Main = 'Y' and c.Flag_Validasi_Formula_Produksi_BOD = 'Y' and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Barang ='" & .Rows(index).Item("Kode_Barang") & "'
+																			 and No_Prioritas = 1  and c.Flag_Deprecated_Binding is null
+																			order by a.Tanggal DESC, a.Jam DESC, b.No_Prioritas ASC 
+									) select No_Faktur from  cte where flag_invalid is null
 									"
 
 								Using dr = OpenTrans(SQL)
@@ -3520,6 +3541,8 @@ Public Class N_EMI_Transaksi_Production_Plan
 							Next
 						End With
 					End Using
+
+
 
 
 
@@ -3840,12 +3863,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 				End If
 			End Using
 
-			If jumlahChecked < Jumlah_Min_Release_Production_Plan Then
-				CloseTrans()
-				CloseConn()
-				MessageBox.Show("Silahkan pilih produk minimal " & Jumlah_Min_Release_Production_Plan & " untuk unrelease data...", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				Exit Sub
-			End If
+
 
 			For i As Integer = 1 To 6
 
@@ -3926,10 +3944,12 @@ Public Class N_EMI_Transaksi_Production_Plan
 
 				SQL = SQL & "isnull((select top(1) 'Y' from N_EMI_Production_Plan_Schedule_Detail x, N_EMI_Production_Plan_Schedule y "
 				SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Transaksi = y.No_Transaksi and y.Status is null "
+				SQL = SQL & "and a.urut = x.urut_production_plan "
 				SQL = SQL & "), 'T') as Sudah_Schedule, "
 
 				SQL = SQL & "isnull((select top(1) x.jumlah from N_EMI_Production_Plan_Schedule_Detail x, N_EMI_Production_Plan_Schedule y "
 				SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Transaksi = y.No_Transaksi and y.Status is null "
+				SQL = SQL & "and a.urut = x.urut_production_plan "
 				SQL = SQL & "), 0) as jumlah_schedule "
 
 				SQL = SQL & ", c.nama "
@@ -3946,7 +3966,7 @@ Public Class N_EMI_Transaksi_Production_Plan
 							Dr.Close()
 							CloseTrans()
 							CloseConn()
-							MessageBox.Show(nama & " sudah ada di schedule , tidak bisa unrelease data!", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+							MessageBox.Show(nama & " sudah ada di schedule untuk bulan " & b & " dan tahun " & fthn & ", tidak bisa unrelease data!", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 							Exit Sub
 						End If
 					Else
@@ -3967,6 +3987,50 @@ Public Class N_EMI_Transaksi_Production_Plan
 				ExecuteTrans(SQL)
 
 				If fStatus = "Transaksi_ForecastOrder_PPIC" Then
+
+
+					Dim jumlahSdhValidasi As Integer = 0
+					SQL = $"
+					select isnull(count(flag_validasi_ppic),0) as Jumlah From EMI_Transaksi_Sales_Forecasting_Detail a, EMI_Transaksi_Sales_Forecasting b
+					where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur 
+					and b.Status is null and a.Bulan = '{b}' and a.tahun = '{fthn}' and a.kode_perusahaan ='{KodePerusahaan}'
+				"
+					Using Dr = OpenTrans(SQL)
+						If Dr.Read Then
+							jumlahSdhValidasi = Dr("jumlah")
+						Else
+							Dr.Close()
+							jumlahSdhValidasi = 0
+						End If
+					End Using
+
+
+					Dim sisaSetelahUnrelease As Integer = jumlahSdhValidasi - jumlahChecked
+					Dim selisihChecked As Integer = jumlahChecked - jumlahSdhValidasi
+
+					If sisaSetelahUnrelease < Jumlah_Min_Release_Production_Plan AndAlso sisaSetelahUnrelease > 0 Then
+						Dim pesan As String = $"Gagal memproses! Sisa produk yang aktif setelah di-unrelease ({sisaSetelahUnrelease} produk) kurang dari batas minimum.{Environment.NewLine}{Environment.NewLine}" &
+						  $"Aturannya pada bulan {b} {fthn}:{Environment.NewLine}" &
+						  $"- Anda harus menyisakan minimal {Jumlah_Min_Release_Production_Plan} produk yang tetap di-release.{Environment.NewLine}" &
+						  $"- Atau, centang/pilih SEMUA produk sekaligus jika ingin membatalkan (mengosongkan) release data bulan ini."
+						CloseTrans()
+						CloseConn()
+						MessageBox.Show(pesan, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Exit Sub
+
+					End If
+
+
+					'If jumlahSdhValidasi < Jumlah_Min_Release_Production_Plan Then
+					'	CloseTrans()
+					'	CloseConn()
+					'	MessageBox.Show("Gagal unrelease, barang yg direlease harus minimal " & Jumlah_Min_Release_Production_Plan & " untuk unrelease data...", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					'	Exit Sub
+					'End If
+
+
+
+
 					SQL = "update EMI_Transaksi_Sales_Forecasting_detail  set "
 					SQL = SQL & "Flag_Validasi_PPIC = null,User_Validasi_PPIC = null,"
 					SQL = SQL & "Tanggal_Validasi_PPIC = null,"

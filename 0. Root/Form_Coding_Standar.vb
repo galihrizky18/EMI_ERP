@@ -19,7 +19,6 @@
 	Private Sub Form_Coding_Standar_Activated(sender As Object, e As EventArgs) Handles Me.Activated
 		My.Application.ChangeCulture("en-us")
 		My.Application.ChangeUICulture("en-us")
-
 	End Sub
 
 	Private Sub Form_Coding_Standar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -150,7 +149,6 @@
 					Exit Sub
 				End If
 			End Using
-
 			Listview.EndUpdate()
 
 			'===================================
@@ -520,6 +518,13 @@
 							General_Class.Get_Last_Number2("NAMA_TABEL", "KOLOM_TRANSAKSI/FAKTUR", 5,
 							"Kode_perusahaan", KodePerusahaan,
 							"And", "substring(KOLOM_TRANSAKSI/FAKTUR, 1, " & Len(IntialFaktur) + 4 & ")", IntialFaktur & Format(tgl_skg, "MMyy"))
+	End Sub
+
+	Private Sub sadasda()
+
+		Dim JumlahBudget As Double = 10000
+		Dim Jumlah As Double = Val(HilangkanTanda(JumlahBudget))
+
 	End Sub
 
 End Class

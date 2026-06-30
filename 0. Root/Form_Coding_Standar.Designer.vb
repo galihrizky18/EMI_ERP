@@ -22,14 +22,14 @@ Partial Class Form_Coding_Standar
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()>
 	Private Sub InitializeComponent()
-		Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-		Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Me.Panel1 = New System.Windows.Forms.Panel()
 		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Label3 = New System.Windows.Forms.Label()
@@ -195,29 +195,29 @@ Partial Class Form_Coding_Standar
 		Me.DGV.AllowUserToResizeRows = False
 		Me.DGV.BackgroundColor = System.Drawing.Color.White
 		Me.DGV.BorderStyle = System.Windows.Forms.BorderStyle.None
-		DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-		DataGridViewCellStyle1.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-		DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-		DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-		DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-		Me.DGV.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+		DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		DataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control
+		DataGridViewCellStyle9.Font = New System.Drawing.Font("Work Sans", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		DataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText
+		DataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight
+		DataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+		DataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+		Me.DGV.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle9
 		Me.DGV.ColumnHeadersHeight = 35
 		Me.DGV.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4})
 		Me.DGV.Location = New System.Drawing.Point(561, 499)
 		Me.DGV.Name = "DGV"
 		Me.DGV.RowHeadersWidth = 21
-		DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-		Me.DGV.RowsDefaultCellStyle = DataGridViewCellStyle5
+		DataGridViewCellStyle13.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.DGV.RowsDefaultCellStyle = DataGridViewCellStyle13
 		Me.DGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
 		Me.DGV.Size = New System.Drawing.Size(602, 97)
 		Me.DGV.TabIndex = 494
 		'
 		'Column1
 		'
-		DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.Column1.DefaultCellStyle = DataGridViewCellStyle2
+		DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.Column1.DefaultCellStyle = DataGridViewCellStyle10
 		Me.Column1.HeaderText = "Kode Barang"
 		Me.Column1.Name = "Column1"
 		Me.Column1.ReadOnly = True
@@ -232,8 +232,8 @@ Partial Class Form_Coding_Standar
 		'
 		'Column3
 		'
-		DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.Column3.DefaultCellStyle = DataGridViewCellStyle3
+		DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.Column3.DefaultCellStyle = DataGridViewCellStyle11
 		Me.Column3.HeaderText = "Jumlah"
 		Me.Column3.Name = "Column3"
 		Me.Column3.ReadOnly = True
@@ -241,8 +241,8 @@ Partial Class Form_Coding_Standar
 		'
 		'Column4
 		'
-		DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.Column4.DefaultCellStyle = DataGridViewCellStyle4
+		DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.Column4.DefaultCellStyle = DataGridViewCellStyle12
 		Me.Column4.HeaderText = "Satuan"
 		Me.Column4.Name = "Column4"
 		Me.Column4.ReadOnly = True
@@ -292,8 +292,8 @@ Partial Class Form_Coding_Standar
 		'
 		'DataGridViewTextBoxColumn1
 		'
-		DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-		Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle6
+		DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+		Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle14
 		Me.DataGridViewTextBoxColumn1.HeaderText = "Kode Barang"
 		Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
 		Me.DataGridViewTextBoxColumn1.ReadOnly = True
@@ -308,8 +308,8 @@ Partial Class Form_Coding_Standar
 		'
 		'DataGridViewTextBoxColumn3
 		'
-		DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-		Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle7
+		DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+		Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle15
 		Me.DataGridViewTextBoxColumn3.HeaderText = "Jumlah"
 		Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
 		Me.DataGridViewTextBoxColumn3.ReadOnly = True
@@ -317,8 +317,8 @@ Partial Class Form_Coding_Standar
 		'
 		'DataGridViewTextBoxColumn4
 		'
-		DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle8
+		DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle16
 		Me.DataGridViewTextBoxColumn4.HeaderText = "Satuan"
 		Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
 		Me.DataGridViewTextBoxColumn4.ReadOnly = True

@@ -21,7 +21,7 @@ Public Class N_EMI_Dashboard_Formula
 
     Dim UserPosition As String = ""
 
-    Dim Status_HeadDept As String() = {"Belum Diproses", "Selesai Trial Kitchen", "Selesai Trial Produksi", "Proses Trial Produksi"}
+    Dim Status_HeadDept As String() = {"Belum Diproses", "Selesai Trial Kitchen", "Selesai Trial Produksi", "Proses Trial Produksi", "Proses Trial Kitchen"}
     Dim Status_BOD As String() = {"Menunggu Validasi BOD", "Proses Produksi Komersial"}
 
     Dim DgvParent_NoFormula, DgvParent_TanggalFormula, DgvParent_KdBarang, DgvParent_NmBarang, DgvParent_HPPMin, DgvParent_HPPMax, DgvParent_Jumlah, DgvParent_Satuan,
@@ -47,13 +47,22 @@ Public Class N_EMI_Dashboard_Formula
 
         Me.Dock = DockStyle.Fill
 
+        Cmb_Filter_Status.Items.Add("Formula Outstanding")
+        Cmb_Filter_Status.Items.Add("Formula Sedang Diproses")
+        Cmb_Filter_Status.Items.Add("Formula Selesai")
+        Cmb_Filter_Status.Items.Add("Formula Ditolak")
+
         Try
             OpenConn()
 
             If CekButtonRole("User_Formula_Position_Staff") = "Y" Then
                 UserPosition = "STAFF"
 
-                Cmb_Filter_Status.Items.Remove("Formula Outstanding")
+                Dim idx As Integer = Cmb_Filter_Status.FindStringExact("Formula Outstanding")
+
+                If idx >= 0 Then
+                    Cmb_Filter_Status.Items.RemoveAt(idx)
+                End If
 
                 CloseTrans()
                 CloseConn()
@@ -138,7 +147,19 @@ Public Class N_EMI_Dashboard_Formula
         BTN_SimpanCookingStep.Visible = False
         PNL_Komponen.BackColor = Color.Silver
 
-        Cmb_Filter_Status.SelectedIndex = 0
+        If UserPosition <> "STAFF" Then
+            Dim idx As Integer = Cmb_Filter_Status.FindStringExact("Formula Outstanding")
+
+            If idx >= 0 Then
+                Cmb_Filter_Status.SelectedIndex = idx
+            End If
+        Else
+            Dim idx As Integer = Cmb_Filter_Status.FindStringExact("Formula Sedang Diproses")
+
+            If idx >= 0 Then
+                Cmb_Filter_Status.SelectedIndex = idx
+            End If
+        End If
 
         _activeRTB = RTB_TrialKitchen
 
@@ -436,6 +457,11 @@ Public Class N_EMI_Dashboard_Formula
                             )
                             OR
                             (
+                                Flag_Lanjut_Trial_Kitchen = 'Y'
+                                AND Flag_Lanjut_Trial_Produksi IS NULL
+                            )
+                            OR
+                            (
                                 Flag_Lanjut_Trial_Produksi = 'Y'
                                 AND Flag_Lanjut_Produksi IS NULL
                             )
@@ -449,15 +475,17 @@ Public Class N_EMI_Dashboard_Formula
                         "
                     End If
 
-                    filterStatus = $"
-                        AND ISNULL(a.Flag_Lanjut_Trial_Kitchen, '') <> 'T'
-                        AND ISNULL(a.Flag_Lanjut_Trial_Produksi, '') <> 'T'
-                        AND ISNULL(a.Flag_Lanjut_Produksi, '') <> 'T'
-                        AND ISNULL(a.Flag_Validasi_Formula_Produksi_BOD, '') <> 'T'
-                        AND (
-                            {filterByUserPosition}
-                        )
-                    "
+                    If UserPosition.Trim <> "STAFF" Then
+                        filterStatus = $"
+                            AND ISNULL(a.Flag_Lanjut_Trial_Kitchen, '') <> 'T'
+                            AND ISNULL(a.Flag_Lanjut_Trial_Produksi, '') <> 'T'
+                            AND ISNULL(a.Flag_Lanjut_Produksi, '') <> 'T'
+                            AND ISNULL(a.Flag_Validasi_Formula_Produksi_BOD, '') <> 'T'
+                            AND (
+                                {filterByUserPosition}
+                            )
+                        "
+                    End If
                 Case "Formula Sedang Diproses"
                     filterStatus = "
                         AND ISNULL(a.Flag_Lanjut_Trial_Kitchen, '') <> 'T'
@@ -604,10 +632,22 @@ Public Class N_EMI_Dashboard_Formula
                         THEN tk.Deskripsi
                         ELSE ''
                     END AS Deskripsi,
-                    'Validasi' AS Validasi,
+
+                    CASE
+                        WHEN a.Flag_Lanjut_Trial_Produksi = 'Y' AND a.Flag_Selesai_Trial_Produksi IS NULL THEN 'Bypass Trial'
+                        WHEN a.Flag_Lanjut_Trial_Kitchen = 'Y' AND a.Flag_Selesai_Trial_Kitchen IS NULL THEN 'Bypass Trial'
+
+                        WHEN a.Flag_Lanjut_Produksi = 'Y' AND a.Flag_Validasi_Formula_Produksi_BOD IS NULL THEN 'Validasi'
+                        WHEN a.Flag_Lanjut_Trial_Produksi = 'Y' AND a.Flag_Selesai_Trial_Produksi = 'Y' THEN 'Validasi'
+                        WHEN a.Flag_Lanjut_Trial_Kitchen = 'Y' AND a.Flag_Selesai_Trial_Kitchen = 'Y' THEN 'Validasi'
+                        ELSE 'Validasi'
+                    END AS Validasi,
+
                     CASE 
-                        WHEN a.Keterangan_Bypass_trial IS NOT NULL THEN 'BYPASS_TRIAL'
-                        WHEN a.Keterangan_Bypass_Trial_Produksi_On_Process IS NOT NULL THEN 'BYPASS_TRIAL_PRODUKSI_ON_PROCESS'
+                        WHEN a.Flag_Bypass_trial = 'Y' OR (a.Flag_Lanjut_Trial_Kitchen = 'B' AND a.Flag_Selesai_Trial_Kitchen = 'B' AND a.Flag_Lanjut_Trial_Produksi = 'B' AND a.Flag_Selesai_Trial_Produksi = 'B') THEN 'BYPASS_NO_TRIAL'
+                        WHEN a.Flag_Bypass_Trial_Kitchen_On_Process = 'Y' AND a.Flag_Bypass_Trial_Produksi_On_Process = 'Y' THEN 'BYPASS_TRIAL_ON_PROCESS'
+                        WHEN a.Flag_Bypass_Trial_Produksi_On_Process = 'Y' THEN 'BYPASS_TRIAL_PRODUKSI_ON_PROCESS'
+                        WHEN a.Flag_Bypass_Trial_Kitchen_On_Process = 'Y' THEN 'BYPASS_TRIAL_KITCHEN_ON_PROCESS'
                         ELSE 'NORMAL'
                     END AS Status_Bypass
                 FROM EMI_Transaksi_Formulator a
@@ -685,9 +725,12 @@ Public Class N_EMI_Dashboard_Formula
 
                             DGV_Formula.Rows(i).Cells(CellParent_StatusFormula).Value = statusFormula
                             DGV_Formula.Rows(i).Cells(CellParent_Deskripsi).Value = .Rows(i).Item("Deskripsi").ToString().Trim
-                            DGV_Formula.Rows(i).Cells(CellParent_BtnValidasi).Value = .Rows(i).Item("Validasi")
+                            DGV_Formula.Rows(i).Cells(CellParent_BtnValidasi).Value = If(UserPosition.Trim = "CLEVEL", "Validasi", .Rows(i).Item("Validasi"))
                             DGV_Formula.Rows(i).Cells(CellParent_StatusBypass).Value = .Rows(i).Item("Status_Bypass")
                             DGV_Formula.Rows(i).DefaultCellStyle.BackColor = rowColor
+
+                            Dim deskVal As String = .Rows(i).Item("Deskripsi").ToString().Trim
+                            DGV_Formula.Rows(i).Cells(CellParent_Deskripsi).ToolTipText = deskVal
 
                             If UserPosition.Trim = "STAFF" Then
                                 DGV_Formula.Rows(i).Cells(CellParent_BtnValidasi) = New DataGridViewTextBoxCell()
@@ -712,10 +755,11 @@ Public Class N_EMI_Dashboard_Formula
 
                                 If isButton Then
                                     DGV_Formula.Rows(i).Cells(CellParent_BtnValidasi) = btnCell
-                                    DGV_Formula.Rows(i).Cells(CellParent_BtnValidasi).Value = .Rows(i).Item("Validasi")
+                                    DGV_Formula.Rows(i).Cells(CellParent_BtnValidasi).Value = If(userPos = "CLEVEL", "Validasi", .Rows(i).Item("Validasi"))
 
+                                    Dim btnText = If(General_Class.CekNULL(.Rows(i).Item("Validasi")) = "", "", If(userPos = "CLEVEL", "Validasi", .Rows(i).Item("Validasi")))
                                     With DGV_Formula.Rows(i).Cells(CellParent_BtnValidasi).Style
-                                        .BackColor = Color.FromArgb(15, 86, 122)
+                                        .BackColor = If(btnText = "Bypass Trial", Color.FromArgb(244, 164, 96), Color.FromArgb(15, 86, 122))
                                         .ForeColor = Color.White
                                     End With
                                     DGV_Formula.Rows(i).Cells(CellParent_BtnValidasi).ReadOnly = False
@@ -768,118 +812,7 @@ Public Class N_EMI_Dashboard_Formula
         Try
             OpenConn()
 
-            SQL = $"
-                WITH cte_bahan AS (
-                    SELECT 
-                        a.Kode_Barang,
-                        a.Kode_Bahan,
-                        a.Jumlah_Barang,
-
-                        (
-                            ISNULL(
-                                (
-                                    SELECT TOP (1)
-                                        dbo.get_hpp(x.serial_number)
-                                    FROM barang_sn x
-                                    WHERE x.kode_barang = a.kode_bahan
-                                      AND x.blok_sn IS NULL
-                                      AND dbo.get_hpp(x.serial_number) <> 0
-                                    ORDER BY x.Tgl_masuk DESC
-                                ),
-                                b.estimasi_harga
-                            )
-                        ) / NULLIF(a.Jumlah_Barang, 0) AS hpp
-
-                    FROM Barang_Detail_Bahan_Penolong a
-
-                    INNER JOIN Barang b
-                        ON a.Kode_Bahan = b.Kode_Barang
-
-                    GROUP BY a.Kode_Bahan, a.Kode_Barang, a.Jumlah_Barang, b.Estimasi_Harga
-                ),
-
-                cte_wc AS (
-                    SELECT 
-                        a.Kode_Perusahaan,
-                        a.Id_Jenis_Biaya_Produksi,
-                        a.Kode_Jenis_Biaya_Produksi,
-
-                        (
-                            SELECT TOP (1) x.No_Faktur
-                            FROM Emi_Transaksi_Work_Center x
-                            WHERE x.Status IS NULL
-                              AND x.Kode_Perusahaan = a.Kode_Perusahaan
-                              AND x.Jenis_Biaya = a.Kode_Jenis_Biaya_Produksi
-                            ORDER BY x.Id DESC
-                        ) AS Faktur_WC
-
-                    FROM Emi_Jenis_Biaya_Produksi a
-                ),
-
-                cte_produksi AS (
-                    SELECT 
-                        c.Id_Routing,
-                        a.Kode_Jenis_Biaya_Produksi,
-                        c.Id_Work_Center,
-                        MAX(c.Nilai_Per_Pcs) AS Nilai_Per_Kg
-
-                    FROM cte_wc a
-
-                    JOIN Emi_Transaksi_Work_Center b
-                        ON a.Kode_Perusahaan = b.Kode_Perusahaan
-                       AND a.Faktur_WC = b.No_Faktur
-
-                    JOIN Emi_Transaksi_Work_Center_Detail c
-                        ON b.Kode_Perusahaan = c.Kode_Perusahaan
-                       AND b.No_Faktur = c.No_Faktur
-
-                    GROUP BY 
-                        c.Id_Routing,
-                        c.Id_Work_Center,
-                        a.Kode_Jenis_Biaya_Produksi
-                )
-
-                SELECT 
-                    SUM(ISNULL(c.Est_HPP_Per_Pcs, 0)) AS HPP_Bahan_Baku,
-
-                    ISNULL((
-                        SELECT SUM(x.hpp)
-                        FROM cte_bahan x
-                        WHERE x.Kode_Barang = b.Kode_Barang
-                    ), 0) AS HPP_Packaging,
-
-                    ISNULL((
-                        SELECT SUM(x.Nilai_Per_Kg) / 1000 * d.Berat
-                        FROM cte_produksi x
-                        WHERE d.Id_Routing = x.Id_Routing
-                    ), 0) AS HPP_Produksi,
-
-                    'Per ' + d.Satuan AS Satuan
-
-                FROM Emi_Transaksi_Formulator b
-
-                INNER JOIN EMI_Transaksi_Formulator_Detail_Bahan c
-                    ON b.Kode_Perusahaan = c.Kode_Perusahaan
-                   AND b.No_Faktur = c.No_Faktur
-
-                INNER JOIN Barang d
-                    ON b.Kode_Perusahaan = d.Kode_Perusahaan
-                   AND b.Kode_Stock_Owner = d.Kode_Stock_Owner
-                   AND b.Kode_Barang = d.Kode_Barang_inq
-
-                WHERE b.Kode_Perusahaan = '{KodePerusahaan}' AND
-                    b.No_Faktur = '{TB_NoFormula.Text.Trim}'
-
-                GROUP BY 
-                    b.No_Faktur,
-                    d.Nama,
-                    b.Tanggal,
-                    d.Satuan,
-                    d.Berat,
-                    d.Id_Routing,
-                    b.Kode_Barang
-            "
-
+            SQL = Get_QueryHPPSementara(TB_NoFormula.Text.Trim)
             Using Dr = OpenTrans(SQL)
                 DGV_Komponen.Rows.Clear()
 
@@ -931,8 +864,8 @@ Public Class N_EMI_Dashboard_Formula
             .Columns.Add(CreateTextColumn("BM_Est_HPP_Pcs", "Est. HPP Pcs", autoSizeMode:="allcells", format:="N2"))
         End With
 
-        TB_Persen.Text = $""
-        TB_HPP_Pcs.Text = $""
+        TB_Persen.Text = ""
+        TB_HPP_Pcs.Text = ""
 
         If TB_NoFormula.Text.Trim = "" Then
             Exit Sub
@@ -1243,43 +1176,49 @@ Public Class N_EMI_Dashboard_Formula
             OpenConn()
 
             SQL = $"
-                SELECT *
-                    FROM (
-                        SELECT TOP 1 
-                            y.No_Transaksi,
-                            FORMAT(y.Tanggal, 'dd MMM yyyy') AS Tanggal,
-                            FORMAT(y.Tanggal_Validasi, 'dd MMM yyyy') AS Tanggal_Validasi,
-                            y.Jumlah,
-                            y.Satuan,
-                            'Trial Kitchen' AS Status
-                        FROM N_EMI_Transaksi_Trial_Order_Produksi x
-                        JOIN N_EMI_Transaksi_Trial_Split_Production_Order y 
-                            ON y.Kode_Perusahaan = x.Kode_Perusahaan 
-                            AND y.No_PO = x.No_Faktur
-                        WHERE x.Kode_Perusahaan = '{KodePerusahaan}' AND x.Kode_Formula = '{TB_NoFormula.Text.Trim}'
-                        ORDER BY y.Tanggal DESC, y.Jam DESC
-                    ) a
+                WITH cte_trial_kitchen AS (
+                    SELECT 
+                        y.No_Transaksi,
+                        FORMAT(y.Tanggal, 'dd MMM yyyy')          AS Tanggal,
+                        FORMAT(y.Tanggal_Validasi, 'dd MMM yyyy') AS Tanggal_Validasi,
+                        y.Jumlah,
+                        y.Satuan,
+                        'Trial Kitchen' AS Status,
+                        ROW_NUMBER() OVER (ORDER BY y.Tanggal DESC, y.Jam DESC) AS rn
+                    FROM N_EMI_Transaksi_Trial_Order_Produksi x
+                    JOIN N_EMI_Transaksi_Trial_Split_Production_Order y
+                        ON  y.Kode_Perusahaan = x.Kode_Perusahaan
+                        AND y.No_PO          = x.No_Faktur
+                    WHERE x.Kode_Perusahaan = '{KodePerusahaan}'
+                      AND x.Kode_Formula    = '{TB_NoFormula.Text.Trim}'
+                ),
+                cte_trial_produksi AS (
+                    SELECT 
+                        y.No_Transaksi,
+                        FORMAT(y.Tanggal, 'dd MMM yyyy') AS Tanggal,
+                        FORMAT(y.Tanggal, 'dd MMM yyyy') AS Tanggal_Validasi,
+                        y.Jumlah,
+                        y.Satuan,
+                        'Trial Produksi' AS Status,
+                        ROW_NUMBER() OVER (ORDER BY y.Tanggal DESC, y.Jam DESC) AS rn
+                    FROM EMI_Order_Produksi x
+                    JOIN Emi_Split_Production_Order y
+                        ON  y.Kode_Perusahaan = x.Kode_Perusahaan
+                        AND y.No_PO          = x.No_Faktur
+                    WHERE x.Flag_Trial_Produksi = 'Y'
+                      AND x.Kode_Perusahaan    = '{KodePerusahaan}'
+                      AND x.Kode_Formula       = '{TB_NoFormula.Text.Trim}'
+                )
+                SELECT No_Transaksi, Tanggal, Tanggal_Validasi, Jumlah, Satuan, Status
+                FROM cte_trial_kitchen
+                WHERE rn = 1
 
-                    UNION ALL
+                UNION ALL
 
-                    SELECT *
-                    FROM (
-                        SELECT TOP 1 
-                            y.No_Transaksi,
-                            FORMAT(y.Tanggal, 'dd MMM yyyy') AS Tanggal,
-                            FORMAT(y.Tanggal, 'dd MMM yyyy') AS Tanggal_Validasi,
-                            y.Jumlah,
-                            y.Satuan,
-                            'Trial Produksi' AS Status
-                        FROM EMI_Order_Produksi x
-                        JOIN Emi_Split_Production_Order y 
-                            ON y.Kode_Perusahaan = x.Kode_Perusahaan 
-                            AND y.No_PO = x.No_Faktur
-                        WHERE x.Flag_Trial_Produksi = 'Y' AND x.Kode_Perusahaan = '{KodePerusahaan}' AND x.Kode_Formula = '{TB_NoFormula.Text.Trim}'
-                        ORDER BY y.Tanggal DESC, y.Jam DESC
-                    ) b
+                SELECT No_Transaksi, Tanggal, Tanggal_Validasi, Jumlah, Satuan, Status
+                FROM cte_trial_produksi
+                WHERE rn = 1;
             "
-
             Using Ds = BindingTrans(SQL)
                 With Ds.Tables("MyTable")
                     If .Rows.Count <> 0 Then
@@ -2658,115 +2597,7 @@ Public Class N_EMI_Dashboard_Formula
                 End If
             End Using
 
-            SQL = $"
-                WITH cte_bahan AS (
-                    SELECT 
-                        a.Kode_Barang,
-                        a.Kode_Bahan,
-                        a.Jumlah_Barang,
-
-                        (
-                            ISNULL(
-                                (
-                                    SELECT TOP (1)
-                                        dbo.get_hpp(x.serial_number)
-                                    FROM barang_sn x
-                                    WHERE x.kode_barang = a.kode_bahan
-                                      AND x.blok_sn IS NULL
-                                      AND dbo.get_hpp(x.serial_number) <> 0
-                                    ORDER BY x.Tgl_masuk DESC
-                                ),
-                                b.estimasi_harga
-                            )
-                        ) / NULLIF(a.Jumlah_Barang, 0) AS hpp
-
-                    FROM Barang_Detail_Bahan_Penolong a
-
-                    INNER JOIN Barang b
-                        ON a.Kode_Bahan = b.Kode_Barang
-
-                    GROUP BY a.Kode_Bahan, a.Kode_Barang, a.Jumlah_Barang, b.Estimasi_Harga
-                ),
-
-                cte_wc AS (
-                    SELECT 
-                        a.Kode_Perusahaan,
-                        a.Kode_Jenis_Biaya_Produksi,
-
-                        (
-                            SELECT TOP (1) x.no_faktur
-                            FROM Emi_Transaksi_Work_Center x
-                            WHERE x.status IS NULL
-                              AND x.Kode_Perusahaan = a.Kode_Perusahaan
-                              AND x.jenis_biaya = a.Kode_Jenis_Biaya_Produksi
-                            ORDER BY x.id DESC
-                        ) AS Faktur_WC
-
-                    FROM Emi_Jenis_Biaya_Produksi a
-                ),
-
-                cte_produksi AS (
-                    SELECT 
-                        c.Id_Routing,
-                        c.id_work_center,
-                        MAX(c.Nilai_Per_pcs) AS Nilai_Per_Kg
-
-                    FROM cte_wc a
-
-                    JOIN Emi_Transaksi_Work_Center b
-                        ON a.Kode_Perusahaan = b.Kode_Perusahaan
-                       AND a.Faktur_WC = b.No_Faktur
-
-                    JOIN Emi_Transaksi_Work_Center_detail c
-                        ON b.Kode_Perusahaan = c.Kode_Perusahaan
-                       AND b.No_Faktur = c.No_Faktur
-
-                    GROUP BY 
-                        c.Id_Routing,
-                        c.id_work_center,
-                        a.Kode_Jenis_Biaya_Produksi
-                )
-
-                SELECT 
-                    d.Satuan,
-
-                    ISNULL((
-                        SELECT SUM(x.hpp)
-                        FROM cte_bahan x
-                        WHERE x.Kode_Barang = b.Kode_Barang
-                    ), 0) AS HPP_Packaging,
-
-                    ISNULL((
-                        SELECT SUM(x.Nilai_Per_Kg) / 1000 * d.Berat
-                        FROM cte_produksi x
-                        WHERE d.Id_Routing = x.Id_Routing
-                    ), 0) AS HPP_Produksi,
-
-                    ISNULL((
-                        SELECT SUM(ISNULL(x.Est_HPP_Per_Pcs, 0))
-                        FROM EMI_Transaksi_Formulator_Detail_Bahan x
-                        WHERE x.Kode_Perusahaan = b.Kode_Perusahaan
-                          AND x.No_Faktur = b.No_Faktur
-                    ), 0) AS HPP_Bahan_Baku
-
-                FROM Emi_Transaksi_Formulator b
-
-                JOIN Barang d
-                    ON b.Kode_Perusahaan = d.Kode_Perusahaan
-                    AND b.Kode_Barang = d.Kode_Barang_inq
-                    AND b.Kode_Stock_Owner = d.Kode_Stock_Owner
-
-                WHERE b.No_Faktur = '{TB_NoFormula.Text.Trim}'
-
-                GROUP BY 
-                    b.No_Faktur,
-                    b.Kode_Perusahaan,
-                    b.Kode_Barang,
-                    d.Nama,
-                    d.Satuan,
-                    d.Berat,
-                    d.Id_Routing
-            "
+            SQL = Get_QueryHPPSementara(TB_NoFormula.Text.Trim)
             Using Dr = OpenTrans(SQL)
                 If Dr.Read() Then
                     hpp("hpp_bahan_baku") = Dr("HPP_Bahan_Baku")
@@ -2882,36 +2713,57 @@ Public Class N_EMI_Dashboard_Formula
             OpenConn()
 
             Dim SQL_DGV_Formula As String = $"
+                    ;WITH CTE_OrderProduksi AS(
+                        SELECT
+                            x.Kode_Formula,
+                            x.Flag_Trial_Produksi,
+                            y.No_Transaksi,
+                            ROW_NUMBER() OVER
+                            (
+                                PARTITION BY x.Kode_Formula, x.Flag_Trial_Produksi
+                                ORDER BY y.Tanggal DESC, y.Jam DESC
+                            ) AS rn
+                        FROM EMI_Order_Produksi x
+                        JOIN Emi_Split_Production_Order y
+                            ON y.Kode_Perusahaan = x.Kode_Perusahaan
+                           AND y.No_PO = x.No_Faktur
+                        WHERE x.Kode_Formula = '{TB_NoFormula.Text.Trim}'
+                    )
                     SELECT
                         a.No_Faktur,
                         tk.No_Transaksi AS No_Split_Trial_Kitchen,
                         tp.No_Transaksi AS No_Split_Trial_Produksi,
-                        p.No_Transaksi AS No_Split_Produksi
+                        p.No_Transaksi  AS No_Split_Produksi
                     FROM EMI_Transaksi_Formulator a
-                    OUTER APPLY (
+                    OUTER APPLY
+                    (
                         SELECT TOP 1 y.No_Transaksi
                         FROM N_EMI_Transaksi_Trial_Order_Produksi x
-                        JOIN N_EMI_Transaksi_Trial_Split_Production_Order y ON y.Kode_Perusahaan = x.Kode_Perusahaan AND y.No_PO = x.No_Faktur
+                        JOIN N_EMI_Transaksi_Trial_Split_Production_Order y
+                            ON y.Kode_Perusahaan = x.Kode_Perusahaan
+                           AND y.No_PO = x.No_Faktur
                         WHERE x.Kode_Formula = a.No_Faktur
                         ORDER BY y.Tanggal DESC, y.Jam DESC
                     ) tk
-                    OUTER APPLY (
-                        SELECT TOP 1 y.No_Transaksi
-                        FROM EMI_Order_Produksi x
-                        JOIN Emi_Split_Production_Order y ON y.Kode_Perusahaan = x.Kode_Perusahaan AND y.No_PO = x.No_Faktur
-                        WHERE x.Kode_Formula = a.No_Faktur AND x.Flag_Trial_Produksi = 'Y'
-                        ORDER BY y.Tanggal DESC, y.Jam DESC
+                    OUTER APPLY
+                    (
+                        SELECT No_Transaksi
+                        FROM CTE_OrderProduksi
+                        WHERE Kode_Formula = a.No_Faktur
+                          AND Flag_Trial_Produksi = 'Y'
+                          AND rn = 1
                     ) tp
-                    OUTER APPLY (
-                        SELECT TOP 1 y.No_Transaksi
-                        FROM EMI_Order_Produksi x
-                        JOIN Emi_Split_Production_Order y ON y.Kode_Perusahaan = x.Kode_Perusahaan AND y.No_PO = x.No_Faktur
-                        WHERE x.Kode_Formula = a.No_Faktur AND x.Flag_Trial_Produksi IS NULL
-                        ORDER BY y.Tanggal DESC, y.Jam DESC
+                    OUTER APPLY
+                    (
+                        SELECT No_Transaksi
+                        FROM CTE_OrderProduksi
+                        WHERE Kode_Formula = a.No_Faktur
+                          AND (Flag_Trial_Produksi IS NULL OR Flag_Trial_Produksi <> 'Y')
+                          AND rn = 1
                     ) p
-                    WHERE a.No_Faktur = '{TB_NoFormula.Text.Trim}'
-                "
-
+                    WHERE a.Kode_Perusahaan = '{KodePerusahaan}'
+                      AND a.No_Faktur = '{TB_NoFormula.Text.Trim}';
+            "
             Using Dr = OpenTrans(SQL_DGV_Formula)
                 If Dr.Read() Then
                     Dim noSplitProduksi As String = If(General_Class.CekNULL(Dr("No_Split_Produksi")) = "", "", Dr("No_Split_Produksi").ToString())
@@ -3122,116 +2974,7 @@ Public Class N_EMI_Dashboard_Formula
         Try
             OpenConn()
 
-            SQL = $"
-                WITH cte_bahan AS (
-                    SELECT 
-                        a.Kode_Barang,
-                        a.Kode_Bahan,
-                        a.Jumlah_Barang,
-
-                        (
-                            ISNULL(
-                                (
-                                    SELECT TOP (1)
-                                        dbo.get_hpp(x.serial_number)
-                                    FROM barang_sn x
-                                    WHERE x.kode_barang = a.kode_bahan
-                                      AND x.blok_sn IS NULL
-                                      AND dbo.get_hpp(x.serial_number) <> 0
-                                    ORDER BY x.Tgl_masuk DESC
-                                ),
-                                b.estimasi_harga
-                            )
-                        ) / NULLIF(a.Jumlah_Barang, 0) AS hpp
-
-                    FROM Barang_Detail_Bahan_Penolong a
-
-                    INNER JOIN Barang b
-                        ON a.Kode_Bahan = b.Kode_Barang
-
-                    GROUP BY a.Kode_Bahan, a.Kode_Barang, a.Jumlah_Barang, b.Estimasi_Harga
-                ),
-
-                cte_wc AS (
-                    SELECT 
-                        a.Kode_Perusahaan,
-                        a.Id_Jenis_Biaya_Produksi,
-                        a.Kode_Jenis_Biaya_Produksi,
-
-                        (
-                            SELECT TOP (1) x.No_Faktur
-                            FROM Emi_Transaksi_Work_Center x
-                            WHERE x.Status IS NULL
-                              AND x.Kode_Perusahaan = a.Kode_Perusahaan
-                              AND x.Jenis_Biaya = a.Kode_Jenis_Biaya_Produksi
-                            ORDER BY x.Id DESC
-                        ) AS Faktur_WC
-
-                    FROM Emi_Jenis_Biaya_Produksi a
-                ),
-
-                cte_produksi AS (
-                    SELECT 
-                        c.Id_Routing,
-                        a.Kode_Jenis_Biaya_Produksi,
-                        c.Id_Work_Center,
-                        MAX(c.Nilai_Per_Pcs) AS Nilai_Per_Kg
-
-                    FROM cte_wc a
-
-                    JOIN Emi_Transaksi_Work_Center b
-                        ON a.Kode_Perusahaan = b.Kode_Perusahaan
-                       AND a.Faktur_WC = b.No_Faktur
-
-                    JOIN Emi_Transaksi_Work_Center_Detail c
-                        ON b.Kode_Perusahaan = c.Kode_Perusahaan
-                       AND b.No_Faktur = c.No_Faktur
-
-                    GROUP BY 
-                        c.Id_Routing,
-                        a.Kode_Jenis_Biaya_Produksi,
-                        c.Id_Work_Center
-                )
-
-                SELECT 
-                    SUM(ISNULL(c.Est_HPP_Per_Pcs, 0)) AS HPP_Bahan_Baku,
-
-                    ISNULL((
-                        SELECT SUM(x.hpp)
-                        FROM cte_bahan x
-                        WHERE x.Kode_Barang = b.Kode_Barang
-                    ), 0) AS HPP_Packaging,
-
-                    ISNULL((
-                        SELECT SUM(x.Nilai_Per_Kg) / 1000 * d.Berat
-                        FROM cte_produksi x
-                        WHERE d.Id_Routing = x.Id_Routing
-                    ), 0) AS HPP_Produksi
-
-                FROM Emi_Transaksi_Formulator b
-
-                INNER JOIN EMI_Transaksi_Formulator_Detail_Bahan c
-                    ON b.Kode_Perusahaan = c.Kode_Perusahaan
-                   AND b.No_Faktur = c.No_Faktur
-
-                INNER JOIN Barang d
-                    ON b.Kode_Perusahaan = d.Kode_Perusahaan
-                   AND b.Kode_Stock_Owner = d.Kode_Stock_Owner
-                   AND b.Kode_Barang = d.Kode_Barang_inq
-
-                WHERE 
-                    b.No_Faktur = '{NoFormula}'
-
-                GROUP BY 
-                    b.No_Faktur,
-                    d.Nama,
-                    b.Tanggal,
-                    d.Satuan,
-                    d.Berat,
-                    d.Id_Routing,
-                    b.Kode_Barang
-            "
-
+            SQL = Get_QueryHPPSementara(NoFormula)
             Using Dr = OpenTrans(SQL)
                 If Dr.Read() Then
 
@@ -3303,14 +3046,28 @@ Public Class N_EMI_Dashboard_Formula
             End If
 
             Dim currentStatus As String = DgvParent_StatusFormula.Trim
-
+            Dim btnFormula As String = DgvParent_BtnValidasi.Trim
             Dim userPos As String = UserPosition.Trim
 
             If userPos = "HEADDEPT" Then
                 If Status_HeadDept.Contains(currentStatus) Then
-
+                    If btnFormula <> "Validasi" Then
+                        Try
+                            OpenConn()
+                            If CekButtonRole("Bypass_Formula") = "T" Then
+                                CloseTrans()
+                                CloseConn()
+                                MessageBox.Show("Anda tidak memiliki akses untuk melakukan Bypass.", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                                Exit Sub
+                            End If
+                            CloseConn()
+                        Catch ex As Exception
+                            CloseConn()
+                            MessageBox.Show("Gagal cek role user: " & ex.Message, Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                            Exit Sub
+                        End Try
+                    End If
                     ShowFormHeadDept(DgvParent_NoFormula, DgvParent_StatusFormula)
-
                 End If
             ElseIf userPos = "CLEVEL" Then
                 If Status_BOD.Contains(currentStatus) Then
@@ -4110,6 +3867,130 @@ Public Class N_EMI_Dashboard_Formula
 
                 Return Color.White
         End Select
+    End Function
+
+    Private Function Get_QueryHPPSementara(NoFormula As String) As String
+        Dim SQL_QueryHPPSementara = $"
+            ;WITH cte_hpp_sn AS (
+                SELECT 
+                    kode_barang,
+                    dbo.get_hpp(serial_number) AS hpp_val,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY kode_barang 
+                        ORDER BY Tgl_masuk DESC
+                    ) AS rn
+                FROM barang_sn
+                WHERE blok_sn IS NULL
+                  AND dbo.get_hpp(serial_number) <> 0
+            ),
+            cte_bahan AS (
+                SELECT 
+                    a.Kode_Barang,
+                    a.Kode_Bahan,
+                    a.Jumlah_Barang,
+                    ISNULL(h.hpp_val, b.estimasi_harga) 
+                        / NULLIF(a.Jumlah_Barang, 0) AS hpp
+                FROM Barang_Detail_Bahan_Penolong a
+                INNER JOIN Barang b
+                    ON a.Kode_Bahan = b.Kode_Barang
+                LEFT JOIN cte_hpp_sn h
+                    ON h.kode_barang = a.kode_bahan
+                   AND h.rn = 1
+                GROUP BY 
+                    a.Kode_Bahan, 
+                    a.Kode_Barang, 
+                    a.Jumlah_Barang, 
+                    b.Estimasi_Harga,
+                    h.hpp_val
+            ),
+            cte_faktur_ranked AS (
+                SELECT 
+                    Kode_Perusahaan,
+                    Jenis_Biaya,
+                    No_Faktur,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY Kode_Perusahaan, Jenis_Biaya 
+                        ORDER BY Id DESC
+                    ) AS rn
+                FROM Emi_Transaksi_Work_Center
+                WHERE Status IS NULL
+            ),
+            cte_wc AS (
+                SELECT 
+                    a.Kode_Perusahaan,
+                    a.Id_Jenis_Biaya_Produksi,
+                    a.Kode_Jenis_Biaya_Produksi,
+                    f.No_Faktur AS Faktur_WC
+                FROM Emi_Jenis_Biaya_Produksi a
+                LEFT JOIN cte_faktur_ranked f
+                    ON f.Kode_Perusahaan = a.Kode_Perusahaan
+                   AND f.Jenis_Biaya      = a.Kode_Jenis_Biaya_Produksi
+                   AND f.rn = 1
+            ),
+            cte_produksi AS (
+                SELECT 
+                    c.Id_Routing,
+                    a.Kode_Jenis_Biaya_Produksi,
+                    c.Id_Work_Center,
+                    MAX(c.Nilai_Per_Pcs) AS Nilai_Per_Kg
+                FROM cte_wc a
+                JOIN Emi_Transaksi_Work_Center b
+                    ON a.Kode_Perusahaan = b.Kode_Perusahaan
+                   AND a.Faktur_WC       = b.No_Faktur
+                JOIN Emi_Transaksi_Work_Center_Detail c
+                    ON b.Kode_Perusahaan = c.Kode_Perusahaan
+                   AND b.No_Faktur       = c.No_Faktur
+                GROUP BY 
+                    c.Id_Routing,
+                    c.Id_Work_Center,
+                    a.Kode_Jenis_Biaya_Produksi
+            ),
+            cte_packaging_agg AS (
+                SELECT 
+                    Kode_Barang,
+                    SUM(hpp) AS total_hpp
+                FROM cte_bahan
+                GROUP BY Kode_Barang
+            ),
+            cte_produksi_agg AS (
+                SELECT 
+                    Id_Routing,
+                    SUM(Nilai_Per_Kg) AS total_nilai
+                FROM cte_produksi
+                GROUP BY Id_Routing
+            )
+            SELECT 
+                SUM(ISNULL(c.Est_HPP_Per_Pcs, 0))              AS HPP_Bahan_Baku,
+                ISNULL(pkg.total_hpp, 0)                        AS HPP_Packaging,
+                ISNULL(prod.total_nilai / 1000.0 * d.Berat, 0) AS HPP_Produksi,
+                'Per ' + d.Satuan                               AS Satuan
+            FROM Emi_Transaksi_Formulator b
+            INNER JOIN EMI_Transaksi_Formulator_Detail_Bahan c
+                ON b.Kode_Perusahaan = c.Kode_Perusahaan
+               AND b.No_Faktur       = c.No_Faktur
+            INNER JOIN Barang d
+                ON b.Kode_Perusahaan  = d.Kode_Perusahaan
+               AND b.Kode_Stock_Owner = d.Kode_Stock_Owner
+               AND b.Kode_Barang      = d.Kode_Barang_inq
+            LEFT JOIN cte_packaging_agg pkg
+                ON pkg.Kode_Barang = b.Kode_Barang
+            LEFT JOIN cte_produksi_agg prod
+                ON prod.Id_Routing = d.Id_Routing
+            WHERE b.Kode_Perusahaan = '{KodePerusahaan}'
+              AND b.No_Faktur       = '{NoFormula}'
+            GROUP BY 
+                b.No_Faktur,
+                d.Nama,
+                b.Tanggal,
+                d.Satuan,
+                d.Berat,
+                d.Id_Routing,
+                b.Kode_Barang,
+                pkg.total_hpp,
+                prod.total_nilai;
+        "
+
+        Return SQL_QueryHPPSementara
     End Function
 End Class
 

@@ -783,14 +783,14 @@ Public Class N_EMI_SD_Tambah_PR_Barang_Lain_Departement
 				MessageBox.Show(Base_Language.Lang_Global_NamaBarang & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
 				TxtPilihBarang_NamaBarang.Focus()
 				Exit Sub
-				'ElseIf CmbPilihBarang_Satuan.Text.Trim.Length = 0 Then
-				'    MessageBox.Show(Base_Language.Lang_Global_Satuan & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-				'    CmbPilihBarang_Satuan.Focus()
-				'    Exit Sub
-				'ElseIf CmbPilihBarang_Lokasi.Text.Trim.Length = 0 Then
-				'    MessageBox.Show(Base_Language.Lang_Global_Lokasi & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-				'    CmbPilihBarang_Lokasi.Focus()
-				'    Exit Sub
+			ElseIf CmbPilihBarang_Satuan.Text.Trim.Length = 0 Then
+				MessageBox.Show(Base_Language.Lang_Global_Satuan & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+				CmbPilihBarang_Satuan.Focus()
+				Exit Sub
+			ElseIf CmbPilihBarang_Lokasi.Text.Trim.Length = 0 Then
+				MessageBox.Show(Base_Language.Lang_Global_Lokasi & " " & Base_Language.Lang_Global_Belum_Diisi & " . . ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+				CmbPilihBarang_Lokasi.Focus()
+				Exit Sub
 			End If
 
 			If Format(DateTimePicker1.Value, "yyyy-MM-dd") < Format(tgl_skg, "yyyy-MM-dd") Then
@@ -949,108 +949,108 @@ Public Class N_EMI_SD_Tambah_PR_Barang_Lain_Departement
 
 			End If
 
-			'For i As Integer = 0 To N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows.Count - 1
-			'    If TxtPilihBarang_KodeBarang.Text.Trim = N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(i).Cells(1).Value Then
-			'        If CmbPilihBarang_Satuan.Text = N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(i).Cells(4).Value Then
-			'            If Format(DateTimePicker1.Value, "dd MMM yyyy") = N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(i).Cells(5).Value _
-			'                And N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(i).Cells(9).Value = Txt_Id_CostCenter.Text _
-			'                And N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(i).Cells(10).Value = Txt_IdGedung.Text Then
-			'                N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(i).Cells(3).Value = Val(N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(i).Cells(3).Value) + Val(txtJumlah.Text)
-			'                Me.Close()
-			'                Exit Sub
-			'            End If
-			'        End If
-			'    End If
-			'Next
+			For i As Integer = 0 To N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows.Count - 1
+				If TxtPilihBarang_KodeBarang.Text.Trim = N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(i).Cells(1).Value Then
+					If CmbPilihBarang_Satuan.Text = N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(i).Cells(4).Value Then
+						If Format(DateTimePicker1.Value, "dd MMM yyyy") = N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(i).Cells(5).Value _
+							And N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(i).Cells(9).Value = Txt_Id_CostCenter.Text _
+							And N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(i).Cells(10).Value = Txt_IdGedung.Text Then
+							N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(i).Cells(3).Value = Val(N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(i).Cells(3).Value) + Val(txtJumlah.Text)
+							Me.Close()
+							Exit Sub
+						End If
+					End If
+				End If
+			Next
 
 			Dim index As Integer = 0
 
-			'index = N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows.Count - 1
+			index = N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows.Count - 1
 
-			'Dim jumlahIndexDGv As Integer
+			Dim jumlahIndexDGv As Integer
 
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows.Add(1)
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows.Add(1)
 
-			''buat ambil jumlah dgv nya
-			'jumlahIndexDGv = N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows.Count - 1
+			'buat ambil jumlah dgv nya
+			jumlahIndexDGv = N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows.Count - 1
 
-			''N_EMI_Purchase_Requisition_Barang_Lain_Departement
-			'If CheckBox1.Checked = False Then
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(0).Value = CmbPilihBarang_Lokasi.Text
-			'Else
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(0).Value = "-"
-			'End If
+			'N_EMI_Purchase_Requisition_Barang_Lain_Departement
+			If CheckBox1.Checked = False Then
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(0).Value = CmbPilihBarang_Lokasi.Text
+			Else
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(0).Value = "-"
+			End If
 
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(1).Value = TxtPilihBarang_KodeBarang.Text
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(2).Value = TxtPilihBarang_NamaBarang.Text
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(3).Value = 0
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(4).Value = CmbPilihBarang_Satuan.Text
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(5).Value = Format(DateTimePicker1.Value, "dd MMM yyyy")
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(6).Value = txtKeterangan.Text.Trim
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(7).Value = Sisa
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(8).Value = 0
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(1).Value = TxtPilihBarang_KodeBarang.Text
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(2).Value = TxtPilihBarang_NamaBarang.Text
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(3).Value = 0
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(4).Value = CmbPilihBarang_Satuan.Text
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(5).Value = Format(DateTimePicker1.Value, "dd MMM yyyy")
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(6).Value = txtKeterangan.Text.Trim
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(7).Value = Sisa
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(8).Value = 0
 
-			'If TextBox1.Text.Trim.Length = 0 Then
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(9).Value = "-"
-			'Else
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(9).Value = TextBox1.Text
-			'End If
+			If TextBox1.Text.Trim.Length = 0 Then
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(9).Value = "-"
+			Else
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(9).Value = TextBox1.Text
+			End If
 
-			'If isAsset Then
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(10).Value = Txt_Id_CostCenter.Text
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(11).Value = Txt_IdGedung.Text
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(13).Value = Txt_CostCenter.Text
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(14).Value = Txt_Gedung.Text
-			'Else
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(10).Value = Ket_Cost_Center_HO_Proyek
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(11).Value = ""
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(13).Value = "-"
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(14).Value = "-"
-			'End If
+			If isAsset Then
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(10).Value = Txt_Id_CostCenter.Text
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(11).Value = Txt_IdGedung.Text
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(13).Value = Txt_CostCenter.Text
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(14).Value = Txt_Gedung.Text
+			Else
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(10).Value = Ket_Cost_Center_HO_Proyek
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(11).Value = ""
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(13).Value = "-"
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(14).Value = "-"
+			End If
 
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(12).Value = Cmb_Stock.Text
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(12).Value = Cmb_Stock.Text
 
-			'If Cmb_Stock.Text = "Y" Then
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(15).Value = "Stock"
-			'Else
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(15).Value = "Non Stock"
-			'End If
+			If Cmb_Stock.Text = "Y" Then
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(15).Value = "Stock"
+			Else
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(15).Value = "Non Stock"
+			End If
 
-			'If CheckBox1.Checked = True Then
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(16).Value = CmbSub.Text
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(17).Value = arridSub.Item(CmbSub.SelectedIndex)
-			'Else
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(16).Value = CmbSub.Text
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(17).Value = arridSub.Item(CmbSub.SelectedIndex)
-			'End If
+			If CheckBox1.Checked = True Then
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(16).Value = CmbSub.Text
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(17).Value = arridSub.Item(CmbSub.SelectedIndex)
+			Else
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(16).Value = CmbSub.Text
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(17).Value = arridSub.Item(CmbSub.SelectedIndex)
+			End If
 
-			'If txtHarga.Text <> 0 Then
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(18).ReadOnly = True
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(18).Value = Format(Val(txtHarga.Text), "N2")
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(19).Value = "Y"
-			'Else
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(18).ReadOnly = False
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(18).Value = 0
-			'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(19).Value = "T"
-			'    '    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(18).Style.BackColor = Color.Gray
-			'End If
+			If txtHarga.Text <> 0 Then
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(18).ReadOnly = True
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(18).Value = Format(Val(txtHarga.Text), "N2")
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(19).Value = "Y"
+			Else
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(18).ReadOnly = False
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(18).Value = 0
+				N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(19).Value = "T"
+				'    N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(18).Style.BackColor = Color.Gray
+			End If
 
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(20).Value = TxtTiba.Text
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(20).Value = TxtTiba.Text
 
-			'' N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(21).Value = SelectedFilePath
+			' N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(index).Cells(21).Value = SelectedFilePath
 
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(0).ReadOnly = True
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(1).ReadOnly = True
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(2).ReadOnly = True
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(3).ReadOnly = False
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(4).ReadOnly = True
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(5).ReadOnly = True
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(6).ReadOnly = False
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(0).ReadOnly = True
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(1).ReadOnly = True
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(2).ReadOnly = True
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(3).ReadOnly = False
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(4).ReadOnly = True
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(5).ReadOnly = True
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Dgv_DataBarang.Rows(jumlahIndexDGv).Cells(6).ReadOnly = False
 
-			'' SelectedFilePath = ""
+			' SelectedFilePath = ""
 
-			'Me.DialogResult = DialogResult.OK
-			'N_EMI_Purchase_Requisition_Barang_Lain_Departement.Cmb_Kategori_Gudang.Enabled = False
+			Me.DialogResult = DialogResult.OK
+			N_EMI_Purchase_Requisition_Barang_Lain_Departement.Cmb_Kategori_Gudang.Enabled = False
 			Me.Close()
 		ElseIf asal = "N_EMI_SD_Purchase_Requisition_Barang_Lain_Departement" Then
 			If TxtPilihBarang_KodeBarang.Text.Trim.Length = 0 Then
@@ -1161,7 +1161,7 @@ Public Class N_EMI_SD_Tambah_PR_Barang_Lain_Departement
 				SQL = SQL & "and no_Urut = '" & xurut_departement & "' "
 				ExecuteTrans(SQL)
 
-				'    N_EMI_SD_Purchase_Requisition_Barang_Lain_Departement.BtnCari_Click(BtnPilihBarang_Simpan, e)
+				'N_EMI_SD_Purchase_Requisition_Barang_Lain_Departement.BtnCari_Click(BtnPilihBarang_Simpan, e)
 				Me.Close()
 
 				CloseConn()

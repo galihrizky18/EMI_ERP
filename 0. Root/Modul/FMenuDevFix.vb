@@ -79,4 +79,21 @@
 		EMI_Display_Production_Result.Focus()
 	End Sub
 
+	Private Sub PRDeptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PRDeptToolStripMenuItem.Click
+		N_EMI_Purchase_Requisition_Barang_Lain_Departement.StartPosition = FormStartPosition.CenterScreen
+
+		N_EMI_Purchase_Requisition_Barang_Lain_Departement.MdiParent = Me
+		N_EMI_Purchase_Requisition_Barang_Lain_Departement.Show()
+		N_EMI_Purchase_Requisition_Barang_Lain_Departement.Focus()
+	End Sub
+
+	Private Sub GIToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GIToolStripMenuItem.Click
+		EMI_Hasil_Pengeluaran_Bahan_Baku_Baru.StartPosition = FormStartPosition.CenterScreen
+
+		EMI_Hasil_Pengeluaran_Bahan_Baku_Baru.asal = "INDEPENDENT"
+		EMI_Hasil_Pengeluaran_Bahan_Baku_Baru.MdiParent = Me
+		EMI_Hasil_Pengeluaran_Bahan_Baku_Baru.Show()
+		EMI_Hasil_Pengeluaran_Bahan_Baku_Baru.Focus()
+	End Sub
+
 End Class

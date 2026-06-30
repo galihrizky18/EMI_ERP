@@ -223,7 +223,7 @@ Partial Class N_EMI_Dashboard_Formula
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold)
-        Me.Label1.Location = New System.Drawing.Point(18, 7)
+        Me.Label1.Location = New System.Drawing.Point(15, 10)
         Me.Label1.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(216, 30)
@@ -400,7 +400,6 @@ Partial Class N_EMI_Dashboard_Formula
         Me.DGV_Formula.AllowUserToResizeRows = False
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DGV_Formula.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
-        Me.DGV_Formula.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.DGV_Formula.BackgroundColor = System.Drawing.Color.White
         Me.DGV_Formula.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.DGV_Formula.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None
@@ -434,6 +433,7 @@ Partial Class N_EMI_Dashboard_Formula
         DataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DGV_Formula.RowsDefaultCellStyle = DataGridViewCellStyle15
         Me.DGV_Formula.RowTemplate.DividerHeight = 1
+        Me.DGV_Formula.RowTemplate.Height = 35
         Me.DGV_Formula.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.DGV_Formula.Size = New System.Drawing.Size(1140, 61)
         Me.DGV_Formula.TabIndex = 528
@@ -1194,7 +1194,6 @@ Partial Class N_EMI_Dashboard_Formula
         Me.Cmb_Filter_Status.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Cmb_Filter_Status.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cmb_Filter_Status.FormattingEnabled = True
-        Me.Cmb_Filter_Status.Items.AddRange(New Object() {"Formula Outstanding", "Formula Sedang Diproses", "Formula Selesai", "Formula Ditolak"})
         Me.Cmb_Filter_Status.Location = New System.Drawing.Point(0, 0)
         Me.Cmb_Filter_Status.Margin = New System.Windows.Forms.Padding(0)
         Me.Cmb_Filter_Status.Name = "Cmb_Filter_Status"
@@ -1242,6 +1241,7 @@ Partial Class N_EMI_Dashboard_Formula
         'Tb_Value
         '
         Me.Tb_Value.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Tb_Value.Enabled = False
         Me.Tb_Value.Font = New System.Drawing.Font("Work Sans", 8.0!)
         Me.Tb_Value.Location = New System.Drawing.Point(317, 88)
         Me.Tb_Value.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
@@ -1813,6 +1813,8 @@ Partial Class N_EMI_Dashboard_Formula
     Friend WithEvents BTN_SimpanCookingStep As Button
     Friend WithEvents CMS_CompareFormula As ContextMenuStrip
     Friend WithEvents CompareFormulaToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Panel15 As Panel
+    Friend WithEvents Label8 As Label
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column10 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
@@ -1827,6 +1829,4 @@ Partial Class N_EMI_Dashboard_Formula
     Friend WithEvents Column8 As DataGridViewTextBoxColumn
     Friend WithEvents Column9 As DataGridViewButtonColumn
     Friend WithEvents Column20 As DataGridViewTextBoxColumn
-    Friend WithEvents Panel15 As Panel
-    Friend WithEvents Label8 As Label
 End Class

@@ -557,7 +557,7 @@
 #End Region
 
 			SQL = $"
-				select a.kode_perusahaan, 'Good Received 1' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+				select a.kode_perusahaan, 'Goods Received 1' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
 								   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
 								   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(c.Jumlah) as Jumlah, b.Satuan,
 								   isnull(i.No_Transaksi, NULL) as No_Transaksi_Waste
@@ -587,7 +587,7 @@
 
 				union all
 
-				select a.kode_perusahaan, 'Good Received 1' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+				select a.kode_perusahaan, 'Goods Received 1' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
 								   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
 								   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(c.Jumlah) as Jumlah, b.Satuan,
 								   isnull(i.No_Transaksi, NULL) as No_Transaksi_Waste
@@ -622,7 +622,7 @@
 
 				union all
 
-				select a.kode_perusahaan, 'Good Received 2' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+				select a.kode_perusahaan, 'Goods Received 2' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
 								   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
 								   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah) as Jumlah, e.Satuan, NULL as No_Transaksi_Waste
 				from N_EMI_Transaksi_Transfer_Waste a
@@ -646,7 +646,7 @@
 
 				union all
 
-				select a.kode_perusahaan, 'Good Received 2' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+				select a.kode_perusahaan, 'Goods Received 2' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
 								   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
 								   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah) as Jumlah, e.Satuan, NULL as No_Transaksi_Waste
 				from N_EMI_Transaksi_Transfer_Waste a
@@ -1312,7 +1312,7 @@
 #End Region
 
 			SQL = $"
-				select a.kode_perusahaan, 'Good Received 1' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+				select a.kode_perusahaan, 'Goods Received 1' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
 					   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
 					   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(c.Jumlah) as Jumlah, b.Satuan
 				from N_EMI_Transaksi_Transfer_Waste_Produk a
@@ -1335,7 +1335,7 @@
 
 				union all
 
-				select a.kode_perusahaan, 'Good Received 1' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order,
+				select a.kode_perusahaan, 'Goods Received 1' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order,
 					   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
 					   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(c.Jumlah) as Jumlah, b.Satuan
 				from N_EMI_Transaksi_Transfer_Waste_Produk a
@@ -1362,7 +1362,7 @@
 
 				union all
 
-				select a.kode_perusahaan, 'Good Received 2' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+				select a.kode_perusahaan, 'Goods Received 2' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
 					   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
 					   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah) as Jumlah, e.Satuan
 				from N_EMI_Transaksi_Transfer_Waste_Produk a
@@ -1385,7 +1385,7 @@
 
 				union all
 
-				select a.kode_perusahaan, 'Good Received 2' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
+				select a.kode_perusahaan, 'Goods Received 2' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi, f.No_Production_Order as No_Split,
 					   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
 					   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah) as Jumlah, e.Satuan
 				from N_EMI_Transaksi_Transfer_Waste_Produk a
@@ -1412,7 +1412,7 @@
 
 				union all
 
-				  select a.kode_perusahaan, 'Good Received 3' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi,
+				  select a.kode_perusahaan, 'Goods Received 3' as asal, 'Approved' as StatusBarcode, a.No_Faktur, f.No_Transaksi,
 						   k.No_Production_Order as No_Split,
 						   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
 						   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah) as Jumlah, e.Satuan
@@ -1438,7 +1438,7 @@
 
 					  union all
 
-					  select a.kode_perusahaan, 'Good Received 3' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi,
+					  select a.kode_perusahaan, 'Goods Received 3' as asal, 'Rejected' as StatusBarcode, a.No_Faktur, f.No_Transaksi,
 						   k.No_Production_Order as No_Split,
 						   (g.qr_code + '-' + g.kode_unik_berjalan) as Barcode_Awal,
 						   (h.qr_code + '-' + h.kode_unik_berjalan) as Barcode_Akhir, sum(e.Jumlah) as Jumlah, e.Satuan

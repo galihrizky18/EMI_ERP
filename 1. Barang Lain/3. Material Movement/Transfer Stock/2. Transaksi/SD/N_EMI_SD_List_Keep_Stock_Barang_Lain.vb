@@ -64,7 +64,7 @@
     Dim arrFilterPRDEPT As New ArrayList
 
     ' Variabel Global
-    Dim PageSize As Integer = 5
+    Dim PageSize As Integer = 15
 
     Private Sub cmbFilter_Pr_Dept_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbFilter_Pr_Dept.SelectedIndexChanged
         If cmbFilter_Pr_Dept.SelectedIndex = 0 Then
@@ -386,7 +386,7 @@
             If cmbFilter_Pr_Dept.SelectedIndex <> 1 Then
                 PageSize = 22
             Else
-                PageSize = 5
+                PageSize = 15
             End If
         End If
 
@@ -408,18 +408,18 @@
 
             Dim offset As Integer = (page - 1) * PageSize
 
-            Dim Filtered As String = ""
-            If Not Chk_Belum_Selesai.Checked Then
-                If filter Then
-                    If cmbFilter_Pr_Dept.SelectedIndex <> 0 Then
-                        Filtered = "and " & arrFilterPRDEPT(cmbFilter_Pr_Dept.SelectedIndex) & " like '%" & txt_value_pr_dept.Text.Trim & "%'  "
-                    End If
-                End If
+            Dim Filtered2 As String = ""
+            'If Not Chk_Belum_Selesai.Checked Then
+            'If filter Then
+            If cmbFilter_Pr_Dept.SelectedIndex <> 0 Then
+                Filtered2 = "and " & arrFilterPRDEPT(cmbFilter_Pr_Dept.SelectedIndex) & " like '%" & txt_value_pr_dept.Text.Trim & "%'  "
             End If
+            'End If
+            'End If
 
             SQL = $"
 
-                                                       ;WITH cte_user AS (
+                ;WITH cte_user AS (
                                     SELECT 
                                         a.Kode_Perusahaan,
                                         b.Kode_Stock_Owner_Gudang,
@@ -587,18 +587,17 @@
                                 WHERE a.Kode_Perusahaan = '{KodePerusahaan}'
                                   AND a.Status IS NULL
                                   AND b.Flag_Selesai_Transfer IS NULL
-                                
+                                 and b.flag_sudah_pr = 'Y'
                                   AND a.Flag_Release = 'Y'
                                   and g.Kode_Stock_Owner_Gudang = '{lokasi_kirim}'
                                      and e.kode_stock_owner = '{lokasi_kirim}'
                                   and gt.Kode_Stock_Owner_Gudang = '{lokasi_Terima}'
                                   and g.User_ID = '{UserID}'
-
-
+                                  
                                   and (b.Jumlah 
                                - ISNULL(ks.Total_Keep, 0) 
                                - ISNULL(tf.Jumlah_TF, 0)) > 0 
-                                                {Filtered}
+                                                {Filtered2}
 
                                 ORDER BY a.Tanggal DESC, a.Jam DESC;
 
@@ -679,7 +678,7 @@
             If Cmb_Filter.SelectedIndex <> 1 Then
                 PageSize = 22
             Else
-                PageSize = 5
+                PageSize = 15
             End If
         End If
 

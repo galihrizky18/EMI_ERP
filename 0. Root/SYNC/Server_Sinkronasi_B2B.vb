@@ -4336,6 +4336,10 @@ Public Class Server_Sinkronasi_B2B
 											ExecuteTrans(SQL)
 
 										Next
+
+										SQL = "update N_EMI_Transaksi_Approval_Waste set Flag_Selesai = 'Y' "
+										SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Status is null and No_Transaksi = '" & No_Transaksi_Approval & "' and No_Faktur_Waste = '" & No_Faktur_Waste & "' "
+										ExecuteTrans(SQL)
 									End If
 								End Using
 
@@ -5233,9 +5237,9 @@ Public Class Server_Sinkronasi_B2B
 
 #End Region
 
-								SQL = "update N_EMI_Transaksi_Approval_Waste set Flag_Selesai = 'Y' "
-								SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Status is null and No_Transaksi = '" & No_Transaksi_Approval & "' and No_Faktur_Waste = '" & No_Faktur_Waste & "' "
-								ExecuteTrans(SQL)
+								'SQL = "update N_EMI_Transaksi_Approval_Waste set Flag_Selesai = 'Y' "
+								'SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Status is null and No_Transaksi = '" & No_Transaksi_Approval & "' and No_Faktur_Waste = '" & No_Faktur_Waste & "' "
+								'ExecuteTrans(SQL)
 
 								Cmd.Transaction.Commit()
 							End If

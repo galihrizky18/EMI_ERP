@@ -28,7 +28,10 @@ Partial Class FMenuDevFix
 		Me.ProductionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.TransaksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.DisplayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.ProductionResultToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.ReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.BarangLainToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.PRDeptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
 		Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
 		Me.ToolStripStatusLabel4 = New System.Windows.Forms.ToolStripStatusLabel()
@@ -36,14 +39,14 @@ Partial Class FMenuDevFix
 		Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
 		Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
 		Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
-		Me.ProductionResultToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.GIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.MenuStrip1.SuspendLayout()
 		Me.StatusStrip1.SuspendLayout()
 		Me.SuspendLayout()
 		'
 		'MenuStrip1
 		'
-		Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterToolStripMenuItem, Me.ProductionToolStripMenuItem})
+		Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterToolStripMenuItem, Me.ProductionToolStripMenuItem, Me.BarangLainToolStripMenuItem})
 		Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
 		Me.MenuStrip1.Name = "MenuStrip1"
 		Me.MenuStrip1.Size = New System.Drawing.Size(1277, 24)
@@ -65,6 +68,7 @@ Partial Class FMenuDevFix
 		'
 		'TransaksiToolStripMenuItem
 		'
+		Me.TransaksiToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GIToolStripMenuItem})
 		Me.TransaksiToolStripMenuItem.Name = "TransaksiToolStripMenuItem"
 		Me.TransaksiToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
 		Me.TransaksiToolStripMenuItem.Text = "Transaksi"
@@ -76,11 +80,30 @@ Partial Class FMenuDevFix
 		Me.DisplayToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
 		Me.DisplayToolStripMenuItem.Text = "Display"
 		'
+		'ProductionResultToolStripMenuItem
+		'
+		Me.ProductionResultToolStripMenuItem.Name = "ProductionResultToolStripMenuItem"
+		Me.ProductionResultToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
+		Me.ProductionResultToolStripMenuItem.Text = "Production Result"
+		'
 		'ReportToolStripMenuItem
 		'
 		Me.ReportToolStripMenuItem.Name = "ReportToolStripMenuItem"
 		Me.ReportToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
 		Me.ReportToolStripMenuItem.Text = "Report"
+		'
+		'BarangLainToolStripMenuItem
+		'
+		Me.BarangLainToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PRDeptToolStripMenuItem})
+		Me.BarangLainToolStripMenuItem.Name = "BarangLainToolStripMenuItem"
+		Me.BarangLainToolStripMenuItem.Size = New System.Drawing.Size(81, 20)
+		Me.BarangLainToolStripMenuItem.Text = "Barang Lain"
+		'
+		'PRDeptToolStripMenuItem
+		'
+		Me.PRDeptToolStripMenuItem.Name = "PRDeptToolStripMenuItem"
+		Me.PRDeptToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
+		Me.PRDeptToolStripMenuItem.Text = "PR Dept"
 		'
 		'StatusStrip1
 		'
@@ -128,11 +151,11 @@ Partial Class FMenuDevFix
 		Me.Timer2.Enabled = True
 		Me.Timer2.Interval = 1800000
 		'
-		'ProductionResultToolStripMenuItem
+		'GIToolStripMenuItem
 		'
-		Me.ProductionResultToolStripMenuItem.Name = "ProductionResultToolStripMenuItem"
-		Me.ProductionResultToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-		Me.ProductionResultToolStripMenuItem.Text = "Production Result"
+		Me.GIToolStripMenuItem.Name = "GIToolStripMenuItem"
+		Me.GIToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+		Me.GIToolStripMenuItem.Text = "GI"
 		'
 		'FMenuDevFix
 		'
@@ -170,4 +193,7 @@ Partial Class FMenuDevFix
 	Friend WithEvents DisplayToolStripMenuItem As ToolStripMenuItem
 	Friend WithEvents ReportToolStripMenuItem As ToolStripMenuItem
 	Friend WithEvents ProductionResultToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents BarangLainToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents PRDeptToolStripMenuItem As ToolStripMenuItem
+	Friend WithEvents GIToolStripMenuItem As ToolStripMenuItem
 End Class

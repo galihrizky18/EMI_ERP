@@ -1,5 +1,5 @@
 ﻿Public Class N_EMI_SD_Transaksi_Validasi_Formula_BOD
-    Public Property No_Faktur As String
+	Public Property No_Faktur As String
 	Public Property StatusBypass As String = "NORMAL"
 	Public Property KeteranganBypass As String = "NORMAL"
 
@@ -45,6 +45,9 @@
 	Dim cellEstHPP As Integer = 12
 	Dim cellEstHPPPcs As Integer = 13
 
+	Private ArrNoFakturBinding As New List(Of String)
+	Private ArrHierarkiBinding As New List(Of String)
+	Private ArrKeteranganBinding As New List(Of String)
 	Private Sub N_EMI_SD_Transaksi_Validasi_Formula_BOD_Load(sender As Object, e As EventArgs) Handles Me.Load
 		TxtFormulator_NoFaktur.Text = No_Faktur
 
@@ -59,10 +62,10 @@
 			TB_StatusBypass.Text = "NORMAL - TANPA BYPASS"
 			TB_KeteranganBypass.Text = ""
 
-			LB_StatusBypass.Visible = False
-			LB_KeteranganBypass.Visible = False
-			TB_StatusBypass.Visible = False
-			TB_KeteranganBypass.Visible = False
+			LB_StatusBypass.Visible = True
+			LB_KeteranganBypass.Visible = True
+			TB_StatusBypass.Visible = True
+			TB_KeteranganBypass.Visible = True
 
 		ElseIf StatusBypass = "BYPASS_TRIAL" Then
 			TB_StatusBypass.Text = "BYPASS - TANPA TRIAL"
@@ -154,11 +157,22 @@
 			LvBindingFormula.BeginUpdate()
 			LvBindingFormula.Items.Clear()
 
+			' array master ini jadi sumber data yang dipakai ulang oleh
+			' Cmb_PosisiBinding_SelectedIndexChanged untuk re-render LvBindingFormula
+			' setiap kali posisi binding berganti, tanpa perlu query ulang ke DB
+			ArrNoFakturBinding.Clear()
+			ArrHierarkiBinding.Clear()
+			ArrKeteranganBinding.Clear()
+
 			Using Dr = OpenTrans(SQL)
 				While Dr.Read()
 					Dim noFormula As String = General_Class.CekNULL(Dr("No_Formulator"))
 					Dim keterangan As String = General_Class.CekNULL(Dr("Keterangan"))
 					Dim kodeHierarki As String = General_Class.CekNULL(Dr("Kode_Hierarki"))
+
+					ArrNoFakturBinding.Add(noFormula)
+					ArrHierarkiBinding.Add(kodeHierarki)
+					ArrKeteranganBinding.Add(keterangan)
 
 					Dim item As New ListViewItem(noFormula)
 					item.SubItems.Add(kodeHierarki)
@@ -168,9 +182,9 @@
 				End While
 			End Using
 
-			If LvBindingFormula.Items.Count > 0 Then
-				LvBindingFormula.Items(0).BackColor = Color.LightGreen
-			End If
+			'If LvBindingFormula.Items.Count > 0 Then
+			'	LvBindingFormula.Items(0).BackColor = Color.LightGreen
+			'End If
 
 			LvBindingFormula.EndUpdate()
 
@@ -353,33 +367,79 @@
 			Exit Sub
 		End If
 
+		Dim FlagPermanent As String = "NULL"
+		Dim FlagExpired As String = "NULL"
+		Dim StartExpired As String = "NULL"
+		Dim EndExpired As String = "NULL"
 		get_jam()
 		Try
 			OpenConn()
 			Cmd.Transaction = Cn.BeginTransaction
 
 			If Cmb_PosisiBinding.SelectedIndex <> 0 Then
+				If Cmb_PosisiBinding.SelectedIndex = 1 Then
+					Dim NoFormula As String = If(LvBindingFormula.Items.Count = 0, "", LvBindingFormula.Items(0).SubItems(0).Text.Trim())
+					Dim frmExp As New N_EMI_SD_Pengaturan_Expired_Formula
+
+					SQL = $"
+						SELECT TOP 1
+							f.No_Faktur,
+							f.Hasil,
+							f.Satuan_Hasil
+						FROM EMI_Transaksi_Formulator f
+						WHERE
+							f.Kode_Perusahaan = '{KodePerusahaan}'
+							AND f.No_Faktur = '{NoFormula}'
+					"
+					Using Dr = OpenTrans(SQL)
+						If Dr.Read() Then
+							With frmExp
+								.NoFormula = General_Class.CekNULL(Dr("No_Faktur")).Trim()
+								.KodeBarang = TxtFormulator_KodeBarang.Text.Trim
+								.NamaBarang = TxtFormulator_NamaBarang.Text.Trim
+								.QtyHasil = General_Class.CekNULL(Dr("Hasil")).Trim()
+								.SatuanHasil = General_Class.CekNULL(Dr("Satuan_Hasil")).Trim()
+							End With
+
+							If frmExp.ShowDialog() <> DialogResult.OK Then
+								Dr.Close()
+								CloseTrans()
+								CloseConn()
+								Exit Sub
+							End If
+
+							If frmExp.JenisExpired = "Permanen" Then
+								FlagPermanent = "'Y'"
+							ElseIf frmExp.JenisExpired = "Sementara" Then
+								FlagExpired = "'Y'"
+								StartExpired = $"'{Format(frmExp.startExp, "yyyy-MM-dd HH:mm:ss")}'"
+								EndExpired = $"'{Format(frmExp.endExp, "yyyy-MM-dd HH:mm:ss")}'"
+							End If
+						Else
+							CloseTrans()
+							CloseConn()
+
+							MessageBox.Show(
+							"Data formula tidak ditemukan.",
+							Judul,
+							MessageBoxButtons.OK,
+							MessageBoxIcon.Exclamation)
+
+							Exit Sub
+						End If
+					End Using
+				End If
+
 				Dim NoFaktur = get_no_faktur_binding()
 				Dim KodeBarang = TxtFormulator_KodeBarang.Text.Trim
 				Dim Tanggal = Format(tgl_skg, "yyyy-MM-dd")
 				Dim Jam = Format(tgl_skg, "HH:mm:ss")
-				SQL = $"
-					SELECT 
-						kode_perusahaan
-					FROM N_EMI_Transaksi_Formulator_Binding
-					WHERE 
-						Kode_Perusahaan = '{KodePerusahaan}'
-						AND kode_barang = '{KodeBarang}' and status is null and flag_validasi_main is null
-				"
-				Using Dr = OpenTrans(SQL)
-					If Dr.Read() Then
-						Dr.Close()
-						CloseTrans()
-						CloseConn()
-						MessageBox.Show("Binding Sudah di input, Silahkan Menunggu Validasi ! ! !", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-						Exit Sub
-					End If
-				End Using
+
+				SQL = $"UPDATE 
+						N_EMI_Transaksi_Formulator_Binding 
+					SET Status = 'Y', Tanggal_Validasi_Main = '{Tanggal}', Jam_Validasi_Main = '{Jam}', User_Validasi_Main = 'SYSTEM'
+					WHERE Kode_Perusahaan = '{KodePerusahaan}' AND kode_barang = '{KodeBarang}' and status is null and flag_validasi_main is null"
+				ExecuteTrans(SQL)
 
 				SQL = $"
 					INSERT INTO N_EMI_Transaksi_Formulator_Binding
@@ -395,11 +455,24 @@
 					Dim Keterangan = item.SubItems(2).Text
 					Dim Prioritas = i + 1
 
+					Dim sqlFlagPermanent As String = "NULL"
+					Dim sqlFlagExpired As String = "NULL"
+					Dim sqlStartExpired As String = "NULL"
+					Dim sqlEndExpired As String = "NULL"
+
+					'Setting expired hanya untuk formula prioritas pertama
+					If Prioritas = 1 Then
+						sqlFlagPermanent = FlagPermanent
+						sqlFlagExpired = FlagExpired
+						sqlStartExpired = StartExpired
+						sqlEndExpired = EndExpired
+					End If
+
 					SQL = $"
 						INSERT INTO N_EMI_Transaksi_Formulator_Binding_Detail
-						(Kode_Perusahaan, No_Faktur, No_Formulator, No_Prioritas, Kode_Hierarki, Tanggal, Jam, UserID, Keterangan)
+						(Kode_Perusahaan, No_Faktur, No_Formulator, No_Prioritas, Kode_Hierarki, Tanggal, Jam, UserID, Keterangan,Flag_Permanent,Flag_Expired,Start_Expired,End_Expired)
 						VALUES
-						('{KodePerusahaan}', '{NoFaktur}', '{NoFormulator}', '{Prioritas}', '{KodeHierarki}', '{Tanggal}', '{Jam}', '{UserID}', '{Keterangan}')
+						('{KodePerusahaan}', '{NoFaktur}', '{NoFormulator}', '{Prioritas}', '{KodeHierarki}', '{Tanggal}', '{Jam}', '{UserID}', '{Keterangan}', {sqlFlagPermanent},  {sqlFlagExpired}, {sqlStartExpired}, {sqlEndExpired})
 					"
 					ExecuteTrans(SQL)
 				Next
@@ -414,10 +487,10 @@
 
 			Cmd.Transaction.Commit()
 			CloseTrans()
-            CloseConn()
+			CloseConn()
 
-            MessageBox.Show("Berhasil memvalidasi formula", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Catch ex As Exception
+			MessageBox.Show("Berhasil memvalidasi formula", Judul, MessageBoxButtons.OK, MessageBoxIcon.Information)
+		Catch ex As Exception
 			CloseTrans()
 			CloseConn()
 			MessageBox.Show(ex.Message, Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -481,13 +554,52 @@
 	End Sub
 
 	Private Sub Cmb_PosisiBinding_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_PosisiBinding.SelectedIndexChanged
-        If Cmb_PosisiBinding.SelectedIndex = 0 Then Exit Sub
+		If Cmb_PosisiBinding.SelectedIndex = 0 OrElse Cmb_PosisiBinding.SelectedIndex = Cmb_PosisiBinding.Items.Count - 1 Then
+			Btn_Compare.Visible = False
+		Else
+			Btn_Compare.Visible = True
+		End If
 
+		Dim posisi As Integer = Cmb_PosisiBinding.SelectedIndex - 1
+
+		LvBindingFormula.BeginUpdate()
+		LvBindingFormula.Items.Clear()
+
+		For i As Integer = 0 To ArrNoFakturBinding.Count
+			If i = posisi Then
+				Dim itemBaru As New ListViewItem(TxtFormulator_NoFaktur.Text.Trim)
+				itemBaru.SubItems.Add("")
+				itemBaru.SubItems.Add("")
+				LvBindingFormula.Items.Add(itemBaru)
+			End If
+
+			If i < ArrNoFakturBinding.Count Then
+				Dim item As New ListViewItem(ArrNoFakturBinding(i))
+				item.SubItems.Add(ArrHierarkiBinding(i))
+				item.SubItems.Add(ArrKeteranganBinding(i))
+				LvBindingFormula.Items.Add(item)
+			End If
+		Next
+
+		LvBindingFormula.EndUpdate()
+
+		'If LvBindingFormula.Items.Count > 0 Then
+		'	LvBindingFormula.Items(0).BackColor = Color.LightGreen
+		'End If
+	End Sub
+
+	Private Sub Btn_Compare_Click(sender As Object, e As EventArgs) Handles Btn_Compare.Click
 		Dim ListNoFakturBinding As New List(Of String)
 		Dim ListHierarki As New List(Of String)
 		Dim ListKeterangan As New List(Of String)
 
 		For Each item As ListViewItem In LvBindingFormula.Items
+			' Skip item yang merupakan formula aktif itu sendiri
+			' (item sisipan dari Cmb_PosisiBinding_SelectedIndexChanged)
+			If item.Text.Trim = TxtFormulator_NoFaktur.Text.Trim Then
+				Continue For
+			End If
+
 			ListNoFakturBinding.Add(item.Text)
 			ListHierarki.Add(item.SubItems(1).Text)
 			ListKeterangan.Add(item.SubItems(2).Text)
@@ -498,19 +610,10 @@
 			.ArrNoFaktur = ListNoFakturBinding,
 			.ArrHierarki = ListHierarki,
 			.ArrKeterangan = ListKeterangan,
-			.PosisiTujuan = Cmb_PosisiBinding.SelectedIndex
+			.PosisiTujuan = Cmb_PosisiBinding.SelectedIndex,
+			.OnlyCompare = True
 		}
 
-		If SD.ShowDialog() = DialogResult.OK Then
-			LvBindingFormula.Items.Clear()
-
-			For i As Integer = 0 To SD.ArrNoFaktur.Count - 1
-				Dim item As New ListViewItem(SD.ArrNoFaktur(i))
-				item.SubItems.Add(SD.ArrHierarki(i))
-				item.SubItems.Add(SD.ArrKeterangan(i))
-
-				LvBindingFormula.Items.Add(item)
-			Next
-		End If
+		SD.ShowDialog()
 	End Sub
 End Class

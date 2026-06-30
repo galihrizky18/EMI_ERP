@@ -73,35 +73,148 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 	Dim itemDgvRekap_Satuan As Integer = 6
 	Dim itemDgvRekap_SatuanKecil As Integer = 7
 
-	Private Sub TxtKeterangan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtKeterangan.KeyPress
-		If e.KeyChar = Chr(13) Then
-			CmbSO_Asal.Focus()
-		End If
+	Private Sub Transfer_Stock_3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+		My.Application.ChangeCulture("en-us")
+		My.Application.ChangeUICulture("en-us")
+
+		kosong()
+		Initial_List_View()
+
 	End Sub
 
-	Private Sub CmbSO_Asal_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbSO_Asal.KeyPress
-		If e.KeyChar = Chr(13) Then
-			TxtKodeCost.Focus()
-		End If
-	End Sub
+	Public Sub kosong()
+		get_jam()
 
-	Private Sub TxtKd_Barang_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtKd_Barang.KeyDown
-		If e.KeyCode = Keys.Down Then Lv_DetBarang.Focus()
-	End Sub
+		LvCost.Location = New Point(117, 165)
+		LvCost.Visible = False
 
-	Private Sub TxtKd_Barang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtKd_Barang.KeyPress
-		If e.KeyChar = Chr(13) Then
-			If TxtKd_Barang.Text.Trim.Length = 0 Then
-				Lv_DetBarang.Visible = False : TxtKd_Barang.Focus() : Exit Sub
+		Lv_DetBarang.Location = New Point(34, 295)
+		Lv_DetBarang.Visible = False
+		Try
+			OpenConn()
+			'get_no_faktur()
+
+			Btn_GetData.Enabled = True
+			asal = "Transfer_Stock_3"
+
+			DGV_Data_TF.Columns(itemDgvWarna).DisplayIndex = 6
+
+			DGV_Data_TF.Columns(itemDGVKetWarna).DisplayIndex = 4
+			DGV_Data_TF.Columns(itemDGVTglExp).DisplayIndex = 4
+			DGV_Data_TF.Columns(itemDGVTglProd).DisplayIndex = 4
+
+			DGV_Data_TF.Columns(itemDGVBarcode).DisplayIndex = 6
+			Dgv_DataDetail.Columns(itemDgvDetail_Barcode).DisplayIndex = 6
+
+			Cmb_Warna.Items.Clear() : Cmb_Warna.SelectedIndex = -1
+			Cmb_Warna.Items.Add("MERAH") : Cmb_Warna.Items.Add("KUNING") : Cmb_Warna.Items.Add("HIJAU")
+			Cmb_Warna.SelectedIndex = 2
+
+			CmbSo_Tujuan.Items.Clear() : CmbSo_Tujuan.SelectedIndex = -1
+			CmbSO_Asal.Items.Clear() : CmbSO_Asal.SelectedIndex = -1
+			SQL = "Select kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan From Stock_Owner_Gudang_Lain where "
+			SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and aktif = 'Y' and (flag_produksi='Y' or Flag_Penyimpanan='Y') "
+			SQL = SQL & "order by kode_stock_owner"
+			Using dr = OpenTrans(SQL)
+				Do While dr.Read
+					CmbSo_Tujuan.Items.Add(dr("Keterangan")) : arrSO.Add(dr("kode_stock_owner"))
+					CmbSO_Asal.Items.Add(dr("Keterangan")) : arrInisialFaktur.Add(dr("inisial_faktur"))
+				Loop
+			End Using
+
+			Cmb_Lokasi.Items.Clear()
+			SQL = "select kode_stock_owner from Stock_Owner"
+			Using Dr = OpenTrans(SQL)
+				Do While Dr.Read
+					Cmb_Lokasi.Items.Add(Dr("kode_stock_owner"))
+				Loop
+			End Using
+			Cmb_Lokasi.SelectedIndex = 0
+
+			Cmb_BiayaPengeluaran.Items.Clear() : arr_id_keterangan.Clear() : arr_kode_akun.Clear()
+			SQL = "select ID, Keterangan, Kode_Account from N_EMI_Master_Account_Pengeluaran_Stock_Barang_Lain "
+			SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Aktif = 'Y' order by Keterangan "
+			Using Dr = OpenTrans(SQL)
+				Do While Dr.Read
+					Cmb_BiayaPengeluaran.Items.Add(Dr("Keterangan"))
+					arr_id_keterangan.Add(Dr("ID"))
+					arr_kode_akun.Add(Dr("Kode_Account"))
+				Loop
+			End Using
+			Cmb_BiayaPengeluaran.SelectedIndex = -1
+
+			CloseConn()
+		Catch ex As Exception
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+		Lv_DetBarang.Items.Clear()
+
+		CmbJnsTransfer.Items.Clear()
+		CmbJnsTransfer.Items.Add("Antar Rak")
+		CmbJnsTransfer.Items.Add("Antar Gudang")
+		CmbJnsTransfer.SelectedIndex = 0
+
+		TxtKodeCost.Text = ""
+		TxtIDCost.Text = ""
+		TxtJenisBags.Text = ""
+		Txt_OtoMaterial_req.Text = ""
+		Txt_JumlahPermintaan.Text = ""
+		Txt_SatuanPermintaan.Text = ""
+		TxtSatuanKecil.Text = ""
+		Txt_Warna.Text = ""
+		TxtSatuan.Text = ""
+		TxtStock.Text = ""
+		TxtKeterangan.Text = ""
+		TxtKd_Barang.Text = ""
+		Txt_SO.Text = ""
+		TxtNm_Barang.Text = ""
+		TxtBags.Text = ""
+		TxtTotalTransferBags.Text = ""
+
+		Txt_Permintaan_Display.Text = ""
+		TxtStockDisplay.Text = ""
+		TxtMetPotStok.Text = ""
+
+		Txt_Permintaan.Text = ""
+		TxtsisaRequest.Text = ""
+
+		CmbJnsTransfer.Enabled = True
+
+		Cmb_JenisPengeluaran.Items.Clear() : arrJenisPengeluaran.Clear()
+		Cmb_JenisPengeluaran.Items.Add("Pengeluaran Stock") : arrJenisPengeluaran.Add("Pengeluaran_Stock")
+		Cmb_JenisPengeluaran.Items.Add("Pengeluaran Barang Reject") : arrJenisPengeluaran.Add("Pengeluaran_Reject")
+
+		If MenuAsal.Trim.Length = 0 Then
+			MessageBox.Show("Menu Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Me.Close()
+		Else
+			If MenuAsal.ToUpper = "PENGELUARAN_STOCK" Then
+				Cmb_JenisPengeluaran.SelectedIndex = 0
+			ElseIf MenuAsal.ToUpper = "PENGELUARAN_STOCK_REJECTED" Then
+				Cmb_JenisPengeluaran.SelectedIndex = 1
+			Else
+				MessageBox.Show("Menu Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+				Me.Close()
 			End If
-			' TxtKd_Barang_Leave(TxtKd_Barang, e)
 		End If
+
+		If Cmb_JenisPengeluaran.SelectedIndex = 0 Then
+			Btn_List_PR.Enabled = True
+		Else
+			TxtKd_Barang.Enabled = True
+			Btn_List_PR.Enabled = False
+		End If
+
+		DGV_Data_TF.Rows.Clear()
+		Dgv_DataRekap.Rows.Clear()
+		Dgv_DataDetail.Rows.Clear()
 	End Sub
 
-	Private Sub Lv_DetBarang_KeyDown(sender As Object, e As KeyEventArgs) Handles Lv_DetBarang.KeyDown
-		If e.KeyCode = Keys.Enter Then
-			Lv_DetBarang_DoubleClick(Lv_DetBarang, e)
-		End If
+	Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
+		kosong()
 	End Sub
 
 	Private Sub Btn_Scan_Click(sender As Object, e As EventArgs) Handles Btn_Scan.Click
@@ -153,7 +266,7 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 				SQL = "Select top(1) a.Kode_Stock_Owner, a.Kode_Barang, a.Serial_Number, b.Nama, "
 				SQL = SQL & " a.Id_Warehouse, c.Keterangan As kode_rak, a.Id_Nametag_pallet, "
 
-				SQL = SQL & " dbo.ubah_satuan_lain(a.kode_Perusahaan, 'masa', a.kode_barang, b.satuan, '" & TxtSatuan.Text & "', a.jumlah) as jumlah, "
+				SQL = SQL & "  a.jumlah as jumlah, "
 
 				SQL = SQL & " b.satuan, a.nomor_pallet, isNull(a.Jumlah_Bags, 0) As stock_bags, a.warna, b.Metode_Pengeluaran_Stok, "
 				SQL = SQL & " b.Jenis_Kemasan, 1 as Isi_Per_Bags, '-' as Satuan_Isi_Bags, a.Tgl_Expired, a.Tgl_Produksi "
@@ -388,10 +501,8 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 	Private Sub TxtKodeCost_TextChanged(sender As Object, e As EventArgs) Handles TxtKodeCost.TextChanged
 
 		If Not TxtKodeCost.Text.Trim.Length = 0 Then
-			LvCost.Location = New Point(129, 165)
 			LvCost.Visible = True
 		Else
-			LvCost.Location = New Point(1278, 165)
 			LvCost.Visible = False
 		End If
 
@@ -468,15 +579,6 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 		End Try
 		Emi_Display_Request_Material.lokasi_kirim = arrSO.Item(CmbSO_Asal.SelectedIndex)
 		Emi_Display_Request_Material.ShowDialog()
-	End Sub
-
-	Private Sub Transfer_Stock_3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-		My.Application.ChangeCulture("en-us")
-		My.Application.ChangeUICulture("en-us")
-
-		kosong()
-		Initial_List_View()
-
 	End Sub
 
 	Private Sub get_det_barang(ByVal index As Integer)
@@ -569,130 +671,10 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 	End Sub
 
 	'FUNCTION UTILITY
-	Public Sub kosong()
-		get_jam()
-		Dim x As New Point(129, 165)
-		LvCost.Location = x
-		LvCost.Visible = False
-		Try
-			OpenConn()
-			'get_no_faktur()
-			TxtKd_Barang.Enabled = True
-			Btn_GetData.Enabled = True
-			asal = "Transfer_Stock_3"
-
-			DGV_Data_TF.Columns(itemDgvWarna).DisplayIndex = 6
-
-			DGV_Data_TF.Columns(itemDGVKetWarna).DisplayIndex = 4
-			DGV_Data_TF.Columns(itemDGVTglExp).DisplayIndex = 4
-			DGV_Data_TF.Columns(itemDGVTglProd).DisplayIndex = 4
-
-			DGV_Data_TF.Columns(itemDGVBarcode).DisplayIndex = 6
-			Dgv_DataDetail.Columns(itemDgvDetail_Barcode).DisplayIndex = 6
-
-			Cmb_Warna.Items.Clear() : Cmb_Warna.SelectedIndex = -1
-			Cmb_Warna.Items.Add("MERAH") : Cmb_Warna.Items.Add("KUNING") : Cmb_Warna.Items.Add("HIJAU")
-			Cmb_Warna.SelectedIndex = 2
-
-			CmbSo_Tujuan.Items.Clear() : CmbSo_Tujuan.SelectedIndex = -1
-			CmbSO_Asal.Items.Clear() : CmbSO_Asal.SelectedIndex = -1
-			SQL = "Select kode_stock_owner, inisial_faktur, pending_persediaan, persediaan, Keterangan From Stock_Owner_Gudang_Lain where "
-			SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and aktif = 'Y' and (flag_produksi='Y' or Flag_Penyimpanan='Y') "
-			SQL = SQL & "order by kode_stock_owner"
-			Using dr = OpenTrans(SQL)
-				Do While dr.Read
-					CmbSo_Tujuan.Items.Add(dr("Keterangan")) : arrSO.Add(dr("kode_stock_owner"))
-					CmbSO_Asal.Items.Add(dr("Keterangan")) : arrInisialFaktur.Add(dr("inisial_faktur"))
-				Loop
-			End Using
-
-			Cmb_Lokasi.Items.Clear()
-			SQL = "select kode_stock_owner from Stock_Owner"
-			Using Dr = OpenTrans(SQL)
-				Do While Dr.Read
-					Cmb_Lokasi.Items.Add(Dr("kode_stock_owner"))
-				Loop
-			End Using
-			Cmb_Lokasi.SelectedIndex = 0
-
-			ComboBox1.Items.Clear() : arr_id_keterangan.Clear() : arr_kode_akun.Clear()
-			SQL = "select ID, Keterangan, Kode_Account from N_EMI_Master_Account_Pengeluaran_Stock_Barang_Lain "
-			SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and Aktif = 'Y' order by Keterangan "
-			Using Dr = OpenTrans(SQL)
-				Do While Dr.Read
-					ComboBox1.Items.Add(Dr("Keterangan"))
-					arr_id_keterangan.Add(Dr("ID"))
-					arr_kode_akun.Add(Dr("Kode_Account"))
-				Loop
-			End Using
-			ComboBox1.SelectedIndex = -1
-
-			CloseConn()
-		Catch ex As Exception
-			CloseConn()
-			MessageBox.Show(ex.Message)
-			Exit Sub
-		End Try
-
-		Lv_DetBarang.Items.Clear()
-
-		CmbJnsTransfer.Items.Clear()
-		CmbJnsTransfer.Items.Add("Antar Rak")
-		CmbJnsTransfer.Items.Add("Antar Gudang")
-		CmbJnsTransfer.SelectedIndex = 0
-
-		TxtKodeCost.Text = ""
-		TxtIDCost.Text = ""
-		TxtJenisBags.Text = ""
-		Txt_OtoMaterial_req.Text = ""
-		Txt_JumlahPermintaan.Text = ""
-		Txt_SatuanPermintaan.Text = ""
-		TxtSatuanKecil.Text = ""
-		Txt_Warna.Text = ""
-		TxtSatuan.Text = ""
-		TxtStock.Text = ""
-		TxtKeterangan.Text = ""
-		TxtKd_Barang.Text = ""
-		Txt_SO.Text = ""
-		TxtNm_Barang.Text = ""
-		TxtBags.Text = ""
-		TxtTotalTransferBags.Text = ""
-
-		TxtjmlPermintaanDisplay.Text = ""
-		TxtStockDisplay.Text = ""
-		TxtMetPotStok.Text = ""
-
-		TxtjmlPermintaanBersih.Text = ""
-		TxtsisaRequest.Text = ""
-
-		CmbJnsTransfer.Enabled = True
-
-		Cmb_JenisPengeluaran.Items.Clear() : arrJenisPengeluaran.Clear()
-		Cmb_JenisPengeluaran.Items.Add("Pengeluaran Stock") : arrJenisPengeluaran.Add("Pengeluaran_Stock")
-		Cmb_JenisPengeluaran.Items.Add("Pengeluaran Barang Reject") : arrJenisPengeluaran.Add("Pengeluaran_Reject")
-
-		If MenuAsal.Trim.Length = 0 Then
-			MessageBox.Show("Menu Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-			Me.Close()
-		Else
-			If MenuAsal.ToUpper = "PENGELUARAN_STOCK" Then
-				Cmb_JenisPengeluaran.SelectedIndex = 0
-			ElseIf MenuAsal.ToUpper = "PENGELUARAN_STOCK_REJECTED" Then
-				Cmb_JenisPengeluaran.SelectedIndex = 1
-			Else
-				MessageBox.Show("Menu Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-				Me.Close()
-			End If
-		End If
-
-		DGV_Data_TF.Rows.Clear()
-		Dgv_DataRekap.Rows.Clear()
-		Dgv_DataDetail.Rows.Clear()
-	End Sub
 
 	Private Sub KosongTab1()
 
-		TxtjmlPermintaanDisplay.Text = ""
+		Txt_Permintaan_Display.Text = ""
 		TxtKd_Barang.Text = ""
 		TxtNm_Barang.Text = ""
 		TxtStockDisplay.Text = ""
@@ -703,6 +685,7 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 		TxtTotalTransferBags.Text = ""
 		TxtsisaRequest.Text = ""
 		Txt_QR.Text = ""
+		Txt_OtoMaterial_req.Text = ""
 
 		DGV_Data_TF.Rows.Clear()
 
@@ -930,7 +913,7 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 	End Sub
 
 	'FUNCTION HANDLE
-	Private Sub TxtKd_Barang_TextChanged(sender As Object, e As EventArgs) Handles TxtKd_Barang.TextChanged, Txt_SO.TextChanged, Txt_SatuanPermintaan.TextChanged, Txt_JumlahPermintaan.TextChanged, Txt_OtoMaterial_req.TextChanged
+	Private Sub TxtKd_Barang_TextChanged(sender As Object, e As EventArgs) Handles TxtKd_Barang.TextChanged
 		If asal <> "Emi_Display_Request_Material" Then
 			'If TxtKd_Barang.Text.Trim.Length = 0 Then Exit Sub
 			If CmbJnsTransfer.SelectedIndex = -1 Then Exit Sub
@@ -943,10 +926,8 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 			End If
 
 			If Not TxtKd_Barang.Text.Trim.Count = 0 Then
-				Lv_DetBarang.Location = New Point(37, 318)
 				Lv_DetBarang.Visible = True
 			Else
-				Lv_DetBarang.Location = New Point(1278, 277)
 				Lv_DetBarang.Visible = False
 			End If
 
@@ -956,8 +937,7 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 
 				Lv_DetBarang.BeginUpdate()
 				Lv_DetBarang.Items.Clear()
-				SQL = "select top(20) a.kode_stock_owner, a.kode_barang, a.nama, dbo.ubah_satuan_lain(a.kode_Perusahaan, 'masa', a.kode_barang, a.satuan, "
-				SQL = SQL & "b.satuan, a.good_stock) as Good_Stock, a.Satuan, b.satuan as satuan_display, ISNULL(a.Jumlah_Bags, 0) as Jumlah_Bags, "
+				SQL = "select top(20) a.kode_stock_owner, a.kode_barang, a.nama,  a.good_stock as Good_Stock, a.Satuan, b.satuan as satuan_display, ISNULL(a.Jumlah_Bags, 0) as Jumlah_Bags, "
 				SQL = SQL & "a.Metode_Pengeluaran_Stok, a.Jenis_Kemasan from barang_lain a, Barang_Detail_Satuan_Lain b "
 				SQL = SQL & "where a.Kode_Perusahaan='" & KodePerusahaan & "' and a.Kode_Stock_Owner='" & arrSO(CmbSO_Asal.SelectedIndex) & "' "
 				SQL = SQL & "and a.nama like '%" & TxtKd_Barang.Text & "%' and a.Kode_Barang=b.kode_barang "
@@ -1035,7 +1015,6 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 		TxtStockDisplay.Text = Format(Val(HilangkanTanda(lv_DetGoodStock)), "N2") + " " + lv_DetSatuanDIsplay
 		'TxtSatuanBags.Text = lv_DetSatuanBags
 
-		Lv_DetBarang.Location = New Point(803, 258)
 		Lv_DetBarang.Visible = False
 		DGV_Data_TF.Rows.Clear()
 
@@ -1060,6 +1039,33 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 		TxtKd_Barang.Text = ""
 		DGV_Data_TF.Rows.Clear()
 		TxtTotalTransfer.Text = String.Empty
+
+	End Sub
+
+	Private Sub Btn_List_PR_Click(sender As Object, e As EventArgs) Handles Btn_List_PR.Click
+		If CmbSO_Asal.SelectedIndex = -1 Then
+			MessageBox.Show($"Lokasi Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			CmbSO_Asal.DroppedDown = True
+			CmbSO_Asal.Focus()
+			Exit Sub
+		ElseIf Cmb_JenisPengeluaran.SelectedIndex = -1 Then
+			MessageBox.Show($"Jenis Pengeluaran Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			Cmb_JenisPengeluaran.DroppedDown = True
+			Cmb_JenisPengeluaran.Focus()
+			Exit Sub
+		ElseIf TxtKodeCost.Text.Trim.Length = 0 Then
+			MessageBox.Show($"Cost Center Tidak Boleh Kosong", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			TxtKodeCost.Focus()
+			Exit Sub
+		ElseIf Cmb_BiayaPengeluaran.SelectedIndex = -1 Then
+			MessageBox.Show($"Biaya Pengeluaran Harus Dipilih Dahulu", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			Cmb_BiayaPengeluaran.DroppedDown = True
+			Cmb_BiayaPengeluaran.Focus()
+			Exit Sub
+		End If
+
+		N_EMI_SD_List_Purchase_Requisition_Department_Barang_Lain.lokasi_asal = arrSO(CmbSO_Asal.SelectedIndex)
+		N_EMI_SD_List_Purchase_Requisition_Department_Barang_Lain.ShowDialog()
 
 	End Sub
 
@@ -1145,7 +1151,7 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 
 			SQL = "Select top(40) a.Kode_Stock_Owner, a.Kode_Barang, a.Serial_Number, b.Nama, "
 			SQL = SQL & " a.Id_Warehouse, c.Keterangan As kode_rak, a.Id_Nametag_pallet, "
-			SQL = SQL & " dbo.ubah_satuan_lain(a.kode_Perusahaan, 'masa', a.kode_barang, b.satuan, '" & TxtSatuan.Text & "', a.jumlah) as jumlah, "
+			SQL = SQL & " a.jumlah as jumlah, "
 			SQL = SQL & " b.satuan, a.nomor_pallet, isNull(a.Jumlah_Bags, 0) As stock_bags, a.warna, b.Metode_Pengeluaran_Stok, "
 			SQL = SQL & " b.Jenis_Kemasan, 1 as Isi_Per_Bags, '-' as Satuan_Isi_Bags, a.Tgl_Expired, a.Tgl_Produksi "
 			SQL = SQL & ",isNull((select x.keterangan from emi_master_warna x where "
@@ -1222,8 +1228,8 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 			TxtTotalTransferBags.Text = 0
 			TxtsisaRequest.Text = 0
 
-			If Not TxtjmlPermintaanDisplay.Text.Trim.Length = 0 Then
-				TxtsisaRequest.Text = TxtjmlPermintaanDisplay.Text
+			If Not Txt_Permintaan_Display.Text.Trim.Length = 0 Then
+				TxtsisaRequest.Text = Txt_Permintaan_Display.Text
 			Else
 				TxtsisaRequest.Text = 0
 			End If
@@ -1235,10 +1241,6 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 			Exit Sub
 		End Try
 
-	End Sub
-
-	Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
-		kosong()
 	End Sub
 
 	Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
@@ -1309,7 +1311,7 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 			SQL = SQL & "Values ('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & arrSO(CmbSO_Asal.SelectedIndex) & "', "
 			SQL = SQL & "'" & tgl_skg & "', '" & tgl_skg.ToString("HH:mm:ss") & "', '" & UserID & "', "
 			SQL = SQL & "'" & Cmb_Lokasi.Text & "', '" & TxtKeterangan.Text & "', '" & TxtIDCost.Text & "', " & Flag_Stock_Rejected & ","
-			SQL = SQL & "'" & arr_kode_akun.Item(ComboBox1.SelectedIndex) & "', '" & arr_id_keterangan.Item(ComboBox1.SelectedIndex) & "' )"
+			SQL = SQL & "'" & arr_kode_akun.Item(Cmb_BiayaPengeluaran.SelectedIndex) & "', '" & arr_id_keterangan.Item(Cmb_BiayaPengeluaran.SelectedIndex) & "' )"
 			ExecuteTrans(SQL)
 
 			For i As Integer = 0 To Dgv_DataRekap.Rows.Count - 1
@@ -1319,27 +1321,27 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 				hasData = True
 
 				Dim nilai_kecil As Double = 0
-				SQL = "select dbo.ubah_satuan_lain('" & KodePerusahaan & "', 'masa','" & dgv_Rekap_KdBarang & "', '" & dgv_Rekap_Satuan & "',"
-				SQL = SQL & "'" & dgv_Rekap_SatuanKecil & "', '" & HilangkanTanda(dgv_Rekap_JumlahBersih) & "' ) as hasil"
-				Using Dr1 = OpenTrans(SQL)
-					If Dr1.Read Then
-						If General_Class.CekNULL(Dr1("hasil")) = "" Then
-							Dr1.Close()
-							CloseTrans()
-							CloseConn()
-							MessageBox.Show("data konversi satuan kirim tidak ada ")
-							Exit Sub
-						End If
+				nilai_kecil = Val(HilangkanTanda(dgv_Rekap_JumlahBersih))
+				'SQL = "select dbo.ubah_satuan_lain('" & KodePerusahaan & "', 'masa','" & dgv_Rekap_KdBarang & "', '" & dgv_Rekap_Satuan & "',"
+				'SQL = SQL & "'" & dgv_Rekap_SatuanKecil & "', '" & HilangkanTanda(dgv_Rekap_JumlahBersih) & "' ) as hasil"
+				'Using Dr1 = OpenTrans(SQL)
+				'	If Dr1.Read Then
+				'		If General_Class.CekNULL(Dr1("hasil")) = "" Then
+				'			Dr1.Close()
+				'			CloseTrans()
+				'			CloseConn()
+				'			MessageBox.Show("data konversi satuan kirim tidak ada ")
+				'			Exit Sub
+				'		End If
 
-						nilai_kecil = Dr1("hasil")
-					Else
-						Dr1.Close()
-						CloseTrans()
-						CloseConn()
-						MessageBox.Show("data konversi satuan kirim tidak ada ")
-						Exit Sub
-					End If
-				End Using
+				'	Else
+				'		Dr1.Close()
+				'		CloseTrans()
+				'		CloseConn()
+				'		MessageBox.Show("data konversi satuan kirim tidak ada ")
+				'		Exit Sub
+				'	End If
+				'End Using
 
 				Dim Jenis_Berat As String = ""
 				SQL = "Select isnull(flag_tampil_berat,'T') as flag_tampil_berat from emi_satuan where "
@@ -1379,11 +1381,11 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 				End If
 
 				SQL = "insert into EMI_Pengeluaran_Stock_barang_lain (Kode_Perusahaan, No_faktur, Kode_Barang, Total, Satuan, "
-				SQL = SQL & "Total_Barang, Satuan_Barang, Total_Bags, Flag_Timbang) values "
+				SQL = SQL & "Total_Barang, Satuan_Barang, Total_Bags, Flag_Timbang, Urut_PR_Dept) values "
 				SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TxtNo_Transaksi.Text) & "', '" & dgv_Rekap_KdBarang & "', "
 				SQL = SQL & "'" & HilangkanTanda(dgv_Rekap_JumlahBersih) & "', '" & dgv_Rekap_Satuan & "', "
 				SQL = SQL & "'" & nilai_kecil & "', '" & dgv_Rekap_SatuanKecil & "', "
-				SQL = SQL & "'" & HilangkanTanda(dgv_Rekap_JumlahBags) & "', '" & Flag_Timbang & "')"
+				SQL = SQL & "'" & HilangkanTanda(dgv_Rekap_JumlahBags) & "', '" & Flag_Timbang & "', '" & dgv_Rekap_Oto & "')"
 				ExecuteTrans(SQL)
 
 				Dim x_ident_current As Integer = 0
@@ -1441,27 +1443,28 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 						End Using
 
 						Dim nilai_kecildetail As Double = 0
-						SQL = "select dbo.ubah_satuan_lain('" & KodePerusahaan & "', 'masa','" & dgv_detail_KdBarang & "', '" & dgv_Rekap_Satuan & "',"
-						SQL = SQL & "'" & dgv_Rekap_SatuanKecil & "', '" & HilangkanTanda(dgv_detail_Jumlah.ToString) & "' ) as hasil"
-						Using Dr1 = OpenTrans(SQL)
-							If Dr1.Read Then
-								If General_Class.CekNULL(Dr1("hasil")) = "" Then
-									Dr1.Close()
-									CloseTrans()
-									CloseConn()
-									MessageBox.Show("data konversi satuan kirim tidak ada ")
-									Exit Sub
-								End If
+						nilai_kecildetail = Val(HilangkanTanda(dgv_detail_Jumlah.ToString))
+						'SQL = "select dbo.ubah_satuan_lain('" & KodePerusahaan & "', 'masa','" & dgv_detail_KdBarang & "', '" & dgv_Rekap_Satuan & "',"
+						'SQL = SQL & "'" & dgv_Rekap_SatuanKecil & "', '" & HilangkanTanda(dgv_detail_Jumlah.ToString) & "' ) as hasil"
+						'Using Dr1 = OpenTrans(SQL)
+						'	If Dr1.Read Then
+						'		If General_Class.CekNULL(Dr1("hasil")) = "" Then
+						'			Dr1.Close()
+						'			CloseTrans()
+						'			CloseConn()
+						'			MessageBox.Show("data konversi satuan kirim tidak ada ")
+						'			Exit Sub
+						'		End If
 
-								nilai_kecildetail = Dr1("hasil")
-							Else
-								Dr1.Close()
-								CloseTrans()
-								CloseConn()
-								MessageBox.Show("data konversi satuan kirim tidak ada ")
-								Exit Sub
-							End If
-						End Using
+						'		nilai_kecildetail = Dr1("hasil")
+						'	Else
+						'		Dr1.Close()
+						'		CloseTrans()
+						'		CloseConn()
+						'		MessageBox.Show("data konversi satuan kirim tidak ada ")
+						'		Exit Sub
+						'	End If
+						'End Using
 
 						SQL = "insert into EMI_Pengeluaran_Stock_Det_barang_lain(Kode_Perusahaan, No_faktur, Id_Wms_Awal, No_Pallet_Awal, "
 						SQL = SQL & "Serial_Number_Awal, Jumlah, Jumlah_Barang, Jumlah_Bags, Warna, Urut_TF) values( "
@@ -2055,7 +2058,12 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 			CmbSO_Asal.Enabled = False
 			CmbSo_Tujuan.Enabled = False
 
-			TxtKd_Barang.Enabled = True
+			If Cmb_JenisPengeluaran.SelectedIndex = 0 Then
+				Btn_List_PR.Enabled = True
+			Else
+				TxtKd_Barang.Enabled = True
+				Btn_List_PR.Enabled = False
+			End If
 			Btn_GetData.Enabled = True
 
 			Txt_OtoMaterial_req.Text = ""
@@ -2072,7 +2080,7 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 			TxtBags.Text = ""
 			TxtTotalTransferBags.Text = ""
 
-			TxtjmlPermintaanDisplay.Text = ""
+			Txt_Permintaan_Display.Text = ""
 			TxtStockDisplay.Text = ""
 			TxtMetPotStok.Text = ""
 			TxtJenisBags.Text = ""
@@ -2125,6 +2133,37 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 				End If
 			End Using
 
+			SQL = "select a.kode_perusahaan From N_EMI_Master_Kategori_Gudang_Barang_Lain a , N_EMI_Master_Kategori_Gudang_Binding_User_Barang_Lain b "
+			SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Urut_Oto = b.Id_Kategori_Gudang "
+			SQL = SQL & "and b.User_ID = '" & UserID & "' and a.Kode_Stock_Owner_Gudang = '" & CmbSO_Asal.Text & "' "
+			Using dr = OpenTrans(SQL)
+				If Not dr.Read Then
+					MessageBox.Show("Anda tidak memiliki akses untuk gudang ini", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					CmbSO_Asal.SelectedIndex = -1
+					Exit Sub
+				End If
+			End Using
+
+			'' --- Ambil daftar gudang ---
+			'Dim listGudang As New List(Of String)
+
+			'SQL = "select Kode_Kategori_Gudang From N_EMI_View_Master_Kategori_Gudang_Binding_Departement_Barang_Lain where User_ID = '" & UserID & "'"
+
+			'SQL = SQL & "group by kode_kategori_gudang "
+			'Using Dr = OpenTrans(SQL)
+			'	Do While Dr.Read
+			'		listGudang.Add("'" & Dr("Kode_Kategori_Gudang").ToString() & "'")
+			'	Loop
+			'End Using
+
+			'' Jika kosong, kasih nilai palsu biar IN() tidak error
+			'If listGudang.Count = 0 Then
+			'	listGudang.Add("'0'")
+			'End If
+
+			'' Gabungkan hasil jadi 1 string
+			'Dim inGudang As String = String.Join(",", listGudang)
+
 			CloseConn()
 		Catch ex As Exception
 			CloseConn()
@@ -2133,7 +2172,6 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 		End Try
 
 		Lv_DetBarang.Items.Clear()
-		Lv_DetBarang.Location = New Point(1278, 277)
 		Lv_DetBarang.Visible = False
 
 		DGV_Data_TF.Rows.Clear()
@@ -2165,6 +2203,7 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 		Dim total As Double = 0
 		Dim totalBags As Double = 0
 		Dim request As Double = 0
+		Dim Satuan As String = ""
 
 		For i As Integer = 0 To DGV_Data_TF.Rows.Count - 1
 			get_grid_view(i)
@@ -2174,15 +2213,16 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 
 			total = total + Val(HilangkanTanda(dgv_Jumlah))
 			totalBags = totalBags + Val(HilangkanTanda(dgv_JmlhBags))
+			Satuan = dgv_Satuan
 
 		Next
 
 		TxtTotalTransfer.Text = Format(total, "N2")
 		TxtTotalTransferBags.Text = Format(totalBags, "N2")
 
-		If Not TxtjmlPermintaanDisplay.Text.Trim.Length = 0 Then
-			request = Val(HilangkanTanda(TxtjmlPermintaanBersih.Text))
-			TxtsisaRequest.Text = Format((request - total), "N2") & " KG"
+		If Not Txt_Permintaan_Display.Text.Trim.Length = 0 Then
+			request = Val(HilangkanTanda(Txt_Permintaan.Text))
+			TxtsisaRequest.Text = Format((request - total), "N2") & " " & Satuan
 		Else
 			TxtsisaRequest.Text = 0
 		End If
@@ -2264,6 +2304,93 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 				Exit Sub
 			End If
 		Next
+
+		Dim TotalInput As Double = Val(HilangkanTanda(TxtTotalTransfer.Text))
+		Dim JumlahPRRequest As Double = 0
+		Dim JumlahSisaRequest As Double = 0
+
+		Try
+			OpenConn()
+			Cmd.Transaction = Cn.BeginTransaction
+
+			'======================================
+			'=     GET DATA SUDAH PENGELUARAN     =
+			'======================================
+
+			SQL = $"
+				;with Pengeluaran_Stock_Agg as (
+									   select a.Kode_Perusahaan, b.Kode_Barang, b.Urut_PR_Dept,
+											  sum(c.Jumlah) as Jumlah, sum(c.Jumlah_Bags) as Jumlah_Bags
+									   from EMI_Pengeluaran_Stock_parent_barang_lain a with (nolock)
+											inner join EMI_Pengeluaran_Stock_Barang_Lain b with (nolock)
+													   on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+											inner join EMI_Pengeluaran_Stock_Det_Barang_Lain c with (nolock)
+													   on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur and
+														  b.Urut_Oto = c.Urut_TF
+									   where a.Status is null
+										 and c.Selesai = 'Y'
+									   group by a.Kode_Perusahaan, b.Kode_Barang, b.Urut_PR_Dept
+								   ),
+					 Keep_Stock_Agg as (
+									   SELECT zr.Kode_Perusahaan,
+											  zr.Urut_Departement,
+											  isnull(SUM(zr.Jumlah), 0) AS Total_Keep,
+											  isnull(sum(zr.Jmlh_Transfer), 0) as Total_Transfer
+									   FROM N_EMI_Keep_Stock_Barang_Lain_Departement zr with (nolock)
+									   WHERE zr.Status IS NULL
+										 AND zr.Flag_Selesai_Pengeluaran_Barang IS NULL
+									   GROUP BY zr.Kode_Perusahaan,
+												zr.Urut_Departement
+								   )
+				select a.No_Faktur, b.Kode_Stock_Owner, b.Kode_Barang, b.No_Urut,
+					   b.Jumlah as Jumlah_PR,
+					   (
+						   isnull(b.Jumlah, 0) - (isnull(g.Jumlah, 0) + isnull(h.Total_Keep, 0) + isnull(h.Total_Transfer, 0))
+					   ) as Sisa_Request
+				from N_EMI_Purchase_Requisition_Barang_Lain_Departement a
+					 inner join N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail b
+								on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+					 inner join N_EMI_Master_Kategori_Gudang_Barang_Lain f
+								on a.Kode_Perusahaan = f.Kode_Perusahaan and a.Kode_Kategori_Gudang = f.Kode_Kategori_Gudang
+					 left join Pengeluaran_Stock_Agg g
+							   on b.Kode_Perusahaan = g.Kode_Perusahaan and b.Kode_Barang = g.Kode_Barang and b.No_Urut = g.Urut_PR_Dept
+					 left join Keep_Stock_Agg h on b.Kode_Perusahaan = h.Kode_Perusahaan and b.No_Urut = h.Urut_Departement
+				where a.Status is null
+				  and a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and f.Kode_Stock_Owner_Gudang = '{arrSO(CmbSO_Asal.SelectedIndex)}'
+				  and b.Kode_Barang = '{TxtKd_Barang.Text.Trim}'
+				  and b.No_Urut = '{Txt_OtoMaterial_req.Text.Trim}'
+			"
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					JumlahPRRequest = Val(HilangkanTanda(Dr("Jumlah_PR")))
+					JumlahSisaRequest = Val(HilangkanTanda(Dr("Sisa_Request")))
+				Else
+					Dr.Close()
+					CloseTrans()
+					CloseConn()
+					MessageBox.Show($"Terjadi Kesalahan, Data PR Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+			End Using
+
+			Cmd.Transaction.Commit()
+			CloseTrans()
+			CloseConn()
+		Catch ex As Exception
+			CloseTrans()
+			CloseConn()
+			MessageBox.Show(ex.Message)
+			Exit Sub
+		End Try
+
+		'=================================================================
+		'=     PENGECEKAN APAKAH JUMLAH INPUT MELEBIH JUMLAH REQUEST     =
+		'=================================================================
+		If TotalInput > JumlahSisaRequest Then
+			MessageBox.Show("Jumlah Input Melebihi Jumlah Request", "Transfer Stock", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			Exit Sub
+		End If
 
 		For row As Integer = 0 To DGV_Data_TF.RowCount - 1
 
@@ -2434,6 +2561,46 @@ Public Class EMI_Pengeluaran_Stock_Barang_Lain
 	Private Sub LvCost_KeyDown(sender As Object, e As KeyEventArgs) Handles LvCost.KeyDown
 		If e.KeyCode = Keys.Enter Then
 			LvCost_DoubleClick(LvCost, e)
+		End If
+	End Sub
+
+	Private Sub TxtKeterangan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtKeterangan.KeyPress
+		If e.KeyChar = Chr(13) Then
+			CmbSO_Asal.Focus()
+		End If
+	End Sub
+
+	Private Sub CmbSO_Asal_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbSO_Asal.KeyPress
+		If e.KeyChar = Chr(13) Then
+			TxtKodeCost.Focus()
+
+			'Cmb_JenisPengeluaran.DroppedDown = True
+			'Cmb_JenisPengeluaran.Focus()
+		End If
+	End Sub
+
+	Private Sub Cmb_JenisPengeluaran_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_JenisPengeluaran.KeyPress
+		If e.KeyChar = Chr(13) Then
+			TxtKodeCost.Focus()
+		End If
+	End Sub
+
+	Private Sub TxtKd_Barang_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtKd_Barang.KeyDown
+		If e.KeyCode = Keys.Down Then Lv_DetBarang.Focus()
+	End Sub
+
+	Private Sub TxtKd_Barang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtKd_Barang.KeyPress
+		If e.KeyChar = Chr(13) Then
+			If TxtKd_Barang.Text.Trim.Length = 0 Then
+				Lv_DetBarang.Visible = False : TxtKd_Barang.Focus() : Exit Sub
+			End If
+			' TxtKd_Barang_Leave(TxtKd_Barang, e)
+		End If
+	End Sub
+
+	Private Sub Lv_DetBarang_KeyDown(sender As Object, e As KeyEventArgs) Handles Lv_DetBarang.KeyDown
+		If e.KeyCode = Keys.Enter Then
+			Lv_DetBarang_DoubleClick(Lv_DetBarang, e)
 		End If
 	End Sub
 

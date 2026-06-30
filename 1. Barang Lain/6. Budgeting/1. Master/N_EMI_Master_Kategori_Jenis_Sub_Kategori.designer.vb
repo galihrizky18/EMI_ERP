@@ -83,6 +83,9 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
 		Me.Label8 = New System.Windows.Forms.Label()
 		Me.Label9 = New System.Windows.Forms.Label()
 		Me.TabPage3 = New System.Windows.Forms.TabPage()
+		Me.RD_Kategori_1_Tidak = New System.Windows.Forms.RadioButton()
+		Me.RD_Kategori_1_Ya = New System.Windows.Forms.RadioButton()
+		Me.TextBox26 = New System.Windows.Forms.TextBox()
 		Me.Txt_Pages_3 = New System.Windows.Forms.TextBox()
 		Me.BtnFirst_3 = New System.Windows.Forms.Button()
 		Me.BtnPrev_3 = New System.Windows.Forms.Button()
@@ -100,6 +103,7 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
 		Me.BtnRefresh3 = New System.Windows.Forms.Button()
 		Me.Panel9 = New System.Windows.Forms.Panel()
 		Me.TextBox10 = New System.Windows.Forms.TextBox()
+		Me.Label47 = New System.Windows.Forms.Label()
 		Me.Label14 = New System.Windows.Forms.Label()
 		Me.TextBox9 = New System.Windows.Forms.TextBox()
 		Me.Label13 = New System.Windows.Forms.Label()
@@ -193,10 +197,6 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
 		Me.Label27 = New System.Windows.Forms.Label()
 		Me.CmbSK3_Jenis = New System.Windows.Forms.ComboBox()
 		Me.Label26 = New System.Windows.Forms.Label()
-		Me.Label47 = New System.Windows.Forms.Label()
-		Me.TextBox26 = New System.Windows.Forms.TextBox()
-		Me.RD_Kategori_1_Ya = New System.Windows.Forms.RadioButton()
-		Me.RD_Kategori_1_Tidak = New System.Windows.Forms.RadioButton()
 		Me.Panel1.SuspendLayout()
 		Me.TabControl1.SuspendLayout()
 		Me.TabPage1.SuspendLayout()
@@ -943,6 +943,46 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
 		Me.TabPage3.TabIndex = 2
 		Me.TabPage3.Text = "Sub Kategori 1"
 		'
+		'RD_Kategori_1_Tidak
+		'
+		Me.RD_Kategori_1_Tidak.AutoSize = True
+		Me.RD_Kategori_1_Tidak.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.RD_Kategori_1_Tidak.Font = New System.Drawing.Font("Work Sans", 9.0!)
+		Me.RD_Kategori_1_Tidak.Location = New System.Drawing.Point(166, 147)
+		Me.RD_Kategori_1_Tidak.Name = "RD_Kategori_1_Tidak"
+		Me.RD_Kategori_1_Tidak.Size = New System.Drawing.Size(58, 21)
+		Me.RD_Kategori_1_Tidak.TabIndex = 517
+		Me.RD_Kategori_1_Tidak.TabStop = True
+		Me.RD_Kategori_1_Tidak.Text = "Tidak"
+		Me.RD_Kategori_1_Tidak.UseVisualStyleBackColor = True
+		'
+		'RD_Kategori_1_Ya
+		'
+		Me.RD_Kategori_1_Ya.AutoSize = True
+		Me.RD_Kategori_1_Ya.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.RD_Kategori_1_Ya.Font = New System.Drawing.Font("Work Sans", 9.0!)
+		Me.RD_Kategori_1_Ya.Location = New System.Drawing.Point(112, 147)
+		Me.RD_Kategori_1_Ya.Name = "RD_Kategori_1_Ya"
+		Me.RD_Kategori_1_Ya.Size = New System.Drawing.Size(39, 21)
+		Me.RD_Kategori_1_Ya.TabIndex = 516
+		Me.RD_Kategori_1_Ya.TabStop = True
+		Me.RD_Kategori_1_Ya.Text = "Ya"
+		Me.RD_Kategori_1_Ya.UseVisualStyleBackColor = True
+		'
+		'TextBox26
+		'
+		Me.TextBox26.BackColor = System.Drawing.Color.White
+		Me.TextBox26.BorderStyle = System.Windows.Forms.BorderStyle.None
+		Me.TextBox26.Enabled = False
+		Me.TextBox26.Font = New System.Drawing.Font("Work Sans", 9.0!)
+		Me.TextBox26.ForeColor = System.Drawing.SystemColors.WindowText
+		Me.TextBox26.Location = New System.Drawing.Point(754, 512)
+		Me.TextBox26.Name = "TextBox26"
+		Me.TextBox26.Size = New System.Drawing.Size(73, 15)
+		Me.TextBox26.TabIndex = 515
+		Me.TextBox26.Text = "Budget?"
+		Me.TextBox26.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+		'
 		'Txt_Pages_3
 		'
 		Me.Txt_Pages_3.BackColor = System.Drawing.Color.White
@@ -1145,6 +1185,16 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
 		Me.TextBox10.Name = "TextBox10"
 		Me.TextBox10.Size = New System.Drawing.Size(262, 20)
 		Me.TextBox10.TabIndex = 425
+		'
+		'Label47
+		'
+		Me.Label47.AutoSize = True
+		Me.Label47.Font = New System.Drawing.Font("Work Sans", 9.0!)
+		Me.Label47.Location = New System.Drawing.Point(4, 148)
+		Me.Label47.Name = "Label47"
+		Me.Label47.Size = New System.Drawing.Size(56, 17)
+		Me.Label47.TabIndex = 426
+		Me.Label47.Text = "Budget?"
 		'
 		'Label14
 		'
@@ -2241,56 +2291,6 @@ Partial Class N_EMI_Master_Kategori_Jenis_Sub_Kategori
 		Me.Label26.Size = New System.Drawing.Size(98, 17)
 		Me.Label26.TabIndex = 422
 		Me.Label26.Text = "Kode Kategori"
-		'
-		'Label47
-		'
-		Me.Label47.AutoSize = True
-		Me.Label47.Font = New System.Drawing.Font("Work Sans", 9.0!)
-		Me.Label47.Location = New System.Drawing.Point(4, 148)
-		Me.Label47.Name = "Label47"
-		Me.Label47.Size = New System.Drawing.Size(56, 17)
-		Me.Label47.TabIndex = 426
-		Me.Label47.Text = "Budget?"
-		'
-		'TextBox26
-		'
-		Me.TextBox26.BackColor = System.Drawing.Color.White
-		Me.TextBox26.BorderStyle = System.Windows.Forms.BorderStyle.None
-		Me.TextBox26.Enabled = False
-		Me.TextBox26.Font = New System.Drawing.Font("Work Sans", 9.0!)
-		Me.TextBox26.ForeColor = System.Drawing.SystemColors.WindowText
-		Me.TextBox26.Location = New System.Drawing.Point(754, 512)
-		Me.TextBox26.Name = "TextBox26"
-		Me.TextBox26.Size = New System.Drawing.Size(73, 15)
-		Me.TextBox26.TabIndex = 515
-		Me.TextBox26.Text = "Budget?"
-		Me.TextBox26.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-		'
-		'RD_Kategori_1_Ya
-		'
-		Me.RD_Kategori_1_Ya.AutoSize = True
-		Me.RD_Kategori_1_Ya.Cursor = System.Windows.Forms.Cursors.Hand
-		Me.RD_Kategori_1_Ya.Font = New System.Drawing.Font("Work Sans", 9.0!)
-		Me.RD_Kategori_1_Ya.Location = New System.Drawing.Point(112, 147)
-		Me.RD_Kategori_1_Ya.Name = "RD_Kategori_1_Ya"
-		Me.RD_Kategori_1_Ya.Size = New System.Drawing.Size(39, 21)
-		Me.RD_Kategori_1_Ya.TabIndex = 516
-		Me.RD_Kategori_1_Ya.TabStop = True
-		Me.RD_Kategori_1_Ya.Text = "Ya"
-		Me.RD_Kategori_1_Ya.UseVisualStyleBackColor = True
-		'
-		'RD_Kategori_1_Tidak
-		'
-		Me.RD_Kategori_1_Tidak.AutoSize = True
-		Me.RD_Kategori_1_Tidak.Cursor = System.Windows.Forms.Cursors.Hand
-		Me.RD_Kategori_1_Tidak.Font = New System.Drawing.Font("Work Sans", 9.0!)
-		Me.RD_Kategori_1_Tidak.Location = New System.Drawing.Point(166, 147)
-		Me.RD_Kategori_1_Tidak.Name = "RD_Kategori_1_Tidak"
-		Me.RD_Kategori_1_Tidak.Size = New System.Drawing.Size(58, 21)
-		Me.RD_Kategori_1_Tidak.TabIndex = 517
-		Me.RD_Kategori_1_Tidak.TabStop = True
-		Me.RD_Kategori_1_Tidak.Text = "Tidak"
-		Me.RD_Kategori_1_Tidak.UseVisualStyleBackColor = True
 		'
 		'N_EMI_Master_Kategori_Jenis_Sub_Kategori
 		'
