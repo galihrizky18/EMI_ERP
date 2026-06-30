@@ -78,6 +78,7 @@
 
 		Cmb_Filter.SelectedIndex = 0
 		'Txt_Value_Filter.Text = OpsiSeluruh
+		'adada
 
 		CurrentPage = 1
 
