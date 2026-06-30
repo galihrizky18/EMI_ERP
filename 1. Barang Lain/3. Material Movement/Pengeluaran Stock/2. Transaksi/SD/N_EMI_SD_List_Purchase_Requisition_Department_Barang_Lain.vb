@@ -44,7 +44,7 @@
 
 		EnableDoubleBuffer(Lv_Data_PR)
 
-		'asdaasda
+		'asdaasda asdas
 		Lv_Data_PR.Columns.Clear()
 		Lv_Data_PR.Columns.Add("No PR", 130, HorizontalAlignment.Left) '0
 		Lv_Data_PR.Columns.Add("Tanggal", 100, HorizontalAlignment.Center) '1
