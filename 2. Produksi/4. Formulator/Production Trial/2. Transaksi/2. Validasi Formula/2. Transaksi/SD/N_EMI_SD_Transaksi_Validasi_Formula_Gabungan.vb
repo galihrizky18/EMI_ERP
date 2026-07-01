@@ -827,6 +827,52 @@
 						keteranganBypass = frm.KeteranganBypass.Trim
 						jenisBypass = "TANPA_TRIAL"
 					End Using
+				ElseIf flagLanjutTrialKitchen = "Y" AndAlso flagSelesaiTrialKitchen <> "Y" AndAlso flagLanjutTrialProduksi <> "Y" AndAlso flagSelesaiTrialProduksi <> "Y" Then
+					Dim result As DialogResult = MessageBox.Show(
+							"Trial Kitchen masih berjalan." & vbCrLf & vbCrLf &
+							"Jika dilanjutkan ke Produksi Komersial maka Trial Kitchen yang sedang berjalan tetap akan berlangsung hingga selesai." & vbCrLf & vbCrLf &
+							"Apakah Anda yakin ingin melanjutkan?",
+							Judul,
+							MessageBoxButtons.YesNo,
+							MessageBoxIcon.Question
+						)
+
+					If result = DialogResult.No Then
+						CloseTrans()
+						CloseConn()
+						Exit Sub
+					End If
+
+					Using frm As New N_EMI_SD_Konfirmasi_Bypass_Formula
+
+						frm.NoFormula = noFaktur
+						frm.KodeBarang = TxtFormulator_KodeBarang.Text.Trim
+						frm.NamaBarang = TxtFormulator_NamaBarang.Text.Trim
+						frm.QtyHasil = TxtFormulator_Hasil.Text.Trim
+						frm.SatuanHasil = CmbFormulator_SatuanHasil.Text.Trim
+
+						If frm.ShowDialog() <> DialogResult.OK Then
+							CloseTrans()
+							CloseConn()
+							Exit Sub
+						End If
+
+						If frm.KeteranganBypass.Trim = "" Then
+							CloseTrans()
+							CloseConn()
+
+							MessageBox.Show(
+									"Keterangan bypass wajib diisi.",
+									Judul,
+									MessageBoxButtons.OK,
+									MessageBoxIcon.Warning
+								)
+							Exit Sub
+						End If
+
+						keteranganBypass = frm.KeteranganBypass.Trim
+						jenisBypass = "DENGAN_TRIAL_KITCHEN"
+					End Using
 				ElseIf flagLanjutTrialProduksi = "Y" AndAlso flagSelesaiTrialProduksi <> "Y" Then
 					Dim result As DialogResult = MessageBox.Show(
 							"Trial Produksi masih berjalan." & vbCrLf & vbCrLf &
@@ -921,6 +967,9 @@
 
 					If keteranganBypass <> "" AndAlso jenisBypass = "TANPA_TRIAL" Then
 						setSQL.Add($"Keterangan_Bypass_trial = '{keteranganBypass}'")
+					ElseIf keteranganBypass <> "" AndAlso jenisBypass = "DENGAN_TRIAL_KITCHEN" Then
+						setSQL.Add("Flag_Bypass_Trial_Kitchen_On_Process = 'Y'")
+						setSQL.Add($"Keterangan_Bypass_Trial_Kitchen_On_Process = '{keteranganBypass}'")
 					ElseIf keteranganBypass <> "" AndAlso jenisBypass = "DENGAN_TRIAL_PRODUKSI" Then
 						setSQL.Add("Flag_Bypass_Trial_Produksi_On_Process = 'Y'")
 						setSQL.Add($"Keterangan_Bypass_Trial_Produksi_On_Process = '{keteranganBypass}'")

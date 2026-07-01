@@ -2571,9 +2571,9 @@ Public Class EMI_Transaksi_MaterialRequisition
 
 					DataGridView1.Columns(cellEndingStokSebelumPRPO).DisplayIndex = 7
 
-					DataGridView1.Columns(CellOPRequesition_1).DisplayIndex = 13
-					DataGridView1.Columns(CellOPOrder_1).DisplayIndex = 14
-					DataGridView1.Columns(cellRequireStok_1).DisplayIndex = 15
+					DataGridView1.Columns(CellOPRequesition_1).DisplayIndex = 14
+					DataGridView1.Columns(CellOPOrder_1).DisplayIndex = 15
+					DataGridView1.Columns(cellRequireStok_1).DisplayIndex = 16
 
 					DataGridView1.Columns(CellNBom_2).DisplayIndex = 18
 					DataGridView1.Columns(CellOPRequesition_2).DisplayIndex = 19
@@ -6094,7 +6094,7 @@ Public Class EMI_Transaksi_MaterialRequisition
 								bolehlewat = False
 								Exit Sub
 							Else
-								Dr.Close()
+
 								bolehlewat = True
 
 							End If

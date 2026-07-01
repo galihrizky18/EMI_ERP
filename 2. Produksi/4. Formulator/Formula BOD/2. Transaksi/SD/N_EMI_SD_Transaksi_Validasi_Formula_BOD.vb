@@ -67,8 +67,52 @@
 			TB_StatusBypass.Visible = True
 			TB_KeteranganBypass.Visible = True
 
-		ElseIf StatusBypass = "BYPASS_TRIAL" Then
+		ElseIf StatusBypass = "BYPASS_NO_TRIAL" Then
 			TB_StatusBypass.Text = "BYPASS - TANPA TRIAL"
+			TB_KeteranganBypass.Text = KeteranganBypass
+			LB_StatusBypass.Visible = True
+			LB_KeteranganBypass.Visible = True
+			TB_StatusBypass.Visible = True
+			TB_KeteranganBypass.Visible = True
+
+		ElseIf StatusBypass = "BYPASS_TRIAL_ON_PROCESS" Then
+			Try
+				OpenConn()
+				Cmd.Transaction = Cn.BeginTransaction
+
+				SQL = $"SELECT Keterangan_Bypass_Trial_Produksi_On_Process, Keterangan_Bypass_Trial_Kitchen_On_Process FROM Emi_Transaksi_Formulator where No_Faktur = '{No_Faktur}' AND Kode_Perusahaan = '{KodePerusahaan}'"
+				Using Dr = OpenTrans(SQL)
+					If Dr.Read Then
+						Dim ketKitchen As String = If(General_Class.CekNULL(Dr("Keterangan_Bypass_Trial_Kitchen_On_Process")) = "", "", Dr("Keterangan_Bypass_Trial_Kitchen_On_Process").ToString())
+						Dim ketProduksi As String = If(General_Class.CekNULL(Dr("Keterangan_Bypass_Trial_Produksi_On_Process")) = "", "", Dr("Keterangan_Bypass_Trial_Produksi_On_Process").ToString())
+
+						KeteranganBypass = $"-- Keterangan Bypass Trial Kitchen --{Environment.NewLine}{ketKitchen}{Environment.NewLine}{Environment.NewLine}-- Keterangan Bypass Trial Produksi --{Environment.NewLine}{ketProduksi}"
+					Else
+						Dr.Close()
+						CloseTrans()
+						CloseConn()
+					End If
+				End Using
+
+				Cmd.Transaction.Commit()
+				CloseTrans()
+				CloseConn()
+			Catch ex As Exception
+				CloseTrans()
+				CloseConn()
+				MessageBox.Show(ex.Message)
+				Exit Sub
+			End Try
+
+			TB_StatusBypass.Text = "BYPASS - SEMUA TRIAL BERLANGSUNG"
+			TB_KeteranganBypass.Text = KeteranganBypass
+			LB_StatusBypass.Visible = True
+			LB_KeteranganBypass.Visible = True
+			TB_StatusBypass.Visible = True
+			TB_KeteranganBypass.Visible = True
+
+		ElseIf StatusBypass = "BYPASS_TRIAL_KITCHEN_ON_PROCESS" Then
+			TB_StatusBypass.Text = "BYPASS - TRIAL KITCHEN BERLANGSUNG"
 			TB_KeteranganBypass.Text = KeteranganBypass
 			LB_StatusBypass.Visible = True
 			LB_KeteranganBypass.Visible = True

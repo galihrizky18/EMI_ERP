@@ -621,6 +621,7 @@ Public Class N_EMI_Dashboard_Formula
                     CASE
                         WHEN a.Keterangan_Bypass_trial IS NOT NULL THEN a.Keterangan_Bypass_trial
                         WHEN a.Keterangan_Bypass_Trial_Produksi_On_Process IS NOT NULL THEN a.Keterangan_Bypass_Trial_Produksi_On_Process
+                        WHEN a.Keterangan_Bypass_Trial_Kitchen_On_Process IS NOT NULL THEN a.Keterangan_Bypass_Trial_Kitchen_On_Process
                         WHEN a.Flag_Lanjut_Produksi = 'Y'
                              OR a.Flag_Validasi_Formula_Produksi_BOD = 'Y'
                         THEN p.Deskripsi
