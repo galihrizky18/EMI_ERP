@@ -3263,6 +3263,11 @@ Public Class EMI_Validasi_GR
 
 		Dim KdUnikPrint, KdUnikPrintScrap As New ArrayList
 
+		Dim Action As String = ""
+		If MenuAsal = "VALIDASI_GR_MERGE" Then
+			Action = "(MERGE)"
+		End If
+
 		Try
 			OpenConn()
 			Dim CrDoc As New Object
@@ -3330,48 +3335,78 @@ Public Class EMI_Validasi_GR
 			'SQL = SQL & "group by kode_perusahaan, No_Split, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired, Satuan, Jenis, Number, Nomor, Id_Routing, Routing "
 
 			SQL = $"
-				with cte as(
-					select b.Kode_Perusahaan, c.No_Split,  c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code, e.Tgl_Produksi, c.Kode_Stock_Owner_Tujuan as Lokasi_Tujuan,
-						e.Tgl_Expired, c.Jumlah as jumlah, d.Satuan,
-						case when c.jenis = 'REJECTED' then 'Blocked ' else c.jenis end as Jenis,
-						c.nomor as Number,
-						e.Kode_Unik_Berjalan, g.Id_Routing, h.Keterangan as Routing
-					from Emi_Production_Results_Validation b
-						inner join Emi_Production_Results_Validation_Detail c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Transaksi = c.No_Transaksi
-						inner join Barang d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.Kode_Stock_Owner_Awal = d.Kode_Stock_Owner and c.Kode_Barang = d.Kode_Barang
-						inner join Barang_SN e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Kode_Stock_Owner_Awal = e.Kode_Stock_Owner and c.Kode_Barang = e.Kode_Barang and c.Serial_Number_Tujuan = e.Serial_Number
-						inner join Emi_Split_Production_Order f on c.Kode_Perusahaan = f.Kode_Perusahaan and c.No_Split = f.No_Transaksi and f.Status is null
-						inner join EMI_Order_Produksi g on f.Kode_Perusahaan = g.kode_perusahaan and f.No_PO = g.no_faktur and g.status is null
-						inner join EMI_Master_Routing h on g.kode_perusahaan = h.kode_perusahaan and g.Id_Routing = h.Id_Routing
-					where b.Kode_Perusahaan = '{KodePerusahaan}'
-					and b.No_Transaksi = '{TxtNo_Transaksi.Text}'
+				;with cte as (
+							select b.Kode_Perusahaan, c.No_Split, c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code,
+								   e.Tgl_Produksi, c.Kode_Stock_Owner_Tujuan as Lokasi_Tujuan,
+								   e.Tgl_Expired, c.Jumlah as jumlah, d.Satuan,
+								   case when c.jenis = 'REJECTED' then 'Blocked ' else c.jenis end as Jenis,
+								   c.nomor as Number,
+								   e.Kode_Unik_Berjalan, g.Id_Routing, h.Keterangan as Routing, c.Tahap as Batch
+							from Emi_Production_Results_Validation b
+								 inner join Emi_Production_Results_Validation_Detail c
+											on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Transaksi = c.No_Transaksi
+								 inner join Barang d on c.Kode_Perusahaan = d.Kode_Perusahaan and
+														c.Kode_Stock_Owner_Awal = d.Kode_Stock_Owner and
+														c.Kode_Barang = d.Kode_Barang
+								 inner join Barang_SN e on c.Kode_Perusahaan = e.Kode_Perusahaan and
+														   c.Kode_Stock_Owner_Awal = e.Kode_Stock_Owner and
+														   c.Kode_Barang = e.Kode_Barang and
+														   c.Serial_Number_Tujuan = e.Serial_Number
+								 inner join Emi_Split_Production_Order f
+											on c.Kode_Perusahaan = f.Kode_Perusahaan and c.No_Split = f.No_Transaksi and
+											   f.Status is null
+								 inner join EMI_Order_Produksi g
+											on f.Kode_Perusahaan = g.kode_perusahaan and f.No_PO = g.no_faktur and g.status is null
+								 inner join EMI_Master_Routing h
+											on g.kode_perusahaan = h.kode_perusahaan and g.Id_Routing = h.Id_Routing
+							where b.Kode_Perusahaan = '{KodePerusahaan}'
+							  and b.No_Transaksi = '{TxtNo_Transaksi.Text}'
 
-					union all
+							union all
 
-					select b.Kode_Perusahaan, c.No_Split,  c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code, e.Tgl_Produksi, c.Kode_Stock_Owner_Tujuan as Lokasi_Tujuan,
-						e.Tgl_Expired, c.Jumlah as jumlah, d.Satuan,
-						case when c.jenis = 'REJECTED' then 'Blocked ' else c.jenis end as Jenis,
-						c.nomor as Number,
-						e.Kode_Unik_Berjalan, g.Id_Routing, h.Keterangan as Routing
-					from Emi_Production_Results_Validation b
-						inner join Emi_Production_Results_Validation_Detail c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Transaksi = c.No_Transaksi
-						inner join Barang d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.Kode_Stock_Owner_Awal = d.Kode_Stock_Owner and c.Kode_Barang = d.Kode_Barang
-						inner join Barang_SN e on c.Kode_Perusahaan = e.Kode_Perusahaan and c.Kode_Stock_Owner_Tujuan = e.Kode_Stock_Owner and c.Kode_Barang = e.Kode_Barang and c.Serial_Number_Tujuan = e.Serial_Number
-						inner join Emi_Split_Production_Order f on c.Kode_Perusahaan = f.Kode_Perusahaan and c.No_Split = f.No_Transaksi and f.Status is null
-						inner join EMI_Order_Produksi g on f.Kode_Perusahaan = g.kode_perusahaan and f.No_PO = g.no_faktur and g.status is null
-						inner join EMI_Master_Routing h on g.kode_perusahaan = h.kode_perusahaan and g.Id_Routing = h.Id_Routing
-					where b.Kode_Perusahaan = '{KodePerusahaan}'
-					and b.No_Transaksi = '{TxtNo_Transaksi.Text}'
-				),Cte_Group AS (
-					select kode_perusahaan, No_Split, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired, sum(Jumlah) as Jumlah, Satuan, Jenis, Number, Id_Routing, Routing
-					from cte
-					group by kode_perusahaan, No_Split, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired, Satuan, Jenis, Number, Id_Routing, Routing
-				)
-				select kode_perusahaan,
-					STRING_AGG(No_Split, ', ') AS No_Split,
-					Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, max(Batch_Number) as Batch_Number, Qr_Code, min(Tgl_Produksi) as Tgl_Produksi, min(Tgl_Expired) as Tgl_Expired, sum(Jumlah) as Jumlah, Satuan, Jenis, Number, Id_Routing, Routing
-				from Cte_Group
-				group by kode_perusahaan, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, Qr_Code, Satuan, Jenis, Number, Id_Routing, Routing
+							select b.Kode_Perusahaan, c.No_Split, c.Kode_Barang, d.nama as Nama_Barang, c.Batch_Number, e.Qr_Code,
+								   e.Tgl_Produksi, c.Kode_Stock_Owner_Tujuan as Lokasi_Tujuan,
+								   e.Tgl_Expired, c.Jumlah as jumlah, d.Satuan,
+								   case when c.jenis = 'REJECTED' then 'Blocked ' else c.jenis end as Jenis,
+								   c.nomor as Number,
+								   e.Kode_Unik_Berjalan, g.Id_Routing, h.Keterangan as Routing, c.Tahap as Batch
+							from Emi_Production_Results_Validation b
+								 inner join Emi_Production_Results_Validation_Detail c
+											on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Transaksi = c.No_Transaksi
+								 inner join Barang d on c.Kode_Perusahaan = d.Kode_Perusahaan and
+														c.Kode_Stock_Owner_Awal = d.Kode_Stock_Owner and
+														c.Kode_Barang = d.Kode_Barang
+								 inner join Barang_SN e on c.Kode_Perusahaan = e.Kode_Perusahaan and
+														   c.Kode_Stock_Owner_Tujuan = e.Kode_Stock_Owner and
+														   c.Kode_Barang = e.Kode_Barang and
+														   c.Serial_Number_Tujuan = e.Serial_Number
+								 inner join Emi_Split_Production_Order f
+											on c.Kode_Perusahaan = f.Kode_Perusahaan and c.No_Split = f.No_Transaksi and
+											   f.Status is null
+								 inner join EMI_Order_Produksi g
+											on f.Kode_Perusahaan = g.kode_perusahaan and f.No_PO = g.no_faktur and g.status is null
+								 inner join EMI_Master_Routing h
+											on g.kode_perusahaan = h.kode_perusahaan and g.Id_Routing = h.Id_Routing
+							where b.Kode_Perusahaan = '{KodePerusahaan}'
+							  and b.No_Transaksi = '{TxtNo_Transaksi.Text}'
+						),
+				 Cte_Group AS (
+							select kode_perusahaan, No_Split, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan,
+								   Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired, sum(Jumlah) as Jumlah, Satuan, Jenis, Number,
+								   Id_Routing, Routing, Batch
+							from cte
+							group by kode_perusahaan, No_Split, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan,
+									 Batch_Number, Qr_Code, Tgl_Produksi, Tgl_Expired, Satuan, Jenis, Number, Id_Routing, Routing, Batch
+						)
+			select kode_perusahaan,
+				   STRING_AGG(No_Split, ', ') AS No_Split,
+				   STRING_AGG(Batch, ', ') AS Batch,
+				   Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, max(Batch_Number) as Batch_Number, Qr_Code,
+				   min(Tgl_Produksi) as Tgl_Produksi, min(Tgl_Expired) as Tgl_Expired, sum(Jumlah) as Jumlah, Satuan, Jenis, Number,
+				   Id_Routing, Routing
+			from Cte_Group
+			group by kode_perusahaan, Lokasi_Tujuan, Kode_Barang, Nama_Barang, Kode_Unik_Berjalan, Qr_Code, Satuan, Jenis, Number,
+					 Id_Routing, Routing
 			"
 			Using Ds = BindingTrans(SQL)
 				With Ds.Tables("MyTable")
@@ -3412,33 +3447,33 @@ Public Class EMI_Validasi_GR
 								End If
 							End If
 
-							If .Rows(i).Item("Jenis").ToString.ToUpper.Trim = "FINISHED GOOOD" Then
+							If .Rows(i).Item("Jenis").ToString.ToUpper.Trim = "FINISHED GOOD" Then
 
-								SQL = "insert into N_EMI_Barcode_Label_Barcode_GR_2 (Kode_Perusahaan, No_Split, Kode_Barang, Barcode, Nama_Barang, Batch_Number, QrUtuh, Qr, Tgl_Produksi, Jam_Produksi, Tgl_Expired, Jam_Expired, Jumlah, Satuan, Jenis, Number, Kode_Unik_Print) "
+								SQL = "insert into N_EMI_Barcode_Label_Barcode_GR_2 (Kode_Perusahaan, No_Split, Kode_Barang, Barcode, Nama_Barang, Batch_Number, QrUtuh, Qr, Tgl_Produksi, Jam_Produksi, Tgl_Expired, Jam_Expired, Jumlah, Satuan, Jenis, Number, Kode_Unik_Print, Batch, JenisBarcode) "
 								SQL = SQL & "values ('" & KodePerusahaan & "', '" & NoSplitBarcode & "', '" & .Rows(i).Item("Kode_Barang") & "', @newBarcode" & kode_unik_print & ", "
 								SQL = SQL & "'" & .Rows(i).Item("Nama_Barang") & "', '" & .Rows(i).Item("Batch_Number") & "', '" & fullNewQrScrap & "', '" & .Rows(i).Item("Qr_Code") & "', '" & .Rows(i).Item("Tgl_Produksi") & "', "
 								SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & .Rows(i).Item("Tgl_Expired") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & .Rows(i).Item("Jumlah") & "', '" & .Rows(i).Item("Satuan") & "', "
-								SQL = SQL & "'" & .Rows(i).Item("Jenis") & "', '" & .Rows(i).Item("Number") & "', '" & kode_unik_print & "') "
+								SQL = SQL & "'" & .Rows(i).Item("Jenis") & "', '" & .Rows(i).Item("Number") & "', '" & kode_unik_print & "', '" & .Rows(i).Item("Batch") & "', '" & Action & "') "
 								ExecuteTrans(SQL)
 
 								KdUnikPrint.Add(kode_unik_print)
 
 							ElseIf .Rows(i).Item("Jenis").ToString.ToUpper.Trim = "DISQUALIFIED" Then
-								SQL = "insert into N_EMI_Barcode_Label_Barcode_GR_2 (Kode_Perusahaan, No_Split, Kode_Barang, Barcode, Nama_Barang, Batch_Number, QrUtuh, Qr, Tgl_Produksi, Jam_Produksi, Tgl_Expired, Jam_Expired, Jumlah, Satuan, Jenis, Number, Kode_Unik_Print) "
+								SQL = "insert into N_EMI_Barcode_Label_Barcode_GR_2 (Kode_Perusahaan, No_Split, Kode_Barang, Barcode, Nama_Barang, Batch_Number, QrUtuh, Qr, Tgl_Produksi, Jam_Produksi, Tgl_Expired, Jam_Expired, Jumlah, Satuan, Jenis, Number, Kode_Unik_Print, Batch, JenisBarcode) "
 								SQL = SQL & "values ('" & KodePerusahaan & "', '" & NoSplitBarcode & "', '" & .Rows(i).Item("Kode_Barang") & "', @newBarcode" & kode_unik_print & ", "
 								SQL = SQL & "'" & .Rows(i).Item("Nama_Barang") & "', '" & .Rows(i).Item("Batch_Number") & "', '" & fullNewQrScrap & "', '" & .Rows(i).Item("Qr_Code") & "', '" & .Rows(i).Item("Tgl_Produksi") & "', "
 								SQL = SQL & "'" & Format(tgl_skg, "HH:mm:ss") & "', '" & .Rows(i).Item("Tgl_Expired") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', '" & .Rows(i).Item("Jumlah") & "', '" & .Rows(i).Item("Satuan") & "', "
-								SQL = SQL & "'" & .Rows(i).Item("Jenis") & "', '" & .Rows(i).Item("Number") & "', '" & kode_unik_print & "') "
+								SQL = SQL & "'" & .Rows(i).Item("Jenis") & "', '" & .Rows(i).Item("Number") & "', '" & kode_unik_print & "', '" & .Rows(i).Item("Batch") & "', '" & Action & "') "
 								ExecuteTrans(SQL)
 
 								KdUnikPrint.Add(kode_unik_print)
 							Else
 
 								SQL = "insert into N_EMI_Barcode_Label_Barcode_GR_2_Scrap (kode_perusahaan, no_split, Barcode, Kode_barang, Nama_Barang, QrUtuh, Qr, Tgl_Produksi, Jam_Produksi, "
-								SQL = SQL & "Proses, Jumlah, Satuan, Nomor, id_routing, routing, Kode_unik_print)  "
+								SQL = SQL & "Proses, Jumlah, Satuan, Nomor, id_routing, routing, Kode_unik_print, Batch, JenisBarcode)  "
 								SQL = SQL & "values ('" & KodePerusahaan & "', '" & NoSplitBarcode & "', @newBarcode" & kode_unik_print & ", '" & .Rows(i).Item("Kode_Barang") & "', '" & .Rows(i).Item("Nama_Barang") & "', '" & fullNewQrScrap & "', '" & .Rows(i).Item("Qr_Code") & "', "
 								SQL = SQL & "'" & .Rows(i).Item("Tgl_Produksi") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', 'X', '" & .Rows(i).Item("Jumlah") & "', '" & .Rows(i).Item("Satuan") & "', "
-								SQL = SQL & "'" & .Rows(i).Item("Number") & "', '" & .Rows(i).Item("Id_Routing") & "', '" & .Rows(i).Item("Routing") & "', '" & kode_unik_print & "') "
+								SQL = SQL & "'" & .Rows(i).Item("Number") & "', '" & .Rows(i).Item("Id_Routing") & "', '" & .Rows(i).Item("Routing") & "', '" & kode_unik_print & "', '" & .Rows(i).Item("Batch") & "', '" & Action & "') "
 								ExecuteTrans(SQL)
 
 								KdUnikPrintScrap.Add(kode_unik_print)

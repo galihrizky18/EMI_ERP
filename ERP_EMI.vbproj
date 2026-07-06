@@ -482,6 +482,12 @@
     <Compile Include="1. Barang Lain\2. Purchase Requisition\2. Transaksi\SD\SD_Ubah_Tanggal_PR_Barang_Lain.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="1. Barang Lain\2. Purchase Requisition\3. Display\N_EMI_Display_Pengajuan_Budget_PR_Barang_Lain_Departement.designer.vb">
+      <DependentUpon>N_EMI_Display_Pengajuan_Budget_PR_Barang_Lain_Departement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="1. Barang Lain\2. Purchase Requisition\3. Display\N_EMI_Display_Pengajuan_Budget_PR_Barang_Lain_Departement.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="1. Barang Lain\2. Purchase Requisition\4. Laporan\Faktur_Purchase_Requisition_Barang_Lain.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -578,6 +584,12 @@
     <Compile Include="1. Barang Lain\5. Inventori\Barang\Master_Barang_Lain.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="1. Barang Lain\5. Inventori\Barang\SD\N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.designer.vb">
+      <DependentUpon>N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.vb</DependentUpon>
+    </Compile>
+    <Compile Include="1. Barang Lain\5. Inventori\Barang\SD\N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="1. Barang Lain\6. Budgeting\1. Master\N_EMI_Master_Kategori_Gudang_Barang_Lain.Designer.vb">
       <DependentUpon>N_EMI_Master_Kategori_Gudang_Barang_Lain.vb</DependentUpon>
     </Compile>
@@ -600,6 +612,30 @@
       <DependentUpon>N_EMI_Transaksi_Budget_Planning_Backup.vb</DependentUpon>
     </Compile>
     <Compile Include="1. Barang Lain\6. Budgeting\2. Transaksi\N_EMI_Transaksi_Budget_Planning_Backup.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="1. Barang Lain\6. Budgeting\4. Laporan\N_EMI_CR_Laporan_Budget.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_CR_Laporan_Budget.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="1. Barang Lain\6. Budgeting\4. Laporan\N_EMI_CR_Laporan_Penambahan_Budget.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_CR_Laporan_Penambahan_Budget.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="1. Barang Lain\6. Budgeting\1. Master\N_EMI_Laporan_Budget.Designer.vb">
+      <DependentUpon>N_EMI_Laporan_Budget.vb</DependentUpon>
+    </Compile>
+    <Compile Include="1. Barang Lain\6. Budgeting\1. Master\N_EMI_Laporan_Budget.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="1. Barang Lain\6. Budgeting\4. Laporan\N_EMI_Laporan_Penambahan_Budget.Designer.vb">
+      <DependentUpon>N_EMI_Laporan_Penambahan_Budget.vb</DependentUpon>
+    </Compile>
+    <Compile Include="1. Barang Lain\6. Budgeting\4. Laporan\N_EMI_Laporan_Penambahan_Budget.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="1. Barang Lain\7. Departement\2. Transaksi\N_EMI_SD_Tambah_PR_Barang_Lain_Departement.designer.vb">
@@ -786,6 +822,66 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>N_EMI_CR_Barcode_Transaksi_Barcode_Merge.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\N_EMI_Check_In_Out_Shift_Packing.designer.vb">
+      <DependentUpon>N_EMI_Check_In_Out_Shift_Packing.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\N_EMI_Check_In_Out_Shift_Packing.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\N_EMI_Transaksi_Packing_Cetak_Barcode_Box_Baru.designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Packing_Cetak_Barcode_Box_Baru.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\N_EMI_Transaksi_Packing_Cetak_Barcode_Box_Baru.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\N_Emi_Transaksi_Repacking.designer.vb">
+      <DependentUpon>N_Emi_Transaksi_Repacking.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\N_Emi_Transaksi_Repacking.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\N_EMI_Transaksi_Scan_Packing.designer.vb">
+      <DependentUpon>N_EMI_Transaksi_Scan_Packing.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\N_EMI_Transaksi_Scan_Packing.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\SD\N_EMI_SD_Pilih_Scan_Packing.designer.vb">
+      <DependentUpon>N_EMI_SD_Pilih_Scan_Packing.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\SD\N_EMI_SD_Pilih_Scan_Packing.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\SD\N_EMI_SD_Pilih_Scan_Repacking.designer.vb">
+      <DependentUpon>N_EMI_SD_Pilih_Scan_Repacking.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\SD\N_EMI_SD_Pilih_Scan_Repacking.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\SD\N_EMI_SD_Waste_Scan_Packing.designer.vb">
+      <DependentUpon>N_EMI_SD_Waste_Scan_Packing.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\SD\N_EMI_SD_Waste_Scan_Packing.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\SD\N_EMI_SD_Waste_Scan_Packing_Pin.designer.vb">
+      <DependentUpon>N_EMI_SD_Waste_Scan_Packing_Pin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\SD\N_EMI_SD_Waste_Scan_Packing_Pin.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\4. Laporan\N_EMI_Label_Barcode_Box_Kecil.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_Label_Barcode_Box_Kecil.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="2. Produksi\2. Production\15. Packing Box\4. Laporan\N_EMI_Label_Barcode_Box_Pallet.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>N_EMI_Label_Barcode_Box_Pallet.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="2. Produksi\2. Production\2. Split Production\2. Transaksi\EMI_Produksi.designer.vb">
@@ -2324,6 +2420,9 @@
     <EmbeddedResource Include="1. Barang Lain\2. Purchase Requisition\2. Transaksi\SD\SD_Ubah_Tanggal_PR_Barang_Lain.resx">
       <DependentUpon>SD_Ubah_Tanggal_PR_Barang_Lain.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="1. Barang Lain\2. Purchase Requisition\3. Display\N_EMI_Display_Pengajuan_Budget_PR_Barang_Lain_Departement.resx">
+      <DependentUpon>N_EMI_Display_Pengajuan_Budget_PR_Barang_Lain_Departement.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="1. Barang Lain\2. Purchase Requisition\4. Laporan\Faktur_Purchase_Requisition_Barang_Lain.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Faktur_Purchase_Requisition_Barang_Lain.vb</LastGenOutput>
@@ -2376,6 +2475,9 @@
     <EmbeddedResource Include="1. Barang Lain\5. Inventori\Barang\Master_Barang_Lain.resx">
       <DependentUpon>Master_Barang_Lain.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="1. Barang Lain\5. Inventori\Barang\SD\N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.resx">
+      <DependentUpon>N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="1. Barang Lain\6. Budgeting\1. Master\N_EMI_Master_Kategori_Gudang_Barang_Lain.resx">
       <DependentUpon>N_EMI_Master_Kategori_Gudang_Barang_Lain.vb</DependentUpon>
     </EmbeddedResource>
@@ -2387,6 +2489,20 @@
     </EmbeddedResource>
     <EmbeddedResource Include="1. Barang Lain\6. Budgeting\2. Transaksi\N_EMI_Transaksi_Budget_Planning_Backup.resx">
       <DependentUpon>N_EMI_Transaksi_Budget_Planning_Backup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="1. Barang Lain\6. Budgeting\4. Laporan\N_EMI_CR_Laporan_Budget.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_CR_Laporan_Budget.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="1. Barang Lain\6. Budgeting\4. Laporan\N_EMI_CR_Laporan_Penambahan_Budget.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_CR_Laporan_Penambahan_Budget.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="1. Barang Lain\6. Budgeting\1. Master\N_EMI_Laporan_Budget.resx">
+      <DependentUpon>N_EMI_Laporan_Budget.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="1. Barang Lain\6. Budgeting\4. Laporan\N_EMI_Laporan_Penambahan_Budget.resx">
+      <DependentUpon>N_EMI_Laporan_Penambahan_Budget.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="1. Barang Lain\7. Departement\2. Transaksi\N_EMI_SD_Tambah_PR_Barang_Lain_Departement.resx">
       <DependentUpon>N_EMI_SD_Tambah_PR_Barang_Lain_Departement.vb</DependentUpon>
@@ -2485,6 +2601,38 @@
     <EmbeddedResource Include="2. Produksi\2. Production\14. Barcode Merge\4. Laporan\N_EMI_CR_Barcode_Transaksi_Barcode_Merge.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>N_EMI_CR_Barcode_Transaksi_Barcode_Merge.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\N_EMI_Check_In_Out_Shift_Packing.resx">
+      <DependentUpon>N_EMI_Check_In_Out_Shift_Packing.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\N_EMI_Transaksi_Packing_Cetak_Barcode_Box_Baru.resx">
+      <DependentUpon>N_EMI_Transaksi_Packing_Cetak_Barcode_Box_Baru.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\N_Emi_Transaksi_Repacking.resx">
+      <DependentUpon>N_Emi_Transaksi_Repacking.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\N_EMI_Transaksi_Scan_Packing.resx">
+      <DependentUpon>N_EMI_Transaksi_Scan_Packing.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\SD\N_EMI_SD_Pilih_Scan_Packing.resx">
+      <DependentUpon>N_EMI_SD_Pilih_Scan_Packing.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\SD\N_EMI_SD_Pilih_Scan_Repacking.resx">
+      <DependentUpon>N_EMI_SD_Pilih_Scan_Repacking.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\SD\N_EMI_SD_Waste_Scan_Packing.resx">
+      <DependentUpon>N_EMI_SD_Waste_Scan_Packing.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\2. Production\15. Packing Box\2. Transaksi\SD\N_EMI_SD_Waste_Scan_Packing_Pin.resx">
+      <DependentUpon>N_EMI_SD_Waste_Scan_Packing_Pin.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\2. Production\15. Packing Box\4. Laporan\N_EMI_Label_Barcode_Box_Kecil.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_Label_Barcode_Box_Kecil.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="2. Produksi\2. Production\15. Packing Box\4. Laporan\N_EMI_Label_Barcode_Box_Pallet.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>N_EMI_Label_Barcode_Box_Pallet.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="2. Produksi\2. Production\2. Split Production\2. Transaksi\EMI_Produksi.resx">
       <DependentUpon>EMI_Produksi.vb</DependentUpon>
@@ -3302,7 +3450,6 @@
     <Folder Include="0. Root\Template\3. Display\" />
     <Folder Include="0. Root\Template\4. Laporan\" />
     <Folder Include="1. Barang Lain\2. Purchase Requisition\1. Master\" />
-    <Folder Include="1. Barang Lain\2. Purchase Requisition\3. Display\" />
     <Folder Include="1. Barang Lain\3. Material Movement\Pengeluaran Stock\1. Master\" />
     <Folder Include="1. Barang Lain\3. Material Movement\Pengeluaran Stock\3. Display\" />
     <Folder Include="1. Barang Lain\3. Material Movement\Pengeluaran Stock\4. Laporan\" />
@@ -3310,7 +3457,6 @@
     <Folder Include="1. Barang Lain\5. Inventori\Adjustment Stock\1. Master\" />
     <Folder Include="1. Barang Lain\5. Inventori\Adjustment Stock\2. Transaksi\SD\" />
     <Folder Include="1. Barang Lain\6. Budgeting\3. Display\" />
-    <Folder Include="1. Barang Lain\6. Budgeting\4. Laporan\" />
     <Folder Include="1. Barang Lain\7. Departement\1. Master\" />
     <Folder Include="1. Barang Lain\7. Departement\4. Laporan\" />
     <Folder Include="2. Produksi\0. MASTER FORM PRODUCTION\Master Line Production\2. Transaksi\" />
@@ -3336,6 +3482,8 @@
     <Folder Include="2. Produksi\2. Production\13. Request Material Tambahan\4. Laporan\" />
     <Folder Include="2. Produksi\2. Production\14. Barcode Merge\1. Master\" />
     <Folder Include="2. Produksi\2. Production\14. Barcode Merge\3. Display\" />
+    <Folder Include="2. Produksi\2. Production\15. Packing Box\1. Master\" />
+    <Folder Include="2. Produksi\2. Production\15. Packing Box\3. Display\" />
     <Folder Include="2. Produksi\2. Production\2. Split Production\1. Master\" />
     <Folder Include="2. Produksi\2. Production\2. Split Production\3. Display\" />
     <Folder Include="2. Produksi\2. Production\2. Split Production\4. Laporan\" />

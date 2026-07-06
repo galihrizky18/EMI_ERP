@@ -3,9 +3,12 @@
 	Dim DataDepartment As New Dictionary(Of String, String)
 	Dim DataLayer1 As New Dictionary(Of Integer, String)
 	Dim DataLayer3 As New Dictionary(Of Integer, List(Of DetailDataLayer3))
-	Dim DataBudgetPlanning As New Dictionary(Of Integer, List(Of DetailDataBudgetPlanning))
+	Dim DataBudgetPlanning As New Dictionary(Of (ID_Sub_Kategori_1 As Integer, Tahun As Integer, Bulan As Integer), DetailDataBudgetPlanning)
+	Dim ListRoleAksesInput As New List(Of RoleAksesInput)
 
 	Dim DataUpdate As New List(Of DetailDataUpdate)
+
+	Dim BatasBulanInput As Integer = 120
 
 	Private lastIndex As Integer = -1
 	Private originalColor As Color
@@ -161,6 +164,47 @@
 				End If
 			End Using
 
+			'===========================
+			'=     LOAD ROLE AKSES     =
+			'===========================
+			ListRoleAksesInput.Clear()
+			SQL = $"
+				select Tanggal_Awal, Tanggal_Akhir, Bulan, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12
+				from N_EMI_Master_Role_Akses_Budget_Planning
+				where Kode_Perusahaan = '{KodePerusahaan}'
+				and UserID = '{UserID}'
+				and Bulan = '{CurrentMonth}'
+			"
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					Do
+						ListRoleAksesInput.Add(New RoleAksesInput With {
+							.TanggalAwal = HilangkanTanda(Dr("Tanggal_Awal")),
+							.TanggalAkhir = HilangkanTanda(Dr("Tanggal_Akhir")),
+							.Bulan = HilangkanTanda(Dr("Bulan")),
+							.M1 = If(General_Class.CekNULL(Dr("M1")) = "Y", True, False),
+							.M2 = If(General_Class.CekNULL(Dr("M2")) = "Y", True, False),
+							.M3 = If(General_Class.CekNULL(Dr("M3")) = "Y", True, False),
+							.M4 = If(General_Class.CekNULL(Dr("M4")) = "Y", True, False),
+							.M5 = If(General_Class.CekNULL(Dr("M5")) = "Y", True, False),
+							.M6 = If(General_Class.CekNULL(Dr("M6")) = "Y", True, False),
+							.M7 = If(General_Class.CekNULL(Dr("M7")) = "Y", True, False),
+							.M8 = If(General_Class.CekNULL(Dr("M8")) = "Y", True, False),
+							.M9 = If(General_Class.CekNULL(Dr("M9")) = "Y", True, False),
+							.M10 = If(General_Class.CekNULL(Dr("M10")) = "Y", True, False),
+							.M11 = If(General_Class.CekNULL(Dr("M11")) = "Y", True, False),
+							.M12 = If(General_Class.CekNULL(Dr("M12")) = "Y", True, False)
+						})
+					Loop While Dr.Read
+				Else
+					Dr.Close()
+					CloseTrans()
+					CloseConn()
+					MessageBox.Show("Terjadi Kesalahan, Data Role Akses Input Tidak Ada", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+					Exit Sub
+				End If
+			End Using
+
 			Cmd.Transaction.Commit()
 			CloseTrans()
 			CloseConn()
@@ -208,6 +252,9 @@
 			Exit Sub
 		End If
 
+		Dim ListDataPRM As New Dictionary(Of (Kode_Binding As String, Tahun As Integer, Bulan As Integer, IDLayer1 As Integer, IDLayer3 As Integer), Double)
+		Dim ListDataTF As New Dictionary(Of (Kode_Binding As String, Tahun As Integer, Bulan As Integer, IDLayer1 As Integer, IDLayer3 As Integer), (JumlahTf As Double, NominalTF As Double))
+
 		'========================================
 		'=     GET DATA BESAR DARI DATABASE     =
 		'========================================
@@ -215,156 +262,213 @@
 			OpenConn()
 			Cmd.Transaction = Cn.BeginTransaction
 
-			'============================================================
-			'=     GET ALL DATA BERDASARKAN DEPARTMENT YANG DIPILIH     =
-			'============================================================
-			DataBudgetPlanning.Clear() : DataUpdate.Clear()
-
+			'========================
+			'=     GET DATA PRM     =
+			'========================
 			SQL = $"
-				;with
-					-- 1. Base PRM: Dibuat seringkas mungkin dengan filter perusahaan agresif
-					DataPRM_Base as (
-										select a.Kode_Perusahaan,
-											   ISNULL(YEAR(a.Tanggal), 0) as Tahun,
-											   ISNULL(MONTH(a.Tanggal), 0) as Bulan,
-											   b.No_Urut,
-											   d.ID_Kategori_Jenis,
-											   d.Id_Sub_Kategori_Jenis_1,
-											   a.Kode_Kategori_Gudang,
-											   b.jumlah as JumlahPR
-										from N_EMI_Purchase_Requisition_Barang_Lain_Departement a with (nolock)
-											 inner join N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail b with (nolock)
-														on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
-											 inner join barang_lain c with (nolock)
-														on b.Kode_Perusahaan = c.Kode_Perusahaan and
-														   b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang
-											 inner join View_Kategori_Turunan d with (nolock)
-														on b.Kode_Perusahaan = d.Kode_Perusahaan and
-														   c.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3
-										where a.Status is null
-										  and a.Kode_Perusahaan = '{KodePerusahaan}'
-									),
+				;with DataPRM as (
+									 select a.Kode_Perusahaan,
+											ISNULL(YEAR(a.Tanggal), 0) as Tahun,
+											ISNULL(MONTH(a.Tanggal), 0) as Bulan,
+											d.ID_Kategori_Jenis,
+											d.Id_Sub_Kategori_Jenis_1,
+											a.Kode_Kategori_Gudang,
+											sum(b.jumlah) as JumlahPR
+									 from N_EMI_Purchase_Requisition_Barang_Lain_Departement a
+										  inner join N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail b
+													 on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+										  inner join barang_lain c
+													 on b.Kode_Perusahaan = c.Kode_Perusahaan and
+														b.Kode_Stock_Owner = c.Kode_Stock_Owner and
+														b.Kode_Barang = c.Kode_Barang
+										  inner join View_Kategori_Turunan d
+													 on b.Kode_Perusahaan = d.Kode_Perusahaan and
+														c.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3
+									 where a.Status is null
+									   and a.Flag_Pra_Release = 'Y'
+									   and a.Kode_Perusahaan = '{KodePerusahaan}'
+									   and (ISNULL(YEAR(a.Tanggal), 0) * 100 + ISNULL(MONTH(a.Tanggal), 0)) between {PeriodeAwal} and {PeriodeAkhir}
+									   and d.ID_Kategori_Jenis = '{SelectedIDLayer1}'
+									 group by a.Kode_Perusahaan, a.Tanggal, d.ID_Kategori_Jenis, d.Id_Sub_Kategori_Jenis_1,
+											  a.Kode_Kategori_Gudang
+								 )
+				 select z.Kode_Perusahaan,
+						z.Kode_Binding,
+						y.Tahun, y.Bulan,
+						y.ID_Kategori_Jenis,
+						y.Id_Sub_Kategori_Jenis_1,
+						sum(y.JumlahPR) as JumlahPR
+				 from N_EMI_Binding_Department z
+					  inner join N_EMI_Binding_Department_Detail x
+								 on z.Kode_Perusahaan = x.Kode_Perusahaan and
+									z.Kode_Binding = x.Kode_Binding
+					  inner join DataPRM y
+								 on x.Kode_Perusahaan = y.Kode_Perusahaan and
+									x.Kode_Kategori_Gudang = y.Kode_Kategori_Gudang
+				 where z.Status is null
+				   and z.Kode_Perusahaan = '{KodePerusahaan}'
+				   and z.Kode_Binding = '{SelectedDepartment_KodeBinding}'
+				 group by z.Kode_Perusahaan, y.Tahun, y.Bulan, z.Kode_Binding,
+						  y.ID_Kategori_Jenis,
+						  y.Id_Sub_Kategori_Jenis_1
+			"
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					Do
+						Dim Key = (
+							Kode_Binding:=Dr("Kode_Binding"),
+							Tahun:=Dr("Tahun"),
+							Bulan:=Dr("Bulan"),
+							IDLayer1:=Dr("ID_Kategori_Jenis"),
+							IDLayer3:=Dr("Id_Sub_Kategori_Jenis_1")
+						)
 
-					-- 2. Ambil Agregasi PRM langsung dari Base (Tidak scan ulang tabel fisik)
-					DataPRM_Agg as (
-										select Kode_Perusahaan,
-											   Tahun, Bulan,
-											   Kode_Kategori_Gudang,
-											   ID_Kategori_Jenis,
-											   Id_Sub_Kategori_Jenis_1,
-											   sum(JumlahPR) as TotalJumlahPR
-										from DataPRM_Base
-										group by Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis,
-												 Id_Sub_Kategori_Jenis_1
-									),
+						ListDataPRM.Add(Key, Val(HilangkanTanda(Dr("JumlahPR"))))
+					Loop While Dr.Read
+				End If
+			End Using
 
-					-- 3. Agregasi Transfer Stock
-					DataTF_Agg as (
-										select z.Kode_Perusahaan,
-											   l.Kode_Kategori_Gudang,
-											   ISNULL(YEAR(z.Tanggal), 0) as Tahun,
-											   ISNULL(MONTH(z.Tanggal), 0) as Bulan,
-											   l.ID_Kategori_Jenis,
-											   l.Id_Sub_Kategori_Jenis_1,
-											   sum(k.Jumlah) as TotalJumlahTF
-										from N_EMI_Transfer_Stock_Barang_Lain z with (nolock)
-											 inner join N_EMI_Transfer_Stock_Barang_Lain_Detail x with (nolock)
-														on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
-											 inner join N_EMI_Transfer_Stock_Barang_Lain_Det y with (nolock)
-														on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and
-														   x.Urut_Oto = y.Urut_TF
-											 inner join N_EMI_Transfer_Stock_Barang_Lain_Det2 k with (nolock)
-														on y.Kode_Perusahaan = k.Kode_Perusahaan and y.No_Faktur = k.No_Faktur and
-														   y.Urut_Oto = k.Urut_Det
-											 inner join DataPRM_Base l
-														on x.Kode_Perusahaan = l.Kode_Perusahaan and x.Urut_PR_Dept = l.No_Urut
-										where z.Status is null
-										  and y.Selesai = 'Y'
-										  and z.Kode_Perusahaan = '{KodePerusahaan}'
-										group by z.Kode_Perusahaan, l.Kode_Kategori_Gudang, z.Tanggal, l.ID_Kategori_Jenis,
-												 l.Id_Sub_Kategori_Jenis_1
-									),
+			'=========================================
+			'=     DATA TRANSFER DAN PENGELUARAN     =
+			'=========================================
+			SQL = $"
+				;with DataPRM as (
+									 select a.Kode_Perusahaan,
+											d.ID_Kategori_Jenis,
+											d.Id_Sub_Kategori_Jenis_1,
+											a.Kode_Kategori_Gudang,
+											b.No_Urut
+									 from N_EMI_Purchase_Requisition_Barang_Lain_Departement a
+										  inner join N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail b
+													 on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+										  inner join barang_lain c
+													 on b.Kode_Perusahaan = c.Kode_Perusahaan and
+														b.Kode_Stock_Owner = c.Kode_Stock_Owner and
+														b.Kode_Barang = c.Kode_Barang
+										  inner join View_Kategori_Turunan d
+													 on b.Kode_Perusahaan = d.Kode_Perusahaan and
+														c.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3
+									 where a.Status is null
+									   and a.Flag_Pra_Release = 'Y'
+									   and a.Kode_Perusahaan = '{KodePerusahaan}'
+									   and d.ID_Kategori_Jenis = '{SelectedIDLayer1}'
+									 group by a.Kode_Perusahaan, a.Tanggal, d.ID_Kategori_Jenis, d.Id_Sub_Kategori_Jenis_1,
+											  a.Kode_Kategori_Gudang, b.No_Urut
+								 ),
+					  DataTF as (
+									 select z.Kode_Perusahaan,
+											l.Kode_Kategori_Gudang,
+											ISNULL(YEAR(z.Tanggal), 0) as Tahun,
+											ISNULL(MONTH(z.Tanggal), 0) as Bulan,
+											l.ID_Kategori_Jenis,
+											l.Id_Sub_Kategori_Jenis_1,
+											sum(k.Jumlah) as TotalJumlahTF,
+									        sum(dbo.get_hpp(m.Serial_Number)) as TotalNominal
+									 from N_EMI_Transfer_Stock_Barang_Lain z
+										  inner join N_EMI_Transfer_Stock_Barang_Lain_Detail x
+													 on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
+										  inner join N_EMI_Transfer_Stock_Barang_Lain_Det y
+													 on x.Kode_Perusahaan = y.Kode_Perusahaan and
+														x.No_Faktur = y.No_Faktur and
+														x.Urut_Oto = y.Urut_TF
+										  inner join N_EMI_Transfer_Stock_Barang_Lain_Det2 k
+													 on y.Kode_Perusahaan = k.Kode_Perusahaan and
+														y.No_Faktur = k.No_Faktur and
+														y.Urut_Oto = k.Urut_Det
+										  inner join DataPRM l
+													 on x.Kode_Perusahaan = l.Kode_Perusahaan and x.Urut_PR_Dept = l.No_Urut
+									      inner join Barang_Lain_SN m on k.Kode_Perusahaan = m.Kode_Perusahaan and k.Serial_Number = m.Serial_Number
+									 where z.Status is null
+									   and y.Selesai = 'Y'
+									   and z.Kode_Perusahaan = '{KodePerusahaan}'
+									   and (ISNULL(YEAR(z.Tanggal), 0) * 100 + ISNULL(MONTH(z.Tanggal), 0)) between {PeriodeAwal} and {PeriodeAkhir}
+									 group by z.Kode_Perusahaan, l.Kode_Kategori_Gudang, z.Tanggal,
+											  l.ID_Kategori_Jenis,
+											  l.Id_Sub_Kategori_Jenis_1
+								 ),
+					  DataPengeluaran as (
+									 select a.Kode_Perusahaan,
+											l.Kode_Kategori_Gudang,
+											ISNULL(YEAR(a.Tanggal), 0) as Tahun,
+											ISNULL(MONTH(a.Tanggal), 0) as Bulan,
+											l.ID_Kategori_Jenis,
+											l.Id_Sub_Kategori_Jenis_1,
+											sum(c.Jumlah) as TotalJumlahPengeluaran,
+											sum(dbo.get_hpp(m.Serial_Number)) as TotalNominal
+									 from EMI_Pengeluaran_Stock_parent_barang_lain a
+										  inner join EMI_Pengeluaran_Stock_barang_lain b
+													 on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+										  inner join EMI_Pengeluaran_Stock_Det_Barang_Lain c
+													 on b.Kode_Perusahaan = c.Kode_Perusahaan and
+														b.No_Faktur = c.No_Faktur and
+														b.Urut_Oto = c.Urut_TF
+										  inner join DataPRM l
+													 on b.Kode_Perusahaan = l.Kode_Perusahaan and b.Urut_PR_Dept = l.No_Urut
+									      inner join Barang_Lain_SN m on c.Kode_Perusahaan = m.Kode_Perusahaan and c.Serial_Number_Awal = m.Serial_Number
+									 where a.Status is null
+									   and a.Kode_Perusahaan = '{KodePerusahaan}'
+									   and c.Selesai = 'Y'
+									   and (ISNULL(YEAR(a.Tanggal), 0) * 100 + ISNULL(MONTH(a.Tanggal), 0)) between {PeriodeAwal} and {PeriodeAkhir}
+									 group by a.Kode_Perusahaan, a.Tanggal, l.Kode_Kategori_Gudang,
+											  l.ID_Kategori_Jenis,
+											  l.Id_Sub_Kategori_Jenis_1
+								 ),
+					  Data_Union as (
+									 select Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis,
+											Id_Sub_Kategori_Jenis_1,
+											TotalJumlahTF as Jumlah,
+											TotalNominal as Nominal
+									 from DataTF
 
-					-- 4. Agregasi Pengeluaran Stock
-					DataPengeluaran_Agg as (
-										select a.Kode_Perusahaan,
-											   l.Kode_Kategori_Gudang,
-											   ISNULL(YEAR(a.Tanggal), 0) as Tahun,
-											   ISNULL(MONTH(a.Tanggal), 0) as Bulan,
-											   l.ID_Kategori_Jenis,
-											   l.Id_Sub_Kategori_Jenis_1,
-											   sum(c.Jumlah) as TotalJumlahPengeluaran
-										from EMI_Pengeluaran_Stock_parent_barang_lain a with (nolock)
-											 inner join EMI_Pengeluaran_Stock_barang_lain b with (nolock)
-														on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
-											 inner join EMI_Pengeluaran_Stock_Det_Barang_Lain c with (nolock)
-														on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur and
-														   b.Urut_Oto = c.Urut_TF
-											 inner join DataPRM_Base l
-														on b.Kode_Perusahaan = l.Kode_Perusahaan and b.Urut_PR_Dept = l.No_Urut
-										where a.Status is null
-										  and a.Kode_Perusahaan = '{KodePerusahaan}'
-										  and c.Selesai = 'Y'
-										group by a.Kode_Perusahaan, a.Tanggal, l.Kode_Kategori_Gudang, l.ID_Kategori_Jenis,
-												 l.Id_Sub_Kategori_Jenis_1
-									),
+									 union all
 
-					-- 5. Satukan TF dan Pengeluaran di level data mentah sebelum join ke Master Binding (Jauh Lebih Cepat!)
-					DataTF_Union as (
-										select Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis,
-											   Id_Sub_Kategori_Jenis_1,
-											   TotalJumlahTF as Jumlah
-										from DataTF_Agg
-										union all
-										select Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis,
-											   Id_Sub_Kategori_Jenis_1,
-											   TotalJumlahPengeluaran as Jumlah
-										from DataPengeluaran_Agg
-									),
+									 select Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis,
+											Id_Sub_Kategori_Jenis_1,
+											TotalJumlahPengeluaran as Jumlah,
+											TotalNominal as Nominal
+									 from DataPengeluaran
+								 )
+				 select z.Kode_Perusahaan,
+						z.Kode_Binding,
+						y.Tahun, y.Bulan,
+						y.ID_Kategori_Jenis,
+						y.Id_Sub_Kategori_Jenis_1,
+						sum(y.Jumlah) as JumlahTF,
+						sum(y.Nominal) as NominalTF
+				 from N_EMI_Binding_Department z
+					  inner join N_EMI_Binding_Department_Detail x
+								 on z.Kode_Perusahaan = x.Kode_Perusahaan and
+									z.Kode_Binding = x.Kode_Binding
+					  inner join Data_Union y
+								 on x.Kode_Perusahaan = y.Kode_Perusahaan and
+									x.Kode_Kategori_Gudang = y.Kode_Kategori_Gudang
+				 where z.Status is null
+				   and z.Kode_Perusahaan = '{KodePerusahaan}'
+				   and z.Kode_Binding = '{SelectedDepartment_KodeBinding}'
+				 group by z.Kode_Perusahaan, y.Tahun, y.Bulan, z.Kode_Binding,
+						  y.ID_Kategori_Jenis,
+						  y.Id_Sub_Kategori_Jenis_1
+			"
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					Do
+						Dim Key = (
+							Kode_Binding:=Dr("Kode_Binding"),
+							Tahun:=Dr("Tahun"),
+							Bulan:=Dr("Bulan"),
+							IDLayer1:=Dr("ID_Kategori_Jenis"),
+							IDLayer3:=Dr("Id_Sub_Kategori_Jenis_1")
+						)
 
-					-- 6. Join ke Binding Department untuk PRM
-					Binding_PRM as (
-										select z.Kode_Perusahaan,
-											   z.Kode_Binding,
-											   y.Tahun, y.Bulan,
-											   y.ID_Kategori_Jenis,
-											   y.Id_Sub_Kategori_Jenis_1,
-											   sum(y.TotalJumlahPR) as JumlahPR
-										from N_EMI_Binding_Department z with (nolock)
-											 inner join N_EMI_Binding_Department_Detail x with (nolock)
-														on z.Kode_Perusahaan = x.Kode_Perusahaan and z.Kode_Binding = x.Kode_Binding
-											 inner join DataPRM_Agg y
-														on x.Kode_Perusahaan = y.Kode_Perusahaan and
-														   x.Kode_Kategori_Gudang = y.Kode_Kategori_Gudang
-										where z.Status is null
-										  and z.Kode_Perusahaan = '{KodePerusahaan}'
-										  and z.Kode_Binding = '{SelectedDepartment_KodeBinding}'
-										group by z.Kode_Perusahaan, y.Tahun, y.Bulan, z.Kode_Binding, y.ID_Kategori_Jenis,
-												 y.Id_Sub_Kategori_Jenis_1
-									),
+						ListDataTF.Add(Key, (Val(HilangkanTanda(Dr("JumlahTF"))), Val(HilangkanTanda(Dr("NominalTF")))))
+					Loop While Dr.Read
+				End If
+			End Using
 
-					-- 7. Join ke Binding Department untuk TF (Hanya butuh 1 block query)
-					Binding_TF as (
-										select z.Kode_Perusahaan,
-											   z.Kode_Binding,
-											   y.Tahun, y.Bulan,
-											   y.ID_Kategori_Jenis,
-											   y.Id_Sub_Kategori_Jenis_1,
-											   sum(y.Jumlah) as JumlahTF
-										from N_EMI_Binding_Department z with (nolock)
-											 inner join N_EMI_Binding_Department_Detail x with (nolock)
-														on z.Kode_Perusahaan = x.Kode_Perusahaan and z.Kode_Binding = x.Kode_Binding
-											 inner join DataTF_Union y
-														on x.Kode_Perusahaan = y.Kode_Perusahaan and
-														   x.Kode_Kategori_Gudang = y.Kode_Kategori_Gudang
-										where z.Status is null
-										  and z.Kode_Perusahaan = '{KodePerusahaan}'
-										  and z.Kode_Binding = '{SelectedDepartment_KodeBinding}'
-										group by z.Kode_Perusahaan, y.Tahun, y.Bulan, z.Kode_Binding, y.ID_Kategori_Jenis,
-												 y.Id_Sub_Kategori_Jenis_1
-									)
-
-				-- 8. QUERY UTAMA
+			'==============================
+			'=     GET DATA BUDGETING     =
+			'==============================
+			SQL = $"
 				select a.Kode_Binding,
 					   b.ID_Kategori_Jenis,
 					   c.ID_Sub_Kategori_Jenis_1,
@@ -372,34 +476,17 @@
 					   b.Bulan,
 					   b.Tahun,
 					   c.Jumlah_Budget,
-					   CASE
-						   WHEN isnull(e.JumlahPR, 0) > c.Jumlah_Budget
-							   THEN isnull(e.JumlahPR, 0) - c.Jumlah_Budget
-						   ELSE 0
-					   END AS Jumlah_Selisih,
-					   isnull(e.JumlahPR, 0) as JumlahPR,
-					   isnull(f.JumlahTF, 0) as JumlahTF,
+					   c.Nominal_Budget,
 					   c.Urut_Oto
-				from N_EMI_Transaksi_Budget_Planning a with (nolock)
-					 inner join N_EMI_Transaksi_Budget_Planning_Detail b with (nolock)
+				from N_EMI_Transaksi_Budget_Planning a
+					 inner join N_EMI_Transaksi_Budget_Planning_Detail b
 								on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Binding = b.Kode_Binding
-					 inner join N_EMI_Transaksi_Budget_Planning_Det c with (nolock)
+					 inner join N_EMI_Transaksi_Budget_Planning_Det c
 								on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Binding = c.Kode_Binding
 									and b.ID_Kategori_Jenis = c.ID_Kategori_Jenis and b.Urut_Oto = c.Urut_Detail
-					 inner join N_EMI_Master_Sub_Kategori_Jenis_1 d with (nolock)
-								on c.Kode_Perusahaan = d.Kode_Perusahaan and c.ID_Sub_Kategori_Jenis_1 = d.Id_Sub_Kategori_Jenis_1
-					 left join Binding_PRM e
-							   on a.Kode_Perusahaan = e.Kode_Perusahaan
-								   and a.Kode_Binding = e.Kode_Binding
-								   and b.ID_Kategori_Jenis = e.ID_Kategori_Jenis
-								   and c.ID_Sub_Kategori_Jenis_1 = e.Id_Sub_Kategori_Jenis_1
-								   and b.Tahun = e.Tahun and b.Bulan = e.Bulan
-					 left join Binding_TF f
-							   on a.Kode_Perusahaan = f.Kode_Perusahaan
-								   and a.Kode_Binding = f.Kode_Binding
-								   and b.ID_Kategori_Jenis = f.ID_Kategori_Jenis
-								   and c.ID_Sub_Kategori_Jenis_1 = f.Id_Sub_Kategori_Jenis_1
-								   and b.Tahun = f.Tahun and b.Bulan = f.Bulan
+					 inner join N_EMI_Master_Sub_Kategori_Jenis_1 d
+								on c.Kode_Perusahaan = d.Kode_Perusahaan and
+								   c.ID_Sub_Kategori_Jenis_1 = d.Id_Sub_Kategori_Jenis_1
 				where a.Status is null
 				  and d.Flag_Is_Budget = 'Y'
 				  and a.Kode_Perusahaan = '{KodePerusahaan}'
@@ -407,35 +494,281 @@
 				  and b.ID_Kategori_Jenis = '{SelectedIDLayer1}'
 				  and (b.Tahun * 100 + b.Bulan) between {PeriodeAwal} and {PeriodeAkhir}
 			"
-
 			Using Dr = OpenTrans(SQL)
 				If Dr.Read Then
 					Do
-						Dim ID_Sub_Kategori_1 As Integer = Dr("ID_Sub_Kategori_Jenis_1").ToString.Trim
+						Dim kodeBinding As String = Dr("Kode_Binding").ToString().Trim()
+						Dim tahun As Integer = Val(HilangkanTanda(Dr("Tahun")))
+						Dim bulan As Integer = Val(HilangkanTanda(Dr("Bulan")))
+						Dim idKategori As Integer = Val(HilangkanTanda(Dr("ID_Kategori_Jenis")))
+						Dim ID_Sub_Kategori_1 As Integer = Val(HilangkanTanda(Dr("ID_Sub_Kategori_Jenis_1")))
+						Dim jumlahBudget As Integer = Val(HilangkanTanda(Dr("Jumlah_Budget")))
+						Dim nominalBudget As Integer = Val(HilangkanTanda(Dr("Nominal_Budget")))
 
-						Dim DataDetailBudget As New DetailDataBudgetPlanning With {
-							.Keterangan_Layer3 = Dr("Layer_3").ToString.Trim,
-							.Kode_Binding = Dr("Kode_Binding").ToString.Trim,
-							.ID_Kategori_Jenis = Dr("ID_Kategori_Jenis"),
-							.Bulan = Dr("Bulan"),
-							.Tahun = Dr("Tahun"),
-							.Jumlah_Budget = Val(HilangkanTanda(Dr("Jumlah_Budget"))),
-							.Jumlah_Selisih = Val(HilangkanTanda(Dr("Jumlah_Selisih"))),
-							.Jumlah_PR = Val(HilangkanTanda(Dr("JumlahPR"))),
-							.Jumlah_Transfer = Val(HilangkanTanda(Dr("JumlahTF")))
+						Dim Key = (kodeBinding, tahun, bulan, idKategori, ID_Sub_Kategori_1)
+						Dim KeyBudget = (ID_Sub_Kategori_1, tahun, bulan)
+
+						Dim JumlahPR As Double = 0
+						Dim JumlahTF As Double = 0
+						Dim NominalTF As Double = 0
+
+						ListDataPRM.TryGetValue(Key, JumlahPR)
+						ListDataTF.TryGetValue(Key, (JumlahTF, NominalTF))
+
+						Dim selisih As Double = jumlahBudget - JumlahPR
+
+						Dim dataDetailBudget As New DetailDataBudgetPlanning With {
+							.Keterangan_Layer3 = Dr("Layer_3").ToString().Trim(),
+							.Kode_Binding = kodeBinding,
+							.ID_Kategori_Jenis = idKategori,
+							.Bulan = bulan,
+							.Tahun = tahun,
+							.Jumlah_Budget = jumlahBudget,
+							.Nominal_Budget = nominalBudget,
+							.Jumlah_Selisih = selisih,
+							.Jumlah_PR = JumlahPR,
+							.Jumlah_Transfer = JumlahTF,
+							.Nominal_Transfer = NominalTF
 						}
 
-						If Not DataBudgetPlanning.ContainsKey(ID_Sub_Kategori_1) Then
-							Dim ListDetailBudget As New List(Of DetailDataBudgetPlanning)
-							ListDetailBudget.Add(DataDetailBudget)
-							DataBudgetPlanning.Add(ID_Sub_Kategori_1, ListDetailBudget)
-						Else
-							DataBudgetPlanning(ID_Sub_Kategori_1).Add(DataDetailBudget)
-						End If
+						'JIKA DATA ADA MAKA UPDATE JIKA TIDAK MAKA ADD OTOMATIS
+						DataBudgetPlanning(KeyBudget) = dataDetailBudget
 
 					Loop While Dr.Read
+
 				End If
 			End Using
+
+			'=====================
+			'=     KODE LAMA     =
+			'=====================
+
+#Region "KODE LAMA"
+
+			''============================================================
+			''=     GET ALL DATA BERDASARKAN DEPARTMENT YANG DIPILIH     =
+			''============================================================
+			'DataBudgetPlanning.Clear() : DataUpdate.Clear()
+
+			'SQL = $"
+			'	;with
+			'		-- 1. Base PRM: Dibuat seringkas mungkin dengan filter perusahaan agresif
+			'		DataPRM_Base as (
+			'							select a.Kode_Perusahaan,
+			'								   ISNULL(YEAR(a.Tanggal), 0) as Tahun,
+			'								   ISNULL(MONTH(a.Tanggal), 0) as Bulan,
+			'								   b.No_Urut,
+			'								   d.ID_Kategori_Jenis,
+			'								   d.Id_Sub_Kategori_Jenis_1,
+			'								   a.Kode_Kategori_Gudang,
+			'								   b.jumlah as JumlahPR
+			'							from N_EMI_Purchase_Requisition_Barang_Lain_Departement a
+			'								 inner join N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail b
+			'											on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+			'								 inner join barang_lain c
+			'											on b.Kode_Perusahaan = c.Kode_Perusahaan and
+			'											   b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang
+			'								 inner join View_Kategori_Turunan d
+			'											on b.Kode_Perusahaan = d.Kode_Perusahaan and
+			'											   c.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3
+			'							where a.Status is null
+			'							  and a.Flag_Pra_Release = 'Y'
+			'							  and a.Kode_Perusahaan = '{KodePerusahaan}'
+			'						),
+
+			'		-- 2. Ambil Agregasi PRM langsung dari Base (Tidak scan ulang tabel fisik)
+			'		DataPRM_Agg as (
+			'							select Kode_Perusahaan,
+			'								   Tahun, Bulan,
+			'								   Kode_Kategori_Gudang,
+			'								   ID_Kategori_Jenis,
+			'								   Id_Sub_Kategori_Jenis_1,
+			'								   sum(JumlahPR) as TotalJumlahPR
+			'							from DataPRM_Base
+			'							group by Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis,
+			'									 Id_Sub_Kategori_Jenis_1
+			'						),
+
+			'		-- 3. Agregasi Transfer Stock
+			'		DataTF_Agg as (
+			'							select z.Kode_Perusahaan,
+			'								   l.Kode_Kategori_Gudang,
+			'								   ISNULL(YEAR(z.Tanggal), 0) as Tahun,
+			'								   ISNULL(MONTH(z.Tanggal), 0) as Bulan,
+			'								   l.ID_Kategori_Jenis,
+			'								   l.Id_Sub_Kategori_Jenis_1,
+			'								   sum(k.Jumlah) as TotalJumlahTF
+			'							from N_EMI_Transfer_Stock_Barang_Lain z
+			'								 inner join N_EMI_Transfer_Stock_Barang_Lain_Detail x
+			'											on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
+			'								 inner join N_EMI_Transfer_Stock_Barang_Lain_Det y
+			'											on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and
+			'											   x.Urut_Oto = y.Urut_TF
+			'								 inner join N_EMI_Transfer_Stock_Barang_Lain_Det2 k
+			'											on y.Kode_Perusahaan = k.Kode_Perusahaan and y.No_Faktur = k.No_Faktur and
+			'											   y.Urut_Oto = k.Urut_Det
+			'								 inner join DataPRM_Base l
+			'											on x.Kode_Perusahaan = l.Kode_Perusahaan and x.Urut_PR_Dept = l.No_Urut
+			'							where z.Status is null
+			'							  and y.Selesai = 'Y'
+			'							  and z.Kode_Perusahaan = '{KodePerusahaan}'
+			'							group by z.Kode_Perusahaan, l.Kode_Kategori_Gudang, z.Tanggal, l.ID_Kategori_Jenis,
+			'									 l.Id_Sub_Kategori_Jenis_1
+			'						),
+
+			'		-- 4. Agregasi Pengeluaran Stock
+			'		DataPengeluaran_Agg as (
+			'							select a.Kode_Perusahaan,
+			'								   l.Kode_Kategori_Gudang,
+			'								   ISNULL(YEAR(a.Tanggal), 0) as Tahun,
+			'								   ISNULL(MONTH(a.Tanggal), 0) as Bulan,
+			'								   l.ID_Kategori_Jenis,
+			'								   l.Id_Sub_Kategori_Jenis_1,
+			'								   sum(c.Jumlah) as TotalJumlahPengeluaran
+			'							from EMI_Pengeluaran_Stock_parent_barang_lain a
+			'								 inner join EMI_Pengeluaran_Stock_barang_lain b
+			'											on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+			'								 inner join EMI_Pengeluaran_Stock_Det_Barang_Lain c
+			'											on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur and
+			'											   b.Urut_Oto = c.Urut_TF
+			'								 inner join DataPRM_Base l
+			'											on b.Kode_Perusahaan = l.Kode_Perusahaan and b.Urut_PR_Dept = l.No_Urut
+			'							where a.Status is null
+			'							  and a.Kode_Perusahaan = '{KodePerusahaan}'
+			'							  and c.Selesai = 'Y'
+			'							group by a.Kode_Perusahaan, a.Tanggal, l.Kode_Kategori_Gudang, l.ID_Kategori_Jenis,
+			'									 l.Id_Sub_Kategori_Jenis_1
+			'						),
+
+			'		-- 5. Satukan TF dan Pengeluaran di level data mentah sebelum join ke Master Binding (Jauh Lebih Cepat!)
+			'		DataTF_Union as (
+			'							select Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis,
+			'								   Id_Sub_Kategori_Jenis_1,
+			'								   TotalJumlahTF as Jumlah
+			'							from DataTF_Agg
+			'							union all
+			'							select Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis,
+			'								   Id_Sub_Kategori_Jenis_1,
+			'								   TotalJumlahPengeluaran as Jumlah
+			'							from DataPengeluaran_Agg
+			'						),
+
+			'		-- 6. Join ke Binding Department untuk PRM
+			'		Binding_PRM as (
+			'							select z.Kode_Perusahaan,
+			'								   z.Kode_Binding,
+			'								   y.Tahun, y.Bulan,
+			'								   y.ID_Kategori_Jenis,
+			'								   y.Id_Sub_Kategori_Jenis_1,
+			'								   sum(y.TotalJumlahPR) as JumlahPR
+			'							from N_EMI_Binding_Department z
+			'								 inner join N_EMI_Binding_Department_Detail x
+			'											on z.Kode_Perusahaan = x.Kode_Perusahaan and z.Kode_Binding = x.Kode_Binding
+			'								 inner join DataPRM_Agg y
+			'											on x.Kode_Perusahaan = y.Kode_Perusahaan and
+			'											   x.Kode_Kategori_Gudang = y.Kode_Kategori_Gudang
+			'							where z.Status is null
+			'							  and z.Kode_Perusahaan = '{KodePerusahaan}'
+			'							  and z.Kode_Binding = '{SelectedDepartment_KodeBinding}'
+			'							group by z.Kode_Perusahaan, y.Tahun, y.Bulan, z.Kode_Binding, y.ID_Kategori_Jenis,
+			'									 y.Id_Sub_Kategori_Jenis_1
+			'						),
+
+			'		-- 7. Join ke Binding Department untuk TF (Hanya butuh 1 block query)
+			'		Binding_TF as (
+			'							select z.Kode_Perusahaan,
+			'								   z.Kode_Binding,
+			'								   y.Tahun, y.Bulan,
+			'								   y.ID_Kategori_Jenis,
+			'								   y.Id_Sub_Kategori_Jenis_1,
+			'								   sum(y.Jumlah) as JumlahTF
+			'							from N_EMI_Binding_Department z
+			'								 inner join N_EMI_Binding_Department_Detail x
+			'											on z.Kode_Perusahaan = x.Kode_Perusahaan and z.Kode_Binding = x.Kode_Binding
+			'								 inner join DataTF_Union y
+			'											on x.Kode_Perusahaan = y.Kode_Perusahaan and
+			'											   x.Kode_Kategori_Gudang = y.Kode_Kategori_Gudang
+			'							where z.Status is null
+			'							  and z.Kode_Perusahaan = '{KodePerusahaan}'
+			'							  and z.Kode_Binding = '{SelectedDepartment_KodeBinding}'
+			'							group by z.Kode_Perusahaan, y.Tahun, y.Bulan, z.Kode_Binding, y.ID_Kategori_Jenis,
+			'									 y.Id_Sub_Kategori_Jenis_1
+			'						)
+
+			'	-- 8. QUERY UTAMA
+			'	select a.Kode_Binding,
+			'		   b.ID_Kategori_Jenis,
+			'		   c.ID_Sub_Kategori_Jenis_1,
+			'		   d.Keterangan as Layer_3,
+			'		   b.Bulan,
+			'		   b.Tahun,
+			'		   c.Jumlah_Budget,
+			'		   CASE
+			'			   WHEN isnull(e.JumlahPR, 0) > c.Jumlah_Budget
+			'				   THEN isnull(e.JumlahPR, 0) - c.Jumlah_Budget
+			'			   ELSE 0
+			'		   END AS Jumlah_Selisih,
+			'		   isnull(e.JumlahPR, 0) as JumlahPR,
+			'		   isnull(f.JumlahTF, 0) as JumlahTF,
+			'		   c.Urut_Oto
+			'	from N_EMI_Transaksi_Budget_Planning a
+			'		 inner join N_EMI_Transaksi_Budget_Planning_Detail b
+			'					on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Binding = b.Kode_Binding
+			'		 inner join N_EMI_Transaksi_Budget_Planning_Det c
+			'					on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Binding = c.Kode_Binding
+			'						and b.ID_Kategori_Jenis = c.ID_Kategori_Jenis and b.Urut_Oto = c.Urut_Detail
+			'		 inner join N_EMI_Master_Sub_Kategori_Jenis_1 d
+			'					on c.Kode_Perusahaan = d.Kode_Perusahaan and c.ID_Sub_Kategori_Jenis_1 = d.Id_Sub_Kategori_Jenis_1
+			'		 left join Binding_PRM e
+			'				   on a.Kode_Perusahaan = e.Kode_Perusahaan
+			'					   and a.Kode_Binding = e.Kode_Binding
+			'					   and b.ID_Kategori_Jenis = e.ID_Kategori_Jenis
+			'					   and c.ID_Sub_Kategori_Jenis_1 = e.Id_Sub_Kategori_Jenis_1
+			'					   and b.Tahun = e.Tahun and b.Bulan = e.Bulan
+			'		 left join Binding_TF f
+			'				   on a.Kode_Perusahaan = f.Kode_Perusahaan
+			'					   and a.Kode_Binding = f.Kode_Binding
+			'					   and b.ID_Kategori_Jenis = f.ID_Kategori_Jenis
+			'					   and c.ID_Sub_Kategori_Jenis_1 = f.Id_Sub_Kategori_Jenis_1
+			'					   and b.Tahun = f.Tahun and b.Bulan = f.Bulan
+			'	where a.Status is null
+			'	  and d.Flag_Is_Budget = 'Y'
+			'	  and a.Kode_Perusahaan = '{KodePerusahaan}'
+			'	  and a.Kode_Binding = '{SelectedDepartment_KodeBinding}'
+			'	  and b.ID_Kategori_Jenis = '{SelectedIDLayer1}'
+			'	  and (b.Tahun * 100 + b.Bulan) between {PeriodeAwal} and {PeriodeAkhir}
+			'"
+
+			'Using Dr = OpenTrans(SQL)
+			'	If Dr.Read Then
+			'		Do
+			'			Dim ID_Sub_Kategori_1 As Integer = Dr("ID_Sub_Kategori_Jenis_1").ToString.Trim
+
+			'			Dim DataDetailBudget As New DetailDataBudgetPlanning With {
+			'				.Keterangan_Layer3 = Dr("Layer_3").ToString.Trim,
+			'				.Kode_Binding = Dr("Kode_Binding").ToString.Trim,
+			'				.ID_Kategori_Jenis = Dr("ID_Kategori_Jenis"),
+			'				.Bulan = Dr("Bulan"),
+			'				.Tahun = Dr("Tahun"),
+			'				.Jumlah_Budget = Val(HilangkanTanda(Dr("Jumlah_Budget"))),
+			'				.Jumlah_Selisih = Val(HilangkanTanda(Dr("Jumlah_Selisih"))),
+			'				.Jumlah_PR = Val(HilangkanTanda(Dr("JumlahPR"))),
+			'				.Jumlah_Transfer = Val(HilangkanTanda(Dr("JumlahTF")))
+			'			}
+
+			'			If Not DataBudgetPlanning.ContainsKey(ID_Sub_Kategori_1) Then
+			'				Dim ListDetailBudget As New List(Of DetailDataBudgetPlanning)
+			'				ListDetailBudget.Add(DataDetailBudget)
+			'				DataBudgetPlanning.Add(ID_Sub_Kategori_1, ListDetailBudget)
+			'			Else
+			'				DataBudgetPlanning(ID_Sub_Kategori_1).Add(DataDetailBudget)
+			'			End If
+
+			'		Loop While Dr.Read
+			'	End If
+			'End Using
+
+#End Region
 
 			Cmd.Transaction.Commit()
 			CloseTrans()
@@ -482,42 +815,106 @@
 				Dim NamaBulan As String = cultureID.DateTimeFormat.GetMonthName(currMonth) & " " & currYear
 
 				Dim colBdg As New DataGridViewTextBoxColumn() With {.Name = $"QtyBudget_{SufiksKolom}", .HeaderText = "Qty Budget", .Width = 100, .Tag = currPeriode}
+				Dim colNmlBdg As New DataGridViewTextBoxColumn() With {.Name = $"NmlBudget_{SufiksKolom}", .HeaderText = "Nominal Budget", .Width = 100, .Tag = currPeriode}
 				Dim colPR As New DataGridViewTextBoxColumn() With {.Name = $"QtyPR_{SufiksKolom}", .HeaderText = "Qty PR", .Width = 100, .Tag = currPeriode, .ReadOnly = True}
 				Dim colTF As New DataGridViewTextBoxColumn() With {.Name = $"QtyTF_{SufiksKolom}", .HeaderText = "Qty TF", .Width = 100, .Tag = currPeriode, .ReadOnly = True}
+				Dim colNmlTF As New DataGridViewTextBoxColumn() With {.Name = $"NmlTF_{SufiksKolom}", .HeaderText = "Nominal TF", .Width = 100, .Tag = currPeriode, .ReadOnly = True}
 				Dim colSelisih As New DataGridViewTextBoxColumn() With {.Name = $"QtySelisih_{SufiksKolom}", .HeaderText = "Qty Selisih", .Width = 100, .Tag = currPeriode, .ReadOnly = True}
 
 				'============================
 				'=     ATUR SIFAT KOLOM     =
 				'============================
 				colBdg.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+				colNmlBdg.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
 				colPR.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
 				colTF.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+				colNmlTF.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
 				colSelisih.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
 
 				colBdg.DefaultCellStyle.BackColor = Color.FromArgb(224, 236, 244)
+				colNmlBdg.DefaultCellStyle.BackColor = Color.FromArgb(253, 235, 208)
 				colPR.DefaultCellStyle.BackColor = Color.FromArgb(247, 241, 231)
 				colTF.DefaultCellStyle.BackColor = Color.FromArgb(238, 233, 245)
+				colNmlTF.DefaultCellStyle.BackColor = Color.FromArgb(253, 235, 208)
 				colSelisih.DefaultCellStyle.BackColor = Color.FromArgb(233, 240, 228)
 
 				colBdg.DefaultCellStyle.Format = "N0"
+				colNmlBdg.DefaultCellStyle.Format = "N2"
 				colPR.DefaultCellStyle.Format = "N0"
 				colTF.DefaultCellStyle.Format = "N0"
+				colNmlTF.DefaultCellStyle.Format = "N2"
 				colSelisih.DefaultCellStyle.Format = "N0"
 
 				'==========================================================
 				'=     BATASI KOLOM INPUT JIKA LEWAT DARI BULAN TAHUN     =
 				'==========================================================
-				If (currYear < CurrentYear) OrElse (currYear = CurrentYear AndAlso currMonth <= CurrentMonth) Then
-					'colBdg.ReadOnly = True
+
+#Region "Kode Lama"
+
+				'If (currYear < CurrentYear) OrElse (currYear = CurrentYear AndAlso currMonth <= CurrentMonth) Then
+				'	colBdg.ReadOnly = True
+				'End If
+
+#End Region
+
+				colBdg.ReadOnly = True
+				colNmlBdg.ReadOnly = True
+
+				Dim tglSekarang As Integer = DateTime.Now.Day
+				Dim blnSekarang As Integer = DateTime.Now.Month
+				Dim thnSekarang As Integer = DateTime.Now.Year
+
+				If currYear < thnSekarang OrElse (currYear = thnSekarang AndAlso currMonth <= blnSekarang) Then
+					colBdg.ReadOnly = True
+					colNmlBdg.ReadOnly = True
+				Else
+					Dim roleAkses = ListRoleAksesInput.FirstOrDefault(Function(x) tglSekarang >= x.TanggalAwal AndAlso
+																  tglSekarang <= x.TanggalAkhir AndAlso
+																  blnSekarang = x.Bulan)
+
+					If roleAkses IsNot Nothing Then
+						Dim isBulanBisaDiinput As Boolean = False
+
+						Select Case currMonth
+							Case 1 : isBulanBisaDiinput = roleAkses.M1
+							Case 2 : isBulanBisaDiinput = roleAkses.M2
+							Case 3 : isBulanBisaDiinput = roleAkses.M3
+							Case 4 : isBulanBisaDiinput = roleAkses.M4
+							Case 5 : isBulanBisaDiinput = roleAkses.M5
+							Case 6 : isBulanBisaDiinput = roleAkses.M6
+							Case 7 : isBulanBisaDiinput = roleAkses.M7
+							Case 8 : isBulanBisaDiinput = roleAkses.M8
+							Case 9 : isBulanBisaDiinput = roleAkses.M9
+							Case 10 : isBulanBisaDiinput = roleAkses.M10
+							Case 11 : isBulanBisaDiinput = roleAkses.M11
+							Case 12 : isBulanBisaDiinput = roleAkses.M12
+						End Select
+
+						colBdg.ReadOnly = Not isBulanBisaDiinput
+						colNmlBdg.ReadOnly = Not isBulanBisaDiinput
+					End If
+				End If
+
+				'==========================================================
+				'=     SEMBUNYIKAN PR, TF, SELISIH UNTUK BULAN DEPAN      =
+				'==========================================================
+				Dim periodeSekarang As Integer = (thnSekarang * 100) + blnSekarang
+
+				colBdg.Width = Math.Max(100, 130)
+				colNmlBdg.Width = Math.Max(100, 130)
+
+				If currPeriode > periodeSekarang Then
+					colPR.Visible = False
+					colTF.Visible = False
+					colNmlTF.Visible = False
+					colSelisih.Visible = False
+
 				End If
 
 				'==================================
 				'=     TAMBAH KE DATAGRIDVIEW     =
 				'==================================
-				Dgv_Data.Columns.Add(colBdg)
-				Dgv_Data.Columns.Add(colPR)
-				Dgv_Data.Columns.Add(colTF)
-				Dgv_Data.Columns.Add(colSelisih)
+				Dgv_Data.Columns.AddRange(colBdg, colNmlBdg, colPR, colTF, colNmlTF, colSelisih)
 
 				'===================================
 				'=     HANDLE PERGANTIAN TAHUN     =
@@ -535,24 +932,22 @@
 			'=     LOAD DATA LAYER 3     =
 			'=============================
 			Dgv_Data.Rows.Clear()
-			For Each kvp As KeyValuePair(Of Integer, List(Of DetailDataLayer3)) In DataLayer3
+			Dim colMap As New Dictionary(Of String, Integer)
+			For cIdx As Integer = 0 To Dgv_Data.Columns.Count - 1
+				colMap(Dgv_Data.Columns(cIdx).Name) = cIdx
+			Next
 
+			For Each kvp As KeyValuePair(Of Integer, List(Of DetailDataLayer3)) In DataLayer3
 				Dim ID_Sub_Kategori_1 As Integer = kvp.Key
 
 				Dim listDetail As List(Of DetailDataLayer3) = kvp.Value.Where(Function(x) x.IDKategoriLayer1 = SelectedIDLayer1).ToList()
 
 				If listDetail.Count = 0 Then Continue For
 
-				'=====================================
-				'=    LOAD DATA KE DATAGRIDVIEW      =
-				'=====================================
 				Dim rowIndex As Integer = Dgv_Data.Rows.Add()
 				Dim row As DataGridViewRow = Dgv_Data.Rows(rowIndex)
 				row.Cells(0).Value = ID_Sub_Kategori_1
 				row.Cells(1).Value = listDetail(0).keteranganKategoriLayer3
-
-				Dim listBudget As List(Of DetailDataBudgetPlanning) = Nothing
-				DataBudgetPlanning.TryGetValue(ID_Sub_Kategori_1, listBudget)
 
 				currYear = SelectedTahunAwal
 				currMonth = SelectedBulanAwal
@@ -560,39 +955,74 @@
 
 				While currPeriode <= PeriodeAkhir
 					Dim SufiksKolom As String = currPeriode.ToString()
+
+					' Buat Composite Key untuk pencarian data PR dan TF
+					Dim KeyTransaksi = (
+						Kode_Binding:=SelectedDepartment_KodeBinding,
+						Tahun:=currYear,
+						Bulan:=currMonth,
+						IDLayer1:=SelectedIDLayer1,
+						IDLayer3:=ID_Sub_Kategori_1
+					)
+
+					' Buat Composite Key untuk pencarian data Budget
+					Dim KeyBudget = (ID_Sub_Kategori_1, currYear, currMonth)
+
+					' Inisialisasi variabel penampung data
+					Dim JumlahBudget As Double = 0
+					Dim NominalBudget As Double = 0
+					Dim JumlahPR As Double = 0
+					Dim JumlahTF As Double = 0
+					Dim NominalTF As Double = 0
 					Dim detailBudget As DetailDataBudgetPlanning = Nothing
 
-					If listBudget IsNot Nothing Then
-						detailBudget = listBudget.FirstOrDefault(Function(x) x.Bulan = currMonth AndAlso x.Tahun = currYear)
+					' Ambil Nilai PR dari ListDataPRM (Kompleksitas O(1))
+					ListDataPRM.TryGetValue(KeyTransaksi, JumlahPR)
+
+					'Ambil Nilai TF dari ListDataTF (Kompleksitas O(1))
+					ListDataTF.TryGetValue(KeyTransaksi, (JumlahTF, NominalTF))
+
+					'Ambil Nilai Budget
+					If DataBudgetPlanning.TryGetValue(KeyBudget, detailBudget) Then
+						JumlahBudget = detailBudget.Jumlah_Budget
+						NominalBudget = detailBudget.Nominal_Budget
 					End If
 
+					Dim JumlahSelisih As Double = JumlahBudget - JumlahPR
+
 					Dim colQtyBudget As String = $"QtyBudget_{SufiksKolom}"
+					Dim colNmlBudget As String = $"NmlBudget_{SufiksKolom}"
 					Dim colQtyPR As String = $"QtyPR_{SufiksKolom}"
 					Dim colQtyTF As String = $"QtyTF_{SufiksKolom}"
+					Dim colNmlTF As String = $"NmlTF_{SufiksKolom}"
 					Dim colQtySelisih As String = $"QtySelisih_{SufiksKolom}"
 
-					If detailBudget IsNot Nothing Then
-						If Dgv_Data.Columns.Contains(colQtyBudget) Then SetCellDataAndColor(row.Cells(colQtyBudget), detailBudget.Jumlah_Budget, PersentasePenggelapanWarnaCellInput)
-						If Dgv_Data.Columns.Contains(colQtyPR) Then row.Cells(colQtyPR).Value = detailBudget.Jumlah_PR
-						If Dgv_Data.Columns.Contains(colQtyTF) Then row.Cells(colQtyTF).Value = detailBudget.Jumlah_Transfer
-						If Dgv_Data.Columns.Contains(colQtySelisih) Then row.Cells(colQtySelisih).Value = detailBudget.Jumlah_Selisih
-					Else
-						If Dgv_Data.Columns.Contains(colQtyBudget) Then
-							row.Cells(colQtyBudget).Value = 0
-							row.Cells(colQtyBudget).Style.BackColor = Color.Empty
-						End If
-						If Dgv_Data.Columns.Contains(colQtyPR) Then
-							row.Cells(colQtyPR).Value = 0
-							row.Cells(colQtyPR).Style.BackColor = Color.Empty
-						End If
-						If Dgv_Data.Columns.Contains(colQtyTF) Then
-							row.Cells(colQtyTF).Value = 0
-							row.Cells(colQtyTF).Style.BackColor = Color.Empty
-						End If
-						If Dgv_Data.Columns.Contains(colQtySelisih) Then
-							row.Cells(colQtySelisih).Value = 0
-							row.Cells(colQtySelisih).Style.BackColor = Color.Empty
-						End If
+					' 5. Pemetaan Data ke Sel DataGridView
+
+					Dim colIndex As Integer
+
+					If colMap.TryGetValue(colQtyBudget, colIndex) Then
+						row.Cells(colIndex).Value = JumlahBudget
+					End If
+
+					If colMap.TryGetValue(colNmlBudget, colIndex) Then
+						row.Cells(colIndex).Value = NominalBudget
+					End If
+
+					If colMap.TryGetValue(colQtyPR, colIndex) Then
+						row.Cells(colIndex).Value = JumlahPR
+					End If
+
+					If colMap.TryGetValue(colQtyTF, colIndex) Then
+						row.Cells(colIndex).Value = JumlahTF
+					End If
+
+					If colMap.TryGetValue(colNmlTF, colIndex) Then
+						row.Cells(colIndex).Value = NominalTF
+					End If
+
+					If colMap.TryGetValue(colQtySelisih, colIndex) Then
+						row.Cells(colIndex).Value = JumlahSelisih
 					End If
 
 					currMonth += 1
@@ -601,7 +1031,6 @@
 						currYear += 1
 					End If
 					currPeriode = (currYear * 100) + currMonth
-
 				End While
 			Next
 
@@ -619,7 +1048,7 @@
 
 	End Sub
 
-	Private Sub CetakLaporanRealtime()
+	Private Sub CetakLaporanRealtime(ByVal isAllDept As Boolean)
 		'=========================================
 		'=  1. AMBIL PARAMETER & SIAPKAN VARIABEL=
 		'=========================================
@@ -637,104 +1066,391 @@
 
 		Dim LocalDataBudget As New Dictionary(Of Integer, List(Of DetailDataBudgetPlanning))
 
-		'========================================
-		'=  2. HIT DATABASE (QUERY REAL-TIME)   =
-		'========================================
+		Dim ListDataPRM As New Dictionary(Of (Kode_Binding As String, Tahun As Integer, Bulan As Integer, IDLayer1 As Integer, IDLayer3 As Integer), Double)
+		Dim ListDataTF As New Dictionary(Of (Kode_Binding As String, Tahun As Integer, Bulan As Integer, IDLayer1 As Integer, IDLayer3 As Integer), (JumlahTF As Double, NominalTF As Double))
+
+		Dim
+
 		Try
 			OpenConn()
 			Cmd.Transaction = Cn.BeginTransaction
 
+			'========================================
+			'=     GET DATA BESAR DARI DATABASE     =
+			'========================================
+			'========================
+			'=     GET DATA PRM     =
+			'========================
 			SQL = $"
-            ;with
-                DataPRM_Base as (
-                    select a.Kode_Perusahaan, ISNULL(YEAR(a.Tanggal), 0) as Tahun, ISNULL(MONTH(a.Tanggal), 0) as Bulan,
-                           b.No_Urut, d.ID_Kategori_Jenis, d.Id_Sub_Kategori_Jenis_1, a.Kode_Kategori_Gudang, b.jumlah as JumlahPR
-                    from N_EMI_Purchase_Requisition_Barang_Lain_Departement a with (nolock)
-                         inner join N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail b with (nolock) on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
-                         inner join barang_lain c with (nolock) on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang
-                         inner join View_Kategori_Turunan d with (nolock) on b.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3
-                    where a.Status is null and a.Kode_Perusahaan = '{KodePerusahaan}'
-                ),
-                DataPRM_Agg as (
-                    select Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis, Id_Sub_Kategori_Jenis_1, sum(JumlahPR) as TotalJumlahPR
-                    from DataPRM_Base group by Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis, Id_Sub_Kategori_Jenis_1
-                ),
-                DataTF_Agg as (
-                    select z.Kode_Perusahaan, l.Kode_Kategori_Gudang, ISNULL(YEAR(z.Tanggal), 0) as Tahun, ISNULL(MONTH(z.Tanggal), 0) as Bulan,
-                           l.ID_Kategori_Jenis, l.Id_Sub_Kategori_Jenis_1, sum(k.Jumlah) as TotalJumlahTF
-                    from N_EMI_Transfer_Stock_Barang_Lain z with (nolock)
-                         inner join N_EMI_Transfer_Stock_Barang_Lain_Detail x with (nolock) on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
-                         inner join N_EMI_Transfer_Stock_Barang_Lain_Det y with (nolock) on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF
-                         inner join N_EMI_Transfer_Stock_Barang_Lain_Det2 k with (nolock) on y.Kode_Perusahaan = k.Kode_Perusahaan and y.No_Faktur = k.No_Faktur and y.Urut_Oto = k.Urut_Det
-                         inner join DataPRM_Base l on x.Kode_Perusahaan = l.Kode_Perusahaan and x.Urut_PR_Dept = l.No_Urut
-                    where z.Status is null and y.Selesai = 'Y' and z.Kode_Perusahaan = '{KodePerusahaan}'
-                    group by z.Kode_Perusahaan, l.Kode_Kategori_Gudang, z.Tanggal, l.ID_Kategori_Jenis, l.Id_Sub_Kategori_Jenis_1
-                ),
-                DataPengeluaran_Agg as (
-                    select a.Kode_Perusahaan, l.Kode_Kategori_Gudang, ISNULL(YEAR(a.Tanggal), 0) as Tahun, ISNULL(MONTH(a.Tanggal), 0) as Bulan,
-                           l.ID_Kategori_Jenis, l.Id_Sub_Kategori_Jenis_1, sum(c.Jumlah) as TotalJumlahPengeluaran
-                    from EMI_Pengeluaran_Stock_parent_barang_lain a with (nolock)
-                         inner join EMI_Pengeluaran_Stock_barang_lain b with (nolock) on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
-                         inner join EMI_Pengeluaran_Stock_Det_Barang_Lain c with (nolock) on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur and b.Urut_Oto = c.Urut_TF
-                         inner join DataPRM_Base l on b.Kode_Perusahaan = l.Kode_Perusahaan and b.Urut_PR_Dept = l.No_Urut
-                    where a.Status is null and a.Kode_Perusahaan = '{KodePerusahaan}' and c.Selesai = 'Y'
-                    group by a.Kode_Perusahaan, a.Tanggal, l.Kode_Kategori_Gudang, l.ID_Kategori_Jenis, l.Id_Sub_Kategori_Jenis_1
-                ),
-                DataTF_Union as (
-                    select Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis, Id_Sub_Kategori_Jenis_1, TotalJumlahTF as Jumlah from DataTF_Agg
-                    union all
-                    select Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis, Id_Sub_Kategori_Jenis_1, TotalJumlahPengeluaran as Jumlah from DataPengeluaran_Agg
-                ),
-                Binding_PRM as (
-                    select z.Kode_Perusahaan, z.Kode_Binding, y.Tahun, y.Bulan, y.ID_Kategori_Jenis, y.Id_Sub_Kategori_Jenis_1, sum(y.TotalJumlahPR) as JumlahPR
-                    from N_EMI_Binding_Department z with (nolock)
-                         inner join N_EMI_Binding_Department_Detail x with (nolock) on z.Kode_Perusahaan = x.Kode_Perusahaan and z.Kode_Binding = x.Kode_Binding
-                         inner join DataPRM_Agg y on x.Kode_Perusahaan = y.Kode_Perusahaan and x.Kode_Kategori_Gudang = y.Kode_Kategori_Gudang
-                    where z.Status is null and z.Kode_Perusahaan = '{KodePerusahaan}' and z.Kode_Binding = '{SelectedDepartment_KodeBinding}'
-                    group by z.Kode_Perusahaan, y.Tahun, y.Bulan, z.Kode_Binding, y.ID_Kategori_Jenis, y.Id_Sub_Kategori_Jenis_1
-                ),
-                Binding_TF as (
-                    select z.Kode_Perusahaan, z.Kode_Binding, y.Tahun, y.Bulan, y.ID_Kategori_Jenis, y.Id_Sub_Kategori_Jenis_1, sum(y.Jumlah) as JumlahTF
-                    from N_EMI_Binding_Department z with (nolock)
-                         inner join N_EMI_Binding_Department_Detail x with (nolock) on z.Kode_Perusahaan = x.Kode_Perusahaan and z.Kode_Binding = x.Kode_Binding
-                         inner join DataTF_Union y on x.Kode_Perusahaan = y.Kode_Perusahaan and x.Kode_Kategori_Gudang = y.Kode_Kategori_Gudang
-                    where z.Status is null and z.Kode_Perusahaan = '{KodePerusahaan}' and z.Kode_Binding = '{SelectedDepartment_KodeBinding}'
-                    group by z.Kode_Perusahaan, y.Tahun, y.Bulan, z.Kode_Binding, y.ID_Kategori_Jenis, y.Id_Sub_Kategori_Jenis_1
-                )
-            select a.Kode_Binding, b.ID_Kategori_Jenis, c.ID_Sub_Kategori_Jenis_1, d.Keterangan as Layer_3, b.Bulan, b.Tahun, c.Jumlah_Budget,
-                   CASE WHEN isnull(e.JumlahPR, 0) > c.Jumlah_Budget THEN isnull(e.JumlahPR, 0) - c.Jumlah_Budget ELSE 0 END AS Jumlah_Selisih,
-                   isnull(e.JumlahPR, 0) as JumlahPR, isnull(f.JumlahTF, 0) as JumlahTF, c.Urut_Oto
-            from N_EMI_Transaksi_Budget_Planning a with (nolock)
-                 inner join N_EMI_Transaksi_Budget_Planning_Detail b with (nolock) on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Binding = b.Kode_Binding
-                 inner join N_EMI_Transaksi_Budget_Planning_Det c with (nolock) on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Binding = c.Kode_Binding and b.ID_Kategori_Jenis = c.ID_Kategori_Jenis and b.Urut_Oto = c.Urut_Detail
-                 inner join N_EMI_Master_Sub_Kategori_Jenis_1 d with (nolock) on c.Kode_Perusahaan = d.Kode_Perusahaan and c.ID_Sub_Kategori_Jenis_1 = d.Id_Sub_Kategori_Jenis_1
-                 left join Binding_PRM e on a.Kode_Perusahaan = e.Kode_Perusahaan and a.Kode_Binding = e.Kode_Binding and b.ID_Kategori_Jenis = e.ID_Kategori_Jenis and c.ID_Sub_Kategori_Jenis_1 = e.Id_Sub_Kategori_Jenis_1 and b.Tahun = e.Tahun and b.Bulan = e.Bulan
-                 left join Binding_TF f on a.Kode_Perusahaan = f.Kode_Perusahaan and a.Kode_Binding = f.Kode_Binding and b.ID_Kategori_Jenis = f.ID_Kategori_Jenis and c.ID_Sub_Kategori_Jenis_1 = f.Id_Sub_Kategori_Jenis_1 and b.Tahun = f.Tahun and b.Bulan = f.Bulan
-            where a.Status is null and d.Flag_Is_Budget = 'Y' and a.Kode_Perusahaan = '{KodePerusahaan}' and a.Kode_Binding = '{SelectedDepartment_KodeBinding}'
-              and b.ID_Kategori_Jenis = '{SelectedIDLayer1}'
-              and (b.Tahun * 100 + b.Bulan) between {PeriodeAwal} and {PeriodeAkhir}"
-
+				;with DataPRM as (
+									 select a.Kode_Perusahaan,
+											ISNULL(YEAR(a.Tanggal), 0) as Tahun,
+											ISNULL(MONTH(a.Tanggal), 0) as Bulan,
+											d.ID_Kategori_Jenis,
+											d.Id_Sub_Kategori_Jenis_1,
+											a.Kode_Kategori_Gudang,
+											sum(b.jumlah) as JumlahPR
+									 from N_EMI_Purchase_Requisition_Barang_Lain_Departement a
+										  inner join N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail b
+													 on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+										  inner join barang_lain c
+													 on b.Kode_Perusahaan = c.Kode_Perusahaan and
+														b.Kode_Stock_Owner = c.Kode_Stock_Owner and
+														b.Kode_Barang = c.Kode_Barang
+										  inner join View_Kategori_Turunan d
+													 on b.Kode_Perusahaan = d.Kode_Perusahaan and
+														c.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3
+									 where a.Status is null
+									   and a.Flag_Pra_Release = 'Y'
+									   and a.Kode_Perusahaan = '{KodePerusahaan}'
+									   and (ISNULL(YEAR(a.Tanggal), 0) * 100 + ISNULL(MONTH(a.Tanggal), 0)) between {PeriodeAwal} and {PeriodeAkhir}
+									   and d.ID_Kategori_Jenis = '{SelectedIDLayer1}'
+									 group by a.Kode_Perusahaan, a.Tanggal, d.ID_Kategori_Jenis, d.Id_Sub_Kategori_Jenis_1,
+											  a.Kode_Kategori_Gudang
+								 )
+				 select z.Kode_Perusahaan,
+						z.Kode_Binding,
+						y.Tahun, y.Bulan,
+						y.ID_Kategori_Jenis,
+						y.Id_Sub_Kategori_Jenis_1,
+						sum(y.JumlahPR) as JumlahPR
+				 from N_EMI_Binding_Department z
+					  inner join N_EMI_Binding_Department_Detail x
+								 on z.Kode_Perusahaan = x.Kode_Perusahaan and
+									z.Kode_Binding = x.Kode_Binding
+					  inner join DataPRM y
+								 on x.Kode_Perusahaan = y.Kode_Perusahaan and
+									x.Kode_Kategori_Gudang = y.Kode_Kategori_Gudang
+				 where z.Status is null
+				   and z.Kode_Perusahaan = '{KodePerusahaan}'
+				   and z.Kode_Binding = '{SelectedDepartment_KodeBinding}'
+				 group by z.Kode_Perusahaan, y.Tahun, y.Bulan, z.Kode_Binding,
+						  y.ID_Kategori_Jenis,
+						  y.Id_Sub_Kategori_Jenis_1
+			"
 			Using Dr = OpenTrans(SQL)
 				If Dr.Read Then
 					Do
-						Dim ID_Sub_1 As Integer = Dr("ID_Sub_Kategori_Jenis_1").ToString.Trim
-						Dim dataDetail As New DetailDataBudgetPlanning With {
-							.Keterangan_Layer3 = Dr("Layer_3").ToString.Trim,
-							.Bulan = Dr("Bulan"),
-							.Tahun = Dr("Tahun"),
-							.Jumlah_Budget = Val(HilangkanTanda(Dr("Jumlah_Budget"))),
-							.Jumlah_Selisih = Val(HilangkanTanda(Dr("Jumlah_Selisih"))),
-							.Jumlah_PR = Val(HilangkanTanda(Dr("JumlahPR"))),
-							.Jumlah_Transfer = Val(HilangkanTanda(Dr("JumlahTF")))
-						}
-						If Not LocalDataBudget.ContainsKey(ID_Sub_1) Then
-							LocalDataBudget.Add(ID_Sub_1, New List(Of DetailDataBudgetPlanning) From {dataDetail})
-						Else
-							LocalDataBudget(ID_Sub_1).Add(dataDetail)
-						End If
+						Dim Key = (
+							Kode_Binding:=Dr("Kode_Binding"),
+							Tahun:=Dr("Tahun"),
+							Bulan:=Dr("Bulan"),
+							IDLayer1:=Dr("ID_Kategori_Jenis"),
+							IDLayer3:=Dr("Id_Sub_Kategori_Jenis_1")
+						)
+
+						ListDataPRM.Add(Key, Val(HilangkanTanda(Dr("JumlahPR"))))
 					Loop While Dr.Read
 				End If
 			End Using
+
+			'=========================================
+			'=     DATA TRANSFER DAN PENGELUARAN     =
+			'=========================================
+			SQL = $"
+				;with DataPRM as (
+									 select a.Kode_Perusahaan,
+											d.ID_Kategori_Jenis,
+											d.Id_Sub_Kategori_Jenis_1,
+											a.Kode_Kategori_Gudang,
+											b.No_Urut
+									 from N_EMI_Purchase_Requisition_Barang_Lain_Departement a
+										  inner join N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail b
+													 on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+										  inner join barang_lain c
+													 on b.Kode_Perusahaan = c.Kode_Perusahaan and
+														b.Kode_Stock_Owner = c.Kode_Stock_Owner and
+														b.Kode_Barang = c.Kode_Barang
+										  inner join View_Kategori_Turunan d
+													 on b.Kode_Perusahaan = d.Kode_Perusahaan and
+														c.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3
+									 where a.Status is null
+									   and a.Flag_Pra_Release = 'Y'
+									   and a.Kode_Perusahaan = '{KodePerusahaan}'
+									   and d.ID_Kategori_Jenis = '{SelectedIDLayer1}'
+									 group by a.Kode_Perusahaan, a.Tanggal, d.ID_Kategori_Jenis, d.Id_Sub_Kategori_Jenis_1,
+											  a.Kode_Kategori_Gudang, b.No_Urut
+								 ),
+					  DataTF as (
+									 select z.Kode_Perusahaan,
+											l.Kode_Kategori_Gudang,
+											ISNULL(YEAR(z.Tanggal), 0) as Tahun,
+											ISNULL(MONTH(z.Tanggal), 0) as Bulan,
+											l.ID_Kategori_Jenis,
+											l.Id_Sub_Kategori_Jenis_1,
+											sum(k.Jumlah) as TotalJumlahTF,
+											sum(dbo.get_hpp(m.Serial_Number)) as TotalNominal
+									 from N_EMI_Transfer_Stock_Barang_Lain z
+										  inner join N_EMI_Transfer_Stock_Barang_Lain_Detail x
+													 on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
+										  inner join N_EMI_Transfer_Stock_Barang_Lain_Det y
+													 on x.Kode_Perusahaan = y.Kode_Perusahaan and
+														x.No_Faktur = y.No_Faktur and
+														x.Urut_Oto = y.Urut_TF
+										  inner join N_EMI_Transfer_Stock_Barang_Lain_Det2 k
+													 on y.Kode_Perusahaan = k.Kode_Perusahaan and
+														y.No_Faktur = k.No_Faktur and
+														y.Urut_Oto = k.Urut_Det
+										  inner join DataPRM l
+													 on x.Kode_Perusahaan = l.Kode_Perusahaan and x.Urut_PR_Dept = l.No_Urut
+									      inner join Barang_Lain_SN m on k.Kode_Perusahaan = m.Kode_Perusahaan and k.Serial_Number = m.Serial_Number
+									 where z.Status is null
+									   and y.Selesai = 'Y'
+									   and z.Kode_Perusahaan = '{KodePerusahaan}'
+									   and (ISNULL(YEAR(z.Tanggal), 0) * 100 + ISNULL(MONTH(z.Tanggal), 0)) between {PeriodeAwal} and {PeriodeAkhir}
+									 group by z.Kode_Perusahaan, l.Kode_Kategori_Gudang, z.Tanggal,
+											  l.ID_Kategori_Jenis,
+											  l.Id_Sub_Kategori_Jenis_1
+								 ),
+					  DataPengeluaran as (
+									 select a.Kode_Perusahaan,
+											l.Kode_Kategori_Gudang,
+											ISNULL(YEAR(a.Tanggal), 0) as Tahun,
+											ISNULL(MONTH(a.Tanggal), 0) as Bulan,
+											l.ID_Kategori_Jenis,
+											l.Id_Sub_Kategori_Jenis_1,
+											sum(c.Jumlah) as TotalJumlahPengeluaran,
+											sum(dbo.get_hpp(m.Serial_Number)) as TotalNominal
+									 from EMI_Pengeluaran_Stock_parent_barang_lain a
+										  inner join EMI_Pengeluaran_Stock_barang_lain b
+													 on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+										  inner join EMI_Pengeluaran_Stock_Det_Barang_Lain c
+													 on b.Kode_Perusahaan = c.Kode_Perusahaan and
+														b.No_Faktur = c.No_Faktur and
+														b.Urut_Oto = c.Urut_TF
+										  inner join DataPRM l
+													 on b.Kode_Perusahaan = l.Kode_Perusahaan and b.Urut_PR_Dept = l.No_Urut
+										  inner join Barang_Lain_SN m on c.Kode_Perusahaan = m.Kode_Perusahaan and c.Serial_Number_Awal = m.Serial_Number
+									 where a.Status is null
+									   and a.Kode_Perusahaan = '{KodePerusahaan}'
+									   and c.Selesai = 'Y'
+									   and (ISNULL(YEAR(a.Tanggal), 0) * 100 + ISNULL(MONTH(a.Tanggal), 0)) between {PeriodeAwal} and {PeriodeAkhir}
+									 group by a.Kode_Perusahaan, a.Tanggal, l.Kode_Kategori_Gudang,
+											  l.ID_Kategori_Jenis,
+											  l.Id_Sub_Kategori_Jenis_1
+								 ),
+					  Data_Union as (
+									 select Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis,
+											Id_Sub_Kategori_Jenis_1,
+											TotalJumlahTF as Jumlah, TotalNominal as Nominal
+									 from DataTF
+
+									 union all
+
+									 select Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis,
+											Id_Sub_Kategori_Jenis_1,
+											TotalJumlahPengeluaran as Jumlah, TotalNominal as Nominal
+									 from DataPengeluaran
+								 )
+				 select z.Kode_Perusahaan,
+						z.Kode_Binding,
+						y.Tahun, y.Bulan,
+						y.ID_Kategori_Jenis,
+						y.Id_Sub_Kategori_Jenis_1,
+						sum(y.Jumlah) as JumlahTF, sum(y.Nominal) as NominalTF
+				 from N_EMI_Binding_Department z
+					  inner join N_EMI_Binding_Department_Detail x
+								 on z.Kode_Perusahaan = x.Kode_Perusahaan and
+									z.Kode_Binding = x.Kode_Binding
+					  inner join Data_Union y
+								 on x.Kode_Perusahaan = y.Kode_Perusahaan and
+									x.Kode_Kategori_Gudang = y.Kode_Kategori_Gudang
+				 where z.Status is null
+				   and z.Kode_Perusahaan = '{KodePerusahaan}'
+				   and z.Kode_Binding = '{SelectedDepartment_KodeBinding}'
+				 group by z.Kode_Perusahaan, y.Tahun, y.Bulan, z.Kode_Binding,
+						  y.ID_Kategori_Jenis,
+						  y.Id_Sub_Kategori_Jenis_1
+			"
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					Do
+						Dim Key = (
+							Kode_Binding:=Dr("Kode_Binding"),
+							Tahun:=Dr("Tahun"),
+							Bulan:=Dr("Bulan"),
+							IDLayer1:=Dr("ID_Kategori_Jenis"),
+							IDLayer3:=Dr("Id_Sub_Kategori_Jenis_1")
+						)
+
+						ListDataTF.Add(Key, (Val(HilangkanTanda(Dr("JumlahTF"))), Val(HilangkanTanda(Dr("NominalTF")))))
+					Loop While Dr.Read
+				End If
+			End Using
+
+			'==============================
+			'=     GET DATA BUDGETING     =
+			'==============================
+			SQL = $"
+				select a.Kode_Binding,
+					   b.ID_Kategori_Jenis,
+					   c.ID_Sub_Kategori_Jenis_1,
+					   d.Keterangan as Layer_3,
+					   b.Bulan,
+					   b.Tahun,
+					   c.Jumlah_Budget,
+					   c.Nominal_Budget,
+					   c.Urut_Oto
+				from N_EMI_Transaksi_Budget_Planning a
+					 inner join N_EMI_Transaksi_Budget_Planning_Detail b
+								on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Binding = b.Kode_Binding
+					 inner join N_EMI_Transaksi_Budget_Planning_Det c
+								on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Binding = c.Kode_Binding
+									and b.ID_Kategori_Jenis = c.ID_Kategori_Jenis and b.Urut_Oto = c.Urut_Detail
+					 inner join N_EMI_Master_Sub_Kategori_Jenis_1 d
+								on c.Kode_Perusahaan = d.Kode_Perusahaan and
+								   c.ID_Sub_Kategori_Jenis_1 = d.Id_Sub_Kategori_Jenis_1
+				where a.Status is null
+				  and d.Flag_Is_Budget = 'Y'
+				  and a.Kode_Perusahaan = '{KodePerusahaan}'
+				  and a.Kode_Binding = '{SelectedDepartment_KodeBinding}'
+				  and b.ID_Kategori_Jenis = '{SelectedIDLayer1}'
+				  and (b.Tahun * 100 + b.Bulan) between {PeriodeAwal} and {PeriodeAkhir}
+			"
+			Using Dr = OpenTrans(SQL)
+				If Dr.Read Then
+					Do
+						Dim kodeBinding As String = Dr("Kode_Binding").ToString().Trim()
+						Dim tahun As Integer = Val(HilangkanTanda(Dr("Tahun")))
+						Dim bulan As Integer = Val(HilangkanTanda(Dr("Bulan")))
+						Dim idKategori As Integer = Val(HilangkanTanda(Dr("ID_Kategori_Jenis")))
+						Dim ID_Sub_Kategori_1 As Integer = Val(HilangkanTanda(Dr("ID_Sub_Kategori_Jenis_1")))
+						Dim jumlahBudget As Integer = Val(HilangkanTanda(Dr("Jumlah_Budget")))
+						Dim nominalBudget As Integer = Val(HilangkanTanda(Dr("Nominal_Budget")))
+
+						Dim Key = (kodeBinding, tahun, bulan, idKategori, ID_Sub_Kategori_1)
+						Dim KeyBudget = (ID_Sub_Kategori_1, tahun, bulan)
+
+						Dim JumlahPR As Double = 0
+						Dim JumlahTF As Double = 0
+						Dim NominalTF As Double = 0
+
+						ListDataPRM.TryGetValue(Key, JumlahPR)
+						ListDataTF.TryGetValue(Key, (JumlahTF, NominalTF))
+
+						Dim selisih As Double = jumlahBudget - JumlahPR
+
+						Dim dataDetailBudget As New DetailDataBudgetPlanning With {
+							.Keterangan_Layer3 = Dr("Layer_3").ToString().Trim(),
+							.Kode_Binding = kodeBinding,
+							.ID_Kategori_Jenis = idKategori,
+							.Bulan = bulan,
+							.Tahun = tahun,
+							.Jumlah_Budget = jumlahBudget,
+							.Nominal_Budget = nominalBudget,
+							.Jumlah_Selisih = selisih,
+							.Jumlah_PR = JumlahPR,
+							.Jumlah_Transfer = JumlahTF,
+							.Nominal_Transfer = NominalTF
+						}
+
+						'JIKA DATA ADA MAKA UPDATE JIKA TIDAK MAKA ADD OTOMATIS
+						DataBudgetPlanning(KeyBudget) = dataDetailBudget
+
+					Loop While Dr.Read
+
+				End If
+			End Using
+
+			'=====================
+			'=     KODE LAMA     =
+			'=====================
+
+#Region "KodeLama"
+
+			'SQL = $"
+			'         ;with
+			'             DataPRM_Base as (
+			'                 select a.Kode_Perusahaan, ISNULL(YEAR(a.Tanggal), 0) as Tahun, ISNULL(MONTH(a.Tanggal), 0) as Bulan,
+			'                        b.No_Urut, d.ID_Kategori_Jenis, d.Id_Sub_Kategori_Jenis_1, a.Kode_Kategori_Gudang, b.jumlah as JumlahPR
+			'                 from N_EMI_Purchase_Requisition_Barang_Lain_Departement a
+			'                      inner join N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail b   on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+			'                      inner join barang_lain c   on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang
+			'                      inner join View_Kategori_Turunan d   on b.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3
+			'                 where a.Status is null and a.Flag_Pra_Release = 'Y' and a.Kode_Perusahaan = '{KodePerusahaan}'
+			'             ),
+			'             DataPRM_Agg as (
+			'                 select Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis, Id_Sub_Kategori_Jenis_1, sum(JumlahPR) as TotalJumlahPR
+			'                 from DataPRM_Base group by Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis, Id_Sub_Kategori_Jenis_1
+			'             ),
+			'             DataTF_Agg as (
+			'                 select z.Kode_Perusahaan, l.Kode_Kategori_Gudang, ISNULL(YEAR(z.Tanggal), 0) as Tahun, ISNULL(MONTH(z.Tanggal), 0) as Bulan,
+			'                        l.ID_Kategori_Jenis, l.Id_Sub_Kategori_Jenis_1, sum(k.Jumlah) as TotalJumlahTF
+			'                 from N_EMI_Transfer_Stock_Barang_Lain z
+			'                      inner join N_EMI_Transfer_Stock_Barang_Lain_Detail x   on z.Kode_Perusahaan = x.Kode_Perusahaan and z.No_Faktur = x.No_Faktur
+			'                      inner join N_EMI_Transfer_Stock_Barang_Lain_Det y   on x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur and x.Urut_Oto = y.Urut_TF
+			'                      inner join N_EMI_Transfer_Stock_Barang_Lain_Det2 k   on y.Kode_Perusahaan = k.Kode_Perusahaan and y.No_Faktur = k.No_Faktur and y.Urut_Oto = k.Urut_Det
+			'                      inner join DataPRM_Base l on x.Kode_Perusahaan = l.Kode_Perusahaan and x.Urut_PR_Dept = l.No_Urut
+			'                 where z.Status is null and y.Selesai = 'Y' and z.Kode_Perusahaan = '{KodePerusahaan}'
+			'                 group by z.Kode_Perusahaan, l.Kode_Kategori_Gudang, z.Tanggal, l.ID_Kategori_Jenis, l.Id_Sub_Kategori_Jenis_1
+			'             ),
+			'             DataPengeluaran_Agg as (
+			'                 select a.Kode_Perusahaan, l.Kode_Kategori_Gudang, ISNULL(YEAR(a.Tanggal), 0) as Tahun, ISNULL(MONTH(a.Tanggal), 0) as Bulan,
+			'                        l.ID_Kategori_Jenis, l.Id_Sub_Kategori_Jenis_1, sum(c.Jumlah) as TotalJumlahPengeluaran
+			'                 from EMI_Pengeluaran_Stock_parent_barang_lain a
+			'                      inner join EMI_Pengeluaran_Stock_barang_lain b   on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur
+			'                      inner join EMI_Pengeluaran_Stock_Det_Barang_Lain c   on b.Kode_Perusahaan = c.Kode_Perusahaan and b.No_Faktur = c.No_Faktur and b.Urut_Oto = c.Urut_TF
+			'                      inner join DataPRM_Base l on b.Kode_Perusahaan = l.Kode_Perusahaan and b.Urut_PR_Dept = l.No_Urut
+			'                 where a.Status is null and a.Kode_Perusahaan = '{KodePerusahaan}' and c.Selesai = 'Y'
+			'                 group by a.Kode_Perusahaan, a.Tanggal, l.Kode_Kategori_Gudang, l.ID_Kategori_Jenis, l.Id_Sub_Kategori_Jenis_1
+			'             ),
+			'             DataTF_Union as (
+			'                 select Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis, Id_Sub_Kategori_Jenis_1, TotalJumlahTF as Jumlah from DataTF_Agg
+			'                 union all
+			'                 select Kode_Perusahaan, Tahun, Bulan, Kode_Kategori_Gudang, ID_Kategori_Jenis, Id_Sub_Kategori_Jenis_1, TotalJumlahPengeluaran as Jumlah from DataPengeluaran_Agg
+			'             ),
+			'             Binding_PRM as (
+			'                 select z.Kode_Perusahaan, z.Kode_Binding, y.Tahun, y.Bulan, y.ID_Kategori_Jenis, y.Id_Sub_Kategori_Jenis_1, sum(y.TotalJumlahPR) as JumlahPR
+			'                 from N_EMI_Binding_Department z
+			'                      inner join N_EMI_Binding_Department_Detail x   on z.Kode_Perusahaan = x.Kode_Perusahaan and z.Kode_Binding = x.Kode_Binding
+			'                      inner join DataPRM_Agg y on x.Kode_Perusahaan = y.Kode_Perusahaan and x.Kode_Kategori_Gudang = y.Kode_Kategori_Gudang
+			'                 where z.Status is null and z.Kode_Perusahaan = '{KodePerusahaan}' and z.Kode_Binding = '{SelectedDepartment_KodeBinding}'
+			'                 group by z.Kode_Perusahaan, y.Tahun, y.Bulan, z.Kode_Binding, y.ID_Kategori_Jenis, y.Id_Sub_Kategori_Jenis_1
+			'             ),
+			'             Binding_TF as (
+			'                 select z.Kode_Perusahaan, z.Kode_Binding, y.Tahun, y.Bulan, y.ID_Kategori_Jenis, y.Id_Sub_Kategori_Jenis_1, sum(y.Jumlah) as JumlahTF
+			'                 from N_EMI_Binding_Department z
+			'                      inner join N_EMI_Binding_Department_Detail x   on z.Kode_Perusahaan = x.Kode_Perusahaan and z.Kode_Binding = x.Kode_Binding
+			'                      inner join DataTF_Union y on x.Kode_Perusahaan = y.Kode_Perusahaan and x.Kode_Kategori_Gudang = y.Kode_Kategori_Gudang
+			'                 where z.Status is null and z.Kode_Perusahaan = '{KodePerusahaan}' and z.Kode_Binding = '{SelectedDepartment_KodeBinding}'
+			'                 group by z.Kode_Perusahaan, y.Tahun, y.Bulan, z.Kode_Binding, y.ID_Kategori_Jenis, y.Id_Sub_Kategori_Jenis_1
+			'             )
+			'         select a.Kode_Binding, b.ID_Kategori_Jenis, c.ID_Sub_Kategori_Jenis_1, d.Keterangan as Layer_3, b.Bulan, b.Tahun, c.Jumlah_Budget,
+			'                CASE WHEN isnull(e.JumlahPR, 0) > c.Jumlah_Budget THEN isnull(e.JumlahPR, 0) - c.Jumlah_Budget ELSE 0 END AS Jumlah_Selisih,
+			'                isnull(e.JumlahPR, 0) as JumlahPR, isnull(f.JumlahTF, 0) as JumlahTF, c.Urut_Oto
+			'         from N_EMI_Transaksi_Budget_Planning a
+			'              inner join N_EMI_Transaksi_Budget_Planning_Detail b   on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Binding = b.Kode_Binding
+			'              inner join N_EMI_Transaksi_Budget_Planning_Det c   on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Binding = c.Kode_Binding and b.ID_Kategori_Jenis = c.ID_Kategori_Jenis and b.Urut_Oto = c.Urut_Detail
+			'              inner join N_EMI_Master_Sub_Kategori_Jenis_1 d   on c.Kode_Perusahaan = d.Kode_Perusahaan and c.ID_Sub_Kategori_Jenis_1 = d.Id_Sub_Kategori_Jenis_1
+			'              left join Binding_PRM e on a.Kode_Perusahaan = e.Kode_Perusahaan and a.Kode_Binding = e.Kode_Binding and b.ID_Kategori_Jenis = e.ID_Kategori_Jenis and c.ID_Sub_Kategori_Jenis_1 = e.Id_Sub_Kategori_Jenis_1 and b.Tahun = e.Tahun and b.Bulan = e.Bulan
+			'              left join Binding_TF f on a.Kode_Perusahaan = f.Kode_Perusahaan and a.Kode_Binding = f.Kode_Binding and b.ID_Kategori_Jenis = f.ID_Kategori_Jenis and c.ID_Sub_Kategori_Jenis_1 = f.Id_Sub_Kategori_Jenis_1 and b.Tahun = f.Tahun and b.Bulan = f.Bulan
+			'         where a.Status is null and d.Flag_Is_Budget = 'Y' and a.Kode_Perusahaan = '{KodePerusahaan}' and a.Kode_Binding = '{SelectedDepartment_KodeBinding}'
+			'           and b.ID_Kategori_Jenis = '{SelectedIDLayer1}'
+			'           and (b.Tahun * 100 + b.Bulan) between {PeriodeAwal} and {PeriodeAkhir}"
+
+			'Using Dr = OpenTrans(SQL)
+			'	If Dr.Read Then
+			'		Do
+			'			Dim ID_Sub_1 As Integer = Dr("ID_Sub_Kategori_Jenis_1").ToString.Trim
+			'			Dim dataDetail As New DetailDataBudgetPlanning With {
+			'				.Keterangan_Layer3 = Dr("Layer_3").ToString.Trim,
+			'				.Bulan = Dr("Bulan"),
+			'				.Tahun = Dr("Tahun"),
+			'				.Jumlah_Budget = Val(HilangkanTanda(Dr("Jumlah_Budget"))),
+			'				.Jumlah_Selisih = Val(HilangkanTanda(Dr("Jumlah_Selisih"))),
+			'				.Jumlah_PR = Val(HilangkanTanda(Dr("JumlahPR"))),
+			'				.Jumlah_Transfer = Val(HilangkanTanda(Dr("JumlahTF")))
+			'			}
+			'			If Not LocalDataBudget.ContainsKey(ID_Sub_1) Then
+			'				LocalDataBudget.Add(ID_Sub_1, New List(Of DetailDataBudgetPlanning) From {dataDetail})
+			'			Else
+			'				LocalDataBudget(ID_Sub_1).Add(dataDetail)
+			'			End If
+			'		Loop While Dr.Read
+			'	End If
+			'End Using
+
+#End Region
 
 			Cmd.Transaction.Commit()
 			CloseTrans()
@@ -747,11 +1463,11 @@
 		End Try
 
 		Try
-
-			'=========================================
-			'=  3. BANGUN DATATABLE UNTUK EXPORT     =
-			'=========================================
+			'=============================================
+			'=     PENYESUNAN DATATABLE UNTUK EXPORT     =
+			'=============================================
 			Dim dtExport As New DataTable()
+			dtExport.Columns.Add("Department", GetType(String))
 			dtExport.Columns.Add("Kategori Layer 3", GetType(String))
 
 			Dim currYear As Integer = SelectedTahunAwal
@@ -759,13 +1475,28 @@
 			Dim currPeriode As Integer = (currYear * 100) + currMonth
 			Dim cultureID As New System.Globalization.CultureInfo("id-ID")
 
-			' Build Kolom Datatable berdasarkan Lintas Tahun (Multi-Year)
+			Dim thnSekarang As Integer = DateTime.Now.Year
+			Dim blnSekarang As Integer = DateTime.Now.Month
+			Dim periodeSekarang As Integer = (thnSekarang * 100) + blnSekarang
+
+			'===============================
+			'=     HANDLE LINTAS TAHUN     =
+			'===============================
 			While currPeriode <= PeriodeAkhir
 				Dim SufiksKolom As String = currPeriode.ToString()
 				dtExport.Columns.Add($"QtyBudget_{SufiksKolom}", GetType(Double))
-				dtExport.Columns.Add($"QtyPR_{SufiksKolom}", GetType(Double))
-				dtExport.Columns.Add($"QtyTF_{SufiksKolom}", GetType(Double))
-				dtExport.Columns.Add($"QtySelisih_{SufiksKolom}", GetType(Double))
+				dtExport.Columns.Add($"NmlBudget_{SufiksKolom}", GetType(Double))
+
+				'======================================================
+				'=     JIKA BULAN SEBELUMNYA MAKA TAMPILKAN KOLOM     =
+				'======================================================
+				If currPeriode <= periodeSekarang Then
+					dtExport.Columns.Add($"QtyPR_{SufiksKolom}", GetType(Double))
+					dtExport.Columns.Add($"QtyTF_{SufiksKolom}", GetType(Double))
+					dtExport.Columns.Add($"NmlTF_{SufiksKolom}", GetType(Double))
+					dtExport.Columns.Add($"QtySelisih_{SufiksKolom}", GetType(Double))
+
+				End If
 
 				currMonth += 1
 				If currMonth > 12 Then
@@ -775,38 +1506,63 @@
 				currPeriode = (currYear * 100) + currMonth
 			End While
 
-			' Isi DataTable menggunakan Master DataLayer3
+			'==========================
+			'=     PENGISIAN DATA     =
+			'==========================
 			If DataLayer3 IsNot Nothing Then
 				For Each kvp As KeyValuePair(Of Integer, List(Of DetailDataLayer3)) In DataLayer3
-					Dim ID_Sub_1 As Integer = kvp.Key
+					Dim ID_Sub_Kategori_1 As Integer = kvp.Key
 					Dim listDetail As List(Of DetailDataLayer3) = kvp.Value.Where(Function(x) x.IDKategoriLayer1 = SelectedIDLayer1).ToList()
 
 					If listDetail.Count = 0 Then Continue For
 
 					Dim row As DataRow = dtExport.NewRow()
+					row("Department") = Cmb_Department.Text.Trim
 					row("Kategori Layer 3") = listDetail(0).keteranganKategoriLayer3
-
-					Dim listBudget As List(Of DetailDataBudgetPlanning) = Nothing
-					If LocalDataBudget.ContainsKey(ID_Sub_1) Then
-						listBudget = LocalDataBudget(ID_Sub_1)
-					End If
 
 					currYear = SelectedTahunAwal
 					currMonth = SelectedBulanAwal
 					currPeriode = (currYear * 100) + currMonth
 
 					While currPeriode <= PeriodeAkhir
-						Dim loopYear As Integer = currYear
-						Dim loopMonth As Integer = currMonth
 						Dim SufiksKolom As String = currPeriode.ToString()
 
-						Dim det As DetailDataBudgetPlanning = Nothing
-						If listBudget IsNot Nothing Then det = listBudget.FirstOrDefault(Function(x) x.Bulan = loopMonth AndAlso x.Tahun = loopYear)
+						Dim KeyTransaksi = (
+							Kode_Binding:=SelectedDepartment_KodeBinding,
+							Tahun:=currYear,
+							Bulan:=currMonth,
+							IDLayer1:=SelectedIDLayer1,
+							IDLayer3:=ID_Sub_Kategori_1
+						)
+						Dim KeyBudget = (ID_Sub_Kategori_1, currYear, currMonth)
 
-						row($"QtyBudget_{SufiksKolom}") = If(det IsNot Nothing, det.Jumlah_Budget, 0)
-						row($"QtyPR_{SufiksKolom}") = If(det IsNot Nothing, det.Jumlah_PR, 0)
-						row($"QtyTF_{SufiksKolom}") = If(det IsNot Nothing, det.Jumlah_Transfer, 0)
-						row($"QtySelisih_{SufiksKolom}") = If(det IsNot Nothing, det.Jumlah_Selisih, 0)
+						Dim JumlahBudget As Double = 0
+						Dim NominalBudget As Double = 0
+						Dim JumlahPR As Double = 0
+						Dim JumlahTF As Double = 0
+						Dim NominalTF As Double = 0
+						Dim detailBudget As DetailDataBudgetPlanning = Nothing
+
+						ListDataPRM.TryGetValue(KeyTransaksi, JumlahPR)
+						ListDataTF.TryGetValue(KeyTransaksi, (JumlahTF, NominalTF))
+
+						If DataBudgetPlanning.TryGetValue(KeyBudget, detailBudget) Then
+							JumlahBudget = detailBudget.Jumlah_Budget
+							NominalBudget = detailBudget.Nominal_Budget
+						End If
+
+						Dim JumlahSelisih As Double = JumlahBudget - JumlahPR
+
+						row($"QtyBudget_{SufiksKolom}") = JumlahBudget
+						row($"NmlBudget_{SufiksKolom}") = NominalBudget
+
+						' PENTING: Hanya isi data PR, TF, Selisih jika bukan bulan depan
+						If currPeriode <= periodeSekarang Then
+							row($"QtyPR_{SufiksKolom}") = JumlahPR
+							row($"QtyTF_{SufiksKolom}") = JumlahTF
+							row($"NmlTF_{SufiksKolom}") = NominalTF
+							row($"QtySelisih_{SufiksKolom}") = JumlahSelisih
+						End If
 
 						currMonth += 1
 						If currMonth > 12 Then
@@ -826,7 +1582,7 @@
 			End If
 
 			'=========================================
-			'=  4. KONFIGURASI EXPORT EXCEL          =
+			'=     KONFIGURASI EXPORT EXCEL          =
 			'=========================================
 			Dim config As New ExcelExportHelper.ExportConfig() With {
 				.FileName = "Laporan_Budget_Planning_" & Now.ToString("dd_MM_yyyy_HH_mm") & ".xlsx",
@@ -838,39 +1594,58 @@
 			Dim headerRow1 As New ExcelExportHelper.HeaderRow()
 			Dim headerRow2 As New ExcelExportHelper.HeaderRow()
 
-			' Warna Pastel (Sesuai DGV dan permintaan gambar)
 			Dim colorBudget As Color = Color.FromArgb(224, 236, 244)
+			Dim colorNominal As Color = Color.FromArgb(253, 235, 208) ' Soft Peach
 			Dim colorSelisih As Color = Color.FromArgb(233, 240, 228)
 			Dim colorPR As Color = Color.FromArgb(247, 241, 231)
 			Dim colorTF As Color = Color.FromArgb(238, 233, 245)
+			Dim colorNmlTF As Color = Color.FromArgb(253, 235, 208)
 
+			headerRow1.AddCell(New ExcelExportHelper.HeaderCell("Department", rowSpan:=2, colSpan:=1, backColor:=Color.WhiteSmoke))
 			headerRow1.AddCell(New ExcelExportHelper.HeaderCell("Kategori Layer 3", rowSpan:=2, colSpan:=1, backColor:=Color.WhiteSmoke))
 			config.ColumnFormats.Add(New ExcelExportHelper.ColumnFormat("A", "@", ExcelExportHelper.ExcelAlignment.Left))
 
-			Dim excelColIndex As Integer = 1
+			Dim excelColIndex As Integer = 2
 
 			currYear = SelectedTahunAwal
 			currMonth = SelectedBulanAwal
 			currPeriode = (currYear * 100) + currMonth
 
 			While currPeriode <= PeriodeAkhir
-				Dim namaBulan As String = New DateTime(currYear, currMonth, 1).ToString("MMMM yyyy", cultureID)
+				' PENTING: Kutip tunggal wajib agar bulan (Sep, Nov) tidak diubah jadi tanggal oleh Excel
+				Dim namaBulan As String = "'" & New DateTime(currYear, currMonth, 1).ToString("MMMM yyyy", cultureID)
 
-				headerRow1.AddCell(New ExcelExportHelper.HeaderCell(namaBulan, rowSpan:=1, colSpan:=4, backColor:=Color.Gainsboro))
-				headerRow2.AddCell(New ExcelExportHelper.HeaderCell("Qty Budget", backColor:=Color.WhiteSmoke))
-				headerRow2.AddCell(New ExcelExportHelper.HeaderCell("Qty PR", backColor:=Color.WhiteSmoke))
-				headerRow2.AddCell(New ExcelExportHelper.HeaderCell("Qty TF", backColor:=Color.WhiteSmoke))
-				headerRow2.AddCell(New ExcelExportHelper.HeaderCell("Qty Selisih", backColor:=Color.WhiteSmoke))
+				If currPeriode <= periodeSekarang Then
+					headerRow1.AddCell(New ExcelExportHelper.HeaderCell(namaBulan, rowSpan:=1, colSpan:=6, backColor:=Color.Gainsboro))
+					headerRow2.AddCell(New ExcelExportHelper.HeaderCell("Qty Budget", backColor:=Color.WhiteSmoke))
+					headerRow2.AddCell(New ExcelExportHelper.HeaderCell("Nominal Budget", backColor:=Color.WhiteSmoke))
+					headerRow2.AddCell(New ExcelExportHelper.HeaderCell("Qty PR", backColor:=Color.WhiteSmoke))
+					headerRow2.AddCell(New ExcelExportHelper.HeaderCell("Qty TF", backColor:=Color.WhiteSmoke))
+					headerRow2.AddCell(New ExcelExportHelper.HeaderCell("Nominal TF", backColor:=Color.WhiteSmoke))
+					headerRow2.AddCell(New ExcelExportHelper.HeaderCell("Qty Selisih", backColor:=Color.WhiteSmoke))
 
-				' Apply Block Color Excel Helper
-				config.ColumnFormats.Add(New ExcelExportHelper.ColumnFormat(GetExcelColumnName(excelColIndex), "N0", ExcelExportHelper.ExcelAlignment.Right, backColor:=colorBudget))
-				excelColIndex += 1
-				config.ColumnFormats.Add(New ExcelExportHelper.ColumnFormat(GetExcelColumnName(excelColIndex), "N0", ExcelExportHelper.ExcelAlignment.Right, backColor:=colorPR))
-				excelColIndex += 1
-				config.ColumnFormats.Add(New ExcelExportHelper.ColumnFormat(GetExcelColumnName(excelColIndex), "N0", ExcelExportHelper.ExcelAlignment.Right, backColor:=colorTF))
-				excelColIndex += 1
-				config.ColumnFormats.Add(New ExcelExportHelper.ColumnFormat(GetExcelColumnName(excelColIndex), "N0", ExcelExportHelper.ExcelAlignment.Right, backColor:=colorSelisih))
-				excelColIndex += 1
+					excelColIndex += 1
+					config.ColumnFormats.Add(New ExcelExportHelper.ColumnFormat(GetExcelColumnName(excelColIndex), "N0", ExcelExportHelper.ExcelAlignment.Right, backColor:=colorBudget))
+					excelColIndex += 1
+					config.ColumnFormats.Add(New ExcelExportHelper.ColumnFormat(GetExcelColumnName(excelColIndex), "N2", ExcelExportHelper.ExcelAlignment.Right, backColor:=colorNominal))
+					excelColIndex += 1
+					config.ColumnFormats.Add(New ExcelExportHelper.ColumnFormat(GetExcelColumnName(excelColIndex), "N0", ExcelExportHelper.ExcelAlignment.Right, backColor:=colorPR))
+					excelColIndex += 1
+					config.ColumnFormats.Add(New ExcelExportHelper.ColumnFormat(GetExcelColumnName(excelColIndex), "N0", ExcelExportHelper.ExcelAlignment.Right, backColor:=colorTF))
+					excelColIndex += 1
+					config.ColumnFormats.Add(New ExcelExportHelper.ColumnFormat(GetExcelColumnName(excelColIndex), "N2", ExcelExportHelper.ExcelAlignment.Right, backColor:=colorNmlTF))
+					excelColIndex += 1
+					config.ColumnFormats.Add(New ExcelExportHelper.ColumnFormat(GetExcelColumnName(excelColIndex), "N0", ExcelExportHelper.ExcelAlignment.Right, backColor:=colorSelisih))
+				Else
+					headerRow1.AddCell(New ExcelExportHelper.HeaderCell(namaBulan, rowSpan:=1, colSpan:=2, backColor:=Color.Gainsboro))
+					headerRow2.AddCell(New ExcelExportHelper.HeaderCell("Qty Budget", backColor:=Color.WhiteSmoke))
+					headerRow2.AddCell(New ExcelExportHelper.HeaderCell("Nominal Budget", backColor:=Color.WhiteSmoke))
+
+					excelColIndex += 1
+					config.ColumnFormats.Add(New ExcelExportHelper.ColumnFormat(GetExcelColumnName(excelColIndex), "N0", ExcelExportHelper.ExcelAlignment.Right, backColor:=colorBudget))
+					excelColIndex += 1
+					config.ColumnFormats.Add(New ExcelExportHelper.ColumnFormat(GetExcelColumnName(excelColIndex), "N2", ExcelExportHelper.ExcelAlignment.Right, backColor:=colorNominal))
+				End If
 
 				currMonth += 1
 				If currMonth > 12 Then
@@ -883,25 +1658,25 @@
 			config.Headers.Add(headerRow1)
 			config.Headers.Add(headerRow2)
 
-			'=========================================
-			'=  5. EKSEKUSI EXPORT                   =
-			'=========================================
+			'==============================
+			'=     5. EKSEKUSI EXPORT     =
+			'==============================
 			ExcelExportHelper.ExportFromDataTable(dtExport, config)
 		Catch ex As Exception
-			MessageBox.Show("Gagal ketika setup excel: " & ex.Message, "Error Xxcel", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			MessageBox.Show("Gagal ketika setup excel: " & ex.Message, "Error Excel", MessageBoxButtons.OK, MessageBoxIcon.Error)
 			Exit Sub
 		End Try
 
 	End Sub
 
 	Private Function GetExcelColumnName(columnNumber As Integer) As String
-		Dim dividend As Integer = columnNumber + 1
+		Dim dividend As Integer = columnNumber
 		Dim columnName As String = String.Empty
 		Dim modulo As Integer
 		While dividend > 0
 			modulo = (dividend - 1) Mod 26
 			columnName = Convert.ToChar(65 + modulo).ToString() & columnName
-			dividend = CInt((dividend - modulo) / 26)
+			dividend = (dividend - 1) \ 26
 		End While
 		Return columnName
 	End Function
@@ -1035,7 +1810,6 @@
 				ExecuteTrans(SQL)
 			Next
 
-			' 3. AMBIL URUT_OTO UNTUK MAPPING
 			Dim dtUrutBulan As New DataTable()
 			SQL = $"
 				select (Tahun * 100 + Bulan) as Periode, Urut_Oto
@@ -1058,7 +1832,7 @@
 					select a.Kode_Binding, b.ID_Kategori_Jenis, c.ID_Sub_Kategori_Jenis_1,
 						   (b.Tahun * 100 + b.Bulan) as Periode,
 						   b.Urut_Oto as Urut_Detail, c.Urut_Oto as UrutDet,
-						   c.Jumlah_Budget
+						   c.Jumlah_Budget, c.Nominal_Budget
 					from N_EMI_Transaksi_Budget_Planning a
 						inner join N_EMI_Transaksi_Budget_Planning_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Binding = b.Kode_Binding
 						inner join N_EMI_Transaksi_Budget_Planning_Det c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Binding = c.Kode_Binding and b.Urut_Oto = c.Urut_Detail
@@ -1078,6 +1852,7 @@
 					Dim ID_Sub_Kategori_Jenis_1 As Integer = row("ID_Sub_Kategori_Jenis_1")
 					Dim Periode As Integer = row("Periode")
 					Dim Jumlah_Budget_Awal As Double = Val(HilangkanTanda(row("Jumlah_Budget")))
+					Dim Nominal_Budget_Awal As Double = Val(HilangkanTanda(row("Nominal_Budget")))
 					Dim UrutDet As Integer = row("UrutDet")
 
 					Dim dataEksis As DetailDataUpdate = DataUpdate.FirstOrDefault(Function(x) x.ID_Layer3 = ID_Sub_Kategori_Jenis_1 And x.Bulan = Periode And x.FlagUpdate = False)
@@ -1091,20 +1866,20 @@
 						'======================
 						SQL = $"
 							INSERT INTO N_EMI_Transaksi_Budget_Planning_Log
-								(Kode_Perusahaan, Kode_Binding, ID_Kategori_Jenis, ID_Sub_Kategori_Jenis_1, Jenis, Bulan, Tahun, Jumlah_Budget, Jumlah_Update, Nominal_Update,
-									Nominal_Budget, Tanggal, Jam, UserID)
+								(Kode_Perusahaan, Kode_Binding, ID_Kategori_Jenis, ID_Sub_Kategori_Jenis_1, Jenis, Bulan, Tahun, Jumlah_Budget, Jumlah_Update, Nominal_Budget, Nominal_Update,
+								 Tanggal, Jam, UserID)
 							VALUES
 								('{KodePerusahaan}', '{KodeBinding}', '{IDlayer1}', '{ID_Sub_Kategori_Jenis_1}', 'UPDATE',
-								'{logBulan}', '{logTahun}', '{Jumlah_Budget_Awal}', '{dataEksis.JumlahUpdate}', '0', '0',
-								'{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', '{UserID}')
-"
+								'{logBulan}', '{logTahun}', '{Jumlah_Budget_Awal}', '{dataEksis.JumlahUpdate}', '{Nominal_Budget_Awal}', '{dataEksis.NominalUpdate}',
+								'{Format(tgl_skg, "yyyy-MM-dd")}', '{Format(tgl_skg, "HH:mm:ss")}', '{UserID}')"
 						ExecuteTrans(SQL)
 
 						'======================
 						'=     UPDATE DET     =
 						'======================
 						SQL = $"
-							update N_EMI_Transaksi_Budget_Planning_Det set Jumlah_Budget = {Val(HilangkanTanda(dataEksis.JumlahUpdate))}
+							update N_EMI_Transaksi_Budget_Planning_Det set Jumlah_Budget = {Val(HilangkanTanda(dataEksis.JumlahUpdate))},
+							Nominal_Budget = {Val(HilangkanTanda(dataEksis.NominalUpdate))}
 							where Kode_Perusahaan = '{KodePerusahaan}'
 							and Kode_Binding = '{KodeBinding}'
 							and ID_Kategori_Jenis = '{IDlayer1}'
@@ -1131,7 +1906,7 @@
 								 Urut_Detail)
 							VALUES
 								('{KodePerusahaan}', '{KodeBinding}', '{IDlayer1}', '{item.ID_Layer3}',
-								'{Val(HilangkanTanda(item.JumlahUpdate))}', 0, {UrutDetail});
+								'{Val(HilangkanTanda(item.JumlahUpdate))}', '{Val(HilangkanTanda(item.NominalUpdate))}', {UrutDetail});
 						"
 						ExecuteTrans(SQL)
 					Else
@@ -1160,10 +1935,10 @@
 				'=========================
 				SQL = $"
 					update a
-					set a.Total_Budget = b.TotalDet
+					set a.Total_Budget = b.TotalDet, a.Total_Nominal = b.TotalNominalDet
 					from N_EMI_Transaksi_Budget_Planning_Detail a
 					inner join (
-						select Kode_Binding, ID_Kategori_Jenis, Urut_Detail, SUM(Jumlah_Budget) AS TotalDet
+						select Kode_Binding, ID_Kategori_Jenis, Urut_Detail, SUM(Jumlah_Budget) AS TotalDet, sum(Nominal_Budget) as TotalNominalDet
 						from N_EMI_Transaksi_Budget_Planning_Det
 						where Kode_Perusahaan = '{KodePerusahaan}'
 						group by Kode_Binding, ID_Kategori_Jenis, Urut_Detail
@@ -1204,10 +1979,11 @@
 	Private Sub Dgv_Data_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles Dgv_Data.CellEndEdit
 		If Dgv_Data.Rows.Count = 0 Then Exit Sub
 
-		Dim cell As DataGridViewCell = Dgv_Data.CurrentCell
+		Dim cell As DataGridViewCell = Dgv_Data.Rows(e.RowIndex).Cells(e.ColumnIndex)
 
 		If cell IsNot Nothing AndAlso cell.ColumnIndex > 1 Then
 			Dim ValueCell As Object = cell.Value
+			Dim NameCell As String = cell.OwningColumn.Name
 			If Not IsNumeric(ValueCell) Then
 				SetCellDataAndColor(cell, 0, PersentasePenggelapanWarnaCellInput)
 				Exit Sub
@@ -1220,7 +1996,7 @@
 
 			SetCellDataAndColor(cell, numericValue, PersentasePenggelapanWarnaCellInput)
 
-			CheckValueChandedCell(IDLayer3, Bulan, ValueCell)
+			CheckValueChandedCell(IDLayer3, Bulan, ValueCell, NameCell)
 
 		End If
 
@@ -1286,6 +2062,16 @@
 			Exit Sub
 		End If
 
+		Dim SelisihBulan As Integer = DateDiff(DateInterval.Month,
+									   New Date(Dtp_PeriodeAwal.Value.Year, Dtp_PeriodeAwal.Value.Month, 1),
+									   New Date(Dtp_PeriodeAkhir.Value.Year, Dtp_PeriodeAkhir.Value.Month, 1))
+
+		If SelisihBulan > BatasBulanInput Then
+			MessageBox.Show("Rentang periode maksimal 10 tahun!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Stop)
+			Dtp_PeriodeAkhir.Focus()
+			Exit Sub
+		End If
+
 		Select Case aksi
 			Case "GET"
 				GetDataBudget()
@@ -1294,13 +2080,20 @@
 					MessageBox.Show("Lakukan Get Data Terlebih Dahulu!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Stop)
 					Exit Sub
 				End If
-				CetakLaporanRealtime()
+				CetakLaporanRealtime(isAllDept:=False)
+			Case "CETAK_SELURUH"
+				If Dgv_Data.Rows.Count = 0 Then
+					MessageBox.Show("Lakukan Get Data Terlebih Dahulu!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Stop)
+					Exit Sub
+				End If
+				CetakLaporanRealtime(isAllDept:=True)
 			Case "SIMPAN"
 				If Dgv_Data.Rows.Count = 0 Then
 					MessageBox.Show("Tidak Ada Data yang Akan Disimpan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Stop)
 					Btn_Get_Data.Focus()
 					Exit Sub
 				End If
+
 				ProsesSimpan()
 		End Select
 	End Sub
@@ -1311,6 +2104,10 @@
 
 	Private Sub Btn_Cetak_Laporan_Click(sender As Object, e As EventArgs) Handles Btn_Cetak_Laporan.Click
 		ValidasiDanEksekusi("CETAK")
+	End Sub
+
+	Private Sub Btn_Cetak_Seluruh_Click(sender As Object, e As EventArgs) Handles Btn_Cetak_Seluruh.Click
+		ValidasiDanEksekusi("CETAK_SELURUH")
 	End Sub
 
 	Private Sub Btn_Simpan_Click(sender As Object, e As EventArgs) Handles Btn_Simpan.Click
@@ -1333,9 +2130,11 @@
 		Public Property Bulan As Integer
 		Public Property Tahun As Integer
 		Public Property Jumlah_Budget As Double
+		Public Property Nominal_Budget As Double
 		Public Property Jumlah_Selisih As Double
 		Public Property Jumlah_PR As Double
 		Public Property Jumlah_Transfer As Double
+		Public Property Nominal_Transfer As Double
 
 	End Class
 
@@ -1345,6 +2144,8 @@
 		Public Property Bulan As Integer
 		Public Property JumlahAwal As Double
 		Public Property JumlahUpdate As Double
+		Public Property NominalAwal As Double
+		Public Property NominalUpdate As Double
 		Public Property FlagUpdate As Boolean = False
 
 	End Class
@@ -1354,39 +2155,84 @@
 		Public Property FlagHasDataInDB As Boolean = False
 	End Class
 
-	Private Sub CheckValueChandedCell(ByVal IDLayer3 As Integer, ByVal Periode As Integer, ByVal QtyUbah As Double)
+	Private Class RoleAksesInput
+		Public Property TanggalAwal As Integer
+		Public Property TanggalAkhir As Integer
+		Public Property Bulan As Integer
 
-		'============================
-		'=     GET DATA DEFAULT     =
-		'============================
-		DataUpdate.RemoveAll(Function(x) x.ID_Layer3 = IDLayer3 AndAlso x.Bulan = Periode)
+		Public Property M1 As Boolean
+		Public Property M2 As Boolean
+		Public Property M3 As Boolean
+		Public Property M4 As Boolean
+		Public Property M5 As Boolean
+		Public Property M6 As Boolean
+		Public Property M7 As Boolean
+		Public Property M8 As Boolean
+		Public Property M9 As Boolean
+		Public Property M10 As Boolean
+		Public Property M11 As Boolean
+		Public Property M12 As Boolean
+	End Class
 
-		Dim JumlahDefault As Double = 0
-		Dim DataBudget As DetailDataBudgetPlanning = Nothing
-
+	Private Sub CheckValueChandedCell(ByVal IDLayer3 As Integer, ByVal Periode As Integer, ByVal NilaiUbah As Double, NameCell As String)
 		Dim targetTahun As Integer = Periode \ 100
 		Dim targetBulan As Integer = Periode Mod 100
 
-		If DataBudgetPlanning.ContainsKey(IDLayer3) Then
-			' Cocokkan Tahun dan Bulannya secara akurat
-			DataBudget = DataBudgetPlanning(IDLayer3).FirstOrDefault(Function(x) x.Bulan = targetBulan AndAlso x.Tahun = targetTahun)
+		'============================
+		'=      GET DATA DEFAULT    =
+		'============================
+		Dim detailBudget As DetailDataBudgetPlanning = Nothing
+		Dim KeyBudget = (IDLayer3, targetTahun, targetBulan)
+		DataBudgetPlanning.TryGetValue(KeyBudget, detailBudget)
 
-			If DataBudget IsNot Nothing Then
-				JumlahDefault = DataBudget.Jumlah_Budget
+		Dim JumlahDefault As Double = If(detailBudget IsNot Nothing, detailBudget.Jumlah_Budget, 0)
+		Dim NominalDefault As Double = If(detailBudget IsNot Nothing, detailBudget.Nominal_Budget, 0)
+
+		Dim valUbah As Double = Val(HilangkanTanda(NilaiUbah))
+
+		Dim updateItem = DataUpdate.FirstOrDefault(Function(x) x.ID_Layer3 = IDLayer3 AndAlso x.Bulan = Periode)
+
+		'======================
+		'=      UPDATE        =
+		'======================
+		If NameCell.StartsWith("QtyBudget_") Then
+			If valUbah <> JumlahDefault Then
+				If updateItem Is Nothing Then
+					updateItem = New DetailDataUpdate With {
+						.ID_Layer3 = IDLayer3, .Bulan = Periode, .Tahun = targetTahun,
+						.JumlahAwal = JumlahDefault, .JumlahUpdate = valUbah,
+						.NominalAwal = NominalDefault, .NominalUpdate = NominalDefault
+					}
+					DataUpdate.Add(updateItem)
+				Else
+					updateItem.JumlahAwal = JumlahDefault
+					updateItem.JumlahUpdate = valUbah
+				End If
 			End If
+
+		ElseIf NameCell.StartsWith("NmlBudget_") Then
+			If valUbah <> NominalDefault Then
+				If updateItem Is Nothing Then
+					updateItem = New DetailDataUpdate With {
+						.ID_Layer3 = IDLayer3, .Bulan = Periode, .Tahun = targetTahun,
+						.JumlahAwal = JumlahDefault, .JumlahUpdate = JumlahDefault,
+						.NominalAwal = NominalDefault, .NominalUpdate = valUbah
+					}
+					DataUpdate.Add(updateItem)
+				Else
+					updateItem.NominalAwal = NominalDefault
+					updateItem.NominalUpdate = valUbah
+				End If
+			End If
+
 		End If
 
-		Dim valQtyUbah As Double = Val(HilangkanTanda(QtyUbah))
-
-		If valQtyUbah <> JumlahDefault Then
-			Dim DataDetailUpdate As New DetailDataUpdate With {
-				.ID_Layer3 = IDLayer3,
-				.Bulan = Periode,
-				.Tahun = targetTahun,
-				.JumlahAwal = JumlahDefault,
-				.JumlahUpdate = valQtyUbah
-			}
-			DataUpdate.Add(DataDetailUpdate)
+		'======================
+		'=      CLEANUP       =
+		'======================
+		' Hapus dari list jika nilai kembali persis sama dengan default DB Artinya tidak ada data yang di update
+		If updateItem IsNot Nothing AndAlso updateItem.JumlahUpdate = updateItem.JumlahAwal AndAlso updateItem.NominalUpdate = updateItem.NominalAwal Then
+			DataUpdate.Remove(updateItem)
 		End If
 
 	End Sub
@@ -1419,7 +2265,6 @@
 		Dim col As DataGridViewColumn = dgv.Columns(colIdx)
 		Dim kodePeriode As Integer = 0
 
-		' [REVISI LINTAS TAHUN]: Gunakan TryParse untuk membaca Tag (Format: YYYYMM, misal 202601)
 		If col.Tag IsNot Nothing AndAlso Integer.TryParse(col.Tag.ToString(), kodePeriode) Then
 
 			' Validasi angka YYYYMM (harus > 100000 agar aman)
@@ -1428,21 +2273,28 @@
 				Dim tahunKolom As Integer = kodePeriode \ 100
 				Dim bulanKolom As Integer = kodePeriode Mod 100
 
-				' Hitung index kolom pertama & terakhir untuk bulan ini secara matematika absolut
-				Dim colOffset As Integer = colIdx - 2
-				Dim firstColIndex As Integer = colIdx - (colOffset Mod 4)
-				Dim lastColIndex As Integer = firstColIndex + 3
+				' [REVISI]: Hitung index dinamis berdasarkan kesamaan TAG, mengabaikan Mod 4
+				Dim currentTag As String = col.Tag.ToString()
+				Dim firstColIndex As Integer = colIdx
+				While firstColIndex > 2 AndAlso dgv.Columns(firstColIndex - 1).Tag IsNot Nothing AndAlso dgv.Columns(firstColIndex - 1).Tag.ToString() = currentTag
+					firstColIndex -= 1
+				End While
+
+				Dim lastColIndex As Integer = colIdx
+				While lastColIndex < dgv.Columns.Count - 1 AndAlso dgv.Columns(lastColIndex + 1).Tag IsNot Nothing AndAlso dgv.Columns(lastColIndex + 1).Tag.ToString() = currentTag
+					lastColIndex += 1
+				End While
 
 				' Dapatkan Nama Bulan dan Tahun (Misal: "Januari 2026")
 				Dim cultureID As New System.Globalization.CultureInfo("id-ID")
 				Dim namaBulanTarget As String = cultureID.DateTimeFormat.GetMonthName(bulanKolom) & " " & tahunKolom
 
-				' Hitung lebar total grup bulan HANYA untuk kolom yang benar-benar tampil di layar saat ini
+				' Hitung lebar total grup bulan HANYA untuk kolom yang terlihat (Visible = True)
 				Dim totalWidth As Integer = 0
 				Dim firstVisibleLeft As Integer = -1
 
 				For idx As Integer = firstColIndex To lastColIndex
-					If idx < dgv.Columns.Count Then
+					If idx < dgv.Columns.Count AndAlso dgv.Columns(idx).Visible Then
 						Dim rectCol As Rectangle = dgv.GetColumnDisplayRectangle(idx, True)
 						If rectCol.Width > 0 Then
 							If firstVisibleLeft = -1 Then firstVisibleLeft = rectCol.X
@@ -1454,22 +2306,18 @@
 				' Jika seluruh kolom bulan ini tersembunyi di luar scroll, tidak perlu digambar
 				If firstVisibleLeft = -1 Then Exit Sub
 
-				' Tentukan area pembagian Header Atas (Bulan) dan Bawah (Sub-Header)
 				Dim midHeight As Integer = e.CellBounds.Height \ 2
 
 				Dim rectHeaderAtasGrup As New Rectangle(firstVisibleLeft, e.CellBounds.Y, totalWidth, midHeight)
 				Dim rectHeaderAtasCell As New Rectangle(e.CellBounds.X, e.CellBounds.Y, e.CellBounds.Width, midHeight)
 				Dim rectHeaderBawah As New Rectangle(e.CellBounds.X, e.CellBounds.Y + midHeight, e.CellBounds.Width, midHeight)
 
-				' -----------------------------------------------------------------
-				' PROSES GAMBAR BERSIH (Anti-Ghosting / Anti-Scroll Bug)
-				' -----------------------------------------------------------------
 				' A. Gambar Latar Belakang Sub-Header Bawah (Putih Abu-abu)
 				Using brushBgBawah As New SolidBrush(Color.WhiteSmoke)
 					e.Graphics.FillRectangle(brushBgBawah, rectHeaderBawah)
 				End Using
 
-				' Tulis teks sub-header bawaan kolom (Qty Budget, Qty Tambah, dll)
+				' Tulis teks sub-header bawaan kolom (Qty Budget, dll)
 				If e.Value IsNot Nothing Then
 					Dim sfSub As New StringFormat() With {.Alignment = StringAlignment.Center, .LineAlignment = StringAlignment.Center}
 					Using brushTextSub As New SolidBrush(dgv.ColumnHeadersDefaultCellStyle.ForeColor)
@@ -1477,7 +2325,7 @@
 					End Using
 				End If
 
-				' B. Gambar Latar Belakang Header Atas (Setiap sel ikut menghapus sisa gambar lama)
+				' B. Gambar Latar Belakang Header Atas (Anti-Ghosting)
 				Using brushBgAtas As New SolidBrush(Color.Gainsboro)
 					e.Graphics.FillRectangle(brushBgAtas, rectHeaderAtasCell)
 				End Using
@@ -1488,22 +2336,27 @@
 					e.Graphics.DrawString(namaBulanTarget, dgv.ColumnHeadersDefaultCellStyle.Font, brushTextAtas, rectHeaderAtasGrup, sfAtas)
 				End Using
 
-				' D. Gambar Ulang Garis Kisi (Gridlines) Pembatas Agar Tetap Tajam Saat Di-scroll
-				' Garis horizontal tengah pemisah tingkat
+				' D. Gambar Ulang Garis Kisi (Gridlines) Pembatas
 				e.Graphics.DrawLine(Pens.DarkGray, e.CellBounds.Left, rectHeaderAtasCell.Bottom, e.CellBounds.Right, rectHeaderAtasCell.Bottom)
 
-				' Sekat vertikal bagian bawah (Pemisah antar sub-header)
 				e.Graphics.DrawLine(Pens.DarkGray, e.CellBounds.Left, rectHeaderBawah.Y, e.CellBounds.Left, rectHeaderBawah.Bottom)
 				e.Graphics.DrawLine(Pens.DarkGray, e.CellBounds.Right - 1, rectHeaderBawah.Y, e.CellBounds.Right - 1, rectHeaderBawah.Bottom)
-
-				' Garis horizontal penutup paling bawah
 				e.Graphics.DrawLine(Pens.DarkGray, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right, e.CellBounds.Bottom - 1)
 
-				' Kunci Garis Tebal Samping sebagai pembatas antar Bulan
-				If colIdx = lastColIndex Then
+				' Kunci Garis Tebal Samping pembatas antar Bulan (Mencari visible column terakhir/pertama dalam grup)
+				Dim isLastVisibleCol As Boolean = True
+				For checkIdx = colIdx + 1 To lastColIndex
+					If dgv.Columns(checkIdx).Visible Then isLastVisibleCol = False : Exit For
+				Next
+				If isLastVisibleCol Then
 					e.Graphics.DrawLine(Pens.DarkGray, e.CellBounds.Right - 1, e.CellBounds.Y, e.CellBounds.Right - 1, e.CellBounds.Bottom)
 				End If
-				If colIdx = firstColIndex Then
+
+				Dim isFirstVisibleCol As Boolean = True
+				For checkIdx = firstColIndex To colIdx - 1
+					If dgv.Columns(checkIdx).Visible Then isFirstVisibleCol = False : Exit For
+				Next
+				If isFirstVisibleCol Then
 					e.Graphics.DrawLine(Pens.DarkGray, e.CellBounds.Left, e.CellBounds.Y, e.CellBounds.Left, e.CellBounds.Bottom)
 				End If
 

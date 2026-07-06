@@ -24,7 +24,6 @@ Partial Class N_EMI_Transaksi_Budget_Planning
 	Private Sub InitializeComponent()
 		Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Me.Panel1 = New System.Windows.Forms.Panel()
-		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
 		Me.Lbl_Judul = New System.Windows.Forms.Label()
 		Me.Panel3 = New System.Windows.Forms.Panel()
 		Me.Panel5 = New System.Windows.Forms.Panel()
@@ -37,8 +36,6 @@ Partial Class N_EMI_Transaksi_Budget_Planning
 		Me.Btn_Get_Data = New System.Windows.Forms.Button()
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
 		Me.Dgv_Data = New System.Windows.Forms.DataGridView()
-		Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.Panel8 = New System.Windows.Forms.Panel()
 		Me.Panel9 = New System.Windows.Forms.Panel()
 		Me.Panel10 = New System.Windows.Forms.Panel()
@@ -48,12 +45,16 @@ Partial Class N_EMI_Transaksi_Budget_Planning
 		Me.Label6 = New System.Windows.Forms.Label()
 		Me.Cmb_Kategori = New System.Windows.Forms.ComboBox()
 		Me.Btn_Cetak_Laporan = New System.Windows.Forms.Button()
-		Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-		Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
 		Me.Dtp_PeriodeAwal = New System.Windows.Forms.DateTimePicker()
 		Me.Dtp_PeriodeAkhir = New System.Windows.Forms.DateTimePicker()
 		Me.Label1 = New System.Windows.Forms.Label()
 		Me.Label3 = New System.Windows.Forms.Label()
+		Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+		Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
+		Me.Btn_Cetak_Seluruh = New System.Windows.Forms.Button()
 		Me.Panel1.SuspendLayout()
 		Me.Panel5.SuspendLayout()
 		Me.Panel2.SuspendLayout()
@@ -73,19 +74,6 @@ Partial Class N_EMI_Transaksi_Budget_Planning
 		Me.Panel1.Name = "Panel1"
 		Me.Panel1.Size = New System.Drawing.Size(1184, 45)
 		Me.Panel1.TabIndex = 32
-		'
-		'PanelGradient1
-		'
-		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
-		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
-		Me.PanelGradient1.cuteTransparent1 = 100
-		Me.PanelGradient1.cuteTransparent2 = 64
-		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
-		Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
-		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
-		Me.PanelGradient1.Name = "PanelGradient1"
-		Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
-		Me.PanelGradient1.TabIndex = 22
 		'
 		'Lbl_Judul
 		'
@@ -230,20 +218,6 @@ Partial Class N_EMI_Transaksi_Budget_Planning
 		Me.Dgv_Data.Size = New System.Drawing.Size(1136, 395)
 		Me.Dgv_Data.TabIndex = 0
 		'
-		'Column2
-		'
-		Me.Column2.HeaderText = "ID Kategori_Layer3"
-		Me.Column2.Name = "Column2"
-		Me.Column2.ReadOnly = True
-		Me.Column2.Visible = False
-		'
-		'Column1
-		'
-		Me.Column1.HeaderText = "Kategori Layer 3"
-		Me.Column1.Name = "Column1"
-		Me.Column1.ReadOnly = True
-		Me.Column1.Width = 150
-		'
 		'Panel8
 		'
 		Me.Panel8.BackColor = System.Drawing.Color.Red
@@ -350,21 +324,6 @@ Partial Class N_EMI_Transaksi_Budget_Planning
 		Me.Btn_Cetak_Laporan.Text = "&Cetak Laporan"
 		Me.Btn_Cetak_Laporan.UseVisualStyleBackColor = False
 		'
-		'DataGridViewTextBoxColumn1
-		'
-		Me.DataGridViewTextBoxColumn1.HeaderText = "Kategori Layer 3"
-		Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
-		Me.DataGridViewTextBoxColumn1.ReadOnly = True
-		Me.DataGridViewTextBoxColumn1.Visible = False
-		Me.DataGridViewTextBoxColumn1.Width = 150
-		'
-		'DataGridViewTextBoxColumn2
-		'
-		Me.DataGridViewTextBoxColumn2.HeaderText = "Kategori Layer 3"
-		Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
-		Me.DataGridViewTextBoxColumn2.ReadOnly = True
-		Me.DataGridViewTextBoxColumn2.Width = 150
-		'
 		'Dtp_PeriodeAwal
 		'
 		Me.Dtp_PeriodeAwal.CustomFormat = "MMMM yyyy"
@@ -403,12 +362,68 @@ Partial Class N_EMI_Transaksi_Budget_Planning
 		Me.Label3.TabIndex = 507
 		Me.Label3.Text = "s/d"
 		'
+		'DataGridViewTextBoxColumn1
+		'
+		Me.DataGridViewTextBoxColumn1.HeaderText = "Kategori Layer 3"
+		Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
+		Me.DataGridViewTextBoxColumn1.ReadOnly = True
+		Me.DataGridViewTextBoxColumn1.Visible = False
+		Me.DataGridViewTextBoxColumn1.Width = 150
+		'
+		'DataGridViewTextBoxColumn2
+		'
+		Me.DataGridViewTextBoxColumn2.HeaderText = "Kategori Layer 3"
+		Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
+		Me.DataGridViewTextBoxColumn2.ReadOnly = True
+		Me.DataGridViewTextBoxColumn2.Width = 150
+		'
+		'Column2
+		'
+		Me.Column2.HeaderText = "ID Kategori_Layer3"
+		Me.Column2.Name = "Column2"
+		Me.Column2.ReadOnly = True
+		Me.Column2.Visible = False
+		'
+		'Column1
+		'
+		Me.Column1.HeaderText = "Kategori Layer 3"
+		Me.Column1.Name = "Column1"
+		Me.Column1.ReadOnly = True
+		Me.Column1.Width = 150
+		'
+		'PanelGradient1
+		'
+		Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
+		Me.PanelGradient1.cuteColor2 = System.Drawing.Color.LightGreen
+		Me.PanelGradient1.cuteTransparent1 = 100
+		Me.PanelGradient1.cuteTransparent2 = 64
+		Me.PanelGradient1.Dock = System.Windows.Forms.DockStyle.Bottom
+		Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
+		Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
+		Me.PanelGradient1.Name = "PanelGradient1"
+		Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
+		Me.PanelGradient1.TabIndex = 22
+		'
+		'Btn_Cetak_Seluruh
+		'
+		Me.Btn_Cetak_Seluruh.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
+		Me.Btn_Cetak_Seluruh.Cursor = System.Windows.Forms.Cursors.Hand
+		Me.Btn_Cetak_Seluruh.Font = New System.Drawing.Font("Work Sans", 9.0!, System.Drawing.FontStyle.Bold)
+		Me.Btn_Cetak_Seluruh.ForeColor = System.Drawing.Color.White
+		Me.Btn_Cetak_Seluruh.Location = New System.Drawing.Point(864, 84)
+		Me.Btn_Cetak_Seluruh.Name = "Btn_Cetak_Seluruh"
+		Me.Btn_Cetak_Seluruh.Size = New System.Drawing.Size(131, 27)
+		Me.Btn_Cetak_Seluruh.TabIndex = 512
+		Me.Btn_Cetak_Seluruh.Text = "&Cetak Laporan"
+		Me.Btn_Cetak_Seluruh.UseVisualStyleBackColor = False
+		'
 		'N_EMI_Transaksi_Budget_Planning
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.White
 		Me.ClientSize = New System.Drawing.Size(1184, 611)
+		Me.Controls.Add(Me.Btn_Cetak_Seluruh)
 		Me.Controls.Add(Me.Dtp_PeriodeAkhir)
 		Me.Controls.Add(Me.Dtp_PeriodeAwal)
 		Me.Controls.Add(Me.Btn_Cetak_Laporan)
@@ -479,4 +494,5 @@ Partial Class N_EMI_Transaksi_Budget_Planning
 	Friend WithEvents Dtp_PeriodeAkhir As DateTimePicker
 	Friend WithEvents Label1 As Label
 	Friend WithEvents Label3 As Label
+	Friend WithEvents Btn_Cetak_Seluruh As Button
 End Class

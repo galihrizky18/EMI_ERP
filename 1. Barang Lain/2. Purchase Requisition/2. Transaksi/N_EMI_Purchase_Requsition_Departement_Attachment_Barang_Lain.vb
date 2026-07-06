@@ -57,9 +57,10 @@ Public Class N_EMI_Purchase_Requsition_Departement_Attachment_Barang_Lain
 
 
     Public Sub kosong()
-        Sync_Data_PR_Pra_Release()
 
         cmbKolom.SelectedIndex = 0
+
+
 
         get_transfer_stock("T")
     End Sub
@@ -96,6 +97,7 @@ Public Class N_EMI_Purchase_Requsition_Departement_Attachment_Barang_Lain
             SQL = SQL & "from N_emi_purchase_requisition_barang_lain_departement  a "
             SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Status is null "
             SQL = SQL & "and a.Flag_Release is null and a.flag_pra_release = 'Y' "
+            SQL = SQL & "and (a.Flag_Tambah_Pengajuan_Budget is null or (a.Flag_Tambah_Pengajuan_Budget = 'Y' and a.Flag_Validasi_Tambah_Pengajuan_Budget = 'Y')) "
             SQL = SQL & "and a.kode_kategori_gudang in (" & inGudang & ") "
 
             If cari = "Y" Then

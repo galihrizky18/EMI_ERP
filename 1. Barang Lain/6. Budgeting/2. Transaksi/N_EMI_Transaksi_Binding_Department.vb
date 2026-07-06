@@ -122,7 +122,7 @@
 					where a.Status is null
 					and a.Jenis_Gudang = 'Department'
 					and a.Kode_Perusahaan = '{KodePerusahaan}'
-					order by a.Kode_Stock_Owner_Gudang
+					order by b.HasBinding, a.Kode_Stock_Owner_Gudang
 			"
 			Using Dr = OpenTrans(SQL)
 				If Dr.Read Then

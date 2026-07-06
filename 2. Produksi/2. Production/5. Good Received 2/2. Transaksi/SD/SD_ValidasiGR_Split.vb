@@ -436,7 +436,7 @@
 					'Hide
 					Lv.SubItems.Add(Dr("Qr_Code")) '12
 					Lv.SubItems.Add(Dr("Kode_Unik_Berjalan")) '13
-					If Dr("Flag_Commercial") = "Y" Then
+					If General_Class.CekNULL(Dr("Flag_Commercial")) = "Y" Then
 
 						Lv.SubItems.Add(Dr("Status_Military_Sampling")) '14
 						If Dr("Status_Military_Sampling") = "Y" Then

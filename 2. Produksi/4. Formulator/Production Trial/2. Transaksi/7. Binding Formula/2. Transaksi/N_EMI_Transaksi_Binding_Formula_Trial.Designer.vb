@@ -855,7 +855,7 @@ Partial Class N_EMI_Transaksi_Binding_Formula_Trial
         Me.BTN_BuatSusunanFormula.Name = "BTN_BuatSusunanFormula"
         Me.BTN_BuatSusunanFormula.Size = New System.Drawing.Size(225, 36)
         Me.BTN_BuatSusunanFormula.TabIndex = 535
-        Me.BTN_BuatSusunanFormula.Text = "Rubah Susunan Formula   >>"
+        Me.BTN_BuatSusunanFormula.Text = "Ubah Susunan Formula   >>"
         Me.BTN_BuatSusunanFormula.UseVisualStyleBackColor = False
         '
         'GB_InformasiSusunanFormula

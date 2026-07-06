@@ -36,7 +36,7 @@
 
 			'SQL = "union all"
 
-			SQL = "select * from   N_EMI_View_Pengajuan_Barang_Baru_Lain a where a.kode_perusahaan = '" & KodePerusahaan & "' "
+			SQL = "select * from N_EMI_View_Pengajuan_Barang_Baru_Lain a where a.kode_perusahaan = '" & KodePerusahaan & "' "
 
 			If semua = "T" Then
 				If CheckBox1.Checked Then
@@ -761,6 +761,7 @@
 
 			CmbSatuan_Kolom.SelectedIndex = -1
 			TxtSatuan_Value.Text = ""
+			TxtEstimasiPengiriman.Text = ""
 			xurut_departement = ""
 			xNoFakturPengajuanBrgBru = ""
 			xFrom = ""
@@ -2083,6 +2084,403 @@
 							ExecuteTrans(SQL)
 						End If
 
+#Region "Cek Budget"
+
+						Dim xid_kategori_Jenis As Integer = 0
+						Dim xid_sub_kategori_Jenis_1 As Integer = 0
+						Dim xflag_is_budget As String = ""
+						SQL = "select top(1)b.Id_Sub_Kategori_Jenis_1, c.Flag_Is_Budget, b.Id_Kategori_Jenis, b.Kategori_Jenis "
+						SQL = SQL & "from Barang_Lain a join View_Kategori_Turunan b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Id_Sub_Kategori_Jenis_3 = b.Id_Sub_Kategori_Jenis_3 "
+						SQL = SQL & "join N_EMI_Master_Sub_Kategori_Jenis_1 c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Id_Sub_Kategori_Jenis_1 = c.Id_Sub_Kategori_Jenis_1 "
+						SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Barang = '" & TxtKdBarang.Text & "' "
+						Using Dr = OpenTrans(SQL)
+							If Dr.Read Then
+								If General_Class.CekNULL(Dr("Flag_Is_Budget")) <> "" Then
+									xflag_is_budget = Dr("Flag_Is_Budget")
+									xid_kategori_Jenis = Dr("Id_Kategori_Jenis")
+									xid_sub_kategori_Jenis_1 = Dr("Id_Sub_Kategori_Jenis_1")
+								Else
+									xflag_is_budget = "T"
+								End If
+							Else
+								Dr.Close()
+								CloseConn()
+								MessageBox.Show("data barang tidak ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+								Exit Sub
+							End If
+						End Using
+
+						If xflag_is_budget = "Y" Then
+							Dim kd_kategori As String = ""
+							Dim xjumlah As Double = 0
+							Dim xno_faktur As String = ""
+							SQL = "select a.No_Faktur, a.Kode_Kategori_Gudang, b.Jumlah "
+							SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement a "
+							SQL = SQL & "join N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail b "
+							SQL = SQL & "on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+							SQL = SQL & "where a.Status is null and b.Kode_Perusahaan = '" & KodePerusahaan & "' and b.No_Urut = '" & xurut_departement & "' "
+							Using Dr = OpenTrans(SQL)
+								If Dr.Read Then
+									kd_kategori = Dr("Kode_Kategori_Gudang")
+									xjumlah = Dr("Jumlah")
+									xno_faktur = Dr("No_Faktur")
+								Else
+									Dr.Close()
+									CloseConn()
+									MessageBox.Show("data barang tidak ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+									Exit Sub
+								End If
+							End Using
+
+							Dim xkode_binding As String = ""
+							SQL = "select a.Kode_Binding, b.Jenis_Gudang "
+							SQL = SQL & "from N_EMI_Binding_Department a join N_EMI_Binding_Department_Detail b "
+							SQL = SQL & "on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Binding = b.Kode_Binding "
+							SQL = SQL & "where a.Status is null and b.Kode_Perusahaan = '" & KodePerusahaan & "' "
+							SQL = SQL & "and b.Kode_Kategori_Gudang = '" & kd_kategori & "' "
+							SQL = SQL & "and UPPER(b.Jenis_Gudang) = 'DEPARTMENT'"
+							Using Dr = OpenTrans(SQL)
+								If Dr.Read Then
+									xkode_binding = Dr("Kode_Binding")
+								Else
+									Dr.Close()
+									CloseConn()
+									MessageBox.Show("data binding tidak ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+									Exit Sub
+								End If
+							End Using
+
+							Dim xjmlh_budget As Double = 0
+							Dim bulan As Integer = tgl_skg.Month
+							SQL = "select a.Kode_Binding, b.Bulan, b.Tahun, c.ID_Kategori_Jenis, c.ID_Sub_Kategori_Jenis_1, c.Jumlah_Budget "
+							SQL = SQL & "from N_EMI_Transaksi_Budget_Planning a join N_EMI_Transaksi_Budget_Planning_Detail b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Binding = b.Kode_Binding "
+							SQL = SQL & "join N_EMI_Transaksi_Budget_Planning_Det c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Binding = c.Kode_Binding and b.ID_Kategori_Jenis = c.ID_Kategori_Jenis "
+							SQL = SQL & "and b.Urut_Oto = c.Urut_Detail where a.Status is null and a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Binding = '" & xkode_binding & "' "
+							SQL = SQL & "and b.ID_Kategori_Jenis = '" & xid_kategori_Jenis & "' and c.ID_Sub_Kategori_Jenis_1 = '" & xid_sub_kategori_Jenis_1 & "' "
+							SQL = SQL & "and b.Bulan = '" & bulan & "' and b.Tahun = '" & Format(tgl_skg, "yyyy") & "' "
+							Using Dr = OpenTrans(SQL)
+								If Dr.Read Then
+									xjmlh_budget = Dr("Jumlah_Budget")
+								Else
+									Dr.Close()
+									CloseConn()
+									MessageBox.Show("data badgeting tidak ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+									Exit Sub
+								End If
+							End Using
+
+							Dim xKategoriGudang As String = ""
+							SQL = "select STRING_AGG(QUOTENAME(b.Kode_Kategori_Gudang, ''''), ',') AS KategoriGudang "
+							SQL = SQL & "from N_EMI_Binding_Department a join N_EMI_Binding_Department_Detail b "
+							SQL = SQL & "on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Binding = b.Kode_Binding "
+							SQL = SQL & "where a.Status is null and b.Kode_Perusahaan = '" & KodePerusahaan & "' and a.Kode_Binding = '" & xkode_binding & "' "
+							Using Dr = OpenTrans(SQL)
+								If Dr.Read Then
+									xKategoriGudang = Dr("KategoriGudang")
+								Else
+									Dr.Close()
+									CloseConn()
+									MessageBox.Show("kode binding tidak ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+									Exit Sub
+								End If
+							End Using
+
+							Dim tglAwalBulan As String = tgl_skg.ToString("yyyy-MM-01")
+							Dim xjmlhsdhpr As Double = 0
+							SQL = "select isnull(sum(b.Jumlah),0) as Jumlah "
+							SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement a join N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail b "
+							SQL = SQL & "on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+							SQL = SQL & "join Barang_Lain c on b.Kode_Perusahaan = c.Kode_Perusahaan and b.Kode_Stock_Owner = c.Kode_Stock_Owner and b.Kode_Barang = c.Kode_Barang "
+							SQL = SQL & "join View_Kategori_Turunan d on c.Kode_Perusahaan = d.Kode_Perusahaan and c.Id_Sub_Kategori_Jenis_3 = d.Id_Sub_Kategori_Jenis_3 "
+							SQL = SQL & "join N_EMI_Master_Sub_Kategori_Jenis_1 e on d.Kode_Perusahaan = e.Kode_Perusahaan and d.Id_Sub_Kategori_Jenis_1 = e.Id_Sub_Kategori_Jenis_1 "
+							SQL = SQL & "where a.Status is null and (a.Flag_Tambah_Pengajuan_Budget is not null and a.Flag_Validasi_Tambah_Pengajuan_Budget <> 'T' or a.Flag_Tambah_Pengajuan_Budget is null ) "
+							SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and d.Id_Kategori_Jenis = '" & xid_kategori_Jenis & "' and d.Id_Sub_Kategori_Jenis_1 = '" & xid_sub_kategori_Jenis_1 & "' "
+							SQL = SQL & "and a.Tanggal between '" & tglAwalBulan & "' and '" & Format(tgl_skg, "yyyy-MM-dd") & "' "
+							SQL = SQL & "and a.Kode_Kategori_Gudang in (" & xKategoriGudang & ") and b.No_Urut <> '" & xurut_departement & "' "
+							Using Dr = OpenTrans(SQL)
+								If Dr.Read Then
+									xjmlhsdhpr = Dr("Jumlah")
+								Else
+									xjmlhsdhpr = 0
+								End If
+							End Using
+
+							Dim xsisabudget As Double = 0
+							If xjmlh_budget >= xjmlhsdhpr Then
+								xsisabudget = xjmlh_budget - xjmlhsdhpr
+							Else
+								xsisabudget = 0
+							End If
+
+							Dim xselishbudget As Double = 0
+							If xsisabudget <> 0 Then
+								If xsisabudget > xjumlah Then
+									xselishbudget = xsisabudget - xjumlah '5-3 =2
+								Else
+									xselishbudget = xjumlah - xsisabudget '6-5 =1
+								End If
+							Else
+								xselishbudget = xjumlah
+							End If
+
+							Dim flag_ada_brg_lain As Boolean = False
+							Dim flag_pengajuan As Boolean = False
+							SQL = "select a.No_Faktur, a.Kode_Kategori_Gudang, b.No_Urut, b.Jumlah, a.Flag_Tambah_Pengajuan_Budget "
+							SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement a "
+							SQL = SQL & "join N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail b "
+							SQL = SQL & "on a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+							SQL = SQL & "where a.Status is null and b.Kode_Perusahaan = '" & KodePerusahaan & "' "
+							SQL = SQL & "and a.No_Faktur = '" & xno_faktur & "' and b.No_Urut <> '" & xurut_departement & "' "
+							Using Dr = OpenTrans(SQL)
+								If Dr.Read Then
+									flag_ada_brg_lain = True
+
+									If General_Class.CekNULL(Dr("Flag_Tambah_Pengajuan_Budget")) <> "" Then
+										flag_pengajuan = True
+									Else
+										flag_pengajuan = False
+									End If
+								Else
+									flag_ada_brg_lain = False
+									flag_pengajuan = False
+								End If
+							End Using
+
+							If flag_ada_brg_lain = False Then
+								'tidak ada barang lain
+								If xselishbudget >= xjumlah Then
+									SQL = "Update N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail set Jmlh_Tambah_Budget = '0' "
+									SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Urut = '" & xurut_departement & "' "
+									ExecuteTrans(SQL)
+								Else
+									If xsisabudget = 0 Then
+										SQL = "Update N_EMI_Purchase_Requisition_Barang_Lain_Departement set Flag_Tambah_Pengajuan_Budget = 'Y' "
+										SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Faktur = '" & xno_faktur & "' "
+										ExecuteTrans(SQL)
+
+										SQL = "update N_EMI_Purchase_Requisition_Barang_Lain_Departement set "
+										SQL = SQL & "tanggal_release = NULL, "
+										SQL = SQL & "jam_release = NULL, "
+										SQL = SQL & "user_release = NULL, flag_release = null "
+										SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & xno_faktur & "' "
+										ExecuteTrans(SQL)
+
+										SQL = "update N_EMI_Purchase_Requisition_Barang_Lain_Departement_Attachment set  "
+										SQL = SQL & "status = 'Y' where Kode_Perusahaan = '001' and No_Faktur = '" & xno_faktur & "' "
+										ExecuteTrans(SQL)
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Log_Release("
+										SQL = SQL & "Kode_Perusahaan, No_Faktur, User_Id, Tanggal, Jam, Keterangan) values("
+										SQL = SQL & "'" & KodePerusahaan & "', '" & xno_faktur & "', '" & UserID & "', "
+										SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', 'UNRELEASE') "
+										ExecuteTrans(SQL)
+
+										SQL = "Update N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail set Jmlh_Tambah_Budget = '" & xjumlah & "' "
+										SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Urut = '" & xurut_departement & "' "
+										ExecuteTrans(SQL)
+									Else
+										SQL = "Update N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail set Jmlh_Tambah_Budget = '0', Jumlah = '" & xsisabudget & "' "
+										SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Urut = '" & xurut_departement & "' "
+										ExecuteTrans(SQL)
+
+										' awal insert pengajuan baru
+										Dim xno_fakturpengajuan As String = ""
+										xno_fakturpengajuan = fPurchaseRequisitionDP & Format(tgl_skg, "MMyy") & "-" &
+															General_Class.Get_Last_Number2("N_EMI_Purchase_Requisition_Barang_Lain_Departement", "no_Faktur", 5,
+															"Kode_perusahaan", KodePerusahaan,
+															"And", "substring(no_Faktur, 1, " & Len(fPurchaseRequisitionDP) + 4 & ")", fPurchaseRequisitionDP & Format(tgl_skg, "MMyy"))
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement(Kode_Perusahaan,No_Faktur,Lokasi,Tanggal,Jam,UserId, "
+										SQL = SQL & "Keterangan, Kode_Kategori_Gudang, Flag_Tambah_Pengajuan_Budget,flag_pra_release,Tanggal_Pra_Release, "
+										SQL = SQL & "Jam_Pra_Release, User_Pra_Release) "
+										SQL = SQL & "select Kode_Perusahaan,'" & xno_fakturpengajuan & "', Lokasi, "
+										SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
+										SQL = SQL & "'" & UserID & "', Keterangan, Kode_Kategori_Gudang,'Y','Y', "
+										SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "','" & UserID & "' "
+										SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement "
+										SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & xno_faktur & "' "
+										ExecuteTrans(SQL)
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Log(Kode_Perusahaan, No_Faktur, Lokasi, Status, Tanggal, Jam, UserId, Keterangan) "
+										SQL = SQL & "select Kode_Perusahaan,No_Faktur,Lokasi,Status,'" & Format(tgl_skg, "yyyy-MM-dd") & "',Jam,'" & UserID & "',Keterangan from N_EMI_Purchase_Requisition_Barang_Lain_Departement "
+										SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & xno_fakturpengajuan & "' "
+										ExecuteTrans(SQL)
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Log_Release("
+										SQL = SQL & "Kode_Perusahaan, No_Faktur, User_Id, Tanggal, Jam, Keterangan) values("
+										SQL = SQL & "'" & KodePerusahaan & "', '" & xno_fakturpengajuan & "', '" & UserID & "', "
+										SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', 'PRA RELEASE') "
+										ExecuteTrans(SQL)
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner, "
+										SQL = SQL & "Kode_Barang,Nama_Barang,Jumlah,Satuan,Tanggal_Delivery,keterangan, Id_Cost_Center, ID_Gedung, "
+										SQL = SQL & "Flag_Stock, Jmlh_PR, Link, Id_Sub_Kategori_Jenis, Estimasi_Harga,Flag_Harga_Pembelian_Akhir,estimasi_hari, Jmlh_Tambah_Budget) "
+										SQL = SQL & "select Kode_Perusahaan, '" & xno_fakturpengajuan & "' , Kode_Stock_Owner, Kode_Barang , Nama_Barang, '" & xselishbudget & "', "
+										SQL = SQL & "Satuan, Tanggal_Delivery, Keterangan, Id_Cost_Center, ID_Gedung, Flag_Stock, '0', Link, "
+										SQL = SQL & "Id_Sub_Kategori_Jenis, Estimasi_Harga, Flag_Harga_Pembelian_Akhir, Estimasi_Hari, '" & xselishbudget & "' "
+										SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Urut = '" & xurut_departement & "' "
+										ExecuteTrans(SQL)
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail_Log(Kode_Perusahaan, No_Faktur, "
+										SQL = SQL & "Kode_Stock_Owner, Kode_Barang, Nama_Barang, Jumlah, Satuan, Tanggal_Delivery, keterangan, Link, "
+										SQL = SQL & "No_Urut, Id_Sub_Kategori_Jenis, Estimasi_Harga, "
+										SQL = SQL & "UserID_Ubah, Tanggal_Ubah, Jam_Ubah,Flag_Harga_Pembelian_Akhir, estimasi_hari, ETA, Jmlh_Tambah_Budget) "
+										SQL = SQL & "select Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama_Barang, Jumlah,Satuan, "
+										SQL = SQL & "Tanggal_Delivery, keterangan, Link, No_Urut, Id_Sub_Kategori_Jenis, Estimasi_Harga, "
+										SQL = SQL & "'" & UserID & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "',Flag_Harga_Pembelian_Akhir, estimasi_hari, ETA, Jmlh_Tambah_Budget "
+										SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail where "
+										SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & xno_fakturpengajuan & "' "
+										ExecuteTrans(SQL)
+										' akhir insert pengajuan baru
+									End If
+								End If
+							Else
+								'ada barang lain
+								If xselishbudget > xjumlah Then
+									SQL = "Update N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail set Jmlh_Tambah_Budget = '0' "
+									SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Urut = '" & xurut_departement & "' "
+									ExecuteTrans(SQL)
+								Else
+									Dim flag_ada_brg_lain_yg_sdh_pr As Boolean = False
+
+									SQL = "select a.No_Faktur from N_EMI_Purchase_Requisition_Barang_Lain_Departement a,"
+									SQL = SQL & "N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail b, EMI_Purchase_Requisition_Barang_Lain_Detail c,"
+									SQL = SQL & "EMI_Purchase_Requisition_Barang_Lain d "
+									SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+									SQL = SQL & "and a.Status is null and b.Kode_Perusahaan = c.Kode_Perusahaan "
+									SQL = SQL & "and c.Kode_Perusahaan = d.Kode_Perusahaan and c.No_Faktur = d.No_Faktur "
+									SQL = SQL & "and b.No_Urut = c.Urut_Departement and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+									SQL = SQL & "and d.Status is null and a.No_Faktur = '" & xno_faktur & "' "
+									Using Dr = OpenTrans(SQL)
+										If Dr.Read Then
+											flag_ada_brg_lain_yg_sdh_pr = True
+										End If
+									End Using
+
+									SQL = "select a.No_Faktur from N_EMI_Purchase_Requisition_Barang_Lain_Departement a, "
+									SQL = SQL & "N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail b, N_EMI_Keep_Stock_Barang_Lain_Departement c "
+									SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
+									SQL = SQL & "and a.Status is null and b.Kode_Perusahaan = c.Kode_Perusahaan "
+									SQL = SQL & "and b.No_Urut = c.Urut_Departement and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
+									SQL = SQL & "and c.Status is null and a.No_Faktur = '" & xno_faktur & "' "
+									Using Dr = OpenTrans(SQL)
+										If Dr.Read Then
+											flag_ada_brg_lain_yg_sdh_pr = True
+										End If
+									End Using
+
+									If xsisabudget = 0 Then
+										Dim xno_fakturpengajuan As String = ""
+										xno_fakturpengajuan = fPurchaseRequisitionDP & Format(tgl_skg, "MMyy") & "-" &
+																General_Class.Get_Last_Number2("N_EMI_Purchase_Requisition_Barang_Lain_Departement", "no_Faktur", 5,
+																 "Kode_perusahaan", KodePerusahaan,
+																 "And", "substring(no_Faktur, 1, " & Len(fPurchaseRequisitionDP) + 4 & ")", fPurchaseRequisitionDP & Format(tgl_skg, "MMyy"))
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement(Kode_Perusahaan,No_Faktur,Lokasi,Tanggal,Jam,UserId, "
+										SQL = SQL & "Keterangan, Kode_Kategori_Gudang, Flag_Tambah_Pengajuan_Budget,flag_pra_release,Tanggal_Pra_Release, "
+										SQL = SQL & "Jam_Pra_Release, User_Pra_Release) "
+										SQL = SQL & "select Kode_Perusahaan,'" & xno_fakturpengajuan & "', Lokasi, "
+										SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
+										SQL = SQL & "'" & UserID & "', Keterangan, Kode_Kategori_Gudang,'Y','Y', "
+										SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "','" & UserID & "' "
+										SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement "
+										SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & xno_faktur & "' "
+										ExecuteTrans(SQL)
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Log(Kode_Perusahaan, No_Faktur, Lokasi, Status, Tanggal, Jam, UserId, Keterangan) "
+										SQL = SQL & "select Kode_Perusahaan,No_Faktur,Lokasi,Status,'" & Format(tgl_skg, "yyyy-MM-dd") & "',Jam,'" & UserID & "',Keterangan from N_EMI_Purchase_Requisition_Barang_Lain_Departement "
+										SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & xno_fakturpengajuan & "' "
+										ExecuteTrans(SQL)
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Log_Release("
+										SQL = SQL & "Kode_Perusahaan, No_Faktur, User_Id, Tanggal, Jam, Keterangan) values("
+										SQL = SQL & "'" & KodePerusahaan & "', '" & xno_fakturpengajuan & "', '" & UserID & "', "
+										SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', 'PRA RELEASE') "
+										ExecuteTrans(SQL)
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner, "
+										SQL = SQL & "Kode_Barang,Nama_Barang,Jumlah,Satuan,Tanggal_Delivery,keterangan, Id_Cost_Center, ID_Gedung, "
+										SQL = SQL & "Flag_Stock, Jmlh_PR, Link, Id_Sub_Kategori_Jenis, Estimasi_Harga,Flag_Harga_Pembelian_Akhir,estimasi_hari, Jmlh_Tambah_Budget) "
+										SQL = SQL & "select Kode_Perusahaan, '" & xno_fakturpengajuan & "' , Kode_Stock_Owner, Kode_Barang , Nama_Barang, '" & xjumlah & "', "
+										SQL = SQL & "Satuan, Tanggal_Delivery, Keterangan, Id_Cost_Center, ID_Gedung, Flag_Stock, '0', Link, "
+										SQL = SQL & "Id_Sub_Kategori_Jenis, Estimasi_Harga, Flag_Harga_Pembelian_Akhir, Estimasi_Hari, '" & xjumlah & "' "
+										SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Urut = '" & xurut_departement & "' "
+										ExecuteTrans(SQL)
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail_Log(Kode_Perusahaan, No_Faktur, "
+										SQL = SQL & "Kode_Stock_Owner, Kode_Barang, Nama_Barang, Jumlah, Satuan, Tanggal_Delivery, keterangan, Link, "
+										SQL = SQL & "No_Urut, Id_Sub_Kategori_Jenis, Estimasi_Harga, "
+										SQL = SQL & "UserID_Ubah, Tanggal_Ubah, Jam_Ubah,Flag_Harga_Pembelian_Akhir, estimasi_hari, ETA, Jmlh_Tambah_Budget) "
+										SQL = SQL & "select Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama_Barang, Jumlah,Satuan, "
+										SQL = SQL & "Tanggal_Delivery, keterangan, Link, No_Urut, Id_Sub_Kategori_Jenis, Estimasi_Harga, "
+										SQL = SQL & "'" & UserID & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "',Flag_Harga_Pembelian_Akhir, estimasi_hari, ETA, Jmlh_Tambah_Budget "
+										SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail where "
+										SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & xno_fakturpengajuan & "' "
+										ExecuteTrans(SQL)
+
+										SQL = "Delete from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail "
+										SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Urut = '" & xurut_departement & "' "
+										ExecuteTrans(SQL)
+									Else
+										SQL = "Update N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail set Jmlh_Tambah_Budget = '0', Jumlah = '" & xsisabudget & "'  "
+										SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Urut = '" & xurut_departement & "' "
+										ExecuteTrans(SQL)
+
+										Dim xno_fakturpengajuan As String = ""
+										xno_fakturpengajuan = fPurchaseRequisitionDP & Format(tgl_skg, "MMyy") & "-" &
+																General_Class.Get_Last_Number2("N_EMI_Purchase_Requisition_Barang_Lain_Departement", "no_Faktur", 5,
+																 "Kode_perusahaan", KodePerusahaan,
+																 "And", "substring(no_Faktur, 1, " & Len(fPurchaseRequisitionDP) + 4 & ")", fPurchaseRequisitionDP & Format(tgl_skg, "MMyy"))
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement(Kode_Perusahaan,No_Faktur,Lokasi,Tanggal,Jam,UserId, "
+										SQL = SQL & "Keterangan, Kode_Kategori_Gudang, Flag_Tambah_Pengajuan_Budget,flag_pra_release,Tanggal_Pra_Release, "
+										SQL = SQL & "Jam_Pra_Release, User_Pra_Release) "
+										SQL = SQL & "select Kode_Perusahaan,'" & xno_fakturpengajuan & "', Lokasi, "
+										SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
+										SQL = SQL & "'" & UserID & "', Keterangan, Kode_Kategori_Gudang,'Y','Y', "
+										SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "','" & Format(tgl_skg, "HH:mm:ss") & "','" & UserID & "' "
+										SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement "
+										SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Faktur = '" & xno_faktur & "' "
+										ExecuteTrans(SQL)
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Log(Kode_Perusahaan, No_Faktur, Lokasi, Status, Tanggal, Jam, UserId, Keterangan) "
+										SQL = SQL & "select Kode_Perusahaan,No_Faktur,Lokasi,Status,'" & Format(tgl_skg, "yyyy-MM-dd") & "',Jam,'" & UserID & "',Keterangan from N_EMI_Purchase_Requisition_Barang_Lain_Departement "
+										SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & xno_fakturpengajuan & "' "
+										ExecuteTrans(SQL)
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Log_Release("
+										SQL = SQL & "Kode_Perusahaan, No_Faktur, User_Id, Tanggal, Jam, Keterangan) values("
+										SQL = SQL & "'" & KodePerusahaan & "', '" & xno_fakturpengajuan & "', '" & UserID & "', "
+										SQL = SQL & "'" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', 'PRA RELEASE') "
+										ExecuteTrans(SQL)
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail(Kode_Perusahaan,No_Faktur,Kode_Stock_Owner, "
+										SQL = SQL & "Kode_Barang,Nama_Barang,Jumlah,Satuan,Tanggal_Delivery,keterangan, Id_Cost_Center, ID_Gedung, "
+										SQL = SQL & "Flag_Stock, Jmlh_PR, Link, Id_Sub_Kategori_Jenis, Estimasi_Harga,Flag_Harga_Pembelian_Akhir,estimasi_hari, Jmlh_Tambah_Budget) "
+										SQL = SQL & "select Kode_Perusahaan, '" & xno_fakturpengajuan & "' , Kode_Stock_Owner, Kode_Barang , Nama_Barang, '" & xselishbudget & "', "
+										SQL = SQL & "Satuan, Tanggal_Delivery, Keterangan, Id_Cost_Center, ID_Gedung, Flag_Stock, '0', Link, "
+										SQL = SQL & "Id_Sub_Kategori_Jenis, Estimasi_Harga, Flag_Harga_Pembelian_Akhir, Estimasi_Hari, '" & xselishbudget & "' "
+										SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail where Kode_Perusahaan = '" & KodePerusahaan & "' and No_Urut = '" & xurut_departement & "' "
+										ExecuteTrans(SQL)
+
+										SQL = "insert into N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail_Log(Kode_Perusahaan, No_Faktur, "
+										SQL = SQL & "Kode_Stock_Owner, Kode_Barang, Nama_Barang, Jumlah, Satuan, Tanggal_Delivery, keterangan, Link, "
+										SQL = SQL & "No_Urut, Id_Sub_Kategori_Jenis, Estimasi_Harga, "
+										SQL = SQL & "UserID_Ubah, Tanggal_Ubah, Jam_Ubah,Flag_Harga_Pembelian_Akhir, estimasi_hari, ETA, Jmlh_Tambah_Budget) "
+										SQL = SQL & "select Kode_Perusahaan, No_Faktur, Kode_Stock_Owner, Kode_Barang, Nama_Barang, Jumlah,Satuan, "
+										SQL = SQL & "Tanggal_Delivery, keterangan, Link, No_Urut, Id_Sub_Kategori_Jenis, Estimasi_Harga, "
+										SQL = SQL & "'" & UserID & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "',Flag_Harga_Pembelian_Akhir, estimasi_hari, ETA, Jmlh_Tambah_Budget "
+										SQL = SQL & "from N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail where "
+										SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & xno_fakturpengajuan & "' "
+										ExecuteTrans(SQL)
+									End If
+
+								End If
+							End If
+						End If
+
+#End Region
+
 						'BtnCari_Click(Button1, e)
 					End If
 
@@ -2382,6 +2780,7 @@
 
 	Private Sub ComboBox3_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox3.KeyPress
 		If e.KeyChar = Chr(13) Then ComboBox9.Focus()
+		ComboBox9.DroppedDown = True
 	End Sub
 
 	Private Sub TextBox9_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
@@ -2389,7 +2788,48 @@
 	End Sub
 
 	Private Sub ComboBox4_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox4.KeyPress
-		If e.KeyChar = Chr(13) Then CmbKatJenis.Focus()
+		If e.KeyChar = Chr(13) Then
+			Try
+				OpenConn()
+				SQL = "select Flag_Asset, Flag_Sparepart, Flag_Peralatan "
+				SQL &= "from EMI_Group_Jenis_Lain "
+				SQL &= "where Kode_Perusahaan = '" & KodePerusahaan & "' "
+				SQL &= "and Id_Group_Jenis = '" & arrJenisBarang(cmbJenis.SelectedIndex) & "' "
+				Using Dr = OpenTrans(SQL)
+					If Dr.Read Then
+
+						If Dr("Flag_Asset") = "Y" Then
+							Cmb_Kategori.Enabled = True
+							Cmb_Kelompok.Enabled = True
+							Cmb_Kd_Aktiva.Enabled = True
+
+							Cmb_Kd_Aktiva.Focus()
+							BeginInvoke(Sub()
+											Cmb_Kd_Aktiva.DroppedDown = True
+										End Sub)
+						Else
+							Cmb_Kategori.Enabled = False
+							Cmb_Kelompok.Enabled = False
+							Cmb_Kd_Aktiva.Enabled = False
+
+							TxtEstimasiPengiriman.Focus()
+						End If
+					Else
+						MessageBox.Show("Jenis Tidak Ditemukan", Judul,
+								MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+						Exit Sub
+					End If
+
+				End Using
+
+				CloseConn()
+			Catch ex As Exception
+				CloseConn()
+				MessageBox.Show(ex.Message)
+			End Try
+
+			e.Handled = True
+		End If
 	End Sub
 
 	Private Sub ComboBox5_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox5.KeyPress
@@ -2398,6 +2838,7 @@
 
 	Private Sub ComboBox6_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox6.KeyPress
 		If e.KeyChar = Chr(13) Then ComboBox16.Focus()
+		ComboBox16.DroppedDown = True
 	End Sub
 
 	Private Sub TextBox10_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TextBox10.KeyDown
@@ -2551,8 +2992,9 @@
 		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
 	End Sub
 
-	Private Sub ComboBox9_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox9.KeyPress, Cmb_FlagGrouping.KeyPress, Cmb_Kategori.KeyPress, Cmb_Kd_Aktiva.KeyPress, Cmb_Kelompok.KeyPress
-		If e.KeyChar = Chr(13) Then TxtEstimasiPengiriman.Focus()
+	Private Sub ComboBox9_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox9.KeyPress
+		If e.KeyChar = Chr(13) Then CmbJnsGudang.Focus()
+		CmbJnsGudang.DroppedDown = True
 	End Sub
 
 	Private Sub ComboBox10_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox10.KeyPress
@@ -2565,7 +3007,7 @@
 
 	Private Sub TextBox12_KeyPress1(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox12.KeyPress
 		If e.KeyChar = Chr(13) Then TextBox15.Focus()
-		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar <= Chr(Asc("."))) Then e.KeyChar = Chr(0)
+		If Not (Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) Or e.KeyChar = "."c) Then e.KeyChar = Chr(0)
 	End Sub
 
 	'Private Sub TextBox15_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox15.KeyPress
@@ -2575,17 +3017,23 @@
 
 	Private Sub TextBox16_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox16.KeyPress
 		If e.KeyChar = Chr(13) Then TextBox17.Focus()
-		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
+		If Not (Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) Or e.KeyChar = "."c) Then e.KeyChar = Chr(0)
 	End Sub
 
 	Private Sub TextBox17_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox17.KeyPress
 		If e.KeyChar = Chr(13) Then TextBox18.Focus()
-		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
+		If Not (Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) Or e.KeyChar = "."c) Then e.KeyChar = Chr(0)
 	End Sub
 
 	Private Sub TextBox18_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox18.KeyPress
-		If e.KeyChar = Chr(13) Then ComboBox6.Focus()
-		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
+		If e.KeyChar = Chr(13) Then
+			e.Handled = True
+			ComboBox6.Focus()
+			ComboBox6.DroppedDown = True
+		End If
+		If Not (Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) Or e.KeyChar = "."c) Then
+			e.KeyChar = Chr(0)
+		End If
 	End Sub
 
 	Private Sub ComboBox12_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox12.KeyPress
@@ -2625,18 +3073,26 @@
 	End Sub
 
 	Private Sub cmbSatuan_KeyPress(sender As Object, e As KeyPressEventArgs) Handles cmbSatuan.KeyPress
-		If e.KeyChar = Chr(13) Then Txtket.Focus()
+		If e.KeyChar = Chr(13) Then Cmb_FlagGrouping.Focus()
+		Cmb_FlagGrouping.DroppedDown = True
 	End Sub
 
 	Private Sub TextBox7_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox7.KeyPress
-		If e.KeyChar = Chr(13) Then CmbJnsGudang.Focus()
-		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
+		If e.KeyChar = Chr(13) Then
+			e.Handled = True
+			ComboBox3.Focus()
+			ComboBox3.DroppedDown = True
+		End If
+		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(13)) Then
+			e.KeyChar = Chr(0)
+		End If
 	End Sub
 
 	Private Sub cmbJenis_KeyPress(sender As Object, e As KeyPressEventArgs) Handles cmbJenis.KeyPress
 
 		If e.KeyChar = Chr(13) Then
 			CmbKatJenis.Focus()
+			CmbKatJenis.DroppedDown = True
 			'If ComboBox11.Enabled = True Then
 			'    ComboBox11.Focus()
 			'Else
@@ -2648,7 +3104,7 @@
 
 	Private Sub TextBox15_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox15.KeyPress
 		If e.KeyChar = Chr(13) Then TextBox16.Focus()
-		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
+		If Not (Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8) Or e.KeyChar = "."c) Then e.KeyChar = Chr(0)
 	End Sub
 
 	Private Sub ComboBox13_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ComboBox13.KeyPress
@@ -2657,6 +3113,7 @@
 
 	Private Sub CmbJnsGudang_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbJnsGudang.KeyPress
 		If e.KeyChar = Chr(13) Then ComboBox4.Focus()
+		ComboBox4.DroppedDown = True
 		' If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
 
 	End Sub
@@ -2724,6 +3181,7 @@
 						DgvSatuanTerpilih.Rows(0).Cells(0).Value = Dr("satuan_akhir")
 						DgvSatuanTerpilih.Rows(0).Cells(1).Value = Dr("nilai_pengali")
 						DgvSatuanTerpilih.Rows(0).Cells(3).Value = Dr("flag_general")
+						DgvSatuanTerpilih.Rows(0).Cells(2).Value = True
 
 						DgvSatuanTerpilih.Rows(0).Cells(1).ReadOnly = True
 						DgvSatuanTerpilih.Rows(0).Cells(1).Style.BackColor = Color.Yellow
@@ -2867,6 +3325,7 @@
 
 	Private Sub ComboBox21_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbKatJenisSub.KeyPress
 		If e.KeyChar = Chr(13) Then CmbKatJenisSub1.Focus()
+		CmbKatJenisSub1.DroppedDown = True
 	End Sub
 
 	Private Sub Cmb_FlagPotongStok_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_FlagPotongStok.SelectedIndexChanged
@@ -2957,10 +3416,10 @@
 			xNoFakturPengajuanBrgBru = DataGridView1.CurrentRow.Cells(0).Value
 		End If
 
-		'N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.xurut_departement = xurut_departement
-		'N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.xFrom = xFrom
-		'N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.xNoFakturPengajuanBarang = xNoFakturPengajuanBrgBru
-		'N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.ShowDialog()
+		N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.xurut_departement = xurut_departement
+		N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.xFrom = xFrom
+		N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.xNoFakturPengajuanBarang = xNoFakturPengajuanBrgBru
+		N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru.ShowDialog()
 	End Sub
 
 	Public Sub CmbKatJenisSub3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbKatJenisSub3.SelectedIndexChanged
@@ -3152,13 +3611,15 @@
 
 	Private Sub CmbKatJenisSub3_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbKatJenisSub3.KeyPress
 		If e.KeyChar = Chr(13) Then
-			ComboBox2.Focus()
+			cmbSatuan.Focus()
+			cmbSatuan.DroppedDown = True
 		End If
 	End Sub
 
 	Private Sub CmbKatJenisSub1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbKatJenisSub1.KeyPress
 		If e.KeyChar = Chr(13) Then
 			CmbKatJenisSub2.Focus()
+			CmbKatJenisSub2.DroppedDown = True
 		End If
 	End Sub
 
@@ -3171,9 +3632,18 @@
 		If Not (e.KeyChar >= Chr(Asc("0")) And e.KeyChar <= Chr(Asc("9")) Or e.KeyChar = Chr(8)) Then e.KeyChar = Chr(0)
 	End Sub
 
+	Private Sub Cmb_FlagGrouping_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_FlagGrouping.KeyPress
+		If e.KeyChar = Chr(13) Then Txtket.Focus()
+	End Sub
+
+	Private Sub Cmb_Kd_Aktiva_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_Kd_Aktiva.KeyPress
+		If e.KeyChar = Chr(13) Then TxtEstimasiPengiriman.Focus()
+	End Sub
+
 	Private Sub CmbKatJenisSub2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbKatJenisSub2.KeyPress
 		If e.KeyChar = Chr(13) Then
 			CmbKatJenisSub3.Focus()
+			CmbKatJenisSub3.DroppedDown = True
 		End If
 	End Sub
 
@@ -3460,6 +3930,7 @@
 
 	Private Sub ComboBox20_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbKatJenis.KeyPress
 		If e.KeyChar = Chr(13) Then CmbKatJenisSub.Focus()
+		CmbKatJenisSub.DroppedDown = True
 	End Sub
 
 	Private Sub ComboBox21_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbKatJenisSub.SelectedIndexChanged
