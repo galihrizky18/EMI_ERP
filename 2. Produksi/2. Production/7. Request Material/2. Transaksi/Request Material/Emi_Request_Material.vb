@@ -6,6 +6,7 @@
 
     Public No_faktur As String = ""
 
+    Dim Flag_Opname As Boolean
     Dim Dgv_NoFak, Dgv_KdSo, Dgv_KdBarang, Dgv_JmlhKebutuhan, Dgv_JmlhDiProduksi, Dgv_Sisa, Dgv_SatuanBesar, Dgv_JmlhInput, Dgv_SatuanKecil, Dgv_Tipe, Dgv_Warna, Dgv_JenisBahan, Dgv_StockProduksi, Dgv_TotalTF, Dgv_Lokasi_Tujuan, Dgv_Nama_Barang As String
 
     Dim cell_NoFak As Integer = 0
@@ -407,6 +408,24 @@
                 End With
             End Using
 
+            SQL = "select Flag_Opname from init where Kode_Perusahaan = '" & KodePerusahaan & "' "
+            Using Dr = OpenTrans(SQL)
+                If Dr.Read Then
+                    If General_Class.CekNULL(Dr("Flag_Opname")) = "Y" Then
+                        Flag_Opname = True
+                    Else
+                        Flag_Opname = False
+                    End If
+                End If
+            End Using
+
+            If Flag_Opname Then
+                Dgv_Data.Columns(cell_StockProduksi).Visible = False
+
+            Else
+                Dgv_Data.Columns(cell_StockProduksi).Visible = True
+
+            End If
             Get_Total_Request()
 
             CloseConn()
@@ -415,6 +434,7 @@
             MessageBox.Show(ex.Message)
             Exit Sub
         End Try
+
     End Sub
 
     Private Sub Btn_Refresh_Click(sender As Object, e As EventArgs) Handles Btn_Refresh.Click
@@ -592,9 +612,6 @@
             For i As Integer = 0 To Dgv_Data.RowCount - 1
 
                 Get_DGV_Items(i)
-                If String.IsNullOrWhiteSpace(Dgv_JmlhInput) OrElse Val(HilangkanTanda(Dgv_JmlhInput)) = 0 Or Dgv_JmlhInput Is Nothing Then
-                    Continue For
-                End If
 
                 '================================
                 '=     CONVERT SATUAN KECIL     =

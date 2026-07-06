@@ -37,6 +37,10 @@ Partial Class N_EMI_Transaksi_Pengajuan_Barang_Baru
         Me.Cmb_Group_Jenis = New System.Windows.Forms.ComboBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Cmb_Flag_Preservative = New System.Windows.Forms.ComboBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Cmb_Klasifikasi_Bahan_3 = New System.Windows.Forms.ComboBox()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.Cmb_Klasifikasi_Bahan_2 = New System.Windows.Forms.ComboBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Cmb_Klasifikasi_Bahan = New System.Windows.Forms.ComboBox()
@@ -91,9 +95,9 @@ Partial Class N_EMI_Transaksi_Pengajuan_Barang_Baru
         Me.Label1.Location = New System.Drawing.Point(20, 8)
         Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(387, 25)
+        Me.Label1.Size = New System.Drawing.Size(262, 25)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Transaksi - Pengajuan Barang Baru"
+        Me.Label1.Text = "Pengajuan Barang Baru"
         '
         'Panel3
         '
@@ -132,7 +136,7 @@ Partial Class N_EMI_Transaksi_Pengajuan_Barang_Baru
         Me.Btn_Simpan.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_Simpan.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Simpan.ForeColor = System.Drawing.Color.White
-        Me.Btn_Simpan.Location = New System.Drawing.Point(159, 248)
+        Me.Btn_Simpan.Location = New System.Drawing.Point(159, 310)
         Me.Btn_Simpan.Margin = New System.Windows.Forms.Padding(2)
         Me.Btn_Simpan.Name = "Btn_Simpan"
         Me.Btn_Simpan.Size = New System.Drawing.Size(138, 31)
@@ -144,7 +148,7 @@ Partial Class N_EMI_Transaksi_Pengajuan_Barang_Baru
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        Me.Label2.Location = New System.Drawing.Point(12, 108)
+        Me.Label2.Location = New System.Drawing.Point(12, 138)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(81, 17)
         Me.Label2.TabIndex = 488
@@ -156,7 +160,7 @@ Partial Class N_EMI_Transaksi_Pengajuan_Barang_Baru
         Me.Txt_Kd_Barang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_Kd_Barang.Enabled = False
         Me.Txt_Kd_Barang.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        Me.Txt_Kd_Barang.Location = New System.Drawing.Point(138, 106)
+        Me.Txt_Kd_Barang.Location = New System.Drawing.Point(138, 136)
         Me.Txt_Kd_Barang.MaxLength = 40
         Me.Txt_Kd_Barang.Name = "Txt_Kd_Barang"
         Me.Txt_Kd_Barang.Size = New System.Drawing.Size(272, 22)
@@ -213,6 +217,10 @@ Partial Class N_EMI_Transaksi_Pengajuan_Barang_Baru
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Cmb_Flag_Preservative)
+        Me.GroupBox1.Controls.Add(Me.Label10)
+        Me.GroupBox1.Controls.Add(Me.Cmb_Klasifikasi_Bahan_3)
+        Me.GroupBox1.Controls.Add(Me.Label9)
         Me.GroupBox1.Controls.Add(Me.Cmb_Klasifikasi_Bahan_2)
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Cmb_Klasifikasi_Bahan)
@@ -225,9 +233,49 @@ Partial Class N_EMI_Transaksi_Pengajuan_Barang_Baru
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Location = New System.Drawing.Point(21, 72)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(526, 171)
+        Me.GroupBox1.Size = New System.Drawing.Size(526, 233)
         Me.GroupBox1.TabIndex = 494
         Me.GroupBox1.TabStop = False
+        '
+        'Cmb_Flag_Preservative
+        '
+        Me.Cmb_Flag_Preservative.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Flag_Preservative.Enabled = False
+        Me.Cmb_Flag_Preservative.FormattingEnabled = True
+        Me.Cmb_Flag_Preservative.Location = New System.Drawing.Point(138, 192)
+        Me.Cmb_Flag_Preservative.Name = "Cmb_Flag_Preservative"
+        Me.Cmb_Flag_Preservative.Size = New System.Drawing.Size(74, 24)
+        Me.Cmb_Flag_Preservative.TabIndex = 495
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label10.Location = New System.Drawing.Point(12, 194)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(107, 17)
+        Me.Label10.TabIndex = 494
+        Me.Label10.Text = "Flag Preservative"
+        '
+        'Cmb_Klasifikasi_Bahan_3
+        '
+        Me.Cmb_Klasifikasi_Bahan_3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Cmb_Klasifikasi_Bahan_3.Enabled = False
+        Me.Cmb_Klasifikasi_Bahan_3.FormattingEnabled = True
+        Me.Cmb_Klasifikasi_Bahan_3.Location = New System.Drawing.Point(138, 106)
+        Me.Cmb_Klasifikasi_Bahan_3.Name = "Cmb_Klasifikasi_Bahan_3"
+        Me.Cmb_Klasifikasi_Bahan_3.Size = New System.Drawing.Size(272, 24)
+        Me.Cmb_Klasifikasi_Bahan_3.TabIndex = 495
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Work Sans", 9.0!)
+        Me.Label9.Location = New System.Drawing.Point(12, 108)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(118, 17)
+        Me.Label9.TabIndex = 494
+        Me.Label9.Text = "Klasifikasi Bahan 3"
         '
         'Cmb_Klasifikasi_Bahan_2
         '
@@ -273,7 +321,7 @@ Partial Class N_EMI_Transaksi_Pengajuan_Barang_Baru
         '
         Me.Txt_Nm_Barang.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_Nm_Barang.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        Me.Txt_Nm_Barang.Location = New System.Drawing.Point(138, 134)
+        Me.Txt_Nm_Barang.Location = New System.Drawing.Point(138, 164)
         Me.Txt_Nm_Barang.MaxLength = 100
         Me.Txt_Nm_Barang.Name = "Txt_Nm_Barang"
         Me.Txt_Nm_Barang.Size = New System.Drawing.Size(376, 22)
@@ -283,7 +331,7 @@ Partial Class N_EMI_Transaksi_Pengajuan_Barang_Baru
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Work Sans", 9.0!)
-        Me.Label6.Location = New System.Drawing.Point(12, 134)
+        Me.Label6.Location = New System.Drawing.Point(12, 164)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(86, 17)
         Me.Label6.TabIndex = 488
@@ -295,7 +343,7 @@ Partial Class N_EMI_Transaksi_Pengajuan_Barang_Baru
         Me.Btn_Refresh.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_Refresh.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Refresh.ForeColor = System.Drawing.Color.White
-        Me.Btn_Refresh.Location = New System.Drawing.Point(301, 248)
+        Me.Btn_Refresh.Location = New System.Drawing.Point(301, 310)
         Me.Btn_Refresh.Margin = New System.Windows.Forms.Padding(2)
         Me.Btn_Refresh.Name = "Btn_Refresh"
         Me.Btn_Refresh.Size = New System.Drawing.Size(130, 31)
@@ -322,9 +370,9 @@ Partial Class N_EMI_Transaksi_Pengajuan_Barang_Baru
         Me.GroupBox2.Controls.Add(Me.Label7)
         Me.GroupBox2.Controls.Add(Me.Panel13)
         Me.GroupBox2.Controls.Add(Me.Label15)
-        Me.GroupBox2.Location = New System.Drawing.Point(21, 284)
+        Me.GroupBox2.Location = New System.Drawing.Point(21, 346)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(842, 311)
+        Me.GroupBox2.Size = New System.Drawing.Size(842, 249)
         Me.GroupBox2.TabIndex = 495
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Display"
@@ -337,7 +385,7 @@ Partial Class N_EMI_Transaksi_Pengajuan_Barang_Baru
         Me.Lv_Data.HideSelection = False
         Me.Lv_Data.Location = New System.Drawing.Point(3, 33)
         Me.Lv_Data.Name = "Lv_Data"
-        Me.Lv_Data.Size = New System.Drawing.Size(836, 275)
+        Me.Lv_Data.Size = New System.Drawing.Size(836, 213)
         Me.Lv_Data.TabIndex = 0
         Me.Lv_Data.UseCompatibleStateImageBehavior = False
         Me.Lv_Data.View = System.Windows.Forms.View.Details
@@ -464,4 +512,8 @@ Partial Class N_EMI_Transaksi_Pengajuan_Barang_Baru
     Friend WithEvents Label7 As Label
     Friend WithEvents Panel9 As Panel
     Friend WithEvents Label8 As Label
+    Friend WithEvents Cmb_Klasifikasi_Bahan_3 As ComboBox
+    Friend WithEvents Label9 As Label
+	Friend WithEvents Cmb_Flag_Preservative As ComboBox
+	Friend WithEvents Label10 As Label
 End Class

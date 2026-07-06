@@ -97,9 +97,9 @@ Partial Class N_EMI_SD_List_Keep_Stock_Barang_Lain
         Me.Lbl_Title.Location = New System.Drawing.Point(5, 9)
         Me.Lbl_Title.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Lbl_Title.Name = "Lbl_Title"
-        Me.Lbl_Title.Size = New System.Drawing.Size(366, 25)
+        Me.Lbl_Title.Size = New System.Drawing.Size(379, 25)
         Me.Lbl_Title.TabIndex = 0
-        Me.Lbl_Title.Text = "Display - Keep Stock Barang Lain"
+        Me.Lbl_Title.Text = "Display - List Transfer Barang Lain"
         '
         'Panel2
         '
@@ -420,7 +420,7 @@ Partial Class N_EMI_SD_List_Keep_Stock_Barang_Lain
         Me.Lv_PRDEPT.FullRowSelect = True
         Me.Lv_PRDEPT.GridLines = True
         Me.Lv_PRDEPT.HideSelection = False
-        Me.Lv_PRDEPT.Location = New System.Drawing.Point(2, 27)
+        Me.Lv_PRDEPT.Location = New System.Drawing.Point(6, 27)
         Me.Lv_PRDEPT.MultiSelect = False
         Me.Lv_PRDEPT.Name = "Lv_PRDEPT"
         Me.Lv_PRDEPT.Size = New System.Drawing.Size(1076, 470)
