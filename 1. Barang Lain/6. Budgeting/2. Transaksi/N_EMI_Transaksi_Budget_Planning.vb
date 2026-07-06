@@ -1069,8 +1069,6 @@
 		Dim ListDataPRM As New Dictionary(Of (Kode_Binding As String, Tahun As Integer, Bulan As Integer, IDLayer1 As Integer, IDLayer3 As Integer), Double)
 		Dim ListDataTF As New Dictionary(Of (Kode_Binding As String, Tahun As Integer, Bulan As Integer, IDLayer1 As Integer, IDLayer3 As Integer), (JumlahTF As Double, NominalTF As Double))
 
-		Dim
-
 		Try
 			OpenConn()
 			Cmd.Transaction = Cn.BeginTransaction
