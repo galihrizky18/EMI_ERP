@@ -1022,14 +1022,19 @@
                 End Using
 
                 SQL = "insert into detail_r_do_sementara(Kode_Perusahaan, No_Retur_jual_sementara, Kode_Stock_Owner, urut_do, Kode_Barang, "
-                SQL = SQL & "Good_Stock, Bad_Stock, urut_detail_penjualan, Nharga, npersen_diskon, nsubtotal, Metode_Perhitungan) values "
+                SQL = SQL & "Good_Stock, Bad_Stock, urut_detail_penjualan, Nharga, npersen_diskon, nsubtotal, Metode_Perhitungan, "
+                SQL = SQL & "Good_Stock_Marketing, nHarga_Marketing, nPersen_Diskon_Marketing, nSubtotal_Marketing "
+                SQL = SQL & ") values "
                 SQL = SQL & "('" & KodePerusahaan & "', '" & Trim(TextBox4.Text) & "', '" & ListView2.Items(i).Text & "', '" & ListView2.Items(i).SubItems(5).Text & "', "
                 SQL = SQL & "'" & ListView2.Items(i).SubItems(1).Text & "', "
                 SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(3).Text) & ", 0, "
                 SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(4).Text) & ", "
                 SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(6).Text) & ", "
                 SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(7).Text) & ", "
-                SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(8).Text) & ", '" & ListView2.Items(i).SubItems(9).Text & "')"
+                SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(8).Text) & ", '" & ListView2.Items(i).SubItems(9).Text & "', "
+
+                SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(3).Text) & ", " & HilangkanTanda(ListView2.Items(i).SubItems(6).Text) & ", "
+                SQL = SQL & "" & HilangkanTanda(ListView2.Items(i).SubItems(7).Text) & ", " & HilangkanTanda(ListView2.Items(i).SubItems(8).Text) & ") "
                 ExecuteTrans(SQL)
 
                 Dim x_no_urut_det_do As Integer = 0

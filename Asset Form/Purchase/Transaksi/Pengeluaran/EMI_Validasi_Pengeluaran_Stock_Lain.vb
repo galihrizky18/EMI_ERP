@@ -562,6 +562,7 @@ Public Class EMI_Validasi_Pengeluaran_Stock_Lain
         kosong()
     End Sub
 
+
     Private Function CekNothing(ByVal str As String) As String
         Dim hasil As String = ""
 

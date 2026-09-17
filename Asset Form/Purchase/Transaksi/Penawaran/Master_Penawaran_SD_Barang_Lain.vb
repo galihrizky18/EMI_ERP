@@ -1,8 +1,4 @@
-﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-
-Public Class Master_Penawaran_SD_Barang_Lain
+﻿Public Class Master_Penawaran_SD_Barang_Lain
     Public filter_tambahan, filter_kdSupplier As String
     Public asal As String
     Dim arrcari As New ArrayList
@@ -302,6 +298,8 @@ Public Class Master_Penawaran_SD_Barang_Lain
             Transaksi_Penawaran_Barang_Lain.DgvMaster_Penawaran.Rows(rows).Cells(Transaksi_Penawaran_Barang_Lain.cellSisaHari).Value = "-"
             Transaksi_Penawaran_Barang_Lain.DgvMaster_Penawaran.Rows(rows).Cells(Transaksi_Penawaran_Barang_Lain.cellPPN).Value = Txt_PPN.Text
 
+            Transaksi_Penawaran_Barang_Lain.DgvMaster_Penawaran.Rows(rows).Cells(Transaksi_Penawaran_Barang_Lain.cellMUA).Value = "RP"
+
             Try
                 OpenConn()
 
@@ -323,6 +321,7 @@ Public Class Master_Penawaran_SD_Barang_Lain
             Transaksi_Penawaran_Barang_Lain.DgvMaster_Penawaran.Rows(rows).Cells(Transaksi_Penawaran_Barang_Lain.cellKdBrg).ReadOnly = True
             Transaksi_Penawaran_Barang_Lain.DgvMaster_Penawaran.Rows(rows).Cells(Transaksi_Penawaran_Barang_Lain.cellNmBrg).ReadOnly = True
             Transaksi_Penawaran_Barang_Lain.DgvMaster_Penawaran.Rows(rows).Cells(Transaksi_Penawaran_Barang_Lain.cellSatuan).ReadOnly = True
+            Transaksi_Penawaran_Barang_Lain.DgvMaster_Penawaran.Rows(rows).Cells(Transaksi_Penawaran_Barang_Lain.cellMUA).ReadOnly = True
 
 
             Transaksi_Penawaran_Barang_Lain.DgvMaster_Penawaran.Rows(rows).Cells(Transaksi_Penawaran_Barang_Lain.cellMinOrder).Value = 0

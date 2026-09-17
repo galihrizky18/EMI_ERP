@@ -27,6 +27,14 @@ Partial Class Purchase_Requisition_Barang_Lain
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle21 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle22 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -67,6 +75,35 @@ Partial Class Purchase_Requisition_Barang_Lain
         Me.BtnFormulator_Refresh = New System.Windows.Forms.Button()
         Me.BtnPR_Simpan = New System.Windows.Forms.Button()
         Me.Dgv_DataBarang = New System.Windows.Forms.DataGridView()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.BtnPR_Release = New System.Windows.Forms.Button()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Txt_Faktur_MaterialReq = New System.Windows.Forms.TextBox()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Cmb_Kategori_Gudang = New System.Windows.Forms.ComboBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Panel6 = New System.Windows.Forms.Panel()
+        Me.Btn_Unrelease = New System.Windows.Forms.Button()
+        Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn9 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn11 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn12 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn13 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn14 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn15 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn16 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn17 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn18 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn19 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn20 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -87,18 +124,6 @@ Partial Class Purchase_Requisition_Barang_Lain
         Me.Column10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column12 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column13 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.BtnPR_Release = New System.Windows.Forms.Button()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Txt_Faktur_MaterialReq = New System.Windows.Forms.TextBox()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.Cmb_Kategori_Gudang = New System.Windows.Forms.ComboBox()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Panel6 = New System.Windows.Forms.Panel()
-        Me.Btn_Unrelease = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         CType(Me.Dgv_DataBarang, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -459,178 +484,6 @@ Partial Class Purchase_Requisition_Barang_Lain
         Me.Dgv_DataBarang.Size = New System.Drawing.Size(923, 387)
         Me.Dgv_DataBarang.TabIndex = 393
         '
-        'Column1
-        '
-        Me.Column1.HeaderText = "Lokasi"
-        Me.Column1.MinimumWidth = 6
-        Me.Column1.Name = "Column1"
-        Me.Column1.ReadOnly = True
-        Me.Column1.Visible = False
-        Me.Column1.Width = 125
-        '
-        'DataGridViewTextBoxColumn1
-        '
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle3
-        Me.DataGridViewTextBoxColumn1.HeaderText = "Kode Barang"
-        Me.DataGridViewTextBoxColumn1.MinimumWidth = 6
-        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
-        Me.DataGridViewTextBoxColumn1.ReadOnly = True
-        Me.DataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridViewTextBoxColumn1.Width = 150
-        '
-        'DataGridViewTextBoxColumn2
-        '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle4
-        Me.DataGridViewTextBoxColumn2.HeaderText = "Nama Barang"
-        Me.DataGridViewTextBoxColumn2.MinimumWidth = 6
-        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
-        Me.DataGridViewTextBoxColumn2.ReadOnly = True
-        Me.DataGridViewTextBoxColumn2.Width = 230
-        '
-        'DataGridViewTextBoxColumn3
-        '
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        DataGridViewCellStyle5.NullValue = Nothing
-        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle5
-        Me.DataGridViewTextBoxColumn3.HeaderText = "Qty"
-        Me.DataGridViewTextBoxColumn3.MinimumWidth = 6
-        Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
-        Me.DataGridViewTextBoxColumn3.Width = 120
-        '
-        'Satuan
-        '
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Satuan.DefaultCellStyle = DataGridViewCellStyle6
-        Me.Satuan.HeaderText = "Satuan"
-        Me.Satuan.MinimumWidth = 6
-        Me.Satuan.Name = "Satuan"
-        Me.Satuan.ReadOnly = True
-        Me.Satuan.Width = 125
-        '
-        'TglDelivery
-        '
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.TglDelivery.DefaultCellStyle = DataGridViewCellStyle7
-        Me.TglDelivery.HeaderText = "Tanggal Kebutuhan"
-        Me.TglDelivery.MinimumWidth = 6
-        Me.TglDelivery.Name = "TglDelivery"
-        Me.TglDelivery.ReadOnly = True
-        Me.TglDelivery.Width = 125
-        '
-        'Column2
-        '
-        Me.Column2.HeaderText = "Keterangan"
-        Me.Column2.MinimumWidth = 6
-        Me.Column2.Name = "Column2"
-        Me.Column2.Width = 200
-        '
-        'sisa
-        '
-        Me.sisa.HeaderText = "Sisa"
-        Me.sisa.MinimumWidth = 6
-        Me.sisa.Name = "sisa"
-        Me.sisa.ReadOnly = True
-        Me.sisa.Visible = False
-        Me.sisa.Width = 125
-        '
-        'QtyByForecast
-        '
-        Me.QtyByForecast.HeaderText = "QtyByForecast"
-        Me.QtyByForecast.MinimumWidth = 6
-        Me.QtyByForecast.Name = "QtyByForecast"
-        Me.QtyByForecast.ReadOnly = True
-        Me.QtyByForecast.Visible = False
-        Me.QtyByForecast.Width = 125
-        '
-        'Column11
-        '
-        Me.Column11.HeaderText = "Link"
-        Me.Column11.Name = "Column11"
-        Me.Column11.Width = 200
-        '
-        'Column3
-        '
-        Me.Column3.HeaderText = "ID_CostCenter"
-        Me.Column3.Name = "Column3"
-        Me.Column3.ReadOnly = True
-        Me.Column3.Visible = False
-        '
-        'Column4
-        '
-        Me.Column4.HeaderText = "ID_Gedung"
-        Me.Column4.Name = "Column4"
-        Me.Column4.ReadOnly = True
-        Me.Column4.Visible = False
-        '
-        'Column7
-        '
-        Me.Column7.HeaderText = "IsStock"
-        Me.Column7.Name = "Column7"
-        Me.Column7.ReadOnly = True
-        Me.Column7.Visible = False
-        '
-        'Column5
-        '
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column5.DefaultCellStyle = DataGridViewCellStyle8
-        Me.Column5.HeaderText = "Cost Center"
-        Me.Column5.Name = "Column5"
-        Me.Column5.ReadOnly = True
-        Me.Column5.Width = 150
-        '
-        'Column6
-        '
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column6.DefaultCellStyle = DataGridViewCellStyle9
-        Me.Column6.HeaderText = "Gedung"
-        Me.Column6.Name = "Column6"
-        Me.Column6.ReadOnly = True
-        Me.Column6.Width = 150
-        '
-        'Column8
-        '
-        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column8.DefaultCellStyle = DataGridViewCellStyle10
-        Me.Column8.HeaderText = "Stock"
-        Me.Column8.Name = "Column8"
-        Me.Column8.ReadOnly = True
-        Me.Column8.Visible = False
-        Me.Column8.Width = 120
-        '
-        'Column9
-        '
-        Me.Column9.HeaderText = "Urut_Departement"
-        Me.Column9.Name = "Column9"
-        Me.Column9.ReadOnly = True
-        Me.Column9.Visible = False
-        '
-        'Column10
-        '
-        Me.Column10.HeaderText = "Urut"
-        Me.Column10.Name = "Column10"
-        Me.Column10.ReadOnly = True
-        Me.Column10.Visible = False
-        '
-        'Column12
-        '
-        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Column12.DefaultCellStyle = DataGridViewCellStyle11
-        Me.Column12.HeaderText = "Est. Harga"
-        Me.Column12.Name = "Column12"
-        Me.Column12.Width = 130
-        '
-        'Column13
-        '
-        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.Column13.DefaultCellStyle = DataGridViewCellStyle12
-        Me.Column13.HeaderText = "Est. Tiba (Hari)"
-        Me.Column13.Name = "Column13"
-        Me.Column13.ReadOnly = True
-        Me.Column13.Width = 120
-        '
         'Button2
         '
         Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(15, Byte), Integer), CType(CType(86, Byte), Integer), CType(CType(122, Byte), Integer))
@@ -765,6 +618,324 @@ Partial Class Purchase_Requisition_Barang_Lain
         Me.Btn_Unrelease.UseVisualStyleBackColor = False
         Me.Btn_Unrelease.Visible = False
         '
+        'DataGridViewTextBoxColumn4
+        '
+        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle15.NullValue = Nothing
+        Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle15
+        Me.DataGridViewTextBoxColumn4.HeaderText = "Qty"
+        Me.DataGridViewTextBoxColumn4.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
+        Me.DataGridViewTextBoxColumn4.ReadOnly = True
+        Me.DataGridViewTextBoxColumn4.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewTextBoxColumn4.Visible = False
+        Me.DataGridViewTextBoxColumn4.Width = 120
+        '
+        'DataGridViewTextBoxColumn5
+        '
+        DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn5.DefaultCellStyle = DataGridViewCellStyle16
+        Me.DataGridViewTextBoxColumn5.HeaderText = "Satuan"
+        Me.DataGridViewTextBoxColumn5.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn5.Name = "DataGridViewTextBoxColumn5"
+        Me.DataGridViewTextBoxColumn5.ReadOnly = True
+        Me.DataGridViewTextBoxColumn5.Width = 125
+        '
+        'DataGridViewTextBoxColumn6
+        '
+        DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn6.DefaultCellStyle = DataGridViewCellStyle17
+        Me.DataGridViewTextBoxColumn6.HeaderText = "Tanggal Kebutuhan"
+        Me.DataGridViewTextBoxColumn6.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn6.Name = "DataGridViewTextBoxColumn6"
+        Me.DataGridViewTextBoxColumn6.ReadOnly = True
+        Me.DataGridViewTextBoxColumn6.Width = 125
+        '
+        'DataGridViewTextBoxColumn7
+        '
+        Me.DataGridViewTextBoxColumn7.HeaderText = "Keterangan"
+        Me.DataGridViewTextBoxColumn7.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn7.Name = "DataGridViewTextBoxColumn7"
+        Me.DataGridViewTextBoxColumn7.Width = 200
+        '
+        'DataGridViewTextBoxColumn8
+        '
+        Me.DataGridViewTextBoxColumn8.HeaderText = "Sisa"
+        Me.DataGridViewTextBoxColumn8.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn8.Name = "DataGridViewTextBoxColumn8"
+        Me.DataGridViewTextBoxColumn8.ReadOnly = True
+        Me.DataGridViewTextBoxColumn8.Visible = False
+        Me.DataGridViewTextBoxColumn8.Width = 125
+        '
+        'DataGridViewTextBoxColumn9
+        '
+        Me.DataGridViewTextBoxColumn9.HeaderText = "QtyByForecast"
+        Me.DataGridViewTextBoxColumn9.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn9.Name = "DataGridViewTextBoxColumn9"
+        Me.DataGridViewTextBoxColumn9.ReadOnly = True
+        Me.DataGridViewTextBoxColumn9.Visible = False
+        Me.DataGridViewTextBoxColumn9.Width = 125
+        '
+        'DataGridViewTextBoxColumn10
+        '
+        Me.DataGridViewTextBoxColumn10.HeaderText = "Link"
+        Me.DataGridViewTextBoxColumn10.Name = "DataGridViewTextBoxColumn10"
+        Me.DataGridViewTextBoxColumn10.Width = 200
+        '
+        'DataGridViewTextBoxColumn11
+        '
+        Me.DataGridViewTextBoxColumn11.HeaderText = "ID_CostCenter"
+        Me.DataGridViewTextBoxColumn11.Name = "DataGridViewTextBoxColumn11"
+        Me.DataGridViewTextBoxColumn11.ReadOnly = True
+        Me.DataGridViewTextBoxColumn11.Visible = False
+        '
+        'DataGridViewTextBoxColumn12
+        '
+        Me.DataGridViewTextBoxColumn12.HeaderText = "ID_Gedung"
+        Me.DataGridViewTextBoxColumn12.Name = "DataGridViewTextBoxColumn12"
+        Me.DataGridViewTextBoxColumn12.ReadOnly = True
+        Me.DataGridViewTextBoxColumn12.Visible = False
+        '
+        'DataGridViewTextBoxColumn13
+        '
+        Me.DataGridViewTextBoxColumn13.HeaderText = "IsStock"
+        Me.DataGridViewTextBoxColumn13.Name = "DataGridViewTextBoxColumn13"
+        Me.DataGridViewTextBoxColumn13.ReadOnly = True
+        Me.DataGridViewTextBoxColumn13.Visible = False
+        '
+        'DataGridViewTextBoxColumn14
+        '
+        DataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn14.DefaultCellStyle = DataGridViewCellStyle18
+        Me.DataGridViewTextBoxColumn14.HeaderText = "Cost Center"
+        Me.DataGridViewTextBoxColumn14.Name = "DataGridViewTextBoxColumn14"
+        Me.DataGridViewTextBoxColumn14.ReadOnly = True
+        Me.DataGridViewTextBoxColumn14.Width = 150
+        '
+        'DataGridViewTextBoxColumn15
+        '
+        DataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn15.DefaultCellStyle = DataGridViewCellStyle19
+        Me.DataGridViewTextBoxColumn15.HeaderText = "Gedung"
+        Me.DataGridViewTextBoxColumn15.Name = "DataGridViewTextBoxColumn15"
+        Me.DataGridViewTextBoxColumn15.ReadOnly = True
+        Me.DataGridViewTextBoxColumn15.Width = 150
+        '
+        'DataGridViewTextBoxColumn16
+        '
+        DataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn16.DefaultCellStyle = DataGridViewCellStyle20
+        Me.DataGridViewTextBoxColumn16.HeaderText = "Stock"
+        Me.DataGridViewTextBoxColumn16.Name = "DataGridViewTextBoxColumn16"
+        Me.DataGridViewTextBoxColumn16.ReadOnly = True
+        Me.DataGridViewTextBoxColumn16.Visible = False
+        Me.DataGridViewTextBoxColumn16.Width = 120
+        '
+        'DataGridViewTextBoxColumn17
+        '
+        Me.DataGridViewTextBoxColumn17.HeaderText = "Urut_Departement"
+        Me.DataGridViewTextBoxColumn17.Name = "DataGridViewTextBoxColumn17"
+        Me.DataGridViewTextBoxColumn17.ReadOnly = True
+        Me.DataGridViewTextBoxColumn17.Visible = False
+        '
+        'DataGridViewTextBoxColumn18
+        '
+        Me.DataGridViewTextBoxColumn18.HeaderText = "Urut"
+        Me.DataGridViewTextBoxColumn18.Name = "DataGridViewTextBoxColumn18"
+        Me.DataGridViewTextBoxColumn18.ReadOnly = True
+        Me.DataGridViewTextBoxColumn18.Visible = False
+        '
+        'DataGridViewTextBoxColumn19
+        '
+        DataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.DataGridViewTextBoxColumn19.DefaultCellStyle = DataGridViewCellStyle21
+        Me.DataGridViewTextBoxColumn19.HeaderText = "Est. Harga"
+        Me.DataGridViewTextBoxColumn19.Name = "DataGridViewTextBoxColumn19"
+        Me.DataGridViewTextBoxColumn19.Width = 130
+        '
+        'DataGridViewTextBoxColumn20
+        '
+        DataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn20.DefaultCellStyle = DataGridViewCellStyle22
+        Me.DataGridViewTextBoxColumn20.HeaderText = "Est. Tiba (Hari)"
+        Me.DataGridViewTextBoxColumn20.Name = "DataGridViewTextBoxColumn20"
+        Me.DataGridViewTextBoxColumn20.ReadOnly = True
+        Me.DataGridViewTextBoxColumn20.Width = 120
+        '
+        'Column1
+        '
+        Me.Column1.HeaderText = "Lokasi"
+        Me.Column1.MinimumWidth = 6
+        Me.Column1.Name = "Column1"
+        Me.Column1.ReadOnly = True
+        Me.Column1.Visible = False
+        Me.Column1.Width = 125
+        '
+        'DataGridViewTextBoxColumn1
+        '
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle3
+        Me.DataGridViewTextBoxColumn1.HeaderText = "Kode Barang"
+        Me.DataGridViewTextBoxColumn1.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
+        Me.DataGridViewTextBoxColumn1.ReadOnly = True
+        Me.DataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewTextBoxColumn1.Width = 150
+        '
+        'DataGridViewTextBoxColumn2
+        '
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle4
+        Me.DataGridViewTextBoxColumn2.HeaderText = "Nama Barang"
+        Me.DataGridViewTextBoxColumn2.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
+        Me.DataGridViewTextBoxColumn2.ReadOnly = True
+        Me.DataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewTextBoxColumn2.Width = 230
+        '
+        'DataGridViewTextBoxColumn3
+        '
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle5.NullValue = Nothing
+        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle5
+        Me.DataGridViewTextBoxColumn3.HeaderText = "Qty"
+        Me.DataGridViewTextBoxColumn3.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
+        Me.DataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewTextBoxColumn3.Width = 120
+        '
+        'Satuan
+        '
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Satuan.DefaultCellStyle = DataGridViewCellStyle6
+        Me.Satuan.HeaderText = "Satuan"
+        Me.Satuan.MinimumWidth = 6
+        Me.Satuan.Name = "Satuan"
+        Me.Satuan.ReadOnly = True
+        Me.Satuan.Width = 125
+        '
+        'TglDelivery
+        '
+        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.TglDelivery.DefaultCellStyle = DataGridViewCellStyle7
+        Me.TglDelivery.HeaderText = "Tanggal Kebutuhan"
+        Me.TglDelivery.MinimumWidth = 6
+        Me.TglDelivery.Name = "TglDelivery"
+        Me.TglDelivery.ReadOnly = True
+        Me.TglDelivery.Width = 125
+        '
+        'Column2
+        '
+        Me.Column2.HeaderText = "Keterangan"
+        Me.Column2.MinimumWidth = 6
+        Me.Column2.Name = "Column2"
+        Me.Column2.Width = 200
+        '
+        'sisa
+        '
+        Me.sisa.HeaderText = "Sisa"
+        Me.sisa.MinimumWidth = 6
+        Me.sisa.Name = "sisa"
+        Me.sisa.ReadOnly = True
+        Me.sisa.Visible = False
+        Me.sisa.Width = 125
+        '
+        'QtyByForecast
+        '
+        Me.QtyByForecast.HeaderText = "QtyByForecast"
+        Me.QtyByForecast.MinimumWidth = 6
+        Me.QtyByForecast.Name = "QtyByForecast"
+        Me.QtyByForecast.ReadOnly = True
+        Me.QtyByForecast.Visible = False
+        Me.QtyByForecast.Width = 125
+        '
+        'Column11
+        '
+        Me.Column11.HeaderText = "Link"
+        Me.Column11.Name = "Column11"
+        Me.Column11.Width = 200
+        '
+        'Column3
+        '
+        Me.Column3.HeaderText = "ID_CostCenter"
+        Me.Column3.Name = "Column3"
+        Me.Column3.ReadOnly = True
+        Me.Column3.Visible = False
+        '
+        'Column4
+        '
+        Me.Column4.HeaderText = "ID_Gedung"
+        Me.Column4.Name = "Column4"
+        Me.Column4.ReadOnly = True
+        Me.Column4.Visible = False
+        '
+        'Column7
+        '
+        Me.Column7.HeaderText = "IsStock"
+        Me.Column7.Name = "Column7"
+        Me.Column7.ReadOnly = True
+        Me.Column7.Visible = False
+        '
+        'Column5
+        '
+        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column5.DefaultCellStyle = DataGridViewCellStyle8
+        Me.Column5.HeaderText = "Cost Center"
+        Me.Column5.Name = "Column5"
+        Me.Column5.ReadOnly = True
+        Me.Column5.Width = 150
+        '
+        'Column6
+        '
+        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column6.DefaultCellStyle = DataGridViewCellStyle9
+        Me.Column6.HeaderText = "Gedung"
+        Me.Column6.Name = "Column6"
+        Me.Column6.ReadOnly = True
+        Me.Column6.Width = 150
+        '
+        'Column8
+        '
+        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column8.DefaultCellStyle = DataGridViewCellStyle10
+        Me.Column8.HeaderText = "Stock"
+        Me.Column8.Name = "Column8"
+        Me.Column8.ReadOnly = True
+        Me.Column8.Visible = False
+        Me.Column8.Width = 120
+        '
+        'Column9
+        '
+        Me.Column9.HeaderText = "Urut_Departement"
+        Me.Column9.Name = "Column9"
+        Me.Column9.ReadOnly = True
+        Me.Column9.Visible = False
+        '
+        'Column10
+        '
+        Me.Column10.HeaderText = "Urut"
+        Me.Column10.Name = "Column10"
+        Me.Column10.ReadOnly = True
+        Me.Column10.Visible = False
+        '
+        'Column12
+        '
+        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        Me.Column12.DefaultCellStyle = DataGridViewCellStyle11
+        Me.Column12.HeaderText = "Est. Harga"
+        Me.Column12.Name = "Column12"
+        Me.Column12.Width = 130
+        '
+        'Column13
+        '
+        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Column13.DefaultCellStyle = DataGridViewCellStyle12
+        Me.Column13.HeaderText = "Est. Tiba (Hari)"
+        Me.Column13.Name = "Column13"
+        Me.Column13.ReadOnly = True
+        Me.Column13.Width = 120
+        '
         'Purchase_Requisition_Barang_Lain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -862,6 +1033,25 @@ Partial Class Purchase_Requisition_Barang_Lain
     Friend WithEvents Label3 As Label
     Friend WithEvents Cmb_Kategori_Gudang As ComboBox
     Friend WithEvents Label4 As Label
+    Friend WithEvents Panel6 As Panel
+    Friend WithEvents Btn_Unrelease As Button
+    Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn5 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn6 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn7 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn8 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn9 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn10 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn11 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn12 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn13 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn14 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn15 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn16 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn17 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn18 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn19 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn20 As DataGridViewTextBoxColumn
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
@@ -882,6 +1072,4 @@ Partial Class Purchase_Requisition_Barang_Lain
     Friend WithEvents Column10 As DataGridViewTextBoxColumn
     Friend WithEvents Column12 As DataGridViewTextBoxColumn
     Friend WithEvents Column13 As DataGridViewTextBoxColumn
-    Friend WithEvents Panel6 As Panel
-    Friend WithEvents Btn_Unrelease As Button
 End Class

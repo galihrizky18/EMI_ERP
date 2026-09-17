@@ -1386,14 +1386,16 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                         SQL = SQL & "Jumlah_Bags = Jumlah_Bags - " & BagsTerpakai & " "
                                         SQL = SQL & "where Kode_Stock_Owner='" & Txt_KdSOBarang.Text & "' and Kode_Barang='" & Txt_KDBarang.Text & "' "
                                         SQL = SQL & "and Serial_Number='" & SN_Awal & "'"
-                                        ExecuteTrans_Premix(SQL)
+                                        'ExecuteTrans_Premix(SQL)
+                                        ExecuteTransNew(SQL)
 
                                         SQL = "insert INTO N_EMI_Log_Transaksi_Request_Material_QC_Validasi (Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, "
                                         SQL = SQL & "Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
                                         SQL = SQL & "VALUES ('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text.Trim & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
                                         SQL = SQL & "'POTONG STOCK; Barang SN', '" & Txt_KdSOBarang.Text & "', '" & Txt_KDBarang.Text & "', '" & SN_Awal & "', "
                                         SQL = SQL & "'" & jmlh1 & "', '" & jmlhbags & "', '" & JumlahInputDB & "', '" & BagsTerpakai & "')"
-                                        ExecuteTrans_Premix(SQL)
+                                        'ExecuteTrans_Premix(SQL)
+                                        ExecuteTransNew(SQL)
 
                                         sw20.Stop()
                                         SQL = $"
@@ -1554,14 +1556,16 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = "update barang set Good_Stock= Good_Stock + " & JumlahInputDB & ", Jumlah_Bags = Jumlah_Bags + " & BagsTerpakai & " "
                             SQL = SQL & "where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Stock_Owner='" & Txt_SORequest.Text & "' "
                             SQL = SQL & " and Kode_Barang='" & Txt_KDBarang.Text & "'"
-                            ExecuteTrans_Premix(SQL)
+                            'ExecuteTrans_Premix(SQL)
+                            ExecuteTransNew(SQL)
 
                             SQL = "insert INTO N_EMI_Log_Transaksi_Request_Material_QC_Validasi (Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, "
                             SQL = SQL & "Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update) "
                             SQL = SQL & "VALUES ('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text.Trim & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
                             SQL = SQL & "'TAMBAH STOCK; Barang', '" & Txt_SORequest.Text & "', '" & Txt_KDBarang.Text & "', '-', "
                             SQL = SQL & "'" & Stock_Sebelum_Insert & "', '" & Bags_Sebelum_Insert & "', '" & JumlahInputDB & "', '" & BagsTerpakai & "')"
-                            ExecuteTrans_Premix(SQL)
+                            'ExecuteTrans_Premix(SQL)
+                            ExecuteTransNew(SQL)
 
                             sw5.Stop()
                             SQL = $"
@@ -1590,14 +1594,23 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = SQL & "and a.Serial_Number='" & SN_Awal & "' "
                             'SQL = SQL & "and a.Jumlah <> 0 "
                             Using Dr = OpenTrans_Premix(SQL)
-                                Do While Dr.Read
+                                If Dr.Read Then
                                     hargaIsn = Get_Harga_SN(Dr("Serial_Number"))
                                     QrLama = General_Class.CekNULL(Dr("Qr_Code"))
                                     batchLama = General_Class.CekNULL(Dr("Batch_Number"))
                                     namaBarang = General_Class.CekNULL(Dr("Nama"))
                                     expDate = General_Class.CekNULL(Dr("Tgl_Expired"))
                                     warnaLama = General_Class.CekNULL(Dr("warna"))
-                                Loop
+                                Else
+                                    Dr.Close()
+                                    CloseTrans_Premix()
+                                    CloseConn_Premix()
+                                    MessageBox.Show("Data SN Awal Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    If lastCheckedCheckBoxIndex >= 0 AndAlso lastCheckedCheckBoxIndex <= 2 Then
+                                        GetCheckBoxByIndex(lastCheckedCheckBoxIndex).Checked = True
+                                    End If
+                                    Exit Sub
+                                End If
                             End Using
 
                             'GENERATE SN BARU
@@ -1620,14 +1633,16 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = SQL & "and Kode_Stock_Owner='" & Txt_KdSOBarang.Text & "' "
                             SQL = SQL & "and Kode_Barang='" & Txt_KDBarang.Text & "' "
                             SQL = SQL & "and Serial_Number='" & SN_Awal & "' "
-                            ExecuteTrans_Premix(SQL)
+                            'ExecuteTrans_Premix(SQL)
+                            ExecuteTransNew(SQL)
 
                             SQL = "insert INTO N_EMI_Log_Transaksi_Request_Material_QC_Validasi (Kode_Perusahaan, No_Transaksi, Tanggal, Jam, Action, "
                             SQL = SQL & "Kode_Stock_Owner, Kode_Barang, Serial_Number, Jumlah_Awal, Bags_Awal, Jumlah_Update, Bags_Update, No_Reservasi) "
                             SQL = SQL & "VALUES ('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text.Trim & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
                             SQL = SQL & "'TAMBAH STOCK; Barang SN', '" & Txt_SORequest.Text & "', '" & Txt_KDBarang.Text & "', '" & SN_Baru & "', "
                             SQL = SQL & "'" & Stock_SN_Sebelum_Insert & "', '" & Bags_SN_Sebelum_Insert & "', '" & JumlahInputDB & "', '" & BagsTerpakai & "', '" & NoSplit & "')"
-                            ExecuteTrans_Premix(SQL)
+                            'ExecuteTrans_Premix(SQL)
+                            ExecuteTransNew(SQL)
 
                             sw21.Stop()
                             SQL = $"
@@ -1974,7 +1989,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                             SQL = SQL & "VALUES('" & KodePerusahaan & "', '" & Txt_NoFaktur.Text & "', '" & arrNoFakturRM(Cmb_Faktur_RM.SelectedIndex) & "', '" & Format(tgl_skg, "yyyy-MM-dd") & "', '" & Format(tgl_skg, "HH:mm:ss") & "', "
                             SQL = SQL & "'" & Txt_KdSOBarang.Text & "', '" & Txt_SORequest.Text & "', '" & Txt_KDBarang.Text & "', '" & SN_Awal & "', '" & SN_Baru & "', " & JumlahBesar & ", "
                             SQL = SQL & "'" & SatuanBesar & "', " & JumlahInputDB & ", '" & SatuanKecil & "', '" & Kode_voucher & "', '" & UrutDetRM & "', '" & TextBarcodePSS & "', '" & Val(HilangkanTanda(TxtJumlahBagsDetail.Text)) & "'); "
-                            ExecuteTrans_Premix(SQL)
+                            ExecuteTransNew(SQL)
 
 #End Region
                             sw7.Stop()
@@ -2233,14 +2248,14 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                     kode_unik_print = Format(tgl_skg, "MMddHHmmss") & Format(Random.Next(0, 10000), "00000")
                                     Dim fullNewQr As String = TextBarcodeBatch
 
-                                    Cmd.Parameters.Clear()
+                                    Cmd_Premix.Parameters.Clear()
                                     Using ImgBarcode1 As Image = Generate_QR_QC(fullNewQr)
                                         Using ms1 As New MemoryStream()
                                             ImgBarcode1.Save(ms1, Imaging.ImageFormat.Jpeg)
                                             Dim rawData1 As Byte() = ms1.ToArray()
 
                                             Dim param1 As String = "@newBarcodeBatch" & kode_unik_print
-                                            Cmd.Parameters.Add(param1, SqlDbType.Image).Value = rawData1
+                                            Cmd_Premix.Parameters.Add(param1, SqlDbType.Image).Value = rawData1
                                         End Using
                                     End Using
 
@@ -2251,6 +2266,7 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
                                     SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
                                     SQL = SQL & "and No_Faktur = '" & arrNoFakturRM(Cmb_Faktur_RM.SelectedIndex) & "' and Urut_Oto = '" & Txt_UrutDetail.Text & "'  "
                                     ExecuteTrans_Premix(SQL)
+
 
 #End Region
                                     sw11.Stop()
@@ -2876,5 +2892,17 @@ Public Class N_EMI_Transaksi_Request_Material_QC_Validasi
             Cmd_Premix.Transaction.Rollback()
         End If
     End Sub
+
+    Public Function ExecuteTransNew(ByVal Query As String) As Integer
+        Cmd_Premix.CommandText = Query
+
+        Dim affectedRows As Integer = Cmd_Premix.ExecuteNonQuery()
+
+        If affectedRows <> 1 Then
+            Throw New Exception("ExecuteTrans gagal: tidak ada data yang ter-update.")
+        End If
+
+        Return affectedRows
+    End Function
 
 End Class

@@ -11,10 +11,6 @@
     Dim item_Keterangan As Integer = 5
     Dim item_POBerjalan As Integer = 6
 
-
-
-
-
     Private Sub SD_Sub_PO_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Kosong()
     End Sub
@@ -23,6 +19,10 @@
         If e.KeyChar = Chr(13) Then
             Lv_Data_Induk_DoubleClick(Lv_Data_Induk, e)
         End If
+    End Sub
+
+    Private Sub Lv_Detail_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lv_Detail.SelectedIndexChanged
+
     End Sub
 
     Private Sub Kosong()
@@ -291,22 +291,20 @@
             SQL = SQL & "select (d.Jumlah - sum(x.Jumlah)) "
             SQL = SQL & "from EMI_Pembelian_PO z, EMI_Pembelian_PO_Det x "
             SQL = SQL & "where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Kode_Perusahaan = x.Kode_Perusahaan "
-            SQL = SQL & "and z.status is null "
             SQL = SQL & "and x.No_FakInduk = a.No_Faktur and z.No_Faktur = x.No_Faktur and x.Kode_Stock_Owner = d.Kode_Stock_Owner and x.Kode_Barang = d.Kode_Barang "
-            SQL = SQL & "and x.no_urut_pr=d.no_urut_pr and x.urut_det_induk = d.No_Urut), d.Jumlah) as Sisa, d.No_Urut as Urut_det, e.Jenis_Kategori, "
+            SQL = SQL & "and x.no_urut_pr=d.no_urut_pr and x.urut_det_induk = d.No_Urut and z.status is null), d.Jumlah) as Sisa, d.No_Urut as Urut_det, e.Jenis_Kategori, "
 
             SQL = SQL & "isnull(d.Jumlah_Input, 0) as Jumlah_Input, isnull(d.Satuan_Input, '-') as Satuan_Input, "
 
             SQL = SQL & "isnull(( select z.No_Penawaran from EMI_Pembelian_PO_Detail_Induk z where a.Kode_Perusahaan = z.Kode_Perusahaan "
             SQL = SQL & "and a.No_Faktur = z.No_Faktur "
-            SQL = SQL & "and d.Kode_Barang = z.Kode_Barang "
+            SQL = SQL & "and d.Kode_Barang = z.Kode_Barang and z.no_penawaran=d.no_penawaran "
             SQL = SQL & "), '-') as No_FakPenawaran, "
 
             SQL = SQL & "ISNULL(( select (d.Jumlah_Input - sum(x.Jumlah_input)) from EMI_Pembelian_PO z, EMI_Pembelian_PO_Det x "
             SQL = SQL & "where z.Kode_Perusahaan = a.Kode_Perusahaan and z.Kode_Perusahaan = x.Kode_Perusahaan  "
-            SQL = SQL & "and z.status is null "
             SQL = SQL & "and x.No_FakInduk = a.No_Faktur and z.No_Faktur = x.No_Faktur and x.Kode_Stock_Owner = d.Kode_Stock_Owner and x.Kode_Barang = d.Kode_Barang  "
-            SQL = SQL & "and x.no_urut_pr=d.no_urut_pr and x.urut_det_induk = d.No_Urut) "
+            SQL = SQL & "and x.no_urut_pr=d.no_urut_pr and x.urut_det_induk = d.No_Urut and z.status is null) "
             SQL = SQL & ", d.Jumlah_Input) as Sisa_Input "
 
             SQL = SQL & "from EMI_Pembelian_PO_Induk a, barang c, EMI_Pembelian_PO_Det_Induk d, kategori_besar e "
@@ -377,7 +375,7 @@
                             EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellPO_Harga).Value = Format(.Rows(j).Item("Harga_Satuan_Besar"), "N4") '3
 
                             EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellPO_JumlahPO).Value = Format(.Rows(j).Item("Jumlah"), "N2") '4
-                            EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellPO_Sisa).Value = Format(.Rows(j).Item("Sisa"), "N4") '5
+                            EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellPO_Sisa).Value = Format(.Rows(j).Item("Sisa"), "N2") '5
 
                             EMI_PO_Pembelian_Sub.LvPO_DataPO.Rows(index).Cells(EMI_PO_Pembelian_Sub.cellPO_Jumlah).Value = Format(0, "N2") '6 'user isi
 

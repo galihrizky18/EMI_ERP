@@ -178,7 +178,8 @@ Public Class Form_Login
                         NamaPerusahaan = xSplit(1).Trim
                         UserID = TextBox1.Text.Trim.ToUpper
 
-                        Main_Menu.Show()
+                        'Main_Menu.Show()
+                        FMenuDevFix.Show()
                         Me.Hide()
                     Else
                         MessageBox.Show("User ID atau Password tidak ditemukan!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

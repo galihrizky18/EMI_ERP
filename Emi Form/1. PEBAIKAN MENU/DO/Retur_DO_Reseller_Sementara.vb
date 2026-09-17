@@ -1102,6 +1102,7 @@
                 Using Dr = OpenTrans(SQL)
                     If Dr.Read Then
 
+
                         SQL = "update Detail_R_DO_sementara set Good_Stock = '" & Val(HilangkanTanda(ListView2.Items(i).SubItems(10).Text.Trim)) & "', "
                         SQL = SQL & "nHarga = '" & Val(HilangkanTanda(ListView2.Items(i).SubItems(6).Text.Trim)) & "', "
                         SQL = SQL & "nPersen_Diskon = '" & Val(HilangkanTanda(ListView2.Items(i).SubItems(7).Text.Trim)) & "', "

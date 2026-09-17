@@ -38,6 +38,8 @@
         Cmb_Jenis_Laporan.Items.Clear()
         Cmb_Jenis_Laporan.Items.Add("Laporan Penjualan Rekap")
         Cmb_Jenis_Laporan.Items.Add("Laporan Penjualan Detail")
+        Cmb_Jenis_Laporan.Items.Add("Laporan Penjualan Detail (warehouse)")
+        Cmb_Jenis_Laporan.Items.Add("Laporan Penjualan Detail Per Barcode")
 
         Kosong()
 
@@ -727,6 +729,14 @@
 
             Dim SF As String = ""
 
+            If Cmb_Jenis_Laporan.SelectedIndex = 0 Or Cmb_Jenis_Laporan.SelectedIndex = 1 Then
+                If CekButtonRole("Cetak_Laporan_Penjualan_Ada_HPP") = "T" Then
+                    CloseConn()
+                    MessageBox.Show("anda tidak memiliki akses untuk cetak laporan ini", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            End If
+
             If Cmb_Jenis_Laporan.SelectedIndex = 0 Then
 
                 SQL = "select Kode_Perusahaan from N_EMI_View_Laporan_Penjualan_Rekap "
@@ -792,7 +802,7 @@
                     End With
                 End Using
 
-            ElseIf Cmb_Jenis_Laporan.SelectedIndex = 1 Then
+            ElseIf Cmb_Jenis_Laporan.SelectedIndex = 1 Or Cmb_Jenis_Laporan.SelectedIndex = 2 Then
 
                 SQL = "select Kode_Perusahaan from N_EMI_View_Laporan_Penjualan_Detail "
                 SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
@@ -830,8 +840,17 @@
                 Using DS = BindingTrans(SQL)
                     With DS.Tables("MyTable")
                         If .Rows.Count <> 0 Then
+                            Dim CrDoc As Object
+                            If Cmb_Jenis_Laporan.SelectedIndex = 1 Then
+                                CrDoc = New N_EMI_CR_Laporan_Penjualan_Detail
+                            ElseIf Cmb_Jenis_Laporan.SelectedIndex = 2 Then
+                                CrDoc = New N_EMI_CR_Laporan_Penjualan_Detail_Non_HPP
+                            Else
+                                CloseConn()
+                                MessageBox.Show("Data Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                Exit Sub
+                            End If
 
-                            Dim CrDoc As New N_EMI_CR_Laporan_Penjualan_Detail
 
                             CrDoc.SetDataSource(DS)
                             CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
@@ -856,8 +875,74 @@
                         End If
                     End With
                 End Using
+            ElseIf Cmb_Jenis_Laporan.SelectedIndex = 3 Then
+                SQL = "select Kode_Perusahaan from N_EMI_View_Laporan_Penjualan_Detail_Per_Barcode "
+                SQL = SQL & "where Kode_Perusahaan = '" & KodePerusahaan & "' "
 
+                If Cmb_Tanggal.SelectedIndex <> -1 Then
+                    SQL = SQL & "and " & arrTanggal(Cmb_Tanggal.SelectedIndex) & " between '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' and '" & Format(Tgl2.Value, "yyyy-MM-dd") & "' "
+                End If
 
+                'SQL = SQL & "and Tanggal between '" & Format(Tgl1.Value, "yyyy-MM-dd") & "' and '" & Format(Tgl2.Value, "yyyy-MM-dd") & "' "
+
+                SF = "{N_EMI_View_Laporan_Penjualan_Detail_Per_Barcode.Kode_Perusahaan} = '" & KodePerusahaan & "' "
+                SF = SF & "and {N_EMI_View_Laporan_Penjualan_Detail_Per_Barcode." & arrTanggalSF(Cmb_Tanggal.SelectedIndex) & "} >= #" & Format(Tgl1.Value, "yyyy-MM-dd") & "# and "
+                SF = SF & "{N_EMI_View_Laporan_Penjualan_Detail_Per_Barcode." & arrTanggalSF(Cmb_Tanggal.SelectedIndex) & "} <= #" & Format(Tgl2.Value, "yyyy-MM-dd") & "# "
+
+                If Not Txt_No_Penjualan.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    SQL = SQL & "and No_Penjualan = '" & Txt_No_Penjualan.Text & "' "
+                    SF = SF & "And {N_EMI_View_Laporan_Penjualan_Detail_Per_Barcode.No_Penjualan} = '" & Txt_No_Penjualan.Text & "'"
+                End If
+
+                If Not Txt_No_DO.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    SQL = SQL & "and No_DO = '" & Txt_No_DO.Text & "' "
+                    SF = SF & "And {N_EMI_View_Laporan_Penjualan_Detail_Per_Barcode.No_DO} = '" & Txt_No_DO.Text & "'"
+                End If
+
+                If Not Txt_Kd_Customer.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    SQL = SQL & "and Kode_Customer = '" & Txt_Kd_Customer.Text & "' "
+                    SF = SF & "And {N_EMI_View_Laporan_Penjualan_Detail_Per_Barcode.Kode_Customer} = '" & Txt_Kd_Customer.Text & "'"
+                End If
+
+                If Not Txt_KdBarang.Text.ToUpper = OpsiSeluruh.ToUpper Then
+                    SQL = SQL & "and Kode_Barang = '" & Txt_KdBarang.Text & "' "
+                    SF = SF & "And {N_EMI_View_Laporan_Penjualan_Detail_Per_Barcode.Kode_Barang} = '" & Txt_KdBarang.Text & "'"
+                End If
+
+                Using DS = BindingTrans(SQL)
+                    With DS.Tables("MyTable")
+                        If .Rows.Count <> 0 Then
+                            Dim CrDoc As Object
+
+                            CrDoc = New N_EMI_CR_Laporan_Penjualan_Detail_Per_Barcode
+
+                            CrDoc.SetDataSource(DS)
+                            CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
+                            CrDoc.SummaryInfo.ReportTitle = "Periode : " & Format(Tgl1.Value, "dd/MMM/yyyy") & " s/d " &
+                                                                                Format(Tgl2.Value, "dd/MMM/yyyy")
+                            CrDoc.RecordSelectionFormula = SF
+
+                            With A_Place_For_Printing2
+                                .Text = "Laporan Penjualan Detail Per Barcode"
+                                .CrystalReportViewer1.ReportSource = CrDoc
+                                .CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
+                                .Refresh()
+                                .Show()
+                            End With
+
+                        Else
+
+                            CloseConn()
+                            MessageBox.Show("Data Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            Exit Sub
+
+                        End If
+                    End With
+                End Using
+            Else
+                CloseConn()
+                MessageBox.Show("Data Tidak Ditemukan", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
             End If
 
 

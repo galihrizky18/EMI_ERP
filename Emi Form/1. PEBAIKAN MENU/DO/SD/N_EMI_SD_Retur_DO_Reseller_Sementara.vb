@@ -316,13 +316,11 @@
                         MessageBox.Show("error perhitungan")
                     End If
 
-                    TotSbtl += y_jml
+                    TotSbtl += subttl
 
                     'Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(10).Text = Format(Val(HilangkanTanda(Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(10).Text)) + Val(y_jml), "N4")
                     'Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(8).Text = Format(Val(HilangkanTanda(Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(8).Text)) + subttl, "N4")
 
-                    Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(10).Text = Format(Val(TotJumlah), "N4")
-                    Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(8).Text = Format(TotSbtl, "N4")
                 Else
                     Dim lv As New ListViewItem
                     lv = Retur_DO_Reseller_Sementara.ListView2.Items.Add(Gudang) '0
@@ -344,6 +342,8 @@
 
                     lv.SubItems.Add(Format(subttl, "N4")) '8
                     lv.SubItems.Add(metper) '9
+
+                    TotSbtl += subttl
                 End If
 
                 '=========================
@@ -395,6 +395,9 @@
                 ExecuteTrans(SQL)
 
             Next
+
+            Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(10).Text = Format(Val(TotJumlah), "N4")
+            Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(8).Text = Format(TotSbtl, "N4")
 
             If Not hasDataInput Then
                 Retur_DO_Reseller_Sementara.ListView2.Items(foundIndex).SubItems(10).Text = Format(Val(0), "N4")

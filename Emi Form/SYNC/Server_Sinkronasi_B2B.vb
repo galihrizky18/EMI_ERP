@@ -1639,6 +1639,14 @@ Public Class Server_Sinkronasi_B2B
         End Try
     End Sub
 
+    Private Sub Button6_Click_2(sender As Object, e As EventArgs) Handles Button6.Click
+        Handle_Proses_Waste_Process()
+    End Sub
+
+    Private Sub Button7_Click_1(sender As Object, e As EventArgs) Handles Button7.Click
+        Handle_Proses_Waste_Product()
+    End Sub
+
     Private Sub btnPenawaranPackaging_Click(sender As Object, e As EventArgs) Handles btnPenawaranPackaging.Click
         get_jam()
         Try
@@ -2211,8 +2219,7 @@ Public Class Server_Sinkronasi_B2B
         Button22_Click(Timer1, e)
         Button23_Click(Timer1, e)
 
-        Handle_Proses_Waste_Process()
-        Handle_Proses_Waste_Product()
+
 
     End Sub
 
@@ -2431,6 +2438,9 @@ Public Class Server_Sinkronasi_B2B
                     Btn_UpdateKendaraan_Click(Btn_UpdateKendaraan, e)
             End Select
         Next
+
+        Button6_Click_2(Button6, e)
+        Button7_Click_1(Button7, e)
 
     End Sub
 

@@ -27,6 +27,9 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -135,8 +138,15 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Panel14 = New System.Windows.Forms.Panel()
         Me.BtnOngkir_Refresh = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.PanelGradient1 = New ERP_EMI.CustomControl.PanelGradient()
         Me.Col_KdBrg = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Col_NmBrg = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ppn = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -187,10 +197,10 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.TabPage1.Controls.Add(Me.Panel3)
         Me.TabPage1.Controls.Add(Me.Panel2)
         Me.TabPage1.Controls.Add(Me.Btn_Refresh)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 27)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 25)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(1366, 746)
+        Me.TabPage1.Size = New System.Drawing.Size(1366, 748)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Master Penawaran"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -199,7 +209,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         '
         Me.Txt_NoUrut.Location = New System.Drawing.Point(1077, 49)
         Me.Txt_NoUrut.Name = "Txt_NoUrut"
-        Me.Txt_NoUrut.Size = New System.Drawing.Size(46, 23)
+        Me.Txt_NoUrut.Size = New System.Drawing.Size(46, 20)
         Me.Txt_NoUrut.TabIndex = 381
         Me.Txt_NoUrut.Visible = False
         '
@@ -209,7 +219,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Label7.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.Location = New System.Drawing.Point(27, 146)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(152, 22)
+        Me.Label7.Size = New System.Drawing.Size(108, 17)
         Me.Label7.TabIndex = 423
         Me.Label7.Text = "Del : Delete Data"
         '
@@ -219,7 +229,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Label5.Font = New System.Drawing.Font("Work Sans", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.Location = New System.Drawing.Point(27, 128)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(178, 22)
+        Me.Label5.Size = New System.Drawing.Size(127, 17)
         Me.Label5.TabIndex = 422
         Me.Label5.Text = "F1   : Tambah Barang"
         '
@@ -277,7 +287,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_SatuanBrg.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_SatuanBrg.Location = New System.Drawing.Point(1139, 474)
         Me.Lbl_SatuanBrg.Name = "Lbl_SatuanBrg"
-        Me.Lbl_SatuanBrg.Size = New System.Drawing.Size(176, 25)
+        Me.Lbl_SatuanBrg.Size = New System.Drawing.Size(145, 20)
         Me.Lbl_SatuanBrg.TabIndex = 416
         Me.Lbl_SatuanBrg.Text = "Get_Satuan_Barang"
         Me.Lbl_SatuanBrg.Visible = False
@@ -288,7 +298,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_NmBrg.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_NmBrg.Location = New System.Drawing.Point(1139, 433)
         Me.Lbl_NmBrg.Name = "Lbl_NmBrg"
-        Me.Lbl_NmBrg.Size = New System.Drawing.Size(165, 25)
+        Me.Lbl_NmBrg.Size = New System.Drawing.Size(135, 20)
         Me.Lbl_NmBrg.TabIndex = 415
         Me.Lbl_NmBrg.Text = "Get_Nama_Barang"
         Me.Lbl_NmBrg.Visible = False
@@ -299,7 +309,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_GetKdBrg.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_GetKdBrg.Location = New System.Drawing.Point(1139, 395)
         Me.Lbl_GetKdBrg.Name = "Lbl_GetKdBrg"
-        Me.Lbl_GetKdBrg.Size = New System.Drawing.Size(158, 25)
+        Me.Lbl_GetKdBrg.Size = New System.Drawing.Size(129, 20)
         Me.Lbl_GetKdBrg.TabIndex = 414
         Me.Lbl_GetKdBrg.Text = "Get_Kode_Barang"
         Me.Lbl_GetKdBrg.Visible = False
@@ -310,7 +320,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_BindingLokasiGudang.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_BindingLokasiGudang.Location = New System.Drawing.Point(1139, 353)
         Me.Lbl_BindingLokasiGudang.Name = "Lbl_BindingLokasiGudang"
-        Me.Lbl_BindingLokasiGudang.Size = New System.Drawing.Size(240, 25)
+        Me.Lbl_BindingLokasiGudang.Size = New System.Drawing.Size(196, 20)
         Me.Lbl_BindingLokasiGudang.TabIndex = 413
         Me.Lbl_BindingLokasiGudang.Text = "lbl_Binding_Lokasi_Gudang"
         Me.Lbl_BindingLokasiGudang.Visible = False
@@ -321,7 +331,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_NmSupplier.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_NmSupplier.Location = New System.Drawing.Point(1213, 39)
         Me.Lbl_NmSupplier.Name = "Lbl_NmSupplier"
-        Me.Lbl_NmSupplier.Size = New System.Drawing.Size(136, 25)
+        Me.Lbl_NmSupplier.Size = New System.Drawing.Size(111, 20)
         Me.Lbl_NmSupplier.TabIndex = 412
         Me.Lbl_NmSupplier.Text = "Nama Supplier"
         Me.Lbl_NmSupplier.Visible = False
@@ -332,7 +342,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_KdSupplier.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_KdSupplier.Location = New System.Drawing.Point(1213, 6)
         Me.Lbl_KdSupplier.Name = "Lbl_KdSupplier"
-        Me.Lbl_KdSupplier.Size = New System.Drawing.Size(129, 25)
+        Me.Lbl_KdSupplier.Size = New System.Drawing.Size(105, 20)
         Me.Lbl_KdSupplier.TabIndex = 411
         Me.Lbl_KdSupplier.Text = "Kode Supplier"
         Me.Lbl_KdSupplier.Visible = False
@@ -416,7 +426,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.txtJatuhTempo.Location = New System.Drawing.Point(880, 72)
         Me.txtJatuhTempo.MaxLength = 30
         Me.txtJatuhTempo.Name = "txtJatuhTempo"
-        Me.txtJatuhTempo.Size = New System.Drawing.Size(92, 24)
+        Me.txtJatuhTempo.Size = New System.Drawing.Size(92, 21)
         Me.txtJatuhTempo.TabIndex = 384
         '
         'cmbJenisPengiriman
@@ -428,7 +438,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.cmbJenisPengiriman.Location = New System.Drawing.Point(781, 71)
         Me.cmbJenisPengiriman.Margin = New System.Windows.Forms.Padding(2)
         Me.cmbJenisPengiriman.Name = "cmbJenisPengiriman"
-        Me.cmbJenisPengiriman.Size = New System.Drawing.Size(94, 26)
+        Me.cmbJenisPengiriman.Size = New System.Drawing.Size(94, 23)
         Me.cmbJenisPengiriman.TabIndex = 383
         '
         'cmb_JenisBayar
@@ -440,7 +450,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.cmb_JenisBayar.Location = New System.Drawing.Point(652, 71)
         Me.cmb_JenisBayar.Margin = New System.Windows.Forms.Padding(2)
         Me.cmb_JenisBayar.Name = "cmb_JenisBayar"
-        Me.cmb_JenisBayar.Size = New System.Drawing.Size(125, 26)
+        Me.cmb_JenisBayar.Size = New System.Drawing.Size(125, 23)
         Me.cmb_JenisBayar.TabIndex = 381
         '
         'LblPO_Pembayaran
@@ -450,7 +460,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblPO_Pembayaran.Location = New System.Drawing.Point(503, 72)
         Me.LblPO_Pembayaran.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.LblPO_Pembayaran.Name = "LblPO_Pembayaran"
-        Me.LblPO_Pembayaran.Size = New System.Drawing.Size(110, 20)
+        Me.LblPO_Pembayaran.Size = New System.Drawing.Size(94, 17)
         Me.LblPO_Pembayaran.TabIndex = 382
         Me.LblPO_Pembayaran.Text = "Pembayaranx"
         '
@@ -461,7 +471,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.TxtPO_NmSupplier.Location = New System.Drawing.Point(744, 44)
         Me.TxtPO_NmSupplier.MaxLength = 30
         Me.TxtPO_NmSupplier.Name = "TxtPO_NmSupplier"
-        Me.TxtPO_NmSupplier.Size = New System.Drawing.Size(228, 25)
+        Me.TxtPO_NmSupplier.Size = New System.Drawing.Size(228, 22)
         Me.TxtPO_NmSupplier.TabIndex = 380
         '
         'TxtPO_KdSupplier
@@ -471,7 +481,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.TxtPO_KdSupplier.Location = New System.Drawing.Point(652, 44)
         Me.TxtPO_KdSupplier.MaxLength = 30
         Me.TxtPO_KdSupplier.Name = "TxtPO_KdSupplier"
-        Me.TxtPO_KdSupplier.Size = New System.Drawing.Size(91, 25)
+        Me.TxtPO_KdSupplier.Size = New System.Drawing.Size(91, 22)
         Me.TxtPO_KdSupplier.TabIndex = 379
         '
         'Dtp_PeriodAkhir
@@ -481,7 +491,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Dtp_PeriodAkhir.Location = New System.Drawing.Point(144, 68)
         Me.Dtp_PeriodAkhir.Margin = New System.Windows.Forms.Padding(2)
         Me.Dtp_PeriodAkhir.Name = "Dtp_PeriodAkhir"
-        Me.Dtp_PeriodAkhir.Size = New System.Drawing.Size(250, 23)
+        Me.Dtp_PeriodAkhir.Size = New System.Drawing.Size(250, 20)
         Me.Dtp_PeriodAkhir.TabIndex = 377
         '
         'Lbl_PeriodeAkhirPenawaran
@@ -490,7 +500,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_PeriodeAkhirPenawaran.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_PeriodeAkhirPenawaran.Location = New System.Drawing.Point(6, 70)
         Me.Lbl_PeriodeAkhirPenawaran.Name = "Lbl_PeriodeAkhirPenawaran"
-        Me.Lbl_PeriodeAkhirPenawaran.Size = New System.Drawing.Size(133, 25)
+        Me.Lbl_PeriodeAkhirPenawaran.Size = New System.Drawing.Size(108, 20)
         Me.Lbl_PeriodeAkhirPenawaran.TabIndex = 378
         Me.Lbl_PeriodeAkhirPenawaran.Text = "Periode AkhirX"
         '
@@ -500,7 +510,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.lbl_NoFaktur.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.lbl_NoFaktur.Location = New System.Drawing.Point(6, 16)
         Me.lbl_NoFaktur.Name = "lbl_NoFaktur"
-        Me.lbl_NoFaktur.Size = New System.Drawing.Size(120, 25)
+        Me.lbl_NoFaktur.Size = New System.Drawing.Size(96, 20)
         Me.lbl_NoFaktur.TabIndex = 376
         Me.lbl_NoFaktur.Text = "No Transaksi"
         '
@@ -512,7 +522,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.TxtPenawaran_NoFaktur.Location = New System.Drawing.Point(144, 14)
         Me.TxtPenawaran_NoFaktur.MaxLength = 30
         Me.TxtPenawaran_NoFaktur.Name = "TxtPenawaran_NoFaktur"
-        Me.TxtPenawaran_NoFaktur.Size = New System.Drawing.Size(250, 25)
+        Me.TxtPenawaran_NoFaktur.Size = New System.Drawing.Size(250, 22)
         Me.TxtPenawaran_NoFaktur.TabIndex = 375
         '
         'Dtp_Tgl
@@ -522,7 +532,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Dtp_Tgl.Location = New System.Drawing.Point(144, 42)
         Me.Dtp_Tgl.Margin = New System.Windows.Forms.Padding(2)
         Me.Dtp_Tgl.Name = "Dtp_Tgl"
-        Me.Dtp_Tgl.Size = New System.Drawing.Size(250, 23)
+        Me.Dtp_Tgl.Size = New System.Drawing.Size(250, 20)
         Me.Dtp_Tgl.TabIndex = 3
         '
         'Lbl_TglPenawaranHrg
@@ -531,7 +541,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_TglPenawaranHrg.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_TglPenawaranHrg.Location = New System.Drawing.Point(6, 44)
         Me.Lbl_TglPenawaranHrg.Name = "Lbl_TglPenawaranHrg"
-        Me.Lbl_TglPenawaranHrg.Size = New System.Drawing.Size(130, 25)
+        Me.Lbl_TglPenawaranHrg.Size = New System.Drawing.Size(106, 20)
         Me.Lbl_TglPenawaranHrg.TabIndex = 15
         Me.Lbl_TglPenawaranHrg.Text = "Periode AwalX"
         '
@@ -541,7 +551,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_NoPenawaran.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_NoPenawaran.Location = New System.Drawing.Point(502, 16)
         Me.Lbl_NoPenawaran.Name = "Lbl_NoPenawaran"
-        Me.Lbl_NoPenawaran.Size = New System.Drawing.Size(133, 25)
+        Me.Lbl_NoPenawaran.Size = New System.Drawing.Size(109, 20)
         Me.Lbl_NoPenawaran.TabIndex = 14
         Me.Lbl_NoPenawaran.Text = "No Penawaran"
         '
@@ -552,7 +562,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Txt_NoPenawaran.Location = New System.Drawing.Point(652, 16)
         Me.Txt_NoPenawaran.MaxLength = 20
         Me.Txt_NoPenawaran.Name = "Txt_NoPenawaran"
-        Me.Txt_NoPenawaran.Size = New System.Drawing.Size(320, 25)
+        Me.Txt_NoPenawaran.Size = New System.Drawing.Size(320, 22)
         Me.Txt_NoPenawaran.TabIndex = 2
         '
         'Lbl_Supplier
@@ -561,7 +571,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_Supplier.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_Supplier.Location = New System.Drawing.Point(502, 42)
         Me.Lbl_Supplier.Name = "Lbl_Supplier"
-        Me.Lbl_Supplier.Size = New System.Drawing.Size(82, 25)
+        Me.Lbl_Supplier.Size = New System.Drawing.Size(67, 20)
         Me.Lbl_Supplier.TabIndex = 4
         Me.Lbl_Supplier.Text = "Supplier"
         '
@@ -632,10 +642,10 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.TabPage2.Controls.Add(Me.Panel13)
         Me.TabPage2.Controls.Add(Me.Panel14)
         Me.TabPage2.Controls.Add(Me.BtnOngkir_Refresh)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 27)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 25)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1366, 746)
+        Me.TabPage2.Size = New System.Drawing.Size(1366, 748)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Master Ongkir"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -646,7 +656,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_NmEkspedisi.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lbl_NmEkspedisi.Location = New System.Drawing.Point(1062, 77)
         Me.Lbl_NmEkspedisi.Name = "Lbl_NmEkspedisi"
-        Me.Lbl_NmEkspedisi.Size = New System.Drawing.Size(147, 25)
+        Me.Lbl_NmEkspedisi.Size = New System.Drawing.Size(107, 18)
         Me.Lbl_NmEkspedisi.TabIndex = 414
         Me.Lbl_NmEkspedisi.Text = "Nama Ekspedisi"
         '
@@ -656,7 +666,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_KdEkspedisi.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lbl_KdEkspedisi.Location = New System.Drawing.Point(1062, 46)
         Me.Lbl_KdEkspedisi.Name = "Lbl_KdEkspedisi"
-        Me.Lbl_KdEkspedisi.Size = New System.Drawing.Size(140, 25)
+        Me.Lbl_KdEkspedisi.Size = New System.Drawing.Size(103, 18)
         Me.Lbl_KdEkspedisi.TabIndex = 413
         Me.Lbl_KdEkspedisi.Text = "Kode Ekspedisi"
         '
@@ -666,7 +676,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_IdEkspedisi.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lbl_IdEkspedisi.Location = New System.Drawing.Point(1062, 17)
         Me.Lbl_IdEkspedisi.Name = "Lbl_IdEkspedisi"
-        Me.Lbl_IdEkspedisi.Size = New System.Drawing.Size(115, 25)
+        Me.Lbl_IdEkspedisi.Size = New System.Drawing.Size(83, 18)
         Me.Lbl_IdEkspedisi.TabIndex = 412
         Me.Lbl_IdEkspedisi.Text = "Id Ekspedisi"
         '
@@ -770,7 +780,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.lblOngkir_uk.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblOngkir_uk.Location = New System.Drawing.Point(7, 290)
         Me.lblOngkir_uk.Name = "lblOngkir_uk"
-        Me.lblOngkir_uk.Size = New System.Drawing.Size(82, 25)
+        Me.lblOngkir_uk.Size = New System.Drawing.Size(60, 18)
         Me.lblOngkir_uk.TabIndex = 418
         Me.lblOngkir_uk.Text = "UkuranX"
         '
@@ -781,7 +791,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.CmbOngkir_Satuan.FormattingEnabled = True
         Me.CmbOngkir_Satuan.Location = New System.Drawing.Point(716, 226)
         Me.CmbOngkir_Satuan.Name = "CmbOngkir_Satuan"
-        Me.CmbOngkir_Satuan.Size = New System.Drawing.Size(250, 30)
+        Me.CmbOngkir_Satuan.Size = New System.Drawing.Size(250, 25)
         Me.CmbOngkir_Satuan.TabIndex = 416
         '
         'LblOngkir_Satuan
@@ -790,7 +800,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblOngkir_Satuan.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblOngkir_Satuan.Location = New System.Drawing.Point(511, 228)
         Me.LblOngkir_Satuan.Name = "LblOngkir_Satuan"
-        Me.LblOngkir_Satuan.Size = New System.Drawing.Size(71, 25)
+        Me.LblOngkir_Satuan.Size = New System.Drawing.Size(51, 18)
         Me.LblOngkir_Satuan.TabIndex = 417
         Me.LblOngkir_Satuan.Text = "Satuan"
         '
@@ -813,7 +823,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_Berat.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_Berat.Location = New System.Drawing.Point(6, 347)
         Me.Lbl_Berat.Name = "Lbl_Berat"
-        Me.Lbl_Berat.Size = New System.Drawing.Size(57, 25)
+        Me.Lbl_Berat.Size = New System.Drawing.Size(46, 20)
         Me.Lbl_Berat.TabIndex = 415
         Me.Lbl_Berat.Text = "Berat"
         '
@@ -823,7 +833,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Cmb_SatuanBerat.FormattingEnabled = True
         Me.Cmb_SatuanBerat.Location = New System.Drawing.Point(354, 346)
         Me.Cmb_SatuanBerat.Name = "Cmb_SatuanBerat"
-        Me.Cmb_SatuanBerat.Size = New System.Drawing.Size(108, 26)
+        Me.Cmb_SatuanBerat.Size = New System.Drawing.Size(108, 24)
         Me.Cmb_SatuanBerat.TabIndex = 415
         '
         'Txt_Berat
@@ -833,7 +843,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Txt_Berat.Location = New System.Drawing.Point(212, 345)
         Me.Txt_Berat.MaxLength = 50
         Me.Txt_Berat.Name = "Txt_Berat"
-        Me.Txt_Berat.Size = New System.Drawing.Size(136, 25)
+        Me.Txt_Berat.Size = New System.Drawing.Size(136, 22)
         Me.Txt_Berat.TabIndex = 413
         '
         'Cmb_SatuanPanjang
@@ -842,7 +852,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Cmb_SatuanPanjang.FormattingEnabled = True
         Me.Cmb_SatuanPanjang.Location = New System.Drawing.Point(393, 289)
         Me.Cmb_SatuanPanjang.Name = "Cmb_SatuanPanjang"
-        Me.Cmb_SatuanPanjang.Size = New System.Drawing.Size(69, 26)
+        Me.Cmb_SatuanPanjang.Size = New System.Drawing.Size(69, 24)
         Me.Cmb_SatuanPanjang.TabIndex = 412
         '
         'Cmb_SatuanVolume
@@ -852,7 +862,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Cmb_SatuanVolume.FormattingEnabled = True
         Me.Cmb_SatuanVolume.Location = New System.Drawing.Point(354, 317)
         Me.Cmb_SatuanVolume.Name = "Cmb_SatuanVolume"
-        Me.Cmb_SatuanVolume.Size = New System.Drawing.Size(108, 26)
+        Me.Cmb_SatuanVolume.Size = New System.Drawing.Size(108, 24)
         Me.Cmb_SatuanVolume.TabIndex = 409
         '
         'Txt_Volume
@@ -864,7 +874,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Txt_Volume.MaxLength = 50
         Me.Txt_Volume.Name = "Txt_Volume"
         Me.Txt_Volume.ReadOnly = True
-        Me.Txt_Volume.Size = New System.Drawing.Size(136, 25)
+        Me.Txt_Volume.Size = New System.Drawing.Size(136, 22)
         Me.Txt_Volume.TabIndex = 402
         '
         'Lbl_Volume
@@ -873,7 +883,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_Volume.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_Volume.Location = New System.Drawing.Point(6, 319)
         Me.Lbl_Volume.Name = "Lbl_Volume"
-        Me.Lbl_Volume.Size = New System.Drawing.Size(73, 25)
+        Me.Lbl_Volume.Size = New System.Drawing.Size(59, 20)
         Me.Lbl_Volume.TabIndex = 401
         Me.Lbl_Volume.Text = "Volume"
         '
@@ -883,7 +893,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_Tinggi.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_Tinggi.Location = New System.Drawing.Point(334, 290)
         Me.Lbl_Tinggi.Name = "Lbl_Tinggi"
-        Me.Lbl_Tinggi.Size = New System.Drawing.Size(22, 25)
+        Me.Lbl_Tinggi.Size = New System.Drawing.Size(17, 20)
         Me.Lbl_Tinggi.TabIndex = 400
         Me.Lbl_Tinggi.Text = "T"
         '
@@ -894,7 +904,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Txt_Tinggi.Location = New System.Drawing.Point(354, 288)
         Me.Txt_Tinggi.MaxLength = 100
         Me.Txt_Tinggi.Name = "Txt_Tinggi"
-        Me.Txt_Tinggi.Size = New System.Drawing.Size(33, 25)
+        Me.Txt_Tinggi.Size = New System.Drawing.Size(33, 22)
         Me.Txt_Tinggi.TabIndex = 399
         '
         'Lbl_Lebar
@@ -903,7 +913,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_Lebar.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_Lebar.Location = New System.Drawing.Point(271, 290)
         Me.Lbl_Lebar.Name = "Lbl_Lebar"
-        Me.Lbl_Lebar.Size = New System.Drawing.Size(22, 25)
+        Me.Lbl_Lebar.Size = New System.Drawing.Size(17, 20)
         Me.Lbl_Lebar.TabIndex = 398
         Me.Lbl_Lebar.Text = "L"
         '
@@ -914,7 +924,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Txt_Lebar.Location = New System.Drawing.Point(294, 288)
         Me.Txt_Lebar.MaxLength = 100
         Me.Txt_Lebar.Name = "Txt_Lebar"
-        Me.Txt_Lebar.Size = New System.Drawing.Size(33, 25)
+        Me.Txt_Lebar.Size = New System.Drawing.Size(33, 22)
         Me.Txt_Lebar.TabIndex = 397
         '
         'Lbl_Panjang
@@ -923,7 +933,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Lbl_Panjang.Font = New System.Drawing.Font("Work Sans", 10.0!)
         Me.Lbl_Panjang.Location = New System.Drawing.Point(208, 290)
         Me.Lbl_Panjang.Name = "Lbl_Panjang"
-        Me.Lbl_Panjang.Size = New System.Drawing.Size(22, 25)
+        Me.Lbl_Panjang.Size = New System.Drawing.Size(18, 20)
         Me.Lbl_Panjang.TabIndex = 396
         Me.Lbl_Panjang.Text = "P"
         '
@@ -934,7 +944,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Txt_Panjang.Location = New System.Drawing.Point(232, 288)
         Me.Txt_Panjang.MaxLength = 100
         Me.Txt_Panjang.Name = "Txt_Panjang"
-        Me.Txt_Panjang.Size = New System.Drawing.Size(33, 25)
+        Me.Txt_Panjang.Size = New System.Drawing.Size(33, 22)
         Me.Txt_Panjang.TabIndex = 395
         '
         'Label6
@@ -943,7 +953,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Label6.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.Location = New System.Drawing.Point(511, 197)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(157, 25)
+        Me.Label6.Size = New System.Drawing.Size(116, 18)
         Me.Label6.TabIndex = 47
         Me.Label6.Text = "Kelurahan Tujuan"
         '
@@ -954,7 +964,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Cmb_KelTujuan.FormattingEnabled = True
         Me.Cmb_KelTujuan.Location = New System.Drawing.Point(716, 195)
         Me.Cmb_KelTujuan.Name = "Cmb_KelTujuan"
-        Me.Cmb_KelTujuan.Size = New System.Drawing.Size(250, 30)
+        Me.Cmb_KelTujuan.Size = New System.Drawing.Size(250, 25)
         Me.Cmb_KelTujuan.TabIndex = 46
         '
         'Label4
@@ -963,7 +973,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Label4.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.Location = New System.Drawing.Point(511, 166)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(167, 25)
+        Me.Label4.Size = New System.Drawing.Size(122, 18)
         Me.Label4.TabIndex = 45
         Me.Label4.Text = "Kecamatan Tujuan"
         '
@@ -974,7 +984,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Cmb_KecTujuan.FormattingEnabled = True
         Me.Cmb_KecTujuan.Location = New System.Drawing.Point(716, 164)
         Me.Cmb_KecTujuan.Name = "Cmb_KecTujuan"
-        Me.Cmb_KecTujuan.Size = New System.Drawing.Size(250, 30)
+        Me.Cmb_KecTujuan.Size = New System.Drawing.Size(250, 25)
         Me.Cmb_KecTujuan.TabIndex = 44
         '
         'Label3
@@ -983,7 +993,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Label3.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.Location = New System.Drawing.Point(7, 197)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(136, 25)
+        Me.Label3.Size = New System.Drawing.Size(101, 18)
         Me.Label3.TabIndex = 43
         Me.Label3.Text = "Kelurahan Asal"
         '
@@ -994,7 +1004,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Cmb_KelAsal.FormattingEnabled = True
         Me.Cmb_KelAsal.Location = New System.Drawing.Point(212, 195)
         Me.Cmb_KelAsal.Name = "Cmb_KelAsal"
-        Me.Cmb_KelAsal.Size = New System.Drawing.Size(250, 30)
+        Me.Cmb_KelAsal.Size = New System.Drawing.Size(250, 25)
         Me.Cmb_KelAsal.TabIndex = 42
         '
         'Cmb_KecAsal
@@ -1004,7 +1014,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Cmb_KecAsal.FormattingEnabled = True
         Me.Cmb_KecAsal.Location = New System.Drawing.Point(212, 164)
         Me.Cmb_KecAsal.Name = "Cmb_KecAsal"
-        Me.Cmb_KecAsal.Size = New System.Drawing.Size(250, 30)
+        Me.Cmb_KecAsal.Size = New System.Drawing.Size(250, 25)
         Me.Cmb_KecAsal.TabIndex = 41
         '
         'Label2
@@ -1013,7 +1023,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Label2.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.Location = New System.Drawing.Point(7, 166)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(146, 25)
+        Me.Label2.Size = New System.Drawing.Size(107, 18)
         Me.Label2.TabIndex = 40
         Me.Label2.Text = "Kecamatan Asal"
         '
@@ -1023,7 +1033,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblOngkir_PeriodeAkhirPenawaran.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblOngkir_PeriodeAkhirPenawaran.Location = New System.Drawing.Point(511, 76)
         Me.LblOngkir_PeriodeAkhirPenawaran.Name = "LblOngkir_PeriodeAkhirPenawaran"
-        Me.LblOngkir_PeriodeAkhirPenawaran.Size = New System.Drawing.Size(223, 25)
+        Me.LblOngkir_PeriodeAkhirPenawaran.Size = New System.Drawing.Size(164, 18)
         Me.LblOngkir_PeriodeAkhirPenawaran.TabIndex = 39
         Me.LblOngkir_PeriodeAkhirPenawaran.Text = "Periode Akhir Penawaran"
         '
@@ -1035,7 +1045,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.DtpOngkir_PeriodeAkhirPenawaran.Location = New System.Drawing.Point(716, 75)
         Me.DtpOngkir_PeriodeAkhirPenawaran.Margin = New System.Windows.Forms.Padding(2)
         Me.DtpOngkir_PeriodeAkhirPenawaran.Name = "DtpOngkir_PeriodeAkhirPenawaran"
-        Me.DtpOngkir_PeriodeAkhirPenawaran.Size = New System.Drawing.Size(250, 25)
+        Me.DtpOngkir_PeriodeAkhirPenawaran.Size = New System.Drawing.Size(250, 22)
         Me.DtpOngkir_PeriodeAkhirPenawaran.TabIndex = 38
         '
         'Cmb_CaraKirim
@@ -1045,7 +1055,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Cmb_CaraKirim.FormattingEnabled = True
         Me.Cmb_CaraKirim.Location = New System.Drawing.Point(212, 226)
         Me.Cmb_CaraKirim.Name = "Cmb_CaraKirim"
-        Me.Cmb_CaraKirim.Size = New System.Drawing.Size(250, 30)
+        Me.Cmb_CaraKirim.Size = New System.Drawing.Size(250, 25)
         Me.Cmb_CaraKirim.TabIndex = 36
         '
         'LblOngkir_CaraKirim
@@ -1054,7 +1064,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblOngkir_CaraKirim.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblOngkir_CaraKirim.Location = New System.Drawing.Point(7, 230)
         Me.LblOngkir_CaraKirim.Name = "LblOngkir_CaraKirim"
-        Me.LblOngkir_CaraKirim.Size = New System.Drawing.Size(101, 25)
+        Me.LblOngkir_CaraKirim.Size = New System.Drawing.Size(72, 18)
         Me.LblOngkir_CaraKirim.TabIndex = 37
         Me.LblOngkir_CaraKirim.Text = "Cara Kirim"
         '
@@ -1064,7 +1074,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblOngkir_Hrg.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblOngkir_Hrg.Location = New System.Drawing.Point(511, 259)
         Me.LblOngkir_Hrg.Name = "LblOngkir_Hrg"
-        Me.LblOngkir_Hrg.Size = New System.Drawing.Size(60, 25)
+        Me.LblOngkir_Hrg.Size = New System.Drawing.Size(44, 18)
         Me.LblOngkir_Hrg.TabIndex = 34
         Me.LblOngkir_Hrg.Text = "Harga"
         '
@@ -1075,7 +1085,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.TxtOngkir_Hrg.Location = New System.Drawing.Point(716, 257)
         Me.TxtOngkir_Hrg.MaxLength = 20
         Me.TxtOngkir_Hrg.Name = "TxtOngkir_Hrg"
-        Me.TxtOngkir_Hrg.Size = New System.Drawing.Size(250, 25)
+        Me.TxtOngkir_Hrg.Size = New System.Drawing.Size(250, 22)
         Me.TxtOngkir_Hrg.TabIndex = 33
         Me.TxtOngkir_Hrg.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -1086,7 +1096,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Cmb_KabKotaTujuan.FormattingEnabled = True
         Me.Cmb_KabKotaTujuan.Location = New System.Drawing.Point(716, 133)
         Me.Cmb_KabKotaTujuan.Name = "Cmb_KabKotaTujuan"
-        Me.Cmb_KabKotaTujuan.Size = New System.Drawing.Size(250, 30)
+        Me.Cmb_KabKotaTujuan.Size = New System.Drawing.Size(250, 25)
         Me.Cmb_KabKotaTujuan.TabIndex = 7
         '
         'LblOngkir_KabKotTujuan
@@ -1095,7 +1105,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblOngkir_KabKotTujuan.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblOngkir_KabKotTujuan.Location = New System.Drawing.Point(511, 135)
         Me.LblOngkir_KabKotTujuan.Name = "LblOngkir_KabKotTujuan"
-        Me.LblOngkir_KabKotTujuan.Size = New System.Drawing.Size(208, 25)
+        Me.LblOngkir_KabKotTujuan.Size = New System.Drawing.Size(155, 18)
         Me.LblOngkir_KabKotTujuan.TabIndex = 32
         Me.LblOngkir_KabKotTujuan.Text = "Kabupaten/Kota Tujuan"
         '
@@ -1106,7 +1116,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Cmb_KabKotaAwal.FormattingEnabled = True
         Me.Cmb_KabKotaAwal.Location = New System.Drawing.Point(212, 133)
         Me.Cmb_KabKotaAwal.Name = "Cmb_KabKotaAwal"
-        Me.Cmb_KabKotaAwal.Size = New System.Drawing.Size(250, 30)
+        Me.Cmb_KabKotaAwal.Size = New System.Drawing.Size(250, 25)
         Me.Cmb_KabKotaAwal.TabIndex = 6
         '
         'LblOngkir_KabKotaAsal
@@ -1115,7 +1125,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblOngkir_KabKotaAsal.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblOngkir_KabKotaAsal.Location = New System.Drawing.Point(7, 135)
         Me.LblOngkir_KabKotaAsal.Name = "LblOngkir_KabKotaAsal"
-        Me.LblOngkir_KabKotaAsal.Size = New System.Drawing.Size(187, 25)
+        Me.LblOngkir_KabKotaAsal.Size = New System.Drawing.Size(140, 18)
         Me.LblOngkir_KabKotaAsal.TabIndex = 30
         Me.LblOngkir_KabKotaAsal.Text = "Kabupaten/Kota Asal"
         '
@@ -1126,7 +1136,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Cmb_ProvTujuan.FormattingEnabled = True
         Me.Cmb_ProvTujuan.Location = New System.Drawing.Point(716, 102)
         Me.Cmb_ProvTujuan.Name = "Cmb_ProvTujuan"
-        Me.Cmb_ProvTujuan.Size = New System.Drawing.Size(250, 30)
+        Me.Cmb_ProvTujuan.Size = New System.Drawing.Size(250, 25)
         Me.Cmb_ProvTujuan.TabIndex = 5
         '
         'LblOngkir_ProvTujuan
@@ -1135,7 +1145,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblOngkir_ProvTujuan.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblOngkir_ProvTujuan.Location = New System.Drawing.Point(511, 104)
         Me.LblOngkir_ProvTujuan.Name = "LblOngkir_ProvTujuan"
-        Me.LblOngkir_ProvTujuan.Size = New System.Drawing.Size(139, 25)
+        Me.LblOngkir_ProvTujuan.Size = New System.Drawing.Size(102, 18)
         Me.LblOngkir_ProvTujuan.TabIndex = 28
         Me.LblOngkir_ProvTujuan.Text = "Provinsi Tujuan"
         '
@@ -1146,7 +1156,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Cmb_ProvAsal.FormattingEnabled = True
         Me.Cmb_ProvAsal.Location = New System.Drawing.Point(212, 102)
         Me.Cmb_ProvAsal.Name = "Cmb_ProvAsal"
-        Me.Cmb_ProvAsal.Size = New System.Drawing.Size(250, 30)
+        Me.Cmb_ProvAsal.Size = New System.Drawing.Size(250, 25)
         Me.Cmb_ProvAsal.TabIndex = 4
         '
         'LblOngkir_ProvAsal
@@ -1155,7 +1165,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblOngkir_ProvAsal.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblOngkir_ProvAsal.Location = New System.Drawing.Point(7, 104)
         Me.LblOngkir_ProvAsal.Name = "LblOngkir_ProvAsal"
-        Me.LblOngkir_ProvAsal.Size = New System.Drawing.Size(118, 25)
+        Me.LblOngkir_ProvAsal.Size = New System.Drawing.Size(87, 18)
         Me.LblOngkir_ProvAsal.TabIndex = 26
         Me.LblOngkir_ProvAsal.Text = "Provinsi Asal"
         '
@@ -1166,7 +1176,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Cmb_MediaKirim.FormattingEnabled = True
         Me.Cmb_MediaKirim.Location = New System.Drawing.Point(212, 257)
         Me.Cmb_MediaKirim.Name = "Cmb_MediaKirim"
-        Me.Cmb_MediaKirim.Size = New System.Drawing.Size(250, 30)
+        Me.Cmb_MediaKirim.Size = New System.Drawing.Size(250, 25)
         Me.Cmb_MediaKirim.TabIndex = 10
         '
         'Cmb_UkuranKontainer
@@ -1177,7 +1187,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Cmb_UkuranKontainer.FormattingEnabled = True
         Me.Cmb_UkuranKontainer.Location = New System.Drawing.Point(716, 345)
         Me.Cmb_UkuranKontainer.Name = "Cmb_UkuranKontainer"
-        Me.Cmb_UkuranKontainer.Size = New System.Drawing.Size(250, 30)
+        Me.Cmb_UkuranKontainer.Size = New System.Drawing.Size(250, 25)
         Me.Cmb_UkuranKontainer.TabIndex = 11
         Me.Cmb_UkuranKontainer.Visible = False
         '
@@ -1187,7 +1197,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblOngkir_Ukuran.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblOngkir_Ukuran.Location = New System.Drawing.Point(511, 349)
         Me.LblOngkir_Ukuran.Name = "LblOngkir_Ukuran"
-        Me.LblOngkir_Ukuran.Size = New System.Drawing.Size(72, 25)
+        Me.LblOngkir_Ukuran.Size = New System.Drawing.Size(52, 18)
         Me.LblOngkir_Ukuran.TabIndex = 21
         Me.LblOngkir_Ukuran.Text = "Ukuran"
         Me.LblOngkir_Ukuran.Visible = False
@@ -1198,7 +1208,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblOngkir_MediaKirim.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblOngkir_MediaKirim.Location = New System.Drawing.Point(7, 261)
         Me.LblOngkir_MediaKirim.Name = "LblOngkir_MediaKirim"
-        Me.LblOngkir_MediaKirim.Size = New System.Drawing.Size(113, 25)
+        Me.LblOngkir_MediaKirim.Size = New System.Drawing.Size(81, 18)
         Me.LblOngkir_MediaKirim.TabIndex = 20
         Me.LblOngkir_MediaKirim.Text = "Media Kirim"
         '
@@ -1208,7 +1218,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblOngkir_LokasiTujuan.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblOngkir_LokasiTujuan.Location = New System.Drawing.Point(511, 319)
         Me.LblOngkir_LokasiTujuan.Name = "LblOngkir_LokasiTujuan"
-        Me.LblOngkir_LokasiTujuan.Size = New System.Drawing.Size(127, 25)
+        Me.LblOngkir_LokasiTujuan.Size = New System.Drawing.Size(93, 18)
         Me.LblOngkir_LokasiTujuan.TabIndex = 18
         Me.LblOngkir_LokasiTujuan.Text = "Lokasi Tujuan"
         Me.LblOngkir_LokasiTujuan.Visible = False
@@ -1220,7 +1230,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.TxtOngkir_LokasiTujuan.Location = New System.Drawing.Point(716, 317)
         Me.TxtOngkir_LokasiTujuan.MaxLength = 20
         Me.TxtOngkir_LokasiTujuan.Name = "TxtOngkir_LokasiTujuan"
-        Me.TxtOngkir_LokasiTujuan.Size = New System.Drawing.Size(250, 25)
+        Me.TxtOngkir_LokasiTujuan.Size = New System.Drawing.Size(250, 22)
         Me.TxtOngkir_LokasiTujuan.TabIndex = 9
         Me.TxtOngkir_LokasiTujuan.Visible = False
         '
@@ -1232,7 +1242,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.DtpOngkir_TglPenawaranHrg.Location = New System.Drawing.Point(716, 47)
         Me.DtpOngkir_TglPenawaranHrg.Margin = New System.Windows.Forms.Padding(2)
         Me.DtpOngkir_TglPenawaranHrg.Name = "DtpOngkir_TglPenawaranHrg"
-        Me.DtpOngkir_TglPenawaranHrg.Size = New System.Drawing.Size(250, 25)
+        Me.DtpOngkir_TglPenawaranHrg.Size = New System.Drawing.Size(250, 22)
         Me.DtpOngkir_TglPenawaranHrg.TabIndex = 3
         '
         'LblOngkir_TglPenawaranHrg
@@ -1241,7 +1251,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblOngkir_TglPenawaranHrg.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblOngkir_TglPenawaranHrg.Location = New System.Drawing.Point(511, 48)
         Me.LblOngkir_TglPenawaranHrg.Name = "LblOngkir_TglPenawaranHrg"
-        Me.LblOngkir_TglPenawaranHrg.Size = New System.Drawing.Size(231, 25)
+        Me.LblOngkir_TglPenawaranHrg.Size = New System.Drawing.Size(173, 18)
         Me.LblOngkir_TglPenawaranHrg.TabIndex = 15
         Me.LblOngkir_TglPenawaranHrg.Text = "Tgl Penawaran Harga Awal"
         '
@@ -1251,7 +1261,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblOngkir_NoPenawaran.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblOngkir_NoPenawaran.Location = New System.Drawing.Point(7, 76)
         Me.LblOngkir_NoPenawaran.Name = "LblOngkir_NoPenawaran"
-        Me.LblOngkir_NoPenawaran.Size = New System.Drawing.Size(133, 25)
+        Me.LblOngkir_NoPenawaran.Size = New System.Drawing.Size(99, 18)
         Me.LblOngkir_NoPenawaran.TabIndex = 14
         Me.LblOngkir_NoPenawaran.Text = "No Penawaran"
         '
@@ -1262,7 +1272,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.TxtOngkir_NoPenawaran.Location = New System.Drawing.Point(212, 74)
         Me.TxtOngkir_NoPenawaran.MaxLength = 20
         Me.TxtOngkir_NoPenawaran.Name = "TxtOngkir_NoPenawaran"
-        Me.TxtOngkir_NoPenawaran.Size = New System.Drawing.Size(250, 25)
+        Me.TxtOngkir_NoPenawaran.Size = New System.Drawing.Size(250, 22)
         Me.TxtOngkir_NoPenawaran.TabIndex = 2
         '
         'LblOngkir_LokasiAwal
@@ -1271,7 +1281,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblOngkir_LokasiAwal.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblOngkir_LokasiAwal.Location = New System.Drawing.Point(511, 288)
         Me.LblOngkir_LokasiAwal.Name = "LblOngkir_LokasiAwal"
-        Me.LblOngkir_LokasiAwal.Size = New System.Drawing.Size(111, 25)
+        Me.LblOngkir_LokasiAwal.Size = New System.Drawing.Size(82, 18)
         Me.LblOngkir_LokasiAwal.TabIndex = 9
         Me.LblOngkir_LokasiAwal.Text = "Lokasi Awal"
         Me.LblOngkir_LokasiAwal.Visible = False
@@ -1283,7 +1293,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Txt_LokasiAwal.Location = New System.Drawing.Point(716, 286)
         Me.Txt_LokasiAwal.MaxLength = 20
         Me.Txt_LokasiAwal.Name = "Txt_LokasiAwal"
-        Me.Txt_LokasiAwal.Size = New System.Drawing.Size(250, 25)
+        Me.Txt_LokasiAwal.Size = New System.Drawing.Size(250, 22)
         Me.Txt_LokasiAwal.TabIndex = 8
         Me.Txt_LokasiAwal.Visible = False
         '
@@ -1293,7 +1303,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.LblOngkir_NmEkspedisi.Font = New System.Drawing.Font("Work Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblOngkir_NmEkspedisi.Location = New System.Drawing.Point(7, 48)
         Me.LblOngkir_NmEkspedisi.Name = "LblOngkir_NmEkspedisi"
-        Me.LblOngkir_NmEkspedisi.Size = New System.Drawing.Size(147, 25)
+        Me.LblOngkir_NmEkspedisi.Size = New System.Drawing.Size(107, 18)
         Me.LblOngkir_NmEkspedisi.TabIndex = 4
         Me.LblOngkir_NmEkspedisi.Text = "Nama Ekspedisi"
         '
@@ -1305,7 +1315,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Txt_NmEkspedisi.Location = New System.Drawing.Point(212, 46)
         Me.Txt_NmEkspedisi.MaxLength = 20
         Me.Txt_NmEkspedisi.Name = "Txt_NmEkspedisi"
-        Me.Txt_NmEkspedisi.Size = New System.Drawing.Size(250, 25)
+        Me.Txt_NmEkspedisi.Size = New System.Drawing.Size(250, 22)
         Me.Txt_NmEkspedisi.TabIndex = 1
         '
         'BtnOngkir_Simpan
@@ -1373,6 +1383,81 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Panel1.Size = New System.Drawing.Size(1060, 49)
         Me.Panel1.TabIndex = 392
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(15, 11)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(405, 30)
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "Master Data - Penawaran Barang Lain"
+        '
+        'DataGridViewTextBoxColumn1
+        '
+        Me.DataGridViewTextBoxColumn1.HeaderText = "Kode Barang"
+        Me.DataGridViewTextBoxColumn1.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
+        Me.DataGridViewTextBoxColumn1.ReadOnly = True
+        Me.DataGridViewTextBoxColumn1.Width = 150
+        '
+        'DataGridViewTextBoxColumn2
+        '
+        Me.DataGridViewTextBoxColumn2.HeaderText = "Nama Barang"
+        Me.DataGridViewTextBoxColumn2.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
+        Me.DataGridViewTextBoxColumn2.ReadOnly = True
+        Me.DataGridViewTextBoxColumn2.Width = 300
+        '
+        'DataGridViewTextBoxColumn3
+        '
+        Me.DataGridViewTextBoxColumn3.HeaderText = "PPN"
+        Me.DataGridViewTextBoxColumn3.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
+        Me.DataGridViewTextBoxColumn3.ReadOnly = True
+        Me.DataGridViewTextBoxColumn3.Width = 90
+        '
+        'DataGridViewTextBoxColumn4
+        '
+        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle8.NullValue = Nothing
+        Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle8
+        Me.DataGridViewTextBoxColumn4.HeaderText = "Minimal Order"
+        Me.DataGridViewTextBoxColumn4.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
+        Me.DataGridViewTextBoxColumn4.Width = 90
+        '
+        'DataGridViewTextBoxColumn5
+        '
+        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn5.DefaultCellStyle = DataGridViewCellStyle9
+        Me.DataGridViewTextBoxColumn5.HeaderText = "Satuan"
+        Me.DataGridViewTextBoxColumn5.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn5.Name = "DataGridViewTextBoxColumn5"
+        Me.DataGridViewTextBoxColumn5.ReadOnly = True
+        Me.DataGridViewTextBoxColumn5.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewTextBoxColumn5.Width = 125
+        '
+        'DataGridViewTextBoxColumn6
+        '
+        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle10.NullValue = Nothing
+        Me.DataGridViewTextBoxColumn6.DefaultCellStyle = DataGridViewCellStyle10
+        Me.DataGridViewTextBoxColumn6.HeaderText = "Harga Satuan"
+        Me.DataGridViewTextBoxColumn6.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn6.Name = "DataGridViewTextBoxColumn6"
+        Me.DataGridViewTextBoxColumn6.Width = 125
+        '
+        'DataGridViewTextBoxColumn7
+        '
+        Me.DataGridViewTextBoxColumn7.HeaderText = "Sisa Hari"
+        Me.DataGridViewTextBoxColumn7.MinimumWidth = 6
+        Me.DataGridViewTextBoxColumn7.Name = "DataGridViewTextBoxColumn7"
+        Me.DataGridViewTextBoxColumn7.ReadOnly = True
+        Me.DataGridViewTextBoxColumn7.Visible = False
+        Me.DataGridViewTextBoxColumn7.Width = 125
+        '
         'PanelGradient1
         '
         Me.PanelGradient1.cuteColor1 = System.Drawing.Color.FromArgb(CType(CType(95, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(185, Byte), Integer))
@@ -1385,17 +1470,6 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.PanelGradient1.Name = "PanelGradient1"
         Me.PanelGradient1.Size = New System.Drawing.Size(1060, 2)
         Me.PanelGradient1.TabIndex = 22
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Work Sans SemiBold", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(15, 11)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(504, 32)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Master Data - Penawaran Barang Lain"
         '
         'Col_KdBrg
         '
@@ -1447,6 +1521,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         Me.Column3.HeaderText = "Mata Uang"
         Me.Column3.MinimumWidth = 6
         Me.Column3.Name = "Column3"
+        Me.Column3.ReadOnly = True
         Me.Column3.Width = 115
         '
         'Col_HrgSatuan
@@ -1470,7 +1545,7 @@ Partial Class Transaksi_Penawaran_Barang_Lain
         '
         'Transaksi_Penawaran_Barang_Lain
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1060, 723)
@@ -1612,4 +1687,11 @@ Partial Class Transaksi_Penawaran_Barang_Lain
     Friend WithEvents Column3 As DataGridViewComboBoxColumn
     Friend WithEvents Col_HrgSatuan As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn5 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn6 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn7 As DataGridViewTextBoxColumn
 End Class

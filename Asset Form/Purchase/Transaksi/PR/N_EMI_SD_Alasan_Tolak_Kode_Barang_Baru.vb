@@ -1,4 +1,8 @@
-﻿Public Class N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru
+﻿Imports System.Web.UI.WebControls
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
+
+Public Class N_EMI_SD_Alasan_Tolak_Kode_Barang_Baru
     Public xurut_departement As String
     Public xNoFakturPengajuanBarang As String
     Public xFrom As String
@@ -21,7 +25,7 @@
             OpenConn()
 
 
-            If xFrom = "departmenet" Then
+            If xFrom = "departement" Then
 
                 SQL = "update N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail set "
                 SQL = SQL & "Alasan_Tolak = '" & TextBox1.Text.Trim & "', "

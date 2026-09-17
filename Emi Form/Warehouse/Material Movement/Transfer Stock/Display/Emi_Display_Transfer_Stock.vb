@@ -134,10 +134,10 @@ Public Class Emi_Display_Transfer_Stock
         'Lv_Stock_Detail.Columns.Add("Jam Potong", 0, HorizontalAlignment.Center)
         'Lv_Stock_Detail.Columns.Add("User", 0, HorizontalAlignment.Left)
         Lv_Stock_Detail.Columns.Add("NoFaktur", 0, HorizontalAlignment.Left)
-        Lv_Stock_Detail.Columns.Add("Kode Barang", 150, HorizontalAlignment.Left)
-        Lv_Stock_Detail.Columns.Add("Nama", 450, HorizontalAlignment.Left)
-        Lv_Stock_Detail.Columns.Add("Total", 130, HorizontalAlignment.Right)
-        Lv_Stock_Detail.Columns.Add("Satuan", 90, HorizontalAlignment.Center)
+        Lv_Stock_Detail.Columns.Add("Kode Barang", 250, HorizontalAlignment.Left)
+        Lv_Stock_Detail.Columns.Add("Nama", 0, HorizontalAlignment.Left)
+        Lv_Stock_Detail.Columns.Add("Total", 150, HorizontalAlignment.Right)
+        Lv_Stock_Detail.Columns.Add("Satuan", 100, HorizontalAlignment.Center)
         Lv_Stock_Detail.Columns.Add("Total Bags", 130, HorizontalAlignment.Right)
 
         Lv_Stock_Detail.View = View.Details
@@ -203,7 +203,7 @@ Public Class Emi_Display_Transfer_Stock
             SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur = b.No_Faktur "
             SQL = SQL & "and b.Kode_Perusahaan  = c.Kode_Perusahaan and b.Kode_Barang = c.Kode_Barang "
             SQL = SQL & "and a.so_awal = c.Kode_Stock_Owner "
-            SQL = SQL & "and a.Status is null "
+            'SQL = SQL & "and a.Status is null "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
             SQL = SQL & "and a.no_faktur = '" & Lv_Stock.FocusedItem.Text & "' "
             Using Dr = OpenTrans(SQL)
@@ -212,8 +212,8 @@ Public Class Emi_Display_Transfer_Stock
 
                     lv = Lv_Stock_Detail.Items.Add(Dr("no_faktur"))
                     lv.SubItems.Add(Dr("kode_barang"))
-                    lv.SubItems.Add(Dr("nama"))
-                    lv.SubItems.Add(Format(Dr("total"), "N2"))
+                    lv.SubItems.Add("X")
+                    lv.SubItems.Add(Format(Dr("total"), "N4"))
                     lv.SubItems.Add(Dr("satuan"))
                     lv.SubItems.Add(Format(Dr("total_bags"), "N2"))
 
@@ -266,8 +266,8 @@ Public Class Emi_Display_Transfer_Stock
                     lv = LvwAwal.Items.Add(Dr("Labeling_WMS_Position"))
                     lv.SubItems.Add(Dr("no_pallet"))
                     lv.SubItems.Add(Dr("Qr_Code"))
-                    lv.SubItems.Add(Format(Dr("jumlah"), "N2"))
-                    lv.SubItems.Add(Format(Dr("Jumlah_Actual"), "N2"))
+                    lv.SubItems.Add(Format(Dr("jumlah"), "N4"))
+                    lv.SubItems.Add(Format(Dr("Jumlah_Actual"), "N4"))
                     lv.SubItems.Add(Dr("satuan"))
                     lv.SubItems.Add(Format(Dr("jumlah_bags"), "N2"))
                     'HIDE
@@ -321,7 +321,7 @@ Public Class Emi_Display_Transfer_Stock
                     lv = LvwAkhir.Items.Add(Dr("Labeling_WMS_Position"))
                     lv.SubItems.Add(Dr("no_pallet"))
                     lv.SubItems.Add(Dr("Qr_Code"))
-                    lv.SubItems.Add(Format(Dr("jumlah"), "N2"))
+                    lv.SubItems.Add(Format(Dr("jumlah"), "N4"))
                     lv.SubItems.Add(Dr("satuan"))
                     If General_Class.CekNULL(Dr("jumlah_bags")) = "" Then
                         lv.SubItems.Add("0")
@@ -376,10 +376,10 @@ Public Class Emi_Display_Transfer_Stock
             OpenConn()
 
             Lv_Stock.Items.Clear() : Lv_Stock_Detail.Items.Clear()
-            SQL = "select a.No_Faktur, a.Jenis_Transfer, a.SO_Awal, a.SO_Tujuan, a.Keterangan, a.Tanggal, a.Jam, a.UserID  "
+            SQL = "select a.No_Faktur, a.Jenis_Transfer, a.SO_Awal, a.SO_Tujuan, a.Keterangan, a.Tanggal, a.Jam, a.UserID, a.status  "
             SQL = SQL & "from Tf_Stock_Parent a "
             SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and a.Status is null "
+            'SQL = SQL & "and a.Status is null "
 
             If Chk_Transaksi_HariIni.Checked = True Then
                 'Pasang And
@@ -421,10 +421,15 @@ Public Class Emi_Display_Transfer_Stock
                     'lv.SubItems.Add(Dr("Nama"))
                     lv.SubItems.Add(Dr("SO_Awal"))
                     lv.SubItems.Add(Dr("SO_Tujuan"))
-                    lv.SubItems.Add(Dr("Keterangan"))
+                    lv.SubItems.Add(If(General_Class.CekNULL(Dr("Keterangan")) = "", "", Dr("Keterangan")))
                     lv.SubItems.Add(Format(Dr("Tanggal"), "dd MMM yyyy"))
                     lv.SubItems.Add(Dr("Jam"))
                     lv.SubItems.Add(Dr("UserID"))
+
+                    If General_Class.CekNULL(Dr("status")) = "Y" Then
+                        lv.BackColor = Color.DarkRed
+                        lv.ForeColor = Color.White
+                    End If
 
                 Loop
             End Using
@@ -698,6 +703,7 @@ Public Class Emi_Display_Transfer_Stock
             Exit Sub
         End Try
 
+
     End Sub
 
     '==================================================================================================================================================
@@ -723,14 +729,15 @@ Public Class Emi_Display_Transfer_Stock
 
             OpenConn()
 
-            SQL = "select a.Kode_Transfer "
-            SQL = SQL & "from Tf_Stock a, barang b "
-            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan "
+            SQL = "select c.No_Faktur "
+            SQL = SQL & "from Tf_Stock a, barang b, Tf_Stock_parent c "
+            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.Kode_Perusahaan = c.Kode_Perusahaan "
+            SQL = SQL & "and a.No_Faktur = c.No_Faktur "
             SQL = SQL & "and a.Kode_Barang = b.Kode_Barang "
-            SQL = SQL & "and a.so_awal = B.Kode_Stock_Owner "
-            SQL = SQL & "and a.Status is null "
+            SQL = SQL & "and c.so_awal = B.Kode_Stock_Owner "
+            SQL = SQL & "and c.Status is null "
             SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' "
-            SQL = SQL & "and a.Kode_Transfer='" & Lv_Stock.FocusedItem.Text & "' "
+            SQL = SQL & "and c.No_Faktur='" & Lv_Stock.FocusedItem.Text & "' "
             Using Ds = BindingTrans(SQL)
                 If Ds.Tables("MyTable").Rows.Count <> 0 Then
                     Dim CrDoc As New Rpt_Faktur_Transfer_Stock       'Nama file CR
@@ -911,7 +918,7 @@ Public Class Emi_Display_Transfer_Stock
                     If .Rows.Count <> 0 Then
                         For i As Integer = 0 To .Rows.Count - 1
 
-                            SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_sn x "
+                            SQL = "SELECT round(SUM(good_stock),4) AS good_stock, isnull((select round(sum(jumlah),4) from Barang_sn x "
                             SQL = SQL & "where a.kode_Barang=x.kode_Barang and a.Kode_Stock_Owner=x.kode_Stock_Owner "
                             SQL = SQL & "and a.kode_Perusahaan=x.kode_Perusahaan ),0) as Jumlah_sn, "
                             SQL = SQL & "isnull(round(SUM(jumlah_bags), 2), 0) AS jumlah_bags_barang, "
@@ -1028,7 +1035,7 @@ Public Class Emi_Display_Transfer_Stock
                             '====================================
                             '=       CEK KESESUAIAN STOCK       =
                             '====================================
-                            SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_sn x "
+                            SQL = "SELECT round(SUM(good_stock),4) AS good_stock, isnull((select round(sum(jumlah),4) from Barang_sn x "
                             SQL = SQL & "where a.kode_Barang=x.kode_Barang and a.Kode_Stock_Owner=x.kode_Stock_Owner "
                             SQL = SQL & "and a.kode_Perusahaan=x.kode_Perusahaan ),0) as Jumlah_sn, "
                             SQL = SQL & "isnull(round(SUM(jumlah_bags), 2), 0) AS jumlah_bags_barang, "
@@ -1090,7 +1097,7 @@ Public Class Emi_Display_Transfer_Stock
                             '====================================
                             '=       CEK KESESUAIAN STOCK       =
                             '====================================
-                            SQL = "SELECT round(SUM(good_stock),2) AS good_stock, isnull((select round(sum(jumlah),2) from Barang_sn x "
+                            SQL = "SELECT round(SUM(good_stock),4) AS good_stock, isnull((select round(sum(jumlah),4) from Barang_sn x "
                             SQL = SQL & "where a.kode_Barang=x.kode_Barang and a.Kode_Stock_Owner=x.kode_Stock_Owner "
                             SQL = SQL & "and a.kode_Perusahaan=x.kode_Perusahaan ),0) as Jumlah_sn, "
                             SQL = SQL & "isnull(round(SUM(jumlah_bags), 2), 0) AS jumlah_bags_barang, "
@@ -1132,6 +1139,7 @@ Public Class Emi_Display_Transfer_Stock
                                 End If
                             End Using
 
+                            Dim abc As String = ""
                             '==================================
                             '=     UPDATE TF STOCK DETAIL     =
                             '==================================

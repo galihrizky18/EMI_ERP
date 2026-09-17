@@ -1128,7 +1128,7 @@
                                     SQL = SQL & "from Barang_SN a "
                                     SQL = SQL & "inner join det_do_new b on a.Kode_Perusahaan = b.Kode_Perusahaan and a.Serial_Number = b.Serial_Number "
                                     SQL = SQL & "where a.kode_perusahaan = '" & KodePerusahaan & "' "
-                                    SQL = SQL & "and (a.qr_code+'-'+a.kode_unik_berjalan) = '" & Barcode_DO_Sementara & "' "
+                                    SQL = SQL & "and (a.qr_code+'-'+a.kode_unik_berjalan) = '" & Barcode_DO_Sementara & "' and b.no_faktur='" & Trim(TextBox1.Text) & "' "
                                     Using Ds1 = BindingTrans(SQL)
                                         If Ds1.Tables("MyTable").Rows.Count <> 0 Then
                                             For h As Integer = 0 To Ds1.Tables("MyTable").Rows.Count - 1
@@ -1222,7 +1222,7 @@
                                                         End If
                                                     End Using
 
-                                                    SQL = "Update barang_sn set jumlah = jumlah + " & .Rows(h).Item("jumlah") & " where "
+                                                    SQL = "Update barang_sn set jumlah = jumlah + " & Ds1.Tables("MyTable").Rows(h).Item("jumlah") & " where "
                                                     SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and "
                                                     SQL = SQL & "kode_stock_owner = '" & So_Retur & "' and "
                                                     SQL = SQL & "kode_barang = '" & Kd_Barang_Retur & "' and "
@@ -1247,7 +1247,7 @@
                                                     Exit Sub
                                                 End If
 
-                                                If Jumlah_Retur <> 0 And h = .Rows.Count - 1 Then
+                                                If Jumlah_Retur <> 0 And h = Ds1.Tables("MyTable").Rows.Count - 1 Then
                                                     CloseTrans()
                                                     CloseConn()
                                                     MessageBox.Show("Jumlah stock tidak mencukupi!", Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

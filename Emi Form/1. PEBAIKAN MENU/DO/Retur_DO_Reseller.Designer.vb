@@ -528,7 +528,7 @@ Partial Class Retur_DO_Reseller
         '
         Me.GroupBox3.Controls.Add(Me.Button5)
         Me.GroupBox3.Controls.Add(Me.Button3)
-        Me.GroupBox3.Location = New System.Drawing.Point(1408, 71)
+        Me.GroupBox3.Location = New System.Drawing.Point(1209, 62)
         Me.GroupBox3.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Padding = New System.Windows.Forms.Padding(2, 5, 2, 5)
@@ -576,7 +576,7 @@ Partial Class Retur_DO_Reseller
         Me.listview1.FullRowSelect = True
         Me.listview1.GridLines = True
         Me.listview1.HideSelection = False
-        Me.listview1.Location = New System.Drawing.Point(1520, 346)
+        Me.listview1.Location = New System.Drawing.Point(1321, 337)
         Me.listview1.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
         Me.listview1.Name = "listview1"
         Me.listview1.Size = New System.Drawing.Size(447, 301)
@@ -610,7 +610,7 @@ Partial Class Retur_DO_Reseller
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(1576, 107)
+        Me.Label8.Location = New System.Drawing.Point(1377, 98)
         Me.Label8.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(67, 13)
@@ -633,7 +633,7 @@ Partial Class Retur_DO_Reseller
         '
         Me.Label40.AutoSize = True
         Me.Label40.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label40.Location = New System.Drawing.Point(1563, 214)
+        Me.Label40.Location = New System.Drawing.Point(1364, 205)
         Me.Label40.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label40.Name = "Label40"
         Me.Label40.Size = New System.Drawing.Size(44, 20)
@@ -645,7 +645,7 @@ Partial Class Retur_DO_Reseller
         '
         Me.TextBox17.Enabled = False
         Me.TextBox17.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox17.Location = New System.Drawing.Point(1620, 210)
+        Me.TextBox17.Location = New System.Drawing.Point(1421, 201)
         Me.TextBox17.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox17.Name = "TextBox17"
         Me.TextBox17.Size = New System.Drawing.Size(222, 26)
@@ -657,7 +657,7 @@ Partial Class Retur_DO_Reseller
         '
         Me.Label41.AutoSize = True
         Me.Label41.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label41.Location = New System.Drawing.Point(1568, 249)
+        Me.Label41.Location = New System.Drawing.Point(1369, 240)
         Me.Label41.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label41.Name = "Label41"
         Me.Label41.Size = New System.Drawing.Size(40, 20)
@@ -669,7 +669,7 @@ Partial Class Retur_DO_Reseller
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(1506, 287)
+        Me.Label1.Location = New System.Drawing.Point(1307, 278)
         Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(93, 20)
@@ -681,7 +681,7 @@ Partial Class Retur_DO_Reseller
         '
         Me.TextBox18.Enabled = False
         Me.TextBox18.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox18.Location = New System.Drawing.Point(1620, 245)
+        Me.TextBox18.Location = New System.Drawing.Point(1421, 236)
         Me.TextBox18.Margin = New System.Windows.Forms.Padding(2)
         Me.TextBox18.MaxLength = 5
         Me.TextBox18.Name = "TextBox18"
@@ -694,7 +694,7 @@ Partial Class Retur_DO_Reseller
         '
         Me.TextBox19.Enabled = False
         Me.TextBox19.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox19.Location = New System.Drawing.Point(1675, 245)
+        Me.TextBox19.Location = New System.Drawing.Point(1476, 236)
         Me.TextBox19.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox19.Name = "TextBox19"
         Me.TextBox19.Size = New System.Drawing.Size(167, 26)
@@ -706,7 +706,7 @@ Partial Class Retur_DO_Reseller
         '
         Me.TxtTotal.Enabled = False
         Me.TxtTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtTotal.Location = New System.Drawing.Point(1620, 279)
+        Me.TxtTotal.Location = New System.Drawing.Point(1421, 270)
         Me.TxtTotal.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtTotal.Name = "TxtTotal"
         Me.TxtTotal.Size = New System.Drawing.Size(222, 26)
@@ -747,7 +747,7 @@ Partial Class Retur_DO_Reseller
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(5)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1185, 45)
+        Me.Panel1.Size = New System.Drawing.Size(1184, 45)
         Me.Panel1.TabIndex = 314
         '
         'PanelGradient1
@@ -760,7 +760,7 @@ Partial Class Retur_DO_Reseller
         Me.PanelGradient1.Location = New System.Drawing.Point(0, 43)
         Me.PanelGradient1.Margin = New System.Windows.Forms.Padding(1)
         Me.PanelGradient1.Name = "PanelGradient1"
-        Me.PanelGradient1.Size = New System.Drawing.Size(1185, 2)
+        Me.PanelGradient1.Size = New System.Drawing.Size(1184, 2)
         Me.PanelGradient1.TabIndex = 22
         '
         'Label9
@@ -842,7 +842,7 @@ Partial Class Retur_DO_Reseller
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1185, 682)
+        Me.ClientSize = New System.Drawing.Size(1184, 682)
         Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel6)

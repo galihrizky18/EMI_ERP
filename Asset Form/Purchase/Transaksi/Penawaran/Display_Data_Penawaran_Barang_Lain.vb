@@ -1,8 +1,4 @@
-﻿
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
-
-Public Class Display_Data_Penawaran_Barang_Lain
+﻿Public Class Display_Data_Penawaran_Barang_Lain
     Dim arrcari, arrcari2 As New ArrayList
     Public MinHari As Integer = 300
 

@@ -53,6 +53,7 @@ Public Class N_EMI_Display_Purchase_Requisition_Barang_Lain_Departement
         Lv_PRDetail.Columns.Add(Base_Language.Lang_Global_Satuan, 100, HorizontalAlignment.Center)
         Lv_PRDetail.Columns.Add(Base_Language.Lang_Global_Jumlah, 100, HorizontalAlignment.Center)
         Lv_PRDetail.Columns.Add("Jumlah PR", 110, HorizontalAlignment.Center)
+        'Lv_PRDetail.Columns.Add("Jumlah Keep Stock", 110, HorizontalAlignment.Center)
         Lv_PRDetail.Columns.Add("Sisa", 110, HorizontalAlignment.Center)
         Lv_PRDetail.Columns.Add("Link", 200, HorizontalAlignment.Left)
         Lv_PRDetail.Columns.Add("Est. Harga", 200, HorizontalAlignment.Right)
@@ -155,10 +156,9 @@ Public Class N_EMI_Display_Purchase_Requisition_Barang_Lain_Departement
             SQL = SQL & "And y.Kode_Perusahaan = a.Kode_Perusahaan And x.urut_departement = a.No_Urut And y.status Is null ), "
             SQL = SQL & "0) as jumlah_masuk, "
 
-            'SQL = SQL & "isnull((select sum(y.Jumlah) from EMI_Pembelian_PO_Induk_Barang_Lain x, EMI_Pembelian_PO_Det_Induk_Barang_Lain y "
-            'SQL = SQL & "where x.Kode_Perusahaan = y.Kode_Perusahaan and x.No_Faktur = y.No_Faktur "
-            'SQL = SQL & "and y.Kode_Perusahaan = a.Kode_Perusahaan and y.no_urut_pr = a.No_Urut and x.status is null), "
-            'SQL = SQL & "0) as jumlah_masuk_new, "
+            SQL = SQL & "isnull((select sum(y.Jumlah) from N_EMI_Keep_Stock_Barang_Lain_Departement y "
+            SQL = SQL & "where y.Kode_Perusahaan = a.Kode_Perusahaan and y.Urut_Departement = a.No_Urut and y.status is null "
+            SQL = SQL & "), 0) as Jumlah_Keep_Stock, "
 
             SQL = SQL & "isnull(a.flag_sudah_pr,'T') as flag_selesai_pr, Link, estimasi_harga as Estimasi_Harga "
 
@@ -174,7 +174,7 @@ Public Class N_EMI_Display_Purchase_Requisition_Barang_Lain_Departement
 
             Using Dr = OpenTrans(SQL)
                 Do While Dr.Read
-                    Dim total As Double = Dr("jumlah_masuk")
+                    Dim total As Double = Dr("jumlah_masuk") + Dr("Jumlah_Keep_Stock")
 
                     Dim lvw As ListViewItem
                     lvw = Lv_PRDetail.Items.Add(Dr("kode_barang"))
@@ -182,12 +182,13 @@ Public Class N_EMI_Display_Purchase_Requisition_Barang_Lain_Departement
                     lvw.SubItems.Add(Dr("satuan"))
                     lvw.SubItems.Add(Format(Dr("jumlah"), "N2"))
                     lvw.SubItems.Add(Format(total, "N2"))
+                    'lvw.SubItems.Add(Format(Dr("Jumlah_Keep_Stock"), "N2"))
 
                     Dim sisa As Double = Dr("jumlah") - total
                     Dim persen As Double = total / Dr("jumlah") * 100
                     If Dr("flag_selesai_pr") = "Y" Then
                         lvw.BackColor = Color.LightGreen
-                        lvw.SubItems.Add(Format(0, "N2"))
+                        lvw.SubItems.Add(Format(sisa, "N2"))
                     Else
                         lvw.SubItems.Add(Format(sisa, "N2"))
                     End If

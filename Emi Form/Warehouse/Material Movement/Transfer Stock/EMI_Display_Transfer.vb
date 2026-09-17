@@ -1,4 +1,4 @@
-﻿Public Class Emi_Display_Transfer
+﻿Public Class EMI_Display_Transfer
 
     Dim arrcari As New ArrayList
     Dim Jenis = "ETA"

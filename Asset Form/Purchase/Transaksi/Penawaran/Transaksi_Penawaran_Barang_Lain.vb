@@ -342,6 +342,7 @@ Public Class Transaksi_Penawaran_Barang_Lain
             DgvMaster_Penawaran.Rows(index).Cells(cellKdBrg).ReadOnly = True
             DgvMaster_Penawaran.Rows(index).Cells(cellNmBrg).ReadOnly = True
             DgvMaster_Penawaran.Rows(index).Cells(cellSatuan).ReadOnly = True
+            DgvMaster_Penawaran.Rows(index).Cells(cellMUA).ReadOnly = True
 
             DgvMaster_Penawaran.Rows(index).Cells(cellMinOrder).Value = 0
             DgvMaster_Penawaran.Rows(index).Cells(cellHrgSatuan).Value = 0
@@ -639,9 +640,11 @@ Public Class Transaksi_Penawaran_Barang_Lain
         cmbJenisPengiriman.SelectedIndex = -1
         txtJatuhTempo.Text = ""
 
-        cmbJenisPengiriman.Enabled = False
-        txtJatuhTempo.Enabled = False
+        cmb_JenisBayar.Enabled = True
+        cmbJenisPengiriman.Enabled = True
+        txtJatuhTempo.Enabled = True
         publicFlagRelease = "T"
+
 
         cmb_JenisBayar.Items.Clear() : arrPembayaran.Clear()
         cmb_JenisBayar.Items.Add("Tunai") : arrPembayaran.Add("T")
@@ -657,8 +660,10 @@ Public Class Transaksi_Penawaran_Barang_Lain
         TxtPO_KdSupplier.ReadOnly = False
         TxtPO_NmSupplier.ReadOnly = False
 
+
         DgvMaster_Penawaran.ReadOnly = False
         Btn_PilihBarang.Enabled = True
+
 
         Txt_NoPenawaran.ReadOnly = False
         Dtp_Tgl.Enabled = True
@@ -777,6 +782,11 @@ Public Class Transaksi_Penawaran_Barang_Lain
             MessageBox.Show(Base_Language.Lang_Penawaran_TglPenawaranHrg + " " + Base_Language.Lang_Global_TidakBolehLebihDari + " " + Base_Language.Lang_Penawaran_PeriodeAkhir, Judul, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Dtp_Tgl.Focus()
             Exit Sub
+        End If
+
+        If cmb_JenisBayar.Text = "" Then
+            MessageBox.Show("Jenis Bayar Harus di isi", Judul, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            cmb_JenisBayar.Focus() : Exit Sub
         End If
 
         get_jam()
@@ -1583,6 +1593,9 @@ Public Class Transaksi_Penawaran_Barang_Lain
                                         txtJatuhTempo.Text = .Rows(i).Item("Lama_Pembayaran")
 
                                     End If
+                                ElseIf .Rows(i).Item("Jenis_Pembayaran") = "T" Then
+                                    cmb_JenisBayar.SelectedIndex = 0
+                                    CmbPO_JnsBayar_SelectedIndexChanged(cmb_JenisBayar, New EventArgs)
                                 End If
                             Next
                         End If
@@ -1677,9 +1690,11 @@ Public Class Transaksi_Penawaran_Barang_Lain
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellMUA).Value = .Rows(i).Item("Mata_Uang")
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellHrgSatuan).Value = Format(.Rows(i).Item("Harga_Satuan"), "N2")
 
+
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellKdBrg).ReadOnly = True
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellNmBrg).ReadOnly = True
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan).ReadOnly = True
+                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellMUA).ReadOnly = True
 
                                 DgvMaster_Penawaran.Rows(IndexTambahan).DefaultCellStyle.BackColor = Color.LightYellow
 
@@ -1739,6 +1754,7 @@ Public Class Transaksi_Penawaran_Barang_Lain
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellKdBrg).ReadOnly = True
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellNmBrg).ReadOnly = True
                                 DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellSatuan).ReadOnly = True
+                                DgvMaster_Penawaran.Rows(IndexTambahan).Cells(cellMUA).ReadOnly = True
 
                                 DgvMaster_Penawaran.Rows(IndexTambahan).DefaultCellStyle.BackColor = Color.LightYellow
 
@@ -2054,6 +2070,7 @@ Public Class Transaksi_Penawaran_Barang_Lain
 
             cmbJenisPengiriman.Items.Clear()
             cmbJenisPengiriman.Enabled = False
+            txtJatuhTempo.ReadOnly = True
             cmbJenisPengiriman.SelectedIndex = -1
             txtJatuhTempo.Enabled = False
             txtJatuhTempo.Text = ""
@@ -2062,6 +2079,7 @@ Public Class Transaksi_Penawaran_Barang_Lain
             cmbJenisPengiriman.Enabled = True
 
             txtJatuhTempo.Enabled = True
+            txtJatuhTempo.ReadOnly = False
             txtJatuhTempo.Text = ""
 
             cmbJenisPengiriman.Items.Clear()
@@ -2073,9 +2091,6 @@ Public Class Transaksi_Penawaran_Barang_Lain
         End If
     End Sub
 
-    Private Sub TxtPenawaran_NoFaktur_TextChanged(sender As Object, e As EventArgs) Handles TxtPenawaran_NoFaktur.TextChanged
-
-    End Sub
 
     Private Sub Cmb_KecAsal_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Cmb_KecAsal.KeyPress
         If e.KeyChar = Chr(13) Then Cmb_KelAsal.Focus()

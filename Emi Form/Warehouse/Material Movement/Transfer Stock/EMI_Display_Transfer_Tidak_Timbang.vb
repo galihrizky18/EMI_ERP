@@ -326,21 +326,21 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 'SQL = SQL & "kode_Perusahaan ='" & KodePerusahaan & "' and kode_barang is null and "
                 'SQL = SQL & "id_wms_warehouse_position = '" & GetRakTujuan & "' "
                 'SQL = SQL & "order by nomor_urut "
-                'SQL = "select top 1 id_wms_warehouse_position, nomor_urut from dbo.N_EMI_Wharehouse_Position_Fn('" & KodePerusahaan & "', "
-                'SQL = SQL & "'" & GetSoTujuan & "', '" & GetRakTujuan & "') "
-                'SQL = SQL & "where kode_barang is null"
-                'SQL = SQL & "order by nomor_urut"
-                'Using dr = OpenTrans(SQL)
-                '    If dr.Read Then
-                '        GetPalletTujuan = dr("nomor_urut")
-                '    Else
-                '        dr.Close()
-                '        CloseTrans()
-                '        CloseConn()
-                '        MessageBox.Show("data Rak Sudah Penuh . . ! ! ")
-                '        Exit Sub
-                '    End If
-                'End Using
+                SQL = "select top 1 id_wms_warehouse_position, nomor_urut from dbo.N_EMI_Wharehouse_Position_Fn('" & KodePerusahaan & "', "
+                SQL = SQL & "'" & GetSoTujuan & "', '" & GetRakTujuan & "') "
+                SQL = SQL & "where kode_barang is null"
+                SQL = SQL & "order by nomor_urut"
+                Using dr = OpenTrans(SQL)
+                    If dr.Read Then
+                        GetPalletTujuan = dr("nomor_urut")
+                    Else
+                        dr.Close()
+                        CloseTrans()
+                        CloseConn()
+                        MessageBox.Show("data Rak Sudah Penuh . . ! ! ")
+                        Exit Sub
+                    End If
+                End Using
 
                 '=============================================================================================
                 '=============================================================================================
@@ -577,7 +577,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                     Exit Sub
                 End If
 
-                If Math.Round((Stock_SblmPotong - Stock_Setelah_Potong), 4) <> Math.Round(nilai_kecildetail, 4) Then
+                If Math.Round((Stock_SblmPotong - Stock_Setelah_Potong), 4) <> nilai_kecildetail Then
                     CloseTrans()
                     CloseConn()
                     CloseConn9()
@@ -586,7 +586,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                     Exit Sub
                 End If
 
-                If Math.Round((Stock_SN_SblmPotong - Stock_SN_Setelah_Potong), 4) <> Math.Round(nilai_kecildetail, 4) Then
+                If Math.Round((Stock_SN_SblmPotong - Stock_SN_Setelah_Potong), 4) <> nilai_kecildetail Then
                     CloseTrans()
                     CloseConn()
                     CloseConn9()
@@ -780,7 +780,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                 End If
 
 
-                If Math.Round((Stock_Setelah_Insert - Stock_Sebelum_Insert), 4) <> Math.Round(nilai_kecildetail, 4) Then
+                If Math.Round((Stock_Setelah_Insert - Stock_Sebelum_Insert), 4) <> nilai_kecildetail Then
                     CloseTrans()
                     CloseConn()
                     CloseConn9()
@@ -789,7 +789,7 @@ Public Class EMI_Display_Transfer_Tidak_Timbang
                     Exit Sub
                 End If
 
-                If Math.Round((Stock_SN_Setelah_Insert - Stock_SN_Sebelum_Insert), 4) <> Math.Round(nilai_kecildetail, 4) Then
+                If Math.Round((Stock_SN_Setelah_Insert - Stock_SN_Sebelum_Insert), 4) <> nilai_kecildetail Then
                     CloseTrans()
                     CloseConn()
                     CloseConn9()

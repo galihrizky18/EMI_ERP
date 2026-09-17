@@ -715,6 +715,48 @@
                 End If
             End Using
 
+            Dim noFakturDept As String = ""
+            SQL = "select b.Urut_Departement, b.jumlah from EMI_Purchase_Requisition_Barang_Lain a, EMI_Purchase_Requisition_Barang_Lain_Detail b "
+            SQL = SQL & "where a.Kode_Perusahaan = '" & KodePerusahaan & "' and a.No_Faktur = '" & Lv_PR.FocusedItem.Text & "' "
+            SQL = SQL & "and a.kode_perusahaan = b.kode_perusahaan and a.no_faktur = b.no_faktur "
+            Using Ds = BindingTrans(SQL)
+                With Ds.Tables("MyTable")
+                    If .Rows.Count <> 0 Then
+                        For i As Integer = 0 To .Rows.Count - 1
+
+
+                            SQL = "select a.no_faktur from N_EMI_Purchase_Requisition_Barang_Lain_Departement a, N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail b "
+                            SQL = SQL & "where a.Kode_Perusahaan = b.Kode_Perusahaan and a.No_Faktur =b.No_Faktur  "
+                            SQL = SQL & "and a.Kode_Perusahaan = '" & KodePerusahaan & "' and b.No_Urut = '" & .Rows(i).Item("Urut_Departement") & "' "
+                            SQL = SQL & "and flag_pr = 'Y' "
+                            Using Dr = OpenTrans(SQL)
+                                If Dr.Read Then
+                                    noFakturDept = Dr("no_faktur")
+                                    Dr.Close()
+                                    SQL = "update N_EMI_Purchase_Requisition_Barang_Lain_Departement set flag_pr = null where "
+                                    SQL = SQL & "kode_perusahaan = '" & KodePerusahaan & "' and no_faktur = '" & noFakturDept & "'"
+                                    ExecuteTrans(SQL)
+
+                                End If
+                            End Using
+
+
+                            SQL = "update N_EMI_Purchase_Requisition_Barang_Lain_Departement_Detail set "
+                            SQL = SQL & "Flag_Sudah_PR = null "
+                            SQL = SQL & ",Jmlh_PR = jmlh_pr - " & .Rows(i).Item("jumlah") & " "
+                            SQL = SQL & "where kode_perusahaan = '" & KodePerusahaan & "' "
+                            SQL = SQL & "and No_Urut = '" & .Rows(i).Item("Urut_Departement") & "' "
+                            ExecuteTrans(SQL)
+                        Next
+                    End If
+                End With
+            End Using
+
+
+
+
+
+
             SQL = "Update EMI_Purchase_Requisition_Barang_Lain set Status = 'Y', "
             SQL = SQL & "UserID_Batal = '" & UserID & "', "
             SQL = SQL & "Tanggal_Batal = '" & Format(tgl_skg, "yyyy-MM-dd") & "', "

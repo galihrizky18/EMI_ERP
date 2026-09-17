@@ -3,7 +3,6 @@ Imports System.IO
 
 Public Class TESTING_PRINT
 
-
     Private random As New Random()
     Private imageBytes1 As Byte = Nothing
     Private FileSize1 As UInt32
@@ -16,8 +15,6 @@ Public Class TESTING_PRINT
     Private rawData2() As Byte
     Private fs2 As FileStream
 
-
-
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
         Dim CrDoc, CrDoc2 As New Object
@@ -25,12 +22,10 @@ Public Class TESTING_PRINT
         Dim kertasBarcodeBesar As String = "BarcodeFG"
         Dim kertasBarcodeKecil As String = "BarcodeQC"
 
-
         CrDoc = New TESPRINTQC
         'CrDoc.SetDataSource(Ds)
         'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
         'CrDoc.RecordSelectionFormula = ""
-
 
         CrDoc.PrintOptions.PrinterName = PrinterBarcode
 
@@ -107,7 +102,6 @@ Public Class TESTING_PRINT
 
         Dim CrDoc, CrDoc2 As New Object
         Dim kertas As String = "BarcodeAsset"
-
 
         CrDoc = New BarcodeAsset
         'CrDoc.SetDataSource(Ds)
@@ -209,12 +203,10 @@ Public Class TESTING_PRINT
         Dim kertasBarcodeBesar As String = "BarcodeFG"
         Dim kertasBarcodeKecil As String = "BarcodeQC"
 
-
         CrDoc = New TESPRINTQC
         'CrDoc.SetDataSource(Ds)
         'CrDoc.SetDatabaseLogon(CUserId, CPassword, CServer, CDatabase)
         'CrDoc.RecordSelectionFormula = ""
-
 
         CrDoc.PrintOptions.PrinterName = PrinterBarcode
 
@@ -313,13 +305,11 @@ Public Class TESTING_PRINT
                         'End If
 
                         'CrDoc.PrintToPrinter(1, False, 1, 2500)
-
                     Else
                         MessageBox.Show("Printer FG Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     End If
 
                     printerDitemukan = False
-
 
                     '==========================
                     '=     BARCODEE KECIL     =
@@ -370,7 +360,6 @@ Public Class TESTING_PRINT
                     'End If
 
                     printerDitemukan = False
-
                 Else
                     MessageBox.Show("Printer QC Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
@@ -399,7 +388,6 @@ Public Class TESTING_PRINT
 
             Dim fullNewQrScrap As String = "Testing :)"
 
-
             SQL = "truncate table N_EMI_Barcode_Label_Barcode_GR_1 "
             ExecuteTrans(SQL)
 
@@ -414,12 +402,10 @@ Public Class TESTING_PRINT
             fs1.Close()
             Cmd.Parameters.Add("@newBarcode", SqlDbType.Image).Value = rawData1
 
-
             SQL = "insert into N_EMI_Barcode_Label_Barcode_GR_1 (kode_perusahaan, no_split, Kode_barang, Barcode, Nama_Barang, QrUtuh, Qr, Tgl_Produksi, Jam_Produksi, Proses, Tahap, Jumlah, Satuan, Troli, Nomor, id_routing, routing, Kode_unik_print) "
             SQL = SQL & "values ('001', 'PRD0525-00001-2', 'BRG08240005', @newBarcode, 'LIFE CAT 85GR TUNA KITTEN', 'Testing', 'Testing', "
             SQL = SQL & "'2025-07-05', ''JAM, '1', '1', '10', 'Pcs', '2', '1', '14', 'CHUNK IN CAN', '" & kode_unik_print & "')"
             ExecuteTrans(SQL)
-
 
             SQL = "select Kode_Perusahaan from N_EMI_Barcode_Label_Barcode_GR_1 where Kode_Perusahaan='" & KodePerusahaan & "' and Kode_Unik_Print = '" & kode_unik_print & "' "
             Using Ds = BindingTrans(SQL)
@@ -481,15 +467,11 @@ Public Class TESTING_PRINT
                         'End If
 
                         'CrDoc.PrintToPrinter(1, False, 1, 2500)
-
                     Else
                         MessageBox.Show("Printer FG Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     End If
 
                     printerDitemukan = False
-
-
-
                 Else
                     MessageBox.Show("Printer QC Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
@@ -505,13 +487,11 @@ Public Class TESTING_PRINT
 
     End Sub
 
-
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
         get_jam()
         Try
             OpenConn()
             Dim CrDoc As New Object
-
 
             Dim rnd As New Random()
             Dim kode_unik_print As String = rnd.Next(100000, 999999).ToString()
@@ -519,7 +499,6 @@ Public Class TESTING_PRINT
             Dim fullNewQrScrap As String = "Testing2 :)"
 
             Dim KertasBesar As String = "BarcodeFG"
-
 
             SQL = "truncate table N_EMI_Barcode_Label_Barcode_GR_2 "
             ExecuteTrans(SQL)
@@ -535,8 +514,6 @@ Public Class TESTING_PRINT
             fs2.Read(rawData2, 0, FileSize2)
             fs2.Close()
             Cmd.Parameters.Add("@newBarcode2", SqlDbType.Image).Value = rawData2
-
-
 
             SQL = "insert into N_EMI_Barcode_Label_Barcode_GR_2 (kode_perusahaan, no_split, kode_barang, barcode, nama_barang, batch_number, qrutuh, qr, tgl_produksi, tgl_expired, jumlah, satuan, jenis, kode_unik_print) "
             SQL = SQL & "values ('001', 'PRD0525-00001-1', 'BRG08240005', @newBarcode2, 'LIFE CAT 85GR TUNA KITTEN', 'Testing', 'Testing', 'Testing', "
@@ -605,15 +582,11 @@ Public Class TESTING_PRINT
                         End If
 
                         CrDoc.PrintToPrinter(1, False, 1, 2500)
-
                     Else
                         MessageBox.Show("Printer FG Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     End If
 
                     printerDitemukan = False
-
-
-
                 Else
                     MessageBox.Show("Printer QC Tidak ditemukan", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
@@ -649,9 +622,6 @@ Public Class TESTING_PRINT
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
         Try
             OpenConn()
-
-
-
 
             SQL = "select Keterangan from N_EMI_Transaksi_Bypass_Military_Sampling"
             Using Dr = OpenTrans(SQL)
@@ -785,4 +755,5 @@ Public Class TESTING_PRINT
             Exit Sub
         End Try
     End Sub
+
 End Class

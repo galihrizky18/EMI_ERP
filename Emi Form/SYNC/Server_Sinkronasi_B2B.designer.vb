@@ -46,6 +46,8 @@ Partial Class Server_Sinkronasi_B2B
         Me.Btn_UpdateKendaraan = New System.Windows.Forms.Button()
         Me.btnPerusahaanBIaya = New System.Windows.Forms.Button()
         Me.btn_Master_Satuan = New System.Windows.Forms.Button()
+        Me.Button6 = New System.Windows.Forms.Button()
+        Me.Button7 = New System.Windows.Forms.Button()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -293,11 +295,35 @@ Partial Class Server_Sinkronasi_B2B
         Me.btn_Master_Satuan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btn_Master_Satuan.UseVisualStyleBackColor = False
         '
+        'Button6
+        '
+        Me.Button6.BackColor = System.Drawing.SystemColors.ControlLightLight
+        Me.Button6.Location = New System.Drawing.Point(604, 332)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(173, 34)
+        Me.Button6.TabIndex = 96
+        Me.Button6.Text = "SYNC | BA Waste Process"
+        Me.Button6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Button6.UseVisualStyleBackColor = False
+        '
+        'Button7
+        '
+        Me.Button7.BackColor = System.Drawing.SystemColors.ControlLightLight
+        Me.Button7.Location = New System.Drawing.Point(604, 372)
+        Me.Button7.Name = "Button7"
+        Me.Button7.Size = New System.Drawing.Size(173, 34)
+        Me.Button7.TabIndex = 96
+        Me.Button7.Text = "SYNC | BA Waste Product"
+        Me.Button7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Button7.UseVisualStyleBackColor = False
+        '
         'Server_Sinkronasi_B2B
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1023, 585)
+        Me.Controls.Add(Me.Button7)
+        Me.Controls.Add(Me.Button6)
         Me.Controls.Add(Me.btn_Master_Satuan)
         Me.Controls.Add(Me.btnPerusahaanBIaya)
         Me.Controls.Add(Me.Btn_InsExpedisi)
@@ -348,4 +374,6 @@ Partial Class Server_Sinkronasi_B2B
     Friend WithEvents Btn_UpdateKendaraan As Button
     Friend WithEvents btnPerusahaanBIaya As Button
     Friend WithEvents btn_Master_Satuan As Button
+    Friend WithEvents Button6 As Button
+    Friend WithEvents Button7 As Button
 End Class

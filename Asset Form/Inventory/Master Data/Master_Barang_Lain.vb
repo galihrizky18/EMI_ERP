@@ -1,8 +1,4 @@
-﻿
-
-Imports iTextSharp.text.pdf
-
-Public Class Master_Barang_Lain
+﻿Public Class Master_Barang_Lain
     Dim arrkolom, arrorder, arrJenisBarang, arrJenisGudang, arrKategoriGudang, arrId_kategori_qc, arrId_kategori_PO, arrId_Klasifikasi_Bahan, arrprefix_Klasifikasi_Bahan, arrid_Routing As New ArrayList
     Dim arrId_Klasifikasi_Bahan2, arrprefix_Klasifikasi_Bahan2, arrKategori, arrKelompok, arrKodeAktiva As New ArrayList
     Dim arrKategoriJenis, arrPrefix_Kategori As New ArrayList
@@ -3474,7 +3470,7 @@ Public Class Master_Barang_Lain
         CmbKatJenisSub2.Text = DataGridView1.CurrentRow.Cells(13).Value
         CmbKatJenisSub3.Text = DataGridView1.CurrentRow.Cells(14).Value
         xdari = "Datagridview1"
-        xfrom = DataGridView1.CurrentRow.Cells(16).Value
+        xFrom = DataGridView1.CurrentRow.Cells(16).Value
         CmbKatJenis.Enabled = True
         CmbKatJenisSub.Enabled = True
         CmbKatJenisSub1.Enabled = True
